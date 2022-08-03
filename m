@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55765894ED
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:41:50 +0200 (CEST)
-Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C03589500
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:49:05 +0200 (CEST)
+Received: from localhost ([::1]:48958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJNzp-0003VM-Ov
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60274)
+	id 1oJO6q-0006Z1-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:49:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJNx9-0001ZD-Jr; Wed, 03 Aug 2022 19:39:03 -0400
-Received: from mail-vk1-xa36.google.com ([2607:f8b0:4864:20::a36]:42953)
+ id 1oJO3z-0004ky-Dj; Wed, 03 Aug 2022 19:46:08 -0400
+Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b]:45000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJNx7-0000Gt-P7; Wed, 03 Aug 2022 19:39:03 -0400
-Received: by mail-vk1-xa36.google.com with SMTP id q14so7969345vke.9;
- Wed, 03 Aug 2022 16:39:00 -0700 (PDT)
+ id 1oJO3v-0002B1-P6; Wed, 03 Aug 2022 19:46:06 -0400
+Received: by mail-vs1-xe2b.google.com with SMTP id s129so11110436vsb.11;
+ Wed, 03 Aug 2022 16:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=DyRQB867kAfSYRaMYk6Pc13k/NgmWgIR5AmocfJv5MM=;
- b=LktTDxAu0Hhx6EaL1uHjd9Wf9laNf8NiZgmbZJ6Tk6En4oLxJSa0vrc5wUUaoI+kxt
- X/51eHZYUB66+0MxbfkY0iFsNBCnpxuBMsWHgP6BW9wGPJj3vR+O8VH3MzMtxtRluWMH
- ar2zPgF/3dFCo3bRxBzm2hx+0HHq18zB5dmTAV6j4FWrdONc9VqwJyfiBk7p9rzauInp
- zR+qy2e6zaKvN0fkprpYPdszJ507HPXXp8hqqhcP7pl7GPdWexGS8iPh0BuEwFlpyfTI
- 9wOks1fdvsl8ZgWJMgUIsZl7srTZbKyZ/TgD7C7hSMl/pPR57bynGIjnKbsZGxJsWbvC
- 2ymQ==
+ :from:to:cc; bh=EVdz6MFab4J6+opMvNH4KOPwx8Ab4SqHfGlrWGQnFpA=;
+ b=Qg6QuANmOJ91qSP+An4PHt4w30rxHjpZIfHWGxx2dtYk5m1TrGOxqNZScWH5Q9F4f8
+ 8puGwymQwkq6iJZKxVZN1pDs8vsK1YsApq90WuNJJpy0+lB23JWBy5gaVAfcdnSOEL4P
+ zaJdxYwCaCPkkSjmkopt/2G2ebBmnwzwNSY2KHj9VoU6g1U3xunM3kstUEJBxFMoK9YX
+ FQqBXnU6za9XRnOQEJMEI+oTn5x0TdM5MhWKeSQnZfwv6YmfcEwEDjzpdCw0L8A0O3Tl
+ DjdA40juPS3IJe2Y7gJO7Nkw86UgX/Cj9/0dzFKUUdwiEi4fs4vqLyMSqfK3JfuZ0B/p
+ 7avw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=DyRQB867kAfSYRaMYk6Pc13k/NgmWgIR5AmocfJv5MM=;
- b=gr81mbgYEwkCQuk2aeLItyytnVaJ9mj7hbGMT6dwrFc4jvBeGOa6rXxc780G3W3yYF
- 5OswsapBWyDCK6kY1D0ci+Gr+4jA4KS+ib61mEN4COAgPAsBNuZ50lrgNyd9I/w3UYWI
- QMd3rXij279Bl+VAMnrgFcrR0GEVQnFdBoPCGMXVkUpG+4fB+PGjETCZPqdafb9cR+wr
- N5b2X76yvOQve6z1eh/2jkDIZO3q6EcW5nYeEQ/RM4K7XULqHFw/qTlSDPT5i7bI83SK
- vqe3yMvVZdvLU4OoW9tRS3I+2UnOlVF5B/VHVNcqs5VGRJ2IvBuX+TnUNub1wBFHokQi
- 4a4g==
-X-Gm-Message-State: ACgBeo0AHh5iQf6KFRNM0tJ37EAjyzKSe6ZUvhtl/3sK5H8+j//sTOiL
- KWsCl+0gMZP3p4DvEM/4KgSF93Y/7ms=
-X-Google-Smtp-Source: AA6agR5aSMPmcFVi4H96Yc/1Inf2g+Mw1hWdQSJLy+CXQqFVfxC0ejz26lIO6DQHWYdYKSEyo74oPw==
-X-Received: by 2002:a05:6122:ce:b0:377:4e0f:a037 with SMTP id
- h14-20020a05612200ce00b003774e0fa037mr7432581vkc.5.1659569940169; 
- Wed, 03 Aug 2022 16:39:00 -0700 (PDT)
+ bh=EVdz6MFab4J6+opMvNH4KOPwx8Ab4SqHfGlrWGQnFpA=;
+ b=TLWqElPM8na3dEoG2hlaKa4T/XLb0u7Sar/3D6j6iHse75ZlUPHuAZbMTZVVH7N11E
+ yW1/++zr0deQIZWR3yNNDOpsRY/lmT4GmiDdBpVcREZ//Tov24VurTnPw390C+8017nX
+ AlncIYXNfn1VqbzYi/lvjUfDHKFldQd9YsLYYfQFZj1hRDM89lpueu3YkXxlQT9EZKs6
+ DTd2O3U1gOEAfUvvd8R49Cb1HIQgMjnZmXgaP8zCBH8p+/HctYUAbJbKgRDH10uFXPeb
+ zbstw3Gw50tFKLtVeFgC/kYQz/5R2SClVXoGKttvRLdpaWvGyLGorfeeoy5PZrB1Y3Xq
+ SbzA==
+X-Gm-Message-State: AJIora+OxqCJx4hETNDSGo+5BnV0xn7SGq/pSMasTdIG/REeIOJS6tTw
+ kZHylbThrvdkACaYWJNa7xo=
+X-Google-Smtp-Source: AGRyM1tYkLZqJkA5mDmG06oEn10UdmNr8R8bWYVCvi3Vq8Iqvt8EKTAy0Urd4idPSwqxGCU6HH/iWQ==
+X-Received: by 2002:a67:ab4d:0:b0:357:8ef7:f421 with SMTP id
+ k13-20020a67ab4d000000b003578ef7f421mr11253578vsh.6.1659570361820; 
+ Wed, 03 Aug 2022 16:46:01 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7c7:52e2:fb25:323c:5709:7237?
  ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
  by smtp.gmail.com with ESMTPSA id
- v24-20020a67f6d8000000b00373d697e3e2sm8364322vso.19.2022.08.03.16.38.58
+ m3-20020ab06d83000000b00384ca66870asm11520272uah.29.2022.08.03.16.46.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Aug 2022 16:38:59 -0700 (PDT)
-Message-ID: <1e5f2017-313d-0613-c5a7-dbd520cff85d@gmail.com>
-Date: Wed, 3 Aug 2022 20:38:57 -0300
+ Wed, 03 Aug 2022 16:46:01 -0700 (PDT)
+Message-ID: <ebd0a896-f466-b762-e005-37d95e09e0f5@gmail.com>
+Date: Wed, 3 Aug 2022 20:45:59 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2 15/20] ppc/ppc405: QOM'ify PLB
+Subject: Re: [PATCH v2 16/20] ppc/ppc405: QOM'ify MAL
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
 Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
 References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-16-clg@kaod.org>
+ <20220803132844.2370514-17-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220803132844.2370514-16-clg@kaod.org>
+In-Reply-To: <20220803132844.2370514-17-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a36;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,210 +93,331 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
+This patch really broke sam460ex boot, but not because of the
+QOMification. I managed to get it work by doing the following:
 
 On 8/3/22 10:28, Cédric Le Goater wrote:
 > Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->   hw/ppc/ppc405.h    | 14 ++++++++++
->   hw/ppc/ppc405_uc.c | 67 +++++++++++++++++++++++++++++++++-------------
->   2 files changed, 62 insertions(+), 19 deletions(-)
+>   hw/ppc/ppc405.h         |   1 +
+>   include/hw/ppc/ppc4xx.h |  28 ++++++++++
+>   hw/ppc/ppc405_uc.c      |  20 +++++--
+>   hw/ppc/ppc4xx_devs.c    | 120 +++++++++++++++++++++++++---------------
+>   4 files changed, 118 insertions(+), 51 deletions(-)
 > 
 > diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 8acb90427596..8ca32f35ce67 100644
+> index 8ca32f35ce67..7d585a244d18 100644
 > --- a/hw/ppc/ppc405.h
 > +++ b/hw/ppc/ppc405.h
-> @@ -65,6 +65,19 @@ struct ppc4xx_bd_info_t {
->   
->   typedef struct Ppc405SoCState Ppc405SoCState;
->   
-> +/* Peripheral local bus arbitrer */
-> +#define TYPE_PPC405_PLB "ppc405-plb"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PlbState, PPC405_PLB);
-> +struct Ppc405PlbState {
-> +    DeviceState parent_obj;
-> +
-> +    PowerPCCPU *cpu;
-> +
-> +    uint32_t acr;
-> +    uint32_t bear;
-> +    uint32_t besr;
-> +};
-> +
->   /* PLB to OPB bridge */
->   #define TYPE_PPC405_POB "ppc405-pob"
->   OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PobState, PPC405_POB);
-> @@ -245,6 +258,7 @@ struct Ppc405SoCState {
->       Ppc405EbcState ebc;
+> @@ -259,6 +259,7 @@ struct Ppc405SoCState {
 >       Ppc405OpbaState opba;
 >       Ppc405PobState pob;
-> +    Ppc405PlbState plb;
+>       Ppc405PlbState plb;
+> +    Ppc4xxMalState mal;
 >   };
 >   
 >   /* PowerPC 405 core */
+> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+> index 021376c2d260..c31219265273 100644
+> --- a/include/hw/ppc/ppc4xx.h
+> +++ b/include/hw/ppc/ppc4xx.h
+> @@ -26,6 +26,7 @@
+>   #define PPC4XX_H
+>   
+>   #include "hw/ppc/ppc.h"
+> +#include "hw/sysbus.h"
+>   #include "exec/memory.h"
+>   
+>   /* PowerPC 4xx core initialization */
+> @@ -45,6 +46,33 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+>                           hwaddr *ram_sizes,
+>                           int do_init);
+>   
+> +/* Memory Access Layer (MAL) */
+> +#define TYPE_PPC4xx_MAL "ppc4xx-mal"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxMalState, PPC4xx_MAL);
+> +struct Ppc4xxMalState {
+> +    SysBusDevice parent_obj;
+> +
+> +    PowerPCCPU *cpu;
+> +
+> +    qemu_irq irqs[4];
+> +    uint32_t cfg;
+> +    uint32_t esr;
+> +    uint32_t ier;
+> +    uint32_t txcasr;
+> +    uint32_t txcarr;
+> +    uint32_t txeobisr;
+> +    uint32_t txdeir;
+> +    uint32_t rxcasr;
+> +    uint32_t rxcarr;
+> +    uint32_t rxeobisr;
+> +    uint32_t rxdeir;
+> +    uint32_t *txctpr;
+> +    uint32_t *rxctpr;
+> +    uint32_t *rcbs;
+> +    uint8_t  txcnum;
+> +    uint8_t  rxcnum;
+> +};
+> +
+>   void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>                        qemu_irq irqs[4]);
+>   
 > diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index ca214ee4d741..9bbd524ad5ea 100644
+> index 9bbd524ad5ea..f39e0b44f9cc 100644
 > --- a/hw/ppc/ppc405_uc.c
 > +++ b/hw/ppc/ppc405_uc.c
-> @@ -148,19 +148,11 @@ enum {
->       PLB4A1_ACR = 0x089,
+> @@ -1466,12 +1466,13 @@ static void ppc405_soc_instance_init(Object *obj)
+>       object_initialize_child(obj, "pob", &s->pob, TYPE_PPC405_POB);
+>   
+>       object_initialize_child(obj, "plb", &s->plb, TYPE_PPC405_PLB);
+> +
+> +    object_initialize_child(obj, "mal", &s->mal, TYPE_PPC4xx_MAL);
+>   }
+>   
+>   static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>   {
+>       Ppc405SoCState *s = PPC405_SOC(dev);
+> -    qemu_irq mal_irqs[4];
+>       CPUPPCState *env;
+>       Error *err = NULL;
+>       int i;
+> @@ -1610,11 +1611,18 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>       }
+>   
+>       /* MAL */
+> -    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
+> -    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
+> -    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
+> -    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
+> -    ppc4xx_mal_init(env, 4, 2, mal_irqs);
+> +    object_property_set_int(OBJECT(&s->mal), "txc-num", 4, &error_abort);
+> +    object_property_set_int(OBJECT(&s->mal), "rxc-num", 2, &error_abort);
+> +    object_property_set_link(OBJECT(&s->mal), "cpu", OBJECT(&s->cpu),
+> +                             &error_abort);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->mal), errp)) {
+> +        return;
+> +    }
+> +
+> +    for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
+> +                           qdev_get_gpio_in(s->uic, 11 + i));
+> +    }
+>   
+>       /* Ethernet */
+>       /* Uses UIC IRQs 9, 15, 17 */
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index f20098cf417c..0e97347e2839 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -491,32 +491,10 @@ enum {
+>       MAL0_RCBS1    = 0x1E1,
 >   };
 >   
-> -typedef struct ppc4xx_plb_t ppc4xx_plb_t;
-> -struct ppc4xx_plb_t {
-> -    uint32_t acr;
-> -    uint32_t bear;
-> -    uint32_t besr;
+> -typedef struct ppc4xx_mal_t ppc4xx_mal_t;
+> -struct ppc4xx_mal_t {
+> -    qemu_irq irqs[4];
+> -    uint32_t cfg;
+> -    uint32_t esr;
+> -    uint32_t ier;
+> -    uint32_t txcasr;
+> -    uint32_t txcarr;
+> -    uint32_t txeobisr;
+> -    uint32_t txdeir;
+> -    uint32_t rxcasr;
+> -    uint32_t rxcarr;
+> -    uint32_t rxeobisr;
+> -    uint32_t rxdeir;
+> -    uint32_t *txctpr;
+> -    uint32_t *rxctpr;
+> -    uint32_t *rcbs;
+> -    uint8_t  txcnum;
+> -    uint8_t  rxcnum;
 > -};
 > -
->   static uint32_t dcr_read_plb (void *opaque, int dcrn)
+> -static void ppc4xx_mal_reset(void *opaque)
+> +static void ppc4xx_mal_reset(DeviceState *dev)
 >   {
-> -    ppc4xx_plb_t *plb;
-> +    Ppc405PlbState *plb = PPC405_PLB(opaque);
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
+>   
+> -    mal = opaque;
+>       mal->cfg = 0x0007C000;
+>       mal->esr = 0x00000000;
+>       mal->ier = 0x00000000;
+> @@ -530,10 +508,9 @@ static void ppc4xx_mal_reset(void *opaque)
+>   
+>   static uint32_t dcr_read_mal(void *opaque, int dcrn)
+>   {
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(opaque);
 >       uint32_t ret;
 >   
-> -    plb = opaque;
+> -    mal = opaque;
 >       switch (dcrn) {
->       case PLB0_ACR:
->           ret = plb->acr;
-> @@ -182,9 +174,8 @@ static uint32_t dcr_read_plb (void *opaque, int dcrn)
+>       case MAL0_CFG:
+>           ret = mal->cfg;
+> @@ -587,13 +564,12 @@ static uint32_t dcr_read_mal(void *opaque, int dcrn)
 >   
->   static void dcr_write_plb (void *opaque, int dcrn, uint32_t val)
+>   static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
 >   {
-> -    ppc4xx_plb_t *plb;
-> +    Ppc405PlbState *plb = PPC405_PLB(opaque);
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(opaque);
 >   
-> -    plb = opaque;
+> -    mal = opaque;
 >       switch (dcrn) {
->       case PLB0_ACR:
->           /* We don't care about the actual parameters written as
-> @@ -202,28 +193,55 @@ static void dcr_write_plb (void *opaque, int dcrn, uint32_t val)
+>       case MAL0_CFG:
+>           if (val & 0x80000000) {
+> -            ppc4xx_mal_reset(mal);
+> +            ppc4xx_mal_reset(DEVICE(mal));
+>           }
+>           mal->cfg = val & 0x00FFC087;
+>           break;
+> @@ -644,23 +620,30 @@ static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
 >       }
 >   }
 >   
-> -static void ppc4xx_plb_reset (void *opaque)
-> +static void ppc405_plb_reset(DeviceState *dev)
+> -void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+> -                     qemu_irq irqs[4])
+> +static void ppc4xx_mal_realize(DeviceState *dev, Error **errp)
 >   {
-> -    ppc4xx_plb_t *plb;
-> +    Ppc405PlbState *plb = PPC405_PLB(dev);
->   
-> -    plb = opaque;
->       plb->acr = 0x00000000;
->       plb->bear = 0x00000000;
->       plb->besr = 0x00000000;
->   }
->   
-> -void ppc4xx_plb_init(CPUPPCState *env)
-> +static void ppc405_plb_realize(DeviceState *dev, Error **errp)
->   {
-> -    ppc4xx_plb_t *plb;
-> +    Ppc405PlbState *plb = PPC405_PLB(dev);
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
 > +    CPUPPCState *env;
-> +
-> +    assert(plb->cpu);
-> +
-> +    env = &plb->cpu->env;
+>       int i;
 >   
-> -    plb = g_new0(ppc4xx_plb_t, 1);
->       ppc_dcr_register(env, PLB3A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
->       ppc_dcr_register(env, PLB4A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
->       ppc_dcr_register(env, PLB0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
->       ppc_dcr_register(env, PLB0_BEAR, plb, &dcr_read_plb, &dcr_write_plb);
->       ppc_dcr_register(env, PLB0_BESR, plb, &dcr_read_plb, &dcr_write_plb);
->       ppc_dcr_register(env, PLB4A1_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-> -    qemu_register_reset(ppc4xx_plb_reset, plb);
-> +}
+> -    assert(txcnum <= 32 && rxcnum <= 32);
+> -    mal = g_malloc0(sizeof(*mal));
+> -    mal->txcnum = txcnum;
+> -    mal->rxcnum = rxcnum;
+> -    mal->txctpr = g_new0(uint32_t, txcnum);
+> -    mal->rxctpr = g_new0(uint32_t, rxcnum);
+> -    mal->rcbs = g_new0(uint32_t, rxcnum);
+> -    for (i = 0; i < 4; i++) {
+> -        mal->irqs[i] = irqs[i];
+> +    assert(mal->cpu);
 > +
-> +static Property ppc405_plb_properties[] = {
-> +    DEFINE_PROP_LINK("cpu", Ppc405PlbState, cpu, TYPE_POWERPC_CPU,
+> +    env = &mal->cpu->env;
+> +
+> +    if (mal->txcnum > 32 || mal->rxcnum > 32) {
+> +        error_setg(errp, "invalid TXC/RXC number");
+> +        return;
+>       }
+> -    qemu_register_reset(&ppc4xx_mal_reset, mal);
+> +
+> +    mal->txctpr = g_new0(uint32_t, mal->txcnum);
+> +    mal->rxctpr = g_new0(uint32_t, mal->rxcnum);
+> +    mal->rcbs = g_new0(uint32_t, mal->rxcnum);
+> +
+> +    for (i = 0; i < ARRAY_SIZE(mal->irqs); i++) {
+> +        sysbus_init_irq(sbd, &mal->irqs[i]);
+> +    }
+> +
+>       ppc_dcr_register(env, MAL0_CFG,
+>                        mal, &dcr_read_mal, &dcr_write_mal);
+>       ppc_dcr_register(env, MAL0_ESR,
+> @@ -683,16 +666,63 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>                        mal, &dcr_read_mal, &dcr_write_mal);
+>       ppc_dcr_register(env, MAL0_RXDEIR,
+>                        mal, &dcr_read_mal, &dcr_write_mal);
+> -    for (i = 0; i < txcnum; i++) {
+> +    for (i = 0; i < mal->txcnum; i++) {
+>           ppc_dcr_register(env, MAL0_TXCTP0R + i,
+>                            mal, &dcr_read_mal, &dcr_write_mal);
+>       }
+> -    for (i = 0; i < rxcnum; i++) {
+> +    for (i = 0; i < mal->rxcnum; i++) {
+>           ppc_dcr_register(env, MAL0_RXCTP0R + i,
+>                            mal, &dcr_read_mal, &dcr_write_mal);
+>       }
+> -    for (i = 0; i < rxcnum; i++) {
+> +    for (i = 0; i < mal->rxcnum; i++) {
+>           ppc_dcr_register(env, MAL0_RCBS0 + i,
+>                            mal, &dcr_read_mal, &dcr_write_mal);
+>       }
+>   }
+> +
+> +static Property ppc4xx_mal_properties[] = {
+> +    DEFINE_PROP_UINT8("txc-num", Ppc4xxMalState, txcnum, 0),
+> +    DEFINE_PROP_UINT8("rxc-num", Ppc4xxMalState, rxcnum, 0),
+> +    DEFINE_PROP_LINK("cpu", Ppc4xxMalState, cpu, TYPE_POWERPC_CPU,
 > +                     PowerPCCPU *),
 > +    DEFINE_PROP_END_OF_LIST(),
 > +};
 > +
-> +static void ppc405_plb_class_init(ObjectClass *oc, void *data)
+> +static void ppc4xx_mal_class_init(ObjectClass *oc, void *data)
 > +{
 > +    DeviceClass *dc = DEVICE_CLASS(oc);
 > +
-> +    dc->realize = ppc405_plb_realize;
+> +    dc->realize = ppc4xx_mal_realize;
 > +    dc->user_creatable = false;
-> +    dc->reset = ppc405_plb_reset;
-> +    device_class_set_props(dc, ppc405_plb_properties);
+> +    dc->reset = ppc4xx_mal_reset;
+> +    device_class_set_props(dc, ppc4xx_mal_properties);
 > +}
 > +
-> +void ppc4xx_plb_init(CPUPPCState *env)
+> +void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+> +                     qemu_irq irqs[4])
 > +{
 > +    PowerPCCPU *cpu = env_archcpu(env);
-> +    DeviceState *dev = qdev_new(TYPE_PPC405_EBC);
+> +    DeviceState *dev = qdev_new(TYPE_PPC4xx_MAL);
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
+> +    int i;
 > +
+> +    qdev_prop_set_uint32(dev, "txc-num", txcnum);
+> +    qdev_prop_set_uint32(dev, "rxc-num", rxcnum);
 > +    object_property_set_link(OBJECT(cpu), "cpu", OBJECT(dev), &error_abort);
 
-This causes the same problem that happened in patch 12:
+Changed this to:
 
-
-$ ./qemu-system-ppc64 -display none -M sam460ex
-Unexpected error in object_property_find_err() at ../qom/object.c:1304:
-qemu-system-ppc64: Property '460exb-powerpc64-cpu.cpu' not found
-Aborted (core dumped)
-
-
-The same fix applies here as well:
-
-
-$ git diff
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index dd3c05a28b..fd53cf38e5 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -240,7 +240,7 @@ void ppc4xx_plb_init(CPUPPCState *env)
-      PowerPCCPU *cpu = env_archcpu(env);
-      DeviceState *dev = qdev_new(TYPE_PPC405_EBC);
-  
--    object_property_set_link(OBJECT(cpu), "cpu", OBJECT(dev), &error_abort);
-+    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
-      qdev_realize_and_unref(dev, NULL, &error_fatal);
-  }
-  
-
-Daniel
+      object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
 
 
 > +    qdev_realize_and_unref(dev, NULL, &error_fatal);
->   }
->   
->   /*****************************************************************************/
-> @@ -1446,6 +1464,8 @@ static void ppc405_soc_instance_init(Object *obj)
->       object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
->   
->       object_initialize_child(obj, "pob", &s->pob, TYPE_PPC405_POB);
+
+Changed this to:
+
+     sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
+
+Because qdev complained that MAL is a sysbus device.
+
+
 > +
-> +    object_initialize_child(obj, "plb", &s->plb, TYPE_PPC405_PLB);
->   }
->   
->   static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> @@ -1484,7 +1504,11 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->       }
->   
->       /* PLB arbitrer */
-> -    ppc4xx_plb_init(env);
-> +    object_property_set_link(OBJECT(&s->plb), "cpu", OBJECT(&s->cpu),
-> +                             &error_abort);
-> +    if (!qdev_realize(DEVICE(&s->plb), NULL, errp)) {
-> +        return;
+> +    for (i = 0; i < ARRAY_SIZE(mal->irqs); i++) {
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, irqs[i]);
 > +    }
->   
->       /* PLB to OPB bridge */
->       object_property_set_link(OBJECT(&s->pob), "cpu", OBJECT(&s->cpu),
-> @@ -1615,6 +1639,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
->   
->   static const TypeInfo ppc405_types[] = {
->       {
-> +        .name           = TYPE_PPC405_PLB,
-> +        .parent         = TYPE_DEVICE,
-> +        .instance_size  = sizeof(Ppc405PlbState),
-> +        .class_init     = ppc405_plb_class_init,
-> +    }, {
->           .name           = TYPE_PPC405_POB,
->           .parent         = TYPE_DEVICE,
->           .instance_size  = sizeof(Ppc405PobState),
+
+And this line broke sam460ex because, back in sam460ex.c, we're not storing
+all the GPIO lines in sam460ex_init():
+
+
+      for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+         mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
+      }
+      ppc4xx_mal_init(env, 4, 16, mal_irqs);
+
+We're just storing the last line in mal_irqs[0]. sysbus_connect_irq() gets really
+upset about it.
+
+
+Since this is a separated bug (which is eligible for the freeze) I sent a patch
+to fix it standalone. Your series can then be rebased on top of that fix.
+
+
+
+Daniel
+
+> +}
+> +
+> +static const TypeInfo ppc4xx_types[] = {
+> +    {
+> +        .name           = TYPE_PPC4xx_MAL,
+> +        .parent         = TYPE_SYS_BUS_DEVICE,
+> +        .instance_size  = sizeof(Ppc4xxMalState),
+> +        .class_init     = ppc4xx_mal_class_init,
+> +    }
+> +};
+> +
+> +DEFINE_TYPES(ppc4xx_types)
 
