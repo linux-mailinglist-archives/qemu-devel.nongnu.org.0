@@ -2,108 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2664C588C9D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:02:54 +0200 (CEST)
-Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF78588CA9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:08:33 +0200 (CEST)
+Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJE1V-0001Pe-7I
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:02:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40544)
+	id 1oJE6y-0005LO-Go
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oJDmn-0002VA-Fh
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:47:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52947)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJDmy-0002vM-0P; Wed, 03 Aug 2022 08:47:52 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:44852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oJDmk-00061l-0i
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:47:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659530857;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJDmw-00063M-4L; Wed, 03 Aug 2022 08:47:51 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5E3FDB8224F;
+ Wed,  3 Aug 2022 12:47:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F6AC433C1;
+ Wed,  3 Aug 2022 12:47:44 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="KWXIezx7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659530863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FMdpM/OP9u8lYFgWeie1F84KL7NowsI+iQPfWJZUWX0=;
- b=GUjU6LFNny3rFiHAE1VXQfFGCdcC0xGuR+ubZmspESr7dvYVJoE6onMgZ0rJR9EOXEA0Jc
- 4KO7Dasea6a4jB5N9pYxfpVWoMBipAckvsGmrdy96i61kmF+VKNlEI6J+KeG/oikghlDKe
- 14h3g/Ijx6HKF5RM7YOG8jNQyXLdKpU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-lxmSs-WXMHS3bO82KMEA4Q-1; Wed, 03 Aug 2022 08:47:33 -0400
-X-MC-Unique: lxmSs-WXMHS3bO82KMEA4Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EF031C16B4F;
- Wed,  3 Aug 2022 12:47:32 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5773E40CFD0A;
- Wed,  3 Aug 2022 12:47:30 +0000 (UTC)
-Date: Wed, 3 Aug 2022 13:47:29 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Alberto Faria <afaria@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Hannes Reinecke <hare@suse.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Peter Lieven <pl@kamp.de>, kvm@vger.kernel.org,
- Xie Yongji <xieyongji@bytedance.com>,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Jeff Cody <codyprime@gmail.com>, Eric Blake <eblake@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Stefan Weil <sw@weilnetz.de>, Klaus Jensen <its@irrelevant.dk>,
- Laurent Vivier <lvivier@redhat.com>, Alberto Garcia <berto@igalia.com>,
- Michael Roth <michael.roth@amd.com>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-block@nongnu.org,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Greg Kurz <groug@kaod.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ bh=TAb8s85ZGfHKemcqKuAME4rAVXn+jtyz6BJb+RMXqUo=;
+ b=KWXIezx7VwGW9r2TnV1wr4FM0cs7qVRj1+KXVKS2CIiXlUjGETTOPnqlrThUfF4Mq3fiwm
+ UIxk4mOaqvlm0nNbGEgw7PAanbeJyvybApyiITXKWopsrashg8lUw9YZBpynzN2WLkBG0i
+ 0tTVMxPN6D7ssCaXiR2AYHxVjgZ/Qq0=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id e046f4fc
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 3 Aug 2022 12:47:42 +0000 (UTC)
+Date: Wed, 3 Aug 2022 14:47:40 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>
-Subject: Re: [RFC v2 02/10] Drop unused static function return values
-Message-ID: <20220803124729.GR1127@redhat.com>
-References: <20220729130040.1428779-1-afaria@redhat.com>
- <20220729130040.1428779-3-afaria@redhat.com>
- <YupSAhFRK962i+nL@work-vm>
- <CAELaAXyh0MzuVzDCfhC8hJNAwb=niwFRsXqhc63JiWGxxitkqg@mail.gmail.com>
- <20220803111520.GO1127@redhat.com> <Yupd96RyyEcm1BCb@redhat.com>
- <CAFEAcA8Eg5RqEDs3ydOZ8jRX5T6Vxjz1_QfPvYCtTneN0mBXuA@mail.gmail.com>
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+Subject: Re: [PATCH v4 2/2] target/s390x: support SHA-512 extensions
+Message-ID: <YupubD62cV7ad2tJ@zx2c4.com>
+References: <Yul0G2YCKLXiypvv@zx2c4.com>
+ <20220802190011.458871-1-Jason@zx2c4.com>
+ <20220802190011.458871-3-Jason@zx2c4.com>
+ <5758f0a3-ee4e-97d4-3e32-469b56029208@redhat.com>
+ <YupmwgYFShLfP8Xd@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA8Eg5RqEDs3ydOZ8jRX5T6Vxjz1_QfPvYCtTneN0mBXuA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <YupmwgYFShLfP8Xd@zx2c4.com>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=hVua=YH=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,30 +87,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 03, 2022 at 01:25:34PM +0100, Peter Maydell wrote:
-> On Wed, 3 Aug 2022 at 12:44, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > Inconsistent return value checking is designed-in behaviour for
-> > QEMU's current Error handling coding pattern with error_abort/fatal.
+On Wed, Aug 03, 2022 at 02:14:58PM +0200, Jason A. Donenfeld wrote:
+>         s.even = (unsigned long)src;
+>         s.odd  = (unsigned long)src_len;
+>         asm volatile(
+>                 "       lgr     0,%[fc]\n"
+>                 "       lgr     1,%[pba]\n"
+>                 "0:     .insn   rre,%[opc] << 16,0,%[src]\n"
+>                 "       brc     1,0b\n" /* handle partial completion */
+>                 : [src] "+&d" (s.pair)
+>                 : [fc] "d" (func), [pba] "d" ((unsigned long)(param)),
+>                   [opc] "i" (CPACF_KIMD)
+>                 : "cc", "memory", "0", "1");
 > 
-> Yes; I habitually mark as false-positive Coverity reports about
-> missing error checks where it has not noticed that the error
-> handling is done via the errp pointer.
+> So I guess that means it'll just loop until it's done? Or do I need to
+> return "1" from HELPER(msa)?
 
-Presumably the advantage of having a qemu-specific static analyser is
-it'll be able to ignore certain cases, eg. spotting if error_abort is
-a parameter and allowing (requiring even?) the return value to be
-ignored.
+Looks like returning 3 did the trick. v5 incoming...
 
-Coverity allows custom models too, but obviously that's all
-proprietary software.
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
-
+Jason
 
