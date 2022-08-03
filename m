@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9740588B14
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 13:24:45 +0200 (CEST)
-Received: from localhost ([::1]:49742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D25588BB6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:02:53 +0200 (CEST)
+Received: from localhost ([::1]:59528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJCUW-0002jL-AK
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 07:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46480)
+	id 1oJD5P-00064U-3u
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:02:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oJCGm-0006OX-3P
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 07:10:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57864)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJD2i-000406-TY; Wed, 03 Aug 2022 08:00:04 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:25870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oJCGj-0004r7-Fj
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 07:10:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659525027;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e+jf4jFL2KAIa5FicXPrUIqYLG6AC8YKfm7CsOGYz7o=;
- b=AXFo1xwAD/t7SnEJx/HyMkiMwdztO9BQ706ZD5hezMfBocvQB+ILadyZ5zSSgLhLfZl23A
- jpA+CIJnTtzNy0CbKVNPSz/jXhkZP10aMkw6x7wag9uupYdPdKk66Q8hA+CFyK1VbQhQYR
- n8Ww0I9u++r8vHt0hn7E/TsmJckb2Iw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-350-7jpukTUOP9u6R2UVbFKIow-1; Wed, 03 Aug 2022 07:10:24 -0400
-X-MC-Unique: 7jpukTUOP9u6R2UVbFKIow-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C6B28032F1;
- Wed,  3 Aug 2022 11:10:24 +0000 (UTC)
-Received: from [10.64.54.20] (vpn2-54-20.bne.redhat.com [10.64.54.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F19A040C1288;
- Wed,  3 Aug 2022 11:10:20 +0000 (UTC)
-Subject: Re: [PATCH 1/2] hw/arm/virt: Improve address assignment for highmem
- IO regions
-To: eric.auger@redhat.com, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
- richard.henderson@linaro.org, cohuck@redhat.com, zhenyzha@redhat.com,
- shan.gavin@gmail.com, Marc Zyngier <maz@kernel.org>
-References: <20220802064529.547361-1-gshan@redhat.com>
- <20220802064529.547361-2-gshan@redhat.com>
- <dcca0792-4f62-2cf0-9080-309d2e78e690@redhat.com>
- <9c8365c6-d27b-df76-371d-bd32ca2a26f7@redhat.com>
- <3db8b274-dfe6-7b68-0ef3-d72c3597dd10@redhat.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <5f0a1911-6802-8aa6-2a1d-83efef19aeb0@redhat.com>
-Date: Wed, 3 Aug 2022 23:11:01 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJD2f-0001Vg-EL; Wed, 03 Aug 2022 08:00:04 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4B87E74635D;
+ Wed,  3 Aug 2022 13:59:57 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id EF1B67461AE; Wed,  3 Aug 2022 13:59:56 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id ED9C9745702;
+ Wed,  3 Aug 2022 13:59:56 +0200 (CEST)
+Date: Wed, 3 Aug 2022 13:59:56 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 05/19] ppc/ppc405: Start QOMification of the SoC
+In-Reply-To: <be98071c-ac88-d716-6e0a-e07699b5435c@kaod.org>
+Message-ID: <f9fa36ee-f57c-d377-64db-d7e66f334269@eik.bme.hu>
+References: <20220801131039.1693913-1-clg@kaod.org>
+ <20220801131039.1693913-6-clg@kaod.org>
+ <e437d81d-37e6-2a31-21e9-0cf7a8be73fd@gmail.com>
+ <be98071c-ac88-d716-6e0a-e07699b5435c@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <3db8b274-dfe6-7b68-0ef3-d72c3597dd10@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-815139917-1659527996=:51013"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,225 +60,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 8/3/22 6:44 PM, Eric Auger wrote:
-> On 8/3/22 05:01, Gavin Shan wrote:
->> On 8/2/22 7:41 PM, Eric Auger wrote:
->>> On 8/2/22 08:45, Gavin Shan wrote:
->>>> There are 3 highmem IO regions as below. They can be disabled in
->>>> two situations: (a) The specific region is disabled by user. (b)
->>>> The specific region doesn't fit in the PA space. However, the base
->>>> address and highest_gpa are still updated no matter if the region
->>>> is enabled or disabled. It's incorrectly incurring waste in the PA
->>>> space.
->>> If I am not wrong highmem_redists and highmem_mmio are not user
->>> selectable
->>>
->>> Only highmem ecam depends on machine type & ACPI setup. But I would say
->>> that in server use case it is always set. So is that optimization really
->>> needed?
->>
->> There are two other cases you missed.
->>
->> - highmem_ecam is enabled after virt-2.12, meaning it stays disabled
->>    before that.
-> Yes that's what I meant above by 'depends on machine type'
+--3866299591-815139917-1659527996=:51013
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Ok.
+On Wed, 3 Aug 2022, Cédric Le Goater wrote:
+> On 8/2/22 21:18, Daniel Henrique Barboza wrote:
+>> On 8/1/22 10:10, Cédric Le Goater wrote:
+>>> This moves all the code previously done in the ppc405ep_init() routine
+>>> under ppc405_soc_realize().
+>>> 
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>>   hw/ppc/ppc405.h        |  12 ++--
+>>>   hw/ppc/ppc405_boards.c |  12 ++--
+>>>   hw/ppc/ppc405_uc.c     | 151 ++++++++++++++++++++---------------------
+>>>   3 files changed, 84 insertions(+), 91 deletions(-)
+>>> 
+>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>> index c8cddb71733a..5e4e96d86ceb 100644
+>>> --- a/hw/ppc/ppc405.h
+>>> +++ b/hw/ppc/ppc405.h
+>>> @@ -74,9 +74,14 @@ struct Ppc405SoCState {
+>>>       MemoryRegion sram;
+>>>       MemoryRegion ram_memories[2];
+>>>       hwaddr ram_bases[2], ram_sizes[2];
+>>> +    bool do_dram_init;
+>>>       MemoryRegion *dram_mr;
+>>>       hwaddr ram_size;
+>>> +
+>>> +    uint32_t sysclk;
+>>> +    PowerPCCPU *cpu;
+>>> +    DeviceState *uic;
+>>>   };
+>>>   /* PowerPC 405 core */
+>>> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, 
+>>> ram_addr_t ram_size);
+>>>   void ppc4xx_plb_init(CPUPPCState *env);
+>>>   void ppc405_ebc_init(CPUPPCState *env);
+>>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>>> -                        MemoryRegion ram_memories[2],
+>>> -                        hwaddr ram_bases[2],
+>>> -                        hwaddr ram_sizes[2],
+>>> -                        uint32_t sysclk, DeviceState **uicdev,
+>>> -                        int do_init);
+>>> -
+>>>   #endif /* PPC405_H */
+>>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>>> index 96db52c5a309..363cb0770506 100644
+>>> --- a/hw/ppc/ppc405_boards.c
+>>> +++ b/hw/ppc/ppc405_boards.c
+>>> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
+>>>       Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
+>>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
+>>>       const char *kernel_filename = machine->kernel_filename;
+>>> -    PowerPCCPU *cpu;
+>>>       MemoryRegion *sysmem = get_system_memory();
+>>> -    DeviceState *uicdev;
+>>>       if (machine->ram_size != mc->default_ram_size) {
+>>>           char *sz = size_to_str(mc->default_ram_size);
+>>> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
+>>>                                machine->ram_size, &error_fatal);
+>>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
+>>>                                OBJECT(machine->ram), &error_abort);
+>>> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+>>> +                             !(kernel_filename == NULL), &error_abort);
+>>> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+>>> +                             &error_abort);
+>>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
+>>> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, 
+>>> ppc405->soc.ram_bases,
+>>> -                        ppc405->soc.ram_sizes,
+>>> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 
+>>> 1);
+>>> -
+>>>       /* allocate and load BIOS */
+>>>       if (machine->firmware) {
+>>>           MemoryRegion *bios = g_new(MemoryRegion, 1);
+>>> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
+>>>       /* Load ELF kernel and rootfs.cpio */
+>>>       } else if (kernel_filename && !machine->firmware) {
+>>> -        boot_from_kernel(machine, cpu);
+>>> +        boot_from_kernel(machine, ppc405->soc.cpu);
+>>>       }
+>>>   }
+>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>>> index 156e839b8283..59612504bf3f 100644
+>>> --- a/hw/ppc/ppc405_uc.c
+>>> +++ b/hw/ppc/ppc405_uc.c
+>>> @@ -1432,134 +1432,131 @@ static void ppc405ep_cpc_init (CPUPPCState *env, 
+>>> clk_setup_t clk_setup[8],
+>>>   #endif
+>>>   }
+>>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>>> -                        MemoryRegion ram_memories[2],
+>>> -                        hwaddr ram_bases[2],
+>>> -                        hwaddr ram_sizes[2],
+>>> -                        uint32_t sysclk, DeviceState **uicdevp,
+>>> -                        int do_init)
+>>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>>   {
+>>> +    Ppc405SoCState *s = PPC405_SOC(dev);
+>>>       clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
+>>>       qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+>>> -    PowerPCCPU *cpu;
+>>>       CPUPPCState *env;
+>>> -    DeviceState *uicdev;
+>>> -    SysBusDevice *uicsbd;
+>>> +    Error *err = NULL;
+>>> +
+>>> +    /* XXX: fix this ? */
+>> 
+>> So, this comment, originally from ppc405_boards.c, was added by commit
+>> 1a6c088620368 and it seemed to make reference to something with the 
+>> refering
+>> to the ram_* values:
+>> 
+>>
+>>      /* XXX: fix this */
+>>      ram_bases[0] = 0x00000000;
+>>      ram_sizes[0] = 0x08000000;
+>>      ram_bases[1] = 0x00000000;
+>>      ram_sizes[1] = 0x00000000;
+>> (...)
+>> 
+>> 
+>> No more context is provided aside from a git-svn-id from 
+>> savannah.nongnu.org.
+>> 
+>> If no one can provide more context about what is to be fixed here, I'll
+>> remove the comment.
+>> 
+>> 
+>> 
+>>> +    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
+>>> +                             "ef405ep.ram.alias", s->dram_mr, 0, 
+>>> s->ram_size);
+>> 
+>> As I mentioned in patch 2, ef405ep.ram.alias can be renamed to 
+>> ppc405.ram.alias ...
+>
+> sure.
+>
+>> 
+>>> +    s->ram_bases[0] = 0;
+>>> +    s->ram_sizes[0] = s->ram_size;
+>>> +    memory_region_init(&s->ram_memories[1], OBJECT(s), "ef405ep.ram1", 
+>>> 0);
+>> 
+>> And this can be renamed to ef405ep.ram1. If you agree with the rename I
+>> can amend it in the tree.
+>
+>
+> I think we can do better and simply remove the second bank. it is unused ...
+>
+> I have patches QOMifying ppc4xx_sdram_init() but the current modelling
+> makes things a bit complex, specially ppc4xx_sdram_banks() which is only
+> used on the bamboo and sam460ex machines.
 
->>
->> - The high memory region can be disabled if user is asking large
->>    (normal) memory space through 'maxmem=' option. When the requested
->>    memory by 'maxmem=' is large enough, the high memory regions are
->>    disabled. It means the normal memory has higher priority than those
->>    high memory regions. This is the case I provided in (b) of the
->>    commit log.
-> yes but in such a case you don't "waste" IPA as you mention in the
-> commit log because you only ask for a VM dimensionned for the highest_gpa.
-> The only case where you would "waste" IPA is for high ecam which can
-> disabled by option combination but it is marginal.
-> 
+We need to model the SDRAM controller for the sam460ex firmware at least 
+partially so it gets past the memory test and init. If you change it 
+please test that sam460ex still boots with firmware. I'm not sure 405 and 
+440 use the same sdram controller though or if the 460EX has a different 
+one as these may have been updated in later SoCs to support newer RAM 
+standards (I think the 460EX has DDR2) and the QEMU model is a bit messy 
+sharing components between 405 and 440. When I've changed some of these 
+for 460EX I've tried to name them so that 4xx means shared by all, 44x or 
+440 means 440 specific and 40x or similar for older SoCs only but this is 
+probably not always correct. I could not find a clean way to separate 
+these. QOMifying would make sense when cleaning this up otherwise it's 
+just adding more boilerplate without any clear advantage IMO.
 
-Ok, I've explain this to Marc in another reply. In short, we possibly
-have below combination. the 'highmem_mmio' region isn't enabled as
-we expect. The reason is 'highmem_rdist2' and 'highmem_ecam' consumes
-1GB, which is unnecessary because both regions are disabled in advance.
+If you want change these maybe you should get the docs for the emulated 
+chips and consult those for differences. Unfortunately the 460ex does not 
+seem to have docs available but it's similar to earlier IBM parts like 
+440GP which generally have docs. That's what I've used but still couldn't 
+find all parts like the PCIe conroller that I had to implement based on 
+what the firmware and drivers do (and only did that partially so it boots 
+as I did not fully understand how it works and how these are modelled in 
+QEMU).
 
-Note: system memory starts from 1GB.
-
-    qemu -m 4096M -maxmem=511G
-
-    IPA_LIMIT  = (1UL << 40)
-    vms->highmem_rdist2 = false              /* 64MB  */
-    vms->highmem_ecam   = false              /* 256MB */
-    vms->highmem_mmio   = true               /* 512GB */
-
->>
->> In the commit log, I was supposed to say something like below for
->> (a):
->>
->> - The specific high memory region can be disabled through changing
->>    the code by user or developer. For example, 'vms->highmem_mmio'
->>    is changed from true to false in virt_instance_init().
->>
->>>>
->>>> Improve address assignment for highmem IO regions to avoid the waste
->>>> in the PA space by putting the logic into virt_memmap_fits().
->>>>
->>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>>> ---
->>>>    hw/arm/virt.c | 54
->>>> +++++++++++++++++++++++++++++----------------------
->>>>    1 file changed, 31 insertions(+), 23 deletions(-)
->>>>
->>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->>>> index 9633f822f3..bc0cd218f9 100644
->>>> --- a/hw/arm/virt.c
->>>> +++ b/hw/arm/virt.c
->>>> @@ -1688,6 +1688,34 @@ static uint64_t
->>>> virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->>>>        return arm_cpu_mp_affinity(idx, clustersz);
->>>>    }
->>>>    +static void virt_memmap_fits(VirtMachineState *vms, int index,
->>>> +                             bool *enabled, hwaddr *base, int pa_bits)
->>>> +{
->>>> +    hwaddr size = extended_memmap[index].size;
->>>> +
->>>> +    /* The region will be disabled if its size isn't given */
->>>> +    if (!*enabled || !size) {
->>> In which case do you have !size?
->>
->> Yeah, we don't have !size and the condition should be removed.
->>
->>>> +        *enabled = false;
->>>> +        vms->memmap[index].base = 0;
->>>> +        vms->memmap[index].size = 0;
->>> It looks dangerous to me to reset the region's base and size like that.
->>> for instance fdt_add_gic_node() will add dummy data in the dt.
->>
->> I would guess you missed that the high memory regions won't be exported
->> through device-tree if they have been disabled. We have a check there,
->> which is "if (nb_redist_regions == 1)"
-> OK I missed a check was added in virt_gicv3_redist_region_count.
-> Nevertheless, your comment "The region will be disabled if its size
-> isn't given */ is not obvious to me. To me the region is disabled if the
-> corresponding flag is not set. From your comment I have the impression
-> the size is checked to see if the region is exposed, it does not look
-> obvious.
-
-Ok :)
-
->>
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    /*
->>>> +     * Check if the memory region fits in the PA space. The memory map
->>>> +     * and highest_gpa are updated if it fits. Otherwise, it's
->>>> disabled.
->>>> +     */
->>>> +    *enabled = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
->>> using a 'fits' local variable would make the code more obvious I think
->>
->> Lets confirm if you're suggesting something like below?
->>
->>          bool fits;
->>
->>          fits = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
->>
->>          if (fits) {
->>             /* update *base, memory mapping, highest_gpa */
->>          } else {
->>             *enabled = false;
->>          }
-> yes that's what I suggested.
-
-Yeah, it's more obvious. I would hold to post v2 to see if Marc will
-have more comments.
-
->>
->> I guess we can simply do
->>
->>          if (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits)) {
->>             /* update *base, memory mapping, highest_gpa */
->>          } else {
->>             *enabled = false;
->>          }
->>
->> Please let me know which one looks best to you.
->>
->>>> +    if (*enabled) {
->>>> +        *base = ROUND_UP(*base, size);
->>>> +        vms->memmap[index].base = *base;
->>>> +        vms->memmap[index].size = size;
->>>> +        vms->highest_gpa = *base + size - 1;
->>>> +
->>>> +    *base = *base + size;
->>>> +    }
->>>> +}
->>>> +
->>>>    static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->>>>    {
->>>>        MachineState *ms = MACHINE(vms);
->>>> @@ -1744,37 +1772,17 @@ static void virt_set_memmap(VirtMachineState
->>>> *vms, int pa_bits)
->>>>        vms->highest_gpa = memtop - 1;
->>>>          for (i = VIRT_LOWMEMMAP_LAST; i <
->>>> ARRAY_SIZE(extended_memmap); i++) {
->>>> -        hwaddr size = extended_memmap[i].size;
->>>> -        bool fits;
->>>> -
->>>> -        base = ROUND_UP(base, size);
->>>> -        vms->memmap[i].base = base;
->>>> -        vms->memmap[i].size = size;
->>>> -
->>>> -        /*
->>>> -         * Check each device to see if they fit in the PA space,
->>>> -         * moving highest_gpa as we go.
->>>> -         *
->>>> -         * For each device that doesn't fit, disable it.
->>>> -         */
->>>> -        fits = (base + size) <= BIT_ULL(pa_bits);
->>>> -        if (fits) {
->>>> -            vms->highest_gpa = base + size - 1;
->>>> -        }
->>>> -
->>>
->>> we could avoid running the code below in case highmem is not set. We
->>> would need to reset that flags though.
->>>
->>
->> Yeah, I think it's not a big deal. My though is to update the flag in
->> virt_memmap_fits().
->>
->>>>            switch (i) {
->>>>            case VIRT_HIGH_GIC_REDIST2:
->>>> -            vms->highmem_redists &= fits;
->>>> +            virt_memmap_fits(vms, i, &vms->highmem_redists, &base,
->>>> pa_bits);
->>>>                break;
->>>>            case VIRT_HIGH_PCIE_ECAM:
->>>> -            vms->highmem_ecam &= fits;
->>>> +            virt_memmap_fits(vms, i, &vms->highmem_ecam, &base,
->>>> pa_bits);
->>>>                break;
->>>>            case VIRT_HIGH_PCIE_MMIO:
->>>> -            vms->highmem_mmio &= fits;
->>>> +            virt_memmap_fits(vms, i, &vms->highmem_mmio, &base,
->>>> pa_bits);
->>>>                break;
->>>>            }
->>>> -
->>>> -        base += size;
->>>>        }
->>>>          if (device_memory_size > 0) {
-
-Thanks,
-Gavin
-
+Regards,
+BALATON Zoltan
+--3866299591-815139917-1659527996=:51013--
 
