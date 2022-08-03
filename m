@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A654588C27
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:31:53 +0200 (CEST)
-Received: from localhost ([::1]:40380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3765588C5D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:47:36 +0200 (CEST)
+Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJDXT-0000W3-GP
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34976)
+	id 1oJDmh-0002DF-EU
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1oJDSr-0003Fc-DL
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:27:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50930)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJDUD-0004TC-4z
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:28:30 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:50449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1oJDSo-0007zZ-3m
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:27:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659529621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=C++vkXudsq5IVub8BIaJgogWaQmQUMdLIdRy5mkM9pM=;
- b=X381lnew/O68fAQeuptYhqwuaro3Dckh6zqvpMycPZFGyirg1HRymqnCZafiw1B98O+Dgv
- XJXZF4r0HNhhSWWjvKvQDhcGtC9pIddkbvP4eYJ4q0TfEq4DiuuBelxJR0ArdtZUI+sM3V
- Q1thVabwp+TdbUkupGewB4rodkNAx7A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-48-m7A71bdFMGuRnKB2QqHdJg-1; Wed, 03 Aug 2022 08:25:51 -0400
-X-MC-Unique: m7A71bdFMGuRnKB2QqHdJg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B0A20811E76;
- Wed,  3 Aug 2022 12:25:50 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22D6B2026D4C;
- Wed,  3 Aug 2022 12:25:45 +0000 (UTC)
-Date: Wed, 3 Aug 2022 14:25:43 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Alberto Faria <afaria@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
- sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC v3 1/8] blkio: add io_uring block driver using libblkio
-Message-ID: <YuppR5lWPAqLTABo@angien.pipo.sk>
-References: <20220708041737.1768521-1-stefanha@redhat.com>
- <20220708041737.1768521-2-stefanha@redhat.com>
- <YuGTFJ3r7+MMAxhR@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJDUA-00088O-Gd
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:28:28 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.177])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id ABAB711C6D1E9;
+ Wed,  3 Aug 2022 14:28:22 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 3 Aug 2022
+ 14:28:21 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00486977f83-2593-47ff-9a72-b2242fdc07b2,
+ CC7AE06ED68251E997EA4638F74AFDA4D8EEB002) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7fbbabb7-2a13-9719-1aca-084c032d9302@kaod.org>
+Date: Wed, 3 Aug 2022 14:28:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YuGTFJ3r7+MMAxhR@redhat.com>
-User-Agent: Mutt/2.2.5 (2022-05-16)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 05/19] ppc/ppc405: Start QOMification of the SoC
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20220801131039.1693913-1-clg@kaod.org>
+ <20220801131039.1693913-6-clg@kaod.org>
+ <e437d81d-37e6-2a31-21e9-0cf7a8be73fd@gmail.com>
+ <be98071c-ac88-d716-6e0a-e07699b5435c@kaod.org>
+ <f9fa36ee-f57c-d377-64db-d7e66f334269@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <f9fa36ee-f57c-d377-64db-d7e66f334269@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: fd90b5c7-25e4-4bc6-9293-9de7c507a8eb
+X-Ovh-Tracer-Id: 7630786618915720160
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudelkeffgfeuhfduvdfgvdetvdfgleekledtgedvgfeluedvueekkeffjeekgfenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,62 +78,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 21:33:40 +0200, Kevin Wolf wrote:
-> Am 08.07.2022 um 06:17 hat Stefan Hajnoczi geschrieben:
-> > libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-> > high-performance disk I/O. It currently supports io_uring and
-> > virtio-blk-vhost-vdpa with additional drivers under development.
-> > 
-> > One of the reasons for developing libblkio is that other applications
-> > besides QEMU can use it. This will be particularly useful for
-> > vhost-user-blk which applications may wish to use for connecting to
-> > qemu-storage-daemon.
-> > 
-> > libblkio also gives us an opportunity to develop in Rust behind a C API
-> > that is easy to consume from QEMU.
-> > 
-> > This commit adds io_uring and virtio-blk-vhost-vdpa BlockDrivers to QEMU
-> > using libblkio. It will be easy to add other libblkio drivers since they
-> > will share the majority of code.
-> > 
-> > For now I/O buffers are copied through bounce buffers if the libblkio
-> > driver requires it. Later commits add an optimization for
-> > pre-registering guest RAM to avoid bounce buffers.
-> > 
-> > The syntax is:
-> > 
-> >   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
-> > 
-> > and:
-> > 
-> >   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
-> > 
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On 8/3/22 13:59, BALATON Zoltan wrote:
+> On Wed, 3 Aug 2022, Cédric Le Goater wrote:
+>> On 8/2/22 21:18, Daniel Henrique Barboza wrote:
+>>> On 8/1/22 10:10, Cédric Le Goater wrote:
+>>>> This moves all the code previously done in the ppc405ep_init() routine
+>>>> under ppc405_soc_realize().
+>>>>
+>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>>> ---
+>>>>   hw/ppc/ppc405.h        |  12 ++--
+>>>>   hw/ppc/ppc405_boards.c |  12 ++--
+>>>>   hw/ppc/ppc405_uc.c     | 151 ++++++++++++++++++++---------------------
+>>>>   3 files changed, 84 insertions(+), 91 deletions(-)
+>>>>
+>>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>>> index c8cddb71733a..5e4e96d86ceb 100644
+>>>> --- a/hw/ppc/ppc405.h
+>>>> +++ b/hw/ppc/ppc405.h
+>>>> @@ -74,9 +74,14 @@ struct Ppc405SoCState {
+>>>>       MemoryRegion sram;
+>>>>       MemoryRegion ram_memories[2];
+>>>>       hwaddr ram_bases[2], ram_sizes[2];
+>>>> +    bool do_dram_init;
+>>>>       MemoryRegion *dram_mr;
+>>>>       hwaddr ram_size;
+>>>> +
+>>>> +    uint32_t sysclk;
+>>>> +    PowerPCCPU *cpu;
+>>>> +    DeviceState *uic;
+>>>>   };
+>>>>   /* PowerPC 405 core */
+>>>> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+>>>>   void ppc4xx_plb_init(CPUPPCState *env);
+>>>>   void ppc405_ebc_init(CPUPPCState *env);
+>>>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>>>> -                        MemoryRegion ram_memories[2],
+>>>> -                        hwaddr ram_bases[2],
+>>>> -                        hwaddr ram_sizes[2],
+>>>> -                        uint32_t sysclk, DeviceState **uicdev,
+>>>> -                        int do_init);
+>>>> -
+>>>>   #endif /* PPC405_H */
+>>>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>>>> index 96db52c5a309..363cb0770506 100644
+>>>> --- a/hw/ppc/ppc405_boards.c
+>>>> +++ b/hw/ppc/ppc405_boards.c
+>>>> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
+>>>>       Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
+>>>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
+>>>>       const char *kernel_filename = machine->kernel_filename;
+>>>> -    PowerPCCPU *cpu;
+>>>>       MemoryRegion *sysmem = get_system_memory();
+>>>> -    DeviceState *uicdev;
+>>>>       if (machine->ram_size != mc->default_ram_size) {
+>>>>           char *sz = size_to_str(mc->default_ram_size);
+>>>> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
+>>>>                                machine->ram_size, &error_fatal);
+>>>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
+>>>>                                OBJECT(machine->ram), &error_abort);
+>>>> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+>>>> +                             !(kernel_filename == NULL), &error_abort);
+>>>> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+>>>> +                             &error_abort);
+>>>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
+>>>> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, ppc405->soc.ram_bases,
+>>>> -                        ppc405->soc.ram_sizes,
+>>>> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+>>>> -
+>>>>       /* allocate and load BIOS */
+>>>>       if (machine->firmware) {
+>>>>           MemoryRegion *bios = g_new(MemoryRegion, 1);
+>>>> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
+>>>>       /* Load ELF kernel and rootfs.cpio */
+>>>>       } else if (kernel_filename && !machine->firmware) {
+>>>> -        boot_from_kernel(machine, cpu);
+>>>> +        boot_from_kernel(machine, ppc405->soc.cpu);
+>>>>       }
+>>>>   }
+>>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>>>> index 156e839b8283..59612504bf3f 100644
+>>>> --- a/hw/ppc/ppc405_uc.c
+>>>> +++ b/hw/ppc/ppc405_uc.c
+>>>> @@ -1432,134 +1432,131 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
+>>>>   #endif
+>>>>   }
+>>>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>>>> -                        MemoryRegion ram_memories[2],
+>>>> -                        hwaddr ram_bases[2],
+>>>> -                        hwaddr ram_sizes[2],
+>>>> -                        uint32_t sysclk, DeviceState **uicdevp,
+>>>> -                        int do_init)
+>>>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>>>   {
+>>>> +    Ppc405SoCState *s = PPC405_SOC(dev);
+>>>>       clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
+>>>>       qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+>>>> -    PowerPCCPU *cpu;
+>>>>       CPUPPCState *env;
+>>>> -    DeviceState *uicdev;
+>>>> -    SysBusDevice *uicsbd;
+>>>> +    Error *err = NULL;
+>>>> +
+>>>> +    /* XXX: fix this ? */
+>>>
+>>> So, this comment, originally from ppc405_boards.c, was added by commit
+>>> 1a6c088620368 and it seemed to make reference to something with the refering
+>>> to the ram_* values:
+>>>
+>>>
+>>>      /* XXX: fix this */
+>>>      ram_bases[0] = 0x00000000;
+>>>      ram_sizes[0] = 0x08000000;
+>>>      ram_bases[1] = 0x00000000;
+>>>      ram_sizes[1] = 0x00000000;
+>>> (...)
+>>>
+>>>
+>>> No more context is provided aside from a git-svn-id from savannah.nongnu.org.
+>>>
+>>> If no one can provide more context about what is to be fixed here, I'll
+>>> remove the comment.
+>>>
+>>>
+>>>
+>>>> +    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
+>>>> +                             "ef405ep.ram.alias", s->dram_mr, 0, s->ram_size);
+>>>
+>>> As I mentioned in patch 2, ef405ep.ram.alias can be renamed to ppc405.ram.alias ...
+>>
+>> sure.
+>>
+>>>
+>>>> +    s->ram_bases[0] = 0;
+>>>> +    s->ram_sizes[0] = s->ram_size;
+>>>> +    memory_region_init(&s->ram_memories[1], OBJECT(s), "ef405ep.ram1", 0);
+>>>
+>>> And this can be renamed to ef405ep.ram1. If you agree with the rename I
+>>> can amend it in the tree.
+>>
+>>
+>> I think we can do better and simply remove the second bank. it is unused ...
+>>
+>> I have patches QOMifying ppc4xx_sdram_init() but the current modelling
+>> makes things a bit complex, specially ppc4xx_sdram_banks() which is only
+>> used on the bamboo and sam460ex machines.
 > 
-> The subject line implies only io_uring, but you actually add vhost-vdpa
-> support, too. I think the subject line should be changed.
+> We need to model the SDRAM controller for the sam460ex firmware at least partially so it gets past the memory test and init. If you change it please test that sam460ex still boots with firmware. 
+
+Sure.
+
+QOM'ifying models reveals the implementation shortcuts. The ppc405 board was
+quite messy and it's getting better with the removal of ppc405ep_init().
+ppc4xx_sdram_init() is the next step but it is quite localized in the SoC.
+No hurries.
+
+Thanks,
+
+C.
+
+
+> I'm not sure 405 and 440 use the same sdram controller though or if the 460EX has a different one as these may have been updated in later SoCs to support newer RAM standards (I think the 460EX has DDR2) and the QEMU model is a bit messy sharing components between 405 and 440. When I've changed some of these for 460EX I've tried to name them so that 4xx means shared by all, 44x or 440 means 440 specific and 40x or similar for older SoCs only but this is probably not always correct. I could not find a clean way to separate these. QOMifying would make sense when cleaning this up otherwise it's just adding more boilerplate without any clear advantage IMO.
 > 
-> I think it would also make sense to already implement support for
-> vhost-user-blk on the QEMU side even if support isn't compiled in
-> libblkio by default and opening vhost-user-blk images would therefore
-> always fail with a default build.
+> If you want change these maybe you should get the docs for the emulated chips and consult those for differences. Unfortunately the 460ex does not seem to have docs available but it's similar to earlier IBM parts like 440GP which generally have docs. That's what I've used but still couldn't find all parts like the PCIe conroller that I had to implement based on what the firmware and drivers do (and only did that partially so it boots as I did not fully understand how it works and how these are modelled in QEMU).
 > 
-> But then you could run QEMU with a custom build of libblkio to make use
-> of it without patching QEMU. This is probably useful for getting libvirt
-> support for using a storage daemon implemented without having to wait
-> for another QEMU release. (Peter, do you have any opinion on this?)
-
-How will this work in terms of detecting whether that feature is
-present?
-
-The issue is that libvirt caches capabilities of qemu and the cache is
-invalidated based on the timestamp of the qemu binary (and few other
-mostly host kernel and cpu properties). In case when a backend library
-is updated/changed this probably means that libvirt will not be able to
-detect that qemu gained support.
-
-In case when qemu lies about the support even if the backend library
-doesn't suport it then we have a problem in not being even able to see
-whether we can use it.
+> Regards,
+> BALATON Zoltan
 
 
