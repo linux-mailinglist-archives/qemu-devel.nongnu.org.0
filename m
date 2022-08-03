@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA34589178
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 19:32:41 +0200 (CEST)
-Received: from localhost ([::1]:51562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCABA58915D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 19:26:44 +0200 (CEST)
+Received: from localhost ([::1]:41346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJIEZ-0007CX-9D
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 13:32:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53434)
+	id 1oJI8p-0008TU-UQ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 13:26:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJHyq-0003g7-EZ; Wed, 03 Aug 2022 13:16:29 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:48008)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJI5j-0002hv-Al
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:23:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJHyl-0003ot-S3; Wed, 03 Aug 2022 13:16:22 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 593F2747F1E;
- Wed,  3 Aug 2022 19:16:17 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 07081747F1B; Wed,  3 Aug 2022 19:16:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 05C6A746E06;
- Wed,  3 Aug 2022 19:16:17 +0200 (CEST)
-Date: Wed, 3 Aug 2022 19:16:16 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 07/20] ppc/ppc405: QOM'ify CPC
-In-Reply-To: <20220803132844.2370514-8-clg@kaod.org>
-Message-ID: <6e556df0-6ed3-6e54-4dd4-f58da193af32@eik.bme.hu>
-References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-8-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJI5T-0005Yy-Nl
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:23:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659547394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=slZPL044q+C7rvNYiFVId3G4VN1Old5kmH5KWkstxKI=;
+ b=BcmcIGYYEMEY5INFEz2914MQa6KnPbzZjiCxqPwUlD5jaBdYm2F4G70K/3ofR44XjsI03v
+ GIDDnOMMeoNjkdnwKbfi+FV/EhnC62gmG/eneFtQcumPPFlyrPEB0U+Ni6Nn4oNcs+Q+JG
+ JGCZJP1+PaZub9mCVpIgaR6lV/tBKQk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-131-PWmVzDHwPjewsbEIYBPatg-1; Wed, 03 Aug 2022 13:18:55 -0400
+X-MC-Unique: PWmVzDHwPjewsbEIYBPatg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CBE810AF7C9;
+ Wed,  3 Aug 2022 17:18:26 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE7DA1121314;
+ Wed,  3 Aug 2022 17:18:23 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Subject: [PATCH v3 0/7] ASID support in vhost-vdpa net
+Date: Wed,  3 Aug 2022 19:18:14 +0200
+Message-Id: <20220803171821.481336-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-189614882-1659546977=:36771"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,310 +84,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Control VQ is the way net devices use to send changes to the device state, =
+like=0D
+the number of active queues or its mac address.=0D
+=0D
+QEMU needs to intercept this queue so it can track these changes and is abl=
+e to=0D
+migrate the device. It can do it from 1576dbb5bbc4 ("vdpa: Add x-svq to=0D
+NetdevVhostVDPAOptions"). However, to enable x-svq implies to shadow all Vi=
+rtIO=0D
+device's virtqueues, which will damage performance.=0D
+=0D
+This series adds address space isolation, so the device and the guest=0D
+communicate directly with them (passthrough) and CVQ communication is split=
+ in=0D
+two: The guest communicates with QEMU and QEMU forwards the commands to the=
+=0D
+device.=0D
+=0D
+This series is based on [1], and this needs to be applied on top of that.  =
+Each=0D
+one of them adds a feature on isolation and could be merged individually on=
+ce=0D
+conflicts are solved.=0D
+=0D
+Comments are welcome. Thanks!=0D
+=0D
+v3:=0D
+- Do not return an error but just print a warning if vdpa device initializa=
+tion=0D
+  returns failure while getting AS num of VQ groups=0D
+- Delete extra newline=0D
+=0D
+v2:=0D
+- Much as commented on series [1], handle vhost_net backend through=0D
+  NetClientInfo callbacks instead of directly.=0D
+- Fix not freeing SVQ properly when device does not support CVQ=0D
+- Add BIT_ULL missed checking device's backend feature for _F_ASID.=0D
+=0D
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-08/msg00349.html=
+=0D
+=0D
+Eugenio P=C3=A9rez (7):=0D
+  linux-headers: Update kernel headers=0D
+  vdpa: Use v->shadow_vqs_enabled in vhost_vdpa_svqs_start & stop=0D
+  vdpa: Allocate SVQ unconditionally=0D
+  vdpa: Add asid parameter to vhost_vdpa_dma_map/unmap=0D
+  vdpa: Store x-svq parameter in VhostVDPAState=0D
+  vhost_net: Add NetClientInfo prepare callback=0D
+  vdpa: Always start CVQ in SVQ mode=0D
+=0D
+ include/hw/virtio/vhost-vdpa.h               |   8 +-=0D
+ include/net/net.h                            |   2 +=0D
+ include/standard-headers/asm-x86/bootparam.h |   7 +-=0D
+ include/standard-headers/drm/drm_fourcc.h    |  69 +++++++++=0D
+ include/standard-headers/linux/ethtool.h     |   1 +=0D
+ include/standard-headers/linux/input.h       |  12 +-=0D
+ include/standard-headers/linux/pci_regs.h    |   1 +=0D
+ include/standard-headers/linux/vhost_types.h |  11 +-=0D
+ include/standard-headers/linux/virtio_ids.h  |  14 +-=0D
+ linux-headers/asm-arm64/kvm.h                |  27 ++++=0D
+ linux-headers/asm-generic/unistd.h           |   4 +-=0D
+ linux-headers/asm-riscv/kvm.h                |  20 +++=0D
+ linux-headers/asm-riscv/unistd.h             |   3 +-=0D
+ linux-headers/asm-x86/kvm.h                  |  11 +-=0D
+ linux-headers/asm-x86/mman.h                 |  14 --=0D
+ linux-headers/linux/kvm.h                    |  56 ++++++-=0D
+ linux-headers/linux/userfaultfd.h            |  10 +-=0D
+ linux-headers/linux/vfio.h                   |   4 +-=0D
+ linux-headers/linux/vhost.h                  |  26 +++-=0D
+ hw/net/vhost_net.c                           |   4 +=0D
+ hw/virtio/vhost-vdpa.c                       |  65 ++++----=0D
+ net/vhost-vdpa.c                             | 154 ++++++++++++++++++-=0D
+ hw/virtio/trace-events                       |   4 +-=0D
+ 23 files changed, 434 insertions(+), 93 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
---3866299591-189614882-1659546977=:36771
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Wed, 3 Aug 2022, Cédric Le Goater wrote:
-> Introduce a QOM property "cpu" to initialize the DCR handlers. This is
-> a pattern that we will reuse for the all other 405 devices needing it.
->
-> Now that all clock settings are handled at the CPC level, change the
-> SoC "sys-clk" property to be an alias on the same property in the CPC
-> model.
->
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405.h    |  39 +++++++++++++++-
-> hw/ppc/ppc405_uc.c | 109 +++++++++++++++++++--------------------------
-> 2 files changed, 85 insertions(+), 63 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index ae64549537c6..88c63774d9ba 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -63,6 +63,43 @@ struct ppc4xx_bd_info_t {
->     uint32_t bi_iic_fast[2];
-> };
->
-> +typedef struct Ppc405SoCState Ppc405SoCState;
-
-This typedef is already done by the OBJECT_DECLARE_SIMPLE_TYPE macro 
-below. Could some compilers complain about double typedef? There may be 
-some circular dependencies here so to avoid a separate typedef you may 
-need to bring the OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC); 
-line up here to the front while keeping the actual declaration of the 
-state struct and rest of the object later which separates them but adding 
-a comment may explain that. I'm not sure if it's better to do that or 
-repeating the typedef in advance as done here is better but declaring the 
-object in advance is probably a bit cleaner than repeating part of its 
-internals just in case this implementation detail ever changes.
-
-Regards,
-BALATON Zoltan
-
-> +
-> +#define TYPE_PPC405_CPC "ppc405-cpc"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405CpcState, PPC405_CPC);
-> +
-> +enum {
-> +    PPC405EP_CPU_CLK   = 0,
-> +    PPC405EP_PLB_CLK   = 1,
-> +    PPC405EP_OPB_CLK   = 2,
-> +    PPC405EP_EBC_CLK   = 3,
-> +    PPC405EP_MAL_CLK   = 4,
-> +    PPC405EP_PCI_CLK   = 5,
-> +    PPC405EP_UART0_CLK = 6,
-> +    PPC405EP_UART1_CLK = 7,
-> +    PPC405EP_CLK_NB    = 8,
-> +};
-> +
-> +struct Ppc405CpcState {
-> +    DeviceState parent_obj;
-> +
-> +    PowerPCCPU *cpu;
-> +
-> +    uint32_t sysclk;
-> +    clk_setup_t clk_setup[PPC405EP_CLK_NB];
-> +    uint32_t boot;
-> +    uint32_t epctl;
-> +    uint32_t pllmr[2];
-> +    uint32_t ucr;
-> +    uint32_t srr;
-> +    uint32_t jtagid;
-> +    uint32_t pci;
-> +    /* Clock and power management */
-> +    uint32_t er;
-> +    uint32_t fr;
-> +    uint32_t sr;
-> +};
-> +
-> #define TYPE_PPC405_SOC "ppc405-soc"
-> OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC);
->
-> @@ -79,9 +116,9 @@ struct Ppc405SoCState {
->     MemoryRegion *dram_mr;
->     hwaddr ram_size;
->
-> -    uint32_t sysclk;
->     PowerPCCPU cpu;
->     DeviceState *uic;
-> +    Ppc405CpcState cpc;
-> };
->
-> /* PowerPC 405 core */
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 013dccee898b..32bfc9480bc6 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1178,36 +1178,7 @@ enum {
-> #endif
-> };
->
-> -enum {
-> -    PPC405EP_CPU_CLK   = 0,
-> -    PPC405EP_PLB_CLK   = 1,
-> -    PPC405EP_OPB_CLK   = 2,
-> -    PPC405EP_EBC_CLK   = 3,
-> -    PPC405EP_MAL_CLK   = 4,
-> -    PPC405EP_PCI_CLK   = 5,
-> -    PPC405EP_UART0_CLK = 6,
-> -    PPC405EP_UART1_CLK = 7,
-> -    PPC405EP_CLK_NB    = 8,
-> -};
-> -
-> -typedef struct ppc405ep_cpc_t ppc405ep_cpc_t;
-> -struct ppc405ep_cpc_t {
-> -    uint32_t sysclk;
-> -    clk_setup_t clk_setup[PPC405EP_CLK_NB];
-> -    uint32_t boot;
-> -    uint32_t epctl;
-> -    uint32_t pllmr[2];
-> -    uint32_t ucr;
-> -    uint32_t srr;
-> -    uint32_t jtagid;
-> -    uint32_t pci;
-> -    /* Clock and power management */
-> -    uint32_t er;
-> -    uint32_t fr;
-> -    uint32_t sr;
-> -};
-> -
-> -static void ppc405ep_compute_clocks (ppc405ep_cpc_t *cpc)
-> +static void ppc405ep_compute_clocks(Ppc405CpcState *cpc)
-> {
->     uint32_t CPU_clk, PLB_clk, OPB_clk, EBC_clk, MAL_clk, PCI_clk;
->     uint32_t UART0_clk, UART1_clk;
-> @@ -1302,10 +1273,9 @@ static void ppc405ep_compute_clocks (ppc405ep_cpc_t *cpc)
->
-> static uint32_t dcr_read_epcpc (void *opaque, int dcrn)
-> {
-> -    ppc405ep_cpc_t *cpc;
-> +    Ppc405CpcState *cpc = PPC405_CPC(opaque);
->     uint32_t ret;
->
-> -    cpc = opaque;
->     switch (dcrn) {
->     case PPC405EP_CPC0_BOOT:
->         ret = cpc->boot;
-> @@ -1342,9 +1312,8 @@ static uint32_t dcr_read_epcpc (void *opaque, int dcrn)
->
-> static void dcr_write_epcpc (void *opaque, int dcrn, uint32_t val)
-> {
-> -    ppc405ep_cpc_t *cpc;
-> +    Ppc405CpcState *cpc = PPC405_CPC(opaque);
->
-> -    cpc = opaque;
->     switch (dcrn) {
->     case PPC405EP_CPC0_BOOT:
->         /* Read-only register */
-> @@ -1377,9 +1346,9 @@ static void dcr_write_epcpc (void *opaque, int dcrn, uint32_t val)
->     }
-> }
->
-> -static void ppc405ep_cpc_reset (void *opaque)
-> +static void ppc405_cpc_reset(DeviceState *dev)
-> {
-> -    ppc405ep_cpc_t *cpc = opaque;
-> +    Ppc405CpcState *cpc = PPC405_CPC(dev);
->
->     cpc->boot = 0x00000010;     /* Boot from PCI - IIC EEPROM disabled */
->     cpc->epctl = 0x00000000;
-> @@ -1391,21 +1360,24 @@ static void ppc405ep_cpc_reset (void *opaque)
->     cpc->er = 0x00000000;
->     cpc->fr = 0x00000000;
->     cpc->sr = 0x00000000;
-> +    cpc->jtagid = 0x20267049;
->     ppc405ep_compute_clocks(cpc);
-> }
->
-> /* XXX: sysclk should be between 25 and 100 MHz */
-> -static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
-> -                               uint32_t sysclk)
-> +static void ppc405_cpc_realize(DeviceState *dev, Error **errp)
-> {
-> -    ppc405ep_cpc_t *cpc;
-> +    Ppc405CpcState *cpc = PPC405_CPC(dev);
-> +    CPUPPCState *env;
-> +
-> +    assert(cpc->cpu);
-> +
-> +    env = &cpc->cpu->env;
-> +
-> +    cpc->clk_setup[PPC405EP_CPU_CLK].cb =
-> +        ppc_40x_timers_init(env, cpc->sysclk, PPC_INTERRUPT_PIT);
-> +    cpc->clk_setup[PPC405EP_CPU_CLK].opaque = env;
->
-> -    cpc = g_new0(ppc405ep_cpc_t, 1);
-> -    memcpy(cpc->clk_setup, clk_setup,
-> -           PPC405EP_CLK_NB * sizeof(clk_setup_t));
-> -    cpc->jtagid = 0x20267049;
-> -    cpc->sysclk = sysclk;
-> -    qemu_register_reset(&ppc405ep_cpc_reset, cpc);
->     ppc_dcr_register(env, PPC405EP_CPC0_BOOT, cpc,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
->     ppc_dcr_register(env, PPC405EP_CPC0_EPCTL, cpc,
-> @@ -1422,14 +1394,23 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
->                      &dcr_read_epcpc, &dcr_write_epcpc);
->     ppc_dcr_register(env, PPC405EP_CPC0_PCI, cpc,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -#if 0
-> -    ppc_dcr_register(env, PPC405EP_CPC0_ER, cpc,
-> -                     &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_FR, cpc,
-> -                     &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_SR, cpc,
-> -                     &dcr_read_epcpc, &dcr_write_epcpc);
-> -#endif
-> +}
-> +
-> +static Property ppc405_cpc_properties[] = {
-> +    DEFINE_PROP_LINK("cpu", Ppc405CpcState, cpu, TYPE_POWERPC_CPU,
-> +                     PowerPCCPU *),
-> +    DEFINE_PROP_UINT32("sys-clk", Ppc405CpcState, sysclk, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc405_cpc_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = ppc405_cpc_realize;
-> +    dc->user_creatable = false;
-> +    dc->reset = ppc405_cpc_reset;
-> +    device_class_set_props(dc, ppc405_cpc_properties);
-> }
->
-> static void ppc405_soc_instance_init(Object *obj)
-> @@ -1438,12 +1419,14 @@ static void ppc405_soc_instance_init(Object *obj)
->
->     object_initialize_child(obj, "cpu", &s->cpu,
->                             POWERPC_CPU_TYPE_NAME("405ep"));
-> +
-> +    object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
-> +    object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
-> }
->
-> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> {
->     Ppc405SoCState *s = PPC405_SOC(dev);
-> -    clk_setup_t clk_setup[PPC405EP_CLK_NB];
->     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
->     CPUPPCState *env;
->     Error *err = NULL;
-> @@ -1458,8 +1441,6 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE,
->                                 &s->sram);
->
-> -    memset(clk_setup, 0, sizeof(clk_setup));
-> -
->     /* init CPUs */
->     if (!qdev_realize(DEVICE(&s->cpu), NULL, errp)) {
->         return;
-> @@ -1468,14 +1449,14 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->
->     env = &s->cpu.env;
->
-> -    clk_setup[PPC405EP_CPU_CLK].cb =
-> -        ppc_40x_timers_init(env, s->sysclk, PPC_INTERRUPT_PIT);
-> -    clk_setup[PPC405EP_CPU_CLK].opaque = env;
-> -
->     ppc_dcr_init(env, NULL, NULL);
->
->     /* CPU control */
-> -    ppc405ep_cpc_init(env, clk_setup, s->sysclk);
-> +    object_property_set_link(OBJECT(&s->cpc), "cpu", OBJECT(&s->cpu),
-> +                             &error_abort);
-> +    if (!qdev_realize(DEVICE(&s->cpc), NULL, errp)) {
-> +        return;
-> +    }
->
->     /* PLB arbitrer */
->     ppc4xx_plb_init(env);
-> @@ -1566,7 +1547,6 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> static Property ppc405_soc_properties[] = {
->     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
->                      MemoryRegion *),
-> -    DEFINE_PROP_UINT32("sys-clk", Ppc405SoCState, sysclk, 0),
->     DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
->     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
->     DEFINE_PROP_END_OF_LIST(),
-> @@ -1583,6 +1563,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
->
-> static const TypeInfo ppc405_types[] = {
->     {
-> +        .name           = TYPE_PPC405_CPC,
-> +        .parent         = TYPE_DEVICE,
-> +        .instance_size  = sizeof(Ppc405CpcState),
-> +        .class_init     = ppc405_cpc_class_init,
-> +    }, {
->         .name           = TYPE_PPC405_SOC,
->         .parent         = TYPE_DEVICE,
->         .instance_size  = sizeof(Ppc405SoCState),
->
---3866299591-189614882-1659546977=:36771--
 
