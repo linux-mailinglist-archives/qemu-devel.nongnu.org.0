@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8303D588D01
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:33:50 +0200 (CEST)
-Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1990C588D04
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:34:54 +0200 (CEST)
+Received: from localhost ([::1]:36676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJEVR-0000XD-GI
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:33:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51986)
+	id 1oJEWR-0001hM-Um
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=fO70=YH=kaod.org=clg@ozlabs.org>)
- id 1oJEQv-0002JN-TH; Wed, 03 Aug 2022 09:29:09 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:54973)
+ id 1oJEQv-0002Ha-AR; Wed, 03 Aug 2022 09:29:09 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:47189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=fO70=YH=kaod.org=clg@ozlabs.org>)
- id 1oJEQu-0000Va-5K; Wed, 03 Aug 2022 09:29:09 -0400
+ id 1oJEQt-0000Vh-3N; Wed, 03 Aug 2022 09:29:09 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LyXkk34vXz4x1W;
- Wed,  3 Aug 2022 23:29:02 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LyXkm5DkPz4x1b;
+ Wed,  3 Aug 2022 23:29:04 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LyXkh4bpTz4x1K;
- Wed,  3 Aug 2022 23:29:00 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LyXkk6lfNz4x1K;
+ Wed,  3 Aug 2022 23:29:02 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v2 03/20] ppc/ppc405: Move devices under the ref405ep machine
-Date: Wed,  3 Aug 2022 15:28:27 +0200
-Message-Id: <20220803132844.2370514-4-clg@kaod.org>
+Subject: [PATCH v2 04/20] ppc/ppc405: Introduce a PPC405 SoC
+Date: Wed,  3 Aug 2022 15:28:28 +0200
+Message-Id: <20220803132844.2370514-5-clg@kaod.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220803132844.2370514-1-clg@kaod.org>
 References: <20220803132844.2370514-1-clg@kaod.org>
@@ -63,79 +63,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It is an initial model to start QOMification of the PPC405 board.
+QOM'ified devices will be reintroduced one by one. Start with the
+memory regions, which name prefix is changed to "ppc405".
+
+Also, initialize only one RAM bank. The second bank is a dummy one
+(zero size) which is here to match the hard coded number of banks in
+ppc405ep_init(). We will adjust this number when ppc4xx_sdram_init()
+can be called directly, after we have replaced ppc405ep_init().
+
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405_boards.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+ hw/ppc/ppc405.h        | 17 +++++++++++++++
+ hw/ppc/ppc405_boards.c | 29 +++++++++++--------------
+ hw/ppc/ppc405_uc.c     | 49 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 78 insertions(+), 17 deletions(-)
 
+diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+index 83f156f585c8..c8cddb71733a 100644
+--- a/hw/ppc/ppc405.h
++++ b/hw/ppc/ppc405.h
+@@ -25,6 +25,7 @@
+ #ifndef PPC405_H
+ #define PPC405_H
+ 
++#include "qom/object.h"
+ #include "hw/ppc/ppc4xx.h"
+ 
+ #define PPC405EP_SDRAM_BASE 0x00000000
+@@ -62,6 +63,22 @@ struct ppc4xx_bd_info_t {
+     uint32_t bi_iic_fast[2];
+ };
+ 
++#define TYPE_PPC405_SOC "ppc405-soc"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC);
++
++struct Ppc405SoCState {
++    /* Private */
++    DeviceState parent_obj;
++
++    /* Public */
++    MemoryRegion sram;
++    MemoryRegion ram_memories[2];
++    hwaddr ram_bases[2], ram_sizes[2];
++
++    MemoryRegion *dram_mr;
++    hwaddr ram_size;
++};
++
+ /* PowerPC 405 core */
+ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+ 
 diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 4c269b6526a5..24ec948d22a4 100644
+index 24ec948d22a4..96db52c5a309 100644
 --- a/hw/ppc/ppc405_boards.c
 +++ b/hw/ppc/ppc405_boards.c
-@@ -230,13 +230,11 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
-     env->load_info = &boot_info;
- }
+@@ -54,6 +54,8 @@ struct Ppc405MachineState {
+     /* Private */
+     MachineState parent_obj;
+     /* Public */
++
++    Ppc405SoCState soc;
+ };
  
--static void ref405ep_init(MachineState *machine)
-+static void ppc405_init(MachineState *machine)
+ #define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
+@@ -232,12 +234,10 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
+ 
+ static void ppc405_init(MachineState *machine)
  {
++    Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
      MachineClass *mc = MACHINE_GET_CLASS(machine);
      const char *kernel_filename = machine->kernel_filename;
      PowerPCCPU *cpu;
--    DeviceState *dev;
--    SysBusDevice *s;
-     MemoryRegion *sram = g_new(MemoryRegion, 1);
-     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
-     hwaddr ram_bases[2], ram_sizes[2];
-@@ -294,15 +292,6 @@ static void ref405ep_init(MachineState *machine)
-         memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios);
+-    MemoryRegion *sram = g_new(MemoryRegion, 1);
+-    MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+-    hwaddr ram_bases[2], ram_sizes[2];
+     MemoryRegion *sysmem = get_system_memory();
+     DeviceState *uicdev;
+ 
+@@ -248,23 +248,18 @@ static void ppc405_init(MachineState *machine)
+         exit(EXIT_FAILURE);
      }
  
--    /* Register FPGA */
--    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
--    /* Register NVRAM */
--    dev = qdev_new("sysbus-m48t08");
--    qdev_prop_set_int32(dev, "base-year", 1968);
--    s = SYS_BUS_DEVICE(dev);
--    sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
+-    /* XXX: fix this */
+-    memory_region_init_alias(&ram_memories[0], NULL, "ef405ep.ram.alias",
+-                             machine->ram, 0, machine->ram_size);
+-    ram_bases[0] = 0;
+-    ram_sizes[0] = machine->ram_size;
+-    memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
+-    ram_bases[1] = 0x00000000;
+-    ram_sizes[1] = 0x00000000;
++    object_initialize_child(OBJECT(machine), "soc", &ppc405->soc,
++                            TYPE_PPC405_SOC);
++    object_property_set_uint(OBJECT(&ppc405->soc), "ram-size",
++                             machine->ram_size, &error_fatal);
++    object_property_set_link(OBJECT(&ppc405->soc), "dram",
++                             OBJECT(machine->ram), &error_abort);
++    qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
+ 
+-    cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
++    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, ppc405->soc.ram_bases,
++                        ppc405->soc.ram_sizes,
+                         33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+ 
+-    /* allocate SRAM */
+-    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
+-                           &error_fatal);
+-    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
 -
-     /* Load kernel and initrd using U-Boot images */
-     if (kernel_filename && machine->firmware) {
-         target_ulong kernel_base, initrd_base;
-@@ -335,6 +324,23 @@ static void ref405ep_init(MachineState *machine)
-     }
- }
+     /* allocate and load BIOS */
+     if (machine->firmware) {
+         MemoryRegion *bios = g_new(MemoryRegion, 1);
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index d6420c88d3a6..7033bac6bf3f 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -30,6 +30,7 @@
+ #include "hw/ppc/ppc.h"
+ #include "hw/i2c/ppc4xx_i2c.h"
+ #include "hw/irq.h"
++#include "hw/qdev-properties.h"
+ #include "ppc405.h"
+ #include "hw/char/serial.h"
+ #include "qemu/timer.h"
+@@ -1530,3 +1531,51 @@ PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
  
-+static void ref405ep_init(MachineState *machine)
+     return cpu;
+ }
++
++static void ppc405_soc_realize(DeviceState *dev, Error **errp)
 +{
-+    DeviceState *dev;
-+    SysBusDevice *s;
++    Ppc405SoCState *s = PPC405_SOC(dev);
++    Error *err = NULL;
 +
-+    ppc405_init(machine);
++    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
++                             "ppc405.ram.alias", s->dram_mr, 0, s->ram_size);
++    s->ram_bases[0] = 0;
++    s->ram_sizes[0] = s->ram_size;
 +
-+    /* Register FPGA */
-+    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
-+    /* Register NVRAM */
-+    dev = qdev_new("sysbus-m48t08");
-+    qdev_prop_set_int32(dev, "base-year", 1968);
-+    s = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(s, &error_fatal);
-+    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
++    /* allocate SRAM */
++    memory_region_init_ram(&s->sram, OBJECT(s), "ppc405.sram",
++                           PPC405EP_SRAM_SIZE,  &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++    memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE,
++                                &s->sram);
 +}
 +
- static void ref405ep_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -354,6 +360,7 @@ static void ppc405_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
-     mc->desc = "PPC405 generic machine";
-+    mc->init = ppc405_init;
-     mc->default_ram_size = 0x08000000;
-     mc->default_ram_id = "ppc405.ram";
- }
++static Property ppc405_soc_properties[] = {
++    DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
++                     MemoryRegion *),
++    DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void ppc405_soc_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->realize = ppc405_soc_realize;
++    dc->user_creatable = false;
++    device_class_set_props(dc, ppc405_soc_properties);
++}
++
++static const TypeInfo ppc405_types[] = {
++    {
++        .name           = TYPE_PPC405_SOC,
++        .parent         = TYPE_DEVICE,
++        .instance_size  = sizeof(Ppc405SoCState),
++        .class_init     = ppc405_soc_class_init,
++    }
++};
++
++DEFINE_TYPES(ppc405_types)
 -- 
 2.37.1
 
