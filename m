@@ -2,52 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BF75890F2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 19:05:49 +0200 (CEST)
-Received: from localhost ([::1]:42470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAEE589100
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 19:10:13 +0200 (CEST)
+Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJHoZ-00051e-R9
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 13:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50414)
+	id 1oJHsq-0007OJ-G3
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 13:10:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJHmM-0002L7-5o; Wed, 03 Aug 2022 13:03:30 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:57275)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJHqr-0005rL-Do
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:08:09 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:46918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJHmJ-0001eh-OG; Wed, 03 Aug 2022 13:03:29 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 12DC9747F1B;
- Wed,  3 Aug 2022 19:03:24 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CCE7F747E0F; Wed,  3 Aug 2022 19:03:23 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CB2267475F9;
- Wed,  3 Aug 2022 19:03:23 +0200 (CEST)
-Date: Wed, 3 Aug 2022 19:03:23 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 02/20] ppc/ppc405: Introduce a PPC405 generic
- machine
-In-Reply-To: <20220803132844.2370514-3-clg@kaod.org>
-Message-ID: <c34b7697-bc8f-85a8-9f99-daa7d667a584@eik.bme.hu>
-References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-3-clg@kaod.org>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJHqj-0002Ng-AY
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:08:09 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6648EB82312;
+ Wed,  3 Aug 2022 17:07:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9CEC433C1;
+ Wed,  3 Aug 2022 17:07:56 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="pBziU+8f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659546475;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7scd4vgV8gdI290+pt8Rdim0/nL3yZULyxhxmNrQ1B4=;
+ b=pBziU+8f3Q6qse1ql4lYcUtD3VY7BtK7gpOlRdpvBLMeMTcH+R9BRB0fNh07Bll2hRLLVB
+ uZGVwhgVPIhj9pjVckEqRLB3dFEMyPG+3AL/BnZFpe8G5Ph9vp9CmbMxB8zxLvV5UwtE1+
+ R0YTCFvC1d8f3fi3OKHGVb7tJfv3tpU=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id fcb12e7d
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 3 Aug 2022 17:07:55 +0000 (UTC)
+Date: Wed, 3 Aug 2022 19:07:52 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <YuqraGAFyCibc1h6@zx2c4.com>
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-10-pbonzini@redhat.com>
+ <dae86884-6cfa-a428-374c-60c42900aade@intel.com>
+ <Yukk0YOFgkPwcTzG@zx2c4.com>
+ <a3ddd211-a569-4348-c3bb-2ff509fd6ccf@intel.com>
+ <Yuk9a0v+CNnzAX37@zx2c4.com>
+ <CAHmME9qDNmX7TYio3TxgP_xFL1LGUoKrT6w=OG_1c688ZSdvKg@mail.gmail.com>
+ <YupTaZlkyy1/9FUC@redhat.com> <Yup0FIOLLo0thP8u@zx2c4.com>
+ <Yup5TG2kZs+TifEJ@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-825057409-1659546203=:36771"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Yup5TG2kZs+TifEJ@zx2c4.com>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=hVua=YH=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,91 +94,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed, Aug 03, 2022 at 03:34:04PM +0200, Jason A. Donenfeld wrote:
+> On Wed, Aug 03, 2022 at 03:11:48PM +0200, Jason A. Donenfeld wrote:
+> > Thanks for the info. Very helpful. Looking into it now.
+> 
+> So interestingly, this is not a new issue. If you pass any type of setup
+> data, OVMF appears to be doing something unusual and passing 0xffffffff
+> for all the entries, rather than the actual data. The reason this isn't
+> new is: try passing `-dtb any/dtb/at/all/from/anywhere` and you get the
+> same page fault, on all QEMU versions. The thing that passes the DTB is
+> the thing that passes the RNG seed. Same mechanism, same bug.
+> 
+> I'm looking into it...
 
---3866299591-825057409-1659546203=:36771
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Fixed with: https://lore.kernel.org/all/20220803170235.1312978-1-Jason@zx2c4.com/
 
-On Wed, 3 Aug 2022, Cédric Le Goater wrote:
-> We will use this machine as a base to define the ref405ep and possibly
-> the PPC405 hotfoot board as found in the Linux kernel.
->
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
-> 1 file changed, 28 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 1a4e7588c584..4c269b6526a5 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -50,6 +50,15 @@
->
-> #define USE_FLASH_BIOS
->
-> +struct Ppc405MachineState {
-> +    /* Private */
-> +    MachineState parent_obj;
-> +    /* Public */
-> +};
-> +
-> +#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
+Feel free to join into the discussion there. I CC'd you.
 
-In other patches the declaration of the state struct comes after the 
-OBJECT_DECLARE macro so here instead of above. It would be better to write 
-it like that here too for consistency and also because then the DECLARE 
-macro starts the object declaration and everything belonging to the object 
-are together below it. Declaring the structure before is kind of outside 
-the object, although this is only cosmetic and may be a matter of style.
-
-Regards,
-BALATON Zoltan
-
-> +
-> /*****************************************************************************/
-> /* PPC405EP reference board (IBM) */
-> /* Standalone board with:
-> @@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
->
->     mc->desc = "ref405ep";
->     mc->init = ref405ep_init;
-> -    mc->default_ram_size = 0x08000000;
-> -    mc->default_ram_id = "ef405ep.ram";
-> }
->
-> static const TypeInfo ref405ep_type = {
->     .name = MACHINE_TYPE_NAME("ref405ep"),
-> -    .parent = TYPE_MACHINE,
-> +    .parent = TYPE_PPC405_MACHINE,
->     .class_init = ref405ep_class_init,
-> };
->
-> +static void ppc405_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +
-> +    mc->desc = "PPC405 generic machine";
-> +    mc->default_ram_size = 0x08000000;
-> +    mc->default_ram_id = "ppc405.ram";
-> +}
-> +
-> +static const TypeInfo ppc405_machine_type = {
-> +    .name = TYPE_PPC405_MACHINE,
-> +    .parent = TYPE_MACHINE,
-> +    .instance_size = sizeof(Ppc405MachineState),
-> +    .class_init = ppc405_machine_class_init,
-> +    .abstract = true,
-> +};
-> +
-> static void ppc405_machine_init(void)
-> {
-> +    type_register_static(&ppc405_machine_type);
->     type_register_static(&ref405ep_type);
-> }
->
->
---3866299591-825057409-1659546203=:36771--
+Jason
 
