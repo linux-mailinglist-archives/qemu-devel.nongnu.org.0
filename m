@@ -2,115 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AABF0588AC2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:50:27 +0200 (CEST)
-Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F5D588AD5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:54:40 +0200 (CEST)
+Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJBxK-000448-FX
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:50:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42232)
+	id 1oJC1P-0005xk-9X
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oJBth-0002NK-4i
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:46:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52448)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJBzR-0004P4-Ph
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:52:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oJBtf-0006Se-Lk
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:46:40 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJBzP-0007XW-BL
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:52:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659523598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MdnLN5PIt1FMlGFlixO3xRUWYIqpyA/qYv0kgPzaN/4=;
- b=a5VJMMnbzzEUM4EQyuLNLtRMYq0qGstTfb+654bnD/XCmoZMTFzMDrq+Tpv1oSM8/HIuEL
- KCfrJ6zgDfhbOdLkHxdepBKT0cFQBM4moJucbOduIeLIc2QxWZLCHPlesZ4vid0CiJlz8u
- xgKpWA7odtNSbeIJ7MTGyZa6YZwLiHs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1659523953;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=s1JxZTPBe0mMJFP4rXiUYMnW0GZj4+T40Dpgpf3XJ5g=;
+ b=aK50WmB1aHdhpzfqtJHUQ5sNusPJa5xmjPPdsbGCpxHbtbYqH321DR/XOmfJY8eG008THF
+ KwQdDW1ya5GDQzsaamWySz8BYrVdj/6R8SL6T2HZIVMr40c0JLndEwEhxhhgbJ2YCad3LC
+ GDfpIuAn7AO6FK7gif2I1Jni8kEf/XY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-bJOLshNgPfmtY2kTQRcpRg-1; Wed, 03 Aug 2022 06:46:33 -0400
-X-MC-Unique: bJOLshNgPfmtY2kTQRcpRg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- d10-20020a05600c34ca00b003a4f0932ec3so899664wmq.0
- for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 03:46:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=MdnLN5PIt1FMlGFlixO3xRUWYIqpyA/qYv0kgPzaN/4=;
- b=k+eiDfFpwdRjRy8diYBCaPcVUMHStsk52v1jXiMJJjFc5wdCpE1jtT/0EJ8bv/YORG
- WuVSskbbxAefrR9CnzQM1TS8rZH9bWnnBpNlUicFwWPkwxW4uf9KgTBuArdjKXEsgXnM
- WtRtpCvll62+NgzX9yCdUW5ZQniBRb++11/tv4uonSvzxJa0KHVOZkWhmCPsDycmEhsA
- hAXGQGr8sbm0uyMdXYQTanKrUiSVAAY4qxwu+8LCvAl6CdGbzOZpd8hc32HMC9yTXoI8
- 27MLmJ4lHxz4dICuCOtGkfxefDYwQmRj4mZNn+ub4tLL6L4WzAwAoKvgKkZT6v7OjnmD
- mpQQ==
-X-Gm-Message-State: ACgBeo12DGryq8hlBX+3sawOA4+DTc3ephR7im2/B/fMsd/QzvuinyUj
- mEWmRwWzdgmkKy3r5qTU91MWVE6G61Bg/czoxwqSHyERLLm9oYEjOmf6Qq9QNXrlEh1OYcf65e3
- b5o+RSL1bf5HhYOk=
-X-Received: by 2002:a05:600c:4b96:b0:3a4:e8c6:97fa with SMTP id
- e22-20020a05600c4b9600b003a4e8c697famr2388971wmp.102.1659523590307; 
- Wed, 03 Aug 2022 03:46:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR469/a5z2MM262xtAy5hyusMtpj0BUZe7dtHcbtdxY+7tPKtrPBq6S4/4D+U15jJicJLhkp6A==
-X-Received: by 2002:a05:600c:4b96:b0:3a4:e8c6:97fa with SMTP id
- e22-20020a05600c4b9600b003a4e8c697famr2388909wmp.102.1659523590082; 
- Wed, 03 Aug 2022 03:46:30 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- m1-20020a7bcb81000000b003a3278d5cafsm1958553wmi.28.2022.08.03.03.46.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 03:46:29 -0700 (PDT)
-Date: Wed, 3 Aug 2022 11:46:26 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Alberto Faria <afaria@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Hannes Reinecke <hare@suse.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Peter Lieven <pl@kamp.de>, kvm@vger.kernel.org,
- Xie Yongji <xieyongji@bytedance.com>,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Jeff Cody <codyprime@gmail.com>, Eric Blake <eblake@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Stefan Weil <sw@weilnetz.de>, Klaus Jensen <its@irrelevant.dk>,
- Laurent Vivier <lvivier@redhat.com>, Alberto Garcia <berto@igalia.com>,
- Michael Roth <michael.roth@amd.com>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-block@nongnu.org,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Greg Kurz <groug@kaod.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+ us-mta-609-dR02uss0Mom_rgZZYAjlng-1; Wed, 03 Aug 2022 06:52:30 -0400
+X-MC-Unique: dR02uss0Mom_rgZZYAjlng-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BE753821C0B;
+ Wed,  3 Aug 2022 10:52:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 166A72026D4C;
+ Wed,  3 Aug 2022 10:52:27 +0000 (UTC)
+Date: Wed, 3 Aug 2022 11:52:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [RFC v2 02/10] Drop unused static function return values
-Message-ID: <YupSAhFRK962i+nL@work-vm>
-References: <20220729130040.1428779-1-afaria@redhat.com>
- <20220729130040.1428779-3-afaria@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <YupTaZlkyy1/9FUC@redhat.com>
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-10-pbonzini@redhat.com>
+ <dae86884-6cfa-a428-374c-60c42900aade@intel.com>
+ <Yukk0YOFgkPwcTzG@zx2c4.com>
+ <a3ddd211-a569-4348-c3bb-2ff509fd6ccf@intel.com>
+ <Yuk9a0v+CNnzAX37@zx2c4.com>
+ <CAHmME9qDNmX7TYio3TxgP_xFL1LGUoKrT6w=OG_1c688ZSdvKg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220729130040.1428779-3-afaria@redhat.com>
+In-Reply-To: <CAHmME9qDNmX7TYio3TxgP_xFL1LGUoKrT6w=OG_1c688ZSdvKg@mail.gmail.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -118,7 +76,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -131,88 +89,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Alberto Faria (afaria@redhat.com) wrote:
-> Make non-void static functions whose return values are ignored by
-> all callers return void instead.
+On Tue, Aug 02, 2022 at 05:13:26PM +0200, Jason A. Donenfeld wrote:
+> Hi Xiaoyao,
 > 
-> These functions were found by static-analyzer.py.
+> On Tue, Aug 2, 2022 at 5:06 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > Hi Xiaoyao,
+> >
+> > On Tue, Aug 02, 2022 at 10:53:07PM +0800, Xiaoyao Li wrote:
+> > > yes, with >= 7.1, pcmc->legacy_no_rng_seed = false by default, and RNG
+> > > seed is used.
+> >
+> > This is intended behavior. Being on by default is basically the whole
+> > point of it. Otherwise it's useless.
+> >
+> > >
+> > > > Either way, this shouldn't cause boot failures.
+> > >
+> > > It does fail booting OVMF with #PF. Below diff can fix the #PF for me.
+> >
+> > Huh, interesting. Sounds like maybe there's a bug I need to fix. Can you
+> > send me some repro instructions, and I'll look into it right away.
 > 
-> Not all occurrences of this problem were fixed.
-> 
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> I just tried booting Fedora using OVMF and didn't have any problems. I
+> used this command line:
 
-<snip>
+I managed to reproduce on a Fedora 36 host, using QEMU git master from
+today.
 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index e03f698a3c..4698080f96 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -175,7 +175,7 @@ static MigrationIncomingState *current_incoming;
->  
->  static GSList *migration_blockers;
->  
-> -static bool migration_object_check(MigrationState *ms, Error **errp);
-> +static void migration_object_check(MigrationState *ms, Error **errp);
->  static int migration_maybe_pause(MigrationState *s,
->                                   int *current_active_state,
->                                   int new_state);
-> @@ -4485,15 +4485,15 @@ static void migration_instance_init(Object *obj)
->   * Return true if check pass, false otherwise. Error will be put
->   * inside errp if provided.
->   */
-> -static bool migration_object_check(MigrationState *ms, Error **errp)
-> +static void migration_object_check(MigrationState *ms, Error **errp)
->  {
+ $ git clone https://gitlab.com/berrange/tiny-vm-tools
+ $ cd tiny-vm-tools
+ $ ./make-tiny-image.py --run date date
+ tiny-initrd.img
+ Copy lib /lib/ld-musl-x86_64.so.1 -> /tmp/make-tiny-imagebcuv8i_b/lib/ld-musl-x86_64.so.1
+ Copy bin /usr/bin/date -> /tmp/make-tiny-imagebcuv8i_b/bin/date
+ Copy lib /lib64/libc.so.6 -> /tmp/make-tiny-imagebcuv8i_b/lib64/libc.so.6
+ Copy lib /lib64/ld-linux-x86-64.so.2 -> /tmp/make-tiny-imagebcuv8i_b/lib64/ld-linux-x86-64.so.2
 
-I'm not sure if this is a good change.
-Where we have a function that returns an error via an Error ** it's
-normal practice for us to return a bool to say whether it generated an
-error.
+ $ cp /usr/share/edk2/ovmf/OVMF_VARS.fd vars.fd
 
-Now, in our case we only call it with error_fatal:
+ $ ~/src/virt/qemu.git/build/qemu-system-x86_64 \
+   -blockdev node-name=file_ovmf_code,driver=file,filename=/usr/share/edk2/ovmf/OVMF_CODE.fd,auto-read-only=on,discard=unmap \
+   -blockdev node-name=drive_ovmf_code,driver=raw,read-only=on,file=file_ovmf_code \
+   -blockdev node-name=file_ovmf_vars,driver=file,filename=vars.fd,auto-read-only=on,discard=unmap \
+   -blockdev node-name=drive_ovmf_vars,driver=raw,read-only=off,file=file_ovmf_vars  \
+   -machine pc-q35-7.1,pflash0=drive_ovmf_code,pflash1=drive_ovmf_vars \
+   -kernel /boot/vmlinuz-5.18.5-200.fc36.x86_64 \
+   -initrd tiny-initrd.img \
+   -m 8000 \
+   -display none \
+   -nodefaults \
+   -serial stdio \
+   -append 'console=ttyS0 quiet'
 
-    migration_object_check(current_migration, &error_fatal);
+It results in OVMF crashing and displaying this dump on console:
 
-so the bool isn't used/checked.
+!!!! X64 Exception Type - 0D(#GP - General Protection)  CPU Apic ID - 00000000 !!!!
+ExceptionData - 0000000000000000
+RIP  - 0000000077EA6BBE, CS  - 0000000000000038, RFLAGS - 0000000000000206
+RAX  - 28006E6F69746163, RCX - 0000000000000000, RDX - 41CBF4FA982C298B
+RBX  - 000000007D9C3000, RSP - 000000007FEDF8E0, RBP - 0000000000000000
+RSI  - 0000000000000000, RDI - 000000007D9C3000
+R8   - 000000007D9C2F18, R9  - 000000007FEDF980, R10 - 0000000000000000
+R11  - 0000000000000006, R12 - 28006E6F69746163, R13 - 000000007FEDF980
+R14  - 000000007734F000, R15 - 000000007FEDFD01
+DS   - 0000000000000030, ES  - 0000000000000030, FS  - 0000000000000030
+GS   - 0000000000000030, SS  - 0000000000000030
+CR0  - 0000000080010033, CR2 - 0000000000000000, CR3 - 000000007FC01000
+CR4  - 0000000000000668, CR8 - 0000000000000000
+DR0  - 0000000000000000, DR1 - 0000000000000000, DR2 - 0000000000000000
+DR3  - 0000000000000000, DR6 - 00000000FFFF0FF0, DR7 - 0000000000000400
+GDTR - 000000007F9DE000 0000000000000047, LDTR - 0000000000000000
+IDTR - 000000007F40F018 0000000000000FFF,   TR - 0000000000000000
+FXSAVE_STATE - 000000007FEDF540
+!!!! Find image based on IP(0x77EA6BBE) (No PDB)  (ImageBase=000000007734F000, EntryPoint=0000000077EA65FC) !!!!
 
-So I'm a bit conflicted:
 
-  a) Using error_fatal is the easiest way to handle this function
-  b) Things taking Error ** normally do return a flag value
-  c) But it's not used in this case.
 
-Hmm.
+Changing to pc-q35-7.0 makes it work and prints current 'date' output
+before shutting down.
 
-Dave
+Similarly adding  'pcmc->legacy_no_rng_seed = true;' for 7.1 machine
+type also makes it work.
 
->      MigrationCapabilityStatusList *head = NULL;
->      /* Assuming all off */
-> -    bool cap_list[MIGRATION_CAPABILITY__MAX] = { 0 }, ret;
-> +    bool cap_list[MIGRATION_CAPABILITY__MAX] = { 0 };
->      int i;
->  
->      if (!migrate_params_check(&ms->parameters, errp)) {
-> -        return false;
-> +        return;
->      }
->  
->      for (i = 0; i < MIGRATION_CAPABILITY__MAX; i++) {
-> @@ -4502,12 +4502,10 @@ static bool migration_object_check(MigrationState *ms, Error **errp)
->          }
->      }
->  
-> -    ret = migrate_caps_check(cap_list, head, errp);
-> +    migrate_caps_check(cap_list, head, errp);
->  
->      /* It works with head == NULL */
->      qapi_free_MigrationCapabilityStatusList(head);
-> -
-> -    return ret;
->  }
+Turning on isa-debugcon for OVMF doesn't show anything especially
+unsual - just a slightly different kernel image size, due to the
+RNG seed having been added.
+
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
