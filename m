@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1003B588EE6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 16:49:43 +0200 (CEST)
-Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55179588F09
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 17:01:11 +0200 (CEST)
+Received: from localhost ([::1]:37414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJFgs-0003AZ-5I
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 10:49:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
+	id 1oJFry-0002nV-EY
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 11:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oJFcG-0006St-Sf
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:44:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29112)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oJFnJ-0001hx-Dp
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:56:21 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:46977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oJFcE-0002es-R8
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:44:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659537894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gPTpJKQmJ5CjbixxfOK6/Br8MhSadxcQXbhjhetEHPo=;
- b=adBuMmicnvLAM9Q8EAt7ta6cPVmrT2q309z8qEH9KUrBlR1aXEoOJZaRiipY3VHupvlc0H
- 4Viig1A8SCkgFkqre2MNI40ezG4bszlcmaOIHqJF0aeqlZwAe2lKF5l+R3csYb7adp7nMA
- Es4XGMcmEU9NtQPphsKJK7JJdMtocLU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-r0Myhr5DOnaQ1I_LidPrQA-1; Wed, 03 Aug 2022 10:44:53 -0400
-X-MC-Unique: r0Myhr5DOnaQ1I_LidPrQA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABD19280400C;
- Wed,  3 Aug 2022 14:44:52 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B2BF1121314;
- Wed,  3 Aug 2022 14:44:52 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 3/3] iotests/backing-file-invalidation: Add new test
-Date: Wed,  3 Aug 2022 16:44:46 +0200
-Message-Id: <20220803144446.20723-4-hreitz@redhat.com>
-In-Reply-To: <20220803144446.20723-1-hreitz@redhat.com>
-References: <20220803144446.20723-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oJFnH-0005qS-FV
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:56:21 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue109
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MGi6m-1oEMFp11sY-00DpmL; Wed, 03
+ Aug 2022 16:56:15 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/3] Linux user for 7.1 patches
+Date: Wed,  3 Aug 2022 16:56:10 +0200
+Message-Id: <20220803145613.428167-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Provags-ID: V03:K1:Eu/ojb29HQVUEjJjXiNhjzTq4twgkiupCH7PWHVvrbsY+sdWpU9
+ ewoMIVpNkJkOL76XpZ9v30YBF4vFhvPEU09RfDbH5u/yJSZhLd8DUMQBC91f5LqwlHhQ+Yk
+ /vu6EDqMhvIzBC8d7ofBHVl+afTyrnvD8WULMlmvdPNe7STi6d/CHlhNEEgPBIRpIMHl48D
+ 3Zn1Hod0agu/iOpo2ac0A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S1tLRjNMI/o=:Xl9e7nh2ZNq7djceb+G9hf
+ /PLYS+m3IWTr0d4ab1r9bZ/RnPpsDXOLecfNIt+upKj5IrIb5nSqx3p6uiCNzso9Ymyd737gv
+ GLZV/DBVBrLmoxCPJXQUZuE+U12lnsM7ZVQ5xcXHAIyxbg1NR9IG+e5tOYVkxI4hqITs1ORSC
+ J38uSmNxDOI8m20LrO26gvdu3aRMSBOFcvDLQBGHLma053hoq/PRRyR0j0rb74OIbjpLsEI8B
+ eF2Rnr+mL2T/Nt+26Qlf+HYmF77gR0kJrx4RdkfsnBPRQtOAZ6xyrRtKqoJwTYUfaa9svbKPR
+ ouHhFxgCrWeFf+041wcNsp/YNwSSGs+OaQ47DxARQVWvcyg/jBHUwtZMsmiIulQMm/vay4719
+ 24z8HwwWWFlDYv1o+O9q5aSNBtELozymvTZYKalvkqdKg2dmZmMhjnMMXYKMuqB5r2t0qMAvz
+ 250SlMmRFxIFzaJOExVobf26cxp5f5FTp674RKUEMW0LQ2DtnQzYDcOUvy5EZ9FJ7dhxFNaVL
+ TJR7uoEqFZvRNlpzm1PPk5gCT2RrxffPzU/JA/LKpcJt4xOXx4DV4KBTg2SwlVbtP2vUvFThs
+ Kee2OaxuviKDTAuuNKy1AXuPu0HlimR29L/d22hZF7il/gbNwY8yA8O7KqM1pA2Li7MiUCrvX
+ qceQmtvJL2Q+irI3EzoskyxjsxVnaC7/EhaUQwfv6sRjp0JY8b84xQ+6dIQDLj/Ewg8wFwaRc
+ EE+GMarJAjruW6fugQhjG9j18kh/xHsXg6usVg==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,188 +69,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new test to see what happens when you migrate a VM with a backing
-chain that has json:{} backing file strings, which, when opened, will be
-resolved to plain filenames.
+The following changes since commit 3e4abe2c92964aadd35344a635b0f32cb487fd5c:
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- .../tests/backing-file-invalidation           | 152 ++++++++++++++++++
- .../tests/backing-file-invalidation.out       |   5 +
- 2 files changed, 157 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/backing-file-invalidation
- create mode 100644 tests/qemu-iotests/tests/backing-file-invalidation.out
+  Merge tag 'pull-block-2022-07-27' of https://gitlab.com/vsementsov/qemu into staging (2022-07-27 20:10:15 -0700)
 
-diff --git a/tests/qemu-iotests/tests/backing-file-invalidation b/tests/qemu-iotests/tests/backing-file-invalidation
-new file mode 100755
-index 0000000000..4eccc80153
---- /dev/null
-+++ b/tests/qemu-iotests/tests/backing-file-invalidation
-@@ -0,0 +1,152 @@
-+#!/usr/bin/env python3
-+# group: rw migration
-+#
-+# Migrate a VM with a BDS with backing nodes, which runs
-+# bdrv_invalidate_cache(), which for qcow2 and qed triggers reading the
-+# backing file string from the image header.  Check whether this
-+# interferes with bdrv_backing_overridden().
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import json
-+import os
-+from typing import Optional
-+
-+import iotests
-+from iotests import qemu_img_create, qemu_img_info
-+
-+
-+image_size = 1 * 1024 * 1024
-+imgs = [os.path.join(iotests.test_dir, f'{i}.img') for i in range(0, 4)]
-+
-+mig_sock = os.path.join(iotests.sock_dir, 'mig.sock')
-+
-+
-+class TestPostMigrateFilename(iotests.QMPTestCase):
-+    vm_s: Optional[iotests.VM] = None
-+    vm_d: Optional[iotests.VM] = None
-+
-+    def setUp(self) -> None:
-+        # Create backing chain of three images, where the backing file strings
-+        # are json:{} filenames
-+        qemu_img_create('-f', iotests.imgfmt, imgs[0], str(image_size))
-+        for i in range(1, 3):
-+            backing = {
-+                'driver': iotests.imgfmt,
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': imgs[i - 1]
-+                }
-+            }
-+            qemu_img_create('-f', iotests.imgfmt, '-F', iotests.imgfmt,
-+                            '-b', 'json:' + json.dumps(backing),
-+                            imgs[i], str(image_size))
-+
-+    def tearDown(self) -> None:
-+        if self.vm_s is not None:
-+            self.vm_s.shutdown()
-+        if self.vm_d is not None:
-+            self.vm_d.shutdown()
-+
-+        for img in imgs:
-+            try:
-+                os.remove(img)
-+            except OSError:
-+                pass
-+        try:
-+            os.remove(mig_sock)
-+        except OSError:
-+            pass
-+
-+    def test_migration(self) -> None:
-+        """
-+        Migrate a VM with the backing chain created in setUp() attached.  At
-+        the end of the migration process, the destination will run
-+        bdrv_invalidate_cache(), which for some image formats (qcow2 and qed)
-+        means the backing file string is re-read from the image header.  If
-+        this overwrites bs->auto_backing_file, doing so may cause
-+        bdrv_backing_overridden() to become true: The image header reports a
-+        json:{} filename, but when opening it, bdrv_refresh_filename() will
-+        simplify it to a plain simple filename; and when bs->auto_backing_file
-+        and bs->backing->bs->filename differ, bdrv_backing_overridden() becomes
-+        true.
-+        If bdrv_backing_overridden() is true, the BDS will be forced to get a
-+        json:{} filename, which in general is not the end of the world, but not
-+        great.  Check whether that happens, i.e. whether migration changes the
-+        node's filename.
-+        """
-+
-+        blockdev = {
-+            'node-name': 'node0',
-+            'driver': iotests.imgfmt,
-+            'file': {
-+                'driver': 'file',
-+                'filename': imgs[2]
-+            }
-+        }
-+
-+        self.vm_s = iotests.VM(path_suffix='a') \
-+                           .add_blockdev(json.dumps(blockdev))
-+        self.vm_d = iotests.VM(path_suffix='b') \
-+                           .add_blockdev(json.dumps(blockdev)) \
-+                           .add_incoming(f'unix:{mig_sock}')
-+
-+        assert self.vm_s is not None
-+        assert self.vm_d is not None
-+
-+        self.vm_s.launch()
-+        self.vm_d.launch()
-+
-+        pre_mig_filename = self.vm_s.node_info('node0')['file']
-+
-+        self.vm_s.qmp('migrate', uri=f'unix:{mig_sock}')
-+
-+        # Wait for migration to be done
-+        self.vm_s.event_wait('STOP')
-+        self.vm_d.event_wait('RESUME')
-+
-+        post_mig_filename = self.vm_d.node_info('node0')['file']
-+
-+        # Verify that the filename hasn't changed from before the migration
-+        self.assertEqual(pre_mig_filename, post_mig_filename)
-+
-+        self.vm_s.shutdown()
-+        self.vm_s = None
-+
-+        # For good measure, try creating an overlay and check its backing
-+        # chain below.  This is how the issue was originally found.
-+        result = self.vm_d.qmp('blockdev-snapshot-sync',
-+                               format=iotests.imgfmt,
-+                               snapshot_file=imgs[3],
-+                               node_name='node0',
-+                               snapshot_node_name='node0-overlay')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.vm_d.shutdown()
-+        self.vm_d = None
-+
-+        # Check the newly created overlay's backing chain
-+        chain = qemu_img_info('--backing-chain', imgs[3])
-+        for index, image in enumerate(chain):
-+            self.assertEqual(image['filename'], imgs[3 - index])
-+
-+
-+if __name__ == '__main__':
-+    # These are the image formats that run their open() function from their
-+    # .bdrv_co_invaliate_cache() implementations, so test them
-+    iotests.main(supported_fmts=['qcow2', 'qed'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/backing-file-invalidation.out b/tests/qemu-iotests/tests/backing-file-invalidation.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/backing-file-invalidation.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
+are available in the Git repository at:
+
+  https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
+
+for you to fetch changes up to 5b63de6b54add51822db3c89325c6fc05534a54c:
+
+  linux-user: Use memfd for open syscall emulation (2022-08-02 15:44:27 +0200)
+
+----------------------------------------------------------------
+Pull request linux-user 20220803
+
+----------------------------------------------------------------
+
+Ilya Leoshkevich (1):
+  linux-user: Do not treat madvise()'s advice as a bitmask
+
+Peter Maydell (1):
+  linux-user/flatload.c: Fix setting of image_info::end_code
+
+Rainer Müller (1):
+  linux-user: Use memfd for open syscall emulation
+
+ linux-user/flatload.c |  2 +-
+ linux-user/mmap.c     |  2 +-
+ linux-user/syscall.c  | 22 ++++++++++++++--------
+ 3 files changed, 16 insertions(+), 10 deletions(-)
+
 -- 
-2.36.1
+2.37.1
 
 
