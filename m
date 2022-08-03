@@ -2,51 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFAE588C5F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:47:53 +0200 (CEST)
-Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2664C588C9D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:02:54 +0200 (CEST)
+Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJDmx-0002h7-RZ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:47:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39638)
+	id 1oJE1V-0001Pe-7I
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:02:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oJDiy-0005mS-Jp; Wed, 03 Aug 2022 08:43:44 -0400
-Received: from [200.168.210.66] (port=36049 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oJDiw-0004rj-Ff; Wed, 03 Aug 2022 08:43:44 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 3 Aug 2022 09:43:38 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 95E7E8001D1;
- Wed,  3 Aug 2022 09:43:37 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-ppc@nongnu.org
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH] tests/tcg/ppc64le: Added OE/UE enabled exception test
-Date: Wed,  3 Aug 2022 09:43:24 -0300
-Message-Id: <20220803124324.23593-1-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220803122217.20847-1-lucas.araujo@eldorado.org.br>
-References: <20220803122217.20847-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oJDmn-0002VA-Fh
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:47:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oJDmk-00061l-0i
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:47:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659530857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FMdpM/OP9u8lYFgWeie1F84KL7NowsI+iQPfWJZUWX0=;
+ b=GUjU6LFNny3rFiHAE1VXQfFGCdcC0xGuR+ubZmspESr7dvYVJoE6onMgZ0rJR9EOXEA0Jc
+ 4KO7Dasea6a4jB5N9pYxfpVWoMBipAckvsGmrdy96i61kmF+VKNlEI6J+KeG/oikghlDKe
+ 14h3g/Ijx6HKF5RM7YOG8jNQyXLdKpU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-315-lxmSs-WXMHS3bO82KMEA4Q-1; Wed, 03 Aug 2022 08:47:33 -0400
+X-MC-Unique: lxmSs-WXMHS3bO82KMEA4Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EF031C16B4F;
+ Wed,  3 Aug 2022 12:47:32 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5773E40CFD0A;
+ Wed,  3 Aug 2022 12:47:30 +0000 (UTC)
+Date: Wed, 3 Aug 2022 13:47:29 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Alberto Faria <afaria@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Hannes Reinecke <hare@suse.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
+ Peter Lieven <pl@kamp.de>, kvm@vger.kernel.org,
+ Xie Yongji <xieyongji@bytedance.com>,
+ Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, Eric Blake <eblake@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Stefan Weil <sw@weilnetz.de>, Klaus Jensen <its@irrelevant.dk>,
+ Laurent Vivier <lvivier@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ Michael Roth <michael.roth@amd.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-block@nongnu.org,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Greg Kurz <groug@kaod.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>
+Subject: Re: [RFC v2 02/10] Drop unused static function return values
+Message-ID: <20220803124729.GR1127@redhat.com>
+References: <20220729130040.1428779-1-afaria@redhat.com>
+ <20220729130040.1428779-3-afaria@redhat.com>
+ <YupSAhFRK962i+nL@work-vm>
+ <CAELaAXyh0MzuVzDCfhC8hJNAwb=niwFRsXqhc63JiWGxxitkqg@mail.gmail.com>
+ <20220803111520.GO1127@redhat.com> <Yupd96RyyEcm1BCb@redhat.com>
+ <CAFEAcA8Eg5RqEDs3ydOZ8jRX5T6Vxjz1_QfPvYCtTneN0mBXuA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 03 Aug 2022 12:43:38.0093 (UTC)
- FILETIME=[A718E9D0:01D8A736]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA8Eg5RqEDs3ydOZ8jRX5T6Vxjz1_QfPvYCtTneN0mBXuA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,138 +120,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+On Wed, Aug 03, 2022 at 01:25:34PM +0100, Peter Maydell wrote:
+> On Wed, 3 Aug 2022 at 12:44, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > Inconsistent return value checking is designed-in behaviour for
+> > QEMU's current Error handling coding pattern with error_abort/fatal.
+> 
+> Yes; I habitually mark as false-positive Coverity reports about
+> missing error checks where it has not noticed that the error
+> handling is done via the errp pointer.
 
-DO NOT MERGE
+Presumably the advantage of having a qemu-specific static analyser is
+it'll be able to ignore certain cases, eg. spotting if error_abort is
+a parameter and allowing (requiring even?) the return value to be
+ignored.
 
-This patch adds a test to check if the add/sub of the intermediate
-result when an overflow or underflow exception with the corresponding
-enabling bit being set (i.e. OE/UE), but linux-user currently can't
-disable MSR.FE0 and MSR.FE1 so it will always result in a trapping
-exception, to avoid that the test should be run in a VM or use Matheus'
-WIP patch in 
-https://github.com/PPC64/qemu/tree/alqotel-ferst-prctl-patch
+Coverity allows custom models too, but obviously that's all
+proprietary software.
 
-The test results were based on a Power9 machine.
+Rich.
 
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
----
- tests/tcg/ppc64le/oe_ue_excp.c | 105 +++++++++++++++++++++++++++++++++
- 1 file changed, 105 insertions(+)
- create mode 100644 tests/tcg/ppc64le/oe_ue_excp.c
-
-diff --git a/tests/tcg/ppc64le/oe_ue_excp.c b/tests/tcg/ppc64le/oe_ue_excp.c
-new file mode 100644
-index 0000000000..384219a366
---- /dev/null
-+++ b/tests/tcg/ppc64le/oe_ue_excp.c
-@@ -0,0 +1,105 @@
-+#include <stdio.h>
-+#include <float.h>
-+#include <sys/prctl.h>
-+
-+#define FP_OE (1ull << 6)
-+#define FP_UE (1ull << 5)
-+
-+typedef union {
-+    double d;
-+    long long ll;
-+} ll_fp;
-+
-+double asm_fmul (double a, double b)
-+{
-+    double t;
-+    asm (
-+        "lfd 0, %1\n\t"
-+        "lfd 1, %2\n\t"
-+        "fmul 2, 0, 1\n\t"
-+        "stfd 2, %0\n\t"
-+        :"=m"(t)
-+        :"m"(a),"m"(b)
-+        );
-+    return t;
-+}
-+
-+double asm_fdiv (double a, double b)
-+{
-+    double t;
-+    asm (
-+        "lfd 0, %1\n\t"
-+        "lfd 1, %2\n\t"
-+        "fdiv 2, 0, 1\n\t"
-+        "stfd 2, %0\n\t"
-+        :"=m"(t)
-+        :"m"(a),"m"(b)
-+        );
-+    return t;
-+}
-+
-+int main ()
-+{
-+    int i, ok = 1;
-+    ll_fp fpscr, t;
-+
-+    prctl(PR_SET_FPEXC, PR_FP_EXC_DISABLED);
-+
-+    fpscr.ll = FP_UE | FP_OE;
-+    __builtin_mtfsf (0b11111111, fpscr.d);
-+    fpscr.d = __builtin_mffs ();
-+    printf("fpscr = %016llx\n", fpscr.ll);
-+
-+    ll_fp ch[] =
-+                {
-+                    { .ll = 0x1b64f1c1b0000000ull },
-+                    { .ll = 0x1b64f1c1b0000001ull },
-+                    { .ll = 0x1b90de3410000000ull },
-+                    { .ll = 0x1b90de3410000000ull },
-+                    { .ll = 0x5fcfffe4965a17e0ull },
-+                    { .ll = 0x5fcfffe4965a17e0ull },
-+                    { .ll = 0x2003ffffffffffffull },
-+                    { .ll = 0x2003ffffffffffffull }
-+                };
-+
-+    ll_fp a[] =
-+                {
-+                    { .ll = 0x00005ca8ull },
-+                    { .ll = 0x0000badcull },
-+                    { .ll = 0x7fdfffe816d77b00ull },
-+                    { .d  = DBL_MAX }
-+                };
-+
-+    ll_fp b[] =
-+                {
-+                    { .ll = 0x00001cefull },
-+                    { .ll = 0x00005c70ull },
-+                    { .ll = 0x7fdfffFC7F7FFF00ull },
-+                    { .d  = 2.5 }
-+                };
-+
-+    for (i = 0; i < 4; i++) {
-+        t.d = asm_fmul(a[i].d, b[i].d);
-+        if (t.ll != ch[2 * i].ll) {
-+            ok = 0;
-+            printf ("Mismatch on fmul n %d:\n\tresult:   %016llx\n\t"
-+                    "expected: %016llx\n", i, t.ll, ch[2 * i].ll);
-+        } else {
-+            printf ("Ok on fmul n %d\n", i);
-+        }
-+        t.d = asm_fdiv(a[i].d, 1.0/b[i].d);
-+        if (t.ll != ch[2 * i + 1].ll) {
-+            ok = 0;
-+            printf ("Mismatch on fdiv n %d:\n\tresult:   %016llx\n\t"
-+                    "expected: %016llx\n", i, t.ll, ch[2 * i + 1].ll);
-+        } else {
-+            printf ("Ok on fdiv n %d\n", i);
-+        }
-+    }
-+    fpscr.d = __builtin_mffs ();
-+    printf("fpscr = %016llx\n", fpscr.ll);
-+    if(!ok) {
-+        return -1;
-+    }
-+    return 0;
-+}
 -- 
-2.31.1
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
