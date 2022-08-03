@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31435894A0
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:07:01 +0200 (CEST)
-Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924255894CD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:28:25 +0200 (CEST)
+Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJNS8-0004hX-B4
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
+	id 1oJNmp-0001NQ-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJNPX-0001yw-5j; Wed, 03 Aug 2022 19:04:19 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:65393)
+ id 1oJNl3-0008Cl-Bj; Wed, 03 Aug 2022 19:26:33 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:26448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJNPT-0000Gd-GM; Wed, 03 Aug 2022 19:04:17 -0400
+ id 1oJNl0-0004lk-FG; Wed, 03 Aug 2022 19:26:32 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 50629747E0F;
- Thu,  4 Aug 2022 01:04:10 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 65CA3747F1E;
+ Thu,  4 Aug 2022 01:26:25 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F21A87461AE; Thu,  4 Aug 2022 01:04:09 +0200 (CEST)
+ id 22A9E747F1B; Thu,  4 Aug 2022 01:26:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F0533745702;
- Thu,  4 Aug 2022 01:04:09 +0200 (CEST)
-Date: Thu, 4 Aug 2022 01:04:09 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 213B0747E0F;
+ Thu,  4 Aug 2022 01:26:25 +0200 (CEST)
+Date: Thu, 4 Aug 2022 01:26:25 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
  qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
-In-Reply-To: <20220803132844.2370514-13-clg@kaod.org>
-Message-ID: <91bae6f7-1e68-6bf3-e2f-b31a5a78f2d@eik.bme.hu>
+Subject: Re: [PATCH v2 18/20] ppc/ppc405: QOM'ify UIC
+In-Reply-To: <20220803132844.2370514-19-clg@kaod.org>
+Message-ID: <e192604d-8542-5c38-5cb6-3febe3607fdd@eik.bme.hu>
 References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-13-clg@kaod.org>
+ <20220803132844.2370514-19-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-261452012-1659567849=:13819"
+ boundary="3866299591-750229076-1659569185=:13819"
 X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,7 +64,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-261452012-1659567849=:13819
+--3866299591-750229076-1659569185=:13819
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
@@ -73,216 +72,136 @@ On Wed, 3 Aug 2022, Cédric Le Goater wrote:
 > Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
-> hw/ppc/ppc405.h    | 16 +++++++++++
-> hw/ppc/ppc405_uc.c | 71 +++++++++++++++++++++++++++++++---------------
-> 2 files changed, 64 insertions(+), 23 deletions(-)
+> hw/ppc/ppc405.h    |  3 ++-
+> hw/ppc/ppc405_uc.c | 26 +++++++++++++-------------
+> 2 files changed, 15 insertions(+), 14 deletions(-)
 >
 > diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 1da34a7f10f3..1c7fe07b8084 100644
+> index 7d585a244d18..d29f738cd2d0 100644
 > --- a/hw/ppc/ppc405.h
 > +++ b/hw/ppc/ppc405.h
-> @@ -65,7 +65,22 @@ struct ppc4xx_bd_info_t {
+> @@ -27,6 +27,7 @@
 >
-> typedef struct Ppc405SoCState Ppc405SoCState;
+> #include "qom/object.h"
+> #include "hw/ppc/ppc4xx.h"
+> +#include "hw/intc/ppc-uic.h"
 >
-> +/* Peripheral controller */
-> +#define TYPE_PPC405_EBC "ppc405-ebc"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
-> +struct Ppc405EbcState {
-> +    DeviceState parent_obj;
-> +
-> +    PowerPCCPU *cpu;
+> #define PPC405EP_SDRAM_BASE 0x00000000
+> #define PPC405EP_NVRAM_BASE 0xF0000000
+> @@ -249,7 +250,7 @@ struct Ppc405SoCState {
+>     hwaddr ram_size;
 >
-> +    uint32_t addr;
-> +    uint32_t bcr[8];
-> +    uint32_t bap[8];
-> +    uint32_t bear;
-> +    uint32_t besr0;
-> +    uint32_t besr1;
-> +    uint32_t cfg;
-> +};
->
-> /* DMA controller */
-> #define TYPE_PPC405_DMA "ppc405-dma"
-> @@ -203,6 +218,7 @@ struct Ppc405SoCState {
->     Ppc405OcmState ocm;
->     Ppc405GpioState gpio;
->     Ppc405DmaState dma;
-> +    Ppc405EbcState ebc;
-> };
->
-> /* PowerPC 405 core */
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 6bd93c1cb90c..0166f3fc36da 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -393,17 +393,6 @@ static void ppc4xx_opba_init(hwaddr base)
->
-> /*****************************************************************************/
-> /* Peripheral controller */
-> -typedef struct ppc4xx_ebc_t ppc4xx_ebc_t;
-> -struct ppc4xx_ebc_t {
-> -    uint32_t addr;
-> -    uint32_t bcr[8];
-> -    uint32_t bap[8];
-> -    uint32_t bear;
-> -    uint32_t besr0;
-> -    uint32_t besr1;
-> -    uint32_t cfg;
-> -};
-> -
-> enum {
->     EBC0_CFGADDR = 0x012,
->     EBC0_CFGDATA = 0x013,
-> @@ -411,10 +400,9 @@ enum {
->
-> static uint32_t dcr_read_ebc (void *opaque, int dcrn)
-> {
-> -    ppc4xx_ebc_t *ebc;
-> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
->     uint32_t ret;
->
-> -    ebc = opaque;
+>     PowerPCCPU cpu;
+> -    DeviceState *uic;
+> +    PPCUIC uic;
 
-I think QOM casts are kind of expensive (maybe because we have quo-debug 
-enabled by default even without --enable-debug and it does additional 
-checks; I've tried to change this default once but it was thought to be 
-better to have it enabled). So it's advised to use QOM casts sparingly, 
-e.g. store the result in a local variable if you need it more than once 
-and so. Therefore I tend to consider these read/write callbacks that the 
-object itself registers with itself as the opaque pointer to be internal 
-to the object and guaranteed to be passed the object pointer so no QOM 
-cast is necessary and the direct assignment can be kept. This avoids 
-potential overhead on every register access. Not sure if it's measurable 
-but I think if an overhead can be avoided it probably should be.
-
->     switch (dcrn) {
->     case EBC0_CFGADDR:
->         ret = ebc->addr;
-> @@ -496,9 +484,8 @@ static uint32_t dcr_read_ebc (void *opaque, int dcrn)
->
-> static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
-> {
-> -    ppc4xx_ebc_t *ebc;
-> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
->
-> -    ebc = opaque;
->     switch (dcrn) {
->     case EBC0_CFGADDR:
->         ebc->addr = val;
-> @@ -554,12 +541,11 @@ static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
->     }
-> }
->
-> -static void ebc_reset (void *opaque)
-> +static void ppc405_ebc_reset(DeviceState *dev)
-> {
-> -    ppc4xx_ebc_t *ebc;
-> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
-
-In this case the cast is OK as it's casting a different object so it's 
-needed and also it's infrequently called so should not matter.
-
->     int i;
->
-> -    ebc = opaque;
->     ebc->addr = 0x00000000;
->     ebc->bap[0] = 0x7F8FFE80;
->     ebc->bcr[0] = 0xFFE28000;
-> @@ -572,18 +558,46 @@ static void ebc_reset (void *opaque)
->     ebc->cfg = 0x80400000;
-> }
->
-> -void ppc405_ebc_init(CPUPPCState *env)
-> +static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
-> {
-> -    ppc4xx_ebc_t *ebc;
-> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
-> +    CPUPPCState *env;
-> +
-> +    assert(ebc->cpu);
-> +
-> +    env = &ebc->cpu->env;
->
-> -    ebc = g_new0(ppc4xx_ebc_t, 1);
-> -    qemu_register_reset(&ebc_reset, ebc);
->     ppc_dcr_register(env, EBC0_CFGADDR,
->                      ebc, &dcr_read_ebc, &dcr_write_ebc);
->     ppc_dcr_register(env, EBC0_CFGDATA,
->                      ebc, &dcr_read_ebc, &dcr_write_ebc);
-> }
->
-> +static Property ppc405_ebc_properties[] = {
-> +    DEFINE_PROP_LINK("cpu", Ppc405EbcState, cpu, TYPE_POWERPC_CPU,
-> +                     PowerPCCPU *),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = ppc405_ebc_realize;
-> +    dc->user_creatable = false;
-> +    dc->reset = ppc405_ebc_reset;
-> +    device_class_set_props(dc, ppc405_ebc_properties);
-> +}
-> +
-> +void ppc405_ebc_init(CPUPPCState *env)
-> +{
-> +    PowerPCCPU *cpu = env_archcpu(env);
-> +    DeviceState *dev = qdev_new(TYPE_PPC405_EBC);
-> +
-> +    object_property_set_link(OBJECT(cpu), "cpu", OBJECT(dev), &error_abort);
-> +    qdev_realize_and_unref(dev, NULL, &error_fatal);
-> +}
-> +
-> /*****************************************************************************/
-> /* DMA controller */
-> enum {
-> @@ -1418,6 +1432,8 @@ static void ppc405_soc_instance_init(Object *obj)
->     object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
->
->     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
-> +
-> +    object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
-> }
->
-> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> @@ -1490,7 +1506,11 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->                       s->ram_bases, s->ram_sizes, s->do_dram_init);
->
->     /* External bus controller */
-> -    ppc405_ebc_init(env);
-> +    object_property_set_link(OBJECT(&s->ebc), "cpu", OBJECT(&s->cpu),
-> +                             &error_abort);
-
-I wonder if this link to cpu could be avoided somehow? Maybe assuming that 
-this device and the cpu is part of the same SoC it could get it's parent 
-and access the cpu field of the parent or if that's not possible adding a 
-method to the SoC to get it could avoid this link?
+So this patch is probably misnamed as nothing is QOMified here, the UIC is 
+already a QOM object, what happens is rather embedding it in the SoC 
+instead of only storing a reference. The advantage of embedding is likely 
+that it does not have to be freed so we don't need an exit function but it 
+adds a bunch of casts to other places. As said before you probably should 
+do the casts once and store it in a local if you need it more than once or 
+twice.
 
 Regards,
 BALATON Zoltan
 
-> +    if (!qdev_realize(DEVICE(&s->ebc), NULL, errp)) {
-> +        return;
-> +    }
+>     Ppc405CpcState cpc;
+>     Ppc405GptState gpt;
+>     Ppc405OcmState ocm;
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index f39e0b44f9cc..5cd32e22b7ea 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -1448,6 +1448,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>     object_initialize_child(obj, "cpu", &s->cpu,
+>                             POWERPC_CPU_TYPE_NAME("405ep"));
 >
->     /* DMA controller */
->     object_property_set_link(OBJECT(&s->dma), "cpu", OBJECT(&s->cpu),
-> @@ -1576,6 +1596,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+> +    object_initialize_child(obj, "uic", &s->uic, TYPE_PPC_UIC);
+> +
+>     object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
+>     object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
 >
-> static const TypeInfo ppc405_types[] = {
->     {
-> +        .name           = TYPE_PPC405_EBC,
-> +        .parent         = TYPE_DEVICE,
-> +        .instance_size  = sizeof(Ppc405EbcState),
-> +        .class_init     = ppc405_ebc_class_init,
-> +    }, {
->         .name           = TYPE_PPC405_DMA,
->         .parent         = TYPE_SYS_BUS_DEVICE,
->         .instance_size  = sizeof(Ppc405DmaState),
+> @@ -1525,17 +1527,15 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>     sysbus_mmio_map(SYS_BUS_DEVICE(&s->opba), 0, 0xef600600);
 >
---3866299591-261452012-1659567849=:13819--
+>     /* Universal interrupt controller */
+> -    s->uic = qdev_new(TYPE_PPC_UIC);
+> -
+> -    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
+> +    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
+>                              &error_fatal);
+> -    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->uic), errp)) {
+>         return;
+>     }
+>
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_INT,
+>                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_CINT,
+>                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_CINT));
+>
+>     /* SDRAM controller */
+> @@ -1545,7 +1545,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>     s->ram_bases[0] = 0;
+>     s->ram_sizes[0] = s->ram_size;
+>
+> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17),
+> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17),
+>                       ARRAY_SIZE(s->ram_memories), s->ram_memories,
+>                       s->ram_bases, s->ram_sizes, s->do_dram_init);
+>
+> @@ -1565,12 +1565,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>
+>     for (i = 0; i < ARRAY_SIZE(s->dma.irqs); i++) {
+>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
+> -                           qdev_get_gpio_in(s->uic, 5 + i));
+> +                           qdev_get_gpio_in(DEVICE(&s->uic), 5 + i));
+>     }
+>
+>     /* I2C controller */
+>     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+> -                         qdev_get_gpio_in(s->uic, 2));
+> +                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
+>
+>     /* GPIO */
+>     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+> @@ -1581,13 +1581,13 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>     /* Serial ports */
+>     if (serial_hd(0) != NULL) {
+>         serial_mm_init(get_system_memory(), 0xef600300, 0,
+> -                       qdev_get_gpio_in(s->uic, 0),
+> +                       qdev_get_gpio_in(DEVICE(&s->uic), 0),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+>     if (serial_hd(1) != NULL) {
+>         serial_mm_init(get_system_memory(), 0xef600400, 0,
+> -                       qdev_get_gpio_in(s->uic, 1),
+> +                       qdev_get_gpio_in(DEVICE(&s->uic), 1),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+> @@ -1607,7 +1607,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>
+>     for (i = 0; i < ARRAY_SIZE(s->gpt.irqs); i++) {
+>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt), i,
+> -                           qdev_get_gpio_in(s->uic, 19 + i));
+> +                           qdev_get_gpio_in(DEVICE(&s->uic), 19 + i));
+>     }
+>
+>     /* MAL */
+> @@ -1621,7 +1621,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>
+>     for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
+>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
+> -                           qdev_get_gpio_in(s->uic, 11 + i));
+> +                           qdev_get_gpio_in(DEVICE(&s->uic), 11 + i));
+>     }
+>
+>     /* Ethernet */
+>
+--3866299591-750229076-1659569185=:13819--
 
