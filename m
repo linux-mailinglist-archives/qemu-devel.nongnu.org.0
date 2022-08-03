@@ -2,59 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB7E588C8B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:58:32 +0200 (CEST)
-Received: from localhost ([::1]:53132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFAE588C5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:47:53 +0200 (CEST)
+Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJDxG-0005SL-In
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
+	id 1oJDmx-0002h7-RZ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:47:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJDdv-0006iw-EE; Wed, 03 Aug 2022 08:38:32 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:48230 helo=cstnet.cn)
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1oJDiy-0005mS-Jp; Wed, 03 Aug 2022 08:43:44 -0400
+Received: from [200.168.210.66] (port=36049 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJDdj-0003QM-GW; Wed, 03 Aug 2022 08:38:31 -0400
-Received: from localhost.localdomain (unknown [116.224.155.20])
- by APP-05 (Coremail) with SMTP id zQCowADnCH4xbOpi_EQbFg--.51468S2;
- Wed, 03 Aug 2022 20:38:10 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH] target/riscv: Fix priority of csr related check in
- riscv_csrrw_check
-Date: Wed,  3 Aug 2022 20:36:52 +0800
-Message-Id: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: zQCowADnCH4xbOpi_EQbFg--.51468S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFy8Wr47Zw15ArWxGF18Grg_yoW5Jw1rpw
- 43K3y3G3yvgasrAw43tFn0qF13X34rGay7Jw12k3yrCr13C34YyFn8Wrn29F93X39YkwsI
- yF4DAFyfuF4UAa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
- I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
- 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [116.224.155.20]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1oJDiw-0004rj-Ff; Wed, 03 Aug 2022 08:43:44 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 3 Aug 2022 09:43:38 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 95E7E8001D1;
+ Wed,  3 Aug 2022 09:43:37 -0300 (-03)
+From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+To: qemu-ppc@nongnu.org
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH] tests/tcg/ppc64le: Added OE/UE enabled exception test
+Date: Wed,  3 Aug 2022 09:43:24 -0300
+Message-Id: <20220803124324.23593-1-lucas.araujo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220803122217.20847-1-lucas.araujo@eldorado.org.br>
+References: <20220803122217.20847-1-lucas.araujo@eldorado.org.br>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 03 Aug 2022 12:43:38.0093 (UTC)
+ FILETIME=[A718E9D0:01D8A736]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,86 +62,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Normally, riscv_csrrw_check is called when executing Zicsr instructions.
-And we can only do access control for existed CSRs. So the priority of
-CSR related check, from highest to lowest, should be as follows:
-1) check whether Zicsr is supported: raise RISCV_EXCP_ILLEGAL_INST if not
-2) check whether csr is existed: raise RISCV_EXCP_ILLEGAL_INST if not
-3) do access control: raise RISCV_EXCP_ILLEGAL_INST or RISCV_EXCP_VIRT_
-INSTRUCTION_FAULT if not allowed
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-The predicates contain parts of function of both 2) and 3), So they need
-to be placed in the middle of riscv_csrrw_check
+DO NOT MERGE
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+This patch adds a test to check if the add/sub of the intermediate
+result when an overflow or underflow exception with the corresponding
+enabling bit being set (i.e. OE/UE), but linux-user currently can't
+disable MSR.FE0 and MSR.FE1 so it will always result in a trapping
+exception, to avoid that the test should be run in a VM or use Matheus'
+WIP patch in 
+https://github.com/PPC64/qemu/tree/alqotel-ferst-prctl-patch
+
+The test results were based on a Power9 machine.
+
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
- target/riscv/csr.c | 44 +++++++++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 19 deletions(-)
+ tests/tcg/ppc64le/oe_ue_excp.c | 105 +++++++++++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
+ create mode 100644 tests/tcg/ppc64le/oe_ue_excp.c
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0fb042b2fd..d81f466c80 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3270,6 +3270,30 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
-     int read_only = get_field(csrno, 0xC00) == 3;
-     int csr_min_priv = csr_ops[csrno].min_priv_ver;
+diff --git a/tests/tcg/ppc64le/oe_ue_excp.c b/tests/tcg/ppc64le/oe_ue_excp.c
+new file mode 100644
+index 0000000000..384219a366
+--- /dev/null
++++ b/tests/tcg/ppc64le/oe_ue_excp.c
+@@ -0,0 +1,105 @@
++#include <stdio.h>
++#include <float.h>
++#include <sys/prctl.h>
 +
-+    /* ensure the CSR extension is enabled. */
-+    if (!cpu->cfg.ext_icsr) {
-+        return RISCV_EXCP_ILLEGAL_INST;
++#define FP_OE (1ull << 6)
++#define FP_UE (1ull << 5)
++
++typedef union {
++    double d;
++    long long ll;
++} ll_fp;
++
++double asm_fmul (double a, double b)
++{
++    double t;
++    asm (
++        "lfd 0, %1\n\t"
++        "lfd 1, %2\n\t"
++        "fmul 2, 0, 1\n\t"
++        "stfd 2, %0\n\t"
++        :"=m"(t)
++        :"m"(a),"m"(b)
++        );
++    return t;
++}
++
++double asm_fdiv (double a, double b)
++{
++    double t;
++    asm (
++        "lfd 0, %1\n\t"
++        "lfd 1, %2\n\t"
++        "fdiv 2, 0, 1\n\t"
++        "stfd 2, %0\n\t"
++        :"=m"(t)
++        :"m"(a),"m"(b)
++        );
++    return t;
++}
++
++int main ()
++{
++    int i, ok = 1;
++    ll_fp fpscr, t;
++
++    prctl(PR_SET_FPEXC, PR_FP_EXC_DISABLED);
++
++    fpscr.ll = FP_UE | FP_OE;
++    __builtin_mtfsf (0b11111111, fpscr.d);
++    fpscr.d = __builtin_mffs ();
++    printf("fpscr = %016llx\n", fpscr.ll);
++
++    ll_fp ch[] =
++                {
++                    { .ll = 0x1b64f1c1b0000000ull },
++                    { .ll = 0x1b64f1c1b0000001ull },
++                    { .ll = 0x1b90de3410000000ull },
++                    { .ll = 0x1b90de3410000000ull },
++                    { .ll = 0x5fcfffe4965a17e0ull },
++                    { .ll = 0x5fcfffe4965a17e0ull },
++                    { .ll = 0x2003ffffffffffffull },
++                    { .ll = 0x2003ffffffffffffull }
++                };
++
++    ll_fp a[] =
++                {
++                    { .ll = 0x00005ca8ull },
++                    { .ll = 0x0000badcull },
++                    { .ll = 0x7fdfffe816d77b00ull },
++                    { .d  = DBL_MAX }
++                };
++
++    ll_fp b[] =
++                {
++                    { .ll = 0x00001cefull },
++                    { .ll = 0x00005c70ull },
++                    { .ll = 0x7fdfffFC7F7FFF00ull },
++                    { .d  = 2.5 }
++                };
++
++    for (i = 0; i < 4; i++) {
++        t.d = asm_fmul(a[i].d, b[i].d);
++        if (t.ll != ch[2 * i].ll) {
++            ok = 0;
++            printf ("Mismatch on fmul n %d:\n\tresult:   %016llx\n\t"
++                    "expected: %016llx\n", i, t.ll, ch[2 * i].ll);
++        } else {
++            printf ("Ok on fmul n %d\n", i);
++        }
++        t.d = asm_fdiv(a[i].d, 1.0/b[i].d);
++        if (t.ll != ch[2 * i + 1].ll) {
++            ok = 0;
++            printf ("Mismatch on fdiv n %d:\n\tresult:   %016llx\n\t"
++                    "expected: %016llx\n", i, t.ll, ch[2 * i + 1].ll);
++        } else {
++            printf ("Ok on fdiv n %d\n", i);
++        }
 +    }
-+
-+    if (env->priv_ver < csr_min_priv) {
-+        return RISCV_EXCP_ILLEGAL_INST;
++    fpscr.d = __builtin_mffs ();
++    printf("fpscr = %016llx\n", fpscr.ll);
++    if(!ok) {
++        return -1;
 +    }
-+
-+    /* check predicate */
-+    if (!csr_ops[csrno].predicate) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    if (write_mask && read_only) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    RISCVException ret = csr_ops[csrno].predicate(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
- #if !defined(CONFIG_USER_ONLY)
-     int csr_priv, effective_priv = env->priv;
- 
-@@ -3290,25 +3314,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- #endif
--    if (write_mask && read_only) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    /* ensure the CSR extension is enabled. */
--    if (!cpu->cfg.ext_icsr) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    /* check predicate */
--    if (!csr_ops[csrno].predicate) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    if (env->priv_ver < csr_min_priv) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    return csr_ops[csrno].predicate(env, csrno);
-+    return RISCV_EXCP_NONE;
- }
- 
- static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
++    return 0;
++}
 -- 
-2.17.1
+2.31.1
 
 
