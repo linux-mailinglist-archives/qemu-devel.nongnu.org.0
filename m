@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59AA588F88
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 17:39:25 +0200 (CEST)
-Received: from localhost ([::1]:58664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967AC588F93
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 17:42:38 +0200 (CEST)
+Received: from localhost ([::1]:34752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJGSy-0003Zd-88
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 11:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57752)
+	id 1oJGW5-0006aS-Mc
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 11:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJGQQ-0000fy-Qa
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 11:36:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27906)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJGRx-0002jl-R9
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 11:38:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJGQM-00077O-Ig
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 11:36:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJGRu-0007NK-PY
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 11:38:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659541000;
+ s=mimecast20190719; t=1659541089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9ALFBzGV6gFudscF3wT3XLoiPGXN2+SeY3m5qnnOwDg=;
- b=gpUdlTkCYvSNTzSnmeqVG+XzDyTlqDZR0BfWpL3hm1YlHmonFAPFv91CMqbF0UXgg8zmWO
- 5IHJSs/Uvb0TSOVHbmROAKdGsNyuoru0DzVK/nwLa9cMs3gCqp8X93BrkQ7CfxLuAA2pID
- FCOos7Ocs0MIPsiZA/+Mw40eTyZCfkY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=u3Qn8TzvMIW+3Z1vBnQ3p2NQYXszvCdsvR3UmpbTyXU=;
+ b=HcBq7ZRtQS9rNP4pLEZjdky2oYm7P5OnlB/7Idbnynj9y2FeRbmrHSXaVpyCa2+kX+eh6w
+ XG0bsh4ytfzMp1aZ25EXzOviKRH0mn3I/tBeXQq+4BTTMxDRyj5jSaS3hQAzGWuBih/Acc
+ j4zwcd3KGDsky0KbMEkeSb2EVyA4fws=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-361-IxV3fZpYN6aO2tlxnhHYCQ-1; Wed, 03 Aug 2022 11:36:39 -0400
-X-MC-Unique: IxV3fZpYN6aO2tlxnhHYCQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z6-20020a05640240c600b0043e1d52fd98so2301613edb.22
- for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 08:36:39 -0700 (PDT)
+ us-mta-654-nORj2swoMta0BI2DcRrCfg-1; Wed, 03 Aug 2022 11:38:08 -0400
+X-MC-Unique: nORj2swoMta0BI2DcRrCfg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ m22-20020a056402431600b0043d6a88130aso7046701edc.18
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 08:38:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=9ALFBzGV6gFudscF3wT3XLoiPGXN2+SeY3m5qnnOwDg=;
- b=Tx9AVonPl11XE96D4ZfGUet3Ma/4Y8QX3F9997/92WAipUXA8UHHm1uyQdQ71CIsIk
- 4+EOZPVV4MTvquBBaclkeDyPhKwOMmYuG5Nz3+RvDxTvxVli+vUWrAuP/zsP3lzzQU1B
- EXaJWt3x9yAzMVjeBm5RgjQowhL2iLLUmE3q+dWNF/HjbCzidJi/zld0DWPE+BF3PXWc
- fBUaEPUjS1ApTH3HbvozyHfA1ueZ/OgbrieqVZ37Xo/Na9TCHwPIttPlHcGrf7YsV+q/
- vKjrRyyDTM07x6s2X/dKvK5aG5k3RBJnqjzu/nbXRyeRpMe+tiNuAfUckfLsIl9KjHbN
- GSsQ==
-X-Gm-Message-State: ACgBeo3MD0KJSnnRJuzkh9GsuERS+/DeZ6ZArOZaaJe7yOtIx0HLaNCu
- LXXCebwnr0O5N6kcN+y+1+hFJm8WlHveFvGF8dOBMsdBFlWlXabIkNfNKl8edCuBzkkZYkpQqmI
- FG5yDEK0F6UjkybI=
-X-Received: by 2002:a05:6402:268a:b0:43e:84d:c5cc with SMTP id
- w10-20020a056402268a00b0043e084dc5ccmr7739402edd.372.1659540996914; 
- Wed, 03 Aug 2022 08:36:36 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7i655e3N16grAwrBONSbvbRsJ72NW2FO9mOx0bcrOb60zHA+MXJI2IDSwt7aWETxxbsPTu2Q==
-X-Received: by 2002:a05:6402:268a:b0:43e:84d:c5cc with SMTP id
- w10-20020a056402268a00b0043e084dc5ccmr7739384edd.372.1659540996683; 
- Wed, 03 Aug 2022 08:36:36 -0700 (PDT)
+ bh=u3Qn8TzvMIW+3Z1vBnQ3p2NQYXszvCdsvR3UmpbTyXU=;
+ b=SHhDTMv44uEePC1GYaYSafy3hrBPhKulg8xchCjOf3ISo+e4GodmVLXigrthncJr5T
+ WCbuBeKAByFamNMoa9GohphLnwY4/oGySHMiKaTRVhDcu0piAjO5GbPXVm6zS1yuQ/fx
+ BVcsJYUWNJUsbG4VBOU0oyRCRJXZ+StZDAdF8VWbFDbBt2p8jlmO0H2qNXsGQC5Wpc/r
+ 83hDdoSxTDhix9xcACso5RVashpdAybS0fTitmiHI1cKN4cdPFRD/sPXY89dX+EPz9ow
+ FcfOEKggEybmWLSOSki0Pwq8Vl0cCj5RzUTNvs/JUHt07Ag8LhjozDl6OcluvSIBM6NO
+ f36Q==
+X-Gm-Message-State: ACgBeo1siToYL/ghYdnQf+ObTgAERXjHS7oUtdPruE2V/j6HQllAFFlj
+ 0O8UFy7UFij3dxAEP5B/oUfmTPecH8DXNvzEK5Iqdr0WQR38mu3dxwCo5HkLC1ntWRwcqTArV0B
+ hLF008jxuRVNmqg8=
+X-Received: by 2002:a05:6402:3689:b0:43e:43d6:6039 with SMTP id
+ ej9-20020a056402368900b0043e43d66039mr3393232edb.341.1659541086986; 
+ Wed, 03 Aug 2022 08:38:06 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR47lOy4SaZRWap7p+2yVsRJlGUC8bnCMUZEVcXzVMNbaxZNiVLfiLfNOwBYzhDbeWpkR2i7QA==
+X-Received: by 2002:a05:6402:3689:b0:43e:43d6:6039 with SMTP id
+ ej9-20020a056402368900b0043e43d66039mr3393212edb.341.1659541086722; 
+ Wed, 03 Aug 2022 08:38:06 -0700 (PDT)
 Received: from redhat.com ([2.54.191.86]) by smtp.gmail.com with ESMTPSA id
- g26-20020a170906539a00b0073080c22898sm3661498ejo.15.2022.08.03.08.36.34
+ m9-20020aa7c2c9000000b0043bbf79b3ebsm9697589edp.54.2022.08.03.08.38.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 08:36:36 -0700 (PDT)
-Date: Wed, 3 Aug 2022 11:36:32 -0400
+ Wed, 03 Aug 2022 08:38:05 -0700 (PDT)
+Date: Wed, 3 Aug 2022 11:38:03 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: bchalios@amazon.es
-Cc: qemu-devel@nongnu.org, ani@anisinha.ca, imammedo@redhat.com,
- dwmw@amazon.co.uk, graf@amazon.de, xmarcalx@amazon.co.uk
-Subject: Re: [PATCH 0/2] vmgenid: add generation counter
-Message-ID: <20220803113537-mutt-send-email-mst@kernel.org>
-References: <20220803134147.31073-1-bchalios@amazon.es>
+To: Antonio Caggiano <antonio.caggiano@collabora.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 2/2] virtio: Add shared memory capability
+Message-ID: <20220803113741-mutt-send-email-mst@kernel.org>
+References: <20220803152135.118298-1-antonio.caggiano@collabora.com>
+ <20220803152135.118298-3-antonio.caggiano@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220803134147.31073-1-bchalios@amazon.es>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220803152135.118298-3-antonio.caggiano@collabora.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,46 +95,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 03, 2022 at 03:41:45PM +0200, bchalios@amazon.es wrote:
-> From: Babis Chalios <bchalios@amazon.es>
+On Wed, Aug 03, 2022 at 05:21:35PM +0200, Antonio Caggiano wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> VM generation ID exposes a GUID inside the VM which changes every time a
-> VM restore is happening. Typically, this GUID is used by the guest
-> kernel to re-seed its internal PRNG. As a result, this value cannot be
-> exposed in guest user-space as a notification mechanism for VM restore
-> events.
+> Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG'
+> and the data structure 'virtio_pci_shm_cap' to go with it.
+> They allow defining shared memory regions with sizes and offsets
+> of 2^32 and more.
+> Multiple instances of the capability are allowed and distinguished
+> by a device-specific 'id'.
 > 
-> This patch set extends vmgenid to introduce a 32 bits generation counter
-> whose purpose is to be used as a VM restore notification mechanism for
-> the guest user-space.
+> v2: Remove virtio_pci_shm_cap as virtio_pci_cap64 is used instead.
+> v3: No need for mask32 as cpu_to_le32 truncates the value.
 > 
-> It is true that such a counter could be implemented entirely by the
-> guest kernel, but this would rely on the vmgenid ACPI notification to
-> trigger the counter update, which is inherently racy. Exposing this
-> through the monitor allows the updated value to be in-place before
-> resuming the vcpus, so interested user-space code can (atomically)
-> observe the update without relying on the ACPI notification.
-
-Producing another 4 bytes is not really the issue, the issue
-is how does guest consume this.
-So I would like this discussion to happen on the linux kernel mailing
-list not just here.  Can you post the linux patch please?
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
 
 
-
-
-> Babis Chalios (2):
->   vmgenid: make device data size configurable
->   vmgenid: add generation counter
+looks like the patches are in the reverse order, 1/2 won't
+build without 2/2
+> ---
+>  hw/virtio/virtio-pci.c         | 18 ++++++++++++++++++
+>  include/hw/virtio/virtio-pci.h |  4 ++++
+>  2 files changed, 22 insertions(+)
 > 
->  docs/specs/vmgenid.txt    | 101 ++++++++++++++++++--------
->  hw/acpi/vmgenid.c         | 145 +++++++++++++++++++++++++++++++-------
->  include/hw/acpi/vmgenid.h |  23 ++++--
->  3 files changed, 204 insertions(+), 65 deletions(-)
-> 
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 45327f0b31..50bd230122 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1164,6 +1164,24 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
+>      return offset;
+>  }
+>  
+> +int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
+> +                           uint8_t bar, uint64_t offset, uint64_t length,
+> +                           uint8_t id)
+> +{
+> +    struct virtio_pci_cap64 cap = {
+> +        .cap.cap_len = sizeof cap,
+> +        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
+> +    };
+> +
+> +    cap.cap.bar = bar;
+> +    cap.cap.length = cpu_to_le32(length);
+> +    cap.length_hi = cpu_to_le32(length >> 32);
+> +    cap.cap.offset = cpu_to_le32(offset);
+> +    cap.offset_hi = cpu_to_le32(offset >> 32);
+> +    cap.cap.id = id;
+> +    return virtio_pci_add_mem_cap(proxy, &cap.cap);
+> +}
+> +
+>  static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
+>                                         unsigned size)
+>  {
+> diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
+> index 2446dcd9ae..5e5c4a4c6d 100644
+> --- a/include/hw/virtio/virtio-pci.h
+> +++ b/include/hw/virtio/virtio-pci.h
+> @@ -252,4 +252,8 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
+>   */
+>  unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
+>  
+> +int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
+> +                           uint8_t bar, uint64_t offset, uint64_t length,
+> +                           uint8_t id);
+> +
+>  #endif
 > -- 
-> 2.37.1
-> 
-> Amazon Spain Services sociedad limitada unipersonal, Calle Ramirez de Prado 5, 28045 Madrid. Registro Mercantil de Madrid . Tomo 22458 . Folio 102 . Hoja M-401234 . CIF B84570936
+> 2.34.1
 
 
