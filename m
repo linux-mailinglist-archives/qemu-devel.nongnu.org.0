@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8463258988C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 09:38:51 +0200 (CEST)
-Received: from localhost ([::1]:52158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B5C589896
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 09:42:06 +0200 (CEST)
+Received: from localhost ([::1]:55708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJVRS-00031N-1g
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 03:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38888)
+	id 1oJVUb-0005CO-GV
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 03:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJVJt-0006I3-Vf
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 03:31:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44595)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJVRu-0003Ky-Pr
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 03:39:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJVJq-0003kW-Es
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 03:30:59 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJVRr-0004me-Gb
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 03:39:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659598255;
+ s=mimecast20190719; t=1659598754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rY4eea5GIcyeYvC6uQfClxYXJJaltYiDX84miqN3Lkc=;
- b=DYzQo0MawUGV0T92kilombtJ+DeZ7kMLXjLBfDDRUt3siIXhB9qb25m3lBUKy3Z9av1BtO
- ZpW3r25kKiLurtFc6OUp8nhjrO+JdoSsEa7cedTzl/TN2jtrWMG6wjTD5abVfriNnXW9Pu
- 73hwdwDYXZysPRXVgvdwqFFZ4uxE8NQ=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=t5UiMbpmB0R3ylm3CxaQktmqRdNFqZpHeFRy+nEx3xY=;
+ b=D2yEteFk3/WtCQtuS0QpfguJHPV5f6ukEStU/5q39b+bBgIviP38cY7hu2ELg6yNbptDXT
+ dUaepCoFKXMi0mIXXY0aN5xQbJOyFyoONqmZMdnvlHqfiMiFYdOjZd+10XIWrHBZeuBCph
+ hgpAcQxozzc332orNv0s9010AXr/TxY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-351-VmWX4XPoO_6NlJW8JM96Gg-1; Thu, 04 Aug 2022 03:30:53 -0400
-X-MC-Unique: VmWX4XPoO_6NlJW8JM96Gg-1
-Received: by mail-lj1-f200.google.com with SMTP id
- bi26-20020a05651c231a00b0025e4ba4f7e5so2943939ljb.16
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 00:30:53 -0700 (PDT)
+ us-mta-232-lXmiUqMGOwy4qPTBtHGDIw-1; Thu, 04 Aug 2022 03:39:13 -0400
+X-MC-Unique: lXmiUqMGOwy4qPTBtHGDIw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bi37-20020a05620a31a500b006b5ef0afedaso15434979qkb.22
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 00:39:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=rY4eea5GIcyeYvC6uQfClxYXJJaltYiDX84miqN3Lkc=;
- b=Ww8tAsb1CFiJtqTinrLAGQXncp/T7EGzF117A4811LsqePVg/HAhZlygZeX6RWVUmL
- hQr3/vO+VpkbOZBO4mDLOXR00pCmwLsFsfqEjSjs27lCWO+zQV6N4K2hr9P5CPUaLYTk
- uRu308PAJzkDNQFwE/WfP1qvHzTJRbj180v2dJ59Lej5PpVaCTyzQS8YP9yZwm079eut
- OKKNRWQbfXgachYX6aWE3JZ47NJYabutM+4Ke/k5b5VUcT2MQ/rIgnLJXnQ0orcw7jPd
- zIicKj4aRrADL32GcGaNq+hcFr7Ap8QsktMsC3GXYxXvcuFsjPHZSFvdCE3wNXL05hDn
- 9FBg==
-X-Gm-Message-State: ACgBeo1YqNx1+uzl5kRxWnSbr+4zFfRNGirbqhmhCsN+zZNv8kMlexcs
- ASv9EqckRqFZsx6Pv4dlV3ue28sZGixjudR+SmZOx/20hUHfPc+6ao2rpAh075ub2Rqc51zs+dw
- JdRQPJY9+QhxsYJ4WBCNgVF/fVriH0S8=
-X-Received: by 2002:a19:790f:0:b0:48a:d438:9f79 with SMTP id
- u15-20020a19790f000000b0048ad4389f79mr248146lfc.411.1659598252307; 
- Thu, 04 Aug 2022 00:30:52 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ehcpe/ZOLPlk+jp7aHcIoGkzp2hQPQZ4FM1rQ79+nQXiTkdZ7Ow/sNqpFwf7u6/AoW9wcYmjwbfwxkeYLbc8=
-X-Received: by 2002:a19:790f:0:b0:48a:d438:9f79 with SMTP id
- u15-20020a19790f000000b0048ad4389f79mr248124lfc.411.1659598252060; Thu, 04
- Aug 2022 00:30:52 -0700 (PDT)
+ bh=t5UiMbpmB0R3ylm3CxaQktmqRdNFqZpHeFRy+nEx3xY=;
+ b=aMEKN+51sOTvS7Evz5DAPCRTRI8MIoLyinud1R2YTkTsNANMjzmD0veWnnlI0qdd1P
+ n87r2SQQSGOiTwVZSMxw0g2uZE5U5MVUS6c6izvJu9rrtrkRkjm5OFiej6013v8ivuLo
+ Iecj+dtaSLWzETglAMcQWWajsFofFK5NzKJZd7UTyyTJCeUX1/Ws6QIfh4pSb2eOdDIz
+ pttjAdnMMlcu7mQBgGkXq5C0eFQnycb9i9lJbe7gnrm4+w306YiGiEQgXSvv02RKkq0U
+ lNRQgBExpmdZ8bVkFBkYh3A3lJptfaiCeMDEupYPQlGIHossn0RNFJbdwrTmd5Tg1VYm
+ FMyQ==
+X-Gm-Message-State: ACgBeo0QmL1JMS7QHewxF5yIkj4iBq32JKIuLS9/SYYjENurQaeJko0S
+ Ljkvvio+dD1hXp9R/y+/rL5qsjpnHO849/g+ma4X2HHulqI6VM31+rdNRwrhf3u/YXDdJ90H2+b
+ lXU5x28904Vvrd81obKmWpzsp9Bx0N/s=
+X-Received: by 2002:a05:6214:5085:b0:472:e878:866a with SMTP id
+ kk5-20020a056214508500b00472e878866amr326576qvb.2.1659598752467; 
+ Thu, 04 Aug 2022 00:39:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4hsxjsrDG9bY5jizk1N9RFz7mLK2Sm5HZ5F7EYiBWDB7kpQJvd6xaRP35nKtxMhRLoCHGtK4bpR/Urn0u94xc=
+X-Received: by 2002:a05:6214:5085:b0:472:e878:866a with SMTP id
+ kk5-20020a056214508500b00472e878866amr326557qvb.2.1659598752229; Thu, 04 Aug
+ 2022 00:39:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220802175731.312115-1-eperezma@redhat.com>
- <20220802175731.312115-4-eperezma@redhat.com>
- <308c14f4-90c5-9256-3a87-801dbd9eda05@redhat.com>
- <CAJaqyWeHVM7RV0aDzM2LVLQDoFEEnwzJGjgAB-wSVqJEq1LzTw@mail.gmail.com>
-In-Reply-To: <CAJaqyWeHVM7RV0aDzM2LVLQDoFEEnwzJGjgAB-wSVqJEq1LzTw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 4 Aug 2022 15:30:40 +0800
-Message-ID: <CACGkMEuZSZRgFQ94fBsY4B_F4__64eiP=57So_03zW-Wy_yhmw@mail.gmail.com>
-Subject: Re: [PATCH v5 03/10] vhost: Do not depend on !NULL VirtQueueElement
- on vhost_svq_flush
-To: Eugenio Perez Martin <eperezma@redhat.com>
+ <20220802175731.312115-7-eperezma@redhat.com>
+ <47e1e277-34e9-b043-0a74-bf2b67391c6a@redhat.com>
+In-Reply-To: <47e1e277-34e9-b043-0a74-bf2b67391c6a@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 4 Aug 2022 09:38:36 +0200
+Message-ID: <CAJaqyWc2+H0t1tgfmh6kgShJ9Obq46oUxX998YvRvQRfj3+eCA@mail.gmail.com>
+Subject: Re: [PATCH v5 06/10] vdpa: Make vhost_vdpa_net_cvq_map_elem accept
+ any out sg
+To: Jason Wang <jasowang@redhat.com>
 Cc: qemu-level <qemu-devel@nongnu.org>, Eli Cohen <eli@mellanox.com>, 
  Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
  Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
@@ -81,14 +80,14 @@ Cc: qemu-level <qemu-devel@nongnu.org>, Eli Cohen <eli@mellanox.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,89 +104,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 4, 2022 at 2:21 PM Eugenio Perez Martin <eperezma@redhat.com> w=
-rote:
+On Thu, Aug 4, 2022 at 6:17 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> On Thu, Aug 4, 2022 at 5:14 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2022/8/3 01:57, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > Since QEMU will be able to inject new elements on CVQ to restore the
-> > > state, we need not to depend on a VirtQueueElement to know if a new
-> > > element has been used by the device or not. Instead of check that, ch=
-eck
-> > > if there are new elements only using used idx on vhost_svq_flush.
-> > >
-> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > ---
-> > >   hw/virtio/vhost-shadow-virtqueue.c | 18 +++++++++---------
-> > >   1 file changed, 9 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
-dow-virtqueue.c
-> > > index e6eebd0e8d..fdb550c31b 100644
-> > > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > > @@ -491,7 +491,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue =
-*svq,
-> > >   /**
-> > >    * Poll the SVQ for one device used buffer.
-> > >    *
-> > > - * This function race with main event loop SVQ polling, so extra
-> > > + * This function races with main event loop SVQ polling, so extra
-> > >    * synchronization is needed.
-> > >    *
-> > >    * Return the length written by the device.
-> > > @@ -499,20 +499,20 @@ static void vhost_svq_flush(VhostShadowVirtqueu=
-e *svq,
-> > >   size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
-> > >   {
-> > >       int64_t start_us =3D g_get_monotonic_time();
-> > > -    do {
-> > > +    while (true) {
-> > >           uint32_t len;
-> > > -        VirtQueueElement *elem =3D vhost_svq_get_buf(svq, &len);
-> > > -        if (elem) {
-> > > -            return len;
-> > > -        }
-> > >
-> > >           if (unlikely(g_get_monotonic_time() - start_us > 10e6)) {
-> > >               return 0;
-> > >           }
-> > >
-> > > -        /* Make sure we read new used_idx */
-> > > -        smp_rmb();
-> > > -    } while (true);
-> > > +        if (!vhost_svq_more_used(svq)) {
-> > > +            continue;
-> > > +        }
-> > > +
-> > > +        vhost_svq_get_buf(svq, &len);
-> >
-> >
-> > I wonder if this means we won't worry about the infinite wait?
-> >
 >
-> vhost_svq_get_buf call doesn't block, and the check for the timeout is
-> immediately above the check for new descriptors. Am I missing
-> something?
-
-No, I misread the code.
-
-Sorry.
-
-Thanks
-
+> =E5=9C=A8 2022/8/3 01:57, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > So its generic enough to accept any out sg buffer and we can inject
+> > NIC state messages.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> > v5: Accept out sg instead of dev_buffers[]
+> > ---
+> >   net/vhost-vdpa.c | 13 +++++++------
+> >   1 file changed, 7 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 33bf3d6409..2421bca347 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -302,16 +302,16 @@ dma_map_err:
+> >   }
+> >
+> >   /**
+> > - * Copy the guest element into a dedicated buffer suitable to be sent =
+to NIC
+> > + * Maps out sg and in buffer into dedicated buffers suitable to be sen=
+t to NIC
+> >    */
+> > -static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+> > -                                        VirtQueueElement *elem,
+> > -                                        size_t *out_len)
+> > +static bool vhost_vdpa_net_cvq_map_sg(VhostVDPAState *s,
+> > +                                      const struct iovec *out, size_t =
+out_num,
+> > +                                      size_t *out_len)
 >
-> > Thanks
+>
+> This still looks not genreal as there's no guarantee that we won't have
+> command-in-specific-data. One example is that Ali is working on the
+> virtio-net statistics fetching from the control virtqueue.
+>
+> So it looks to me we'd better have a general bounce_map here that accepts=
+:
+>
+> 1) out_sg and out_num
+> 2) in_sg and in_num
+>
+
+We don't need to pass in_sg for that: The only useful information is
+its size. Since the exposed buffer is an in one, it's enough to expose
+the s->cvq_cmd_in_buffer buffer in full. The caller already knows the
+device will write to it, so the only missing piece is to return the
+written length at vhost_vdpa_net_cvq_add.
+
+Is one page the right buffer size for the in buffer? Is it worth
+worrying about it before implementing the stat control command in qemu
+virtio-net?
+
+> In this level, we'd better not have any special care about the in as the
+> ack.
+
+We need to care about it. If a property has not been updated in the
+vdpa device (it returned VIRTIO_NET_ERR), we must not update the
+device model.
+
+We can move the processing from vhost_vdpa_net_cvq_add to
+vhost_vdpa_net_load and vhost_vdpa_net_handle_ctrl_avail, but the code
+gets duplicated then.
+
+> And we need do bouncing:
+>
+> 1) for out buffer, during map
+> 2) for in buffer during unmap
+>
+
+We can move the copy of the in_buffer to the unmap for sure.
+
+Thanks!
+
+> Thanks
+>
+>
+> >   {
+> >       size_t in_copied;
+> >       bool ok;
 > >
+> > -    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, elem->=
+out_num,
+> > +    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, out, out_num,
+> >                                   vhost_vdpa_net_cvq_cmd_len(),
+> >                                   s->cvq_cmd_out_buffer, out_len, false=
+);
+> >       if (unlikely(!ok)) {
+> > @@ -435,7 +435,8 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostSh=
+adowVirtqueue *svq,
+> >       };
+> >       bool ok;
 > >
-> > > +        return len;
-> > > +    }
-> > >   }
-> > >
-> > >   /**
-> >
+> > -    ok =3D vhost_vdpa_net_cvq_map_elem(s, elem, &dev_buffers[0].iov_le=
+n);
+> > +    ok =3D vhost_vdpa_net_cvq_map_sg(s, elem->out_sg, elem->out_num,
+> > +                                   &dev_buffers[0].iov_len);
+> >       if (unlikely(!ok)) {
+> >           goto out;
+> >       }
 >
 
 
