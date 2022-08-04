@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6960E58A149
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 21:33:36 +0200 (CEST)
-Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F5758A132
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 21:26:42 +0200 (CEST)
+Received: from localhost ([::1]:48142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJgb9-0002Qi-4r
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 15:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44372)
+	id 1oJgUS-0003Lh-C3
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 15:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJgQZ-0006UH-QO; Thu, 04 Aug 2022 15:22:40 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:57981)
+ id 1oJgQZ-0006UI-Qn; Thu, 04 Aug 2022 15:22:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:58589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJgQJ-0002iE-B0; Thu, 04 Aug 2022 15:22:39 -0400
+ id 1oJgQJ-0002iJ-FI; Thu, 04 Aug 2022 15:22:39 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MhULz-1nppmr20qB-00eai2; Thu, 04
- Aug 2022 21:22:18 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M9nhF-1oNEnW0KJh-005nrA; Thu, 04
+ Aug 2022 21:22:19 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 1/5] README.rst: fix link formatting
-Date: Thu,  4 Aug 2022 21:22:12 +0200
-Message-Id: <20220804192216.1958922-2-laurent@vivier.eu>
+ =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PULL 2/5] vdpa: Fix file descriptor leak on get features error
+Date: Thu,  4 Aug 2022 21:22:13 +0200
+Message-Id: <20220804192216.1958922-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220804192216.1958922-1-laurent@vivier.eu>
 References: <20220804192216.1958922-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hpDY0PSgfw/G9x95zyzQtAUkmrxRSENPt5WYREAuQQDqI5y+54M
- 9zRKMxEt2R88Vn5Na1HRIdvVMLwBfV7fDcjU7DjDpAz5NXk3lfNyXBYcElB/2Un4+iudA/S
- 1/pB6U+6v5yfI6ern2iMMrF1V5iuhQVTPWlcDUOitEyCGQxi6y8nvLGSR5WOojplNL1oISg
- 2ONfZJQCf6KcYoXW7Tg4A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AeuhumDlzJc=:orVx78OHAOSVNLnaNvB1Cx
- us9BpWCc/3YmXbiPFFMnYYnXrviWASPFaU3a3YnP0CM4/E0TE1mg4yiFNv5gBqEBwmZrysn+1
- RwGZfwqgM9202dhvrRtaKN6TkO1aCvXoFtT/BzJJIVEKwr6uaV/XpThElEwY9IEoFc066/i8l
- iPWcSTRuk/dJGRq2qNGMHseyenUhs95Z5xDv0nGzJ4UeLTQ83xkZOsjUUEWz/ancZIynoNW5j
- 6XL4QVQ7bhuo7o/p7lR6vBakghwXc/aXHPs+b7W3Ax7sgHQqlnI2ARpRv8Cp/6CnTbGYdpFMs
- weBxHVBxdIgdutXqjvGRxMKR9ueAHlgcEyQ7wOgH4vmweqQsqiGDsiMPR/zi+Oxznj44v4gxN
- XAVc6KT2/06g5pR6+zFs+lM0qJ/O/7RNFaC0HQwdL44RzdgkMCiYcni8+e6xq6FrgUm/tlRFM
- oKdCSfO+O8t+GlD86WcmZWjtrpWcErOCzLpq7HhfNECTdTUiD3tC/w9zCGcR1QpwwcJMd60zo
- HV9G1R1wnpJBLdd2bGC6L/p8arXXHLS6Cn9ktDFbZDGbod8099v4fgLp7Zv9YJTkoza4RxdQ9
- 6wmYI+QQrdyQa1+LMvX9xDRPvHvqHvbkPVY3E6LgaIA+qwIM4F9JoeiygPaGQqtKs7QqaoBB1
- bi1CHSgh4JlfMB1KwN4E8jlLwDtU2eMpatHfbXTFTiD7YBuw/GhZtxCM25ZdTbNUgcdOmH9F6
- tCpgBN4VEHWZQERvlj3QjF6bpZ/Gk478ARkXyw==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:PlZEuQe6wSNNL5X/r8CICuAdM952zMYMC/hWWDjDoXTNU6HwTGh
+ d68/QkLvYlRWn/C3cC/tugAScBcTmgmMOuNGD2E5BJEFOzVBYFdfeCjTcVqm8cEKzN+k0hL
+ N4Q+y2zZgx0qKxsaqlBky0Di8COR9aK9vPudHo8Da5nwaJ3qs4BOjzzVT7gzUsPI1wSkvsn
+ 3S7OX3M2l/DIRt2XCIm4g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X4j78tE9pa8=:13U/IYdnftaUiecrIzzeVA
+ prZCs9NRtA0KVfEcRPY0mRmauACCqKjjaEWF4SkDR4cgLCXscwWOtXQKMfyEz3l+3q78/wp9x
+ 4U6JHxdKfzFy0Jh0fMSF5Uuy+49rO3kIdM78SKsBTMUPrKsk2W1eMEWYuim0AVk9wtE0/1G5y
+ 12NbjlMFxq6ZAZ8cpZ8nNsGHZkhkEvZ+FXqsvX0yIci6fK2q3j5kjDT1BhkLk7zKxW1tTJdj1
+ HBXs7HIo4cQalR2+aRwqVBiwWhmM5BeOAKmEWJXUd6KxNAW8sDlsF2gHND6nHIUVW48ixI2Vh
+ hcl1AsEUmaDnnX40i458ahJj+zGUF4iwWd0SvOZOjIJAjBwLdt09U0lasEm84eAqzEiOSFMKc
+ vN9o9dzlyRzC80zLc+C9xBDfh4lP1Km778rPp597WS2Z+Pc8GiKn+i2YX6UsffnAL5FCb6YRU
+ yJlIF2y6nNnyqY4NvkzMKLGBuPjuMGShuK0BIWghUewR2VuFvtjLDuGY0puw3z28F+aB3SEgL
+ zm4V5wpXRxs1LsHQQHfmAnzmAWTFZaXj6Q+6s6Fb8rg7nTcIwv9BnGfIuroWRSZuOHaPDwFx0
+ uCknciSGswIZawweMcnjWbWnKG7qP804yIU24rbsH79k0W2HxKSIN/k8G6aAd74TI4voW2cvl
+ 2goqZMZu6v6XTxRxSjbtVvOOtdQ5ZXEpH2c7AS9kGq8IavPEYzo7t+tGmm3kOIVkmFEqkw5si
+ nkorMlyqWOP6w39EYm6rill+JXneL7+kfcnKpA==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,40 +73,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-Make the links render correctly.
+File descriptor vdpa_device_fd is not free in the case of returning
+error from vhost_vdpa_get_features. Fixing it by making all errors go to
+the same error path.
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220803090250.136556-1-cohuck@redhat.com>
+Resolves: Coverity CID 1490785
+Fixes: 8170ab3f43 ("vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs")
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20220802112447.249436-2-eperezma@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- README.rst | 4 ++--
+ net/vhost-vdpa.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/README.rst b/README.rst
-index 23795b837740..21df79ef4379 100644
---- a/README.rst
-+++ b/README.rst
-@@ -39,7 +39,7 @@ Documentation can be found hosted online at
- current development version that is available at
- `<https://www.qemu.org/docs/master/>`_ is generated from the ``docs/``
- folder in the source tree, and is built by `Sphinx
--<https://www.sphinx-doc.org/en/master/>_`.
-+<https://www.sphinx-doc.org/en/master/>`_.
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 6abad276a61a..303447a68e8b 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -566,7 +566,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+     g_autofree NetClientState **ncs = NULL;
+     g_autoptr(VhostIOVATree) iova_tree = NULL;
+     NetClientState *nc;
+-    int queue_pairs, r, i, has_cvq = 0;
++    int queue_pairs, r, i = 0, has_cvq = 0;
  
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+@@ -582,7 +582,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
  
- Building
-@@ -78,7 +78,7 @@ format-patch' and/or 'git send-email' to format & send the mail to the
- qemu-devel@nongnu.org mailing list. All patches submitted must contain
- a 'Signed-off-by' line from the author. Patches should follow the
- guidelines set out in the `style section
--<https://www.qemu.org/docs/master/devel/style.html>` of
-+<https://www.qemu.org/docs/master/devel/style.html>`_ of
- the Developers Guide.
+     r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
+     if (unlikely(r < 0)) {
+-        return r;
++        goto err;
+     }
  
- Additional information on submitting patches can be found online via
+     queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, features,
 -- 
 2.37.1
 
