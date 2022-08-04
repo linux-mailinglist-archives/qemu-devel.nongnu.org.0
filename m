@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE01F58A118
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 21:09:31 +0200 (CEST)
-Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9589D58A11A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 21:11:38 +0200 (CEST)
+Received: from localhost ([::1]:37646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJgDq-00027C-V5
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 15:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40486)
+	id 1oJgFt-0003o7-J2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 15:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oJg7g-0003rN-Tx
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 15:03:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40749)
+ id 1oJg7h-0003rO-AY
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 15:03:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oJg7d-00084V-Ll
+ id 1oJg7d-00084Y-OV
  for qemu-devel@nongnu.org; Thu, 04 Aug 2022 15:03:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659639784;
+ s=mimecast20190719; t=1659639785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1q86GJq9apJiAfHjWhEjeI/hLL0t/DJmkEUC9UDxRxc=;
- b=REracv12K/RnClY0PaR8NrUB7JN7IWMIo0QpA3O5X9mhpESMuWrjpDcUF/+rFnmYHM6yW8
- QUCnWDRAzbttll6GrPgjSTeRXPaDHFt/uu7pDuaTcmwgRs1tpIsqRJXtU3iaWC6zw5UJEM
- JeTiWBTRtXi9HfIy252bHFJnyn8DRvs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S7VAqK1U/AMYDALD45QLHx7jmLek360FFQzZ9NyRxS8=;
+ b=a380QO+3XClEOuRPcyZe2qFCzcdC2nhN8MNMGxzeiaZRwYaSVAJJT/oMttsunyv3RiQu9n
+ VBfd6kZ6H/VEglvzU7dH6Mfe0VCzM9ijk+LrcxtQ5clyv6E3YLpPjZjCyCXnU+BKXhKBFC
+ C9eCqGQermthSRHxnt6GJ1h39w1vFBI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-mNQ_DJ0IO4eDEsG59HqAfg-1; Thu, 04 Aug 2022 15:03:01 -0400
-X-MC-Unique: mNQ_DJ0IO4eDEsG59HqAfg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-50-Acho2rPeOlaUVw3gMSaEvA-1; Thu, 04 Aug 2022 15:03:03 -0400
+X-MC-Unique: Acho2rPeOlaUVw3gMSaEvA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 359EA811E81;
- Thu,  4 Aug 2022 19:03:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D2D43C0218F;
+ Thu,  4 Aug 2022 19:03:03 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE0291415122;
- Thu,  4 Aug 2022 19:03:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6684492C3B;
+ Thu,  4 Aug 2022 19:03:02 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-block@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL for-7.1 0/1] Block patches
-Date: Thu,  4 Aug 2022 15:02:57 -0400
-Message-Id: <20220804190258.20226-1-stefanha@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+ Stefan Hajnoczi <stefanha@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Subject: [PULL for-7.1 1/1] virtiofsd: Fix format strings
+Date: Thu,  4 Aug 2022 15:02:58 -0400
+Message-Id: <20220804190258.20226-2-stefanha@redhat.com>
+In-Reply-To: <20220804190258.20226-1-stefanha@redhat.com>
+References: <20220804190258.20226-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -78,31 +80,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2480f3bbd03814b0651a1f74959f5c6631ee5819:
+From: Stefan Weil <sw@weilnetz.de>
 
-  Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-03 08:32:44 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-
-for you to fetch changes up to 7b0ca313647532a2c7007379ff800c9a2415c95d:
-
-  virtiofsd: Fix format strings (2022-08-04 14:44:25 -0400)
-
-----------------------------------------------------------------
-Pull request
-
-- Format string portability fix in virtiofsd
-
-----------------------------------------------------------------
-
-Stefan Weil (1):
-  virtiofsd: Fix format strings
-
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20220804074833.892604-1-sw@weilnetz.de>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
  tools/virtiofsd/fuse_lowlevel.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 752928741d..2f08471627 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2025,7 +2025,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+ 
+     fuse_log(FUSE_LOG_DEBUG, "INIT: %u.%u\n", arg->major, arg->minor);
+     if (arg->major == 7 && arg->minor >= 6) {
+-        fuse_log(FUSE_LOG_DEBUG, "flags=0x%016llx\n", flags);
++        fuse_log(FUSE_LOG_DEBUG, "flags=0x%016" PRIx64 "\n", flags);
+         fuse_log(FUSE_LOG_DEBUG, "max_readahead=0x%08x\n", arg->max_readahead);
+     }
+     se->conn.proto_major = arg->major;
+@@ -2174,7 +2174,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     if (se->conn.want & (~se->conn.capable)) {
+         fuse_log(FUSE_LOG_ERR,
+                  "fuse: error: filesystem requested capabilities "
+-                 "0x%llx that are not supported by kernel, aborting.\n",
++                 "0x%" PRIx64 " that are not supported by kernel, aborting.\n",
+                  se->conn.want & (~se->conn.capable));
+         fuse_reply_err(req, EPROTO);
+         se->error = -EPROTO;
 -- 
 2.37.1
 
