@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D17589734
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 06:55:02 +0200 (CEST)
-Received: from localhost ([::1]:49426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21D1589746
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 07:11:41 +0200 (CEST)
+Received: from localhost ([::1]:54604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJSsv-0002gK-Bf
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 00:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46070)
+	id 1oJT92-0007az-4l
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 01:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJSpm-0007bi-53
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 00:51:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25262)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oJT7A-00061N-Ar; Thu, 04 Aug 2022 01:09:44 -0400
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:53803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJSpk-00065D-15
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 00:51:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659588703;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jcHP+68lh8+C9ZaO+frEp98LbX3Zf9AssaIImDkohO0=;
- b=JVlPVxm+LwJKIHc67NGDQ42F+TGhqSIvCFt60jRchIHHt5Iausa7paq6068glq75C3c6kN
- M6k+IY+lds+jfu5i8BPbmIrKIlYD/MhJpQl1LrfdpO0ThsonY7RjxbrXNJxTOnpkRpLcKc
- 0ZHu40VEPwiL/k1IhOalq0nwpNnto7c=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-fei-COLFMdWg6R0cGVhaJg-1; Thu, 04 Aug 2022 00:51:42 -0400
-X-MC-Unique: fei-COLFMdWg6R0cGVhaJg-1
-Received: by mail-pf1-f197.google.com with SMTP id
- f9-20020a056a0022c900b0052e0e9cb3b2so2270619pfj.16
- for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 21:51:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jcHP+68lh8+C9ZaO+frEp98LbX3Zf9AssaIImDkohO0=;
- b=3NbYy3KAQH1687OZeeGgL9ugtjPJOK8c6YgGFzXv2cl/aUYqmdZJZxyBF3kXNDO3sZ
- jcclpbtPfwTwT+vVUaJlYXbEZR/gcWZMtfZlwPPHZ+Cul7UDil14c6LnSW533PZXIxJO
- 1vSUOJVvNaISm1cdeq/4bwpaRmb97YRPWz57EqoiFltLdG13Nxc9RwMYRdWULYYN958s
- Hy3GMBC/0KalbxD2lQ5Zm/rBPl0B+E5I3H/WkSHkGhnNT6Bsbi9OkyJrYqn2IkKTQvFL
- 5Ni2OuWzB+Avl7bZtKKdniu83M0nYrCgbSiKpjuxIk+WltomStu3pnfkCs9qhxgmaU1w
- 9Jsg==
-X-Gm-Message-State: ACgBeo3vhu4g0/1pxTLbFjnO0aJLkxc7o1RbDCe9/Lm6aY9O4v5dYHLM
- 9GRUCAdcOW9CNHCyM7RxTgzq33rw8Z4xVYKOc71ZpsivQ13e7PbpvPHg1tml64Ml08G3G+Zw0RT
- dfz5sNmlhkED5pTw=
-X-Received: by 2002:a17:90b:17c8:b0:1f5:4724:981f with SMTP id
- me8-20020a17090b17c800b001f54724981fmr83423pjb.205.1659588700866; 
- Wed, 03 Aug 2022 21:51:40 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4wsABm511o3NkdOg7NowZsS1CDx4KpdhNxIUxL8eb9DDK0hP/xcibhkO4Hbc9IMp65ealqww==
-X-Received: by 2002:a17:90b:17c8:b0:1f5:4724:981f with SMTP id
- me8-20020a17090b17c800b001f54724981fmr83398pjb.205.1659588700549; 
- Wed, 03 Aug 2022 21:51:40 -0700 (PDT)
-Received: from [10.72.12.192] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- r18-20020aa79ed2000000b0052ad49292f0sm8050511pfq.48.2022.08.03.21.51.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Aug 2022 21:51:39 -0700 (PDT)
-Message-ID: <e34cd9ee-ccb3-8447-28f1-9500b9f0a106@redhat.com>
-Date: Thu, 4 Aug 2022 12:51:32 +0800
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oJT76-0008Qx-Su; Thu, 04 Aug 2022 01:09:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.98])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9F01A20FE6;
+ Thu,  4 Aug 2022 05:09:35 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 4 Aug 2022
+ 07:09:34 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004ed8758b5-ef47-438a-ad57-92830154b623,
+ E459FF07681E7C706565AD81A8193C11BE0AA2AA) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <ace6e124-c55f-a8db-54d9-586baa5fcee5@kaod.org>
+Date: Thu, 4 Aug 2022 07:09:34 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH] vdpa: do not save failed dma maps in SVQ iova tree
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 07/20] ppc/ppc405: QOM'ify CPC
 Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220802143908.274364-1-eperezma@redhat.com>
- <CACGkMEtHaMXFqUN1o=Z-1c=s1hX81umSEbxP6Vf9cH34aERhYw@mail.gmail.com>
- <CAJaqyWe0uxicTKOzM9Yp5PV6diTBFSKX2m8BVqckrMTD7dctYg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWe0uxicTKOzM9Yp5PV6diTBFSKX2m8BVqckrMTD7dctYg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ <qemu-devel@nongnu.org>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-8-clg@kaod.org>
+ <6e556df0-6ed3-6e54-4dd4-f58da193af32@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <6e556df0-6ed3-6e54-4dd4-f58da193af32@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: d37a29ad-6a70-4156-94ab-8de595f48b68
+X-Ovh-Tracer-Id: 6093088820986153952
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvkedgleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,108 +76,307 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/8/3 16:12, Eugenio Perez Martin 写道:
-> On Wed, Aug 3, 2022 at 10:09 AM Jason Wang <jasowang@redhat.com> wrote:
->> On Tue, Aug 2, 2022 at 10:39 PM Eugenio Pérez <eperezma@redhat.com> wrote:
->>> If a map fails for whatever reason, it must not be saved in the tree.
->>> Otherwise, qemu will try to unmap it in cleanup, leaving to more errors.
->>>
->>> Fixes: 34e3c94eda ("vdpa: Add custom IOTLB translations to SVQ")
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>   hw/virtio/vhost-vdpa.c | 20 +++++++++++++-------
->>>   1 file changed, 13 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>> index 3ff9ce3501..e44c23dce5 100644
->>> --- a/hw/virtio/vhost-vdpa.c
->>> +++ b/hw/virtio/vhost-vdpa.c
->>> @@ -176,6 +176,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
->>>   static void vhost_vdpa_listener_region_add(MemoryListener *listener,
->>>                                              MemoryRegionSection *section)
->>>   {
->>> +    DMAMap mem_region = {};
->>>       struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
->>>       hwaddr iova;
->>>       Int128 llend, llsize;
->>> @@ -212,13 +213,13 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
->>>
->>>       llsize = int128_sub(llend, int128_make64(iova));
->>>       if (v->shadow_vqs_enabled) {
->>> -        DMAMap mem_region = {
->>> -            .translated_addr = (hwaddr)(uintptr_t)vaddr,
->>> -            .size = int128_get64(llsize) - 1,
->>> -            .perm = IOMMU_ACCESS_FLAG(true, section->readonly),
->>> -        };
->> Nit: can we keep this part unchanged?
+On 8/3/22 19:16, BALATON Zoltan wrote:
+> On Wed, 3 Aug 2022, Cédric Le Goater wrote:
+>> Introduce a QOM property "cpu" to initialize the DCR handlers. This is
+>> a pattern that we will reuse for the all other 405 devices needing it.
 >>
-> We can, but that implies we should look for iova again at fail_map
-> tag. If you are ok with that I'm fine to perform the search again.
-
-
-I meant something like:
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 9a2daef7e3..edf40868e3 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -232,11 +232,15 @@ static void 
-vhost_vdpa_listener_region_add(MemoryListener *listener,
-                               vaddr, section->readonly);
-      if (ret) {
-          error_report("vhost vdpa map fail!");
--        goto fail;
-+        goto fail_unmap;
-      }
-
-      return;
-
-+fail_unmap:
-+    if (v->shadow_vqs_enabled) {
-+        vhost_iova_tree_remove(v->iova_tree, &mem_region);
-+    }
-  fail:
-      /*
-       * On the initfn path, store the first error in the container so we
-
-Thanks
-
-
->
->> Thanks
+>> Now that all clock settings are handled at the CPC level, change the
+>> SoC "sys-clk" property to be an alias on the same property in the CPC
+>> model.
 >>
->>> +        int r;
->>>
->>> -        int r = vhost_iova_tree_map_alloc(v->iova_tree, &mem_region);
->>> +        mem_region.translated_addr = (hwaddr)(uintptr_t)vaddr,
->>> +        mem_region.size = int128_get64(llsize) - 1,
->>> +        mem_region.perm = IOMMU_ACCESS_FLAG(true, section->readonly),
->>> +
->>> +        r = vhost_iova_tree_map_alloc(v->iova_tree, &mem_region);
->>>           if (unlikely(r != IOVA_OK)) {
->>>               error_report("Can't allocate a mapping (%d)", r);
->>>               goto fail;
->>> @@ -232,11 +233,16 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
->>>                                vaddr, section->readonly);
->>>       if (ret) {
->>>           error_report("vhost vdpa map fail!");
->>> -        goto fail;
->>> +        goto fail_map;
->>>       }
->>>
->>>       return;
->>>
->>> +fail_map:
->>> +    if (v->shadow_vqs_enabled) {
->>> +        vhost_iova_tree_remove(v->iova_tree, &mem_region);
->>> +    }
->>> +
->>>   fail:
->>>       /*
->>>        * On the initfn path, store the first error in the container so we
->>> --
->>> 2.31.1
->>>
+>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> hw/ppc/ppc405.h    |  39 +++++++++++++++-
+>> hw/ppc/ppc405_uc.c | 109 +++++++++++++++++++--------------------------
+>> 2 files changed, 85 insertions(+), 63 deletions(-)
+>>
+>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>> index ae64549537c6..88c63774d9ba 100644
+>> --- a/hw/ppc/ppc405.h
+>> +++ b/hw/ppc/ppc405.h
+>> @@ -63,6 +63,43 @@ struct ppc4xx_bd_info_t {
+>>     uint32_t bi_iic_fast[2];
+>> };
+>>
+>> +typedef struct Ppc405SoCState Ppc405SoCState;
+
+That's a left over from previous experiment passing the SoC to
+the device model to initialize the DCR handlers. Passing the CPU
+is enough.
+
+We can drop the forward declaration.
+
+Thanks,
+
+C.
+
+
+> 
+> This typedef is already done by the OBJECT_DECLARE_SIMPLE_TYPE macro below. Could some compilers complain about double typedef? There may be some circular dependencies here so to avoid a separate typedef you may need to bring the OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC); line up here to the front while keeping the actual declaration of the state struct and rest of the object later which separates them but adding a comment may explain that. I'm not sure if it's better to do that or repeating the typedef in advance as done here is better but declaring the object in advance is probably a bit cleaner than repeating part of its internals just in case this implementation detail ever changes.
+> 
+> Regards,
+> BALATON Zoltan
+> 
+>> +
+>> +#define TYPE_PPC405_CPC "ppc405-cpc"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405CpcState, PPC405_CPC);
+>> +
+>> +enum {
+>> +    PPC405EP_CPU_CLK   = 0,
+>> +    PPC405EP_PLB_CLK   = 1,
+>> +    PPC405EP_OPB_CLK   = 2,
+>> +    PPC405EP_EBC_CLK   = 3,
+>> +    PPC405EP_MAL_CLK   = 4,
+>> +    PPC405EP_PCI_CLK   = 5,
+>> +    PPC405EP_UART0_CLK = 6,
+>> +    PPC405EP_UART1_CLK = 7,
+>> +    PPC405EP_CLK_NB    = 8,
+>> +};
+>> +
+>> +struct Ppc405CpcState {
+>> +    DeviceState parent_obj;
+>> +
+>> +    PowerPCCPU *cpu;
+>> +
+>> +    uint32_t sysclk;
+>> +    clk_setup_t clk_setup[PPC405EP_CLK_NB];
+>> +    uint32_t boot;
+>> +    uint32_t epctl;
+>> +    uint32_t pllmr[2];
+>> +    uint32_t ucr;
+>> +    uint32_t srr;
+>> +    uint32_t jtagid;
+>> +    uint32_t pci;
+>> +    /* Clock and power management */
+>> +    uint32_t er;
+>> +    uint32_t fr;
+>> +    uint32_t sr;
+>> +};
+>> +
+>> #define TYPE_PPC405_SOC "ppc405-soc"
+>> OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC);
+>>
+>> @@ -79,9 +116,9 @@ struct Ppc405SoCState {
+>>     MemoryRegion *dram_mr;
+>>     hwaddr ram_size;
+>>
+>> -    uint32_t sysclk;
+>>     PowerPCCPU cpu;
+>>     DeviceState *uic;
+>> +    Ppc405CpcState cpc;
+>> };
+>>
+>> /* PowerPC 405 core */
+>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>> index 013dccee898b..32bfc9480bc6 100644
+>> --- a/hw/ppc/ppc405_uc.c
+>> +++ b/hw/ppc/ppc405_uc.c
+>> @@ -1178,36 +1178,7 @@ enum {
+>> #endif
+>> };
+>>
+>> -enum {
+>> -    PPC405EP_CPU_CLK   = 0,
+>> -    PPC405EP_PLB_CLK   = 1,
+>> -    PPC405EP_OPB_CLK   = 2,
+>> -    PPC405EP_EBC_CLK   = 3,
+>> -    PPC405EP_MAL_CLK   = 4,
+>> -    PPC405EP_PCI_CLK   = 5,
+>> -    PPC405EP_UART0_CLK = 6,
+>> -    PPC405EP_UART1_CLK = 7,
+>> -    PPC405EP_CLK_NB    = 8,
+>> -};
+>> -
+>> -typedef struct ppc405ep_cpc_t ppc405ep_cpc_t;
+>> -struct ppc405ep_cpc_t {
+>> -    uint32_t sysclk;
+>> -    clk_setup_t clk_setup[PPC405EP_CLK_NB];
+>> -    uint32_t boot;
+>> -    uint32_t epctl;
+>> -    uint32_t pllmr[2];
+>> -    uint32_t ucr;
+>> -    uint32_t srr;
+>> -    uint32_t jtagid;
+>> -    uint32_t pci;
+>> -    /* Clock and power management */
+>> -    uint32_t er;
+>> -    uint32_t fr;
+>> -    uint32_t sr;
+>> -};
+>> -
+>> -static void ppc405ep_compute_clocks (ppc405ep_cpc_t *cpc)
+>> +static void ppc405ep_compute_clocks(Ppc405CpcState *cpc)
+>> {
+>>     uint32_t CPU_clk, PLB_clk, OPB_clk, EBC_clk, MAL_clk, PCI_clk;
+>>     uint32_t UART0_clk, UART1_clk;
+>> @@ -1302,10 +1273,9 @@ static void ppc405ep_compute_clocks (ppc405ep_cpc_t *cpc)
+>>
+>> static uint32_t dcr_read_epcpc (void *opaque, int dcrn)
+>> {
+>> -    ppc405ep_cpc_t *cpc;
+>> +    Ppc405CpcState *cpc = PPC405_CPC(opaque);
+>>     uint32_t ret;
+>>
+>> -    cpc = opaque;
+>>     switch (dcrn) {
+>>     case PPC405EP_CPC0_BOOT:
+>>         ret = cpc->boot;
+>> @@ -1342,9 +1312,8 @@ static uint32_t dcr_read_epcpc (void *opaque, int dcrn)
+>>
+>> static void dcr_write_epcpc (void *opaque, int dcrn, uint32_t val)
+>> {
+>> -    ppc405ep_cpc_t *cpc;
+>> +    Ppc405CpcState *cpc = PPC405_CPC(opaque);
+>>
+>> -    cpc = opaque;
+>>     switch (dcrn) {
+>>     case PPC405EP_CPC0_BOOT:
+>>         /* Read-only register */
+>> @@ -1377,9 +1346,9 @@ static void dcr_write_epcpc (void *opaque, int dcrn, uint32_t val)
+>>     }
+>> }
+>>
+>> -static void ppc405ep_cpc_reset (void *opaque)
+>> +static void ppc405_cpc_reset(DeviceState *dev)
+>> {
+>> -    ppc405ep_cpc_t *cpc = opaque;
+>> +    Ppc405CpcState *cpc = PPC405_CPC(dev);
+>>
+>>     cpc->boot = 0x00000010;     /* Boot from PCI - IIC EEPROM disabled */
+>>     cpc->epctl = 0x00000000;
+>> @@ -1391,21 +1360,24 @@ static void ppc405ep_cpc_reset (void *opaque)
+>>     cpc->er = 0x00000000;
+>>     cpc->fr = 0x00000000;
+>>     cpc->sr = 0x00000000;
+>> +    cpc->jtagid = 0x20267049;
+>>     ppc405ep_compute_clocks(cpc);
+>> }
+>>
+>> /* XXX: sysclk should be between 25 and 100 MHz */
+>> -static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
+>> -                               uint32_t sysclk)
+>> +static void ppc405_cpc_realize(DeviceState *dev, Error **errp)
+>> {
+>> -    ppc405ep_cpc_t *cpc;
+>> +    Ppc405CpcState *cpc = PPC405_CPC(dev);
+>> +    CPUPPCState *env;
+>> +
+>> +    assert(cpc->cpu);
+>> +
+>> +    env = &cpc->cpu->env;
+>> +
+>> +    cpc->clk_setup[PPC405EP_CPU_CLK].cb =
+>> +        ppc_40x_timers_init(env, cpc->sysclk, PPC_INTERRUPT_PIT);
+>> +    cpc->clk_setup[PPC405EP_CPU_CLK].opaque = env;
+>>
+>> -    cpc = g_new0(ppc405ep_cpc_t, 1);
+>> -    memcpy(cpc->clk_setup, clk_setup,
+>> -           PPC405EP_CLK_NB * sizeof(clk_setup_t));
+>> -    cpc->jtagid = 0x20267049;
+>> -    cpc->sysclk = sysclk;
+>> -    qemu_register_reset(&ppc405ep_cpc_reset, cpc);
+>>     ppc_dcr_register(env, PPC405EP_CPC0_BOOT, cpc,
+>>                      &dcr_read_epcpc, &dcr_write_epcpc);
+>>     ppc_dcr_register(env, PPC405EP_CPC0_EPCTL, cpc,
+>> @@ -1422,14 +1394,23 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
+>>                      &dcr_read_epcpc, &dcr_write_epcpc);
+>>     ppc_dcr_register(env, PPC405EP_CPC0_PCI, cpc,
+>>                      &dcr_read_epcpc, &dcr_write_epcpc);
+>> -#if 0
+>> -    ppc_dcr_register(env, PPC405EP_CPC0_ER, cpc,
+>> -                     &dcr_read_epcpc, &dcr_write_epcpc);
+>> -    ppc_dcr_register(env, PPC405EP_CPC0_FR, cpc,
+>> -                     &dcr_read_epcpc, &dcr_write_epcpc);
+>> -    ppc_dcr_register(env, PPC405EP_CPC0_SR, cpc,
+>> -                     &dcr_read_epcpc, &dcr_write_epcpc);
+>> -#endif
+>> +}
+>> +
+>> +static Property ppc405_cpc_properties[] = {
+>> +    DEFINE_PROP_LINK("cpu", Ppc405CpcState, cpu, TYPE_POWERPC_CPU,
+>> +                     PowerPCCPU *),
+>> +    DEFINE_PROP_UINT32("sys-clk", Ppc405CpcState, sysclk, 0),
+>> +    DEFINE_PROP_END_OF_LIST(),
+>> +};
+>> +
+>> +static void ppc405_cpc_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +
+>> +    dc->realize = ppc405_cpc_realize;
+>> +    dc->user_creatable = false;
+>> +    dc->reset = ppc405_cpc_reset;
+>> +    device_class_set_props(dc, ppc405_cpc_properties);
+>> }
+>>
+>> static void ppc405_soc_instance_init(Object *obj)
+>> @@ -1438,12 +1419,14 @@ static void ppc405_soc_instance_init(Object *obj)
+>>
+>>     object_initialize_child(obj, "cpu", &s->cpu,
+>>                             POWERPC_CPU_TYPE_NAME("405ep"));
+>> +
+>> +    object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
+>> +    object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
+>> }
+>>
+>> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>> {
+>>     Ppc405SoCState *s = PPC405_SOC(dev);
+>> -    clk_setup_t clk_setup[PPC405EP_CLK_NB];
+>>     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+>>     CPUPPCState *env;
+>>     Error *err = NULL;
+>> @@ -1458,8 +1441,6 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>     memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE,
+>>                                 &s->sram);
+>>
+>> -    memset(clk_setup, 0, sizeof(clk_setup));
+>> -
+>>     /* init CPUs */
+>>     if (!qdev_realize(DEVICE(&s->cpu), NULL, errp)) {
+>>         return;
+>> @@ -1468,14 +1449,14 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>
+>>     env = &s->cpu.env;
+>>
+>> -    clk_setup[PPC405EP_CPU_CLK].cb =
+>> -        ppc_40x_timers_init(env, s->sysclk, PPC_INTERRUPT_PIT);
+>> -    clk_setup[PPC405EP_CPU_CLK].opaque = env;
+>> -
+>>     ppc_dcr_init(env, NULL, NULL);
+>>
+>>     /* CPU control */
+>> -    ppc405ep_cpc_init(env, clk_setup, s->sysclk);
+>> +    object_property_set_link(OBJECT(&s->cpc), "cpu", OBJECT(&s->cpu),
+>> +                             &error_abort);
+>> +    if (!qdev_realize(DEVICE(&s->cpc), NULL, errp)) {
+>> +        return;
+>> +    }
+>>
+>>     /* PLB arbitrer */
+>>     ppc4xx_plb_init(env);
+>> @@ -1566,7 +1547,6 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>> static Property ppc405_soc_properties[] = {
+>>     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+>>                      MemoryRegion *),
+>> -    DEFINE_PROP_UINT32("sys-clk", Ppc405SoCState, sysclk, 0),
+>>     DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
+>>     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+>>     DEFINE_PROP_END_OF_LIST(),
+>> @@ -1583,6 +1563,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+>>
+>> static const TypeInfo ppc405_types[] = {
+>>     {
+>> +        .name           = TYPE_PPC405_CPC,
+>> +        .parent         = TYPE_DEVICE,
+>> +        .instance_size  = sizeof(Ppc405CpcState),
+>> +        .class_init     = ppc405_cpc_class_init,
+>> +    }, {
+>>         .name           = TYPE_PPC405_SOC,
+>>         .parent         = TYPE_DEVICE,
+>>         .instance_size  = sizeof(Ppc405SoCState),
+>>
 
 
