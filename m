@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C66558A0FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:59:49 +0200 (CEST)
-Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650FE58A10C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 21:04:07 +0200 (CEST)
+Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJg4S-00019M-5D
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37688)
+	id 1oJg8c-0004JX-5w
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 15:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oJfql-0003x3-IZ
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:45:39 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:42979)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oJfqj-0005aX-V7
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:45:39 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id 199so440390ybl.9
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 11:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=8SeWRB3y/Z9aDdI2nXCquDmgnbx3SEB7gZ839vxftqk=;
- b=m16lCzYOR7D6qo/p8jX0623yLmAqv8n1nOUeZnBDFzeyz79su89pWQzgWvAvfA8Q8p
- qeDk9AP5OagqcYiJozEaCkFVDN65hmH2APl4Lq7Mrw7P9FBjtfWKnBNibS3CyDO4e1xc
- sy8qyTGyVfHrvsNkNfwARBKuyGc9U0RSGygdb6eyowMIBOIqtjAUG1MGh+3NBNRXK7MA
- BTJkuBgywTj3oA5AKLP7LYIN+0Pcq69WmzW5M1mEJBGTuJc6DxqMdPnMqIoPd1mAt329
- Wd+Hk1XXCzT4y9b4e858fuB2eRaBpqCMKNVx/8eadQ9/dxYn1nnph/Ri5Dx1E0jLykvu
- 5zXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=8SeWRB3y/Z9aDdI2nXCquDmgnbx3SEB7gZ839vxftqk=;
- b=DnJZiyOT3jTmfRHt2ct5w5BGSqZOs8VCyV4OnlLL38XuBikyfWPcfESsGl+V2ZR8E0
- 2IELY+1VFbH4EvZyo+41DIAHjAhsWthtcI0Zzr59ozKwyY5z8ETpLZg4obUNTCZZOcyx
- zD0nFDKTqkS6eKXxl6pQmBdbKrXP9rFCiqfNZ4mlEJS/yUgmmeQZMWpZ6VbAhNbTlask
- zt/qYx6stiIjVuCPfCfL2OJ+mA2gGhKjNRN9lfefBazH2ddU6/+EvqOXJ8B0Sj5z39Ia
- z3J03wu/x/M/9Jm2XbBIGYxdFmdPr/q5OSfBu16N/Gil+tixqtgNx0TKR2UfuN73aF06
- ik/A==
-X-Gm-Message-State: ACgBeo0M9B6lf9DImS5CAsIJtg8LQAvBrVbYhLktfjGGvfjkcj0orrlm
- kccjMh26oEjSSbxRaybe0WoRbjwSMihURoBBEvU=
-X-Google-Smtp-Source: AA6agR626qwrVEw+Hdnj4tun6/bpOnD2LF7rKlsDaITaByn6xU3h/q/dVOOSyggNIXAtvS+PyL0XRaz1DDagJdyYhzw=
-X-Received: by 2002:a5b:c87:0:b0:66f:2298:4ed7 with SMTP id
- i7-20020a5b0c87000000b0066f22984ed7mr2425010ybq.207.1659638736586; Thu, 04
- Aug 2022 11:45:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oJfvR-0008Kp-2c
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:50:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57132)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oJfvO-0006DF-6S
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:50:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659639025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vhviw1CZU7VhdlC7yIifOlSl6JojS6ZMlWXz7Vk4ad8=;
+ b=dUVM1QCONltkExaN1kP3SFLlI7G915CmwjDgeihAI4MP152ACwlsuDTCD1kLeUwzynWZgf
+ J6msIcuw0l+3S/v6VR2kD+nbSp5cN/Y74c4YC+dGArBHmq8wU3P5W0dAE5TegbRfF2EK+g
+ NHa0ygR8aljCXMa9nGFhoJ+nFhM2DCo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-246-BTzu7_UoP8m8L76qUQw9jg-1; Thu, 04 Aug 2022 14:50:22 -0400
+X-MC-Unique: BTzu7_UoP8m8L76qUQw9jg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C13A429AB3F5;
+ Thu,  4 Aug 2022 18:50:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E420492C3B;
+ Thu,  4 Aug 2022 18:50:21 +0000 (UTC)
+Date: Thu, 4 Aug 2022 14:50:19 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Chao Gao <chao.gao@intel.com>
+Cc: fam@euphon.net, pbonzini@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] util/aio: Defer disabling poll mode as long as possible
+Message-ID: <YuwU6xu7gq1Af3tC@fedora>
+References: <20220710120849.63086-1-chao.gao@intel.com>
 MIME-Version: 1.0
-References: <20220804074833.892604-1-sw@weilnetz.de>
-In-Reply-To: <20220804074833.892604-1-sw@weilnetz.de>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 4 Aug 2022 14:45:24 -0400
-Message-ID: <CAJSP0QWPduu2rqti-=zviJwuHGamK=n1pd1xwfL5tamYJtNqZQ@mail.gmail.com>
-Subject: Re: [PATCH for-7.1] virtiofsd: Fix format strings
-To: Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, David Alan Gilbert <dgilbert@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, virtio-fs@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SlK8Y4JcjNXfFj7N"
+Content-Disposition: inline
+In-Reply-To: <20220710120849.63086-1-chao.gao@intel.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,17 +80,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Aug 2022 at 03:50, Stefan Weil via <qemu-devel@nongnu.org> wrote:
->
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
->
-> I have also several patches which add missing G_GNUC_PRINTF.
-> Would such changes still be wanted for 7.1?
 
-Hi Stefan,
-Thanks for the fix! I have merged it for 7.1. Please send the
-G_GNUC_PRINTF fixes for 7.2.
+--SlK8Y4JcjNXfFj7N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jul 10, 2022 at 08:08:49PM +0800, Chao Gao wrote:
+> When we measure FIO read performance (cache=3Dwritethrough, bs=3D4k,
+> iodepth=3D64) in VMs, ~80K/s notifications (e.g., EPT_MISCONFIG) are obse=
+rved
+> from guest to qemu.
+>=20
+> It turns out those frequent notificatons are caused by interference from
+> worker threads. Worker threads queue bottom halves after completing IO
+> requests.  Pending bottom halves may lead to either aio_compute_timeout()
+> zeros timeout and pass it to try_poll_mode() or run_poll_handlers() retur=
+ns
+> no progress after noticing pending aio_notify() events. Both cause
+> run_poll_handlers() to call poll_set_started(false) to disable poll mode.
+> However, for both cases, as timeout is already zeroed, the event loop
+> (i.e., aio_poll()) just processes bottom halves and then starts the next
+> event loop iteration. So, disabling poll mode has no value but leads to
+> unnecessary notifications from guest.
+>=20
+> To minimize unnecessary notifications from guest, defer disabling poll
+> mode to when the event loop is about to be blocked.
+>=20
+> With this patch applied, FIO seq-read performance (bs=3D4k, iodepth=3D64,
+> cache=3Dwritethrough) in VMs increases from 330K/s to 413K/s IOPS.
+>=20
+> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Chao Gao <chao.gao@intel.com>
+> ---
+>  util/aio-posix.c | 21 +++++++++++++++------
+>  1 file changed, 15 insertions(+), 6 deletions(-)
+
+I just noticed that I forgot to send a pull request with this for QEMU
+7.1. It's my fault that this missed QEMU 7.1, sorry. It will be merged
+once the 7.2 merge window opens.
 
 Stefan
+
+--SlK8Y4JcjNXfFj7N
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLsFOYACgkQnKSrs4Gr
+c8g6KQf/XegU4t074gsH6jE487gu/brzJ4rptAz8YJI/RwIFWeHlRte3gA98xwBU
+ET7zS19gHnwvLa7DXKWksUgST9FCbJ3ADotvZ8BiBuz8nbsne+CQW0S4+mst8rGy
+QOAQmR8BkZfyCp/OimZ7PP5WdK8vNWLZ70po6pWd4Ym68ExnpHsQ9ZkvNki87OZL
+fU2e1bevpmTs6K3KlOFIcr6kXTBqWFkJ0/WtMcamysVOELqKcqy1/r1auapGpQBG
+MoG7J9L4mFvs3vrRaBzKZYITRdHhNVjXDfww4tEkWjBbvXMaRX4IrllP434YDI4N
+fcEiIKNlIwUpbCVosLPkGqQSv/3f7w==
+=EAN9
+-----END PGP SIGNATURE-----
+
+--SlK8Y4JcjNXfFj7N--
+
 
