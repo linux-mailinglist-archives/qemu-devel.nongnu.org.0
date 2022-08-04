@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43266589C5E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 15:13:37 +0200 (CEST)
-Received: from localhost ([::1]:43584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11379589C31
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 15:08:12 +0200 (CEST)
+Received: from localhost ([::1]:33394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJafQ-0004gL-1E
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 09:13:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
+	id 1oJaaA-00061u-U7
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 09:08:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oJaUi-0008WR-6E
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:02:32 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:52746 helo=loongson.cn)
+ id 1oJaUj-00007W-HQ
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:02:33 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:52764 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oJaUe-0008AI-VE
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:02:30 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oJaUf-0008AQ-MY
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:02:32 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axis1Vw+tiTugFAA--.19495S3; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axis1Vw+tiTugFAA--.19495S4; 
  Thu, 04 Aug 2022 21:02:14 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  gaosong@loongson.cn, f4bug@amsat.org, alex.bennee@linaro.org,
  yangxiaojuan@loongson.cn
-Subject: [PATCH for-7.1 1/5] target/loongarch: Fix GDB get the wrong pc
-Date: Thu,  4 Aug 2022 21:02:09 +0800
-Message-Id: <20220804130213.1364164-2-gaosong@loongson.cn>
+Subject: [PATCH for-7.1 2/5] target/loongarch: add gdb_arch_name()
+Date: Thu,  4 Aug 2022 21:02:10 +0800
+Message-Id: <20220804130213.1364164-3-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220804130213.1364164-1-gaosong@loongson.cn>
 References: <20220804130213.1364164-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Axis1Vw+tiTugFAA--.19495S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxGw17tr48Ww4ktr43GF48JFb_yoW5GFy8p3
- s3u34qkFW0grZFy3srXa4FqFn8Zr17uF4avF1Iy34xCr48XFy5ZF4Fq39FqF4UG3yFvry2
- qF4rZ3W5ua13XrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Axis1Vw+tiTugFAA--.19495S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7trW7CFWrtry7Cr4rWFW7urg_yoW8CFW8pF
+ Z3uFnrKFW8JFZIyay8t398Xrn8ZrZ3uF4aqa13tr18Cw45uryvv3Wvya4qqF4UJ3yxCr4a
+ vF1rCF15Xa17ZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -62,69 +62,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GDB LoongArch add a register orig_a0, see the base64.xml [1].
-We should add the orig_a0 to match the upstream GDB.
+LoongArch gdb_arch_name() is "Loongarch64", Dump from GDB.
 
-[1]: https://github.com/bminor/binutils-gdb/blob/master/gdb/features/loongarch/base64.xml
+GNU gdb (GDB) 13.0.50.20220519-git
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "loongarch64-unknown-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word".
+(gdb) show architecture
+The target architecture is set to "auto" (currently "Loongarch64").
+(gdb)
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- gdb-xml/loongarch-base64.xml | 1 +
- target/loongarch/cpu.c       | 2 +-
- target/loongarch/gdbstub.c   | 7 +++++--
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ target/loongarch/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/gdb-xml/loongarch-base64.xml b/gdb-xml/loongarch-base64.xml
-index 4962bdbd28..a1dd4f2208 100644
---- a/gdb-xml/loongarch-base64.xml
-+++ b/gdb-xml/loongarch-base64.xml
-@@ -39,6 +39,7 @@
-   <reg name="r29" bitsize="64" type="uint64" group="general"/>
-   <reg name="r30" bitsize="64" type="uint64" group="general"/>
-   <reg name="r31" bitsize="64" type="uint64" group="general"/>
-+  <reg name="orig_a0" bitsize="64" type="uint64" group="general"/>
-   <reg name="pc" bitsize="64" type="code_ptr" group="general"/>
-   <reg name="badvaddr" bitsize="64" type="code_ptr" group="general"/>
- </feature>
 diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 1c69a76f2b..d84ec38cf7 100644
+index d84ec38cf7..94d5617639 100644
 --- a/target/loongarch/cpu.c
 +++ b/target/loongarch/cpu.c
-@@ -683,7 +683,7 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_read_register = loongarch_cpu_gdb_read_register;
-     cc->gdb_write_register = loongarch_cpu_gdb_write_register;
-     cc->disas_set_info = loongarch_cpu_disas_set_info;
--    cc->gdb_num_core_regs = 34;
-+    cc->gdb_num_core_regs = 35;
+@@ -661,6 +661,11 @@ static const struct SysemuCPUOps loongarch_sysemu_ops = {
+ };
+ #endif
+ 
++static gchar *loongarch_gdb_arch_name(CPUState *cs)
++{
++    return g_strdup("Loongarch64");
++}
++
+ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+ {
+     LoongArchCPUClass *lacc = LOONGARCH_CPU_CLASS(c);
+@@ -686,6 +691,7 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+     cc->gdb_num_core_regs = 35;
      cc->gdb_core_xml_file = "loongarch-base64.xml";
      cc->gdb_stop_before_watchpoint = true;
++    cc->gdb_arch_name = loongarch_gdb_arch_name;
  
-diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
-index 24e126fb2d..e643eca2d5 100644
---- a/target/loongarch/gdbstub.c
-+++ b/target/loongarch/gdbstub.c
-@@ -19,8 +19,11 @@ int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-     if (0 <= n && n < 32) {
-         return gdb_get_regl(mem_buf, env->gpr[n]);
-     } else if (n == 32) {
--        return gdb_get_regl(mem_buf, env->pc);
-+        /* orig_a0 */
-+        return gdb_get_regl(mem_buf, env->gpr[4]);
-     } else if (n == 33) {
-+        return gdb_get_regl(mem_buf, env->pc);
-+    } else if (n == 34) {
-         return gdb_get_regl(mem_buf, env->CSR_BADV);
-     }
-     return 0;
-@@ -36,7 +39,7 @@ int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-     if (0 <= n && n < 32) {
-         env->gpr[n] = tmp;
-         length = sizeof(target_ulong);
--    } else if (n == 32) {
-+    } else if (n == 33) {
-         env->pc = tmp;
-         length = sizeof(target_ulong);
-     }
+ #ifdef CONFIG_TCG
+     cc->tcg_ops = &loongarch_tcg_ops;
 -- 
 2.31.1
 
