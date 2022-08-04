@@ -2,109 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E295D589DED
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 16:53:34 +0200 (CEST)
-Received: from localhost ([::1]:54614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6A7589DFC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 16:58:21 +0200 (CEST)
+Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJcE9-0004CX-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 10:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45544)
+	id 1oJcIl-0000jK-83
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 10:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJcAR-0000Qo-SK
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:49:45 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57164)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oJcGx-000721-5T
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:56:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJcAP-0001RR-T5
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:49:43 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 274EhXvh001038;
- Thu, 4 Aug 2022 14:49:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=SBsWdHPL70LqCA8tdy/GFaqgLi9vkGhna97sqmkx56s=;
- b=bdGn7waM7CkrWwVTLp5XjOuah8EonHsTcibfrGJtHYqvcC4FpWvBO2U+ReL8j+XXQ44x
- XjyloPHYWtTiOhwqIFxqsF3LENS4EknI5GtavapZMbpohoMClt+mu2KBMgyQ7GC/Aefg
- EonGdgMUEDLE6VUbifsuPrIB0l+vBwuCNf37h5p8FDDNbmqemFfIa2xkOjGKrP5Djwve
- 4J8FObpiJ4UfZ/dQQJwH9AW4T3ynTA4R11/fed0TpJhHhnecH8phRsijtOATu49R1BfD
- KPY7e6ExIA/wGaFe1Jv9g1onVxY+9ZelA7qT/RoleZ7BXHKqklnSHLp/RIkOutoFyw2S mw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrg4m8518-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 14:49:38 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 274EiriW008011;
- Thu, 4 Aug 2022 14:49:38 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrg4m8501-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 14:49:38 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 274EZnhT024717;
- Thu, 4 Aug 2022 14:49:35 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 3hmv98xac9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 14:49:35 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 274ElEnu23069048
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 Aug 2022 14:47:14 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A8F30A405B;
- Thu,  4 Aug 2022 14:49:32 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1BABAA4054;
- Thu,  4 Aug 2022 14:49:32 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.145.8.197])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  4 Aug 2022 14:49:32 +0000 (GMT)
-Date: Thu, 4 Aug 2022 16:49:29 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
- frankja@linux.ibm.com, alex.bennee@linaro.org
-Subject: Re: [PATCH v2 1/1] osdep: asynchronous teardown for shutdown on Linux
-Message-ID: <20220804164929.2ae0d34e@p-imbrenda>
-In-Reply-To: <YuuDc8nsLtPvtrQ7@redhat.com>
-References: <20220803173141.52711-1-imbrenda@linux.ibm.com>
- <YuqxtV1O8IqRAuDu@redhat.com> <YuuDc8nsLtPvtrQ7@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xlPmjenNKmQV90pxyjLkZ2y6XQpCWr-Z
-X-Proofpoint-ORIG-GUID: _XacpQlLIamMBSVhEpFclimV-XF6D__r
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oJcGs-0002pD-33
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:56:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659624980;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3ggKv28E2L0L6K7L+gbW8rAA6Ey9l9IxtjHH+OWAnuc=;
+ b=M1I87mZQPJVk6cnvUEgtXOoUS4Whtz6c0C2qLQZdISuE9P+MiHHCWbJyeweYA+0+P23awg
+ IaRMmSRTClg/q8Ov1PFx7leu8Ig7hy45updJLJLyGl7yAM/AknhptKqQaBhD5+42Es2ZpM
+ jRRl53Mt4GcykVw/uwFUz1zIjRouRSg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-361-AQjZ_KUlOhSt5JPdM7-DMA-1; Thu, 04 Aug 2022 10:56:17 -0400
+X-MC-Unique: AQjZ_KUlOhSt5JPdM7-DMA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB4CA3C2F760;
+ Thu,  4 Aug 2022 14:56:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21A5E400EA8E;
+ Thu,  4 Aug 2022 14:56:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0D65621E6930; Thu,  4 Aug 2022 16:56:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  Kevin Wolf
+ <kwolf@redhat.com>,  Hao Wu <wuhaotsh@google.com>,
+ richard.henderson@linaro.org,  qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,  venture@google.com,  Avi.Fishman@nuvoton.com,
+ kfting@nuvoton.com,  hskinnemoen@google.com,  f4bug@amsat.org,
+ bin.meng@windriver.com,  qemu-block@nongnu.org,  thuth@redhat.com,  Hanna
+ Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
+References: <20220714182836.89602-1-wuhaotsh@google.com>
+ <20220714182836.89602-6-wuhaotsh@google.com>
+ <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
+ <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
+ <YuvY8/WL0Jojv1Uj@redhat.com>
+Date: Thu, 04 Aug 2022 16:56:15 +0200
+In-Reply-To: <YuvY8/WL0Jojv1Uj@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 4 Aug 2022 15:34:27 +0100")
+Message-ID: <877d3odpm8.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-04_03,2022-08-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- mlxscore=0 malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208040064
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,65 +92,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Aug 2022 09:29:39 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Wed, Aug 03, 2022 at 06:34:45PM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Aug 03, 2022 at 07:31:41PM +0200, Claudio Imbrenda wrote:=20=20
-> > > This patch adds support for asynchronously tearing down a VM on Linux.
-> > >=20
-> > > When qemu terminates, either naturally or because of a fatal signal,
-> > > the VM is torn down. If the VM is huge, it can take a considerable
-> > > amount of time for it to be cleaned up. In case of a protected VM, it
-> > > might take even longer than a non-protected VM (this is the case on
-> > > s390x, for example).
-> > >=20
-> > > Some users might want to shut down a VM and restart it immediately,
-> > > without having to wait. This is especially true if management
-> > > infrastructure like libvirt is used.
-> > >=20
-> > > This patch implements a simple trick on Linux to allow qemu to return
-> > > immediately, with the teardown of the VM being performed
-> > > asynchronously.
-> > >=20
-> > > If the new commandline option -async-teardown is used, a new process =
-is
-> > > spawned from qemu at startup, using the clone syscall, in such way th=
-at
-> > > it will share its address space with qemu.
-> > >=20
-> > > The new process will then simpy wait until qemu terminates, and then =
-it
-> > > will exit itself.
-> > >=20
-> > > This allows qemu to terminate quickly, without having to wait for the
-> > > whole address space to be torn down. The teardown process will exit
-> > > after qemu, so it will be the last user of the address space, and
-> > > therefore it will take care of the actual teardown.
-> > >=20
-> > > The teardown process will share the same cgroups as qemu, so both
-> > > memory usage and cpu time will be accounted properly.
-> > >=20
-> > > This feature can already be used with libvirt by adding the following
-> > > to the XML domain definition:
-> > >=20
-> > >   <commandline xmlns=3D"http://libvirt.org/schemas/domain/qemu/1.0">
-> > >   <arg value=3D'-async-teardown'/>
-> > >   </commandline>=20=20
-> >=20
-> > How does this work in practice ?  Libvirt should be blocking until
-> > all processes in the cgroup have exited, including this cloned
-> > child process.=20=20
->=20
-> Also, have you disabled use of seccomp with QEMU when testing this,
-> as the seccomp filter that libivrt enables is supposed to block
-> any use of clone() except for the creation of threads.
+> On Thu, Jul 28, 2022 at 10:46:35AM +0100, Peter Maydell wrote:
+>> On Wed, 27 Jul 2022 at 20:03, Kevin Wolf <kwolf@redhat.com> wrote:
+>> >
+>> > Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
+>> > > An OTP device isn't really a parallel flash, and neither are eFuses.
+>> > > More fast-and-lose use of IF_PFLASH may exist in the tree, and maybe=
+ of
+>> > > other interface types, too.
+>> > >
+>> > > This patch introduces IF_OTHER.  The patch after next uses it for an
+>> > > EEPROM device.
+>> > >
+>> > > Do we want IF_OTHER?
+>> >
+>> > What would the semantics even be? Any block device that doesn't pick up
+>> > a different category may pick up IF_OTHER backends?
+>> >
+>> > It certainly feels like a strange interface to ask for "other" disk and
+>> > then getting as surprise what this other thing might be. It's
+>> > essentially the same as having an explicit '-device other', and I
+>> > suppose most people would find that strange.
+>> >
+>> > > If no, I guess we get to abuse IF_PFLASH some more.
+>> > >
+>> > > If yes, I guess we should use IF_PFLASH only for actual parallel fla=
+sh
+>> > > memory going forward.  Cleaning up existing abuse of IF_PFLASH may n=
+ot
+>> > > be worth the trouble, though.
+>> > >
+>> > > Thoughts?
+>> >
+>> > If the existing types aren't good enough (I don't have an opinion on
+>> > whether IF_PFLASH is a good match), let's add a new one. But a specific
+>> > new one, not just "other".
+>>=20
+>> I think the common thread is "this isn't what anybody actually thinks
+>> of as being a 'disk', but we would like to back it with a block device
+>> anyway". That can cover a fair range of possibilities...
+>
+> Given that, do we even want/have to use -drive for this ?    We can use
+> -blockdev for the backend and reference that from any -device we want
+> to create, and leave -drive out of the picture entirely
 
-it was just a vanilla libvirt 8.0.0 as found on ubuntu 22.04; I have no
-idea how it is configured by default
+-drive is our only means to configure onboard devices.
 
->=20
-> With regards,
-> Daniel
+We've talked about better means a few times, but no conclusions.  I can
+dig up pointers, if you're interested.
 
 
