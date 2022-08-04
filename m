@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C85589BE7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:49:45 +0200 (CEST)
-Received: from localhost ([::1]:34628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF41589BF7
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:54:19 +0200 (CEST)
+Received: from localhost ([::1]:42420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJaIK-0002yB-TH
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34432)
+	id 1oJaMk-0008Qj-ES
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJZf8-0001Jg-PQ; Thu, 04 Aug 2022 08:09:14 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:55376)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJZfI-0001ht-0O; Thu, 04 Aug 2022 08:09:24 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:38210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJZf6-0006dI-VB; Thu, 04 Aug 2022 08:09:14 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D86B461779;
- Thu,  4 Aug 2022 12:09:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E4DC433D7;
- Thu,  4 Aug 2022 12:09:08 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="QMF+7xZX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659614946;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/XayVa82ze56fmTCv4NLEEA6wogm2LVRrl/yXmFM8oY=;
- b=QMF+7xZXMpd7mMDjwXNWUWQjtLl3Cv+TlI3rdnlfW0yIFSc0izUCjOIV4QFcXsO0M7lkOD
- ra5z4OYzLc1cEFFstRLcAZIK+qZ99mADf3p02jnAn/pf9pRnUAzNC9JalgHll0remTndsj
- JyCN5oWucjA+RIzqJzg/Q1fzDW3GPIM=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id fda442c3
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 4 Aug 2022 12:09:06 +0000 (UTC)
-Date: Thu, 4 Aug 2022 14:09:04 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: freude@linux.ibm.com, David Hildenbrand <david@redhat.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, Holger Dengler <dengler@linux.ibm.com>
-Subject: Re: [PATCH v4 2/2] target/s390x: support SHA-512 extensions
-Message-ID: <Yuu24KW7ulhn/1wn@zx2c4.com>
-References: <Yul0G2YCKLXiypvv@zx2c4.com>
- <20220802190011.458871-1-Jason@zx2c4.com>
- <20220802190011.458871-3-Jason@zx2c4.com>
- <5758f0a3-ee4e-97d4-3e32-469b56029208@redhat.com>
- <YupmwgYFShLfP8Xd@zx2c4.com>
- <0ff11adb819138cfed16dfb489b66f6f@linux.ibm.com>
- <bbd57148-6d6d-f1c3-73f8-73e2512a8012@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJZfE-0006e5-MB; Thu, 04 Aug 2022 08:09:23 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id D726F74633E;
+ Thu,  4 Aug 2022 14:09:16 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 77F55746335; Thu,  4 Aug 2022 14:09:16 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 75A2A746324;
+ Thu,  4 Aug 2022 14:09:16 +0200 (CEST)
+Date: Thu, 4 Aug 2022 14:09:16 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
+In-Reply-To: <4885e6d0-8fff-4712-d032-c5afcac79ff7@kaod.org>
+Message-ID: <7b97e54b-4d80-6db9-af33-40a539827ddd@eik.bme.hu>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-13-clg@kaod.org>
+ <973576c1-deb8-3973-34e7-d038ca2200c2@gmail.com>
+ <4885e6d0-8fff-4712-d032-c5afcac79ff7@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bbd57148-6d6d-f1c3-73f8-73e2512a8012@linux.ibm.com>
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1883355536-1659614956=:4488"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,18 +63,256 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Thu, Aug 04, 2022 at 08:56:19AM +0200, Christian Borntraeger wrote:
-> We do not support the esa390 mode, but the 24/31 bit _addressing_ modes are
-> totally valid to be used in zarch mode (with sam31 for example). The kernel
-> does that for example for some diagnoses under z/VM.
-> Nobody in problem state should probably do that, but its possible.
+--3866299591-1883355536-1659614956=:4488
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-v6 of this series handles 24/31:
+On Thu, 4 Aug 2022, Cédric Le Goater wrote:
+> On 8/4/22 01:36, Daniel Henrique Barboza wrote:
+>> Cedric,
+>> 
+>> On 8/3/22 10:28, Cédric Le Goater wrote:
+>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>>   hw/ppc/ppc405.h    | 16 +++++++++++
+>>>   hw/ppc/ppc405_uc.c | 71 +++++++++++++++++++++++++++++++---------------
+>>>   2 files changed, 64 insertions(+), 23 deletions(-)
+>>> 
+>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>> index 1da34a7f10f3..1c7fe07b8084 100644
+>>> --- a/hw/ppc/ppc405.h
+>>> +++ b/hw/ppc/ppc405.h
+>>> @@ -65,7 +65,22 @@ struct ppc4xx_bd_info_t {
+>>>   typedef struct Ppc405SoCState Ppc405SoCState;
+>>> +/* Peripheral controller */
+>>> +#define TYPE_PPC405_EBC "ppc405-ebc"
+>>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
+>>> +struct Ppc405EbcState {
+>>> +    DeviceState parent_obj;
+>>> +
+>>> +    PowerPCCPU *cpu;
+>>> +    uint32_t addr;
+>>> +    uint32_t bcr[8];
+>>> +    uint32_t bap[8];
+>>> +    uint32_t bear;
+>>> +    uint32_t besr0;
+>>> +    uint32_t besr1;
+>>> +    uint32_t cfg;
+>>> +};
+>>>   /* DMA controller */
+>>>   #define TYPE_PPC405_DMA "ppc405-dma"
+>>> @@ -203,6 +218,7 @@ struct Ppc405SoCState {
+>>>       Ppc405OcmState ocm;
+>>>       Ppc405GpioState gpio;
+>>>       Ppc405DmaState dma;
+>>> +    Ppc405EbcState ebc;
+>>>   };
+>>>   /* PowerPC 405 core */
+>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>>> index 6bd93c1cb90c..0166f3fc36da 100644
+>>> --- a/hw/ppc/ppc405_uc.c
+>>> +++ b/hw/ppc/ppc405_uc.c
+>>> @@ -393,17 +393,6 @@ static void ppc4xx_opba_init(hwaddr base)
+>>>   
+>>> /*****************************************************************************/
+>>>   /* Peripheral controller */
+>>> -typedef struct ppc4xx_ebc_t ppc4xx_ebc_t;
+>>> -struct ppc4xx_ebc_t {
+>>> -    uint32_t addr;
+>>> -    uint32_t bcr[8];
+>>> -    uint32_t bap[8];
+>>> -    uint32_t bear;
+>>> -    uint32_t besr0;
+>>> -    uint32_t besr1;
+>>> -    uint32_t cfg;
+>>> -};
+>>> -
+>>>   enum {
+>>>       EBC0_CFGADDR = 0x012,
+>>>       EBC0_CFGDATA = 0x013,
+>>> @@ -411,10 +400,9 @@ enum {
+>>>   static uint32_t dcr_read_ebc (void *opaque, int dcrn)
+>>>   {
+>>> -    ppc4xx_ebc_t *ebc;
+>>> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
+>>>       uint32_t ret;
+>>> -    ebc = opaque;
+>>>       switch (dcrn) {
+>>>       case EBC0_CFGADDR:
+>>>           ret = ebc->addr;
+>>> @@ -496,9 +484,8 @@ static uint32_t dcr_read_ebc (void *opaque, int dcrn)
+>>>   static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
+>>>   {
+>>> -    ppc4xx_ebc_t *ebc;
+>>> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
+>>> -    ebc = opaque;
+>>>       switch (dcrn) {
+>>>       case EBC0_CFGADDR:
+>>>           ebc->addr = val;
+>>> @@ -554,12 +541,11 @@ static void dcr_write_ebc (void *opaque, int dcrn, 
+>>> uint32_t val)
+>>>       }
+>>>   }
+>>> -static void ebc_reset (void *opaque)
+>>> +static void ppc405_ebc_reset(DeviceState *dev)
+>>>   {
+>>> -    ppc4xx_ebc_t *ebc;
+>>> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
+>>>       int i;
+>>> -    ebc = opaque;
+>>>       ebc->addr = 0x00000000;
+>>>       ebc->bap[0] = 0x7F8FFE80;
+>>>       ebc->bcr[0] = 0xFFE28000;
+>>> @@ -572,18 +558,46 @@ static void ebc_reset (void *opaque)
+>>>       ebc->cfg = 0x80400000;
+>>>   }
+>>> -void ppc405_ebc_init(CPUPPCState *env)
+>>> +static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
+>>>   {
+>>> -    ppc4xx_ebc_t *ebc;
+>>> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
+>>> +    CPUPPCState *env;
+>>> +
+>>> +    assert(ebc->cpu);
+>>> +
+>>> +    env = &ebc->cpu->env;
+>>> -    ebc = g_new0(ppc4xx_ebc_t, 1);
+>>> -    qemu_register_reset(&ebc_reset, ebc);
+>>>       ppc_dcr_register(env, EBC0_CFGADDR,
+>>>                        ebc, &dcr_read_ebc, &dcr_write_ebc);
+>>>       ppc_dcr_register(env, EBC0_CFGDATA,
+>>>                        ebc, &dcr_read_ebc, &dcr_write_ebc);
+>>>   }
+>>> +static Property ppc405_ebc_properties[] = {
+>>> +    DEFINE_PROP_LINK("cpu", Ppc405EbcState, cpu, TYPE_POWERPC_CPU,
+>>> +                     PowerPCCPU *),
+>>> +    DEFINE_PROP_END_OF_LIST(),
+>>> +};
+>>> +
+>>> +static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
+>>> +{
+>>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>>> +
+>>> +    dc->realize = ppc405_ebc_realize;
+>>> +    dc->user_creatable = false;
+>>> +    dc->reset = ppc405_ebc_reset;
+>>> +    device_class_set_props(dc, ppc405_ebc_properties);
+>>> +}
+>>> +
+>>> +void ppc405_ebc_init(CPUPPCState *env)
+>>> +{
+>>> +    PowerPCCPU *cpu = env_archcpu(env);
+>>> +    DeviceState *dev = qdev_new(TYPE_PPC405_EBC);
+>>> +
+>>> +    object_property_set_link(OBJECT(cpu), "cpu", OBJECT(dev), 
+>>> &error_abort);
+>> 
+>> This line is breaking the boot of sam460ex:
+>> 
+>>
+>>   ./qemu-system-ppc64 -display none -M sam460ex
+>> Unexpected error in object_property_find_err() at ../qom/object.c:1304:
+>> qemu-system-ppc64: Property '460exb-powerpc64-cpu.cpu' not found
+>> Aborted (core dumped)
+>> 
+>> 
+>> I think you meant to link the cpu prop of the EBC obj to the CPU object,
+>> not the cpu prop of the CPU obj to the EBC dev.
+>
+> Yes. ppc405_ebc_init() has only one user left, the sam460ex, which I didn't
+> test :/
 
-https://lore.kernel.org/qemu-devel/20220803171536.1314717-1-Jason@zx2c4.com/ [unchanged for a while now]
-https://lore.kernel.org/qemu-devel/20220803171536.1314717-2-Jason@zx2c4.com/ [the new sha512 thing]
+This patch changes ppc405_ebc_init to a realize method so shouldn't the 
+sam460ex be changed to create the new object instead of calling 
+ppc405_ebc_init too instead? Is the only reason the keep ppc405_ebc_init 
+to add the cpu link? As I noted before it would be nice to get rid of this 
+link somehow, it would allow dropping this init func and a bunch of 
+property descriptors where this cpu link is the only object. It should be 
+possble to get from a QOM object to its parent and the cpu from there but 
+I could not find out how. Maybe somehow with object_resolve_path() or 
+object_resolve_path_type() but I don't know QOM enough and did not find 
+anything in docs. Does somebody know how to do that? Or maybe the paths 
+are always the same so it could resolve an absolute path. Don't know how 
+it looks buth something like /machine/soc/cpu or similar to get to the cpu 
+to get the env. This could work as long as we assume we only have one cpu 
+but these SoC all have. Then no cpu link is needed and could get rid of a 
+lot of boilerplate code. Does this make sense?
 
-Jason
+Regards,
+BALATON Zoltan
+
+> Thanks,
+>
+> C.
+> 
+>> 
+>> This fixes the issue:
+>> 
+>> 
+>> $ git diff
+>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>> index 0166f3fc36..aac3a3f761 100644
+>> --- a/hw/ppc/ppc405_uc.c
+>> +++ b/hw/ppc/ppc405_uc.c
+>> @@ -594,7 +594,7 @@ void ppc405_ebc_init(CPUPPCState *env)
+>>       PowerPCCPU *cpu = env_archcpu(env);
+>>       DeviceState *dev = qdev_new(TYPE_PPC405_EBC);
+>> 
+>> -    object_property_set_link(OBJECT(cpu), "cpu", OBJECT(dev), 
+>> &error_abort);
+>> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), 
+>> &error_abort);
+>>       qdev_realize_and_unref(dev, NULL, &error_fatal);
+>>   }
+>> 
+>> 
+>> Daniel
+>> 
+>> 
+>>> +    qdev_realize_and_unref(dev, NULL, &error_fatal);
+>>> +}
+>>> +
+>>>   
+>>> /*****************************************************************************/
+>>>   /* DMA controller */
+>>>   enum {
+>>> @@ -1418,6 +1432,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>>>       object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
+>>>       object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
+>>> +
+>>> +    object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
+>>>   }
+>>>   static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>> @@ -1490,7 +1506,11 @@ static void ppc405_soc_realize(DeviceState *dev, 
+>>> Error **errp)
+>>>                         s->ram_bases, s->ram_sizes, s->do_dram_init);
+>>>       /* External bus controller */
+>>> -    ppc405_ebc_init(env);
+>>> +    object_property_set_link(OBJECT(&s->ebc), "cpu", OBJECT(&s->cpu),
+>>> +                             &error_abort);
+>>> +    if (!qdev_realize(DEVICE(&s->ebc), NULL, errp)) {
+>>> +        return;
+>>> +    }
+>>>       /* DMA controller */
+>>>       object_property_set_link(OBJECT(&s->dma), "cpu", OBJECT(&s->cpu),
+>>> @@ -1576,6 +1596,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, 
+>>> void *data)
+>>>   static const TypeInfo ppc405_types[] = {
+>>>       {
+>>> +        .name           = TYPE_PPC405_EBC,
+>>> +        .parent         = TYPE_DEVICE,
+>>> +        .instance_size  = sizeof(Ppc405EbcState),
+>>> +        .class_init     = ppc405_ebc_class_init,
+>>> +    }, {
+>>>           .name           = TYPE_PPC405_DMA,
+>>>           .parent         = TYPE_SYS_BUS_DEVICE,
+>>>           .instance_size  = sizeof(Ppc405DmaState),
+>
+>
+>
+--3866299591-1883355536-1659614956=:4488--
 
