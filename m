@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A3658A0D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:51:39 +0200 (CEST)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630BB58A0B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:45:00 +0200 (CEST)
+Received: from localhost ([::1]:46268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJfwY-0002PL-1U
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32910)
+	id 1oJfq7-0002mI-DF
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJfQq-0006AU-1O; Thu, 04 Aug 2022 14:18:52 -0400
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935]:36761)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJfVU-0006jB-RK
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:23:40 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:41505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJfQn-0001Jd-Ls; Thu, 04 Aug 2022 14:18:51 -0400
-Received: by mail-ua1-x935.google.com with SMTP id t21so166907uaq.3;
- Thu, 04 Aug 2022 11:18:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=W17FRTj9Q3+ka9z/bSwEBi3CHozp6PLjORHctslYND8=;
- b=HourHj9h6UfI63iaXnpwJmdYlinxWab3Z0dW525NukuQfnw19r2SUQbswwzf0N+Mni
- fW1M/834TrHu8O+CRzmWxtnrgU2fi3ah+j4ROy2WCYHnhlz2xtBnZ5Sbbib5oMgs4PSj
- 1HFYcit2HFKBaevDLHIRLx9x3hOuKNIaeEhCHiYhcwfqjFaJl1PjfGlHe8KNUBY1+Bq7
- MYT/ME5PzolYWN+0Dacx2gprCIXBGAlCj/oa+Jbj9IaygUbhTxwifO9hz9SIQy4meWC0
- rQGM9Yhm/KSznq2gT4e5b5lDLI86d3lKC6ofXS803FmXDIyZk5TGh9KY/PoFZSvSR1BN
- mgHg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJfVT-0002KV-92
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:23:40 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id 13so592366pgc.8
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 11:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=F0AvyKb3Tlstt3LOVFCotAcEWiDEYetc7BR6MAwZ5E4=;
+ b=R2QTm4D3KBJVhAx+nbExAHUokrSeteMnorCH6t0izods/+EN9n91BqvVs5CMpegBgg
+ 8mTxOgIwYcSkh2BpM1WV9DEp9WMXPtEqj/+yfTFb9ixDw7BKZD3Nlru0/22KBuS40Eln
+ V2yi7g1uFT9zCAbfrJokvE0mKCcPgAJTMAjVUxpPI9xJDwajb7+hHD/HnBeyBy2reeRB
+ EYy11bRy3oQndilO1+vor86J+ehkCpH3DIKuTrM7JepU5FAiyEzUqRmRzeTtEoYWuJ3P
+ eYyqQ/oTDYeDHE9s3bv70drG4u/hCK7qd58KrRPPS5Boe17ShBykl4UoB9I7Kt+YVeXl
+ Pt/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=W17FRTj9Q3+ka9z/bSwEBi3CHozp6PLjORHctslYND8=;
- b=4ddzvjtNDLkndYeYgHtJ8Edq9VEKclMZ787mx5Ifvw9qWi+b+1y2XG4ekPo5kF0LZg
- KobxBh7v7PhJ1U/uIibH5X7RSxH1VmJCjI8LUV47H3Z7OeC3vcClAuwtXylP+0YRR9cY
- gxKA3Tv67f5YDRmmSw2uhX9BpGTV/GwaoKSA92uyP2awDhFuqr+ifzzMOvfCECdpwxqY
- 2llfTXe2sVLjzufTd1Iz3VmCe/Ik4KczkNKpZafodBa9XK4CsPcFMLuGnuVB2CY1gYjP
- EcuwXgpNQmnjhDdSqM+bmua+ylwhWa310N1ssDPoCBrlC1gV4gs12th8rCz9yCefHms3
- zy2Q==
-X-Gm-Message-State: ACgBeo137dU/zAivKSq8COG8hH8lKGicvr7f0B4L2VEKR4tE0tgD+tfH
- 9yfVfWQ+9JUAkM8fAbQ7Qxs=
-X-Google-Smtp-Source: AA6agR7Hh7sYS3kWxDKH2Ux3WLlZntxiCaVLDGlsAhup9bZOKhjpk9vgO1ZFvXcBO1RbRTKS797mBg==
-X-Received: by 2002:ab0:1393:0:b0:383:26e8:7bf3 with SMTP id
- m19-20020ab01393000000b0038326e87bf3mr1581002uae.22.1659637128223; 
- Thu, 04 Aug 2022 11:18:48 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c7:52e2:fb25:323c:5709:7237?
- ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=F0AvyKb3Tlstt3LOVFCotAcEWiDEYetc7BR6MAwZ5E4=;
+ b=tkN8ZHUZhiVMaEV9xHJyZrzXh9tPLugq38E6r7agamrcRWEp5lv7rEsic6I4VOUjGo
+ DLhV7EKSKlQPASKuQD2Cz5Ic45eTb9qTvarCiobcz0aGBf7G8Sl3KgbYo6j6NL1uOTuN
+ 4w1aMa6SLhxUoe7rGHgx0iZMi7xJwOz6NytU0YrZ61YrYodp8bmoiSVARVCS3lUBtaM8
+ DB7o/ItsjG7iDOnFP5fF+M1Klj1+YaCctdo2kjJI81crXDEYiuKjOCvgnwSsngyJRxtV
+ zaOtKhmAkGc2p0iFBZStlYyg29oH5nCc7AGNmEVFbiTAbiAdblmuzMthUAZ0iYRPCBMm
+ DHOg==
+X-Gm-Message-State: ACgBeo01T8ZuFuGHJTAmn24cXmke2t6OLXHyBB6208YUS34OmGgJSI85
+ 0xNnHXDusREsGGa/32ePg/QNwA==
+X-Google-Smtp-Source: AA6agR5cqOWQ/WgIkTZZFYJG+sIsUQmODAh7qRgkom8fH9h9woyq/X3PLQKjd8OauLgcMjqhmnNEYQ==
+X-Received: by 2002:a63:6a89:0:b0:419:d863:321a with SMTP id
+ f131-20020a636a89000000b00419d863321amr2616283pgc.9.1659637415703; 
+ Thu, 04 Aug 2022 11:23:35 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:c349:7b49:2925:a0a?
+ ([2602:ae:154e:e201:c349:7b49:2925:a0a])
  by smtp.gmail.com with ESMTPSA id
- b144-20020a1f1b96000000b00376fed84e9dsm1427460vkb.45.2022.08.04.11.18.46
+ lk2-20020a17090b33c200b001ec92575e83sm1604501pjb.4.2022.08.04.11.23.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 11:18:47 -0700 (PDT)
-Message-ID: <6668b59a-5f04-0801-f0af-c8bb4f3d1681@gmail.com>
-Date: Thu, 4 Aug 2022 15:18:44 -0300
+ Thu, 04 Aug 2022 11:23:34 -0700 (PDT)
+Message-ID: <18b3de0c-593e-57c5-4277-c15ba9c2cc2f@linaro.org>
+Date: Thu, 4 Aug 2022 11:23:32 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/1] target/ppc: fix unreachable code in do_ldst_quad()
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] disas: Add LoongArch support
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>
-References: <20220725202122.1810709-1-danielhb413@gmail.com>
- <20220725202122.1810709-2-danielhb413@gmail.com>
- <CAFEAcA8Pk47gdvbPqqyx6QGVNrqUCYiKSr-KAz+oV_Z6dP7G_w@mail.gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CAFEAcA8Pk47gdvbPqqyx6QGVNrqUCYiKSr-KAz+oV_Z6dP7G_w@mail.gmail.com>
+To: Qi Hu <huqi@loongson.cn>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
+ qemu-devel@nongnu.org
+References: <20220804172939.325306-1-huqi@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220804172939.325306-1-huqi@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x935.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,53 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/4/22 15:05, Peter Maydell wrote:
-> On Mon, 25 Jul 2022 at 21:24, Daniel Henrique Barboza
-> <danielhb413@gmail.com> wrote:
->>
->> Coverity reports that commit fc34e81acd51 ("target/ppc: add macros to
->> check privilege level") turned the following code unreachable:
->>
->> if (!prefixed && !(ctx->insns_flags2 & PPC2_LSQ_ISA207)) {
->>      /* lq and stq were privileged prior to V. 2.07 */
->>      REQUIRE_SV(ctx);
->>
->>>>>      CID 1490757:  Control flow issues  (UNREACHABLE)
->>>>>      This code cannot be reached: "if (ctx->le_mode) {
->>      if (ctx->le_mode) {
->>          gen_align_no_le(ctx);
->>          return true;
->>      }
->> }
->>
->> This happens because the macro REQUIRE_SV(), in CONFIG_USER_MODE, will
->> always result in a 'return true' statement. In fact, all REQUIRE_*
->> macros for target/ppc/translate.c behave the same way: if a condition
->> isn't met, an exception is generated and a 'return' statement is issued.
->>
->> The difference is that all other callers are using it in insns that are
->> not implemented in user mode. do_ldst_quad(), on the other hand, is user
->> mode compatible.
+On 8/4/22 10:29, Qi Hu wrote:
+> Signed-off-by: Qi Hu <huqi@loongson.cn>
+> ---
+>   disas.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> This is a Coverity false positive, and I'd already marked it that way
-> in the Coverity UI back on the 20th. Coverity gets confused sometimes
-> by ifdeffery.
-> 
-> So you don't need this patch, unless you think the code is genuinely
-> better (more readable to humans, etc) this way.
+> diff --git a/disas.c b/disas.c
+> index e31438f349..d44feeee46 100644
+> --- a/disas.c
+> +++ b/disas.c
+> @@ -176,6 +176,8 @@ static void initialize_debug_host(CPUDebug *s)
+>   #else
+>   #error unsupported RISC-V ABI
+>   #endif
+> +#elif defined(__loongarch__)
+> +    s->info.print_insn = print_insn_loongarch;
 
-The idea was to make Coverity happy. If Coverity is already happy then
-let's drop this patch - there's no particular improvement made here that
-justifies it.
+This is very much insufficient.  Try --target-list=i386-softmmu and watch it fail to link.
+You need to modify the build rules to make certain that the loongarch disassembler is 
+built for loongarch host.
 
 
-Thanks,
+r~
 
-Daniel
-
-> 
-> thanks
-> -- PMM
 
