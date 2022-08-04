@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DBB589934
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 10:21:04 +0200 (CEST)
-Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05594589946
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 10:28:03 +0200 (CEST)
+Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJW6I-00023i-Bu
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 04:21:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
+	id 1oJWD2-0007E8-NI
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 04:28:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oJVxM-0001qh-BG
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:11:49 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41886)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJW57-0001t1-Vx
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:19:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oJVxK-0001n2-Lj
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:11:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:References:Cc:To:From:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jwAtQQTyhxcns3yK04pGb52N57k2XgUAgZ7OCqdZ1A0=; b=fNYnxNevJeNsmg/ab54Lrpvwfg
- 2yypK5F+cYhxHsIOj6Ho5LQ9lPeBhibBBC3wiG2eRThY0EpgRvldyyVn3K3H4uU9IJIH06tAMXEak
- RKu+rqjCj5BfYsuhHw1w5ySODYGU29SRHnP/Erm12ieGEh7K9Olo7n5/rp4KXOxPwzifu7W9Wsg1G
- 8sB71a6U5wrbVPW4q8RCD+EBn/wonKbV/7C7CYFLlCM+eZyv3LePlxvLUxhHPgaDaevoyblu/KM7t
- 5ViShXNTvZbXPZxHdJf8Tlv/G6GngToFiKXcQeXCF4iPKJrVoZe+hTWjdwFKt4LSkZwFVHqtuK5I+
- IkeIYReAE26hf/ssmcS1Vuouf88/YnuiELd55onWFM8Lfks9P2cTDaEGgn1NQtmI/O7/vPhtxejkk
- j9Jq1u1V8vT0oyveI4ugY5Q3CqoYZSjuez4hC20o0Nvp4Rsz+ZyXJJEH9GsQ5qxBjZGLH3anJ/rZV
- 5tOxbeYVZ6VVHY9lekZxmyyzgreWnQXts+Fq9vzDKjNf1Z69GycZHP+fyel0EfTnO5vv8+41b/PUw
- Pn0IPN5k4zZsihemlHyWdQ7dil0vSXgCeILiquYe91agTXW9vuGxCBbEvqCh0/vXejWDc9GKWt8MJ
- jB2v5pGR/1LdYtE2dbK6O8HPzBG+Aqe3XENu4UYEA=;
-Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oJVvs-0006d8-Jk; Thu, 04 Aug 2022 09:10:20 +0100
-Message-ID: <ac00cbb9-e225-a7fa-ec43-d763fb985060@ilande.co.uk>
-Date: Thu, 4 Aug 2022 09:11:38 +0100
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJW52-0002sV-Ro
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:19:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659601183;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+uVsdYY01swaMcRVhQwA9Xz8YWRnQfBQAXLYoDHP99I=;
+ b=UEYRhIKbDrPPeflVIa/Sw/939X74kIMxCRHqDUx0OZfBXBm0htzFk5ShGhtJQU6rgYIjJc
+ i/Izp0w33As2eCl8yVRu/Y1e80c0XOIunyTTlWVgg/aUSSxpq36W0pCnfa9WQ2sToDJ90C
+ V/PjZPVkG5efSmyPGlxe5F0mHsN6AZg=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-117-E6zKL1O-OqaX-L6Vp_MjRw-1; Thu, 04 Aug 2022 04:19:42 -0400
+X-MC-Unique: E6zKL1O-OqaX-L6Vp_MjRw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ de4-20020a05620a370400b006a9711bd9f8so15229598qkb.9
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 01:19:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+uVsdYY01swaMcRVhQwA9Xz8YWRnQfBQAXLYoDHP99I=;
+ b=erOYnJAUh5p7xyRZaKAUZfVClAEAgYErxM3feV9mgSJBRePmq+t6ClhELJH2R3Dubb
+ zonqtaxUD1sPKNREDQjS3zmKAYsdaLac3Rodf7yodjzRzulCQWxaG+t6ZTja9BNZh3Z0
+ nnfooV0ytG+EhntBM6R6Ueg2Raf3o/AGa+m/19dX9O8PucgMZcf4w78C9MK27H6LPVSe
+ gyyFpTbWVs7lf1NswOGSFWwoNSWbZ9yMqDE2rlTO7lkiYa3bd+NfxuUKtWih4gqLFLmC
+ TztG0lZGF+TgKWSOEjYijbkKW35l4Y6QcOT+F/GDEAb4ut8R8hqFjiu9ogj+fFOVWwd8
+ NRbQ==
+X-Gm-Message-State: ACgBeo2QiRykTJTtePMOgXwO++VkX5/cooY9gsm5PEf8pOfuJgeW+///
+ pyIsFNST2yEqjzzMGqtTzPoK7UCaVIP6YVWmnkdKn0zFnHBWA6wU1agBHg2ahvf3fJQIcumdSn9
+ wbeIKjWt76EO8tOjK/3IbLvhYXJSeh48=
+X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
+ v16-20020a05620a0f1000b006aa318e55a9mr467089qkl.559.1659601180207; 
+ Thu, 04 Aug 2022 01:19:40 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7tr8jO23K7C/hw7Amb/GPmi6U5Q7QmTj4N2+ofLWYpyu7UW+4lfbfbvTZ8HqmzYTr5fUlwKojkSsctPN/fK9Q=
+X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
+ v16-20020a05620a0f1000b006aa318e55a9mr467069qkl.559.1659601179893; Thu, 04
+ Aug 2022 01:19:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: kraxel@redhat.com
-References: <20220725115815.2461322-1-marcandre.lureau@redhat.com>
- <291cacc9-ac68-4a3e-edc0-fb226bdceaf3@ilande.co.uk>
-In-Reply-To: <291cacc9-ac68-4a3e-edc0-fb226bdceaf3@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] ui/console: fix qemu_console_resize() regression
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220802175731.312115-1-eperezma@redhat.com>
+ <20220802175731.312115-7-eperezma@redhat.com>
+ <47e1e277-34e9-b043-0a74-bf2b67391c6a@redhat.com>
+ <CAJaqyWc2+H0t1tgfmh6kgShJ9Obq46oUxX998YvRvQRfj3+eCA@mail.gmail.com>
+ <CACGkMEuQ0cYAaGf6T+m_WuaK1n58XxGXney3jx5mDni78BqbYQ@mail.gmail.com>
+In-Reply-To: <CACGkMEuQ0cYAaGf6T+m_WuaK1n58XxGXney3jx5mDni78BqbYQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 4 Aug 2022 10:19:03 +0200
+Message-ID: <CAJaqyWeQSLY7dPyaoAZaKtVQ9j8f7HnDk3eNcCTY5hK9cBKs+g@mail.gmail.com>
+Subject: Re: [PATCH v5 06/10] vdpa: Make vhost_vdpa_net_cvq_map_elem accept
+ any out sg
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,68 +106,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/07/2022 17:35, Mark Cave-Ayland wrote:
+On Thu, Aug 4, 2022 at 9:51 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Thu, Aug 4, 2022 at 3:39 PM Eugenio Perez Martin <eperezma@redhat.com>=
+ wrote:
+> >
+> > On Thu, Aug 4, 2022 at 6:17 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > >
+> > > =E5=9C=A8 2022/8/3 01:57, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > > > So its generic enough to accept any out sg buffer and we can inject
+> > > > NIC state messages.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > ---
+> > > > v5: Accept out sg instead of dev_buffers[]
+> > > > ---
+> > > >   net/vhost-vdpa.c | 13 +++++++------
+> > > >   1 file changed, 7 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index 33bf3d6409..2421bca347 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -302,16 +302,16 @@ dma_map_err:
+> > > >   }
+> > > >
+> > > >   /**
+> > > > - * Copy the guest element into a dedicated buffer suitable to be s=
+ent to NIC
+> > > > + * Maps out sg and in buffer into dedicated buffers suitable to be=
+ sent to NIC
+> > > >    */
+> > > > -static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+> > > > -                                        VirtQueueElement *elem,
+> > > > -                                        size_t *out_len)
+> > > > +static bool vhost_vdpa_net_cvq_map_sg(VhostVDPAState *s,
+> > > > +                                      const struct iovec *out, siz=
+e_t out_num,
+> > > > +                                      size_t *out_len)
+> > >
+> > >
+> > > This still looks not genreal as there's no guarantee that we won't ha=
+ve
+> > > command-in-specific-data. One example is that Ali is working on the
+> > > virtio-net statistics fetching from the control virtqueue.
+> > >
+> > > So it looks to me we'd better have a general bounce_map here that acc=
+epts:
+> > >
+> > > 1) out_sg and out_num
+> > > 2) in_sg and in_num
+> > >
+> >
+> > We don't need to pass in_sg for that: The only useful information is
+> > its size.
+>
+> What if we support stats in the future where it extends the ctrl command:
+>
+>          u8 command;
+>          u8 command-specific-data[];
+>          u8 ack;
+> +        u8 command-specific-data-reply[];
+>
+> in
+>
+> https://lists.oasis-open.org/archives/virtio-dev/202203/msg00000.html
+>
 
-> On 25/07/2022 12:58, marcandre.lureau@redhat.com wrote:
-> 
->> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>
->> The display may be corrupted when changing screen colour depth in
->> qemu-system-ppc/MacOS since 7.0.
-> 
-> Is it worth being more specific here? Whilst MacOS with its NDRV driver exhibits the 
-> issue, it's really only because MacOS has separate selections for depth and 
-> resolution which allows one to be set without updating the other. I did a quick play 
-> with the Forth reproducer, and even with current git master the issue goes away if 
-> you also change the width/height at the same time as the depth.
-> 
->> Do not short-cut qemu_console_resize() if the surface is backed by vga
->> vram. When the scanout isn't set, or it is already allocated, or opengl,
->> and the size is fitting, we still avoid the reallocation & replace path.
->>
->> Fixes: commit cb8962c1 ("ui: do not create a surface when resizing a GL scanout")
->>
->> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->> ---
->>   ui/console.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/ui/console.c b/ui/console.c
->> index e139f7115e1f..765892f84f1c 100644
->> --- a/ui/console.c
->> +++ b/ui/console.c
->> @@ -2575,11 +2575,13 @@ static void vc_chr_open(Chardev *chr,
->>   void qemu_console_resize(QemuConsole *s, int width, int height)
->>   {
->> -    DisplaySurface *surface;
->> +    DisplaySurface *surface = qemu_console_surface(s);
->>       assert(s->console_type == GRAPHIC_CONSOLE);
->> -    if (qemu_console_get_width(s, -1) == width &&
->> +    if ((s->scanout.kind != SCANOUT_SURFACE ||
->> +         (surface && surface->flags & QEMU_ALLOCATED_FLAG)) &&
->> +        qemu_console_get_width(s, -1) == width &&
->>           qemu_console_get_height(s, -1) == height) {
->>           return;
->>       }
-> 
-> The criteria listed for the short-cut in the commit message are quite handy, so is it 
-> worth adding a comment along the same lines as a reminder? Or is this logic touched 
-> so rarely that it isn't worthwhile?
-> 
-> Regardless of the above, thanks for coming up with the patch and I can confirm that 
-> it fixes both the Forth reproducer and the changing of the Monitor colour depth in 
-> MacOS itself:
-> 
-> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+The guest will expose an in descriptor in whatever layout it wants.
+QEMU reads its layout into a VirtQueueElement in_num and in_sg
+members, in qemu's (and SVQ) address space.
 
-Hi Marc-André,
+Since we don't want the guest to be able to modify the in buffer
+maliciously, we offer the device a bounce in buffer. Since the in
+buffer still contains no information, we only need its size, so we can
+"allocate and map" an equivalent one for the device and memset to 0.
+For simplicity, we allocate one page, so no need for iovec
+complexities.
 
-Are you planning to submit this as a fix for 7.1? I think it would certainly qualify 
-as a bug fix, and would likely affect users other than just qemu-system-ppc/MacOS.
+After the device has written in it, we get the written len and verify
+the information. If VIRTIO_NET_OK, we copy that to the guest's in
+buffer, using the iov_from_buf right after out: tag at
+vhost_vdpa_net_handle_ctrl_avail. Instead of copy from the stack
+"(status, sizeof(status))" variable, we copy from
+(s->cvq_cmd_in_buffer, written_len).
 
+Note that this is still not enough for stats. We also need a way to:
+* Update the virtio-net device model stats. virtio_net_handle_ctrl_iov
+would try to write the virtio-net stats to in buffer, not to update
+the device model stat.
+* Update the stats on the destination. Another ctrl command? Intercept
+them via svq and simply sum source stats + current device stats? I'd
+say the second is better as it saves effort to the device, but maybe
+it's not.
 
-ATB,
+That's why I think this command should be left out at the moment, to
+do the modifications is not hard but we should agree on how to do them
+first.
 
-Mark.
+> > Since the exposed buffer is an in one, it's enough to expose
+> > the s->cvq_cmd_in_buffer buffer in full. The caller already knows the
+> > device will write to it, so the only missing piece is to return the
+> > written length at vhost_vdpa_net_cvq_add.
+> >
+> > Is one page the right buffer size for the in buffer?
+>
+> We can start from this.
+>
+> > Is it worth
+> > worrying about it before implementing the stat control command in qemu
+> > virtio-net?
+>
+> If it's not complex, it's better to do that from the beginning,
+> otherwise the user may be surprised and we need extra work. Anyhow, we
+> should support at least ack which is an in_sg.
+>
+> >
+> > > In this level, we'd better not have any special care about the in as =
+the
+> > > ack.
+> >
+> > We need to care about it. If a property has not been updated in the
+> > vdpa device (it returned VIRTIO_NET_ERR), we must not update the
+> > device model.
+>
+> Yes, but what I meant is at the level of bouncing itself. If we met
+> VIRTIO_NET_ERR, we should propagate it to the guest as well?
+>
+
+Yes we have, if not the guest thinks the command succeeds. Isn't it?
+
+Thanks!
+
+> Thanks
+>
+> >
+> > We can move the processing from vhost_vdpa_net_cvq_add to
+> > vhost_vdpa_net_load and vhost_vdpa_net_handle_ctrl_avail, but the code
+> > gets duplicated then.
+> >
+> > > And we need do bouncing:
+> > >
+> > > 1) for out buffer, during map
+> > > 2) for in buffer during unmap
+> > >
+> >
+> > We can move the copy of the in_buffer to the unmap for sure.
+> >
+> > Thanks!
+> >
+> > > Thanks
+> > >
+> > >
+> > > >   {
+> > > >       size_t in_copied;
+> > > >       bool ok;
+> > > >
+> > > > -    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, el=
+em->out_num,
+> > > > +    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, out, out_num,
+> > > >                                   vhost_vdpa_net_cvq_cmd_len(),
+> > > >                                   s->cvq_cmd_out_buffer, out_len, f=
+alse);
+> > > >       if (unlikely(!ok)) {
+> > > > @@ -435,7 +435,8 @@ static int vhost_vdpa_net_handle_ctrl_avail(Vho=
+stShadowVirtqueue *svq,
+> > > >       };
+> > > >       bool ok;
+> > > >
+> > > > -    ok =3D vhost_vdpa_net_cvq_map_elem(s, elem, &dev_buffers[0].io=
+v_len);
+> > > > +    ok =3D vhost_vdpa_net_cvq_map_sg(s, elem->out_sg, elem->out_nu=
+m,
+> > > > +                                   &dev_buffers[0].iov_len);
+> > > >       if (unlikely(!ok)) {
+> > > >           goto out;
+> > > >       }
+> > >
+> >
+>
+
 
