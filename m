@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709D4589F02
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 17:59:02 +0200 (CEST)
-Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE48589F0A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 18:00:44 +0200 (CEST)
+Received: from localhost ([::1]:42864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJdFU-0007Gy-5r
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 11:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59618)
+	id 1oJdH9-00010K-Js
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 12:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJdBb-0002o2-SS
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:54:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJdBT-0003XR-U5
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:54:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659628491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zibunRhm+sIi3pljgeMpXElkFB9p0aIg/cGjDGnEIdM=;
- b=Ze7IuV4I76USeaHj5aFQK+9G5/MeOYs7EU6HX0zPTpXpGArxdz1frBC7q1VXaPeGRxArVn
- hvG515ZnLamzc7+BROQKgL2O3bFVl1OH8wZ3OFbLkAWDgtRd/09s+yxnQQfOIjufWQYwCU
- a801d019EQW8xAWTLAeJP64paRbZe2c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-CdJuAT0NMAGwD8DJWGfNHw-1; Thu, 04 Aug 2022 11:54:49 -0400
-X-MC-Unique: CdJuAT0NMAGwD8DJWGfNHw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B06C185A79C
- for <qemu-devel@nongnu.org>; Thu,  4 Aug 2022 15:54:49 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4586A909FF;
- Thu,  4 Aug 2022 15:54:48 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, Lei Yang <leiyang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v2 2/2] vdpa: do not save failed dma maps in SVQ iova tree
-Date: Thu,  4 Aug 2022 17:54:43 +0200
-Message-Id: <20220804155443.671136-3-eperezma@redhat.com>
-In-Reply-To: <20220804155443.671136-1-eperezma@redhat.com>
-References: <20220804155443.671136-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJdD4-00058h-1V
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:56:30 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:46063)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJdD2-0003uW-CZ
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:56:29 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id z187so9807025pfb.12
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 08:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DWIR6UETj0gLuun7KHQRO33aSS+XeMVlxFxTjE0CJzM=;
+ b=awbFcuN7h74UcuvBgY3YBeMc2vSL0vMeLwAFk1lsqZReYmvMfECTVXVo/NtI1+n0r/
+ XetHA28sxLnHI+/49XN9mTrodbXowMoLUCBePkGogEdmzvSckWN2mbjMh7VPrSNwMDES
+ ZOlmyxsIDZohlIp1Kfax7Ll9IPLFSAp5+hw3Ln216m2L7iSK6783EIwQEVgrAtN9A8fi
+ 9OatbifXa1AJ2pDK9Fu2npaSYOZWmznFyvl7tLuoFO0PX3Yq0EKrPd2CQ1eFsZtslGsm
+ yJAXatA/NB7ruVlX9ngjK8zwjdNk5pyMNU+3USPCcha8hlPrXnbQb28xk9KhQozTuCI2
+ 7irA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DWIR6UETj0gLuun7KHQRO33aSS+XeMVlxFxTjE0CJzM=;
+ b=DYb21LGXcb/RxseZxe7G2ZpVu3WioRBvfeHyjpbSK5PR87DW7HX344H2L5M/Oo4tGx
+ xLuVo1OV16H6A2na23/FJ7GTci0UUkw5c6HCkoDvj+3vg29LZf1ty6jO97EILcr9KM0i
+ 2E8R0JCpkKvUsZLn6o+TjrzZ42/JTKGkrYdYZI4fOFKhYEoLUlMV3aX6d1PaFfsriV/V
+ UZUMi0ZAGoCqSKsyoO8SlwKQVO5nKEy8uZ06ZkhwSVD9IbP6tGqX+yhS+kw46qygeOok
+ dbt/aWCKlO/jwRI1Pm38ScjjKsDkGzYvS/v/kvTdID5nDZ3ooxdYTBoCOHby6VAcGAh5
+ MlgQ==
+X-Gm-Message-State: ACgBeo2BVqSqprGoCakaRa3PJDbgFpNoUise9jOaGFTuMviU1SLP2U+A
+ l44fCPmJ0LgHQuGJOpOiFq033Q==
+X-Google-Smtp-Source: AA6agR52XRO93GV6fUIm72pmBrUjquWTmsmNrV5AqGjkeXXkAmOEK+Ued065Jy0HCWjUIcQoWeLqcg==
+X-Received: by 2002:a63:6c49:0:b0:419:a4c5:cab5 with SMTP id
+ h70-20020a636c49000000b00419a4c5cab5mr2051797pgc.123.1659628586679; 
+ Thu, 04 Aug 2022 08:56:26 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:c349:7b49:2925:a0a?
+ ([2602:ae:154e:e201:c349:7b49:2925:a0a])
+ by smtp.gmail.com with ESMTPSA id
+ z17-20020aa79911000000b0052e6d6f3cb7sm1125970pff.189.2022.08.04.08.56.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Aug 2022 08:56:25 -0700 (PDT)
+Message-ID: <8a9fdc00-5d12-ca40-7101-ed5dc8b36e7b@linaro.org>
+Date: Thu, 4 Aug 2022 08:56:23 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH for-7.1 1/5] target/loongarch: Fix GDB get the wrong pc
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, f4bug@amsat.org, alex.bennee@linaro.org,
+ yangxiaojuan@loongson.cn
+References: <20220804130213.1364164-1-gaosong@loongson.cn>
+ <20220804130213.1364164-2-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220804130213.1364164-2-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,67 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a map fails for whatever reason, it must not be saved in the tree.
-Otherwise, qemu will try to unmap it in cleanup, leaving to more errors.
+On 8/4/22 06:02, Song Gao wrote:
+> +        /* orig_a0 */
+> +        return gdb_get_regl(mem_buf, env->gpr[4]);
 
-Fixes: 34e3c94eda ("vdpa: Add custom IOTLB translations to SVQ")
-Reported-by: Lei Yang <leiyang@redhat.com>
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/virtio/vhost-vdpa.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+There is no rational value to provide for orig_a0,
+because this is only related to the linux kernel.
+I understand that you need to enumerate the register
+so that pc gets number 35, but you might as well
+simply provide zero for this value.
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 983d3697b0..7e28d2f674 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -176,6 +176,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
- static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                            MemoryRegionSection *section)
- {
-+    DMAMap mem_region = {};
-     struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-     hwaddr iova;
-     Int128 llend, llsize;
-@@ -212,13 +213,13 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
 
-     llsize = int128_sub(llend, int128_make64(iova));
-     if (v->shadow_vqs_enabled) {
--        DMAMap mem_region = {
--            .translated_addr = (hwaddr)(uintptr_t)vaddr,
--            .size = int128_get64(llsize) - 1,
--            .perm = IOMMU_ACCESS_FLAG(true, section->readonly),
--        };
-+        int r;
-
--        int r = vhost_iova_tree_map_alloc(v->iova_tree, &mem_region);
-+        mem_region.translated_addr = (hwaddr)(uintptr_t)vaddr,
-+        mem_region.size = int128_get64(llsize) - 1,
-+        mem_region.perm = IOMMU_ACCESS_FLAG(true, section->readonly),
-+
-+        r = vhost_iova_tree_map_alloc(v->iova_tree, &mem_region);
-         if (unlikely(r != IOVA_OK)) {
-             error_report("Can't allocate a mapping (%d)", r);
-             goto fail;
-@@ -232,11 +233,16 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                              vaddr, section->readonly);
-     if (ret) {
-         error_report("vhost vdpa map fail!");
--        goto fail;
-+        goto fail_map;
-     }
-
-     return;
-
-+fail_map:
-+    if (v->shadow_vqs_enabled) {
-+        vhost_iova_tree_remove(v->iova_tree, &mem_region);
-+    }
-+
- fail:
-     /*
-      * On the initfn path, store the first error in the container so we
---
-2.31.1
-
+r~
 
