@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14ED58A0AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:44:01 +0200 (CEST)
-Received: from localhost ([::1]:42988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BADE858A0A5
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:41:25 +0200 (CEST)
+Received: from localhost ([::1]:37656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJfpA-0000UX-Ts
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
+	id 1oJfme-0005CY-Pq
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfb1-0008Dj-Ly
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30016)
+ id 1oJfaz-0008Di-UA
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfay-00034A-Hn
+ id 1oJfas-00033s-95
  for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659637751;
+ s=mimecast20190719; t=1659637746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZJjoWNgiO9pSxFfxgEXPumFynQaR4e570fIWsLS9YCg=;
- b=EtpPguNqKMTAm0RbwsTzf3VNt1wLsurPB/UPurn/u4ReSf/5rC0b8s7p0wPcsNRvJJ1gpe
- 9ZvDpVGK2d/nyhNUhGQ7mdPbLQp0+KP9kyMT92i6p1ALYfgQ1Xv0T6GssAnG+zz11gq+C4
- mPS2esWqNLOZ/SDhbE+PACTcq6OU5kY=
+ bh=mFcSWUZrd/1meZg3dITq3TzQyarfrxoNesnu+w7BZmQ=;
+ b=PJGfQSvP4eEZSRUA8a6g35whmMzeOQ5pLLwAAO11pRsJVSUNDxMoyKARoS+EfgfuAIQl8D
+ iZE7gEn8R1n2uYfRwbmWsqtj6VidFJuhgeBbt9kFvDre5DVJfQCsdBpxezzLurYmWWTuDc
+ lsDEHCkUfol69FsYKsMRcw/CbXj+Q/o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-X4ImEGu5MwGQ_nLFMhYnkA-1; Thu, 04 Aug 2022 14:29:02 -0400
-X-MC-Unique: X4ImEGu5MwGQ_nLFMhYnkA-1
+ us-mta-446-Pocj7rV2PYShsW16l8-8UQ-1; Thu, 04 Aug 2022 14:29:05 -0400
+X-MC-Unique: Pocj7rV2PYShsW16l8-8UQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C42BE811E75;
- Thu,  4 Aug 2022 18:29:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F187E101A589;
+ Thu,  4 Aug 2022 18:29:04 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7441492C3B;
- Thu,  4 Aug 2022 18:28:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1098C492C3B;
+ Thu,  4 Aug 2022 18:29:01 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
@@ -55,10 +55,10 @@ Cc: Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Eli Cohen <eli@mellanox.com>,
  Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>
-Subject: [PATCH v7 01/12] vhost: stop transfer elem ownership in
- vhost_handle_guest_kick
-Date: Thu,  4 Aug 2022 20:28:41 +0200
-Message-Id: <20220804182852.703398-2-eperezma@redhat.com>
+Subject: [PATCH v7 02/12] vhost: use SVQ element ndescs instead of opaque data
+ for desc validation
+Date: Thu,  4 Aug 2022 20:28:42 +0200
+Message-Id: <20220804182852.703398-3-eperezma@redhat.com>
 In-Reply-To: <20220804182852.703398-1-eperezma@redhat.com>
 References: <20220804182852.703398-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,62 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It was easier to allow vhost_svq_add to handle the memory. Now that we
-will allow qemu to add elements to a SVQ without the guest's knowledge,
-it's better to handle it in the caller.
+Since we're going to allow SVQ to add elements without the guest's
+knowledge and without its own VirtQueueElement, it's easier to check if
+an element is a valid head checking a different thing than the
+VirtQueueElement.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index e4956728dd..ffd2b2c972 100644
+index ffd2b2c972..e6eebd0e8d 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -233,9 +233,6 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
- /**
-  * Add an element to a SVQ.
-  *
-- * The caller must check that there is enough slots for the new element. It
-- * takes ownership of the element: In case of failure not ENOSPC, it is free.
-- *
-  * Return -EINVAL if element is invalid, -ENOSPC if dev queue is full
-  */
- int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
-@@ -252,7 +249,6 @@ int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
- 
-     ok = vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num, &qemu_head);
-     if (unlikely(!ok)) {
--        g_free(elem);
-         return -EINVAL;
+@@ -414,7 +414,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+         return NULL;
      }
  
-@@ -293,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-         virtio_queue_set_notification(svq->vq, false);
+-    if (unlikely(!svq->desc_state[used_elem.id].elem)) {
++    if (unlikely(!svq->desc_state[used_elem.id].ndescs)) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+             "Device %s says index %u is used, but it was not available",
+             svq->vdev->name, used_elem.id);
+@@ -422,6 +422,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+     }
  
-         while (true) {
--            VirtQueueElement *elem;
-+            g_autofree VirtQueueElement *elem;
-             int r;
- 
-             if (svq->next_guest_avail_elem) {
-@@ -324,12 +320,14 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-                      * queue the current guest descriptor and ignore kicks
-                      * until some elements are used.
-                      */
--                    svq->next_guest_avail_elem = elem;
-+                    svq->next_guest_avail_elem = g_steal_pointer(&elem);
-                 }
- 
-                 /* VQ is full or broken, just return and ignore kicks */
-                 return;
-             }
-+            /* elem belongs to SVQ or external caller now */
-+            elem = NULL;
-         }
- 
-         virtio_queue_set_notification(svq->vq, true);
+     num = svq->desc_state[used_elem.id].ndescs;
++    svq->desc_state[used_elem.id].ndescs = 0;
+     last_used_chain = vhost_svq_last_desc_of_chain(svq, num, used_elem.id);
+     svq->desc_next[last_used_chain] = svq->free_head;
+     svq->free_head = used_elem.id;
 -- 
 2.31.1
 
