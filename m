@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FEA58965C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 05:03:40 +0200 (CEST)
-Received: from localhost ([::1]:36708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E45589676
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 05:17:08 +0200 (CEST)
+Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJR98-0001MO-Ur
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 23:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
+	id 1oJRMB-0004Mu-Ep
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 23:17:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJR78-0007dx-KA
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 23:01:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56685)
+ id 1oJRJe-0002OU-Nv
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 23:14:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJR74-0005Q1-Pj
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 23:01:32 -0400
+ id 1oJRJc-0007XU-0g
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 23:14:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659582088;
+ s=mimecast20190719; t=1659582867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mUZkUzAL/hyC3ByhyQrlSVx7bzH2OgNHBTPcccznWhc=;
- b=THdWgBivRpDZpDZWqQpfXLk0zBAnhYVr802/VpYNjMujl324GRvstazVobmbK2fAE3QU3p
- Q1kO89975I+4idYBYdVv+GBsMZ01H4h5Y3ro/iIq9CQf7TIKcaS/FBNKsGjeszUwSgdUzg
- WDLegi5Un6Qfk9iKh6ja3YnYBHZSTG8=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=A1rPi5vX6yxlnUiAiv/yrZjRQbbm5DY5a2pv7XBJEEk=;
+ b=FcPBv4B3Z/Jdi/GRspRqOLopnxZmcP2Vs8GJFyJ3FVjHNayQMZBY1czuwbdaJjBhQpybVT
+ ujEdrSrrygZlW+laEmMjXAubHutTDXCuV69VuYcXACRvMzyjqtlmY00k5F/bIM+NDoEG3S
+ c71+DbW6eaKb5PKzXOi9oVXzQ2dhVc0=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-3iw49upgPZG9euxlbz12pg-1; Wed, 03 Aug 2022 23:01:26 -0400
-X-MC-Unique: 3iw49upgPZG9euxlbz12pg-1
-Received: by mail-pj1-f71.google.com with SMTP id
- s4-20020a17090a760400b001f3120342daso8101180pjk.4
- for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 20:01:26 -0700 (PDT)
+ us-mta-433-6QK374JNMMKBCB_lboOtjw-1; Wed, 03 Aug 2022 23:14:26 -0400
+X-MC-Unique: 6QK374JNMMKBCB_lboOtjw-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ q12-20020a17090aa00c00b001f228eb8b84so2092318pjp.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 20:14:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=mUZkUzAL/hyC3ByhyQrlSVx7bzH2OgNHBTPcccznWhc=;
- b=Xpo5zbCWPFYssA8A/VLPKPCOn2DU8kHD6cy5veMSFBrHt+OSFOvCjyeCbiXtUhTu3l
- IAJ2ZpPTnjYZDvSdH7li1krO4T5dDWO5gbbiMi4cbUHHxrs8ezz3Umvb/BE8h9ZfOqL3
- zPpatmZ/fgxF5N/OBsrpyBC4RTySxYTYTVAW2SQICPqIsokm1F8NKi7HxbjNucCxWks8
- H9jySoCkMfv9dJM1yPwGsv7SniLnKUOxNX8y69QcvN3T7Ah0Ad+udUzFQuwvetfxOcsw
- uThg7qAzua0YurJtB/QGLeYqWZJ4v4YT6s1lhwfh+X8PuMzeEQU1Z0ZLKWmEo7kkgUL3
- QfBQ==
-X-Gm-Message-State: ACgBeo0qMuR2FQturX7fEvIUdw3cDJNS03YFFVvZ93PkIPCwsPUsIDUo
- ZBei3ZRkMyY8PgTWiZX35leeSyM8F8NKRo1LBCnG0i/oc+jpOL6VONseEBVW2AOUHAXN/tOhDWX
- pmqnc+o3Mn17jVNE=
-X-Received: by 2002:a05:6a00:1949:b0:52d:a742:ff9c with SMTP id
- s9-20020a056a00194900b0052da742ff9cmr14510212pfk.10.1659582085688; 
- Wed, 03 Aug 2022 20:01:25 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7GgwNaJTrKbCGiPW06sTd+/lL6ZQ0LAPo/4P7k0wuEzgqK7Qx4zsrk8YbfQUGdWyjoOG5Yrw==
-X-Received: by 2002:a05:6a00:1949:b0:52d:a742:ff9c with SMTP id
- s9-20020a056a00194900b0052da742ff9cmr14510173pfk.10.1659582085322; 
- Wed, 03 Aug 2022 20:01:25 -0700 (PDT)
+ bh=A1rPi5vX6yxlnUiAiv/yrZjRQbbm5DY5a2pv7XBJEEk=;
+ b=ohy1JIm//dyvColkiJoJ4GMhRXv1cP3E/hOuE3IFN0wNAKUFjsrKlgGt31WP2JIc4F
+ 4Jibk70wMPDXpxhss21pufIQtcTx3690Adz2GSNcWOu9y4Fzb57Hsla/57cnlFzfxupx
+ kiteAcKnmNdxMnVSJZv7EkvzB/KAgnBI6dWF0forvQsqSzjEtOeJy6YvCLLid5xhQ8pq
+ kjuvimk49SxA9rIlaY9GtM0QcKnVHk105fPyuoMlb0O+LpEuUcoz5bgIrYpknDz14PFn
+ YMcPjK1+p8v6EAdaTHobL6vRBKYwbt1r3zKeb5dOFwDJinAiCV/kHBEdigiGyPckuZJZ
+ HMkQ==
+X-Gm-Message-State: ACgBeo0QNoVpHocf1oxreEE9zxKbKAbxUUpI26LjQOW32O6t12VHv+TW
+ EUje89Xhec/DpEN18xlvmJn8Qo/OvjIaizap0LepWLzEk+5GtK4Khc8eokaqq4ON6JoEGEvOrdr
+ ZN5hZSJXyHQgRxhM=
+X-Received: by 2002:a17:903:41cc:b0:16e:d522:6b8e with SMTP id
+ u12-20020a17090341cc00b0016ed5226b8emr22217869ple.62.1659582864968; 
+ Wed, 03 Aug 2022 20:14:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR50mrrU/Sf1eg6VNPkUEtjQvJ0xrQ90GkKyp9jPUL1O0aY0AgZ27j5RoKukDYOMKyIaJdq12A==
+X-Received: by 2002:a17:903:41cc:b0:16e:d522:6b8e with SMTP id
+ u12-20020a17090341cc00b0016ed5226b8emr22217839ple.62.1659582864652; 
+ Wed, 03 Aug 2022 20:14:24 -0700 (PDT)
 Received: from [10.72.12.192] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- w17-20020aa79a11000000b0052e0e6c76f1sm2915764pfj.0.2022.08.03.20.01.19
+ x190-20020a6263c7000000b0052ac99c2c1csm13694405pfb.83.2022.08.03.20.14.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Aug 2022 20:01:24 -0700 (PDT)
-Message-ID: <6ca24679-7d2b-a3ab-4c9e-a83745682808@redhat.com>
-Date: Thu, 4 Aug 2022 11:01:16 +0800
+ Wed, 03 Aug 2022 20:14:24 -0700 (PDT)
+Message-ID: <308c14f4-90c5-9256-3a87-801dbd9eda05@redhat.com>
+Date: Thu, 4 Aug 2022 11:14:16 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v5 02/10] vhost: use SVQ element ndescs instead of opaque
- data for desc validation
+Subject: Re: [PATCH v5 03/10] vhost: Do not depend on !NULL VirtQueueElement
+ on vhost_svq_flush
 Content-Language: en-US
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 Cc: Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
@@ -84,9 +84,9 @@ Cc: Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>,
  Zhu Lingshan <lingshan.zhu@intel.com>
 References: <20220802175731.312115-1-eperezma@redhat.com>
- <20220802175731.312115-3-eperezma@redhat.com>
+ <20220802175731.312115-4-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220802175731.312115-3-eperezma@redhat.com>
+In-Reply-To: <20220802175731.312115-4-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -115,46 +115,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/8/3 01:57, Eugenio Pérez 写道:
-> Since we're going to allow SVQ to add elements without the guest's
-> knowledge and without its own VirtQueueElement, it's easier to check if
-> an element is a valid head checking a different thing than the
-> VirtQueueElement.
+> Since QEMU will be able to inject new elements on CVQ to restore the
+> state, we need not to depend on a VirtQueueElement to know if a new
+> element has been used by the device or not. Instead of check that, check
+> if there are new elements only using used idx on vhost_svq_flush.
 >
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
+>   hw/virtio/vhost-shadow-virtqueue.c | 18 +++++++++---------
+>   1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+> index e6eebd0e8d..fdb550c31b 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -491,7 +491,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+>   /**
+>    * Poll the SVQ for one device used buffer.
+>    *
+> - * This function race with main event loop SVQ polling, so extra
+> + * This function races with main event loop SVQ polling, so extra
+>    * synchronization is needed.
+>    *
+>    * Return the length written by the device.
+> @@ -499,20 +499,20 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+>   size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+>   {
+>       int64_t start_us = g_get_monotonic_time();
+> -    do {
+> +    while (true) {
+>           uint32_t len;
+> -        VirtQueueElement *elem = vhost_svq_get_buf(svq, &len);
+> -        if (elem) {
+> -            return len;
+> -        }
+>   
+>           if (unlikely(g_get_monotonic_time() - start_us > 10e6)) {
+>               return 0;
+>           }
+>   
+> -        /* Make sure we read new used_idx */
+> -        smp_rmb();
+> -    } while (true);
+> +        if (!vhost_svq_more_used(svq)) {
+> +            continue;
+> +        }
+> +
+> +        vhost_svq_get_buf(svq, &len);
 
 
-Patch looks good to me. But I spot several other issues:
-
-1) vhost_svq_add() use size_t for in_num and out_num, is this intended?
-2) do we need to fail vhost_svq_add() if in_num + out_num == 0?
+I wonder if this means we won't worry about the infinite wait?
 
 Thanks
 
 
->   hw/virtio/vhost-shadow-virtqueue.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index ffd2b2c972..e6eebd0e8d 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -414,7 +414,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
->           return NULL;
->       }
+> +        return len;
+> +    }
+>   }
 >   
-> -    if (unlikely(!svq->desc_state[used_elem.id].elem)) {
-> +    if (unlikely(!svq->desc_state[used_elem.id].ndescs)) {
->           qemu_log_mask(LOG_GUEST_ERROR,
->               "Device %s says index %u is used, but it was not available",
->               svq->vdev->name, used_elem.id);
-> @@ -422,6 +422,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
->       }
->   
->       num = svq->desc_state[used_elem.id].ndescs;
-> +    svq->desc_state[used_elem.id].ndescs = 0;
->       last_used_chain = vhost_svq_last_desc_of_chain(svq, num, used_elem.id);
->       svq->desc_next[last_used_chain] = svq->free_head;
->       svq->free_head = used_elem.id;
+>   /**
 
 
