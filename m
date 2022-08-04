@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3D2589BC7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:41:16 +0200 (CEST)
-Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F11589BDD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:44:41 +0200 (CEST)
+Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJaA6-0000Kb-I5
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32922)
+	id 1oJaDQ-0006ZC-AO
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJZXl-0001nR-Ek
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:01:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37298)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
+ id 1oJZZm-0004G0-LW
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:03:43 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:52600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJZXj-0005X0-0E
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:01:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659614492;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ (Exim 4.90_1)
+ (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
+ id 1oJZZg-0005mf-W0
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:03:42 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7FDDD61770;
+ Thu,  4 Aug 2022 12:03:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA8DC433D6;
+ Thu,  4 Aug 2022 12:03:33 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="KCtXlY3a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659614612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HTtDQ/tO2He5QbyMZp5w6XqVl4quXffu7k1AejTfcOc=;
- b=PWHNLCqCyQEcRoHjMt+21BX2gkt2gH2XG6fo32kCedEyL+hlgYRknyNk6S8+GX1LoryOKH
- K3L/Wmqi6b7ZjzbrlKSWmgaZdMbWdTH+kqvFdAUJm6JHJgBS9oCRSxqASOpYbcBAsgimth
- WCIlsImt7AxXZz+GvAY72Su3Z1ESMFs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-5yHKCcMZM6Kwju4s9XrRGg-1; Thu, 04 Aug 2022 08:01:27 -0400
-X-MC-Unique: 5yHKCcMZM6Kwju4s9XrRGg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C855182406A;
- Thu,  4 Aug 2022 12:01:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0510A18EB7;
- Thu,  4 Aug 2022 12:01:24 +0000 (UTC)
-Date: Thu, 4 Aug 2022 13:01:22 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ bh=bzY+1qEB4bBdsPHqGA7lAc00b6IQ30wvQR3vqGuF2Ys=;
+ b=KCtXlY3ahUHvEhKHTU8IWB57Sz/mKyyYUzn6Qz28anxxb6XhSXARIQ1r18zlLQvhnck1UB
+ tcJso0KGbt04E0xzigk2G9aM9N6IF/Osa5iUMHFBcplM62YPgtSWibNeYUQQ2fo88wmUow
+ +AX44lcGHo8Prkp2xbhscxk/LZjMbqM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 167409e5
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Thu, 4 Aug 2022 12:03:31 +0000 (UTC)
+Date: Thu, 4 Aug 2022 14:03:29 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laszlo Ersek <lersek@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
  Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
-Message-ID: <Yuu1Eod8rwKY3pIS@redhat.com>
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-10-pbonzini@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
+ linux-efi@vger.kernel.org
+Subject: Re: [PATCH v2] hw/i386: place setup_data at fixed place in memory
+Message-ID: <Yuu1kX9CAqSUNNAj@zx2c4.com>
+References: <YusVVLNbLgsk49PK@zx2c4.com>
+ <20220804004411.1343158-1-Jason@zx2c4.com>
+ <20220804030012-mutt-send-email-mst@kernel.org>
+ <bfa5704d-755c-5a52-e7cc-bd9b34e5bb03@redhat.com>
+ <YuuQb3D/YY1SiUqY@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220721163621.761513-10-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <YuuQb3D/YY1SiUqY@redhat.com>
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,44 +88,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 21, 2022 at 06:36:21PM +0200, Paolo Bonzini wrote:
-> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Hi Daniel,
+
+On Thu, Aug 04, 2022 at 10:25:36AM +0100, Daniel P. Berrangé wrote:
+> Yep, and ultimately the inability to distinguish UEFI vs other firmware
+> is arguably correct by design, as the QEMU <-> firmware interface is
+> supposed to be arbitrarily pluggable for any firmware implementation
+> not  limited to merely UEFI + seabios.
+
+Indeed, I agree with this.
+
 > 
-> Tiny machines optimized for fast boot time generally don't use EFI,
-> which means a random seed has to be supplied some other way. For this
-> purpose, Linux (â‰¥5.20) supports passing a seed in the setup_data table
-> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
-> specialized bootloaders. The linked commit shows the upstream kernel
-> implementation.
+> > For now I suggest either reverting the original patch, or at least not
+> > enabling the knob by default for any machine types. In particular, when
+> > using MicroVM, the user must leave the knob disabled when direct booting
+> > a kernel on OVMF, and the user may or may not enable the knob when
+> > direct booting a kernel on SeaBIOS.
 > 
-> At Paolo's request, we don't pass these to versioned machine types â‰¤7.0.
+> Having it opt-in via a knob would defeat Jason's goal of having the seed
+> available automatically.
 
+Yes, adding a knob is absolutely out of the question.
 
-This change has also broken direct kernel measured boot with AMD SEV
-confidential virtualization.
+It also doesn't actually solve the problem: this triggers when QEMU
+passes a DTB too. It's not just for the new RNG seed thing. This bug
+isn't new.
 
-The vmlinuz that we pass in with -kernel is measured by the BIOS and
-since that gets munged with a random seed, the measurement no longer
-matches the expected measurements the person attesting boot will
-have pre-calculated.
-
-The kernel binary passed to the firmware must be 100% unchanged
-from what the user provided in order for boot measurements to
-succeed.
-
-So at the very least this codes needs to be conditionalized to
-not run when AMD SEV is active.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Jason
 
