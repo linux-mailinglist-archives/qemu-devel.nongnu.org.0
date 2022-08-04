@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A936F58A131
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 21:26:25 +0200 (CEST)
-Received: from localhost ([::1]:47856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EC758A14A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 21:33:38 +0200 (CEST)
+Received: from localhost ([::1]:33058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJgUC-00039l-H1
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 15:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
+	id 1oJgbB-0002Yy-MV
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 15:33:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJgQR-0006RK-8s; Thu, 04 Aug 2022 15:22:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:37771)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJgUN-0003T7-20; Thu, 04 Aug 2022 15:26:36 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:48410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJgQM-0002if-7A; Thu, 04 Aug 2022 15:22:31 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MPGBR-1o3UzB3UnV-00Pf5Y; Thu, 04
- Aug 2022 21:22:21 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 5/5] include/qemu/host-utils.h: Simplify the compiler check in
- mulu128()
-Date: Thu,  4 Aug 2022 21:22:16 +0200
-Message-Id: <20220804192216.1958922-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220804192216.1958922-1-laurent@vivier.eu>
-References: <20220804192216.1958922-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJgUJ-0003ID-Ue; Thu, 04 Aug 2022 15:26:34 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7FC9E746324;
+ Thu,  4 Aug 2022 21:26:29 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 41BDE7462D3; Thu,  4 Aug 2022 21:26:29 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3E9E0745702;
+ Thu,  4 Aug 2022 21:26:29 +0200 (CEST)
+Date: Thu, 4 Aug 2022 21:26:29 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
+In-Reply-To: <CAFEAcA-au_h+B05HriBQcGh9hsvmzksuHisqAx4cqGKAY8+8Dg@mail.gmail.com>
+Message-ID: <18dcac8a-d5e8-b6e-b9b-838cb1badb7@eik.bme.hu>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-13-clg@kaod.org>
+ <973576c1-deb8-3973-34e7-d038ca2200c2@gmail.com>
+ <4885e6d0-8fff-4712-d032-c5afcac79ff7@kaod.org>
+ <7b97e54b-4d80-6db9-af33-40a539827ddd@eik.bme.hu>
+ <3b1bc6c5-a363-0a42-f0dc-eafc14376fe2@kaod.org>
+ <1e6be2f3-4c7a-2432-5034-fa012c662df@eik.bme.hu>
+ <7ecefd72-b799-8a8c-51fd-28730a12ebf1@kaod.org>
+ <a3c2da20-c161-a6d2-6ed1-c0954991eff5@eik.bme.hu>
+ <CAFEAcA-au_h+B05HriBQcGh9hsvmzksuHisqAx4cqGKAY8+8Dg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fToQe7giDyBb7KJ3ybR2y5r5tcTHRf7O5dM1W+g4EV+AJ3qwwDg
- 7HWiBTTCCsUWlSjIxoWW14fPIXXLFSKOw7CdhnZ8jeLvhR30FKUwq6EThpXrtImSMT2+i+L
- wwEpXJYTudxKHPRWpDZzLyxGdXYrVSMK72Yz+lZ+hDAT0DM2Avn9PdVrgF0mhksw/+8Fkgg
- n2MBXjN9LioFOBRCdM/cQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VRh3Kr4llsE=:V1XJNVRNCn9rbz1vi3EgvC
- KIPq63KUuzeJUliqJxI0HrPN9cjvXqduRi/2Y3xcIPQ0oDyXHzZVk1mvegOA9aRfFdnAUs7zU
- G9BgGImujdmjkZb+Jme/DFXN2SwRK5tqN6Dszpi740TwR41EOL66IxmIlsJMT2aZ4akjmWwCf
- 8v+txTL6mdq5u46PFBDy1P1M7vDg6gfdglVTmBg0wzfS+tESbhz0ujwill132tYJqVWp1jPrL
- 0ETyiWxwefmkU2e0vV8MUleouSsxZ8E/ACKoOuu9aY5ASeHDyiiE7Tfwt1Hu2TgTPuYZjoxXc
- JS9aEra1Wb9i4zJ19l6HROqzM6bDvcgaKBxin2+DVfUNe9B28Efd32AHM6HVVVo+z/t0zY00i
- 9VITZuB+D4nLM0q7gCd8SHpT9EGgySzhoZYgJzKYEPPyHfQ8kUuuAnMurPIwvWXPi6BdL0I6X
- BU+IUsIhCcbx/RtgmZ3yjOzK7YcsdAtTQWxmi4gHzW3xeSSwFdjff5aIe83QTNhHh5tFxsBhI
- RSAdO2GBId8I2Lj7F3J04iPZDjG9YqX+BwQzFYWXhOLkuV+IBgtabm8BbbtPLVDLi2BlTK6E0
- IWgoiFydf07fDhZuGRZ6CrDd7REf/ExIwphbOx9GsPqDaQ8AfzEhh7v6GIl+LJ7GV8RPCUpdX
- HHIJbdEXM4oEAfkRhRKWtUp86Ea7P0WmM/1hyhtuDCpNkKSY0hcmHn+/tS2lIdLJLRdxV/vA8
- 96dDDfjz0azJVkDB4xETAeOvRF1fC+aswhshGw==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-545938044-1659641189=:19081"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,37 +72,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-We currently require at least GCC 7.4 or Clang 6.0 for compiling QEMU.
-GCC has __builtin_mul_overflow since version 5 already, and Clang 6.0
-also provides this built-in function (see its documentation on this page:
-https://releases.llvm.org/6.0.0/tools/clang/docs/LanguageExtensions.html ).
-So we can simplify the #if statement here.
+--3866299591-545938044-1659641189=:19081
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220721074809.1513357-1-thuth@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- include/qemu/host-utils.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Thu, 4 Aug 2022, Peter Maydell wrote:
+> On Thu, 4 Aug 2022 at 19:03, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> I was trying to find out how to do it but I don't understand QOM enough to
+>> answer the simple question of how to get the cpu object from QOM. My
+>> guesses are:
+>>
+>> object_resolve_path_type("/machine", TYPE_POWERPC_CPU, NULL)
 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index 29f3a9987880..88d476161ccb 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -533,8 +533,7 @@ static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
-  */
- static inline bool mulu128(uint64_t *plow, uint64_t *phigh, uint64_t factor)
- {
--#if defined(CONFIG_INT128) && \
--    (__has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5)
-+#if defined(CONFIG_INT128)
-     bool res;
-     __uint128_t r;
-     __uint128_t f = ((__uint128_t)*phigh << 64) | *plow;
--- 
-2.37.1
+Out of curiosity would this work though to get the cpu or if not why not 
+and what would be a preferred way? I could not find this out from reading 
+the object.h comments, the docs/deve/qom.rst, nor searching the code.
 
+>> or maybe
+>>
+>> object_resolve_path_at(OBJECT(dev)->parent, "cpu")
+>>
+>> or how do these functions work and what is the preferred way to retrieve
+>> an object from the QOM tree? This is what I hoped someone with more
+>> understanding of QOM could answer.
+>
+> The standard approach that we use elsewhere in the tree for handling
+> "this device needs to have a pointer to a CPU object or whatever"
+> is "the device has a QOM link property, and the SoC sets that
+> property when it creates the device".
+>
+> There are other ways it could in theory be done, but there is
+> benefit in consistency, and "define and set the property" is
+
+If this is the preferred way then so be it, I just don't like it because I 
+think this is too many boilerplate code that could be avoided. This series:
+
+  9 files changed, 894 insertions(+), 652 deletions(-)
+
+  and that's including removing all of the taihu machine; the file where 
+the QOMification is done:
+
+  hw/ppc/ppc405_uc.c              | 799 +++++++++++++++++++-------------
+
+Ideally introducing QOM should make it simpler not more complex. Four of 
+the QOMified devices only have a property defined at all because of this 
+cpu link that's only used once in the realize method to register DCRs. 
+This is about 10 lines of code each. If there was a simple way to get the 
+cpu object from these realize methods then we could get rid of all these 
+properties and save about 40-50 lines and make these simpler.
+
+> straightforward. It also means the device object doesn't have
+> to know anything about the way the SoC container is laid out.
+
+We only need the cpu object so we don't need to know the soc container if 
+there's a way to get it otherwise I just don't know how QOM works and was 
+trying to find a way to get to the cpu object. Maybe it's simpler than 
+that.
+
+If there's no simple way or you and Cédric think it isn't worth the effort 
+then I'm also OK with it but if there's a way to make this simpler I'd be 
+happy to get rid of things that make it harder to read and understand code 
+or allow making mistakes more easily. I take whatever decision you make so 
+won't say this again, I think I've explained my point now.
+
+Regards,
+BALATON Zoltan
+
+> (It's usually worth looking at whether there are cleanups
+> that could mean the device doesn't have to have a pointer to
+> that other object at all -- but that isn't always the case,
+> or the cleanups would be a big job in their own right that
+> are better not tangled up with QOMification.)
+>
+> thanks
+> -- PMM
+>
+>
+--3866299591-545938044-1659641189=:19081--
 
