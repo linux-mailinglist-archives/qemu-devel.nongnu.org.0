@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D73589762
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 07:45:32 +0200 (CEST)
-Received: from localhost ([::1]:39902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C24B589794
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 07:55:26 +0200 (CEST)
+Received: from localhost ([::1]:44320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJTfn-0001ut-4G
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 01:45:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51408)
+	id 1oJTpM-0005NI-FA
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 01:55:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJTbF-0007Q0-Vk
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 01:40:49 -0400
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:40115)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJTd2-000065-9h
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 01:42:40 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:37235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJTbD-0004Rr-I4
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 01:40:49 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.220])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B016123462;
- Thu,  4 Aug 2022 05:40:43 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJTd0-0004XU-Ev
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 01:42:40 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id CEA29215E0;
+ Thu,  4 Aug 2022 05:42:35 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 4 Aug 2022
- 07:40:42 +0200
+ 07:42:35 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-107S0010b5cefe1-38b3-4b3e-ae3d-badc0e2e89fa,
+ (GARM-105G006457e3397-220d-44de-bbd1-ac0f2159a64e,
  E459FF07681E7C706565AD81A8193C11BE0AA2AA) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <223ec8d3-eafd-80e2-d33c-ddb3366900d5@kaod.org>
-Date: Thu, 4 Aug 2022 07:40:36 +0200
+Message-ID: <cf6c0f99-32dc-c5e1-1027-28ec19f4ae76@kaod.org>
+Date: Thu, 4 Aug 2022 07:42:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 02/20] ppc/ppc405: Introduce a PPC405 generic machine
+Subject: Re: [PATCH v2 19/20] ppc/ppc405: QOM'ify I2C
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>
 CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
  <qemu-devel@nongnu.org>
 References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-3-clg@kaod.org>
- <d694b960-6db5-933-3d63-23ad6efc4856@eik.bme.hu>
+ <20220803132844.2370514-20-clg@kaod.org>
+ <1ab31d3-c5ec-47bd-cdd9-1d1a5e5f7696@eik.bme.hu>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <d694b960-6db5-933-3d63-23ad6efc4856@eik.bme.hu>
+In-Reply-To: <1ab31d3-c5ec-47bd-cdd9-1d1a5e5f7696@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: 141e28ce-f6b6-47d3-b2ca-25fea252886d
-X-Ovh-Tracer-Id: 6618884078481476576
+X-Ovh-Tracer-GUID: fcf23bdb-f6de-4921-ba9b-9dd9aa8e6c49
+X-Ovh-Tracer-Id: 6650409278922525664
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvkedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvkedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,69 +77,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/4/22 00:07, BALATON Zoltan wrote:
+On 8/4/22 01:31, BALATON Zoltan wrote:
 > On Wed, 3 Aug 2022, Cédric Le Goater wrote:
->> We will use this machine as a base to define the ref405ep and possibly
->> the PPC405 hotfoot board as found in the Linux kernel.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->> hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
->> 1 file changed, 28 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->> index 1a4e7588c584..4c269b6526a5 100644
->> --- a/hw/ppc/ppc405_boards.c
->> +++ b/hw/ppc/ppc405_boards.c
->> @@ -50,6 +50,15 @@
->>
->> #define USE_FLASH_BIOS
->>
->> +struct Ppc405MachineState {
->> +    /* Private */
->> +    MachineState parent_obj;
->> +    /* Public */
->> +};
->> +
->> +#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
->> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
->> +
->> /*****************************************************************************/
->> /* PPC405EP reference board (IBM) */
->> /* Standalone board with:
->> @@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
->>
->>     mc->desc = "ref405ep";
->>     mc->init = ref405ep_init;
->> -    mc->default_ram_size = 0x08000000;
->> -    mc->default_ram_id = "ef405ep.ram";
->> }
->>
->> static const TypeInfo ref405ep_type = {
->>     .name = MACHINE_TYPE_NAME("ref405ep"),
->> -    .parent = TYPE_MACHINE,
->> +    .parent = TYPE_PPC405_MACHINE,
->>     .class_init = ref405ep_class_init,
->> };
->>
->> +static void ppc405_machine_class_init(ObjectClass *oc, void *data)
->> +{
->> +    MachineClass *mc = MACHINE_CLASS(oc);
->> +
->> +    mc->desc = "PPC405 generic machine";
->> +    mc->default_ram_size = 0x08000000;
->> +    mc->default_ram_id = "ppc405.ram";
+>> Having an explicit I2C model object will help if one day we want to
+>> add I2C devices on the bus.
 > 
-> Is the default RAM size a property of specific boards or the PPC405? I think it could be different for different boards so don't see why it's moved to the generic machine but maybe it has something to do with how other parts of QEMU handles this or I'm not getting what the generic PPC405 machine is for.
+> Same here as with the UIC in previous patch, it's not QOMifying here either. As for why we may need I2C, on sam460ex the firmware detects RAM accessing the SPD data over I2C so that could be the reason but it may not be used here on 405.
 
-Well, the two QEMU PPC405 machines had 128M, so they were sharing the same
-definition. This can be overridden in a child class if needed but I doubt
-there will be any new PPC405 machines in QEMU. Let's keep it here.
-  
-> 
-> Would it be clearer to just write 128 * MiB instead of a long hex number with extra zeros that's hard to read? It would be a good opportunity to change it here.
-
-agree.
+You can still plug I2C devices on the PPC405 command line if you want to.
 
 Thanks,
 
@@ -148,22 +94,61 @@ C.
 > Regards,
 > BALATON Zoltan
 > 
->> +}
->> +
->> +static const TypeInfo ppc405_machine_type = {
->> +    .name = TYPE_PPC405_MACHINE,
->> +    .parent = TYPE_MACHINE,
->> +    .instance_size = sizeof(Ppc405MachineState),
->> +    .class_init = ppc405_machine_class_init,
->> +    .abstract = true,
->> +};
->> +
->> static void ppc405_machine_init(void)
->> {
->> +    type_register_static(&ppc405_machine_type);
->>     type_register_static(&ref405ep_type);
->> }
+>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> hw/ppc/ppc405.h    |  2 ++
+>> hw/ppc/ppc405_uc.c | 10 ++++++++--
+>> 2 files changed, 10 insertions(+), 2 deletions(-)
 >>
+>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>> index d29f738cd2d0..d13624ae309c 100644
+>> --- a/hw/ppc/ppc405.h
+>> +++ b/hw/ppc/ppc405.h
+>> @@ -28,6 +28,7 @@
+>> #include "qom/object.h"
+>> #include "hw/ppc/ppc4xx.h"
+>> #include "hw/intc/ppc-uic.h"
+>> +#include "hw/i2c/ppc4xx_i2c.h"
+>>
+>> #define PPC405EP_SDRAM_BASE 0x00000000
+>> #define PPC405EP_NVRAM_BASE 0xF0000000
+>> @@ -256,6 +257,7 @@ struct Ppc405SoCState {
+>>     Ppc405OcmState ocm;
+>>     Ppc405GpioState gpio;
+>>     Ppc405DmaState dma;
+>> +    PPC4xxI2CState i2c;
+>>     Ppc405EbcState ebc;
+>>     Ppc405OpbaState opba;
+>>     Ppc405PobState pob;
+>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>> index 5cd32e22b7ea..8f0caa45f5f7 100644
+>> --- a/hw/ppc/ppc405_uc.c
+>> +++ b/hw/ppc/ppc405_uc.c
+>> @@ -1461,6 +1461,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>>
+>>     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
+>>
+>> +    object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
+>> +
+>>     object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
+>>
+>>     object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
+>> @@ -1569,8 +1571,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>     }
+>>
+>>     /* I2C controller */
+>> -    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+>> -                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
+>> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
+>> +        return;
+>> +    }
+>> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, 0xef600500);
+>> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
+>> +                       qdev_get_gpio_in(DEVICE(&s->uic), 2));
+>>
+>>     /* GPIO */
+>>     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
 >>
 
 
