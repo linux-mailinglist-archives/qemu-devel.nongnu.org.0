@@ -2,107 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1835897AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 08:13:09 +0200 (CEST)
-Received: from localhost ([::1]:53006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3646E5897B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 08:16:32 +0200 (CEST)
+Received: from localhost ([::1]:54834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJU6W-00043x-IA
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 02:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52420)
+	id 1oJU9n-0005Sr-33
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 02:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJTqy-0006HK-UU
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 01:57:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25450)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJTuQ-0007yk-Tf
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 02:00:38 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:34709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJTqw-0006O0-1Y
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 01:57:04 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2745iq8v016913;
- Thu, 4 Aug 2022 05:56:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=u7jP0xDopkUogYdCIn+sQ9kqn9u5/O89UED+9S5nqcE=;
- b=mCO913jjjdJdqFt+APd4uXeqaq/m+NVCHljC3nqDm9oeVKdQJnuebIfIrlDf9x7Vmatg
- TZb/Lnk8OCSK1oNT4yuALFfTIz7h+oCxfcflJj8UAYOYrkptjgwoRY/Jb9DoQ5+4coI3
- XNCWYxd9jpETeIMVQEAFByqMmfrsjVf5B7nXJz7nspQRgmGPmTwYQGAoPLHeX6GvOlqi
- LtMdjYV6OiF9/1lNDHZnzvgxdMdqEi49+2vankWby11NTs3w08/c9T3DQnRlCfbuG2yF
- 9jmsXEwzP+dOO6Ni4MwP3OoPNlwfpN+9rZmFbLHymuiK8VObSGqyAv7Vesc/ATk82qyq 0A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hr883g73c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 05:56:59 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2745jFND018761;
- Thu, 4 Aug 2022 05:56:58 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hr883g72g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 05:56:58 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2745Zd4T021642;
- Thu, 4 Aug 2022 05:56:56 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3hmv98wr86-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 05:56:55 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2745uqCk15794642
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 Aug 2022 05:56:52 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 598E1A4055;
- Thu,  4 Aug 2022 05:56:52 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A0111A404D;
- Thu,  4 Aug 2022 05:56:51 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.145.8.197])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  4 Aug 2022 05:56:51 +0000 (GMT)
-Date: Thu, 4 Aug 2022 07:56:49 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
- frankja@linux.ibm.com, alex.bennee@linaro.org
-Subject: Re: [PATCH v2 1/1] osdep: asynchronous teardown for shutdown on Linux
-Message-ID: <20220804075649.6e562c52@p-imbrenda>
-In-Reply-To: <YuqxtV1O8IqRAuDu@redhat.com>
-References: <20220803173141.52711-1-imbrenda@linux.ibm.com>
- <YuqxtV1O8IqRAuDu@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: x7ybEsm3BVxjrRXSlljMkGuaNA_b1ayG
-X-Proofpoint-GUID: gNg40lDPHHYN8kMPeMEFMVlu3A_atuzs
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJTuI-0006tU-UV
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 02:00:37 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 20126232A9;
+ Thu,  4 Aug 2022 06:00:27 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 4 Aug 2022
+ 08:00:26 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002aff2f24b-086e-444e-9160-8f9ce020bd45,
+ E459FF07681E7C706565AD81A8193C11BE0AA2AA) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <43c27ad1-a6e0-f843-8b00-141d07976c88@kaod.org>
+Date: Thu, 4 Aug 2022 08:00:25 +0200
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-04_01,2022-08-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- clxscore=1015 bulkscore=0 malwarescore=0 mlxlogscore=976 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208040023
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 05/20] ppc/ppc405: Start QOMification of the SoC
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ <qemu-devel@nongnu.org>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-6-clg@kaod.org>
+ <70f82feb-bea8-943c-87c6-90fab144db51@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <70f82feb-bea8-943c-87c6-90fab144db51@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: a3112d51-7618-42e3-8c4e-0187f58841cf
+X-Ovh-Tracer-Id: 6952150453305773024
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvkedguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -120,68 +76,329 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Aug 2022 18:34:45 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On 8/4/22 00:23, BALATON Zoltan wrote:
+> On Wed, 3 Aug 2022, Cédric Le Goater wrote:
+>> This moves all the code previously done in the ppc405ep_init() routine
+>> under ppc405_soc_realize(). We can also adjust the number of banks now
+>> that we have control on ppc4xx_sdram_init().
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> hw/ppc/ppc405.h        |  16 ++---
+>> hw/ppc/ppc405_boards.c |  12 ++--
+>> hw/ppc/ppc405_uc.c     | 144 ++++++++++++++++++++---------------------
+>> 3 files changed, 83 insertions(+), 89 deletions(-)
+>>
+>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>> index c8cddb71733a..2c912b328eaf 100644
+>> --- a/hw/ppc/ppc405.h
+>> +++ b/hw/ppc/ppc405.h
+>> @@ -72,11 +72,16 @@ struct Ppc405SoCState {
+>>
+>>     /* Public */
+>>     MemoryRegion sram;
+>> -    MemoryRegion ram_memories[2];
+>> -    hwaddr ram_bases[2], ram_sizes[2];
+>> +    MemoryRegion ram_memories[1];
+>> +    hwaddr ram_bases[1], ram_sizes[1];
+>> +    bool do_dram_init;
+> 
+> I'm not sure about this. First of all what's the point having a 1 element array instead of just a normal field if you don't need more than one of these? 
 
-> On Wed, Aug 03, 2022 at 07:31:41PM +0200, Claudio Imbrenda wrote:
-> > This patch adds support for asynchronously tearing down a VM on Linux.
-> >=20
-> > When qemu terminates, either naturally or because of a fatal signal,
-> > the VM is torn down. If the VM is huge, it can take a considerable
-> > amount of time for it to be cleaned up. In case of a protected VM, it
-> > might take even longer than a non-protected VM (this is the case on
-> > s390x, for example).
-> >=20
-> > Some users might want to shut down a VM and restart it immediately,
-> > without having to wait. This is especially true if management
-> > infrastructure like libvirt is used.
-> >=20
-> > This patch implements a simple trick on Linux to allow qemu to return
-> > immediately, with the teardown of the VM being performed
-> > asynchronously.
-> >=20
-> > If the new commandline option -async-teardown is used, a new process is
-> > spawned from qemu at startup, using the clone syscall, in such way that
-> > it will share its address space with qemu.
-> >=20
-> > The new process will then simpy wait until qemu terminates, and then it
-> > will exit itself.
-> >=20
-> > This allows qemu to terminate quickly, without having to wait for the
-> > whole address space to be torn down. The teardown process will exit
-> > after qemu, so it will be the last user of the address space, and
-> > therefore it will take care of the actual teardown.
-> >=20
-> > The teardown process will share the same cgroups as qemu, so both
-> > memory usage and cpu time will be accounted properly.
-> >=20
-> > This feature can already be used with libvirt by adding the following
-> > to the XML domain definition:
-> >=20
-> >   <commandline xmlns=3D"http://libvirt.org/schemas/domain/qemu/1.0">
-> >   <arg value=3D'-async-teardown'/>
-> >   </commandline>=20=20
->=20
-> How does this work in practice ?  Libvirt should be blocking until
+because ppc405ep_init() interface was :
 
-I don't know the inner details of how libvirt works..
+     PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+                             MemoryRegion ram_memories[2],
+                             hwaddr ram_bases[2],
+                             hwaddr ram_sizes[2],
+                             uint32_t sysclk, DeviceState **uicdev,
+                             int do_init);
 
-> all processes in the cgroup have exited, including this cloned
-> child process.
+and I didn't refresh the structures.
 
-..but I tested it and it works
+It is true that the 405 has 2 SDRAM banks. May be we should keep it
+that way. I will see if I can come with something better in v3.
 
-my impression is that libvirt by default is only waiting for the
-main qemu process.
+The main issue is the ppc4xx_sdram_init() interface. It has been
+around for 15 years minimum and it should be reworked, but not now.
 
-the only issue I have found is the log file, which stays open as long
-as some file descriptors (which the cloned process inherits from the
-main qemu process) stay open. A new VM cannot be started if its log file
-is still open by the logger process. The close_range() call solves the
-issue.
+Thanks,
 
->=20
-> With regards,
-> Daniel
+C.
+
+> (But then the names in plural become a misnomer too.) On the other hand the SoC likely has two banks, it's just that the board only has one socket and thus only uses one of it but other boards could have two sockets and use both. If the SoC model already has this I'd keep it for that cases or to emulate the SoC more precisely. But I may be wrong, I haven't checked the chip docs and only dimly remember how this was on 460EX.
+> 
+> Regards,
+> BALATON Zoltan
+> 
+>>
+>>     MemoryRegion *dram_mr;
+>>     hwaddr ram_size;
+>> +
+>> +    uint32_t sysclk;
+>> +    PowerPCCPU *cpu;
+>> +    DeviceState *uic;
+>> };
+>>
+>> /* PowerPC 405 core */
+>> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+>> void ppc4xx_plb_init(CPUPPCState *env);
+>> void ppc405_ebc_init(CPUPPCState *env);
+>>
+>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>> -                        MemoryRegion ram_memories[2],
+>> -                        hwaddr ram_bases[2],
+>> -                        hwaddr ram_sizes[2],
+>> -                        uint32_t sysclk, DeviceState **uicdev,
+>> -                        int do_init);
+>> -
+>> #endif /* PPC405_H */
+>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>> index 96db52c5a309..363cb0770506 100644
+>> --- a/hw/ppc/ppc405_boards.c
+>> +++ b/hw/ppc/ppc405_boards.c
+>> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
+>>     Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
+>>     MachineClass *mc = MACHINE_GET_CLASS(machine);
+>>     const char *kernel_filename = machine->kernel_filename;
+>> -    PowerPCCPU *cpu;
+>>     MemoryRegion *sysmem = get_system_memory();
+>> -    DeviceState *uicdev;
+>>
+>>     if (machine->ram_size != mc->default_ram_size) {
+>>         char *sz = size_to_str(mc->default_ram_size);
+>> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
+>>                              machine->ram_size, &error_fatal);
+>>     object_property_set_link(OBJECT(&ppc405->soc), "dram",
+>>                              OBJECT(machine->ram), &error_abort);
+>> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+>> +                             !(kernel_filename == NULL), &error_abort);
+>> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+>> +                             &error_abort);
+>>     qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
+>>
+>> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, ppc405->soc.ram_bases,
+>> -                        ppc405->soc.ram_sizes,
+>> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+>> -
+>>     /* allocate and load BIOS */
+>>     if (machine->firmware) {
+>>         MemoryRegion *bios = g_new(MemoryRegion, 1);
+>> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
+>>
+>>     /* Load ELF kernel and rootfs.cpio */
+>>     } else if (kernel_filename && !machine->firmware) {
+>> -        boot_from_kernel(machine, cpu);
+>> +        boot_from_kernel(machine, ppc405->soc.cpu);
+>>     }
+>> }
+>>
+>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>> index 7033bac6bf3f..ed1099e08bbd 100644
+>> --- a/hw/ppc/ppc405_uc.c
+>> +++ b/hw/ppc/ppc405_uc.c
+>> @@ -1432,130 +1432,128 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
+>> #endif
+>> }
+>>
+>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>> -                        MemoryRegion ram_memories[2],
+>> -                        hwaddr ram_bases[2],
+>> -                        hwaddr ram_sizes[2],
+>> -                        uint32_t sysclk, DeviceState **uicdevp,
+>> -                        int do_init)
+>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>> {
+>> +    Ppc405SoCState *s = PPC405_SOC(dev);
+>>     clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
+>>     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+>> -    PowerPCCPU *cpu;
+>>     CPUPPCState *env;
+>> -    DeviceState *uicdev;
+>> -    SysBusDevice *uicsbd;
+>> +    Error *err = NULL;
+>> +
+>> +    /* allocate SRAM */
+>> +    memory_region_init_ram(&s->sram, OBJECT(s), "ppc405.sram",
+>> +                           PPC405EP_SRAM_SIZE,  &err);
+>> +    if (err) {
+>> +        error_propagate(errp, err);
+>> +        return;
+>> +    }
+>> +    memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE,
+>> +                                &s->sram);
+>>
+>>     memset(clk_setup, 0, sizeof(clk_setup));
+>> +
+>>     /* init CPUs */
+>> -    cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
+>> +    s->cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
+>>                       &clk_setup[PPC405EP_CPU_CLK],
+>> -                      &tlb_clk_setup, sysclk);
+>> -    env = &cpu->env;
+>> +                      &tlb_clk_setup, s->sysclk);
+>> +    env = &s->cpu->env;
+>>     clk_setup[PPC405EP_CPU_CLK].cb = tlb_clk_setup.cb;
+>>     clk_setup[PPC405EP_CPU_CLK].opaque = tlb_clk_setup.opaque;
+>> -    /* Internal devices init */
+>> -    /* Memory mapped devices registers */
+>> +
+>> +    /* CPU control */
+>> +    ppc405ep_cpc_init(env, clk_setup, s->sysclk);
+>> +
+>>     /* PLB arbitrer */
+>>     ppc4xx_plb_init(env);
+>> +
+>>     /* PLB to OPB bridge */
+>>     ppc4xx_pob_init(env);
+>> +
+>>     /* OBP arbitrer */
+>>     ppc4xx_opba_init(0xef600600);
+>> +
+>>     /* Universal interrupt controller */
+>> -    uicdev = qdev_new(TYPE_PPC_UIC);
+>> -    uicsbd = SYS_BUS_DEVICE(uicdev);
+>> +    s->uic = qdev_new(TYPE_PPC_UIC);
+>>
+>> -    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+>> +    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(s->cpu),
+>>                              &error_fatal);
+>> -    sysbus_realize_and_unref(uicsbd, &error_fatal);
+>> -
+>> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+>> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+>> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+>> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
+>> +    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
+>> +        return;
+>> +    }
+>>
+>> -    *uicdevp = uicdev;
+>> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
+>> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_INT));
+>> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
+>> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_CINT));
+>>
+>>     /* SDRAM controller */
+>> -        /* XXX 405EP has no ECC interrupt */
+>> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 17), 2, ram_memories,
+>> -                      ram_bases, ram_sizes, do_init);
+>> +    /* XXX 405EP has no ECC interrupt */
+>> +    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
+>> +                             "ppc405.ram.alias", s->dram_mr, 0, s->ram_size);
+>> +    s->ram_bases[0] = 0;
+>> +    s->ram_sizes[0] = s->ram_size;
+>> +
+>> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17),
+>> +                      ARRAY_SIZE(s->ram_memories), s->ram_memories,
+>> +                      s->ram_bases, s->ram_sizes, s->do_dram_init);
+>> +
+>>     /* External bus controller */
+>>     ppc405_ebc_init(env);
+>> +
+>>     /* DMA controller */
+>> -    dma_irqs[0] = qdev_get_gpio_in(uicdev, 5);
+>> -    dma_irqs[1] = qdev_get_gpio_in(uicdev, 6);
+>> -    dma_irqs[2] = qdev_get_gpio_in(uicdev, 7);
+>> -    dma_irqs[3] = qdev_get_gpio_in(uicdev, 8);
+>> +    dma_irqs[0] = qdev_get_gpio_in(s->uic, 5);
+>> +    dma_irqs[1] = qdev_get_gpio_in(s->uic, 6);
+>> +    dma_irqs[2] = qdev_get_gpio_in(s->uic, 7);
+>> +    dma_irqs[3] = qdev_get_gpio_in(s->uic, 8);
+>>     ppc405_dma_init(env, dma_irqs);
+>> -    /* IIC controller */
+>> +
+>> +    /* I2C controller */
+>>     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+>> -                         qdev_get_gpio_in(uicdev, 2));
+>> +                         qdev_get_gpio_in(s->uic, 2));
+>>     /* GPIO */
+>>     ppc405_gpio_init(0xef600700);
+>> +
+>>     /* Serial ports */
+>>     if (serial_hd(0) != NULL) {
+>> -        serial_mm_init(address_space_mem, 0xef600300, 0,
+>> -                       qdev_get_gpio_in(uicdev, 0),
+>> +        serial_mm_init(get_system_memory(), 0xef600300, 0,
+>> +                       qdev_get_gpio_in(s->uic, 0),
+>>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>>                        DEVICE_BIG_ENDIAN);
+>>     }
+>>     if (serial_hd(1) != NULL) {
+>> -        serial_mm_init(address_space_mem, 0xef600400, 0,
+>> -                       qdev_get_gpio_in(uicdev, 1),
+>> +        serial_mm_init(get_system_memory(), 0xef600400, 0,
+>> +                       qdev_get_gpio_in(s->uic, 1),
+>>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>>                        DEVICE_BIG_ENDIAN);
+>>     }
+>> +
+>>     /* OCM */
+>>     ppc405_ocm_init(env);
+>> +
+>>     /* GPT */
+>> -    gpt_irqs[0] = qdev_get_gpio_in(uicdev, 19);
+>> -    gpt_irqs[1] = qdev_get_gpio_in(uicdev, 20);
+>> -    gpt_irqs[2] = qdev_get_gpio_in(uicdev, 21);
+>> -    gpt_irqs[3] = qdev_get_gpio_in(uicdev, 22);
+>> -    gpt_irqs[4] = qdev_get_gpio_in(uicdev, 23);
+>> +    gpt_irqs[0] = qdev_get_gpio_in(s->uic, 19);
+>> +    gpt_irqs[1] = qdev_get_gpio_in(s->uic, 20);
+>> +    gpt_irqs[2] = qdev_get_gpio_in(s->uic, 21);
+>> +    gpt_irqs[3] = qdev_get_gpio_in(s->uic, 22);
+>> +    gpt_irqs[4] = qdev_get_gpio_in(s->uic, 23);
+>>     ppc4xx_gpt_init(0xef600000, gpt_irqs);
+>> -    /* PCI */
+>> -    /* Uses UIC IRQs 3, 16, 18 */
+>> +
+>>     /* MAL */
+>> -    mal_irqs[0] = qdev_get_gpio_in(uicdev, 11);
+>> -    mal_irqs[1] = qdev_get_gpio_in(uicdev, 12);
+>> -    mal_irqs[2] = qdev_get_gpio_in(uicdev, 13);
+>> -    mal_irqs[3] = qdev_get_gpio_in(uicdev, 14);
+>> +    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
+>> +    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
+>> +    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
+>> +    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
+>>     ppc4xx_mal_init(env, 4, 2, mal_irqs);
+>> +
+>>     /* Ethernet */
+>>     /* Uses UIC IRQs 9, 15, 17 */
+>> -    /* CPU control */
+>> -    ppc405ep_cpc_init(env, clk_setup, sysclk);
+>> -
+>> -    return cpu;
+>> -}
+>> -
+>> -static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>> -{
+>> -    Ppc405SoCState *s = PPC405_SOC(dev);
+>> -    Error *err = NULL;
+>> -
+>> -    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
+>> -                             "ppc405.ram.alias", s->dram_mr, 0, s->ram_size);
+>> -    s->ram_bases[0] = 0;
+>> -    s->ram_sizes[0] = s->ram_size;
+>> -
+>> -    /* allocate SRAM */
+>> -    memory_region_init_ram(&s->sram, OBJECT(s), "ppc405.sram",
+>> -                           PPC405EP_SRAM_SIZE,  &err);
+>> -    if (err) {
+>> -        error_propagate(errp, err);
+>> -        return;
+>> -    }
+>> -    memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE,
+>> -                                &s->sram);
+>> }
+>>
+>> static Property ppc405_soc_properties[] = {
+>>     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+>>                      MemoryRegion *),
+>> +    DEFINE_PROP_UINT32("sys-clk", Ppc405SoCState, sysclk, 0),
+>> +    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
+>>     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+>>     DEFINE_PROP_END_OF_LIST(),
+>> };
+>>
 
 
