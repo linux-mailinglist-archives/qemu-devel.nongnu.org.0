@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8423C589F59
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 18:24:47 +0200 (CEST)
-Received: from localhost ([::1]:51470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE8A589F75
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 18:36:56 +0200 (CEST)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJdeQ-0003No-9F
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 12:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37888)
+	id 1oJdqB-0003YA-G6
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 12:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJdcA-0007OL-Gs
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:22:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33201)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJdkq-0007lL-8z
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:31:24 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:38301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJdc6-0007qT-75
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:22:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659630140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kZY43ewf+ib8Vt6r6QVJN8UofwYAQ5jdfhpe0hknl3E=;
- b=RdB3FXvloYCL0AVBQEaHL69vH2CnbLeto1KWsHe5fWjhEVjq27mZFoc+A3ukxkdHaFBLzB
- gZf7w5KFY4UOaMOuJNXBKjSe0Fged9LhOY3HdUwHQ6/R7PJ1sBr88CJxyYOvkCI5h4H0Yt
- YC1CJzMnM8BZ7Shv/qa8Ic4/H+E5gPs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-nEGoolS_PIWUQyqkrcZQuw-1; Thu, 04 Aug 2022 12:22:19 -0400
-X-MC-Unique: nEGoolS_PIWUQyqkrcZQuw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r186-20020a1c44c3000000b003a4f1c1e24bso72416wma.5
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 09:22:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=kZY43ewf+ib8Vt6r6QVJN8UofwYAQ5jdfhpe0hknl3E=;
- b=WX9BjJqc/szjzDF4npEyE4ya3MdFQcMCc6pWfK2V3TOWmauWHGteUM7/a8dmb1BPvR
- WPZVVljrgHNNzcVQ2e9w3MN/dL9I6kykbLOwxPLFbI0Cd2N8gddhuWfY4ynqVpDMjzFh
- wkCy3laSog8tByt3a75BAwtu5b17D6aq5NgL7eUknGO7hia1D8Y2FhMRCdM17zriawnj
- Q4bl52w4sZxEpuVt/vmok293+pxZahFVpq/LpMpVeyrhsc/Y5QXOJh8Bum4hXU5DIe/a
- UrTz9JCB7az2JQ7mBYa4/l1hsXOXZFbN0g19kLBZNstRocxcIs+yzWhVLDDh9h38MjaY
- lqTg==
-X-Gm-Message-State: ACgBeo0nUEmPSnmLEbe5zoqdJ1viEJ3aw3XhgsW5e6dDeGnrxDC4qHVt
- l7htsTSFqgikABYg+E/WyUZU9YyQqUZOeVS/+i2oW8Q3jBFWYWx9QhNDaj38XHWHULgRIXxBbxm
- CJCI5wHxNEKG7Hl0=
-X-Received: by 2002:a1c:f716:0:b0:3a1:8f0e:66b4 with SMTP id
- v22-20020a1cf716000000b003a18f0e66b4mr1990795wmh.140.1659630138271; 
- Thu, 04 Aug 2022 09:22:18 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6iyrH4itpvX1SgihKbus0zoqc0Nyj+hj6PDFrnieuWTwAAXiZHk03M9aSfVodMPevRuByvOQ==
-X-Received: by 2002:a1c:f716:0:b0:3a1:8f0e:66b4 with SMTP id
- v22-20020a1cf716000000b003a18f0e66b4mr1990772wmh.140.1659630137975; 
- Thu, 04 Aug 2022 09:22:17 -0700 (PDT)
-Received: from redhat.com ([2.54.191.86]) by smtp.gmail.com with ESMTPSA id
- f13-20020a05600c4e8d00b003a319b67f64sm21051094wmq.0.2022.08.04.09.22.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Aug 2022 09:22:17 -0700 (PDT)
-Date: Thu, 4 Aug 2022 12:22:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] pc: add property for Linux setup_data seed
-Message-ID: <20220804110025-mutt-send-email-mst@kernel.org>
-References: <20220804131320.395015-1-pbonzini@redhat.com>
- <YuvHu3NW592rGFXz@zx2c4.com> <YuvKGrUsSAzQEzfL@redhat.com>
- <YuvYKq5pXZlCCP6O@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJdkn-0000om-4L
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:31:24 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.48])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5880624504;
+ Thu,  4 Aug 2022 16:31:10 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 4 Aug 2022
+ 18:31:09 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R00492e77f73-1d05-4167-9edc-3479fed9ddb4,
+ E459FF07681E7C706565AD81A8193C11BE0AA2AA) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7ecefd72-b799-8a8c-51fd-28730a12ebf1@kaod.org>
+Date: Thu, 4 Aug 2022 18:31:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-13-clg@kaod.org>
+ <973576c1-deb8-3973-34e7-d038ca2200c2@gmail.com>
+ <4885e6d0-8fff-4712-d032-c5afcac79ff7@kaod.org>
+ <7b97e54b-4d80-6db9-af33-40a539827ddd@eik.bme.hu>
+ <3b1bc6c5-a363-0a42-f0dc-eafc14376fe2@kaod.org>
+ <1e6be2f3-4c7a-2432-5034-fa012c662df@eik.bme.hu>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, "list@suse.de:PowerPC"
+ <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <1e6be2f3-4c7a-2432-5034-fa012c662df@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YuvYKq5pXZlCCP6O@zx2c4.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: e4b5d9e0-deab-47c4-93f0-ed59c6ac3f8a
+X-Ovh-Tracer-Id: 17604007995258604512
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvledguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfvefhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeevfedutdegkeegheevgfetueehgfehjeejfedtheefgeelfeeutefhudelvedtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,115 +80,223 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 04, 2022 at 04:31:06PM +0200, Jason A. Donenfeld wrote:
-> Hi Daniel,
-> 
-> On Thu, Aug 04, 2022 at 02:31:06PM +0100, Daniel P. Berrang� wrote:
-> > On Thu, Aug 04, 2022 at 03:20:59PM +0200, Jason A. Donenfeld wrote:
-> > > On Thu, Aug 04, 2022 at 03:13:20PM +0200, Paolo Bonzini wrote:
-> > > > Using a property makes it possible to use the normal compat property
-> > > > mechanism instead of ad hoc code; it avoids parameter proliferation
-> > > > in x86_load_linux; and allows shipping the code even if it is
-> > > > disabled by default.
-> > > 
-> > > Strong NACK from me here.
-> > > 
-> > > If this kind of thing is off by default, it's as good as useless. Indeed
-> > > it shouldn't even be a knob at all. Don't do this.
-> > 
-> > You're misunderstanding the patch. This remains on by default for
-> >  the 7.1 machine type.
-> 
-> Ahhh, I think you're right. Sorry for mis understanding. The "even if it
-> is disabled by default" of the commit message isn't quite true then,
-> right?
+[ Replying to all ]
 
-I think it refers to the fact that we do not have a fix yet,
-and if we don't get one by release we might flip the default,
-but the feature will still be usable.
+On 8/4/22 16:26, BALATON Zoltan wrote:
+> On Thu, 4 Aug 2022, Cédric Le Goater wrote:
+>> On 8/4/22 14:09, BALATON Zoltan wrote:
+>>> On Thu, 4 Aug 2022, Cédric Le Goater wrote:
+>>>> On 8/4/22 01:36, Daniel Henrique Barboza wrote:
+>>>>> Cedric,
+>>>>>
+>>>>> On 8/3/22 10:28, Cédric Le Goater wrote:
+>>>>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>>>>> ---
+>>>>>>   hw/ppc/ppc405.h    | 16 +++++++++++
+>>>>>>   hw/ppc/ppc405_uc.c | 71 +++++++++++++++++++++++++++++++---------------
+>>>>>>   2 files changed, 64 insertions(+), 23 deletions(-)
+>>>>>>
+>>>>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>>>>> index 1da34a7f10f3..1c7fe07b8084 100644
+>>>>>> --- a/hw/ppc/ppc405.h
+>>>>>> +++ b/hw/ppc/ppc405.h
+>>>>>> @@ -65,7 +65,22 @@ struct ppc4xx_bd_info_t {
+>>>>>>   typedef struct Ppc405SoCState Ppc405SoCState;
+>>>>>> +/* Peripheral controller */
+>>>>>> +#define TYPE_PPC405_EBC "ppc405-ebc"
+>>>>>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
+>>>>>> +struct Ppc405EbcState {
+>>>>>> +    DeviceState parent_obj;
+>>>>>> +
+>>>>>> +    PowerPCCPU *cpu;
+>>>>>> +    uint32_t addr;
+>>>>>> +    uint32_t bcr[8];
+>>>>>> +    uint32_t bap[8];
+>>>>>> +    uint32_t bear;
+>>>>>> +    uint32_t besr0;
+>>>>>> +    uint32_t besr1;
+>>>>>> +    uint32_t cfg;
+>>>>>> +};
+>>>>>>   /* DMA controller */
+>>>>>>   #define TYPE_PPC405_DMA "ppc405-dma"
+>>>>>> @@ -203,6 +218,7 @@ struct Ppc405SoCState {
+>>>>>>       Ppc405OcmState ocm;
+>>>>>>       Ppc405GpioState gpio;
+>>>>>>       Ppc405DmaState dma;
+>>>>>> +    Ppc405EbcState ebc;
+>>>>>>   };
+>>>>>>   /* PowerPC 405 core */
+>>>>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>>>>>> index 6bd93c1cb90c..0166f3fc36da 100644
+>>>>>> --- a/hw/ppc/ppc405_uc.c
+>>>>>> +++ b/hw/ppc/ppc405_uc.c
+>>>>>> @@ -393,17 +393,6 @@ static void ppc4xx_opba_init(hwaddr base)
+>>>>>> /*****************************************************************************/
+>>>>>>   /* Peripheral controller */
+>>>>>> -typedef struct ppc4xx_ebc_t ppc4xx_ebc_t;
+>>>>>> -struct ppc4xx_ebc_t {
+>>>>>> -    uint32_t addr;
+>>>>>> -    uint32_t bcr[8];
+>>>>>> -    uint32_t bap[8];
+>>>>>> -    uint32_t bear;
+>>>>>> -    uint32_t besr0;
+>>>>>> -    uint32_t besr1;
+>>>>>> -    uint32_t cfg;
+>>>>>> -};
+>>>>>> -
+>>>>>>   enum {
+>>>>>>       EBC0_CFGADDR = 0x012,
+>>>>>>       EBC0_CFGDATA = 0x013,
+>>>>>> @@ -411,10 +400,9 @@ enum {
+>>>>>>   static uint32_t dcr_read_ebc (void *opaque, int dcrn)
+>>>>>>   {
+>>>>>> -    ppc4xx_ebc_t *ebc;
+>>>>>> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
+>>>>>>       uint32_t ret;
+>>>>>> -    ebc = opaque;
+>>>>>>       switch (dcrn) {
+>>>>>>       case EBC0_CFGADDR:
+>>>>>>           ret = ebc->addr;
+>>>>>> @@ -496,9 +484,8 @@ static uint32_t dcr_read_ebc (void *opaque, int dcrn)
+>>>>>>   static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
+>>>>>>   {
+>>>>>> -    ppc4xx_ebc_t *ebc;
+>>>>>> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
+>>>>>> -    ebc = opaque;
+>>>>>>       switch (dcrn) {
+>>>>>>       case EBC0_CFGADDR:
+>>>>>>           ebc->addr = val;
+>>>>>> @@ -554,12 +541,11 @@ static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
+>>>>>>       }
+>>>>>>   }
+>>>>>> -static void ebc_reset (void *opaque)
+>>>>>> +static void ppc405_ebc_reset(DeviceState *dev)
+>>>>>>   {
+>>>>>> -    ppc4xx_ebc_t *ebc;
+>>>>>> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
+>>>>>>       int i;
+>>>>>> -    ebc = opaque;
+>>>>>>       ebc->addr = 0x00000000;
+>>>>>>       ebc->bap[0] = 0x7F8FFE80;
+>>>>>>       ebc->bcr[0] = 0xFFE28000;
+>>>>>> @@ -572,18 +558,46 @@ static void ebc_reset (void *opaque)
+>>>>>>       ebc->cfg = 0x80400000;
+>>>>>>   }
+>>>>>> -void ppc405_ebc_init(CPUPPCState *env)
+>>>>>> +static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
+>>>>>>   {
+>>>>>> -    ppc4xx_ebc_t *ebc;
+>>>>>> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
+>>>>>> +    CPUPPCState *env;
+>>>>>> +
+>>>>>> +    assert(ebc->cpu);
+>>>>>> +
+>>>>>> +    env = &ebc->cpu->env;
+>>>>>> -    ebc = g_new0(ppc4xx_ebc_t, 1);
+>>>>>> -    qemu_register_reset(&ebc_reset, ebc);
+>>>>>>       ppc_dcr_register(env, EBC0_CFGADDR,
+>>>>>>                        ebc, &dcr_read_ebc, &dcr_write_ebc);
+>>>>>>       ppc_dcr_register(env, EBC0_CFGDATA,
+>>>>>>                        ebc, &dcr_read_ebc, &dcr_write_ebc);
+>>>>>>   }
+>>>>>> +static Property ppc405_ebc_properties[] = {
+>>>>>> +    DEFINE_PROP_LINK("cpu", Ppc405EbcState, cpu, TYPE_POWERPC_CPU,
+>>>>>> +                     PowerPCCPU *),
+>>>>>> +    DEFINE_PROP_END_OF_LIST(),
+>>>>>> +};
+>>>>>> +
+>>>>>> +static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
+>>>>>> +{
+>>>>>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>>>>>> +
+>>>>>> +    dc->realize = ppc405_ebc_realize;
+>>>>>> +    dc->user_creatable = false;
+>>>>>> +    dc->reset = ppc405_ebc_reset;
+>>>>>> +    device_class_set_props(dc, ppc405_ebc_properties);
+>>>>>> +}
+>>>>>> +
+>>>>>> +void ppc405_ebc_init(CPUPPCState *env)
+>>>>>> +{
+>>>>>> +    PowerPCCPU *cpu = env_archcpu(env);
+>>>>>> +    DeviceState *dev = qdev_new(TYPE_PPC405_EBC);
+>>>>>> +
+>>>>>> +    object_property_set_link(OBJECT(cpu), "cpu", OBJECT(dev), &error_abort);
+>>>>>
+>>>>> This line is breaking the boot of sam460ex:
+>>>>>
+>>>>>
+>>>>>   ./qemu-system-ppc64 -display none -M sam460ex
+>>>>> Unexpected error in object_property_find_err() at ../qom/object.c:1304:
+>>>>> qemu-system-ppc64: Property '460exb-powerpc64-cpu.cpu' not found
+>>>>> Aborted (core dumped)
+>>>>>
+>>>>>
+>>>>> I think you meant to link the cpu prop of the EBC obj to the CPU object,
+>>>>> not the cpu prop of the CPU obj to the EBC dev.
+>>>>
+>>>> Yes. ppc405_ebc_init() has only one user left, the sam460ex, which I didn't
+>>>> test :/
+>>>
+>>> This patch changes ppc405_ebc_init to a realize method so shouldn't the sam460ex be changed to create the new object instead of calling ppc405_ebc_init too instead? 
+>>
+>> Sure.
+>>
+>> First step was to make sure nothing was broken. I can add some extra
+>> patches in v3 to convert ppc405_ebc_init(), ppc4xx_plb_init() and
+>> ppc4xx_mal_init() in the ppc4x machines. I don't think that would be
+>> too much work. It's a good opportunity to modernize a bit the ppc4xx
+>> machines also.
+> 
+> OK, I did not mean to impose too much additional work but if a legacy init function only has one caller left maybe it's a good time to get rid of it at the same time when you converted the other caller. Those which have more users left could be addressed later if it would be too much work.
+> 
+>>> Is the only reason the keep ppc405_ebc_init to add the cpu link? 
+>>
+>> Yes. That's all there is to it really: convert the routines
+>> parameters in object properties.
+>>
+>>> As I noted before it would be nice to get rid of this link somehow, it would allow dropping this init func and a bunch of property descriptors where this cpu link is the only object. 
+>>
+>> We should introduce a DCR namespace instead and use DCR memory regions
+>> but that's much more work.
+> 
+> Maybe that's a more complete solution but I think we could make it simpler even without going there yet.
+> 
+>>> It should be possble to get from a QOM object to its parent and the cpu from there but I could not find out how. Maybe somehow with object_resolve_path() or object_resolve_path_type() but I don't know QOM enough and did not find anything in docs.
+>>>
+>>> Does somebody know how to do that? 
+>>
+>> One way, would be to introduce a base class DCRDeviceState with a "cpu"
+>> link and a class handler to install the DCR read/write ops. But I think
+>> it's not worth the time and effort. Adding DCR namespace and DCR memory
+>> regions would be better.
+> 
+> Is this really necessary? Why do we have a qom-tree if objects can't navigate it? I think it should be possible to get to the cpu object from these soc devices without needing a link property for that. Ideally it should be able to get "../cpu" or shouldn't something like object_resolve_path_type("/machine", TYPE_POWERPC_CPU, NULL) return the cpu object? 
+
+Yes. We could. I find it cleaner to use a property.
+
+It is true that "cpu" is only used at realize time to install the DCR
+handlers in the DCR table of the CPU. So there is not much value in
+keeping a pointer to the CPU under the device state struct. Once the
+DCR handlers are installed. We are done.
 
 
-> If I understand correctly, this is a yes/no/auto, which defaults to
-> auto on newer machine types. And auto triggers if the kernel has a newer
-> boot header. Is that correct?
+> (Assiming there's only one which is true for these SoCs.) Then you could do this in the realize method and store the cpu in the state struct of the soc device 
+
+The CPU is already under the 405 SoC device, or you mean any SoC device ?
+I am not sure I am following. Send a code example !
+
+Thanks,
+
+C.
+
+
+> so it does not have to be looked up every time or set externally via a property? That way no cpu link property is needed for all these soc devices only that they are added to a soc that already has a cpu added before.
+>
 > 
->     if (x86ms->linuxboot_seed != ON_OFF_AUTO_OFF &&
->         (protocol >= 0x209 || x86ms->linuxboot_seed == ON_OFF_AUTO_ON)) {
+> We do have the parent field in the Object struct so you could theoretically just do object_resolve_path_at(obj->parent, "cpu") but all those fields are marked private and I could not find out what's the preferred way to get to this then. Could somebody with more knowledge about QOM chime in please?
 > 
-> I think it's working as described (after applying the below fixup to
-> this broken patch).
-> 
-> > The patch is merely exposing a knob so that users can override the
-> > built-in default if they need to. Imagine if we had shipped this
-> > existing code before today's bugs were discovered.  The knob
-> > proposed her would allow users to turn off the broken pieces.
-> > This is a good thing.
-> 
-> I'm still not really keen on adding a knob for this. I understand ARM
-> has a knob for it for different reasons (better named "dtb-randomness").
-> If this knob thing is to live on here, maybe it should have
-> "-randomness" in the name also.
-> 
-> > > Rather, let's fix the bug. The code as-is -- going back to the 2016 DTB
-> > > addition -- is problematic and needs to be fixed. So let's fix that.
-> > > Trying to cover up the problem with a default-off knob just ensures this
-> > > stuff will never be made to work right.
-> > 
-> > It isn't covering up the problem, just providing a workaround
-> > option, should another bug be discovered after release. We
-> > still need to fix current discussed problems of course.
-> 
-> Thanks for the explanation. I don't like adding a knob. But if it's on
-> by default for the default machine type, then that's a compromise I
-> could accept.
-> 
-> Jason
-> 
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 00c21f6e4d..074571bc03 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -446,6 +446,7 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
-> 
->  static void pc_i440fx_7_0_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_i440fx_7_1_machine_options(m);
->      m->alias = NULL;
->      m->is_default = false;
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 5bcf100b35..f3aa4694a2 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -383,6 +383,7 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
-> 
->  static void pc_q35_7_0_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_q35_7_1_machine_options(m);
->      m->alias = NULL;
->      pcmc->enforce_amd_1tb_hole = false;
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 3fbab258a9..206ce6c547 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -785,6 +785,7 @@ void x86_load_linux(X86MachineState *x86ms,
->      const char *dtb_filename = machine->dtb;
->      const char *kernel_cmdline = machine->kernel_cmdline;
->      SevKernelLoaderContext sev_load_ctx = {};
-> +    enum { RNG_SEED_LENGTH = 32 };
-> 
->      /* Align to 16 bytes as a paranoia measure */
->      cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
-> @@ -1075,7 +1076,7 @@ void x86_load_linux(X86MachineState *x86ms,
->      }
-> 
->      if (x86ms->linuxboot_seed != ON_OFF_AUTO_OFF &&
-> -        (data.protocol >= 0x209 || x86ms->linuxboot_seed == ON_OFF_AUTO_ON)) {
-> +        (protocol >= 0x209 || x86ms->linuxboot_seed == ON_OFF_AUTO_ON)) {
->          setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
->          kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
->          kernel = g_realloc(kernel, kernel_size);
+> Regards,
+> BALATON Zoltan
 
 
