@@ -2,97 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CA6589B02
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 13:25:03 +0200 (CEST)
-Received: from localhost ([::1]:36920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37862589B00
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 13:24:29 +0200 (CEST)
+Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJYyM-0004vg-AZ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 07:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
+	id 1oJYxn-00046p-O9
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 07:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJYvY-0001ga-OL
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:22:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41650)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJYvJ-0001Uz-7c; Thu, 04 Aug 2022 07:21:53 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJYvT-0007dv-KM
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:22:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659612122;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Kyx02qFs1iMNTqVbaoe/OfDJiABCaNXpgmm+en0hfo=;
- b=I4jBTZc67fXVTZk3ZJoef9SsDtLNaYek081QtK26O6WYXALUfpe4wsHLkh0SF/M2Ie8cy/
- 2LQ7W2csayWygn6SzX3ctrqvYmCdynW9N/9bRp7nVtHagUiqApyD+NdRT7/fTRl8aulIaG
- 1y+MqzqIEvpa8atvrnARcSSk2p2yoW0=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-F8hpkrifNceYec8AED8_jg-1; Thu, 04 Aug 2022 07:22:01 -0400
-X-MC-Unique: F8hpkrifNceYec8AED8_jg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- x22-20020a05620a259600b006b552a69231so15583490qko.18
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 04:22:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0Kyx02qFs1iMNTqVbaoe/OfDJiABCaNXpgmm+en0hfo=;
- b=AEfEhxUVtACHTxSAuUCztCz/BhsgPfn0WXCJ6MJNUldQ3bG4zT94mgpmRxSq+aTDQt
- a8DN7htA1lzq9G06jjQ/ZWyKmFuPBfl4auBjSgoVFqx05keaKeSIklrR0LrOiNn3FO3i
- qLebbutLeSKB1r1X+vAehHKQDlnO33VGm27Yi6RBGzZ37bp1mBY4h7S7KJa8OM9RnAO0
- 5qMCYFagtJ2itxetSIulw37zLt+XutFmueLvLiVBFjASJ8XA2+oxX1Q4asCz43+ALrDC
- FXHr0KcBH+NnX9oO8TSjxZfYANU1felvYOr6z/fOI61R1yjoqSaLojtbfBpr3LtgPCpZ
- MI6Q==
-X-Gm-Message-State: ACgBeo1g/U/RskckF6IDBOyeEM7rChGipk5LVmE2BqZdRQA5TsCz1NHr
- 36G5dsRfp8/hapwq9YLHLimACMqTcvRGMcxXnwN5F/e3vTpRGZLbEDO1PdYMl374EuPvDUpf4O3
- MEdFSayLK9O2ZYSI5W37G84B5Q+Sgv20=
-X-Received: by 2002:a05:620a:29d5:b0:6b5:dc06:5762 with SMTP id
- s21-20020a05620a29d500b006b5dc065762mr883135qkp.522.1659612120485; 
- Thu, 04 Aug 2022 04:22:00 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6WHMGhbd3AfPK1Pg3i4zeMSsDWRO8M73IkJsTqiTuCJFu3vbgSuFPaWhg7Iq83R72ik3NQc4oL350+fiXpxYI=
-X-Received: by 2002:a05:620a:29d5:b0:6b5:dc06:5762 with SMTP id
- s21-20020a05620a29d500b006b5dc065762mr883127qkp.522.1659612120208; Thu, 04
- Aug 2022 04:22:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJYvG-0007dE-Fj; Thu, 04 Aug 2022 07:21:52 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6AF9B74632B;
+ Thu,  4 Aug 2022 13:21:45 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id EE00E7462D3; Thu,  4 Aug 2022 13:21:44 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EBD36745702;
+ Thu,  4 Aug 2022 13:21:44 +0200 (CEST)
+Date: Thu, 4 Aug 2022 13:21:44 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 19/20] ppc/ppc405: QOM'ify I2C
+In-Reply-To: <cf6c0f99-32dc-c5e1-1027-28ec19f4ae76@kaod.org>
+Message-ID: <bd77cdb9-9d18-44c0-141a-51567b47215c@eik.bme.hu>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-20-clg@kaod.org>
+ <1ab31d3-c5ec-47bd-cdd9-1d1a5e5f7696@eik.bme.hu>
+ <cf6c0f99-32dc-c5e1-1027-28ec19f4ae76@kaod.org>
 MIME-Version: 1.0
-References: <20220802175731.312115-1-eperezma@redhat.com>
- <20220802175731.312115-7-eperezma@redhat.com>
- <47e1e277-34e9-b043-0a74-bf2b67391c6a@redhat.com>
- <CAJaqyWc2+H0t1tgfmh6kgShJ9Obq46oUxX998YvRvQRfj3+eCA@mail.gmail.com>
- <CACGkMEuQ0cYAaGf6T+m_WuaK1n58XxGXney3jx5mDni78BqbYQ@mail.gmail.com>
- <CAJaqyWeQSLY7dPyaoAZaKtVQ9j8f7HnDk3eNcCTY5hK9cBKs+g@mail.gmail.com>
- <CACGkMEtPFi+=HcRJ+RpD51K8Y_jBzPTfybMZMGRQ0izpZrwtkQ@mail.gmail.com>
-In-Reply-To: <CACGkMEtPFi+=HcRJ+RpD51K8Y_jBzPTfybMZMGRQ0izpZrwtkQ@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 4 Aug 2022 13:21:24 +0200
-Message-ID: <CAJaqyWeRQDtsGmxeGhhAy-=a9bWkCRAVLROccS6TH8wAtSAqzQ@mail.gmail.com>
-Subject: Re: [PATCH v5 06/10] vdpa: Make vhost_vdpa_net_cvq_map_elem accept
- any out sg
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Eli Cohen <eli@mellanox.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, 
- Cornelia Huck <cohuck@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-502857004-1659612104=:95398"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,264 +63,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 4, 2022 at 10:52 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Thu, Aug 4, 2022 at 4:19 PM Eugenio Perez Martin <eperezma@redhat.com>=
- wrote:
-> >
-> > On Thu, Aug 4, 2022 at 9:51 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > > On Thu, Aug 4, 2022 at 3:39 PM Eugenio Perez Martin <eperezma@redhat.=
-com> wrote:
-> > > >
-> > > > On Thu, Aug 4, 2022 at 6:17 AM Jason Wang <jasowang@redhat.com> wro=
-te:
-> > > > >
-> > > > >
-> > > > > =E5=9C=A8 2022/8/3 01:57, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > > > > So its generic enough to accept any out sg buffer and we can in=
-ject
-> > > > > > NIC state messages.
-> > > > > >
-> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > > ---
-> > > > > > v5: Accept out sg instead of dev_buffers[]
-> > > > > > ---
-> > > > > >   net/vhost-vdpa.c | 13 +++++++------
-> > > > > >   1 file changed, 7 insertions(+), 6 deletions(-)
-> > > > > >
-> > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > > index 33bf3d6409..2421bca347 100644
-> > > > > > --- a/net/vhost-vdpa.c
-> > > > > > +++ b/net/vhost-vdpa.c
-> > > > > > @@ -302,16 +302,16 @@ dma_map_err:
-> > > > > >   }
-> > > > > >
-> > > > > >   /**
-> > > > > > - * Copy the guest element into a dedicated buffer suitable to =
-be sent to NIC
-> > > > > > + * Maps out sg and in buffer into dedicated buffers suitable t=
-o be sent to NIC
-> > > > > >    */
-> > > > > > -static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
-> > > > > > -                                        VirtQueueElement *elem=
-,
-> > > > > > -                                        size_t *out_len)
-> > > > > > +static bool vhost_vdpa_net_cvq_map_sg(VhostVDPAState *s,
-> > > > > > +                                      const struct iovec *out,=
- size_t out_num,
-> > > > > > +                                      size_t *out_len)
-> > > > >
-> > > > >
-> > > > > This still looks not genreal as there's no guarantee that we won'=
-t have
-> > > > > command-in-specific-data. One example is that Ali is working on t=
-he
-> > > > > virtio-net statistics fetching from the control virtqueue.
-> > > > >
-> > > > > So it looks to me we'd better have a general bounce_map here that=
- accepts:
-> > > > >
-> > > > > 1) out_sg and out_num
-> > > > > 2) in_sg and in_num
-> > > > >
-> > > >
-> > > > We don't need to pass in_sg for that: The only useful information i=
-s
-> > > > its size.
-> > >
-> > > What if we support stats in the future where it extends the ctrl comm=
-and:
-> > >
-> > >          u8 command;
-> > >          u8 command-specific-data[];
-> > >          u8 ack;
-> > > +        u8 command-specific-data-reply[];
-> > >
-> > > in
-> > >
-> > > https://lists.oasis-open.org/archives/virtio-dev/202203/msg00000.html
-> > >
-> >
-> > The guest will expose an in descriptor in whatever layout it wants.
-> > QEMU reads its layout into a VirtQueueElement in_num and in_sg
-> > members, in qemu's (and SVQ) address space.
->
-> Yes, but current code did:
->
-> 1) map seems based on sg but not unmap, result an non-symmetry API
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Ok I get this part now. More on this below.
+--3866299591-502857004-1659612104=:95398
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> 2) NULL is passed to vhost_vdpa_cvq_map_buf()
+On Thu, 4 Aug 2022, Cédric Le Goater wrote:
+> On 8/4/22 01:31, BALATON Zoltan wrote:
+>> On Wed, 3 Aug 2022, Cédric Le Goater wrote:
+>>> Having an explicit I2C model object will help if one day we want to
+>>> add I2C devices on the bus.
+>> 
+>> Same here as with the UIC in previous patch, it's not QOMifying here 
+>> either. As for why we may need I2C, on sam460ex the firmware detects RAM 
+>> accessing the SPD data over I2C so that could be the reason but it may not 
+>> be used here on 405.
 >
->     ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, NULL, 0,
->                                 sizeof(virtio_net_ctrl_ack),
->                                 s->cvq_cmd_in_buffer, &in_copied, true);
->     if (unlikely(!ok)) {
->         vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
->         return false;
->     }
->
-> So NULL to be used for iov_to_buf() which is tricky (not even sure it can=
- work).
->
+> You can still plug I2C devices on the PPC405 command line if you want to.
 
-We can add a conditional to be sure.
+Yes true, I just remembered the reson to bother to implement I2C on 
+sam460ex was that the firmware would not work without it so I thought it 
+may be the same reason here but we don't have the firmware for this board 
+so I don't know. Maybe the original goal was that or the firmware was used 
+for testing but then it was unfinished. Anyway, having more accurate 
+emulation of the hardware is always good so if this matches real hardware 
+then it should stay.
 
-> And this won't work for commands that have in-data in the future.
->
-> >
-> > Since we don't want the guest to be able to modify the in buffer
-> > maliciously, we offer the device a bounce in buffer. Since the in
-> > buffer still contains no information, we only need its size, so we can
-> > "allocate and map" an equivalent one for the device and memset to 0.
-> > For simplicity, we allocate one page, so no need for iovec
-> > complexities.
-> >
-> > After the device has written in it, we get the written len and verify
-> > the information. If VIRTIO_NET_OK, we copy that to the guest's in
-> > buffer, using the iov_from_buf right after out: tag at
-> > vhost_vdpa_net_handle_ctrl_avail. Instead of copy from the stack
-> > "(status, sizeof(status))" variable, we copy from
-> > (s->cvq_cmd_in_buffer, written_len).
->
-> Another asymmetry, the iov_to_buf() was hidden in map() but the
-> iov_from_buf() was exposed to the vhost_vdpa_net_handle_ctrl_avail.
-> I'd suggest tweaking the code otherwise it's not easy to read and
-> maintain:
->
-> map_sg()
-> validate_cmd()
-> add_to_svq()
-> handle_ctrl()
-> unmap_sg()
->
-> Or since we know the location of the bounce buffer, we can simply do
-> bouncing/iov_from_buf() explicitly before map_sg().
->
+Regards,
+BALATON Zoltan
 
-The main target of creating this helper is to avoid duplicating the
-code (especially the fallback on error paths) between the code that
-bounces the guest's buffers and the code that sends the commands on
-the net device load.
-
-While what you propose is possible, maybe it's better to simply map
-the buffer at the beginning and at the end of the device cycle at
-last. To do so, I'll bring the prepare() callback from asid and I'll
-create a new stop() callback right after calling vhost_dev_stop.
-
-> >
-> > Note that this is still not enough for stats. We also need a way to:
-> > * Update the virtio-net device model stats. virtio_net_handle_ctrl_iov
-> > would try to write the virtio-net stats to in buffer, not to update
-> > the device model stat.
-> > * Update the stats on the destination. Another ctrl command? Intercept
-> > them via svq and simply sum source stats + current device stats? I'd
-> > say the second is better as it saves effort to the device, but maybe
-> > it's not.
+>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>> hw/ppc/ppc405.h    |  2 ++
+>>> hw/ppc/ppc405_uc.c | 10 ++++++++--
+>>> 2 files changed, 10 insertions(+), 2 deletions(-)
+>>> 
+>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>> index d29f738cd2d0..d13624ae309c 100644
+>>> --- a/hw/ppc/ppc405.h
+>>> +++ b/hw/ppc/ppc405.h
+>>> @@ -28,6 +28,7 @@
+>>> #include "qom/object.h"
+>>> #include "hw/ppc/ppc4xx.h"
+>>> #include "hw/intc/ppc-uic.h"
+>>> +#include "hw/i2c/ppc4xx_i2c.h"
+>>> 
+>>> #define PPC405EP_SDRAM_BASE 0x00000000
+>>> #define PPC405EP_NVRAM_BASE 0xF0000000
+>>> @@ -256,6 +257,7 @@ struct Ppc405SoCState {
+>>>     Ppc405OcmState ocm;
+>>>     Ppc405GpioState gpio;
+>>>     Ppc405DmaState dma;
+>>> +    PPC4xxI2CState i2c;
+>>>     Ppc405EbcState ebc;
+>>>     Ppc405OpbaState opba;
+>>>     Ppc405PobState pob;
+>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>>> index 5cd32e22b7ea..8f0caa45f5f7 100644
+>>> --- a/hw/ppc/ppc405_uc.c
+>>> +++ b/hw/ppc/ppc405_uc.c
+>>> @@ -1461,6 +1461,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>>> 
+>>>     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
+>>> 
+>>> +    object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
+>>> +
+>>>     object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
+>>> 
+>>>     object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
+>>> @@ -1569,8 +1571,12 @@ static void ppc405_soc_realize(DeviceState *dev, 
+>>> Error **errp)
+>>>     }
+>>> 
+>>>     /* I2C controller */
+>>> -    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+>>> -                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
+>>> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
+>>> +        return;
+>>> +    }
+>>> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, 0xef600500);
+>>> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
+>>> +                       qdev_get_gpio_in(DEVICE(&s->uic), 2));
+>>> 
+>>>     /* GPIO */
+>>>     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+>>> 
 >
-> It should be sufficient to maintain a delta for each counter?
 >
-
-I think it's the best approach for 2, but we still have to develop for 1st.
-
-Thanks!
-
-> Thanks
 >
-> >
-> > That's why I think this command should be left out at the moment, to
-> > do the modifications is not hard but we should agree on how to do them
-> > first.
-> >
-> > > > Since the exposed buffer is an in one, it's enough to expose
-> > > > the s->cvq_cmd_in_buffer buffer in full. The caller already knows t=
-he
-> > > > device will write to it, so the only missing piece is to return the
-> > > > written length at vhost_vdpa_net_cvq_add.
-> > > >
-> > > > Is one page the right buffer size for the in buffer?
-> > >
-> > > We can start from this.
-> > >
-> > > > Is it worth
-> > > > worrying about it before implementing the stat control command in q=
-emu
-> > > > virtio-net?
-> > >
-> > > If it's not complex, it's better to do that from the beginning,
-> > > otherwise the user may be surprised and we need extra work. Anyhow, w=
-e
-> > > should support at least ack which is an in_sg.
-> > >
-> > > >
-> > > > > In this level, we'd better not have any special care about the in=
- as the
-> > > > > ack.
-> > > >
-> > > > We need to care about it. If a property has not been updated in the
-> > > > vdpa device (it returned VIRTIO_NET_ERR), we must not update the
-> > > > device model.
-> > >
-> > > Yes, but what I meant is at the level of bouncing itself. If we met
-> > > VIRTIO_NET_ERR, we should propagate it to the guest as well?
-> > >
-> >
-> > Yes we have, if not the guest thinks the command succeeds. Isn't it?
-> >
-> > Thanks!
-> >
-> > > Thanks
-> > >
-> > > >
-> > > > We can move the processing from vhost_vdpa_net_cvq_add to
-> > > > vhost_vdpa_net_load and vhost_vdpa_net_handle_ctrl_avail, but the c=
-ode
-> > > > gets duplicated then.
-> > > >
-> > > > > And we need do bouncing:
-> > > > >
-> > > > > 1) for out buffer, during map
-> > > > > 2) for in buffer during unmap
-> > > > >
-> > > >
-> > > > We can move the copy of the in_buffer to the unmap for sure.
-> > > >
-> > > > Thanks!
-> > > >
-> > > > > Thanks
-> > > > >
-> > > > >
-> > > > > >   {
-> > > > > >       size_t in_copied;
-> > > > > >       bool ok;
-> > > > > >
-> > > > > > -    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg=
-, elem->out_num,
-> > > > > > +    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, out, out_num=
-,
-> > > > > >                                   vhost_vdpa_net_cvq_cmd_len(),
-> > > > > >                                   s->cvq_cmd_out_buffer, out_le=
-n, false);
-> > > > > >       if (unlikely(!ok)) {
-> > > > > > @@ -435,7 +435,8 @@ static int vhost_vdpa_net_handle_ctrl_avail=
-(VhostShadowVirtqueue *svq,
-> > > > > >       };
-> > > > > >       bool ok;
-> > > > > >
-> > > > > > -    ok =3D vhost_vdpa_net_cvq_map_elem(s, elem, &dev_buffers[0=
-].iov_len);
-> > > > > > +    ok =3D vhost_vdpa_net_cvq_map_sg(s, elem->out_sg, elem->ou=
-t_num,
-> > > > > > +                                   &dev_buffers[0].iov_len);
-> > > > > >       if (unlikely(!ok)) {
-> > > > > >           goto out;
-> > > > > >       }
-> > > > >
-> > > >
-> > >
-> >
->
-
+--3866299591-502857004-1659612104=:95398--
 
