@@ -2,97 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65253589BDF
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:46:38 +0200 (CEST)
-Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B98589BD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:42:27 +0200 (CEST)
+Received: from localhost ([::1]:51264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJaFJ-0000oZ-Gs
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
+	id 1oJaBF-00031W-PM
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJZyd-0004gj-JT
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:29:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52186)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJZya-0001eG-0X
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:29:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659616158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+PafkRt2k2EsDey54B2A3UjCyY9uZszSWiQkqKksoDw=;
- b=FyJLdf3vmq1pP0Aabu5kdOCf1hloeh9QpfNFaVEFY0i+a/I8ijD6rqhSCpp8JLYA27MArC
- tZypZSE1IzPpEwVxY2e28S76S5cN08J26o5tLU7jBE0p+DYyaPR15bqT4B4wl3TiKy0NEB
- vjaBLUKT7T00MPjy+VyL1DBVzZTQ/rM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-rvO3M39UPXq_kEz8C-IeqQ-1; Thu, 04 Aug 2022 08:29:17 -0400
-X-MC-Unique: rvO3M39UPXq_kEz8C-IeqQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- w22-20020adf8bd6000000b002206311fb96so2869902wra.12
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 05:29:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
+ id 1oJa88-0005cC-0T
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:39:12 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51886)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
+ id 1oJa81-0003P8-M4
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:39:11 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id t22so11553961pjy.1
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 05:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=john-millikin.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XNh2x3uXFAsJ0QMqL9t3/FBlvD4vkqv/Km3i1lXak7k=;
+ b=ptcTnJLjA24g2d5anijLWGfndPzWge20d/q831nnsVJQK2znh5Yku6HNs9od2tVd6l
+ K4kgjU6HcaBjA7nmHab35oAg4AInUUI6/o7e/zWodXDZ4zP1hm/Ivr2XZhGwrVVzp5Ue
+ zceEcGWDPC4W+8a1lbWAU+lBjqFh0zjOLd+mAm0ASS15E3s6jjE4y/SwbNSZDIU8ltIy
+ 3Geq2aupCDpY75BnqBBAbiSyRHqQvCdsv+CxMxW4JlWTm2F/22qxhV7a2DExFVYfEuDN
+ 2ZpGpKf0d+m1Q4469AoQUciRtWkZN+o/Aa87wiFwldDYymJVPApeRTuWlCH64GT/CaXT
+ 9mUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:from:to:cc:references:subject:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+PafkRt2k2EsDey54B2A3UjCyY9uZszSWiQkqKksoDw=;
- b=pBIte0NEJNwMfzeOfbTZmgBf14CG7v5gYRlXxZAoW6kFUOtAzxk/rCDzw3Cx7GixKG
- oPbNpIgE9sfYTSRiqv6G1OURB4ULOYi0jZ/XQojiuhToBoFoX4l5bxypP4n/bLVvnXka
- ZCClLCBAcZR1rIZd1zJBSJojVy92OYirgLU0WzfAcTtZnTMVFeSOdADH/63RHWX3U/ou
- cp1MTxhPR/lXhROGqxRukIdxjR1SxW5MzRt/8wFoLQGbrDh1hy9FrFfWFT1gxV445omM
- lpKKB49zKMtfq9uvK+risiDZJ5LDiAwYe66aa4bAq323UV97BRXjeyIhTWn328vuBa3X
- hknA==
-X-Gm-Message-State: ACgBeo2Lqbhv5vwSkEEJcpzGKXH3o2ylkeQwODrBRGaHBa85lydkfnzC
- EAjzWO0R/NMrsTijJsljxM3PxJNyMAhu6IvQUtwHZWtN2W3kf7cyijKei4ZPwP22lAeDgd9XUkY
- cMinE5XAToMnS9P4=
-X-Received: by 2002:a05:6000:2a4:b0:220:687a:cda9 with SMTP id
- l4-20020a05600002a400b00220687acda9mr1256821wry.187.1659616156293; 
- Thu, 04 Aug 2022 05:29:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR54aIxFzNDXnVc2lM0xypu0s98/EI2VdEpWTLdr3FqJb95onLhB/wIf7BFxYsAOE2f94CdiJA==
-X-Received: by 2002:a05:6000:2a4:b0:220:687a:cda9 with SMTP id
- l4-20020a05600002a400b00220687acda9mr1256798wry.187.1659616155956; 
- Thu, 04 Aug 2022 05:29:15 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-42-112-229.web.vodafone.de.
- [109.42.112.229]) by smtp.gmail.com with ESMTPSA id
- o15-20020adfcf0f000000b0021d6a520ce9sm1066554wrj.47.2022.08.04.05.29.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 05:29:15 -0700 (PDT)
-Message-ID: <62ef733d-5e40-8913-0b8b-d02afde7486c@redhat.com>
-Date: Thu, 4 Aug 2022 14:29:14 +0200
+ bh=XNh2x3uXFAsJ0QMqL9t3/FBlvD4vkqv/Km3i1lXak7k=;
+ b=WnJ+02QhlsT7aAo6XMdPoum4KZVcQP1U8hYeYjZBTMpwW/Mp4TBwCqZOTHRvxA7dkI
+ N4F/pAy7EAo7xBtOp77bnO7jBEAI9mjG/EEIefHMPAxFjP/vf1kY1KXqaTq35a6lbMni
+ lnSEUjjmKkg9U31UwBr36ZjFD5JU3Qwf2yQIyFRZ0lo59ZbmER98TWjVbPlFPNCcPw9h
+ anG4BzbbNlEMKj4pg5wHYenmE2wFfhlmnusi/llUc/ygL4m5apI9s3ikaM3ABYM+Gmpz
+ 6cq1rdtYqfdoO0pDSQ8fLznWlRbdAMxStzI3ypowfEOY1kREPUEkqdO0/Q9FuBXAf9VC
+ vynQ==
+X-Gm-Message-State: ACgBeo1O6TWa7iV/LsMOWwnbbNLdPLAag7MuTgARtlP6do6NyRb8oUJ1
+ dwJVsxasWKHrkekCmPlOBvomjYvvsqc3yNm+S2w=
+X-Google-Smtp-Source: AA6agR4+S7UitbwsEVFmbCPzgqD3R0PzGwG2HYE8m6oc4/qyBdDYj3VtYODSbWr8+dRo7dTw+sxnnQ==
+X-Received: by 2002:a17:90a:e7cd:b0:1f0:c82:c88f with SMTP id
+ kb13-20020a17090ae7cd00b001f00c82c88fmr10275162pjb.100.1659616743156; 
+ Thu, 04 Aug 2022 05:39:03 -0700 (PDT)
+Received: from localhost.localdomain ([2405:6580:98c0:1200:3d7:1081:d0d0:54fa])
+ by smtp.gmail.com with ESMTPSA id
+ n30-20020a63591e000000b0041a8f882e5bsm1060505pgb.42.2022.08.04.05.39.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Aug 2022 05:39:02 -0700 (PDT)
+From: John Millikin <john@john-millikin.com>
+To: qemu-devel@nongnu.org
+Cc: John Millikin <john@john-millikin.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH v2] scsi-disk: support setting CD-ROM block size via device
+ options
+Date: Thu,  4 Aug 2022 21:29:51 +0900
+Message-Id: <20220804122950.1577012-1-john@john-millikin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- mcascell@redhat.com, f4bug@amsat.org
-References: <20220802134834.454749-1-thuth@redhat.com>
- <CAFEAcA_oZni8G7LeciOywasY2rcEnpo=v01xCaaCTBp5_pDTLQ@mail.gmail.com>
- <aaa3210f-0c81-5c4e-7757-10fa99f5ac27@redhat.com>
- <CAFEAcA8Nsa131yeONs7-3H4wq885r1yuCwwSs=O09SS_Q7xUdQ@mail.gmail.com>
- <d3880c4d-b100-b412-e1f1-4f5c650cc22d@redhat.com>
- <CAFEAcA9azLEWsK-ewXT_ovsc2u+2ykMMJNK8b9UXdfBZ49w6eA@mail.gmail.com>
- <d2c8abec-1f87-01e5-a882-8502d9547f39@redhat.com>
-Subject: Re: [PATCH] hw/usb/hcd-xhci: Fix endless loop in case the DMA access
- fails (CVE-2020-14394)
-In-Reply-To: <d2c8abec-1f87-01e5-a882-8502d9547f39@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=john@john-millikin.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,42 +90,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/08/2022 13.43, Thomas Huth wrote:
-> On 04/08/2022 12.17, Peter Maydell wrote:
->> On Thu, 4 Aug 2022 at 11:07, Thomas Huth <thuth@redhat.com> wrote:
->>>
->>> On 04/08/2022 10.56, Peter Maydell wrote:
->>>> But the point of TRB_LINK_LIMIT is that regardless of what the
->>>> contents of the TRBs are, the loop is not supposed to
->>>> be able to continue for more than TRB_LINK_LIMIT iterations,
->>>> ie 32 times. In this example case, do we stop after 32 TRBs
->>>> (case 2) or not (case 1)?
->>>
->>> Oh, wait, I think we were maybe looking at different spots. The problem
->>> likely does not occur in the xhci_ring_fetch() function
->>> (which you were likely looking at), but only in the xhci_ring_chain_length()
->>> function (which I was looking at)!
->>> xhci_ring_chain_length() can certainly continue more than 32 times. In
->>> xhci_ring_chain_length() the TRB_LINK_LIMIT only applies if "type ==
->>> TR_LINK", but the TRBs we're talking about here are *not* of type TR_LINK.
->>
->> That sounds like we do still have an unbounded-loop problem,
->> then: there's no limit on the number of consecutive TRBs
->> we try to read in that function. Maybe we're missing an
->> error check of some kind (does the spec limit how many
->> consecutive TRBs there can be somehow?) or else we need
->> another artificial limit.
-> 
-> I'm not an XHCI expert at all, but while at least having a quick glance at 
-> the spec, I did not see any limit there. So I assume that we should enforce 
-> an artificial limit? What would be a good value for this? Gerd, do you maybe 
-> have any opinion?
+SunOS expects CD-ROM devices to have a block size of 512, and will
+fail to mount or install using QEMU's default block size of 2048.
 
-Ok, after looking at the spec a little bit longer, I discovered chapter "6 
-Data Structures", where they say that Transfer Ring segments should be 
-limited to 64kB each. That sounds like a reasonable limit. I'll update my 
-patch accordingly.
+When initializing the SCSI device, allow the `physical_block_size'
+block device option to override the default block size.
 
-  Thomas
+Signed-off-by: John Millikin <john@john-millikin.com>
+---
+ hw/scsi/scsi-disk.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+This is the same diff as sent to qemu-devel@ about a week ago. That
+first email seems to have been eaten by a grue, but replying to it
+worked, so maybe the grue is gone now.
+
+See https://gitlab.com/qemu-project/qemu/-/issues/1127 for some
+related discussion about SunOS CD-ROM compatibility.
+
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index f5cdb9ad4b..acdf8dc05c 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2533,6 +2533,7 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
+     AioContext *ctx;
+     int ret;
++    uint32_t blocksize = 2048;
+ 
+     if (!dev->conf.blk) {
+         /* Anonymous BlockBackend for an empty drive. As we put it into
+@@ -2542,9 +2543,13 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
+         assert(ret == 0);
+     }
+ 
++    if (dev->conf.physical_block_size != 0) {
++        blocksize = dev->conf.physical_block_size;
++    }
++
+     ctx = blk_get_aio_context(dev->conf.blk);
+     aio_context_acquire(ctx);
+-    s->qdev.blocksize = 2048;
++    s->qdev.blocksize = blocksize;
+     s->qdev.type = TYPE_ROM;
+     s->features |= 1 << SCSI_DISK_F_REMOVABLE;
+     if (!s->product) {
+-- 
+2.25.1
 
 
