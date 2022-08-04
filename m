@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F30589FB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 19:07:19 +0200 (CEST)
-Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B6A589FAA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 19:04:20 +0200 (CEST)
+Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJeJZ-0003Rg-Te
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 13:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44884)
+	id 1oJeGh-0000iv-7v
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 13:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oJeCn-0006ZS-20
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 13:00:19 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36411)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oJeCj-0005bz-Sb
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 13:00:15 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 186-20020a1c02c3000000b003a34ac64bdfso538296wmc.1
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 10:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=qR830kkiSEIw5ZiGLWIi165GDzFniRFm9XnjNqAu/IQ=;
- b=SzFJkGWfIhv7e5jvxkeZzCuKB90yd41Q0baB4/qfq9QKrzFd3ytOO1tOXUEEe7YoIe
- iGuzuoH3FEh9X59JGLJQYqmcpup/zxw3f3qJa4nmaVmmDlL6wVwIb2Kz//LMpEao4vgx
- DZ6TBH2DOGWTouei1JN5OVE34PfbsxvvfNOoelZSlCPi2Aw1rB8YFOsRV++UqXbuWnhg
- 5J7l5JrmoGR+9OpdVsYhttwCkL/Wiex1b5u8880XUHMylNjeKwJc5hXnfOtxwWOKyfgP
- arPMkJe1U9PxUN3U8Cw2PzIWaZ9KBIstR/adop1PFlkSIGi/NhkXyGmIqhWo93QkDIJx
- k09A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=qR830kkiSEIw5ZiGLWIi165GDzFniRFm9XnjNqAu/IQ=;
- b=OiHfMuYGgPp4U7L7BbM/DlbASDqhhP40shzlx5OlbAW8l+ZkzjlKDV07rTdIONdsk1
- RN7kiRJDb1TKE5fm48+IgGTesKfUDGEwKY7HetDLMDEWQnotOeXwow+8v9wFjxzhJ4j9
- W+XUfEaleB7wYh58mTrgRGYIz09Ba2tutANzEYoZ55eOjwVQzWtcBc+sg5qZ4bdEFrSi
- urZKGG0w/EPlWnYonTw45pi+OwnRrsZ2j892f7745DmCPD1XRkqITbTfWzy9nqgsVfU+
- ndwaHKgh1Wt5y+TblLBNH6uM3eudOftttVWlvp8hAtNjUQedSeR90ciS3dgR9yxkj11S
- C7uQ==
-X-Gm-Message-State: ACgBeo078tXMr9KpAQ9OA+k3HOsiX9qrjhxycpfcGeC1MwzQJfJ7OKtF
- HTF/8dZtYrz2JMnEKoqNDw5wZw==
-X-Google-Smtp-Source: AA6agR4CkNN+P2/Q+7PCvBwHnp/29lfghGSTzO4WGyU7hk9GNF0TIjjpMxV+XXHaktdzUbysGvP8cg==
-X-Received: by 2002:a05:600c:1515:b0:3a5:1690:557b with SMTP id
- b21-20020a05600c151500b003a51690557bmr811589wmg.147.1659632410931; 
- Thu, 04 Aug 2022 10:00:10 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- t9-20020a05600001c900b0021eaf4138aesm1891684wrx.108.2022.08.04.10.00.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Aug 2022 10:00:09 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 445881FFB7;
- Thu,  4 Aug 2022 18:00:09 +0100 (BST)
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-10-pbonzini@redhat.com>
- <Yuu1Eod8rwKY3pIS@redhat.com>
-User-agent: mu4e 1.7.27; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Jason A. Donenfeld"
- <Jason@zx2c4.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, Peter Maydell <peter.maydell@linaro.org>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>, Laurent Vivier
- <laurent@vivier.eu>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
-Date: Thu, 04 Aug 2022 17:56:09 +0100
-In-reply-to: <Yuu1Eod8rwKY3pIS@redhat.com>
-Message-ID: <87bkt0nduu.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJe9P-0001xg-8w
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:56:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47208)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJe9L-00053i-2r
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:56:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659632201;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=SGNhJivg8PCW3NUQvcCxlbYFqr0QaMS0QQ3hFvOd4fk=;
+ b=WiMcvJ/lB4vknstCW43I5DCsLtbEGfGaF9UYbfwX5tlJQUOLR5LvuyPsHhJTCKg9vtn9xs
+ Gux5TyzIlGeK4xsb2xr3TamGugCTk9VC9bpUgRIMcqjvVOCrUTZ6w8jlx9kOC6LCvHjGuB
+ ItUQZQ7Gtth8fAYc1n5R+jqzenA8NWM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-397-Lc4QmSb1Nt-PK80npq4Usg-1; Thu, 04 Aug 2022 12:56:40 -0400
+X-MC-Unique: Lc4QmSb1Nt-PK80npq4Usg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C1738001EA;
+ Thu,  4 Aug 2022 16:56:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 359B840C1288;
+ Thu,  4 Aug 2022 16:56:37 +0000 (UTC)
+Date: Thu, 4 Aug 2022 17:56:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
+ cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
+ frankja@linux.ibm.com, alex.bennee@linaro.org
+Subject: Re: [PATCH v2 1/1] osdep: asynchronous teardown for shutdown on Linux
+Message-ID: <Yuv6QtPCtABMc7J4@redhat.com>
+References: <20220803173141.52711-1-imbrenda@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+In-Reply-To: <20220803173141.52711-1-imbrenda@linux.ibm.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,36 +78,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 03, 2022 at 07:31:41PM +0200, Claudio Imbrenda wrote:
+> This patch adds support for asynchronously tearing down a VM on Linux.
+> 
+> When qemu terminates, either naturally or because of a fatal signal,
+> the VM is torn down. If the VM is huge, it can take a considerable
+> amount of time for it to be cleaned up. In case of a protected VM, it
+> might take even longer than a non-protected VM (this is the case on
+> s390x, for example).
+> 
+> Some users might want to shut down a VM and restart it immediately,
+> without having to wait. This is especially true if management
+> infrastructure like libvirt is used.
+> 
+> This patch implements a simple trick on Linux to allow qemu to return
+> immediately, with the teardown of the VM being performed
+> asynchronously.
+> 
+> If the new commandline option -async-teardown is used, a new process is
+> spawned from qemu at startup, using the clone syscall, in such way that
+> it will share its address space with qemu.
+> 
+> The new process will then simpy wait until qemu terminates, and then it
+> will exit itself.
+> 
+> This allows qemu to terminate quickly, without having to wait for the
+> whole address space to be torn down. The teardown process will exit
+> after qemu, so it will be the last user of the address space, and
+> therefore it will take care of the actual teardown.
+> 
+> The teardown process will share the same cgroups as qemu, so both
+> memory usage and cpu time will be accounted properly.
+> 
+> This feature can already be used with libvirt by adding the following
+> to the XML domain definition:
+> 
+>   <commandline xmlns="http://libvirt.org/schemas/domain/qemu/1.0">
+>   <arg value='-async-teardown'/>
+>   </commandline>
+> 
+> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> ---
+>  include/qemu/osdep.h |  2 ++
+>  os-posix.c           |  5 ++++
+>  qemu-options.hx      | 17 ++++++++++++++
+>  util/osdep.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 79 insertions(+)
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Thu, Jul 21, 2022 at 06:36:21PM +0200, Paolo Bonzini wrote:
->> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
->>=20
->> Tiny machines optimized for fast boot time generally don't use EFI,
->> which means a random seed has to be supplied some other way. For this
->> purpose, Linux (=C3=A2=E2=80=B0=C2=A55.20) supports passing a seed in th=
-e setup_data table
->> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
->> specialized bootloaders. The linked commit shows the upstream kernel
->> implementation.
->>=20
->> At Paolo's request, we don't pass these to versioned machine types =C3=
-=A2=E2=80=B0=C2=A47.0.
->
->
-> This change has also broken direct kernel measured boot with AMD SEV
-> confidential virtualization.
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 60fcbbaebe..bb0baf97a0 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -23,6 +23,15 @@
+>   */
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +
+> +#ifdef CONFIG_LINUX
+> +#include <sys/types.h>
+> +#include <sys/select.h>
+> +#include <sys/unistd.h>
+> +#include <sys/syscall.h>
+> +#include <signal.h>
+> +#endif
+> +
+>  #include "qemu/cutils.h"
+>  #include "qemu/sockets.h"
+>  #include "qemu/error-report.h"
+> @@ -512,6 +521,52 @@ const char *qemu_hw_version(void)
+>      return hw_version;
+>  }
+>  
+> +#ifdef __linux__
+> +static int async_teardown_fn(void *arg)
+> +{
+> +    sigset_t all_signals;
+> +    fd_set r, w, e;
+> +    int fd;
+> +
+> +    /* open a pidfd descriptor for the parent qemu process */
+> +    fd = syscall(__NR_pidfd_open, getppid(), 0);
 
-FWIW this is why we had to introduce the dtb-randomness control knob for
-ARM -M virt machines. Although we have deprecated the old dtb-kaslr-seed
-knob and it has always enabled by default because the measured boot was
-sufficiently new the few people working with it could just add it to
-their command lines.
+We ought to open this FD in the parent process to avoid a race
+where the parent crashes immediately after clone() and gets
+reparented to 'init' before this child process calls pidfd_open,
+otherwise it'll sit around waiting for init to exit.
 
---=20
-Alex Benn=C3=A9e
+> +    /* if something went wrong, or if the file descriptor is too big */
+> +    if ((fd < 0) || (fd >= FD_SETSIZE)) {
+> +        _exit(1);
+> +    }
+> +    /* zero all fd sets */
+> +    FD_ZERO(&r);
+> +    FD_ZERO(&w);
+> +    FD_ZERO(&e);
+> +    /* set the fd for the pidfd in the "read" set */
+> +    FD_SET(fd, &r);
+> +    /* block all signals */
+> +    sigfillset(&all_signals);
+> +    sigprocmask(SIG_BLOCK, &all_signals, NULL);
+
+Technnically this is racy as there's still a window in which the
+child is running when signals are not blocked.
+
+> +    /* wait for the pid to disappear -> fd will appear as ready for read */
+> +    (void) select(fd + 1, &r, &w, &e, NULL);
+
+While using pidfd can work, a stronger protection would be to use
+
+   prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
+
+this guarantees that the kernel will deliver SIGKILL to this
+process immediately when the parent QEMU exits.
+
+We should probably do both in fact.
+
+> +
+> +    /*
+> +     * Close all file descriptors that might have been inherited from the
+> +     * main qemu process when doing clone. This is needed to make libvirt
+> +     * happy.
+> +     */
+> +    close_range(0, ~0U, 0);
+
+Shouldn't we close all the FDs immediately when this process is
+created, rather than only at the end when we're exiting. I don't
+see there's any need to keep them open. Doing it immediately
+would be better when using prctl(PR_SET_PDEATHSIG)
+
+> +    _exit(0);
+> +}
+> +
+> +void init_async_teardown(void)
+> +{
+> +    const int size = 8192; /* should be more than enough */
+> +    char *stack = malloc(size);
+> +
+
+You need to block all signals here.
+
+> +    /* start a new process sharing the address space with qemu */
+> +    clone(async_teardown_fn, stack + size, CLONE_VM, NULL, NULL, NULL, NULL);
+
+And unblock signals again here.
+
+That way the "everything blocked"  mask is inherited by the child
+from the very first moment of its existance.
+
+> +}
+> +#else /* __linux__ */
+> +void init_async_teardown(void) {}
+> +#endif
+> +
+>  #ifdef _WIN32
+>  static void socket_cleanup(void)
+>  {
+> -- 
+> 2.37.1
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
