@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2C658A0AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:44:58 +0200 (CEST)
-Received: from localhost ([::1]:46058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A4458A0D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:50:39 +0200 (CEST)
+Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJfq5-0002dd-1V
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34946)
+	id 1oJfva-0008Qr-7l
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:50:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfb1-0008F7-3z
+ id 1oJfb1-0008FA-LR
  for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46894)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfay-00034M-Hv
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:22 -0400
+ id 1oJfaz-00034S-6Z
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659637756;
+ s=mimecast20190719; t=1659637760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0B8KI4/fnEok6w2Efz5xLoWx7wcqHk6mQq7G+EE1gok=;
- b=VTNRp5r3wdRfnnOnYTa3g48rJuUz+xVnvQGGr1O2kHO1BjrJvblKvUPgTz4mygcdvpk2hj
- xt5ftA12HsAHtcMU+3QpMJjJwxd0RjxUxMnQWd35yHeomuiPdGBJHf90wUKIRzsyLVf0Dx
- 8YB/z2DkzO2kOLEUJGdT1RNemMf6ElU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pSOYJFmCUIy0mfnEqXO1DVzB+00pvt/ixLKLNmEb53A=;
+ b=DyIVH6y3orTF9PXotGfXermgExofvzGVSf4aFZZj1maEpGm2dyEiSXV5TuxQ953UpSExGE
+ uhqxkp3mYZGV0HvdPxTeg5Z1eS2H2GyrDS9++tQpQSgvakMU5/ErDKdwrTtw2yHbYHNHAs
+ OH+SFZ2Mwg7oYk2Bj4U7UJUW16iyvlY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-LUJY8N6dOHir5wgRuLQLNA-1; Thu, 04 Aug 2022 14:29:13 -0400
-X-MC-Unique: LUJY8N6dOHir5wgRuLQLNA-1
+ us-mta-586-iRtr7gYuOa--xs6nwfxMKA-1; Thu, 04 Aug 2022 14:29:17 -0400
+X-MC-Unique: iRtr7gYuOa--xs6nwfxMKA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A54F811E80;
- Thu,  4 Aug 2022 18:29:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5420A3C35F03;
+ Thu,  4 Aug 2022 18:29:17 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08DFB492C3B;
- Thu,  4 Aug 2022 18:29:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B30A0492C3B;
+ Thu,  4 Aug 2022 18:29:13 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
@@ -55,10 +55,9 @@ Cc: Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Eli Cohen <eli@mellanox.com>,
  Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>
-Subject: [PATCH v7 04/12] vhost: Do not depend on !NULL VirtQueueElement on
- vhost_svq_flush
-Date: Thu,  4 Aug 2022 20:28:44 +0200
-Message-Id: <20220804182852.703398-5-eperezma@redhat.com>
+Subject: [PATCH v7 05/12] vhost_net: Add NetClientInfo prepare callback
+Date: Thu,  4 Aug 2022 20:28:45 +0200
+Message-Id: <20220804182852.703398-6-eperezma@redhat.com>
 In-Reply-To: <20220804182852.703398-1-eperezma@redhat.com>
 References: <20220804182852.703398-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,47 +88,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since QEMU will be able to inject new elements on CVQ to restore the
-state, we need not to depend on a VirtQueueElement to know if a new
-element has been used by the device or not. Instead of check that, check
-if there are new elements only using used idx on vhost_svq_flush.
+This is used by the backend to perform actions before the device is
+started.
+
+In particular, vdpa net use it to map CVQ buffers to the device, so it
+can send control commands using them.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
-v6: Change less from the previous function
----
- hw/virtio/vhost-shadow-virtqueue.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ include/net/net.h  | 2 ++
+ hw/net/vhost_net.c | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 1b49bf54f2..f863b08627 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -499,17 +499,20 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
- size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
- {
-     int64_t start_us = g_get_monotonic_time();
-+    uint32_t len;
-+
-     do {
--        uint32_t len;
--        VirtQueueElement *elem = vhost_svq_get_buf(svq, &len);
--        if (elem) {
--            return len;
-+        if (vhost_svq_more_used(svq)) {
-+            break;
-         }
+diff --git a/include/net/net.h b/include/net/net.h
+index 523136c7ac..3416bb3d46 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -44,6 +44,7 @@ typedef struct NICConf {
  
-         if (unlikely(g_get_monotonic_time() - start_us > 10e6)) {
-             return 0;
-         }
-     } while (true);
-+
-+    vhost_svq_get_buf(svq, &len);
-+    return len;
- }
+ typedef void (NetPoll)(NetClientState *, bool enable);
+ typedef bool (NetCanReceive)(NetClientState *);
++typedef int (NetPrepare)(NetClientState *);
+ typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
+ typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
+ typedef void (NetCleanup) (NetClientState *);
+@@ -71,6 +72,7 @@ typedef struct NetClientInfo {
+     NetReceive *receive_raw;
+     NetReceiveIOV *receive_iov;
+     NetCanReceive *can_receive;
++    NetPrepare *prepare;
+     NetCleanup *cleanup;
+     LinkStatusChanged *link_status_changed;
+     QueryRxFilter *query_rx_filter;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index ccac5b7a64..e1150d7532 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -244,6 +244,13 @@ static int vhost_net_start_one(struct vhost_net *net,
+     struct vhost_vring_file file = { };
+     int r;
  
- /**
++    if (net->nc->info->prepare) {
++        r = net->nc->info->prepare(net->nc);
++        if (r < 0) {
++            return r;
++        }
++    }
++
+     r = vhost_dev_enable_notifiers(&net->dev, dev);
+     if (r < 0) {
+         goto fail_notifiers;
 -- 
 2.31.1
 
