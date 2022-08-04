@@ -2,105 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B9458A08B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:30:53 +0200 (CEST)
-Received: from localhost ([::1]:51276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB5958A0E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:53:29 +0200 (CEST)
+Received: from localhost ([::1]:33634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJfcS-0000xb-Hc
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34018)
+	id 1oJfyK-0005pT-Du
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oJfWE-0007q7-3M; Thu, 04 Aug 2022 14:24:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44826)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJfal-00080m-Ks
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oJfWB-0002NW-Qn; Thu, 04 Aug 2022 14:24:25 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 274IAIir028509;
- Thu, 4 Aug 2022 18:24:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=mx7WE3EFJlt9psuq5N3BY5Dfy8FVWWpe1R1MZOF6Jm8=;
- b=slNkp+XNO7rd6BFpJHOhyH8HtjjPw9YGcEXId4m/HoijR/FeZ8tPGwJkhuQIhkdJ1o4L
- uV0ePD12eOaTxZQxWqsVrMVk2GbJIl8TwxFU+ckMz9CUWtWOs3wjIBIYxuL8yAw1kzMB
- vvwyh5xJG6mMIpEhXPYE2jOZO4BagoEG84Qcwmxf8nluKqlBCihlNwOlWB8s0qu625yD
- SuUTDv4lOspc0mQFlUDoDcWylx20IjLMbFF0furLcA6qtP/bw41HUOrKlQhB4yqBAWZT
- mnfrvhi/1wkOrkEJo4T0qQ/Lm4DZo0JtLEOI85rxLSw+ggIGNtD0Efm3o+76AJ6u1tNt Mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrjx9rjth-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 18:24:08 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 274IGXeX022012;
- Thu, 4 Aug 2022 18:24:08 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrjx9rjsm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 18:24:07 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 274ILKNf002017;
- Thu, 4 Aug 2022 18:24:06 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma05fra.de.ibm.com with ESMTP id 3hmv994u7r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 18:24:06 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 274IO26W20316564
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 Aug 2022 18:24:02 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B30AC5204F;
- Thu,  4 Aug 2022 18:24:02 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.2.232])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 2D19F52052;
- Thu,  4 Aug 2022 18:24:02 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 2/2] tests/tcg: Test siginfo_t contents when jumping to
- non-readable pages
-Date: Thu,  4 Aug 2022 20:23:59 +0200
-Message-Id: <20220804182359.830058-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220804182359.830058-1-iii@linux.ibm.com>
-References: <20220804182359.830058-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJfai-00033W-8N
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:29:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659637742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uOeXxISgPRj4/OilNqpSUjFUTSzTls5SivQ7X70m2as=;
+ b=eM2Op+/Ql5CV4n6Gu7DkGrBDcnYJSkuY9aDNFYnAIPSMtuDJnmkUKVCdVAQo5Y5dzoJA7y
+ hicVlvSb0I1/SETy2mXh2tJFxj2pA+1AMmv0MVvHQcxQyI+I9ZOj29pqrCsVZjhMlXZ3sH
+ yheW0RAWF26W6hNeiJmNASOgC5uUjTQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-421-0QiCefebN3Op17e3hh825Q-1; Thu, 04 Aug 2022 14:28:59 -0400
+X-MC-Unique: 0QiCefebN3Op17e3hh825Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B4CE3C35F07;
+ Thu,  4 Aug 2022 18:28:58 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D119F492C3B;
+ Thu,  4 Aug 2022 18:28:54 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Eli Cohen <eli@mellanox.com>,
+ Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+Subject: [PATCH v7 00/12] NIC vhost-vdpa state restore via Shadow CVQ
+Date: Thu,  4 Aug 2022 20:28:40 +0200
+Message-Id: <20220804182852.703398-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: g6u86Yf-aQ0FV3NlveMvEASpH3auaj4H
-X-Proofpoint-GUID: y2GAHl6vs4NpXacMzwiRbAxoAL4DWlb1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-04_03,2022-08-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- impostorscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 clxscore=1015 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2208040077
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,445 +85,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add x86_64 and s390x tests to prevent regressions.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/multiarch/noexec.h     | 114 ++++++++++++++++++++++++
- tests/tcg/s390x/Makefile.target  |   1 +
- tests/tcg/s390x/noexec.c         | 145 +++++++++++++++++++++++++++++++
- tests/tcg/x86_64/Makefile.target |   3 +-
- tests/tcg/x86_64/noexec.c        | 116 +++++++++++++++++++++++++
- 5 files changed, 378 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/multiarch/noexec.h
- create mode 100644 tests/tcg/s390x/noexec.c
- create mode 100644 tests/tcg/x86_64/noexec.c
-
-diff --git a/tests/tcg/multiarch/noexec.h b/tests/tcg/multiarch/noexec.h
-new file mode 100644
-index 0000000000..a76e0aa9ea
---- /dev/null
-+++ b/tests/tcg/multiarch/noexec.h
-@@ -0,0 +1,114 @@
-+/*
-+ * Common code for arch-specific MMU_INST_FETCH fault testing.
-+ *
-+ * Declare struct arch_noexec_test before including this file and define
-+ * arch_check_mcontext() after that.
-+ */
-+
-+#include <assert.h>
-+#include <signal.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/ucontext.h>
-+#include <unistd.h>
-+
-+/* Forward declarations. */
-+
-+static void arch_check_mcontext(const struct arch_noexec_test *test,
-+                                const mcontext_t *ctx);
-+
-+/* Utility functions. */
-+
-+static void safe_print(const char *s)
-+{
-+    write(0, s, strlen(s));
-+}
-+
-+static void safe_puts(const char *s)
-+{
-+    safe_print(s);
-+    safe_print("\n");
-+}
-+
-+#define PAGE_ALIGN(p) (void *)((unsigned long)(p) & ~0xfffUL)
-+
-+/* Testing infrastructure. */
-+
-+struct noexec_test {
-+    const char *name;
-+    void (*func)(int);
-+    void *page;
-+    void *expected_si_addr;
-+    struct arch_noexec_test arch;
-+};
-+
-+static const struct noexec_test *current_noexec_test;
-+
-+static void handle_segv(int sig, siginfo_t *info, void *ucontext)
-+{
-+    int err;
-+
-+    if (current_noexec_test == NULL) {
-+        safe_puts("[  FAILED  ] unexpected SEGV");
-+        _exit(1);
-+    }
-+
-+    if (info->si_addr != current_noexec_test->expected_si_addr) {
-+        safe_puts("[  FAILED  ] wrong si_addr");
-+        _exit(1);
-+    }
-+
-+    arch_check_mcontext(&current_noexec_test->arch,
-+                        &((ucontext_t *)ucontext)->uc_mcontext);
-+
-+    err = mprotect(current_noexec_test->page, 0x1000, PROT_READ | PROT_EXEC);
-+    if (err != 0) {
-+        safe_puts("[  FAILED  ] mprotect() failed");
-+        _exit(1);
-+    }
-+
-+    current_noexec_test = NULL;
-+}
-+
-+static void test_noexec_1(const struct noexec_test *test)
-+{
-+    int ret;
-+
-+    /* Trigger TB creation in order to test invalidation. */
-+    test->func(0);
-+
-+    ret = mprotect(test->page, 0x1000, PROT_NONE);
-+    assert(ret == 0);
-+
-+    /* Trigger SEGV and check that handle_segv() ran. */
-+    current_noexec_test = test;
-+    test->func(0);
-+    assert(current_noexec_test == NULL);
-+}
-+
-+static int test_noexec(struct noexec_test *tests, size_t n_tests)
-+{
-+    struct sigaction act;
-+    size_t i;
-+    int err;
-+
-+    memset(&act, 0, sizeof(act));
-+    act.sa_sigaction = handle_segv;
-+    act.sa_flags = SA_SIGINFO;
-+    err = sigaction(SIGSEGV, &act, NULL);
-+    assert(err == 0);
-+
-+    for (i = 0; i < n_tests; i++) {
-+        struct noexec_test *test = &tests[i];
-+
-+        safe_print("[ RUN      ] ");
-+        safe_puts(test->name);
-+        test_noexec_1(test);
-+        safe_puts("[       OK ]");
-+    }
-+
-+    safe_puts("[  PASSED  ]");
-+
-+    return EXIT_SUCCESS;
-+}
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 1a7a4a2f59..5e13a41c3f 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -16,6 +16,7 @@ TESTS+=shift
- TESTS+=trap
- TESTS+=signals-s390x
- TESTS+=branch-relative-long
-+TESTS+=noexec
- 
- Z14_TESTS=vfminmax
- vfminmax: LDFLAGS+=-lm
-diff --git a/tests/tcg/s390x/noexec.c b/tests/tcg/s390x/noexec.c
-new file mode 100644
-index 0000000000..2dfc9ee817
---- /dev/null
-+++ b/tests/tcg/s390x/noexec.c
-@@ -0,0 +1,145 @@
-+#define _GNU_SOURCE
-+
-+struct arch_noexec_test {
-+    void *expected_pswa;
-+    unsigned long expected_r2;
-+};
-+
-+#include "../multiarch/noexec.h"
-+
-+static void arch_check_mcontext(const struct arch_noexec_test *test,
-+                                const mcontext_t *ctx) {
-+    if (ctx->psw.addr != (unsigned long)test->expected_pswa) {
-+        safe_puts("[  FAILED  ] wrong psw.addr");
-+        _exit(1);
-+    }
-+
-+    if (ctx->gregs[2] != test->expected_r2) {
-+        safe_puts("[  FAILED  ] wrong r2");
-+        _exit(1);
-+    }
-+}
-+
-+#define DEFINE_NX(name, offset) \
-+    void name ## _1(int); \
-+    void name ## _2(int); \
-+    void name ## _exrl(int); \
-+    extern const short name ## _end[]; \
-+    asm(/* Go to the specified page offset. */ \
-+        ".align 0x1000\n" \
-+        ".org .+" #offset "\n" \
-+        /* %r2 is 0 on entry, overwrite it with 1. */ \
-+        ".globl " #name "_1\n" \
-+        #name "_1:\n" \
-+        ".cfi_startproc\n" \
-+        "lgfi %r2,1\n" \
-+        /* Overwrite %2 with 2. */ \
-+        ".globl " #name "_2\n" \
-+        #name "_2:\n" \
-+        "lgfi %r2,2\n" \
-+        "br %r14\n" \
-+        /* End of code. */ \
-+        ".globl " #name "_end\n" \
-+        #name "_end:\n" \
-+        ".cfi_endproc\n" \
-+        /* Go to the next page. */ \
-+        ".align 0x1000\n" \
-+        /* Break alignment. */ \
-+        "nopr %r7\n" \
-+        ".globl " #name "_exrl\n" \
-+        #name "_exrl:\n" \
-+        ".cfi_startproc\n" \
-+        "exrl %r0," #name "_2\n" \
-+        "br %r14\n" \
-+        ".cfi_endproc");
-+
-+/* noexec_1 is executable, noexec_2 is non-executable. */
-+DEFINE_NX(noexec, 0xffa);
-+
-+/*
-+ * noexec_cross_1 is executable, noexec_cross_2 crosses non-executable page
-+ * boundary.
-+ */
-+DEFINE_NX(noexec_cross, 0xff8);
-+
-+/* noexec_full_1 and noexec_full_2 are non-executable. */
-+DEFINE_NX(noexec_full, 0x322);
-+
-+int main(void)
-+{
-+    struct noexec_test noexec_tests[] = {
-+        {
-+            .name = "Fallthrough",
-+            .func = noexec_1,
-+            .page = noexec_2,
-+            .expected_si_addr = noexec_2,
-+            .arch = {
-+                .expected_pswa = noexec_2,
-+                .expected_r2 = 1,
-+            },
-+        },
-+        {
-+            .name = "Jump",
-+            .func = noexec_2,
-+            .page = noexec_2,
-+            .expected_si_addr = noexec_2,
-+            .arch = {
-+                .expected_pswa = noexec_2,
-+                .expected_r2 = 0,
-+            },
-+        },
-+        {
-+            .name = "EXRL",
-+            .func = noexec_exrl,
-+            .page = noexec_2,
-+            .expected_si_addr = PAGE_ALIGN(noexec_end),
-+            .arch = {
-+                .expected_pswa = noexec_exrl,
-+                .expected_r2 = 0,
-+            },
-+        },
-+        {
-+            .name = "Fallthrough [cross]",
-+            .func = noexec_cross_1,
-+            .page = PAGE_ALIGN(noexec_cross_end),
-+            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
-+            .arch = {
-+                .expected_pswa = noexec_cross_2,
-+                .expected_r2 = 1,
-+            },
-+        },
-+        {
-+            .name = "Jump [cross]",
-+            .func = noexec_cross_2,
-+            .page = PAGE_ALIGN(noexec_cross_end),
-+            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
-+            .arch = {
-+                .expected_pswa = noexec_cross_2,
-+                .expected_r2 = 0,
-+            },
-+        },
-+        {
-+            .name = "EXRL [cross]",
-+            .func = noexec_cross_exrl,
-+            .page = PAGE_ALIGN(noexec_cross_end),
-+            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
-+            .arch = {
-+                .expected_pswa = noexec_cross_exrl,
-+                .expected_r2 = 0,
-+            },
-+        },
-+        {
-+            .name = "Jump [full]",
-+            .func = noexec_full_1,
-+            .page = PAGE_ALIGN(noexec_full_1),
-+            .expected_si_addr = PAGE_ALIGN(noexec_full_1),
-+            .arch = {
-+                .expected_pswa = noexec_full_1,
-+                .expected_r2 = 0,
-+            },
-+        },
-+    };
-+
-+    return test_noexec(noexec_tests,
-+                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
-+}
-diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
-index b71a6bcd5e..c0e7e5b005 100644
---- a/tests/tcg/x86_64/Makefile.target
-+++ b/tests/tcg/x86_64/Makefile.target
-@@ -10,6 +10,7 @@ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
- 
- ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
- X86_64_TESTS += vsyscall
-+X86_64_TESTS += noexec
- TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
- else
- TESTS=$(MULTIARCH_TESTS)
-@@ -20,5 +21,5 @@ test-x86_64: LDFLAGS+=-lm -lc
- test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
- 
--vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
-+%: $(SRC_PATH)/tests/tcg/x86_64/%.c
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
-diff --git a/tests/tcg/x86_64/noexec.c b/tests/tcg/x86_64/noexec.c
-new file mode 100644
-index 0000000000..ec07c9f0ba
---- /dev/null
-+++ b/tests/tcg/x86_64/noexec.c
-@@ -0,0 +1,116 @@
-+#define _GNU_SOURCE
-+
-+struct arch_noexec_test {
-+    void *expected_rip;
-+    unsigned long expected_rdi;
-+};
-+
-+#include "../multiarch/noexec.h"
-+
-+static void arch_check_mcontext(const struct arch_noexec_test *test,
-+                                const mcontext_t *ctx) {
-+    if (ctx->gregs[REG_RIP] != (unsigned long)test->expected_rip) {
-+        safe_puts("[  FAILED  ] wrong rip");
-+        _exit(1);
-+    }
-+
-+    if (ctx->gregs[REG_RDI] != test->expected_rdi) {
-+        safe_puts("[  FAILED  ] wrong rdi");
-+        _exit(1);
-+    }
-+}
-+
-+#define DEFINE_NX(name, offset) \
-+    void name ## _1(int); \
-+    void name ## _2(int); \
-+    extern const short name ## _end[]; \
-+    asm(/* Go to the specified page offset. */ \
-+        ".align 0x1000\n" \
-+        ".org .+" #offset "\n" \
-+        /* %rdi is 0 on entry, overwrite it with 1. */ \
-+        ".globl " #name "_1\n" \
-+        #name "_1:\n" \
-+        ".cfi_startproc\n" \
-+        "movq $1,%rdi\n" \
-+        /* Overwrite %rdi with 2. */ \
-+        ".globl " #name "_2\n" \
-+        #name "_2:\n" \
-+        "movq $2,%rdi\n" \
-+        "ret\n" \
-+        /* End of code. */ \
-+        ".globl " #name "_end\n" \
-+        #name "_end:\n" \
-+        ".cfi_endproc\n" \
-+        /* Go to the next page. */ \
-+        ".align 0x1000");
-+
-+/* noexec_1 is executable, noexec_2 is non-executable. */
-+DEFINE_NX(noexec, 0xff9);
-+
-+/*
-+ * noexec_cross_1 is executable, noexec_cross_2 crosses non-executable page
-+ * boundary.
-+ */
-+DEFINE_NX(noexec_cross, 0xff8);
-+
-+/* noexec_full_1 and noexec_full_2 are non-executable. */
-+DEFINE_NX(noexec_full, 0x321);
-+
-+int main(void)
-+{
-+    struct noexec_test noexec_tests[] = {
-+        {
-+            .name = "Fallthrough",
-+            .func = noexec_1,
-+            .page = noexec_2,
-+            .expected_si_addr = noexec_2,
-+            .arch = {
-+                .expected_rip = noexec_2,
-+                .expected_rdi = 1,
-+            },
-+        },
-+        {
-+            .name = "Jump",
-+            .func = noexec_2,
-+            .page = noexec_2,
-+            .expected_si_addr = noexec_2,
-+            .arch = {
-+                .expected_rip = noexec_2,
-+                .expected_rdi = 0,
-+            },
-+        },
-+        {
-+            .name = "Fallthrough [cross]",
-+            .func = noexec_cross_1,
-+            .page = PAGE_ALIGN(noexec_cross_end),
-+            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
-+            .arch = {
-+                .expected_rip = noexec_cross_2,
-+                .expected_rdi = 1,
-+            },
-+        },
-+        {
-+            .name = "Jump [cross]",
-+            .func = noexec_cross_2,
-+            .page = PAGE_ALIGN(noexec_cross_end),
-+            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
-+            .arch = {
-+                .expected_rip = noexec_cross_2,
-+                .expected_rdi = 0,
-+            },
-+        },
-+        {
-+            .name = "Jump [full]",
-+            .func = noexec_full_1,
-+            .page = PAGE_ALIGN(noexec_full_1),
-+            .expected_si_addr = noexec_full_1,
-+            .arch = {
-+                .expected_rip = noexec_full_1,
-+                .expected_rdi = 0,
-+            },
-+        },
-+    };
-+
-+    return test_noexec(noexec_tests,
-+                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
-+}
--- 
-2.35.3
+CVQ of net vhost-vdpa devices can be intercepted since the work of [1]. The=
+=0D
+virtio-net device model is updated. The migration was blocked because altho=
+ugh=0D
+the state can be megrated between VMM it was not possible to restore on the=
+=0D
+destination NIC.=0D
+=0D
+This series add support for SVQ to inject external messages without the gue=
+st's=0D
+knowledge, so before the guest is resumed all the guest visible state is=0D
+restored. It is done using standard CVQ messages, so the vhost-vdpa device =
+does=0D
+not need to learn how to restore it: As long as they have the feature, they=
+=0D
+know how to handle it.=0D
+=0D
+This series needs fix [1] to be applied to achieve full live=0D
+migration.=0D
+=0D
+Thanks!=0D
+=0D
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-08/msg00325.html=
+=0D
+=0D
+v7:=0D
+- Remove accidental double free.=0D
+=0D
+v6:=0D
+- Move map and unmap of the buffers to the start and stop of the device. Th=
+is=0D
+  implies more callbacks on NetClientInfo, but simplifies the SVQ CVQ code.=
+=0D
+- Not assume that in buffer is sizeof(virtio_net_ctrl_ack) in=0D
+  vhost_vdpa_net_cvq_add=0D
+- Reduce the number of changes from previous versions=0D
+- Delete unused memory barrier=0D
+=0D
+v5:=0D
+- Rename s/start/load/=0D
+- Use independent NetClientInfo to only add load callback on cvq.=0D
+- Accept out sg instead of dev_buffers[] at vhost_vdpa_net_cvq_map_elem=0D
+- Use only out size instead of iovec dev_buffers to know if the descriptor =
+is=0D
+  effectively available, allowing to delete artificial !NULL VirtQueueEleme=
+nt=0D
+  on vhost_svq_add call.=0D
+=0D
+v4:=0D
+- Actually use NetClientInfo callback.=0D
+=0D
+v3:=0D
+- Route vhost-vdpa start code through NetClientInfo callback.=0D
+- Delete extra vhost_net_stop_one() call.=0D
+=0D
+v2:=0D
+- Fix SIGSEGV dereferencing SVQ when not in svq mode=0D
+=0D
+v1 from RFC:=0D
+- Do not reorder DRIVER_OK & enable patches.=0D
+- Delete leftovers=0D
+=0D
+Eugenio P=C3=A9rez (12):=0D
+  vhost: stop transfer elem ownership in vhost_handle_guest_kick=0D
+  vhost: use SVQ element ndescs instead of opaque data for desc=0D
+    validation=0D
+  vhost: Delete useless read memory barrier=0D
+  vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush=0D
+  vhost_net: Add NetClientInfo prepare callback=0D
+  vhost_net: Add NetClientInfo stop callback=0D
+  vdpa: add net_vhost_vdpa_cvq_info NetClientInfo=0D
+  vdpa: Move command buffers map to start of net device=0D
+  vdpa: Extract vhost_vdpa_net_cvq_add from=0D
+    vhost_vdpa_net_handle_ctrl_avail=0D
+  vhost_net: add NetClientState->load() callback=0D
+  vdpa: Add virtio-net mac address via CVQ at start=0D
+  vdpa: Delete CVQ migration blocker=0D
+=0D
+ include/hw/virtio/vhost-vdpa.h     |   1 -=0D
+ include/net/net.h                  |   6 +=0D
+ hw/net/vhost_net.c                 |  17 +++=0D
+ hw/virtio/vhost-shadow-virtqueue.c |  27 ++--=0D
+ hw/virtio/vhost-vdpa.c             |  14 --=0D
+ net/vhost-vdpa.c                   | 227 ++++++++++++++++++-----------=0D
+ 6 files changed, 180 insertions(+), 112 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
