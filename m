@@ -2,110 +2,157 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EECF5897F6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 08:58:56 +0200 (CEST)
-Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB0058980F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 09:05:35 +0200 (CEST)
+Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJUop-00029v-Ed
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 02:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33874)
+	id 1oJUvC-0004qH-Cr
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 03:05:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1oJUmc-0000Q3-3f; Thu, 04 Aug 2022 02:56:38 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31200)
+ (Exim 4.90_1) (envelope-from <eiichi.tsukata@nutanix.com>)
+ id 1oJUpk-0002h7-En
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 02:59:52 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:44670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1oJUmT-0006sg-GX; Thu, 04 Aug 2022 02:56:37 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2746qoNZ000415;
- Thu, 4 Aug 2022 06:56:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=T5HfQsfkiaE9vpbUr69VqoORz6B+jOALAc3hK/MGyxk=;
- b=IYCC6eqigmo7lBKqZbSlUVvJmEumMidM5sCvyi4d9MRu4A/4nxInELiwT767d0MaB/K3
- nx59Cbi1xvMdnk0m97P1SJ/YMPIwxUrO6qQI70nVxAXPv8PlISxm9fwY8I5XuaOi3gvy
- YhHxfH/b0k0Yu0OW83TvzZyTluU5nQcIb+GzhHsapCiarHvPRTF36OzJDb+Fw4ZaUpSK
- Bf3C9ncLJeWudGLggDSRf43TBvQdK9B+ONI+kNzhDesSuLCGY5YC+T9ThQiA8EJpkTEA
- yO13FLOPrkCz9w0VE3y6subjS+W8OleSE1LPri8gJiRMIXdbfXASF3MU0UcVgnSJ33gf ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hr98002wk-1
+ (Exim 4.90_1) (envelope-from <eiichi.tsukata@nutanix.com>)
+ id 1oJUpi-0007S8-8v
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 02:59:52 -0400
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2740t6XC011247;
+ Wed, 3 Aug 2022 23:59:44 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=OshWilqwg6mXDFmbboQ8xtjkk3vD0OL3volY4zheFQU=;
+ b=johDD4vhCYOBKdB5IbYgPT1qW9AFUt0l95rZvxc6MgAWKqr8k/X2XzcuGGkwqEQtpk82
+ 0ThcYxTp5XwyXcFE8REJV+1ozGZKI+0xokEVmQzfqU8LQQD/B4aAjWEoZvCjKAqPVzaJ
+ QT1lHPUU2ZGejAMlLTdH7iTddqpwfFnSNZpCut+IcR6WFHSn9QqX4ytJArf93keq6cPo
+ 7AP3TZbL7y8Y7/7Iq9nNmWcCIOppQ3bqLj/oRZEMOLhS2VLsGICG4bjin/Rt++U2PUsY
+ 0q1KbAaiUSdsbyhOARtDfmRd0ST5vmIgShHKbnGi2bTtNDHhfB0p7ZSjWH701euDieW2 zw== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3hn4613hxp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 06:56:25 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2746raxn003275;
- Thu, 4 Aug 2022 06:56:25 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hr98002w4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 06:56:25 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2746pfO8029932;
- Thu, 4 Aug 2022 06:56:23 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma05fra.de.ibm.com with ESMTP id 3hmv994aqr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 06:56:23 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2746uK2V27066652
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 Aug 2022 06:56:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 319FA11C04C;
- Thu,  4 Aug 2022 06:56:20 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF92111C04A;
- Thu,  4 Aug 2022 06:56:19 +0000 (GMT)
-Received: from [9.171.87.73] (unknown [9.171.87.73])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  4 Aug 2022 06:56:19 +0000 (GMT)
-Message-ID: <bbd57148-6d6d-f1c3-73f8-73e2512a8012@linux.ibm.com>
-Date: Thu, 4 Aug 2022 08:56:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 2/2] target/s390x: support SHA-512 extensions
+ Wed, 03 Aug 2022 23:59:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dtxMCCrUG1rD85IuKW57HEShFruogOl+ng7FSTkGF1TXGAPyW6O62/FzRjore5kLZ0m5eKIJ5TnXPad6qACo3FcyDJG3Epc7oQbyLXWFIK4G4IWwEKLaDEYdWdQ/2+PYqFF72D/pjMnzUFUR86fZX+24j4xM93dZFFyOaYGKp4STm7iztWeMBaL4tJMKJw0Kldjw5/z2ZReSkHmSlOypx5JnyoZ720ASNNgIjdrFoJDzpOIGmUc83HRssEc9SlivxgxbRqPpGiWBeethoC6k/XSct3gxQ0GGnATrvSnf5LaGsZwCgZAvCvhmg7HhSSSFRnPPz5+rkRCuPezMRs1fDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OshWilqwg6mXDFmbboQ8xtjkk3vD0OL3volY4zheFQU=;
+ b=Jj1Vss1eQ9SeOYdCNTxZfxNcIXcoZwaRammbMn71gf6uWYAGp+F5qGm8EnwGeZNiuxwgZ6syYE3OPhzHV5qKfQ7UFtn/Mlfk0gCfygW6VKbhlsDUFd/08cmgxfSRgErQoaCe8VH6mTqTd9l1RRd5L2jNFQGmKsx5gaBrUpEW30CjMs1N/mc7MmxNeOEzikVpccO1b23HlFM/qMzcTlnZG/5BwwAHxSNikpIOfujWvamD5w+aKZoH9ezfygj2UOfyIJdG00srLZXvlyC/pDP0EMVlzA58sNk6gFu1/9dZHATPQrwSPMZysAOBPA8ukcSkt/J/mXxuddrtrOeTZH3a8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CH0PR02MB8041.namprd02.prod.outlook.com (2603:10b6:610:106::10)
+ by PH0PR02MB7717.namprd02.prod.outlook.com (2603:10b6:510:58::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 4 Aug
+ 2022 06:59:42 +0000
+Received: from CH0PR02MB8041.namprd02.prod.outlook.com
+ ([fe80::75ec:a5f:965d:b7cd]) by CH0PR02MB8041.namprd02.prod.outlook.com
+ ([fe80::75ec:a5f:965d:b7cd%5]) with mapi id 15.20.5504.015; Thu, 4 Aug 2022
+ 06:59:42 +0000
+From: Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>
+Subject: Re: PING: [PATCH] KVM: HWPoison: Fix memory address&size during remap
+Thread-Topic: PING: [PATCH] KVM: HWPoison: Fix memory address&size during remap
+Thread-Index: AQHYVIOHWS5LNxGEWEOaxAb7LYqksq0PhlCAgI9wMIA=
+Date: Thu, 4 Aug 2022 06:59:42 +0000
+Message-ID: <713249DB-CCBE-402D-96CE-447250FFDA42@nutanix.com>
+References: <20220420064542.423508-1-pizhenwei@bytedance.com>
+ <527342ea-ad25-6f66-169d-912a6d75ae54@bytedance.com>
+In-Reply-To: <527342ea-ad25-6f66-169d-912a6d75ae54@bytedance.com>
+Accept-Language: ja-JP, en-US
 Content-Language: en-US
-To: freude@linux.ibm.com, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, Holger Dengler <dengler@linux.ibm.com>
-References: <Yul0G2YCKLXiypvv@zx2c4.com>
- <20220802190011.458871-1-Jason@zx2c4.com>
- <20220802190011.458871-3-Jason@zx2c4.com>
- <5758f0a3-ee4e-97d4-3e32-469b56029208@redhat.com>
- <YupmwgYFShLfP8Xd@zx2c4.com> <0ff11adb819138cfed16dfb489b66f6f@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <0ff11adb819138cfed16dfb489b66f6f@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: jwqU5xVDAtVPrCq48CTdy0F_cR6TOcvr
-X-Proofpoint-ORIG-GUID: R196zDD7DE0CTsC0Az25dqKpP8slTPSH
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9a624b42-cd0e-4761-639e-08da75e6e7f9
+x-ms-traffictypediagnostic: PH0PR02MB7717:EE_
+x-proofpoint-crosstenant: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PggjQhKKYsjPq7pWQNHOyU2vqmY7bCL7ObEU738qtRWpUFMI2E9YRAtyXjwGcqIW3UfRTHIolONU6nQv4kA5loq7r154kjCjX8FvucruEjXJ5YfuW7KAPXYK4fml0Z26vAnjopp3DkcroItKyMrj8sdKzBh23UbllD9WdzpcJNyWCM6I9pwR1cQI4xwa5TL0WN5JJoT79t6a6D+JoAXpWLHBMKbHD1hO1xOkQygCX3SrSFhvpL4RL8NUWmQqlS8Llj6BxTcYxcCeoMWppAf+aP/5teSNu1cygPprIbXvcQSrh76JMRLCReibmDhqAskQGW8XoOLXE3rJTfB2HVBQCjUsx7CBNDVJP0cVZy7e/CBZitkIeZ7OH32fLqQImoiiqEoLKPq90uDEWcMYZZY+BIf7zzI6oTRSRO/bO+bZtTiWwMoYBx3WTFG6occdzdY7iQYUtyMcb1EmQe+M1mlQcYJemmCX9KMYBK/CkPTNNcV0LJNYOirBNPe5fN0uvCwKYBtpwkepNW3XRP9lQlC7C2wyWNjMi1ozJLhr179T4EgXJ33/Ngg137XE77uIIvjP7ol0xlBiHU7ie+ic7LDqTceWbiadMhIKkSPaa6TjdKooW9SPSAKCDIgbq6CM1GWFvOUkodeQviw6roww8JlAiykXcCSm3ceUfbjYDaQkyERhvG1jCYYE6QM/ifwV1IhwjzLDsZ4QUC8n3PirZGDzxJCW7ot4J0yy2wMJxYEJbCRGMO7pjnXehb5PQK4yfFfZAwHwksneQlHdAnRhqVeMy8r6trCq8XLGZaFB/AaeNNy2OdObeYIjoRGCxJ5rCzBLUhcQy4dhxGtMsrcBblcEmw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR02MB8041.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(346002)(396003)(376002)(366004)(39860400002)(136003)(54906003)(2616005)(36756003)(122000001)(6916009)(86362001)(38100700002)(316002)(26005)(38070700005)(66946007)(76116006)(6512007)(64756008)(66556008)(8676002)(66446008)(66476007)(4326008)(91956017)(186003)(33656002)(5660300002)(44832011)(6486002)(71200400001)(478600001)(53546011)(8936002)(83380400001)(41300700001)(2906002)(6506007)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZUhaWkxKVWFzUjh1KzF3N3pqRkkzUzlBaFExQm5OQnEwYllPY2gzVlRHZ3FH?=
+ =?utf-8?B?Q0lETkZic3FHOEZoZnBCNmxmWlI1NGl5clhEbG1IVUQwVWhXM0VEak42TnBr?=
+ =?utf-8?B?RTY3Zm4ySXAveWg4UjJUMHk4dFBBdTBpN1l5NmFpaG96MkpkSGE1aU12TUZx?=
+ =?utf-8?B?eWlIYTMrNzFlc3ZWdmNONmpEbm9oWTdkUGZaV2dJWWpWdDFhblVrUFd1TS9Z?=
+ =?utf-8?B?QmphbnlRUVhkeXBRMWVlaUg5YWlSWHFhQWxrSWxKR1dIaGpPT1oweE9oWFox?=
+ =?utf-8?B?ejd0WHlyNnppN3RzRUp6WUxIZGhkMFQzNXlYa292UG1SYnhRUHNPbklEOENZ?=
+ =?utf-8?B?b3FFY3B5QXZXelFFTGJsRU00WVVTcnBLb3NMTzd5QW53RlVEZUpZeHlEWEdC?=
+ =?utf-8?B?M1NJKzBhZElYZjFHdGE3VEhENVBnUTdMemlyMU9JSGMzVmxVQ1hhZ2pmR0FV?=
+ =?utf-8?B?WG1kUDhEd0VkMFpWNVBDZUU1d2hudXM2ZUJsLzRUWmhibzMwN3lHZ1VxRkNt?=
+ =?utf-8?B?ZVV1OExmWDA1UjdQakFXdGZyaWRHZ1hEamJCMXF5U0VhWFNjaExMV3A5Vi81?=
+ =?utf-8?B?dGpCZzEyeWE1OGt5aXpOZWJ3MlBzNFBXQXJSMDl6ak1XSmMwdW5qdmhKcjZG?=
+ =?utf-8?B?UWJEeWQwVURsRzBaTmh2UDdtRHZvVElmNVYwTmY4Ymd2ajVodGpDd0hRSUtF?=
+ =?utf-8?B?djRDVjNpVWV5ZU5kS0dwT0FKTG5XODJsVDA5b1RZMGExd0tseldtb1UvV256?=
+ =?utf-8?B?MEY0ZGRwR0Y5eWRFSGdkMHl1Wkl1bjJsYmJPa0IyR1hCUTNwVTJaV3VVTGtU?=
+ =?utf-8?B?aWIwZ0t0Z0tnZjVRRlFGaEI1a2V2OGxCdVRpejRzeUo1c1dLZ1hwZzUwaXRP?=
+ =?utf-8?B?YUNjbFJnWFNjM042RUpiaEtDT1VOaU5iWERqVmIvaXhBMnpnSlozUzhsSEQ4?=
+ =?utf-8?B?REtuTktSa2haK2RlRlpYV3g2c05kWVZndnhXZVBDanY1bHFRRFVoNE5uSkRE?=
+ =?utf-8?B?SVk4dkRNa1BqalFrMG5wYk13QzdSVW9GaDZ5TmZzM09ET0oxM0hQd3RtU0hw?=
+ =?utf-8?B?S2xkeXBGVzc1Y2lDYnFtSXk4Nkk4YlhMc1BiS0ZDZDZkM2RWUTR4NHJ5SDVh?=
+ =?utf-8?B?WGRtVkJNaEt3aG4rb0RIUDdGeWIrUmp6YTVRMDN0aktyMEVUeHg5MHNmRFI0?=
+ =?utf-8?B?ZmcvSDJwRkFLK3dBaHR3SHVRK0c3WjRNS1ZTNGd4dDBGeWV1RVpXUjRlUmVC?=
+ =?utf-8?B?a3hQRzc5MFhReDhERmkwL2xyZGVSWFZzTXFwT3VTcG9yZjRsVkpzdnFkd0th?=
+ =?utf-8?B?UE5VTlJWK21tTGhPNTBFUFpyRUg3SHZKTlVBSXZucnpwaGsrL2lLK0NGNXpp?=
+ =?utf-8?B?L1E5UVNib2RacEhBNXNrK1RHZGtRZ0FJTm5NVkV4b2F2MU44ZjJZbXljRXdv?=
+ =?utf-8?B?S2dWRXFVM2phNHFFOS9sME1TVnFhSUxGSlVOemloTjF6b0ZHUjhKQlVjcjFh?=
+ =?utf-8?B?RVdoeGVMUUk2V3ZoUHZ1OTF5YjFMZmJ0WHpvZ0RyRXRjdXVkTjE3azVvbzdN?=
+ =?utf-8?B?bis3MW03Z25ia3ZrS2owOUw5TWk4NElxR3NhSWdDbE04NHZlRTZRcURydEha?=
+ =?utf-8?B?OU5qeFlXVURHc1QzR0NoZXAxakVSc2JEWVBYSVF4NVd6K1J3Y2tObE5CRnl2?=
+ =?utf-8?B?ZjIrVWNZRW14V2lyK0VaTkFYL1RFU2lBSjRXeTNEWlJkVnBwV2p3VUdwdkQ3?=
+ =?utf-8?B?SjRCbm5IQWV0d3VlTlJ3L1REQ2VmbTFXc3h1UmFRUGRHcUhvZTVPekh4bU1D?=
+ =?utf-8?B?TTBYbnQxem1NcklkS2NxUnNDdU5ZdEF2bGZGdDlieHVtTGo5YnhwbXJHeEZP?=
+ =?utf-8?B?NlUyVVNZMnpyZDhiSlBpOVVBMWlReUZvRzlKdVY2M0JyRmxENThDNkpqa2hX?=
+ =?utf-8?B?eWgyT2pLdzN3Q0xJTnl6WFQ5Z0toaXBUVFZxRFhING5LTWh6dXpCWkErVmph?=
+ =?utf-8?B?bFlncmJPRFFpcmpjcGlFU21ybStVc2FyWSt3eXZlRlJoVk9VKzdKbzBLZUEz?=
+ =?utf-8?B?WTdGYUJCQTZHVG9ja29LRkFlZWlXY09IRVpjRnFsTFNPYk42UnZ0TUNyNXlE?=
+ =?utf-8?B?S1FxWCtLMkwvRVRrUTE4bmkyVXBSNjl4czhIdGh3dVBmbm5ZdVZIcWlxUTE0?=
+ =?utf-8?B?M1E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CAE926E248E5ED49BF172E66826F338D@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB8041.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a624b42-cd0e-4761-639e-08da75e6e7f9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2022 06:59:42.0686 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oTV/Bc0N3Rf7kKhVW4I7etVc3+f0uMJVeoP/jEGf40wZCtga31sjHF2beu3BEO3b0ymYjYxItEommcZx+zEJFUW2Zme8ATgaoiRZKegD5CI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7717
+X-Proofpoint-GUID: BteBM0tmoU8QmZ02BzY5A4BUyb6_mmsB
+X-Proofpoint-ORIG-GUID: BteBM0tmoU8QmZ02BzY5A4BUyb6_mmsB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-04_01,2022-08-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 mlxlogscore=999 adultscore=0 clxscore=1015
- spamscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208040026
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=eiichi.tsukata@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,84 +169,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 04.08.22 um 08:51 schrieb Harald Freudenberger:
-> On 2022-08-03 14:14, Jason A. Donenfeld wrote:
->> Hi David,
->>
->> On Wed, Aug 03, 2022 at 01:55:21PM +0200, David Hildenbrand wrote:
->>> On 02.08.22 21:00, Jason A. Donenfeld wrote:
->>> > In order to fully support MSA_EXT_5, we have to also support the SHA-512
->>> > special instructions. So implement those.
->>> >
->>> > The implementation began as something TweetNacl-like, and then was
->>> > adjusted to be useful here. It's not very beautiful, but it is quite
->>> > short and compact, which is what we're going for.
->>> >
->>>
->>> Do we have to worry about copyright/authorship of the original code or
->>> did you write that from scratch?
->>
->> I actually don't really remember how much of that is leftover from
->> tweetnacl and how much I've rewritten - I've had some variant of this
->> code or another kicking around in various projects and repos for a long
->> time. But the tweetnacl stuff is public domain to begin with, so all
->> good.
->>
->>> Are we properly handling the length register (r2 + 1) in the
->>> 24-bit/31-bit addressing mode?
->>> Similarly, are we properly handling updates to the message register (r2)
->>> depending on the addressing mode?
->>
->> Ugh, probably not... I didn't do any of the deposit_64 stuff. I guess
->> I'll look into that.
->>
->>> It's worth noting that we might want to implement (also for PRNO-TRNG):
->>>
->>> "The operation is ended when all
->>> source bytes in the second operand have been pro-
->>> cessed (called normal completion), or when a CPU-
->>> determined number of blocks that is less than the
->>> length of the second operand have been processed
->>> (called partial completion). The CPU-determined
->>> number of blocks depends on the model, and may be
->>> a different number each time the instruction is exe-
->>> cuted. The CPU-determined number of blocks is usu-
->>> ally nonzero. In certain unusual situations, this
->>> number may be zero, and condition code 3 may be
->>> set with no progress."
->>>
->>> Otherwise, a large length can make us loop quite a while in QEMU,
->>> without the chance to deliver any other interrupts.
->>
->> Hmm, okay. Looking at the Linux code, I see:
->>
->>         s.even = (unsigned long)src;
->>         s.odd  = (unsigned long)src_len;
->>         asm volatile(
->>                 "       lgr     0,%[fc]\n"
->>                 "       lgr     1,%[pba]\n"
->>                 "0:     .insn   rre,%[opc] << 16,0,%[src]\n"
->>                 "       brc     1,0b\n" /* handle partial completion */
->>                 : [src] "+&d" (s.pair)
->>                 : [fc] "d" (func), [pba] "d" ((unsigned long)(param)),
->>                   [opc] "i" (CPACF_KIMD)
->>                 : "cc", "memory", "0", "1");
->>
->> So I guess that means it'll just loop until it's done? Or do I need to
->> return "1" from HELPER(msa)?
->>
->> Jason
-> 
-> Hm, you don't really want to implement some kind of particial complete.
-> Qemu is an emulation and you would have to implement some kind of
-> fragmenting this based on machine generation. For my feeling this is
-> way too overengineered. Btw. as there came the request to handle
-> the 24-bit/31-bit addressing correctly. Is Qemu 32 bit supported ?
-
-We do not support the esa390 mode, but the 24/31 bit _addressing_ modes are
-totally valid to be used in zarch mode (with sam31 for example). The kernel
-does that for example for some diagnoses under z/VM.
-Nobody in problem state should probably do that, but its possible.
+SGkgDQoNCldl4oCZdmUgYWxzbyBoaXQgdGhpcyBjYXNlLg0KDQo+IE9uIE1heSA1LCAyMDIyLCBh
+dCA5OjMyLCB6aGVud2VpIHBpIDxwaXpoZW53ZWlAYnl0ZWRhbmNlLmNvbT4gd3JvdGU6DQo+IA0K
+PiBIaSwgUGFvbG8NCj4gDQo+IEkgd291bGQgYXBwcmVjaWF0ZSBpdCBpZiB5b3UgY291bGQgcmV2
+aWV3IHBhdGNoLg0KPiANCj4gT24gNC8yMC8yMiAxNDo0NSwgemhlbndlaSBwaSB3cm90ZToNCj4+
+IHFlbXUgZXhpdHMgZHVyaW5nIHJlc2V0IHdpdGggbG9nOg0KPj4gcWVtdS1zeXN0ZW0teDg2XzY0
+OiBDb3VsZCBub3QgcmVtYXAgYWRkcjogMTAwMEAyMjAwMTAwMA0KPj4gQ3VycmVudGx5LCBhZnRl
+ciBNQ0Ugb24gUkFNIG9mIGEgZ3Vlc3QsIHFlbXUgcmVjb3JkcyBhIHJhbV9hZGRyIG9ubHksDQo+
+PiByZW1hcHMgdGhpcyBhZGRyZXNzIHdpdGggYSBmaXhlZCBzaXplKFRBUkdFVF9QQUdFX1NJWkUp
+IGR1cmluZyByZXNldC4NCj4+IEluIHRoZSBodWdldGxiZnMgc2NlbmFyaW8sIG1tYXAoYWRkci4u
+LikgbmVlZHMgcGFnZV9zaXplIGFsaWduZWQNCj4+IGFkZHJlc3MgYW5kIGNvcnJlY3Qgc2l6ZS4g
+VW5hbGlnbmVkIGFkZHJlc3MgbGVhZHMgbW1hcCB0byBmYWlsLg0KDQpBcyBmYXIgYXMgSSBjaGVj
+a2VkLCBTSUdCVVMgc2VudCBmcm9tIG1lbW9yeV9mYWlsdXJlKCkgZHVlIHRvIFBSX01DRV9LSUxM
+X0VBUkxZIGhhcyBhbGlnbmVkIGFkZHJlc3MNCmluIHNpZ2luZm8uIEJ1dCBTSUdCVVMgc2VudCBm
+cm9tIGt2bV9tbXVfcGFnZV9mYXVsdCgpIGhhcyB1bmFsaWduZWQgYWRkcmVzcy4gVGhpcyBoYXBw
+ZW5zIG9ubHkgd2hlbiBHdWVzdCB0b3VjaGVzDQpwb2lzb25lZCBwYWdlcyBiZWZvcmUgdGhleSBn
+ZXQgcmVtYXBwZWQuIFRoaXMgaXMgbm90IGEgdXN1YWwgY2FzZSBidXQgaXQgY2FuIHNvbWV0aW1l
+cyBoYXBwZW4uDQoNCkZZSTogY2FsbCBwYXRoDQogICAgICAgQ1BVIDEvS1ZNLTMyODkxNSAgWzAw
+NV0gZC4uMS4gNzExNzY1LjgwNTkxMDogc2lnbmFsX2dlbmVyYXRlOiBzaWc9NyBlcnJubz0wIGNv
+ZGU9NCBjb21tPUNQVSAxL0tWTSBwaWQ9MzI4OTE1IGdycD0wIHJlcz0wDQogICAgICAgQ1BVIDEv
+S1ZNLTMyODkxNSAgWzAwNV0gZC4uMS4gNzExNzY1LjgwNTkxNTogPHN0YWNrIHRyYWNlPg0KID0+
+IHRyYWNlX2V2ZW50X3Jhd19ldmVudF9zaWduYWxfZ2VuZXJhdGUNCiA9PiBfX3NlbmRfc2lnbmFs
+DQogPT4gZG9fc2VuZF9zaWdfaW5mbw0KID0+IHNlbmRfc2lnX21jZWVycg0KID0+IGhhbmRsZV9h
+Ym5vcm1hbF9wZm4NCiA9PiBkaXJlY3RfcGFnZV9mYXVsdA0KID0+IGt2bV9tbXVfcGFnZV9mYXVs
+dA0KID0+IGt2bV9hcmNoX3ZjcHVfaW9jdGxfcnVuDQogPT4ga3ZtX3ZjcHVfaW9jdGwNCiA9PiBf
+X3g2NF9zeXNfaW9jdGwNCiA9PiBkb19zeXNjYWxsXzY0DQoNCg0KSW4gYWRkaXRpb24sIGFsaWdu
+aW5nIGxlbmd0aCBzdXBwcmVzc2VzIHRoZSBmb2xsb3dpbmcgbWFkdmlzZSBlcnJvciBtZXNzYWdl
+IGluIHFlbXVfcmFtX3NldHVwX2R1bXAoKToNCg0KICBxZW11X21hZHZpc2U6IEludmFsaWQgYXJn
+dW1lbnQNCiAgbWFkdmlzZSBkb2Vzbid0IHN1cHBvcnQgTUFEVl9ET05URFVNUCwgYnV0IGR1bXBf
+Z3Vlc3RfY29yZT1vZmYgc3BlY2lmaWVkDQoNCg0KVGhhbmtzDQoNCkVpaWNoaQ==
 
