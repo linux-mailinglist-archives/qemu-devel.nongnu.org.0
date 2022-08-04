@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF44589BE6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:49:44 +0200 (CEST)
-Received: from localhost ([::1]:34488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48AD589C2D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 15:07:57 +0200 (CEST)
+Received: from localhost ([::1]:60740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJaII-0002rk-Ux
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:49:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38428)
+	id 1oJaZv-0005QP-Ou
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 09:07:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJZyW-0004cT-4z
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:29:16 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:32924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJZyT-0001bE-Ga
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:29:15 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3FB59B82528
- for <qemu-devel@nongnu.org>; Thu,  4 Aug 2022 12:29:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B51DAC433B5
- for <qemu-devel@nongnu.org>; Thu,  4 Aug 2022 12:29:07 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="jXpqpM5x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659616143;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+ft9Y9up8afZChbanOQ0TxRBUYYC/I7vBKGIHBhadLI=;
- b=jXpqpM5xdYQhZt3jkR06+We6EaVpuUDeanlty8jT7Wy1nXGBzTFjca1LHo6HxZmnUfhCqU
- LDgqN3cRFlXAYMGY3nTaPXSxuIAHiU+XxENtH9d2bmXZLqfTRBTsJw7OdhavNARsJOl4DG
- J6Bpo8onsO2AHkPuKkcvraG2W5Pg608=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 14eb8701
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Thu, 4 Aug 2022 12:29:03 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id 123so32779079ybv.7
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 05:29:02 -0700 (PDT)
-X-Gm-Message-State: ACgBeo2hhGBnVhrR7alYUBRVcilt5xGlvYP08c6QwmbWt4I2tVQYSCLV
- jzIwKZWWTodeeYHUxPIJFyB3oSU+GO+//sadUlw=
-X-Google-Smtp-Source: AA6agR6i3ys/JUEM1mdrypNwZ9jCOrBJCbhPYQNvbb/8Ru3K4uow+R3grsefYCWOI4plIOWnZNJVS/gTNAhHV2KW3dc=
-X-Received: by 2002:a05:6902:100a:b0:676:ed53:25b0 with SMTP id
- w10-20020a056902100a00b00676ed5325b0mr1097920ybt.365.1659616142360; Thu, 04
- Aug 2022 05:29:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oJZyh-0004nE-JR; Thu, 04 Aug 2022 08:29:28 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:33822 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oJZye-0001bM-Kt; Thu, 04 Aug 2022 08:29:27 -0400
+Received: from [192.168.3.6] (unknown [116.224.155.20])
+ by APP-05 (Coremail) with SMTP id zQCowAC3v4uUu+tiDoNwFg--.58128S2;
+ Thu, 04 Aug 2022 20:29:09 +0800 (CST)
+Subject: Re: [PATCH] target/riscv: Fix priority of csr related check in
+ riscv_csrrw_check
+To: Anup Patel <anup@brainfault.org>
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com
+References: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
+ <CAAhSdy0t+iNs8__nUytjuLAcX=FkVyT712+LJ9grmVRpi+cBdA@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <b6844eec-77db-1a6c-a518-7aa934d107d4@iscas.ac.cn>
+Date: Thu, 4 Aug 2022 20:29:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <YusVVLNbLgsk49PK@zx2c4.com>
- <20220804004411.1343158-1-Jason@zx2c4.com>
- <20220804030012-mutt-send-email-mst@kernel.org>
- <bfa5704d-755c-5a52-e7cc-bd9b34e5bb03@redhat.com>
- <YuuQb3D/YY1SiUqY@redhat.com> <Yuu1kX9CAqSUNNAj@zx2c4.com>
- <Yuu3ee1iB3IoLdZS@redhat.com>
- <CAMj1kXFAz1ttRmt5_utReSC=TjdfmrgwbwSaAZTDnx6OPGuRRg@mail.gmail.com>
- <CAHmME9pxrFpGWXiubxU9r2sDMV-P+QuDiZvw4OaSZvWOkDbyTA@mail.gmail.com>
-In-Reply-To: <CAHmME9pxrFpGWXiubxU9r2sDMV-P+QuDiZvw4OaSZvWOkDbyTA@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 4 Aug 2022 14:28:51 +0200
-X-Gmail-Original-Message-ID: <CAHmME9pydxka29rQp_o4Sqss_+4VGMj09F_JACxAFMaq9sM36g@mail.gmail.com>
-Message-ID: <CAHmME9pydxka29rQp_o4Sqss_+4VGMj09F_JACxAFMaq9sM36g@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/i386: place setup_data at fixed place in memory
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Laszlo Ersek <lersek@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>, Xiaoyao Li <xiaoyao.li@intel.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>, 
- linux-efi <linux-efi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <CAAhSdy0t+iNs8__nUytjuLAcX=FkVyT712+LJ9grmVRpi+cBdA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: zQCowAC3v4uUu+tiDoNwFg--.58128S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFy8uw4fCFWfuryxXF1DJrb_yoW5uw1Dpw
+ 48tw43G3y8XFZrCwsIqFn8XF13Xr1rJw47Aw42k3y8CrnrC34FyF1DWrs29F97XrZ5Cw4I
+ vF4qyryxuF4jya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+ 6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E
+ 3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+ sGvfC2KfnxnUUI43ZEXa7VUj0JPtUUUUU==
+X-Originating-IP: [116.224.155.20]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,74 +80,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 4, 2022 at 2:17 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> Hi Ard,
->
-> On Thu, Aug 4, 2022 at 2:16 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> >
-> > On Thu, 4 Aug 2022 at 14:11, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
-> > >
-> > > On Thu, Aug 04, 2022 at 02:03:29PM +0200, Jason A. Donenfeld wrote:
-> > > > Hi Daniel,
-> > > >
-> > > > On Thu, Aug 04, 2022 at 10:25:36AM +0100, Daniel P. Berrang=C3=A9 w=
-rote:
-> > > > > Yep, and ultimately the inability to distinguish UEFI vs other fi=
-rmware
-> > > > > is arguably correct by design, as the QEMU <-> firmware interface=
- is
-> > > > > supposed to be arbitrarily pluggable for any firmware implementat=
-ion
-> > > > > not  limited to merely UEFI + seabios.
-> > > >
-> > > > Indeed, I agree with this.
-> > > >
-> > > > >
-> > > > > > For now I suggest either reverting the original patch, or at le=
-ast not
-> > > > > > enabling the knob by default for any machine types. In particul=
-ar, when
-> > > > > > using MicroVM, the user must leave the knob disabled when direc=
-t booting
-> > > > > > a kernel on OVMF, and the user may or may not enable the knob w=
-hen
-> > > > > > direct booting a kernel on SeaBIOS.
-> > > > >
-> > > > > Having it opt-in via a knob would defeat Jason's goal of having t=
-he seed
-> > > > > available automatically.
-> > > >
-> > > > Yes, adding a knob is absolutely out of the question.
-> > > >
-> > > > It also doesn't actually solve the problem: this triggers when QEMU
-> > > > passes a DTB too. It's not just for the new RNG seed thing. This bu=
-g
-> > > > isn't new.
-> > >
-> > > In the other thread I also mentioned that this RNG Seed addition has
-> > > caused a bug with AMD SEV too, making boot measurement attestation
-> > > fail because the kernel blob passed to the firmware no longer matches
-> > > what the tenant expects, due to the injected seed.
-> > >
-> >
-> > I was actually expecting this to be an issue in the
-> > signing/attestation department as well, and you just confirmed my
-> > suspicion.
-> >
-> > But does this mean that populating the setup_data pointer is out of
-> > the question altogether? Or only that putting the setup_data linked
-> > list nodes inside the image is a problem?
->
-> If you look at the v2 patch, populating boot_param->setup_data winds
-> up being a fixed value. So even if that part was a problem (though I
-> don't think it is), it won't be with the v2 patch, since it's always
-> the same.
 
-Actually, `setup` isn't even modified if SEV is being used anyway. So
-really, the approach of this v2 -- of not modifying the kernel image
--- should fix that issue, no matter what.
+在 2022/8/4 上午11:38, Anup Patel 写道:
+> On Wed, Aug 3, 2022 at 6:16 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> Normally, riscv_csrrw_check is called when executing Zicsr instructions.
+>> And we can only do access control for existed CSRs. So the priority of
+>> CSR related check, from highest to lowest, should be as follows:
+>> 1) check whether Zicsr is supported: raise RISCV_EXCP_ILLEGAL_INST if not
+>> 2) check whether csr is existed: raise RISCV_EXCP_ILLEGAL_INST if not
+>> 3) do access control: raise RISCV_EXCP_ILLEGAL_INST or RISCV_EXCP_VIRT_
+>> INSTRUCTION_FAULT if not allowed
+>>
+>> The predicates contain parts of function of both 2) and 3), So they need
+>> to be placed in the middle of riscv_csrrw_check
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/csr.c | 44 +++++++++++++++++++++++++-------------------
+>>   1 file changed, 25 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index 0fb042b2fd..d81f466c80 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -3270,6 +3270,30 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>       /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
+>>       int read_only = get_field(csrno, 0xC00) == 3;
+>>       int csr_min_priv = csr_ops[csrno].min_priv_ver;
+>> +
+>> +    /* ensure the CSR extension is enabled. */
+>> +    if (!cpu->cfg.ext_icsr) {
+>> +        return RISCV_EXCP_ILLEGAL_INST;
+>> +    }
+>> +
+>> +    if (env->priv_ver < csr_min_priv) {
+>> +        return RISCV_EXCP_ILLEGAL_INST;
+> This line breaks nested virtualization because for nested virtualization
+> to work, the guest hypervisor accessing h<xyz> and vs<xyz> CSRs from
+> VS-mode should result in a virtual instruction trap not illegal
+> instruction trap.
+>
+> Regards,
+> Anup
 
-Jason
+Do you mean "if (env->priv_ver < csr_min_priv)" ?
+
+If so, I think illegal instruction trap is better, since the csr is not 
+implemented(or existed) when
+
+env->priv_ver < csr_min_priv and virtual instruction trap is only raised 
+for implemented csr access.
+
+Regards,
+
+Weiwei Li
+
+>> +    }
+>> +
+>> +    /* check predicate */
+>> +    if (!csr_ops[csrno].predicate) {
+>> +        return RISCV_EXCP_ILLEGAL_INST;
+>> +    }
+>> +
+>> +    if (write_mask && read_only) {
+>> +        return RISCV_EXCP_ILLEGAL_INST;
+>> +    }
+>> +
+>> +    RISCVException ret = csr_ops[csrno].predicate(env, csrno);
+>> +    if (ret != RISCV_EXCP_NONE) {
+>> +        return ret;
+>> +    }
+>> +
+>>   #if !defined(CONFIG_USER_ONLY)
+>>       int csr_priv, effective_priv = env->priv;
+>>
+>> @@ -3290,25 +3314,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>   #endif
+>> -    if (write_mask && read_only) {
+>> -        return RISCV_EXCP_ILLEGAL_INST;
+>> -    }
+>> -
+>> -    /* ensure the CSR extension is enabled. */
+>> -    if (!cpu->cfg.ext_icsr) {
+>> -        return RISCV_EXCP_ILLEGAL_INST;
+>> -    }
+>> -
+>> -    /* check predicate */
+>> -    if (!csr_ops[csrno].predicate) {
+>> -        return RISCV_EXCP_ILLEGAL_INST;
+>> -    }
+>> -
+>> -    if (env->priv_ver < csr_min_priv) {
+>> -        return RISCV_EXCP_ILLEGAL_INST;
+>> -    }
+>> -
+>> -    return csr_ops[csrno].predicate(env, csrno);
+>> +    return RISCV_EXCP_NONE;
+>>   }
+>>
+>>   static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+>> --
+>> 2.17.1
+>>
+>>
+
 
