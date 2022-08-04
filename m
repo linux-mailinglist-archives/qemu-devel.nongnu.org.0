@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36214589EFE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 17:57:33 +0200 (CEST)
-Received: from localhost ([::1]:37806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17173589EFD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 17:56:58 +0200 (CEST)
+Received: from localhost ([::1]:37528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJdE3-0005gq-Vr
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 11:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59630)
+	id 1oJdDV-0005TB-4J
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 11:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJdBb-0002pA-T4
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:54:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45369)
+ id 1oJdBU-0002lv-B8
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:54:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJdBZ-0003Yp-VT
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:54:58 -0400
+ id 1oJdBS-0003Vb-0O
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:54:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659628496;
+ s=mimecast20190719; t=1659628489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+nxG0nVD1KmmPXpt/Orl6VooOSUh2kfSsIh8tYcorks=;
- b=TvUgvI2kFwzJYmSKt6nWCW549lJSJzIP8DGxezVSnIYjUN6qXiTVPvyh9tut+yC17PDjl0
- bVtohJnZlXjIFRn7cV+w33nhobouNtePMEnJPxcJbjpdmOjRdd93dfXlhZ6AtA2T4UDRRN
- /e9TYdhcC5FtMExkRyeEwUN43XiSYLI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zT0SUzZ4QG4veBt5kBkRW9UyYI8sTKomvCG+k/pMwaw=;
+ b=NCi2F9hqtqUYIyMbCazYhpw10IRXTFpDVOIg1hI6EfoQ8JvjeT536xUAGzBY68V6XJX1c6
+ FG1ymJ8sdR2ZpO9a7gSjut5N0k4Fsg88AS8tiEUFAG8Uubzz5lEaYDJVDhhrdWRki3Aduw
+ sVF9dtQ43rMU7WSQ48YWpRtithdsXdA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-288-iTFqSz_LM-2FaxISFBa48A-1; Thu, 04 Aug 2022 11:54:47 -0400
-X-MC-Unique: iTFqSz_LM-2FaxISFBa48A-1
+ us-mta-79-SjWrp6i0MgumGmWMpaVAwA-1; Thu, 04 Aug 2022 11:54:48 -0400
+X-MC-Unique: SjWrp6i0MgumGmWMpaVAwA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8EBC8026BA
- for <qemu-devel@nongnu.org>; Thu,  4 Aug 2022 15:54:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 031E33801155
+ for <qemu-devel@nongnu.org>; Thu,  4 Aug 2022 15:54:48 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B680A909FF;
- Thu,  4 Aug 2022 15:54:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 15B68909FF;
+ Thu,  4 Aug 2022 15:54:46 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Wang <jasowang@redhat.com>, Lei Yang <leiyang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v2 0/2] vdpa: do not save failed dma maps in SVQ iova tree
-Date: Thu,  4 Aug 2022 17:54:41 +0200
-Message-Id: <20220804155443.671136-1-eperezma@redhat.com>
+Subject: [PATCH v2 1/2] vdpa: Skip the maps not in the iova tree
+Date: Thu,  4 Aug 2022 17:54:42 +0200
+Message-Id: <20220804155443.671136-2-eperezma@redhat.com>
+In-Reply-To: <20220804155443.671136-1-eperezma@redhat.com>
+References: <20220804155443.671136-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,20 +80,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a map fails for whatever reason, it must not be saved in the tree.=0D
-Otherwise, qemu will try to unmap it in cleanup, leaving to more errors.=0D
-=0D
-v2: Do not dereference failed maps=0D
-=0D
-Eugenio P=C3=A9rez (2):=0D
-  vdpa: Skip the maps not in the iova tree=0D
-  vdpa: do not save failed dma maps in SVQ iova tree=0D
-=0D
- hw/virtio/vhost-vdpa.c | 24 +++++++++++++++++-------=0D
- 1 file changed, 17 insertions(+), 7 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Next patch will skip the registering of dma maps that the vdpa device
+rejects in the iova tree. We need to consider that here or we cause a
+SIGSEGV accessing result.
+
+Reported-by: Lei Yang <leiyang@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-vdpa.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 3ff9ce3501..983d3697b0 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -289,6 +289,10 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+         };
+ 
+         result = vhost_iova_tree_find_iova(v->iova_tree, &mem_region);
++        if (!result) {
++            /* The memory listener map wasn't mapped */
++            return;
++        }
+         iova = result->iova;
+         vhost_iova_tree_remove(v->iova_tree, result);
+     }
+-- 
+2.31.1
 
 
