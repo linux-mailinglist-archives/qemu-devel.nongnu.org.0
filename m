@@ -2,63 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195D5589B3B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 13:53:29 +0200 (CEST)
-Received: from localhost ([::1]:60114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CB1589B49
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 13:58:25 +0200 (CEST)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJZPs-0006TP-CH
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 07:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59002)
+	id 1oJZUe-0005xP-Fw
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 07:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJZMY-0002KR-CI; Thu, 04 Aug 2022 07:50:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:55709)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oJZSR-0000Jv-Hy
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:56:07 -0400
+Received: from rev.ng ([5.9.113.41]:47443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJZMW-0003LT-Ko; Thu, 04 Aug 2022 07:50:02 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N30VJ-1nIVe221GP-013KQY; Thu, 04 Aug 2022 13:49:55 +0200
-Message-ID: <e574b270-4cb5-5f8c-f580-78fbfeca919c@vivier.eu>
-Date: Thu, 4 Aug 2022 13:49:54 +0200
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oJZSN-0004ZT-LP
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:56:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=mN4cs0sAwWZFqkP3SXFRXTW8shqq0byt0clXr+HnbN4=; b=Jz754SorZa7I0KDm74Y1XMjiMT
+ i9jpyJpHVtgxSkp4eFvNQR+ml/sd4zkbFVkFZGsBtxFYCCgSabA1QcLdRJ6OwXD2tozTyS7ITp8gz
+ mnYDqu//Imo6dszqsFb7eGsSAqkPo92pMLKp8qrUyZKN7qvRnSBD2nXsPpWWYObDTq60=;
+To: qemu-devel@nongnu.org
+Cc: ale@rev.ng, anjo@rev.ng, babush@rev.ng, nizzo@rev.ng, tsimpson@quicinc.com,
+ bcain@quicinc.com, mlambert@quicinc.com, richard.henderson@linaro.org,
+ alex.bennee@linaro.org
+Subject: [PATCH v11 01/15] target/hexagon: update MAINTAINERS for idef-parser
+Date: Thu,  4 Aug 2022 13:55:34 +0200
+Message-Id: <20220804115548.13024-2-anjo@rev.ng>
+In-Reply-To: <20220804115548.13024-1-anjo@rev.ng>
+References: <20220804115548.13024-1-anjo@rev.ng>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] include/qemu/host-utils.h: Simplify the compiler check in
- mulu128()
-Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-References: <20220721074809.1513357-1-thuth@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220721074809.1513357-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cT+KiIggL0iOhxuo+4w4uqdbzlRLeTFOg09W/92E0CbAM20wbUZ
- jBGSyTJAx04q04RUcKo9FhdoENh1+iqxzKJxl+P0Lak6PUZfGLhNm2nd97mc4jE2Kuukxiu
- aJLldyFWrnMCeyajrT2DBKOzUXIHl2r3yy+OySYRSFoKMUZOE7w//QSUgVVRfl/+m35veop
- IqZBM7n+A518EOmO5cHUw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:inlpZnXkfzU=:K7J3h/pXiyKSONHPAkpJrm
- mvIxmuXsLYVEI3WElWdgaZbvGqZ9K9MUvNxq8y/RSOVr13wLDSWTZiFx4KZxv5bwjBexlCuoi
- wXEeciqsGlbj56JC0mT9ZDnWzhfdvzUOPrNa5XXhvchPlZ8MUDKZIT41pR81tzVWNTy9ioki3
- Zu41ASMdCdHh9A7/PLQviZ3dzfyRPk94gm6DYByyTPpgRi4E4I5kK7akOCJAlOOnG1JZB2WuJ
- 7qQ9hO/Wdosy2PFWJ1jKCG5wq5elp7FFrbS5JqoiJFZDU3jzR8NlxQdQGqT1fCjLia/CtkLZj
- O4ZhK+fgZWYXJ6dWj8fwq+J9oYxl1jad5Jpy4BSdyTEFq/HtYKavgorZdK/Su+rzz6DTVZg5y
- RiRe4HVhCCsVQWNorVxAC/HQoL/Ps+t5bZLN5CqEGRT2Nj1P/bJpO3BMevTh0NxAMhgYZdAIu
- TKkeVxO1/Ksu6w64EGmXSrCj0lLONGSMskxsVCxgw4xZZT/TSW5RNEzmyyL9mFP8rkZ1uKLrB
- AKLWwj7yiYBOhf7hihIXhWk10aIdq3jWnYKAk6Moms/inXVqQkiSECJcb7fZASyTJaCPiFZJm
- n5kXbOrjm1rCj5tnYhX1HToIyRXI2CzpjEbChwdMjL9c1qLu/emrEaApETsBLN3KrcAGQQktL
- nweEKSUAzsvWW9nNFtoWBM/SSN4hWodQgjKzx3NsoWmWZF3B11ARGmEnp/4abzNJWjHVe424d
- APIo2G59GmdxFm0QSM4dqtASSsximgVZt3WZIw==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,37 +58,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-Le 21/07/2022 à 09:48, Thomas Huth a écrit :
-> We currently require at least GCC 7.4 or Clang 6.0 for compiling QEMU.
-> GCC has __builtin_mul_overflow since version 5 already, and Clang 6.0
-> also provides this built-in function (see its documentation on this page:
-> https://releases.llvm.org/6.0.0/tools/clang/docs/LanguageExtensions.html ).
-> So we can simplify the #if statement here.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   include/qemu/host-utils.h | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-> index 29f3a99878..88d476161c 100644
-> --- a/include/qemu/host-utils.h
-> +++ b/include/qemu/host-utils.h
-> @@ -533,8 +533,7 @@ static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
->    */
->   static inline bool mulu128(uint64_t *plow, uint64_t *phigh, uint64_t factor)
->   {
-> -#if defined(CONFIG_INT128) && \
-> -    (__has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5)
-> +#if defined(CONFIG_INT128)
->       bool res;
->       __uint128_t r;
->       __uint128_t f = ((__uint128_t)*phigh << 64) | *plow;
+From: Alessandro Di Federico <ale@rev.ng>
 
-Applied to my trivial-patches branch.
+Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Anton Johansson <anjo@rev.ng>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+---
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Thanks,
-Laurent
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5ce4227ff6..6435d54e33 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -197,6 +197,8 @@ Hexagon TCG CPUs
+ M: Taylor Simpson <tsimpson@quicinc.com>
+ S: Supported
+ F: target/hexagon/
++X: target/hexagon/idef-parser/
++X: target/hexagon/gen_idef_parser_funcs.py
+ F: linux-user/hexagon/
+ F: tests/tcg/hexagon/
+ F: disas/hexagon.c
+@@ -204,6 +206,13 @@ F: configs/targets/hexagon-linux-user/default.mak
+ F: docker/dockerfiles/debian-hexagon-cross.docker
+ F: docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
+ 
++Hexagon idef-parser
++M: Alessandro Di Federico <ale@rev.ng>
++M: Anton Johansson <anjo@rev.ng>
++S: Supported
++F: target/hexagon/idef-parser/
++F: target/hexagon/gen_idef_parser_funcs.py
++
+ HPPA (PA-RISC) TCG CPUs
+ M: Richard Henderson <richard.henderson@linaro.org>
+ S: Maintained
+-- 
+2.37.0
 
 
