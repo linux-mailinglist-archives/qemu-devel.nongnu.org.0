@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45304589B3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 13:52:48 +0200 (CEST)
-Received: from localhost ([::1]:58668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1952589B59
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:01:18 +0200 (CEST)
+Received: from localhost ([::1]:48236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJZPD-0005VG-9Q
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 07:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58752)
+	id 1oJZXR-00010F-JV
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJZKN-0000lq-2r; Thu, 04 Aug 2022 07:47:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:36857)
+ id 1oJZLL-0001Bo-Pk; Thu, 04 Aug 2022 07:48:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:48597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oJZKL-0003CS-FC; Thu, 04 Aug 2022 07:47:46 -0400
+ id 1oJZLK-0003HD-27; Thu, 04 Aug 2022 07:48:47 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MRk8w-1nqSve3aGI-00TGKM; Thu, 04 Aug 2022 13:47:41 +0200
-Message-ID: <8730b368-6ca7-6ae1-61b0-2f86ed05083e@vivier.eu>
-Date: Thu, 4 Aug 2022 13:47:39 +0200
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N2V8Z-1nHxRS18v9-013wJx; Thu, 04 Aug 2022 13:48:37 +0200
+Message-ID: <8f51855f-376d-39e7-72f0-850442afd3fb@vivier.eu>
+Date: Thu, 4 Aug 2022 13:48:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] docs/about/removed-features: Move the -soundhw into the
- right section
+Subject: Re: [PATCH] ppc: Remove redundant macro MSR_BOOK3S_MASK.
 Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- kraxel@redhat.com, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <20220802075611.346835-1-thuth@redhat.com>
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org
+References: <20220728201135.223-1-luoyonggang@gmail.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220802075611.346835-1-thuth@redhat.com>
+In-Reply-To: <20220728201135.223-1-luoyonggang@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:65rk9GhZ8wWdrWyrLgdHFDx6GnqOAZmfj9IsZ1lS+xK+U9nN+jC
- putsRZClsooBoeNZTG9MhgDzSdI4MoVz7TindESAfKQU7d3q7RDh2bXoxfc417BPO0oldwo
- GTRuIKNnDeKiasqJGVKmsU22d3UW4KtxoPEQ4gID2agk5ajeFQyCtOjxKl+ce7ok21qAzfy
- hUhXJClJM8YIhxcUOrFkQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qZrhiYkDPvk=:VHwa/CWIHVfXUOG0zFA9Fu
- 6fcQKxyMFZmDgwhyTBhUYM4dsK8sF4wghQh0geVgypeyTPgTt804J6TbvQOeKB6zcGt3N25Db
- DFVcNoCA4G4C91+49Iq52DCI5bxpZFRKUbLAIR8I++RQaiw4Sa8ZXKM6OJSen4jecsmMl7AED
- 2zBGxZYmcG0EmtnoOA100k2R/rWQr4lNW7k4ymbb8Vy/ICOdtGj9t+grCv5SnlFU8Fi4KiHIr
- xbdBYAlW7gP0HQSUkb4UwFSLnv2IFaTpHduZgPiUgCJmfKbne8pR7NRpkvoVlQ4tg18WEcO0E
- ZHZSsL8nUOfdwP6FMiZA1Rw1NY3oXOcJHJr3Ih1R8TmxzBGUY5oDDcV6pT6FkoTxIzS7b4Bn4
- l7Fc5sF8hQFnGSVd/C4gt8C9/pGHGk8JUMvqtH4dcZBjsWx9YeLrx4yV4LMqBtgYqwqq/AU4S
- NU6LM4Cn1w4ifL8Q3XewYUPJV4l0azGTKwvJZ8V9J7zRFStWhmqbAgFRubjJDaRW9/6XbF0RU
- YlfdpPc8jYlhg8s8sDUP5kNZpZa6/t3DApF6OBBeYyWZCz89GbQtiAOz8WJ577A+S1324VBOY
- FoHdbh6vyZvLea/mPCMC5Q1ZHIFGOxdUt5YGCp+IFXAkHQdaQyZLR/RhCAKll2hbU0bHUOuad
- daQv3Zqvz3wcl4JI+ec9xI9IosK9ubNFjh+ghPWxN9C7rnS0fg0nJX8qHnPCL9SdobGOpJhPA
- SQqJ8C6Dr9GbJ27ogEqK5bvKkfZITUnaIov1zw==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ej/QQ1XXBwgMFNoytAiWp5+i8cXr21nFvC0sGl6h/W9qxX3Dv1j
+ ZQB5DR4qSj2Xb+0dgidk+hT4b9qtV3iWUQvmI+YjmqIoDdPE5KhvyoKkRSYtK8nyEPRM4z9
+ 8u7yc8dEB+EnVOxiNGLxTGIOwb9LtS2B5scF/RQgqoPEWPaFri7n4eoiKTIrpuvSRF2l9OG
+ aGTkb3OaEWXQpdjDbF9iA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1WUE8TvlsG8=:2NJSyavcHnnkuEIsJ47BbW
+ dscvh3tTbfVzW/YT19PO+7O39xIN8LCdKvsSDvJvZ5J+thLfpf+wi8tkkhPdBxndSwpvqMkLg
+ 2og057q4hEtPFsOxqfs9CJPxaai/aYHI4XHXd0VHcynr3qdW3K6GAb+sUFAVsHK4oVqcYOz8k
+ tRUFyVRLPG8aK0+8n2Dwu6F2BCyUkU/i9WxUjQbYSzqMIoAlkpMUc7wg+49SpwkEN1tU8oLjw
+ zCBFAf0KWFL3NQaq5WYVvynvyyrSiYgTVcFp4RZIbwo5cXldB+ZQfxkeXg4CIp+s2dyBIqita
+ WkXdu0yXPQhOajcDFtkiqi+5BhLvaQs+bxtVbR4phgLr2iewjxe17URMrEP3+d2w4n6DH2QOO
+ nc5XtH/2KLEkzV2DK4TjxeucWGzz59ME5hffz2N4Sk/y2TNjsExARFC2rRfuOyhFfr5gnVJaJ
+ 2hlnkAfmPC3K89EVBq8+WXDLHV2FxUbg0Uca5pJc2NpvkX5L3OupttWI/yfWZJh00BhEBL9uJ
+ Hb3tDR02LNLVcH89vXBPHpaxNmLdRogO7ZkmZAY3OFP7v+kkJnfEzxHgwz73UBFfTf0I2XQOp
+ gl5TvLIflbF5+Q2EstP7bqerYdkmHATo5Bt/ucXXaKfbswsThXpvtjfofxW6M8GCOW6I3fAw6
+ Sgr6Rg1Z4lhwGMETLw7UIGnowt2miYGMUyLGBfJhxvrtaqPIzhDhh7CibkJKqXTo9iQU6VF00
+ nMij+smEJn6qlDQFk+t3cD8Nrq7A8odFdfRi3g==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,50 +76,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/08/2022 à 09:56, Thomas Huth a écrit :
-> The note about the removal of '-soundhw' has been accidentally added
-> to the section of removed "linux-user mode CPUs" ... it should reside
-> in the section about removed "System emulator command line arguments"
-> instead.
-> 
-> Fixes: 039a68373c ("introduce -audio as a replacement for -soundhw")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Le 28/07/2022 à 22:11, Yonggang Luo a écrit :
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 > ---
->   docs/about/removed-features.rst | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+>   target/ppc/excp_helper.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-> index c7b9dadd5d..925e22016f 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -396,6 +396,13 @@ Use ``-display sdl`` instead.
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index cb752b184a..7550aafed6 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -2015,7 +2015,6 @@ void helper_rfi(CPUPPCState *env)
+>       do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1] & 0xfffffffful);
+>   }
 >   
->   Use ``-display curses`` instead.
->   
-> +Creating sound card devices using ``-soundhw`` (removed in 7.1)
-> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Sound card devices should be created using ``-device`` or ``-audio``.
-> +The exception is ``pcspk`` which can be activated using ``-machine
-> +pcspk-audiodev=<name>``.
-> +
->   
->   QEMU Machine Protocol (QMP) commands
->   ------------------------------------
-> @@ -681,13 +688,6 @@ tripped up the CI testing and was suspected to be quite broken. For that
->   reason the maintainers strongly suspected no one actually used it.
->   
->   
-> -Creating sound card devices using ``-soundhw`` (removed in 7.1)
-> -'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> -
-> -Sound card devices should be created using ``-device`` or ``-audio``.
-> -The exception is ``pcspk`` which can be activated using ``-machine
-> -pcspk-audiodev=<name>``.
-> -
->   TCG introspection features
->   --------------------------
->   
+> -#define MSR_BOOK3S_MASK
+>   #if defined(TARGET_PPC64)
+>   void helper_rfid(CPUPPCState *env)
+>   {
 
 Applied to my trivial-patches branch.
 
