@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8D0589F76
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 18:37:25 +0200 (CEST)
-Received: from localhost ([::1]:36010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED90589F78
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 18:40:00 +0200 (CEST)
+Received: from localhost ([::1]:40792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJdqe-0004Ok-V5
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 12:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39722)
+	id 1oJdt9-0007nS-AT
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 12:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1oJdl6-0008Cy-TN
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:31:40 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:35461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1oJdl4-0000xv-Ur
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:31:40 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-32269d60830so1128957b3.2
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 09:31:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=ROlgdSLkDotA5DBsafTvcYdX0fFiTqU3tYD7fl8eeQQ=;
- b=4/DbC+b4wqTCMyMJG64aTTBhY5352c426lK+LHngZHG/F9lWoSGWsIf7YnBjyDA3lO
- m/gwK1jeoqrPCzFUJTdhglvdG1YBdrpyYUdxr+xoA3WqssRC1nyQWjUdS2XwyyFjZvmM
- JzloleELcI/duC9HPoxUsIZTj+4WEiTEgnrwk86jcdEXJDB3quO79Z8z/vHrC7lFWgt7
- pjGeZzDqYeCKjkemPcW/rzqQ/UyOqegC1tW5+ZDDkDtkVK5cNpF+Tkx5m/83/gYc8ih3
- NErEunn76Z5Pu48akGXA7yOLxozkmsc+9j35Ox+x0m24zfErCvqLH16uREayyHTx8dTQ
- yynA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=ROlgdSLkDotA5DBsafTvcYdX0fFiTqU3tYD7fl8eeQQ=;
- b=uM0pPYrUQp/HjyY9/FFxRMMptk9S81k05B01YocEi/+mY3ruR9t/TkQIKUDfhjeut5
- RIpewNTsBpp3vH8NpMgBSYarlZAFnTsdYrn8DD5/JMBx/wisNUfC99fhhPdlkNpvbLc+
- klauN7CkXL1Itirfc1TX74aeXfLT/H+ViuatYc6vf9ML5fsJhl4nrKv19HqVaZDzla4G
- 2t2fCxKF9R+sPnpPDQ1vHny5O4q4YKWkqYFCIdkU3Zg7gj1KNXVQQJ7GeWrccquMvDio
- 0g7JsbOzWw1PZ/J2ClaOsUNEWbziQnCDsskDLYQLNtEdCf4ykV2Ej91noMRXG3N4TJlx
- wuow==
-X-Gm-Message-State: ACgBeo199GARljfkoXFqx20drN6Cn1fk8o3CFN5z/sPEnRq1lzW0pQ1V
- 8GKry45B+XJrQOrtscwWoKyikqdYEf9Mb1W6AtOnSg==
-X-Google-Smtp-Source: AA6agR7ajqpkaFPCj7cxxq1A0ZDJ+dLKwFAv671G7uOBGUsgJ9COsUXCCtiQDCIFfwgyLMJD1vfly9cNY7GSB9bRvns=
-X-Received: by 2002:a81:b41:0:b0:31f:45cd:29a2 with SMTP id
- 62-20020a810b41000000b0031f45cd29a2mr2445297ywl.154.1659630697399; Thu, 04
- Aug 2022 09:31:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oJdor-0002OQ-EN
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:35:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oJdom-0001Wv-QX
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:35:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659630927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dTtWroKzbDKO6gxrJvEQolvYUrcePlOkW8eM29nHQLQ=;
+ b=RAFODNM049MMjJZU0gZ99J40dJK2vD+tLkWOFzSNn3j12GVuLRaMJL1mtDJ539e9hCkeVL
+ 6v+LuR+a2VYC/svJEp3B+cpoM75ODV1SSzn3jy9DTLGbyodIdTv3laZRvkLdXqBcIU+rke
+ mXFca1oSgD677FI8mJ7C+ea5WU2W5tU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-661-Hf23NeXKM8uK-AxRGLxJuQ-1; Thu, 04 Aug 2022 12:35:23 -0400
+X-MC-Unique: Hf23NeXKM8uK-AxRGLxJuQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56302811E75;
+ Thu,  4 Aug 2022 16:35:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB13114152E0;
+ Thu,  4 Aug 2022 16:35:20 +0000 (UTC)
+Date: Thu, 4 Aug 2022 18:35:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: Re: [PATCH v10 10/21] block/mirror.c: use of job helpers in drivers
+ to avoid TOC/TOU
+Message-ID: <Yuv1R+l8Ug+ghePC@redhat.com>
+References: <20220725073855.76049-1-eesposit@redhat.com>
+ <20220725073855.76049-11-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
- <CAAhSdy0t+iNs8__nUytjuLAcX=FkVyT712+LJ9grmVRpi+cBdA@mail.gmail.com>
- <b6844eec-77db-1a6c-a518-7aa934d107d4@iscas.ac.cn>
-In-Reply-To: <b6844eec-77db-1a6c-a518-7aa934d107d4@iscas.ac.cn>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 4 Aug 2022 22:01:24 +0530
-Message-ID: <CAAhSdy1L3jDfFea5Lum3MvQXrvYyzMpJjOGX2D3Aqb_vv2ZPow@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix priority of csr related check in
- riscv_csrrw_check
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com, 
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn, 
- lazyparser@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::112e;
- envelope-from=anup@brainfault.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220725073855.76049-11-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,133 +86,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 4, 2022 at 5:59 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
->
-> =E5=9C=A8 2022/8/4 =E4=B8=8A=E5=8D=8811:38, Anup Patel =E5=86=99=E9=81=93=
-:
-> > On Wed, Aug 3, 2022 at 6:16 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
-> >> Normally, riscv_csrrw_check is called when executing Zicsr instruction=
-s.
-> >> And we can only do access control for existed CSRs. So the priority of
-> >> CSR related check, from highest to lowest, should be as follows:
-> >> 1) check whether Zicsr is supported: raise RISCV_EXCP_ILLEGAL_INST if =
-not
-> >> 2) check whether csr is existed: raise RISCV_EXCP_ILLEGAL_INST if not
-> >> 3) do access control: raise RISCV_EXCP_ILLEGAL_INST or RISCV_EXCP_VIRT=
-_
-> >> INSTRUCTION_FAULT if not allowed
-> >>
-> >> The predicates contain parts of function of both 2) and 3), So they ne=
-ed
-> >> to be placed in the middle of riscv_csrrw_check
-> >>
-> >> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> >> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> >> ---
-> >>   target/riscv/csr.c | 44 +++++++++++++++++++++++++-------------------
-> >>   1 file changed, 25 insertions(+), 19 deletions(-)
-> >>
-> >> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> >> index 0fb042b2fd..d81f466c80 100644
-> >> --- a/target/riscv/csr.c
-> >> +++ b/target/riscv/csr.c
-> >> @@ -3270,6 +3270,30 @@ static inline RISCVException riscv_csrrw_check(=
-CPURISCVState *env,
-> >>       /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check =
-fails */
-> >>       int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
-> >>       int csr_min_priv =3D csr_ops[csrno].min_priv_ver;
-> >> +
-> >> +    /* ensure the CSR extension is enabled. */
-> >> +    if (!cpu->cfg.ext_icsr) {
-> >> +        return RISCV_EXCP_ILLEGAL_INST;
-> >> +    }
-> >> +
-> >> +    if (env->priv_ver < csr_min_priv) {
-> >> +        return RISCV_EXCP_ILLEGAL_INST;
-> > This line breaks nested virtualization because for nested virtualizatio=
-n
-> > to work, the guest hypervisor accessing h<xyz> and vs<xyz> CSRs from
-> > VS-mode should result in a virtual instruction trap not illegal
-> > instruction trap.
-> >
-> > Regards,
-> > Anup
->
-> Do you mean "if (env->priv_ver < csr_min_priv)" ?
+Am 25.07.2022 um 09:38 hat Emanuele Giuseppe Esposito geschrieben:
+> Once job lock is used and aiocontext is removed, mirror has
+> to perform job operations under the same critical section,
+> using the helpers prepared in previous commit.
+> 
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*.
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-I got confused with the csr_min_priv name. This variable holds
-min priv spec verison and not the privilege level required for
-the CSR.
+Can you explain in the commit message what the TOC/TOU case is that this
+patch is addressing? It's not obvious to me why you picked exactly these
+places to add locking.
 
-No issues with the "if (env->priv_ver < csr_min_priv)" check.
+> diff --git a/block/mirror.c b/block/mirror.c
+> index d8ecb9efa2..b38676e19d 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -654,9 +654,13 @@ static int mirror_exit_common(Job *job)
+>      BlockDriverState *target_bs;
+>      BlockDriverState *mirror_top_bs;
+>      Error *local_err = NULL;
+> -    bool abort = job->ret < 0;
+> +    bool abort;
+>      int ret = 0;
+>  
+> +    WITH_JOB_LOCK_GUARD() {
+> +        abort = job->ret < 0;
+> +    }
 
-Regards,
-Anup
+This is the most mysterious hunk to me. The only thing that should
+modify job->ret is the caller of this function anyway, but let's assume
+for a moment that another thread could write to it.
 
->
-> If so, I think illegal instruction trap is better, since the csr is not
-> implemented(or existed) when
->
-> env->priv_ver < csr_min_priv and virtual instruction trap is only raised
-> for implemented csr access.
->
-> Regards,
->
-> Weiwei Li
->
-> >> +    }
-> >> +
-> >> +    /* check predicate */
-> >> +    if (!csr_ops[csrno].predicate) {
-> >> +        return RISCV_EXCP_ILLEGAL_INST;
-> >> +    }
-> >> +
-> >> +    if (write_mask && read_only) {
-> >> +        return RISCV_EXCP_ILLEGAL_INST;
-> >> +    }
-> >> +
-> >> +    RISCVException ret =3D csr_ops[csrno].predicate(env, csrno);
-> >> +    if (ret !=3D RISCV_EXCP_NONE) {
-> >> +        return ret;
-> >> +    }
-> >> +
-> >>   #if !defined(CONFIG_USER_ONLY)
-> >>       int csr_priv, effective_priv =3D env->priv;
-> >>
-> >> @@ -3290,25 +3314,7 @@ static inline RISCVException riscv_csrrw_check(=
-CPURISCVState *env,
-> >>           return RISCV_EXCP_ILLEGAL_INST;
-> >>       }
-> >>   #endif
-> >> -    if (write_mask && read_only) {
-> >> -        return RISCV_EXCP_ILLEGAL_INST;
-> >> -    }
-> >> -
-> >> -    /* ensure the CSR extension is enabled. */
-> >> -    if (!cpu->cfg.ext_icsr) {
-> >> -        return RISCV_EXCP_ILLEGAL_INST;
-> >> -    }
-> >> -
-> >> -    /* check predicate */
-> >> -    if (!csr_ops[csrno].predicate) {
-> >> -        return RISCV_EXCP_ILLEGAL_INST;
-> >> -    }
-> >> -
-> >> -    if (env->priv_ver < csr_min_priv) {
-> >> -        return RISCV_EXCP_ILLEGAL_INST;
-> >> -    }
-> >> -
-> >> -    return csr_ops[csrno].predicate(env, csrno);
-> >> +    return RISCV_EXCP_NONE;
-> >>   }
-> >>
-> >>   static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno=
-,
-> >> --
-> >> 2.17.1
-> >>
-> >>
->
+Then why is it only important that we hold the lock when we're reading
+the value, but not any more when we are actually using it? And what is
+the TOC/TOU that this fixes?
+
+Kevin
+
 
