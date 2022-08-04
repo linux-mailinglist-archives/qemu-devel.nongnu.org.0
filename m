@@ -2,76 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE39858A3C5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 01:06:20 +0200 (CEST)
-Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5866658A3DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 01:23:29 +0200 (CEST)
+Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJjv1-0005dR-Cc
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 19:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50982)
+	id 1oJkBb-00006h-Vh
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 19:23:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJjtK-0003yT-2K
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 19:04:34 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:45206)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oJk9y-0006oa-6D; Thu, 04 Aug 2022 19:21:46 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:52359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJjtE-0002w1-D7
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 19:04:33 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CAEC061903;
- Thu,  4 Aug 2022 23:04:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30EAC433C1;
- Thu,  4 Aug 2022 23:04:24 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="ie0g2g4p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659654262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u7dxLaW6XYQwh7leHXFi7Kt1r9mDfHEnVv3tOFmTqLQ=;
- b=ie0g2g4p/HQy9uXCP+HVGM46p9vG9N7jt/Y6BJvhWhDGW58fBkyKDJ7mTLUSS6OZhK5Wkq
- NrrUiI/4DjFr/XCLkuWD0u9CXzt9G7anentxYkulX0+2iVec1NRp6sTvbaYhdcV5n3Rsas
- 8tZmwrzUssaY7TtECZPkGdy9bJkAL08=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0c66d448
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 4 Aug 2022 23:04:22 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
- Laszlo Ersek <lersek@redhat.com>, linux-efi@vger.kernel.org
-Subject: [PATCH v3] hw/i386: place setup_data at fixed place in memory
-Date: Fri,  5 Aug 2022 01:04:11 +0200
-Message-Id: <20220804230411.17720-1-Jason@zx2c4.com>
-In-Reply-To: <YuxOgtykRQb1HU3e@zx2c4.com>
-References: <YuxOgtykRQb1HU3e@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oJk9u-0005Vh-R7; Thu, 04 Aug 2022 19:21:45 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6713E58050C;
+ Thu,  4 Aug 2022 19:21:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 04 Aug 2022 19:21:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1659655298; x=
+ 1659658898; bh=MK4++uuIE5rTQ8sKqBgXyebKUNY+m7GlyLLf4cHhRjM=; b=T
+ g7xblfPZutHLYsewjJPt8GhoO95ArY+YLnysNzsCUGis7L10ZUywiYbzcDr/bAH8
+ odhLcQX3C1PGepFKz+HLOFZrbnVfv+66gPxIlPAY/X9eTsNmZYlDPhsJBMyJxfO/
+ TXbuuvEsHbmjgD3C6kBArCPvluo+cYw+pblgjljReVd74J9UZzIkmtClQBeVNJfB
+ MzD11y6MSdvUCxQpaDJOxMbeY+OcOMubSReiX8cCuP6/C9rRIlYOYT3l68ikQep1
+ hoqz02iQ0zaXmdKzqKApUR7lXo8PcDnopzrCGbZpY6mMkeSeJKm4LQMF8bVH6GmM
+ aNBhvSW2k8ZnauVGEyNeQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659655298; x=
+ 1659658898; bh=MK4++uuIE5rTQ8sKqBgXyebKUNY+m7GlyLLf4cHhRjM=; b=y
+ 1wo6NtOfiAKQ4MT/Go5L9e0sgjVQaliDyjcKYlKhsFWuOJOn8E4iN7+e2NOl7gVR
+ P5j1w9VWvDJ5lAUkzWjkBsfC6HJvolkc6bDvioRlePLUDXR+FlnLB1wItbOJa+wh
+ TeP3u3IAeBuoWlRX8s3UZd3K33/MTTruLDlZ2TTfIX1bDldvoaKEAyaxZQqYj3hX
+ lftCLUPebTnoo3rHUWcXZIlABr7Z499SLc6G26YjgcVSciYPE3UQBf35CW9kOVGT
+ 1t2CmSOqTc1NqnjGeWsBbjQFjeP3dyEqtiWoRxyKwxRmNV7EfcAhBICDMzlCQifi
+ /aX/dE+kJx+wEx3oLcang==
+X-ME-Sender: <xms:gVTsYmit3bZcGdFTi4zP1n7rpphe8Q9up6yXAsX4pYGYE4vJdcxqLg>
+ <xme:gVTsYnBhBFpmiNazJhfaNBTbgr_fYSjndofbRpkIA7Sy1p-bXOX4FgUddP45ecj4K
+ N6jNexSUSf3jG5R48U>
+X-ME-Received: <xmr:gVTsYuF0CC5_KeEf1xVK2W-PZ8SC-_9RLqK8mIPNomaa7Xe5GcsGSxoPunU821bFql_dmKonShWBJDp6IcVAog>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeftddgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeduueffgffhtdehveeuhedukeefudffvddtleekheevfefggfeuvedtfeek
+ hffhveenucffohhmrghinhepshhtrggtkhhovhgvrhhflhhofidrtghomhenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgu
+ rdguvghv
+X-ME-Proxy: <xmx:gVTsYvRV61T2QH2Orfi_szMivHxClhk5Ui4GthzBE1opKiewpf73UA>
+ <xmx:gVTsYjyVoKiEUle0KkmjrTHnuJxgnAxTfj3Hg6Po9wKyMp3Ga1nmtQ>
+ <xmx:gVTsYt4Oqi79_doCC-m96sTlIHtb9QCVM2pGy-AxcIVlaUYhZV_mwg>
+ <xmx:gVTsYjlXSVYa8lfvsDIa2kzFGc_0px69dSsObV3vHh7raB7MoYkcJQ>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 4 Aug 2022 19:21:34 -0400 (EDT)
+Date: Thu, 4 Aug 2022 16:21:32 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: Dan Zhang <dz4list@gmail.com>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Iris Chen <irischenlj@gmail.com>, Iris Chen <irischenlj@fb.com>,
+ Peter Delevoryas <pdel@fb.com>,
+ Cameron Esfahani via <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, patrick@stwcx.xyz,
+ Alistair Francis <alistair@alistair23.me>, kwolf@redhat.com,
+ hreitz@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ qemu-block@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [RFC 1/1] hw: tpmtisspi: add SPI support to QEMU TPM
+ implementation
+Message-ID: <YuxUfDT3H9CKGX4P@pdel-mbp.dhcp.thefacebook.com>
+References: <20220803023241.63739-1-irischenlj@gmail.com>
+ <20220803023241.63739-2-irischenlj@gmail.com>
+ <36a20515-461d-0f27-3be8-a4edd099165a@kaod.org>
+ <YuqwpCFNnh/wyNNe@pdel-mbp.dhcp.thefacebook.com>
+ <CAJxKyLfMFDGhVGBCdPEm6dCyuV4NPFfn3vPZW+ugwZfsFtFgMg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJxKyLfMFDGhVGBCdPEm6dCyuV4NPFfn3vPZW+ugwZfsFtFgMg@mail.gmail.com>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,124 +117,477 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The boot parameter header refers to setup_data at an absolute address,
-and each setup_data refers to the next setup_data at an absolute address
-too. Currently QEMU simply puts the setup_datas right after the kernel
-image, and since the kernel_image is loaded at prot_addr -- a fixed
-address knowable to QEMU apriori -- the setup_data absolute address
-winds up being just `prot_addr + a_fixed_offset_into_kernel_image`.
+On Thu, Aug 04, 2022 at 11:07:10AM -0700, Dan Zhang wrote:
+> On Wed, Aug 3, 2022 at 10:30 AM Peter Delevoryas <peter@pjd.dev> wrote:
+> >
+> > On Wed, Aug 03, 2022 at 10:52:23AM +0200, CÈdric Le Goater wrote:
+> > > On 8/3/22 04:32, Iris Chen wrote:
+> > > > From: Iris Chen <irischenlj@fb.com>
+> > >
+> > > A commit log telling us about this new device would be good to have.
+> > >
+> > >
+> > > > Signed-off-by: Iris Chen <irischenlj@fb.com>
+> > > > ---
+> > > >   configs/devices/arm-softmmu/default.mak |   1 +
+> > > >   hw/arm/Kconfig                          |   5 +
+> > > >   hw/tpm/Kconfig                          |   5 +
+> > > >   hw/tpm/meson.build                      |   1 +
+> > > >   hw/tpm/tpm_tis_spi.c                    | 311 ++++++++++++++++++++++++
+> > > >   include/sysemu/tpm.h                    |   3 +
+> > > >   6 files changed, 326 insertions(+)
+> > > >   create mode 100644 hw/tpm/tpm_tis_spi.c
+> > > >
+> > > > diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+> > > > index 6985a25377..80d2841568 100644
+> > > > --- a/configs/devices/arm-softmmu/default.mak
+> > > > +++ b/configs/devices/arm-softmmu/default.mak
+> > > > @@ -42,3 +42,4 @@ CONFIG_FSL_IMX6UL=y
+> > > >   CONFIG_SEMIHOSTING=y
+> > > >   CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+> > > >   CONFIG_ALLWINNER_H3=y
+> > > > +CONFIG_FBOBMC_AST=y
+> > >
+> > > I don't think this extra config is useful for now
+> > >
+> > > > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> > > > index 15fa79afd3..193decaec1 100644
+> > > > --- a/hw/arm/Kconfig
+> > > > +++ b/hw/arm/Kconfig
+> > > > @@ -458,6 +458,11 @@ config ASPEED_SOC
+> > > >       select PMBUS
+> > > >       select MAX31785
+> > > > +config FBOBMC_AST
+> > > > +    bool
+> > > > +    select ASPEED_SOC
+> > > > +    select TPM_TIS_SPI
+> > > > +
+> > > >   config MPS2
+> > > >       bool
+> > > >       imply I2C_DEVICES
+> > > > diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
+> > > > index 29e82f3c92..370a43f045 100644
+> > > > --- a/hw/tpm/Kconfig
+> > > > +++ b/hw/tpm/Kconfig
+> > > > @@ -8,6 +8,11 @@ config TPM_TIS_SYSBUS
+> > > >       depends on TPM
+> > > >       select TPM_TIS
+> > > > +config TPM_TIS_SPI
+> > > > +    bool
+> > > > +    depends on TPM
+> > > > +    select TPM_TIS
+> > > > +
+> > > >   config TPM_TIS
+> > > >       bool
+> > > >       depends on TPM
+> > > > diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
+> > > > index 1c68d81d6a..1a057f4e36 100644
+> > > > --- a/hw/tpm/meson.build
+> > > > +++ b/hw/tpm/meson.build
+> > > > @@ -2,6 +2,7 @@ softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_tis_common.c'))
+> > > >   softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
+> > > >   softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
+> > > >   softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+> > > > +softmmu_ss.add(when: 'CONFIG_TPM_TIS_SPI', if_true: files('tpm_tis_spi.c'))
+> > > >   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
+> > > >   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
+> > > > diff --git a/hw/tpm/tpm_tis_spi.c b/hw/tpm/tpm_tis_spi.c
+> > > > new file mode 100644
+> > > > index 0000000000..c98ddcfddb
+> > > > --- /dev/null
+> > > > +++ b/hw/tpm/tpm_tis_spi.c
+> > > > @@ -0,0 +1,311 @@
+> > > > +#include "qemu/osdep.h"
+> > > > +#include "hw/qdev-properties.h"
+> > > > +#include "migration/vmstate.h"
+> > > > +#include "hw/acpi/tpm.h"
+> > > > +#include "tpm_prop.h"
+> > > > +#include "tpm_tis.h"
+> > > > +#include "qom/object.h"
+> > > > +#include "hw/ssi/ssi.h"
+> > > > +#include "hw/ssi/spi_gpio.h"
+> > > > +
+> > > > +#define TPM_TIS_SPI_ADDR_BYTES 3
+> > > > +#define SPI_WRITE 0
+> > > > +
+> > > > +typedef enum {
+> > > > +    TIS_SPI_PKT_STATE_DEACTIVATED = 0,
+> > > > +    TIS_SPI_PKT_STATE_START,
+> > > > +    TIS_SPI_PKT_STATE_ADDRESS,
+> > > > +    TIS_SPI_PKT_STATE_DATA_WR,
+> > > > +    TIS_SPI_PKT_STATE_DATA_RD,
+> > > > +    TIS_SPI_PKT_STATE_DONE,
+> > > > +} TpmTisSpiPktState;
+> > > > +
+> > > > +union TpmTisRWSizeByte {
+> > > > +    uint8_t byte;
+> > > > +    struct {
+> > > > +        uint8_t data_expected_size:6;
+> > > > +        uint8_t resv:1;
+> > > > +        uint8_t rwflag:1;
+> > > > +    };
+> > > > +};
+> > > > +
+> > > > +union TpmTisSpiHwAddr {
+> > > > +    hwaddr addr;
+> > > > +    uint8_t bytes[sizeof(hwaddr)];
+> > > > +};
+> > > > +
+> > > > +union TpmTisSpiData {
+> > > > +    uint32_t data;
+> > > > +    uint8_t bytes[64];
+> > > > +};
+> > > > +
+> > > > +struct TpmTisSpiState {
+> > > > +    /*< private >*/
+> > > > +    SSIPeripheral parent_obj;
+> > > > +
+> > > > +    /*< public >*/
+> > > > +    TPMState tpm_state; /* not a QOM object */
+> > > > +    TpmTisSpiPktState tpm_tis_spi_state;
+> > > > +
+> > > > +    union TpmTisRWSizeByte first_byte;
+> > > > +    union TpmTisSpiHwAddr addr;
+> > > > +    union TpmTisSpiData data;
+> > >
+> > > Are these device registers ? I am not sure the unions are very useful.
+> >
+> > +1, I don't think we should be using unions, instead we should split out
+> > all the relevant fields we want to store and use extract32/deposit32/etc
+> > if necessary.
+> These union is used to saving us code to extract the bits from first byte
+> and assembling the hwaddr and unint32_t data from bytes.
+> I think as the bitfields has compiler implementation dependency of endianness
+> we can switch to use extract8. or handle it for gcc
+> https://stackoverflow.com/questions/47600584/bitfield-endianness-in-gcc
 
-This mostly works fine, so long as the kernel image really is loaded at
-prot_addr. However, OVMF doesn't load the kernel at prot_addr, and
-generally EFI doesn't give a good way of predicting where it's going to
-load the kernel. So when it loads it at some address != prot_addr, the
-absolute addresses in setup_data now point somewhere bogus, causing
-crashes when EFI stub tries to follow the next link.
+Hmmm ok, I'll let Cedric say what the preference would be in general since
+I'm not totally sure.
 
-Fix this by placing setup_data at some fixed place in memory, not as
-part of the kernel image, and then pointing the setup_data absolute
-address to that fixed place in memory. This way, even if OVMF or other
-chains relocate the kernel image, the boot parameter still points to the
-correct absolute address.
+> 
+> >
+> > >
+> > > > +    uint32_t data_size;
+> > > > +    uint8_t data_idx;
+> > > > +    uint8_t addr_idx;
+> > > > +};
+> > > > +
+> > > > +struct TpmTisSpiClass {
+> > > > +    SSIPeripheralClass parent_class;
+> > > > +};
+> > > > +
+> > > > +OBJECT_DECLARE_TYPE(TpmTisSpiState, TpmTisSpiClass, TPM_TIS_SPI)
+> > > > +
+> > > > +static void tpm_tis_spi_mmio_read(TpmTisSpiState *tts)
+> > > > +{
+> > > > +    uint16_t offset = tts->addr.addr & 0xffc;
+> > > > +
+> > > > +    switch (offset) {
+> > > > +    case TPM_TIS_REG_DATA_FIFO:
+> > > > +        for (uint8_t i = 0; i < tts->data_size; i++) {
+> > > > +            tts->data.bytes[i] = (uint8_t)tpm_tis_memory_ops.read(
+> > >
+> > >
+> > > you should add an address space for these memory transactions. Look for
+> > > address_space_read/write calls, in the Aspeed I2C model for example.
+> >
+> > Yeah, or an even better example might be tpm_tis_isa. I feel like a
+> > shortcut might have been taken here to pull in tpm_tis_memory_ops
+> > directly, but we should have been treating the interface with the TPM as
+> > a generic address space.
+> >
+> No, in our application we did not have those memory region
+> [0xFFD4_0000 ~ 0xFFD4_FFFF]
+> here we mapping the TPM TIS SPI message operations into mmio operations is to
+> reuse the TIS registers models already implemented in tpm_tis_common.c
 
-For this, an unused part of the hardware mapped area is used, which
-isn't used by anything else.
+Ehhh, I think you're misunderstanding. Yes, the ISA model is mapping the
+TPM MMIO address space into the ISA address space, and the SPI model
+doesn't have an address space like that, but we should still be using an
+MMIO address space to perform MMIO reads and writes, instead of calling
+the MMIO's callbacks directly.
 
-Fixes: 3cbeb52467 ("hw/i386: add device tree support")
-Reported-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Daniel P. Berrang√© <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: linux-efi@vger.kernel.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/i386/x86.c | 39 +++++++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 18 deletions(-)
+I think the motivation for this is that tpm_tis_common.c shouldn't even
+expose tpm_tis_memory_ops directly, it should just expose an address
+space to write to. But, I might be misunderstanding.
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 050eedc0c8..3affef3277 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -773,10 +773,10 @@ void x86_load_linux(X86MachineState *x86ms,
-     bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
-     uint16_t protocol;
-     int setup_size, kernel_size, cmdline_size;
--    int dtb_size, setup_data_offset;
-+    int dtb_size, setup_data_item_len, setup_data_total_len = 0;
-     uint32_t initrd_max;
--    uint8_t header[8192], *setup, *kernel;
--    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0, first_setup_data = 0;
-+    uint8_t header[8192], *setup, *kernel, *setup_datas = NULL;
-+    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0, first_setup_data = 0, setup_data_base;
-     FILE *f;
-     char *vmode;
-     MachineState *machine = MACHINE(x86ms);
-@@ -899,6 +899,8 @@ void x86_load_linux(X86MachineState *x86ms,
-         cmdline_addr = 0x20000;
-         prot_addr    = 0x100000;
-     }
-+    /* Nothing else uses this part of the hardware mapped region */
-+    setup_data_base = 0xfffff - 0x1000;
- 
-     /* highest address for loading the initrd */
-     if (protocol >= 0x20c &&
-@@ -1062,34 +1064,35 @@ void x86_load_linux(X86MachineState *x86ms,
-             exit(1);
-         }
- 
--        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
--        kernel = g_realloc(kernel, kernel_size);
--
--
--        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+        setup_data_item_len = sizeof(struct setup_data) + dtb_size;
-+        setup_datas = g_realloc(setup_datas, setup_data_total_len + setup_data_item_len);
-+        setup_data = (struct setup_data *)(setup_datas + setup_data_total_len);
-         setup_data->next = cpu_to_le64(first_setup_data);
--        first_setup_data = prot_addr + setup_data_offset;
-+        first_setup_data = setup_data_base + setup_data_total_len;
-+        setup_data_total_len += setup_data_item_len;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-         setup_data->len = cpu_to_le32(dtb_size);
--
-         load_image_size(dtb_filename, setup_data->data, dtb_size);
-     }
- 
-     if (!legacy_no_rng_seed) {
--        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
--        kernel = g_realloc(kernel, kernel_size);
--        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+        setup_data_item_len = sizeof(struct setup_data) + RNG_SEED_LENGTH;
-+        setup_datas = g_realloc(setup_datas, setup_data_total_len + setup_data_item_len);
-+        setup_data = (struct setup_data *)(setup_datas + setup_data_total_len);
-         setup_data->next = cpu_to_le64(first_setup_data);
--        first_setup_data = prot_addr + setup_data_offset;
-+        first_setup_data = setup_data_base + setup_data_total_len;
-+        setup_data_total_len += setup_data_item_len;
-         setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
-     }
- 
--    /* Offset 0x250 is a pointer to the first setup_data link. */
--    stq_p(header + 0x250, first_setup_data);
-+    if (first_setup_data && !sev_enabled()) {
-+            /* Offset 0x250 is a pointer to the first setup_data link. */
-+            stq_p(header + 0x250, first_setup_data);
-+            rom_add_blob("setup_data", setup_datas, setup_data_total_len, setup_data_total_len,
-+                         setup_data_base, NULL, NULL, NULL, NULL, false);
-+    }
- 
-     /*
-      * If we're starting an encrypted VM, it will be OVMF based, which uses the
--- 
-2.35.1
-
+> > >
+> > > > +                                          &tts->tpm_state,
+> > > > +                                          tts->addr.addr,
+> > > > +                                          1);
+> > > > +        }
+> > > > +        break;
+> > > > +    default:
+> > > > +        tts->data.data = (uint32_t)tpm_tis_memory_ops.read(
+> > > > +                                   &tts->tpm_state,
+> > > > +                                   tts->addr.addr,
+> > > > +                                   tts->data_size);
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static void tpm_tis_spi_mmio_write(TpmTisSpiState *tts)
+> > > > +{
+> > > > +    uint16_t offset = tts->addr.addr & 0xffc;
+> > > > +
+> > > > +    switch (offset) {
+> > > > +    case TPM_TIS_REG_DATA_FIFO:
+> > > > +        for (uint8_t i = 0; i < tts->data_size; i++) {
+> > > > +            tpm_tis_memory_ops.write(&tts->tpm_state,
+> > > > +                                     tts->addr.addr,
+> > > > +                                     tts->data.bytes[i],
+> > > > +                                     1);
+> > > > +        }
+> > > > +        break;
+> > > > +    default:
+> > > > +        tpm_tis_memory_ops.write(&tts->tpm_state,
+> > > > +                                 tts->addr.addr,
+> > > > +                                 tts->data.data,
+> > > > +                                 tts->data_size);
+> > > > +        }
+> > > > +}
+> > > > +
+> > > > +static uint32_t tpm_tis_spi_transfer8(SSIPeripheral *ss, uint32_t tx)
+> > > > +{
+> > > > +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
+> > > > +    uint32_t r = 1;
+> > > > +
+> > > > +    switch (tts->tpm_tis_spi_state) {
+> > > > +    case TIS_SPI_PKT_STATE_START:
+> > > > +        tts->first_byte.byte = (uint8_t)tx;
+> > > > +        tts->data_size = tts->first_byte.data_expected_size + 1;
+> > > > +        tts->data_idx = 0;
+> > > > +        tts->addr_idx = TPM_TIS_SPI_ADDR_BYTES;
+> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_ADDRESS;
+> > > > +        break;
+> > > > +    case TIS_SPI_PKT_STATE_ADDRESS:
+> > > > +        assert(tts->addr_idx > 0);
+> > > > +        tts->addr.bytes[--tts->addr_idx] = (uint8_t)tx;
+> > > > +
+> > > > +        if (tts->addr_idx == 0) {
+> > > > +            if (tts->first_byte.rwflag == SPI_WRITE) {
+> > > > +                tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DATA_WR;
+> > > > +            } else { /* read and get the data ready */
+> > > > +                tpm_tis_spi_mmio_read(tts);
+> > > > +                tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DATA_RD;
+> > > > +            }
+> > > > +        }
+> > > > +        break;
+> > > > +    case TIS_SPI_PKT_STATE_DATA_WR:
+> > > > +        tts->data.bytes[tts->data_idx++] = (uint8_t)tx;
+> > > > +        if (tts->data_idx == tts->data_size) {
+> > > > +            tpm_tis_spi_mmio_write(tts);
+> > > > +            tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DONE;
+> > > > +        }
+> > > > +        break;
+> > > > +    case TIS_SPI_PKT_STATE_DATA_RD:
+> > > > +        r = tts->data.bytes[tts->data_idx++];
+> > > > +        if (tts->data_idx == tts->data_size) {
+> > > > +            tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DONE;
+> > > > +        }
+> > > > +        break;
+> > > > +    default:
+> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DEACTIVATED;
+> > > > +        r = (uint32_t) -1;
+> > > > +    }
+> > > > +
+> > > > +    return r;
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * Pre-reading logic for transfer:
+> > > > + * This is to fix the transaction between reading and writing.
+> > > > + * The first byte is arbitrarily inserted so we need to
+> > > > + * shift the all the output bytes (timeline) one byte right.
+> > > > + */
+> > > > +static uint32_t tpm_tis_spi_transfer8_ex(SSIPeripheral *ss, uint32_t tx)
+> > > > +{
+> > > > +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
+> > > > +    SSIBus *ssibus = (SSIBus *)qdev_get_parent_bus(DEVICE(tts));
+> > > > +
+> > > > +    TpmTisSpiPktState prev_state = tts->tpm_tis_spi_state;
+> > > > +    uint32_t r = tpm_tis_spi_transfer8(ss, tx);
+> > > > +    TpmTisSpiPktState curr_state = tts->tpm_tis_spi_state;
+> > > > +
+> > > > +    if (ssibus->preread &&
+> > > > +       /* cmd state has changed into DATA reading state */
+> > > > +       prev_state != TIS_SPI_PKT_STATE_DATA_RD &&
+> > > > +       curr_state == TIS_SPI_PKT_STATE_DATA_RD) {
+> > > > +        r = tpm_tis_spi_transfer8(ss, 0xFF);
+> > > > +    }
+> > > > +
+> > > > +    return r;
+> > > > +}
+> > > > +
+> > > > +static int tpm_tis_spi_cs(SSIPeripheral *ss, bool select)
+> > > > +{
+> > > > +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
+> > > > +
+> > > > +    if (select) { /* cs de-assert */
+> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DEACTIVATED;
+> > > > +    } else {
+> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_START;
+> > > > +        tts->first_byte.byte = 0;
+> > > > +        tts->addr.addr = 0;
+> > > > +        tts->data.data = 0;
+> > > > +    }
+> > > > +
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > > +static int tpm_tis_pre_save_spi(void *opaque)
+> > > > +{
+> > > > +    TpmTisSpiState *sbdev = opaque;
+> > > > +
+> > > > +    return tpm_tis_pre_save(&sbdev->tpm_state);
+> > > > +}
+> > > > +
+> > > > +static const VMStateDescription vmstate_tpm_tis_spi = {
+> > > > +    .name = "tpm-tis-spi",
+> > > > +    .version_id = 0,
+> > > > +    .pre_save  = tpm_tis_pre_save_spi,
+> > > > +    .fields = (VMStateField[]) {
+> > > > +        VMSTATE_BUFFER(tpm_state.buffer, TpmTisSpiState),
+> > > > +        VMSTATE_UINT16(tpm_state.rw_offset, TpmTisSpiState),
+> > > > +        VMSTATE_UINT8(tpm_state.active_locty, TpmTisSpiState),
+> > > > +        VMSTATE_UINT8(tpm_state.aborting_locty, TpmTisSpiState),
+> > > > +        VMSTATE_UINT8(tpm_state.next_locty, TpmTisSpiState),
+> > > > +
+> > > > +        VMSTATE_STRUCT_ARRAY(tpm_state.loc, TpmTisSpiState, TPM_TIS_NUM_LOCALITIES,
+> > > > +                             0, vmstate_locty, TPMLocality),
+> > > > +
+> > > > +        VMSTATE_END_OF_LIST()
+> > > > +    }
+> > > > +};
+> > > > +
+> > > > +static void tpm_tis_spi_request_completed(TPMIf *ti, int ret)
+> > > > +{
+> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ti);
+> > > > +    TPMState *s = &sbdev->tpm_state;
+> > > > +
+> > > > +    tpm_tis_request_completed(s, ret);
+> > > > +}
+> > > > +
+> > > > +static enum TPMVersion tpm_tis_spi_get_tpm_version(TPMIf *ti)
+> > > > +{
+> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ti);
+> > > > +    TPMState *s = &sbdev->tpm_state;
+> > > > +
+> > > > +    return tpm_tis_get_tpm_version(s);
+> > > > +}
+> > > > +
+> > > > +static void tpm_tis_spi_reset(DeviceState *dev)
+> > > > +{
+> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(dev);
+> > > > +    TPMState *s = &sbdev->tpm_state;
+> > > > +
+> > > > +    return tpm_tis_reset(s);
+> > > > +}
+> > > > +
+> > > > +static Property tpm_tis_spi_properties[] = {
+> > > > +    DEFINE_PROP_UINT32("irq", TpmTisSpiState, tpm_state.irq_num, TPM_TIS_IRQ),
+> > > > +    DEFINE_PROP_TPMBE("tpmdev", TpmTisSpiState, tpm_state.be_driver),
+> > > > +    DEFINE_PROP_BOOL("ppi", TpmTisSpiState, tpm_state.ppi_enabled, false),
+> > > > +    DEFINE_PROP_END_OF_LIST(),
+> > > > +};
+> > > > +
+> > > > +static void tpm_tis_spi_realizefn(SSIPeripheral *ss, Error **errp)
+> > > > +{
+> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ss);
+> > > > +
+> > > > +    if (!tpm_find()) {
+> > > > +        error_setg(errp, "at most one TPM device is permitted");
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    if (!sbdev->tpm_state.be_driver) {
+> > > > +        error_setg(errp, "'tpmdev' property is required");
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    DeviceState *spi_gpio = qdev_find_recursive(sysbus_get_default(),
+> > > > +                                                TYPE_SPI_GPIO);
+> > > > +    qdev_connect_gpio_out_named(spi_gpio,
+> > > > +                                "SPI_CS_out", 0,
+> > > > +                                qdev_get_gpio_in_named(DEVICE(ss),
+> > > > +                                SSI_GPIO_CS, 0));
+> > > Typically, this part is done at the machine/board level because it
+> > > has knowledge of all devices but it is possible with the TPM devices?
+> >
+> > +1, yeah this part should be removed.
+> >
+> > >
+> > > How do you invoke QEMU ?
+> >
+> > We have some hard-coded machine/board level code that wires up stuff,
+> > and then I think Iris was hard-coding this stuff in the TPM TIS SPI
+> > model so that the whole thing could be hidden behind a Kconfig and wired
+> > in automatically when the Kconfig was enabled. But we should require
+> > users to wire it up themselves in the board code.
+> >
+> > >
+> > > Thanks,
+> > >
+> > > C.
+> > >
+> > > > +}
+> > > > +
+> > > > +static void tpm_tis_spi_class_init(ObjectClass *klass, void *data)
+> > > > +{
+> > > > +    DeviceClass *dc = DEVICE_CLASS(klass);
+> > > > +    SSIPeripheralClass *k = SSI_PERIPHERAL_CLASS(klass);
+> > > > +    TPMIfClass *tc = TPM_IF_CLASS(klass);
+> > > > +
+> > > > +    device_class_set_props(dc, tpm_tis_spi_properties);
+> > > > +    k->realize = tpm_tis_spi_realizefn;
+> > > > +    k->transfer = tpm_tis_spi_transfer8_ex;
+> > > > +    k->set_cs = tpm_tis_spi_cs;
+> > > > +    k->cs_polarity = SSI_CS_LOW;
+> > > > +
+> > > > +    dc->vmsd  = &vmstate_tpm_tis_spi;
+> > > > +    tc->model = TPM_MODEL_TPM_TIS;
+> > > > +    dc->user_creatable = true;
+> > > > +    dc->reset = tpm_tis_spi_reset;
+> > > > +    tc->request_completed = tpm_tis_spi_request_completed;
+> > > > +    tc->get_version = tpm_tis_spi_get_tpm_version;
+> > > > +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> > > > +}
+> > > > +
+> > > > +static const TypeInfo tpm_tis_spi_info = {
+> > > > +    .name = TYPE_TPM_TIS_SPI,
+> > > > +    .parent = TYPE_SSI_PERIPHERAL,
+> > > > +    .instance_size = sizeof(TpmTisSpiState),
+> > > > +    .class_size = sizeof(TpmTisSpiClass),
+> > > > +    .class_init  = tpm_tis_spi_class_init,
+> > > > +    .interfaces = (InterfaceInfo[]) {
+> > > > +        { TYPE_TPM_IF },
+> > > > +        { }
+> > > > +    }
+> > > > +};
+> > > > +
+> > > > +static void tpm_tis_spi_register(void)
+> > > > +{
+> > > > +    type_register_static(&tpm_tis_spi_info);
+> > > > +}
+> > > > +
+> > > > +type_init(tpm_tis_spi_register)
+> > > > diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+> > > > index fb40e30ff6..6a6b311e47 100644
+> > > > --- a/include/sysemu/tpm.h
+> > > > +++ b/include/sysemu/tpm.h
+> > > > @@ -46,6 +46,7 @@ struct TPMIfClass {
+> > > >   #define TYPE_TPM_TIS_ISA            "tpm-tis"
+> > > >   #define TYPE_TPM_TIS_SYSBUS         "tpm-tis-device"
+> > > > +#define TYPE_TPM_TIS_SPI            "tpm-tis-spi-device"
+> > > >   #define TYPE_TPM_CRB                "tpm-crb"
+> > > >   #define TYPE_TPM_SPAPR              "tpm-spapr"
+> > > > @@ -53,6 +54,8 @@ struct TPMIfClass {
+> > > >       object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
+> > > >   #define TPM_IS_TIS_SYSBUS(chr)                      \
+> > > >       object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SYSBUS)
+> > > > +#define TPM_IS_TIS_SPI(chr)                      \
+> > > > +    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SPI)
+> > > >   #define TPM_IS_CRB(chr)                             \
+> > > >       object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
+> > > >   #define TPM_IS_SPAPR(chr)                           \
+> > >
 
