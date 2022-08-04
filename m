@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1D758A0FC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:59:25 +0200 (CEST)
-Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252BC58A0F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:58:16 +0200 (CEST)
+Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJg44-0000E0-T4
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:59:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36914)
+	id 1oJg2x-0006an-6F
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJfmZ-0005Bf-BL; Thu, 04 Aug 2022 14:41:19 -0400
-Received: from mail-ua1-x936.google.com ([2607:f8b0:4864:20::936]:39835)
+ id 1oJfmb-0005Im-75; Thu, 04 Aug 2022 14:41:21 -0400
+Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f]:38796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJfmX-0004vQ-Fv; Thu, 04 Aug 2022 14:41:19 -0400
-Received: by mail-ua1-x936.google.com with SMTP id c19so185778uat.6;
- Thu, 04 Aug 2022 11:41:16 -0700 (PDT)
+ id 1oJfmZ-0004vd-Gl; Thu, 04 Aug 2022 14:41:20 -0400
+Received: by mail-vs1-xe2f.google.com with SMTP id 125so324046vsd.5;
+ Thu, 04 Aug 2022 11:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=3AHRBvtK+8ekDRF6Xl9IaxBvwMrKZUWuH96uIV8rFmI=;
- b=BupuRzHVwHZBon6QT7qpc8Px2Oc8Zp3Sx08DO5O6c2QSE0UgOGLBgh4DLEr+Bve/rt
- TVIrYG0Wkb4q4FyL7jWq24RB8lrdZN+xSeFdGRfc4e9r8OoAA0dB3jnWBlzHR5oXLThM
- AeYbpcxsCMLbaW/XWZTt0RIix9/KekdgpIMRk5HJkhLmDPlLAG/n1XL8iSeDGYLaVc4N
- tm/VVW/qFIndzMtLLwte1JDVNsstNYh1ROfqelRgBs3PbpOG/QSywLbJZkKUT2skWAs5
- Pv/hsYC0lHzXugclqFEbSDfCqd57Z7ARk+ARr/UYAYDwFMjbFCDlMvVaqTNEBsVpwVb7
- B0Kw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=C8+iSN8Sq8LnJrJ+scvTGegOBPXQ4FxtOiuX9S1DAWY=;
+ b=SJKWlEv/0Um5aex05L95Pl/T6HeTWWrxVbqIgNKMwPyG8B+B37x4GzyKmujLniukdT
+ IFahkTETTB0HpSdID54mErATIy1AERruOqfRLlEHQUDMb3S0VGa+XMOVwiQYkOx77U5j
+ odSVHfOwP4wtk19ct+5Ah0bomhcLu+O3JMigMtB4inCP+anpTfsq3weJaU0XpJGnkauz
+ 2Xtamc0xmDAGynAMm6ogwS2FVPOlipNKtoy2+YDtAD3EMLmUe+gaRDARX9BCOh7XWSWV
+ Fr2MSG1atSwkcv4GGHH/PrUCOLXq3K9UscuJos6Z06c6zvEdVDcvTJAA/WIYAJ8ajok7
+ oTIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=3AHRBvtK+8ekDRF6Xl9IaxBvwMrKZUWuH96uIV8rFmI=;
- b=PaxYa9b/B6unUUZqumXyVzlB+EolGwHfZwORxX09BHUlr43ffG/I0/YdJ+u6eo3Od9
- Mw+BT95z+R1LF1rv+grz2bgrgrvJAXgENenztwDDpCEQtT/IyCz/7zupdZRMCnP1IIno
- DNWxS0Rm1EdjuHn9z3anJ1HJB2RW/fhkKlpa/NC8HB4PykSAP33PGxtOGODijJLeqiR+
- 6ZkslWTnoRk86vP2hzYrsEhxn3uwXbIQ6KkD81VbudOi+aeAtgkOYvUC7l2zwVZ6UVnX
- 0sPsyWz6xY0wbXg9llX75061VnwQMwLQjDz1ofDZDEK1DO8VwljzpcN8dCxzpre7uT4u
- r5jg==
-X-Gm-Message-State: ACgBeo1WK85rx8cyOJVMAtDYAQbdwA787HQK3CoV7B3ESNB0KrPN+szx
- HixNtmp5b6XSprMEbeLHwyE5stoU8a8=
-X-Google-Smtp-Source: AA6agR57rGQHaN6eRmMPwA3Jna4B5hHibZRJp4zBzFrkk7I3VjJ972GDgQMhJldgPRvSqlavgEMb3Q==
-X-Received: by 2002:ab0:7c7b:0:b0:384:7e37:3083 with SMTP id
- h27-20020ab07c7b000000b003847e373083mr1567383uax.53.1659638475737; 
- Thu, 04 Aug 2022 11:41:15 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=C8+iSN8Sq8LnJrJ+scvTGegOBPXQ4FxtOiuX9S1DAWY=;
+ b=GEiSjbpvtk1xNtJ0DhxqW03ANkPLiNwCpjLUjbvfAUY2q+ET/ttu0tYFBQEA8bmuTW
+ WzDhHqDhu4vNyCGsI0VuDpwCmnLLPr2cnUn4jsQ98J7IgxJVtf74CJR+XlYN7BFdHaPd
+ VfAQDnzBiDUnpSFlu7T9VLq7qhyL2diPxgOuvQP0M/qFuzgf402Qgg7MUSZqXIceo3v+
+ DIH4CVjIeyeHZtXNtSn4uUD40wAbeWXxBb+RtupLZEIongnMJ7Y6Lev5p+AJJAbXYlRU
+ AUiTZuWhpqXEDOrMDp/7PI1CIO5+id91Rgg7Fc4p02BzCU4h1mnPRVI3tZwjLPySOj97
+ R+gg==
+X-Gm-Message-State: ACgBeo0y1GM8ipavUoRb3yvKr5J3czri4efFM6T7t0x9c5EDvkjc2ehq
+ RlxSmm4CBguxqVB+aSelUKfHQO/p5HU=
+X-Google-Smtp-Source: AA6agR4FqSB5fLWATr0RytwEXlzrt0HPrcebwWqkZZIqhgpN3vev4dplm+43JvjfGRkpI9sKAiB92Q==
+X-Received: by 2002:a67:db0d:0:b0:388:6e87:fd17 with SMTP id
+ z13-20020a67db0d000000b003886e87fd17mr1533586vsj.64.1659638477935; 
+ Thu, 04 Aug 2022 11:41:17 -0700 (PDT)
 Received: from balboa.ibmuc.com ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
  by smtp.gmail.com with ESMTPSA id
- a12-20020ab00c0c000000b003875ff95a29sm1592583uak.30.2022.08.04.11.41.13
+ a12-20020ab00c0c000000b003875ff95a29sm1592583uak.30.2022.08.04.11.41.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Aug 2022 11:41:15 -0700 (PDT)
+ Thu, 04 Aug 2022 11:41:17 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org
-Subject: [PULL 0/1] ppc queue
-Date: Thu,  4 Aug 2022 15:41:10 -0300
-Message-Id: <20220804184111.2770822-1-danielhb413@gmail.com>
+ richard.henderson@linaro.org, BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 1/1] hw/ppc: sam460ex.c: store all GPIO lines in mal_irqs[]
+Date: Thu,  4 Aug 2022 15:41:11 -0300
+Message-Id: <20220804184111.2770822-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220804184111.2770822-1-danielhb413@gmail.com>
+References: <20220804184111.2770822-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x936.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,32 +90,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2480f3bbd03814b0651a1f74959f5c6631ee5819:
+We're not storing all GPIO lines we're retrieving with
+qdev_get_gpio_in() in mal_irqs[]. We're storing just the last one in the
+first index:
 
-  Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-03 08:32:44 -0700)
+    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
+    }
+    ppc4xx_mal_init(env, 4, 16, mal_irqs);
 
-are available in the Git repository at:
+mal_irqs is used in ppc4xx_mal_init() to assign the IRQs to MAL:
 
-  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220804
+    for (i = 0; i < 4; i++) {
+        mal->irqs[i] = irqs[i];
+    }
 
-for you to fetch changes up to ed021daf2d6c19499ae406055156dc19c073228f:
+Since only irqs[0] has been initialized, mal->irqs[1,2,3] are being
+zeroed.
 
-  hw/ppc: sam460ex.c: store all GPIO lines in mal_irqs[] (2022-08-04 15:20:14 -0300)
+This doesn´t seem to trigger any apparent issues at this moment, but
+Cedric's QOMification of the MAL device [1] is executing a
+sysbus_connect_irq() that will fail if we do not store all GPIO lines
+properly.
 
-----------------------------------------------------------------
-ppc patch queue for 2022-08-04:
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00497.html
 
-In this short queue we have a fix in the sam460ex machine where we're
-not storing all GPIO lines in sam460ex_init().
-
-This is not causing problems (as far as we're aware of) at this moment,
-but this is getting in the way of a ppc405 rework we want to do for 7.2,
-so let's fix it now.
-
-----------------------------------------------------------------
-Daniel Henrique Barboza (1):
-      hw/ppc: sam460ex.c: store all GPIO lines in mal_irqs[]
-
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
+Fixes: 706e944206d7 ("hw/ppc/sam460ex: Drop use of ppcuic_init()")
+Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20220803233204.2724202-1-danielhb413@gmail.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
  hw/ppc/sam460ex.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 7e8da657c2..0357ee077f 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -384,7 +384,7 @@ static void sam460ex_init(MachineState *machine)
+ 
+     /* MAL */
+     for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+-        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
++        mal_irqs[i] = qdev_get_gpio_in(uic[2], 3 + i);
+     }
+     ppc4xx_mal_init(env, 4, 16, mal_irqs);
+ 
+-- 
+2.36.1
+
 
