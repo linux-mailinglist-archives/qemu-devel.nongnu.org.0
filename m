@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFAE589F28
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 18:12:07 +0200 (CEST)
-Received: from localhost ([::1]:60880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1D6589F26
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 18:11:44 +0200 (CEST)
+Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJdSA-0005Ba-4q
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 12:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33620)
+	id 1oJdRm-0004in-F0
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 12:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oJdKI-0004gD-F0
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:03:58 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:42744)
+ id 1oJdMw-0005oN-RF
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:06:42 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:33404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oJdKG-00052H-PZ
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:03:58 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- d65-20020a17090a6f4700b001f303a97b14so220134pjk.1
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 09:03:56 -0700 (PDT)
+ id 1oJdMu-0005YZ-Nv
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 12:06:42 -0400
+Received: by mail-pf1-x432.google.com with SMTP id 17so19799497pfy.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 09:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0IkOmkqD22a/DmXX9uWe9iOG1pZJhZn94vJ2qcprlEU=;
- b=yYReQz4ZS/qFIIsut+oQNz0m0Ve0Po6pUkdei7WV/QrmFfM/KfnnaaOiulYeAwlVG3
- ek70MQjkXsukXhPTQIUMyd3uVyxCz+oId56WhSAwOkXy25fzsI0WgbU+iwUPY4M7M3mC
- 11oQez6Pkobh0u8P9PqIgnwzP7gDI7rR4JpTHCfa1bxKtcW5KrfAe+S2Hg3TSpmQFXiV
- 25OlV+uEjZV6RAkklwZ2ltRAqvbX/aRHEMjAyuDB4ZdYPBNTU3CEnTMfeZyBBGnRyVEn
- RPRukMD47x/78XEC11AaXy51suPFH3aTh1oTQG/ZyyPhyFyut5Fkg3g0uvKT+dPiZe0o
- /cjA==
+ bh=O0mHpIAQByPpqWcq8Ym21S5LVUvNHsYiMCgceAATTHU=;
+ b=ZSGjux1nuEIkF38H4gSRsSZs4Rv6U0yT7240vnaQM5PCE60SijkFs8qxiJWSl/cFWr
+ ueifN3aBqgY1uRpXcVFBUeXcZItmO4ssHqVqBs0TYjzZTvdrx5IguwEaQBRVuQlxiSWx
+ J6vBR3GFbEpKmwioVl+m7wuM+jPJAckyoL9BBCgT+ycabFrOjeYPMuk3It91UFlexvpA
+ fC6YcIFISU0qxD/nFgBcyfmXDn9zVuBFQNZ9pEezXkyYxwraY+3p69ws7se5mh6ezwb1
+ e2ZLajTC4x54Pq5aSs8mf4MgQQNYZ8Ahb4iSK4rG16hLEqN33fMlCLpqQJQkJPDWfABR
+ n/vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0IkOmkqD22a/DmXX9uWe9iOG1pZJhZn94vJ2qcprlEU=;
- b=ST407uwY1O5C+dvxvOFEz/IS0Vrd/mkZver6TMAAJdQYQi1Z6tXj4qD1CuECtYWnB2
- DFojpupF2wWxtJHSIB4zOyZd75px/pNwhrzhYkzpUXfB8nYXhqohLityeg31hDI1afr6
- QkBUxqLcLa+weJoNMMoh7mwQ1xwKV98cX6UtR2PDVXtI1pvaFXKjNtWLYb2tFCzN9TGZ
- HcbNexY4kmLt3EPbTC9uNPz49rDdxNuQe22q/rOj2arztXhsUDIKc28KpdQLRbs4P8SG
- UrNk/vQLHysgxLA4evmaU10A4lhG+cWqNdmPkQSLO+FlNWv68kukWX2CrM20CLuemmVw
- wuUA==
-X-Gm-Message-State: ACgBeo1zROb3vR+BHjidUbTFY3KRGKZKAaXv7T+WqRm2hAiplUGrLMrf
- bdtV0bf77iW4BGIlsLHbAd358A==
-X-Google-Smtp-Source: AA6agR7dFcYoHkqrhqDkRLLCZx8jQSHlKv/FGS65hsw7y/o+oB6Oy25ch9Ecd0TzHhBJ1sSqjP4QYg==
-X-Received: by 2002:a17:90a:a2a:b0:1f3:1479:e869 with SMTP id
- o39-20020a17090a0a2a00b001f31479e869mr2808735pjo.41.1659629035207; 
- Thu, 04 Aug 2022 09:03:55 -0700 (PDT)
+ bh=O0mHpIAQByPpqWcq8Ym21S5LVUvNHsYiMCgceAATTHU=;
+ b=wBB1JZCqFvww8LJV22Njfxdb/SBLzs04OBz7YWnwtX/z+me42XhIKyAdAdTaMrjtAw
+ +LrTnWpiOUD4wfH4zBHoRQPQ4OJaumwYxCh3kygunvAlvOjhWNFtXaxL0vNF9WovjYIH
+ 2Vija+rpmsb/V9fRBFFCngMbklXfAIkPrHaQBojw0hlRkA9b1WivZsGAmMrafFWP5o+H
+ CxpRZecFkMLPjac1UI5alVjKgEwKW+9AyyZCmsDB7sT2HGOatszBuFSgen5qzb4Nc5ri
+ O8BETkGBapChz1xHHabb0vVGK5HMPVpFfWvnRSj+Cg8do6PikiEzTsi+kD+1k/1OSLBL
+ TI7g==
+X-Gm-Message-State: ACgBeo0LG4ydisXlectW36Fw+q8VBGEdqeu4FP65C8y4ownG8CKq1XS9
+ +3DGIGxNaYRZ49ObrVSnbrDKng==
+X-Google-Smtp-Source: AA6agR4VMPhdmO6p8WAFkEaYEz34fESQeaSmS9luGB5m7a6Ke3Os90GkicLhCixrThRCIbixlwxzTw==
+X-Received: by 2002:a05:6a00:23d0:b0:52e:74be:d52 with SMTP id
+ g16-20020a056a0023d000b0052e74be0d52mr2435407pfc.62.1659629199374; 
+ Thu, 04 Aug 2022 09:06:39 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:c349:7b49:2925:a0a?
  ([2602:ae:154e:e201:c349:7b49:2925:a0a])
  by smtp.gmail.com with ESMTPSA id
- x194-20020a6286cb000000b0052abfc4b4a4sm1257218pfd.12.2022.08.04.09.03.54
+ f7-20020a170902ab8700b0016d01c133e1sm788178plr.248.2022.08.04.09.06.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 09:03:54 -0700 (PDT)
-Message-ID: <57578e69-07ca-6563-eba5-4a688a769a28@linaro.org>
-Date: Thu, 4 Aug 2022 09:03:53 -0700
+ Thu, 04 Aug 2022 09:06:38 -0700 (PDT)
+Message-ID: <fec78f36-159d-50b0-1113-e2286e464d99@linaro.org>
+Date: Thu, 4 Aug 2022 09:06:37 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.1 3/5] target/loongarch: update loongarch-base64.xml
+Subject: Re: [PATCH for-7.1 4/5] target/loongarch: Update loongarch-fpu.xml
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, f4bug@amsat.org, alex.bennee@linaro.org,
  yangxiaojuan@loongson.cn
 References: <20220804130213.1364164-1-gaosong@loongson.cn>
- <20220804130213.1364164-4-gaosong@loongson.cn>
+ <20220804130213.1364164-5-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220804130213.1364164-4-gaosong@loongson.cn>
+In-Reply-To: <20220804130213.1364164-5-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,16 +96,88 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/4/22 06:02, Song Gao wrote:
-> Update loongarch-base64.xml to match the upstream GDB [1].
+> Rename loongarch-fpu64.xml to loongarch-fpu.xml and update loongarch-fpu.xml to match upstream GDB [1]
 > 
-> [1]:https://github.com/bminor/binutils-gdb/blob/master/gdb/features/loongarch/base64.xml
+> [1]:https://github.com/bminor/binutils-gdb/blob/master/gdb/features/loongarch/fpu.xml
 > 
 > Signed-off-by: Song Gao <gaosong@loongson.cn>
 > ---
->   gdb-xml/loongarch-base64.xml | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+>   configs/targets/loongarch64-softmmu.mak |  2 +-
+>   gdb-xml/loongarch-fpu.xml               | 50 ++++++++++++++++++++++
+>   gdb-xml/loongarch-fpu64.xml             | 57 -------------------------
+>   target/loongarch/gdbstub.c              |  2 +-
+>   4 files changed, 52 insertions(+), 59 deletions(-)
+>   create mode 100644 gdb-xml/loongarch-fpu.xml
+>   delete mode 100644 gdb-xml/loongarch-fpu64.xml
+> 
+> diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+> index 483474ba93..9abc99056f 100644
+> --- a/configs/targets/loongarch64-softmmu.mak
+> +++ b/configs/targets/loongarch64-softmmu.mak
+> @@ -1,5 +1,5 @@
+>   TARGET_ARCH=loongarch64
+>   TARGET_BASE_ARCH=loongarch
+>   TARGET_SUPPORTS_MTTCG=y
+> -TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
+> +TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu.xml
+>   TARGET_NEED_FDT=y
+> diff --git a/gdb-xml/loongarch-fpu.xml b/gdb-xml/loongarch-fpu.xml
+> new file mode 100644
+> index 0000000000..a61057ec44
+> --- /dev/null
+> +++ b/gdb-xml/loongarch-fpu.xml
+> @@ -0,0 +1,50 @@
+> +<?xml version="1.0"?>
+> +<!-- Copyright (C) 2021 Free Software Foundation, Inc.
+> +
+> +     Copying and distribution of this file, with or without modification,
+> +     are permitted in any medium without royalty provided the copyright
+> +     notice and this notice are preserved.  -->
+> +
+> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+> +<feature name="org.gnu.gdb.loongarch.fpu">
+> +
+> +  <union id="fputype">
+> +    <field name="f" type="ieee_single"/>
+> +    <field name="d" type="ieee_double"/>
+> +  </union>
+> +
+> +  <reg name="f0" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f1" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f2" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f3" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f4" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f5" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f6" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f7" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f8" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f9" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f10" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f11" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f12" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f13" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f14" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f15" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f16" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f17" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f18" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f19" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f20" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f21" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f22" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f23" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f24" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f25" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f26" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f27" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f28" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f29" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f30" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="f31" bitsize="64" type="fputype" group="float"/>
+> +  <reg name="fcc" bitsize="64" type="fputype" group="float"/>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+While this matches upstream gdb, the type of fcc should be uint64_t.
+Interpreting these 8 bits (lsb of each byte) as a double is going to fail badly.
 
 
 r~
