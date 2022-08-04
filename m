@@ -2,69 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48AD589C2D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 15:07:57 +0200 (CEST)
-Received: from localhost ([::1]:60740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65253589BDF
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:46:38 +0200 (CEST)
+Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJaZv-0005QP-Ou
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 09:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38480)
+	id 1oJaFJ-0000oZ-Gs
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJZyh-0004nE-JR; Thu, 04 Aug 2022 08:29:28 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:33822 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJZye-0001bM-Kt; Thu, 04 Aug 2022 08:29:27 -0400
-Received: from [192.168.3.6] (unknown [116.224.155.20])
- by APP-05 (Coremail) with SMTP id zQCowAC3v4uUu+tiDoNwFg--.58128S2;
- Thu, 04 Aug 2022 20:29:09 +0800 (CST)
-Subject: Re: [PATCH] target/riscv: Fix priority of csr related check in
- riscv_csrrw_check
-To: Anup Patel <anup@brainfault.org>
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com
-References: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
- <CAAhSdy0t+iNs8__nUytjuLAcX=FkVyT712+LJ9grmVRpi+cBdA@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <b6844eec-77db-1a6c-a518-7aa934d107d4@iscas.ac.cn>
-Date: Thu, 4 Aug 2022 20:29:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJZyd-0004gj-JT
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:29:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52186)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJZya-0001eG-0X
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:29:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659616158;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+PafkRt2k2EsDey54B2A3UjCyY9uZszSWiQkqKksoDw=;
+ b=FyJLdf3vmq1pP0Aabu5kdOCf1hloeh9QpfNFaVEFY0i+a/I8ijD6rqhSCpp8JLYA27MArC
+ tZypZSE1IzPpEwVxY2e28S76S5cN08J26o5tLU7jBE0p+DYyaPR15bqT4B4wl3TiKy0NEB
+ vjaBLUKT7T00MPjy+VyL1DBVzZTQ/rM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-rvO3M39UPXq_kEz8C-IeqQ-1; Thu, 04 Aug 2022 08:29:17 -0400
+X-MC-Unique: rvO3M39UPXq_kEz8C-IeqQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ w22-20020adf8bd6000000b002206311fb96so2869902wra.12
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 05:29:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:from:to:cc:references:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=+PafkRt2k2EsDey54B2A3UjCyY9uZszSWiQkqKksoDw=;
+ b=pBIte0NEJNwMfzeOfbTZmgBf14CG7v5gYRlXxZAoW6kFUOtAzxk/rCDzw3Cx7GixKG
+ oPbNpIgE9sfYTSRiqv6G1OURB4ULOYi0jZ/XQojiuhToBoFoX4l5bxypP4n/bLVvnXka
+ ZCClLCBAcZR1rIZd1zJBSJojVy92OYirgLU0WzfAcTtZnTMVFeSOdADH/63RHWX3U/ou
+ cp1MTxhPR/lXhROGqxRukIdxjR1SxW5MzRt/8wFoLQGbrDh1hy9FrFfWFT1gxV445omM
+ lpKKB49zKMtfq9uvK+risiDZJ5LDiAwYe66aa4bAq323UV97BRXjeyIhTWn328vuBa3X
+ hknA==
+X-Gm-Message-State: ACgBeo2Lqbhv5vwSkEEJcpzGKXH3o2ylkeQwODrBRGaHBa85lydkfnzC
+ EAjzWO0R/NMrsTijJsljxM3PxJNyMAhu6IvQUtwHZWtN2W3kf7cyijKei4ZPwP22lAeDgd9XUkY
+ cMinE5XAToMnS9P4=
+X-Received: by 2002:a05:6000:2a4:b0:220:687a:cda9 with SMTP id
+ l4-20020a05600002a400b00220687acda9mr1256821wry.187.1659616156293; 
+ Thu, 04 Aug 2022 05:29:16 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR54aIxFzNDXnVc2lM0xypu0s98/EI2VdEpWTLdr3FqJb95onLhB/wIf7BFxYsAOE2f94CdiJA==
+X-Received: by 2002:a05:6000:2a4:b0:220:687a:cda9 with SMTP id
+ l4-20020a05600002a400b00220687acda9mr1256798wry.187.1659616155956; 
+ Thu, 04 Aug 2022 05:29:15 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-42-112-229.web.vodafone.de.
+ [109.42.112.229]) by smtp.gmail.com with ESMTPSA id
+ o15-20020adfcf0f000000b0021d6a520ce9sm1066554wrj.47.2022.08.04.05.29.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Aug 2022 05:29:15 -0700 (PDT)
+Message-ID: <62ef733d-5e40-8913-0b8b-d02afde7486c@redhat.com>
+Date: Thu, 4 Aug 2022 14:29:14 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAAhSdy0t+iNs8__nUytjuLAcX=FkVyT712+LJ9grmVRpi+cBdA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
 Content-Language: en-US
-X-CM-TRANSID: zQCowAC3v4uUu+tiDoNwFg--.58128S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFy8uw4fCFWfuryxXF1DJrb_yoW5uw1Dpw
- 48tw43G3y8XFZrCwsIqFn8XF13Xr1rJw47Aw42k3y8CrnrC34FyF1DWrs29F97XrZ5Cw4I
- vF4qyryxuF4jya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E
- 3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUj0JPtUUUUU==
-X-Originating-IP: [116.224.155.20]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: Thomas Huth <thuth@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
+ mcascell@redhat.com, f4bug@amsat.org
+References: <20220802134834.454749-1-thuth@redhat.com>
+ <CAFEAcA_oZni8G7LeciOywasY2rcEnpo=v01xCaaCTBp5_pDTLQ@mail.gmail.com>
+ <aaa3210f-0c81-5c4e-7757-10fa99f5ac27@redhat.com>
+ <CAFEAcA8Nsa131yeONs7-3H4wq885r1yuCwwSs=O09SS_Q7xUdQ@mail.gmail.com>
+ <d3880c4d-b100-b412-e1f1-4f5c650cc22d@redhat.com>
+ <CAFEAcA9azLEWsK-ewXT_ovsc2u+2ykMMJNK8b9UXdfBZ49w6eA@mail.gmail.com>
+ <d2c8abec-1f87-01e5-a882-8502d9547f39@redhat.com>
+Subject: Re: [PATCH] hw/usb/hcd-xhci: Fix endless loop in case the DMA access
+ fails (CVE-2020-14394)
+In-Reply-To: <d2c8abec-1f87-01e5-a882-8502d9547f39@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,111 +108,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/8/4 上午11:38, Anup Patel 写道:
-> On Wed, Aug 3, 2022 at 6:16 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->> Normally, riscv_csrrw_check is called when executing Zicsr instructions.
->> And we can only do access control for existed CSRs. So the priority of
->> CSR related check, from highest to lowest, should be as follows:
->> 1) check whether Zicsr is supported: raise RISCV_EXCP_ILLEGAL_INST if not
->> 2) check whether csr is existed: raise RISCV_EXCP_ILLEGAL_INST if not
->> 3) do access control: raise RISCV_EXCP_ILLEGAL_INST or RISCV_EXCP_VIRT_
->> INSTRUCTION_FAULT if not allowed
+On 04/08/2022 13.43, Thomas Huth wrote:
+> On 04/08/2022 12.17, Peter Maydell wrote:
+>> On Thu, 4 Aug 2022 at 11:07, Thomas Huth <thuth@redhat.com> wrote:
+>>>
+>>> On 04/08/2022 10.56, Peter Maydell wrote:
+>>>> But the point of TRB_LINK_LIMIT is that regardless of what the
+>>>> contents of the TRBs are, the loop is not supposed to
+>>>> be able to continue for more than TRB_LINK_LIMIT iterations,
+>>>> ie 32 times. In this example case, do we stop after 32 TRBs
+>>>> (case 2) or not (case 1)?
+>>>
+>>> Oh, wait, I think we were maybe looking at different spots. The problem
+>>> likely does not occur in the xhci_ring_fetch() function
+>>> (which you were likely looking at), but only in the xhci_ring_chain_length()
+>>> function (which I was looking at)!
+>>> xhci_ring_chain_length() can certainly continue more than 32 times. In
+>>> xhci_ring_chain_length() the TRB_LINK_LIMIT only applies if "type ==
+>>> TR_LINK", but the TRBs we're talking about here are *not* of type TR_LINK.
 >>
->> The predicates contain parts of function of both 2) and 3), So they need
->> to be placed in the middle of riscv_csrrw_check
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   target/riscv/csr.c | 44 +++++++++++++++++++++++++-------------------
->>   1 file changed, 25 insertions(+), 19 deletions(-)
->>
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index 0fb042b2fd..d81f466c80 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -3270,6 +3270,30 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->>       /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
->>       int read_only = get_field(csrno, 0xC00) == 3;
->>       int csr_min_priv = csr_ops[csrno].min_priv_ver;
->> +
->> +    /* ensure the CSR extension is enabled. */
->> +    if (!cpu->cfg.ext_icsr) {
->> +        return RISCV_EXCP_ILLEGAL_INST;
->> +    }
->> +
->> +    if (env->priv_ver < csr_min_priv) {
->> +        return RISCV_EXCP_ILLEGAL_INST;
-> This line breaks nested virtualization because for nested virtualization
-> to work, the guest hypervisor accessing h<xyz> and vs<xyz> CSRs from
-> VS-mode should result in a virtual instruction trap not illegal
-> instruction trap.
->
-> Regards,
-> Anup
+>> That sounds like we do still have an unbounded-loop problem,
+>> then: there's no limit on the number of consecutive TRBs
+>> we try to read in that function. Maybe we're missing an
+>> error check of some kind (does the spec limit how many
+>> consecutive TRBs there can be somehow?) or else we need
+>> another artificial limit.
+> 
+> I'm not an XHCI expert at all, but while at least having a quick glance at 
+> the spec, I did not see any limit there. So I assume that we should enforce 
+> an artificial limit? What would be a good value for this? Gerd, do you maybe 
+> have any opinion?
 
-Do you mean "if (env->priv_ver < csr_min_priv)" ?
+Ok, after looking at the spec a little bit longer, I discovered chapter "6 
+Data Structures", where they say that Transfer Ring segments should be 
+limited to 64kB each. That sounds like a reasonable limit. I'll update my 
+patch accordingly.
 
-If so, I think illegal instruction trap is better, since the csr is not 
-implemented(or existed) when
-
-env->priv_ver < csr_min_priv and virtual instruction trap is only raised 
-for implemented csr access.
-
-Regards,
-
-Weiwei Li
-
->> +    }
->> +
->> +    /* check predicate */
->> +    if (!csr_ops[csrno].predicate) {
->> +        return RISCV_EXCP_ILLEGAL_INST;
->> +    }
->> +
->> +    if (write_mask && read_only) {
->> +        return RISCV_EXCP_ILLEGAL_INST;
->> +    }
->> +
->> +    RISCVException ret = csr_ops[csrno].predicate(env, csrno);
->> +    if (ret != RISCV_EXCP_NONE) {
->> +        return ret;
->> +    }
->> +
->>   #if !defined(CONFIG_USER_ONLY)
->>       int csr_priv, effective_priv = env->priv;
->>
->> @@ -3290,25 +3314,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->>           return RISCV_EXCP_ILLEGAL_INST;
->>       }
->>   #endif
->> -    if (write_mask && read_only) {
->> -        return RISCV_EXCP_ILLEGAL_INST;
->> -    }
->> -
->> -    /* ensure the CSR extension is enabled. */
->> -    if (!cpu->cfg.ext_icsr) {
->> -        return RISCV_EXCP_ILLEGAL_INST;
->> -    }
->> -
->> -    /* check predicate */
->> -    if (!csr_ops[csrno].predicate) {
->> -        return RISCV_EXCP_ILLEGAL_INST;
->> -    }
->> -
->> -    if (env->priv_ver < csr_min_priv) {
->> -        return RISCV_EXCP_ILLEGAL_INST;
->> -    }
->> -
->> -    return csr_ops[csrno].predicate(env, csrno);
->> +    return RISCV_EXCP_NONE;
->>   }
->>
->>   static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
->> --
->> 2.17.1
->>
->>
+  Thomas
 
 
