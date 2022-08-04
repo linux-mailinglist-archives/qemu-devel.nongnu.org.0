@@ -2,72 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC9C589929
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 10:17:36 +0200 (CEST)
-Received: from localhost ([::1]:37786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FB1589944
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 10:27:57 +0200 (CEST)
+Received: from localhost ([::1]:47766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJW2x-00005L-FL
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 04:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46160)
+	id 1oJWCy-00076y-Uv
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 04:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oJVsN-0006Ne-Bg
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:06:43 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41866)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJVwd-000170-Vv
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:11:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oJVsK-0000yu-Sy
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:06:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=HptuR0i4QspGd+TOPMA3/b0GkUEODlDN0c+jP9/WANA=; b=V0fnUroXey5BzXr2iJ19oQU1Iw
- DpMNUGVgzhoO9VFXmSn0aqN2MXAnUHK5IMSXxUgGShPbb/JEVbLPCow47ElRUZIyemIcenF9yphh2
- zUVQqDnV+peKTdnJsN8qNm3qNx8JqWERGMctOs5G/ExqL1zHO6JyXHUvC7+elJ35wgAkKzxYZBXrG
- KwTgg/IGK0fbUD9FvLkZdGwLngManCtxuKsGTl30VQPuToh5TKwHLJh3Ww/D8zsWzSDuUySrgrTib
- paGsxFOcE6pMEoIVvncj1UIPlKKBm569xdbHoHoYcDr22QQyhJH62v43CgOyWvbJbVmfM/ODi0lCn
- DjkUfdtOfk7Ta3AnbGAbHe9WNW/BE0nqvRPmU/ySL8gBstc9BpVkD6qTxtMsn9LsFeCNHcqzGVnw7
- c9gbePRi6IgmEnxL2WPLlKWQ7GXGyOWVuQBgWLPwjqHJdL2kSHYyoRXPPZF4IakaLmH73jMnnIW1o
- d1c0ldb732YOb0EcfY1dCKO1bijkDxK4y8j7ENyjmMoHNYvUQeze+RsZCRU3aqqXVNqpUQECUdxKR
- 7BIxEU1rMpU6DRalLurjD7D98Sg1dR1QKwIctZrqtC1NoEelcoA1eR+kkz7vrVG9Te7pvShxoIial
- omEKerhvx7r8BO7CMkhWounbsJSaw7t/FmbM00ujw=;
-Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oJVqq-0006at-Sj; Thu, 04 Aug 2022 09:05:09 +0100
-Message-ID: <1051ad7c-cadf-4202-588e-ead4f2db8172@ilande.co.uk>
-Date: Thu, 4 Aug 2022 09:06:28 +0100
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJVwZ-0001fI-Nk
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 04:11:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659600658;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S86/SvOANPHYq1diAeJuBUCaBbGivvqLxEhD/92p/98=;
+ b=bRGyQWhhdoTWoEGrR2pVzZbcWtE85e9dzNvy8UZLAYnuG72QTBNdsae1B4S1EroYpViYfX
+ P82niptHQF5VpLz0z/1rrR+DxRjtvw7bDbLQF/ep3tYOU6+r0C38gqUuS4AS1JFpj5Lm+3
+ DiA6bnTjlD0D1Ct8Ry5Abbf5TQcFHyg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-31-8Ex0IyhTOkqmMVor8EUGGg-1; Thu, 04 Aug 2022 04:10:54 -0400
+X-MC-Unique: 8Ex0IyhTOkqmMVor8EUGGg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d6-20020adfa346000000b002206e4c29caso1863556wrb.8
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 01:10:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=S86/SvOANPHYq1diAeJuBUCaBbGivvqLxEhD/92p/98=;
+ b=AMs1O/kSSitdO0Vd99TfblCfV9/dSQcilcWwew7ociLpvWvPeA/omshHS8qjbyv4pW
+ S1Uq9VqP78OYkgEwd7PgYUCBZv+WYOiikkHczVUHCbFxgRA9LKVRB2hge7wHze+hdcf1
+ TwbUzyjp7CC4FprFppQBqYtPutslVi2f9KZQmS8mkA+XrtVYAx0SoC8VFGjZl8U+/q6v
+ 8TtkF99TB55V/0Yzv2XeR1cFN+lcrEn0i5yc0xT/mpUoFfowBUacDxkQDrGlGtYHKVKD
+ 4G/NPwkLq/bmYZco906/lY4K9OcKCWcWbxxiZg3Lw5hdqVxgPvtK+xV5Ixlw2a5dctZU
+ jwvQ==
+X-Gm-Message-State: ACgBeo251Ux+H2lDX4N9OixhKpZsy9M0Bq8bRKzyMrtKS3NTnYcjbqpU
+ V2ODLpf85AqyzdDTkneWXgfDqQLIyLZTB79ugadWsq8x40CSeA5rI0CUNfZXdCCzeB57TLocweV
+ yVf74mqn3w0SwhAU=
+X-Received: by 2002:a5d:6e88:0:b0:21a:3403:9aa0 with SMTP id
+ k8-20020a5d6e88000000b0021a34039aa0mr570192wrz.379.1659600653770; 
+ Thu, 04 Aug 2022 01:10:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7tc7/wnKYi7Y1fTlvahbhCHItV9hstIFTYDl1/Xk8zibqjiR8dic6JO5L7V4yb75v9/Fp7ng==
+X-Received: by 2002:a5d:6e88:0:b0:21a:3403:9aa0 with SMTP id
+ k8-20020a5d6e88000000b0021a34039aa0mr570173wrz.379.1659600653443; 
+ Thu, 04 Aug 2022 01:10:53 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c706:8900:2c18:b992:1fa1:f88b?
+ (p200300cbc70689002c18b9921fa1f88b.dip0.t-ipconnect.de.
+ [2003:cb:c706:8900:2c18:b992:1fa1:f88b])
+ by smtp.gmail.com with ESMTPSA id
+ n18-20020a05600c501200b003a2d47d3051sm532303wmr.41.2022.08.04.01.10.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Aug 2022 01:10:53 -0700 (PDT)
+Message-ID: <60ae0ada-a99b-f6a8-93c3-f55db2480458@redhat.com>
+Date: Thu, 4 Aug 2022 10:10:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.11.0
 Content-Language: en-US
-To: John Millikin <john@john-millikin.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
-References: <20220726034206.515097-1-john@john-millikin.com>
- <Yue0EG3h5SSpuzjJ@john-millikin.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <Yue0EG3h5SSpuzjJ@john-millikin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: freude@linux.ibm.com, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Holger Dengler <dengler@linux.ibm.com>
+References: <Yul0G2YCKLXiypvv@zx2c4.com>
+ <20220802190011.458871-1-Jason@zx2c4.com>
+ <20220802190011.458871-3-Jason@zx2c4.com>
+ <5758f0a3-ee4e-97d4-3e32-469b56029208@redhat.com>
+ <YupmwgYFShLfP8Xd@zx2c4.com> <0ff11adb819138cfed16dfb489b66f6f@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v4 2/2] target/s390x: support SHA-512 extensions
+In-Reply-To: <0ff11adb819138cfed16dfb489b66f6f@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] scsi-disk: support setting CD-ROM block size via device
- options.
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,70 +112,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/08/2022 12:08, John Millikin wrote:
-
-> Gentle ping -- this is my first time sending a patch for QEMU and it
-> hasn't shown up in the qemu-devel mailing list web UI yet, so I can't
-> tell whether the mail is being sent/received successfully.
+On 04.08.22 08:51, Harald Freudenberger wrote:
+> On 2022-08-03 14:14, Jason A. Donenfeld wrote:
+>> Hi David,
+>>
+>> On Wed, Aug 03, 2022 at 01:55:21PM +0200, David Hildenbrand wrote:
+>>> On 02.08.22 21:00, Jason A. Donenfeld wrote:
+>>>> In order to fully support MSA_EXT_5, we have to also support the SHA-512
+>>>> special instructions. So implement those.
+>>>>
+>>>> The implementation began as something TweetNacl-like, and then was
+>>>> adjusted to be useful here. It's not very beautiful, but it is quite
+>>>> short and compact, which is what we're going for.
+>>>>
+>>>
+>>> Do we have to worry about copyright/authorship of the original code or
+>>> did you write that from scratch?
+>>
+>> I actually don't really remember how much of that is leftover from
+>> tweetnacl and how much I've rewritten - I've had some variant of this
+>> code or another kicking around in various projects and repos for a long
+>> time. But the tweetnacl stuff is public domain to begin with, so all
+>> good.
+>>
+>>> Are we properly handling the length register (r2 + 1) in the
+>>> 24-bit/31-bit addressing mode?
+>>> Similarly, are we properly handling updates to the message register 
+>>> (r2)
+>>> depending on the addressing mode?
+>>
+>> Ugh, probably not... I didn't do any of the deposit_64 stuff. I guess
+>> I'll look into that.
+>>
+>>> It's worth noting that we might want to implement (also for 
+>>> PRNO-TRNG):
+>>>
+>>> "The operation is ended when all
+>>> source bytes in the second operand have been pro-
+>>> cessed (called normal completion), or when a CPU-
+>>> determined number of blocks that is less than the
+>>> length of the second operand have been processed
+>>> (called partial completion). The CPU-determined
+>>> number of blocks depends on the model, and may be
+>>> a different number each time the instruction is exe-
+>>> cuted. The CPU-determined number of blocks is usu-
+>>> ally nonzero. In certain unusual situations, this
+>>> number may be zero, and condition code 3 may be
+>>> set with no progress."
+>>>
+>>> Otherwise, a large length can make us loop quite a while in QEMU,
+>>> without the chance to deliver any other interrupts.
+>>
+>> Hmm, okay. Looking at the Linux code, I see:
+>>
+>>         s.even = (unsigned long)src;
+>>         s.odd  = (unsigned long)src_len;
+>>         asm volatile(
+>>                 "       lgr     0,%[fc]\n"
+>>                 "       lgr     1,%[pba]\n"
+>>                 "0:     .insn   rre,%[opc] << 16,0,%[src]\n"
+>>                 "       brc     1,0b\n" /* handle partial completion */
+>>                 : [src] "+&d" (s.pair)
+>>                 : [fc] "d" (func), [pba] "d" ((unsigned long)(param)),
+>>                   [opc] "i" (CPACF_KIMD)
+>>                 : "cc", "memory", "0", "1");
+>>
+>> So I guess that means it'll just loop until it's done? Or do I need to
+>> return "1" from HELPER(msa)?
+>>
+>> Jason
 > 
-> On Tue, Jul 26, 2022 at 12:42:06PM +0900, John Millikin wrote:
->> SunOS expects CD-ROM devices to have a block size of 512, and will
->> fail to mount or install using QEMU's default block size of 2048.
->>
->> When initializing the SCSI device, allow the `physical_block_device'
->> block device option to override the default block size.
->>
->> Signed-off-by: John Millikin <john@john-millikin.com>
->> ---
->>   hw/scsi/scsi-disk.c | 7 ++++++-
->>   1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
->> index f5cdb9ad4b..acdf8dc05c 100644
->> --- a/hw/scsi/scsi-disk.c
->> +++ b/hw/scsi/scsi-disk.c
->> @@ -2533,6 +2533,7 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
->>       SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
->>       AioContext *ctx;
->>       int ret;
->> +    uint32_t blocksize = 2048;
->>   
->>       if (!dev->conf.blk) {
->>           /* Anonymous BlockBackend for an empty drive. As we put it into
->> @@ -2542,9 +2543,13 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
->>           assert(ret == 0);
->>       }
->>   
->> +    if (dev->conf.physical_block_size != 0) {
->> +        blocksize = dev->conf.physical_block_size;
->> +    }
->> +
->>       ctx = blk_get_aio_context(dev->conf.blk);
->>       aio_context_acquire(ctx);
->> -    s->qdev.blocksize = 2048;
->> +    s->qdev.blocksize = blocksize;
->>       s->qdev.type = TYPE_ROM;
->>       s->features |= 1 << SCSI_DISK_F_REMOVABLE;
->>       if (!s->product) {
->> -- 
->> 2.25.1
+> Hm, you don't really want to implement some kind of particial complete.
+> Qemu is an emulation and you would have to implement some kind of
+> fragmenting this based on machine generation.
 
-Hi John,
+Do we?
 
-I saw this reply but didn't see the original patch - were you subscribed to the list 
-before you first sent it? If not, it may be that it got caught in a moderation queue 
-somewhere.
+"The
+CPU-determined number of bytes depends on the
+model, and may be a different number each time the
+instruction is executed. The CPU-determined number
+of bytes is usually nonzero. In certain unusual situa-
+tions, this number may be zero, and condition code 3
+may be set with no progress. However, the CPU pro-
+tects against endless recurrence of this no-progress
+case.
+"
 
-The CC email addresses look right, but do bear in mind that people are busy as the 
-7.1 release is just around the corner and so may not get to your patch right away.
+I read that as "do what you want, even on a given model it might be random."
 
-The reason your patch caught my eye is that I've been having a similar discussion on 
-Gitlab at https://gitlab.com/qemu-project/qemu/-/issues/1127. Could you check your 
-git send-email configuration and then try and resend your patch to see if it appears 
-on the list?
+-- 
+Thanks,
 
+David / dhildenb
 
-ATB,
-
-Mark.
 
