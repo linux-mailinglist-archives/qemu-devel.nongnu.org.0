@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B8D589CE4
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 15:39:31 +0200 (CEST)
-Received: from localhost ([::1]:39390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADDF589CCD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 15:37:29 +0200 (CEST)
+Received: from localhost ([::1]:34638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJb4U-0008QZ-Pw
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 09:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52798)
+	id 1oJb2V-0005C4-El
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 09:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1oJauo-0005BW-HO
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:29:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37139)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJawZ-0007lf-1G
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:31:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1oJaum-00053b-Er
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:29:29 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJawW-0005ax-4R
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 09:31:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659619767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/84fpUO6hKG0Jo+ljocrC/pD3HlZWfu88c0JTcVXbEw=;
- b=g415WqGXwo/ToXu+bmQK09T/r1yb7KdGxxhr0dN3bUDVAWD+8DnNU40MIS7XcQj0yQKnIE
- dJ15hv2U0NQvI8TkrNPtK/qiWbfCoa39DJL3vPhi07E3lPLJREtLGr+KZ+SAxC7RA2vsos
- pwsyaLFi/To9txD5pKnU3yxDXN0wj9w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1659619875;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=NZ14lMKUaKBxQcyS0C+9gvh4C3UE7LLL5hxrs4YzDVI=;
+ b=hbw1/6c47yn/bUYRJKvZcfPJKnchRHtTbI+EuFZ/pCkX/RPslG3tNcJiOWfx+WT+f4JW0d
+ DW7eUPAVVbvRTJ6gPebkKsclolevbORhJimVlrpyQEfofsurYzAl92TtMveu3GwiH0+eKN
+ VXZAplBcFeYXvcgOUgT+FyRKV31l6eQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-sx2-UpmsNA646ENd41Bsgw-1; Thu, 04 Aug 2022 09:29:24 -0400
-X-MC-Unique: sx2-UpmsNA646ENd41Bsgw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-81-Y6z0oVExN2eB7ZDwabf_CQ-1; Thu, 04 Aug 2022 09:31:12 -0400
+X-MC-Unique: Y6z0oVExN2eB7ZDwabf_CQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 167C518E0044;
- Thu,  4 Aug 2022 13:29:24 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.192.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84CC31121314;
- Thu,  4 Aug 2022 13:29:21 +0000 (UTC)
-Subject: Re: [PATCH v2] hw/i386: place setup_data at fixed place in memory
-From: Laszlo Ersek <lersek@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E9D1280EE22;
+ Thu,  4 Aug 2022 13:31:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F1BB40CF8EA;
+ Thu,  4 Aug 2022 13:31:09 +0000 (UTC)
+Date: Thu, 4 Aug 2022 14:31:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>, =?UTF-8?Q?Daniel_P._Berrang=c3=a9?=
- <berrange@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- linux-efi <linux-efi@vger.kernel.org>
-References: <YusVVLNbLgsk49PK@zx2c4.com>
- <20220804004411.1343158-1-Jason@zx2c4.com>
- <20220804030012-mutt-send-email-mst@kernel.org>
- <bfa5704d-755c-5a52-e7cc-bd9b34e5bb03@redhat.com>
- <YuuQb3D/YY1SiUqY@redhat.com>
- <CAMj1kXFr6Bv4_G0-wCTu4fp_iCrG060NHJx_j2dbnyiFJKYYeQ@mail.gmail.com>
- <eadc852a-63f9-a017-aef7-f046eb56e28f@redhat.com>
- <Yuu3YeTRLE/gx6YC@zx2c4.com>
- <CAHmME9qQQZH1+Dy4zY5L-MdxN4kXtujW9XaH1x+RyCn-SjsTOA@mail.gmail.com>
- <5528ca40-50fb-8e92-7f24-80e20c4c983e@redhat.com>
-Message-ID: <5f947ca6-b178-9943-ece6-d6844285f8ee@redhat.com>
-Date: Thu, 4 Aug 2022 15:29:19 +0200
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] pc: add property for Linux setup_data seed
+Message-ID: <YuvKGrUsSAzQEzfL@redhat.com>
+References: <20220804131320.395015-1-pbonzini@redhat.com>
+ <YuvHu3NW592rGFXz@zx2c4.com>
 MIME-Version: 1.0
-In-Reply-To: <5528ca40-50fb-8e92-7f24-80e20c4c983e@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+Content-Disposition: inline
+In-Reply-To: <YuvHu3NW592rGFXz@zx2c4.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,57 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/04/22 15:16, Laszlo Ersek wrote:
-> On 08/04/22 14:47, Jason A. Donenfeld wrote:
->> On Thu, Aug 4, 2022 at 2:11 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->>>
->>> Hi Laszlo,
->>>
->>> On Thu, Aug 04, 2022 at 01:31:36PM +0200, Laszlo Ersek wrote:
->>>> None of the existing info passing methods seem early enough, generic
->>>> enough, and secure enough (at the same time)...
->>>
->>> Can you look at the v2 patch? It seems to work on every configuration I
->>> throw at it. Keep in mind that setup_data is only used very, very early.
->>> I can think of a few other places to put it too, looking at the x86
->>> memory map, that will survive long enough.
->>>
->>> I think this might actually be a straightforwardly solvable problem if
->>> you think about it more basically.
->>
->> And just to put things in perspective here... We only need like 48
->> bytes or something at some easy fixed address. That's not much. That's
->> *got* to be a fairly tractable problem. If v2 has issues, I can't see
->> why there wouldn't be a different easy place to put a meger 48 bytes
->> of stuff that then is allowed to be wiped out after early boot.
+On Thu, Aug 04, 2022 at 03:20:59PM +0200, Jason A. Donenfeld wrote:
+> On Thu, Aug 04, 2022 at 03:13:20PM +0200, Paolo Bonzini wrote:
+> > Using a property makes it possible to use the normal compat property
+> > mechanism instead of ad hoc code; it avoids parameter proliferation
+> > in x86_load_linux; and allows shipping the code even if it is
+> > disabled by default.
 > 
-> I've looked at v2. It still relies on passing information from QEMU to
-> the guest kernel through guest RAM such that the whole firmware
-> execution takes place in-between, without the firmware knowing anything
-> about that particular area -- effectively treating it as free system
-> RAM. Such exceptions are time bombs.
+> Strong NACK from me here.
 > 
-> We *have* used hard-coded addresses, sometimes they are unavoidable, but
-> then they are open-coded in both QEMU and the firmware, and some early
-> part of the firmware takes care to either move the data to a "safe"
-> place, or to cover it in-place with a kind of reservation that prevents
-> other parts of the firmware from trampling over it. I've debugged
-> mistakes (memory corruption) when such reservation was forgotten; it's
-> not fun.
+> If this kind of thing is off by default, it's as good as useless. Indeed
+> it shouldn't even be a knob at all. Don't do this.
 
-Reference:
+You're misunderstanding the patch. This remains on by default for
+ the 7.1 machine type.
 
-https://github.com/tianocore/edk2/commit/ad43bc6b2e
+The patch is merely exposing a knob so that users can override the
+built-in default if they need to. Imagine if we had shipped this
+existing code before today's bugs were discovered.  The knob
+proposed her would allow users to turn off the broken pieces.
+This is a good thing.
 
-> 
-> In short, I have nothing against the QEMU patch, but then the current
-> OvmfPkg maintainers should accept a patch for the firmware too, for
-> protecting the area from later firmware components, as early as possible.
-> 
-> Laszlo
-> 
+> Rather, let's fix the bug. The code as-is -- going back to the 2016 DTB
+> addition -- is problematic and needs to be fixed. So let's fix that.
+> Trying to cover up the problem with a default-off knob just ensures this
+> stuff will never be made to work right.
+
+It isn't covering up the problem, just providing a workaround
+option, should another bug be discovered after release. We
+still need to fix current discussed problems of course.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
