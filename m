@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4196A58A0A2
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:41:12 +0200 (CEST)
-Received: from localhost ([::1]:36730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E547A58A082
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:29:05 +0200 (CEST)
+Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJfmR-0004ag-AF
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60914)
+	id 1oJfai-0007gp-U4
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfPw-0005zW-7T
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:17:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22713)
+ id 1oJfQ1-00061z-Mt
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:18:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfPu-0001FA-33
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:17:55 -0400
+ id 1oJfPz-0001G4-Ow
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:18:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659637073;
+ s=mimecast20190719; t=1659637079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0YxI/0ZTCBCCZEzbzofzIBZ7fTOGvTQV1XF3Qc6vPOM=;
- b=Wgxo1DykkC3VbwqJfp5MCFe3zJ5H2UiGz7gqXimK7tlabaXbh2/UTNmBzTKMhabLJ98G9b
- BxGLPi+ojtCeCbXawezsJ9mUgJnpVdcoEOvMuBelDVOfj6QmETO6yIbxgOm3ouQfJzY8+n
- WcY9NQdM0j8kty4L/NQzbaZTsZmM+tU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CxXOKA/Fw5lDrXBqL8eBVuEh61tj8tNUT0uOYD2kVDA=;
+ b=R+UV9vLVHYis9DG47Jxi+IyhmeFghCm/u43l6E5BKs8GkNPhJiTNHv+G3jFpFUnZhYjRCj
+ nV0abdQB1cHWOB4ftg4etOSNagmMoPD8BOmXD76lNRNWDqyr/8VLDaNS/k8pPM3fi6hDN1
+ kOcARDc8Xol06NRqGHz8GXACKhn7y0I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-83-pH5NxgfqN6qdb87ixJEqhg-1; Thu, 04 Aug 2022 14:17:52 -0400
-X-MC-Unique: pH5NxgfqN6qdb87ixJEqhg-1
+ us-mta-13-l7Nhhv_EPVejjZGqJ4HB5A-1; Thu, 04 Aug 2022 14:17:55 -0400
+X-MC-Unique: l7Nhhv_EPVejjZGqJ4HB5A-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA4AD85A584;
- Thu,  4 Aug 2022 18:17:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BAF0280400A;
+ Thu,  4 Aug 2022 18:17:55 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1309492C3B;
- Thu,  4 Aug 2022 18:17:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D33E492CA5;
+ Thu,  4 Aug 2022 18:17:52 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -55,9 +55,9 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v6 07/12] vdpa: add net_vhost_vdpa_cvq_info NetClientInfo
-Date: Thu,  4 Aug 2022 20:17:17 +0200
-Message-Id: <20220804181722.701067-8-eperezma@redhat.com>
+Subject: [PATCH v6 08/12] vdpa: Move command buffers map to start of net device
+Date: Thu,  4 Aug 2022 20:17:18 +0200
+Message-Id: <20220804181722.701067-9-eperezma@redhat.com>
 In-Reply-To: <20220804181722.701067-1-eperezma@redhat.com>
 References: <20220804181722.701067-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,47 +88,234 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Next patches will add a new info callback to restore NIC status through
-CVQ. Since only the CVQ vhost device is needed, create it with a new
-NetClientInfo.
+As this series will reuse them to restore the device state at the end of
+a migration (or a device start), let's allocate only once at the device
+start so we don't duplicate their map and unmap.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
-v5: Create a new NetClientInfo instead of reusing the dataplane one.
----
- net/vhost-vdpa.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ net/vhost-vdpa.c | 123 ++++++++++++++++++++++-------------------------
+ 1 file changed, 58 insertions(+), 65 deletions(-)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index ac1810723c..55e8a39a56 100644
+index 55e8a39a56..2c6a26cca0 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -334,6 +334,16 @@ static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
-     return true;
+@@ -263,29 +263,20 @@ static size_t vhost_vdpa_net_cvq_cmd_page_len(void)
+     return ROUND_UP(vhost_vdpa_net_cvq_cmd_len(), qemu_real_host_page_size());
  }
  
-+static NetClientInfo net_vhost_vdpa_cvq_info = {
-+    .type = NET_CLIENT_DRIVER_VHOST_VDPA,
-+    .size = sizeof(VhostVDPAState),
-+    .receive = vhost_vdpa_receive,
-+    .cleanup = vhost_vdpa_cleanup,
-+    .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
-+    .has_ufo = vhost_vdpa_has_ufo,
-+    .check_peer_type = vhost_vdpa_check_peer_type,
-+};
+-/** Copy and map a guest buffer. */
+-static bool vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v,
+-                                   const struct iovec *out_data,
+-                                   size_t out_num, size_t data_len, void *buf,
+-                                   size_t *written, bool write)
++/** Map CVQ buffer. */
++static int vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v, void *buf, size_t size,
++                                  bool write)
+ {
+     DMAMap map = {};
+     int r;
+ 
+-    if (unlikely(!data_len)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid legnth of %s buffer\n",
+-                      __func__, write ? "in" : "out");
+-        return false;
+-    }
+-
+-    *written = iov_to_buf(out_data, out_num, 0, buf, data_len);
+     map.translated_addr = (hwaddr)(uintptr_t)buf;
+-    map.size = vhost_vdpa_net_cvq_cmd_page_len() - 1;
++    map.size = size - 1;
+     map.perm = write ? IOMMU_RW : IOMMU_RO,
+     r = vhost_iova_tree_map_alloc(v->iova_tree, &map);
+     if (unlikely(r != IOVA_OK)) {
+         error_report("Cannot map injected element");
+-        return false;
++        return r;
+     }
+ 
+     r = vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_len(), buf,
+@@ -294,50 +285,58 @@ static bool vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v,
+         goto dma_map_err;
+     }
+ 
+-    return true;
++    return 0;
+ 
+ dma_map_err:
+     vhost_iova_tree_remove(v->iova_tree, &map);
+-    return false;
++    return r;
+ }
+ 
+-/**
+- * Copy the guest element into a dedicated buffer suitable to be sent to NIC
+- *
+- * @iov: [0] is the out buffer, [1] is the in one
+- */
+-static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+-                                        VirtQueueElement *elem,
+-                                        struct iovec *iov)
++static int vhost_vdpa_net_cvq_prepare(NetClientState *nc)
+ {
+-    size_t in_copied;
+-    bool ok;
++    VhostVDPAState *s;
++    int r;
+ 
+-    iov[0].iov_base = s->cvq_cmd_out_buffer;
+-    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, elem->out_num,
+-                                vhost_vdpa_net_cvq_cmd_len(), iov[0].iov_base,
+-                                &iov[0].iov_len, false);
+-    if (unlikely(!ok)) {
+-        return false;
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
 +
- /**
++    s = DO_UPCAST(VhostVDPAState, nc, nc);
++    if (!s->vhost_vdpa.shadow_vqs_enabled) {
++        return 0;
+     }
+ 
+-    iov[1].iov_base = s->cvq_cmd_in_buffer;
+-    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, NULL, 0,
+-                                sizeof(virtio_net_ctrl_ack), iov[1].iov_base,
+-                                &in_copied, true);
+-    if (unlikely(!ok)) {
++    r = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer,
++                               vhost_vdpa_net_cvq_cmd_page_len(), false);
++    if (unlikely(r < 0)) {
++        return r;
++    }
++
++    r = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_in_buffer,
++                               vhost_vdpa_net_cvq_cmd_page_len(), true);
++    if (unlikely(r < 0)) {
+         vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
+-        return false;
+     }
+ 
+-    iov[1].iov_len = sizeof(virtio_net_ctrl_ack);
+-    return true;
++    return r;
++}
++
++static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
++{
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    if (s->vhost_vdpa.shadow_vqs_enabled) {
++        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
++        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_in_buffer);
++    }
+ }
+ 
+ static NetClientInfo net_vhost_vdpa_cvq_info = {
+     .type = NET_CLIENT_DRIVER_VHOST_VDPA,
+     .size = sizeof(VhostVDPAState),
+     .receive = vhost_vdpa_receive,
++    .prepare = vhost_vdpa_net_cvq_prepare,
++    .stop = vhost_vdpa_net_cvq_stop,
+     .cleanup = vhost_vdpa_cleanup,
+     .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
+     .has_ufo = vhost_vdpa_has_ufo,
+@@ -348,19 +347,17 @@ static NetClientInfo net_vhost_vdpa_cvq_info = {
   * Do not forward commands not supported by SVQ. Otherwise, the device could
   * accept it and qemu would not know how to update the device model.
-@@ -475,7 +485,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-         nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device,
-                                  name);
-     } else {
--        nc = qemu_new_net_control_client(&net_vhost_vdpa_info, peer,
-+        nc = qemu_new_net_control_client(&net_vhost_vdpa_cvq_info, peer,
-                                          device, name);
+  */
+-static bool vhost_vdpa_net_cvq_validate_cmd(const struct iovec *out,
+-                                            size_t out_num)
++static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_t len)
+ {
+     struct virtio_net_ctrl_hdr ctrl;
+-    size_t n;
+ 
+-    n = iov_to_buf(out, out_num, 0, &ctrl, sizeof(ctrl));
+-    if (unlikely(n < sizeof(ctrl))) {
++    if (unlikely(len < sizeof(ctrl))) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid legnth of out buffer %zu\n", __func__, n);
++                      "%s: invalid legnth of out buffer %zu\n", __func__, len);
+         return false;
      }
-     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
+ 
++    memcpy(&ctrl, out_buf, sizeof(ctrl));
+     switch (ctrl.class) {
+     case VIRTIO_NET_CTRL_MAC:
+         switch (ctrl.cmd) {
+@@ -392,10 +389,14 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+     VhostVDPAState *s = opaque;
+     size_t in_len, dev_written;
+     virtio_net_ctrl_ack status = VIRTIO_NET_ERR;
+-    /* out and in buffers sent to the device */
+-    struct iovec dev_buffers[2] = {
+-        { .iov_base = s->cvq_cmd_out_buffer },
+-        { .iov_base = s->cvq_cmd_in_buffer },
++    /* Out buffer sent to both the vdpa device and the device model */
++    struct iovec out = {
++        .iov_base = s->cvq_cmd_out_buffer,
++    };
++    /* In buffer sent to the device */
++    const struct iovec dev_in = {
++        .iov_base = s->cvq_cmd_in_buffer,
++        .iov_len = sizeof(virtio_net_ctrl_ack),
+     };
+     /* in buffer used for device model */
+     const struct iovec in = {
+@@ -405,17 +406,15 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+     int r = -EINVAL;
+     bool ok;
+ 
+-    ok = vhost_vdpa_net_cvq_map_elem(s, elem, dev_buffers);
+-    if (unlikely(!ok)) {
+-        goto out;
+-    }
+-
+-    ok = vhost_vdpa_net_cvq_validate_cmd(&dev_buffers[0], 1);
++    out.iov_len = iov_to_buf(elem->out_sg, elem->out_num, 0,
++                             s->cvq_cmd_out_buffer,
++                             vhost_vdpa_net_cvq_cmd_len());
++    ok = vhost_vdpa_net_cvq_validate_cmd(s->cvq_cmd_out_buffer, out.iov_len);
+     if (unlikely(!ok)) {
+         goto out;
+     }
+ 
+-    r = vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, elem);
++    r = vhost_svq_add(svq, &out, 1, &dev_in, 1, elem);
+     if (unlikely(r != 0)) {
+         if (unlikely(r == -ENOSPC)) {
+             qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device queue\n",
+@@ -435,13 +434,13 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+         goto out;
+     }
+ 
+-    memcpy(&status, dev_buffers[1].iov_base, sizeof(status));
++    memcpy(&status, s->cvq_cmd_in_buffer, sizeof(status));
+     if (status != VIRTIO_NET_OK) {
+         goto out;
+     }
+ 
+     status = VIRTIO_NET_ERR;
+-    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, dev_buffers, 1);
++    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, &out, 1);
+     if (status != VIRTIO_NET_OK) {
+         error_report("Bad CVQ processing in model");
+     }
+@@ -454,12 +453,6 @@ out:
+     }
+     vhost_svq_push_elem(svq, elem, MIN(in_len, sizeof(status)));
+     g_free(elem);
+-    if (dev_buffers[0].iov_base) {
+-        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, dev_buffers[0].iov_base);
+-    }
+-    if (dev_buffers[1].iov_base) {
+-        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, dev_buffers[1].iov_base);
+-    }
+     return r;
+ }
+ 
 -- 
 2.31.1
 
