@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F3A589511
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:58:38 +0200 (CEST)
-Received: from localhost ([::1]:53244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CA1589566
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 02:42:03 +0200 (CEST)
+Received: from localhost ([::1]:35552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJOG3-0001eh-R8
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39184)
+	id 1oJOw6-0003VD-Kn
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 20:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJOEC-00083t-H0; Wed, 03 Aug 2022 19:56:40 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:33904)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
+ id 1oJOuL-0001bB-1g
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 20:40:13 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:36960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJOE9-0004qu-VQ; Wed, 03 Aug 2022 19:56:39 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DE6D27462D3;
- Thu,  4 Aug 2022 01:56:30 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A55487461AE; Thu,  4 Aug 2022 01:56:30 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A3D8E745702;
- Thu,  4 Aug 2022 01:56:30 +0200 (CEST)
-Date: Thu, 4 Aug 2022 01:56:30 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/ppc: sam460ex.c: store all GPIO lines in mal_irqs[]
-In-Reply-To: <20220803233204.2724202-1-danielhb413@gmail.com>
-Message-ID: <92e46367-e98c-e58-6865-fb9d035679@eik.bme.hu>
-References: <20220803233204.2724202-1-danielhb413@gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
+ id 1oJOuD-0004Qj-6I
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 20:40:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C49C061745;
+ Thu,  4 Aug 2022 00:39:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 270F7C433D6;
+ Thu,  4 Aug 2022 00:39:53 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="fjyTt1s0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659573591;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dvSXlWD+cS9yGOzybyFGDKHO/SGsFqKKLZblP+7jNRE=;
+ b=fjyTt1s0K4PmgcKdDSS2CXfWUyFTpYssqh0lf0T5W+BwqNdgaxm9tbyq+sryjOBc/rNoV3
+ LUiYDlkZ21fRnAOQBm4qTpKq6wCTZEg07he/eC4VrZ66JJLHG1FjAiZ3uItroH8WzUNPy4
+ e2sQU9q/QX6q0z2LXrhQM5Jv9XfZdBM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 478e5ec0
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Thu, 4 Aug 2022 00:39:50 +0000 (UTC)
+Date: Thu, 4 Aug 2022 02:39:48 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
+ linux-efi@vger.kernel.org
+Subject: Re: [PATCH RFC v1] hw/i386: place setup_data at fixed place in memory
+Message-ID: <YusVVLNbLgsk49PK@zx2c4.com>
+References: <20220803170235.1312978-1-Jason@zx2c4.com>
+ <20220803182340-mutt-send-email-mst@kernel.org>
+ <Yur7ypNrSv8eO9/Q@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-553710521-1659570990=:13819"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Yur7ypNrSv8eO9/Q@zx2c4.com>
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,69 +87,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hey again,
 
---3866299591-553710521-1659570990=:13819
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On Thu, Aug 04, 2022 at 12:50:50AM +0200, Jason A. Donenfeld wrote:
+> Hi Michael,
+> 
+> On Wed, Aug 03, 2022 at 06:25:39PM -0400, Michael S. Tsirkin wrote:
+> > > -    /* Offset 0x250 is a pointer to the first setup_data link. */
+> > > -    stq_p(header + 0x250, first_setup_data);
+> > > +    if (first_setup_data) {
+> > > +            /* Offset 0x250 is a pointer to the first setup_data link. */
+> > > +            stq_p(header + 0x250, first_setup_data);
+> > > +            rom_add_blob("setup_data", setup_datas, setup_data_total_len, setup_data_total_len,
+> > > +                         SETUP_DATA_PHYS_BASE, NULL, NULL, NULL, NULL, false);
+> > > +    }
+> > > +
+> > >
+> > 
+> > Allocating memory on x86 is tricky business.  Can we maybe use bios-linker-loader
+> > with COMMAND_WRITE_POINTER to get an address from firmware?
+> 
+> Hmm. Is BIOSLinker even available to us at this stage in preparation?
+> 
+> One thing to note is that this memory doesn't really need to be
+> persistent. It's only used extreeeemely early in boot. So it could be
+> somewhere that gets used/remapped later on.
 
-On Wed, 3 Aug 2022, Daniel Henrique Barboza wrote:
-> We're not storing all GPIO lines we're retrieving with
-> qdev_get_gpio_in() in mal_irqs[]. We're storing just the last one in the
-> first index:
->
->    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
->        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
->    }
->    ppc4xx_mal_init(env, 4, 16, mal_irqs);
+Actually, it's possible there's one place that's already available, and
+that this isn't so bad after all. In my tests, this seems to be working
+in a wide variety of configurations. I'll send a v2.
 
-Indeed, this used to be ppc4xx_mal_init(env, 4, 16, &uic[2][3]); before 
-706e944206d7 and this typo slipped thorugh unnoticed, likely because the 
-MAL is only there for the firmware to be happy. I think it would be used 
-by the EMAC Ethernet port or maybe SATA which are not emulated so probably 
-nothing really uses the MAL.
-
-Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
-
->
-> mal_irqs is used in ppc4xx_mal_init() to assign the IRQs to MAL:
->
->    for (i = 0; i < 4; i++) {
->        mal->irqs[i] = irqs[i];
->    }
->
-> Since only irqs[0] has been initialized, mal->irqs[1,2,3] are being
-> zeroed.
->
-> This doesn´t seem to trigger any apparent issues at this moment, but
-> Cedric's QOMification of the MAL device [1] is executing a
-> sysbus_connect_irq() that will fail if we do not store all GPIO lines
-> properly.
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00497.html
->
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: BALATON Zoltan <balaton@eik.bme.hu>
-> Fixes: 706e944206d7 ("hw/ppc/sam460ex: Drop use of ppcuic_init()")
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
-> hw/ppc/sam460ex.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-> index 7e8da657c2..0357ee077f 100644
-> --- a/hw/ppc/sam460ex.c
-> +++ b/hw/ppc/sam460ex.c
-> @@ -384,7 +384,7 @@ static void sam460ex_init(MachineState *machine)
->
->     /* MAL */
->     for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
-> -        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
-> +        mal_irqs[i] = qdev_get_gpio_in(uic[2], 3 + i);
->     }
->     ppc4xx_mal_init(env, 4, 16, mal_irqs);
->
->
---3866299591-553710521-1659570990=:13819--
+Jason
 
