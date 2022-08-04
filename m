@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F11589BDD
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:44:41 +0200 (CEST)
-Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DC7589BBA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:34:40 +0200 (CEST)
+Received: from localhost ([::1]:36122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJaDQ-0006ZC-AO
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1oJa3j-0000P4-J4
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJZZm-0004G0-LW
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:03:43 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:52600)
+ id 1oJZe2-0008Gy-9U; Thu, 04 Aug 2022 08:08:06 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:43460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org>)
- id 1oJZZg-0005mf-W0
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 08:03:42 -0400
+ id 1oJZdz-0006Wr-PA; Thu, 04 Aug 2022 08:08:05 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7FDDD61770;
- Thu,  4 Aug 2022 12:03:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA8DC433D6;
- Thu,  4 Aug 2022 12:03:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E1034616DE;
+ Thu,  4 Aug 2022 12:08:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB66C433C1;
+ Thu,  4 Aug 2022 12:07:59 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="KCtXlY3a"
+ header.b="PSM4cEU6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659614612;
+ t=1659614877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bzY+1qEB4bBdsPHqGA7lAc00b6IQ30wvQR3vqGuF2Ys=;
- b=KCtXlY3ahUHvEhKHTU8IWB57Sz/mKyyYUzn6Qz28anxxb6XhSXARIQ1r18zlLQvhnck1UB
- tcJso0KGbt04E0xzigk2G9aM9N6IF/Osa5iUMHFBcplM62YPgtSWibNeYUQQ2fo88wmUow
- +AX44lcGHo8Prkp2xbhscxk/LZjMbqM=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 167409e5
+ bh=o0W0H3ZOZNGv4omt3K6gBN8l1AOL9VhBOGNzQvyX8hY=;
+ b=PSM4cEU6VScCC60NDAx5LwiPmxW0dQGTEvO5j0XU5SrZO7AYTTXSBYIP1f/A0qBHEMEmZa
+ qxzZ5iAWqISUsQdOvNsrD19zUchCdcNFT+VubxKH7MC7E8N61HebSBB3rfdWp0TVQ1eDYH
+ GexmsKlXNB4QFue0ORoroEBl1Ao9oYs=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ea9e7077
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 4 Aug 2022 12:03:31 +0000 (UTC)
-Date: Thu, 4 Aug 2022 14:03:29 +0200
+ Thu, 4 Aug 2022 12:07:57 +0000 (UTC)
+Date: Thu, 4 Aug 2022 14:07:55 +0200
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Xiaoyao Li <xiaoyao.li@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+To: David Hildenbrand <david@redhat.com>
+Cc: freude@linux.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
- linux-efi@vger.kernel.org
-Subject: Re: [PATCH v2] hw/i386: place setup_data at fixed place in memory
-Message-ID: <Yuu1kX9CAqSUNNAj@zx2c4.com>
-References: <YusVVLNbLgsk49PK@zx2c4.com>
- <20220804004411.1343158-1-Jason@zx2c4.com>
- <20220804030012-mutt-send-email-mst@kernel.org>
- <bfa5704d-755c-5a52-e7cc-bd9b34e5bb03@redhat.com>
- <YuuQb3D/YY1SiUqY@redhat.com>
+ Cornelia Huck <cohuck@redhat.com>, Holger Dengler <dengler@linux.ibm.com>
+Subject: Re: [PATCH v4 2/2] target/s390x: support SHA-512 extensions
+Message-ID: <Yuu2m6tdf2W+fr9M@zx2c4.com>
+References: <Yul0G2YCKLXiypvv@zx2c4.com>
+ <20220802190011.458871-1-Jason@zx2c4.com>
+ <20220802190011.458871-3-Jason@zx2c4.com>
+ <5758f0a3-ee4e-97d4-3e32-469b56029208@redhat.com>
+ <YupmwgYFShLfP8Xd@zx2c4.com>
+ <0ff11adb819138cfed16dfb489b66f6f@linux.ibm.com>
+ <60ae0ada-a99b-f6a8-93c3-f55db2480458@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YuuQb3D/YY1SiUqY@redhat.com>
-Received-SPF: pass client-ip=139.178.84.217;
+In-Reply-To: <60ae0ada-a99b-f6a8-93c3-f55db2480458@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
  envelope-from=SRS0=nI4E=YI=zx2c4.com=Jason@kernel.org;
  helo=dfw.source.kernel.org
 X-Spam_score_int: -67
@@ -91,31 +87,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
+Hi,
 
-On Thu, Aug 04, 2022 at 10:25:36AM +0100, Daniel P. Berrangé wrote:
-> Yep, and ultimately the inability to distinguish UEFI vs other firmware
-> is arguably correct by design, as the QEMU <-> firmware interface is
-> supposed to be arbitrarily pluggable for any firmware implementation
-> not  limited to merely UEFI + seabios.
-
-Indeed, I agree with this.
-
+On Thu, Aug 04, 2022 at 10:10:52AM +0200, David Hildenbrand wrote:
+> > Hm, you don't really want to implement some kind of particial complete.
+> > Qemu is an emulation and you would have to implement some kind of
+> > fragmenting this based on machine generation.
 > 
-> > For now I suggest either reverting the original patch, or at least not
-> > enabling the knob by default for any machine types. In particular, when
-> > using MicroVM, the user must leave the knob disabled when direct booting
-> > a kernel on OVMF, and the user may or may not enable the knob when
-> > direct booting a kernel on SeaBIOS.
+> Do we?
 > 
-> Having it opt-in via a knob would defeat Jason's goal of having the seed
-> available automatically.
+> "The
+> CPU-determined number of bytes depends on the
+> model, and may be a different number each time the
+> instruction is executed. The CPU-determined number
+> of bytes is usually nonzero. In certain unusual situa-
+> tions, this number may be zero, and condition code 3
+> may be set with no progress. However, the CPU pro-
+> tects against endless recurrence of this no-progress
+> case.
+> "
+> 
+> I read that as "do what you want, even on a given model it might be random."
 
-Yes, adding a knob is absolutely out of the question.
+Just FYI, I implemented this, and it works in v6. Please take a look at:
+https://lore.kernel.org/qemu-devel/20220803171536.1314717-2-Jason@zx2c4.com/
 
-It also doesn't actually solve the problem: this triggers when QEMU
-passes a DTB too. It's not just for the new RNG seed thing. This bug
-isn't new.
+So we can keep that. Or I can send a v7 that removes it.
+
+It wasn't very hard to implement, and it's not very hard to remove, so
+either way, just tell me what you want to do.
 
 Jason
 
