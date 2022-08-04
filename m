@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F78589D3B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 16:07:50 +0200 (CEST)
-Received: from localhost ([::1]:36408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293E8589D3F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 16:09:04 +0200 (CEST)
+Received: from localhost ([::1]:38326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJbVt-0001zd-Tj
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 10:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33680)
+	id 1oJbX5-0003QH-3T
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 10:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oJbTg-0006iL-Eb
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:05:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39685)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJbVI-0000nP-Qi
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:07:12 -0400
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:40431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oJbTe-0002kM-JX
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:05:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659621929;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2zbQhcmAzxyZ0PgHpvzIXM3iG2Nt8OHf6ArKAhlRdQ4=;
- b=BotUYg4EuZ+gF44yoyiPE80kSHtK9D5kxRkiXwtcXBuFarz4UJNY8nV81g7C9TIdQzlrXr
- Eisr/D0ThGPBsaWziDUDdNSj/7uFuOrP7HJZab/t9wEcgL7zA9vPEJ6lpDQYG9ZT4Rsu/Y
- xXdeXTY9G0LnL2BKWyrKByRR5LXWlsM=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-547-IMlHyWSbN5CEhJvwQOhOtQ-1; Thu, 04 Aug 2022 10:05:26 -0400
-X-MC-Unique: IMlHyWSbN5CEhJvwQOhOtQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- fz9-20020a05622a5a8900b0031eef501518so13035251qtb.9
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 07:05:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2zbQhcmAzxyZ0PgHpvzIXM3iG2Nt8OHf6ArKAhlRdQ4=;
- b=tjHxnXu6dq3XTvL1+WKg+C9PGAFHKqtkbiOutBxrv3ePFoi/5HYsB8+XQVVe10fzl5
- 1wvf8e+omSRibimBKV0eBDUkM/LOUpnFUBscA8R9fjC2UtO91qqZ770yZNIaZUp6Y+CE
- C1vEj6wzBPuZtpdjuBilOrqcO2af8hfvxVFkYcEPc1OiLWbPJyPqLkUmq4J80clZT12i
- 45MOOOIGEEGXnqS7ItS5Ml/mtmTQPe7+zcu2MIUE6u9AyNpn2sw/6Y0sYMKjNGOzs/9a
- JTrHv+TZ5z7CEE8SWU0eRYo0ISkyBOTDwPcRwiJppg4OtdRq3f1n/1mJ/dFB+e7VyC99
- PkOQ==
-X-Gm-Message-State: ACgBeo1ZKgDIvL8dNZpoFSGwdz7shMxtcQ4zDl/GnM1cWm1gQCWRbX14
- 4Gddx0FmU01ZZChftZeDvYlwijdJM1G4ZxARtQM3utqeFudbTDpqueObSjTBoRvDI6Im4e3DKvw
- u8anHv3sDC7O97lg=
-X-Received: by 2002:a05:622a:2c3:b0:340:5d42:d754 with SMTP id
- a3-20020a05622a02c300b003405d42d754mr1594816qtx.641.1659621924319; 
- Thu, 04 Aug 2022 07:05:24 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR56feyG3cnRgS/fTrmqd4aXDiU1emYCig0SER5BzbeCHJkUxt7QPkA2hVgJH3IsqVvXGqaqTw==
-X-Received: by 2002:a05:622a:2c3:b0:340:5d42:d754 with SMTP id
- a3-20020a05622a02c300b003405d42d754mr1594749qtx.641.1659621923722; 
- Thu, 04 Aug 2022 07:05:23 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
- by smtp.gmail.com with ESMTPSA id
- y17-20020a05620a25d100b006b627d42616sm749819qko.35.2022.08.04.07.05.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Aug 2022 07:05:22 -0700 (PDT)
-Date: Thu, 4 Aug 2022 10:05:21 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/1] QIOChannelSocket: Add support for MSG_ZEROCOPY +
- IPV6
-Message-ID: <YuvSIUMp0TTto23l@xz-m1.local>
-References: <20220804071041.540073-1-leobras@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJbVB-0002wx-Jo
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 10:07:12 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.98])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id AD46224284;
+ Thu,  4 Aug 2022 14:07:01 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 4 Aug 2022
+ 16:07:00 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002ebac5b47-9abb-45bc-bd1d-6002f1b2dc01,
+ E459FF07681E7C706565AD81A8193C11BE0AA2AA) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <f83417f2-e7b6-d8da-e33d-7e06efaa21b7@kaod.org>
+Date: Thu, 4 Aug 2022 16:06:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220804071041.540073-1-leobras@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC PATCH] cputlb and ssi: cache class to avoid expensive
+ object_dynamic_cast_assert (HACK!!!)
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>, Eduardo
+ Habkost <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Yanan Wang
+ <wangyanan55@huawei.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20220804092044.2101093-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220804092044.2101093-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 98c2c556-72fe-42d7-a945-869719172d53
+X-Ovh-Tracer-Id: 15169530922459892658
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvledgjeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,26 +80,223 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 04, 2022 at 04:10:43AM -0300, Leonardo Bras wrote:
-> For using MSG_ZEROCOPY, there are two steps:
-> 1 - io_writev() the packet, which enqueues the packet for sending, and
-> 2 - io_flush(), which gets confirmation that all packets got correctly sent
-> 
-> Currently, if MSG_ZEROCOPY is used to send packets over IPV6, no error will
-> be reported in (1), but it will fail in the first time (2) happens.
-> 
-> This happens because (2) currently checks for cmsg_level & cmsg_type
-> associated with IPV4 only, before reporting any error.
-> 
-> Add checks for cmsg_level & cmsg_type associated with IPV6, and thus enable
-> support for MSG_ZEROCOPY + IPV6
-> 
-> Fixes: 2bc58ffc29 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Hello Alex,
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Thanks for putting some time into this problem,
 
--- 
-Peter Xu
+On 8/4/22 11:20, Alex Bennée wrote:
+> Investigating why some BMC models are so slow compared to a plain ARM
+> virt machines I did some profiling of:
+> 
+>    ./qemu-system-arm -M romulus-bmc -nic user \
+>      -drive
+>      file=obmc-phosphor-image-romulus.static.mtd,format=raw,if=mtd \
+>      -nographic -serial mon:stdio
+> 
+> And saw that object_dynamic_cast was dominating the profile times. We
+> have a number of cases in the CPU hot path and more importantly for
+> this model in the SSI bus. As the class is static once the object is
+> created we just cache it and use it instead of the dynamic case
+> macros.
+> 
+> [AJB: I suspect a proper fix for this is for QOM to support a cached
+> class lookup, abortive macro attempt #if 0'd in this patch].
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Cédric Le Goater <clg@kaod.org>
+
+
+Here are some results,
+
+* romulus-bmc, OpenBmc login prompt
+
+   without : 82s
+   with    : 56s
+
+* ast2500-evb,execute-in-place=true, U-boot 2019.04 prompt
+
+   without : 30s
+   with    : 22s
+
+* witherspoon-bmc,execute-in-place=true, U-boot 2016.07 prompt
+
+   without : 5.5s
+   with    : 4.1s
+
+There is definitely an improvement in all scenarios.
+
+Applying a similar technique on AspeedSMCClass, I could gain
+another ~10% and boot the ast2500-evb,execute-in-place=true
+machine, up to the U-boot 2019.04 prompt, in less then 20s.
+
+However, newer u-boot are still quite slow to boot when executing
+from the flash device.
+
+Thanks,
+
+C.
+
+> ---
+>   include/hw/core/cpu.h |  2 ++
+>   include/hw/ssi/ssi.h  |  3 +++
+>   include/qom/object.h  | 29 +++++++++++++++++++++++++++++
+>   accel/tcg/cputlb.c    | 12 ++++++++----
+>   hw/ssi/ssi.c          | 10 +++++++---
+>   5 files changed, 49 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 500503da13..70027a772e 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -317,6 +317,8 @@ struct qemu_work_item;
+>   struct CPUState {
+>       /*< private >*/
+>       DeviceState parent_obj;
+> +    /* cache to avoid expensive CPU_GET_CLASS */
+> +    CPUClass *cc;
+>       /*< public >*/
+>   
+>       int nr_cores;
+> diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
+> index f411858ab0..6950f86810 100644
+> --- a/include/hw/ssi/ssi.h
+> +++ b/include/hw/ssi/ssi.h
+> @@ -59,6 +59,9 @@ struct SSIPeripheralClass {
+>   struct SSIPeripheral {
+>       DeviceState parent_obj;
+>   
+> +    /* cache the class */
+> +    SSIPeripheralClass *spc;
+> +
+>       /* Chip select state */
+>       bool cs;
+>   };
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index ef7258a5e1..2202dbfa43 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -198,6 +198,35 @@ struct Object
+>       OBJ_NAME##_CLASS(const void *klass) \
+>       { return OBJECT_CLASS_CHECK(ClassType, klass, TYPENAME); }
+>   
+> +#if 0
+> +/**
+> + * DECLARE_CACHED_CLASS_CHECKER:
+> + * @InstanceType: instance struct name
+> + * @ClassType: class struct name
+> + * @OBJ_NAME: the object name in uppercase with underscore separators
+> + * @TYPENAME: type name
+> + *
+> + * This variant of DECLARE_CLASS_CHECKERS allows for the caching of
+> + * class in the parent object instance. This is useful for very hot
+> + * path code at the expense of an extra indirection and check. As per
+> + * the original direct usage of this macro should be avoided if the
+> + * complete OBJECT_DECLARE_TYPE macro has been used.
+> + *
+> + * This macro will provide the class type cast functions for a
+> + * QOM type.
+> + */
+> +#define DECLARE_CACHED_CLASS_CHECKERS(InstanceType, ClassType, OBJ_NAME, TYPENAME) \
+> +    DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
+> +    static inline G_GNUC_UNUSED ClassType * \
+> +    OBJ_NAME##_GET_CACHED_CLASS(const void *obj) \
+> +    { \
+> +        InstanceType *p = (InstanceType *) obj; \
+> +        p->cc = p->cc ? p->cc : OBJECT_GET_CLASS(ClassType, obj, TYPENAME);\
+> +        return p->cc;                                                   \
+> +    }
+> +
+> +#endif
+> +
+>   /**
+>    * DECLARE_OBJ_CHECKERS:
+>    * @InstanceType: instance struct name
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index a46f3a654d..882315f7dd 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1303,8 +1303,9 @@ static inline ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr)
+>   static void tlb_fill(CPUState *cpu, target_ulong addr, int size,
+>                        MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+>   {
+> -    CPUClass *cc = CPU_GET_CLASS(cpu);
+> +    CPUClass *cc = cpu->cc ? cpu->cc : CPU_GET_CLASS(cpu);
+>       bool ok;
+> +    cpu->cc = cc;
+>   
+>       /*
+>        * This is not a probe, so only valid return is success; failure
+> @@ -1319,7 +1320,8 @@ static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+>                                           MMUAccessType access_type,
+>                                           int mmu_idx, uintptr_t retaddr)
+>   {
+> -    CPUClass *cc = CPU_GET_CLASS(cpu);
+> +    CPUClass *cc = cpu->cc ? cpu->cc : CPU_GET_CLASS(cpu);
+> +    cpu->cc = cc;
+>   
+>       cc->tcg_ops->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
+>   }
+> @@ -1331,7 +1333,8 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+>                                             MemTxResult response,
+>                                             uintptr_t retaddr)
+>   {
+> -    CPUClass *cc = CPU_GET_CLASS(cpu);
+> +    CPUClass *cc = cpu->cc ? cpu->cc : CPU_GET_CLASS(cpu);
+> +    cpu->cc = cc;
+>   
+>       if (!cpu->ignore_memory_transaction_failures &&
+>           cc->tcg_ops->do_transaction_failed) {
+> @@ -1606,7 +1609,8 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>       if (!tlb_hit_page(tlb_addr, page_addr)) {
+>           if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page_addr)) {
+>               CPUState *cs = env_cpu(env);
+> -            CPUClass *cc = CPU_GET_CLASS(cs);
+> +            CPUClass *cc = cs->cc ? cs->cc : CPU_GET_CLASS(cs);
+> +            cs->cc = cc;
+>   
+>               if (!cc->tcg_ops->tlb_fill(cs, addr, fault_size, access_type,
+>                                          mmu_idx, nonfault, retaddr)) {
+> diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+> index 003931fb50..f749feb6e3 100644
+> --- a/hw/ssi/ssi.c
+> +++ b/hw/ssi/ssi.c
+> @@ -38,7 +38,8 @@ static void ssi_cs_default(void *opaque, int n, int level)
+>       bool cs = !!level;
+>       assert(n == 0);
+>       if (s->cs != cs) {
+> -        SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(s);
+> +        /* SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(s); */
+> +        SSIPeripheralClass *ssc = s->spc;
+>           if (ssc->set_cs) {
+>               ssc->set_cs(s, cs);
+>           }
+> @@ -48,7 +49,8 @@ static void ssi_cs_default(void *opaque, int n, int level)
+>   
+>   static uint32_t ssi_transfer_raw_default(SSIPeripheral *dev, uint32_t val)
+>   {
+> -    SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(dev);
+> +    /* SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(dev); */
+> +    SSIPeripheralClass *ssc = dev->spc;
+>   
+>       if ((dev->cs && ssc->cs_polarity == SSI_CS_HIGH) ||
+>               (!dev->cs && ssc->cs_polarity == SSI_CS_LOW) ||
+> @@ -67,6 +69,7 @@ static void ssi_peripheral_realize(DeviceState *dev, Error **errp)
+>               ssc->cs_polarity != SSI_CS_NONE) {
+>           qdev_init_gpio_in_named(dev, ssi_cs_default, SSI_GPIO_CS, 1);
+>       }
+> +    s->spc = ssc;
+>   
+>       ssc->realize(s, errp);
+>   }
+> @@ -120,7 +123,8 @@ uint32_t ssi_transfer(SSIBus *bus, uint32_t val)
+>   
+>       QTAILQ_FOREACH(kid, &b->children, sibling) {
+>           SSIPeripheral *peripheral = SSI_PERIPHERAL(kid->child);
+> -        ssc = SSI_PERIPHERAL_GET_CLASS(peripheral);
+> +        /* ssc = SSI_PERIPHERAL_GET_CLASS(peripheral); */
+> +        ssc = peripheral->spc;
+>           r |= ssc->transfer_raw(peripheral, val);
+>       }
+>   
 
 
