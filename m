@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FA458A2BA
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 23:18:40 +0200 (CEST)
-Received: from localhost ([::1]:39360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC43758A2BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 23:27:17 +0200 (CEST)
+Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJiEp-0002EU-9g
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 17:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34696)
+	id 1oJiNA-0005KL-Bh
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 17:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oJiCe-0000d4-LO
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 17:16:25 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oJiCc-0002PC-U9
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 17:16:24 -0400
-Received: by mail-ej1-x630.google.com with SMTP id uj29so1641760ejc.0
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 14:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dCSu4/lYRv7VaSJkiN1pzUH00HcrjvBSiuvJQwr3e3k=;
- b=QWXQYUDnP7yNRJR8DYblCJYtxJT2iacuyIPTvhbxG2fNMULZI2+UkbJwx2k33L7Nhx
- cXHU4XPjap2qTKK/9TvIkxDG3bm+IyS/gYeEa+2HIQGiPeEmHKlQ7Q6damYXnzL0okZA
- Z5tGMD0nxzee2bwh2VX4UypEMnZacwTHei+FGkDMHdH06qKByI750Uw98E0LyBLYe202
- PtDbOc+vIVDbQSNM9UPCBevaycFeFiERyxVrpBBw7Di+umGhnhNr/rhNnTnFKWVQs0oR
- a3GRaWT+3WyBPim5cdCR9agQIwBKlKllfzoZb+sfRC5AqbmXzTch+J/q/Y0ALbUjcgP5
- 2eIA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oJiKq-00037o-Uy
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 17:24:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oJiKm-0003kp-FP
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 17:24:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659648287;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VhPCn8qUY6Y4cVlslzGaZxrrM5e+mUf0TFlvYXKun4Y=;
+ b=EB/cfYUsCrFcLsHBssnmlTCZj8SedkID0Udgw962t3c08UQYBzl24Fjyv5NLf5lt27GAOm
+ z1bptIcSpf/67pdOT8RTSVeUATvwiA6zUymm0eJSFaB7MXDkL7JYmwuwfsHttste4L09EL
+ QYKaFkBAWh6maEE18CzeWzjXHb73dHU=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-298-U60xMPTrMiCb7IOEttzVlQ-1; Thu, 04 Aug 2022 17:24:46 -0400
+X-MC-Unique: U60xMPTrMiCb7IOEttzVlQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ hp22-20020a1709073e1600b007309edc4089so324634ejc.9
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 14:24:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dCSu4/lYRv7VaSJkiN1pzUH00HcrjvBSiuvJQwr3e3k=;
- b=QFseGRmLhGD77xFGOSmIoP+RENE2uRXprnEBlNZLh3Gj8eyp4Xo1xWWAd7EySe/5Nk
- 6VRJHVzH2YDMQGByB7gKbynFbSh2gf8Lb8dzssZFBU5gaoVKk6qZ2BAnzvnHDjl2HqVa
- ql5cj8MdTt1lRrkotJzq41euLMse1PKAuGeTUehVXfcOUVyzEUyQZSeTl0E8Iy3ZHZ6u
- fVxdAro3BNBNe7N+8at+p2ktswmugLHAF3E9FGQ93KXEytH6UmfmSiF9W8j+2xZP9q1A
- 5AyD/ci8kzrvHDZ2cycTOyiXq4Z+oEaXp7S2ckxKKXqtveegJWC08fPwpvLruW8f5Px2
- UPOw==
-X-Gm-Message-State: ACgBeo3S0H1kSqYaKfhQsIASA+jgMmvUu8tL7jpWVoXF/vrDmBvKrrdS
- qwwheKud7eK30EGIN/1AHuE=
-X-Google-Smtp-Source: AA6agR4Vb1jk9mNsCXgo3SMCZ+NNqOgmxN5Iraed0J8d+wUdixx8a6oSxeNypeqdQHVy/BHUvWfTng==
-X-Received: by 2002:a17:907:7214:b0:72b:8720:487f with SMTP id
- dr20-20020a170907721400b0072b8720487fmr2798509ejc.640.1659647780539; 
- Thu, 04 Aug 2022 14:16:20 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- d4-20020a056402000400b0043b7917b1a4sm1151991edu.43.2022.08.04.14.16.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 14:16:19 -0700 (PDT)
-Message-ID: <c44341cb-dbd8-8a45-8fed-c787b2d59375@redhat.com>
-Date: Thu, 4 Aug 2022 23:16:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] pc: add property for Linux setup_data seed
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
-References: <20220804131320.395015-1-pbonzini@redhat.com>
- <YuvHu3NW592rGFXz@zx2c4.com> <YuvKGrUsSAzQEzfL@redhat.com>
- <YuvYKq5pXZlCCP6O@zx2c4.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=VhPCn8qUY6Y4cVlslzGaZxrrM5e+mUf0TFlvYXKun4Y=;
+ b=6J8wcIQRZqzzP9YUhDcSM1hGcIvgbQrDV3XtvyFRUkkZg118yGhQ2DHmrq+uCGmelg
+ kpvYQOLIvBZ0zaiXXEF0V6WrF8XUwbIcWWOr5QwPGIeNdFmc2nUSN+AnWWVJ88sUzdTv
+ gdLRNYq4Uqz/ddfRQ9rV/FPwcXLyTzjIM5wuXydw3PwddrqXYZUboIAWvWHNOHjYYfNJ
+ tMbm8PbxPU7yDgxrJNVIM3X0cr2xgB4hXLGfcG75nLcAKq48NZBAj4S5ScZaViQx2JC8
+ vXGTgUhslv2K5DZTd0nW5ZmLb0AteYaidBw7op8tucL89dPVSGoqt+3raKyGMFSRSp6w
+ wf4g==
+X-Gm-Message-State: ACgBeo3h9dmYxReAXaFbKeISddncz3upWx9JIh3CVPKqI/xYiYnkATV3
+ StnH3EEzRluCLiWYQNjAJgEJ+GWins9pRO0h1DM4v3/I8tIqr/b91v+LnN576GbGFLN/nf9MvcI
+ 8X1cpKTBhgrwTpdC3hoAvoHDIdhXSiwviy2n0tVtssYb31dnZ09JEsZ+9GkWXYxIvwKU=
+X-Received: by 2002:a17:907:2cc9:b0:730:93c8:4177 with SMTP id
+ hg9-20020a1709072cc900b0073093c84177mr2683135ejc.494.1659648284333; 
+ Thu, 04 Aug 2022 14:24:44 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR69xupQ7RhuJqykGhYnVkuXZfySkH4ROxhuif/kXW8wRaUhJaWxjNp3hmNbtRPn4GwpgqAK0A==
+X-Received: by 2002:a17:907:2cc9:b0:730:93c8:4177 with SMTP id
+ hg9-20020a1709072cc900b0073093c84177mr2683116ejc.494.1659648284002; 
+ Thu, 04 Aug 2022 14:24:44 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ h12-20020a1709060f4c00b0072b55713daesm747208ejj.56.2022.08.04.14.24.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Aug 2022 14:24:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YuvYKq5pXZlCCP6O@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, "Michael S . Tsirkin" <mst@redhat.com>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH v2] pc: add property for Linux setup_data random number seed
+Date: Thu,  4 Aug 2022 23:24:41 +0200
+Message-Id: <20220804212441.458478-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.1
+MIME-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,36 +97,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/4/22 16:31, Jason A. Donenfeld wrote:
-> I'm still not really keen on adding a knob for this. I understand ARM
-> has a knob for it for different reasons (better named "dtb-randomness").
-> If this knob thing is to live on here, maybe it should have
-> "-randomness" in the name also.
+Using a property makes it possible to use the normal compat property
+mechanism instead of ad hoc code; it avoids parameter proliferation
+in x86_load_linux; and allows shipping the code even if it is
+disabled by default.
 
-Ok, I just reused your variable name but linuxboot-randomness is fine by 
-me too.
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Co-developed-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/i386/microvm.c     |  2 +-
+ hw/i386/pc.c          |  5 +++--
+ hw/i386/pc_piix.c     |  2 +-
+ hw/i386/pc_q35.c      |  2 +-
+ hw/i386/x86.c         | 33 +++++++++++++++++++++++++++++----
+ include/hw/i386/pc.h  |  3 ---
+ include/hw/i386/x86.h |  5 +++--
+ 7 files changed, 38 insertions(+), 14 deletions(-)
 
->>> Rather, let's fix the bug. The code as-is -- going back to the 2016 DTB
->>> addition -- is problematic and needs to be fixed. So let's fix that.
->>> Trying to cover up the problem with a default-off knob just ensures this
->>> stuff will never be made to work right.
->>
->> It isn't covering up the problem, just providing a workaround
->> option, should another bug be discovered after release. We
->> still need to fix current discussed problems of course.
-> 
-> Thanks for the explanation. I don't like adding a knob. But if it's on
-> by default for the default machine type, then that's a compromise I
-> could accept.
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 7fe8cce03e..dc929727dc 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     rom_set_fw(fw_cfg);
+ 
+     if (machine->kernel_filename != NULL) {
+-        x86_load_linux(x86ms, fw_cfg, 0, true, false);
++        x86_load_linux(x86ms, fw_cfg, 0, true);
+     }
+ 
+     if (mms->option_roms) {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7280c02ce3..9b192373c0 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -112,6 +112,7 @@ const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
+ 
+ GlobalProperty pc_compat_6_2[] = {
+     { "virtio-mem", "unplugged-inaccessible", "off" },
++    { TYPE_X86_MACHINE, "linuxboot-randomness", "off" },
+ };
+ const size_t pc_compat_6_2_len = G_N_ELEMENTS(pc_compat_6_2);
+ 
+@@ -796,7 +797,7 @@ void xen_load_linux(PCMachineState *pcms)
+     rom_set_fw(fw_cfg);
+ 
+     x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+-                   pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
++                   pcmc->pvh_enabled);
+     for (i = 0; i < nb_option_roms; i++) {
+         assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
+                !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
+@@ -1118,7 +1119,7 @@ void pc_memory_init(PCMachineState *pcms,
+ 
+     if (linux_boot) {
+         x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+-                       pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
++                       pcmc->pvh_enabled);
+     }
+ 
+     for (i = 0; i < nb_option_roms; i++) {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index a5c65c1c35..1526b7e3fd 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -447,10 +447,10 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
++
+     pc_i440fx_7_1_machine_options(m);
+     m->alias = NULL;
+     m->is_default = false;
+-    pcmc->legacy_no_rng_seed = true;
+     pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 3a35193ff7..c5b38edc65 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -384,9 +384,9 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+ static void pc_q35_7_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
++
+     pc_q35_7_1_machine_options(m);
+     m->alias = NULL;
+-    pcmc->legacy_no_rng_seed = true;
+     pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 050eedc0c8..8c6450ee07 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -60,6 +60,8 @@
+ #include CONFIG_DEVICES
+ #include "kvm/kvm_i386.h"
+ 
++#define RNG_SEED_LENGTH 32
++
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+ static size_t pvh_start_addr;
+ 
+@@ -767,8 +769,7 @@ static bool load_elfboot(const char *kernel_filename,
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+-                    bool pvh_enabled,
+-                    bool legacy_no_rng_seed)
++                    bool pvh_enabled)
+ {
+     bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+     uint16_t protocol;
+@@ -786,7 +787,6 @@ void x86_load_linux(X86MachineState *x86ms,
+     const char *dtb_filename = machine->dtb;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     SevKernelLoaderContext sev_load_ctx = {};
+-    enum { RNG_SEED_LENGTH = 32 };
+ 
+     /* Align to 16 bytes as a paranoia measure */
+     cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
+@@ -1076,7 +1076,8 @@ void x86_load_linux(X86MachineState *x86ms,
+         load_image_size(dtb_filename, setup_data->data, dtb_size);
+     }
+ 
+-    if (!legacy_no_rng_seed) {
++    if (x86ms->linuxboot_randomness != ON_OFF_AUTO_OFF &&
++        (protocol >= 0x209 || x86ms->linuxboot_randomness == ON_OFF_AUTO_ON)) {
+         setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+         kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
+         kernel = g_realloc(kernel, kernel_size);
+@@ -1237,6 +1238,23 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
+     visit_type_OnOffAuto(v, name, &x86ms->smm, errp);
+ }
+ 
++static void x86_machine_get_linuxboot_randomness(Object *obj, Visitor *v, const char *name,
++                                           void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++    OnOffAuto linuxboot_randomness = x86ms->linuxboot_randomness;
++
++    visit_type_OnOffAuto(v, name, &linuxboot_randomness, errp);
++}
++
++static void x86_machine_set_linuxboot_randomness(Object *obj, Visitor *v, const char *name,
++                                           void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++
++    visit_type_OnOffAuto(v, name, &x86ms->linuxboot_randomness, errp);
++}
++
+ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms)
+ {
+     if (x86ms->acpi == ON_OFF_AUTO_OFF) {
+@@ -1387,6 +1405,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->acpi = ON_OFF_AUTO_AUTO;
+     x86ms->pit = ON_OFF_AUTO_AUTO;
+     x86ms->pic = ON_OFF_AUTO_AUTO;
++    x86ms->linuxboot_randomness = ON_OFF_AUTO_AUTO;
+     x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+@@ -1426,6 +1445,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, X86_MACHINE_PIT,
+         "Enable i8254 PIT");
+ 
++    object_class_property_add(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS, "OnOffAuto",
++        x86_machine_get_linuxboot_randomness, x86_machine_set_linuxboot_randomness,
++        NULL, NULL);
++    object_class_property_set_description(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS,
++        "Pass random number seed to -kernel Linux image");
++
+     object_class_property_add(oc, X86_MACHINE_PIC, "OnOffAuto",
+                               x86_machine_get_pic,
+                               x86_machine_set_pic,
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 8435733bd6..9cc3f5d338 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -128,9 +128,6 @@ struct PCMachineClass {
+ 
+     /* create kvmclock device even when KVM PV features are not exposed */
+     bool kvmclock_create_always;
+-
+-    /* skip passing an rng seed for legacy machines */
+-    bool legacy_no_rng_seed;
+ };
+ 
+ #define TYPE_PC_MACHINE "generic-pc-machine"
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 62fa5774f8..0487c065c8 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -70,6 +70,7 @@ struct X86MachineState {
+     OnOffAuto acpi;
+     OnOffAuto pit;
+     OnOffAuto pic;
++    OnOffAuto linuxboot_randomness;
+ 
+     char *oem_id;
+     char *oem_table_id;
+@@ -94,6 +95,7 @@ struct X86MachineState {
+ #define X86_MACHINE_OEM_ID           "x-oem-id"
+ #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+ #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
++#define X86_MACHINE_LINUXBOOT_RANDOMNESS "linuxboot-randomness"
+ 
+ #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+ OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+@@ -126,8 +128,7 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+-                    bool pvh_enabled,
+-                    bool legacy_no_rng_seed);
++                    bool pvh_enabled);
+ 
+ bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
+ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+-- 
+2.37.1
 
-Yes, in fact this allows enabling the seed even for older machine types 
-if everything goes fine.  And if it doesn't, we only need a one-line 
-patch to revert the feature, like Michael said.  So it's a good thing to 
-have either way.
-
-The patch was extracted out of my version from last month, but I didn't 
---amend the changes needed to make it compile (doh).  I incorporated 
-yours instead and I'll send v2.
-
-Paolo
 
