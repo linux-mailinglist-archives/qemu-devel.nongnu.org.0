@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BB7589B77
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:11:00 +0200 (CEST)
-Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9D9589B5D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 14:03:44 +0200 (CEST)
+Received: from localhost ([::1]:51754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJZgo-0003qS-J3
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60138)
+	id 1oJZZn-00040m-Qu
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 08:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oJZSW-0000UW-6p
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:56:12 -0400
-Received: from rev.ng ([5.9.113.41]:35219)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oJZSS-0000Km-1c
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:56:08 -0400
+Received: from rev.ng ([5.9.113.41]:41051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oJZST-0004ac-Gh
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:56:11 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oJZSP-0004az-5e
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 07:56:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=wpcFc7lDB152LEUXywQQjyWwOGaMc32TIHivBjm13As=; b=YOf483ov/4bO/U+zhxXeVb8SJE
- Ps0xd663Q1ayEpwuPLXVQeJkt3sq4ApuWYU+6DmDK3kBUpxbUxabttBsTgD2wLKLGGsYmpjljGzyK
- UIIT9t8qRE1BTiwJ6RxVGDffkX6EUk/86j13+Q+X/r3VVq0QRuQA7ah5RWxmSLlD+mVw=;
+ bh=CkTv7K+hHZg0VIX10KJblcl+7hDZuRKkj2bEfv6rxK8=; b=W8JzIywjB28lGlBVCXYYJy+FAF
+ aHjka4scmPzhGpbEbll1t1B16DnOsSCHfBrx/LcDRv0dG8vw5VafhY06WMd+u/XD2cpg8SxUySs0B
+ kxeHmZplyj7oKWQkb1lQIvk6YOOAeaU1c3NIbfsR2lPb1cuWZMH51GdxtPQ1Ke+ZZcyw=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, anjo@rev.ng, babush@rev.ng, nizzo@rev.ng, tsimpson@quicinc.com,
  bcain@quicinc.com, mlambert@quicinc.com, richard.henderson@linaro.org,
  alex.bennee@linaro.org
-Subject: [PATCH v11 07/15] target/hexagon: prepare input for the idef-parser
-Date: Thu,  4 Aug 2022 13:55:40 +0200
-Message-Id: <20220804115548.13024-8-anjo@rev.ng>
+Subject: [PATCH v11 09/15] target/hexagon: regenerate docker/cirrus files
+Date: Thu,  4 Aug 2022 13:55:42 +0200
+Message-Id: <20220804115548.13024-10-anjo@rev.ng>
 In-Reply-To: <20220804115548.13024-1-anjo@rev.ng>
 References: <20220804115548.13024-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -61,383 +61,367 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anton Johansson <anjo@rev.ng>
 From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+This patch updates the docker and cirrus files with the new packages by
+running tests/lcitool/refresh
 
-Introduce infrastructure necessary to produce a file suitable for being
-parsed by the idef-parser. A build option is also added to fully disable
-the output of idef-parser, which is useful for debugging.
-
-Signed-off-by: Alessandro Di Federico <ale@rev.ng>
 Signed-off-by: Anton Johansson <anjo@rev.ng>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- meson_options.txt                       |   3 +
- target/hexagon/gen_idef_parser_funcs.py | 128 ++++++++++++++++++++++
- target/hexagon/idef-parser/macros.inc   | 140 ++++++++++++++++++++++++
- target/hexagon/idef-parser/prepare      |  24 ++++
- target/hexagon/meson.build              |  20 ++++
- 5 files changed, 315 insertions(+)
- create mode 100644 target/hexagon/gen_idef_parser_funcs.py
- create mode 100644 target/hexagon/idef-parser/macros.inc
- create mode 100755 target/hexagon/idef-parser/prepare
+ .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
+ .gitlab-ci.d/cirrus/macos-11.vars                     | 2 +-
+ tests/docker/dockerfiles/alpine.docker                | 2 ++
+ tests/docker/dockerfiles/centos8.docker               | 2 ++
+ tests/docker/dockerfiles/debian-amd64.docker          | 2 ++
+ tests/docker/dockerfiles/debian-arm64-cross.docker    | 3 +++
+ tests/docker/dockerfiles/debian-armel-cross.docker    | 3 +++
+ tests/docker/dockerfiles/debian-armhf-cross.docker    | 3 +++
+ tests/docker/dockerfiles/debian-mips64el-cross.docker | 3 +++
+ tests/docker/dockerfiles/debian-mipsel-cross.docker   | 3 +++
+ tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 3 +++
+ tests/docker/dockerfiles/debian-s390x-cross.docker    | 3 +++
+ tests/docker/dockerfiles/fedora.docker                | 2 ++
+ tests/docker/dockerfiles/opensuse-leap.docker         | 2 ++
+ tests/docker/dockerfiles/ubuntu2004.docker            | 2 ++
+ 16 files changed, 36 insertions(+), 3 deletions(-)
 
-diff --git a/meson_options.txt b/meson_options.txt
-index e58e158396..6ec3e6ceec 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -311,3 +311,6 @@ option('profiler', type: 'boolean', value: false,
-        description: 'profiler support')
- option('slirp_smbd', type : 'feature', value : 'auto',
-        description: 'use smbd (at path --smbd=*) in slirp networking')
-+
-+option('hexagon_idef_parser', type : 'boolean', value : true,
-+       description: 'use idef-parser to automatically generate TCG code for the Hexagon frontend')
-diff --git a/target/hexagon/gen_idef_parser_funcs.py b/target/hexagon/gen_idef_parser_funcs.py
-new file mode 100644
-index 0000000000..178648b287
---- /dev/null
-+++ b/target/hexagon/gen_idef_parser_funcs.py
-@@ -0,0 +1,128 @@
-+#!/usr/bin/env python3
-+
-+##
-+##  Copyright(c) 2019-2022 rev.ng Labs Srl. All Rights Reserved.
-+##
-+##  This program is free software; you can redistribute it and/or modify
-+##  it under the terms of the GNU General Public License as published by
-+##  the Free Software Foundation; either version 2 of the License, or
-+##  (at your option) any later version.
-+##
-+##  This program is distributed in the hope that it will be useful,
-+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+##  GNU General Public License for more details.
-+##
-+##  You should have received a copy of the GNU General Public License
-+##  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+##
-+
-+import sys
-+import re
-+import string
-+from io import StringIO
-+
-+import hex_common
-+
-+##
-+## Generate code to be fed to the idef_parser
-+##
-+## Consider A2_add:
-+##
-+##     Rd32=add(Rs32,Rt32), { RdV=RsV+RtV;}
-+##
-+## We produce:
-+##
-+##     A2_add(RdV, in RsV, in RtV) {
-+##       { RdV=RsV+RtV;}
-+##     }
-+##
-+## A2_add represents the instruction tag. Then we have a list of TCGv
-+## that the code generated by the parser can expect in input. Some of
-+## them are inputs ("in" prefix), while some others are outputs.
-+##
-+def main():
-+    hex_common.read_semantics_file(sys.argv[1])
-+    hex_common.read_attribs_file(sys.argv[2])
-+    hex_common.calculate_attribs()
-+    tagregs = hex_common.get_tagregs()
-+    tagimms = hex_common.get_tagimms()
-+
-+    with open(sys.argv[3], 'w') as f:
-+        f.write('#include "macros.inc"\n\n')
-+
-+        for tag in hex_common.tags:
-+            ## Skip the priv instructions
-+            if ( "A_PRIV" in hex_common.attribdict[tag] ) :
-+                continue
-+            ## Skip the guest instructions
-+            if ( "A_GUEST" in hex_common.attribdict[tag] ) :
-+                continue
-+            ## Skip instructions that saturate in a ternary expression
-+            if ( tag in {'S2_asr_r_r_sat', 'S2_asl_r_r_sat'} ) :
-+                continue
-+            ## Skip instructions using switch
-+            if ( tag in {'S4_vrcrotate_acc', 'S4_vrcrotate'} ) :
-+                continue
-+            ## Skip trap instructions
-+            if ( tag in {'J2_trap0', 'J2_trap1'} ) :
-+                continue
-+            ## Skip 128-bit instructions
-+            if ( tag in {'A7_croundd_ri', 'A7_croundd_rr'} ) :
-+                continue
-+            if ( tag in {'M7_wcmpyrw', 'M7_wcmpyrwc',
-+                         'M7_wcmpyiw', 'M7_wcmpyiwc',
-+                         'M7_wcmpyrw_rnd', 'M7_wcmpyrwc_rnd',
-+                         'M7_wcmpyiw_rnd', 'M7_wcmpyiwc_rnd'} ) :
-+                continue
-+            ## Skip interleave/deinterleave instructions
-+            if ( tag in {'S2_interleave', 'S2_deinterleave'} ) :
-+                continue
-+            ## Skip instructions using bit reverse
-+            if ( tag in {'S2_brev', 'S2_brevp', 'S2_ct0', 'S2_ct1',
-+                         'S2_ct0p', 'S2_ct1p', 'A4_tlbmatch'} ) :
-+                continue
-+            ## Skip other unsupported instructions
-+            if ( tag == 'S2_cabacdecbin' or tag == 'A5_ACS' ) :
-+                continue
-+            if ( tag.startswith('Y') ) :
-+                continue
-+            if ( tag.startswith('V6_') ) :
-+                continue
-+            if ( tag.startswith('F') ) :
-+                continue
-+            if ( tag.endswith('_locked') ) :
-+                continue
-+
-+            regs = tagregs[tag]
-+            imms = tagimms[tag]
-+
-+            arguments = []
-+            for regtype,regid,toss,numregs in regs:
-+                prefix = "in " if hex_common.is_read(regid) else ""
-+
-+                is_pair = hex_common.is_pair(regid)
-+                is_single_old = (hex_common.is_single(regid)
-+                                 and hex_common.is_old_val(regtype, regid, tag))
-+                is_single_new = (hex_common.is_single(regid)
-+                                 and hex_common.is_new_val(regtype, regid, tag))
-+
-+                if is_pair or is_single_old:
-+                    arguments.append("%s%s%sV" % (prefix, regtype, regid))
-+                elif is_single_new:
-+                    arguments.append("%s%s%sN" % (prefix, regtype, regid))
-+                else:
-+                    print("Bad register parse: ",regtype,regid,toss,numregs)
-+
-+            for immlett,bits,immshift in imms:
-+                arguments.append(hex_common.imm_name(immlett))
-+
-+            f.write("%s(%s) {\n" % (tag, ", ".join(arguments)))
-+            f.write("    ");
-+            if hex_common.need_ea(tag):
-+                f.write("size4u_t EA; ");
-+            f.write("%s\n" % hex_common.semdict[tag])
-+            f.write("}\n\n")
-+
-+if __name__ == "__main__":
-+    main()
-diff --git a/target/hexagon/idef-parser/macros.inc b/target/hexagon/idef-parser/macros.inc
-new file mode 100644
-index 0000000000..6b697da87a
---- /dev/null
-+++ b/target/hexagon/idef-parser/macros.inc
-@@ -0,0 +1,140 @@
-+/*
-+ *  Copyright(c) 2019-2022 rev.ng Labs Srl. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/* Copy rules */
-+#define fLSBOLD(VAL) (fGETBIT(0, VAL))
-+#define fSATH(VAL) fSATN(16, VAL)
-+#define fSATUH(VAL) fSATUN(16, VAL)
-+#define fVSATH(VAL) fVSATN(16, VAL)
-+#define fVSATUH(VAL) fVSATUN(16, VAL)
-+#define fSATUB(VAL) fSATUN(8, VAL)
-+#define fSATB(VAL) fSATN(8, VAL)
-+#define fVSATUB(VAL) fVSATUN(8, VAL)
-+#define fVSATB(VAL) fVSATN(8, VAL)
-+#define fCALL(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCALLR(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCAST2_8s(A) fSXTN(16, 64, A)
-+#define fCAST2_8u(A) fZXTN(16, 64, A)
-+#define fVSATW(A) fVSATN(32, fCAST8_8s(A))
-+#define fSATW(A) fSATN(32, fCAST8_8s(A))
-+#define fVSAT(A) fVSATN(32, A)
-+#define fSAT(A) fSATN(32, A)
-+
-+/* Ease parsing */
-+#define f8BITSOF(VAL) ((VAL) ? 0xff : 0x00)
-+#define fREAD_GP() (Constant_extended ? (0) : GP)
-+#define fCLIP(DST, SRC, U) (DST = fMIN((1 << U) - 1, fMAX(SRC, -(1 << U))))
-+#define fBIDIR_ASHIFTL(SRC, SHAMT, REGSTYPE)                            \
-+    ((SHAMT > 0) ?                                                      \
-+     (fCAST##REGSTYPE##s(SRC) << SHAMT) :                               \
-+     (fCAST##REGSTYPE##s(SRC) >> -SHAMT))
-+
-+#define fBIDIR_LSHIFTL(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##u(SRC) << SHAMT) :       \
-+     (fCAST##REGSTYPE##u(SRC) >>> -SHAMT))
-+
-+#define fBIDIR_ASHIFTR(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##s(SRC) >> SHAMT) :       \
-+     (fCAST##REGSTYPE##s(SRC) << -SHAMT))
-+
-+#define fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE) \
-+    (((SHAMT) < 0) ? ((fCAST##REGSTYPE(SRC) << ((-(SHAMT)) - 1)) << 1)  \
-+                   : (fCAST##REGSTYPE(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_LSHIFTR(SRC, SHAMT, REGSTYPE)                            \
-+    fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE##u)
-+
-+#define fSATVALN(N, VAL)                                                \
-+    fSET_OVERFLOW(                                                      \
-+        ((VAL) < 0) ? (-(1LL << ((N) - 1))) : ((1LL << ((N) - 1)) - 1)  \
-+    )
-+
-+#define fSAT_ORIG_SHL(A, ORIG_REG)                                      \
-+    (((fCAST4s((fSAT(A)) ^ (fCAST4s(ORIG_REG)))) < 0)                   \
-+        ? fSATVALN(32, (fCAST4s(ORIG_REG)))                             \
-+        : ((((ORIG_REG) > 0) && ((A) == 0)) ? fSATVALN(32, (ORIG_REG))  \
-+                                            : fSAT(A)))
-+
-+#define fBIDIR_ASHIFTR_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0) ? fSAT_ORIG_SHL((fCAST##REGSTYPE##s(SRC)             \
-+                        << ((-(SHAMT)) - 1)) << 1, (SRC))               \
-+                   : (fCAST##REGSTYPE##s(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_ASHIFTL_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0)                                                      \
-+     ? ((fCAST##REGSTYPE##s(SRC) >> ((-(SHAMT)) - 1)) >> 1)             \
-+     : fSAT_ORIG_SHL(fCAST##REGSTYPE##s(SRC) << (SHAMT), (SRC)))
-+
-+#define fEXTRACTU_BIDIR(INREG, WIDTH, OFFSET)                           \
-+    (fZXTN(WIDTH, 32, fBIDIR_LSHIFTR((INREG), (OFFSET), 4_8)))
-+
-+/* Least significant bit operations */
-+#define fLSBNEW0 fLSBNEW(P0N)
-+#define fLSBNEW1 fLSBNEW(P1N)
-+#define fLSBOLDNOT(VAL) fGETBIT(0, ~VAL)
-+#define fLSBNEWNOT(PRED) (fLSBNEW(~PRED))
-+#define fLSBNEW0NOT fLSBNEW(~P0N)
-+#define fLSBNEW1NOT fLSBNEW(~P1N)
-+
-+/* Assignments */
-+#define fPCALIGN(IMM) (IMM = IMM & ~3)
-+#define fWRITE_LR(A) (LR = A)
-+#define fWRITE_FP(A) (FP = A)
-+#define fWRITE_SP(A) (SP = A)
-+/*
-+ * Note: There is a rule in the parser that matches `PC = ...` and emits
-+ * a call to `gen_write_new_pc`. We need to call `gen_write_new_pc` to
-+ * get the correct semantics when there are multiple stores in a packet.
-+ */
-+#define fBRANCH(LOC, TYPE) (PC = LOC)
-+#define fJUMPR(REGNO, TARGET, TYPE) (PC = TARGET)
-+#define fWRITE_LOOP_REGS0(START, COUNT) SA0 = START; (LC0 = COUNT)
-+#define fWRITE_LOOP_REGS1(START, COUNT) SA1 = START; (LC1 = COUNT)
-+#define fWRITE_LC0(VAL) (LC0 = VAL)
-+#define fWRITE_LC1(VAL) (LC1 = VAL)
-+#define fSET_LPCFG(VAL) (USR.LPCFG = VAL)
-+#define fWRITE_P0(VAL) P0 = VAL;
-+#define fWRITE_P1(VAL) P1 = VAL;
-+#define fWRITE_P3(VAL) P3 = VAL;
-+#define fEA_RI(REG, IMM) (EA = REG + IMM)
-+#define fEA_RRs(REG, REG2, SCALE) (EA = REG + (REG2 << SCALE))
-+#define fEA_IRs(IMM, REG, SCALE) (EA = IMM + (REG << SCALE))
-+#define fEA_IMM(IMM) (EA = IMM)
-+#define fEA_REG(REG) (EA = REG)
-+#define fEA_BREVR(REG) (EA = fbrev(REG))
-+#define fEA_GPI(IMM) (EA = fREAD_GP() + IMM)
-+#define fPM_I(REG, IMM) (REG = REG + IMM)
-+#define fPM_M(REG, MVAL) (REG = REG + MVAL)
-+#define fWRITE_NPC(VAL) (PC = VAL)
-+
-+/* Unary operators */
-+#define fROUND(A) (A + 0x8000)
-+
-+/* Binary operators */
-+#define fSCALE(N, A) (A << N)
-+#define fASHIFTR(SRC, SHAMT, REGSTYPE) (fCAST##REGSTYPE##s(SRC) >> SHAMT)
-+#define fLSHIFTR(SRC, SHAMT, REGSTYPE) (SRC >>> SHAMT)
-+#define fROTL(SRC, SHAMT, REGSTYPE) fROTL(SRC, SHAMT)
-+#define fASHIFTL(SRC, SHAMT, REGSTYPE) (fCAST##REGSTYPE##s(SRC) << SHAMT)
-+
-+/* Include fHIDE macros which hide type declarations */
-+#define fHIDE(A) A
-+
-+/* Purge non-relavant parts */
-+#define fBRANCH_SPECULATE_STALL(A, B, C, D, E)
-diff --git a/target/hexagon/idef-parser/prepare b/target/hexagon/idef-parser/prepare
-new file mode 100755
-index 0000000000..72d6fcbd21
---- /dev/null
-+++ b/target/hexagon/idef-parser/prepare
-@@ -0,0 +1,24 @@
-+#!/bin/bash
-+
-+#
-+#  Copyright(c) 2019-2021 rev.ng Labs Srl. All Rights Reserved.
-+#
-+#  This program is free software; you can redistribute it and/or modify
-+#  it under the terms of the GNU General Public License as published by
-+#  the Free Software Foundation; either version 2 of the License, or
-+#  (at your option) any later version.
-+#
-+#  This program is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+#  GNU General Public License for more details.
-+#
-+#  You should have received a copy of the GNU General Public License
-+#  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+set -e
-+set -o pipefail
-+
-+# Run the preprocessor and drop comments
-+cpp "$@"
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index b61243103f..b9bc8a8a12 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -21,6 +21,7 @@ hex_common_py = 'hex_common.py'
- attribs_def = meson.current_source_dir() / 'attribs_def.h.inc'
- gen_tcg_h = meson.current_source_dir() / 'gen_tcg.h'
- gen_tcg_hvx_h = meson.current_source_dir() / 'gen_tcg_hvx.h'
-+idef_parser_dir = meson.current_source_dir() / 'idef-parser'
- 
- #
- #  Step 1
-@@ -179,4 +180,23 @@ hexagon_ss.add(files(
-     'mmvec/system_ext_mmvec.c',
- ))
- 
-+idef_parser_enabled = get_option('hexagon_idef_parser')
-+if idef_parser_enabled
-+    idef_parser_input_generated = custom_target(
-+        'idef_parser_input.h.inc',
-+        output: 'idef_parser_input.h.inc',
-+        depends: [semantics_generated],
-+        depend_files: [hex_common_py],
-+        command: [python, files('gen_idef_parser_funcs.py'), semantics_generated, attribs_def, '@OUTPUT@'],
-+    )
-+
-+    preprocessed_idef_parser_input_generated = custom_target(
-+        'idef_parser_input.preprocessed.h.inc',
-+        output: 'idef_parser_input.preprocessed.h.inc',
-+        input: idef_parser_input_generated,
-+        depend_files: [idef_parser_dir / 'macros.inc'],
-+        command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir, '-o', '@OUTPUT@'],
-+    )
-+endif
-+
- target_arch += {'hexagon': hexagon_ss}
+diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
+index 8fa5a320e9..1d8a1da24f 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-12.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
+index 8ed7e33a77..61ddb6d97d 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-13.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/macos-11.vars b/.gitlab-ci.d/cirrus/macos-11.vars
+index bec6e862d4..aee9f50de6 100644
+--- a/.gitlab-ci.d/cirrus/macos-11.vars
++++ b/.gitlab-ci.d/cirrus/macos-11.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='brew'
+ PIP3='/usr/local/bin/pip3'
+-PKGS='bash bc bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
++PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
+ PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme'
+ PYTHON='/usr/local/bin/python3'
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index 806cb19f17..7d6e95275a 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -13,6 +13,7 @@ RUN apk update && \
+         attr-dev \
+         bash \
+         bc \
++        bison \
+         bzip2 \
+         bzip2-dev \
+         ca-certificates \
+@@ -30,6 +31,7 @@ RUN apk update && \
+         dtc-dev \
+         eudev-dev \
+         findutils \
++        flex \
+         fuse3-dev \
+         g++ \
+         gcc \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 3c29883332..d89113c0df 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -17,6 +17,7 @@ RUN dnf distro-sync -y && \
+         alsa-lib-devel \
+         bash \
+         bc \
++        bison \
+         brlapi-devel \
+         bzip2 \
+         bzip2-devel \
+@@ -31,6 +32,7 @@ RUN dnf distro-sync -y && \
+         device-mapper-multipath-devel \
+         diffutils \
+         findutils \
++        flex \
+         fuse3-devel \
+         gcc \
+         gcc-c++ \
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
+index 8d78ba2484..a8b728ca64 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             g++ \
+             gcc \
+             gcovr \
+diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
+index b7ba2c527f..17a5709245 100644
+--- a/tests/docker/dockerfiles/debian-arm64-cross.docker
++++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             gcovr \
+             genisoimage \
+             gettext \
+             git \
+             hostname \
++            libglib2.0-dev \
+             libpcre2-dev \
+             libspice-protocol-dev \
+             llvm \
+diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
+index 9b1778261e..701fc70db0 100644
+--- a/tests/docker/dockerfiles/debian-armel-cross.docker
++++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             gcovr \
+             genisoimage \
+             gettext \
+             git \
+             hostname \
++            libglib2.0-dev \
+             libpcre2-dev \
+             libspice-protocol-dev \
+             llvm \
+diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
+index addbc9a793..5a11fe3900 100644
+--- a/tests/docker/dockerfiles/debian-armhf-cross.docker
++++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             gcovr \
+             genisoimage \
+             gettext \
+             git \
+             hostname \
++            libglib2.0-dev \
+             libpcre2-dev \
+             libspice-protocol-dev \
+             llvm \
+diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+index 1bb7d8e184..9b90a4d6ff 100644
+--- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             gcovr \
+             genisoimage \
+             gettext \
+             git \
+             hostname \
++            libglib2.0-dev \
+             libpcre2-dev \
+             libspice-protocol-dev \
+             llvm \
+diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+index a94b459b23..02feaf26cb 100644
+--- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
++++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             gcovr \
+             genisoimage \
+             gettext \
+             git \
+             hostname \
++            libglib2.0-dev \
+             libpcre2-dev \
+             libspice-protocol-dev \
+             llvm \
+diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+index c641fd5d0e..97d3872ee2 100644
+--- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             gcovr \
+             genisoimage \
+             gettext \
+             git \
+             hostname \
++            libglib2.0-dev \
+             libpcre2-dev \
+             libspice-protocol-dev \
+             llvm \
+diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
+index c0cbe09e66..95585e9e56 100644
+--- a/tests/docker/dockerfiles/debian-s390x-cross.docker
++++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdextrautils \
+             bzip2 \
+             ca-certificates \
+@@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             gcovr \
+             genisoimage \
+             gettext \
+             git \
+             hostname \
++            libglib2.0-dev \
+             libpcre2-dev \
+             libspice-protocol-dev \
+             llvm \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index b39d311bbc..fe84166ca1 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -23,6 +23,7 @@ exec "$@"' > /usr/bin/nosync && \
+         alsa-lib-devel \
+         bash \
+         bc \
++        bison \
+         brlapi-devel \
+         bzip2 \
+         bzip2-devel \
+@@ -37,6 +38,7 @@ exec "$@"' > /usr/bin/nosync && \
+         device-mapper-multipath-devel \
+         diffutils \
+         findutils \
++        flex \
+         fuse3-devel \
+         gcc \
+         gcc-c++ \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 047a435ab5..2a4bd98ae1 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -12,6 +12,7 @@ RUN zypper update -y && \
+            alsa-lib-devel \
+            bash \
+            bc \
++           bison \
+            brlapi-devel \
+            bzip2 \
+            ca-certificates \
+@@ -22,6 +23,7 @@ RUN zypper update -y && \
+            dbus-1 \
+            diffutils \
+            findutils \
++           flex \
+            fuse3-devel \
+            gcc \
+            gcc-c++ \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 99803b343b..a76ff84598 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdmainutils \
+             bzip2 \
+             ca-certificates \
+@@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             g++ \
+             gcc \
+             gcovr \
 -- 
 2.37.0
 
