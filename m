@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0122E58A076
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:26:13 +0200 (CEST)
-Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF14058A090
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 20:34:49 +0200 (CEST)
+Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJfXw-0001bH-2R
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
+	id 1oJfgG-0005sJ-SP
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 14:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfPv-0005zJ-4l
+ id 1oJfPv-0005zL-4b
  for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:17:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59623)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oJfPs-0001Eq-3c
+ id 1oJfPs-0001Eu-If
  for qemu-devel@nongnu.org; Thu, 04 Aug 2022 14:17:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659637071;
+ s=mimecast20190719; t=1659637072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=buucNH6UPudgudlKQDxV5Skj8xgGaEiYKwfKh+0154k=;
- b=OS60kcMnGYfaecKqEoL03tytjWcw/3u1FKEsuJy6LaoaKBZhqhNbW0eVB4OWRnxZdOCLEX
- zFWqSYNfVvt07C5exia8uXomBevlH4ta5MHwzNpRLU9qNb6FzTfN+hIP91XWnqOEXeWCjy
- eehBXzuhJLepXb9HXYC7sN4nBKJpdw8=
+ bh=0B8KI4/fnEok6w2Efz5xLoWx7wcqHk6mQq7G+EE1gok=;
+ b=gyGKROFTgC+bhrxNJ4GgcYjP1zrJjwixyF8IUxrRRqtLqNz/F9Z+74BoF/aW7cpHPntAcH
+ 2vRqNIUGebM0N7FI0ZEW5u3OLlsmEjdwCeIOuBoU2aaf9q9f68OVefKrIRmxZaMsMF4aOU
+ VMD9E5vxkqVxbjGPdDhiGI1MHLl6vMU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-uBiaOGByPP20Y8RgoGCBNQ-1; Thu, 04 Aug 2022 14:17:48 -0400
-X-MC-Unique: uBiaOGByPP20Y8RgoGCBNQ-1
+ us-mta-149-g_EtLKGPOfCG1pxft7bN3Q-1; Thu, 04 Aug 2022 14:17:48 -0400
+X-MC-Unique: g_EtLKGPOfCG1pxft7bN3Q-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 348A48057B9;
- Thu,  4 Aug 2022 18:17:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 882EB8039AE;
+ Thu,  4 Aug 2022 18:17:41 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E7B9492C3B;
- Thu,  4 Aug 2022 18:17:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82EB6492C3B;
+ Thu,  4 Aug 2022 18:17:38 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -55,23 +55,24 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v6 03/12] vhost: Delete useless read memory barrier
-Date: Thu,  4 Aug 2022 20:17:13 +0200
-Message-Id: <20220804181722.701067-4-eperezma@redhat.com>
+Subject: [PATCH v6 04/12] vhost: Do not depend on !NULL VirtQueueElement on
+ vhost_svq_flush
+Date: Thu,  4 Aug 2022 20:17:14 +0200
+Message-Id: <20220804181722.701067-5-eperezma@redhat.com>
 In-Reply-To: <20220804181722.701067-1-eperezma@redhat.com>
 References: <20220804181722.701067-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,30 +89,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As discussed in previous series [1], this memory barrier is useless with
-the atomic read of used idx at vhost_svq_more_used. Deleting it.
-
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02616.html
+Since QEMU will be able to inject new elements on CVQ to restore the
+state, we need not to depend on a VirtQueueElement to know if a new
+element has been used by the device or not. Instead of check that, check
+if there are new elements only using used idx on vhost_svq_flush.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 3 ---
- 1 file changed, 3 deletions(-)
+v6: Change less from the previous function
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index e6eebd0e8d..1b49bf54f2 100644
+index 1b49bf54f2..f863b08627 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -509,9 +509,6 @@ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+@@ -499,17 +499,20 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+ {
+     int64_t start_us = g_get_monotonic_time();
++    uint32_t len;
++
+     do {
+-        uint32_t len;
+-        VirtQueueElement *elem = vhost_svq_get_buf(svq, &len);
+-        if (elem) {
+-            return len;
++        if (vhost_svq_more_used(svq)) {
++            break;
+         }
+ 
          if (unlikely(g_get_monotonic_time() - start_us > 10e6)) {
              return 0;
          }
--
--        /* Make sure we read new used_idx */
--        smp_rmb();
      } while (true);
++
++    vhost_svq_get_buf(svq, &len);
++    return len;
  }
  
+ /**
 -- 
 2.31.1
 
