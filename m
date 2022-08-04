@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19665589EE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 17:47:14 +0200 (CEST)
-Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAFB5589EEB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 17:53:16 +0200 (CEST)
+Received: from localhost ([::1]:33588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJd44-0000Ms-BD
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 11:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57844)
+	id 1oJd9v-0002ZZ-RA
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 11:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJd1j-00074o-Dv
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:44:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44300)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJd8G-00010l-L2
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:51:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJd1g-0001qH-3i
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:44:45 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oJd8D-00038v-MB
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 11:51:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659627883;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1659628288;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s+m8lnletBIZ91Q6d9oN3wlCQeP9F5N9E65I0QdIa5s=;
- b=iWVACXu51q6HmxAeDgpofp9HoXeYck5VSpT+ZEqAjoyk1QX1Y+PnnX2rubCgwrdSg/BF2+
- SVYC6J6aXewYJfSKPt4XIe7A8w28k25dzRKFqbSCdYSSGktJxRexpifXcnvYDTf8R3K60c
- gGknjGH3JfL+aJHJ8KcTpRutwsnBSwE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bq9MrasRVDh2DPtAB1APKVnEdpAcjshkwiusEqYvi1U=;
+ b=WkkrXOWhvnrI2bcV4ogwnBleBcqwuN7GmJ0VwCwvCppi/g3Z4c7vwGYylTx5eRMkzyPI2m
+ aCvIZfzXVyooDdZcaXp+0PeHLGz/EgCqHLcrNaDJfmrlQpbe9sFRhai8yN91ka5paeuPfZ
+ 7jXIDtrW0SYP7ZxGA99ovI+JLB3SQ1E=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-38-hVQLrb-kPPKswg4N0h_IOw-1; Thu, 04 Aug 2022 11:44:40 -0400
-X-MC-Unique: hVQLrb-kPPKswg4N0h_IOw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7666F3804061;
- Thu,  4 Aug 2022 15:44:39 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07EEB492CA2;
- Thu,  4 Aug 2022 15:44:35 +0000 (UTC)
-Date: Thu, 4 Aug 2022 16:44:32 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
- Hao Wu <wuhaotsh@google.com>, richard.henderson@linaro.org,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com,
- Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com,
- f4bug@amsat.org, bin.meng@windriver.com, qemu-block@nongnu.org,
- thuth@redhat.com, Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
-Message-ID: <YuvpYExeQfW2zUd7@redhat.com>
-References: <20220714182836.89602-1-wuhaotsh@google.com>
- <20220714182836.89602-6-wuhaotsh@google.com>
- <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
- <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
- <YuvY8/WL0Jojv1Uj@redhat.com> <877d3odpm8.fsf@pond.sub.org>
- <YuvjJ7+B61UCLDrK@redhat.com> <87bkt0c9gf.fsf@pond.sub.org>
+ us-mta-340-Pp8vwl4-NXmt99EW574Rww-1; Thu, 04 Aug 2022 11:51:27 -0400
+X-MC-Unique: Pp8vwl4-NXmt99EW574Rww-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ hf13-20020a05622a608d00b003214b6b3777so62117qtb.13
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 08:51:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bq9MrasRVDh2DPtAB1APKVnEdpAcjshkwiusEqYvi1U=;
+ b=pjqiaswRKdsTCJvoVKXjMmG2lVnuNpyd9CNWIW07ii/MB6b7xjACqxgSoyAUmA240Q
+ UFt9Ep5rqA3r2CwozeCTxnVKY9xObYXFX5WvaOQWFnFUGRZGmUJWYvPGfyVAdkSfrMVY
+ ANwaQ1Qu5GC5VAz/QspwYeo3/fJfqam3OcRRGywE5MSp5AgT1ulqnC/c6prGrzCz+oyr
+ 1d3KrZrBZD0gWcWIc3vKjpVzxNCZ3aiet0gfKuLnpIbZLRcGoE0IqLJzo2wO3VASeh44
+ r3cVknoTBr5bjQXp+vSghtf8yh5kDYFKbVY4Xn1+G5rgBzmaP1wa4LF+LmyMx+yT5Yli
+ IsbA==
+X-Gm-Message-State: ACgBeo3R//L1C2ZZk3tnCCzdZv8dNsVQLplcJUvaoNgyo8A1RzLdCZGj
+ sZiwOBntjopo3XL9uhMvGigPKNq9/ShyIKDnaZeFwYjSvsKVU4Hu7pYi+eTCtcUjGjZaVMrIRFV
+ NPs++h5MTUrl9GMFnQp4m4M1/aFYHCec=
+X-Received: by 2002:a05:620a:21d8:b0:6b8:fc6d:e8ba with SMTP id
+ h24-20020a05620a21d800b006b8fc6de8bamr1805289qka.193.1659628286584; 
+ Thu, 04 Aug 2022 08:51:26 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6H7INypwGOd2AWwLxcLrcisEJReSSp2gSpaR6aOmM/xik9vwgjs7s5Go4KY9Ba+UDzuK2oV7CrQFRld7jIZh4=
+X-Received: by 2002:a05:620a:21d8:b0:6b8:fc6d:e8ba with SMTP id
+ h24-20020a05620a21d800b006b8fc6de8bamr1805280qka.193.1659628286354; Thu, 04
+ Aug 2022 08:51:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87bkt0c9gf.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+References: <20220802143908.274364-1-eperezma@redhat.com>
+ <CACGkMEtHaMXFqUN1o=Z-1c=s1hX81umSEbxP6Vf9cH34aERhYw@mail.gmail.com>
+ <CAJaqyWe0uxicTKOzM9Yp5PV6diTBFSKX2m8BVqckrMTD7dctYg@mail.gmail.com>
+ <e34cd9ee-ccb3-8447-28f1-9500b9f0a106@redhat.com>
+ <CAJaqyWebpuOcuud7F4KaQ3mmyf_4v6n4k9FJv_mzK0jVj2aVyA@mail.gmail.com>
+In-Reply-To: <CAJaqyWebpuOcuud7F4KaQ3mmyf_4v6n4k9FJv_mzK0jVj2aVyA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 4 Aug 2022 17:50:50 +0200
+Message-ID: <CAJaqyWd0LM1Dfpm1LnBSgjcLOZ-ocLVLNGgWG=hpxtXmMwyi0g@mail.gmail.com>
+Subject: Re: [PATCH] vdpa: do not save failed dma maps in SVQ iova tree
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -89,84 +94,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 04, 2022 at 05:30:40PM +0200, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Thu, Aug 04, 2022 at 04:56:15PM +0200, Markus Armbruster wrote:
-> >> Daniel P. Berrangé <berrange@redhat.com> writes:
-> >> 
-> >> > On Thu, Jul 28, 2022 at 10:46:35AM +0100, Peter Maydell wrote:
-> >> >> On Wed, 27 Jul 2022 at 20:03, Kevin Wolf <kwolf@redhat.com> wrote:
-> >> >> >
-> >> >> > Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
-> >> >> > > An OTP device isn't really a parallel flash, and neither are eFuses.
-> >> >> > > More fast-and-lose use of IF_PFLASH may exist in the tree, and maybe of
-> >> >> > > other interface types, too.
-> >> >> > >
-> >> >> > > This patch introduces IF_OTHER.  The patch after next uses it for an
-> >> >> > > EEPROM device.
-> >> >> > >
-> >> >> > > Do we want IF_OTHER?
-> >> >> >
-> >> >> > What would the semantics even be? Any block device that doesn't pick up
-> >> >> > a different category may pick up IF_OTHER backends?
-> >> >> >
-> >> >> > It certainly feels like a strange interface to ask for "other" disk and
-> >> >> > then getting as surprise what this other thing might be. It's
-> >> >> > essentially the same as having an explicit '-device other', and I
-> >> >> > suppose most people would find that strange.
-> >> >> >
-> >> >> > > If no, I guess we get to abuse IF_PFLASH some more.
-> >> >> > >
-> >> >> > > If yes, I guess we should use IF_PFLASH only for actual parallel flash
-> >> >> > > memory going forward.  Cleaning up existing abuse of IF_PFLASH may not
-> >> >> > > be worth the trouble, though.
-> >> >> > >
-> >> >> > > Thoughts?
-> >> >> >
-> >> >> > If the existing types aren't good enough (I don't have an opinion on
-> >> >> > whether IF_PFLASH is a good match), let's add a new one. But a specific
-> >> >> > new one, not just "other".
-> >> >> 
-> >> >> I think the common thread is "this isn't what anybody actually thinks
-> >> >> of as being a 'disk', but we would like to back it with a block device
-> >> >> anyway". That can cover a fair range of possibilities...
-> >> >
-> >> > Given that, do we even want/have to use -drive for this ?    We can use
-> >> > -blockdev for the backend and reference that from any -device we want
-> >> > to create, and leave -drive out of the picture entirely
-> >> 
-> >> -drive is our only means to configure onboard devices.
-> >> 
-> >> We've talked about better means a few times, but no conclusions.  I can
-> >> dig up pointers, if you're interested.
+On Thu, Aug 4, 2022 at 5:02 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
+>
+> On Thu, Aug 4, 2022 at 6:51 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > For onboard pflash with x86, we've just got properties against the
-> > machine that we can point to a blockdev.
-> 
-> True, but the vast majority of onboard block devices doesn't come with
-> such properties.  Please see
-> 
-> Subject: On configuring onboard block devices with -blockdev (was: [PATCH v4 6/7] hw/nvram: Update at24c EEPROM init function in NPCM7xx boards)
-> Date: Mon, 15 Nov 2021 16:28:33 +0100
-> Message-ID: <875ystigke.fsf_-_@dusky.pond.sub.org>
-> https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg03173.html
+> >
+> > =E5=9C=A8 2022/8/3 16:12, Eugenio Perez Martin =E5=86=99=E9=81=93:
+> > > On Wed, Aug 3, 2022 at 10:09 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > >> On Tue, Aug 2, 2022 at 10:39 PM Eugenio P=C3=A9rez <eperezma@redhat.=
+com> wrote:
+> > >>> If a map fails for whatever reason, it must not be saved in the tre=
+e.
+> > >>> Otherwise, qemu will try to unmap it in cleanup, leaving to more er=
+rors.
+> > >>>
+> > >>> Fixes: 34e3c94eda ("vdpa: Add custom IOTLB translations to SVQ")
+> > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >>> ---
+> > >>>   hw/virtio/vhost-vdpa.c | 20 +++++++++++++-------
+> > >>>   1 file changed, 13 insertions(+), 7 deletions(-)
+> > >>>
+> > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > >>> index 3ff9ce3501..e44c23dce5 100644
+> > >>> --- a/hw/virtio/vhost-vdpa.c
+> > >>> +++ b/hw/virtio/vhost-vdpa.c
+> > >>> @@ -176,6 +176,7 @@ static void vhost_vdpa_listener_commit(MemoryLi=
+stener *listener)
+> > >>>   static void vhost_vdpa_listener_region_add(MemoryListener *listen=
+er,
+> > >>>                                              MemoryRegionSection *s=
+ection)
+> > >>>   {
+> > >>> +    DMAMap mem_region =3D {};
+> > >>>       struct vhost_vdpa *v =3D container_of(listener, struct vhost_=
+vdpa, listener);
+> > >>>       hwaddr iova;
+> > >>>       Int128 llend, llsize;
+> > >>> @@ -212,13 +213,13 @@ static void vhost_vdpa_listener_region_add(Me=
+moryListener *listener,
+> > >>>
+> > >>>       llsize =3D int128_sub(llend, int128_make64(iova));
+> > >>>       if (v->shadow_vqs_enabled) {
+> > >>> -        DMAMap mem_region =3D {
+> > >>> -            .translated_addr =3D (hwaddr)(uintptr_t)vaddr,
+> > >>> -            .size =3D int128_get64(llsize) - 1,
+> > >>> -            .perm =3D IOMMU_ACCESS_FLAG(true, section->readonly),
+> > >>> -        };
+> > >> Nit: can we keep this part unchanged?
+> > >>
+> > > We can, but that implies we should look for iova again at fail_map
+> > > tag. If you are ok with that I'm fine to perform the search again.
+> >
+> >
+> > I meant something like:
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 9a2daef7e3..edf40868e3 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -232,11 +232,15 @@ static void
+> > vhost_vdpa_listener_region_add(MemoryListener *listener,
+> >                                vaddr, section->readonly);
+> >       if (ret) {
+> >           error_report("vhost vdpa map fail!");
+> > -        goto fail;
+> > +        goto fail_unmap;
+> >       }
+> >
+> >       return;
+> >
+> > +fail_unmap:
+> > +    if (v->shadow_vqs_enabled) {
+> > +        vhost_iova_tree_remove(v->iova_tree, &mem_region);
+> > +    }
+> >   fail:
+> >       /*
+> >        * On the initfn path, store the first error in the container so =
+we
+> >
+>
+> Sorry, still not following.
+>
+> mem_region does not exist in the error path, since it's declared in
+> the if (v->shadow_vqs_enabled){} block. We can left first part
+> unchanged if we do a lookup for the mem region, based on the
+> translated addr.
+>
 
-My take away from your mail there is that in the absence of better ideas
-we should at least use machine properties for anything new we do so we
-don't make the problem worse than it already is. It feels more useful
-than inventing new IF_xxx possibilities for something we think is the
-wrong approach already.
+Sending v2 expanding the fix without this comment, please let me know
+ifI misunderstood something.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks!
 
 
