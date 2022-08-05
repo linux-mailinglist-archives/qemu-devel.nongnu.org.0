@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095C258A9A8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:48:17 +0200 (CEST)
-Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBD958A991
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:42:16 +0200 (CEST)
+Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJusJ-0001mL-70
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
+	id 1oJumV-00040M-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oJuLV-0004pW-KB
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:14:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59588)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJuMN-0006M7-0X
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:15:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oJuLQ-0006ra-Pw
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:14:18 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJuML-00078t-4e
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:15:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659694455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1659694512;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gC67k+11SVEN7I5PZYi44RT9oEl/9YA6nhjkchv00Uc=;
- b=I0PNbDPOroSyx+zNIV5neAyskftjseRhvtkSxriYyOJB4VCvCbOSwdHBDgKxS1Om71/7zA
- j5UH4EruSvJ8bdQMXM7GQ4IUseRfT/p5pVmkxpwnCTGIoNXfxOKCikeGA1+bUmlvZMvXHg
- MD5Kiazaa87NhtjdZwyXV8umi5geWS4=
+ bh=9ECx7LatQHc1kE2K0iML3kydI+2ZI+/2E8lGkzcbgNE=;
+ b=TXag1areCE7jFJNmtquxPILEBrvdB+TWNPt4JlqUwsD1ga0t9r+AlO5W5uyW9I/2hz+mFX
+ oMDPosYFMZ+ENbqDwN5f7rhbErtxecTlRR5nPhUbNl6c6hgHSMi9OhJqkT+N0wTEZcwDmF
+ fORCB1X2dnp51k6KKWOGf4f5PYIW4/0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-617RlTc1OgKXeydzMjziwQ-1; Fri, 05 Aug 2022 06:14:12 -0400
-X-MC-Unique: 617RlTc1OgKXeydzMjziwQ-1
+ us-mta-673-HGiau_JtMlixZVJP7W-39A-1; Fri, 05 Aug 2022 06:15:11 -0400
+X-MC-Unique: HGiau_JtMlixZVJP7W-39A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F7B5803520;
- Fri,  5 Aug 2022 10:14:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F122C1121315;
- Fri,  5 Aug 2022 10:14:11 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, Christian
- Borntraeger <borntraeger@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Eric Farman <farman@linux.ibm.com>, Halil Pasic
- <pasic@linux.ibm.com>
-Subject: Re: [PATCH] pc-bios/s390-ccw: Fix booting with logical block size <
- physical block size
-In-Reply-To: <20220805094214.285223-1-thuth@redhat.com>
-Organization: Red Hat GmbH
-References: <20220805094214.285223-1-thuth@redhat.com>
-User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date: Fri, 05 Aug 2022 12:14:10 +0200
-Message-ID: <875yj780b1.fsf@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E82D811E75
+ for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 10:15:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD3931121314;
+ Fri,  5 Aug 2022 10:15:09 +0000 (UTC)
+Date: Fri, 5 Aug 2022 11:15:01 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] RFC: char: deprecate usage of bidirectional pipe
+Message-ID: <YuztpbXbc9+VO9nb@redhat.com>
+References: <20220726083232.2567756-1-marcandre.lureau@redhat.com>
+ <Yt+pabvylcNdh0wL@redhat.com>
+ <CAMxuvayRg_q6k_KV8LnYy2W0kbfVPZVzB-Ooz7Fzdc84fjBM6A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMxuvayRg_q6k_KV8LnYy2W0kbfVPZVzB-Ooz7Fzdc84fjBM6A@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,49 +83,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05 2022, Thomas Huth <thuth@redhat.com> wrote:
+On Fri, Aug 05, 2022 at 01:55:41PM +0400, Marc-André Lureau wrote:
+> Hi
+> 
+> On Tue, Jul 26, 2022 at 12:44 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Tue, Jul 26, 2022 at 12:32:32PM +0400, marcandre.lureau@redhat.com wrote:
+> > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > >
+> > > As Ed Swierk explained back in 2006:
+> > > https://lists.nongnu.org/archive/html/qemu-devel/2006-12/msg00160.html
+> > >
+> > > "When qemu writes into the pipe, it immediately reads back what it just
+> > > wrote and treats it as a monitor command, endlessly breathing its own
+> > > exhaust."
+> > >
+> > > This is similarly confusing when using the chardev with a serial device,
+> > > as reported in https://bugzilla.redhat.com/show_bug.cgi?id=2106975.
+> > >
+> > > It seems we have kept the support for bidirectional pipes for historical
+> > > reasons and odd systems, however it's not documented in qemu -chardev
+> > > options. I suggest to stop supporting it, for portability reasons.
+> >
+> > Hmm, I always assumed that in this scenario the pipe was operating
+> > in output-only mode. Obviously not the case with the code as it
+> > exists, but perhaps this would be useful ?  eg its good as a serial
+> > console logging mechanism at least.
+> 
+> The current "-chardev pipe,id=id,path=path" option handling will first
+> check the presence of unidirectional "path.in" & "path.out" (although
+> they are opened RDWR...), and fallback on bidirectional "path".
+> 
+> We could allow for the presence of "path.out" alone, although this may
+> be a behaviour/breaking change:
 
-> For accessing single blocks during boot, it's the logical block size that
-> matters. (Physical block sizes are rather interesting e.g. for creating
-> file systems with the correct alignment for speed reasons etc.).
-> So the s390-ccw bios has to use the logical block size for calculating
-> sector numbers during the boot phase, the "physical_block_exp" shift
-> value must not be taken into account. This change fixes the boot process
-> when the guest hast been installed on a disk where the logical block size
-> differs from the physical one, e.g. if the guest has been installed
-> like this:
->
->  qemu-system-s390x -nographic -accel kvm -m 2G \
->   -drive if=none,id=d1,file=fedora.iso,format=raw,media=cdrom \
->   -device virtio-scsi -device scsi-cd,drive=d1 \
->   -drive if=none,id=d2,file=test.qcow2,format=qcow2
->   -device virtio-blk,drive=d2,physical_block_size=4096,logical_block_size=512
->
-> Linux correctly uses the logical block size of 512 for the installation,
-> but the s390-ccw bios tries to boot from a disk with 4096 block size so
-> far, as long as this patch has not been applied yet (well, it used to work
-> by accident in the past due to the virtio_assume_scsi() hack that used to
-> enforce 512 byte sectors on all virtio-block disks, but that hack has been
-> well removed in commit 5447de2619050a0a4d to fix other scenarios).
+If we allow path.out alone, then we loose error diagnostic when
+path.out is succesfully opened, but path.in fails. I wouldn't
+call that a back compat breakage.
 
-I wonder whether there's more stuff lurking in there; the old code seems
-to have "worked" in many cases by accident, and cleaning up things might
-expose more odd code. Generally, reading ccw bios code gives me a
-headache :)
+My preference would always be to use the exact path that was
+given as the CLI parameter.
 
->
-> Fixes: 5447de2619 ("pc-bios/s390-ccw/virtio-blkdev: Remove virtio_assume_scsi()")
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2112303
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  pc-bios/s390-ccw/virtio-blkdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+IOW, we really ought to have had
 
-Looks sane to me.
+   -chardev pipe,id=id,input=path,output=path
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+and allowed both of them to be optional, eg both of them should
+semantically mean /dev/null in behavioural terms if omitted
+
+IOW we could just deprecate 'path' entirely and introduce this
+saner approach to config.
+
+Alternatively, I would just unconditionally change
+
+diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+index 66d3b85091..3dda3d5cc6 100644
+--- a/chardev/char-pipe.c
++++ b/chardev/char-pipe.c
+@@ -142,7 +142,7 @@ static void qemu_chr_open_pipe(Chardev *chr,
+         if (fd_out >= 0) {
+             close(fd_out);
+         }
+-        TFR(fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY));
++        TFR(fd_in = fd_out = qemu_open_old(filename, O_WRONLY | O_BINARY));
+         if (fd_in < 0) {
+             error_setg_file_open(errp, errno, filename);
+             return;
+
+
+given that semantics on any UNIX platform we target are for pipes to be
+unidirectional, and eating our own output is uselessly broken, we could
+reasonably justify doing that change simply as a bug fix and ignore any
+notion of 'deprecation',
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
