@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0486258A98B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:41:13 +0200 (CEST)
-Received: from localhost ([::1]:60272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C5A58A92C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:03:35 +0200 (CEST)
+Received: from localhost ([::1]:41454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJulS-00026M-JS
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
+	id 1oJuB4-0001XJ-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1oJu0m-0006GG-Dr
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:52:56 -0400
-Received: from mga05.intel.com ([192.55.52.43]:30446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1oJu0k-0003fi-2o
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:52:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659693174; x=1691229174;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VOPE7NNTqzl48Cj4IY6PH5/D0uhul2nS/7oloaS2Qxg=;
- b=fQGAD3Hrop5N0A+AaL11EJCsOtOt59GfQeUZ+M1kF5r6kV98LAU7JRnM
- 7E1uYWHsj7lliCfIuBw2NWQH6vHMu/RMeDYH+zA6qOernW5x+7D4TLret
- aAhF5eVA/7aR3LW7wdtIPbz3h5Hbdx3PV/BPJCh+T+hDZE96An7Jg4zY5
- 4FMc+uKJZfwhasmPT836E9VF293ovjPcb6M7a+WN7rJG3pMe77GyD/nMw
- d7nGrl+5IOuQCJ9Yi3Sgbc/jKxgYXtwi48YTDvwuyJBsLtjvx0E5HY2dz
- H4V5ngFND+5UOyZWpwp8yWRYMKKuGMx6Rbrbe+b3FpdJfiLFrklSeiTO1 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10429"; a="376463084"
-X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="376463084"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2022 02:52:52 -0700
-X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="931176210"
-Received: from tkid-nvme.sh.intel.com ([10.239.161.133])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2022 02:52:50 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
-Cc: Zhang Chen <chen.zhang@intel.com>
-Subject: [PATCH V2] net/colo.c: Fix the pointer issuse reported by Coverity.
-Date: Fri,  5 Aug 2022 17:38:13 +0800
-Message-Id: <20220805093813.119839-1-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oJtoT-0007Xe-3F
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:14 -0400
+Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:45847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oJtoR-0001eJ-I2
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:12 -0400
+Received: by mail-ua1-x929.google.com with SMTP id f15so823648uao.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 02:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=3T43QlQibN7vdNRHwhh2Sn7d+vV3xA8nJznfbZuZtAo=;
+ b=Si6eyF7mClXxSF8DlpMjf/Akk6qIZyKSTI13kwWZoZs+eOz00XBe7MkCUMq/BfaoTE
+ V3W87XhqOk62bSU484KthpUJvs4Paxj+8OyISzCGuiFyMXfx6jsVd2N+zxc8pssLi7NT
+ d72rDwWmAH/kYpqEo+7HFq2N4PGn4iDYue1sCiXIsXRLdnUTclqSfQiDYshMjewrNVkY
+ lUrjTWjAu51cdnpr/mx4Ir13r5cKGWkZ83QZxeQI0XkyAJQDoAFkbozHiGDzzDESPn86
+ +qOmXregxLcHd1RIRGqMdh0B8lzMlHFc9yB451Vt0NzHWo+sGiuThZ9S3tzgRbqrOOhc
+ 404A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=3T43QlQibN7vdNRHwhh2Sn7d+vV3xA8nJznfbZuZtAo=;
+ b=JYvxriDL80yTmaG4KejZYueHszKZ+J80Thk/zzFhmfzkTfbSffqf+YV+lVJGQu53ta
+ SjGwgGQ6vpoj8aisq2zMBqxhnwpYZMogSBw9yfOBRz1IK/Q0cBNA+dijfONCg0DgfakT
+ o2dqBCO5Qi20qFut0F9f98t6OGKWK7BbVuCKYpei/kztiJSsIFSzgNkqdALA32SPjt2A
+ ap6+v2m0kpbLjgwHxdRv6/IEST7KYwIC/yaoEvYvpWTIMv3eCcmi/ENGc2PqX+Lq4kYD
+ QLfCKXjd6LIrg+Tq735ZRsori63LhiFCxG0y3PgOZWCtZ40SKP+hUXLWrdjAn1j4C7Fh
+ Y6bg==
+X-Gm-Message-State: ACgBeo3tGxh3CDJ0Tx7twuunf3uwKn79674K4hRU9DDA9QDbD9TI3jtT
+ Ekwb/9ZsrZYIa66VGe0+R7l2clNvVas=
+X-Google-Smtp-Source: AA6agR4XiiWYo/MVxI096pD2elrWqRIVAYIs64AEeIR0eU1aFVxLGetn/eLiWd8U+Mwj4WObYW8fXA==
+X-Received: by 2002:ab0:764c:0:b0:386:3e8c:4c7b with SMTP id
+ s12-20020ab0764c000000b003863e8c4c7bmr2735357uaq.17.1659692408433; 
+ Fri, 05 Aug 2022 02:40:08 -0700 (PDT)
+Received: from balboa.COMFAST ([191.19.239.67])
+ by smtp.gmail.com with ESMTPSA id
+ f9-20020a1f1f09000000b00376f4f93745sm2668496vkf.10.2022.08.05.02.40.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Aug 2022 02:40:08 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, david@gibson.dropbear.id.au,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Subject: [PATCH for-7.2 v2 07/20] hw/ppc: set machine->fdt in
+ xilinx_load_device_tree()
+Date: Fri,  5 Aug 2022 06:39:35 -0300
+Message-Id: <20220805093948.82561-8-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220805093948.82561-1-danielhb413@gmail.com>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=chen.zhang@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,55 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When enable the virtio-net-pci, guest network packet will
-load the vnet_hdr. In COLO status, the primary VM's network
-packet maybe redirect to another VM, it need filter-redirect
-enable the vnet_hdr flag at the same time, COLO-proxy will
-correctly parse the original network packet. If have any
-misconfiguration here, the vnet_hdr_len is wrong for parse
-the packet, the data+offset will point to wrong place.
+This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
+the virtex_ml507 machine.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- net/colo.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ hw/ppc/virtex_ml507.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/net/colo.c b/net/colo.c
-index 6b0ff562ad..524afa3d9b 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -44,21 +44,22 @@ int parse_packet_early(Packet *pkt)
- {
-     int network_length;
-     static const uint8_t vlan[] = {0x81, 0x00};
--    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
-+    uint8_t *data = pkt->data;
-     uint16_t l3_proto;
-     ssize_t l2hdr_len;
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 53b126ff48..ed1d37486d 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -45,6 +45,8 @@
+ #include "hw/qdev-properties.h"
+ #include "ppc405.h"
  
--    if (data == NULL) {
--        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
-+    assert(data);
++#include <libfdt.h>
 +
-+    /* Check the received vnet_hdr_len then add the offset */
-+    if (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
-+        + pkt->vnet_hdr_len) {
-+        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
-                                         "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-         return 1;
-     }
--    l2hdr_len = eth_get_l2_hdr_length(data);
-+    data += pkt->vnet_hdr_len;
+ #define EPAPR_MAGIC    (0x45504150)
+ #define FLASH_SIZE     (16 * MiB)
  
--    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
--        trace_colo_proxy_main("pkt->size < ETH_HLEN");
--        return 1;
--    }
-+    l2hdr_len = eth_get_l2_hdr_length(data);
+@@ -153,6 +155,7 @@ static int xilinx_load_device_tree(hwaddr addr,
+                                       hwaddr initrd_size,
+                                       const char *kernel_cmdline)
+ {
++    MachineState *machine = MACHINE(qdev_get_machine());
+     char *path;
+     int fdt_size;
+     void *fdt = NULL;
+@@ -197,7 +200,15 @@ static int xilinx_load_device_tree(hwaddr addr,
+     if (r < 0)
+         fprintf(stderr, "couldn't set /chosen/bootargs\n");
+     cpu_physical_memory_write(addr, fdt, fdt_size);
+-    g_free(fdt);
++
++    /*
++     * Update the machine->fdt pointer to enable support for
++     * 'dumpdtb' and 'info fdt' commands. Use fdt_pack() to
++     * shrink the blob size we're going to store.
++     */
++    fdt_pack(fdt);
++    machine->fdt = fdt;
++
+     return fdt_size;
+ }
  
-     /*
-      * TODO: support vlan.
 -- 
-2.25.1
+2.36.1
 
 
