@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5051558B094
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 21:57:39 +0200 (CEST)
-Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A799158B09C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 21:59:09 +0200 (CEST)
+Received: from localhost ([::1]:45744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK3Ry-0003I2-7l
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 15:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37776)
+	id 1oK3TQ-0005El-Ql
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 15:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oK3Pk-0006NM-OR
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:55:20 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:38411)
+ id 1oK3Pl-0006O1-89
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:55:21 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:56281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oK3Pi-0004V6-VD
+ id 1oK3Pj-0004VJ-PK
  for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:55:20 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id o3so3517458ple.5
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 12:55:18 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id a8so3657685pjg.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 12:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B3SQ2DS2cpLqWmrbJI8Ooour/usv3U2Is5Duz3qXlLo=;
- b=VDe70jBiWqL6NfF37hdc9AaPGLBAAXOWO5MMRTl3t3TNCPz6N7FpA2W6b9m8795vkT
- f6jlftBaPdKca4l7gpRdEQvuHvdtxymRN4RBp3vI/t08dGHc+KTgBH2p9gJVgPzW33MJ
- r6BT8xfxo23F7MPEmX1Xh4AbkzJT0QnVPeDn2FWIUaFwKc+b4+yxMXmz17nlMCsUJZax
- ++Ua0mczEH8+hRFHuuFFzN4Cbaj7Fqc3saM/S8lI7e8H+8eV4cm2tym/VIAPaAWbywTx
- 2ed7QOW9tZNN4FolnwxRaIvkUbUybfvBerY3sMaFjzrZpFrscHulcVCbnfV6YIU0NZd7
- JnJA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=XoU1ivq664BvtVyoqP3w9U5Cy8Z2Wrd2UTjf3IBy+og=;
+ b=FkgaMo+C+6HJ7MZqb7CEjwD5SBayfdFuUK2Scu2quYO3o4FKx3jXcYa9ud0WAgCSin
+ ySmjj6lMnALnumdmlEALj2IwyIZajl53PSrIqnlV0Wyy1BQpWvdjLVRGMipxLOQwH92q
+ KzKtJMluVe3x/4NwQKX/9jpeMlI7kU2p2NbX6oZqFqR4J6n8X97gZbMH0gZddhUAXZKy
+ HYkyIzgUH0Qj9+1BucFb7pj3dFHvoUOPDsO4CXNHAYi5bO26z1Dfze2A+MlsAlVgtuhg
+ Y1PDhYCCH5wbuteTn4xLZGeCUsweXExqwMYPxaQsUv+FD8K7gDR8OjD0XDJurCAEJJ7U
+ C8BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B3SQ2DS2cpLqWmrbJI8Ooour/usv3U2Is5Duz3qXlLo=;
- b=C5yYKiSomQpOR1p8bmy+Kfr4AfBY7dUYxJUMOvuYKc66J3ZWVtEEO2cUWK4esN8Yo8
- GTcvs4Gv9G7bbW26x1Yqs/Y/A31hKd8bLgVAISwxmZCmRrtnjSEteHHFsqlaIohocyNv
- urN7szCWgBq1L4ikaxfS24abxdKhRzZLv/NtUKAtkfTFaAA0IzmEzX0yvYirpM33jHq0
- D6a0HeYmsCnmO4lCg+ffktqnOzy+EG2TZeLzuoFVQCF/dmaarmdMgZFkRn1SFLNm0+7g
- S3//RHOj17egaNSrcM5g38uvSUFDOx5f9B7iDYCutE88FS2hDZ0WONfPKV6oyptzzSUH
- WK1A==
-X-Gm-Message-State: ACgBeo2Sy0+yz1zPUNIqf8YlH5pnTdhA3lcgSAaZPHCyWJCj0qeznIhq
- kq+zEEHuxENsDXOehWJErWAaYYumL+32Dg==
-X-Google-Smtp-Source: AA6agR4+Pc3xmi9j1mpwJUj8MtjvtQOjSzgwWtOmuZT9iNLDil/m8w846eTKvdDS4+hMnx0sM+9oYw==
-X-Received: by 2002:a17:902:f54e:b0:16f:206b:74cc with SMTP id
- h14-20020a170902f54e00b0016f206b74ccmr8375707plf.170.1659729317466; 
- Fri, 05 Aug 2022 12:55:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=XoU1ivq664BvtVyoqP3w9U5Cy8Z2Wrd2UTjf3IBy+og=;
+ b=pT8JXNMTs/AoAhltQhS6covNN8lE5fSPjYX8RICcisNSmjEBP0iXb7VMM75+o8adNb
+ MaEVJjO0cg3KNDSEvxodieCnXKV/kKbod4iRs4Bb/dkxeq50aEFXh7Ur7ZjxFLcGoSX0
+ yZIllzExIV46WpC27QWOrDotMNmp8y7AaX+SwVtgEcLNqyS8YFub9Wst1dK8v5URHXbT
+ QOz2bhPQv6RGdfnKh5cZyI0M73TFUthSi6uMMgiXu/y8Dz/FccVCnsgFpTzLKUZegrYg
+ dnBtanCgMKSMvNT2zN4p46av4y1D0kQQEw32qtPd8hEHfaR9/4lG9WuHtaqe6OusMqOw
+ pVbg==
+X-Gm-Message-State: ACgBeo1Ts/sf1/bp5McZ6hc7KSeoPMjhnjJm7PuSSbqfDSseaiUkUG6I
+ CcxXlT6otC+IfBs0AVrK7TNX3pC4C0hTHA==
+X-Google-Smtp-Source: AA6agR6HGWlkXQjYCp4wVYVTWW8rzrS9pS9gmbzfqZevMwJp6SIOtHv6Q5s8w1PuGbx2CGIGLCII2w==
+X-Received: by 2002:a17:90b:4f42:b0:1f5:6976:7021 with SMTP id
+ pj2-20020a17090b4f4200b001f569767021mr9472482pjb.30.1659729318421; 
+ Fri, 05 Aug 2022 12:55:18 -0700 (PDT)
 Received: from stoup.. ([2602:ae:154e:e201:abf8:e436:f4c:9089])
  by smtp.gmail.com with ESMTPSA id
- h13-20020a170902f70d00b0016f0c2ea158sm3393048plo.157.2022.08.05.12.55.16
- for <qemu-devel@nongnu.org>
+ h13-20020a170902f70d00b0016f0c2ea158sm3393048plo.157.2022.08.05.12.55.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 12:55:16 -0700 (PDT)
+ Fri, 05 Aug 2022 12:55:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] loongarch patch queue
-Date: Fri,  5 Aug 2022 12:55:08 -0700
-Message-Id: <20220805195515.349768-1-richard.henderson@linaro.org>
+Cc: Qi Hu <huqi@loongson.cn>,
+	Song Gao <gaosong@loongson.cn>
+Subject: [PULL 1/7] target/loongarch: Fix macros SET_FPU_* in cpu.h
+Date: Fri,  5 Aug 2022 12:55:09 -0700
+Message-Id: <20220805195515.349768-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220805195515.349768-1-richard.henderson@linaro.org>
+References: <20220805195515.349768-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,47 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 09ed077d7fae5f825e18ff9a2004dcdd1b165edb:
+From: Qi Hu <huqi@loongson.cn>
 
-  Merge tag 'trivial-branch-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-04 17:21:13 -0700)
+The macros SET_FPU_* are used to set corresponding bits of fcsr.
+Unfortunately it forgets to set the result and it causes fcsr's
+"CAUSE" never being updated. This patch is to fix this bug.
 
-are available in the Git repository at:
+Signed-off-by: Qi Hu <huqi@loongson.cn>
+Reviewed-by: Song Gao <gaosong@loongson.cn>
+Message-Id: <20220804132450.314329-1-huqi@loongson.cn>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/loongarch/cpu.h | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-la-20220805
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index a36349df83..dce999aaac 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -47,11 +47,23 @@ FIELD(FCSR0, FLAGS, 16, 5)
+ FIELD(FCSR0, CAUSE, 24, 5)
+ 
+ #define GET_FP_CAUSE(REG)      FIELD_EX32(REG, FCSR0, CAUSE)
+-#define SET_FP_CAUSE(REG, V)   FIELD_DP32(REG, FCSR0, CAUSE, V)
++#define SET_FP_CAUSE(REG, V) \
++    do { \
++        (REG) = FIELD_DP32(REG, FCSR0, CAUSE, V); \
++    } while (0)
++
+ #define GET_FP_ENABLES(REG)    FIELD_EX32(REG, FCSR0, ENABLES)
+-#define SET_FP_ENABLES(REG, V) FIELD_DP32(REG, FCSR0, ENABLES, V)
++#define SET_FP_ENABLES(REG, V) \
++    do { \
++        (REG) = FIELD_DP32(REG, FCSR0, ENABLES, V); \
++    } while (0)
++
+ #define GET_FP_FLAGS(REG)      FIELD_EX32(REG, FCSR0, FLAGS)
+-#define SET_FP_FLAGS(REG, V)   FIELD_DP32(REG, FCSR0, FLAGS, V)
++#define SET_FP_FLAGS(REG, V) \
++    do { \
++        (REG) = FIELD_DP32(REG, FCSR0, FLAGS, V); \
++    } while (0)
++
+ #define UPDATE_FP_FLAGS(REG, V) \
+     do { \
+         (REG) |= FIELD_DP32(0, FCSR0, FLAGS, V); \
+-- 
+2.34.1
 
-for you to fetch changes up to 2f149c759ff352399e7a0eca25a62388822d7d13:
-
-  target/loongarch: Update gdb_set_fpu() and gdb_get_fpu() (2022-08-05 10:02:40 -0700)
-
-----------------------------------------------------------------
-LoongArch updates:
-  Store value in SET_FPU_* macros.
-  Fix unused variable Werrors in acpi-build.c
-  Update xml to match upstream gdb.
-
-----------------------------------------------------------------
-Qi Hu (1):
-      target/loongarch: Fix macros SET_FPU_* in cpu.h
-
-Song Gao (6):
-      hw/loongarch: remove acpi-build.c unused variable 'aml_len'
-      target/loongarch: Fix GDB get the wrong pc
-      target/loongarch: add gdb_arch_name()
-      target/loongarch: update loongarch-base64.xml
-      target/loongarch: Update loongarch-fpu.xml
-      target/loongarch: Update gdb_set_fpu() and gdb_get_fpu()
-
- configs/targets/loongarch64-softmmu.mak |  2 +-
- target/loongarch/cpu.h                  | 18 +++++++++--
- target/loongarch/internals.h            |  3 ++
- hw/loongarch/acpi-build.c               | 11 +------
- linux-user/loongarch64/signal.c         | 24 ++------------
- target/loongarch/cpu.c                  |  8 ++++-
- target/loongarch/gdbstub.c              | 43 +++++++++++++++++++------
- gdb-xml/loongarch-base64.xml            | 13 ++++----
- gdb-xml/loongarch-fpu.xml               | 50 +++++++++++++++++++++++++++++
- gdb-xml/loongarch-fpu64.xml             | 57 ---------------------------------
- 10 files changed, 119 insertions(+), 110 deletions(-)
- create mode 100644 gdb-xml/loongarch-fpu.xml
- delete mode 100644 gdb-xml/loongarch-fpu64.xml
 
