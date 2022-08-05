@@ -2,87 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8128358AB7D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 15:21:00 +0200 (CEST)
-Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5DE558AB8C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 15:24:33 +0200 (CEST)
+Received: from localhost ([::1]:43944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJxG7-0003wB-13
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 09:20:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
+	id 1oJxJY-0006i5-Jd
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 09:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oJxC1-0001kK-Mx
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:16:45 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:34440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oJxC0-0000DV-2z
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:16:45 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-31f443e276fso24220567b3.1
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 06:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=uiSeEckWkl11KCMR9KCT4UTY+DqLtii1NR/9u0MUByg=;
- b=ihEKeGhh2TNkoIWVOJG/HM+Yxm6ybvNkHGkZHSvmP8MZyYRcQFcLgyKvMOrTxeLktq
- kbM4M6R+z3tfZ3XcklEFdL9K87Afo+bN7A5+/Uv83YQ0ktwyX+Sc1YbP1Nu/9IbaS5R3
- 6DpuQPl0TrAri96BYk2CPlw4S0RfyLB+mI0KajPGzSj/1vFI4aycCjV6zKZSmshEBCI9
- O8Rkt00sHf0CDG7BKnzAFj8MgvLdYugo4FShK4KL8DoNtt0G2yFqjGBkfWuTafK0WEIN
- jcvbQDEEu9LPVdNSVhg3Gg/pfBxbNu4+Cu5tobaGBuUWhczqZ4aj+aGnVQUnUvEEnA/1
- Nsyg==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oJxHa-0004M4-KL
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:22:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oJxHX-0001GC-LZ
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:22:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659705746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=21yPqh1UpYkf0CnX5Ev52wGye4k7uv4wjGlBgxPnu80=;
+ b=LfStc7DJ31NIf0gkDkFTgJLfUq0HYlnGb4e6pw+eoxKajtlNkpSX5OS4zlftknzsoPNx9k
+ ZSbUXEoJ4NdNbKjQAOgVvIYwaHIYXsTVKZDWsRiX6HN7kx/p2DqRHOcitbPT2xSslZt5Gq
+ q72b/06Pi+RLW++bADh1/MX3wA367nM=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-642-fHf3lFf2MzmW0r3UR3VWBA-1; Fri, 05 Aug 2022 09:22:25 -0400
+X-MC-Unique: fHf3lFf2MzmW0r3UR3VWBA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ t9-20020ac85309000000b0031ee055ad11so1915418qtn.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 06:22:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=uiSeEckWkl11KCMR9KCT4UTY+DqLtii1NR/9u0MUByg=;
- b=H8l+ruMTLeUV7LvsGIlVf2SWZbrcuPPU3PNjp52L1moQXDxriJvl9JGBDIwvmUsktS
- fKIr6mxIX3KS+9a0B4uhwx9C2twEwLPZceY5yg+OoBxozNWmGYaFoC7EuZ9Rqwl+Ajo2
- r29JETfAk2PlwsUbJYOPyXLxIv7fMOpmxYSJBb82e8KENjIOXeUk6Cy27vkdT+wuY6mU
- /tLnl7jsl6VEJOqyuCqif44gfEJcTLJKkKrVAat18Oklb7vrxZmMrYGsVRMG3C3qniYc
- d6IXqkPmbdCcOCH+sHLd4wx754MZQ6CCzPWw8HT5JZlljTXFxp6qxld7y/2jyH439E+Y
- bp0A==
-X-Gm-Message-State: ACgBeo0fqpcvsnTlowrWLnZwlLd3zCOZ3+pV72FVzDZE25pvf1b+k8F9
- Gz+Pw5ZcKb56q0/RWi57pEiEnotqZdyTiEo1OmuG0w==
-X-Google-Smtp-Source: AA6agR5+hkGBcsolZKJ7iJRMkvPFU5mmliCU456jwCmHFjn5rGMg72l2U2tYcYGJXevXbUCHsDamdZtFd65eKL2IL68=
-X-Received: by 2002:a0d:cc0d:0:b0:31f:8a70:38e0 with SMTP id
- o13-20020a0dcc0d000000b0031f8a7038e0mr5750929ywd.347.1659705402833; Fri, 05
- Aug 2022 06:16:42 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=21yPqh1UpYkf0CnX5Ev52wGye4k7uv4wjGlBgxPnu80=;
+ b=y9Hk9wzpz93v4ohpWQ8oooMCEHkkBKz45xwL+s68I7QMhXM6kI+5nKKjgWstyY/rLM
+ qctCWEySK2Sf+cU2w2ItGX70gHhB/kzbpJnyX8FO5L8ccxx901Kr6isaqVuqqTJcZiVO
+ Ou8u8vNcH3Pp5brI+SupjFg/LJtn52QjZ5HRTPIC/u0WbrPxIMEVtntlZoH00siVcgHI
+ Bht4y+znaKNDILJ/O9orMapu3DE6ljTVee236Cna/YCIUZTf4WY5ijQ90nCW6PpsZESt
+ RkZNswv6XbqLlWToZ/ndapGESQn/1n3aCAoEcRkaGaqA1CAOMAmQ0l1Pxsyl34lYRUX8
+ GiBA==
+X-Gm-Message-State: ACgBeo03Gl89Ia05PmgTjR+q1dtwSnwX4Q96f1FiPtuY/XGa4RnWqy3H
+ kGTTVAqPuM7HeCIHXW8FyXEmgKUIyF1xtZ0z1SNifF5gZSv+k2P8VI/9s9YBKPrbes53dyd3rj2
+ 22BIHKoEVdNrcl5k=
+X-Received: by 2002:a05:622a:8e:b0:31f:371f:e6a1 with SMTP id
+ o14-20020a05622a008e00b0031f371fe6a1mr5917793qtw.565.1659705745231; 
+ Fri, 05 Aug 2022 06:22:25 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR50DXTtbb9W0dMQng1r37ZauMh8S6yieersHR9DBVGki+GopsSFsbtg471mPut92JibwSMTTw==
+X-Received: by 2002:a05:622a:8e:b0:31f:371f:e6a1 with SMTP id
+ o14-20020a05622a008e00b0031f371fe6a1mr5917764qtw.565.1659705744855; 
+ Fri, 05 Aug 2022 06:22:24 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ 5-20020ac85745000000b0033a5048464fsm2771059qtx.11.2022.08.05.06.22.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 06:22:24 -0700 (PDT)
+Message-ID: <0b3872fa-830a-f657-76be-2fbae055dffa@redhat.com>
+Date: Fri, 5 Aug 2022 15:22:21 +0200
 MIME-Version: 1.0
-References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-13-clg@kaod.org>
- <973576c1-deb8-3973-34e7-d038ca2200c2@gmail.com>
- <4885e6d0-8fff-4712-d032-c5afcac79ff7@kaod.org>
- <7b97e54b-4d80-6db9-af33-40a539827ddd@eik.bme.hu>
- <3b1bc6c5-a363-0a42-f0dc-eafc14376fe2@kaod.org>
- <1e6be2f3-4c7a-2432-5034-fa012c662df@eik.bme.hu>
- <7ecefd72-b799-8a8c-51fd-28730a12ebf1@kaod.org>
- <a3c2da20-c161-a6d2-6ed1-c0954991eff5@eik.bme.hu>
- <CAFEAcA-au_h+B05HriBQcGh9hsvmzksuHisqAx4cqGKAY8+8Dg@mail.gmail.com>
- <18dcac8a-d5e8-b6e-b9b-838cb1badb7@eik.bme.hu>
- <743ea55a-915e-5991-5d7c-ef00ee307ee9@kaod.org>
- <a992199c-b51d-6baa-b91b-4959ec4a46e8@eik.bme.hu>
-In-Reply-To: <a992199c-b51d-6baa-b91b-4959ec4a46e8@eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Aug 2022 14:16:31 +0100
-Message-ID: <CAFEAcA8qBMUY+an+-i7x2i98iATjMN7m89rGsSwEV90sH-iCdg@mail.gmail.com>
-Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 00/11] Refactor bdrv_try_set_aio_context using
+ transactions
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20220725122120.309236-1-eesposit@redhat.com>
+ <b3eb6174-5fd5-f7f9-512c-4cdb46e62502@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <b3eb6174-5fd5-f7f9-512c-4cdb46e62502@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,20 +110,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Aug 2022 at 13:55, BALATON Zoltan <balaton@eik.bme.hu> wrote:
-> I know this is a mess curently but QOM is full of boilerplate code which
-> is confusing for new people and makes it hard to undestand the code. So
-> cutting down the boilerplate and making things simpler would help people
-> who want to get started with QEMU development. If adding a property was
-> 3-4 additional lines I wouldn't care but if it makes the code
-> significantly more complex and thus harder to understand at a glance then
-> I'd rather avoid it if possible and stick to simple terms.
 
-I agree that QOM's boilerplate is not nice at all, but if
-you do something other than the "standard QOM boilerplate"
-solution to a problem then you make it harder for people who
-at least know what the standard QOM approach is to figure out
-why the code is doing what it does.
 
--- PMM
+Am 27/07/2022 um 18:13 schrieb Vladimir Sementsov-Ogievskiy:
+> On 7/25/22 15:21, Emanuele Giuseppe Esposito wrote:
+>> The aim of this series is to reorganize bdrv_try_set_aio_context
+>> and drop BDS ->set_aio_context and ->can_set_aio_ctx callbacks in
+>> favour of a new one, ->change_aio_ctx.
+>>
+>> More informations in patch 3 (which is also RFC, due to the doubts
+>> I have with AioContext locks).
+>>
+>> Patch 1 just add assertions in the code, 2 extends the transactions
+>> API to be able to add also transactions in the tail
+>> of the list.
+>> Patch 3 is the core of this series, and introduces the new callback.
+>> It is marked as RFC and the reason is explained in the commit message.
+>> Patches 4-5-6 implement ->change_aio_ctx in the various block, blockjob
+>> and block-backend BDSes.
+>> Patch 7 substitutes ->change_aio_ctx with the old callbacks, and
+>> patch 8 takes care of deleting the old callbacks and unused code.
+>>
+>> This series is based on "job: replace AioContext lock with job_mutex",
+>> but just because it uses job_set_aio_context() introduced there.
+>>
+>> Suggested-by: Paolo Bonzini<pbonzini@redhat.com>
+>> Based-on:<20220706201533.289775-1-eesposit@redhat.com>
+> 
+> 
+
+So, I read your email before going on PTO and at that point I got what
+your concerns were, but now after re-reading it I don't understand
+anymore what you mean :)
+
+> What I dislike here is that you refactor aio-context-change to use
+> transactions, but you use it "internally" for aio-context-change.
+> aio-context-change doesn't become a native part of block-graph
+> modifiction transaction system after the series.
+> 
+> For example, bdrv_attach_child_common(..., tran) still calls
+> bdrv_try_change_aio_context() function which doesn't take @tran
+> argument. And we have to call bdrv_try_change_aio_context() again in
+> bdrv_attach_child_common_abort() with opposite arguments by hand. We
+> create in _try_ separate Transaction object which is unrelated to the
+> original block-graph-change transaction.
+> 
+
+This can be fixed: patch 4 "bdrv_child_try_change_aio_context: add
+transaction parameter" supports taking transaction as a parameter.
+bdrv_attach_child_common could simply call
+bdrv_try_change_aio_context_tran (ok we need to deal with locking, but
+it could work).
+
+I think the main concern here is that during the prepare phase this
+serie doesn't change any aiocontext, so until we don't commit the rest
+of the code cannot assume that the aiocontext has been changed.
+
+But isn't it what happens also for permissions? Permission functions
+like bdrv_drv_set_perm perform bdrv_check_perm() in .prepare(), and then
+bdrv_set_perm() in commit.
+
+Another important question is that if we actually want to put everything
+in a single transaction, because .prepare functions like the one
+proposed here perform drains, so the logic following prepare and
+preceding commit must take into account that everything is drained. Also
+prepare itself has to take into account that maybe other .prepare took
+locks or drained themselves...
+
+> With good refactoring we should get rid of these _try_ functions, and
+> have just bdrv_change_aio_context(..., tran) that can be natively used
+> with external tran object, where other block-graph change actions
+> participate. This way we'll not have to call reverse
+> aio_context_change() in .abort, it will be done automatically.
+> 
+> Moreover, your  *aio_context_change* functions that do have tran
+> parameter cannot be simply used in the block-graph change transaction,
+> as you don't follow the common paradigm, that in .prepare we do all
+> visible changes. That's why you have to still use _try_*() version that
+> creates seaparate transaction object and completes it: after that the
+> action is actually done and other graph-modifying actions can be done on
+> top.
+> 
+> So, IMHO, we shouldn't go this way, as that adds transaction actions
+> that actually can't be used in common block-graph-modifying transaction
+> but only context of bdrv_try_change_aio_context() internal transaction.
+> 
+> I agree that aio-context change should finally be rewritten to take a
+> native place in block-graph transactions, but that should be a complete
+> solution, introducing native bdrv_change_aio_context(..., tran)
+> transaction action that is directly used in the block-graph transaction,
+> do visible effect in .prepare and don't create extra Transaction objects.
+> 
+
 
