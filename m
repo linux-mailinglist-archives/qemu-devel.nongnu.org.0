@@ -2,117 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D378B58AF92
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 20:08:08 +0200 (CEST)
-Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58AC58B034
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 21:14:36 +0200 (CEST)
+Received: from localhost ([::1]:53482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK1jz-0002AD-GY
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 14:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42300)
+	id 1oK2mJ-0005Lo-Hk
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 15:14:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oK1i8-0000be-Id
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 14:06:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oK1i5-0004Ck-JV
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 14:06:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659722768;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gTG5sYKz5wYWpj0OuPtAuT0vzoUTMIRW2UW4E5SQLSQ=;
- b=EqtatFDulK1RwYEUXVMucgeZtcmVXqtT8a4mf7nysaZnENR/B78tcR/PjnyTpZs7euqc4r
- /xsrR39d50VVRXAPVuQ+Fry6vuDwWyRKOM9Nc8HfsLjvPZQjxweQffVfEiqPz5dhr2xZqE
- oFEPcIKVnFDX4tLmD5mv3ASVCl9MFrw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-UQKonpQ2NFmQiM2RWZXtzg-1; Fri, 05 Aug 2022 14:06:06 -0400
-X-MC-Unique: UQKonpQ2NFmQiM2RWZXtzg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i9-20020a1c3b09000000b003a511239973so1912451wma.7
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 11:06:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK2lC-0003v7-My
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:13:26 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:54787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK2lA-0006x2-U9
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:13:26 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id b4so3581516pji.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 12:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=IrrtpDCOLC0RupZ9n65zYyBUoZtBLR82G5639vcWnmk=;
+ b=EFH+cla1pNOCCsx5DlbNBEy5QsgGEzrGjvCmZoQ6g0usxU44JDMfZ7T6vhlPsO0bPx
+ fxb0bAd3vNDwZyvyzOaCYKkA/xHle75gdeUwcdBmVY1/v8oew2v2pFwSurqXbM/0frlI
+ Qp3TRQlgCEfggJhrG8FZWHYbsdBUaVL2+77HaakkXwXpUAZMEsm4WmORncQ7zMr6FH6R
+ oqkgc07ZcNZQIs7k127lgW69HF7bOtSDxA3lwTB2txfTfnqNDnuk0JaY9Fc/nBO3XTi3
+ r++heICLlm2DVPAGk3+z6PiVFNPsh1ge/+tjqymkQNnZDjxP+iZY+Kq8gudl/qbDKkAq
+ 22kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=gTG5sYKz5wYWpj0OuPtAuT0vzoUTMIRW2UW4E5SQLSQ=;
- b=Q3cfn8OuAE+8C1+Io2q9PcsZi94RLFKAGydNhSHKKi35FTyGRsDfNmS9zUir0r/dm7
- 8vNnvx7dQwviljj9a3PiHxBVJNkIsswn9t3v/uNw9VssQbgk/Nj2JpJwwm5XOtS/ub21
- TsbENZ8H+VmJaVFyyt651cI/mbXhk5PXKeTkgpCpDEU6x11DGIF7QORWCT/vNS3+/Q1o
- DAKzxcWjuXMNKCNMeX6IM9Wm324gdvTN/KEy0I1t5NpVvu7jyTy1oc6YCTFozCFwKZ9+
- tu/AoWdU+gL58gr2UZgOrLxyHZ9ywnymbT6HTxiZfmMtcN1GmVO59OTmPWdi5QWfmI7J
- ELxg==
-X-Gm-Message-State: ACgBeo0ByLBVSYbhKl+36IPZx37HkJfit+JacQb/a3sS91erDzFWbQrH
- YGTnEqj/NITIaS51AVJqfgCXUPneJnGwOkFuwZcPQQUeP6+xIGOthF0RAl/JSqyAYzmeMAd1q5/
- dQNIco491rCHP04s=
-X-Received: by 2002:a05:6000:811:b0:220:6262:ac66 with SMTP id
- bt17-20020a056000081100b002206262ac66mr4741237wrb.529.1659722765762; 
- Fri, 05 Aug 2022 11:06:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4YiYJd4RGqr8HPcVnnEu37Kzz2xizPBJ/DFAoYEPdnVgyVJMfvEXwBl3Yrl6juKrdXAyBEpQ==
-X-Received: by 2002:a05:6000:811:b0:220:6262:ac66 with SMTP id
- bt17-20020a056000081100b002206262ac66mr4741186wrb.529.1659722765470; 
- Fri, 05 Aug 2022 11:06:05 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c706:fb00:f5c3:24b2:3d03:9d52?
- (p200300cbc706fb00f5c324b23d039d52.dip0.t-ipconnect.de.
- [2003:cb:c706:fb00:f5c3:24b2:3d03:9d52])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IrrtpDCOLC0RupZ9n65zYyBUoZtBLR82G5639vcWnmk=;
+ b=ptzQqO1CnVT1kCHARQa9s0aSekR29ODw1tO7zPxzcwgh9/NjEiicS/g7DWZBA8GMjQ
+ c0jOFdEoxN1MThzQncaMKqaWu1uHjLQBJiq9WoAtAUL8sVqi20Dx80WMG/GDIa7mBUAs
+ v3gHV9dnWPfmORZa/WpfDPu1x7E95KikSzmv9qTQPE5XQIi9EBg+VgZI4XDyShigzoca
+ khaewLDpL1ra5dWdPujCXBOomLJlVjLM301V/nTJbdpeXVnMGto/yzj1yPNgQGD8j+SR
+ yiH44P/Fj/5+Ttfom6dmays77TVW9nRhozlcx00Dr8RKpj/WAptvbZg5rBtUj7L9t6KN
+ 3oxw==
+X-Gm-Message-State: ACgBeo1J2r5BkMvswEE+Whji+RUNFsyP6BAatuPoUzwWepkIrm17+IG7
+ v7hy4KZMJIqAy0YwphySyeEKdA==
+X-Google-Smtp-Source: AA6agR7CN70gTai0Kx1IjSjsWcUzqsDnC9nyRtks6wHczJOmsZ2NDQVTZU8qFHpksI9AlgQHIp6zhg==
+X-Received: by 2002:a17:90b:b03:b0:1f3:6fb:bd20 with SMTP id
+ bf3-20020a17090b0b0300b001f306fbbd20mr17803740pjb.38.1659726803165; 
+ Fri, 05 Aug 2022 12:13:23 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
+ ([2602:ae:154e:e201:abf8:e436:f4c:9089])
  by smtp.gmail.com with ESMTPSA id
- j6-20020a05600c190600b003a31b79dc0esm26070221wmq.1.2022.08.05.11.06.03
+ e7-20020a17090a7c4700b001f2ef3c7956sm5848079pjl.25.2022.08.05.12.13.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 11:06:05 -0700 (PDT)
-Message-ID: <a2b8fa73-4efd-426f-abcd-7975ff9a7101@redhat.com>
-Date: Fri, 5 Aug 2022 20:06:03 +0200
+ Fri, 05 Aug 2022 12:13:22 -0700 (PDT)
+Message-ID: <f1736057-6fe1-9777-a140-ef8a511728e0@linaro.org>
+Date: Fri, 5 Aug 2022 12:13:20 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Subject: Re: [PATCH v2 2/4] target/s390x: Make translator stop before the end
+ of a page
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Sean Christopherson
- <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>,
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
- <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220805160914.1106091-1-iii@linux.ibm.com>
+ <20220805160914.1106091-3-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220805160914.1106091-3-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,26 +102,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.08.22 19:55, Paolo Bonzini wrote:
-> On 7/21/22 11:44, David Hildenbrand wrote:
->>
->> Also, I*think*  you can place pages via userfaultfd into shmem. Not
->> sure if that would count "auto alloc", but it would certainly bypass
->> fallocate().
+On 8/5/22 09:09, Ilya Leoshkevich wrote:
+> Right now translator stops right *after* the end of a page, which
+> breaks reporting of fault locations when the last instruction of a
+> multi-insn translation block crosses a page boundary.
 > 
-> Yeah, userfaultfd_register would probably have to forbid this for 
-> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for 
-> this, adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then 
-> userfault_register would do something like 
-> memfile_node_get_flags(vma->vm_file) and check the result.
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   include/exec/translator.h    | 10 ++++++++++
+>   target/s390x/tcg/translate.c | 35 ++++++++++++++++++++---------------
+>   2 files changed, 30 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/exec/translator.h b/include/exec/translator.h
+> index 7db6845535..d27f8c33b6 100644
+> --- a/include/exec/translator.h
+> +++ b/include/exec/translator.h
+> @@ -187,4 +187,14 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
+>   
+>   #undef GEN_TRANSLATOR_LD
+>   
+> +/*
+> + * Return whether addr is on the same page as where disassembly started.
+> + * Translators can use this to enforce the rule that only single-insn
+> + * translation blocks are allowed to cross page boundaries.
+> + */
+> +static inline bool is_same_page(DisasContextBase *db, target_ulong addr)
+> +{
+> +    return ((addr ^ db->pc_first) & TARGET_PAGE_MASK) == 0;
+> +}
+> +
+>   #endif /* EXEC__TRANSLATOR_H */
+> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+> index e2ee005671..0cd0c932fb 100644
+> --- a/target/s390x/tcg/translate.c
+> +++ b/target/s390x/tcg/translate.c
+> @@ -6305,14 +6305,13 @@ static void extract_field(DisasFields *o, const DisasField *f, uint64_t insn)
+>       o->c[f->indexC] = r;
+>   }
+>   
+> -/* Lookup the insn at the current PC, extracting the operands into O and
+> -   returning the info struct for the insn.  Returns NULL for invalid insn.  */
+> +/* Lookup the insn at the current PC, filling the info struct.  */
+>   
+> -static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
+> +static DisasJumpType extract_insn(CPUS390XState *env, DisasContext *s,
+> +                                  const DisasInsn **info)
+>   {
+>       uint64_t insn, pc = s->base.pc_next;
+>       int op, op2, ilen;
+> -    const DisasInsn *info;
+>   
+>       if (unlikely(s->ex_value)) {
+>           /* Drop the EX data now, so that it's clear on exception paths.  */
+> @@ -6325,9 +6324,13 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
+>           ilen = s->ex_value & 0xf;
+>           op = insn >> 56;
+>       } else {
+> +        assert(s->base.num_insns == 1 || is_same_page(&s->base, pc));
+>           insn = ld_code2(env, s, pc);
+>           op = (insn >> 8) & 0xff;
+>           ilen = get_ilen(op);
+> +        if (s->base.num_insns > 1 && !is_same_page(&s->base, pc + ilen - 1)) {
+> +            return DISAS_TOO_MANY;
+> +        }
 
-An alternative is to simply have the shmem allocation fail in a similar
-way. Maybe it does already, I haven't checked (don't think so).
+This doesn't work.
+
+You need to end the TB at the end of the previous insn, not at the beginning of the 
+current insn.  Here, we have already committed to executing one instruction.
+
+You need to model this similar to arm's insn_crosses_page, where we check at the end of 
+one instruction whether we'll be able to run another.
 
 
--- 
-Thanks,
-
-David / dhildenb
-
+r~
 
