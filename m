@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5D658AB9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 15:27:48 +0200 (CEST)
-Received: from localhost ([::1]:47146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AB058ABA5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 15:30:28 +0200 (CEST)
+Received: from localhost ([::1]:50560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJxMh-0000hB-HN
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 09:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34682)
+	id 1oJxPH-00036k-12
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 09:30:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJxLB-0007gx-13
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:26:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24485)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJxNq-0000wW-Is
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:28:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJxL6-000214-Ph
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:26:10 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJxNo-0002YK-NR
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 09:28:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659705968;
+ s=mimecast20190719; t=1659706135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mJBXhzmt1GniFe2smeou8x6jmkkaotxI6ROvs4HpGEk=;
- b=bpkEz2iOjvmYkH6VqnaDfNHgqGT0ELkwEQZ5jkL78af+dgRHHpcOoV2AW8YnkXOv88YBxe
- pow/GbzO5yzeeGp0L+WWtlFxnAPz5tYfNIF5Zj0kRdan0EV2SfzYBgl1LHxlv+mF8DOQFj
- 5xAP6JdktNElst8eIPeD5hyZxMDL9xA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5LwXiW7Z9fPKOQuP6mWqJcS8w+uYP/AKU9h+QKQOqfY=;
+ b=Q/oPvAzm+yT65mDJtPfKoMpPCpfPjnFDUuV6lK5QIEG6VR7qMSPeMULzI7G7SSndrJ3eNt
+ YcF95heURkfGhPDALn/p1Cf77Hl/EqWjuLOSUmD6a+c/ErxQ2IXrKWUHMmjs9uP4RtPIEM
+ /qehMpaCcDkneZ1dwAq8lyYDSWnIJGE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-YvgnqlQyMb6PfS9zU8p3tw-1; Fri, 05 Aug 2022 09:26:06 -0400
-X-MC-Unique: YvgnqlQyMb6PfS9zU8p3tw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h133-20020a1c218b000000b003a4f57eaeaaso1268873wmh.8
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 06:26:06 -0700 (PDT)
+ us-mta-315-b5QmJwRjOBK40JGNizfS6A-1; Fri, 05 Aug 2022 09:28:54 -0400
+X-MC-Unique: b5QmJwRjOBK40JGNizfS6A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ e21-20020adf9bd5000000b002207a51b7feso497988wrc.10
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 06:28:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc;
- bh=mJBXhzmt1GniFe2smeou8x6jmkkaotxI6ROvs4HpGEk=;
- b=UA1wZsZLw/mV3cIYCA/kGBvc/HT344jHvuXYMWlOXf3X74BYA6T2LvR5PY11ez3uII
- 886ztPEoqqPjOAfNXjbxDOdC7/DRfaFLz6swthZfBkCR91X495ngBpQbMKmg5oD4TAsU
- oZbcGXqgib7MJnErl0iVO6FwXu/StGJdfzHujB85QpTu1xGSDYSwkRuyfespOpaimlkz
- M0/dsBy2RA1tbRhP6/EWH4koy+AUaWtycqvovdFKn7thBMuy5VSNnB+CYfPs5hdEj5jM
- 0pXmWijVgUPxVmxtw5JXLWlFeiusMsVgyXV+IKR6d+2L+AyaaxuStbafPh4SKOuPf1Qz
- HK9g==
-X-Gm-Message-State: ACgBeo3agKo9/lHYpxh3Arq0nCvpM2MD7A6d1AsI65613xUH6rZp++kr
- 5ogGVNnhn9b+gkyYQy9gfOdvjPDGS2KdPm5hAFlc8eHhHCt9b7Tt84LCtvLZBMyfwgsn7UfWLaF
- a4Jjk/TtZxp7hBV0=
-X-Received: by 2002:a5d:588f:0:b0:220:761a:6894 with SMTP id
- n15-20020a5d588f000000b00220761a6894mr4409181wrf.406.1659705965746; 
- Fri, 05 Aug 2022 06:26:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ajxOjPYt9fURAvT4aPqpXXmNPivXi3/PkheqDod4RApDXYAPhtZxZHk1xvMFDF/irKdR08g==
-X-Received: by 2002:a5d:588f:0:b0:220:761a:6894 with SMTP id
- n15-20020a5d588f000000b00220761a6894mr4409161wrf.406.1659705965445; 
- Fri, 05 Aug 2022 06:26:05 -0700 (PDT)
+ bh=5LwXiW7Z9fPKOQuP6mWqJcS8w+uYP/AKU9h+QKQOqfY=;
+ b=ZV9mZc7YKGyK5jt48hMG20BiGtEB3DRW9KCcjZfFBK8bmiTiflmMvjojOIU9Rpxldl
+ hBzyBdzMcaKl9fQ12NIw51UsLq4jHk2eg0ubb98EzPsyUUZMpWHU26Kaxn7i5BCBHQf7
+ epuSW0UILcfA5jZIZQ8CIyBtxDlranhgw6vUpELcI6NXhzIeoDr8k84hip7a+p6lzm3p
+ a91sipyWOAD6V6i5yCQ3RuY8vd4N0GI5fmhcW3gM5DXLJ9IEd3fu+qKe8Z1rd3hAZPLM
+ Z9jl+wookluS/d5R4PUgNCF6rXWYt5ZN/UgXDSPfjpFGw8PSfPhHmXOW9alqTPwwb3u5
+ kY6Q==
+X-Gm-Message-State: ACgBeo30uuBCF5pL1D94V5LRkrZSMFqYtnz065iWzDaPzGJO8cb/yc9C
+ EX/xQyspRI6f801CFDiyV6NXacSZMacFayiQ+8v8GDZck0OTH80xPq9tK+W78hbNQTwNJVOnqap
+ k9TphV9AYGxZb69c=
+X-Received: by 2002:a05:6000:1acf:b0:21d:b410:599a with SMTP id
+ i15-20020a0560001acf00b0021db410599amr4119472wry.123.1659706133366; 
+ Fri, 05 Aug 2022 06:28:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4rDbFbn4pE0ENzxm72PrKdoCqlUokRwvGeNDRUB01hSQV7gEIr0bukiPJi7Qq8c2+e4UOfGA==
+X-Received: by 2002:a05:6000:1acf:b0:21d:b410:599a with SMTP id
+ i15-20020a0560001acf00b0021db410599amr4119438wry.123.1659706133086; 
+ Fri, 05 Aug 2022 06:28:53 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c706:fb00:f5c3:24b2:3d03:9d52?
  (p200300cbc706fb00f5c324b23d039d52.dip0.t-ipconnect.de.
  [2003:cb:c706:fb00:f5c3:24b2:3d03:9d52])
  by smtp.gmail.com with ESMTPSA id
- o6-20020a05600c4fc600b003a32490c95dsm9887725wmq.35.2022.08.05.06.26.03
+ ck19-20020a5d5e93000000b0021ee65426a2sm3893063wrb.65.2022.08.05.06.28.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 06:26:05 -0700 (PDT)
-Message-ID: <a34d88b9-a4b9-cb9e-91d9-c5a89449fcd5@redhat.com>
-Date: Fri, 5 Aug 2022 15:26:02 +0200
+ Fri, 05 Aug 2022 06:28:52 -0700 (PDT)
+Message-ID: <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+Date: Fri, 5 Aug 2022 15:28:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v7 04/14] mm/shmem: Support memfile_notifier
+Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
 Content-Language: en-US
 To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -95,10 +95,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
  mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
@@ -126,94 +126,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 06.07.22 10:20, Chao Peng wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Introduce a new memfd_create() flag indicating the content of the
+> created memfd is inaccessible from userspace through ordinary MMU
+> access (e.g., read/write/mmap). However, the file content can be
+> accessed via a different mechanism (e.g. KVM MMU) indirectly.
 > 
-> Implement shmem as a memfile_notifier backing store. Essentially it
-> interacts with the memfile_notifier feature flags for userspace
-> access/page migration/page reclaiming and implements the necessary
-> memfile_backing_store callbacks.
+> It provides semantics required for KVM guest private memory support
+> that a file descriptor with this flag set is going to be used as the
+> source of guest memory in confidential computing environments such
+> as Intel TDX/AMD SEV but may not be accessible from host userspace.
 > 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
+> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+> also impossible for a memfd created with this flag.
 
-[...]
+It's kind of weird to have it that way. Why should the user have to
+care? It's the notifier requirement to have that, no?
 
-> +#ifdef CONFIG_MEMFILE_NOTIFIER
-> +static struct memfile_node *shmem_lookup_memfile_node(struct file *file)
-> +{
-> +	struct inode *inode = file_inode(file);
-> +
-> +	if (!shmem_mapping(inode->i_mapping))
-> +		return NULL;
-> +
-> +	return  &SHMEM_I(inode)->memfile_node;
-> +}
-> +
-> +
-> +static int shmem_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> +			 int *order)
-> +{
-> +	struct page *page;
-> +	int ret;
-> +
-> +	ret = shmem_getpage(file_inode(file), offset, &page, SGP_WRITE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	unlock_page(page);
-> +	*pfn = page_to_pfn_t(page);
-> +	*order = thp_order(compound_head(page));
-> +	return 0;
-> +}
-> +
-> +static void shmem_put_pfn(pfn_t pfn)
-> +{
-> +	struct page *page = pfn_t_to_page(pfn);
-> +
-> +	if (!page)
-> +		return;
-> +
-> +	put_page(page);
+Why can't we handle that when register a notifier? If anything is
+already mapped, fail registering the notifier if the notifier has these
+demands. If registering succeeds, block it internally.
 
-
-Why do we export shmem_get_pfn/shmem_put_pfn and not simply
-
-get_folio()
-
-and let the caller deal with putting the folio? What's the reason to
-
-a) Operate on PFNs and not folios
-b) Have these get/put semantics?
-
-> +}
-> +
-> +static struct memfile_backing_store shmem_backing_store = {
-> +	.lookup_memfile_node = shmem_lookup_memfile_node,
-> +	.get_pfn = shmem_get_pfn,
-> +	.put_pfn = shmem_put_pfn,
-> +};
-> +#endif /* CONFIG_MEMFILE_NOTIFIER */
-> +
->  void __init shmem_init(void)
->  {
->  	int error;
-> @@ -3956,6 +4059,10 @@ void __init shmem_init(void)
->  	else
->  		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
->  #endif
-> +
-> +#ifdef CONFIG_MEMFILE_NOTIFIER
-> +	memfile_register_backing_store(&shmem_backing_store);
-
-Can we instead prove a dummy function that does nothing without
-CONFIG_MEMFILE_NOTIFIER?
-
-> +#endif
->  	return;
->  
->  out1:
-
+Or what am I missing? We might not need the memfile set flag semantics
+eventually and would not have to expose such a flag to user space.
 
 -- 
 Thanks,
