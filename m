@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2755D58A521
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 05:46:40 +0200 (CEST)
-Received: from localhost ([::1]:47388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03B158A525
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 05:49:48 +0200 (CEST)
+Received: from localhost ([::1]:50748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJoII-0004gz-QY
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 23:46:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55638)
+	id 1oJoLL-0007AI-Rn
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 23:49:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJoFi-00024k-Dp
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:43:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57889)
+ id 1oJoIn-0005RR-U5
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:47:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJoFf-0003CM-09
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:43:56 -0400
+ id 1oJoIl-0003h2-TE
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:47:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659671033;
+ s=mimecast20190719; t=1659671227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Z2kdNTR0noF7Q7oaOxep4+qrZwulyr3C2hOYRWPs8Kk=;
- b=Il8YirJYbY/AGxxbczDVmLwVnh5dl3J+z+A1s1by1AwlZQReDamknuAVbuVIyT7fETfqnF
- XIZwom4500cmjUTq279KFih3lX2Gr4XRRvvuGMrmETRtwLfb0+6TycBZaV5c9/B4YPBgqg
- bX6ySzYNakfSnj+J65nRXLMXc2ZILwU=
+ bh=x9lPfQSwfP7hI/Q81iCpOm38mjeHd2BN4vwmEVMURPc=;
+ b=jRwey81ln5/Rmi6xFIflIYPUMgC6jqQQTDqJbcRfyrygGwMBmVARX986FDfLD0jYcAaIxs
+ v57rB5WwjuPtUmRSiZFI2zZ/s3UjpH2nDaHVF3jJKnXiVomoz3k+1misRRSSLw9D6qT34z
+ etZvVY8npoTvZgYhp3Ldywr29yTlTKY=
 Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
  [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-iQMRoV1XPDKaQXMrM6Zr1A-1; Thu, 04 Aug 2022 23:43:51 -0400
-X-MC-Unique: iQMRoV1XPDKaQXMrM6Zr1A-1
+ us-mta-28-1gVNYueVO7G7DmsEXir4aw-1; Thu, 04 Aug 2022 23:46:26 -0400
+X-MC-Unique: 1gVNYueVO7G7DmsEXir4aw-1
 Received: by mail-lf1-f69.google.com with SMTP id
- g16-20020ac24d90000000b0048aeea325ddso286983lfe.16
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 20:43:51 -0700 (PDT)
+ k25-20020a195619000000b00489e6a6527eso288608lfb.8
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 20:46:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Z2kdNTR0noF7Q7oaOxep4+qrZwulyr3C2hOYRWPs8Kk=;
- b=Yf0a4p3CCSFKBZvk+Yt+vmyn+u4iJNJV6qff4UJOfBjbFON72zOIM/i3PzE07bflA8
- PG+wmxcrVzBYsqnMq5CaaDOhyCR1xXQa4pIbirGYXrf4S6UnSryYwMdUfo/Hf4q9HV8F
- Bw5d/aMciUk96A0TkQPw1seuxC3XTuJ8o58xwYiNqx/AlkEh2L5ExwOl4kK82U3+gvz1
- Y6B8Dur6JzUdJueYueWPRUfLyX6psyidfKYJMynNt2Kx29/6ByFWwdsL4GMBHZ1R/1K/
- +NFTNbuLcuPbsoLDmDnlmrTB0wR7CDkPDulLJcHZQ53QSVlg/KFk6xmqm7XrWaezCLAy
- V9Uw==
-X-Gm-Message-State: ACgBeo3WYmXL+L2uHSaXCiQ62FYtWCQkDWFro6JtMI5Rm7LxDqlfxxZW
- 85BvwBgrG1Reg1Ucg6hy4blEkewNy/tIHg+pO2XVeFKbHzE1XOfy2ZrH0VF9wMmoxT7Q61Ln20A
- Yzr0L6CypDg4Bo7wByFYqR6tXFshDSwc=
-X-Received: by 2002:a2e:83c4:0:b0:25d:ea2c:5bc2 with SMTP id
- s4-20020a2e83c4000000b0025dea2c5bc2mr1358612ljh.251.1659671030168; 
- Thu, 04 Aug 2022 20:43:50 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4yuWZmI8ojBDeIHS1npGIJBfxi+1oUhg5oa5z7Qp7W/6Qvt1RPKrZVZhO3ZSR6kOJPW6ZqD2TLfMfDvmKCKis=
-X-Received: by 2002:a2e:83c4:0:b0:25d:ea2c:5bc2 with SMTP id
- s4-20020a2e83c4000000b0025dea2c5bc2mr1358605ljh.251.1659671029909; Thu, 04
- Aug 2022 20:43:49 -0700 (PDT)
+ bh=x9lPfQSwfP7hI/Q81iCpOm38mjeHd2BN4vwmEVMURPc=;
+ b=v+PxksHkobjLojI8NcM/MFrfaDAYHV9mEbEb/1WMzG39MOGkedxP3vjAVY7kJuzL6z
+ sOzw8TB74XmsxieHe3WkP+nZa/vDbdL+QXo2Y+YE2+12qcydkKbbMvLiDkiq0u6BxlGW
+ d84VbBTUOzsGn/l/XOp3P9M3IhyI/wG3lLQ3owFNw/PuIQgHqhKk4I7ScdrsG3v/kBDc
+ ehzd7pLOPJZS5bdGYnS8HHWOCHE0JxWx22MrYtYQl6gqQbJJdHXCbyQwwXjs5cff/7Ug
+ s4bOzWL7tCrt03wMmdVOZUwP16GeEumTtosRF+kYrPXD14oANUW2clsO5ba1WIjAWLpq
+ 9L8w==
+X-Gm-Message-State: ACgBeo1R4mqDBYWC/TLWJmyv4uK2hk2Q2MPE10Ol+ltBEnISdOcTbPEe
+ Te5Bv3oEIMFJZO1T3pftDJ1DTO5urpE23fG3ApjVXXAtWaw9Ah3phWS6Vdvb3s3qvT7apXjbTsq
+ u8BUeIrY0wX9aHttH4IislNDTEU4AzoE=
+X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
+ e26-20020a2e9e1a000000b0025df9db92f7mr1551894ljk.243.1659671184541; 
+ Thu, 04 Aug 2022 20:46:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7HecshELwJh3lk5uvs07M3bVIqCJkAx2roK67/lpSnjlPTkEOgNjXEnzZApvC21p3LLww2xA/aOJdOulEiTAk=
+X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
+ e26-20020a2e9e1a000000b0025df9db92f7mr1551889ljk.243.1659671184334; Thu, 04
+ Aug 2022 20:46:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220729155932.2477385-1-peter.maydell@linaro.org>
- <CAFEAcA9rpCNrO33tiTUZw_BzVt77_5q_CKp_yBf3prw5C+bAxg@mail.gmail.com>
- <ae5f83e3-e005-cd0e-0978-029ee0fbc45e@linaro.org>
-In-Reply-To: <ae5f83e3-e005-cd0e-0978-029ee0fbc45e@linaro.org>
+References: <20220802080948.37426-1-chen.zhang@intel.com>
+In-Reply-To: <20220802080948.37426-1-chen.zhang@intel.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 5 Aug 2022 11:43:38 +0800
-Message-ID: <CACGkMEvg5v2YukrT8aKLz7OD37d9CWQzKP32qyiSYhSL0Ek=SA@mail.gmail.com>
-Subject: Re: [PATCH] hw/net/rocker: Avoid undefined shifts with more than 31
- ports
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Fri, 5 Aug 2022 11:46:13 +0800
+Message-ID: <CACGkMEs4Ypb+WcKTX-YqxrRUJW65fWokuBaMAkBp9eznXNDGTw@mail.gmail.com>
+Subject: Re: [PATCH] net/colo.c: Fix the pointer issuse reported by Coverity.
+To: Zhang Chen <chen.zhang@intel.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Jiri Pirko <jiri@resnulli.us>
+ Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -95,67 +92,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 4, 2022 at 11:27 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, Aug 2, 2022 at 4:24 PM Zhang Chen <chen.zhang@intel.com> wrote:
 >
-> On 8/4/22 03:45, Peter Maydell wrote:
-> > Ping?
-> >
-> > thanks
-> > -- PMM
-> >
-> > On Fri, 29 Jul 2022 at 16:59, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >>
-> >> In rocker_port_phys_link_status() and rocker_port_phys_enable_read()
-> >> we construct a 64-bit value with one bit per front-panel port.
-> >> However we accidentally do the shift as 32-bit arithmetic, which
-> >> means that if there are more than 31 front-panel ports this is
-> >> undefined behaviour.
-> >>
-> >> Fix the problem by ensuring we use 64-bit arithmetic for the whole
-> >> calculation. (We won't ever shift off the 64-bit value because
-> >> ROCKER_FP_PORTS_MAX is 62.)
-> >>
-> >> Resolves: Coverity CID 1487121, 1487160
-> >> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> When enable the virtio-net-pci, guest network packet will
+> load the vnet_hdr. In COLO status, the primary VM's network
+> packet maybe redirect to another VM, it need filter-redirect
+> enable the vnet_hdr flag at the same time, COLO-proxy will
+> correctly parse the original network packet. If have any
+> misconfiguration here, the vnet_hdr_len is wrong for parse
+> the packet, the data+offset will point to wrong place.
 >
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>  net/colo.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+>
+> diff --git a/net/colo.c b/net/colo.c
+> index 6b0ff562ad..dfb15b4c14 100644
+> --- a/net/colo.c
+> +++ b/net/colo.c
+> @@ -44,21 +44,25 @@ int parse_packet_early(Packet *pkt)
+>  {
+>      int network_length;
+>      static const uint8_t vlan[] = {0x81, 0x00};
+> -    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
+> +    uint8_t *data = pkt->data;
+>      uint16_t l3_proto;
+>      ssize_t l2hdr_len;
+>
+>      if (data == NULL) {
 
-Queued.
+I wonder under which case we can see data == NULL?
+
+AFAIK, data is either dup via packet_new() or assigned to a pointer to
+the buf in packet_new_nocopy().
 
 Thanks
 
+> -        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
+> -                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
+> +        trace_colo_proxy_main("COLO-proxy got NULL data packet ");
+>          return 1;
+>      }
+> -    l2hdr_len = eth_get_l2_hdr_length(data);
 >
+> -    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
+> -        trace_colo_proxy_main("pkt->size < ETH_HLEN");
+> +    /* Check the received vnet_hdr_len then add the offset */
+> +    if (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
+> +        + pkt->vnet_hdr_len) {
+> +        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
+> +                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
+>          return 1;
+>      }
+> +    data += pkt->vnet_hdr_len;
+> +
+> +    l2hdr_len = eth_get_l2_hdr_length(data);
 >
-> r~
->
-> >> ---
-> >>   hw/net/rocker/rocker.c | 4 ++--
-> >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
-> >> index 31f2340fb91..d8f3f16fe87 100644
-> >> --- a/hw/net/rocker/rocker.c
-> >> +++ b/hw/net/rocker/rocker.c
-> >> @@ -1010,7 +1010,7 @@ static uint64_t rocker_port_phys_link_status(Rocker *r)
-> >>           FpPort *port = r->fp_port[i];
-> >>
-> >>           if (fp_port_get_link_up(port)) {
-> >> -            status |= 1 << (i + 1);
-> >> +            status |= 1ULL << (i + 1);
-> >>           }
-> >>       }
-> >>       return status;
-> >> @@ -1025,7 +1025,7 @@ static uint64_t rocker_port_phys_enable_read(Rocker *r)
-> >>           FpPort *port = r->fp_port[i];
-> >>
-> >>           if (fp_port_enabled(port)) {
-> >> -            ret |= 1 << (i + 1);
-> >> +            ret |= 1ULL << (i + 1);
-> >>           }
-> >>       }
-> >>       return ret;
-> >
+>      /*
+>       * TODO: support vlan.
+> --
+> 2.25.1
 >
 
 
