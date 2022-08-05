@@ -2,109 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2BF58A7DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:14:21 +0200 (CEST)
-Received: from localhost ([::1]:38482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982C258A7D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:12:37 +0200 (CEST)
+Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJsTM-0000A7-Vo
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33508)
+	id 1oJsRg-0006BR-MP
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJsKg-0000mr-Gj
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:05:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJsKd-00033t-OU
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:05:22 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2757fnwR006101;
- Fri, 5 Aug 2022 08:05:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=vTuoh7qhdkokKt+s4QU4f4OZ90mnDxwUbrm+TxyhyD0=;
- b=SuLNhuAtmhC/zoY3eYfIJalV75/zQ0pKd7dXEJJIIr+m3Li5rI6ccxG37RPOD2zr5KK9
- q7vum1hV48REr5okAvVq0sqHIdHLs/Qr2ffPtaRL0pIKrBvmRNXEuiLWNE6f9NrY51SM
- qHDbnjWKS5GSbl2KzDMn6kXi5i2BwZrsvaa0PxL8QvFesgfpfMfAab7DvubU1VliE7RM
- gjuqzFHeEZHNDixZDM6JMnwFJOmISqqNpL4hGqSKbZX0jZTLnhJS3CkWVnIyE36OY1h8
- tQ6TOOtmGIqLQ28dm5GuC3v3zmxJrDrsSX7QL2MvEl8DMuAYRtKOpiE7SbzeA2s0lGho dQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrx8h1wbk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 08:05:15 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2757iWpn016107;
- Fri, 5 Aug 2022 08:05:14 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrx8h1vxg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 08:05:12 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2757JlSm025790;
- Fri, 5 Aug 2022 07:33:02 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3hmv98y3ht-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 07:33:02 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2757WxLb31261178
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Aug 2022 07:32:59 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7469442041;
- Fri,  5 Aug 2022 07:32:59 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E292C4203F;
- Fri,  5 Aug 2022 07:32:58 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.145.4.149])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  5 Aug 2022 07:32:58 +0000 (GMT)
-Date: Fri, 5 Aug 2022 09:02:17 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
- frankja@linux.ibm.com, alex.bennee@linaro.org
-Subject: Re: [PATCH v2 1/1] osdep: asynchronous teardown for shutdown on Linux
-Message-ID: <20220805090217.1007fe18@p-imbrenda>
-In-Reply-To: <Yuv6uhuxjQHawmeL@redhat.com>
-References: <20220803173141.52711-1-imbrenda@linux.ibm.com>
- <YuqxtV1O8IqRAuDu@redhat.com> <20220804075649.6e562c52@p-imbrenda>
- <YuuBa4lQZd62JIg9@redhat.com> <Yuv6uhuxjQHawmeL@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 9me3cq8_jHdbK26rEG7QJOENz3cGqVMl
-X-Proofpoint-ORIG-GUID: mtRonF3xDBGbR89NRAlMdj7n6qmtuBSO
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oJsDg-0002pE-PH; Fri, 05 Aug 2022 03:58:08 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:43795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oJsDb-0001uU-59; Fri, 05 Aug 2022 03:58:08 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id 17so1970418plj.10;
+ Fri, 05 Aug 2022 00:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=JM7NORmLtOKTzDTMQ0NkqpooBuehOR+UkzZSEWfi2ME=;
+ b=aN2R+qIwE10CROEF5TDNnv1jEnbPz9i80f/U+pc9C5aYItW7v+CtbpBUoHVLhtKQhX
+ VqbIG5gjdTDuerlCHxo2nI/pVHT1c4jdpMpPje69oN73iVsMYOcu3nU9nB0D6e/3mD3v
+ 4DchZJVqM/H8YHgqe6KnaYyj5EbJDP9laNRbO+mGUz5hbdbk1usn4mavil5Qm4hs4S+T
+ fQ6eLSIifK4DiyWDLU87Rda3GjteYxoC1E7gkGTOibsoRYOaL99ErUlpZ98UIT6TsNQr
+ BfNrI1ATs5Ll8CNCsaS4+6AE9LolTLY9+keIq6f7xTEFlTFo8P5TBpQVRD3h0V64wIsK
+ E9Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=JM7NORmLtOKTzDTMQ0NkqpooBuehOR+UkzZSEWfi2ME=;
+ b=JUszb2aYY8athAKwy6eXOfdIkehEpAOc1RV4V6B78j20F7wzLiY8YRaHrJmnuXhhP6
+ ZD1WiFb8OqIKokFMQSL3DB+mxcofqGDQCagBjI3alnR+HU/0xud8E/kIoILVEuuIjuLU
+ hw9G0miR0ohHf/III8bv2URYctY0t/WHbOiPsaoe5HQIRT3RJK/LqZQeJjJyS3RS3usR
+ VRb22nZF2XTASsKwfJiSaOIjgjilbSOGyT4TedZ7HMrccJDCv9YXUvgZB9ip9Htp/ZiV
+ 8nj1bx+I17V0VOew63oIdZjy81/n4nO3hYJ0NIG905w4K2BDwmS9WqoQpdTucNoqYD2o
+ 4u3g==
+X-Gm-Message-State: ACgBeo1a4W6tYB4yu5qu8w20CIXCzJrr+vNNWXvUycakgH8s+oeM4Hc/
+ 9C5DvS4NMICyUrUC8RhNU/atloGwadb8oA==
+X-Google-Smtp-Source: AA6agR6dxQ0VISIT6ULBwKmPgK9pM6zYFKqpupFHMNM+VP1rqOL1AsdFiBLVcfub1Ib6H6bbyv+OCA==
+X-Received: by 2002:a17:90a:ba11:b0:1f2:38ec:3be3 with SMTP id
+ s17-20020a17090aba1100b001f238ec3be3mr6153983pjr.177.1659686280596; 
+ Fri, 05 Aug 2022 00:58:00 -0700 (PDT)
+Received: from roots.. ([106.84.130.246]) by smtp.gmail.com with ESMTPSA id
+ z15-20020a170903018f00b0016ee708350bsm2418564plg.14.2022.08.05.00.57.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Aug 2022 00:57:59 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, hare@suse.de, Stefan Hajnoczi <stefanha@redhat.com>,
+ dmitry.fomichev@wdc.com, Kevin Wolf <kwolf@redhat.com>,
+ damien.lemoal@opensource.wdc.com, Eric Blake <eblake@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v6 0/8] Add support for zoned device
+Date: Fri,  5 Aug 2022 15:57:43 +0800
+Message-Id: <20220805075751.77499-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.37.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-05_02,2022-08-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- mlxscore=0 mlxlogscore=999 priorityscore=1501 suspectscore=0
- impostorscore=0 clxscore=1015 spamscore=0 bulkscore=0 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208050039
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,112 +88,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Aug 2022 17:58:34 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+Zoned Block Devices (ZBDs) devide the LBA space to block regions called zones
+that are larger than the LBA size. It can only allow sequential writes, which
+reduces write amplification in SSD, leading to higher throughput and increased
+capacity. More details about ZBDs can be found at:
 
-> On Thu, Aug 04, 2022 at 09:20:59AM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > On Thu, Aug 04, 2022 at 07:56:49AM +0200, Claudio Imbrenda wrote:=20=20
-> > > On Wed, 3 Aug 2022 18:34:45 +0100
-> > > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> > >=20=20=20
-> > > > On Wed, Aug 03, 2022 at 07:31:41PM +0200, Claudio Imbrenda wrote:=
-=20=20
-> > > > > This patch adds support for asynchronously tearing down a VM on L=
-inux.
-> > > > >=20
-> > > > > When qemu terminates, either naturally or because of a fatal sign=
-al,
-> > > > > the VM is torn down. If the VM is huge, it can take a considerable
-> > > > > amount of time for it to be cleaned up. In case of a protected VM=
-, it
-> > > > > might take even longer than a non-protected VM (this is the case =
-on
-> > > > > s390x, for example).
-> > > > >=20
-> > > > > Some users might want to shut down a VM and restart it immediatel=
-y,
-> > > > > without having to wait. This is especially true if management
-> > > > > infrastructure like libvirt is used.
-> > > > >=20
-> > > > > This patch implements a simple trick on Linux to allow qemu to re=
-turn
-> > > > > immediately, with the teardown of the VM being performed
-> > > > > asynchronously.
-> > > > >=20
-> > > > > If the new commandline option -async-teardown is used, a new proc=
-ess is
-> > > > > spawned from qemu at startup, using the clone syscall, in such wa=
-y that
-> > > > > it will share its address space with qemu.
-> > > > >=20
-> > > > > The new process will then simpy wait until qemu terminates, and t=
-hen it
-> > > > > will exit itself.
-> > > > >=20
-> > > > > This allows qemu to terminate quickly, without having to wait for=
- the
-> > > > > whole address space to be torn down. The teardown process will ex=
-it
-> > > > > after qemu, so it will be the last user of the address space, and
-> > > > > therefore it will take care of the actual teardown.
-> > > > >=20
-> > > > > The teardown process will share the same cgroups as qemu, so both
-> > > > > memory usage and cpu time will be accounted properly.
-> > > > >=20
-> > > > > This feature can already be used with libvirt by adding the follo=
-wing
-> > > > > to the XML domain definition:
-> > > > >=20
-> > > > >   <commandline xmlns=3D"http://libvirt.org/schemas/domain/qemu/1.=
-0">
-> > > > >   <arg value=3D'-async-teardown'/>
-> > > > >   </commandline>=20=20=20=20
-> > > >=20
-> > > > How does this work in practice ?  Libvirt should be blocking until=
-=20=20
-> > >=20
-> > > I don't know the inner details of how libvirt works..
-> > >=20=20=20
-> > > > all processes in the cgroup have exited, including this cloned
-> > > > child process.=20=20
-> > >=20
-> > > ..but I tested it and it works
-> > >=20
-> > > my impression is that libvirt by default is only waiting for the
-> > > main qemu process.=20=20
-> >=20
-> > If true, that would be a bug that needs fixing and should not be
-> > relied on.=20=20
->=20
-> Libvirt is invoking 'TerminateMachine' DBus call on systemd-machined.
-> That in turn iterates over every process in the cgroup and kills
-> them off.
->=20
-> Docs are a little vague and I've not followed the code perfectly, but
-> that should mean TeminateMachine doesnt return until every process in
-> the cgroup has exited.
->=20
-> That said, since this is a dbus API call, libvirt will probably
-> timeout waiting for the DBus reply after something like 30-60
-> seconds IIRC.
+https://zonedstorage.io/docs/introduction/zoned-storage
 
-I have not observed any delays.
+The zoned device support aims to let guests (virtual machines) access zoned
+storage devices on the host (hypervisor) through a virtio-blk device. This
+involves extending QEMU's block layer and virtio-blk emulation code.  In its
+current status, the virtio-blk device is not aware of ZBDs but the guest sees
+host-managed drives as regular drive that will runs correctly under the most
+common write workloads.
 
-could it be that DBus doesn't wait for the process to be completely
-dead, but only that the signal is delivered?
+This patch series extend the block layer APIs with the minimum set of zoned commands that are necessary to support zoned devices. The commands are - Report Zones, four zone operations and Zone Append (developing).
 
-and which signal will DBus use?
+It can be tested on a null_blk device using qemu-io or qemu-iotests. For example, the command line for zone report using qemu-io is:
 
->=20
-> >=20=20=20
-> > > the only issue I have found is the log file, which stays open as long
-> > > as some file descriptors (which the cloned process inherits from the
-> > > main qemu process) stay open. A new VM cannot be started if its log f=
-ile
-> > > is still open by the logger process. The close_range() call solves the
-> > > issue.=20=20
->=20
-> With regards,
-> Daniel
+$ path/to/qemu-io --image-opts driver=zoned_host_device,filename=/dev/nullb0 -c "zrp offset nr_zones"
+
+v6:
+- drop virtio-blk emulation changes
+- address Stefan's review comments
+  * fix CONFIG_BLKZONED configs in related functions
+  * replace reading fd by g_file_get_contents() in get_sysfs_str_val()
+  * rewrite documentation for zoned storage
+
+v5:
+- add zoned storage emulation to virtio-blk device
+- add documentation for zoned storage
+- address review comments
+  * fix qemu-iotests
+  * fix check to block layer
+  * modify interfaces of sysfs helper functions
+  * rename zoned device structs according to QEMU styles
+  * reorder patches
+
+v4:
+- add virtio-blk headers for zoned device
+- add configurations for zoned host device
+- add zone operations for raw-format
+- address review comments
+  * fix memory leak bug in zone_report
+  * add checks to block layers
+  * fix qemu-iotests format
+  * fix sysfs helper functions
+
+v3:
+- add helper functions to get sysfs attributes
+- address review comments
+  * fix zone report bugs
+  * fix the qemu-io code path
+  * use thread pool to avoid blocking ioctl() calls
+
+v2:
+- add qemu-io sub-commands
+- address review comments
+  * modify interfaces of APIs
+
+v1:
+- add block layer APIs resembling Linux ZoneBlockDevice ioctls
+
+Sam Li (8):
+  include: add zoned device structs
+  file-posix: introduce get_sysfs_long_val for the long sysfs attribute
+  file-posix: introduce get_sysfs_str_val for device zoned model
+  block: add block layer APIs resembling Linux ZonedBlockDevice ioctls
+  raw-format: add zone operations to pass through requests
+  config: add check to block layer
+  qemu-iotests: test new zone operations
+  docs/zoned-storage: add zoned device documentation
+
+ block.c                                |  13 +
+ block/block-backend.c                  |  50 +++
+ block/coroutines.h                     |   6 +
+ block/file-posix.c                     | 423 ++++++++++++++++++++++++-
+ block/io.c                             |  41 +++
+ block/raw-format.c                     |  14 +
+ docs/devel/zoned-storage.rst           |  41 +++
+ docs/system/qemu-block-drivers.rst.inc |   6 +
+ include/block/block-common.h           |  44 ++-
+ include/block/block-io.h               |  13 +
+ include/block/block_int-common.h       |  35 +-
+ include/block/raw-aio.h                |   6 +-
+ meson.build                            |   1 +
+ qapi/block-core.json                   |   8 +-
+ qemu-io-cmds.c                         | 144 +++++++++
+ tests/qemu-iotests/tests/zoned.out     |  53 ++++
+ tests/qemu-iotests/tests/zoned.sh      |  86 +++++
+ 17 files changed, 964 insertions(+), 20 deletions(-)
+ create mode 100644 docs/devel/zoned-storage.rst
+ create mode 100644 tests/qemu-iotests/tests/zoned.out
+ create mode 100755 tests/qemu-iotests/tests/zoned.sh
+
+-- 
+2.37.1
 
 
