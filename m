@@ -2,64 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F14258A635
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 08:56:05 +0200 (CEST)
-Received: from localhost ([::1]:44350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219E458A73E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 09:38:55 +0200 (CEST)
+Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJrFc-0003FQ-7I
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 02:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52044)
+	id 1oJrv3-0004Ti-ON
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 03:38:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oJrBz-0000yL-U7
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 02:52:19 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46058 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oJrBw-0008BX-V2
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 02:52:19 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxoM4WvuxihpAHAA--.24073S3; 
- Fri, 05 Aug 2022 14:52:07 +0800 (CST)
-Subject: Re: [PATCH] hw/loongarch: remove acpi-build.c unused variable
- 'aml_len'
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn
-References: <20220721040046.3985609-1-gaosong@loongson.cn>
- <18a9da7a-9a11-2e2a-01e8-04b2504a2de9@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <daa28c50-5fe2-2f7b-0914-a11f6a8791d1@loongson.cn>
-Date: Fri, 5 Aug 2022 14:52:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oJrpk-0001xR-6K
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:33:34 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17216)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oJrph-0006SR-1u
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:33:23 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2757Idug036697;
+ Fri, 5 Aug 2022 07:33:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=IBkBDCVOvYE/wJ/SNHy/OCIkdrnTX5TC/M880vtXbSo=;
+ b=pDv2WyeX+dob0l+7LLML+xJykOOL9Kr+BGeNQt2IdKOCpsM5PfYuwVSGneClEVlzLy46
+ AcmK2GfcwZ0WgDkbp/puIqt8DpT6NCk++AXUtlWtytoFtfCUmadrzatuMRsqS55SLpLj
+ 9/7O2gKxzdAapxHmnl7UTAFltSH8qiSB6lcgVvM78b+ey4fR2xp7spG0Fj5q1PNM7OiU
+ BCDJopA84GbZihANHFKWeBJdoCYZq2MKZkd2dCgGdh01Id40LDApN2vQfFCXUa5fvCXV
+ dA5+DKao/yTQUg2NEXhO1bo6zCl6Oa6074/QNMPeFtTgLrXqB8JCLzgtBzC8S2RqTd9l qw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrxq30a1m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 07:33:15 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2757KHsj003847;
+ Fri, 5 Aug 2022 07:33:15 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrxq309um-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 07:33:15 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2757KxUY006845;
+ Fri, 5 Aug 2022 07:33:05 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03fra.de.ibm.com with ESMTP id 3hmv98w936-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 07:33:05 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2757X1J525690586
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Aug 2022 07:33:02 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DE88C4203F;
+ Fri,  5 Aug 2022 07:33:01 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5ABEF42042;
+ Fri,  5 Aug 2022 07:33:01 +0000 (GMT)
+Received: from p-imbrenda (unknown [9.145.4.149])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Aug 2022 07:33:01 +0000 (GMT)
+Date: Fri, 5 Aug 2022 08:59:42 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
+ cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
+ frankja@linux.ibm.com, alex.bennee@linaro.org
+Subject: Re: [PATCH v2 1/1] osdep: asynchronous teardown for shutdown on Linux
+Message-ID: <20220805085942.2c5cbce1@p-imbrenda>
+In-Reply-To: <Yuv2nW57bSGdK/1d@redhat.com>
+References: <20220803173141.52711-1-imbrenda@linux.ibm.com>
+ <YuqxtV1O8IqRAuDu@redhat.com> <YuuDc8nsLtPvtrQ7@redhat.com>
+ <20220804164929.2ae0d34e@p-imbrenda> <Yuv2nW57bSGdK/1d@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: HPsUhpRLrNcb6xKI3-MODq2gbagSoIPw
+X-Proofpoint-ORIG-GUID: IGprqQpQs2x-qnoPvyg68f_r-4vbvIZt
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <18a9da7a-9a11-2e2a-01e8-04b2504a2de9@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxoM4WvuxihpAHAA--.24073S3
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYD7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJw
- CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
- 14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
- IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxK
- x2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
- v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUZa9-UUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-05_01,2022-08-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 clxscore=1015 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2208050036
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,22 +120,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for 7.1
+On Thu, 4 Aug 2022 17:41:01 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-On 2022/7/24 上午11:27, Richard Henderson wrote:
-> On 7/21/22 09:30, Song Gao wrote:
->> Fix a compiler warning on openbsd:
->> ../src/hw/loongarch/acpi-build.c:416:12: warning: variable 'aml_len'
->> set but not used [-Wunused-but-set-variable]
->>      size_t aml_len = 0;
->>             ^
->>
->> Reported-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> ---
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> r~
+> On Thu, Aug 04, 2022 at 04:49:29PM +0200, Claudio Imbrenda wrote:
+> > On Thu, 4 Aug 2022 09:29:39 +0100
+> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> >=20=20=20
+> > > On Wed, Aug 03, 2022 at 06:34:45PM +0100, Daniel P. Berrang=C3=A9 wro=
+te:=20=20
+> > > > On Wed, Aug 03, 2022 at 07:31:41PM +0200, Claudio Imbrenda wrote:=
+=20=20=20=20
+> > > > > This patch adds support for asynchronously tearing down a VM on L=
+inux.
+> > > > >=20
+> > > > > When qemu terminates, either naturally or because of a fatal sign=
+al,
+> > > > > the VM is torn down. If the VM is huge, it can take a considerable
+> > > > > amount of time for it to be cleaned up. In case of a protected VM=
+, it
+> > > > > might take even longer than a non-protected VM (this is the case =
+on
+> > > > > s390x, for example).
+> > > > >=20
+> > > > > Some users might want to shut down a VM and restart it immediatel=
+y,
+> > > > > without having to wait. This is especially true if management
+> > > > > infrastructure like libvirt is used.
+> > > > >=20
+> > > > > This patch implements a simple trick on Linux to allow qemu to re=
+turn
+> > > > > immediately, with the teardown of the VM being performed
+> > > > > asynchronously.
+> > > > >=20
+> > > > > If the new commandline option -async-teardown is used, a new proc=
+ess is
+> > > > > spawned from qemu at startup, using the clone syscall, in such wa=
+y that
+> > > > > it will share its address space with qemu.
+> > > > >=20
+> > > > > The new process will then simpy wait until qemu terminates, and t=
+hen it
+> > > > > will exit itself.
+> > > > >=20
+> > > > > This allows qemu to terminate quickly, without having to wait for=
+ the
+> > > > > whole address space to be torn down. The teardown process will ex=
+it
+> > > > > after qemu, so it will be the last user of the address space, and
+> > > > > therefore it will take care of the actual teardown.
+> > > > >=20
+> > > > > The teardown process will share the same cgroups as qemu, so both
+> > > > > memory usage and cpu time will be accounted properly.
+> > > > >=20
+> > > > > This feature can already be used with libvirt by adding the follo=
+wing
+> > > > > to the XML domain definition:
+> > > > >=20
+> > > > >   <commandline xmlns=3D"http://libvirt.org/schemas/domain/qemu/1.=
+0">
+> > > > >   <arg value=3D'-async-teardown'/>
+> > > > >   </commandline>=20=20=20=20
+> > > >=20
+> > > > How does this work in practice ?  Libvirt should be blocking until
+> > > > all processes in the cgroup have exited, including this cloned
+> > > > child process.=20=20=20=20
+> > >=20
+> > > Also, have you disabled use of seccomp with QEMU when testing this,
+> > > as the seccomp filter that libivrt enables is supposed to block
+> > > any use of clone() except for the creation of threads.=20=20
+> >=20
+> > it was just a vanilla libvirt 8.0.0 as found on ubuntu 22.04; I have no
+> > idea how it is configured by default=20=20
+>=20
+> Ok, so the reason it is working is because the extra process is
+> cloned() right in middle of processing argv. This is before the
+> seccomp filter is applied to the process, so clone() is not blocked.
+>=20
+> One think I note about this in practice is that (unsurprisingly)
+> if you do a process listing, users now see 2 QEMU processes instead
+> of one.
+>=20
+> I wonder if we should consider overwriting argv in the child
+> process with "[qemu async teardown]" to give users a hint as to
+> why this duplicate process exists.
+
+sounds like a good idea
+
+>=20
+> With regards,
+> Daniel
 
 
