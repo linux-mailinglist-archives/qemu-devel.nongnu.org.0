@@ -2,105 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5866658A3DD
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 01:23:29 +0200 (CEST)
-Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC1B58A41D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 02:18:33 +0200 (CEST)
+Received: from localhost ([::1]:59038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJkBb-00006h-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 19:23:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52600)
+	id 1oJl2t-00016E-QU
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 20:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oJk9y-0006oa-6D; Thu, 04 Aug 2022 19:21:46 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:52359)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oJl0w-0007Ms-Sf
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 20:16:30 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:19924 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oJk9u-0005Vh-R7; Thu, 04 Aug 2022 19:21:45 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 6713E58050C;
- Thu,  4 Aug 2022 19:21:38 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 04 Aug 2022 19:21:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1659655298; x=
- 1659658898; bh=MK4++uuIE5rTQ8sKqBgXyebKUNY+m7GlyLLf4cHhRjM=; b=T
- g7xblfPZutHLYsewjJPt8GhoO95ArY+YLnysNzsCUGis7L10ZUywiYbzcDr/bAH8
- odhLcQX3C1PGepFKz+HLOFZrbnVfv+66gPxIlPAY/X9eTsNmZYlDPhsJBMyJxfO/
- TXbuuvEsHbmjgD3C6kBArCPvluo+cYw+pblgjljReVd74J9UZzIkmtClQBeVNJfB
- MzD11y6MSdvUCxQpaDJOxMbeY+OcOMubSReiX8cCuP6/C9rRIlYOYT3l68ikQep1
- hoqz02iQ0zaXmdKzqKApUR7lXo8PcDnopzrCGbZpY6mMkeSeJKm4LQMF8bVH6GmM
- aNBhvSW2k8ZnauVGEyNeQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659655298; x=
- 1659658898; bh=MK4++uuIE5rTQ8sKqBgXyebKUNY+m7GlyLLf4cHhRjM=; b=y
- 1wo6NtOfiAKQ4MT/Go5L9e0sgjVQaliDyjcKYlKhsFWuOJOn8E4iN7+e2NOl7gVR
- P5j1w9VWvDJ5lAUkzWjkBsfC6HJvolkc6bDvioRlePLUDXR+FlnLB1wItbOJa+wh
- TeP3u3IAeBuoWlRX8s3UZd3K33/MTTruLDlZ2TTfIX1bDldvoaKEAyaxZQqYj3hX
- lftCLUPebTnoo3rHUWcXZIlABr7Z499SLc6G26YjgcVSciYPE3UQBf35CW9kOVGT
- 1t2CmSOqTc1NqnjGeWsBbjQFjeP3dyEqtiWoRxyKwxRmNV7EfcAhBICDMzlCQifi
- /aX/dE+kJx+wEx3oLcang==
-X-ME-Sender: <xms:gVTsYmit3bZcGdFTi4zP1n7rpphe8Q9up6yXAsX4pYGYE4vJdcxqLg>
- <xme:gVTsYnBhBFpmiNazJhfaNBTbgr_fYSjndofbRpkIA7Sy1p-bXOX4FgUddP45ecj4K
- N6jNexSUSf3jG5R48U>
-X-ME-Received: <xmr:gVTsYuF0CC5_KeEf1xVK2W-PZ8SC-_9RLqK8mIPNomaa7Xe5GcsGSxoPunU821bFql_dmKonShWBJDp6IcVAog>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeftddgvddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpeduueffgffhtdehveeuhedukeefudffvddtleekheevfefggfeuvedtfeek
- hffhveenucffohhmrghinhepshhtrggtkhhovhgvrhhflhhofidrtghomhenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgu
- rdguvghv
-X-ME-Proxy: <xmx:gVTsYvRV61T2QH2Orfi_szMivHxClhk5Ui4GthzBE1opKiewpf73UA>
- <xmx:gVTsYjyVoKiEUle0KkmjrTHnuJxgnAxTfj3Hg6Po9wKyMp3Ga1nmtQ>
- <xmx:gVTsYt4Oqi79_doCC-m96sTlIHtb9QCVM2pGy-AxcIVlaUYhZV_mwg>
- <xmx:gVTsYjlXSVYa8lfvsDIa2kzFGc_0px69dSsObV3vHh7raB7MoYkcJQ>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Aug 2022 19:21:34 -0400 (EDT)
-Date: Thu, 4 Aug 2022 16:21:32 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: Dan Zhang <dz4list@gmail.com>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Iris Chen <irischenlj@gmail.com>, Iris Chen <irischenlj@fb.com>,
- Peter Delevoryas <pdel@fb.com>,
- Cameron Esfahani via <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, patrick@stwcx.xyz,
- Alistair Francis <alistair@alistair23.me>, kwolf@redhat.com,
- hreitz@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
- qemu-block@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [RFC 1/1] hw: tpmtisspi: add SPI support to QEMU TPM
- implementation
-Message-ID: <YuxUfDT3H9CKGX4P@pdel-mbp.dhcp.thefacebook.com>
-References: <20220803023241.63739-1-irischenlj@gmail.com>
- <20220803023241.63739-2-irischenlj@gmail.com>
- <36a20515-461d-0f27-3be8-a4edd099165a@kaod.org>
- <YuqwpCFNnh/wyNNe@pdel-mbp.dhcp.thefacebook.com>
- <CAJxKyLfMFDGhVGBCdPEm6dCyuV4NPFfn3vPZW+ugwZfsFtFgMg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oJl0t-0005JQ-TO
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 20:16:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659658587; x=1691194587;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=K1SdlcQDUknfyWqpf0El5/S3OXBEmuog0Lsy9lG1L3g=;
+ b=mGbGYCkvZt+lH5ESMXdYqYFMP849XvBIBg+w5ZEu4aACnBzApz2M5Czq
+ oPhgnfkuLH11eEK5Gf4ljUeKopZLJyYn1wAzGDoRb0ThGjjr+7Fo9r4L5
+ /nxFsAjkDUIP4r5+vJifG/6Jb2DzmE+f7PUvi/9ZQuXwFSaaQxkj4icJL
+ Mcz7Vid4zesLMFUuKZ4v1TSYzSPxnYI7WzkEipvJr1reiNFRLgdWMiypC
+ D7XVOuA7Q4fnhUwgV7TCkJbp69EZ7TdUrmwrPnsgyBMWNl4JGCVsDqoxF
+ H/aCMwvZbPbEgis15pmBSemqshU6H1e+9JXDGcY4f/RSn+YkmHp4SHc04 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10429"; a="351797205"
+X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="351797205"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2022 17:16:22 -0700
+X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="579293992"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.170.34])
+ ([10.249.170.34])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2022 17:16:18 -0700
+Message-ID: <c76a9b00-7972-dcf1-28b4-6befe621e094@intel.com>
+Date: Fri, 5 Aug 2022 08:16:15 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v1 00/40] TDX QEMU support
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
+ <YujzOUjMbBZRi/e6@redhat.com>
+ <db14e4f1-6090-7f97-f690-176ba828500c@intel.com>
+ <Yuqz6nPIIqzrlxP1@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <Yuqz6nPIIqzrlxP1@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJxKyLfMFDGhVGBCdPEm6dCyuV4NPFfn3vPZW+ugwZfsFtFgMg@mail.gmail.com>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
- helo=new1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,477 +92,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 04, 2022 at 11:07:10AM -0700, Dan Zhang wrote:
-> On Wed, Aug 3, 2022 at 10:30 AM Peter Delevoryas <peter@pjd.dev> wrote:
-> >
-> > On Wed, Aug 03, 2022 at 10:52:23AM +0200, C�dric Le Goater wrote:
-> > > On 8/3/22 04:32, Iris Chen wrote:
-> > > > From: Iris Chen <irischenlj@fb.com>
-> > >
-> > > A commit log telling us about this new device would be good to have.
-> > >
-> > >
-> > > > Signed-off-by: Iris Chen <irischenlj@fb.com>
-> > > > ---
-> > > >   configs/devices/arm-softmmu/default.mak |   1 +
-> > > >   hw/arm/Kconfig                          |   5 +
-> > > >   hw/tpm/Kconfig                          |   5 +
-> > > >   hw/tpm/meson.build                      |   1 +
-> > > >   hw/tpm/tpm_tis_spi.c                    | 311 ++++++++++++++++++++++++
-> > > >   include/sysemu/tpm.h                    |   3 +
-> > > >   6 files changed, 326 insertions(+)
-> > > >   create mode 100644 hw/tpm/tpm_tis_spi.c
-> > > >
-> > > > diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
-> > > > index 6985a25377..80d2841568 100644
-> > > > --- a/configs/devices/arm-softmmu/default.mak
-> > > > +++ b/configs/devices/arm-softmmu/default.mak
-> > > > @@ -42,3 +42,4 @@ CONFIG_FSL_IMX6UL=y
-> > > >   CONFIG_SEMIHOSTING=y
-> > > >   CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-> > > >   CONFIG_ALLWINNER_H3=y
-> > > > +CONFIG_FBOBMC_AST=y
-> > >
-> > > I don't think this extra config is useful for now
-> > >
-> > > > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> > > > index 15fa79afd3..193decaec1 100644
-> > > > --- a/hw/arm/Kconfig
-> > > > +++ b/hw/arm/Kconfig
-> > > > @@ -458,6 +458,11 @@ config ASPEED_SOC
-> > > >       select PMBUS
-> > > >       select MAX31785
-> > > > +config FBOBMC_AST
-> > > > +    bool
-> > > > +    select ASPEED_SOC
-> > > > +    select TPM_TIS_SPI
-> > > > +
-> > > >   config MPS2
-> > > >       bool
-> > > >       imply I2C_DEVICES
-> > > > diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
-> > > > index 29e82f3c92..370a43f045 100644
-> > > > --- a/hw/tpm/Kconfig
-> > > > +++ b/hw/tpm/Kconfig
-> > > > @@ -8,6 +8,11 @@ config TPM_TIS_SYSBUS
-> > > >       depends on TPM
-> > > >       select TPM_TIS
-> > > > +config TPM_TIS_SPI
-> > > > +    bool
-> > > > +    depends on TPM
-> > > > +    select TPM_TIS
-> > > > +
-> > > >   config TPM_TIS
-> > > >       bool
-> > > >       depends on TPM
-> > > > diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
-> > > > index 1c68d81d6a..1a057f4e36 100644
-> > > > --- a/hw/tpm/meson.build
-> > > > +++ b/hw/tpm/meson.build
-> > > > @@ -2,6 +2,7 @@ softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_tis_common.c'))
-> > > >   softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
-> > > >   softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
-> > > >   softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
-> > > > +softmmu_ss.add(when: 'CONFIG_TPM_TIS_SPI', if_true: files('tpm_tis_spi.c'))
-> > > >   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
-> > > >   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
-> > > > diff --git a/hw/tpm/tpm_tis_spi.c b/hw/tpm/tpm_tis_spi.c
-> > > > new file mode 100644
-> > > > index 0000000000..c98ddcfddb
-> > > > --- /dev/null
-> > > > +++ b/hw/tpm/tpm_tis_spi.c
-> > > > @@ -0,0 +1,311 @@
-> > > > +#include "qemu/osdep.h"
-> > > > +#include "hw/qdev-properties.h"
-> > > > +#include "migration/vmstate.h"
-> > > > +#include "hw/acpi/tpm.h"
-> > > > +#include "tpm_prop.h"
-> > > > +#include "tpm_tis.h"
-> > > > +#include "qom/object.h"
-> > > > +#include "hw/ssi/ssi.h"
-> > > > +#include "hw/ssi/spi_gpio.h"
-> > > > +
-> > > > +#define TPM_TIS_SPI_ADDR_BYTES 3
-> > > > +#define SPI_WRITE 0
-> > > > +
-> > > > +typedef enum {
-> > > > +    TIS_SPI_PKT_STATE_DEACTIVATED = 0,
-> > > > +    TIS_SPI_PKT_STATE_START,
-> > > > +    TIS_SPI_PKT_STATE_ADDRESS,
-> > > > +    TIS_SPI_PKT_STATE_DATA_WR,
-> > > > +    TIS_SPI_PKT_STATE_DATA_RD,
-> > > > +    TIS_SPI_PKT_STATE_DONE,
-> > > > +} TpmTisSpiPktState;
-> > > > +
-> > > > +union TpmTisRWSizeByte {
-> > > > +    uint8_t byte;
-> > > > +    struct {
-> > > > +        uint8_t data_expected_size:6;
-> > > > +        uint8_t resv:1;
-> > > > +        uint8_t rwflag:1;
-> > > > +    };
-> > > > +};
-> > > > +
-> > > > +union TpmTisSpiHwAddr {
-> > > > +    hwaddr addr;
-> > > > +    uint8_t bytes[sizeof(hwaddr)];
-> > > > +};
-> > > > +
-> > > > +union TpmTisSpiData {
-> > > > +    uint32_t data;
-> > > > +    uint8_t bytes[64];
-> > > > +};
-> > > > +
-> > > > +struct TpmTisSpiState {
-> > > > +    /*< private >*/
-> > > > +    SSIPeripheral parent_obj;
-> > > > +
-> > > > +    /*< public >*/
-> > > > +    TPMState tpm_state; /* not a QOM object */
-> > > > +    TpmTisSpiPktState tpm_tis_spi_state;
-> > > > +
-> > > > +    union TpmTisRWSizeByte first_byte;
-> > > > +    union TpmTisSpiHwAddr addr;
-> > > > +    union TpmTisSpiData data;
-> > >
-> > > Are these device registers ? I am not sure the unions are very useful.
-> >
-> > +1, I don't think we should be using unions, instead we should split out
-> > all the relevant fields we want to store and use extract32/deposit32/etc
-> > if necessary.
-> These union is used to saving us code to extract the bits from first byte
-> and assembling the hwaddr and unint32_t data from bytes.
-> I think as the bitfields has compiler implementation dependency of endianness
-> we can switch to use extract8. or handle it for gcc
-> https://stackoverflow.com/questions/47600584/bitfield-endianness-in-gcc
+On 8/4/2022 1:44 AM, Daniel P. Berrangé wrote:
+> On Tue, Aug 02, 2022 at 06:55:48PM +0800, Xiaoyao Li wrote:
+>> On 8/2/2022 5:49 PM, Daniel P. Berrangé wrote:
+>>> On Tue, Aug 02, 2022 at 03:47:10PM +0800, Xiaoyao Li wrote:
+>>
+>>>> - CPU model
+>>>>
+>>>>     We cannot create a TD with arbitrary CPU model like what for non-TDX VMs,
+>>>>     because only a subset of features can be configured for TD.
+>>>>     - It's recommended to use '-cpu host' to create TD;
+>>>>     - '+feature/-feature' might not work as expected;
+>>>>
+>>>>     future work: To introduce specific CPU model for TDs and enhance +/-features
+>>>>                  for TDs.
+>>>
+>>> Which features are incompatible with TDX ?
+>>
+>> TDX enforces some features fixed to 1 (e.g., CPUID_EXT_X2APIC,
+>> CPUID_EXT_HYPERVISOR)and some fixed to 0 (e.g., CPUID_EXT_VMX ).
+>>
+>> Details can be found in patch 8 and TDX spec chapter "CPUID virtualization"
+>>
+>>> Presumably you have such a list, so that KVM can block them when
+>>> using '-cpu host' ?
+>>
+>> No, KVM doesn't do this. The result is no error reported from KVM but what
+>> TD OS sees from CPUID might be different what user specifies in QEMU.
+>>
+>>> If so, we should be able to sanity check the
+>>> use of these features in QEMU for the named CPU models / feature
+>>> selection too.
+>>
+>> This series enhances get_supported_cpuid() for TDX. If named CPU models are
+>> used to boot a TDX guest, it likely gets warning of "xxx feature is not
+>> available"
+> 
+> If the  ',check=on' arg is given to -cpu, does it ensure that the
+> guest fails to startup with an incompatible feature set ? That's
+> really the key thing to protect the user from mistakes.
 
-Hmmm ok, I'll let Cedric say what the preference would be in general since
-I'm not totally sure.
+"check=on" won't stop startup with an incompatible feature set but 
+"enforce=on". Yes, this series can ensure it with "enforce=on"
 
 > 
-> >
-> > >
-> > > > +    uint32_t data_size;
-> > > > +    uint8_t data_idx;
-> > > > +    uint8_t addr_idx;
-> > > > +};
-> > > > +
-> > > > +struct TpmTisSpiClass {
-> > > > +    SSIPeripheralClass parent_class;
-> > > > +};
-> > > > +
-> > > > +OBJECT_DECLARE_TYPE(TpmTisSpiState, TpmTisSpiClass, TPM_TIS_SPI)
-> > > > +
-> > > > +static void tpm_tis_spi_mmio_read(TpmTisSpiState *tts)
-> > > > +{
-> > > > +    uint16_t offset = tts->addr.addr & 0xffc;
-> > > > +
-> > > > +    switch (offset) {
-> > > > +    case TPM_TIS_REG_DATA_FIFO:
-> > > > +        for (uint8_t i = 0; i < tts->data_size; i++) {
-> > > > +            tts->data.bytes[i] = (uint8_t)tpm_tis_memory_ops.read(
-> > >
-> > >
-> > > you should add an address space for these memory transactions. Look for
-> > > address_space_read/write calls, in the Aspeed I2C model for example.
-> >
-> > Yeah, or an even better example might be tpm_tis_isa. I feel like a
-> > shortcut might have been taken here to pull in tpm_tis_memory_ops
-> > directly, but we should have been treating the interface with the TPM as
-> > a generic address space.
-> >
-> No, in our application we did not have those memory region
-> [0xFFD4_0000 ~ 0xFFD4_FFFF]
-> here we mapping the TPM TIS SPI message operations into mmio operations is to
-> reuse the TIS registers models already implemented in tpm_tis_common.c
+>> We have another series to enhance the "-feature" for TDX, to warn out if
+>> some fixed1 is specified to be removed. Besides, we will introduce specific
+>> named CPU model for TDX. e.g., TDX-SapphireRapids which contains the maximum
+>> feature set a TDX guest can have on SPR host.
+> 
+> I don't know if this is the right approach or not, but we should at least
+> consider making use of CPU versioning here.  ie have a single "SapphireRapids"
+> alias, which resolves to a suitable specific CPU version depending on whether
+> TDX is used or not.
 
-Ehhh, I think you're misunderstanding. Yes, the ISA model is mapping the
-TPM MMIO address space into the ISA address space, and the SPI model
-doesn't have an address space like that, but we should still be using an
-MMIO address space to perform MMIO reads and writes, instead of calling
-the MMIO's callbacks directly.
+New version of a CPU model inherits from the last version. This fits 
+well with CPU model fixup when features need to be removed/added to 
+existing CPU model to make it work well with the latest kernel, and a 
+new version is created.
 
-I think the motivation for this is that tpm_tis_common.c shouldn't even
-expose tpm_tis_memory_ops directly, it should just expose an address
-space to write to. But, I might be misunderstanding.
+However, I think it less proper to define a TDX variant with versioned- 
+cpu model. For example, we have a SPR-V(x), then we need to define 
+SPR-V(x+1) and alias it as SPR-TDX. For SPR-V(x+1), we need to add and 
+remove several features. In the future, we may need a SPR-V(x+2) to fix 
+up the normal SPR cpu model SPR-V(x). All the changes in V(x+1)/SPR-TDX 
+  has to be reverted at first.
 
-> > >
-> > > > +                                          &tts->tpm_state,
-> > > > +                                          tts->addr.addr,
-> > > > +                                          1);
-> > > > +        }
-> > > > +        break;
-> > > > +    default:
-> > > > +        tts->data.data = (uint32_t)tpm_tis_memory_ops.read(
-> > > > +                                   &tts->tpm_state,
-> > > > +                                   tts->addr.addr,
-> > > > +                                   tts->data_size);
-> > > > +    }
-> > > > +}
-> > > > +
-> > > > +static void tpm_tis_spi_mmio_write(TpmTisSpiState *tts)
-> > > > +{
-> > > > +    uint16_t offset = tts->addr.addr & 0xffc;
-> > > > +
-> > > > +    switch (offset) {
-> > > > +    case TPM_TIS_REG_DATA_FIFO:
-> > > > +        for (uint8_t i = 0; i < tts->data_size; i++) {
-> > > > +            tpm_tis_memory_ops.write(&tts->tpm_state,
-> > > > +                                     tts->addr.addr,
-> > > > +                                     tts->data.bytes[i],
-> > > > +                                     1);
-> > > > +        }
-> > > > +        break;
-> > > > +    default:
-> > > > +        tpm_tis_memory_ops.write(&tts->tpm_state,
-> > > > +                                 tts->addr.addr,
-> > > > +                                 tts->data.data,
-> > > > +                                 tts->data_size);
-> > > > +        }
-> > > > +}
-> > > > +
-> > > > +static uint32_t tpm_tis_spi_transfer8(SSIPeripheral *ss, uint32_t tx)
-> > > > +{
-> > > > +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
-> > > > +    uint32_t r = 1;
-> > > > +
-> > > > +    switch (tts->tpm_tis_spi_state) {
-> > > > +    case TIS_SPI_PKT_STATE_START:
-> > > > +        tts->first_byte.byte = (uint8_t)tx;
-> > > > +        tts->data_size = tts->first_byte.data_expected_size + 1;
-> > > > +        tts->data_idx = 0;
-> > > > +        tts->addr_idx = TPM_TIS_SPI_ADDR_BYTES;
-> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_ADDRESS;
-> > > > +        break;
-> > > > +    case TIS_SPI_PKT_STATE_ADDRESS:
-> > > > +        assert(tts->addr_idx > 0);
-> > > > +        tts->addr.bytes[--tts->addr_idx] = (uint8_t)tx;
-> > > > +
-> > > > +        if (tts->addr_idx == 0) {
-> > > > +            if (tts->first_byte.rwflag == SPI_WRITE) {
-> > > > +                tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DATA_WR;
-> > > > +            } else { /* read and get the data ready */
-> > > > +                tpm_tis_spi_mmio_read(tts);
-> > > > +                tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DATA_RD;
-> > > > +            }
-> > > > +        }
-> > > > +        break;
-> > > > +    case TIS_SPI_PKT_STATE_DATA_WR:
-> > > > +        tts->data.bytes[tts->data_idx++] = (uint8_t)tx;
-> > > > +        if (tts->data_idx == tts->data_size) {
-> > > > +            tpm_tis_spi_mmio_write(tts);
-> > > > +            tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DONE;
-> > > > +        }
-> > > > +        break;
-> > > > +    case TIS_SPI_PKT_STATE_DATA_RD:
-> > > > +        r = tts->data.bytes[tts->data_idx++];
-> > > > +        if (tts->data_idx == tts->data_size) {
-> > > > +            tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DONE;
-> > > > +        }
-> > > > +        break;
-> > > > +    default:
-> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DEACTIVATED;
-> > > > +        r = (uint32_t) -1;
-> > > > +    }
-> > > > +
-> > > > +    return r;
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * Pre-reading logic for transfer:
-> > > > + * This is to fix the transaction between reading and writing.
-> > > > + * The first byte is arbitrarily inserted so we need to
-> > > > + * shift the all the output bytes (timeline) one byte right.
-> > > > + */
-> > > > +static uint32_t tpm_tis_spi_transfer8_ex(SSIPeripheral *ss, uint32_t tx)
-> > > > +{
-> > > > +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
-> > > > +    SSIBus *ssibus = (SSIBus *)qdev_get_parent_bus(DEVICE(tts));
-> > > > +
-> > > > +    TpmTisSpiPktState prev_state = tts->tpm_tis_spi_state;
-> > > > +    uint32_t r = tpm_tis_spi_transfer8(ss, tx);
-> > > > +    TpmTisSpiPktState curr_state = tts->tpm_tis_spi_state;
-> > > > +
-> > > > +    if (ssibus->preread &&
-> > > > +       /* cmd state has changed into DATA reading state */
-> > > > +       prev_state != TIS_SPI_PKT_STATE_DATA_RD &&
-> > > > +       curr_state == TIS_SPI_PKT_STATE_DATA_RD) {
-> > > > +        r = tpm_tis_spi_transfer8(ss, 0xFF);
-> > > > +    }
-> > > > +
-> > > > +    return r;
-> > > > +}
-> > > > +
-> > > > +static int tpm_tis_spi_cs(SSIPeripheral *ss, bool select)
-> > > > +{
-> > > > +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
-> > > > +
-> > > > +    if (select) { /* cs de-assert */
-> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DEACTIVATED;
-> > > > +    } else {
-> > > > +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_START;
-> > > > +        tts->first_byte.byte = 0;
-> > > > +        tts->addr.addr = 0;
-> > > > +        tts->data.data = 0;
-> > > > +    }
-> > > > +
-> > > > +    return 0;
-> > > > +}
-> > > > +
-> > > > +static int tpm_tis_pre_save_spi(void *opaque)
-> > > > +{
-> > > > +    TpmTisSpiState *sbdev = opaque;
-> > > > +
-> > > > +    return tpm_tis_pre_save(&sbdev->tpm_state);
-> > > > +}
-> > > > +
-> > > > +static const VMStateDescription vmstate_tpm_tis_spi = {
-> > > > +    .name = "tpm-tis-spi",
-> > > > +    .version_id = 0,
-> > > > +    .pre_save  = tpm_tis_pre_save_spi,
-> > > > +    .fields = (VMStateField[]) {
-> > > > +        VMSTATE_BUFFER(tpm_state.buffer, TpmTisSpiState),
-> > > > +        VMSTATE_UINT16(tpm_state.rw_offset, TpmTisSpiState),
-> > > > +        VMSTATE_UINT8(tpm_state.active_locty, TpmTisSpiState),
-> > > > +        VMSTATE_UINT8(tpm_state.aborting_locty, TpmTisSpiState),
-> > > > +        VMSTATE_UINT8(tpm_state.next_locty, TpmTisSpiState),
-> > > > +
-> > > > +        VMSTATE_STRUCT_ARRAY(tpm_state.loc, TpmTisSpiState, TPM_TIS_NUM_LOCALITIES,
-> > > > +                             0, vmstate_locty, TPMLocality),
-> > > > +
-> > > > +        VMSTATE_END_OF_LIST()
-> > > > +    }
-> > > > +};
-> > > > +
-> > > > +static void tpm_tis_spi_request_completed(TPMIf *ti, int ret)
-> > > > +{
-> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ti);
-> > > > +    TPMState *s = &sbdev->tpm_state;
-> > > > +
-> > > > +    tpm_tis_request_completed(s, ret);
-> > > > +}
-> > > > +
-> > > > +static enum TPMVersion tpm_tis_spi_get_tpm_version(TPMIf *ti)
-> > > > +{
-> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ti);
-> > > > +    TPMState *s = &sbdev->tpm_state;
-> > > > +
-> > > > +    return tpm_tis_get_tpm_version(s);
-> > > > +}
-> > > > +
-> > > > +static void tpm_tis_spi_reset(DeviceState *dev)
-> > > > +{
-> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(dev);
-> > > > +    TPMState *s = &sbdev->tpm_state;
-> > > > +
-> > > > +    return tpm_tis_reset(s);
-> > > > +}
-> > > > +
-> > > > +static Property tpm_tis_spi_properties[] = {
-> > > > +    DEFINE_PROP_UINT32("irq", TpmTisSpiState, tpm_state.irq_num, TPM_TIS_IRQ),
-> > > > +    DEFINE_PROP_TPMBE("tpmdev", TpmTisSpiState, tpm_state.be_driver),
-> > > > +    DEFINE_PROP_BOOL("ppi", TpmTisSpiState, tpm_state.ppi_enabled, false),
-> > > > +    DEFINE_PROP_END_OF_LIST(),
-> > > > +};
-> > > > +
-> > > > +static void tpm_tis_spi_realizefn(SSIPeripheral *ss, Error **errp)
-> > > > +{
-> > > > +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ss);
-> > > > +
-> > > > +    if (!tpm_find()) {
-> > > > +        error_setg(errp, "at most one TPM device is permitted");
-> > > > +        return;
-> > > > +    }
-> > > > +
-> > > > +    if (!sbdev->tpm_state.be_driver) {
-> > > > +        error_setg(errp, "'tpmdev' property is required");
-> > > > +        return;
-> > > > +    }
-> > > > +
-> > > > +    DeviceState *spi_gpio = qdev_find_recursive(sysbus_get_default(),
-> > > > +                                                TYPE_SPI_GPIO);
-> > > > +    qdev_connect_gpio_out_named(spi_gpio,
-> > > > +                                "SPI_CS_out", 0,
-> > > > +                                qdev_get_gpio_in_named(DEVICE(ss),
-> > > > +                                SSI_GPIO_CS, 0));
-> > > Typically, this part is done at the machine/board level because it
-> > > has knowledge of all devices but it is possible with the TPM devices?
-> >
-> > +1, yeah this part should be removed.
-> >
-> > >
-> > > How do you invoke QEMU ?
-> >
-> > We have some hard-coded machine/board level code that wires up stuff,
-> > and then I think Iris was hard-coding this stuff in the TPM TIS SPI
-> > model so that the whole thing could be hidden behind a Kconfig and wired
-> > in automatically when the Kconfig was enabled. But we should require
-> > users to wire it up themselves in the board code.
-> >
-> > >
-> > > Thanks,
-> > >
-> > > C.
-> > >
-> > > > +}
-> > > > +
-> > > > +static void tpm_tis_spi_class_init(ObjectClass *klass, void *data)
-> > > > +{
-> > > > +    DeviceClass *dc = DEVICE_CLASS(klass);
-> > > > +    SSIPeripheralClass *k = SSI_PERIPHERAL_CLASS(klass);
-> > > > +    TPMIfClass *tc = TPM_IF_CLASS(klass);
-> > > > +
-> > > > +    device_class_set_props(dc, tpm_tis_spi_properties);
-> > > > +    k->realize = tpm_tis_spi_realizefn;
-> > > > +    k->transfer = tpm_tis_spi_transfer8_ex;
-> > > > +    k->set_cs = tpm_tis_spi_cs;
-> > > > +    k->cs_polarity = SSI_CS_LOW;
-> > > > +
-> > > > +    dc->vmsd  = &vmstate_tpm_tis_spi;
-> > > > +    tc->model = TPM_MODEL_TPM_TIS;
-> > > > +    dc->user_creatable = true;
-> > > > +    dc->reset = tpm_tis_spi_reset;
-> > > > +    tc->request_completed = tpm_tis_spi_request_completed;
-> > > > +    tc->get_version = tpm_tis_spi_get_tpm_version;
-> > > > +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-> > > > +}
-> > > > +
-> > > > +static const TypeInfo tpm_tis_spi_info = {
-> > > > +    .name = TYPE_TPM_TIS_SPI,
-> > > > +    .parent = TYPE_SSI_PERIPHERAL,
-> > > > +    .instance_size = sizeof(TpmTisSpiState),
-> > > > +    .class_size = sizeof(TpmTisSpiClass),
-> > > > +    .class_init  = tpm_tis_spi_class_init,
-> > > > +    .interfaces = (InterfaceInfo[]) {
-> > > > +        { TYPE_TPM_IF },
-> > > > +        { }
-> > > > +    }
-> > > > +};
-> > > > +
-> > > > +static void tpm_tis_spi_register(void)
-> > > > +{
-> > > > +    type_register_static(&tpm_tis_spi_info);
-> > > > +}
-> > > > +
-> > > > +type_init(tpm_tis_spi_register)
-> > > > diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-> > > > index fb40e30ff6..6a6b311e47 100644
-> > > > --- a/include/sysemu/tpm.h
-> > > > +++ b/include/sysemu/tpm.h
-> > > > @@ -46,6 +46,7 @@ struct TPMIfClass {
-> > > >   #define TYPE_TPM_TIS_ISA            "tpm-tis"
-> > > >   #define TYPE_TPM_TIS_SYSBUS         "tpm-tis-device"
-> > > > +#define TYPE_TPM_TIS_SPI            "tpm-tis-spi-device"
-> > > >   #define TYPE_TPM_CRB                "tpm-crb"
-> > > >   #define TYPE_TPM_SPAPR              "tpm-spapr"
-> > > > @@ -53,6 +54,8 @@ struct TPMIfClass {
-> > > >       object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
-> > > >   #define TPM_IS_TIS_SYSBUS(chr)                      \
-> > > >       object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SYSBUS)
-> > > > +#define TPM_IS_TIS_SPI(chr)                      \
-> > > > +    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SPI)
-> > > >   #define TPM_IS_CRB(chr)                             \
-> > > >       object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
-> > > >   #define TPM_IS_SPAPR(chr)                           \
-> > >
+Anyway, we can discuss it in the future when we post the series of TDX 
+CPU model. We plan to do that after this basic series gets merged. :)
+
+> With regards,
+> Daniel
+
 
