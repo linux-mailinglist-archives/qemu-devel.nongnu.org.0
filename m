@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A5A58ADFF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:21:21 +0200 (CEST)
-Received: from localhost ([::1]:39776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE40658AE03
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:24:33 +0200 (CEST)
+Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK04Z-00041h-V1
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40426)
+	id 1oK07l-0006Fa-1L
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oJzxM-0006qF-9q
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:13:48 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:35466)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oK06L-0004iO-4O
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:23:05 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oJzxD-0008CF-V9
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:13:47 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-32269d60830so28934897b3.2
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 09:13:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oK06I-0001c5-CA
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:23:04 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id c22so1642191wmr.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 09:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
- bh=BDH/HOUgAa+1mfTvk/cBkHMh91YLw9/7F281Z4YLrVg=;
- b=BTGmJAtlQ7xTn5g9nGhkOR1zZPLsrhmK4IbpUfNkYnq6pbCXYa6UsLSnnMbAJ0TQpy
- aPTJpj+/XkSlWZX1lcm3wvNChWuYriKlflOrRj+PosSE/4uZYj9eTbhWMdHNrfke1PkA
- 6+eBoGCWHqBx+q5tp1GqjuGLtKarFdg2gaY8kCuCnwOLGdvKyONeWAqV1KRSdmi3rogq
- xY2ErLJDvHbqklKOs2U/C0Pzaw9iDIovb2EyZr5kWd/8U468gTHdjw2xE85xGesxFe8t
- Z5+B7Dpgx/eWqhmlS3ouvpyLnTn/gXnUhv1VQse1cFMtcw25IclA0UcABnDCyIzVnHWd
- bu2Q==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=V/c8JP0m6ueyxSV7ZEGF5pgd9MyDoLXRHUB2miVLSTs=;
+ b=aqYzSrGCDTwLC0Qg7UUPxj+UVYcRUQ+YmF9kOTGsLs7koGrhFJmUv8A5PhBxV8sMzC
+ ZBn5o0VYH+pX8k60qtuat0ydaqCYrPbA3H+wHC5L9SfFgUiqW/+b9Jtg5VpwTqquIsH9
+ izUanz5cetuEItBGq5IbhI2SKxeNt8tTxFfiOcR9pWy7OOAggvTlqZyMIH8cyI06xgTi
+ NTowbjPvexSJhsS4U+lIBAnTk3y0lARvdZVYa/f99wDHLwnX9J9gFDKYyMoet3MYCJr3
+ pGg5N3YC/9rYA+qcVlL8kFrcRWMh2qllfADlhijmCHi9lsXhX915xTMpXu5DYeD/bC2p
+ kV9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc;
- bh=BDH/HOUgAa+1mfTvk/cBkHMh91YLw9/7F281Z4YLrVg=;
- b=6i0mHjIrKterSVVOscP+DQQTmo+UbPmKHScT+CG54kIWdImStkD+JVY1VkBqex3pkh
- wBIqJBiwwX/9p7OkZrgMt4S2IxS542bV6k9gvTD1nsv0s6qXQ54slGVHyBa+EuFufGTf
- kb3PiJqtX4HaqNOIfTxzqCN+ZOcaNwsYhty4CVD51ODLcAFeENjXIRhDisJwlY7FounP
- LKOr/9yb4NmCgGGuhBXk2uxqd96dGKrlaMFA6qAG3RIPHoBWTtkbIaRFJHUOBuzSCwLB
- P15t7bWPkbuyl9EI7FPZ2o8DU3IF8tje/MSSmtiwg1pbyTsRoW0TckwY4vzw3Epf8Nta
- QdLA==
-X-Gm-Message-State: ACgBeo1uKlpvBuk0OheWOplywiL5WT5skzUsW2ZtPFq7f8uGURwVxAny
- KST++FzkJdku+I1IcazeADk/0/e4hXBx1UWdDSjVLHClQ2M=
-X-Google-Smtp-Source: AA6agR4l07W7tAy3h5eZ2/Tdet3+zZWStiaLqfT7vkEsWciyU75G8agzA+DLzBPzxcKd/w4AlsNSxPsfWi7CFMR4CD0=
-X-Received: by 2002:a0d:fd05:0:b0:329:3836:53ac with SMTP id
- n5-20020a0dfd05000000b00329383653acmr4060199ywf.455.1659716018812; Fri, 05
- Aug 2022 09:13:38 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=V/c8JP0m6ueyxSV7ZEGF5pgd9MyDoLXRHUB2miVLSTs=;
+ b=jB9fnh5QHLPUvIVIHTTTCx7XDHa+mb1KA8LsXvdpyuor2174beq6LHv8v3ZQfExAF9
+ iGnDkoXv3jXwayIBCnogQZJ+A+khP5D6U90klTE13nCjYQXeI+Wnl2OaDOssXQ/Gmn6E
+ w1nXHUfho+WXeEsx5XR6k9pogA8qQuru/8Enjm14cVncUOzEHuYIskztgQVsYf1fWHgk
+ Bme8sEcNqc0pwuBd5wYM8sSAeCDgJRXdVd0TRYAppxt2w0jBIQTy0Ig3kBnFZCC5u49j
+ 6SAVu18yohsRyqVRG+y6yU5G8UVs+oYgOq7KGXIv9qc8FDODufxxoBsDVbKy1iztSr50
+ tuAQ==
+X-Gm-Message-State: ACgBeo3bXKjgLTPgams7ujTVRPOnJLZ6T1EOm4LMrDzHUFbZPJkJj5ZH
+ BoASlrqN1TCYugZYjmf0DqDeMQ==
+X-Google-Smtp-Source: AA6agR4/o6tH7IZ5xIPbBIm+7j2LnYJk76nxnJzwgh8xo0VWjZ3wmbywos/MSDGps1eK3J1jmhURyw==
+X-Received: by 2002:a1c:44c3:0:b0:3a4:f09b:401a with SMTP id
+ r186-20020a1c44c3000000b003a4f09b401amr10342751wma.89.1659716579775; 
+ Fri, 05 Aug 2022 09:22:59 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ u13-20020a5d514d000000b0021d7ad6b9fdsm4318573wrt.57.2022.08.05.09.22.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Aug 2022 09:22:58 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 62A501FFB7;
+ Fri,  5 Aug 2022 17:22:58 +0100 (BST)
+References: <20220805141522.412864-1-lucas.araujo@eldorado.org.br>
+User-agent: mu4e 1.7.27; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+Cc: qemu-ppc@nongnu.org, richard.henderson@linaro.org,
+ danielhb413@gmail.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/2] Floating-point OE/UE exception bug
+Date: Fri, 05 Aug 2022 17:20:08 +0100
+In-reply-to: <20220805141522.412864-1-lucas.araujo@eldorado.org.br>
+Message-ID: <87pmhemzh9.fsf@linaro.org>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Aug 2022 17:13:28 +0100
-Message-ID: <CAFEAcA87=Xs8vd8e+eHzSFboWOUcAhJUuFvuG1gzw+Zs_M-DyQ@mail.gmail.com>
-Subject: libslirp and static linking
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Michael Tokarev <mjt@tls.msk.ru>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,29 +93,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; I noticed today that Debian's libslirp-dev package doesn't ship
-a static library version of libslirp. I was going to file a Debian
-bug about that, but then looking at upstream 'libslirp' I found
-that its README.md
-https://gitlab.freedesktop.org/slirp/libslirp
-only documents how to build a shared library libslirp, and says
-"(QEMU may build with the submodule static library using --enable-slirp=git)"
 
-So:
-(1) is it possible to build the separate libslirp package as
-    a static library currently?
-(2) if not, can it be enhanced to do so?
-(3) otherwise, is upstream QEMU going to have to retain the
-    git submodule just for the static linking case ?
+"Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br> writes:
+
+> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+>
+> Changes in v2:
+>     - Completely reworked the solution:
+>         * Created re_bias in FloatFmt, it is 3/4 of the total exponent
+>           range of a FP type
+
+I thought this might have an effect on the efficiency of the FloatFmt
+extraction/packing but I couldn't see any real difference in fpbench. I
+doubt the compiler can dead code it away if not used by a front-end.
+
+Anyway have a:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+for the series.
+
+>         * Added rebias bools that dictates if the result should have
+>           its exponent add/subtract the re_bias value if an
+>           overflow/underflow occurs.
+>         * ppc_store_fpscr sets/unsets rebias if OE/UE is set/unset
+>
+> The PowerISA defines that if an overflow exception happen with FPSCR.OE
+> set, the exponent of the intermediate result is subtracted 1536 in
+> double precision operations and is added 1536 in an underflow exception,
+> currently this behavior is not QEMU's behavior, this patch series fixes
+> that.
+>
+> Currently there's no test in this patch series as there's no way to
+> disable MSR.FE0 and MSR.FE1 in linux user, so any overflow/underflow
+> exception with OE/UE set causes a trapping exception.
+
+Could you do it with a system mode test? Probably overkill for this
+though. I suspect tweaking testfloat would be tricky.
+
+>
+> Lucas Mateus Castro (alqotel) (2):
+>   fpu: Add rebias bool, value and operation
+>   target/ppc: Bugfix FP when OE/UE are set
+>
+>  fpu/softfloat-parts.c.inc     | 21 +++++++++++++++++++--
+>  fpu/softfloat.c               |  2 ++
+>  include/fpu/softfloat-types.h |  4 ++++
+>  target/ppc/cpu.c              |  2 ++
+>  target/ppc/fpu_helper.c       |  2 --
+>  5 files changed, 27 insertions(+), 4 deletions(-)
 
 
-I also found that at least the pkg-config file shipped with
-Ubuntu libslirp-dev 4.1.0-2ubuntu2.2 results in 'configure --static'
-incorrectly detecting that libslirp is present, even though that
-package does not ship a static library. I'm not sure whether that's
-a bug in the pkg-config file, in the Debian/Ubuntu packaging, or in
-QEMU's library probing code...
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
