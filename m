@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03B158A525
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 05:49:48 +0200 (CEST)
-Received: from localhost ([::1]:50748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0BF58A527
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 05:52:24 +0200 (CEST)
+Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJoLL-0007AI-Rn
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 23:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56110)
+	id 1oJoNr-0002GS-HX
+	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 23:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJoIn-0005RR-U5
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:47:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31373)
+ id 1oJoK3-000655-2i
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:48:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJoIl-0003h2-TE
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:47:09 -0400
+ id 1oJoK1-0003r7-5g
+ for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:48:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659671227;
+ s=mimecast20190719; t=1659671304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x9lPfQSwfP7hI/Q81iCpOm38mjeHd2BN4vwmEVMURPc=;
- b=jRwey81ln5/Rmi6xFIflIYPUMgC6jqQQTDqJbcRfyrygGwMBmVARX986FDfLD0jYcAaIxs
- v57rB5WwjuPtUmRSiZFI2zZ/s3UjpH2nDaHVF3jJKnXiVomoz3k+1misRRSSLw9D6qT34z
- etZvVY8npoTvZgYhp3Ldywr29yTlTKY=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ql1AJPEhHDr7JfwEUjEZ3I+jdhJ4GdB0OS3UBbfESmc=;
+ b=Rn9GNhcX8o6E/Lrgt33QAxrPDTVaaKCQoUGw5lkRryA+PyVP7UBsDHowwJZNVoriyUkCT+
+ GxytDR0y1DbwYvL0vsDMFyVrFkqI4ZvOosgIJJ3yTOLfVH5eeeXoCLWZWrU4HsIxroDIQA
+ sENBTgSQNOofg1KKlTA8IQ46POJUUGs=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-1gVNYueVO7G7DmsEXir4aw-1; Thu, 04 Aug 2022 23:46:26 -0400
-X-MC-Unique: 1gVNYueVO7G7DmsEXir4aw-1
-Received: by mail-lf1-f69.google.com with SMTP id
- k25-20020a195619000000b00489e6a6527eso288608lfb.8
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 20:46:25 -0700 (PDT)
+ us-mta-582-k3xjEn-aNxqaWcJ_UyOkYw-1; Thu, 04 Aug 2022 23:48:23 -0400
+X-MC-Unique: k3xjEn-aNxqaWcJ_UyOkYw-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 26-20020ac25f5a000000b0048b066a27a7so289141lfz.20
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 20:48:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x9lPfQSwfP7hI/Q81iCpOm38mjeHd2BN4vwmEVMURPc=;
- b=v+PxksHkobjLojI8NcM/MFrfaDAYHV9mEbEb/1WMzG39MOGkedxP3vjAVY7kJuzL6z
- sOzw8TB74XmsxieHe3WkP+nZa/vDbdL+QXo2Y+YE2+12qcydkKbbMvLiDkiq0u6BxlGW
- d84VbBTUOzsGn/l/XOp3P9M3IhyI/wG3lLQ3owFNw/PuIQgHqhKk4I7ScdrsG3v/kBDc
- ehzd7pLOPJZS5bdGYnS8HHWOCHE0JxWx22MrYtYQl6gqQbJJdHXCbyQwwXjs5cff/7Ug
- s4bOzWL7tCrt03wMmdVOZUwP16GeEumTtosRF+kYrPXD14oANUW2clsO5ba1WIjAWLpq
- 9L8w==
-X-Gm-Message-State: ACgBeo1R4mqDBYWC/TLWJmyv4uK2hk2Q2MPE10Ol+ltBEnISdOcTbPEe
- Te5Bv3oEIMFJZO1T3pftDJ1DTO5urpE23fG3ApjVXXAtWaw9Ah3phWS6Vdvb3s3qvT7apXjbTsq
- u8BUeIrY0wX9aHttH4IislNDTEU4AzoE=
-X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
- e26-20020a2e9e1a000000b0025df9db92f7mr1551894ljk.243.1659671184541; 
- Thu, 04 Aug 2022 20:46:24 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7HecshELwJh3lk5uvs07M3bVIqCJkAx2roK67/lpSnjlPTkEOgNjXEnzZApvC21p3LLww2xA/aOJdOulEiTAk=
-X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
- e26-20020a2e9e1a000000b0025df9db92f7mr1551889ljk.243.1659671184334; Thu, 04
- Aug 2022 20:46:24 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ql1AJPEhHDr7JfwEUjEZ3I+jdhJ4GdB0OS3UBbfESmc=;
+ b=DoUSe1IjjmNDcXGnc6rxV5yIdqGBRLSqIjw4bJjIztSgzymmYvAypdwgUqVZZ6ShV6
+ lvTJ7bYToT/Vp71q1Vd1YQuMa+7U4dN62rMPIoQlNhTA5yEyTVgP5Buw9WvKmtmqQERu
+ B1+hQvlJ1mb5alzkiIvLY2Er65TCaIb7zHRDC/QXtwtLD2MPrSE8dfvZaCcZqeucQmOQ
+ s3i0Y1ieV5OU4/ppA4sYtKi0A5gfaldUmS45PrAqcZos1tZvmL+vO+G6BaKU6aNaU2y+
+ arPhQeMeQYWy2x60iCtiAYBxJypGmoS/4g5Tm0oAbYYu44BnQ/E2jTDHWNu1si6bs48z
+ ifxQ==
+X-Gm-Message-State: ACgBeo21tVewMnn2JKwOSh96ILjLpZPfEIOjpAUMY9IPz3h3tUWSSTXh
+ ctGo9JhoXV6d2+T66WF/MQrc3alLm7iV81twOhm6bVjSmC8jSGF8Cb0tj82I5GiXVCUBOV9+aWk
+ Dmi9sLMSVA+DcxkdT7jJSwUCrKLxMOtY=
+X-Received: by 2002:a05:6512:12c7:b0:48b:3bc4:10f4 with SMTP id
+ p7-20020a05651212c700b0048b3bc410f4mr622884lfg.411.1659671301963; 
+ Thu, 04 Aug 2022 20:48:21 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7tiX6CLZKAK1VZ5a6IF95CSo7KkXK6MiB1llQmwSGsdOhPGQXraGkhJ5bUZlxf075pwI0U80kkKc6nGWWAx0k=
+X-Received: by 2002:a05:6512:12c7:b0:48b:3bc4:10f4 with SMTP id
+ p7-20020a05651212c700b0048b3bc410f4mr622877lfg.411.1659671301778; Thu, 04 Aug
+ 2022 20:48:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220802080948.37426-1-chen.zhang@intel.com>
-In-Reply-To: <20220802080948.37426-1-chen.zhang@intel.com>
+References: <20220804182852.703398-1-eperezma@redhat.com>
+ <20220804182852.703398-2-eperezma@redhat.com>
+In-Reply-To: <20220804182852.703398-2-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 5 Aug 2022 11:46:13 +0800
-Message-ID: <CACGkMEs4Ypb+WcKTX-YqxrRUJW65fWokuBaMAkBp9eznXNDGTw@mail.gmail.com>
-Subject: Re: [PATCH] net/colo.c: Fix the pointer issuse reported by Coverity.
-To: Zhang Chen <chen.zhang@intel.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
+Date: Fri, 5 Aug 2022 11:48:10 +0800
+Message-ID: <CACGkMEsJjuEBb46-TiuaqRX2pA5QKZDW4Nxm5nsEBLGA7-iKdA@mail.gmail.com>
+Subject: Re: [PATCH v7 01/12] vhost: stop transfer elem ownership in
+ vhost_handle_guest_kick
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Markus Armbruster <armbru@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Eli Cohen <eli@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -92,67 +104,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 2, 2022 at 4:24 PM Zhang Chen <chen.zhang@intel.com> wrote:
+On Fri, Aug 5, 2022 at 2:29 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
+te:
 >
-> When enable the virtio-net-pci, guest network packet will
-> load the vnet_hdr. In COLO status, the primary VM's network
-> packet maybe redirect to another VM, it need filter-redirect
-> enable the vnet_hdr flag at the same time, COLO-proxy will
-> correctly parse the original network packet. If have any
-> misconfiguration here, the vnet_hdr_len is wrong for parse
-> the packet, the data+offset will point to wrong place.
+> It was easier to allow vhost_svq_add to handle the memory. Now that we
+> will allow qemu to add elements to a SVQ without the guest's knowledge,
+> it's better to handle it in the caller.
 >
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
 > ---
->  net/colo.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+>  hw/virtio/vhost-shadow-virtqueue.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 >
-> diff --git a/net/colo.c b/net/colo.c
-> index 6b0ff562ad..dfb15b4c14 100644
-> --- a/net/colo.c
-> +++ b/net/colo.c
-> @@ -44,21 +44,25 @@ int parse_packet_early(Packet *pkt)
->  {
->      int network_length;
->      static const uint8_t vlan[] = {0x81, 0x00};
-> -    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
-> +    uint8_t *data = pkt->data;
->      uint16_t l3_proto;
->      ssize_t l2hdr_len;
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
+virtqueue.c
+> index e4956728dd..ffd2b2c972 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -233,9 +233,6 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
+>  /**
+>   * Add an element to a SVQ.
+>   *
+> - * The caller must check that there is enough slots for the new element.=
+ It
+> - * takes ownership of the element: In case of failure not ENOSPC, it is =
+free.
+> - *
+>   * Return -EINVAL if element is invalid, -ENOSPC if dev queue is full
+>   */
+>  int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
+> @@ -252,7 +249,6 @@ int vhost_svq_add(VhostShadowVirtqueue *svq, const st=
+ruct iovec *out_sg,
 >
->      if (data == NULL) {
-
-I wonder under which case we can see data == NULL?
-
-AFAIK, data is either dup via packet_new() or assigned to a pointer to
-the buf in packet_new_nocopy().
-
-Thanks
-
-> -        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
-> -                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-> +        trace_colo_proxy_main("COLO-proxy got NULL data packet ");
->          return 1;
+>      ok =3D vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num, &qem=
+u_head);
+>      if (unlikely(!ok)) {
+> -        g_free(elem);
+>          return -EINVAL;
 >      }
-> -    l2hdr_len = eth_get_l2_hdr_length(data);
 >
-> -    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
-> -        trace_colo_proxy_main("pkt->size < ETH_HLEN");
-> +    /* Check the received vnet_hdr_len then add the offset */
-> +    if (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
-> +        + pkt->vnet_hdr_len) {
-> +        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
-> +                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
->          return 1;
->      }
-> +    data += pkt->vnet_hdr_len;
-> +
-> +    l2hdr_len = eth_get_l2_hdr_length(data);
+> @@ -293,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqu=
+eue *svq)
+>          virtio_queue_set_notification(svq->vq, false);
 >
->      /*
->       * TODO: support vlan.
+>          while (true) {
+> -            VirtQueueElement *elem;
+> +            g_autofree VirtQueueElement *elem;
+>              int r;
+>
+>              if (svq->next_guest_avail_elem) {
+> @@ -324,12 +320,14 @@ static void vhost_handle_guest_kick(VhostShadowVirt=
+queue *svq)
+>                       * queue the current guest descriptor and ignore kic=
+ks
+>                       * until some elements are used.
+>                       */
+> -                    svq->next_guest_avail_elem =3D elem;
+> +                    svq->next_guest_avail_elem =3D g_steal_pointer(&elem=
+);
+>                  }
+>
+>                  /* VQ is full or broken, just return and ignore kicks */
+>                  return;
+>              }
+> +            /* elem belongs to SVQ or external caller now */
+> +            elem =3D NULL;
+>          }
+>
+>          virtio_queue_set_notification(svq->vq, true);
 > --
-> 2.25.1
+> 2.31.1
 >
 
 
