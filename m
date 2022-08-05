@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AE958AEF6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:34:11 +0200 (CEST)
-Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E8E58AEF8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:35:49 +0200 (CEST)
+Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK1D8-00082E-46
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54624)
+	id 1oK1Ei-0002Ma-6z
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:35:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK18g-0004rY-PZ
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:29:34 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:46967)
+ id 1oK1CI-0007CP-0D
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:33:18 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:45903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK18f-00040z-8I
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:29:34 -0400
-Received: by mail-ej1-x632.google.com with SMTP id y13so6108545ejp.13
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:29:32 -0700 (PDT)
+ id 1oK1CG-0004gT-E1
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:33:17 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id e13so4179386edj.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:33:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UNS86hfrKr5PjDXv5fVr7SKBuuY/cCQChY55vbePDlw=;
- b=LlRkQfojbDHMer07Mi7PSDRP6J7y5x4g8Z2hvK6+XwxUgILIDjjGg5HsQxfIQBaRQC
- hokrGVF7O5r9WJbP/yFQhZG5AIIDCZIH4T0lRtYM2vQ1Cw2TL2W72pbANRt2+28d6vAs
- lVQoLqce/Su4MxPWI5flpM8rUItn/mOBhNArYvPc4CW3Lb/FQRHw9ZmPcwuFvDF06UTQ
- c4I93n5tvcJCbbjH7o9s9TnED+gaP9pEAQQ2QT8TdPOM6cETQSiZCfTxq4ReIsj5Eero
- xFVtz9S2M/O9M/NbQh91Jf9/mytnNhJK6YgSI1SEh/GltDC9Hvfho1o9Y2r6o1KWEBIj
- ZvzA==
+ bh=47h+5QLoFI8dpX/gaz8zZ3+5baq62/L2avQ+7lQ41XE=;
+ b=G2IBNYW+LnsZ95KoTyhpqSJuRfRdyj2/fvJOiG8m+EVKK3FWwAOnC46SsLjgBIv5N9
+ +TAjjSCrE7jheZsyKQQ0vAB0sEn0mdtZ1VljN0Wv+a4Wc7QYIRb70OFZXhOZD0vINzIm
+ rShm4KOX16ydlCAptEnB4cMgSV1i/36tt8/CNZQB0I5TgfiOIzr9uQJfWKkas3WkucsO
+ Dzs/o9kfHw39egbmC4yBg00MAjLMXDHfxfamX5PeIAwRUlgCb9nPUX8zW3MqkzFk8gLf
+ dYyurTI1nGsoFmaySO1yXyY+q1FHlbRD/BVQGYFVKxY+SZgDyifE9swPjH3fDD5ncz0X
+ IBAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UNS86hfrKr5PjDXv5fVr7SKBuuY/cCQChY55vbePDlw=;
- b=l+EwRXShoTV6AFUOK3wEnFLnVqyVg5vKReMRDEO5F6Z6Je2MrLT+iCrl4w76pI7Wah
- sUoymhIScAsSLxid/qfXeaHeABMKPRH9r3GHOkuWOUbF/WH6M5Hy/BZOjB9/3Slh/MIh
- w18vkKS7NJLSBZf+TcG9jKy/wsPkplHVTO9CW8E1lwPM+7c+HcTID7bGJ2YZwbE5GGte
- BtAhj/NmEzaNgaCJomEO7TPVVTIKcz/Nm7JTG3Xi2XV4KKPFPT4mjpwRsiHjePUDrzaF
- olpIrJKRprr4V4+HR6+O3OWCauFe8PD2jp/P4OR46QkcmoY7tN4N0Qc+HrukqPTt7dzG
- x93A==
-X-Gm-Message-State: ACgBeo07rNmF8ThjF/gyBuB0HQsL5vC+YzUoeZBGJ69BIBZGypdXPS7g
- Mu6HDelwJZTaam+M15w2mO0=
-X-Google-Smtp-Source: AA6agR4JpoSoFCvOy4jpeEJWseIzUrYJ0H1qm4Zu3ZHXaXFCOpLpqXK2dd9ON3YfE3OSw7NBoQTKwQ==
-X-Received: by 2002:a17:906:974c:b0:731:14e2:af11 with SMTP id
- o12-20020a170906974c00b0073114e2af11mr787658ejy.220.1659720571348; 
- Fri, 05 Aug 2022 10:29:31 -0700 (PDT)
+ bh=47h+5QLoFI8dpX/gaz8zZ3+5baq62/L2avQ+7lQ41XE=;
+ b=xkR+7riVSb17/KHEwbGuYtCQQHMDyPCOpK3dMk8Kk+KY9XMEkLxVN548E3+xUNZAV4
+ uWlYhW1X5xkX4zZoF+xdZPnFJhtVuTMdul/x4JAD+k3woxiaAkszf16XP3w7VxA+mOID
+ iQMwGV99NeYmOxqdCP6dfRLwSsr8Eu2c16VrNDQBsXndsQW944dssh6ZIpfQDgO07oa8
+ BPOps9JlVO6N00e4xOwIE5OBKW3O9iZ4vVZzPEZbKBo/T8vq/9RpOlIG7jNza+4kuaFH
+ feU3HZ6fKJgshwJXnnTzOuekIGZkv4epjzvndvTllLxk+13B4lfsv9Rxw5hOHgfaVJlK
+ Pphg==
+X-Gm-Message-State: ACgBeo1hNXCV6jfiBpn8nOWUyzv1mYh8nnu9ZLK7Aq1HU13duub0aTMn
+ B19Y/oi7Ut3n+2S7fggEKRk=
+X-Google-Smtp-Source: AA6agR6upxh8WBQM9egEJ3lm2NM55gVF9aNUiIjYAMOm3YgA0dvxjx3O84gDuPgjO7OHri/xexB9UA==
+X-Received: by 2002:a05:6402:e96:b0:43a:f21f:42a0 with SMTP id
+ h22-20020a0564020e9600b0043af21f42a0mr7682817eda.382.1659720794800; 
+ Fri, 05 Aug 2022 10:33:14 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- b18-20020a170906d11200b00730a18a8b68sm1794108ejz.130.2022.08.05.10.29.29
+ f23-20020a170906085700b0072637b9c8c0sm1771231ejd.219.2022.08.05.10.33.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 10:29:30 -0700 (PDT)
-Message-ID: <0bd57fab-836b-9898-9e3f-84dc66eca175@redhat.com>
-Date: Fri, 5 Aug 2022 19:29:29 +0200
+ Fri, 05 Aug 2022 10:33:14 -0700 (PDT)
+Message-ID: <4452eaa1-979f-66d6-90cc-761b8d312577@redhat.com>
+Date: Fri, 5 Aug 2022 19:33:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
+Subject: Re: libslirp and static linking
 Content-Language: en-US
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org,
- Xiaoyao Li <xiaoyao.li@intel.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- linux-efi@vger.kernel.org
-References: <YuxOgtykRQb1HU3e@zx2c4.com>
- <20220804230411.17720-1-Jason@zx2c4.com>
- <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
- <CAMj1kXFDs8HCCCcVAVwjLcATh6MYcUSAha5yvi0ftMw+Ddy_Xg@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Michael Tokarev <mjt@tls.msk.ru>
+References: <CAFEAcA87=Xs8vd8e+eHzSFboWOUcAhJUuFvuG1gzw+Zs_M-DyQ@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAMj1kXFDs8HCCCcVAVwjLcATh6MYcUSAha5yvi0ftMw+Ddy_Xg@mail.gmail.com>
+In-Reply-To: <CAFEAcA87=Xs8vd8e+eHzSFboWOUcAhJUuFvuG1gzw+Zs_M-DyQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -105,46 +97,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/5/22 13:08, Ard Biesheuvel wrote:
->>
->> Does it work to place setup_data at the end of the cmdline file instead
->> of having it at the end of the kernel file?  This way the first item
->> will be at 0x20000 + cmdline_size.
->>
-> Does QEMU always allocate the command line statically like that?
-> AFAIK, OVMF never accesses that memory to read the command line, it
-> uses fw_cfg to copy it into a buffer it allocates itself. And I guess
-> that implies that this region could be clobbered by OVMF unless it is
-> told to preserve it.
+On 8/5/22 18:13, Peter Maydell wrote:
+> Hi; I noticed today that Debian's libslirp-dev package doesn't ship
+> a static library version of libslirp. I was going to file a Debian
+> bug about that, but then looking at upstream 'libslirp' I found
+> that its README.md
+> https://gitlab.freedesktop.org/slirp/libslirp
+> only documents how to build a shared library libslirp, and says
+> "(QEMU may build with the submodule static library using --enable-slirp=git)"
+> 
+> So:
+> (1) is it possible to build the separate libslirp package as
+>      a static library currently?
 
-No it's not. :(  It also goes to gBS->AllocatePages in the end.
+Yes (same with any other meson project):
 
-At this point it seems to me that without extra changes the whole 
-setup_data concept is dead on arrival for OVMF.  In principle there's no 
-reason why the individual setup_data items couldn't include interior 
-pointers, meaning that the setup_data _has_ to be at the address 
-provided in fw_cfg by QEMU.
-
-One way to "fix" it would be for OVMF to overwrite the pointer to the 
-head of the list, so that the kernel ignores the setup data provided by 
-QEMU. Another way would be to put it in the command line fw_cfg blob and 
-teach OVMF to use a fixed address for the command line.  Both are ugly, 
-and both are also broken for new QEMU / old OVMF.
-
-In any case, I don't think this should be fixed so close to the release. 
-  We have two possibilities:
-
-1) if we believe "build setup_data in QEMU" is a feasible design that 
-only needs more yak shaving, we can keep the code in, but disabled by 
-default, and sort it out in 7.2.
-
-2) if we go for an alternative design, it needs to be reverted.  For 
-example the randomness could be in _another_ fw_cfg file, and the 
-linuxboot DMA can patch it in the setup_data.
-
-
-With (2) the OVMF breakage would be limited to -dtb, which more or less 
-nobody cares about, and we can just look the other way.
+$ meson setup -Ddefault_library=both build
+$ ninja -Cbuild
+$ ls -ld build/libslirp*
+-rw-r--r--. 1 pbonzini users 1182058 Aug  5 19:30 build/libslirp.a
 
 Paolo
 
