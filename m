@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE40658AE03
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:24:33 +0200 (CEST)
-Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E5758AE4D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:42:51 +0200 (CEST)
+Received: from localhost ([::1]:56214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK07l-0006Fa-1L
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
+	id 1oK0PR-0007Px-2f
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oK06L-0004iO-4O
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:23:05 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52836)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oK06I-0001c5-CA
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:23:04 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id c22so1642191wmr.2
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 09:23:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=V/c8JP0m6ueyxSV7ZEGF5pgd9MyDoLXRHUB2miVLSTs=;
- b=aqYzSrGCDTwLC0Qg7UUPxj+UVYcRUQ+YmF9kOTGsLs7koGrhFJmUv8A5PhBxV8sMzC
- ZBn5o0VYH+pX8k60qtuat0ydaqCYrPbA3H+wHC5L9SfFgUiqW/+b9Jtg5VpwTqquIsH9
- izUanz5cetuEItBGq5IbhI2SKxeNt8tTxFfiOcR9pWy7OOAggvTlqZyMIH8cyI06xgTi
- NTowbjPvexSJhsS4U+lIBAnTk3y0lARvdZVYa/f99wDHLwnX9J9gFDKYyMoet3MYCJr3
- pGg5N3YC/9rYA+qcVlL8kFrcRWMh2qllfADlhijmCHi9lsXhX915xTMpXu5DYeD/bC2p
- kV9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=V/c8JP0m6ueyxSV7ZEGF5pgd9MyDoLXRHUB2miVLSTs=;
- b=jB9fnh5QHLPUvIVIHTTTCx7XDHa+mb1KA8LsXvdpyuor2174beq6LHv8v3ZQfExAF9
- iGnDkoXv3jXwayIBCnogQZJ+A+khP5D6U90klTE13nCjYQXeI+Wnl2OaDOssXQ/Gmn6E
- w1nXHUfho+WXeEsx5XR6k9pogA8qQuru/8Enjm14cVncUOzEHuYIskztgQVsYf1fWHgk
- Bme8sEcNqc0pwuBd5wYM8sSAeCDgJRXdVd0TRYAppxt2w0jBIQTy0Ig3kBnFZCC5u49j
- 6SAVu18yohsRyqVRG+y6yU5G8UVs+oYgOq7KGXIv9qc8FDODufxxoBsDVbKy1iztSr50
- tuAQ==
-X-Gm-Message-State: ACgBeo3bXKjgLTPgams7ujTVRPOnJLZ6T1EOm4LMrDzHUFbZPJkJj5ZH
- BoASlrqN1TCYugZYjmf0DqDeMQ==
-X-Google-Smtp-Source: AA6agR4/o6tH7IZ5xIPbBIm+7j2LnYJk76nxnJzwgh8xo0VWjZ3wmbywos/MSDGps1eK3J1jmhURyw==
-X-Received: by 2002:a1c:44c3:0:b0:3a4:f09b:401a with SMTP id
- r186-20020a1c44c3000000b003a4f09b401amr10342751wma.89.1659716579775; 
- Fri, 05 Aug 2022 09:22:59 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- u13-20020a5d514d000000b0021d7ad6b9fdsm4318573wrt.57.2022.08.05.09.22.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 09:22:58 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 62A501FFB7;
- Fri,  5 Aug 2022 17:22:58 +0100 (BST)
-References: <20220805141522.412864-1-lucas.araujo@eldorado.org.br>
-User-agent: mu4e 1.7.27; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-Cc: qemu-ppc@nongnu.org, richard.henderson@linaro.org,
- danielhb413@gmail.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] Floating-point OE/UE exception bug
-Date: Fri, 05 Aug 2022 17:20:08 +0100
-In-reply-to: <20220805141522.412864-1-lucas.araujo@eldorado.org.br>
-Message-ID: <87pmhemzh9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oK0M9-0003x9-2P
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:39:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oK0M4-0004HF-FA
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:39:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659717558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8dScA6JUmpCpYCRdiutW+/aSuL6ex1vBpZQLy4Oi1NQ=;
+ b=U0VBOpLL0ME7Bj4V3xS6KAQDfg/RNL3Z2KnUuuKkxD5xlvK4i2udszhdrisLuO66E5TTiP
+ AlrhUaQqGSeRoryiLvvnvxfOOQxKxWKgRUiGTv+sfx/awsoviItePbXFmNloiMPmVqecXv
+ CelzTGVxGRrGbwiF69tliCIRLHBGND4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-368-BXv-nhHqOJ6YO7kiq1s9VA-1; Fri, 05 Aug 2022 12:39:15 -0400
+X-MC-Unique: BXv-nhHqOJ6YO7kiq1s9VA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F034685A587;
+ Fri,  5 Aug 2022 16:39:14 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.193.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E79352166B2A;
+ Fri,  5 Aug 2022 16:39:11 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>
+Subject: [PATCH v4 0/6] ASID support in vhost-vdpa net
+Date: Fri,  5 Aug 2022 18:39:03 +0200
+Message-Id: <20220805163909.872646-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,57 +86,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Control VQ is the way net devices use to send changes to the device state, =
+like=0D
+the number of active queues or its mac address.=0D
+=0D
+QEMU needs to intercept this queue so it can track these changes and is abl=
+e to=0D
+migrate the device. It can do it from 1576dbb5bbc4 ("vdpa: Add x-svq to=0D
+NetdevVhostVDPAOptions"). However, to enable x-svq implies to shadow all Vi=
+rtIO=0D
+device's virtqueues, which will damage performance.=0D
+=0D
+This series adds address space isolation, so the device and the guest=0D
+communicate directly with them (passthrough) and CVQ communication is split=
+ in=0D
+two: The guest communicates with QEMU and QEMU forwards the commands to the=
+=0D
+device.=0D
+=0D
+For example, NIC_RX_FILTER_CHANGED without the need of x-svq parameter can =
+be=0D
+received in QMP now.=0D
+=0D
+This series is based on [1], and this needs to be applied on top of that.  =
+Each=0D
+one of them adds a feature on isolation and could be merged individually on=
+ce=0D
+conflicts are solved.=0D
+=0D
+Comments are welcome. Thanks!=0D
+=0D
+v4:=0D
+- Rebased on last CVQ start series, that allocated CVQ cmd bufs at load=0D
+- Squash vhost_vdpa_cvq_group_is_independent.=0D
+- Do not check for cvq index on vhost_vdpa_net_prepare, we only have one=0D
+  that callback registered in that NetClientInfo.=0D
+- Add comment specifying behavior if device does not support _F_ASID=0D
+- Update headers to a later Linux commit to not to remove SETUP_RNG_SEED=0D
+=0D
+v3:=0D
+- Do not return an error but just print a warning if vdpa device initializa=
+tion=0D
+  returns failure while getting AS num of VQ groups=0D
+- Delete extra newline=0D
+=0D
+v2:=0D
+- Much as commented on series [1], handle vhost_net backend through=0D
+  NetClientInfo callbacks instead of directly.=0D
+- Fix not freeing SVQ properly when device does not support CVQ=0D
+- Add BIT_ULL missed checking device's backend feature for _F_ASID.=0D
+=0D
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-08/msg00349.html=
+=0D
+=0D
+Eugenio P=C3=A9rez (6):=0D
+  linux-headers: Update kernel headers=0D
+  vdpa: Use v->shadow_vqs_enabled in vhost_vdpa_svqs_start & stop=0D
+  vdpa: Allocate SVQ unconditionally=0D
+  vdpa: Add asid parameter to vhost_vdpa_dma_map/unmap=0D
+  vdpa: Store x-svq parameter in VhostVDPAState=0D
+  vdpa: Always start CVQ in SVQ mode=0D
+=0D
+ include/hw/virtio/vhost-vdpa.h               |   8 +-=0D
+ include/standard-headers/asm-x86/bootparam.h |   7 +-=0D
+ include/standard-headers/drm/drm_fourcc.h    |  69 ++++++++++=0D
+ include/standard-headers/linux/ethtool.h     |   1 +=0D
+ include/standard-headers/linux/input.h       |  12 +-=0D
+ include/standard-headers/linux/pci_regs.h    |   1 +=0D
+ include/standard-headers/linux/vhost_types.h |  11 +-=0D
+ include/standard-headers/linux/virtio_ids.h  |  14 +-=0D
+ linux-headers/asm-arm64/kvm.h                |  27 ++++=0D
+ linux-headers/asm-generic/unistd.h           |   4 +-=0D
+ linux-headers/asm-riscv/kvm.h                |  20 +++=0D
+ linux-headers/asm-riscv/unistd.h             |   3 +-=0D
+ linux-headers/asm-x86/kvm.h                  |  11 +-=0D
+ linux-headers/asm-x86/mman.h                 |  14 --=0D
+ linux-headers/linux/kvm.h                    |  56 +++++++-=0D
+ linux-headers/linux/userfaultfd.h            |  10 +-=0D
+ linux-headers/linux/vfio.h                   |   4 +-=0D
+ linux-headers/linux/vhost.h                  |  26 +++-=0D
+ hw/virtio/vhost-vdpa.c                       |  65 ++++-----=0D
+ net/vhost-vdpa.c                             | 134 ++++++++++++++++++-=0D
+ hw/virtio/trace-events                       |   4 +-=0D
+ 21 files changed, 408 insertions(+), 93 deletions(-)=0D
+=0D
+--=0D
+2.31.1=0D
+=0D
 
-"Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br> writes:
-
-> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
->
-> Changes in v2:
->     - Completely reworked the solution:
->         * Created re_bias in FloatFmt, it is 3/4 of the total exponent
->           range of a FP type
-
-I thought this might have an effect on the efficiency of the FloatFmt
-extraction/packing but I couldn't see any real difference in fpbench. I
-doubt the compiler can dead code it away if not used by a front-end.
-
-Anyway have a:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-for the series.
-
->         * Added rebias bools that dictates if the result should have
->           its exponent add/subtract the re_bias value if an
->           overflow/underflow occurs.
->         * ppc_store_fpscr sets/unsets rebias if OE/UE is set/unset
->
-> The PowerISA defines that if an overflow exception happen with FPSCR.OE
-> set, the exponent of the intermediate result is subtracted 1536 in
-> double precision operations and is added 1536 in an underflow exception,
-> currently this behavior is not QEMU's behavior, this patch series fixes
-> that.
->
-> Currently there's no test in this patch series as there's no way to
-> disable MSR.FE0 and MSR.FE1 in linux user, so any overflow/underflow
-> exception with OE/UE set causes a trapping exception.
-
-Could you do it with a system mode test? Probably overkill for this
-though. I suspect tweaking testfloat would be tricky.
-
->
-> Lucas Mateus Castro (alqotel) (2):
->   fpu: Add rebias bool, value and operation
->   target/ppc: Bugfix FP when OE/UE are set
->
->  fpu/softfloat-parts.c.inc     | 21 +++++++++++++++++++--
->  fpu/softfloat.c               |  2 ++
->  include/fpu/softfloat-types.h |  4 ++++
->  target/ppc/cpu.c              |  2 ++
->  target/ppc/fpu_helper.c       |  2 --
->  5 files changed, 27 insertions(+), 4 deletions(-)
-
-
---=20
-Alex Benn=C3=A9e
 
