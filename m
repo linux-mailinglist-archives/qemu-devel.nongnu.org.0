@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B7E58A528
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 05:53:07 +0200 (CEST)
-Received: from localhost ([::1]:57042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F405658A52E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 06:06:18 +0200 (CEST)
+Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJoOY-0003HX-8t
-	for lists+qemu-devel@lfdr.de; Thu, 04 Aug 2022 23:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56446)
+	id 1oJobJ-0006yU-Kh
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 00:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJoLv-00082L-98
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:50:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oJoLs-0004Ee-Fx
- for qemu-devel@nongnu.org; Thu, 04 Aug 2022 23:50:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659671419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w0IivqfMEH7IzEX1fXxP1URvC0PiG1qvgka+B0O16oo=;
- b=V4V6N+iUEr6EJN85VmzdXmyE2KUJnF6wrD2LTnM7OqlEOd3fo5WBKcn941ygxyunaPp6CN
- rrBz/q+2QQe9+9mIVR7jbT6c1EnHRv3f6tdNgOFPgLQAyDx8CA4++20unyn59ll92Dvcyd
- +Ia8DlmKihLg0z6xqWizU/XtJTTMeA4=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-bA4Jd8EAMPuzgQWgjYrZRw-1; Thu, 04 Aug 2022 23:50:18 -0400
-X-MC-Unique: bA4Jd8EAMPuzgQWgjYrZRw-1
-Received: by mail-lf1-f71.google.com with SMTP id
- x29-20020ac259dd000000b0048af0e04887so290660lfn.12
- for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 20:50:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oJoZV-0005Mz-4F; Fri, 05 Aug 2022 00:04:25 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:35804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oJoZS-0006GJ-52; Fri, 05 Aug 2022 00:04:24 -0400
+Received: by mail-pl1-x629.google.com with SMTP id t2so1617226ply.2;
+ Thu, 04 Aug 2022 21:04:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=HoF2P4LoqJ0kjCN8QFQo0SfzUBcfLy9Ofu4ePKx2k6E=;
+ b=nUV3Kr60j1r5fi6Jn94Hcjc5sue/FXa4r0bY0seNJHVe1myGD611OPFUawVerkjNCn
+ yZPk72DE0tHVTSUFOXMoqpz4NcHXHFK1Z5kPKUXQezXaeDclTiOsb+fpXszAJx8I27zz
+ iLBtB+mALJ3BbnQB4B/6b8i9CbW120h1pRK55ZgG1e2dYnRY/VmGJJuZAQiLFFIjuS7F
+ 8EivRxhTvNuAp6WRIdH9wdB19TUxsB0wMzM0LNh3Lqg/ZLkX1g6RMudGOUNRPqmVU47n
+ CMnOBH0qSuL3mZrEK/5g6C4VPiGWnnQY8yGvGw2S9al3Gr6aggi1I+51H5VH/uO5tKEa
+ goEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=w0IivqfMEH7IzEX1fXxP1URvC0PiG1qvgka+B0O16oo=;
- b=bgPtMn1BbhL3I/H0/mSqtP7AyPAe10Ff9OkBulakFHXu20XUdepK6NRryTjiutuFvu
- tbihP3P+pqKloXhUpBiqEcUgqq9Xc+MqnO0qAe4DBROCj28O7yEnyIaEW68eAWY6iKsw
- 3uex2zLHljWucA2+1yOlZyNwKTLYywTLx6P2wzg/j4NduredzpqSWydn3pKsgh6RPv5R
- FHwVoyHGbXDCZEgmtf3TmmqZs2JQjfnio6aN9KqL482kQmUOT/m4QR0PxveTLjdG6fou
- wO33nm/6RD45KfdjLbn3VseoFiXv26f/aYwPy4j/k09kkUoDPo+0UvHGjRyKRho3+ieX
- wZqg==
-X-Gm-Message-State: ACgBeo3r85T9AwVPq1/+4EUk8RWxsfONRS5KfUNqDJtmlkjA0/Bq8KVg
- LBI4twQhWspmwXIamcQaUxMSV0F5f8G3cT0W6X/bavCCsRzgWPVdfdOfHWh4A2I/U0EWaOcSh02
- jcHjgoCBtA4Vs3vMiov+ADPMcwoQiSAc=
-X-Received: by 2002:ac2:43b0:0:b0:48b:1eb:d1e5 with SMTP id
- t16-20020ac243b0000000b0048b01ebd1e5mr1775758lfl.641.1659671417115; 
- Thu, 04 Aug 2022 20:50:17 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6pZah1I7wqzyO9Bez+psD46Fkzt/Yx5FQQkZU/spgN653HW7JTYHEnUyrzzg3o2VYwcq2UL4crSPVt+m0BVnI=
-X-Received: by 2002:ac2:43b0:0:b0:48b:1eb:d1e5 with SMTP id
- t16-20020ac243b0000000b0048b01ebd1e5mr1775738lfl.641.1659671416945; Thu, 04
- Aug 2022 20:50:16 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=HoF2P4LoqJ0kjCN8QFQo0SfzUBcfLy9Ofu4ePKx2k6E=;
+ b=cUB76PD0DmtMevc70KZUpgktEFDLtPnQ2oJ1AA5cmJcKM2NwpB7bp0VqiQzjVP/Dct
+ OnlXnPU+WhzPsi8XgOnXgDPktMYwQKQozd/59B9HoZQuyfLrgJ4D/mpdj7+q8meAGNVZ
+ XCsvqHNXGPNZ1GIVXnYkUkAUbIa4sLaFdgcAAS2HDMs/0z6mFMadvwboxqD2+ktWC06U
+ SkdXSIZhHMYH+/lFkS1+zoZ3XoaHuHpgOIG87++y4X5AqIFvo97OaghWtdNQaWBBR301
+ /jIrtveozuRhcV6sSNLvIKpDupF6jl1L0MGcAPxM9shWF7OzR65jL/jX0IMiWnUNZzok
+ aOZQ==
+X-Gm-Message-State: ACgBeo1dTqWT7L4rk8HYqjoIn7adUup1FY+0LBaM1oQiltCUJ00LA00b
+ hWkYJ9AgmzlRrg44uoPX94OqGtpcK/VwHkkw1ic=
+X-Google-Smtp-Source: AA6agR4zQDsxyyHw29Lt57yYNYu2r9kd6WOsFZbbgPFhDQysRNYsKEAKGtb9cgZm8bZaUQby5Ex34OHWM9iBbhqiEQM=
+X-Received: by 2002:a17:90b:100e:b0:1f3:a4a:2620 with SMTP id
+ gm14-20020a17090b100e00b001f30a4a2620mr5480892pjb.120.1659672257010; Thu, 04
+ Aug 2022 21:04:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220804182852.703398-1-eperezma@redhat.com>
- <20220804182852.703398-5-eperezma@redhat.com>
-In-Reply-To: <20220804182852.703398-5-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 5 Aug 2022 11:50:05 +0800
-Message-ID: <CACGkMEtTVr7wUwdkzNDdCYfs7cuaFBGkTgqF1CBDdwPtzTJ2ZQ@mail.gmail.com>
-Subject: Re: [PATCH v7 04/12] vhost: Do not depend on !NULL VirtQueueElement
- on vhost_svq_flush
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Eric Blake <eblake@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Markus Armbruster <armbru@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Eli Cohen <eli@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+References: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 5 Aug 2022 14:03:50 +1000
+Message-ID: <CAKmqyKM4fk7fkSL4ZBbpPka2HQrk=wFCe7sBG+qO9W4OcgaPCw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix priority of csr related check in
+ riscv_csrrw_check
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, 
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -104,57 +87,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 5, 2022 at 2:29 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
-te:
+On Wed, Aug 3, 2022 at 10:56 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> Since QEMU will be able to inject new elements on CVQ to restore the
-> state, we need not to depend on a VirtQueueElement to know if a new
-> element has been used by the device or not. Instead of check that, check
-> if there are new elements only using used idx on vhost_svq_flush.
+> Normally, riscv_csrrw_check is called when executing Zicsr instructions.
+> And we can only do access control for existed CSRs. So the priority of
+> CSR related check, from highest to lowest, should be as follows:
+> 1) check whether Zicsr is supported: raise RISCV_EXCP_ILLEGAL_INST if not
+> 2) check whether csr is existed: raise RISCV_EXCP_ILLEGAL_INST if not
+> 3) do access control: raise RISCV_EXCP_ILLEGAL_INST or RISCV_EXCP_VIRT_
+> INSTRUCTION_FAULT if not allowed
 >
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
+> The predicates contain parts of function of both 2) and 3), So they need
+> to be placed in the middle of riscv_csrrw_check
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> v6: Change less from the previous function
+Alistair
+
 > ---
->  hw/virtio/vhost-shadow-virtqueue.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+>  target/riscv/csr.c | 44 +++++++++++++++++++++++++-------------------
+>  1 file changed, 25 insertions(+), 19 deletions(-)
 >
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
-virtqueue.c
-> index 1b49bf54f2..f863b08627 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -499,17 +499,20 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
-vq,
->  size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
->  {
->      int64_t start_us =3D g_get_monotonic_time();
-> +    uint32_t len;
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 0fb042b2fd..d81f466c80 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3270,6 +3270,30 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>      /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
+>      int read_only = get_field(csrno, 0xC00) == 3;
+>      int csr_min_priv = csr_ops[csrno].min_priv_ver;
 > +
->      do {
-> -        uint32_t len;
-> -        VirtQueueElement *elem =3D vhost_svq_get_buf(svq, &len);
-> -        if (elem) {
-> -            return len;
-> +        if (vhost_svq_more_used(svq)) {
-> +            break;
->          }
+> +    /* ensure the CSR extension is enabled. */
+> +    if (!cpu->cfg.ext_icsr) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (env->priv_ver < csr_min_priv) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    /* check predicate */
+> +    if (!csr_ops[csrno].predicate) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (write_mask && read_only) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    RISCVException ret = csr_ops[csrno].predicate(env, csrno);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+> +
+>  #if !defined(CONFIG_USER_ONLY)
+>      int csr_priv, effective_priv = env->priv;
 >
->          if (unlikely(g_get_monotonic_time() - start_us > 10e6)) {
->              return 0;
->          }
->      } while (true);
-> +
-> +    vhost_svq_get_buf(svq, &len);
-> +    return len;
+> @@ -3290,25 +3314,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>  #endif
+> -    if (write_mask && read_only) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    }
+> -
+> -    /* ensure the CSR extension is enabled. */
+> -    if (!cpu->cfg.ext_icsr) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    }
+> -
+> -    /* check predicate */
+> -    if (!csr_ops[csrno].predicate) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    }
+> -
+> -    if (env->priv_ver < csr_min_priv) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    }
+> -
+> -    return csr_ops[csrno].predicate(env, csrno);
+> +    return RISCV_EXCP_NONE;
 >  }
 >
->  /**
+>  static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
 > --
-> 2.31.1
+> 2.17.1
 >
-
+>
 
