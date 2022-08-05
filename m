@@ -2,107 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1643258B092
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 21:56:50 +0200 (CEST)
-Received: from localhost ([::1]:38844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5051558B094
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 21:57:39 +0200 (CEST)
+Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK3RA-0000a0-LB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 15:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37608)
+	id 1oK3Ry-0003I2-7l
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 15:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK3P8-0005cg-GO
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:54:42 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:39574)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK3Pk-0006NM-OR
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:55:20 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:38411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK3P6-0004Ge-S9
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:54:42 -0400
-Received: by mail-ej1-x630.google.com with SMTP id i14so6757770ejg.6
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 12:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK3Pi-0004V6-VD
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 15:55:20 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id o3so3517458ple.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 12:55:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=uNNCMzM6wGgvKylIcV8lYZcNxMUBwXushcdpJCRFwXA=;
- b=e6zKPWvo6IkiM49qZMgVKOQWfbZ4SrSe6FffLSmDWP8fLIdlY1yC8OE/wQSvLo7meO
- H+G1B1j8KGTDWa3VYpZ9mL+EiFelSvWjLwXE7DG8n8DQ+D5rzmDidw5gGMSxEtzBTYay
- CLtkEm9skbWSrqajt3PPDuzophplCTD2rEc2ozvNuGxaWnQx2yPBCEFUqeaSi77JFMf/
- Lw2RNp9XxDE8YMazE5oWBsI9D+FoaBUwg1aWZoHlGg3LGNcIATEAW1twLhw3HNGCMwn7
- vwJyZXFiNu98nw+DG5ql1wkGSRaTKJ8FnxsEEAQxBwk2IlQrhE2vSCh672yBPBlGzRGv
- RtWw==
+ bh=B3SQ2DS2cpLqWmrbJI8Ooour/usv3U2Is5Duz3qXlLo=;
+ b=VDe70jBiWqL6NfF37hdc9AaPGLBAAXOWO5MMRTl3t3TNCPz6N7FpA2W6b9m8795vkT
+ f6jlftBaPdKca4l7gpRdEQvuHvdtxymRN4RBp3vI/t08dGHc+KTgBH2p9gJVgPzW33MJ
+ r6BT8xfxo23F7MPEmX1Xh4AbkzJT0QnVPeDn2FWIUaFwKc+b4+yxMXmz17nlMCsUJZax
+ ++Ua0mczEH8+hRFHuuFFzN4Cbaj7Fqc3saM/S8lI7e8H+8eV4cm2tym/VIAPaAWbywTx
+ 2ed7QOW9tZNN4FolnwxRaIvkUbUybfvBerY3sMaFjzrZpFrscHulcVCbnfV6YIU0NZd7
+ JnJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=uNNCMzM6wGgvKylIcV8lYZcNxMUBwXushcdpJCRFwXA=;
- b=pdRUKtTyNGVXgKSFtmsPK3VNgEdvzJSVlY8vNpM1WB1FUoy+h/omuzqcqkBm7rwXbU
- 4j8sN9+R3QjVJGETgcLJdvZaTK9yaj2vT6a5OBoLrl/zq4953CUl02RXH1TaUDGtotB7
- W2ypgU3T7bvu1VpNBCt/8YBOWzw5uVVKynxKQsMbRC2EInNGZd/Yis+TFeLaHMKX6Xfj
- hQdKaNvjQv2veSxaASGmiTghkozp7QJXIAsnWAHx/Behud55tkYfVKhIbf1ht7C/opGt
- tS2hc+lGVC5APLQ1LrWPB7cnudTXIs8cSBuwbprGrKYTKBVlm4LRQDzgwlBCVFeQJxHh
- zYpQ==
-X-Gm-Message-State: ACgBeo2rMYGKgVPROtfNZRiCG93BQvMAKxJGF4AL1OAW0OSvSrq1mcvc
- DslGfyKQjQAoYlnTvVTXswI=
-X-Google-Smtp-Source: AA6agR69gHdIOk66u3DOAUGxbgd3W9IYbjKGJ4TRriMkRlw9SK3I2HFpGUjJDA71iNteqeGQVxRwjg==
-X-Received: by 2002:a17:907:2719:b0:730:a5e7:9da7 with SMTP id
- w25-20020a170907271900b00730a5e79da7mr6558802ejk.26.1659729279246; 
- Fri, 05 Aug 2022 12:54:39 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- 2-20020a170906200200b0073100dfa7b0sm947743ejo.8.2022.08.05.12.54.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 12:54:38 -0700 (PDT)
-Message-ID: <ec3fe997-37d8-22b5-65f1-72f08a16474f@redhat.com>
-Date: Fri, 5 Aug 2022 21:54:35 +0200
+ bh=B3SQ2DS2cpLqWmrbJI8Ooour/usv3U2Is5Duz3qXlLo=;
+ b=C5yYKiSomQpOR1p8bmy+Kfr4AfBY7dUYxJUMOvuYKc66J3ZWVtEEO2cUWK4esN8Yo8
+ GTcvs4Gv9G7bbW26x1Yqs/Y/A31hKd8bLgVAISwxmZCmRrtnjSEteHHFsqlaIohocyNv
+ urN7szCWgBq1L4ikaxfS24abxdKhRzZLv/NtUKAtkfTFaAA0IzmEzX0yvYirpM33jHq0
+ D6a0HeYmsCnmO4lCg+ffktqnOzy+EG2TZeLzuoFVQCF/dmaarmdMgZFkRn1SFLNm0+7g
+ S3//RHOj17egaNSrcM5g38uvSUFDOx5f9B7iDYCutE88FS2hDZ0WONfPKV6oyptzzSUH
+ WK1A==
+X-Gm-Message-State: ACgBeo2Sy0+yz1zPUNIqf8YlH5pnTdhA3lcgSAaZPHCyWJCj0qeznIhq
+ kq+zEEHuxENsDXOehWJErWAaYYumL+32Dg==
+X-Google-Smtp-Source: AA6agR4+Pc3xmi9j1mpwJUj8MtjvtQOjSzgwWtOmuZT9iNLDil/m8w846eTKvdDS4+hMnx0sM+9oYw==
+X-Received: by 2002:a17:902:f54e:b0:16f:206b:74cc with SMTP id
+ h14-20020a170902f54e00b0016f206b74ccmr8375707plf.170.1659729317466; 
+ Fri, 05 Aug 2022 12:55:17 -0700 (PDT)
+Received: from stoup.. ([2602:ae:154e:e201:abf8:e436:f4c:9089])
+ by smtp.gmail.com with ESMTPSA id
+ h13-20020a170902f70d00b0016f0c2ea158sm3393048plo.157.2022.08.05.12.55.16
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Aug 2022 12:55:16 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] loongarch patch queue
+Date: Fri,  5 Aug 2022 12:55:08 -0700
+Message-Id: <20220805195515.349768-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Content-Language: en-US
-To: Sean Christopherson <seanjc@google.com>,
- Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <YuQutJAhKWcsrrYl@google.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YuQutJAhKWcsrrYl@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,18 +87,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/22 21:02, Sean Christopherson wrote:
-> If we really want a different name, I'd vote for nomenclature that captures the
-> invalidation aspect, which is really what the variables are all trackng, e.g.
-> 
->    mmu_invalidate_seq
->    mmu_invalidate_in_progress
->    mmu_invalidate_range_start
->    mmu_invalidate_range_end
-> 
+The following changes since commit 09ed077d7fae5f825e18ff9a2004dcdd1b165edb:
 
-Agreed, and this can of course be committed separately if Chao Peng 
-sends it outside this series.
+  Merge tag 'trivial-branch-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-04 17:21:13 -0700)
 
-Paolo
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-la-20220805
+
+for you to fetch changes up to 2f149c759ff352399e7a0eca25a62388822d7d13:
+
+  target/loongarch: Update gdb_set_fpu() and gdb_get_fpu() (2022-08-05 10:02:40 -0700)
+
+----------------------------------------------------------------
+LoongArch updates:
+  Store value in SET_FPU_* macros.
+  Fix unused variable Werrors in acpi-build.c
+  Update xml to match upstream gdb.
+
+----------------------------------------------------------------
+Qi Hu (1):
+      target/loongarch: Fix macros SET_FPU_* in cpu.h
+
+Song Gao (6):
+      hw/loongarch: remove acpi-build.c unused variable 'aml_len'
+      target/loongarch: Fix GDB get the wrong pc
+      target/loongarch: add gdb_arch_name()
+      target/loongarch: update loongarch-base64.xml
+      target/loongarch: Update loongarch-fpu.xml
+      target/loongarch: Update gdb_set_fpu() and gdb_get_fpu()
+
+ configs/targets/loongarch64-softmmu.mak |  2 +-
+ target/loongarch/cpu.h                  | 18 +++++++++--
+ target/loongarch/internals.h            |  3 ++
+ hw/loongarch/acpi-build.c               | 11 +------
+ linux-user/loongarch64/signal.c         | 24 ++------------
+ target/loongarch/cpu.c                  |  8 ++++-
+ target/loongarch/gdbstub.c              | 43 +++++++++++++++++++------
+ gdb-xml/loongarch-base64.xml            | 13 ++++----
+ gdb-xml/loongarch-fpu.xml               | 50 +++++++++++++++++++++++++++++
+ gdb-xml/loongarch-fpu64.xml             | 57 ---------------------------------
+ 10 files changed, 119 insertions(+), 110 deletions(-)
+ create mode 100644 gdb-xml/loongarch-fpu.xml
+ delete mode 100644 gdb-xml/loongarch-fpu64.xml
 
