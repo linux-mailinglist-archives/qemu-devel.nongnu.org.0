@@ -2,104 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012B758AA20
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 13:28:37 +0200 (CEST)
-Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8DB58AA00
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 13:15:33 +0200 (CEST)
+Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJvVM-0006HR-43
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 07:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34820)
+	id 1oJvIg-00038U-Sb
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 07:15:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oJv9t-0003W8-QX; Fri, 05 Aug 2022 07:06:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2084)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oJvCV-00066C-9u
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 07:09:08 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:60958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oJv9r-0007dN-N2; Fri, 05 Aug 2022 07:06:25 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275B1hZx008309;
- Fri, 5 Aug 2022 11:06:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=N5Sok6og3MKl8OhgVe8NLSW1RNpb/Iu61ABn6cXIV7g=;
- b=CKQwH/5BXeGFIST59j9oO6HYjUvH7Z3zuGC+jSLvB9NLEcCKI+zlIX77V+aEC8EOsnZL
- XiAiP6UJB5DtUteaatJXno2eMZzEyqRh4qTfYGHbOofygORthpi3iRnHJxpK4yiRVgd0
- 5xNWSTkEh0QTinUqM/3VbnLkFGkeCheWKv32a10yS6uJoOrrnqerdWuB5SFgFeQwQ5Lo
- vRag5pty6okqzz0zycUwNCG1nOg2b6aij7cK1CDQRD6xpVIGkYu9zCp0AZYiCt+EmUbc
- IknMZbubCfD5zUQs3OJCO0vafDoEG3QoLIpJBk4yDpe1npmp9cze3aO5yB7He/oWk/QF LA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs1yj0384-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 11:06:15 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 275B27Ms008822;
- Fri, 5 Aug 2022 11:06:14 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs1yj036c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 11:06:14 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 275B6CGr017861;
- Fri, 5 Aug 2022 11:06:12 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3hmv98qb9d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 11:06:12 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 275B6ASZ33096098
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Aug 2022 11:06:10 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8C741A4051;
- Fri,  5 Aug 2022 11:06:10 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E4E9DA404D;
- Fri,  5 Aug 2022 11:06:09 +0000 (GMT)
-Received: from [9.171.39.100] (unknown [9.171.39.100])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  5 Aug 2022 11:06:09 +0000 (GMT)
-Message-ID: <b6744c79-c07a-c26c-3243-a939e7cde380@linux.ibm.com>
-Date: Fri, 5 Aug 2022 13:06:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 00/10] enable pnv-phb user created devices
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220803134459.2633902-1-danielhb413@gmail.com>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220803134459.2633902-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NcO4plBlPqoh-XdQJiepanYZywpmX14l
-X-Proofpoint-GUID: skOYDkYs1pFI1uzzESU9Z4Ty803n6zT_
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oJvCT-00081b-DL
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 07:09:06 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9BFBCB827E7
+ for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 11:08:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD08C433B5
+ for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 11:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659697735;
+ bh=ZcuouNC8ZXDndRo7t2WhXz91pYiZg16H4tHcWmF8PS8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=uMmxwp9koiNzLoat/TKcDdvo3RV5fBgkgMw4st/lxUIckFye1EVhhALH4lbJR2USq
+ HpLsw5UyPqEYyluA4/Oq8gwibjA0ilVXWu9J/6raGLnGxMWh4jLrwp4pCy0R8ly88d
+ d9doVs7FVtJk3Mm8z6I5yuUtlTGqbU5TYc563Sx7+tDaOu106I5fBj5h/aCUHz4E+N
+ e7jkvR+94ywvucdOSinwpzDE+Ooua6V2hdimfSwH5dIefN6B1M2BysiDqQ8kyWNsGW
+ rOxM8+5phDT1+TAyKgg5teMHUncgYf3HyADz8C44ZSd7SWOApOT4Kd4yojsJ6+00g9
+ SWtd/ZCHN7ltA==
+Received: by mail-oi1-f180.google.com with SMTP id t132so2321358oie.6
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 04:08:55 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1ETvBvCMfy+QfjL0FhRln1/Web6tsEN7F/uNohlk7UJjKs5jrz
+ ryDJ/33gDIHRHw3Pf/iZL5Y7hNepK9TWvOjcySs=
+X-Google-Smtp-Source: AA6agR4KumACn6M4f/oVL9Nj6o4UHUDiWFXhYhiIosGm28Xoif/hJ249EGNnj+Fn+KFi+xjpgUnZcOG6ZeChWO4HymY=
+X-Received: by 2002:a05:6808:16ac:b0:33b:32ce:edd8 with SMTP id
+ bb44-20020a05680816ac00b0033b32ceedd8mr2758235oib.126.1659697734529; Fri, 05
+ Aug 2022 04:08:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-05_03,2022-08-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 phishscore=0 adultscore=0 mlxlogscore=961
- priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0 malwarescore=0
- clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208050054
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <YuxOgtykRQb1HU3e@zx2c4.com>
+ <20220804230411.17720-1-Jason@zx2c4.com>
+ <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
+In-Reply-To: <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 5 Aug 2022 13:08:43 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXFDs8HCCCcVAVwjLcATh6MYcUSAha5yvi0ftMw+Ddy_Xg@mail.gmail.com>
+Message-ID: <CAMj1kXFDs8HCCCcVAVwjLcATh6MYcUSAha5yvi0ftMw+Ddy_Xg@mail.gmail.com>
+Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org, 
+ Xiaoyao Li <xiaoyao.li@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=ardb@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,61 +86,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
+On Fri, 5 Aug 2022 at 10:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 8/5/22 01:04, Jason A. Donenfeld wrote:
+> > +    /* Nothing else uses this part of the hardware mapped region */
+> > +    setup_data_base = 0xfffff - 0x1000;
+>
+> Isn't this where the BIOS lives?  I don't think this works.
+>
+> Does it work to place setup_data at the end of the cmdline file instead
+> of having it at the end of the kernel file?  This way the first item
+> will be at 0x20000 + cmdline_size.
+>
 
-Other than my comment on patch 6 regarding the qom parenting of the root 
-port, that series looks pretty good to me!
-
-   Fred
-
-
-
-On 03/08/2022 15:44, Daniel Henrique Barboza wrote:
-> Hi,
-> 
-> This is a rebase on top of ppc-7.2 of the previous patches sent
-> here:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01542.html
-> 
-> Now that we have the pnv-phb rework in the tree.
-> 
-> As a recap, the changes introduced in this series compared to what we've
-> done in "[PATCH v2 00/16] powernv: introduce pnv-phb base/proxy
-> devices" [1], is:
-> 
-> - the Root Buses objects are now inheriting phb-id and chip-id. This
-> turned out to be a clean way of keeping the code QOM compliant, without
-> having to do things like dev->parent_bus->parent. All the attributes
-> that the root port needs are found in its bus parent;
-> 
-> - the logic exclusive to user created devices is all centered in a
-> single helper inside pnv-phb realize(). PHB3/PHB4 realize() are
-> oblivious to whether the device is user created or not. I believe this
-> approach is clearer than what I was doing before.
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg06254.html
-> 
-> Daniel Henrique Barboza (10):
->    ppc/pnv: add phb-id/chip-id PnvPHB3RootBus properties
->    ppc/pnv: add phb-id/chip-id PnvPHB4RootBus properties
->    ppc/pnv: set root port chassis and slot using Bus properties
->    ppc/pnv: add helpers for pnv-phb user devices
->    ppc/pnv: turn chip8->phbs[] into a PnvPHB* array
->    ppc/pnv: enable user created pnv-phb for powernv8
->    ppc/pnv: add PHB4 helpers for user created pnv-phb
->    ppc/pnv: enable user created pnv-phb powernv9
->    ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
->    ppc/pnv: user creatable pnv-phb for powernv10
-> 
->   hw/pci-host/pnv_phb.c          | 166 ++++++++++++++++++++++++++++++---
->   hw/pci-host/pnv_phb3.c         |  50 ++++++++++
->   hw/pci-host/pnv_phb4.c         |  51 ++++++++++
->   hw/pci-host/pnv_phb4_pec.c     |   6 +-
->   hw/ppc/pnv.c                   |  30 +++++-
->   include/hw/pci-host/pnv_phb3.h |   9 +-
->   include/hw/pci-host/pnv_phb4.h |  10 ++
->   include/hw/ppc/pnv.h           |   6 +-
->   8 files changed, 308 insertions(+), 20 deletions(-)
-> 
+Does QEMU always allocate the command line statically like that?
+AFAIK, OVMF never accesses that memory to read the command line, it
+uses fw_cfg to copy it into a buffer it allocates itself. And I guess
+that implies that this region could be clobbered by OVMF unless it is
+told to preserve it.
 
