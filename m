@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC19958A93C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:09:58 +0200 (CEST)
-Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A589B58A967
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:20:48 +0200 (CEST)
+Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJuHF-0007vL-RP
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50200)
+	id 1oJuRg-0003Ap-M3
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJtoq-0007bz-T7
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:38 -0400
-Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932]:34387)
+ id 1oJtou-0007fM-OW
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:40 -0400
+Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f]:36546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJtoo-0001iX-B3
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:36 -0400
-Received: by mail-ua1-x932.google.com with SMTP id y22so848468uay.1
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 02:40:32 -0700 (PDT)
+ id 1oJtoq-0001fk-Jd
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:39 -0400
+Received: by mail-vs1-xe2f.google.com with SMTP id o123so1945708vsc.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 02:40:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=0EH6/SU6+KuKxZ3ZaeY746PUfa8wkEHLaOit3NDDzxk=;
- b=VbeSKg7FQvmJOjfKi0eCowhLdzDWOD8pfvW3apDlAMQfKhMf+C0hmh/XG+0Y6tBPul
- 7oT+It6AKD9W7xaZ9URFK0FAVbCx4m8v6n9FeVwm3TNExnLWmpkfHmCJ8FHc+zezKTgw
- +mKblxfF7bAORTw2rW/dLtCkvU5kOS5HPxz/nS616isT9MvNle6N2Mu+E8O9iAtzI24X
- QNahaEy1KfPtXXRfzmyA0adnXntX9/legm1GHEnIZmrVgth628946fiq2ozSbm3nbQpx
- 3r2drWEMB6uAuRBrJlKwcn+vkXR3EZqKnn1NIV4eKpyVlWtEdSNFrDmmC64O8/2b7yjz
- rUvA==
+ bh=mXJwJLmcRqnXtZhHoo+MfEnHjgdMdXK2oknrWiQwJuA=;
+ b=P8K75jELNF1Y+m0gSowPvLQNO4NICdiEuAVD9pdWcZSwwa1Te+tAa5+jGS6cRZCvId
+ OOtVqXxmndeJ4sUtCa1WxRZ+5gdtQas96gCymL2g03x4JwlV5DYexX7QZVn3KTNDisi7
+ Avs5/kT5AArmEo0dDc6xixIVomXjcaCLHSX0PShT3ILMoW+pZRuFuKkQ2p87rm6FZaZt
+ 81Zasf1XKdsTNLGyOdlc0aAKvjmwBrjJMD7w43xONInK2HshctWwqHyBDeSXMqPCDT8+
+ BTWZrnhfw/lWFxnXAAWo1tLzU59vCkRKu0qesOBpUUc9JigXrggXKfJ6sjfINPH4bp2V
+ aLDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=0EH6/SU6+KuKxZ3ZaeY746PUfa8wkEHLaOit3NDDzxk=;
- b=F7IhqnNuDRbmk+fshfKOaw8N/WFa5XMsPYrVpl1O71pDK313TGKUQ7V9jEP8xmhYQJ
- Yl8DNjHLkEguU+3iOxT7Nr4egExyyXdifld/5Cd5rLkVBEuDaBWaeeY9FTnZYA78Iwpy
- RnOQL+ce8weYspQGq16P0dwWwHWH7PcD75txo9iAAe/iwPe7D1d1Tg+pLXtBhCcIF9t/
- Y1onqX7ORYZ5m78lEux1mwcH5nEG70u1oFAgVctt6vpNW7TDcPrIu7afdx4ajYCdoxAs
- gBrA/dVIo3oJ7tiCX82Xxn9uVEcf7HNza0Y6U9q/3pQmKtHOxZjsJceaWf5I5+Bsuk+/
- RBhA==
-X-Gm-Message-State: ACgBeo0Ey4hQjmJsLmyEO3sw/8VHuhviWkFHhCzM0PAkmnEv9cDE7QMm
- zBrlmAqnwBG6rCOcaP2rJ6nIt0cLfXA=
-X-Google-Smtp-Source: AA6agR7u0xk/ukDsrpv0byIbW4dP6wSdCYoeSqem485u1OtJFdxmzKAYUUeQvXWZjZOtfc3Rzyyk0Q==
-X-Received: by 2002:ab0:15ed:0:b0:365:f250:7384 with SMTP id
- j42-20020ab015ed000000b00365f2507384mr2688894uae.44.1659692431963; 
- Fri, 05 Aug 2022 02:40:31 -0700 (PDT)
+ bh=mXJwJLmcRqnXtZhHoo+MfEnHjgdMdXK2oknrWiQwJuA=;
+ b=GTOSRlfT/6NAbNqYBl1pkGp3+8ThSzRJuX87rkw+MjHUq3ZGvaxYwCxOenQe+Ph6AA
+ nr9bq5rNPzXOXsmPlzOPGhxPSqzm7N1ZAEBT6j0PSEseMNu4/l4Eg5H+UVRxLWl23ecp
+ lwzJGOYrVyWIS1yl/7TmOhrOOb02wTz98yE95iFYfolfylAhcGVBFuVZlKMCW8veli/j
+ b1h9uNQXByDr5ZbF+g9TM5WkodTwYYig1iTY08Pfp7ZmD8wEm1t7B7qRvUpRJQZ0XOl1
+ qNQsgkmcM8eY1eW1En9ewYjz09/QHbRMkOWFO5eCxW6va6XSbXOA2YCvfdkecsPETZXv
+ B+hg==
+X-Gm-Message-State: ACgBeo1VgDW8NBAGzSSWHePl4nF+19wK82AHRdeNCT50qGysmK3bpot2
+ +Rj9/4JhJqMC+bRbPnPFysGooZLC+Cs=
+X-Google-Smtp-Source: AA6agR5iMTnWRedW/b2lCN9NGrwZvvmh6dL+q4fVm4TuHGjpy3H91W5OMGfK3T5gPlbAeAQNO4l0QA==
+X-Received: by 2002:a67:fa0f:0:b0:387:de44:b29 with SMTP id
+ i15-20020a67fa0f000000b00387de440b29mr2612056vsq.5.1659692433788; 
+ Fri, 05 Aug 2022 02:40:33 -0700 (PDT)
 Received: from balboa.COMFAST ([191.19.239.67])
  by smtp.gmail.com with ESMTPSA id
- f9-20020a1f1f09000000b00376f4f93745sm2668496vkf.10.2022.08.05.02.40.30
+ f9-20020a1f1f09000000b00376f4f93745sm2668496vkf.10.2022.08.05.02.40.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 02:40:31 -0700 (PDT)
+ Fri, 05 Aug 2022 02:40:33 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: alistair.francis@wdc.com, david@gibson.dropbear.id.au,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 v2 18/20] device_node.c: enable 'info fdt' to print
- subnodes
-Date: Fri,  5 Aug 2022 06:39:46 -0300
-Message-Id: <20220805093948.82561-19-danielhb413@gmail.com>
+Subject: [PATCH for-7.2 v2 19/20] device_tree.c: add fdt_format_property()
+ helper
+Date: Fri,  5 Aug 2022 06:39:47 -0300
+Message-Id: <20220805093948.82561-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220805093948.82561-1-danielhb413@gmail.com>
 References: <20220805093948.82561-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x932.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,87 +91,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Printing subnodes of a given node will allow us to show a whole subtree,
-which the additional perk of 'info fdt /' being able to print the whole
-FDT.
+We want to be able to also print properties with 'info fdt'.
 
-Since we're now printing more than one subnode, change 'fdt_info' to
-print the full path of the first node. This small tweak helps
-identifying which node or subnode are being displayed.
-
-To demostrate this capability without printing the whole FDT, the
-'/cpus/cpu-map' node from the ARM 'virt' machine has a lot of subnodes:
-
-(qemu) info fdt /cpus/cpu-map
-/cpus/cpu-map {
-    socket0 {
-        cluster0 {
-            core0 {
-                cpu = <0x8001>
-            }
-        }
-    }
-}
+Create a helper to format properties based on the already existing code
+from fdt_format_node().
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- softmmu/device_tree.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ softmmu/device_tree.c | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index 9d95e4120b..99d95c1cb9 100644
+index 99d95c1cb9..902a7f680b 100644
 --- a/softmmu/device_tree.c
 +++ b/softmmu/device_tree.c
-@@ -728,17 +728,26 @@ static void fdt_prop_format_val(GString *buf, const char *propname,
+@@ -728,6 +728,25 @@ static void fdt_prop_format_val(GString *buf, const char *propname,
      g_string_append_printf(buf, "]\n");
  }
  
--static void fdt_format_node(GString *buf, int node, int depth)
++static void fdt_format_property(GString *buf, const char *propname,
++                                const void *data, int prop_size,
++                                int padding)
++{
++    if (prop_size == 0) {
++        g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
++        return;
++    }
 +
-+static void fdt_format_node(GString *buf, int node, int depth,
-+                            const char *fullpath)
- {
-     const struct fdt_property *prop = NULL;
-+    const char *nodename = NULL;
-     const char *propname = NULL;
-     void *fdt = current_machine->fdt;
-     int padding = depth * 4;
-     int property = 0;
-+    int parent = node;
-     int prop_size;
- 
--    g_string_append_printf(buf, "%*s%s {\n", padding, "",
--                           fdt_get_name(fdt, node, NULL));
-+    if (fullpath != NULL) {
-+        nodename = fullpath;
++    if (fdt_prop_is_string(data, prop_size)) {
++        g_string_append_printf(buf, "%*s%s = '%s'\n", padding, "",
++                               propname, (char *)data);
++    } else if (fdt_prop_is_uint32_array(prop_size)) {
++        fdt_prop_format_uint32_array(buf, propname, data, prop_size,
++                                     padding);
 +    } else {
-+        nodename = fdt_get_name(fdt, node, NULL);
++        fdt_prop_format_val(buf, propname, data, prop_size, padding);
 +    }
-+
-+    g_string_append_printf(buf, "%*s%s {\n", padding, "", nodename);
++}
  
-     padding += 4;
+ static void fdt_format_node(GString *buf, int node, int depth,
+                             const char *fullpath)
+@@ -755,21 +774,7 @@ static void fdt_format_node(GString *buf, int node, int depth,
+         prop = fdt_get_property_by_offset(fdt, property, &prop_size);
+         propname = fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
  
-@@ -763,6 +772,10 @@ static void fdt_format_node(GString *buf, int node, int depth)
-         }
+-        if (prop_size == 0) {
+-            g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
+-            continue;
+-        }
+-
+-        if (fdt_prop_is_string(prop->data, prop_size)) {
+-            g_string_append_printf(buf, "%*s%s = '%s'\n",
+-                                   padding, "", propname, prop->data);
+-        } else if (fdt_prop_is_uint32_array(prop_size)) {
+-            fdt_prop_format_uint32_array(buf, propname, prop->data, prop_size,
+-                                         padding);
+-        } else {
+-            fdt_prop_format_val(buf, propname, prop->data,
+-                                prop_size, padding);
+-        }
++        fdt_format_property(buf, propname, prop->data, prop_size, padding);
      }
  
-+    fdt_for_each_subnode(node, fdt, parent) {
-+        fdt_format_node(buf, node, depth + 1, NULL);
-+    }
-+
-     padding -= 4;
-     g_string_append_printf(buf, "%*s}\n", padding, "");
- }
-@@ -783,7 +796,7 @@ HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath, Error **errp)
-         return NULL;
-     }
- 
--    fdt_format_node(buf, node, 0);
-+    fdt_format_node(buf, node, 0, nodepath);
- 
-     return human_readable_text_from_str(buf);
- }
+     fdt_for_each_subnode(node, fdt, parent) {
 -- 
 2.36.1
 
