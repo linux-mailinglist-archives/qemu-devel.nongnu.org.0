@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3900C58AE82
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:52:48 +0200 (CEST)
-Received: from localhost ([::1]:41034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE93858AE84
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:54:05 +0200 (CEST)
+Received: from localhost ([::1]:43114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK0Z5-0007wf-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45438)
+	id 1oK0aK-0000xP-KU
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oK0MP-00048F-FG
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:39:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24343)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oK0Wf-0005b7-0N; Fri, 05 Aug 2022 12:50:18 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oK0ML-0004Il-Fe
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 12:39:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659717576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I2qG/DrMQ1sR/wng6kjZ4mlPv6kuW7pRnO/xQHwpD34=;
- b=fYMyATev00dR3B5sOmp2KnXx/30cluxmj+z531gJb4eheRTtaltgI802JuV5S2+7lyzhqn
- LO3NoJQl2XCQvveNob+LrCGWdLW3M50x+4GjJXHYrI2DmnFEK76kLSOUFME+Xc5oXfIcST
- l56sT+hihpkTvFVxHJjsYuxXY9u0ud0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-GCdQiKavOOWsEevuDZr8EQ-1; Fri, 05 Aug 2022 12:39:33 -0400
-X-MC-Unique: GCdQiKavOOWsEevuDZr8EQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A23DD38149BE;
- Fri,  5 Aug 2022 16:39:32 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.193.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F02872166B26;
- Fri,  5 Aug 2022 16:39:29 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>
-Subject: [PATCH v4 6/6] vdpa: Always start CVQ in SVQ mode
-Date: Fri,  5 Aug 2022 18:39:09 +0200
-Message-Id: <20220805163909.872646-7-eperezma@redhat.com>
-In-Reply-To: <20220805163909.872646-1-eperezma@redhat.com>
-References: <20220805163909.872646-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oK0Wb-00061P-A3; Fri, 05 Aug 2022 12:50:15 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 18CB7746396;
+ Fri,  5 Aug 2022 18:50:09 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CE1C474638A; Fri,  5 Aug 2022 18:50:08 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CB9D8746381;
+ Fri,  5 Aug 2022 18:50:08 +0200 (CEST)
+Date: Fri, 5 Aug 2022 18:50:08 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
+In-Reply-To: <CAFEAcA8qBMUY+an+-i7x2i98iATjMN7m89rGsSwEV90sH-iCdg@mail.gmail.com>
+Message-ID: <ceb063e-b796-a5b1-5bd1-4cd81c5ed2d@eik.bme.hu>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-13-clg@kaod.org>
+ <973576c1-deb8-3973-34e7-d038ca2200c2@gmail.com>
+ <4885e6d0-8fff-4712-d032-c5afcac79ff7@kaod.org>
+ <7b97e54b-4d80-6db9-af33-40a539827ddd@eik.bme.hu>
+ <3b1bc6c5-a363-0a42-f0dc-eafc14376fe2@kaod.org>
+ <1e6be2f3-4c7a-2432-5034-fa012c662df@eik.bme.hu>
+ <7ecefd72-b799-8a8c-51fd-28730a12ebf1@kaod.org>
+ <a3c2da20-c161-a6d2-6ed1-c0954991eff5@eik.bme.hu>
+ <CAFEAcA-au_h+B05HriBQcGh9hsvmzksuHisqAx4cqGKAY8+8Dg@mail.gmail.com>
+ <18dcac8a-d5e8-b6e-b9b-838cb1badb7@eik.bme.hu>
+ <743ea55a-915e-5991-5d7c-ef00ee307ee9@kaod.org>
+ <a992199c-b51d-6baa-b91b-4959ec4a46e8@eik.bme.hu>
+ <CAFEAcA8qBMUY+an+-i7x2i98iATjMN7m89rGsSwEV90sH-iCdg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-179746773-1659718208=:12534"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,248 +75,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Isolate control virtqueue in its own group, allowing to intercept control
-commands but letting dataplane run totally passthrough to the guest.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
-v4:
-* Squash vhost_vdpa_cvq_group_is_independent.
-* Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
-* Do not check for cvq index on vhost_vdpa_net_prepare, we only have one
-  that callback registered in that NetClientInfo.
+--3866299591-179746773-1659718208=:12534
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-v3:
-* Make asid related queries print a warning instead of returning an
-  error and stop the start of qemu.
----
- hw/virtio/vhost-vdpa.c |   3 +-
- net/vhost-vdpa.c       | 124 +++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 122 insertions(+), 5 deletions(-)
+On Fri, 5 Aug 2022, Peter Maydell wrote:
+> On Fri, 5 Aug 2022 at 13:55, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> I know this is a mess curently but QOM is full of boilerplate code which
+>> is confusing for new people and makes it hard to undestand the code. So
+>> cutting down the boilerplate and making things simpler would help people
+>> who want to get started with QEMU development. If adding a property was
+>> 3-4 additional lines I wouldn't care but if it makes the code
+>> significantly more complex and thus harder to understand at a glance then
+>> I'd rather avoid it if possible and stick to simple terms.
+>
+> I agree that QOM's boilerplate is not nice at all, but if
+> you do something other than the "standard QOM boilerplate"
+> solution to a problem then you make it harder for people who
+> at least know what the standard QOM approach is to figure out
+> why the code is doing what it does.
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 3eb67b27b7..69f34f4cc5 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -678,7 +678,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
- {
-     uint64_t features;
-     uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
--        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
-     int r;
- 
-     if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index bf78b1332f..c820a5fd9f 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -37,6 +37,9 @@ typedef struct VhostVDPAState {
-     /* Control commands shadow buffers */
-     void *cvq_cmd_out_buffer, *cvq_cmd_in_buffer;
- 
-+    /* Number of address spaces supported by the device */
-+    unsigned address_space_num;
-+
-     /* The device always have SVQ enabled */
-     bool always_svq;
-     bool started;
-@@ -100,6 +103,9 @@ static const uint64_t vdpa_svq_device_features =
-     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-     BIT_ULL(VIRTIO_NET_F_STANDBY);
- 
-+#define VHOST_VDPA_NET_CVQ_PASSTHROUGH 0
-+#define VHOST_VDPA_NET_CVQ_ASID 1
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -224,6 +230,37 @@ static NetClientInfo net_vhost_vdpa_info = {
-         .check_peer_type = vhost_vdpa_check_peer_type,
- };
- 
-+static void vhost_vdpa_get_vring_group(int device_fd,
-+                                       struct vhost_vring_state *state)
-+{
-+    int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, state);
-+    if (unlikely(r < 0)) {
-+        /*
-+         * Assume all groups are 0, the consequences are the same and we will
-+         * not abort device creation
-+         */
-+        state->num = 0;
-+    }
-+}
-+
-+static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
-+                                           unsigned vq_group,
-+                                           unsigned asid_num)
-+{
-+    struct vhost_vring_state asid = {
-+        .index = vq_group,
-+        .num = asid_num,
-+    };
-+    int ret;
-+
-+    ret = ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-+    if (unlikely(ret < 0)) {
-+        warn_report("Can't set vq group %u asid %u, errno=%d (%s)",
-+            asid.index, asid.num, errno, g_strerror(errno));
-+    }
-+    return ret;
-+}
-+
- static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
- {
-     VhostIOVATree *tree = v->iova_tree;
-@@ -298,11 +335,55 @@ dma_map_err:
- static int vhost_vdpa_net_cvq_prepare(NetClientState *nc)
- {
-     VhostVDPAState *s;
-+    struct vhost_vdpa *v;
-+    struct vhost_vring_state cvq_group = {};
-     int r;
- 
-     assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
- 
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    v = &s->vhost_vdpa;
-+    cvq_group.index = v->dev->vq_index_end - 1;
-+
-+    /* Default values */
-+    v->shadow_vqs_enabled = false;
-+    s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_PASSTHROUGH;
-+
-+    if (s->always_svq) {
-+        v->shadow_vqs_enabled = true;
-+        goto out;
-+    }
-+
-+    if (s->address_space_num < 2) {
-+        return 0;
-+    }
-+
-+    /**
-+     * Check if all the virtqueues of the virtio device are in a different vq
-+     * than the last vq. VQ group of last group passed in cvq_group.
-+     */
-+    vhost_vdpa_get_vring_group(v->device_fd, &cvq_group);
-+    for (int i = 0; i < (v->dev->vq_index_end - 1); ++i) {
-+        struct vhost_vring_state vq_group = {
-+            .index = i,
-+        };
-+
-+        vhost_vdpa_get_vring_group(v->device_fd, &vq_group);
-+        if (unlikely(vq_group.num == cvq_group.num)) {
-+            warn_report("CVQ %u group is the same as VQ %u one (%u)",
-+                         cvq_group.index, vq_group.index, cvq_group.num);
-+            return 0;
-+        }
-+    }
-+
-+    r = vhost_vdpa_set_address_space_id(v, cvq_group.num,
-+                                        VHOST_VDPA_NET_CVQ_ASID);
-+    if (r == 0) {
-+        v->shadow_vqs_enabled = true;
-+        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
-+    }
-+
-+out:
-     if (!s->vhost_vdpa.shadow_vqs_enabled) {
-         return 0;
-     }
-@@ -523,12 +604,38 @@ static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops = {
-     .avail_handler = vhost_vdpa_net_handle_ctrl_avail,
- };
- 
-+static uint32_t vhost_vdpa_get_as_num(int vdpa_device_fd)
-+{
-+    uint64_t features;
-+    unsigned num_as;
-+    int r;
-+
-+    r = ioctl(vdpa_device_fd, VHOST_GET_BACKEND_FEATURES, &features);
-+    if (unlikely(r < 0)) {
-+        warn_report("Cannot get backend features");
-+        return 1;
-+    }
-+
-+    if (!(features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
-+        return 1;
-+    }
-+
-+    r = ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
-+    if (unlikely(r < 0)) {
-+        warn_report("Cannot retrieve number of supported ASs");
-+        return 1;
-+    }
-+
-+    return num_as;
-+}
-+
- static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                            const char *device,
-                                            const char *name,
-                                            int vdpa_device_fd,
-                                            int queue_pair_index,
-                                            int nvqs,
-+                                           unsigned nas,
-                                            bool is_datapath,
-                                            bool svq,
-                                            VhostIOVATree *iova_tree)
-@@ -547,6 +654,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
- 
-+    s->address_space_num = nas;
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-     s->always_svq = svq;
-@@ -632,6 +740,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     g_autoptr(VhostIOVATree) iova_tree = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i = 0, has_cvq = 0;
-+    unsigned num_as = 1;
-+    bool svq_cvq;
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -656,7 +766,13 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         goto err;
-     }
- 
--    if (opts->x_svq) {
-+    svq_cvq = opts->x_svq;
-+    if (has_cvq && !opts->x_svq) {
-+        num_as = vhost_vdpa_get_as_num(vdpa_device_fd);
-+        svq_cvq = num_as > 1;
-+    }
-+
-+    if (opts->x_svq || svq_cvq) {
-         struct vhost_vdpa_iova_range iova_range;
- 
-         uint64_t invalid_dev_features =
-@@ -679,15 +795,15 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
- 
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true, opts->x_svq,
--                                     iova_tree);
-+                                     vdpa_device_fd, i, 2, num_as, true,
-+                                     opts->x_svq, iova_tree);
-         if (!ncs[i])
-             goto err;
-     }
- 
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false,
-+                                 vdpa_device_fd, i, 1, num_as, false,
-                                  opts->x_svq, iova_tree);
-         if (!nc)
-             goto err;
--- 
-2.31.1
+True, unless what we do instead is simpler so it's obvious what it's 
+doing. Also you've said that needing a link is often a sign that there's 
+something wrong with the modeling so maybe it can be avoided changing how 
+we model things. I think that's the case here. If we had:
 
+struct PPC4xxMachineState { /* abstract */
+     MachineState parent_obj;
+
+     PPC4xxSoc soc;
+}
+
+which we use for all 4xx machnies that use the devices QOMified here and
+
+struct PPC4xxSocState { /* abstract */
+     DeviceState parent_obj;
+
+     PowerPCCPU cpu;
+     /* other common devices shared by 405 and 440
+      * (probably most of them), may need to add int ram_banks to allow
+      * different size ram_memories arrays, etc. but this can be done later
+      * when doing 440 SoC state and only have the cpu here for now */
+}
+
+struct PPC405SocState {
+     PPC4xxSocState parent_obj;
+
+     /* devices specific to 405 same as proposed Ppc405SoCState */
+}
+
+and likewise for PPC440SocState which could be done in a different series 
+taking care of 440 machines later. Then we could more cleanly model the 
+sharing of code between 4xx SoCs (this series only considered 405 but this 
+is enangled with 440 so we should take into account that too), This also 
+allows to get the cpu without a link with something like:
+
+PPC4XX_MACHINE(current_machine /* or qdev_get_machine() */)->soc.cpu
+
+This is pretty clear if you look at the object class definitions and 
+avoids needing to link things together by hand.
+
+If this is not clear yet or Cédric does not want to do it now I may try it 
+once he publishes the latest version of this series or as a follow up once 
+it's merged but if I could get across what I mean and not too much changes 
+maybe it could be considered so we don't have too many iterations on this.
+
+I understand Cédric may not want to touch bamboo or sam460ex and mostly 
+cares for 405 to add hotfoot but what I propose does not need going all 
+the way with the 440 machines, only introduce the QOM classes now so that 
+it could be used later bur not break the 440 machines now. We may even get 
+away with just adding a PowerPCCPU *cpu; to PPC4xxMachineState for now 
+which can be set in the machine init func that creates the cpu before 
+other devices, then we may not need PPC4xxSocState abstract class for now 
+but maybe it's clearer with the abstract SoC class that can be filled in 
+later with common stuff shared by all 4xx machines.
+
+Regards,
+BALATON Zoltan
+--3866299591-179746773-1659718208=:12534--
 
