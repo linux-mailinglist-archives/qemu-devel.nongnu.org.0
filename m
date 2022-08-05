@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3096958AECD
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:24:49 +0200 (CEST)
-Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB4158AECF
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:24:54 +0200 (CEST)
+Received: from localhost ([::1]:53042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK144-0001TF-B6
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
+	id 1oK148-0001eT-VO
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oK12U-0007Jn-Sh
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:23:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29660)
+ id 1oK12Z-0007PU-To
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:23:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oK12R-00038w-CQ
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:23:09 -0400
+ id 1oK12Y-0003Ae-J3
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:23:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659720186;
+ s=mimecast20190719; t=1659720193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=fjhhL83zzKByJvAm4mHAV7fz+4xtJCt//jFnMBUp0w8=;
- b=VvqytlKMhUoTsNdmwnw0qCqjrlCRY/d9Q82eK3g4asI4dhdYSFKwzZsj2R5U2ZPFJF1xvQ
- bbE65RdbDXG73+p2O7UxIfJXLFA7g+DyYXIWvI58ddSwhgQofOFoe/hiqZy9NVUWNCucza
- tMOoyBwGnSM1HV684+9t9DUZiWm1mH8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1IZcipcr7DtJT/DRpdODj7BqNtwoMoTjmO9xn9/Rf90=;
+ b=QjggJJC3hB3my08euC9j9h8b0geVmFUI8sXdVC5YLdCuYf4jEom6z0ORgr4n9oLvNqOKKC
+ 139cDr+yLPUAc3nG2vVh2ZDslsa1YJqRlCaYCa/uEvdNdyHqca6kKlhMK5PniRS71wJHsr
+ 77qGGkgIQRi6pcgakpe73z/HZremg2I=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-q4hrs5LWO0Citua_dpF3Ig-1; Fri, 05 Aug 2022 13:23:04 -0400
-X-MC-Unique: q4hrs5LWO0Citua_dpF3Ig-1
-Received: by mail-ej1-f72.google.com with SMTP id
- qa39-20020a17090786a700b007309910696fso1392276ejc.4
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:23:04 -0700 (PDT)
+ us-mta-584-MZeRz8OCOYursd12jTzxKQ-1; Fri, 05 Aug 2022 13:23:12 -0400
+X-MC-Unique: MZeRz8OCOYursd12jTzxKQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ gs35-20020a1709072d2300b00730e14fd76eso1397829ejc.15
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:23:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=fjhhL83zzKByJvAm4mHAV7fz+4xtJCt//jFnMBUp0w8=;
- b=bdahMzWG0SOuqIq/3suprBoLVh1LdAeRS+Jes0hyKK+lmaVtMb/yGw1OTZJi3bpEFR
- paQ05hdNl5gY6z4Z+SzO0eBjPsahngh87jl3szABH00BPoZFtY/tdTUAlkNb8545uKb9
- 8x9Zv0fKdRYXCpD0FqOT54AlNSXmIRtMv7GCzCs/LuT/VTVUnS7q02fZwfu2fiKneTbl
- weGNrH1sXF4SnaHiB3PQx1U5a39FpaNBm+nZr+5kMTaNuUOs/MfHMfbA+BsDinT2gZVB
- jQeVTjOSjvBM6dTAO8idFBdWxx3sT5dtbvJueEI7FKZz7iRPlJSTEz1Oadhd1Za5bibu
- g5vw==
-X-Gm-Message-State: ACgBeo390QKh0+GXCUk+4O457nFxSyKWuThVSt2HX18QhXzUw8YNMALK
- 3Nwz/8XF1HQhNIpNpitRuKg07qntrV+pXKQz4iPkU2xX9AuFEBWmd7W6tK3XhLQ16W6Xz7HzohC
- 5L1h276RKhiDscAAh0z/ZKxlTEmBbX16UG6KAOMkdjxfFFTWujPxYZVDNHeAWLkQ570w=
-X-Received: by 2002:aa7:cac4:0:b0:43b:ddac:aa79 with SMTP id
- l4-20020aa7cac4000000b0043bddacaa79mr7542621edt.202.1659720183095; 
- Fri, 05 Aug 2022 10:23:03 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4h25IQ2avh30RYpNz7vmm3itXdnUlVUZFTrH50juFpWe825M9dsWLabTuarLgq/1mwb+e46A==
-X-Received: by 2002:aa7:cac4:0:b0:43b:ddac:aa79 with SMTP id
- l4-20020aa7cac4000000b0043bddacaa79mr7542595edt.202.1659720182826; 
- Fri, 05 Aug 2022 10:23:02 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=1IZcipcr7DtJT/DRpdODj7BqNtwoMoTjmO9xn9/Rf90=;
+ b=vUSL/NtYg/mbMwxDwFjPhkwLQuHPDkZVnHKF9jt24mo8s1J5l/7GXI+49RwczGNC3S
+ 65+bWLwg4Fpzfb40uX3sDlxp0ZgWd/zw4QE9p2UCte3xP+rrC12EeH67FEq7C1jhe4HM
+ TdZDvGg0l+bm8xWVbxkqWtOCeMqMz+3iRmNGoHA9n6d8TpLnBPmxQ8a+ui7XVzEnMsyV
+ vrgiJDqSmV7fz+nsxngihQjtI9hB20GH6fe34FJPGppDEzqf94Spx1F0mkNv3DqpwJGu
+ 0jiyRdVRvl6/Jga93eMDn/NIJ1Chld0FLdN+N2fNMqDJoF2oRFzau+L72XDC9Khsqf4j
+ 2Jag==
+X-Gm-Message-State: ACgBeo3rCoc3wIR1bo9tzLzYFKBTJWp0kckvXybwbAmz7NjENmPU8wT4
+ j9I37iSZ7mggPJmiO+AsMeLWltXhgQiBg51kxzodFPw91iHB4OdcTD182uxURpRSTKTKlCaOqGS
+ JnEld0Of76oVCpQOemXt9/AXEMLLIURg9XLiWatNeI4pmvqvs4GehHuROa389BZXl2x0=
+X-Received: by 2002:a17:906:93f0:b0:730:6d25:8a1e with SMTP id
+ yl16-20020a17090693f000b007306d258a1emr5931808ejb.431.1659720191289; 
+ Fri, 05 Aug 2022 10:23:11 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7qtzOV//NDwoDRSK14EPAac/gMu23XAorXWDk9eqLYQCCYk1ECGs21fNrRx6dxD9f4DYXZrw==
+X-Received: by 2002:a17:906:93f0:b0:730:6d25:8a1e with SMTP id
+ yl16-20020a17090693f000b007306d258a1emr5931798ejb.431.1659720190951; 
+ Fri, 05 Aug 2022 10:23:10 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- j4-20020a17090686c400b0070e238ff66fsm1786336ejy.96.2022.08.05.10.23.02
+ p26-20020a17090653da00b0072ffbbc3341sm1738963ejo.204.2022.08.05.10.23.10
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 10:23:02 -0700 (PDT)
+ Fri, 05 Aug 2022 10:23:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2] vl: fix [memory] section with -readconfig
-Date: Fri,  5 Aug 2022 19:23:01 +0200
-Message-Id: <20220805172301.553081-1-pbonzini@redhat.com>
+Subject: [PATCH] vl: remove dead code in parse_memory_options()
+Date: Fri,  5 Aug 2022 19:23:09 +0200
+Message-Id: <20220805172309.553441-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,112 +96,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -M memory.* options do not have magic applied to them than the -m
-option, namely no "M" (for mebibytes) is tacked at the end of a
-suffixless value for "-M memory.size".
+mem_str will never be an empty string, because qemu_opt_get_size() fails
+if it encounters one:
 
-This magic is performed by parse_memory_options, and we have to
-do it for both "-m" and the [memory] section of a config file.
-Storing [memory] sections directly to machine_opts_dict changed
-the meaning of
+   $ ./qemu-system-x86_64 -m size=
+   qemu-system-x86_64: -m size=: Parameter size expects a non-negative number below 2^64
+   Optional suffix k, M, G, T, P or E means kilo-, mega-, giga-, tera-, peta-
+   and exabytes, respectively.
 
-    [memory]
-      size = "1024"
-
-in a -readconfig file from 1024MiB to 8KiB (1024 Bytes rounded up to
-8KiB silently).  To avoid this, the [memory] section has to be
-changed back to QemuOpts (combining [memory] and "-m" will work fine
-thanks to .merge_lists being true).
-
-Change parse_memory_options() so that, similar to the older function
-set_memory_options(), it operates after command line parsing is done;
-and also call it where set_memory_options() used to be.
-
-Note, the parsing code uses exit(1) instead of exit(EXIT_FAILURE) to
-match neighboring code.
-
-Reported-by: Markus Armbruster <armbru@redhat.com>
-Fixes: ce9d03fb3f ("machine: add mem compound property", 2022-05-12)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ softmmu/vl.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index aabd82e09a..45e919de9f 100644
+index 45e919de9f..706bd7cff7 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -1947,16 +1947,15 @@ static void qemu_resolve_machine_memdev(void)
-     }
- }
- 
--static void parse_memory_options(const char *arg)
-+static void parse_memory_options(void)
- {
--    QemuOpts *opts;
-+    QemuOpts *opts = qemu_find_opts_singleton("memory");
-     QDict *dict, *prop;
-     const char *mem_str;
-+    Location loc;
- 
--    opts = qemu_opts_parse_noisily(qemu_find_opts("memory"), arg, true);
--    if (!opts) {
--        exit(EXIT_FAILURE);
--    }
-+    loc_push_none(&loc);
-+    qemu_opts_loc_restore(opts);
- 
+@@ -1960,13 +1960,8 @@ static void parse_memory_options(void)
      prop = qdict_new();
  
-@@ -1987,6 +1986,7 @@ static void parse_memory_options(const char *arg)
-     qdict_put(dict, "memory", prop);
-     keyval_merge(machine_opts_dict, dict, &error_fatal);
-     qobject_unref(dict);
-+    loc_pop(&loc);
- }
- 
- static void qemu_create_machine(QDict *qdict)
-@@ -2053,8 +2053,7 @@ static bool is_qemuopts_group(const char *group)
-     if (g_str_equal(group, "object") ||
-         g_str_equal(group, "machine") ||
-         g_str_equal(group, "smp-opts") ||
--        g_str_equal(group, "boot-opts") ||
--        g_str_equal(group, "memory")) {
-+        g_str_equal(group, "boot-opts")) {
-         return false;
-     }
-     return true;
-@@ -2078,8 +2077,6 @@ static void qemu_record_config_group(const char *group, QDict *dict,
-         machine_merge_property("smp", dict, &error_fatal);
-     } else if (g_str_equal(group, "boot-opts")) {
-         machine_merge_property("boot", dict, &error_fatal);
--    } else if (g_str_equal(group, "memory")) {
--        machine_merge_property("memory", dict, &error_fatal);
-     } else {
-         abort();
-     }
-@@ -2882,7 +2879,10 @@ void qemu_init(int argc, char **argv, char **envp)
-                 exit(0);
-                 break;
-             case QEMU_OPTION_m:
--                parse_memory_options(optarg);
-+                opts = qemu_opts_parse_noisily(qemu_find_opts("memory"), optarg, true);
-+                if (opts == NULL) {
-+                    exit(1);
-+                }
-                 break;
- #ifdef CONFIG_TPM
-             case QEMU_OPTION_tpmdev:
-@@ -3515,6 +3515,9 @@ void qemu_init(int argc, char **argv, char **envp)
- 
-     configure_rtc(qemu_find_opts_singleton("rtc"));
- 
-+    /* Transfer QemuOpts options into machine options */
-+    parse_memory_options();
-+
-     qemu_create_machine(machine_opts_dict);
- 
-     suspend_mux_open();
+     if (qemu_opt_get_size(opts, "size", 0) != 0) {
+-        mem_str = qemu_opt_get(opts, "size");
+-        if (!*mem_str) {
+-            error_report("missing 'size' option value");
+-            exit(EXIT_FAILURE);
+-        }
+-
+         /* Fix up legacy suffix-less format */
++        mem_str = qemu_opt_get(opts, "size");
+         if (g_ascii_isdigit(mem_str[strlen(mem_str) - 1])) {
+             g_autofree char *mib_str = g_strdup_printf("%sM", mem_str);
+             qdict_put_str(prop, "size", mib_str);
 -- 
 2.37.1
 
