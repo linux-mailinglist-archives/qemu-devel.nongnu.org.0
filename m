@@ -2,78 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6CF58AF4F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:59:10 +0200 (CEST)
-Received: from localhost ([::1]:52056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D58958AFF8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 20:39:10 +0200 (CEST)
+Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK1bJ-0005FQ-73
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59090)
+	id 1oK2E1-0006oK-KN
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 14:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oK1Ys-0001jy-68
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:56:38 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:42772)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oK29h-0002qc-R5; Fri, 05 Aug 2022 14:34:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oK1Yp-0000D5-Lf
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:56:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4A582B829E1
- for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 17:56:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7462C43470
- for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 17:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659722191;
- bh=YhasxSDyI4slT9TaDXzSb4BbP4M3MtpH6v54pjBX2W4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=PstLtCc5O0uC1T8DlHcMLjKrIwGn7gcy26nVcRpgqudjKrFCsZDjUVR2X6+tVqdqB
- Ps+FXsvAvzZ4tqy0ll7WE3iP/NwOn1BNy4mtAC1EN4GyMA50X5o4Zrh5RfwrSQH5+l
- Z+CnZlSj7GK/rZC1aRR0xp/sUs4U6TNreXanydGVytFmEqyqiv5oDE2xhvCkLhQC2h
- MgjVxY46U8uOwX7JaptfRb3FVLkmVmVjyyoEN3k4YK/IZRpTy3HIlgU7vTKzkDB33S
- GICQGcxWAITrq1sUcU32Ch5CyRwkUIyxpVHs/soQ9NkBZc+Na7lNg1ic7+8/G2bpoy
- +pQqgvJLbdcfw==
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-f2a4c51c45so3679982fac.9
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:56:31 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1A1s2kkyx44/e50TKTg9APjmqzfNAcbkK2cyE5GGpWjM4drE78
- irLc/H2vmgEjr0KM6Oxp9vAOwWVIYKprPtQ/6vI=
-X-Google-Smtp-Source: AA6agR6oRpwKgaz40rV0PVZGx2D8+KdCC17YSjJKY2v1+hdVsQkJwoCMtY/US6zKxUSkFVTk/Yo0Hjk0eePeoLuFw1k=
-X-Received: by 2002:a05:6870:a90a:b0:10d:9e83:98a6 with SMTP id
- eq10-20020a056870a90a00b0010d9e8398a6mr6781986oab.228.1659722191032; Fri, 05
- Aug 2022 10:56:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oK29f-0000ny-Uz; Fri, 05 Aug 2022 14:34:41 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275HnHGY006882;
+ Fri, 5 Aug 2022 18:34:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=Ei9DeNlPRnxSNWoFvtseGTYiAnOhq/E8lq25M5pQ+i8=;
+ b=eTKJPfxxKjs0KD7hkaTxpydQ7q9Vj17I+z9FICeuodvs9cZfkLnVL2BwMq5KnK26rR4O
+ Zdi8YhmjVMitY1wLZnTacTmRMVwhFH2P3qoaQodEWbWBSSPyO8N6CoHcCY1xmQttz8qP
+ YIRjHsiu6KP/DuwIFm1C774IIEm4rzBzZJ79E0F+8AIg4UzP3sI37AkOCUKV4MuHT3U+
+ doqYec+zVllaYWjHnn48mFP7OnX83V4JToACFdf/9QCjrxbwZo3utKlxOb8HPr3BIJkb
+ GmkK5RPEkR5o7pUPsjk+jx2uS9wCu3HhDSxsY7aYZIYnhxtL4XENDtWVJfyIby9K42S4 vg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7xp97qu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 18:34:30 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 275IOWxP012726;
+ Fri, 5 Aug 2022 18:34:29 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7xp97pc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 18:34:29 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 275I6e9p031452;
+ Fri, 5 Aug 2022 18:34:27 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3hmv98yqp1-200
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 18:34:26 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 275G9Gsx14614792
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Aug 2022 16:09:16 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CCD16A405F;
+ Fri,  5 Aug 2022 16:09:16 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 37E62A4054;
+ Fri,  5 Aug 2022 16:09:16 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.89.138])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Aug 2022 16:09:16 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2 0/4] linux-user: Fix siginfo_t contents when jumping to
+ non-readable pages
+Date: Fri,  5 Aug 2022 18:09:10 +0200
+Message-Id: <20220805160914.1106091-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: mjqmlf_rckor_9O5AcmuDvtSHhQTGJqN
+X-Proofpoint-GUID: Aut8ZhkYZlKJU1RMCgMFrXbz7OAAHO5G
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <YuxOgtykRQb1HU3e@zx2c4.com>
- <20220804230411.17720-1-Jason@zx2c4.com>
- <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
- <CAMj1kXFDs8HCCCcVAVwjLcATh6MYcUSAha5yvi0ftMw+Ddy_Xg@mail.gmail.com>
- <0bd57fab-836b-9898-9e3f-84dc66eca175@redhat.com>
-In-Reply-To: <0bd57fab-836b-9898-9e3f-84dc66eca175@redhat.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 5 Aug 2022 19:56:20 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEmsDjStijJciuWjmugqAm8yvX_qihyg1Uah=V56mg2Bg@mail.gmail.com>
-Message-ID: <CAMj1kXEmsDjStijJciuWjmugqAm8yvX_qihyg1Uah=V56mg2Bg@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- Xiaoyao Li <xiaoyao.li@intel.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>, 
- linux-efi <linux-efi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=ardb@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-05_09,2022-08-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 adultscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ suspectscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ priorityscore=1501 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2206140000 definitions=main-2208050086
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,75 +119,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Aug 2022 at 19:29, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 8/5/22 13:08, Ard Biesheuvel wrote:
-> >>
-> >> Does it work to place setup_data at the end of the cmdline file instead
-> >> of having it at the end of the kernel file?  This way the first item
-> >> will be at 0x20000 + cmdline_size.
-> >>
-> > Does QEMU always allocate the command line statically like that?
-> > AFAIK, OVMF never accesses that memory to read the command line, it
-> > uses fw_cfg to copy it into a buffer it allocates itself. And I guess
-> > that implies that this region could be clobbered by OVMF unless it is
-> > told to preserve it.
->
-> No it's not. :(  It also goes to gBS->AllocatePages in the end.
->
-> At this point it seems to me that without extra changes the whole
-> setup_data concept is dead on arrival for OVMF.  In principle there's no
-> reason why the individual setup_data items couldn't include interior
-> pointers, meaning that the setup_data _has_ to be at the address
-> provided in fw_cfg by QEMU.
->
+Hi,
 
-AIUI, the setup_data nodes are appended at the end, so they are not
-covered by the setup_data fw_cfg file but the kernel one.
+I noticed that when we get a SEGV due to jumping to non-readable
+memory, sometimes si_addr and program counter in siginfo_t are slightly
+off. I tracked this down to the assumption that translators stop before
+the end of a page, while in reality they may stop right after it.
 
-> One way to "fix" it would be for OVMF to overwrite the pointer to the
-> head of the list, so that the kernel ignores the setup data provided by
-> QEMU. Another way would be to put it in the command line fw_cfg blob and
-> teach OVMF to use a fixed address for the command line.  Both are ugly,
-> and both are also broken for new QEMU / old OVMF.
->
+Patch 1 fixes a minor invalidation issue, which may prevent SEGV from
+happening altogether.
+Patches 2-3 fix the main issue on x86_64 and s390x. Many other
+architectures have fixed-size instructions and are not affected.
+Patch 4 adds tests.
 
-This is the 'pure EFI' boot path in OVMF, which means that the
-firmware does not rely on definitions of struct bootparams or struct
-setup_header at all. Introducing that dependency just for this is
-something I'd really prefer to avoid.
+Best regards,
+Ilya
 
-> In any case, I don't think this should be fixed so close to the release.
->   We have two possibilities:
->
-> 1) if we believe "build setup_data in QEMU" is a feasible design that
-> only needs more yak shaving, we can keep the code in, but disabled by
-> default, and sort it out in 7.2.
->
+v1: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00822.html
+v1 -> v2: Fix individual translators instead of translator_loop
+          (Peter).
 
-As I argued before, conflating the 'file' representation with the
-'memory' representation like this is fundamentally flawed. fw_cfg
-happily DMA's those files anywhere you like, so their contents should
-not be position dependent like this.
+Ilya Leoshkevich (4):
+  accel/tcg: Invalidate translations when clearing PAGE_READ
+  target/s390x: Make translator stop before the end of a page
+  target/i386: Make translator stop before the end of a page
+  tests/tcg: Test siginfo_t contents when jumping to non-readable pages
 
-So Jason's fix gets us halfway there, although we now pass information
-to the kernel that is not covered by signatures or measurements, where
-the setup_data pointer itself is. This means you can replace a single
-SETUP_RNG_SEED node in memory with a whole set of SETUP_xxx nodes that
-might be rigged to manipulate the boot in a way that measured boot
-won't detect.
+ accel/tcg/translate-all.c        |  17 ++--
+ include/exec/translator.h        |  10 +++
+ target/i386/tcg/translate.c      |  42 ++++++++-
+ target/s390x/tcg/translate.c     |  35 ++++----
+ tests/tcg/multiarch/noexec.h     | 114 ++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target  |   1 +
+ tests/tcg/s390x/noexec.c         | 145 +++++++++++++++++++++++++++++++
+ tests/tcg/x86_64/Makefile.target |   3 +-
+ tests/tcg/x86_64/noexec.c        | 116 +++++++++++++++++++++++++
+ 9 files changed, 461 insertions(+), 22 deletions(-)
+ create mode 100644 tests/tcg/multiarch/noexec.h
+ create mode 100644 tests/tcg/s390x/noexec.c
+ create mode 100644 tests/tcg/x86_64/noexec.c
 
-This is perhaps a bit of a stretch, and arguably only a problem if
-secure or measured boot are enabled to begin with, in which case we
-could impose additional policy on the use of setup_data. But still ...
+-- 
+2.35.3
 
-> 2) if we go for an alternative design, it needs to be reverted.  For
-> example the randomness could be in _another_ fw_cfg file, and the
-> linuxboot DMA can patch it in the setup_data.
->
->
-> With (2) the OVMF breakage would be limited to -dtb, which more or less
-> nobody cares about, and we can just look the other way.
->
-> Paolo
 
