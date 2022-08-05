@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DB758A96E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:24:33 +0200 (CEST)
-Received: from localhost ([::1]:44392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095C258A9A8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:48:17 +0200 (CEST)
+Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJuVM-00070A-6y
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
+	id 1oJusJ-0001mL-70
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oJuE9-0005up-2r
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:06:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41698)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oJuLV-0004pW-KB
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:14:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oJuE6-0005td-1z
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:06:43 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oJuLQ-0006ra-Pw
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:14:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659694001;
+ s=mimecast20190719; t=1659694455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ISoLksDUePbFndvi/34uIim8xuuUc/NaEER9GufN9wM=;
- b=aPlHFBu0S+QXokp/OYRzWQdpC46jSRZ6W1tp1k5dCfmRQ8fBgFEprkAZlPI1DbeUXur0Jt
- 3ASJ/OGA0SUg/LsvlZIvV1tDQiOWXMSQbRb10QQwnlxVyIYmEVzVQYbPXSaxU5rvm7Chei
- lpAoqQHzXl19LDsZMa1I0sFUwqW3kHM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ in-reply-to:in-reply-to:references:references;
+ bh=gC67k+11SVEN7I5PZYi44RT9oEl/9YA6nhjkchv00Uc=;
+ b=I0PNbDPOroSyx+zNIV5neAyskftjseRhvtkSxriYyOJB4VCvCbOSwdHBDgKxS1Om71/7zA
+ j5UH4EruSvJ8bdQMXM7GQ4IUseRfT/p5pVmkxpwnCTGIoNXfxOKCikeGA1+bUmlvZMvXHg
+ MD5Kiazaa87NhtjdZwyXV8umi5geWS4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-8HFHl9I8MVeNBWzwTP7xUw-1; Fri, 05 Aug 2022 06:06:40 -0400
-X-MC-Unique: 8HFHl9I8MVeNBWzwTP7xUw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hp22-20020a1709073e1600b007309edc4089so1045941ejc.9
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 03:06:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=ISoLksDUePbFndvi/34uIim8xuuUc/NaEER9GufN9wM=;
- b=x7HNbw1pgF8WnnDa400S2Hd3UXiOo7imIjyGD2+JV1ujfty0D9yt5l7mhaNunSffLj
- lC9m2kwZ85kDDL1ugPA9rfpKIVCo4rLvBe+FV4t4qPfalAcxe3E6kRA29MchntxxwrL+
- uuDLR2ZUwmK+W/BvZZ7tqcRUXJ2kISOJwt9oV1YDODoyI2vfcu9RmgSQHvY6s7yx7IFB
- L3YUzSClLr5KhyxiT5kvY6fj/BQbBnNieZ7Og4IYho3WZUFbsvfdNIzfpPTqFb5ufdT9
- J/8RuwqsLGYqdKXC3A9dBSlnp09tu7OEs3glC6flLdRfi3r7HNwFvfhp3NLP/R1XY28m
- xoGQ==
-X-Gm-Message-State: ACgBeo11qMOAkaj9/zllvcgFSdQm3VP2JrNaDG/NATaAP5uIObNB5LfC
- eWKEfWwuXokxuO+oJtps2G9D2blzTi7zBEI64vkVqZ8h5pr7l9FHNrDuKmuj/WRoB7mC5w4xcVv
- wZAl9DKFRVwzP+Lw2wxXanLG/RW/rAcz9ZpdBoyzhbVvRISfPmfVWNnOYXxxynu15hQc=
-X-Received: by 2002:a05:6402:280f:b0:43d:f946:a895 with SMTP id
- h15-20020a056402280f00b0043df946a895mr6013240ede.229.1659693998701; 
- Fri, 05 Aug 2022 03:06:38 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7+u3Hn3Un1VthyjryAI/GrLfwDUsuf9fTJL7XzT1eVHrCSLYhedfWnnEIRdZel5NWCSV5uow==
-X-Received: by 2002:a05:6402:280f:b0:43d:f946:a895 with SMTP id
- h15-20020a056402280f00b0043df946a895mr6013166ede.229.1659693997368; 
- Fri, 05 Aug 2022 03:06:37 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.144]) by smtp.gmail.com with ESMTPSA id
- b13-20020aa7c6cd000000b0043d3e06519fsm1809033eds.57.2022.08.05.03.06.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 03:06:36 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH for-7.1] vl: fix [memory] section with -readconfig
-Date: Fri,  5 Aug 2022 12:06:35 +0200
-Message-Id: <20220805100635.493961-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.1
+ us-mta-569-617RlTc1OgKXeydzMjziwQ-1; Fri, 05 Aug 2022 06:14:12 -0400
+X-MC-Unique: 617RlTc1OgKXeydzMjziwQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F7B5803520;
+ Fri,  5 Aug 2022 10:14:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F122C1121315;
+ Fri,  5 Aug 2022 10:14:11 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, Christian
+ Borntraeger <borntraeger@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Eric Farman <farman@linux.ibm.com>, Halil Pasic
+ <pasic@linux.ibm.com>
+Subject: Re: [PATCH] pc-bios/s390-ccw: Fix booting with logical block size <
+ physical block size
+In-Reply-To: <20220805094214.285223-1-thuth@redhat.com>
+Organization: Red Hat GmbH
+References: <20220805094214.285223-1-thuth@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Fri, 05 Aug 2022 12:14:10 +0200
+Message-ID: <875yj780b1.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,116 +80,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -M memory.* options do not have magic applied to them than the -m
-option, namely no "M" (for mebibytes) is tacked at the end of a
-suffixless value for "-M memory.size".
+On Fri, Aug 05 2022, Thomas Huth <thuth@redhat.com> wrote:
 
-This magic is performed by parse_memory_options, and we have to
-do it for both "-m" and the [memory] section of a config file.
-Storing [memory] sections directly to machine_opts_dict changed
-the meaning of
+> For accessing single blocks during boot, it's the logical block size that
+> matters. (Physical block sizes are rather interesting e.g. for creating
+> file systems with the correct alignment for speed reasons etc.).
+> So the s390-ccw bios has to use the logical block size for calculating
+> sector numbers during the boot phase, the "physical_block_exp" shift
+> value must not be taken into account. This change fixes the boot process
+> when the guest hast been installed on a disk where the logical block size
+> differs from the physical one, e.g. if the guest has been installed
+> like this:
+>
+>  qemu-system-s390x -nographic -accel kvm -m 2G \
+>   -drive if=none,id=d1,file=fedora.iso,format=raw,media=cdrom \
+>   -device virtio-scsi -device scsi-cd,drive=d1 \
+>   -drive if=none,id=d2,file=test.qcow2,format=qcow2
+>   -device virtio-blk,drive=d2,physical_block_size=4096,logical_block_size=512
+>
+> Linux correctly uses the logical block size of 512 for the installation,
+> but the s390-ccw bios tries to boot from a disk with 4096 block size so
+> far, as long as this patch has not been applied yet (well, it used to work
+> by accident in the past due to the virtio_assume_scsi() hack that used to
+> enforce 512 byte sectors on all virtio-block disks, but that hack has been
+> well removed in commit 5447de2619050a0a4d to fix other scenarios).
 
-    [memory]
-      size = "1024"
+I wonder whether there's more stuff lurking in there; the old code seems
+to have "worked" in many cases by accident, and cleaning up things might
+expose more odd code. Generally, reading ccw bios code gives me a
+headache :)
 
-in a -readconfig file from 1024MiB to 8KiB (1024 Bytes rounded up to
-8KiB silently).  To avoid this, the [memory] section has to be
-changed back to QemuOpts (combining [memory] and "-m" will work fine
-thanks to .merge_lists being true).
+>
+> Fixes: 5447de2619 ("pc-bios/s390-ccw/virtio-blkdev: Remove virtio_assume_scsi()")
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2112303
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  pc-bios/s390-ccw/virtio-blkdev.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Change parse_memory_options() so that, similar to the older function
-set_memory_options(), it operates after command line parsing is done;
-and also call it where set_memory_options() used to be.
+Looks sane to me.
 
-Note, the parsing code uses exit(1) instead of exit(EXIT_FAILURE) to
-match neighboring code.
-
-Reported-by: Markus Armbruster <armbru@redhat.com>
-Fixes: ce9d03fb3f ("machine: add mem compound property", 2022-05-12)
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- softmmu/vl.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index aabd82e09a..3c23f266e9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1947,17 +1947,20 @@ static void qemu_resolve_machine_memdev(void)
-     }
- }
- 
--static void parse_memory_options(const char *arg)
-+static void parse_memory_options(void)
- {
--    QemuOpts *opts;
-+    QemuOpts *opts = qemu_find_opts_singleton("memory");
-     QDict *dict, *prop;
-     const char *mem_str;
-+    Location loc;
- 
--    opts = qemu_opts_parse_noisily(qemu_find_opts("memory"), arg, true);
-     if (!opts) {
--        exit(EXIT_FAILURE);
-+        return;
-     }
- 
-+    loc_push_none(&loc);
-+    qemu_opts_loc_restore(opts);
-+
-     prop = qdict_new();
- 
-     if (qemu_opt_get_size(opts, "size", 0) != 0) {
-@@ -1987,6 +1990,7 @@ static void parse_memory_options(const char *arg)
-     qdict_put(dict, "memory", prop);
-     keyval_merge(machine_opts_dict, dict, &error_fatal);
-     qobject_unref(dict);
-+    loc_pop(&loc);
- }
- 
- static void qemu_create_machine(QDict *qdict)
-@@ -2053,8 +2057,7 @@ static bool is_qemuopts_group(const char *group)
-     if (g_str_equal(group, "object") ||
-         g_str_equal(group, "machine") ||
-         g_str_equal(group, "smp-opts") ||
--        g_str_equal(group, "boot-opts") ||
--        g_str_equal(group, "memory")) {
-+        g_str_equal(group, "boot-opts")) {
-         return false;
-     }
-     return true;
-@@ -2078,8 +2081,6 @@ static void qemu_record_config_group(const char *group, QDict *dict,
-         machine_merge_property("smp", dict, &error_fatal);
-     } else if (g_str_equal(group, "boot-opts")) {
-         machine_merge_property("boot", dict, &error_fatal);
--    } else if (g_str_equal(group, "memory")) {
--        machine_merge_property("memory", dict, &error_fatal);
-     } else {
-         abort();
-     }
-@@ -2882,7 +2883,10 @@ void qemu_init(int argc, char **argv, char **envp)
-                 exit(0);
-                 break;
-             case QEMU_OPTION_m:
--                parse_memory_options(optarg);
-+                opts = qemu_opts_parse_noisily(qemu_find_opts("memory"), optarg, true);
-+                if (opts == NULL) {
-+                    exit(1);
-+                }
-                 break;
- #ifdef CONFIG_TPM
-             case QEMU_OPTION_tpmdev:
-@@ -3515,6 +3519,9 @@ void qemu_init(int argc, char **argv, char **envp)
- 
-     configure_rtc(qemu_find_opts_singleton("rtc"));
- 
-+    /* Transfer QemuOpts options into machine options */
-+    parse_memory_options();
-+
-     qemu_create_machine(machine_opts_dict);
- 
-     suspend_mux_open();
--- 
-2.37.1
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
