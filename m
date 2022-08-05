@@ -2,65 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037D558A93E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:10:53 +0200 (CEST)
-Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC8258A976
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:26:47 +0200 (CEST)
+Received: from localhost ([::1]:47602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJuI8-0000eF-2G
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:10:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50614)
+	id 1oJuXW-0000rZ-93
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJtqb-0002Eh-F1
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:42:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJtqX-0001xS-7E
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:42:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659692540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=a/zS7C9/2frkUzNou6lAzzXGlc0EIgLAaKLd4Z+SDL0=;
- b=UHk7iBvTqkaSY3YbgUt6T43bcLCIE4979dmOsIBU5r7j+u/yMkBOOlDqFI0k8kq9Q6e0B1
- BtERwwvu3F6agdxHBJGggcyJE+PjTpZxMhCxtm7M8XfjLmyLdetsbLytZ6YYr68vakMYwt
- vQKKu4h520SjLi7hBihWGXb2vS3K5xc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-578-Snf4TgaIOwOOVbk1fJv1dg-1; Fri, 05 Aug 2022 05:42:19 -0400
-X-MC-Unique: Snf4TgaIOwOOVbk1fJv1dg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2F4785A586;
- Fri,  5 Aug 2022 09:42:18 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.195.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2874A1415122;
- Fri,  5 Aug 2022 09:42:16 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-s390x@nongnu.org,
-	Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>
-Subject: [PATCH] pc-bios/s390-ccw: Fix booting with logical block size <
- physical block size
-Date: Fri,  5 Aug 2022 11:42:14 +0200
-Message-Id: <20220805094214.285223-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oJtqW-0002Av-VM
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:42:21 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46609)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oJtqV-0001x1-Hh
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:42:20 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id y13so3979491ejp.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 02:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Jk9HaxNJT3DLdL82BUCJ/ERZ0VWF9ZdlQdBM0+Vtk3s=;
+ b=ay/PuE5405gy6g0VSexIQjOP32RtDoyL+DNErgZXI/w4X7T3jGhI3fk1U2qfsyjEXW
+ NzogVigQG/409TQIa/16npJIO+kkTjat4+igO1qOWu15nzkhSUOykrZrQ6gc9LKvGRHI
+ FgX0F4GZD56rodJjivHLaWFXG0gYxxACTbn3cMthR9UwIi21CyJc0EdlvHmjl/dbgrin
+ ZEo212xWgk2GBtOKwN3ejzvAR3PhyH+Fh5b3yfP7HM1LgbmobOwsoTc5e6osSbNMY5Dh
+ QXx4pqWbcevlzDeJzd7Lm/VtafBoIHz2B+7eThv7sLZ96b+eO1bE0Gf/9js3Iu3IBkVL
+ LfgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Jk9HaxNJT3DLdL82BUCJ/ERZ0VWF9ZdlQdBM0+Vtk3s=;
+ b=7DwR5T53EDOMyt8y4SgZ1yvSdN0HkwHhLIKl9mcROScpyKmBoTvMrJ+t8eYvcZO8N7
+ /C33h5b2Nfpp1e+uPL0MwD7m44ifx0Spf4w9u5kDDVSBmPyQwmQMKSvk28EsvDSwbnIQ
+ /f2D9CZ4NNWsjVkClI0smfCu5g4VzdMg0DdqMOZRnIeEFNi9wSexxA7Yhjlqt22kBaxl
+ W4CyfxPjLa1af4b1LNmkZ7NNf04lirGkzD5WuD9oF0knze4GaX70NPofom7pSeAVT9/C
+ ODDTWru+xRL0qHmKelH5Utxk+ROx/XqCw36CA4JrDaQd5Q5BVfdQ2PtV0+Q4DY2i07Ki
+ DO8w==
+X-Gm-Message-State: ACgBeo2eq/pT+JpjAD98dXszdSjnNb0qK6zRiP7vNALAoGACvcMd75ga
+ SSfEj/jXKY/tBglwuSjRHRf1K+xxpI122Q==
+X-Google-Smtp-Source: AA6agR41hyu6aTyTAKiiMP5t84biCIeMDE03+SM3ldNo/2w+o7OKL9tBpTsl3OJs7J06d/jAn2rn3A==
+X-Received: by 2002:a17:906:4793:b0:730:853a:e3ac with SMTP id
+ cw19-20020a170906479300b00730853ae3acmr4820191ejc.652.1659692537147; 
+ Fri, 05 Aug 2022 02:42:17 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ j27-20020a056402239b00b0043d6ece495asm1778463eda.55.2022.08.05.02.42.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 02:42:16 -0700 (PDT)
+Message-ID: <bb7b6dc6-c500-f5f4-b88c-2b04ec1e0afc@redhat.com>
+Date: Fri, 5 Aug 2022 11:42:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: Regression in -readconfig [memory] size (was: [PULL 13/27]
+ machine: add mem compound property)
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220512172505.1065394-1-pbonzini@redhat.com>
+ <20220512172505.1065394-14-pbonzini@redhat.com> <87czfcof27.fsf@pond.sub.org>
+ <87pmhf6nrv.fsf_-_@pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87pmhf6nrv.fsf_-_@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,50 +99,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For accessing single blocks during boot, it's the logical block size that
-matters. (Physical block sizes are rather interesting e.g. for creating
-file systems with the correct alignment for speed reasons etc.).
-So the s390-ccw bios has to use the logical block size for calculating
-sector numbers during the boot phase, the "physical_block_exp" shift
-value must not be taken into account. This change fixes the boot process
-when the guest hast been installed on a disk where the logical block size
-differs from the physical one, e.g. if the guest has been installed
-like this:
+On 8/5/22 11:30, Markus Armbruster wrote:
+>> This appears to change the meaning of
+>>
+>>      [memory]
+>>        size = "1024"
+>>
+>> in a -readconfig file from 1024MiB to 8KiB (1024 Bytes rounded up to
+>> 8KiB silently).
+> No reply so far.
+> 
+> If we can't fix this, we better mention it in the release notes.
+> 
+> Can we fix it?
+> 
 
- qemu-system-s390x -nographic -accel kvm -m 2G \
-  -drive if=none,id=d1,file=fedora.iso,format=raw,media=cdrom \
-  -device virtio-scsi -device scsi-cd,drive=d1 \
-  -drive if=none,id=d2,file=test.qcow2,format=qcow2
-  -device virtio-blk,drive=d2,physical_block_size=4096,logical_block_size=512
+Ugh, I hadn't seen it.  Let me take a look.
 
-Linux correctly uses the logical block size of 512 for the installation,
-but the s390-ccw bios tries to boot from a disk with 4096 block size so
-far, as long as this patch has not been applied yet (well, it used to work
-by accident in the past due to the virtio_assume_scsi() hack that used to
-enforce 512 byte sectors on all virtio-block disks, but that hack has been
-well removed in commit 5447de2619050a0a4d to fix other scenarios).
-
-Fixes: 5447de2619 ("pc-bios/s390-ccw/virtio-blkdev: Remove virtio_assume_scsi()")
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2112303
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- pc-bios/s390-ccw/virtio-blkdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/pc-bios/s390-ccw/virtio-blkdev.c b/pc-bios/s390-ccw/virtio-blkdev.c
-index 8271c47296..794f99b42c 100644
---- a/pc-bios/s390-ccw/virtio-blkdev.c
-+++ b/pc-bios/s390-ccw/virtio-blkdev.c
-@@ -173,7 +173,7 @@ int virtio_get_block_size(void)
- 
-     switch (vdev->senseid.cu_model) {
-     case VIRTIO_ID_BLOCK:
--        return vdev->config.blk.blk_size << vdev->config.blk.physical_block_exp;
-+        return vdev->config.blk.blk_size;
-     case VIRTIO_ID_SCSI:
-         return vdev->scsi_block_size;
-     }
--- 
-2.31.1
-
+Paolo
 
