@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F405658A52E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 06:06:18 +0200 (CEST)
-Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EF958A545
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 06:24:31 +0200 (CEST)
+Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJobJ-0006yU-Kh
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 00:06:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57634)
+	id 1oJosv-0001lj-Tm
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 00:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oJoZV-0005Mz-4F; Fri, 05 Aug 2022 00:04:25 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:35804)
+ id 1oJorM-0000Jr-Vw
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 00:22:53 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oJoZS-0006GJ-52; Fri, 05 Aug 2022 00:04:24 -0400
-Received: by mail-pl1-x629.google.com with SMTP id t2so1617226ply.2;
- Thu, 04 Aug 2022 21:04:18 -0700 (PDT)
+ id 1oJorL-0000WN-Ab
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 00:22:52 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id f11so1678969pgj.7
+ for <qemu-devel@nongnu.org>; Thu, 04 Aug 2022 21:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=HoF2P4LoqJ0kjCN8QFQo0SfzUBcfLy9Ofu4ePKx2k6E=;
- b=nUV3Kr60j1r5fi6Jn94Hcjc5sue/FXa4r0bY0seNJHVe1myGD611OPFUawVerkjNCn
- yZPk72DE0tHVTSUFOXMoqpz4NcHXHFK1Z5kPKUXQezXaeDclTiOsb+fpXszAJx8I27zz
- iLBtB+mALJ3BbnQB4B/6b8i9CbW120h1pRK55ZgG1e2dYnRY/VmGJJuZAQiLFFIjuS7F
- 8EivRxhTvNuAp6WRIdH9wdB19TUxsB0wMzM0LNh3Lqg/ZLkX1g6RMudGOUNRPqmVU47n
- CMnOBH0qSuL3mZrEK/5g6C4VPiGWnnQY8yGvGw2S9al3Gr6aggi1I+51H5VH/uO5tKEa
- goEg==
+ bh=ozjF1T9hI+hMulyF+KHf0Rdo25oM+JdFuvBISLfFkDs=;
+ b=k2Uv9Bhllvlka7RcDgCfEn8+KBf/A6OWA8JuyNugE8HfRWvUjlRvBmJjYxo9UmhBUh
+ F8jG5q4/EbSKVzYqVLm16FLBkvau18Y68J+h+tzQhEIl8EbqLGFlOo+S0ZhQswVgLrnN
+ rIYo0xyPdypTOAIvwn4CvzP2skg+o8xeh7Dp7RcWhZ5hm6xUGlr0A0U62AoUx8XJy1tV
+ 36pSz5mqxynDLwU0AMWuZDk6OWmAFQQvHFMF4i3Sl+KMqT319DeJNRhB/OyYNhGyIdzE
+ 7fPuB+r/TIQVmhqQOlf4GuJEg33jD/EoWN1mLZu9cUoTVIi5vMTbpcHqzxOFsj164C86
+ KWTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=HoF2P4LoqJ0kjCN8QFQo0SfzUBcfLy9Ofu4ePKx2k6E=;
- b=cUB76PD0DmtMevc70KZUpgktEFDLtPnQ2oJ1AA5cmJcKM2NwpB7bp0VqiQzjVP/Dct
- OnlXnPU+WhzPsi8XgOnXgDPktMYwQKQozd/59B9HoZQuyfLrgJ4D/mpdj7+q8meAGNVZ
- XCsvqHNXGPNZ1GIVXnYkUkAUbIa4sLaFdgcAAS2HDMs/0z6mFMadvwboxqD2+ktWC06U
- SkdXSIZhHMYH+/lFkS1+zoZ3XoaHuHpgOIG87++y4X5AqIFvo97OaghWtdNQaWBBR301
- /jIrtveozuRhcV6sSNLvIKpDupF6jl1L0MGcAPxM9shWF7OzR65jL/jX0IMiWnUNZzok
- aOZQ==
-X-Gm-Message-State: ACgBeo1dTqWT7L4rk8HYqjoIn7adUup1FY+0LBaM1oQiltCUJ00LA00b
- hWkYJ9AgmzlRrg44uoPX94OqGtpcK/VwHkkw1ic=
-X-Google-Smtp-Source: AA6agR4zQDsxyyHw29Lt57yYNYu2r9kd6WOsFZbbgPFhDQysRNYsKEAKGtb9cgZm8bZaUQby5Ex34OHWM9iBbhqiEQM=
-X-Received: by 2002:a17:90b:100e:b0:1f3:a4a:2620 with SMTP id
- gm14-20020a17090b100e00b001f30a4a2620mr5480892pjb.120.1659672257010; Thu, 04
- Aug 2022 21:04:17 -0700 (PDT)
+ bh=ozjF1T9hI+hMulyF+KHf0Rdo25oM+JdFuvBISLfFkDs=;
+ b=NK8Cxab2l6xQAEpSVMI4WCNBVAmwcLY6aBqU6qQE1kRbq+89h9DaIBV4Ew9TgrpXXl
+ ILrN1xHvtbtzfFMXeBHmaWkxUStqO4wMuTjNafKFJ1Of/lv8JB6FSJNCxetPjF91vPNY
+ bp5zgR87MSG2hkGmeYqke66WRCUWBEYuEYTbjXi2sbaWXMQGmRzcmhWR/MCu/NKHbxbV
+ 2PkBgXmYsetNL1uSWqNxoEgcXtrZC6MAbWliEbPRaAlDeYNp+zK3Wd3M8dskMaOsIeaE
+ Pcx8msTgypL3STczQ9EUqH6UOH6ZVx4Or0kSWm7JR2d8L72mJwNKZY6sQlPJRDzuPLNY
+ A44Q==
+X-Gm-Message-State: ACgBeo0T1j+kcUfOqsk9wOmEEnjmNvttIZkhrRdiRrRxXAKXpQgI9mr9
+ 5WIn985iZ4oBlxGf6Loa/aYGnCSm++oJ06CyOgg=
+X-Google-Smtp-Source: AA6agR6ib25Br1HPTA7P949Y06clOHPh/WbpU38FKPvZKTy9ppcUwGxGBDbPx6kys2JrYShEeH9ibcYVN3AHk/xVKe4=
+X-Received: by 2002:a63:f14c:0:b0:41a:b83d:a636 with SMTP id
+ o12-20020a63f14c000000b0041ab83da636mr4299978pgk.361.1659673369703; Thu, 04
+ Aug 2022 21:22:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
+References: <20220728181926.2123771-1-danielhb413@gmail.com>
+In-Reply-To: <20220728181926.2123771-1-danielhb413@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 5 Aug 2022 14:03:50 +1000
-Message-ID: <CAKmqyKM4fk7fkSL4ZBbpPka2HQrk=wFCe7sBG+qO9W4OcgaPCw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix priority of csr related check in
- riscv_csrrw_check
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, 
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
+Date: Fri, 5 Aug 2022 14:22:23 +1000
+Message-ID: <CAKmqyKNe7fmsdm7cQ=DSXY8Gg2V37aPkzQ86epNuZ4NczThJmQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: remove 'fdt' param from
+ riscv_setup_rom_reset_vec()
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Vijai Kumar K <vijai@behindbytes.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,94 +87,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 3, 2022 at 10:56 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+On Fri, Jul 29, 2022 at 4:19 AM Daniel Henrique Barboza
+<danielhb413@gmail.com> wrote:
 >
-> Normally, riscv_csrrw_check is called when executing Zicsr instructions.
-> And we can only do access control for existed CSRs. So the priority of
-> CSR related check, from highest to lowest, should be as follows:
-> 1) check whether Zicsr is supported: raise RISCV_EXCP_ILLEGAL_INST if not
-> 2) check whether csr is existed: raise RISCV_EXCP_ILLEGAL_INST if not
-> 3) do access control: raise RISCV_EXCP_ILLEGAL_INST or RISCV_EXCP_VIRT_
-> INSTRUCTION_FAULT if not allowed
+> The 'fdt' param is not being used in riscv_setup_rom_reset_vec().
+> Simplify the API by removing it. While we're at it, remove the redundant
+> 'return' statement at the end of function.
 >
-> The predicates contain parts of function of both 2) and 3), So they need
-> to be placed in the middle of riscv_csrrw_check
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> Cc: Bin Meng <bin.meng@windriver.com>
+> Cc: Vijai Kumar K <vijai@behindbytes.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
 > ---
->  target/riscv/csr.c | 44 +++++++++++++++++++++++++-------------------
->  1 file changed, 25 insertions(+), 19 deletions(-)
+>  hw/riscv/boot.c            | 4 +---
+>  hw/riscv/microchip_pfsoc.c | 2 +-
+>  hw/riscv/shakti_c.c        | 3 +--
+>  hw/riscv/spike.c           | 2 +-
+>  hw/riscv/virt.c            | 2 +-
+>  include/hw/riscv/boot.h    | 2 +-
+>  6 files changed, 6 insertions(+), 9 deletions(-)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 0fb042b2fd..d81f466c80 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -3270,6 +3270,30 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->      /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
->      int read_only = get_field(csrno, 0xC00) == 3;
->      int csr_min_priv = csr_ops[csrno].min_priv_ver;
-> +
-> +    /* ensure the CSR extension is enabled. */
-> +    if (!cpu->cfg.ext_icsr) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    if (env->priv_ver < csr_min_priv) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    /* check predicate */
-> +    if (!csr_ops[csrno].predicate) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    if (write_mask && read_only) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    RISCVException ret = csr_ops[csrno].predicate(env, csrno);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
-> +
->  #if !defined(CONFIG_USER_ONLY)
->      int csr_priv, effective_priv = env->priv;
->
-> @@ -3290,25 +3314,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->  #endif
-> -    if (write_mask && read_only) {
-> -        return RISCV_EXCP_ILLEGAL_INST;
-> -    }
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 06b4fc5ac3..1ae7596873 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -286,7 +286,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+>                                 hwaddr start_addr,
+>                                 hwaddr rom_base, hwaddr rom_size,
+>                                 uint64_t kernel_entry,
+> -                               uint64_t fdt_load_addr, void *fdt)
+> +                               uint64_t fdt_load_addr)
+>  {
+>      int i;
+>      uint32_t start_addr_hi32 = 0x00000000;
+> @@ -326,8 +326,6 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+>                            rom_base, &address_space_memory);
+>      riscv_rom_copy_firmware_info(machine, rom_base, rom_size, sizeof(reset_vec),
+>                                   kernel_entry);
 > -
-> -    /* ensure the CSR extension is enabled. */
-> -    if (!cpu->cfg.ext_icsr) {
-> -        return RISCV_EXCP_ILLEGAL_INST;
-> -    }
-> -
-> -    /* check predicate */
-> -    if (!csr_ops[csrno].predicate) {
-> -        return RISCV_EXCP_ILLEGAL_INST;
-> -    }
-> -
-> -    if (env->priv_ver < csr_min_priv) {
-> -        return RISCV_EXCP_ILLEGAL_INST;
-> -    }
-> -
-> -    return csr_ops[csrno].predicate(env, csrno);
-> +    return RISCV_EXCP_NONE;
+> -    return;
 >  }
 >
->  static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+>  void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr)
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 10a5d0e501..7313153606 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -583,7 +583,7 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+>          riscv_setup_rom_reset_vec(machine, &s->soc.u_cpus, firmware_load_addr,
+>                                    memmap[MICROCHIP_PFSOC_ENVM_DATA].base,
+>                                    memmap[MICROCHIP_PFSOC_ENVM_DATA].size,
+> -                                  kernel_entry, fdt_load_addr, machine->fdt);
+> +                                  kernel_entry, fdt_load_addr);
+>      }
+>  }
+>
+> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+> index 90e2cf609f..e43cc9445c 100644
+> --- a/hw/riscv/shakti_c.c
+> +++ b/hw/riscv/shakti_c.c
+> @@ -66,8 +66,7 @@ static void shakti_c_machine_state_init(MachineState *mstate)
+>      riscv_setup_rom_reset_vec(mstate, &sms->soc.cpus,
+>                                shakti_c_memmap[SHAKTI_C_RAM].base,
+>                                shakti_c_memmap[SHAKTI_C_ROM].base,
+> -                              shakti_c_memmap[SHAKTI_C_ROM].size, 0, 0,
+> -                              NULL);
+> +                              shakti_c_memmap[SHAKTI_C_ROM].size, 0, 0);
+>      if (mstate->firmware) {
+>          riscv_load_firmware(mstate->firmware,
+>                              shakti_c_memmap[SHAKTI_C_RAM].base,
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index e41b6aa9f0..5ba34543c8 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -308,7 +308,7 @@ static void spike_board_init(MachineState *machine)
+>      riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
+>                                memmap[SPIKE_MROM].base,
+>                                memmap[SPIKE_MROM].size, kernel_entry,
+> -                              fdt_load_addr, s->fdt);
+> +                              fdt_load_addr);
+>
+>      /* initialize HTIF using symbols found in load_kernel */
+>      htif_mm_init(system_memory, mask_rom,
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index bc424dd2f5..2e9ed2628c 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1299,7 +1299,7 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>      riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+>                                virt_memmap[VIRT_MROM].base,
+>                                virt_memmap[VIRT_MROM].size, kernel_entry,
+> -                              fdt_load_addr, machine->fdt);
+> +                              fdt_load_addr);
+>
+>      /*
+>       * Only direct boot kernel is currently supported for KVM VM,
+> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> index d2db29721a..a36f7618f5 100644
+> --- a/include/hw/riscv/boot.h
+> +++ b/include/hw/riscv/boot.h
+> @@ -51,7 +51,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+>                                 hwaddr saddr,
+>                                 hwaddr rom_base, hwaddr rom_size,
+>                                 uint64_t kernel_entry,
+> -                               uint64_t fdt_load_addr, void *fdt);
+> +                               uint64_t fdt_load_addr);
+>  void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
+>                                    hwaddr rom_size,
+>                                    uint32_t reset_vec_size,
 > --
-> 2.17.1
+> 2.36.1
 >
 >
 
