@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189EF58A8E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 11:38:26 +0200 (CEST)
-Received: from localhost ([::1]:57232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C521C58A8F3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 11:42:21 +0200 (CEST)
+Received: from localhost ([::1]:35206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJtmi-0005TQ-IB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 05:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47654)
+	id 1oJtqT-0001nG-Cg
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 05:42:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oJteu-0001vE-ME
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:30:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40789)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oJtkp-0004Uy-4Y
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:36:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oJtes-0008Py-Ns
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:30:19 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oJtkm-00016u-Kl
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:36:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659691818;
+ s=mimecast20190719; t=1659692180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jhZj9QI2oHomG7NWW5qz4N4BAxnKFrP+4YzIJFB8Sy4=;
- b=TqOYu35VQXOlMomCotGWyEHCzKHW6yu/9FHRNSBA3j7Fz/EGrpAPh555sRWitTNd6372Z7
- aKAwymLevf2iaK6r2fPfhHXXm2lituKZoCXDbpnyd++TnEHVsJQp/iYQ1XMYn1/O2FfDs3
- P5mYEsUCPCFSk+9aeS/5UgA1xqXlvqM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jO5dOwlHO6OEbgl4xy5e2woHhtaWy2diPYqL7jgWXgc=;
+ b=KbNqai1liWEydRRmJmYMCpjHJWGKyZOcT6YQgjC77tBf98sPG250n8MTG/lUZGJwM32GMa
+ Nk21S5W+yb9jySRehrKx+bgz8au6rChRNrI9daDPmlcM7Z/1zlcgKhzdSt68i9c5I3SHx+
+ sF7yYPZT6kOU+azv7r/4LZSQ7s+bCAo=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-8Mtm2aGwPCKAaCjAmDWfdw-1; Fri, 05 Aug 2022 05:30:14 -0400
-X-MC-Unique: 8Mtm2aGwPCKAaCjAmDWfdw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C3A51C1395E;
- Fri,  5 Aug 2022 09:30:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4944E492CA2;
- Fri,  5 Aug 2022 09:30:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 88C7121E6930; Fri,  5 Aug 2022 11:30:12 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Regression in -readconfig [memory] size (was: [PULL 13/27] machine:
- add mem compound property)
-References: <20220512172505.1065394-1-pbonzini@redhat.com>
- <20220512172505.1065394-14-pbonzini@redhat.com>
- <87czfcof27.fsf@pond.sub.org>
-Date: Fri, 05 Aug 2022 11:30:12 +0200
-In-Reply-To: <87czfcof27.fsf@pond.sub.org> (Markus Armbruster's message of
- "Mon, 13 Jun 2022 15:42:24 +0200")
-Message-ID: <87pmhf6nrv.fsf_-_@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-654-X5jDcAPdMVCR1uNk2FXNpw-1; Fri, 05 Aug 2022 05:36:19 -0400
+X-MC-Unique: X5jDcAPdMVCR1uNk2FXNpw-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ i2-20020aca0c42000000b003400856cd82so882657oiy.15
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 02:36:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=jO5dOwlHO6OEbgl4xy5e2woHhtaWy2diPYqL7jgWXgc=;
+ b=Zqhx6QH+cx/YMT12yvkzcONHhIZh/l8XdAJWYuvBCsNl/xn0ngP+gmymRLB8gCglov
+ +9eBe8Z0WBZ0tdA3o3KWoOKk9M+b6Sscct0WUyvinX9cJX4DlVTt1cEcTDozbBBxnIrN
+ 0BI4TBa2rCV3dDIrXmjORzmjP2QSIovmHHYPPhAniOwbQYlaueVL/AbM9xqe50DHN9lt
+ aL2y5YLDVjsrRLBTVE0SRLAUlUJkD8LKtzO+ko+R7Sga6ec+VioXT+FVfzXlafkCw/zk
+ hr+eW1YKjbzA+Y5eW2WI+P+CORPiSfAaZzINMeZ4CiiPc+ymHbmHm48c89PWcPrmjm3r
+ KMvA==
+X-Gm-Message-State: ACgBeo2DsDzWxzm7GWwBdz+CZfR29crX0eQepcFGH5TcC2MMOGAFvzMj
+ /bS0Y1q2OynmnhO7zVrtC2dz//iOFeLagRpOqeDtAaod2LyGEmHRGOXuu5WER5q6a0gLqi2/tL5
+ 31wchvJFl0mwBfXjQZMcqMJ4QTZxIYF4=
+X-Received: by 2002:a05:6808:1c06:b0:33a:9b3b:b3ce with SMTP id
+ ch6-20020a0568081c0600b0033a9b3bb3cemr2632100oib.53.1659692178565; 
+ Fri, 05 Aug 2022 02:36:18 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6hQ5rRWFxDen0VvALDSNVy5UhFRRHrdMBzgiHY0yb/8I8I6qCqRjof3sAJkvWO+OkhAxdFiqK7Np+l9TBk0Po=
+X-Received: by 2002:a05:6808:1c06:b0:33a:9b3b:b3ce with SMTP id
+ ch6-20020a0568081c0600b0033a9b3bb3cemr2632093oib.53.1659692178274; Fri, 05
+ Aug 2022 02:36:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+References: <20220725115815.2461322-1-marcandre.lureau@redhat.com>
+ <291cacc9-ac68-4a3e-edc0-fb226bdceaf3@ilande.co.uk>
+ <ac00cbb9-e225-a7fa-ec43-d763fb985060@ilande.co.uk>
+In-Reply-To: <ac00cbb9-e225-a7fa-ec43-d763fb985060@ilande.co.uk>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 5 Aug 2022 13:36:07 +0400
+Message-ID: <CAMxuvazx5GGUzo0n_TcgA0FxkFmaecVdAXY4mutRFW+M+CrJdQ@mail.gmail.com>
+Subject: Re: [PATCH] ui/console: fix qemu_console_resize() regression
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, kraxel@redhat.com
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -83,39 +95,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+Hi
 
-> Paolo Bonzini <pbonzini@redhat.com> writes:
+On Thu, Aug 4, 2022 at 12:11 PM Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
->> Make -m syntactic sugar for a compound property "-machine
->> mem.{size,max-size,slots}".  The new property does not have
->> the magic conversion to megabytes of unsuffixed arguments,
->> and also does not understand that "0" means the default size
->> (you have to leave it out to get the default).  This means
->> that we need to convert the QemuOpts by hand to a QDict.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> Message-Id: <20220414165300.555321-4-pbonzini@redhat.com>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-[...]
-
-> This appears to change the meaning of
+> On 25/07/2022 17:35, Mark Cave-Ayland wrote:
 >
->     [memory]
->       size = "1024"
+> > On 25/07/2022 12:58, marcandre.lureau@redhat.com wrote:
+> >
+> >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>
+> >> The display may be corrupted when changing screen colour depth in
+> >> qemu-system-ppc/MacOS since 7.0.
+> >
+> > Is it worth being more specific here? Whilst MacOS with its NDRV driver=
+ exhibits the
+> > issue, it's really only because MacOS has separate selections for depth=
+ and
+> > resolution which allows one to be set without updating the other. I did=
+ a quick play
+> > with the Forth reproducer, and even with current git master the issue g=
+oes away if
+> > you also change the width/height at the same time as the depth.
+> >
+> >> Do not short-cut qemu_console_resize() if the surface is backed by vga
+> >> vram. When the scanout isn't set, or it is already allocated, or openg=
+l,
+> >> and the size is fitting, we still avoid the reallocation & replace pat=
+h.
+> >>
+> >> Fixes: commit cb8962c1 ("ui: do not create a surface when resizing a G=
+L scanout")
+> >>
+> >> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> >> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> ---
+> >>   ui/console.c | 6 ++++--
+> >>   1 file changed, 4 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/ui/console.c b/ui/console.c
+> >> index e139f7115e1f..765892f84f1c 100644
+> >> --- a/ui/console.c
+> >> +++ b/ui/console.c
+> >> @@ -2575,11 +2575,13 @@ static void vc_chr_open(Chardev *chr,
+> >>   void qemu_console_resize(QemuConsole *s, int width, int height)
+> >>   {
+> >> -    DisplaySurface *surface;
+> >> +    DisplaySurface *surface =3D qemu_console_surface(s);
+> >>       assert(s->console_type =3D=3D GRAPHIC_CONSOLE);
+> >> -    if (qemu_console_get_width(s, -1) =3D=3D width &&
+> >> +    if ((s->scanout.kind !=3D SCANOUT_SURFACE ||
+> >> +         (surface && surface->flags & QEMU_ALLOCATED_FLAG)) &&
+> >> +        qemu_console_get_width(s, -1) =3D=3D width &&
+> >>           qemu_console_get_height(s, -1) =3D=3D height) {
+> >>           return;
+> >>       }
+> >
+> > The criteria listed for the short-cut in the commit message are quite h=
+andy, so is it
+> > worth adding a comment along the same lines as a reminder? Or is this l=
+ogic touched
+> > so rarely that it isn't worthwhile?
+
+I don't know how often it will change, but it seems a bit fragile to
+me. I can add the commit comment along.
+
+> >
+> > Regardless of the above, thanks for coming up with the patch and I can =
+confirm that
+> > it fixes both the Forth reproducer and the changing of the Monitor colo=
+ur depth in
+> > MacOS itself:
+> >
+> > Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 >
-> in a -readconfig file from 1024MiB to 8KiB (1024 Bytes rounded up to
-> 8KiB silently).
+> Hi Marc-Andr=C3=A9,
+>
+> Are you planning to submit this as a fix for 7.1? I think it would certai=
+nly qualify
+> as a bug fix, and would likely affect users other than just qemu-system-p=
+pc/MacOS.
 
-No reply so far.
-
-If we can't fix this, we better mention it in the release notes.
-
-Can we fix it?
-
-> Aside: the failure mode is nasty: "KVM internal error. Suberror: 1".
-> Known issue.  Or rather known again issue (to me); I thought I had
-> broken KVM somehow.
+Gerd, could you review the patch and let me send a MR ? (or do you
+have other UI patches queued already and take it?)
 
 
