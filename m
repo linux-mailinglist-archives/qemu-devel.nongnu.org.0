@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096C558AA6F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 13:59:40 +0200 (CEST)
-Received: from localhost ([::1]:44742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF9358AAEC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 14:37:23 +0200 (CEST)
+Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJvzO-0008Ja-Ua
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 07:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44018)
+	id 1oJwZt-0002lH-VD
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 08:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJvwi-0003fe-9z
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 07:56:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJvwd-0000ts-FT
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 07:56:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659700606;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ySyX//dru8a8etD4WroNYpO5oE64A4HWlCADYzm86s0=;
- b=E2KzKcPGG1v9qsSR2UfYW6jOoQOQcf401EHUNgdH3c/XatAyuTWv+QvkGKtbKrhwmAujT2
- HANNiMLGnFmTQy36FYWq1N3oxzoMdYaDeMTa5TmMZgFLLLRzRbAQ6gGBrUDkPyueX/u/oX
- ov4KfIKfiWSjTMpLYnyqXcrxiTpBDkc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-CrYMKDntPdGPRHE6-nh35w-1; Fri, 05 Aug 2022 07:56:45 -0400
-X-MC-Unique: CrYMKDntPdGPRHE6-nh35w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4BEE10AF7C4
- for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 11:56:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10A65909FE;
- Fri,  5 Aug 2022 11:56:43 +0000 (UTC)
-Date: Fri, 5 Aug 2022 12:56:41 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH for-7.1] vl: fix [memory] section with -readconfig
-Message-ID: <Yu0FeURQKIfdrFAu@redhat.com>
-References: <20220805100635.493961-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oJwU2-0007Jo-LR
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 08:31:18 -0400
+Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:43797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oJwU1-00088S-1X
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 08:31:18 -0400
+Received: by mail-vs1-xe33.google.com with SMTP id v128so2282825vsb.10
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 05:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=JhXuZqTBayizvhWDtL3dWOQSDAMk0xkptaqPSV8nXjE=;
+ b=YnlEbPaFbk01aQwZSoFUD8kI529do1zualsBV3qS6Oqj/bsQu58wv44jbzoN3edfwY
+ 19SvcWg23pWF0z0Vxq2kqzDIXX6xzV3vNCh5noLq9kNihjGeZTA9zwRUreM1O/2aTFcv
+ tlTyWZAkolOZD6at5QArtFaRuqgi3Gy3PeqRLHXiJnOPSTk63PyrnOYBK4YbwCyPMs2q
+ pCvjWMqWbv6lA28P1HN+ta1dSRxQOfMfU+q5w9iGjGba3kFzU+vNGpmT77hUJVLStlhN
+ 9jxPvLX9GXa0c53UUtvZUvJIK6fx44zbgSYhCrApneRx0PfrLv2Vl9OKiAFqpQe6C/BM
+ 5iEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=JhXuZqTBayizvhWDtL3dWOQSDAMk0xkptaqPSV8nXjE=;
+ b=VPazdKzf4F3t+gs9EG0/LQ0Ir5hgTkI3fyn5sQqrWRF0oBajHfHuIncMSBcbNsQOcz
+ F05/+UtMJj5eJAduoE0RpbU/r/j/vE9plhKO630yaGFZMemX3j1WJpLv19o0SIZzL1aW
+ TEhBYrXpaOXQdaJILs8cOwXEYroCGlLeG5XIhRP5TdcVbhxr0pZ9Fldj22/21tS64F7Y
+ 2pVGKBuTkzALnVoaTD8ZmJ1xUvERszrj9OltEXy+x2SyC7/JDd0NClkPY8inihp+QJm6
+ IOe+LvJz8Xzfpzg7jdSg41icG5yISMiiWKvdfGyD6MOZe8VfHYIptETfJ9bqj+MQdgzE
+ HC4Q==
+X-Gm-Message-State: ACgBeo06JOlN6LhOUsy/aXM+5lBFTaX/pEzeedBXzV178YH73yiVZwz6
+ W8TsMUmjzvZZvWj38tKTFbc=
+X-Google-Smtp-Source: AA6agR7OuQNSMxXkcQrbFCabPU706zSmWL3/6zGX5TObQNsbdqwhMrejq7dZqxEBnVh+OavE5u/X4A==
+X-Received: by 2002:a67:e1c5:0:b0:371:73d9:7316 with SMTP id
+ p5-20020a67e1c5000000b0037173d97316mr2738648vsl.38.1659702675010; 
+ Fri, 05 Aug 2022 05:31:15 -0700 (PDT)
+Received: from [192.168.10.102] ([191.19.239.67])
+ by smtp.gmail.com with ESMTPSA id
+ q3-20020ab02b83000000b0038342b58f6csm3187982uar.17.2022.08.05.05.31.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 05:31:14 -0700 (PDT)
+Message-ID: <20bcdfba-bd98-90b9-e384-8a40d833ebfe@gmail.com>
+Date: Fri, 5 Aug 2022 09:31:11 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH for-7.2 v2 09/20] hw/ppc: set machine->fdt in pnv_reset()
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, david@gibson.dropbear.id.au,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
+ <20220805093948.82561-10-danielhb413@gmail.com>
+ <ef56a98c-6261-2342-84e4-46796b69cdbb@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <ef56a98c-6261-2342-84e4-46796b69cdbb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220805100635.493961-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,54 +93,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05, 2022 at 12:06:35PM +0200, Paolo Bonzini wrote:
-> The -M memory.* options do not have magic applied to them than the -m
-> option, namely no "M" (for mebibytes) is tacked at the end of a
-> suffixless value for "-M memory.size".
-> 
-> This magic is performed by parse_memory_options, and we have to
-> do it for both "-m" and the [memory] section of a config file.
-> Storing [memory] sections directly to machine_opts_dict changed
-> the meaning of
-> 
->     [memory]
->       size = "1024"
-> 
-> in a -readconfig file from 1024MiB to 8KiB (1024 Bytes rounded up to
-> 8KiB silently).  To avoid this, the [memory] section has to be
-> changed back to QemuOpts (combining [memory] and "-m" will work fine
-> thanks to .merge_lists being true).
-> 
-> Change parse_memory_options() so that, similar to the older function
-> set_memory_options(), it operates after command line parsing is done;
-> and also call it where set_memory_options() used to be.
-> 
-> Note, the parsing code uses exit(1) instead of exit(EXIT_FAILURE) to
-> match neighboring code.
-> 
-> Reported-by: Markus Armbruster <armbru@redhat.com>
-> Fixes: ce9d03fb3f ("machine: add mem compound property", 2022-05-12)
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  softmmu/vl.c | 25 ++++++++++++++++---------
->  1 file changed, 16 insertions(+), 9 deletions(-)
 
-I wrote a qtest (see cc'd separate mail) to validate -readconfig
-handling of '[memory]' and this change makes the test pass, so
-on that basis
 
-Tested-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+On 8/5/22 08:03, Frederic Barrat wrote:
+> 
+> 
+> On 05/08/2022 11:39, Daniel Henrique Barboza wrote:
+>> This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
+>> all powernv machines.
+>>
+>> Cc: Cédric Le Goater <clg@kaod.org>
+>> Cc: Frederic Barrat <fbarrat@linux.ibm.com>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/ppc/pnv.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index d3f77c8367..f5162f8b7b 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -608,7 +608,11 @@ static void pnv_reset(MachineState *machine)
+>>       qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
+>>       cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
+>> -    g_free(fdt);
+>> +    /*
+>> +     * Update the machine->fdt pointer to enable support for
+>> +     * 'dumpdtb' and 'info fdt' commands.
+>> +     */
+>> +    machine->fdt = fdt;
+> 
+> 
+> Can pnv_reset() be called several times in the same instance of the qemu process, in which case we leak memory?
 
-With regards,
+hmmm I think it's possible if we issue a 'system_reset' via the monitor.
+
+I'll put a g_free(machine->fdt) before the assignment.
+
+
 Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+
+> 
+>    Fred
+> 
+> 
+>>   }
+>>   static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **errp)
 
