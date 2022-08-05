@@ -2,101 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D3A58AD7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:49:52 +0200 (CEST)
-Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BD358AD83
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:51:29 +0200 (CEST)
+Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJza9-0000l1-W1
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:49:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34780)
+	id 1oJzbk-0002fP-Jt
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:51:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJzXx-0005gH-QS
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:47:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29369)
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1oJzYZ-0006hq-Ez; Fri, 05 Aug 2022 11:48:11 -0400
+Received: from mail-eopbgr10136.outbound.protection.outlook.com
+ ([40.107.1.136]:43843 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJzXr-0003oV-IY
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:47:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659714446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0r/pfRm4BOzhNGEpRSfbirb3kDYP44lBt7e1lBUpjTM=;
- b=CwuIt+MEmOMs38b91a0hhSg68QfyxKM5b2hd7L4rn2+zRNjmiRbKSzhLzmhbEj1xpUBQk6
- wbVV1+WAPXsNdVkwuC4n8kJ3iPbLvdSQHyQDBElLw0vgyJKI0OELL6HRlac7qb1G+uhowd
- VAIW1J3nLDlJfWNKGNhHju9XhZIYC5g=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-Zu19TeMdMB6YSy4INjtiRA-1; Fri, 05 Aug 2022 11:47:25 -0400
-X-MC-Unique: Zu19TeMdMB6YSy4INjtiRA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k27-20020a05600c1c9b00b003a2fee19a80so4369463wms.1
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:47:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=0r/pfRm4BOzhNGEpRSfbirb3kDYP44lBt7e1lBUpjTM=;
- b=thF4CFKgGL+hRKTrYuxMqHN7m8aixOPEPF3fsYbb4CiwsyaAe9fw5jEXP+3t1suKoB
- xcX1SiZXptfTLUv/YuCUVdj3QT3eRyQ/WewQyoinc99xnDN7BrceusNj+DTPkOysarxw
- /XFg440i318ASIptZAriqClr/6r0KBF40JKDVXVlDfFs9MsyA75AdufxPHvDaRyJE9iF
- LdfpeBX9/6tlcSWEPFf+yXrehnFmed/mufq78Cf68ldXYjYHoKOmXHsn3ehWfM3HmsNU
- bdlZm4Jl55fmzgKGkNoVsVkdL6LNsoVYddsbYpj796jKGswWpF30eZLbUk9xygQWMkXe
- I6BA==
-X-Gm-Message-State: ACgBeo1TzVhMveBV6nmUEiZXp57jjbqNT4/rx4FNaZ2XXuNkcZPmMjBW
- lQNWrLCDVosJ8obNBu1x40SVRH4Un1prwgH+8ib028sTyjLKAvXUn/IGBTkNiJl2/zNTQJqQZ0h
- 5932UEfQhDDgLVDk=
-X-Received: by 2002:a05:600c:3d08:b0:3a5:726:790f with SMTP id
- bh8-20020a05600c3d0800b003a50726790fmr5077232wmb.98.1659714443936; 
- Fri, 05 Aug 2022 08:47:23 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6Lj7ASv1iszJjucqkKVfGxm5itFivPZ5937bgqe3BvAJ8D/Noq5d/7u5CDyCzjfeWSQisihA==
-X-Received: by 2002:a05:600c:3d08:b0:3a5:726:790f with SMTP id
- bh8-20020a05600c3d0800b003a50726790fmr5077210wmb.98.1659714443669; 
- Fri, 05 Aug 2022 08:47:23 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c706:fb00:f5c3:24b2:3d03:9d52?
- (p200300cbc706fb00f5c324b23d039d52.dip0.t-ipconnect.de.
- [2003:cb:c706:fb00:f5c3:24b2:3d03:9d52])
- by smtp.gmail.com with ESMTPSA id
- f5-20020a5d58e5000000b0021eed2414c9sm4111585wrd.40.2022.08.05.08.47.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 08:47:23 -0700 (PDT)
-Message-ID: <0212ab4f-8c23-e58c-f447-374f1b200bf8@redhat.com>
-Date: Fri, 5 Aug 2022 17:47:22 +0200
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1oJzYW-0003rS-Q4; Fri, 05 Aug 2022 11:48:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YtV/H/NzgPFITfpGP+/vNqzaArtH3jSRQrwwd7CidLJJmTbsVHlIjABrYhwVzl/XFIrukeMLmvVfwrQtCvoROXxHXm9jnkOBxZ+GH6bjrcohyFuF6n/2eFPEF/qJ6a/VtKI58L2AAREHdcCY9jrBEL2RpXs3Fy4bNWL51n8C5gC/oj0JtC0uKkoeu8I2AaxmydcgLBBl4ezIZyXBJ63bMerlKDWax8xediuvCfqjbhcNHN1N3+xjPYepMIlFiBElkMST7mTlFyeUZ8ssJrHDcNCUmK+gjebYzMJ2ZM2Nw/m9upNAXJZW73mBa7z+9Mc3mYc7oP3gp08KYAvoy8jgvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y6bQZASNFm856RnPhnO3KdVyh+zui49UYCbxOme18nU=;
+ b=WmRkGzE1ltZA9wilWynzYot0WEbtOGVxc1Dc8FoWZoNID3YssXapv36OL9wq+1rBM0PORE5r2/BoegJxQX3haUUJeOYgH4xdWjTHZPl09/1G63mLVmkKma0oqkPkERDKNn6LUpJksLxMiEguSFbX0VSFcOht+BkMS8oGeO2+89uXXJU0EO9HJxdOBvq1ed/7Z6uVJTS5S5Y2kN4De0koaRHFpjFIGQG7OnW5zxyrGCf1TDtRzsof+ksZCOp0WqBJDmhBuCzljgs+IXzlUiDoyW3LgfTGBsi7oZrTlAP655z2vVVRiUbqxTUd1Qo5lC59jS517sUSY+cXyZDLtI6nOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y6bQZASNFm856RnPhnO3KdVyh+zui49UYCbxOme18nU=;
+ b=TyXOg1g2ypM+w5pD6opIjpcRXjS6j4zQ8DbL1RCz22n1e87yWbvKImhtmJOpuaI8Cwu5bv1RnU1BaNQsERMGpIeGOHZOOhpCzZEG9+0k3K+Hkh0W96+QDuV3aEafK/ISYk1vYsmSpz3oGUg1hdOr5rFocYd34EK9H0+xWPQlGOPU4YjWOCAzlZv8Rj26s2iqZMNBTdhPlUc0VuMv9H27K0ybFjEtKz7MHaQV9kxBe54U06pMCmc4pISvraOpTo23rd6fUMcDDv0tkZFPk5wcX9jwDJEZv83jf44ode33zOp34HWg1SqxZWrC4rpt5BtPks7gvurUplYFjCIKD38OXA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
+ by PA4PR08MB7668.eurprd08.prod.outlook.com (2603:10a6:102:265::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Fri, 5 Aug
+ 2022 15:48:00 +0000
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::7da2:4a5a:2854:26f2]) by AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::7da2:4a5a:2854:26f2%6]) with mapi id 15.20.5504.016; Fri, 5 Aug 2022
+ 15:48:00 +0000
+From: alexander.ivanov@virtuozzo.com
+To: qemu-devel@nongnu.org
+Cc: den@virtuozzo.com, natalia.kuzmina@openvz.org, stefanha@redhat.com,
+ vsementsov@yandex-team.ru, kwolf@redhat.com, hreitz@redhat.com,
+ qemu-block@nongnu.org
+Subject: [PATCH v2 0/3] Check and repair duplicated clusters in parallels
+ images
+Date: Fri,  5 Aug 2022 17:47:49 +0200
+Message-Id: <20220805154752.799395-1-alexander.ivanov@virtuozzo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0129.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::17) To AS8PR08MB7095.eurprd08.prod.outlook.com
+ (2603:10a6:20b:402::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Content-Language: en-US
-To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-References: <20220721120732.118133-1-david@redhat.com>
- <c41ee5f5-fd9f-984f-126b-21fa371a827b@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH RFC 0/7] hostmem: NUMA-aware memory preallocation using
- ThreadContext
-In-Reply-To: <c41ee5f5-fd9f-984f-126b-21fa371a827b@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 201e694d-c9fc-4064-4c2b-08da76f9dfbd
+X-MS-TrafficTypeDiagnostic: PA4PR08MB7668:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6inoW1BlETtK+cgEz1j1BKo8bM7JrrGCLZ1gPd/DXq0NkEod2XuQh4QVMy1IxkdSpx2X0MzjkEErtify37IJmkFmQyqJb/uzlWeIALl2SEmr3sgrmNT0a04GD3WMR/Vtvp9EvLlbiWwFZfV1KPDMiGs40mke+SfO+ZZLFJ8XlfUDqKfT8MFN350ZVVBIWwu9UgLw4sHJCE35HWkb/xjsibd4CR7CVP9MNKQjxEFKJgEOq++NS2ecAE1sqkjXZRkONelne1al5IXtwdonDBoZ1Y2tU5qYyPiw5njxMELz9qWSYuwHxPMJ04xUqN6b1sTbvVCmNDHVMGIpsLX20zfDRXuEN8WLGds917ibnu7vc84zWTK58jDyYiPIdMCN/KLKM8BHXkBZIqXkE+BSwPftjXrCkAyv7cd/Pb3LzLSfkMOFvQ5ZafCkZcI9v2FRoUzza26JcSPRDVeaFmxS4xWTE9TzxhJYlPeiyOd3NQjwLOl5LSvoVIZbShprFDjMO6who+Nzhw8BJiiHzSxGQFsYMjhjgf0UtBZAeSzP+bdVkqLr5Y9SFZhZIz+EOf6Ei01CFABwo0v/x7NZLkAtJOzw/UugpMZT8sXznCRwwLxkVIYfp9jEs+27CpkxTnXwKQDZmCPQ4bSRjNSdZF4uxvU47eEodZh10zK3OK2bnKZZjBmsGWieJW4PJQzhnHx5kwp/1YUefMii2uPVQZ8ahK1XKrLyZPo+TCzHQFU+2zzA1ljHlB+2M+qUPUUni0NYu7XbcdQ6B6v8VBaLz4bOJfoXcSc5/DD/t1h1NblVlqCyNEk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(346002)(376002)(39850400004)(366004)(396003)(6486002)(8676002)(5660300002)(478600001)(66556008)(66946007)(2906002)(4326008)(83380400001)(38350700002)(8936002)(66476007)(52116002)(36756003)(41300700001)(38100700002)(186003)(86362001)(1076003)(6506007)(2616005)(6666004)(26005)(6512007)(9686003)(6916009)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VYQzpPQ/d6JO2/t1PttXy1GVgNk908A1hmTKcAxtLkvZyMBnL4RnA8DyGU38?=
+ =?us-ascii?Q?q698XRtF6xxJZISQiVdLx9WF1oC7dKkDTkwct7h8KBq2VgrJIknFEyfWH4rE?=
+ =?us-ascii?Q?fkmOnw6korItKxfhhskI+g1wY3kOKWFXhbtVliMVks7UGccWDS2bfmmTFjs4?=
+ =?us-ascii?Q?TOhfDt8rgoTh3OAUJ4g5Ydyb6AInO2QW4mQBqyWM9nWBdVcdQg7Mxs8RMU9X?=
+ =?us-ascii?Q?ovjKnGS9d2ZEOcKZJI+7ugWMo2fFVSJCG1Ubh0Kbf5Vm3L4cawzu3+VhOLYc?=
+ =?us-ascii?Q?dzZLtwb8HwJykaV54Ue0tA1/Z2e9N+H5M9pStHY7umEZudjQfLQrHP+dM8pX?=
+ =?us-ascii?Q?U6hsVGsktojO+M+gVIF0d7UGGvEtElMg64Okiaa/vBcOCnBkUBfxT/IaJeXk?=
+ =?us-ascii?Q?4ZJ13705DFTBj4LcMjEF30REfDVBpCmRgTle5UHohOH8VwtWbzIHOLPDHZYj?=
+ =?us-ascii?Q?6tJDlkr/0l6sNm4e7gEFYpt4VIuEdr4MGTFnCs5L+janKPNGQIVeQfPAqsYg?=
+ =?us-ascii?Q?H3aE1BohtIalQm1mSk1567WlBZS7PRd0ox1rlzfzlhH/A2CyBhZfdIf8LOTL?=
+ =?us-ascii?Q?UBt/1+wsLRvDZ6kZuh719hLxCotEuYE0wG9FetopzACO4lsqUXhUf+ji/SB2?=
+ =?us-ascii?Q?Y1qddiEYPm4US6T0Mk1xNcUnSrF14aFip6BWHJbmveUtytb/KF+Du+JzJLAg?=
+ =?us-ascii?Q?A8QN34qC7x1/CsTSqO6d35fhFQauDuktfPsYhrNNcw3yO6G6svJky9rDs3l/?=
+ =?us-ascii?Q?f4InuNqqFXbDhSzaC6wlN7CRbmvOiOXW3PBRxwNUvJB+x5AUl5IFou5siIRM?=
+ =?us-ascii?Q?MFIpp6fPLe3pHIgYT97GtkJ8fclK9Uh5yEnmIfs12vkQvya5uk/R8bPTQ6gq?=
+ =?us-ascii?Q?Uy684yAYEMg0Ne0g+NKPC1f7Jg8EBIc/6vTRKLmMvHKTOMiP+q03p6gApbrc?=
+ =?us-ascii?Q?+dUVrBiW9ftNPTBGA97W7hYTiHJ6U/JR8NJAAhIOhd1uaqDBVdX0hpmcHEU5?=
+ =?us-ascii?Q?N+sQDrb+LYlxv0ku/jXE8o7tKpTU6Qg/ndVG5YTAzxkltKdtgn6WKBXhqhum?=
+ =?us-ascii?Q?sdWDBJfCzhg/Xw5ip5P1UyNDSapXyWT51ss0T5f0wbnChSM3DfFkIdc5hFtO?=
+ =?us-ascii?Q?Tl+XE5vdmcNhiE4rrOuJXyAlvAmdFGlGgbx7vZdvKXpgZh37M5QApUdQLavs?=
+ =?us-ascii?Q?iHDy+nDtoX5+zqXemoKC6cVApX+ha/FfdTIWEB3f0wTgFc/3Kmr1rKGXD3Vn?=
+ =?us-ascii?Q?LL70aYWDoYtYxXBirKU0inTD+1yOD4kKtqTJQxH417XwSeA+7fAFuHb0WV8V?=
+ =?us-ascii?Q?f874QSEO45kSmQzbfRIApuG5RmbuPaMRrpBKrDqyUwH6zyg7sDea1A6Tu3U6?=
+ =?us-ascii?Q?RXotkXzLfGIppPo1qrvZhz1BmMqCGY14VKTKwiNup7Fd5cWOD7s/dU+14MJF?=
+ =?us-ascii?Q?nGDPqOhX2ybsVFI/TLrVpjz/EQ5Px3/kvZeVmpJsKMbT90ZqSuTbjGf9bvGt?=
+ =?us-ascii?Q?7cdmXDdtTXyDDoQvoxA2sPDGs4G/AvmLlJbmETHVBj9naG/FYLlQ+mKGOVo6?=
+ =?us-ascii?Q?241Y955zXfR1m+ays0x+gYsFnZz4v3gTvOsaPVKo5ncm93kQ1uFkmCszlg8O?=
+ =?us-ascii?Q?VRYBd7sije6/+pif99CWvC0=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 201e694d-c9fc-4064-4c2b-08da76f9dfbd
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2022 15:48:00.0880 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T2Zo4WB5NA/ixk6t7pWox4IAcFXmEF+8Ou1HVaREN8rAjkf+JcZN3eE8vQ1JrZ3PE7sKCzEffX0dze/MH9akC3IsAYhqcakwwXARPdBEFmo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7668
+Received-SPF: pass client-ip=40.107.1.136;
+ envelope-from=alexander.ivanov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,79 +135,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> 
-> I've timed 'virsh start' with a guest that has 47GB worth of 1GB
-> hugepages and seen the startup time halved basically (from 10.5s to
-> 5.6s). The host has 4 NUMA nodes and I'm pinning the guest onto two nodes.
-> 
-> I've written libvirt counterpart (which I'll post as soon as these are
-> merged). The way it works is the whenever .prealloc-threads= is to be
-> used AND qemu is capable of thread-context the thread-context object is
-> generated before every memory-backend-*, like this:
+From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 
-Once interesting corner case might be with CPU-less NUMA nodes. Setting
-the node-affinity would fail because there are no CPUs. Libvirt could
-figure that out by testing if the selected node(s) have CPUs.
+We will add more and more checks of images so we need to reorganize the code.
+Put each check to a separate helper function with a separate loop.
+Add two helpers: truncate_file() and sync_header(). They will be used
+in multiple functions.
 
-> 
-> -object
-> '{"qom-type":"thread-context","id":"tc-ram-node0","node-affinity":[2]}' \
-> -object
-> '{"qom-type":"memory-backend-memfd","id":"ram-node0","hugetlb":true,"hugetlbsize":1073741824,"share":true,"prealloc":true,"prealloc-threads":16,"size":21474836480,"host-nodes":[2],"policy":"bind","prealloc-context":"tc-ram-node0"}'
-> \
-> -numa node,nodeid=0,cpus=0,cpus=2,memdev=ram-node0 \
-> -object
-> '{"qom-type":"thread-context","id":"tc-ram-node1","node-affinity":[3]}' \
-> -object
-> '{"qom-type":"memory-backend-memfd","id":"ram-node1","hugetlb":true,"hugetlbsize":1073741824,"share":true,"prealloc":true,"prealloc-threads":16,"size":28991029248,"host-nodes":[3],"policy":"bind","prealloc-context":"tc-ram-node1"}'
-> \
-> 
-> 
-> Now, it's not visible in this snippet, but my code does not reuse
-> thread-context objects. So if there's another memfd, it'll get its own TC:
-> 
-> -object
-> '{"qom-type":"thread-context","id":"tc-memdimm0","node-affinity":[1]}' \
-> -object
-> '{"qom-type":"memory-backend-memfd","id":"memdimm0","hugetlb":true,"hugetlbsize":1073741824,"share":true,"prealloc":true,"prealloc-threads":16,"size":1073741824,"host-nodes":[1],"policy":"bind","prealloc-context":"tc-memdimm0"}'
-> \
-> 
-> The reason is that logic generating memory-backends is very complex and
-> separating out parts of it so that thread-context objects can be
-> generated first and reused by those backends would inevitably lead to
+Parallels image file can be corrupted this way: two guest memory areas
+refer to the same host memory area (duplicated offsets in BAT).
+qemu-img check copies data from duplicated cluster to the new cluster and
+writes new corresponding offset to BAT instead of duplicated one.
 
-Sounds like something we can work on later.
+Test 314 uses sample corrupted image parallels-2-duplicated-cluster.bz2.
+Reading from duplicated offset and from original offset returns the same
+data. After repairing changing either of these blocks of data
+does not affect another one.
 
-> regression. I guess my question is, whether it's a problem that libvirt
-> would leave one additional thread, sleeping in a semaphore, for each
-> memory-backend (iff prealloc-threads are used).
+v2 changes:
+ * Split parallels_co_check() to separate functions.
+ * Move buffer allocation outside the loop.
+ * Replace work with internals by zeroing BAT entries and
+   allocate_clusters() calling.
+ * Make reverse table unsigned and replace -1 by 0xFFFFFFFF.
+ * Some minor fixes.
+ * Add more detailed comments.
 
-I guess in most setups we just don't care. Of course, with 256 DIMMs or
-endless number of nodes, we *might* care.
+Alexander Ivanov (3):
+  parallels: Put the image checks in separate functions
+  parallels: Add checking and repairing duplicate offsets in BAT
+  iotests, parallels: Add a test for duplicated clusters
 
-
-One optimization for some ordinary setups (not caring about NUMA-aware
-preallocation during DIMM hotplug) would be to assign some dummy thread
-context once prealloc finished (e.g., once QEMU initialized after
-prealloc) and delete the original thread context along with the thread.
-
-> 
-> Although, if I read the code correctly, thread-context object can be
-> specified AFTER memory backends, because they are parsed and created
-> before backends anyway. Well, something to think over the weekend.
-
-Yes, the command line order does not matter.
-
-[...]
-
-> 
-> Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-
-Thanks!
+ block/parallels.c                             | 315 +++++++++++++++---
+ tests/qemu-iotests/314                        |  89 +++++
+ tests/qemu-iotests/314.out                    |  36 ++
+ .../parallels-2-duplicated-cluster.bz2        | Bin 0 -> 148 bytes
+ 4 files changed, 393 insertions(+), 47 deletions(-)
+ create mode 100755 tests/qemu-iotests/314
+ create mode 100644 tests/qemu-iotests/314.out
+ create mode 100644 tests/qemu-iotests/sample_images/parallels-2-duplicated-cluster.bz2
 
 -- 
-Thanks,
-
-David / dhildenb
+2.34.1
 
 
