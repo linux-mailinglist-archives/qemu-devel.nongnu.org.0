@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF9358AAEC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 14:37:23 +0200 (CEST)
-Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F0458AB0C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 14:51:33 +0200 (CEST)
+Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJwZt-0002lH-VD
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 08:37:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51854)
+	id 1oJwnb-00041e-FN
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 08:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJwU2-0007Jo-LR
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 08:31:18 -0400
-Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:43797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJwU1-00088S-1X
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 08:31:18 -0400
-Received: by mail-vs1-xe33.google.com with SMTP id v128so2282825vsb.10
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 05:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=JhXuZqTBayizvhWDtL3dWOQSDAMk0xkptaqPSV8nXjE=;
- b=YnlEbPaFbk01aQwZSoFUD8kI529do1zualsBV3qS6Oqj/bsQu58wv44jbzoN3edfwY
- 19SvcWg23pWF0z0Vxq2kqzDIXX6xzV3vNCh5noLq9kNihjGeZTA9zwRUreM1O/2aTFcv
- tlTyWZAkolOZD6at5QArtFaRuqgi3Gy3PeqRLHXiJnOPSTk63PyrnOYBK4YbwCyPMs2q
- pCvjWMqWbv6lA28P1HN+ta1dSRxQOfMfU+q5w9iGjGba3kFzU+vNGpmT77hUJVLStlhN
- 9jxPvLX9GXa0c53UUtvZUvJIK6fx44zbgSYhCrApneRx0PfrLv2Vl9OKiAFqpQe6C/BM
- 5iEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=JhXuZqTBayizvhWDtL3dWOQSDAMk0xkptaqPSV8nXjE=;
- b=VPazdKzf4F3t+gs9EG0/LQ0Ir5hgTkI3fyn5sQqrWRF0oBajHfHuIncMSBcbNsQOcz
- F05/+UtMJj5eJAduoE0RpbU/r/j/vE9plhKO630yaGFZMemX3j1WJpLv19o0SIZzL1aW
- TEhBYrXpaOXQdaJILs8cOwXEYroCGlLeG5XIhRP5TdcVbhxr0pZ9Fldj22/21tS64F7Y
- 2pVGKBuTkzALnVoaTD8ZmJ1xUvERszrj9OltEXy+x2SyC7/JDd0NClkPY8inihp+QJm6
- IOe+LvJz8Xzfpzg7jdSg41icG5yISMiiWKvdfGyD6MOZe8VfHYIptETfJ9bqj+MQdgzE
- HC4Q==
-X-Gm-Message-State: ACgBeo06JOlN6LhOUsy/aXM+5lBFTaX/pEzeedBXzV178YH73yiVZwz6
- W8TsMUmjzvZZvWj38tKTFbc=
-X-Google-Smtp-Source: AA6agR7OuQNSMxXkcQrbFCabPU706zSmWL3/6zGX5TObQNsbdqwhMrejq7dZqxEBnVh+OavE5u/X4A==
-X-Received: by 2002:a67:e1c5:0:b0:371:73d9:7316 with SMTP id
- p5-20020a67e1c5000000b0037173d97316mr2738648vsl.38.1659702675010; 
- Fri, 05 Aug 2022 05:31:15 -0700 (PDT)
-Received: from [192.168.10.102] ([191.19.239.67])
- by smtp.gmail.com with ESMTPSA id
- q3-20020ab02b83000000b0038342b58f6csm3187982uar.17.2022.08.05.05.31.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 05:31:14 -0700 (PDT)
-Message-ID: <20bcdfba-bd98-90b9-e384-8a40d833ebfe@gmail.com>
-Date: Fri, 5 Aug 2022 09:31:11 -0300
+ (Exim 4.90_1)
+ (envelope-from <SRS0=jDGz=YJ=zx2c4.com=Jason@kernel.org>)
+ id 1oJwkj-00018z-Pa
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 08:48:34 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:43122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=jDGz=YJ=zx2c4.com=Jason@kernel.org>)
+ id 1oJwkh-0003Ks-Mw
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 08:48:33 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7607EB828BD;
+ Fri,  5 Aug 2022 12:48:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0263CC433D7;
+ Fri,  5 Aug 2022 12:48:20 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="M8dPhoUE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659703699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=e4NrhcEjpw9Lq9/iIXgxKiypFZXFjHgXpfkuLSB3Izw=;
+ b=M8dPhoUEY48No20FG6YkbwRHCVyOo2hbfFBRaKys3p2ykPnzDMAXnSDrdodxk/c7hcCHqr
+ MCCIo/fHg+3jVC0W95XdNzaqnwzS9jLOf/mtIl06d2oBWY0/qt/OLsyohu/GQS5PfZGheV
+ oF3ysb+lIeFp1qq2EGS7Qfv66AWzgzw=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id eee15885
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Fri, 5 Aug 2022 12:48:18 +0000 (UTC)
+Date: Fri, 5 Aug 2022 14:47:27 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Laszlo Ersek <lersek@redhat.com>, linux-efi@vger.kernel.org
+Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
+Message-ID: <Yu0RX2b+e9BpGsJ6@zx2c4.com>
+References: <YuxOgtykRQb1HU3e@zx2c4.com>
+ <20220804230411.17720-1-Jason@zx2c4.com>
+ <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH for-7.2 v2 09/20] hw/ppc: set machine->fdt in pnv_reset()
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: alistair.francis@wdc.com, david@gibson.dropbear.id.au,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-10-danielhb413@gmail.com>
- <ef56a98c-6261-2342-84e4-46796b69cdbb@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <ef56a98c-6261-2342-84e4-46796b69cdbb@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe33.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=jDGz=YJ=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,51 +87,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Paolo,
 
-
-On 8/5/22 08:03, Frederic Barrat wrote:
+On Fri, Aug 05, 2022 at 10:10:02AM +0200, Paolo Bonzini wrote:
+> On 8/5/22 01:04, Jason A. Donenfeld wrote:
+> > +    /* Nothing else uses this part of the hardware mapped region */
+> > +    setup_data_base = 0xfffff - 0x1000;
 > 
-> 
-> On 05/08/2022 11:39, Daniel Henrique Barboza wrote:
->> This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
->> all powernv machines.
->>
->> Cc: Cédric Le Goater <clg@kaod.org>
->> Cc: Frederic Barrat <fbarrat@linux.ibm.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/pnv.c | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->> index d3f77c8367..f5162f8b7b 100644
->> --- a/hw/ppc/pnv.c
->> +++ b/hw/ppc/pnv.c
->> @@ -608,7 +608,11 @@ static void pnv_reset(MachineState *machine)
->>       qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
->>       cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
->> -    g_free(fdt);
->> +    /*
->> +     * Update the machine->fdt pointer to enable support for
->> +     * 'dumpdtb' and 'info fdt' commands.
->> +     */
->> +    machine->fdt = fdt;
-> 
-> 
-> Can pnv_reset() be called several times in the same instance of the qemu process, in which case we leak memory?
+> Isn't this where the BIOS lives?  I don't think this works.
 
-hmmm I think it's possible if we issue a 'system_reset' via the monitor.
+That's the segment dedicated to ROM and hardware mapped addresses. So
+that's a place to put ROM material. No actual software will use it.
 
-I'll put a g_free(machine->fdt) before the assignment.
-
-
-Daniel
-
-
-> 
->    Fred
-> 
-> 
->>   }
->>   static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **errp)
+Jason
 
