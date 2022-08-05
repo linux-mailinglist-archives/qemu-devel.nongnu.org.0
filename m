@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6BF58ACC3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 16:58:59 +0200 (CEST)
-Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607F958ACC4
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 16:59:00 +0200 (CEST)
+Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJymw-00005p-Pi
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 10:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52830)
+	id 1oJymx-00007z-HI
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 10:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oJykT-0005PY-9C
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:56:25 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:43974)
+ id 1oJykV-0005RT-KB; Fri, 05 Aug 2022 10:56:27 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:44586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oJykR-0003Vp-RE
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:56:25 -0400
-Received: by mail-pl1-x635.google.com with SMTP id 17so2836718plj.10
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 07:56:23 -0700 (PDT)
+ id 1oJykU-0003W2-A8; Fri, 05 Aug 2022 10:56:27 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ e8-20020a17090a280800b001f2fef7886eso3069571pjd.3; 
+ Fri, 05 Aug 2022 07:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=7bCQ8cKqB7t3fSWKcCDxs4sfPXXEO07MKgBZafJIlOY=;
- b=K/+ibLDmsjan1uOI/ETWRsit/RQBuxX6e6iLHRO/LfwwfpaKJTSZlBdsTmKYTvZ8zj
- mtIyEunSsk9nR8jD6eBYPhU5dppW+JdkDgKC8nPpEMradWzY9Qfo/LCxXcMS3309dfLP
- kQmKjhLFcgtH7LgejottDIJZky0/k9t8bwsW8ePq61ALdaCu/3z6drPcrkaT2Yc3FMLq
- z5BDyeyT6UqrMIsGO0jp4S1YExtfCfGlmItB6OilP0c2/22PRkvQEgB2jIeUT0YvDpki
- BKytL4YCV8TpTfWZoRF84PKBLN2zxyyngoVnFFnZ6T8a5hRyEGiKvIZq49UYblP4JHW+
- a8HA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=JCf8BpsoGS5qqjGfLu/HY6lWex7KsOE/xca4FpD4SY0=;
+ b=MsT6Ao39JkeGMyqg8pd306nlMPbRKJm33PccBY/OUjaEzBTmdkTmAWzlB/ye3tze3Z
+ Dedb6n1KKW5nfLh9R/zXk5/0iTW74j5dMFu5autU1k1JEWY4JvyJPO22eIySgJZXBtdI
+ 8YHP/z5qlvmjYAAE4xw+bD3pIW12gRwZEw/qJ3iq1FW0T9tYl5AKTWt3KDGDWx2h/yCZ
+ Yb1lYCV6n4kD7OC8eP+FQWvqFtZb1YQr2+mV/z/MDUOCxfGoGm/A8eBcNT5soiD4z1VP
+ k1vLMM9HdjCCshW4ArSe4XwzqrUYU/958zSOrsZerVSGqi96l3mGi4mnptwPX2xzOB9z
+ qghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=7bCQ8cKqB7t3fSWKcCDxs4sfPXXEO07MKgBZafJIlOY=;
- b=hTAoLLp2xERR0mrxtCqOAC2omGNL+acwm5fD00cnzaXf15Igg+5xi/MyB3x/ZpFxAG
- emDvwaaaImpQXIHKo/wvfeDTqVEBDObeh1hruyCvDggwHSwEE0Pq4x9BhlzRhpkdKCNH
- LkLt3fxtUAcUqqVlikNd/eeA3EmG6EircbldgjdE7kPKUFFPmbtegAN52wYxF7xpk/LY
- 1tX8663M+Dl3oiZ4XouK1y5Ac0VfCCKqwzbHx+uljMFFt8L0Sqb3/8KX60UF4ufeH+9T
- jbNBhYcB3WbhgvUF0b8FoemV1u7KdoTOXjkZKeAtuykwYYM5ldnEzrHe1uyzJB/muZmj
- wwIw==
-X-Gm-Message-State: ACgBeo1OowodED7kjZVzCiiwXoMKSFUiD0nVFlWAclml5Iet+0Cwj6xk
- LqmFmrcuYISF0O3y1oQCZSuVzzDvdvY=
-X-Google-Smtp-Source: AA6agR5iHlqj2IKA9utIKO/QJglkRD6NK6hztWWxBM7i4PUK89vVeRyI36ggXnGyOgW8UZJUQDWSPg==
-X-Received: by 2002:a17:90b:1bc7:b0:1f5:37a6:e473 with SMTP id
- oa7-20020a17090b1bc700b001f537a6e473mr7808393pjb.87.1659711381774; 
- Fri, 05 Aug 2022 07:56:21 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=JCf8BpsoGS5qqjGfLu/HY6lWex7KsOE/xca4FpD4SY0=;
+ b=uGs29aSS7mg9v/k0McO285CDZrgAFzY9SmizNyRozxCvy+uespBsDrfoY+GqLeS36L
+ qCk4Pl9md/u1sg9ZMwXHaThzn4X6WadRfxc/e3snAlNTis19p0syZwUxRg4b4hHHwRPo
+ SU2B+mflvjsSF1DIRDEq8XrpND/Nfba+0MxoethennYOeDBibJPpgO/EDttKAsFuoDdY
+ z2y61C5+OV6OCFTZKuWGhhm+zdyj+Hgu6pOWHTHS4eeWZm4PXwyxdnpWqnG8bk42ZIuY
+ IRFlD69FjCaIpdFDDl8UDO4cVzxRpHJFfDB1lUFsI0rGLKBZITQLx41eRXLAC/8yrz8p
+ T5pQ==
+X-Gm-Message-State: ACgBeo2eH5fztgGAegxJdXMcH1XS8od5XknPeUvW3h14ITWNdiIBvZaz
+ e2ebLXegU9jPWBx28bxYCEHKsDWL+CM=
+X-Google-Smtp-Source: AA6agR6n97o+BSt0ro2OuRjZoYCbtck5wqOeClah+MAfg4r48RmelX2Diht9+idO2gUvZy3soTlRkQ==
+X-Received: by 2002:a17:90b:4d91:b0:1f5:2073:6cfd with SMTP id
+ oj17-20020a17090b4d9100b001f520736cfdmr16288936pjb.175.1659711384374; 
+ Fri, 05 Aug 2022 07:56:24 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- c18-20020a170902d49200b0016bfafffa0esm3166814plg.227.2022.08.05.07.56.20
+ c18-20020a170902d49200b0016bfafffa0esm3166814plg.227.2022.08.05.07.56.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 07:56:21 -0700 (PDT)
+ Fri, 05 Aug 2022 07:56:24 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 1/2] util/main-loop: Fix maximum number of wait objects for
- win32
-Date: Fri,  5 Aug 2022 22:56:16 +0800
-Message-Id: <20220805145617.952881-1-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ qemu-block@nongnu.org
+Subject: [PATCH 2/2] util/aio-win32: Correct the event array size in aio_poll()
+Date: Fri,  5 Aug 2022 22:56:17 +0800
+Message-Id: <20220805145617.952881-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220805145617.952881-1-bmeng.cn@gmail.com>
+References: <20220805145617.952881-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,34 +91,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The maximum number of wait objects for win32 should be
-MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
+WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
+object handles. Correct the event array size in aio_poll() and
+add a assert() to ensure it does not cause out of bound access.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- util/main-loop.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ util/aio-win32.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/util/main-loop.c b/util/main-loop.c
-index f00a25451b..f15d8e7d12 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -363,10 +363,10 @@ void qemu_del_polling_cb(PollingFunc *func, void *opaque)
- /* Wait objects support */
- typedef struct WaitObjects {
-     int num;
--    int revents[MAXIMUM_WAIT_OBJECTS + 1];
+diff --git a/util/aio-win32.c b/util/aio-win32.c
+index 44003d645e..8cf5779567 100644
+--- a/util/aio-win32.c
++++ b/util/aio-win32.c
+@@ -326,7 +326,7 @@ void aio_dispatch(AioContext *ctx)
+ bool aio_poll(AioContext *ctx, bool blocking)
+ {
+     AioHandler *node;
 -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
--    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
--    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
-+    int revents[MAXIMUM_WAIT_OBJECTS];
 +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
-+    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
-+    void *opaque[MAXIMUM_WAIT_OBJECTS];
- } WaitObjects;
- 
- static WaitObjects wait_objects = {0};
+     bool progress, have_select_revents, first;
+     int count;
+     int timeout;
+@@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+     QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
+         if (!node->deleted && node->io_notify
+             && aio_node_check(ctx, node->is_external)) {
++            assert(count < MAXIMUM_WAIT_OBJECTS);
+             events[count++] = event_notifier_get_handle(node->e);
+         }
+     }
 -- 
 2.34.1
 
