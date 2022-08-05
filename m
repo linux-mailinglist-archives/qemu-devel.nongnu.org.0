@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F2658AEFB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:36:19 +0200 (CEST)
-Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6175158AE38
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:35:02 +0200 (CEST)
+Received: from localhost ([::1]:50170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK1FC-0002tD-2o
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55280)
+	id 1oK0Ht-00035a-2Y
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:35:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oK1Cz-0007py-PR; Fri, 05 Aug 2022 13:34:02 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42050)
+ id 1oK0EE-0000qx-NP; Fri, 05 Aug 2022 12:31:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6046
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oK1Cx-0004jd-JP; Fri, 05 Aug 2022 13:34:01 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275HFH5h025974;
- Fri, 5 Aug 2022 17:33:48 GMT
+ id 1oK0E9-0003AJ-Q5; Fri, 05 Aug 2022 12:31:11 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275GLVWe028537;
+ Fri, 5 Aug 2022 16:30:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=73qnw5nIm3iv+coHjF7quQ8YT4tdxDWXNrMdnbdBb30=;
- b=NwTxsN1SjriiQzfQGErMgShqNcR9yMgY5aZXASEHRC/8GVlWYjvOHyJTZ0onpr64VNLR
- DCE9xt+KVN67Hyxg2cucBKNSZ2W9ASsv/zNk/bkuw9NzzVzK/yuCi8gTChAMQaEcFKOo
- t8CrJeAkeQEWuDxS1XXv3Bw7J/p1ATZqQecCMpNgdLMmCm5lVa14xNCZRVkvNCIwknfQ
- sHuPXNJuYtSWFGiRPQAgZuRJzcgt44m8p/kooC5A3/APmwXG1ZQpfxfQc+ZuEPT0jdSC
- oQtrKBvHZInS+LHgA6+0vd3sizKz5QHLp8AwuIbXJJXh2Es9Z44O2q71Uqysu2I8QbSM 6g== 
+ bh=mx7WE3EFJlt9psuq5N3BY5Dfy8FVWWpe1R1MZOF6Jm8=;
+ b=IE+EN1HsZd1Mg75Ct8PXtwbeSorSAWYrvL23bHkfpwsIHVa0+tO3XH0GRBBxkI1cup/F
+ e0s7EH1xDA6BurHWOU1Hg6Egs1s9UP4FqHmR56dd3VAC/HYCoASYVhbWyE4RBjW496+M
+ WlB8W6Vh/tUYZtPOXOztHDJDfg60vBFmqL21ruAMLnNp63fYEkBnm3VfaQnzYtt3r7Vr
+ QjncFjSIXRkWNz43iU3lBC9BszB6T6PGfC/Lsrk/txS2l4IZ1EVphFwNnyEYVmUACOTQ
+ KXL8FXtx4TJpN2wF5D4+eDYCSesNBu0MwmYIrJ6mC7R4PzrmvvqIFC8Mrl7DA+AjKoA9 VA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7eeremw-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs6ngr6vd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 17:33:47 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 275HJ4nX037316;
- Fri, 5 Aug 2022 17:33:47 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7eerekm-1
+ Fri, 05 Aug 2022 16:30:53 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 275GQ6Ov011307;
+ Fri, 5 Aug 2022 16:30:53 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs6ngr5wg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 17:33:47 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 275HK1vq026302;
- Fri, 5 Aug 2022 17:33:44 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com ([9.149.109.197])
- by ppma06fra.de.ibm.com with ESMTP id 3hmuwhtpn8-124
+ Fri, 05 Aug 2022 16:30:53 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 275GNSHA017288;
+ Fri, 5 Aug 2022 16:29:58 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com ([9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3hmuwhym65-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 17:33:44 +0000
+ Fri, 05 Aug 2022 16:29:58 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 275G9HUY8913360
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 275G9ZDS15335754
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Aug 2022 16:09:17 GMT
+ Fri, 5 Aug 2022 16:09:35 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 85450A405B;
- Fri,  5 Aug 2022 16:09:17 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A7215A405C;
+ Fri,  5 Aug 2022 16:09:19 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E4C66A4054;
- Fri,  5 Aug 2022 16:09:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 107EFA4054;
+ Fri,  5 Aug 2022 16:09:19 +0000 (GMT)
 Received: from heavy.lan (unknown [9.171.89.138])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  5 Aug 2022 16:09:16 +0000 (GMT)
+ Fri,  5 Aug 2022 16:09:18 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -75,28 +76,28 @@ To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>,
 Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 1/4] accel/tcg: Invalidate translations when clearing
- PAGE_READ
-Date: Fri,  5 Aug 2022 18:09:11 +0200
-Message-Id: <20220805160914.1106091-2-iii@linux.ibm.com>
+Subject: [PATCH v2 4/4] tests/tcg: Test siginfo_t contents when jumping to
+ non-readable pages
+Date: Fri,  5 Aug 2022 18:09:14 +0200
+Message-Id: <20220805160914.1106091-5-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220805160914.1106091-1-iii@linux.ibm.com>
 References: <20220805160914.1106091-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _HBbJuXyE-9JJhkTdKj1C6t3rHZnhT2l
-X-Proofpoint-GUID: b_ppoRJ3aw37N2LJYf4OXJ85fu5-dRrr
+X-Proofpoint-ORIG-GUID: 80Tt6CUfbyBm_AeNWRr1g0q5kke-BA9I
+X-Proofpoint-GUID: ZTrXXbB_t7iK7KVZGaxeW4MzCIKkGxbF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-05_09,2022-08-05_01,2022-06-22_01
+ definitions=2022-08-05_08,2022-08-05_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- impostorscore=0 adultscore=0 priorityscore=1501 suspectscore=0
- clxscore=1015 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
- mlxlogscore=941 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2208050082
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ mlxscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208050078
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -120,43 +121,444 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After mprotect(addr, PROT_NONE), addr can still be executed if there
-are cached translations. Drop them.
+Add x86_64 and s390x tests to prevent regressions.
 
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- accel/tcg/translate-all.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ tests/tcg/multiarch/noexec.h     | 114 ++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target  |   1 +
+ tests/tcg/s390x/noexec.c         | 145 +++++++++++++++++++++++++++++++
+ tests/tcg/x86_64/Makefile.target |   3 +-
+ tests/tcg/x86_64/noexec.c        | 116 +++++++++++++++++++++++++
+ 5 files changed, 378 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/multiarch/noexec.h
+ create mode 100644 tests/tcg/s390x/noexec.c
+ create mode 100644 tests/tcg/x86_64/noexec.c
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index ef62a199c7..9318ada6b9 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2295,12 +2295,19 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
-          len != 0;
-          len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
-         PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
-+        bool write_set, read_cleared;
+diff --git a/tests/tcg/multiarch/noexec.h b/tests/tcg/multiarch/noexec.h
+new file mode 100644
+index 0000000000..a76e0aa9ea
+--- /dev/null
++++ b/tests/tcg/multiarch/noexec.h
+@@ -0,0 +1,114 @@
++/*
++ * Common code for arch-specific MMU_INST_FETCH fault testing.
++ *
++ * Declare struct arch_noexec_test before including this file and define
++ * arch_check_mcontext() after that.
++ */
++
++#include <assert.h>
++#include <signal.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/mman.h>
++#include <sys/ucontext.h>
++#include <unistd.h>
++
++/* Forward declarations. */
++
++static void arch_check_mcontext(const struct arch_noexec_test *test,
++                                const mcontext_t *ctx);
++
++/* Utility functions. */
++
++static void safe_print(const char *s)
++{
++    write(0, s, strlen(s));
++}
++
++static void safe_puts(const char *s)
++{
++    safe_print(s);
++    safe_print("\n");
++}
++
++#define PAGE_ALIGN(p) (void *)((unsigned long)(p) & ~0xfffUL)
++
++/* Testing infrastructure. */
++
++struct noexec_test {
++    const char *name;
++    void (*func)(int);
++    void *page;
++    void *expected_si_addr;
++    struct arch_noexec_test arch;
++};
++
++static const struct noexec_test *current_noexec_test;
++
++static void handle_segv(int sig, siginfo_t *info, void *ucontext)
++{
++    int err;
++
++    if (current_noexec_test == NULL) {
++        safe_puts("[  FAILED  ] unexpected SEGV");
++        _exit(1);
++    }
++
++    if (info->si_addr != current_noexec_test->expected_si_addr) {
++        safe_puts("[  FAILED  ] wrong si_addr");
++        _exit(1);
++    }
++
++    arch_check_mcontext(&current_noexec_test->arch,
++                        &((ucontext_t *)ucontext)->uc_mcontext);
++
++    err = mprotect(current_noexec_test->page, 0x1000, PROT_READ | PROT_EXEC);
++    if (err != 0) {
++        safe_puts("[  FAILED  ] mprotect() failed");
++        _exit(1);
++    }
++
++    current_noexec_test = NULL;
++}
++
++static void test_noexec_1(const struct noexec_test *test)
++{
++    int ret;
++
++    /* Trigger TB creation in order to test invalidation. */
++    test->func(0);
++
++    ret = mprotect(test->page, 0x1000, PROT_NONE);
++    assert(ret == 0);
++
++    /* Trigger SEGV and check that handle_segv() ran. */
++    current_noexec_test = test;
++    test->func(0);
++    assert(current_noexec_test == NULL);
++}
++
++static int test_noexec(struct noexec_test *tests, size_t n_tests)
++{
++    struct sigaction act;
++    size_t i;
++    int err;
++
++    memset(&act, 0, sizeof(act));
++    act.sa_sigaction = handle_segv;
++    act.sa_flags = SA_SIGINFO;
++    err = sigaction(SIGSEGV, &act, NULL);
++    assert(err == 0);
++
++    for (i = 0; i < n_tests; i++) {
++        struct noexec_test *test = &tests[i];
++
++        safe_print("[ RUN      ] ");
++        safe_puts(test->name);
++        test_noexec_1(test);
++        safe_puts("[       OK ]");
++    }
++
++    safe_puts("[  PASSED  ]");
++
++    return EXIT_SUCCESS;
++}
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 1a7a4a2f59..5e13a41c3f 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -16,6 +16,7 @@ TESTS+=shift
+ TESTS+=trap
+ TESTS+=signals-s390x
+ TESTS+=branch-relative-long
++TESTS+=noexec
  
--        /* If the write protection bit is set, then we invalidate
--           the code inside.  */
--        if (!(p->flags & PAGE_WRITE) &&
--            (flags & PAGE_WRITE) &&
--            p->first_tb) {
-+        /*
-+         * If the write protection bit is set, then we invalidate the code
-+         * inside.
-+         */
-+        write_set = !(p->flags & PAGE_WRITE) && (flags & PAGE_WRITE);
-+        /*
-+         * If PAGE_READ is cleared, we also need to invalidate the code in
-+         * order to force a fault when trying to run it.
-+         */
-+        read_cleared = (p->flags & PAGE_READ) && !(flags & PAGE_READ);
-+        if ((write_set || read_cleared) && p->first_tb) {
-             tb_invalidate_phys_page(addr, 0);
-         }
-         if (reset_target_data) {
+ Z14_TESTS=vfminmax
+ vfminmax: LDFLAGS+=-lm
+diff --git a/tests/tcg/s390x/noexec.c b/tests/tcg/s390x/noexec.c
+new file mode 100644
+index 0000000000..2dfc9ee817
+--- /dev/null
++++ b/tests/tcg/s390x/noexec.c
+@@ -0,0 +1,145 @@
++#define _GNU_SOURCE
++
++struct arch_noexec_test {
++    void *expected_pswa;
++    unsigned long expected_r2;
++};
++
++#include "../multiarch/noexec.h"
++
++static void arch_check_mcontext(const struct arch_noexec_test *test,
++                                const mcontext_t *ctx) {
++    if (ctx->psw.addr != (unsigned long)test->expected_pswa) {
++        safe_puts("[  FAILED  ] wrong psw.addr");
++        _exit(1);
++    }
++
++    if (ctx->gregs[2] != test->expected_r2) {
++        safe_puts("[  FAILED  ] wrong r2");
++        _exit(1);
++    }
++}
++
++#define DEFINE_NX(name, offset) \
++    void name ## _1(int); \
++    void name ## _2(int); \
++    void name ## _exrl(int); \
++    extern const short name ## _end[]; \
++    asm(/* Go to the specified page offset. */ \
++        ".align 0x1000\n" \
++        ".org .+" #offset "\n" \
++        /* %r2 is 0 on entry, overwrite it with 1. */ \
++        ".globl " #name "_1\n" \
++        #name "_1:\n" \
++        ".cfi_startproc\n" \
++        "lgfi %r2,1\n" \
++        /* Overwrite %2 with 2. */ \
++        ".globl " #name "_2\n" \
++        #name "_2:\n" \
++        "lgfi %r2,2\n" \
++        "br %r14\n" \
++        /* End of code. */ \
++        ".globl " #name "_end\n" \
++        #name "_end:\n" \
++        ".cfi_endproc\n" \
++        /* Go to the next page. */ \
++        ".align 0x1000\n" \
++        /* Break alignment. */ \
++        "nopr %r7\n" \
++        ".globl " #name "_exrl\n" \
++        #name "_exrl:\n" \
++        ".cfi_startproc\n" \
++        "exrl %r0," #name "_2\n" \
++        "br %r14\n" \
++        ".cfi_endproc");
++
++/* noexec_1 is executable, noexec_2 is non-executable. */
++DEFINE_NX(noexec, 0xffa);
++
++/*
++ * noexec_cross_1 is executable, noexec_cross_2 crosses non-executable page
++ * boundary.
++ */
++DEFINE_NX(noexec_cross, 0xff8);
++
++/* noexec_full_1 and noexec_full_2 are non-executable. */
++DEFINE_NX(noexec_full, 0x322);
++
++int main(void)
++{
++    struct noexec_test noexec_tests[] = {
++        {
++            .name = "Fallthrough",
++            .func = noexec_1,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_pswa = noexec_2,
++                .expected_r2 = 1,
++            },
++        },
++        {
++            .name = "Jump",
++            .func = noexec_2,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_pswa = noexec_2,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "EXRL",
++            .func = noexec_exrl,
++            .page = noexec_2,
++            .expected_si_addr = PAGE_ALIGN(noexec_end),
++            .arch = {
++                .expected_pswa = noexec_exrl,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "Fallthrough [cross]",
++            .func = noexec_cross_1,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_pswa = noexec_cross_2,
++                .expected_r2 = 1,
++            },
++        },
++        {
++            .name = "Jump [cross]",
++            .func = noexec_cross_2,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_pswa = noexec_cross_2,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "EXRL [cross]",
++            .func = noexec_cross_exrl,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_pswa = noexec_cross_exrl,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "Jump [full]",
++            .func = noexec_full_1,
++            .page = PAGE_ALIGN(noexec_full_1),
++            .expected_si_addr = PAGE_ALIGN(noexec_full_1),
++            .arch = {
++                .expected_pswa = noexec_full_1,
++                .expected_r2 = 0,
++            },
++        },
++    };
++
++    return test_noexec(noexec_tests,
++                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
++}
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index b71a6bcd5e..c0e7e5b005 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -10,6 +10,7 @@ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
+ 
+ ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
+ X86_64_TESTS += vsyscall
++X86_64_TESTS += noexec
+ TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+ else
+ TESTS=$(MULTIARCH_TESTS)
+@@ -20,5 +21,5 @@ test-x86_64: LDFLAGS+=-lm -lc
+ test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+-vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
++%: $(SRC_PATH)/tests/tcg/x86_64/%.c
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+diff --git a/tests/tcg/x86_64/noexec.c b/tests/tcg/x86_64/noexec.c
+new file mode 100644
+index 0000000000..ec07c9f0ba
+--- /dev/null
++++ b/tests/tcg/x86_64/noexec.c
+@@ -0,0 +1,116 @@
++#define _GNU_SOURCE
++
++struct arch_noexec_test {
++    void *expected_rip;
++    unsigned long expected_rdi;
++};
++
++#include "../multiarch/noexec.h"
++
++static void arch_check_mcontext(const struct arch_noexec_test *test,
++                                const mcontext_t *ctx) {
++    if (ctx->gregs[REG_RIP] != (unsigned long)test->expected_rip) {
++        safe_puts("[  FAILED  ] wrong rip");
++        _exit(1);
++    }
++
++    if (ctx->gregs[REG_RDI] != test->expected_rdi) {
++        safe_puts("[  FAILED  ] wrong rdi");
++        _exit(1);
++    }
++}
++
++#define DEFINE_NX(name, offset) \
++    void name ## _1(int); \
++    void name ## _2(int); \
++    extern const short name ## _end[]; \
++    asm(/* Go to the specified page offset. */ \
++        ".align 0x1000\n" \
++        ".org .+" #offset "\n" \
++        /* %rdi is 0 on entry, overwrite it with 1. */ \
++        ".globl " #name "_1\n" \
++        #name "_1:\n" \
++        ".cfi_startproc\n" \
++        "movq $1,%rdi\n" \
++        /* Overwrite %rdi with 2. */ \
++        ".globl " #name "_2\n" \
++        #name "_2:\n" \
++        "movq $2,%rdi\n" \
++        "ret\n" \
++        /* End of code. */ \
++        ".globl " #name "_end\n" \
++        #name "_end:\n" \
++        ".cfi_endproc\n" \
++        /* Go to the next page. */ \
++        ".align 0x1000");
++
++/* noexec_1 is executable, noexec_2 is non-executable. */
++DEFINE_NX(noexec, 0xff9);
++
++/*
++ * noexec_cross_1 is executable, noexec_cross_2 crosses non-executable page
++ * boundary.
++ */
++DEFINE_NX(noexec_cross, 0xff8);
++
++/* noexec_full_1 and noexec_full_2 are non-executable. */
++DEFINE_NX(noexec_full, 0x321);
++
++int main(void)
++{
++    struct noexec_test noexec_tests[] = {
++        {
++            .name = "Fallthrough",
++            .func = noexec_1,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_rip = noexec_2,
++                .expected_rdi = 1,
++            },
++        },
++        {
++            .name = "Jump",
++            .func = noexec_2,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_rip = noexec_2,
++                .expected_rdi = 0,
++            },
++        },
++        {
++            .name = "Fallthrough [cross]",
++            .func = noexec_cross_1,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_rip = noexec_cross_2,
++                .expected_rdi = 1,
++            },
++        },
++        {
++            .name = "Jump [cross]",
++            .func = noexec_cross_2,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_rip = noexec_cross_2,
++                .expected_rdi = 0,
++            },
++        },
++        {
++            .name = "Jump [full]",
++            .func = noexec_full_1,
++            .page = PAGE_ALIGN(noexec_full_1),
++            .expected_si_addr = noexec_full_1,
++            .arch = {
++                .expected_rip = noexec_full_1,
++                .expected_rdi = 0,
++            },
++        },
++    };
++
++    return test_noexec(noexec_tests,
++                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
++}
 -- 
 2.35.3
 
