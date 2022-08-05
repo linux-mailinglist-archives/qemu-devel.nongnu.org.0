@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6521758ACE4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:02:36 +0200 (CEST)
-Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B724958ACE9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:06:00 +0200 (CEST)
+Received: from localhost ([::1]:33260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJyqR-0003QC-B0
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
+	id 1oJytj-0005N6-Qz
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJyln-0007P4-L0
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:57:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJylm-0003p0-0x
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:57:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659711465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zG9XHezuh5qJ9I2MGQdSbAraxqR2na0biWasDmYcpcQ=;
- b=RRo3xdd4Q5SjI/HfPuNxnFzVH7X3poiR7J08GoFAORf/aYWK4nUghRdaSfz3BD/b/R+5oZ
- GPRWn1P33Bo/eGlYnoW8YPeMfg+4uV290GZRVUDf7T0lSFK40KPAO25/i6i9IIeF7Uctfg
- dOg56jkJ/w4Y6oxb0AqwAM4u8CFLZPg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-225-Y4VXlXU3NVqM8xfuULadvw-1; Fri, 05 Aug 2022 10:57:44 -0400
-X-MC-Unique: Y4VXlXU3NVqM8xfuULadvw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n1-20020a7bcbc1000000b003a4e8c818f5so546672wmi.6
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 07:57:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJyr7-0003Zg-IZ
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:03:17 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:45711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJyr5-0004k5-Ry
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:03:17 -0400
+Received: by mail-pl1-x636.google.com with SMTP id 13so1448595plo.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ElcBoqTV+QVi0HAEHQOdz70IL/1US3lSEGJeHuCV3cg=;
+ b=YZRMBVsRfSSy127KScDoXS2piXJxMYTEa4bUugLLHGbDHrWtfdx8iQ5NSErLdNb3k2
+ 110T9AUMZsRHUadr9zU1/Q6c+biBQYHJolavf1hUImvKoet1p4NM3K0OWBEVA8BqMoFi
+ q9KNfVv336TzN4RxjjK5J5OuMke76A5/s4G29dYep5XBtOzrRK3sMC5xbBbWtvqo7/TE
+ tTPN/uFE33MG00lhOkV6dwk9tFNI/tM63alQrmOKuAoDRQHGGJUr2V1Z33S2VUAvkCu4
+ azne1F7Wtm+L2+S/RgzdJaqJ0+npfNyO5D/CCzwDV+guV11e2mwGhg4Y5RA/Z+1YHfuG
+ 8hVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=zG9XHezuh5qJ9I2MGQdSbAraxqR2na0biWasDmYcpcQ=;
- b=HHVXfnsRopjL8p8XM1Y/iPvTu5j75xidVMT9bBrUGDUlkuDA5MxyX9Fhz4hmss7X+P
- izdtSzRU5RLmgXcUeFF+rXcBrmV4aoa0MkhA1/b7PDDMkTkgnIN/JU1sAOE4p33SqGYv
- dVtT/g6uxZUZ11kHiLXxjvUsE1D82e4ZReZ6uNs9pKsBbdac6f30YsF3ZxJDlp0ziI46
- HKgaMc0iBRdFVrwR9sC6Sl1hVhQwedhDQ4mXtIO7pNtqdmil/jTE3AF0qdGY9kioGejr
- SJinx5y4zgdBy7BZxdF3lrAc+II1IlTHYvu2UgJygSmq9RlYPYmrwikeYQ+K2ytIwP7W
- 1SCA==
-X-Gm-Message-State: ACgBeo02Ny1F9Hp7MQ7OSXR16QlPosZXtx2ZBotLkTl6u6UERLFGevYg
- o44WT5wfBraXIbjg7EzMC8yS9T2F1qRUaqOjXJRXLshrfIeQhPJWuG/LbccE88uKKuDLjqjXcu5
- J6HmyJW6RbacbF4E=
-X-Received: by 2002:a5d:434e:0:b0:21e:9970:fab with SMTP id
- u14-20020a5d434e000000b0021e99700fabmr4317302wrr.127.1659711463141; 
- Fri, 05 Aug 2022 07:57:43 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR51V6fr2AccbydkIt/MtKzQFiJwaf8UTK44hTCPY7gr9hSAmS1K26fv72Q0TfOl77L16yKAXQ==
-X-Received: by 2002:a5d:434e:0:b0:21e:9970:fab with SMTP id
- u14-20020a5d434e000000b0021e99700fabmr4317293wrr.127.1659711462882; 
- Fri, 05 Aug 2022 07:57:42 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-42-113-85.web.vodafone.de.
- [109.42.113.85]) by smtp.gmail.com with ESMTPSA id
- t17-20020adff051000000b002217e3f41f1sm135682wro.106.2022.08.05.07.57.41
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ElcBoqTV+QVi0HAEHQOdz70IL/1US3lSEGJeHuCV3cg=;
+ b=2gdh5zE317OmJTpZTwbHtCvxD8IwltvouIdKSG/ZFXP9vZowJAqCCsYmw5bh6I74ZF
+ nvgaFar8yuMOE/qFdGxMxHxcuIWN8Jvwf/tIBu3jeuiyr2jJoSb95kvxHn1FpEuxB3xh
+ rGsu4CbQNDVYee77Em9oY0mYWq1NMZrEnNFI14CiIwYc+TYHS2NI5jZaUc7pNoBz9edr
+ erDumXAz68BfiSk/cAfm0wmonTU0YIY52RvVtcGedJ55zzNEB8wL/CRl60n4+9opW7Ku
+ twI76V9l5QYSAW0R0beGOxwkfjAmyPHPHiFtc/4G0J3vgzXMJMe7Dukn5xIw0b8kmq3l
+ CR1g==
+X-Gm-Message-State: ACgBeo0KDS3v8lJ0C/meBHEDMBbk+cj1EDJrPHWTIHRium02npaREslc
+ 9HEfb0TtCeNEIvg7MjMW03CFFQ==
+X-Google-Smtp-Source: AA6agR7zYkIhTDj+JsWSNhs/fRKcmDFxVc2xwrdx/vOYkc5HChtXFZpvxDBVeHX67B61hwsJhM7uvQ==
+X-Received: by 2002:a17:90b:4c52:b0:1f6:3a26:9f08 with SMTP id
+ np18-20020a17090b4c5200b001f63a269f08mr1365221pjb.206.1659711794412; 
+ Fri, 05 Aug 2022 08:03:14 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
+ ([2602:ae:154e:e201:abf8:e436:f4c:9089])
+ by smtp.gmail.com with ESMTPSA id
+ 196-20020a6218cd000000b0052a198c2046sm3034545pfy.203.2022.08.05.08.03.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 07:57:42 -0700 (PDT)
-Message-ID: <3ae22c8f-34d1-0b3c-c007-d3ce7f9ccb21@redhat.com>
-Date: Fri, 5 Aug 2022 16:57:40 +0200
+ Fri, 05 Aug 2022 08:03:13 -0700 (PDT)
+Message-ID: <69b9d443-1376-f9c9-96fc-8ab773a995d6@linaro.org>
+Date: Fri, 5 Aug 2022 08:03:11 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] vmxnet3: add stub for encapsulation offload
+ Thunderbird/91.11.0
+Subject: Re: [PATCH for-7.1 v2 1/5] target/loongarch: Fix GDB get the wrong pc
 Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210806222300.417126-1-alxndr@bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20210806222300.417126-1-alxndr@bu.edu>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, f4bug@amsat.org, alex.bennee@linaro.org,
+ yangxiaojuan@loongson.cn
+References: <20220805033523.1416837-1-gaosong@loongson.cn>
+ <20220805033523.1416837-2-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220805033523.1416837-2-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,55 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/2021 00.23, Alexander Bulekov wrote:
-> Encapsulation offload (offload mode 1) is a valid mode present in the
-> kernel that isn't implemented in QEMU, yet.
+On 8/4/22 20:35, Song Gao wrote:
+> GDB LoongArch add a register orig_a0, see the base64.xml [1].
+> We should add the orig_a0 to match the upstream GDB.
 > 
-> https://lore.kernel.org/lkml/20200528015426.8285-4-doshir@vmware.com/
+> [1]:https://github.com/bminor/binutils-gdb/blob/master/gdb/features/loongarch/base64.xml
 > 
-> Add a stub for this mode, to avoid the guest-triggerable assertion.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/517
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
->   hw/net/vmxnet3.c | 5 +++++
->   hw/net/vmxnet3.h | 1 +
->   2 files changed, 6 insertions(+)
-> 
-> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-> index 41f796a247..62e11d0e3e 100644
-> --- a/hw/net/vmxnet3.c
-> +++ b/hw/net/vmxnet3.c
-> @@ -443,6 +443,11 @@ vmxnet3_setup_tx_offloads(VMXNET3State *s)
->           net_tx_pkt_build_vheader(s->tx_pkt, false, false, 0);
->           break;
->   
-> +    case VMXNET3_OM_ENCAP:
-> +        VMW_PKPRN("Encapsulation offload requested, but not available\n");
-> +        return false;
-> +        break;
+>   gdb-xml/loongarch-base64.xml | 1 +
+>   target/loongarch/cpu.c       | 2 +-
+>   target/loongarch/gdbstub.c   | 7 +++++--
+>   3 files changed, 7 insertions(+), 3 deletions(-)
 
-I think I'd also remove the break, anyway:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
-Jason, could you maybe also pick this up for QEMU 7.1, so we can close issue 
-517 ?
-
->       case VMXNET3_OM_CSUM:
->           net_tx_pkt_build_vheader(s->tx_pkt, false, true, 0);
->           VMW_PKPRN("L4 CSO requested\n");
-> diff --git a/hw/net/vmxnet3.h b/hw/net/vmxnet3.h
-> index 5b3b76ba7a..36a17b82aa 100644
-> --- a/hw/net/vmxnet3.h
-> +++ b/hw/net/vmxnet3.h
-> @@ -273,6 +273,7 @@ struct Vmxnet3_TxDesc {
->   
->   /* TxDesc.OM values */
->   #define VMXNET3_OM_NONE        0
-> +#define VMXNET3_OM_ENCAP       1
->   #define VMXNET3_OM_CSUM        2
->   #define VMXNET3_OM_TSO        3
->   
-
+r~
 
