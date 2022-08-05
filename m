@@ -2,108 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219E458A73E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 09:38:55 +0200 (CEST)
-Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB62A58A6BE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 09:09:36 +0200 (CEST)
+Received: from localhost ([::1]:52746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJrv3-0004Ti-ON
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 03:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
+	id 1oJrSh-0000dD-72
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 03:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJrpk-0001xR-6K
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:33:34 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17216)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJrKp-0005Kt-TF
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:01:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oJrph-0006SR-1u
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:33:23 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2757Idug036697;
- Fri, 5 Aug 2022 07:33:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=IBkBDCVOvYE/wJ/SNHy/OCIkdrnTX5TC/M880vtXbSo=;
- b=pDv2WyeX+dob0l+7LLML+xJykOOL9Kr+BGeNQt2IdKOCpsM5PfYuwVSGneClEVlzLy46
- AcmK2GfcwZ0WgDkbp/puIqt8DpT6NCk++AXUtlWtytoFtfCUmadrzatuMRsqS55SLpLj
- 9/7O2gKxzdAapxHmnl7UTAFltSH8qiSB6lcgVvM78b+ey4fR2xp7spG0Fj5q1PNM7OiU
- BCDJopA84GbZihANHFKWeBJdoCYZq2MKZkd2dCgGdh01Id40LDApN2vQfFCXUa5fvCXV
- dA5+DKao/yTQUg2NEXhO1bo6zCl6Oa6074/QNMPeFtTgLrXqB8JCLzgtBzC8S2RqTd9l qw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrxq30a1m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 07:33:15 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2757KHsj003847;
- Fri, 5 Aug 2022 07:33:15 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrxq309um-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 07:33:15 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2757KxUY006845;
- Fri, 5 Aug 2022 07:33:05 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03fra.de.ibm.com with ESMTP id 3hmv98w936-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 07:33:05 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2757X1J525690586
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Aug 2022 07:33:02 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE88C4203F;
- Fri,  5 Aug 2022 07:33:01 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5ABEF42042;
- Fri,  5 Aug 2022 07:33:01 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.145.4.149])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  5 Aug 2022 07:33:01 +0000 (GMT)
-Date: Fri, 5 Aug 2022 08:59:42 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
- frankja@linux.ibm.com, alex.bennee@linaro.org
-Subject: Re: [PATCH v2 1/1] osdep: asynchronous teardown for shutdown on Linux
-Message-ID: <20220805085942.2c5cbce1@p-imbrenda>
-In-Reply-To: <Yuv2nW57bSGdK/1d@redhat.com>
-References: <20220803173141.52711-1-imbrenda@linux.ibm.com>
- <YuqxtV1O8IqRAuDu@redhat.com> <YuuDc8nsLtPvtrQ7@redhat.com>
- <20220804164929.2ae0d34e@p-imbrenda> <Yuv2nW57bSGdK/1d@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HPsUhpRLrNcb6xKI3-MODq2gbagSoIPw
-X-Proofpoint-ORIG-GUID: IGprqQpQs2x-qnoPvyg68f_r-4vbvIZt
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJrKk-0001K3-2s
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:01:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659682880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Bdw/JVhR6ywrcqbb4Mjy6/jtH8fdYq8GuntPzaoJBU=;
+ b=E3P6UklOy+i/YPDoWBUmrD02/wsuz9mCSpWcpig/MWvS2brWMgE2kflJ3s4ZhuxSJGP0xm
+ ZxYie15lwgdsgaDVNGiNc7OdtwRGCXxmohFONVJqjRCWi9OuMcfgpg6+aftQZynsHB8/QO
+ PSh/4xiMaTT+KeCZfh2p9DSx/D/y+LE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-422-0-Q8amuFMc28-_SQriUEwA-1; Fri, 05 Aug 2022 03:01:19 -0400
+X-MC-Unique: 0-Q8amuFMc28-_SQriUEwA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ sc31-20020a1709078a1f00b0073096c2b4e1so871500ejc.22
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 00:01:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=3Bdw/JVhR6ywrcqbb4Mjy6/jtH8fdYq8GuntPzaoJBU=;
+ b=H5fBS/89iyyqe39FkpvCMmPrc0FpBza0YS9mb5Azm9xRxuBEH0sNr86LaHms4gLCDf
+ pp4sCQ8yX97ELh+SOpseOr/EMU4ieiC0mjImrcdRZtKXsozTL/y4H5pimddumn05Wvc7
+ haBnAOs3Ye5A+PIGna/vA5JVzvtQOMBPFZZzgA3J+Mb9QpB5oY/cEwK5Yhz7RAqt/79T
+ 4j38SqAWT8qANX/3HRZwFPMQwPexbPX1pYZ69PUC9CbbU4/FfLkUnp3YnkYcYaB4FrWG
+ I8xP7r2acqYl68AkFtHlCKaenX6GMF7yc3rZbpoiaHCawPUp4U4Yfb756xmae6EEbVGd
+ rLIw==
+X-Gm-Message-State: ACgBeo0JxLIiVf0PCfhr25TNksSxXZgqxZJVJPKwZc/dZyVp3dlGVMFs
+ N1+7eyXnUY+d/NEVo4qjVvRcxmJ/o1+NAe/tgH7p0mAhCU3vm70GPcm/5z9Kkqx7gwSXcM557DD
+ /D3sRBk6o3FHYVfU=
+X-Received: by 2002:a17:907:6930:b0:730:f00f:7ad2 with SMTP id
+ rb48-20020a170907693000b00730f00f7ad2mr1557919ejc.389.1659682878016; 
+ Fri, 05 Aug 2022 00:01:18 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5RJBDZAUBCBNnhldTy0PqiXcMtGos4ITx7xnXNDFOCwHPB5O/Fl0m3Wg6YZaavC23h1R3MRw==
+X-Received: by 2002:a17:907:6930:b0:730:f00f:7ad2 with SMTP id
+ rb48-20020a170907693000b00730f00f7ad2mr1557896ejc.389.1659682877620; 
+ Fri, 05 Aug 2022 00:01:17 -0700 (PDT)
+Received: from redhat.com ([2.52.137.185]) by smtp.gmail.com with ESMTPSA id
+ 5-20020a170906300500b007262a1c8d20sm1249719ejz.19.2022.08.05.00.01.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Aug 2022 00:01:16 -0700 (PDT)
+Date: Fri, 5 Aug 2022 03:01:13 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, berrange@redhat.com,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH v2] pc: add property for Linux setup_data random number
+ seed
+Message-ID: <20220805025107-mutt-send-email-mst@kernel.org>
+References: <20220804212441.458478-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-05_01,2022-08-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2208050036
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220804212441.458478-1-pbonzini@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,95 +96,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Aug 2022 17:41:01 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Thu, Aug 04, 2022 at 11:24:41PM +0200, Paolo Bonzini wrote:
+> Using a property makes it possible to use the normal compat property
+> mechanism instead of ad hoc code; it avoids parameter proliferation
+> in x86_load_linux; and allows shipping the code even if it is
+> disabled by default.
+> 
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Co-developed-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/i386/microvm.c     |  2 +-
+>  hw/i386/pc.c          |  5 +++--
+>  hw/i386/pc_piix.c     |  2 +-
+>  hw/i386/pc_q35.c      |  2 +-
+>  hw/i386/x86.c         | 33 +++++++++++++++++++++++++++++----
+>  include/hw/i386/pc.h  |  3 ---
+>  include/hw/i386/x86.h |  5 +++--
+>  7 files changed, 38 insertions(+), 14 deletions(-)
+> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 7fe8cce03e..dc929727dc 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+>      rom_set_fw(fw_cfg);
+>  
+>      if (machine->kernel_filename != NULL) {
+> -        x86_load_linux(x86ms, fw_cfg, 0, true, false);
+> +        x86_load_linux(x86ms, fw_cfg, 0, true);
+>      }
+>  
+>      if (mms->option_roms) {
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 7280c02ce3..9b192373c0 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -112,6 +112,7 @@ const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
+>  
+>  GlobalProperty pc_compat_6_2[] = {
+>      { "virtio-mem", "unplugged-inaccessible", "off" },
+> +    { TYPE_X86_MACHINE, "linuxboot-randomness", "off" },
+>  };
+>  const size_t pc_compat_6_2_len = G_N_ELEMENTS(pc_compat_6_2);
+>  
+> @@ -796,7 +797,7 @@ void xen_load_linux(PCMachineState *pcms)
+>      rom_set_fw(fw_cfg);
+>  
+>      x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+> -                   pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
+> +                   pcmc->pvh_enabled);
+>      for (i = 0; i < nb_option_roms; i++) {
+>          assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
+>                 !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
+> @@ -1118,7 +1119,7 @@ void pc_memory_init(PCMachineState *pcms,
+>  
+>      if (linux_boot) {
+>          x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+> -                       pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
+> +                       pcmc->pvh_enabled);
+>      }
+>  
+>      for (i = 0; i < nb_option_roms; i++) {
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index a5c65c1c35..1526b7e3fd 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -447,10 +447,10 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+>  static void pc_i440fx_7_0_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+> +
+>      pc_i440fx_7_1_machine_options(m);
+>      m->alias = NULL;
+>      m->is_default = false;
+> -    pcmc->legacy_no_rng_seed = true;
+>      pcmc->enforce_amd_1tb_hole = false;
+>      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 3a35193ff7..c5b38edc65 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -384,9 +384,9 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+>  static void pc_q35_7_0_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+> +
+>      pc_q35_7_1_machine_options(m);
+>      m->alias = NULL;
+> -    pcmc->legacy_no_rng_seed = true;
+>      pcmc->enforce_amd_1tb_hole = false;
+>      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 050eedc0c8..8c6450ee07 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -60,6 +60,8 @@
+>  #include CONFIG_DEVICES
+>  #include "kvm/kvm_i386.h"
+>  
+> +#define RNG_SEED_LENGTH 32
+> +
+>  /* Physical Address of PVH entry point read from kernel ELF NOTE */
+>  static size_t pvh_start_addr;
+>  
+> @@ -767,8 +769,7 @@ static bool load_elfboot(const char *kernel_filename,
+>  void x86_load_linux(X86MachineState *x86ms,
+>                      FWCfgState *fw_cfg,
+>                      int acpi_data_size,
+> -                    bool pvh_enabled,
+> -                    bool legacy_no_rng_seed)
+> +                    bool pvh_enabled)
+>  {
+>      bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+>      uint16_t protocol;
+> @@ -786,7 +787,6 @@ void x86_load_linux(X86MachineState *x86ms,
+>      const char *dtb_filename = machine->dtb;
+>      const char *kernel_cmdline = machine->kernel_cmdline;
+>      SevKernelLoaderContext sev_load_ctx = {};
+> -    enum { RNG_SEED_LENGTH = 32 };
+>  
+>      /* Align to 16 bytes as a paranoia measure */
+>      cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
+> @@ -1076,7 +1076,8 @@ void x86_load_linux(X86MachineState *x86ms,
+>          load_image_size(dtb_filename, setup_data->data, dtb_size);
+>      }
+>  
+> -    if (!legacy_no_rng_seed) {
+> +    if (x86ms->linuxboot_randomness != ON_OFF_AUTO_OFF &&
+> +        (protocol >= 0x209 || x86ms->linuxboot_randomness == ON_OFF_AUTO_ON)) {
 
-> On Thu, Aug 04, 2022 at 04:49:29PM +0200, Claudio Imbrenda wrote:
-> > On Thu, 4 Aug 2022 09:29:39 +0100
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >=20=20=20
-> > > On Wed, Aug 03, 2022 at 06:34:45PM +0100, Daniel P. Berrang=C3=A9 wro=
-te:=20=20
-> > > > On Wed, Aug 03, 2022 at 07:31:41PM +0200, Claudio Imbrenda wrote:=
-=20=20=20=20
-> > > > > This patch adds support for asynchronously tearing down a VM on L=
-inux.
-> > > > >=20
-> > > > > When qemu terminates, either naturally or because of a fatal sign=
-al,
-> > > > > the VM is torn down. If the VM is huge, it can take a considerable
-> > > > > amount of time for it to be cleaned up. In case of a protected VM=
-, it
-> > > > > might take even longer than a non-protected VM (this is the case =
-on
-> > > > > s390x, for example).
-> > > > >=20
-> > > > > Some users might want to shut down a VM and restart it immediatel=
-y,
-> > > > > without having to wait. This is especially true if management
-> > > > > infrastructure like libvirt is used.
-> > > > >=20
-> > > > > This patch implements a simple trick on Linux to allow qemu to re=
-turn
-> > > > > immediately, with the teardown of the VM being performed
-> > > > > asynchronously.
-> > > > >=20
-> > > > > If the new commandline option -async-teardown is used, a new proc=
-ess is
-> > > > > spawned from qemu at startup, using the clone syscall, in such wa=
-y that
-> > > > > it will share its address space with qemu.
-> > > > >=20
-> > > > > The new process will then simpy wait until qemu terminates, and t=
-hen it
-> > > > > will exit itself.
-> > > > >=20
-> > > > > This allows qemu to terminate quickly, without having to wait for=
- the
-> > > > > whole address space to be torn down. The teardown process will ex=
-it
-> > > > > after qemu, so it will be the last user of the address space, and
-> > > > > therefore it will take care of the actual teardown.
-> > > > >=20
-> > > > > The teardown process will share the same cgroups as qemu, so both
-> > > > > memory usage and cpu time will be accounted properly.
-> > > > >=20
-> > > > > This feature can already be used with libvirt by adding the follo=
-wing
-> > > > > to the XML domain definition:
-> > > > >=20
-> > > > >   <commandline xmlns=3D"http://libvirt.org/schemas/domain/qemu/1.=
-0">
-> > > > >   <arg value=3D'-async-teardown'/>
-> > > > >   </commandline>=20=20=20=20
-> > > >=20
-> > > > How does this work in practice ?  Libvirt should be blocking until
-> > > > all processes in the cgroup have exited, including this cloned
-> > > > child process.=20=20=20=20
-> > >=20
-> > > Also, have you disabled use of seccomp with QEMU when testing this,
-> > > as the seccomp filter that libivrt enables is supposed to block
-> > > any use of clone() except for the creation of threads.=20=20
-> >=20
-> > it was just a vanilla libvirt 8.0.0 as found on ubuntu 22.04; I have no
-> > idea how it is configured by default=20=20
->=20
-> Ok, so the reason it is working is because the extra process is
-> cloned() right in middle of processing argv. This is before the
-> seccomp filter is applied to the process, so clone() is not blocked.
->=20
-> One think I note about this in practice is that (unsurprisingly)
-> if you do a process listing, users now see 2 QEMU processes instead
-> of one.
->=20
-> I wonder if we should consider overwriting argv in the child
-> process with "[qemu async teardown]" to give users a hint as to
-> why this duplicate process exists.
+Hmm so if user requested "on" but protocol is too old then we just
+ignore it silently? I'd rather we failed initialization.
+So:
 
-sounds like a good idea
+if (x86ms->linuxboot_randomness == ON_OFF_AUTO_ON &&
+    protocol < 0x209) {
+	fprintf(stderr, "qemu: Linux kernel too old to load a dtb\n");
+	exit(1);
+}
 
->=20
-> With regards,
-> Daniel
+
+
+
+
+>          setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+>          kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
+>          kernel = g_realloc(kernel, kernel_size);
+> @@ -1237,6 +1238,23 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
+>      visit_type_OnOffAuto(v, name, &x86ms->smm, errp);
+>  }
+>  
+> +static void x86_machine_get_linuxboot_randomness(Object *obj, Visitor *v, const char *name,
+> +                                           void *opaque, Error **errp)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(obj);
+> +    OnOffAuto linuxboot_randomness = x86ms->linuxboot_randomness;
+> +
+> +    visit_type_OnOffAuto(v, name, &linuxboot_randomness, errp);
+> +}
+> +
+> +static void x86_machine_set_linuxboot_randomness(Object *obj, Visitor *v, const char *name,
+> +                                           void *opaque, Error **errp)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(obj);
+> +
+> +    visit_type_OnOffAuto(v, name, &x86ms->linuxboot_randomness, errp);
+> +}
+> +
+>  bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms)
+>  {
+>      if (x86ms->acpi == ON_OFF_AUTO_OFF) {
+
+Not a comment on this code, but I've been thinking about this code we
+have spread all over, it's a lot of boilerplate code, and e.g. whether
+the default "auto" means "on if possible" or "off if possible" is
+actually hidden inside code logic.
+
+I wish we had a macro for this kind of thing.
+
+
+> @@ -1387,6 +1405,7 @@ static void x86_machine_initfn(Object *obj)
+>      x86ms->acpi = ON_OFF_AUTO_AUTO;
+>      x86ms->pit = ON_OFF_AUTO_AUTO;
+>      x86ms->pic = ON_OFF_AUTO_AUTO;
+> +    x86ms->linuxboot_randomness = ON_OFF_AUTO_AUTO;
+>      x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+>      x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+>      x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+> @@ -1426,6 +1445,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+>      object_class_property_set_description(oc, X86_MACHINE_PIT,
+>          "Enable i8254 PIT");
+>  
+> +    object_class_property_add(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS, "OnOffAuto",
+> +        x86_machine_get_linuxboot_randomness, x86_machine_set_linuxboot_randomness,
+> +        NULL, NULL);
+> +    object_class_property_set_description(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS,
+> +        "Pass random number seed to -kernel Linux image");
+> +
+>      object_class_property_add(oc, X86_MACHINE_PIC, "OnOffAuto",
+>                                x86_machine_get_pic,
+>                                x86_machine_set_pic,
+
+BTW we don't check that this isn't used without -kernel, and
+if it is it's silently ignored. Which isn't terrible but something
+to think about.
+
+
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 8435733bd6..9cc3f5d338 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -128,9 +128,6 @@ struct PCMachineClass {
+>  
+>      /* create kvmclock device even when KVM PV features are not exposed */
+>      bool kvmclock_create_always;
+> -
+> -    /* skip passing an rng seed for legacy machines */
+> -    bool legacy_no_rng_seed;
+>  };
+>  
+>  #define TYPE_PC_MACHINE "generic-pc-machine"
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index 62fa5774f8..0487c065c8 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -70,6 +70,7 @@ struct X86MachineState {
+>      OnOffAuto acpi;
+>      OnOffAuto pit;
+>      OnOffAuto pic;
+> +    OnOffAuto linuxboot_randomness;
+>  
+>      char *oem_id;
+>      char *oem_table_id;
+> @@ -94,6 +95,7 @@ struct X86MachineState {
+>  #define X86_MACHINE_OEM_ID           "x-oem-id"
+>  #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+>  #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
+> +#define X86_MACHINE_LINUXBOOT_RANDOMNESS "linuxboot-randomness"
+>  
+>  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+>  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+> @@ -126,8 +128,7 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
+>  void x86_load_linux(X86MachineState *x86ms,
+>                      FWCfgState *fw_cfg,
+>                      int acpi_data_size,
+> -                    bool pvh_enabled,
+> -                    bool legacy_no_rng_seed);
+> +                    bool pvh_enabled);
+>  
+>  bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
+>  bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+> -- 
+> 2.37.1
 
 
