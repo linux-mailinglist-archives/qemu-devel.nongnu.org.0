@@ -2,97 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5A458A6FB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 09:25:03 +0200 (CEST)
-Received: from localhost ([::1]:35522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BAD758A753
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 09:42:55 +0200 (CEST)
+Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJrhe-0000p9-0B
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 03:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55962)
+	id 1oJryw-00076P-6G
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 03:42:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJreJ-0006oV-NC
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:21:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58007)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oJruR-00048G-Ls
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:38:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJrdz-0004NI-GA
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:21:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659684073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1usxqLxO1k0Jfzxrxuo8UL+g/tgRgLiM6i6RWiaa1qU=;
- b=FcZZF2XQ52hI3Qk5LQ/jT5uVdcNQ+DeOG/Eq+9nUcQPGKjyhz0CAONgy5lbEs1/jWez7Vq
- FgcqkeNmgAyvpCaeZS52GCbyv1xM6l5y/U6DoXLZcpyvqci9QXC5NAeq9azPKyyWpQfwzG
- hciOyChXOmHGEKxUDKBcDl9oep+qdWo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-3tx4NM56PTOgysXw-qD5vQ-1; Fri, 05 Aug 2022 03:21:11 -0400
-X-MC-Unique: 3tx4NM56PTOgysXw-qD5vQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n30-20020a05600c501e00b003a3264465ebso3224684wmr.1
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 00:21:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=1usxqLxO1k0Jfzxrxuo8UL+g/tgRgLiM6i6RWiaa1qU=;
- b=s4DrClesHJsnMvuEEVHpfgGBzd1LNvg6O7jBFrtFBsALnwX/yi7A7CJPO3WDKeT/um
- LDoGZE1poSUghZKMHbhn2uE/cZ656y1AV/64vSgYaRnEk8SymPFOTpH/+YyjwJSgImdn
- C/0D3L2+OQO+TYdIwRxhF+xyDl76uE38Cgs+Jt72Fs/iRtKak3mxzsUg1i0XNZXL4vXN
- JS40CzT4BrEx2yTm6XsoBOWsZXTbrrNwKeDI4vetF8GazL9D3/zRvkCiOHABarD3RW6y
- LJCr7ikUXpq/KC/cVxdB/RwzYiBRA5Rb8rkIv3HNdIU+Bd7td9kgdpZhAjSQrIZ3PTGm
- p5dg==
-X-Gm-Message-State: ACgBeo1jLET4j3CP23hbTX8CBS28yirTvSSO9uCfYsYsf1H/CfCCd0ci
- lxKq59zSxJV480COt/1fgcrrTvYjccSNDJeCOHcvVfe7/BRrYIwJdy3kmoxwv6CtFaUUQxjNxkA
- SblWzZlGreuVPwMQ=
-X-Received: by 2002:a5d:64a6:0:b0:21f:b3b:5cc9 with SMTP id
- m6-20020a5d64a6000000b0021f0b3b5cc9mr3227936wrp.601.1659684070121; 
- Fri, 05 Aug 2022 00:21:10 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR56IGR8q5WoWyp7FwGU6ZLu5fFdFogX7f7+CqdBcPQQvAtd+nKpS9Y6ap/m7HxF5BcvvLtd4Q==
-X-Received: by 2002:a5d:64a6:0:b0:21f:b3b:5cc9 with SMTP id
- m6-20020a5d64a6000000b0021f0b3b5cc9mr3227921wrp.601.1659684069897; 
- Fri, 05 Aug 2022 00:21:09 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-42-112-229.web.vodafone.de.
- [109.42.112.229]) by smtp.gmail.com with ESMTPSA id
- j6-20020a05600c190600b003a31b79dc0esm23361799wmq.1.2022.08.05.00.21.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 00:21:09 -0700 (PDT)
-Message-ID: <e8eab8e6-e6a5-af95-223f-e0ca91b4d833@redhat.com>
-Date: Fri, 5 Aug 2022 09:21:07 +0200
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oJruP-000787-Gi
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:38:15 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2757F0DE036751;
+ Fri, 5 Aug 2022 07:38:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=iLcOOHIURuf4f+AtROYhtMOqwF5BGTPtyQJPJuT1+os=;
+ b=s1zT5yX7rGBB1NQIRj6U/aSv8oOb+6jEt6xwGsNYYhj/kd1FDNFwEjMbGS//AmT5PLJb
+ V0NK4LKKpii7xj1ZfxRwqXdvnyHRRHcjRpKou47vHcmJ1ccDptS8vtGBy+pZaLdyObCG
+ Fp6VOLA34rFzPQ7FruE+po8RNTWNHQiwJarhBH2eYIuxIlM/XcJWNSpUoMX7uAIT/ZUB
+ HLcR02diRCgtY+MJxEf3yenGQhTSySYUocZMjokjZV4SDOqZmpudgXEODRY7W5VTEuiV
+ 4UJM3ilm+GCsxDm5mDAwWtgXkAuJZlvfj6Km63qp1rDsstXWv9DLFYJim9V31oWDWQAe Og== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrxn68mdk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 07:38:10 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2757QwmB040290;
+ Fri, 5 Aug 2022 07:38:10 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hrxn68mbg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 07:38:09 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2757JtCq001507;
+ Fri, 5 Aug 2022 07:33:07 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3hmv98q4q0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 07:33:07 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2757X4YM17432872
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Aug 2022 07:33:04 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1D6F04203F;
+ Fri,  5 Aug 2022 07:33:04 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8F68E42041;
+ Fri,  5 Aug 2022 07:33:03 +0000 (GMT)
+Received: from p-imbrenda (unknown [9.145.4.149])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Aug 2022 07:33:03 +0000 (GMT)
+Date: Fri, 5 Aug 2022 09:32:50 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
+ cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
+ frankja@linux.ibm.com, alex.bennee@linaro.org
+Subject: Re: [PATCH v2 1/1] osdep: asynchronous teardown for shutdown on Linux
+Message-ID: <20220805093250.1d3bcda2@p-imbrenda>
+In-Reply-To: <Yuv6QtPCtABMc7J4@redhat.com>
+References: <20220803173141.52711-1-imbrenda@linux.ibm.com>
+ <Yuv6QtPCtABMc7J4@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: OhZ6bcnPPJq6RSI2ftUi-hHWw5LMKHPB
+X-Proofpoint-ORIG-GUID: E1jQlEYxVFpLqyUbjbbZ-HVZeXeN317G
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Content-Language: en-US
-To: "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Daniel P. Berrange" <berrange@redhat.com>
-Cc: "stefanha@gmail.com" <stefanha@gmail.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
-References: <cover.1659403195.git.jag.raman@oracle.com>
- <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 0/1] Update vfio-user module to the latest
-In-Reply-To: <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-05_01,2022-08-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0
+ mlxlogscore=999 mlxscore=0 adultscore=0 clxscore=1015 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208050036
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,39 +120,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/08/2022 12.00, Zhang, Chen wrote:
-> 
-> 
->> -----Original Message-----
->> From: Qemu-devel <qemu-devel-
->> bounces+chen.zhang=intel.com@nongnu.org> On Behalf Of Jagannathan
->> Raman
->> Sent: Tuesday, August 2, 2022 9:24 AM
->> To: qemu-devel@nongnu.org
->> Cc: stefanha@gmail.com; berrange@redhat.com
->> Subject: [PATCH 0/1] Update vfio-user module to the latest
->>
->> Hi,
->>
->> This patch updates the libvfio-user submodule to the latest.
-> 
-> Just a rough idea, why not depends on linux distribution for the libvfio-user.so?
-> It looks no libvfio-user packet in distribution's repo.
-> 
-> Hi Thomas/Daniel:
-> 
-> For the RFC QEMU user space eBPF support,
-> https://lore.kernel.org/all/20220617073630.535914-6-chen.zhang@intel.com/T/
-> Maybe introduce the libubpf.so as a subproject like libvfio-user.so is more appropriate?
+On Thu, 4 Aug 2022 17:56:34 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-Fair comment. I never noticed them before, but why do we have those 
-submodules in the subprojects/ folder (libvduse, libvfio-user and 
-libvhost-user)? ... I don't think it's the job of QEMU to ship libraries 
-that a user might want to use for a certain feature, so could we please 
-remove those submodules again? If someone wants to use this, they can 
-compile the libraries on their own or help their favorite distribution to 
-ship them as packages.
+> On Wed, Aug 03, 2022 at 07:31:41PM +0200, Claudio Imbrenda wrote:
+> > This patch adds support for asynchronously tearing down a VM on Linux.
+> >=20
+> > When qemu terminates, either naturally or because of a fatal signal,
+> > the VM is torn down. If the VM is huge, it can take a considerable
+> > amount of time for it to be cleaned up. In case of a protected VM, it
+> > might take even longer than a non-protected VM (this is the case on
+> > s390x, for example).
+> >=20
+> > Some users might want to shut down a VM and restart it immediately,
+> > without having to wait. This is especially true if management
+> > infrastructure like libvirt is used.
+> >=20
+> > This patch implements a simple trick on Linux to allow qemu to return
+> > immediately, with the teardown of the VM being performed
+> > asynchronously.
+> >=20
+> > If the new commandline option -async-teardown is used, a new process is
+> > spawned from qemu at startup, using the clone syscall, in such way that
+> > it will share its address space with qemu.
+> >=20
+> > The new process will then simpy wait until qemu terminates, and then it
+> > will exit itself.
+> >=20
+> > This allows qemu to terminate quickly, without having to wait for the
+> > whole address space to be torn down. The teardown process will exit
+> > after qemu, so it will be the last user of the address space, and
+> > therefore it will take care of the actual teardown.
+> >=20
+> > The teardown process will share the same cgroups as qemu, so both
+> > memory usage and cpu time will be accounted properly.
+> >=20
+> > This feature can already be used with libvirt by adding the following
+> > to the XML domain definition:
+> >=20
+> >   <commandline xmlns=3D"http://libvirt.org/schemas/domain/qemu/1.0">
+> >   <arg value=3D'-async-teardown'/>
+> >   </commandline>
+> >=20
+> > Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> > ---
+> >  include/qemu/osdep.h |  2 ++
+> >  os-posix.c           |  5 ++++
+> >  qemu-options.hx      | 17 ++++++++++++++
+> >  util/osdep.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 79 insertions(+)=20=20
+>=20
+>=20
+> > diff --git a/util/osdep.c b/util/osdep.c
+> > index 60fcbbaebe..bb0baf97a0 100644
+> > --- a/util/osdep.c
+> > +++ b/util/osdep.c
+> > @@ -23,6 +23,15 @@
+> >   */
+> >  #include "qemu/osdep.h"
+> >  #include "qapi/error.h"
+> > +
+> > +#ifdef CONFIG_LINUX
+> > +#include <sys/types.h>
+> > +#include <sys/select.h>
+> > +#include <sys/unistd.h>
+> > +#include <sys/syscall.h>
+> > +#include <signal.h>
+> > +#endif
+> > +
+> >  #include "qemu/cutils.h"
+> >  #include "qemu/sockets.h"
+> >  #include "qemu/error-report.h"
+> > @@ -512,6 +521,52 @@ const char *qemu_hw_version(void)
+> >      return hw_version;
+> >  }
+> >=20=20
+> > +#ifdef __linux__
+> > +static int async_teardown_fn(void *arg)
+> > +{
+> > +    sigset_t all_signals;
+> > +    fd_set r, w, e;
+> > +    int fd;
+> > +
+> > +    /* open a pidfd descriptor for the parent qemu process */
+> > +    fd =3D syscall(__NR_pidfd_open, getppid(), 0);=20=20
+>=20
+> We ought to open this FD in the parent process to avoid a race
+> where the parent crashes immediately after clone() and gets
+> reparented to 'init' before this child process calls pidfd_open,
+> otherwise it'll sit around waiting for init to exit.
 
-  Thomas
+sounds good
+
+>=20
+> > +    /* if something went wrong, or if the file descriptor is too big */
+> > +    if ((fd < 0) || (fd >=3D FD_SETSIZE)) {
+> > +        _exit(1);
+> > +    }
+> > +    /* zero all fd sets */
+> > +    FD_ZERO(&r);
+> > +    FD_ZERO(&w);
+> > +    FD_ZERO(&e);
+> > +    /* set the fd for the pidfd in the "read" set */
+> > +    FD_SET(fd, &r);
+> > +    /* block all signals */
+> > +    sigfillset(&all_signals);
+> > +    sigprocmask(SIG_BLOCK, &all_signals, NULL);=20=20
+>=20
+> Technnically this is racy as there's still a window in which the
+> child is running when signals are not blocked.
+
+true, I will apply the workaround you suggest below
+
+>=20
+> > +    /* wait for the pid to disappear -> fd will appear as ready for re=
+ad */
+> > +    (void) select(fd + 1, &r, &w, &e, NULL);=20=20
+>=20
+> While using pidfd can work, a stronger protection would be to use
+>=20
+>    prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
+>=20
+> this guarantees that the kernel will deliver SIGKILL to this
+> process immediately when the parent QEMU exits.
+>=20
+> We should probably do both in fact.
+
+makes sense
+
+>=20
+> > +
+> > +    /*
+> > +     * Close all file descriptors that might have been inherited from =
+the
+> > +     * main qemu process when doing clone. This is needed to make libv=
+irt
+> > +     * happy.
+> > +     */
+> > +    close_range(0, ~0U, 0);=20=20
+>=20
+> Shouldn't we close all the FDs immediately when this process is
+
+that's exactly what I did in the beginning, but some things broke...
+but I just tried again now and it seems to work, so probably the
+breakage was due to something else
+
+> created, rather than only at the end when we're exiting. I don't
+> see there's any need to keep them open. Doing it immediately
+> would be better when using prctl(PR_SET_PDEATHSIG)
+
+yes
+
+>=20
+> > +    _exit(0);
+> > +}
+> > +
+> > +void init_async_teardown(void)
+> > +{
+> > +    const int size =3D 8192; /* should be more than enough */
+> > +    char *stack =3D malloc(size);
+> > +=20=20
+>=20
+> You need to block all signals here.
+>=20
+> > +    /* start a new process sharing the address space with qemu */
+> > +    clone(async_teardown_fn, stack + size, CLONE_VM, NULL, NULL, NULL,=
+ NULL);=20=20
+>=20
+> And unblock signals again here.
+>=20
+> That way the "everything blocked"  mask is inherited by the child
+> from the very first moment of its existance.
+
+sounds like a very good idea
+
+>=20
+> > +}
+> > +#else /* __linux__ */
+> > +void init_async_teardown(void) {}
+> > +#endif
+> > +
+> >  #ifdef _WIN32
+> >  static void socket_cleanup(void)
+> >  {
+> > --=20
+> > 2.37.1
+> >=20=20=20
+>=20
+> With regards,
+> Daniel
 
 
