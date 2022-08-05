@@ -2,104 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0D958ADB1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:53:23 +0200 (CEST)
-Received: from localhost ([::1]:36736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F10258ADE3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:07:10 +0200 (CEST)
+Received: from localhost ([::1]:49730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJzda-0006i0-Vc
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35486)
+	id 1oJzqv-0007wV-Ob
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJzbY-0002QR-AZ
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:51:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52276)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oJzbR-0004ST-6K
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:51:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659714668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ee0FZ5CrPLTCnSVrilgGUULd3s5JA4pa6kqxC9ZuQ9w=;
- b=XAWLkz7FnXgJowoMdWI5iyWAPIspD2r/ZoMoXY0erJDfl3WNdxJsNnbtY6nuhxnEV/TQNd
- isXmBv8N9D5sYs+TNDjGAurez1xentIvH46o2E3euHWW5Pls+2/ZmI7zapgvtlhEZrjYuT
- z5M+ApbL1WLRXrOl1rjn9zB8ekV6vNk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-7C0pAChyMEGQZwx7ljyLFw-1; Fri, 05 Aug 2022 11:51:07 -0400
-X-MC-Unique: 7C0pAChyMEGQZwx7ljyLFw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h133-20020a1c218b000000b003a4f57eaeaaso1403671wmh.8
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:51:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzeT-0007PI-Tg
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:18 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzeS-0004mw-3W
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:17 -0400
+Received: by mail-wr1-x430.google.com with SMTP id l4so3668902wrm.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=i/2Te5aPkzaGgF6Yd5Elo1dMRE7ml/rzKBW+IcYIQIQ=;
+ b=VrlJVqeBIviU6PDcuhASVU+PYr58lUA7zKvCXG4hq0NjWrBEuNKkixiE7cmHwuF6Gs
+ iDg5tSHKkKaqj3gpe1kFfxPlKTf1FBNUK+SVnL/U1ObCsQ9cNOGU40liD3ih3HYhfWIW
+ K2o2Q7gsA2Sq3L5/XJUpUhfkZITJN5B++Fbaod7CqVCDdR4agQtnow1IVbbBEiIGCYZr
+ HDtka7hvt9hPNgKm3IiemK6f/4vnDxVrs8JS9uaWgrhPHrlIbR7VOYulLOIKoIH0ffcN
+ 62NuT50CcEb2IdBr6Yfe0FX4ZrNTIthyKqXyvYU9WZ90d0mReaLCgz0pWDGN4FubbKaX
+ Qa6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=Ee0FZ5CrPLTCnSVrilgGUULd3s5JA4pa6kqxC9ZuQ9w=;
- b=4HofUuuS1ItX8gZMkkg9P71aKpxopVLUJQEAi+QzYUffg5s+D5AX7QG9BKb5mbSoA8
- +EQDiU0MFRe3daCwGrApvhDYvmfwvwL9QwpC2SaZ47diCYvwXfBYoC4lUYZF8ZXTzLMb
- 1hoVYbM+O267fQjBPpIe3aWHJz8dUmA5k7rgkYQB+lcvQM21veT4hC4KOFsIi+qZSxdj
- eu9dVjEFaksoK+hIcEGtK2k8niwyYQbR70t5wv2Mt+pQ89lZhkNyF4cVpNkGTUgJH/52
- MS9oG997Qux4Tp7ZzIgkLvWvdRkmOeN14qmzHS8D1NNK2pef8n43ammxET6o4qDMXyIl
- Fk+g==
-X-Gm-Message-State: ACgBeo1g/Ufvq8bBTi3esAHaQqN+H3vr0MyrVkGojh6KQI5jhzJt5J9I
- wrRpfjXtbSJYnC88J4MfgeulaZcALxOqYkr0rgZKOe3kmAhLeTfoPTt+9TFV1GPfbpFF8VjY/L8
- 6jPsMqtGqGbK8/PM=
-X-Received: by 2002:adf:f684:0:b0:221:7af4:45be with SMTP id
- v4-20020adff684000000b002217af445bemr1182632wrp.509.1659714665818; 
- Fri, 05 Aug 2022 08:51:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5QPP7jxwYYPWZ2NqvOtnaY9REmBjhH02o/wQdH6//iU6ZBDeOj60U1MUh3RGRw28Y0ZrjoUQ==
-X-Received: by 2002:adf:f684:0:b0:221:7af4:45be with SMTP id
- v4-20020adff684000000b002217af445bemr1182611wrp.509.1659714665516; 
- Fri, 05 Aug 2022 08:51:05 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c706:fb00:f5c3:24b2:3d03:9d52?
- (p200300cbc706fb00f5c324b23d039d52.dip0.t-ipconnect.de.
- [2003:cb:c706:fb00:f5c3:24b2:3d03:9d52])
- by smtp.gmail.com with ESMTPSA id
- q4-20020a1c4304000000b003a4a5bcd37esm9829861wma.23.2022.08.05.08.50.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 08:51:05 -0700 (PDT)
-Message-ID: <4b56eb89-96cb-fe06-3897-e85b9ad6aa68@redhat.com>
-Date: Fri, 5 Aug 2022 17:50:55 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=i/2Te5aPkzaGgF6Yd5Elo1dMRE7ml/rzKBW+IcYIQIQ=;
+ b=bDDF+/UiscAG6BmxerZBj5Acd2TT3/0BiJVOB145MVWrABWkeSvKxyPoIYou9YFrZj
+ VOX1uO8DpOOhCHKeLjmyOM0YPe2ql7XjU18yFCWwojPPj/13eWYxxxU/i8xyAIF9JTfA
+ Rik3dcRZSdgetJmKQjcFRuKoPr45hInWWuTlJUtPQRlgmAgfOlad0OmL3cC6vQz8Bpph
+ pQFuIQEw0qzTWXObmxmBT4tlR9iJI3g5EWxZtm4R7saKhfylk+CAytpdv59tIthTzjru
+ D+kuDUPapEnQrRflIJTvo5BHNkAAPlIP78a50Je+Sb2RqjqRLly6p3c0pRrPO79Pj02M
+ VfeA==
+X-Gm-Message-State: ACgBeo1s7QncmNCCGneXwAo12620GtRX5k/V3KUoCgDlL5BbKeGJFeAa
+ Z27xAy1Tbgs37TmH4RRE31yB5w==
+X-Google-Smtp-Source: AA6agR4ir/WJ2OZJuENnbVRZfcwfwGcqTB5otlRWWDzRBQGL7k/gziveqr6hVWSoTgd1c4r4WJQk8Q==
+X-Received: by 2002:adf:d1c2:0:b0:220:762f:fc64 with SMTP id
+ b2-20020adfd1c2000000b00220762ffc64mr4864194wrd.253.1659714853733; 
+ Fri, 05 Aug 2022 08:54:13 -0700 (PDT)
+Received: from henark71.. ([93.107.66.220]) by smtp.gmail.com with ESMTPSA id
+ t10-20020a5d49ca000000b0021d6dad334bsm4133543wrs.4.2022.08.05.08.54.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Aug 2022 08:54:13 -0700 (PDT)
+From: Conor Dooley <mail@conchuod.ie>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor.dooley@microchip.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ linux-riscv@lists.infradead.org
+Subject: [PATCH 0/5] QEMU: Fix RISC-V virt & spike machines' dtbs
+Date: Fri,  5 Aug 2022 16:54:00 +0100
+Message-Id: <20220805155405.1504081-1-mail@conchuod.ie>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH RFC 7/7] vl: Allow ThreadContext objects to be created
- before the sandbox option
-Content-Language: en-US
-To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-References: <20220721120732.118133-1-david@redhat.com>
- <20220721120732.118133-8-david@redhat.com>
- <450f1c5b-1730-5e5c-b9bc-7cd5e744c250@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <450f1c5b-1730-5e5c-b9bc-7cd5e744c250@redhat.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=mail@conchuod.ie; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 05 Aug 2022 12:00:37 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,151 +88,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.08.22 13:01, Michal Prívozník wrote:
-> On 7/21/22 14:07, David Hildenbrand wrote:
->> Currently, there is no way to configure a CPU affinity inside QEMU when
->> the sandbox option disables it for QEMU as a whole, for example, via:
->>     -sandbox enable=on,resourcecontrol=deny
->>
->> While ThreadContext objects can be created on the QEMU commandline and
->> the CPU affinity can be configured externally via the thread-id, this is
->> insufficient if a ThreadContext with a certain CPU affinity is already
->> required during QEMU startup, before we can intercept QEMU and
->> configure the CPU affinity.
->>
->> Blocking sched_setaffinity() was introduced in 24f8cdc57224 ("seccomp:
->> add resourcecontrol argument to command line"), "to avoid any bigger of the
->> process". However, we only care about once QEMU is running, not when
->> the instance starting QEMU explicitly requests a certain CPU affinity
->> on the QEMU comandline.
->>
->> Right now, for NUMA-aware preallocation of memory backends used for initial
->> machine RAM, one has to:
->>
->> 1) Start QEMU with the memory-backend with "prealloc=off"
->> 2) Pause QEMU before it starts the guest (-S)
->> 3) Create ThreadContext, configure the CPU affinity using the thread-id
->> 4) Configure the ThreadContext as "prealloc-context" of the memory
->>    backend
->> 5) Trigger preallocation by setting "prealloc=on"
->>
->> To simplify this handling especially for initial machine RAM,
->> allow creation of ThreadContext objects before parsing sandbox options,
->> such that the CPU affinity requested on the QEMU commandline alongside the
->> sandbox option can be set. As ThreadContext objects essentially only create
->> a persistant context thread and set the CPU affinity, this is easily
->> possible.
->>
->> With this change, we can create a ThreadContext with a CPU affinity on
->> the QEMU commandline and use it for preallocation of memory backends
->> glued to the machine (simplified example):
->>
->> qemu-system-x86_64 -m 1G \
->>  -object thread-context,id=tc1,cpu-affinity=3-4 \
->>  -object memory-backend-ram,id=pc.ram,size=1G,prealloc=on,prealloc-threads=2,prealloc-context=tc1 \
->>  -machine memory-backend=pc.ram \
->>  -S -monitor stdio -sandbox enable=on,resourcecontrol=deny
->>
->> And while we can query the current CPU affinity:
->>   (qemu) qom-get tc1 cpu-affinity
->>   [
->>       3,
->>       4
->>   ]
->>
->> We can no longer change it from QEMU directly:
->>   (qemu) qom-set tc1 cpu-affinity 1-2
->>   Error: Setting CPU affinity failed: Operation not permitted
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  softmmu/vl.c | 30 +++++++++++++++++++++++++++++-
->>  1 file changed, 29 insertions(+), 1 deletion(-)
->>
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index aabd82e09a..252732cf5d 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -1761,6 +1761,27 @@ static void object_option_parse(const char *optarg)
->>      visit_free(v);
->>  }
->>  
->> +/*
->> + * Very early object creation, before the sandbox options have been activated.
->> + */
->> +static bool object_create_pre_sandbox(const char *type)
->> +{
->> +    /*
->> +     * Objects should in general not get initialized "too early" without
->> +     * a reason. If you add one, state the reason in a comment!
->> +     */
->> +
->> +    /*
->> +     * Reason: -sandbox on,resourcecontrol=deny disallows setting CPU
->> +     * affinity of threads.
->> +     */
->> +    if (g_str_equal(type, "thread-context")) {
->> +        return true;
->> +    }
->> +
->> +    return false;
->> +}
->> +
->>  /*
->>   * Initial object creation happens before all other
->>   * QEMU data types are created. The majority of objects
->> @@ -1775,6 +1796,11 @@ static bool object_create_early(const char *type)
->>       * add one, state the reason in a comment!
->>       */
->>  
->> +    /* Reason: already created. */
->> +    if (object_create_pre_sandbox(type)) {
->> +        return false;
->> +    }
->> +
->>      /* Reason: property "chardev" */
->>      if (g_str_equal(type, "rng-egd") ||
->>          g_str_equal(type, "qtest")) {
->> @@ -1895,7 +1921,7 @@ static void qemu_create_early_backends(void)
->>   */
->>  static bool object_create_late(const char *type)
->>  {
->> -    return !object_create_early(type);
->> +    return !object_create_early(type) && !object_create_pre_sandbox(type);
->>  }
->>  
->>  static void qemu_create_late_backends(void)
->> @@ -2365,6 +2391,8 @@ static int process_runstate_actions(void *opaque, QemuOpts *opts, Error **errp)
->>  
->>  static void qemu_process_early_options(void)
->>  {
->> +    object_option_foreach_add(object_create_pre_sandbox);
->> +
->>  #ifdef CONFIG_SECCOMP
->>      QemuOptsList *olist = qemu_find_opts_err("sandbox", NULL);
->>      if (olist) {
-> 
-> Cool, this is processed before -sandbox, so threads can have their
-> affinity. However, it's also processed before -name debug-threads=on
-> which means that even though we try to set a thread name in 3/7, it's
-> effectively a dead code because name_threads from
-> util/qemu-thread-posix.c is still false. Could we shift things a bit?
-> E.g. like this:
-> 
-> static void qemu_process_early_options(void)
-> {
->     qemu_opts_foreach(qemu_find_opts("name"),
->                       parse_name, NULL, &error_fatal);
-> 
->     object_option_foreach_add(object_create_pre_sandbox);
+From: Conor Dooley <conor.dooley@microchip.com>
+
+The device trees produced automatically for the virt and spike machines
+fail dt-validate on several grounds. Some of these need to be fixed in
+the linux kernel's dt-bindings, but others are caused by bugs in QEMU.
+Patch one of this series is lifted from an earlier submission by Palmer
+that seems to have got lost by the wayside somewhere along the way,
+hence the rather out of date email used for Palmer [0].
+
+I mostly opted for what appeared to be the smallest change that would
+fix the warnings, partly due to my inexperience with the QEMU codebase.
+A "sister" patchset for the kernel will clear the remaining warnings.
+
+Thanks to Rob for reporting these issues [1],
+Conor.
+
+To reproduce the errors:
+./build/qemu-system-riscv64 -nographic -machine virt,dumpdtb=qemu.dtb
+dt-validate -p /path/to/linux/kernel/Documentation/devicetree/bindings/processed-schema.json qemu.dtb
+(The processed schema needs to be generated first)
+
+0 - https://lore.kernel.org/qemu-devel/20190813225307.5792-1-palmer@sifive.com/
+1 - https://lore.kernel.org/linux-riscv/20220803170552.GA2250266-robh@kernel.org/
+
+Conor Dooley (4):
+  hw/riscv: virt: fix uart node name
+  hw/riscv: virt: Fix the plic's address cells
+  hw/riscv: virt: fix syscon subnode paths
+  hw/core: fix platform bus node name
+
+Palmer Dabbelt (1):
+  target/riscv: Ignore the S and U letters when formatting ISA strings
+
+ hw/core/sysbus-fdt.c    |  2 +-
+ hw/riscv/virt.c         | 10 +++++++---
+ include/hw/riscv/virt.h |  1 +
+ target/riscv/cpu.c      | 18 +++++++++++++++++-
+ 4 files changed, 26 insertions(+), 5 deletions(-)
 
 
-Thanks for pointing that out. IMHO yes, there isn't too much magic to
-parse_name().
-
+base-commit: 2480f3bbd03814b0651a1f74959f5c6631ee5819
 -- 
-Thanks,
-
-David / dhildenb
+2.37.1
 
 
