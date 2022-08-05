@@ -2,100 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127F958ACE3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:00:31 +0200 (CEST)
-Received: from localhost ([::1]:56766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6521758ACE4
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:02:36 +0200 (CEST)
+Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJyoP-0001kh-Tz
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:00:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52964)
+	id 1oJyqR-0003QC-B0
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oJyla-00073i-Bz
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:57:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46533)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJyln-0007P4-L0
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:57:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oJylW-0003mi-J3
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:57:32 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJylm-0003p0-0x
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 10:57:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659711449;
+ s=mimecast20190719; t=1659711465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5ofArVsT9SqiS/WmYAoKDnsd3sFvauAjeS18VeVRijs=;
- b=bnjAAAWNqxVCNJpqVY3l/7JD4OifXfHYULOsLl9ILE4b+gL7oE+XpNteKrLWGh/O5qz4mH
- Ytxh98gK5wBdNhXNbBdInOoenMkl+KDx/d/vSc+BMUqVDsVHSC5XzmoLWDmfzWas2RNEdY
- EDqp8XnxTddDX4Nal/C8z19qutXprtY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zG9XHezuh5qJ9I2MGQdSbAraxqR2na0biWasDmYcpcQ=;
+ b=RRo3xdd4Q5SjI/HfPuNxnFzVH7X3poiR7J08GoFAORf/aYWK4nUghRdaSfz3BD/b/R+5oZ
+ GPRWn1P33Bo/eGlYnoW8YPeMfg+4uV290GZRVUDf7T0lSFK40KPAO25/i6i9IIeF7Uctfg
+ dOg56jkJ/w4Y6oxb0AqwAM4u8CFLZPg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-122--7vQgbItPTmF5tBWMXuK3g-1; Fri, 05 Aug 2022 10:57:28 -0400
-X-MC-Unique: -7vQgbItPTmF5tBWMXuK3g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t13-20020adfe10d000000b0021bae3def1eso561221wrz.3
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 07:57:28 -0700 (PDT)
+ us-mta-225-Y4VXlXU3NVqM8xfuULadvw-1; Fri, 05 Aug 2022 10:57:44 -0400
+X-MC-Unique: Y4VXlXU3NVqM8xfuULadvw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n1-20020a7bcbc1000000b003a4e8c818f5so546672wmi.6
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 07:57:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=5ofArVsT9SqiS/WmYAoKDnsd3sFvauAjeS18VeVRijs=;
- b=o6JU4MFlX142V5NdDTiFHn8CcAwrgkWms6X+hV+S4Q+4jBqVWAg1BUeC8VYU0BPcvQ
- /eD1/hfgtWlHG87bgtfLwK4TsHhyhGJxKBUSjBPHsbU885Hp1tdhhaOeqtzmI29c9ce0
- VlwydXuMI4luh3e7fk0fx/CuHZzpJnfBqRHQy3AQYOwC1pleY4m3i5V1tcJCiXeQDolk
- Rizl3ab+GAMWf+jjHHtboajgFA7fH74jcd64dkuS3Ni+si7Qih2TMHbwIjH7KsJrWRpA
- np1ZxZJdR02nQqshx5cekEERKetq0L98gdqqH3rz3aV+8X/x+tLg2JvinoBONlF7nid+
- x1Cg==
-X-Gm-Message-State: ACgBeo3kcnckI1mHWH8VzT2Yb5fzBAc9ODZtC+oUro14ZE4xlYBZxDB+
- ThunXeld/MZge58EOxF6CzBADsovpNp2w4AZ+GCpyu6No+m0HEhDMMf4k7ly8z9dZhUY51vnTGE
- CobEZSdNJBscKgBk=
-X-Received: by 2002:a05:600c:4e01:b0:3a3:342:5f55 with SMTP id
- b1-20020a05600c4e0100b003a303425f55mr5079900wmq.150.1659711447293; 
- Fri, 05 Aug 2022 07:57:27 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5vuhZ1G/J5pVj1l5S6wDkWvx+3lYqmri27KMgwh5cWsPESO/7McmXYMrhBeMarci72zOo9cQ==
-X-Received: by 2002:a05:600c:4e01:b0:3a3:342:5f55 with SMTP id
- b1-20020a05600c4e0100b003a303425f55mr5079888wmq.150.1659711447034; 
- Fri, 05 Aug 2022 07:57:27 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- l21-20020a05600c1d1500b003a519637474sm2475821wms.44.2022.08.05.07.57.26
+ bh=zG9XHezuh5qJ9I2MGQdSbAraxqR2na0biWasDmYcpcQ=;
+ b=HHVXfnsRopjL8p8XM1Y/iPvTu5j75xidVMT9bBrUGDUlkuDA5MxyX9Fhz4hmss7X+P
+ izdtSzRU5RLmgXcUeFF+rXcBrmV4aoa0MkhA1/b7PDDMkTkgnIN/JU1sAOE4p33SqGYv
+ dVtT/g6uxZUZ11kHiLXxjvUsE1D82e4ZReZ6uNs9pKsBbdac6f30YsF3ZxJDlp0ziI46
+ HKgaMc0iBRdFVrwR9sC6Sl1hVhQwedhDQ4mXtIO7pNtqdmil/jTE3AF0qdGY9kioGejr
+ SJinx5y4zgdBy7BZxdF3lrAc+II1IlTHYvu2UgJygSmq9RlYPYmrwikeYQ+K2ytIwP7W
+ 1SCA==
+X-Gm-Message-State: ACgBeo02Ny1F9Hp7MQ7OSXR16QlPosZXtx2ZBotLkTl6u6UERLFGevYg
+ o44WT5wfBraXIbjg7EzMC8yS9T2F1qRUaqOjXJRXLshrfIeQhPJWuG/LbccE88uKKuDLjqjXcu5
+ J6HmyJW6RbacbF4E=
+X-Received: by 2002:a5d:434e:0:b0:21e:9970:fab with SMTP id
+ u14-20020a5d434e000000b0021e99700fabmr4317302wrr.127.1659711463141; 
+ Fri, 05 Aug 2022 07:57:43 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR51V6fr2AccbydkIt/MtKzQFiJwaf8UTK44hTCPY7gr9hSAmS1K26fv72Q0TfOl77L16yKAXQ==
+X-Received: by 2002:a5d:434e:0:b0:21e:9970:fab with SMTP id
+ u14-20020a5d434e000000b0021e99700fabmr4317293wrr.127.1659711462882; 
+ Fri, 05 Aug 2022 07:57:42 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-42-113-85.web.vodafone.de.
+ [109.42.113.85]) by smtp.gmail.com with ESMTPSA id
+ t17-20020adff051000000b002217e3f41f1sm135682wro.106.2022.08.05.07.57.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 07:57:26 -0700 (PDT)
-Message-ID: <662bee2d-e053-1a59-ba6a-41bbde955260@redhat.com>
-Date: Fri, 5 Aug 2022 16:57:25 +0200
+ Fri, 05 Aug 2022 07:57:42 -0700 (PDT)
+Message-ID: <3ae22c8f-34d1-0b3c-c007-d3ce7f9ccb21@redhat.com>
+Date: Fri, 5 Aug 2022 16:57:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 00/11] Refactor bdrv_try_set_aio_context using
- transactions
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] vmxnet3: add stub for encapsulation offload
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20220725122120.309236-1-eesposit@redhat.com>
- <b3eb6174-5fd5-f7f9-512c-4cdb46e62502@yandex-team.ru>
- <0b3872fa-830a-f657-76be-2fbae055dffa@redhat.com>
- <7b84b9be-b97b-2e53-5396-70d5c66ebfcf@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <7b84b9be-b97b-2e53-5396-70d5c66ebfcf@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20210806222300.417126-1-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20210806222300.417126-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,178 +102,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 07/08/2021 00.23, Alexander Bulekov wrote:
+> Encapsulation offload (offload mode 1) is a valid mode present in the
+> kernel that isn't implemented in QEMU, yet.
+> 
+> https://lore.kernel.org/lkml/20200528015426.8285-4-doshir@vmware.com/
+> 
+> Add a stub for this mode, to avoid the guest-triggerable assertion.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/517
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   hw/net/vmxnet3.c | 5 +++++
+>   hw/net/vmxnet3.h | 1 +
+>   2 files changed, 6 insertions(+)
+> 
+> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+> index 41f796a247..62e11d0e3e 100644
+> --- a/hw/net/vmxnet3.c
+> +++ b/hw/net/vmxnet3.c
+> @@ -443,6 +443,11 @@ vmxnet3_setup_tx_offloads(VMXNET3State *s)
+>           net_tx_pkt_build_vheader(s->tx_pkt, false, false, 0);
+>           break;
+>   
+> +    case VMXNET3_OM_ENCAP:
+> +        VMW_PKPRN("Encapsulation offload requested, but not available\n");
+> +        return false;
+> +        break;
 
+I think I'd also remove the break, anyway:
 
-Am 05/08/2022 um 16:35 schrieb Vladimir Sementsov-Ogievskiy:
-> On 8/5/22 16:22, Emanuele Giuseppe Esposito wrote:
->>
->>
->> Am 27/07/2022 um 18:13 schrieb Vladimir Sementsov-Ogievskiy:
->>> On 7/25/22 15:21, Emanuele Giuseppe Esposito wrote:
->>>> The aim of this series is to reorganize bdrv_try_set_aio_context
->>>> and drop BDS ->set_aio_context and ->can_set_aio_ctx callbacks in
->>>> favour of a new one, ->change_aio_ctx.
->>>>
->>>> More informations in patch 3 (which is also RFC, due to the doubts
->>>> I have with AioContext locks).
->>>>
->>>> Patch 1 just add assertions in the code, 2 extends the transactions
->>>> API to be able to add also transactions in the tail
->>>> of the list.
->>>> Patch 3 is the core of this series, and introduces the new callback.
->>>> It is marked as RFC and the reason is explained in the commit message.
->>>> Patches 4-5-6 implement ->change_aio_ctx in the various block, blockjob
->>>> and block-backend BDSes.
->>>> Patch 7 substitutes ->change_aio_ctx with the old callbacks, and
->>>> patch 8 takes care of deleting the old callbacks and unused code.
->>>>
->>>> This series is based on "job: replace AioContext lock with job_mutex",
->>>> but just because it uses job_set_aio_context() introduced there.
->>>>
->>>> Suggested-by: Paolo Bonzini<pbonzini@redhat.com>
->>>> Based-on:<20220706201533.289775-1-eesposit@redhat.com>
->>>
->>>
->>
->> So, I read your email before going on PTO and at that point I got what
->> your concerns were, but now after re-reading it I don't understand
->> anymore what you mean :)
->>
->>> What I dislike here is that you refactor aio-context-change to use
->>> transactions, but you use it "internally" for aio-context-change.
->>> aio-context-change doesn't become a native part of block-graph
->>> modifiction transaction system after the series.
->>>
->>> For example, bdrv_attach_child_common(..., tran) still calls
->>> bdrv_try_change_aio_context() function which doesn't take @tran
->>> argument. And we have to call bdrv_try_change_aio_context() again in
->>> bdrv_attach_child_common_abort() with opposite arguments by hand. We
->>> create in _try_ separate Transaction object which is unrelated to the
->>> original block-graph-change transaction.
->>>
->>
->> This can be fixed: patch 4 "bdrv_child_try_change_aio_context: add
->> transaction parameter" supports taking transaction as a parameter.
->> bdrv_attach_child_common could simply call
->> bdrv_try_change_aio_context_tran (ok we need to deal with locking, but
->> it could work).
->>
->> I think the main concern here is that during the prepare phase this
->> serie doesn't change any aiocontext, so until we don't commit the rest
->> of the code cannot assume that the aiocontext has been changed.
->>
->> But isn't it what happens also for permissions? Permission functions
->> like bdrv_drv_set_perm perform bdrv_check_perm() in .prepare(), and then
->> bdrv_set_perm() in commit.
-> 
-> Not exactly.
-> 
-> Partly that's just old bad naming. Ideally, driver handlers should be
-> refactored to have one
-> .bdrv_set_perm(, ... tran, errp) handler. Or at least renamed to
-> .prepare and .commit instead of misleading .check and .set.
-> 
-> Secondly what is important, is that corresponding .set actions are not
-> visible to other block-graph modifying actions (like taking locks on fd.
-> other actions, like attach/detach children don't care of it)/ (Or, at
-> least, they _shoud not be_ visible :) To be honest, I don't have real
-> expertise, of how much these .set actions are visible or not by other
-> block-graph modifying actions, but I believe that we are OK in common
-> scenarios).
-> 
-> What is really visible at generic block layer? Visible is change of
-> .perm / .shared_perm fields of BdrvChild. And they are set in .prepare,
-> look at bdrv_child_set_perm().
-> 
-> So, after calling bdrv_child_set_perm() other actions of .prepare stage
-> will see _updated_ permissions. And if transaction fails, we rollback
-> .perm and .shared_perm fields in bdrv_child_set_perm_abort()
-> 
-> 
->>
->> Another important question is that if we actually want to put everything
->> in a single transaction, because .prepare functions like the one
->> proposed here perform drains, so the logic following prepare and
->> preceding commit must take into account that everything is drained. Also
->> prepare itself has to take into account that maybe other .prepare took
->> locks or drained themselves...
-> 
-> Yes, untie the knot of drained sections during aio context change is a
-> challenge.. And that's (at least on of) the reason why aio-context
-> change is still not a native part of block graph modifying transactions.
-> 
-> Could there be some simple solution?
-> 
-> Like
-> 
-> 1. drain the whole subgraph of all nodes connected with nodes that we
-> are going to touch
-> 
-> 2. do block graph modifying transaction (including aio context change)
-> knowing that everything we need is drained. (so we don't have to care
-> about drain during aio context change)
-> 
-> 3. undrain the subgraph
-> 
-> In other words, is that really necessary to lock/unlock different
-> contexts during the aio-context-change procedure? Or we can move to a
-> lot larger and simpler drained section?
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Unfortunately I think the aiocontext lock have to stay where they
-currently are. I documented it in this serie.
+Jason, could you maybe also pick this up for QEMU 7.1, so we can close issue 
+517 ?
 
-drained begin needs the old aiocontext, and drained end the new one,
-since we moved the graph to a different aiocontext.
-
-Also, if I understand correctly you suggest:
-
-.prepare = check and then change aiocontext
-.abort = revert aiocontext change
-.commit = nothing
-
-drain_begin_all();
-prepare();
-drain_end_all();
-
-if prepare is not OK:
-	tran_abort(); // or simply return error so the caller calls abort
-
-But then:
-1) .abort needs draining too
-2) it is not so different from what it was before, isn't it?
-
-Emanuele
-
-
-> 
->>
->>> With good refactoring we should get rid of these _try_ functions, and
->>> have just bdrv_change_aio_context(..., tran) that can be natively used
->>> with external tran object, where other block-graph change actions
->>> participate. This way we'll not have to call reverse
->>> aio_context_change() in .abort, it will be done automatically.
->>>
->>> Moreover, your  *aio_context_change* functions that do have tran
->>> parameter cannot be simply used in the block-graph change transaction,
->>> as you don't follow the common paradigm, that in .prepare we do all
->>> visible changes. That's why you have to still use _try_*() version that
->>> creates seaparate transaction object and completes it: after that the
->>> action is actually done and other graph-modifying actions can be done on
->>> top.
->>>
->>> So, IMHO, we shouldn't go this way, as that adds transaction actions
->>> that actually can't be used in common block-graph-modifying transaction
->>> but only context of bdrv_try_change_aio_context() internal transaction.
->>>
->>> I agree that aio-context change should finally be rewritten to take a
->>> native place in block-graph transactions, but that should be a complete
->>> solution, introducing native bdrv_change_aio_context(..., tran)
->>> transaction action that is directly used in the block-graph transaction,
->>> do visible effect in .prepare and don't create extra Transaction
->>> objects.
->>>
->>
-> 
-> 
+>       case VMXNET3_OM_CSUM:
+>           net_tx_pkt_build_vheader(s->tx_pkt, false, true, 0);
+>           VMW_PKPRN("L4 CSO requested\n");
+> diff --git a/hw/net/vmxnet3.h b/hw/net/vmxnet3.h
+> index 5b3b76ba7a..36a17b82aa 100644
+> --- a/hw/net/vmxnet3.h
+> +++ b/hw/net/vmxnet3.h
+> @@ -273,6 +273,7 @@ struct Vmxnet3_TxDesc {
+>   
+>   /* TxDesc.OM values */
+>   #define VMXNET3_OM_NONE        0
+> +#define VMXNET3_OM_ENCAP       1
+>   #define VMXNET3_OM_CSUM        2
+>   #define VMXNET3_OM_TSO        3
+>   
 
 
