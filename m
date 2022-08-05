@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63D758AEAF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:10:55 +0200 (CEST)
-Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6EC58AEBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:17:55 +0200 (CEST)
+Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK0qc-0008G5-SS
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:10:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50330)
+	id 1oK0xM-0003uk-Qi
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oK0mg-00038J-US
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:06:55 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:41845)
+ id 1oK0tg-0000iC-I9
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:14:08 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:45603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oK0mY-0000DX-5J
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:06:45 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- t2-20020a17090a4e4200b001f21572f3a4so3489083pjl.0
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:06:40 -0700 (PDT)
+ id 1oK0tf-0001ci-2C
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:14:04 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ p14-20020a17090a74ce00b001f4d04492faso3434343pjl.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/+vgI+CVtQ2zBMxx9T9jPu4jNfTonyqGdyFwKv4F1PY=;
- b=sVcpKDoIQB1Yloo8hnfgarcMsGXe4NO23HxgmF9MMHBL7qaVFkd20HYzMVzo3rcrLo
- eFUvdELF+r1mqZLuSQjloCZZ3iUYsLKfqryU3Nt0SEFVqkaWI+97XwKH5gIa0w9FRcHz
- Yo8sON1SyGPPOZJNzUVtNw5uPHKqs6BlohaTzCVeuruawKiRKPVBVZ0SQUlkO5gFUbSL
- EbcJnNV9yA2vu9w6ZHprpjFudHWyJrjVK6u0ulHuTId5pWo1r3gtx8575qGhiUu9+dyp
- h/5jZgreMfZHqPIpaah8Vy3iBE4shdygP3ruDCWRJSaimB3VKO+3JnKiLKywribhkrMF
- ylBg==
+ bh=c25NtfiMfapjqrCHe8cykKb5bKDMypITxuRE1Xv8kPI=;
+ b=CJOUxczoE/KbJQu57Wv2XGMSmerEO1j0B8puMZqLWqokTu1GXsW+T6lE3cKr9b5uX/
+ 93dbCDPg7b2JPqDk67qmZhov7gZ652dkJsb7CKq6twV75cCgv/mwyu573pSDK4OT5qW6
+ 1NCWTugI0X2LJKrlUMebbjH39bvkk2eY+FpWiIJllqt0WR6L96tfHXLnrph4xfJ1IZDx
+ ZR5VEYhpRYjA8UH7ot0+WVrStyWmQppQvDFMIItE9ciFBEOAQKz8jm40ium71Cg1P6ZE
+ oruj3LQc4ieIVcpI+R0DEAlBzQeL72Ec2k/sW3NYsO6QTYLy9ucY+swh1yeowf3wMTzj
+ AfoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/+vgI+CVtQ2zBMxx9T9jPu4jNfTonyqGdyFwKv4F1PY=;
- b=KZx7BaNydqO7e5ED98KJ+WWWK9QCAOYFaql+kr64qw8QH4RL308/32m7RCubBsI3Q/
- K7qiuaW3CCFYkjXv2JwEcPMTzlC1k06O1bsqSZxZvRsowt4N/xWFanv5Gfkx/TY5m46B
- bFOx1UQgpm5k+dgTgl4Ccvwy4NleU4ZKsR2PNBkZHHURaw3Jvp5RTNguTktZsuLVOzG8
- zMgUfZDM2JkwZpsmvgzFul2Ef51nyn3dOZXwHPjv2PmniYttm/YIaVSC0zrxOcJNuSJa
- C9RbyggP9b+FGh4+QTHMRAjUeKseGifQzpd8KVAVffGfA/W8+4MIkzUv22ZWaglyVcMy
- I4TQ==
-X-Gm-Message-State: ACgBeo27/dg4dPd7Ftu6QW1+Yv3zYD1PnsHM+dkO/H6F3NXOt61cnuXf
- wOTIWQZMHFUyyXRGZcoyQrtlBQ==
-X-Google-Smtp-Source: AA6agR747RdNN1gLnfxoKKwK8hU37PAgNHiLPDqbANKUcLdSyi9ioJtKVMjcB+w6lRW7oJJHgPBz/g==
-X-Received: by 2002:a17:903:247:b0:16c:5017:9ad4 with SMTP id
- j7-20020a170903024700b0016c50179ad4mr7850707plh.115.1659719198714; 
- Fri, 05 Aug 2022 10:06:38 -0700 (PDT)
+ bh=c25NtfiMfapjqrCHe8cykKb5bKDMypITxuRE1Xv8kPI=;
+ b=oHmEKh0WuofvJ2ptJx9v4bsKilZmSxZDq+B8iH54vUztSebXUZaOjVfPxV70479ttj
+ lj9m9rVJoyBSG1AHdpvWfdA6f2flnlFWL5pKXmXumfFBwuXgk9XreMIl0cwJusEDqMdQ
+ 5hipTvPS+uz1s+Oy+CfjUgE7kRpD8e/cPDpp6b+ffweBa16WV6gW7lVOX6+JaDcAPhZC
+ 37sqCWFjnkdpThLEB5luF2kpmYJclaxXSRL6vtQABolz3TBJi8YSwodihiJg5n2JXLni
+ TU12Rd70g6zQrSbGjLJZvZ5PFutJLWbxSVDkzBwQnOvmU7nSH5yh9qDR0wiJ+kD3s69a
+ CQWw==
+X-Gm-Message-State: ACgBeo3SiJQ4meX/JfuoaQ0TB9HL4iRiAZz6jQn+CGgDeXhekFXfim7S
+ nzy1o/B9YzvWHETopRO6MpHqWA==
+X-Google-Smtp-Source: AA6agR7KWKTKvNE8EEH3bbugM4lize/kBi9JtJ9ZhLmP/rqr/aH5YFkr2JCegG8289hrY0wzzQWhqg==
+X-Received: by 2002:a17:902:da8f:b0:16f:6b6:eed7 with SMTP id
+ j15-20020a170902da8f00b0016f06b6eed7mr7595222plx.85.1659719641713; 
+ Fri, 05 Aug 2022 10:14:01 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
  ([2602:ae:154e:e201:abf8:e436:f4c:9089])
  by smtp.gmail.com with ESMTPSA id
- i15-20020a17090acf8f00b001f4f76033f9sm3213314pju.49.2022.08.05.10.06.38
+ y20-20020a170902e19400b0016edd557412sm3191899pla.201.2022.08.05.10.14.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 10:06:38 -0700 (PDT)
-Message-ID: <bfd4fb71-f2f5-a358-2fea-c4c4dee5328d@linaro.org>
-Date: Fri, 5 Aug 2022 10:06:36 -0700
+ Fri, 05 Aug 2022 10:14:01 -0700 (PDT)
+Message-ID: <2f197863-1060-ada4-ba1c-1dfb4a2e0fed@linaro.org>
+Date: Fri, 5 Aug 2022 10:13:59 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 0/2] Floating-point OE/UE exception bug
+Subject: Re: [PATCH 1/2] fpu: Add rebias bool, value and operation
 Content-Language: en-US
 To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
  qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Cc: danielhb413@gmail.com
+Cc: danielhb413@gmail.com, Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20220805141522.412864-1-lucas.araujo@eldorado.org.br>
+ <20220805141522.412864-2-lucas.araujo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220805141522.412864-1-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220805141522.412864-2-lucas.araujo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,12 +99,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/5/22 07:15, Lucas Mateus Castro(alqotel) wrote:
-> Currently there's no test in this patch series as there's no way to
-> disable MSR.FE0 and MSR.FE1 in linux user, so any overflow/underflow
-> exception with OE/UE set causes a trapping exception.
+> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+> 
+> Added the possibility of recalculating a result if it overflows or
+> underflows, if the result overflow and the rebias bool is true then the
+> intermediate result should have 3/4 of the total range subtracted from
+> the exponent. The same for underflow but it should be added to the
+> exponent of the intermediate number instead.
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> ---
+>   fpu/softfloat-parts.c.inc     | 21 +++++++++++++++++++--
+>   fpu/softfloat.c               |  2 ++
+>   include/fpu/softfloat-types.h |  4 ++++
+>   3 files changed, 25 insertions(+), 2 deletions(-)
 
-You could check the value in the fp register in the signal handler.  The exception is 
-supposed to occur after the register writeback.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
