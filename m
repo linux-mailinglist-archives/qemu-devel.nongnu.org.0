@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D876E58A858
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:55:54 +0200 (CEST)
-Received: from localhost ([::1]:54356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F6758A85E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:57:58 +0200 (CEST)
+Received: from localhost ([::1]:59096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJt7Z-0006pY-KT
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:55:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40830)
+	id 1oJt9Z-0001l7-U3
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oJt3S-0002os-Mq
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:51:45 -0400
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:34647)
+ id 1oJt5B-0004Ah-Di
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:53:26 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:43756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oJt3P-0002IE-M0
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:51:37 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-31f443e276fso18492847b3.1
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 01:51:35 -0700 (PDT)
+ id 1oJt58-0002Ui-Fr
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:53:24 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id o15so2809303yba.10
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 01:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=I9DJX4M/KCdx7QDDT4gZRFUYytwQRtRZalW7ADsgKjQ=;
- b=kAlWQT5y76Q3jYKkfpvTtttoDtOzhhxFWN7KcvdoscwSOJ530FL366D4H8UaAPB1eD
- ZqUuAyjW/DD/WLyhVdnXRY2ZIZByYoJrzPlGeysOVSK2jB9zM6y2g2ZtjhSOoA+Zozc1
- m+cCDJh/cNsG0X5n4/C6/KVjYN5K9H/vvQ0E2KROUVwf5NlY2KzVXvvvdijYRwiiC8MF
- WcCSA+Fa352V5dCfKRCVshLGql2CkufXHsAqC9m0yNXWz+ElgqNA2cpiwUykzdTe14zm
- Fhfqgb9CLhIEyR6MZFzXQd3sK+bDnkVeoY7r7litC6VseDvG+Zx2HTLSQ3AWVviIANvM
- i4jw==
+ bh=PifjoE0qzd+7B0DfCHD1AeSrooxwSqkKnVvCY1z593o=;
+ b=cmZ3tA8xMRMsSTRI2Y3KMs9gREi7udcgehR8TFLAWPoYNsW+KwRbj24Wwz2MfC0F6Y
+ 8TAL+XW/KNm76xs+sq1Z/wrqVzHGh0r78bOjkN/7RpE6T5DfGQ3YOGB9R8mp2hOAUzu6
+ Tj1BhfxjxnMq/LL6t+yZ028etWoovU4WU+9yLtjx6EyTEghvAVmWjEPcS5xX42bX/CZ/
+ AVPgq5LKXlUo+J7SKMEZAkEF/CLv8JexjFSRv/mjl1HeeauLlzJgMVVcgxy3mMAk3hUI
+ 2PvMwIo8CdlKsixld1CrTIu3HQhmu0gUsVtv9iAB1AanqDFNvMrhvu6/u4anhSoqxdPC
+ 5q2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=I9DJX4M/KCdx7QDDT4gZRFUYytwQRtRZalW7ADsgKjQ=;
- b=Dww/cQ1nHSdDfHBzjTjRN/xcidbDOIiMmOICks/lwDd4KbfRAyXtmKsLdMkvo5Q/d3
- vCPDuTjgoKWbOsBT87iKhuEkMzBO0eI+0X78p575+GWhTDgDv+nAMbBd4GEErwGW+vtc
- vRjHWX2PzLMtwvKbjyMPReVtdOqI/3HCwDM39qwVojDr1j0HnOeiU0rILgNobOJokhmT
- 5BzHBz94jphoviyHgbn6HYBVkYtr/AqrWCmHKYZvbdLhlh6zxh3KhaxPv5pMm2QSpwtd
- Ux09tYBLmAR+VqEVkaRPvi9w/PGDgOU8XWgKskcKVY6zI6ALFyOTmihVwCgbDDG98hlT
- 7JXg==
-X-Gm-Message-State: ACgBeo35eekPP7jI22i1pkcmQd84FvINbau33m9s0yLBmRc0VbAQXgVT
- UackuFWhDnEPRYAr/TVrMMwaulRr96rvqnvbnY1uwA==
-X-Google-Smtp-Source: AA6agR6b4d9j5SJzMYWUBirb5Jep6LABO/KduvA6rFk2x2yDr5A9p/qU5ySccmiqC3b02+wmO9QfHfifbTVEn+iyHT4=
-X-Received: by 2002:a81:7bd6:0:b0:328:297a:f31f with SMTP id
- w205-20020a817bd6000000b00328297af31fmr5042406ywc.469.1659689494605; Fri, 05
- Aug 2022 01:51:34 -0700 (PDT)
+ bh=PifjoE0qzd+7B0DfCHD1AeSrooxwSqkKnVvCY1z593o=;
+ b=bHlgYcpxfq+j/eVni7zWAXkgVDq6rYPR8wsSH04nuvHisoWFqYS8vsqh2vqnos2ORQ
+ kCrSYDI8agGZ77y/bMVupd1bhNoga1yT/tRWhxN0zmDvTJtgK4naF2Ye9OldP1YwU7P4
+ Cj/dyPq5Q4vmBrS6m1elE/R7tRlg4ovQq+0GRVQgkgc0W/EdM7PePTxQKL547DErLaO9
+ K4WZBsAx7V5LTqu/ynwuC0KdfS9qxqDJCNbu7PdFtqnhra67qlUYVa6O432DM4rL1iiB
+ kCiB6V+qn3oCIQ/UNwPPYnTImBBtYjvgG17k65Z+rXe9vBWoT7rv1E93yRZC+leWgiFP
+ 2Xcw==
+X-Gm-Message-State: ACgBeo3MySiE7vjV4HijyvbJ7aO7c4v/+0fsQF0aQlQ4NuSejCtoE0AV
+ mCgCduWXEy7lDe/1n/tY3JRX4u32UMFOLhLXdWqTYw==
+X-Google-Smtp-Source: AA6agR6yn+W0DGc3Hx3x5Ly3TOtKjAJ8UH1VF1CfXGVnWKGX0cN100mHJfAzC/VdXiVc4NEIUREgbv3oBtfoxBp1s60=
+X-Received: by 2002:a25:d617:0:b0:671:79bd:69bf with SMTP id
+ n23-20020a25d617000000b0067179bd69bfmr4565492ybg.85.1659689601249; Fri, 05
+ Aug 2022 01:53:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220804182359.830058-1-iii@linux.ibm.com>
- <20220804182359.830058-2-iii@linux.ibm.com>
-In-Reply-To: <20220804182359.830058-2-iii@linux.ibm.com>
+References: <20220802080948.37426-1-chen.zhang@intel.com>
+ <CACGkMEs4Ypb+WcKTX-YqxrRUJW65fWokuBaMAkBp9eznXNDGTw@mail.gmail.com>
+ <MWHPR11MB00313220A2758E74C1098E539B9E9@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB00313220A2758E74C1098E539B9E9@MWHPR11MB0031.namprd11.prod.outlook.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Aug 2022 09:50:54 +0100
-Message-ID: <CAFEAcA9FG+b4=-QNujG5Prx_me8uw7YTWjk-mqr3_X1Wb0wHzg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] linux-user: Fix siginfo_t contents when jumping to
- non-readable pages
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, 
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+Date: Fri, 5 Aug 2022 09:52:40 +0100
+Message-ID: <CAFEAcA-91NQT1ETPqygSF45irYf5Wf6uFWocUp0qZ0Yu0JsGgg@mail.gmail.com>
+Subject: Re: [PATCH] net/colo.c: Fix the pointer issuse reported by Coverity.
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Jason Wang <jasowang@redhat.com>, Li Zhijian <lizhijian@fujitsu.com>, 
+ qemu-dev <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,26 +85,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Aug 2022 at 19:50, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+On Fri, 5 Aug 2022 at 06:56, Zhang, Chen <chen.zhang@intel.com> wrote:
 >
-> When the first instruction of a translation block is located in a
-> non-readable page, qemu-user fills siginfo_t correctly. For the other
-> instructions the result is as if it were the first instruction, which
-> is not correct.
 >
-> The reason is that the current logic expects translate_insn() hook to
-> stop at the page boundary. This way only the first instruction can
-> cause a SEGV. However, this is quite difficult to properly implement
-> when the problematic instruction crosses a page boundary, and indeed
-> the actual implementations do not do this. Note that this can also
-> break self-modifying code detection when only bytes on the second page
-> are modified, but this is outside of the scope of this patch.
+>
+> > -----Original Message-----
+> > From: Jason Wang <jasowang@redhat.com>
+> > I wonder under which case we can see data == NULL?
+> >
+> > AFAIK, data is either dup via packet_new() or assigned to a pointer to the buf
+> > in packet_new_nocopy().
+>
+> Yes, you are right. I just checked it for hint of bugs.
+> Do you think no need to do it?
 
-Which guests do you observe this on ? I think we should indeed
-fix this in the translators. More specifically, I think we should
-get this correct already on Arm, and I would expect it to work
-correctly on all the fixed-insn-width architectures, which can't
-have page-crossing-insns to start with. x86 probably gets this wrong.
+If you think it is a "should never happen unless QEMU is buggy" case, then
+ assert(data).
 
 thanks
 -- PMM
