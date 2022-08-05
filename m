@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A34658A924
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 11:59:33 +0200 (CEST)
-Received: from localhost ([::1]:36434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FB258A905
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 11:49:24 +0200 (CEST)
+Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJu7A-0006Au-5C
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 05:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50022)
+	id 1oJtxL-0002y8-Tx
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 05:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJtoV-0007Xz-9y
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:21 -0400
-Received: from mail-vk1-xa32.google.com ([2607:f8b0:4864:20::a32]:36792)
+ id 1oJtob-0007Y9-Dj; Fri, 05 Aug 2022 05:40:21 -0400
+Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f]:36546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJtoT-0001fF-PP
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 05:40:14 -0400
-Received: by mail-vk1-xa32.google.com with SMTP id v13so1004453vke.3
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 02:40:13 -0700 (PDT)
+ id 1oJtoW-0001fk-8H; Fri, 05 Aug 2022 05:40:19 -0400
+Received: by mail-vs1-xe2f.google.com with SMTP id o123so1945106vsc.3;
+ Fri, 05 Aug 2022 02:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=INBPRigKq6rQycZXT1hbwZRQNiwpBIXBjyHgz1OYCoA=;
- b=MuMHRqoafB01CWP/F7unJvmj5K/Sq2uLwahO/khD5dDNgm3yYJtnINT2mGcpOdfIig
- 0VNdkgsz5MXNJGb2YR0+giTlGdKk7SaCWJdu66q2srzMUVxLg1t6TT6L8pgoH50g6Nt9
- JJh+5XAenqAKS/4dHws28aoXbfAJVtxEp84HLeYZlgjXl7vyyYivdsg/HrSjexHntqID
- U0zgYngmbBYra+01MocKEgEeZleUGmK+pR0hABcuuIhyHrm68PCamM9AdCv6spPdd7XU
- UBlKmFUlzBvvPjCo4LzMMJ8FJBE3OfgbQxwzvogrmFrZC8rvJPEasIN5LGlNF7fDmaoJ
- Ej3w==
+ bh=VQVatWRzJzIALnBx+eLVXqARRsrCtfKyW9iFoiU3AdU=;
+ b=gHQmVyo87E/Af2yzQjqxkcrRnCCcCtwAjH/y2anm5RioR4/KtDuyN9DYyT5fzFkSKA
+ LtCIg49AAAftTtsZT/vUZr1AuaiVGMIARy4JzFVbzvQ6WtRVivusm8Rwn5hAAdl+/Dvg
+ 8zN5KbVgbYyA7MXdJ0E7F59I5Fm0jLLQUrY5+AFCCcMilAfBSaKfLXW8tWJykcDJv6uK
+ bJnvTKedtfXqrkNE5zSGhhCJjxTY/06yHTMk2x+XIbm/zCUpD70QECweUr/H9S4MfsnT
+ UB04s6+ewuumQvHL8CaKYd56Vd73pJ9ryVYTw165HOZuQjpRA1UriaJLZQRAPsW0AZm7
+ vz+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=INBPRigKq6rQycZXT1hbwZRQNiwpBIXBjyHgz1OYCoA=;
- b=TJW1JtDSpi5vSUnVkWQYZ/F1f4Fjr5bc8fYS8SUwhNmksjbhtwAofZPPz63NLsL5a6
- RYYn8yd3GVHyX363WAlx/9sxgVvkfvnk/B22mcNkGc41l1TCTjVtNXowy4Et2ouhP5jF
- kZr1uPbF6mj1xun6G88aMuzpyV2Utbf0ETnLlzTYjAr4B5PJbg+H1AolVKCAW0kiz/hf
- ArGVgLj6bttHOqzwUMDJs+BgkoXviuGugV2NTbnIPV4Fkqq0YjCwQrROBlBBjVOKPqrC
- 9UOJBAluTdL8QhUii4yMWkv1bd3dsRjg2PJY125Esf0P1FcckmgtRoc6u4faIWOaBvJz
- C8Kw==
-X-Gm-Message-State: ACgBeo1IecBiKcpZa347FrkCEahDiCVBKlbxIJhJiUeFKyCRUgt2lUL2
- sWKA17KY/+N74kFDq2jOZ6Tu1I6Uc7w=
-X-Google-Smtp-Source: AA6agR61ZExdF7CnYCQ8YLgE+jybh8clfXipnwwjkh5TC5ja+3bwptUZDQHYRLHgCwp9hBpLwHiWWQ==
-X-Received: by 2002:a1f:2452:0:b0:377:7b38:9b59 with SMTP id
- k79-20020a1f2452000000b003777b389b59mr2682381vkk.23.1659692412740; 
- Fri, 05 Aug 2022 02:40:12 -0700 (PDT)
+ bh=VQVatWRzJzIALnBx+eLVXqARRsrCtfKyW9iFoiU3AdU=;
+ b=jJi36r1W9auCYmlr7xCAqPGIxHUUPhN7phfi9kwaS2mmjqPzBd0PQb3qMmN4QMIDCZ
+ 1oUeWxafB2abqf5dDwxcZiE/7ewD/ph+ExZjSWWTq2HAYAi5Yk9bG/l599gp6E0si4T0
+ xmSBfD2zBy+r2yHTcpItM97njJgyHPxUmIDyFHrx85GvCkpDhdl0cr0+ccdi3k74Khuw
+ j229KkdzuI0ZAvvgMtRjzEOkYzR2Wq/gfFvNJsFbhSIS0w30EMqVeezMLH+fWh6InpBx
+ SaeEkKqlR8MqQH/2eD3R7tphou+9EFoj9oq/4vdjUqa+7cF548Aul/z6ch386iN96BgZ
+ iQZg==
+X-Gm-Message-State: ACgBeo1md2osFw4PuVJnoI+923wDxkCjXjSIoMjZ2Ath9R8jCLq7Bqen
+ y6Yj4w/rMJG8xxAVGMt9lIlfwVfHgOI=
+X-Google-Smtp-Source: AA6agR7RoKUwkpiMF0/PW43x/V/TvfAiL2bI1NYM8G57h87rHkMtFkzIWDl5Cn29iwZJB2HWP8Bncg==
+X-Received: by 2002:a67:b24b:0:b0:357:31a6:1767 with SMTP id
+ s11-20020a67b24b000000b0035731a61767mr2497774vsh.29.1659692414943; 
+ Fri, 05 Aug 2022 02:40:14 -0700 (PDT)
 Received: from balboa.COMFAST ([191.19.239.67])
  by smtp.gmail.com with ESMTPSA id
- f9-20020a1f1f09000000b00376f4f93745sm2668496vkf.10.2022.08.05.02.40.10
+ f9-20020a1f1f09000000b00376f4f93745sm2668496vkf.10.2022.08.05.02.40.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 02:40:12 -0700 (PDT)
+ Fri, 05 Aug 2022 02:40:14 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: alistair.francis@wdc.com, david@gibson.dropbear.id.au,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Frederic Barrat <fbarrat@linux.ibm.com>
-Subject: [PATCH for-7.2 v2 09/20] hw/ppc: set machine->fdt in pnv_reset()
-Date: Fri,  5 Aug 2022 06:39:37 -0300
-Message-Id: <20220805093948.82561-10-danielhb413@gmail.com>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
+Subject: [PATCH for-7.2 v2 10/20] hw/ppc: set machine->fdt in spapr machine
+Date: Fri,  5 Aug 2022 06:39:38 -0300
+Message-Id: <20220805093948.82561-11-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220805093948.82561-1-danielhb413@gmail.com>
 References: <20220805093948.82561-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a32;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,33 +90,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
-all powernv machines.
+The pSeries machine never bothered with the common machine->fdt
+attribute. We do all the FDT related work using spapr->fdt_blob.
+
+We're going to introduce HMP commands to read and save the FDT, which
+will rely on setting machine->fdt properly to work across all machine
+archs/types.
+
+Let's set machine->fdt in the two places where we manipulate the FDT:
+spapr_machine_reset() and CAS. spapr->fdt_blob is left untouched: what
+we want is a way to access the FDT from HMP, not replace
+spapr->fdt_blob.
 
 Cc: Cédric Le Goater <clg@kaod.org>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>
+Cc: qemu-ppc@nongnu.org
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/ppc/spapr.c       | 6 ++++++
+ hw/ppc/spapr_hcall.c | 8 ++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index d3f77c8367..f5162f8b7b 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -608,7 +608,11 @@ static void pnv_reset(MachineState *machine)
-     qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
-     cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index bc9ba6e6dc..94c90f0351 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1713,6 +1713,12 @@ static void spapr_machine_reset(MachineState *machine)
+     spapr->fdt_initial_size = spapr->fdt_size;
+     spapr->fdt_blob = fdt;
  
--    g_free(fdt);
 +    /*
-+     * Update the machine->fdt pointer to enable support for
-+     * 'dumpdtb' and 'info fdt' commands.
++     * Set the common machine->fdt pointer to enable support
++     * for 'dumpdtb' and 'info fdt' commands.
 +     */
 +    machine->fdt = fdt;
++
+     /* Set up the entry state */
+     first_ppc_cpu->env.gpr[5] = 0;
+ 
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index a8d4a6bcf0..0079bc6fdc 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1256,6 +1256,14 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     spapr->fdt_initial_size = spapr->fdt_size;
+     spapr->fdt_blob = fdt;
+ 
++    /*
++     * Set the machine->fdt pointer again since we just freed
++     * it above (by freeing spapr->fdt_blob). We set this
++     * pointer to enable support for 'dumpdtb' and 'info fdt'
++     * HMP commands.
++     */
++    MACHINE(spapr)->fdt = fdt;
++
+     return H_SUCCESS;
  }
  
- static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **errp)
 -- 
 2.36.1
 
