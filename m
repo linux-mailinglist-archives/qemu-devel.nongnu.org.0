@@ -2,80 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4FD58ADE4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:07:14 +0200 (CEST)
-Received: from localhost ([::1]:50022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F2658AEFB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:36:19 +0200 (CEST)
+Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJzqz-00088G-I2
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36244)
+	id 1oK1FC-0002tD-2o
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzeb-0007d8-73
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:25 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzeY-0004oS-TF
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:24 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id p10so3691266wru.8
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=rfrHuYofA2jTHYlyVlxL0WVJKLrnjdxClG3/+p9uXxc=;
- b=UMt/6ONZE4d7i8r+HjDr+1yRMzmeymuO+74l1T3asAl+Tl1RGNT+DTxE7u2wx5lcQB
- 8kdbMDr6ilHFhkffCtYlmJZTQlaFyhFDxN8nF2W97cny4OYrqhMLGrAiMsdRULSy/7pS
- Ry++das2y4F8gvuTPoYUUZva0cfQexZ8IxJznRnFl2x+stO1m7DnEC8Xln+9sUJfM+tG
- LlObm12rMHaIGOqD3qyZqHqpEcOQ0KMMuKNmdUq7aRo97GZW87rtelf1TT5j8L4fgAz4
- VuK8DOuGSusEzjtf6L0KVKTOXviQjmY1hFGmZHklZfi6jFCW/Pa0TqQRkvenxZ3C2PhJ
- u8nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=rfrHuYofA2jTHYlyVlxL0WVJKLrnjdxClG3/+p9uXxc=;
- b=ztMocy1kHr5i9f2vTymRyt6Wb9SYIz+kfINPbk3S4VVHZJmQmLXWBZfvRYP25p+l4m
- RVkalWNusrK7vs3cnl+u6eZEZsW8UwS9lK/DomASwF1JQ7x4m944eL+WqlFbzk3wwxO5
- RyNTZUOoujhQbEHLMZfMetnlBn+gF/Q2HFxeDw2bPlRyjuVON+fyh0aurdjEBumgNi4w
- Zf1H891Ad7BS23PQ51UKcjIKdKe/uNZb2U2cdALSXRqURieo1K18X7nxpzpNZcOUUm91
- YBl3NSDV8DZgQ5giKKHN+u6ulbKIwV048O2AsWS5nWVFe7yyCKmIUdqCZoJnMbtpUfDf
- kvCg==
-X-Gm-Message-State: ACgBeo1v27bgMDLDAq2eqAXvPxz84m8GBE0yLyz4rm9I7Q8qAl3K89lO
- H6glWoinMzMDCjs3fQW1Qt7Jjg==
-X-Google-Smtp-Source: AA6agR7rwBoF/VmMijr0QsVwMVUZd/R8yy5zn2l6NKz7JXNM0HX+pRHkPvA4FpOzuoDDk3ygtfN69g==
-X-Received: by 2002:a05:6000:1564:b0:221:7cbd:df6b with SMTP id
- 4-20020a056000156400b002217cbddf6bmr943177wrz.511.1659714861666; 
- Fri, 05 Aug 2022 08:54:21 -0700 (PDT)
-Received: from henark71.. ([93.107.66.220]) by smtp.gmail.com with ESMTPSA id
- t10-20020a5d49ca000000b0021d6dad334bsm4133543wrs.4.2022.08.05.08.54.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 08:54:21 -0700 (PDT)
-From: Conor Dooley <mail@conchuod.ie>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor.dooley@microchip.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- linux-riscv@lists.infradead.org
-Subject: [PATCH 5/5] hw/core: fix platform bus node name
-Date: Fri,  5 Aug 2022 16:54:05 +0100
-Message-Id: <20220805155405.1504081-6-mail@conchuod.ie>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220805155405.1504081-1-mail@conchuod.ie>
-References: <20220805155405.1504081-1-mail@conchuod.ie>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oK1Cz-0007py-PR; Fri, 05 Aug 2022 13:34:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oK1Cx-0004jd-JP; Fri, 05 Aug 2022 13:34:01 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275HFH5h025974;
+ Fri, 5 Aug 2022 17:33:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=73qnw5nIm3iv+coHjF7quQ8YT4tdxDWXNrMdnbdBb30=;
+ b=NwTxsN1SjriiQzfQGErMgShqNcR9yMgY5aZXASEHRC/8GVlWYjvOHyJTZ0onpr64VNLR
+ DCE9xt+KVN67Hyxg2cucBKNSZ2W9ASsv/zNk/bkuw9NzzVzK/yuCi8gTChAMQaEcFKOo
+ t8CrJeAkeQEWuDxS1XXv3Bw7J/p1ATZqQecCMpNgdLMmCm5lVa14xNCZRVkvNCIwknfQ
+ sHuPXNJuYtSWFGiRPQAgZuRJzcgt44m8p/kooC5A3/APmwXG1ZQpfxfQc+ZuEPT0jdSC
+ oQtrKBvHZInS+LHgA6+0vd3sizKz5QHLp8AwuIbXJJXh2Es9Z44O2q71Uqysu2I8QbSM 6g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7eeremw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 17:33:47 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 275HJ4nX037316;
+ Fri, 5 Aug 2022 17:33:47 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7eerekm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 17:33:47 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 275HK1vq026302;
+ Fri, 5 Aug 2022 17:33:44 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com ([9.149.109.197])
+ by ppma06fra.de.ibm.com with ESMTP id 3hmuwhtpn8-124
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 17:33:44 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 275G9HUY8913360
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Aug 2022 16:09:17 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 85450A405B;
+ Fri,  5 Aug 2022 16:09:17 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E4C66A4054;
+ Fri,  5 Aug 2022 16:09:16 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.89.138])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Aug 2022 16:09:16 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2 1/4] accel/tcg: Invalidate translations when clearing
+ PAGE_READ
+Date: Fri,  5 Aug 2022 18:09:11 +0200
+Message-Id: <20220805160914.1106091-2-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220805160914.1106091-1-iii@linux.ibm.com>
+References: <20220805160914.1106091-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=mail@conchuod.ie; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _HBbJuXyE-9JJhkTdKj1C6t3rHZnhT2l
+X-Proofpoint-GUID: b_ppoRJ3aw37N2LJYf4OXJ85fu5-dRrr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-05_09,2022-08-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ mlxlogscore=941 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2206140000 definitions=main-2208050082
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 05 Aug 2022 12:00:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,36 +120,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Conor Dooley <conor.dooley@microchip.com>
+After mprotect(addr, PROT_NONE), addr can still be executed if there
+are cached translations. Drop them.
 
-"platform" is not a valid name for a bus node in dt-schema, so warnings
-can be see in dt-validate on a dump of the riscv virt dtb:
-
-/stuff/qemu/qemu.dtb: platform@4000000: $nodename:0: 'platform@4000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|soc|axi|ahb|apb)(@[0-9a-f]+)?$'
-        From schema: /home/conor/.local/lib/python3.9/site-packages/dtschema/schemas/simple-bus.yaml
-"platform-bus" is a valid name, so use that instead.
-
-CC: Rob Herring <robh@kernel.org>
-Fixes: 11d306b9df ("hw/arm/sysbus-fdt: helpers for platform bus nodes addition")
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- hw/core/sysbus-fdt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/translate-all.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/hw/core/sysbus-fdt.c b/hw/core/sysbus-fdt.c
-index 19d22cbe73..edb0c49b19 100644
---- a/hw/core/sysbus-fdt.c
-+++ b/hw/core/sysbus-fdt.c
-@@ -539,7 +539,7 @@ void platform_bus_add_all_fdt_nodes(void *fdt, const char *intc, hwaddr addr,
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index ef62a199c7..9318ada6b9 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2295,12 +2295,19 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+          len != 0;
+          len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
+         PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
++        bool write_set, read_cleared;
  
-     assert(fdt);
- 
--    node = g_strdup_printf("/platform@%"PRIx64, addr);
-+    node = g_strdup_printf("/platform-bus@%"PRIx64, addr);
- 
-     /* Create a /platform node that we can put all devices into */
-     qemu_fdt_add_subnode(fdt, node);
+-        /* If the write protection bit is set, then we invalidate
+-           the code inside.  */
+-        if (!(p->flags & PAGE_WRITE) &&
+-            (flags & PAGE_WRITE) &&
+-            p->first_tb) {
++        /*
++         * If the write protection bit is set, then we invalidate the code
++         * inside.
++         */
++        write_set = !(p->flags & PAGE_WRITE) && (flags & PAGE_WRITE);
++        /*
++         * If PAGE_READ is cleared, we also need to invalidate the code in
++         * order to force a fault when trying to run it.
++         */
++        read_cleared = (p->flags & PAGE_READ) && !(flags & PAGE_READ);
++        if ((write_set || read_cleared) && p->first_tb) {
+             tb_invalidate_phys_page(addr, 0);
+         }
+         if (reset_target_data) {
 -- 
-2.37.1
+2.35.3
 
 
