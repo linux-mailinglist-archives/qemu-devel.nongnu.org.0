@@ -2,75 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618EC58A6CF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 09:14:38 +0200 (CEST)
-Received: from localhost ([::1]:57472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5A458A6FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 09:25:03 +0200 (CEST)
+Received: from localhost ([::1]:35522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJrXZ-0004Dd-FO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 03:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54236)
+	id 1oJrhe-0000p9-0B
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 03:25:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJrQx-0008LD-F6
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:07:47 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:38943)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJreJ-0006oV-NC
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:21:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJrQu-0002Ak-Co
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:07:47 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.148])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7FB0A20084;
- Fri,  5 Aug 2022 07:07:40 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 5 Aug 2022
- 09:07:39 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003aa50708d-86b7-4b38-862f-5dade21837cd,
- A7EB86F94AB5C79C028CF19227CAA8D9174C0E26) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <743ea55a-915e-5991-5d7c-ef00ee307ee9@kaod.org>
-Date: Fri, 5 Aug 2022 09:07:34 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oJrdz-0004NI-GA
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 03:21:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659684073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1usxqLxO1k0Jfzxrxuo8UL+g/tgRgLiM6i6RWiaa1qU=;
+ b=FcZZF2XQ52hI3Qk5LQ/jT5uVdcNQ+DeOG/Eq+9nUcQPGKjyhz0CAONgy5lbEs1/jWez7Vq
+ FgcqkeNmgAyvpCaeZS52GCbyv1xM6l5y/U6DoXLZcpyvqci9QXC5NAeq9azPKyyWpQfwzG
+ hciOyChXOmHGEKxUDKBcDl9oep+qdWo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-635-3tx4NM56PTOgysXw-qD5vQ-1; Fri, 05 Aug 2022 03:21:11 -0400
+X-MC-Unique: 3tx4NM56PTOgysXw-qD5vQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n30-20020a05600c501e00b003a3264465ebso3224684wmr.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 00:21:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=1usxqLxO1k0Jfzxrxuo8UL+g/tgRgLiM6i6RWiaa1qU=;
+ b=s4DrClesHJsnMvuEEVHpfgGBzd1LNvg6O7jBFrtFBsALnwX/yi7A7CJPO3WDKeT/um
+ LDoGZE1poSUghZKMHbhn2uE/cZ656y1AV/64vSgYaRnEk8SymPFOTpH/+YyjwJSgImdn
+ C/0D3L2+OQO+TYdIwRxhF+xyDl76uE38Cgs+Jt72Fs/iRtKak3mxzsUg1i0XNZXL4vXN
+ JS40CzT4BrEx2yTm6XsoBOWsZXTbrrNwKeDI4vetF8GazL9D3/zRvkCiOHABarD3RW6y
+ LJCr7ikUXpq/KC/cVxdB/RwzYiBRA5Rb8rkIv3HNdIU+Bd7td9kgdpZhAjSQrIZ3PTGm
+ p5dg==
+X-Gm-Message-State: ACgBeo1jLET4j3CP23hbTX8CBS28yirTvSSO9uCfYsYsf1H/CfCCd0ci
+ lxKq59zSxJV480COt/1fgcrrTvYjccSNDJeCOHcvVfe7/BRrYIwJdy3kmoxwv6CtFaUUQxjNxkA
+ SblWzZlGreuVPwMQ=
+X-Received: by 2002:a5d:64a6:0:b0:21f:b3b:5cc9 with SMTP id
+ m6-20020a5d64a6000000b0021f0b3b5cc9mr3227936wrp.601.1659684070121; 
+ Fri, 05 Aug 2022 00:21:10 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR56IGR8q5WoWyp7FwGU6ZLu5fFdFogX7f7+CqdBcPQQvAtd+nKpS9Y6ap/m7HxF5BcvvLtd4Q==
+X-Received: by 2002:a5d:64a6:0:b0:21f:b3b:5cc9 with SMTP id
+ m6-20020a5d64a6000000b0021f0b3b5cc9mr3227921wrp.601.1659684069897; 
+ Fri, 05 Aug 2022 00:21:09 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-42-112-229.web.vodafone.de.
+ [109.42.112.229]) by smtp.gmail.com with ESMTPSA id
+ j6-20020a05600c190600b003a31b79dc0esm23361799wmq.1.2022.08.05.00.21.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 00:21:09 -0700 (PDT)
+Message-ID: <e8eab8e6-e6a5-af95-223f-e0ca91b4d833@redhat.com>
+Date: Fri, 5 Aug 2022 09:21:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
+ Thunderbird/91.12.0
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, Peter Maydell
- <peter.maydell@linaro.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, "list@suse.de:PowerPC"
- <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-13-clg@kaod.org>
- <973576c1-deb8-3973-34e7-d038ca2200c2@gmail.com>
- <4885e6d0-8fff-4712-d032-c5afcac79ff7@kaod.org>
- <7b97e54b-4d80-6db9-af33-40a539827ddd@eik.bme.hu>
- <3b1bc6c5-a363-0a42-f0dc-eafc14376fe2@kaod.org>
- <1e6be2f3-4c7a-2432-5034-fa012c662df@eik.bme.hu>
- <7ecefd72-b799-8a8c-51fd-28730a12ebf1@kaod.org>
- <a3c2da20-c161-a6d2-6ed1-c0954991eff5@eik.bme.hu>
- <CAFEAcA-au_h+B05HriBQcGh9hsvmzksuHisqAx4cqGKAY8+8Dg@mail.gmail.com>
- <18dcac8a-d5e8-b6e-b9b-838cb1badb7@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <18dcac8a-d5e8-b6e-b9b-838cb1badb7@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 7195752d-c914-488c-a047-133c1f2e0298
-X-Ovh-Tracer-Id: 13960032945790159779
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeftddguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+To: "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+Cc: "stefanha@gmail.com" <stefanha@gmail.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
+References: <cover.1659403195.git.jag.raman@oracle.com>
+ <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 0/1] Update vfio-user module to the latest
+In-Reply-To: <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,87 +108,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/4/22 21:26, BALATON Zoltan wrote:
-> On Thu, 4 Aug 2022, Peter Maydell wrote:
->> On Thu, 4 Aug 2022 at 19:03, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>> I was trying to find out how to do it but I don't understand QOM enough to
->>> answer the simple question of how to get the cpu object from QOM. My
->>> guesses are:
->>>
->>> object_resolve_path_type("/machine", TYPE_POWERPC_CPU, NULL)
+On 02/08/2022 12.00, Zhang, Chen wrote:
 > 
-> Out of curiosity would this work though to get the cpu or if not why not and what would be a preferred way? I could not find this out from reading the object.h comments, the docs/deve/qom.rst, nor searching the code.
-
-You could scan the object topology using object_child_foreach_recursive()
-and use object_dynamic_cast() to find a POWERPC CPU object. A link is
-much faster !
-
 > 
->>> or maybe
->>>
->>> object_resolve_path_at(OBJECT(dev)->parent, "cpu")
->>>
->>> or how do these functions work and what is the preferred way to retrieve
->>> an object from the QOM tree? This is what I hoped someone with more
->>> understanding of QOM could answer.
+>> -----Original Message-----
+>> From: Qemu-devel <qemu-devel-
+>> bounces+chen.zhang=intel.com@nongnu.org> On Behalf Of Jagannathan
+>> Raman
+>> Sent: Tuesday, August 2, 2022 9:24 AM
+>> To: qemu-devel@nongnu.org
+>> Cc: stefanha@gmail.com; berrange@redhat.com
+>> Subject: [PATCH 0/1] Update vfio-user module to the latest
 >>
->> The standard approach that we use elsewhere in the tree for handling
->> "this device needs to have a pointer to a CPU object or whatever"
->> is "the device has a QOM link property, and the SoC sets that
->> property when it creates the device".
+>> Hi,
 >>
->> There are other ways it could in theory be done, but there is
->> benefit in consistency, and "define and set the property" is
+>> This patch updates the libvfio-user submodule to the latest.
 > 
-> If this is the preferred way then so be it, I just don't like it because I think this is too many boilerplate code that could be avoided. This series:
+> Just a rough idea, why not depends on linux distribution for the libvfio-user.so?
+> It looks no libvfio-user packet in distribution's repo.
 > 
->   9 files changed, 894 insertions(+), 652 deletions(-)
+> Hi Thomas/Daniel:
 > 
->   and that's including removing all of the taihu machine; the file where the QOMification is done:
-> 
->   hw/ppc/ppc405_uc.c              | 799 +++++++++++++++++++-------------
+> For the RFC QEMU user space eBPF support,
+> https://lore.kernel.org/all/20220617073630.535914-6-chen.zhang@intel.com/T/
+> Maybe introduce the libubpf.so as a subproject like libvfio-user.so is more appropriate?
 
-Yes. You should consider also that this code is > 15 years old and
-serious shortcuts have been taken to "make things work". I think QOM
-clarifies the models and represents better the HW topology. There is
-a price in being explicit.
+Fair comment. I never noticed them before, but why do we have those 
+submodules in the subprojects/ folder (libvduse, libvfio-user and 
+libvhost-user)? ... I don't think it's the job of QEMU to ship libraries 
+that a user might want to use for a certain feature, so could we please 
+remove those submodules again? If someone wants to use this, they can 
+compile the libraries on their own or help their favorite distribution to 
+ship them as packages.
 
-> 
-> Ideally introducing QOM should make it simpler not more complex. Four of the QOMified devices only have a property defined at all because of this cpu link that's only used once in the realize method to register DCRs. This is about 10 lines of code each. If there was a simple way to get the cpu object from these realize methods then we could get rid of all these properties and save about 40-50 lines and make these simpler.
-
-I tried several approaches and found this one was the simplest and not
-too verbose really.
-
-The DCRs are accessed by software through the use of the mtdcr and mfdcr
-instructions. These are converted in transactions on a side band bus,
-the DCR bus, which connects the on-SoC devices to the CPU. The "cpu" link
-should be considered as modeling this little piece of HW logic connecting
-the device to the DCR bus.
-
-Thanks,
-
-C.
-
-
->> straightforward. It also means the device object doesn't have
->> to know anything about the way the SoC container is laid out.
-> 
-> We only need the cpu object so we don't need to know the soc container if there's a way to get it otherwise I just don't know how QOM works and was trying to find a way to get to the cpu object. Maybe it's simpler than that.
-> 
-> If there's no simple way or you and Cédric think it isn't worth the effort then I'm also OK with it but if there's a way to make this simpler I'd be happy to get rid of things that make it harder to read and understand code or allow making mistakes more easily. I take whatever decision you make so won't say this again, I think I've explained my point now.
-> 
-> Regards,
-> BALATON Zoltan
-> 
->> (It's usually worth looking at whether there are cleanups
->> that could mean the device doesn't have to have a pointer to
->> that other object at all -- but that isn't always the case,
->> or the cleanups would be a big job in their own right that
->> are better not tangled up with QOMification.)
->>
->> thanks
->> -- PMM
->>
->>
+  Thomas
 
 
