@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9CB58A803
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:24:15 +0200 (CEST)
-Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A2458A808
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:28:35 +0200 (CEST)
+Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJscw-0007PX-Kf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34052)
+	id 1oJsh8-00037c-Ea
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oJsPI-0003dg-QM
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:10:10 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:41761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oJsPH-0003kk-32
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:10:08 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id gk3so3657096ejb.8
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 01:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LWJToMjFmw81IbzVmJKhwsxxb0xLJlyCLYVHMyjJqJQ=;
- b=FlR4Wbmjl/ogXp05/6PEnr0lprKVkw93+QTxFlVaWPjWD6T/o3CZ4VZEIumNSJCQIY
- 5pSh1g2AHpMrBe08O4qMAO4G+VPPR+4ixSi6HgHJvau/hNzVq0Mn01JaDaNPylj4Tecg
- FEqgjm6OCiCTo9oS3UvPlatr1DNBqOnmuvrMOmmyxlrMEiG+T+KnwRl6sJZpkDQe2KXj
- Pp73na2T2w3vHLK+1MXQ0zrxtB7RsVKWllkPoJTbpTygYwzjrB2Psk1hN24Ren83A/8E
- I0r5lo64hrtTGBGARBG/UTApjRyPWk+ugrXeBQ7BZsKBMJeLfRx0BLzBY4EYV1iQvJnI
- 1voA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LWJToMjFmw81IbzVmJKhwsxxb0xLJlyCLYVHMyjJqJQ=;
- b=TeAopG2HVOciluScDoZjHKVL76ruD57Uxu0rQyddDBhFCAICHM3vJy/cy5KLjAIJZI
- lDPQDfaQTTP2TTLEUAX+IMHbIdWLpRP4Gay5ye7vkbzM6mktc+XtitldDvUZlWvGRZn4
- 7ZsBm+yqFw7o4q/xujyRSwcEDawVUXAOi2A+Ke64jlNT5ZQ1MIiwSknjA3TmNjnA8PwK
- Ic8TbUWBE/uu2U2rPVLimsQvMgwllXzKvaBvRKC9XZgtj47kA83I94k2U/yyw+1PmTSZ
- oGsF//MElJlZ4SV/0lSPdiQ7neD2q3gUu6MCKpsw84p8iglUmQFO2msBvip8z8MgYCzY
- Hz5A==
-X-Gm-Message-State: ACgBeo2T9rR9U496hf8wFyNkvBxLLYh2jGX5RIY4G5JIHnQtJU50XQQg
- KXhOPK9L1oMbkIuwe7XHzuE=
-X-Google-Smtp-Source: AA6agR7oz5nrSgJXAX/jFXXH6x2D7nwmO0ZLbZWfsV/OXUtZlIAq8CjgEGd9f0SJnN/EgLQwOHT5yQ==
-X-Received: by 2002:a17:907:1dd3:b0:730:9340:a0a with SMTP id
- og19-20020a1709071dd300b0073093400a0amr4391666ejc.316.1659687004740; 
- Fri, 05 Aug 2022 01:10:04 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.googlemail.com with ESMTPSA id
- t18-20020aa7d4d2000000b0043a2b8ab377sm1662793edr.88.2022.08.05.01.10.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 01:10:03 -0700 (PDT)
-Message-ID: <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
-Date: Fri, 5 Aug 2022 10:10:02 +0200
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oJsTX-0000qI-Sb
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:14:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oJsTV-0004Eh-Dt
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:14:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659687268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LQp5eZFwSI/xGMEy7umgYoeQSgji1LzJPsclcQD6Hw0=;
+ b=Vrzg4bAhMylArF7ZisOGYurkIj6YKr1QHosDFMUuo67S1QJu4RoG6F3++EKIU3WXWFDYBJ
+ 72cOHehABhdn7tiamfKPDybqW0NIfpaxH+2vP2zDrKwL+GjPHmuhjII3grYYFgvC+yYhh7
+ kZVbOlfivjMUqP0sNUpF7eRJhvBEwgo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-672-ejOK058YPe-z3b2YpbmfiA-1; Fri, 05 Aug 2022 04:14:24 -0400
+X-MC-Unique: ejOK058YPe-z3b2YpbmfiA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F922811E84;
+ Fri,  5 Aug 2022 08:14:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 096391121314;
+ Fri,  5 Aug 2022 08:14:21 +0000 (UTC)
+Date: Fri, 5 Aug 2022 10:14:20 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: Re: [PATCH v10 12/21] commit and mirror: create new nodes using
+ bdrv_get_aio_context, and not the job aiocontext
+Message-ID: <YuzRXKdh/+AbQWJu@redhat.com>
+References: <20220725073855.76049-1-eesposit@redhat.com>
+ <20220725073855.76049-13-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
- Laszlo Ersek <lersek@redhat.com>, linux-efi@vger.kernel.org
-References: <YuxOgtykRQb1HU3e@zx2c4.com>
- <20220804230411.17720-1-Jason@zx2c4.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220804230411.17720-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220725073855.76049-13-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,15 +86,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/5/22 01:04, Jason A. Donenfeld wrote:
-> +    /* Nothing else uses this part of the hardware mapped region */
-> +    setup_data_base = 0xfffff - 0x1000;
+Am 25.07.2022 um 09:38 hat Emanuele Giuseppe Esposito geschrieben:
+> We are always using the given bs AioContext, so there is no need
+> to take the job ones (which is identical anyways).
+> This also reduces the point we need to check when protecting
+> job.aio_context field.
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Isn't this where the BIOS lives?  I don't think this works.
+I'm not sure against which scenario this is actually protecting. The
+only reason for not using job.aio_context seems to be if someone else
+can change the job AioContext in parallel. However, if that is the case
+(I don't think it is, but for the hypothetical case this patch seems to
+address), the AioContext is not identical any more and the change is
+wrong because we actually want things to run in the job AioContext -
+otherwise accessing the BlockBackend from the job coroutine wouldn't be
+possible.
 
-Does it work to place setup_data at the end of the cmdline file instead 
-of having it at the end of the kernel file?  This way the first item 
-will be at 0x20000 + cmdline_size.
+So I believe the current code expresses how we actually want to use the
+BlockBackend and the change doesn't only protect nothing, but is even
+misleading because it implies that the job can work with any AioContext,
+which is not true.
 
-Paolo
+Kevin
+
 
