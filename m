@@ -2,74 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBD958A991
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:42:16 +0200 (CEST)
-Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7CA58A9A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 12:46:08 +0200 (CEST)
+Received: from localhost ([::1]:40702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJumV-00040M-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55418)
+	id 1oJuqE-0008CN-Ka
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 06:46:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJuMN-0006M7-0X
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:15:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34601)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oJuZQ-0003dw-EO; Fri, 05 Aug 2022 06:28:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJuML-00078t-4e
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 06:15:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659694512;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9ECx7LatQHc1kE2K0iML3kydI+2ZI+/2E8lGkzcbgNE=;
- b=TXag1areCE7jFJNmtquxPILEBrvdB+TWNPt4JlqUwsD1ga0t9r+AlO5W5uyW9I/2hz+mFX
- oMDPosYFMZ+ENbqDwN5f7rhbErtxecTlRR5nPhUbNl6c6hgHSMi9OhJqkT+N0wTEZcwDmF
- fORCB1X2dnp51k6KKWOGf4f5PYIW4/0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-HGiau_JtMlixZVJP7W-39A-1; Fri, 05 Aug 2022 06:15:11 -0400
-X-MC-Unique: HGiau_JtMlixZVJP7W-39A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E82D811E75
- for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 10:15:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD3931121314;
- Fri,  5 Aug 2022 10:15:09 +0000 (UTC)
-Date: Fri, 5 Aug 2022 11:15:01 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Cc: qemu-devel@nongnu.org,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] RFC: char: deprecate usage of bidirectional pipe
-Message-ID: <YuztpbXbc9+VO9nb@redhat.com>
-References: <20220726083232.2567756-1-marcandre.lureau@redhat.com>
- <Yt+pabvylcNdh0wL@redhat.com>
- <CAMxuvayRg_q6k_KV8LnYy2W0kbfVPZVzB-Ooz7Fzdc84fjBM6A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oJuZM-0001A4-Te; Fri, 05 Aug 2022 06:28:44 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275AL2xq005017;
+ Fri, 5 Aug 2022 10:28:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=f3VvH4NZWqU3cSdVyWaE6mQozfj6VBRpH6LBRL9vjZE=;
+ b=a7uWpnaKQyzHDAJgSK3mGZR6Ez/kKupCMYGzZ1VVvyc9jQJFR5lzbBzUIFVs5EtMsf59
+ 4i3wrNBR0kYKGK25CvWpiAYcmvri2yuFOG2qf9jESTubf7jMAVlaLUCXoWeO7JCMyr+Z
+ j/0jq7wXpu6JJ7wSQqRdXM7P9bRbDEA1le1V6QmqiMbgsD4RxKNeIP1blXB+ZmecxjIg
+ 5SX7AW/kTuYYeAK85OiTum3cdhTZwSIvjfn8huz1xQWm3HV8MYJsd75JFd5pQScgocZV
+ 6EE/YFbvY3CbelC7Cy47+yFZlJp86tt2UIEAdV0nWr6gKP5MGU9VWvwxkXj2AUOdBL3L YA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs1c905y6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 10:28:32 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 275ALZ5c005674;
+ Fri, 5 Aug 2022 10:28:31 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs1c905x9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 10:28:31 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 275AM2G4006386;
+ Fri, 5 Aug 2022 10:28:29 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 3hmv98y90r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Aug 2022 10:28:29 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 275ASRxj29360492
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Aug 2022 10:28:27 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 279EE4203F;
+ Fri,  5 Aug 2022 10:28:27 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 90AA642041;
+ Fri,  5 Aug 2022 10:28:26 +0000 (GMT)
+Received: from [9.171.89.138] (unknown [9.171.89.138])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Aug 2022 10:28:26 +0000 (GMT)
+Message-ID: <6aafa461732e7c98670c0e9c765cc95a5d88e8f0.camel@linux.ibm.com>
+Subject: Re: [PATCH 1/2] linux-user: Fix siginfo_t contents when jumping to
+ non-readable pages
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Yanan Wang
+ <wangyanan55@huawei.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+Date: Fri, 05 Aug 2022 12:28:26 +0200
+In-Reply-To: <CAFEAcA9FG+b4=-QNujG5Prx_me8uw7YTWjk-mqr3_X1Wb0wHzg@mail.gmail.com>
+References: <20220804182359.830058-1-iii@linux.ibm.com>
+ <20220804182359.830058-2-iii@linux.ibm.com>
+ <CAFEAcA9FG+b4=-QNujG5Prx_me8uw7YTWjk-mqr3_X1Wb0wHzg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMxuvayRg_q6k_KV8LnYy2W0kbfVPZVzB-Ooz7Fzdc84fjBM6A@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5nrwMDKNpj9X0r37X5knwcgiTvRY4b9g
+X-Proofpoint-ORIG-GUID: 6Sfe8QK2vqK6pPOS_8fwb_xBjonDpju-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-05_03,2022-08-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 clxscore=1015
+ bulkscore=0 suspectscore=0 impostorscore=0 phishscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208050049
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,88 +119,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05, 2022 at 01:55:41PM +0400, Marc-André Lureau wrote:
-> Hi
+On Fri, 2022-08-05 at 09:50 +0100, Peter Maydell wrote:
+> On Thu, 4 Aug 2022 at 19:50, Ilya Leoshkevich <iii@linux.ibm.com>
+> wrote:
+> > 
+> > When the first instruction of a translation block is located in a
+> > non-readable page, qemu-user fills siginfo_t correctly. For the
+> > other
+> > instructions the result is as if it were the first instruction,
+> > which
+> > is not correct.
+> > 
+> > The reason is that the current logic expects translate_insn() hook
+> > to
+> > stop at the page boundary. This way only the first instruction can
+> > cause a SEGV. However, this is quite difficult to properly
+> > implement
+> > when the problematic instruction crosses a page boundary, and
+> > indeed
+> > the actual implementations do not do this. Note that this can also
+> > break self-modifying code detection when only bytes on the second
+> > page
+> > are modified, but this is outside of the scope of this patch.
 > 
-> On Tue, Jul 26, 2022 at 12:44 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Tue, Jul 26, 2022 at 12:32:32PM +0400, marcandre.lureau@redhat.com wrote:
-> > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > As Ed Swierk explained back in 2006:
-> > > https://lists.nongnu.org/archive/html/qemu-devel/2006-12/msg00160.html
-> > >
-> > > "When qemu writes into the pipe, it immediately reads back what it just
-> > > wrote and treats it as a monitor command, endlessly breathing its own
-> > > exhaust."
-> > >
-> > > This is similarly confusing when using the chardev with a serial device,
-> > > as reported in https://bugzilla.redhat.com/show_bug.cgi?id=2106975.
-> > >
-> > > It seems we have kept the support for bidirectional pipes for historical
-> > > reasons and odd systems, however it's not documented in qemu -chardev
-> > > options. I suggest to stop supporting it, for portability reasons.
-> >
-> > Hmm, I always assumed that in this scenario the pipe was operating
-> > in output-only mode. Obviously not the case with the code as it
-> > exists, but perhaps this would be useful ?  eg its good as a serial
-> > console logging mechanism at least.
+> Which guests do you observe this on ? I think we should indeed
+> fix this in the translators. More specifically, I think we should
+> get this correct already on Arm, and I would expect it to work
+> correctly on all the fixed-insn-width architectures, which can't
+> have page-crossing-insns to start with. x86 probably gets this wrong.
 > 
-> The current "-chardev pipe,id=id,path=path" option handling will first
-> check the presence of unidirectional "path.in" & "path.out" (although
-> they are opened RDWR...), and fallback on bidirectional "path".
-> 
-> We could allow for the presence of "path.out" alone, although this may
-> be a behaviour/breaking change:
+> thanks
+> -- PMM
 
-If we allow path.out alone, then we loose error diagnostic when
-path.out is succesfully opened, but path.in fails. I wouldn't
-call that a back compat breakage.
+I first discovered this on s390x, and then realized x86_64 is broken as
+well. Fixing this in translators means adding page boundary checks to
+all code loads. Actually, on s390x it doesn't look as nasty as I
+thought it would, since we quickly figure out the length and load
+everything in one place:
 
-My preference would always be to use the exact path that was
-given as the CLI parameter.
+$ grep ld.*code target/s390x/tcg/translate.c | wc -l
+6
 
-IOW, we really ought to have had
+On x86_64 it's as bad as expected:
 
-   -chardev pipe,id=id,input=path,output=path
+$ grep x86_ld.*code target/i386/tcg/translate.c | wc -l
+96
 
-and allowed both of them to be optional, eg both of them should
-semantically mean /dev/null in behavioural terms if omitted
-
-IOW we could just deprecate 'path' entirely and introduce this
-saner approach to config.
-
-Alternatively, I would just unconditionally change
-
-diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-index 66d3b85091..3dda3d5cc6 100644
---- a/chardev/char-pipe.c
-+++ b/chardev/char-pipe.c
-@@ -142,7 +142,7 @@ static void qemu_chr_open_pipe(Chardev *chr,
-         if (fd_out >= 0) {
-             close(fd_out);
-         }
--        TFR(fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY));
-+        TFR(fd_in = fd_out = qemu_open_old(filename, O_WRONLY | O_BINARY));
-         if (fd_in < 0) {
-             error_setg_file_open(errp, errno, filename);
-             return;
-
-
-given that semantics on any UNIX platform we target are for pipes to be
-unidirectional, and eating our own output is uselessly broken, we could
-reasonably justify doing that change simply as a bug fix and ignore any
-notion of 'deprecation',
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Implementing this there would mean changing x86_ldub_code() and friends
+to macros, and then making sure we undo everything that we did since
+the start of the instruction. E.g. bt/bts/btr/btc mix parsing and
+op emission. There might be something that touches DisasContext as
+well. Therefore I thought that the generic approach from this patch
+would be more reliable.
 
