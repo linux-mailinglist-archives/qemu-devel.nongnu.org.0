@@ -2,108 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2396E58AF48
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:57:53 +0200 (CEST)
-Received: from localhost ([::1]:49656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6CF58AF4F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:59:10 +0200 (CEST)
+Received: from localhost ([::1]:52056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK1a4-0003WY-3U
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
+	id 1oK1bJ-0005FQ-73
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK1Y3-0000We-3A
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:55:47 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:44594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK1Y1-0008TP-8b
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:55:46 -0400
-Received: by mail-ed1-x530.google.com with SMTP id t5so4249291edc.11
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3pDyPaXmSjg1dfYYTVcD5twgm0VJEcQCaH5PzUebh+o=;
- b=NasTXfyIKwSXshhH6uRWdhVe4jCKkDoBRipCni1OVWDHHkSZE8iK0Vhw289lgKT2uv
- qS6eMQm42wwQy1UZM4kkyrdch99ditPm3awIimLr82sU3if3bt8aw/xZpAu/zujUoS54
- cekJu+G0f5hLStL7JaE8TqYvMOIiGi/Jpq7aUtENnLq1amafw+ZX0Y2XkXTjLvABPgZy
- B2U3SlVeDIS9e9u0kjZ4XgI66qvYPgtf+Dc14Ob180027TtXQXfKeB9PzzQrAjBFtZj5
- NCEt46wYh/AQ0HNsMQk9lnmN60NZeyIIR4J9rMfvYs5Q3+KGn6pMjwuXrHIEpd4ll7dC
- 5XQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3pDyPaXmSjg1dfYYTVcD5twgm0VJEcQCaH5PzUebh+o=;
- b=1mfN14pErA+8mYjqk3DE3ns6pa2TlNtPw0kw17BVxPcwozsGWsajae13gFJrK4wYBE
- DjhAT8DaTHu0sZJfJONQsOaRafduDhSD28PMlDsaNpOgF27yOaesT+chJcG35+r/Tqck
- 0Oj9EotJ6jEFwNblg6c14qUdzeVLBFfJc3sezeyUUAjxjKHVWjGGoRxRaQ5RZn8yyhZB
- Be2tK8AzRhnBhTYqJuQ1KPclIFwuM4mSPwmzzvANhw0CGIkGwRmXL1u4Q4E1EmBDdIBr
- sgIDcRGkqaFbVQMk9DilzgdeJqYN/tXRY2hgRuexq/YcmbxOoM8mjkXuL679blpMGr4x
- v7Lg==
-X-Gm-Message-State: ACgBeo1P+nOglqUTuCzTc+8O9TK1aTik1hvXX5fJIvspUWm+kOlGZ5Hw
- ZdeoyawINFrSZFZhREhjwnw=
-X-Google-Smtp-Source: AA6agR5VWBwmuMByhlGp2jZk5km25TlB77WRs6fSjW6q6o8glqXJyrvjZip6gTq1ZgU4MWVWBbx1Kw==
-X-Received: by 2002:a05:6402:5518:b0:43a:9e32:b6fc with SMTP id
- fi24-20020a056402551800b0043a9e32b6fcmr8004431edb.252.1659722143505; 
- Fri, 05 Aug 2022 10:55:43 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- b11-20020a17090630cb00b0072b36cbcdaasm1809391ejb.92.2022.08.05.10.55.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 10:55:42 -0700 (PDT)
-Message-ID: <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
-Date: Fri, 5 Aug 2022 19:55:38 +0200
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oK1Ys-0001jy-68
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:56:38 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:42772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oK1Yp-0000D5-Lf
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:56:37 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4A582B829E1
+ for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 17:56:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7462C43470
+ for <qemu-devel@nongnu.org>; Fri,  5 Aug 2022 17:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659722191;
+ bh=YhasxSDyI4slT9TaDXzSb4BbP4M3MtpH6v54pjBX2W4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PstLtCc5O0uC1T8DlHcMLjKrIwGn7gcy26nVcRpgqudjKrFCsZDjUVR2X6+tVqdqB
+ Ps+FXsvAvzZ4tqy0ll7WE3iP/NwOn1BNy4mtAC1EN4GyMA50X5o4Zrh5RfwrSQH5+l
+ Z+CnZlSj7GK/rZC1aRR0xp/sUs4U6TNreXanydGVytFmEqyqiv5oDE2xhvCkLhQC2h
+ MgjVxY46U8uOwX7JaptfRb3FVLkmVmVjyyoEN3k4YK/IZRpTy3HIlgU7vTKzkDB33S
+ GICQGcxWAITrq1sUcU32Ch5CyRwkUIyxpVHs/soQ9NkBZc+Na7lNg1ic7+8/G2bpoy
+ +pQqgvJLbdcfw==
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so3679982fac.9
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:56:31 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1A1s2kkyx44/e50TKTg9APjmqzfNAcbkK2cyE5GGpWjM4drE78
+ irLc/H2vmgEjr0KM6Oxp9vAOwWVIYKprPtQ/6vI=
+X-Google-Smtp-Source: AA6agR6oRpwKgaz40rV0PVZGx2D8+KdCC17YSjJKY2v1+hdVsQkJwoCMtY/US6zKxUSkFVTk/Yo0Hjk0eePeoLuFw1k=
+X-Received: by 2002:a05:6870:a90a:b0:10d:9e83:98a6 with SMTP id
+ eq10-20020a056870a90a00b0010d9e8398a6mr6781986oab.228.1659722191032; Fri, 05
+ Aug 2022 10:56:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Sean Christopherson
- <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>,
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <YuxOgtykRQb1HU3e@zx2c4.com>
+ <20220804230411.17720-1-Jason@zx2c4.com>
+ <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
+ <CAMj1kXFDs8HCCCcVAVwjLcATh6MYcUSAha5yvi0ftMw+Ddy_Xg@mail.gmail.com>
+ <0bd57fab-836b-9898-9e3f-84dc66eca175@redhat.com>
+In-Reply-To: <0bd57fab-836b-9898-9e3f-84dc66eca175@redhat.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 5 Aug 2022 19:56:20 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEmsDjStijJciuWjmugqAm8yvX_qihyg1Uah=V56mg2Bg@mail.gmail.com>
+Message-ID: <CAMj1kXEmsDjStijJciuWjmugqAm8yvX_qihyg1Uah=V56mg2Bg@mail.gmail.com>
+Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, 
+ Xiaoyao Li <xiaoyao.li@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>, 
+ linux-efi <linux-efi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=ardb@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,21 +90,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/22 11:44, David Hildenbrand wrote:
-> 
-> Also, I*think*  you can place pages via userfaultfd into shmem. Not
-> sure if that would count "auto alloc", but it would certainly bypass
-> fallocate().
+On Fri, 5 Aug 2022 at 19:29, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 8/5/22 13:08, Ard Biesheuvel wrote:
+> >>
+> >> Does it work to place setup_data at the end of the cmdline file instead
+> >> of having it at the end of the kernel file?  This way the first item
+> >> will be at 0x20000 + cmdline_size.
+> >>
+> > Does QEMU always allocate the command line statically like that?
+> > AFAIK, OVMF never accesses that memory to read the command line, it
+> > uses fw_cfg to copy it into a buffer it allocates itself. And I guess
+> > that implies that this region could be clobbered by OVMF unless it is
+> > told to preserve it.
+>
+> No it's not. :(  It also goes to gBS->AllocatePages in the end.
+>
+> At this point it seems to me that without extra changes the whole
+> setup_data concept is dead on arrival for OVMF.  In principle there's no
+> reason why the individual setup_data items couldn't include interior
+> pointers, meaning that the setup_data _has_ to be at the address
+> provided in fw_cfg by QEMU.
+>
 
-Yeah, userfaultfd_register would probably have to forbid this for 
-F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for 
-this, adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then 
-userfault_register would do something like 
-memfile_node_get_flags(vma->vm_file) and check the result.
+AIUI, the setup_data nodes are appended at the end, so they are not
+covered by the setup_data fw_cfg file but the kernel one.
 
-This means moving this patch later, after "mm: Introduce memfile_notifier".
+> One way to "fix" it would be for OVMF to overwrite the pointer to the
+> head of the list, so that the kernel ignores the setup data provided by
+> QEMU. Another way would be to put it in the command line fw_cfg blob and
+> teach OVMF to use a fixed address for the command line.  Both are ugly,
+> and both are also broken for new QEMU / old OVMF.
+>
 
-Thanks,
+This is the 'pure EFI' boot path in OVMF, which means that the
+firmware does not rely on definitions of struct bootparams or struct
+setup_header at all. Introducing that dependency just for this is
+something I'd really prefer to avoid.
 
-Paolo
+> In any case, I don't think this should be fixed so close to the release.
+>   We have two possibilities:
+>
+> 1) if we believe "build setup_data in QEMU" is a feasible design that
+> only needs more yak shaving, we can keep the code in, but disabled by
+> default, and sort it out in 7.2.
+>
+
+As I argued before, conflating the 'file' representation with the
+'memory' representation like this is fundamentally flawed. fw_cfg
+happily DMA's those files anywhere you like, so their contents should
+not be position dependent like this.
+
+So Jason's fix gets us halfway there, although we now pass information
+to the kernel that is not covered by signatures or measurements, where
+the setup_data pointer itself is. This means you can replace a single
+SETUP_RNG_SEED node in memory with a whole set of SETUP_xxx nodes that
+might be rigged to manipulate the boot in a way that measured boot
+won't detect.
+
+This is perhaps a bit of a stretch, and arguably only a problem if
+secure or measured boot are enabled to begin with, in which case we
+could impose additional policy on the use of setup_data. But still ...
+
+> 2) if we go for an alternative design, it needs to be reverted.  For
+> example the randomness could be in _another_ fw_cfg file, and the
+> linuxboot DMA can patch it in the setup_data.
+>
+>
+> With (2) the OVMF breakage would be limited to -dtb, which more or less
+> nobody cares about, and we can just look the other way.
+>
+> Paolo
 
