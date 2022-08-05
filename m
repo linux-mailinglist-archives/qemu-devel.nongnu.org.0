@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A03758A812
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:32:32 +0200 (CEST)
-Received: from localhost ([::1]:58926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231B558A832
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 10:39:12 +0200 (CEST)
+Received: from localhost ([::1]:37316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJskx-0006Ix-Io
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35720)
+	id 1oJsrO-0002pC-UW
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 04:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJsYt-0004ky-I8
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:20:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24294)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJsdo-00088J-KY
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:25:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJsYr-00056R-F6
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:20:02 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJsdl-00066h-9W
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 04:25:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659687600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sRkWmfOdI/r+Z1VDPe0wEa2tC/zW229Do1XAwmgOvaY=;
- b=ewaJc3ZdCHpq4O5cuGrQ1nCgVRFfVoQQA9CVqcXlaCuvWWkgNd2KicA+CPWE73dLmFRssG
- eAjwdV/BbxXWQ23FbYCd7cG0ju7uDreq8IxOifTUpzqabqcv07zLNJPTTR33oPlSsEFbxf
- 5J1O4BMG+3Bgo2Pyjc9hbY4KT2YG9bQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1659687904;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=IYogsoNxZVzUKFX/TnSFhS5/WD2o+9j5hOiKkHnboZw=;
+ b=DCRo/wmS4g3/ZuEhF/Y/fgq6jC/jzlCV0bjlNnkNTa6/QOO46/kN3Q0Q5F8uypjgIWS335
+ DfoTf9mMEaly1Ai2YfsMLUIY/a67K64xGIy7tQZj809jFuUC4doKMSETdumykQcKXIiwoL
+ i91+cq5f4654SJD8nRPaa+rTWC6YxTc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-QT4RMOofM-2vWbGoqLDaeA-1; Fri, 05 Aug 2022 04:19:58 -0400
-X-MC-Unique: QT4RMOofM-2vWbGoqLDaeA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z11-20020a05600c0a0b00b003a043991610so349093wmp.8
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 01:19:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=sRkWmfOdI/r+Z1VDPe0wEa2tC/zW229Do1XAwmgOvaY=;
- b=xllm7EutOFaqK6lHVAWd//R3SZt3XkNLQm+YtXaW+FL1Xrw91gW6kr8UAOi9p7547a
- NAz9ILHtK4ydpVnNM1WIuRZusP9VGzmUmKoDc4eHQWuhJl/68WSXmml7duM9bGWw+g35
- uied+DIPsKq5XlB665tHwKdPS3KmIwMGi6P7/LsHAUOsYk63aOV5sCC/4lRjRDlhOOOT
- J63wvTYaGu20H1yYsBQ0pXMUVkeELO3P+Ueypvf93c6B+lEgMbMMZ+xlocrsKYnUniXR
- COMU7UjBcWt2FHsEhWdPLJQbLtztV94le4668grwkttxDYznGSffvA9LcmVVALp4PNvf
- UPzw==
-X-Gm-Message-State: ACgBeo0OksBFX8uSXuB9kplTiRt4eJCuozmlESZ/pKouBz8Y24UinKcP
- SgFzvh5WTS6ukyTNAzXXxS68NQ8ukqZTAn85s97BvfxN+wvF2ddjdzqjquey86AoZTgCm+l+gsn
- oub1E/cO2hnT4mwI=
-X-Received: by 2002:a5d:64c1:0:b0:220:8590:3809 with SMTP id
- f1-20020a5d64c1000000b0022085903809mr3616519wri.97.1659687597733; 
- Fri, 05 Aug 2022 01:19:57 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR50GlGSW++rVT2lMQcOaO9fPx8xZsVgLKBHIw5kErOxCc7MDT+jpGp5P4Wodl9lSCRRIct62w==
-X-Received: by 2002:a5d:64c1:0:b0:220:8590:3809 with SMTP id
- f1-20020a5d64c1000000b0022085903809mr3616503wri.97.1659687597470; 
- Fri, 05 Aug 2022 01:19:57 -0700 (PDT)
-Received: from redhat.com ([2.52.137.185]) by smtp.gmail.com with ESMTPSA id
- u18-20020a5d4352000000b0021d69860b66sm3997585wrr.9.2022.08.05.01.19.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 01:19:56 -0700 (PDT)
-Date: Fri, 5 Aug 2022 04:19:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com,
- "Jason A . Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH v2] pc: add property for Linux setup_data random number
- seed
-Message-ID: <20220805041810-mutt-send-email-mst@kernel.org>
-References: <20220804212441.458478-1-pbonzini@redhat.com>
- <20220805025107-mutt-send-email-mst@kernel.org>
- <9a54556f-9a9e-f9cd-9e77-c46fc781c0f4@redhat.com>
+ us-mta-380-jsf3lRrcNGi4HoS76at2kQ-1; Fri, 05 Aug 2022 04:25:02 -0400
+X-MC-Unique: jsf3lRrcNGi4HoS76at2kQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 483C92812C34;
+ Fri,  5 Aug 2022 08:25:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DBD32166B26;
+ Fri,  5 Aug 2022 08:24:58 +0000 (UTC)
+Date: Fri, 5 Aug 2022 09:24:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
+Subject: Re: [PATCH 0/1] Update vfio-user module to the latest
+Message-ID: <YuzT2MA9Q4mAr4eQ@redhat.com>
+References: <cover.1659403195.git.jag.raman@oracle.com>
+ <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <e8eab8e6-e6a5-af95-223f-e0ca91b4d833@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9a54556f-9a9e-f9cd-9e77-c46fc781c0f4@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <e8eab8e6-e6a5-af95-223f-e0ca91b4d833@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,39 +85,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05, 2022 at 10:16:37AM +0200, Paolo Bonzini wrote:
-> On 8/5/22 09:01, Michael S. Tsirkin wrote:
-> > > -    if (!legacy_no_rng_seed) {
-> > > +    if (x86ms->linuxboot_randomness != ON_OFF_AUTO_OFF &&
-> > > +        (protocol >= 0x209 || x86ms->linuxboot_randomness == ON_OFF_AUTO_ON)) {
-> > Hmm so if user requested "on" but protocol is too old then we just
-> > ignore it silently? I'd rather we failed initialization.
-> > So:
+On Fri, Aug 05, 2022 at 09:21:07AM +0200, Thomas Huth wrote:
+> On 02/08/2022 12.00, Zhang, Chen wrote:
 > > 
-> > if (x86ms->linuxboot_randomness == ON_OFF_AUTO_ON &&
-> >      protocol < 0x209) {
-> > 	fprintf(stderr, "qemu: Linux kernel too old to load a dtb\n");
-> > 	exit(1);
-> > }
+> > 
+> > > -----Original Message-----
+> > > From: Qemu-devel <qemu-devel-
+> > > bounces+chen.zhang=intel.com@nongnu.org> On Behalf Of Jagannathan
+> > > Raman
+> > > Sent: Tuesday, August 2, 2022 9:24 AM
+> > > To: qemu-devel@nongnu.org
+> > > Cc: stefanha@gmail.com; berrange@redhat.com
+> > > Subject: [PATCH 0/1] Update vfio-user module to the latest
+> > > 
+> > > Hi,
+> > > 
+> > > This patch updates the libvfio-user submodule to the latest.
+> > 
+> > Just a rough idea, why not depends on linux distribution for the libvfio-user.so?
+> > It looks no libvfio-user packet in distribution's repo.
+> > 
+> > Hi Thomas/Daniel:
+> > 
+> > For the RFC QEMU user space eBPF support,
+> > https://lore.kernel.org/all/20220617073630.535914-6-chen.zhang@intel.com/T/
+> > Maybe introduce the libubpf.so as a subproject like libvfio-user.so is more appropriate?
 > 
-> It doesn't ignore the "on" setting; it passes the seed anyway even if the
-> protocol is too old.  Basically, a kernel that is too old to support setup
-> data is treated the same as a kernel that supports setup data but doesn't
-> know about the seed datum.
+> Fair comment. I never noticed them before, but why do we have those
+> submodules in the subprojects/ folder (libvduse, libvfio-user and
+> libvhost-user)? ... I don't think it's the job of QEMU to ship libraries
+> that a user might want to use for a certain feature, so could we please
+> remove those submodules again? If someone wants to use this, they can
+> compile the libraries on their own or help their favorite distribution to
+> ship them as packages.
 
-Oh it's an || not an &&. You are right. I needed more coffee.
+FWIW, I don't really agree with shipping libvfio-user.so as a submodule
+either, but the consensus was that we have to do it because there's no
+stable ABI committed to by libvfio-user maintainers yet.  My counterpoint
+is that as long as QEMU ships libvfio-user as a submodule, there's no
+incentive to create a stable ABI, leaving a chicken & egg scenario.
 
-> It seemed the more sensible implementation because anyway you cannot know if
-> the kernel will use the datum.
-> 
-> Paolo
+IOW personally I'd rather libvfio-user.so was put into the distros right
+now, and have the pain ABI incompatible releases act as motivation for
+the creation of a stable ABI.
 
-OK then.
+A second factor is that as long as it is a submodule, there is little
+pressure for the distros to actually package the library, which leaves
+us in a place where someone will always object to removing the submodule
+from QEMU because it doesn't exist in distro X.
 
+So again my preference is to not add any library as a submodule. Lets
+the distros handle dependancies like they always have.
+
+If we do add something as a submodule for some reason, I'd like us to
+say upfront that this is for a fixed time period (ie maximum of 3
+releases aka 1 year) only after which we'll remove it no matter what.
+
+We are where we are with libvfio-user.so, and I don't think that is
+something to be used as justification for adding more libraries as
+submodules. Rather we should set a timeframe to remove libvfio-user
+submodule to put distros on notice.
+
+With regards,
+Daniel
 -- 
-MST
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
