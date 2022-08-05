@@ -2,111 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AD958AFF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 20:38:14 +0200 (CEST)
-Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D378B58AF92
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 20:08:08 +0200 (CEST)
+Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK2D7-0005iU-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 14:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
+	id 1oK1jz-0002AD-GY
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 14:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oK26G-0001rL-P7; Fri, 05 Aug 2022 14:31:09 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46190
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oK1i8-0000be-Id
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 14:06:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oK269-0000Ir-Pb; Fri, 05 Aug 2022 14:31:08 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275HoIs9006510;
- Fri, 5 Aug 2022 18:30:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=6IimpppYGHxcM35bA+ZMSvfGTOn9+lV7szanabv+6oQ=;
- b=T3lIfRQlr1QuITPuAw9gE2yxowRgoCuWK0fqPaxPjbUQhvPc8t5LjAMRM8AVChMY4SD3
- l5JVLd2q/NNRTod3Ljf1VS3OkxzGRhDi2kpbpLvyN3jlqi1EUx20IxSUwMeY/7SVe5l8
- cP7hOowkq1z6Y9QjymKshaeWDovl3+Yb27XOH2sXFVB178/VmC7OAWHGQoKIvBqG9Jxh
- rF4gZR/S83gPr1sdMApq8bAhaMlEu0c4ApZylXVE1VhGLISRFieFfgUZ3f0WiD1taLq+
- gYkBDX7dzijX7bqeW0sZCFdDA97tnx39b51yAYImmqWbUu92Cf6QOFtaQU1daMptF/pn Bw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7y616nc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 18:30:42 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 275I6W41015051;
- Fri, 5 Aug 2022 18:30:42 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hs7y616m6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 18:30:42 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 275I7XR7006412;
- Fri, 5 Aug 2022 18:30:40 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03fra.de.ibm.com with ESMTP id 3hmv98wrrr-49
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Aug 2022 18:30:40 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 275G9ZxK15335752
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Aug 2022 16:09:35 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ED2E4A405C;
- Fri,  5 Aug 2022 16:09:18 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D325A4054;
- Fri,  5 Aug 2022 16:09:18 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.89.138])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  5 Aug 2022 16:09:18 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 3/4] target/i386: Make translator stop before the end of a
- page
-Date: Fri,  5 Aug 2022 18:09:13 +0200
-Message-Id: <20220805160914.1106091-4-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220805160914.1106091-1-iii@linux.ibm.com>
-References: <20220805160914.1106091-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oK1i5-0004Ck-JV
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 14:06:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659722768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gTG5sYKz5wYWpj0OuPtAuT0vzoUTMIRW2UW4E5SQLSQ=;
+ b=EqtatFDulK1RwYEUXVMucgeZtcmVXqtT8a4mf7nysaZnENR/B78tcR/PjnyTpZs7euqc4r
+ /xsrR39d50VVRXAPVuQ+Fry6vuDwWyRKOM9Nc8HfsLjvPZQjxweQffVfEiqPz5dhr2xZqE
+ oFEPcIKVnFDX4tLmD5mv3ASVCl9MFrw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-436-UQKonpQ2NFmQiM2RWZXtzg-1; Fri, 05 Aug 2022 14:06:06 -0400
+X-MC-Unique: UQKonpQ2NFmQiM2RWZXtzg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i9-20020a1c3b09000000b003a511239973so1912451wma.7
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 11:06:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=gTG5sYKz5wYWpj0OuPtAuT0vzoUTMIRW2UW4E5SQLSQ=;
+ b=Q3cfn8OuAE+8C1+Io2q9PcsZi94RLFKAGydNhSHKKi35FTyGRsDfNmS9zUir0r/dm7
+ 8vNnvx7dQwviljj9a3PiHxBVJNkIsswn9t3v/uNw9VssQbgk/Nj2JpJwwm5XOtS/ub21
+ TsbENZ8H+VmJaVFyyt651cI/mbXhk5PXKeTkgpCpDEU6x11DGIF7QORWCT/vNS3+/Q1o
+ DAKzxcWjuXMNKCNMeX6IM9Wm324gdvTN/KEy0I1t5NpVvu7jyTy1oc6YCTFozCFwKZ9+
+ tu/AoWdU+gL58gr2UZgOrLxyHZ9ywnymbT6HTxiZfmMtcN1GmVO59OTmPWdi5QWfmI7J
+ ELxg==
+X-Gm-Message-State: ACgBeo0ByLBVSYbhKl+36IPZx37HkJfit+JacQb/a3sS91erDzFWbQrH
+ YGTnEqj/NITIaS51AVJqfgCXUPneJnGwOkFuwZcPQQUeP6+xIGOthF0RAl/JSqyAYzmeMAd1q5/
+ dQNIco491rCHP04s=
+X-Received: by 2002:a05:6000:811:b0:220:6262:ac66 with SMTP id
+ bt17-20020a056000081100b002206262ac66mr4741237wrb.529.1659722765762; 
+ Fri, 05 Aug 2022 11:06:05 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4YiYJd4RGqr8HPcVnnEu37Kzz2xizPBJ/DFAoYEPdnVgyVJMfvEXwBl3Yrl6juKrdXAyBEpQ==
+X-Received: by 2002:a05:6000:811:b0:220:6262:ac66 with SMTP id
+ bt17-20020a056000081100b002206262ac66mr4741186wrb.529.1659722765470; 
+ Fri, 05 Aug 2022 11:06:05 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c706:fb00:f5c3:24b2:3d03:9d52?
+ (p200300cbc706fb00f5c324b23d039d52.dip0.t-ipconnect.de.
+ [2003:cb:c706:fb00:f5c3:24b2:3d03:9d52])
+ by smtp.gmail.com with ESMTPSA id
+ j6-20020a05600c190600b003a31b79dc0esm26070221wmq.1.2022.08.05.11.06.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 11:06:05 -0700 (PDT)
+Message-ID: <a2b8fa73-4efd-426f-abcd-7975ff9a7101@redhat.com>
+Date: Fri, 5 Aug 2022 20:06:03 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: CTtqWn5o_qa_idoq4PouG0LgFmV0nrvb
-X-Proofpoint-GUID: gen_A-ngqawF-IyBHD7kVgf1S2cQXIHx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-05_09,2022-08-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- spamscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208050085
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Sean Christopherson
+ <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,97 +128,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now translator stops right *after* the end of a page, which
-breaks reporting of fault locations when the last instruction of a
-multi-insn translation block crosses a page boundary.
+On 05.08.22 19:55, Paolo Bonzini wrote:
+> On 7/21/22 11:44, David Hildenbrand wrote:
+>>
+>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
+>> sure if that would count "auto alloc", but it would certainly bypass
+>> fallocate().
+> 
+> Yeah, userfaultfd_register would probably have to forbid this for 
+> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for 
+> this, adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then 
+> userfault_register would do something like 
+> memfile_node_get_flags(vma->vm_file) and check the result.
 
-We may find out that we crossed page boundary after some ops were
-emitted and cc_op was updated. In theory it might be possible to
-rearrange the code to disassemble first, but this is too error-prone.
-Simply snapshot and restore the disassembly state instead.
+An alternative is to simply have the shmem allocation fail in a similar
+way. Maybe it does already, I haven't checked (don't think so).
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- target/i386/tcg/translate.c | 42 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index b7972f0ff5..ea749b0a04 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2008,6 +2008,12 @@ static uint64_t advance_pc(CPUX86State *env, DisasContext *s, int num_bytes)
- {
-     uint64_t pc = s->pc;
- 
-+    /* This is a subsequent insn that crosses a page boundary.  */
-+    if (s->base.num_insns > 1 &&
-+        !is_same_page(&s->base, s->pc + num_bytes - 1)) {
-+        siglongjmp(s->jmpbuf, 2);
-+    }
-+
-     s->pc += num_bytes;
-     if (unlikely(s->pc - s->pc_start > X86_MAX_INSN_LENGTH)) {
-         /* If the instruction's 16th byte is on a different page than the 1st, a
-@@ -4545,6 +4551,29 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-     }
- }
- 
-+/* Disassembly state that may affect the next instruction. */
-+typedef struct {
-+    TCGOp *last_op;
-+    bool cc_op_dirty;
-+    CCOp cc_op;
-+} DisasSnapshot;
-+
-+/* Save disassembly state. */
-+static void disas_save(DisasSnapshot *snapshot, const DisasContext *s)
-+{
-+    snapshot->last_op = tcg_last_op();
-+    snapshot->cc_op_dirty = s->cc_op_dirty;
-+    snapshot->cc_op = s->cc_op;
-+}
-+
-+/* Restore disassembly state. */
-+static void disas_restore(const DisasSnapshot *snapshot, DisasContext *s)
-+{
-+    tcg_remove_ops_after(snapshot->last_op);
-+    s->cc_op_dirty = snapshot->cc_op_dirty;
-+    s->cc_op = snapshot->cc_op;
-+}
-+
- /* convert one instruction. s->base.is_jmp is set if the translation must
-    be stopped. Return the next pc value */
- static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-@@ -4556,6 +4585,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     int modrm, reg, rm, mod, op, opreg, val;
-     target_ulong next_eip, tval;
-     target_ulong pc_start = s->base.pc_next;
-+    DisasSnapshot snapshot;
- 
-     s->pc_start = s->pc = pc_start;
-     s->override = -1;
-@@ -4568,9 +4598,19 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     s->rip_offset = 0; /* for relative ip address */
-     s->vex_l = 0;
-     s->vex_v = 0;
--    if (sigsetjmp(s->jmpbuf, 0) != 0) {
-+    disas_save(&snapshot, s);
-+    switch (sigsetjmp(s->jmpbuf, 0)) {
-+    case 0:
-+        break;
-+    case 1:
-         gen_exception_gpf(s);
-         return s->pc;
-+    case 2:
-+        disas_restore(&snapshot, s);
-+        s->base.is_jmp = DISAS_TOO_MANY;
-+        return pc_start;
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     prefixes = 0;
 -- 
-2.35.3
+Thanks,
+
+David / dhildenb
 
 
