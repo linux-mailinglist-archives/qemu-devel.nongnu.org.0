@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B94D58ACFD
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:22:21 +0200 (CEST)
-Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D38158AD03
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:25:07 +0200 (CEST)
+Received: from localhost ([::1]:33616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJz9X-0002UY-1p
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
+	id 1oJzCE-0000Ur-O6
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oJz74-000646-1U
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:19:46 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:37853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oJz72-0007DL-GO
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:19:45 -0400
-Received: by mail-pl1-x629.google.com with SMTP id m2so2923875pls.4
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sG+qG7RXWjSRDKgJI+1m4QodNZ61WcY5G5j/3Cn4HDw=;
- b=zefepBaXtFmgSHxuy9xwnJgfrPWzuP7QCgNM+9VJlRGGlxyoO5CFd83iCth2/4jHfR
- cFuQ6RyST7z05Jm0qjbzUJ22s9KdtD0bVSrdw3tHjNUkYGTbD1Xi5PVjZ3pA8LAtLkE3
- X9YtYpy4jRMxC4PKDFathv5UDVaQlRqekpKHRiqqD8OhtgP1crZyliHjFe7f1jSvh0Qe
- hz/+ybMLfNEYhdqI92bVH65SPY1LOv0f+Axm0QpDkzSI5GhGUxkHuV0jHymJYBcQQ+I4
- Hjf3Xf6oSDvz/YrATClCgJmxNrAnmq4oEL5+uvXfzHoGOylqJBP4Lz+zkxNeasuhNSJ9
- G8sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sG+qG7RXWjSRDKgJI+1m4QodNZ61WcY5G5j/3Cn4HDw=;
- b=M72bLr4vp0uLkOwHJBCKeN/PGcUHBa1L8er80C4lj3uk+Id84FbFbZdD8dkul7Jy5Q
- aXRLBUrvi/X+fPL8HcnQlmGviv6PiqFHU3qRzobMpPauAOpAfMR8s04tQby3+nHyiSvf
- LyeRFvi0adOw4T9SF9izhSE04/e6/bpI3JEFdSh/xtUMrorOyIA8oeTVuGMPFm0eJNCh
- OSGodqaMC3gl0rEukXmA3HOaf9Q/TDPD2euKM23BhocfoyMdHbPTYSVv1n3ZHzXbUsyu
- lz3392/dlwOyUeszYZF/Fivz/a6ZES6RYdgY8Rj0x/Rh6+rkETlOBKtzZXPqTjESrXw0
- 46/g==
-X-Gm-Message-State: ACgBeo09mWSvOvLMKT06ONUqSCmdEsCYurLR5v9dTZ1+wQzdhBF0+sCt
- BzmBH6S4M7L4UMJeIwpUmXG1SA==
-X-Google-Smtp-Source: AA6agR5TIxWxQH16FfxOb5OlDrxZ1ef+wSpbC3yhLXFUWIYO9pU8Fx65lMeWqgZtVDv/8pnyHebV1Q==
-X-Received: by 2002:a17:90a:6ba5:b0:1f5:3c80:6c0b with SMTP id
- w34-20020a17090a6ba500b001f53c806c0bmr8322315pjj.147.1659712782906; 
- Fri, 05 Aug 2022 08:19:42 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
- ([2602:ae:154e:e201:abf8:e436:f4c:9089])
- by smtp.gmail.com with ESMTPSA id
- n8-20020a170902d2c800b0016dc240b24bsm3185813plc.95.2022.08.05.08.19.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 08:19:42 -0700 (PDT)
-Message-ID: <74564953-db2d-8617-1a91-9c4e0cd0cf5c@linaro.org>
-Date: Fri, 5 Aug 2022 08:19:40 -0700
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJz7o-0006YM-QK
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:20:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26445)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oJz7l-0007cV-29
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:20:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659712825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=L2Qk/T5pDEpCliz/Xg2eicSxsZkuhsTGbYJsBsWi2cE=;
+ b=L+gLsbYzEixqsRjhk3yp2D9fkPyU228EI8cTzmP+4Ol1oJGo7hJPforZ6hefgwCuQvtEiZ
+ l63QfWcghO8USTkjAVVRfHTALhBfuYv4C7xaIP+eqPyzFcC897Sde7WdT/74b7n4Cfc6VI
+ kWWUHY2jQmiK0/FvocThJhZk6ZI3sAU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-106-mgVc0uUAP7S7s4-olnTXaw-1; Fri, 05 Aug 2022 11:20:22 -0400
+X-MC-Unique: mgVc0uUAP7S7s4-olnTXaw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72D883C0E236;
+ Fri,  5 Aug 2022 15:20:21 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.194.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1A0F2026D4C;
+ Fri,  5 Aug 2022 15:20:16 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, Beraldo Leal <bleal@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-s390x@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: [PULL 0/6] Misc next patches
+Date: Fri,  5 Aug 2022 16:20:08 +0100
+Message-Id: <20220805152014.135768-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] target/loongarch: Fix macros SET_FPU_* in cpu.h
-Content-Language: en-US
-To: Qi Hu <huqi@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Cc: qemu-devel@nongnu.org
-References: <20220804132450.314329-1-huqi@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220804132450.314329-1-huqi@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +88,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/4/22 06:24, Qi Hu wrote:
-> The macros SET_FPU_* are used to set corresponding bits of fcsr.
-> Unfortunately it forgets to set the result and it causes fcsr's
-> "CAUSE" never being updated. This patch is to fix this bug.
-> 
-> Signed-off-by: Qi Hu <huqi@loongson.cn>
-> ---
->   target/loongarch/cpu.h | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
+The following changes since commit 09ed077d7fae5f825e18ff9a2004dcdd1b165edb:
 
-Thanks, queued.
+  Merge tag 'trivial-branch-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-04 17:21:13 -0700)
 
+are available in the Git repository at:
 
-r~
+  https://gitlab.com/berrange/qemu tags/misc-next-pull-request
+
+for you to fetch changes up to e3fdb13e8851be570db41a50589ce82d11d61c12:
+
+  util/qemu-sockets: Replace the call to close a socket with closesocket() (2022-08-05 16:18:15 +0100)
+
+----------------------------------------------------------------
+Merge misc patches
+
+ * Display deprecation warnings in -cpu help
+ * Fix zerocopy IPv6 handling
+ * Clarify platform support policy on minor release/backports
+ * Fix closesocket call in error path
+
+----------------------------------------------------------------
+
+Andrea Bolognani (1):
+  docs: build-platforms: Clarify stance on minor releases and backports
+
+Bin Meng (1):
+  util/qemu-sockets: Replace the call to close a socket with
+    closesocket()
+
+Daniel P. Berrangé (3):
+  target/i386: display deprecation status in '-cpu help'
+  target/s390x: display deprecation status in '-cpu help'
+  target/arm: display deprecation status in '-cpu help'
+
+Leonardo Bras (1):
+  QIOChannelSocket: Add support for MSG_ZEROCOPY + IPV6
+
+ docs/about/build-platforms.rst |  5 ++++-
+ io/channel-socket.c            |  4 ++--
+ target/arm/helper.c            |  7 ++++++-
+ target/i386/cpu.c              |  5 +++++
+ target/s390x/cpu_models.c      | 23 ++++++++++++++++++-----
+ util/qemu-sockets.c            |  4 ++--
+ 6 files changed, 37 insertions(+), 11 deletions(-)
+
+-- 
+2.37.1
+
 
