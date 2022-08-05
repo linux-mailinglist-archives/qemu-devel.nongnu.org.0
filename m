@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F88C58AF1B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:45:50 +0200 (CEST)
-Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9773058AF47
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:57:42 +0200 (CEST)
+Received: from localhost ([::1]:49126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK1OP-0006r3-1t
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:45:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57166)
+	id 1oK1Zt-00037G-6h
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:57:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oK1LL-0004Up-1n
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:42:40 -0400
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:45701)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK1Xa-0000Mp-7X
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:55:18 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:36668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oK1LJ-0006IK-J1
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:42:38 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-3246910dac3so30467427b3.12
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:42:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK1XX-0008Iw-8x
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:55:16 -0400
+Received: by mail-pl1-x635.google.com with SMTP id x10so3261398plb.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=ifPtP1I+zKKihh9OhtzGg5JfI69+9uRMUEWS7Qx/Gjk=;
- b=vpUYsLT08JlKArOlmMRk2P9WZWhrjCiQJgBjl3BtACXq++Bpiqws24PMXJr+/LVACM
- 2zlsFU6fgLv9xjyCfeaDknyW+wzbO01gPjNxfHEbU2AGWH2+l87GmyEjmHX6Ls2zIFD0
- ZfGe8li0t9nsskqrhzqvLU+bfDH2UjeWMDqlESDl2gr9T/NLjYAar8hNdu1JpRTsrag5
- EWIv/AVasGNvxir01t3zcEpu+vzwWMpoq9oGJuUIZs5mToQG96/cEjwJgbpCLIQD9Enl
- U/UOZHC93DH5fRKhhNFRJF57lMhzy84nKz5BA384nrppGy0nJU6kqwJLuDYMrnDhAXTB
- 3KLw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=SUp9GqOsjv/S8NhZwpp2aTcPo9Ld5sy7FqhWY00dvQs=;
+ b=j0MwvoL0lQZXKn6HOk2RVOr7ckQNPiv2CqsG9+z+IQGPpkt53xJcFguEyJBHlNYUjY
+ POggYR4zCn9miBa2YJU0xzYRcx67BCzvtc/0a6+NOd3D+zGApyszE8SaO+heLlGaf41z
+ bqvJmZS8LZAD6DF1bjq8d73CzSYLmaWBU1r6pA5TQrj+w7q2HusqsxxSAupti7lZo+/8
+ qtNzDMN49TcSxLy39lEy/CLO4C0wxc0Mt8cAZUDvUU05rRjDJgWtGICkXDKvkTByAxUv
+ ZiN8TIAToodzOiZry7kDAAWrJgWKtAx7hG0lYyMDAqk+s+a7ORwgOcNCH0Dl7N3MYe9i
+ DZzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=ifPtP1I+zKKihh9OhtzGg5JfI69+9uRMUEWS7Qx/Gjk=;
- b=0fH/Z7vgW2UZGlPQQJFgXyVPpv6EV1Nq1QkYBH6Y3It0lkwGbHcIMl8XO91IKWZe4o
- 5IIDOr+iw4J7ZU7MHo3Eh4jseZ/P4pyfUwmZNYdVfyRsF0e3w+VUwU/TvTMZ7BUpgavh
- uA9h9eAJfump97x8qbCbMfxCJQBZ2sYGT63YSVjVP1bwjilnGyppybB3N2mKpJ1PWQ1g
- O/+Xw/WFl/6HUMiXYS39w1AW9ek33xHSVhEfdgli6M1qMg41UE/E6N7H6OAsioaQ5z30
- mzVOYV5rA4c23ly2emIzqbVd5KNJjnvywI/9QRS6Re/dIpatX14mxs55be1UPCddu5D3
- mAug==
-X-Gm-Message-State: ACgBeo0cPJFQWlkFOlyBoEZeP4n7GwOXerPJj08JcsF9ja+n025cO/0O
- dS3CRcKiiVKGl04AdiVU0B/I0BYRYoZL/7gciOarrA==
-X-Google-Smtp-Source: AA6agR7Rmj8USYGpGbJRsY64gVtgvcrVsevT/4UpSmEpt87773qqFcp6HlZ6N3ctOKUbvhxscw8fbFPjU72SZEJxn+M=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr7010938ywb.257.1659721356195; Fri, 05 Aug
- 2022 10:42:36 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SUp9GqOsjv/S8NhZwpp2aTcPo9Ld5sy7FqhWY00dvQs=;
+ b=12dJFNyO/OBOg0XIkM6fE0YKYh9v1AZR6v+lMZEG5UwYpvR6vZXQQkpnDBZZ7NK/lH
+ nzMik4Ufb7ES88cCOURzk/XyMkZtQDknJTD8T5/v1Qob9NJor00yg4Wsz0asZDVedrJn
+ UhORxzCZJy0bkL8pb9KSJ2zhRSc3k5JWolqTxHUm+cQBbWFDcrJ+ORBOM8STOIh9F2wi
+ EMEklxgNf3IFXlZI6sQzc6q3/5NRFzR2IzCjFoSiX5ayl3TiZ3nhveiG6gZyUZQsseqa
+ tzpv7HEB5QOehlb/hRO5+6SWF4ZlYNbZ3c6IfjaH825iv3MnwQ1ad+JXSkCII8H4nGkH
+ z6uw==
+X-Gm-Message-State: ACgBeo0lXJ3gcHZ3RzPa7z0lhJJf9y6Nw+0bEDw1rm7gSsN+xwQn8Uht
+ uU5wX/OkZMH057Vp0Dg2RY/O0A==
+X-Google-Smtp-Source: AA6agR6AwVuoHf5AsaNPlW5wMSWPKeI/zLACWxP1A2tqXq2odpZnt0lz3b0MYnqxzNYFf5oIdwbJdw==
+X-Received: by 2002:a17:90b:17c8:b0:1f5:31c:4d93 with SMTP id
+ me8-20020a17090b17c800b001f5031c4d93mr17600946pjb.53.1659722113597; 
+ Fri, 05 Aug 2022 10:55:13 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
+ ([2602:ae:154e:e201:abf8:e436:f4c:9089])
+ by smtp.gmail.com with ESMTPSA id
+ o7-20020a656147000000b0041cd2417c66sm1759655pgv.18.2022.08.05.10.55.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 10:55:12 -0700 (PDT)
+Message-ID: <c8856fb8-4ba4-506e-25b8-ec80a789a017@linaro.org>
+Date: Fri, 5 Aug 2022 10:55:11 -0700
 MIME-Version: 1.0
-References: <20220805160914.1106091-1-iii@linux.ibm.com>
- <20220805160914.1106091-2-iii@linux.ibm.com>
-In-Reply-To: <20220805160914.1106091-2-iii@linux.ibm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Aug 2022 18:42:25 +0100
-Message-ID: <CAFEAcA8tFhKdZY2mDjz6EcvVWCdWkarNudM1cAbM9VoXkQE7BQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
 Subject: Re: [PATCH v2 1/4] accel/tcg: Invalidate translations when clearing
  PAGE_READ
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
+ Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, 
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220805160914.1106091-1-iii@linux.ibm.com>
+ <20220805160914.1106091-2-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220805160914.1106091-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,26 +102,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Aug 2022 at 18:33, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
->
+On 8/5/22 09:09, Ilya Leoshkevich wrote:
 > After mprotect(addr, PROT_NONE), addr can still be executed if there
 > are cached translations. Drop them.
->
+> 
 > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 > ---
->  accel/tcg/translate-all.c | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
->
+>   accel/tcg/translate-all.c | 17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
+> 
 > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
 > index ef62a199c7..9318ada6b9 100644
 > --- a/accel/tcg/translate-all.c
 > +++ b/accel/tcg/translate-all.c
 > @@ -2295,12 +2295,19 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
->           len != 0;
->           len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
->          PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
+>            len != 0;
+>            len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
+>           PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
 > +        bool write_set, read_cleared;
->
+>   
 > -        /* If the write protection bit is set, then we invalidate
 > -           the code inside.  */
 > -        if (!(p->flags & PAGE_WRITE) &&
@@ -128,9 +137,8 @@ On Fri, 5 Aug 2022 at 18:33, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
 > +         */
 > +        read_cleared = (p->flags & PAGE_READ) && !(flags & PAGE_READ);
 
-Isn't it architecture-dependent whether you need PAGE_READ
-to execute code ? How about PAGE_EXEC ?
+PAGE_READ has nothing to do with it -- PAGE_EXEC does though.
 
-thanks
--- PMM
+
+r~
 
