@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6308C58ADEE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:13:32 +0200 (CEST)
-Received: from localhost ([::1]:59890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B812058ADEA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 18:11:51 +0200 (CEST)
+Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJzx4-0006Yj-RG
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36258)
+	id 1oJzvS-0004wj-SS
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 12:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzee-0007o3-W4
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:29 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42545)
+ (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzeb-0007cp-4w
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:25 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzeX-0004nr-E9
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:28 -0400
-Received: by mail-wr1-x436.google.com with SMTP id z12so3687532wrs.9
+ (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oJzeY-0004o3-5d
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:54:24 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id z12so3687561wrs.9
  for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Eq72lhYwpcj2Y9+DftRcCgBYVb7rhM8mwuz/pv5YLJM=;
- b=df02Xw2L5M+frsgdBTHZhAB+RpXKmP47teE/tjHduOX5y9wo3GaKeXdV4xT2ToFUU7
- 4PQzHwai241o9INpIDbGQxiJDcEBqL442po0XSgX//1aT712qM2uholsa9UDqeBBYqEV
- c1ZgWhWK79TYtP306g3O7vwcd2y+p8VzSx0FZ0IBIsZadWp9YnBP3dqT4eLVyyHX6zcm
- wgK8P2DB9htiONcb0h8+MaYNmFhF1S5OJm+QPHw+ICYA1QhATFphfMpdoarSaZKxBf6g
- bV73Dav0P1c9jReYFwbSsPZLZjw9kh1OAFUQuilGc2dAhtfMCng0C5YZWTo4qt5ic7p2
- p7Uw==
+ bh=O6y0NlSqnXVJ4lrjU7vrgT2qdp78DF3F9tEIqiy3GoU=;
+ b=RnJNQynZy/A06iwT22HM4tecWfO4iuM7Nhctff7HuBsLlnR8ZCg8REs8I5nrGuvWzd
+ +87NlGx21/Dud8dJCt8z2gUgZvj/3nPueCStmbL1pdu0tnO6s2V73f7lvtnVghRyfrki
+ 0sa+3AEpjYfgT/ZPknm5dmy2WXvmprpgowCRtSo9Olw4fY4T9xoXXYhAG26AeYsgQDlj
+ wNFarxk9iq4vb2BkAQ61sSwpGfGouPFBjhteD4GatJQKX29e1BspvbjJPpfDD1YK67mQ
+ 9UL5nUKbJbGX+W8xEh0D/fo3BzV0Qu3b9mzg6+Zb9K1dsTbk3oG9MiWq+yyZT8y2fOlq
+ DfsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Eq72lhYwpcj2Y9+DftRcCgBYVb7rhM8mwuz/pv5YLJM=;
- b=AP/ZhaCH5esqrpqdSuNSt41ylTrXDmhNdZ/V6kde071cvvVb5pvyGDTdtzKQcVRtM1
- nq3/QanrK/uMFhUmkdpiKQKteOo7ViD9+kBcjzIVlF6xZs7GKfWbWGJnomcq0adGvFyK
- PRNE1PsIeQb7A7UJKKfdN8H5QdW2tC6FuxZranK5nQGQHqHiTmGgQ+jYS7KAvf+bzsLi
- Sd4FBMdVqSGqxDNqWRTgJGyFD0TyiKlGexYMukfPheZc05xmDJ8MnyyX+hbKaUd8D3OF
- 3d+yXlC39dN4DHsI0pirH0ZWe3Y++3773U6ny9efXhb1njuRV+bo7vcIBFB8AdaSKA7G
- mLWA==
-X-Gm-Message-State: ACgBeo29W6qjeyvrrsGruBRJ89zyvs/0PivTSicJT5Eo6rGn8b3dsedf
- 7eFbRY07yP8XDD8GEGoq44MwQA==
-X-Google-Smtp-Source: AA6agR7miAqKtaiHBM5V5kg4ARTL8teYh/JTGjpAcnh9MVfvzICJUWVCq3N9ZPJld7V9cI9+X61IQg==
-X-Received: by 2002:a05:6000:1102:b0:220:5c10:5cbe with SMTP id
- z2-20020a056000110200b002205c105cbemr4922998wrw.359.1659714860091; 
+ bh=O6y0NlSqnXVJ4lrjU7vrgT2qdp78DF3F9tEIqiy3GoU=;
+ b=qSfm2cb71KvG2NIxQ1AW71IY7wng//BBBn3PkSnpfofKINpQgFBeS6kgdGcmHEx6Ga
+ a7OkwYDzikMtZYYlbVaNEVbZ2SJiOyzo7tjshVAQl7K5lspMxXkEAQDdPJHHpJ/4MO0c
+ KghjDXRI93HQEfJZ7IN9nrI/kpShlBylFQOkUmBKXntVx0h6dLFtlphwuZA0wDnfjqWf
+ sa7r0Nvpw8s/X19d4OnPTIf9HnnIA+Za6d384WKZtEKIQeYZQiuLd+bnaxvJe6RAWz1Z
+ Q1awlsVt8tPVvjDml1e7RPEnCGLyUKPvohQkz+Myy+QXUBgWpQYjBw2G5wiRHG6t/iz2
+ dsnQ==
+X-Gm-Message-State: ACgBeo0cck5S+0L44aLUQZrnYBou1K18+ia99Bc9pzSNQeJ1NDsUE4Z1
+ YqomrwdoV2AB+DOF5fXFYKhJng==
+X-Google-Smtp-Source: AA6agR5rYULNQ86qE7XGB5LfgnZor9j132PHMA9QXxeVKpnEoAwIGilzQFeArkbVp3gWr/p8Hqes4A==
+X-Received: by 2002:a05:6000:144f:b0:21d:a3cc:a6fa with SMTP id
+ v15-20020a056000144f00b0021da3cca6famr4684061wrx.191.1659714860908; 
  Fri, 05 Aug 2022 08:54:20 -0700 (PDT)
 Received: from henark71.. ([93.107.66.220]) by smtp.gmail.com with ESMTPSA id
- t10-20020a5d49ca000000b0021d6dad334bsm4133543wrs.4.2022.08.05.08.54.19
+ t10-20020a5d49ca000000b0021d6dad334bsm4133543wrs.4.2022.08.05.08.54.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 08:54:19 -0700 (PDT)
+ Fri, 05 Aug 2022 08:54:20 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -57,16 +57,16 @@ To: Palmer Dabbelt <palmer@dabbelt.com>,
 Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor.dooley@microchip.com>,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  linux-riscv@lists.infradead.org
-Subject: [PATCH 3/5] hw/riscv: virt: Fix the plic's address cells
-Date: Fri,  5 Aug 2022 16:54:03 +0100
-Message-Id: <20220805155405.1504081-4-mail@conchuod.ie>
+Subject: [PATCH 4/5] hw/riscv: virt: fix syscon subnode paths
+Date: Fri,  5 Aug 2022 16:54:04 +0100
+Message-Id: <20220805155405.1504081-5-mail@conchuod.ie>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220805155405.1504081-1-mail@conchuod.ie>
 References: <20220805155405.1504081-1-mail@conchuod.ie>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=mail@conchuod.ie; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=mail@conchuod.ie; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -75,7 +75,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 05 Aug 2022 12:00:43 -0400
+X-Mailman-Approved-At: Fri, 05 Aug 2022 12:00:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,47 +92,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-When optional AIA PLIC support was added the to the virt machine, the
-address cells property was removed leading the issues with dt-validate
-on a dump from the virt machine:
-/stuff/qemu/qemu.dtb: plic@c000000: '#address-cells' is a required property
-        From schema: /stuff/linux/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
-Add back the property to suppress the warning.
+The subnodes of the syscon have been added to the incorrect paths.
+Rather than add them as subnodes, they were originally added to "/foo"
+and a later patch moved them to "/soc/foo". Both are incorrect & they
+should have been added as "/soc/test@###/foo" as "/soc/test" is the
+syscon node. Fix both the reboot and poweroff subnodes to avoid errors
+such as:
+
+/stuff/qemu/qemu.dtb: soc: poweroff: {'value': [[21845]], 'offset': [[0]], 'regmap': [[4]], 'compatible': ['syscon-poweroff']} should not be valid under {'type': 'object'}
+        From schema: /home/conor/.local/lib/python3.9/site-packages/dtschema/schemas/simple-bus.yaml
+/stuff/qemu/qemu.dtb: soc: reboot: {'value': [[30583]], 'offset': [[0]], 'regmap': [[4]], 'compatible': ['syscon-reboot']} should not be valid under {'type': 'object'}
+        From schema: /home/conor/.local/lib/python3.9/site-packages/dtschema/schemas/simple-bus.yaml
 
 Reported-by: Rob Herring <robh@kernel.org>
 Link: https://lore.kernel.org/linux-riscv/20220803170552.GA2250266-robh@kernel.org/
-Fixes: e6faee6585 ("hw/riscv: virt: Add optional AIA APLIC support to virt machine")
+Fixes: 18df0b4695 ("hw/riscv: virt: Allow creating multiple NUMA sockets")
+Fixes: 0e404da007 ("riscv/virt: Add syscon reboot and poweroff DT nodes")
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- hw/riscv/virt.c         | 2 ++
- include/hw/riscv/virt.h | 1 +
- 2 files changed, 3 insertions(+)
+ hw/riscv/virt.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 6c61a406c4..8b2978076e 100644
+index 8b2978076e..a98b054545 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -465,6 +465,8 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
-     qemu_fdt_add_subnode(mc->fdt, plic_name);
-     qemu_fdt_setprop_cell(mc->fdt, plic_name,
-         "#interrupt-cells", FDT_PLIC_INT_CELLS);
-+    qemu_fdt_setprop_cell(mc->fdt, plic_name,
-+        "#address-cells", FDT_PLIC_ADDR_CELLS);
-     qemu_fdt_setprop_string_array(mc->fdt, plic_name, "compatible",
-                                   (char **)&plic_compat,
-                                   ARRAY_SIZE(plic_compat));
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 984e55c77f..be4ab8fe7f 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -111,6 +111,7 @@ enum {
+@@ -896,7 +896,8 @@ static void create_fdt_reset(RISCVVirtState *s, const MemMapEntry *memmap,
+     test_phandle = qemu_fdt_get_phandle(mc->fdt, name);
+     g_free(name);
  
- #define FDT_PCI_ADDR_CELLS    3
- #define FDT_PCI_INT_CELLS     1
-+#define FDT_PLIC_ADDR_CELLS   0
- #define FDT_PLIC_INT_CELLS    1
- #define FDT_APLIC_INT_CELLS   2
- #define FDT_IMSIC_INT_CELLS   0
+-    name = g_strdup_printf("/soc/reboot");
++    name = g_strdup_printf("/soc/test@%lx/reboot",
++        (long)memmap[VIRT_TEST].base);
+     qemu_fdt_add_subnode(mc->fdt, name);
+     qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-reboot");
+     qemu_fdt_setprop_cell(mc->fdt, name, "regmap", test_phandle);
+@@ -904,7 +905,8 @@ static void create_fdt_reset(RISCVVirtState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cell(mc->fdt, name, "value", FINISHER_RESET);
+     g_free(name);
+ 
+-    name = g_strdup_printf("/soc/poweroff");
++    name = g_strdup_printf("/soc/test@%lx/poweroff",
++        (long)memmap[VIRT_TEST].base);
+     qemu_fdt_add_subnode(mc->fdt, name);
+     qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-poweroff");
+     qemu_fdt_setprop_cell(mc->fdt, name, "regmap", test_phandle);
 -- 
 2.37.1
 
