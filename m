@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92E558ACF3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:16:37 +0200 (CEST)
-Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B94D58ACFD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:22:21 +0200 (CEST)
+Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJz3m-0004Pp-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:16:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56058)
+	id 1oJz9X-0002UY-1p
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oJz1t-0002qD-6r
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:14:25 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:40521)
+ id 1oJz74-000646-1U
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:19:46 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:37853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oJz1r-0006Ka-PQ
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:14:24 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- s5-20020a17090a13c500b001f4da9ffe5fso8560364pjf.5
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:14:23 -0700 (PDT)
+ id 1oJz72-0007DL-GO
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:19:45 -0400
+Received: by mail-pl1-x629.google.com with SMTP id m2so2923875pls.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iBTp0Z+lFhZCg0QBr7Rr34Tb471MiBFEJQKr/WriRQE=;
- b=Mv/YfUf2Iq6vExm/u20a/gdtsjRRxo6JF/UCRAFhJWGmjVdsRMQ0Heh0Cv3HoNTqmp
- cnbhcWvex8BgsOVgPjUgAJkiQk9oPr3PdqX6DX5CvvpRjcJ7LCCQ/RH5dWqXJt3ZM95T
- r0i4aKqAh0IXT0OPUGOBt0TaOzqMLVhyJU6ypqKcw4VxC/mwEcBslHfnU8n/NDaFBomm
- FAM/aHMOJYNXE14Sdnono6KqXNEpGg9DlKZZodbMYchAFSy0ZJLTdsgrrtSkf2fhWzG+
- fNREi7Y6XUOb4gAW0MPHIWOWDQ/dFMFwFjJgfknJqDFiExwRN8n41v/9ig5/hs/nRSHP
- S3bA==
+ bh=sG+qG7RXWjSRDKgJI+1m4QodNZ61WcY5G5j/3Cn4HDw=;
+ b=zefepBaXtFmgSHxuy9xwnJgfrPWzuP7QCgNM+9VJlRGGlxyoO5CFd83iCth2/4jHfR
+ cFuQ6RyST7z05Jm0qjbzUJ22s9KdtD0bVSrdw3tHjNUkYGTbD1Xi5PVjZ3pA8LAtLkE3
+ X9YtYpy4jRMxC4PKDFathv5UDVaQlRqekpKHRiqqD8OhtgP1crZyliHjFe7f1jSvh0Qe
+ hz/+ybMLfNEYhdqI92bVH65SPY1LOv0f+Axm0QpDkzSI5GhGUxkHuV0jHymJYBcQQ+I4
+ Hjf3Xf6oSDvz/YrATClCgJmxNrAnmq4oEL5+uvXfzHoGOylqJBP4Lz+zkxNeasuhNSJ9
+ G8sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=iBTp0Z+lFhZCg0QBr7Rr34Tb471MiBFEJQKr/WriRQE=;
- b=GxuQT7fbyxz5VEPRUuQPuN3umFftqaXclD+sGPu5OmCHhkHMbTzFP5uAA5HkKml3ZN
- rLTMRc9zBCf7dsCUfU7zAVrCOFbW84LTdJAt0I8wo7+HJ4fzlv/Tsd62IJgfV0uO7f4y
- p8JMqc08WO3dtbf/oDQTz+lrypE5INuC9HJMc4mARkollwEkj36gkHWJMcgJ4S3pCbn/
- MnhWbg2Yw9PFFw4LRNQwTzeFVcQ8CZNXfa68ZeJBJqN3Tp2w7bkdQGrYDXhoYKr7YBiR
- x/bj5qVIJSKjJ8rmkkF0BpLQhO+sXC5RoHCOQDUtV3h72TIaLMTmP+tgeuzrnJ4+NLoK
- 3p/Q==
-X-Gm-Message-State: ACgBeo207cJsmh/5WwfFpE/XRLux6h6s/Q3glIp+ZK3dCsMqLUG7Ng3w
- 6k/9PWR5Gx9s9LtU/MGRoLubcw==
-X-Google-Smtp-Source: AA6agR60OAAtfsXDV3itXQ3Z2002FW7B7d+ZuM8wNa8H4qIfuEqhbSje4yMU9Zjpx4GJnQs423+8CQ==
-X-Received: by 2002:a17:90a:4a04:b0:1f2:583c:3de5 with SMTP id
- e4-20020a17090a4a0400b001f2583c3de5mr8227498pjh.67.1659712462118; 
- Fri, 05 Aug 2022 08:14:22 -0700 (PDT)
+ bh=sG+qG7RXWjSRDKgJI+1m4QodNZ61WcY5G5j/3Cn4HDw=;
+ b=M72bLr4vp0uLkOwHJBCKeN/PGcUHBa1L8er80C4lj3uk+Id84FbFbZdD8dkul7Jy5Q
+ aXRLBUrvi/X+fPL8HcnQlmGviv6PiqFHU3qRzobMpPauAOpAfMR8s04tQby3+nHyiSvf
+ LyeRFvi0adOw4T9SF9izhSE04/e6/bpI3JEFdSh/xtUMrorOyIA8oeTVuGMPFm0eJNCh
+ OSGodqaMC3gl0rEukXmA3HOaf9Q/TDPD2euKM23BhocfoyMdHbPTYSVv1n3ZHzXbUsyu
+ lz3392/dlwOyUeszYZF/Fivz/a6ZES6RYdgY8Rj0x/Rh6+rkETlOBKtzZXPqTjESrXw0
+ 46/g==
+X-Gm-Message-State: ACgBeo09mWSvOvLMKT06ONUqSCmdEsCYurLR5v9dTZ1+wQzdhBF0+sCt
+ BzmBH6S4M7L4UMJeIwpUmXG1SA==
+X-Google-Smtp-Source: AA6agR5TIxWxQH16FfxOb5OlDrxZ1ef+wSpbC3yhLXFUWIYO9pU8Fx65lMeWqgZtVDv/8pnyHebV1Q==
+X-Received: by 2002:a17:90a:6ba5:b0:1f5:3c80:6c0b with SMTP id
+ w34-20020a17090a6ba500b001f53c806c0bmr8322315pjj.147.1659712782906; 
+ Fri, 05 Aug 2022 08:19:42 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
  ([2602:ae:154e:e201:abf8:e436:f4c:9089])
  by smtp.gmail.com with ESMTPSA id
- 65-20020a621744000000b0052d36feb7fcsm3086721pfx.198.2022.08.05.08.14.21
+ n8-20020a170902d2c800b0016dc240b24bsm3185813plc.95.2022.08.05.08.19.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 08:14:21 -0700 (PDT)
-Message-ID: <ef86ec72-41a7-97bb-4cc3-8bdff9368cbb@linaro.org>
-Date: Fri, 5 Aug 2022 08:14:19 -0700
+ Fri, 05 Aug 2022 08:19:42 -0700 (PDT)
+Message-ID: <74564953-db2d-8617-1a91-9c4e0cd0cf5c@linaro.org>
+Date: Fri, 5 Aug 2022 08:19:40 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.1 v2 5/5] target/loongarch: Update gdb_set_fpu() and
- gdb_get_fpu()
+Subject: Re: [PATCH] target/loongarch: Fix macros SET_FPU_* in cpu.h
 Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, f4bug@amsat.org, alex.bennee@linaro.org,
- yangxiaojuan@loongson.cn
-References: <20220805033523.1416837-1-gaosong@loongson.cn>
- <20220805033523.1416837-6-gaosong@loongson.cn>
+To: Qi Hu <huqi@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Cc: qemu-devel@nongnu.org
+References: <20220804132450.314329-1-huqi@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220805033523.1416837-6-gaosong@loongson.cn>
+In-Reply-To: <20220804132450.314329-1-huqi@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,17 +94,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/4/22 20:35, Song Gao wrote:
-> GDB LoongArch fpu use fcc register,  update gdb_set_fpu() and gdb_get_fpu() to match it.
+On 8/4/22 06:24, Qi Hu wrote:
+> The macros SET_FPU_* are used to set corresponding bits of fcsr.
+> Unfortunately it forgets to set the result and it causes fcsr's
+> "CAUSE" never being updated. This patch is to fix this bug.
 > 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: Qi Hu <huqi@loongson.cn>
 > ---
->   linux-user/loongarch64/signal.c | 24 ++---------------------
->   target/loongarch/gdbstub.c      | 34 ++++++++++++++++++++++++++-------
->   target/loongarch/internals.h    |  3 +++
->   3 files changed, 32 insertions(+), 29 deletions(-)
+>   target/loongarch/cpu.h | 18 +++++++++++++++---
+>   1 file changed, 15 insertions(+), 3 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Thanks, queued.
 
 
 r~
