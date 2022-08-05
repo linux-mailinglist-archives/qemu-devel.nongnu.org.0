@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD6358AD09
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:27:51 +0200 (CEST)
-Received: from localhost ([::1]:39166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4735558AD0E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 17:29:36 +0200 (CEST)
+Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJzEs-0004LA-IM
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
+	id 1oJzGZ-0007Hu-5F
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 11:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJz8M-0008Dr-LX
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:21:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34244)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJz8L-0007ln-2K
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:21:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659712864;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UOT/8lZvPj0pecATGxp5bq0muJCXkI4mu9fSpzeFelo=;
- b=Z4BA34yj8hqkeORq4ScUOK2+tzNwbb7b9EQBYyhYLwTbMPvdIHcbGJUlVnftxMHTM8e1Af
- bpKXmwGNIFvajyyHJJhZYV39JSALE4WoW3XJjK7bKDDD1C0KO8vujeUXrwtogczOSd+m8J
- TTwuYNeBxTiQTdbNS3C4rd7Sj5TyPlw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-UAm5Ccq5O1CItd2ymkbADQ-1; Fri, 05 Aug 2022 11:20:44 -0400
-X-MC-Unique: UAm5Ccq5O1CItd2ymkbADQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F657801585;
- Fri,  5 Aug 2022 15:20:43 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.194.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B25732026D4C;
- Fri,  5 Aug 2022 15:20:40 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: libvir-list@redhat.com, Beraldo Leal <bleal@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-s390x@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Bin Meng <bin.meng@windriver.com>
-Subject: [PULL 6/6] util/qemu-sockets: Replace the call to close a socket with
- closesocket()
-Date: Fri,  5 Aug 2022 16:20:14 +0100
-Message-Id: <20220805152014.135768-7-berrange@redhat.com>
-In-Reply-To: <20220805152014.135768-1-berrange@redhat.com>
-References: <20220805152014.135768-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJz9o-0003DN-P8
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:22:37 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:36551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oJz9n-0007w1-CD
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 11:22:36 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 15-20020a17090a098f00b001f305b453feso8606616pjo.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 08:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=PnitCgwbs7iv0tiqvmm15hxb+rQGzENOE2qtWrqs3zI=;
+ b=QDtRt3vR0SguQrfsWn7bmBJvFAwfLW2kIsjKZbQTbHbv94nfka6TK4autXPydSbSvW
+ 6lnHgwHCBTOcZJ5COglEjGnOeYChJeOVn1/jLCNufWvwlAu1/8U+P/GCE8npmcTbywj3
+ 07cwx+hfR0tgBoqbkI3R3VvTEtswGvwISRwLThQ9Pqs/3rmuhiU5n+vrRnM079bnUaNA
+ aizHi0kqbic7nBxnPZUz2E4/+BONWR23fFK2SftGQtd+cbhRll7u0Wk7EVXDFlREQ4OG
+ OctN5VcfNxwG9UWpZjQHdZVPgz2qw+f8rKxjBrEj5dM0DRdImkCYATmAavda0I2TW+Ao
+ lbQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PnitCgwbs7iv0tiqvmm15hxb+rQGzENOE2qtWrqs3zI=;
+ b=lAlMAbb9uxh7S8OG14oSNAfP70+ZsYfv2dF+yGUTRgTRzuMUINVdl2IQMrECPsNNTc
+ y+zsyWQEj2A0Bte6bwOWzk5Pnm73iA9CGEUz49XM0YZTKm7LILs5NxMm7mQYY6i+PV57
+ pHBBJ6/v5LGzMfpbI0ebiNUQoenc0x/ybkbQ391uF80E9BYknFf2habttfkERc7rq6/J
+ VddBur8pMphRUlh9pKAoh5dwkAGVFK/Qgy9R2nBzKbIjkdYYRF/o5+PlvR8cr3FlVp3N
+ UCOHJgMfd0T3+fJSsPJvyslOjEH0cqRT+BwEo0gxhNtcgPa30mNYdvsO2V2/pmMsyzhy
+ wf3g==
+X-Gm-Message-State: ACgBeo2itsSCehcWupaXV0I5+Jc7fFZ1vh2VEMkWIzazaQxbpUSbJx6W
+ hFP8GNGEXStE1orSNWeHsrmGXw==
+X-Google-Smtp-Source: AA6agR5xPbjOyrtrd7y8eOM7eCOwjJ3rCpKAmk66aTHVZ/SEcTRNgd1DV6qlQXSBbu60U/ewMiTMhA==
+X-Received: by 2002:a17:902:b612:b0:16c:7e2d:ff39 with SMTP id
+ b18-20020a170902b61200b0016c7e2dff39mr7103323pls.111.1659712954011; 
+ Fri, 05 Aug 2022 08:22:34 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
+ ([2602:ae:154e:e201:abf8:e436:f4c:9089])
+ by smtp.gmail.com with ESMTPSA id
+ r29-20020aa7963d000000b0050dc76281e0sm3106411pfg.186.2022.08.05.08.22.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 08:22:33 -0700 (PDT)
+Message-ID: <a81a84b3-0f3e-f550-51cf-79e7498c215d@linaro.org>
+Date: Fri, 5 Aug 2022 08:22:32 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] hw/loongarch: remove acpi-build.c unused variable
+ 'aml_len'
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn
+References: <20220721040046.3985609-1-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220721040046.3985609-1-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,55 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On 7/20/22 21:00, Song Gao wrote:
+> Fix a compiler warning on openbsd:
+> ../src/hw/loongarch/acpi-build.c:416:12: warning: variable 'aml_len'
+> set but not used [-Wunused-but-set-variable]
+>      size_t aml_len = 0;
+>             ^
+> 
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/loongarch/acpi-build.c | 8 --------
+>   1 file changed, 8 deletions(-)
 
-close() is a *nix function. It works on any file descriptor, and
-sockets in *nix are an example of a file descriptor.
+Thanks, queued.
 
-closesocket() is a Windows-specific function, which works only
-specifically with sockets. Sockets on Windows do not use *nix-style
-file descriptors, and socket() returns a handle to a kernel object
-instead, so it must be closed with closesocket().
 
-In QEMU there is already a logic to handle such platform difference
-in os-posix.h and os-win32.h, that:
-
-  * closesocket maps to close on POSIX
-  * closesocket maps to a wrapper that calls the real closesocket()
-    on Windows
-
-Replace the call to close a socket with closesocket() instead.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- util/qemu-sockets.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 13b5b197f9..0e2298278f 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -487,7 +487,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
- 
-         if (ret < 0) {
-             error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
--            close(sock);
-+            closesocket(sock);
-             return -1;
-         }
-     }
-@@ -1050,7 +1050,7 @@ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
-     return sock;
- 
-  err:
--    close(sock);
-+    closesocket(sock);
-     return -1;
- }
- 
--- 
-2.37.1
-
+r~
 
