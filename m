@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E8E58AEF8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:35:49 +0200 (CEST)
-Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E1958AF0A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:43:35 +0200 (CEST)
+Received: from localhost ([::1]:40496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK1Ei-0002Ma-6z
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55118)
+	id 1oK1ME-00050M-C3
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK1CI-0007CP-0D
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:33:18 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:45903)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK1CG-0004gT-E1
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:33:17 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id e13so4179386edj.12
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=47h+5QLoFI8dpX/gaz8zZ3+5baq62/L2avQ+7lQ41XE=;
- b=G2IBNYW+LnsZ95KoTyhpqSJuRfRdyj2/fvJOiG8m+EVKK3FWwAOnC46SsLjgBIv5N9
- +TAjjSCrE7jheZsyKQQ0vAB0sEn0mdtZ1VljN0Wv+a4Wc7QYIRb70OFZXhOZD0vINzIm
- rShm4KOX16ydlCAptEnB4cMgSV1i/36tt8/CNZQB0I5TgfiOIzr9uQJfWKkas3WkucsO
- Dzs/o9kfHw39egbmC4yBg00MAjLMXDHfxfamX5PeIAwRUlgCb9nPUX8zW3MqkzFk8gLf
- dYyurTI1nGsoFmaySO1yXyY+q1FHlbRD/BVQGYFVKxY+SZgDyifE9swPjH3fDD5ncz0X
- IBAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=47h+5QLoFI8dpX/gaz8zZ3+5baq62/L2avQ+7lQ41XE=;
- b=xkR+7riVSb17/KHEwbGuYtCQQHMDyPCOpK3dMk8Kk+KY9XMEkLxVN548E3+xUNZAV4
- uWlYhW1X5xkX4zZoF+xdZPnFJhtVuTMdul/x4JAD+k3woxiaAkszf16XP3w7VxA+mOID
- iQMwGV99NeYmOxqdCP6dfRLwSsr8Eu2c16VrNDQBsXndsQW944dssh6ZIpfQDgO07oa8
- BPOps9JlVO6N00e4xOwIE5OBKW3O9iZ4vVZzPEZbKBo/T8vq/9RpOlIG7jNza+4kuaFH
- feU3HZ6fKJgshwJXnnTzOuekIGZkv4epjzvndvTllLxk+13B4lfsv9Rxw5hOHgfaVJlK
- Pphg==
-X-Gm-Message-State: ACgBeo1hNXCV6jfiBpn8nOWUyzv1mYh8nnu9ZLK7Aq1HU13duub0aTMn
- B19Y/oi7Ut3n+2S7fggEKRk=
-X-Google-Smtp-Source: AA6agR6upxh8WBQM9egEJ3lm2NM55gVF9aNUiIjYAMOm3YgA0dvxjx3O84gDuPgjO7OHri/xexB9UA==
-X-Received: by 2002:a05:6402:e96:b0:43a:f21f:42a0 with SMTP id
- h22-20020a0564020e9600b0043af21f42a0mr7682817eda.382.1659720794800; 
- Fri, 05 Aug 2022 10:33:14 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- f23-20020a170906085700b0072637b9c8c0sm1771231ejd.219.2022.08.05.10.33.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 10:33:14 -0700 (PDT)
-Message-ID: <4452eaa1-979f-66d6-90cc-761b8d312577@redhat.com>
-Date: Fri, 5 Aug 2022 19:33:13 +0200
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1oK1JL-0003W8-Me
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:40:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59997)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1oK1JI-00064T-5B
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:40:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659721230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gc1ZnP3ol+2jAgYGikgJMIWNQw6Jxwwj5Gd229LArOU=;
+ b=ZKQbfkTBxO74RdimiyCxy8t8S9IrvRNX2fM0G6IaDDkmWe7XlAGQ71JrWISjHUlgpsznMC
+ /VwmoVvLUiA1lDrFFNlQcyEvLhv4A0QLUKbIsw7IlbP5uxcQM5NogE7T7W1co+8cNMai2V
+ 25OHB1eZsfHw3+JVXVERB8HDfWVbPEU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-25-IxL4yTWGOq6aNPFD99yf-w-1; Fri, 05 Aug 2022 13:39:20 -0400
+X-MC-Unique: IxL4yTWGOq6aNPFD99yf-w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D99A81C1A940;
+ Fri,  5 Aug 2022 17:39:19 +0000 (UTC)
+Received: from maya.cloud.tilaa.com (unknown [10.40.208.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A10DE94571;
+ Fri,  5 Aug 2022 17:39:19 +0000 (UTC)
+Date: Fri, 5 Aug 2022 19:39:14 +0200
+From: Stefano Brivio <sbrivio@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Jason Wang <jasowang@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, Ralph Schmieder <ralph.schmieder@gmail.com>
+Subject: Re: [PATCH v7 00/14] qapi: net: add unix socket type support to
+ netdev backend
+Message-ID: <20220805193914.51e20dc4@elisabeth>
+In-Reply-To: <20220722190442.301310-1-lvivier@redhat.com>
+References: <20220722190442.301310-1-lvivier@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: libslirp and static linking
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Michael Tokarev <mjt@tls.msk.ru>
-References: <CAFEAcA87=Xs8vd8e+eHzSFboWOUcAhJUuFvuG1gzw+Zs_M-DyQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA87=Xs8vd8e+eHzSFboWOUcAhJUuFvuG1gzw+Zs_M-DyQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sbrivio@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,25 +85,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/5/22 18:13, Peter Maydell wrote:
-> Hi; I noticed today that Debian's libslirp-dev package doesn't ship
-> a static library version of libslirp. I was going to file a Debian
-> bug about that, but then looking at upstream 'libslirp' I found
-> that its README.md
-> https://gitlab.freedesktop.org/slirp/libslirp
-> only documents how to build a shared library libslirp, and says
-> "(QEMU may build with the submodule static library using --enable-slirp=git)"
+On Fri, 22 Jul 2022 21:04:28 +0200
+Laurent Vivier <lvivier@redhat.com> wrote:
+
+> "-netdev socket" only supports inet sockets.
 > 
-> So:
-> (1) is it possible to build the separate libslirp package as
->      a static library currently?
+> It's not a complex task to add support for unix sockets, but
+> the socket netdev parameters are not defined to manage well unix
+> socket parameters.
+> 
+> As discussed in:
+> 
+>   "socket.c added support for unix domain socket datagram transport"
+>   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
+> 
+> This series adds support of unix socket type using SocketAddress QAPI structure.
+> 
+> Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
+> backend but they use the SocketAddress QAPI to provide socket parameters.
+> And then they also implement unix sockets (TCP and UDP).
 
-Yes (same with any other meson project):
+For the series,
 
-$ meson setup -Ddefault_library=both build
-$ ninja -Cbuild
-$ ls -ld build/libslirp*
--rw-r--r--. 1 pbonzini users 1182058 Aug  5 19:30 build/libslirp.a
+Tested-by: Stefano Brivio <sbrivio@redhat.com>
 
-Paolo
+...specifically, the stream-oriented AF_UNIX support, with passt
+(https://passt.top) and its test suite, running qemu (x86_64 KVM, and
+armv6l, armv7l, aarch64, ppc64, ppc64le, s390x TCG) with something on
+the lines of:
+
+  -device virtio-net-pci,netdev=socket0 -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=...
+
+-- 
+Stefano
+
 
