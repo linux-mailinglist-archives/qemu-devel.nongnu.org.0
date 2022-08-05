@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3352658AEC5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:19:56 +0200 (CEST)
-Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715B758AEC6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 19:21:59 +0200 (CEST)
+Received: from localhost ([::1]:48930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK0zK-0005XD-TI
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
+	id 1oK11K-0007D0-IB
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 13:21:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK0wL-0002jB-QB
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:16:58 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:45846)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK0wd-0002q9-Ir
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:17:09 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oK0wJ-000277-C6
- for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:16:48 -0400
-Received: by mail-ej1-x629.google.com with SMTP id dc19so6056170ejb.12
- for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/MXaJOIb/WXpaQdhvGsRhjG2UGZfOJ/f1GMAlc4X3jQ=;
- b=aiIVez/hODjTDnbQQTXYGCz4Q4eahGIyq72AD5qY1tBhToWsyJcn+pvdFhVseP2OCp
- Of/v1Hg/BMIuT2qQt3KZuxJM9jwSstLvqFQVdFnrl/6w+DLCMDreoCnjYDGp1ef92hU9
- Dg6AP0TtEVeQ2oJK/eUpngT2GMNoclg9+m1EPK0vzahurELdiPTxbEfmBB2uTuXuFNcy
- zWgDCGd/k8lDbsoebAbyMYfqyDOOy03aXQdXYfzxQt1NFNbVRoCnwOUIbAyNYfc1Bynn
- 8ViZL4CoOzs9b6ZZSOI8LEkMKjmCjFN2Rr0M8ayDj7L4iBEhesmb/m4+dn/1QUZ59q+D
- vQcg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK0wa-00028o-PV
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 13:17:06 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ d65-20020a17090a6f4700b001f303a97b14so3480930pjk.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 10:17:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=exqckfbn+En+iuPZkmZiQItNC9CcDlFO2R3Sq6dMfKU=;
+ b=wxzFERl+spa+lj/+DCUbWjM+nZ6n4OnUU7kZKDhYLFuMyQfOhBtsfyxTjLvXViGI2Z
+ trneuDZbtArhmb5XjulIpxatliBIeM7yY9dvowHFedGH4pEoXk8y3xFqaAg0WJSgCmGS
+ ndmOPdoPcZbC6OSPiHAu0Yzib+l8FGU5U2GKaFyIJDVu1NtSvJ0OOY10RPCfVzY5CST8
+ Xsrbn6pLYh0db9oIP+ZFPC9TmIHuutAuPXUxEjgBHBuRMCp+K9B9Yo3N00DprucfouTR
+ Ppr++/O++mlTggillsbV8eUWOnAZskflAz0M1uI42wxE+8YXyqHOHdgiuKrfrZ3VItnE
+ THnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/MXaJOIb/WXpaQdhvGsRhjG2UGZfOJ/f1GMAlc4X3jQ=;
- b=jXz/A1sUVrs9oRW5b6KLfgM5f8SMFS7SzWKAgktpTr4o1+erzL/OpKFadyA/+OqGit
- gbht2T59AvduUZW9NrptdaTWTdVqCSvO+Y3V1lppiBmTlBAibESsTXwwbApBUakFdbi/
- JtqDONph9JOTKrlUrIEfa20cWjXwkMS6JAYGxZbyC8ouVbtcZOAvotQGsyrLf9o2myxw
- TXMC/ahedwxN4ZXFWnUDuTWoXrLTfOUAGDdXwajROa4CYBUSllwdI7G8Xuu+GY9b/eH+
- 5p7aQ3RXyNqJG7RrJEWuVWU5lu+g1SPLjQhWE6BSx2ghmppMTkRY6eWqegTlwxZmCw+/
- 7sJQ==
-X-Gm-Message-State: ACgBeo1bq9xdX9lITqRXoNFrxIbxLmqoyB5MIT3YWZo4HJuQ8koK8d32
- 76m01ukKtq97MNsaYqFtb9k=
-X-Google-Smtp-Source: AA6agR6elxNDoCwWqCcjG7BRwMeknP+X3SU4Aspk/XtnWFjZoxXQNlhvsxu5pl+8yUf7c9hk7TVEZQ==
-X-Received: by 2002:a17:906:8461:b0:730:a43a:9981 with SMTP id
- hx1-20020a170906846100b00730a43a9981mr5901724ejc.552.1659719805157; 
- Fri, 05 Aug 2022 10:16:45 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- l18-20020a1709063d3200b006fe0abb00f0sm1736028ejf.209.2022.08.05.10.16.43
+ bh=exqckfbn+En+iuPZkmZiQItNC9CcDlFO2R3Sq6dMfKU=;
+ b=uHb50g8J2LzBaV102iu2ab7tt+z9Cnd4+QxeOcXsqHbYni7k4UCZVGpLB3p5ZgiXUb
+ Vg4HxC0CvYj0+nEIjto32NYiCmHPbjP6Abkd8zhu3OJ2rG9leLSoHpmaQ53fJfFrC+ly
+ +Rso2x3abSjuwdziET8aY3CFIzL4YUuHfDdtYLnVJ9q9aCUThqsW696Z406SI8zZQkZ8
+ ST1jF4cZSZojt5AiTStWgKCh867+3Nqw+6ABERvj8QVFne/SS1zhYF+lRy8jgd/2xSBA
+ pbPRvjfUwM/Llt6jwatkS/3GSoB5I+JoKYIV8OOrbvSULp5eW97Eg7NhLya0XhlUt+16
+ 5TrA==
+X-Gm-Message-State: ACgBeo3OcxrbJ5SPY8WPrDEV1varSyhbLVV5ZVVHwRTZFJ1na/RUS1bn
+ oH9ck6rGFF62ajQ1ksjhDKeEVg==
+X-Google-Smtp-Source: AA6agR5teVSvKB1OUwA1hnOSbuBhpFgaQarPye55sHbR9iB+/rBHmgTTe7mixECoSD3teWqOUeUnKw==
+X-Received: by 2002:a17:902:9b96:b0:16c:83f0:33f8 with SMTP id
+ y22-20020a1709029b9600b0016c83f033f8mr7595426plp.4.1659719823252; 
+ Fri, 05 Aug 2022 10:17:03 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
+ ([2602:ae:154e:e201:abf8:e436:f4c:9089])
+ by smtp.gmail.com with ESMTPSA id
+ z15-20020a170903018f00b0016ee708350bsm3448406plg.14.2022.08.05.10.17.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 10:16:44 -0700 (PDT)
-Message-ID: <438ab33b-62c8-d114-4360-9baa2300cc58@redhat.com>
-Date: Fri, 5 Aug 2022 19:16:43 +0200
+ Fri, 05 Aug 2022 10:17:02 -0700 (PDT)
+Message-ID: <9e0592b7-3388-1707-bbf7-849a84c6e998@linaro.org>
+Date: Fri, 5 Aug 2022 10:17:01 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.1] vl: fix [memory] section with -readconfig
+Subject: Re: [PATCH 2/2] target/ppc: Bugfix FP when OE/UE are set
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220805100635.493961-1-pbonzini@redhat.com>
- <875yj66c6f.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <875yj66c6f.fsf@pond.sub.org>
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20220805141522.412864-1-lucas.araujo@eldorado.org.br>
+ <20220805141522.412864-3-lucas.araujo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220805141522.412864-3-lucas.araujo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,63 +97,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/5/22 15:40, Markus Armbruster wrote:
->> +    loc_push_none(&loc);
->> +    qemu_opts_loc_restore(opts);
->> +
->>       prop = qdict_new();
->>   
->>       if (qemu_opt_get_size(opts, "size", 0) != 0) {
-> This treats "size=0" like absent size.  Before commit ce9d03fb3f, we
-> instead checked
+On 8/5/22 07:15, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 > 
->         mem_str = qemu_opt_get(opts, "size");
->         if (mem_str) {
+> When an overflow exception occurs and OE is set the intermediate result
+> should be adjusted (by subtracting from the exponent) to avoid rounding
+> to inf. The same applies to an underflow exceptionion and UE (but adding
+> to the exponent). To do this set the fp_status.rebias_overflow when OE
+> is set and fp_status.rebias_underflow when UE is set as the FPU will
+> recalculate in case of a overflow/underflow if the according rebias* is
+> set.
 > 
-> Makes more sense, doesn't it?
-
-True, on the other hand before commit ce9d03fb3f we handled "-m 0" like 
-this:
-
-     sz = 0;
-     mem_str = qemu_opt_get(opts, "size");
-     if (mem_str) {
-         ...
-     }
-     if (sz == 0) {
-         sz = default_ram_size;
-     }
-
-Now instead, the "-m 0" case results in no qdict_put_str() call at all. 
-  So the code flows better with qemu_opt_get_size(opts, "size", 0).
-
-In addition, using qemu_opt_get_size() is what enables the dead code 
-removal below, because it generates an error for empty size.
-
-> Also, with the new check above, the check below...
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+> ---
+>   target/ppc/cpu.c        | 2 ++
+>   target/ppc/fpu_helper.c | 2 --
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
->             mem_str = qemu_opt_get(opts, "size");
->             if (!*mem_str) {
->                 error_report("missing 'size' option value");
->                 exit(EXIT_FAILURE);
->             }
-> 
-> ... looks dead.  We get there only when qemu_opt_get_size() returns
-> non-zero, which implies a non-blank string.
+> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+> index 401b6f9e63..0ebac04bc4 100644
+> --- a/target/ppc/cpu.c
+> +++ b/target/ppc/cpu.c
+> @@ -120,6 +120,8 @@ void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
+>           val |= FP_FEX;
+>       }
+>       env->fpscr = val;
+> +    env->fp_status.rebias_overflow  = (FP_OE & env->fpscr) ? true : false;
+> +    env->fp_status.rebias_underflow = (FP_UE & env->fpscr) ? true : false;
 
-Makes sense.  Separate patch?
+No point in the ?: operator.
 
->>   static void qemu_create_machine(QDict *qdict)
-> Commit ce9d03fb3f changed this function's purpose and renamed it from
-> set_memory_options() to parse_memory_options().
-> 
-> This commit is a partial revert.  It doesn't revert the change of name.
-> Intentional?
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Yes, though honestly both are pretty bad names.  set_memory_options() is 
-bad because it's not setting anything, it's just putting the values in a 
-QDict.  I kept parse_*() because it does do a limited amount of parsing 
-to handle the suffix-less memory size.
 
-Paolo
+r~
+
+>       if (tcg_enabled()) {
+>           fpscr_set_rounding_mode(env);
+>       }
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index 134804628b..c17575de5d 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -344,7 +344,6 @@ static inline int float_overflow_excp(CPUPPCState *env)
+>   
+>       bool overflow_enabled = !!(env->fpscr & FP_OE);
+>       if (overflow_enabled) {
+> -        /* XXX: should adjust the result */
+>           /* Update the floating-point enabled exception summary */
+>           env->fpscr |= FP_FEX;
+>           /* We must update the target FPR before raising the exception */
+> @@ -363,7 +362,6 @@ static inline void float_underflow_excp(CPUPPCState *env)
+>       /* Update the floating-point exception summary */
+>       env->fpscr |= FP_FX;
+>       if (env->fpscr & FP_UE) {
+> -        /* XXX: should adjust the result */
+>           /* Update the floating-point enabled exception summary */
+>           env->fpscr |= FP_FEX;
+>           /* We must update the target FPR before raising the exception */
+
 
