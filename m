@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD4858B0F7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 22:56:12 +0200 (CEST)
-Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4774958B122
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Aug 2022 23:29:56 +0200 (CEST)
+Received: from localhost ([::1]:47576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oK4Mc-00007L-Qa
-	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 16:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46120)
+	id 1oK4tG-0006IK-SX
+	for lists+qemu-devel@lfdr.de; Fri, 05 Aug 2022 17:29:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oK4LF-0006vj-Cz; Fri, 05 Aug 2022 16:54:45 -0400
-Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f]:42720)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK4rO-0004VV-ES
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 17:27:58 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:46777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oK4LD-0004CI-UX; Fri, 05 Aug 2022 16:54:45 -0400
-Received: by mail-ua1-x92f.google.com with SMTP id l7so1463587ual.9;
- Fri, 05 Aug 2022 13:54:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=9/tmLJws/u4CEM/BcYiDQmfD8qI7sQ+R7welU1JTEvk=;
- b=ZAioicZvx0dj4dQJb8YJvcttL+Dg5Y02YwOyYkdnsnvbZbFw4xtwuDm1jGc8pXv6bg
- N5Ohoz0GcNdFhac5HwWwdahcfCyboNaaowTk3CaPTe94ahKdEasojSQGiqkB5nEsUgUo
- L99+xPGhwv8TDWJ+b0NvM/JtMCuhV7DIcJktL0sEdRQPDLlyu6y7G/rCR8mDWXXqnv1d
- NYQ+SnfiGfvrZmXgSGxR1mFYKOW7xOkFrAurwA/Fz3VdMoa3wF3LKK2wIPjly1WBmP7a
- KJxS3qiZKwsAn1v1JKyq8qlbLoknfgBnDZBTDjUthQ//JLmJrpo53lIpF1L4yXkb+0FM
- xj2g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oK4rM-0000PF-H5
+ for qemu-devel@nongnu.org; Fri, 05 Aug 2022 17:27:58 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ q7-20020a17090a7a8700b001f300db8677so4005054pjf.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Aug 2022 14:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=xFzGOyk//nIonb2B1LhbCaZRPKM8lAwywGYLPJTQS3w=;
+ b=e5wAFsc/fQ83TuHuHPN14F2N72O2mPuTVpINPuDgmAdxIFPYdWHayZ7TCGAjG+9AlE
+ o5zQzQo/piY/fWrX0huGt84lvCypZe2uElsQwbh3i8m4F1ZNRgrryWISDW56VfXPGDbO
+ TJHA2D6/ejGTCCh35CI8/5GpjkGtDAlCd2QYy/XSV+QYN/T8JIE/eVHMIO+yfFpiTwsl
+ Z9CWDekA9WMvBnszHWF0fdn3+vapavKOKNna5F6VLkQeRSDqOO9hrFzXjoJboVSdXONM
+ OzG0Y7CSYV5YGwWlWHWTJvfcUylKiPFXKD26zK1sja3MKTgCZtb8PBm0cJETJX/sm9py
+ rHOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=9/tmLJws/u4CEM/BcYiDQmfD8qI7sQ+R7welU1JTEvk=;
- b=62TCp7WpF4kuRyjp37EZatJ/0IJX74JXsdylx47ZbJdbEmJd8xhYQpHFdfBTUN6Vm/
- 3VkHYHXbnU0FnTnW1f7FEdFpSsNOnvUoo4mGIwI1b9ovZrdAbNblxnV6QLMVSqnf/W+7
- qrs292lIb0xn/XqqZrVbss9qHxpjWadXHh44qlVrZAAqh0yB8rMBBQe8hnIjhM5KymYs
- bsfYcc2M7Za9ggH758vmAfkYd8SN3Aw20thncn7VAPLdTc9r+vQweuIIHfzBSxi6YnBb
- 2po8+zCbba7UGKjvzVq0PJZ6Y0ORCDDDmUQ1ukgGKpiY4S8d9LeFWmNdZJGQV+JVBF2o
- FSqA==
-X-Gm-Message-State: ACgBeo0Ojg786icUu6bTh7idAASFqVeOC+RcIismVRfBAffnwZ6Wp39q
- 2h6cbyRFlnWXHL8UFD/lHlELHPcsgLM=
-X-Google-Smtp-Source: AA6agR7L9b5j5KbwF7LsCZC3MDFFipQ11w0PfX4O45wafuUhpr2VFRtCPxrjPpm5Vpstng9T+aITVw==
-X-Received: by 2002:ab0:7250:0:b0:383:ef47:d9cd with SMTP id
- d16-20020ab07250000000b00383ef47d9cdmr4139001uap.45.1659732882233; 
- Fri, 05 Aug 2022 13:54:42 -0700 (PDT)
-Received: from balboa.COMFAST ([191.19.239.67])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xFzGOyk//nIonb2B1LhbCaZRPKM8lAwywGYLPJTQS3w=;
+ b=iX4iQhPvxFKtfKNKRH7MUW/oDGaB04fyLxjiWnnUOV4jsL0oqok3KlHNXd1KIZGCCc
+ yHobZQeKwDRIE4oU2U0qCfgzUgsrStYcjCTqz54AhY0y90XL8bQItGdRFx/yQAqylwxo
+ 6pWazduT6ukw3Y1lIdXjiPA7GF+44jtj0WpjwA7MRN0/1Dhcp/eRjA0cSI1WB7eR/ouR
+ TOfn7sy/exAamrOnEKSOvFg36Q/CRzu7jMK/sI5lJUePzTNnOsirbQwVCjwK+B7lNbJw
+ EZwhEMWPtaLq50vB31EvOS2fRHEMV6vjTiw9wIt6U25kJdV1powaYveCNOoDS62ZRuAB
+ 3x+w==
+X-Gm-Message-State: ACgBeo04aqH0pl5k8j3Jo4HADCr+jpeEodpC0gIaXumKhosOJz2/zuua
+ B4AqwiEA9BX4J1JpVbGfEQLiBw==
+X-Google-Smtp-Source: AA6agR5lHTO4ISX2kFj0sk2E5Tp3eLPYk9cGq0V20oaTFK2Q+lzbmatswfdze+uXrPrQnhwMdqKX0A==
+X-Received: by 2002:a17:90a:fe07:b0:1f4:203d:d192 with SMTP id
+ ck7-20020a17090afe0700b001f4203dd192mr9634121pjb.145.1659734874807; 
+ Fri, 05 Aug 2022 14:27:54 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:abf8:e436:f4c:9089?
+ ([2602:ae:154e:e201:abf8:e436:f4c:9089])
  by smtp.gmail.com with ESMTPSA id
- f9-20020ab014c9000000b00384ca77a9e8sm4161129uae.27.2022.08.05.13.54.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 13:54:41 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH] hw/ppc: ppc440_uc: avoid multiply overflow in dcr_write_dma()
-Date: Fri,  5 Aug 2022 17:54:35 -0300
-Message-Id: <20220805205435.139286-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ x15-20020a170902ec8f00b0016a0bf0ce32sm3612520plg.70.2022.08.05.14.27.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 14:27:53 -0700 (PDT)
+Message-ID: <b0e384df-0836-a097-0eac-2acb4d5f9133@linaro.org>
+Date: Fri, 5 Aug 2022 14:27:50 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 0/6] Misc next patches
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220805152014.135768-1-berrange@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220805152014.135768-1-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,36 +94,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity reports a OVERFLOW_BEFORE_WIDEN issue in dcr_write_dma(). When
-handling the DMA0_CR switch we're doing a multiplication between two
-integers (count and width), and the product is assigned to an uint64_t
-(xferlen). The int32 product can be overflow before widened.
+On 8/5/22 08:20, Daniel P. Berrangé wrote:
+> The following changes since commit 09ed077d7fae5f825e18ff9a2004dcdd1b165edb:
+> 
+>    Merge tag 'trivial-branch-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-04 17:21:13 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/berrange/qemu tags/misc-next-pull-request
+> 
+> for you to fetch changes up to e3fdb13e8851be570db41a50589ce82d11d61c12:
+> 
+>    util/qemu-sockets: Replace the call to close a socket with closesocket() (2022-08-05 16:18:15 +0100)
+> 
+> ----------------------------------------------------------------
+> Merge misc patches
+> 
+>   * Display deprecation warnings in -cpu help
+>   * Fix zerocopy IPv6 handling
+>   * Clarify platform support policy on minor release/backports
+>   * Fix closesocket call in error path
 
-Fix it by casting the first operand to uint64_t to force the product to
-be 64 bit.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Fixes: Coverity CID 1490852
-Fixes: 3c409c1927ef ("ppc440_uc: Basic emulation of PPC440 DMA controller")
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/ppc440_uc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 11fdb88c22..31eeffa946 100644
---- a/hw/ppc/ppc440_uc.c
-+++ b/hw/ppc/ppc440_uc.c
-@@ -908,7 +908,7 @@ static void dcr_write_dma(void *opaque, int dcrn, uint32_t val)
- 
-                     sidx = didx = 0;
-                     width = 1 << ((val & DMA0_CR_PW) >> 25);
--                    xferlen = count * width;
-+                    xferlen = (uint64_t)count * width;
-                     wlen = rlen = xferlen;
-                     rptr = cpu_physical_memory_map(dma->ch[chnl].sa, &rlen,
-                                                    false);
--- 
-2.36.1
+r~
+
+> 
+> ----------------------------------------------------------------
+> 
+> Andrea Bolognani (1):
+>    docs: build-platforms: Clarify stance on minor releases and backports
+> 
+> Bin Meng (1):
+>    util/qemu-sockets: Replace the call to close a socket with
+>      closesocket()
+> 
+> Daniel P. Berrangé (3):
+>    target/i386: display deprecation status in '-cpu help'
+>    target/s390x: display deprecation status in '-cpu help'
+>    target/arm: display deprecation status in '-cpu help'
+> 
+> Leonardo Bras (1):
+>    QIOChannelSocket: Add support for MSG_ZEROCOPY + IPV6
+> 
+>   docs/about/build-platforms.rst |  5 ++++-
+>   io/channel-socket.c            |  4 ++--
+>   target/arm/helper.c            |  7 ++++++-
+>   target/i386/cpu.c              |  5 +++++
+>   target/s390x/cpu_models.c      | 23 ++++++++++++++++++-----
+>   util/qemu-sockets.c            |  4 ++--
+>   6 files changed, 37 insertions(+), 11 deletions(-)
+> 
 
 
