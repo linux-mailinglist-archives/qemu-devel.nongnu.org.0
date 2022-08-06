@@ -2,83 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCD358B6BC
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Aug 2022 18:19:07 +0200 (CEST)
-Received: from localhost ([::1]:49794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0764E58B6CD
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Aug 2022 18:26:26 +0200 (CEST)
+Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKMW2-00039L-Kd
-	for lists+qemu-devel@lfdr.de; Sat, 06 Aug 2022 12:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36452)
+	id 1oKMd6-0007SO-OG
+	for lists+qemu-devel@lfdr.de; Sat, 06 Aug 2022 12:26:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oKMSi-0001Ri-S9
- for qemu-devel@nongnu.org; Sat, 06 Aug 2022 12:15:40 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:46611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oKMSh-0000Ou-4L
- for qemu-devel@nongnu.org; Sat, 06 Aug 2022 12:15:40 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- q7-20020a17090a7a8700b001f300db8677so5493223pjf.5
- for <qemu-devel@nongnu.org>; Sat, 06 Aug 2022 09:15:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=64v9T4EaPEPYb+PtWEflY8Tn0z/ul01gUKHtIhul39w=;
- b=qmmiMGnomfu7/34lQJ2XxMHTFiY50zTUaW1R4E6Her14CbTpIS6/UTM2BX/vks6NZk
- Z7h5D71Xks2JAD1IqNeJ2tkYzymGoNdNPjrDxLAncqGf/xUSIlAQMSR/YOPSxoShevKq
- uxRWJjzcVV8aR38W0JyTAbUJsfT/FOM7cJWIqzYlZLKUpPx8NW4kPmgLtTIygeWG2pWu
- OpXleeeHCdbt6a6sjoYFOktBAkYlG6EDRL1M1cUNjLbxic0/YnidDDakzcbqR8m0UZVs
- rHi8gzDJMLipVInX4wwAff5t8mQsxqvR9U813g5/VEMvtexej/OAEZoXWpv9LEneww9b
- wV/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=64v9T4EaPEPYb+PtWEflY8Tn0z/ul01gUKHtIhul39w=;
- b=7SN7JZ7DRIvPms2Au5efWJk7lh/XhA+AsxPPmCn4hBqCmixKfZmOWw30SXG6VAo4p5
- lmd1Dz3LGzvcKDdNnK1Fbz1H0jD1onQei0hm3uhhdGF3PaIe1G3ibDmCXFInxftX6A90
- M4Cdwl/enH3NYphN91b6mrXNN6nmtUymNN/g4Xnpu//wVxfxzjLNKk7U4RChIcRtOXja
- O871saREkDW6wSjXYfNVIK6szanGmpNuLVpXxlAezB5Dwrg+PrvxVSxbGlzDAZsSdXRG
- p6FZewHE/UhpnKlrIGLVMWTYTZksBj4ab2WKIS9l+jfCsszwCWBCATkz21imjaHsBnve
- p/fQ==
-X-Gm-Message-State: ACgBeo0lnlWGlWCRGlax8GSzYWCNTPHGHmV6QCjKyvV5ijerFmqYPf+W
- /HzCqytuf7p5JP6bZXzwvXxgAg==
-X-Google-Smtp-Source: AA6agR6/IpJne8GLwIItCOMyKwGsq+g5w0TpO1NnQA8xKgM4AJn89D5hf9YHuOmL+pdxlY9lcpPmBQ==
-X-Received: by 2002:a17:902:ccd0:b0:16c:5d4f:99f3 with SMTP id
- z16-20020a170902ccd000b0016c5d4f99f3mr11490949ple.139.1659802537127; 
- Sat, 06 Aug 2022 09:15:37 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:e1d0:6bbf:50d3:62d0?
- ([2602:ae:154e:e201:e1d0:6bbf:50d3:62d0])
- by smtp.gmail.com with ESMTPSA id
- c19-20020a621c13000000b0052ac5e304d0sm5319500pfc.179.2022.08.06.09.15.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 Aug 2022 09:15:36 -0700 (PDT)
-Message-ID: <26f5be99-e9be-df9d-be50-1a2f2cd64986@linaro.org>
-Date: Sat, 6 Aug 2022 09:15:34 -0700
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oKMbL-0005l9-KF; Sat, 06 Aug 2022 12:24:35 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:26824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oKMbJ-0001aq-5H; Sat, 06 Aug 2022 12:24:35 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4B4E974635D;
+ Sat,  6 Aug 2022 18:24:27 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 15EBB746335; Sat,  6 Aug 2022 18:24:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1439D745702;
+ Sat,  6 Aug 2022 18:24:27 +0200 (CEST)
+Date: Sat, 6 Aug 2022 18:24:27 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org, clg@kaod.org
+Subject: Re: [PATCH] hw/ppc: ppc440_uc: avoid multiply overflow in
+ dcr_write_dma()
+In-Reply-To: <CAFEAcA8GrZO6JtdBJbP4r-Znv5kNSROtGqkpOUo5kJoGsVC_yQ@mail.gmail.com>
+Message-ID: <2218e532-e0e-ce7-e149-f6b9de4dcaf3@eik.bme.hu>
+References: <20220805205435.139286-1-danielhb413@gmail.com>
+ <326fba13-13e7-f327-bfd-f86aa0fe1211@eik.bme.hu>
+ <35d24b84-14ee-fc74-bb6f-7166aaa5cb70@gmail.com>
+ <42fdccf1-6ce5-a318-3893-04448c4ef3fc@gmail.com>
+ <1ecd8b2-4ab4-70b1-c5d3-7c733d8ab42@eik.bme.hu>
+ <CAFEAcA8GrZO6JtdBJbP4r-Znv5kNSROtGqkpOUo5kJoGsVC_yQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] target/loongarch: Fix "movfcsr2gr" gets wrong value
-Content-Language: en-US
-To: Qi Hu <huqi@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Cc: qemu-devel@nongnu.org, Feiyang Chen <chenfeiyang@loongson.cn>
-References: <20220806133426.542314-1-huqi@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220806133426.542314-1-huqi@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,30 +66,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/22 06:34, Qi Hu wrote:
-> In follow sequence:
->    movgr2fcsr $r0,$r0
->    movgr2fr.d $f0,$r0
->    fdiv.d     $f0,$f0,$f0
->    movfcsr2gr $r12,$r0
-> 
-> The value of $r12 is "0x00000000", but it should be "0x10100000"(V flag).
-> 
-> These fp helpers are definded with wrong flag "TCG_CALL_NO_WG" (but the
-> helpers write the globle "fcsr"). This causes the "fdiv" helper updates
-> the "fcsr" into mem, but "movfcsr2gr" does not load it from mem.
-> 
-> Reported-by: Feiyang Chen<chenfeiyang@loongson.cn>
-> Signed-off-by: Qi Hu<huqi@loongson.cn>
-> ---
->   target/loongarch/helper.h | 64 +++++++++++++++++++--------------------
->   1 file changed, 32 insertions(+), 32 deletions(-)
+On Sat, 6 Aug 2022, Peter Maydell wrote:
+> On Sat, 6 Aug 2022 at 12:24, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> I may look at it later when Peter's second patch changing
+>> this code lands if there are any cleanups possible
+>
+> You mean the 2nd patch I sent in that RFC series? I'm not
 
-That's one solution, though it may perform less well.
+Yes I mean that patch.
 
-The other is to remove cpu_fcsr0, and instead access that value with explicit loads and 
-stores in the two (!) instructions that use that tcg temporary.
+> currently totally sure what I want to do with that. Looking
+> at the code and at the docs that describe how the device
+> works, there's definitely quite a bit of missing
+> functionality. So I'm sort of undecided between "do a fair
 
+As the original commit message says I only aimed for the functionality 
+AmigaOS seems to use and did not try to implement everything. What we have 
+now seems to be enough for AmigaOS but I don't know if there are any other 
+functionality it may want to use in rare cases that I don't know about or 
+there are other guests that would do so.
 
-r~
+> bit of overhaul to the device to fix up the more obviously
+> missing pieces (but without much ability to test the changes)"
+> and "just leave the code as it is in git at the moment, since
+> it's sufficient for the only guest we know touches it to be
+> able to boot". What would you prefer?
+
+I won't stop you if you want to improve this device but I also don't know 
+how to test it apart from verifying AmigaOS still boots and works. It did 
+with your second patch (I've sent a Tested-by) and I'll test any further 
+patches. So just fixing the obviously wrong parts without adding any new 
+functionality is probably enough if you don't want to spend too much time 
+with it. I'll try to gather some traces on how AmigaOS uses it to help you 
+to judge what's needed.
+
+Thank you,
+BALATON Zoltan
 
