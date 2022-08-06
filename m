@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA35258B646
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Aug 2022 17:03:26 +0200 (CEST)
-Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678D058B685
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Aug 2022 17:35:39 +0200 (CEST)
+Received: from localhost ([::1]:50648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKLKn-0008KG-B7
-	for lists+qemu-devel@lfdr.de; Sat, 06 Aug 2022 11:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44668)
+	id 1oKLpy-00087T-17
+	for lists+qemu-devel@lfdr.de; Sat, 06 Aug 2022 11:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oKLH8-0005nD-Tv
- for qemu-devel@nongnu.org; Sat, 06 Aug 2022 10:59:38 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:45602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oKLH7-0004X8-DT
- for qemu-devel@nongnu.org; Sat, 06 Aug 2022 10:59:38 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id e127so7700521yba.12
- for <qemu-devel@nongnu.org>; Sat, 06 Aug 2022 07:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=7aEbHqYQJMcdlDVXwfS/AhAw6kMQ7zNZA1Sag8KdMA8=;
- b=M8YOfYFRb1Qm1sAXK9DkAe6mYB/8SmPNGlwTgFVtcIIgZYZHAPZWcmcrFA/kfn8Lwj
- 6sCwnAdTpCZmDlwhvfk8esJ520L9PrmvKHY0NB0jJBqF3g89MaYMqOkRFwX5IPmyQktx
- vsBqnhuzaQTflWOSWRNbo15Lc6NdJrh2UF93uVKnN8FL9L1u4sNTmRvYMrpNczczZm1E
- NzBSOlJXI6Esq1lQrZQvOHlQAwkQf7St16dWttm/pvA/zvxSs9y8wDb3G8TtP+WM1/Mq
- xxWsr5nozg8tpVTJ/2vriZXVaitsB5WgiA1s8FX8YgL2hpL5hc6kHzfroiU8P3SZ9AgS
- C/1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=7aEbHqYQJMcdlDVXwfS/AhAw6kMQ7zNZA1Sag8KdMA8=;
- b=TkyERhzX+qaIV93nnfLhv6Dn3QO610/X/nZt1KLBcNQG4/enPFYH+ZzsqRG3X77STe
- qVNOyBNjXvqkSoPIVjFwdiYAFxcaNOS723PGHuccoaS+fbO0E1S0SYwu2ophbqZsoHw5
- cQzTw5Ridfhk16VJIYCJkTOisWMjlQJRa6tYjvLMcTSDCnJSdkObrxpkz8VS+86JApyZ
- Jv+YW8qknpYEElb5PWnK36GifXF7HdtrXzEqqZmxHnCI45bp4aVET7a/Gd48/GhqBUzS
- KzzfCgz5NYWfaVqmf6Id+FBPnpEGpBf+9KhO6/vmCTJLP5lHkgb6yIlTBkCr0eyMcoPj
- uIBQ==
-X-Gm-Message-State: ACgBeo3/ppZJ3U//MB7ORgoitbDtroAus1NlX2IGQvaoSKI3I6aTXvFL
- H+Md4PzvRF9HqjK/7MiWZ9dpwqJmJPG0vOuUWNaGXQ==
-X-Google-Smtp-Source: AA6agR5koscvsBhr9R/i4IGE0q7hvO0GorHbO3PzoIHNkPLVnte/dNmgxI9EJKIy1GL2Ag8cAzCHR9VtCOGv4jzb7pk=
-X-Received: by 2002:a25:2f47:0:b0:671:8223:4325 with SMTP id
- v68-20020a252f47000000b0067182234325mr9152792ybv.67.1659797976315; Sat, 06
- Aug 2022 07:59:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oKLnW-0003v7-Jh; Sat, 06 Aug 2022 11:33:07 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:57090)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oKLnR-0002yK-Nr; Sat, 06 Aug 2022 11:33:04 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 9121C2E0AA4;
+ Sat,  6 Aug 2022 18:32:50 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:215::1:1d] (unknown
+ [2a02:6b8:b081:215::1:1d])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 2KV4siaWJK-WmP0QGHG; Sat, 06 Aug 2022 18:32:49 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1659799969; bh=QxOooUSSGvM75g2NBaJDgmF71B8MoI8NEAhtnl3ZGVA=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=wgtLo8k5rRh0xj3AN0Xn0dmGqlcITdZbS3AoisT5bPwse3OfvkNN2vyAiD/mRrjNP
+ LJzlJ/GtN86vM5qjBIdfoLIwqghQ3FwQY/gYCwSECW+O+415A4A5pRKXyEQesKe9Wb
+ IxFif24e3dHeQqCzRHrem7Os/FbyQtIH/DRTKE5g=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <2775bfae-5814-fdc3-c1ed-37b270a85aba@yandex-team.ru>
+Date: Sat, 6 Aug 2022 18:32:48 +0300
 MIME-Version: 1.0
-References: <20220805205435.139286-1-danielhb413@gmail.com>
- <326fba13-13e7-f327-bfd-f86aa0fe1211@eik.bme.hu>
- <35d24b84-14ee-fc74-bb6f-7166aaa5cb70@gmail.com>
- <42fdccf1-6ce5-a318-3893-04448c4ef3fc@gmail.com>
- <1ecd8b2-4ab4-70b1-c5d3-7c733d8ab42@eik.bme.hu>
-In-Reply-To: <1ecd8b2-4ab4-70b1-c5d3-7c733d8ab42@eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 6 Aug 2022 15:58:56 +0100
-Message-ID: <CAFEAcA8GrZO6JtdBJbP4r-Znv5kNSROtGqkpOUo5kJoGsVC_yQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/ppc: ppc440_uc: avoid multiply overflow in
- dcr_write_dma()
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, clg@kaod.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/11] Refactor bdrv_try_set_aio_context using
+ transactions
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20220725122120.309236-1-eesposit@redhat.com>
+ <b3eb6174-5fd5-f7f9-512c-4cdb46e62502@yandex-team.ru>
+ <0b3872fa-830a-f657-76be-2fbae055dffa@redhat.com>
+ <7b84b9be-b97b-2e53-5396-70d5c66ebfcf@yandex-team.ru>
+ <662bee2d-e053-1a59-ba6a-41bbde955260@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <662bee2d-e053-1a59-ba6a-41bbde955260@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,21 +85,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 6 Aug 2022 at 12:24, BALATON Zoltan <balaton@eik.bme.hu> wrote:
-> I may look at it later when Peter's second patch changing
-> this code lands if there are any cleanups possible
+On 8/5/22 17:57, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 05/08/2022 um 16:35 schrieb Vladimir Sementsov-Ogievskiy:
+>> On 8/5/22 16:22, Emanuele Giuseppe Esposito wrote:
+>>>
+>>>
+>>> Am 27/07/2022 um 18:13 schrieb Vladimir Sementsov-Ogievskiy:
+>>>> On 7/25/22 15:21, Emanuele Giuseppe Esposito wrote:
+>>>>> The aim of this series is to reorganize bdrv_try_set_aio_context
+>>>>> and drop BDS ->set_aio_context and ->can_set_aio_ctx callbacks in
+>>>>> favour of a new one, ->change_aio_ctx.
+>>>>>
+>>>>> More informations in patch 3 (which is also RFC, due to the doubts
+>>>>> I have with AioContext locks).
+>>>>>
+>>>>> Patch 1 just add assertions in the code, 2 extends the transactions
+>>>>> API to be able to add also transactions in the tail
+>>>>> of the list.
+>>>>> Patch 3 is the core of this series, and introduces the new callback.
+>>>>> It is marked as RFC and the reason is explained in the commit message.
+>>>>> Patches 4-5-6 implement ->change_aio_ctx in the various block, blockjob
+>>>>> and block-backend BDSes.
+>>>>> Patch 7 substitutes ->change_aio_ctx with the old callbacks, and
+>>>>> patch 8 takes care of deleting the old callbacks and unused code.
+>>>>>
+>>>>> This series is based on "job: replace AioContext lock with job_mutex",
+>>>>> but just because it uses job_set_aio_context() introduced there.
+>>>>>
+>>>>> Suggested-by: Paolo Bonzini<pbonzini@redhat.com>
+>>>>> Based-on:<20220706201533.289775-1-eesposit@redhat.com>
+>>>>
+>>>>
+>>>
+>>> So, I read your email before going on PTO and at that point I got what
+>>> your concerns were, but now after re-reading it I don't understand
+>>> anymore what you mean :)
+>>>
+>>>> What I dislike here is that you refactor aio-context-change to use
+>>>> transactions, but you use it "internally" for aio-context-change.
+>>>> aio-context-change doesn't become a native part of block-graph
+>>>> modifiction transaction system after the series.
+>>>>
+>>>> For example, bdrv_attach_child_common(..., tran) still calls
+>>>> bdrv_try_change_aio_context() function which doesn't take @tran
+>>>> argument. And we have to call bdrv_try_change_aio_context() again in
+>>>> bdrv_attach_child_common_abort() with opposite arguments by hand. We
+>>>> create in _try_ separate Transaction object which is unrelated to the
+>>>> original block-graph-change transaction.
+>>>>
+>>>
+>>> This can be fixed: patch 4 "bdrv_child_try_change_aio_context: add
+>>> transaction parameter" supports taking transaction as a parameter.
+>>> bdrv_attach_child_common could simply call
+>>> bdrv_try_change_aio_context_tran (ok we need to deal with locking, but
+>>> it could work).
+>>>
+>>> I think the main concern here is that during the prepare phase this
+>>> serie doesn't change any aiocontext, so until we don't commit the rest
+>>> of the code cannot assume that the aiocontext has been changed.
+>>>
+>>> But isn't it what happens also for permissions? Permission functions
+>>> like bdrv_drv_set_perm perform bdrv_check_perm() in .prepare(), and then
+>>> bdrv_set_perm() in commit.
+>>
+>> Not exactly.
+>>
+>> Partly that's just old bad naming. Ideally, driver handlers should be
+>> refactored to have one
+>> .bdrv_set_perm(, ... tran, errp) handler. Or at least renamed to
+>> .prepare and .commit instead of misleading .check and .set.
+>>
+>> Secondly what is important, is that corresponding .set actions are not
+>> visible to other block-graph modifying actions (like taking locks on fd.
+>> other actions, like attach/detach children don't care of it)/ (Or, at
+>> least, they _shoud not be_ visible :) To be honest, I don't have real
+>> expertise, of how much these .set actions are visible or not by other
+>> block-graph modifying actions, but I believe that we are OK in common
+>> scenarios).
+>>
+>> What is really visible at generic block layer? Visible is change of
+>> .perm / .shared_perm fields of BdrvChild. And they are set in .prepare,
+>> look at bdrv_child_set_perm().
+>>
+>> So, after calling bdrv_child_set_perm() other actions of .prepare stage
+>> will see _updated_ permissions. And if transaction fails, we rollback
+>> .perm and .shared_perm fields in bdrv_child_set_perm_abort()
+>>
+>>
+>>>
+>>> Another important question is that if we actually want to put everything
+>>> in a single transaction, because .prepare functions like the one
+>>> proposed here perform drains, so the logic following prepare and
+>>> preceding commit must take into account that everything is drained. Also
+>>> prepare itself has to take into account that maybe other .prepare took
+>>> locks or drained themselves...
+>>
+>> Yes, untie the knot of drained sections during aio context change is a
+>> challenge.. And that's (at least on of) the reason why aio-context
+>> change is still not a native part of block graph modifying transactions.
+>>
+>> Could there be some simple solution?
+>>
+>> Like
+>>
+>> 1. drain the whole subgraph of all nodes connected with nodes that we
+>> are going to touch
+>>
+>> 2. do block graph modifying transaction (including aio context change)
+>> knowing that everything we need is drained. (so we don't have to care
+>> about drain during aio context change)
+>>
+>> 3. undrain the subgraph
+>>
+>> In other words, is that really necessary to lock/unlock different
+>> contexts during the aio-context-change procedure? Or we can move to a
+>> lot larger and simpler drained section?
+> 
+> Unfortunately I think the aiocontext lock have to stay where they
+> currently are. I documented it in this serie.
+> 
+> drained begin needs the old aiocontext, and drained end the new one,
+> since we moved the graph to a different aiocontext.
+> 
+> Also, if I understand correctly you suggest:
+> 
+> .prepare = check and then change aiocontext
+> .abort = revert aiocontext change
+> .commit = nothing
 
-You mean the 2nd patch I sent in that RFC series? I'm not
-currently totally sure what I want to do with that. Looking
-at the code and at the docs that describe how the device
-works, there's definitely quite a bit of missing
-functionality. So I'm sort of undecided between "do a fair
-bit of overhaul to the device to fix up the more obviously
-missing pieces (but without much ability to test the changes)"
-and "just leave the code as it is in git at the moment, since
-it's sufficient for the only guest we know touches it to be
-able to boot". What would you prefer?
+Yes. And that's is how it used actually now in transactions, for example:
+   bdrv_attach_child_common (which is .prepare) calls bdrv_try_set_aio_context() (which is check and then change)
+   bdrv_attach_child_common_abort (which is .abort) calls bdrv_try_set_aio_context() to revert .prepare
 
-thanks
--- PMM
+> 
+> drain_begin_all();
+> prepare();
+> drain_end_all();
+> 
+> if prepare is not OK:
+> 	tran_abort(); // or simply return error so the caller calls abort
+> 
+> But then:
+> 1) .abort needs draining too
+> 2) it is not so different from what it was before, isn't it?
+> 
+
+No, I mean
+
+drain_begin_all();
+
+Do the whole transaction, i.e. prepare + commit or prepare + abort. All the actions, connected into transaction: changing aio context, permissions and block graph relations.
+
+drain_end_all();
+
+
+> 
+> 
+>>
+>>>
+>>>> With good refactoring we should get rid of these _try_ functions, and
+>>>> have just bdrv_change_aio_context(..., tran) that can be natively used
+>>>> with external tran object, where other block-graph change actions
+>>>> participate. This way we'll not have to call reverse
+>>>> aio_context_change() in .abort, it will be done automatically.
+>>>>
+>>>> Moreover, your  *aio_context_change* functions that do have tran
+>>>> parameter cannot be simply used in the block-graph change transaction,
+>>>> as you don't follow the common paradigm, that in .prepare we do all
+>>>> visible changes. That's why you have to still use _try_*() version that
+>>>> creates seaparate transaction object and completes it: after that the
+>>>> action is actually done and other graph-modifying actions can be done on
+>>>> top.
+>>>>
+>>>> So, IMHO, we shouldn't go this way, as that adds transaction actions
+>>>> that actually can't be used in common block-graph-modifying transaction
+>>>> but only context of bdrv_try_change_aio_context() internal transaction.
+>>>>
+>>>> I agree that aio-context change should finally be rewritten to take a
+>>>> native place in block-graph transactions, but that should be a complete
+>>>> solution, introducing native bdrv_change_aio_context(..., tran)
+>>>> transaction action that is directly used in the block-graph transaction,
+>>>> do visible effect in .prepare and don't create extra Transaction
+>>>> objects.
+>>>>
+>>>
+>>
+>>
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
