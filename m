@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0845F58B739
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Aug 2022 19:09:41 +0200 (CEST)
-Received: from localhost ([::1]:40464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9D158B7DD
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Aug 2022 21:04:37 +0200 (CEST)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKNIx-0001Xq-O1
-	for lists+qemu-devel@lfdr.de; Sat, 06 Aug 2022 13:09:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
+	id 1oKP6C-0004hM-Ku
+	for lists+qemu-devel@lfdr.de; Sat, 06 Aug 2022 15:04:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oKNHS-0000A9-2t
- for qemu-devel@nongnu.org; Sat, 06 Aug 2022 13:08:06 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:44792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oKNHQ-0007My-6E
- for qemu-devel@nongnu.org; Sat, 06 Aug 2022 13:08:05 -0400
-Received: by mail-pf1-x432.google.com with SMTP id h28so4756688pfq.11
- for <qemu-devel@nongnu.org>; Sat, 06 Aug 2022 10:08:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GNCb7Nz2ROh9PYMnAnCH9XpQC6SfEV8gH3g11a7bINA=;
- b=loGuB94lNIr5/O+i/kNZHiVxSG1ITqiFgCpRYamEUK7bwNpQb0N1PvJfkYYwQ+iud3
- YAGmB6XHceRwGdfh2FD6DtqXVATztlU0+YjbrWRMfGAmLhIYW/BPbVTuYJkzSgWWo1pv
- /NrrtlvdrD9Gqgc25sYSwntQCFG02wJ7UcW9SMaknaSevhCXCsBFcWZEW4yzI7Q9AWwJ
- 1xYiqzRHcLldU2QboDCNV4LFHz40Xc3be4D05/KZOGb2PBtT3W/2duW3DdoyuYCKHc/G
- qGuf3ZDCaUR4FPXNXa/L8Y56sYtkrN37YkMfr6Dlm8xlrXPQvJpDyuqrNXCtFIeWd/Mx
- B5hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GNCb7Nz2ROh9PYMnAnCH9XpQC6SfEV8gH3g11a7bINA=;
- b=Q3XO3wcfry+7HimCeMYFGXJg9q73CCLa/X8gU2EZWmhqOYFMZ+WqgPmio3gXWQ3zjD
- QlO5r+5Sb7yK0FuYBOEGdu9MR6g8953ACaB+Vk5kS5yzUUL7LSWq/QKyHFkOuk6TltOu
- ZWVv96N5gWaP+PTjRuhOz+USSUcgiBL2cOeFIeKXs0dIBv8bxlOp9Eawx2VpbznQ+2NY
- /WxdDfNNrcQUkHPVJ/CDY5O6SUdAWk8P/0JteL+Y6ignheFZgqT48EIs9zpfc4nVrMkH
- +vJY7azxoWwLgr8VRgINs5bW0Qwh/1YglH8w/jti0/NLA62Ucx3dZV4thUIr085Oy+Nu
- BqZA==
-X-Gm-Message-State: ACgBeo2YVqgrXQChuhZDd/oQeySqOiJAyw6bfLHlTyuEU1CWywLKICCx
- e0e/UsEnZo8K4AFey5sqZ8PC14qffysOLg==
-X-Google-Smtp-Source: AA6agR5N8G/2cf6ZD78B2RipSLy7Ul91OWNFc23032WuAA9roak7/IHsQKHbopJWBgp2KMr8sajUpA==
-X-Received: by 2002:a05:6a02:183:b0:41a:8177:9c3 with SMTP id
- bj3-20020a056a02018300b0041a817709c3mr10089659pgb.157.1659805682224; 
- Sat, 06 Aug 2022 10:08:02 -0700 (PDT)
-Received: from stoup.. ([2602:ae:154e:e201:e1d0:6bbf:50d3:62d0])
- by smtp.gmail.com with ESMTPSA id
- 13-20020a170902c20d00b0016e808dbe55sm5222766pll.96.2022.08.06.10.08.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Aug 2022 10:08:01 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Qi Hu <huqi@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Feiyang Chen <chenfeiyang@loongson.cn>
-Subject: [PATCH] target/loongarch: Remove cpu_fcsr0
-Date: Sat,  6 Aug 2022 10:08:00 -0700
-Message-Id: <20220806170800.373219-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oKP2O-000313-8R; Sat, 06 Aug 2022 15:00:41 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:39906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oKP2J-0004qs-2w; Sat, 06 Aug 2022 15:00:38 -0400
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B009A2E0A4A;
+ Sat,  6 Aug 2022 22:00:22 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:215::1:1d] (unknown
+ [2a02:6b8:b081:215::1:1d])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ aEBtIOrFFK-0LPqxtcW; Sat, 06 Aug 2022 22:00:21 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1659812422; bh=PMs8X6E/NiTz/MfVE6Ubau4+lj5M2ayf+B4NzVV7oO4=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=Wb+Eby9mqK7BpKeH6thsSB6qRoix2Sf/wI/xgdwTnJ5Rlm3zH0LRjFwb29rkO6z8v
+ neeU3ee0Bxh+KCtXKGwRHA6/AevLbyP+WnK+JzPrExhdftRqA512f7v1bhBDyKtWLz
+ r9WVpTvFaqoqviGC3mRVHmKaWfft9HPc6ztq0J/8=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <60e87038-a4bd-e723-3626-7daeb256e148@yandex-team.ru>
+Date: Sat, 6 Aug 2022 22:00:20 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/3] parallels: Put the image checks in separate
+ functions
+Content-Language: en-US
+To: alexander.ivanov@virtuozzo.com, qemu-devel@nongnu.org
+Cc: den@virtuozzo.com, natalia.kuzmina@openvz.org, stefanha@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org
+References: <20220805154752.799395-1-alexander.ivanov@virtuozzo.com>
+ <20220805154752.799395-2-alexander.ivanov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220805154752.799395-2-alexander.ivanov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,167 +79,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All of the fpu operations are defined with TCG_CALL_NO_WG, but they
-all modify FCSR0.  The most efficient way to fix this is to remove
-cpu_fcsr0, and instead use explicit load and store operations for the
-two instructions that manipulate that value.
+On 8/5/22 18:47, alexander.ivanov@virtuozzo.com wrote:
+> From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 
-Cc: Qi Hu <huqi@loongson.cn>
-Cc: Song Gao <gaosong@loongson.cn>
-Reported-by: Feiyang Chen <chenfeiyang@loongson.cn>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/loongarch/helper.h                    |  2 +-
- target/loongarch/fpu_helper.c                |  4 +--
- target/loongarch/translate.c                 |  3 --
- tests/tcg/loongarch64/test_fcsr.c            | 15 +++++++++
- target/loongarch/insn_trans/trans_fmov.c.inc | 33 ++++++++++----------
- tests/tcg/loongarch64/Makefile.target        |  1 +
- 6 files changed, 36 insertions(+), 22 deletions(-)
- create mode 100644 tests/tcg/loongarch64/test_fcsr.c
+A bit strange to see this. Is your name set up correctly in ~/.gitconfig ?
 
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index cbbe008f32..9c01823a26 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -91,7 +91,7 @@ DEF_HELPER_2(ftint_w_d, i64, env, i64)
- DEF_HELPER_2(frint_s, i64, env, i64)
- DEF_HELPER_2(frint_d, i64, env, i64)
- 
--DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_RWG, void, env, i32)
-+DEF_HELPER_FLAGS_1(set_rounding_mode, TCG_CALL_NO_RWG, void, env)
- 
- DEF_HELPER_1(rdtime_d, i64, env)
- 
-diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
-index bd76529219..4b9637210a 100644
---- a/target/loongarch/fpu_helper.c
-+++ b/target/loongarch/fpu_helper.c
-@@ -872,8 +872,8 @@ uint64_t helper_ftint_w_d(CPULoongArchState *env, uint64_t fj)
-     return fd;
- }
- 
--void helper_set_rounding_mode(CPULoongArchState *env, uint32_t fcsr0)
-+void helper_set_rounding_mode(CPULoongArchState *env)
- {
--    set_float_rounding_mode(ieee_rm[(fcsr0 >> FCSR0_RM) & 0x3],
-+    set_float_rounding_mode(ieee_rm[(env->fcsr0 >> FCSR0_RM) & 0x3],
-                             &env->fp_status);
- }
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index c9afd11420..51ba291430 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -22,7 +22,6 @@
- /* Global register indices */
- TCGv cpu_gpr[32], cpu_pc;
- static TCGv cpu_lladdr, cpu_llval;
--TCGv_i32 cpu_fcsr0;
- TCGv_i64 cpu_fpr[32];
- 
- #include "exec/gen-icount.h"
-@@ -266,8 +265,6 @@ void loongarch_translate_init(void)
-     }
- 
-     cpu_pc = tcg_global_mem_new(cpu_env, offsetof(CPULoongArchState, pc), "pc");
--    cpu_fcsr0 = tcg_global_mem_new_i32(cpu_env,
--                    offsetof(CPULoongArchState, fcsr0), "fcsr0");
-     cpu_lladdr = tcg_global_mem_new(cpu_env,
-                     offsetof(CPULoongArchState, lladdr), "lladdr");
-     cpu_llval = tcg_global_mem_new(cpu_env,
-diff --git a/tests/tcg/loongarch64/test_fcsr.c b/tests/tcg/loongarch64/test_fcsr.c
-new file mode 100644
-index 0000000000..ad3609eb99
---- /dev/null
-+++ b/tests/tcg/loongarch64/test_fcsr.c
-@@ -0,0 +1,15 @@
-+#include <assert.h>
-+
-+int main()
-+{
-+    unsigned fcsr;
-+
-+    asm("movgr2fcsr $r0,$r0\n\t"
-+        "movgr2fr.d $f0,$r0\n\t"
-+        "fdiv.d     $f0,$f0,$f0\n\t"
-+        "movfcsr2gr %0,$r0"
-+        : "=r"(fcsr) : : "f0");
-+
-+    assert(fcsr & (16 << 16)); /* Invalid */
-+    return 0;
-+}
-diff --git a/target/loongarch/insn_trans/trans_fmov.c.inc b/target/loongarch/insn_trans/trans_fmov.c.inc
-index 24753d4568..5537e3dd35 100644
---- a/target/loongarch/insn_trans/trans_fmov.c.inc
-+++ b/target/loongarch/insn_trans/trans_fmov.c.inc
-@@ -60,38 +60,39 @@ static bool trans_movgr2fcsr(DisasContext *ctx, arg_movgr2fcsr *a)
-     TCGv Rj = gpr_src(ctx, a->rj, EXT_NONE);
- 
-     if (mask == UINT32_MAX) {
--        tcg_gen_extrl_i64_i32(cpu_fcsr0, Rj);
-+        tcg_gen_st32_i64(Rj, cpu_env, offsetof(CPULoongArchState, fcsr0));
-     } else {
-+        TCGv_i32 fcsr0 = tcg_temp_new_i32();
-         TCGv_i32 temp = tcg_temp_new_i32();
- 
-+        tcg_gen_ld_i32(fcsr0, cpu_env, offsetof(CPULoongArchState, fcsr0));
-         tcg_gen_extrl_i64_i32(temp, Rj);
-         tcg_gen_andi_i32(temp, temp, mask);
--        tcg_gen_andi_i32(cpu_fcsr0, cpu_fcsr0, ~mask);
--        tcg_gen_or_i32(cpu_fcsr0, cpu_fcsr0, temp);
-+        tcg_gen_andi_i32(fcsr0, fcsr0, ~mask);
-+        tcg_gen_or_i32(fcsr0, fcsr0, temp);
-+        tcg_gen_st_i32(fcsr0, cpu_env, offsetof(CPULoongArchState, fcsr0));
-+
-         tcg_temp_free_i32(temp);
--
--        /*
--         * Install the new rounding mode to fpu_status, if changed.
--         * Note that FCSR3 is exactly the rounding mode field.
--         */
--        if (mask != FCSR0_M3) {
--            return true;
--        }
-+        tcg_temp_free_i32(fcsr0);
-     }
--    gen_helper_set_rounding_mode(cpu_env, cpu_fcsr0);
- 
-+    /*
-+     * Install the new rounding mode to fpu_status, if changed.
-+     * Note that FCSR3 is exactly the rounding mode field.
-+     */
-+    if (mask & FCSR0_M3) {
-+        gen_helper_set_rounding_mode(cpu_env);
-+    }
-     return true;
- }
- 
- static bool trans_movfcsr2gr(DisasContext *ctx, arg_movfcsr2gr *a)
- {
--    TCGv_i32 temp = tcg_temp_new_i32();
-     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
- 
--    tcg_gen_andi_i32(temp, cpu_fcsr0, fcsr_mask[a->fcsrs]);
--    tcg_gen_ext_i32_i64(dest, temp);
-+    tcg_gen_ld32u_i64(dest, cpu_env, offsetof(CPULoongArchState, fcsr0));
-+    tcg_gen_andi_i64(dest, dest, fcsr_mask[a->fcsrs]);
-     gen_set_gpr(a->rd, dest, EXT_NONE);
--    tcg_temp_free_i32(temp);
- 
-     return true;
- }
-diff --git a/tests/tcg/loongarch64/Makefile.target b/tests/tcg/loongarch64/Makefile.target
-index 0115de78ef..00030a1026 100644
---- a/tests/tcg/loongarch64/Makefile.target
-+++ b/tests/tcg/loongarch64/Makefile.target
-@@ -15,5 +15,6 @@ LOONGARCH64_TESTS  += test_div
- LOONGARCH64_TESTS  += test_fclass
- LOONGARCH64_TESTS  += test_fpcom
- LOONGARCH64_TESTS  += test_pcadd
-+LOONGARCH64_TESTS  += test_fcsr
- 
- TESTS += $(LOONGARCH64_TESTS)
+> 
+> We will add more and more checks of images so we need to reorganize the code.
+> Put each check to a separate helper function with a separate loop.
+> Add two helpers: truncate_file() and sync_header(). They will be used
+> in multiple functions.
+
+It would be a lot simpler to review if you split out one check_ function per patch :)
+
+> 
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+
+[..]
+
+> -            /*
+> -             * In order to really repair the image, we must shrink it.
+> -             * That means we have to pass exact=true.
+> -             */
+> -            ret = bdrv_truncate(bs->file, res->image_end_offset, true,
+> -                                PREALLOC_MODE_OFF, 0, &local_err);
+> +            ret = truncate_file(bs, res->image_end_offset);
+>               if (ret < 0) {
+> -                error_report_err(local_err);
+> -                res->check_errors++;
+
+Why you remove check_errors++ ? It's an error of truncate_file counted.
+With it kept here:
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+> -                goto out;
+> +                return ret;
+>               }
+>               res->leaks_fixed += count;
+>           }
+
+[..]
+
+> +static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+> +                                           BdrvCheckResult *res,
+> +                                           BdrvCheckMode fix)
+> +{
+> +    BDRVParallelsState *s = bs->opaque;
+> +    int ret;
+> +
+> +    qemu_co_mutex_lock(&s->lock);
+
+If touch this anyway, I'd move to QEMU_LOCK_GUARD().
+
+> +
+> +    check_unclean(bs, res, fix);
+> +
+> +    ret = check_cluster_outside_image(bs, res, fix);
+> +    if (ret != 0) {
+> +        goto out;
+> +    }
+> +
+> +    check_fragmentation(bs, res, fix);
+> +
+> +    ret = check_leak(bs, res, fix);
+> +    if (ret != 0) {
+> +        goto out;
+> +    }
+> +
+> +    collect_statistics(bs, res);
+
+probably, chack_fragmentation() should be part of collect_statistics() (called from it, or just merged into same loop, as it fills same res->bfi)
+
+Also while reviewing I noted that when FIX_ERRORS is not enabled we count broken clusters (with off > size) as allocated, and also they participate in fragmentation statistics. That's preexisting still..
+
+
 -- 
-2.34.1
-
+Best regards,
+Vladimir
 
