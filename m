@@ -2,57 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D3958BA95
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Aug 2022 12:41:15 +0200 (CEST)
-Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4E658BAAE
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Aug 2022 13:49:51 +0200 (CEST)
+Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKdib-0000Fo-QW
-	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 06:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53794)
+	id 1oKen0-0003pu-2u
+	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 07:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1oKdh4-0007DZ-Ty
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 06:39:38 -0400
-Received: from ssh.movementarian.org ([139.162.205.133]:43076
- helo=movementarian.org)
+ (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1oKekp-0002NZ-El
+ for qemu-devel@nongnu.org; Sun, 07 Aug 2022 07:47:35 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:36731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1oKdh2-0004JF-0M
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 06:39:38 -0400
-Received: from movement by movementarian.org with local (Exim 4.94.2)
- (envelope-from <movement@movementarian.org>)
- id 1oKdgw-00DJ2N-J3; Sun, 07 Aug 2022 11:39:30 +0100
-Date: Sun, 7 Aug 2022 11:39:30 +0100
-From: John Levon <levon@movementarian.org>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@gmail.com" <stefanha@gmail.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
-Subject: Re: [PATCH 0/1] Update vfio-user module to the latest
-Message-ID: <Yu+WYmwvr/1fBww+@movementarian.org>
-References: <cover.1659403195.git.jag.raman@oracle.com>
- <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <e8eab8e6-e6a5-af95-223f-e0ca91b4d833@redhat.com>
- <YuzT2MA9Q4mAr4eQ@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YuzT2MA9Q4mAr4eQ@redhat.com>
-X-Url: http://www.movementarian.org/
-Received-SPF: pass client-ip=139.162.205.133;
- envelope-from=movement@movementarian.org; helo=movementarian.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1oKekk-0007Uq-1c
+ for qemu-devel@nongnu.org; Sun, 07 Aug 2022 07:47:31 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id DC0295C00A7;
+ Sun,  7 Aug 2022 07:47:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Sun, 07 Aug 2022 07:47:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nunn.io; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1659872847; x=
+ 1659959247; bh=6AaaNWeFbi0ggZoBl0aN2Byp8f0nVOUrVN2KcnQgG5Y=; b=t
+ jsyCzdqI6pSwxTglTvvv42S6c4SWOl44/MqDp0Rd6VxBhfHSMr27roEu2NyI4sy/
+ Rti4zpfGDndxLFtBy0WIMSHKBOLi6F9Zkd5LtbBxpCx7x0ZkHIlyK7+1U7B/Q//3
+ vGXFBtTI/mErHIlfzry1qWWW03yWwzyufF1TDxoGsxk8aahVqeg7uuX6WuPgxqF9
+ FGftU0yqj+gwrHTmStf0igGXhiSwrs4SC6NgDiKXY8QZ7tGjIvkGgJQw8rdZR5jh
+ DrtGeCk2Y8a+o3lH19Xr46+1WHWYPE/WbqYJKn8NMMUEOt/Mo7Nn3l+1IYeM+sDl
+ 8iXwn2OtzT20UQEvaODWA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1659872847; x=
+ 1659959247; bh=6AaaNWeFbi0ggZoBl0aN2Byp8f0nVOUrVN2KcnQgG5Y=; b=b
+ M926a309bxkgR3rAOICtQ1x4QitfqvD/+k4ksL3hX47dvAx9hD6oVAVkOU2CKpyu
+ ISDuhMoVqPTIzrzi+3QQU29TFlxAI5XT3iyXxP4J4Fo6ZAv53wIWBxLFHdpXwten
+ 5OFJHIQ3Y0KS7uBYWyosKfyzuEpBc56WDUiz0hc0p4xn/eqlgyZ9C1Ev95Fh/dWd
+ 3uzSwcN8Kyzs3aO7coQiktaGYK/WRHa5LRIhvb1TJceZp1nHjNHP1X6mwleNQatK
+ ad0MbIKETvgO/4rrmYGqAnzNZJ/BPbu5zE0aSZiBWWX2Zw8mXk4DoDJ+Ig4DNzmc
+ zfVXnFunrqnpdFaXPbYEQ==
+X-ME-Sender: <xms:TqbvYip4F9cnmzr6qOaIOZcHkvplk_HkMJC51U-dm0HISW88bvZSzg>
+ <xme:TqbvYgoCoiXIWVzv56k6Sb5PJflmRgbOYuOjm8dQ9sRFF8tEOE95DRmyhfAqBrtqB
+ XYXEsVZu8NbQoimzQ>
+X-ME-Received: <xmr:TqbvYnMyaBg_dxFZiIeAW1wSQJohmIPzDOqZkd1cxj-8lPlNVerJeffdp-tpnqxuqfXXCnAq0v2AUkDqZNgsbaCbqeXQV4NdaX9IYQZUzw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefiedggeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtddvnecuhfhrohhmpefglhhl
+ ihhothcupfhunhhnuceovghllhhiohhtsehnuhhnnhdrihhoqeenucggtffrrghtthgvrh
+ hnpeegteduieeivdejhfdtiefgteeifeetjeekjeefveduhfetudehieevfeejjefhjeen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegvlhhlih
+ hothesnhhunhhnrdhioh
+X-ME-Proxy: <xmx:T6bvYh45mIK3lZs3pQHo7qsgwGdD-TolRP_6hknTvuCQYKgFQLs3IQ>
+ <xmx:T6bvYh4KDUZBeHj2WZuLjkCmLT_FS2zLvPw3KyZFJ22CGrb6Zpz02Q>
+ <xmx:T6bvYhjfMmObtNAIR60u6hJDwyYuGuXOVjB_UVWxbOWcHlRZvhztlQ>
+ <xmx:T6bvYrkPP2793pBlHBDLPKztdhPwnXZ3UVXy-EdcaHKWp3jfI86AkA>
+Feedback-ID: i6a78429f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 7 Aug 2022 07:47:24 -0400 (EDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
+Subject: Re: VGA hardware cursor query
+From: Elliot Nunn <elliot@nunn.io>
+In-Reply-To: <4513db25-fc55-5884-f345-36d1510ff175@ilande.co.uk>
+Date: Sun, 7 Aug 2022 19:47:19 +0800
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com,
+ BALATON Zoltan <balaton@eik.bme.hu>, hsp.cat7@gmail.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <939C7085-9CA8-426B-A00B-DD059F845161@nunn.io>
+References: <9A92120A-46B5-48A4-9424-8E606143291F@nunn.io>
+ <4513db25-fc55-5884-f345-36d1510ff175@ilande.co.uk>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+X-Mailer: Apple Mail (2.3693.40.0.1.81)
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=elliot@nunn.io;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,62 +105,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05, 2022 at 09:24:56AM +0100, Daniel P. Berrangé wrote:
+>> I want to give Mac OS 9 clients access to hardware cursor support, to =
+improve
+>> responsiveness in absolute-cursor mode.
+>> Would it be acceptable to add a hardware cursor interface to the VGA =
+device?
+>> And if so, can anyone advise on an appropriate register layout?
+>> This is an example of such a patch. Because it alters the Bochs VBE =
+interface
+>> it is ONLY an example, NOT fit for acceptance. I have omitted the =
+changes to
+>> the binary driver qemu_vga.ndrv.
+>> Kind regards,
+>> Elliot Nunn
+> Nice work! Have you been in contact with the Bochs developers to see =
+what their thoughts are to your proposed changes? Generally QEMU prefers =
+to implement documented specifications, so this would be the best route =
+to go.
 
-> > > For the RFC QEMU user space eBPF support,
-> > > https://lore.kernel.org/all/20220617073630.535914-6-chen.zhang@intel.com/T/
-> > > Maybe introduce the libubpf.so as a subproject like libvfio-user.so is more appropriate?
-> > 
-> > Fair comment. I never noticed them before, but why do we have those
-> > submodules in the subprojects/ folder (libvduse, libvfio-user and
-> > libvhost-user)? ... I don't think it's the job of QEMU to ship libraries
-> > that a user might want to use for a certain feature, so could we please
-> > remove those submodules again? If someone wants to use this, they can
-> > compile the libraries on their own or help their favorite distribution to
-> > ship them as packages.
-> 
-> FWIW, I don't really agree with shipping libvfio-user.so as a submodule
-> either, but the consensus was that we have to do it because there's no
-> stable ABI committed to by libvfio-user maintainers yet.  My counterpoint
-> is that as long as QEMU ships libvfio-user as a submodule, there's no
-> incentive to create a stable ABI, leaving a chicken & egg scenario.
+Thanks! I don't think it would be appropriate to update the Bochs =
+standard with a feature that they don't use. And on reflection, perhaps =
+the compatibility-oriented VGA device is big enough already.
 
-qemu is not the only consumer of the library, so I'm not sure removing the
-submodule from qemu moves the needle in either direction.
+My plan is to write a Mac OS 9/X "ndrv" targeting virtio-gpu. All going =
+this well, this might become the default mac99 GPU until ati-vga is =
+ready.
 
-We are still discovering our abstractions are not quite right in places, so
-we're not yet confident enough to mark the API/ABI as stable (nor do we have any
-testing of this in place). It would be all downside at this point.
-
-> IOW personally I'd rather libvfio-user.so was put into the distros right
-> now, and have the pain ABI incompatible releases act as motivation for
-> the creation of a stable ABI.
-
-We can't control what the distributions choose to do, but speaking for
-libvfio-user, we would not support this choice or anything like it. It would
-only cause pain for users.
-
-> A second factor is that as long as it is a submodule, there is little
-> pressure for the distros to actually package the library, which leaves
-> us in a place where someone will always object to removing the submodule
-> from QEMU because it doesn't exist in distro X.
-
-No distribution has even *asked* us about this.  Do you have some evidence that
-by making this more difficult, somehow we'll start hearing from all the distros?
-What's the mechanism by which this will work?
-
-It seems to me that all that will happen by removing it, is make it extremely
-annoying for anyone wanting to use it with qemu, as every user will have to
-figure out which commit is needed for the qemu commit they're trying to compile.
-
-> If we do add something as a submodule for some reason, I'd like us to
-> say upfront that this is for a fixed time period (ie maximum of 3
-> releases aka 1 year) only after which we'll remove it no matter what.
-
-I'm not clear on the costs of having the submodule: could you please explain why
-it's an issue exactly? I can only think of the flaky test issue (for which I'm
-sorry).
-
-regards
-john
+But virtio-gpu is not compiled into qemu-system-ppc by default. What is =
+the difference between CONFIG_VIRTIO_(GPU|PCI|VGA)? And is =
+configs/devices/ppc-softmmu/default.mak the correct place to declare =
+them?=
 
