@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC65D58BE13
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 00:49:38 +0200 (CEST)
-Received: from localhost ([::1]:35330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BA258BE19
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 00:55:48 +0200 (CEST)
+Received: from localhost ([::1]:38210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKp5V-0007xg-PR
-	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 18:49:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
+	id 1oKpBT-0001nY-NN
+	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 18:55:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oKp3O-0005gZ-Qh
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 18:47:26 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:35438)
+ id 1oKpAC-00005T-9J; Sun, 07 Aug 2022 18:54:28 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oKp3M-0001J8-BX
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 18:47:25 -0400
-Received: by mail-pg1-x531.google.com with SMTP id r69so586421pgr.2
- for <qemu-devel@nongnu.org>; Sun, 07 Aug 2022 15:47:23 -0700 (PDT)
+ id 1oKpAA-00024H-Ek; Sun, 07 Aug 2022 18:54:27 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id z187so6674447pfb.12;
+ Sun, 07 Aug 2022 15:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=rZhQL7HGX46x1Wd9kgtulYMynaRlBY2ne1Nj1hUimW0=;
- b=aa16ucaJsDuWqyInI3t9iID5qvxtxgC/2GTuTfWfl1fQvSeJP8Ufv4ulWJLiNtOKyN
- r7Hb85eMt5BelxF9sH9ocoMxbuqBc/b4tJKLy9+FmTFkejiGm0thxl4zIJptjg0FZ8W6
- Mhc4RgTg5fJ5+vfMqyRqu/I9nE6fiWlsKrEgCofq4uROLeYpH0zBCOQrVmcHPz7dQzxZ
- Xg3bNk/vjGlLibVNzzVWfJCqXNqPsiTZv/T0LLSNDQktuNzuzpm1bnYUJ/9hg6Rvphc5
- 9jqEPCBrmOKZJ6v+gqLZJXzssthpSU0siOwO0n+U2LUpAhKmwknO26a4ZlxlufCYLXM6
- DY+w==
+ bh=43oYjQak69cnmr5Xx/vXh1gHTmr9iNtXaxQK+muUYYU=;
+ b=KvGN2K7swFbeuQIbSlviMmEPo0nwIHFD4it3ZK1jHFkL0Hq7cdFXkOEHPdj3Gy/yl8
+ phNJh/j1405m7JNK9/v5VOk3DZxrjx7No0EGyeakivCVhb/FOI0d4JV4urRhlJ/kpwtp
+ yy6KTPOejyJ38gZhPwQie2JXLr/JI99v2uyDNMUCGeEu3mV7f/+qlUC1n1aCqTEIBuy0
+ e7+tdH5q1vcg3cIUQwHWVxNS56/jwiweKiOcdfcC69xVeJ61ht0D61FTEvqAA13H1bXY
+ uc5UafhTmvgW6T1N/nwERpzfSGKOELu77y54x7wRtVNaQl1FmbX6y1fIz5Owu3EvmUyF
+ znwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=rZhQL7HGX46x1Wd9kgtulYMynaRlBY2ne1Nj1hUimW0=;
- b=ZrSbbiFihDOx3PiuZUv+hdY1aOUMs7ntha6995VR+sCXFLkdb1UC/IEmEDBbMete3I
- O/hjiRDV+GpKRV1DRTaNnpUd6Lb2VctOE/0RgrEYDImk6CsGJ+F/ec+q33uPX1DiD77Y
- MbFQE42Nc0h6o1SllnW4gavgkARPOya4DVUw0qUvaN6gs0/gzK4tHgYRZhM985yumAgt
- 9xMWyWjUBHdXr5tqdH+LxItKWy41R9MwIbs1qSihkCQl/cbiz9Z+6b190mhybV86d5YG
- +IKtumeXujHYEBp231E3FiNBT40G+CdFt/KujhwerJkCi6gg+hkLuCIDj4axBHYziar/
- Uh7g==
-X-Gm-Message-State: ACgBeo1VjmpREwJvaiWFRj/O5bVw07QoSPOeMQgenIVWKMIA0D3YyMFu
- FxC+11mzKcPAJUOxLZJQct48b1Wof7+8Nq6g6as=
-X-Google-Smtp-Source: AA6agR7SC4gr2Mr7EBx3DwCVQnLN8U3ZmnkVHvzNMJvrCq6keZWARzGbCWYHewjuPPOavfeDPVM5ZPwNgogv1ZiUHLk=
-X-Received: by 2002:a63:f14c:0:b0:41a:b83d:a636 with SMTP id
- o12-20020a63f14c000000b0041ab83da636mr13440974pgk.361.1659912443045; Sun, 07
- Aug 2022 15:47:23 -0700 (PDT)
+ bh=43oYjQak69cnmr5Xx/vXh1gHTmr9iNtXaxQK+muUYYU=;
+ b=2bMuVJDKyY8VbWIRaiX0rPVRQOduFs3PQCmH7BmMCJy4Kk0oPT4JTyUvTjtgsDG070
+ 52AVxUcuyvebrkKnW07K98RNbKagVJJlOuNDMwo37QF3Ts5amN5CQncZlz1Ntli7M6EE
+ 2ryWEDL732xCjmgCv57OP1MTm8Cltlbbzr90voRdJQVbfcs8Xl+FGfoJ56m8RP1AAus3
+ ZgiMvABjVd1wQcqMwKyY8orAaUW3t7uQijydto08AwAKRW4itHvy/Zq5m5rYEl+hg8rN
+ D1SF47uwIpsjU6MyFXYt/TFaQ8BGhkhiW5yg4wO6h7z5q9nzXbKaGhe4q3c3kc048a3p
+ L/AQ==
+X-Gm-Message-State: ACgBeo1J77r2QpjBooQkR1xdnuMUih5eAH47MWOGRoqPFQXo+Q26iSQ6
+ hOEC8mvPKih3FaHw6TPPLUj/CHrG8689UOzWgoY=
+X-Google-Smtp-Source: AA6agR6iKY1N6dLXfYAISVMIhHFtzbZ3dlNMytM1cpy71UCmt3XYEGVW8tQ5poHoTcvWnRwLpiSnWnmX+aqjc1X6auA=
+X-Received: by 2002:a63:5f49:0:b0:41d:85a1:c4da with SMTP id
+ t70-20020a635f49000000b0041d85a1c4damr1729915pgb.366.1659912864354; Sun, 07
+ Aug 2022 15:54:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-13-danielhb413@gmail.com>
-In-Reply-To: <20220805093948.82561-13-danielhb413@gmail.com>
+References: <20220805155405.1504081-1-mail@conchuod.ie>
+ <20220805155405.1504081-2-mail@conchuod.ie>
+In-Reply-To: <20220805155405.1504081-2-mail@conchuod.ie>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 8 Aug 2022 08:46:56 +1000
-Message-ID: <CAKmqyKNGxnO4B0qvsMg1xzh=_sHQiAG8i_x8O5zaO+OdG22PoQ@mail.gmail.com>
-Subject: Re: [PATCH for-7.2 v2 12/20] hw/riscv: set machine->fdt in
- spike_board_init()
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+Date: Mon, 8 Aug 2022 08:53:58 +1000
+Message-ID: <CAKmqyKOORP+ciE0ZybCbtqFV5N4g6B8J2JwSrn0fen0zd9RfUg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] target/riscv: Ignore the S and U letters when
+ formatting ISA strings
+To: Conor Dooley <mail@conchuod.ie>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>, 
- David Gibson <david@gibson.dropbear.id.au>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bin.meng@windriver.com>
+ Bin Meng <bin.meng@windriver.com>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor.dooley@microchip.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ linux-riscv <linux-riscv@lists.infradead.org>, 
+ Palmer Dabbelt <palmer@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,56 +90,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 5, 2022 at 8:08 PM Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
+On Sat, Aug 6, 2022 at 2:08 AM Conor Dooley <mail@conchuod.ie> wrote:
 >
-> This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
-> the spike machine.
+> From: Palmer Dabbelt <palmer@sifive.com>
 >
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Bin Meng <bin.meng@windriver.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> The ISA strings we're providing from QEMU aren't actually legal RISC-V
+> ISA strings, as both S and U cannot exist as single-letter extensions
+> and must instead be multi-letter strings.  We're still using the ISA
+> strings inside QEMU to track the availiable extensions, so just strip
+> out the S and U extensions when formatting ISA strings.
+>
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> [Conor: rebased on 7.1.0-rc1 & slightly tweaked the commit message]
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  target/riscv/cpu.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ac6f82ebd0..95fdc03b3d 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1122,7 +1122,23 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
+>      for (i = 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
+>          if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
+> -            *p++ = qemu_tolower(riscv_single_letter_exts[i]);
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+riscv_single_letter_exts doesn't contain S or U, is this patch still required?
 
 Alistair
 
-> ---
->  hw/riscv/spike.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index e41b6aa9f0..2909f7b2a1 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -40,6 +40,8 @@
->  #include "sysemu/device_tree.h"
->  #include "sysemu/sysemu.h"
->
-> +#include <libfdt.h>
+> +            char lower = qemu_tolower(riscv_single_letter_exts[i]);
+> +            switch (lower) {
+> +                case 's':
+> +                case 'u':
+> +                    /*
+> +                    * The 's' and 'u' letters shouldn't show up in ISA strings as
+> +                    * they're not extensions, but they should show up in MISA.
+> +                    * Since we use these letters interally as a pseudo ISA string
+> +                    * to set MISA it's easier to just strip them out when
+> +                    * formatting the ISA string.
+> +                    */
+> +                    break;
 > +
->  static const MemMapEntry spike_memmap[] = {
->      [SPIKE_MROM] =     {     0x1000,     0xf000 },
->      [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
-> @@ -304,6 +306,15 @@ static void spike_board_init(MachineState *machine)
->      /* Compute the fdt load address in dram */
->      fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
->                                     machine->ram_size, s->fdt);
-> +
-> +    /*
-> +     * Update the machine->fdt pointer to enable support for
-> +     * 'dumpdtb'and 'info fdt' commands. Use fdt_pack() to
-> +     * shrink the blob size we're going to store.
-> +     */
-> +    fdt_pack(s->fdt);
-> +    machine->fdt = s->fdt;
-> +
->      /* load the reset vector */
->      riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
->                                memmap[SPIKE_MROM].base,
+> +                default:
+> +                    *p++ = lower;
+> +                    break;
+> +            }
+>          }
+>      }
+>      *p = '\0';
 > --
-> 2.36.1
+> 2.37.1
 >
 >
 
