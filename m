@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7172658BE46
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 01:08:03 +0200 (CEST)
-Received: from localhost ([::1]:56232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E1B58BE56
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 01:48:45 +0200 (CEST)
+Received: from localhost ([::1]:38782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKpNK-00060J-Dt
-	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 19:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60788)
+	id 1oKq0i-0005fa-2q
+	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 19:48:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oKpIu-0001ZY-TU
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 19:03:28 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:55217)
+ id 1oKpx1-0003OH-DH; Sun, 07 Aug 2022 19:44:55 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:51731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oKpIs-0003To-SX
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 19:03:28 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id b4so7269125pji.4
- for <qemu-devel@nongnu.org>; Sun, 07 Aug 2022 16:03:26 -0700 (PDT)
+ id 1oKpwz-000109-03; Sun, 07 Aug 2022 19:44:55 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id t22so7347324pjy.1;
+ Sun, 07 Aug 2022 16:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=Y4C6QenWMAWP++iB8teCgnQMivMzp1pi6lQpN4ZnzU0=;
- b=W6jCtHBypb/dYNJYt15WDiwq3TxSq9LidCeEr/FKrxULGZFdu0hcLPoA8Us5UzXcVX
- 3Y55ioGaa+KzHLjpgG0iZuU2z3IGV56d6F8F/gkVJRuhy3oCqenNqdSe4HJeK5uwi34e
- gIVeLybGmVatPcEKMSdtyp6RWnknq3Ay8CRsfFVmdZeB1T5OgSuWD8MxohLsx/uKxlG2
- aDnextR64X+Df7XZ57gWbexd0lT1B+lT0Xaal1EZSK+9KGnP/x/Z/bylw6yPNHeVoylS
- 37V2TwuoNVTVsMYw3rF9HssKtckc+4AZY2gWLbVXxY8aDx6WGwlioMFKOADSjP3GS1Am
- Kqsw==
+ bh=sTgzu4S6WcR+ztUnVFSPM9dg3q1Db/83pKYS27163VU=;
+ b=entXRfq7ydCm0LcsBarZjaFmZfUhVdnEkVIOHY5RcJmOl+xh3vbzy9zvZvlNke4x5v
+ PbM7h8W5ocw4XA6JumRYnjbcU3iiGf4UVkjK5RT70fWHCUL5PwmErsF0DpbTFueJ7ctt
+ xI6vXDuXJ9Tuk4gifIR4WfsOGSB8akJLKBcOAE+ADyS8kL/MWuUiGKJmPkIhuouP1Nu4
+ qXN9qWtirjEBVgSCsxnilNFwkEbASN/tRMdZ4V70X4LlsYjjcVHoJ4kkuagdMAkps1Y/
+ xnwKThAEnTEtwvrzluk7sfBVXUByOShT/j0Cv/U4QC/v+buTVmL+Kqjgeca17lJRXqRC
+ R8FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=Y4C6QenWMAWP++iB8teCgnQMivMzp1pi6lQpN4ZnzU0=;
- b=b8OfYWahmd/te+1BtKYFLghR0obHVjifzpcKCC0rnltcUzWtv+rHzW4ZpYWBPKerr6
- fV4nbJQFaQgnERl5uhlTLds2ekiUXcKhRiBcE0aOF1CwjEk5GOu8l3wQrXxARbT4P8jb
- lfqSwWr+2SawGW/7m3Gs/CskcCwmhMYcmfH4leRe9AjWrXQBhRWgD6Z6DSrAr9hoKemc
- x+qk3Wc4MLGHAdQ6g6qePbJtC9T0/WI1pxrk7ej8seKIsnwS0CjTK/4DNguLNCvFiVhl
- LFy37+bdAjh/egdLuTPi9rBRINVNC7XLbNIDXdp86Aa4ip+m4nwZkmSXurJz4djRGORV
- NUBQ==
-X-Gm-Message-State: ACgBeo3gTc9omgqiFfVPKpnc038yI+5wkUZPj+6Uqg8HzYs8SyCyGteH
- 5xwb2pFBA7rCHAHNZ7GkYfnhoBpOG2mqFWJq3BA=
-X-Google-Smtp-Source: AA6agR6mCe/8wyJSD/nslkV3pI306PwZ6P05ny3fX8mei/iJUQPtDn2LGpcAR18DEwrZIXG1We4x6zffYYdDqLXmRoc=
-X-Received: by 2002:a17:902:e5c8:b0:16f:1511:7575 with SMTP id
- u8-20020a170902e5c800b0016f15117575mr16392754plf.83.1659913405246; Sun, 07
- Aug 2022 16:03:25 -0700 (PDT)
+ bh=sTgzu4S6WcR+ztUnVFSPM9dg3q1Db/83pKYS27163VU=;
+ b=3YLX0LE5ZNl2mUtQ2lg0aG2IJlIYycAt8+oObp4YrWtmnDLuMGFBqbbfI21G1olf+V
+ mte2DKaXJMQxO96hCuAqN9cN881nDzxM0TrXNBvYkR36CettJ9jKS9q+NmxaphJTjZvX
+ 2ffg0oMcUbGzgXfgTReHtL17uoZEZ018P7+D4ZLwMSl+H6oYPS8u3/71j/2jVtFTBROc
+ CIx/dnZpS5U4ywCc9awfTej8E4F7bYYl12Lt0vRlYXuPX6+x6qEcwhG8ljADihD7sHei
+ mcylSRzLCbYpxRjs+jOYO9rDTF9PVW0QLezyljpSzjqqCH19W9aIkkqYUyb/wQZGvmrJ
+ ISNg==
+X-Gm-Message-State: ACgBeo1l+eBsL78Bw9i/MXqiokqv5+D3fzqNd7p1ttcxu/FiI1cKqlTb
+ e44OMX4K7WRp7fiVEQaeTfT3peFkZ01oj5VJ4S4=
+X-Google-Smtp-Source: AA6agR4ODvJDn363VC1UlfDUC2AnUKNen+nEK/6P7aslro9U0s97RY5hHS2RBx6JnCdRc/PAkDBVgzW4QTC86hkJYBU=
+X-Received: by 2002:a17:90b:100e:b0:1f3:a4a:2620 with SMTP id
+ gm14-20020a17090b100e00b001f30a4a2620mr17865820pjb.120.1659915891027; Sun, 07
+ Aug 2022 16:44:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-15-danielhb413@gmail.com>
-In-Reply-To: <20220805093948.82561-15-danielhb413@gmail.com>
+References: <20220804014240.2514957-1-atishp@rivosinc.com>
+ <20220804014240.2514957-3-atishp@rivosinc.com>
+In-Reply-To: <20220804014240.2514957-3-atishp@rivosinc.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 8 Aug 2022 09:02:59 +1000
-Message-ID: <CAKmqyKNpObyJ-GDh2nGxNkXe3kSOqMi8kpi-+UNw5WnbZqfjgQ@mail.gmail.com>
-Subject: Re: [PATCH for-7.2 v2 14/20] qmp/hmp, device_tree.c: introduce dumpdtb
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Date: Mon, 8 Aug 2022 09:44:24 +1000
+Message-ID: <CAKmqyKO+AJif8vVFK2S0D=kNBYzvADJpWvz0HLxnvRFLyXcv2Q@mail.gmail.com>
+Subject: Re: [PATCH v8 2/3] target/riscv: Add stimecmp support
+To: Atish Patra <atishp@rivosinc.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- David Gibson <david@gibson.dropbear.id.au>, 
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,189 +85,394 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 5, 2022 at 7:59 PM Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
+On Thu, Aug 4, 2022 at 11:47 AM Atish Patra <atishp@rivosinc.com> wrote:
 >
-> To save the FDT blob we have the '-machine dumpdtb=<file>' property.
-> With this property set, the machine saves the FDT in <file> and exit.
-> The created file can then be converted to plain text dts format using
-> 'dtc'.
+> stimecmp allows the supervisor mode to update stimecmp CSR directly
+> to program the next timer interrupt. This CSR is part of the Sstc
+> extension which was ratified recently.
 >
-> There's nothing particularly sophisticated into saving the FDT that
-> can't be done with the machine at any state, as long as the machine has
-> a valid FDT to be saved.
->
-> The 'dumpdtb' command receives a 'filename' paramenter and, if a valid
-> FDT is available, it'll save it in a file 'filename'. In short, this is
-> a '-machine dumpdtb' that can be fired on demand via QMP/HMP.
->
-> A valid FDT consists of a FDT that was created using libfdt being
-> retrieved via 'current_machine->fdt' in device_tree.c. This condition is
-> met by most FDT users in QEMU.
->
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hmp-commands.hx              | 13 +++++++++++++
->  include/monitor/hmp.h        |  1 +
->  include/sysemu/device_tree.h |  1 +
->  monitor/hmp-cmds.c           | 12 ++++++++++++
->  monitor/qmp-cmds.c           | 13 +++++++++++++
->  qapi/machine.json            | 17 +++++++++++++++++
->  softmmu/device_tree.c        | 18 ++++++++++++++++++
->  7 files changed, 75 insertions(+)
+>  target/riscv/cpu.c         |  9 ++++
+>  target/riscv/cpu.h         |  5 ++
+>  target/riscv/cpu_bits.h    |  4 ++
+>  target/riscv/csr.c         | 77 ++++++++++++++++++++++++++++++
+>  target/riscv/machine.c     |  1 +
+>  target/riscv/meson.build   |  3 +-
+>  target/riscv/time_helper.c | 98 ++++++++++++++++++++++++++++++++++++++
+>  target/riscv/time_helper.h | 30 ++++++++++++
+>  8 files changed, 226 insertions(+), 1 deletion(-)
+>  create mode 100644 target/riscv/time_helper.c
+>  create mode 100644 target/riscv/time_helper.h
 >
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 182e639d14..d2554e9701 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1800,3 +1800,16 @@ ERST
->                        "\n\t\t\t\t\t limit on a specified virtual cpu",
->          .cmd        = hmp_cancel_vcpu_dirty_limit,
->      },
-> +
-> +SRST
-> +``dumpdtb`` *filename*
-> +  Save the FDT in the 'filename' file to be decoded using dtc.
-> +  Requires 'libfdt' support.
-> +ERST
-> +    {
-> +        .name       = "dumpdtb",
-> +        .args_type  = "filename:s",
-> +        .params     = "[filename] file to save the FDT",
-> +        .help       = "save the FDT in the 'filename' file to be decoded using dtc",
-> +        .cmd        = hmp_dumpdtb,
-> +    },
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index a618eb1e4e..d7f324da59 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -134,6 +134,7 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
->  void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->  void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->  void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-> +void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
->  void hmp_human_readable_text_helper(Monitor *mon,
->                                      HumanReadableText *(*qmp_handler)(Error **));
->  void hmp_info_stats(Monitor *mon, const QDict *qdict);
-> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-> index ef060a9759..bf7684e4ed 100644
-> --- a/include/sysemu/device_tree.h
-> +++ b/include/sysemu/device_tree.h
-> @@ -136,6 +136,7 @@ int qemu_fdt_add_path(void *fdt, const char *path);
->      } while (0)
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index d4635c7df46b..2498b93105fd 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -23,6 +23,7 @@
+>  #include "qemu/log.h"
+>  #include "cpu.h"
+>  #include "internals.h"
+> +#include "time_helper.h"
+>  #include "exec/exec-all.h"
+>  #include "qapi/error.h"
+>  #include "qemu/error-report.h"
+> @@ -99,6 +100,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+>      ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
+>      ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+>      ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+> +    ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
+>      ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
+>      ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
+>      ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
+> @@ -675,6 +677,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
 >
->  void qemu_fdt_dumpdtb(void *fdt, int size);
-> +void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
+>      set_resetvec(env, cpu->cfg.resetvec);
 >
->  /**
->   * qemu_fdt_setprop_sized_cells_from_array:
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index c6cd6f91dd..d23ec85f9d 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -2472,3 +2472,15 @@ exit:
->  exit_no_print:
->      error_free(err);
->  }
-> +
-> +void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
-> +{
-> +    const char *filename = qdict_get_str(qdict, "filename");
-> +    Error *local_err = NULL;
-> +
-> +    qmp_dumpdtb(filename, &local_err);
-> +
-> +    if (local_err) {
-> +        error_report_err(local_err);
+> +#ifndef CONFIG_USER_ONLY
+> +    if (cpu->cfg.ext_sstc) {
+> +        riscv_timer_init(cpu);
 > +    }
-> +}
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 7314cd813d..8415aca08c 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -45,6 +45,7 @@
->  #include "hw/intc/intc.h"
->  #include "hw/rdma/rdma.h"
->  #include "monitor/stats.h"
-> +#include "sysemu/device_tree.h"
+> +#endif /* CONFIG_USER_ONLY */
+> +
+>      /* Validate that MISA_MXL is set properly. */
+>      switch (env->misa_mxl_max) {
+>  #ifdef TARGET_RISCV64
+> @@ -995,6 +1003,7 @@ static Property riscv_cpu_extensions[] = {
+>      DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+>      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> +    DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
 >
->  NameInfo *qmp_query_name(Error **errp)
->  {
-> @@ -596,3 +597,15 @@ bool apply_str_list_filter(const char *string, strList *list)
+>      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+>      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0fae1569945c..4cda2905661e 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -309,6 +309,9 @@ struct CPUArchState {
+>      uint64_t mfromhost;
+>      uint64_t mtohost;
+>
+> +    /* Sstc CSRs */
+> +    uint64_t stimecmp;
+> +
+>      /* physical memory protection */
+>      pmp_table_t pmp_state;
+>      target_ulong mseccfg;
+> @@ -362,6 +365,7 @@ struct CPUArchState {
+>      float_status fp_status;
+>
+>      /* Fields from here on are preserved across CPU reset. */
+> +    QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
+>
+>      hwaddr kernel_addr;
+>      hwaddr fdt_addr;
+> @@ -425,6 +429,7 @@ struct RISCVCPUConfig {
+>      bool ext_ifencei;
+>      bool ext_icsr;
+>      bool ext_zihintpause;
+> +    bool ext_sstc;
+>      bool ext_svinval;
+>      bool ext_svnapot;
+>      bool ext_svpbmt;
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 6be5a9e9f046..ac17cf1515c0 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -206,6 +206,10 @@
+>  #define CSR_STVAL           0x143
+>  #define CSR_SIP             0x144
+>
+> +/* Sstc supervisor CSRs */
+> +#define CSR_STIMECMP        0x14D
+> +#define CSR_STIMECMPH       0x15D
+> +
+>  /* Supervisor Protection and Translation */
+>  #define CSR_SPTBR           0x180
+>  #define CSR_SATP            0x180
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 0fb042b2fd0f..e18b000700e4 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -22,6 +22,7 @@
+>  #include "qemu/timer.h"
+>  #include "cpu.h"
+>  #include "pmu.h"
+> +#include "time_helper.h"
+>  #include "qemu/main-loop.h"
+>  #include "exec/exec-all.h"
+>  #include "sysemu/cpu-timers.h"
+> @@ -803,6 +804,72 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> +static RISCVException sstc(CPURISCVState *env, int csrno)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +
+> +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (env->priv == PRV_M) {
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +
+> +    /*
+> +     * No need of separate function for rv32 as menvcfg stores both menvcfg
+> +     * menvcfgh for RV32.
+> +     */
+> +    if (!(get_field(env->mcounteren, COUNTEREN_TM) &&
+> +          get_field(env->menvcfg, MENVCFG_STCE))) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    return smode(env, csrno);
+> +}
+> +
+> +static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
+> +                                    target_ulong *val)
+> +{
+> +    *val = env->stimecmp;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
+> +                                    target_ulong *val)
+> +{
+> +    *val = env->stimecmp >> 32;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+> +        env->stimecmp = deposit64(env->stimecmp, 0, 32, (uint64_t)val);
+> +    } else {
+> +        env->stimecmp = val;
+> +    }
+> +
+> +    riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    env->stimecmp = deposit64(env->stimecmp, 32, 32, (uint64_t)val);
+> +    riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  /* Machine constants */
+>
+>  #define M_MODE_INTERRUPTS  ((uint64_t)(MIP_MSIP | MIP_MTIP | MIP_MEIP))
+> @@ -1719,6 +1786,12 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+>          new_val |= env->external_seip * MIP_SEIP;
 >      }
->      return false;
->  }
+>
+> +    if (cpu->cfg.ext_sstc && (env->priv == PRV_M) &&
+> +        get_field(env->menvcfg, MENVCFG_STCE)) {
+> +        /* sstc extension forbids STIP & VSTIP to be writeable in mip */
+> +        mask = mask & ~(MIP_STIP | MIP_VSTIP);
+> +    }
 > +
-> +#ifdef CONFIG_FDT
-> +void qmp_dumpdtb(const char *filename, Error **errp)
+>      if (mask) {
+>          old_mip = riscv_cpu_update_mip(cpu, mask, (new_val & mask));
+>      } else {
+> @@ -3584,6 +3657,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_SCAUSE]   = { "scause",   smode, read_scause,   write_scause   },
+>      [CSR_STVAL]    = { "stval",    smode, read_stval,    write_stval    },
+>      [CSR_SIP]      = { "sip",      smode, NULL,    NULL, rmw_sip        },
+> +    [CSR_STIMECMP] = { "stimecmp", sstc, read_stimecmp, write_stimecmp,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_STIMECMPH] = { "stimecmph", sstc, read_stimecmph, write_stimecmph,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+>
+>      /* Supervisor Protection and Translation */
+>      [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index b508b042cb73..622fface484e 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -359,6 +359,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+>          VMSTATE_UINTTL(env.mscratch, RISCVCPU),
+>          VMSTATE_UINT64(env.mfromhost, RISCVCPU),
+>          VMSTATE_UINT64(env.mtohost, RISCVCPU),
+> +        VMSTATE_UINT64(env.stimecmp, RISCVCPU),
+>
+>          VMSTATE_END_OF_LIST()
+>      },
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index 2c1975e72c4e..24893c614ee4 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -31,7 +31,8 @@ riscv_softmmu_ss.add(files(
+>    'debug.c',
+>    'monitor.c',
+>    'machine.c',
+> -  'pmu.c'
+> +  'pmu.c',
+> +  'time_helper.c'
+>  ))
+>
+>  target_arch += {'riscv': riscv_ss}
+> diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
+> new file mode 100644
+> index 000000000000..f3fb5eac7b7b
+> --- /dev/null
+> +++ b/target/riscv/time_helper.c
+> @@ -0,0 +1,98 @@
+> +/*
+> + * RISC-V timer helper implementation.
+> + *
+> + * Copyright (c) 2022 Rivos Inc.
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "cpu_bits.h"
+> +#include "time_helper.h"
+> +#include "hw/intc/riscv_aclint.h"
+> +
+> +static void riscv_stimer_cb(void *opaque)
 > +{
-> +    return qemu_fdt_qmp_dumpdtb(filename, errp);
+> +    RISCVCPU *cpu = opaque;
+> +    riscv_cpu_update_mip(cpu, MIP_STIP, BOOL_TO_MASK(1));
 > +}
-> +#else
-> +void qmp_dumpdtb(const char *filename, Error **errp)
+> +
+> +/*
+> + * Called when timecmp is written to update the QEMU timer or immediately
+> + * trigger timer interrupt if mtimecmp <= current timer value.
+> + */
+> +void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
+> +                               uint64_t timecmp, uint64_t delta,
+> +                               uint32_t timer_irq)
 > +{
-> +    error_setg(errp, "dumpdtb requires libfdt");
+> +    uint64_t diff, ns_diff, next;
+> +    CPURISCVState *env = &cpu->env;
+> +    RISCVAclintMTimerState *mtimer = env->rdtime_fn_arg;
+> +    uint32_t timebase_freq = mtimer->timebase_freq;
+> +    uint64_t rtc_r = env->rdtime_fn(env->rdtime_fn_arg) + delta;
+> +
+> +    if (timecmp <= rtc_r) {
+> +        /*
+> +         * If we're setting an stimecmp value in the "past",
+> +         * immediately raise the timer interrupt
+> +         */
+> +        riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
+> +        return;
+> +    }
+> +
+> +    /* Clear the [V]STIP bit in mip */
+> +    riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
+> +
+> +    /* otherwise, set up the future timer interrupt */
+> +    diff = timecmp - rtc_r;
+> +    /* back to ns (note args switched in muldiv64) */
+> +    ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
+> +
+> +    /*
+> +     * check if ns_diff overflowed and check if the addition would potentially
+> +     * overflow
+> +     */
+> +    if ((NANOSECONDS_PER_SECOND > timebase_freq && ns_diff < diff) ||
+> +        ns_diff > INT64_MAX) {
+> +        next = INT64_MAX;
+> +    } else {
+> +        /*
+> +         * as it is very unlikely qemu_clock_get_ns will return a value
+> +         * greater than INT64_MAX, no additional check is needed for an
+> +         * unsigned integer overflow.
+> +         */
+> +        next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ns_diff;
+> +        /*
+> +         * if ns_diff is INT64_MAX next may still be outside the range
+> +         * of a signed integer.
+> +         */
+> +        next = MIN(next, INT64_MAX);
+> +    }
+> +
+> +    timer_mod(timer, next);
 > +}
+> +
+> +void riscv_timer_init(RISCVCPU *cpu)
+> +{
+> +    CPURISCVState *env;
+> +
+> +    if (!cpu) {
+> +        return;
+> +    }
+> +
+> +    env = &cpu->env;
+> +    env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
+> +    env->stimecmp = 0;
+> +
+> +}
+> diff --git a/target/riscv/time_helper.h b/target/riscv/time_helper.h
+> new file mode 100644
+> index 000000000000..7b3cdcc35020
+> --- /dev/null
+> +++ b/target/riscv/time_helper.h
+> @@ -0,0 +1,30 @@
+> +/*
+> + * RISC-V timer header file.
+> + *
+> + * Copyright (c) 2022 Rivos Inc.
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef RISCV_TIME_HELPER_H
+> +#define RISCV_TIME_HELPER_H
+> +
+> +#include "cpu.h"
+> +#include "qemu/timer.h"
+> +
+> +void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
+> +                               uint64_t timecmp, uint64_t delta,
+> +                               uint32_t timer_irq);
+> +void riscv_timer_init(RISCVCPU *cpu);
+> +
 > +#endif
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 6afd1936b0..aeb013f3dd 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1664,3 +1664,20 @@
->       '*size': 'size',
->       '*max-size': 'size',
->       '*slots': 'uint64' } }
-> +
-> +##
-> +# @dumpdtb:
-> +#
-> +# Save the FDT in dtb format. Requires 'libfdt' support.
-> +#
-> +# @filename: name of the FDT file to be created
-> +#
-> +# Since: 7.2
-> +#
-> +# Example:
-> +#   {"execute": "dumpdtb"}
-> +#    "arguments": { "filename": "/tmp/fdt.dtb" } }
-> +#
-> +##
-> +{ 'command': 'dumpdtb',
-> +  'data': { 'filename': 'str' } }
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 6ca3fad285..cd487ddd4d 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -643,3 +643,21 @@ out:
->      g_free(propcells);
->      return ret;
->  }
-> +
-> +void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp)
-> +{
-> +    int size;
-> +
-> +    if (!current_machine->fdt) {
-> +        error_setg(errp, "Unable to find the machine FDT");
-> +        return;
-> +    }
-> +
-> +    size = fdt_totalsize(current_machine->fdt);
-> +
-> +    if (g_file_set_contents(filename, current_machine->fdt, size, NULL)) {
-> +        return;
-> +    }
-> +
-> +    error_setg(errp, "Error when saving machine FDT to file %s", filename);
-> +}
 > --
-> 2.36.1
+> 2.25.1
 >
 >
 
