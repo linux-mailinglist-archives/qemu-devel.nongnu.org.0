@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7658058C986
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 15:33:02 +0200 (CEST)
-Received: from localhost ([::1]:42264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B34B58C99D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 15:40:28 +0200 (CEST)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL2sP-00059j-9F
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 09:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59100)
+	id 1oL2zb-0001p9-5z
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 09:40:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL2p0-0002tL-6h; Mon, 08 Aug 2022 09:29:30 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32257)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oL2xz-0000DL-Hf
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 09:38:47 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:46849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL2ot-0007Ki-2l; Mon, 08 Aug 2022 09:29:29 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 944E2747F18;
- Mon,  8 Aug 2022 15:29:18 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 53A9C747E0F; Mon,  8 Aug 2022 15:29:18 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 51CE2747DFD;
- Mon,  8 Aug 2022 15:29:18 +0200 (CEST)
-Date: Mon, 8 Aug 2022 15:29:18 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 08/22] ppc/ppc4xx: Introduce a DCR device model
-In-Reply-To: <20220808102734.133084-9-clg@kaod.org>
-Message-ID: <2220bf2e-71a9-52a-b3b-4e9cae8da1a3@eik.bme.hu>
-References: <20220808102734.133084-1-clg@kaod.org>
- <20220808102734.133084-9-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oL2xu-0000Lw-U7
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 09:38:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 2709B213F5;
+ Mon,  8 Aug 2022 13:38:37 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 8 Aug 2022
+ 15:38:37 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006a06b2d43-106c-4036-9d3b-db11af31198c,
+ 014009DFAA8B86078D729D00C01D9476BEEC0396) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c9582419-1aeb-dd2a-63d8-f6705e263b46@kaod.org>
+Date: Mon, 8 Aug 2022 15:38:36 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-641934783-1659965112=:47322"
-Content-ID: <26e4fd46-a32b-b74d-7ec1-089f9c389c@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 04/22] ppc/ppc405: Move SRAM under the ref405ep machine
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220808102734.133084-1-clg@kaod.org>
+ <20220808102734.133084-5-clg@kaod.org>
+ <8110c8fc-6638-6b51-a3c4-508870dea3d4@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <8110c8fc-6638-6b51-a3c4-508870dea3d4@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: a70fa7b2-7cb3-4bfc-93cc-b62c36936537
+X-Ovh-Tracer-Id: 1287185072661171107
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefkedgieelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,144 +76,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 8/8/22 14:25, BALATON Zoltan wrote:
+> On Mon, 8 Aug 2022, Cédric Le Goater wrote:
+>> It doesn't belong to the generic machine nor the SoC.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> hw/ppc/ppc405_boards.c | 13 +++++++------
+>> 1 file changed, 7 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>> index f4794ba40ce6..c6fa559b03d9 100644
+>> --- a/hw/ppc/ppc405_boards.c
+>> +++ b/hw/ppc/ppc405_boards.c
+>> @@ -235,7 +235,6 @@ static void ppc405_init(MachineState *machine)
+>>     MachineClass *mc = MACHINE_GET_CLASS(machine);
+>>     const char *kernel_filename = machine->kernel_filename;
+>>     PowerPCCPU *cpu;
+>> -    MemoryRegion *sram = g_new(MemoryRegion, 1);
+>>     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+>>     hwaddr ram_bases[2], ram_sizes[2];
+>>     MemoryRegion *sysmem = get_system_memory();
+>> @@ -260,11 +259,6 @@ static void ppc405_init(MachineState *machine)
+>>     cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+>>                         33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+>>
+>> -    /* allocate SRAM */
+>> -    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
+>> -                           &error_fatal);
+>> -    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
+>> -
+>>     /* allocate and load BIOS */
+>>     if (machine->firmware) {
+>>         MemoryRegion *bios = g_new(MemoryRegion, 1);
+>> @@ -328,9 +322,16 @@ static void ref405ep_init(MachineState *machine)
+>> {
+>>     DeviceState *dev;
+>>     SysBusDevice *s;
+>> +    MemoryRegion *sram = g_new(MemoryRegion, 1);
+>> +    MemoryRegion *sysmem = get_system_memory();
+> 
+> You could drop thi "system" local and just use get_system_memory() in add_subregion
 
---3866299591-641934783-1659965112=:47322
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <3edb302a-9b3e-e943-53d3-a9ba0e376c6@eik.bme.hu>
+Yes. Let's drop it.
 
-On Mon, 8 Aug 2022, C�dric Le Goater wrote:
-> The Device Control Registers (DCR) of on-SoC devices are accessed by
-> software through the use of the mtdcr and mfdcr instructions. These
-> are converted in transactions on a side band bus, the DCR bus, which
-> connects the on-SoC devices to the CPU.
->
-> Ideally, we should model these accesses with a DCR namespace and DCR
-> memory regions but today the DCR handlers are installed in a DCR table
-> under the CPU. Instead introduce a little device model wrapper to hold
-> a CPU link and handle registration of DCR handlers.
->
-> The DCR device inherits from SysBus because most of these devices also
-> have a MMIO regions and/or IRQs. Being a SysBusDevice makes things
+Thanks,
 
-Drop "a", just "MMIO regions" due to plural. Also "makes it easier to 
-install" or "makes things easier".
+C.
 
-> easier to install the device model in the overall SoC.
->
-> The "cpu" link should be considered as modeling the piece of HW logic
-> connecting the device to the DCR bus.
->
-> Signed-off-by: C�dric Le Goater <clg@kaod.org>
-> ---
-> include/hw/ppc/ppc4xx.h | 17 +++++++++++++++
-> hw/ppc/ppc4xx_devs.c    | 46 +++++++++++++++++++++++++++++++++++++++++
-> 2 files changed, 63 insertions(+)
->
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index 021376c2d260..bb373db0ba10 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -27,6 +27,7 @@
->
-> #include "hw/ppc/ppc.h"
-> #include "exec/memory.h"
-> +#include "hw/sysbus.h"
->
-> /* PowerPC 4xx core initialization */
-> void ppc4xx_reset(void *opaque);
-> @@ -50,4 +51,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->
-> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->
-> +/*
-> + * Generic DCR device
-> + */
-> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr"
+> 
+>>     ppc405_init(machine);
+>>
+>> +    /* allocate SRAM */
+>> +    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
+>> +                           &error_fatal);
+>> +    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
+>> +
+>>     /* Register FPGA */
+>>     ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
+> 
+> or use it everywhere consistently.
+> 
+> Regards,
+> BALATON Zoltan
+> 
+>>     /* Register NVRAM */
+>>
 
-Should it be named ppc4xx-dcr-device for clarity? This probably won't 
-appear anywhere where users have to type it.
-
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
-> +struct Ppc4xxDcrDeviceState {
-> +    SysBusDevice parent_obj;
-> +
-> +    PowerPCCPU *cpu;
-> +};
-> +
-> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
-> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
-> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
-> +                        Error **errp);
-> +
-> #endif /* PPC4XX_H */
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index f20098cf417c..e07bdba0f912 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -696,3 +696,49 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->                          mal, &dcr_read_mal, &dcr_write_mal);
->     }
-> }
-> +
-> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
-> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
-> +{
-> +    CPUPPCState *env;
-> +
-> +    assert(dev->cpu);
-> +
-> +    env = &dev->cpu->env;
-> +
-> +    ppc_dcr_register(env, dcrn, dev, dcr_read, dcr_write);
-> +}
-> +
-> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
-> +                        Error **errp)
-> +{
-> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
-> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
-> +}
-> +
-> +
-> +static Property ppc4xx_dcr_properties[] = {
-> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
-> +                     PowerPCCPU *),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->user_creatable = false;
-
-Should this be .abstract instead? We expect this to not be used directly 
-but only via SoC devices which is what abstract is for AFAIK.
-
-> +    device_class_set_props(dc, ppc4xx_dcr_properties);
-> +}
-> +
-> +static const TypeInfo ppc4xx_types[] = {
-> +    {
-> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
-> +        .parent         = TYPE_SYS_BUS_DEVICE,
-> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
-> +        .class_init     = ppc4xx_dcr_class_init,
-> +        .abstract       = true,
-
-Oh, it's abstract already. So does it also need user_creatable for an 
-abstract class then? Maybe you can drop the user_creatable.
-
-Regards,
-BALATON Zoltan
-
-> +    }
-> +};
-> +
-> +DEFINE_TYPES(ppc4xx_types)
->
---3866299591-641934783-1659965112=:47322--
 
