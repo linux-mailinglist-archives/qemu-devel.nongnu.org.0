@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DB958C681
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 12:34:45 +0200 (CEST)
-Received: from localhost ([::1]:41178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B7258C697
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 12:39:18 +0200 (CEST)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL05s-0002pJ-6T
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 06:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53272)
+	id 1oL0AG-0000BZ-Nf
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 06:39:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=c6th=YM=kaod.org=clg@ozlabs.org>)
- id 1oKzzJ-0004tr-6f; Mon, 08 Aug 2022 06:27:57 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:44619
+ id 1oKzzK-0004wL-OQ; Mon, 08 Aug 2022 06:27:58 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:35129
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=c6th=YM=kaod.org=clg@ozlabs.org>)
- id 1oKzzF-0001Q7-Fh; Mon, 08 Aug 2022 06:27:56 -0400
+ id 1oKzzJ-0001QK-2p; Mon, 08 Aug 2022 06:27:58 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4M1XTL6Wk4z4xTv;
- Mon,  8 Aug 2022 20:27:50 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4M1XTP3Ny5z4xTx;
+ Mon,  8 Aug 2022 20:27:53 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4M1XTJ6DZsz4x1K;
- Mon,  8 Aug 2022 20:27:48 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4M1XTM31Smz4xTw;
+ Mon,  8 Aug 2022 20:27:51 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
  BALATON Zoltan <balaton@eik.bme.hu>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v3 03/22] ppc/ppc405: Move devices under the ref405ep machine
-Date: Mon,  8 Aug 2022 12:27:15 +0200
-Message-Id: <20220808102734.133084-4-clg@kaod.org>
+Subject: [PATCH v3 04/22] ppc/ppc405: Move SRAM under the ref405ep machine
+Date: Mon,  8 Aug 2022 12:27:16 +0200
+Message-Id: <20220808102734.133084-5-clg@kaod.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220808102734.133084-1-clg@kaod.org>
 References: <20220808102734.133084-1-clg@kaod.org>
@@ -67,79 +67,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+It doesn't belong to the generic machine nor the SoC.
+
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405_boards.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+ hw/ppc/ppc405_boards.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 96700be74d08..f4794ba40ce6 100644
+index f4794ba40ce6..c6fa559b03d9 100644
 --- a/hw/ppc/ppc405_boards.c
 +++ b/hw/ppc/ppc405_boards.c
-@@ -230,13 +230,11 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
-     env->load_info = &boot_info;
- }
- 
--static void ref405ep_init(MachineState *machine)
-+static void ppc405_init(MachineState *machine)
- {
+@@ -235,7 +235,6 @@ static void ppc405_init(MachineState *machine)
      MachineClass *mc = MACHINE_GET_CLASS(machine);
      const char *kernel_filename = machine->kernel_filename;
      PowerPCCPU *cpu;
--    DeviceState *dev;
--    SysBusDevice *s;
-     MemoryRegion *sram = g_new(MemoryRegion, 1);
+-    MemoryRegion *sram = g_new(MemoryRegion, 1);
      MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
      hwaddr ram_bases[2], ram_sizes[2];
-@@ -294,15 +292,6 @@ static void ref405ep_init(MachineState *machine)
-         memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios);
-     }
+     MemoryRegion *sysmem = get_system_memory();
+@@ -260,11 +259,6 @@ static void ppc405_init(MachineState *machine)
+     cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+                         33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
  
--    /* Register FPGA */
--    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
--    /* Register NVRAM */
--    dev = qdev_new("sysbus-m48t08");
--    qdev_prop_set_int32(dev, "base-year", 1968);
--    s = SYS_BUS_DEVICE(dev);
--    sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
+-    /* allocate SRAM */
+-    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
+-                           &error_fatal);
+-    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
 -
-     /* Load kernel and initrd using U-Boot images */
-     if (kernel_filename && machine->firmware) {
-         target_ulong kernel_base, initrd_base;
-@@ -335,6 +324,23 @@ static void ref405ep_init(MachineState *machine)
-     }
- }
- 
-+static void ref405ep_init(MachineState *machine)
-+{
-+    DeviceState *dev;
-+    SysBusDevice *s;
-+
-+    ppc405_init(machine);
-+
-+    /* Register FPGA */
-+    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
-+    /* Register NVRAM */
-+    dev = qdev_new("sysbus-m48t08");
-+    qdev_prop_set_int32(dev, "base-year", 1968);
-+    s = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(s, &error_fatal);
-+    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
-+}
-+
- static void ref405ep_class_init(ObjectClass *oc, void *data)
+     /* allocate and load BIOS */
+     if (machine->firmware) {
+         MemoryRegion *bios = g_new(MemoryRegion, 1);
+@@ -328,9 +322,16 @@ static void ref405ep_init(MachineState *machine)
  {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -354,6 +360,7 @@ static void ppc405_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
+     DeviceState *dev;
+     SysBusDevice *s;
++    MemoryRegion *sram = g_new(MemoryRegion, 1);
++    MemoryRegion *sysmem = get_system_memory();
  
-     mc->desc = "PPC405 generic machine";
-+    mc->init = ppc405_init;
-     mc->default_ram_size = 128 * MiB;
-     mc->default_ram_id = "ppc405.ram";
- }
+     ppc405_init(machine);
+ 
++    /* allocate SRAM */
++    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
++                           &error_fatal);
++    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
++
+     /* Register FPGA */
+     ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
+     /* Register NVRAM */
 -- 
 2.37.1
 
