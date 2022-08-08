@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDAD58CB59
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 17:37:38 +0200 (CEST)
-Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7DF58CB7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 17:45:37 +0200 (CEST)
+Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL4oy-0002Rw-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 11:37:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
+	id 1oL4wi-0006Vk-0E
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 11:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oL4n1-0000Lr-PF
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 11:35:40 -0400
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:60203)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oL4uc-0003pv-IJ
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 11:43:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oL4mq-0003yA-Su
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 11:35:28 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.111])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5F1B62341C;
- Mon,  8 Aug 2022 15:35:19 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 8 Aug 2022
- 17:35:18 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0058146cdb5-e4d3-4ed5-9c45-e484fe9bf1eb,
- 014009DFAA8B86078D729D00C01D9476BEEC0396) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5036f1e1-2da9-faac-264c-4c05a8e56de8@kaod.org>
-Date: Mon, 8 Aug 2022 17:35:18 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oL4uY-0005f9-Mt
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 11:43:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659973401;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rgAXWkABgHpbkMpXBwUm4txpPv8+oh9HiE7cqn7oa/E=;
+ b=FL9W0GVTqb8M/XxgOcqELLManw54yAvJtkfEG9148bDQ6mWC1cOPBVjfAd9ZrThUlWcQHP
+ CAaoE97rjyPZd6NFX/cLBccqGoFRFOTsIFBofGN1j+QWFzHnceNhhhwpuSMGhG79rleKHY
+ fGhckcHLGBzQu4WkFEqhAkNrNyHES54=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-563-Te17-4s_O7KfI8Hiy7Y-JA-1; Mon, 08 Aug 2022 11:43:14 -0400
+X-MC-Unique: Te17-4s_O7KfI8Hiy7Y-JA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9894885A587;
+ Mon,  8 Aug 2022 15:43:13 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A4232026D4C;
+ Mon,  8 Aug 2022 15:43:12 +0000 (UTC)
+Date: Mon, 8 Aug 2022 11:43:11 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] virtio-scsi: replace VirtIOBlock
+ dataplane_{start/starting/stopped} with enum
+Message-ID: <YvEvD1X9/QSvyMGP@fedora>
+References: <20220808094147.612472-1-eesposit@redhat.com>
+ <20220808094147.612472-2-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 08/22] ppc/ppc4xx: Introduce a DCR device model
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220808102734.133084-1-clg@kaod.org>
- <20220808102734.133084-9-clg@kaod.org>
- <2220bf2e-71a9-52a-b3b-4e9cae8da1a3@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <2220bf2e-71a9-52a-b3b-4e9cae8da1a3@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 5a5c67e4-4019-4680-898c-0b26e94bf8f3
-X-Ovh-Tracer-Id: 3258072857478269859
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefkedgledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SOVyBfCcl8XDzMt3"
+Content-Disposition: inline
+In-Reply-To: <20220808094147.612472-2-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,143 +84,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/22 15:29, BALATON Zoltan wrote:
-> On Mon, 8 Aug 2022, Cédric Le Goater wrote:
->> The Device Control Registers (DCR) of on-SoC devices are accessed by
->> software through the use of the mtdcr and mfdcr instructions. These
->> are converted in transactions on a side band bus, the DCR bus, which
->> connects the on-SoC devices to the CPU.
->>
->> Ideally, we should model these accesses with a DCR namespace and DCR
->> memory regions but today the DCR handlers are installed in a DCR table
->> under the CPU. Instead introduce a little device model wrapper to hold
->> a CPU link and handle registration of DCR handlers.
->>
->> The DCR device inherits from SysBus because most of these devices also
->> have a MMIO regions and/or IRQs. Being a SysBusDevice makes things
-> 
-> Drop "a", just "MMIO regions" due to plural. Also "makes it easier to install" or "makes things easier".
-> 
->> easier to install the device model in the overall SoC.
->>
->> The "cpu" link should be considered as modeling the piece of HW logic
->> connecting the device to the DCR bus.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->> include/hw/ppc/ppc4xx.h | 17 +++++++++++++++
->> hw/ppc/ppc4xx_devs.c    | 46 +++++++++++++++++++++++++++++++++++++++++
->> 2 files changed, 63 insertions(+)
->>
->> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->> index 021376c2d260..bb373db0ba10 100644
->> --- a/include/hw/ppc/ppc4xx.h
->> +++ b/include/hw/ppc/ppc4xx.h
->> @@ -27,6 +27,7 @@
->>
->> #include "hw/ppc/ppc.h"
->> #include "exec/memory.h"
->> +#include "hw/sysbus.h"
->>
->> /* PowerPC 4xx core initialization */
->> void ppc4xx_reset(void *opaque);
->> @@ -50,4 +51,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->>
->> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->>
->> +/*
->> + * Generic DCR device
->> + */
->> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr"
-> 
-> Should it be named ppc4xx-dcr-device for clarity? This probably won't appear anywhere where users have to type it.
 
-ok.
+--SOVyBfCcl8XDzMt3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
->> +struct Ppc4xxDcrDeviceState {
->> +    SysBusDevice parent_obj;
->> +
->> +    PowerPCCPU *cpu;
->> +};
->> +
->> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
->> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->> +                        Error **errp);
->> +
->> #endif /* PPC4XX_H */
->> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->> index f20098cf417c..e07bdba0f912 100644
->> --- a/hw/ppc/ppc4xx_devs.c
->> +++ b/hw/ppc/ppc4xx_devs.c
->> @@ -696,3 +696,49 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->>                          mal, &dcr_read_mal, &dcr_write_mal);
->>     }
->> }
->> +
->> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
->> +{
->> +    CPUPPCState *env;
->> +
->> +    assert(dev->cpu);
->> +
->> +    env = &dev->cpu->env;
->> +
->> +    ppc_dcr_register(env, dcrn, dev, dcr_read, dcr_write);
->> +}
->> +
->> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->> +                        Error **errp)
->> +{
->> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
->> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
->> +}
->> +
->> +
->> +static Property ppc4xx_dcr_properties[] = {
->> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
->> +                     PowerPCCPU *),
->> +    DEFINE_PROP_END_OF_LIST(),
->> +};
->> +
->> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
->> +{
->> +    DeviceClass *dc = DEVICE_CLASS(oc);
->> +
->> +    dc->user_creatable = false;
-> 
-> Should this be .abstract instead? We expect this to not be used directly but only via SoC devices which is what abstract is for AFAIK.
->
-> 
->> +    device_class_set_props(dc, ppc4xx_dcr_properties);
->> +}
->> +
->> +static const TypeInfo ppc4xx_types[] = {
->> +    {
->> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
->> +        .parent         = TYPE_SYS_BUS_DEVICE,
->> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
->> +        .class_init     = ppc4xx_dcr_class_init,
->> +        .abstract       = true,
-> 
-> Oh, it's abstract already. So does it also need user_creatable for an abstract class then? Maybe you can drop the user_creatable.
+On Mon, Aug 08, 2022 at 05:41:46AM -0400, Emanuele Giuseppe Esposito wrote:
+> Simplify the various dataplane stages in dataplane_start/stop by using
+> a single enum instead of having multiple flags.
+>=20
+> Read/write the enum atomically, as it can be read also by iothread
+> callbacks.
 
-Indeed.
+What guarantees that these relaxed loads/stores always produce
+DATAPLANE_STARTING/STARTED in virtio_scsi_defer_to_dataplane() and not
+an older value? Are there implicit memory barriers?
 
-Thanks,
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  hw/scsi/virtio-scsi-dataplane.c | 21 +++++++++------------
+>  hw/scsi/virtio-scsi.c           | 10 ++++++----
+>  include/hw/virtio/virtio-scsi.h |  5 ++---
+>  include/hw/virtio/virtio.h      |  7 +++++++
+>  4 files changed, 24 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-datapl=
+ane.c
+> index a575c3f0cd..9ad73e3e19 100644
+> --- a/hw/scsi/virtio-scsi-dataplane.c
+> +++ b/hw/scsi/virtio-scsi-dataplane.c
+> @@ -106,13 +106,12 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+>      VirtIOSCSICommon *vs =3D VIRTIO_SCSI_COMMON(vdev);
+>      VirtIOSCSI *s =3D VIRTIO_SCSI(vdev);
+> =20
+> -    if (s->dataplane_started ||
+> -        s->dataplane_starting ||
+> +    if (qatomic_read(&s->dataplane_state) <=3D DATAPLANE_STARTED ||
 
-C.
-  
-> Regards,
-> BALATON Zoltan
-> 
->> +    }
->> +};
->> +
->> +DEFINE_TYPES(ppc4xx_types)
->>
+It's not obvious that the STOPPING and STOPPED constants have a value
+greater than STARTING and STARTED. It could be other way around too. It
+would be safer to write the code so there are no assumptions about the
+constants:
+
+  VirtIODataplaneStates state =3D qatomic_read(&s->dataplane_state);
+
+  if (state =3D=3D DATAPLANE_STARTING || state =3D=3D DATAPLANE_STARTED || =
+=2E..)
+
+--SOVyBfCcl8XDzMt3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLxLw8ACgkQnKSrs4Gr
+c8hu8Qf/foIr3g4D9m12SF0rpFHo2U08QWCwLRK6bqTgm8skvOjfIAqXa/7GCJPc
+SaYQu+EdQLdhimff5hJL56Px7J1cWWOX3dl3AxvBuCxS7W9DaH+4CgltaTTw2mvd
+RVMp2XYeSWfqiEiHe2nXm1k9VGQ6VpRCuprgaYIjBrBWNn44BsLrVqBODu5KRWw8
+aYkIhitsJAu06dSX4zsezKMuNNmPLbEWgj1qD/GYp3NDF5GyZthbtEnJsJm+x899
+bBwkw4qtEn/nZNENfial+PkOyKmDjd7KQD7rwoxcV7Iode7MQwSRI13TKalRT4Sl
+Mpx6HNAXDf/Gygmgl3PSCHYR0Oggig==
+=AI66
+-----END PGP SIGNATURE-----
+
+--SOVyBfCcl8XDzMt3--
 
 
