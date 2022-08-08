@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D3C58C8E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:59:29 +0200 (CEST)
-Received: from localhost ([::1]:35046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA1B58C8E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:59:34 +0200 (CEST)
+Received: from localhost ([::1]:35238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL2Lw-00052y-M5
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52498)
+	id 1oL2M2-0005Ay-0r
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oL2Jq-0007mt-I5
+ id 1oL2Jq-0007ou-ER
  for qemu-devel@nongnu.org; Mon, 08 Aug 2022 08:57:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46543)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oL2Jn-0001fP-62
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 08:57:16 -0400
+ id 1oL2Jo-0001fv-Pu
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 08:57:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659963434;
+ s=mimecast20190719; t=1659963435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QOBfz/cMVhH0j5sprwl3Y1QI29rhhQHeizSuzql1dcY=;
- b=Vsrm8LGSUcOmr2pAHMyyvfld8tvZTYrfcRtVzDfe2Qg7g3X83ISoVl5B0Sv7F1X/4ux1MR
- v5D+wiND+iipEgiTWRpbyeH9k8eHA7rXJdBuXQizSrOaZtPYX7Z80ZxN7BKSmpJPY0w4CK
- wuoZOCDWRoKOldBueviJlibT5JHgLxo=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=THIwJaCekNLy/BZoWOKoQ+/b0DlzgUSt+fJQ+kqHo50=;
+ b=XDkPjvd4uu6hdd9h5Gv9yfHqBfN2W+JHf9N+CFF/XfA41I34Zt5PZtmmxBAYffWZqYpfoY
+ mbBcFSMfWZ1FVc5TJYD4xnpEztWD7tsQbgexFMylURvMP9JOniJHELektuHQk24NTQE8hF
+ x4+KtFGVwJZa3nt7NVnA8sWwcHrPitM=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-Ly_mWlyHMjWfyPVqn99Wxw-1; Mon, 08 Aug 2022 08:57:13 -0400
-X-MC-Unique: Ly_mWlyHMjWfyPVqn99Wxw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sa33-20020a1709076d2100b0073101bdd612so1688598ejc.14
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 05:57:13 -0700 (PDT)
+ us-mta-647-_knzFyw8OmadiXQKp4-4gA-1; Mon, 08 Aug 2022 08:57:14 -0400
+X-MC-Unique: _knzFyw8OmadiXQKp4-4gA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ m18-20020a056402511200b0043d601a8035so5710500edd.20
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 05:57:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=QOBfz/cMVhH0j5sprwl3Y1QI29rhhQHeizSuzql1dcY=;
- b=wjL1mO31ZhhyUdjHBaA8Hnc64StO7kAMIVj4ElcrVk8v8DVTMsPUXRzeg63K1LdoQn
- 9zkKZEENG+oHqMAmQZR8OQhdZ6UAAF6/5P1y1WX1skyfFw/5XTCrBsF5UDjYxjMYaHU8
- YkpZ8rD2e/EdSJLNaLsxUc9fZXrhKAJ2W9eGuaehKOo7QPwL2XqLTbYHHLa5pEijEdEM
- oblvnrhT9uCOWCWZ9S1PxV+mzRRydboGtjmbNjeYnCMA0RskGedEJCYGdo4PXmMI7wWY
- hgtUWcN5M4h2fxfmjfH9l91tNdIKCrBgKKTDiAcau8bpoEwM3ApXRlRZJS7g9QOjm2Qo
- YYgw==
-X-Gm-Message-State: ACgBeo2X6urjQQ3yUoQSYuYUhbSzdMBMsDIKFN7KEQyJRFpgxJsJKt30
- dT3ey9meeXWUBFjJ8Lj6EPxPLPmx3b287WmSHYDNmwRVlxKRK2ZXlhGHwu5KEtNSK64G9Syuq9N
- OmIWW3TnKZNVeuxvDEFZ4em0hNf8U6PlX5b0a6rIJWHHeyETVdBzhxdO69qU9jrxO6oE=
-X-Received: by 2002:a17:907:97cd:b0:731:5d0:4434 with SMTP id
- js13-20020a17090797cd00b0073105d04434mr9360763ejc.603.1659963431787; 
- Mon, 08 Aug 2022 05:57:11 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4/lSvnBl+RSeWTYz3dynJCBIKrtBZ2H6MCL3Uhgd4yGDiKjj93ak02165zqyTttDhrX//yXw==
-X-Received: by 2002:a17:907:97cd:b0:731:5d0:4434 with SMTP id
- js13-20020a17090797cd00b0073105d04434mr9360749ejc.603.1659963431433; 
- Mon, 08 Aug 2022 05:57:11 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.144]) by smtp.gmail.com with ESMTPSA id
- en19-20020a056402529300b0043a87e6196esm4518820edb.6.2022.08.08.05.57.10
+ bh=THIwJaCekNLy/BZoWOKoQ+/b0DlzgUSt+fJQ+kqHo50=;
+ b=gM0Af/5+Q9XpjhimjnjHzgr7/8u4fLw07WyIjfFSkInOJUWVhvauvpn75Qc3guz6uv
+ wAW2I6SXgh0gHn3vs2ownqZ79xPMsraWXvPt+XWr2WlvFOCgTrNLRl0ZYBvErMkIlq81
+ CGKmDYyF2v+UR44E4/G8YhQDZgMkYlQq5DBW6G2W5Fi6IxJluGlnxZ5AQ86FgjiKJzcw
+ pwgpHOwOUhfkTQGAg/XY8RnOV52NKk0jaLrGQb+y2HfWaWeYE0DWOWMmzvmK6dORUEa0
+ McYGCPj6KvHX+CRC9vqXczbl0756mZv5eVjBjuDas9kXoa/4ntP888+Zrtc6vAzW7a4N
+ PMlQ==
+X-Gm-Message-State: ACgBeo2EPVwMJeld+9lyfi84H+W2skSpNiSLOLZAVPeQTzXzZEtC8Q4H
+ dckQI1fDvM791O0F6ry1QMbydpnaNVJUBPEZ7162PNncdCq/cTGZRB6AC2z889EZIAyU0J9FXWe
+ jyZBG85hNt/P/aBXH0AWGMHcYXdAzF5e+sq6g6ZWwHG4CCHXxafVbrp99HxbxF9011q4=
+X-Received: by 2002:a17:907:3111:b0:730:6535:b3fb with SMTP id
+ wl17-20020a170907311100b007306535b3fbmr13121930ejb.490.1659963433341; 
+ Mon, 08 Aug 2022 05:57:13 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4lu3GtP9fccDjRxASg/M+c5GgAOmtG7yFd/QGgrlIj9inJ4/i5aDb6JGNv8sQ26p4V4ApJLw==
+X-Received: by 2002:a17:907:3111:b0:730:6535:b3fb with SMTP id
+ wl17-20020a170907311100b007306535b3fbmr13121914ejb.490.1659963433109; 
+ Mon, 08 Aug 2022 05:57:13 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id
+ bo7-20020a0564020b2700b0043bdc47803csm4601912edb.30.2022.08.08.05.57.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Aug 2022 05:57:10 -0700 (PDT)
+ Mon, 08 Aug 2022 05:57:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PULL 2/5] scsi-disk: ensure block size is non-zero and changes
- limited to bits 8-15
-Date: Mon,  8 Aug 2022 14:57:03 +0200
-Message-Id: <20220808125706.60511-3-pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+Subject: [PULL 3/5] vl: fix [memory] section with -readconfig
+Date: Mon,  8 Aug 2022 14:57:04 +0200
+Message-Id: <20220808125706.60511-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220808125706.60511-1-pbonzini@redhat.com>
 References: <20220808125706.60511-1-pbonzini@redhat.com>
@@ -99,64 +99,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+The -M memory.* options do not have magic applied to them like the -m
+option, namely no "M" (for mebibytes) is tacked at the end of a suffixless
+value for "-M memory.size".
 
-The existing code assumes that the block size can be generated from p[1] << 8
-in multiple places which ignores the top and bottom 8 bits. If the block size
-is allowed to be set to an arbitrary value then this causes a mismatch
-between the value written by the guest in the block descriptor and the value
-subsequently read back using READ CAPACITY causing the guest to generate
-requests that can crash QEMU.
+This magic is performed by parse_memory_options, and we have to do it for
+both "-m" and the [memory] section of a config file.  Storing [memory]
+sections directly to machine_opts_dict changed the meaning of
 
-For now restrict block size changes to bits 8-15 and also ignore requests to
-set the block size to 0 which causes the SCSI emulation to crash in at least
-one place with a divide by zero error.
+    [memory]
+      size = "1024"
 
-Fixes: 356c4c441e ("scsi-disk: allow MODE SELECT block descriptor to set the block size")
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/1112
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20220730122656.253448-3-mark.cave-ayland@ilande.co.uk>
+in a -readconfig file from 1024MiB to 8KiB (1024 Bytes rounded up to
+8KiB silently).  To avoid this, the [memory] section has to be changed
+back to QemuOpts (combining [memory] and "-m" will work fine thanks to
+.merge_lists being true).
+
+Change parse_memory_options() so that, similar to the older function
+set_memory_options(), it operates after command line parsing is done;
+and also call it where set_memory_options() used to be.
+
+Note, the parsing code uses exit(1) instead of exit(EXIT_FAILURE) to
+match neighboring code.
+
+Reported-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Fixes: ce9d03fb3f ("machine: add mem compound property", 2022-05-12)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-disk.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ softmmu/vl.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 3027ac3b1e..efee6739f9 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1591,7 +1591,7 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
-     int cmd = r->req.cmd.buf[0];
-     int len = r->req.cmd.xfer;
-     int hdr_len = (cmd == MODE_SELECT ? 4 : 8);
--    int bd_len;
-+    int bd_len, bs;
-     int pass;
- 
-     if ((r->req.cmd.buf[1] & 0x11) != 0x10) {
-@@ -1617,9 +1617,19 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index aabd82e09a..45e919de9f 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1947,16 +1947,15 @@ static void qemu_resolve_machine_memdev(void)
      }
+ }
  
-     /* Allow changing the block size */
--    if (bd_len && p[6] != (s->qdev.blocksize >> 8)) {
--        s->qdev.blocksize = p[6] << 8;
--        trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
-+    if (bd_len) {
-+        bs = p[5] << 16 | p[6] << 8 | p[7];
+-static void parse_memory_options(const char *arg)
++static void parse_memory_options(void)
+ {
+-    QemuOpts *opts;
++    QemuOpts *opts = qemu_find_opts_singleton("memory");
+     QDict *dict, *prop;
+     const char *mem_str;
++    Location loc;
+ 
+-    opts = qemu_opts_parse_noisily(qemu_find_opts("memory"), arg, true);
+-    if (!opts) {
+-        exit(EXIT_FAILURE);
+-    }
++    loc_push_none(&loc);
++    qemu_opts_loc_restore(opts);
+ 
+     prop = qdict_new();
+ 
+@@ -1987,6 +1986,7 @@ static void parse_memory_options(const char *arg)
+     qdict_put(dict, "memory", prop);
+     keyval_merge(machine_opts_dict, dict, &error_fatal);
+     qobject_unref(dict);
++    loc_pop(&loc);
+ }
+ 
+ static void qemu_create_machine(QDict *qdict)
+@@ -2053,8 +2053,7 @@ static bool is_qemuopts_group(const char *group)
+     if (g_str_equal(group, "object") ||
+         g_str_equal(group, "machine") ||
+         g_str_equal(group, "smp-opts") ||
+-        g_str_equal(group, "boot-opts") ||
+-        g_str_equal(group, "memory")) {
++        g_str_equal(group, "boot-opts")) {
+         return false;
+     }
+     return true;
+@@ -2078,8 +2077,6 @@ static void qemu_record_config_group(const char *group, QDict *dict,
+         machine_merge_property("smp", dict, &error_fatal);
+     } else if (g_str_equal(group, "boot-opts")) {
+         machine_merge_property("boot", dict, &error_fatal);
+-    } else if (g_str_equal(group, "memory")) {
+-        machine_merge_property("memory", dict, &error_fatal);
+     } else {
+         abort();
+     }
+@@ -2882,7 +2879,10 @@ void qemu_init(int argc, char **argv, char **envp)
+                 exit(0);
+                 break;
+             case QEMU_OPTION_m:
+-                parse_memory_options(optarg);
++                opts = qemu_opts_parse_noisily(qemu_find_opts("memory"), optarg, true);
++                if (opts == NULL) {
++                    exit(1);
++                }
+                 break;
+ #ifdef CONFIG_TPM
+             case QEMU_OPTION_tpmdev:
+@@ -3515,6 +3515,9 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     configure_rtc(qemu_find_opts_singleton("rtc"));
+ 
++    /* Transfer QemuOpts options into machine options */
++    parse_memory_options();
 +
-+        /*
-+         * Since the existing code only checks/updates bits 8-15 of the block
-+         * size, restrict ourselves to the same requirement for now to ensure
-+         * that a block size set by a block descriptor and then read back by
-+         * a subsequent SCSI command will be the same
-+         */
-+        if (bs && !(bs & ~0xff00) && bs != s->qdev.blocksize) {
-+            s->qdev.blocksize = bs;
-+            trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
-+        }
-     }
+     qemu_create_machine(machine_opts_dict);
  
-     len -= bd_len;
+     suspend_mux_open();
 -- 
 2.37.1
 
