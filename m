@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7910858CA34
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 16:10:33 +0200 (CEST)
-Received: from localhost ([::1]:50690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF1F58CA35
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 16:11:05 +0200 (CEST)
+Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL3Sg-0006bk-J4
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 10:10:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
+	id 1oL3TE-0007zu-VC
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 10:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL3LO-0000pH-Uq; Mon, 08 Aug 2022 10:02:59 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:41571)
+ id 1oL3QR-00045I-SN; Mon, 08 Aug 2022 10:08:11 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:46790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL3LL-00053O-OF; Mon, 08 Aug 2022 10:02:58 -0400
+ id 1oL3QP-0005qk-GI; Mon, 08 Aug 2022 10:08:11 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 75AAD746FDE;
- Mon,  8 Aug 2022 16:02:53 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 3B795747644;
+ Mon,  8 Aug 2022 16:08:06 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 22488746E07; Mon,  8 Aug 2022 16:02:53 +0200 (CEST)
+ id 000B1746FDE; Mon,  8 Aug 2022 16:08:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2078E745702;
- Mon,  8 Aug 2022 16:02:53 +0200 (CEST)
-Date: Mon, 8 Aug 2022 16:02:53 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id F2B22746E07;
+ Mon,  8 Aug 2022 16:08:05 +0200 (CEST)
+Date: Mon, 8 Aug 2022 16:08:05 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
  qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 05/22] ppc/ppc405: Introduce a PPC405 SoC
-In-Reply-To: <dd13c15a-c742-8eb5-cf81-010becd5937a@kaod.org>
-Message-ID: <3b6ee1a-fc7-b232-52bc-8d16f0c6a8a3@eik.bme.hu>
+Subject: Re: [PATCH v3 00/22] ppc: QOM'ify 405 board
+In-Reply-To: <db56128c-4e25-5c23-97a4-c9a8a2fa0f49@kaod.org>
+Message-ID: <95f06a5-b7b8-d79-7564-20652ac89e7@eik.bme.hu>
 References: <20220808102734.133084-1-clg@kaod.org>
- <20220808102734.133084-6-clg@kaod.org>
- <ea7b62be-5550-3e67-cd28-d7ab44a11ace@eik.bme.hu>
- <dd13c15a-c742-8eb5-cf81-010becd5937a@kaod.org>
+ <65dff991-cf15-75e9-8cb-d55e72ae5560@eik.bme.hu>
+ <db56128c-4e25-5c23-97a4-c9a8a2fa0f49@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1307113002-1659967373=:47322"
-X-Spam-Probability: 11%
+ boundary="3866299591-907815730-1659967685=:47322"
+X-Spam-Probability: 9%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -67,228 +66,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1307113002-1659967373=:47322
+--3866299591-907815730-1659967685=:47322
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Mon, 8 Aug 2022, Cédric Le Goater wrote:
-> On 8/8/22 14:43, BALATON Zoltan wrote:
+> On 8/8/22 14:16, BALATON Zoltan wrote:
 >> On Mon, 8 Aug 2022, Cédric Le Goater wrote:
->>> It is an initial model to start QOMification of the PPC405 board.
->>> QOM'ified devices will be reintroduced one by one. Start with the
->>> memory regions, which name prefix is changed to "ppc405".
+>>> Hello,
 >>> 
->>> Also, initialize only one RAM bank. The second bank is a dummy one
->>> (zero size) which is here to match the hard coded number of banks in
->>> ppc405ep_init().
+>>> Here is large series QOM'ifying the PPC405 board. It introduces a new
+>>> generic machine and SoC models, converts the current device models to
+>>> QOM and populates the SoC. The process is quite mechanical without too
+>>> much issues to handle. The noisy part is the initial patch introducing
+>>> the SoC realize routine.
 >>> 
->>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>> hw/ppc/ppc405.h        | 16 ++++++++++++++++
->>> hw/ppc/ppc405_boards.c | 23 ++++++++++++-----------
->>> hw/ppc/ppc405_uc.c     | 40 ++++++++++++++++++++++++++++++++++++++++
->>> 3 files changed, 68 insertions(+), 11 deletions(-)
+>>> What's left ?
 >>> 
->>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
->>> index 83f156f585c8..66dc21cdfed8 100644
->>> --- a/hw/ppc/ppc405.h
->>> +++ b/hw/ppc/ppc405.h
->>> @@ -25,6 +25,7 @@
->>> #ifndef PPC405_H
->>> #define PPC405_H
->>> 
->>> +#include "qom/object.h"
->>> #include "hw/ppc/ppc4xx.h"
->>> 
->>> #define PPC405EP_SDRAM_BASE 0x00000000
->>> @@ -62,6 +63,21 @@ struct ppc4xx_bd_info_t {
->>>     uint32_t bi_iic_fast[2];
->>> };
->>> 
->>> +#define TYPE_PPC405_SOC "ppc405-soc"
->>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC);
->>> +
->>> +struct Ppc405SoCState {
->>> +    /* Private */
->>> +    DeviceState parent_obj;
->>> +
->>> +    /* Public */
->>> +    MemoryRegion ram_banks[2];
->>> +    hwaddr ram_bases[2], ram_sizes[2];
->>> +
->>> +    MemoryRegion *dram_mr;
->>> +    hwaddr ram_size;
->>> +};
->>> +
->>> /* PowerPC 405 core */
->>> ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
->>> 
->>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->>> index c6fa559b03d9..1dc5065fcc1d 100644
->>> --- a/hw/ppc/ppc405_boards.c
->>> +++ b/hw/ppc/ppc405_boards.c
->>> @@ -57,6 +57,8 @@ struct Ppc405MachineState {
->>>     /* Private */
->>>     MachineState parent_obj;
->>>     /* Public */
->>> +
->>> +    Ppc405SoCState soc;
->>> };
->>> 
->>> /*****************************************************************************/
->>> @@ -232,11 +234,10 @@ static void boot_from_kernel(MachineState *machine, 
->>> PowerPCCPU *cpu)
->>> 
->>> static void ppc405_init(MachineState *machine)
->>> {
->>> +    Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
->>>     MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>     const char *kernel_filename = machine->kernel_filename;
->>>     PowerPCCPU *cpu;
->>> -    MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
->>> -    hwaddr ram_bases[2], ram_sizes[2];
->>>     MemoryRegion *sysmem = get_system_memory();
->>>     DeviceState *uicdev;
->>> 
->>> @@ -247,16 +248,16 @@ static void ppc405_init(MachineState *machine)
->>>         exit(EXIT_FAILURE);
->>>     }
->>> 
->>> -    /* XXX: fix this */
->>> -    memory_region_init_alias(&ram_memories[0], NULL, "ef405ep.ram.alias",
->>> -                             machine->ram, 0, machine->ram_size);
->>> -    ram_bases[0] = 0;
->>> -    ram_sizes[0] = machine->ram_size;
->>> -    memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
->>> -    ram_bases[1] = 0x00000000;
->>> -    ram_sizes[1] = 0x00000000;
->>> +    object_initialize_child(OBJECT(machine), "soc", &ppc405->soc,
->>> +                            TYPE_PPC405_SOC);
->>> +    object_property_set_uint(OBJECT(&ppc405->soc), "ram-size",
->>> +                             machine->ram_size, &error_fatal);
->>> +    object_property_set_link(OBJECT(&ppc405->soc), "dram",
->>> +                             OBJECT(machine->ram), &error_abort);
->>> +    qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
->>> 
->>> -    cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
->>> +    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_banks, 
->>> ppc405->soc.ram_bases,
->>> +                        ppc405->soc.ram_sizes,
->>>                         33333333, &uicdev, kernel_filename == NULL ? 0 : 
->>> 1);
->>> 
->>>     /* allocate and load BIOS */
->>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
->>> index d6420c88d3a6..adadb3a0ae08 100644
->>> --- a/hw/ppc/ppc405_uc.c
->>> +++ b/hw/ppc/ppc405_uc.c
->>> @@ -30,6 +30,7 @@
->>> #include "hw/ppc/ppc.h"
->>> #include "hw/i2c/ppc4xx_i2c.h"
->>> #include "hw/irq.h"
->>> +#include "hw/qdev-properties.h"
->>> #include "ppc405.h"
->>> #include "hw/char/serial.h"
->>> #include "qemu/timer.h"
->>> @@ -1530,3 +1531,42 @@ PowerPCCPU *ppc405ep_init(MemoryRegion 
->>> *address_space_mem,
->>> 
->>>     return cpu;
->>> }
->>> +
->>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->>> +{
->>> +    Ppc405SoCState *s = PPC405_SOC(dev);
->>> +
->>> +    /* Initialize only one bank */
->>> +    s->ram_bases[0] = 0;
->>> +    s->ram_sizes[0] = s->ram_size;
->>> +    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
->>> +                             "ppc405.sdram0", s->dram_mr,
->>> +                             s->ram_bases[0], s->ram_sizes[0]);
->>> +}
->>> +
->>> +static Property ppc405_soc_properties[] = {
->>> +    DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
->>> +                     MemoryRegion *),
->>> +    DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
->>> +    DEFINE_PROP_END_OF_LIST(),
->>> +};
+>>> * the SDRAM mappings are very baroque and certainly could be simplified.
+>>>  I think we should QOMify the ppc440 machines before addressing this
+>>>  part.
 >> 
->> I'm not sure why we need to duplicate these in the soc if they are always 
->> the same as machine->ram and machine->ram_size. 
+>> The issue with SDRAM controller and the likely reason why its model looks 
+>> so complex is that it can't handle any RAM size because of how the bank 
+>> sizes are encoded in the registers so it only really supports real RAM 
+>> modules which are predefined sizes. Also the firmware discovers RAM by 
+>> looking at SPD data and may only check the slots that the real hardware has 
+>> which may not be the first one. 
+>> Previously I had code to round down the memory size specified on the 
+>> command line to an acceptable size and issue a warning to let the user know 
+>> but this was dropped because of some changes in code elsewhere which now 
+>> allocates memory before the machine could check and ajust it so we can only 
+>> adjust it by wasting some. 
 >
-> There are machines with multi SoCs. PowerNV can have 16.
+> I don't think we should care adjusting the values. the machine init
+> routine should check that the RAM size is valid or fail. The machine
+> should also have a sane RAM size value by default.
 >
-> But that's not the reason here, we pass the dram memory region to the SoC
-> for controllers that might need it for memory transactions, typically DMAs.
-> In this case, it's the SDRAM controller which creates slices of RAM for
-> each available RAM bank.
->
->> Is it theoretically possible to have a soc where it uses ram that's not the 
->> whole ram? 
->
-> Yes.
->
->> If not then you could just uose machine which is accessible either as 
->> current_machine or qdev_get_machine() 
->
-> These are QEMU globals. We should avoid using them in device models.
->
->> (also the parent of out soc but we don't know how to get that). If setting 
->> ram this way
->> is still desired do we separately need to set its size or we could use 
->> memory_region_size() instead?
->
-> Let's keep SDRAM modeling for the next patchset.
+> See how the aspeed machine deals with similar constraints of its SDRAM
+> controller in aspeed_machine_init(). If the sdram controller does not
+> validate the RAM size, aspeed_sdmc_set_ram_size() fails with an error.
 
-OK.
-
-> 
->>> +
->>> +static void ppc405_soc_class_init(ObjectClass *oc, void *data)
->>> +{
->>> +    DeviceClass *dc = DEVICE_CLASS(oc);
->>> +
->>> +    dc->realize = ppc405_soc_realize;
->>> +    dc->user_creatable = false;
->> 
->> May need a comment explaining why user_creatable = false. (Also for all 
->> other similar lines in other patches, I won't repeat this there.)
->
-> TYPE_PPC405_SOC devices can not be created from the QEMU command line.
-> it doesn't make sense. That's what 'dc->user_creatable = false' means.
-
-I know but near the definition of user_creatable there's a comment 
-demanding that each occurance has to have a comment explaining why.
+Even then we need to check if the specified memory matches one of the 
+allowed sized and distribute it to the allowed banks by the soc. This code 
+is more complex than the 405ep has currently and should not be reprated in 
+each board. That's why we have the ppc4xx_memory_banks and sdram_init 
+functions so while it may be possible to simmplify it a bit maybe not 
+much. I've spent quite some time with it so if you change it check that 
+at least sam360ex -m 2G still works.
 
 Regards,
 BALATON Zoltan
-
-> Thanks,
->
-> C.
->
->> 
->> Regards,
->> BALATON Zoltan
->> 
->>> +    device_class_set_props(dc, ppc405_soc_properties);
->>> +}
->>> +
->>> +static const TypeInfo ppc405_types[] = {
->>> +    {
->>> +        .name           = TYPE_PPC405_SOC,
->>> +        .parent         = TYPE_DEVICE,
->>> +        .instance_size  = sizeof(Ppc405SoCState),
->>> +        .class_init     = ppc405_soc_class_init,
->>> +    }
->>> +};
->>> +
->>> +DEFINE_TYPES(ppc405_types)
->>> 
->
->
---3866299591-1307113002-1659967373=:47322--
+--3866299591-907815730-1659967685=:47322--
 
