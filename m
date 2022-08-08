@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C9358C2C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 07:19:13 +0200 (CEST)
-Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2850F58C2C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 07:23:19 +0200 (CEST)
+Received: from localhost ([::1]:38096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKvAW-00064J-Gb
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 01:19:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46998)
+	id 1oKvEU-0001e8-9E
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 01:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKv6X-0002hx-RI
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:15:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33612)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oKvBN-0006sp-3F; Mon, 08 Aug 2022 01:20:05 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:54455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKv6V-0002WB-3I
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:15:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659935700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AlqaTxFMvphUvoO+wW3rukAoGtVCNas7molMUrQjsgc=;
- b=FIsNtCxrnUV9XVNjTKo+wiDI5w8tq1yCHdCSgAaYS25V/85Qhz7MCSxqlqnQptwwefI9Lo
- XvIYsEDyGggzyt3Q8rsCSmwU3Mjitr7xB1hDGaIPGouxHlgh2EALz1Ywn9RBxV8nRzn1eE
- 9uVetWpTKsr4CnYR2z9u2rXcbUK/QwM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-SsGVYwCSMU6UjUuqJ1jlxA-1; Mon, 08 Aug 2022 01:14:58 -0400
-X-MC-Unique: SsGVYwCSMU6UjUuqJ1jlxA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FE65801585
- for <qemu-devel@nongnu.org>; Mon,  8 Aug 2022 05:14:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C75C2166B26;
- Mon,  8 Aug 2022 05:14:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2501421E6930; Mon,  8 Aug 2022 07:14:57 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] vl: remove dead code in parse_memory_options()
-References: <20220805172309.553441-1-pbonzini@redhat.com>
-Date: Mon, 08 Aug 2022 07:14:57 +0200
-In-Reply-To: <20220805172309.553441-1-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Fri, 5 Aug 2022 19:23:09 +0200")
-Message-ID: <8735e7z57y.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oKvBK-0003Dj-SJ; Mon, 08 Aug 2022 01:20:04 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MLR5h-1o4Ddr2991-00ISBo; Mon, 08 Aug 2022 07:19:52 +0200
+Message-ID: <61f278fd-2720-9237-84c8-37c5828fcdae@vivier.eu>
+Date: Mon, 8 Aug 2022 07:19:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
+ VuVirtqElement
+Content-Language: fr
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: raphael.norwitz@nutanix.com, mst@redhat.com, qemu-trivial@nongnu.org
+References: <20220630085219.1305519-1-armbru@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220630085219.1305519-1-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:JrzjbrOPQ4GmQ2QM1eMmjP4wxNd5wHL2nStgkfOpRPexEgdIJ6e
+ qvXLFYB+OkWNgeT6AR+31vnNfJ9wgopGCgPUHnBEZWpwNq9ZsPd2lkl4BqpqZKD0glmekLZ
+ V75+M2ljqgUdvtYNunkOShTWIgDOYpUPNw2SO3Zqtc43bkYlvMEIEWZ6DoR6aMhD2YFomHx
+ D2MJYlCymFOpOM0jYirqw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b7YriJ0MveI=:VmUAlnJOTvB6Gt2cH6ZRnp
+ NyflS35aGRI7iEm5uLqUTdeNbxCH90cES6j4dYXa7s//m+A+4N0v7nvn43Wfb/bcbCGV2BJR2
+ jFTbQW+accbvOjkFn5lmcocTcli9kRfNqjOGFZ+/da2ODU9uas3w/bv5LnC3NZUWh0tupOn4W
+ TiyyvAgUhqoLbD5ZUEM6+dtBNlTX1BGKx04kO46PYexE3Y4vPDqq1p0dReP9ikS3bv8PmKLwP
+ mTxpkodJTpunsLd+fNBL9g9XDbWq9TjCPCM9q7JzlqLwXOGZDTJBOTTlxeSN1vW3gE3bWEZWv
+ PJW4gQHT3v7EsqpsZeSWu3RHKYRG1qvRm1egUY3c7pmpX2z8DULeAAhl1dbzezIiy7LV6rDzJ
+ BKUO+5d+EJSUPlUZIhlphY0PEZj9UNAJleHpkyP90CSS5bj5vlYo5EStFHW2b6Dk8jHfroQ2+
+ Cx2DBgSmEeFxVWTCTA5D/Nv/hzt9iAYaVWd2JIwaQ++zW+3wiS4H7wS9aSAqN3gehPP3qbs/v
+ ZvdeTyJhWMuwQ+l+61RbCJbbFIcaUhlKSbvILzlG8P5XNCcj0FkYw4wrLGDxCeJUiFeQj+xDW
+ vQ/AvBTR+WAeGVSfz7zNM+kt6MWMfniUruLru4aQe9+9oatUMG4m6zKWMCrdKICDYnxoE+xc6
+ qcnUTysbQ2oShhUh34czXmhMn81YsnnQhbT5XZz61LOpsPxf0/C56oSKzSiGrELjkVukFOfCn
+ qSO2c4FUK+A2xHEdvbfsYMV5wjh8dSvVTKTP8g==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,41 +74,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> mem_str will never be an empty string, because qemu_opt_get_size() fails
-> if it encounters one:
->
->    $ ./qemu-system-x86_64 -m size=
->    qemu-system-x86_64: -m size=: Parameter size expects a non-negative number below 2^64
->    Optional suffix k, M, G, T, P or E means kilo-, mega-, giga-, tera-, peta-
->    and exabytes, respectively.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Le 30/06/2022 à 10:52, Markus Armbruster a écrit :
+> We allocate VuVirtqElement with g_malloc() in
+> virtqueue_alloc_element(), but free it with free() in
+> vhost-user-blk.c.  Harmless, but use g_free() anyway.
+> 
+> One of the calls is guarded by a "not null" condition.  Useless,
+> because it cannot be null (it's dereferenced right before), and even
+> it it could be, free() and g_free() do the right thing.  Drop the
+> conditional.
+> 
+> Fixes: Coverity CID 1490290
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  softmmu/vl.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
->
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 45e919de9f..706bd7cff7 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1960,13 +1960,8 @@ static void parse_memory_options(void)
->      prop = qdict_new();
->  
->      if (qemu_opt_get_size(opts, "size", 0) != 0) {
-> -        mem_str = qemu_opt_get(opts, "size");
-> -        if (!*mem_str) {
-> -            error_report("missing 'size' option value");
-> -            exit(EXIT_FAILURE);
-> -        }
+> Not even compile-tested, because I can't figure out how this thing is
+> supposed to be built.  Its initial commit message says "make
+> vhost-user-blk", but that doesn't work anymore.
+> 
+>   contrib/vhost-user-blk/vhost-user-blk.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+> index 9cb78ca1d0..d6932a2645 100644
+> --- a/contrib/vhost-user-blk/vhost-user-blk.c
+> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
+> @@ -106,10 +106,7 @@ static void vub_req_complete(VubReq *req)
+>                     req->size + 1);
+>       vu_queue_notify(vu_dev, req->vq);
+>   
+> -    if (req->elem) {
+> -        free(req->elem);
+> -    }
 > -
->          /* Fix up legacy suffix-less format */
-> +        mem_str = qemu_opt_get(opts, "size");
->          if (g_ascii_isdigit(mem_str[strlen(mem_str) - 1])) {
->              g_autofree char *mib_str = g_strdup_printf("%sM", mem_str);
->              qdict_put_str(prop, "size", mib_str);
+> +    g_free(req->elem);
+>       g_free(req);
+>   }
+>   
+> @@ -243,7 +240,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
+>       /* refer to hw/block/virtio_blk.c */
+>       if (elem->out_num < 1 || elem->in_num < 1) {
+>           fprintf(stderr, "virtio-blk request missing headers\n");
+> -        free(elem);
+> +        g_free(elem);
+>           return -1;
+>       }
+>   
+> @@ -325,7 +322,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
+>       return 0;
+>   
+>   err:
+> -    free(elem);
+> +    g_free(elem);
+>       g_free(req);
+>       return -1;
+>   }
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Applied to my trivial-patches branch.
+
+Thanks,
+Laurent
+
 
 
