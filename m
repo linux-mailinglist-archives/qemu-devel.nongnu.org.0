@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52B458C558
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:14:08 +0200 (CEST)
-Received: from localhost ([::1]:38302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053E258C549
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:09:35 +0200 (CEST)
+Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKypr-0000Rh-RB
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56858)
+	id 1oKylS-000340-2W
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:09:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oKyb1-0005JU-Ot
+ id 1oKyb2-0005JW-H9
  for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:50 -0400
-Received: from mga09.intel.com ([134.134.136.24]:15910)
+Received: from mga09.intel.com ([134.134.136.24]:15913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oKyaz-0001oF-Nk
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:47 -0400
+ id 1oKyb0-0001oK-QA
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659949125; x=1691485125;
+ t=1659949126; x=1691485126;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Y6Bd+emfUrUHrQ4u0Fcrr+Ou+CgIfyt+4yF4G7TtuEY=;
- b=BdXb8K4ooEfZvjnpPdkWdQ71Dk+VtdgAm0trJ+O3LvJK2DczrQLRPlOE
- gnqgzs/3gfE19l1zwMi6gUsHiCgvTr2s3DNPKLRxtrzlR4AbfxI/rRQTU
- 33TDWBWHImdmiuJP3igsWOA2f/jc0Lm7D9a6VEmkmU3G/YNMw/kZ7shZi
- NMxnDeR9UkYsRMv36kU8YoQ9zyt5Z32BgoTeESFHLNN63f95UcTgzIkll
- eLnbLe6MKDfHxMgmXDKFsTDWXhXDDgBX1ST6Juu3WMK8VKkzLmn4NkwfL
- WLe/pIWNR8R/ZPe4/v533wfwn9ud/hpBwOkszzoez7DfsyrjfUzz72tfg w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="291319275"
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="291319275"
+ bh=Wi9mA7FfWCBhNKiC15z6es1zHAIF8vhybReqyecYHNM=;
+ b=Y/tVHQRaC0hFe7qjfIr45uUyKk6RROw+6hd7w1IM31G3+LH1eLpFbEnm
+ SgYWP0SSEKJfutPTaqfU0xGZ5KUPq6RjubmT30eyrQYexVNp3Rb8Q2KUK
+ O9nH1Rq1dBV0k9S0D6jHID1kr7n40IDwjg06qjqDPiCplahi4GImPvfAj
+ fiu4VlVoFrRW8YnQF5jFRUfrqS2bhY6P/Qa21+0OY78SqSACiOpeX5dO3
+ v1WyyiTJ8UNjUxXTEsmjwc8soi92vKGwE6QrtaZ/WaBaAhvaP4h12BZSv
+ MyIcjdvrzlXcQuMyKDPb3IY3qU74rPbmHJRbZk3xtr4JYgTxh2hGJiMkn A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="291319282"
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="291319282"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 01:58:44 -0700
+ 08 Aug 2022 01:58:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="931970607"
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="931970621"
 Received: from lxy-dell.sh.intel.com ([10.239.48.38])
- by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2022 01:58:43 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2022 01:58:44 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
 Cc: qemu-devel@nongnu.org,
 	kvm@vger.kernel.org
-Subject: [PATCH v2 6/8] target/i386/intel-pt: Enable host pass through of
- Intel PT
-Date: Mon,  8 Aug 2022 16:58:32 +0800
-Message-Id: <20220808085834.3227541-7-xiaoyao.li@intel.com>
+Subject: [PATCH v2 7/8] target/i386/intel-pt: Define specific PT feature set
+ for IceLake-server and Snowridge
+Date: Mon,  8 Aug 2022 16:58:33 +0800
+Message-Id: <20220808085834.3227541-8-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220808085834.3227541-1-xiaoyao.li@intel.com>
 References: <20220808085834.3227541-1-xiaoyao.li@intel.com>
@@ -78,164 +78,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-commit e37a5c7fa459 ("i386: Add Intel Processor Trace feature support")
-added the support of Intel PT by making CPUID[14] of PT as fixed feature
-set (from ICX) for any CPU model on any host. This truly breaks the PT
-exposure on Intel SPR platform because SPR has less supported bitmap of
-CPUID(0x14,1):EBX[15:0] than ICX.
+For IceLake-server, it's just the same as using the default PT
+feature set since the default one is exact taken from ICX.
 
-To fix the problem, enable pass through of host's PT capabilities for
-the cases "-cpu host/max" that it won't use default fixed PT feature set
-of ICX but expand automatically based on get_supported_cpuid reported by
-host. Meanwhile, it needs to ensure named CPU model still has the fixed
-PT feature set to not break the live migration case of
-"-cpu named_cpu_model,+intel-pt"
-
-Introduces env->use_default_intel_pt flag.
- - True means it's old CPU model that uses fixed PT feature set of ICX.
- - False means the named CPU model has its own PT feature set.
-
-Besides, to keep the same behavior for old CPU models that validate PT
-feature set against default fixed PT feature set of ICX in addition to
-validate from host's capabilities (via get_supported_cpuid) in
-x86_cpu_filter_features().
-
-In the future, new named CPU model, e.g., Sapphire Rapids, can define
-its own PT feature set by setting @has_specific_intel_pt_feature_set to
-true and defines it's own FEAT_14_0_EBX, FEAT_14_0_ECX, FEAT_14_1_EAX
-and FEAT_14_1_EBX.
+For Snowridge, define it according to real SNR silicon capabilities.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- target/i386/cpu.c | 71 ++++++++++++++++++++++++++---------------------
- target/i386/cpu.h |  1 +
- 2 files changed, 40 insertions(+), 32 deletions(-)
+ target/i386/cpu.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b08d2d63d8bf..2664b527b8e8 100644
+index 2664b527b8e8..3fc5305aa9dd 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5192,6 +5192,21 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
-         env->features[w] = def->features[w];
-     }
- 
-+    /*
-+     * All (old) named CPU models have the same default values for INTEL_PT_*
-+     *
-+     * Assign the default value here since we don't want to manually copy/paste
-+     * it to all entries in builtin_x86_defs.
-+     */
-+    if (!env->features[FEAT_14_0_EBX] && !env->features[FEAT_14_0_ECX] &&
-+        !env->features[FEAT_14_1_EAX] && !env->features[FEAT_14_1_EBX]) {
-+        env->use_default_intel_pt = true;
-+        env->features[FEAT_14_0_EBX] = INTEL_PT_DEFAULT_0_EBX;
-+        env->features[FEAT_14_0_ECX] = INTEL_PT_DEFAULT_0_ECX;
-+        env->features[FEAT_14_1_EAX] = INTEL_PT_DEFAULT_1_EAX;
-+        env->features[FEAT_14_1_EBX] = INTEL_PT_DEFAULT_1_EBX;
-+    }
-+
-     /* legacy-cache defaults to 'off' if CPU model provides cache info */
-     cpu->legacy_cache = !def->cache_info;
- 
-@@ -5714,14 +5729,11 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
- 
-         if (count == 0) {
-             *eax = INTEL_PT_MAX_SUBLEAF;
--            *ebx = INTEL_PT_DEFAULT_0_EBX;
--            *ecx = INTEL_PT_DEFAULT_0_ECX;
--            if (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP) {
--                *ecx |= CPUID_14_0_ECX_LIP;
--            }
-+            *ebx = env->features[FEAT_14_0_EBX];
-+            *ecx = env->features[FEAT_14_0_ECX];
-         } else if (count == 1) {
--            *eax = INTEL_PT_DEFAULT_1_EAX;
--            *ebx = INTEL_PT_DEFAULT_1_EBX;
-+            *eax = env->features[FEAT_14_1_EAX];
-+            *ebx = env->features[FEAT_14_1_EBX];
-         }
-         break;
-     }
-@@ -6409,6 +6421,7 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-     CPUX86State *env = &cpu->env;
-     FeatureWord w;
-     const char *prefix = NULL;
-+    uint64_t host_feat;
- 
-     if (verbose) {
-         prefix = accel_uses_host_cpuid()
-@@ -6417,8 +6430,7 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-     }
- 
-     for (w = 0; w < FEATURE_WORDS; w++) {
--        uint64_t host_feat =
--            x86_cpu_get_supported_feature_word(w, false);
-+        host_feat = x86_cpu_get_supported_feature_word(w, false);
-         uint64_t requested_features = env->features[w];
-         uint64_t unavailable_features;
- 
-@@ -6442,31 +6454,26 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-         mark_unavailable_features(cpu, w, unavailable_features, prefix);
-     }
- 
--    if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
--        kvm_enabled()) {
--        KVMState *s = CPU(cpu)->kvm_state;
--        uint32_t eax_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EAX);
--        uint32_t ebx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EBX);
--        uint32_t ecx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_ECX);
--        uint32_t eax_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EAX);
--        uint32_t ebx_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EBX);
--
--        if (!eax_0 ||
--           ((ebx_0 & INTEL_PT_DEFAULT_0_EBX) != INTEL_PT_DEFAULT_0_EBX) ||
--           ((ecx_0 & INTEL_PT_DEFAULT_0_ECX) != INTEL_PT_DEFAULT_0_ECX) ||
--           ((eax_1 & INTEL_PT_DEFAULT_MTC_BITMAP) != INTEL_PT_DEFAULT_MTC_BITMAP) ||
--           ((eax_1 & INTEL_PT_ADDR_RANGES_NUM_MASK) <
--                                      INTEL_PT_DEFAULT_ADDR_RANGES_NUM) ||
--           ((ebx_1 & INTEL_PT_DEFAULT_1_EBX) != INTEL_PT_DEFAULT_1_EBX) ||
--           ((ecx_0 & CPUID_14_0_ECX_LIP) !=
--                (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP))) {
--            /*
--             * Processor Trace capabilities aren't configurable, so if the
--             * host can't emulate the capabilities we report on
--             * cpu_x86_cpuid(), intel-pt can't be enabled on the current host.
--             */
-+    if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) {
-+        /*
-+         * env->use_default_intel_pt is true means the CPU model doesn't have
-+         * INTEL_PT_* specified. In this case, we need to check it has the
-+         * value of default INTEL_PT to not break live migration
-+         */
-+        if (env->use_default_intel_pt &&
-+            ((env->features[FEAT_14_0_EBX] != INTEL_PT_DEFAULT_0_EBX) ||
-+             ((env->features[FEAT_14_0_ECX] & ~CPUID_14_0_ECX_LIP) !=
-+              INTEL_PT_DEFAULT_0_ECX) ||
-+             (env->features[FEAT_14_1_EAX] != INTEL_PT_DEFAULT_1_EAX) ||
-+             (env->features[FEAT_14_1_EBX] != INTEL_PT_DEFAULT_1_EBX))) {
-             mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);
-         }
-+
-+        host_feat = x86_cpu_get_supported_feature_word(FEAT_14_0_ECX, false);
-+        if ((env->features[FEAT_14_0_ECX] ^ host_feat) & CPUID_14_0_ECX_LIP) {
-+            warn_report("Cannot configure different Intel PT IP payload format than hardware");
-+            mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, NULL);
-+        }
-     }
- }
- 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 30aff5f0f41d..797f384e3fc4 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1749,6 +1749,7 @@ typedef struct CPUArchState {
-     uint32_t cpuid_vendor2;
-     uint32_t cpuid_vendor3;
-     uint32_t cpuid_version;
-+    bool use_default_intel_pt;
-     FeatureWordArray features;
-     /* Features that were explicitly enabled/disabled */
-     FeatureWordArray user_features;
+@@ -3456,6 +3456,14 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+         .features[FEAT_6_EAX] =
+             CPUID_6_EAX_ARAT,
+         /* Missing: Mode-based execute control (XS/XU), processor tracing, TSC scaling */
++        .features[FEAT_14_0_EBX] =
++            CPUID_14_0_EBX_CR3_FILTER | CPUID_14_0_EBX_PSB |
++            CPUID_14_0_EBX_IP_FILTER | CPUID_14_0_EBX_MTC,
++        .features[FEAT_14_0_ECX] =
++            CPUID_14_0_ECX_TOPA | CPUID_14_0_ECX_MULTI_ENTRIES |
++            CPUID_14_0_ECX_SINGLE_RANGE,
++        .features[FEAT_14_1_EAX] = 0x249 << 16 | 0x2,
++        .features[FEAT_14_1_EBX] = 0x003f << 16 | 0x1fff,
+         .features[FEAT_VMX_BASIC] = MSR_VMX_BASIC_INS_OUTS |
+              MSR_VMX_BASIC_TRUE_CTLS,
+         .features[FEAT_VMX_ENTRY_CTLS] = VMX_VM_ENTRY_IA32E_MODE |
+@@ -3733,6 +3741,16 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_XSAVE_XGETBV1,
+         .features[FEAT_6_EAX] =
+             CPUID_6_EAX_ARAT,
++        .features[FEAT_14_0_EBX] =
++            CPUID_14_0_EBX_CR3_FILTER | CPUID_14_0_EBX_PSB |
++            CPUID_14_0_EBX_IP_FILTER | CPUID_14_0_EBX_MTC |
++            CPUID_14_0_EBX_PTWRITE | CPUID_14_0_EBX_POWER_EVENT |
++            CPUID_14_0_EBX_PSB_PMI_PRESERVATION,
++        .features[FEAT_14_0_ECX] =
++            CPUID_14_0_ECX_TOPA | CPUID_14_0_ECX_MULTI_ENTRIES |
++            CPUID_14_0_ECX_SINGLE_RANGE | CPUID_14_0_ECX_LIP,
++        .features[FEAT_14_1_EAX] = 0x249 << 16 | 0x2,
++        .features[FEAT_14_1_EBX] = 0x003f << 16 | 0xffff,
+         .features[FEAT_VMX_BASIC] = MSR_VMX_BASIC_INS_OUTS |
+              MSR_VMX_BASIC_TRUE_CTLS,
+         .features[FEAT_VMX_ENTRY_CTLS] = VMX_VM_ENTRY_IA32E_MODE |
 -- 
 2.27.0
 
