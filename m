@@ -2,56 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE5458C8CB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:55:05 +0200 (CEST)
-Received: from localhost ([::1]:51082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4552958C8D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:58:18 +0200 (CEST)
+Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL2Hg-0004bE-Q3
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48468)
+	id 1oL2Kn-0001N0-Ac
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oL20m-0001h3-T9; Mon, 08 Aug 2022 08:37:45 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2668)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oL26e-0000Tq-3o; Mon, 08 Aug 2022 08:43:40 -0400
+Received: from mail-eopbgr80105.outbound.protection.outlook.com
+ ([40.107.8.105]:61412 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oL20i-0006Gy-EH; Mon, 08 Aug 2022 08:37:36 -0400
-Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M1bLw110Wz67Qtq;
- Mon,  8 Aug 2022 20:37:28 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 8 Aug 2022 14:37:28 +0200
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 8 Aug
- 2022 13:37:28 +0100
-Date: Mon, 8 Aug 2022 13:37:27 +0100
-To: Bobo WL <lmw.bobo@gmail.com>
-CC: <linux-cxl@vger.kernel.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: Re: [BUG] cxl can not create region
-Message-ID: <20220808133727.00001171@huawei.com>
-In-Reply-To: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
-References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oL26Z-0007Cq-QK; Mon, 08 Aug 2022 08:43:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZiwxmgrKkwe5zls70EF2jkH/OqW8igpIkFaC5WywVfXrSKzR+f+wJzONcUicn1az5DINzU3Bt0UPx7D+ZX4Dkpi33M84tuN1kQV9nXXm/pO0V7/fsM4n34rsq7HCApEEmoO/P6/D2T1FJWpT4jv8sKSMlxq+VzzDxu13QjHn+0xncwcHOrFVQpQ/zeL7neH89kQJn09AMpiXEeJTHpU8PtASqlAa+yM47QxNeQTQnPdsl1j/N7NB7+bnX5sKVudR/Cd5ovYkzVd2jVcIkAu4Q11890MXqUl9vXPnDTsnyCNXPh0DwJflaRVZwRw7AjwXjJTMbYoRBKTL7UB8aEBfgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=soWTqdYp/tQA5DC7k2AQH3CwTgbFuAsjV+3Zlwv5TRY=;
+ b=d/cKYhbGRw0pf5L2rhstLPL3QvKO+//kAJCZM67eeg7kLWGMbNg7Tdxk4J5mZkNOxaPPSHRaWjmdLUAewGqf3BLDKmN0a7pHsSLKmDnpEcymRLHWIa4QQj8ap7+lywbgat+AOUfFqrEhxwOi2P62HC6y6VIyX81Vm3FU04AmqWZMGLvVT+VNcuGgCzmj/NiKw/bKGynwhNWUwwu/gBRoNqrMCfgRLXtr/+0tbgCPxw/6Nyg+ZtgW80e/XhwCSQtPTJAUhnGg9o/9M+ggVC4hyT0bhdFwxyj5HVryuHff+EsR0tBhLAEBlq6SyvNyavsqVZWGkPC5sqOt4KZguuIftg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=soWTqdYp/tQA5DC7k2AQH3CwTgbFuAsjV+3Zlwv5TRY=;
+ b=KWe7GnnmCO0xLtKFaafQK+1H924wnyV9UbXLdbfqkdHPvpACvezLKIouYvc1UBY0U6ZsXVikxVbIKoDQpn0PbKaVjMcFBynN5ZnfktHXNE4dmBPzmbnN487mb8Gz4acyMstLUk76WtZMbCPq9e5nnceBgb8dn3lWfm0n18GdiQapKfWKLJo2eAI2io4WSgdrO5biW65VOBvTL5JKBTJWDBhOKtuJSR84t1s9EcnRrm/Bq1ed2ckAhP0AOLa6wdd7LxqCKvfa04sjgaQB8FBS80l5NlkSWnOHK7QDpWQ0/XG+5+W0hOVIh6v9iHoG8YinrwJiIEAuYkzmzAPX0eC/BA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by VI1PR08MB3309.eurprd08.prod.outlook.com (2603:10a6:803:41::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Mon, 8 Aug
+ 2022 12:43:30 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d%4]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
+ 12:43:30 +0000
+Message-ID: <fada26ab-76ad-4b0a-5d6d-bddfdfcdb241@virtuozzo.com>
+Date: Mon, 8 Aug 2022 14:43:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 7/9] parallels: Out of image offset in BAT leads to image
+ inflation
+Content-Language: en-US
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, vsementsov@yandex-team.ru,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20220808120734.1168314-1-alexander.ivanov@virtuozzo.com>
+ <20220808120734.1168314-8-alexander.ivanov@virtuozzo.com>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <20220808120734.1168314-8-alexander.ivanov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: VI1PR08CA0114.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::16) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9e2c8e30-6136-4b71-e4c3-08da793b992f
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3309:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: A8TTUU4hLwuS2dzcdRB8g30THN+4VAS7gpmAZShAuOrwxVW1++caMulZ3HhlwHJwrbKmEQsVVbcYl5hihwFZKvWidlhcRtOyJ7oWzVd3Sm+IQzxQXnwqRd3y72mE+IQN9aRa7IwqC/swnprjPmvY+y10jBExpnc4Z3on42Z7FsL1ZWCLGjgP0ybYD83AgCfbca4DPhHggSXfdKPlWNDODxxB4F3NuSIcWDEZF0CEkVVZJgEP2dRtevSHPaNfC7r84TTtHShIUirX0/8bfi7fVk3gkIGrB4bEufgBnAnlsyb4l3I7NNmRuPOoAMVlYo+X0b2huV3PradckmvfHvKIJOCS0rKThaJNBNp42qAhFxEMoEgiN0zwAxq/79fWKAkFix8bXeyAwvFLm1TF/XtHp8PjyYcYn7YvJOyO5g3Rx4xdwa0sPuEwS5+sjnC4yi74dh+FAylabBHRh2L0spzL0qtSE7VZXAfxwsqJIzTMlt5tDgOweY79RN+c1YO69InB/Aveic5mcNn3P3iOPHjiZ/GJTcXS6A2D71M2b3vTkRNkQEUOAmd3b3DM3S69uLQjwtlcp2zfF7ElFVpVMTXU09qW4qRVyuW+8eQ1QrWWRnyMHlfUGnivGsVG6wLfDhmmkgDsi61BB48X21jJK0jkQedjRyJWYh33GGwyjmZrQ03i+5VU5DVJQWNazuBnjA0G2xFgcYLEmZm1wG/89//SZYiqHCYI6T+8StT/t/nkN+uq+W/kF6jJ4o+klpT/+5n0moYDAW0QK/8xLOel72s28EOkLgO2E5kY6kM3knwWD3e8ks1A7m2xiMowwiwz8lk4Aq75jkIxJ1j+RjdM13Rt/PMS1iYkx8DrUpsFYNd89Wo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(376002)(366004)(396003)(136003)(39840400004)(41300700001)(31696002)(86362001)(52116002)(6512007)(53546011)(6506007)(26005)(38100700002)(38350700002)(83380400001)(2616005)(186003)(4326008)(66476007)(66556008)(8676002)(66946007)(36756003)(5660300002)(2906002)(8936002)(31686004)(6486002)(478600001)(316002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WE1SVU9JZisraUlZSzZEaTliTFlmUDNjUWE5MWVKVVRYUWpqR1hQbHNXVzVZ?=
+ =?utf-8?B?cVFlQUpVQkxiSnVLZ0lKOGRIMWtYMThvM1FRRnR4dzlleGViMVQ5YVB0QzFB?=
+ =?utf-8?B?a29vak9mL0IvRnBEanBjenM1OWtGclUydmZDbnhNRjVHQ2Y4TG5SaFFJMEFD?=
+ =?utf-8?B?OVRQcHpvNTlSeE5pcFpDNWVPL3NDNDBEMk9TWlI5alVNTEMxWjNUbmtJUDc1?=
+ =?utf-8?B?UmFqT0E3UUUwZ3hZQVNNTTA0Y3RwVDUvSGJZTVZJY0ltQ2I2UHpoZStETE9I?=
+ =?utf-8?B?VzFnODVwOU9IR2k1bDRVYnlGYmFpTmlOWlYvTHBuL2pINENEbWtsOU9UM1Yw?=
+ =?utf-8?B?NWN2YVNhMk1sQks1LzRzbWpvaFhKKzRWMzk5clQrbmFDRlR6dExKa0xZZFQz?=
+ =?utf-8?B?bEhoUzRzb2s1VXlTcTNQaE9IcUNKdXhHOExlMXUzQmN0TXk2ajE5K1dXVjVM?=
+ =?utf-8?B?bmRBanZySzJwcW5rVlZ3YUxOS2xHdUVzMjhiMHdSUHB6RVBwYUhpVFNQSEZw?=
+ =?utf-8?B?UGpuWmxDTFRmbk5IT2k5VWRicVpRdHR0NGZxby94ZkRtUGpYVXU5WEpNU1lu?=
+ =?utf-8?B?a1BmaEJDeVJJMGNnNlZkM3dxdGQzVTZSS1drZEd0MHVMOXFYU2ZUUjcxZDh0?=
+ =?utf-8?B?MnltdldpWkRlR3hQRkJDejk5ejRsZEk5VzhuSmhCR1hPRWhia1p4YUZNVDhn?=
+ =?utf-8?B?QmdpUmpUTWo5a0YzRWFBQ1FUUWVoL05yZjQ1UXlzZVN2cnFOV1B1U3poeS9M?=
+ =?utf-8?B?ZVBIUEtxalNFYmF6c0lkU1RpVExIbTh0QkVUU1pzL29mNFNCTVUvcjBXNUMx?=
+ =?utf-8?B?SDVlSGR6VTF1THJhU2l3U3BpdmFHcFFseXVMSzZUM2lLdFl4WG16dlVkMFNF?=
+ =?utf-8?B?WWlRbzkrZ0w5M3hGWVkwaDFRWVZCbDBZV3krRHVnUUphVld1L3daREtaa20r?=
+ =?utf-8?B?Um9UYWZ6YlBvVDZiQ2E1V3IyZUdqWVAyaEIyblFyTFpBOHczUUFTK0lqZ0lC?=
+ =?utf-8?B?b0pNZU9aOURYWjlHZXZMSlFVTTNHMlRZbXJQRlU0Y1RGcG9ScmpMa3BDTHVW?=
+ =?utf-8?B?NnAwbVJqNkRRNWMxbjMyTUVFcTRDSW85RnZrZk01UzY1cGxGYzd5Y25SZUtM?=
+ =?utf-8?B?ZE5ub25yS3ZkWStxNU50azlVY1BVZDlRZjFjaWdwOHpGQnBaUnFjOFQwYkN0?=
+ =?utf-8?B?dWg3alZwZG1BMk5pejZJSnp6M1V2dDB6Vks2aysrRm9yOFVUUVVUWTJsSXUx?=
+ =?utf-8?B?UGUxTWk1UDltcXV0bkxpY0l5RHFMVGdvcnN1L2xaV3JXQVZxUGp6NjZtdmE2?=
+ =?utf-8?B?SWk4WXhaUHVXQXNxZzV3TlNLOEVrUTY3R0FXMjE5T2p1c2xSZVNjTUgvUlEx?=
+ =?utf-8?B?cDMxWjZ6YVVhOEUzeFprQWo3VWxoOHo3QWoyNC9YRTBoQXNBOStmK3dUZ1NK?=
+ =?utf-8?B?K3BxSjQyV1ZSRGJUdHFXblduREI5UWJybnJQdXkzQjNRRmlCK0txOXloQ05F?=
+ =?utf-8?B?QzZGM3BSbEVqSTZ1anRNSzhMM0VPVGhDMmNNeEx1T2JmektDbnBsL2UvR3dP?=
+ =?utf-8?B?Tm9sY1NWNzg1NXc4MndzbXZsa2hCdnFrRUxKTk1iQXBTWXpJejJFc0M2WGJr?=
+ =?utf-8?B?bERyVTJGT1Q3VzJQNFdKUjlyMHFtYUM1UGtMb29NTVFUWGZLU1BoWk1OVExF?=
+ =?utf-8?B?SzFEREgwZm5sV3pCK2pNWlBRMjUreUllM2RSK0xhTDZTZTkzMkx6cEpkT2l3?=
+ =?utf-8?B?S2pVMEtFa0dTd1NLZEQvVlN3OWZnS0xZdXFuVlZma2Zkcy9ISmdDbjVPSWxS?=
+ =?utf-8?B?b3lacVJDWnBSWEFkRkcxSnBzTmhjVW94S09EWHgrcFJzOEZsR2xUaExieXcy?=
+ =?utf-8?B?NytVSTgxY05IemdqdHdJVmdaRVlMT2lpSUlraG1ER0JONHlYa2FpOGlLbkU2?=
+ =?utf-8?B?ZEJGU2VpWVZ5WkJFdU5UV1M5QUorN0xOUks2Z2VlSlltdSt4cXJzRWxGVjNs?=
+ =?utf-8?B?bjEwU3Z6RlRsRDJFV2c0SzdlbElUY3N3bmtVQmhOaFpiMGZibVBZVk9jUk85?=
+ =?utf-8?B?Wm9oOHlmSEdDOFJrZXdXelRMZDFvUzJqZE5KS2o0WWlNZldwNFY5REl6VlUv?=
+ =?utf-8?Q?hYgZ4L88/vIhjg0BjLywl5dWZ?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e2c8e30-6136-4b71-e4c3-08da793b992f
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 12:43:30.7524 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w2BSuQd0IL06YaSFxLLFOpKgrqaNqqkUf8r/Qfzq4zpJzsz8vUDVN9ifJ+tDg65r95HQOVmO5tPfUebyEzYVlQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3309
+Received-SPF: pass client-ip=40.107.8.105; envelope-from=den@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,238 +145,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, 5 Aug 2022 10:20:23 +0800
-Bobo WL <lmw.bobo@gmail.com> wrote:
+On 08.08.2022 14:07, Alexander Ivanov wrote:
+> When an image is opened, data_end field in BDRVParallelsState
+> is setted as the biggest offset in the BAT plus cluster size.
+> If there is a corrupted offset pointing outside the image,
+> the image size increase accordingly. It potentially leads
+> to attempts to create a file size of petabytes.
+>
+> Set the data_end field with the original file size if the image
+> was opened for checking and repairing purposes or raise an error.
+>
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+>   block/parallels.c | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+>
+> diff --git a/block/parallels.c b/block/parallels.c
+> index 3cb5452613..72cf7499c1 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -811,6 +811,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>       BDRVParallelsState *s = bs->opaque;
+>       ParallelsHeader ph;
+>       int ret, size, i;
+> +    int64_t file_size;
+>       QemuOpts *opts = NULL;
+>       Error *local_err = NULL;
+>       char *buf;
+> @@ -890,6 +891,22 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>           }
+>       }
+>   
+> +    file_size = bdrv_getlength(bs->file->bs);
+> +    if (file_size < 0) {
+> +        goto fail;
+> +    }
+> +
+> +    file_size >>= BDRV_SECTOR_BITS;
+> +    if (s->data_end > file_size) {
+> +        if (flags & BDRV_O_CHECK) {
+> +            s->data_end = file_size;
+> +        } else {
+> +            error_setg(errp, "parallels: Offset in BAT is out of image");
+> +            ret = -EINVAL;
+> +            goto fail;
+> +        }
+> +    }
+> +
+>       if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
+>           /* Image was not closed correctly. The check is mandatory */
+>           s->header_unclean = true;
 
-> Hi list
-> 
-> I want to test cxl functions in arm64, and found some problems I can't
-> figure out.
-Hi Bob,
-
-Glad to see people testing this code.
-
-> 
-> My test environment:
-> 
-> 1. build latest bios from https://github.com/tianocore/edk2.git master
-> branch(cc2db6ebfb6d9d85ba4c7b35fba1fa37fffc0bc2)
-> 2. build latest qemu-system-aarch64 from git://git.qemu.org/qemu.git
-> master branch(846dcf0ba4eff824c295f06550b8673ff3f31314). With cxl arm
-> support patch: https://patchwork.kernel.org/project/cxl/cover/20220616141950.23374-1-Jonathan.Cameron@huawei.com/
-> 3. build Linux kernel from
-> https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
-> branch(65fc1c3d26b96002a5aa1f4012fae4dc98fd5683)
-> 4. build latest ndctl tools from https://github.com/pmem/ndctl
-> create_region branch(8558b394e449779e3a4f3ae90fae77ede0bca159)
-> 
-> And my qemu test commands:
-> sudo $QEMU_BIN -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 \
->         -cpu max -smp 8 -nographic -no-reboot \
->         -kernel $KERNEL -bios $BIOS_BIN \
->         -drive if=none,file=$ROOTFS,format=qcow2,id=hd \
->         -device virtio-blk-pci,drive=hd -append 'root=/dev/vda1
-> nokaslr dyndbg="module cxl* +p"' \
->         -object memory-backend-ram,size=4G,id=mem0 \
->         -numa node,nodeid=0,cpus=0-7,memdev=mem0 \
->         -net nic -net user,hostfwd=tcp::2222-:22 -enable-kvm \
->         -object
-> memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M
-> \
->         -object
-> memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M
-> \
->         -object
-> memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M
-> \
->         -object
-> memory-backend-file,id=cxl-mem3,share=on,mem-path=/tmp/cxltest3.raw,size=256M
-> \
->         -object
-> memory-backend-file,id=cxl-lsa0,share=on,mem-path=/tmp/lsa0.raw,size=256M
-> \
->         -object
-> memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa1.raw,size=256M
-> \
->         -object
-> memory-backend-file,id=cxl-lsa2,share=on,mem-path=/tmp/lsa2.raw,size=256M
-> \
->         -object
-> memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa3.raw,size=256M
-> \
->         -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
->         -device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0 \
-
-Probably not related to your problem, but there is a disconnect in QEMU /
-kernel assumptionsaround the presence of an HDM decoder when a HB only
-has a single root port. Spec allows it to be provided or not as an implementation choice.
-Kernel assumes it isn't provide. Qemu assumes it is.
-
-The temporary solution is to throw in a second root port on the HB and not
-connect anything to it.  Longer term I may special case this so that the particular
-decoder defaults to pass through settings in QEMU if there is only one root port.
-
->         -device cxl-upstream,bus=root_port0,id=us0 \
->         -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
->         -device
-> cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
->         -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
->         -device
-> cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1 \
->         -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
->         -device
-> cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2 \
->         -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
->         -device
-> cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3 \
->         -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
-> 
-> And I have got two problems.
-> 1. When I want to create x1 region with command: "cxl create-region -d
-> decoder0.0 -w 1 -g 4096 mem0", kernel crashed with null pointer
-> reference. Crash log:
-> 
-> [  534.697324] cxl_region region0: config state: 0
-> [  534.697346] cxl_region region0: probe: -6
-
-Seems odd this is up here.  But maybe fine.
-
-> [  534.697368] cxl_acpi ACPI0017:00: decoder0.0: created region0
-> [  534.699115] cxl region0: mem0:endpoint3 decoder3.0 add:
-> mem0:decoder3.0 @ 0 next: none nr_eps: 1 nr_targets: 1
-> [  534.699149] cxl region0: 0000:0d:00.0:port2 decoder2.0 add:
-> mem0:decoder3.0 @ 0 next: mem0 nr_eps: 1 nr_targets: 1
-> [  534.699167] cxl region0: ACPI0016:00:port1 decoder1.0 add:
-> mem0:decoder3.0 @ 0 next: 0000:0d:00.0 nr_eps: 1 nr_targets: 1
-> [  534.699176] cxl region0: ACPI0016:00:port1 iw: 1 ig: 256
-> [  534.699182] cxl region0: ACPI0016:00:port1 target[0] = 0000:0c:00.0
-> for mem0:decoder3.0 @ 0
-> [  534.699189] cxl region0: 0000:0d:00.0:port2 iw: 1 ig: 256
-> [  534.699193] cxl region0: 0000:0d:00.0:port2 target[0] =
-> 0000:0e:00.0 for mem0:decoder3.0 @ 0
-> [  534.699405] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000000
-> [  534.701474] Mem abort info:
-> [  534.701994]   ESR = 0x0000000086000004
-> [  534.702653]   EC = 0x21: IABT (current EL), IL = 32 bits
-> [  534.703616]   SET = 0, FnV = 0
-> [  534.704174]   EA = 0, S1PTW = 0
-> [  534.704803]   FSC = 0x04: level 0 translation fault
-> [  534.705694] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010144a000
-> [  534.706875] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
-> [  534.709855] Internal error: Oops: 86000004 [#1] PREEMPT SMP
-> [  534.710301] Modules linked in:
-> [  534.710546] CPU: 7 PID: 331 Comm: cxl Not tainted
-> 5.19.0-rc3-00064-g65fc1c3d26b9-dirty #11
-> [  534.715393] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
-> [  534.717179] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  534.719190] pc : 0x0
-> [  534.719928] lr : commit_store+0x118/0x2cc
-> [  534.721007] sp : ffff80000aec3c30
-> [  534.721793] x29: ffff80000aec3c30 x28: ffff0000da62e740 x27: ffff0000c0c06b30
-> [  534.723875] x26: 0000000000000000 x25: ffff0000c0a2a400 x24: ffff0000c0a29400
-> [  534.725440] x23: 0000000000000003 x22: 0000000000000000 x21: ffff0000c0c06800
-> [  534.727312] x20: 0000000000000000 x19: ffff0000c1559800 x18: 0000000000000000
-> [  534.729138] x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffffd41fe838
-> [  534.731046] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-> [  534.732402] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-> [  534.734432] x8 : 0000000000000000 x7 : 0000000000000000 x6 : ffff0000c0906e80
-> [  534.735921] x5 : 0000000000000000 x4 : 0000000000000000 x3 : ffff80000aec3bf0
-> [  534.737437] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c155a000
-> [  534.738878] Call trace:
-> [  534.739368]  0x0
-> [  534.739713]  dev_attr_store+0x1c/0x30
-> [  534.740186]  sysfs_kf_write+0x48/0x58
-> [  534.740961]  kernfs_fop_write_iter+0x128/0x184
-> [  534.741872]  new_sync_write+0xdc/0x158
-> [  534.742706]  vfs_write+0x1ac/0x2a8
-> [  534.743440]  ksys_write+0x68/0xf0
-> [  534.744328]  __arm64_sys_write+0x1c/0x28
-> [  534.745180]  invoke_syscall+0x44/0xf0
-> [  534.745989]  el0_svc_common+0x4c/0xfc
-> [  534.746661]  do_el0_svc+0x60/0xa8
-> [  534.747378]  el0_svc+0x2c/0x78
-> [  534.748066]  el0t_64_sync_handler+0xb8/0x12c
-> [  534.748919]  el0t_64_sync+0x18c/0x190
-> [  534.749629] Code: bad PC value
-> [  534.750169] ---[ end trace 0000000000000000 ]---
-> 
-> 2. When I want to create x4 region with command: "cxl create-region -d
-> decoder0.0 -w 4 -g 4096 -m mem0 mem1 mem2 mem3". I got below errors:
-> 
-> cxl region: create_region: region0: failed to set target3 to mem3
-> cxl region: cmd_create_region: created 0 regions
-> 
-> And kernel log as below:
-> [   60.536663] cxl_region region0: config state: 0
-> [   60.536675] cxl_region region0: probe: -6
-> [   60.536696] cxl_acpi ACPI0017:00: decoder0.0: created region0
-> [   60.538251] cxl region0: mem0:endpoint3 decoder3.0 add:
-> mem0:decoder3.0 @ 0 next: none nr_eps: 1 nr_targets: 1
-> [   60.538278] cxl region0: 0000:0d:00.0:port2 decoder2.0 add:
-> mem0:decoder3.0 @ 0 next: mem0 nr_eps: 1 nr_targets: 1
-> [   60.538295] cxl region0: ACPI0016:00:port1 decoder1.0 add:
-> mem0:decoder3.0 @ 0 next: 0000:0d:00.0 nr_eps: 1 nr_targets: 1
-> [   60.538647] cxl region0: mem1:endpoint4 decoder4.0 add:
-> mem1:decoder4.0 @ 1 next: none nr_eps: 1 nr_targets: 1
-> [   60.538663] cxl region0: 0000:0d:00.0:port2 decoder2.0 add:
-> mem1:decoder4.0 @ 1 next: mem1 nr_eps: 2 nr_targets: 2
-> [   60.538675] cxl region0: ACPI0016:00:port1 decoder1.0 add:
-> mem1:decoder4.0 @ 1 next: 0000:0d:00.0 nr_eps: 2 nr_targets: 1
-> [   60.539311] cxl region0: mem2:endpoint5 decoder5.0 add:
-> mem2:decoder5.0 @ 2 next: none nr_eps: 1 nr_targets: 1
-> [   60.539332] cxl region0: 0000:0d:00.0:port2 decoder2.0 add:
-> mem2:decoder5.0 @ 2 next: mem2 nr_eps: 3 nr_targets: 3
-> [   60.539343] cxl region0: ACPI0016:00:port1 decoder1.0 add:
-> mem2:decoder5.0 @ 2 next: 0000:0d:00.0 nr_eps: 3 nr_targets: 1
-> [   60.539711] cxl region0: mem3:endpoint6 decoder6.0 add:
-> mem3:decoder6.0 @ 3 next: none nr_eps: 1 nr_targets: 1
-> [   60.539723] cxl region0: 0000:0d:00.0:port2 decoder2.0 add:
-> mem3:decoder6.0 @ 3 next: mem3 nr_eps: 4 nr_targets: 4
-> [   60.539735] cxl region0: ACPI0016:00:port1 decoder1.0 add:
-> mem3:decoder6.0 @ 3 next: 0000:0d:00.0 nr_eps: 4 nr_targets: 1
-> [   60.539742] cxl region0: ACPI0016:00:port1 iw: 1 ig: 256
-> [   60.539747] cxl region0: ACPI0016:00:port1 target[0] = 0000:0c:00.0
-> for mem0:decoder3.0 @ 0
-> [   60.539754] cxl region0: 0000:0d:00.0:port2 iw: 4 ig: 512
-
-This looks like off by 1 that should be fixed in the below mentioned
-cxl/pending branch.  That ig should be 256.  Note the fix was
-for a test case with a fat HB and no switch, but certainly looks
-like this is the same issue.
-
-> [   60.539758] cxl region0: 0000:0d:00.0:port2 target[0] =
-> 0000:0e:00.0 for mem0:decoder3.0 @ 0
-> [   60.539764] cxl region0: ACPI0016:00:port1: cannot host mem1:decoder4.0 at 1
-> 
-> I have tried to write sysfs node manually, got same errors.
-When stepping through by hand, which sysfs write triggers the crash above?
-
-Not sure it's related, but I've just sent out a fix to the
-target register handling in QEMU. 
-
-https://lore.kernel.org/linux-cxl/20220808122051.14822-1-Jonathan.Cameron@huawei.com/T/#m47ff985412ce44559e6b04d677c302f8cd371330
-
-I did have one instance last week of triggering what looked to be a race condition but
-the stack trace doesn't looks related to what you've hit.
-
-It will probably be a few days before I have time to take a look at replicating
-what you have seen.
-
-If you have time, try using the kernel.org cxl/pending branch as there are
-a few additional fixes on there since you sent this email.  Optimistic to hope
-this is covered by one of those, but at least it will mean we are trying to replicate
-on same branch.
-
-Jonathan
-
-
-> 
-> Hope I can get some helps here.
-> 
-> Bob
-
+for me it would be more logical to have this check inside the loop,
+calculating data_offset. Though this is personal.
 
