@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4889658C4C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 10:14:05 +0200 (CEST)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55EFA58C4D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 10:18:42 +0200 (CEST)
+Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKxtZ-0000xy-J0
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 04:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47562)
+	id 1oKxy6-0004TQ-0P
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 04:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKxm6-0004sU-Nm
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:06:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49768)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oKxoW-0005Wf-El
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:08:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKxlz-00027G-Lc
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:06:08 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oKxoT-0002NR-CB
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:08:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659945962;
+ s=mimecast20190719; t=1659946116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mDpA2vHu0nz28byx3zvoEi2wc1hgEj9pAzcFwKiYYso=;
- b=AWMQA2Lwhy2Wc2owtGj7VgvSDyKPdSCq+1DhSQTPYj+xZVR2uQccZprJWcAPAFdKbkBYD+
- Ah/Qz+RWlMvNxfVt4lu407ka88opCx0yNgC0jpmSU5MUiRFvdAIXl08YensarswLR5fvR9
- e/BSY2xZEmUUeGSJWxzx/4Q22dHQ+fg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NHKaxKERvWCuejXfe2p4/Ep7b9wOBF5O2kpGO7xa8XA=;
+ b=eGWAdGeEMp7oes/14be4eoBpleANhsmmYjzBmXnCh4Yf9G0/uOGFWAXzCNzqdMhKotjelt
+ 7Wx5wALtKa0vTTa8yFOLyyQ+R8eTClqtsgFaMJh6FYqcftzu8N2ctoJH1SCXYSEFE53bYc
+ w4AkvwC7/MyICQyOejgNfOrjTo063yw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-JKviJ68jNX-98YJVKbVyvQ-1; Mon, 08 Aug 2022 04:05:58 -0400
-X-MC-Unique: JKviJ68jNX-98YJVKbVyvQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FDE03804062;
- Mon,  8 Aug 2022 08:05:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EA8540CF8F2;
- Mon,  8 Aug 2022 08:05:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4C1D521E6930; Mon,  8 Aug 2022 10:05:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Nikita Ivanov <nivanov@cloudlinux.com>
-Cc: qemu-devel@nongnu.org,  Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Christian Schoenebeck
- <qemu_oss@crudebyte.com>,  Greg Kurz <groug@kaod.org>,  Jason Wang
- <jasowang@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Konstantin
- Kostiuk <kkostiuk@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] error handling: Use TFR() macro where applicable
-References: <CAAJ4Ao9crXap1OYiutSgG5caZHzVkM=WvQYpVD2XN1M8JsD3cQ@mail.gmail.com>
- <4561100.0A2huPDW8y@silver>
- <CAMxuvayecf4pzKmjqB1AACD9OAc+5XY_88g=A9hm4qUq2SUm1A@mail.gmail.com>
- <CAFEAcA-ApDzJvYoWMP9un1p+bgNNe6g+J09QPfxUv4Ee=WMyeQ@mail.gmail.com>
- <CAAJ4Ao-P3ZUuvzEkqOrUuw9qUWtmf3JWmvxVqMs4+z4pdqz6qw@mail.gmail.com>
-Date: Mon, 08 Aug 2022 10:05:56 +0200
-In-Reply-To: <CAAJ4Ao-P3ZUuvzEkqOrUuw9qUWtmf3JWmvxVqMs4+z4pdqz6qw@mail.gmail.com>
- (Nikita Ivanov's message of "Mon, 8 Aug 2022 10:19:22 +0300")
-Message-ID: <877d3jupln.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-396-8j7CX2ewM1ucdCyaNWpbQA-1; Mon, 08 Aug 2022 04:08:35 -0400
+X-MC-Unique: 8j7CX2ewM1ucdCyaNWpbQA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d6-20020adfa346000000b002206e4c29caso1246520wrb.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 01:08:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=NHKaxKERvWCuejXfe2p4/Ep7b9wOBF5O2kpGO7xa8XA=;
+ b=SEeLJHEBUjYkg+QLrLaAFXSZ0SfebX7G2+wAxixxYmHtPwAOjHvet4zw4kHogabDPj
+ xILIXGh2Gsogdy+dHbLxl+UApsZqNk3oHCMmQDk1xuXz8eLd5uG1U/+c97D6s0Ikh0ti
+ yGW0f83/9j3+3g6AUG4XZJnhrrBXQjiTrBHcBgZgHjRtJNKZKQ5IID+iIqb7CJML8Gro
+ U0wRMXuDUBy8YRSbcYknrEWXpmVja+uhxmtXP+3RVlnKPYS2qQeIoUCWz8lj+et++4rn
+ xepeXsbUpsZadsAPKu1iDKsoRnVLYwnWrjqdw5l2Qjx+rAh4MUKfV4Otd+JJjUkxYP2K
+ T8Eg==
+X-Gm-Message-State: ACgBeo05Jc5UnsAxa60FdxBfEeKSG+co33dAXUN1nLux7j1SdV9/oU5p
+ ndcslGJ7Qm+lkzrsA5V27037YVwTZjJJ6rtzHvoeVEC0nojpVX/trdPipaUzB+TCTHqBAgBIoBI
+ AQwF706QyAFlG8kk=
+X-Received: by 2002:a05:600c:34c6:b0:3a3:2549:1905 with SMTP id
+ d6-20020a05600c34c600b003a325491905mr11463134wmq.204.1659946114207; 
+ Mon, 08 Aug 2022 01:08:34 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5LRpsN2LYIpelNzJ5PhhtsBIL2/bHcZ/1WJhiUNkILdp07+EK5d5ecvv6r9dpNcdbR/KFT2Q==
+X-Received: by 2002:a05:600c:34c6:b0:3a3:2549:1905 with SMTP id
+ d6-20020a05600c34c600b003a325491905mr11463117wmq.204.1659946113934; 
+ Mon, 08 Aug 2022 01:08:33 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-42-113-71.web.vodafone.de.
+ [109.42.113.71]) by smtp.gmail.com with ESMTPSA id
+ c16-20020adffb50000000b002205c907474sm10705084wrs.107.2022.08.08.01.08.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Aug 2022 01:08:33 -0700 (PDT)
+Message-ID: <4a5c4a35-908d-4cb5-e90d-13d4eb8ab551@redhat.com>
+Date: Mon, 8 Aug 2022 10:08:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 2/2] Test code for AVX512 support for
+ xbzrle_encode_buffer
+Content-Language: en-US
+To: ling xu <ling1.xu@intel.com>, qemu-devel@nongnu.org
+Cc: quintela@redhat.com, dgilbert@redhat.com, Zhou Zhao
+ <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>
+References: <20220808074837.1484760-1-ling1.xu@intel.com>
+ <20220808074837.1484760-3-ling1.xu@intel.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220808074837.1484760-3-ling1.xu@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,146 +103,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nikita Ivanov <nivanov@cloudlinux.com> writes:
-
-> Summing up the discussion above, I suggest the following patch for TFR()
-> macro refactoring. (The patch is sequential to the first one I introduced
-> in the start of the discussion).
->
->>From 6318bee052900aa93bba6620b53c7cb2290e5001 Mon Sep 17 00:00:00 2001
-> From: Nikita Ivanov <nivanov@cloudlinux.com>
-> Date: Mon, 8 Aug 2022 09:30:34 +0300
-> Subject: [PATCH] Refactoring: rename TFR() to TEMP_FAILURE_RETRY()
->
-> glibc's unistd.h header provides the same macro with the
-> subtle difference in type casting. Adjust macro name to the
-> common standard and define conditionally.
->
-> Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
+On 08/08/2022 09.48, ling xu wrote:
+> Signed-off-by: ling xu <ling1.xu@intel.com>
+> Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
+> Co-authored-by: Jun Jin <jun.i.jin@intel.com>
 > ---
->  chardev/char-fd.c      |  2 +-
->  chardev/char-pipe.c    | 12 +++++++++---
->  hw/9pfs/9p-local.c     |  6 ++++--
->  include/qemu/osdep.h   |  6 ++++--
->  net/l2tpv3.c           |  8 +++++---
->  net/tap-linux.c        |  2 +-
->  net/tap.c              | 10 ++++++----
->  os-posix.c             |  2 +-
->  qga/commands-posix.c   |  2 +-
->  tests/qtest/libqtest.c |  2 +-
->  util/main-loop.c       |  2 +-
->  util/osdep.c           |  2 +-
->  12 files changed, 35 insertions(+), 21 deletions(-)
->
-> diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-> index cf78454841..7f5ed9aba3 100644
-> --- a/chardev/char-fd.c
-> +++ b/chardev/char-fd.c
-> @@ -198,7 +198,7 @@ int qmp_chardev_open_file_source(char *src, int flags,
-> Error **errp)
->  {
->      int fd = -1;
->
-> -    TFR(fd = qemu_open_old(src, flags, 0666));
-> +    TEMP_FAILURE_RETRY(fd = qemu_open_old(src, flags, 0666));
->      if (fd == -1) {
->          error_setg_file_open(errp, errno, src);
->      }
-> diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-> index 66d3b85091..aed97e306b 100644
-> --- a/chardev/char-pipe.c
-> +++ b/chardev/char-pipe.c
-> @@ -131,8 +131,12 @@ static void qemu_chr_open_pipe(Chardev *chr,
->
->      filename_in = g_strdup_printf("%s.in", filename);
->      filename_out = g_strdup_printf("%s.out", filename);
-> -    TFR(fd_in = qemu_open_old(filename_in, O_RDWR | O_BINARY));
-> -    TFR(fd_out = qemu_open_old(filename_out, O_RDWR | O_BINARY));
-> +    TEMP_FAILURE_RETRY(
-> +        fd_in = qemu_open_old(filename_in, O_RDWR | O_BINARY)
-> +    );
-> +    TEMP_FAILURE_RETRY(
-> +        fd_out = qemu_open_old(filename_out, O_RDWR | O_BINARY)
-> +    );
+>   tests/unit/test-xbzrle.c | 307 ++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 290 insertions(+), 17 deletions(-)
+> 
+> diff --git a/tests/unit/test-xbzrle.c b/tests/unit/test-xbzrle.c
+> index ef951b6e54..653016826f 100644
+> --- a/tests/unit/test-xbzrle.c
+> +++ b/tests/unit/test-xbzrle.c
+> @@ -38,111 +38,280 @@ static void test_uleb(void)
+>       g_assert(val == 0);
+>   }
+>   
+> -static void test_encode_decode_zero(void)
+> +static float *test_encode_decode_zero(void)
+>   {
+>       uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
+>       uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
+> +    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
+> +    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
+>       int i = 0;
+> -    int dlen = 0;
+> +    int dlen = 0, dlen512 = 0;
+>       int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
+>   
+>       for (i = diff_len; i > 0; i--) {
+>           buffer[1000 + i] = i;
+> +        buffer512[1000 + i] = i;
+>       }
+>   
+>       buffer[1000 + diff_len + 3] = 103;
+>       buffer[1000 + diff_len + 5] = 105;
+>   
+> +    buffer512[1000 + diff_len + 3] = 103;
+> +    buffer512[1000 + diff_len + 5] = 105;
+> +
+>       /* encode zero page */
+> +    time_t t_start, t_end, t_start512, t_end512;
+> +    t_start = clock();
+>       dlen = xbzrle_encode_buffer(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
+>                          XBZRLE_PAGE_SIZE);
+> +    t_end = clock();
+> +    float time_val = difftime(t_end, t_start);
+>       g_assert(dlen == 0);
+>   
+> +    t_start512 = clock();
+> +    dlen512 = xbzrle_encode_buffer_512(buffer512, buffer512, XBZRLE_PAGE_SIZE,
+> +                                       compressed512, XBZRLE_PAGE_SIZE);
 
-Style question: do we want the ");" on its own line?  I think we
-generally don't do that for function and function-like macro calls.
+Does this also still work on systems without AVX? If I've got patch 1/2 
+right, this function is only defined if CONFIG_AVX512BW_OPT has been set, so 
+using it unconditionally here seems to be wrong?
 
->      g_free(filename_in);
->      g_free(filename_out);
->      if (fd_in < 0 || fd_out < 0) {
-> @@ -142,7 +146,9 @@ static void qemu_chr_open_pipe(Chardev *chr,
->          if (fd_out >= 0) {
->              close(fd_out);
->          }
-> -        TFR(fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY));
-> +        TEMP_FAILURE_RETRY(
-> +            fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY)
-> +        );
->          if (fd_in < 0) {
->              error_setg_file_open(errp, errno, filename);
->              return;
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index c90ab947ba..e803c05d0c 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -470,7 +470,7 @@ static ssize_t local_readlink(FsContext *fs_ctx,
-> V9fsPath *fs_path,
->          if (fd == -1) {
->              return -1;
->          }
-> -        TFR(tsize = read(fd, (void *)buf, bufsz));
-> +        TEMP_FAILURE_RETRY(tsize = read(fd, (void *)buf, bufsz));
->          close_preserve_errno(fd);
->      } else if ((fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
->                 (fs_ctx->export_flags & V9FS_SM_NONE)) {
-> @@ -906,7 +906,9 @@ static int local_symlink(FsContext *fs_ctx, const char
-> *oldpath,
->          }
->          /* Write the oldpath (target) to the file. */
->          oldpath_size = strlen(oldpath);
-> -        TFR(write_size = write(fd, (void *)oldpath, oldpath_size));
-> +        TEMP_FAILURE_RETRY(
-> +            write_size = write(fd, (void *)oldpath, oldpath_size)
-> +        );
->          close_preserve_errno(fd);
->
->          if (write_size != oldpath_size) {
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index b1c161c035..55f2927d8b 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -242,8 +242,10 @@ void QEMU_ERROR("code path is reachable")
->  #if !defined(ESHUTDOWN)
->  #define ESHUTDOWN 4099
->  #endif
-> -
-> -#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
-> +#if !defined(TEMP_FAILURE_RETRY)
-> +#define TEMP_FAILURE_RETRY(expr) \
-> +    do { if ((expr) != -1) break; } while (errno == EINTR)
-> +#endif
-
-GLibc's version is
-
-   # define TEMP_FAILURE_RETRY(expression) \
-     (__extension__							      \
-       ({ long int __result;						      \
-          do __result = (long int) (expression);				      \
-          while (__result == -1L && errno == EINTR);			      \
-          __result; }))
-
-The difference isn't just "type casting", it's also statement
-vs. expression.
-
-Is it a good idea to have the macro expand into a statement on some
-hosts, and into an expression on others?  Sure, CI should catch any uses
-as expression, but delaying compile errors to CI wastes developer time.
-
->
->  /* time_t may be either 32 or 64 bits depending on the host OS, and
->   * can be either signed or unsigned, so we can't just hardcode a
-
-[...]
+  Thomas
 
 
