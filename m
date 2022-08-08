@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B7758C86B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:36:27 +0200 (CEST)
-Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E48158C87A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:41:22 +0200 (CEST)
+Received: from localhost ([::1]:57560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL1ze-0000UX-6U
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
+	id 1oL24P-0005hj-J3
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL1mm-00047K-9d; Mon, 08 Aug 2022 08:23:08 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13738)
+ id 1oL1n3-0004cu-4J; Mon, 08 Aug 2022 08:23:26 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:13745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL1mk-0004N4-Gy; Mon, 08 Aug 2022 08:23:08 -0400
+ id 1oL1n0-0004Nr-VJ; Mon, 08 Aug 2022 08:23:24 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 58D09747871;
- Mon,  8 Aug 2022 14:23:04 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 0C5E0747F1C;
+ Mon,  8 Aug 2022 14:23:21 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 203157475F9; Mon,  8 Aug 2022 14:23:04 +0200 (CEST)
+ id CF9B1747F1B; Mon,  8 Aug 2022 14:23:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 1E8B0746FDE;
- Mon,  8 Aug 2022 14:23:04 +0200 (CEST)
-Date: Mon, 8 Aug 2022 14:23:04 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id CE09B747F19;
+ Mon,  8 Aug 2022 14:23:20 +0200 (CEST)
+Date: Mon, 8 Aug 2022 14:23:20 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
  qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 02/22] ppc/ppc405: Introduce a PPC405 generic
+Subject: Re: [PATCH v3 03/22] ppc/ppc405: Move devices under the ref405ep
  machine
-In-Reply-To: <20220808102734.133084-3-clg@kaod.org>
-Message-ID: <8e36b76d-2f48-3c45-bd26-d1c9fb303ba9@eik.bme.hu>
+In-Reply-To: <20220808102734.133084-4-clg@kaod.org>
+Message-ID: <ea6b59ff-e4ac-8e1b-63fb-4aac388f695e@eik.bme.hu>
 References: <20220808102734.133084-1-clg@kaod.org>
- <20220808102734.133084-3-clg@kaod.org>
+ <20220808102734.133084-4-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1613236159-1659961384=:47322"
+ boundary="3866299591-523838865-1659961400=:47322"
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,80 +66,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1613236159-1659961384=:47322
+--3866299591-523838865-1659961400=:47322
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Mon, 8 Aug 2022, Cédric Le Goater wrote:
-> We will use this machine as a base to define the ref405ep and possibly
-> the PPC405 hotfoot board as found in the Linux kernel.
->
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
 > ---
-> hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
-> 1 file changed, 28 insertions(+), 3 deletions(-)
+> hw/ppc/ppc405_boards.c | 31 +++++++++++++++++++------------
+> 1 file changed, 19 insertions(+), 12 deletions(-)
 >
 > diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 1a4e7588c584..96700be74d08 100644
+> index 96700be74d08..f4794ba40ce6 100644
 > --- a/hw/ppc/ppc405_boards.c
 > +++ b/hw/ppc/ppc405_boards.c
-> @@ -50,6 +50,15 @@
->
-> #define USE_FLASH_BIOS
->
-> +#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
-> +
-> +struct Ppc405MachineState {
-> +    /* Private */
-> +    MachineState parent_obj;
-> +    /* Public */
-> +};
-> +
-> /*****************************************************************************/
-> /* PPC405EP reference board (IBM) */
-> /* Standalone board with:
-> @@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
->
->     mc->desc = "ref405ep";
->     mc->init = ref405ep_init;
-> -    mc->default_ram_size = 0x08000000;
-> -    mc->default_ram_id = "ef405ep.ram";
+> @@ -230,13 +230,11 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
+>     env->load_info = &boot_info;
 > }
 >
-> static const TypeInfo ref405ep_type = {
->     .name = MACHINE_TYPE_NAME("ref405ep"),
-> -    .parent = TYPE_MACHINE,
-> +    .parent = TYPE_PPC405_MACHINE,
->     .class_init = ref405ep_class_init,
-> };
+> -static void ref405ep_init(MachineState *machine)
+> +static void ppc405_init(MachineState *machine)
+> {
+>     MachineClass *mc = MACHINE_GET_CLASS(machine);
+>     const char *kernel_filename = machine->kernel_filename;
+>     PowerPCCPU *cpu;
+> -    DeviceState *dev;
+> -    SysBusDevice *s;
+>     MemoryRegion *sram = g_new(MemoryRegion, 1);
+>     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+>     hwaddr ram_bases[2], ram_sizes[2];
+> @@ -294,15 +292,6 @@ static void ref405ep_init(MachineState *machine)
+>         memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios);
+>     }
 >
-> +static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+> -    /* Register FPGA */
+> -    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
+> -    /* Register NVRAM */
+> -    dev = qdev_new("sysbus-m48t08");
+> -    qdev_prop_set_int32(dev, "base-year", 1968);
+> -    s = SYS_BUS_DEVICE(dev);
+> -    sysbus_realize_and_unref(s, &error_fatal);
+> -    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
+> -
+>     /* Load kernel and initrd using U-Boot images */
+>     if (kernel_filename && machine->firmware) {
+>         target_ulong kernel_base, initrd_base;
+> @@ -335,6 +324,23 @@ static void ref405ep_init(MachineState *machine)
+>     }
+> }
+>
+> +static void ref405ep_init(MachineState *machine)
 > +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    DeviceState *dev;
+> +    SysBusDevice *s;
 > +
-> +    mc->desc = "PPC405 generic machine";
-> +    mc->default_ram_size = 128 * MiB;
-> +    mc->default_ram_id = "ppc405.ram";
+> +    ppc405_init(machine);
+> +
+> +    /* Register FPGA */
+> +    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
+> +    /* Register NVRAM */
+> +    dev = qdev_new("sysbus-m48t08");
+> +    qdev_prop_set_int32(dev, "base-year", 1968);
+> +    s = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
 > +}
 > +
-> +static const TypeInfo ppc405_machine_type = {
-> +    .name = TYPE_PPC405_MACHINE,
-> +    .parent = TYPE_MACHINE,
-> +    .instance_size = sizeof(Ppc405MachineState),
-> +    .class_init = ppc405_machine_class_init,
-> +    .abstract = true,
-> +};
-> +
-> static void ppc405_machine_init(void)
+> static void ref405ep_class_init(ObjectClass *oc, void *data)
 > {
-> +    type_register_static(&ppc405_machine_type);
->     type_register_static(&ref405ep_type);
+>     MachineClass *mc = MACHINE_CLASS(oc);
+> @@ -354,6 +360,7 @@ static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+>     MachineClass *mc = MACHINE_CLASS(oc);
+>
+>     mc->desc = "PPC405 generic machine";
+> +    mc->init = ppc405_init;
+>     mc->default_ram_size = 128 * MiB;
+>     mc->default_ram_id = "ppc405.ram";
 > }
 >
->
---3866299591-1613236159-1659961384=:47322--
+--3866299591-523838865-1659961400=:47322--
 
