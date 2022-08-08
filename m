@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC71158CA3C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 16:14:49 +0200 (CEST)
-Received: from localhost ([::1]:55326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584F458CA7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 16:25:44 +0200 (CEST)
+Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL3Wr-0001WN-0S
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 10:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
+	id 1oL3hP-0007b9-3K
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 10:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL3Um-0008Bm-82; Mon, 08 Aug 2022 10:12:40 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43262)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oL3eR-00044g-Go
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 10:22:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL3Uf-0006bE-Sb; Mon, 08 Aug 2022 10:12:35 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AA8B3746E07;
- Mon,  8 Aug 2022 16:12:29 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 56EE8746307; Mon,  8 Aug 2022 16:12:29 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 55779745702;
- Mon,  8 Aug 2022 16:12:29 +0200 (CEST)
-Date: Mon, 8 Aug 2022 16:12:29 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 09/22] ppc/ppc405: QOM'ify CPC
-In-Reply-To: <20220808102734.133084-10-clg@kaod.org>
-Message-ID: <62bd55a1-a699-f47a-a390-1a876e14e7a@eik.bme.hu>
-References: <20220808102734.133084-1-clg@kaod.org>
- <20220808102734.133084-10-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oL3eN-0008A4-6t
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 10:22:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659968551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fZo28opGxb5vYhCc74zWP2dnbuVSozmh2j1xAnhvAb4=;
+ b=BayFCfongoZ1gMGq0oUPI4yofwhEkTsIc4ToUA0+hHuxjbeSVlM0CcVH0Hlbq5pSJgySae
+ YiLDRsdeRCDbXIpJjZLk+k2s+okmj3biruFrGk5BkhcE9bMmfZ4iwTe3p7nziDFSDi8gpl
+ i9v0HjfoYw1+es4MjNFAaPBnv71Jnn4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-659-ZbYl1FH1NVqp6KmYUwvxvA-1; Mon, 08 Aug 2022 10:22:27 -0400
+X-MC-Unique: ZbYl1FH1NVqp6KmYUwvxvA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E56C818A64F7;
+ Mon,  8 Aug 2022 14:22:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD606945D2;
+ Mon,  8 Aug 2022 14:22:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9AFC221E6930; Mon,  8 Aug 2022 16:22:24 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org,  Nikita Ivanov <nivanov@cloudlinux.com>,  Peter
+ Maydell <peter.maydell@linaro.org>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,  Greg Kurz <groug@kaod.org>,  Jason Wang
+ <jasowang@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Konstantin
+ Kostiuk <kkostiuk@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] error handling: Use TFR() macro where applicable
+References: <CAAJ4Ao9crXap1OYiutSgG5caZHzVkM=WvQYpVD2XN1M8JsD3cQ@mail.gmail.com>
+ <877d3jupln.fsf@pond.sub.org> <3206015.kY3CcG7ZbH@silver>
+ <7218690.D19hzYb2mh@silver>
+Date: Mon, 08 Aug 2022 16:22:24 +0200
+In-Reply-To: <7218690.D19hzYb2mh@silver> (Christian Schoenebeck's message of
+ "Mon, 08 Aug 2022 15:11:35 +0200")
+Message-ID: <87mtcen7bz.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-2097942450-1659966572=:47322"
-Content-ID: <7fbd012-7762-cfcd-375-66f8ef988a@eik.bme.hu>
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,325 +85,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
 
---3866299591-2097942450-1659966572=:47322
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <908eebdf-9d9-9823-8ba-5ac4343992b3@eik.bme.hu>
+> On Montag, 8. August 2022 14:52:28 CEST Christian Schoenebeck wrote:
+>> On Montag, 8. August 2022 10:05:56 CEST Markus Armbruster wrote:
+>> > Nikita Ivanov <nivanov@cloudlinux.com> writes:
+>> > > Summing up the discussion above, I suggest the following patch for TFR()
+>> > > macro refactoring. (The patch is sequential to the first one I
+>> > > introduced
+>> > > in the start of the discussion).
+>> > > 
+>> > >>From 6318bee052900aa93bba6620b53c7cb2290e5001 Mon Sep 17 00:00:00 2001
+>> > >>
+>> > > From: Nikita Ivanov <nivanov@cloudlinux.com>
+>> > > Date: Mon, 8 Aug 2022 09:30:34 +0300
+>> > > Subject: [PATCH] Refactoring: rename TFR() to TEMP_FAILURE_RETRY()
+>> > > 
+>> > > glibc's unistd.h header provides the same macro with the
+>> > > subtle difference in type casting. Adjust macro name to the
+>> > > common standard and define conditionally.
+>> > > 
+>> > > Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
 
-On Mon, 8 Aug 2022, Cédric Le Goater wrote:
-> The OCM controller is currently modeled as a DCR device.
+[...]
 
-What's OCM? Did you mean CPC?
+>> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+>> > > index b1c161c035..55f2927d8b 100644
+>> > > --- a/include/qemu/osdep.h
+>> > > +++ b/include/qemu/osdep.h
+>> > > @@ -242,8 +242,10 @@ void QEMU_ERROR("code path is reachable")
+>> > > 
+>> > >  #if !defined(ESHUTDOWN)
+>> > >  #define ESHUTDOWN 4099
+>> > >  #endif
+>> > > 
+>> > > -
+>> > > -#define TFR(expr) do { if ((expr) != -1) break; } while (errno ==
+>> > > EINTR)
+>> > > +#if !defined(TEMP_FAILURE_RETRY)
+>> > > +#define TEMP_FAILURE_RETRY(expr) \
+>> > > +    do { if ((expr) != -1) break; } while (errno == EINTR)
 
-> Now that all clock settings are handled at the CPC level, change the
-> SoC "sys-clk" property to be an alias on the same property in the CPC
-> model.
->
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405.h    |  35 ++++++++++++-
-> hw/ppc/ppc405_uc.c | 122 +++++++++++++++++++--------------------------
-> 2 files changed, 86 insertions(+), 71 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 8cc76cc8b3fe..2ba829988de2 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -63,6 +63,39 @@ struct ppc4xx_bd_info_t {
->     uint32_t bi_iic_fast[2];
-> };
->
-> +#define TYPE_PPC405_CPC "ppc405-cpc"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405CpcState, PPC405_CPC);
-> +
-> +enum {
-> +    PPC405EP_CPU_CLK   = 0,
-> +    PPC405EP_PLB_CLK   = 1,
-> +    PPC405EP_OPB_CLK   = 2,
-> +    PPC405EP_EBC_CLK   = 3,
-> +    PPC405EP_MAL_CLK   = 4,
-> +    PPC405EP_PCI_CLK   = 5,
-> +    PPC405EP_UART0_CLK = 6,
-> +    PPC405EP_UART1_CLK = 7,
-> +    PPC405EP_CLK_NB    = 8,
-> +};
-> +
-> +struct Ppc405CpcState {
-> +    Ppc4xxDcrDeviceState parent_obj;
-> +
-> +    uint32_t sysclk;
-> +    clk_setup_t clk_setup[PPC405EP_CLK_NB];
-> +    uint32_t boot;
-> +    uint32_t epctl;
-> +    uint32_t pllmr[2];
-> +    uint32_t ucr;
-> +    uint32_t srr;
-> +    uint32_t jtagid;
-> +    uint32_t pci;
-> +    /* Clock and power management */
-> +    uint32_t er;
-> +    uint32_t fr;
-> +    uint32_t sr;
-> +};
-> +
-> #define TYPE_PPC405_SOC "ppc405-soc"
-> OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC);
->
-> @@ -78,9 +111,9 @@ struct Ppc405SoCState {
->     MemoryRegion *dram_mr;
->     hwaddr ram_size;
->
-> -    uint32_t sysclk;
->     PowerPCCPU cpu;
->     DeviceState *uic;
-> +    Ppc405CpcState cpc;
-> };
->
-> /* PowerPC 405 core */
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index fa3853df2233..e45535b8e52a 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1178,36 +1178,7 @@ enum {
-> #endif
-> };
->
-> -enum {
-> -    PPC405EP_CPU_CLK   = 0,
-> -    PPC405EP_PLB_CLK   = 1,
-> -    PPC405EP_OPB_CLK   = 2,
-> -    PPC405EP_EBC_CLK   = 3,
-> -    PPC405EP_MAL_CLK   = 4,
-> -    PPC405EP_PCI_CLK   = 5,
-> -    PPC405EP_UART0_CLK = 6,
-> -    PPC405EP_UART1_CLK = 7,
-> -    PPC405EP_CLK_NB    = 8,
-> -};
-> -
-> -typedef struct ppc405ep_cpc_t ppc405ep_cpc_t;
-> -struct ppc405ep_cpc_t {
-> -    uint32_t sysclk;
-> -    clk_setup_t clk_setup[PPC405EP_CLK_NB];
-> -    uint32_t boot;
-> -    uint32_t epctl;
-> -    uint32_t pllmr[2];
-> -    uint32_t ucr;
-> -    uint32_t srr;
-> -    uint32_t jtagid;
-> -    uint32_t pci;
-> -    /* Clock and power management */
-> -    uint32_t er;
-> -    uint32_t fr;
-> -    uint32_t sr;
-> -};
-> -
-> -static void ppc405ep_compute_clocks (ppc405ep_cpc_t *cpc)
-> +static void ppc405ep_compute_clocks(Ppc405CpcState *cpc)
-> {
->     uint32_t CPU_clk, PLB_clk, OPB_clk, EBC_clk, MAL_clk, PCI_clk;
->     uint32_t UART0_clk, UART1_clk;
-> @@ -1302,10 +1273,9 @@ static void ppc405ep_compute_clocks (ppc405ep_cpc_t *cpc)
->
-> static uint32_t dcr_read_epcpc (void *opaque, int dcrn)
-> {
-> -    ppc405ep_cpc_t *cpc;
-> +    Ppc405CpcState *cpc = PPC405_CPC(opaque);
+To avoid / reduce confusion: this macro expands into a statement, and ...
 
-I still think that these callbacks that are registered by the realize 
-method with an already checked opaque pointer don't need to check it again 
-here so I'd drop the QOM casts from all these callbacks and assign opaque 
-directly. Only cast where needed (you're passed a DeviceState, wtc.). But 
-now that you've introduced ppc4xx_dcr_register it is passed a DcrDevice as 
-it registers the callbacks with itself. That's wrong, the scr callbacks 
-could have any opaque data so ppc4xx_dcr_register() should have an opaque 
-argument (where you pass cpc uin this patch) then drop these casts. Same 
-for all later patches.
+>> > > +#endif
+>> > 
+>> > GLibc's version is
+>> > 
+>> >    # define TEMP_FAILURE_RETRY(expression) \
+>> >      (__extension__							      \
+>> >        ({ long int __result;						      \
+>> >           do __result = (long int) (expression);				      \
+>> >           while (__result == -1L && errno == EINTR);			      \
+>> >           __result; }))
 
->     uint32_t ret;
->
-> -    cpc = opaque;
->     switch (dcrn) {
->     case PPC405EP_CPC0_BOOT:
->         ret = cpc->boot;
-> @@ -1342,9 +1312,8 @@ static uint32_t dcr_read_epcpc (void *opaque, int dcrn)
->
-> static void dcr_write_epcpc (void *opaque, int dcrn, uint32_t val)
-> {
-> -    ppc405ep_cpc_t *cpc;
-> +    Ppc405CpcState *cpc = PPC405_CPC(opaque);
->
-> -    cpc = opaque;
->     switch (dcrn) {
->     case PPC405EP_CPC0_BOOT:
->         /* Read-only register */
-> @@ -1377,9 +1346,9 @@ static void dcr_write_epcpc (void *opaque, int dcrn, uint32_t val)
->     }
-> }
->
-> -static void ppc405ep_cpc_reset (void *opaque)
-> +static void ppc405_cpc_reset(DeviceState *opaque)
-> {
-> -    ppc405ep_cpc_t *cpc = opaque;
-> +    Ppc405CpcState *cpc = PPC405_CPC(opaque);
->
->     cpc->boot = 0x00000010;     /* Boot from PCI - IIC EEPROM disabled */
->     cpc->epctl = 0x00000000;
-> @@ -1391,45 +1360,56 @@ static void ppc405ep_cpc_reset (void *opaque)
->     cpc->er = 0x00000000;
->     cpc->fr = 0x00000000;
->     cpc->sr = 0x00000000;
-> +    cpc->jtagid = 0x20267049;
->     ppc405ep_compute_clocks(cpc);
-> }
->
-> /* XXX: sysclk should be between 25 and 100 MHz */
-> -static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
-> -                               uint32_t sysclk)
-> +static void ppc405_cpc_realize(DeviceState *dev, Error **errp)
-> {
-> -    ppc405ep_cpc_t *cpc;
-> +    Ppc405CpcState *cpc = PPC405_CPC(dev);
-> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+... this one expands into an expression.  It uses GCC's "a compound
+statement enclosed in parentheses may appear as an expression" extension.
 
-Only these casts are enough to check the object as it's only passed on 
-from this point.
+>> > 
+>> > The difference isn't just "type casting", it's also statement
+>> > vs. expression.
+>> > 
+>> > Is it a good idea to have the macro expand into a statement on some
+>> > hosts, and into an expression on others?  Sure, CI should catch any uses
+>> > as expression, but delaying compile errors to CI wastes developer time.
+>> 
+>> For consistency and simplicity, I would define exactly one version (no
+>> ifdefs) of the macro with a different macro name than glibc's
+>> TEMP_FAILURE_RETRY(), and use that QEMU specific macro name in QEMU code
+>> everywhere.
 
-> +    CPUPPCState *env;
->
-> -    cpc = g_new0(ppc405ep_cpc_t, 1);
-> -    memcpy(cpc->clk_setup, clk_setup,
-> -           PPC405EP_CLK_NB * sizeof(clk_setup_t));
-> -    cpc->jtagid = 0x20267049;
-> -    cpc->sysclk = sysclk;
-> -    qemu_register_reset(&ppc405ep_cpc_reset, cpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_BOOT, cpc,
-> -                     &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_EPCTL, cpc,
-> -                     &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_PLLMR0, cpc,
-> -                     &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_PLLMR1, cpc,
-> +    assert(dcr->cpu);
+TFR()?  Can't resist closing the circle...
 
-So if you move this to the end you can drop this assert. Also env may not 
-be needed any more now that it only apears twice.
+>> As for statement vs. expression: The only advantage of the statement version
+>> is if you'd need __result as an rvalue, which is not needed ATM, right? So
+>> I would go for the expression version (with cast) for now.
 
-Regards,
-BALATON Zoltan
+The expression-like macro is nicer where the return value matters.
+Example (stolen from "The GNU C Library Reference Manual"):
 
-> +
-> +    env = &dcr->cpu->env;
-> +
-> +    cpc->clk_setup[PPC405EP_CPU_CLK].cb =
-> +        ppc_40x_timers_init(env, cpc->sysclk, PPC_INTERRUPT_PIT);
-> +    cpc->clk_setup[PPC405EP_CPU_CLK].opaque = env;
-> +
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_BOOT,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_UCR, cpc,
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_EPCTL,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_SRR, cpc,
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_PLLMR0,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_JTAGID, cpc,
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_PLLMR1,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_PCI, cpc,
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_UCR,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -#if 0
-> -    ppc_dcr_register(env, PPC405EP_CPC0_ER, cpc,
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_SRR,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_FR, cpc,
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_JTAGID,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -    ppc_dcr_register(env, PPC405EP_CPC0_SR, cpc,
-> +    ppc4xx_dcr_register(dcr, PPC405EP_CPC0_PCI,
->                      &dcr_read_epcpc, &dcr_write_epcpc);
-> -#endif
-> +}
-> +
-> +static Property ppc405_cpc_properties[] = {
-> +    DEFINE_PROP_UINT32("sys-clk", Ppc405CpcState, sysclk, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc405_cpc_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = ppc405_cpc_realize;
-> +    dc->user_creatable = false;
-> +    device_class_set_props(dc, ppc405_cpc_properties);
-> +    dc->reset = ppc405_cpc_reset;
-> }
+    nbytes = TEMP_FAILURE_RETRY (write (desc, buffer, count));
+
+With the statement-like macro, you have to write
+
+    TEMP_FAILURE_RETRY (nbytes = write (desc, buffer, count));
+
+>> The glibc history does not reveal why they chose the statement version.
+
+The expression version, actually.
+
+>> Best regards,
+>> Christian Schoenebeck
 >
-> static void ppc405_soc_instance_init(Object *obj)
-> @@ -1438,17 +1418,17 @@ static void ppc405_soc_instance_init(Object *obj)
->
->     object_initialize_child(obj, "cpu", &s->cpu,
->                             POWERPC_CPU_TYPE_NAME("405ep"));
-> +
-> +    object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
-> +    object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
-> }
->
-> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> {
->     Ppc405SoCState *s = PPC405_SOC(dev);
-> -    clk_setup_t clk_setup[PPC405EP_CLK_NB];
->     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
->     CPUPPCState *env;
->
-> -    memset(clk_setup, 0, sizeof(clk_setup));
-> -
->     /* init CPUs */
->     if (!qdev_realize(DEVICE(&s->cpu), NULL, errp)) {
->         return;
-> @@ -1457,14 +1437,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->
->     env = &s->cpu.env;
->
-> -    clk_setup[PPC405EP_CPU_CLK].cb =
-> -        ppc_40x_timers_init(env, s->sysclk, PPC_INTERRUPT_PIT);
-> -    clk_setup[PPC405EP_CPU_CLK].opaque = env;
-> -
->     ppc_dcr_init(env, NULL, NULL);
->
->     /* CPU control */
-> -    ppc405ep_cpc_init(env, clk_setup, s->sysclk);
-> +    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->cpc), &s->cpu, errp)) {
-> +        return;
-> +    }
->
->     /* PLB arbitrer */
->     ppc4xx_plb_init(env);
-> @@ -1556,7 +1534,6 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> static Property ppc405_soc_properties[] = {
->     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
->                      MemoryRegion *),
-> -    DEFINE_PROP_UINT32("sys-clk", Ppc405SoCState, sysclk, 0),
->     DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
->     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
->     DEFINE_PROP_END_OF_LIST(),
-> @@ -1573,6 +1550,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
->
-> static const TypeInfo ppc405_types[] = {
->     {
-> +        .name           = TYPE_PPC405_CPC,
-> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-> +        .instance_size  = sizeof(Ppc405CpcState),
-> +        .class_init     = ppc405_cpc_class_init,
-> +    }, {
->         .name           = TYPE_PPC405_SOC,
->         .parent         = TYPE_DEVICE,
->         .instance_size  = sizeof(Ppc405SoCState),
->
---3866299591-2097942450-1659966572=:47322--
+> Sorry: s/rvalue/lvalue/ i.e. if you need the memory address of result or if 
+> you need to take the result value of the last iteration in 'expression' into 
+> account.
+
 
