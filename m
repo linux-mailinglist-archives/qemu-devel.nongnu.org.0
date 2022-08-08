@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8702458CC87
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 19:09:29 +0200 (CEST)
-Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0E158CC85
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 19:08:31 +0200 (CEST)
+Received: from localhost ([::1]:36356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL6Fr-0003X7-LF
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 13:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
+	id 1oL6Et-0002Rn-5i
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 13:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oL6Ai-0006ZN-W5
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 13:04:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48396)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oL6CJ-0007qB-A0; Mon, 08 Aug 2022 13:05:47 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:29913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oL6Ae-00028u-0s
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 13:04:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659978242;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=30Nom3EROhcXcWW9Wnvoz5wBWSw4u7mvzRFnef18IJ0=;
- b=AnVFcZB22gX2YX+NSej1t1RJ0w76PoUIjKLqujX2O8FWUdgjOuwO/5CTWNuH6u2+epZ2Lt
- 9vWdZjKdE03dLFhrijoaSBsJjDZV8mhOtdPi30ZcDHHHIe0zmcgHQmdvaoE5l58teJ45Li
- AhQL2X+pz9shZNz9WjY/jOvji2xEE7Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-vgAjMRtLNgOZ9A_Ol8MEqQ-1; Mon, 08 Aug 2022 13:04:00 -0400
-X-MC-Unique: vgAjMRtLNgOZ9A_Ol8MEqQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C7D8294EDCE
- for <qemu-devel@nongnu.org>; Mon,  8 Aug 2022 17:04:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5526D9457F;
- Mon,  8 Aug 2022 17:03:59 +0000 (UTC)
-Date: Mon, 8 Aug 2022 18:03:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH 1/1] tests/qtest: add scenario for -readconfig handling
-Message-ID: <YvFB/DZ+lYRHbd+U@redhat.com>
-References: <20220805115529.124544-1-berrange@redhat.com>
- <20220805115529.124544-2-berrange@redhat.com>
- <0d00fbb9-3b47-6041-4afa-63bb618689f0@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oL6CG-0002O8-03; Mon, 08 Aug 2022 13:05:46 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id DE997747DF7;
+ Mon,  8 Aug 2022 19:05:35 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 8B7FB747871; Mon,  8 Aug 2022 19:05:35 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 897BF7475F9;
+ Mon,  8 Aug 2022 19:05:35 +0200 (CEST)
+Date: Mon, 8 Aug 2022 19:05:35 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 07/22] ppc/ppc405: QOM'ify CPU
+In-Reply-To: <4cdc4026-78c5-e617-c74c-3ee5aa5d44d3@kaod.org>
+Message-ID: <cd735510-ec37-357c-3fa9-34b0d445c5a2@eik.bme.hu>
+References: <20220808102734.133084-1-clg@kaod.org>
+ <20220808102734.133084-8-clg@kaod.org>
+ <2499ab9-44e8-a33f-5f4-74a1d7ad3e7@eik.bme.hu>
+ <4cdc4026-78c5-e617-c74c-3ee5aa5d44d3@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0d00fbb9-3b47-6041-4afa-63bb618689f0@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-969611678-1659978335=:23189"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,164 +60,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 08, 2022 at 07:55:50AM +0200, Thomas Huth wrote:
-> On 05/08/2022 13.55, Daniel P. Berrangé wrote:
-> > This test of -readconfig validates the last three regressions we
-> > have fixed with -readconfig:
-> > 
-> >   * Interpretation of memory size units as MiB not bytes
-> >   * Allow use of [spice]
-> >   * Allow use of [object]
-> 
-> Good idea!
-> 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >   tests/qtest/meson.build       |   1 +
-> >   tests/qtest/readconfig-test.c | 195 ++++++++++++++++++++++++++++++++++
-> >   2 files changed, 196 insertions(+)
-> >   create mode 100644 tests/qtest/readconfig-test.c
-> > 
-> > diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> > index 3a474010e4..be4b30dea2 100644
-> > --- a/tests/qtest/meson.build
-> > +++ b/tests/qtest/meson.build
-> > @@ -26,6 +26,7 @@ qtests_generic = [
-> >     'qom-test',
-> >     'test-hmp',
-> >     'qos-test',
-> > +  'readconfig-test',
-> >   ]
-> >   if config_host.has_key('CONFIG_MODULES')
-> >     qtests_generic += [ 'modules-test' ]
-> > diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
-> > new file mode 100644
-> > index 0000000000..2e604d7c2d
-> > --- /dev/null
-> > +++ b/tests/qtest/readconfig-test.c
-> > @@ -0,0 +1,195 @@
-> > +/*
-> > + * Validate -readconfig
-> > + *
-> > + * Copyright (c) 2022 Red Hat, Inc.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> > + * See the COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "libqtest.h"
-> > +#include "qapi/error.h"
-> > +#include "qapi/qapi-visit-machine.h"
-> > +#include "qapi/qapi-visit-qom.h"
-> > +#include "qapi/qapi-visit-ui.h"
-> > +#include "qapi/qmp/qdict.h"
-> > +#include "qapi/qmp/qlist.h"
-> > +#include "qapi/qobject-input-visitor.h"
-> > +#include "qapi/qmp/qstring.h"
-> > +#include "qemu/units.h"
-> > +
-> > +static QTestState *qtest_init_with_config(const char *cfgdata)
-> > +{
-> > +    GError *error = NULL;
-> > +    g_autofree char *args = NULL;
-> > +    int cfgfd = -1;
-> > +    g_autofree char *cfgpath = NULL;
-> > +    QTestState *qts;
-> > +    ssize_t ret;
-> > +
-> > +    cfgfd = g_file_open_tmp("readconfig-test-XXXXXX", &cfgpath, &error);
-> > +    g_assert_no_error(error);
-> > +    g_assert_cmpint(cfgfd, >=, 0);
-> > +
-> > +    ret = qemu_write_full(cfgfd, cfgdata, strlen(cfgdata));
-> > +    if (ret < 0) {
-> > +        unlink(cfgpath);
-> > +    }
-> > +    g_assert_cmpint(ret, ==, strlen(cfgdata));
-> > +
-> > +    close(cfgfd);
-> 
-> Maybe move the close() before the "if (ret < 0)"
-> 
-> > +    args = g_strdup_printf("-nodefaults -machine none -readconfig %s", cfgpath);
-> > +
-> > +    qts = qtest_init(args);
-> > +
-> > +    unlink(cfgpath);
-> > +
-> > +    return qts;
-> > +}
-> > +
-> > +static void test_x86_memdev_resp(QObject *res)
-> > +{
-> > +    Visitor *v;
-> > +    g_autoptr(MemdevList) memdevs = NULL;
-> > +    Memdev *memdev;
-> > +
-> > +    g_assert(res);
-> > +    v = qobject_input_visitor_new(res);
-> > +    visit_type_MemdevList(v, NULL, &memdevs, &error_abort);
-> > +
-> > +    g_assert(memdevs);
-> > +    g_assert(memdevs->value);
-> > +    g_assert(!memdevs->next);
-> > +
-> > +    memdev = memdevs->value;
-> > +    g_assert_cmpstr(memdev->id, ==, "ram");
-> > +    g_assert_cmpint(memdev->size, ==, 200 * MiB);
-> > +
-> > +    visit_free(v);
-> > +}
-> > +
-> > +static void test_x86_memdev(void)
-> > +{
-> > +    QDict *resp;
-> > +    QTestState *qts;
-> > +    const char *cfgdata =
-> > +        "[memory]\n"
-> > +        "size = \"200\"";
-> > +
-> > +    qts = qtest_init_with_config(cfgdata);
-> > +   /* Test valid command */
-> 
-> Comment has bad indentation.
-> 
-> > +    resp = qtest_qmp(qts, "{ 'execute': 'query-memdev' }");
-> > +    test_x86_memdev_resp(qdict_get(resp, "return"));
-> > +    qobject_unref(resp);
-> > +
-> > +    qtest_quit(qts);
-> > +}
-> > +
-> > +
-> > +#ifdef CONFIG_SPICE
-> > +static void test_spice_resp(QObject *res)
-> > +{
-> > +    Visitor *v;
-> > +    g_autoptr(SpiceInfo) spice = NULL;
-> > +
-> > +    g_assert(res);
-> > +    v = qobject_input_visitor_new(res);
-> > +    visit_type_SpiceInfo(v, "spcie", &spice, &error_abort);
-> 
-> That "spcie" looks like a typo?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Yes, but I believe this argument is ignored by the visitor in this
-scenario - it didn't fail for me at least.
+--3866299591-969611678-1659978335=:23189
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Regardless, sHould be fixed of course
+On Mon, 8 Aug 2022, Cédric Le Goater wrote:
+> On 8/8/22 15:17, BALATON Zoltan wrote:
+>> 
+>> Patch title is wrong. It should be Embed CPU object in SoC as it's not 
+>> QOMifies the CPU just moves it from dinamically allocated to embedded.
+>> 
+>> On Mon, 8 Aug 2022, Cédric Le Goater wrote:
+>>> Drop the use of ppc4xx_init() and duplicate a bit of code related to
+>>> clocks in the SoC realize routine. We will clean that up in the
+>>> following patches.
+>> 
+>> Could this be split off into a separate patch? Maybe it would be clearer 
+>> that way what's related to stop using ppc4xx_init() (which is needed 
+>> because it dinamically allocates CPU) and what's the embedding it in the 
+>> soc object.
+>
+> I'd rather not. It has been painful enough to untangle. Let's keep it that
+> way. And, this part is further changed in the CPC patch.
 
+OK, if nobody else thinks this should be split I'm OK with it.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>>> ppc_dcr_init() simply allocates default DCR handlers for the CPU. Maybe
+>>> this could be done in model initializer of the CPU families needing it.
+>>> 
+>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>> hw/ppc/ppc405.h         |  2 +-
+>>> include/hw/ppc/ppc4xx.h |  1 +
+>>> hw/ppc/ppc405_boards.c  |  2 +-
+>>> hw/ppc/ppc405_uc.c      | 35 +++++++++++++++++++++++++----------
+>>> hw/ppc/ppc4xx_devs.c    |  2 +-
+>>> 5 files changed, 29 insertions(+), 13 deletions(-)
+>>> 
+>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>> index dc862bc8614c..8cc76cc8b3fe 100644
+>>> --- a/hw/ppc/ppc405.h
+>>> +++ b/hw/ppc/ppc405.h
+>>> @@ -79,7 +79,7 @@ struct Ppc405SoCState {
+>>>     hwaddr ram_size;
+>>> 
+>>>     uint32_t sysclk;
+>>> -    PowerPCCPU *cpu;
+>>> +    PowerPCCPU cpu;
+>>>     DeviceState *uic;
+>>> };
+>>> 
+>>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+>>> index 980f964b5a91..021376c2d260 100644
+>>> --- a/include/hw/ppc/ppc4xx.h
+>>> +++ b/include/hw/ppc/ppc4xx.h
+>>> @@ -29,6 +29,7 @@
+>>> #include "exec/memory.h"
+>>> 
+>>> /* PowerPC 4xx core initialization */
+>>> +void ppc4xx_reset(void *opaque);
+>>> PowerPCCPU *ppc4xx_init(const char *cpu_model,
+>>>                         clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
+>>>                         uint32_t sysclk);
+>>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>>> index 0b39ff08bd65..5ba12d60bc00 100644
+>>> --- a/hw/ppc/ppc405_boards.c
+>>> +++ b/hw/ppc/ppc405_boards.c
+>>> @@ -313,7 +313,7 @@ static void ppc405_init(MachineState *machine)
+>>> 
+>>>     /* Load ELF kernel and rootfs.cpio */
+>>>     } else if (kernel_filename && !machine->firmware) {
+>>> -        boot_from_kernel(machine, ppc405->soc.cpu);
+>>> +        boot_from_kernel(machine, &ppc405->soc.cpu);
+>>>     }
+>>> }
+>>> 
+>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>>> index abcc2537140c..fa3853df2233 100644
+>>> --- a/hw/ppc/ppc405_uc.c
+>>> +++ b/hw/ppc/ppc405_uc.c
+>>> @@ -1432,22 +1432,36 @@ static void ppc405ep_cpc_init (CPUPPCState *env, 
+>>> clk_setup_t clk_setup[8],
+>>> #endif
+>>> }
+>>> 
+>>> +static void ppc405_soc_instance_init(Object *obj)
+>>> +{
+>>> +    Ppc405SoCState *s = PPC405_SOC(obj);
+>>> +
+>>> +    object_initialize_child(obj, "cpu", &s->cpu,
+>>> +                            POWERPC_CPU_TYPE_NAME("405ep"));
+>>> +}
+>>> +
+>>> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>> {
+>>>     Ppc405SoCState *s = PPC405_SOC(dev);
+>>> -    clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
+>>> +    clk_setup_t clk_setup[PPC405EP_CLK_NB];
+>>>     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+>>>     CPUPPCState *env;
+>>> 
+>>>     memset(clk_setup, 0, sizeof(clk_setup));
+>>> 
+>>>     /* init CPUs */
+>>> -    s->cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
+>>> -                      &clk_setup[PPC405EP_CPU_CLK],
+>>> -                      &tlb_clk_setup, s->sysclk);
+>>> -    env = &s->cpu->env;
+>>> -    clk_setup[PPC405EP_CPU_CLK].cb = tlb_clk_setup.cb;
+>>> -    clk_setup[PPC405EP_CPU_CLK].opaque = tlb_clk_setup.opaque;
+>>> +    if (!qdev_realize(DEVICE(&s->cpu), NULL, errp)) {
+>>> +        return;
+>>> +    }
+>>> +    qemu_register_reset(ppc4xx_reset, &s->cpu);
+>>> +
+>>> +    env = &s->cpu.env;
+>>> +
+>>> +    clk_setup[PPC405EP_CPU_CLK].cb =
+>>> +        ppc_40x_timers_init(env, s->sysclk, PPC_INTERRUPT_PIT);
+>>> +    clk_setup[PPC405EP_CPU_CLK].opaque = env;
+>>> +
+>>> +    ppc_dcr_init(env, NULL, NULL);
+>>> 
+>>>     /* CPU control */
+>>>     ppc405ep_cpc_init(env, clk_setup, s->sysclk);
+>>> @@ -1464,16 +1478,16 @@ static void ppc405_soc_realize(DeviceState *dev, 
+>>> Error **errp)
+>>>     /* Universal interrupt controller */
+>>>     s->uic = qdev_new(TYPE_PPC_UIC);
+>>> 
+>>> -    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(s->cpu),
+>>> +    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
+>>>                              &error_fatal);
+>>>     if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
+>>>         return;
+>>>     }
+>>> 
+>>>     sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
+>>> -                       qdev_get_gpio_in(DEVICE(s->cpu), 
+>>> PPC40x_INPUT_INT));
+>>> +                       qdev_get_gpio_in(DEVICE(&s->cpu), 
+>>> PPC40x_INPUT_INT));
+>>>     sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
+>>> -                       qdev_get_gpio_in(DEVICE(s->cpu), 
+>>> PPC40x_INPUT_CINT));
+>>> +                       qdev_get_gpio_in(DEVICE(&s->cpu), 
+>>> PPC40x_INPUT_CINT));
+>>> 
+>>>     /* SDRAM controller */
+>>>         /* XXX 405EP has no ECC interrupt */
+>>> @@ -1562,6 +1576,7 @@ static const TypeInfo ppc405_types[] = {
+>>>         .name           = TYPE_PPC405_SOC,
+>>>         .parent         = TYPE_DEVICE,
+>>>         .instance_size  = sizeof(Ppc405SoCState),
+>>> +        .instance_init  = ppc405_soc_instance_init,
+>>>         .class_init     = ppc405_soc_class_init,
+>>>     }
+>>> };
+>>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+>>> index 737c0896b4f8..f20098cf417c 100644
+>>> --- a/hw/ppc/ppc4xx_devs.c
+>>> +++ b/hw/ppc/ppc4xx_devs.c
+>>> @@ -37,7 +37,7 @@
+>>> #include "qapi/error.h"
+>>> #include "trace.h"
+>>> 
+>>> -static void ppc4xx_reset(void *opaque)
+>>> +void ppc4xx_reset(void *opaque)
+>>> {
+>>>     PowerPCCPU *cpu = opaque;
+>> 
+>> This just calls cpu_reset() and does nothing else. Can't that be registered 
+>> directly so this could be kept static to this file? 
+>
+> what do you mean ?
 
+Something like qemu_register_reset(cpu_reset, &s->cpu); but I'm not sure 
+this is even needed.
+
+>> Why do we need this at all? 
+>
+> Oh yes. We need the CPU to start in a reset state, for U-boot at least.
+>
+>> Isn't the cpu object reset automatically? Why do we need to register it 
+>> separately?
+>
+> All devices need a reset handler. The handler of the PPC405 CPU is registered
+> in ppc405_soc_realize() :
+>
+>  qemu_register_reset(ppc4xx_reset, &s->cpu);
+
+But the handler we register here just calls cpu_reset which seems to just 
+call the reset method of the CPU object. If we have nothing else to do 
+here do we need to explicitly call cpi_reset like this? Wouldn't the CPU 
+object be reset by qdev when resetting the machine or the soc its in? If 
+we have our own reset method we may call cpu_reset from there to make sure 
+the CPU is in a known state but is this needed when we don't want to do 
+anything else? I don't know how reset handling works but some machines 
+seems to do this and others don't.
+
+> If we had a more complex model, like pseries or PowerNV, we would install the
+> reset handler in the realize routine of the CPU model. But we don't.
+
+If this is needed maybe you should add a soc_reset method and call 
+cpu_reset() from there and get rid of ppc4xx_reset or move it to 
+ppc405_uc.c if it's not used anywhere else, so it can be kept static and 
+does not need to be added to ppc4xx.h.
+
+Regards,
+BALATON Zoltan
+--3866299591-969611678-1659978335=:23189--
 
