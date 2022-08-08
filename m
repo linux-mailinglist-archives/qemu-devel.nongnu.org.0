@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C404858C5F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:53:48 +0200 (CEST)
-Received: from localhost ([::1]:45764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82B358C636
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 12:17:35 +0200 (CEST)
+Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKzSF-0001Xo-Qs
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
+	id 1oKzpG-0002eB-Dr
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 06:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oKzGo-0002E4-Te
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 05:41:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50903)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKzmk-0000o9-Gu
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 06:14:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oKzGl-000285-2R
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 05:41:58 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKzmg-0007Mj-Db
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 06:14:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659951714;
+ s=mimecast20190719; t=1659953693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OiYqv0dTU+JJ31cB+P9SZi08XvbAsBISvQaWnLq0FWQ=;
- b=hLXdI+0WhlGbjorfQ/0P3XSZUffjxpYNs7vnom026K0sRnhDfMub3Vl8eaTeIqu923i/yM
- s4DTEoG4qX++F1KYiW1K22FCIcIXRJxB8q26NnIt0RIFJJ8EP7694vtH/sx6MirBx13xCW
- DH0G9Mm2sIQlqXppfJKetHqJgxzB2xo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Hdlgc9WE/iXOKd3UZ7uHM2IMGLqlMVapp6NC0gwp+E0=;
+ b=NjnEpgUzPetCrNeLFuOxGnrM4/BeFaJr1k60NbRU5keDPiKp13x6rjjGPH0HrJV91icYYR
+ DOQkTxoMj8x9GoGNIBE4G0/swrK64Nt503Ud4bAjoRdgU8OkVAd8pZ99iPKzh5W0T+gvCG
+ v3uPWVhABomUhw/GJW9z8RZx6ka2Vq8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-TemyiL8tNo-JqJfiWOpnww-1; Mon, 08 Aug 2022 05:41:52 -0400
-X-MC-Unique: TemyiL8tNo-JqJfiWOpnww-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-382-t1jK4R_eNxWeyg38L0SEYw-1; Mon, 08 Aug 2022 06:14:50 -0400
+X-MC-Unique: t1jK4R_eNxWeyg38L0SEYw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B23C53C1C03D;
- Mon,  8 Aug 2022 09:41:49 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7208A1121314;
- Mon,  8 Aug 2022 09:41:49 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 2/2] virtio-blk: replace dataplane_start/stopping/started with
- enum
-Date: Mon,  8 Aug 2022 05:41:47 -0400
-Message-Id: <20220808094147.612472-3-eesposit@redhat.com>
-In-Reply-To: <20220808094147.612472-1-eesposit@redhat.com>
-References: <20220808094147.612472-1-eesposit@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2206811E81;
+ Mon,  8 Aug 2022 10:14:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65F97400E403;
+ Mon,  8 Aug 2022 10:14:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4361321E6930; Mon,  8 Aug 2022 12:14:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Hao Wu <wuhaotsh@google.com>,
+ richard.henderson@linaro.org,  qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,  venture@google.com,  Avi.Fishman@nuvoton.com,
+ kfting@nuvoton.com,  hskinnemoen@google.com,  f4bug@amsat.org,
+ bin.meng@windriver.com,  qemu-block@nongnu.org,  thuth@redhat.com,  Hanna
+ Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <ehabkost@gmail.com>
+Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
+References: <20220714182836.89602-6-wuhaotsh@google.com>
+ <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
+ <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
+ <YuvY8/WL0Jojv1Uj@redhat.com> <877d3odpm8.fsf@pond.sub.org>
+ <YuvjJ7+B61UCLDrK@redhat.com> <87bkt0c9gf.fsf@pond.sub.org>
+ <YuvpYExeQfW2zUd7@redhat.com> <87lerzxnc5.fsf@pond.sub.org>
+ <YvDKljfYh+DF4029@redhat.com>
+Date: Mon, 08 Aug 2022 12:14:48 +0200
+In-Reply-To: <YvDKljfYh+DF4029@redhat.com> (Kevin Wolf's message of "Mon, 8
+ Aug 2022 10:34:30 +0200")
+Message-ID: <877d3jrqhz.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -83,161 +94,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Virtio-blk uses VirtIOBlockDataPlane and VirtIOBlock to keep track of
-the dataplane flags. This is completely unnecessary, as both structures
-are always accessed together and we can simplify the sages with an enum.
+Adding Paolo and Eduardo since we're wandering into QOM-land.
 
-Read/write the enum atomically, as it can be read also by iothread
-callbacks.
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- hw/block/dataplane/virtio-blk.c | 24 +++++++++---------------
- hw/block/virtio-blk.c           |  9 +++++----
- include/hw/virtio/virtio-blk.h  |  2 +-
- 3 files changed, 15 insertions(+), 20 deletions(-)
+> Am 08.08.2022 um 08:26 hat Markus Armbruster geschrieben:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > On Thu, Aug 04, 2022 at 05:30:40PM +0200, Markus Armbruster wrote:
+>> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>> >>=20
+>> >> > On Thu, Aug 04, 2022 at 04:56:15PM +0200, Markus Armbruster wrote:
+>> >> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>> >> >>=20
+>> >> >> > On Thu, Jul 28, 2022 at 10:46:35AM +0100, Peter Maydell wrote:
+>> >> >> >> On Wed, 27 Jul 2022 at 20:03, Kevin Wolf <kwolf@redhat.com> wro=
+te:
+>> >> >> >> >
+>> >> >> >> > Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
+>> >> >> >> > > An OTP device isn't really a parallel flash, and neither ar=
+e eFuses.
+>> >> >> >> > > More fast-and-lose use of IF_PFLASH may exist in the tree, =
+and maybe of
+>> >> >> >> > > other interface types, too.
+>> >> >> >> > >
+>> >> >> >> > > This patch introduces IF_OTHER.  The patch after next uses =
+it for an
+>> >> >> >> > > EEPROM device.
+>> >> >> >> > >
+>> >> >> >> > > Do we want IF_OTHER?
+>> >> >> >> >
+>> >> >> >> > What would the semantics even be? Any block device that doesn=
+'t pick up
+>> >> >> >> > a different category may pick up IF_OTHER backends?
+>> >> >> >> >
+>> >> >> >> > It certainly feels like a strange interface to ask for "other=
+" disk and
+>> >> >> >> > then getting as surprise what this other thing might be. It's
+>> >> >> >> > essentially the same as having an explicit '-device other', a=
+nd I
+>> >> >> >> > suppose most people would find that strange.
+>> >> >> >> >
+>> >> >> >> > > If no, I guess we get to abuse IF_PFLASH some more.
+>> >> >> >> > >
+>> >> >> >> > > If yes, I guess we should use IF_PFLASH only for actual par=
+allel flash
+>> >> >> >> > > memory going forward.  Cleaning up existing abuse of IF_PFL=
+ASH may not
+>> >> >> >> > > be worth the trouble, though.
+>> >> >> >> > >
+>> >> >> >> > > Thoughts?
+>> >> >> >> >
+>> >> >> >> > If the existing types aren't good enough (I don't have an opi=
+nion on
+>> >> >> >> > whether IF_PFLASH is a good match), let's add a new one. But =
+a specific
+>> >> >> >> > new one, not just "other".
+>> >> >> >>=20
+>> >> >> >> I think the common thread is "this isn't what anybody actually =
+thinks
+>> >> >> >> of as being a 'disk', but we would like to back it with a block=
+ device
+>> >> >> >> anyway". That can cover a fair range of possibilities...
+>> >> >> >
+>> >> >> > Given that, do we even want/have to use -drive for this ?    We =
+can use
+>> >> >> > -blockdev for the backend and reference that from any -device we=
+ want
+>> >> >> > to create, and leave -drive out of the picture entirely
+>> >> >>=20
+>> >> >> -drive is our only means to configure onboard devices.
+>> >> >>=20
+>> >> >> We've talked about better means a few times, but no conclusions.  =
+I can
+>> >> >> dig up pointers, if you're interested.
+>> >> >
+>> >> > For onboard pflash with x86, we've just got properties against the
+>> >> > machine that we can point to a blockdev.
+>> >>=20
+>> >> True, but the vast majority of onboard block devices doesn't come with
+>> >> such properties.  Please see
+>> >>=20
+>> >> Subject: On configuring onboard block devices with -blockdev (was: [P=
+ATCH v4 6/7] hw/nvram: Update at24c EEPROM init function in NPCM7xx boards)
+>> >> Date: Mon, 15 Nov 2021 16:28:33 +0100
+>> >> Message-ID: <875ystigke.fsf_-_@dusky.pond.sub.org>
+>> >> https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg03173.html
+>> >
+>> > My take away from your mail there is that in the absence of better ide=
+as
+>> > we should at least use machine properties for anything new we do so we
+>> > don't make the problem worse than it already is. It feels more useful
+>> > than inventing new IF_xxx possibilities for something we think is the
+>> > wrong approach already.
+>>=20
+>> The difficulty of providing machine properties for existing devices and
+>> the lack of adoption even for new devices make me doubt they are a
+>> viable path forward.  In the message I referenced above, I wrote:
+>>=20
+>>     If "replace them all by machine properties" is the way forward, we
+>>     need to get going.  At the current rate of one file a year (measured
+>>     charitably), we'll be done around 2090, provided we don't add more
+>>     (we've added quite a few since I did the first replacement).
+>>=20
+>> I figure this has slipped to the 22nd century by now.
+>>=20
+>> Yes, more uses of -drive are steps backward.  But they are trivially
+>> easy, and also drops in the bucket.  Machine properties are more
+>> difficult, and whether they actually take us forward seems doubtful.
+>
+> Machine properties are also not what we really want, but just a
+> workaround. How about implementing the real thing, providing qdev
+> properties for built-in devices?
+>
+> Looking at a few random users of drive_get(), they look like this:
+>
+>     DriveInfo *dinfo =3D drive_get(...);
+>     dev =3D qdev_new("driver-type");
+>     qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+>     qdev_realize_and_unref(...);
+>
+> What if we assigned a name to every built-in device
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index 49276e46f2..427f946859 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -27,9 +27,6 @@
- #include "qom/object_interfaces.h"
- 
- struct VirtIOBlockDataPlane {
--    bool starting;
--    bool stopping;
--
-     VirtIOBlkConf *conf;
-     VirtIODevice *vdev;
-     QEMUBH *bh;                     /* bh for guest notification */
-@@ -145,7 +142,7 @@ void virtio_blk_data_plane_destroy(VirtIOBlockDataPlane *s)
-     }
- 
-     vblk = VIRTIO_BLK(s->vdev);
--    assert(!vblk->dataplane_started);
-+    assert(qatomic_read(&vblk->dataplane_state) != DATAPLANE_STARTED);
-     g_free(s->batch_notify_vqs);
-     qemu_bh_delete(s->bh);
-     if (s->iothread) {
-@@ -167,11 +164,11 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     Error *local_err = NULL;
-     int r;
- 
--    if (vblk->dataplane_started || s->starting) {
-+    if (qatomic_read(&vblk->dataplane_state) <= DATAPLANE_STARTED) {
-         return 0;
-     }
- 
--    s->starting = true;
-+    qatomic_set(&vblk->dataplane_state, DATAPLANE_STARTING);
- 
-     if (!virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
-         s->batch_notifications = true;
-@@ -219,8 +216,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
- 
-     memory_region_transaction_commit();
- 
--    s->starting = false;
--    vblk->dataplane_started = true;
-+    qatomic_set(&vblk->dataplane_state, DATAPLANE_STARTED);
-     trace_virtio_blk_data_plane_start(s);
- 
-     old_context = blk_get_aio_context(s->conf->conf.blk);
-@@ -273,8 +269,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-      */
-     virtio_blk_process_queued_requests(vblk, false);
-     vblk->dataplane_disabled = true;
--    s->starting = false;
--    vblk->dataplane_started = true;
-+    qatomic_set(&vblk->dataplane_state, DATAPLANE_STARTED);
-     return -ENOSYS;
- }
- 
-@@ -304,17 +299,17 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
-     unsigned i;
-     unsigned nvqs = s->conf->num_queues;
- 
--    if (!vblk->dataplane_started || s->stopping) {
-+    if (qatomic_read(&vblk->dataplane_state) != DATAPLANE_STARTED) {
-         return;
-     }
- 
-     /* Better luck next time. */
-     if (vblk->dataplane_disabled) {
-         vblk->dataplane_disabled = false;
--        vblk->dataplane_started = false;
-+        qatomic_set(&vblk->dataplane_state, DATAPLANE_STOPPED);
-         return;
-     }
--    s->stopping = true;
-+    qatomic_set(&vblk->dataplane_state, DATAPLANE_STOPPING);
-     trace_virtio_blk_data_plane_stop(s);
- 
-     aio_context_acquire(s->ctx);
-@@ -352,6 +347,5 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
-     /* Clean up guest notifier (irq) */
-     k->set_guest_notifiers(qbus->parent, nvqs, false);
- 
--    vblk->dataplane_started = false;
--    s->stopping = false;
-+    qatomic_set(&vblk->dataplane_state, DATAPLANE_STOPPED);
- }
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index e9ba752f6b..a53c4a1063 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -84,7 +84,8 @@ static void virtio_blk_req_complete(VirtIOBlockReq *req, unsigned char status)
-     iov_discard_undo(&req->inhdr_undo);
-     iov_discard_undo(&req->outhdr_undo);
-     virtqueue_push(req->vq, &req->elem, req->in_len);
--    if (s->dataplane_started && !s->dataplane_disabled) {
-+    if (qatomic_read(&s->dataplane_state) == DATAPLANE_STARTED &&
-+        !s->dataplane_disabled) {
-         virtio_blk_data_plane_notify(s->dataplane, req->vq);
-     } else {
-         virtio_notify(vdev, req->vq);
-@@ -807,7 +808,7 @@ static void virtio_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VirtIOBlock *s = (VirtIOBlock *)vdev;
- 
--    if (s->dataplane && !s->dataplane_started) {
-+    if (s->dataplane && qatomic_read(&s->dataplane_state) > DATAPLANE_STARTED) {
-         /* Some guests kick before setting VIRTIO_CONFIG_S_DRIVER_OK so start
-          * dataplane here instead of waiting for .set_status().
-          */
-@@ -907,7 +908,7 @@ static void virtio_blk_reset(VirtIODevice *vdev)
- 
-     aio_context_release(ctx);
- 
--    assert(!s->dataplane_started);
-+    assert(qatomic_read(&s->dataplane_state) != DATAPLANE_STARTED);
-     blk_set_enable_write_cache(s->blk, s->original_wce);
- }
- 
-@@ -1033,7 +1034,7 @@ static void virtio_blk_set_status(VirtIODevice *vdev, uint8_t status)
-     VirtIOBlock *s = VIRTIO_BLK(vdev);
- 
-     if (!(status & (VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_DRIVER_OK))) {
--        assert(!s->dataplane_started);
-+        assert(qatomic_read(&s->dataplane_state) != DATAPLANE_STARTED);
-     }
- 
-     if (!(status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
-index d311c57cca..3ac66a1f77 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -60,7 +60,7 @@ struct VirtIOBlock {
-     bool original_wce;
-     VMChangeStateEntry *change;
-     bool dataplane_disabled;
--    bool dataplane_started;
-+    enum VirtIODataplaneStates dataplane_state;
-     struct VirtIOBlockDataPlane *dataplane;
-     uint64_t host_features;
-     size_t config_size;
--- 
-2.31.1
+Before we continue: I like the idea of giving onboard devices
+user-friendly, stable names.  "serial0" beats
+"/machine/unattached/device[13]" hands down.  Even more so where the
+"device[13]" part depends on other options (e.g. with "-vga none" it's
+"device[12]", both for i440FX).
+
+The question is what these names could be.  They can't be qdev IDs,
+because we blew our chance to reserve names.
+
+Could we solve this in QOM?
+
+>                                                     and had a
+> qdev_new_builtin(type, id) that applies qdev properties given on the
+> command line to the device? Could be either with plain old '-device'
+> (we're already doing a similar thing with default devices where adding
+> -device for the existing device removes the default device) or with a
+> new command line option.
+>
+> The qdev_prop_set_drive() would then become conditional and would only
+> be done if the property wasn't already set in qdev_new_builtin(). Or
+> maybe a new function that checks for conflicting -drive and -device.
+> Though that part is just implementation details.
+
+The idea sounds vaguely familiar.  Whether it's because we discussed
+similar ones on the list, or because I mulled over similar ones in my
+head I can't say for sure.
+
+Overloading -device so it can also configure existing devices feels
+iffy.
+
+We already have means to set properties for (onboard) devices to pick
+up: -global.  But it's per device *type*, and therefore falls apart as
+soon as you have more than one of the type.  We need something that
+affects a specific (onboard) device, and for that we need a way to
+address one.  The QOM paths we have don't cut it, as I illustrated
+above.
 
 
