@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B879058C90C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 15:09:31 +0200 (CEST)
-Received: from localhost ([::1]:48614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F8B58C909
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 15:09:01 +0200 (CEST)
+Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL2Ve-00067g-Un
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 09:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52716)
+	id 1oL2VA-0005os-Rb
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 09:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oL2L5-0002X0-KB
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 08:58:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36792)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oL2MR-0006co-Ov; Mon, 08 Aug 2022 08:59:59 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oL2L3-0002GL-FB
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 08:58:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659963512;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ei00RvElfz7wkXW5TnWPKeifzNeKn209XUd21GcSKeY=;
- b=L5O1MKPINhGvS7o6gdDG540sXtl/SdsuIj9UMdvU+9+pjUUHTMbWATzADfMWopH+qsjihN
- 3kRXoSlCh4boMcNCCWzd8E4sbz1dkNONYNN06vADBLar89ly1d/EFjABksL9SMDgMD2xyG
- qiGz8WqbNaXrFb2Z+tywq+FWCI4PvXw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-5a_sNTXdPlWvuWa6q6vrHw-1; Mon, 08 Aug 2022 08:58:29 -0400
-X-MC-Unique: 5a_sNTXdPlWvuWa6q6vrHw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4145885A587;
- Mon,  8 Aug 2022 12:58:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84EB618ECC;
- Mon,  8 Aug 2022 12:58:27 +0000 (UTC)
-Date: Mon, 8 Aug 2022 13:58:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: Migration tests are very slow in the CI
-Message-ID: <YvEIcNZ/CnFzdpkS@redhat.com>
-References: <7bf333f0-7bdc-1ba7-2a45-ffa2894ad809@redhat.com>
- <YvD+FXVf//5xvlgy@redhat.com>
- <41dd9dd2-55bc-5a49-1bf7-757373dac465@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oL2MO-0002SE-6c; Mon, 08 Aug 2022 08:59:59 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6157674638A;
+ Mon,  8 Aug 2022 14:59:53 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 122BB7462D3; Mon,  8 Aug 2022 14:59:53 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1036D745702;
+ Mon,  8 Aug 2022 14:59:53 +0200 (CEST)
+Date: Mon, 8 Aug 2022 14:59:53 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 06/22] ppc/ppc405: Start QOMification of the SoC
+In-Reply-To: <20220808102734.133084-7-clg@kaod.org>
+Message-ID: <bb7c8935-1948-2094-abde-eafb1d51c845@eik.bme.hu>
+References: <20220808102734.133084-1-clg@kaod.org>
+ <20220808102734.133084-7-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <41dd9dd2-55bc-5a49-1bf7-757373dac465@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1102268471-1659963593=:47322"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,123 +58,299 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 08, 2022 at 02:43:49PM +0200, Thomas Huth wrote:
-> On 08/08/2022 14.14, Daniel P. Berrangé wrote:
-> > On Mon, Aug 08, 2022 at 01:57:17PM +0200, Thomas Huth wrote:
-> > > 
-> > >   Hi!
-> > > 
-> > > Seems like we're getting more timeouts in the CI pipelines since commit
-> > > 2649a72555e ("Allow test to run without uffd") enabled the migration tests
-> > > in more scenarios.
-> > > 
-> > > For example:
-> > > 
-> > >   https://gitlab.com/qemu-project/qemu/-/jobs/2821578332#L49
-> > > 
-> > > You can see that the migration-test ran for more than 20 minutes for each
-> > > target (x86 and aarch64)! I think that's way too much by default.
-> > 
-> > Definitely too much.
-> > 
-> > > I had a check whether there is one subtest taking a lot of time, but it
-> > > rather seems like each of the migration test is taking 40 to 50 seconds in
-> > > the CI:
-> > > 
-> > >   https://gitlab.com/thuth/qemu/-/jobs/2825365836#L44
-> > 
-> > Normally with CI we expect a constant slowdown factor, eg x2.
-> > 
-> > I expect with migration though, we're triggering behaviour whereby
-> > the guest workload is generating dirty pages quicker than we can
-> > migrate them over localhost. The balance in this can quickly tip
-> > to create an exponential slowdown.
-> 
-> If I run the aarch64 migration-test on my otherwise idle x86 laptop, it also
-> takes already ca. 460 seconds to finish, which is IMHO also already too much
-> for a normal "make check" run (without SPEED=slow).
-> 
-> > I'm not sure if  'g_test_slow' gives us enough granularity though, as
-> > if we enable that, it'll impact the whole test suite, not just
-> > migration tests.
-> 
-> We could also check for the GITLAB_CI environment variable, just like we
-> already do it in some of the avocado-based tests ... but given the fact that
-> the migration test is already very slow on my normal x86 laptop, I think I'd
-> prefer if we added some checks with g_test_slow() in there ...
-> 
-> Are there any tests in migration-test.c that are rather redundant and could
-> be easily skipped in quick mode?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-The trouble with migration is that there are alot of subtle permutations
-that interact in wierd ways, so we've got alot of test scenarios, includuing
-many with TLS:
+--3866299591-1102268471-1659963593=:47322
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-/x86_64/migration/bad_dest
-/x86_64/migration/fd_proto
-/x86_64/migration/validate_uuid
-/x86_64/migration/validate_uuid_error
-/x86_64/migration/validate_uuid_src_not_set
-/x86_64/migration/validate_uuid_dst_not_set
-/x86_64/migration/auto_converge
-/x86_64/migration/dirty_ring
-/x86_64/migration/vcpu_dirty_limit
-/x86_64/migration/postcopy/unix
-/x86_64/migration/postcopy/plain
-/x86_64/migration/postcopy/recovery/plain
-/x86_64/migration/postcopy/recovery/tls/psk
-/x86_64/migration/postcopy/preempt/plain
-/x86_64/migration/postcopy/preempt/recovery/plain
-/x86_64/migration/postcopy/preempt/recovery/tls/psk
-/x86_64/migration/postcopy/preempt/tls/psk
-/x86_64/migration/postcopy/tls/psk
-/x86_64/migration/precopy/unix/plain
-/x86_64/migration/precopy/unix/xbzrle
-/x86_64/migration/precopy/unix/tls/psk
-/x86_64/migration/precopy/unix/tls/x509/default-host
-/x86_64/migration/precopy/unix/tls/x509/override-host
-/x86_64/migration/precopy/tcp/plain
-/x86_64/migration/precopy/tcp/tls/psk/match
-/x86_64/migration/precopy/tcp/tls/psk/mismatch
-/x86_64/migration/precopy/tcp/tls/x509/default-host
-/x86_64/migration/precopy/tcp/tls/x509/override-host
-/x86_64/migration/precopy/tcp/tls/x509/mismatch-host
-/x86_64/migration/precopy/tcp/tls/x509/friendly-client
-/x86_64/migration/precopy/tcp/tls/x509/hostile-client
-/x86_64/migration/precopy/tcp/tls/x509/allow-anon-client
-/x86_64/migration/precopy/tcp/tls/x509/reject-anon-client
-/x86_64/migration/multifd/tcp/plain/none
-/x86_64/migration/multifd/tcp/plain/cancel
-/x86_64/migration/multifd/tcp/plain/zlib
-/x86_64/migration/multifd/tcp/plain/zstd
-/x86_64/migration/multifd/tcp/tls/psk/match
-/x86_64/migration/multifd/tcp/tls/psk/mismatch
-/x86_64/migration/multifd/tcp/tls/x509/default-host
-/x86_64/migration/multifd/tcp/tls/x509/override-host
-/x86_64/migration/multifd/tcp/tls/x509/mismatch-host
-/x86_64/migration/multifd/tcp/tls/x509/allow-anon-client
-/x86_64/migration/multifd/tcp/tls/x509/reject-anon-client
+On Mon, 8 Aug 2022, Cédric Le Goater wrote:
+> This moves all the code previously done in the ppc405ep_init() routine
+> under ppc405_soc_realize(). We can also adjust the number of banks now
+> that we have control on ppc4xx_sdram_init().
+>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+> hw/ppc/ppc405.h        |  12 ++--
+> hw/ppc/ppc405_boards.c |  12 ++--
+> hw/ppc/ppc405_uc.c     | 123 ++++++++++++++++++++---------------------
+> 3 files changed, 70 insertions(+), 77 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index 66dc21cdfed8..dc862bc8614c 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -73,9 +73,14 @@ struct Ppc405SoCState {
+>     /* Public */
+>     MemoryRegion ram_banks[2];
+>     hwaddr ram_bases[2], ram_sizes[2];
+> +    bool do_dram_init;
+>
+>     MemoryRegion *dram_mr;
+>     hwaddr ram_size;
+> +
+> +    uint32_t sysclk;
 
-Each takes about 4 seconds, except for the xbzrle, autoconverge and
-vcpu-dirty-rate tests which take 8-12 seconds.
+Putting this together with dram_init would keep properties set from 
+outside together which is clearer than here with others set by to object 
+itself but this is just a small thing, not really important.
 
-We could short-circuit most of the tls tests, because 90% of what
-they're validating is the initial connection setup phase. We don't
-really need to run the full migration to completion, we can just
-abort once we're running. Just keep 3 doing the full migration
-to completion - one precopy, one postcopy and one multifd.
+> +    PowerPCCPU *cpu;
+> +    DeviceState *uic;
+> };
+>
+> /* PowerPC 405 core */
+> @@ -84,11 +89,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+> void ppc4xx_plb_init(CPUPPCState *env);
+> void ppc405_ebc_init(CPUPPCState *env);
+>
+> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+> -                        MemoryRegion ram_memories[2],
+> -                        hwaddr ram_bases[2],
+> -                        hwaddr ram_sizes[2],
+> -                        uint32_t sysclk, DeviceState **uicdev,
+> -                        int do_init);
+> -
+> #endif /* PPC405_H */
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 1dc5065fcc1d..0b39ff08bd65 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
+>     Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
+>     MachineClass *mc = MACHINE_GET_CLASS(machine);
+>     const char *kernel_filename = machine->kernel_filename;
+> -    PowerPCCPU *cpu;
+>     MemoryRegion *sysmem = get_system_memory();
+> -    DeviceState *uicdev;
+>
+>     if (machine->ram_size != mc->default_ram_size) {
+>         char *sz = size_to_str(mc->default_ram_size);
+> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
+>                              machine->ram_size, &error_fatal);
+>     object_property_set_link(OBJECT(&ppc405->soc), "dram",
+>                              OBJECT(machine->ram), &error_abort);
+> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+> +                             !(kernel_filename == NULL), &error_abort);
 
-That'd cut most of thte TLS tests from 4 seconds to 0.5 seconds.
+Maybe clearer as kernel_filename != NULL
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Is there a problem with indentation in this patch? Does it pass 
+checkpatch.pl?
 
+Regards,
+BALATON Zoltan
+
+> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+> +                             &error_abort);
+>     qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
+>
+> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_banks, ppc405->soc.ram_bases,
+> -                        ppc405->soc.ram_sizes,
+> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+> -
+>     /* allocate and load BIOS */
+>     if (machine->firmware) {
+>         MemoryRegion *bios = g_new(MemoryRegion, 1);
+> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
+>
+>     /* Load ELF kernel and rootfs.cpio */
+>     } else if (kernel_filename && !machine->firmware) {
+> -        boot_from_kernel(machine, cpu);
+> +        boot_from_kernel(machine, ppc405->soc.cpu);
+>     }
+> }
+>
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index adadb3a0ae08..abcc2537140c 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -1432,121 +1432,118 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
+> #endif
+> }
+>
+> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+> -                        MemoryRegion ram_memories[2],
+> -                        hwaddr ram_bases[2],
+> -                        hwaddr ram_sizes[2],
+> -                        uint32_t sysclk, DeviceState **uicdevp,
+> -                        int do_init)
+> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> {
+> +    Ppc405SoCState *s = PPC405_SOC(dev);
+>     clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
+>     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+> -    PowerPCCPU *cpu;
+>     CPUPPCState *env;
+> -    DeviceState *uicdev;
+> -    SysBusDevice *uicsbd;
+>
+>     memset(clk_setup, 0, sizeof(clk_setup));
+> +
+>     /* init CPUs */
+> -    cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
+> +    s->cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
+>                       &clk_setup[PPC405EP_CPU_CLK],
+> -                      &tlb_clk_setup, sysclk);
+> -    env = &cpu->env;
+> +                      &tlb_clk_setup, s->sysclk);
+> +    env = &s->cpu->env;
+>     clk_setup[PPC405EP_CPU_CLK].cb = tlb_clk_setup.cb;
+>     clk_setup[PPC405EP_CPU_CLK].opaque = tlb_clk_setup.opaque;
+> -    /* Internal devices init */
+> -    /* Memory mapped devices registers */
+> +
+> +    /* CPU control */
+> +    ppc405ep_cpc_init(env, clk_setup, s->sysclk);
+> +
+>     /* PLB arbitrer */
+>     ppc4xx_plb_init(env);
+> +
+>     /* PLB to OPB bridge */
+>     ppc4xx_pob_init(env);
+> +
+>     /* OBP arbitrer */
+>     ppc4xx_opba_init(0xef600600);
+> +
+>     /* Universal interrupt controller */
+> -    uicdev = qdev_new(TYPE_PPC_UIC);
+> -    uicsbd = SYS_BUS_DEVICE(uicdev);
+> +    s->uic = qdev_new(TYPE_PPC_UIC);
+>
+> -    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+> +    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(s->cpu),
+>                              &error_fatal);
+> -    sysbus_realize_and_unref(uicsbd, &error_fatal);
+> -
+> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
+> +        return;
+> +    }
+>
+> -    *uicdevp = uicdev;
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
+> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_INT));
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
+> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_CINT));
+>
+>     /* SDRAM controller */
+>         /* XXX 405EP has no ECC interrupt */
+> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 17), 2, ram_memories,
+> -                      ram_bases, ram_sizes, do_init);
+> +    s->ram_bases[0] = 0;
+> +    s->ram_sizes[0] = s->ram_size;
+> +    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
+> +                             "ppc405.sdram0", s->dram_mr,
+> +                             s->ram_bases[0], s->ram_sizes[0]);
+> +
+> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17), 1,
+> +                      s->ram_banks, s->ram_bases, s->ram_sizes,
+> +                      s->do_dram_init);
+> +
+>     /* External bus controller */
+>     ppc405_ebc_init(env);
+> +
+>     /* DMA controller */
+> -    dma_irqs[0] = qdev_get_gpio_in(uicdev, 5);
+> -    dma_irqs[1] = qdev_get_gpio_in(uicdev, 6);
+> -    dma_irqs[2] = qdev_get_gpio_in(uicdev, 7);
+> -    dma_irqs[3] = qdev_get_gpio_in(uicdev, 8);
+> +    dma_irqs[0] = qdev_get_gpio_in(s->uic, 5);
+> +    dma_irqs[1] = qdev_get_gpio_in(s->uic, 6);
+> +    dma_irqs[2] = qdev_get_gpio_in(s->uic, 7);
+> +    dma_irqs[3] = qdev_get_gpio_in(s->uic, 8);
+>     ppc405_dma_init(env, dma_irqs);
+> -    /* IIC controller */
+> +
+> +    /* I2C controller */
+>     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+> -                         qdev_get_gpio_in(uicdev, 2));
+> +                         qdev_get_gpio_in(s->uic, 2));
+>     /* GPIO */
+>     ppc405_gpio_init(0xef600700);
+> +
+>     /* Serial ports */
+>     if (serial_hd(0) != NULL) {
+> -        serial_mm_init(address_space_mem, 0xef600300, 0,
+> -                       qdev_get_gpio_in(uicdev, 0),
+> +        serial_mm_init(get_system_memory(), 0xef600300, 0,
+> +                       qdev_get_gpio_in(s->uic, 0),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+>     if (serial_hd(1) != NULL) {
+> -        serial_mm_init(address_space_mem, 0xef600400, 0,
+> -                       qdev_get_gpio_in(uicdev, 1),
+> +        serial_mm_init(get_system_memory(), 0xef600400, 0,
+> +                       qdev_get_gpio_in(s->uic, 1),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+> +
+>     /* OCM */
+>     ppc405_ocm_init(env);
+> +
+>     /* GPT */
+> -    gpt_irqs[0] = qdev_get_gpio_in(uicdev, 19);
+> -    gpt_irqs[1] = qdev_get_gpio_in(uicdev, 20);
+> -    gpt_irqs[2] = qdev_get_gpio_in(uicdev, 21);
+> -    gpt_irqs[3] = qdev_get_gpio_in(uicdev, 22);
+> -    gpt_irqs[4] = qdev_get_gpio_in(uicdev, 23);
+> +    gpt_irqs[0] = qdev_get_gpio_in(s->uic, 19);
+> +    gpt_irqs[1] = qdev_get_gpio_in(s->uic, 20);
+> +    gpt_irqs[2] = qdev_get_gpio_in(s->uic, 21);
+> +    gpt_irqs[3] = qdev_get_gpio_in(s->uic, 22);
+> +    gpt_irqs[4] = qdev_get_gpio_in(s->uic, 23);
+>     ppc4xx_gpt_init(0xef600000, gpt_irqs);
+> -    /* PCI */
+> -    /* Uses UIC IRQs 3, 16, 18 */
+> +
+>     /* MAL */
+> -    mal_irqs[0] = qdev_get_gpio_in(uicdev, 11);
+> -    mal_irqs[1] = qdev_get_gpio_in(uicdev, 12);
+> -    mal_irqs[2] = qdev_get_gpio_in(uicdev, 13);
+> -    mal_irqs[3] = qdev_get_gpio_in(uicdev, 14);
+> +    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
+> +    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
+> +    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
+> +    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
+>     ppc4xx_mal_init(env, 4, 2, mal_irqs);
+> +
+>     /* Ethernet */
+>     /* Uses UIC IRQs 9, 15, 17 */
+> -    /* CPU control */
+> -    ppc405ep_cpc_init(env, clk_setup, sysclk);
+> -
+> -    return cpu;
+> -}
+> -
+> -static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> -{
+> -    Ppc405SoCState *s = PPC405_SOC(dev);
+> -
+> -    /* Initialize only one bank */
+> -    s->ram_bases[0] = 0;
+> -    s->ram_sizes[0] = s->ram_size;
+> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
+> -                             "ppc405.sdram0", s->dram_mr,
+> -                             s->ram_bases[0], s->ram_sizes[0]);
+> }
+>
+> static Property ppc405_soc_properties[] = {
+>     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+>                      MemoryRegion *),
+> +    DEFINE_PROP_UINT32("sys-clk", Ppc405SoCState, sysclk, 0),
+> +    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
+>     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>
+--3866299591-1102268471-1659963593=:47322--
 
