@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B10658CD56
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 20:06:56 +0200 (CEST)
-Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDFE58CD61
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 20:10:08 +0200 (CEST)
+Received: from localhost ([::1]:35876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL79T-0007Bn-F2
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 14:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
+	id 1oL7CY-0001iU-Lx
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 14:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1oL74A-0003kF-OH
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 14:01:28 -0400
-Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36]:42982)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oL75l-0004ZP-Ii
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 14:03:06 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:44895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1oL748-0002Oz-Ja
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 14:01:26 -0400
-Received: by mail-vs1-xe36.google.com with SMTP id b124so9576353vsc.9
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 11:01:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oL75k-0002bo-1c
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 14:03:05 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id g5so14810663ybg.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 11:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=Q38ED6uBiOaMaUgrWEmCZ9B9V2cpD4kN6BpN+lMzLXk=;
- b=zQKxBDxa8lvT0BnEPufrzJW2qWTKOX2i+SzKYaeAR5/BlvFV2+6kq7Y6dNdzP7eFJv
- hzcF2SJ0dZYEFV0aIvCfAaV0AW9c7sG3/Ng3f9HgReSXgGecukw2k+H55v0XpWNb7HZa
- gE6QJP6ydZ7Jx+bzBuglAT6AwGfu97PxYJh9tjKKmqzw58Jj+7AOKop0YI8wvrsgEZav
- BxUbMY495b1AkE7MISe/5KF7BvY8culeA11Ov6kKLaQ5aIO4D/16Aaa4jQXn7qiE3k+L
- Q99rT6HU/9nBmsrvnCGdc3dBHOh8/6/icOd2+c+3IK26NB7rb5V/ZT3JlkFf9gcN/bWm
- 5TxA==
+ bh=2xwJ0b39ue5yOrzP0z1qgthjGBsrgkQfgDilgQG3d28=;
+ b=YmeHabAntfOLH9bc2FZooJRgRrGcWBRn87iZPZozc6CIU6qGp2p2fe+X/K7LhSg+6v
+ k8yA7lcB9EyLOPrqdhyLVjF0pp71Tgnc5WjwuiV8QLdYqYKnenCp7l3eLzTROkHw8Std
+ DC8atrpVT6p/re5zUM4ac0c1FVSwePPQf5+QV0SY/9UI4Cm0DRwgc994ZuW6Zuqhr+6y
+ 2BU9nJaS5nPZFV6Mpyr1f6zxSWeC6SvC1ka5aWRoUzyjb0ZaMJlvELf2WkYxxLUSmEQx
+ GLNlFexmQmSTcdFWFw4KwmUl4Ws4CFd1by0v5S3I/+XEjfL1aJEbELfEmr7DMkA5A1/I
+ OUXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=Q38ED6uBiOaMaUgrWEmCZ9B9V2cpD4kN6BpN+lMzLXk=;
- b=4WPNM11CliyK/FYLtj4vb1hbsH+zrp4BGmBwzXh2Z/hLCxyPq6dcwKVOuPU02Q2zG5
- dgB9tg4Vhjx11Y5Z+1BkUlGHK4ZGEU1qyb36IdnX0ue/nfkcHku2tNTYe8JVSluUE5cB
- 2cb10zgWu9gN3yIqJCSAmWFXXVXEAE2Y99BYFyxsjf1HRisFM1K4tjplhNBZeT0hpgBi
- JyeFBQjMFZ7aB7m0xBcCYYn2ONWA7ZVOP1AfxxzPZp9MvxmAkvM4cWeat/K99Q26RuSn
- crgCogmChYbV1xQFEzxX6qbiNRvkZoO8UbnzAmDLEaIdO9C8JihE4kcJoAppUR8THfr0
- Rcog==
-X-Gm-Message-State: ACgBeo1MGky7O5gVSj0Z56O0U+0E69PjsVmBYrJsgZoF2SPOV3/M9oFV
- scQ/QrII7mceWqG77PmXMvtwdl6RZkvnuAPGJCCw/Q==
-X-Google-Smtp-Source: AA6agR7UmYM8FTCCj6s6j3uhhRBBzvkgb6w1fNuU5uKcLBNlNCJ1amd3Ebco/bFaxeb+R0RAMwNRUIP5uP8ztWOmaZ8=
-X-Received: by 2002:a67:e456:0:b0:37c:13d5:c3b9 with SMTP id
- n22-20020a67e456000000b0037c13d5c3b9mr8423901vsm.82.1659981682863; Mon, 08
- Aug 2022 11:01:22 -0700 (PDT)
+ bh=2xwJ0b39ue5yOrzP0z1qgthjGBsrgkQfgDilgQG3d28=;
+ b=vQ6p83HAxQHpmEXPKy2y81PUq11+FqvOEn1auTMX/xwx2CltiWNTAaF9+VLqVwqn4I
+ r1QOeWepIfwrDJqq5UIGjEN20DxD8ABGhsnr2hUA4g797fuMKwB3dyFfeJLlqVseNcLQ
+ vkF6D4q03amPGmQAk75nfNYCIbJKlP5gI3tx6Pbigg7YESEkYFpxHpzV9eyHDxkqnk8j
+ Ah1+L032QhjWaR8Rdz3OKCBnb3hwSDsDg0mwFsAJOLF2vR1W/1o+x/DlvzPYp/LuIT1a
+ iqgcf7r2dV9cnlExdztmtJfiXaUHlTIjMOQv60W0pBkzmEsQKHuFAnPN6U6aN085j6YH
+ WcTw==
+X-Gm-Message-State: ACgBeo25BN8Tu9XUkbGA+h7LBl4Nagoiwh80Urh/3NiYsqG5S4Kn0/1S
+ rjZcM63tKtR8EFnswnkVLp7hXmiKIlkt1GOfsrE2xA==
+X-Google-Smtp-Source: AA6agR4+hZod27yitz4T38Ep2WruR8VgRJkgUlrRz+WK6beTNDG4zbKbAx+lnaP6F54lH35ppecuG9elfBiHC7FjZ+E=
+X-Received: by 2002:a25:d4a:0:b0:671:6d11:d14e with SMTP id
+ 71-20020a250d4a000000b006716d11d14emr18053461ybn.479.1659981782068; Mon, 08
+ Aug 2022 11:03:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFEAcA_Y=ugD=Oh=fJhi=9GE73zpWnp0YC9dOoJazHg1PgXu=w@mail.gmail.com>
-In-Reply-To: <CAFEAcA_Y=ugD=Oh=fJhi=9GE73zpWnp0YC9dOoJazHg1PgXu=w@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 8 Aug 2022 12:01:11 -0600
-Message-ID: <CANCZdfpp1yqPXkR05aJJH-WcbvbcWgFBi6qvzKBph9ef05Hy8w@mail.gmail.com>
-Subject: Re: how long do we need to retain gitlab CI job stdout logs?
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "Daniel P. Berrange" <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000008a8a4a05e5be9a64"
-Received-SPF: none client-ip=2607:f8b0:4864:20::e36;
- envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+References: <20220728115034.1327988-1-imammedo@redhat.com>
+ <CAFEAcA95sRW8u2NFDa1BX7uNg2t85Yr_kPgWWC+5QnJobygwMA@mail.gmail.com>
+ <20220728151627.119d57d5@redhat.com>
+ <769cfc18-9585-5ddf-de46-52aa64328cea@amsat.org>
+ <CAG4p6K53y=Oe9vynXgGYTZ9CfHewsDeE3mFDkEb-_us7rgaBcg@mail.gmail.com>
+ <20220808141540.317e018e@redhat.com>
+ <E4A796B6-AA0E-4266-8698-E894A51A7807@gmail.com>
+In-Reply-To: <E4A796B6-AA0E-4266-8698-E894A51A7807@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Aug 2022 19:02:50 +0100
+Message-ID: <CAFEAcA_m-8j-v-X2ZhpOPpAC=SkSKwz6_tNaORzSi0wfx-7xLQ@mail.gmail.com>
+Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features of
+ PIIX4_PM
+To: BB <shentey@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,87 +94,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008a8a4a05e5be9a64
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Aug 8, 2022, 11:49 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> Hi; I just reduced QEMU's storage usage on gitlab by 130GB (no typo!)
-> using https://gitlab.com/eskultety/gitlab_cleaner, which Dan helpfully
-> pointed me at. This script removes old pipelines, which take up a
-> lot of storage space for QEMU because they include the stdout logs
-> for all the CI jobs in the pipeline. (Gitlab doesn't expire these,
-> either by default or configurably -- you have to either manually delete
-> the pipeline in the UI or else use the API, as this script does.)
+On Mon, 8 Aug 2022 at 18:57, BB <shentey@gmail.com> wrote:
+> Am 8. August 2022 14:15:40 MESZ schrieb Igor Mammedov <imammedo@redhat.com>:
+> >On Wed, 3 Aug 2022 19:26:30 +0200
+> >While refactoring we should keep migration stream compatible with older
+> >QEMU versions (we must not regress widely x86 code path). Which might be
+> >tricky in this case.
 >
-> I somewhat conservatively only blew away pipelines from before the
-> 1st January 2022. I feel like we don't really even need 6 months worth
-> of CI job logs, though -- any views on whether we should be pruning
-> them more aggressively ?
->
+> Does this particular fix make future compatibility harder or easier or is it that hard already? IIUC it omits the hotplug bits in the vm state for Malta which is what one would expect there, right?
 
-My finger in the air says "more than a month, less than a year."
-
-It can often take a while to notice problems, especially non fatal ones. If
-we had a one month retention we'd likely find we'd need older logs fairly
-often. If we expire after a year, we'd never wish we hadn't. Nearly all
-problems CI would be helpful to address are found in that time.
-
-Usually, in other project, almost all issues like this are fixed within a
-couple months (often much sooner). That suggests that 4-6 months likely is
-the right balance with my personal bias to 6 months unless there is
-significant financial or other savings from 4 months.
-
-Warner
+This patch's fix only affects Malta. It is (I suspect but have
+not tested) a migration compat break on Malta, but we don't
+care about cross-version migration compat for that board anyway.
+Migration compat matters (to a first approximation) only for
+those boards which have versioned machine types (eg pc-7.0,
+pc-7.1, etc). For all other machine types we retain compat
+only if it's easy.
 
 thanks
-> -- PMM
->
->
-
---0000000000008a8a4a05e5be9a64
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Aug 8, 2022, 11:49 AM Peter Maydell &lt;<a hre=
-f=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">Hi; I just reduced QEMU&#39;s st=
-orage usage on gitlab by 130GB (no typo!)<br>
-using <a href=3D"https://gitlab.com/eskultety/gitlab_cleaner" rel=3D"norefe=
-rrer noreferrer" target=3D"_blank">https://gitlab.com/eskultety/gitlab_clea=
-ner</a>, which Dan helpfully<br>
-pointed me at. This script removes old pipelines, which take up a<br>
-lot of storage space for QEMU because they include the stdout logs<br>
-for all the CI jobs in the pipeline. (Gitlab doesn&#39;t expire these,<br>
-either by default or configurably -- you have to either manually delete<br>
-the pipeline in the UI or else use the API, as this script does.)<br>
-<br>
-I somewhat conservatively only blew away pipelines from before the<br>
-1st January 2022. I feel like we don&#39;t really even need 6 months worth<=
-br>
-of CI job logs, though -- any views on whether we should be pruning<br>
-them more aggressively ?<br></blockquote></div></div><div dir=3D"auto"><br>=
-</div><div dir=3D"auto">My finger in the air says &quot;more than a month, =
-less than a year.&quot;</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-It can often take a while to notice problems, especially non fatal ones. If=
- we had a one month retention we&#39;d likely find we&#39;d need older logs=
- fairly often. If we expire after a year, we&#39;d never wish we hadn&#39;t=
-. Nearly all problems CI would be helpful to address are found in that time=
-.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Usually, in other proj=
-ect, almost all issues like this are fixed within a couple months (often mu=
-ch sooner). That suggests that 4-6 months likely is the right balance with =
-my personal bias to 6 months unless there is significant financial or other=
- savings from 4 months.</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-Warner=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">
-thanks<br>
--- PMM<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000008a8a4a05e5be9a64--
+-- PMM
 
