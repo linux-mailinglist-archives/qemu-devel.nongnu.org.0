@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5966458C871
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:38:11 +0200 (CEST)
-Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B7758C86B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:36:27 +0200 (CEST)
+Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL21K-0001rK-Et
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45810)
+	id 1oL1ze-0000UX-6U
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oL1lf-0002r5-1z
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 08:22:00 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2667)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oL1mm-00047K-9d; Mon, 08 Aug 2022 08:23:08 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oL1lc-0004CZ-Oa
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 08:21:58 -0400
-Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M1Zvs3YTCz67NKZ;
- Mon,  8 Aug 2022 20:17:29 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 8 Aug 2022 14:21:54 +0200
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 8 Aug 2022 13:21:54 +0100
-To: <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, "Shameerali Kolothum
- Thodi" <shameerali.kolothum.thodi@huawei.com>, Ben Widawsky
- <bwidawsk@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 2/2] hw/cxl: Fix wrong query of target ports
-Date: Mon, 8 Aug 2022 13:20:51 +0100
-Message-ID: <20220808122051.14822-3-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220808122051.14822-1-Jonathan.Cameron@huawei.com>
-References: <20220808122051.14822-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oL1mk-0004N4-Gy; Mon, 08 Aug 2022 08:23:08 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 58D09747871;
+ Mon,  8 Aug 2022 14:23:04 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 203157475F9; Mon,  8 Aug 2022 14:23:04 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1E8B0746FDE;
+ Mon,  8 Aug 2022 14:23:04 +0200 (CEST)
+Date: Mon, 8 Aug 2022 14:23:04 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 02/22] ppc/ppc405: Introduce a PPC405 generic
+ machine
+In-Reply-To: <20220808102734.133084-3-clg@kaod.org>
+Message-ID: <8e36b76d-2f48-3c45-bd26-d1c9fb303ba9@eik.bme.hu>
+References: <20220808102734.133084-1-clg@kaod.org>
+ <20220808102734.133084-3-clg@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1613236159-1659961384=:47322"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,57 +61,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Two issues were present in this code:
-1) Check on which register to look in was inverted.
-2) Both branches use the _LO register.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Whilst here moved to extract32() rather than hand rolling
-the field extraction as simpler and hopefully less error prone.
+--3866299591-1613236159-1659961384=:47322
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Fixes Coverity CID: 1488873
+On Mon, 8 Aug 2022, Cédric Le Goater wrote:
+> We will use this machine as a base to define the ref405ep and possibly
+> the PPC405 hotfoot board as found in the Linux kernel.
+>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/cxl/cxl-host.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-index faa68ef038..1adf61231a 100644
---- a/hw/cxl/cxl-host.c
-+++ b/hw/cxl/cxl-host.c
-@@ -104,7 +104,6 @@ static bool cxl_hdm_find_target(uint32_t *cache_mem, hwaddr addr,
-     uint32_t ctrl;
-     uint32_t ig_enc;
-     uint32_t iw_enc;
--    uint32_t target_reg;
-     uint32_t target_idx;
- 
-     ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
-@@ -116,14 +115,13 @@ static bool cxl_hdm_find_target(uint32_t *cache_mem, hwaddr addr,
-     iw_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IW);
-     target_idx = (addr / cxl_decode_ig(ig_enc)) % (1 << iw_enc);
- 
--    if (target_idx > 4) {
--        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
--        target_reg >>= target_idx * 8;
-+    if (target_idx < 4) {
-+        *target = extract32(cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO],
-+                            target_idx * 8, 8);
-     } else {
--        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
--        target_reg >>= (target_idx - 4) * 8;
-+        *target = extract32(cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_HI],
-+                            (target_idx - 4) * 8, 8);
-     }
--    *target = target_reg & 0xff;
- 
-     return true;
- }
--- 
-2.32.0
-
+> ---
+> hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
+> 1 file changed, 28 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 1a4e7588c584..96700be74d08 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -50,6 +50,15 @@
+>
+> #define USE_FLASH_BIOS
+>
+> +#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
+> +
+> +struct Ppc405MachineState {
+> +    /* Private */
+> +    MachineState parent_obj;
+> +    /* Public */
+> +};
+> +
+> /*****************************************************************************/
+> /* PPC405EP reference board (IBM) */
+> /* Standalone board with:
+> @@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
+>
+>     mc->desc = "ref405ep";
+>     mc->init = ref405ep_init;
+> -    mc->default_ram_size = 0x08000000;
+> -    mc->default_ram_id = "ef405ep.ram";
+> }
+>
+> static const TypeInfo ref405ep_type = {
+>     .name = MACHINE_TYPE_NAME("ref405ep"),
+> -    .parent = TYPE_MACHINE,
+> +    .parent = TYPE_PPC405_MACHINE,
+>     .class_init = ref405ep_class_init,
+> };
+>
+> +static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +
+> +    mc->desc = "PPC405 generic machine";
+> +    mc->default_ram_size = 128 * MiB;
+> +    mc->default_ram_id = "ppc405.ram";
+> +}
+> +
+> +static const TypeInfo ppc405_machine_type = {
+> +    .name = TYPE_PPC405_MACHINE,
+> +    .parent = TYPE_MACHINE,
+> +    .instance_size = sizeof(Ppc405MachineState),
+> +    .class_init = ppc405_machine_class_init,
+> +    .abstract = true,
+> +};
+> +
+> static void ppc405_machine_init(void)
+> {
+> +    type_register_static(&ppc405_machine_type);
+>     type_register_static(&ref405ep_type);
+> }
+>
+>
+--3866299591-1613236159-1659961384=:47322--
 
