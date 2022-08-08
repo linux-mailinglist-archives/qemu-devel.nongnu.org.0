@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7F058D05E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 01:08:04 +0200 (CEST)
-Received: from localhost ([::1]:44952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A36858D069
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 01:13:43 +0200 (CEST)
+Received: from localhost ([::1]:47116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLBqo-0002hd-S7
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 19:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41134)
+	id 1oLBwM-0004XX-Gk
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 19:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oLBk0-0000aJ-Oo; Mon, 08 Aug 2022 19:00:59 -0400
-Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f]:40755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oLBjy-0004wm-Jg; Mon, 08 Aug 2022 19:00:56 -0400
-Received: by mail-vs1-xe2f.google.com with SMTP id q190so10322520vsb.7;
- Mon, 08 Aug 2022 16:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=tYrhbPSVMEyUgYLb39sWhC6Y4w5M1fTvg/pMZnQuYos=;
- b=Yprf/CakZcuqi+Fnzd/yIXZIZE0IlQNrIL0uwdtdkBzPo9Zj48OTuA3T/Jzk8nsirH
- /QbgVdbm1pCil0AOd5R39ZNy+Av+x1CmF7rfm7Uy1YmyRM+f7WyaCvXNDXn74KCxkUUi
- 5+/CZLz+DdWiHZtAwwCgWRieHUOyerC0izidyC8K1XBafoCEyJaXnE05poCFzRR4UNBt
- YtL0z5gZ4L4k7z+STNE40rV9OKtA/b6E9KGOOh1EWsE58aEJyA08ETNfijqHyWL+PEkV
- nxq8EoeIrjzQkohPwgLNrjYrrV++/hclKrKyNaeLam9x+PDPdGVDjUG1Em0fyB4b7qCh
- F0Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=tYrhbPSVMEyUgYLb39sWhC6Y4w5M1fTvg/pMZnQuYos=;
- b=Qv3w54ovvkLBIJnCA8zgWdmY5a/WiUXXEaECO4lzQ27fmTXvUx49ZVyI1cnogiol12
- Ha/1VNlCwx+wRAQYd5zz6/M1LXz2FdK6PR3ycdCAu3f7x4rT0gopTbrdu8LF6OoBtdct
- N738q0wNpK/v/URFldIihiCtam9tXswBTUOGkuH50NvUzpoPSbIcYkQJoOfYZUqI1sXX
- z0rU2kl4UD2oJ4QYsMalqOxaZgatTmwU3qjDmw+8LLWNS7xbyS5oYX7zwuVmS/7GkIiL
- TgLeNl1nYpetAHmZtjTXzV3eoJvOadVQOPhjNbNjaq6NItvbYw2mGcgymUA/lEymkNbT
- +5/Q==
-X-Gm-Message-State: ACgBeo079DAMiC/9vEaZjQ2zJVvSDjDUuv+hfgxkrs2K5FTuLSPMPMuF
- RQ9S0sRL/hLTmx8DsPh6zqc=
-X-Google-Smtp-Source: AA6agR5UbyNOBr3Lk8OIGpJc6liRsDvaS5u9MoKDWfMmPYYNpP2uyFO4YcLWAa3tMZoDVvZD3N/yXw==
-X-Received: by 2002:a05:6102:a22:b0:388:4f17:6b9d with SMTP id
- 2-20020a0561020a2200b003884f176b9dmr8029536vsb.58.1659999653216; 
- Mon, 08 Aug 2022 16:00:53 -0700 (PDT)
-Received: from [192.168.10.102] (201-68-49-100.dsl.telesp.net.br.
- [201.68.49.100]) by smtp.gmail.com with ESMTPSA id
- d22-20020ab03196000000b00385f5f34da7sm10540084uan.16.2022.08.08.16.00.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Aug 2022 16:00:52 -0700 (PDT)
-Message-ID: <b4c6bcea-acc7-fed8-44e1-77bcf1a28c3b@gmail.com>
-Date: Mon, 8 Aug 2022 20:00:49 -0300
+ (Exim 4.90_1) (envelope-from <robh@kernel.org>)
+ id 1oLBtw-00032w-Mq; Mon, 08 Aug 2022 19:11:12 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:45190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <robh@kernel.org>)
+ id 1oLBtu-00066F-Bb; Mon, 08 Aug 2022 19:11:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6C14A60FEA;
+ Mon,  8 Aug 2022 23:11:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFEE0C433D7;
+ Mon,  8 Aug 2022 23:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660000266;
+ bh=jHSuHCtp6RDvJVvP/NS479tQWR2ltG97ra6kLxQO21E=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=pdQD+ZMD28AZ/EvgVscNpomgIUJDtNl7b/2+R9PQvRJi7BIxGEKn6ShqiMqUjaRQN
+ AnbxNlmAcVzH5bLd7lURPD9Z1c0zu7OPK8Etf5J0oz+LXzx5bO09/EfeNHL/9f0cVP
+ LJuv10nghovOYidRAoxH86tZQIYO8cRVPHFqCKG6em0kDfLJuBnnbzDAfiiuI+V3RF
+ RQrNi+HHxFVd3cXhXBN7eW0njcGYrl0TOGwlU2fdTzUdSha7kvnGKIBk1qPrxEH35F
+ 0DAcbUlBZBGiSf9/IdKxbX1xMcT6bfedODOLKZ6k1Wb3Dh0tjCSE+NSMNJyrSoBIMn
+ kNZ9bz1REDo6Q==
+Received: by mail-vs1-f51.google.com with SMTP id s129so10313607vsb.11;
+ Mon, 08 Aug 2022 16:11:06 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1qSKKnbct/PlL/nCs2r1n2WvW2MkHSot+chEpYQ298Zhq1pds1
+ lCp7YyGmf8LXEe3UqkHI5LaPgPa9gSbMtunoEg==
+X-Google-Smtp-Source: AA6agR47bM6PXZpdbPUPn1sGnCTqktT46MegrwfONsfHijrksV9DCm6sE3X3dlRmFEWMqFkZMMInWHQn3vKBNHFqLrA=
+X-Received: by 2002:a67:a246:0:b0:388:7e82:1d80 with SMTP id
+ t6-20020a67a246000000b003887e821d80mr7289670vsh.26.1660000265768; Mon, 08 Aug
+ 2022 16:11:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH for-7.2 v2 01/20] hw/arm: do not free machine->fdt in
- arm_load_dtb()
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-2-danielhb413@gmail.com> <YvCBwE200sVzMixz@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <YvCBwE200sVzMixz@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220808210643.2192602-1-mail@conchuod.ie>
+ <20220808210643.2192602-4-mail@conchuod.ie>
+ <4BA66590-3A82-4B5C-829B-67F8B5D5029D@jrtc27.com>
+ <842525b8-2716-4d87-7024-070fe858da6f@microchip.com>
+In-Reply-To: <842525b8-2716-4d87-7024-070fe858da6f@microchip.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 8 Aug 2022 17:10:54 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLa2xJN0oLaCzzE1fS-enRhv-XkLBsn_mHQ7kvXy6yWnQ@mail.gmail.com>
+Message-ID: <CAL_JsqLa2xJN0oLaCzzE1fS-enRhv-XkLBsn_mHQ7kvXy6yWnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] hw/riscv: virt: fix syscon subnode paths
+To: Conor Dooley <Conor.Dooley@microchip.com>
+Cc: Jessica Clarke <jrtc27@jrtc27.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ linux-riscv <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=robh@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,70 +85,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Aug 8, 2022 at 4:10 PM <Conor.Dooley@microchip.com> wrote:
+>
+> On 08/08/2022 22:28, Jessica Clarke wrote:
+> > On 8 Aug 2022, at 22:06, Conor Dooley <mail@conchuod.ie> wrote:
+> >>
+> >> From: Conor Dooley <conor.dooley@microchip.com>
+> >>
+> >> The subnodes of the syscon have been added to the incorrect paths.
+> >> Rather than add them as subnodes, they were originally added to "/foo"
+> >> and a later patch moved them to "/soc/foo". Both are incorrect & they
+> >> should have been added as "/soc/test@###/foo" as "/soc/test" is the
+> >> syscon node. Fix both the reboot and poweroff subnodes to avoid errors
+> >> such as:
+> >>
+> >> /stuff/qemu/qemu.dtb: soc: poweroff: {'value': [[21845]], 'offset': [[=
+0]], 'regmap': [[4]], 'compatible': ['syscon-poweroff']} should not be vali=
+d under {'type': 'object'}
+> >>        From schema: /home/conor/.local/lib/python3.9/site-packages/dts=
+chema/schemas/simple-bus.yaml
+> >> /stuff/qemu/qemu.dtb: soc: reboot: {'value': [[30583]], 'offset': [[0]=
+], 'regmap': [[4]], 'compatible': ['syscon-reboot']} should not be valid un=
+der {'type': 'object'}
+> >>        From schema: /home/conor/.local/lib/python3.9/site-packages/dts=
+chema/schemas/simple-bus.yaml
+> >>
+> >> Reported-by: Rob Herring <robh@kernel.org>
+> >> Link: https://lore.kernel.org/linux-riscv/20220803170552.GA2250266-rob=
+h@kernel.org/
+> >> Fixes: 18df0b4695 ("hw/riscv: virt: Allow creating multiple NUMA socke=
+ts")
+> >> Fixes: 0e404da007 ("riscv/virt: Add syscon reboot and poweroff DT node=
+s")
+> >> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> >
+> > This breaks FreeBSD=E2=80=99s driver (well, it just won=E2=80=99t probe=
+/attach), which
+> > is written to handle syscon-poweroff/reboot existing as a child of a
+> > simplebus not a syscon.
 
+It probably breaks Linux, too.
 
-On 8/8/22 00:23, David Gibson wrote:
-> On Fri, Aug 05, 2022 at 06:39:29AM -0300, Daniel Henrique Barboza wrote:
->> At this moment, arm_load_dtb() can free machine->fdt when
->> binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
->> retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
->> the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
->> machine->fdt. And, in that case, the existing g_free(fdt) at the end of
->> arm_load_dtb() will make machine->fdt point to an invalid memory region.
->>
->> This is not an issue right now because there's no code that access
->> machine->fdt after arm_load_dtb(), but we're going to add a couple do
->> FDT HMP commands that will rely on machine->fdt being valid.
->>
->> Instead of freeing 'fdt' at the end of arm_load_dtb(), assign it to
->> machine->fdt. This will allow the FDT of ARM machines that relies on
->> arm_load_dtb() to be accessed later on.
->>
->> Since all ARM machines allocates the FDT only once, we don't need to
->> worry about leaking the existing FDT during a machine reset (which is
->> something that other machines have to look after, e.g. the ppc64 pSeries
->> machine).
->>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: qemu-arm@nongnu.org
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/arm/boot.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
->> index ada2717f76..9f5ceb62d2 100644
->> --- a/hw/arm/boot.c
->> +++ b/hw/arm/boot.c
->> @@ -684,7 +684,13 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
->>        */
->>       rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
->>   
->> -    g_free(fdt);
->> +    /*
->> +     * Update the ms->fdt pointer to enable support for 'dumpdtb'
->> +     * and 'info fdt' commands. Use fdt_pack() to shrink the blob
->> +     * size we're going to store.
->> +     */
->> +    fdt_pack(fdt);
->> +    ms->fdt = fdt;
->>   
->>       return size;
-> 
-> fdt_pack() could change (reduce) the effective size of the dtb blob,
-> so returning a 'size' value from above rather than the new value of
-> fdt_totalsize(fdt) doesn't see right.
-> 
-> I believe some of the other patches in the series have similar concerns.
+> I know next to nothing about FreeBSD unfortunately or how it handles
+> buses. My understanding of simple-bus was that it is supposed to
+> represent a bus with "things" mapped to addresses, relying on the "reg"
+> property. And then syscon is used when there is some multifunction
+> register region that controls multiple features of the hardware.
+> Since simple-bus defines a reg property and the function nodes do not
+> define one, I'd like to know how FreeBSD's driver handles that.
+>
+> > Moreover, what is the point of regmap in this
+> > case? Its existence suggests the point is for them to *not* be children
+> > of the syscon, otherwise you wouldn=E2=80=99t need an explicit phandle,=
+ you=E2=80=99d
+> > just look at the parent. Moving the nodes whilst keeping the property
+> > doesn=E2=80=99t make sense to me.
+>
+> That's how syscon bindings are constructed, makes it easier to follow
+> I suppose if they functions are children of the syscon node. Strictly
+> I think they don't need to be under the syscon itself, I think they can
+> also go at the top level - they just aren't valid under the /soc node
+> as it has been defined as a "simple-bus".
+>
+> It would appear that the original patch 0e404da007 ("riscv/virt: Add
+> syscon reboot and poweroff DT nodes") that added them put them at the
+> top level and it was in the refactor that they got moved to the soc bus.*
+> Maybe the solution would be to put them back at the top level?
 
-Ok! I'll revisit those patches and be sure to return the updated value
-of the fdt.
+Perhaps.
 
+The other option is adding 'simple-mfd' to the 'test' node compatible.
+That would work for Linux. Not sure for FreeBSD.
 
-Thanks,
-
-
-Daniel
-
-> 
+Rob
 
