@@ -2,74 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584F458CA7B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 16:25:44 +0200 (CEST)
-Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3A658CA86
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 16:27:16 +0200 (CEST)
+Received: from localhost ([::1]:38626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL3hP-0007b9-3K
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 10:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
+	id 1oL3it-0001Uj-KW
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 10:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oL3eR-00044g-Go
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 10:22:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48961)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oL3fp-0005NH-96
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 10:24:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oL3eN-0008A4-6t
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 10:22:37 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oL3fm-0008Hz-97
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 10:24:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659968551;
+ s=mimecast20190719; t=1659968640;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fZo28opGxb5vYhCc74zWP2dnbuVSozmh2j1xAnhvAb4=;
- b=BayFCfongoZ1gMGq0oUPI4yofwhEkTsIc4ToUA0+hHuxjbeSVlM0CcVH0Hlbq5pSJgySae
- YiLDRsdeRCDbXIpJjZLk+k2s+okmj3biruFrGk5BkhcE9bMmfZ4iwTe3p7nziDFSDi8gpl
- i9v0HjfoYw1+es4MjNFAaPBnv71Jnn4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=s8Nc0Llm1bgGzPAvbVPHAhlqK535yVT5XrqpWqgpMLk=;
+ b=dTF7SyXcNERmqTX7hOFU1jHa0JMKmyVyP2LIa7drQfsvhrTZp+hd1hJLINpaxI5GjZXcY+
+ b/XpcAE08eeD1rShOfCZ4r19PIjgeDWaEMSgndqhrBsJLBgk7DHPE+ofq/hZQhohBcR4s+
+ JuveR6VJ0Xl9ypRcFg5b3IlMyokp8rU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-ZbYl1FH1NVqp6KmYUwvxvA-1; Mon, 08 Aug 2022 10:22:27 -0400
-X-MC-Unique: ZbYl1FH1NVqp6KmYUwvxvA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E56C818A64F7;
- Mon,  8 Aug 2022 14:22:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD606945D2;
- Mon,  8 Aug 2022 14:22:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9AFC221E6930; Mon,  8 Aug 2022 16:22:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org,  Nikita Ivanov <nivanov@cloudlinux.com>,  Peter
- Maydell <peter.maydell@linaro.org>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,  Greg Kurz <groug@kaod.org>,  Jason Wang
- <jasowang@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Konstantin
- Kostiuk <kkostiuk@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] error handling: Use TFR() macro where applicable
-References: <CAAJ4Ao9crXap1OYiutSgG5caZHzVkM=WvQYpVD2XN1M8JsD3cQ@mail.gmail.com>
- <877d3jupln.fsf@pond.sub.org> <3206015.kY3CcG7ZbH@silver>
- <7218690.D19hzYb2mh@silver>
-Date: Mon, 08 Aug 2022 16:22:24 +0200
-In-Reply-To: <7218690.D19hzYb2mh@silver> (Christian Schoenebeck's message of
- "Mon, 08 Aug 2022 15:11:35 +0200")
-Message-ID: <87mtcen7bz.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-594-SdVbLzVIPYSwjj9V0dpJMQ-1; Mon, 08 Aug 2022 10:23:59 -0400
+X-MC-Unique: SdVbLzVIPYSwjj9V0dpJMQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ ay31-20020a05600c1e1f00b003a53bda5b0eso2206310wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 07:23:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=s8Nc0Llm1bgGzPAvbVPHAhlqK535yVT5XrqpWqgpMLk=;
+ b=kHRIg46Hvfy+ZPSdpVdHoc8GGNityTXMkLy1ILKACisOW3b2ixQLIViP2V4mkr+/0t
+ 8Md+gqGyN4FBUd44b1KTGEQjTncgGIEuMuJS+J3ijw+x/WZF7+eROE08OckpaRutPk3s
+ Q51DETyIvf1I3cbkFbgkwC5FqvLSmrYcd4yGMvv2MPOwlkc8vIV/2MN72sIvr6ycrPQT
+ drLPzGtmwIBHfNixS2f66EE8Qmw1gLi1INhDisAfwrRrlBTVyTLhWcrcshxZgIF0mr7d
+ cpt87thfN1jJI2LI4irHfUnJG6abhB7INvT01RH+U1YXM+uVIwas6Ye09qOMlkYCczXe
+ 9C/w==
+X-Gm-Message-State: ACgBeo3dr+XLV3uHcg4530CLhgbVg+VrBTv7cjQDTqO+qbUbGh1Ky+LA
+ DZsKrRuKu3RYJGNmZatedwKGjE/myJovkSBbszIcNWqFfZuO3l3CHYhAH7CTQaOMQgjs6tXlR8G
+ zgJdPahThiAjwJgE=
+X-Received: by 2002:a05:600c:1e14:b0:3a5:1d57:d49d with SMTP id
+ ay20-20020a05600c1e1400b003a51d57d49dmr9872716wmb.3.1659968638261; 
+ Mon, 08 Aug 2022 07:23:58 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5Y4Brep8CTQHjjKycRGWvPPSX2n+aLClOJTpi7HuW2rdT9IkJBW200tGroqyeIqQ0vv7gZ+g==
+X-Received: by 2002:a05:600c:1e14:b0:3a5:1d57:d49d with SMTP id
+ ay20-20020a05600c1e1400b003a51d57d49dmr9872707wmb.3.1659968638066; 
+ Mon, 08 Aug 2022 07:23:58 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-42-113-71.web.vodafone.de.
+ [109.42.113.71]) by smtp.gmail.com with ESMTPSA id
+ b18-20020a5d4b92000000b0021d6924b777sm11113168wrt.115.2022.08.08.07.23.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Aug 2022 07:23:57 -0700 (PDT)
+Message-ID: <70743a29-474e-728f-4ee1-dd4c734f342f@redhat.com>
+Date: Mon, 8 Aug 2022 16:23:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PULL 0/5] Misc QEMU 7.1 fixes for 2002-08-08
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220808125706.60511-1-pbonzini@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220808125706.60511-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,100 +100,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
+On 08/08/2022 14.57, Paolo Bonzini wrote:
+> The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
+> 
+>    Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging (2022-07-29 17:39:17 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> 
+> for you to fetch changes up to f6a5f380627ab2af384bf2f2940d29386dea11ff:
+> 
+>    tests/qtest: add scenario for -readconfig handling (2022-08-08 14:54:56 +0200)
+> 
+> ----------------------------------------------------------------
+> * Fix and tests for -readconfig
+> * Fixes for changeable block size
+> 
+> ----------------------------------------------------------------
+> Daniel P. Berrangé (1):
+>        tests/qtest: add scenario for -readconfig handling
 
-> On Montag, 8. August 2022 14:52:28 CEST Christian Schoenebeck wrote:
->> On Montag, 8. August 2022 10:05:56 CEST Markus Armbruster wrote:
->> > Nikita Ivanov <nivanov@cloudlinux.com> writes:
->> > > Summing up the discussion above, I suggest the following patch for TFR()
->> > > macro refactoring. (The patch is sequential to the first one I
->> > > introduced
->> > > in the start of the discussion).
->> > > 
->> > >>From 6318bee052900aa93bba6620b53c7cb2290e5001 Mon Sep 17 00:00:00 2001
->> > >>
->> > > From: Nikita Ivanov <nivanov@cloudlinux.com>
->> > > Date: Mon, 8 Aug 2022 09:30:34 +0300
->> > > Subject: [PATCH] Refactoring: rename TFR() to TEMP_FAILURE_RETRY()
->> > > 
->> > > glibc's unistd.h header provides the same macro with the
->> > > subtle difference in type casting. Adjust macro name to the
->> > > common standard and define conditionally.
->> > > 
->> > > Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
+I still had some questions wrt to Daniel's patch, especially there seems to 
+be a bug ("spcie" instead of "spice"), see:
 
-[...]
+  https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01153.html
 
->> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
->> > > index b1c161c035..55f2927d8b 100644
->> > > --- a/include/qemu/osdep.h
->> > > +++ b/include/qemu/osdep.h
->> > > @@ -242,8 +242,10 @@ void QEMU_ERROR("code path is reachable")
->> > > 
->> > >  #if !defined(ESHUTDOWN)
->> > >  #define ESHUTDOWN 4099
->> > >  #endif
->> > > 
->> > > -
->> > > -#define TFR(expr) do { if ((expr) != -1) break; } while (errno ==
->> > > EINTR)
->> > > +#if !defined(TEMP_FAILURE_RETRY)
->> > > +#define TEMP_FAILURE_RETRY(expr) \
->> > > +    do { if ((expr) != -1) break; } while (errno == EINTR)
+I doubt that this test is working if spice is enabled...
+(which leads us to the next question: if the CI did not fail for you, are we 
+missing a build with spice enabled there?)
 
-To avoid / reduce confusion: this macro expands into a statement, and ...
+  Thomas
 
->> > > +#endif
->> > 
->> > GLibc's version is
->> > 
->> >    # define TEMP_FAILURE_RETRY(expression) \
->> >      (__extension__							      \
->> >        ({ long int __result;						      \
->> >           do __result = (long int) (expression);				      \
->> >           while (__result == -1L && errno == EINTR);			      \
->> >           __result; }))
-
-... this one expands into an expression.  It uses GCC's "a compound
-statement enclosed in parentheses may appear as an expression" extension.
-
->> > 
->> > The difference isn't just "type casting", it's also statement
->> > vs. expression.
->> > 
->> > Is it a good idea to have the macro expand into a statement on some
->> > hosts, and into an expression on others?  Sure, CI should catch any uses
->> > as expression, but delaying compile errors to CI wastes developer time.
->> 
->> For consistency and simplicity, I would define exactly one version (no
->> ifdefs) of the macro with a different macro name than glibc's
->> TEMP_FAILURE_RETRY(), and use that QEMU specific macro name in QEMU code
->> everywhere.
-
-TFR()?  Can't resist closing the circle...
-
->> As for statement vs. expression: The only advantage of the statement version
->> is if you'd need __result as an rvalue, which is not needed ATM, right? So
->> I would go for the expression version (with cast) for now.
-
-The expression-like macro is nicer where the return value matters.
-Example (stolen from "The GNU C Library Reference Manual"):
-
-    nbytes = TEMP_FAILURE_RETRY (write (desc, buffer, count));
-
-With the statement-like macro, you have to write
-
-    TEMP_FAILURE_RETRY (nbytes = write (desc, buffer, count));
-
->> The glibc history does not reveal why they chose the statement version.
-
-The expression version, actually.
-
->> Best regards,
->> Christian Schoenebeck
->
-> Sorry: s/rvalue/lvalue/ i.e. if you need the memory address of result or if 
-> you need to take the result value of the last iteration in 'expression' into 
-> account.
 
 
