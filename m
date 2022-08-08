@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AD858CED5
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 22:06:34 +0200 (CEST)
-Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F50058CEEA
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 22:11:24 +0200 (CEST)
+Received: from localhost ([::1]:42706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL91F-0006st-0q
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 16:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
+	id 1oL95u-00016d-SN
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 16:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oL8xs-0004qg-9w
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 16:03:04 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46943)
+ id 1oL8yu-0005Xx-0f
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 16:04:08 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oL8xq-0005e2-69
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 16:03:04 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id d7so9482327pgc.13
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 13:03:01 -0700 (PDT)
+ id 1oL8ys-0005jR-Fg
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 16:04:07 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id 202so2747231pgc.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 13:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=srMCfTK4ptQCCuMqoXGm5dG20E0GFuGHuQL4fB5H2BM=;
- b=jQeOcySaQnfxMEkr7tlTQaW8ULWcN9I1VuRyebB7+ULh1s9b4bFCZ243Jw3knqE6C/
- abmnPjZFIxBKw2umcTpOM4+laU2UudVMnbw2UA/rEJl/3EdPuR3P4/Mxo73edHZuyp/x
- S9wsPvMk1wCOLvV3FJTslMpi1TubyImRFGH6iTEx2sdAjDxz/RWx7FB2usMmua7eYbWm
- A3ycCOww62OGgQp6VE3Ufp1acBVX17myrD2lj5+TM/a48Wx+fovhKeEbKMn3WLAiAfPt
- qJaPuOgU8yzYyvVWouwFkacUQVGkbopEmHcVy9z/mJbYJ/HUUvN4t9/6VsQ8eyLhw0bs
- ypxw==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1kD3OditStPuc7xI+UfUyTcELX9ovuP/kBJ+W169L9E=;
+ b=f4SSIEKFn1gQkpb98aZTUwuWfRZ0l4oCi2/IbTQ5GEYe7lghmNp3StzIrBFZ6lqU1i
+ Xa5DXFW2iVlNI3ET3zC6s8NbfKhuOLg2qI84vJhE0DeKOsDE1mNUnO3poqzZ43Kc9seX
+ g8BIWxv13mVf0JrRChylLR47JrNaC5ZR574mcZRZ7NkDSEFvxIDC1xm+ZRaN9yuK67Gj
+ YluHBr9FydwNgCCZE5BK7WOWCgRGh8EIMJgOCe6fRZpfIdKasdm0use6N++uwRCuQ/2s
+ J4nHl/48SvFQt8W+ohQiuMJQ2lCuso9pBnh4hBQR07Z40h3KQCA9mtjuA8Q0zrdvG8as
+ lW5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=srMCfTK4ptQCCuMqoXGm5dG20E0GFuGHuQL4fB5H2BM=;
- b=0i+qmPVHstW2EujUr/HV3fL3lsBzblozYHB8JEg5ZPczRoVlA9PwUe6L01O456b+qT
- vePVZURyuJxow/gvKBqZeVxdcH/ajsAfSAjfrY6PAVb15Q8NCcvhHVlpKjk8W+GQmxQc
- HfYBLY4JsEeGLyY+pMVi2coM/V8Yfyzv2508p/fWUiOdqhBe/CMoOjuJgIwjxubxa6jq
- +hBChV1YC3/0GgoqN1crerJ3UDyWiBSasMOee/EpmbeXdWvY4XQH/nkFXTQwB3lIZUV2
- elNaaPC50WngHYePlPXhnbipvCVxaLMXuCqW3TvnVde2mlQEdsmsxSUWzZwNmrRvav1e
- A9nA==
-X-Gm-Message-State: ACgBeo1e4eaDtCtEBiUZ6haUIzmiZHPJuJGDvb51B/FJWs0HaRzV7geI
- QZTAbejyjANWz/c8L0/k2S1usA==
-X-Google-Smtp-Source: AA6agR4OBi9J8fr5jT84msEb4pPGxN+NE82gUEybEQwgs/zu8BEaKIQ92QI9DPb8d3r5ybqbt+hh9A==
-X-Received: by 2002:a65:57c6:0:b0:415:c329:5d49 with SMTP id
- q6-20020a6557c6000000b00415c3295d49mr16192123pgr.581.1659988980561; 
- Mon, 08 Aug 2022 13:03:00 -0700 (PDT)
+ bh=1kD3OditStPuc7xI+UfUyTcELX9ovuP/kBJ+W169L9E=;
+ b=wxLCyFy0A0tB3QwplJ7if6oZ8j1JK/zETcOHv2INJV99L1RtKbgjnoydkoIcVnrF6j
+ lwiE8enbLWu6owE1uz6l0GVIJbZTGn+1WSZB0lYOL5Jg9eIXtbcibrdLrjr/Mrwt4zNl
+ hF1lXzz9zPVhA0zR/ZF84Yfq0CS0V7W0B5XxE9x2kaxW5335ezJbbc4SiYQu8CYFfZ65
+ 0l2Xmo9p5ffAGMZnzw3fuxlAbnR7N3Ol19hG3fpPpbNQsXbbzjVYZXZbjSFqaXeI7QSh
+ pS6JZHCwk+990GA8GOIEeW5R2S7JaHBYs3JxbOdswJAZgHLHymIGm3ZRJF35GBvs22xE
+ H2Og==
+X-Gm-Message-State: ACgBeo2mrT/XTAygumYBJOh3dxnH80Om80frgANB32juTIZ1n8RQZZJB
+ e69g8nb5ER5NSzN8I6mp3jQuAgZzS45zFQ==
+X-Google-Smtp-Source: AA6agR7Sop+kS4n1PiPdA248e8Mwfl+hL/UknNA3vt8Ok6p1LqF2oMRTVjpGBO0dJEBI38dVIAx3Bw==
+X-Received: by 2002:a63:4d04:0:b0:41b:ff8a:ddb9 with SMTP id
+ a4-20020a634d04000000b0041bff8addb9mr16401768pgb.330.1659989045077; 
+ Mon, 08 Aug 2022 13:04:05 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:6ef5:1d2f:d0f8:3a7b?
  ([2602:ae:154e:e201:6ef5:1d2f:d0f8:3a7b])
  by smtp.gmail.com with ESMTPSA id
- v12-20020a1709029a0c00b0016ef8a8592esm9267413plp.8.2022.08.08.13.02.58
+ y6-20020aa79e06000000b00518e1251197sm9228701pfq.148.2022.08.08.13.04.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Aug 2022 13:02:59 -0700 (PDT)
-Message-ID: <3963c88c-c2bb-f0ac-3911-99c5bb7ff60d@linaro.org>
-Date: Mon, 8 Aug 2022 13:02:57 -0700
+ Mon, 08 Aug 2022 13:04:04 -0700 (PDT)
+Message-ID: <6895250b-1371-1a97-d233-bc3f3a52feee@linaro.org>
+Date: Mon, 8 Aug 2022 13:04:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
 Subject: Re: [PULL 0/5] Misc QEMU 7.1 fixes for 2002-08-08
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>
 References: <20220808125706.60511-1-pbonzini@redhat.com>
+ <70743a29-474e-728f-4ee1-dd4c734f342f@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220808125706.60511-1-pbonzini@redhat.com>
+In-Reply-To: <70743a29-474e-728f-4ee1-dd4c734f342f@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,47 +95,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/22 05:57, Paolo Bonzini wrote:
-> The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
+On 8/8/22 07:23, Thomas Huth wrote:
+> On 08/08/2022 14.57, Paolo Bonzini wrote:
+>> The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
+>>
+>>    Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging 
+>> (2022-07-29 17:39:17 -0700)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>>
+>> for you to fetch changes up to f6a5f380627ab2af384bf2f2940d29386dea11ff:
+>>
+>>    tests/qtest: add scenario for -readconfig handling (2022-08-08 14:54:56 +0200)
+>>
+>> ----------------------------------------------------------------
+>> * Fix and tests for -readconfig
+>> * Fixes for changeable block size
+>>
+>> ----------------------------------------------------------------
+>> Daniel P. Berrangé (1):
+>>        tests/qtest: add scenario for -readconfig handling
 > 
->    Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging (2022-07-29 17:39:17 -0700)
+> I still had some questions wrt to Daniel's patch, especially there seems to be a bug 
+> ("spcie" instead of "spice"), see:
 > 
-> are available in the Git repository at:
+>   https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01153.html
 > 
->    https://gitlab.com/bonzini/qemu.git tags/for-upstream
-> 
-> for you to fetch changes up to f6a5f380627ab2af384bf2f2940d29386dea11ff:
-> 
->    tests/qtest: add scenario for -readconfig handling (2022-08-08 14:54:56 +0200)
-> 
-> ----------------------------------------------------------------
-> * Fix and tests for -readconfig
-> * Fixes for changeable block size
+> I doubt that this test is working if spice is enabled...
+> (which leads us to the next question: if the CI did not fail for you, are we missing a 
+> build with spice enabled there?)
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Arg.  I didn't notice this until after I'd done the push to master.
+I see from Daniel's reply that the string with the typo doesn't seem to be used, but 
+please do let's fix this asap.
 
 
 r~
-
-
-> 
-> ----------------------------------------------------------------
-> Daniel P. Berrangé (1):
->        tests/qtest: add scenario for -readconfig handling
-> 
-> Mark Cave-Ayland (2):
->        scsi-disk: fix overflow when block size is not a multiple of BDRV_SECTOR_SIZE
->        scsi-disk: ensure block size is non-zero and changes limited to bits 8-15
-> 
-> Paolo Bonzini (2):
->        vl: fix [memory] section with -readconfig
->        vl: remove dead code in parse_memory_options()
-> 
->   hw/scsi/scsi-disk.c           |  25 ++++--
->   softmmu/vl.c                  |  32 ++++---
->   tests/qtest/meson.build       |   1 +
->   tests/qtest/readconfig-test.c | 195 ++++++++++++++++++++++++++++++++++++++++++
->   4 files changed, 229 insertions(+), 24 deletions(-)
->   create mode 100644 tests/qtest/readconfig-test.c
-
 
