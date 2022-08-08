@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D44958CC9F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 19:21:33 +0200 (CEST)
-Received: from localhost ([::1]:51866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3570E58CC91
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 19:15:46 +0200 (CEST)
+Received: from localhost ([::1]:47326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL6RY-0005EN-Ao
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 13:21:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59676)
+	id 1oL6Lw-0001p0-Pv
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 13:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oL6HB-0003tQ-9S; Mon, 08 Aug 2022 13:10:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4734)
+ id 1oL6HA-0003rv-93; Mon, 08 Aug 2022 13:10:48 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oL6H9-00036k-DB; Mon, 08 Aug 2022 13:10:49 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 278GrmV0018381;
+ id 1oL6H6-00036X-Px; Mon, 08 Aug 2022 13:10:47 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 278GWJ8r013367;
  Mon, 8 Aug 2022 17:10:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=rrw+mp9TzS2pJn58f64ODmg0k/jxtExk7TaSxjITx1M=;
- b=o2BhAm6drHxjZ1t52fy9MxWv8pq1wVu1BnNtRIGHCW6AzQNxTCeCOIFYNDOWnAMLe0zx
- L3L0tAI1Vz6ajBLRzIeuR4yLEIdwlJYVvn9z1mWgYUGbzD2d+tn21wgEpwsUbhiVsVqM
- uZOfWez9sfS60k1mIaJ0U59BpAh8PishbFB47PuzexxRt53WUEBuZGnTP7433ZEWcggq
- Q2ixYywLGQwmW5hPHsbLa6WLHaQklb+ovUAU8p5MmBzYDTzJy9nsP+1RMvgjc0inOV+/
- cGXeqBC3eaI0b8WfxNgfVfOctnTMeRy4As5Snrb2cm9adml4SDSRatZdg91YICk8xjen Zg== 
+ bh=rtgOdwlKL84LDuedjqddt8Q60nUJ68iFlIH3jXbWdN4=;
+ b=hlZeCjPLD1LDaz5nN2Zon3FRWyNpLoUBVe8ZfLC+JVLwp8O6mscAzgJyv4Kd8k+u7mVJ
+ gl74DNxeVOx3yF4b2cUnrrHTxlMTOFHKSc722bD3XDYoGEy0J+4MCpdOmIxHh2O+uaVz
+ teCpik+PcWTMDCoa3VZpQRdpazTPnq0SmKxzknfsrY8AJkIGDmqs+IAM22azM6+HPpv9
+ uofWOrph/y4JOPQ+qusATdjOiWCue3NAVaX+zW5J2BPiJgoAIdQF97VO3QfWG6GS9EWt
+ HNLg+l2oreQQN2R47PczsVVH2ySQfKwOH9VOLq4p8cDnK7oLkwCRr9/BtDW/qlUCg/tQ vA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hu6dpgj3b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Aug 2022 17:10:33 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 278GsLS5024160;
- Mon, 8 Aug 2022 17:10:32 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hu6dpgj1s-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hu63m164e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 08 Aug 2022 17:10:32 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 278GoS9V014217;
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 278H6VeD012465;
+ Mon, 8 Aug 2022 17:10:32 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hu63m163d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 Aug 2022 17:10:32 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 278Go05Z023994;
  Mon, 8 Aug 2022 17:10:30 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04fra.de.ibm.com with ESMTP id 3hsfx8suad-1
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03ams.nl.ibm.com with ESMTP id 3hsfx8tgcr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 08 Aug 2022 17:10:30 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 278HAQps5767536
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 278HARlE28508530
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 8 Aug 2022 17:10:26 GMT
+ Mon, 8 Aug 2022 17:10:27 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A2ABA404D;
+ by IMSVA (Postfix) with ESMTP id 32619A404D;
+ Mon,  8 Aug 2022 17:10:27 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 91A99A4040;
  Mon,  8 Aug 2022 17:10:26 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9D2DA4040;
- Mon,  8 Aug 2022 17:10:25 +0000 (GMT)
 Received: from heavy.ibmuc.com (unknown [9.171.43.253])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  8 Aug 2022 17:10:25 +0000 (GMT)
+ Mon,  8 Aug 2022 17:10:26 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -76,29 +76,29 @@ To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>,
 Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v3 3/4] target/i386: Make translator stop before the end of a
- page
-Date: Mon,  8 Aug 2022 19:10:21 +0200
-Message-Id: <20220808171022.49439-4-iii@linux.ibm.com>
+Subject: [PATCH v3 4/4] tests/tcg: Test siginfo_t contents when jumping to
+ non-readable pages
+Date: Mon,  8 Aug 2022 19:10:22 +0200
+Message-Id: <20220808171022.49439-5-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220808171022.49439-1-iii@linux.ibm.com>
 References: <20220808171022.49439-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: OxjS7kEghouYutZNFsnMHVlquJnzOq2V
-X-Proofpoint-GUID: PLDfh15eonEqly0R4-iDJjBJFrSiOHzU
+X-Proofpoint-GUID: dLzv4ZXChSjDgbgyZHgUDYv7YWY_v5bj
+X-Proofpoint-ORIG-GUID: SPKJuUBDp2vbR7barDld0ffBVLGpqmPi
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-08_11,2022-08-08_01,2022-06-22_01
+ definitions=2022-08-08_10,2022-08-08_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 impostorscore=0 mlxscore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1015 bulkscore=0 malwarescore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208080080
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ mlxscore=0 impostorscore=0
+ bulkscore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
+ priorityscore=1501 suspectscore=0 adultscore=0 malwarescore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208080079
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -121,130 +121,444 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now translator stops right *after* the end of a page, which
-breaks reporting of fault locations when the last instruction of a
-multi-insn translation block crosses a page boundary.
-
-An implementation, like the one arm and s390x have, would require an
-i386 length disassembler, which is burdensome to maintain. Another
-alternative would be to single-step at the end of a guest page, but
-this may come with a performance impact.
-
-Fix by snapshotting disassembly state and restoring it after we figure
-out we crossed a page boundary. This includes rolling back cc_op
-updates and emitted ops. Even though i386 is the only architecture that
-does rollback, split it into common and architecture-dependent parts to
-improve readability.
+Add x86_64 and s390x tests to prevent regressions.
 
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- accel/tcg/translator.c      |  8 ++++++++
- include/exec/translator.h   |  3 +++
- target/i386/tcg/translate.c | 21 ++++++++++++++++++++-
- 3 files changed, 31 insertions(+), 1 deletion(-)
+ tests/tcg/multiarch/noexec.h     | 114 ++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target  |   1 +
+ tests/tcg/s390x/noexec.c         | 145 +++++++++++++++++++++++++++++++
+ tests/tcg/x86_64/Makefile.target |   3 +-
+ tests/tcg/x86_64/noexec.c        | 116 +++++++++++++++++++++++++
+ 5 files changed, 378 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/multiarch/noexec.h
+ create mode 100644 tests/tcg/s390x/noexec.c
+ create mode 100644 tests/tcg/x86_64/noexec.c
 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index fe7af9b943..2c4dd09df8 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -56,6 +56,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
- {
-     uint32_t cflags = tb_cflags(tb);
-     bool plugin_enabled;
-+    TCGOp *last_op;
- 
-     /* Initialize DisasContext */
-     db->tb = tb;
-@@ -82,6 +83,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
- 
-     while (true) {
-         db->num_insns++;
-+        last_op = tcg_last_op();
-         ops->insn_start(db, cpu);
-         tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
- 
-@@ -103,6 +105,12 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-             ops->translate_insn(db, cpu);
-         }
- 
-+        if (db->is_jmp == DISAS_TOO_MANY_UNDO) {
-+            db->num_insns--;
-+            tcg_remove_ops_after(last_op);
-+            db->is_jmp = DISAS_TOO_MANY;
-+        }
+diff --git a/tests/tcg/multiarch/noexec.h b/tests/tcg/multiarch/noexec.h
+new file mode 100644
+index 0000000000..a76e0aa9ea
+--- /dev/null
++++ b/tests/tcg/multiarch/noexec.h
+@@ -0,0 +1,114 @@
++/*
++ * Common code for arch-specific MMU_INST_FETCH fault testing.
++ *
++ * Declare struct arch_noexec_test before including this file and define
++ * arch_check_mcontext() after that.
++ */
 +
-         /* Stop translation if translate_insn so indicated.  */
-         if (db->is_jmp != DISAS_NEXT) {
-             break;
-diff --git a/include/exec/translator.h b/include/exec/translator.h
-index d27f8c33b6..e1533aee87 100644
---- a/include/exec/translator.h
-+++ b/include/exec/translator.h
-@@ -31,6 +31,8 @@
-  * DisasJumpType:
-  * @DISAS_NEXT: Next instruction in program order.
-  * @DISAS_TOO_MANY: Too many instructions translated.
-+ * @DISAS_TOO_MANY_UNDO: Too many instructions translated. Everything that was
-+ *                       done for the current instruction must be undone.
-  * @DISAS_NORETURN: Following code is dead.
-  * @DISAS_TARGET_*: Start of target-specific conditions.
-  *
-@@ -39,6 +41,7 @@
- typedef enum DisasJumpType {
-     DISAS_NEXT,
-     DISAS_TOO_MANY,
-+    DISAS_TOO_MANY_UNDO,
-     DISAS_NORETURN,
-     DISAS_TARGET_0,
-     DISAS_TARGET_1,
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index b7972f0ff5..14d4ed1412 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2008,6 +2008,12 @@ static uint64_t advance_pc(CPUX86State *env, DisasContext *s, int num_bytes)
- {
-     uint64_t pc = s->pc;
- 
-+    /* This is a subsequent insn that crosses a page boundary.  */
-+    if (s->base.num_insns > 1 &&
-+        !is_same_page(&s->base, s->pc + num_bytes - 1)) {
-+        siglongjmp(s->jmpbuf, 2);
++#include <assert.h>
++#include <signal.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/mman.h>
++#include <sys/ucontext.h>
++#include <unistd.h>
++
++/* Forward declarations. */
++
++static void arch_check_mcontext(const struct arch_noexec_test *test,
++                                const mcontext_t *ctx);
++
++/* Utility functions. */
++
++static void safe_print(const char *s)
++{
++    write(0, s, strlen(s));
++}
++
++static void safe_puts(const char *s)
++{
++    safe_print(s);
++    safe_print("\n");
++}
++
++#define PAGE_ALIGN(p) (void *)((unsigned long)(p) & ~0xfffUL)
++
++/* Testing infrastructure. */
++
++struct noexec_test {
++    const char *name;
++    void (*func)(int);
++    void *page;
++    void *expected_si_addr;
++    struct arch_noexec_test arch;
++};
++
++static const struct noexec_test *current_noexec_test;
++
++static void handle_segv(int sig, siginfo_t *info, void *ucontext)
++{
++    int err;
++
++    if (current_noexec_test == NULL) {
++        safe_puts("[  FAILED  ] unexpected SEGV");
++        _exit(1);
 +    }
 +
-     s->pc += num_bytes;
-     if (unlikely(s->pc - s->pc_start > X86_MAX_INSN_LENGTH)) {
-         /* If the instruction's 16th byte is on a different page than the 1st, a
-@@ -4556,6 +4562,8 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     int modrm, reg, rm, mod, op, opreg, val;
-     target_ulong next_eip, tval;
-     target_ulong pc_start = s->base.pc_next;
-+    bool orig_cc_op_dirty = s->cc_op_dirty;
-+    CCOp orig_cc_op = s->cc_op;
++    if (info->si_addr != current_noexec_test->expected_si_addr) {
++        safe_puts("[  FAILED  ] wrong si_addr");
++        _exit(1);
++    }
++
++    arch_check_mcontext(&current_noexec_test->arch,
++                        &((ucontext_t *)ucontext)->uc_mcontext);
++
++    err = mprotect(current_noexec_test->page, 0x1000, PROT_READ | PROT_EXEC);
++    if (err != 0) {
++        safe_puts("[  FAILED  ] mprotect() failed");
++        _exit(1);
++    }
++
++    current_noexec_test = NULL;
++}
++
++static void test_noexec_1(const struct noexec_test *test)
++{
++    int ret;
++
++    /* Trigger TB creation in order to test invalidation. */
++    test->func(0);
++
++    ret = mprotect(test->page, 0x1000, PROT_NONE);
++    assert(ret == 0);
++
++    /* Trigger SEGV and check that handle_segv() ran. */
++    current_noexec_test = test;
++    test->func(0);
++    assert(current_noexec_test == NULL);
++}
++
++static int test_noexec(struct noexec_test *tests, size_t n_tests)
++{
++    struct sigaction act;
++    size_t i;
++    int err;
++
++    memset(&act, 0, sizeof(act));
++    act.sa_sigaction = handle_segv;
++    act.sa_flags = SA_SIGINFO;
++    err = sigaction(SIGSEGV, &act, NULL);
++    assert(err == 0);
++
++    for (i = 0; i < n_tests; i++) {
++        struct noexec_test *test = &tests[i];
++
++        safe_print("[ RUN      ] ");
++        safe_puts(test->name);
++        test_noexec_1(test);
++        safe_puts("[       OK ]");
++    }
++
++    safe_puts("[  PASSED  ]");
++
++    return EXIT_SUCCESS;
++}
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 1a7a4a2f59..5e13a41c3f 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -16,6 +16,7 @@ TESTS+=shift
+ TESTS+=trap
+ TESTS+=signals-s390x
+ TESTS+=branch-relative-long
++TESTS+=noexec
  
-     s->pc_start = s->pc = pc_start;
-     s->override = -1;
-@@ -4568,9 +4576,20 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     s->rip_offset = 0; /* for relative ip address */
-     s->vex_l = 0;
-     s->vex_v = 0;
--    if (sigsetjmp(s->jmpbuf, 0) != 0) {
-+    switch (sigsetjmp(s->jmpbuf, 0)) {
-+    case 0:
-+        break;
-+    case 1:
-         gen_exception_gpf(s);
-         return s->pc;
-+    case 2:
-+        /* Restore state that may affect the next instruction. */
-+        s->cc_op_dirty = orig_cc_op_dirty;
-+        s->cc_op = orig_cc_op;
-+        s->base.is_jmp = DISAS_TOO_MANY_UNDO;
-+        return pc_start;
-+    default:
-+        g_assert_not_reached();
-     }
+ Z14_TESTS=vfminmax
+ vfminmax: LDFLAGS+=-lm
+diff --git a/tests/tcg/s390x/noexec.c b/tests/tcg/s390x/noexec.c
+new file mode 100644
+index 0000000000..2dfc9ee817
+--- /dev/null
++++ b/tests/tcg/s390x/noexec.c
+@@ -0,0 +1,145 @@
++#define _GNU_SOURCE
++
++struct arch_noexec_test {
++    void *expected_pswa;
++    unsigned long expected_r2;
++};
++
++#include "../multiarch/noexec.h"
++
++static void arch_check_mcontext(const struct arch_noexec_test *test,
++                                const mcontext_t *ctx) {
++    if (ctx->psw.addr != (unsigned long)test->expected_pswa) {
++        safe_puts("[  FAILED  ] wrong psw.addr");
++        _exit(1);
++    }
++
++    if (ctx->gregs[2] != test->expected_r2) {
++        safe_puts("[  FAILED  ] wrong r2");
++        _exit(1);
++    }
++}
++
++#define DEFINE_NX(name, offset) \
++    void name ## _1(int); \
++    void name ## _2(int); \
++    void name ## _exrl(int); \
++    extern const short name ## _end[]; \
++    asm(/* Go to the specified page offset. */ \
++        ".align 0x1000\n" \
++        ".org .+" #offset "\n" \
++        /* %r2 is 0 on entry, overwrite it with 1. */ \
++        ".globl " #name "_1\n" \
++        #name "_1:\n" \
++        ".cfi_startproc\n" \
++        "lgfi %r2,1\n" \
++        /* Overwrite %2 with 2. */ \
++        ".globl " #name "_2\n" \
++        #name "_2:\n" \
++        "lgfi %r2,2\n" \
++        "br %r14\n" \
++        /* End of code. */ \
++        ".globl " #name "_end\n" \
++        #name "_end:\n" \
++        ".cfi_endproc\n" \
++        /* Go to the next page. */ \
++        ".align 0x1000\n" \
++        /* Break alignment. */ \
++        "nopr %r7\n" \
++        ".globl " #name "_exrl\n" \
++        #name "_exrl:\n" \
++        ".cfi_startproc\n" \
++        "exrl %r0," #name "_2\n" \
++        "br %r14\n" \
++        ".cfi_endproc");
++
++/* noexec_1 is executable, noexec_2 is non-executable. */
++DEFINE_NX(noexec, 0xffa);
++
++/*
++ * noexec_cross_1 is executable, noexec_cross_2 crosses non-executable page
++ * boundary.
++ */
++DEFINE_NX(noexec_cross, 0xff8);
++
++/* noexec_full_1 and noexec_full_2 are non-executable. */
++DEFINE_NX(noexec_full, 0x322);
++
++int main(void)
++{
++    struct noexec_test noexec_tests[] = {
++        {
++            .name = "Fallthrough",
++            .func = noexec_1,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_pswa = noexec_2,
++                .expected_r2 = 1,
++            },
++        },
++        {
++            .name = "Jump",
++            .func = noexec_2,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_pswa = noexec_2,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "EXRL",
++            .func = noexec_exrl,
++            .page = noexec_2,
++            .expected_si_addr = PAGE_ALIGN(noexec_end),
++            .arch = {
++                .expected_pswa = noexec_exrl,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "Fallthrough [cross]",
++            .func = noexec_cross_1,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_pswa = noexec_cross_2,
++                .expected_r2 = 1,
++            },
++        },
++        {
++            .name = "Jump [cross]",
++            .func = noexec_cross_2,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_pswa = noexec_cross_2,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "EXRL [cross]",
++            .func = noexec_cross_exrl,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_pswa = noexec_cross_exrl,
++                .expected_r2 = 0,
++            },
++        },
++        {
++            .name = "Jump [full]",
++            .func = noexec_full_1,
++            .page = PAGE_ALIGN(noexec_full_1),
++            .expected_si_addr = PAGE_ALIGN(noexec_full_1),
++            .arch = {
++                .expected_pswa = noexec_full_1,
++                .expected_r2 = 0,
++            },
++        },
++    };
++
++    return test_noexec(noexec_tests,
++                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
++}
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index b71a6bcd5e..c0e7e5b005 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -10,6 +10,7 @@ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
  
-     prefixes = 0;
+ ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
+ X86_64_TESTS += vsyscall
++X86_64_TESTS += noexec
+ TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+ else
+ TESTS=$(MULTIARCH_TESTS)
+@@ -20,5 +21,5 @@ test-x86_64: LDFLAGS+=-lm -lc
+ test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+-vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
++%: $(SRC_PATH)/tests/tcg/x86_64/%.c
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+diff --git a/tests/tcg/x86_64/noexec.c b/tests/tcg/x86_64/noexec.c
+new file mode 100644
+index 0000000000..ec07c9f0ba
+--- /dev/null
++++ b/tests/tcg/x86_64/noexec.c
+@@ -0,0 +1,116 @@
++#define _GNU_SOURCE
++
++struct arch_noexec_test {
++    void *expected_rip;
++    unsigned long expected_rdi;
++};
++
++#include "../multiarch/noexec.h"
++
++static void arch_check_mcontext(const struct arch_noexec_test *test,
++                                const mcontext_t *ctx) {
++    if (ctx->gregs[REG_RIP] != (unsigned long)test->expected_rip) {
++        safe_puts("[  FAILED  ] wrong rip");
++        _exit(1);
++    }
++
++    if (ctx->gregs[REG_RDI] != test->expected_rdi) {
++        safe_puts("[  FAILED  ] wrong rdi");
++        _exit(1);
++    }
++}
++
++#define DEFINE_NX(name, offset) \
++    void name ## _1(int); \
++    void name ## _2(int); \
++    extern const short name ## _end[]; \
++    asm(/* Go to the specified page offset. */ \
++        ".align 0x1000\n" \
++        ".org .+" #offset "\n" \
++        /* %rdi is 0 on entry, overwrite it with 1. */ \
++        ".globl " #name "_1\n" \
++        #name "_1:\n" \
++        ".cfi_startproc\n" \
++        "movq $1,%rdi\n" \
++        /* Overwrite %rdi with 2. */ \
++        ".globl " #name "_2\n" \
++        #name "_2:\n" \
++        "movq $2,%rdi\n" \
++        "ret\n" \
++        /* End of code. */ \
++        ".globl " #name "_end\n" \
++        #name "_end:\n" \
++        ".cfi_endproc\n" \
++        /* Go to the next page. */ \
++        ".align 0x1000");
++
++/* noexec_1 is executable, noexec_2 is non-executable. */
++DEFINE_NX(noexec, 0xff9);
++
++/*
++ * noexec_cross_1 is executable, noexec_cross_2 crosses non-executable page
++ * boundary.
++ */
++DEFINE_NX(noexec_cross, 0xff8);
++
++/* noexec_full_1 and noexec_full_2 are non-executable. */
++DEFINE_NX(noexec_full, 0x321);
++
++int main(void)
++{
++    struct noexec_test noexec_tests[] = {
++        {
++            .name = "Fallthrough",
++            .func = noexec_1,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_rip = noexec_2,
++                .expected_rdi = 1,
++            },
++        },
++        {
++            .name = "Jump",
++            .func = noexec_2,
++            .page = noexec_2,
++            .expected_si_addr = noexec_2,
++            .arch = {
++                .expected_rip = noexec_2,
++                .expected_rdi = 0,
++            },
++        },
++        {
++            .name = "Fallthrough [cross]",
++            .func = noexec_cross_1,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_rip = noexec_cross_2,
++                .expected_rdi = 1,
++            },
++        },
++        {
++            .name = "Jump [cross]",
++            .func = noexec_cross_2,
++            .page = PAGE_ALIGN(noexec_cross_end),
++            .expected_si_addr = PAGE_ALIGN(noexec_cross_end),
++            .arch = {
++                .expected_rip = noexec_cross_2,
++                .expected_rdi = 0,
++            },
++        },
++        {
++            .name = "Jump [full]",
++            .func = noexec_full_1,
++            .page = PAGE_ALIGN(noexec_full_1),
++            .expected_si_addr = noexec_full_1,
++            .arch = {
++                .expected_rip = noexec_full_1,
++                .expected_rdi = 0,
++            },
++        },
++    };
++
++    return test_noexec(noexec_tests,
++                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
++}
 -- 
 2.37.1
 
