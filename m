@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B1958CC84
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 19:05:04 +0200 (CEST)
-Received: from localhost ([::1]:59272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8702458CC87
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 19:09:29 +0200 (CEST)
+Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL6Ba-00079U-LP
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 13:05:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
+	id 1oL6Fr-0003X7-LF
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 13:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oL67k-0004UJ-7h
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 13:01:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31278)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oL6Ai-0006ZN-W5
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 13:04:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oL67a-0001tS-CG
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 13:01:02 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oL6Ae-00028u-0s
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 13:04:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659978051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1659978242;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XKIdwlUyc48A+53CJXhwJ5gXy6GXpk/VVDUMJkZiXtc=;
- b=QajvRhlDk/KRXSnONP5gRFD+JajUSzV31XKYyf+w/YbMaNCEV+KpD0GBpXZ+QC/KmlnR7b
- 5ZQ14idMtfq9gdI/WvI7nZUkZyuPVrHv9Gddy+eJRy6APSGUWTvKDH667xw1C9KOGyJqSA
- WJSxLIDggU0D5pRONFGh6awHL+wek7k=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=30Nom3EROhcXcWW9Wnvoz5wBWSw4u7mvzRFnef18IJ0=;
+ b=AnVFcZB22gX2YX+NSej1t1RJ0w76PoUIjKLqujX2O8FWUdgjOuwO/5CTWNuH6u2+epZ2Lt
+ 9vWdZjKdE03dLFhrijoaSBsJjDZV8mhOtdPi30ZcDHHHIe0zmcgHQmdvaoE5l58teJ45Li
+ AhQL2X+pz9shZNz9WjY/jOvji2xEE7Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-gdIAaseKMG2r0IMZqPdYiA-1; Mon, 08 Aug 2022 13:00:50 -0400
-X-MC-Unique: gdIAaseKMG2r0IMZqPdYiA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j36-20020a05600c1c2400b003a540d88677so1383738wms.1
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 10:00:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=XKIdwlUyc48A+53CJXhwJ5gXy6GXpk/VVDUMJkZiXtc=;
- b=YHdmp6kTag3kC4PoNCn9TVb0Usqzw0H3ptPaFVNtDbIjKdIXiIRv4H9vh/KngI0Ccf
- iQmZF+Qv5dpLClVyY6c9Xw2xqxuJXnWpziHAOfn+vo0IHg1CcNUXDEy9qRVlp1ceDtuK
- YVZaqMORby8U6tvFE72Ogr5NjH/GszmNqOxaWL+9arOg2iX9L/7qwPsr/NnWMl0t50jS
- 9Fpd9bxae3fTlN4JBLUPRRxA5YuUY+9L/wltVbT1dDquL3MISMx5Nxv3EMOCGc72lQcK
- pZxgBx0lQeGV2o39s2uwxTuQAvmpKLqz0pVwh6nIrWdZEBLXOAjDlkt6KkV6+q91xals
- vMEg==
-X-Gm-Message-State: ACgBeo0GVfbMiHeNl1KdjpbGwdDBRnEGcaSsCtTgv4T3jF5IRWBbKUMC
- 35lGKx6mv0CTt0JlMguVt8hEVAvSn8rqtqBqtEtfQYhvl3zyn/OVt8tHG/M09eVvat277y+C922
- 8qeYpy47CBE8TC64=
-X-Received: by 2002:a5d:5581:0:b0:20f:fc51:7754 with SMTP id
- i1-20020a5d5581000000b0020ffc517754mr12490966wrv.413.1659978047841; 
- Mon, 08 Aug 2022 10:00:47 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7Ysg2QnLsnCCgcrRfJ76fByJcKsJKX7TzJL79Z6fXGcWWbkwQ3bQS8zxJxOHv/o3n7jkazpw==
-X-Received: by 2002:a5d:5581:0:b0:20f:fc51:7754 with SMTP id
- i1-20020a5d5581000000b0020ffc517754mr12490950wrv.413.1659978047616; 
- Mon, 08 Aug 2022 10:00:47 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- bn30-20020a056000061e00b002206236ab3dsm11622064wrb.3.2022.08.08.10.00.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Aug 2022 10:00:46 -0700 (PDT)
-Date: Mon, 8 Aug 2022 18:00:44 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: Migration tests are very slow in the CI
-Message-ID: <YvFBPJ204rtMx+WC@work-vm>
-References: <7bf333f0-7bdc-1ba7-2a45-ffa2894ad809@redhat.com>
- <YvD+FXVf//5xvlgy@redhat.com>
- <41dd9dd2-55bc-5a49-1bf7-757373dac465@redhat.com>
- <YvEIcNZ/CnFzdpkS@redhat.com>
+ us-mta-654-vgAjMRtLNgOZ9A_Ol8MEqQ-1; Mon, 08 Aug 2022 13:04:00 -0400
+X-MC-Unique: vgAjMRtLNgOZ9A_Ol8MEqQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C7D8294EDCE
+ for <qemu-devel@nongnu.org>; Mon,  8 Aug 2022 17:04:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5526D9457F;
+ Mon,  8 Aug 2022 17:03:59 +0000 (UTC)
+Date: Mon, 8 Aug 2022 18:03:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 1/1] tests/qtest: add scenario for -readconfig handling
+Message-ID: <YvFB/DZ+lYRHbd+U@redhat.com>
+References: <20220805115529.124544-1-berrange@redhat.com>
+ <20220805115529.124544-2-berrange@redhat.com>
+ <0d00fbb9-3b47-6041-4afa-63bb618689f0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YvEIcNZ/CnFzdpkS@redhat.com>
+In-Reply-To: <0d00fbb9-3b47-6041-4afa-63bb618689f0@redhat.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,132 +82,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. BerrangÈ (berrange@redhat.com) wrote:
-> On Mon, Aug 08, 2022 at 02:43:49PM +0200, Thomas Huth wrote:
-> > On 08/08/2022 14.14, Daniel P. BerrangÈ wrote:
-> > > On Mon, Aug 08, 2022 at 01:57:17PM +0200, Thomas Huth wrote:
-> > > > 
-> > > >   Hi!
-> > > > 
-> > > > Seems like we're getting more timeouts in the CI pipelines since commit
-> > > > 2649a72555e ("Allow test to run without uffd") enabled the migration tests
-> > > > in more scenarios.
-> > > > 
-> > > > For example:
-> > > > 
-> > > >   https://gitlab.com/qemu-project/qemu/-/jobs/2821578332#L49
-> > > > 
-> > > > You can see that the migration-test ran for more than 20 minutes for each
-> > > > target (x86 and aarch64)! I think that's way too much by default.
-> > > 
-> > > Definitely too much.
-> > > 
-> > > > I had a check whether there is one subtest taking a lot of time, but it
-> > > > rather seems like each of the migration test is taking 40 to 50 seconds in
-> > > > the CI:
-> > > > 
-> > > >   https://gitlab.com/thuth/qemu/-/jobs/2825365836#L44
-> > > 
-> > > Normally with CI we expect a constant slowdown factor, eg x2.
-> > > 
-> > > I expect with migration though, we're triggering behaviour whereby
-> > > the guest workload is generating dirty pages quicker than we can
-> > > migrate them over localhost. The balance in this can quickly tip
-> > > to create an exponential slowdown.
+On Mon, Aug 08, 2022 at 07:55:50AM +0200, Thomas Huth wrote:
+> On 05/08/2022 13.55, Daniel P. Berrang√© wrote:
+> > This test of -readconfig validates the last three regressions we
+> > have fixed with -readconfig:
 > > 
-> > If I run the aarch64 migration-test on my otherwise idle x86 laptop, it also
-> > takes already ca. 460 seconds to finish, which is IMHO also already too much
-> > for a normal "make check" run (without SPEED=slow).
+> >   * Interpretation of memory size units as MiB not bytes
+> >   * Allow use of [spice]
+> >   * Allow use of [object]
+> 
+> Good idea!
+> 
+> > Signed-off-by: Daniel P. Berrang√© <berrange@redhat.com>
+> > ---
+> >   tests/qtest/meson.build       |   1 +
+> >   tests/qtest/readconfig-test.c | 195 ++++++++++++++++++++++++++++++++++
+> >   2 files changed, 196 insertions(+)
+> >   create mode 100644 tests/qtest/readconfig-test.c
 > > 
-> > > I'm not sure if  'g_test_slow' gives us enough granularity though, as
-> > > if we enable that, it'll impact the whole test suite, not just
-> > > migration tests.
-> > 
-> > We could also check for the GITLAB_CI environment variable, just like we
-> > already do it in some of the avocado-based tests ... but given the fact that
-> > the migration test is already very slow on my normal x86 laptop, I think I'd
-> > prefer if we added some checks with g_test_slow() in there ...
-> > 
-> > Are there any tests in migration-test.c that are rather redundant and could
-> > be easily skipped in quick mode?
+> > diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> > index 3a474010e4..be4b30dea2 100644
+> > --- a/tests/qtest/meson.build
+> > +++ b/tests/qtest/meson.build
+> > @@ -26,6 +26,7 @@ qtests_generic = [
+> >     'qom-test',
+> >     'test-hmp',
+> >     'qos-test',
+> > +  'readconfig-test',
+> >   ]
+> >   if config_host.has_key('CONFIG_MODULES')
+> >     qtests_generic += [ 'modules-test' ]
+> > diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
+> > new file mode 100644
+> > index 0000000000..2e604d7c2d
+> > --- /dev/null
+> > +++ b/tests/qtest/readconfig-test.c
+> > @@ -0,0 +1,195 @@
+> > +/*
+> > + * Validate -readconfig
+> > + *
+> > + * Copyright (c) 2022 Red Hat, Inc.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "libqtest.h"
+> > +#include "qapi/error.h"
+> > +#include "qapi/qapi-visit-machine.h"
+> > +#include "qapi/qapi-visit-qom.h"
+> > +#include "qapi/qapi-visit-ui.h"
+> > +#include "qapi/qmp/qdict.h"
+> > +#include "qapi/qmp/qlist.h"
+> > +#include "qapi/qobject-input-visitor.h"
+> > +#include "qapi/qmp/qstring.h"
+> > +#include "qemu/units.h"
+> > +
+> > +static QTestState *qtest_init_with_config(const char *cfgdata)
+> > +{
+> > +    GError *error = NULL;
+> > +    g_autofree char *args = NULL;
+> > +    int cfgfd = -1;
+> > +    g_autofree char *cfgpath = NULL;
+> > +    QTestState *qts;
+> > +    ssize_t ret;
+> > +
+> > +    cfgfd = g_file_open_tmp("readconfig-test-XXXXXX", &cfgpath, &error);
+> > +    g_assert_no_error(error);
+> > +    g_assert_cmpint(cfgfd, >=, 0);
+> > +
+> > +    ret = qemu_write_full(cfgfd, cfgdata, strlen(cfgdata));
+> > +    if (ret < 0) {
+> > +        unlink(cfgpath);
+> > +    }
+> > +    g_assert_cmpint(ret, ==, strlen(cfgdata));
+> > +
+> > +    close(cfgfd);
 > 
-> The trouble with migration is that there are alot of subtle permutations
-> that interact in wierd ways, so we've got alot of test scenarios, includuing
-> many with TLS:
+> Maybe move the close() before the "if (ret < 0)"
 > 
-> /x86_64/migration/bad_dest
-> /x86_64/migration/fd_proto
-> /x86_64/migration/validate_uuid
-> /x86_64/migration/validate_uuid_error
-> /x86_64/migration/validate_uuid_src_not_set
-> /x86_64/migration/validate_uuid_dst_not_set
-> /x86_64/migration/auto_converge
-> /x86_64/migration/dirty_ring
-> /x86_64/migration/vcpu_dirty_limit
-> /x86_64/migration/postcopy/unix
-> /x86_64/migration/postcopy/plain
-> /x86_64/migration/postcopy/recovery/plain
-> /x86_64/migration/postcopy/recovery/tls/psk
-> /x86_64/migration/postcopy/preempt/plain
-> /x86_64/migration/postcopy/preempt/recovery/plain
-> /x86_64/migration/postcopy/preempt/recovery/tls/psk
-> /x86_64/migration/postcopy/preempt/tls/psk
-> /x86_64/migration/postcopy/tls/psk
-> /x86_64/migration/precopy/unix/plain
-> /x86_64/migration/precopy/unix/xbzrle
-> /x86_64/migration/precopy/unix/tls/psk
-> /x86_64/migration/precopy/unix/tls/x509/default-host
-> /x86_64/migration/precopy/unix/tls/x509/override-host
-> /x86_64/migration/precopy/tcp/plain
-> /x86_64/migration/precopy/tcp/tls/psk/match
-> /x86_64/migration/precopy/tcp/tls/psk/mismatch
-> /x86_64/migration/precopy/tcp/tls/x509/default-host
-> /x86_64/migration/precopy/tcp/tls/x509/override-host
-> /x86_64/migration/precopy/tcp/tls/x509/mismatch-host
-> /x86_64/migration/precopy/tcp/tls/x509/friendly-client
-> /x86_64/migration/precopy/tcp/tls/x509/hostile-client
-> /x86_64/migration/precopy/tcp/tls/x509/allow-anon-client
-> /x86_64/migration/precopy/tcp/tls/x509/reject-anon-client
-> /x86_64/migration/multifd/tcp/plain/none
-> /x86_64/migration/multifd/tcp/plain/cancel
-> /x86_64/migration/multifd/tcp/plain/zlib
-> /x86_64/migration/multifd/tcp/plain/zstd
-> /x86_64/migration/multifd/tcp/tls/psk/match
-> /x86_64/migration/multifd/tcp/tls/psk/mismatch
-> /x86_64/migration/multifd/tcp/tls/x509/default-host
-> /x86_64/migration/multifd/tcp/tls/x509/override-host
-> /x86_64/migration/multifd/tcp/tls/x509/mismatch-host
-> /x86_64/migration/multifd/tcp/tls/x509/allow-anon-client
-> /x86_64/migration/multifd/tcp/tls/x509/reject-anon-client
+> > +    args = g_strdup_printf("-nodefaults -machine none -readconfig %s", cfgpath);
+> > +
+> > +    qts = qtest_init(args);
+> > +
+> > +    unlink(cfgpath);
+> > +
+> > +    return qts;
+> > +}
+> > +
+> > +static void test_x86_memdev_resp(QObject *res)
+> > +{
+> > +    Visitor *v;
+> > +    g_autoptr(MemdevList) memdevs = NULL;
+> > +    Memdev *memdev;
+> > +
+> > +    g_assert(res);
+> > +    v = qobject_input_visitor_new(res);
+> > +    visit_type_MemdevList(v, NULL, &memdevs, &error_abort);
+> > +
+> > +    g_assert(memdevs);
+> > +    g_assert(memdevs->value);
+> > +    g_assert(!memdevs->next);
+> > +
+> > +    memdev = memdevs->value;
+> > +    g_assert_cmpstr(memdev->id, ==, "ram");
+> > +    g_assert_cmpint(memdev->size, ==, 200 * MiB);
+> > +
+> > +    visit_free(v);
+> > +}
+> > +
+> > +static void test_x86_memdev(void)
+> > +{
+> > +    QDict *resp;
+> > +    QTestState *qts;
+> > +    const char *cfgdata =
+> > +        "[memory]\n"
+> > +        "size = \"200\"";
+> > +
+> > +    qts = qtest_init_with_config(cfgdata);
+> > +   /* Test valid command */
 > 
-> Each takes about 4 seconds, except for the xbzrle, autoconverge and
-> vcpu-dirty-rate tests which take 8-12 seconds.
+> Comment has bad indentation.
 > 
-> We could short-circuit most of the tls tests, because 90% of what
-> they're validating is the initial connection setup phase. We don't
-> really need to run the full migration to completion, we can just
-> abort once we're running. Just keep 3 doing the full migration
-> to completion - one precopy, one postcopy and one multifd.
+> > +    resp = qtest_qmp(qts, "{ 'execute': 'query-memdev' }");
+> > +    test_x86_memdev_resp(qdict_get(resp, "return"));
+> > +    qobject_unref(resp);
+> > +
+> > +    qtest_quit(qts);
+> > +}
+> > +
+> > +
+> > +#ifdef CONFIG_SPICE
+> > +static void test_spice_resp(QObject *res)
+> > +{
+> > +    Visitor *v;
+> > +    g_autoptr(SpiceInfo) spice = NULL;
+> > +
+> > +    g_assert(res);
+> > +    v = qobject_input_visitor_new(res);
+> > +    visit_type_SpiceInfo(v, "spcie", &spice, &error_abort);
+> 
+> That "spcie" looks like a typo?
 
-I'd rather we combined some than cutting stuff off; I was about to
-suggest doing zlib with some of the TLS but then that wouldn't have
-found the recent zlib one!
+Yes, but I believe this argument is ignored by the visitor in this
+scenario - it didn't fail for me at least.
 
-Dave
+Regardless, sHould be fixed of course
 
-> That'd cut most of thte TLS tests from 4 seconds to 0.5 seconds.
-> 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
+
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
