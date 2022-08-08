@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A53C58C2C0
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 07:19:06 +0200 (CEST)
-Received: from localhost ([::1]:60296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D35C58C2C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 07:22:59 +0200 (CEST)
+Received: from localhost ([::1]:37206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKvAP-0005rZ-Gh
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 01:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46892)
+	id 1oKvE9-00011G-UV
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 01:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKv5x-0002cH-1v
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:14:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30285)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKv6X-0002hZ-Jw
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:15:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKv5k-0002TE-Vb
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:14:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oKv6U-0002V5-V6
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:15:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659935655;
+ s=mimecast20190719; t=1659935687;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9Thob7gePXl9Jy9AjQmoGbMg5qhdRuJu7xdniGsDXDY=;
- b=Tc1oaLg3VUSjCJtbGuK1rOJfGTKOGDEIKwCQ1DWK2DDR8oDiMNg8NRf6WyjhJ6X0GL094v
- 9M1V62cjQbNhYErFXpQ8U2tWLnOqGSzXZPhOfTfMV8cP9Bj6Ot2l4cWfZxaB1BZ9oyJjzJ
- SIpPeNxEVSPJesUsTxMuRRujvsT9b0A=
+ bh=hzWM6d40e/63KV4ZEjtqTLvDGYNvFiPE/+tTF5kEUcw=;
+ b=HFTHYV5Xsp9hqQlYYa+GJgkilWTCnDSdeDrIEGigWG5U3w+sYxrwoEiv/3yzg1kechjMuj
+ eFrTuMjl5vKNcozF9o+QY/SG/t6GuC9cuhUMVRNAgpN3YZjpMalwcTrE16rEZPas75lK9/
+ 1tF5OFlD37yHQcQrX12jgffT4bUEo+k=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-674-L6CKxFGuNpeb7MoI3i7f2A-1; Mon, 08 Aug 2022 01:14:12 -0400
-X-MC-Unique: L6CKxFGuNpeb7MoI3i7f2A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-121-Ed9fYrx-Na2QUUjrNKam3w-1; Mon, 08 Aug 2022 01:14:46 -0400
+X-MC-Unique: Ed9fYrx-Na2QUUjrNKam3w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 340AC811766
- for <qemu-devel@nongnu.org>; Mon,  8 Aug 2022 05:14:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53676802D1C
+ for <qemu-devel@nongnu.org>; Mon,  8 Aug 2022 05:14:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 113204010D27;
- Mon,  8 Aug 2022 05:14:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3256D2026D4C;
+ Mon,  8 Aug 2022 05:14:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E067421E6930; Mon,  8 Aug 2022 07:14:10 +0200 (CEST)
+ id 2C98C21E6930; Mon,  8 Aug 2022 07:14:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH for-7.1] vl: fix [memory] section with -readconfig
-References: <20220805100635.493961-1-pbonzini@redhat.com>
- <875yj66c6f.fsf@pond.sub.org>
- <438ab33b-62c8-d114-4360-9baa2300cc58@redhat.com>
-Date: Mon, 08 Aug 2022 07:14:10 +0200
-In-Reply-To: <438ab33b-62c8-d114-4360-9baa2300cc58@redhat.com> (Paolo
- Bonzini's message of "Fri, 5 Aug 2022 19:16:43 +0200")
-Message-ID: <878rnzz599.fsf@pond.sub.org>
+Subject: Re: [PATCH v2] vl: fix [memory] section with -readconfig
+References: <20220805172301.553081-1-pbonzini@redhat.com>
+Date: Mon, 08 Aug 2022 07:14:45 +0200
+In-Reply-To: <20220805172301.553081-1-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Fri, 5 Aug 2022 19:23:01 +0200")
+Message-ID: <877d3jz58a.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,66 +81,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 8/5/22 15:40, Markus Armbruster wrote:
->>> +    loc_push_none(&loc);
->>> +    qemu_opts_loc_restore(opts);
->>> +
->>>       prop = qdict_new();
->>>         if (qemu_opt_get_size(opts, "size", 0) != 0) {
->>
->> This treats "size=0" like absent size.  Before commit ce9d03fb3f, we
->> instead checked
->>         mem_str = qemu_opt_get(opts, "size");
->>         if (mem_str) {
->> Makes more sense, doesn't it?
+> The -M memory.* options do not have magic applied to them than the -m
+> option, namely no "M" (for mebibytes) is tacked at the end of a
+> suffixless value for "-M memory.size".
+
+This sentence is confusing.  Do you mean "like the -m option"?
+
+> This magic is performed by parse_memory_options, and we have to
+> do it for both "-m" and the [memory] section of a config file.
+> Storing [memory] sections directly to machine_opts_dict changed
+> the meaning of
 >
-> True, on the other hand before commit ce9d03fb3f we handled "-m 0" like this:
+>     [memory]
+>       size = "1024"
 >
->     sz = 0;
->     mem_str = qemu_opt_get(opts, "size");
->     if (mem_str) {
->         ...
->     }
->     if (sz == 0) {
->         sz = default_ram_size;
->     }
+> in a -readconfig file from 1024MiB to 8KiB (1024 Bytes rounded up to
+> 8KiB silently).  To avoid this, the [memory] section has to be
+> changed back to QemuOpts (combining [memory] and "-m" will work fine
+> thanks to .merge_lists being true).
 >
-> Now instead, the "-m 0" case results in no qdict_put_str() call at all.   So the code flows better with qemu_opt_get_size(opts, "size", 0).
-
-I see.
-
-> In addition, using qemu_opt_get_size() is what enables the dead code removal below, because it generates an error for empty size.
-
-My personal preference would be to default only absent size, but not an
-explicit size=0.  But that's a change, and you patch's mission is fix,
-not change, so okay.
-
->> Also, with the new check above, the check below...
->>             mem_str = qemu_opt_get(opts, "size");
->>             if (!*mem_str) {
->>                 error_report("missing 'size' option value");
->>                 exit(EXIT_FAILURE);
->>             }
->> ... looks dead.  We get there only when qemu_opt_get_size() returns
->> non-zero, which implies a non-blank string.
+> Change parse_memory_options() so that, similar to the older function
+> set_memory_options(), it operates after command line parsing is done;
+> and also call it where set_memory_options() used to be.
 >
-> Makes sense.  Separate patch?
-
-Sure!
-
->>>   static void qemu_create_machine(QDict *qdict)
->> Commit ce9d03fb3f changed this function's purpose and renamed it from
->> set_memory_options() to parse_memory_options().
->> This commit is a partial revert.  It doesn't revert the change of name.
->> Intentional?
+> Note, the parsing code uses exit(1) instead of exit(EXIT_FAILURE) to
+> match neighboring code.
 >
-> Yes, though honestly both are pretty bad names.  set_memory_options() is bad because it's not setting anything, it's just putting the values in a 
-> QDict.  I kept parse_*() because it does do a limited amount of parsing to handle the suffix-less memory size.
+> Reported-by: Markus Armbruster <armbru@redhat.com>
+> Fixes: ce9d03fb3f ("machine: add mem compound property", 2022-05-12)
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Intentionally keeping a moderately bad name is okay.
-
-Okay need not stop us from looking for a better one, so: the function's
-purpose is to merge the contents of QemuOpts (singleton) group "memory"
-into machine options.  merge_memory_into_machine_options()?
+Preferably with a clarified commit message:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
