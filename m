@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815D158C54F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:11:58 +0200 (CEST)
-Received: from localhost ([::1]:33690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6614158C548
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:09:31 +0200 (CEST)
+Received: from localhost ([::1]:57782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKynk-0005kk-K5
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56770)
+	id 1oKylN-0002rA-Ty
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oKyax-0005IR-47
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:43 -0400
-Received: from mga09.intel.com ([134.134.136.24]:15913)
+ id 1oKyay-0005JB-FX
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:45 -0400
+Received: from mga09.intel.com ([134.134.136.24]:15916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oKyau-0001oK-PQ
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:42 -0400
+ id 1oKyav-0001oV-MJ
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659949120; x=1691485120;
+ t=1659949121; x=1691485121;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PjZ1u2QturzYjKa031f0MFI5soukUiMr35knNOFdceY=;
- b=cza1ppJjw2bWGPmGmn/Ze3KmaKA7t41lRdeSmYKeWB4Xx71u8b/Gp3gh
- jiNpC7VQkzKq1euZacCb45vL9SrlO2xz8hBjXc/yUOIpzjAmqd6jRJP/f
- QyhuaUZtjNVdQWnTeh6ydiZ+uqg1aqGoF3B/WbB7+y418lZjikNMzP7A1
- nP8IOjrd+7WmTGN3hKGCt82EB+FvcStxtz09kWJFT3tGrPb2Cz+nDJ3hl
- r1Gq+M2nZav8w64DffKn15ygZfQrjQpUV2DLXaVJj3mj5siFuSQ92KBUt
- 4VDE+0srzqjNcDhKsYkG01Z52+xx3gEcgezkc09h9FHYg2COLfTVx12eV A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="291319227"
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="291319227"
+ bh=JoLhHDUQ0buGQR/L9NPQ9wh0/PiW8CiBoeswGZy+EaE=;
+ b=KlDN8jPzlyNfcgZMGCBllVXsnzB7MzjHOhbyQp5LWQlpkisHAt2yBXpm
+ oGOhe8FyQctFuDW2MTXaCjhDa2MYECOEovBXAsIuSD20ni0c9dr0ujVGa
+ mLcANiHgh1WfichjRLHTBqxoAbwE+a3oewbKLR/wN3wrIqZ+zOCFgx5uB
+ vJeipjo/s3bVUSmapuXoDFEeOr+yVCijwiTuyCXbM/eli9FasR4Y0dKhn
+ kgiylWqcej431GZB+PKHHt0DXniF8Q75UqVHgFwhmpEzIqV1bVtW6s2Em
+ cFgcFBC1M+DCJdbA95BpbrphUEjyKhVtauIXwuJUvrRsjd9hcyBE5cjng g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="291319233"
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="291319233"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 01:58:37 -0700
+ 08 Aug 2022 01:58:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="931970536"
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="931970551"
 Received: from lxy-dell.sh.intel.com ([10.239.48.38])
- by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2022 01:58:36 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2022 01:58:37 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
 Cc: qemu-devel@nongnu.org,
 	kvm@vger.kernel.org
-Subject: [PATCH v2 1/8] target/i386: Print CPUID subleaf info for unsupported
- feature
-Date: Mon,  8 Aug 2022 16:58:27 +0800
-Message-Id: <20220808085834.3227541-2-xiaoyao.li@intel.com>
+Subject: [PATCH v2 2/8] target/i386/intel-pt: Fix INTEL_PT_ADDR_RANGES_NUM_MASK
+Date: Mon,  8 Aug 2022 16:58:28 +0800
+Message-Id: <20220808085834.3227541-3-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220808085834.3227541-1-xiaoyao.li@intel.com>
 References: <20220808085834.3227541-1-xiaoyao.li@intel.com>
@@ -78,31 +77,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some CPUID leaves have meaningful subleaf index. Print the subleaf info
-in feature_word_description for CPUID features.
+Per Intel SDM, bits 2:0 of CPUID(0x14,0x1).EAX indicate the number of
+address ranges for INTEL-PT.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 1db1278a599b..f9646e16b872 100644
+index f9646e16b872..fa02910ce811 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -4244,8 +4244,9 @@ static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
-         {
-             const char *reg = get_register_name_32(f->cpuid.reg);
-             assert(reg);
--            return g_strdup_printf("CPUID.%02XH:%s",
--                                   f->cpuid.eax, reg);
-+            return g_strdup_printf("CPUID.%02XH_%02XH:%s",
-+                                   f->cpuid.eax,
-+                                   f->cpuid.needs_ecx ? f->cpuid.ecx : 0, reg);
-         }
-     case MSR_FEATURE_WORD:
-         return g_strdup_printf("MSR(%02XH)",
+@@ -570,7 +570,7 @@ static CPUCacheInfo legacy_l3_cache = {
+ /* generated packets which contain IP payloads have LIP values */
+ #define INTEL_PT_IP_LIP          (1 << 31)
+ #define INTEL_PT_ADDR_RANGES_NUM 0x2 /* Number of configurable address ranges */
+-#define INTEL_PT_ADDR_RANGES_NUM_MASK 0x3
++#define INTEL_PT_ADDR_RANGES_NUM_MASK 0x7
+ #define INTEL_PT_MTC_BITMAP      (0x0249 << 16) /* Support ART(0,3,6,9) */
+ #define INTEL_PT_CYCLE_BITMAP    0x1fff         /* Support 0,2^(0~11) */
+ #define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 2K,4K,8K,16K,32K,64K */
 -- 
 2.27.0
 
