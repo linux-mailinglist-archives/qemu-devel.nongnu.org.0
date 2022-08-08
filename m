@@ -2,55 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F1F58CF7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 23:07:02 +0200 (CEST)
-Received: from localhost ([::1]:58938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462E458CF83
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 23:14:33 +0200 (CEST)
+Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL9xk-0007A1-7K
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 17:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
+	id 1oLA51-0005nx-Sv
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 17:14:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL9sd-0005NR-1V
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:01:43 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:30776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL9sa-0005UF-3t
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:01:42 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E1C8E7475F9;
- Mon,  8 Aug 2022 23:01:36 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A1DF87462D3; Mon,  8 Aug 2022 23:01:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A04CE745702;
- Mon,  8 Aug 2022 23:01:36 +0200 (CEST)
-Date: Mon, 8 Aug 2022 23:01:36 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: Elliot Nunn <elliot@nunn.io>, qemu-devel@nongnu.org, kraxel@redhat.com, 
- hsp.cat7@gmail.com
-Subject: Re: VGA hardware cursor query
-In-Reply-To: <c7c9cf50-be0-4931-70f8-40fd653b2cf0@eik.bme.hu>
-Message-ID: <f199ca36-3587-1468-5b41-39bcc8ea01d@eik.bme.hu>
-References: <9A92120A-46B5-48A4-9424-8E606143291F@nunn.io>
- <4513db25-fc55-5884-f345-36d1510ff175@ilande.co.uk>
- <939C7085-9CA8-426B-A00B-DD059F845161@nunn.io>
- <42729919-1fc8-5c71-3717-49eb5c930da5@ilande.co.uk>
- <ff3af9f2-82f-1eb2-61d3-6dd68fefc222@eik.bme.hu>
- <c7c9cf50-be0-4931-70f8-40fd653b2cf0@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oL9z7-0008E9-DC
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:08:25 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mail@conchuod.ie>) id 1oL9z4-0006KJ-Hh
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:08:25 -0400
+Received: by mail-wr1-x435.google.com with SMTP id q30so12180014wra.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 14:08:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=Mu+MglJymBxabIBvUwjw2AFdmuPrcCRK+x2ras11sSw=;
+ b=UTfXqut8bTa7JgXBR0VHUYxttE39IIXdx+kGphECVoz2oaUb6+Y6af7tM8mqls+AI/
+ TYiO5AfDd63KO9Wj6rBPphEThFLv0VdpQnGEBy3db3S/V8v7hGQzKhu+8L9zWwDHL2gL
+ n8olPJGToPM9p08FoLg+Px5aVqK0UKMnCsl2vC5MKV/X380k9XwvVnJD3baCSqKrV4nE
+ 5ZJJv9b1OzCZC4x0vUlvDWYJxL2cQHBR/b4VCreP+DpNkuI6QlV+1Be5P2b46/pdLmUo
+ UitdxJJTPCl5XX+8NkYt3e5LEui6Lu0UIkOZyUtgz8v1z4hQ2icbK2Bdv22kViR0ORc5
+ KXUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=Mu+MglJymBxabIBvUwjw2AFdmuPrcCRK+x2ras11sSw=;
+ b=KhuSkkvTeASYTRIH4N1FeSJapYPnU1ZXnHi7upsabGbbfHuVHu0bR8qdMpWGdm3Li9
+ OM0WAUh1fRAvZcDKpULqS/sAFMubyZ/B3Su1byE6NjGCXgeLbkjEL9E0grvjR+rgE91j
+ 09a1kWHwMUExJmStX6qcJCv/ld/V2RNGrwB2/0mXueZuXNIpWEB+SRQRwPBMUf7X8A/f
+ nXwdeB9orshHC779NV0USbFB4JOmMfo44drosdKBxSAb3nRgFU6uDS4Y3G4e7wIElWX1
+ xulTGqsFZ9N13faeGRANZQDHDe7N5QhoYhX73ax4mAADynOYs97Dp4A7r2ArPGC9VoIm
+ /Feg==
+X-Gm-Message-State: ACgBeo0ByzayjFqrZjYb9XfPocvgvG58nZFmjYBjsRmGA7jxKS+QHS59
+ 5YnCPVuglRzcmr4ouI3yrP1vRg==
+X-Google-Smtp-Source: AA6agR5JiztensB8u1Cffi0TRYzTm5X+4y5aFY/uvv8GKqlzYcjlG//LNaMJnint02TuHq3pnW9gVw==
+X-Received: by 2002:adf:fe81:0:b0:21b:88ea:6981 with SMTP id
+ l1-20020adffe81000000b0021b88ea6981mr13290068wrr.616.1659992900293; 
+ Mon, 08 Aug 2022 14:08:20 -0700 (PDT)
+Received: from henark71.. ([109.76.58.63]) by smtp.gmail.com with ESMTPSA id
+ i17-20020a05600c355100b003a2e92edeccsm19811955wmq.46.2022.08.08.14.08.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Aug 2022 14:08:19 -0700 (PDT)
+From: Conor Dooley <mail@conchuod.ie>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor.dooley@microchip.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ linux-riscv@lists.infradead.org
+Subject: [PATCH v2 0/4] QEMU: Fix RISC-V virt & spike machines' dtbs
+Date: Mon,  8 Aug 2022 22:06:40 +0100
+Message-Id: <20220808210643.2192602-1-mail@conchuod.ie>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=mail@conchuod.ie; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,84 +87,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Aug 2022, BALATON Zoltan wrote:
-> On Sun, 7 Aug 2022, BALATON Zoltan wrote:
->> On Sun, 7 Aug 2022, Mark Cave-Ayland wrote:
->>> On 07/08/2022 12:47, Elliot Nunn wrote:
->>> 
->>>>>> I want to give Mac OS 9 clients access to hardware cursor support, to 
->>>>>> improve
->>>>>> responsiveness in absolute-cursor mode.
->>>>>> Would it be acceptable to add a hardware cursor interface to the VGA 
->>>>>> device?
->>>>>> And if so, can anyone advise on an appropriate register layout?
->>>>>> This is an example of such a patch. Because it alters the Bochs VBE 
->>>>>> interface
->>>>>> it is ONLY an example, NOT fit for acceptance. I have omitted the 
->>>>>> changes to
->>>>>> the binary driver qemu_vga.ndrv.
->>>>>> Kind regards,
->>>>>> Elliot Nunn
->>>>> Nice work! Have you been in contact with the Bochs developers to see 
->>>>> what their thoughts are to your proposed changes? Generally QEMU prefers 
->>>>> to implement documented specifications, so this would be the best route 
->>>>> to go.
->>>> 
->>>> Thanks! I don't think it would be appropriate to update the Bochs 
->>>> standard with a feature that they don't use. And on reflection, perhaps 
->>>> the compatibility-oriented VGA device is big enough already.
->>> 
->>> Sure, no worries.
->>> 
->>>> My plan is to write a Mac OS 9/X "ndrv" targeting virtio-gpu. All going 
->>>> this well, this might become the default mac99 GPU until ati-vga is 
->>>> ready.
->>> 
->>> That sounds really interesting. Is there a forum/mailing list somewhere 
->>> where it is possible to follow the Mac side of your work? I can certainly 
->>> advise on the qemu-system-ppc side.
->>> 
->>>> But virtio-gpu is not compiled into qemu-system-ppc by default. What is 
->>>> the difference between CONFIG_VIRTIO_(GPU|PCI|VGA)? And is 
->>>> configs/devices/ppc-softmmu/default.mak the correct place to declare 
->>>> them?
->>> 
->>> You probably want to add a "select VIRTIO_GPU_PCI" and/or "select 
->>> VIRTIO_GPU_VGA" in the "config MAC_NEWWORLD" section of hw/ppc/Kconfig to 
->>> enable the virtio devices for the mac99 machine.
->> 
->> Not sure how this works but pc and pseries machines seem to have imply 
->> VIRTIO_VGA so probably that's what you need to add to config MAC_NEWWORLD 
->> or just try qemu-system-ppc64 -machine mac99,via=pmu -cpu G4 which should 
->> already have it due so pseries but may otherwise be equivalent to the one 
->> in qemu-system-ppc.
->
-> I've tried this:
->
-> qemu-system-ppc64 -M mac99,via=pmu -cpu G4 -m 512 \
-> -vga none -device virtio-vga,romfile=qemu_vga.ndrv \
-> -cdrom "Mac OS 9.2.2 Universal Install.iso" -boot d \
-> -serial stdio
->
-> to see if it recognised the card in vga mode but it does not work. (Without 
-> the second line disabling stdvga and adding virtio-vgs this does boot for 
-> me.) The problem seems to be that openbios does not recognise the rom, maybe 
-> because it expects the rom to be at BAR 6 and only tries to map that but 
-> virtio-vga seems to have rombar=1 by default (see info qtree in monitor). I 
-> did not try if it's settable though so maybe adding virtio-vga,rombar=6 could 
-> get it further?
+From: Conor Dooley <conor.dooley@microchip.com>
 
-I've tried with rombar=6 but it made no change. I don't fully get how this 
-should work. Even by default when rombar=1 the virtio-vga device does not 
-seem to have BAR 1 but has a BAR 6. Openbios seems to look for that but 
-maybe only for vga devices it knows about. I thought it would also look 
-for device class but maybe it needs to be added to openbios's pci database 
-for it to recognise and try to detect an NDRV in ROM? Maybe Mark could 
-look at it and advise. I think I gave up here, don't want to debug this 
-further but getting MacOS 9 boot with virtio-vga in vga mode would give 
-Elliot a good start to experiment with ndrv and not fight with QEMU and 
-OpenBIOS instead just to get started.
+The device trees produced automatically for the virt and spike machines
+fail dt-validate on several grounds. Some of these need to be fixed in
+the linux kernel's dt-bindings, but others are caused by bugs in QEMU.
 
-Regards,
-BALATON Zoltan
+I mostly opted for what appeared to be the smallest change that would
+fix the warnings, partly due to my inexperience with the QEMU codebase.
+A "sister" patchset for the kernel will clear the remaining warnings [0].
+Thanks to Rob Herring for reporting these issues [1],
+Conor.
+
+Changes since v1:
+- drop patch 1
+
+To reproduce the errors:
+./build/qemu-system-riscv64 -nographic -machine virt,dumpdtb=qemu.dtb
+dt-validate -p /path/to/linux/kernel/Documentation/devicetree/bindings/processed-schema.json qemu.dtb
+(The processed schema needs to be generated first)
+
+0 - https://lore.kernel.org/linux-riscv/20220805162844.1554247-1-mail@conchuod.ie
+1 - https://lore.kernel.org/linux-riscv/20220803170552.GA2250266-robh@kernel.org
+
+Conor Dooley (4):
+  hw/riscv: virt: fix uart node name
+  hw/riscv: virt: Fix the plic's address cells
+  hw/riscv: virt: fix syscon subnode paths
+  hw/core: fix platform bus node name
+
+ hw/core/sysbus-fdt.c    |  2 +-
+ hw/riscv/virt.c         | 10 +++++++---
+ include/hw/riscv/virt.h |  1 +
+ 3 files changed, 9 insertions(+), 4 deletions(-)
+
+
+base-commit: 2480f3bbd03814b0651a1f74959f5c6631ee5819
+-- 
+2.37.1
+
 
