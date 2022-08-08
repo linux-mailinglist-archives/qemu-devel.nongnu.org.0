@@ -2,50 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B485F58CAF3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 17:00:38 +0200 (CEST)
-Received: from localhost ([::1]:46112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7FF58CB05
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 17:06:59 +0200 (CEST)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL4FB-00020P-VB
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 11:00:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
+	id 1oL4LK-0004Ng-9Q
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 11:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL4DB-0000QY-Ou; Mon, 08 Aug 2022 10:58:33 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:29686)
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1oL4Hz-0002QU-KS; Mon, 08 Aug 2022 11:03:31 -0400
+Received: from mail-sender.a4lg.com ([153.120.152.154]:62412
+ helo=mail-sender-0.a4lg.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oL4D9-0005Ti-V5; Mon, 08 Aug 2022 10:58:33 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1A1787475F9;
- Mon,  8 Aug 2022 16:58:30 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CDEC7746FDE; Mon,  8 Aug 2022 16:58:29 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CC095746E07;
- Mon,  8 Aug 2022 16:58:29 +0200 (CEST)
-Date: Mon, 8 Aug 2022 16:58:29 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 20/22] ppc/ppc405: Use an explicit PPCUIC object
-In-Reply-To: <20220808102734.133084-21-clg@kaod.org>
-Message-ID: <f924f8ad-55c3-c52b-b373-603b7afe120@eik.bme.hu>
-References: <20220808102734.133084-1-clg@kaod.org>
- <20220808102734.133084-21-clg@kaod.org>
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1385866828-1659970709=:47322"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1oL4Ht-0006H7-FS; Mon, 08 Aug 2022 11:03:31 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 18B2A300089;
+ Mon,  8 Aug 2022 15:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
+ s=2017s01; t=1659970994;
+ bh=DgSyfOgUNFubFDCGFCAz4VdWSvv8D4vLl+5Gq2B4Td4=;
+ h=Message-ID:Date:Mime-Version:Subject:To:Cc:References:From:
+ In-Reply-To:Content-Type:Content-Transfer-Encoding;
+ b=fwmhxYd6TGpchqoh5EXeU8H/iKS6grmwSQJK58A7ns40Nq/S6IOzosaOGL4+MOArt
+ g9UZYrqOSP8POiClzPMr3MxbVdACf4Mr03YFPu+VtrEEE26lZQf3Dol6D32njOedSs
+ fX2dIw/wHUW9DMbj5qsxkOaKG9ae9gzAyKH8xIfk=
+Message-ID: <0f453024-1d1e-105d-855b-234c3c8fedbb@irq.a4lg.com>
+Date: Tue, 9 Aug 2022 00:03:12 +0900
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/5] target/riscv: Ignore the S and U letters when
+ formatting ISA strings
+Content-Language: en-US
+To: Conor Dooley <mail@conchuod.ie>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor.dooley@microchip.com>, 
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ linux-riscv@lists.infradead.org, Palmer Dabbelt <palmer@sifive.com>
+References: <20220805155405.1504081-1-mail@conchuod.ie>
+ <20220805155405.1504081-2-mail@conchuod.ie>
+From: Tsukasa OI <research_trasio@irq.a4lg.com>
+In-Reply-To: <20220805155405.1504081-2-mail@conchuod.ie>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=153.120.152.154;
+ envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,143 +70,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1385866828-1659970709=:47322
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-
-It's not that it's now explicitly typed as PPCUIC but more that it's now 
-embedded in soc state instead of dynamically allocated. So Embed UIC in 
-soc state may be a better patch title.
-
-Regards,
-BALATON Zoltan
-
-On Mon, 8 Aug 2022, Cédric Le Goater wrote:
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+On 2022/08/06 0:54, Conor Dooley wrote:
+> From: Palmer Dabbelt <palmer@sifive.com>
+> 
+> The ISA strings we're providing from QEMU aren't actually legal RISC-V
+> ISA strings, as both S and U cannot exist as single-letter extensions
+> and must instead be multi-letter strings.  We're still using the ISA
+> strings inside QEMU to track the availiable extensions, so just strip
+> out the S and U extensions when formatting ISA strings.
+> 
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> [Conor: rebased on 7.1.0-rc1 & slightly tweaked the commit message]
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
-> hw/ppc/ppc405.h    |  3 ++-
-> hw/ppc/ppc405_uc.c | 26 +++++++++++++-------------
-> 2 files changed, 15 insertions(+), 14 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 31c94e474209..8e67ad0b72c3 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -27,6 +27,7 @@
->
-> #include "qom/object.h"
-> #include "hw/ppc/ppc4xx.h"
-> +#include "hw/intc/ppc-uic.h"
->
-> #define PPC405EP_SDRAM_BASE 0x00000000
-> #define PPC405EP_NVRAM_BASE 0xF0000000
-> @@ -234,7 +235,7 @@ struct Ppc405SoCState {
->     hwaddr ram_size;
->
->     PowerPCCPU cpu;
-> -    DeviceState *uic;
-> +    PPCUIC uic;
->     Ppc405CpcState cpc;
->     Ppc405GptState gpt;
->     Ppc405OcmState ocm;
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 73b9e60881fd..d80e22d265c8 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1341,6 +1341,8 @@ static void ppc405_soc_instance_init(Object *obj)
->     object_initialize_child(obj, "cpu", &s->cpu,
->                             POWERPC_CPU_TYPE_NAME("405ep"));
->
-> +    object_initialize_child(obj, "uic", &s->uic, TYPE_PPC_UIC);
+>  target/riscv/cpu.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ac6f82ebd0..95fdc03b3d 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1122,7 +1122,23 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
+>      for (i = 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
+>          if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
+> -            *p++ = qemu_tolower(riscv_single_letter_exts[i]);
+> +            char lower = qemu_tolower(riscv_single_letter_exts[i]);
+> +            switch (lower) {
+> +                case 's':
+> +                case 'u':
+> +                    /*
+> +                    * The 's' and 'u' letters shouldn't show up in ISA strings as
+> +                    * they're not extensions, but they should show up in MISA.
+> +                    * Since we use these letters interally as a pseudo ISA string
+> +                    * to set MISA it's easier to just strip them out when
+> +                    * formatting the ISA string.
+> +                    */
+> +                    break;
 > +
->     object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
->     object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
->
-> @@ -1401,17 +1403,15 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     sysbus_mmio_map(SYS_BUS_DEVICE(&s->opba), 0, 0xef600600);
->
->     /* Universal interrupt controller */
-> -    s->uic = qdev_new(TYPE_PPC_UIC);
-> -
-> -    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
-> +    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
->                              &error_fatal);
-> -    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->uic), errp)) {
->         return;
->     }
->
-> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_INT,
->                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
-> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_CINT,
->                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_CINT));
->
->     /* SDRAM controller */
-> @@ -1422,7 +1422,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->                              "ppc405.sdram0", s->dram_mr,
->                              s->ram_bases[0], s->ram_sizes[0]);
->
-> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17), 1,
-> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
->                       s->ram_banks, s->ram_bases, s->ram_sizes,
->                       s->do_dram_init);
->
-> @@ -1438,12 +1438,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->
->     for (i = 0; i < ARRAY_SIZE(s->dma.irqs); i++) {
->         sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
-> -                           qdev_get_gpio_in(s->uic, 5 + i));
-> +                           qdev_get_gpio_in(DEVICE(&s->uic), 5 + i));
->     }
->
->     /* I2C controller */
->     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
-> -                         qdev_get_gpio_in(s->uic, 2));
-> +                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
->
->     /* GPIO */
->     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
-> @@ -1454,13 +1454,13 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     /* Serial ports */
->     if (serial_hd(0) != NULL) {
->         serial_mm_init(get_system_memory(), 0xef600300, 0,
-> -                       qdev_get_gpio_in(s->uic, 0),
-> +                       qdev_get_gpio_in(DEVICE(&s->uic), 0),
->                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
->                        DEVICE_BIG_ENDIAN);
->     }
->     if (serial_hd(1) != NULL) {
->         serial_mm_init(get_system_memory(), 0xef600400, 0,
-> -                       qdev_get_gpio_in(s->uic, 1),
-> +                       qdev_get_gpio_in(DEVICE(&s->uic), 1),
->                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
->                        DEVICE_BIG_ENDIAN);
->     }
-> @@ -1478,7 +1478,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->
->     for (i = 0; i < ARRAY_SIZE(s->gpt.irqs); i++) {
->         sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt), i,
-> -                           qdev_get_gpio_in(s->uic, 19 + i));
-> +                           qdev_get_gpio_in(DEVICE(&s->uic), 19 + i));
->     }
->
->     /* MAL */
-> @@ -1490,7 +1490,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->
->     for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
->         sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
-> -                           qdev_get_gpio_in(s->uic, 11 + i));
-> +                           qdev_get_gpio_in(DEVICE(&s->uic), 11 + i));
->     }
->
->     /* Ethernet */
->
---3866299591-1385866828-1659970709=:47322--
+> +                default:
+> +                    *p++ = lower;
+> +                    break;
+> +            }
+>          }
+>      }
+>      *p = '\0';
+
+I agree with Alistair.  **I** removed 'S' and 'U' from the ISA string
+and it should be working in the latest development branch (I tested).
+
+I tested it on master and QEMU 7.1-rc1 (tag: v7.1-rc1).
+
+Example:
+/opt/riscv/bin/qemu-system-riscv64
+         -machine virt
+         -nographic
+         -cpu rv64
+         -smp 1
+         -kernel images/linux.bin
+         -initrd images/busybox.cpio.gz
+         -append 'console=hvc0 earlycon=sbi'
+         -bios images/opensbi-fw_jump.elf
+         -gdb tcp::9000
+
+Replacing -machine virt with -machine virt,dumpdtb=sample.dtb dumps the
+binary DeviceTree as sample.dtb and generated CPU-related parts like...
+
+                cpu@0 {
+                        phandle = <0x01>;
+                        device_type = "cpu";
+                        reg = <0x00>;
+                        status = "okay";
+                        compatible = "riscv";
+                        riscv,isa =
+"rv64imafdch_zicsr_zifencei_zba_zbb_zbc_zbs";
+                        mmu-type = "riscv,sv48";
+
+                        interrupt-controller {
+                                #interrupt-cells = <0x01>;
+                                interrupt-controller;
+                                compatible = "riscv,cpu-intc";
+                                phandle = <0x02>;
+                        };
+                };
+
+Besides, this function alone generates the ISA string for DTB and
+there's no way such ISA strings with invalid 'S' and 'U' can be
+generated.  It's definitely a behavior of QEMU 7.0 or before.
+
+Please. Please make sure that you are testing the right version of QEMU.
+
+Thanks,
+Tsukasa
 
