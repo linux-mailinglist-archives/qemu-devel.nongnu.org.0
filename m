@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5188758D03B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 00:38:02 +0200 (CEST)
-Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A8958D02D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 00:36:29 +0200 (CEST)
+Received: from localhost ([::1]:37212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLBNp-0005Cq-FQ
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 18:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38040)
+	id 1oLBMK-00049o-5h
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 18:36:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oLBJf-0008DX-76
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 18:33:43 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44736)
+ id 1oLBK1-0000Hq-B9
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 18:34:05 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:35596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oLBJd-0001C2-Iq
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 18:33:42 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id c24so4976508pgg.11
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 15:33:41 -0700 (PDT)
+ id 1oLBJz-0001Cn-Gr
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 18:34:05 -0400
+Received: by mail-pf1-x432.google.com with SMTP id p125so5745620pfp.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 15:34:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:from:to:cc;
- bh=bpxqCm+hMKm2eokYEofsJ0Irz/l4BIy4YUTJZc+Yt+4=;
- b=TdMFh2wIUVlTOQt488mGQ7/nh7jvUVaSApdtQtAcUS9LveVPqtFTtqEXHGNpj5bGPf
- dtb3lJSVEYzcl/TT3qPMvNJhUPfJwvzYzpYQLLAbmvt4GXUm1tcVLmM/AdgUM7QK54c1
- Bz4BLJqEQSilhWfsrtqm1Q7927iWzkyAfs/zzHjrPtiL97AjML/vpSPr9QJ2ngyHqLP7
- WMYcuXVZxRQqWCeH82JPAE8qE8OBuSDjcnmQHEmRfV2A3I6PcCw3WLCaDJpaDniTCzcz
- YBxs6hZ5Uc8rVFfiMfsTieaXtd4XlBhHbfaRCeNkphslTbLyrt7bBvtrCzIMGt4Apd6o
- rCTA==
+ bh=+SFuivbmRDhPEXUxhRtAAtVm8SoaHrZvF1NuHWlQhSs=;
+ b=aWkfAvV+hQoQMgprHWBFjgSqgydKgAuc8+SMw8h77RV+7Lt9C4J35V75X5Wvn7bY12
+ lR+5Hk1uoChdm5J1OTiqCOyezupPrzRdqGQhomFhRjBvotJ9a9EIzhpl4ZnkE3HnTuRP
+ q9JkKCHMQcI4YrAH7x6901U6+MB09/Gl0CreZVAxcNkgj6/CpGQySYXhkl6wDfoNz4rf
+ 7FbuW6PWBGIaBmDzMv8UuMmjm/kt4OQ5A/SBb36WxZoROJW+ezFAMjx46IDIzKDfUakz
+ 4bVXLNvTTg5v42su8wG+B3kHu75EiPh1A4Ha0zrNg4gKnDn0D2uiMvaJMZCk5Bz6lDJd
+ 4VNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
  :to:cc;
- bh=bpxqCm+hMKm2eokYEofsJ0Irz/l4BIy4YUTJZc+Yt+4=;
- b=XyY/tUK1ttX4BtMzEHLdjQV3/YVHuj6jnr+a4SyZmsXjIbGWfL4RmuQfEmJjOet7z+
- bJy5Dj/2dxBORNqtXwp6DFaGikAf9KCts1aAPhYKd+xhDCpURT9Q0budc9TjPMB0YkON
- xjfYGrByRa34+PmaZqt/IO7J3NpxjL7JFDfEqJzFeokqw5YQKGiTliBjYrWvqfb2ucsL
- /IMNgh0XKCQpCd1KSRu2JdHk0EUw7HtB1bypGnPF7SPOKpK7qDVtUPyBmI44TZqfSX/r
- aqV6ZaaMmAWna91K2V2/Qsdj3YHBkPT94b4iU3QOnEuZH88RaR1KkfExdd1XTwpX68hk
- ED2A==
-X-Gm-Message-State: ACgBeo1stXILqszaUujMEMgJlDMpYtKdsCAsJyIyAMsuH460Gd8VE30E
- HSo+MpIRUGNA8crUcpDsH3YNUHTA8UZJdA==
-X-Google-Smtp-Source: AA6agR41VeuMsrk6EM9BidlSmk1YbWi8pr8bxrGN/EtJAijqk3yVv1KfNeJ0r5Zx3ffpsAQIKlOSGg==
-X-Received: by 2002:a62:1d86:0:b0:52d:9df0:2151 with SMTP id
- d128-20020a621d86000000b0052d9df02151mr19997787pfd.33.1659998019963; 
- Mon, 08 Aug 2022 15:33:39 -0700 (PDT)
+ bh=+SFuivbmRDhPEXUxhRtAAtVm8SoaHrZvF1NuHWlQhSs=;
+ b=IkCb022A3ukhqVkMaSDOQFUvd8MSyhi2NvAvKk4kS1i/IvdYrjRscsIpWJNpDO5KoU
+ FyG69GY0dC+O8hSJL5fzO0TXKVvVeX/2o/kh2zxEMXPv1PqTusXisVgSt7PDXGzda95G
+ zQSFKC/lIlusd1dglYPX4wsJ7JyvZEYIgp95+gDEv6Z0Z0CwsHbPKXEyXx/B9J8jJwzc
+ D8WkQH7ZqLnUKiBQ8E+Oo9q6swB4GS+7CD+c6PILuipx+Bk4ydIxMKSb18LLG9mS16af
+ c5Yk9zenPM57t4eKFV3jNxP01e0tM1mEUxS7AxxM8NXjbiuTrhELeGB+n4q+BQyaHSw6
+ raOg==
+X-Gm-Message-State: ACgBeo3USAJ3bloj7TTEiitQNTqJyfkgFKIHPqbi60UEUToZP6GE39Nn
+ 7a9QSZ23SOT9YiHZvlzhZjBZlDe2VEtPsw==
+X-Google-Smtp-Source: AA6agR63CrEXeD7flVXdwvUfwNHPQ7EmkfJkffAg0Y0h33pAFtY0qyndfpg/edr3EOcgABiYgqFraA==
+X-Received: by 2002:a65:6b8a:0:b0:3fc:4c06:8a8d with SMTP id
+ d10-20020a656b8a000000b003fc4c068a8dmr16964182pgw.83.1659998040924; 
+ Mon, 08 Aug 2022 15:34:00 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 5-20020a620605000000b0052ad6d627a6sm9160932pfg.166.2022.08.08.15.33.36
+ j13-20020a170902da8d00b001709aea1516sm4385336plx.276.2022.08.08.15.33.57
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 08 Aug 2022 15:33:39 -0700 (PDT)
+ Mon, 08 Aug 2022 15:34:00 -0700 (PDT)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Fabien Chouteau <chouteau@adacore.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Frederic Konrad <konrad.frederic@yahoo.fr>,
- Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 2/3] hw/mips/malta: turn off x86 specific features of PIIX4_PM
-Date: Tue,  9 Aug 2022 00:33:11 +0200
-Message-Id: <20220808223312.53720-3-f4bug@amsat.org>
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Frederic Konrad <fkonrad@amd.com>
+Subject: [PULL 3/3] hw/misc/grlib_ahb_apb_pnp: Support 8 and 16 bit accesses
+Date: Tue,  9 Aug 2022 00:33:12 +0200
+Message-Id: <20220808223312.53720-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220808223312.53720-1-f4bug@amsat.org>
 References: <20220808223312.53720-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,60 +98,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
-  $ qemu-system-mips -monitor stdio
-  (qemu) migrate "exec:gzip -c > STATEFILE.gz"
-  Segmentation fault (core dumped)
+In real hardware, the APB and AHB PNP data tables can be accessed
+with byte and halfword reads as well as word reads.  Our
+implementation currently only handles word reads.  Add support for
+the 8 and 16 bit accesses.  Note that we only need to handle aligned
+accesses -- unaligned accesses should continue to trap, as happens on
+hardware.
 
-It happens due to PIIX4_PM trying to parse hotplug vmstate structures
-which are valid only for x86 and not for MIPS (as it requires ACPI
-tables support which is not existent for ithe later)
-
-Issue was probably exposed by trying to cleanup/compile out unused
-ACPI bits from MIPS target (but forgetting about migration bits).
-
-Disable compiled out features using compat properties as the least
-risky way to deal with issue.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/995
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20220728115034.1327988-1-imammedo@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1132
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Frederic Konrad <fkonrad@amd.com>
+Message-Id: <20220802131925.3380923-1-peter.maydell@linaro.org>
+Tested-by: Tomasz Martyniak <gitlab.com/tom4r>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/malta.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/misc/grlib_ahb_apb_pnp.c | 10 ++++++----
+ hw/misc/trace-events        |  4 ++--
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 7a0ec513b0..0e932988e0 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1442,6 +1442,14 @@ static const TypeInfo mips_malta_device = {
-     .instance_init = mips_malta_instance_init,
- };
+diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+index 43e001c3c7..5b05f15859 100644
+--- a/hw/misc/grlib_ahb_apb_pnp.c
++++ b/hw/misc/grlib_ahb_apb_pnp.c
+@@ -136,7 +136,8 @@ static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     uint32_t val;
  
-+GlobalProperty malta_compat[] = {
-+    { "PIIX4_PM", "memory-hotplug-support", "off" },
-+    { "PIIX4_PM", "acpi-pci-hotplug-with-bridge-support", "off" },
-+    { "PIIX4_PM", "acpi-root-pci-hotplug", "off" },
-+    { "PIIX4_PM", "x-not-migrate-acpi-index", "true" },
-+};
-+const size_t malta_compat_len = G_N_ELEMENTS(malta_compat);
-+
- static void mips_malta_machine_init(MachineClass *mc)
- {
-     mc->desc = "MIPS Malta Core LV";
-@@ -1455,6 +1463,7 @@ static void mips_malta_machine_init(MachineClass *mc)
-     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
- #endif
-     mc->default_ram_id = "mips_malta.ram";
-+    compat_props_add(mc->compat_props, malta_compat, malta_compat_len);
+     val = ahb_pnp->regs[offset >> 2];
+-    trace_grlib_ahb_pnp_read(offset, val);
++    val = extract32(val, (4 - (offset & 3) - size) * 8, size * 8);
++    trace_grlib_ahb_pnp_read(offset, size, val);
+ 
+     return val;
  }
+@@ -152,7 +153,7 @@ static const MemoryRegionOps grlib_ahb_pnp_ops = {
+     .write      = grlib_ahb_pnp_write,
+     .endianness = DEVICE_BIG_ENDIAN,
+     .impl = {
+-        .min_access_size = 4,
++        .min_access_size = 1,
+         .max_access_size = 4,
+     },
+ };
+@@ -247,7 +248,8 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     uint32_t val;
  
- DEFINE_MACHINE("malta", mips_malta_machine_init)
+     val = apb_pnp->regs[offset >> 2];
+-    trace_grlib_apb_pnp_read(offset, val);
++    val = extract32(val, (4 - (offset & 3) - size) * 8, size * 8);
++    trace_grlib_apb_pnp_read(offset, size, val);
+ 
+     return val;
+ }
+@@ -263,7 +265,7 @@ static const MemoryRegionOps grlib_apb_pnp_ops = {
+     .write      = grlib_apb_pnp_write,
+     .endianness = DEVICE_BIG_ENDIAN,
+     .impl = {
+-        .min_access_size = 4,
++        .min_access_size = 1,
+         .max_access_size = 4,
+     },
+ };
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 4d51a80de1..c18bc0605e 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -247,8 +247,8 @@ via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size
+ via1_auxmode(int mode) "setting auxmode to %d"
+ 
+ # grlib_ahb_apb_pnp.c
+-grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
+-grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
++grlib_ahb_pnp_read(uint64_t addr, unsigned size, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" size:%u data:0x%08x"
++grlib_apb_pnp_read(uint64_t addr, unsigned size, uint32_t value) "APB PnP read addr:0x%03"PRIx64" size:%u data:0x%08x"
+ 
+ # led.c
+ led_set_intensity(const char *color, const char *desc, uint8_t intensity_percent) "LED desc:'%s' color:%s intensity: %u%%"
 -- 
 2.36.1
 
