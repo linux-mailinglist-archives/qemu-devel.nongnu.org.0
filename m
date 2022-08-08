@@ -2,49 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F071C58C22A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 05:47:20 +0200 (CEST)
-Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0257058C222
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 05:41:45 +0200 (CEST)
+Received: from localhost ([::1]:32872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKtjc-0001qI-19
-	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 23:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36908)
+	id 1oKteB-0007v9-H9
+	for lists+qemu-devel@lfdr.de; Sun, 07 Aug 2022 23:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oKtZi-0003uX-Ef
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 23:37:06 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:59583)
+ id 1oKtZg-0003tp-UZ; Sun, 07 Aug 2022 23:37:04 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:39215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oKtZd-0006a4-SR
- for qemu-devel@nongnu.org; Sun, 07 Aug 2022 23:37:06 -0400
+ id 1oKtZe-0006aG-3i; Sun, 07 Aug 2022 23:37:04 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4M1MM85GwJz4x1V; Mon,  8 Aug 2022 13:36:52 +1000 (AEST)
+ id 4M1MM85Tpxz4xTr; Mon,  8 Aug 2022 13:36:52 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1659929812;
- bh=8OQQJcVY2APwmZnbivlV/OVaNWNgYsGYL/76hugycdA=;
+ bh=scNs2rf0zMcjH6OvkHFKskzjEQt18UPLv2MReegkzxo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Q4FyMWSC5p9qINF83hohZCJj89CrG0tvotdr8ktjjCvvemxkJhP0HiTKRLHPCkq+O
- 0gT6aIgcUDtqfrZCSZ3gXYUPpM9MJ+YWa0htzoPiCkkD2+hb6RilVDmXFUtfttDjuP
- aJuNCNnHt64F+GXv1m9mT2t2RScCCG8IeXAjvMEo=
-Date: Mon, 8 Aug 2022 13:25:35 +1000
+ b=m7Rm9LsVDDzvrO1wwzLGMQccjzJ+ghdB/HZtt4k2LEd/UPjzYT5sfMMqVRVTJtCw7
+ Ly8q6E+jcIWn/8vchw07M3hzbMF2JhxtU2h6wlJEiWqifmRh2Y7iEdrIbHFLHxcDcd
+ 0Nek/bm91pJV+G1YEqnULKy0suxllbAneRTtsC/0=
+Date: Mon, 8 Aug 2022 13:26:36 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org,
- alistair.francis@wdc.com,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH for-7.2 v2 09/20] hw/ppc: set machine->fdt in pnv_reset()
-Message-ID: <YvCCL4TKEfqhiKkB@yekko>
+Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH for-7.2 v2 10/20] hw/ppc: set machine->fdt in spapr machine
+Message-ID: <YvCCbNOkX4ZtaoWl@yekko>
 References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-10-danielhb413@gmail.com>
- <ef56a98c-6261-2342-84e4-46796b69cdbb@linux.ibm.com>
- <20bcdfba-bd98-90b9-e384-8a40d833ebfe@gmail.com>
+ <20220805093948.82561-11-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="44xHHQxvarwmExWy"
+ protocol="application/pgp-signature"; boundary="GmX6NQmz0DhX3MSg"
 Content-Disposition: inline
-In-Reply-To: <20bcdfba-bd98-90b9-e384-8a40d833ebfe@gmail.com>
+In-Reply-To: <20220805093948.82561-11-danielhb413@gmail.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -70,67 +65,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---44xHHQxvarwmExWy
+--GmX6NQmz0DhX3MSg
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 05, 2022 at 09:31:11AM -0300, Daniel Henrique Barboza wrote:
+On Fri, Aug 05, 2022 at 06:39:38AM -0300, Daniel Henrique Barboza wrote:
+> The pSeries machine never bothered with the common machine->fdt
+> attribute. We do all the FDT related work using spapr->fdt_blob.
 >=20
+> We're going to introduce HMP commands to read and save the FDT, which
+> will rely on setting machine->fdt properly to work across all machine
+> archs/types.
 >=20
-> On 8/5/22 08:03, Frederic Barrat wrote:
-> >=20
-> >=20
-> > On 05/08/2022 11:39, Daniel Henrique Barboza wrote:
-> > > This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
-> > > all powernv machines.
-> > >=20
-> > > Cc: C=E9dric Le Goater <clg@kaod.org>
-> > > Cc: Frederic Barrat <fbarrat@linux.ibm.com>
-> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > ---
-> > > =A0 hw/ppc/pnv.c | 6 +++++-
-> > > =A0 1 file changed, 5 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> > > index d3f77c8367..f5162f8b7b 100644
-> > > --- a/hw/ppc/pnv.c
-> > > +++ b/hw/ppc/pnv.c
-> > > @@ -608,7 +608,11 @@ static void pnv_reset(MachineState *machine)
-> > > =A0=A0=A0=A0=A0 qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
-> > > =A0=A0=A0=A0=A0 cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_tota=
-lsize(fdt));
-> > > -=A0=A0=A0 g_free(fdt);
-> > > +=A0=A0=A0 /*
-> > > +=A0=A0=A0=A0 * Update the machine->fdt pointer to enable support for
-> > > +=A0=A0=A0=A0 * 'dumpdtb' and 'info fdt' commands.
-> > > +=A0=A0=A0=A0 */
-> > > +=A0=A0=A0 machine->fdt =3D fdt;
-> >=20
-> >=20
-> > Can pnv_reset() be called several times in the same instance of the qem=
-u process, in which case we leak memory?
->=20
-> hmmm I think it's possible if we issue a 'system_reset' via the
-> monitor.
+> Let's set machine->fdt in the two places where we manipulate the FDT:
+> spapr_machine_reset() and CAS. spapr->fdt_blob is left untouched: what
+> we want is a way to access the FDT from HMP, not replace
+> spapr->fdt_blob.
 
-Right.  I'm not certain about pnv, but on most platforms there's a way
-to trigger system_reset from the guest side as well.
+Given there is now an fdt field in the generic MACHINE structure, we
+should be able to remove the one in spapr->fdt_blob, yes?
 
-> I'll put a g_free(machine->fdt) before the assignment.
 >=20
+> Cc: C=E9dric Le Goater <clg@kaod.org>
+> Cc: qemu-ppc@nongnu.org
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/spapr.c       | 6 ++++++
+>  hw/ppc/spapr_hcall.c | 8 ++++++++
+>  2 files changed, 14 insertions(+)
 >=20
-> Daniel
->=20
->=20
-> >=20
-> >  =A0 Fred
-> >=20
-> >=20
-> > > =A0 }
-> > > =A0 static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **=
-errp)
->=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index bc9ba6e6dc..94c90f0351 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1713,6 +1713,12 @@ static void spapr_machine_reset(MachineState *mach=
+ine)
+>      spapr->fdt_initial_size =3D spapr->fdt_size;
+>      spapr->fdt_blob =3D fdt;
+> =20
+> +    /*
+> +     * Set the common machine->fdt pointer to enable support
+> +     * for 'dumpdtb' and 'info fdt' commands.
+> +     */
+> +    machine->fdt =3D fdt;
+> +
+>      /* Set up the entry state */
+>      first_ppc_cpu->env.gpr[5] =3D 0;
+> =20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index a8d4a6bcf0..0079bc6fdc 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1256,6 +1256,14 @@ target_ulong do_client_architecture_support(PowerP=
+CCPU *cpu,
+>      spapr->fdt_initial_size =3D spapr->fdt_size;
+>      spapr->fdt_blob =3D fdt;
+> =20
+> +    /*
+> +     * Set the machine->fdt pointer again since we just freed
+> +     * it above (by freeing spapr->fdt_blob). We set this
+> +     * pointer to enable support for 'dumpdtb' and 'info fdt'
+> +     * HMP commands.
+> +     */
+> +    MACHINE(spapr)->fdt =3D fdt;
+> +
+>      return H_SUCCESS;
+>  }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -138,25 +140,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---44xHHQxvarwmExWy
+--GmX6NQmz0DhX3MSg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmLwgigACgkQgypY4gEw
-YSI34BAArIwvDpo4DZ8XIfzD5I2o4KB9k0Hol8Id1aLnTBoTl0S70NaJKdxGG5U1
-Dt11CFVL25VKJjYiyhH6jISuNI+QDnwyCAJfW7feee5fwsMBpXaYS7f/NT02EwLJ
-5nsN7ejE6uomALQxuXgx4i2D2ukOjjUbJYt3e4P1b/yp8zHWBGIkr5TeoJk1WIbk
-DP0fJJtE2zFa7c2YuXxu2LXDHZ5Ddl9FsAoxQQI+9WUcdiUGXO/VbBOUxvU+7Vu1
-7Woyos+O1kNQAHD0pLZMHn269oAuL6cup/4yeZhPHS8gU/iePYYil2ri3qCt3Zff
-nqBlwbxpreK85ioGasyXW796pTErnT9iAgq2jJkEi3kFxJoT6v/mJi2C+IQEI6ri
-lckBQAZv0+BcFa3X8yu+7wXhoXZlHJaZ7OuTgksnGnRPv9JdMr7e5laib7GP7RTk
-/+opCFy45AXR8eVlqm2jxRRNRN/aVQ1rQCekJzjgy3xDg/ghCEpCvcWZ46ET5k1G
-s1SSog93QQ2JoHX3Xja1pyWkw5kRtvqAoPJWs5aWqWDusihc7erB/ek6iO5ZUnAs
-SawYOvbdaK9+pV+odY/AGRjEG4xX8IZnfXJiO74C6QM+cqbdQ5fxvm1UpsRGNPMX
-oH5B5pooUCMz3CIkVBvpSYBdOmHoWzphIU+G4t0QwyKMPAxJkzk=
-=C2ul
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmLwgmQACgkQgypY4gEw
+YSL7nQ/+L6S04fbDHXWHQB1vrYDHwkqPl/fwSCHb34UQrI4+CrfTa/eSpJa9Xi4g
+BKk3BaWxvL8PSrUXYMpfXtP1hbtp3hTlRLjXNE7rhVwcJwKPmaGTPsQ8ELDDhi3R
+9aHZzacMFbu9C1O5Xm3aN/RLzbuGCCc4qfCt1KBEhh0o3u6Rkf/QE93MsZz9it2o
+nv/s2hdq96JToDAm6NNuLu/63ctXFrJWCr4val9T6u3MnfyEF46cUMjnZSLW4g2/
+enppcVQroZzosAk0zOUWEN98IKxHqnnM0h0CVsfw8sADv44qa/ajQjpS4O+obr2N
+2yKuLihtBCpSSFTcLV9hNjV1REfa6kYry08t2X+5kW0LBqMJNpeZvjLdtEBdbzs5
+muzh1TGUjp9ASAZw0HO43wvhiImsubJnt15MiedA4KW/dKlHRcXmmNbAHFrem7IQ
+Dl27jmh3MfBhbTb3a+unyPMePyibAlIZNGugsTVyO7B3X/pU4ookMJis+/u7ri+P
+ltAdvGeDXjR62T7KEjRHrC30iwKQwMNnElI+QFvWUhoKaza9HwFZ15+wePriauBP
+M4rPKK1VMru4S6yKVqhRllgHH/mI1MblXulP3+LESdYeTSvLfzUCxE2EqqR6cyYQ
+3Vna3LBEhbLjPKvRmwh8FIj/0J2y+AsXHTsG+VTHt5dnDhtIr9E=
+=AhJb
 -----END PGP SIGNATURE-----
 
---44xHHQxvarwmExWy--
+--GmX6NQmz0DhX3MSg--
 
