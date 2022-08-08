@@ -2,140 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6E658C580
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:25:22 +0200 (CEST)
-Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88F658C586
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:28:38 +0200 (CEST)
+Received: from localhost ([::1]:55460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKz0j-0000xB-12
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1oKz3t-0004kg-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Frederic.Konrad@amd.com>)
- id 1oKyrB-0002RS-8f
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 05:15:41 -0400
-Received: from mail-bn7nam10on2087.outbound.protection.outlook.com
- ([40.107.92.87]:17248 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1oKyst-0003bf-QM; Mon, 08 Aug 2022 05:17:15 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:44602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Frederic.Konrad@amd.com>)
- id 1oKyqo-0004i4-CS
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 05:15:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VrUDXztXbCWH6GA3wZuFKkNPGuGqakz9FJDO9lUocHnLUYhCxk8XlvpAZ71gSuSBvoPgqBJx8rTJs+sfFRtgmMYfkVZLIUb+XiH06wAnUyhK9aX2Zrah93Ev/I3gHe9WOuJFEIDG19BhFJV+hH+bNnRUhE343Lgxds+QMHBoyq7EsJ6c1qj91+VI1aTn95Jpk+h4R9nJaCe2CgRY9I+W2O/uzUrCf0tfWsEkGFk/ytJxXQbZDnoMrtF+LLeQd3WDFCWgjcvdGjoCPDhYtAaUX+pBBklJj4QSdI5G4bU+3/rJUIlTDnXzMDJRWDKCFtYEm7K4exh+jgMaulXpIPaQDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RI/y09KSVG8cr7WcucHGrMPqqsWqk60XgNHYw5PdD28=;
- b=Ko4PQ4arewK4IQ8ho2wWT5su3q7XvBPq3+E4LoDCD1+8rxexvvjWN80s5IiDOq3uBMT/9YEkBCkjljqu1Misq6WWDMO6zGGFkgAGjBBy8nV2e//iRzE3HkvLJGi38bg8Q5AKtZLqw70+9SyMFgYycSqFO2IpgZ00nNP5y7DcLDYVchovvxUV+7rqwtFxx6cnw8ISfmVMlAQLpQMZ+xeyWtyybLeWst2xssuLqwrTaJ0BmjeARQPuEg0XBun838708Qf/G9yniCA30BWIgOBqC87Z0YTlLAPHmptgn7QFJw98gMD2RQvjAgQfzv7v5yTnfJhOb7B8eDVYMCv8ICaZgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RI/y09KSVG8cr7WcucHGrMPqqsWqk60XgNHYw5PdD28=;
- b=CTWzFL+GT53khPE5b5rqXZ7dJvM1QUdixVcHq3FkIlLgb6M9Qwb85MhoPwZKkCFtOIuPwBhKW16orbHO5iBAuQDo1Z1r7DCzVFQoq9/nEiN8imEvT2LfSDdSp6fIQxeQP/lB7mFSZbAnNaZgrNTWDteONCmZ4IK37Yplg5LSOJs=
-Received: from BN7PR12MB2801.namprd12.prod.outlook.com (2603:10b6:408:2d::33)
- by BN6PR12MB1123.namprd12.prod.outlook.com (2603:10b6:404:1b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Mon, 8 Aug
- 2022 09:15:03 +0000
-Received: from BN7PR12MB2801.namprd12.prod.outlook.com
- ([fe80::64e3:bc0f:b296:7987]) by BN7PR12MB2801.namprd12.prod.outlook.com
- ([fe80::64e3:bc0f:b296:7987%7]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
- 09:15:03 +0000
-From: "Konrad, Frederic" <Frederic.Konrad@amd.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Fabien Chouteau
- <chouteau@adacore.com>, Frederic Konrad <konrad.frederic@yahoo.fr>,
- "f4bug@amsat.org" <f4bug@amsat.org>
-Subject: RE: [PATCH for-7.1] hw/misc/grlib_ahb_apb_pnp: Support 8 and 16 bit
- accesses
-Thread-Topic: [PATCH for-7.1] hw/misc/grlib_ahb_apb_pnp: Support 8 and 16 bit
- accesses
-Thread-Index: AQHYpnL4QHZnK+MYAkisd0/geL+yna2bpNYwgAAH9ACACRS7EA==
-Date: Mon, 8 Aug 2022 09:15:03 +0000
-Message-ID: <BN7PR12MB28019A8C06458A552225525AE6639@BN7PR12MB2801.namprd12.prod.outlook.com>
-References: <20220802131925.3380923-1-peter.maydell@linaro.org>
- <BN7PR12MB280161C3A847924FA5C3AF1BE69D9@BN7PR12MB2801.namprd12.prod.outlook.com>
- <CAFEAcA-fMUrwnpu90Qf1LWGsQ36M-PmX2uC1+kenT__otLxjTg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-fMUrwnpu90Qf1LWGsQ36M-PmX2uC1+kenT__otLxjTg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1fd21333-198d-4d09-dd54-08da791e7a2b
-x-ms-traffictypediagnostic: BN6PR12MB1123:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hdsT4mJ+eHpfwz6OXMi8uSDlo1SV+4+zBQS/xhvgOPdx9nd9B+6muVIZLCOmZm5O1P0s+W34QDVhZSC6UsxWrLHUqHZP4LdKwYR73LAvWvCFNysmIY0yw2Tc6ZPef4P1iuh7diNI9sg8v6iWVDuCqmC85qZKt4uwK2L7bFpKio5V9zfPSVpe40JzdVSmGNMLD6vEb7TzP/sILayK1wxoP+19cxeTl3ksRMSMJQAlqRisvXV+ldenMyJVTEsIB4qG+fZxiLJdKwHpQ0cIKUI+bWNLWMVOfN3z9fGyxTwhrc7mwGd61SDM8bPWOixH/LN7IganbgN6DBiVf0GUYKR6I3Q2taoo2J5/e7gfdGyJXK6pz+HzvBNQ3Qiu89zeIZrW9H1Fdytc0DiGeGXnPYx/1LwGKDF1lKCi+JNYi/8wuUQw/USovEu11oKXA4QxgmzMP3cuYPGy+8I/6iOjG2nrEcx67M/ypgKrATwoIbWmyi3fdGaAF2VxB5Bx0i3cZaV07nCYfZSFFErMR4J+vM3w8ewUeKJAFfvQXcDgqrlytpsqWTPqiyyvbMhFQqtPohMyl+8hCELzInCdeVsq9NJ2Cz6r2eZM4aZvF/AeJ1WaIOhj2H387QDMF1/RLNi0y0TPL5sViFHRzX5BxZ4MWWe95wX/Gq9juxwGNJ5yvJeqnDg6hl4C367/BvdBtRBcgk3D+BnZUgUMsNxU/PJAVIn2Wp9tJNPt0oAvEfnx5VloxhEPwsgQI9PSpoiG01jtcT7GXXdMIbY8lt7G6w+1b84ofamok6EyMend+JK+PDT659IWFZw3H2poxDT7ANhnnz9sxeyO71OCr71rhNEf0hlX1A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN7PR12MB2801.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(39860400002)(346002)(136003)(396003)(376002)(76116006)(66556008)(66476007)(66446008)(64756008)(8676002)(8936002)(71200400001)(4326008)(186003)(966005)(33656002)(52536014)(478600001)(316002)(54906003)(6916009)(5660300002)(86362001)(66946007)(41300700001)(26005)(83380400001)(7696005)(6506007)(53546011)(38070700005)(9686003)(2906002)(38100700002)(122000001)(55016003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NEY5eFg1NTFNck11S0szZTcvZ3h3MXpibmVDVkhEWGNBMmZnd0V0ekNYUlVC?=
- =?utf-8?B?UGtVMXRrbTlvbExaZFIyY1Rid1FnN2FpU0Ewb0dCSkxQNU4zWEI2ZkFFODJN?=
- =?utf-8?B?WTNMR0lOU0ZxQkJXK1JTbE44TDBmMlZXMjNmZmJnalBsUjd1bVpMc3VoRzE5?=
- =?utf-8?B?UXBYTEJ0S1ZDTFI5VzZUZjhHM0l0UzZVOXEyRmxVdUZtb2lnczdISTFSTDBz?=
- =?utf-8?B?RzdVd3A2OWk2MTVoZmwwc1l6em9MTURYdE5IYnhyREpjL1JXb0tOZDF5VDJa?=
- =?utf-8?B?TGo5R1d2SERxc3JOeDVORUpsQzh5SWk3QTdFbjFUOFM3dUZmYUNpSlk0QnZR?=
- =?utf-8?B?c0dvQTU1V0tPbTJJcXR6Mnk0Y1lscFRTc1ZXRmM3U3gwNWwwM1lLVENicWx0?=
- =?utf-8?B?aEJXQS9WUytBU2x6bnN0TVVXWGpFRlZoc0lEZVB6MUJiQmkrY05tV3pUdHV6?=
- =?utf-8?B?eE94ZVpJbXlKUzUxN3lpU3U3dThpTzJ5K1FTK1MyTWRITmJ2cWxtVUlxa014?=
- =?utf-8?B?Zlk3SUwwYWh5Zmg3bzRIL3U2TzVYcE5JZ3g4VDRYWnpsaUs0Tk5UMTBPSngv?=
- =?utf-8?B?Z1diNFdici94ZVdSY3NVOUlBZ1J0UGJmaGdwWGpEcnZXcXRKRnZtUU82Y3RB?=
- =?utf-8?B?VHR6L3RmemNLRk9wd0xpWFJyenBDbGJzdk5hMll1eCtHYkZ3dVZSNUdtUGE4?=
- =?utf-8?B?Uk9ISHg3RnRvQXlBZ1k0ellaY0E5eFZpeERyenRUS1B1WWdKWkRoN2poa0dG?=
- =?utf-8?B?VTN0V21JQ2gvaXRyZTNiMU9ITXBYOGdpdGxXMmROeXB6Ri8vZTRvVGNucWhl?=
- =?utf-8?B?ZkpXcjl0bDBJRlNQc3VLNFZhZlNYeXNvMkwySnpuVWRoaHZKZ0lTN0xaYVcy?=
- =?utf-8?B?d051RUhPUjFDNVdmbGZURHM0dmdnbXJ1dUNwZHBqd0NwV1V0Z3VlVWtEcFM1?=
- =?utf-8?B?QVR1dlJYMlVKY011aWlNUGNrNk0yWjZlZ25XVWJnQUxnUkJKVlZTdFZxWmds?=
- =?utf-8?B?RE5wMUdkTFQwNzdWZ2w3bkZmelAwYTlQTVJXdHpzamk0bmo5ZnZsNjErRGVG?=
- =?utf-8?B?TEM0aTBDME1TWUR1bXdwUGJ2dnhnUTl5c3FWMmhuSmtMS1dlbkR3MmY4T1cy?=
- =?utf-8?B?aVVROU4yNDNraVpyc3hKNjNYUTZTUW4yZ0JxSHBQM2JVcUp5WUhMR1k0bnUr?=
- =?utf-8?B?VUZQM1lxQmU4Zm51ejBzUjV5SjJBZXU0OXRGOXRTVHorVlg4cjRCVGFyc05q?=
- =?utf-8?B?U0RmVTk4OW1VRTY2bVBzK2hLQmQvK09ZWFVPT3VEcmVQYmRUN2VtMVF2WTVx?=
- =?utf-8?B?TUhLWTRKanFYNUw3b0t4ZnNSc0NPMlkrSlVmWDh0Z3RQQS8vM2M4MWswREZr?=
- =?utf-8?B?M01BNEJnZ1crR2czSEhMT0V2WE9oRUxFZzl1cmgxbzFzbjRObDNETHRHVGh1?=
- =?utf-8?B?WHNGN2xRVlFTY2tWNFFDaFA2bHV5bnN5TzhOaXJIcjIvQnVYZ280M3lScU1Y?=
- =?utf-8?B?MlBFVVZtbmorM21LL2NodGxzU2dmRkNZUndIbDBGZnRHYkFObU93b1hBYUhs?=
- =?utf-8?B?TGZibU9FZ3liOTJvNHJUOGlwd3A0Vk9wTWJHUTEvNUt4OGJaQVpEb094NjBW?=
- =?utf-8?B?STZvVzhNQnN5UTM5WFkrTWl1K2prN0RWbDhpS1VPVmk2dHpxS0J3elB2V1ox?=
- =?utf-8?B?RUJJZzkrZXBnRlVIbW4vYmI4NjBOa2MvQzZHdmFnbzhOandJb0VzOG9IUUxN?=
- =?utf-8?B?SHM5UTV6Vy9pZ21RRXBDQnJDRVIwMWowUU9aZnBWTVpXMnpkN1Q3amUvZkhi?=
- =?utf-8?B?NER2NjRnN3hUSXRCcHVCWTBXWUUrZWRQWVVQRjczTXcwM1dOZXpiQjVqOEZN?=
- =?utf-8?B?M2ptdjJPMDQwSnJMQmJXNW1yQkpSdmdWNnBMY3I4K1kzTDA3K2tvV3pVTmFG?=
- =?utf-8?B?NWtyd0dVb05mUHd1RlRyM0JLOXVTbVRsNDIxNnNrK1BBbnJYa3dENkxJczlT?=
- =?utf-8?B?cktyb3lSTWZWK1Bab0czWTRpRHl3anhnbHpWSGFTM1RzeGEzejJWRVV5Q3Ni?=
- =?utf-8?B?ci9UZllLcGQwOGVNMWIrNnFwSndFaUNBcjdQOTdSWHZHK1hjckZtaFJuQW5n?=
- =?utf-8?Q?DSKQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR12MB2801.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fd21333-198d-4d09-dd54-08da791e7a2b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2022 09:15:03.1396 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bnT0Tkt5ZWUbzvz8o2iIjBnUm7AcLVWSKXSvZRgMxtZTezDCmJATPSqxa7werCYE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1123
-Received-SPF: softfail client-ip=40.107.92.87;
- envelope-from=Frederic.Konrad@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1oKysr-0005ih-8R; Mon, 08 Aug 2022 05:17:15 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4D44BB80A07;
+ Mon,  8 Aug 2022 09:17:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14418C433D6;
+ Mon,  8 Aug 2022 09:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659950223;
+ bh=zEDyLLb7DPexaoRG+gXjeV7xPt+Yzgy6jad7tKTi13s=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=UKCVH9K3QfaMYoEYiXmwfWh4DAumIfZiXa5cwraN0PUT/ULv3NWBvMES0sjusH29J
+ dB3QYQgRsc2joa3EuWIhaoOtlRcQadOgi7pcK+y/VPcO0CqqwGD1GOJe6QPsU+VG0F
+ 7UbBKTYsauYrrG0+xZkdT+AWlYZ1PuBuz4IHJYg0zNdI9RcCzNO2dUqQdaYCDacGYQ
+ J/b7hr3zmrL62JAlkkW72U97FSzsExaHqil4bXWt6SzNrMuu7uLk8mdIXVlMi+U9wP
+ ANEU2A0lr9UlHyFgAbUREjQ9v1Fh8BvLFxtqX7zr3lUxfaONXIVAzjqyR4Kdyvz6AR
+ RpnyLUtLY1uKA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1oKyse-001cmS-P8;
+ Mon, 08 Aug 2022 10:17:00 +0100
+Date: Mon, 08 Aug 2022 10:17:00 +0100
+Message-ID: <87fsi7w0vn.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Gavin Shan <gshan@redhat.com>
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org, richard.henderson@linaro.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH 1/2] hw/arm/virt: Improve address assignment for highmem
+ IO regions
+In-Reply-To: <0ed2ebc7-8d6e-7555-3af4-31eb071a584b@redhat.com>
+References: <20220802064529.547361-1-gshan@redhat.com>
+ <20220802064529.547361-2-gshan@redhat.com>
+ <dcca0792-4f62-2cf0-9080-309d2e78e690@redhat.com>
+ <9c8365c6-d27b-df76-371d-bd32ca2a26f7@redhat.com>
+ <87tu6tbyk9.wl-maz@kernel.org>
+ <0ed2ebc7-8d6e-7555-3af4-31eb071a584b@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: gshan@redhat.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org, richard.henderson@linaro.org,
+ cohuck@redhat.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=maz@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -151,49 +91,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgTWF5ZGVsbCA8
-cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiBTZW50OiAwMiBBdWd1c3QgMjAyMiAxNTozNA0K
-PiBUbzogS29ucmFkLCBGcmVkZXJpYyA8RnJlZGVyaWMuS29ucmFkQGFtZC5jb20+DQo+IENjOiBx
-ZW11LWRldmVsQG5vbmdudS5vcmc7IEZhYmllbiBDaG91dGVhdSA8Y2hvdXRlYXVAYWRhY29yZS5j
-b20+Ow0KPiBGcmVkZXJpYyBLb25yYWQgPGtvbnJhZC5mcmVkZXJpY0B5YWhvby5mcj47IGY0YnVn
-QGFtc2F0Lm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIGZvci03LjFdIGh3L21pc2MvZ3JsaWJf
-YWhiX2FwYl9wbnA6IFN1cHBvcnQgOCBhbmQgMTYNCj4gYml0IGFjY2Vzc2VzDQo+IA0KPiBPbiBU
-dWUsIDIgQXVnIDIwMjIgYXQgMTU6MjAsIEtvbnJhZCwgRnJlZGVyaWMgPEZyZWRlcmljLktvbnJh
-ZEBhbWQuY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+IEhpIFBldGVyLA0KPiA+DQo+ID4gQ0MnaW5n
-IFBoaWxpcHBlLg0KPiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4g
-RnJvbTogUWVtdS1kZXZlbCA8cWVtdS1kZXZlbC0NCj4gPiA+IGJvdW5jZXMrZmtvbnJhZD1hbWQu
-Y29tQG5vbmdudS5vcmc+IE9uIEJlaGFsZiBPZiBQZXRlciBNYXlkZWxsDQo+ID4gPiBTZW50OiAw
-MiBBdWd1c3QgMjAyMiAxNDoxOQ0KPiA+ID4gVG86IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KPiA+
-ID4gQ2M6IEZhYmllbiBDaG91dGVhdSA8Y2hvdXRlYXVAYWRhY29yZS5jb20+OyBGcmVkZXJpYyBL
-b25yYWQNCj4gPiA+IDxrb25yYWQuZnJlZGVyaWNAeWFob28uZnI+DQo+ID4gPiBTdWJqZWN0OiBb
-UEFUQ0ggZm9yLTcuMV0gaHcvbWlzYy9ncmxpYl9haGJfYXBiX3BucDogU3VwcG9ydCA4IGFuZCAx
-Ng0KPiBiaXQNCj4gPiA+IGFjY2Vzc2VzDQo+ID4gPg0KPiA+ID4gSW4gcmVhbCBoYXJkd2FyZSwg
-dGhlIEFQQiBhbmQgQUhCIFBOUCBkYXRhIHRhYmxlcyBjYW4gYmUgYWNjZXNzZWQNCj4gPiA+IHdp
-dGggYnl0ZSBhbmQgaGFsZndvcmQgcmVhZHMgYXMgd2VsbCBhcyB3b3JkIHJlYWRzLiAgT3VyDQo+
-ID4gPiBpbXBsZW1lbnRhdGlvbiBjdXJyZW50bHkgb25seSBoYW5kbGVzIHdvcmQgcmVhZHMuICBB
-ZGQgc3VwcG9ydCBmb3INCj4gPiA+IHRoZSA4IGFuZCAxNiBiaXQgYWNjZXNzZXMuICBOb3RlIHRo
-YXQgd2Ugb25seSBuZWVkIHRvIGhhbmRsZSBhbGlnbmVkDQo+ID4gPiBhY2Nlc3NlcyAtLSB1bmFs
-aWduZWQgYWNjZXNzZXMgc2hvdWxkIGNvbnRpbnVlIHRvIHRyYXAsIGFzIGhhcHBlbnMgb24NCj4g
-PiA+IGhhcmR3YXJlLg0KPiA+ID4NCj4gPiA+IFJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20v
-cWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1ZXMvMTEzMg0KPiA+ID4gU2lnbmVkLW9mZi1ieTogUGV0
-ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiA+ID4gLS0tDQo+ID4gPiBJ
-dCB3b3VsZCBiZSBuaWNlIGlmIHdlIGNvdWxkIGp1c3Qgc2V0IHRoZSAudmFsaWQubWluX2FjY2Vz
-c19zaXplIGluDQo+ID4gPiB0aGUgTWVtb3J5UmVnaW9uT3BzIHRvIDEgYW5kIGhhdmUgdGhlIG1l
-bW9yeSBzeXN0ZW0gY29yZQ0KPiBzeW50aGVzaXplDQo+ID4gPiB0aGUgMSBhbmQgMiBieXRlIGFj
-Y2Vzc2VzIGZyb20gYSA0IGJ5dGUgcmVhZCwgYnV0IGN1cnJlbnRseSB0aGF0DQo+ID4gPiBkb2Vz
-bid0IHdvcmsgKHNlZSB2YXJpb3VzIHBhc3QgbWFpbGluZyBsaXN0IHRocmVhZHMpLg0KPiA+DQo+
-ID4gVGhhdCBsb29rcyBnb29kIHRvIG1lIGJ1dCBJIHRob3VnaHQgdGhpcyB3YXMgZml4ZWQgYnkg
-MWE1YTU1NzAgYW5kDQo+IDBmYmUzOTRhDQo+ID4gYmVjYXVzZSBSVEVNUyBkbyBieXRlcyBhY2Nl
-c3Nlcz8NCj4gPg0KPiA+IERpZCB0aGF0IGJyZWFrIGF0IHNvbWUgcG9pbnQ/DQo+IA0KPiBJIGRl
-ZmluaXRlbHkgdHJpZWQgbGV0dGluZyB0aGUgLmltcGwgdnMgLnZhbGlkIHNldHRpbmdzIGhhbmRs
-ZSB0aGlzLA0KPiBidXQgdGhlIGFjY2Vzc193aXRoX2FkanVzdGVkX3NpemUoKSBjb2RlIGRvZXNu
-J3QgZG8gdGhlIHJpZ2h0IHRoaW5nLg0KPiAoSW4gcGFydGljdWxhciwgdGhlIHRlc3QgY2FzZSBF
-TEYgaW4gdGhlIGJ1ZyByZXBvcnQgd29ya3Mgd2l0aA0KPiB0aGlzIHBhdGNoLCBhbmQgZG9lc24n
-dCB3b3JrIHdpdGhvdXQgaXQuLi4pDQo+IA0KPiBJJ20gcHJldHR5IHN1cmUgdGhlIHByb2JsZW0g
-d2l0aCBhY2Nlc3Nfd2l0aF9hZGp1c3RlZF9zaXplKCkgaXMgYQ0KPiBsb25nLXN0YW5kaW5nIGJ1
-ZyAtLSBJIGZvdW5kIGEgY291cGxlIG9mIG1haWxpbmcgbGlzdCB0aHJlYWRzIGFib3V0DQo+IGl0
-LiBXZSByZWFsbHkgb3VnaHQgdG8gZml4IHRoYXQgcHJvcGVybHksIGJ1dCB0aGF0J3MgZGVmaW5p
-dGVseSBub3QNCj4gZm9yLTcuMSBtYXRlcmlhbC4NCg0KT2sgZ290IGl0LCB0aGFua3MuDQoNClJl
-dmlld2VkLWJ5OiBGcmVkZXJpYyBLb25yYWQgPGZrb25yYWRAYW1kLmNvbT4NCg0KPiANCj4gLS0g
-UE1NDQo=
+On Wed, 03 Aug 2022 14:02:04 +0100,
+Gavin Shan <gshan@redhat.com> wrote:
+> 
+> Hi Marc,
+> 
+> On 8/3/22 5:01 PM, Marc Zyngier wrote:
+> > On Wed, 03 Aug 2022 04:01:04 +0100,
+> > Gavin Shan <gshan@redhat.com> wrote:
+> >> On 8/2/22 7:41 PM, Eric Auger wrote:
+> >>> On 8/2/22 08:45, Gavin Shan wrote:
+> >>>> There are 3 highmem IO regions as below. They can be disabled in
+> >>>> two situations: (a) The specific region is disabled by user. (b)
+> >>>> The specific region doesn't fit in the PA space. However, the base
+> >>>> address and highest_gpa are still updated no matter if the region
+> >>>> is enabled or disabled. It's incorrectly incurring waste in the PA
+> >>>> space.
+> >>> If I am not wrong highmem_redists and highmem_mmio are not user selectable
+> >>> 
+> >>> Only highmem ecam depends on machine type & ACPI setup. But I would say
+> >>> that in server use case it is always set. So is that optimization really
+> >>> needed?
+> >> 
+> >> There are two other cases you missed.
+> >> 
+> >> - highmem_ecam is enabled after virt-2.12, meaning it stays disabled
+> >>    before that.
+> > 
+> > I don't get this. The current behaviour is to disable highmem_ecam if
+> > it doesn't fit in the PA space. I can't see anything that enables it
+> > if it was disabled the first place.
+> > 
+> 
+> There are several places or conditions where vms->highmem_ecam can be
+> disabled:
+> 
+> - virt_instance_init() where vms->highmem_ecam is inherited from
+>   !vmc->no_highmem_ecam. The option is set to true after virt-2.12
+>   in virt_machine_2_12_options().
+> 
+> - machvirt_init() where vms->highmem_ecam can be disable if we have
+>   32-bits vCPUs and failure on loading firmware.
+
+Right. But at no point do we *enable* something that was disabled
+beforehand, which is how I understood your previous comment.
+
+> 
+> - Another place is where we're talking about. It's address assignment
+>   to fit the PA space.
+
+Alignment? No, the alignment is cast into stone: it is set to the
+smallest power-of-two containing the region (natural alignment).
+
+> 
+> >> 
+> >> - The high memory region can be disabled if user is asking large
+> >>    (normal) memory space through 'maxmem=' option. When the requested
+> >>    memory by 'maxmem=' is large enough, the high memory regions are
+> >>    disabled. It means the normal memory has higher priority than those
+> >>    high memory regions. This is the case I provided in (b) of the
+> >>    commit log.
+> > 
+> > Why is that a problem? It matches the expected behaviour, as the
+> > highmem IO region is floating and is pushed up by the memory region.
+> > 
+> 
+> Eric thought that VIRT_HIGH_GIC_REDIST2 and VIRT_HIGH_PCIE_MMIO regions
+> aren't user selectable. I tended to explain why it's not true. 'maxmem='
+> can affect the outcome. When 'maxmem=' value is big enough, there will be
+> no free area in the PA space to hold those two regions.
+
+Right, that's an interesting point. This is a consequence of these
+upper regions floating above RAM.
+
+> 
+> >> 
+> >> In the commit log, I was supposed to say something like below for
+> >> (a):
+> >> 
+> >> - The specific high memory region can be disabled through changing
+> >>    the code by user or developer. For example, 'vms->highmem_mmio'
+> >>    is changed from true to false in virt_instance_init().
+> > 
+> > Huh. By this principle, the user can change anything. Why is it
+> > important?
+> > 
+> 
+> Still like above. I was explaining the possible cases where those
+> 3 switches can be turned on/off by users or developers. Our code
+> needs to be consistent and comprehensive.
+> 
+>   vms->highmem_redists
+>   vms->highmem_ecam
+>   vms->mmio
+> 
+> >> 
+> >>>> 
+> >>>> Improve address assignment for highmem IO regions to avoid the waste
+> >>>> in the PA space by putting the logic into virt_memmap_fits().
+> > 
+> > I guess that this is what I understand the least. What do you mean by
+> > "wasted PA space"? Either the regions fit in the PA space, and
+> > computing their addresses in relevant, or they fall outside of it and
+> > what we stick in memap[index].base is completely irrelevant.
+> > 
+> 
+> It's possible that we run into the following combination. we should
+> have enough PA space to enable VIRT_HIGH_PCIE_MMIO region. However,
+> the region is disabled in the original implementation because
+> VIRT_HIGH_{GIC_REDIST2, PCIE_ECAM} regions consumed 1GB, which is
+> unecessary and waste in the PA space.
+> 
+>     static MemMapEntry extended_memmap[] = {
+>         [VIRT_HIGH_GIC_REDIST2] =   { 0x0, 64 * MiB },
+>         [VIRT_HIGH_PCIE_ECAM] =     { 0x0, 256 * MiB },
+>         [VIRT_HIGH_PCIE_MMIO] =     { 0x0, 512 * GiB },
+>     };
+> 
+>     IPA_LIMIT           = (1UL << 40)
+>     '-maxmem'           = 511GB              /* Memory starts from 1GB */
+>     '-slots'            = 0
+>     vms->highmem_rdist2 = false
+>     vms->highmem_ecam   = false
+>     vms->highmem_mmio   = true
+>
+
+Sure. But that's not how QEMU works today, and these regions are
+enabled in order (though it could well be that my recent changes have
+made the situation more complicated).
+
+What you're suggesting is a pretty radical change in the way the
+memory map is set. My hunch is that allowing the highmem IO regions to
+be selectively enabled and allowed to float in the high IO space
+should come as a new virt machine revision, with user-visible options.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
