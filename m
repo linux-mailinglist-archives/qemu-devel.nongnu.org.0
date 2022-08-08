@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C8458C2A0
+	by mail.lfdr.de (Postfix) with ESMTPS id 2705858C29F
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 06:49:25 +0200 (CEST)
-Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKuhg-0000u1-7X
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 00:49:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
+	id 1oKuhf-0000u3-QP
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 00:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oKubo-0006Ii-CN
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 00:43:20 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:56127)
+ id 1oKubm-0006IS-UZ
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 00:43:19 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:45427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oKubj-0006gs-Re
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 00:43:20 -0400
+ id 1oKubj-0006gr-SY
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 00:43:18 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4M1Nqf00xKz4xTp; Mon,  8 Aug 2022 14:43:09 +1000 (AEST)
+ id 4M1Nqf07M6z4xTr; Mon,  8 Aug 2022 14:43:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1659933790;
- bh=4XFVC/GIJziL8VypnxRrARWdknnT3MafWC5E0bwM+dg=;
+ bh=a8b9fBEKsxJbionPA3/58nypwKhxNsqFW6NWybS3w8E=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=khZNMIM99YXzUvsDkda5qyI7JDlFCVkGEuWARSRyyz2gy3aVjYTMSqeyKfj4+h3JO
- suRckMVFmRcDjL0aozWWsqClPm5m723VpSTMirBgN1ULqAZ+0gUMoEM+C/xrKl8ThM
- RhuEYEixYEyFTOMzZOv09M5oKlDjcp3vcKyyVEMY=
-Date: Mon, 8 Aug 2022 14:36:23 +1000
+ b=Tz5p8lMexEDPldU1756blqQEmPZXSxNjeZpKJW08fYBSJ9CEKv+UQdiE6pxLfX4Hg
+ 9XFqGyR0obbbyjG1jL97MLcslNPw7TSCxHgZgdeKzY4UtVfJfooG7/KAqXa8MO9qt0
+ jfMw5YgSvtpHwf6fUX6EMh2HvZEYjFrghtey9z6s=
+Date: Mon, 8 Aug 2022 14:40:49 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
 Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com
-Subject: Re: [PATCH for-7.2 v2 16/20] device_tree.c: support string props in
- fdt_format_node()
-Message-ID: <YvCSx8eV5jkMbD6C@yekko>
+Subject: Re: [PATCH for-7.2 v2 17/20] device_tree.c: support remaining FDT
+ prop types
+Message-ID: <YvCT0XkOH03HJtCv@yekko>
 References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-17-danielhb413@gmail.com>
+ <20220805093948.82561-18-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NN2oHeqAbo6YwoOW"
+ protocol="application/pgp-signature"; boundary="Zhu+CI+PKaeRcjOz"
 Content-Disposition: inline
-In-Reply-To: <20220805093948.82561-17-danielhb413@gmail.com>
+In-Reply-To: <20220805093948.82561-18-danielhb413@gmail.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -67,95 +67,141 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---NN2oHeqAbo6YwoOW
+--Zhu+CI+PKaeRcjOz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 05, 2022 at 06:39:44AM -0300, Daniel Henrique Barboza wrote:
-> To support printing string properties in 'info fdt' we need to determine
-> whether a void data might contain a string.
-
-Oh... sorry, obviously I hadn't read these later patches when I
-complained about the command not printing property values.
-
+On Fri, Aug 05, 2022 at 06:39:45AM -0300, Daniel Henrique Barboza wrote:
+> When printing a blob with 'dtc' using the '-O dts' option there are 3
+> distinct data types being printed: strings, arrays of uint32s and
+> regular byte arrays.
 >=20
-> We do that by casting the void data to a string array and:
+> Previous patch added support to print strings. Let's add the remaining
+> formats. We want to resemble the format that 'dtc -O dts' uses, so every
+> uint32 array uses angle brackets (<>), and regular byte array uses square
+> brackets ([]). For properties that has no values we keep printing just
+> its name.
 >=20
-> - check if the array finishes with a null character
-> - check if all characters are printable
-
-This won't handle the case of the "string list" several strings tacked
-together, separated by their terminating \0 characters.
-
->=20
-> If both conditions are met, we'll consider it to be a string data type
-> and print it accordingly. After this change, 'info fdt' is now able to
-> print string properties. Here's an example with the ARM 'virt' machine:
+> The /chosen FDT node from the pSeris machine gives an example of all
+> property types 'info fdt' is now able to display:
 >=20
 > (qemu) info fdt /chosen
 > chosen {
->     stdout-path =3D '/pl011@9000000'
->     rng-seed;
->     kaslr-seed;
+>     ibm,architecture-vec-5 =3D [0 0]
+>     rng-seed =3D <0x5967a270 0x62b0fb4f 0x8262b46a 0xabf48423 0xcce9615 0=
+xf9daae64 0x66564790 0x357d1604>
+>     ibm,arch-vec-5-platform-support =3D <0x178018c0 0x19001a40>
+>     linux,pci-probe-only =3D <0x0>
+>     stdout-path =3D '/vdevice/vty@71000000'
+>     linux,stdout-path =3D '/vdevice/vty@71000000'
+>     qemu,graphic-depth =3D <0x20>
+>     qemu,graphic-height =3D <0x258>
+>     qemu,graphic-width =3D <0x320>
 > }
 >=20
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  softmmu/device_tree.c | 25 ++++++++++++++++++++++++-
->  1 file changed, 24 insertions(+), 1 deletion(-)
+>  softmmu/device_tree.c | 58 ++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 57 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 3fb07b537f..8691c3ccc0 100644
+> index 8691c3ccc0..9d95e4120b 100644
 > --- a/softmmu/device_tree.c
 > +++ b/softmmu/device_tree.c
-> @@ -663,6 +663,24 @@ void qemu_fdt_qmp_dumpdtb(const char *filename, Erro=
-r **errp)
->      error_setg(errp, "Error when saving machine FDT to file %s", filenam=
-e);
+> @@ -681,6 +681,53 @@ static bool fdt_prop_is_string(const void *data, int=
+ size)
+>      return true;
 >  }
 > =20
-> +static bool fdt_prop_is_string(const void *data, int size)
+> +static bool fdt_prop_is_uint32_array(int size)
 > +{
-> +    const char *str =3D data;
+> +    return size % 4 =3D=3D 0;
+> +}
+> +
+> +static void fdt_prop_format_uint32_array(GString *buf,
+> +                                         const char *propname,
+> +                                         const void *data,
+> +                                         int prop_size, int padding)
+> +{
+> +    const fdt32_t *array =3D data;
+> +    int array_len =3D prop_size / 4;
 > +    int i;
 > +
-> +    if (size <=3D 0 || str[size - 1] !=3D '\0') {
-> +        return false;
-> +    }
+> +    g_string_append_printf(buf, "%*s%s =3D <", padding, "", propname);
 > +
-> +    for (i =3D 0; i < size - 1; i++) {
-> +        if (!g_ascii_isprint(str[i])) {
-> +            return false;
+> +    for (i =3D 0; i < array_len; i++) {
+> +        g_string_append_printf(buf, "0x%" PRIx32, fdt32_to_cpu(array[i])=
+);
+> +
+> +        if (i < array_len - 1) {
+> +            g_string_append_printf(buf, " ");
 > +        }
 > +    }
 > +
-> +    return true;
+> +    g_string_append_printf(buf, ">\n");
+
+Add a ';' to match dts.
+
+> +}
+> +
+> +static void fdt_prop_format_val(GString *buf, const char *propname,
+> +                                const void *data, int prop_size,
+> +                                int padding)
+> +{
+> +    const char *val =3D data;
+> +    int i;
+> +
+> +    g_string_append_printf(buf, "%*s%s =3D [", padding, "", propname);
+> +
+> +    for (i =3D 0; i < prop_size; i++) {
+> +        g_string_append_printf(buf, "%x", val[i]);
+
+For dts like output you need %02x.  In [] notation, the spaces are
+actually optional and ignored, so [0 0] is equivalent to [00], which is
+equivalent to "".
+
+> +
+> +        if (i < prop_size - 1) {
+> +            g_string_append_printf(buf, " ");
+> +        }
+> +    }
+> +
+> +    g_string_append_printf(buf, "]\n");
+
+;
+
 > +}
 > +
 >  static void fdt_format_node(GString *buf, int node, int depth)
 >  {
 >      const struct fdt_property *prop =3D NULL;
-> @@ -681,7 +699,12 @@ static void fdt_format_node(GString *buf, int node, =
-int depth)
+> @@ -699,11 +746,20 @@ static void fdt_format_node(GString *buf, int node,=
+ int depth)
 >          prop =3D fdt_get_property_by_offset(fdt, property, &prop_size);
 >          propname =3D fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
 > =20
-> -        g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
-> +        if (fdt_prop_is_string(prop->data, prop_size)) {
-> +            g_string_append_printf(buf, "%*s%s =3D '%s'\n",
-> +                                   padding, "", propname, prop->data);
-
-If you're going for dts like output, I'd suggest going all the way.
-That means \" instead of \' and a ';' at the end of the line.
-
-> +        } else {
+> +        if (prop_size =3D=3D 0) {
 > +            g_string_append_printf(buf, "%*s%s;\n", padding, "", propnam=
 e);
+> +            continue;
 > +        }
+> +
+>          if (fdt_prop_is_string(prop->data, prop_size)) {
+>              g_string_append_printf(buf, "%*s%s =3D '%s'\n",
+>                                     padding, "", propname, prop->data);
+> +        } else if (fdt_prop_is_uint32_array(prop_size)) {
+> +            fdt_prop_format_uint32_array(buf, propname, prop->data, prop=
+_size,
+> +                                         padding);
+>          } else {
+> -            g_string_append_printf(buf, "%*s%s;\n", padding, "", propnam=
+e);
+> +            fdt_prop_format_val(buf, propname, prop->data,
+> +                                prop_size, padding);
+>          }
 >      }
 > =20
->      padding -=3D 4;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -163,25 +209,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---NN2oHeqAbo6YwoOW
+--Zhu+CI+PKaeRcjOz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmLwksAACgkQgypY4gEw
-YSKexxAApopyXv9sfxTf3kziMbxcAlQs+DxP8QHOQNFf+y6VHxqH/V2JlvtGEAoa
-PVGghGlqqg6ls+u1BInxVZU9ZEMAD7AzrYMTBwHnioIhSiUCNbEBwABPnUBux12p
-7qY9YSiTrxEg6wRo3wInGBb0+h0WsAZgiuMUda4YGRsGwN51AnU6CXQ60XKdaGH3
-G5KeUytoktFOYkKo2swBZk/WFYqwuQ+s5752GaJLLq/Y/ODhQwAqkJHRgNOwwUyN
-gdq8FyRCX/BgUrDHA4kiJoY5CINehmkdCUNdXtHWbgX3FCXqkTto6vkqUJaDBl3+
-HiutVlkXsuAF34SRsChyli6DzKZSa8Ib74MY1ozcdAZDAU+5LrFoTBQMRwjs1yXn
-WAWViCN732Zv17AHVaQN6yzvFaznuvNbpljv95SjNNCe/KPnhCV2o+Sh7q/KL88s
-59UB596JEJzfD9oYdaBbinyCCKN239577XjU+etm6zXkD4B7rh13Q6rOn85TX0Z1
-BCodWoM06ikfvIuQi23rCWqgukREav4LnUUq9jjOHN9JiGjvqGyXUDS/sEzXiuj6
-dGXJngrYgWbwl03izUDW+UUlT2NNWccO1G08+S3w08P6rbb7K+tvfoBQqmtH5kx1
-vijs1Q7cJHHHg1k9+NGvnRr3WVR4vFa9EKdF1i49/+9T8TG58dM=
-=aYLv
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmLwk8oACgkQgypY4gEw
+YSLguA//R9FABYEhy/3Nxpyj0tx9bLliSnP2EAfgeyzBrm61QQ1Ote5RztkZqVbb
+ePiln366BKJ5DhPErXCKUOuWGWJCmXeSknEnIXh7Q4hPaQMQzIOn4T8h0Pvlw/GH
+2QtTDxEgldrPRDluvVtGMbo54dJBOwPkocvb7Kcor5C6zD4jf3apAaAekc1Atr9Y
+llR3FGOOWNs6DQcpzA8w/Ba7006e/YWE8tONp5yW/AyqUs0wLKMpJBUznfxqq6WI
+V9WDn7s5hTzUrJIriFhPhDpwOJDvaKhQG+hc7QJKpbwvylUlqFatqBST+nNxuXGL
+ShENXD7i1WAgb9Qv79mF0Dz1sDsHKiUiSDR2wxAkyZFA8A8QYHjkcXetBnKVezqQ
+TTi75trlqZG7wW04IYYnCuody4m/dkfzNnB+aoylywcpZONCZHIVy95/IXgD2lYO
+fMQKBnmOj9M/w1/Pp9wHp4b28ZTwek5zjOfk+vsplFYIHYv11SFfrrJQYvfCm8Q9
+4cW+3b0yx3h89gsE8XBHsaKk24QCuky+7oVpLDoFbrDpYaRGd29jC1rZGyx2JTsB
+VePYxLzPUL9HHmTAoyCdR1VB3ZXW/qbAijhsKcSUvJVmat7FEM1pWuUF4F4ox85H
+NbnG9OTrf4taEAOGH45cAoFcYFgMxqdXAMFpxcdH3IPjygsVQdA=
+=xJfN
 -----END PGP SIGNATURE-----
 
---NN2oHeqAbo6YwoOW--
+--Zhu+CI+PKaeRcjOz--
 
