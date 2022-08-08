@@ -2,63 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2850F58C2C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 07:23:19 +0200 (CEST)
-Received: from localhost ([::1]:38096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F7B58C318
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 07:57:54 +0200 (CEST)
+Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKvEU-0001e8-9E
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 01:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47556)
+	id 1oKvlx-0000Va-7h
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 01:57:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oKvBN-0006sp-3F; Mon, 08 Aug 2022 01:20:05 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:54455)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oKvk7-0007ZW-Rg
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:55:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oKvBK-0003Dj-SJ; Mon, 08 Aug 2022 01:20:04 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MLR5h-1o4Ddr2991-00ISBo; Mon, 08 Aug 2022 07:19:52 +0200
-Message-ID: <61f278fd-2720-9237-84c8-37c5828fcdae@vivier.eu>
-Date: Mon, 8 Aug 2022 07:19:51 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oKvk4-00083q-6c
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 01:55:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659938154;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UDozATwlXk52UoPm0d73GiyFbXiBF9yldbt2zNJu7kI=;
+ b=C88IJfIIPFI2jBdTR8T1Goj4sdW6FqMRbhDgmpacgWCoia76Jfr6W79F3PsQ6hC0HZCOiw
+ cXsmjN4yrj3WZ7NFviv/TUrXhR+6NigCmPnJ6kPWgDVLP7gnBOny4YsZDCk4er44Lulaer
+ g8tlI2IxlbTL9nylyBlcdPgniGEfRnM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-120-lkymFG_COmiWePLFvQ9VnQ-1; Mon, 08 Aug 2022 01:55:53 -0400
+X-MC-Unique: lkymFG_COmiWePLFvQ9VnQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r5-20020a1c4405000000b003a534ec2570so1043822wma.7
+ for <qemu-devel@nongnu.org>; Sun, 07 Aug 2022 22:55:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=UDozATwlXk52UoPm0d73GiyFbXiBF9yldbt2zNJu7kI=;
+ b=suJU83he4VJ+YKBHwQeI8ZOoc2qjR+qo6jCavfewg8jN42kWGQ083IkYxK75xd0K8N
+ 7hIFVda4LNqNjzgeQOy13/7MaLzXYjZAozpyY2f6NHu4syGJ3tc4FwK2UW3iltVcu2Rc
+ iB/ashc1rW8CgXY3cDLUa0cO9tLZZYTvVUJHlKUQPeqrC2sv1tXyfpCemek+2hzszGDa
+ qaid/+JtAn1NcoibKHmvRyHRltV/M9wh2Npi2HMqTKkOLFaPQ7AEhuONurZRmoAk8Uaa
+ tS8DSO0xlMwpLzCRz5vHVyAQurJN7KHtfW8pxo8MCkvfQvTkZuFucYR8zTQqIpBZWxum
+ pcWg==
+X-Gm-Message-State: ACgBeo0SvoICgpOBRWEJC0Dm35rbQVvRBqH+xLJ8HDDtup3cczu70dx6
+ ak4NCd5eSbHhd4p5M2GfKJHWtIixgRRUpaLwCMJ1z1jOIqK1xGpMd9xUVPiiMjVDNzttaHfe9kK
+ QB3dMG7nRE8G5W/4=
+X-Received: by 2002:a05:6000:1a8e:b0:222:3141:97ea with SMTP id
+ f14-20020a0560001a8e00b00222314197eamr5381879wry.57.1659938151943; 
+ Sun, 07 Aug 2022 22:55:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4NkK0v3Wzl/yeaC0X4BiHSOoeD2cmIYvmf5VKxnYWPioguzDwX6ZMVzTKy4X86x/9e+HJ3tg==
+X-Received: by 2002:a05:6000:1a8e:b0:222:3141:97ea with SMTP id
+ f14-20020a0560001a8e00b00222314197eamr5381869wry.57.1659938151723; 
+ Sun, 07 Aug 2022 22:55:51 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-42-113-71.web.vodafone.de.
+ [109.42.113.71]) by smtp.gmail.com with ESMTPSA id
+ l36-20020a05600c1d2400b003a537dc0b16sm4567234wms.44.2022.08.07.22.55.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Aug 2022 22:55:51 -0700 (PDT)
+Message-ID: <0d00fbb9-3b47-6041-4afa-63bb618689f0@redhat.com>
+Date: Mon, 8 Aug 2022 07:55:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
- VuVirtqElement
-Content-Language: fr
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: raphael.norwitz@nutanix.com, mst@redhat.com, qemu-trivial@nongnu.org
-References: <20220630085219.1305519-1-armbru@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220630085219.1305519-1-armbru@redhat.com>
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+References: <20220805115529.124544-1-berrange@redhat.com>
+ <20220805115529.124544-2-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/1] tests/qtest: add scenario for -readconfig handling
+In-Reply-To: <20220805115529.124544-2-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JrzjbrOPQ4GmQ2QM1eMmjP4wxNd5wHL2nStgkfOpRPexEgdIJ6e
- qvXLFYB+OkWNgeT6AR+31vnNfJ9wgopGCgPUHnBEZWpwNq9ZsPd2lkl4BqpqZKD0glmekLZ
- V75+M2ljqgUdvtYNunkOShTWIgDOYpUPNw2SO3Zqtc43bkYlvMEIEWZ6DoR6aMhD2YFomHx
- D2MJYlCymFOpOM0jYirqw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:b7YriJ0MveI=:VmUAlnJOTvB6Gt2cH6ZRnp
- NyflS35aGRI7iEm5uLqUTdeNbxCH90cES6j4dYXa7s//m+A+4N0v7nvn43Wfb/bcbCGV2BJR2
- jFTbQW+accbvOjkFn5lmcocTcli9kRfNqjOGFZ+/da2ODU9uas3w/bv5LnC3NZUWh0tupOn4W
- TiyyvAgUhqoLbD5ZUEM6+dtBNlTX1BGKx04kO46PYexE3Y4vPDqq1p0dReP9ikS3bv8PmKLwP
- mTxpkodJTpunsLd+fNBL9g9XDbWq9TjCPCM9q7JzlqLwXOGZDTJBOTTlxeSN1vW3gE3bWEZWv
- PJW4gQHT3v7EsqpsZeSWu3RHKYRG1qvRm1egUY3c7pmpX2z8DULeAAhl1dbzezIiy7LV6rDzJ
- BKUO+5d+EJSUPlUZIhlphY0PEZj9UNAJleHpkyP90CSS5bj5vlYo5EStFHW2b6Dk8jHfroQ2+
- Cx2DBgSmEeFxVWTCTA5D/Nv/hzt9iAYaVWd2JIwaQ++zW+3wiS4H7wS9aSAqN3gehPP3qbs/v
- ZvdeTyJhWMuwQ+l+61RbCJbbFIcaUhlKSbvILzlG8P5XNCcj0FkYw4wrLGDxCeJUiFeQj+xDW
- vQ/AvBTR+WAeGVSfz7zNM+kt6MWMfniUruLru4aQe9+9oatUMG4m6zKWMCrdKICDYnxoE+xc6
- qcnUTysbQ2oShhUh34czXmhMn81YsnnQhbT5XZz61LOpsPxf0/C56oSKzSiGrELjkVukFOfCn
- qSO2c4FUK+A2xHEdvbfsYMV5wjh8dSvVTKTP8g==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,65 +103,253 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 30/06/2022 à 10:52, Markus Armbruster a écrit :
-> We allocate VuVirtqElement with g_malloc() in
-> virtqueue_alloc_element(), but free it with free() in
-> vhost-user-blk.c.  Harmless, but use g_free() anyway.
+On 05/08/2022 13.55, Daniel P. Berrangé wrote:
+> This test of -readconfig validates the last three regressions we
+> have fixed with -readconfig:
 > 
-> One of the calls is guarded by a "not null" condition.  Useless,
-> because it cannot be null (it's dereferenced right before), and even
-> it it could be, free() and g_free() do the right thing.  Drop the
-> conditional.
-> 
-> Fixes: Coverity CID 1490290
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>   * Interpretation of memory size units as MiB not bytes
+>   * Allow use of [spice]
+>   * Allow use of [object]
+
+Good idea!
+
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
-> Not even compile-tested, because I can't figure out how this thing is
-> supposed to be built.  Its initial commit message says "make
-> vhost-user-blk", but that doesn't work anymore.
+>   tests/qtest/meson.build       |   1 +
+>   tests/qtest/readconfig-test.c | 195 ++++++++++++++++++++++++++++++++++
+>   2 files changed, 196 insertions(+)
+>   create mode 100644 tests/qtest/readconfig-test.c
 > 
->   contrib/vhost-user-blk/vhost-user-blk.c | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-> index 9cb78ca1d0..d6932a2645 100644
-> --- a/contrib/vhost-user-blk/vhost-user-blk.c
-> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
-> @@ -106,10 +106,7 @@ static void vub_req_complete(VubReq *req)
->                     req->size + 1);
->       vu_queue_notify(vu_dev, req->vq);
->   
-> -    if (req->elem) {
-> -        free(req->elem);
-> -    }
-> -
-> +    g_free(req->elem);
->       g_free(req);
->   }
->   
-> @@ -243,7 +240,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
->       /* refer to hw/block/virtio_blk.c */
->       if (elem->out_num < 1 || elem->in_num < 1) {
->           fprintf(stderr, "virtio-blk request missing headers\n");
-> -        free(elem);
-> +        g_free(elem);
->           return -1;
->       }
->   
-> @@ -325,7 +322,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
->       return 0;
->   
->   err:
-> -    free(elem);
-> +    g_free(elem);
->       g_free(req);
->       return -1;
->   }
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 3a474010e4..be4b30dea2 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -26,6 +26,7 @@ qtests_generic = [
+>     'qom-test',
+>     'test-hmp',
+>     'qos-test',
+> +  'readconfig-test',
+>   ]
+>   if config_host.has_key('CONFIG_MODULES')
+>     qtests_generic += [ 'modules-test' ]
+> diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
+> new file mode 100644
+> index 0000000000..2e604d7c2d
+> --- /dev/null
+> +++ b/tests/qtest/readconfig-test.c
+> @@ -0,0 +1,195 @@
+> +/*
+> + * Validate -readconfig
+> + *
+> + * Copyright (c) 2022 Red Hat, Inc.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "libqtest.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qapi-visit-machine.h"
+> +#include "qapi/qapi-visit-qom.h"
+> +#include "qapi/qapi-visit-ui.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "qapi/qmp/qlist.h"
+> +#include "qapi/qobject-input-visitor.h"
+> +#include "qapi/qmp/qstring.h"
+> +#include "qemu/units.h"
+> +
+> +static QTestState *qtest_init_with_config(const char *cfgdata)
+> +{
+> +    GError *error = NULL;
+> +    g_autofree char *args = NULL;
+> +    int cfgfd = -1;
+> +    g_autofree char *cfgpath = NULL;
+> +    QTestState *qts;
+> +    ssize_t ret;
+> +
+> +    cfgfd = g_file_open_tmp("readconfig-test-XXXXXX", &cfgpath, &error);
+> +    g_assert_no_error(error);
+> +    g_assert_cmpint(cfgfd, >=, 0);
+> +
+> +    ret = qemu_write_full(cfgfd, cfgdata, strlen(cfgdata));
+> +    if (ret < 0) {
+> +        unlink(cfgpath);
+> +    }
+> +    g_assert_cmpint(ret, ==, strlen(cfgdata));
+> +
+> +    close(cfgfd);
 
-Applied to my trivial-patches branch.
+Maybe move the close() before the "if (ret < 0)"
 
-Thanks,
-Laurent
+> +    args = g_strdup_printf("-nodefaults -machine none -readconfig %s", cfgpath);
+> +
+> +    qts = qtest_init(args);
+> +
+> +    unlink(cfgpath);
+> +
+> +    return qts;
+> +}
+> +
+> +static void test_x86_memdev_resp(QObject *res)
+> +{
+> +    Visitor *v;
+> +    g_autoptr(MemdevList) memdevs = NULL;
+> +    Memdev *memdev;
+> +
+> +    g_assert(res);
+> +    v = qobject_input_visitor_new(res);
+> +    visit_type_MemdevList(v, NULL, &memdevs, &error_abort);
+> +
+> +    g_assert(memdevs);
+> +    g_assert(memdevs->value);
+> +    g_assert(!memdevs->next);
+> +
+> +    memdev = memdevs->value;
+> +    g_assert_cmpstr(memdev->id, ==, "ram");
+> +    g_assert_cmpint(memdev->size, ==, 200 * MiB);
+> +
+> +    visit_free(v);
+> +}
+> +
+> +static void test_x86_memdev(void)
+> +{
+> +    QDict *resp;
+> +    QTestState *qts;
+> +    const char *cfgdata =
+> +        "[memory]\n"
+> +        "size = \"200\"";
+> +
+> +    qts = qtest_init_with_config(cfgdata);
+> +   /* Test valid command */
 
+Comment has bad indentation.
+
+> +    resp = qtest_qmp(qts, "{ 'execute': 'query-memdev' }");
+> +    test_x86_memdev_resp(qdict_get(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    qtest_quit(qts);
+> +}
+> +
+> +
+> +#ifdef CONFIG_SPICE
+> +static void test_spice_resp(QObject *res)
+> +{
+> +    Visitor *v;
+> +    g_autoptr(SpiceInfo) spice = NULL;
+> +
+> +    g_assert(res);
+> +    v = qobject_input_visitor_new(res);
+> +    visit_type_SpiceInfo(v, "spcie", &spice, &error_abort);
+
+That "spcie" looks like a typo?
+
+> +    g_assert(spice);
+> +    g_assert(spice->enabled);
+> +
+> +    visit_free(v);
+> +}
+> +
+> +static void test_spice(void)
+> +{
+> +    QDict *resp;
+> +    QTestState *qts;
+> +    const char *cfgdata =
+> +        "[spice]\n"
+> +        "disable-ticketing = \"on\"\n"
+> +        "unix = \"on\"\n";
+> +
+> +    qts = qtest_init_with_config(cfgdata);
+> +   /* Test valid command */
+
+Bad indentation again.
+
+> +    resp = qtest_qmp(qts, "{ 'execute': 'query-spice' }");
+> +    test_spice_resp(qdict_get(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    qtest_quit(qts);
+> +}
+> +#endif
+> +
+> +static void test_object_rng_resp(QObject *res)
+> +{
+> +    Visitor *v;
+> +    g_autoptr(ObjectPropertyInfoList) objs = NULL;
+> +    ObjectPropertyInfoList *tmp;
+> +    ObjectPropertyInfo *obj;
+> +    bool seen_rng = false;
+> +
+> +    g_assert(res);
+> +    v = qobject_input_visitor_new(res);
+> +    visit_type_ObjectPropertyInfoList(v, NULL, &objs, &error_abort);
+> +
+> +    g_assert(objs);
+> +    tmp = objs;
+> +    while (tmp) {
+> +        g_assert(tmp->value);
+> +
+> +        obj = tmp->value;
+> +        if (g_str_equal(obj->name, "rng0") &&
+> +            g_str_equal(obj->type, "child<rng-builtin>")) {
+> +            seen_rng = true;
+
+Do a "break;" here to speed things up?
+
+> +        }
+> +
+> +        tmp = tmp->next;
+> +    }
+> +
+> +    g_assert(seen_rng);
+> +
+> +    visit_free(v);
+> +}
+> +
+> +static void test_object_rng(void)
+> +{
+> +    QDict *resp;
+> +    QTestState *qts;
+> +    const char *cfgdata =
+> +        "[object]\n"
+> +        "qom-type = \"rng-builtin\"\n"
+> +        "id = \"rng0\"\n";
+> +
+> +    qts = qtest_init_with_config(cfgdata);
+> +   /* Test valid command */
+
+Bad indentation again.
+
+> +    resp = qtest_qmp(qts,
+> +                     "{ 'execute': 'qom-list',"
+> +                     "  'arguments': {'path': '/objects' }}");
+> +    test_object_rng_resp(qdict_get(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    qtest_quit(qts);
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +    const char *arch;
+> +    g_test_init(&argc, &argv, NULL);
+> +
+> +    arch = qtest_get_arch();
+> +
+> +    if (g_str_equal(arch, "i386") ||
+> +        g_str_equal(arch, "x86_64")) {
+> +        qtest_add_func("readconfig/x86/memdev", test_x86_memdev);
+> +    }
+> +#ifdef CONFIG_SPICE
+> +    qtest_add_func("readconfig/spice", test_spice);
+> +#endif
+> +
+> +    qtest_add_func("readconfig/object-rng", test_object_rng);
+> +
+> +    return g_test_run();
+> +}
+
+  Thomas
 
 
