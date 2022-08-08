@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC5458C5D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:44:42 +0200 (CEST)
-Received: from localhost ([::1]:39966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA6258C5E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:51:22 +0200 (CEST)
+Received: from localhost ([::1]:43072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKzJR-0005dp-Bg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43346)
+	id 1oKzPo-0007x8-8k
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oKzGd-000237-TF; Mon, 08 Aug 2022 05:41:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:34197)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oKzGo-0002D0-TX
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 05:41:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oKzGc-00025g-5O; Mon, 08 Aug 2022 05:41:47 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M5wc7-1oJaM93RFb-007RuU; Mon, 08 Aug 2022 11:41:34 +0200
-Message-ID: <d7345d10-9c66-acdd-d36d-dd210fb84db6@vivier.eu>
-Date: Mon, 8 Aug 2022 11:41:33 +0200
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oKzGl-000287-2g
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 05:41:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659951714;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=T2Cc6SuDtQv3kqvgQI7rAPL59HzINkK4ipPqAyE6ek8=;
+ b=bzWVvZwxNvWykdeaVQmomm+i7XPZPiMtXOMGflRyor77CORMYuQty7Pxo/jQJXUMKR1OVG
+ Tn7GoFCcgLVExweB4RTDT23+zfgdk9KSVsaQhSACVlWyeLtHo3hULaV1GHwxUSkwzJQdVQ
+ IK0yM8+jb7fFOxTpC6Z1/x2LM+2t16Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-418--sJFK3KjMAijhs1dUhH8UA-1; Mon, 08 Aug 2022 05:41:51 -0400
+X-MC-Unique: -sJFK3KjMAijhs1dUhH8UA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24E9E8853B8;
+ Mon,  8 Aug 2022 09:41:49 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBF1D1121314;
+ Mon,  8 Aug 2022 09:41:48 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH 0/2] virtio-blk and scsi: replace
+ dataplane_{start/stopping/started}
+Date: Mon,  8 Aug 2022 05:41:45 -0400
+Message-Id: <20220808094147.612472-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] xlnx_dp: drop unsupported AUXCommand in
- xlnx_dp_aux_set_command
-Content-Language: fr
-To: Qiang Liu <cyruscyliu@gmail.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Alistair Francis
- <alistair@alistair23.me>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Frederic Konrad <fkonrad@amd.com>
-References: <20220808080116.2184881-1-cyruscyliu@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220808080116.2184881-1-cyruscyliu@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:j1u7grAcY7d0vEyhZXEDTTXfwvEN+hdR+70ar4VUlou1YyOZmvZ
- 8x6ny1DhoaA9iwxWsXNSN+BwInYm8u9IoV1uluN8xJ6MF73MzaISJY+rBaMW4x/9nZEv7Tk
- YRqL1fbxhjnHwvh+Mmr701WudEHRxrZHjTyei5uwKymieEtdsuYy/mqdfzl/dKBB74s3GT4
- P8NIkuT5IwyVTbO02NF1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Loh/asGwEqk=:mcQhKeaD/Ergm47r7CRVWY
- brehe+a7Ox/t3m4OXfpgEAM69pxJQqnX47xnoZQXKZptqBGO5iiAyF8b/Tz3LI2HU9r7Z2igT
- Yz+xQDy8QpTfWXd2UmdyZ4I+bpY/ZRlZ7v5u3slvySUPSF1T8d//m1wL96tjmnHfe1ZOaIeUB
- yCH9qZVkJQXA5QuVqgXXc2fS8GtOv/X18pL7GL9vgyCC0VtQuIbFrC4hlRsdl5AYJe8hDJsvA
- pLrIStvu8kJ1ed0Iy9B3WqIRTw1l7Kb8RRd8Eyt3JPIe5N56yivkcM1LybPNSllktjN/Xlqve
- d7iOFGRAv5xuU9Q7TvERsCtv+TY4aEROvqeQiLtg+E1jbu8nXTN1cvtYdMHiOXunLomf0axhW
- UBUhtjWHFoOd0Fm9DXYIgmCi/A1aAmzOfwp0OXVTy2cmvcfglRFmUKXWrDsqnAfKiJC7QKdJa
- p2Hz2U6sCuwB2eyl+saI/yFDyTtKD1CCTJ9paKAuXaJUUr1RXur0WbWSJLi+l3KCNzYbt37xW
- ww3dvnhMs8y6lROav13yewfaBlB7axb0BT8qgVVS6brzscmNc6MrW+3kjjiNWv97lPkmz/thv
- dyiiEQvLY0Fu2162W8g5DBBUj8ZyMfuGTvLl+wn87P8O7R7txxOjbP/E2KCMBe0j/Ma6fwM3U
- JjHMmHpETdO6lXsGwB8+thge/zsNqcDa02keUTYZB95TQqSyBieWJ/T2OeejzZHr6vKij3Shr
- kxh65YUz2OXaFgcOAPNFCor/8K84UouV/X8jOQ==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,40 +80,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/08/2022 à 10:01, Qiang Liu a écrit :
-> In xlnx_dp_aux_set_command, when the command leads to the default
-> branch, xlxn-dp will abort and then crash.
-> 
-> This patch removes this abort and drops this operation.
-> 
-> Fixes: 58ac482 ("introduce xlnx-dp")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/411
-> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> Tested-by: Qiang Liu <cyruscyliu@gmail.com>
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> ---
->   hw/display/xlnx_dp.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index a071c81..b0828d6 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -532,8 +532,8 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, uint32_t value)
->           qemu_log_mask(LOG_UNIMP, "xlnx_dp: Write i2c status not implemented\n");
->           break;
->       default:
-> -        error_report("%s: invalid command: %u", __func__, cmd);
-> -        abort();
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid command: %u", __func__, cmd);
-> +        return;
->       }
->   
->       s->core_registers[DP_INTERRUPT_SIGNAL_STATE] |= 0x04;
+The way the dataplane stages at startup and stop are monitored is unnecessary
+complicated. In virtio-scsi we have dataplane_started, dataplane_starting and
+dataplane_stopping in VirtIOSCSI.
+In virtio-blk we have dataplene_started in VirtIOBlock, and starting and stopping
+in VirtIOBlockDataPlane.
 
-Applied to my trivial-patches branch.
+Just replace all these flags with an atomic enum.
 
-Thanks,
-Laurent
+Based-on: 20220803162824.948023-1-stefanha@redhat.com
+
+Emanuele Giuseppe Esposito (2):
+  virtio-scsi: replace VirtIOBlock dataplane_{start/starting/stopped}
+    with enum
+  virtio-blk: replace dataplane_start/stopping/started with enum
+
+ hw/block/dataplane/virtio-blk.c | 24 +++++++++---------------
+ hw/block/virtio-blk.c           |  9 +++++----
+ hw/scsi/virtio-scsi-dataplane.c | 21 +++++++++------------
+ hw/scsi/virtio-scsi.c           | 10 ++++++----
+ include/hw/virtio/virtio-blk.h  |  2 +-
+ include/hw/virtio/virtio-scsi.h |  5 ++---
+ include/hw/virtio/virtio.h      |  7 +++++++
+ 7 files changed, 39 insertions(+), 39 deletions(-)
+
+-- 
+2.31.1
+
 
