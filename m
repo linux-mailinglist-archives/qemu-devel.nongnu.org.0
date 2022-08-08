@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E1058C83D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:16:44 +0200 (CEST)
-Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88DB58C848
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 14:21:31 +0200 (CEST)
+Received: from localhost ([::1]:57040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL1gZ-0005K6-Na
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42846)
+	id 1oL1lB-0002Ih-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 08:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1oL1YD-0003cj-Hk; Mon, 08 Aug 2022 08:08:05 -0400
-Received: from mail-eopbgr60132.outbound.protection.outlook.com
- ([40.107.6.132]:10881 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1oL1YF-0003eH-Hf; Mon, 08 Aug 2022 08:08:09 -0400
+Received: from mail-eopbgr60099.outbound.protection.outlook.com
+ ([40.107.6.99]:57061 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1oL1YB-0001SH-CF; Mon, 08 Aug 2022 08:08:04 -0400
+ id 1oL1YC-0001TS-67; Mon, 08 Aug 2022 08:08:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QBTfKZou7beIy99dM3UvpD/IZ5cE17+UGvabpEh/sgU8OHihlROuLEbN3dmkYGu+t5AGONsnXRc+o/RRXnhQfWdHbcodrxKRbp2IaGL9UvN2Hikno+KE+f6REEu5KcBE4Jkv/iskZjaXJWzjuSuzy8rUg5DsbGIAIZleAv8oei6AAGTZJ/lq71Yj/xuuUIsq06kikTuM4E0c2xrAx2/siZLQCzFMc0FlXygtl15yCx0QNUjLF1J4L+p+nfCl08H30c9vh02yohZFlv5dEV8xLurY/ltKqnjjft0lnheovUZqIcnW+cyfrop2+ZDQKzpcS0GqrqffUdT9IUWugBAjXg==
+ b=RcLsM+4pITOHZdukQHNee+JK2BNYGZMc/RMGuZ7F6doW/1ftZCrua28dRCOKZLABsxtNN44aahhUYr6XrSpN4VvttirdVcQ4OAu479cehWG0Df6u3lnVx3zjlKWGhx0HZLOHtA7GO1c86TKrDpZE74mBXl+M3OQnVtQwKK89ev8JpC14NqW3rnuLjmerKpGq6bEWgqGZhjrhXVF/463jgdU+/vy/5ZjBk4u5NqpsQJyB/ZxJSkFm65U9Tk2aP7DLb0cVtmdecSSnW1CYCCBnCNfbusUZs0AMyGFtbTyyAx3fnEdTjBW5blEI1/HjHR4hxI6H+1hlvH5X8dTss+V8mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4VdphQqlCT/vIj0REPpVfTCqdLcP+9kPa7/JO7/DREg=;
- b=SEJ3sUMx6rytmuFbk4kOR1S4U2MMOTpXxYKviHK/4NnH4UsFr1D1fvLuARE5YQAIX5I/d0p7JXxtYhAQDTA78oFC8GV3hRl7h3Lm9xIz2hPUkiCZWI0v4QK2jMVDf3nid2juoFtaMe7azP0ZjcQXFz9MBk5ezAIGxh009CZAlBuw+za882Sk7SL42+MTXjfJo81etE2kOLBpB/Ob/W6xx7hY9OWo6PbVhUpL9gAFYHps9BQg9bzakJRhegWHY9twk/eRjxbMWLdMDbrBBx6WKlXq6PdY6W1IFFiiVJthyhNQq0Hm17RAjvCPAe1K4cy975qLScvWMIn2BYEU3lZNZA==
+ bh=S1r3Wuv0aagv+akuD1n+bBJQFK2o1L/CZvJtNzv/Sck=;
+ b=dgbhLC2R2EBnp/Q7tR5esmDwiHLctxviREDgIfjKcymtLElfhB8ipn4mo6XFr3MujqcszPW6ecVizlHAEXlmFYuFY45wFVsmc5K11bbK/dctMgJ3qy/EX9s2Aqn14OUYOtQHxpxiIZozyXhznL3Uv1I/Dc2bOjCJU8T1xQz1rQIFC35pIV3KJz5ocQex3w3fhNhe2nueOtu4UJWd5EudDNxoUrdEX1ilm726cv3b18hkOFv+HdNXOH/sC9Am/3sC0JwfNp2F6JEFSK//y+A1Qz9xjdLudRUutcY44EjOHHIS+tX1UVchqDn8wussSIKGi5eApqeJBQEVFA6kEm93zQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4VdphQqlCT/vIj0REPpVfTCqdLcP+9kPa7/JO7/DREg=;
- b=Yt5DbF9brmA2A96KXaFB/ET+aKm/bMsaIrYX/jg1YItU6lwGYqMFjBpRF/ClVbRMx905hKOsxqgDjWWDznhxfl9f+mFI7Aau0UD17YWS9IhleKFtO3+Ce7RJCsNhfB5bbOGafYVGOWPeovtEaqVKySyLhkfMQ/FLI27018byOa/mzakGdO2JMi+ivjG9pHqwZ5tAFq9r0jrFGx+8V+qYcQIV8LnfsIS5DWJGj1WiYNPQhwRMw3RWWmJ3Q2iR93F8rYNMi5Ynay4d2msIfKKarL3m8qMfLz0Mc/0epAJT29dnr2c0Awi+20xy65t1Q7OMs6UPJg+SIUtGws8BZC45UA==
+ bh=S1r3Wuv0aagv+akuD1n+bBJQFK2o1L/CZvJtNzv/Sck=;
+ b=HJHzq2WRRLQU/c+I6d3ExNDHxUYfHUZ29DDjgWzekk6UIm78yvS1WDMPWu3wM2SMD+omYZv+90X8FE8gzOz0CAm3J4gekokgHP4LqlRUAkZqEsoCy60BisSFIO7reXyh95JTlG8hEFjsCGPRKF0chZn2yY1o1jm6oD1nG4fwfxUmRQ3dxTXPKCD/lcp6H8hfrnFKGtSR8eZvouXzippmy4aMmxyup6mmX57+8ydpdP7DWm/vlQT6pwus1S22QZRG6ROK1/yOzpP+geQoc1hTVkciWimug2V136EkCoA9TMc3ZyB7YPu8HYbBzBsIIlk9ZSix9p278wCYt+FINiLj6A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
  by VI1PR08MB5360.eurprd08.prod.outlook.com (2603:10a6:803:132::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Mon, 8 Aug
- 2022 12:07:49 +0000
+ 2022 12:07:50 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::7da2:4a5a:2854:26f2]) by AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::7da2:4a5a:2854:26f2%6]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
- 12:07:49 +0000
+ 12:07:50 +0000
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
  vsementsov@yandex-team.ru, kwolf@redhat.com, hreitz@redhat.com
-Subject: [PATCH 8/9] parallels: Replace bdrv_co_pwrite_sync by bdrv_co_flush
- for BAT flushing
-Date: Mon,  8 Aug 2022 14:07:33 +0200
-Message-Id: <20220808120734.1168314-9-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH 9/9] parallels: Merge parallels_check_fragmentation to
+ parallels_collect_statistics
+Date: Mon,  8 Aug 2022 14:07:34 +0200
+Message-Id: <20220808120734.1168314-10-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220808120734.1168314-1-alexander.ivanov@virtuozzo.com>
 References: <20220808120734.1168314-1-alexander.ivanov@virtuozzo.com>
@@ -62,56 +62,56 @@ X-ClientProxiedBy: FR3P281CA0042.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:20b:402::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 020169f1-cfcf-4c91-1a51-08da79369ceb
+X-MS-Office365-Filtering-Correlation-Id: d29f5119-4358-422b-dcc6-08da79369d64
 X-MS-TrafficTypeDiagnostic: VI1PR08MB5360:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P4ItX+ps0aKihbxSQEk4C74+QK8VorhoCAuq3sIdcTqAnMSZJIyk89lAViswPECDw7mwPHDYcXxUqUxd1I9/pErMWyqfA0UrZ+62+VeO3OLR29pn3hkIosdsBoLOKbN9AlGV2zIeveR1V4qchVVFG3npm3O05Yb+icNtqqwviUlAZcJE14nl1GCFusWfSye7ffTIR4o2YGyzF6Y/2LdxTujuundwIqLSI5mBw9nPyW/6r3pWypLGc4P3VT0vFCIUbdbXRzj13ectYMX1Nmf7wlN2beKlrb5/JXbtmYRM6jvyskgI1dPTzRA6ELXZQlqCrK4zaoB9o0ZNOHfSBSSTAlzsOjzidzH9yfvVJrBZo18SbvYTF/8AfGXjDycQuuNwx42CgRie7hHD9kyI1a6JAfjgFL1wB/XpcB/Nd+ub0U8rg/nMw1c3BgcMrkeeQSgogR/x4cMSV5ifAF8LiogOVk/STIEtFaTYONC1L77xTfagKIDZfXqzx+E1Tkj0fAgpqsPDVXatGgBbn7f4WIRnKPCTweNePPOqvoEEhP15mHdQKg8qRH/Xzd03c46gSgwzYaFgc+aVgQKlmw09KkptAmsfq1sPSFKw0VJf5xGS9z9Q3ZOd6yAoqLy3KTgRFe/6UG2OBLiIiuZ/fhlIxayrC4QXsMAhApFhrqhFJjL7rWug3wQ8IFWws0T7B9ubKbZsmdSx2u6ImKQ4pdUXZGCOE0YJHfSz6VJRnmbSFz4IF+rWVD6fX/P2oyiVMx7Xr4lC6m8qSTI/Ag3Y0TSfiqInbL2waOlf2G08wdtuZQ4i1hc=
+X-Microsoft-Antispam-Message-Info: eYfhc1ZlarCQBhq1D5tLEI0Gval0tMoO1WpP/Ic5NK7FNQ2lNlkEF62Q0DP2kNxm1D4knFGOZwXl+K6AkvwrgzXhq0Mt932lI5N7AITLo1rtZ12OoI1HHroOWKLh2K8XO7cF9IPyyyzwQRYDqP9p9EErYQEC35RZ1MgEVxb5FLQmekSyTQepJ2hAnSlupj8xIR6+wSJ5JXCUZr5DCLx/PQIHmDmVD77HYq/d+AQz0EaBR8zZ2QGKGiaE0e6zkE1m5EQ4CIFEJmZQ8G57IoLMKFOkk2Y1ZyciznfCAKbU4fmTLYle5Rn0blwro7EF04/MMW0yUVObxSpAMjwuhb7xDaw/HADKDNJniV9ByX4YFTbsxJlG983ym6GSauN/KHyhtRIXyfW/q00NpVKv684MFpJ2OdUysKqfYLMEoNYAxad2oSpLqTEebKmQNDpX36S+3kqbNm++M5+eSUSXSJFtpHMUxyGGD3ZeFmENy/+zUGM+ppO8beC+3axNHYm3xswluVAeV1RHX4Zt4xgu/dJfo08Pg8Is4a8BssvEHg1y7/eGJfd4+2u7oFVAoMthptH7YYe+t33Aei1xqEhYK9TIOmN6RqSAd5QkOCYTXjMSXcMqxQJtFEjLSGkEW+Uyk0PQMWSajkVHFMHHbDx8P3Gg1IIO2Tnnl7sCshNrHBOQHlhMRwluRo7cf/kP/Do5l3Htv59qT+QvnYVUeNIDo0RM1h410u5wAcbWtvY+Bbf1dZUBa+kGoIvHV0qleUlw53gjBd/e7pHrUoZ+bHlM427AR33+/PyWAyc8fuPKWCqyOzM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(366004)(376002)(39840400004)(136003)(346002)(66556008)(66476007)(8676002)(36756003)(4326008)(8936002)(186003)(1076003)(478600001)(316002)(6916009)(5660300002)(86362001)(66946007)(6486002)(4744005)(41300700001)(52116002)(6512007)(26005)(83380400001)(6506007)(44832011)(2906002)(6666004)(38100700002)(2616005)(38350700002);
+ SFS:(13230016)(4636009)(396003)(366004)(376002)(39840400004)(136003)(346002)(66556008)(66476007)(8676002)(36756003)(4326008)(8936002)(186003)(1076003)(478600001)(316002)(6916009)(5660300002)(86362001)(66946007)(6486002)(41300700001)(52116002)(6512007)(26005)(83380400001)(6506007)(44832011)(2906002)(6666004)(38100700002)(2616005)(38350700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K+YQdNDp3YIhw9H/WdcF5cf0nhZ6JExXEJVMqiZBcigAEf+fLSUMMDRCU8qC?=
- =?us-ascii?Q?KxW9lkx7dphECmgDjEL336sWAWx8dTMouVf1FW//mecg75FOsZir/oWDebJv?=
- =?us-ascii?Q?TcYdd1FQ25BTL8TY5R4D1wPr8V7SDNhGCjk5qhX0lDqT2c+m0KPCMI9Z9PZl?=
- =?us-ascii?Q?OEZjn6AqxhFZaI0X4AIkdtopwlWKm/qnbwycggeYQgXVAT2tmUTVPZ/Gr7N9?=
- =?us-ascii?Q?AVbkQ4fuS1NhT2abYr7YyEpEd+tugL1paB4OV0Ws/M7otNia3VUfoOLKiH0G?=
- =?us-ascii?Q?/78Gi8kd92RQiDtxeEQ+X7+jy0IzG+Nm7vFIuLp2NZZAwiti4JxwZeHwifi2?=
- =?us-ascii?Q?ipbKWJQSWapJnNd2qWXZmtMVWXeIz0c/fJmhsNK+py0BLIEsDR7bNtzPD8aD?=
- =?us-ascii?Q?r+j3lJtfSw6aX/IpA7wZAJKq/nFI+LLl/RLC90DIBOKyQY/ByGAqvsY+7l90?=
- =?us-ascii?Q?KmHpabYBXTH7o5TC8R+EEd2uRdcEPIqXRadjoUKmEw6NI1ycpT37644R9RK6?=
- =?us-ascii?Q?1bvEWbmwwFDcmPPg1MvF44IzeKReRrfoFMuRnZVcnok9TbFcJwk141u7M+Qq?=
- =?us-ascii?Q?wJVf3j1tGeZ9uw0hxJ2QdF2JqxDeTWGhyhtTWqnJ+H2juG/SLEMAIpxDe+nb?=
- =?us-ascii?Q?+zOJtLzmIiz5PHL+AMLHBnqrno1vPLytHgnTJKabVkLnzfxv3toJ6LZjV5AU?=
- =?us-ascii?Q?6X6DAls9MhYZojkObNlLssiUM2gWH3ILgBxuZK2rvDMTAteJ64NUAVWv0DUl?=
- =?us-ascii?Q?NF3c4SAV1uPQJrXLsaApvK9hfZmXkZBAzRfReAvN9GBPkrUnsFA+dV2gcmVB?=
- =?us-ascii?Q?pXqFsp3zDiX++8TR/25DWYRpyj/GFdYVtPPlmP37mR4Z3BHxB9Pr6Vz3WcXS?=
- =?us-ascii?Q?/8lA8xp6AlL2M2M+fsxFf1SEXlGs+oF47m3TbOVsqzFMT0kpfG0VljAMnq8B?=
- =?us-ascii?Q?IQqUQk/xVxrY6d0PC1qHnork9jvERE+c8lVM5ok0Iv4E1YIutFdwPz2l5k2X?=
- =?us-ascii?Q?Qlp/DIgPyIn55iRVfijyb0pSxyqjcOpuFdmnzHcJK5u8hlM33CxDEpCs8RK2?=
- =?us-ascii?Q?0mSEztKpyOTbm1gWtuyLLnZDOO8lbvKkAteCq6hMMK19Bn07ce69PV1urBlF?=
- =?us-ascii?Q?W6tZXRGFeuIpHcctycK1dldFYt/nUmaO4NlJ0OvtUtSeeqS+7Gw1F7v1Tdjn?=
- =?us-ascii?Q?Qc5CjwbIndbRGW0OIQoyEfZZeH7w3wAzgMLm9/VMhQ2hHSzZAi6XoN1LYpFb?=
- =?us-ascii?Q?rhMrcHSJK3/qZREwbkbActTy1kFdKhb7mEcBW0aa0/IRhC59RAlM7nCHk8ll?=
- =?us-ascii?Q?L6ziA9qd+upxPRT/brOA7E/Y5QaY1aLh2JyGqwgYhL0InFbDjTwVc9LKyE2V?=
- =?us-ascii?Q?GLLCydPPnOubkvgcHJjpUDHpC9SbwPAlgrfbHtNZ/eMkbc8MPYd+8W+qFgbL?=
- =?us-ascii?Q?Rhm7I+yjYr9sO7Bn4HZqV8d/wDfzSR8skwapTpv8wSE11JC55WhKqq3EVCEU?=
- =?us-ascii?Q?z72vhTMVogcmW9zJNLkUbGBuN//4MSGJk62/BWnDcbB7dnYm91QZ41/HDSl6?=
- =?us-ascii?Q?7DKyNx4Sr+U7+u9A1QR3avvIz3K3qBF+/d78E1ky+n+VVF6FUj/tid0NV8Jt?=
- =?us-ascii?Q?8wI1DLYTwHydWqr7AL65rVM=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2cm7tWZQMeiSbwwPZ301n6x0CfKjA9ZGGYQdGwxrcjhdqHOvP83yf9Y9u0Tz?=
+ =?us-ascii?Q?UdU0WVP+xn2qQHzHMjFHv0MQF1221Ebo98t7UUifMJXLPZZHpTLNPtYTR8I4?=
+ =?us-ascii?Q?XlALM1ISqbUni2IZLt/42Z8K+1Y4/U9TZUmpTDw2I6rycBYVQJJJB1apx5vL?=
+ =?us-ascii?Q?EfvSFOh36iKbTanTe+oE7YvNAccN07rJaIxGjbE/Uc6KiqzJpnABGm6+PhG7?=
+ =?us-ascii?Q?esPZz2TL+Wn1p5CvD16THLgVRzkcPtgkUU76K4qCT691Y40Qb99+BBpMcdxB?=
+ =?us-ascii?Q?fxaNyf4YSQ1g4KrmfYQCYZGiTBPPbv29EAiNbl7Bbx6ZHyFc5k1oKVV94fAK?=
+ =?us-ascii?Q?zmmaLWBNFDIsf/4oiVnKH1xGpnhjyI7495utM1JWqBUePEW3HW2U3s7RcSfv?=
+ =?us-ascii?Q?9xQ9zFBJL4ordU7ktIZWHv2DJ/G4mkzBkXhxNBxxKdaWn1ynbukfrHErhG/8?=
+ =?us-ascii?Q?iefyW72E7ejxY6fDSDTLjNsw4z9VZVwt3s57gYmn9anR0GLZRTHe3l4/KIRp?=
+ =?us-ascii?Q?uEnMUjiYbXsY74PXBmT6KaUXaV62x8XJzuuF+Y/4UmuwEdyAE7LYo7uNFPe6?=
+ =?us-ascii?Q?ZN0xPr38AIv9kXPGNVhfKJ9nX2vWV5MLOkGMH4oqtVdRvPgIDPTVpFuBx15l?=
+ =?us-ascii?Q?T+KdrEU86Kew6cxHM041tRCvOCSkUPZzGxAVqOEh3ozVNY6ID5s4BCO623nQ?=
+ =?us-ascii?Q?eZpSQxCdQ2kBeOKAKlybcgiObu7AJvHxqxzU8R9K5qpR5M7JV5GvIUaXeW1/?=
+ =?us-ascii?Q?OoMFWo2I11ukvIYqPuEKOtj6x5sA9PoTVyT96GzwMdgfj7i3q8JDLQvTt3KS?=
+ =?us-ascii?Q?qoc/HB0bYVpK7JCKu+dpFKbFq4789MQGcMyll3Mrf2Moa/jOOxsRmoEtjkse?=
+ =?us-ascii?Q?YWRkt14KcKuIalSuyWPp08ZDGHspe4kmRU9oU/GLRedcSV2KQU/01TURXBCb?=
+ =?us-ascii?Q?4G/V2tZ1blyRYiVOf97j/KarDbNqSFrLrSmY3HdVDCxus5OKQkTdxFOC4kmg?=
+ =?us-ascii?Q?GFJP5np1324qczlx9zZ4a+I9jt3qhDG1tDFSu/KNPQe18o3jpze/82/QP/lM?=
+ =?us-ascii?Q?CM1diCzzjjvZ2c8xxRu9UNkQC/wOC6doK2CZskLCwm+YRWm3G464OtY1yb8x?=
+ =?us-ascii?Q?/fO47I40JEUcxW/vZDbnTZstTpvV0ZWLQTp/ZybY74H21gK0aRFs0c9UklOR?=
+ =?us-ascii?Q?vSgm2/qmrFsbC/C4D78u56XhddFpaYD7/Mp3583hk3LXsHlq7eVjRtEhLBxy?=
+ =?us-ascii?Q?Tl8R/CNOaLELbLWA3ZckVzGtDUQrkj84biNZwQReUY6q+uQNLshToysjh1wM?=
+ =?us-ascii?Q?pBFelBd8Fdm+m23U1Pg+KMRYDoJPyPphEycygquIzVxN9D8vPmmuhzTC2uqS?=
+ =?us-ascii?Q?1lSWdpVqt56e0jUs/n3vdRjD8zFujwUCmmLa3xzgFNMc4fwNIWCLAK21t4Gf?=
+ =?us-ascii?Q?lWfr8/Wb3phJHAvzFm6QcJ4ZeTQFj8awdKSl4QqXnGteaoE5jkM5cDpazDSn?=
+ =?us-ascii?Q?B1iforusmwDfx9y5KYPfilaY2cPcESCFsvIyR8PPEhxEg5HmVuQxJt3KEmdy?=
+ =?us-ascii?Q?5PinohMRCGrNYARXvDFdYl+5Si09DZ7n4IZDwZH0PXNMDwAa4eF2Ce1v2SFo?=
+ =?us-ascii?Q?Fg5wYBmtGtebK/7Zzxw36zg=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 020169f1-cfcf-4c91-1a51-08da79369ceb
+X-MS-Exchange-CrossTenant-Network-Message-Id: d29f5119-4358-422b-dcc6-08da79369d64
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 12:07:49.5913 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 12:07:50.3267 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LbAbPUNxGEMGc7HHfSkXd5s5Y97pHLXRYPXVl4/seibEPd2pOrXuca4rzGEBfHI3+LYVLEstdrvTpwFqMlw32xPuDeVDRmIogQYV2l56GnI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: CwDLDsfycGRjOrO3astlHnjwosO0U2kbWPn/7gPREGcZxa6ei6QBFcWW4ig/qJMdKIBIkKAbKajCcaKnX4lel1W4UoSksiE1Va5d6FgRepU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB5360
-Received-SPF: pass client-ip=40.107.6.132;
+Received-SPF: pass client-ip=40.107.6.99;
  envelope-from=alexander.ivanov@virtuozzo.com;
  helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -136,27 +136,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's too costly to write all the BAT to the disk. Let the flush function
-write only dirty blocks.
+Frgamentation is a part of statistics so it is better to count the statistics
+in one function.
 
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 ---
- block/parallels.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/parallels.c | 31 ++++++++-----------------------
+ 1 file changed, 8 insertions(+), 23 deletions(-)
 
 diff --git a/block/parallels.c b/block/parallels.c
-index 72cf7499c1..38b1482e81 100644
+index 38b1482e81..11597c5dc4 100644
 --- a/block/parallels.c
 +++ b/block/parallels.c
-@@ -469,7 +469,7 @@ static int parallels_check_outside_image(BlockDriverState *bs,
+@@ -530,13 +530,16 @@ static int parallels_check_leak(BlockDriverState *bs,
+     return 0;
+ }
+ 
+-static void parallels_check_fragmentation(BlockDriverState *bs,
+-                                          BdrvCheckResult *res,
+-                                          BdrvCheckMode fix)
++static void parallels_collect_statistics(BlockDriverState *bs,
++                                         BdrvCheckResult *res,
++                                         BdrvCheckMode fix)
+ {
+     BDRVParallelsState *s = bs->opaque;
+-    uint32_t i;
+     int64_t off, prev_off;
++    uint32_t i;
++
++    res->bfi.total_clusters = s->bat_size;
++    res->bfi.compressed_clusters = 0; /* compression is not supported */
+ 
+     prev_off = 0;
+     for (i = 0; i < s->bat_size; i++) {
+@@ -549,24 +552,8 @@ static void parallels_check_fragmentation(BlockDriverState *bs,
+             res->bfi.fragmented_clusters++;
+         }
+         prev_off = off;
+-    }
+ 
+-}
+-
+-static void parallels_collect_statistics(BlockDriverState *bs,
+-                                         BdrvCheckResult *res,
+-                                         BdrvCheckMode fix)
+-{
+-    BDRVParallelsState *s = bs->opaque;
+-    uint32_t i;
+-
+-    res->bfi.total_clusters = s->bat_size;
+-    res->bfi.compressed_clusters = 0; /* compression is not supported */
+-
+-    for (i = 0; i < s->bat_size; i++) {
+-        if (bat2sect(s, i) != 0) {
+-            res->bfi.allocated_clusters++;
+-        }
++        res->bfi.allocated_clusters++;
+     }
+ }
+ 
+@@ -591,8 +578,6 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+         return ret;
      }
  
-     if (flush_bat) {
--        ret = bdrv_co_pwrite_sync(bs->file, 0, s->header_size, s->header, 0);
-+        ret = bdrv_co_flush(bs);
-         if (ret < 0) {
-             res->check_errors++;
-             return ret;
+-    parallels_check_fragmentation(bs, res, fix);
+-
+     parallels_collect_statistics(bs, res, fix);
+ 
+     return 0;
 -- 
 2.34.1
 
