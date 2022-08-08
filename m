@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D06358C557
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:14:04 +0200 (CEST)
-Received: from localhost ([::1]:37908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815D158C54F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 11:11:58 +0200 (CEST)
+Received: from localhost ([::1]:33690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oKypn-00009K-3D
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:14:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
+	id 1oKynk-0005kk-K5
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 05:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oKyax-0005Io-Bu
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:45 -0400
-Received: from mga09.intel.com ([134.134.136.24]:15910)
+ id 1oKyax-0005IR-47
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:43 -0400
+Received: from mga09.intel.com ([134.134.136.24]:15913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oKyau-0001oF-Or
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:43 -0400
+ id 1oKyau-0001oK-PQ
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 04:58:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1659949120; x=1691485120;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=pvMgcmAhjFBY6Z506Vgh8jh6X3m82T4afmcR2kHV3X8=;
- b=J3dvoxqfI2S+edb45QjawO7LnP8GmF7svZVfb6VaWY2mDBx0mLbx8Y9/
- KPfeH04oJA4nQ6L764ljEqxddfEBFGzfZFccOQmo2LoqIYNrJlQfJxGE1
- 4W3wcQ+nDc1ktvBvwXX+pYAdUOxsgbwP7ylwaluxT+hDrFrzDQA5PfA4C
- 7ZmzGK6Javk5g//7qBT1Urp5mGjTmod4rBVBxaJ4Ia/TOSrArbqpZy4Ew
- EcJpdyeoN6IWpiFhF/UeET5LCakXzRQ7X4YIK4BSVWz8ilxpqTkygpn+U
- Pomg6jcyeOQm1M7aQACYdHR/ZGUcUJEXv0hiocMpcvbaG3t3E451+cui7 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="291319223"
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="291319223"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=PjZ1u2QturzYjKa031f0MFI5soukUiMr35knNOFdceY=;
+ b=cza1ppJjw2bWGPmGmn/Ze3KmaKA7t41lRdeSmYKeWB4Xx71u8b/Gp3gh
+ jiNpC7VQkzKq1euZacCb45vL9SrlO2xz8hBjXc/yUOIpzjAmqd6jRJP/f
+ QyhuaUZtjNVdQWnTeh6ydiZ+uqg1aqGoF3B/WbB7+y418lZjikNMzP7A1
+ nP8IOjrd+7WmTGN3hKGCt82EB+FvcStxtz09kWJFT3tGrPb2Cz+nDJ3hl
+ r1Gq+M2nZav8w64DffKn15ygZfQrjQpUV2DLXaVJj3mj5siFuSQ92KBUt
+ 4VDE+0srzqjNcDhKsYkG01Z52+xx3gEcgezkc09h9FHYg2COLfTVx12eV A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="291319227"
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="291319227"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 01:58:36 -0700
+ 08 Aug 2022 01:58:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="931970528"
+X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; d="scan'208";a="931970536"
 Received: from lxy-dell.sh.intel.com ([10.239.48.38])
- by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2022 01:58:34 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2022 01:58:36 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
 Cc: qemu-devel@nongnu.org,
 	kvm@vger.kernel.org
-Subject: [PATCH v2 0/8] Make Intel PT configurable
-Date: Mon,  8 Aug 2022 16:58:26 +0800
-Message-Id: <20220808085834.3227541-1-xiaoyao.li@intel.com>
+Subject: [PATCH v2 1/8] target/i386: Print CPUID subleaf info for unsupported
+ feature
+Date: Mon,  8 Aug 2022 16:58:27 +0800
+Message-Id: <20220808085834.3227541-2-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220808085834.3227541-1-xiaoyao.li@intel.com>
+References: <20220808085834.3227541-1-xiaoyao.li@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.24; envelope-from=xiaoyao.li@intel.com;
@@ -75,45 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initial virtualization of Intel PT was added by making it as fixed
-feature set of ICX's capabilities. However, it breaks the Intel PT exposure
-on SPR machine because SPR has less PT capabilities of
-CPUID(0x14,1):EBX[15:0].
+Some CPUID leaves have meaningful subleaf index. Print the subleaf info
+in feature_word_description for CPUID features.
 
-This series aims to make Intel PT configurable that named CPU model can
-define its own PT feature set and "-cpu host/max" can use host pass-through
-feature set of Intel PT.
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ target/i386/cpu.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-At the same time, it also ensures existing named CPU model to generate
-the same PT CPUID set as before to not break live migration.
-
-Changes in v2:
-- split out 3 patches (per Eduardo's comment)
-- determine if the named cpu model uses default Intel PT capabilities (to
-  be compatible with the old behavior) by condition that all PT feature
-  leaves are all zero.
-
-v1: https://lore.kernel.org/qemu-devel/20210909144150.1728418-1-xiaoyao.li@intel.com/
-
-Xiaoyao Li (8):
-  target/i386: Print CPUID subleaf info for unsupported feature
-  target/i386/intel-pt: Fix INTEL_PT_ADDR_RANGES_NUM_MASK
-  target/i386/intel-pt: Introduce FeatureWordInfo for Intel PT CPUID
-    leaf 0xD
-  target/i386/intel-pt: print special message for
-    INTEL_PT_ADDR_RANGES_NUM
-  target/i386/intel-pt: Rework/rename the default INTEL-PT feature set
-  target/i386/intel-pt: Enable host pass through of Intel PT
-  target/i386/intel-pt: Define specific PT feature set for
-    IceLake-server and Snowridge
-  target/i386/intel-pt: Access MSR_IA32_RTIT_ADDRn based on guest CPUID
-    configuration
-
- target/i386/cpu.c     | 291 +++++++++++++++++++++++++++++++-----------
- target/i386/cpu.h     |  40 +++++-
- target/i386/kvm/kvm.c |   8 +-
- 3 files changed, 261 insertions(+), 78 deletions(-)
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 1db1278a599b..f9646e16b872 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4244,8 +4244,9 @@ static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
+         {
+             const char *reg = get_register_name_32(f->cpuid.reg);
+             assert(reg);
+-            return g_strdup_printf("CPUID.%02XH:%s",
+-                                   f->cpuid.eax, reg);
++            return g_strdup_printf("CPUID.%02XH_%02XH:%s",
++                                   f->cpuid.eax,
++                                   f->cpuid.needs_ecx ? f->cpuid.ecx : 0, reg);
+         }
+     case MSR_FEATURE_WORD:
+         return g_strdup_printf("MSR(%02XH)",
 -- 
 2.27.0
 
