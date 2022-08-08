@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61BE58C932
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 15:14:48 +0200 (CEST)
-Received: from localhost ([::1]:56260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F3C58C933
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 15:15:00 +0200 (CEST)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oL2al-0002xR-Br
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 09:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55904)
+	id 1oL2ax-0003VH-EN
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 09:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oL2Ws-0006vR-R9
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 09:10:46 -0400
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:46017)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oL2Xu-0007Hs-GF
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 09:11:53 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:53371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oL2Wq-0004MX-Eu
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 09:10:46 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.62])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 81EE42179E;
- Mon,  8 Aug 2022 13:10:40 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 8 Aug 2022
- 15:10:39 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0021c08359c-f9ce-44b0-9ee6-36d44bbbe6a4,
- 014009DFAA8B86078D729D00C01D9476BEEC0396) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <db56128c-4e25-5c23-97a4-c9a8a2fa0f49@kaod.org>
-Date: Mon, 8 Aug 2022 15:10:39 +0200
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oL2Xm-0004bB-VF
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 09:11:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=w07c9SuUHA+2QDB70ppoZYZfffO6AOQro0sNbnhqUCQ=; b=efZNDAJVDx1RL4pB+4Gf5RQ9Cm
+ P3WnrS+8GTpkk4A0eJ3PoLboXibr0TiJ2O6368gXGnWjXSyafyXxN1M1Gsm80LSK/gSIl3wMjNeTg
+ D0BF9sF64U+IyQW9bhH+K30JuWLvz0VdwwlXtrQW5o1LcJuEAMUxzwB9u/hxpxRsVjATF3xh++CbT
+ Wb61227ro+fLVSJFjwTzkhRPswA2Ib+Es4/xLjPSHcH6RW462YmGD9G87/Hasm9iJqps+kPILjilh
+ 6dAzj0fy9+MjxSBhplxm78XVjAy/6r2OgX+X3EwkZVwS+h0biHydwb7mx9Vu7L2G2qfWr9ME3jONz
+ CbdtpcM+BMtOjFC9cQkWKxxmIiePKEVpHGdvivKhhOC+wv84vBR0C5CYrAdayYArfpDXiTg1YtmEg
+ n6XHa7xDNi8NJnDhW7Wi6b2+y/OEDZByJFqtSR2JlyFoLmYUJTZOjPehsZhlwlfvczyK9tSI1PUb+
+ 0EDHy2h+tF6tp5JY9h4K4Fpfs57lZhkv03OXE61+EKG8LOx6+1WMcj039ZnoK6BDlKkbve3cwQ1jq
+ rpTNaFUpEacLCUFrmO1v2EpGNrT+BzzL8GGfQQoWVSygov1zuu7AvaK/OrVGXf1jP6HeUGRbFYlF6
+ YEFVBHTEgSfswLzm2JAE1X78VVewq+1QFVtAmX3NY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Nikita Ivanov <nivanov@cloudlinux.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Jason Wang <jasowang@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] error handling: Use TFR() macro where applicable
+Date: Mon, 08 Aug 2022 15:11:35 +0200
+Message-ID: <7218690.D19hzYb2mh@silver>
+In-Reply-To: <3206015.kY3CcG7ZbH@silver>
+References: <CAAJ4Ao9crXap1OYiutSgG5caZHzVkM=WvQYpVD2XN1M8JsD3cQ@mail.gmail.com>
+ <877d3jupln.fsf@pond.sub.org> <3206015.kY3CcG7ZbH@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 00/22] ppc: QOM'ify 405 board
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220808102734.133084-1-clg@kaod.org>
- <65dff991-cf15-75e9-8cb-d55e72ae5560@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <65dff991-cf15-75e9-8cb-d55e72ae5560@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 014adbe5-f6fb-4c91-b251-b1a8faae936d
-X-Ovh-Tracer-Id: 815151536807906211
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefkedgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,100 +74,217 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/22 14:16, BALATON Zoltan wrote:
-> On Mon, 8 Aug 2022, Cédric Le Goater wrote:
->> Hello,
->>
->> Here is large series QOM'ifying the PPC405 board. It introduces a new
->> generic machine and SoC models, converts the current device models to
->> QOM and populates the SoC. The process is quite mechanical without too
->> much issues to handle. The noisy part is the initial patch introducing
->> the SoC realize routine.
->>
->> What's left ?
->>
->> * the SDRAM mappings are very baroque and certainly could be simplified.
->>  I think we should QOMify the ppc440 machines before addressing this
->>  part.
+On Montag, 8. August 2022 14:52:28 CEST Christian Schoenebeck wrote:
+> On Montag, 8. August 2022 10:05:56 CEST Markus Armbruster wrote:
+> > Nikita Ivanov <nivanov@cloudlinux.com> writes:
+> > > Summing up the discussion above, I suggest the following patch for TFR()
+> > > macro refactoring. (The patch is sequential to the first one I
+> > > introduced
+> > > in the start of the discussion).
+> > > 
+> > >>From 6318bee052900aa93bba6620b53c7cb2290e5001 Mon Sep 17 00:00:00 2001
+> > >>
+> > > From: Nikita Ivanov <nivanov@cloudlinux.com>
+> > > Date: Mon, 8 Aug 2022 09:30:34 +0300
+> > > Subject: [PATCH] Refactoring: rename TFR() to TEMP_FAILURE_RETRY()
+> > > 
+> > > glibc's unistd.h header provides the same macro with the
+> > > subtle difference in type casting. Adjust macro name to the
+> > > common standard and define conditionally.
+> > > 
+> > > Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
+> > > ---
+> > > 
+> > >  chardev/char-fd.c      |  2 +-
+> > >  chardev/char-pipe.c    | 12 +++++++++---
+> > >  hw/9pfs/9p-local.c     |  6 ++++--
+> > >  include/qemu/osdep.h   |  6 ++++--
+> > >  net/l2tpv3.c           |  8 +++++---
+> > >  net/tap-linux.c        |  2 +-
+> > >  net/tap.c              | 10 ++++++----
+> > >  os-posix.c             |  2 +-
+> > >  qga/commands-posix.c   |  2 +-
+> > >  tests/qtest/libqtest.c |  2 +-
+> > >  util/main-loop.c       |  2 +-
+> > >  util/osdep.c           |  2 +-
+> > >  12 files changed, 35 insertions(+), 21 deletions(-)
+> > > 
+> > > diff --git a/chardev/char-fd.c b/chardev/char-fd.c
+> > > index cf78454841..7f5ed9aba3 100644
+> > > --- a/chardev/char-fd.c
+> > > +++ b/chardev/char-fd.c
+> > > @@ -198,7 +198,7 @@ int qmp_chardev_open_file_source(char *src, int
+> > > flags,
+> > > Error **errp)
+> > > 
+> > >  {
+> > >  
+> > >      int fd = -1;
+> > > 
+> > > -    TFR(fd = qemu_open_old(src, flags, 0666));
+> > > +    TEMP_FAILURE_RETRY(fd = qemu_open_old(src, flags, 0666));
+> > > 
+> > >      if (fd == -1) {
+> > >      
+> > >          error_setg_file_open(errp, errno, src);
+> > >      
+> > >      }
+> > > 
+> > > diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+> > > index 66d3b85091..aed97e306b 100644
+> > > --- a/chardev/char-pipe.c
+> > > +++ b/chardev/char-pipe.c
+> > > @@ -131,8 +131,12 @@ static void qemu_chr_open_pipe(Chardev *chr,
+> > > 
+> > >      filename_in = g_strdup_printf("%s.in", filename);
+> > >      filename_out = g_strdup_printf("%s.out", filename);
+> > > 
+> > > -    TFR(fd_in = qemu_open_old(filename_in, O_RDWR | O_BINARY));
+> > > -    TFR(fd_out = qemu_open_old(filename_out, O_RDWR | O_BINARY));
+> > > +    TEMP_FAILURE_RETRY(
+> > > +        fd_in = qemu_open_old(filename_in, O_RDWR | O_BINARY)
+> > > +    );
+> > > +    TEMP_FAILURE_RETRY(
+> > > +        fd_out = qemu_open_old(filename_out, O_RDWR | O_BINARY)
+> > > +    );
+> > 
+> > Style question: do we want the ");" on its own line?  I think we
+> > generally don't do that for function and function-like macro calls.
 > 
-> The issue with SDRAM controller and the likely reason why its model looks so complex is that it can't handle any RAM size because of how the bank sizes are encoded in the registers so it only really supports real RAM modules which are predefined sizes. Also the firmware discovers RAM by looking at SPD data and may only check the slots that the real hardware has which may not be the first one. 
->
-> Previously I had code to round down the memory size specified on the command line to an acceptable size and issue a warning to let the user know but this was dropped because of some changes in code elsewhere which now allocates memory before the machine could check and ajust it so we can only adjust it by wasting some. 
-
-I don't think we should care adjusting the values. the machine init
-routine should check that the RAM size is valid or fail. The machine
-should also have a sane RAM size value by default.
-
-See how the aspeed machine deals with similar constraints of its SDRAM
-controller in aspeed_machine_init(). If the sdram controller does not
-validate the RAM size, aspeed_sdmc_set_ram_size() fails with an error.
-
-C.
-
-> Take this into account and check the ppc4xx_sdram_banks() function and 440 machines before changing this.
+> So far scripts/checkpatch.pl doesn't complain, therefore I used this code
+> style in QEMU before.
 > 
-> Regards,
-> BALATON Zoltan
+> BTW, another exotic function call code style (not being compalained about
+> yet) in approach:
+> https://lore.kernel.org/qemu-devel/E1oDQqv-0003d4-Hm@lizzy.crudebyte.com/
 > 
+> > >      g_free(filename_in);
+> > >      g_free(filename_out);
+> > >      if (fd_in < 0 || fd_out < 0) {
+> > > 
+> > > @@ -142,7 +146,9 @@ static void qemu_chr_open_pipe(Chardev *chr,
+> > > 
+> > >          if (fd_out >= 0) {
+> > >          
+> > >              close(fd_out);
+> > >          
+> > >          }
+> > > 
+> > > -        TFR(fd_in = fd_out = qemu_open_old(filename, O_RDWR |
+> > > O_BINARY));
+> > > +        TEMP_FAILURE_RETRY(
+> > > +            fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY)
+> > > +        );
+> > > 
+> > >          if (fd_in < 0) {
+> > >          
+> > >              error_setg_file_open(errp, errno, filename);
+> > >              return;
+> > > 
+> > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> > > index c90ab947ba..e803c05d0c 100644
+> > > --- a/hw/9pfs/9p-local.c
+> > > +++ b/hw/9pfs/9p-local.c
+> > > @@ -470,7 +470,7 @@ static ssize_t local_readlink(FsContext *fs_ctx,
+> > > V9fsPath *fs_path,
+> > > 
+> > >          if (fd == -1) {
+> > >          
+> > >              return -1;
+> > >          
+> > >          }
+> > > 
+> > > -        TFR(tsize = read(fd, (void *)buf, bufsz));
+> > > +        TEMP_FAILURE_RETRY(tsize = read(fd, (void *)buf, bufsz));
+> > > 
+> > >          close_preserve_errno(fd);
+> > >      
+> > >      } else if ((fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
+> > >      
+> > >                 (fs_ctx->export_flags & V9FS_SM_NONE)) {
+> > > 
+> > > @@ -906,7 +906,9 @@ static int local_symlink(FsContext *fs_ctx, const
+> > > char
+> > > *oldpath,
+> > > 
+> > >          }
+> > >          /* Write the oldpath (target) to the file. */
+> > >          oldpath_size = strlen(oldpath);
+> > > 
+> > > -        TFR(write_size = write(fd, (void *)oldpath, oldpath_size));
+> > > +        TEMP_FAILURE_RETRY(
+> > > +            write_size = write(fd, (void *)oldpath, oldpath_size)
+> > > +        );
+> > > 
+> > >          close_preserve_errno(fd);
+> > >          
+> > >          if (write_size != oldpath_size) {
+> > > 
+> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > > index b1c161c035..55f2927d8b 100644
+> > > --- a/include/qemu/osdep.h
+> > > +++ b/include/qemu/osdep.h
+> > > @@ -242,8 +242,10 @@ void QEMU_ERROR("code path is reachable")
+> > > 
+> > >  #if !defined(ESHUTDOWN)
+> > >  #define ESHUTDOWN 4099
+> > >  #endif
+> > > 
+> > > -
+> > > -#define TFR(expr) do { if ((expr) != -1) break; } while (errno ==
+> > > EINTR)
+> > > +#if !defined(TEMP_FAILURE_RETRY)
+> > > +#define TEMP_FAILURE_RETRY(expr) \
+> > > +    do { if ((expr) != -1) break; } while (errno == EINTR)
+> > > +#endif
+> > 
+> > GLibc's version is
+> > 
+> >    # define TEMP_FAILURE_RETRY(expression) \
+> >    
+> >      (__extension__
 > 
->> Thanks,
->>
->> C.
->>
->> Changes in v3 :
->>
->> - New device model Ppc4xxDcrDeviceState
->> - Removal of ppc4xx_mal_init(), ppc4xx_plb_init() and ppc405_ebc_init()
->> - Fixes for some reset issues
->> - Kept 2 RAM banks at the Soc level but only one is initialized.
->> - Moved SRAM under the machine. It's not part of the SoC according
->>   to the 405 specs
->>
->> Changes in v2 :
->>
->> - docs/about/removed-features.rst update
->> - Fix compile breakage (uic)
->> - Fix CPU reset, which breaking u-boot boot
->> - Changed prefix of memory regions to "ppc405"
->> - Reduced the number of RAM banks to 1. Second was a dummy one to
->>   please ppc405ep_init()
->>
->> Cédric Le Goater (22):
->>  ppc/ppc405: Remove taihu machine
->>  ppc/ppc405: Introduce a PPC405 generic machine
->>  ppc/ppc405: Move devices under the ref405ep machine
->>  ppc/ppc405: Move SRAM under the ref405ep machine
->>  ppc/ppc405: Introduce a PPC405 SoC
->>  ppc/ppc405: Start QOMification of the SoC
->>  ppc/ppc405: QOM'ify CPU
->>  ppc/ppc4xx: Introduce a DCR device model
->>  ppc/ppc405: QOM'ify CPC
->>  ppc/ppc405: QOM'ify GPT
->>  ppc/ppc405: QOM'ify OCM
->>  ppc/ppc405: QOM'ify GPIO
->>  ppc/ppc405: QOM'ify DMA
->>  ppc/ppc405: QOM'ify EBC
->>  ppc/ppc405: QOM'ify OPBA
->>  ppc/ppc405: QOM'ify POB
->>  ppc/ppc405: QOM'ify PLB
->>  ppc/ppc405: QOM'ify MAL
->>  ppc/ppc405: QOM'ify FPGA
->>  ppc/ppc405: Use an explicit PPCUIC object
->>  ppc/ppc405: Use an explicit I2C object
->>  ppc/ppc4xx: Fix sdram trace events
->>
->> docs/about/deprecated.rst       |   9 -
->> docs/about/removed-features.rst |   6 +
->> docs/system/ppc/embedded.rst    |   1 -
->> hw/ppc/ppc405.h                 | 198 +++++++-
->> include/hw/ppc/ppc4xx.h         |  48 +-
->> hw/ppc/ppc405_boards.c          | 375 ++++-----------
->> hw/ppc/ppc405_uc.c              | 828 +++++++++++++++++---------------
->> hw/ppc/ppc4xx_devs.c            | 184 ++++---
->> hw/ppc/sam460ex.c               |  24 +-
->> MAINTAINERS                     |   2 +-
->> 10 files changed, 903 insertions(+), 772 deletions(-)
->>
->>
+> 	      \
+> 
+> >        ({ long int __result;
+> 
+> 	      \
+> 
+> >           do __result = (long int) (expression);
+> 
+> 	      \
+> 
+> >           while (__result == -1L && errno == EINTR);
+> 
+>       \
+> 
+> >           __result; }))
+> > 
+> > The difference isn't just "type casting", it's also statement
+> > vs. expression.
+> > 
+> > Is it a good idea to have the macro expand into a statement on some
+> > hosts, and into an expression on others?  Sure, CI should catch any uses
+> > as expression, but delaying compile errors to CI wastes developer time.
+> 
+> For consistency and simplicity, I would define exactly one version (no
+> ifdefs) of the macro with a different macro name than glibc's
+> TEMP_FAILURE_RETRY(), and use that QEMU specific macro name in QEMU code
+> everywhere.
+> 
+> As for statement vs. expression: The only advantage of the statement version
+> is if you'd need __result as an rvalue, which is not needed ATM, right? So
+> I would go for the expression version (with cast) for now.
+> 
+> The glibc history does not reveal why they chose the statement version.
+> 
+> Best regards,
+> Christian Schoenebeck
+
+Sorry: s/rvalue/lvalue/ i.e. if you need the memory address of result or if 
+you need to take the result value of the last iteration in 'expression' into 
+account.
+
+
 
 
