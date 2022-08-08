@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A91F58CFA3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 23:29:15 +0200 (CEST)
-Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE30458CFC0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Aug 2022 23:35:32 +0200 (CEST)
+Received: from localhost ([::1]:58906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLAJF-0007Oj-Qg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 17:29:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56150)
+	id 1oLAPL-00031D-D1
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 17:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oLACO-0002cB-LE
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:22:12 -0400
-Received: from mail-vs1-f48.google.com ([209.85.217.48]:36559)
+ id 1oLAF4-0003kn-OC
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:24:56 -0400
+Received: from mail-vk1-f173.google.com ([209.85.221.173]:46863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oLAC9-0008AB-1i
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:22:03 -0400
-Received: by mail-vs1-f48.google.com with SMTP id o123so10130557vsc.3
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 14:21:51 -0700 (PDT)
+ id 1oLAF3-0008VC-Bc
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 17:24:54 -0400
+Received: by mail-vk1-f173.google.com with SMTP id c12so4983242vkn.13
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 14:24:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=77YCPs9eIsXkKf1cZO9JDXvsExRZWYXtxNrzJIgxx1w=;
- b=7D45W55DDxnBVEk2FiZRgDLiydWsrI/ADA4wPBaVvdZYEOqgbnoGJlNiOyMhMZTgPw
- SoFD1qsX/C2iHadBt5ifte+58LcOEPkfyce/P6MkKRF7yd36QeBuosIyxU84qXh9GJj5
- 7LWZpjRckelFYPqMC8Ej9AcA8waBb8uNr+eb8jJxFofHh3z31znHrI4AZWEOsEi2/sxA
- pIy/yrveWYwxXT7KemZ51e3sFBlZvViIYyI7P4i7mG4gctVf+/yzJKV1t3lNashXWxc6
- cKO/cN8bJPgjjwo4aV5tD4qOZ3jtDTWn1bXGL4DXT8+yyEDbRZ5596vSher8GbDokuL1
- M2Sg==
-X-Gm-Message-State: ACgBeo3Ny4qpm4UkIPXlpAWZMF534jo6WeaE0snaGFTb0v9T3tPyrEo5
- CTQ1CHqJqUPDjVF+you7VVmhaPdOLHgAfu0AXWo=
-X-Google-Smtp-Source: AA6agR76aFKD6dACPSZaLACrizlozx6EqFXLkdCT/Q+EJx/XlvyAg2VrUtv7Kxa2AfJa57/HhKRdMYSBABZgcC/dj4Y=
-X-Received: by 2002:a67:fd82:0:b0:386:9cb3:9b14 with SMTP id
- k2-20020a67fd82000000b003869cb39b14mr7806177vsq.8.1659993710505; Mon, 08 Aug
- 2022 14:21:50 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=wUyKvRb9hD3YCcH+zs9oAO1JmGMgQNRxGsxiuXAjTt0=;
+ b=0SNmXGvm1ESgsz8Zgn5+oSSjTGjjJ4wo/NLHlk9+Xb4NZzMpwOBA+6zz7xAlU52l4t
+ E5Gb/A4ylUkk9jqmNEvf98C03XnncV+wd6KEaVgn0LcGGqDe6AJJ7qVbA4YLsRdmvBlV
+ 2qKquUIw9l9sTGSihVjAOsD4yOWrGDkyDdjErK+D9qKYVSRDi9YHkhZnfFlmRpsRaLq+
+ s3VMtUvInjyRyzSpBnTXIGEu9G4slRmPrLsrqEGtIdTl5GP0NteMQrbAGeM9IJyDAMvn
+ 5zVS+6BREhz/ol6DzfoQaFXYJjk3o8WTwExL7KAihfJqjliaLRZhjbjCVhpkoaskwZby
+ +zMQ==
+X-Gm-Message-State: ACgBeo0DAInfD2R+197PtJu6geo6f3IVPJ6ISigcv205EQw1OVj5eA+N
+ 9px8S2M8bzTeHb740P23fGhYAjSy9LmomCqV9dc=
+X-Google-Smtp-Source: AA6agR4fV8dI5Kt3Pi8olV8CEf50mGclEQl8rQ008SLpe6d5FflZZ22Sikbqe3TMEZ3MDDAsDHVDPeOySlOohdLZGH0=
+X-Received: by 2002:a1f:34d8:0:b0:377:142f:3e2f with SMTP id
+ b207-20020a1f34d8000000b00377142f3e2fmr8391258vka.27.1659993892336; Mon, 08
+ Aug 2022 14:24:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719191737.384744-1-peter.maydell@linaro.org>
-In-Reply-To: <20220719191737.384744-1-peter.maydell@linaro.org>
-Date: Mon, 8 Aug 2022 23:21:38 +0200
-Message-ID: <CAAdtpL7FXXf-gJDuBRyOGbgHWSGNV_GGwZPbyGLwYcNJ9wvaOQ@mail.gmail.com>
-Subject: Re: [PATCH] target/mips: Handle lock_user() failure in UHI_plog
- semihosting call
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220728115034.1327988-1-imammedo@redhat.com>
+In-Reply-To: <20220728115034.1327988-1-imammedo@redhat.com>
+Date: Mon, 8 Aug 2022 23:24:40 +0200
+Message-ID: <CAAdtpL6+2YuMeTH2w0B4rL91aS0_+_G_iDXJ6-y3VP=4U4Es5Q@mail.gmail.com>
+Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features of
+ PIIX4_PM
+To: Igor Mammedov <imammedo@redhat.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.217.48;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vs1-f48.google.com
+Received-SPF: pass client-ip=209.85.221.173;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vk1-f173.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -79,28 +79,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On Tue, Jul 19, 2022 at 9:17 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
+On Thu, Jul 28, 2022 at 1:50 PM Igor Mammedov <imammedo@redhat.com> wrote:
 >
-> Coverity notes that we forgot to check the error return from
-> lock_user() in one place in the handling of the UHI_plog semihosting
-> call.  Add the missing error handling.
+> QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
+>   $ qemu-system-mips -monitor stdio
+>   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
+>   Segmentation fault (core dumped)
 >
-> report_fault() is rather brutal in that it will call abort(), but
-> this is the same error-handling used in the rest of this file.
+> It happens due to PIIX4_PM trying to parse hotplug vmstate structures
+> which are valid only for x86 and not for MIPS (as it requires ACPI
+> tables support which is not existent for ithe later)
 >
-> Resolves: Coverity CID 1490684
-> Fixes: ea4210600db3c5 ("target/mips: Avoid qemu_semihosting_log_out for U=
-HI_plog")
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Issue was probably exposed by trying to cleanup/compile out unused
+> ACPI bits from MIPS target (but forgetting about migration bits).
+>
+> Disable compiled out features using compat properties as the least
+> risky way to deal with issue.
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
-> NB: only tested with 'make check' and 'make check-tcg', which
-> almost certainly don't actually exercise this codepath.
+> PS:
+> another approach could be setting defaults to disabled state and
+> enabling them using compat props on PC machines (which is more
+> code to deal with => more risky) or continue with PIIX4_PM
+> refactoring to split x86-shism out (which I'm not really
+> interested in due to risk of regressions for not much of
+> benefit)
 > ---
->  target/mips/tcg/sysemu/mips-semi.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  hw/mips/malta.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-Queued to mips-fixes, thanks!
+Thanks, queued to mips-fixes.
 
