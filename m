@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6B758DC75
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:51:36 +0200 (CEST)
-Received: from localhost ([::1]:37312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B8F58DC5A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:46:12 +0200 (CEST)
+Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSRx-00065O-0a
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42376)
+	id 1oLSMt-0002bU-DX
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:46:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oLSK9-0007SR-LX; Tue, 09 Aug 2022 12:43:21 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53170)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oLSKH-0007YA-3R
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:43:29 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:38826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oLSK7-0006bd-Ci; Tue, 09 Aug 2022 12:43:21 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id ha11so12239361pjb.2;
- Tue, 09 Aug 2022 09:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=qYrAxloXsrXBc5iTwVz/QR/2rEB8uGLW0aVimr2yXFc=;
- b=PRh9h6Vk5abZXyR6T4tf+XZ7YmiKaOesz0GR24E0YhFnunXu0kTZTgeSN6Wm1SW38d
- n5nGgL4AFbpqcDb1EoHbpMa4foevJk+k758WdPmSoInFNj1eJuRs+V089+aeApe6v+SO
- t2czGbqmCF0Zt+MPTi3Sgcpk/AJs/3t+EbkrGyH/OjZZ25Yy2mqvMdrt13d/qBkX8V3K
- WbfTALCWSnqk6OE0CZIQISp2N+G58D0Y/XN3cIaECUixx+CT6yKy4ht9TQLW1DYlnOdW
- jUlGi1fcuI8FggjD54vqdJo+5ELciDmI7GGgMDKgxuqXGkPsyasCxLMwRfHfMvEw4wsJ
- r9aA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oLSKF-0006bQ-BY
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:43:28 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ q9-20020a17090a2dc900b001f58bcaca95so11411446pjm.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 09:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=iSjotF1RWy4C7SAQ7UaXDOf0VH82cd+zVbAvHS02gTo=;
+ b=KyzqFIqr+tuKAmmq6/0iw5OYnz4dmaDsgkPHvm5goNlrLQn8NlliljthCeYr1GA5Te
+ wMqJNXSD566MqyH92nGqTVwLT/mV4QgGWI8LR4IQR3XlJbL3HRGo71aHj0S5vgJWpZJ4
+ oTi154c635cSmAYZwEqqWl+9xXhEleDEFHRSkZdfXG5BvITjTYvaPaZPYUaqC0w8aJI9
+ e+nZAiMpi70xuv8aihU+hVLEQlr2EF4P+yMJGjdies21WeGKbkrry93ksymqVSSMAIEe
+ mDTkWnlPC93RjkkwuGziM6Uj9ch0PAxL7vI9zGayJEGqG3rE3VCFrqdFuBXyFhiOWdwd
+ KGSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=qYrAxloXsrXBc5iTwVz/QR/2rEB8uGLW0aVimr2yXFc=;
- b=A9haHWw6/5LhN712SkI13xnHbPw3RMzqIeNHT29kEb6VKLHb6vKfJ5PKIpt4RpRtaQ
- TUpmh9bPx2OsouHeDMxq0kj+CWIe/8pNQ7cWz4HlNxhcvm60bFcE7Y5uehCshOD1JIIo
- 09MLQlQ8z0EO5+hPQOyQyEY6SIxWZcesdtZSlfr6/8xwAuRpkN1vkEie7qpx8ie/TaTo
- I9yivkmnTabulNFiwAqqTgrBlmCWFiB309zUBl1go6ochmtpYn83n6TdK+bCWzns20EV
- j2wASLcyuxd2Ta2nIY0G+NekgAQiPQtjkUZ2X5bNZxP1gsqfQViZFcZzFnox0I96VHLz
- xrKA==
-X-Gm-Message-State: ACgBeo3zVIlje/qixY+1bDm76ZGGXehdBiWM5xYNwOwE9bGEc0IUNWMR
- XnMVi9QBbzIIjGdMvwGIwInIg4+q57Y=
-X-Google-Smtp-Source: AA6agR4cDFCs49SRVdFUn/nBdK3JRS/SFcp56INgn7zuIhseKIc6roj9sO8ofdLgYEk2XRqVBZTm6g==
-X-Received: by 2002:a17:902:f60c:b0:16d:1af0:6656 with SMTP id
- n12-20020a170902f60c00b0016d1af06656mr23808348plg.153.1660063395755; 
- Tue, 09 Aug 2022 09:43:15 -0700 (PDT)
-Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iSjotF1RWy4C7SAQ7UaXDOf0VH82cd+zVbAvHS02gTo=;
+ b=FQym5AhrGGbdNIHQaU/QzHei0aK1TJ/tFgXTtR7C5uKNwLL0lXDf9Fc8QswoRcMrKB
+ e5eaqC+zxW73CgthnzVXtwhzfjpXXHkTt+UKc0+bZapX0BPgCXQ8DvfAktDy/V1YsOzZ
+ DhhHzHnO/GKdfayIUrY9SQw5q3O3Wull1HMPllAd/YPCv4rR6CrRCxJklEeaEN3x9AYm
+ S1ADtJNBLeG8wW/xPHD+fJAMCzcMAsyKhoPIxD9fTWvd7sTHpsYTwKl0bjK0OpQYwZLG
+ ODAhrSwHiNCZlizKSLdXWokfRUZ/7lKr+mPFzi+qpxUZy9w2/V/CucWQYotTP6g7IVFM
+ AtVQ==
+X-Gm-Message-State: ACgBeo220aOrUaUKS+tDkEC7Yl37mdwZYMdjtr8dYykLluI4MN64a6+a
+ /nCvSUEbMaEpzV9ioG5nn3f9iHg1J55D2Q==
+X-Google-Smtp-Source: AA6agR5ghRDtC2Ihv5Oma4LMTK8lg/MPPtDmuCPyjUficNDOdjXoDKpRiJ+7+wlAhbwo+Sv3m95mvQ==
+X-Received: by 2002:a17:902:7d97:b0:171:2c03:6cca with SMTP id
+ a23-20020a1709027d9700b001712c036ccamr1751875plm.48.1660063406540; 
+ Tue, 09 Aug 2022 09:43:26 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:495:73dd:dc6e:5d95?
+ ([2602:ae:154e:e201:495:73dd:dc6e:5d95])
  by smtp.gmail.com with ESMTPSA id
- cp17-20020a17090afb9100b001f207d1860fsm10224143pjb.45.2022.08.09.09.43.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 09:43:15 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org
-Subject: [PATCH v2 2/2] util/aio-win32: Correct the event array size in
- aio_poll()
-Date: Wed, 10 Aug 2022 00:43:08 +0800
-Message-Id: <20220809164308.1182645-2-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220809164308.1182645-1-bmeng.cn@gmail.com>
-References: <20220809164308.1182645-1-bmeng.cn@gmail.com>
+ q13-20020aa7960d000000b0052dce4edceesm103737pfg.169.2022.08.09.09.43.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Aug 2022 09:43:26 -0700 (PDT)
+Message-ID: <ea864510-20d8-f7cb-f17e-0a0e61e247a7@linaro.org>
+Date: Tue, 9 Aug 2022 09:43:24 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1031.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL] Net patches
+Content-Language: en-US
+To: Jason Wang <jasowang@redhat.com>, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org
+References: <20220809090859.28338-1-jasowang@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220809090859.28338-1-jasowang@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,47 +94,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On 8/9/22 02:08, Jason Wang wrote:
+> The following changes since commit ca5f3d4df1b47d7f66a109cdb504e83dfd7ec433:
+> 
+>    Merge tag 'pull-la-20220808' of https://gitlab.com/rth7680/qemu into staging (2022-08-08 19:51:12 -0700)
+> 
+> are available in the git repository at:
+> 
+>    https://github.com/jasowang/qemu.git tags/net-pull-request
+> 
+> for you to fetch changes up to 7cf745dd9c25f0740dc1009598b58dd8dd989876:
+> 
+>    hw/net/rocker: Avoid undefined shifts with more than 31 ports (2022-08-09 17:02:18 +0800)
+> 
+> ----------------------------------------------------------------
+> 
+> ----------------------------------------------------------------
+> Peter Maydell (1):
+>        hw/net/rocker: Avoid undefined shifts with more than 31 ports
 
-WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
-object handles. Correct the event array size in aio_poll() and
-add a assert() to ensure it does not cause out of bound access.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
----
 
-Changes in v2:
-- change 'count' to unsigned
+r~
 
- util/aio-win32.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/util/aio-win32.c b/util/aio-win32.c
-index 44003d645e..80cfe012ad 100644
---- a/util/aio-win32.c
-+++ b/util/aio-win32.c
-@@ -326,9 +326,9 @@ void aio_dispatch(AioContext *ctx)
- bool aio_poll(AioContext *ctx, bool blocking)
- {
-     AioHandler *node;
--    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
-+    HANDLE events[MAXIMUM_WAIT_OBJECTS];
-     bool progress, have_select_revents, first;
--    int count;
-+    unsigned count;
-     int timeout;
- 
-     /*
-@@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
-     QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
-         if (!node->deleted && node->io_notify
-             && aio_node_check(ctx, node->is_external)) {
-+            assert(count < MAXIMUM_WAIT_OBJECTS);
-             events[count++] = event_notifier_get_handle(node->e);
-         }
-     }
--- 
-2.34.1
+> 
+>   hw/net/rocker/rocker.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> 
+> 
 
 
