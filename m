@@ -2,95 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280A658D48D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 09:31:56 +0200 (CEST)
-Received: from localhost ([::1]:55630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3722158D4C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 09:39:36 +0200 (CEST)
+Received: from localhost ([::1]:36078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLJiU-0002pA-Sr
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 03:31:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45640)
+	id 1oLJpu-0000TG-Q4
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 03:39:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oLJf4-0008OI-1x
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42054)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oLJlD-0003hF-GT
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:34:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oLJf1-0007JZ-OC
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:28:21 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oLJlA-00084Q-5Z
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:34:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660030099;
+ s=mimecast20190719; t=1660030479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4eYIHSjgpN14ZWeJrEMAoluy8ZGE7qWsgg/45/Ai/to=;
- b=Vdmp0GkENv1hSKQ735ZSQCogQsB3rGERbkYUB4EAIyYqcgAJfbOY/nHcBSC6PXRHBuIGJt
- WHBjVuPL79hV5CF4x91wr/HDFpT7oY57yY7ddtxqMEH3W4u7PRQ9UFldM9lcB7gQvvJ1oq
- ORyP0Sa6zjEI0Sg9Od7bAy5lOBh3GpE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/I5Dublk7gUn5wFiw6piaPnmaVvHQqYAnbNKoQjek/A=;
+ b=E65OAI2naG2eTk0bin3D1Jett+0UeDd+16ZFS8V3ptmjAA+8244WVK8FBgDhF1P5Qat98M
+ ySi/PWikMs3/0y5dweUvPKcMNGW39DdppDStrnSiAxtYblcoPyk6TcbrmG+igZrceF0OH+
+ HkQJpzfDO90pRO22W2167QQR9MlU4G0=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-221-viMPbKO6PUS0ViQRbLOUqQ-1; Tue, 09 Aug 2022 03:28:17 -0400
-X-MC-Unique: viMPbKO6PUS0ViQRbLOUqQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n30-20020a05600c501e00b003a3264465ebso327029wmr.1
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 00:28:17 -0700 (PDT)
+ us-mta-58-5b-uXzEPP2qRrWThn10ErQ-1; Tue, 09 Aug 2022 03:34:35 -0400
+X-MC-Unique: 5b-uXzEPP2qRrWThn10ErQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ dp8-20020a05621409c800b0047b6911be44so1747464qvb.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 00:34:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=4eYIHSjgpN14ZWeJrEMAoluy8ZGE7qWsgg/45/Ai/to=;
- b=ROBoH0+8G6upIPme/XvyH4u2MLKvySOVOKD+H9nlSQHw4XiBLh5GGIf8jRUazUm31D
- aLPe3AcnTt9KZDF5aHDsymG59cXzMjDop2iKbCW9efJ9w+nJuGfRjMSrdymii42+32RE
- Ae9O0NuBH0UfCR+CA9QWSnrpunhzRMbnEhBZ5xdZL3qOG+wzFRi1n990jGQkn9IUtqXQ
- kw+1t7P+wTci0ePQARedjp/Su5yffokrrO4oQiDKWCzGHuHMekzlc6O93974uEEc/l+9
- UBOSBSO9tNHGi1S6msvxuycbFwRoID/bUi8bZsxT70oobjkLA33bQyQSyO4t7fAoo80J
- cizw==
-X-Gm-Message-State: ACgBeo0FmY5Tv5+YuLKxG2SC82rfcHX2J+pd4sy1f+99uZeDZ8jUZDlJ
- +/HPqJkAHSZpTdxcJ0RUW02aqxHigb2j1VVodlDDHLMS8mo7wwACyw9sjRmWcZohh4c30fnAW7u
- HDJqzTVLvwLo2wj8=
-X-Received: by 2002:a05:600c:6009:b0:3a3:1506:f60f with SMTP id
- az9-20020a05600c600900b003a31506f60fmr19212094wmb.144.1660030096159; 
- Tue, 09 Aug 2022 00:28:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4DjPC4QReKjrPApZpQbIPwPy9CkeV6ow37obmdlGvEyQKMc921qogs59pg+Np4ygcmt+P4Vw==
-X-Received: by 2002:a05:600c:6009:b0:3a3:1506:f60f with SMTP id
- az9-20020a05600c600900b003a31506f60fmr19212081wmb.144.1660030095975; 
- Tue, 09 Aug 2022 00:28:15 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- j4-20020a05600c1c0400b003a31fd05e0fsm1399375wms.2.2022.08.09.00.28.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Aug 2022 00:28:15 -0700 (PDT)
-Message-ID: <9e93f883-10c2-172b-698d-0546eacf15c9@redhat.com>
-Date: Tue, 9 Aug 2022 09:28:14 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=/I5Dublk7gUn5wFiw6piaPnmaVvHQqYAnbNKoQjek/A=;
+ b=f2W+iXaN7EEjeGiQL6diiLaDQqmFeeHkpgDeZ5K9iNPtmORQoRDkvguoG9HLCnwwg4
+ aLI7UvFmrKnjgr+AunYj2rXcjWm6FiuyA7aj2TXx4FrcaTASTGvT7U6IAqEwz+ECirlO
+ rvPWvMzffQgym/ZR4LYYylk69Ax0AIUvojxoZbmgu5R9/ntZRSPAkFp7SPftXFnA1HZ0
+ B1jFEvdYO2WbDPIWy56nhGBNEUlQFtO4hmDlXnfzTQQ+dMm+T9/AkPdwTzBmcf3zP74t
+ GvF60q+tvi0OZy9oqe9WmS0T4tlJSNvDP9Q7Ma6LKx2if8xF3Km6jCTOJk7jkkEjE4AU
+ O0yw==
+X-Gm-Message-State: ACgBeo1ffbpR3nUNH+pxuUMPjeIOJXnN2xRz42MUPQjC4TKkROJsAOPm
+ zwXpF2Y38oPz1BwbRhA2f906xrpv7/UkKnxwXqYlcbdnlPHE9NgWcv1oMCe/woSv1T+lESCgnyW
+ qoQMx84F9FBroKagcSw8xsLJs/kaTyhM=
+X-Received: by 2002:a05:622a:110f:b0:31e:e0ae:a734 with SMTP id
+ e15-20020a05622a110f00b0031ee0aea734mr19211382qty.495.1660030475222; 
+ Tue, 09 Aug 2022 00:34:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6swASXizpp9SJ/qO7MA5juqlq9eivPPVgnCNjT00E8uB4eO0DEZmJP38wCvg/3r/S60U7cZfsfwch3fd5ci1M=
+X-Received: by 2002:a05:622a:110f:b0:31e:e0ae:a734 with SMTP id
+ e15-20020a05622a110f00b0031ee0aea734mr19211363qty.495.1660030474937; Tue, 09
+ Aug 2022 00:34:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2] virtio-scsi: fix race in virtio_scsi_dataplane_start()
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, pbonzini@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, kwolf@redhat.com,
- Fam Zheng <fam@euphon.net>, sgarzare@redhat.com,
- Hanna Reitz <hreitz@redhat.com>, Qing Wang <qinwang@redhat.com>
-References: <20220808162134.240405-1-stefanha@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20220808162134.240405-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+References: <20220804182852.703398-1-eperezma@redhat.com>
+ <20220804182852.703398-9-eperezma@redhat.com>
+ <CACGkMEt9GhbKq2vbzJcS50rzCiJCy76fPaEMksJR1s-JqB7yrg@mail.gmail.com>
+In-Reply-To: <CACGkMEt9GhbKq2vbzJcS50rzCiJCy76fPaEMksJR1s-JqB7yrg@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 9 Aug 2022 09:33:58 +0200
+Message-ID: <CAJaqyWdp9whO3nRun4k7ZfN0pwqbsjFk_AhBbmXmnFRz7E2ikg@mail.gmail.com>
+Subject: Re: [PATCH v7 08/12] vdpa: Move command buffers map to start of net
+ device
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Markus Armbruster <armbru@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Eli Cohen <eli@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,53 +105,295 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 9, 2022 at 9:04 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Aug 5, 2022 at 2:29 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
+> >
+> > As this series will reuse them to restore the device state at the end o=
+f
+> > a migration (or a device start), let's allocate only once at the device
+> > start so we don't duplicate their map and unmap.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  net/vhost-vdpa.c | 123 ++++++++++++++++++++++-------------------------
+> >  1 file changed, 58 insertions(+), 65 deletions(-)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 55e8a39a56..2c6a26cca0 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -263,29 +263,20 @@ static size_t vhost_vdpa_net_cvq_cmd_page_len(voi=
+d)
+> >      return ROUND_UP(vhost_vdpa_net_cvq_cmd_len(), qemu_real_host_page_=
+size());
+> >  }
+> >
+> > -/** Copy and map a guest buffer. */
+> > -static bool vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v,
+> > -                                   const struct iovec *out_data,
+> > -                                   size_t out_num, size_t data_len, vo=
+id *buf,
+> > -                                   size_t *written, bool write)
+> > +/** Map CVQ buffer. */
+> > +static int vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v, void *buf, siz=
+e_t size,
+> > +                                  bool write)
+> >  {
+> >      DMAMap map =3D {};
+> >      int r;
+> >
+> > -    if (unlikely(!data_len)) {
+> > -        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid legnth of %s buffe=
+r\n",
+> > -                      __func__, write ? "in" : "out");
+> > -        return false;
+> > -    }
+> > -
+> > -    *written =3D iov_to_buf(out_data, out_num, 0, buf, data_len);
+> >      map.translated_addr =3D (hwaddr)(uintptr_t)buf;
+> > -    map.size =3D vhost_vdpa_net_cvq_cmd_page_len() - 1;
+> > +    map.size =3D size - 1;
+>
+> Just noticed this, I think I've asked for the reason before but I
+> don't remember the answer.
+>
+> But it looks like a hint of a defect of the current API design.
+>
+
+I can look for it in the mail list, but long story short:
+vDPA DMA API is *not* inclusive: To map the first page, you map (.iova
+=3D 0, .size =3D 4096).
+IOVA tree API has been inclusive forever: To map the first page, you
+map (.iova =3D 0, .size =3D 4095). If we map with .size =3D 4096, .iova =3D
+4096 is considered mapped too.
+
+To adapt one to the other would have been an API change even before
+the introduction of vhost-iova-tree.
+
+Thanks!
 
 
-Am 08/08/2022 um 18:21 schrieb Stefan Hajnoczi:
-> As soon as virtio_scsi_data_plane_start() attaches host notifiers the
-> IOThread may start virtqueue processing. There is a race between
-> IOThread virtqueue processing and virtio_scsi_data_plane_start() because
-> it only assigns s->dataplane_started after attaching host notifiers.
-> 
-> When a virtqueue handler function in the IOThread calls
-> virtio_scsi_defer_to_dataplane() it may see !s->dataplane_started and
-> attempt to start dataplane even though we're already in the IOThread:
-> 
->   #0  0x00007f67b360857c __pthread_kill_implementation (libc.so.6 + 0xa257c)
->   #1  0x00007f67b35bbd56 raise (libc.so.6 + 0x55d56)
->   #2  0x00007f67b358e833 abort (libc.so.6 + 0x28833)
->   #3  0x00007f67b358e75b __assert_fail_base.cold (libc.so.6 + 0x2875b)
->   #4  0x00007f67b35b4cd6 __assert_fail (libc.so.6 + 0x4ecd6)
->   #5  0x000055ca87fd411b memory_region_transaction_commit (qemu-kvm + 0x67511b)
->   #6  0x000055ca87e17811 virtio_pci_ioeventfd_assign (qemu-kvm + 0x4b8811)
->   #7  0x000055ca87e14836 virtio_bus_set_host_notifier (qemu-kvm + 0x4b5836)
->   #8  0x000055ca87f8e14e virtio_scsi_set_host_notifier (qemu-kvm + 0x62f14e)
->   #9  0x000055ca87f8dd62 virtio_scsi_dataplane_start (qemu-kvm + 0x62ed62)
->   #10 0x000055ca87e14610 virtio_bus_start_ioeventfd (qemu-kvm + 0x4b5610)
->   #11 0x000055ca87f8c29a virtio_scsi_handle_ctrl (qemu-kvm + 0x62d29a)
->   #12 0x000055ca87fa5902 virtio_queue_host_notifier_read (qemu-kvm + 0x646902)
->   #13 0x000055ca882c099e aio_dispatch_handler (qemu-kvm + 0x96199e)
->   #14 0x000055ca882c1761 aio_poll (qemu-kvm + 0x962761)
->   #15 0x000055ca880e1052 iothread_run (qemu-kvm + 0x782052)
->   #16 0x000055ca882c562a qemu_thread_start (qemu-kvm + 0x96662a)
-> 
-> This patch assigns s->dataplane_started before attaching host notifiers
-> so that virtqueue handler functions that run in the IOThread before
-> virtio_scsi_data_plane_start() returns correctly identify that dataplane
-> does not need to be started. This fix is taken from the virtio-blk
-> dataplane code and it's worth adding a comment in virtio-blk as well to
-> explain why it works.
-> 
-> Note that s->dataplane_started does not need the AioContext lock because
-> it is set before attaching host notifiers and cleared after detaching
-> host notifiers. In other words, the IOThread always sees the value true
-> and the main loop thread does not modify it while the IOThread is
-> active.
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2099541
-> Reported-by: Qing Wang <qinwang@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Thanks
+>
+> >      map.perm =3D write ? IOMMU_RW : IOMMU_RO,
+> >      r =3D vhost_iova_tree_map_alloc(v->iova_tree, &map);
+> >      if (unlikely(r !=3D IOVA_OK)) {
+> >          error_report("Cannot map injected element");
+> > -        return false;
+> > +        return r;
+> >      }
+> >
+> >      r =3D vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_=
+len(), buf,
+> > @@ -294,50 +285,58 @@ static bool vhost_vdpa_cvq_map_buf(struct vhost_v=
+dpa *v,
+> >          goto dma_map_err;
+> >      }
+> >
+> > -    return true;
+> > +    return 0;
+> >
+> >  dma_map_err:
+> >      vhost_iova_tree_remove(v->iova_tree, &map);
+> > -    return false;
+> > +    return r;
+> >  }
+> >
+> > -/**
+> > - * Copy the guest element into a dedicated buffer suitable to be sent =
+to NIC
+> > - *
+> > - * @iov: [0] is the out buffer, [1] is the in one
+> > - */
+> > -static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+> > -                                        VirtQueueElement *elem,
+> > -                                        struct iovec *iov)
+> > +static int vhost_vdpa_net_cvq_prepare(NetClientState *nc)
+> >  {
+> > -    size_t in_copied;
+> > -    bool ok;
+> > +    VhostVDPAState *s;
+> > +    int r;
+> >
+> > -    iov[0].iov_base =3D s->cvq_cmd_out_buffer;
+> > -    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, elem->=
+out_num,
+> > -                                vhost_vdpa_net_cvq_cmd_len(), iov[0].i=
+ov_base,
+> > -                                &iov[0].iov_len, false);
+> > -    if (unlikely(!ok)) {
+> > -        return false;
+> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > +
+> > +    s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > +    if (!s->vhost_vdpa.shadow_vqs_enabled) {
+> > +        return 0;
+> >      }
+> >
+> > -    iov[1].iov_base =3D s->cvq_cmd_in_buffer;
+> > -    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, NULL, 0,
+> > -                                sizeof(virtio_net_ctrl_ack), iov[1].io=
+v_base,
+> > -                                &in_copied, true);
+> > -    if (unlikely(!ok)) {
+> > +    r =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer=
+,
+> > +                               vhost_vdpa_net_cvq_cmd_page_len(), fals=
+e);
+> > +    if (unlikely(r < 0)) {
+> > +        return r;
+> > +    }
+> > +
+> > +    r =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_in_buffer,
+> > +                               vhost_vdpa_net_cvq_cmd_page_len(), true=
+);
+> > +    if (unlikely(r < 0)) {
+> >          vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer=
+);
+> > -        return false;
+> >      }
+> >
+> > -    iov[1].iov_len =3D sizeof(virtio_net_ctrl_ack);
+> > -    return true;
+> > +    return r;
+> > +}
+> > +
+> > +static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
+> > +{
+> > +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > +
+> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > +
+> > +    if (s->vhost_vdpa.shadow_vqs_enabled) {
+> > +        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer=
+);
+> > +        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_in_buffer)=
+;
+> > +    }
+> >  }
+> >
+> >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+> >      .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
+> >      .size =3D sizeof(VhostVDPAState),
+> >      .receive =3D vhost_vdpa_receive,
+> > +    .prepare =3D vhost_vdpa_net_cvq_prepare,
+> > +    .stop =3D vhost_vdpa_net_cvq_stop,
+> >      .cleanup =3D vhost_vdpa_cleanup,
+> >      .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
+> >      .has_ufo =3D vhost_vdpa_has_ufo,
+> > @@ -348,19 +347,17 @@ static NetClientInfo net_vhost_vdpa_cvq_info =3D =
+{
+> >   * Do not forward commands not supported by SVQ. Otherwise, the device=
+ could
+> >   * accept it and qemu would not know how to update the device model.
+> >   */
+> > -static bool vhost_vdpa_net_cvq_validate_cmd(const struct iovec *out,
+> > -                                            size_t out_num)
+> > +static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_=
+t len)
+> >  {
+> >      struct virtio_net_ctrl_hdr ctrl;
+> > -    size_t n;
+> >
+> > -    n =3D iov_to_buf(out, out_num, 0, &ctrl, sizeof(ctrl));
+> > -    if (unlikely(n < sizeof(ctrl))) {
+> > +    if (unlikely(len < sizeof(ctrl))) {
+> >          qemu_log_mask(LOG_GUEST_ERROR,
+> > -                      "%s: invalid legnth of out buffer %zu\n", __func=
+__, n);
+> > +                      "%s: invalid legnth of out buffer %zu\n", __func=
+__, len);
+> >          return false;
+> >      }
+> >
+> > +    memcpy(&ctrl, out_buf, sizeof(ctrl));
+> >      switch (ctrl.class) {
+> >      case VIRTIO_NET_CTRL_MAC:
+> >          switch (ctrl.cmd) {
+> > @@ -392,10 +389,14 @@ static int vhost_vdpa_net_handle_ctrl_avail(Vhost=
+ShadowVirtqueue *svq,
+> >      VhostVDPAState *s =3D opaque;
+> >      size_t in_len, dev_written;
+> >      virtio_net_ctrl_ack status =3D VIRTIO_NET_ERR;
+> > -    /* out and in buffers sent to the device */
+> > -    struct iovec dev_buffers[2] =3D {
+> > -        { .iov_base =3D s->cvq_cmd_out_buffer },
+> > -        { .iov_base =3D s->cvq_cmd_in_buffer },
+> > +    /* Out buffer sent to both the vdpa device and the device model */
+> > +    struct iovec out =3D {
+> > +        .iov_base =3D s->cvq_cmd_out_buffer,
+> > +    };
+> > +    /* In buffer sent to the device */
+> > +    const struct iovec dev_in =3D {
+> > +        .iov_base =3D s->cvq_cmd_in_buffer,
+> > +        .iov_len =3D sizeof(virtio_net_ctrl_ack),
+> >      };
+> >      /* in buffer used for device model */
+> >      const struct iovec in =3D {
+> > @@ -405,17 +406,15 @@ static int vhost_vdpa_net_handle_ctrl_avail(Vhost=
+ShadowVirtqueue *svq,
+> >      int r =3D -EINVAL;
+> >      bool ok;
+> >
+> > -    ok =3D vhost_vdpa_net_cvq_map_elem(s, elem, dev_buffers);
+> > -    if (unlikely(!ok)) {
+> > -        goto out;
+> > -    }
+> > -
+> > -    ok =3D vhost_vdpa_net_cvq_validate_cmd(&dev_buffers[0], 1);
+> > +    out.iov_len =3D iov_to_buf(elem->out_sg, elem->out_num, 0,
+> > +                             s->cvq_cmd_out_buffer,
+> > +                             vhost_vdpa_net_cvq_cmd_len());
+> > +    ok =3D vhost_vdpa_net_cvq_validate_cmd(s->cvq_cmd_out_buffer, out.=
+iov_len);
+> >      if (unlikely(!ok)) {
+> >          goto out;
+> >      }
+> >
+> > -    r =3D vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, e=
+lem);
+> > +    r =3D vhost_svq_add(svq, &out, 1, &dev_in, 1, elem);
+> >      if (unlikely(r !=3D 0)) {
+> >          if (unlikely(r =3D=3D -ENOSPC)) {
+> >              qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device que=
+ue\n",
+> > @@ -435,13 +434,13 @@ static int vhost_vdpa_net_handle_ctrl_avail(Vhost=
+ShadowVirtqueue *svq,
+> >          goto out;
+> >      }
+> >
+> > -    memcpy(&status, dev_buffers[1].iov_base, sizeof(status));
+> > +    memcpy(&status, s->cvq_cmd_in_buffer, sizeof(status));
+> >      if (status !=3D VIRTIO_NET_OK) {
+> >          goto out;
+> >      }
+> >
+> >      status =3D VIRTIO_NET_ERR;
+> > -    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, dev_buffers, 1);
+> > +    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, &out, 1);
+> >      if (status !=3D VIRTIO_NET_OK) {
+> >          error_report("Bad CVQ processing in model");
+> >      }
+> > @@ -454,12 +453,6 @@ out:
+> >      }
+> >      vhost_svq_push_elem(svq, elem, MIN(in_len, sizeof(status)));
+> >      g_free(elem);
+> > -    if (dev_buffers[0].iov_base) {
+> > -        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, dev_buffers[0].iov_ba=
+se);
+> > -    }
+> > -    if (dev_buffers[1].iov_base) {
+> > -        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, dev_buffers[1].iov_ba=
+se);
+> > -    }
+> >      return r;
+> >  }
+> >
+> > --
+> > 2.31.1
+> >
+>
 
 
