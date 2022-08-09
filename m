@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F25258D6DC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 11:54:24 +0200 (CEST)
-Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6391758D72D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 12:11:00 +0200 (CEST)
+Received: from localhost ([::1]:58512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLLwN-0007Bk-3F
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 05:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
+	id 1oLMCQ-0003Zb-67
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 06:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oLLu5-0005H5-8F
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 05:52:01 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:36706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oLLu3-0004HP-EJ
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 05:52:00 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id z5so17553874yba.3
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 02:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=G2Dd8inVIQEkMvtVdKhxVY1wCyXdDIAzgI5Xux3ALVA=;
- b=opsHlUryNIlyh6hUau61/8PrJCKr6skbp9qCehNVQCpTGR/9rakp9Qr1y4rbQhamIj
- rnA+EL8PtiTHHcvcR43otgbg0p4hrja2NBA5dU75gQL7/iBp3W7dtmGbCB0wV9/wYl0P
- VyvSJmIthYxWEGh3UCiLG186r/uD8zJigwSD+FBZ/Q+HX+98Qsa2nru5Jjx7DdYw4mUQ
- cKYe6gj/65SZGXeQWdBspaP6dB+mcX52jMyKa3wh1tMrbhIlqGnOde4/CX3wsvvgbPKL
- RjUUw+zsDIv0dlvZ0RY3gG8zXcAS3qZBzMB2CyGyHwNFn1lQBUq234IId6O0hEUx8G/Q
- nr5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=G2Dd8inVIQEkMvtVdKhxVY1wCyXdDIAzgI5Xux3ALVA=;
- b=HOQH3iwb9KzrJKwka61SA5B9f6sfpFQpGat50GJPcHjfWc1bTaFPEqkXTqlObnrbfr
- aE0BPTqKMDp7DiVDl4YGgc/t8JQiIp1rNKWyxSA7alPyuxA/9F4YWBrX8JmF2So2iJSx
- 1R2XKCYZY/b66ZQCa/bY36vjbyGsqwMg6iiMgBR2vCWSXIojenkZLoqKs/HI0tqQCXZK
- kAq92dG9uk5Ar2Ue3HNy4vt/p7+AzK1luwPvcoQW6Hvy6UwFh75a5rcxwBYLO2aPA/U3
- Ng7iFarCX7eDUfJYvYG0iIXciZLCKCReXwvzlfpASxcmmYBadK0fyHKCsRhpR6WEHHlr
- 6N1A==
-X-Gm-Message-State: ACgBeo2O55IKJ71g446qeT1QQ6hh7UMmICOeGoYJd56y+1bLxpySz0zd
- 7Q0yGtehnM/8u8ROJp+vtEDyDym5iP4512AT/tsnMQ==
-X-Google-Smtp-Source: AA6agR4kcMztOe0/8DSA35OtRaNhKnocYKCKA3i/B3XwZnoTVjaSvCy+DNT5HF3j4VIhpoDQUsKj2VQYeAtHdwORzGc=
-X-Received: by 2002:a25:9a06:0:b0:676:4585:3df7 with SMTP id
- x6-20020a259a06000000b0067645853df7mr20909197ybn.193.1660038718016; Tue, 09
- Aug 2022 02:51:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLMAm-0001hd-Vk
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 06:09:17 -0400
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:40871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLMAk-0006hX-2W
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 06:09:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 8BF6121969;
+ Tue,  9 Aug 2022 10:09:02 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 9 Aug 2022
+ 12:09:01 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0016c690609-77b9-4495-b49e-7f258185effc,
+ BD40907C0192BF4836BE6AE78B8C01BE56B63EE9) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5ccf3842-2ff3-e7d1-7f05-d2cf6560f30c@kaod.org>
+Date: Tue, 9 Aug 2022 12:09:00 +0200
 MIME-Version: 1.0
-References: <20220725110035.1273441-1-peter.maydell@linaro.org>
- <Yt561CDN+UjmaDK3@redhat.com>
- <CAFEAcA86gdio-3_XcNJGum8qiC93iVR0RK-g_sV1QRAhb8VGUw@mail.gmail.com>
-In-Reply-To: <CAFEAcA86gdio-3_XcNJGum8qiC93iVR0RK-g_sV1QRAhb8VGUw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Aug 2022 10:51:47 +0100
-Message-ID: <CAFEAcA9k_d6hFjz=udMuRgewxYhmnm8=ARB+s_33jNhtXknobg@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Don't assume 0 is not a valid host timer_t
- value
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, 
- Jon Alduan <jon.alduan@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 07/22] ppc/ppc405: QOM'ify CPU
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, Peter Maydell
+ <peter.maydell@linaro.org>
+CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ <qemu-devel@nongnu.org>
+References: <20220808102734.133084-1-clg@kaod.org>
+ <20220808102734.133084-8-clg@kaod.org>
+ <2499ab9-44e8-a33f-5f4-74a1d7ad3e7@eik.bme.hu>
+ <4cdc4026-78c5-e617-c74c-3ee5aa5d44d3@kaod.org>
+ <cd735510-ec37-357c-3fa9-34b0d445c5a2@eik.bme.hu>
+ <CAFEAcA9ThTqTaJCNM1M97+yMfj3gNPwpFxy6weAG6fcaGfbqQw@mail.gmail.com>
+ <dbd9e921-9e8b-3049-1ace-7fddecfe6f13@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <dbd9e921-9e8b-3049-1ace-7fddecfe6f13@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 076326ff-eb24-4dfb-b77c-8609d3866b4c
+X-Ovh-Tracer-Id: 3620331153948511139
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegtddgvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,44 +81,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent, ping ?
+On 8/8/22 19:25, BALATON Zoltan wrote:
+> On Mon, 8 Aug 2022, Peter Maydell wrote:
+>> On Mon, 8 Aug 2022 at 18:05, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>> But the handler we register here just calls cpu_reset which seems to just
+>>> call the reset method of the CPU object. If we have nothing else to do
+>>> here do we need to explicitly call cpi_reset like this? Wouldn't the CPU
+>>> object be reset by qdev when resetting the machine or the soc its in? If
+>>> we have our own reset method we may call cpu_reset from there to make sure
+>>> the CPU is in a known state but is this needed when we don't want to do
+>>> anything else? I don't know how reset handling works but some machines
+>>> seems to do this and others don't.
+>>
+>> You do unfortunately need to manually reset the CPU object. This is
+>> because the 'automatic' qdev reset only works for devices that hang
+>> off a bus (including sysbus devices). This is because it works by
+>> having qdev_machine_creation_done() register a reset function which
+>> does "reset the sysbus". Resetting a bus resets every device on it.
+>> Resetting a device resets every bus it owns. (This means that for
+>> instance PCI devices get reset because the PCI controller is on the
+>> sysbus, so it gets reset, and it owns the PCI bus, so the PCI bus
+>> resets when the controller is reset, and when the PCI bus resets
+>> then all the devices on it are reset.) So reset propagates down
+>> the bus tree, but it won't reach devices which aren't on that bus
+>> tree at all. The most common case of "device which isn't on a bus"
+>> is the CPU objects.
+>>
+>> This is, clearly, a complete mess. I would strongly like to sort it
+>> out, but to do that we need (a) a plan for what reset handling ought
+>> to look like and (b) a transition plan for getting from here to there
+>> without breaking everything in the process. I haven't had the time
+>> to focus on that, though it's been nominally on my todo list for years.
+>>
+>> In the meantime, it's the responsibility of something in architecture
+>> specific code to arrange for the CPU objects to be reset -- whether
+>> that's done directly by the board, or hidden in some other layer
+>> of code, depends on the target arch. For instance for arm it's
+>> hidden inside arm_load_kernel() and board models must therefore
+>> call that function even if they have no intention of supporting
+>> loading Linux kernels. For sparc it's done directly in the board code.
+> 
+> OK thanks for the clarification. Both bamboo and sam460ex has a main_cpu_reset function that is registered from the machine init func which calls cpu_reset. Maybe 405 boards could do the same for consistency? It could also be added to the soc object's reset method as that owns the cpu so maybe it may make more sense that way. This is probably also OK as 440 machines don't have soc object yet so it wouldn't cause any problems.
+> 
+> I think the ppc4xx_reset func was kept around because ppc4xx_init was also kept but nothing else seems to use it so maybe these should become the soc object's realize and reset methods and drop the current ppc4xx_init and reset funcs?
 
-thanks
--- PMM
+Yes. I have moved the CPU reset routine under ppc405_uc.c and removed
+ppc4xx_init() which is now unused.
 
-On Mon, 1 Aug 2022 at 12:43, Peter Maydell <peter.maydell@linaro.org> wrote=
-:
->
-> On Mon, 25 Jul 2022 at 12:13, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
-> >
-> > On Mon, Jul 25, 2022 at 12:00:35PM +0100, Peter Maydell wrote:
-> > > For handling guest POSIX timers, we currently use an array
-> > > g_posix_timers[], whose entries are a host timer_t value, or 0 for
-> > > "this slot is unused".  When the guest calls the timer_create syscall
-> > > we look through the array for a slot containing 0, and use that for
-> > > the new timer.
-> > >
-> > > This scheme assumes that host timer_t values can never be zero.  This
-> > > is unfortunately not a valid assumption -- for some host libc
-> > > versions, timer_t values are simply indexes starting at 0.  When
-> > > using this kind of host libc, the effect is that the first and second
-> > > timers end up sharing a slot, and so when the guest tries to operate
-> > > on the first timer it changes the second timer instead.
-> >
-> > For sake of historical record, could you mention here which specific
-> > libc impl / version highlights the problem.
->
-> How about:
->
-> "This can happen if you are using glibc's backwards-compatible
-> 'timer_t is an integer' compat code for some reason. This happens
-> when a glibc newer than 2.3.3 is used for a program that was
-> linked to work with glibc 2.2 to 2.3.3."
->
-> Laurent, I'm going to assume you don't need a v2 sending just
-> for a commit message tweak, unless you'd like me to do that.
->
-> thanks
-> -- PMM
+Thanks,
+
+C.
+
 
