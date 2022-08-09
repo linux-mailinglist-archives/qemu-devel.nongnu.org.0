@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD1158DD89
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:57:31 +0200 (CEST)
-Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F305558DD98
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 20:02:12 +0200 (CEST)
+Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLTTu-00032q-IP
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
+	id 1oLTYS-0000VS-2Z
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 14:02:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTPf-0003P1-O2; Tue, 09 Aug 2022 13:53:07 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:55214)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oLTD1-00032w-Dw
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:40:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTPc-0001BD-G3; Tue, 09 Aug 2022 13:53:06 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BC55E747F1D;
- Tue,  9 Aug 2022 19:53:02 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 73E867461AE; Tue,  9 Aug 2022 19:53:02 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 71BE8745702;
- Tue,  9 Aug 2022 19:53:02 +0200 (CEST)
-Date: Tue, 9 Aug 2022 19:53:02 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 23/24] ppc/ppc405: QOM'ify SDRAM
-In-Reply-To: <20220809153904.485018-24-clg@kaod.org>
-Message-ID: <d0dca62f-f54f-1f43-18b5-5b67497bc451@eik.bme.hu>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-24-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oLTCz-0007eh-9e
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:40:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660066800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3FsjrR35VUICwni+eOo1fTEjzVIWIjo7tm34p2LxWDM=;
+ b=VoKDO8xvHTiaVm0/ih5jLbjVQcDAg1PEJI3yYHrAJHVCTkQHlDmMywYGTXN3oZtkbMzBPo
+ HL+z3rirneUik/fGSrGd8zkolhz8vjFRZx57DRlK9bygeZyKeCh+XMS8cdL5GRGSvSbdtb
+ DlTR9rvqj8PkcH7olEX4YoYXwNK8Oxg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-270-C6z4qa8EObyNO1lDPdLKig-1; Tue, 09 Aug 2022 13:39:57 -0400
+X-MC-Unique: C6z4qa8EObyNO1lDPdLKig-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E02201824602;
+ Tue,  9 Aug 2022 17:39:56 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.194.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B2679457F;
+ Tue,  9 Aug 2022 17:39:53 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Eric Blake <eblake@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+Subject: [PATCH v8 08/12] vdpa: Move command buffers map to start of net device
+Date: Tue,  9 Aug 2022 19:39:22 +0200
+Message-Id: <20220809173926.1695280-9-eperezma@redhat.com>
+In-Reply-To: <20220809173926.1695280-1-eperezma@redhat.com>
+References: <20220809173926.1695280-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2067007575-1660067582=:57026"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,367 +89,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+As this series will reuse them to restore the device state at the end of
+a migration (or a device start), let's allocate only once at the device
+start so we don't duplicate their map and unmap.
 
---3866299591-2067007575-1660067582=:57026
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ net/vhost-vdpa.c | 123 ++++++++++++++++++++++-------------------------
+ 1 file changed, 58 insertions(+), 65 deletions(-)
 
-On Tue, 9 Aug 2022, Cédric Le Goater wrote:
-> This is an initial change of the SDRAM controller preserving the
-> compatibility with the current modeling. Further cleanup will be
-> possible after conversion of the ppc4xx_sdram_banks() and
-> ppc4xx_sdram_init() routines of the sam460ex and bamboo machines.
->
-> The size and base address of the RAM banks are now set using QOM
-> property arrays. RAM is equally distributed on each bank at the SoC
-> level depending on the number of banks we want to initialize (default
-> is 2). Each RAM memory region representing a RAM bank is initialized
-> in the realize routine of the SDRAM model after a minimal check on the
-> RAM size value with the sdram_bcr() routine. This has the benefit of
-> reporting an error to the user if the requested RAM size is invalid
-> for the SDRAM controller.
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 55e8a39a56..5254b58bdc 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -263,29 +263,20 @@ static size_t vhost_vdpa_net_cvq_cmd_page_len(void)
+     return ROUND_UP(vhost_vdpa_net_cvq_cmd_len(), qemu_real_host_page_size());
+ }
+ 
+-/** Copy and map a guest buffer. */
+-static bool vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v,
+-                                   const struct iovec *out_data,
+-                                   size_t out_num, size_t data_len, void *buf,
+-                                   size_t *written, bool write)
++/** Map CVQ buffer. */
++static int vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v, void *buf, size_t size,
++                                  bool write)
+ {
+     DMAMap map = {};
+     int r;
+ 
+-    if (unlikely(!data_len)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid legnth of %s buffer\n",
+-                      __func__, write ? "in" : "out");
+-        return false;
+-    }
+-
+-    *written = iov_to_buf(out_data, out_num, 0, buf, data_len);
+     map.translated_addr = (hwaddr)(uintptr_t)buf;
+-    map.size = vhost_vdpa_net_cvq_cmd_page_len() - 1;
++    map.size = size - 1;
+     map.perm = write ? IOMMU_RW : IOMMU_RO,
+     r = vhost_iova_tree_map_alloc(v->iova_tree, &map);
+     if (unlikely(r != IOVA_OK)) {
+         error_report("Cannot map injected element");
+-        return false;
++        return r;
+     }
+ 
+     r = vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_len(), buf,
+@@ -294,50 +285,58 @@ static bool vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v,
+         goto dma_map_err;
+     }
+ 
+-    return true;
++    return 0;
+ 
+ dma_map_err:
+     vhost_iova_tree_remove(v->iova_tree, &map);
+-    return false;
++    return r;
+ }
+ 
+-/**
+- * Copy the guest element into a dedicated buffer suitable to be sent to NIC
+- *
+- * @iov: [0] is the out buffer, [1] is the in one
+- */
+-static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+-                                        VirtQueueElement *elem,
+-                                        struct iovec *iov)
++static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+ {
+-    size_t in_copied;
+-    bool ok;
++    VhostVDPAState *s;
++    int r;
+ 
+-    iov[0].iov_base = s->cvq_cmd_out_buffer;
+-    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, elem->out_num,
+-                                vhost_vdpa_net_cvq_cmd_len(), iov[0].iov_base,
+-                                &iov[0].iov_len, false);
+-    if (unlikely(!ok)) {
+-        return false;
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    s = DO_UPCAST(VhostVDPAState, nc, nc);
++    if (!s->vhost_vdpa.shadow_vqs_enabled) {
++        return 0;
+     }
+ 
+-    iov[1].iov_base = s->cvq_cmd_in_buffer;
+-    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, NULL, 0,
+-                                sizeof(virtio_net_ctrl_ack), iov[1].iov_base,
+-                                &in_copied, true);
+-    if (unlikely(!ok)) {
++    r = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer,
++                               vhost_vdpa_net_cvq_cmd_page_len(), false);
++    if (unlikely(r < 0)) {
++        return r;
++    }
++
++    r = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_in_buffer,
++                               vhost_vdpa_net_cvq_cmd_page_len(), true);
++    if (unlikely(r < 0)) {
+         vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
+-        return false;
+     }
+ 
+-    iov[1].iov_len = sizeof(virtio_net_ctrl_ack);
+-    return true;
++    return r;
++}
++
++static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
++{
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    if (s->vhost_vdpa.shadow_vqs_enabled) {
++        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
++        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_in_buffer);
++    }
+ }
+ 
+ static NetClientInfo net_vhost_vdpa_cvq_info = {
+     .type = NET_CLIENT_DRIVER_VHOST_VDPA,
+     .size = sizeof(VhostVDPAState),
+     .receive = vhost_vdpa_receive,
++    .start = vhost_vdpa_net_cvq_start,
++    .stop = vhost_vdpa_net_cvq_stop,
+     .cleanup = vhost_vdpa_cleanup,
+     .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
+     .has_ufo = vhost_vdpa_has_ufo,
+@@ -348,19 +347,17 @@ static NetClientInfo net_vhost_vdpa_cvq_info = {
+  * Do not forward commands not supported by SVQ. Otherwise, the device could
+  * accept it and qemu would not know how to update the device model.
+  */
+-static bool vhost_vdpa_net_cvq_validate_cmd(const struct iovec *out,
+-                                            size_t out_num)
++static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_t len)
+ {
+     struct virtio_net_ctrl_hdr ctrl;
+-    size_t n;
+ 
+-    n = iov_to_buf(out, out_num, 0, &ctrl, sizeof(ctrl));
+-    if (unlikely(n < sizeof(ctrl))) {
++    if (unlikely(len < sizeof(ctrl))) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid legnth of out buffer %zu\n", __func__, n);
++                      "%s: invalid legnth of out buffer %zu\n", __func__, len);
+         return false;
+     }
+ 
++    memcpy(&ctrl, out_buf, sizeof(ctrl));
+     switch (ctrl.class) {
+     case VIRTIO_NET_CTRL_MAC:
+         switch (ctrl.cmd) {
+@@ -392,10 +389,14 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+     VhostVDPAState *s = opaque;
+     size_t in_len, dev_written;
+     virtio_net_ctrl_ack status = VIRTIO_NET_ERR;
+-    /* out and in buffers sent to the device */
+-    struct iovec dev_buffers[2] = {
+-        { .iov_base = s->cvq_cmd_out_buffer },
+-        { .iov_base = s->cvq_cmd_in_buffer },
++    /* Out buffer sent to both the vdpa device and the device model */
++    struct iovec out = {
++        .iov_base = s->cvq_cmd_out_buffer,
++    };
++    /* In buffer sent to the device */
++    const struct iovec dev_in = {
++        .iov_base = s->cvq_cmd_in_buffer,
++        .iov_len = sizeof(virtio_net_ctrl_ack),
+     };
+     /* in buffer used for device model */
+     const struct iovec in = {
+@@ -405,17 +406,15 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+     int r = -EINVAL;
+     bool ok;
+ 
+-    ok = vhost_vdpa_net_cvq_map_elem(s, elem, dev_buffers);
+-    if (unlikely(!ok)) {
+-        goto out;
+-    }
+-
+-    ok = vhost_vdpa_net_cvq_validate_cmd(&dev_buffers[0], 1);
++    out.iov_len = iov_to_buf(elem->out_sg, elem->out_num, 0,
++                             s->cvq_cmd_out_buffer,
++                             vhost_vdpa_net_cvq_cmd_len());
++    ok = vhost_vdpa_net_cvq_validate_cmd(s->cvq_cmd_out_buffer, out.iov_len);
+     if (unlikely(!ok)) {
+         goto out;
+     }
+ 
+-    r = vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, elem);
++    r = vhost_svq_add(svq, &out, 1, &dev_in, 1, elem);
+     if (unlikely(r != 0)) {
+         if (unlikely(r == -ENOSPC)) {
+             qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device queue\n",
+@@ -435,13 +434,13 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+         goto out;
+     }
+ 
+-    memcpy(&status, dev_buffers[1].iov_base, sizeof(status));
++    memcpy(&status, s->cvq_cmd_in_buffer, sizeof(status));
+     if (status != VIRTIO_NET_OK) {
+         goto out;
+     }
+ 
+     status = VIRTIO_NET_ERR;
+-    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, dev_buffers, 1);
++    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, &out, 1);
+     if (status != VIRTIO_NET_OK) {
+         error_report("Bad CVQ processing in model");
+     }
+@@ -454,12 +453,6 @@ out:
+     }
+     vhost_svq_push_elem(svq, elem, MIN(in_len, sizeof(status)));
+     g_free(elem);
+-    if (dev_buffers[0].iov_base) {
+-        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, dev_buffers[0].iov_base);
+-    }
+-    if (dev_buffers[1].iov_base) {
+-        vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, dev_buffers[1].iov_base);
+-    }
+     return r;
+ }
+ 
+-- 
+2.31.1
 
-Haven't looked at it in detail yet but I think we have two versions of 
-this (one in ppc4xx_devs.c and another in ppc440_uc.c) that are slightly 
-different due to the differences of the memory controllers of later SoCs. 
-I'm not sure how to clean this up and forgot most of the details about 
-this.
-
-Regards,
-BALATON Zoltan
-
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405.h         |   6 +--
-> include/hw/ppc/ppc4xx.h |  32 ++++++++++++
-> hw/ppc/ppc405_uc.c      |  34 ++++++++----
-> hw/ppc/ppc4xx_devs.c    | 113 ++++++++++++++++++++++++++++------------
-> 4 files changed, 140 insertions(+), 45 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 56881b181ba1..8c19d167391c 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -228,12 +228,9 @@ struct Ppc405SoCState {
->     DeviceState parent_obj;
->
->     /* Public */
-> -    MemoryRegion ram_banks[2];
-> -    hwaddr ram_bases[2], ram_sizes[2];
-> -    bool do_dram_init;
-> -
->     MemoryRegion *dram_mr;
->     hwaddr ram_size;
-> +    uint32_t nr_banks;
->
->     PowerPCCPU cpu;
->     PPCUIC uic;
-> @@ -241,6 +238,7 @@ struct Ppc405SoCState {
->     Ppc405GptState gpt;
->     Ppc405OcmState ocm;
->     Ppc405GpioState gpio;
-> +    Ppc4xxSdramState sdram;
->     Ppc405DmaState dma;
->     PPC4xxI2CState i2c;
->     Ppc405EbcState ebc;
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index acd096cb2394..b841f6600b55 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -87,4 +87,36 @@ struct Ppc4xxMalState {
-> void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->                      qemu_irq irqs[4]);
->
-> +/* SDRAM controller */
-> +#define TYPE_PPC4xx_SDRAM "ppc4xx-sdram"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxSdramState, PPC4xx_SDRAM);
-> +struct Ppc4xxSdramState {
-> +    Ppc4xxDcrDeviceState parent_obj;
-> +
-> +    MemoryRegion *dram_mr;
-> +    bool dram_init;
-> +
-> +    MemoryRegion containers[4]; /* used for clipping */
-> +    MemoryRegion *ram_memories;
-> +    hwaddr *ram_bases;
-> +    hwaddr *ram_sizes;
-> +    uint32_t nb_ram_bases;
-> +    uint32_t nb_ram_sizes;
-> +    uint32_t nbanks; /* Redundant */
-> +
-> +    uint32_t addr;
-> +    uint32_t besr0;
-> +    uint32_t besr1;
-> +    uint32_t bear;
-> +    uint32_t cfg;
-> +    uint32_t status;
-> +    uint32_t rtr;
-> +    uint32_t pmit;
-> +    uint32_t bcr[4];
-> +    uint32_t tr;
-> +    uint32_t ecccfg;
-> +    uint32_t eccesr;
-> +    qemu_irq irq;
-> +};
-> +
-> #endif /* PPC4XX_H */
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 1045f5f13e6c..fe0c92ba0d54 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1361,6 +1361,9 @@ static void ppc405_soc_instance_init(Object *obj)
->
->     object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
->
-> +    object_initialize_child(obj, "sdram", &s->sdram, TYPE_PPC4xx_SDRAM);
-> +    object_property_add_alias(obj, "dram-init", OBJECT(&s->sdram), "dram-init");
-> +
->     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
->
->     object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
-> @@ -1432,15 +1435,28 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->
->     /* SDRAM controller */
->         /* XXX 405EP has no ECC interrupt */
-> -    s->ram_bases[0] = 0;
-> -    s->ram_sizes[0] = s->ram_size;
-> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
-> -                             "ppc405.sdram0", s->dram_mr,
-> -                             s->ram_bases[0], s->ram_sizes[0]);
-> +    object_property_set_link(OBJECT(&s->sdram), "dram", OBJECT(s->dram_mr),
-> +                             &error_abort);
-> +
-> +    qdev_prop_set_uint32(DEVICE(&s->sdram), "len-ram-sizes", s->nr_banks);
-> +    qdev_prop_set_uint32(DEVICE(&s->sdram), "len-ram-bases", s->nr_banks);
->
-> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
-> -                      s->ram_banks, s->ram_bases, s->ram_sizes,
-> -                      s->do_dram_init);
-> +    for (i = 0; i < s->nr_banks; i++) {
-> +        char name[32];
-> +        snprintf(name, sizeof(name), "ram-bases[%d]", i);
-> +        qdev_prop_set_uint32(DEVICE(&s->sdram), name,
-> +                             i * s->ram_size / s->nr_banks);
-> +
-> +        snprintf(name, sizeof(name), "ram-sizes[%d]", i);
-> +        qdev_prop_set_uint32(DEVICE(&s->sdram), name,
-> +                             s->ram_size / s->nr_banks);
-> +    }
-> +
-> +    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->sdram), &s->cpu, errp)) {
-> +        return;
-> +    }
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdram), 0,
-> +                       qdev_get_gpio_in(DEVICE(&s->uic), 17));
->
->     /* External bus controller */
->     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
-> @@ -1520,7 +1536,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> static Property ppc405_soc_properties[] = {
->     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
->                      MemoryRegion *),
-> -    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
-> +    DEFINE_PROP_UINT32("nr-banks", Ppc405SoCState, nr_banks, 2),
->     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
->     DEFINE_PROP_END_OF_LIST(),
-> };
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index c06c20b195cd..a9ceea13f218 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -39,28 +39,6 @@
->
-> /*****************************************************************************/
-> /* SDRAM controller */
-> -typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
-> -struct ppc4xx_sdram_t {
-> -    uint32_t addr;
-> -    int nbanks;
-> -    MemoryRegion containers[4]; /* used for clipping */
-> -    MemoryRegion *ram_memories;
-> -    hwaddr ram_bases[4];
-> -    hwaddr ram_sizes[4];
-> -    uint32_t besr0;
-> -    uint32_t besr1;
-> -    uint32_t bear;
-> -    uint32_t cfg;
-> -    uint32_t status;
-> -    uint32_t rtr;
-> -    uint32_t pmit;
-> -    uint32_t bcr[4];
-> -    uint32_t tr;
-> -    uint32_t ecccfg;
-> -    uint32_t eccesr;
-> -    qemu_irq irq;
-> -};
-> -
-> enum {
->     SDRAM0_CFGADDR = 0x010,
->     SDRAM0_CFGDATA = 0x011,
-> @@ -128,7 +106,7 @@ static target_ulong sdram_size (uint32_t bcr)
->     return size;
-> }
->
-> -static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
-> +static void sdram_set_bcr(Ppc4xxSdramState *sdram, int i,
->                           uint32_t bcr, int enabled)
-> {
->     if (sdram->bcr[i] & 0x00000001) {
-> @@ -154,7 +132,7 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
->     }
-> }
->
-> -static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
-> +static void sdram_map_bcr(Ppc4xxSdramState *sdram)
-> {
->     int i;
->
-> @@ -168,7 +146,7 @@ static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
->     }
-> }
->
-> -static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
-> +static void sdram_unmap_bcr(Ppc4xxSdramState *sdram)
-> {
->     int i;
->
-> @@ -182,7 +160,7 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
->
-> static uint32_t dcr_read_sdram (void *opaque, int dcrn)
-> {
-> -    ppc4xx_sdram_t *sdram;
-> +    Ppc4xxSdramState *sdram;
->     uint32_t ret;
->
->     sdram = opaque;
-> @@ -250,7 +228,7 @@ static uint32_t dcr_read_sdram (void *opaque, int dcrn)
->
-> static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
-> {
-> -    ppc4xx_sdram_t *sdram;
-> +    Ppc4xxSdramState *sdram;
->
->     sdram = opaque;
->     switch (dcrn) {
-> @@ -329,11 +307,10 @@ static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
->     }
-> }
->
-> -static void sdram_reset (void *opaque)
-> +static void ppc4xx_sdram_reset(DeviceState *dev)
-> {
-> -    ppc4xx_sdram_t *sdram;
-> +    Ppc4xxSdramState *sdram = (Ppc4xxSdramState *) dev;
->
-> -    sdram = opaque;
->     sdram->addr = 0x00000000;
->     sdram->bear = 0x00000000;
->     sdram->besr0 = 0x00000000; /* No error */
-> @@ -349,21 +326,88 @@ static void sdram_reset (void *opaque)
->     sdram->cfg = 0x00800000;
-> }
->
-> +static void sdram_reset(void *opaque)
-> +{
-> +    ppc4xx_sdram_reset(opaque);
-> +}
-> +
-> +static void ppc4xx_sdram_realize(DeviceState *dev, Error **errp)
-> +{
-> +    Ppc4xxSdramState *s = PPC4xx_SDRAM(dev);
-> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
-> +    int i;
-> +
-> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
-> +
-> +    ppc4xx_dcr_register(dcr, SDRAM0_CFGADDR, &dcr_read_sdram, &dcr_write_sdram);
-> +    ppc4xx_dcr_register(dcr, SDRAM0_CFGDATA, &dcr_read_sdram, &dcr_write_sdram);
-> +
-> +    if (!s->nb_ram_bases || s->nb_ram_bases != s->nb_ram_sizes) {
-> +        error_setg(errp, "Invalid number of RAM banks");
-> +        return;
-> +    }
-> +
-> +    s->ram_memories = g_new0(MemoryRegion, s->nb_ram_bases);
-> +    for (i = 0; i < s->nb_ram_bases; i++) {
-> +        g_autofree char *name = g_strdup_printf(TYPE_PPC4xx_SDRAM "%d", i);
-> +
-> +        if (!sdram_bcr(s->ram_bases[i], s->ram_sizes[i])) {
-> +            error_setg(errp, "Invalid RAM size 0x%" HWADDR_PRIx,
-> +                       s->ram_sizes[i]);
-> +            return;
-> +        }
-> +
-> +        memory_region_init_alias(&s->ram_memories[i], OBJECT(s), name,
-> +                                 s->dram_mr, s->ram_bases[i], s->ram_sizes[i]);
-> +    }
-> +
-> +    s->nbanks = s->nb_ram_sizes;
-> +    if (s->dram_init) {
-> +        sdram_map_bcr(s);
-> +    }
-> +}
-> +
-> +static Property ppc4xx_sdram_properties[] = {
-> +    DEFINE_PROP_LINK("dram", Ppc4xxSdramState, dram_mr, TYPE_MEMORY_REGION,
-> +                     MemoryRegion *),
-> +    DEFINE_PROP_BOOL("dram-init", Ppc4xxSdramState, dram_init, false),
-> +    DEFINE_PROP_ARRAY("ram-sizes", Ppc4xxSdramState, nb_ram_sizes,
-> +                      ram_sizes, qdev_prop_uint64, uint64_t),
-> +    DEFINE_PROP_ARRAY("ram-bases", Ppc4xxSdramState, nb_ram_bases,
-> +                      ram_bases, qdev_prop_uint64, uint64_t),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc4xx_sdram_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = ppc4xx_sdram_realize;
-> +    dc->user_creatable = false;
-> +    dc->reset = ppc4xx_sdram_reset;
-> +    device_class_set_props(dc, ppc4xx_sdram_properties);
-> +}
-> +
-> void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
->                         MemoryRegion *ram_memories,
->                         hwaddr *ram_bases,
->                         hwaddr *ram_sizes,
->                         int do_init)
-> {
-> -    ppc4xx_sdram_t *sdram;
-> +    Ppc4xxSdramState *sdram;
->
-> -    sdram = g_new0(ppc4xx_sdram_t, 1);
-> +    sdram = g_new0(Ppc4xxSdramState, 1);
->     sdram->irq = irq;
->     sdram->nbanks = nbanks;
->     sdram->ram_memories = ram_memories;
-> +
-> +    sdram->ram_bases = g_new0(hwaddr, 4);
-> +
->     memset(sdram->ram_bases, 0, 4 * sizeof(hwaddr));
->     memcpy(sdram->ram_bases, ram_bases,
->            nbanks * sizeof(hwaddr));
-> +
-> +    sdram->ram_sizes = g_new0(hwaddr, 4);
->     memset(sdram->ram_sizes, 0, 4 * sizeof(hwaddr));
->     memcpy(sdram->ram_sizes, ram_sizes,
->            nbanks * sizeof(hwaddr));
-> @@ -683,6 +727,11 @@ static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
->
-> static const TypeInfo ppc4xx_types[] = {
->     {
-> +        .name           = TYPE_PPC4xx_SDRAM,
-> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-> +        .instance_size  = sizeof(Ppc4xxSdramState),
-> +        .class_init     = ppc4xx_sdram_class_init,
-> +    }, {
->         .name           = TYPE_PPC4xx_MAL,
->         .parent         = TYPE_PPC4xx_DCR_DEVICE,
->         .instance_size  = sizeof(Ppc4xxMalState),
->
---3866299591-2067007575-1660067582=:57026--
 
