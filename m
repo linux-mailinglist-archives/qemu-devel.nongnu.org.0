@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379D658DB7C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 17:59:31 +0200 (CEST)
-Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B786D58DB83
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:00:28 +0200 (CEST)
+Received: from localhost ([::1]:37192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLRdi-0002bf-1v
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 11:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57752)
+	id 1oLRed-0004AC-Ne
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:00:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=uImW=YN=kaod.org=clg@ozlabs.org>)
- id 1oLRKd-0004ZC-8f; Tue, 09 Aug 2022 11:39:49 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:53829)
+ id 1oLRKg-0004av-AX; Tue, 09 Aug 2022 11:39:51 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=uImW=YN=kaod.org=clg@ozlabs.org>)
- id 1oLRKZ-0004QS-0r; Tue, 09 Aug 2022 11:39:45 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4M2HLh4RcXz4xVC;
- Wed, 10 Aug 2022 01:39:40 +1000 (AEST)
+ id 1oLRKb-0004Qw-H3; Tue, 09 Aug 2022 11:39:48 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4M2HLl1FZNz4xVD;
+ Wed, 10 Aug 2022 01:39:43 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4M2HLf4BNCz4xTv;
- Wed, 10 Aug 2022 01:39:38 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4M2HLj10d7z4xTv;
+ Wed, 10 Aug 2022 01:39:40 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
  BALATON Zoltan <balaton@eik.bme.hu>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v4 11/24] ppc/ppc405: QOM'ify OCM
-Date: Tue,  9 Aug 2022 17:38:51 +0200
-Message-Id: <20220809153904.485018-12-clg@kaod.org>
+Subject: [PATCH v4 12/24] ppc/ppc405: QOM'ify GPIO
+Date: Tue,  9 Aug 2022 17:38:52 +0200
+Message-Id: <20220809153904.485018-13-clg@kaod.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220809153904.485018-1-clg@kaod.org>
 References: <20220809153904.485018-1-clg@kaod.org>
@@ -65,195 +64,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The OCM controller is currently modeled as a simple DCR device with
-a couple of memory regions.
+The GPIO controller is currently modeled as a simple SysBus device
+with a unique memory region.
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405.h    | 16 ++++++++++
- hw/ppc/ppc405_uc.c | 73 +++++++++++++++++++++++-----------------------
- 2 files changed, 53 insertions(+), 36 deletions(-)
+ hw/ppc/ppc405.h     | 21 +++++++++++++++++++
+ hw/ppc/ppc405_uc.c  | 51 +++++++++++++++++++++------------------------
+ hw/ppc/trace-events |  1 -
+ 3 files changed, 45 insertions(+), 28 deletions(-)
 
 diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index bcf55e4f6b2e..a5b493d3e7bf 100644
+index a5b493d3e7bf..21f6cb358501 100644
 --- a/hw/ppc/ppc405.h
 +++ b/hw/ppc/ppc405.h
-@@ -63,6 +63,21 @@ struct ppc4xx_bd_info_t {
+@@ -63,6 +63,26 @@ struct ppc4xx_bd_info_t {
      uint32_t bi_iic_fast[2];
  };
  
-+/* On Chip Memory */
-+#define TYPE_PPC405_OCM "ppc405-ocm"
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405OcmState, PPC405_OCM);
-+struct Ppc405OcmState {
-+    Ppc4xxDcrDeviceState parent_obj;
++/* GPIO */
++#define TYPE_PPC405_GPIO "ppc405-gpio"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc405GpioState, PPC405_GPIO);
++struct Ppc405GpioState {
++    SysBusDevice parent_obj;
 +
-+    MemoryRegion ram;
-+    MemoryRegion isarc_ram;
-+    MemoryRegion dsarc_ram;
-+    uint32_t isarc;
-+    uint32_t isacntl;
-+    uint32_t dsarc;
-+    uint32_t dsacntl;
++    MemoryRegion io;
++    uint32_t or;
++    uint32_t tcr;
++    uint32_t osrh;
++    uint32_t osrl;
++    uint32_t tsrh;
++    uint32_t tsrl;
++    uint32_t odr;
++    uint32_t ir;
++    uint32_t rr1;
++    uint32_t isr1h;
++    uint32_t isr1l;
 +};
 +
- /* General purpose timers */
- #define TYPE_PPC405_GPT "ppc405-gpt"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc405GptState, PPC405_GPT);
-@@ -136,6 +151,7 @@ struct Ppc405SoCState {
-     DeviceState *uic;
+ /* On Chip Memory */
+ #define TYPE_PPC405_OCM "ppc405-ocm"
+ OBJECT_DECLARE_SIMPLE_TYPE(Ppc405OcmState, PPC405_OCM);
+@@ -152,6 +172,7 @@ struct Ppc405SoCState {
      Ppc405CpcState cpc;
      Ppc405GptState gpt;
-+    Ppc405OcmState ocm;
+     Ppc405OcmState ocm;
++    Ppc405GpioState gpio;
  };
  
  /* PowerPC 405 core */
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index c4d137073862..8b15132aadc0 100644
+index 8b15132aadc0..1a2cbac2748b 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -773,20 +773,9 @@ enum {
-     OCM0_DSACNTL = 0x01B,
- };
- 
--typedef struct ppc405_ocm_t ppc405_ocm_t;
--struct ppc405_ocm_t {
--    MemoryRegion ram;
--    MemoryRegion isarc_ram;
--    MemoryRegion dsarc_ram;
--    uint32_t isarc;
--    uint32_t isacntl;
--    uint32_t dsarc;
--    uint32_t dsacntl;
--};
--
--static void ocm_update_mappings (ppc405_ocm_t *ocm,
--                                 uint32_t isarc, uint32_t isacntl,
--                                 uint32_t dsarc, uint32_t dsacntl)
-+static void ocm_update_mappings(Ppc405OcmState *ocm,
-+                                uint32_t isarc, uint32_t isacntl,
-+                                uint32_t dsarc, uint32_t dsacntl)
- {
-     trace_ocm_update_mappings(isarc, isacntl, dsarc, dsacntl, ocm->isarc,
-                               ocm->isacntl, ocm->dsarc, ocm->dsacntl);
-@@ -830,10 +819,9 @@ static void ocm_update_mappings (ppc405_ocm_t *ocm,
- 
- static uint32_t dcr_read_ocm (void *opaque, int dcrn)
- {
--    ppc405_ocm_t *ocm;
-+    Ppc405OcmState *ocm = PPC405_OCM(opaque);
-     uint32_t ret;
- 
--    ocm = opaque;
-     switch (dcrn) {
-     case OCM0_ISARC:
-         ret = ocm->isarc;
-@@ -857,10 +845,9 @@ static uint32_t dcr_read_ocm (void *opaque, int dcrn)
- 
- static void dcr_write_ocm (void *opaque, int dcrn, uint32_t val)
- {
--    ppc405_ocm_t *ocm;
-+    Ppc405OcmState *ocm = PPC405_OCM(opaque);
-     uint32_t isarc, dsarc, isacntl, dsacntl;
- 
--    ocm = opaque;
-     isarc = ocm->isarc;
-     dsarc = ocm->dsarc;
-     isacntl = ocm->isacntl;
-@@ -886,12 +873,11 @@ static void dcr_write_ocm (void *opaque, int dcrn, uint32_t val)
-     ocm->dsacntl = dsacntl;
- }
- 
--static void ocm_reset (void *opaque)
-+static void ppc405_ocm_reset(DeviceState *dev)
- {
--    ppc405_ocm_t *ocm;
-+    Ppc405OcmState *ocm = PPC405_OCM(dev);
-     uint32_t isarc, dsarc, isacntl, dsacntl;
- 
--    ocm = opaque;
-     isarc = 0x00000000;
-     isacntl = 0x00000000;
-     dsarc = 0x00000000;
-@@ -903,25 +889,31 @@ static void ocm_reset (void *opaque)
-     ocm->dsacntl = dsacntl;
- }
- 
--static void ppc405_ocm_init(CPUPPCState *env)
-+static void ppc405_ocm_realize(DeviceState *dev, Error **errp)
- {
--    ppc405_ocm_t *ocm;
-+    Ppc405OcmState *ocm = PPC405_OCM(dev);
-+    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
- 
--    ocm = g_new0(ppc405_ocm_t, 1);
-     /* XXX: Size is 4096 or 0x04000000 */
--    memory_region_init_ram(&ocm->isarc_ram, NULL, "ppc405.ocm", 4 * KiB,
-+    memory_region_init_ram(&ocm->isarc_ram, OBJECT(ocm), "ppc405.ocm", 4 * KiB,
-                            &error_fatal);
--    memory_region_init_alias(&ocm->dsarc_ram, NULL, "ppc405.dsarc",
-+    memory_region_init_alias(&ocm->dsarc_ram, OBJECT(ocm), "ppc405.dsarc",
-                              &ocm->isarc_ram, 0, 4 * KiB);
--    qemu_register_reset(&ocm_reset, ocm);
--    ppc_dcr_register(env, OCM0_ISARC,
--                     ocm, &dcr_read_ocm, &dcr_write_ocm);
--    ppc_dcr_register(env, OCM0_ISACNTL,
--                     ocm, &dcr_read_ocm, &dcr_write_ocm);
--    ppc_dcr_register(env, OCM0_DSARC,
--                     ocm, &dcr_read_ocm, &dcr_write_ocm);
--    ppc_dcr_register(env, OCM0_DSACNTL,
--                     ocm, &dcr_read_ocm, &dcr_write_ocm);
-+
-+    ppc4xx_dcr_register(dcr, OCM0_ISARC, &dcr_read_ocm, &dcr_write_ocm);
-+    ppc4xx_dcr_register(dcr, OCM0_ISACNTL, &dcr_read_ocm, &dcr_write_ocm);
-+    ppc4xx_dcr_register(dcr, OCM0_DSARC, &dcr_read_ocm, &dcr_write_ocm);
-+    ppc4xx_dcr_register(dcr, OCM0_DSACNTL, &dcr_read_ocm, &dcr_write_ocm);
-+}
-+
-+static void ppc405_ocm_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->realize = ppc405_ocm_realize;
-+    /* Reason: only works as function of a ppc4xx SoC */
-+    dc->user_creatable = false;
-+    dc->reset = ppc405_ocm_reset;
+@@ -713,23 +713,6 @@ static void ppc405_dma_init(CPUPPCState *env, qemu_irq irqs[4])
  }
  
  /*****************************************************************************/
-@@ -1414,6 +1406,8 @@ static void ppc405_soc_instance_init(Object *obj)
-     object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
+-/* GPIO */
+-typedef struct ppc405_gpio_t ppc405_gpio_t;
+-struct ppc405_gpio_t {
+-    MemoryRegion io;
+-    uint32_t or;
+-    uint32_t tcr;
+-    uint32_t osrh;
+-    uint32_t osrl;
+-    uint32_t tsrh;
+-    uint32_t tsrl;
+-    uint32_t odr;
+-    uint32_t ir;
+-    uint32_t rr1;
+-    uint32_t isr1h;
+-    uint32_t isr1l;
+-};
+-
+ static uint64_t ppc405_gpio_read(void *opaque, hwaddr addr, unsigned size)
+ {
+     trace_ppc405_gpio_read(addr, size);
+@@ -748,20 +731,23 @@ static const MemoryRegionOps ppc405_gpio_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
  
-     object_initialize_child(obj, "gpt", &s->gpt, TYPE_PPC405_GPT);
+-static void ppc405_gpio_reset (void *opaque)
++static void ppc405_gpio_realize(DeviceState *dev, Error **errp)
+ {
++    Ppc405GpioState *s = PPC405_GPIO(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
 +
-+    object_initialize_child(obj, "ocm", &s->ocm, TYPE_PPC405_OCM);
++    memory_region_init_io(&s->io, OBJECT(s), &ppc405_gpio_ops, s, "gpio",
++                          0x038);
++    sysbus_init_mmio(sbd, &s->io);
+ }
+ 
+-static void ppc405_gpio_init(hwaddr base)
++static void ppc405_gpio_class_init(ObjectClass *oc, void *data)
+ {
+-    ppc405_gpio_t *gpio;
+-
+-    trace_ppc405_gpio_init(base);
++    DeviceClass *dc = DEVICE_CLASS(oc);
+ 
+-    gpio = g_new0(ppc405_gpio_t, 1);
+-    memory_region_init_io(&gpio->io, NULL, &ppc405_gpio_ops, gpio, "pgio", 0x038);
+-    memory_region_add_subregion(get_system_memory(), base, &gpio->io);
+-    qemu_register_reset(&ppc405_gpio_reset, gpio);
++    dc->realize = ppc405_gpio_realize;
++    /* Reason: only works as function of a ppc4xx SoC */
++    dc->user_creatable = false;
+ }
+ 
+ /*****************************************************************************/
+@@ -1408,6 +1394,8 @@ static void ppc405_soc_instance_init(Object *obj)
+     object_initialize_child(obj, "gpt", &s->gpt, TYPE_PPC405_GPT);
+ 
+     object_initialize_child(obj, "ocm", &s->ocm, TYPE_PPC405_OCM);
++
++    object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
  }
  
  static void ppc405_reset(void *opaque)
-@@ -1509,7 +1503,9 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* OCM */
--    ppc405_ocm_init(env);
-+    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ocm), &s->cpu, errp)) {
+@@ -1485,8 +1473,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+     /* I2C controller */
+     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+                          qdev_get_gpio_in(s->uic, 2));
++
+     /* GPIO */
+-    ppc405_gpio_init(0xef600700);
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
 +        return;
 +    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, 0xef600700);
  
-     /* GPT */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpt), errp)) {
-@@ -1553,6 +1549,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+     /* Serial ports */
+     if (serial_hd(0) != NULL) {
+@@ -1549,6 +1541,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
  
  static const TypeInfo ppc405_types[] = {
      {
-+        .name           = TYPE_PPC405_OCM,
-+        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-+        .instance_size  = sizeof(Ppc405OcmState),
-+        .class_init     = ppc405_ocm_class_init,
++        .name           = TYPE_PPC405_GPIO,
++        .parent         = TYPE_SYS_BUS_DEVICE,
++        .instance_size  = sizeof(Ppc405GpioState),
++        .class_init     = ppc405_gpio_class_init,
 +    }, {
-         .name           = TYPE_PPC405_GPT,
-         .parent         = TYPE_SYS_BUS_DEVICE,
-         .instance_size  = sizeof(Ppc405GptState),
+         .name           = TYPE_PPC405_OCM,
+         .parent         = TYPE_PPC4xx_DCR_DEVICE,
+         .instance_size  = sizeof(Ppc405OcmState),
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index adb45008883a..66fbf0e03525 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -154,7 +154,6 @@ opba_init(uint64_t addr) "offet 0x%" PRIx64
+ 
+ ppc405_gpio_read(uint64_t addr, uint32_t size) "addr 0x%" PRIx64 " size %d"
+ ppc405_gpio_write(uint64_t addr, uint32_t size, uint64_t val) "addr 0x%" PRIx64 " size %d = 0x%" PRIx64
+-ppc405_gpio_init(uint64_t addr) "offet 0x%" PRIx64
+ 
+ ocm_update_mappings(uint32_t isarc, uint32_t isacntl, uint32_t dsarc, uint32_t dsacntl, uint32_t ocm_isarc, uint32_t ocm_isacntl, uint32_t ocm_dsarc, uint32_t ocm_dsacntl) "OCM update ISA 0x%08" PRIx32 " 0x%08" PRIx32 " (0x%08" PRIx32" 0x%08" PRIx32 ") DSA 0x%08" PRIx32 " 0x%08" PRIx32" (0x%08" PRIx32 " 0x%08" PRIx32 ")"
+ ocm_map(const char* prefix, uint32_t isarc) "OCM map %s 0x%08" PRIx32
 -- 
 2.37.1
 
