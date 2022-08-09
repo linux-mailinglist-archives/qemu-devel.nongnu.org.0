@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C00758DD4E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:37:36 +0200 (CEST)
-Received: from localhost ([::1]:41770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A46F58DD5A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:41:09 +0200 (CEST)
+Received: from localhost ([::1]:46608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLTAc-0000TF-Qr
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:37:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52978)
+	id 1oLTE4-00047J-Em
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLT7n-00074y-KN; Tue, 09 Aug 2022 13:34:40 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:15463)
+ id 1oLTAp-00010i-Mr; Tue, 09 Aug 2022 13:37:47 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLT7k-0006jn-3y; Tue, 09 Aug 2022 13:34:38 -0400
+ id 1oLTAn-0007RN-Ir; Tue, 09 Aug 2022 13:37:47 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2DBB5747F1D;
- Tue,  9 Aug 2022 19:34:31 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 16D22747F40;
+ Tue,  9 Aug 2022 19:37:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D1DD37461AE; Tue,  9 Aug 2022 19:34:30 +0200 (CEST)
+ id 826CB747F1D; Tue,  9 Aug 2022 19:37:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CF775745702;
- Tue,  9 Aug 2022 19:34:30 +0200 (CEST)
-Date: Tue, 9 Aug 2022 19:34:30 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 81002745702;
+ Tue,  9 Aug 2022 19:37:43 +0200 (CEST)
+Date: Tue, 9 Aug 2022 19:37:43 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
  qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 18/24] ppc/ppc405: QOM'ify MAL
-In-Reply-To: <20220809153904.485018-19-clg@kaod.org>
-Message-ID: <bb563c6a-2d47-d56-f048-e0fed9a95a75@eik.bme.hu>
+Subject: Re: [PATCH v4 19/24] ppc/ppc405: QOM'ify FPGA
+In-Reply-To: <20220809153904.485018-20-clg@kaod.org>
+Message-ID: <a1e6fbc2-a572-9ea5-2ef5-e1982229a578@eik.bme.hu>
 References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-19-clg@kaod.org>
+ <20220809153904.485018-20-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1906793145-1660066470=:57026"
-X-Spam-Probability: 11%
+ boundary="3866299591-1380531479-1660066663=:57026"
+X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -64,369 +64,139 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1906793145-1660066470=:57026
+--3866299591-1380531479-1660066663=:57026
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Tue, 9 Aug 2022, Cédric Le Goater wrote:
-> The Memory Access Layer (MAL) controller is currently modeled as a DCR
-> device with 4 IRQs. Also drop the ppc4xx_mal_init() helper and adapt
-> the sam460ex machine.
->
 > Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
-> hw/ppc/ppc405.h         |   1 +
-> include/hw/ppc/ppc4xx.h |  32 +++++++++-
-> hw/ppc/ppc405_uc.c      |  18 ++++--
-> hw/ppc/ppc4xx_devs.c    | 135 ++++++++++++++++++----------------------
-> hw/ppc/sam460ex.c       |  16 +++--
-> 5 files changed, 116 insertions(+), 86 deletions(-)
+> hw/ppc/ppc405_boards.c | 55 +++++++++++++++++++++++++++++-------------
+> 1 file changed, 38 insertions(+), 17 deletions(-)
 >
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index cb34792daf6b..31c94e474209 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -244,6 +244,7 @@ struct Ppc405SoCState {
->     Ppc405OpbaState opba;
->     Ppc405PobState pob;
->     Ppc405PlbState plb;
-> +    Ppc4xxMalState mal;
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 3677793adc75..4ff6715f3533 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -71,18 +71,23 @@ struct Ppc405MachineState {
+>  * - NVRAM (0xF0000000)
+>  * - FPGA  (0xF0300000)
+>  */
+> -typedef struct ref405ep_fpga_t ref405ep_fpga_t;
+> -struct ref405ep_fpga_t {
+> +
+> +#define TYPE_REF405EP_FPGA "ref405ep-fpga"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ref405epFpgaState, REF405EP_FPGA);
+> +struct Ref405epFpgaState {
+> +    SysBusDevice parent_obj;
+> +
+> +    MemoryRegion iomem;
+> +
+>     uint8_t reg0;
+>     uint8_t reg1;
 > };
 >
-> /* PowerPC 405 core */
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index 82e60b0e0742..acd096cb2394 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -26,6 +26,7 @@
-> #define PPC4XX_H
+> static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
+> {
+> -    ref405ep_fpga_t *fpga;
+> +    Ref405epFpgaState *fpga = REF405EP_FPGA(opaque);
+>     uint32_t ret;
 >
-> #include "hw/ppc/ppc.h"
-> +#include "hw/sysbus.h"
+> -    fpga = opaque;
+>     switch (addr) {
+>     case 0x0:
+>         ret = fpga->reg0;
+> @@ -101,9 +106,8 @@ static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
+> static void ref405ep_fpga_writeb(void *opaque, hwaddr addr, uint64_t value,
+>                                  unsigned size)
+> {
+> -    ref405ep_fpga_t *fpga;
+> +    Ref405epFpgaState *fpga = REF405EP_FPGA(opaque);
+>
+> -    fpga = opaque;
+>     switch (addr) {
+>     case 0x0:
+>         /* Read only */
+> @@ -126,27 +130,39 @@ static const MemoryRegionOps ref405ep_fpga_ops = {
+>     .endianness = DEVICE_BIG_ENDIAN,
+> };
+>
+> -static void ref405ep_fpga_reset (void *opaque)
+> +static void ref405ep_fpga_reset(DeviceState *dev)
+> {
+> -    ref405ep_fpga_t *fpga;
+> +    Ref405epFpgaState *fpga = REF405EP_FPGA(dev);
+>
+> -    fpga = opaque;
+>     fpga->reg0 = 0x00;
+>     fpga->reg1 = 0x0F;
+> }
+>
+> -static void ref405ep_fpga_init(MemoryRegion *sysmem, uint32_t base)
+> +static void ref405ep_fpga_realize(DeviceState *dev, Error **errp)
+> {
+> -    ref405ep_fpga_t *fpga;
+> -    MemoryRegion *fpga_memory = g_new(MemoryRegion, 1);
+> +    Ref405epFpgaState *s = REF405EP_FPGA(dev);
+>
+> -    fpga = g_new0(ref405ep_fpga_t, 1);
+> -    memory_region_init_io(fpga_memory, NULL, &ref405ep_fpga_ops, fpga,
+> +    memory_region_init_io(&s->iomem, OBJECT(s), &ref405ep_fpga_ops, s,
+>                           "fpga", 0x00000100);
+> -    memory_region_add_subregion(sysmem, base, fpga_memory);
+> -    qemu_register_reset(&ref405ep_fpga_reset, fpga);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
+> +}
+> +
+> +static void ref405ep_fpga_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = ref405ep_fpga_realize;
+> +    dc->user_creatable = false;
 
-This looks odd to me as no line added below seems to need it. Does this 
-hunk belong to an earlier patch? (Have you verified that each step 
-compiles so it can be bisected?)
+Comment missing (and I'd drop unnecessary QOM casts) but otherwise:
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
 Regards,
 BALATON Zoltan
 
-> #include "exec/memory.h"
-> #include "hw/sysbus.h"
+> +    dc->reset = ref405ep_fpga_reset;
+> }
 >
-> @@ -40,9 +41,6 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
->                         hwaddr *ram_sizes,
->                         int do_init);
->
-> -void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
-> -                     qemu_irq irqs[4]);
-> -
-> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->
+> +static const TypeInfo ref405ep_fpga_type = {
+> +    .name = TYPE_REF405EP_FPGA,
+> +    .parent = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(Ref405epFpgaState),
+> +    .class_init = ref405ep_fpga_class_init,
+> +};
+> +
 > /*
-> @@ -61,4 +59,32 @@ void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
-> bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->                         Error **errp);
+>  * CPU reset handler when booting directly from a loaded kernel
+>  */
+> @@ -331,7 +347,11 @@ static void ref405ep_init(MachineState *machine)
+>     memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE, sram);
 >
-> +/* Memory Access Layer (MAL) */
-> +#define TYPE_PPC4xx_MAL "ppc4xx-mal"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxMalState, PPC4xx_MAL);
-> +struct Ppc4xxMalState {
-> +    Ppc4xxDcrDeviceState parent_obj;
+>     /* Register FPGA */
+> -    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
+> +    dev = qdev_new(TYPE_REF405EP_FPGA);
+> +    object_property_add_child(OBJECT(machine), "fpga", OBJECT(dev));
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, PPC405EP_FPGA_BASE);
 > +
-> +    qemu_irq irqs[4];
-> +    uint32_t cfg;
-> +    uint32_t esr;
-> +    uint32_t ier;
-> +    uint32_t txcasr;
-> +    uint32_t txcarr;
-> +    uint32_t txeobisr;
-> +    uint32_t txdeir;
-> +    uint32_t rxcasr;
-> +    uint32_t rxcarr;
-> +    uint32_t rxeobisr;
-> +    uint32_t rxdeir;
-> +    uint32_t *txctpr;
-> +    uint32_t *rxctpr;
-> +    uint32_t *rcbs;
-> +    uint8_t  txcnum;
-> +    uint8_t  rxcnum;
-> +};
-> +
-> +void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
-> +                     qemu_irq irqs[4]);
-> +
-> #endif /* PPC4XX_H */
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 7f4c616da67c..290cfa352bed 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1368,6 +1368,8 @@ static void ppc405_soc_instance_init(Object *obj)
->     object_initialize_child(obj, "pob", &s->pob, TYPE_PPC405_POB);
->
->     object_initialize_child(obj, "plb", &s->plb, TYPE_PPC405_PLB);
-> +
-> +    object_initialize_child(obj, "mal", &s->mal, TYPE_PPC4xx_MAL);
+>     /* Register NVRAM */
+>     dev = qdev_new("sysbus-m48t08");
+>     qdev_prop_set_int32(dev, "base-year", 1968);
+> @@ -376,6 +396,7 @@ static void ppc405_machine_init(void)
+> {
+>     type_register_static(&ppc405_machine_type);
+>     type_register_static(&ref405ep_type);
+> +    type_register_static(&ref405ep_fpga_type);
 > }
 >
-> static void ppc405_reset(void *opaque)
-> @@ -1378,7 +1380,6 @@ static void ppc405_reset(void *opaque)
-> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> {
->     Ppc405SoCState *s = PPC405_SOC(dev);
-> -    qemu_irq mal_irqs[4];
->     CPUPPCState *env;
->     int i;
+> type_init(ppc405_machine_init)
 >
-> @@ -1495,11 +1496,16 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     }
->
->     /* MAL */
-> -    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
-> -    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
-> -    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
-> -    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
-> -    ppc4xx_mal_init(env, 4, 2, mal_irqs);
-> +    object_property_set_int(OBJECT(&s->mal), "txc-num", 4, &error_abort);
-> +    object_property_set_int(OBJECT(&s->mal), "rxc-num", 2, &error_abort);
-> +    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->mal), &s->cpu, errp)) {
-> +        return;
-> +    }
-> +
-> +    for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
-> +                           qdev_get_gpio_in(s->uic, 11 + i));
-> +    }
->
->     /* Ethernet */
->     /* Uses UIC IRQs 9, 15, 17 */
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index bce7ef461346..8a8a87b03b28 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -459,32 +459,10 @@ enum {
->     MAL0_RCBS1    = 0x1E1,
-> };
->
-> -typedef struct ppc4xx_mal_t ppc4xx_mal_t;
-> -struct ppc4xx_mal_t {
-> -    qemu_irq irqs[4];
-> -    uint32_t cfg;
-> -    uint32_t esr;
-> -    uint32_t ier;
-> -    uint32_t txcasr;
-> -    uint32_t txcarr;
-> -    uint32_t txeobisr;
-> -    uint32_t txdeir;
-> -    uint32_t rxcasr;
-> -    uint32_t rxcarr;
-> -    uint32_t rxeobisr;
-> -    uint32_t rxdeir;
-> -    uint32_t *txctpr;
-> -    uint32_t *rxctpr;
-> -    uint32_t *rcbs;
-> -    uint8_t  txcnum;
-> -    uint8_t  rxcnum;
-> -};
-> -
-> -static void ppc4xx_mal_reset(void *opaque)
-> +static void ppc4xx_mal_reset(DeviceState *dev)
-> {
-> -    ppc4xx_mal_t *mal;
-> +    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
->
-> -    mal = opaque;
->     mal->cfg = 0x0007C000;
->     mal->esr = 0x00000000;
->     mal->ier = 0x00000000;
-> @@ -498,10 +476,9 @@ static void ppc4xx_mal_reset(void *opaque)
->
-> static uint32_t dcr_read_mal(void *opaque, int dcrn)
-> {
-> -    ppc4xx_mal_t *mal;
-> +    Ppc4xxMalState *mal = PPC4xx_MAL(opaque);
->     uint32_t ret;
->
-> -    mal = opaque;
->     switch (dcrn) {
->     case MAL0_CFG:
->         ret = mal->cfg;
-> @@ -555,13 +532,12 @@ static uint32_t dcr_read_mal(void *opaque, int dcrn)
->
-> static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
-> {
-> -    ppc4xx_mal_t *mal;
-> +    Ppc4xxMalState *mal = PPC4xx_MAL(opaque);
->
-> -    mal = opaque;
->     switch (dcrn) {
->     case MAL0_CFG:
->         if (val & 0x80000000) {
-> -            ppc4xx_mal_reset(mal);
-> +            ppc4xx_mal_reset(DEVICE(mal));
->         }
->         mal->cfg = val & 0x00FFC087;
->         break;
-> @@ -612,59 +588,67 @@ static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
->     }
-> }
->
-> -void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
-> -                     qemu_irq irqs[4])
-> +static void ppc4xx_mal_realize(DeviceState *dev, Error **errp)
-> {
-> -    ppc4xx_mal_t *mal;
-> +    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
-> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
->     int i;
->
-> -    assert(txcnum <= 32 && rxcnum <= 32);
-> -    mal = g_malloc0(sizeof(*mal));
-> -    mal->txcnum = txcnum;
-> -    mal->rxcnum = rxcnum;
-> -    mal->txctpr = g_new0(uint32_t, txcnum);
-> -    mal->rxctpr = g_new0(uint32_t, rxcnum);
-> -    mal->rcbs = g_new0(uint32_t, rxcnum);
-> -    for (i = 0; i < 4; i++) {
-> -        mal->irqs[i] = irqs[i];
-> +    if (mal->txcnum > 32 || mal->rxcnum > 32) {
-> +        error_setg(errp, "invalid TXC/RXC number");
-> +        return;
-> +    }
-> +
-> +    mal->txctpr = g_new0(uint32_t, mal->txcnum);
-> +    mal->rxctpr = g_new0(uint32_t, mal->rxcnum);
-> +    mal->rcbs = g_new0(uint32_t, mal->rxcnum);
-> +
-> +    for (i = 0; i < ARRAY_SIZE(mal->irqs); i++) {
-> +        sysbus_init_irq(SYS_BUS_DEVICE(dev), &mal->irqs[i]);
->     }
-> -    qemu_register_reset(&ppc4xx_mal_reset, mal);
-> -    ppc_dcr_register(env, MAL0_CFG,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_ESR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_IER,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_TXCASR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_TXCARR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_TXEOBISR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_TXDEIR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_RXCASR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_RXCARR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_RXEOBISR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    ppc_dcr_register(env, MAL0_RXDEIR,
-> -                     mal, &dcr_read_mal, &dcr_write_mal);
-> -    for (i = 0; i < txcnum; i++) {
-> -        ppc_dcr_register(env, MAL0_TXCTP0R + i,
-> -                         mal, &dcr_read_mal, &dcr_write_mal);
-> +
-> +    ppc4xx_dcr_register(dcr, MAL0_CFG, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_ESR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_IER, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_TXCASR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_TXCARR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_TXEOBISR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_TXDEIR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_RXCASR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_RXCARR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_RXEOBISR, &dcr_read_mal, &dcr_write_mal);
-> +    ppc4xx_dcr_register(dcr, MAL0_RXDEIR, &dcr_read_mal, &dcr_write_mal);
-> +    for (i = 0; i < mal->txcnum; i++) {
-> +        ppc4xx_dcr_register(dcr, MAL0_TXCTP0R + i,
-> +                         &dcr_read_mal, &dcr_write_mal);
->     }
-> -    for (i = 0; i < rxcnum; i++) {
-> -        ppc_dcr_register(env, MAL0_RXCTP0R + i,
-> -                         mal, &dcr_read_mal, &dcr_write_mal);
-> +    for (i = 0; i < mal->rxcnum; i++) {
-> +        ppc4xx_dcr_register(dcr, MAL0_RXCTP0R + i,
-> +                         &dcr_read_mal, &dcr_write_mal);
->     }
-> -    for (i = 0; i < rxcnum; i++) {
-> -        ppc_dcr_register(env, MAL0_RCBS0 + i,
-> -                         mal, &dcr_read_mal, &dcr_write_mal);
-> +    for (i = 0; i < mal->rxcnum; i++) {
-> +        ppc4xx_dcr_register(dcr, MAL0_RCBS0 + i,
-> +                         &dcr_read_mal, &dcr_write_mal);
->     }
-> }
->
-> +static Property ppc4xx_mal_properties[] = {
-> +    DEFINE_PROP_UINT8("txc-num", Ppc4xxMalState, txcnum, 0),
-> +    DEFINE_PROP_UINT8("rxc-num", Ppc4xxMalState, rxcnum, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc4xx_mal_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = ppc4xx_mal_realize;
-> +    dc->user_creatable = false;
-> +    /* Reason: only works as function of a ppc4xx SoC */
-> +    dc->reset = ppc4xx_mal_reset;
-> +    device_class_set_props(dc, ppc4xx_mal_properties);
-> +}
-> +
-> void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->                          dcr_read_cb dcr_read, dcr_write_cb dcr_write)
-> {
-> @@ -699,6 +683,11 @@ static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
->
-> static const TypeInfo ppc4xx_types[] = {
->     {
-> +        .name           = TYPE_PPC4xx_MAL,
-> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-> +        .instance_size  = sizeof(Ppc4xxMalState),
-> +        .class_init     = ppc4xx_mal_class_init,
-> +    }, {
->         .name           = TYPE_PPC4xx_DCR_DEVICE,
->         .parent         = TYPE_SYS_BUS_DEVICE,
->         .instance_size  = sizeof(Ppc4xxDcrDeviceState),
-> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-> index 31139c1554de..5f0e0ccaf485 100644
-> --- a/hw/ppc/sam460ex.c
-> +++ b/hw/ppc/sam460ex.c
-> @@ -280,7 +280,7 @@ static void sam460ex_init(MachineState *machine)
->     hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
->     MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
->     DeviceState *uic[4];
-> -    qemu_irq mal_irqs[4];
-> +    Ppc4xxMalState *mal;
->     int i;
->     PCIBus *pci_bus;
->     PowerPCCPU *cpu;
-> @@ -387,10 +387,18 @@ static void sam460ex_init(MachineState *machine)
->     ppc4xx_sdr_init(env);
->
->     /* MAL */
-> -    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
-> -        mal_irqs[i] = qdev_get_gpio_in(uic[2], 3 + i);
-> +    dev = qdev_new(TYPE_PPC4xx_MAL);
-> +    mal = PPC4xx_MAL(dev);
-> +
-> +    qdev_prop_set_uint32(dev, "txc-num", 4);
-> +    qdev_prop_set_uint32(dev, "rxc-num", 16);
-> +    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(mal), cpu, &error_fatal);
-> +    object_unref(OBJECT(mal));
-> +
-> +    for (i = 0; i < ARRAY_SIZE(mal->irqs); i++) {
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
-> +                           qdev_get_gpio_in(uic[2], 3 + i));
->     }
-> -    ppc4xx_mal_init(env, 4, 16, mal_irqs);
->
->     /* DMA */
->     ppc4xx_dma_init(env, 0x200);
->
---3866299591-1906793145-1660066470=:57026--
+--3866299591-1380531479-1660066663=:57026--
 
