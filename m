@@ -2,83 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA89058D07F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 01:31:55 +0200 (CEST)
-Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9915758D159
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 02:27:50 +0200 (CEST)
+Received: from localhost ([::1]:60962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLCDy-0007xt-AZ
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 19:31:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44392)
+	id 1oLD65-0001Yq-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 20:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oLCCq-0006TR-87; Mon, 08 Aug 2022 19:30:44 -0400
-Received: from mail-vk1-xa32.google.com ([2607:f8b0:4864:20::a32]:45730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oLCCo-0000Ig-6v; Mon, 08 Aug 2022 19:30:44 -0400
-Received: by mail-vk1-xa32.google.com with SMTP id l13so5110074vka.12;
- Mon, 08 Aug 2022 16:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=5aA8BI09gf1DCZkirT4M6F+BoTwQliHR/kxjP/1MT0Y=;
- b=njyY4f4/BCi8YjNv6qg3xtpSenK8088PvD3bNyu2vAvDm8dLvA+p2ZRpuPw+X51VYK
- auIf2TYgNhJqxE4e5ZZJ5PaAQ4KdobkaseExE6lqK+hN7OkUtcV0qpRgIv/XW84wwmgA
- utdLHMXYdGdKG9q5SKm46BZb3nP/iHJx8wX0feFiLdsXGl2KBxcP9nz1LE0Y1EHVLxIJ
- VmgzaMFylqfgky5mk6H0TuA/w7wcG8O4bKh8purajsu/NbyeM7HMVrxusDwC0Z0wUsmb
- v28z0UDTJjwov2u17A14y5ht3qBGekLST7/+4O3Od1Tpqa0Kp0oOM534UeHmKYt2++cZ
- uoJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=5aA8BI09gf1DCZkirT4M6F+BoTwQliHR/kxjP/1MT0Y=;
- b=j6cAE6G5/pwxCBDxQtBVSWU30ye5hS7SRBX4mHpB2nFcasGw1hBpB2vjL9uON+YLWN
- +cIS48vTqNQuuC4IXaYy1rhxcAjCRWCfaBF9jLzhqi+L/RYJb9tR3fniYxlnXkxfZ9Hk
- j3IiK11xKZj0iOauuhhP3cc4XXrrhSoLoEDkbMhs149610TFcqhy8/8O4S7xeNJ00+23
- U4gVIuVKWyOk0gbopp28MeloDnjqevmVxoI6ZPdOTuJBxk66M9TcxTtTNU71MmFY3Fro
- 8Up2rpUw5AEL+FdCFMwqmUBnuKN/pcBnoAex4FENs+ESJY6SwreJJo9JTaNX8CPrSElk
- QhaQ==
-X-Gm-Message-State: ACgBeo0f+gMtGwzgT+WPKuUp2p0qdtGdSdBe8UTtJrUL1Mvbp/ftuXIN
- 0cQDuLeoCvj6s51+WFWIryQ=
-X-Google-Smtp-Source: AA6agR6E29Hh75Y0Y5A8tyjapi+vLay+LxAFjAGafFo1Di69B69MKKu46aW/Ok96TXyiGULOkvwPMA==
-X-Received: by 2002:a1f:3206:0:b0:377:d5aa:620f with SMTP id
- y6-20020a1f3206000000b00377d5aa620fmr8699041vky.38.1660001440469; 
- Mon, 08 Aug 2022 16:30:40 -0700 (PDT)
-Received: from [192.168.10.102] (201-68-49-100.dsl.telesp.net.br.
- [201.68.49.100]) by smtp.gmail.com with ESMTPSA id
- s17-20020a67f4d1000000b00373d697e3e2sm9246653vsn.19.2022.08.08.16.30.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Aug 2022 16:30:40 -0700 (PDT)
-Message-ID: <85e18c90-a3e7-7e60-9362-4b526e1ac2e8@gmail.com>
-Date: Mon, 8 Aug 2022 20:30:37 -0300
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oLD3j-0005Zt-QU; Mon, 08 Aug 2022 20:25:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oLD3b-000784-CR; Mon, 08 Aug 2022 20:25:21 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27901F1J014214;
+ Tue, 9 Aug 2022 00:25:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=kdSzavPsLaANEVxx7BlYGtXSGm2s/JMPekbq8yrt1dE=;
+ b=ApAO/xK+nRJcApcBlwjGAbNpNnIC2eVleP2halLBHxnWdt7DWbmtetHR1QWc+xO+8SSW
+ ThX3hAlSiB3B+AHiPCJuAhuAVfaw/k/v2aRefsYY6qUPTx+OmOo3bVfLMmN2W+yOqT5n
+ RSoWdWNEu8dDHRA2rG0QMD0IgTOv2QXssu5/ohcv7KOCNZRIUH9jJKkTUU6wHbrzUS+m
+ QSCYxcS6k2HgJUBeV/HGE+kQ7XkZTu86oVdXg51P+RFGyB5TkdjAG1+ZkeCDykDii4Y2
+ 2wQUQPkMybfD5aHUtsTXx8Vho2V3m71WAChfdqxl/un7BPAbu76tvc7chyKS8G78bw2t Bg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hubrq9tub-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Aug 2022 00:25:10 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27908IgJ021653;
+ Tue, 9 Aug 2022 00:25:10 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hubrq9tu0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Aug 2022 00:25:10 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2790KULL018553;
+ Tue, 9 Aug 2022 00:25:09 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03wdc.us.ibm.com with ESMTP id 3hsfx9fh07-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Aug 2022 00:25:09 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2790P88B42860848
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 9 Aug 2022 00:25:08 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 449F0BE056;
+ Tue,  9 Aug 2022 00:25:08 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ABA8BBE054;
+ Tue,  9 Aug 2022 00:25:07 +0000 (GMT)
+Received: from localhost (unknown [9.77.141.99])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue,  9 Aug 2022 00:25:07 +0000 (GMT)
+From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>, muriloo@linux.ibm.com,
+ mopsfelder@gmail.com
+Subject: [PATCH 0/2] tests/migration: add support for ppc64le in guestperf.py
+Date: Mon,  8 Aug 2022 21:24:49 -0300
+Message-Id: <20220809002451.91541-1-muriloo@linux.ibm.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH for-7.2 06/10] ppc/pnv: enable user created pnv-phb for
- powernv8
-Content-Language: en-US
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220803134459.2633902-1-danielhb413@gmail.com>
- <20220803134459.2633902-7-danielhb413@gmail.com>
- <5f3a7053-ebfe-ef3d-093a-d5a593ad88e5@linux.ibm.com>
- <42bfa67a-f679-0817-418b-24aad93450c7@gmail.com>
-In-Reply-To: <42bfa67a-f679-0817-418b-24aad93450c7@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a32;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa32.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VdPz2t3tdoXiBcxyAzDXq08Qpw6vPz8W
+X-Proofpoint-ORIG-GUID: lUrPreOAQhS08AseG6qVY4X8TLbhVaZa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-08_14,2022-08-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=660 clxscore=1011
+ impostorscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ spamscore=0 malwarescore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2208080105
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,125 +115,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The first patch adds sysprof-capture-4 dependency when building stress binary in
+order to fix a build error.
 
+The second patch adds support for ppc64le in guestperf.py.
 
-On 8/8/22 13:50, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 8/5/22 07:50, Frederic Barrat wrote:
->>
->>
->>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
->>> index 077f391d59..953c384bf6 100644
->>> --- a/hw/pci-host/pnv_phb.c
->>> +++ b/hw/pci-host/pnv_phb.c
->>> @@ -17,6 +17,7 @@
->>>   #include "hw/ppc/pnv.h"
->>>   #include "hw/qdev-properties.h"
->>>   #include "qom/object.h"
->>> +#include "sysemu/sysemu.h"
->>>   /*
->>> @@ -171,6 +172,10 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
->>>           pnv_phb4_bus_init(dev, PNV_PHB4(phb->backend));
->>>       }
->>> +    if (phb->version == 3 && !defaults_enabled()) {
->>> +        return;
->>> +    }
->>> +
->>>       pnv_phb_attach_root_port(pci);
->>>   }
->>
->>
->> So we skip the call to pnv_phb_attach_root_port() for the user created PHBs.
->>
->> I seem to remember that when the user creates a PHB on the command line, they also need to create the root port and we can't just create one by default with the PHB. It seems heavy when just using the qemu CLI but that was a requirement from libvirt. Did I get that right?
-> 
-> libvirt requires all pci devices to be declared in the XML. If we create the
-> root ports automatically by just adding PHBs I would need to reflect that
-> in the domain XML by either automatically add root ports with each PHB, which
-> is easier said than done, or tell the user to do so.
-> 
-> libvirt also allows for custom naming of the buses, e.g the PHB can be named
-> 'phb-root0' and its root port 'my-rootport.1'. There's no way we can name
-> root ports buses by adding them automatically with each PHB like we do
-> for default PHBs.
-> 
-> 
->>
->> In any case, I can see a problem. pnv_phb_attach_root_port() creates the root port object, so if the above is correct, we want to skip that. But it also creates the PHB->root port relationship in QOM. That we don't do anywhere for the user-created case.
->>
->> Calling qemu with "-nodefaults -device pnv-phb -device pnv-phb-root-port", here is what I see in QOM, which shows the wrong parenting of the root port:
->>    /peripheral-anon (container)
->>      /device[1] (pnv-phb-root-port)
->>        /bus master container[0] (memory-region)
->>        /bus master[0] (memory-region)
->>        /pci_bridge_io[0] (memory-region)
->>        /pci_bridge_io[1] (memory-region)
->>        /pci_bridge_mem[0] (memory-region)
->>        /pci_bridge_pci[0] (memory-region)
->>        /pci_bridge_pref_mem[0] (memory-region)
->>        /pci_bridge_vga_io_hi[0] (memory-region)
->>        /pci_bridge_vga_io_lo[0] (memory-region)
->>        /pci_bridge_vga_mem[0] (memory-region)
->>        /pcie.0 (PCIE)
->>
->>
->> With the full series, same problem on P8/P9/P10
-> 
-> I forgot to mention it in the cover letter. This is intended. The reason
-> is that we can't access the PHB from the root-port due to QOM best
-> practices, i.e. we can't do qdev_get_parent_bus()->parent to parent
-> the root port with the PHB. The reason why we're able to do that for
-> default devices is because we have access to the PHB regardless of QOM
-> when creating the root port.
+Murilo Opsfelder Araujo (2):
+  tests/migration: add sysprof-capture-4 as dependency for stress binary
+  tests/migration: add support for ppc64le for guestperf.py
 
-This is not correct. The default phb is parented by the root-bus, not the
-PHB. E.g:
+ tests/migration/guestperf/engine.py | 28 +++++++++++++++++++++++++---
+ tests/migration/meson.build         |  4 +++-
+ 2 files changed, 28 insertions(+), 4 deletions(-)
 
-         /pnv-phb4-root.9 (pnv-phb4-root)
-           /pnv-phb-root-port[3] (pnv-phb-root-port)
-             /bus master container[0] (memory-region)
-             /bus master[0] (memory-region)
-           (...)
-
-Both default and user created cases have access to the phb-root-bus.
-
-The reasoning behind the current QOM hierarchy is the existing design in place
-for what it is called "dynamically created sysbus devices", which means all the
-devices that are created via command line. If the device has an 'id' it'll be
-inserted in a 'peripheral' container, if no 'id' is provided the device goes
-into a 'peripheral-anon' container.
-
-I managed to amend the root_port_realize() function to place the root-port
-in the same place as the default root port appears. What I need to do now
-before re-sending is verify whether I broke something else during the
-process :)
-
-
-Thanks,
-
-
-Daniel
-
-
-> 
-> 
-> If we want QOM consistency between user created devices and default
-> devices, one alternative is to make the root-port a child of the
-> root bus. That can be achievable in both cases.
-> 
-> 
-> Thanks,
-> 
-> 
-> Daniel
-> 
-> 
->>
->>    Fred
->>
->>
->>
->>
->>
+--
+2.37.1
 
