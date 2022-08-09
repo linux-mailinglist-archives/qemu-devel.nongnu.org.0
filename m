@@ -2,77 +2,168 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F142E58D225
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 04:52:37 +0200 (CEST)
-Received: from localhost ([::1]:41266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B7B58D235
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 05:02:21 +0200 (CEST)
+Received: from localhost ([::1]:44180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLFMD-0001Jo-2F
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 22:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38622)
+	id 1oLFVc-0003lm-Vj
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 23:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLFKb-0006z0-Bk
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 22:50:57 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:33510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLFKZ-0001rT-Ht
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 22:50:57 -0400
-Received: by mail-pf1-x434.google.com with SMTP id k14so7647260pfh.0
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 19:50:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fthpOYJLv3rrp4OYuzGxexwLs/3g8fu6HNxkY88KU+g=;
- b=lCXWLFb+SMZF6skT5+YJjzoRNoMAfbxS7iR+9BHt0mp90GRpnjD59BhJpZPFd3Y08y
- ciY3D94ujF/UJB139tjkMuE/4qMrf5ux4vLm9fkZyl9e+gWkWeKnBWcIMTbhzTHQuTy/
- J60eu1FmkH1HIHZmPYvdnNzroiU5y/V5DwwWhrLeVwIzvk9wSCJkZBABzsuBBLOKVK4x
- SOIogC4yHO4X+Ldawq+hE2cPOdv3939YQZF/Kc4gGpKTyC7YhdwOuRnfnKMoroWzh2mp
- QUT4ajJfZ+UitOP0t1WPb8kfemlxWhPmvDn8JrybhxQxY9+tlCWKtXnrCBduoGR2PWrL
- DM5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fthpOYJLv3rrp4OYuzGxexwLs/3g8fu6HNxkY88KU+g=;
- b=YJN4aJ7tBsL8JP7tRy3M7n1jm3SBjN2LFcgw1JPPxdei4/efZBMOOrrUO0Nvf1xaS3
- KJ+8WfZD9K64fvzHcZ0Zbx6eyeMvCBMOabyusU1pWh9FJg/yanFAIchugYm3eWjjlbt7
- uiOmcWjmDDz7dJm81MEbXWk9UXvjpWm76joeEkRnQAuIyGqHyPmjyN3UtbNlUcq7PIwD
- j3xHBsiS01isGe4JkaW6z/djN48M+RwoGXbhG7+eNrZqDlwwZ1SP0X68V8EzBX7p/Phy
- WtmGDFSK4wr3CIog93f6ibEd7BKUw5G1f8z6880TaqmZUkbszrL8lUNexVDOudGya3dX
- Iyfw==
-X-Gm-Message-State: ACgBeo2LgKoOgs4bOwAXjblvofvuWtWSbNkS7eESY6K9qZDZaFOTz5nc
- dVwDwG/i6c20czxEDKSGol1qTsaZ4980Bw==
-X-Google-Smtp-Source: AA6agR5dVxxpANovECwCECSgL6fjg5z7wsyLmBKyQSffMQboah9cESGiixIOkEZtQfPQrnPLfKipOg==
-X-Received: by 2002:a05:6a00:1c87:b0:52d:cf00:84de with SMTP id
- y7-20020a056a001c8700b0052dcf0084demr21491261pfw.38.1660013454231; 
- Mon, 08 Aug 2022 19:50:54 -0700 (PDT)
-Received: from stoup.. ([2602:ae:154e:e201:8c1b:1e6f:caf3:a217])
- by smtp.gmail.com with ESMTPSA id
- a3-20020a170902710300b0016be834d54asm1298148pll.306.2022.08.08.19.50.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Aug 2022 19:50:53 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Qi Hu <huqi@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Feiyang Chen <chenfeiyang@loongson.cn>
-Subject: [PULL 1/1] target/loongarch: Remove cpu_fcsr0
-Date: Mon,  8 Aug 2022 19:50:50 -0700
-Message-Id: <20220809025050.781846-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220809025050.781846-1-richard.henderson@linaro.org>
-References: <20220809025050.781846-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1oLFTK-00024S-NN
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 22:59:58 -0400
+Received: from mga17.intel.com ([192.55.52.151]:57732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1oLFTH-0002i6-RE
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 22:59:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660013995; x=1691549995;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=ARe4hErKP1m7u+aBky+qsxKmzY7JoJfxwEH/nQXxlxg=;
+ b=NE5qeLoBbsViTGx2KSGPy0+VjYvmD4onR0iOW0eUVA+WKarLxlzHMVOM
+ YQhjRWUNYPR/ocTiO4RG4/rtqKV9Y/4f17AIbvSZPv5kxp+q+Ucap5PWz
+ sFuTqXisvI3zX3QFBcPMPlkzZzJDaTUIWsNysZL7DYJyQL7k9957OQSeJ
+ bs7qopzpDrbXKe+4vhGYlqoqATq+FODCgXo2Xu2q+LSOFOyyGb4bs8ziK
+ ECrIH1xvd7B2oy7EmGof65FoypY2AKee7rB+D12tl8gMSzLL+5hsFiAaj
+ QuybzH5Z71/NsQdlLXucfmA22SMtvnjm6ndVFSBLEBn1cViBkJXtE8HRH Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="271126751"
+X-IronPort-AV: E=Sophos;i="5.93,223,1654585200"; d="scan'208";a="271126751"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Aug 2022 19:59:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,223,1654585200"; d="scan'208";a="850311924"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga006.fm.intel.com with ESMTP; 08 Aug 2022 19:59:47 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Mon, 8 Aug 2022 19:59:47 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Mon, 8 Aug 2022 19:59:44 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Mon, 8 Aug 2022 19:59:44 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.43) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Mon, 8 Aug 2022 19:59:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UdWAMIBoCvTcGmuGhxupM8PsaCUVzzu6tabP3V6uRzCgjrUwiws775T0VK5eRaPoz3LJUDnMSCkTDwJm0ZYLoa4a+w8qy4QKDbwlH/yboT1WHbE+eFUTbcYSpwF0KJ3bLdX6S3hH8AM8c/yWDwvDnKdzOSMegNzHCh0WTXdjW6YfTHXPQJP0nQJAMBqirz9YJiy3x/YCx1Y8TyRXXYEhNJqSfGnADCdmRbPqDOQnGJUfFzRvs693p48QWnfHWm+LjHeHGZuSftzDBV55TKzlVLw9qqfRVPXlgEzEUOYNYvX9eC+t9sy58NGkl8ysO2gzPiFQU4SPTOxE85UjSsfdlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ARe4hErKP1m7u+aBky+qsxKmzY7JoJfxwEH/nQXxlxg=;
+ b=h0Fb5mJeJhfQ/GdCyfheyNqwJUDjXfI7oqfMkLOuTa9WfCi1MYz9KFfVMlWiGXfzywxbtwPwHUsVKziT6lMJqsavdCae52cJTbwheMqzCbt/H713PqB/MUuN+ZVd1Se364cb+9wSN8/hGHElgFBv+ejQGSeBYJZV6wV8hxqOKXFGckexyhwJQl16a14zb+MA67lsub0dEsLvk6u00QEj2rC68cJNpDAnmBbW9YhY+VO34bOYIvI/deQ7wvm+cvO2H5IuaVJ/RIYw4NxVvVuMXdNkv2/UikyOXW3zFPiw9YhODMaOQXn+gMEABmkVGfSvJmM3p4sDVRvjygxZRDQgyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
+ by DM6PR11MB4458.namprd11.prod.outlook.com (2603:10b6:5:14f::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Tue, 9 Aug
+ 2022 02:59:42 +0000
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::e849:1316:6e38:6eee]) by MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::e849:1316:6e38:6eee%7]) with mapi id 15.20.5504.020; Tue, 9 Aug 2022
+ 02:59:42 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: Jason Wang <jasowang@redhat.com>, Li Zhijian <lizhijian@fujitsu.com>,
+ qemu-dev <qemu-devel@nongnu.org>
+Subject: RE: [PATCH V2] net/colo.c: Fix the pointer issuse reported by
+ Coverity.
+Thread-Topic: [PATCH V2] net/colo.c: Fix the pointer issuse reported by
+ Coverity.
+Thread-Index: AQHYqLEld+dIpYIOF0qaMjum4GGSLK2gEfEAgAXTkVA=
+Date: Tue, 9 Aug 2022 02:59:41 +0000
+Message-ID: <MWHPR11MB00313088C02D645B2DCFD5379B629@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20220805093813.119839-1-chen.zhang@intel.com>
+ <CAFEAcA-xwDEX2EMC1DUP0vBvx_sGLvT5zAN2FnDi0DWwOSWWUg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-xwDEX2EMC1DUP0vBvx_sGLvT5zAN2FnDi0DWwOSWWUg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3154fd4b-51ae-4b0b-1f54-08da79b334e2
+x-ms-traffictypediagnostic: DM6PR11MB4458:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 46hbAbxXJhdkdZXVabAVFG+yVFBrTqpZIaVHOhtrzYoxEo2B3beyHWk8yzpMWIhviKXXDysK6iKiiwnzGM4NXA6MN5cMTfoUsuqJmBZqZ/Y8a5tM1DxRg2QSOoWnyaJ6oJa+p9Phphyz0D3tPmf8z50ETVHqRPrU3uu0lPsPKFN1WsWImNcojSu/y20ESxKAHK+2imJHDC28yrJS+XmuYRnY43FhLZ3IzAlEelYWTTrPofr3t6XWzY20Zp9fftOrMHRHJ5MfRniuag162aymhRixPX9s+N1DAo/vNvuoIZgGS/GTX1ydNiW8Ms7OX8co8qcZOkW1jzzKQsnHl2NrsRnhQF2QYEIqPgZ5NEw99aZG01+yTzmvVz8TrDSgFG8rO0RCandVNwmt10cWsUcnp5hvIRJOiEgeAyHF9fVcuI8NlFcvfU3VCVm8nPMbpSy5HY8CXvZnu1PsvIH/v7nvEsB6J+ybtyzkBiNMJ3MnXgp7CCaHXudugIoKDwNeU5OffQME9erowgfm143JJxGebPxTDjeCx5mJDEo86bFgvYhoqaR2e92/wfL4xdq/UJd6WoVFVtvWujUemf7Ms7DenCqdK9IeYTs3E11BYHB1FFhMVfc9OVoApHhIgBPSAZtinONnAnXmfRrDSjao8LnT/l04ptp7llxWZ9Hae7V1YQ0WCV7L38U13wcimIklle1PhAUVKzVBXDleT62N4G6S4XSem4sW+NBcrQZvoCLaOlfTIPTMSG8iRk/ajfHhEO7d0dns/URpjq+LcPFe+IPFReaSROcTD7lh9HvRvWE+Twbny6TG16O6tmr7CUjU/5An
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(136003)(39860400002)(346002)(396003)(366004)(376002)(5660300002)(52536014)(2906002)(76116006)(66946007)(33656002)(71200400001)(55016003)(316002)(478600001)(54906003)(8936002)(6916009)(122000001)(38100700002)(82960400001)(38070700005)(86362001)(41300700001)(26005)(53546011)(6506007)(7696005)(9686003)(4326008)(66556008)(66476007)(64756008)(8676002)(66446008)(186003)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SkN4alNvZDZIMEFNOEVNYTZ0VFViRThUVXU1eFJOcTBaT3MvNnprd1VQZFBr?=
+ =?utf-8?B?eURnd3NTd2ZFcEdqaTFFek93OWJZdXczZG8wYmw0eG1aNmRsTGxRRVZTdVh6?=
+ =?utf-8?B?NDN1ZlorZDRwdFFzSEtUeWRwYzJzeHJEK21MUllBMHB1Nk5rR24wOTVVTkVV?=
+ =?utf-8?B?aFdIbWgwRkVnQUNHVHFyS3dVRVJsVHJrZFlEQXFCVEY3cEU3SGxnb0JiY3Jr?=
+ =?utf-8?B?cHhQWk91cHNMNHJmcHRZMHRwcE00b0xuQUlESjAzeDFubEdFWUtLcW4xVE1S?=
+ =?utf-8?B?bkFDZU5hRVZNSk1LOXVMVjh0Vml3WDdELzhWMWVQSEJoVEMrTURPZ0YwWEdG?=
+ =?utf-8?B?eUVMS0VwaS9COUUxZHM5T2xEci9Ma3hTUzR1U0JnclFFd0tMbzQ0UFZVSWRq?=
+ =?utf-8?B?SWMrVTRwamJ1U05HYitNTm1mV2pEOEkwU2xtNk9BOVFrUEdCeW1EaVRNL1NZ?=
+ =?utf-8?B?NHMyRHo5bkliSll4RlRFdDVicDB6bnBjQnluVlhyN0dQLzBDNkRldW1LVU9z?=
+ =?utf-8?B?R1VYMk0yMHBRcjRDOTFySEpTaTBod1oyMkpVYWdraUdGYjJyZkhobzc0NUlS?=
+ =?utf-8?B?QUJzdm5hY3U5Nm0xSVh1Q0VHWTdoV3lGZDBIS0RPVnRPbDRuSTJtM2RnRFVU?=
+ =?utf-8?B?YjQyVExFaWxrN2pmTlF1OWM2eHFSVkhXQjBTWHZjMmkraWl1Zy9zOFZ5cnd0?=
+ =?utf-8?B?UW1qUWhlemo3TkhtYzluanpWM0lRU2FlRkhhZmVsRldyOWxaMHNXYWliSVNo?=
+ =?utf-8?B?a1Z2czM3WlJNTXphQ0lBSDlwTHFNRXpVbWlCNmRIU3BVZ0VLYWlxcjNHUFVD?=
+ =?utf-8?B?TjdlVVB6cUV3eFBicEpxYzdDcm4xN0diclNUOUFaQ08yNVFWckcra3A2VU15?=
+ =?utf-8?B?N3ZUcWFTWkowQ1crNXIzTlg1UVVJMGlRYWtmTGloQjRzaWpkL0kwb0JSWFNs?=
+ =?utf-8?B?c2xmcnErVEI5NTNSUjBkN0pYSjJmTEV3WGVYVUJWbmdjNEE5eS9hM3NPU1U5?=
+ =?utf-8?B?Y0JpYlJsd0RzREFHUDZNenJxMzkzNlZrZkFNZk16aWQ4NVdWbGVMQXF4MGNT?=
+ =?utf-8?B?MEc3c2VPbjBzcUVKVGhBcXNhU1plUVZ5bm05ODFZVFRQenBPVU96Y1VkQ2pN?=
+ =?utf-8?B?OUpnR2hYTWNNK0gyS3FTYWwzUWZ6U3VjcUZZcE92a0xUZUJBN09LUjBGbXhu?=
+ =?utf-8?B?YkgxUUc0T2lXRThjYUYxM1Iyc3VxVWdhOENUVmx3Ylk4czBzTE1RanRwWEZu?=
+ =?utf-8?B?Skh3L2RIM0p0SDh2Vm1FcTE1bUllTjBmaUZFWWhWM0YzOHpVdklKNUFESFdW?=
+ =?utf-8?B?Y3BEZ1Q5S3JuTTRyWFQzc3VsMjl4RmRSZmd2U3RZbVRkNnpmU3NRLzdVR3FD?=
+ =?utf-8?B?VWtlQmJQc1dHM2xqTmh6UXhoYjVIRmo0RGJkQXoxNGRvVHg2WE5EZHhvR0RQ?=
+ =?utf-8?B?Umg5RU9GcmFPR0tTMFZyRExUMVduOExlcG11emx5WHlsSVJUR1NabDJqUVVN?=
+ =?utf-8?B?RjhkczU1dEgyc2FwNTNZb3huZ3JRQkQ2QjVrc3B0eUd6S0xKWVdzK3VVRy9K?=
+ =?utf-8?B?SFhpbm03T1dtWVhmVUlWQ2p1ODBWQ3lVQ3JJT2F4TjBMNWhkeEpoaTFnS1Ez?=
+ =?utf-8?B?WUowcUhDajgvUlZyOC9OcDJXTnc3RlF5bXlHYlNBMWJuTGtXdmJVVWJJZWU1?=
+ =?utf-8?B?VUc1UGZmZ1g1Szl2SVF4TGpWNzhoNmlQVXZ1V2h2Y2NBSHI2VlR0TDNuYXlO?=
+ =?utf-8?B?d0k0WUJkTUxyQWRlTU1BaUN2SCtXRlAzZFNmaHpzWjUxOTZYa3Ywc1o4a2FY?=
+ =?utf-8?B?cS9Wam1XQnU0bUtyODZNa2d3V2hQUm9YWjd5WlJad25xMytETExLWjVjVnFk?=
+ =?utf-8?B?aEszekVEbkJjbkM4MmxWbFY5dWFJQ3VHRGJhUFhQVmNYZGplZmhzVEpqVVJV?=
+ =?utf-8?B?dzRqNjg4RTFma0FiSDY4V1I3czcyUXkxUVhBTkRJencxQTVkMFpkUU0zemRY?=
+ =?utf-8?B?NXY3K3FJSEFqRkN0UlN3VVZqbGg4b0pyY3lXQm1QdFRNbjdNYWk1QUo4VmpG?=
+ =?utf-8?B?MXJXTjYwVVo3NU9KUktMM3Y3SktQZWowWllpRHhmZjZoQTBIMWlaOC80S1Q0?=
+ =?utf-8?Q?VZJ3pNLVfRg8KSsss08elcsvI?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3154fd4b-51ae-4b0b-1f54-08da79b334e2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2022 02:59:41.9219 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Z1aHCcQoG047WaAD7CJfnG8EMIdQReL0gQKAJRorSog6mS3oMGEt7bDo26Eqt7OC6ZQRHHVMmNCWi5qDtYT7YQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4458
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,167 +180,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All of the fpu operations are defined with TCG_CALL_NO_WG, but they
-all modify FCSR0.  The most efficient way to fix this is to remove
-cpu_fcsr0, and instead use explicit load and store operations for the
-two instructions that manipulate that value.
-
-Acked-by: Qi Hu <huqi@loongson.cn>
-Reviewed-by: Song Gao <gaosong@loongson.cn>
-Reported-by: Feiyang Chen <chenfeiyang@loongson.cn>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/loongarch/helper.h                    |  2 +-
- target/loongarch/fpu_helper.c                |  4 +--
- target/loongarch/translate.c                 |  3 --
- tests/tcg/loongarch64/test_fcsr.c            | 15 +++++++++
- target/loongarch/insn_trans/trans_fmov.c.inc | 33 ++++++++++----------
- tests/tcg/loongarch64/Makefile.target        |  1 +
- 6 files changed, 36 insertions(+), 22 deletions(-)
- create mode 100644 tests/tcg/loongarch64/test_fcsr.c
-
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index cbbe008f32..9c01823a26 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -91,7 +91,7 @@ DEF_HELPER_2(ftint_w_d, i64, env, i64)
- DEF_HELPER_2(frint_s, i64, env, i64)
- DEF_HELPER_2(frint_d, i64, env, i64)
- 
--DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_RWG, void, env, i32)
-+DEF_HELPER_FLAGS_1(set_rounding_mode, TCG_CALL_NO_RWG, void, env)
- 
- DEF_HELPER_1(rdtime_d, i64, env)
- 
-diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
-index bd76529219..4b9637210a 100644
---- a/target/loongarch/fpu_helper.c
-+++ b/target/loongarch/fpu_helper.c
-@@ -872,8 +872,8 @@ uint64_t helper_ftint_w_d(CPULoongArchState *env, uint64_t fj)
-     return fd;
- }
- 
--void helper_set_rounding_mode(CPULoongArchState *env, uint32_t fcsr0)
-+void helper_set_rounding_mode(CPULoongArchState *env)
- {
--    set_float_rounding_mode(ieee_rm[(fcsr0 >> FCSR0_RM) & 0x3],
-+    set_float_rounding_mode(ieee_rm[(env->fcsr0 >> FCSR0_RM) & 0x3],
-                             &env->fp_status);
- }
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index c9afd11420..51ba291430 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -22,7 +22,6 @@
- /* Global register indices */
- TCGv cpu_gpr[32], cpu_pc;
- static TCGv cpu_lladdr, cpu_llval;
--TCGv_i32 cpu_fcsr0;
- TCGv_i64 cpu_fpr[32];
- 
- #include "exec/gen-icount.h"
-@@ -266,8 +265,6 @@ void loongarch_translate_init(void)
-     }
- 
-     cpu_pc = tcg_global_mem_new(cpu_env, offsetof(CPULoongArchState, pc), "pc");
--    cpu_fcsr0 = tcg_global_mem_new_i32(cpu_env,
--                    offsetof(CPULoongArchState, fcsr0), "fcsr0");
-     cpu_lladdr = tcg_global_mem_new(cpu_env,
-                     offsetof(CPULoongArchState, lladdr), "lladdr");
-     cpu_llval = tcg_global_mem_new(cpu_env,
-diff --git a/tests/tcg/loongarch64/test_fcsr.c b/tests/tcg/loongarch64/test_fcsr.c
-new file mode 100644
-index 0000000000..ad3609eb99
---- /dev/null
-+++ b/tests/tcg/loongarch64/test_fcsr.c
-@@ -0,0 +1,15 @@
-+#include <assert.h>
-+
-+int main()
-+{
-+    unsigned fcsr;
-+
-+    asm("movgr2fcsr $r0,$r0\n\t"
-+        "movgr2fr.d $f0,$r0\n\t"
-+        "fdiv.d     $f0,$f0,$f0\n\t"
-+        "movfcsr2gr %0,$r0"
-+        : "=r"(fcsr) : : "f0");
-+
-+    assert(fcsr & (16 << 16)); /* Invalid */
-+    return 0;
-+}
-diff --git a/target/loongarch/insn_trans/trans_fmov.c.inc b/target/loongarch/insn_trans/trans_fmov.c.inc
-index 24753d4568..5537e3dd35 100644
---- a/target/loongarch/insn_trans/trans_fmov.c.inc
-+++ b/target/loongarch/insn_trans/trans_fmov.c.inc
-@@ -60,38 +60,39 @@ static bool trans_movgr2fcsr(DisasContext *ctx, arg_movgr2fcsr *a)
-     TCGv Rj = gpr_src(ctx, a->rj, EXT_NONE);
- 
-     if (mask == UINT32_MAX) {
--        tcg_gen_extrl_i64_i32(cpu_fcsr0, Rj);
-+        tcg_gen_st32_i64(Rj, cpu_env, offsetof(CPULoongArchState, fcsr0));
-     } else {
-+        TCGv_i32 fcsr0 = tcg_temp_new_i32();
-         TCGv_i32 temp = tcg_temp_new_i32();
- 
-+        tcg_gen_ld_i32(fcsr0, cpu_env, offsetof(CPULoongArchState, fcsr0));
-         tcg_gen_extrl_i64_i32(temp, Rj);
-         tcg_gen_andi_i32(temp, temp, mask);
--        tcg_gen_andi_i32(cpu_fcsr0, cpu_fcsr0, ~mask);
--        tcg_gen_or_i32(cpu_fcsr0, cpu_fcsr0, temp);
-+        tcg_gen_andi_i32(fcsr0, fcsr0, ~mask);
-+        tcg_gen_or_i32(fcsr0, fcsr0, temp);
-+        tcg_gen_st_i32(fcsr0, cpu_env, offsetof(CPULoongArchState, fcsr0));
-+
-         tcg_temp_free_i32(temp);
--
--        /*
--         * Install the new rounding mode to fpu_status, if changed.
--         * Note that FCSR3 is exactly the rounding mode field.
--         */
--        if (mask != FCSR0_M3) {
--            return true;
--        }
-+        tcg_temp_free_i32(fcsr0);
-     }
--    gen_helper_set_rounding_mode(cpu_env, cpu_fcsr0);
- 
-+    /*
-+     * Install the new rounding mode to fpu_status, if changed.
-+     * Note that FCSR3 is exactly the rounding mode field.
-+     */
-+    if (mask & FCSR0_M3) {
-+        gen_helper_set_rounding_mode(cpu_env);
-+    }
-     return true;
- }
- 
- static bool trans_movfcsr2gr(DisasContext *ctx, arg_movfcsr2gr *a)
- {
--    TCGv_i32 temp = tcg_temp_new_i32();
-     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
- 
--    tcg_gen_andi_i32(temp, cpu_fcsr0, fcsr_mask[a->fcsrs]);
--    tcg_gen_ext_i32_i64(dest, temp);
-+    tcg_gen_ld32u_i64(dest, cpu_env, offsetof(CPULoongArchState, fcsr0));
-+    tcg_gen_andi_i64(dest, dest, fcsr_mask[a->fcsrs]);
-     gen_set_gpr(a->rd, dest, EXT_NONE);
--    tcg_temp_free_i32(temp);
- 
-     return true;
- }
-diff --git a/tests/tcg/loongarch64/Makefile.target b/tests/tcg/loongarch64/Makefile.target
-index 0115de78ef..00030a1026 100644
---- a/tests/tcg/loongarch64/Makefile.target
-+++ b/tests/tcg/loongarch64/Makefile.target
-@@ -15,5 +15,6 @@ LOONGARCH64_TESTS  += test_div
- LOONGARCH64_TESTS  += test_fclass
- LOONGARCH64_TESTS  += test_fpcom
- LOONGARCH64_TESTS  += test_pcadd
-+LOONGARCH64_TESTS  += test_fcsr
- 
- TESTS += $(LOONGARCH64_TESTS)
--- 
-2.34.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgTWF5ZGVsbCA8
+cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiBTZW50OiBGcmlkYXksIEF1Z3VzdCA1LCAyMDIy
+IDU6NTcgUE0NCj4gVG86IFpoYW5nLCBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCj4gQ2M6
+IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+OyBMaSBaaGlqaWFuIDxsaXpoaWppYW5A
+ZnVqaXRzdS5jb20+Ow0KPiBxZW11LWRldiA8cWVtdS1kZXZlbEBub25nbnUub3JnPg0KPiBTdWJq
+ZWN0OiBSZTogW1BBVENIIFYyXSBuZXQvY29sby5jOiBGaXggdGhlIHBvaW50ZXIgaXNzdXNlIHJl
+cG9ydGVkIGJ5DQo+IENvdmVyaXR5Lg0KPiANCj4gT24gRnJpLCA1IEF1ZyAyMDIyIGF0IDEwOjUz
+LCBaaGFuZyBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBXaGVu
+IGVuYWJsZSB0aGUgdmlydGlvLW5ldC1wY2ksIGd1ZXN0IG5ldHdvcmsgcGFja2V0IHdpbGwgbG9h
+ZCB0aGUNCj4gPiB2bmV0X2hkci4gSW4gQ09MTyBzdGF0dXMsIHRoZSBwcmltYXJ5IFZNJ3MgbmV0
+d29yayBwYWNrZXQgbWF5YmUNCj4gPiByZWRpcmVjdCB0byBhbm90aGVyIFZNLCBpdCBuZWVkIGZp
+bHRlci1yZWRpcmVjdCBlbmFibGUgdGhlIHZuZXRfaGRyDQo+ID4gZmxhZyBhdCB0aGUgc2FtZSB0
+aW1lLCBDT0xPLXByb3h5IHdpbGwgY29ycmVjdGx5IHBhcnNlIHRoZSBvcmlnaW5hbA0KPiA+IG5l
+dHdvcmsgcGFja2V0LiBJZiBoYXZlIGFueSBtaXNjb25maWd1cmF0aW9uIGhlcmUsIHRoZSB2bmV0
+X2hkcl9sZW4gaXMNCj4gPiB3cm9uZyBmb3IgcGFyc2UgdGhlIHBhY2tldCwgdGhlIGRhdGErb2Zm
+c2V0IHdpbGwgcG9pbnQgdG8gd3JvbmcgcGxhY2UuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBa
+aGFuZyBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiAgbmV0L2NvbG8u
+YyB8IDE3ICsrKysrKysrKy0tLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlv
+bnMoKyksIDggZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbmV0L2NvbG8uYyBi
+L25ldC9jb2xvLmMNCj4gPiBpbmRleCA2YjBmZjU2MmFkLi41MjRhZmEzZDliIDEwMDY0NA0KPiA+
+IC0tLSBhL25ldC9jb2xvLmMNCj4gPiArKysgYi9uZXQvY29sby5jDQo+ID4gQEAgLTQ0LDIxICs0
+NCwyMiBAQCBpbnQgcGFyc2VfcGFja2V0X2Vhcmx5KFBhY2tldCAqcGt0KSAgew0KPiA+ICAgICAg
+aW50IG5ldHdvcmtfbGVuZ3RoOw0KPiA+ICAgICAgc3RhdGljIGNvbnN0IHVpbnQ4X3Qgdmxhbltd
+ID0gezB4ODEsIDB4MDB9Ow0KPiA+IC0gICAgdWludDhfdCAqZGF0YSA9IHBrdC0+ZGF0YSArIHBr
+dC0+dm5ldF9oZHJfbGVuOw0KPiA+ICsgICAgdWludDhfdCAqZGF0YSA9IHBrdC0+ZGF0YTsNCj4g
+PiAgICAgIHVpbnQxNl90IGwzX3Byb3RvOw0KPiA+ICAgICAgc3NpemVfdCBsMmhkcl9sZW47DQo+
+ID4NCj4gPiAtICAgIGlmIChkYXRhID09IE5VTEwpIHsNCj4gPiAtICAgICAgICB0cmFjZV9jb2xv
+X3Byb3h5X21haW5fdm5ldF9pbmZvKCJUaGlzIHBhY2tldCBpcyBub3QgcGFyc2VkIGNvcnJlY3Rs
+eSwNCj4gIg0KPiA+ICsgICAgYXNzZXJ0KGRhdGEpOw0KPiA+ICsNCj4gPiArICAgIC8qIENoZWNr
+IHRoZSByZWNlaXZlZCB2bmV0X2hkcl9sZW4gdGhlbiBhZGQgdGhlIG9mZnNldCAqLw0KPiA+ICsg
+ICAgaWYgKHBrdC0+c2l6ZSA8IHNpemVvZihzdHJ1Y3QgZXRoX2hlYWRlcikgKyBzaXplb2Yoc3Ry
+dWN0IHZsYW5faGVhZGVyKQ0KPiA+ICsgICAgICAgICsgcGt0LT52bmV0X2hkcl9sZW4pIHsNCj4g
+DQo+IEkgdGhpbmsgdGhpcyBleHByZXNzaW9uIG5lZWRzIG1vcmUgY2FyZSB0byBhdm9pZCBvdmVy
+ZmxvdyB3aXRoIGEgbWFsaWNpb3VzbHkNCj4gb3Zlci1sYXJnZSB2bmV0X2hkcl9sZW4gdmFsdWUu
+DQo+IA0KPiBDYXN0aW5nIHBrdC0+dm5ldF9oZHJfbGVuIHRvIGludDY0X3Qgd291bGQgYmUgb25l
+IHdheSB0byBkbyB0aGF0OyB0aGVyZQ0KPiBtYXkgYmUgYmV0dGVyIGFwcHJvYWNoZXMuDQoNClll
+cywgeW91IGFyZSByaWdodC4gQW5kIEkgZm91bmQgYmV0dGVyIHRvIHVzZSB0aGlzIGNoZWNrIHRv
+IGF2b2lkIG92ZXJmbG93Og0KInBrdC0+dm5ldF9oZHJfbGVuIDwgc2l6ZW9mKHN0cnVjdCB2aXJ0
+aW9fbmV0X2hkcikiDQpJIHdpbGwgZml4IGl0IGluIG5leHQgdmVyc2lvbi4NCg0KVGhhbmtzDQpD
+aGVuDQoNCg0KPiANCj4gdGhhbmtzDQo+IC0tIFBNTQ0K
 
