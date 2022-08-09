@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A370358D2FE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 06:42:38 +0200 (CEST)
-Received: from localhost ([::1]:47014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B954358D3A2
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 08:19:45 +0200 (CEST)
+Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLH4f-0002PZ-7o
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 00:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51724)
+	id 1oLIae-00047m-9q
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 02:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLH3e-00014z-36
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 00:41:34 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:43760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLH3c-0008Qw-BX
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 00:41:33 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- o5-20020a17090a3d4500b001ef76490983so11108924pjf.2
- for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 21:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:references:in-reply-to:content-transfer-encoding;
- bh=8iPSd8MuK5WphpGLMcQexh6AZCMp35RA/g499IlZsso=;
- b=nsVWam0vEJn6bDEkhZ8/zr8LDaOj9qbr8LsaUm0VVtoY3XK8ObXAmM4z0A4NSwOMM4
- +URgTo9EuLNgPHsqT2BDbHg4cgj5y64RDxLa89gSBPKNprt2ywZiI+DLv7MxnGoNiigd
- GXPxSCgxZcvI/WQGBKpZnZmGtUWJUKYkd+WR5LWxbbBE1GLSNvyZSGXSMXeahBmA0wHi
- 5/EPqzKWCOV7+EGL9+sGaTK1EUGop0kJFk0TAviHWfOFjIx9P9zP5PCG2THvZdVqp2LQ
- NjDI2u1ZFN0F9lLo3uTXv8T2k5lJIM36KYK0gc51O6wB12L94+9dxPArfpYobYJPgDw3
- BiTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:in-reply-to
- :content-transfer-encoding;
- bh=8iPSd8MuK5WphpGLMcQexh6AZCMp35RA/g499IlZsso=;
- b=qToUvP8veuZtiZgr5dA4jHOzHU7dC8EMdf1kFMiby9ale2nGbxAj3SBur1e4ggvLHE
- 1VxeTeI9mppMss44huUhUFTS7Q3fq/DPeOLJoMIG46/rAeOqFYm6i67oD3uGgTkC6BHV
- N6UcXJ6+EkPchbj9r3GJtQ+MvHR4AWV17a5vz/B95Nl5LZqdj8SJ8cedlU6c5YfiVcbJ
- kVKQUorjOWrIcbTew8dKRWduodfh9MArHyoPeCGpQGKpvX8eDUlb3LVHIWg71e821KMy
- zpMYZjMPZV83ZhMdt7YeCGtBILcp5g82XQ88OD0lBCYNOMF5jY241e9iq/1T2hBh4L+j
- vDAA==
-X-Gm-Message-State: ACgBeo3c6BkvqDP/HT04gpmcNoteLmi0IxOFs73U6oAfpTRhqy9nNZ2X
- VGGx8cLo4vmjR+uuYfyZfD/fAZPqKKS8fg==
-X-Google-Smtp-Source: AA6agR7SNwBbvaJ9bViKpQi5Bn8lhafyj4yWRRzYISzWVFAju4pSMcohYhrkhkhfPawZOVaCCrh+Xw==
-X-Received: by 2002:a17:90b:2382:b0:1f5:618c:6f74 with SMTP id
- mr2-20020a17090b238200b001f5618c6f74mr24159314pjb.80.1660020090529; 
- Mon, 08 Aug 2022 21:41:30 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:8c1b:1e6f:caf3:a217?
- ([2602:ae:154e:e201:8c1b:1e6f:caf3:a217])
- by smtp.gmail.com with ESMTPSA id
- x16-20020a170902ec9000b0016c9e5f291bsm9695059plg.111.2022.08.08.21.41.29
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Aug 2022 21:41:29 -0700 (PDT)
-Message-ID: <d3f34968-4002-b101-9140-e9421aa6ec75@linaro.org>
-Date: Mon, 8 Aug 2022 21:41:28 -0700
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oLIWa-0002Mz-7m
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 02:15:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oLIWW-00058y-Lz
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 02:15:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660025726;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=orPDrzkHdW/2Vr1UEhJzL3W5+i92eDNjEkFHqQNi45o=;
+ b=NUqnfDmiaOfEDCQxHSJdqBNKlT7lrdPH40aJYGLCBxDU7dHapC+jYQ3UTXOE4BBfFfxfAG
+ bCL1m9qBisXeMq9E0PlIARN/mrIgqcss2nOJazJ/o6SsSeW19FANQ7sEkjOpaWyP/rvNvx
+ /dpvYGdlirbJ27d7jKfwz8ieGCUFrQQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-395-5pavtEAQPSunczc636ASxA-1; Tue, 09 Aug 2022 02:15:22 -0400
+X-MC-Unique: 5pavtEAQPSunczc636ASxA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 581BF380450D;
+ Tue,  9 Aug 2022 06:15:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D3242166B26;
+ Tue,  9 Aug 2022 06:15:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0866D21E675E; Tue,  9 Aug 2022 08:15:21 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  QEMU Developers
+ <qemu-devel@nongnu.org>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  "Daniel
+ P. Berrange" <berrange@redhat.com>,  Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: how long do we need to retain gitlab CI job stdout logs?
+References: <CAFEAcA_Y=ugD=Oh=fJhi=9GE73zpWnp0YC9dOoJazHg1PgXu=w@mail.gmail.com>
+ <536c6605-fd29-dbca-8633-944656e6dc8e@redhat.com>
+Date: Tue, 09 Aug 2022 08:15:21 +0200
+In-Reply-To: <536c6605-fd29-dbca-8633-944656e6dc8e@redhat.com> (Thomas Huth's
+ message of "Mon, 8 Aug 2022 20:42:28 +0200")
+Message-ID: <87leryj62u.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 0/1] loongarch patch queue
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20220809025050.781846-1-richard.henderson@linaro.org>
-In-Reply-To: <20220809025050.781846-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,46 +84,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/22 19:50, Richard Henderson wrote:
-> Hopefully the last such last minute bug for this new target.
-> 
-> 
-> r~
-> 
-> 
-> The following changes since commit 7b06148df8a22d984e77e796322aeb5901dc653c:
-> 
->    Merge tag 'mips-20220809' of https://github.com/philmd/qemu into staging (2022-08-08 17:59:27 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-la-20220808
-> 
-> for you to fetch changes up to 10dcb08b03863221faa41f4f1aa835cdca441b96:
-> 
->    target/loongarch: Remove cpu_fcsr0 (2022-08-08 19:42:53 -0700)
-> 
-> ----------------------------------------------------------------
-> loongarch: fix emulation of fcsr register
+Thomas Huth <thuth@redhat.com> writes:
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+> On 08/08/2022 19.47, Peter Maydell wrote:
+>> Hi; I just reduced QEMU's storage usage on gitlab by 130GB (no typo!)
+>> using https://gitlab.com/eskultety/gitlab_cleaner, which Dan helpfully
+>> pointed me at. This script removes old pipelines, which take up a
+>> lot of storage space for QEMU because they include the stdout logs
+>> for all the CI jobs in the pipeline. (Gitlab doesn't expire these,
+>> either by default or configurably -- you have to either manually delete
+>> the pipeline in the UI or else use the API, as this script does.)
+>> I somewhat conservatively only blew away pipelines from before the
+>> 1st January 2022. I feel like we don't really even need 6 months worth
+>> of CI job logs, though -- any views on whether we should be pruning
+>> them more aggressively ?
+>
+> I'd say we should at least keep the logs of the last 4 to 5 months, i.e. the logs for one release cycle, so we can check these logs in case we introduced 
+> a new bug in the current release cycle.
 
-
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> Richard Henderson (1):
->        target/loongarch: Remove cpu_fcsr0
-> 
->   target/loongarch/helper.h                    |  2 +-
->   target/loongarch/fpu_helper.c                |  4 ++--
->   target/loongarch/translate.c                 |  3 ---
->   tests/tcg/loongarch64/test_fcsr.c            | 15 +++++++++++++
->   target/loongarch/insn_trans/trans_fmov.c.inc | 33 ++++++++++++++--------------
->   tests/tcg/loongarch64/Makefile.target        |  1 +
->   6 files changed, 36 insertions(+), 22 deletions(-)
->   create mode 100644 tests/tcg/loongarch64/test_fcsr.c
+If this takes too much space, consider keeping every n-th log after a
+month.
 
 
