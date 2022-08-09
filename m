@@ -2,51 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F1E58DE53
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 20:13:51 +0200 (CEST)
-Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C4058DE33
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 20:12:57 +0200 (CEST)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLTjj-0002LV-1Q
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 14:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56920)
+	id 1oLTiq-0001Cj-Ko
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 14:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTRw-0007C3-MG; Tue, 09 Aug 2022 13:55:28 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:15722)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLTd4-00033z-Rr
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 14:07:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTRu-0001eD-EI; Tue, 09 Aug 2022 13:55:28 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DC5D5747F1D;
- Tue,  9 Aug 2022 19:55:24 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A80FD7461AE; Tue,  9 Aug 2022 19:55:24 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A6844745702;
- Tue,  9 Aug 2022 19:55:24 +0200 (CEST)
-Date: Tue, 9 Aug 2022 19:55:24 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 24/24] ppc/ppc405: Add check on minimum RAM size
-In-Reply-To: <20220809153904.485018-25-clg@kaod.org>
-Message-ID: <4118a946-7754-98c2-2475-68546ab773ad@eik.bme.hu>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-25-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLTd0-0003J7-1q
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 14:06:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660068412;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NKg2VD9veO2+juZL4a9PEPdqddHC74fke5copua3fHM=;
+ b=N8YYr5U3J3PePC+FM9VHRkhq1CHDlTymGYiLTd1PkWnM1UoiizXdUWxelDTZkdpopCZ1hb
+ I7qxD+po9tuTD3ysFwDZHVVZA2H11+ypphFiKP9t7CWmzlWiExgnxLwQ/D63KfXcqSGC2H
+ nBX8V0F0cdUfBO24zGsor5iD6Z5XJfw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-627-gHNwIWYxNY-sJIBYGlCJ0A-1; Tue, 09 Aug 2022 14:06:50 -0400
+X-MC-Unique: gHNwIWYxNY-sJIBYGlCJ0A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ z11-20020a05600c0a0b00b003a043991610so2487489wmp.8
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 11:06:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=NKg2VD9veO2+juZL4a9PEPdqddHC74fke5copua3fHM=;
+ b=vxmK4LNj2fXBgy2kpo5PH01qu/zbSNBM0LEfi3xPc3g+Az9p78T5e3sJF5ucg4m3mp
+ Ge6lz0YmfxqLRBmY/yTepa4kMj8mPFA/x/7zQ/qq0NDJC/iJ5GU6t4tlGn7IILQSqxSM
+ sThkUOCwitmx7lvwkl16MMt2RIGEmQU6ZjssgKOX1ANzzvgYwN3Hn3OJvPaT8ot/FyAK
+ JNVCh9Uh6RbQ058V3bkRh+EBfxXe63RyUuU/i4jIYFWMtTGT01OJrlqbpgEkUiJION6X
+ Oc+IcWUuQpxMz2Ky9bybP9uUIJf7+tzpxh4QSgWTS21JCt69NspLOiB+JxIpZ1zeJOKL
+ 640Q==
+X-Gm-Message-State: ACgBeo1TBED57WRT4AhbYBe1U605GLM+B9J1BNpZq1bLItr2Cu/ZnFqn
+ YqMj36z80Ghse/lro7zEa61/18b4psaOFZYJjbWty3uwB7IHx+Hj+WHc4ONOSjyfFj6cNY9M0Pf
+ SpeHvG1GonuvDrlA=
+X-Received: by 2002:adf:dc01:0:b0:21e:28ea:5d41 with SMTP id
+ t1-20020adfdc01000000b0021e28ea5d41mr14686662wri.440.1660068409503; 
+ Tue, 09 Aug 2022 11:06:49 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6Eanvj/vsNUhsAQAU4VhAcnRy8vJhDMrK3ARnrKhCiow+vHnC7WGRd6qny6jdzVUaUS2mNEQ==
+X-Received: by 2002:adf:dc01:0:b0:21e:28ea:5d41 with SMTP id
+ t1-20020adfdc01000000b0021e28ea5d41mr14686638wri.440.1660068409124; 
+ Tue, 09 Aug 2022 11:06:49 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:3700:aed2:a0f8:c270:7f30?
+ (p200300cbc7053700aed2a0f8c2707f30.dip0.t-ipconnect.de.
+ [2003:cb:c705:3700:aed2:a0f8:c270:7f30])
+ by smtp.gmail.com with ESMTPSA id
+ e39-20020a5d5967000000b002205cbc1c74sm14269145wri.101.2022.08.09.11.06.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Aug 2022 11:06:48 -0700 (PDT)
+Message-ID: <31107841-f033-5e40-2333-9c258a631027@redhat.com>
+Date: Tue, 9 Aug 2022 20:06:47 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1550421559-1660067724=:57026"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Mark Kanda <mark.kanda@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20220721120732.118133-1-david@redhat.com>
+ <f8ab5723-07ba-f418-3011-e7850324adc1@oracle.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH RFC 0/7] hostmem: NUMA-aware memory preallocation using
+ ThreadContext
+In-Reply-To: <f8ab5723-07ba-f418-3011-e7850324adc1@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,50 +113,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 09.08.22 12:56, Joao Martins wrote:
+> On 7/21/22 13:07, David Hildenbrand wrote:
+>> This is a follow-up on "util: NUMA aware memory preallocation" [1] by
+>> Michal.
+>>
+>> Setting the CPU affinity of threads from inside QEMU usually isn't
+>> easily possible, because we don't want QEMU -- once started and running
+>> guest code -- to be able to mess up the system. QEMU disallows relevant
+>> syscalls using seccomp, such that any such invocation will fail.
+>>
+>> Especially for memory preallocation in memory backends, the CPU affinity
+>> can significantly increase guest startup time, for example, when running
+>> large VMs backed by huge/gigantic pages, because of NUMA effects. For
+>> NUMA-aware preallocation, we have to set the CPU affinity, however:
+>>
+>> (1) Once preallocation threads are created during preallocation, management
+>>     tools cannot intercept anymore to change the affinity. These threads
+>>     are created automatically on demand.
+>> (2) QEMU cannot easily set the CPU affinity itself.
+>> (3) The CPU affinity derived from the NUMA bindings of the memory backend
+>>     might not necessarily be exactly the CPUs we actually want to use
+>>     (e.g., CPU-less NUMA nodes, CPUs that are pinned/used for other VMs).
+>>
+>> There is an easy "workaround". If we have a thread with the right CPU
+>> affinity, we can simply create new threads on demand via that prepared
+>> context. So, all we have to do is setup and create such a context ahead
+>> of time, to then configure preallocation to create new threads via that
+>> environment.
+>>
+>> So, let's introduce a user-creatable "thread-context" object that
+>> essentially consists of a context thread used to create new threads.
+>> QEMU can either try setting the CPU affinity itself ("cpu-affinity",
+>> "node-affinity" property), or upper layers can extract the thread id
+>> ("thread-id" property) to configure it externally.
+>>
+>> Make memory-backends consume a thread-context object
+>> (via the "prealloc-context" property) and use it when preallocating to
+>> create new threads with the desired CPU affinity. Further, to make it
+>> easier to use, allow creation of "thread-context" objects, including
+>> setting the CPU affinity directly from QEMU, *before* enabling the
+>> sandbox option.
+>>
+>>
+>> Quick test on a system with 2 NUMA nodes:
+>>
+>> Without CPU affinity:
+>>     time qemu-system-x86_64 \
+>>         -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind \
+>>         -nographic -monitor stdio
+>>
+>>     real    0m5.383s
+>>     real    0m3.499s
+>>     real    0m5.129s
+>>     real    0m4.232s
+>>     real    0m5.220s
+>>     real    0m4.288s
+>>     real    0m3.582s
+>>     real    0m4.305s
+>>     real    0m5.421s
+>>     real    0m4.502s
+>>
+>>     -> It heavily depends on the scheduler CPU selection
+>>
+>> With CPU affinity:
+>>     time qemu-system-x86_64 \
+>>         -object thread-context,id=tc1,node-affinity=0 \
+>>         -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind,prealloc-context=tc1 \
+>>         -sandbox enable=on,resourcecontrol=deny \
+>>         -nographic -monitor stdio
+>>
+>>     real    0m1.959s
+>>     real    0m1.942s
+>>     real    0m1.943s
+>>     real    0m1.941s
+>>     real    0m1.948s
+>>     real    0m1.964s
+>>     real    0m1.949s
+>>     real    0m1.948s
+>>     real    0m1.941s
+>>     real    0m1.937s
+>>
+>> On reasonably large VMs, the speedup can be quite significant.
+>>
+> Really awesome work!
 
---3866299591-1550421559-1660067724=:57026
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Thanks!
 
-On Tue, 9 Aug 2022, Cédric Le Goater wrote:
-> The check on invalid RAM size is now performed in the SDRAM controller
-> but not all values will boot a machine. A minimum of 2*16 is required.
+> 
+> I am not sure I picked up this well while reading the series, but it seems to me that
+> prealloc is still serialized on per memory-backend when solely configured by command-line
+> right?
 
-2*16 or 16 MiB? The code has the latter which does not match commit 
-message.
+I think it's serialized in any case, even when preallocation is
+triggered manually using prealloc=on. I might be wrong, but any kind of
+object creation or property changes should be serialized by the BQL.
 
-Regards,
-BALATON Zoltan
+In theory, we can "easily" preallocate in our helper --
+qemu_prealloc_mem() -- concurrently when we don't have to bother about
+handling SIGBUS -- that is, when the kernel supports
+MADV_POPULATE_WRITE. Without MADV_POPULATE_WRITE on older kernels, we'll
+serialize in there as well.
 
->
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405_boards.c | 7 ++-----
-> 1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 4ff6715f3533..9a3fec38cce1 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -251,14 +251,11 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
-> static void ppc405_init(MachineState *machine)
-> {
->     Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
-> -    MachineClass *mc = MACHINE_GET_CLASS(machine);
->     const char *kernel_filename = machine->kernel_filename;
->     MemoryRegion *sysmem = get_system_memory();
->
-> -    if (machine->ram_size != mc->default_ram_size) {
-> -        char *sz = size_to_str(mc->default_ram_size);
-> -        error_report("Invalid RAM size, should be %s", sz);
-> -        g_free(sz);
-> +    if (machine->ram_size < 16 * MiB) {
-> +        error_report("Not enough RAM !");
->         exit(EXIT_FAILURE);
->     }
->
->
---3866299591-1550421559-1660067724=:57026--
+> 
+> Meaning when we start prealloc we wait until the memory-backend thread-context action is
+> completed (per-memory-backend) even if other to-be-configured memory-backends will use a
+> thread-context on a separate set of pinned CPUs on another node ... and wouldn't in theory
+> "need" to wait until the former prealloc finishes?
+
+Yes. This series only takes care of NUMA-aware preallocation, but
+doesn't preallocate multiple memory backends in parallel.
+
+In theory, it would be quite easy to preallocate concurrently: simply
+create the memory backend objects passed on the QEMU cmdline
+concurrently from multiple threads.
+
+In practice, we have to be careful I think with the BQL. But it doesn't
+sound horribly complicated to achieve that. We can perform all
+synchronized under the BQL and only trigger actual expensive
+preallocation (-> qemu_prealloc_mem()) , which we know is MT-safe, with
+released BQL.
+
+> 
+> Unless as you alluded in one of the last patches: we can pass these thread-contexts with
+> prealloc=off (and prealloc-context=NNN) while qemu is paused (-S) and have different QMP
+> clients set prealloc=on, and thus prealloc would happen concurrently per node?
+
+I think we will serialize in any case when modifying properties. Can you
+give it a shot and see if it would work as of now? I doubt it, but I
+might be wrong.
+
+> 
+> We were thinking to extend it to leverage per socket bandwidth essentially to parallel
+> this even further (we saw improvements with something like that but haven't tried this
+> series yet). Likely this is already possible with your work and I didn't pick up on it,
+> hence just making sure this is the case :)
+
+With this series, you can essentially tell QEMU which physical CPUs to
+use for preallocating a given memory backend. But memory backends are
+not created+preallocated concurrently yet.
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
