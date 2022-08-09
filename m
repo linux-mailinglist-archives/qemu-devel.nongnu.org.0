@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AAB58DDF7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 20:08:21 +0200 (CEST)
-Received: from localhost ([::1]:36604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A9B58DE1A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 20:10:49 +0200 (CEST)
+Received: from localhost ([::1]:40860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLTeN-0003vg-1g
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 14:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54772)
+	id 1oLTgl-0006yk-IG
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 14:10:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oLTDQ-0003Gf-Ch
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:40:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58468)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLTDr-0003k9-DC; Tue, 09 Aug 2022 13:40:55 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:30612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oLTDK-0007ry-P0
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:40:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660066822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eXQcpKhvT7SYHys3w5s+wGMRHBRDqXCIVH2q1RoBkSc=;
- b=aBR1U/oGkihrAIrPUNNgURt1q3coCEUpNYPK/UuLrX3ddhaPgIAmtMyLE7nB3GR4jqP6Wc
- mspoiLbuZwzunIvDlIuBVu0Ij2NY2O0kYQkrLW3AnyE6afT/w4etRHK7cvXDmRQAWqCajy
- Cyh0aKceJH5DFv7RNwwKjYSYNFrqw5M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-RiJg5RniMH-q0e7_dG9ZQg-1; Tue, 09 Aug 2022 13:40:11 -0400
-X-MC-Unique: RiJg5RniMH-q0e7_dG9ZQg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF9FB811E81;
- Tue,  9 Aug 2022 17:40:10 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.194.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82DF618EB5;
- Tue,  9 Aug 2022 17:40:07 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Eric Blake <eblake@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
-Subject: [PATCH v8 12/12] vdpa: Delete CVQ migration blocker
-Date: Tue,  9 Aug 2022 19:39:26 +0200
-Message-Id: <20220809173926.1695280-13-eperezma@redhat.com>
-In-Reply-To: <20220809173926.1695280-1-eperezma@redhat.com>
-References: <20220809173926.1695280-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLTDp-00084P-CS; Tue, 09 Aug 2022 13:40:55 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A77A1747F1E;
+ Tue,  9 Aug 2022 19:40:50 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6710D747F1D; Tue,  9 Aug 2022 19:40:50 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 6543E745702;
+ Tue,  9 Aug 2022 19:40:50 +0200 (CEST)
+Date: Tue, 9 Aug 2022 19:40:50 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 20/24] ppc/ppc405: Use an embedded PPCUIC model in
+ SoC state
+In-Reply-To: <20220809153904.485018-21-clg@kaod.org>
+Message-ID: <f09442a7-2320-7679-ffb6-c7daabc5392@eik.bme.hu>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-21-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-827907883-1660066850=:57026"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,82 +62,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can restore the device state in the destination via CVQ now. Remove
-the migration blocker.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
----
- include/hw/virtio/vhost-vdpa.h |  1 -
- hw/virtio/vhost-vdpa.c         | 14 --------------
- net/vhost-vdpa.c               |  2 --
- 3 files changed, 17 deletions(-)
+--3866299591-827907883-1660066850=:57026
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index d10a89303e..1111d85643 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -35,7 +35,6 @@ typedef struct vhost_vdpa {
-     bool shadow_vqs_enabled;
-     /* IOVA mapping used by the Shadow Virtqueue */
-     VhostIOVATree *iova_tree;
--    Error *migration_blocker;
-     GPtrArray *shadow_vqs;
-     const VhostShadowVirtqueueOps *shadow_vq_ops;
-     void *shadow_vq_ops_opaque;
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 7e28d2f674..4b0cfc0f56 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1033,13 +1033,6 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
-         return true;
-     }
- 
--    if (v->migration_blocker) {
--        int r = migrate_add_blocker(v->migration_blocker, &err);
--        if (unlikely(r < 0)) {
--            return false;
--        }
--    }
--
-     for (i = 0; i < v->shadow_vqs->len; ++i) {
-         VirtQueue *vq = virtio_get_queue(dev->vdev, dev->vq_index + i);
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-@@ -1082,10 +1075,6 @@ err:
-         vhost_svq_stop(svq);
-     }
- 
--    if (v->migration_blocker) {
--        migrate_del_blocker(v->migration_blocker);
--    }
--
-     return false;
- }
- 
-@@ -1105,9 +1094,6 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
-         }
-     }
- 
--    if (v->migration_blocker) {
--        migrate_del_blocker(v->migration_blocker);
--    }
-     return true;
- }
- 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index e775957952..188adb00b7 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -556,8 +556,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
--        error_setg(&s->vhost_vdpa.migration_blocker,
--                   "Migration disabled: vhost-vdpa uses CVQ.");
-     }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
--- 
-2.31.1
+On Tue, 9 Aug 2022, Cédric Le Goater wrote:
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+> ---
+> hw/ppc/ppc405.h    |  3 ++-
+> hw/ppc/ppc405_uc.c | 26 +++++++++++++-------------
+> 2 files changed, 15 insertions(+), 14 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index 31c94e474209..8e67ad0b72c3 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -27,6 +27,7 @@
+>
+> #include "qom/object.h"
+> #include "hw/ppc/ppc4xx.h"
+> +#include "hw/intc/ppc-uic.h"
+>
+> #define PPC405EP_SDRAM_BASE 0x00000000
+> #define PPC405EP_NVRAM_BASE 0xF0000000
+> @@ -234,7 +235,7 @@ struct Ppc405SoCState {
+>     hwaddr ram_size;
+>
+>     PowerPCCPU cpu;
+> -    DeviceState *uic;
+> +    PPCUIC uic;
+>     Ppc405CpcState cpc;
+>     Ppc405GptState gpt;
+>     Ppc405OcmState ocm;
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index 290cfa352bed..328224bb0620 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -1350,6 +1350,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>     object_initialize_child(obj, "cpu", &s->cpu,
+>                             POWERPC_CPU_TYPE_NAME("405ep"));
+>
+> +    object_initialize_child(obj, "uic", &s->uic, TYPE_PPC_UIC);
+> +
+>     object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
+>     object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
+>
+> @@ -1415,17 +1417,15 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>     sysbus_mmio_map(SYS_BUS_DEVICE(&s->opba), 0, 0xef600600);
+>
+>     /* Universal interrupt controller */
+> -    s->uic = qdev_new(TYPE_PPC_UIC);
+> -
+> -    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
+> +    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
+>                              &error_fatal);
+> -    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->uic), errp)) {
+>         return;
+>     }
+>
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_INT,
+>                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_CINT,
+>                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_CINT));
+>
+>     /* SDRAM controller */
+> @@ -1436,7 +1436,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>                              "ppc405.sdram0", s->dram_mr,
+>                              s->ram_bases[0], s->ram_sizes[0]);
+>
+> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17), 1,
+> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
+>                       s->ram_banks, s->ram_bases, s->ram_sizes,
+>                       s->do_dram_init);
+>
+> @@ -1452,12 +1452,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>
+>     for (i = 0; i < ARRAY_SIZE(s->dma.irqs); i++) {
+>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
+> -                           qdev_get_gpio_in(s->uic, 5 + i));
+> +                           qdev_get_gpio_in(DEVICE(&s->uic), 5 + i));
+>     }
+>
+>     /* I2C controller */
+>     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+> -                         qdev_get_gpio_in(s->uic, 2));
+> +                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
+>
+>     /* GPIO */
+>     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+> @@ -1468,13 +1468,13 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>     /* Serial ports */
+>     if (serial_hd(0) != NULL) {
+>         serial_mm_init(get_system_memory(), 0xef600300, 0,
+> -                       qdev_get_gpio_in(s->uic, 0),
+> +                       qdev_get_gpio_in(DEVICE(&s->uic), 0),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+>     if (serial_hd(1) != NULL) {
+>         serial_mm_init(get_system_memory(), 0xef600400, 0,
+> -                       qdev_get_gpio_in(s->uic, 1),
+> +                       qdev_get_gpio_in(DEVICE(&s->uic), 1),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+> @@ -1492,7 +1492,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>
+>     for (i = 0; i < ARRAY_SIZE(s->gpt.irqs); i++) {
+>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt), i,
+> -                           qdev_get_gpio_in(s->uic, 19 + i));
+> +                           qdev_get_gpio_in(DEVICE(&s->uic), 19 + i));
+>     }
+>
+>     /* MAL */
+> @@ -1504,7 +1504,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>
+>     for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
+>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
+> -                           qdev_get_gpio_in(s->uic, 11 + i));
+> +                           qdev_get_gpio_in(DEVICE(&s->uic), 11 + i));
+>     }
+>
+>     /* Ethernet */
+>
+--3866299591-827907883-1660066850=:57026--
 
