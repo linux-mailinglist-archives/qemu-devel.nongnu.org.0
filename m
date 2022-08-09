@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FF558DD83
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:54:49 +0200 (CEST)
-Received: from localhost ([::1]:45260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD1158DD89
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:57:31 +0200 (CEST)
+Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLTRI-0005ux-CE
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55666)
+	id 1oLTTu-00032q-IP
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTIr-0003nO-Eb; Tue, 09 Aug 2022 13:46:05 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:28320)
+ id 1oLTPf-0003P1-O2; Tue, 09 Aug 2022 13:53:07 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:55214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTIo-0000A3-De; Tue, 09 Aug 2022 13:46:05 -0400
+ id 1oLTPc-0001BD-G3; Tue, 09 Aug 2022 13:53:06 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3C97E748166;
- Tue,  9 Aug 2022 19:46:00 +0200 (CEST)
+ by localhost (Postfix) with SMTP id BC55E747F1D;
+ Tue,  9 Aug 2022 19:53:02 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 02979747F40; Tue,  9 Aug 2022 19:46:00 +0200 (CEST)
+ id 73E867461AE; Tue,  9 Aug 2022 19:53:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 01310747F1D;
- Tue,  9 Aug 2022 19:45:59 +0200 (CEST)
-Date: Tue, 9 Aug 2022 19:45:59 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 71BE8745702;
+ Tue,  9 Aug 2022 19:53:02 +0200 (CEST)
+Date: Tue, 9 Aug 2022 19:53:02 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
  qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 21/24] ppc/ppc405: Use an explicit I2C object
-In-Reply-To: <20220809153904.485018-22-clg@kaod.org>
-Message-ID: <de57a5d1-1596-6657-3d89-77b337769f@eik.bme.hu>
+Subject: Re: [PATCH v4 23/24] ppc/ppc405: QOM'ify SDRAM
+In-Reply-To: <20220809153904.485018-24-clg@kaod.org>
+Message-ID: <d0dca62f-f54f-1f43-18b5-5b67497bc451@eik.bme.hu>
 References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-22-clg@kaod.org>
+ <20220809153904.485018-24-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1085860518-1660067159=:57026"
+ boundary="3866299591-2067007575-1660067582=:57026"
 X-Spam-Probability: 11%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -65,83 +65,364 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1085860518-1660067159=:57026
+--3866299591-2067007575-1660067582=:57026
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Tue, 9 Aug 2022, Cédric Le Goater wrote:
-> Having an explicit I2C model object will help if one day we want to
-> add I2C devices on the bus from the machine init routine.
+> This is an initial change of the SDRAM controller preserving the
+> compatibility with the current modeling. Further cleanup will be
+> possible after conversion of the ppc4xx_sdram_banks() and
+> ppc4xx_sdram_init() routines of the sam460ex and bamboo machines.
 >
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405.h    |  2 ++
-> hw/ppc/ppc405_uc.c | 10 ++++++++--
-> 2 files changed, 10 insertions(+), 2 deletions(-)
+> The size and base address of the RAM banks are now set using QOM
+> property arrays. RAM is equally distributed on each bank at the SoC
+> level depending on the number of banks we want to initialize (default
+> is 2). Each RAM memory region representing a RAM bank is initialized
+> in the realize routine of the SDRAM model after a minimal check on the
+> RAM size value with the sdram_bcr() routine. This has the benefit of
+> reporting an error to the user if the requested RAM size is invalid
+> for the SDRAM controller.
 
-This just seems to turn 2 lines into 10 for no apparent reason so I don't 
-see what is this patch is good for but I don't really mind. I this is 
-really needed to add an i2c device then maybe we have a problem in QEMU 
-which makes it more difficult to access things than it should be. There 
-should be a way to get a bus without havnig to have a pointer to the 
-controller or again we need a way to navigate the qom three here.
-
-But this is only a comment not a complaint as I've said above I don't 
-mind.
+Haven't looked at it in detail yet but I think we have two versions of 
+this (one in ppc4xx_devs.c and another in ppc440_uc.c) that are slightly 
+different due to the differences of the memory controllers of later SoCs. 
+I'm not sure how to clean this up and forgot most of the details about 
+this.
 
 Regards,
 BALATON Zoltan
 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+> hw/ppc/ppc405.h         |   6 +--
+> include/hw/ppc/ppc4xx.h |  32 ++++++++++++
+> hw/ppc/ppc405_uc.c      |  34 ++++++++----
+> hw/ppc/ppc4xx_devs.c    | 113 ++++++++++++++++++++++++++++------------
+> 4 files changed, 140 insertions(+), 45 deletions(-)
 >
 > diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 8e67ad0b72c3..56881b181ba1 100644
+> index 56881b181ba1..8c19d167391c 100644
 > --- a/hw/ppc/ppc405.h
 > +++ b/hw/ppc/ppc405.h
-> @@ -28,6 +28,7 @@
-> #include "qom/object.h"
-> #include "hw/ppc/ppc4xx.h"
-> #include "hw/intc/ppc-uic.h"
-> +#include "hw/i2c/ppc4xx_i2c.h"
+> @@ -228,12 +228,9 @@ struct Ppc405SoCState {
+>     DeviceState parent_obj;
 >
-> #define PPC405EP_SDRAM_BASE 0x00000000
-> #define PPC405EP_NVRAM_BASE 0xF0000000
-> @@ -241,6 +242,7 @@ struct Ppc405SoCState {
+>     /* Public */
+> -    MemoryRegion ram_banks[2];
+> -    hwaddr ram_bases[2], ram_sizes[2];
+> -    bool do_dram_init;
+> -
+>     MemoryRegion *dram_mr;
+>     hwaddr ram_size;
+> +    uint32_t nr_banks;
+>
+>     PowerPCCPU cpu;
+>     PPCUIC uic;
+> @@ -241,6 +238,7 @@ struct Ppc405SoCState {
+>     Ppc405GptState gpt;
 >     Ppc405OcmState ocm;
 >     Ppc405GpioState gpio;
+> +    Ppc4xxSdramState sdram;
 >     Ppc405DmaState dma;
-> +    PPC4xxI2CState i2c;
+>     PPC4xxI2CState i2c;
 >     Ppc405EbcState ebc;
->     Ppc405OpbaState opba;
->     Ppc405PobState pob;
+> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+> index acd096cb2394..b841f6600b55 100644
+> --- a/include/hw/ppc/ppc4xx.h
+> +++ b/include/hw/ppc/ppc4xx.h
+> @@ -87,4 +87,36 @@ struct Ppc4xxMalState {
+> void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>                      qemu_irq irqs[4]);
+>
+> +/* SDRAM controller */
+> +#define TYPE_PPC4xx_SDRAM "ppc4xx-sdram"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxSdramState, PPC4xx_SDRAM);
+> +struct Ppc4xxSdramState {
+> +    Ppc4xxDcrDeviceState parent_obj;
+> +
+> +    MemoryRegion *dram_mr;
+> +    bool dram_init;
+> +
+> +    MemoryRegion containers[4]; /* used for clipping */
+> +    MemoryRegion *ram_memories;
+> +    hwaddr *ram_bases;
+> +    hwaddr *ram_sizes;
+> +    uint32_t nb_ram_bases;
+> +    uint32_t nb_ram_sizes;
+> +    uint32_t nbanks; /* Redundant */
+> +
+> +    uint32_t addr;
+> +    uint32_t besr0;
+> +    uint32_t besr1;
+> +    uint32_t bear;
+> +    uint32_t cfg;
+> +    uint32_t status;
+> +    uint32_t rtr;
+> +    uint32_t pmit;
+> +    uint32_t bcr[4];
+> +    uint32_t tr;
+> +    uint32_t ecccfg;
+> +    uint32_t eccesr;
+> +    qemu_irq irq;
+> +};
+> +
+> #endif /* PPC4XX_H */
 > diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 328224bb0620..1045f5f13e6c 100644
+> index 1045f5f13e6c..fe0c92ba0d54 100644
 > --- a/hw/ppc/ppc405_uc.c
 > +++ b/hw/ppc/ppc405_uc.c
-> @@ -1363,6 +1363,8 @@ static void ppc405_soc_instance_init(Object *obj)
+> @@ -1361,6 +1361,9 @@ static void ppc405_soc_instance_init(Object *obj)
 >
+>     object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
+>
+> +    object_initialize_child(obj, "sdram", &s->sdram, TYPE_PPC4xx_SDRAM);
+> +    object_property_add_alias(obj, "dram-init", OBJECT(&s->sdram), "dram-init");
+> +
 >     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
 >
-> +    object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
+>     object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
+> @@ -1432,15 +1435,28 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>
+>     /* SDRAM controller */
+>         /* XXX 405EP has no ECC interrupt */
+> -    s->ram_bases[0] = 0;
+> -    s->ram_sizes[0] = s->ram_size;
+> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
+> -                             "ppc405.sdram0", s->dram_mr,
+> -                             s->ram_bases[0], s->ram_sizes[0]);
+> +    object_property_set_link(OBJECT(&s->sdram), "dram", OBJECT(s->dram_mr),
+> +                             &error_abort);
 > +
->     object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
+> +    qdev_prop_set_uint32(DEVICE(&s->sdram), "len-ram-sizes", s->nr_banks);
+> +    qdev_prop_set_uint32(DEVICE(&s->sdram), "len-ram-bases", s->nr_banks);
 >
->     object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
-> @@ -1456,8 +1458,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     }
->
->     /* I2C controller */
-> -    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
-> -                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
+> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
+> -                      s->ram_banks, s->ram_bases, s->ram_sizes,
+> -                      s->do_dram_init);
+> +    for (i = 0; i < s->nr_banks; i++) {
+> +        char name[32];
+> +        snprintf(name, sizeof(name), "ram-bases[%d]", i);
+> +        qdev_prop_set_uint32(DEVICE(&s->sdram), name,
+> +                             i * s->ram_size / s->nr_banks);
+> +
+> +        snprintf(name, sizeof(name), "ram-sizes[%d]", i);
+> +        qdev_prop_set_uint32(DEVICE(&s->sdram), name,
+> +                             s->ram_size / s->nr_banks);
+> +    }
+> +
+> +    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->sdram), &s->cpu, errp)) {
 > +        return;
 > +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, 0xef600500);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
-> +                       qdev_get_gpio_in(DEVICE(&s->uic), 2));
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdram), 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->uic), 17));
 >
->     /* GPIO */
->     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+>     /* External bus controller */
+>     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
+> @@ -1520,7 +1536,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> static Property ppc405_soc_properties[] = {
+>     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+>                      MemoryRegion *),
+> -    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
+> +    DEFINE_PROP_UINT32("nr-banks", Ppc405SoCState, nr_banks, 2),
+>     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index c06c20b195cd..a9ceea13f218 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -39,28 +39,6 @@
 >
---3866299591-1085860518-1660067159=:57026--
+> /*****************************************************************************/
+> /* SDRAM controller */
+> -typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
+> -struct ppc4xx_sdram_t {
+> -    uint32_t addr;
+> -    int nbanks;
+> -    MemoryRegion containers[4]; /* used for clipping */
+> -    MemoryRegion *ram_memories;
+> -    hwaddr ram_bases[4];
+> -    hwaddr ram_sizes[4];
+> -    uint32_t besr0;
+> -    uint32_t besr1;
+> -    uint32_t bear;
+> -    uint32_t cfg;
+> -    uint32_t status;
+> -    uint32_t rtr;
+> -    uint32_t pmit;
+> -    uint32_t bcr[4];
+> -    uint32_t tr;
+> -    uint32_t ecccfg;
+> -    uint32_t eccesr;
+> -    qemu_irq irq;
+> -};
+> -
+> enum {
+>     SDRAM0_CFGADDR = 0x010,
+>     SDRAM0_CFGDATA = 0x011,
+> @@ -128,7 +106,7 @@ static target_ulong sdram_size (uint32_t bcr)
+>     return size;
+> }
+>
+> -static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
+> +static void sdram_set_bcr(Ppc4xxSdramState *sdram, int i,
+>                           uint32_t bcr, int enabled)
+> {
+>     if (sdram->bcr[i] & 0x00000001) {
+> @@ -154,7 +132,7 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
+>     }
+> }
+>
+> -static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
+> +static void sdram_map_bcr(Ppc4xxSdramState *sdram)
+> {
+>     int i;
+>
+> @@ -168,7 +146,7 @@ static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
+>     }
+> }
+>
+> -static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
+> +static void sdram_unmap_bcr(Ppc4xxSdramState *sdram)
+> {
+>     int i;
+>
+> @@ -182,7 +160,7 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
+>
+> static uint32_t dcr_read_sdram (void *opaque, int dcrn)
+> {
+> -    ppc4xx_sdram_t *sdram;
+> +    Ppc4xxSdramState *sdram;
+>     uint32_t ret;
+>
+>     sdram = opaque;
+> @@ -250,7 +228,7 @@ static uint32_t dcr_read_sdram (void *opaque, int dcrn)
+>
+> static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
+> {
+> -    ppc4xx_sdram_t *sdram;
+> +    Ppc4xxSdramState *sdram;
+>
+>     sdram = opaque;
+>     switch (dcrn) {
+> @@ -329,11 +307,10 @@ static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
+>     }
+> }
+>
+> -static void sdram_reset (void *opaque)
+> +static void ppc4xx_sdram_reset(DeviceState *dev)
+> {
+> -    ppc4xx_sdram_t *sdram;
+> +    Ppc4xxSdramState *sdram = (Ppc4xxSdramState *) dev;
+>
+> -    sdram = opaque;
+>     sdram->addr = 0x00000000;
+>     sdram->bear = 0x00000000;
+>     sdram->besr0 = 0x00000000; /* No error */
+> @@ -349,21 +326,88 @@ static void sdram_reset (void *opaque)
+>     sdram->cfg = 0x00800000;
+> }
+>
+> +static void sdram_reset(void *opaque)
+> +{
+> +    ppc4xx_sdram_reset(opaque);
+> +}
+> +
+> +static void ppc4xx_sdram_realize(DeviceState *dev, Error **errp)
+> +{
+> +    Ppc4xxSdramState *s = PPC4xx_SDRAM(dev);
+> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+> +    int i;
+> +
+> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+> +
+> +    ppc4xx_dcr_register(dcr, SDRAM0_CFGADDR, &dcr_read_sdram, &dcr_write_sdram);
+> +    ppc4xx_dcr_register(dcr, SDRAM0_CFGDATA, &dcr_read_sdram, &dcr_write_sdram);
+> +
+> +    if (!s->nb_ram_bases || s->nb_ram_bases != s->nb_ram_sizes) {
+> +        error_setg(errp, "Invalid number of RAM banks");
+> +        return;
+> +    }
+> +
+> +    s->ram_memories = g_new0(MemoryRegion, s->nb_ram_bases);
+> +    for (i = 0; i < s->nb_ram_bases; i++) {
+> +        g_autofree char *name = g_strdup_printf(TYPE_PPC4xx_SDRAM "%d", i);
+> +
+> +        if (!sdram_bcr(s->ram_bases[i], s->ram_sizes[i])) {
+> +            error_setg(errp, "Invalid RAM size 0x%" HWADDR_PRIx,
+> +                       s->ram_sizes[i]);
+> +            return;
+> +        }
+> +
+> +        memory_region_init_alias(&s->ram_memories[i], OBJECT(s), name,
+> +                                 s->dram_mr, s->ram_bases[i], s->ram_sizes[i]);
+> +    }
+> +
+> +    s->nbanks = s->nb_ram_sizes;
+> +    if (s->dram_init) {
+> +        sdram_map_bcr(s);
+> +    }
+> +}
+> +
+> +static Property ppc4xx_sdram_properties[] = {
+> +    DEFINE_PROP_LINK("dram", Ppc4xxSdramState, dram_mr, TYPE_MEMORY_REGION,
+> +                     MemoryRegion *),
+> +    DEFINE_PROP_BOOL("dram-init", Ppc4xxSdramState, dram_init, false),
+> +    DEFINE_PROP_ARRAY("ram-sizes", Ppc4xxSdramState, nb_ram_sizes,
+> +                      ram_sizes, qdev_prop_uint64, uint64_t),
+> +    DEFINE_PROP_ARRAY("ram-bases", Ppc4xxSdramState, nb_ram_bases,
+> +                      ram_bases, qdev_prop_uint64, uint64_t),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void ppc4xx_sdram_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = ppc4xx_sdram_realize;
+> +    dc->user_creatable = false;
+> +    dc->reset = ppc4xx_sdram_reset;
+> +    device_class_set_props(dc, ppc4xx_sdram_properties);
+> +}
+> +
+> void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+>                         MemoryRegion *ram_memories,
+>                         hwaddr *ram_bases,
+>                         hwaddr *ram_sizes,
+>                         int do_init)
+> {
+> -    ppc4xx_sdram_t *sdram;
+> +    Ppc4xxSdramState *sdram;
+>
+> -    sdram = g_new0(ppc4xx_sdram_t, 1);
+> +    sdram = g_new0(Ppc4xxSdramState, 1);
+>     sdram->irq = irq;
+>     sdram->nbanks = nbanks;
+>     sdram->ram_memories = ram_memories;
+> +
+> +    sdram->ram_bases = g_new0(hwaddr, 4);
+> +
+>     memset(sdram->ram_bases, 0, 4 * sizeof(hwaddr));
+>     memcpy(sdram->ram_bases, ram_bases,
+>            nbanks * sizeof(hwaddr));
+> +
+> +    sdram->ram_sizes = g_new0(hwaddr, 4);
+>     memset(sdram->ram_sizes, 0, 4 * sizeof(hwaddr));
+>     memcpy(sdram->ram_sizes, ram_sizes,
+>            nbanks * sizeof(hwaddr));
+> @@ -683,6 +727,11 @@ static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
+>
+> static const TypeInfo ppc4xx_types[] = {
+>     {
+> +        .name           = TYPE_PPC4xx_SDRAM,
+> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
+> +        .instance_size  = sizeof(Ppc4xxSdramState),
+> +        .class_init     = ppc4xx_sdram_class_init,
+> +    }, {
+>         .name           = TYPE_PPC4xx_MAL,
+>         .parent         = TYPE_PPC4xx_DCR_DEVICE,
+>         .instance_size  = sizeof(Ppc4xxMalState),
+>
+--3866299591-2067007575-1660067582=:57026--
 
