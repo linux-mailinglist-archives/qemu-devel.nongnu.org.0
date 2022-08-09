@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B7D58D8E8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 14:49:32 +0200 (CEST)
-Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6AC258D921
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 15:09:15 +0200 (CEST)
+Received: from localhost ([::1]:48664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLOfr-0006lG-7S
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 08:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
+	id 1oLOyw-0007Uo-CM
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 09:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oLOcC-0004jt-MV
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:45:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oLOc8-0000qg-Pr
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:45:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660049137;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=FuLz25zKoqskCYXb5sRtHb8ZE3S2lV4cXj5D6wf1kOg=;
- b=Cbhn0tjifWyX3wJGC+Exj1gDcP2tW7hrPrnzcDVr5zhzQDY6GJcp1ntPoII+iecxlc9vL2
- qXtlZ3lW2CGnvNcaFE1GWQtoQovPS/ugB6JsZI9kzyVMY4DXHoczNfCXnCXCgZSob5zVAA
- /7VAytVUEfSqyYmBbdi1Zk5OWPtexaY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-9Nz2h3-HO2mTCL7sycttCA-1; Tue, 09 Aug 2022 08:45:36 -0400
-X-MC-Unique: 9Nz2h3-HO2mTCL7sycttCA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- c7-20020adfc6c7000000b0021db3d6961bso1841282wrh.23
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 05:45:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lmw.bobo@gmail.com>)
+ id 1oLOx9-0005a5-BM; Tue, 09 Aug 2022 09:07:23 -0400
+Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35]:44685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lmw.bobo@gmail.com>)
+ id 1oLOx7-00052N-PR; Tue, 09 Aug 2022 09:07:23 -0400
+Received: by mail-vk1-xa35.google.com with SMTP id j11so984841vkk.11;
+ Tue, 09 Aug 2022 06:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=UOAoK7IQMDEeEt2nG0iFjgejZbUhappL+ozDYl4kVTM=;
+ b=ndy6eHbL2RDYtNCD+/sq27rColzXawZxes8IjgNVhUO6x4qm8+PMTW3h8MaUEf43Nz
+ ZNPg9DX92h/XoRc35dnWEazbQJC0yVesA0XyrbhMfE2DJkLNdEwQ0yLzNzA7x+sW5K6a
+ RYK8p7qOjdd38JbF4Dpw4RSHR7haMzK0VVfcwNmQ6p7c4JFJbwTb22T5xgSlQM4wL8Xl
+ 8pNdv97Yy8yOhFqT66OlwL5Z7pRwMfIokW27sVjJQ3hYsUY8JSsG6GS1kt2lJ+O+hg+1
+ CVDzciG7zpD9vZeXk5BTO8J92tSL31QH3YkBP1qQB+YxCbGTMqdk37AtpRp1VXBctP7V
+ RcQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=FuLz25zKoqskCYXb5sRtHb8ZE3S2lV4cXj5D6wf1kOg=;
- b=FwdDeABW7Otyj9DZSIk52R59uwT0a9QMDRACPDrJ/lV/qS0K/ybfuHhHx39XAOmK1D
- A4dc0OFFpWSOQnhxJ+nAFdQ2P7jzsqNonyHjwdLbCbg0JO3ef0eFsohhkr9t69GvYS2E
- sTc7RuUtAC8QqLG9KtbDsGI/unRzNim1DnJgX1ghIOZaaGudtzI3kUtwG5cIYwaQCODm
- Lko89mzCw7zVxnTmvHamWVVbrzgLAyGKvaBGjGJZZz+jzRkz8VjQjl/RnO2cS3VwMffM
- 4Cy3Cgd7A3vxEHAaaSpfn8RWkv/JaXGUBk30W/QBP2Ledi7Lu2LyRPLEsfK2VFaVxCBR
- 4jNg==
-X-Gm-Message-State: ACgBeo2X90MUt6TsWtTpt5pzAuLCIkLEcljlWjB7S95LGbBrfpI8RbBz
- hGpccOklyfNYB8/vF08pprfOYUOPswW5JBpSWtkasntGIY1A41ytgquIT/qDCf6eEwc4qhhfP+S
- kUHRfIjZ8dp9L9iM=
-X-Received: by 2002:a1c:f710:0:b0:394:1960:e8a1 with SMTP id
- v16-20020a1cf710000000b003941960e8a1mr16009631wmh.154.1660049135019; 
- Tue, 09 Aug 2022 05:45:35 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4Zo45btXvwqkLmtLNyUO2prb0k0JxPsO9+CVo3P3KirEFGYti02YLqsG/lips0iMTS8JOlZQ==
-X-Received: by 2002:a1c:f710:0:b0:394:1960:e8a1 with SMTP id
- v16-20020a1cf710000000b003941960e8a1mr16009621wmh.154.1660049134839; 
- Tue, 09 Aug 2022 05:45:34 -0700 (PDT)
-Received: from localhost (static-205-204-7-89.ipcom.comunitel.net.
- [89.7.204.205]) by smtp.gmail.com with ESMTPSA id
- bg21-20020a05600c3c9500b003a4efb794d7sm19268217wmb.36.2022.08.09.05.45.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 05:45:34 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: KVM call for 2022-08-09
-In-Reply-To: <87k07scn8d.fsf@secure.mitica> (Juan Quintela's message of "Mon, 
- 01 Aug 2022 11:44:02 +0200")
-References: <87k07scn8d.fsf@secure.mitica>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Tue, 09 Aug 2022 14:45:33 +0200
-Message-ID: <87mtcdk2ky.fsf@secure.mitica>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=UOAoK7IQMDEeEt2nG0iFjgejZbUhappL+ozDYl4kVTM=;
+ b=g4TTHEbrdZqytEWblfWN8wZeD9Ha6vrZ9AvkG96B+Cg0ZB6zU8dHIz6J8Pt/rLrnUG
+ kT3trNU/7ra5Auh8Hi+Afg62n9VPc+Q/WxW89HBYe694lDG14xxOa4S+SsqzF2DU/AtU
+ hA2bIGm7wyMsRi4XKMQQJ2sBCP4+H29n+fQ2f1LZOT5ZOHtpuaVbwdto6exaIoxHpUUh
+ 18OaYCF+1BK8jSQeiKmaj8cfSMlfIOP76CLF9GaS6kj5e3TCZ4ice23P4+5mq4BC5Ixf
+ k2ycNiD6/RyDerlnZGiQ3Et7Yy+aIfdtDOBBCRZjZtJt5JcV0oS9a+OtNlYnLiMgMON9
+ /jgQ==
+X-Gm-Message-State: ACgBeo2go732iSfUwxaYa0xss8nem29y3xv3fhx8U6hu9AZk8rPP1WHn
+ OVN+UVlBilZkPkJjhh4sZ58ef0CqEoXBwRY6IOk=
+X-Google-Smtp-Source: AA6agR472E+2KFImJQlAL0x3/55KMlHGSRENEhSuZ3A3EcI8Ht8WOBCnHy/ZGb6mOCJeC9u46+lajC/6kJQ48pTeoLs=
+X-Received: by 2002:a1f:da44:0:b0:377:2e13:1035 with SMTP id
+ r65-20020a1fda44000000b003772e131035mr9667902vkg.29.1660050439860; Tue, 09
+ Aug 2022 06:07:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
+ <20220808133727.00001171@huawei.com>
+In-Reply-To: <20220808133727.00001171@huawei.com>
+From: Bobo WL <lmw.bobo@gmail.com>
+Date: Tue, 9 Aug 2022 21:07:06 +0800
+Message-ID: <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
+Subject: Re: [BUG] cxl can not create region
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-cxl@vger.kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a35;
+ envelope-from=lmw.bobo@gmail.com; helo=mail-vk1-xa35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,43 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Juan Quintela <quintela@redhat.com> wrote:
-> Hi
->
-> Please, send any topic that you are interested in covering.
->
-> At the end of Monday I will send an email with the agenda or the
-> cancellation of the call, so hurry up.
->
-> After discussions on the QEMU Summit, we are going to have always open a
-> KVM call where you can add topics.
->
->  Call details:
->
-> By popular demand, a google calendar public entry with it
->
->   https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
->
-> (Let me know if you have any problems with the calendar entry.  I just
-> gave up about getting right at the same time CEST, CET, EDT and DST).
->
-> If you need phone number details,  contact me privately
->
-> Thanks, Juan.
+Hi Jonathan
 
-Today there is a topic for the call:
+Thanks for your reply!
 
-I'd like to talk about VFIO live migration and more specifically this
-issue [1].
+On Mon, Aug 8, 2022 at 8:37 PM Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+>
+> Probably not related to your problem, but there is a disconnect in QEMU /
+> kernel assumptionsaround the presence of an HDM decoder when a HB only
+> has a single root port. Spec allows it to be provided or not as an implementation choice.
+> Kernel assumes it isn't provide. Qemu assumes it is.
+>
+> The temporary solution is to throw in a second root port on the HB and not
+> connect anything to it.  Longer term I may special case this so that the particular
+> decoder defaults to pass through settings in QEMU if there is only one root port.
+>
 
+You are right! After adding an extra HB in qemu, I can create a x1
+region successfully.
+But have some errors in Nvdimm:
 
-[1]
-https://lore.kernel.org/all/39f6d299-96c8-9e8c-dcbc-0e4873fd225f@nvidia.com/
+[   74.925838] Unknown online node for memory at 0x10000000000, assuming node 0
+[   74.925846] Unknown target node for memory at 0x10000000000, assuming node 0
+[   74.927470] nd_region region0: nmem0: is disabled, failing probe
 
-See you in 15 mins,
+And x4 region still failed with same errors, using latest cxl/preview
+branch don't work.
+I have picked "Two CXL emulation fixes" patches in qemu, still not working.
 
+Bob
 
