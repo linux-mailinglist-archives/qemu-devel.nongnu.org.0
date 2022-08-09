@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145DD58DB41
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 17:38:01 +0200 (CEST)
-Received: from localhost ([::1]:42082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4C758DB58
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 17:49:01 +0200 (CEST)
+Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLRIt-0001xF-Jw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 11:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56046)
+	id 1oLRTY-0002Wj-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 11:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oLRDE-0005S4-Eh
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 11:32:12 -0400
-Received: from smtp85.cstnet.cn ([159.226.251.85]:43784 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oLRDA-0003LY-HB
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 11:32:08 -0400
-Received: by ajax-webmail-APP-13 (Coremail) ; Tue, 9 Aug 2022 23:31:47 +0800
- (GMT+08:00)
-X-Originating-IP: [221.220.143.85]
-Date: Tue, 9 Aug 2022 23:31:47 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5qiK6YeR5piK?= <fanjinhao21s@ict.ac.cn>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: its@irrelevant.dk, kbusch@kernel.org
-Subject: Re: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn cnic.cn
-In-Reply-To: <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
- <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <SRS0=uImW=YN=kaod.org=clg@ozlabs.org>)
+ id 1oLRKK-0003vs-0V; Tue, 09 Aug 2022 11:39:31 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:51709
+ helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <SRS0=uImW=YN=kaod.org=clg@ozlabs.org>)
+ id 1oLRKH-0004LI-V5; Tue, 09 Aug 2022 11:39:27 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4M2HL84s8Xz4wgn;
+ Wed, 10 Aug 2022 01:39:12 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4M2HL54QTPz4x1T;
+ Wed, 10 Aug 2022 01:39:09 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH v4 00/24] ppc: QOM'ify 405 board
+Date: Tue,  9 Aug 2022 17:38:40 +0200
+Message-Id: <20220809153904.485018-1-clg@kaod.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Message-ID: <309812a0.4ab4e.182833bc181.Coremail.fanjinhao21s@ict.ac.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: twCowAD3_9fjffJiBO4SAA--.19941W
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/1tbiBwQNCWKY1xUh-QABsi
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=159.226.251.85;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=SRS0=uImW=YN=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,17 +65,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jmd0OyBJbiB0aGlzIHZlcnNpb24gSSBsZWZ0IGlycWZkIGluaXRpYWxpemF0aW9uIHRvIHRoZSBm
-aXJzdCBhc3NlcnRpb24gb2YgYW4KJmd0OyBpcnEuIEJ1dCBJIHRoaW5rIGl0IGlzIGJldHRlciB0
-byBpbml0aWFsaXplIGlycWZkIGF0IGNxIGNyZWF0aW9uIHRpbWUgc28gd2UKJmd0OyB3b27igJl0
-IGJvdGhlciBjaGVja2luZyBpdCBhdCBlYWNoIGlycSBhc3NlcnRpb24uIEhvd2V2ZXIgaWYgSSBw
-dXQgdGhlc2UgY29kZQomZ3Q7IGluIG52bWVfaW5pdF9jcSgpLCBpcnFmZCBkb2VzIG5vdCB3b3Jr
-IHByb3Blcmx5LiBBZnRlciBhZGRpbmcgc29tZQomZ3Q7IHRyYWNlcG9pbnRzIEkgZm91bmQgdGhl
-IE1TSSBtZXNzYWdlcyBpbiBNU0ktWCB0YWJsZSBjaGFuZ2VkIGFmdGVyCiZndDsgbnZtZV9pbml0
-X2NxKCkuIFNwZWNpZmljYWxseSwgdGhlIGBkYXRhYCBmaWVsZCBkb2VzIG5vdCBzZWVtIGNvcnJl
-Y3QgYXQgdGhlCiZndDsgdGltZSB3aGVuIG52bWVfaW5pdF9jcSgpIGlzIGNhbGxlZC4KCkkgZm91
-bmQgdGhhdCBpbiBMaW51eCBOVk1lIGRyaXZlciwgaW4gbnZtZV9jcmVhdGVfY3EoKSAoZHJpdmVy
-cy9udm1lL2hvc3QvcGNpLmMpLApxdWV1ZV9yZXF1ZXN0X2lycSgpIGlzIGNhbGxlZCBhZnRlciBu
-dm1lX2luaXRfcXVldWUoKS4gRG9lcyB0aGlzIHBvc3NpYmx5CmNhdXNlIHRoZSBpbmNvcnJlY3Qg
-TVNJIG1lc3NhZ2VzIGF0IENRIGNyZWF0aW9uIHRpbWU/Cgo=
+Hello,
+
+Here is large series QOM'ifying the PPC405 board. It introduces a new
+generic machine and SoC models, converts the current device models to
+QOM and populates the SoC. The process is quite mechanical without too
+much issues to handle. The noisy part is the initial patch introducing
+the SoC realize routine.
+
+Thanks,
+
+C.
+
+Changes in v4 :
+
+ - Attempt to QOM'ify SDRAM controller, with 2 initialized banks at
+   the SoC level 
+ - Report errors to the user for invalid RAM config
+ - Moved CPU reset in PPC405 model
+ - user_creatable comments
+ - Renamed FPGA device model
+ - Various small cleanups
+
+Changes in v3 :
+
+ - New device model Ppc4xxDcrDeviceState
+ - Removal of ppc4xx_mal_init(), ppc4xx_plb_init() and ppc405_ebc_init()
+ - Fixes for some reset issues
+ - Kept 2 RAM banks at the Soc level but only one is initialized.
+ - Moved SRAM under the machine. It's not part of the SoC according
+   to the 405 specs
+
+Changes in v2 :
+
+ - docs/about/removed-features.rst update
+ - Fix compile breakage (uic)
+ - Fix CPU reset, which breaking u-boot boot
+ - Changed prefix of memory regions to "ppc405"
+ - Reduced the number of RAM banks to 1. Second was a dummy one to
+   please ppc405ep_init()
+
+Cédric Le Goater (24):
+  ppc/ppc405: Remove taihu machine
+  ppc/ppc405: Introduce a PPC405 generic machine
+  ppc/ppc405: Move devices under the ref405ep machine
+  ppc/ppc405: Move SRAM under the ref405ep machine
+  ppc/ppc405: Introduce a PPC405 SoC
+  ppc/ppc405: Start QOMification of the SoC
+  ppc/ppc405: QOM'ify CPU
+  ppc/ppc4xx: Introduce a DCR device model
+  ppc/ppc405: QOM'ify CPC
+  ppc/ppc405: QOM'ify GPT
+  ppc/ppc405: QOM'ify OCM
+  ppc/ppc405: QOM'ify GPIO
+  ppc/ppc405: QOM'ify DMA
+  ppc/ppc405: QOM'ify EBC
+  ppc/ppc405: QOM'ify OPBA
+  ppc/ppc405: QOM'ify POB
+  ppc/ppc405: QOM'ify PLB
+  ppc/ppc405: QOM'ify MAL
+  ppc/ppc405: QOM'ify FPGA
+  ppc/ppc405: Use an embedded PPCUIC model in SoC state
+  ppc/ppc405: Use an explicit I2C object
+  ppc/ppc4xx: Fix sdram trace events
+  ppc/ppc405: QOM'ify SDRAM
+  ppc/ppc405: Add check on minimum RAM size
+
+ docs/about/deprecated.rst       |   9 -
+ docs/about/removed-features.rst |   6 +
+ docs/system/ppc/embedded.rst    |   1 -
+ hw/ppc/ppc405.h                 | 196 +++++++-
+ include/hw/ppc/ppc4xx.h         |  82 ++-
+ hw/ppc/ppc405_boards.c          | 381 ++++----------
+ hw/ppc/ppc405_uc.c              | 859 +++++++++++++++++---------------
+ hw/ppc/ppc4xx_devs.c            | 326 +++++++-----
+ hw/ppc/sam460ex.c               |  24 +-
+ MAINTAINERS                     |   2 +-
+ hw/ppc/trace-events             |   3 -
+ 11 files changed, 1042 insertions(+), 847 deletions(-)
+
+-- 
+2.37.1
+
 
