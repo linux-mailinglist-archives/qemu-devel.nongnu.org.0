@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B8858DD5E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:43:26 +0200 (CEST)
-Received: from localhost ([::1]:51598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D13558DD6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:47:16 +0200 (CEST)
+Received: from localhost ([::1]:60122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLTGH-0007U2-QB
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54326)
+	id 1oLTJz-0004uQ-BP
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:47:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTCL-0002DW-ER; Tue, 09 Aug 2022 13:39:21 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61624)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oLTCi-0002vJ-Uq
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:39:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLTCJ-0007Zl-Fn; Tue, 09 Aug 2022 13:39:21 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6C43E748166;
- Tue,  9 Aug 2022 19:39:17 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2DE24747F1E; Tue,  9 Aug 2022 19:39:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2C33A747F1D;
- Tue,  9 Aug 2022 19:39:17 +0200 (CEST)
-Date: Tue, 9 Aug 2022 19:39:17 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 07/24] ppc/ppc405: QOM'ify CPU
-In-Reply-To: <20220809153904.485018-8-clg@kaod.org>
-Message-ID: <62c79449-c256-ee35-f593-63ea75fbc9e@eik.bme.hu>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-8-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oLTCh-0007c9-8t
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:39:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660066782;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rtQQb7EL+UeOalWd74A+WW+kXcjbWk4kkir2Mx3zMaI=;
+ b=KVpNqrBlpkNSwobOWTaiLkF9vxv3z+PC81rjfaKPhFjAy0QrNpWPWB/CTNNQ4RjfiRzjkp
+ SWR2APo+sJriVajauzZpnFHMAgDuNrJSmTGECzRPIShn+BFT5S3oEmWO7/krHl6ixr6bdY
+ 452tf0xxhv9A/EEOZt8fnljpNx4RVNQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-655-WJpsdX_1MGi4FEoz5CdrJA-1; Tue, 09 Aug 2022 13:39:41 -0400
+X-MC-Unique: WJpsdX_1MGi4FEoz5CdrJA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03CCB3815D34;
+ Tue,  9 Aug 2022 17:39:41 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.194.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 085EF9457F;
+ Tue,  9 Aug 2022 17:39:37 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Eric Blake <eblake@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+Subject: [PATCH v8 03/12] vhost: Delete useless read memory barrier
+Date: Tue,  9 Aug 2022 19:39:17 +0200
+Message-Id: <20220809173926.1695280-4-eperezma@redhat.com>
+In-Reply-To: <20220809173926.1695280-1-eperezma@redhat.com>
+References: <20220809173926.1695280-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-256924047-1660066757=:57026"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,204 +89,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+As discussed in previous series [1], this memory barrier is useless with
+the atomic read of used idx at vhost_svq_more_used. Deleting it.
 
---3866299591-256924047-1660066757=:57026
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02616.html
 
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Since maybe there will be another version, this patch is still misnamed, I 
-think it's not QOMifying but embeds the cpu in the soc.
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index e6eebd0e8d..1b49bf54f2 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -509,9 +509,6 @@ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+         if (unlikely(g_get_monotonic_time() - start_us > 10e6)) {
+             return 0;
+         }
+-
+-        /* Make sure we read new used_idx */
+-        smp_rmb();
+     } while (true);
+ }
+ 
+-- 
+2.31.1
 
-Regards,
-BALATON Zoltan
-
-On Tue, 9 Aug 2022, Cédric Le Goater wrote:
-> Drop the use of ppc4xx_init() and duplicate a bit of code related to
-> clocks in the SoC realize routine. We will clean that up in the
-> following patches.
->
-> ppc_dcr_init() simply allocates default DCR handlers for the CPU. Maybe
-> this could be done in model initializer of the CPU families needing it.
->
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405.h         |  2 +-
-> include/hw/ppc/ppc4xx.h |  5 -----
-> hw/ppc/ppc405_boards.c  |  2 +-
-> hw/ppc/ppc405_uc.c      | 40 ++++++++++++++++++++++++++++++----------
-> hw/ppc/ppc4xx_devs.c    | 32 --------------------------------
-> 5 files changed, 32 insertions(+), 49 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index dc862bc8614c..8cc76cc8b3fe 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -79,7 +79,7 @@ struct Ppc405SoCState {
->     hwaddr ram_size;
->
->     uint32_t sysclk;
-> -    PowerPCCPU *cpu;
-> +    PowerPCCPU cpu;
->     DeviceState *uic;
-> };
->
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index 980f964b5a91..591e2421a343 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -28,11 +28,6 @@
-> #include "hw/ppc/ppc.h"
-> #include "exec/memory.h"
->
-> -/* PowerPC 4xx core initialization */
-> -PowerPCCPU *ppc4xx_init(const char *cpu_model,
-> -                        clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
-> -                        uint32_t sysclk);
-> -
-> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->                         MemoryRegion ram_memories[],
->                         hwaddr ram_bases[], hwaddr ram_sizes[],
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index b93e85b5d9bd..3677793adc75 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -313,7 +313,7 @@ static void ppc405_init(MachineState *machine)
->
->     /* Load ELF kernel and rootfs.cpio */
->     } else if (kernel_filename && !machine->firmware) {
-> -        boot_from_kernel(machine, ppc405->soc.cpu);
-> +        boot_from_kernel(machine, &ppc405->soc.cpu);
->     }
-> }
->
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index c05ab604367d..14a525b2eb74 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1432,22 +1432,41 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
-> #endif
-> }
->
-> +static void ppc405_soc_instance_init(Object *obj)
-> +{
-> +    Ppc405SoCState *s = PPC405_SOC(obj);
-> +
-> +    object_initialize_child(obj, "cpu", &s->cpu,
-> +                            POWERPC_CPU_TYPE_NAME("405ep"));
-> +}
-> +
-> +static void ppc405_reset(void *opaque)
-> +{
-> +    cpu_reset(CPU(opaque));
-> +}
-> +
-> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> {
->     Ppc405SoCState *s = PPC405_SOC(dev);
-> -    clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
-> +    clk_setup_t clk_setup[PPC405EP_CLK_NB];
->     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
->     CPUPPCState *env;
->
->     memset(clk_setup, 0, sizeof(clk_setup));
->
->     /* init CPUs */
-> -    s->cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
-> -                      &clk_setup[PPC405EP_CPU_CLK],
-> -                      &tlb_clk_setup, s->sysclk);
-> -    env = &s->cpu->env;
-> -    clk_setup[PPC405EP_CPU_CLK].cb = tlb_clk_setup.cb;
-> -    clk_setup[PPC405EP_CPU_CLK].opaque = tlb_clk_setup.opaque;
-> +    if (!qdev_realize(DEVICE(&s->cpu), NULL, errp)) {
-> +        return;
-> +    }
-> +    qemu_register_reset(ppc405_reset, &s->cpu);
-> +
-> +    env = &s->cpu.env;
-> +
-> +    clk_setup[PPC405EP_CPU_CLK].cb =
-> +        ppc_40x_timers_init(env, s->sysclk, PPC_INTERRUPT_PIT);
-> +    clk_setup[PPC405EP_CPU_CLK].opaque = env;
-> +
-> +    ppc_dcr_init(env, NULL, NULL);
->
->     /* CPU control */
->     ppc405ep_cpc_init(env, clk_setup, s->sysclk);
-> @@ -1464,16 +1483,16 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     /* Universal interrupt controller */
->     s->uic = qdev_new(TYPE_PPC_UIC);
->
-> -    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(s->cpu),
-> +    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
->                              &error_fatal);
->     if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
->         return;
->     }
->
->     sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
-> -                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_INT));
-> +                       qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
->     sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
-> -                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_CINT));
-> +                       qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_CINT));
->
->     /* SDRAM controller */
->         /* XXX 405EP has no ECC interrupt */
-> @@ -1563,6 +1582,7 @@ static const TypeInfo ppc405_types[] = {
->         .name           = TYPE_PPC405_SOC,
->         .parent         = TYPE_DEVICE,
->         .instance_size  = sizeof(Ppc405SoCState),
-> +        .instance_init  = ppc405_soc_instance_init,
->         .class_init     = ppc405_soc_class_init,
->     }
-> };
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 737c0896b4f8..069b51195160 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -37,38 +37,6 @@
-> #include "qapi/error.h"
-> #include "trace.h"
->
-> -static void ppc4xx_reset(void *opaque)
-> -{
-> -    PowerPCCPU *cpu = opaque;
-> -
-> -    cpu_reset(CPU(cpu));
-> -}
-> -
-> -/*****************************************************************************/
-> -/* Generic PowerPC 4xx processor instantiation */
-> -PowerPCCPU *ppc4xx_init(const char *cpu_type,
-> -                        clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
-> -                        uint32_t sysclk)
-> -{
-> -    PowerPCCPU *cpu;
-> -    CPUPPCState *env;
-> -
-> -    /* init CPUs */
-> -    cpu = POWERPC_CPU(cpu_create(cpu_type));
-> -    env = &cpu->env;
-> -
-> -    cpu_clk->cb = NULL; /* We don't care about CPU clock frequency changes */
-> -    cpu_clk->opaque = env;
-> -    /* Set time-base frequency to sysclk */
-> -    tb_clk->cb = ppc_40x_timers_init(env, sysclk, PPC_INTERRUPT_PIT);
-> -    tb_clk->opaque = env;
-> -    ppc_dcr_init(env, NULL, NULL);
-> -    /* Register qemu callbacks */
-> -    qemu_register_reset(ppc4xx_reset, cpu);
-> -
-> -    return cpu;
-> -}
-> -
-> /*****************************************************************************/
-> /* SDRAM controller */
-> typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
->
---3866299591-256924047-1660066757=:57026--
 
