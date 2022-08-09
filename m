@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5E658DC10
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:29:02 +0200 (CEST)
-Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A67458DC33
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:36:55 +0200 (CEST)
+Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLS6G-0002ZV-Bj
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35532)
+	id 1oLSDp-00084p-QE
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oLRme-0007ii-T3; Tue, 09 Aug 2022 12:08:45 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2669)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oLRzM-0000Zo-4R
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:21:52 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:50698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oLRmb-0000br-FM; Tue, 09 Aug 2022 12:08:43 -0400
-Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M2Hwm10Sdz685PJ;
- Wed, 10 Aug 2022 00:05:44 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Tue, 9 Aug 2022 18:08:26 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 9 Aug
- 2022 17:08:26 +0100
-Date: Tue, 9 Aug 2022 17:08:25 +0100
-To: Bobo WL <lmw.bobo@gmail.com>
-CC: <linux-cxl@vger.kernel.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: Re: [BUG] cxl can not create region
-Message-ID: <20220809170825.00001b61@huawei.com>
-In-Reply-To: <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
-References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
- <20220808133727.00001171@huawei.com>
- <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oLRzK-0002nR-7P
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:21:51 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id BAFD1B81625;
+ Tue,  9 Aug 2022 16:21:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F9CC433D6;
+ Tue,  9 Aug 2022 16:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660062102;
+ bh=QnTWRqMr+1f7sYGXemRuf3Ckbh+fi7afd1fsR1S5RDw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=h9+UyQx2c/62Xy7WVjF8pcDWyWoN59ZKH/QGT1KWAXGTnvnfgZmfryKUZFPlp7TYJ
+ 3AOsBh6qQy1pGGDrT+FvY8pb7yVIEH5IN0fz5Gfh6LFFWBOJYYsmSstD9uZ2Dh6vVR
+ MJqu/z8xBovPxkvCKlDY3aehrplS00CGyzuT+kNfCa68N91vtPMDAMhEVw4GNVsk4u
+ SAJyRS/UBqVQujNF/vGUo/GV1nP0ZdZI5ETYVYwc3wzKOhxkYgz7ci3iQMchwfJdpw
+ BJswsJsS+t5fBBBjtjX93vhuKT+FvfytDIl9dLAxEK+51HusgudS08DfRNMIFtwzgT
+ eGc8Vem2Pc9lA==
+Date: Tue, 9 Aug 2022 10:21:39 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>, its@irrelevant.dk
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+Message-ID: <YvKJk2dYiwomexFv@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=kbusch@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,47 +70,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Tue, 9 Aug 2022 21:07:06 +0800
-Bobo WL <lmw.bobo@gmail.com> wrote:
+On Mon, Aug 08, 2022 at 10:23:03AM +0800, Jinhao Fan wrote:
+> at 12:35 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
+> 
+> > static void nvme_irq_assert(NvmeCtrl *n, NvmeCQueue *cq)
+> > {
+> >     if (cq->irq_enabled) {
+> >         if (msix_enabled(&(n->parent_obj))) {
+> > +            /* Initialize CQ irqfd */
+> > +            if (!cq->irqfd_enabled && n->params.ioeventfd && cq->cqid != 0) {
+> > +                int ret = nvme_init_cq_irqfd(cq);
+> > +                if (ret == 0) {
+> > +                    cq->irqfd_enabled = true;
+> > +                }
+> > +            }
+> > +
+> 
+> Another question:
+> 
+> In this version I left irqfd initialization to the first assertion of an
+> irq. But I think it is better to initialize irqfd at cq creation time so we
+> won’t bother checking it at each irq assertion. However if I put these code
+> in nvme_init_cq(), irqfd does not work properly. After adding some
+> tracepoints I found the MSI messages in MSI-X table changed after
+> nvme_init_cq(). Specifically, the `data` field does not seem correct at the
+> time when nvme_init_cq() is called.
+> 
+> Keith, you must be familiar with how the nvme driver initializes CQs. Could
+> you give some information on when I can safely use the contents in the MSI-X
+> table?
 
-> Hi Jonathan
-> 
-> Thanks for your reply!
-> 
-> On Mon, Aug 8, 2022 at 8:37 PM Jonathan Cameron
-> <Jonathan.Cameron@huawei.com> wrote:
-> >
-> > Probably not related to your problem, but there is a disconnect in QEMU /
-> > kernel assumptionsaround the presence of an HDM decoder when a HB only
-> > has a single root port. Spec allows it to be provided or not as an implementation choice.
-> > Kernel assumes it isn't provide. Qemu assumes it is.
-> >
-> > The temporary solution is to throw in a second root port on the HB and not
-> > connect anything to it.  Longer term I may special case this so that the particular
-> > decoder defaults to pass through settings in QEMU if there is only one root port.
-> >  
-> 
-> You are right! After adding an extra HB in qemu, I can create a x1
-> region successfully.
-> But have some errors in Nvdimm:
-> 
-> [   74.925838] Unknown online node for memory at 0x10000000000, assuming node 0
-> [   74.925846] Unknown target node for memory at 0x10000000000, assuming node 0
-> [   74.927470] nd_region region0: nmem0: is disabled, failing probe
-
-Ah. I've seen this one, but not chased it down yet.  Was on my todo list to chase
-down. Once I reach this state I can verify the HDM Decode is correct which is what
-I've been using to test (Which wasn't true until earlier this week). 
-I'm currently testing via devmem, more for historical reasons than because it makes
-that much sense anymore.  
-
-> 
-> And x4 region still failed with same errors, using latest cxl/preview
-> branch don't work.
-> I have picked "Two CXL emulation fixes" patches in qemu, still not working.
-> 
-> Bob
+The driver will create the cq with an allocated vector, but it's not activated
+until after the driver wires it up to a handler. I think that's what you're
+observing with the incomplete MSIx table entry on creation.
 
