@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D5D58D8A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 14:16:54 +0200 (CEST)
-Received: from localhost ([::1]:49778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA3C58D8AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 14:20:49 +0200 (CEST)
+Received: from localhost ([::1]:51170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLOAB-0001fW-Th
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 08:16:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
+	id 1oLOE3-0002ns-KB
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 08:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oLO6m-0006sM-9P
+ id 1oLO6m-0006sN-9r
  for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:13:16 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39647)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:42715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oLO6i-0003at-Ev
+ id 1oLO6j-0003b2-VI
  for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:13:15 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h13so14108296wrf.6
+Received: by mail-wm1-x334.google.com with SMTP id
+ s11-20020a1cf20b000000b003a52a0945e8so4028121wmc.1
  for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 05:13:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc;
- bh=GMQT6LvusKdq2u6eA84id4/9Fbv/1vsA+JoqFifKJ8g=;
- b=gpguNoXEzSWED52E9MNCL8LQnxQKBZNG3aAfoTbPVZiT7EL0u8KyJJqIR/DZho9jin
- xzX+py3mvmBvlDVdV4iM440oeLb79YwDDqBeZQnlBLxN9fLwV5ovRDosPSN9V5zWDE+U
- qmHS68Bv7KSn9f9GapcJG+ufNnU7zgUZHT6XEMVWfrRMVWyLku4A3hozxvPK5zf1qxNo
- x7P5lHWbuV3b6niI9+1VBQx9uGzhsrSF1YwNrL9b8Xf3LjAdIiMkz6ZXp200ZLnWgTpf
- 7sP1x8099SOXGD2xpiUKOO59O9DEfJfOCdb7ZylzMA8rcN3Q+ICbFSUXl334Vt8zSmAk
- eq7Q==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc;
+ bh=Q/Vdb4g3NvCJHLVVaiYB9dNbfKbq468Y1+VUKHCVpbE=;
+ b=AyR5jSTL/PrVgDNx8eFQ+2pUE6FOkPO9Tddb9txeGeew9Jq2AdOw0NcgHuRZFcWx90
+ sJkezhIPyiuMVzC0lxt6CxTHgoVBgUEndP4Iz6EdKF3U45YQmUlFRNK+2F6RpmdOc+IS
+ mji+Za0D8IiRUfDlAZs8D3jyOCEstqRTN+RTgdLuHJup54OuAMIlE54A1GkIKGSSXlSv
+ +fe8jgnX/AXKQxaVaSgrsNLakUyn8ClcSkGgsYXRVK7nPe52eIjEMAzYfjqKqOmnNR39
+ SsbTR6e5kxw6XXQm4nq5pwQ+HGj0nPqgXbJs3a1ehJcgrBPJ/uswhjnx+livC/1o3dz0
+ OzgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=GMQT6LvusKdq2u6eA84id4/9Fbv/1vsA+JoqFifKJ8g=;
- b=1cqc1noT1mMmwdMxLLnxGDHyd98KILm3TqMsZH7YOo8Y2O3dM9ABrCmyubP0hbBCO4
- 2IsAOnqydaJLkbKXGAJN8kLZZ1biQVNakwBgZQt7F9Ub+B9ajuT28Jr4LwTzNGyv0xss
- EtOihFCs/Jvjir5FYdS5A013B09MmtNKdHuFd8piTeuXfR95QjQnGzYCfFYq18euFdyl
- hMM+lNZKjpTXYvv/QoOoPDVroXIpHbAWqYD+AfdHZTEbNeNAglZgovEnCf12w3xxKbPV
- TyBrR7UzwDnmWmqYO14ovq/eqWLkV0090xp9be50XWBrt5n1saDNUb+HXa5GjrmeIg45
- 3bFA==
-X-Gm-Message-State: ACgBeo0MnzzBclepo9uhyUnX9GH5kn87Ei/OCrGxDa5HUDfCiYsRzv64
- w16hiSXtw8ErZ7h3tmskmdGradSHgm0u+A==
-X-Google-Smtp-Source: AA6agR7iDxb7EDYI/2httl6Iv88BVzK2yHObL5o8qDkl18pC85xrEecMpDNK7KBOVJ55UQoSLQ6C+A==
-X-Received: by 2002:adf:eb4c:0:b0:220:6aaf:ef5e with SMTP id
- u12-20020adfeb4c000000b002206aafef5emr13667298wrn.488.1660047189984; 
- Tue, 09 Aug 2022 05:13:09 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+ bh=Q/Vdb4g3NvCJHLVVaiYB9dNbfKbq468Y1+VUKHCVpbE=;
+ b=pcHdDsGyXq6gyiWqanF/2oYNM0V0cD7ElRhEMFD7k6D25yd+PkAIE5cJ8W8RajDcDh
+ 9Ndn2RXronkSfRDI5q3Jn9XTvhW/dOEUsqZbXdC6LhLPrvE0FjNFCk0RPmqXv1/q+jIV
+ 8N1CeKBjeP57tKx1tsKSyF96pQV+yLrMAoyp3uNJnAUYPk5Sf5OhrB7MLKWcHWKJVEAd
+ QXpXjmpTIRRuqt5c4wzPesHrmqNdKb7Ab6cEx/PtSl73gk0F5HPyIDQC9H6QPU4TUKf4
+ KqFDR7VkLZubnHoPlVSoBl03wg1HTOqaI04MRF0p7xrQWZIHEXZVZbEk3Yv0/OolPAlO
+ a6gA==
+X-Gm-Message-State: ACgBeo10MURrcZgpP/pVu0AL18/PmPbP/Kl2kr44ThSZEr5kXF348U3r
+ tFqc18gW811DARDvUZtq1scS+ZDSMX4XoA==
+X-Google-Smtp-Source: AA6agR5GOM6hlTqJeXG+mzAyXbGLBaQck5zM3dSzr63LwcvMv5zFp6RLJSYQhmuRMOjzhhUmOWwVoA==
+X-Received: by 2002:a05:600c:3c8c:b0:3a5:372e:aba8 with SMTP id
+ bg12-20020a05600c3c8c00b003a5372eaba8mr8413944wmb.162.1660047190840; 
+ Tue, 09 Aug 2022 05:13:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- o2-20020a05600c510200b003a55e5d0d54sm2423169wms.36.2022.08.09.05.13.08
+ o2-20020a05600c510200b003a55e5d0d54sm2423169wms.36.2022.08.09.05.13.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 05:13:08 -0700 (PDT)
+ Tue, 09 Aug 2022 05:13:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] target-arm queue
-Date: Tue,  9 Aug 2022 13:13:06 +0100
-Message-Id: <20220809121307.560286-1-peter.maydell@linaro.org>
+Subject: [PULL 1/1] icount: Take iothread lock when running QEMU timers
+Date: Tue,  9 Aug 2022 13:13:07 +0100
+Message-Id: <20220809121307.560286-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220809121307.560286-1-peter.maydell@linaro.org>
+References: <20220809121307.560286-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,28 +89,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just one bugfix patch for this rc:
+The function icount_prepare_for_run() is called with the iothread
+unlocked, but it can call icount_notify_aio_contexts() which will
+run qemu timer handlers. Those are supposed to be run only with
+the iothread lock held, so take the lock while we do that.
 
-The following changes since commit ca5f3d4df1b47d7f66a109cdb504e83dfd7ec433:
+Since icount mode runs everything on a single thread anyway,
+not holding the lock is likely mostly not going to introduce
+races, but it can cause us to trip over assertions that we
+do hold the lock, such as the one reported in issue 1130.
 
-  Merge tag 'pull-la-20220808' of https://gitlab.com/rth7680/qemu into staging (2022-08-08 19:51:12 -0700)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220809
-
-for you to fetch changes up to c7f26ded6d5065e4116f630f6a490b55f6c5f58e:
-
-  icount: Take iothread lock when running QEMU timers (2022-08-09 10:55:14 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * icount: Take iothread lock when running QEMU timers
-
-----------------------------------------------------------------
-Peter Maydell (1):
-      icount: Take iothread lock when running QEMU timers
-
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1130
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Message-id: 20220801164527.3134765-1-peter.maydell@linaro.org
+---
  accel/tcg/tcg-accel-ops-icount.c | 6 ++++++
  1 file changed, 6 insertions(+)
+
+diff --git a/accel/tcg/tcg-accel-ops-icount.c b/accel/tcg/tcg-accel-ops-icount.c
+index 8f1dda4344c..84cc7421be8 100644
+--- a/accel/tcg/tcg-accel-ops-icount.c
++++ b/accel/tcg/tcg-accel-ops-icount.c
+@@ -109,7 +109,13 @@ void icount_prepare_for_run(CPUState *cpu)
+     replay_mutex_lock();
+ 
+     if (cpu->icount_budget == 0) {
++        /*
++         * We're called without the iothread lock, so must take it while
++         * we're calling timer handlers.
++         */
++        qemu_mutex_lock_iothread();
+         icount_notify_aio_contexts();
++        qemu_mutex_unlock_iothread();
+     }
+ }
+ 
+-- 
+2.25.1
+
 
