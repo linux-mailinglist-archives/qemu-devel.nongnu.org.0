@@ -2,72 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2BA58DCF2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:17:13 +0200 (CEST)
-Received: from localhost ([::1]:53680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA1058DCF8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:20:31 +0200 (CEST)
+Received: from localhost ([::1]:58566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSqt-0004eV-KM
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47182)
+	id 1oLSu6-00084f-PH
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:20:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oLSho-0006wE-HT; Tue, 09 Aug 2022 13:07:49 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:34622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oLShm-0002Hx-Ro; Tue, 09 Aug 2022 13:07:48 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id o2so10534272lfb.1;
- Tue, 09 Aug 2022 10:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=F/rN6N0fSNmOHOndJ9HBCo4CL26vbiKYoQNkGnNKFYY=;
- b=R9Xdj+vK6kI/GETZ029OilwQ9yFfTn9w+8XC0EWyicajwWO3gaaOgGJqos5FQkoNHY
- mcTl8mmG+FZ6jIkI1sFCcMprE0+E2u8PrhHJdINXuS5FUCuCUdz/aYbSCwSSIj/XflAm
- b4SE86X/A8Ay8bxE3AyL+XlPhV8lM6ZBb5JaeW8sCpg6sihyQ7V1tHZXRvauSlYZNWjt
- shR4FptwuzQDwyEtVd3ARaWEqF8NaJQ1fdDl+IHpHeV0THU5t+JwH0q2TeCh3v6EXq/n
- UoOpN4UxHogYSL3hrQif5oNaskOP4Qxdu9hHIT88bhf/5HJdKXYf7gyq4DszyyG0Knjp
- 1Y4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=F/rN6N0fSNmOHOndJ9HBCo4CL26vbiKYoQNkGnNKFYY=;
- b=fMPOGEIOyvUeWZfSlbJRW7+7nkudIyeILAirIloo6E+DtVRzXIwdzB8ooAaWUie2bs
- UMK2X3AAGCbeuJrW4GIQdejI0cw+1eeHyXGRxZqVvxg2XR3Cmmei4NHKixob4nEhoBHT
- gpfJxsptTBBQqKlQ/HoYjXqCLmtDEX1r7KNhEhOBlB62SO9tUIY1JA1eMjyycS0lD96T
- R5aV21+C4n2BzEXCYaStkObEvrTO7BR2/hoZrDgeTO2ICnicwPB5hWH/Uuj5UsFq5JN5
- XbsjiZ96BEv51zsgrLo5b38aqDFDC4SD/12u/VpNJfGszRSziF+pKCxEy9NH88gJf1ST
- P3aQ==
-X-Gm-Message-State: ACgBeo1pDTyqcx04bcsp4GDWzC/dTereioQs46BB1c/81OW6BIrmBDGi
- Ok7HMnDhaH7Ga6dcpgcE4k2P159J9BpVE2DN58A=
-X-Google-Smtp-Source: AA6agR66NZ7rDfyjmbpQ7yYcB/46Okb8EufurFg+WZz8akGLFEDuQNzGnHFeYNgnT0cCkTUGLl1katothjMXdq/rlyY=
-X-Received: by 2002:ac2:4f03:0:b0:48b:2179:5249 with SMTP id
- k3-20020ac24f03000000b0048b21795249mr9595552lfr.356.1660064864845; Tue, 09
- Aug 2022 10:07:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLSmF-0006Iu-Kd; Tue, 09 Aug 2022 13:12:23 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLSmC-00033u-9K; Tue, 09 Aug 2022 13:12:22 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E5C0F747F41;
+ Tue,  9 Aug 2022 19:12:15 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 93ACB747F40; Tue,  9 Aug 2022 19:12:15 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 91DA2747F1E;
+ Tue,  9 Aug 2022 19:12:15 +0200 (CEST)
+Date: Tue, 9 Aug 2022 19:12:15 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 06/24] ppc/ppc405: Start QOMification of the SoC
+In-Reply-To: <20220809153904.485018-7-clg@kaod.org>
+Message-ID: <ce1efbc-59c-1644-646e-cf20cd395da@eik.bme.hu>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-7-clg@kaod.org>
 MIME-Version: 1.0
-References: <20220809164308.1182645-1-bmeng.cn@gmail.com>
- <20220809164308.1182645-2-bmeng.cn@gmail.com>
-In-Reply-To: <20220809164308.1182645-2-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 9 Aug 2022 21:07:33 +0400
-Message-ID: <CAJ+F1C+ZRPEdWZ8w8aRJxKpzuY6xW5yxDcthxNBMgF72hv_aZA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] util/aio-win32: Correct the event array size in
- aio_poll()
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000092c40305e5d1f891"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed; boundary="3866299591-8906692-1660065135=:57026"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,132 +60,293 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000092c40305e5d1f891
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Tue, Aug 9, 2022 at 8:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+--3866299591-8906692-1660065135=:57026
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> From: Bin Meng <bin.meng@windriver.com>
+On Tue, 9 Aug 2022, Cédric Le Goater wrote:
+> This moves all the code previously done in the ppc405ep_init() routine
+> under ppc405_soc_realize(). We can also adjust the number of banks now
+> that we have control on ppc4xx_sdram_init().
 >
-> WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
-> object handles. Correct the event array size in aio_poll() and
-> add a assert() to ensure it does not cause out of bound access.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Stefan Weil <sw@weilnetz.de>
->
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
-lgtm
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
 > ---
+> hw/ppc/ppc405.h        |  12 ++--
+> hw/ppc/ppc405_boards.c |  12 ++--
+> hw/ppc/ppc405_uc.c     | 124 ++++++++++++++++++++---------------------
+> 3 files changed, 71 insertions(+), 77 deletions(-)
 >
-> Changes in v2:
-> - change 'count' to unsigned
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index 66dc21cdfed8..dc862bc8614c 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -73,9 +73,14 @@ struct Ppc405SoCState {
+>     /* Public */
+>     MemoryRegion ram_banks[2];
+>     hwaddr ram_bases[2], ram_sizes[2];
+> +    bool do_dram_init;
 >
->  util/aio-win32.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>     MemoryRegion *dram_mr;
+>     hwaddr ram_size;
+> +
+> +    uint32_t sysclk;
+> +    PowerPCCPU *cpu;
+> +    DeviceState *uic;
+> };
 >
-> diff --git a/util/aio-win32.c b/util/aio-win32.c
-> index 44003d645e..80cfe012ad 100644
-> --- a/util/aio-win32.c
-> +++ b/util/aio-win32.c
-> @@ -326,9 +326,9 @@ void aio_dispatch(AioContext *ctx)
->  bool aio_poll(AioContext *ctx, bool blocking)
->  {
->      AioHandler *node;
-> -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
-> +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
->      bool progress, have_select_revents, first;
-> -    int count;
-> +    unsigned count;
->      int timeout;
+> /* PowerPC 405 core */
+> @@ -84,11 +89,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+> void ppc4xx_plb_init(CPUPPCState *env);
+> void ppc405_ebc_init(CPUPPCState *env);
 >
->      /*
-> @@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
->      QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
->          if (!node->deleted && node->io_notify
->              && aio_node_check(ctx, node->is_external)) {
-> +            assert(count < MAXIMUM_WAIT_OBJECTS);
->              events[count++] =3D event_notifier_get_handle(node->e);
->          }
->      }
-> --
-> 2.34.1
+> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+> -                        MemoryRegion ram_memories[2],
+> -                        hwaddr ram_bases[2],
+> -                        hwaddr ram_sizes[2],
+> -                        uint32_t sysclk, DeviceState **uicdev,
+> -                        int do_init);
+> -
+> #endif /* PPC405_H */
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index f029d6f415f6..b93e85b5d9bd 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
+>     Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
+>     MachineClass *mc = MACHINE_GET_CLASS(machine);
+>     const char *kernel_filename = machine->kernel_filename;
+> -    PowerPCCPU *cpu;
+>     MemoryRegion *sysmem = get_system_memory();
+> -    DeviceState *uicdev;
 >
+>     if (machine->ram_size != mc->default_ram_size) {
+>         char *sz = size_to_str(mc->default_ram_size);
+> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
+>                              machine->ram_size, &error_fatal);
+>     object_property_set_link(OBJECT(&ppc405->soc), "dram",
+>                              OBJECT(machine->ram), &error_abort);
+> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+> +                             kernel_filename != NULL, &error_abort);
+> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+> +                             &error_abort);
+>     qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
 >
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000092c40305e5d1f891
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 9, 2022 at 8:43 PM Bin Me=
-ng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin Me=
-ng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.meng=
-@windriver.com</a>&gt;<br>
-<br>
-WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS<br>
-object handles. Correct the event array size in aio_poll() and<br>
-add a assert() to ensure it does not cause out of bound access.<br>
-<br>
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
-Reviewed-by: Stefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"_b=
-lank">sw@weilnetz.de</a>&gt;<br></blockquote><div><br></div><div>lgtm</div>=
-<div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br></div><div>=C2=A0<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-<br>
-Changes in v2:<br>
-- change &#39;count&#39; to unsigned<br>
-<br>
-=C2=A0util/aio-win32.c | 5 +++--<br>
-=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/util/aio-win32.c b/util/aio-win32.c<br>
-index 44003d645e..80cfe012ad 100644<br>
---- a/util/aio-win32.c<br>
-+++ b/util/aio-win32.c<br>
-@@ -326,9 +326,9 @@ void aio_dispatch(AioContext *ctx)<br>
-=C2=A0bool aio_poll(AioContext *ctx, bool blocking)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0AioHandler *node;<br>
--=C2=A0 =C2=A0 HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];<br>
-+=C2=A0 =C2=A0 HANDLE events[MAXIMUM_WAIT_OBJECTS];<br>
-=C2=A0 =C2=A0 =C2=A0bool progress, have_select_revents, first;<br>
--=C2=A0 =C2=A0 int count;<br>
-+=C2=A0 =C2=A0 unsigned count;<br>
-=C2=A0 =C2=A0 =C2=A0int timeout;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/*<br>
-@@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)<br>
-=C2=A0 =C2=A0 =C2=A0QLIST_FOREACH_RCU(node, &amp;ctx-&gt;aio_handlers, node=
-) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!node-&gt;deleted &amp;&amp; node-&gt=
-;io_notify<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;&amp; aio_node_check(c=
-tx, node-&gt;is_external)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(count &lt; MAXIMUM_WAIT_O=
-BJECTS);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0events[count++] =3D event_n=
-otifier_get_handle(node-&gt;e);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000092c40305e5d1f891--
+> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_banks, ppc405->soc.ram_bases,
+> -                        ppc405->soc.ram_sizes,
+> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+> -
+>     /* allocate and load BIOS */
+>     if (machine->firmware) {
+>         MemoryRegion *bios = g_new(MemoryRegion, 1);
+> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
+>
+>     /* Load ELF kernel and rootfs.cpio */
+>     } else if (kernel_filename && !machine->firmware) {
+> -        boot_from_kernel(machine, cpu);
+> +        boot_from_kernel(machine, ppc405->soc.cpu);
+>     }
+> }
+>
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index adadb3a0ae08..c05ab604367d 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -1432,121 +1432,118 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
+> #endif
+> }
+>
+> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+> -                        MemoryRegion ram_memories[2],
+> -                        hwaddr ram_bases[2],
+> -                        hwaddr ram_sizes[2],
+> -                        uint32_t sysclk, DeviceState **uicdevp,
+> -                        int do_init)
+> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> {
+> +    Ppc405SoCState *s = PPC405_SOC(dev);
+>     clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
+>     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+> -    PowerPCCPU *cpu;
+>     CPUPPCState *env;
+> -    DeviceState *uicdev;
+> -    SysBusDevice *uicsbd;
+>
+>     memset(clk_setup, 0, sizeof(clk_setup));
+> +
+>     /* init CPUs */
+> -    cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
+> +    s->cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
+>                       &clk_setup[PPC405EP_CPU_CLK],
+> -                      &tlb_clk_setup, sysclk);
+> -    env = &cpu->env;
+> +                      &tlb_clk_setup, s->sysclk);
+> +    env = &s->cpu->env;
+>     clk_setup[PPC405EP_CPU_CLK].cb = tlb_clk_setup.cb;
+>     clk_setup[PPC405EP_CPU_CLK].opaque = tlb_clk_setup.opaque;
+> -    /* Internal devices init */
+> -    /* Memory mapped devices registers */
+> +
+> +    /* CPU control */
+> +    ppc405ep_cpc_init(env, clk_setup, s->sysclk);
+> +
+>     /* PLB arbitrer */
+>     ppc4xx_plb_init(env);
+> +
+>     /* PLB to OPB bridge */
+>     ppc4xx_pob_init(env);
+> +
+>     /* OBP arbitrer */
+>     ppc4xx_opba_init(0xef600600);
+> +
+>     /* Universal interrupt controller */
+> -    uicdev = qdev_new(TYPE_PPC_UIC);
+> -    uicsbd = SYS_BUS_DEVICE(uicdev);
+> +    s->uic = qdev_new(TYPE_PPC_UIC);
+>
+> -    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+> +    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(s->cpu),
+>                              &error_fatal);
+> -    sysbus_realize_and_unref(uicsbd, &error_fatal);
+> -
+> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
+> +        return;
+> +    }
+>
+> -    *uicdevp = uicdev;
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
+> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_INT));
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
+> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_CINT));
+>
+>     /* SDRAM controller */
+>         /* XXX 405EP has no ECC interrupt */
+> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 17), 2, ram_memories,
+> -                      ram_bases, ram_sizes, do_init);
+> +    s->ram_bases[0] = 0;
+> +    s->ram_sizes[0] = s->ram_size;
+> +    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
+> +                             "ppc405.sdram0", s->dram_mr,
+> +                             s->ram_bases[0], s->ram_sizes[0]);
+> +
+> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17), 1,
+> +                      s->ram_banks, s->ram_bases, s->ram_sizes,
+> +                      s->do_dram_init);
+> +
+>     /* External bus controller */
+>     ppc405_ebc_init(env);
+> +
+>     /* DMA controller */
+> -    dma_irqs[0] = qdev_get_gpio_in(uicdev, 5);
+> -    dma_irqs[1] = qdev_get_gpio_in(uicdev, 6);
+> -    dma_irqs[2] = qdev_get_gpio_in(uicdev, 7);
+> -    dma_irqs[3] = qdev_get_gpio_in(uicdev, 8);
+> +    dma_irqs[0] = qdev_get_gpio_in(s->uic, 5);
+> +    dma_irqs[1] = qdev_get_gpio_in(s->uic, 6);
+> +    dma_irqs[2] = qdev_get_gpio_in(s->uic, 7);
+> +    dma_irqs[3] = qdev_get_gpio_in(s->uic, 8);
+>     ppc405_dma_init(env, dma_irqs);
+> -    /* IIC controller */
+> +
+> +    /* I2C controller */
+>     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+> -                         qdev_get_gpio_in(uicdev, 2));
+> +                         qdev_get_gpio_in(s->uic, 2));
+>     /* GPIO */
+>     ppc405_gpio_init(0xef600700);
+> +
+>     /* Serial ports */
+>     if (serial_hd(0) != NULL) {
+> -        serial_mm_init(address_space_mem, 0xef600300, 0,
+> -                       qdev_get_gpio_in(uicdev, 0),
+> +        serial_mm_init(get_system_memory(), 0xef600300, 0,
+> +                       qdev_get_gpio_in(s->uic, 0),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+>     if (serial_hd(1) != NULL) {
+> -        serial_mm_init(address_space_mem, 0xef600400, 0,
+> -                       qdev_get_gpio_in(uicdev, 1),
+> +        serial_mm_init(get_system_memory(), 0xef600400, 0,
+> +                       qdev_get_gpio_in(s->uic, 1),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+> +
+>     /* OCM */
+>     ppc405_ocm_init(env);
+> +
+>     /* GPT */
+> -    gpt_irqs[0] = qdev_get_gpio_in(uicdev, 19);
+> -    gpt_irqs[1] = qdev_get_gpio_in(uicdev, 20);
+> -    gpt_irqs[2] = qdev_get_gpio_in(uicdev, 21);
+> -    gpt_irqs[3] = qdev_get_gpio_in(uicdev, 22);
+> -    gpt_irqs[4] = qdev_get_gpio_in(uicdev, 23);
+> +    gpt_irqs[0] = qdev_get_gpio_in(s->uic, 19);
+> +    gpt_irqs[1] = qdev_get_gpio_in(s->uic, 20);
+> +    gpt_irqs[2] = qdev_get_gpio_in(s->uic, 21);
+> +    gpt_irqs[3] = qdev_get_gpio_in(s->uic, 22);
+> +    gpt_irqs[4] = qdev_get_gpio_in(s->uic, 23);
+>     ppc4xx_gpt_init(0xef600000, gpt_irqs);
+> -    /* PCI */
+> -    /* Uses UIC IRQs 3, 16, 18 */
+> +
+>     /* MAL */
+> -    mal_irqs[0] = qdev_get_gpio_in(uicdev, 11);
+> -    mal_irqs[1] = qdev_get_gpio_in(uicdev, 12);
+> -    mal_irqs[2] = qdev_get_gpio_in(uicdev, 13);
+> -    mal_irqs[3] = qdev_get_gpio_in(uicdev, 14);
+> +    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
+> +    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
+> +    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
+> +    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
+>     ppc4xx_mal_init(env, 4, 2, mal_irqs);
+> +
+>     /* Ethernet */
+>     /* Uses UIC IRQs 9, 15, 17 */
+> -    /* CPU control */
+> -    ppc405ep_cpc_init(env, clk_setup, sysclk);
+> -
+> -    return cpu;
+> -}
+> -
+> -static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> -{
+> -    Ppc405SoCState *s = PPC405_SOC(dev);
+> -
+> -    /* Initialize only one bank */
+> -    s->ram_bases[0] = 0;
+> -    s->ram_sizes[0] = s->ram_size;
+> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
+> -                             "ppc405.sdram0", s->dram_mr,
+> -                             s->ram_bases[0], s->ram_sizes[0]);
+> }
+>
+> static Property ppc405_soc_properties[] = {
+>     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+>                      MemoryRegion *),
+> +    DEFINE_PROP_UINT32("sys-clk", Ppc405SoCState, sysclk, 0),
+> +    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
+>     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+> @@ -1556,6 +1553,7 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+>     DeviceClass *dc = DEVICE_CLASS(oc);
+>
+>     dc->realize = ppc405_soc_realize;
+> +    /* Reason: only works as part of a ppc405 board/machine */
+>     dc->user_creatable = false;
+>     device_class_set_props(dc, ppc405_soc_properties);
+> }
+>
+--3866299591-8906692-1660065135=:57026--
 
