@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6848858DCAE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:01:56 +0200 (CEST)
-Received: from localhost ([::1]:56866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4727958DCA1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:59:35 +0200 (CEST)
+Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSc7-0003U9-9j
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44860)
+	id 1oLSZq-0000Nm-BC
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oLSWW-0003Xz-4r; Tue, 09 Aug 2022 12:56:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:58625)
+ id 1oLSWV-0003Xn-0S; Tue, 09 Aug 2022 12:56:07 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:53343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oLSWU-0000Wk-6o; Tue, 09 Aug 2022 12:56:07 -0400
+ id 1oLSWT-0000Wd-7e; Tue, 09 Aug 2022 12:56:06 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N95Rn-1nIF3K45vr-0169qg; Tue, 09
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N63i4-1nJcUo2YlU-016QAL; Tue, 09
  Aug 2022 18:55:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 1/2] contrib/vhost-user-blk: Clean up deallocation of
- VuVirtqElement
-Date: Tue,  9 Aug 2022 18:55:54 +0200
-Message-Id: <20220809165555.2415931-2-laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Qiang Liu <cyruscyliu@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Frederic Konrad <fkonrad@amd.com>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 2/2] xlnx_dp: drop unsupported AUXCommand in
+ xlnx_dp_aux_set_command
+Date: Tue,  9 Aug 2022 18:55:55 +0200
+Message-Id: <20220809165555.2415931-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220809165555.2415931-1-laurent@vivier.eu>
 References: <20220809165555.2415931-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vOaBaH04CsT0F8fPesA4TNAeT/+UBajDQyUkC7HbuZCH3SvXAFn
- 75au4RXBYn13h9BZRLuS3CTcL4ndeptNvzmFMgNvHTr20eue6Gj65bHrO76+QLpO029uI45
- DYMwZR8hUNwfTSbjAM7+ImZXd5h73EKnOjT44FF+/EzC3hoXDsUTx/obx+YSria2McPoCnA
- QjbPM0NBP1MK7y5YvQG4A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:on+ghYYnXEU=:6EDhcLfUFt38Or4sVVYdCx
- MluOvi4tJqfqQI8T0V18fuGK85x87kxqgxSw5shQKt1m/hXiiP+mmFYOdm0X5mHTtpuTGu2xc
- 2Y5DuWDUBCnL/Mgrp6QOLNhBqLvhSkSWVTN6T0fjdncoXSicFHi2Jql66BMFgkfLtohGpkUbY
- zYNlL+ArQfTvHuWqst6nDpY0jmZoc6PSjXZMrkyp5Q3GoBQqB18CSTjc0Kghg9vsoPTHY56aD
- uci8wIs2UNuXUj9pnGsx3/0S/t6nUxQGU1Ekwb3Ifg/6DJckDPM78MR1YwUZ6aDolrk7W2Nao
- tQwFp7MDcQd9Naz/62ujoPiR1DDm/q2B3hHhR+mjGdpeBNc7E/J3RcgK2kvc5JapayNw59Q/i
- TvUwfZbMJsZynTw4l4DQkAgicXQ8uqo+ICEpT+h+fF2vxJX+Nwh1tRNP11+jMUsmBdfsFcbug
- 69I8J7YwzKuKrwUTHIKfOmIKmVTWap5ipHgMOj/LX7cp1J+r48u4n1sM9QmvIksad+AYyRJKJ
- mC1ce2cm9zChhv8q58XBC+JXSl1GrDASV8KtxHPHhj5G8SPeu0P69IYyALpOL+TBp9CBqaScx
- /d6KgGuXr+uiPXjIo1/0PJcxYD8nVceRNTB1LolJ8nUpF1YNFOjy2z3iVA/LFSiS021e1pOyj
- fxyt+n86s/bKHqCAzRVEEp0Ygwyn0YG78SFmggNBwZAPU+y8kxxGb8jkNSOQFxirp0sGC/MUX
- LqtOTxpeTu/FzPBId3pDRSDovn6LjO/JbZo7ew==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:tvVm9Hwo5pM5k4ybRnZg0pEMJYU0xo7Rj7Q583DlJO4dXFLiE8B
+ maom5z3gL4GbaBHp6+dh5XHKyl3wzlu7C+mk64KglLuh0rkec7SMG1ViJwcRxUrEIHkm9+r
+ ZHIemQqSGHz/rWVQXvmrm4m6d8rQZno1ix0dc9YMKNgYlOgiWQD2wU0uFRjz5FfeQLBRo2a
+ ZHTd97xFo96ru/aB+EiqQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A0Dm9r/BfsQ=:v3sD8C1DJrfwR4hl0WkC9p
+ HNtICvgBf9npsAD3wn7AdVHESQvWOOsjg3uLBKSbMuvC//GaXRgEdc0EnHW1T/0VYS9Yx6ayW
+ hmcjEoAmwSxfGbzS3ThVRrWiMIV2uCrtiUmRLsJUmb8LCbSqvLnhrcyytGe8fULej0+Je5AZW
+ pPQBx1PHCqkShCbFML49XvfjGF6l8dQdKX/eENMjJxcTfYryJKfhkwXa4fOqe7H3Qbj0EUKGk
+ Bl6TJauHvhbnaQOX5qdP3HEFzGnZeQgQ/oqGS9K7E5ADMn34LGJR1MX0+C2R4d46691tdzmdy
+ 15iR6pk/nOXtdDPeeXF58uAz9C3z1AcXF8YyJOptAghH2+hrqaexZfwOsklhIIPfqDzuarH3/
+ C/dSobMZoyV2cODvM9vSOr7X4WEIEihkxA0cegjIcyrHo0ddgBJgTpkQKNajLZe9rXjvSTP2h
+ qyEWV00Kmarl2DJutl+PZ3wtOlt+2itjkn3pLmBxgmjaDHBoxhYA06xW1Mtjq78DD4cNa7JJo
+ VEeLqkzfuvD8vcUrEjdWpZxvDrUFL1SpBGJlxR72j8zMFac8/1ReNHW1BRf2drTc83FOaRzhI
+ h9faYOxsKdRSOgDbKjI7yRN4hbqzMzd4u+gy6O6rxIpZ2t1KRxD6Qu3I/HfvSODDAZWkZy4hl
+ Aoerv3w96HkXj1uNght776a1grKz+QEnUu69GJLLk2YQuh0yfDaUQLvNY0tGYtGCwRVc0c0q3
+ p0oWXhbYkrcWgfy39ARdizJYcjs8JvkhBVLjjA==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,61 +73,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Qiang Liu <cyruscyliu@gmail.com>
 
-We allocate VuVirtqElement with g_malloc() in
-virtqueue_alloc_element(), but free it with free() in
-vhost-user-blk.c.  Harmless, but use g_free() anyway.
+In xlnx_dp_aux_set_command, when the command leads to the default
+branch, xlxn-dp will abort and then crash.
 
-One of the calls is guarded by a "not null" condition.  Useless,
-because it cannot be null (it's dereferenced right before), and even
-it it could be, free() and g_free() do the right thing.  Drop the
-conditional.
+This patch removes this abort and drops this operation.
 
-Fixes: Coverity CID 1490290
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20220630085219.1305519-1-armbru@redhat.com>
+Fixes: 58ac482 ("introduce xlnx-dp")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/411
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+Tested-by: Qiang Liu <cyruscyliu@gmail.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Frederic Konrad <fkonrad@amd.com>
+Message-Id: <20220808080116.2184881-1-cyruscyliu@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- contrib/vhost-user-blk/vhost-user-blk.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ hw/display/xlnx_dp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index 9cb78ca1d0df..d6932a264573 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -106,10 +106,7 @@ static void vub_req_complete(VubReq *req)
-                   req->size + 1);
-     vu_queue_notify(vu_dev, req->vq);
- 
--    if (req->elem) {
--        free(req->elem);
--    }
--
-+    g_free(req->elem);
-     g_free(req);
- }
- 
-@@ -243,7 +240,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
-     /* refer to hw/block/virtio_blk.c */
-     if (elem->out_num < 1 || elem->in_num < 1) {
-         fprintf(stderr, "virtio-blk request missing headers\n");
--        free(elem);
-+        g_free(elem);
-         return -1;
+diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+index a071c818833b..b0828d65aa86 100644
+--- a/hw/display/xlnx_dp.c
++++ b/hw/display/xlnx_dp.c
+@@ -532,8 +532,8 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, uint32_t value)
+         qemu_log_mask(LOG_UNIMP, "xlnx_dp: Write i2c status not implemented\n");
+         break;
+     default:
+-        error_report("%s: invalid command: %u", __func__, cmd);
+-        abort();
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid command: %u", __func__, cmd);
++        return;
      }
  
-@@ -325,7 +322,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
-     return 0;
- 
- err:
--    free(elem);
-+    g_free(elem);
-     g_free(req);
-     return -1;
- }
+     s->core_registers[DP_INTERRUPT_SIGNAL_STATE] |= 0x04;
 -- 
 2.37.1
 
