@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B38458D54C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 10:24:46 +0200 (CEST)
-Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D77C58D56D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 10:33:25 +0200 (CEST)
+Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLKXd-0004x7-CY
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 04:24:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54968)
+	id 1oLKg0-0004h8-CA
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 04:33:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLKWA-0003ar-P7
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:23:14 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37661)
+ id 1oLKbZ-0000NC-JD
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:28:50 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:46014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLKW9-000716-2w
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:23:14 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- c187-20020a1c35c4000000b003a30d88fe8eso8587648wma.2
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 01:23:12 -0700 (PDT)
+ id 1oLKbX-0007qb-29
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:28:49 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id e13so14137219edj.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 01:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=nkBOLyxQQukN+Sc98sfxwHbEAtwyQxYfACF/YY1fGZU=;
- b=jEeedUj0EsaLvmgrfn3zeGfTI+jqubkcfdVewgrB6DdRwZXWa2XhF1G7K9WFtavCp2
- WsrM3V2ydFCg94oqKEseHwC+F7BQSCYlHgmc1LORoqSKigDCC2qpuq8+grD2nQks/ISR
- 70Xn81wT1Owslk75KHQxAPL0ff/neNaaNA6ZHbGBVzn3J18IotVVolS+GbKy9aPNYu7g
- +wolF8/VN6HFzjUNVnKb+424AmCe0Ti78ROChl8Upoap7m6zDBwbkG6X/qq5XGLzddDo
- r199AF4JB8H6ShQjVWfidHuW8yYyLodYR7UygzcSihgMDrefilfzCnVURwR9axkED+rX
- XuZw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=YDgVcRnv5lkalapTk738QTAthM8jFl2ykbLN4m6B7sw=;
+ b=zOmCxf83ZNzrds82jzItehj0JUa6542u22VkM9icMh1H4qbe7iy6i4lQTrZ8l3Oacw
+ WjfElolYLThqttBH+ArvDM+RXQDP3+EFmLNuiAXNoIq3W8F+Tl+kK6jDW8xZim/r28++
+ DAM+j8XyNEJKMkENgTSwMjAc8KEjWlstjKULz2MlMOoDhPIVb6Zv9fiwT3sHIua5dstd
+ P5MQru8W3GQt8anC4I5Cdua7UUP8q62LXLvQSBGUuWz2w2A7irpXD7rrU1RXGGulr8Eg
+ HROY0HegoXdO9hEISSn1UY5VUXgUWOKvAeSfB9t0JCVoy87XVn7+DwrSu246jpc5PqKj
+ jE+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=nkBOLyxQQukN+Sc98sfxwHbEAtwyQxYfACF/YY1fGZU=;
- b=46394csF4TpFod+SF4GV/2beKVabYg6ZBY2rUjhHh/JPXB2pIm2lCSk3F85pHUiONS
- Z5QJ3JzkF+IQHqnZP5bdBVWJnqLcr6cohV6YhsJty/PYkZERhbSzr5Htk09Vtt1PMmV7
- hRSn5mKrYmlmI4LPEDQ6F9WOkDUu28IvnXUl3RRSm6FyEfzdFmiXQq+/Fa4v2GlbaKkd
- NYqBM0RmoKHgZCphN0iRtXgTN0NFgtvzxs2Tg4IGa9gk/WMMlUUt2yzBqdBy8vf//yei
- baW3uZbIn3DP4/iWNpDJQHoCYakiqHcFwElpqa+okKlGShQisgW9YGiYsi7e6M55n8H6
- X7qA==
-X-Gm-Message-State: ACgBeo35Uk7ZXR/g/5sBqGbyH76uw/ynErr0o7/zBGqX5SL0B+5h62dT
- dkbUzkZq+aEmDD80TuFRKYW7+g==
-X-Google-Smtp-Source: AA6agR7V9GAXUTKvh/a7D4t65R7gMPqn5e6d6zZlf97rs5b0DPJjzCYY6duiXEpNCdvuOLBiNHmN0Q==
-X-Received: by 2002:a05:600c:4e94:b0:3a3:4448:62cc with SMTP id
- f20-20020a05600c4e9400b003a3444862ccmr14939999wmq.108.1660033391343; 
- Tue, 09 Aug 2022 01:23:11 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- n4-20020a7bc5c4000000b003a3253b705dsm15577971wmk.35.2022.08.09.01.23.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 01:23:10 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 078BA1FFB7;
- Tue,  9 Aug 2022 09:23:10 +0100 (BST)
-References: <165943656662.362178.2086588841425038338.stgit@pasha-ThinkPad-X280>
-User-agent: mu4e 1.8.8; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com,
- crosa@redhat.com, wrampazz@redhat.com
-Subject: Re: [PATCH] tests/avocado: fix replay-linux test
-Date: Tue, 09 Aug 2022 09:23:05 +0100
-In-reply-to: <165943656662.362178.2086588841425038338.stgit@pasha-ThinkPad-X280>
-Message-ID: <878rnxomfm.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=YDgVcRnv5lkalapTk738QTAthM8jFl2ykbLN4m6B7sw=;
+ b=iL5h3oCiExjG0Ai0M8kg0J+vFYWqTP711G9fg+RtxEVSnhvnmI4WYfSOL8SyDrn2+V
+ 9wKCiWSq2g4nSGLeBS8nq5N2LeS0TX34kua4Ziy6aWM1PG6GTZnDzHsrnlw2ROXuU+V2
+ rptkuUV/9bBBXTILbovQB4mm8eSYh/dfTwz5KKDtqKFgr0M0GQzVlf+DM6AJg8nwMH3w
+ EQIEr0gkQdhDczlwnurRU2JhMiQ2GK2qX7iiqEeveGO0WUpKslG51V7mkbZbz3/jzsDe
+ lxFmPYHuZStf5+wLRHKttvHQ4V55/f5TanrXkVwij8SJ62+JGVTiFrG9jZcJUps8zocI
+ cjfw==
+X-Gm-Message-State: ACgBeo0P/PpZ428rQX6gJtyjnMfbPg+VQhibkXgKTe/1c2gl1R36wZOA
+ UfT4Vus9+SR44opeFeJZAARl44YP0XgWUfL8I0++rg==
+X-Google-Smtp-Source: AA6agR5t2nC2Z8O2xHasO9rLa2gn+wvXiBIr8qyvlU0KDzjibYudnShr0z2RyGyjupHd6A2WznfstLksmUw8f12DC/w=
+X-Received: by 2002:a05:6402:3206:b0:43d:4e0e:b693 with SMTP id
+ g6-20020a056402320600b0043d4e0eb693mr20349789eda.316.1660033725576; Tue, 09
+ Aug 2022 01:28:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+References: <165943656662.362178.2086588841425038338.stgit@pasha-ThinkPad-X280>
+ <878rnxomfm.fsf@linaro.org>
+In-Reply-To: <878rnxomfm.fsf@linaro.org>
+From: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Tue, 9 Aug 2022 09:28:34 +0100
+Message-ID: <CAHDbmO2zMH+5Zdemht+UW-d0bEfPa1RXKCP0gbiFcCSba6Pzwg@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: fix replay-linux test
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com, 
+ crosa@redhat.com
+Content-Type: multipart/alternative; boundary="0000000000008751ba05e5cab8fb"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,29 +84,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000008751ba05e5cab8fb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+ignore that - I see Thomas has already merged it.
 
-> Last line of the test is missing by accident.
-> This patch fixes the script.
+On Tue, 9 Aug 2022 at 09:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+
 >
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> ---
->  tests/avocado/replay_linux.py |    1 +
->  1 file changed, 1 insertion(+)
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
 >
-> diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linux.py
-> index 40e4f6908e..e1f9981a34 100644
-> --- a/tests/avocado/replay_linux.py
-> +++ b/tests/avocado/replay_linux.py
-> @@ -189,3 +189,4 @@ def test_virt_gicv3(self):
->=20=20
->          self.run_rr(shift=3D3,
->                      args=3D(*self.get_common_args(),
-> +                          "-machine", "virt,gic-version=3D3"))
+> > Last line of the test is missing by accident.
+> > This patch fixes the script.
+> >
+> > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> > ---
+> >  tests/avocado/replay_linux.py |    1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/tests/avocado/replay_linux.py
+> b/tests/avocado/replay_linux.py
+> > index 40e4f6908e..e1f9981a34 100644
+> > --- a/tests/avocado/replay_linux.py
+> > +++ b/tests/avocado/replay_linux.py
+> > @@ -189,3 +189,4 @@ def test_virt_gicv3(self):
+> >
+> >          self.run_rr(shift=3D3,
+> >                      args=3D(*self.get_common_args(),
+> > +                          "-machine", "virt,gic-version=3D3"))
+>
+> Queued to testing/next, thanks.
+>
+> --
+> Alex Benn=C3=A9e
+>
 
-Queued to testing/next, thanks.
 
 --=20
 Alex Benn=C3=A9e
+KVM/QEMU Hacker for Linaro
+
+--0000000000008751ba05e5cab8fb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">ignore that - I see Thomas has already merged it.<br></div=
+><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tu=
+e, 9 Aug 2022 at 09:23, Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@=
+linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><br>
+Pavel Dovgalyuk &lt;<a href=3D"mailto:pavel.dovgalyuk@ispras.ru" target=3D"=
+_blank">pavel.dovgalyuk@ispras.ru</a>&gt; writes:<br>
+<br>
+&gt; Last line of the test is missing by accident.<br>
+&gt; This patch fixes the script.<br>
+&gt;<br>
+&gt; Signed-off-by: Pavel Dovgalyuk &lt;<a href=3D"mailto:Pavel.Dovgalyuk@i=
+spras.ru" target=3D"_blank">Pavel.Dovgalyuk@ispras.ru</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 tests/avocado/replay_linux.py |=C2=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt;<br>
+&gt; diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linu=
+x.py<br>
+&gt; index 40e4f6908e..e1f9981a34 100644<br>
+&gt; --- a/tests/avocado/replay_linux.py<br>
+&gt; +++ b/tests/avocado/replay_linux.py<br>
+&gt; @@ -189,3 +189,4 @@ def test_virt_gicv3(self):<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.run_rr(shift=3D3,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 args=3D(*self.get_common_args(),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;-machine&quot;, &quot;virt,gic-version=3D3&quot=
+;))<br>
+<br>
+Queued to testing/next, thanks.<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Alex Benn=C3=A9e<br>KVM/QEMU Hacker for Linaro</div>
+
+--0000000000008751ba05e5cab8fb--
 
