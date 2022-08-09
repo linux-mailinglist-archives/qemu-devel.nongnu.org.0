@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A3F58DCD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:08:46 +0200 (CEST)
-Received: from localhost ([::1]:34298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3786858DCDC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:11:31 +0200 (CEST)
+Received: from localhost ([::1]:41890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSij-0007sZ-8Y
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45562)
+	id 1oLSlO-0004cp-4U
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLSaH-0001Hn-De; Tue, 09 Aug 2022 13:00:01 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:59345)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oLSbi-0003GT-Ev
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:01:30 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:49322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLSaE-0000vw-Ff; Tue, 09 Aug 2022 13:00:00 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 350CA7462D3;
- Tue,  9 Aug 2022 18:59:56 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E65A07461AE; Tue,  9 Aug 2022 18:59:55 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E4AC9745702;
- Tue,  9 Aug 2022 18:59:55 +0200 (CEST)
-Date: Tue, 9 Aug 2022 18:59:55 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 05/24] ppc/ppc405: Introduce a PPC405 SoC
-In-Reply-To: <20220809153904.485018-6-clg@kaod.org>
-Message-ID: <3d5b81d9-6ab7-76a4-80f4-a7c25f9b322@eik.bme.hu>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-6-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oLSbg-0001LU-Gt
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:01:30 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E725F60CF2;
+ Tue,  9 Aug 2022 17:01:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB26C433D6;
+ Tue,  9 Aug 2022 17:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660064486;
+ bh=hmekJ6jOiCrvqoA3jDufJ+FL+2Fkx7bdvAIh85HjxQE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UQBq5AN2z05A1AuIbGDykcFYIcvv5QYhJ5rLgd912VAfNKc9d8eyeGbjG2ltq4VYH
+ De68r9a0TrxawAeHKbxzBgnxsUt6+d4xLJZXMbJs5k4MB/2gci7jKYiGzjqpikcmLe
+ 54h9NAt1xQciHo1rO+g69xuBANWYGtk/Vr5yDH+e+WISCErJWo+go6Dy/oKQcBrFpX
+ Dz/xfNPugMVtmCKNNGPrHjmFgCq9nXuhCMcqRvT6obMxzaSxsZBatbE0inYeQkEof8
+ fRBe4gav6ZBhI/vMZn+6vT1mQdLTNjFgkmmkPKAy3KJKxqFzUaiAax4zXzZQtxDgLH
+ xpBCu+WPs2eKQ==
+Date: Tue, 9 Aug 2022 11:01:21 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: =?utf-8?B?5qiK6YeR5piK?= <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>, its@irrelevant.dk
+Subject: Re: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+Message-ID: <YvKS4ZK0MHANvPCE@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
+ <YvKJk2dYiwomexFv@kbusch-mbp.dhcp.thefacebook.com>
+ <1ec3f715.4ac4f.18283825663.Coremail.fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1587878417-1660064395=:57026"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1ec3f715.4ac4f.18283825663.Coremail.fanjinhao21s@ict.ac.cn>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=kbusch@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,174 +73,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed, Aug 10, 2022 at 12:48:53AM +0800, 樊金昊 wrote:
+>> The driver will create the cq with an allocated vector, but it's not activated
+>> until after the driver wires it up to a handler. I think that's what you're
+>> observing with the incomplete MSIx table entry on creation.
+> 
+> Also, I'm wondering if this is inconsistent with the NVMe spec. In Section 7.6.1
+> of the 1.4 spec, it says "After determining the number of I/O Queues, the MSI
+> and/or MSI-X registers should be configured;" in Step 8, and CQ creation happens
+> in Step 9. Now the driver changes MSI-X registers after CQ creation, is it a
+> violation of the spec?
 
---3866299591-1587878417-1660064395=:57026
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 9 Aug 2022, Cédric Le Goater wrote:
-> It is an initial model to start QOMification of the PPC405 board.
-> QOM'ified devices will be reintroduced one by one. Start with the
-> memory regions, which name prefix is changed to "ppc405".
->
-> Also, initialize only one RAM bank. The second bank is a dummy one
-> (zero size) which is here to match the hard coded number of banks in
-> ppc405ep_init().
->
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-
-> ---
-> hw/ppc/ppc405.h        | 16 ++++++++++++++++
-> hw/ppc/ppc405_boards.c | 23 ++++++++++++-----------
-> hw/ppc/ppc405_uc.c     | 40 ++++++++++++++++++++++++++++++++++++++++
-> 3 files changed, 68 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 83f156f585c8..66dc21cdfed8 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -25,6 +25,7 @@
-> #ifndef PPC405_H
-> #define PPC405_H
->
-> +#include "qom/object.h"
-> #include "hw/ppc/ppc4xx.h"
->
-> #define PPC405EP_SDRAM_BASE 0x00000000
-> @@ -62,6 +63,21 @@ struct ppc4xx_bd_info_t {
->     uint32_t bi_iic_fast[2];
-> };
->
-> +#define TYPE_PPC405_SOC "ppc405-soc"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC);
-> +
-> +struct Ppc405SoCState {
-> +    /* Private */
-> +    DeviceState parent_obj;
-> +
-> +    /* Public */
-> +    MemoryRegion ram_banks[2];
-> +    hwaddr ram_bases[2], ram_sizes[2];
-> +
-> +    MemoryRegion *dram_mr;
-> +    hwaddr ram_size;
-> +};
-> +
-> /* PowerPC 405 core */
-> ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
->
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 381f39aa94cb..f029d6f415f6 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -57,6 +57,8 @@ struct Ppc405MachineState {
->     /* Private */
->     MachineState parent_obj;
->     /* Public */
-> +
-> +    Ppc405SoCState soc;
-> };
->
-> /*****************************************************************************/
-> @@ -232,11 +234,10 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
->
-> static void ppc405_init(MachineState *machine)
-> {
-> +    Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
->     MachineClass *mc = MACHINE_GET_CLASS(machine);
->     const char *kernel_filename = machine->kernel_filename;
->     PowerPCCPU *cpu;
-> -    MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
-> -    hwaddr ram_bases[2], ram_sizes[2];
->     MemoryRegion *sysmem = get_system_memory();
->     DeviceState *uicdev;
->
-> @@ -247,16 +248,16 @@ static void ppc405_init(MachineState *machine)
->         exit(EXIT_FAILURE);
->     }
->
-> -    /* XXX: fix this */
-> -    memory_region_init_alias(&ram_memories[0], NULL, "ef405ep.ram.alias",
-> -                             machine->ram, 0, machine->ram_size);
-> -    ram_bases[0] = 0;
-> -    ram_sizes[0] = machine->ram_size;
-> -    memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
-> -    ram_bases[1] = 0x00000000;
-> -    ram_sizes[1] = 0x00000000;
-> +    object_initialize_child(OBJECT(machine), "soc", &ppc405->soc,
-> +                            TYPE_PPC405_SOC);
-> +    object_property_set_uint(OBJECT(&ppc405->soc), "ram-size",
-> +                             machine->ram_size, &error_fatal);
-> +    object_property_set_link(OBJECT(&ppc405->soc), "dram",
-> +                             OBJECT(machine->ram), &error_abort);
-> +    qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
->
-> -    cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
-> +    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_banks, ppc405->soc.ram_bases,
-> +                        ppc405->soc.ram_sizes,
->                         33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
->
->     /* allocate and load BIOS */
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index d6420c88d3a6..adadb3a0ae08 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -30,6 +30,7 @@
-> #include "hw/ppc/ppc.h"
-> #include "hw/i2c/ppc4xx_i2c.h"
-> #include "hw/irq.h"
-> +#include "hw/qdev-properties.h"
-> #include "ppc405.h"
-> #include "hw/char/serial.h"
-> #include "qemu/timer.h"
-> @@ -1530,3 +1531,42 @@ PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
->
->     return cpu;
-> }
-> +
-> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> +{
-> +    Ppc405SoCState *s = PPC405_SOC(dev);
-> +
-> +    /* Initialize only one bank */
-> +    s->ram_bases[0] = 0;
-> +    s->ram_sizes[0] = s->ram_size;
-> +    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
-> +                             "ppc405.sdram0", s->dram_mr,
-> +                             s->ram_bases[0], s->ram_sizes[0]);
-> +}
-> +
-> +static Property ppc405_soc_properties[] = {
-> +    DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
-> +                     MemoryRegion *),
-> +    DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc405_soc_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = ppc405_soc_realize;
-> +    dc->user_creatable = false;
-> +    device_class_set_props(dc, ppc405_soc_properties);
-> +}
-> +
-> +static const TypeInfo ppc405_types[] = {
-> +    {
-> +        .name           = TYPE_PPC405_SOC,
-> +        .parent         = TYPE_DEVICE,
-> +        .instance_size  = sizeof(Ppc405SoCState),
-> +        .class_init     = ppc405_soc_class_init,
-> +    }
-> +};
-> +
-> +DEFINE_TYPES(ppc405_types)
->
---3866299591-1587878417-1660064395=:57026--
+I don't think it's a problem. This is really a more "informative" section of
+the spec and doesn't specify any hard requirements. You should be able to rely
+on the entry's data being stable after the first queue doorbell ring, though.
 
