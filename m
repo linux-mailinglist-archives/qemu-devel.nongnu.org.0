@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8063B58D158
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 02:27:47 +0200 (CEST)
-Received: from localhost ([::1]:60690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F4D58D15A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 02:27:54 +0200 (CEST)
+Received: from localhost ([::1]:32914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLD62-0001N2-37
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 20:27:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50732)
+	id 1oLD69-0001ff-1x
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 20:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1oLD3j-0005Zu-Re; Mon, 08 Aug 2022 20:25:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62574)
+ id 1oLD3l-0005a7-N8; Mon, 08 Aug 2022 20:25:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1oLD3c-00079W-NC; Mon, 08 Aug 2022 20:25:21 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27901H2n010284;
- Tue, 9 Aug 2022 00:25:15 GMT
+ id 1oLD3h-0007A1-RJ; Mon, 08 Aug 2022 20:25:24 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27901Fn4014155;
+ Tue, 9 Aug 2022 00:25:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=pp1;
- bh=ZeEY3FrpsfuCeMIPAPzPbPWgHIkCse9wi1eYbsgfSIc=;
- b=IipJopqIf3cMiFMBAuL0+bXtxqcoPjtQAWbYwoZyTqQYdyJWdrH7IypuiWgENobKhg9o
- C4ZlAZTGqAstC4cVJI3lTPfeXfqvxd5KBNaBlbgVHJDr1D/nrnw0afin3szLOJDzifWU
- 5ZNhfRTXclE2OUK2UnNpaNwqbP+c7x8nxQsKevNmVl/mNWDZxsLovBUtLKo68DK5QrfS
- b78FRVi2lBzENyGzqsR9WAM1OlaxSLDlig9R3fqXFe0fIR7ofJokODvtnJGF2cB0FRpd
- Q2NOdf7rnpYvAqvikfvne0WYQH76iJ26SSEVF39Wdw1hz5nNTol5GmSHgEignZaq4J1S nw== 
+ bh=gMzJHOWfYxNRSV1xK25wWFpdnXgJClEZl+NLI7btZe0=;
+ b=cC+Hj0eZpK/nRooDMovoCuj55cBJviZGzKioVxBLlGzOviKCyL4eP5Ybl7yrpyLHmWim
+ T2CrN/XabaVFdTTqJ72zhBkKzK3OWlhgje0h4S9K1vrWQOnbLXIF382EV9Wt/xBD4RAw
+ 3d15YQBpXPm8NX+G9JG9nR0OqBopMpzSWPxT3rHUTA7SxHR/etCS/4Ec8kc52V+1RXGA
+ eV/qL/tLNGMC8iQH84grXO/dk+Zb1pv+VA2E/HGaHUSYCIk9s+K9TDUojebe9Mxjb2bX
+ bW+JQnliCR8Q5wYxqZljvpdmGJ4HTZgxKEWZrJ9UqCJWLeuipM3J8/nIXd6cIp+RMJGy aQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hu9w7mr8f-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hubrq9txs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Aug 2022 00:25:15 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27902jLb016108;
- Tue, 9 Aug 2022 00:25:15 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hu9w7mr81-1
+ Tue, 09 Aug 2022 00:25:19 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2790PBTk025228;
+ Tue, 9 Aug 2022 00:25:19 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hubrq9txm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Aug 2022 00:25:15 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2790LU7e031334;
- Tue, 9 Aug 2022 00:25:14 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma03dal.us.ibm.com with ESMTP id 3hu3wnu905-1
+ Tue, 09 Aug 2022 00:25:19 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2790KIG6008286;
+ Tue, 9 Aug 2022 00:25:18 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 3hsfx9bby4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Aug 2022 00:25:14 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2790PDP38454784
+ Tue, 09 Aug 2022 00:25:18 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2790PHGB25690404
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 Aug 2022 00:25:13 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0CC02AC059;
- Tue,  9 Aug 2022 00:25:13 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 898AEAC05B;
- Tue,  9 Aug 2022 00:25:12 +0000 (GMT)
+ Tue, 9 Aug 2022 00:25:17 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 66C27AE062;
+ Tue,  9 Aug 2022 00:25:17 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E3223AE063;
+ Tue,  9 Aug 2022 00:25:16 +0000 (GMT)
 Received: from localhost (unknown [9.77.141.99])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Tue,  9 Aug 2022 00:25:12 +0000 (GMT)
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue,  9 Aug 2022 00:25:16 +0000 (GMT)
 From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>,
@@ -71,10 +71,9 @@ Cc: Juan Quintela <quintela@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Fabiano Rosas <farosas@linux.ibm.com>, muriloo@linux.ibm.com,
  mopsfelder@gmail.com
-Subject: [PATCH 1/2] tests/migration: add sysprof-capture-4 as dependency for
- stress binary
-Date: Mon,  8 Aug 2022 21:24:50 -0300
-Message-Id: <20220809002451.91541-2-muriloo@linux.ibm.com>
+Subject: [PATCH 2/2] tests/migration: add support for ppc64le for guestperf.py
+Date: Mon,  8 Aug 2022 21:24:51 -0300
+Message-Id: <20220809002451.91541-3-muriloo@linux.ibm.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220809002451.91541-1-muriloo@linux.ibm.com>
 References: <20220809002451.91541-1-muriloo@linux.ibm.com>
@@ -82,17 +81,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: oM9DxApqdzuNcLDj5JFlbc8fE5J4Nqef
-X-Proofpoint-ORIG-GUID: jQoUSwEOYHHsvLEt1XLwthw5vVZMsEkS
+X-Proofpoint-GUID: rbDjnocOhG1M1vpDKWeNIEkq71NTrJER
+X-Proofpoint-ORIG-GUID: YrBNYzGK7ENMSBbIHq1qVH08CN7NRRML
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-08_14,2022-08-08_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 spamscore=0 phishscore=0
- malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2208080105
+ mlxlogscore=999 clxscore=1015
+ impostorscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ spamscore=0 malwarescore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2208080105
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -117,54 +116,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-`make tests/migration/stress` fails with:
-
-    FAILED: tests/migration/stress
-    cc -m64 -mlittle-endian  -o tests/migration/stress tests/migration/stress.p/stress.c.o -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -fstack-protector-strong -static -pthread -Wl,--start-group -lgthread-2.0 -lglib-2.0 -Wl,--end-group
-    /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gutils.c.o): in function `.annobin_gutils.c':
-    (.text+0x3b4): warning: Using 'getpwuid' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
-    /usr/bin/ld: (.text+0x178): warning: Using 'getpwnam_r' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
-    /usr/bin/ld: (.text+0x1bc): warning: Using 'getpwuid_r' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
-    /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gthread.c.o):(.toc+0x0): undefined reference to `sysprof_clock'
-    /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gtrace.c.o): in function `.annobin_gtrace.c':
-    (.text+0x24): undefined reference to `sysprof_collector_mark_vprintf'
-    /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gtrace.c.o): in function `g_trace_define_int64_counter':
-    (.text+0x8c): undefined reference to `sysprof_collector_request_counters'
-    /usr/bin/ld: (.text+0x108): undefined reference to `sysprof_collector_define_counters'
-    /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gtrace.c.o): in function `g_trace_set_int64_counter':
-    (.text+0x23c): undefined reference to `sysprof_collector_set_counters'
-    /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gspawn.c.o):(.toc+0x0): undefined reference to `sysprof_clock'
-    /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gmain.c.o):(.toc+0x0): undefined reference to `sysprof_clock'
-    collect2: error: ld returned 1 exit status
-    ninja: build stopped: subcommand failed.
-    make: *** [Makefile:162: run-ninja] Error 1
-
-Add sysprof-capture-4 as dependency for stress binary.
-
-Tested on:
-  - CentOS Stream 9 ppc64le
-  - Fedora 36 x86_64
+Add support for ppc64le for guestperf.py. On ppc, console is usually
+hvc0 and serial device for pseries machine is spapr-vty.
 
 Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 ---
- tests/migration/meson.build | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/migration/guestperf/engine.py | 28 +++++++++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
 
-diff --git a/tests/migration/meson.build b/tests/migration/meson.build
-index f215ee7d3a..3fd87f7849 100644
---- a/tests/migration/meson.build
-+++ b/tests/migration/meson.build
-@@ -1,7 +1,9 @@
-+sysprof = dependency('sysprof-capture-4')
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 87a6ab2009..88da516899 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -282,6 +282,26 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+                 resp = src.command("stop")
+                 paused = True
+ 
++    def _is_ppc64le(self):
++        _, _, _, _, machine = os.uname()
++        if machine == "ppc64le":
++            return True
++        return False
 +
- stress = executable(
-   'stress',
-   files('stress.c'),
--  dependencies: [glib],
-+  dependencies: [glib, sysprof],
-   link_args: ['-static'],
-   build_by_default: false,
- )
++    def _get_guest_console_args(self):
++        if self._is_ppc64le():
++            return "console=hvc0"
++        else:
++            return "console=ttyS0"
++
++    def _get_qemu_serial_args(self):
++        if self._is_ppc64le():
++            return ["-chardev", "stdio,id=cdev0",
++                    "-device", "spapr-vty,chardev=cdev0"]
++        else:
++            return ["-chardev", "stdio,id=cdev0",
++                    "-device", "isa-serial,chardev=cdev0"]
++
+     def _get_common_args(self, hardware, tunnelled=False):
+         args = [
+             "noapic",
+@@ -290,8 +310,10 @@ def _get_common_args(self, hardware, tunnelled=False):
+             "noreplace-smp",
+             "cgroup_disable=memory",
+             "pci=noearly",
+-            "console=ttyS0",
+         ]
++
++        args.append(self._get_guest_console_args())
++
+         if self._debug:
+             args.append("debug")
+         else:
+@@ -309,12 +331,12 @@ def _get_common_args(self, hardware, tunnelled=False):
+             "-kernel", self._kernel,
+             "-initrd", self._initrd,
+             "-append", cmdline,
+-            "-chardev", "stdio,id=cdev0",
+-            "-device", "isa-serial,chardev=cdev0",
+             "-m", str((hardware._mem * 1024) + 512),
+             "-smp", str(hardware._cpus),
+         ]
+ 
++        argv.extend(self._get_qemu_serial_args())
++
+         if self._debug:
+             argv.extend(["-device", "sga"])
+ 
 -- 
 2.37.1
 
