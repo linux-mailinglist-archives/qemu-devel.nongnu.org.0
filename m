@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DDB58D586
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 10:41:22 +0200 (CEST)
-Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C81558D596
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 10:44:29 +0200 (CEST)
+Received: from localhost ([::1]:32864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLKng-0003Pf-RD
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 04:41:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56912)
+	id 1oLKqi-0005ha-6Q
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 04:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ling1.xu@intel.com>)
- id 1oLKfl-0004d2-Nv
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:33:14 -0400
-Received: from mga01.intel.com ([192.55.52.88]:48329)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oLKp8-0003xP-8t
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:42:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ling1.xu@intel.com>)
- id 1oLKfj-0008VR-1E
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:33:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660033987; x=1691569987;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=F5sOqkDGHzexi1sf9Jyn32uzYDO1PiXfLlG6b2bZZbU=;
- b=i3OA3O0084Tj+bi+r16TlWKJztw4XTa9QnC6umy7yMIjTYsMNvoIwMqu
- OgLXIQN8cOw8A2MlU0FQbjn+VIuv5kx1R6xMU3WsLr1DUNut69Tgse1lL
- r0L9uAF1kTYpGcL7H2Dkh5WqI85u25l3tO4nXiwV0953vWJU5mZRXwiJ6
- qA7fhNq24mNeFvnTzUGPUlTUI9VzeG+9VzCRT53Zes8zBjQ9U2C0MaYLM
- CmXuDDK7rrUVzcbNr30YQGfzvSF8dhaw0LXSoI4m2bMWqQKn8P/9x3F+H
- MFFKa/biCP5JGE+nlENEQuhdPCcKCEFdE9Y/sgNii4OCFGfFtR6Movotr g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="316712891"
-X-IronPort-AV: E=Sophos;i="5.93,224,1654585200"; d="scan'208";a="316712891"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2022 01:33:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,224,1654585200"; d="scan'208";a="633251192"
-Received: from xuling-b360m-d3h.sh.intel.com ([10.239.82.110])
- by orsmga008.jf.intel.com with ESMTP; 09 Aug 2022 01:33:02 -0700
-From: ling xu <ling1.xu@intel.com>
-To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com, dgilbert@redhat.com, ling xu <ling1.xu@intel.com>,
- Zhou Zhao <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>
-Subject: [PATCH v4 2/2] Update test code of AVX512 support for xbzrle_encode
-Date: Tue,  9 Aug 2022 16:32:49 +0800
-Message-Id: <20220809083249.1646952-3-ling1.xu@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220809083249.1646952-1-ling1.xu@intel.com>
-References: <20220809083249.1646952-1-ling1.xu@intel.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oLKp4-0001Ph-5T
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 04:42:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660034565;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZNwhbJU6DJlM87VquBLyDPJbIDHgH0tzlVG2NDzMw38=;
+ b=T/jIlNt605U2/IYHf/v/lb6v13HEbPZIHAR4kMjyxDMxwMVapF+1YC92G0akGalVsmnUvr
+ 6c7128L5BgNuUMBi2AnaL1aONrgufn/2NmaTJZ2YMIGy2lZ6L9T+17l9Uy8BXRztTTWnsi
+ p0cMbm19EbNR7DaLKYHd5OtvdpIivlc=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-407-pDCOt5LZOvq0YCvnutsexg-1; Tue, 09 Aug 2022 04:42:43 -0400
+X-MC-Unique: pDCOt5LZOvq0YCvnutsexg-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ e19-20020a05651236d300b0048d16bfadecso129659lfs.21
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 01:42:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZNwhbJU6DJlM87VquBLyDPJbIDHgH0tzlVG2NDzMw38=;
+ b=6OopD0AyAq7/wa5flHuuhqUB0TfCtqloxb0+1GWzJi7qHaD9WftGrBFENQWia3S2La
+ FvYKh/6b7i4EgDuUCrUMWFrsrkFlB2WfR8GT+/QR/G39yO+n68QwbabmOSSGgel9V4VZ
+ 9p1u5mGSftneTx1xjDuP8z96JOvZ2KQw53Z3yzLMVKDb3RH5N0cLreu7q2LsyF1BgZDB
+ rBm7eDmJeCA1/sFsfffsZXN80OF78AY9g1o6qRiHo3uaJVb7YI/cYcfzHemO20aeXApF
+ F84S0uSdLz94+1lljoyKhVwx2XCwd2N4UtxPuRDAbIwOlTHCtVgxE27AfpaUXvRNWisz
+ v66A==
+X-Gm-Message-State: ACgBeo27a2exrty+p5M7C3SlavUtrQyI9QvTXh6LoxTqaX0JjbEWe6wO
+ n6sscwzSyCMPsro/GjtJTDM5HUrqeMplHA8tq5Hze5sg0RwN06UMR7iqw1+PB8iIhueFl25Hg7A
+ 3ulKtX6F9/FM7u7ILMPOiDiePgZUc9bo=
+X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
+ e26-20020a2e9e1a000000b0025df9db92f7mr7365342ljk.243.1660034562248; 
+ Tue, 09 Aug 2022 01:42:42 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR67UAT3ciPD6M7+2RoF9XutLXaTh4tNLHnUfxBOU9jD1M2yqjY6TP8+T7t96HPSq0RmS6o2ZZoO2PrhCCPw6zA=
+X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
+ e26-20020a2e9e1a000000b0025df9db92f7mr7365337ljk.243.1660034562027; Tue, 09
+ Aug 2022 01:42:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=ling1.xu@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+References: <20220809025010.200289-1-chen.zhang@intel.com>
+ <CACGkMEuWcLuGBfJ3zyEw2qi8=C80f13Tt1_t1fJj1D4k8PNRiw@mail.gmail.com>
+ <MWHPR11MB0031AF520C6EEA63C544D5EE9B629@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB0031AF520C6EEA63C544D5EE9B629@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 9 Aug 2022 16:42:31 +0800
+Message-ID: <CACGkMEsm9CQ3hhVt37kGMDbRgCnbStsJ1O0VXLc6r4FLJe_tiA@mail.gmail.com>
+Subject: Re: [PATCH V3] net/colo.c: Fix the pointer issue reported by Coverity.
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,501 +94,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: ling xu <ling1.xu@intel.com>
-Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
-Co-authored-by: Jun Jin <jun.i.jin@intel.com>
----
- tests/unit/test-xbzrle.c | 458 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 457 insertions(+), 1 deletion(-)
+On Tue, Aug 9, 2022 at 4:29 PM Zhang, Chen <chen.zhang@intel.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Jason Wang <jasowang@redhat.com>
+> > Sent: Tuesday, August 9, 2022 4:12 PM
+> > To: Zhang, Chen <chen.zhang@intel.com>
+> > Cc: Peter Maydell <peter.maydell@linaro.org>; Li Zhijian
+> > <lizhijian@fujitsu.com>; qemu-dev <qemu-devel@nongnu.org>
+> > Subject: Re: [PATCH V3] net/colo.c: Fix the pointer issue reported by Coverity.
+> >
+> > On Tue, Aug 9, 2022 at 11:05 AM Zhang Chen <chen.zhang@intel.com> wrote:
+> > >
+> > > When enable the virtio-net-pci, guest network packet will load the
+> > > vnet_hdr. In COLO status, the primary VM's network packet maybe
+> > > redirect to another VM, it need filter-redirect enable the vnet_hdr
+> > > flag at the same time, COLO-proxy will correctly parse the original
+> > > network packet. If have any misconfiguration here, the vnet_hdr_len is
+> > > wrong for parse the packet, the data+offset will point to wrong place.
+> > >
+> > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > > ---
+> > >  net/colo.c | 18 ++++++++++--------
+> > >  net/colo.h |  1 +
+> > >  2 files changed, 11 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/net/colo.c b/net/colo.c
+> > > index 6b0ff562ad..4f1b4a61f6 100644
+> > > --- a/net/colo.c
+> > > +++ b/net/colo.c
+> > > @@ -44,21 +44,23 @@ int parse_packet_early(Packet *pkt)  {
+> > >      int network_length;
+> > >      static const uint8_t vlan[] = {0x81, 0x00};
+> > > -    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
+> > > +    uint8_t *data = pkt->data;
+> > >      uint16_t l3_proto;
+> > >      ssize_t l2hdr_len;
+> > >
+> > > -    if (data == NULL) {
+> > > -        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
+> > > +    assert(data);
+> > > +
+> > > +    /* Check the received vnet_hdr_len then add the offset */
+> > > +    if ((pkt->vnet_hdr_len > sizeof(struct virtio_net_hdr)) ||
+> >
+> > Virtio-net starts to support RSS so it means the vnet_hdr size could be greater
+> > than virtio_net_hdr now.
+> >
+> > Or did you actually mean "<" here?
+>
+> No, I just try to avoid overflow with a maliciously over-large
+> vnet_hdr_len value as Peter's comments.
+> If enabled the RSS, how to get the maximum of vnet_hdr size?
 
-diff --git a/tests/unit/test-xbzrle.c b/tests/unit/test-xbzrle.c
-index ef951b6e54..2676123ce3 100644
---- a/tests/unit/test-xbzrle.c
-+++ b/tests/unit/test-xbzrle.c
-@@ -16,6 +16,35 @@
- 
- #define XBZRLE_PAGE_SIZE 4096
- 
-+#if defined(CONFIG_AVX512BW_OPT)
-+static bool is_cpu_support_avx512bw;
-+#include "qemu/cpuid.h"
-+static void __attribute__((constructor)) init_cpu_flag(void)
-+{
-+    unsigned max = __get_cpuid_max(0, NULL);
-+    int a, b, c, d;
-+    is_cpu_support_avx512bw = false;
-+    if (max >= 1) {
-+        __cpuid(1, a, b, c, d);
-+         /* We must check that AVX is not just available, but usable.  */
-+        if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
-+            int bv;
-+            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-+            __cpuid_count(7, 0, a, b, c, d);
-+           /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512BW)) {
-+                is_cpu_support_avx512bw = true;
-+            }
-+        }
-+    }
-+    return ;
-+}
-+#endif
-+
- static void test_uleb(void)
- {
-     uint32_t i, val;
-@@ -173,11 +202,438 @@ static void test_encode_decode(void)
-     }
- }
- 
-+static float *encode_decode_zero(void)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0;
-+    int dlen = 0, dlen512 = 0;
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        buffer[1000 + i] = i;
-+        buffer512[1000 + i] = i;
-+    }
-+
-+    buffer[1000 + diff_len + 3] = 103;
-+    buffer[1000 + diff_len + 5] = 105;
-+
-+    buffer512[1000 + diff_len + 3] = 103;
-+    buffer512[1000 + diff_len + 5] = 105;
-+
-+    /* encode zero page */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                       XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(buffer512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == 0);
-+
-+    static float result_zero[2];
-+    result_zero[0] = time_val;
-+    result_zero[1] = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+
-+    return result_zero;
-+}
-+
-+static void test_encode_decode_zero_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    float *res;
-+    for (i = 0; i < 10000; i++) {
-+        res = encode_decode_zero();
-+        time_raw += res[0];
-+        time_512 += res[1];
-+    }
-+    printf("Zero test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static float *encode_decode_unchanged(void)
-+{
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0;
-+    int dlen = 0, dlen512 = 0;
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        test[1000 + i] = i + 4;
-+        test512[1000 + i] = i + 4;
-+    }
-+
-+    test[1000 + diff_len + 3] = 107;
-+    test[1000 + diff_len + 5] = 109;
-+
-+    test512[1000 + diff_len + 3] = 107;
-+    test512[1000 + diff_len + 5] = 109;
-+
-+    /* test unchanged buffer */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, test, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, test512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == 0);
-+
-+    static float result_unchanged[2];
-+    result_unchanged[0] = time_val;
-+    result_unchanged[1] = time_val512;
-+
-+    g_free(test);
-+    g_free(compressed);
-+    g_free(test512);
-+    g_free(compressed512);
-+
-+    return result_unchanged;
-+}
-+
-+static void test_encode_decode_unchanged_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    float *res;
-+    for (i = 0; i < 10000; i++) {
-+        res = encode_decode_unchanged();
-+        time_raw += res[0];
-+        time_512 += res[1];
-+    }
-+    printf("Unchanged test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static float *encode_decode_1_byte(void)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    int dlen = 0, rc = 0, dlen512 = 0, rc512 = 0;
-+    uint8_t buf[2];
-+    uint8_t buf512[2];
-+
-+    test[XBZRLE_PAGE_SIZE - 1] = 1;
-+    test512[XBZRLE_PAGE_SIZE - 1] = 1;
-+
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+                       XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == (uleb128_encode_small(&buf[0], 4095) + 2));
-+
-+    rc = xbzrle_decode_buffer(compressed, dlen, buffer, XBZRLE_PAGE_SIZE);
-+    g_assert(rc == XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test, buffer, XBZRLE_PAGE_SIZE) == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(buffer512, test512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == (uleb128_encode_small(&buf512[0], 4095) + 2));
-+
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, buffer512,
-+                                 XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 == XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test512, buffer512, XBZRLE_PAGE_SIZE) == 0);
-+
-+    static float result_1_byte[2];
-+    result_1_byte[0] = time_val;
-+    result_1_byte[1] = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+    return result_1_byte;
-+}
-+
-+static void test_encode_decode_1_byte_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    float *res;
-+    for (i = 0; i < 10000; i++) {
-+        res = encode_decode_1_byte();
-+        time_raw += res[0];
-+        time_512 += res[1];
-+    }
-+    printf("1 byte test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static float *encode_decode_overflow(void)
-+{
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+
-+    for (i = 0; i < XBZRLE_PAGE_SIZE / 2 - 1; i++) {
-+        test[i * 2] = 1;
-+        test512[i * 2] = 1;
-+    }
-+
-+    /* encode overflow */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    rc = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+                              XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(rc == -1);
-+
-+    t_start512 = clock();
-+    rc512 = xbzrle_encode_buffer_avx512(buffer512, test512, XBZRLE_PAGE_SIZE,
-+                                     compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(rc512 == -1);
-+
-+    static float result_overflow[2];
-+    result_overflow[0] = time_val;
-+    result_overflow[1] = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+    return result_overflow;
-+}
-+
-+static void test_encode_decode_overflow_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    float *res;
-+    for (i = 0; i < 10000; i++) {
-+        res = encode_decode_overflow();
-+        time_raw += res[0];
-+        time_512 += res[1];
-+    }
-+    printf("Overflow test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static float *encode_decode_range_avx512(void)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+    int dlen = 0, dlen512 = 0;
-+
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        buffer[1000 + i] = i;
-+        test[1000 + i] = i + 4;
-+        buffer512[1000 + i] = i;
-+        test512[1000 + i] = i + 4;
-+    }
-+
-+    buffer[1000 + diff_len + 3] = 103;
-+    test[1000 + diff_len + 3] = 107;
-+
-+    buffer[1000 + diff_len + 5] = 105;
-+    test[1000 + diff_len + 5] = 109;
-+
-+    buffer512[1000 + diff_len + 3] = 103;
-+    test512[1000 + diff_len + 3] = 107;
-+
-+    buffer512[1000 + diff_len + 5] = 105;
-+    test512[1000 + diff_len + 5] = 109;
-+
-+    /* test encode/decode */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
-+    g_assert(rc < XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test, buffer, XBZRLE_PAGE_SIZE) == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, test512, XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 < XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test512, buffer512, XBZRLE_PAGE_SIZE) == 0);
-+
-+    static float result_range[2];
-+    result_range[0] = time_val;
-+    result_range[1] = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+    return result_range;
-+}
-+
-+static void test_encode_decode_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    float *res;
-+    for (i = 0; i < 10000; i++) {
-+        res = encode_decode_range_avx512();
-+        time_raw += res[0];
-+        time_512 += res[1];
-+    }
-+    printf("Encode decode test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static float *encode_decode_random(void)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+    int dlen = 0, dlen512 = 0;
-+
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1);
-+    /* store the index of diff */
-+    int dirty_index[diff_len];
-+    for (int j = 0; j < diff_len; j++) {
-+        dirty_index[j] = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1);
-+    }
-+    for (i = diff_len - 1; i >= 0; i--) {
-+        buffer[dirty_index[i]] = i;
-+        test[dirty_index[i]] = i + 4;
-+        buffer512[dirty_index[i]] = i;
-+        test512[dirty_index[i]] = i + 4;
-+    }
-+
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
-+    g_assert(rc < XBZRLE_PAGE_SIZE);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, test512, XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 < XBZRLE_PAGE_SIZE);
-+
-+    static float result_random[2];
-+    result_random[0] = time_val;
-+    result_random[1] = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+    return result_random;
-+}
-+
-+static void test_encode_decode_random_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    float *res;
-+    for (i = 0; i < 10000; i++) {
-+        res = encode_decode_random();
-+        time_raw += res[0];
-+        time_512 += res[1];
-+    }
-+    printf("Random test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
- int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
-     g_test_rand_int();
-     g_test_add_func("/xbzrle/uleb", test_uleb);
-+    #if defined(CONFIG_AVX512BW_OPT)
-+    if (likely(is_cpu_support_avx512bw)) {
-+        g_test_add_func("/xbzrle/encode_decode_zero", test_encode_decode_zero_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_unchanged",
-+                        test_encode_decode_unchanged_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_1_byte", test_encode_decode_1_byte_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_overflow",
-+                        test_encode_decode_overflow_avx512);
-+        g_test_add_func("/xbzrle/encode_decode", test_encode_decode_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_random", test_encode_decode_random_avx512);
-+    } else {
-+        g_test_add_func("/xbzrle/encode_decode_zero", test_encode_decode_zero);
-+        g_test_add_func("/xbzrle/encode_decode_unchanged",
-+                        test_encode_decode_unchanged);
-+        g_test_add_func("/xbzrle/encode_decode_1_byte", test_encode_decode_1_byte);
-+        g_test_add_func("/xbzrle/encode_decode_overflow",
-+                        test_encode_decode_overflow);
-+        g_test_add_func("/xbzrle/encode_decode", test_encode_decode);
-+    }
-+    #else
-     g_test_add_func("/xbzrle/encode_decode_zero", test_encode_decode_zero);
-     g_test_add_func("/xbzrle/encode_decode_unchanged",
-                     test_encode_decode_unchanged);
-@@ -185,6 +641,6 @@ int main(int argc, char **argv)
-     g_test_add_func("/xbzrle/encode_decode_overflow",
-                     test_encode_decode_overflow);
-     g_test_add_func("/xbzrle/encode_decode", test_encode_decode);
--
-+    #endif
-     return g_test_run();
- }
--- 
-2.25.1
+With hash_report the maximum is sizeof(virtio_net_hdr_v1_hash). But it
+might be extended in the future.
+
+We can probably start from it.
+
+Thanks
+
+>
+> Thanks
+> Chen
+>
+> >
+> > Thanks
+> >
+> > > +        (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
+> > > +        + pkt->vnet_hdr_len)) {
+> > > +        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
+> > >                                          "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
+> > >          return 1;
+> > >      }
+> > > -    l2hdr_len = eth_get_l2_hdr_length(data);
+> > > +    data += pkt->vnet_hdr_len;
+> > >
+> > > -    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
+> > > -        trace_colo_proxy_main("pkt->size < ETH_HLEN");
+> > > -        return 1;
+> > > -    }
+> > > +    l2hdr_len = eth_get_l2_hdr_length(data);
+> > >
+> > >      /*
+> > >       * TODO: support vlan.
+> > > diff --git a/net/colo.h b/net/colo.h
+> > > index 8b3e8d5a83..22fc3031f7 100644
+> > > --- a/net/colo.h
+> > > +++ b/net/colo.h
+> > > @@ -18,6 +18,7 @@
+> > >  #include "qemu/jhash.h"
+> > >  #include "qemu/timer.h"
+> > >  #include "net/eth.h"
+> > > +#include "standard-headers/linux/virtio_net.h"
+> > >
+> > >  #define HASHTABLE_MAX_SIZE 16384
+> > >
+> > > --
+> > > 2.25.1
+> > >
+>
 
 
