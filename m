@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6448A58DFFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 21:15:35 +0200 (CEST)
-Received: from localhost ([::1]:57770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D300458DF9D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 21:03:00 +0200 (CEST)
+Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLUhS-0002f2-5x
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 15:15:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40200)
+	id 1oLUVH-0006A2-BN
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 15:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oLUQ9-0007KX-G4; Tue, 09 Aug 2022 14:57:41 -0400
+ id 1oLUQ8-0007KS-6d; Tue, 09 Aug 2022 14:57:41 -0400
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
- ([86.15.83.122]:57414 helo=luna)
+ ([86.15.83.122]:57418 helo=luna)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oLUQ6-0003Ab-Ll; Tue, 09 Aug 2022 14:57:41 -0400
+ id 1oLUQ6-0003Ac-JV; Tue, 09 Aug 2022 14:57:39 -0400
 Received: from ben by luna with local (Exim 4.96)
- (envelope-from <ben@luna.fluff.org>) id 1oLUQ1-0039E2-0w;
+ (envelope-from <ben@luna.fluff.org>) id 1oLUQ1-0039E5-13;
  Tue, 09 Aug 2022 19:57:33 +0100
 From: Ben Dooks <qemu@ben.fluff.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, peter.maydell@linaro.org,
  qemu-arm@nongnu.org, Ben Dooks <qemu@ben.fluff.org>
-Subject: [PATCH v4 4/6] hw/core: use qemu_fdt_setprop_strings()
-Date: Tue,  9 Aug 2022 19:56:38 +0100
-Message-Id: <20220809185639.750345-5-qemu@ben.fluff.org>
+Subject: [PATCH v4 5/6] hw/mips: use qemu_fdt_setprop_strings()
+Date: Tue,  9 Aug 2022 19:56:39 +0100
+Message-Id: <20220809185639.750345-6-qemu@ben.fluff.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220809185639.750345-1-qemu@ben.fluff.org>
 References: <20220809185639.750345-1-qemu@ben.fluff.org>
@@ -57,42 +57,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change to using the qemu_fdt_setprop_strings() helper in
-hw/core code.
+Change to using qemu_fdt_setprop_strings() helper in hw/mips.
 
 Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/core/guest-loader.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ hw/mips/boston.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
-index c61ebc4144..7b8e32e06f 100644
---- a/hw/core/guest-loader.c
-+++ b/hw/core/guest-loader.c
-@@ -56,18 +56,15 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
-     qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index d2ab9da1a0..759f6daafe 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -515,9 +515,6 @@ static const void *create_fdt(BostonState *s,
+     MachineState *mc = s->mach;
+     uint32_t platreg_ph, gic_ph, clk_ph;
+     char *name, *gic_name, *platreg_name, *stdout_name;
+-    static const char * const syscon_compat[2] = {
+-        "img,boston-platform-regs", "syscon"
+-    };
  
-     if (s->kernel) {
--        const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
--        qemu_fdt_setprop_string_array(fdt, node, "compatible",
--                                      (char **) &compat,
--                                      ARRAY_SIZE(compat));
-+        qemu_fdt_setprop_strings(fdt, node, "compatible",
-+                                 "multiboot,module", "multiboot,kernel");
-+
-         if (s->args) {
-             qemu_fdt_setprop_string(fdt, node, "bootargs", s->args);
-         }
-     } else if (s->initrd) {
--        const char *compat[2] = { "multiboot,module", "multiboot,ramdisk" };
--        qemu_fdt_setprop_string_array(fdt, node, "compatible",
--                                      (char **) &compat,
--                                      ARRAY_SIZE(compat));
-+        qemu_fdt_setprop_strings(fdt, node, "compatible",
-+                                 "multiboot,module", "multiboot,ramdisk");
-     }
- }
- 
+     fdt = create_device_tree(dt_size);
+     if (!fdt) {
+@@ -608,9 +605,8 @@ static const void *create_fdt(BostonState *s,
+     platreg_name = g_strdup_printf("/soc/system-controller@%" HWADDR_PRIx,
+                                    memmap[BOSTON_PLATREG].base);
+     qemu_fdt_add_subnode(fdt, platreg_name);
+-    qemu_fdt_setprop_string_array(fdt, platreg_name, "compatible",
+-                                 (char **)&syscon_compat,
+-                                 ARRAY_SIZE(syscon_compat));
++    qemu_fdt_setprop_strings(fdt, platreg_name, "compatible",
++                             "img,boston-platform-regs", "syscon");
+     qemu_fdt_setprop_cells(fdt, platreg_name, "reg",
+                            memmap[BOSTON_PLATREG].base,
+                            memmap[BOSTON_PLATREG].size);
 -- 
 2.35.1
 
