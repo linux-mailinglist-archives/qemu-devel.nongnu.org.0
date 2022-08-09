@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5027558D23B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 05:06:29 +0200 (CEST)
-Received: from localhost ([::1]:47070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F0758D223
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 04:52:35 +0200 (CEST)
+Received: from localhost ([::1]:41244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLFZc-0005pg-7j
-	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 23:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
+	id 1oLFMA-0001Ij-Qz
+	for lists+qemu-devel@lfdr.de; Mon, 08 Aug 2022 22:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1oLFY8-0004Pw-P9
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 23:04:56 -0400
-Received: from mga09.intel.com ([134.134.136.24]:4959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1oLFY6-0003K1-Pp
- for qemu-devel@nongnu.org; Mon, 08 Aug 2022 23:04:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660014294; x=1691550294;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=6uqa17bYGyC6I6yUZY2ud/MvViUBqbQ9/85ZOutxv7I=;
- b=jc8LIbR+o/UHZyEuPvehXQ2kANdCRdOV5c0bvmDtsmEXFfV7tCLXUoFB
- e4JCM7Hiq/gWh05uY2jN6SqINiReLvDRQRy+SJHSNbrj55I3i1iYE9zbZ
- nPLlRvm9IxjGg7fuDNUGRt4BF9U3M492w4hbKH45zOuyT9vhKka/E2NNQ
- 861rMTQ/aJ/gOLtPdHbJrEsaii7WzBnq3UvlgbKYs/5rc00xkxTLXhSEQ
- MRYXSEoL2hCTVMuYvbnMqF/34rzXhGrnNiGDk0433zFlgYdnoe9UAlPDI
- TwD14DzpgfmO2f+A6g5OngLRziSxay7GvyZyOi8WR/xVaMucHInpZ6iIK w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="291528135"
-X-IronPort-AV: E=Sophos;i="5.93,223,1654585200"; d="scan'208";a="291528135"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 20:04:52 -0700
-X-IronPort-AV: E=Sophos;i="5.93,223,1654585200"; d="scan'208";a="601310793"
-Received: from tkid-nvme.sh.intel.com ([10.239.161.133])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 20:04:51 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
-Cc: Zhang Chen <chen.zhang@intel.com>
-Subject: [PATCH V3] net/colo.c: Fix the pointer issue reported by Coverity.
-Date: Tue,  9 Aug 2022 10:50:10 +0800
-Message-Id: <20220809025010.200289-1-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oLFKa-0006yr-Aa
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 22:50:56 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:36850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oLFKY-0001rB-HP
+ for qemu-devel@nongnu.org; Mon, 08 Aug 2022 22:50:55 -0400
+Received: by mail-pl1-x631.google.com with SMTP id x10so10203675plb.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Aug 2022 19:50:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bcEPuYfzQeBC7V4DOsKPicmVNABeSwSuj/2SODpphSQ=;
+ b=m914P8b1GhZZ6RQNcfH22pJfOXSDU1+xQtGbgSNg1fZ1vgdTVoamBlMDsZIy+ONyTd
+ EZWkwa4YEl0OfYZSpjF2E8cP0rVyAvAtmBwXzoFGkC1NfndaXBc6HFEpQFmtBlB1R46t
+ btef6U3o4eiuCne5u+7z2Qg1jDBAjO7XxncrE+QZOkVOIbOPkkYWi+n0AgaOQec6BLWj
+ PDfJ6WFziitaLmA3NE9enmigevDSHnvRBkEZNGTT2AesZUjL0up6s4wofZiZbVnkNDdB
+ IX5UlOaBdn84PajNsQO6D188lNP5q+Zpb90Btwbh9ga836+GQuFVkeZEfUpEQOzqsRK+
+ pE8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bcEPuYfzQeBC7V4DOsKPicmVNABeSwSuj/2SODpphSQ=;
+ b=HaESqH0c2wkUvf/BZvT1C+mVORX5zlxAGdvzszG3+76E6cFeG99r0ovX948Hx4tYx9
+ LVo2i4zDo54zc5/nnjbU3IHG/JMA28SC9gTrjTijfVN3bm9RxeWvNFZU82u/y/DhwSw7
+ 7Rxh1Qi1Azg8DjdHrEaZD3hDojVLjqpA9OhNys03XCzkyBusSpQePnxzPxYZkdY9N7AQ
+ XliyreIkfwJOVwIxRm4SvpFOImh/Lt9r/Yk6d5KJD9q/Gf/oaB3cIKFY/Q4OPjvN9E5W
+ JfJwyA2CpXiuQN1GUCBcHItsxmbtpX3HuA/hwviJvvVkyzf/Y/a0lHvTRaLSFxhfXdDB
+ 3I6w==
+X-Gm-Message-State: ACgBeo13w6qHnO+hxooz6UZyFZPxzDh5PiQJbvfKDM9/z8cZF/H7VP6f
+ MMm2TUVAHWRZ2xbDH6HENmWMBNoYxJUnKA==
+X-Google-Smtp-Source: AA6agR5mZ74A17HrtEiAu62ccRYpGmPmmZ59KRtmsshcgTC2uCcooWGnFHm9qoYAYeR5mCHzuJNpdg==
+X-Received: by 2002:a17:902:8343:b0:16d:d2ff:c91d with SMTP id
+ z3-20020a170902834300b0016dd2ffc91dmr20906765pln.142.1660013452803; 
+ Mon, 08 Aug 2022 19:50:52 -0700 (PDT)
+Received: from stoup.. ([2602:ae:154e:e201:8c1b:1e6f:caf3:a217])
+ by smtp.gmail.com with ESMTPSA id
+ a3-20020a170902710300b0016be834d54asm1298148pll.306.2022.08.08.19.50.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Aug 2022 19:50:51 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] loongarch patch queue
+Date: Mon,  8 Aug 2022 19:50:49 -0700
+Message-Id: <20220809025050.781846-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=chen.zhang@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,69 +86,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When enable the virtio-net-pci, guest network packet will
-load the vnet_hdr. In COLO status, the primary VM's network
-packet maybe redirect to another VM, it need filter-redirect
-enable the vnet_hdr flag at the same time, COLO-proxy will
-correctly parse the original network packet. If have any
-misconfiguration here, the vnet_hdr_len is wrong for parse
-the packet, the data+offset will point to wrong place.
+Hopefully the last such last minute bug for this new target.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/colo.c | 18 ++++++++++--------
- net/colo.h |  1 +
- 2 files changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/net/colo.c b/net/colo.c
-index 6b0ff562ad..4f1b4a61f6 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -44,21 +44,23 @@ int parse_packet_early(Packet *pkt)
- {
-     int network_length;
-     static const uint8_t vlan[] = {0x81, 0x00};
--    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
-+    uint8_t *data = pkt->data;
-     uint16_t l3_proto;
-     ssize_t l2hdr_len;
- 
--    if (data == NULL) {
--        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
-+    assert(data);
-+
-+    /* Check the received vnet_hdr_len then add the offset */
-+    if ((pkt->vnet_hdr_len > sizeof(struct virtio_net_hdr)) ||
-+        (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
-+        + pkt->vnet_hdr_len)) {
-+        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
-                                         "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-         return 1;
-     }
--    l2hdr_len = eth_get_l2_hdr_length(data);
-+    data += pkt->vnet_hdr_len;
- 
--    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
--        trace_colo_proxy_main("pkt->size < ETH_HLEN");
--        return 1;
--    }
-+    l2hdr_len = eth_get_l2_hdr_length(data);
- 
-     /*
-      * TODO: support vlan.
-diff --git a/net/colo.h b/net/colo.h
-index 8b3e8d5a83..22fc3031f7 100644
---- a/net/colo.h
-+++ b/net/colo.h
-@@ -18,6 +18,7 @@
- #include "qemu/jhash.h"
- #include "qemu/timer.h"
- #include "net/eth.h"
-+#include "standard-headers/linux/virtio_net.h"
- 
- #define HASHTABLE_MAX_SIZE 16384
- 
--- 
-2.25.1
+r~
 
+
+The following changes since commit 7b06148df8a22d984e77e796322aeb5901dc653c:
+
+  Merge tag 'mips-20220809' of https://github.com/philmd/qemu into staging (2022-08-08 17:59:27 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-la-20220808
+
+for you to fetch changes up to 10dcb08b03863221faa41f4f1aa835cdca441b96:
+
+  target/loongarch: Remove cpu_fcsr0 (2022-08-08 19:42:53 -0700)
+
+----------------------------------------------------------------
+loongarch: fix emulation of fcsr register
+
+----------------------------------------------------------------
+Richard Henderson (1):
+      target/loongarch: Remove cpu_fcsr0
+
+ target/loongarch/helper.h                    |  2 +-
+ target/loongarch/fpu_helper.c                |  4 ++--
+ target/loongarch/translate.c                 |  3 ---
+ tests/tcg/loongarch64/test_fcsr.c            | 15 +++++++++++++
+ target/loongarch/insn_trans/trans_fmov.c.inc | 33 ++++++++++++++--------------
+ tests/tcg/loongarch64/Makefile.target        |  1 +
+ 6 files changed, 36 insertions(+), 22 deletions(-)
+ create mode 100644 tests/tcg/loongarch64/test_fcsr.c
 
