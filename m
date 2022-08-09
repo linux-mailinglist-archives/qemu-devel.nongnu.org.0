@@ -2,61 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4727958DCA1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:59:35 +0200 (CEST)
-Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A3F58DCD4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:08:46 +0200 (CEST)
+Received: from localhost ([::1]:34298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSZq-0000Nm-BC
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44848)
+	id 1oLSij-0007sZ-8Y
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oLSWV-0003Xn-0S; Tue, 09 Aug 2022 12:56:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:53343)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLSaH-0001Hn-De; Tue, 09 Aug 2022 13:00:01 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:59345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oLSWT-0000Wd-7e; Tue, 09 Aug 2022 12:56:06 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N63i4-1nJcUo2YlU-016QAL; Tue, 09
- Aug 2022 18:55:58 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Qiang Liu <cyruscyliu@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Frederic Konrad <fkonrad@amd.com>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 2/2] xlnx_dp: drop unsupported AUXCommand in
- xlnx_dp_aux_set_command
-Date: Tue,  9 Aug 2022 18:55:55 +0200
-Message-Id: <20220809165555.2415931-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220809165555.2415931-1-laurent@vivier.eu>
-References: <20220809165555.2415931-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLSaE-0000vw-Ff; Tue, 09 Aug 2022 13:00:00 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 350CA7462D3;
+ Tue,  9 Aug 2022 18:59:56 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E65A07461AE; Tue,  9 Aug 2022 18:59:55 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E4AC9745702;
+ Tue,  9 Aug 2022 18:59:55 +0200 (CEST)
+Date: Tue, 9 Aug 2022 18:59:55 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 05/24] ppc/ppc405: Introduce a PPC405 SoC
+In-Reply-To: <20220809153904.485018-6-clg@kaod.org>
+Message-ID: <3d5b81d9-6ab7-76a4-80f4-a7c25f9b322@eik.bme.hu>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-6-clg@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tvVm9Hwo5pM5k4ybRnZg0pEMJYU0xo7Rj7Q583DlJO4dXFLiE8B
- maom5z3gL4GbaBHp6+dh5XHKyl3wzlu7C+mk64KglLuh0rkec7SMG1ViJwcRxUrEIHkm9+r
- ZHIemQqSGHz/rWVQXvmrm4m6d8rQZno1ix0dc9YMKNgYlOgiWQD2wU0uFRjz5FfeQLBRo2a
- ZHTd97xFo96ru/aB+EiqQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:A0Dm9r/BfsQ=:v3sD8C1DJrfwR4hl0WkC9p
- HNtICvgBf9npsAD3wn7AdVHESQvWOOsjg3uLBKSbMuvC//GaXRgEdc0EnHW1T/0VYS9Yx6ayW
- hmcjEoAmwSxfGbzS3ThVRrWiMIV2uCrtiUmRLsJUmb8LCbSqvLnhrcyytGe8fULej0+Je5AZW
- pPQBx1PHCqkShCbFML49XvfjGF6l8dQdKX/eENMjJxcTfYryJKfhkwXa4fOqe7H3Qbj0EUKGk
- Bl6TJauHvhbnaQOX5qdP3HEFzGnZeQgQ/oqGS9K7E5ADMn34LGJR1MX0+C2R4d46691tdzmdy
- 15iR6pk/nOXtdDPeeXF58uAz9C3z1AcXF8YyJOptAghH2+hrqaexZfwOsklhIIPfqDzuarH3/
- C/dSobMZoyV2cODvM9vSOr7X4WEIEihkxA0cegjIcyrHo0ddgBJgTpkQKNajLZe9rXjvSTP2h
- qyEWV00Kmarl2DJutl+PZ3wtOlt+2itjkn3pLmBxgmjaDHBoxhYA06xW1Mtjq78DD4cNa7JJo
- VEeLqkzfuvD8vcUrEjdWpZxvDrUFL1SpBGJlxR72j8zMFac8/1ReNHW1BRf2drTc83FOaRzhI
- h9faYOxsKdRSOgDbKjI7yRN4hbqzMzd4u+gy6O6rxIpZ2t1KRxD6Qu3I/HfvSODDAZWkZy4hl
- Aoerv3w96HkXj1uNght776a1grKz+QEnUu69GJLLk2YQuh0yfDaUQLvNY0tGYtGCwRVc0c0q3
- p0oWXhbYkrcWgfy39ARdizJYcjs8JvkhBVLjjA==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1587878417-1660064395=:57026"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,43 +62,174 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Qiang Liu <cyruscyliu@gmail.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-In xlnx_dp_aux_set_command, when the command leads to the default
-branch, xlxn-dp will abort and then crash.
+--3866299591-1587878417-1660064395=:57026
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-This patch removes this abort and drops this operation.
+On Tue, 9 Aug 2022, Cédric Le Goater wrote:
+> It is an initial model to start QOMification of the PPC405 board.
+> QOM'ified devices will be reintroduced one by one. Start with the
+> memory regions, which name prefix is changed to "ppc405".
+>
+> Also, initialize only one RAM bank. The second bank is a dummy one
+> (zero size) which is here to match the hard coded number of banks in
+> ppc405ep_init().
+>
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
-Fixes: 58ac482 ("introduce xlnx-dp")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/411
-Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-Tested-by: Qiang Liu <cyruscyliu@gmail.com>
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Frederic Konrad <fkonrad@amd.com>
-Message-Id: <20220808080116.2184881-1-cyruscyliu@gmail.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/display/xlnx_dp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index a071c818833b..b0828d65aa86 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -532,8 +532,8 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, uint32_t value)
-         qemu_log_mask(LOG_UNIMP, "xlnx_dp: Write i2c status not implemented\n");
-         break;
-     default:
--        error_report("%s: invalid command: %u", __func__, cmd);
--        abort();
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid command: %u", __func__, cmd);
-+        return;
-     }
- 
-     s->core_registers[DP_INTERRUPT_SIGNAL_STATE] |= 0x04;
--- 
-2.37.1
-
+> ---
+> hw/ppc/ppc405.h        | 16 ++++++++++++++++
+> hw/ppc/ppc405_boards.c | 23 ++++++++++++-----------
+> hw/ppc/ppc405_uc.c     | 40 ++++++++++++++++++++++++++++++++++++++++
+> 3 files changed, 68 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index 83f156f585c8..66dc21cdfed8 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -25,6 +25,7 @@
+> #ifndef PPC405_H
+> #define PPC405_H
+>
+> +#include "qom/object.h"
+> #include "hw/ppc/ppc4xx.h"
+>
+> #define PPC405EP_SDRAM_BASE 0x00000000
+> @@ -62,6 +63,21 @@ struct ppc4xx_bd_info_t {
+>     uint32_t bi_iic_fast[2];
+> };
+>
+> +#define TYPE_PPC405_SOC "ppc405-soc"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405SoCState, PPC405_SOC);
+> +
+> +struct Ppc405SoCState {
+> +    /* Private */
+> +    DeviceState parent_obj;
+> +
+> +    /* Public */
+> +    MemoryRegion ram_banks[2];
+> +    hwaddr ram_bases[2], ram_sizes[2];
+> +
+> +    MemoryRegion *dram_mr;
+> +    hwaddr ram_size;
+> +};
+> +
+> /* PowerPC 405 core */
+> ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+>
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 381f39aa94cb..f029d6f415f6 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -57,6 +57,8 @@ struct Ppc405MachineState {
+>     /* Private */
+>     MachineState parent_obj;
+>     /* Public */
+> +
+> +    Ppc405SoCState soc;
+> };
+>
+> /*****************************************************************************/
+> @@ -232,11 +234,10 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
+>
+> static void ppc405_init(MachineState *machine)
+> {
+> +    Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
+>     MachineClass *mc = MACHINE_GET_CLASS(machine);
+>     const char *kernel_filename = machine->kernel_filename;
+>     PowerPCCPU *cpu;
+> -    MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+> -    hwaddr ram_bases[2], ram_sizes[2];
+>     MemoryRegion *sysmem = get_system_memory();
+>     DeviceState *uicdev;
+>
+> @@ -247,16 +248,16 @@ static void ppc405_init(MachineState *machine)
+>         exit(EXIT_FAILURE);
+>     }
+>
+> -    /* XXX: fix this */
+> -    memory_region_init_alias(&ram_memories[0], NULL, "ef405ep.ram.alias",
+> -                             machine->ram, 0, machine->ram_size);
+> -    ram_bases[0] = 0;
+> -    ram_sizes[0] = machine->ram_size;
+> -    memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
+> -    ram_bases[1] = 0x00000000;
+> -    ram_sizes[1] = 0x00000000;
+> +    object_initialize_child(OBJECT(machine), "soc", &ppc405->soc,
+> +                            TYPE_PPC405_SOC);
+> +    object_property_set_uint(OBJECT(&ppc405->soc), "ram-size",
+> +                             machine->ram_size, &error_fatal);
+> +    object_property_set_link(OBJECT(&ppc405->soc), "dram",
+> +                             OBJECT(machine->ram), &error_abort);
+> +    qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
+>
+> -    cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+> +    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_banks, ppc405->soc.ram_bases,
+> +                        ppc405->soc.ram_sizes,
+>                         33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+>
+>     /* allocate and load BIOS */
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index d6420c88d3a6..adadb3a0ae08 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -30,6 +30,7 @@
+> #include "hw/ppc/ppc.h"
+> #include "hw/i2c/ppc4xx_i2c.h"
+> #include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
+> #include "ppc405.h"
+> #include "hw/char/serial.h"
+> #include "qemu/timer.h"
+> @@ -1530,3 +1531,42 @@ PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>
+>     return cpu;
+> }
+> +
+> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> +{
+> +    Ppc405SoCState *s = PPC405_SOC(dev);
+> +
+> +    /* Initialize only one bank */
+> +    s->ram_bases[0] = 0;
+> +    s->ram_sizes[0] = s->ram_size;
+> +    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
+> +                             "ppc405.sdram0", s->dram_mr,
+> +                             s->ram_bases[0], s->ram_sizes[0]);
+> +}
+> +
+> +static Property ppc405_soc_properties[] = {
+> +    DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+> +                     MemoryRegion *),
+> +    DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = ppc405_soc_realize;
+> +    dc->user_creatable = false;
+> +    device_class_set_props(dc, ppc405_soc_properties);
+> +}
+> +
+> +static const TypeInfo ppc405_types[] = {
+> +    {
+> +        .name           = TYPE_PPC405_SOC,
+> +        .parent         = TYPE_DEVICE,
+> +        .instance_size  = sizeof(Ppc405SoCState),
+> +        .class_init     = ppc405_soc_class_init,
+> +    }
+> +};
+> +
+> +DEFINE_TYPES(ppc405_types)
+>
+--3866299591-1587878417-1660064395=:57026--
 
