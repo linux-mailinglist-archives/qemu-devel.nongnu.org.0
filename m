@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C7258E022
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 21:24:38 +0200 (CEST)
-Received: from localhost ([::1]:41528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16AF58E026
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 21:25:16 +0200 (CEST)
+Received: from localhost ([::1]:42766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLUqD-0002jm-HX
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 15:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43672)
+	id 1oLUqp-0003a8-7A
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 15:25:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLUj1-0003s1-4u
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 15:17:12 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:37491)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oLUog-0008JZ-HX
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 15:23:02 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:35492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLUiy-00065e-L4
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 15:17:10 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- w11-20020a17090a380b00b001f73f75a1feso7719856pjb.2
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 12:17:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oLUod-0007IK-W3
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 15:23:02 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id n8so19931199yba.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 12:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=8UoYu7oT6YmUou99hQcZTnSUcrXDMc6hFp/3nTzi6Dc=;
- b=W6ySV1JR2J3dlmB5QP5vcxSiS2MrjJ0YVpj0Zxm2/5wYwNNovz6+EqryeJXp5qi1Bl
- ImUXr6lyfLB2l96z+FigjEIk93oLSSzGpJOGzJTkxihwOMG0Qj6EnwTfVJ070JUd4jgX
- SHvOmx/sxbwOuHcEZDnNyl2QtjkqTXyvGWqPibJPDjrSTsiM+SHXaSraN4xyz5kxmC02
- mh53EnZZ9lR33JsgXuZmCb4AQsrTgdgaTe4Mt6P4HgapETqCd61N9DSgA4ms9UIAStS5
- q0byWUMiaUnmbPGWlfEQZ5H78wKQlSH54wPaRKztOp9zWpwhqNbweJjGYkmxjjk05tVk
- rMNg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=b4KEeqYKSmz+xSWapb66v/w2P/GZlVo3Rtu3Jexl1aM=;
+ b=XPNjer1sUFMPxWKkDgDe/ymMC1EmQd2vVI3gqYIt7KA65Wea/IG3AtD9ZxGCKZ9smJ
+ xToMsw0C8YX1+BMAys49eNVW9cBuQ7AsvumT3fkP7pMaMA//Toq3SsdtKHxnZPaGJQdz
+ C2vCnDq9n+09g2G/RBT+DkhMFIoJOkJfEoqSB33nGhD9hkLeahP34edpu2n8XkP27rDl
+ hQc/rnGhoDClixS6xzX3b5R485wNt2Az7t/ch+tZPvfSIl8eOAC87BfjihI8HMcRFuhc
+ UTc+ggDvfDe1rqGe+qInf5a4QnuRCwmhqiYTNjS2iSVrrYtslI2FKBXkxWSrUHi3VuNs
+ aP/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8UoYu7oT6YmUou99hQcZTnSUcrXDMc6hFp/3nTzi6Dc=;
- b=YXMsd/bJWK/MeRWOYs7R0PyvrRa081VVm88Zo+rYBEls/qmKbRsqnPPLa95KNRaOl9
- y/UxkOzi43TkZyH17l5dxPz2YMJy4/zEi+jgngenX5GmD1Gr6LBnogqSos93riRsJHrl
- XS5ypoS60g822UrzGOaMtPZhosVR66UONbCxSzJu5tHAjE+jicRLqBYcK2PAV3lnFLNs
- 4lAhkE9ed4RbFlMyWR26gwQxc9MfQkGVWgXnB6SysgamzsyADuN4WdKVMw9bIQemhG21
- OKtnTNOQBGXIqZAL+1X6N8mxerBHXBwggsPWhYYaMf8Ej5aVV3VPElxua5clWu3KUtY1
- m7Qw==
-X-Gm-Message-State: ACgBeo2h87hyBQCWHKu9/31tVaxj3EdTsPzFGU3GuiqLvi4SE/n0vEJ3
- Fd/ggHILSCq1+GQOtjYCB+crWw==
-X-Google-Smtp-Source: AA6agR5kcX7x0HPCl941PApM3tZ4QXLVNWwxAYz9h6AqitwzgDMlm+XES/onZ7Oo91pOvj0m9sXk/Q==
-X-Received: by 2002:a17:90b:1894:b0:1f5:1041:a4ed with SMTP id
- mn20-20020a17090b189400b001f51041a4edmr27667779pjb.125.1660072627070; 
- Tue, 09 Aug 2022 12:17:07 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:409:90e8:ee9:8fec?
- ([2602:ae:154e:e201:409:90e8:ee9:8fec])
- by smtp.gmail.com with ESMTPSA id
- l17-20020a170902f69100b0016a091eb88esm11285941plg.126.2022.08.09.12.17.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Aug 2022 12:17:06 -0700 (PDT)
-Message-ID: <d56920b3-a180-e751-0f2c-ee91d9d5c049@linaro.org>
-Date: Tue, 9 Aug 2022 12:17:04 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=b4KEeqYKSmz+xSWapb66v/w2P/GZlVo3Rtu3Jexl1aM=;
+ b=zPBV+p/SZ8EQ5ricBY3L22THfj6MNLg3TgEk3JPrtCoME063Cl4Ykj7u2PwxnS/Vud
+ Gv+c77NR9oUyAFLjmDIdVsgetCgro8CDPSpoObJgFHfGrW9dfZEAFGd34N86QWSC1Ful
+ GOyaWEIfVxunZgZmDp9IIXBDV9GvlRXSi0+Qff9hygPQVs4F4aUEX8FMNFANcCoD27P7
+ lqXAilWgh4CN6eIL5tPoj/4+VOEf6gOiU1UFqccyq10BiTMbVyWstEj7uQfZD3oso+lg
+ Mt6qS5CKYBIPAEyCFCO/rZiJdo3c4ZGrvPzipHQVZu54P823Ecn7bxlt7xGIOnfyOqP+
+ knMQ==
+X-Gm-Message-State: ACgBeo2zImzvMgyubasxjv89USWX42qkHNKI8areA2LoWWXDxPCy+0Tq
+ toXnHazXzHXz9KW0mec12tFKB0pPkKcaKsVgXR81gg==
+X-Google-Smtp-Source: AA6agR54xfxhSJOlVN769FWis+hbjbwzRCgE7htwvYcDSCU5UEtROWUsR88q/JZIROmE04j1f5lXcIv2ETPuFx2SVmM=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr21535510ybq.140.1660072978267; Tue, 09
+ Aug 2022 12:22:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 0/1] target-arm queue
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220809121307.560286-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220809121307.560286-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+References: <20220727223905.624285-1-qemu@ben.fluff.org>
+ <20220727223905.624285-6-qemu@ben.fluff.org>
+ <CAFEAcA9DADLZaSrRmRLXxex6V1ewbi8zV+ey9NLv0JNPJOc9hw@mail.gmail.com>
+ <20220809184838.en4x5kcxiatclmfy@hetzy.fluff.org>
+In-Reply-To: <20220809184838.en4x5kcxiatclmfy@hetzy.fluff.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Aug 2022 20:22:17 +0100
+Message-ID: <CAFEAcA_-4U7NiXi94NeAQ2K1LZ3QEjEhufO==uU0=Mi5GKbOeA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] hw/arm: change to use qemu_fdt_setprop_strings()
+To: Ben Dooks <ben@fluff.org>
+Cc: Ben Dooks <qemu@ben.fluff.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, 
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-arm@nongnu.org, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,38 +88,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/9/22 05:13, Peter Maydell wrote:
-> Just one bugfix patch for this rc:
-> 
-> The following changes since commit ca5f3d4df1b47d7f66a109cdb504e83dfd7ec433:
-> 
->    Merge tag 'pull-la-20220808' of https://gitlab.com/rth7680/qemu into staging (2022-08-08 19:51:12 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220809
-> 
-> for you to fetch changes up to c7f26ded6d5065e4116f630f6a490b55f6c5f58e:
-> 
->    icount: Take iothread lock when running QEMU timers (2022-08-09 10:55:14 +0100)
-> 
-> ----------------------------------------------------------------
-> target-arm queue:
->   * icount: Take iothread lock when running QEMU timers
+On Tue, 9 Aug 2022 at 19:48, Ben Dooks <ben@fluff.org> wrote:
+>
+> On Mon, Aug 01, 2022 at 12:37:33PM +0100, Peter Maydell wrote:
+> > On Wed, 27 Jul 2022 at 23:44, Ben Dooks <qemu@ben.fluff.org> wrote:
+> > > @@ -285,8 +280,6 @@ static void fdt_add_gem_nodes(VersalVirt *s)
+> > >
+> > >  static void fdt_add_zdma_nodes(VersalVirt *s)
+> > >  {
+> > > -    const char clocknames[] = "clk_main\0clk_apb";
+> > > -    const char compat[] = "xlnx,zynqmp-dma-1.0";
+> >
+> > This looks suspiciously like a pre-existing bug to me.
+> > Alaistair, Edgar -- shouldn't this be a NUL-separated
+> > 'compatible' string, rather than a comma-separated one?
+>
+> I think the compat[] is fine, I should have probably added I also fixed
+> up to just call qemu_fdt_setprop_string()
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+I guess if it's definitely supposed to be one string instead of two that's OK.
 
-
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> Peter Maydell (1):
->        icount: Take iothread lock when running QEMU timers
-> 
->   accel/tcg/tcg-accel-ops-icount.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-
+-- PMM
 
