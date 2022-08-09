@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCAD58DCF7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:19:51 +0200 (CEST)
-Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB7C58DD20
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:25:09 +0200 (CEST)
+Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLStS-0007nd-0L
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49390)
+	id 1oLSyZ-0003vt-S6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLSpa-000307-GB; Tue, 09 Aug 2022 13:15:57 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:18688)
+ id 1oLSvT-0000ok-JE; Tue, 09 Aug 2022 13:21:55 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLSpU-0003ht-Oc; Tue, 09 Aug 2022 13:15:49 -0400
+ id 1oLSvQ-0004m5-2x; Tue, 09 Aug 2022 13:21:54 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1D6BE747F1D;
- Tue,  9 Aug 2022 19:15:42 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 8B6C6747F1D;
+ Tue,  9 Aug 2022 19:21:49 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C10737461AE; Tue,  9 Aug 2022 19:15:41 +0200 (CEST)
+ id 4E2A57461AE; Tue,  9 Aug 2022 19:21:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BF28B745702;
- Tue,  9 Aug 2022 19:15:41 +0200 (CEST)
-Date: Tue, 9 Aug 2022 19:15:41 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4C2FD745702;
+ Tue,  9 Aug 2022 19:21:49 +0200 (CEST)
+Date: Tue, 9 Aug 2022 19:21:49 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
  qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 07/24] ppc/ppc405: QOM'ify CPU
-In-Reply-To: <20220809153904.485018-8-clg@kaod.org>
-Message-ID: <483c58dd-16fb-2558-c0f9-6b5cd0f3519d@eik.bme.hu>
+Subject: Re: [PATCH v4 08/24] ppc/ppc4xx: Introduce a DCR device model
+In-Reply-To: <20220809153904.485018-9-clg@kaod.org>
+Message-ID: <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
 References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-8-clg@kaod.org>
+ <20220809153904.485018-9-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-830931797-1660065341=:57026"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ boundary="3866299591-101843752-1660065709=:57026"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,197 +64,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-830931797-1660065341=:57026
+--3866299591-101843752-1660065709=:57026
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Tue, 9 Aug 2022, Cédric Le Goater wrote:
-> Drop the use of ppc4xx_init() and duplicate a bit of code related to
-> clocks in the SoC realize routine. We will clean that up in the
-> following patches.
+> The Device Control Registers (DCR) of on-SoC devices are accessed by
+> software through the use of the mtdcr and mfdcr instructions. These
+> are converted in transactions on a side band bus, the DCR bus, which
+> connects the on-SoC devices to the CPU.
 >
-> ppc_dcr_init() simply allocates default DCR handlers for the CPU. Maybe
-> this could be done in model initializer of the CPU families needing it.
+> Ideally, we should model these accesses with a DCR namespace and DCR
+> memory regions but today the DCR handlers are installed in a DCR table
+> under the CPU. Instead introduce a little device model wrapper to hold
+> a CPU link and handle registration of DCR handlers.
 >
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> The DCR device inherits from SysBus because most of these devices also
+> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
+> to install the device model in the overall SoC.
+>
+> The "cpu" link should be considered as modeling the piece of HW logic
+> connecting the device to the DCR bus.
+>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+> include/hw/ppc/ppc4xx.h | 17 ++++++++++++++++
+> hw/ppc/ppc4xx_devs.c    | 44 +++++++++++++++++++++++++++++++++++++++++
+> 2 files changed, 61 insertions(+)
+>
+> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+> index 591e2421a343..82e60b0e0742 100644
+> --- a/include/hw/ppc/ppc4xx.h
+> +++ b/include/hw/ppc/ppc4xx.h
+> @@ -27,6 +27,7 @@
+>
+> #include "hw/ppc/ppc.h"
+> #include "exec/memory.h"
+> +#include "hw/sysbus.h"
+>
+> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+>                         MemoryRegion ram_memories[],
+> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>
+> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+>
+> +/*
+> + * Generic DCR device
+> + */
+> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
+> +struct Ppc4xxDcrDeviceState {
+> +    SysBusDevice parent_obj;
+> +
+> +    PowerPCCPU *cpu;
+> +};
+> +
+> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
+> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
+> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+> +                        Error **errp);
+> +
+> #endif /* PPC4XX_H */
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index 069b51195160..bce7ef461346 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -664,3 +664,47 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>                          mal, &dcr_read_mal, &dcr_write_mal);
+>     }
+> }
+> +
+> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
+> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
+
+I still think this should have a separate void *opaque parameter for the 
+callbacks and not pass dev for that as the callbacks could use anything 
+they wish for that parameter. (Additionally this allows dropping a lot of 
+QOM casts. If you want to see how often these are accessed, you can try 
+-trace enable="ppc_dcr*"; on the machines and OS I've tested some are 
+read/written frequently so I'd not add unnecessary overhead without a good 
+reason.)
+
+Otherwise:
 
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-> ---
-> hw/ppc/ppc405.h         |  2 +-
-> include/hw/ppc/ppc4xx.h |  5 -----
-> hw/ppc/ppc405_boards.c  |  2 +-
-> hw/ppc/ppc405_uc.c      | 40 ++++++++++++++++++++++++++++++----------
-> hw/ppc/ppc4xx_devs.c    | 32 --------------------------------
-> 5 files changed, 32 insertions(+), 49 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index dc862bc8614c..8cc76cc8b3fe 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -79,7 +79,7 @@ struct Ppc405SoCState {
->     hwaddr ram_size;
->
->     uint32_t sysclk;
-> -    PowerPCCPU *cpu;
-> +    PowerPCCPU cpu;
->     DeviceState *uic;
-> };
->
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index 980f964b5a91..591e2421a343 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -28,11 +28,6 @@
-> #include "hw/ppc/ppc.h"
-> #include "exec/memory.h"
->
-> -/* PowerPC 4xx core initialization */
-> -PowerPCCPU *ppc4xx_init(const char *cpu_model,
-> -                        clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
-> -                        uint32_t sysclk);
-> -
-> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->                         MemoryRegion ram_memories[],
->                         hwaddr ram_bases[], hwaddr ram_sizes[],
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index b93e85b5d9bd..3677793adc75 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -313,7 +313,7 @@ static void ppc405_init(MachineState *machine)
->
->     /* Load ELF kernel and rootfs.cpio */
->     } else if (kernel_filename && !machine->firmware) {
-> -        boot_from_kernel(machine, ppc405->soc.cpu);
-> +        boot_from_kernel(machine, &ppc405->soc.cpu);
->     }
-> }
->
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index c05ab604367d..14a525b2eb74 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1432,22 +1432,41 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
-> #endif
-> }
->
-> +static void ppc405_soc_instance_init(Object *obj)
+Regards,
+BALATOn Zoltan
+
 > +{
-> +    Ppc405SoCState *s = PPC405_SOC(obj);
+> +    CPUPPCState *env;
 > +
-> +    object_initialize_child(obj, "cpu", &s->cpu,
-> +                            POWERPC_CPU_TYPE_NAME("405ep"));
+> +    assert(dev->cpu);
+> +
+> +    env = &dev->cpu->env;
+> +
+> +    ppc_dcr_register(env, dcrn, dev, dcr_read, dcr_write);
 > +}
 > +
-> +static void ppc405_reset(void *opaque)
+> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+> +                        Error **errp)
 > +{
-> +    cpu_reset(CPU(opaque));
+> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
+> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
 > +}
 > +
-> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> {
->     Ppc405SoCState *s = PPC405_SOC(dev);
-> -    clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
-> +    clk_setup_t clk_setup[PPC405EP_CLK_NB];
->     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
->     CPUPPCState *env;
->
->     memset(clk_setup, 0, sizeof(clk_setup));
->
->     /* init CPUs */
-> -    s->cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
-> -                      &clk_setup[PPC405EP_CPU_CLK],
-> -                      &tlb_clk_setup, s->sysclk);
-> -    env = &s->cpu->env;
-> -    clk_setup[PPC405EP_CPU_CLK].cb = tlb_clk_setup.cb;
-> -    clk_setup[PPC405EP_CPU_CLK].opaque = tlb_clk_setup.opaque;
-> +    if (!qdev_realize(DEVICE(&s->cpu), NULL, errp)) {
-> +        return;
+> +static Property ppc4xx_dcr_properties[] = {
+> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
+> +                     PowerPCCPU *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    device_class_set_props(dc, ppc4xx_dcr_properties);
+> +}
+> +
+> +static const TypeInfo ppc4xx_types[] = {
+> +    {
+> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
+> +        .parent         = TYPE_SYS_BUS_DEVICE,
+> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
+> +        .class_init     = ppc4xx_dcr_class_init,
+> +        .abstract       = true,
 > +    }
-> +    qemu_register_reset(ppc405_reset, &s->cpu);
+> +};
 > +
-> +    env = &s->cpu.env;
-> +
-> +    clk_setup[PPC405EP_CPU_CLK].cb =
-> +        ppc_40x_timers_init(env, s->sysclk, PPC_INTERRUPT_PIT);
-> +    clk_setup[PPC405EP_CPU_CLK].opaque = env;
-> +
-> +    ppc_dcr_init(env, NULL, NULL);
+> +DEFINE_TYPES(ppc4xx_types)
 >
->     /* CPU control */
->     ppc405ep_cpc_init(env, clk_setup, s->sysclk);
-> @@ -1464,16 +1483,16 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     /* Universal interrupt controller */
->     s->uic = qdev_new(TYPE_PPC_UIC);
->
-> -    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(s->cpu),
-> +    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
->                              &error_fatal);
->     if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
->         return;
->     }
->
->     sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
-> -                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_INT));
-> +                       qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
->     sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
-> -                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_CINT));
-> +                       qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_CINT));
->
->     /* SDRAM controller */
->         /* XXX 405EP has no ECC interrupt */
-> @@ -1563,6 +1582,7 @@ static const TypeInfo ppc405_types[] = {
->         .name           = TYPE_PPC405_SOC,
->         .parent         = TYPE_DEVICE,
->         .instance_size  = sizeof(Ppc405SoCState),
-> +        .instance_init  = ppc405_soc_instance_init,
->         .class_init     = ppc405_soc_class_init,
->     }
-> };
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 737c0896b4f8..069b51195160 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -37,38 +37,6 @@
-> #include "qapi/error.h"
-> #include "trace.h"
->
-> -static void ppc4xx_reset(void *opaque)
-> -{
-> -    PowerPCCPU *cpu = opaque;
-> -
-> -    cpu_reset(CPU(cpu));
-> -}
-> -
-> -/*****************************************************************************/
-> -/* Generic PowerPC 4xx processor instantiation */
-> -PowerPCCPU *ppc4xx_init(const char *cpu_type,
-> -                        clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
-> -                        uint32_t sysclk)
-> -{
-> -    PowerPCCPU *cpu;
-> -    CPUPPCState *env;
-> -
-> -    /* init CPUs */
-> -    cpu = POWERPC_CPU(cpu_create(cpu_type));
-> -    env = &cpu->env;
-> -
-> -    cpu_clk->cb = NULL; /* We don't care about CPU clock frequency changes */
-> -    cpu_clk->opaque = env;
-> -    /* Set time-base frequency to sysclk */
-> -    tb_clk->cb = ppc_40x_timers_init(env, sysclk, PPC_INTERRUPT_PIT);
-> -    tb_clk->opaque = env;
-> -    ppc_dcr_init(env, NULL, NULL);
-> -    /* Register qemu callbacks */
-> -    qemu_register_reset(ppc4xx_reset, cpu);
-> -
-> -    return cpu;
-> -}
-> -
-> /*****************************************************************************/
-> /* SDRAM controller */
-> typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
->
---3866299591-830931797-1660065341=:57026--
+--3866299591-101843752-1660065709=:57026--
 
