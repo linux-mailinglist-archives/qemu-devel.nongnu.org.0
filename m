@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8474758D8B9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 14:23:09 +0200 (CEST)
-Received: from localhost ([::1]:53566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B7D58D8E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 14:49:32 +0200 (CEST)
+Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLOGK-0004az-Ma
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 08:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45266)
+	id 1oLOfr-0006lG-7S
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 08:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vIKK=YN=zx2c4.com=Jason@kernel.org>)
- id 1oLOB6-00026y-UK
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:17:47 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:56462)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oLOcC-0004jt-MV
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:45:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vIKK=YN=zx2c4.com=Jason@kernel.org>)
- id 1oLOB5-0004EZ-0v
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:17:44 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9E7BFB81190;
- Tue,  9 Aug 2022 12:17:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167E0C433C1;
- Tue,  9 Aug 2022 12:17:31 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="nH7s8dX9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1660047450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yTUBmcb7StG1xZ+XFh2SpEbQEQFJ+Uex4VrAw/Y2TfU=;
- b=nH7s8dX98oiqdhz7UDPdTm8bCw/tYsAznVG0QysdzDwoL/iN/GvM2RVGAgOTKMJEwwQqry
- UWSprxgkprU/UQ2CUo8qDziNCzLOHbbwgeyN9K5fwtt94m4Wk0JSUh4HKT9YJiK3sWBUQi
- /RDzy0blulxNDbH60UShrC7J2YlvHjI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6fcacff3
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 9 Aug 2022 12:17:30 +0000 (UTC)
-Date: Tue, 9 Aug 2022 14:17:23 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Xiaoyao Li <xiaoyao.li@intel.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
- Laszlo Ersek <lersek@redhat.com>, linux-efi@vger.kernel.org
-Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
-Message-ID: <YvJQU0vS3sKDNPWn@zx2c4.com>
-References: <YuxOgtykRQb1HU3e@zx2c4.com>
- <20220804230411.17720-1-Jason@zx2c4.com>
- <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
- <Yu0RX2b+e9BpGsJ6@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oLOc8-0000qg-Pr
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:45:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660049137;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=FuLz25zKoqskCYXb5sRtHb8ZE3S2lV4cXj5D6wf1kOg=;
+ b=Cbhn0tjifWyX3wJGC+Exj1gDcP2tW7hrPrnzcDVr5zhzQDY6GJcp1ntPoII+iecxlc9vL2
+ qXtlZ3lW2CGnvNcaFE1GWQtoQovPS/ugB6JsZI9kzyVMY4DXHoczNfCXnCXCgZSob5zVAA
+ /7VAytVUEfSqyYmBbdi1Zk5OWPtexaY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-212-9Nz2h3-HO2mTCL7sycttCA-1; Tue, 09 Aug 2022 08:45:36 -0400
+X-MC-Unique: 9Nz2h3-HO2mTCL7sycttCA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ c7-20020adfc6c7000000b0021db3d6961bso1841282wrh.23
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 05:45:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=FuLz25zKoqskCYXb5sRtHb8ZE3S2lV4cXj5D6wf1kOg=;
+ b=FwdDeABW7Otyj9DZSIk52R59uwT0a9QMDRACPDrJ/lV/qS0K/ybfuHhHx39XAOmK1D
+ A4dc0OFFpWSOQnhxJ+nAFdQ2P7jzsqNonyHjwdLbCbg0JO3ef0eFsohhkr9t69GvYS2E
+ sTc7RuUtAC8QqLG9KtbDsGI/unRzNim1DnJgX1ghIOZaaGudtzI3kUtwG5cIYwaQCODm
+ Lko89mzCw7zVxnTmvHamWVVbrzgLAyGKvaBGjGJZZz+jzRkz8VjQjl/RnO2cS3VwMffM
+ 4Cy3Cgd7A3vxEHAaaSpfn8RWkv/JaXGUBk30W/QBP2Ledi7Lu2LyRPLEsfK2VFaVxCBR
+ 4jNg==
+X-Gm-Message-State: ACgBeo2X90MUt6TsWtTpt5pzAuLCIkLEcljlWjB7S95LGbBrfpI8RbBz
+ hGpccOklyfNYB8/vF08pprfOYUOPswW5JBpSWtkasntGIY1A41ytgquIT/qDCf6eEwc4qhhfP+S
+ kUHRfIjZ8dp9L9iM=
+X-Received: by 2002:a1c:f710:0:b0:394:1960:e8a1 with SMTP id
+ v16-20020a1cf710000000b003941960e8a1mr16009631wmh.154.1660049135019; 
+ Tue, 09 Aug 2022 05:45:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4Zo45btXvwqkLmtLNyUO2prb0k0JxPsO9+CVo3P3KirEFGYti02YLqsG/lips0iMTS8JOlZQ==
+X-Received: by 2002:a1c:f710:0:b0:394:1960:e8a1 with SMTP id
+ v16-20020a1cf710000000b003941960e8a1mr16009621wmh.154.1660049134839; 
+ Tue, 09 Aug 2022 05:45:34 -0700 (PDT)
+Received: from localhost (static-205-204-7-89.ipcom.comunitel.net.
+ [89.7.204.205]) by smtp.gmail.com with ESMTPSA id
+ bg21-20020a05600c3c9500b003a4efb794d7sm19268217wmb.36.2022.08.09.05.45.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Aug 2022 05:45:34 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: KVM call for 2022-08-09
+In-Reply-To: <87k07scn8d.fsf@secure.mitica> (Juan Quintela's message of "Mon, 
+ 01 Aug 2022 11:44:02 +0200")
+References: <87k07scn8d.fsf@secure.mitica>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Tue, 09 Aug 2022 14:45:33 +0200
+Message-ID: <87mtcdk2ky.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yu0RX2b+e9BpGsJ6@zx2c4.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=vIKK=YN=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,29 +95,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey Paolo,
+Juan Quintela <quintela@redhat.com> wrote:
+> Hi
+>
+> Please, send any topic that you are interested in covering.
+>
+> At the end of Monday I will send an email with the agenda or the
+> cancellation of the call, so hurry up.
+>
+> After discussions on the QEMU Summit, we are going to have always open a
+> KVM call where you can add topics.
+>
+>  Call details:
+>
+> By popular demand, a google calendar public entry with it
+>
+>   https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+>
+> (Let me know if you have any problems with the calendar entry.  I just
+> gave up about getting right at the same time CEST, CET, EDT and DST).
+>
+> If you need phone number details,  contact me privately
+>
+> Thanks, Juan.
 
-On Fri, Aug 05, 2022 at 02:47:27PM +0200, Jason A. Donenfeld wrote:
-> Hi Paolo,
-> 
-> On Fri, Aug 05, 2022 at 10:10:02AM +0200, Paolo Bonzini wrote:
-> > On 8/5/22 01:04, Jason A. Donenfeld wrote:
-> > > +    /* Nothing else uses this part of the hardware mapped region */
-> > > +    setup_data_base = 0xfffff - 0x1000;
-> > 
-> > Isn't this where the BIOS lives?  I don't think this works.
-> 
-> That's the segment dedicated to ROM and hardware mapped addresses. So
-> that's a place to put ROM material. No actual software will use it.
-> 
-> Jason
+Today there is a topic for the call:
 
-Unless I've misread the thread, I don't think there are any remaining
-objections, right? Can we try merging this and seeing if it fixes the
-issue for good?
+I'd like to talk about VFIO live migration and more specifically this
+issue [1].
 
-Jason
+
+[1]
+https://lore.kernel.org/all/39f6d299-96c8-9e8c-dcbc-0e4873fd225f@nvidia.com/
+
+See you in 15 mins,
+
 
