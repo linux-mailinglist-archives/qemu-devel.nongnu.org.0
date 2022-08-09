@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F05158D60D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 11:12:56 +0200 (CEST)
-Received: from localhost ([::1]:56146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982E558D659
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 11:21:44 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLLIF-0005p7-RU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 05:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35504)
+	id 1oLLQi-0001Nn-Pz
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 05:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oLLEk-0001oH-UJ
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 05:09:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29892)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLLMe-0007gx-Jc
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 05:17:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oLLEg-0005Yq-Bl
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 05:09:16 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLLMa-00070E-KA
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 05:17:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660036150;
+ s=mimecast20190719; t=1660036643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sv2ylwUb77fjOOXBggXxwWMSrl9pFWc0E8Ej2Afz9ck=;
- b=OFOVs2Q+0OvWfYG2dvyW3g8jEVNTG4KkLytrTPgSU3i4jOmR/qL//f9byUHMmkEpVpo9eR
- +eVKZ+zcx8RM+XC+LYob7UXSz5aUaa1EiVDjygk1/Om5ao4R2C3+gPUKQdyNZ9BGlrn/Hs
- ZOfFCJ5xTTKYC7NJTPJhJaNsLjm0NQ0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6trcYL8EDncHyJaXFbNVW+zGgRHix/ZIxOm69DyZV9Y=;
+ b=LXhDtnkVp6jhSKhcaPMGJFP8DfhGIgxDCA/F/gsssMA4t3WWkFlq0gxEgGDetXfygFs7hD
+ 8E9ufl9Zz2CCFsKBC73dxHJOfQqk7L/YeUGTAQS5nYOURvLCFBhxAdVRFHv4zXv9sZyXG9
+ vxAx16WGfOhHCSMIzrl2T3tKTASP/WE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-gRCh6sq9Plmk1e59YAs6Sg-1; Tue, 09 Aug 2022 05:09:08 -0400
-X-MC-Unique: gRCh6sq9Plmk1e59YAs6Sg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E951F8032F0;
- Tue,  9 Aug 2022 09:09:07 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-255.pek2.redhat.com
- [10.72.13.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F2C24010E3C;
- Tue,  9 Aug 2022 09:09:05 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PULL] hw/net/rocker: Avoid undefined shifts with more than 31 ports
-Date: Tue,  9 Aug 2022 17:08:59 +0800
-Message-Id: <20220809090859.28338-2-jasowang@redhat.com>
-In-Reply-To: <20220809090859.28338-1-jasowang@redhat.com>
-References: <20220809090859.28338-1-jasowang@redhat.com>
+ us-mta-159-6_73J3dsOcuY86wcfm-cDw-1; Tue, 09 Aug 2022 05:17:21 -0400
+X-MC-Unique: 6_73J3dsOcuY86wcfm-cDw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 9-20020a1c0209000000b003a53ae8015bso2587106wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 02:17:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=6trcYL8EDncHyJaXFbNVW+zGgRHix/ZIxOm69DyZV9Y=;
+ b=mplLghlI3EzLwu9LxYs84k8B0/zrp3vJvM0Pt+57qY/bpAree7U6yoMlmUfA2O/Nxb
+ nfjVsPXwbm3H6FuWhWnBOGXe8k/Fw1bpd13Xw2kX81Tn4+x5SPB7vXkR2xYWY8TLQQBM
+ +ZyBglQViSbfMj1IRcTKBjyba6Jo3nh0DlkTu41JE0uGa+EmIdVBbbtmooQWZs8IU+hl
+ OulRC0CyzshDt0quDw2PwbK+k1p9Vk7PPYQ22TSHEpPjnwqkqUyHy52BKQodSTp7erFk
+ 36hGYF+N7i2ZnuiVfotbwbK3v9pK807Ofm4RwNy82zMWy21qjwZit9vlgVk0EHKgU3qY
+ 4/uQ==
+X-Gm-Message-State: ACgBeo3kRq2++zHPNRVYlrIqnVHTZ6T8/1Rlk0mI692H7gU0flyezY75
+ GFgTC2f1S2K2a9GJ6fxWrqudLNq3ii9MlcJ0dBnApjdc99OsbEm/LejnaF4B4gXY2i7oZRQtzNE
+ Il4VE7f260wXRVZQ=
+X-Received: by 2002:a05:6000:18a2:b0:221:7db8:de02 with SMTP id
+ b2-20020a05600018a200b002217db8de02mr9529244wri.132.1660036640723; 
+ Tue, 09 Aug 2022 02:17:20 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4/PUVjWa52Slm5RRM+bXysuWYsRrGroBh+2BcqIRjSw3TmcBqi5ODfU0VvyzUu+oXHXJnbaw==
+X-Received: by 2002:a05:6000:18a2:b0:221:7db8:de02 with SMTP id
+ b2-20020a05600018a200b002217db8de02mr9529225wri.132.1660036640513; 
+ Tue, 09 Aug 2022 02:17:20 -0700 (PDT)
+Received: from redhat.com ([2.52.152.113]) by smtp.gmail.com with ESMTPSA id
+ p1-20020a5d48c1000000b0021e6277bc50sm15609071wrs.36.2022.08.09.02.17.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Aug 2022 02:17:19 -0700 (PDT)
+Date: Tue, 9 Aug 2022 05:17:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org,
+ Xiaoyao Li <xiaoyao.li@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ linux-efi@vger.kernel.org
+Subject: Re: [PATCH v3] hw/i386: place setup_data at fixed place in memory
+Message-ID: <20220809051644-mutt-send-email-mst@kernel.org>
+References: <YuxOgtykRQb1HU3e@zx2c4.com>
+ <20220804230411.17720-1-Jason@zx2c4.com>
+ <40fdfb11-1e40-a36a-d3a4-fcbef546a78a@redhat.com>
+ <CAMj1kXFDs8HCCCcVAVwjLcATh6MYcUSAha5yvi0ftMw+Ddy_Xg@mail.gmail.com>
+ <0bd57fab-836b-9898-9e3f-84dc66eca175@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0bd57fab-836b-9898-9e3f-84dc66eca175@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,49 +105,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+On Fri, Aug 05, 2022 at 07:29:29PM +0200, Paolo Bonzini wrote:
+> On 8/5/22 13:08, Ard Biesheuvel wrote:
+> > > 
+> > > Does it work to place setup_data at the end of the cmdline file instead
+> > > of having it at the end of the kernel file?  This way the first item
+> > > will be at 0x20000 + cmdline_size.
+> > > 
+> > Does QEMU always allocate the command line statically like that?
+> > AFAIK, OVMF never accesses that memory to read the command line, it
+> > uses fw_cfg to copy it into a buffer it allocates itself. And I guess
+> > that implies that this region could be clobbered by OVMF unless it is
+> > told to preserve it.
+> 
+> No it's not. :(  It also goes to gBS->AllocatePages in the end.
+> 
+> At this point it seems to me that without extra changes the whole setup_data
+> concept is dead on arrival for OVMF.  In principle there's no reason why the
+> individual setup_data items couldn't include interior pointers, meaning that
+> the setup_data _has_ to be at the address provided in fw_cfg by QEMU.
+> 
+> One way to "fix" it would be for OVMF to overwrite the pointer to the head
+> of the list, so that the kernel ignores the setup data provided by QEMU.
+> Another way would be to put it in the command line fw_cfg blob and teach
+> OVMF to use a fixed address for the command line.  Both are ugly, and both
+> are also broken for new QEMU / old OVMF.
+> 
+> In any case, I don't think this should be fixed so close to the release.  We
+> have two possibilities:
+> 
+> 1) if we believe "build setup_data in QEMU" is a feasible design that only
+> needs more yak shaving, we can keep the code in, but disabled by default,
+> and sort it out in 7.2.
+> 
+> 2) if we go for an alternative design, it needs to be reverted.  For example
+> the randomness could be in _another_ fw_cfg file, and the linuxboot DMA can
+> patch it in the setup_data.
+> 
+> 
+> With (2) the OVMF breakage would be limited to -dtb, which more or less
+> nobody cares about, and we can just look the other way.
+> 
+> Paolo
 
-In rocker_port_phys_link_status() and rocker_port_phys_enable_read()
-we construct a 64-bit value with one bit per front-panel port.
-However we accidentally do the shift as 32-bit arithmetic, which
-means that if there are more than 31 front-panel ports this is
-undefined behaviour.
 
-Fix the problem by ensuring we use 64-bit arithmetic for the whole
-calculation. (We won't ever shift off the 64-bit value because
-ROCKER_FP_PORTS_MAX is 62.)
+So IIUC you retract your pc: add property for Linux setup_data random
+number seed then? It's neither of the two options above.
 
-Resolves: Coverity CID 1487121, 1487160
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/net/rocker/rocker.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
-index 31f2340..d8f3f16 100644
---- a/hw/net/rocker/rocker.c
-+++ b/hw/net/rocker/rocker.c
-@@ -1010,7 +1010,7 @@ static uint64_t rocker_port_phys_link_status(Rocker *r)
-         FpPort *port = r->fp_port[i];
- 
-         if (fp_port_get_link_up(port)) {
--            status |= 1 << (i + 1);
-+            status |= 1ULL << (i + 1);
-         }
-     }
-     return status;
-@@ -1025,7 +1025,7 @@ static uint64_t rocker_port_phys_enable_read(Rocker *r)
-         FpPort *port = r->fp_port[i];
- 
-         if (fp_port_enabled(port)) {
--            ret |= 1 << (i + 1);
-+            ret |= 1ULL << (i + 1);
-         }
-     }
-     return ret;
 -- 
-2.7.4
+MST
 
 
