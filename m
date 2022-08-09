@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A1D58DC86
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:53:14 +0200 (CEST)
-Received: from localhost ([::1]:40780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC40358DC9A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:57:43 +0200 (CEST)
+Received: from localhost ([::1]:48718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSTh-0000Do-Ri
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43338)
+	id 1oLSY2-0005sF-FW
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oLSPg-0004zB-KX
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:49:10 -0400
-Received: from smtp85.cstnet.cn ([159.226.251.85]:50398 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oLSPe-0007Qw-7i
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:49:04 -0400
-Received: by ajax-webmail-APP-13 (Coremail) ; Wed, 10 Aug 2022 00:48:53
- +0800 (GMT+08:00)
-X-Originating-IP: [221.220.143.85]
-Date: Wed, 10 Aug 2022 00:48:53 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5qiK6YeR5piK?= <fanjinhao21s@ict.ac.cn>
-To: "Keith Busch" <kbusch@kernel.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, its@irrelevant.dk
-Subject: Re: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn cnic.cn
-In-Reply-To: <YvKJk2dYiwomexFv@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
- <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
- <YvKJk2dYiwomexFv@kbusch-mbp.dhcp.thefacebook.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLSUK-0001W8-R0; Tue, 09 Aug 2022 12:53:52 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:29660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLSUI-0008Sl-6E; Tue, 09 Aug 2022 12:53:52 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C5F5D7462D3;
+ Tue,  9 Aug 2022 18:53:44 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 217BA7461AE; Tue,  9 Aug 2022 18:53:44 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1F863745702;
+ Tue,  9 Aug 2022 18:53:44 +0200 (CEST)
+Date: Tue, 9 Aug 2022 18:53:44 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 04/24] ppc/ppc405: Move SRAM under the ref405ep machine
+In-Reply-To: <20220809153904.485018-5-clg@kaod.org>
+Message-ID: <9d3ac97d-342-1152-f01c-eb8b192dccaf@eik.bme.hu>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-5-clg@kaod.org>
 MIME-Version: 1.0
-Message-ID: <1ec3f715.4ac4f.18283825663.Coremail.fanjinhao21s@ict.ac.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: twCowADHz9f1j_Ji3e8SAA--.60306W
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/1tbiCg0NCWKY1l8HcQABsH
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=159.226.251.85;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+Content-Type: multipart/mixed;
+ boundary="3866299591-1009652837-1660064024=:57026"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,15 +61,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jmd0OyBUaGUgZHJpdmVyIHdpbGwgY3JlYXRlIHRoZSBjcSB3aXRoIGFuIGFsbG9jYXRlZCB2ZWN0
-b3IsIGJ1dCBpdCdzIG5vdCBhY3RpdmF0ZWQKJmd0OyB1bnRpbCBhZnRlciB0aGUgZHJpdmVyIHdp
-cmVzIGl0IHVwIHRvIGEgaGFuZGxlci4gSSB0aGluayB0aGF0J3Mgd2hhdCB5b3UncmUKJmd0OyBv
-YnNlcnZpbmcgd2l0aCB0aGUgaW5jb21wbGV0ZSBNU0l4IHRhYmxlIGVudHJ5IG9uIGNyZWF0aW9u
-LgoKQWxzbywgSSdtIHdvbmRlcmluZyBpZiB0aGlzIGlzIGluY29uc2lzdGVudCB3aXRoIHRoZSBO
-Vk1lIHNwZWMuIEluIFNlY3Rpb24gNy42LjEKb2YgdGhlIDEuNCBzcGVjLCBpdCBzYXlzICJBZnRl
-ciBkZXRlcm1pbmluZyB0aGUgbnVtYmVyIG9mIEkvTyBRdWV1ZXMsIHRoZSBNU0kKYW5kL29yIE1T
-SS1YIHJlZ2lzdGVycyBzaG91bGQgYmUgY29uZmlndXJlZDsiIGluIFN0ZXAgOCwgYW5kIENRIGNy
-ZWF0aW9uIGhhcHBlbnMKaW4gU3RlcCA5LiBOb3cgdGhlIGRyaXZlciBjaGFuZ2VzIE1TSS1YIHJl
-Z2lzdGVycyBhZnRlciBDUSBjcmVhdGlvbiwgaXMgaXQgYQp2aW9sYXRpb24gb2YgdGhlIHNwZWM/
-Cg==
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-1009652837-1660064024=:57026
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 9 Aug 2022, Cédric Le Goater wrote:
+> It doesn't belong to the generic machine nor the SoC. Fix a typo in
+> the name while we are at it.
+>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+> hw/ppc/ppc405_boards.c | 12 ++++++------
+> 1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index f4794ba40ce6..381f39aa94cb 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -235,7 +235,6 @@ static void ppc405_init(MachineState *machine)
+>     MachineClass *mc = MACHINE_GET_CLASS(machine);
+>     const char *kernel_filename = machine->kernel_filename;
+>     PowerPCCPU *cpu;
+> -    MemoryRegion *sram = g_new(MemoryRegion, 1);
+>     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+>     hwaddr ram_bases[2], ram_sizes[2];
+>     MemoryRegion *sysmem = get_system_memory();
+> @@ -260,11 +259,6 @@ static void ppc405_init(MachineState *machine)
+>     cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+>                         33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+>
+> -    /* allocate SRAM */
+> -    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
+> -                           &error_fatal);
+
+Do you need to set an owner while at it? Anyway,
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Regards,
+BALATON Zoltan
+
+> -    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
+> -
+>     /* allocate and load BIOS */
+>     if (machine->firmware) {
+>         MemoryRegion *bios = g_new(MemoryRegion, 1);
+> @@ -328,9 +322,15 @@ static void ref405ep_init(MachineState *machine)
+> {
+>     DeviceState *dev;
+>     SysBusDevice *s;
+> +    MemoryRegion *sram = g_new(MemoryRegion, 1);
+>
+>     ppc405_init(machine);
+>
+> +    /* allocate SRAM */
+> +    memory_region_init_ram(sram, NULL, "ref405ep.sram", PPC405EP_SRAM_SIZE,
+> +                           &error_fatal);
+> +    memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE, sram);
+> +
+>     /* Register FPGA */
+>     ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
+>     /* Register NVRAM */
+>
+--3866299591-1009652837-1660064024=:57026--
 
