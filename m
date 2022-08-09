@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2EF58D867
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 13:52:07 +0200 (CEST)
-Received: from localhost ([::1]:33368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D5D58D8A2
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 14:16:54 +0200 (CEST)
+Received: from localhost ([::1]:49778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLNmH-0005qw-Ut
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 07:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38394)
+	id 1oLOAB-0001fW-Th
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 08:16:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLNdX-00087g-TA
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 07:43:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLNdV-0006e8-DP
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 07:43:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660045380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Ww0GuHUvQhgWtzLfH6STGDPnzV4pzyjccVJKIpVr9U=;
- b=eaMkXKKNXUren20/jU3YmD8eURsTOjO08Vhwv/sp1SJnH0kxt0/J7gD1s70Czr52raMhYc
- xTH1gjzrhk2YcOXAyTS8mY/xYzvp7koCS8Tq0W5FSnXhAht6R32XajD9GIPgCLq/moJ1gT
- 70zQLQ/kJ5TrvNHDR9vk+7OS3eC2urA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-30-SqfAs25gN32lhKC2pvOC5A-1; Tue, 09 Aug 2022 07:42:59 -0400
-X-MC-Unique: SqfAs25gN32lhKC2pvOC5A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x5-20020adfbb45000000b0021ee56506dfso1831481wrg.11
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 04:42:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oLO6m-0006sM-9P
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:13:16 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oLO6i-0003at-Ev
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 08:13:15 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h13so14108296wrf.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 05:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc;
+ bh=GMQT6LvusKdq2u6eA84id4/9Fbv/1vsA+JoqFifKJ8g=;
+ b=gpguNoXEzSWED52E9MNCL8LQnxQKBZNG3aAfoTbPVZiT7EL0u8KyJJqIR/DZho9jin
+ xzX+py3mvmBvlDVdV4iM440oeLb79YwDDqBeZQnlBLxN9fLwV5ovRDosPSN9V5zWDE+U
+ qmHS68Bv7KSn9f9GapcJG+ufNnU7zgUZHT6XEMVWfrRMVWyLku4A3hozxvPK5zf1qxNo
+ x7P5lHWbuV3b6niI9+1VBQx9uGzhsrSF1YwNrL9b8Xf3LjAdIiMkz6ZXp200ZLnWgTpf
+ 7sP1x8099SOXGD2xpiUKOO59O9DEfJfOCdb7ZylzMA8rcN3Q+ICbFSUXl334Vt8zSmAk
+ eq7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=2Ww0GuHUvQhgWtzLfH6STGDPnzV4pzyjccVJKIpVr9U=;
- b=fGSd6kTOpjtldgBNHHhHu8SBWEVtMiV0cRCZUEG2P+xL46uNdfCWsKsZ8F/aevBPTM
- v08SSXSsSClqu38uDTEVhQbcqjuS9K/Y9TeAeQbBJY5OQ/K1ePGv3hqUdML72aJtu5Yk
- On0Fii5MR92b86Q6OddxaPt/MjzTnVqx2foqfi9PfVkJrUeOud7XfAfmxEqoh6aEn3jW
- Y38BrB3bsvqlpUJj30HXfhJJ5sI0DfLlAJhLht0dkMUda+KoI/AXbzckUaJ62PIyNf8R
- DSt0UADM+MXH5RpMrzuLqdQvfXCVL+o7qKqr4zG5UdXfV0yhE8aQ/XdDz8sUS0kA9y7A
- MNjw==
-X-Gm-Message-State: ACgBeo3PYPiUGq4t4S3RUcJOmp386imw3GrmmmM2p7Z/yfeNx28t8xHv
- WCu2Ts5AOWEBUcja0xRuy4h6Y8A8e9ZSG/bOZraVKfrrmoHdrs05mt+yCgb6JLjIOY2RQDZhf5E
- fObHfLg5Rxv6IAEs=
-X-Received: by 2002:a05:6000:156e:b0:223:5d98:f4ae with SMTP id
- 14-20020a056000156e00b002235d98f4aemr4048403wrz.156.1660045378212; 
- Tue, 09 Aug 2022 04:42:58 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR75R3plq2epOyaQ5RXCZyj1EmNyTuXoTIJ8CLamu9XydTeV0g60gWPvVXIYAppMMSW0e3/K2w==
-X-Received: by 2002:a05:6000:156e:b0:223:5d98:f4ae with SMTP id
- 14-20020a056000156e00b002235d98f4aemr4048388wrz.156.1660045377995; 
- Tue, 09 Aug 2022 04:42:57 -0700 (PDT)
-Received: from redhat.com ([2.52.152.113]) by smtp.gmail.com with ESMTPSA id
- p15-20020a05600c1d8f00b0039c454067ddsm6221105wms.15.2022.08.09.04.42.56
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=GMQT6LvusKdq2u6eA84id4/9Fbv/1vsA+JoqFifKJ8g=;
+ b=1cqc1noT1mMmwdMxLLnxGDHyd98KILm3TqMsZH7YOo8Y2O3dM9ABrCmyubP0hbBCO4
+ 2IsAOnqydaJLkbKXGAJN8kLZZ1biQVNakwBgZQt7F9Ub+B9ajuT28Jr4LwTzNGyv0xss
+ EtOihFCs/Jvjir5FYdS5A013B09MmtNKdHuFd8piTeuXfR95QjQnGzYCfFYq18euFdyl
+ hMM+lNZKjpTXYvv/QoOoPDVroXIpHbAWqYD+AfdHZTEbNeNAglZgovEnCf12w3xxKbPV
+ TyBrR7UzwDnmWmqYO14ovq/eqWLkV0090xp9be50XWBrt5n1saDNUb+HXa5GjrmeIg45
+ 3bFA==
+X-Gm-Message-State: ACgBeo0MnzzBclepo9uhyUnX9GH5kn87Ei/OCrGxDa5HUDfCiYsRzv64
+ w16hiSXtw8ErZ7h3tmskmdGradSHgm0u+A==
+X-Google-Smtp-Source: AA6agR7iDxb7EDYI/2httl6Iv88BVzK2yHObL5o8qDkl18pC85xrEecMpDNK7KBOVJ55UQoSLQ6C+A==
+X-Received: by 2002:adf:eb4c:0:b0:220:6aaf:ef5e with SMTP id
+ u12-20020adfeb4c000000b002206aafef5emr13667298wrn.488.1660047189984; 
+ Tue, 09 Aug 2022 05:13:09 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a05600c510200b003a55e5d0d54sm2423169wms.36.2022.08.09.05.13.08
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 04:42:57 -0700 (PDT)
-Date: Tue, 9 Aug 2022 07:42:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, ani@anisinha.ca,
- berrange@redhat.com
-Subject: Re: [PATCH for-7.1] tests: acpi: silence applesmc warning about
- invalid key
-Message-ID: <20220809074219-mutt-send-email-mst@kernel.org>
-References: <20220728133713.1369596-1-imammedo@redhat.com>
- <20220809134024.3c6cc534@redhat.com>
+ Tue, 09 Aug 2022 05:13:08 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] target-arm queue
+Date: Tue,  9 Aug 2022 13:13:06 +0100
+Message-Id: <20220809121307.560286-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220809134024.3c6cc534@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,41 +86,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 09, 2022 at 01:40:24PM +0200, Igor Mammedov wrote:
-> On Thu, 28 Jul 2022 09:37:13 -0400
-> Igor Mammedov <imammedo@redhat.com> wrote:
-> 
-> > OSK value is irrelevant for ACPI test case.
-> > Supply fake OSK explicitly to prevent QEMU complaining about
-> > invalid key when it fallbacks to default_osk.
-> > 
-> > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> 
-> Michael,
->  can you pick it up?
+Just one bugfix patch for this rc:
 
-Yes! In the next pull. I was hoping the linux seed thing will
-settle but apparently no luck ...
+The following changes since commit ca5f3d4df1b47d7f66a109cdb504e83dfd7ec433:
 
-> > ---
-> >  tests/qtest/bios-tables-test.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > index 359916c228..7c5f736b51 100644
-> > --- a/tests/qtest/bios-tables-test.c
-> > +++ b/tests/qtest/bios-tables-test.c
-> > @@ -1632,7 +1632,9 @@ static void test_acpi_q35_applesmc(void)
-> >          .variant = ".applesmc",
-> >      };
-> >  
-> > -    test_acpi_one("-device isa-applesmc", &data);
-> > +    /* supply fake 64-byte OSK to silence missing key warning */
-> > +    test_acpi_one("-device isa-applesmc,osk=any64characterfakeoskisenough"
-> > +                  "topreventinvalidkeywarningsonstderr", &data);
-> >      free_test_data(&data);
-> >  }
-> >  
+  Merge tag 'pull-la-20220808' of https://gitlab.com/rth7680/qemu into staging (2022-08-08 19:51:12 -0700)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220809
+
+for you to fetch changes up to c7f26ded6d5065e4116f630f6a490b55f6c5f58e:
+
+  icount: Take iothread lock when running QEMU timers (2022-08-09 10:55:14 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * icount: Take iothread lock when running QEMU timers
+
+----------------------------------------------------------------
+Peter Maydell (1):
+      icount: Take iothread lock when running QEMU timers
+
+ accel/tcg/tcg-accel-ops-icount.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
