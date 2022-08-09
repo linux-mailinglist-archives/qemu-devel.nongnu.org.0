@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DE958D479
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 09:22:42 +0200 (CEST)
-Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545FB58D47D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 09:23:51 +0200 (CEST)
+Received: from localhost ([::1]:49524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLJZX-0005cl-VF
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 03:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44040)
+	id 1oLJag-0006XP-CO
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 03:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oLJU1-00037j-Uz
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:16:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42292)
+ id 1oLJUk-0003a3-VY
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:17:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oLJTx-0005TW-HR
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:16:55 -0400
+ id 1oLJUj-0005cI-7Y
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 03:17:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660029412;
+ s=mimecast20190719; t=1660029460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7KH4uuw83YWMBx2jR/lMHgknOi8vZtp8VDOffKr4FMs=;
- b=WkDv3fsAdT3N17kATtSR/8LVu+/B9zQmKUuRgw13i1qHB0GnO5DuEFGMmKLd40Tm/AJ03X
- pRT39w08rRD9S8LI6Do8wbovASvYEDXHC+Ykzg+zQqriAB6Ssn45UuLj2znxK7LyYvkcHb
- 3Tf7+fkzI3sVW7F1DJzggRkdZxGl/sw=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oOhhwmNbJLWHLMcN3uHVEODtrGWWF4rdeht9NvGbbQk=;
+ b=KkuPOK9MsMOWcLD1BPuxS5IkH28TrStSiAJy71MM2OJAdjJ/RVYG60e1QZXxxMuE7vsu/w
+ PA70N0z2CbA9e51Cloh2C7/+pAoVZENrOsrVglvBWQddPJeGw+DnY5fJi+BxoF2t+UM2Gu
+ juBr/9C5StT4Kt86/3KXhGTYTAXt2rs=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-eJzDCBVzNJ69_8lF4R3xrA-1; Tue, 09 Aug 2022 03:16:51 -0400
-X-MC-Unique: eJzDCBVzNJ69_8lF4R3xrA-1
-Received: by mail-lf1-f70.google.com with SMTP id
- j5-20020ac253a5000000b0048ce9fc0e38so1162292lfh.1
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 00:16:50 -0700 (PDT)
+ us-mta-628-wJ2wWVUSMEmhtSLKVVtn1A-1; Tue, 09 Aug 2022 03:17:39 -0400
+X-MC-Unique: wJ2wWVUSMEmhtSLKVVtn1A-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ g3-20020a2e9cc3000000b00253cc2b5ab5so3180131ljj.19
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 00:17:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7KH4uuw83YWMBx2jR/lMHgknOi8vZtp8VDOffKr4FMs=;
- b=U21bPiEYLEMvNZc3TUeS2Hobu2ziZ7pw9KNjAzOIbXCuJWB1PF4tUKEO5ZYJeKTeTX
- Lj8fsPkypeu2mz4AAj9zZAwy0j2rku0mUjfWdZY7i3ETgVZ5AbDQ39TKhswr682MhUcN
- UD27a1VIbpmFx16Qf+j1+BD4C/ynF1Wu1BkcSD/L7uxRD1J2SrQ6B4D+KCKn5q6NInNv
- iGKqDU6KdLTPaQnkq+PU5EhlHvpJHPGWazS7XnPMCsQrjJ6daMOe+SFnE4o3p7TmTXUx
- J0NS6z2nvIMVns95Gs04Ov/O4aC6eDTVmu39XPLymJIPeTiy2DkcjE/oUrM55dhGTTco
- EGOA==
-X-Gm-Message-State: ACgBeo24+pCX+g+7xlrw3kqqL6WiQx+N4lqLi78OPLQeND4OgkvnkU8A
- +KPbWbuXZDVEtuW6m9GPRGeYIMCLSL0bno36G2ihX8bvxGJzebKcStRBTNcfJ0YiabhY7/3OiET
- q1lBBQ8AF8hiZ4QD3Z9LfYDxgzN2V6PA=
-X-Received: by 2002:a2e:83c4:0:b0:25d:ea2c:5bc2 with SMTP id
- s4-20020a2e83c4000000b0025dea2c5bc2mr6437303ljh.251.1660029409727; 
- Tue, 09 Aug 2022 00:16:49 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR65EJ0Vi5rjEY92bTIfW/HNJoI067yv8/3miXp4Reg8Ex22e64nJ0gHAl8BX1CHZL0Bho4KbvO5/BObdcFF6UI=
-X-Received: by 2002:a2e:83c4:0:b0:25d:ea2c:5bc2 with SMTP id
- s4-20020a2e83c4000000b0025dea2c5bc2mr6437282ljh.251.1660029409429; Tue, 09
- Aug 2022 00:16:49 -0700 (PDT)
+ bh=oOhhwmNbJLWHLMcN3uHVEODtrGWWF4rdeht9NvGbbQk=;
+ b=yHJctM5ijeB3JAJqKhV4k+j0VDBD+RhgXySGygAsTdhdx55OffqYHKBEN3+GSeGmLo
+ vQan+HXGN55iOwGHufcX4OlvjckXiaFg8ntPjjXapp8EMj1oZz4eFuidKrddHcbTJHr2
+ lZ34qUrIPGvKBH5A5+d4FbzinPYx9oGX9FeD7fHyosKOxCpUc0TX8y0EhMSDo/qA+Juj
+ 1WbvtwAaPrkMe8ldp3CVAPvIDy8R6GHHev5oZh2bPsOMrOJmByZwJQZPGffjcNp1wTaJ
+ dD93ZLDeN4t51hu0lJ/pyraS6KahOjj9h9XnPuSSmjFLMV4uCHWe9aCLITIjdFg71aOP
+ /gpA==
+X-Gm-Message-State: ACgBeo2PkBvcygVSrJ3FmxyxLNCz6LYjf2qy6aLGDSJi3sOkmXrcEEJJ
+ ko8wY+eJt6CC9NAVIPmOAJO4n5TwqN/2HK8aCmFADS7z3kb+8NORjITJtEEMc/2TdJXssKGz1Z1
+ CeoNFtoMqUWaZnqdFIcnSb4nIsBAnj9M=
+X-Received: by 2002:a05:6512:12c7:b0:48b:3bc4:10f4 with SMTP id
+ p7-20020a05651212c700b0048b3bc410f4mr6265985lfg.411.1660029457986; 
+ Tue, 09 Aug 2022 00:17:37 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4kgr2IPXUY+dGV30RpThET05RIhoVd9RGHHfzn/eBE8PlricK+XTS9koyc0z5kZk0t3+aL2OQ9b6dY5QUBiLU=
+X-Received: by 2002:a05:6512:12c7:b0:48b:3bc4:10f4 with SMTP id
+ p7-20020a05651212c700b0048b3bc410f4mr6265968lfg.411.1660029457705; Tue, 09
+ Aug 2022 00:17:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220804182852.703398-1-eperezma@redhat.com>
- <20220804182852.703398-12-eperezma@redhat.com>
-In-Reply-To: <20220804182852.703398-12-eperezma@redhat.com>
+ <20220804182852.703398-13-eperezma@redhat.com>
+In-Reply-To: <20220804182852.703398-13-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 9 Aug 2022 15:16:38 +0800
-Message-ID: <CACGkMEuYuAJ2ZnmRzeO95=Hd8pC_N=YhPnO4KfBW9jV5Tac2Sw@mail.gmail.com>
-Subject: Re: [PATCH v7 11/12] vdpa: Add virtio-net mac address via CVQ at start
+Date: Tue, 9 Aug 2022 15:17:26 +0800
+Message-ID: <CACGkMEvAq5yNbS__g_HF5B_STCvGc-vOwhGa4iJTLsz7=y-HdQ@mail.gmail.com>
+Subject: Re: [PATCH v7 12/12] vdpa: Delete CVQ migration blocker
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>, 
  Harpreet Singh Anand <hanand@xilinx.com>,
@@ -79,14 +79,14 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,90 +106,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, Aug 5, 2022 at 2:29 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
 te:
 >
-> This is needed so the destination vdpa device see the same state a the
-> guest set in the source.
+> We can restore the device state in the destination via CVQ now. Remove
+> the migration blocker.
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
 > ---
-> v6:
-> * Map and unmap command buffers at the start and end of device usage.
+>  include/hw/virtio/vhost-vdpa.h |  1 -
+>  hw/virtio/vhost-vdpa.c         | 14 --------------
+>  net/vhost-vdpa.c               |  2 --
+>  3 files changed, 17 deletions(-)
 >
-> v5:
-> * Rename s/start/load/
-> * Use independent NetClientInfo to only add load callback on cvq.
-> ---
->  net/vhost-vdpa.c | 43 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 43 insertions(+)
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index d10a89303e..1111d85643 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -35,7 +35,6 @@ typedef struct vhost_vdpa {
+>      bool shadow_vqs_enabled;
+>      /* IOVA mapping used by the Shadow Virtqueue */
+>      VhostIOVATree *iova_tree;
+> -    Error *migration_blocker;
+>      GPtrArray *shadow_vqs;
+>      const VhostShadowVirtqueueOps *shadow_vq_ops;
+>      void *shadow_vq_ops_opaque;
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 7e28d2f674..4b0cfc0f56 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -1033,13 +1033,6 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev=
+ *dev)
+>          return true;
+>      }
 >
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 10843e6d97..4f1524c2e9 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -363,11 +363,54 @@ static ssize_t vhost_vdpa_net_cvq_add(VhostVDPAStat=
-e *s, size_t out_len,
->      return vhost_svq_poll(svq);
+> -    if (v->migration_blocker) {
+> -        int r =3D migrate_add_blocker(v->migration_blocker, &err);
+> -        if (unlikely(r < 0)) {
+> -            return false;
+> -        }
+> -    }
+> -
+>      for (i =3D 0; i < v->shadow_vqs->len; ++i) {
+>          VirtQueue *vq =3D virtio_get_queue(dev->vdev, dev->vq_index + i)=
+;
+>          VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, i=
+);
+> @@ -1082,10 +1075,6 @@ err:
+>          vhost_svq_stop(svq);
+>      }
+>
+> -    if (v->migration_blocker) {
+> -        migrate_del_blocker(v->migration_blocker);
+> -    }
+> -
+>      return false;
 >  }
 >
-> +static int vhost_vdpa_net_load(NetClientState *nc)
-> +{
-> +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> +    VirtIONet *n;
-> +    uint64_t features;
-> +
-> +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> +
-> +    if (!v->shadow_vqs_enabled) {
-> +        return 0;
-> +    }
-> +
-> +    n =3D VIRTIO_NET(v->dev->vdev);
-> +    features =3D v->dev->vdev->host_features;
-> +    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
-> +        const struct virtio_net_ctrl_hdr ctrl =3D {
-> +            .class =3D VIRTIO_NET_CTRL_MAC,
-> +            .cmd =3D VIRTIO_NET_CTRL_MAC_ADDR_SET,
-> +        };
-
-Can we build this directly from the cmd_out_buffer?
-
-> +        char *cursor =3D s->cvq_cmd_out_buffer;
-> +        ssize_t dev_written;
-> +        virtio_net_ctrl_ack state;
-
-I think we can read the status directly from the cmd_in_buffer.
-
-Thanks
-
-> +
-> +        memcpy(cursor, &ctrl, sizeof(ctrl));
-> +        cursor +=3D sizeof(ctrl);
-> +        memcpy(cursor, n->mac, sizeof(n->mac));
-> +        cursor +=3D sizeof(n->mac);
-> +
-> +        dev_written =3D vhost_vdpa_net_cvq_add(s, sizeof(ctrl) + sizeof(=
-n->mac),
-> +                                             sizeof(state));
-> +        if (unlikely(dev_written < 0)) {
-> +            return dev_written;
-> +        }
-> +
-> +        memcpy(&state, s->cvq_cmd_in_buffer, sizeof(state));
-> +        return state =3D=3D VIRTIO_NET_OK ? 0 : -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
->      .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
->      .size =3D sizeof(VhostVDPAState),
->      .receive =3D vhost_vdpa_receive,
->      .prepare =3D vhost_vdpa_net_cvq_prepare,
-> +    .load =3D vhost_vdpa_net_load,
->      .stop =3D vhost_vdpa_net_cvq_stop,
->      .cleanup =3D vhost_vdpa_cleanup,
->      .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
+> @@ -1105,9 +1094,6 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *=
+dev)
+>          }
+>      }
+>
+> -    if (v->migration_blocker) {
+> -        migrate_del_blocker(v->migration_blocker);
+> -    }
+>      return true;
+>  }
+>
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 4f1524c2e9..7c0d600aea 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -558,8 +558,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientS=
+tate *peer,
+>
+>          s->vhost_vdpa.shadow_vq_ops =3D &vhost_vdpa_net_svq_ops;
+>          s->vhost_vdpa.shadow_vq_ops_opaque =3D s;
+> -        error_setg(&s->vhost_vdpa.migration_blocker,
+> -                   "Migration disabled: vhost-vdpa uses CVQ.");
+>      }
+>      ret =3D vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index,=
+ nvqs);
+>      if (ret) {
 > --
 > 2.31.1
 >
