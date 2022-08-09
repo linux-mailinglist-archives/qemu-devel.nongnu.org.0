@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454F958DCE3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:12:59 +0200 (CEST)
-Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5004958DCD7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 19:10:05 +0200 (CEST)
+Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSmo-00076M-4M
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
+	id 1oLSk0-0002ek-42
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 13:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oLSen-0005CW-Mc
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:04:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oLSej-0001j6-3Q
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:04:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660064676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3ggyF3qBTxPKaPyoDbI+mbJnJpmZPQ1Uw301kTnxMnY=;
- b=KLhEf1I4lfdvSe2OscXwbtYehAeGlUG6rPtXNhNscYStdsshzju7Eip/2cPbGLNoDftJcd
- 2OuEfOsBdKs8yLIYLUK3z21DtEhNGq4eGwp81cDA2XNVD10F1X59o5KV3KA0Lo1EuapjZ2
- ikRbyLnJ/O0whQ/OBxwj0bxNWnIeWhA=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-Ql_3g71uNvadk-WEyo3WdA-1; Tue, 09 Aug 2022 13:04:34 -0400
-X-MC-Unique: Ql_3g71uNvadk-WEyo3WdA-1
-Received: by mail-qt1-f200.google.com with SMTP id
- hf13-20020a05622a608d00b003214b6b3777so9471173qtb.13
- for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 10:04:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oLSgi-0005sm-5B
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:06:40 -0400
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:36411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oLSgg-0002BU-Bt
+ for qemu-devel@nongnu.org; Tue, 09 Aug 2022 13:06:39 -0400
+Received: by mail-lj1-x230.google.com with SMTP id z20so13634821ljq.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Aug 2022 10:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=hXt0r2ySqLYwNrDIDLfCkKIXirAvimFsfgRu0x+1sVs=;
+ b=eKjW1PDASQwO7QIoZ7ZCup+jJ09fhY/9u0T9yHVoOvVxty6MOx2vtudtVr5jp9KzdR
+ zk3Gpga3w+CJNSC7ohqkVcy9tu0L1NhNRRsh1sxhIEqoKWTsGPn7jZ7ULoViaK/lOrMm
+ ZBZR4YCbUfL3LKT++16iygojFlJrmkAKyYmyZD0QKthQT+8d9l8vAMTMk4lfnTrtw7+r
+ awdRvmmqbUPp8DkJ60c+UBwnpG9+/y2P9vsbCg04DjveMIZ/mVwTdA+pfWDTqvzT36VN
+ VtJBspfBgeVrVyMWGRZJClGIYiPinH2jC/Hu1hei536yUYgPXWEjEY9g0ze3XNC17cRl
+ dGeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=3ggyF3qBTxPKaPyoDbI+mbJnJpmZPQ1Uw301kTnxMnY=;
- b=1cbuZPNueGWBVeA9f62PscFr8wUctAMxdVnUCqvfSI67fFatBg+NXh8NhiKhS/WVqn
- 0xjp8EriCPTd35Kzi8EMHOZOGr2AvU66C79IjkC/l0OzGpevl9DIA2p4WarXYaW2gmiX
- VAkn8kvj+ZuCeVonqpEauDFzR/qxh/n0SXiqG0BOzC1OlzFl4a0ndBldoTVVjEu81osq
- z6TpDs5TBeg0RQQbwzl1pvaM14tcJFJcqv8Dw9xTCP9KmxlB+xczuWMbt5UfAkCACb/R
- WrgLY7vqnrGFKT+rlUZGzX2nG9BE6kkY1s2bt8tdVinyWS9SLCHrpJbAxZN/bZkIdUwb
- zfPA==
-X-Gm-Message-State: ACgBeo2GVolWeIBFjKx6PMT3gp3v21RtWXEu1O0584y6EJgf8NYxGaCk
- KvixL9ODrdOSLx9Rg/RQuX/aA3NFjN+THjTNFG/c/mu7kYz0pxLJZOC9SH9lo+YRkgEZXOK5EEL
- vdjgGMNR+3cKPydiWlys0wkK7HR9xT8o=
-X-Received: by 2002:a05:6214:5003:b0:474:a0c1:99b2 with SMTP id
- jo3-20020a056214500300b00474a0c199b2mr20252442qvb.64.1660064674003; 
- Tue, 09 Aug 2022 10:04:34 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6WLTwUVaH9hGoj9vBPDQHc7BgO5qrXTZ7W+EatftNaKCVTisR4Eh0yQuY34Mwa2cfSbMg4TUtLjaS2qKsElac=
-X-Received: by 2002:a05:6214:5003:b0:474:a0c1:99b2 with SMTP id
- jo3-20020a056214500300b00474a0c199b2mr20252389qvb.64.1660064673637; Tue, 09
- Aug 2022 10:04:33 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=hXt0r2ySqLYwNrDIDLfCkKIXirAvimFsfgRu0x+1sVs=;
+ b=6GJu3MchUqsrbEQFfgWZVAwSxjRIWglJefDOTCSeu0tAlPinDWaThmxgkR/T4CG7Ej
+ 3HgaUsqNSNPW8S/J+e2sai6PAUcbSXhg7sWZfdMlcbJInyQZ2MmZWCCaNAPoTMkZ2bvc
+ lEExhhgSRIa5oC2t/05mUX8FA06QZhlL78CsOUeegdIMtowB7CqThlnfJltsIXAB95Lt
+ wMlI28V+PsEC6cwn400ZnANuJeU1iWjnRzcLTfkjup6AQeLN8ym26pYH6BQ6wgBhhdOA
+ mS619dA6L4KYHyVXNImejvnfF5Jsn+fD9lh2WO1pn4ldb7fDzwvdN7mkq8PQVJcp2bdl
+ KuXw==
+X-Gm-Message-State: ACgBeo1DxETTVa4MAaVRmrwOPU5LwXcZL+9K9UkRs85Jf3hSX1xoyKK4
+ mGQ70VRXXeb+glsm+5ufSwi8++OMqHGzj1uequU=
+X-Google-Smtp-Source: AA6agR5JO2k0x4mXmHCbFGTbdv3vle34SEtDS+SSNcdhMRkfiDzXX7jImiKcKBTxXG1xEjlFp43w5hEvAXyNMv8vJiY=
+X-Received: by 2002:a2e:5455:0:b0:25e:4b87:9714 with SMTP id
+ y21-20020a2e5455000000b0025e4b879714mr7098827ljd.463.1660064796141; Tue, 09
+ Aug 2022 10:06:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220805163909.872646-1-eperezma@redhat.com>
- <20220805163909.872646-5-eperezma@redhat.com>
- <CACGkMEsxjBzsc1eonoR07027DsG3huGZUUodJZnK84PRyNQbAg@mail.gmail.com>
-In-Reply-To: <CACGkMEsxjBzsc1eonoR07027DsG3huGZUUodJZnK84PRyNQbAg@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 9 Aug 2022 19:03:57 +0200
-Message-ID: <CAJaqyWddD=SENCUniHanPnGUjid3kFJ_8b2okR+2jU1amecjng@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] vdpa: Add asid parameter to
- vhost_vdpa_dma_map/unmap
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
- kvm <kvm@vger.kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220809164308.1182645-1-bmeng.cn@gmail.com>
+In-Reply-To: <20220809164308.1182645-1-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 9 Aug 2022 21:06:24 +0400
+Message-ID: <CAJ+F1C+KqH7Egr_9f=w=qn4AXVEgaGsZ0nmpHL08PfHaZJ4wzg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] util/main-loop: Fix maximum number of wait objects
+ for win32
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000007a6dbf05e5d1f427"
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,271 +84,249 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 9, 2022 at 9:21 AM Jason Wang <jasowang@redhat.com> wrote:
+--0000000000007a6dbf05e5d1f427
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Tue, Aug 9, 2022 at 8:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> On Sat, Aug 6, 2022 at 12:39 AM Eugenio P=C3=A9rez <eperezma@redhat.com> =
-wrote:
-> >
-> > So the caller can choose which ASID is destined.
-> >
-> > No need to update the batch functions as they will always be called fro=
-m
-> > memory listener updates at the moment. Memory listener updates will
-> > always update ASID 0, as it's the passthrough ASID.
-> >
-> > All vhost devices's ASID are 0 at this moment.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> > v4: Add comment specifying behavior if device does not support _F_ASID
-> >
-> > v3: Deleted unneeded space
-> > ---
-> >  include/hw/virtio/vhost-vdpa.h |  8 +++++---
-> >  hw/virtio/vhost-vdpa.c         | 25 +++++++++++++++----------
-> >  net/vhost-vdpa.c               |  6 +++---
-> >  hw/virtio/trace-events         |  4 ++--
-> >  4 files changed, 25 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
-dpa.h
-> > index 1111d85643..6560bb9d78 100644
-> > --- a/include/hw/virtio/vhost-vdpa.h
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -29,6 +29,7 @@ typedef struct vhost_vdpa {
-> >      int index;
-> >      uint32_t msg_type;
-> >      bool iotlb_batch_begin_sent;
-> > +    uint32_t address_space_id;
-> >      MemoryListener listener;
-> >      struct vhost_vdpa_iova_range iova_range;
-> >      uint64_t acked_features;
-> > @@ -42,8 +43,9 @@ typedef struct vhost_vdpa {
-> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> >  } VhostVDPA;
-> >
-> > -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> > -                       void *vaddr, bool readonly);
-> > -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr siz=
-e);
-> > +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
-a,
-> > +                       hwaddr size, void *vaddr, bool readonly);
-> > +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr i=
-ova,
-> > +                         hwaddr size);
-> >
-> >  #endif
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 34922ec20d..3eb67b27b7 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -72,22 +72,24 @@ static bool vhost_vdpa_listener_skipped_section(Mem=
-oryRegionSection *section,
-> >      return false;
-> >  }
-> >
-> > -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> > -                       void *vaddr, bool readonly)
-> > +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
-a,
-> > +                       hwaddr size, void *vaddr, bool readonly)
-> >  {
-> >      struct vhost_msg_v2 msg =3D {};
-> >      int fd =3D v->device_fd;
-> >      int ret =3D 0;
-> >
-> >      msg.type =3D v->msg_type;
-> > +    msg.asid =3D asid; /* 0 if vdpa device does not support asid */
+> The maximum number of wait objects for win32 should be
+> MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
 >
-> So this comment is still kind of confusing.
+> Fix the logic in qemu_add_wait_object() to avoid adding
+> the same HANDLE twice.
 >
-> Does it mean the caller can guarantee that asid is 0 when ASID is not
-> supported?
-
-That's right.
-
-> Even if this is true, does it silently depend on the
-> behaviour that the asid field is extended from the reserved field of
-> the ABI?
 >
+Please make that a separate patch.
 
-I don't get this part.
 
-Regarding the ABI, the reserved bytes will be there either the device
-support asid or not, since the actual iotlb message is after the
-reserved field. And they were already zeroed by msg =3D {} on top of the
-function. So if the caller always sets asid =3D 0, there is no change on
-this part.
-
-> (I still wonder if it's better to avoid using msg.asid if the kernel
-> doesn't support that).
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
 >
-
-We can add a conditional on v->dev->backend_features & _F_ASID.
-
-But that is not the only case where ASID will not be used: If the vq
-group does not match with the supported configuration (like if CVQ is
-not in the independent group). This case is already handled by setting
-all vhost_vdpa of the virtio device to asid =3D 0, so adding that extra
-check seems redundant to me.
-
-I'm not against adding it though: It can prevent bugs. Since it would
-be a bug of qemu, maybe it's better to add an assertion?
-
-Thanks!
-
-> Thanks
+> Changes in v2:
+> - fix the logic in qemu_add_wait_object() to avoid adding
+>   the same HANDLE twice
 >
-> >      msg.iotlb.iova =3D iova;
-> >      msg.iotlb.size =3D size;
-> >      msg.iotlb.uaddr =3D (uint64_t)(uintptr_t)vaddr;
-> >      msg.iotlb.perm =3D readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
-> >      msg.iotlb.type =3D VHOST_IOTLB_UPDATE;
-> >
-> > -   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb=
-.size,
-> > -                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb=
-.type);
-> > +    trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.asid, msg.iotlb.iova=
-,
-> > +                             msg.iotlb.size, msg.iotlb.uaddr, msg.iotl=
-b.perm,
-> > +                             msg.iotlb.type);
-> >
-> >      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> >          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> > @@ -98,18 +100,20 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwadd=
-r iova, hwaddr size,
-> >      return ret;
-> >  }
-> >
-> > -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr siz=
-e)
-> > +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr i=
-ova,
-> > +                         hwaddr size)
-> >  {
-> >      struct vhost_msg_v2 msg =3D {};
-> >      int fd =3D v->device_fd;
-> >      int ret =3D 0;
-> >
-> >      msg.type =3D v->msg_type;
-> > +    msg.asid =3D asid; /* 0 if vdpa device does not support asid */
-> >      msg.iotlb.iova =3D iova;
-> >      msg.iotlb.size =3D size;
-> >      msg.iotlb.type =3D VHOST_IOTLB_INVALIDATE;
-> >
-> > -    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
-> > +    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.asid, msg.iotlb.io=
-va,
-> >                                 msg.iotlb.size, msg.iotlb.type);
-> >
-> >      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> > @@ -229,7 +233,7 @@ static void vhost_vdpa_listener_region_add(MemoryLi=
-stener *listener,
-> >      }
-> >
-> >      vhost_vdpa_iotlb_batch_begin_once(v);
-> > -    ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-> > +    ret =3D vhost_vdpa_dma_map(v, 0, iova, int128_get64(llsize),
-> >                               vaddr, section->readonly);
-> >      if (ret) {
-> >          error_report("vhost vdpa map fail!");
-> > @@ -303,7 +307,7 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
-stener *listener,
-> >          vhost_iova_tree_remove(v->iova_tree, result);
-> >      }
-> >      vhost_vdpa_iotlb_batch_begin_once(v);
-> > -    ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-> > +    ret =3D vhost_vdpa_dma_unmap(v, 0, iova, int128_get64(llsize));
-> >      if (ret) {
-> >          error_report("vhost_vdpa dma unmap error!");
-> >      }
-> > @@ -894,7 +898,7 @@ static bool vhost_vdpa_svq_unmap_ring(struct vhost_=
-vdpa *v,
-> >      }
-> >
-> >      size =3D ROUND_UP(result->size, qemu_real_host_page_size());
-> > -    r =3D vhost_vdpa_dma_unmap(v, result->iova, size);
-> > +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, result->iova, s=
-ize);
-> >      return r =3D=3D 0;
-> >  }
-> >
-> > @@ -936,7 +940,8 @@ static bool vhost_vdpa_svq_map_ring(struct vhost_vd=
-pa *v, DMAMap *needle,
-> >          return false;
-> >      }
-> >
-> > -    r =3D vhost_vdpa_dma_map(v, needle->iova, needle->size + 1,
-> > +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, needle->iova,
-> > +                           needle->size + 1,
-> >                             (void *)(uintptr_t)needle->translated_addr,
-> >                             needle->perm =3D=3D IOMMU_RO);
-> >      if (unlikely(r !=3D 0)) {
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 7c0d600aea..9b932442f0 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -239,7 +239,7 @@ static void vhost_vdpa_cvq_unmap_buf(struct vhost_v=
-dpa *v, void *addr)
-> >          return;
-> >      }
-> >
-> > -    r =3D vhost_vdpa_dma_unmap(v, map->iova, map->size + 1);
-> > +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, map->iova, map-=
->size + 1);
-> >      if (unlikely(r !=3D 0)) {
-> >          error_report("Device cannot unmap: %s(%d)", g_strerror(r), r);
-> >      }
-> > @@ -279,8 +279,8 @@ static int vhost_vdpa_cvq_map_buf(struct vhost_vdpa=
- *v, void *buf, size_t size,
-> >          return r;
-> >      }
-> >
-> > -    r =3D vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_=
-len(), buf,
-> > -                           !write);
-> > +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, map.iova,
-> > +                           vhost_vdpa_net_cvq_cmd_page_len(), buf, !wr=
-ite);
-> >      if (unlikely(r < 0)) {
-> >          goto dma_map_err;
-> >      }
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index 20af2e7ebd..36e5ae75f6 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -26,8 +26,8 @@ vhost_user_write(uint32_t req, uint32_t flags) "req:%=
-d flags:0x%"PRIx32""
-> >  vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
-> >
-> >  # vhost-vdpa.c
-> > -vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iov=
-a, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: =
-%d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx6=
-4" perm: 0x%"PRIx8" type: %"PRIu8
-> > -vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t i=
-ova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova:=
- 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> > +vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asi=
-d, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type=
-) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" siz=
-e: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
-> > +vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t a=
-sid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: =
-%"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> >  vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, ui=
-nt8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> >  vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t=
- type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> >  vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t lle=
-nd, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64=
-" vaddr: %p read-only: %d"
-> > --
-> > 2.31.1
-> >
+>
+Still NACK, did you understand my argument about array bounds?
+
+"if (found)" will access the arrays at position i+1 =3D=3D
+MAXIMUM_WAIT_OBJECTS. We need the +1 for that logic to work without OOB
+access.
+
+
+
+>  util/main-loop.c | 43 +++++++++++++++++++++++++++++++------------
+>  1 file changed, 31 insertions(+), 12 deletions(-)
+>
+> diff --git a/util/main-loop.c b/util/main-loop.c
+> index f00a25451b..66b2ae2800 100644
+> --- a/util/main-loop.c
+> +++ b/util/main-loop.c
+> @@ -363,37 +363,56 @@ void qemu_del_polling_cb(PollingFunc *func, void
+> *opaque)
+>  /* Wait objects support */
+>  typedef struct WaitObjects {
+>      int num;
+> -    int revents[MAXIMUM_WAIT_OBJECTS + 1];
+> -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+> -    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
+> -    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
+> +    int revents[MAXIMUM_WAIT_OBJECTS];
+> +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
+> +    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
+> +    void *opaque[MAXIMUM_WAIT_OBJECTS];
+>  } WaitObjects;
+>
+>  static WaitObjects wait_objects =3D {0};
+>
+>  int qemu_add_wait_object(HANDLE handle, WaitObjectFunc *func, void
+> *opaque)
+>  {
+> +    int i;
+> +    bool found =3D false;
+>      WaitObjects *w =3D &wait_objects;
+> +
+>      if (w->num >=3D MAXIMUM_WAIT_OBJECTS) {
+>          return -1;
+>      }
+> -    w->events[w->num] =3D handle;
+> -    w->func[w->num] =3D func;
+> -    w->opaque[w->num] =3D opaque;
+> -    w->revents[w->num] =3D 0;
+> -    w->num++;
+> +
+> +    for (i =3D 0; i < w->num; i++) {
+> +        /* if the same handle is added twice, newer overwrites older */
+> +        if (w->events[i] =3D=3D handle) {
+> +            found =3D true;
+> +            break;
+> +        }
+> +    }
+> +
+> +    w->events[i] =3D handle;
+> +    w->func[i] =3D func;
+> +    w->opaque[i] =3D opaque;
+> +    w->revents[i] =3D 0;
+> +
+> +    if (!found) {
+> +        w->num++;
+> +    }
+> +
+>      return 0;
+>  }
+>
+>  void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void
+> *opaque)
+>  {
+> -    int i, found;
+> +    int i;
+> +    bool found =3D false;
+>      WaitObjects *w =3D &wait_objects;
+>
+> -    found =3D 0;
+>      for (i =3D 0; i < w->num; i++) {
+>          if (w->events[i] =3D=3D handle) {
+> -            found =3D 1;
+> +            found =3D true;
+> +        }
+> +        if (i =3D=3D MAXIMUM_WAIT_OBJECTS - 1) {
+> +            break;
+>          }
+>          if (found) {
+>              w->events[i] =3D w->events[i + 1];
+> --
+> 2.34.1
+>
 >
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000007a6dbf05e5d1f427
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 9, 2022 at 8:43 PM Bin =
+Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin =
+Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.me=
+ng@windriver.com</a>&gt;<br>
+<br>
+The maximum number of wait objects for win32 should be<br>
+MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.<br>
+<br>
+Fix the logic in qemu_add_wait_object() to avoid adding<br>
+the same HANDLE twice.<br>
+<br></blockquote><div><br></div><div>Please make that a separate patch.</di=
+v><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+---<br>
+<br>
+Changes in v2:<br>
+- fix the logic in qemu_add_wait_object() to avoid adding<br>
+=C2=A0 the same HANDLE twice<br>
+<br></blockquote><div><br></div><div>Still NACK, did you understand my argu=
+ment about array bounds?</div><div><br></div><div><span class=3D"gmail-im">=
+ &quot;if (found)&quot; will access the arrays at position i+1 =3D=3D MAXIM=
+UM_WAIT_OBJECTS. We need the +1 for that logic to work without OOB access.<=
+br></span></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+=C2=A0util/main-loop.c | 43 +++++++++++++++++++++++++++++++------------<br>
+=C2=A01 file changed, 31 insertions(+), 12 deletions(-)<br>
+<br>
+diff --git a/util/main-loop.c b/util/main-loop.c<br>
+index f00a25451b..66b2ae2800 100644<br>
+--- a/util/main-loop.c<br>
++++ b/util/main-loop.c<br>
+@@ -363,37 +363,56 @@ void qemu_del_polling_cb(PollingFunc *func, void *opa=
+que)<br>
+=C2=A0/* Wait objects support */<br>
+=C2=A0typedef struct WaitObjects {<br>
+=C2=A0 =C2=A0 =C2=A0int num;<br>
+-=C2=A0 =C2=A0 int revents[MAXIMUM_WAIT_OBJECTS + 1];<br>
+-=C2=A0 =C2=A0 HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];<br>
+-=C2=A0 =C2=A0 WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];<br>
+-=C2=A0 =C2=A0 void *opaque[MAXIMUM_WAIT_OBJECTS + 1];<br>
++=C2=A0 =C2=A0 int revents[MAXIMUM_WAIT_OBJECTS];<br>
++=C2=A0 =C2=A0 HANDLE events[MAXIMUM_WAIT_OBJECTS];<br>
++=C2=A0 =C2=A0 WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];<br>
++=C2=A0 =C2=A0 void *opaque[MAXIMUM_WAIT_OBJECTS];<br>
+=C2=A0} WaitObjects;<br>
+<br>
+=C2=A0static WaitObjects wait_objects =3D {0};<br>
+<br>
+=C2=A0int qemu_add_wait_object(HANDLE handle, WaitObjectFunc *func, void *o=
+paque)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 bool found =3D false;<br>
+=C2=A0 =C2=A0 =C2=A0WaitObjects *w =3D &amp;wait_objects;<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0if (w-&gt;num &gt;=3D MAXIMUM_WAIT_OBJECTS) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 w-&gt;events[w-&gt;num] =3D handle;<br>
+-=C2=A0 =C2=A0 w-&gt;func[w-&gt;num] =3D func;<br>
+-=C2=A0 =C2=A0 w-&gt;opaque[w-&gt;num] =3D opaque;<br>
+-=C2=A0 =C2=A0 w-&gt;revents[w-&gt;num] =3D 0;<br>
+-=C2=A0 =C2=A0 w-&gt;num++;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; w-&gt;num; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* if the same handle is added twice, newer ov=
+erwrites older */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (w-&gt;events[i] =3D=3D handle) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 found =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 w-&gt;events[i] =3D handle;<br>
++=C2=A0 =C2=A0 w-&gt;func[i] =3D func;<br>
++=C2=A0 =C2=A0 w-&gt;opaque[i] =3D opaque;<br>
++=C2=A0 =C2=A0 w-&gt;revents[i] =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 if (!found) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 w-&gt;num++;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *=
+opaque)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 int i, found;<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 bool found =3D false;<br>
+=C2=A0 =C2=A0 =C2=A0WaitObjects *w =3D &amp;wait_objects;<br>
+<br>
+-=C2=A0 =C2=A0 found =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; w-&gt;num; i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (w-&gt;events[i] =3D=3D handle) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 found =3D 1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 found =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i =3D=3D MAXIMUM_WAIT_OBJECTS - 1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (found) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0w-&gt;events[i] =3D w-&gt;e=
+vents[i + 1];<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000007a6dbf05e5d1f427--
 
