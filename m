@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A67458DC33
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:36:55 +0200 (CEST)
-Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6152558DC4A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Aug 2022 18:41:29 +0200 (CEST)
+Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLSDp-00084p-QE
-	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38342)
+	id 1oLSIJ-0004lw-T4
+	for lists+qemu-devel@lfdr.de; Tue, 09 Aug 2022 12:41:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oLRzM-0000Zo-4R
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:21:52 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:50698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oLRzK-0002nR-7P
- for qemu-devel@nongnu.org; Tue, 09 Aug 2022 12:21:51 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BAFD1B81625;
- Tue,  9 Aug 2022 16:21:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F9CC433D6;
- Tue,  9 Aug 2022 16:21:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660062102;
- bh=QnTWRqMr+1f7sYGXemRuf3Ckbh+fi7afd1fsR1S5RDw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h9+UyQx2c/62Xy7WVjF8pcDWyWoN59ZKH/QGT1KWAXGTnvnfgZmfryKUZFPlp7TYJ
- 3AOsBh6qQy1pGGDrT+FvY8pb7yVIEH5IN0fz5Gfh6LFFWBOJYYsmSstD9uZ2Dh6vVR
- MJqu/z8xBovPxkvCKlDY3aehrplS00CGyzuT+kNfCa68N91vtPMDAMhEVw4GNVsk4u
- SAJyRS/UBqVQujNF/vGUo/GV1nP0ZdZI5ETYVYwc3wzKOhxkYgz7ci3iQMchwfJdpw
- BJswsJsS+t5fBBBjtjX93vhuKT+FvfytDIl9dLAxEK+51HusgudS08DfRNMIFtwzgT
- eGc8Vem2Pc9lA==
-Date: Tue, 9 Aug 2022 10:21:39 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel <qemu-devel@nongnu.org>, its@irrelevant.dk
-Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-Message-ID: <YvKJk2dYiwomexFv@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
- <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oLSFh-0000r1-67; Tue, 09 Aug 2022 12:38:46 -0400
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:44684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oLSFf-0005pM-MJ; Tue, 09 Aug 2022 12:38:44 -0400
+Received: by mail-qv1-xf33.google.com with SMTP id mk9so8931948qvb.11;
+ Tue, 09 Aug 2022 09:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=KyfI0XlL9vs9vciGO2HKqWVIQpcxBsdkBEj6EEUyFvI=;
+ b=EyI1RnyB1pm657Ei/atz4KxeXkzPJxCd4P7VrgftpQ0orR39V9ouc/eTnrOTTT+74R
+ sD9b6mxvuhLER0y96e8mkWTvyVLcAN6MvSIBVGmofTuUJ05Lwj+3XSoURKQNZweS5NMG
+ XLMcaBkOdeJUmynprT4snQqq6wuv95vhvECcDJmWfUjiQlmm4G3JavY/MDa5UYnSryvo
+ jnOsNFh6Va3ZPsEZcbtblNsQbwRLp4/EmelH4kaYgSYicx0qRt9kOFe1BjxiAMGX58A1
+ MewZOGUAsm3TyA2793x1nQZGjCb/pRyWsP/Ya6ROFlib9MqlpFXADcTFiZM/Bw4J0eex
+ 47eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=KyfI0XlL9vs9vciGO2HKqWVIQpcxBsdkBEj6EEUyFvI=;
+ b=hW7l+Rp+mpzrStd+/oEtM3WJGlNQ1eFWPunqS5ksCBL6ep37CBP5j0gg8P93le9P66
+ f8iXP8a2GAIbByz7OywG37Ec7DOel95iNNw672+q4bbwddY0YSw4tUizLMdMD1iNZgKL
+ Ho6eUqpvfWZ6fNB4cqPsJu6bOdHiaQEVf5zZZp5MxsPnfDOJtl1ERESlmsmAHr7n37KV
+ I5KejkRc7sT/dcmjXBlU5w4tcauTz9bJz0+KUiW7Ipq6NsfJrWJpR0ckQzDTyZ00PCC1
+ 6BEUPVkVYzoScRqtOYYKro9aWbppS/CCGy7r/eYYMapr6pQGMxpadje9Z4JS8xvNu9YF
+ kMSg==
+X-Gm-Message-State: ACgBeo2eaX6Mn7VHYYOmE8sq1qzzBr/s8hrYvkfrW0pqo7tG4BthT+zS
+ 36D+kAeUUKq4qvoRqX+4daKSHiwAK9v2lA/8nxY=
+X-Google-Smtp-Source: AA6agR7EYcJzcEbodGEGdaE5pelAsDuFQETRfYT6T5ouSflJG5aVOhwjGHyWWLBftGadk6kNBpLnhtzs3AvZcgN83J4=
+X-Received: by 2002:a05:6214:226e:b0:474:9a8b:3853 with SMTP id
+ gs14-20020a056214226e00b004749a8b3853mr20450147qvb.85.1660063121160; Tue, 09
+ Aug 2022 09:38:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <851FC42E-DA19-4142-9AA6-39E2E384F618@ict.ac.cn>
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=kbusch@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220805145617.952881-1-bmeng.cn@gmail.com>
+ <20220805145617.952881-2-bmeng.cn@gmail.com>
+ <ba123d50-002a-3b33-a2f6-e530df5a4265@weilnetz.de>
+In-Reply-To: <ba123d50-002a-3b33-a2f6-e530df5a4265@weilnetz.de>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 10 Aug 2022 00:38:30 +0800
+Message-ID: <CAEUhbmVX4tZMJTH2RkRK5NM4+oTtKCm-bs0S7WyrRfUvxUVwjw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] util/aio-win32: Correct the event array size in
+ aio_poll()
+To: Stefan Weil <sw@weilnetz.de>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,37 +86,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 08, 2022 at 10:23:03AM +0800, Jinhao Fan wrote:
-> at 12:35 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
-> 
-> > static void nvme_irq_assert(NvmeCtrl *n, NvmeCQueue *cq)
-> > {
-> >     if (cq->irq_enabled) {
-> >         if (msix_enabled(&(n->parent_obj))) {
-> > +            /* Initialize CQ irqfd */
-> > +            if (!cq->irqfd_enabled && n->params.ioeventfd && cq->cqid != 0) {
-> > +                int ret = nvme_init_cq_irqfd(cq);
-> > +                if (ret == 0) {
-> > +                    cq->irqfd_enabled = true;
-> > +                }
-> > +            }
-> > +
-> 
-> Another question:
-> 
-> In this version I left irqfd initialization to the first assertion of an
-> irq. But I think it is better to initialize irqfd at cq creation time so we
-> won’t bother checking it at each irq assertion. However if I put these code
-> in nvme_init_cq(), irqfd does not work properly. After adding some
-> tracepoints I found the MSI messages in MSI-X table changed after
-> nvme_init_cq(). Specifically, the `data` field does not seem correct at the
-> time when nvme_init_cq() is called.
-> 
-> Keith, you must be familiar with how the nvme driver initializes CQs. Could
-> you give some information on when I can safely use the contents in the MSI-X
-> table?
+On Fri, Aug 5, 2022 at 11:09 PM Stefan Weil <sw@weilnetz.de> wrote:
+>
+> Am 05.08.22 um 16:56 schrieb Bin Meng:
+>
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
+> > object handles. Correct the event array size in aio_poll() and
+> > add a assert() to ensure it does not cause out of bound access.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> >   util/aio-win32.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/util/aio-win32.c b/util/aio-win32.c
+> > index 44003d645e..8cf5779567 100644
+> > --- a/util/aio-win32.c
+> > +++ b/util/aio-win32.c
+> > @@ -326,7 +326,7 @@ void aio_dispatch(AioContext *ctx)
+> >   bool aio_poll(AioContext *ctx, bool blocking)
+> >   {
+> >       AioHandler *node;
+> > -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+> > +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
+> >       bool progress, have_select_revents, first;
+> >       int count;
+> >       int timeout;
+> > @@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+> >       QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
+> >           if (!node->deleted && node->io_notify
+> >               && aio_node_check(ctx, node->is_external)) {
+> > +            assert(count < MAXIMUM_WAIT_OBJECTS);
+>
+>
+> Would using g_assert for new code be better? Currently the rest of that
+> file (and most QEMU code) uses assert.
 
-The driver will create the cq with an allocated vector, but it's not activated
-until after the driver wires it up to a handler. I think that's what you're
-observing with the incomplete MSIx table entry on creation.
+Yeah, I noticed that but didn't do that because I feel it's better to
+be consistent, at least in this single file.
+
+Changing to g_assert() could be a future patch, if necessary.
+
+>
+> count could also be changed from int to unsigned (which matches better
+> to the unsigned DWORD).
+>
+
+changed in v2.
+
+> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+
+Thanks!
+
+Regards,
+Bin
 
