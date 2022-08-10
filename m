@@ -2,95 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2149758E987
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:23:34 +0200 (CEST)
-Received: from localhost ([::1]:37042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9A758E9A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:32:21 +0200 (CEST)
+Received: from localhost ([::1]:40156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLhw4-0004v0-Ll
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53192)
+	id 1oLi4a-0007l1-IB
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oLhtf-0003LX-Qx
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:21:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30589)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oLi00-0005kK-SF
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:27:41 -0400
+Received: from mga03.intel.com ([134.134.136.65]:64255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oLhtb-0002By-Tv
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:21:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660123258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rKPCXRsLCUR83FUsXKhz6STCs418cN9971AmFfkL1ps=;
- b=IBGhOdr0kqbDfYkSQtZyE/PrKws9/Vgm0Bg0IAmdx0dy15iXzzP3DjUrawEFGkj3MaqbkJ
- NG3C/xV6O7Q/NcjTzGvfhukReR1+S8ceobg3fHnBCr3qF3J4p1Z3GkMlIf7ADFNmCsmtqF
- KZ5H8+pRlLA6+8dWOs8F3sEx5SwPgYI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-497-R5IrD1fZPACLFTnd5NuQrg-1; Wed, 10 Aug 2022 05:20:57 -0400
-X-MC-Unique: R5IrD1fZPACLFTnd5NuQrg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j36-20020a05600c1c2400b003a540d88677so3594651wms.1
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 02:20:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=rKPCXRsLCUR83FUsXKhz6STCs418cN9971AmFfkL1ps=;
- b=blwf94GU/Bb8US5duc2+BCErnhORBL7v4/Wdb2N3/iPZtnY9zN/TqTJcnwdg+pbhGt
- C0b01rMsbJ7ybtYDPXiJMs3AugUcxd7h4RIwYKc8Agffm8MQoVwLJ6qLTaTDz9iT0rQg
- lOajYlyTsm62p+JKGtFjrbz+66Lcl4CqxkLkmdkkUadzi/z/FNmSJl1w/h3jYPwZjC2H
- JR4oliKTRbmI8Y8HeeYRg4Ad1jLCyjbp0qviH+RqFIZkJohJ7FdlKw24kASgRoeFxqvy
- gfsGhANMZ+WMWa9L0pCJ4g17OkajsZTyHIJrzwzHlKFpoDjkm7Y6P43S/59uTgr6GSPT
- YFFA==
-X-Gm-Message-State: ACgBeo0H3NrpLZvxJn2oOpy9Ycwc6swMfFpwTRW381YCzW28GONHH+Vs
- 1lFTZ85DA7u81DYyLXafogMYhbmBx7AKTy+ExZPNhj6hupNCE7QtMZpU7LRrR7AhbmzBAdqwkyB
- XiBfzKyhc/Jb2q9A=
-X-Received: by 2002:a7b:c350:0:b0:3a3:7b7e:762 with SMTP id
- l16-20020a7bc350000000b003a37b7e0762mr1715599wmj.184.1660123256352; 
- Wed, 10 Aug 2022 02:20:56 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4uGbk/PdAY4TtQBVXvR0rVsNM2BMDtn341iQDVsidTx1EImDdVYUPvtVJXl76ywk5xHA/Sqw==
-X-Received: by 2002:a7b:c350:0:b0:3a3:7b7e:762 with SMTP id
- l16-20020a7bc350000000b003a37b7e0762mr1715586wmj.184.1660123256122; 
- Wed, 10 Aug 2022 02:20:56 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-42-115-19.web.vodafone.de.
- [109.42.115.19]) by smtp.gmail.com with ESMTPSA id
- bh25-20020a05600c3d1900b003a5b681cdabsm670683wmb.16.2022.08.10.02.20.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Aug 2022 02:20:55 -0700 (PDT)
-Message-ID: <826da406-936d-62a2-490f-5ebbf0074dcb@redhat.com>
-Date: Wed, 10 Aug 2022 11:20:54 +0200
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oLhzv-0003It-0r
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:27:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660123651; x=1691659651;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=tUwaauJkG9H9jpzDjix3eFFhcAHzm8fbdGUPBBoncrI=;
+ b=SpHAhAnr5Bi17xAUPmjqaGhtlXLAW4XqaWFeJHG43FJafujwh4OdN/XP
+ qJCa2lcp1re2S616RxTEE0ysTPiZs/uur8CnWhianJXa8Oasn7Rq2kDWw
+ qXeQo966jDVOrMEyF/tFhewnqFum+YfPUfH+B6EKSS9BCEMl9kwd4a2S0
+ lai4jpVC1LvshPEcVGMHWiiXJWsErfI8pJnA0Wgg7gpBlfWsB9MjmxmAp
+ a47mQKsuf0RkqRS9givgKqHa6mE9aKoCzQWnuo8YYhwoTf57pp6i1n7XG
+ OJu5BzIZaEe9E6O2OtOizsZz0D+JPR7NULWfEgH8g+TJcqHtOGisqvqTj Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="292292096"
+X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; d="scan'208";a="292292096"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2022 02:27:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; d="scan'208";a="664820289"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga008.fm.intel.com with ESMTP; 10 Aug 2022 02:27:17 -0700
+Date: Wed, 10 Aug 2022 17:22:32 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 03/14] mm: Introduce memfile_notifier
+Message-ID: <20220810092232.GC862421@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-4-chao.p.peng@linux.intel.com>
+ <13394075-fca0-6f2b-92a2-f1291fcec9a3@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] backends/hostmem: Fix support of memory-backend-memfd in
- qemu_maxrampagesize()
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20220810063204.3589543-1-thuth@redhat.com>
- <e1eb8579-079b-fe81-b2df-a342d7ad667a@redhat.com>
- <b8f008b4-fa13-1660-3861-83755b5cd278@redhat.com>
- <20935238-10e8-33bc-8a69-acfa4b343e23@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20935238-10e8-33bc-8a69-acfa4b343e23@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <13394075-fca0-6f2b-92a2-f1291fcec9a3@redhat.com>
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,105 +97,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/08/2022 10.31, David Hildenbrand wrote:
-> On 10.08.22 10:11, Thomas Huth wrote:
->> On 10/08/2022 09.32, David Hildenbrand wrote:
->>> On 10.08.22 08:32, Thomas Huth wrote:
->>>> It is currently not possible yet to use "memory-backend-memfd" on s390x
->>>> with hugepages enabled. This problem is caused by qemu_maxrampagesize()
->>>> not taking memory-backend-memfd objects into account yet, so the code
->>>> in s390_memory_init() fails to enable the huge page support there via
->>>> s390_set_max_pagesize(). Fix it by looking at the memory-backend-memfd
->>>> in the host_memory_backend_pagesize() function, too.
->>>>
->>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2116496
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>    include/sysemu/hostmem.h |  8 +++++++-
->>>>    backends/hostmem-memfd.c |  2 --
->>>>    backends/hostmem.c       | 27 +++++++++++++++++----------
->>>>    3 files changed, 24 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
->>>> index 9ff5c16963..d983ae6c01 100644
->>>> --- a/include/sysemu/hostmem.h
->>>> +++ b/include/sysemu/hostmem.h
->>>> @@ -34,10 +34,16 @@ OBJECT_DECLARE_TYPE(HostMemoryBackend, HostMemoryBackendClass,
->>>>    /* hostmem-file.c */
->>>>    /**
->>>>     * @TYPE_MEMORY_BACKEND_FILE:
->>>> - * name of backend that uses mmap on a file descriptor
->>>> + * name of backend that uses mmap on a file
->>>>     */
->>>>    #define TYPE_MEMORY_BACKEND_FILE "memory-backend-file"
->>>>    
->>>> +/* hostmem-memfd.c */
->>>> +/**
->>>> + * @TYPE_MEMORY_BACKEND_MEMFD:
->>>> + * name of backend that uses mmap on a memfd file descriptor
->>>> + */
->>>> +#define TYPE_MEMORY_BACKEND_MEMFD "memory-backend-memfd"
->>>>    
->>>>    /**
->>>>     * HostMemoryBackendClass:
->>>> diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
->>>> index 3fc85c3db8..1ab2085e49 100644
->>>> --- a/backends/hostmem-memfd.c
->>>> +++ b/backends/hostmem-memfd.c
->>>> @@ -18,8 +18,6 @@
->>>>    #include "qapi/error.h"
->>>>    #include "qom/object.h"
->>>>    
->>>> -#define TYPE_MEMORY_BACKEND_MEMFD "memory-backend-memfd"
->>>> -
->>>>    OBJECT_DECLARE_SIMPLE_TYPE(HostMemoryBackendMemfd, MEMORY_BACKEND_MEMFD)
->>>>    
->>>>    
->>>> diff --git a/backends/hostmem.c b/backends/hostmem.c
->>>> index 624bb7ecd3..ebce887105 100644
->>>> --- a/backends/hostmem.c
->>>> +++ b/backends/hostmem.c
->>>> @@ -306,22 +306,29 @@ bool host_memory_backend_is_mapped(HostMemoryBackend *backend)
->>>>        return backend->is_mapped;
->>>>    }
->>>>    
->>>> -#ifdef __linux__
->>>>    size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
->>>>    {
->>>> +    size_t pagesize = 0;
->>>> +
->>>> +#ifdef __linux__
->>>>        Object *obj = OBJECT(memdev);
->>>> -    char *path = object_property_get_str(obj, "mem-path", NULL);
->>>> -    size_t pagesize = qemu_mempath_getpagesize(path);
->>>>    
->>>> -    g_free(path);
->>>> +    if (object_dynamic_cast(obj, TYPE_MEMORY_BACKEND_FILE)) {
->>>> +        char *path = object_property_get_str(obj, "mem-path", NULL);
->>>> +        pagesize = qemu_mempath_getpagesize(path);
->>>> +        g_free(path);
->>>> +    } else if (object_dynamic_cast(obj, TYPE_MEMORY_BACKEND_MEMFD) &&
->>>> +               object_property_get_bool(obj, "hugetlb", &error_abort)) {
->>>> +        pagesize = object_property_get_int(obj, "hugetlbsize", &error_abort);
->>>> +    }
->>>> +#endif
->>>
->>> Why can't we simply rely on
->>>
->>> qemu_ram_pagesize(memdev->mr.ram_block);
->>
->> Good idea! That way, we could even get rid of the "#ifdef __linux__" macros
->> here, I guess ... I'll give it a try and send a v2 if it works.
+On Fri, Aug 05, 2022 at 03:22:58PM +0200, David Hildenbrand wrote:
+> On 06.07.22 10:20, Chao Peng wrote:
+> > This patch introduces memfile_notifier facility so existing memory file
+> > subsystems (e.g. tmpfs/hugetlbfs) can provide memory pages to allow a
+> > third kernel component to make use of memory bookmarked in the memory
+> > file and gets notified when the pages in the memory file become
+> > invalidated.
 > 
-> At first I wondered if we could have to deal with semi-iniutialized
-> backendds here, but I think we should simply always already have the
-> MR/RamBlock here.
+> Stupid question, but why is this called "memfile_notifier" and not
+> "memfd_notifier". We're only dealing with memfd's after all ... which
+> are anonymous files essentially. Or what am I missing? Are there any
+> other plans for fs than plain memfd support that I am not aware of?
 
-I'll add an assert(pagesize >= getpagesize()) there, just to be sure.
+There were some discussions on this in v3.
+  https://lkml.org/lkml/2021/12/28/484
+Sean commented it's OK to abstract it from memfd but he also wants the
+kAPI (name) should not bind to memfd to make room for future non-memfd
+usages.
 
-  Thomas
+> 
+> > 
+> > It will be used for KVM to use a file descriptor as the guest memory
+> > backing store and KVM will use this memfile_notifier interface to
+> > interact with memory file subsystems. In the future there might be other
+> > consumers (e.g. VFIO with encrypted device memory).
+> > 
+> > It consists below components:
+> >  - memfile_backing_store: Each supported memory file subsystem can be
+> >    implemented as a memory backing store which bookmarks memory and
+> >    provides callbacks for other kernel systems (memfile_notifier
+> >    consumers) to interact with.
+> >  - memfile_notifier: memfile_notifier consumers defines callbacks and
+> >    associate them to a file using memfile_register_notifier().
+> >  - memfile_node: A memfile_node is associated with the file (inode) from
+> >    the backing store and includes feature flags and a list of registered
+> >    memfile_notifier for notifying.
+> > 
+> > In KVM usages, userspace is in charge of guest memory lifecycle: it first
+> > allocates pages in memory backing store and then passes the fd to KVM and
+> > lets KVM register memory slot to memory backing store via
+> > memfile_register_notifier.
+> 
+> Can we add documentation/description in any form how the different
+> functions exposed in linux/memfile_notifier.h are supposed to be used?
 
+Yeah, code comments can be added.
+
+> 
+> Staring at memfile_node_set_flags() and memfile_notifier_invalidate()
+> it's not immediately clear to me who's supposed to call that and under
+> which conditions.
+
+I will also amend the commit message.
+
+Chao
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
