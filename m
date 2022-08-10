@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00EC58F0D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 18:57:03 +0200 (CEST)
-Received: from localhost ([::1]:56914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A6758F145
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 19:11:31 +0200 (CEST)
+Received: from localhost ([::1]:40548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLp0w-000411-Uc
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 12:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48636)
+	id 1oLpEw-000570-Ef
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 13:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oLouo-0008PX-6D
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:50:43 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:42863)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oLp3h-00069P-D8
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:59:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oLouk-0006fp-3o
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:50:41 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MmD2M-1ndePJ1Rse-00i9Nu; Wed, 10
- Aug 2022 18:50:33 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oLp3d-0007vE-Hl
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:59:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660150788;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vWfja9cBaxq2zh5yzUV3fURlY02ZNUp4UAajDVn6azI=;
+ b=c/8IN8nqlRPiTYoUCwttiN0bgp7RdBfBlPjNmJykvnq1Hg4izbQhW2R4RdIYpGiSTKeAUn
+ Cu+4MJcYcVhjpuJGX/kAlPdx+uWRM+AIb2nV1WcmCwMvIEjiIRtj44H+Gum4VHxAtiHHUU
+ HYIGCFdgPk+BIK/KGevXMzuUJgt8Byg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-673-x0B5d8RZPNWDjIrkj8e0hw-1; Wed, 10 Aug 2022 12:59:46 -0400
+X-MC-Unique: x0B5d8RZPNWDjIrkj8e0hw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ n8-20020a05640205c800b00434fb0c150cso9522506edx.19
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 09:59:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=vWfja9cBaxq2zh5yzUV3fURlY02ZNUp4UAajDVn6azI=;
+ b=pD4GiT6UdcV89SQXJdVdwUlGG5jtNuMGd11YXfzt+mDuDldNTUXI0fiYpJPnAo7djq
+ qHTvBz3cyQ4Jdx9v6Eo+ZaTE+f/ABqIhbzue3EF4mOf2wYomx438sXitFsR2iFyEXlRN
+ HH7s1qkwjRyHwK716UPbveG5qk9/nO2CWcuEG03w2Ns5R+H/px/TtkCTWK5csgYSyC6w
+ rFuo95IiZXXEM5rbfceNyi9SgZeagptjqXLZydP2oZYxzSSMPyPqMzHtxzBIMyYiSzEP
+ 97fLpkKHBE4eXU4Niaer+b59VsJUwXYnRJ6pDJ/brDJuX1CGKNzNaYyKIB2N0Tb59P9V
+ hplw==
+X-Gm-Message-State: ACgBeo0teYeqTZBdwpQ/e00aIZVk8WwQdct8C313JXhoKWfuAOQjHzR/
+ 9NUJD9luCO/fvAQKbXTwpNCKDT+93og2vyDtWRnq7EXjG6n6QNvX0qAoYvcGM/6Pb4c9TMcMU9Y
+ mDgKZeZwT9XOYHVgHv2leoF6PctY7MRhi+jq9jVVAKa8w7cqHsv7SdVrWXDQ2JcTTLOA=
+X-Received: by 2002:a17:907:6e17:b0:731:2426:f606 with SMTP id
+ sd23-20020a1709076e1700b007312426f606mr15127220ejc.162.1660150784429; 
+ Wed, 10 Aug 2022 09:59:44 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5ObVQqwqjJfdnsQsb2+0Iaa06ruxR6HHGyPwAcXqI4hQF3PPfQw2lEByukgMNn1yZlWazEuA==
+X-Received: by 2002:a17:907:6e17:b0:731:2426:f606 with SMTP id
+ sd23-20020a1709076e1700b007312426f606mr15127199ejc.162.1660150784039; 
+ Wed, 10 Aug 2022 09:59:44 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ r2-20020a1709061ba200b0072f441a04a6sm2544951ejg.5.2022.08.10.09.59.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 09:59:43 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Richard W . M . Jones" <rjones@redhat.com>
-Subject: [PULL 1/1] linux-user: fix compat with glibc >= 2.36 sys/mount.h
-Date: Wed, 10 Aug 2022 18:50:29 +0200
-Message-Id: <20220810165029.2497766-2-laurent@vivier.eu>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH v3] pc: hide linuxboot RNG seed behind a machine property
+Date: Wed, 10 Aug 2022 18:59:42 +0200
+Message-Id: <20220810165942.104545-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220810165029.2497766-1-laurent@vivier.eu>
-References: <20220810165029.2497766-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:X9JNINtvPVAbUy7EeW5tv2A2BteHXIcK6MAz73ZJ2Lp4rkMaBRu
- E5D8eikhYV3yNEdVvUxRNeiaIl7TDpzaZgShi+q6W1aiGPbQBzAr+VKGUry0snr+U6ofqOT
- ERODG89GgaGVAxrUUbbaBn2U5dAL0/yNkPu1PbMcvYQXIGY+7DDleOdFSxTvsdJeropU6i/
- P7YTD+qW/17tuRbaH5Jiw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PJsnB2PK07M=:foRFUrGYY81H79ang9gNyg
- i49vwNBVu7b1ONU2S7RwlZ56VdP9rxVJZ7AUv9dZTMj51vXNcCZwVtK08hS/pSuetIgXNRsI7
- 94ZvYTk1s8wzUtCnTChdHeK3l6tATB4dD1O7vG1tgWBcl4P/RTTVfQ0m6H/GsrVha/pi4nC8c
- EZng46mI2PQ5jM6G7jk20URIankDL+jEy2zXm5ZlCQGVlVdqO7fqdcbkt8/Gvt4BTVjvV0kCO
- FtnZGF+bQO1GWPLObJobhL6U/xWBF5hqZE7X3uN4918aoNnJzDJoUEO8wqiwZeb7xM4gbG63T
- kfhcPS4Jzpp6FJr9+6n0gQidmnUVbhQCUvnQmzmgQF55+2O9+p6R1hQRJWaQvprM7FWIex80K
- PkKZFKGoUevQv0Cv3ul+ffEZfja6InQL7ax8TzrKB8CGky/rZ0Ci2B53GN0KGIc618Zd4/zpR
- thCiN8BR8wyt0eUC0/HfZ4hvOdE2KnXdEZC9zZ7tmnMRVCasgSRZ5eVi61zMqbr8K6E3beIxM
- rZGPeFzJiVP/z5kIVDYBRKfN5V6I8nNgOcMIW4j0xSTEWooZNYlB5uPuG1dMJ8yUN9zYYJu/Y
- V2FCcHdcaAfmf3xkcnvA4SbVAl5EJX+6hW3FnIeYU1prjXDlOWU+SFrZwdBzn7w82lk4OaB/Y
- y/3/INFggdDclIXVy5IdK6zCnvwHr4RAhwCwFGqfsLg3Rgzdk1LbGk6RhsHHZamWuHOSLHRFy
- lexycXdOyD2+UDJmvrtyDz+tvEepnJHwNexfdA==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,100 +97,228 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+OVMF does not support Linux setup_data and it is not clear how to
+fix this, so disable the support for the random number seed for the
+7.1 release.  Using a property allows shipping the code even if it is
+disabled by default.  The property name has "x-" prepended because the
+implementation might change in the future; migration from future versions
+to QEMU 7.1 is only guaranteed to work if the property is left to its
+default of "off".  At the time the property is enabled by default, the
+"x-" can be removed.
 
-The latest glibc 2.36 has extended sys/mount.h so that it
-defines the FSCONFIG_* enum constants. These are historically
-defined in linux/mount.h, and thus if you include both headers
-the compiler complains:
+Using a property has other advantages in general: it makes it possible
+to use the normal compat property mechanism instead of ad hoc code, and
+it avoids parameter proliferation in x86_load_linux.
 
-In file included from /usr/include/linux/fs.h:19,
-                 from ../linux-user/syscall.c:98:
-/usr/include/linux/mount.h:95:6: error: redeclaration of 'enum fsconfig_command'
-   95 | enum fsconfig_command {
-      |      ^~~~~~~~~~~~~~~~
-In file included from ../linux-user/syscall.c:31:
-/usr/include/sys/mount.h:189:6: note: originally defined here
-  189 | enum fsconfig_command
-      |      ^~~~~~~~~~~~~~~~
-/usr/include/linux/mount.h:96:9: error: redeclaration of enumerator 'FSCONFIG_SET_FLAG'
-   96 |         FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
-      |         ^~~~~~~~~~~~~~~~~
-/usr/include/sys/mount.h:191:3: note: previous definition of 'FSCONFIG_SET_FLAG' with type 'enum fsconfig_command'
-  191 |   FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
-      |   ^~~~~~~~~~~~~~~~~
-...snip...
-
-QEMU doesn't include linux/mount.h, but it does use
-linux/fs.h and thus gets linux/mount.h indirectly.
-
-glibc acknowledges this problem but does not appear to
-be intending to fix it in the forseeable future, simply
-documenting it as a known incompatibility with no
-workaround:
-
-  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
-  https://sourceware.org/glibc/wiki/Synchronizing_Headers
-
-To address this requires either removing use of sys/mount.h
-or linux/fs.h, despite QEMU needing declarations from
-both.
-
-This patch removes linux/fs.h, meaning we have to define
-various FS_IOC constants that are now unavailable.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Richard W.M. Jones <rjones@redhat.com>
-Message-Id: <20220802164134.1851910-1-berrange@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Co-developed-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-user/syscall.c | 18 ++++++++++++++++++
- meson.build          |  2 ++
- 2 files changed, 20 insertions(+)
+ hw/i386/microvm.c     |  2 +-
+ hw/i386/pc.c          |  4 ++--
+ hw/i386/pc_piix.c     |  2 +-
+ hw/i386/pc_q35.c      |  2 +-
+ hw/i386/x86.c         | 33 +++++++++++++++++++++++++++++----
+ include/hw/i386/pc.h  |  3 ---
+ include/hw/i386/x86.h |  5 +++--
+ 7 files changed, 37 insertions(+), 14 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ef53feb5ab45..f4091212027c 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -95,7 +95,25 @@
- #include <linux/soundcard.h>
- #include <linux/kd.h>
- #include <linux/mtio.h>
-+
-+#ifdef HAVE_SYS_MOUNT_FSCONFIG
-+/*
-+ * glibc >= 2.36 linux/mount.h conflicts with sys/mount.h,
-+ * which in turn prevents use of linux/fs.h. So we have to
-+ * define the constants ourselves for now.
-+ */
-+#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
-+#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
-+#define FS_IOC_GETVERSION              _IOR('v', 1, long)
-+#define FS_IOC_SETVERSION              _IOW('v', 2, long)
-+#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
-+#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
-+#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
-+#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
-+#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
-+#else
- #include <linux/fs.h>
-+#endif
- #include <linux/fd.h>
- #if defined(CONFIG_FIEMAP)
- #include <linux/fiemap.h>
-diff --git a/meson.build b/meson.build
-index 294e9a8f329e..30a380752c0d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1963,6 +1963,8 @@ config_host_data.set('HAVE_OPTRESET',
-                      cc.has_header_symbol('getopt.h', 'optreset'))
- config_host_data.set('HAVE_IPPROTO_MPTCP',
-                      cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
-+config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
-+                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET_FLAG'))
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 7fe8cce03e..dc929727dc 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     rom_set_fw(fw_cfg);
  
- # has_member
- config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
+     if (machine->kernel_filename != NULL) {
+-        x86_load_linux(x86ms, fw_cfg, 0, true, false);
++        x86_load_linux(x86ms, fw_cfg, 0, true);
+     }
+ 
+     if (mms->option_roms) {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7280c02ce3..4518f3c546 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -796,7 +796,7 @@ void xen_load_linux(PCMachineState *pcms)
+     rom_set_fw(fw_cfg);
+ 
+     x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+-                   pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
++                   pcmc->pvh_enabled);
+     for (i = 0; i < nb_option_roms; i++) {
+         assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
+                !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
+@@ -1118,7 +1118,7 @@ void pc_memory_init(PCMachineState *pcms,
+ 
+     if (linux_boot) {
+         x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+-                       pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
++                       pcmc->pvh_enabled);
+     }
+ 
+     for (i = 0; i < nb_option_roms; i++) {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index a5c65c1c35..1526b7e3fd 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -447,10 +447,10 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
++
+     pc_i440fx_7_1_machine_options(m);
+     m->alias = NULL;
+     m->is_default = false;
+-    pcmc->legacy_no_rng_seed = true;
+     pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 3a35193ff7..c5b38edc65 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -384,9 +384,9 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+ static void pc_q35_7_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
++
+     pc_q35_7_1_machine_options(m);
+     m->alias = NULL;
+-    pcmc->legacy_no_rng_seed = true;
+     pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 050eedc0c8..01bad1972b 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -60,6 +60,8 @@
+ #include CONFIG_DEVICES
+ #include "kvm/kvm_i386.h"
+ 
++#define RNG_SEED_LENGTH 32
++
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+ static size_t pvh_start_addr;
+ 
+@@ -767,8 +769,7 @@ static bool load_elfboot(const char *kernel_filename,
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+-                    bool pvh_enabled,
+-                    bool legacy_no_rng_seed)
++                    bool pvh_enabled)
+ {
+     bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+     uint16_t protocol;
+@@ -786,7 +787,6 @@ void x86_load_linux(X86MachineState *x86ms,
+     const char *dtb_filename = machine->dtb;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     SevKernelLoaderContext sev_load_ctx = {};
+-    enum { RNG_SEED_LENGTH = 32 };
+ 
+     /* Align to 16 bytes as a paranoia measure */
+     cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
+@@ -1076,7 +1076,8 @@ void x86_load_linux(X86MachineState *x86ms,
+         load_image_size(dtb_filename, setup_data->data, dtb_size);
+     }
+ 
+-    if (!legacy_no_rng_seed) {
++    if (x86ms->linuxboot_randomness != ON_OFF_AUTO_OFF &&
++        (protocol >= 0x209 || x86ms->linuxboot_randomness == ON_OFF_AUTO_ON)) {
+         setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+         kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
+         kernel = g_realloc(kernel, kernel_size);
+@@ -1237,6 +1238,23 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
+     visit_type_OnOffAuto(v, name, &x86ms->smm, errp);
+ }
+ 
++static void x86_machine_get_linuxboot_randomness(Object *obj, Visitor *v, const char *name,
++                                           void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++    OnOffAuto linuxboot_randomness = x86ms->linuxboot_randomness;
++
++    visit_type_OnOffAuto(v, name, &linuxboot_randomness, errp);
++}
++
++static void x86_machine_set_linuxboot_randomness(Object *obj, Visitor *v, const char *name,
++                                           void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++
++    visit_type_OnOffAuto(v, name, &x86ms->linuxboot_randomness, errp);
++}
++
+ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms)
+ {
+     if (x86ms->acpi == ON_OFF_AUTO_OFF) {
+@@ -1387,6 +1405,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->acpi = ON_OFF_AUTO_AUTO;
+     x86ms->pit = ON_OFF_AUTO_AUTO;
+     x86ms->pic = ON_OFF_AUTO_AUTO;
++    x86ms->linuxboot_randomness = ON_OFF_AUTO_OFF;
+     x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+@@ -1426,6 +1445,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, X86_MACHINE_PIT,
+         "Enable i8254 PIT");
+ 
++    object_class_property_add(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS, "OnOffAuto",
++        x86_machine_get_linuxboot_randomness, x86_machine_set_linuxboot_randomness,
++        NULL, NULL);
++    object_class_property_set_description(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS,
++        "Pass random number seed to -kernel Linux image");
++
+     object_class_property_add(oc, X86_MACHINE_PIC, "OnOffAuto",
+                               x86_machine_get_pic,
+                               x86_machine_set_pic,
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 8435733bd6..9cc3f5d338 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -128,9 +128,6 @@ struct PCMachineClass {
+ 
+     /* create kvmclock device even when KVM PV features are not exposed */
+     bool kvmclock_create_always;
+-
+-    /* skip passing an rng seed for legacy machines */
+-    bool legacy_no_rng_seed;
+ };
+ 
+ #define TYPE_PC_MACHINE "generic-pc-machine"
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 62fa5774f8..d7a2eb6f1c 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -70,6 +70,7 @@ struct X86MachineState {
+     OnOffAuto acpi;
+     OnOffAuto pit;
+     OnOffAuto pic;
++    OnOffAuto linuxboot_randomness;
+ 
+     char *oem_id;
+     char *oem_table_id;
+@@ -94,6 +95,7 @@ struct X86MachineState {
+ #define X86_MACHINE_OEM_ID           "x-oem-id"
+ #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+ #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
++#define X86_MACHINE_LINUXBOOT_RANDOMNESS "x-linuxboot-randomness"
+ 
+ #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+ OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+@@ -126,8 +128,7 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+-                    bool pvh_enabled,
+-                    bool legacy_no_rng_seed);
++                    bool pvh_enabled);
+ 
+ bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
+ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
 -- 
 2.37.1
 
