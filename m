@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B32358EE14
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:18:28 +0200 (CEST)
-Received: from localhost ([::1]:50972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98A458EDFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:14:40 +0200 (CEST)
+Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLmXT-0005Oy-En
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58486)
+	id 1oLmTn-0001mA-Ut
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLluE-00018v-OO
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:37:54 -0400
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:49981)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oLlyD-0000hk-Kr
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:42:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLluC-0007h7-NK
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:37:54 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.22])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id F01F0212EC;
- Wed, 10 Aug 2022 13:37:50 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 10 Aug
- 2022 15:37:50 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0037f32f796-468b-4ac8-b21c-b1ec5587aedf,
- 043EABA4B22CD34FCE1B70F8CBB6C707CA017DB3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.155.17
-Message-ID: <70b820c0-fb1f-9499-dc79-ad77c6e64d04@kaod.org>
-Date: Wed, 10 Aug 2022 15:37:44 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oLly8-0008Sx-HB
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:41:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660138913;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=5Dl8xadVKUUj6dIItnGpYgWXIiFCQLO4gx1UslVj92U=;
+ b=A024UsbU1zY0b/3G2uhGMnKwtKq23cDa5O8iQbEaNZA09bHsTqIw/oi9zg9kb0eFYe7ywe
+ Li5hKB4Nn0xHptNGWK2GovYh9B9osCt+xiud5LGo9SxLYec0yQGuWDAq3R5KKaca6DdUHE
+ fQJ4m8be5Qg3AbbfJedkT706dfxZZXc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-146-8U6Bc4E0NFGm6EZRR6Uw2w-1; Wed, 10 Aug 2022 09:41:50 -0400
+X-MC-Unique: 8U6Bc4E0NFGm6EZRR6Uw2w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD16885A596;
+ Wed, 10 Aug 2022 13:41:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 614341415125;
+ Wed, 10 Aug 2022 13:41:49 +0000 (UTC)
+Date: Wed, 10 Aug 2022 14:41:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: danko babro <dankobabro@gmail.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: Using QEMU for VRChat
+Message-ID: <YvO1mganYJDey1FM@redhat.com>
+References: <CADfEUTJ4AvfUnwcWtiBk+V1gXrGt6W8cpxcUMbx_MtociwEC7g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v3 10/11] ppc/pnv: user creatable pnv-phb for
- powernv10
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>, <fbarrat@linux.ibm.com>
-References: <20220810100536.473859-1-danielhb413@gmail.com>
- <20220810100536.473859-11-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220810100536.473859-11-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 3de5e8de-f8c4-490a-8143-03bd57e42a08
-X-Ovh-Tracer-Id: 13019343574179220448
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegvddgieegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhgsrghrrhgrtheslhhinhhugidrihgsmhdrtghomhdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CADfEUTJ4AvfUnwcWtiBk+V1gXrGt6W8cpxcUMbx_MtociwEC7g@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -72,38 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/22 12:05, Daniel Henrique Barboza wrote:
-> Given that powernv9 and powernv10 uses the same pnv-phb backend, the
-> logic to allow user created pnv-phbs for powernv10 is already in place.
-> Let's flip the switch.
+On Wed, Aug 10, 2022 at 01:06:59PM +0200, danko babro wrote:
+> Dear QEMU dev team,
+> Recently a game called VRChat got a security update, implementing Easy Anti
+> Cheat into their game (pretty much spyware that logs everything happening
+> on the users PC) which made me want to install their game on a virtual
+> machine.
 > 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-> ---
->   hw/ppc/pnv.c | 2 ++
->   1 file changed, 2 insertions(+)
+> The problem now is, that the anti cheat detects if the user is playing on a
+> virtual machine, but in the official documentation by their dev team there
+> is a workaround for that, specifically for QEMU, that can be found here:
 > 
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index b6314dc961..02f287feab 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -2159,6 +2159,8 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
->       pmc->dt_power_mgt = pnv_dt_power_mgt;
->   
->       xfc->match_nvt = pnv10_xive_match_nvt;
-> +
-> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB);
->   }
->   
->   static bool pnv_machine_get_hb(Object *obj, Error **errp)
+> https://docs.vrchat.com/docs/using-vrchat-in-a-virtual-machine
+> 
+> I simply cant understand what that code (on the given website) does. Does
+> it open up a backdoor for the anti cheat to access my real pc?
+> 
+> Is QEMU in general a good solution for when it comes to protecting my
+> actual PC from threats like these, or any other sorts of viruses for
+> example, since it uses a kernel based VM.
+
+The targetted recommendation of
+
+      <vendor_id state='on' value='0123756792CD'/>
+
+     -cpu ....,hv-vendor-id=0123756792CD
+
+is essentially harmless. It merely changes one CPUID register so that
+the anti cheat code no longer believe it is running in a HyperV VM.
+
+It wouldn't fool a really determined anti cheat code chcker, because
+there are a great many ways to detect you're inside a VM. Evidentially
+this particular code though only cares about a CPUID value.
+
+I the vendor ID value could be essentially anything you want it to
+be, not just this one specific value - just has to be different from
+the default.
+
+This is not opening a backdoor to your host OS.
+
+The more general recommendation
+
+   <hyperv mode='passthrough'>
+
+simply enables all hyperv enlightenments. This appears to be sufficient
+to again fool the anti cheat code, while having the added benefit of
+likely improving performance.
+
+Again, this is not opening a backdoor to your host OS.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
