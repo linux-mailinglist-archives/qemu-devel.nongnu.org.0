@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F0958F40F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 00:01:15 +0200 (CEST)
-Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CF058F43F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 00:15:53 +0200 (CEST)
+Received: from localhost ([::1]:54210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLtlJ-000710-Hn
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 18:01:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49288)
+	id 1oLtzM-0000CI-Fy
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 18:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oLtjE-00054U-8a; Wed, 10 Aug 2022 17:59:04 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:51739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oLtjC-0002rL-Oj; Wed, 10 Aug 2022 17:59:04 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id t22so16060641pjy.1;
- Wed, 10 Aug 2022 14:59:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=xhtWj2em78Lwfjy0evJ0SD9EazqFIXKyb3M3uWhpaZc=;
- b=kpiHqj7DxqP+A85xSaobBfqJi9lKAimHQGMkOe2urI3Z4L3B6hgLa741tsRCd2WeEP
- tLXkJloskhYUF0OEAZmhoEuCx2pkbcbGbv8z4AzXCXhgE6NCpukkBIj0D3haMcOURTkT
- KDmQY+pZfrX1tbAh+z+z5lTgsYG/h6KHOXdxg9AmMQW49MbVxImtsA+vEVki0w7wYnTQ
- qncRFNr/WnTPrzQnX4OFZrXRABBmRQ6Wb7W+JGA0ifg52is0ywgcIAs4lbaa9/KY4osn
- y1ktweYb1JGp71XX/1YHKuiZiXxamMiFtrg8aniD3XXOcAVv8sBDYx3ek95Iz2OYlraW
- AFCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=xhtWj2em78Lwfjy0evJ0SD9EazqFIXKyb3M3uWhpaZc=;
- b=XhgLlcskXOCuCHU+Ehbe90ygW4/ccZKYipKt1WVv43qV005Rno1WlKQloznRPZ5OBU
- U8/+/L77n2CowvKUd0g3qo39dBz7x6g/UGWIgZwlbiyXYb8gYpVYD4eMx7Rhh1QPUpux
- +NY+5KML49rg3C3iKi4kOGSDi4+LPeWEpvRrQ4wWlxOe2Pg0lnEQohFfAZZF4zPJeuVG
- 7utcGE5Pe4hcj4iLJkewZU1gP9QKGSJQTaQUb5pkPLEqYQa+1KNxPmolLfkRX+8d7456
- CVeAO4YPivdRz/dyfkFlA8YKlElgXs36vBzfW5GphiUA7UBH6mvBPyRU7jaMj4+BomDK
- 9szQ==
-X-Gm-Message-State: ACgBeo1W60Rwlm+JPEpKf3/Zc3FCoyHNqUbTo039TQG4YxFWjdkk3vV1
- x+xug8xsZJpQMlqfA1whwCzOwF8tB73Awq6dUEs=
-X-Google-Smtp-Source: AA6agR5MSl+1koRqrhMvKF/HXT+BZ54QcdzZZ1mjMjBZuV0Zsihwd7tLS9wEYtulspzy/+dAKBXtntOMIyF/hBuXBUw=
-X-Received: by 2002:a17:903:2291:b0:16e:cf55:5c72 with SMTP id
- b17-20020a170903229100b0016ecf555c72mr29712083plh.121.1660168740092; Wed, 10
- Aug 2022 14:59:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter-butler@comcast.net>)
+ id 1oLtTY-00035W-PI
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 17:42:53 -0400
+Received: from resqmta-a1p-077724.sys.comcast.net
+ ([2001:558:fd01:2bb4::5]:52378)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter-butler@comcast.net>)
+ id 1oLtTW-0000p1-Nz
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 17:42:52 -0400
+Received: from resomta-a1p-077060.sys.comcast.net ([96.103.145.238])
+ by resqmta-a1p-077724.sys.comcast.net with ESMTP
+ id LoUOovjfhaBt3LtTRov5Ev; Wed, 10 Aug 2022 21:42:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=comcast.net;
+ s=20190202a; t=1660167765;
+ bh=TjlrCZyeie2IIOuM6iVst2Ib7221cHPi2U1MZmb30sQ=;
+ h=Received:Received:Content-Type:MIME-Version:Date:Message-ID:
+ Subject:From:To;
+ b=RZDyh5tyPiBmTWH9Qj6394TfQg8hGCTg0bPOfBQWdJqGPJcol8htNTRhxldtaTMhp
+ 1fMzF1qfxyEKHud30ruYECqbgyWGK14rWTfzZPYrSYTKuvrzh+b5eDWvVudHUBDzvW
+ f5ciaFUF/qjUtfyB69Ecal37PpWdY/h/BZkwbGKmv42Uvzd25OmU5I2QKYikN4l3rN
+ aG4va1rELul3qbjsPblX3TjASwZhA6KCmSSPPgwCr6+CR4M9fqll7s76Z6eN/kh7fo
+ JoRYSvU9brQqUIaBL8osphoJcUBL45I+Wm4qh+cb7p1wqc+ORN2F8dCeOhzzmZm3WN
+ 4X8/8qcZYsnOA==
+Received: from [192.168.0.69] ([71.198.114.218])
+ by resomta-a1p-077060.sys.comcast.net with ESMTPA
+ id LtTPoQO1mqq84LtTRo8pZi; Wed, 10 Aug 2022 21:42:45 +0000
+X-Xfinity-VAAS: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegfedgtddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvehomhgtrghsthdqtfgvshhipdfqfgfvpdfpqffurfetoffkrfenuceurghilhhouhhtmecufedtudenucenucfjughrpegtggffkffuhffvfgesrgdtreertderjeenucfhrhhomhepfdfrvghtvghruceuuhhtlhgvrhdfuceophgvthgvrhdqsghuthhlvghrsegtohhmtggrshhtrdhnvghtqeenucggtffrrghtthgvrhhnpeetleejueeufeetjeelhfeutdeivdekheeugeehffehtefgkeehvedvhfduheevfeenucfkphepjedurdduleekrdduudegrddvudeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghloheplgduledvrdduieekrddtrdeilegnpdhinhgvthepjedurdduleekrdduudegrddvudekpdhmrghilhhfrhhomhepphgvthgvrhdqsghuthhlvghrsegtohhmtggrshhtrdhnvghtpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-Xfinity-VMeta: sc=0.00;st=legit
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_36766015.190071840210"
 MIME-Version: 1.0
-References: <20220809185639.750345-1-qemu@ben.fluff.org>
- <20220809185639.750345-3-qemu@ben.fluff.org>
-In-Reply-To: <20220809185639.750345-3-qemu@ben.fluff.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 11 Aug 2022 07:58:33 +1000
-Message-ID: <CAKmqyKOWmiv2m-7GoYDmLh3=wLJ-jEpJy0BK-UGa08E7S_eUoA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/6] hw/core: don't check return on
- qemu_fdt_setprop_string_array()
-To: Ben Dooks <qemu@ben.fluff.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Date: Wed, 10 Aug 2022 14:42:42 -0700
+Message-ID: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
+Subject: Missing dll
+From: "Peter Butler" <peter-butler@comcast.net>
+To: "" <qemu-devel@nongnu.org>
+User-Agent: Mailbird/2.9.61.0
+X-Mailbird-ID: Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net
+Received-SPF: pass client-ip=2001:558:fd01:2bb4::5;
+ envelope-from=peter-butler@comcast.net;
+ helo=resqmta-a1p-077724.sys.comcast.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 10 Aug 2022 18:13:58 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,64 +75,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 10, 2022 at 5:08 AM Ben Dooks <qemu@ben.fluff.org> wrote:
->
-> The qemu_fdt_setprop_string_array() does not return error codes and
-> will call exit() if any of the fdt calls fails (and should print an
-> error with the node being altered). This is done to prepare for the
-> change for qemu_fdt_setprop_strings() helper which does not return
-> any error codes (hw/core/guest-loader.c is the only place where an
-> return is checked).
->
-> Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+------=_NextPart_36766015.190071840210
+Content-Type: text/plain;
+ charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+In x64 win10 I today I d/l QEMU into new directory. Then navigated to that =
+dir and=E2=80=A6
 
-Alistair
+qemu-system-aarch64 -boot d -cdrom f:\Downloads\debian-11.4.0-arm64-netinst=
+.iso -m 2048
+Error message:=E2=80=A6libncursesw6.dll not found=E2=80=A6
+Please help
+Thank you
+------=_NextPart_36766015.190071840210
+Content-Type: text/html;
+ charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  hw/core/guest-loader.c | 22 +++++++---------------
->  1 file changed, 7 insertions(+), 15 deletions(-)
->
-> diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
-> index 391c875a29..c61ebc4144 100644
-> --- a/hw/core/guest-loader.c
-> +++ b/hw/core/guest-loader.c
-> @@ -57,25 +57,17 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
->
->      if (s->kernel) {
->          const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
-> -        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
-> -                                          (char **) &compat,
-> -                                          ARRAY_SIZE(compat)) < 0) {
-> -            error_setg(errp, "couldn't set %s/compatible", node);
-> -            return;
-> -        }
-> +        qemu_fdt_setprop_string_array(fdt, node, "compatible",
-> +                                      (char **) &compat,
-> +                                      ARRAY_SIZE(compat));
->          if (s->args) {
-> -            if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->args) < 0) {
-> -                error_setg(errp, "couldn't set %s/bootargs", node);
-> -            }
-> +            qemu_fdt_setprop_string(fdt, node, "bootargs", s->args);
->          }
->      } else if (s->initrd) {
->          const char *compat[2] = { "multiboot,module", "multiboot,ramdisk" };
-> -        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
-> -                                          (char **) &compat,
-> -                                          ARRAY_SIZE(compat)) < 0) {
-> -            error_setg(errp, "couldn't set %s/compatible", node);
-> -            return;
-> -        }
-> +        qemu_fdt_setprop_string_array(fdt, node, "compatible",
-> +                                      (char **) &compat,
-> +                                      ARRAY_SIZE(compat));
->      }
->  }
->
-> --
-> 2.35.1
->
->
+<div id=3D"__MailbirdStyleContent" style=3D"font-size: 12pt;font-family: Ar=
+ial;color: #000000;text-align: left" dir=3D"ltr"><p class=3D"MsoNormal"><sp=
+an style=3D"font-size: 12pt">In x64 win10 I today I d/l QEMU into new direc=
+tory. Then navigated=0Ato that dir and=E2=80=A6</span><br></p>=0A=0A<p clas=
+s=3D"MsoNormal">qemu-system-aarch64 -boot d -cdrom=0Af:\Downloads\debian-11=
+.4.0-arm64-netinst.iso -m 2048</p>=0A=0A<p class=3D"MsoNormal">Error messag=
+e:=E2=80=A6libncursesw6.dll not found=E2=80=A6</p>=0A=0A<p class=3D"MsoNorm=
+al"><span style=3D"font-size: 12pt">Please help<br>Thank you</span></p><div=
+ class=3D"mb_sig"></div></div>
+------=_NextPart_36766015.190071840210--
+
 
