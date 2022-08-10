@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8776658EB74
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 13:45:04 +0200 (CEST)
-Received: from localhost ([::1]:46568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8E558ED21
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:26:53 +0200 (CEST)
+Received: from localhost ([::1]:34384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLk91-00021f-B5
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 07:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56324)
+	id 1oLljY-0007xE-4u
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLk55-0005hO-4Q; Wed, 10 Aug 2022 07:41:02 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:15028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oLk53-0000qp-AY; Wed, 10 Aug 2022 07:40:58 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BC959746307;
- Wed, 10 Aug 2022 13:40:54 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 76A547461AE; Wed, 10 Aug 2022 13:40:54 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 75504745702;
- Wed, 10 Aug 2022 13:40:54 +0200 (CEST)
-Date: Wed, 10 Aug 2022 13:40:54 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 19/24] ppc/ppc405: QOM'ify FPGA
-In-Reply-To: <a1bb55bd-93d5-ad77-7aae-2303045ee3e4@kaod.org>
-Message-ID: <3d33614f-9eeb-b673-de2b-6dc8ea1d2@eik.bme.hu>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-20-clg@kaod.org>
- <a1e6fbc2-a572-9ea5-2ef5-e1982229a578@eik.bme.hu>
- <a1bb55bd-93d5-ad77-7aae-2303045ee3e4@kaod.org>
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1oLj7t-0007mt-4K
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 06:39:50 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:58420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1oLj7q-0006T9-GY
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 06:39:48 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 34B09371AB;
+ Wed, 10 Aug 2022 10:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1660127984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UCkJ7yySUg6YGvhIA6XI6MAo1fIwAUPY4sF/1p3bo6k=;
+ b=JzNB0UoK09sOFS7nO62gEThSbN1CqzUOhn1hx2OHhbK4vvXDyNiGwdZZ+y0yNVpWHGPKkQ
+ hD/57LIVVNgOB/XwwZRUJhDl6CQEhP/6P4EjgAKxPctGplCRvUryo4FiqEZYSPTIdvP4kl
+ BpcsqeGEXJQ20Fc9eoakP++bEWDKdpo=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE3FF13A7E;
+ Wed, 10 Aug 2022 10:39:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 1/3VNu+K82K2QAAAMHmgww
+ (envelope-from <nborisov@suse.com>); Wed, 10 Aug 2022 10:39:43 +0000
+From: Nikolay Borisov <nborisov@suse.com>
+To: qemu-devel@nongnu.org
+Cc: Nikolay Borisov <nborisov@suse.com>
+Subject: [PATCH] migration/multifd: Remove redundant copy of page offsets
+ during send
+Date: Wed, 10 Aug 2022 13:39:42 +0300
+Message-Id: <20220810103942.580784-1-nborisov@suse.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1413320438-1660131654=:31978"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=nborisov@suse.com;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 10 Aug 2022 09:09:25 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,166 +74,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+All pages which are going to be migrated are first added to
+MultiFDSendParams::MultiFDPages_t::offset array by the main migration
+thread and are subsequently copied to MultiFDSendParams::normal by the
+multifd thread. This is really unnecessary as the MultiFDPages_t is
+guaranteed to be stable since its mutex is being held. Additionally,
+this somewhat simplifies the code as the migration pages are now kept
+in only 1 place during send, also the name 'offset' coupled with the
+context it's being used - usually added to the host pages makes it
+obvious that this is an offset.
 
---3866299591-1413320438-1660131654=:31978
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+With this change normal/normal_num are no longer used in the multifd
+send path.
 
-On Wed, 10 Aug 2022, Cédric Le Goater wrote:
-> On 8/9/22 19:37, BALATON Zoltan wrote:
->> On Tue, 9 Aug 2022, Cédric Le Goater wrote:
->>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>> hw/ppc/ppc405_boards.c | 55 +++++++++++++++++++++++++++++-------------
->>> 1 file changed, 38 insertions(+), 17 deletions(-)
->>> 
->>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->>> index 3677793adc75..4ff6715f3533 100644
->>> --- a/hw/ppc/ppc405_boards.c
->>> +++ b/hw/ppc/ppc405_boards.c
->>> @@ -71,18 +71,23 @@ struct Ppc405MachineState {
->>>  * - NVRAM (0xF0000000)
->>>  * - FPGA  (0xF0300000)
->>>  */
->>> -typedef struct ref405ep_fpga_t ref405ep_fpga_t;
->>> -struct ref405ep_fpga_t {
->>> +
->>> +#define TYPE_REF405EP_FPGA "ref405ep-fpga"
->>> +OBJECT_DECLARE_SIMPLE_TYPE(Ref405epFpgaState, REF405EP_FPGA);
->>> +struct Ref405epFpgaState {
->>> +    SysBusDevice parent_obj;
->>> +
->>> +    MemoryRegion iomem;
->>> +
->>>     uint8_t reg0;
->>>     uint8_t reg1;
->>> };
->>> 
->>> static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned 
->>> size)
->>> {
->>> -    ref405ep_fpga_t *fpga;
->>> +    Ref405epFpgaState *fpga = REF405EP_FPGA(opaque);
->>>     uint32_t ret;
->>> 
->>> -    fpga = opaque;
->>>     switch (addr) {
->>>     case 0x0:
->>>         ret = fpga->reg0;
->>> @@ -101,9 +106,8 @@ static uint64_t ref405ep_fpga_readb(void *opaque, 
->>> hwaddr addr, unsigned size)
->>> static void ref405ep_fpga_writeb(void *opaque, hwaddr addr, uint64_t 
->>> value,
->>>                                  unsigned size)
->>> {
->>> -    ref405ep_fpga_t *fpga;
->>> +    Ref405epFpgaState *fpga = REF405EP_FPGA(opaque);
->>> 
->>> -    fpga = opaque;
->>>     switch (addr) {
->>>     case 0x0:
->>>         /* Read only */
->>> @@ -126,27 +130,39 @@ static const MemoryRegionOps ref405ep_fpga_ops = {
->>>     .endianness = DEVICE_BIG_ENDIAN,
->>> };
->>> 
->>> -static void ref405ep_fpga_reset (void *opaque)
->>> +static void ref405ep_fpga_reset(DeviceState *dev)
->>> {
->>> -    ref405ep_fpga_t *fpga;
->>> +    Ref405epFpgaState *fpga = REF405EP_FPGA(dev);
->>> 
->>> -    fpga = opaque;
->>>     fpga->reg0 = 0x00;
->>>     fpga->reg1 = 0x0F;
->>> }
->>> 
->>> -static void ref405ep_fpga_init(MemoryRegion *sysmem, uint32_t base)
->>> +static void ref405ep_fpga_realize(DeviceState *dev, Error **errp)
->>> {
->>> -    ref405ep_fpga_t *fpga;
->>> -    MemoryRegion *fpga_memory = g_new(MemoryRegion, 1);
->>> +    Ref405epFpgaState *s = REF405EP_FPGA(dev);
->>> 
->>> -    fpga = g_new0(ref405ep_fpga_t, 1);
->>> -    memory_region_init_io(fpga_memory, NULL, &ref405ep_fpga_ops, fpga,
->>> +    memory_region_init_io(&s->iomem, OBJECT(s), &ref405ep_fpga_ops, s,
->>>                           "fpga", 0x00000100);
->>> -    memory_region_add_subregion(sysmem, base, fpga_memory);
->>> -    qemu_register_reset(&ref405ep_fpga_reset, fpga);
->>> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
->>> +}
->>> +
->>> +static void ref405ep_fpga_class_init(ObjectClass *oc, void *data)
->>> +{
->>> +    DeviceClass *dc = DEVICE_CLASS(oc);
->>> +
->>> +    dc->realize = ref405ep_fpga_realize;
->>> +    dc->user_creatable = false;
->> 
->> Comment missing (and I'd drop unnecessary QOM casts) but otherwise:
->
-> Ah yes. I don't think it is worth a v5 for that. I will send a patch
-> fixing the missing comments. There are a few: SoC, MAL, FPGA, SDRAM.
-> Unless Daniel is willing to amend the patches.
+Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+---
+ migration/multifd-zlib.c |  6 +++---
+ migration/multifd-zstd.c |  6 +++---
+ migration/multifd.c      | 25 ++++++++++---------------
+ 3 files changed, 16 insertions(+), 21 deletions(-)
 
-I think you'll need a v5 for other changes anyway so it's easier if you 
-update it too.
+diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+index 18213a951302..363b64e95922 100644
+--- a/migration/multifd-zlib.c
++++ b/migration/multifd-zlib.c
+@@ -122,11 +122,11 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+     int ret;
+     uint32_t i;
 
-Regards,
-BALATON Zoltan
+-    for (i = 0; i < p->normal_num; i++) {
++    for (i = 0; i < p->pages->num; i++) {
+         uint32_t available = z->zbuff_len - out_size;
+         int flush = Z_NO_FLUSH;
 
-> Thanks,
->
-> C.
->
->> 
->> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
->> 
->> Regards,
->> BALATON Zoltan
->> 
->>> +    dc->reset = ref405ep_fpga_reset;
->>> }
->>> 
->>> +static const TypeInfo ref405ep_fpga_type = {
->>> +    .name = TYPE_REF405EP_FPGA,
->>> +    .parent = TYPE_SYS_BUS_DEVICE,
->>> +    .instance_size = sizeof(Ref405epFpgaState),
->>> +    .class_init = ref405ep_fpga_class_init,
->>> +};
->>> +
->>> /*
->>>  * CPU reset handler when booting directly from a loaded kernel
->>>  */
->>> @@ -331,7 +347,11 @@ static void ref405ep_init(MachineState *machine)
->>>     memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE, 
->>> sram);
->>> 
->>>     /* Register FPGA */
->>> -    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
->>> +    dev = qdev_new(TYPE_REF405EP_FPGA);
->>> +    object_property_add_child(OBJECT(machine), "fpga", OBJECT(dev));
->>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->>> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, PPC405EP_FPGA_BASE);
->>> +
->>>     /* Register NVRAM */
->>>     dev = qdev_new("sysbus-m48t08");
->>>     qdev_prop_set_int32(dev, "base-year", 1968);
->>> @@ -376,6 +396,7 @@ static void ppc405_machine_init(void)
->>> {
->>>     type_register_static(&ppc405_machine_type);
->>>     type_register_static(&ref405ep_type);
->>> +    type_register_static(&ref405ep_fpga_type);
->>> }
->>> 
->>> type_init(ppc405_machine_init)
->>> 
->
->
->
---3866299591-1413320438-1660131654=:31978--
+-        if (i == p->normal_num - 1) {
++        if (i == p->pages->num - 1) {
+             flush = Z_SYNC_FLUSH;
+         }
+
+@@ -135,7 +135,7 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+          * with compression. zlib does not guarantee that this is safe,
+          * therefore copy the page before calling deflate().
+          */
+-        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
++        memcpy(z->buf, p->pages->block->host + p->pages->offset[i], page_size);
+         zs->avail_in = page_size;
+         zs->next_in = z->buf;
+
+diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
+index d788d309f22e..4daec8366727 100644
+--- a/migration/multifd-zstd.c
++++ b/migration/multifd-zstd.c
+@@ -121,13 +121,13 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
+     z->out.size = z->zbuff_len;
+     z->out.pos = 0;
+
+-    for (i = 0; i < p->normal_num; i++) {
++    for (i = 0; i < p->pages->num; i++) {
+         ZSTD_EndDirective flush = ZSTD_e_continue;
+
+-        if (i == p->normal_num - 1) {
++        if (i == p->pages->num - 1) {
+             flush = ZSTD_e_flush;
+         }
+-        z->in.src = p->pages->block->host + p->normal[i];
++        z->in.src = p->pages->block->host + p->pages->offset[i];
+         z->in.size = page_size;
+         z->in.pos = 0;
+
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 586ddc9d657a..d70662406490 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -89,13 +89,13 @@ static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
+     MultiFDPages_t *pages = p->pages;
+     size_t page_size = qemu_target_page_size();
+
+-    for (int i = 0; i < p->normal_num; i++) {
+-        p->iov[p->iovs_num].iov_base = pages->block->host + p->normal[i];
++    for (int i = 0; i < pages->num; i++) {
++        p->iov[p->iovs_num].iov_base = pages->block->host + pages->offset[i];
+         p->iov[p->iovs_num].iov_len = page_size;
+         p->iovs_num++;
+     }
+
+-    p->next_packet_size = p->normal_num * page_size;
++    p->next_packet_size = pages->num * page_size;
+     p->flags |= MULTIFD_FLAG_NOCOMP;
+     return 0;
+ }
+@@ -262,7 +262,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+
+     packet->flags = cpu_to_be32(p->flags);
+     packet->pages_alloc = cpu_to_be32(p->pages->allocated);
+-    packet->normal_pages = cpu_to_be32(p->normal_num);
++    packet->normal_pages = cpu_to_be32(p->pages->num);
+     packet->next_packet_size = cpu_to_be32(p->next_packet_size);
+     packet->packet_num = cpu_to_be64(p->packet_num);
+
+@@ -270,9 +270,9 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+         strncpy(packet->ramblock, p->pages->block->idstr, 256);
+     }
+
+-    for (i = 0; i < p->normal_num; i++) {
++    for (i = 0; i < p->pages->num; i++) {
+         /* there are architectures where ram_addr_t is 32 bit */
+-        uint64_t temp = p->normal[i];
++        uint64_t temp = p->pages->offset[i];
+
+         packet->offset[i] = cpu_to_be64(temp);
+     }
+@@ -668,7 +668,7 @@ static void *multifd_send_thread(void *opaque)
+         if (p->pending_job) {
+             uint64_t packet_num = p->packet_num;
+             uint32_t flags = p->flags;
+-            p->normal_num = 0;
++            uint32_t num_pages = p->pages->num;
+
+             if (use_zero_copy_send) {
+                 p->iovs_num = 0;
+@@ -676,12 +676,7 @@ static void *multifd_send_thread(void *opaque)
+                 p->iovs_num = 1;
+             }
+
+-            for (int i = 0; i < p->pages->num; i++) {
+-                p->normal[p->normal_num] = p->pages->offset[i];
+-                p->normal_num++;
+-            }
+-
+-            if (p->normal_num) {
++            if (num_pages) {
+                 ret = multifd_send_state->ops->send_prepare(p, &local_err);
+                 if (ret != 0) {
+                     qemu_mutex_unlock(&p->mutex);
+@@ -691,12 +686,12 @@ static void *multifd_send_thread(void *opaque)
+             multifd_send_fill_packet(p);
+             p->flags = 0;
+             p->num_packets++;
+-            p->total_normal_pages += p->normal_num;
++            p->total_normal_pages += num_pages;
+             p->pages->num = 0;
+             p->pages->block = NULL;
+             qemu_mutex_unlock(&p->mutex);
+
+-            trace_multifd_send(p->id, packet_num, p->normal_num, flags,
++            trace_multifd_send(p->id, packet_num, num_pages, flags,
+                                p->next_packet_size);
+
+             if (use_zero_copy_send) {
+--
+2.25.1
+
 
