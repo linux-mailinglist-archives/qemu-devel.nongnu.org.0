@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172F058EC33
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:42:31 +0200 (CEST)
-Received: from localhost ([::1]:39332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A5058EC49
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:51:12 +0200 (CEST)
+Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLl2b-0000ze-ND
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43140)
+	id 1oLlB1-0002Gi-4s
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oLkvq-0001cB-FO
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:35:46 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42873)
+ id 1oLkwV-0001jt-NP
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:36:11 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oLkvn-0004Nr-PF
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:35:30 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id z12so17582345wrs.9
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 05:35:27 -0700 (PDT)
+ id 1oLkwT-0004VW-1i
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:36:11 -0400
+Received: by mail-wr1-x432.google.com with SMTP id p10so17569534wru.8
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 05:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc;
- bh=YwtBVSDaKQeD+dN5ZmEHae/j9nsXNIDRS5w7dEnlKtY=;
- b=ZqRnYZM3W+kmRmGp+0Z8uJjsNreHR5DeAl6HqYfJqUZO6Ybi1NeWbJg2iTk1vrkyDX
- vprkydeEIzmmGBuOfYoGlj0M3FOgBGOxOPeCLu+dnVi9dFBPKQ4WPnSbVFU1hkXbmBWs
- YkWCwc123NTrNfvpiFOsP79khSdQ0kwb8JFSlCuuauaxdtZYot+NH41NhL3h+PkcN+0v
- 98P/0zhFEh0McodrG2vQHKe9WSN/Qiqv4bm7OEYPRmIlk5eN13KXFpYD1W8m3TW7sQse
- xld1/85R1+MlfSSpQlxStyu7SHme5uLWaqJoolJc+u9yA6Z76HdIpCY0+h8KGGlhmgfF
- y0hg==
+ bh=lCNEjUUOL+K7ivB3Bsp5vnl640q/xKKPyEI979dGd7E=;
+ b=Q5muJBqAiD0aaRMbnHFR3339WU1V+ABAzWuc9rnhShfqfe2qNBFBmJaLZQe9PIHXN+
+ xsvESEEbf9woe7sXaa9E278h0rfmGRZW08inLt0WanABBE7hzi0w0huivhFesv4LZhab
+ C/AI0QDiXj/rffzqO4Qfsbjm2adPrAycIoshbTGjkw+/7HJGxaB5/SUPkAnPgsXPfL/t
+ GVRb35ERN7YRXNlDAZr1jZVFBNRCbUQP3Df6sfcb2QwipZz5c8o2ugwRmBUqmqwDZ3O3
+ uo0bk1NU2qRrxKTx66H23+88YclFDRd6wrCz0x9i7gqkYyKnLbUHsoMMyNldlTy4wxVY
+ FBwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=YwtBVSDaKQeD+dN5ZmEHae/j9nsXNIDRS5w7dEnlKtY=;
- b=NFOnZmGg+RXHWY2cUS+CcPPat9lL+P9Xe7SQHVfa8Z4NFEQD3yfVGsnURL2yUzbTXF
- Vky0x+lZa0x2Po9rJl/Zmjnlr31fWuiDMei/xzSoC2Axk83+BYVcS8Eqg9IDa+wDQ5/X
- EB3Gz2n0rqWO7NjT364cDRK5QENBiNp+5Qe+ExGvUvoEQFPIkMb1XREzKlA8innQO2uj
- R5RxxnXYo0K6FF4KJ4VCB4fodgKrpk1dKuq5t47kIVmfvU8Qs2s51N7HXQpFHc6mqvw4
- Wv3AupJzSA1jEwjxD2hEg7n4VOBKSvdMhL6FWLnuaeWhzBRAWHdvaAR/r4e3DnE344FR
- rWVQ==
-X-Gm-Message-State: ACgBeo30gTNwNJidZGNBkC7CwxqokBJxIig+t6l75QIV0JbK1F0n52r6
- 4GOhlOT85csyzuWu/IkytOwFwA==
-X-Google-Smtp-Source: AA6agR5EDJeVb/QlUBQrvnTeXdzHoA1nB9gGNrTp9yRN5+LBpbOegSAuVzQtKVcWiwnV0O3u/GgRlQ==
-X-Received: by 2002:a5d:5483:0:b0:220:6b87:8f79 with SMTP id
- h3-20020a5d5483000000b002206b878f79mr17554240wrv.17.1660134926304; 
- Wed, 10 Aug 2022 05:35:26 -0700 (PDT)
+ bh=lCNEjUUOL+K7ivB3Bsp5vnl640q/xKKPyEI979dGd7E=;
+ b=5/jFtltSj6iDcDbKsOtQA1lwbgrxS1GvjYf/hopXaBK82E16hyleQJTSDS0EgjVVD5
+ DllPtlHn72xm32AyBwpie4k9zO9IcFHfleDxj5+KnG9AhrvoBjoLovzow/YvvesrficG
+ L4IxPdZnKypjC9bWR8sXG+AIRAtmMKVugPyvgyG9//V8Qme3dtv8KAamZOw4XZMr2LDd
+ jdG9kXu1jhtsiXWzh4Eskv7mEF0OAOplNEwxyAJo7afWi68P25hrHzveeIzBQXyzincc
+ 5e9OQb1RrmxYA8K1kK7QT3zsn05erRIbdigCT58uZN4Hwi3GQCSJA7QY+H0pRrdCBNfX
+ ROaQ==
+X-Gm-Message-State: ACgBeo22fMFOcuaHQr2QJa6o6ZxkbEayIu3pvIvb7c6Y1Afuy7XXNVW4
+ pcTlhg2CTwnO5XzsowXE3kwxaA==
+X-Google-Smtp-Source: AA6agR50pYc9bHOOV1lJUVQSI4uq6FtXjf3S+pj7YFSEwZvi0yzCIQGuC2Z/NWak3Ms80YeMvmgm3g==
+X-Received: by 2002:a05:6000:985:b0:223:8131:e1f4 with SMTP id
+ by5-20020a056000098500b002238131e1f4mr1500759wrb.65.1660134967617; 
+ Wed, 10 Aug 2022 05:36:07 -0700 (PDT)
 Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
  by smtp.gmail.com with ESMTPSA id
- r12-20020a05600c35cc00b003a319bd3278sm2474717wmq.40.2022.08.10.05.35.25
+ j42-20020a05600c1c2a00b003a30c3d0c9csm2628871wms.8.2022.08.10.05.36.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 05:35:25 -0700 (PDT)
-Date: Wed, 10 Aug 2022 14:35:24 +0200
+ Wed, 10 Aug 2022 05:36:06 -0700 (PDT)
+Date: Wed, 10 Aug 2022 14:36:05 +0200
 From: Andrew Jones <ajones@ventanamicro.com>
 To: Ben Dooks <qemu@ben.fluff.org>
 Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com,
  peter.maydell@linaro.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH v4 4/6] hw/core: use qemu_fdt_setprop_strings()
-Message-ID: <20220810123524.2fgqfsr4vrrjqjke@kamzik>
+Subject: Re: [PATCH v4 5/6] hw/mips: use qemu_fdt_setprop_strings()
+Message-ID: <20220810123605.rsn4vjduxxyd7zln@kamzik>
 References: <20220809185639.750345-1-qemu@ben.fluff.org>
- <20220809185639.750345-5-qemu@ben.fluff.org>
+ <20220809185639.750345-6-qemu@ben.fluff.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220809185639.750345-5-qemu@ben.fluff.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42d.google.com
+In-Reply-To: <20220809185639.750345-6-qemu@ben.fluff.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,48 +91,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 09, 2022 at 07:56:38PM +0100, Ben Dooks wrote:
-> Change to using the qemu_fdt_setprop_strings() helper in
-> hw/core code.
+On Tue, Aug 09, 2022 at 07:56:39PM +0100, Ben Dooks wrote:
+> Change to using qemu_fdt_setprop_strings() helper in hw/mips.
 > 
 > Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/core/guest-loader.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
+>  hw/mips/boston.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
-> index c61ebc4144..7b8e32e06f 100644
-> --- a/hw/core/guest-loader.c
-> +++ b/hw/core/guest-loader.c
-> @@ -56,18 +56,15 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
->      qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
+> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+> index d2ab9da1a0..759f6daafe 100644
+> --- a/hw/mips/boston.c
+> +++ b/hw/mips/boston.c
+> @@ -515,9 +515,6 @@ static const void *create_fdt(BostonState *s,
+>      MachineState *mc = s->mach;
+>      uint32_t platreg_ph, gic_ph, clk_ph;
+>      char *name, *gic_name, *platreg_name, *stdout_name;
+> -    static const char * const syscon_compat[2] = {
+> -        "img,boston-platform-regs", "syscon"
+> -    };
 >  
->      if (s->kernel) {
-> -        const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
-> -        qemu_fdt_setprop_string_array(fdt, node, "compatible",
-> -                                      (char **) &compat,
-> -                                      ARRAY_SIZE(compat));
-> +        qemu_fdt_setprop_strings(fdt, node, "compatible",
-> +                                 "multiboot,module", "multiboot,kernel");
-> +
->          if (s->args) {
->              qemu_fdt_setprop_string(fdt, node, "bootargs", s->args);
->          }
->      } else if (s->initrd) {
-> -        const char *compat[2] = { "multiboot,module", "multiboot,ramdisk" };
-> -        qemu_fdt_setprop_string_array(fdt, node, "compatible",
-> -                                      (char **) &compat,
-> -                                      ARRAY_SIZE(compat));
-> +        qemu_fdt_setprop_strings(fdt, node, "compatible",
-> +                                 "multiboot,module", "multiboot,ramdisk");
->      }
->  }
->  
+>      fdt = create_device_tree(dt_size);
+>      if (!fdt) {
+> @@ -608,9 +605,8 @@ static const void *create_fdt(BostonState *s,
+>      platreg_name = g_strdup_printf("/soc/system-controller@%" HWADDR_PRIx,
+>                                     memmap[BOSTON_PLATREG].base);
+>      qemu_fdt_add_subnode(fdt, platreg_name);
+> -    qemu_fdt_setprop_string_array(fdt, platreg_name, "compatible",
+> -                                 (char **)&syscon_compat,
+> -                                 ARRAY_SIZE(syscon_compat));
+> +    qemu_fdt_setprop_strings(fdt, platreg_name, "compatible",
+> +                             "img,boston-platform-regs", "syscon");
+>      qemu_fdt_setprop_cells(fdt, platreg_name, "reg",
+>                             memmap[BOSTON_PLATREG].base,
+>                             memmap[BOSTON_PLATREG].size);
 > -- 
 > 2.35.1
 > 
 >
-
 
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
