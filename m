@@ -2,58 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF1658ED8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:45:13 +0200 (CEST)
-Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEE158ED3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:29:32 +0200 (CEST)
+Received: from localhost ([::1]:44338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLm1I-0005gn-6s
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:45:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
+	id 1oLlm7-0006He-JB
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1oLlWJ-0006Nu-Gc; Wed, 10 Aug 2022 09:13:11 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:5168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1oLlWF-0003Cn-A4; Wed, 10 Aug 2022 09:13:10 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4M2r1G50hTzGpHW;
- Wed, 10 Aug 2022 21:11:30 +0800 (CST)
-Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 10 Aug 2022 21:12:55 +0800
-Received: from [10.174.185.179] (10.174.185.179) by
- kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 10 Aug 2022 21:12:55 +0800
-Subject: Re: [PATCH v6 24/24] target/arm: Define neoverse-n1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oLlXX-0000iy-DN
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:14:27 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oLlXV-0003PD-Qb
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:14:27 -0400
+Received: by mail-ej1-x632.google.com with SMTP id w19so27657041ejc.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 06:14:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=0A+7I9wIeTRR/WwFlIyzEqf9IgADKymWG7YByQYTQP4=;
+ b=whlq6MKmgsb1B/xPLJf99S6NA1JgQXd+ETth3Okc/3q1bqNkFL7ctgDW/UBBl9+4YY
+ uZf/WmZEifli6AukWMW+zoGVM6IZ6f/2tJiunow/jodqN8ODVUb2ZU3fuU4o+i+yJOCN
+ vHgtwu4RHcS+wjadxF1UvVvE+lQNwrG3+IxHyiH3jGfSzCeBrcgQ4ikNKMp0qcJ37mBW
+ 76SR52xatcYzXd3L9t4qEUzBF92Uum4g0sHPSDVzAsq5kVH6yWlnbSW52uTvJXK1YPax
+ K6rOER2RdqfTl5O1Hi5FtJBoRpelN39/6M2GPnQ8VeSsxZnYYXzjUOoux7LUwwf5ycV8
+ K+/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=0A+7I9wIeTRR/WwFlIyzEqf9IgADKymWG7YByQYTQP4=;
+ b=WwgaV9qtbxc+mIO/PzBM3zFr5PTcrYARzyPvaJtFXggC/S+8VvcdRA2BAT8FSd33kM
+ sA+OwHtFqQLJRkLI7Qo3neK05KRZbOQ8e6u1uHQqx6O4ZnBV+kl77NRojaZX8lkbxLeK
+ rPTEUyWc5EvbtgWgHGM6krPVUaszU4fYWXl/JQIUgb5+cMj3T4CHVoac/ILAh/yICrdQ
+ UYJWDSHGKWnz+sXYb7G5RIDXCBPIt83vlbXhvHt4BjL630O9v3AecVUZBfdwhDqhL/ec
+ +lIokVUtMvHauiRodWn5M0pM6UzKNHz5oOAfTmp4o1PUy4ma3zFQWw/2GiwmVf7TUnip
+ d0+g==
+X-Gm-Message-State: ACgBeo3GY7/vWGmrwOJhbxCCNZkurRYSJHOqU0eZiZeOHjv17Em6b9In
+ 7gm1euN6MxqZRkio34o/pFcPLA==
+X-Google-Smtp-Source: AA6agR6gfZCDxPCfawgBE6T4piZPxR7O2D1i+FP0G4vfdlCGpoDZejiOd7jqpKdO7RffWz/aDrcmeQ==
+X-Received: by 2002:a17:906:cc5e:b0:730:cf6d:5451 with SMTP id
+ mm30-20020a170906cc5e00b00730cf6d5451mr20724650ejb.725.1660137264044; 
+ Wed, 10 Aug 2022 06:14:24 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ d5-20020a170906304500b007262b9f7120sm2276009ejd.167.2022.08.10.06.14.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 06:14:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1554D1FFB7;
+ Wed, 10 Aug 2022 14:14:23 +0100 (BST)
+References: <20220703082419.770989-1-richard.henderson@linaro.org>
+ <20220703082419.770989-19-richard.henderson@linaro.org>
+User-agent: mu4e 1.8.8; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <20220506180242.216785-1-richard.henderson@linaro.org>
- <20220506180242.216785-25-richard.henderson@linaro.org>
-Message-ID: <1d915529-cd32-82b3-42ad-4d202d3590d8@huawei.com>
-Date: Wed, 10 Aug 2022 21:12:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH 18/62] target/arm: Add is_secure parameter to
+ v8m_security_lookup
+Date: Wed, 10 Aug 2022 14:13:24 +0100
+In-reply-to: <20220703082419.770989-19-richard.henderson@linaro.org>
+Message-ID: <87wnbgkzps.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20220506180242.216785-25-richard.henderson@linaro.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.179]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemm600007.china.huawei.com (7.193.23.208)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=yuzenghui@huawei.com;
- helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,46 +93,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Zenghui Yu <yuzenghui@huawei.com>
-From:  Zenghui Yu via <qemu-devel@nongnu.org>
 
-On 2022/5/7 2:02, Richard Henderson wrote:
 
-> +static void aarch64_neoverse_n1_initfn(Object *obj)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(obj);
-> +
-> +    cpu->dtb_compatible = "arm,neoverse-n1";
-> +    set_feature(&cpu->env, ARM_FEATURE_V8);
-> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
-> +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-> +    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-> +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-> +    set_feature(&cpu->env, ARM_FEATURE_EL2);
-> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
-> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
-> +
-> +    /* Ordered by B2.4 AArch64 registers by functional group */
-> +    cpu->clidr = 0x82000023;
-> +    cpu->ctr = 0x8444c004;
-> +    cpu->dcz_blocksize = 4;
-> +    cpu->isar.id_aa64dfr0  = 0x0000000110305408ull;
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-The r4p1 TRM says that the Neoverse N1 core supports SPE (the value
-of ID_AA64DFR0.PMSVer is 0b0001) but do we really support SPE
-emulation in QEMU?
+> Remove the use of regime_is_secure from v8m_security_lookup.
 
-The guest immediately received an unexpected exception (with EC==0,
-at EFI stage) when I tried to boot it using something like:
+s/./ and pass its status down to the lookup instead./ ?
 
-/path/to/qemu-system-aarch64 \
--M virt,gic-version=3,virtualization=on \
--cpu neoverse-n1 -accel tcg \
--bios QEMU_EFI.fd [...]
+Anyway:
 
-and QEMU shouted that "read access to unsupported AArch64 system
-register op0:3 op1:0 crn:9 crm:10 op2:7", which told us that the
-guest attempted to read the PMBIDR_EL1 register.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Zenghui
+--=20
+Alex Benn=C3=A9e
 
