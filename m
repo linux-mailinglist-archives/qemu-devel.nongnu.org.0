@@ -2,112 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263CD58EEA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:42:56 +0200 (CEST)
-Received: from localhost ([::1]:33672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BE158EE9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:41:36 +0200 (CEST)
+Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLmv9-0000Ud-4P
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45270)
+	id 1oLmtr-0007ED-0O
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oLmrP-0004kd-Ou; Wed, 10 Aug 2022 10:39:04 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oLmrM-0002Ef-Md; Wed, 10 Aug 2022 10:39:03 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27AEViAK020688;
- Wed, 10 Aug 2022 14:38:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=A8h4g01n62DRhvQzYbW3g3Wl7zcqdfeiFcBmaZRXSiE=;
- b=FW5pxaqZlR1F+4u40RIF0BbHyIj2j2tlvXNgHDPJj815qxWgVD/BNQ20gtrIzjhB6JB0
- Kt6R1gjCSB4sgf4y0VZyQJOnXttPCpbbWwJztBcTMpqH+OFzd93T5gr4PLBnbrfijxMd
- N9UeNacq2KLwTxjrP566h0u6CNxNVQ9BhBVK02Zb+IcIP20T3ZB+27JVCu9CXnUvG+6u
- tn17MCEHMERuz6NFHAml+HYHQiPThlPqzhrQ+BYtgO4yFvhqPxiupkPjT9XgE315+/Zo
- UgfWMgJz4CrVimrxMG7fA2kzg8jMC9m1k6+roav8Hl/aBhHmvIeQDaprOGGfIS+LgxbU 7A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hv3fg5pgq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Aug 2022 14:38:50 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27AEI0A6028027;
- Wed, 10 Aug 2022 14:38:46 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hv3fg5p12-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Aug 2022 14:38:46 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27AEVQSK005349;
- Wed, 10 Aug 2022 14:38:16 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 3huwvke8rq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Aug 2022 14:38:16 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27AEcFm218612622
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Aug 2022 14:38:15 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7CA5D6E04E;
- Wed, 10 Aug 2022 14:38:15 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 70CDA6E050;
- Wed, 10 Aug 2022 14:38:14 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 10 Aug 2022 14:38:14 +0000 (GMT)
-Message-ID: <b09c7104-d329-2185-9ab8-042b12309668@linux.ibm.com>
-Date: Wed, 10 Aug 2022 10:38:13 -0400
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oLmrN-0004iV-CN
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:39:01 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oLmrB-0002ET-SK
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:38:51 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id pm17so14942755pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 07:38:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=Ypn04yBcDr+ITRCaJvIIISj7ZAHB/5ZItGV+XVBLIJA=;
+ b=Ib7E12JPGES3Yh+/p5apucZMNbtgTR05tdzqgOSPvuWuFN40kpN7Y2iwzMoGGvkAZp
+ 2k6pDQ5Dx3ZoMZNesLC3dNSPLtDlj6mFmyXD/hvHO01hHIZDaQ/OR4FrBHZGfdNO21hw
+ c0Xp2gA8KqMlXerNeIQmKwkXlI8cJezWd5Q2pb36QkpOhC2IVatzB9PBUsADaiqPqXP2
+ sLaur3TZOTh5i5zvWHRfjklZ2CiHLPAi2y2CsipxjSxRi1GYU+xZki37dsLL1ac5Lqxt
+ CFqKYU6lzhVRJu4rIj89PYEW8X9BB+MXX2MHW1+4lVn1QpHvQgzsA9lEsg8UN0bQzIeg
+ NyJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=Ypn04yBcDr+ITRCaJvIIISj7ZAHB/5ZItGV+XVBLIJA=;
+ b=FbomcEpVJVmqzK5EuCE2CTHWwsQjZtNV/C6tOwb3KoMdTqKvD8MmNn4GuLpmVRIqCK
+ xxfq8yJTCDtibmJv92clW1hEAGBtjtuxGwPomDUXKb0taKuHoLTbXtW5jFnSL0CpnwKA
+ M70IWtCA8DWlS7vp/1PMhD9tDbxRbx8YdmCtN43UqRiSuAam7vsYfLbT5Gm1lG61fLvd
+ qcFsP2MQ8p/u/FjcXO+erwzUdpb44rCIwN0vmhCzWOjXYrSp422Tn14xoyam0NcSIfG2
+ NmYYaAFGijPlnq6+ilUi5AbxPKO1u3zJVweEBjiY2QD/uKloKKx/53PbSdgJuURihGW4
+ fs6A==
+X-Gm-Message-State: ACgBeo0N3jxXzfQmGrSdXlzhsZPOtz7ZWSYXkOygM1NszTcw2jeSizpM
+ 5W8Zw4+BU5ECYPdOgh7oMYQfsw==
+X-Google-Smtp-Source: AA6agR4Cvm3nfmT646uuzkbDloN+L+b0YWWySRf26lyByFiwirk1nGGGgDmPcfMs3KzFCTJQbDMGGw==
+X-Received: by 2002:a17:90b:4c0f:b0:1f5:179a:28df with SMTP id
+ na15-20020a17090b4c0f00b001f5179a28dfmr4088508pjb.42.1660142327422; 
+ Wed, 10 Aug 2022 07:38:47 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ z125-20020a623383000000b0052c92329115sm2033721pfz.218.2022.08.10.07.38.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 07:38:47 -0700 (PDT)
+Date: Wed, 10 Aug 2022 14:38:43 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v7 03/14] mm: Introduce memfile_notifier
+Message-ID: <YvPC87FMgF7uac7z@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-4-chao.p.peng@linux.intel.com>
+ <13394075-fca0-6f2b-92a2-f1291fcec9a3@redhat.com>
+ <20220810092232.GC862421@chaop.bj.intel.com>
+ <00f1aa03-bc82-ffce-569b-e2d5c459992c@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC 1/1] hw: tpmtisspi: add SPI support to QEMU TPM
- implementation
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Iris Chen <irischenlj@gmail.com>
-Cc: irischenlj@fb.com, peter@pjd.dev, pdel@fb.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, patrick@stwcx.xyz, alistair@alistair23.me,
- kwolf@redhat.com, hreitz@redhat.com, peter.maydell@linaro.org,
- andrew@aj.id.au, joel@jms.id.au, thuth@redhat.com, lvivier@redhat.com,
- pbonzini@redhat.com, qemu-block@nongnu.org, dz4list@gmail.com
-References: <20220803023241.63739-1-irischenlj@gmail.com>
- <20220803023241.63739-2-irischenlj@gmail.com>
- <36a20515-461d-0f27-3be8-a4edd099165a@kaod.org>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <36a20515-461d-0f27-3be8-a4edd099165a@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4YM5H_xk6FfdASQgZUOF1hgm_wrx3nDO
-X-Proofpoint-GUID: nklUcGatdC3pimg8aKk4zjT7xmc65pSS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-10_08,2022-08-10_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- impostorscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 clxscore=1015
- lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208100046
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00f1aa03-bc82-ffce-569b-e2d5c459992c@redhat.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,48 +115,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
++Will
 
-
-On 8/3/22 04:52, Cédric Le Goater wrote:
-> On 8/3/22 04:32, Iris Chen wrote:
->> From: Iris Chen <irischenlj@fb.com>
+On Wed, Aug 10, 2022, David Hildenbrand wrote:
+> On 10.08.22 11:22, Chao Peng wrote:
+> > On Fri, Aug 05, 2022 at 03:22:58PM +0200, David Hildenbrand wrote:
+> >> On 06.07.22 10:20, Chao Peng wrote:
+> >>> This patch introduces memfile_notifier facility so existing memory file
+> >>> subsystems (e.g. tmpfs/hugetlbfs) can provide memory pages to allow a
+> >>> third kernel component to make use of memory bookmarked in the memory
+> >>> file and gets notified when the pages in the memory file become
+> >>> invalidated.
+> >>
+> >> Stupid question, but why is this called "memfile_notifier" and not
+> >> "memfd_notifier". We're only dealing with memfd's after all ... which
+> >> are anonymous files essentially. Or what am I missing? Are there any
+> >> other plans for fs than plain memfd support that I am not aware of?
+> > 
+> > There were some discussions on this in v3.
+> >   https://lkml.org/lkml/2021/12/28/484
+> > Sean commented it's OK to abstract it from memfd but he also wants the
+> > kAPI (name) should not bind to memfd to make room for future non-memfd
+> > usages.
 > 
+> Sorry, but how is "memfile" any better? memfd abstracted to memfile?! :)
 
->> +++ b/hw/tpm/tpm_tis_spi.c
->> @@ -0,0 +1,311 @@
->> +#include "qemu/osdep.h"
->> +#include "hw/qdev-properties.h"
->> +#include "migration/vmstate.h"
->> +#include "hw/acpi/tpm.h"
->> +#include "tpm_prop.h"
->> +#include "tpm_tis.h"
->> +#include "qom/object.h"
->> +#include "hw/ssi/ssi.h"
->> +#include "hw/ssi/spi_gpio.h"
->> +
->> +#define TPM_TIS_SPI_ADDR_BYTES 3
->> +#define SPI_WRITE 0
->> +
->> +typedef enum {
->> +    TIS_SPI_PKT_STATE_DEACTIVATED = 0,
->> +    TIS_SPI_PKT_STATE_START,
->> +    TIS_SPI_PKT_STATE_ADDRESS,
->> +    TIS_SPI_PKT_STATE_DATA_WR,
->> +    TIS_SPI_PKT_STATE_DATA_RD,
->> +    TIS_SPI_PKT_STATE_DONE,
->> +} TpmTisSpiPktState;
->> +
->> +union TpmTisRWSizeByte {
->> +    uint8_t byte;
->> +    struct {
->> +        uint8_t data_expected_size:6;
->> +        uint8_t resv:1;
->> +        uint8_t rwflag:1;
->> +    };
+FWIW, I don't really like the memfile name either.
 
-I think it would be better to define a mask for the number of bytes and 
-a flag for read/write rather than using bitfields. It should better for 
-portability.
+> I understand Sean's suggestion about abstracting, but if the new name
+> makes it harder to grasp and there isn't really an alternative to memfd
+> in sight, I'm not so sure I enjoy the tried abstraction here.
 
-    Stefan
+ARM's pKVM implementation is potentially (hopefully) going to switch to this API
+(as a consumer) sooner than later.  If they anticipate being able to use memfd,
+then there's unlikely to be a second backing type any time soon.
+
+Quentin, Will?
+ 
+> Otherwise we'd have to get creative now and discuss something like
+> "file_population_notifer" or "mapping_population_notifer" and I am not
+> sure that our time is well spent doing so right now.
+> 
+> ... as this is kernel-internal, we can always adjust the name as we
+> please later, once we *actually* now what the abstraction should be.
+> Until then I'd suggest to KIS and soft-glue this to memfd.
+> 
+> Or am I missing something important?
+
+I don't think you're missing anything.  I'd still prefer a name that doesn't couple
+KVM to memfd, but it's not a sticking point, and I've never been able to come up
+with a better name...
+
+With a little bit of cleverness I think we can keep the coupling in KVM to a
+minimum, which is what I really care about.
 
