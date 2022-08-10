@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BA058ED22
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:26:58 +0200 (CEST)
-Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053DA58ECC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:09:46 +0200 (CEST)
+Received: from localhost ([::1]:56446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLljd-0008EZ-DV
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:26:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1oLlSz-0000JD-3h
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oLlH9-0000AP-JW
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:57:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59007)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oLlHF-0000IS-D2
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:57:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oLlH7-0000Zy-Fd
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:57:31 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oLlHD-0000b9-Sb
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:57:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660136248;
+ s=mimecast20190719; t=1660136255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gmbpZNyavQxKDGbXfYJjxOfxf3liXSQeUKOUnbr0AeI=;
- b=f7i536CmvBzaPNlM3HsFi/NakVse7ASs7TFZ8oW3ENvxXYrJU4ei9s+zs29gKidvkNE/Xm
- nGQJKSfDcgiDKWC+3NObm0IMRKeFudMDHVoe0C3TElhJuXtpp58I3PWok6ybCn0RoAuSmr
- kGkIqMat2LQ+HyNtMHGDQwYtIWmBDYQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=T7FalK2RvLkWsOsYtdYaaTP3cQYbPtubc2HJwoCazis=;
+ b=btXbxeZ2UzX+OqxH9rHEs98+/asABvnu+pqw6UR72w8/xGQeD1LZ4rUuN5/jbvj91mKVCh
+ hxPBFsEr3s9v4OGMm7sfy30zmdxtOdMW6muAO8Ursm1/uLKjcPaIqbNHabyoTf7Zanvbkb
+ zo6OAAwEWfIl+iE3a1PztqUZ+iThGlw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-RgecRYx4MKKWmBku0-HBPA-1; Wed, 10 Aug 2022 08:57:27 -0400
-X-MC-Unique: RgecRYx4MKKWmBku0-HBPA-1
+ us-mta-669-_M-cUURrN22KzFXES5PKIw-1; Wed, 10 Aug 2022 08:57:29 -0400
+X-MC-Unique: _M-cUURrN22KzFXES5PKIw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4255629ABA14;
- Wed, 10 Aug 2022 12:57:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 502FE1019C93;
+ Wed, 10 Aug 2022 12:57:29 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 635EA40315F;
- Wed, 10 Aug 2022 12:57:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 998F5492C3B;
+ Wed, 10 Aug 2022 12:57:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>
 Cc: David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
-Subject: [PATCH v2 1/3] backends/hostmem: Fix support of memory-backend-memfd
- in qemu_maxrampagesize()
-Date: Wed, 10 Aug 2022 14:57:18 +0200
-Message-Id: <20220810125720.3849835-2-thuth@redhat.com>
+Subject: [PATCH v2 2/3] softmmu/physmem: Remove the ifdef __linux__ around the
+ pagesize functions
+Date: Wed, 10 Aug 2022 14:57:19 +0200
+Message-Id: <20220810125720.3849835-3-thuth@redhat.com>
 In-Reply-To: <20220810125720.3849835-1-thuth@redhat.com>
 References: <20220810125720.3849835-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -64,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,50 +80,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is currently not possible yet to use "memory-backend-memfd" on s390x
-with hugepages enabled. This problem is caused by qemu_maxrampagesize()
-not taking memory-backend-memfd objects into account yet, so the code
-in s390_memory_init() fails to enable the huge page support there via
-s390_set_max_pagesize(). Fix it by generalizing the code, so that it
-looks at qemu_ram_pagesize(memdev->mr.ram_block) instead of re-trying
-to get the information from the filesystem.
+Now that host_memory_backend_pagesize() is not depending on the hugetlb
+memory path handling anymore, we can also remove the #ifdef and the
+TOCTTOU comment from the calling functions - the code should now work
+equally well on all host architectures.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2116496
-Suggested-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- backends/hostmem.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ softmmu/physmem.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index 624bb7ecd3..4428e06738 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -306,22 +306,12 @@ bool host_memory_backend_is_mapped(HostMemoryBackend *backend)
-     return backend->is_mapped;
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index dc3c3e5f2e..50231bab30 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1331,13 +1331,6 @@ GString *ram_block_format(void)
+     return buf;
  }
  
 -#ifdef __linux__
- size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
+-/*
+- * FIXME TOCTTOU: this iterates over memory backends' mem-path, which
+- * may or may not name the same files / on the same filesystem now as
+- * when we actually open and map them.  Iterate over the file
+- * descriptors instead, and use qemu_fd_getpagesize().
+- */
+ static int find_min_backend_pagesize(Object *obj, void *opaque)
  {
--    Object *obj = OBJECT(memdev);
--    char *path = object_property_get_str(obj, "mem-path", NULL);
--    size_t pagesize = qemu_mempath_getpagesize(path);
--
--    g_free(path);
-+    size_t pagesize = qemu_ram_pagesize(memdev->mr.ram_block);
-+    g_assert(pagesize >= qemu_real_host_page_size());
+     long *hpsize_min = opaque;
+@@ -1391,16 +1384,6 @@ long qemu_maxrampagesize(void)
+     object_child_foreach(memdev_root, find_max_backend_pagesize, &pagesize);
      return pagesize;
  }
 -#else
--size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
+-long qemu_minrampagesize(void)
+-{
+-    return qemu_real_host_page_size();
+-}
+-long qemu_maxrampagesize(void)
 -{
 -    return qemu_real_host_page_size();
 -}
 -#endif
  
- static void
- host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+ #ifdef CONFIG_POSIX
+ static int64_t get_file_size(int fd)
 -- 
 2.31.1
 
