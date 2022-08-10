@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B0E58EED4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:52:56 +0200 (CEST)
-Received: from localhost ([::1]:44020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313AE58EEE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:59:04 +0200 (CEST)
+Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLn4p-0008Kw-P9
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47750)
+	id 1oLnAl-0002fI-B9
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1oLn2M-0004zD-Rb
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:50:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56195)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1oLn9D-0001DL-3p
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:57:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1oLn2I-00043k-0W
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:50:20 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1oLn9A-0005PH-KD
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:57:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660143014;
+ s=mimecast20190719; t=1660143443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oeSW4K0oQHPQz01A6d5k/ngS9xAcRK/YzlN4mAf7+wo=;
- b=LT6cQ4kKV0rvJ0sNXmyYogiU5RV1FjpnDkMWPDLajOtJPEH+HT7fJjiBzuRNkUWcWXMh22
- 3nQtEtJgwUzvomQ4eOeq1k0c9gVXxmWMEnS/akUmZna38tOngPr+9Pg9MQAfRyhnCNZobl
- OgRvQlT4Y/SpK0wEv7oqH6ybTUo0qlk=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-480-BCZa6v8fOYOgOahXrJrBPQ-1; Wed, 10 Aug 2022 10:50:13 -0400
-X-MC-Unique: BCZa6v8fOYOgOahXrJrBPQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bp14-20020a05620a458e00b006b959ef9d51so6414691qkb.12
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 07:50:13 -0700 (PDT)
+ bh=4GOM3TCNInYq86ECPPbAmqLEUXBt73dmpVkc35aKck0=;
+ b=BbsrVJx9TLJJoIX/3fHk0ad1oVi3ep4cTs2VuHnR3hNy0fDbrMQP8zSzaDe27iXBuBcvti
+ v0xsDvadmtf10gy91AU+6I2AjMJX8uWgw2F+8xLtBYtiL7RzTRyC8IR0bqdMTygLtYNux7
+ TMiWHNqsS/on+4YTD8rZSDPfXPyuXfE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-198-VDGJxngVMi6iW-u2bn5jag-1; Wed, 10 Aug 2022 10:57:22 -0400
+X-MC-Unique: VDGJxngVMi6iW-u2bn5jag-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ho13-20020a1709070e8d00b00730a655e173so4314762ejc.8
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 07:57:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc;
- bh=oeSW4K0oQHPQz01A6d5k/ngS9xAcRK/YzlN4mAf7+wo=;
- b=HdfVCeNrlhE7GGsPRgakKvamMS4Ax1AJ6j2VD2uwd8edK5LH1Fz4l7Ve3CfLI6GDip
- TrVrtItDvvADmew6kwHoTEUaa9WlGmQmA2rVLlBbaPBHeCSy6urm1Pi5BYtkyCR4SOrY
- itTdGpsJmCoe8S/rCRqziPTBtuyOnnbbZWcAoB9X78zFhI1EOETvv62akeGTTqlTv6Dw
- 3JbVGOAnyyXnH2yRl6N03bgbn7DmI5RqKubDqxN1RxQ/In2WyGENgbbNBnL7vAD2a+VE
- yrGgtmKdCG91vY61rnRFc+t5ts4uZbxFxG0AYQWnX5tYnXuDDLzy4tRICnZqw9TAqnDX
- db/A==
-X-Gm-Message-State: ACgBeo3iQrnkneaC3CmtzSAYIq7kghQqXRDqcCYUSbnMOCMPXDPb5abO
- 1gPXw+wUZWnbQ96f8atSYdoo01Exin7BZAyJ1Z2ck7Ctmva+a+k1dDfxERk0Am9hKWsiWjAW0kf
- 2Te++RXPOZCz823A=
-X-Received: by 2002:ad4:5bc8:0:b0:476:bc85:d3ad with SMTP id
- t8-20020ad45bc8000000b00476bc85d3admr23990414qvt.4.1660143013220; 
- Wed, 10 Aug 2022 07:50:13 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7Z9taZ1Pqgd1pzTw+c1qkqpVXUKu7VEKiw+GrZH6zhOufYdCnl87jPMCdTBrTuXkDxNig/IA==
-X-Received: by 2002:ad4:5bc8:0:b0:476:bc85:d3ad with SMTP id
- t8-20020ad45bc8000000b00476bc85d3admr23990404qvt.4.1660143013049; 
- Wed, 10 Aug 2022 07:50:13 -0700 (PDT)
-Received: from [10.35.4.238] (bzq-82-81-161-50.red.bezeqint.net.
- [82.81.161.50]) by smtp.gmail.com with ESMTPSA id
- e13-20020ac8490d000000b00342f80223adsm6349227qtq.89.2022.08.10.07.50.11
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=4GOM3TCNInYq86ECPPbAmqLEUXBt73dmpVkc35aKck0=;
+ b=i3mBOi/VWb4ILR71h4/59pCLMclcQFBsYJt79PX0MTE3dCUAcOoMn2vAriS62vCapY
+ XSyPoZhMYv1PoXmQZ7rN1fPfmzdERY7vOEA6ohb5O2JbhTb47tzmq5JqdmNuPD2Bo4rr
+ l7U9kkhOJAd5pkLITicBq/HPU9PMGMLS0XGdt1NqDurNxwdswFHXUJjmGYjLu6NgXTEp
+ qfBmDeGZM0KGKz3WIUVUqy7ItAmxmLnzVI1hguS5G5R3hmzlIL6wkev0GCb2uriTVRwk
+ Ta0k0mBmbKsPxyxNIT3/coaFsja0l5AHeYehE0uFkhVD9eUI33J27RRWsFA1M4DpNyK/
+ zjhA==
+X-Gm-Message-State: ACgBeo3cIzNCbiiohlWk40pNo0HUy+e+DMTmoaYZurHN9ME8qzhY3sPt
+ EpbDswV0lR2ZBiFxG6BFqwsIO9neHHv3ps95s7PYTsCTeT8IaxXRCscrUI0uYHwEcqsvK6PWs8d
+ byLrADtbiWrm5Upo=
+X-Received: by 2002:a05:6402:27d3:b0:43e:5490:27ca with SMTP id
+ c19-20020a05640227d300b0043e549027camr27952357ede.307.1660143441284; 
+ Wed, 10 Aug 2022 07:57:21 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4ep8nDOBMITbWQ0WkV7eeRgI5dHitmfDDJOUe85Cr7DwW0zgf9unaVeoWJOj6YwrJ/TRVsfQ==
+X-Received: by 2002:a05:6402:27d3:b0:43e:5490:27ca with SMTP id
+ c19-20020a05640227d300b0043e549027camr27952336ede.307.1660143441040; 
+ Wed, 10 Aug 2022 07:57:21 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id
+ bl8-20020a170906c24800b007304bdf18cfsm2404311ejb.136.2022.08.10.07.57.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 07:50:12 -0700 (PDT)
-Message-ID: <d7051dc5a5fe9d96c9dcdd6527f52c6ea654928d.camel@redhat.com>
-Subject: Re: [PATCH RFC v1 1/2] i386: reset KVM nested state upon CPU reset
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org, Paolo
+ Wed, 10 Aug 2022 07:57:20 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org, Paolo
  Bonzini <pbonzini@redhat.com>
 Cc: Sean Christopherson <seanjc@google.com>
-Date: Wed, 10 Aug 2022 17:50:10 +0300
-In-Reply-To: <20220810140007.1036293-2-vkuznets@redhat.com>
+Subject: Re: [PATCH RFC v1 2/2] i386: reorder kvm_put_sregs2() and
+ kvm_put_nested_state() when vCPU is reset
+In-Reply-To: <11df1501c60809e5d83e2591fb43a3b660afaef4.camel@redhat.com>
 References: <20220810140007.1036293-1-vkuznets@redhat.com>
- <20220810140007.1036293-2-vkuznets@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-5.fc34) 
+ <20220810140007.1036293-3-vkuznets@redhat.com>
+ <11df1501c60809e5d83e2591fb43a3b660afaef4.camel@redhat.com>
+Date: Wed, 10 Aug 2022 16:57:19 +0200
+Message-ID: <87mtccxi28.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -102,86 +102,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-08-10 at 16:00 +0200, Vitaly Kuznetsov wrote:
-> Make sure env->nested_state is cleaned up when a vCPU is reset, it may
-> be stale after an incoming migration, kvm_arch_put_registers() may
-> end up failing or putting vCPU in a weird state.
-> 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  target/i386/kvm/kvm.c | 37 +++++++++++++++++++++++++++----------
->  1 file changed, 27 insertions(+), 10 deletions(-)
-> 
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index f148a6d52fa4..4f8dacc1d4b5 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -1695,6 +1695,30 @@ static void kvm_init_xsave(CPUX86State *env)
->             env->xsave_buf_len);
->  }
->  
-> +static void kvm_init_nested_state(CPUX86State *env)
-> +{
-> +    struct kvm_vmx_nested_state_hdr *vmx_hdr;
-> +    uint32_t size;
-> +
-> +    if (!env->nested_state) {
-> +        return;
-> +    }
-> +
-> +    size = env->nested_state->size;
-> +
-> +    memset(env->nested_state, 0, size);
-> +    env->nested_state->size = size;
-> +
-> +    if (cpu_has_vmx(env)) {
-> +        env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
-> +        vmx_hdr = &env->nested_state->hdr.vmx;
-> +        vmx_hdr->vmxon_pa = -1ull;
-> +        vmx_hdr->vmcs12_pa = -1ull;
-> +    } else if (cpu_has_svm(env)) {
-> +        env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
-> +    }
-> +}
-> +
->  int kvm_arch_init_vcpu(CPUState *cs)
->  {
->      struct {
-> @@ -2122,19 +2146,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
->          assert(max_nested_state_len >= offsetof(struct kvm_nested_state, data));
->  
->          if (cpu_has_vmx(env) || cpu_has_svm(env)) {
-> -            struct kvm_vmx_nested_state_hdr *vmx_hdr;
-> -
->              env->nested_state = g_malloc0(max_nested_state_len);
->              env->nested_state->size = max_nested_state_len;
->  
-> -            if (cpu_has_vmx(env)) {
-> -                env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
-> -                vmx_hdr = &env->nested_state->hdr.vmx;
-> -                vmx_hdr->vmxon_pa = -1ull;
-> -                vmx_hdr->vmcs12_pa = -1ull;
-> -            } else {
-> -                env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
-> -            }
-> +            kvm_init_nested_state(env);
->          }
->      }
->  
-> @@ -2199,6 +2214,8 @@ void kvm_arch_reset_vcpu(X86CPU *cpu)
->      /* enabled by default */
->      env->poll_control_msr = 1;
->  
-> +    kvm_init_nested_state(env);
-> +
->      sev_es_set_reset_vector(CPU(cpu));
->  }
->  
-Makes sense.
+Maxim Levitsky <mlevitsk@redhat.com> writes:
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+> On Wed, 2022-08-10 at 16:00 +0200, Vitaly Kuznetsov wrote:
+>> Setting nested state upon migration needs to happen after kvm_put_sregs2=
+()
+>> to e.g. have EFER.SVME set. This, however, doesn't work for vCPU reset:
+>> when vCPU is in VMX root operation, certain CR bits are locked and
+>> kvm_put_sregs2() may fail. As nested state is fully cleaned up upon
+>> vCPU reset (kvm_arch_reset_vcpu() -> kvm_init_nested_state()), calling
+>> kvm_put_nested_state() before kvm_put_sregs2() is OK, this will ensure
+>> that vCPU is *not* in VMX root opertaion.
+>>=20
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>> =C2=A0target/i386/kvm/kvm.c | 20 ++++++++++++++++++--
+>> =C2=A01 file changed, 18 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index 4f8dacc1d4b5..73e3880fa57b 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -4529,18 +4529,34 @@ int kvm_arch_put_registers(CPUState *cpu, int le=
+vel)
+>> =C2=A0
+>> =C2=A0=C2=A0=C2=A0=C2=A0 assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(=
+cpu));
+>> =C2=A0
+>> -=C2=A0=C2=A0=C2=A0 /* must be before kvm_put_nested_state so that EFER.=
+SVME is set */
+>> +=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * When resetting a vCPU, make sure to reset ne=
+sted state first to
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * e.g clear VMXON state and unlock certain CR4=
+ bits.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> +=C2=A0=C2=A0=C2=A0 if (level =3D=3D KVM_PUT_RESET_STATE) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D kvm_put_nested_state=
+(x86_cpu);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn ret;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>
+> I should have mentioned this, I actually already debugged the same issue =
+while
+> trying to reproduce the smm int window bug.
+> 100% my fault.
+>
+> I also share the same feeling that this might be yet another 'whack a mol=
+e' and
+> break somewhere else, but overall it does make sense.
 
-Best regards,
-	Maxim Levitsky
+This certainly *is* a 'whack a mole' and I'm sure there are other cases
+when one of calls in kvm_arch_put_registers() fails. We need to work on
+what's missing so we can expose kvm_vcpu_reset() to VMMs.
+
+>
+>
+> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+>
+
+Thanks!
+
+--=20
+Vitaly
 
 
