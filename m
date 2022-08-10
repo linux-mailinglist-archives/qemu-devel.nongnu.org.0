@@ -2,115 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA5558EA25
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:58:33 +0200 (CEST)
-Received: from localhost ([::1]:56462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3136358EA55
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 12:12:23 +0200 (CEST)
+Received: from localhost ([::1]:39318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLiTv-0003VH-QX
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:58:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60310)
+	id 1oLihJ-0003xQ-Lg
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 06:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLiQz-0001kA-74
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:55:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLiQw-0007lY-Mr
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:55:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660125325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m5UKomJJr5XDUN8t2Kmb7khiadiUQsrzaj90s+j66gQ=;
- b=XauGWYwm2YHllDCVya8h3dh2VCxcMp2eXLrGwCCuukmjOLrdAx5dk/CMcpX/u+Lxbe24xF
- 6/yzLXImuFsBVkN5tVXkNKcIczY4r9o46GIbAr0lLA4DDNQc4p7aNcS4wjx+f70N3f13Je
- hmRhx8eqHVUmTxMEGhGKI3mOSI+l6LM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-307-IZbexXH-NHe26_R-GNrU1Q-1; Wed, 10 Aug 2022 05:55:23 -0400
-X-MC-Unique: IZbexXH-NHe26_R-GNrU1Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c66-20020a1c3545000000b003a37b7e0764so854483wma.5
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 02:55:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oLiaz-0006o6-2t; Wed, 10 Aug 2022 06:05:49 -0400
+Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36]:36745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oLiax-0000rY-1b; Wed, 10 Aug 2022 06:05:48 -0400
+Received: by mail-vs1-xe36.google.com with SMTP id o123so14606323vsc.3;
+ Wed, 10 Aug 2022 03:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=4F8T4hIgCCQOBTZuPBS8XT/2m6umiv4Adep49HApF1Q=;
+ b=YDCJrKP1HrAWuHBpBsawBMby5sc+4aJvBfg/zKlYjaxHTu3exAq0f2C+DaeWJxKob/
+ kXXc6I1pPipcBT1jhTIwuwfQ4oUuw+sI8bzE8pJq7R5Ri/RjR6G7EQmLjx8YSsU4vWb0
+ vzUc5DEKJHIu5w7xATxP8qO5m8GmYnhG5mDNZZWQGdkPxjaFBk52m+gn6rz8o+q+v82T
+ lL2ofVjv4QUQsUMSH6580mL0Q7/DP6S9rLQsfGVOUo/h/AcTT5Ah8V/tlTngWK2Q150Z
+ eRpEfGagqkmQ7j5znF8lH44pIUPEVa4vsPj9jU+2jEbAmHHJmr3cosFFbMtY1y9l93K7
+ /bwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=m5UKomJJr5XDUN8t2Kmb7khiadiUQsrzaj90s+j66gQ=;
- b=ESTwTeqWbixlIvrVbrxe7yyIYy5JNyYqE3Q+ZYNxjN7DUj7b4pITVVcZTP4r76RGAA
- Gb5IX6t3LiACjmjkCgSMwcTuLZwxfzbUutMglCmaZ0iQVz0FJRfsVGG6louH1ijA51RQ
- cHBTocmYhFt7oyp91XFKNwLn1EaZNB2jdfgMsVe/BR/hJkcFcILstVaHtmgwfAasTgWG
- S4rw36PGy4JopcakK32Rsk+CEhXpHfFV7v1yDdsvqS8m9GJNgG5XSiyDynza03yvQcgb
- GxGkZJsBSJVBVBXMGbV2G0JLbBVpVOntll8U+eaBJd4ZWABGWKP4UZ1RkCuyPmNwG3qo
- EMeQ==
-X-Gm-Message-State: ACgBeo2xFt8mjz3Ngu51dt0Kbp1tfI0PJgmInRF8OMDEh8XIg7IIkH60
- 4EQ7PXal/VGunyzTSP7ueSA2MK6nZ30m0zdnk6v692NtjSFFn33Kny9+5PHuB1qAhFVZ+uYWBAo
- 7LHf6h8BtQbFV8XY=
-X-Received: by 2002:a5d:64e4:0:b0:222:d4da:c2e1 with SMTP id
- g4-20020a5d64e4000000b00222d4dac2e1mr7468929wri.15.1660125322319; 
- Wed, 10 Aug 2022 02:55:22 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR57ng+8LAmFqiWIYkxzU0qIaLTw96OSbpCj25JDzNCtyJxE1FXqxz6BaUC8mUFwvCSeHhucCg==
-X-Received: by 2002:a5d:64e4:0:b0:222:d4da:c2e1 with SMTP id
- g4-20020a5d64e4000000b00222d4dac2e1mr7468880wri.15.1660125322007; 
- Wed, 10 Aug 2022 02:55:22 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:1600:a3ce:b459:ef57:7b93?
- (p200300cbc7071600a3ceb459ef577b93.dip0.t-ipconnect.de.
- [2003:cb:c707:1600:a3ce:b459:ef57:7b93])
- by smtp.gmail.com with ESMTPSA id
- l3-20020a05600c4f0300b003a4bb3f9bc6sm1837127wmq.41.2022.08.10.02.55.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Aug 2022 02:55:21 -0700 (PDT)
-Message-ID: <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
-Date: Wed, 10 Aug 2022 11:55:19 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=4F8T4hIgCCQOBTZuPBS8XT/2m6umiv4Adep49HApF1Q=;
+ b=jy0O0O7yGG/ErkitvnLMUiP1tqwic9QTAmlUj7aaAZSfyTflOvmRomOUmjd696vvMX
+ iMcynCKFZVhRE23X+jgl5Gtng8s2YXpdnfVLEGHqR4SSziXfsaCtq1N29ssRim6F+yXX
+ 5F2LgsCGEe+JRu4ZxI+AGm4ThDp32jvhk7VqsFrzgjl1yPWbAdenGw7WU3wTpTwKn9G+
+ 3ju5e4sPJvGnPwjh886LphVgkZi62DHMeudj1Vf7x2AZ2C0o6oRGFyrF9KgS9FVtzRE8
+ hhMSMs/wgTJZhIju1pNcRlCHECQpSLx+v+g880RO4IuZVssh+WLK0Q3AoqH36Jh8paFn
+ QhqQ==
+X-Gm-Message-State: ACgBeo2/Qu4H01dFE7p/MDAFl+F8hR3NQMM0JNIvIt93/L2RwOQtoB5P
+ rUxqdxBV6FWudHqX65m9nBXclJaqnbc=
+X-Google-Smtp-Source: AA6agR78sjAzo7qqVB0Qb6snEkK9imTsv6ZWJ/6c1bi30NwTVYTuU0ywHBp9dwKSVlkAsDg0FMLUnA==
+X-Received: by 2002:a67:d509:0:b0:383:6b4c:3648 with SMTP id
+ l9-20020a67d509000000b003836b4c3648mr11441583vsj.15.1660125942160; 
+ Wed, 10 Aug 2022 03:05:42 -0700 (PDT)
+Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
+ [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
+ 2-20020a1f1602000000b0037613541b27sm12277919vkw.39.2022.08.10.03.05.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 03:05:41 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH for-7.2 v3 00/11] enable pnv-phb user created devices
+Date: Wed, 10 Aug 2022 07:05:25 -0300
+Message-Id: <20220810100536.473859-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Content-Language: en-US
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
- <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
- <20220810093741.GE862421@chaop.bj.intel.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220810093741.GE862421@chaop.bj.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe36.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,46 +87,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.08.22 11:37, Chao Peng wrote:
-> On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
->> On 06.07.22 10:20, Chao Peng wrote:
->>> Introduce a new memfd_create() flag indicating the content of the
->>> created memfd is inaccessible from userspace through ordinary MMU
->>> access (e.g., read/write/mmap). However, the file content can be
->>> accessed via a different mechanism (e.g. KVM MMU) indirectly.
->>>
->>> It provides semantics required for KVM guest private memory support
->>> that a file descriptor with this flag set is going to be used as the
->>> source of guest memory in confidential computing environments such
->>> as Intel TDX/AMD SEV but may not be accessible from host userspace.
->>>
->>> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
->>> also impossible for a memfd created with this flag.
->>
->> It's kind of weird to have it that way. Why should the user have to
->> care? It's the notifier requirement to have that, no?
->>
->> Why can't we handle that when register a notifier? If anything is
->> already mapped, fail registering the notifier if the notifier has these
->> demands. If registering succeeds, block it internally.
->>
->> Or what am I missing? We might not need the memfile set flag semantics
->> eventually and would not have to expose such a flag to user space.
-> 
-> This makes sense if doable. The major concern was: is there a reliable
-> way to detect this (already mapped) at the time of memslot registering.
+Hi,
 
-If too complicated, we could simplify to "was this ever mapped" and fail
-for now. Hooking into shmem_mmap() might be sufficient for that to get
-notified about the first mmap.
+This new version contains a new patch (11) to handle the QOM parenting
+of user created root ports. A small change in patch 5 was made as well
+based on Frederic's comments.
 
-As an alternative, mapping_mapped() or similar *might* do what we want.
+The series is based on top of the ppc-7.2 branch:
 
+https://gitlab.com/danielhb/qemu/-/tree/ppc-7.2
 
+Changes from v2:
+- patch 5: avoid parenting the PHB to NULL
+- patch 11 (new):
+   - fix QOM parenting of user created root ports
+- v2 link: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00505.html
+
+Daniel Henrique Barboza (11):
+  ppc/pnv: add phb-id/chip-id PnvPHB3RootBus properties
+  ppc/pnv: add phb-id/chip-id PnvPHB4RootBus properties
+  ppc/pnv: set root port chassis and slot using Bus properties
+  ppc/pnv: add helpers for pnv-phb user devices
+  ppc/pnv: turn chip8->phbs[] into a PnvPHB* array
+  ppc/pnv: enable user created pnv-phb for powernv8
+  ppc/pnv: add PHB4 helpers for user created pnv-phb
+  ppc/pnv: enable user created pnv-phb powernv9
+  ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
+  ppc/pnv: user creatable pnv-phb for powernv10
+  ppc/pnv: fix QOM parenting of user creatable root ports
+
+ hw/pci-host/pnv_phb.c          | 178 +++++++++++++++++++++++++++++----
+ hw/pci-host/pnv_phb3.c         |  50 +++++++++
+ hw/pci-host/pnv_phb4.c         |  51 ++++++++++
+ hw/pci-host/pnv_phb4_pec.c     |   6 +-
+ hw/ppc/pnv.c                   |  30 +++++-
+ include/hw/pci-host/pnv_phb3.h |   9 +-
+ include/hw/pci-host/pnv_phb4.h |  10 ++
+ include/hw/ppc/pnv.h           |   6 +-
+ 8 files changed, 312 insertions(+), 28 deletions(-)
 
 -- 
-Thanks,
-
-David / dhildenb
+2.36.1
 
 
