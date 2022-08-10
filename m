@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FA958EC3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:44:56 +0200 (CEST)
-Received: from localhost ([::1]:46398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A4658EC65
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:56:31 +0200 (CEST)
+Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLl4w-0005yr-Nv
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
+	id 1oLlGA-0007HK-L1
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oLl1P-0006wx-3f
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:41:15 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oLl1N-0005PM-D5
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:41:14 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id h13so17622430wrf.6
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 05:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=2wdII7q5350dyl+ZyIL7Pkw6L02jN8t/a+pXCBjdHpw=;
- b=ORCb/eDfBtKKdbzps2w5tmBfUUErwjR9opq8BWJtZl83Q+CEfvDZTz/8sqWFOeoFs0
- bpSDwcARrsN30+06Fp1qiHedG4OAMWVAEXcBC/OrfZY+MIS4k7elTYgoZRbpl4WJyZ5b
- felXvccZXg5E6yui5dZM1FjY/HcdrhxLMY+7qYFlBdfLmmzHu6V1QRQAVSyWya/zzs5/
- ad1JKW5GBFKn9nkNp2N8VFuAINTWXobSfzMdrIt6NcDfcPVxLnni3NteAyz73UAKWzFF
- LIsSDYRD15G0eNprH3uySlYWd+Qb7oComNwtDAZ2k+w21OPCpDE9aa+Nx+w8n2a4L6ga
- eLFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=2wdII7q5350dyl+ZyIL7Pkw6L02jN8t/a+pXCBjdHpw=;
- b=ezglzsdAsfLRNBJjJpI0YeDlJf0dSfxGOV+yG2KNhLT6kyGxCMGcRK1eKdunzsZt/K
- ZMauQ1paukqadr8hQMR2DQfUPXjM1JqKR4AQWeioMvU66S34Z/nRMNNFD05eD14RCIbZ
- AaM2pzo6O8TijIWM4HzwiP4VQtTB7UTTKlSygsvSejUisfQj7pJoMeVTJO6hGCTSLX1S
- AEHyaZkTufYUdDUl0Zew89pndr8i0tUlHp42tbWjWmR8kUpJoStBNcJO06I+zOf3wamt
- idDQD0XUkmmU6mI4/HODnE8DcrcDXfQSqOwkKWoHFXYmqlvZipCYL6h5v1L1BG7RsDdC
- G/ww==
-X-Gm-Message-State: ACgBeo3vu8HBbu/Dv5zsRLNMzRWjJFCKsYIHZIdnwGFLd8rQCfamXaoU
- tqvqxGWTMUkBi6slJk5NZeaYCA==
-X-Google-Smtp-Source: AA6agR5Borh/n3SiCw1B1/WNk89PhMagsjdRhSOdPWxzrm5btbr7JnXiCB+Qf5pO+48T/VjdASIIcw==
-X-Received: by 2002:a05:6000:181b:b0:221:119b:d26a with SMTP id
- m27-20020a056000181b00b00221119bd26amr15853755wrh.708.1660135269964; 
- Wed, 10 Aug 2022 05:41:09 -0700 (PDT)
-Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
- by smtp.gmail.com with ESMTPSA id
- c5-20020a5d4f05000000b002205a5de337sm16335295wru.102.2022.08.10.05.41.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 05:41:09 -0700 (PDT)
-Date: Wed, 10 Aug 2022 14:41:08 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Ben Dooks <qemu@ben.fluff.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com,
- peter.maydell@linaro.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH v4 6/6] hw/arm: change to use qemu_fdt_setprop_strings()
-Message-ID: <20220810124108.dqmryussx5x5p7d3@kamzik>
-References: <20220809185639.750345-1-qemu@ben.fluff.org>
- <20220809185639.750345-7-qemu@ben.fluff.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oLl94-0001Nr-9k
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:49:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oLl90-0007OZ-1h
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:49:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660135744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eQc1n4Sxxt6zDwyMjZ2XVwazy5ICVbKV2rUZeWNsQ4k=;
+ b=VPPurTztkwFl403wvH0gEPJgM6ysIqx9t+LYsVPW8njvo7vv5Q7tuEJnQYA/zu/aOHN4Ae
+ GnQHE5ghQEiLhXzIlhBWeRyr7PdJ7ws4Ub1HlB2AS4uS6LGqYP3+h9lmIbqAi1lI3eP2bm
+ 4jET/uTMXrWvrL4Ic36su4ODvXD4yPM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-152-nJfpdOCGPLSpheeIjmeZ6Q-1; Wed, 10 Aug 2022 08:49:03 -0400
+X-MC-Unique: nJfpdOCGPLSpheeIjmeZ6Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63A3C299E771;
+ Wed, 10 Aug 2022 12:49:03 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4C5940CF8E8;
+ Wed, 10 Aug 2022 12:49:01 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
+ Xie Yongji <xieyongji@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v3 00/16] Preliminary patches for subproject split
+Date: Wed, 10 Aug 2022 16:48:41 +0400
+Message-Id: <20220810124857.1360211-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220809185639.750345-7-qemu@ben.fluff.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,22 +81,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 09, 2022 at 07:56:40PM +0100, Ben Dooks wrote:
-> Change to using qemu_fdt_setprop_strings() instead of using
-> \0 separated string arrays. Note, also there were a few places
-> where qemu_fdt_setprop_string() can be used in the same areas.
-> 
-> Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
-> ---
-> v4:
->  - fixed checkpatch errors with string
->  - fixed patch subject
-> ---
->  hw/arm/boot.c             |  8 +++---
->  hw/arm/virt.c             | 28 +++++++++------------
->  hw/arm/xlnx-versal-virt.c | 51 ++++++++++++++++-----------------------
->  3 files changed, 37 insertions(+), 50 deletions(-)
->
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Hi,
+
+Here is another subset of the large "subproject(qga)" series I intend to send
+soon after (https://gitlab.com/marcandre.lureau/qemu/-/commits/qga).
+
+Thanks
+
+v3:
+- use overriable qmp_dispatch_exec() stub, instead of extra callback
+- qapi-gen "-i file.h" will always generate '#include "file.h"' now
+- improve mtest2make.py subproject tests handling
+- add r-b tags
+
+v2:
+ - drop error_init() callbacks, use static library symbol override instead
+ - include a few patches from the rest of the series to introduce qemu-common
+   subproject
+
+Marc-André Lureau (16):
+  error-report: misc comment fix
+  error-report: introduce "detailed" variable
+  error-report: simplify print_loc()
+  error-report: introduce overridable error_is_detailed()
+  stubs: remove needless error_vprintf_unless_qmp()
+  qapi: move QEMU-specific dispatch code in monitor
+  qapi: remove QEMU-specific monitor dependency from dispatch
+  scripts/qapi-gen: add -i option
+  scripts/qapi: add required system includes to visitor
+  util: move 256-by-128 division helpers to int128
+  qemu-common: introduce a common subproject
+  qemu-common: move scripts/qapi
+  qemu-common: move glib-compat.h
+  qemu-common: move error-report
+  mtest2make.py: teach suite name that are just "PROJECT"
+  qemu-common: add error-report test
+
+ docs/conf.py                                  |   2 +-
+ meson.build                                   |  28 +--
+ include/qapi/qmp/dispatch.h                   |   6 +-
+ include/qemu/host-utils.h                     |   3 -
+ include/qemu/int128.h                         |   3 +
+ .../qemu-common/include}/glib-compat.h        |   4 +-
+ .../qemu-common/include}/qemu/error-report.h  |   4 +
+ .../qemu-common/include}/qemu/help-texts.h    |   0
+ monitor/qmp.c                                 |  64 +++++++
+ qapi/qmp-dispatch.c                           |  62 +-----
+ softmmu/vl.c                                  |   5 +
+ stubs/qmp-dispatch-exec.c                     |   8 +
+ .../qemu-common/src/error-is-detailed.c       |   6 +
+ .../qemu-common/src}/error-report.c           |  20 +-
+ .../qemu-common/src/error-vprintf.c           |  10 +-
+ .../qemu-common/tests/test-error-report.c     | 120 ++++++++++++
+ util/host-utils.c                             | 180 ------------------
+ util/int128.c                                 | 180 ++++++++++++++++++
+ MAINTAINERS                                   |   4 +-
+ scripts/mtest2make.py                         |   9 +-
+ stubs/meson.build                             |   2 +-
+ subprojects/libvduse/meson.build              |   2 +
+ subprojects/libvduse/subprojects/qemu-common  |   1 +
+ subprojects/libvhost-user/meson.build         |   2 +
+ .../libvhost-user/subprojects/qemu-common     |   1 +
+ subprojects/qemu-common/meson.build           |  26 +++
+ subprojects/qemu-common/scripts/meson.build   |   3 +
+ .../qemu-common/scripts}/qapi-gen.py          |   0
+ .../qemu-common/scripts}/qapi/.flake8         |   0
+ .../qemu-common/scripts}/qapi/.isort.cfg      |   0
+ .../qemu-common/scripts}/qapi/__init__.py     |   0
+ .../qemu-common/scripts}/qapi/commands.py     |  15 +-
+ .../qemu-common/scripts}/qapi/common.py       |   0
+ .../qemu-common/scripts}/qapi/error.py        |   0
+ .../qemu-common/scripts}/qapi/events.py       |  17 +-
+ .../qemu-common/scripts}/qapi/expr.py         |   0
+ .../qemu-common/scripts}/qapi/gen.py          |  15 ++
+ .../qemu-common/scripts}/qapi/introspect.py   |  11 +-
+ .../qemu-common/scripts}/qapi/main.py         |  17 +-
+ .../qemu-common/scripts/qapi/meson.build      |  16 ++
+ .../qemu-common/scripts}/qapi/mypy.ini        |   0
+ .../qemu-common/scripts}/qapi/parser.py       |   0
+ .../qemu-common/scripts}/qapi/pylintrc        |   0
+ .../qemu-common/scripts}/qapi/schema.py       |   0
+ .../qemu-common/scripts}/qapi/source.py       |   0
+ .../qemu-common/scripts}/qapi/types.py        |  17 +-
+ .../qemu-common/scripts}/qapi/visit.py        |  19 +-
+ subprojects/qemu-common/src/meson.build       |   5 +
+ subprojects/qemu-common/tests/meson.build     |  12 ++
+ tests/qapi-schema/meson.build                 |   2 +-
+ util/meson.build                              |   2 +-
+ 51 files changed, 579 insertions(+), 324 deletions(-)
+ rename {include => subprojects/qemu-common/include}/glib-compat.h (97%)
+ rename {include => subprojects/qemu-common/include}/qemu/error-report.h (97%)
+ rename {include => subprojects/qemu-common/include}/qemu/help-texts.h (100%)
+ create mode 100644 stubs/qmp-dispatch-exec.c
+ create mode 100644 subprojects/qemu-common/src/error-is-detailed.c
+ rename {util => subprojects/qemu-common/src}/error-report.c (96%)
+ rename stubs/error-printf.c => subprojects/qemu-common/src/error-vprintf.c (64%)
+ create mode 100644 subprojects/qemu-common/tests/test-error-report.c
+ create mode 120000 subprojects/libvduse/subprojects/qemu-common
+ create mode 120000 subprojects/libvhost-user/subprojects/qemu-common
+ create mode 100644 subprojects/qemu-common/meson.build
+ create mode 100644 subprojects/qemu-common/scripts/meson.build
+ rename {scripts => subprojects/qemu-common/scripts}/qapi-gen.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/.flake8 (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/.isort.cfg (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/__init__.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/commands.py (96%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/common.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/error.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/events.py (95%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/expr.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/gen.py (96%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/introspect.py (97%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/main.py (85%)
+ create mode 100644 subprojects/qemu-common/scripts/qapi/meson.build
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/mypy.ini (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/parser.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/pylintrc (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/schema.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/source.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/types.py (96%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/visit.py (96%)
+ create mode 100644 subprojects/qemu-common/src/meson.build
+ create mode 100644 subprojects/qemu-common/tests/meson.build
+
+-- 
+2.37.1
+
 
