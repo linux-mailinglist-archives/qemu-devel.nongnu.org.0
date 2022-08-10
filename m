@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374B558E9B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:36:55 +0200 (CEST)
-Received: from localhost ([::1]:42744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F1958E9D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:41:52 +0200 (CEST)
+Received: from localhost ([::1]:45322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLi8z-0001Pe-Mq
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
+	id 1oLiDm-0003fs-Fd
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oLi2s-0007N6-SG
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:30:34 -0400
-Received: from mga01.intel.com ([192.55.52.88]:31212)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oLi59-0008Jm-Bn
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:32:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oLi2p-0003ql-Vr
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:30:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660123831; x=1691659831;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=zHygXbTWCyPOJ+4aJpksT5a9YTzKkpyV1mfD/3Fs2Cg=;
- b=hXTJ1/cRcbwtT4VowGnYl/0GeJsO6cwkz/ZZck6L0EddxhjOELruANSn
- Mk7UXBsmKPnxeqRSkfwa2h9s1JcvgJ+5bkxUfcKo3vqPJgfJ4sz7l1Gy8
- CXRJ0LgUgvA5Tp1XZae3atx24F+Fai47cZ0Oz7LrRbjbvQX6UxitG0cjx
- VqAcaw93t+0XsnXM1bH9OLUr8kkD3gefFawXQxTEy4TGYVzeJxoEIE7/J
- Xk+gR6YgiIQI+k9Bz1Gn1CXexWo/oZSg33YoQTgLQWQMeIvMejEasOrLY
- PVWyNxvPEAkNHMR67eF0LQRhXzx2YYwKj69Z9OhHqDDeEdSk6w8ecbjNQ g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="316987585"
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="316987585"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2022 02:30:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="664821304"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga008.fm.intel.com with ESMTP; 10 Aug 2022 02:30:18 -0700
-Date: Wed, 10 Aug 2022 17:25:32 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 04/14] mm/shmem: Support memfile_notifier
-Message-ID: <20220810092532.GD862421@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
- <a34d88b9-a4b9-cb9e-91d9-c5a89449fcd5@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oLi55-0004Ci-Li
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:32:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660123970;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CMAcozNlpam1BJ+hDJV/m/SJvRXVN4KAVq3lMGxpq9Q=;
+ b=a5CKD3SIF0XuFGIjcEywVLckjZEFjPHNu6Dv1IZXMTNVH38EKwExQcPB/RAZZ6DZP70t4q
+ fFPYjJ6dRmIGWKXsnHpmFwjEHAjBuJURklHbe6n0jImRKHnkldPSDU1Tw4H4SJy9OCSEvq
+ Omwbl5GMN39+cVQGY9Xorwmp2MTtZNg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-88-_IVYt31MMU6PoLx_gxaylQ-1; Wed, 10 Aug 2022 05:32:49 -0400
+X-MC-Unique: _IVYt31MMU6PoLx_gxaylQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6431338149AB;
+ Wed, 10 Aug 2022 09:32:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF04B40CFD0B;
+ Wed, 10 Aug 2022 09:32:48 +0000 (UTC)
+Date: Wed, 10 Aug 2022 10:32:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH for 7.1] linux-user: fix compat with glibc >= 2.36
+ sys/mount.h
+Message-ID: <YvN7Phdaw6b8D7ky@redhat.com>
+References: <20220802164134.1851910-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <a34d88b9-a4b9-cb9e-91d9-c5a89449fcd5@redhat.com>
-Received-SPF: none client-ip=192.55.52.88;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220802164134.1851910-1-berrange@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,114 +80,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05, 2022 at 03:26:02PM +0200, David Hildenbrand wrote:
-> On 06.07.22 10:20, Chao Peng wrote:
-> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > 
-> > Implement shmem as a memfile_notifier backing store. Essentially it
-> > interacts with the memfile_notifier feature flags for userspace
-> > access/page migration/page reclaiming and implements the necessary
-> > memfile_backing_store callbacks.
-> > 
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> 
-> [...]
-> 
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +static struct memfile_node *shmem_lookup_memfile_node(struct file *file)
-> > +{
-> > +	struct inode *inode = file_inode(file);
-> > +
-> > +	if (!shmem_mapping(inode->i_mapping))
-> > +		return NULL;
-> > +
-> > +	return  &SHMEM_I(inode)->memfile_node;
-> > +}
-> > +
-> > +
-> > +static int shmem_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> > +			 int *order)
-> > +{
-> > +	struct page *page;
-> > +	int ret;
-> > +
-> > +	ret = shmem_getpage(file_inode(file), offset, &page, SGP_WRITE);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	unlock_page(page);
-> > +	*pfn = page_to_pfn_t(page);
-> > +	*order = thp_order(compound_head(page));
-> > +	return 0;
-> > +}
-> > +
-> > +static void shmem_put_pfn(pfn_t pfn)
-> > +{
-> > +	struct page *page = pfn_t_to_page(pfn);
-> > +
-> > +	if (!page)
-> > +		return;
-> > +
-> > +	put_page(page);
-> 
-> 
-> Why do we export shmem_get_pfn/shmem_put_pfn and not simply
-> 
-> get_folio()
-> 
-> and let the caller deal with putting the folio? What's the reason to
-> 
-> a) Operate on PFNs and not folios
-> b) Have these get/put semantics?
+Laurent: ping,
 
-We have a design assumption that somedays this can even support non-page
-based backing stores. There are some discussions:
-  https://lkml.org/lkml/2022/3/28/1440
-I should add document for this two callbacks.
+Can you consider queuing this so 7.1 isn't broken with latest glibc
+releases.
 
+On Tue, Aug 02, 2022 at 12:41:34PM -0400, Daniel P. Berrangé wrote:
+> The latest glibc 2.36 has extended sys/mount.h so that it
+> defines the FSCONFIG_* enum constants. These are historically
+> defined in linux/mount.h, and thus if you include both headers
+> the compiler complains:
 > 
-> > +}
-> > +
-> > +static struct memfile_backing_store shmem_backing_store = {
-> > +	.lookup_memfile_node = shmem_lookup_memfile_node,
-> > +	.get_pfn = shmem_get_pfn,
-> > +	.put_pfn = shmem_put_pfn,
-> > +};
-> > +#endif /* CONFIG_MEMFILE_NOTIFIER */
-> > +
-> >  void __init shmem_init(void)
-> >  {
-> >  	int error;
-> > @@ -3956,6 +4059,10 @@ void __init shmem_init(void)
-> >  	else
-> >  		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
-> >  #endif
-> > +
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +	memfile_register_backing_store(&shmem_backing_store);
+> In file included from /usr/include/linux/fs.h:19,
+>                  from ../linux-user/syscall.c:98:
+> /usr/include/linux/mount.h:95:6: error: redeclaration of 'enum fsconfig_command'
+>    95 | enum fsconfig_command {
+>       |      ^~~~~~~~~~~~~~~~
+> In file included from ../linux-user/syscall.c:31:
+> /usr/include/sys/mount.h:189:6: note: originally defined here
+>   189 | enum fsconfig_command
+>       |      ^~~~~~~~~~~~~~~~
+> /usr/include/linux/mount.h:96:9: error: redeclaration of enumerator 'FSCONFIG_SET_FLAG'
+>    96 |         FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
+>       |         ^~~~~~~~~~~~~~~~~
+> /usr/include/sys/mount.h:191:3: note: previous definition of 'FSCONFIG_SET_FLAG' with type 'enum fsconfig_command'
+>   191 |   FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
+>       |   ^~~~~~~~~~~~~~~~~
+> ...snip...
 > 
-> Can we instead prove a dummy function that does nothing without
-> CONFIG_MEMFILE_NOTIFIER?
-
-Sounds good.
-
-Chao
+> QEMU doesn't include linux/mount.h, but it does use
+> linux/fs.h and thus gets linux/mount.h indirectly.
 > 
-> > +#endif
-> >  	return;
-> >  
-> >  out1:
+> glibc acknowledges this problem but does not appear to
+> be intending to fix it in the forseeable future, simply
+> documenting it as a known incompatibility with no
+> workaround:
 > 
+>   https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
+>   https://sourceware.org/glibc/wiki/Synchronizing_Headers
 > 
+> To address this requires either removing use of sys/mount.h
+> or linux/fs.h, despite QEMU needing declarations from
+> both.
+> 
+> This patch removes linux/fs.h, meaning we have to define
+> various FS_IOC constants that are now unavailable.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  linux-user/syscall.c | 18 ++++++++++++++++++
+>  meson.build          |  2 ++
+>  2 files changed, 20 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index b27a6552aa..52d178afe7 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -95,7 +95,25 @@
+>  #include <linux/soundcard.h>
+>  #include <linux/kd.h>
+>  #include <linux/mtio.h>
+> +
+> +#ifdef HAVE_SYS_MOUNT_FSCONFIG
+> +/*
+> + * glibc >= 2.36 linux/mount.h conflicts with sys/mount.h,
+> + * which in turn prevents use of linux/fs.h. So we have to
+> + * define the constants ourselves for now.
+> + */
+> +#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
+> +#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
+> +#define FS_IOC_GETVERSION              _IOR('v', 1, long)
+> +#define FS_IOC_SETVERSION              _IOW('v', 2, long)
+> +#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
+> +#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
+> +#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
+> +#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
+> +#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
+> +#else
+>  #include <linux/fs.h>
+> +#endif
+>  #include <linux/fd.h>
+>  #if defined(CONFIG_FIEMAP)
+>  #include <linux/fiemap.h>
+> diff --git a/meson.build b/meson.build
+> index 294e9a8f32..30a380752c 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1963,6 +1963,8 @@ config_host_data.set('HAVE_OPTRESET',
+>                       cc.has_header_symbol('getopt.h', 'optreset'))
+>  config_host_data.set('HAVE_IPPROTO_MPTCP',
+>                       cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
+> +config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
+> +                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET_FLAG'))
+>  
+>  # has_member
+>  config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
 > -- 
-> Thanks,
+> 2.37.1
 > 
-> David / dhildenb
-> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
