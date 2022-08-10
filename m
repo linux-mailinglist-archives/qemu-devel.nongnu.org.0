@@ -2,87 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3141C58F3BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 23:12:06 +0200 (CEST)
-Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2AC58F3E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 23:37:26 +0200 (CEST)
+Received: from localhost ([::1]:34816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLszj-0003dC-Tj
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 17:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42274)
+	id 1oLtOG-0001sV-Gv
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 17:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLsxl-00026w-Qb
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 17:10:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22810)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLtMp-0000Pe-HK; Wed, 10 Aug 2022 17:35:56 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:29257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLsxh-0004Qe-NC
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 17:10:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660165796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AzcxXWnDC8ivZ4Sqj7U1v0MCXExPxBs3kq+Cn2QNbc0=;
- b=GKI2ExCAZXDLFdobBB3Uda2Icl/4mO1qy+FY0XaB0cO9vNk7jW9p4kXZIr+V8msWf8vpjS
- PTOQOm79huN9HUS0hf/tn8AOagHbpIni88wsXe+Tm2A8DHLNvT1JaiG/wTH3hW+O/VUkhq
- ydMWaLVlkCd75ue1okU8RnfHtTcTrSs=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-OOirqYrgPDyaBee1Wmtwmw-1; Wed, 10 Aug 2022 17:09:47 -0400
-X-MC-Unique: OOirqYrgPDyaBee1Wmtwmw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- z20-20020a05640235d400b0043e1e74a495so10000392edc.11
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 14:09:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=AzcxXWnDC8ivZ4Sqj7U1v0MCXExPxBs3kq+Cn2QNbc0=;
- b=obWLIh9UiiXDfLbSgz8sWOA3H8XC+/5yTJrUDU4/pvv60p1Yg3TgIwH+R6PWMry6GQ
- byIp4jGSQDD+GqoTEyaMYEiTKWtfCqlln44si9LF3yNUmOvtYYSs+kpQA/1THX9v1H0R
- m+wUB6yHxSMqSNGrkRL4CbxFCszcq4/eCEMyof955nXc/t+uOqg/FFOhELpkWRxuJ7eG
- jovLILYBu7gO0DXqlUlHTRzf71m5cMjDC+908JnIMBOs2PYmtL630PNey/uiVqoDx72K
- o4SIsYK9dlJC8180G6pV/70DYabPhdJuKHVZdI9YMIR5R6huFTOR68B6FFXWLaIMG3B6
- rfXg==
-X-Gm-Message-State: ACgBeo0yr3wMSK6IrFm+AsgLpAgrW1XLH/NyIRq6nMkeEchFk12X/nk8
- 7A5ArKENNaAHd9k1SbdcGOKywGl/yHbsgmeAQmveGrvkS76mSAxMU7GP9ClL/fzXwhymCdMzQB6
- FfILaO3H6wWIyni8=
-X-Received: by 2002:a17:907:5ce:b0:730:bae0:deb with SMTP id
- wg14-20020a17090705ce00b00730bae00debmr22567370ejb.181.1660165786318; 
- Wed, 10 Aug 2022 14:09:46 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4c66vXW+DLtvsDH80iDkjMv8z257kSa/yFKgw3F+11mr1cKcxco9DcArfQwSz6oqaEdtkfng==
-X-Received: by 2002:a17:907:5ce:b0:730:bae0:deb with SMTP id
- wg14-20020a17090705ce00b00730bae00debmr22567358ejb.181.1660165786038; 
- Wed, 10 Aug 2022 14:09:46 -0700 (PDT)
-Received: from redhat.com ([2.52.152.113]) by smtp.gmail.com with ESMTPSA id
- 20-20020a170906309400b00730fd9ccf84sm2713832ejv.90.2022.08.10.14.09.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 14:09:45 -0700 (PDT)
-Date: Wed, 10 Aug 2022 17:09:42 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Jason A . Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH v3] pc: hide linuxboot RNG seed behind a machine property
-Message-ID: <20220810170827-mutt-send-email-mst@kernel.org>
-References: <20220810165942.104545-1-pbonzini@redhat.com>
- <20220810130346-mutt-send-email-mst@kernel.org>
- <CABgObfa0dr3H7tr8S5L+pLjFyJUMP7rVTPxr4senHDfofBq1RA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLtMm-0008NW-2h; Wed, 10 Aug 2022 17:35:54 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 58EA77462D3;
+ Wed, 10 Aug 2022 23:35:47 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 003967461AE; Wed, 10 Aug 2022 23:35:46 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id F09C3745702;
+ Wed, 10 Aug 2022 23:35:46 +0200 (CEST)
+Date: Wed, 10 Aug 2022 23:35:46 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 18/24] ppc/ppc405: QOM'ify MAL
+In-Reply-To: <20220809153904.485018-19-clg@kaod.org>
+Message-ID: <60aac5fd-a7ed-9c44-21b7-c563c3438ebb@eik.bme.hu>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-19-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABgObfa0dr3H7tr8S5L+pLjFyJUMP7rVTPxr4senHDfofBq1RA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1525416160-1660167346=:67081"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,108 +62,374 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 10, 2022 at 09:25:05PM +0200, Paolo Bonzini wrote:
-> 
-> 
-> Il mer 10 ago 2022, 19:06 Michael S. Tsirkin <mst@redhat.com> ha scritto:
-> 
->     > @@ -1387,6 +1405,7 @@ static void x86_machine_initfn(Object *obj)
->     >      x86ms->acpi = ON_OFF_AUTO_AUTO;
->     >      x86ms->pit = ON_OFF_AUTO_AUTO;
->     >      x86ms->pic = ON_OFF_AUTO_AUTO;
->     > +    x86ms->linuxboot_randomness = ON_OFF_AUTO_OFF;
->     >      x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
->     >      x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
->     >      x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-> 
-> 
->     This is a weird thing to do in that there's no way to make it auto now.
-> 
-> 
-> Sure, -M x-linuxboot-randomness=auto works. And making it already on/off/auto
-> will limit future patches to the injection logic rather than the QOM
-> boilerplate.
-> 
-> Paolo
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Hmm. It's unusual that auto is not the same as "no value at all".
-But I guess there's no rule saying that can't be the case.
-OK then.
+--3866299591-1525416160-1660167346=:67081
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+On Tue, 9 Aug 2022, CÃ©dric Le Goater wrote:
+> The Memory Access Layer (MAL) controller is currently modeled as a DCR
+> device with 4 IRQs. Also drop the ppc4xx_mal_init() helper and adapt
+> the sam460ex machine.
+>
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: CÃ©dric Le Goater <clg@kaod.org>
+> ---
+> hw/ppc/ppc405.h         |   1 +
+> include/hw/ppc/ppc4xx.h |  32 +++++++++-
+> hw/ppc/ppc405_uc.c      |  18 ++++--
+> hw/ppc/ppc4xx_devs.c    | 135 ++++++++++++++++++----------------------
+> hw/ppc/sam460ex.c       |  16 +++--
+> 5 files changed, 116 insertions(+), 86 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index cb34792daf6b..31c94e474209 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -244,6 +244,7 @@ struct Ppc405SoCState {
+>     Ppc405OpbaState opba;
+>     Ppc405PobState pob;
+>     Ppc405PlbState plb;
+> +    Ppc4xxMalState mal;
+> };
+>
+> /* PowerPC 405 core */
+> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+> index 82e60b0e0742..acd096cb2394 100644
+> --- a/include/hw/ppc/ppc4xx.h
+> +++ b/include/hw/ppc/ppc4xx.h
+> @@ -26,6 +26,7 @@
+> #define PPC4XX_H
+>
+> #include "hw/ppc/ppc.h"
+> +#include "hw/sysbus.h"
 
+Is this needed?
 
+> #include "exec/memory.h"
+> #include "hw/sysbus.h"
+>
+> @@ -40,9 +41,6 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+>                         hwaddr *ram_sizes,
+>                         int do_init);
+>
+> -void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+> -                     qemu_irq irqs[4]);
+> -
+> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+>
+> /*
+> @@ -61,4 +59,32 @@ void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
+> bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+>                         Error **errp);
+>
+> +/* Memory Access Layer (MAL) */
+> +#define TYPE_PPC4xx_MAL "ppc4xx-mal"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxMalState, PPC4xx_MAL);
+> +struct Ppc4xxMalState {
+> +    Ppc4xxDcrDeviceState parent_obj;
+> +
+> +    qemu_irq irqs[4];
+> +    uint32_t cfg;
+> +    uint32_t esr;
+> +    uint32_t ier;
+> +    uint32_t txcasr;
+> +    uint32_t txcarr;
+> +    uint32_t txeobisr;
+> +    uint32_t txdeir;
+> +    uint32_t rxcasr;
+> +    uint32_t rxcarr;
+> +    uint32_t rxeobisr;
+> +    uint32_t rxdeir;
+> +    uint32_t *txctpr;
+> +    uint32_t *rxctpr;
+> +    uint32_t *rcbs;
+> +    uint8_t  txcnum;
+> +    uint8_t  rxcnum;
+> +};
+> +
+> +void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+> +                     qemu_irq irqs[4]);
 
+The ppc4xx_mal_init func is gone so this declaration should also be 
+dropped.
 
-> 
->     And in that case, let's just make it a simple boolean property for now?
-> 
->     > @@ -1426,6 +1445,12 @@ static void x86_machine_class_init(ObjectClass
->     *oc, void *data)
->     >      object_class_property_set_description(oc, X86_MACHINE_PIT,
->     >          "Enable i8254 PIT");
->     > 
->     > +    object_class_property_add(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS,
->     "OnOffAuto",
->     > +        x86_machine_get_linuxboot_randomness,
->     x86_machine_set_linuxboot_randomness,
->     > +        NULL, NULL);
->     > +    object_class_property_set_description(oc,
->     X86_MACHINE_LINUXBOOT_RANDOMNESS,
->     > +        "Pass random number seed to -kernel Linux image");
->     > +
->     >      object_class_property_add(oc, X86_MACHINE_PIC, "OnOffAuto",
->     >                                x86_machine_get_pic,
->     >                                x86_machine_set_pic,
->     > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
->     > index 8435733bd6..9cc3f5d338 100644
->     > --- a/include/hw/i386/pc.h
->     > +++ b/include/hw/i386/pc.h
->     > @@ -128,9 +128,6 @@ struct PCMachineClass {
->     > 
->     >      /* create kvmclock device even when KVM PV features are not exposed
->     */
->     >      bool kvmclock_create_always;
->     > -
->     > -    /* skip passing an rng seed for legacy machines */
->     > -    bool legacy_no_rng_seed;
->     >  };
->     > 
->     >  #define TYPE_PC_MACHINE "generic-pc-machine"
->     > diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
->     > index 62fa5774f8..d7a2eb6f1c 100644
->     > --- a/include/hw/i386/x86.h
->     > +++ b/include/hw/i386/x86.h
->     > @@ -70,6 +70,7 @@ struct X86MachineState {
->     >      OnOffAuto acpi;
->     >      OnOffAuto pit;
->     >      OnOffAuto pic;
->     > +    OnOffAuto linuxboot_randomness;
->     > 
->     >      char *oem_id;
->     >      char *oem_table_id;
->     > @@ -94,6 +95,7 @@ struct X86MachineState {
->     >  #define X86_MACHINE_OEM_ID           "x-oem-id"
->     >  #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
->     >  #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
->     > +#define X86_MACHINE_LINUXBOOT_RANDOMNESS "x-linuxboot-randomness"
->     > 
->     >  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
->     >  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
->     > @@ -126,8 +128,7 @@ void x86_bios_rom_init(MachineState *ms, const char
->     *default_firmware,
->     >  void x86_load_linux(X86MachineState *x86ms,
->     >                      FWCfgState *fw_cfg,
->     >                      int acpi_data_size,
->     > -                    bool pvh_enabled,
->     > -                    bool legacy_no_rng_seed);
->     > +                    bool pvh_enabled);
->     > 
->     >  bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
->     >  bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
->     > --
->     > 2.37.1
-> 
-> 
+Regards,
+BALATON Zoltan
 
+> +
+> #endif /* PPC4XX_H */
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index 7f4c616da67c..290cfa352bed 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -1368,6 +1368,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>     object_initialize_child(obj, "pob", &s->pob, TYPE_PPC405_POB);
+>
+>     object_initialize_child(obj, "plb", &s->plb, TYPE_PPC405_PLB);
+> +
+> +    object_initialize_child(obj, "mal", &s->mal, TYPE_PPC4xx_MAL);
+> }
+>
+> static void ppc405_reset(void *opaque)
+> @@ -1378,7 +1380,6 @@ static void ppc405_reset(void *opaque)
+> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> {
+>     Ppc405SoCState *s = PPC405_SOC(dev);
+> -    qemu_irq mal_irqs[4];
+>     CPUPPCState *env;
+>     int i;
+>
+> @@ -1495,11 +1496,16 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>     }
+>
+>     /* MAL */
+> -    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
+> -    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
+> -    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
+> -    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
+> -    ppc4xx_mal_init(env, 4, 2, mal_irqs);
+> +    object_property_set_int(OBJECT(&s->mal), "txc-num", 4, &error_abort);
+> +    object_property_set_int(OBJECT(&s->mal), "rxc-num", 2, &error_abort);
+> +    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->mal), &s->cpu, errp)) {
+> +        return;
+> +    }
+> +
+> +    for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
+> +                           qdev_get_gpio_in(s->uic, 11 + i));
+> +    }
+>
+>     /* Ethernet */
+>     /* Uses UIC IRQs 9, 15, 17 */
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index bce7ef461346..8a8a87b03b28 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -459,32 +459,10 @@ enum {
+>     MAL0_RCBS1    = 0x1E1,
+> };
+>
+> -typedef struct ppc4xx_mal_t ppc4xx_mal_t;
+> -struct ppc4xx_mal_t {
+> -    qemu_irq irqs[4];
+> -    uint32_t cfg;
+> -    uint32_t esr;
+> -    uint32_t ier;
+> -    uint32_t txcasr;
+> -    uint32_t txcarr;
+> -    uint32_t txeobisr;
+> -    uint32_t txdeir;
+> -    uint32_t rxcasr;
+> -    uint32_t rxcarr;
+> -    uint32_t rxeobisr;
+> -    uint32_t rxdeir;
+> -    uint32_t *txctpr;
+> -    uint32_t *rxctpr;
+> -    uint32_t *rcbs;
+> -    uint8_t  txcnum;
+> -    uint8_t  rxcnum;
+> -};
+> -
+> -static void ppc4xx_mal_reset(void *opaque)
+> +static void ppc4xx_mal_reset(DeviceState *dev)
+> {
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
+>
+> -    mal = opaque;
+>     mal->cfg = 0x0007C000;
+>     mal->esr = 0x00000000;
+>     mal->ier = 0x00000000;
+> @@ -498,10 +476,9 @@ static void ppc4xx_mal_reset(void *opaque)
+>
+> static uint32_t dcr_read_mal(void *opaque, int dcrn)
+> {
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(opaque);
+>     uint32_t ret;
+>
+> -    mal = opaque;
+>     switch (dcrn) {
+>     case MAL0_CFG:
+>         ret = mal->cfg;
+> @@ -555,13 +532,12 @@ static uint32_t dcr_read_mal(void *opaque, int dcrn)
+>
+> static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
+> {
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(opaque);
+>
+> -    mal = opaque;
+>     switch (dcrn) {
+>     case MAL0_CFG:
+>         if (val & 0x80000000) {
+> -            ppc4xx_mal_reset(mal);
+> +            ppc4xx_mal_reset(DEVICE(mal));
+>         }
+>         mal->cfg = val & 0x00FFC087;
+>         break;
+> @@ -612,59 +588,67 @@ static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
+>     }
+> }
+>
+> -void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+> -                     qemu_irq irqs[4])
+> +static void ppc4xx_mal_realize(DeviceState *dev, Error **errp)
+> {
+> -    ppc4xx_mal_t *mal;
+> +    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
+> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+>     int i;
+>
+> -    assert(txcnum <= 32 && rxcnum <= 32);
+> -    mal = g_malloc0(sizeof(*mal));
+> -    mal->txcnum = txcnum;
+> -    mal->rxcnum = rxcnum;
+> -    mal->txctpr = g_new0(uint32_t, txcnum);
+> -    mal->rxctpr = g_new0(uint32_t, rxcnum);
+> -    mal->rcbs = g_new0(uint32_t, rxcnum);
+> -    for (i = 0; i < 4; i++) {
+> -        mal->irqs[i] = irqs[i];
+> +    if (mal->txcnum > 32 || mal->rxcnum > 32) {
+> +        error_setg(errp, "invalid TXC/RXC number");
+> +        return;
+> +    }
+> +
+> +    mal->txctpr = g_new0(uint32_t, mal->txcnum);
+> +    mal->rxctpr = g_new0(uint32_t, mal->rxcnum);
+> +    mal->rcbs = g_new0(uint32_t, mal->rxcnum);
+> +
+> +    for (i = 0; i < ARRAY_SIZE(mal->irqs); i++) {
+> +        sysbus_init_irq(SYS_BUS_DEVICE(dev), &mal->irqs[i]);
+>     }
+> -    qemu_register_reset(&ppc4xx_mal_reset, mal);
+> -    ppc_dcr_register(env, MAL0_CFG,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_ESR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_IER,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_TXCASR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_TXCARR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_TXEOBISR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_TXDEIR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_RXCASR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_RXCARR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_RXEOBISR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    ppc_dcr_register(env, MAL0_RXDEIR,
+> -                     mal, &dcr_read_mal, &dcr_write_mal);
+> -    for (i = 0; i < txcnum; i++) {
+> -        ppc_dcr_register(env, MAL0_TXCTP0R + i,
+> -                         mal, &dcr_read_mal, &dcr_write_mal);
+> +
+> +    ppc4xx_dcr_register(dcr, MAL0_CFG, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_ESR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_IER, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_TXCASR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_TXCARR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_TXEOBISR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_TXDEIR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_RXCASR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_RXCARR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_RXEOBISR, &dcr_read_mal, &dcr_write_mal);
+> +    ppc4xx_dcr_register(dcr, MAL0_RXDEIR, &dcr_read_mal, &dcr_write_mal);
+> +    for (i = 0; i < mal->txcnum; i++) {
+> +        ppc4xx_dcr_register(dcr, MAL0_TXCTP0R + i,
+> +                         &dcr_read_mal, &dcr_write_mal);
+>     }
+> -    for (i = 0; i < rxcnum; i++) {
+> -        ppc_dcr_register(env, MAL0_RXCTP0R + i,
+> -                         mal, &dcr_read_mal, &dcr_write_mal);
+> +    for (i = 0; i < mal->rxcnum; i++) {
+> +        ppc4xx_dcr_register(dcr, MAL0_RXCTP0R + i,
+> +                         &dcr_read_mal, &dcr_write_mal);
+>     }
+> -    for (i = 0; i < rxcnum; i++) {
+> -        ppc_dcr_register(env, MAL0_RCBS0 + i,
+> -                         mal, &dcr_read_mal, &dcr_write_mal);
+> +    for (i = 0; i < mal->rxcnum; i++) {
+> +        ppc4xx_dcr_register(dcr, MAL0_RCBS0 + i,
+> +                         &dcr_read_mal, &dcr_write_mal);
+>     }
+> }
+>
+> +static Property ppc4xx_mal_properties[] = {
+> +    DEFINE_PROP_UINT8("txc-num", Ppc4xxMalState, txcnum, 0),
+> +    DEFINE_PROP_UINT8("rxc-num", Ppc4xxMalState, rxcnum, 0),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void ppc4xx_mal_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = ppc4xx_mal_realize;
+> +    dc->user_creatable = false;
+> +    /* Reason: only works as function of a ppc4xx SoC */
+> +    dc->reset = ppc4xx_mal_reset;
+> +    device_class_set_props(dc, ppc4xx_mal_properties);
+> +}
+> +
+> void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
+>                          dcr_read_cb dcr_read, dcr_write_cb dcr_write)
+> {
+> @@ -699,6 +683,11 @@ static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
+>
+> static const TypeInfo ppc4xx_types[] = {
+>     {
+> +        .name           = TYPE_PPC4xx_MAL,
+> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
+> +        .instance_size  = sizeof(Ppc4xxMalState),
+> +        .class_init     = ppc4xx_mal_class_init,
+> +    }, {
+>         .name           = TYPE_PPC4xx_DCR_DEVICE,
+>         .parent         = TYPE_SYS_BUS_DEVICE,
+>         .instance_size  = sizeof(Ppc4xxDcrDeviceState),
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 31139c1554de..5f0e0ccaf485 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -280,7 +280,7 @@ static void sam460ex_init(MachineState *machine)
+>     hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
+>     MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
+>     DeviceState *uic[4];
+> -    qemu_irq mal_irqs[4];
+> +    Ppc4xxMalState *mal;
+>     int i;
+>     PCIBus *pci_bus;
+>     PowerPCCPU *cpu;
+> @@ -387,10 +387,18 @@ static void sam460ex_init(MachineState *machine)
+>     ppc4xx_sdr_init(env);
+>
+>     /* MAL */
+> -    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+> -        mal_irqs[i] = qdev_get_gpio_in(uic[2], 3 + i);
+> +    dev = qdev_new(TYPE_PPC4xx_MAL);
+> +    mal = PPC4xx_MAL(dev);
+> +
+> +    qdev_prop_set_uint32(dev, "txc-num", 4);
+> +    qdev_prop_set_uint32(dev, "rxc-num", 16);
+> +    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(mal), cpu, &error_fatal);
+> +    object_unref(OBJECT(mal));
+> +
+> +    for (i = 0; i < ARRAY_SIZE(mal->irqs); i++) {
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+> +                           qdev_get_gpio_in(uic[2], 3 + i));
+>     }
+> -    ppc4xx_mal_init(env, 4, 16, mal_irqs);
+>
+>     /* DMA */
+>     ppc4xx_dma_init(env, 0x200);
+>
+--3866299591-1525416160-1660167346=:67081--
 
