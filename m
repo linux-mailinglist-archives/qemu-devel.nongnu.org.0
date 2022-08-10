@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0B358ED92
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:47:51 +0200 (CEST)
-Received: from localhost ([::1]:55474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E237458ED91
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:46:41 +0200 (CEST)
+Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLm3q-0001Ys-J8
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53892)
+	id 1oLm2i-0007o5-Og
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:46:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLlaV-00043c-25
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:17:33 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36468)
+ id 1oLlb8-0004f7-8W
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:18:10 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:46041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLlaT-0003yB-Ij
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:17:30 -0400
-Received: by mail-wr1-x435.google.com with SMTP id j7so17756698wrh.3
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 06:17:29 -0700 (PDT)
+ id 1oLlb6-00046N-Th
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:18:09 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ q1-20020a05600c040100b003a52db97fffso969639wmb.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 06:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=31xRYOTyJtGEDRc3VusafduM3SWZ8yI1RGJ1IVichaU=;
- b=lxqxrKAbCfu/f9UHSp74ToUmmKNJlEmpkm1nel+b31QAewSvwj3t71tw3hTX3QncbW
- cFVG4+XysUNcci1+VVgbubs8qhy+ML6Rih+xrUK6DZmO7T4i795X0uNYDmXkbkyp1Q+9
- BjC0HMrQXXPKKd+QwFkf5NxHHnbHO/xeF5yUF5LQupmKmcptVP80d88Mk0VLYnelawB1
- Cfv8IVguADG4dITDZESounoQSWu59Hb/zQaKeXfJeA1sB2C57jVdy2iIQAULyhHQZntU
- Dhd9m+mSGz2ftLeE3R410uk4siZpvQwaribK6cHby710TzDRMORl43ksMhJ2JRmxpkO2
- bL7A==
+ bh=VBNAaU9YQLnoqQCP0/d2dBkbwZ7SkoJ7Scq1Ft8kats=;
+ b=F+sTDd1j8QNlPxXlbBbRb+S0JKMi+nTTcM58L3d6Z96LLmLRJAdHHqYS1nAMnlXVVc
+ jO1kQkVHM9yRGo6rgx3KaGcb6Ra+zWMDvPUagPteyv1I/UhNqa7hPPkodWa9erpmTxDZ
+ QjRZXxL5qp1cqJYcIXgHHMOdqsxfdqNYwNQnz4ZcU2t0AsgglKHClFeT9kE5VpqbLS42
+ 4cs/VE7XfRsO2AzY2qEl5208/OFK1Yv8CSwPzmzVroC680lsr8bnjhXe4iNZqBAdwTw+
+ nrf5YqtjSe2cU8IVoW45vDRetCkpFEcOnZTBFAw6djI7v0EHfnpX+7q0SiRwX0sgXtd8
+ rZOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=31xRYOTyJtGEDRc3VusafduM3SWZ8yI1RGJ1IVichaU=;
- b=Xji1OMMZd8n5uevt0f9xLZLRfcFUfxP+0S94D/125ljORAJwyKqRC3i3V4bq6tIyTM
- b+JzrmItzgKr9thAqPdSuCVqcUFNLv1F8rZtZ0S9cDM1pQ3OABtH3y0g6o1DNI7z9akS
- DdFXIh5fz8/5qHdwl9NG76ZB1RRkwd0CmAGuh/ZJcqRyC/faD9/23v+2BGURu3fZuEqm
- alR8hGhuHVzY2QO8EssXfqCgDYQr7V82MqtppIAmOkIfjJ1oR0JePuIaBDTTprhlKc0f
- kDsCzfH5az7Tx+3EYIC+lZQyuuvIOzSUhIjxHfe2YA18LqcD944P2WH5gKd8Xs6ZsNa+
- qP2A==
-X-Gm-Message-State: ACgBeo2uk4nw5UV/LTE6eZoF4O+eviyCmb6an4UZPrO2cvIlm+v/sy4I
- rybjBdc/wAxBLbVzdhDNMYNnkk6R4AnOzw==
-X-Google-Smtp-Source: AA6agR5SFZR9uxsoHCju9Xp9AZ7kEq8Tuv3tD/gJODm0UQylW8HaqCkniXBi+55fT/Af69Zid5ipbQ==
-X-Received: by 2002:adf:eac5:0:b0:222:411:a94e with SMTP id
- o5-20020adfeac5000000b002220411a94emr11964881wrn.607.1660137448229; 
- Wed, 10 Aug 2022 06:17:28 -0700 (PDT)
+ :cc; bh=VBNAaU9YQLnoqQCP0/d2dBkbwZ7SkoJ7Scq1Ft8kats=;
+ b=BatSbuD/qnvzO7YLuMlekCsOzE7Ma6h7rU35i9Rf0FBaO6Sd0YTtfZMEFmkt62pO0O
+ 1oIvT+6sqMJj2pYRCGv3MQ92iEWrfSS2xbm4qRgBSnhIZTl37yRww3AqLpUYbpWO0ccf
+ /0EB4MPmSsnKaymgbM/YAad4Y+fb7So4fddh471OYJzqmGSoYlp2W/EpDK6Zw6M+7M+y
+ +p0Qo8iXkqtnYnncy+mgTDue8BdsOQ2bUGsG4d8C0QjFPi/KIJla5ipEuLidP35H/WL+
+ Wc4BAxfv4g2yEph7fukoRerG42FYd+dwz2n4uwRKE7sC+/a4wGO0EI9o2YHWgpcBMDiu
+ zaOA==
+X-Gm-Message-State: ACgBeo0U2igKIVrHE4d9ltLjyyns7x9w/fbi4OcLobI5dGBWv0MNFCNV
+ yAyAhIdxlln6/6HrJcFwEwYa3Q==
+X-Google-Smtp-Source: AA6agR7/IuctKtYAKhUPTmE0CfwQsLNM8Oj/e1bwx1fHy3pg42dFthcuRFPoNwlOKErQvYsYXwEtMw==
+X-Received: by 2002:a05:600c:3b85:b0:3a5:24a7:6d69 with SMTP id
+ n5-20020a05600c3b8500b003a524a76d69mr2490768wms.159.1660137487671; 
+ Wed, 10 Aug 2022 06:18:07 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- e12-20020adfa44c000000b0021e5cc26dd0sm16054100wra.62.2022.08.10.06.17.27
+ c5-20020adfe705000000b0021f1522c93bsm19587209wrm.45.2022.08.10.06.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 06:17:27 -0700 (PDT)
+ Wed, 10 Aug 2022 06:18:07 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4B6ED1FFB7;
- Wed, 10 Aug 2022 14:17:27 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id A28FA1FFB7;
+ Wed, 10 Aug 2022 14:18:06 +0100 (BST)
 References: <20220703082419.770989-1-richard.henderson@linaro.org>
- <20220703082419.770989-24-richard.henderson@linaro.org>
+ <20220703082419.770989-25-richard.henderson@linaro.org>
 User-agent: mu4e 1.8.8; emacs 28.1.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH 23/62] target/arm: Add is_secure parameter to
- pmsav7_use_background_region
-Date: Wed, 10 Aug 2022 14:17:22 +0100
-In-reply-to: <20220703082419.770989-24-richard.henderson@linaro.org>
-Message-ID: <87bksskzko.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH 24/62] target/arm: Add is_secure parameter to
+ get_phys_addr_lpae
+Date: Wed, 10 Aug 2022 14:18:02 +0100
+In-reply-to: <20220703082419.770989-25-richard.henderson@linaro.org>
+Message-ID: <877d3gkzjl.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,7 +98,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Remove the use of regime_is_secure from pmsav7_use_background_region.
+> Remove the use of regime_is_secure from get_phys_addr_lpae.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
