@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787A558EF78
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 17:36:27 +0200 (CEST)
-Received: from localhost ([::1]:33804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3712C58EF8C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 17:43:03 +0200 (CEST)
+Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLnkv-0000DI-Ti
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 11:36:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59174)
+	id 1oLnrK-0002c8-BL
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 11:43:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLniZ-0006bJ-In
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:33:59 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:40802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLniY-0002XF-2C
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:33:59 -0400
-Received: by mail-pg1-x535.google.com with SMTP id f11so14650312pgj.7
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 08:33:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=Shpi7OSQIlO7SdnT4HPS6c5P5Dd3pS6PG/YMmkGP+WY=;
- b=fA9mrsqpw7kbbbEje4X4FwhGH1arpIcjESUigIgCZxhA60Meja6Xpqhgc47S7XTjhT
- Wh2O96kacR5wDn1XDuyiE76NOvLkFNGuXv52GIWPnzEGxN+GUCc1QsoKehTjPwP83zxF
- IfZvLOsiHtWr4QWXska6FIEatmWo8fWWWQ7ftChfS/oq3zAQuVovCRAXZuVB2P8pBgmO
- jl5iqDn4B7MUnXHR/DHd/9cSd6b8RPLImyibwbPv07w9CEXS0qD2GtQasRvUNEin5JSs
- QWT0TOdO1EzYVwR919o9r4COVN+PfL1gFTXtwbUh0JJZz7KewTGwr5D6FDnuG4qJ3qGM
- uvFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=Shpi7OSQIlO7SdnT4HPS6c5P5Dd3pS6PG/YMmkGP+WY=;
- b=BrMvYQbKga/EyYhzL10XBmGn5YcsXX/l2DkEXinvdCM9wHHu4H5jXmU3BaFoptImI2
- Uk6bJj9JNUg5rJl7RXAPyizd7A0bsEZcXZjowRN4kzGsJzA643O96OmZdk52HCmITNSj
- /xA7icKynhGaTprcHa5YfP9aaOGlNQc/34debTupm3EAgG5uKdeHOwtOOA7kcPNprBse
- uWeL0g0UllmhvB3R80TjcJspK7BCJt0SlZJz3RQFDNwQM2540xjJ3oy9ebqkcsWIIyUZ
- u9vAv1UcOye4i1xDHBrTFWdluKdtHQ9ot7fESWcy2/dHDR7leSFnadBRPxNV/P2N5aVI
- LdyA==
-X-Gm-Message-State: ACgBeo1CezjDcElHMMV+7WEIfbwPzbAERhnBAFhSSMTWMYehDX9VjXh8
- 0XI0D2S8ODt0ZkbsvYHGAkg+AZBG4REEXQ==
-X-Google-Smtp-Source: AA6agR6CpdwsR2EPKTVsH2T0+pULBm3+QB5ouGucw30N8u062t4Kd11834Gj4P7vnFNHaP94L6DwLw==
-X-Received: by 2002:a05:6a00:1687:b0:518:6c6b:6a9a with SMTP id
- k7-20020a056a00168700b005186c6b6a9amr28566230pfc.81.1660145636954; 
- Wed, 10 Aug 2022 08:33:56 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:1d05:6ab9:1c4d:d646?
- ([2602:ae:154e:e201:1d05:6ab9:1c4d:d646])
- by smtp.gmail.com with ESMTPSA id
- b123-20020a62cf81000000b0052e23a5ab74sm2111028pfg.59.2022.08.10.08.33.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Aug 2022 08:33:56 -0700 (PDT)
-Message-ID: <3128223b-56d9-8efd-05c0-f1f2a30dfd99@linaro.org>
-Date: Wed, 10 Aug 2022 08:33:54 -0700
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1oLnqA-0001FI-RB
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:41:50 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:38683
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oLnq7-00045y-SY
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:41:50 -0400
+HMM_SOURCE_IP: 172.18.0.218:48506.2095109218
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.138.180.63 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 4B2D72800B8;
+ Wed, 10 Aug 2022 23:41:29 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id d726a0592f5048e8a07785466b7ac9a3 for
+ qemu-devel@nongnu.org; Wed, 10 Aug 2022 23:41:31 CST
+X-Transaction-ID: d726a0592f5048e8a07785466b7ac9a3
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+Message-ID: <cdc92de3-6b0c-1a96-bc19-3867109bb2cb@chinatelecom.cn>
+Date: Wed, 10 Aug 2022 23:41:28 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 22/62] target/arm: Add secure parameter to
- get_phys_addr_pmsav8
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220703082419.770989-1-richard.henderson@linaro.org>
- <20220703082419.770989-23-richard.henderson@linaro.org>
- <87fsi4kzkz.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87fsi4kzkz.fsf@linaro.org>
+Subject: Re: [PATCH 0/8] migration: introduce dirtylimit capability
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com,
+ "Daniel P. Berrange" <berrange@redhat.com>
+References: <cover.1658561555.git.huangy81@chinatelecom.cn>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1658561555.git.huangy81@chinatelecom.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,42 +73,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/22 06:16, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> Remove the use of regime_is_secure from get_phys_addr_pmsav8.
->> Since we already had a local variable named secure, use that.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/arm/ptw.c | 5 ++---
->>   1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
->> index d424dec729..f7892a0c48 100644
->> --- a/target/arm/ptw.c
->> +++ b/target/arm/ptw.c
->> @@ -1960,10 +1960,9 @@ void v8m_security_lookup(CPUARMState *env, uint32_t address,
->>   
->>   static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
->>                                    MMUAccessType access_type, ARMMMUIdx mmu_idx,
->> -                                 GetPhysAddrResult *result,
->> +                                 bool secure, GetPhysAddrResult
->>   *result,
-> 
-> NIT: why not use is_secure like all the other functions (and reformat
-> the commit subject to match too).
+Ping.
+    How about this series? hoping to get comments if anyone has played 
+with it.
 
-It's right there in the commit message -- there was an existing local variable.
+Thanks !
 
+Hyman
 
-r~
-
+在 2022/7/23 15:49, huangy81@chinatelecom.cn 写道:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> Otherwise:
+> Abstract
+> ========
 > 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> This series added a new migration capability called "dirtylimit".  It can
+> be enabled when dirty ring is enabled, and it'll improve the vCPU performance
+> during the process of migration. It is based on the previous patchset:
+> https://lore.kernel.org/qemu-devel/cover.1656177590.git.huangy81@chinatelecom.cn/
 > 
-
+> As mentioned in patchset "support dirty restraint on vCPU", dirtylimit way of
+> migration can make the read-process not be penalized. This series wires up the
+> vcpu dirty limit and wrappers as dirtylimit capability of migration. I introduce
+> two parameters vcpu-dirtylimit-period and vcpu-dirtylimit to implement the setup
+> of dirtylimit during live migration.
+> 
+> To validate the implementation, i tested a 32 vCPU vm live migration with such
+> model:
+> Only dirty vcpu0, vcpu1 with heavy memory workoad and leave the rest vcpus
+> untouched, running unixbench on the vpcu8-vcpu15 by setup the cpu affinity as
+> the following command:
+> taskset -c 8-15 ./Run -i 2 -c 8 {unixbench test item}
+> 
+> The following are results:
+> 
+> host cpu: Intel(R) Xeon(R) Platinum 8378A
+> host interface speed: 1000Mb/s
+>    |---------------------+--------+------------+---------------|
+>    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+>    |---------------------+--------+------------+---------------|
+>    | dhry2reg            | 32800  | 32786      | 25292         |
+>    | whetstone-double    | 10326  | 10315      | 9847          |
+>    | pipe                | 15442  | 15271      | 14506         |
+>    | context1            | 7260   | 6235       | 4514          |
+>    | spawn               | 3663   | 3317       | 3249          |
+>    | syscall             | 4669   | 4667       | 3841          |
+>    |---------------------+--------+------------+---------------|
+>  From the data above we can draw a conclusion that vcpus that do not dirty memory
+> in vm are almost unaffected during the dirtylimit migration, but the auto converge
+> way does.
+> 
+> I also tested the total time of dirtylimit migration with variable dirty memory
+> size in vm.
+> 
+> senario 1:
+> host cpu: Intel(R) Xeon(R) Platinum 8378A
+> host interface speed: 1000Mb/s
+>    |-----------------------+----------------+-------------------|
+>    | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+>    |-----------------------+----------------+-------------------|
+>    | 60                    | 2014           | 2131              |
+>    | 70                    | 5381           | 12590             |
+>    | 90                    | 6037           | 33545             |
+>    | 110                   | 7660           | [*]               |
+>    |-----------------------+----------------+-------------------|
+>    [*]: This case means migration is not convergent.
+> 
+> senario 2:
+> host cpu: Intel(R) Xeon(R) CPU E5-2650
+> host interface speed: 10000Mb/s
+>    |-----------------------+----------------+-------------------|
+>    | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+>    |-----------------------+----------------+-------------------|
+>    | 1600                  | 15842          | 27548             |
+>    | 2000                  | 19026          | 38447             |
+>    | 2400                  | 19897          | 46381             |
+>    | 2800                  | 22338          | 57149             |
+>    |-----------------------+----------------+-------------------|
+> Above data shows that dirtylimit way of migration can also reduce the total
+> time of migration and it achieves convergence more easily in some case.
+> 
+> In addition to implement dirtylimit capability itself, this series
+> add 3 tests for migration, aiming at playing around for developer simply:
+>   1. qtest for dirty limit migration
+>   2. support dirty ring way of migration for guestperf tool
+>   3. support dirty limit migration for guestperf tool
+> 
+> Please review, thanks !
+> 
+> Hyman Huang (8):
+>    qapi/migration: Introduce x-vcpu-dirty-limit-period parameter
+>    qapi/migration: Introduce vcpu-dirty-limit parameters
+>    migration: Introduce dirty-limit capability
+>    migration: Implement dirty-limit convergence algo
+>    migration: Export dirty-limit time info
+>    tests: Add migration dirty-limit capability test
+>    tests/migration: Introduce dirty-ring-size option into guestperf
+>    tests/migration: Introduce dirty-limit into guestperf
+> 
+>   include/sysemu/dirtylimit.h             |  2 +
+>   migration/migration.c                   | 50 ++++++++++++++++++
+>   migration/migration.h                   |  1 +
+>   migration/ram.c                         | 53 ++++++++++++++-----
+>   migration/trace-events                  |  1 +
+>   monitor/hmp-cmds.c                      | 26 ++++++++++
+>   qapi/migration.json                     | 57 ++++++++++++++++----
+>   softmmu/dirtylimit.c                    | 33 +++++++++++-
+>   tests/migration/guestperf/comparison.py | 14 +++++
+>   tests/migration/guestperf/engine.py     | 33 +++++++++++-
+>   tests/migration/guestperf/hardware.py   |  8 ++-
+>   tests/migration/guestperf/progress.py   | 17 +++++-
+>   tests/migration/guestperf/scenario.py   | 11 +++-
+>   tests/migration/guestperf/shell.py      | 25 ++++++++-
+>   tests/qtest/migration-test.c            | 92 +++++++++++++++++++++++++++++++++
+>   15 files changed, 392 insertions(+), 31 deletions(-)
+> 
 
