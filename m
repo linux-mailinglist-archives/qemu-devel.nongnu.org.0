@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208C158ED1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:25:25 +0200 (CEST)
-Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0023758ED16
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:24:54 +0200 (CEST)
+Received: from localhost ([::1]:57882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLli8-0005nt-78
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:25:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49142)
+	id 1oLlhd-0004Wk-Rn
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLlJB-0004Ob-KY
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:59:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43784)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLlJn-00056E-CE
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:00:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLlJ9-0000vK-Qd
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:59:37 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLlJh-0001Fs-8W
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:00:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660136375;
+ s=mimecast20190719; t=1660136408;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NwoUzGLS3LHU7Fp+H6fj/OMTXVWnQO4phbdwjd90iZ4=;
- b=fjoZxI9XU/mgYTno4XDHORZHyRgy7JHWaVWcBvdWcsj1HlDyKYlJ/GSiSm59UAZwiGMngX
- lMZUssnyEpOQErOnB1upZl43R1Cml7d5wFXUX60qgSAOWZLjqXzrw4ywFTXM3HPYucbfvt
- vvdhbBBsXaVkzbZSuDyPGW8spXVyQGk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-313-DnBt6hqvMk-AFZRKA8JI4g-1; Wed, 10 Aug 2022 08:59:34 -0400
-X-MC-Unique: DnBt6hqvMk-AFZRKA8JI4g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r5-20020a1c4405000000b003a534ec2570so1055209wma.7
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 05:59:33 -0700 (PDT)
+ bh=aYnaV66sa0a2V2Cnk5jucBF9tWx62sohU+rJHOJK92g=;
+ b=Y1QWgTTppeTrOOx4nZXBH1xOo8onxO5cT56sfhnoo8SyElfKMUe6hcHYaje2VdkcxSfZdU
+ H9dcrUjD7AEbilfJ120VNT5crrZCCt0UGMAQQBYvV760XkPSgMFUpoCQWrioB9mBQnRVOL
+ 8qBV82EafW8SQZ5XFlmPQqMeQjh9jVM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-422-JcrVSnj9Pu-WUXiRHeG_5w-1; Wed, 10 Aug 2022 09:00:06 -0400
+X-MC-Unique: JcrVSnj9Pu-WUXiRHeG_5w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n19-20020a05600c3b9300b003a314062cf4so1827574wms.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 06:00:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc;
- bh=NwoUzGLS3LHU7Fp+H6fj/OMTXVWnQO4phbdwjd90iZ4=;
- b=IGAwsFE6xpBqrBdJWTYED6ypegtt5VNDVpBoE96/rGaGgDe0+BufaVLOohWWqRYUbb
- I+FFBgzYGGRgJEeZVLYExMp8bFMyPOiaqmBC8RJl9KbY6z6o0hAeYxPAAroJI3dNQGLJ
- FoIRYBSMkUZBHOJtL/CWTRB2RdlJpqfZlEiSuZXcfPHxOuKfCEVWLUDnJDIEraB+KIj4
- L3o5EtdYnp6LMIUt0HUiKL5KcNWaGcX0hM/yTYEzCkylPhDEiMpsWYyuSSd0CM45Y08a
- CSh/vxSb+nULHqcqF8ek6iIvvv64mhEbOpkC7fqZvKwgk8sZ9KEBGE/O1kWc16DWKnIs
- 8fAA==
-X-Gm-Message-State: ACgBeo3WwHd8U/p+K9TxxafZFZFZrZNUWvi9HACY5kKV/f48Qr2KCbwJ
- 9kDdiJ6ywavdXh/ubUu6/x30foo4z6jQWc11ag4YAdkz0rrBmVgRRiKBJUxCSz5k4m5Wzu1t4Ok
- 5NE9ziafXY7kTRAk=
-X-Received: by 2002:a05:600c:3d0a:b0:3a3:561c:a9c9 with SMTP id
- bh10-20020a05600c3d0a00b003a3561ca9c9mr2470755wmb.1.1660136372941; 
- Wed, 10 Aug 2022 05:59:32 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7RPkVnmfj146uZHzyc9rJzzRckvtEr82uIx4eb02uWAruRt3WX0aCKiXX8jw2yrrQ8avD9pQ==
-X-Received: by 2002:a05:600c:3d0a:b0:3a3:561c:a9c9 with SMTP id
- bh10-20020a05600c3d0a00b003a3561ca9c9mr2470740wmb.1.1660136372712; 
- Wed, 10 Aug 2022 05:59:32 -0700 (PDT)
+ bh=aYnaV66sa0a2V2Cnk5jucBF9tWx62sohU+rJHOJK92g=;
+ b=HSnlSBFTZ8MLLnLuN6nZEmJLWIDX4ihIkeEZkv1I2p4mpJTFa8/Ziz5vZdrr6P5Wer
+ z4gKbSbjMR0tf+R279+TlGKuqfyDQw8zG1SebxuP0O+Ax+G72qh0Lkp6/7kaxudRvUrG
+ IneDhFxZchJqftFvNNnErZCvKb33GvdgiQQYMJA016Go5Kkygu6asMauhgzdbGwIHf4P
+ f5zz/cEd2QTtXFBvHH5M81z0KV0+evvyliOH4MBtsFrD/5pGK4zBDlHs5wOdJhnmiIlE
+ ZIMf1O/rQchzPpoB3bvnOPpeZVQbQhtLW3VVU9bLDp8R9TXw71PjJu1M0h0jolvJJ5PN
+ FGwA==
+X-Gm-Message-State: ACgBeo3rvoGth2EZt1ZzRa2k3Sez/mzZU1aSqgC2DDv5zi1FD570ozaE
+ m+00raV7FXQOJL9r+K4bCIB3WCi+6uvU8fp0lWI+HpEoJAyLkpeSyIZZiu4U6fxZKEowwRMVBP3
+ wyF6NI1V4LCLsLv4=
+X-Received: by 2002:a1c:f607:0:b0:3a0:3dc9:c4db with SMTP id
+ w7-20020a1cf607000000b003a03dc9c4dbmr2442882wmc.30.1660136405630; 
+ Wed, 10 Aug 2022 06:00:05 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR78JTMz2aWU7uzyqkbbQrPK5uHJmEdesdlfKQIlSxsCVY1U/VyRk36lKcIANEnrcuMF+tcHIA==
+X-Received: by 2002:a1c:f607:0:b0:3a0:3dc9:c4db with SMTP id
+ w7-20020a1cf607000000b003a03dc9c4dbmr2442861wmc.30.1660136405373; 
+ Wed, 10 Aug 2022 06:00:05 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c707:1600:a3ce:b459:ef57:7b93?
  (p200300cbc7071600a3ceb459ef577b93.dip0.t-ipconnect.de.
  [2003:cb:c707:1600:a3ce:b459:ef57:7b93])
  by smtp.gmail.com with ESMTPSA id
- v16-20020a1cf710000000b003a4f1385f0asm2328069wmh.24.2022.08.10.05.59.31
+ j1-20020a056000124100b0021d221daccfsm16493954wrx.78.2022.08.10.06.00.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Aug 2022 05:59:32 -0700 (PDT)
-Message-ID: <b26ef69b-fd40-cd6b-495b-99f804abd62f@redhat.com>
-Date: Wed, 10 Aug 2022 14:59:31 +0200
+ Wed, 10 Aug 2022 06:00:05 -0700 (PDT)
+Message-ID: <b7146c93-36a2-dff0-9d33-291fddd14d9b@redhat.com>
+Date: Wed, 10 Aug 2022 15:00:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/3] backends/hostmem: Fix support of
- memory-backend-memfd in qemu_maxrampagesize()
+Subject: Re: [PATCH v2 2/3] softmmu/physmem: Remove the ifdef __linux__ around
+ the pagesize functions
 Content-Language: en-US
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Igor Mammedov <imammedo@redhat.com>
@@ -78,22 +78,21 @@ Cc: David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
  qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
 References: <20220810125720.3849835-1-thuth@redhat.com>
- <20220810125720.3849835-2-thuth@redhat.com>
+ <20220810125720.3849835-3-thuth@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220810125720.3849835-2-thuth@redhat.com>
+In-Reply-To: <20220810125720.3849835-3-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,52 +109,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10.08.22 14:57, Thomas Huth wrote:
-> It is currently not possible yet to use "memory-backend-memfd" on s390x
-> with hugepages enabled. This problem is caused by qemu_maxrampagesize()
-> not taking memory-backend-memfd objects into account yet, so the code
-> in s390_memory_init() fails to enable the huge page support there via
-> s390_set_max_pagesize(). Fix it by generalizing the code, so that it
-> looks at qemu_ram_pagesize(memdev->mr.ram_block) instead of re-trying
-> to get the information from the filesystem.
+> Now that host_memory_backend_pagesize() is not depending on the hugetlb
+> memory path handling anymore, we can also remove the #ifdef and the
+> TOCTTOU comment from the calling functions - the code should now work
+> equally well on all host architectures.
 > 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2116496
-> Suggested-by: David Hildenbrand <david@redhat.com>
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  backends/hostmem.c | 14 ++------------
->  1 file changed, 2 insertions(+), 12 deletions(-)
+>  softmmu/physmem.c | 17 -----------------
+>  1 file changed, 17 deletions(-)
 > 
-> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> index 624bb7ecd3..4428e06738 100644
-> --- a/backends/hostmem.c
-> +++ b/backends/hostmem.c
-> @@ -306,22 +306,12 @@ bool host_memory_backend_is_mapped(HostMemoryBackend *backend)
->      return backend->is_mapped;
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index dc3c3e5f2e..50231bab30 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -1331,13 +1331,6 @@ GString *ram_block_format(void)
+>      return buf;
 >  }
 >  
 > -#ifdef __linux__
->  size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
+> -/*
+> - * FIXME TOCTTOU: this iterates over memory backends' mem-path, which
+> - * may or may not name the same files / on the same filesystem now as
+> - * when we actually open and map them.  Iterate over the file
+> - * descriptors instead, and use qemu_fd_getpagesize().
+> - */
+>  static int find_min_backend_pagesize(Object *obj, void *opaque)
 >  {
-> -    Object *obj = OBJECT(memdev);
-> -    char *path = object_property_get_str(obj, "mem-path", NULL);
-> -    size_t pagesize = qemu_mempath_getpagesize(path);
-> -
-> -    g_free(path);
-> +    size_t pagesize = qemu_ram_pagesize(memdev->mr.ram_block);
-> +    g_assert(pagesize >= qemu_real_host_page_size());
+>      long *hpsize_min = opaque;
+> @@ -1391,16 +1384,6 @@ long qemu_maxrampagesize(void)
+>      object_child_foreach(memdev_root, find_max_backend_pagesize, &pagesize);
 >      return pagesize;
 >  }
 > -#else
-> -size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
+> -long qemu_minrampagesize(void)
+> -{
+> -    return qemu_real_host_page_size();
+> -}
+> -long qemu_maxrampagesize(void)
 > -{
 > -    return qemu_real_host_page_size();
 > -}
 > -#endif
 >  
->  static void
->  host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+>  #ifdef CONFIG_POSIX
+>  static int64_t get_file_size(int fd)
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Thanks,
