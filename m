@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118B058EC07
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:30:49 +0200 (CEST)
-Received: from localhost ([::1]:52918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF78B58EC09
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:31:36 +0200 (CEST)
+Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLkrI-0006b6-5d
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:30:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40116)
+	id 1oLks4-0006jY-0M
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oLkmF-00087H-Hh
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:25:35 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:35376)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oLkot-0002Da-Gz
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:28:19 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oLkmC-0002NT-Fq
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:25:34 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-32269d60830so140776087b3.2
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 05:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=CjPq9WVan4Hj24JpQ0YfeBx2xIKWZzde5d9o4jSyIeA=;
- b=XyluZPMgyrb7pg1GnKkN88sqS8wKv4JpZFMwkKGRffg2JnzbtkhlgKe+Xsdvl4+aDS
- 1KwYtFmMT1hmVTmNeuDOLgzEqB2aGzkDhnwtwGdNBlDdZ+3mKNJzjfA64wKQH261G5c1
- 7ro8ITHwNSKl3fp7Kag4Zp0LGJvFg+Z/67Xo3I1WpTEv3qVCAgKnrAKDEjJW9WSTZ0XB
- 64HL+SMPZPoI+f6gT/kHvOHCrNTguKNaCb/GlfwH9sP+aeO/HTYFDTn7vVdcFm1I0v4q
- 3qS7+N0Q1QVS7lmOSoVkoviX+fPA+NscWUtgHOWH9M7rlEXm8BrWWBN4NYfeLZjsClL9
- Ja6A==
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oLkos-0002lo-1q
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:28:19 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id h13so17582914wrf.6
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 05:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=t8nZ21QBoIE3muUsD8yEsXo6tW6EUTtAFupwkvuEGSA=;
+ b=e6WO8r8/Hf1Q8zlWjiN0wvxkw4t13pwYBjmAHW45HdRwQQBGeV+stlw6shMdbYJkco
+ O72Va7RIXq0RY9CmG0hLLXeoB/2VPnWa8jOG8h6mWNdX3TlD744xtNq3f5lQRcqH+uzt
+ x8GVoo/VYCF7kgViwnygdbDovzEZtmNh0nHaiCGy46fl/IKOaLBAHVL+iUSSyjSaSyAJ
+ 5uSVfZ+4Hjny9eCsbmIUFvhcNJ7EhhwAVUwwIgD3KCaR6s6Kyps8s6NDkVrYgrCSiCTo
+ l8HBrenSxmO1+0swLXFIH5DU8rgqub8xP/kmnbwC9IzEQY0zIxNrlrAWhummVmxqcD8W
+ V++g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=CjPq9WVan4Hj24JpQ0YfeBx2xIKWZzde5d9o4jSyIeA=;
- b=317DKp4ypOV9zUfzacxLfCNm5c57wlYwRKrQ5vy+JTovNLmxr3qHmApLWsJ4pp4W3p
- n1lryqTouRKLQlHQrcxGPqXqrzL2lrGdLinplxIx7tUgibMcM5gEg8nMGpXDosMviRlJ
- onX8rhy5r+ZfRoVo2Gam0V50FHpmdGoXJ4JwoRo+Dxi79LVZOCRCzAfCsvQsYiYW6TSy
- Byzy16S50aoxehy2IIDqsk5Dug8va8pmC6NYp40sGtUNRGCYHfIBpOjVJ6H9BNAIVuR3
- 27ylpNv8e7HYRgkG75xCJmFfKtQxrfoObiO16ZnIPcywv/satCkRoXUyR2Ic9Dr+s/kq
- X10Q==
-X-Gm-Message-State: ACgBeo1VZGHk5iIZxzwt25HSAbNqfYVo0OM2AI+BGcbM6iMmdAoIeuCT
- pa58au5jXEzKLyw4F7AsqMGhTm1s8CtCO9ZIbMKQTg==
-X-Google-Smtp-Source: AA6agR5oXajHQgZIAxxY2uoNmYwz2ld/j5Cv2xAyHLpSj4VpYhFfo2+KkipSZh+2zDCzP7roD8YGmqtJLNk6Is7o/mA=
-X-Received: by 2002:a81:9942:0:b0:326:5dab:8915 with SMTP id
- q63-20020a819942000000b003265dab8915mr26371028ywg.10.1660134331325; Wed, 10
- Aug 2022 05:25:31 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=t8nZ21QBoIE3muUsD8yEsXo6tW6EUTtAFupwkvuEGSA=;
+ b=rcMUFc0p2jWth9BbasBjpbMixlv62jFzur+f5MidBJ70LQU0Cp/D3ZtL9W42bdTquV
+ p/qQ7Gi0K9KmGtLMU2r2Ed3MlfmuWac0u6vHw5WYHRCSiztfhJoPsVfPiphhEiHr4X3U
+ payaXnMN2B6rhvMyjKW7vZ+ZvtxEwCRRwkXD67PcGgVk+nZ4TFAuujjtAfdo2s03Mugj
+ 2psZN6LGOhdNlEkYaW8gQxfJxQ03gPHWsmLjHDMOY3A6wLhyI9AoZGagVnX+NJIr6a9C
+ YLJSBhfPKaeHFpZEZVnUrJqrP8ZeTlUjjlFxlD66Tqp/H9Zi0f0KjkzVEoYSPWFqHOgH
+ I+YA==
+X-Gm-Message-State: ACgBeo3wyMF1qXMzgE6OvI4l29Jq201XJKBoFS9h1hkzM2o0IHnYh26z
+ MUfNkun93HPiFb7i3nOA70Tqog==
+X-Google-Smtp-Source: AA6agR7Rn6mn7wqGOf2234+z3bF1WYE6OqweGDrHl4aMryzAcmE4ofn52dt4wi3kJtokVzeB8pPZWQ==
+X-Received: by 2002:a5d:64a4:0:b0:220:b43e:d600 with SMTP id
+ m4-20020a5d64a4000000b00220b43ed600mr16903522wrp.27.1660134496474; 
+ Wed, 10 Aug 2022 05:28:16 -0700 (PDT)
+Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
+ by smtp.gmail.com with ESMTPSA id
+ c10-20020adffb4a000000b0021f1ec8776fsm15829553wrs.61.2022.08.10.05.28.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 05:28:15 -0700 (PDT)
+Date: Wed, 10 Aug 2022 14:28:14 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Ben Dooks <qemu@ben.fluff.org>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH v4 2/6] hw/core: don't check return on
+ qemu_fdt_setprop_string_array()
+Message-ID: <20220810122814.yg6rz7jnr7mqxatx@kamzik>
+References: <20220809185639.750345-1-qemu@ben.fluff.org>
+ <20220809185639.750345-3-qemu@ben.fluff.org>
 MIME-Version: 1.0
-References: <20220725110035.1273441-1-peter.maydell@linaro.org>
- <Yt561CDN+UjmaDK3@redhat.com>
- <CAFEAcA86gdio-3_XcNJGum8qiC93iVR0RK-g_sV1QRAhb8VGUw@mail.gmail.com>
- <CAFEAcA9k_d6hFjz=udMuRgewxYhmnm8=ARB+s_33jNhtXknobg@mail.gmail.com>
- <04bffb14-d497-2d29-9bcc-8a0fbdeffc4d@vivier.eu>
-In-Reply-To: <04bffb14-d497-2d29-9bcc-8a0fbdeffc4d@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 10 Aug 2022 13:24:50 +0100
-Message-ID: <CAFEAcA_p3XoKSaxxX3sznsEw3J1PLgz+5XFp-WzO-aV8-DWvOA@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Don't assume 0 is not a valid host timer_t
- value
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel@nongnu.org, Jon Alduan <jon.alduan@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220809185639.750345-3-qemu@ben.fluff.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,18 +92,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Aug 2022 at 06:59, Laurent Vivier <laurent@vivier.eu> wrote:
+On Tue, Aug 09, 2022 at 07:56:36PM +0100, Ben Dooks wrote:
+> The qemu_fdt_setprop_string_array() does not return error codes and
+> will call exit() if any of the fdt calls fails (and should print an
+> error with the node being altered). This is done to prepare for the
+> change for qemu_fdt_setprop_strings() helper which does not return
+> any error codes (hw/core/guest-loader.c is the only place where an
+> return is checked).
+> 
+> Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+> ---
+>  hw/core/guest-loader.c | 22 +++++++---------------
+>  1 file changed, 7 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
+> index 391c875a29..c61ebc4144 100644
+> --- a/hw/core/guest-loader.c
+> +++ b/hw/core/guest-loader.c
+> @@ -57,25 +57,17 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
+>  
+>      if (s->kernel) {
+>          const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
+> -        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
+> -                                          (char **) &compat,
+> -                                          ARRAY_SIZE(compat)) < 0) {
+> -            error_setg(errp, "couldn't set %s/compatible", node);
+> -            return;
+> -        }
+> +        qemu_fdt_setprop_string_array(fdt, node, "compatible",
+> +                                      (char **) &compat,
+> +                                      ARRAY_SIZE(compat));
+>          if (s->args) {
+> -            if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->args) < 0) {
+> -                error_setg(errp, "couldn't set %s/bootargs", node);
+> -            }
+> +            qemu_fdt_setprop_string(fdt, node, "bootargs", s->args);
+>          }
+>      } else if (s->initrd) {
+>          const char *compat[2] = { "multiboot,module", "multiboot,ramdisk" };
+> -        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
+> -                                          (char **) &compat,
+> -                                          ARRAY_SIZE(compat)) < 0) {
+> -            error_setg(errp, "couldn't set %s/compatible", node);
+> -            return;
+> -        }
+> +        qemu_fdt_setprop_string_array(fdt, node, "compatible",
+> +                                      (char **) &compat,
+> +                                      ARRAY_SIZE(compat));
+>      }
+>  }
+>  
+> -- 
+> 2.35.1
+> 
 >
-> Le 09/08/2022 =C3=A0 11:51, Peter Maydell a =C3=A9crit :
-> > Laurent, ping ?
->
-> Sorry, I didn't see your message. I'm going to apply it if it's ok to go =
-into rc3?
 
-Not sure about rc3; I'd have been OK with it in rc2 but I think
-it could probably use a bit more testing. Since it only shows up
-in weird configs, probably better to leave it til 7.2 now.
-
-thanks
--- PMM
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
