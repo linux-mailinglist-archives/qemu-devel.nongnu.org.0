@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229BD58EEF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 17:07:54 +0200 (CEST)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0308E58EF5C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 17:23:54 +0200 (CEST)
+Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLnJI-0008Ah-PP
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 11:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52910)
+	id 1oLnYm-0005SI-KS
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 11:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLnHJ-00061N-2R
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:05:52 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46802)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oLnVs-0003v3-HP
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:20:52 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:46653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLnHE-0006pM-Cf
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:05:46 -0400
-Received: by mail-ej1-x629.google.com with SMTP id y13so28169380ejp.13
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 08:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=qbrYhUiAu7LigxQMPxOI5oV+jbt8XGgZHLt92cRcg3s=;
- b=vPFelpWikw7MybScb3fCHgZJCcYjqBt6580QcIRHSNg/Ug79AuxpHyNWDw2QiczoMR
- NnG2NmYjv4fi5MXM4E7hSiNR8xmhpvPbiBcj8e9eCICgyGbecKkg2yuZXyvcxpuxjc/v
- +ZHO/uCu/cBrPxhNUwV0hMkGTMOsHpDC7Yvm5oVH9JvyIn/lGdXZCbsS3x/rwEV6nToB
- vrco61uF9b0jtcVvcCm8g5tMJg4FVxGERTd9MJobBfX229v+HeojHfxYkDPsLW26E+/v
- VfBriSZR14hf5dnBWdqZ/G3fezUxMQZVLaI4Bco9k6ZSeku0POmKr1sHbvG3R2CiarnE
- QTYg==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oLnVq-0000gn-VL
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:20:52 -0400
+Received: by mail-qt1-x829.google.com with SMTP id cr9so8154860qtb.13
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 08:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=zUwa9XSOqkOiure5YMhQQ6yWyUHod1WX7FgC8MPGZa4=;
+ b=hYtJUvTBLydZtUdmLbM4yT82IUrRorHYv/xvsRw5TDxiLNua1g7tGJppxfiTjcW6GS
+ YXrM9mQabA7UgoYZwgbgNdRsD9NTVvRw4GQ0jwHKdlpraU+IvxYy4jBSImYP25rPuvZB
+ 8Kyk6NBmMavmbxHIsGhSb9ceWxzTvdmzGPqlKLcIYZxCkqy/kTkvaczanPPCI2UPZRyP
+ xFfZKPRm1Ow5SOZ5i+iJ5HAnnvY8cd6JXhGKpDDPuvyqoa9/CVu0WV/Zxf4zyqoVTNVu
+ FnbPlVfqMsIAaao5fCR/uSbGUfz8bp0jt0aNvs9YY1G0fHKVI5ojQF+DtS05pR9RhlJ2
+ Itrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=qbrYhUiAu7LigxQMPxOI5oV+jbt8XGgZHLt92cRcg3s=;
- b=geV5dL5l26dno7htQ9vs8Z893LSvMbGnmk8GAzfwyhSRVclBoiaSqvoukveJ3xB6W/
- 8XwSUPxqkyHBadTYBcqAhuhJfucs00Y7r0zwsm1T4yFboaJz8IDS2lWKucNKq5NjpAcU
- P6QEgeM0pxaPyVP/8ZLmTdFzEyk0VPKT1t6app8DDQYMGb6MgMop/xNKLwBcd54lr/o5
- stNIpfHSgby70D4zP9SHHm39s7pQDyxeOOZyLb2LPMR2/63RPAWFYuAw63Yntf3LbwVO
- bpmMn7Stq3KxTzWD0CoQ9zA1ftIrlNw5SqMmsDe50qWXeLj4WeVTSKIgGlHWBj8jNKC1
- vpLg==
-X-Gm-Message-State: ACgBeo2M+5EFkfS4U+KHiM03q0rvEGb8Vk4noRkGVcFcEKl7EjmeqeG2
- p2shiuyUU69Sgyyqq63abX7ggg==
-X-Google-Smtp-Source: AA6agR67tYIw9hbdpVi9dNHWpLVRB6ovhi2FgkoNnLfZ1GPX88hn3egkXZer0achBYxT9feZmB23aA==
-X-Received: by 2002:a17:907:60c8:b0:730:9efe:ecbd with SMTP id
- hv8-20020a17090760c800b007309efeecbdmr19791180ejc.90.1660143942766; 
- Wed, 10 Aug 2022 08:05:42 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- d4-20020a056402000400b004404e290e7esm7829876edu.77.2022.08.10.08.05.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 08:05:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E83F81FFB7;
- Wed, 10 Aug 2022 16:05:40 +0100 (BST)
-References: <MN0PR11MB61090F118B8D3977D0EC03FEF0659@MN0PR11MB6109.namprd11.prod.outlook.com>
-User-agent: mu4e 1.8.8; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Lu, Jingdong" <jingdong.lu@intel.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: Shared memory between host and guest
-Date: Wed, 10 Aug 2022 16:03:37 +0100
-In-reply-to: <MN0PR11MB61090F118B8D3977D0EC03FEF0659@MN0PR11MB6109.namprd11.prod.outlook.com>
-Message-ID: <87h72kjfzv.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=zUwa9XSOqkOiure5YMhQQ6yWyUHod1WX7FgC8MPGZa4=;
+ b=qMGnG3M1KDB9RDkybOmvqSe7KJGmhwis8WWS4kDWCfBwdKVdMQ9F0ZMVoBIhThfuuQ
+ qUxifWsiqqRxBCZZRUlDV/09gnAqpJ7nZt7G1o22Ncw4N3sLLcDNBrULWKXwGfbzPH3b
+ cQQKEb0X+FJKPwL1qoW18HGt81J+pQAC3z+bVyePMG3DxZP/gt2DOKf09R+pNlIoecjR
+ SAbBL8Fxeu5sRvfvKsKYQ6teM/nptYr/o56NLdVu66TE0pdSX7oY+1mZOE5TTR5mpa4k
+ 7dofA9WbowV7VDZcZi4h02BreqoDePlXevuxIpFt7UaWIHHUH8vz3l7oGXO02AjJY3pB
+ k6/w==
+X-Gm-Message-State: ACgBeo2fXvq/82kUlDo26TRNQksMKA86NdaEPK0lqSWbZOk0Rp6Y2+TR
+ xy0xzN+wiMX+pYQJbprrgFn2/GG3LK+rCiNwtis=
+X-Google-Smtp-Source: AA6agR7YD/K/SVWNnEcduxao8txciCfCGEpLmE7w3DBeIvKTHQE74mILDo7fo/XQoQGuxLwlv+MFrBrx1zJQ5bKGhpA=
+X-Received: by 2002:a05:622a:152:b0:31f:1ff1:b394 with SMTP id
+ v18-20020a05622a015200b0031f1ff1b394mr25076713qtw.543.1660144849920; Wed, 10
+ Aug 2022 08:20:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220809164308.1182645-1-bmeng.cn@gmail.com>
+ <CAJ+F1C+KqH7Egr_9f=w=qn4AXVEgaGsZ0nmpHL08PfHaZJ4wzg@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+KqH7Egr_9f=w=qn4AXVEgaGsZ0nmpHL08PfHaZJ4wzg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 10 Aug 2022 23:20:39 +0800
+Message-ID: <CAEUhbmUC-aRi4o7G3TELNmJ5DnEZDjdnw5PJNTeQMbeT5TcUYA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] util/main-loop: Fix maximum number of wait objects
+ for win32
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,51 +86,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 10, 2022 at 1:06 AM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Tue, Aug 9, 2022 at 8:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> From: Bin Meng <bin.meng@windriver.com>
+>>
+>> The maximum number of wait objects for win32 should be
+>> MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
+>>
+>> Fix the logic in qemu_add_wait_object() to avoid adding
+>> the same HANDLE twice.
+>>
+>
+> Please make that a separate patch.
+>
+>>
+>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>> ---
+>>
+>> Changes in v2:
+>> - fix the logic in qemu_add_wait_object() to avoid adding
+>>   the same HANDLE twice
+>>
+>
+> Still NACK, did you understand my argument about array bounds?
+>
+> "if (found)" will access the arrays at position i+1 =3D=3D MAXIMUM_WAIT_O=
+BJECTS. We need the +1 for that logic to work without OOB access.
+>
 
-"Lu, Jingdong" <jingdong.lu@intel.com> writes:
+The delete logic was updated in v2. If position is at
+MAXIMUM_WAIT_OBJECTS - 1, the loop will break.
 
-> Hi experts,
->
->=20=20
->
-> I have some basic questions regarding shared memory between host and gues=
-t based on QEMU/KVM:
->
->=20=20
->
-> 1, Can host and guest share the same block of physical memory? Ivshmem? I=
-s it continuous physical memory?
->
->=20=20
->
-> 2, More specifically, is there any way to support the following operation=
-s?
->
-> 1 Guest starts.
->
-> 2 Host side allocates one block of physical memory like 2MB.
->
-> 3 Host side adds this memory to running guest  memory mapping.
-
-With support for pci hotplug you can add/remove virtio-pmem blocks to
-the guest.
-
->
-> 4 Both of host and guest can access this shared memory.
-
-Yes - you can back the memory with a file. See:
-
-  https://qemu.readthedocs.io/en/latest/system/devices/virtio-pmem.html
-
-
->
->=20=20
->
-> Best Regards,
->
-> Jingdong
-
-
---=20
-Alex Benn=C3=A9e
+Regards,
+Bin
 
