@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313AE58EEE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:59:04 +0200 (CEST)
-Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229BD58EEF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 17:07:54 +0200 (CEST)
+Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLnAl-0002fI-B9
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
+	id 1oLnJI-0008Ah-PP
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 11:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1oLn9D-0001DL-3p
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:57:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1oLn9A-0005PH-KD
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:57:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660143443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4GOM3TCNInYq86ECPPbAmqLEUXBt73dmpVkc35aKck0=;
- b=BbsrVJx9TLJJoIX/3fHk0ad1oVi3ep4cTs2VuHnR3hNy0fDbrMQP8zSzaDe27iXBuBcvti
- v0xsDvadmtf10gy91AU+6I2AjMJX8uWgw2F+8xLtBYtiL7RzTRyC8IR0bqdMTygLtYNux7
- TMiWHNqsS/on+4YTD8rZSDPfXPyuXfE=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-198-VDGJxngVMi6iW-u2bn5jag-1; Wed, 10 Aug 2022 10:57:22 -0400
-X-MC-Unique: VDGJxngVMi6iW-u2bn5jag-1
-Received: by mail-ej1-f72.google.com with SMTP id
- ho13-20020a1709070e8d00b00730a655e173so4314762ejc.8
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 07:57:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oLnHJ-00061N-2R
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:05:52 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oLnHE-0006pM-Cf
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 11:05:46 -0400
+Received: by mail-ej1-x629.google.com with SMTP id y13so28169380ejp.13
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 08:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=qbrYhUiAu7LigxQMPxOI5oV+jbt8XGgZHLt92cRcg3s=;
+ b=vPFelpWikw7MybScb3fCHgZJCcYjqBt6580QcIRHSNg/Ug79AuxpHyNWDw2QiczoMR
+ NnG2NmYjv4fi5MXM4E7hSiNR8xmhpvPbiBcj8e9eCICgyGbecKkg2yuZXyvcxpuxjc/v
+ +ZHO/uCu/cBrPxhNUwV0hMkGTMOsHpDC7Yvm5oVH9JvyIn/lGdXZCbsS3x/rwEV6nToB
+ vrco61uF9b0jtcVvcCm8g5tMJg4FVxGERTd9MJobBfX229v+HeojHfxYkDPsLW26E+/v
+ VfBriSZR14hf5dnBWdqZ/G3fezUxMQZVLaI4Bco9k6ZSeku0POmKr1sHbvG3R2CiarnE
+ QTYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=4GOM3TCNInYq86ECPPbAmqLEUXBt73dmpVkc35aKck0=;
- b=i3mBOi/VWb4ILR71h4/59pCLMclcQFBsYJt79PX0MTE3dCUAcOoMn2vAriS62vCapY
- XSyPoZhMYv1PoXmQZ7rN1fPfmzdERY7vOEA6ohb5O2JbhTb47tzmq5JqdmNuPD2Bo4rr
- l7U9kkhOJAd5pkLITicBq/HPU9PMGMLS0XGdt1NqDurNxwdswFHXUJjmGYjLu6NgXTEp
- qfBmDeGZM0KGKz3WIUVUqy7ItAmxmLnzVI1hguS5G5R3hmzlIL6wkev0GCb2uriTVRwk
- Ta0k0mBmbKsPxyxNIT3/coaFsja0l5AHeYehE0uFkhVD9eUI33J27RRWsFA1M4DpNyK/
- zjhA==
-X-Gm-Message-State: ACgBeo3cIzNCbiiohlWk40pNo0HUy+e+DMTmoaYZurHN9ME8qzhY3sPt
- EpbDswV0lR2ZBiFxG6BFqwsIO9neHHv3ps95s7PYTsCTeT8IaxXRCscrUI0uYHwEcqsvK6PWs8d
- byLrADtbiWrm5Upo=
-X-Received: by 2002:a05:6402:27d3:b0:43e:5490:27ca with SMTP id
- c19-20020a05640227d300b0043e549027camr27952357ede.307.1660143441284; 
- Wed, 10 Aug 2022 07:57:21 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4ep8nDOBMITbWQ0WkV7eeRgI5dHitmfDDJOUe85Cr7DwW0zgf9unaVeoWJOj6YwrJ/TRVsfQ==
-X-Received: by 2002:a05:6402:27d3:b0:43e:5490:27ca with SMTP id
- c19-20020a05640227d300b0043e549027camr27952336ede.307.1660143441040; 
- Wed, 10 Aug 2022 07:57:21 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=qbrYhUiAu7LigxQMPxOI5oV+jbt8XGgZHLt92cRcg3s=;
+ b=geV5dL5l26dno7htQ9vs8Z893LSvMbGnmk8GAzfwyhSRVclBoiaSqvoukveJ3xB6W/
+ 8XwSUPxqkyHBadTYBcqAhuhJfucs00Y7r0zwsm1T4yFboaJz8IDS2lWKucNKq5NjpAcU
+ P6QEgeM0pxaPyVP/8ZLmTdFzEyk0VPKT1t6app8DDQYMGb6MgMop/xNKLwBcd54lr/o5
+ stNIpfHSgby70D4zP9SHHm39s7pQDyxeOOZyLb2LPMR2/63RPAWFYuAw63Yntf3LbwVO
+ bpmMn7Stq3KxTzWD0CoQ9zA1ftIrlNw5SqMmsDe50qWXeLj4WeVTSKIgGlHWBj8jNKC1
+ vpLg==
+X-Gm-Message-State: ACgBeo2M+5EFkfS4U+KHiM03q0rvEGb8Vk4noRkGVcFcEKl7EjmeqeG2
+ p2shiuyUU69Sgyyqq63abX7ggg==
+X-Google-Smtp-Source: AA6agR67tYIw9hbdpVi9dNHWpLVRB6ovhi2FgkoNnLfZ1GPX88hn3egkXZer0achBYxT9feZmB23aA==
+X-Received: by 2002:a17:907:60c8:b0:730:9efe:ecbd with SMTP id
+ hv8-20020a17090760c800b007309efeecbdmr19791180ejc.90.1660143942766; 
+ Wed, 10 Aug 2022 08:05:42 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bl8-20020a170906c24800b007304bdf18cfsm2404311ejb.136.2022.08.10.07.57.20
+ d4-20020a056402000400b004404e290e7esm7829876edu.77.2022.08.10.08.05.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 07:57:20 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org, Paolo
- Bonzini <pbonzini@redhat.com>
-Cc: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH RFC v1 2/2] i386: reorder kvm_put_sregs2() and
- kvm_put_nested_state() when vCPU is reset
-In-Reply-To: <11df1501c60809e5d83e2591fb43a3b660afaef4.camel@redhat.com>
-References: <20220810140007.1036293-1-vkuznets@redhat.com>
- <20220810140007.1036293-3-vkuznets@redhat.com>
- <11df1501c60809e5d83e2591fb43a3b660afaef4.camel@redhat.com>
-Date: Wed, 10 Aug 2022 16:57:19 +0200
-Message-ID: <87mtccxi28.fsf@redhat.com>
+ Wed, 10 Aug 2022 08:05:41 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E83F81FFB7;
+ Wed, 10 Aug 2022 16:05:40 +0100 (BST)
+References: <MN0PR11MB61090F118B8D3977D0EC03FEF0659@MN0PR11MB6109.namprd11.prod.outlook.com>
+User-agent: mu4e 1.8.8; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Lu, Jingdong" <jingdong.lu@intel.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: Shared memory between host and guest
+Date: Wed, 10 Aug 2022 16:03:37 +0100
+In-reply-to: <MN0PR11MB61090F118B8D3977D0EC03FEF0659@MN0PR11MB6109.namprd11.prod.outlook.com>
+Message-ID: <87h72kjfzv.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,70 +92,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Maxim Levitsky <mlevitsk@redhat.com> writes:
 
-> On Wed, 2022-08-10 at 16:00 +0200, Vitaly Kuznetsov wrote:
->> Setting nested state upon migration needs to happen after kvm_put_sregs2=
-()
->> to e.g. have EFER.SVME set. This, however, doesn't work for vCPU reset:
->> when vCPU is in VMX root operation, certain CR bits are locked and
->> kvm_put_sregs2() may fail. As nested state is fully cleaned up upon
->> vCPU reset (kvm_arch_reset_vcpu() -> kvm_init_nested_state()), calling
->> kvm_put_nested_state() before kvm_put_sregs2() is OK, this will ensure
->> that vCPU is *not* in VMX root opertaion.
->>=20
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
->> =C2=A0target/i386/kvm/kvm.c | 20 ++++++++++++++++++--
->> =C2=A01 file changed, 18 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index 4f8dacc1d4b5..73e3880fa57b 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -4529,18 +4529,34 @@ int kvm_arch_put_registers(CPUState *cpu, int le=
-vel)
->> =C2=A0
->> =C2=A0=C2=A0=C2=A0=C2=A0 assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(=
-cpu));
->> =C2=A0
->> -=C2=A0=C2=A0=C2=A0 /* must be before kvm_put_nested_state so that EFER.=
-SVME is set */
->> +=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * When resetting a vCPU, make sure to reset ne=
-sted state first to
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * e.g clear VMXON state and unlock certain CR4=
- bits.
->> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0 if (level =3D=3D KVM_PUT_RESET_STATE) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D kvm_put_nested_state=
-(x86_cpu);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
-rn ret;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->
-> I should have mentioned this, I actually already debugged the same issue =
-while
-> trying to reproduce the smm int window bug.
-> 100% my fault.
->
-> I also share the same feeling that this might be yet another 'whack a mol=
-e' and
-> break somewhere else, but overall it does make sense.
+"Lu, Jingdong" <jingdong.lu@intel.com> writes:
 
-This certainly *is* a 'whack a mole' and I'm sure there are other cases
-when one of calls in kvm_arch_put_registers() fails. We need to work on
-what's missing so we can expose kvm_vcpu_reset() to VMMs.
+> Hi experts,
+>
+>=20=20
+>
+> I have some basic questions regarding shared memory between host and gues=
+t based on QEMU/KVM:
+>
+>=20=20
+>
+> 1, Can host and guest share the same block of physical memory? Ivshmem? I=
+s it continuous physical memory?
+>
+>=20=20
+>
+> 2, More specifically, is there any way to support the following operation=
+s?
+>
+> 1 Guest starts.
+>
+> 2 Host side allocates one block of physical memory like 2MB.
+>
+> 3 Host side adds this memory to running guest  memory mapping.
+
+With support for pci hotplug you can add/remove virtio-pmem blocks to
+the guest.
 
 >
->
-> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
->
+> 4 Both of host and guest can access this shared memory.
 
-Thanks!
+Yes - you can back the memory with a file. See:
+
+  https://qemu.readthedocs.io/en/latest/system/devices/virtio-pmem.html
+
+
+>
+>=20=20
+>
+> Best Regards,
+>
+> Jingdong
+
 
 --=20
-Vitaly
-
+Alex Benn=C3=A9e
 
