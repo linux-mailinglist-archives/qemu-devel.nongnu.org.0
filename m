@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E209B58F3B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 22:53:09 +0200 (CEST)
-Received: from localhost ([::1]:51148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3141C58F3BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 23:12:06 +0200 (CEST)
+Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLshR-0006rX-1H
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 16:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38466)
+	id 1oLszj-0003dC-Tj
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 17:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLsc8-0003mR-7Z
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 16:47:40 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:34684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLsc6-00014g-Fz
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 16:47:39 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 12so15382028pga.1
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 13:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=jUddSW7v9pUHafpMQtpHDJGjbYLFOj+b3/VWiaFuMgM=;
- b=b/PIt+LzUK2fxmJf5CFXsd9u2PoVsjTPAO1Z8Q5VlXuvrbEf4RlNt8IZuST18aFxyp
- n0IKeHdsZd5vLtI93dTXWV3d7Om8A9o8MD2d0Pkw3EOHMWAmqEjdfvTLOhwifmO1mfTJ
- 8xBRNNYtiGg7hdDKxN8VIUaUOFP6EbWaDG0ggeBlDSnYSF6NWSDHq7YEFenJySU71XMJ
- PPfpO2QvFaJB2194VExoWwUSNSVjIus89LDTRrN0wfxGNz3HEo0GgkUxxQ2GnaE/CD2/
- RClImcS7OQAXT94eE8u4EZBXqfM0xVmw4FcCvocQ7UuoieNqqEibVCagyMGquka9sR5r
- Mk2w==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLsxl-00026w-Qb
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 17:10:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oLsxh-0004Qe-NC
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 17:10:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660165796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AzcxXWnDC8ivZ4Sqj7U1v0MCXExPxBs3kq+Cn2QNbc0=;
+ b=GKI2ExCAZXDLFdobBB3Uda2Icl/4mO1qy+FY0XaB0cO9vNk7jW9p4kXZIr+V8msWf8vpjS
+ PTOQOm79huN9HUS0hf/tn8AOagHbpIni88wsXe+Tm2A8DHLNvT1JaiG/wTH3hW+O/VUkhq
+ ydMWaLVlkCd75ue1okU8RnfHtTcTrSs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-OOirqYrgPDyaBee1Wmtwmw-1; Wed, 10 Aug 2022 17:09:47 -0400
+X-MC-Unique: OOirqYrgPDyaBee1Wmtwmw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z20-20020a05640235d400b0043e1e74a495so10000392edc.11
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 14:09:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc;
- bh=jUddSW7v9pUHafpMQtpHDJGjbYLFOj+b3/VWiaFuMgM=;
- b=KuUzQKS4yeVbIVJH3IOUFs+qnbP27x9C3Un0Yag2yjZRdgc8nnxdFsSkgxXHtPuZ1H
- rQFMa/lSau6Dqyoc9CRvtRWmPU5a4yZGp7GCdBgAAC0/+gERdsKtTFtAiXxC/rIcIr7q
- RKLjzzSs5qgK0lt1mBpqsfNAHxTFy86pVnqQ41pgFBgSPcUYuqJ4yejmUOCrt4HA+Evj
- Aw+9/euNg7SJ8QSZ3/l5nOwVgV6qF5eJjQd1LdH0aJR9R+2GmFL+H00lEkHERgvvXNgN
- RK85xYrvG661bo932HdkmzzfZYax0EkEzqdNqb6UQGh8rcbtU5UD2fxunypBOJL+EEWv
- UIig==
-X-Gm-Message-State: ACgBeo3tcG8qpGAqoclCWGvOCsY/fnIS2aK7KflXzfSS30sduv3LFYqU
- pHW5B2EYmlmu4YzM/GmZ+2L+pA==
-X-Google-Smtp-Source: AA6agR5d0G/iZBOK5HEyMou6MBbhBSBI2XcthtXEjzPpXm4sTHUGN9bt9mJz717sS7HIlAcVY9PWlw==
-X-Received: by 2002:a63:d5:0:b0:41a:58f:929e with SMTP id
- 204-20020a6300d5000000b0041a058f929emr23924727pga.260.1660164457024; 
- Wed, 10 Aug 2022 13:47:37 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:1d05:6ab9:1c4d:d646?
- ([2602:ae:154e:e201:1d05:6ab9:1c4d:d646])
- by smtp.gmail.com with ESMTPSA id
- r23-20020a63fc57000000b0041d7ab5865dsm6223847pgk.49.2022.08.10.13.47.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Aug 2022 13:47:36 -0700 (PDT)
-Message-ID: <8b32824b-4dc1-3d1a-1916-918a3fffab26@linaro.org>
-Date: Wed, 10 Aug 2022 13:47:34 -0700
+ bh=AzcxXWnDC8ivZ4Sqj7U1v0MCXExPxBs3kq+Cn2QNbc0=;
+ b=obWLIh9UiiXDfLbSgz8sWOA3H8XC+/5yTJrUDU4/pvv60p1Yg3TgIwH+R6PWMry6GQ
+ byIp4jGSQDD+GqoTEyaMYEiTKWtfCqlln44si9LF3yNUmOvtYYSs+kpQA/1THX9v1H0R
+ m+wUB6yHxSMqSNGrkRL4CbxFCszcq4/eCEMyof955nXc/t+uOqg/FFOhELpkWRxuJ7eG
+ jovLILYBu7gO0DXqlUlHTRzf71m5cMjDC+908JnIMBOs2PYmtL630PNey/uiVqoDx72K
+ o4SIsYK9dlJC8180G6pV/70DYabPhdJuKHVZdI9YMIR5R6huFTOR68B6FFXWLaIMG3B6
+ rfXg==
+X-Gm-Message-State: ACgBeo0yr3wMSK6IrFm+AsgLpAgrW1XLH/NyIRq6nMkeEchFk12X/nk8
+ 7A5ArKENNaAHd9k1SbdcGOKywGl/yHbsgmeAQmveGrvkS76mSAxMU7GP9ClL/fzXwhymCdMzQB6
+ FfILaO3H6wWIyni8=
+X-Received: by 2002:a17:907:5ce:b0:730:bae0:deb with SMTP id
+ wg14-20020a17090705ce00b00730bae00debmr22567370ejb.181.1660165786318; 
+ Wed, 10 Aug 2022 14:09:46 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4c66vXW+DLtvsDH80iDkjMv8z257kSa/yFKgw3F+11mr1cKcxco9DcArfQwSz6oqaEdtkfng==
+X-Received: by 2002:a17:907:5ce:b0:730:bae0:deb with SMTP id
+ wg14-20020a17090705ce00b00730bae00debmr22567358ejb.181.1660165786038; 
+ Wed, 10 Aug 2022 14:09:46 -0700 (PDT)
+Received: from redhat.com ([2.52.152.113]) by smtp.gmail.com with ESMTPSA id
+ 20-20020a170906309400b00730fd9ccf84sm2713832ejv.90.2022.08.10.14.09.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 14:09:45 -0700 (PDT)
+Date: Wed, 10 Aug 2022 17:09:42 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH v3] pc: hide linuxboot RNG seed behind a machine property
+Message-ID: <20220810170827-mutt-send-email-mst@kernel.org>
+References: <20220810165942.104545-1-pbonzini@redhat.com>
+ <20220810130346-mutt-send-email-mst@kernel.org>
+ <CABgObfa0dr3H7tr8S5L+pLjFyJUMP7rVTPxr4senHDfofBq1RA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] [PATCH] linux-user/aarch64: Reset target data on
- MADV_DONTNEED
-Content-Language: en-US
-To: Vitaly Buka <vitalybuka@google.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-References: <CAPjTjwsb0jAsQq4PHOsFGW7SjpAe=Ug2b_fxhdccEEnzh=cQUA@mail.gmail.com>
- <CAFEAcA-F8rUTH1FimHf+FaV0O6dQ4QGHihaygxdjn9BKYPazBg@mail.gmail.com>
- <CAPjTjwuNwXdemwFYOUDi4Qnc5fA9KWzAEZQ1JaCNu+0x3RUh7Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAPjTjwuNwXdemwFYOUDi4Qnc5fA9KWzAEZQ1JaCNu+0x3RUh7Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CABgObfa0dr3H7tr8S5L+pLjFyJUMP7rVTPxr4senHDfofBq1RA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,31 +99,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/22 13:32, Vitaly Buka wrote:
-> Sorry, I only noticed today that it's notÂ submitted.
-> Version is not critical for us, as we build from masters anyway.
-> Richard, do you know a reason to consider this critical?
+On Wed, Aug 10, 2022 at 09:25:05PM +0200, Paolo Bonzini wrote:
 > 
-> On Wed, 10 Aug 2022 at 13:04, Peter Maydell <peter.maydell@linaro.org 
-> <mailto:peter.maydell@linaro.org>> wrote:
 > 
->     On Wed, 10 Aug 2022 at 21:00, Vitaly Buka <vitalybuka@google.com
->     <mailto:vitalybuka@google.com>> wrote:
->      >
->      > How can we land this one?
+> Il mer 10 ago 2022, 19:06 Michael S. Tsirkin <mst@redhat.com> ha scritto:
 > 
->     Pinging it a week ago rather than now would have been a good start :-(
->     I think it got missed because you didn't cc the linux-user maintainer.
+>     > @@ -1387,6 +1405,7 @@ static void x86_machine_initfn(Object *obj)
+>     >      x86ms->acpi = ON_OFF_AUTO_AUTO;
+>     >      x86ms->pit = ON_OFF_AUTO_AUTO;
+>     >      x86ms->pic = ON_OFF_AUTO_AUTO;
+>     > +    x86ms->linuxboot_randomness = ON_OFF_AUTO_OFF;
+>     >      x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+>     >      x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+>     >      x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
 > 
->     Is this a critical fix for 7.1 or can we let it slip to 7.2 ?
+> 
+>     This is a weird thing to do in that there's no way to make it auto now.
+> 
+> 
+> Sure, -M x-linuxboot-randomness=auto works. And making it already on/off/auto
+> will limit future patches to the injection logic rather than the QOM
+> boilerplate.
+> 
+> Paolo
 
-It's unfortunate that it got missed.  It's not critical, but it would be nice, because 
-support for MADV_DONTNEED is new in 7.1 (previously, we ignored all madvise).
+Hmm. It's unusual that auto is not the same as "no value at all".
+But I guess there's no rule saying that can't be the case.
+OK then.
 
-I'll note there are missing braces for coding style on an IF.
-
-Laurent, do you have an objection to merging this for rc3?
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
 
-r~
+
+
+> 
+>     And in that case, let's just make it a simple boolean property for now?
+> 
+>     > @@ -1426,6 +1445,12 @@ static void x86_machine_class_init(ObjectClass
+>     *oc, void *data)
+>     >      object_class_property_set_description(oc, X86_MACHINE_PIT,
+>     >          "Enable i8254 PIT");
+>     > 
+>     > +    object_class_property_add(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS,
+>     "OnOffAuto",
+>     > +        x86_machine_get_linuxboot_randomness,
+>     x86_machine_set_linuxboot_randomness,
+>     > +        NULL, NULL);
+>     > +    object_class_property_set_description(oc,
+>     X86_MACHINE_LINUXBOOT_RANDOMNESS,
+>     > +        "Pass random number seed to -kernel Linux image");
+>     > +
+>     >      object_class_property_add(oc, X86_MACHINE_PIC, "OnOffAuto",
+>     >                                x86_machine_get_pic,
+>     >                                x86_machine_set_pic,
+>     > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+>     > index 8435733bd6..9cc3f5d338 100644
+>     > --- a/include/hw/i386/pc.h
+>     > +++ b/include/hw/i386/pc.h
+>     > @@ -128,9 +128,6 @@ struct PCMachineClass {
+>     > 
+>     >      /* create kvmclock device even when KVM PV features are not exposed
+>     */
+>     >      bool kvmclock_create_always;
+>     > -
+>     > -    /* skip passing an rng seed for legacy machines */
+>     > -    bool legacy_no_rng_seed;
+>     >  };
+>     > 
+>     >  #define TYPE_PC_MACHINE "generic-pc-machine"
+>     > diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+>     > index 62fa5774f8..d7a2eb6f1c 100644
+>     > --- a/include/hw/i386/x86.h
+>     > +++ b/include/hw/i386/x86.h
+>     > @@ -70,6 +70,7 @@ struct X86MachineState {
+>     >      OnOffAuto acpi;
+>     >      OnOffAuto pit;
+>     >      OnOffAuto pic;
+>     > +    OnOffAuto linuxboot_randomness;
+>     > 
+>     >      char *oem_id;
+>     >      char *oem_table_id;
+>     > @@ -94,6 +95,7 @@ struct X86MachineState {
+>     >  #define X86_MACHINE_OEM_ID           "x-oem-id"
+>     >  #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+>     >  #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
+>     > +#define X86_MACHINE_LINUXBOOT_RANDOMNESS "x-linuxboot-randomness"
+>     > 
+>     >  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+>     >  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+>     > @@ -126,8 +128,7 @@ void x86_bios_rom_init(MachineState *ms, const char
+>     *default_firmware,
+>     >  void x86_load_linux(X86MachineState *x86ms,
+>     >                      FWCfgState *fw_cfg,
+>     >                      int acpi_data_size,
+>     > -                    bool pvh_enabled,
+>     > -                    bool legacy_no_rng_seed);
+>     > +                    bool pvh_enabled);
+>     > 
+>     >  bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
+>     >  bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+>     > --
+>     > 2.37.1
+> 
+> 
+
 
