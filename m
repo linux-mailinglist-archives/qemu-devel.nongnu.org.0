@@ -2,153 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC2658EAB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 12:51:59 +0200 (CEST)
-Received: from localhost ([::1]:47696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C55858EB73
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 13:44:27 +0200 (CEST)
+Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLjJd-0004u3-G0
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 06:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43032)
+	id 1oLk8P-0001Gw-WD
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 07:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jingdong.lu@intel.com>)
- id 1oLjDb-0002De-Eq
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 06:45:47 -0400
-Received: from mga12.intel.com ([192.55.52.136]:2808)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLk3s-0005L6-Ux; Wed, 10 Aug 2022 07:39:45 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:60494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jingdong.lu@intel.com>)
- id 1oLjDY-0007cL-Ud
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 06:45:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660128340; x=1691664340;
- h=from:to:subject:date:message-id:mime-version;
- bh=9WIRWq78YJWEIoazmpmCh0FGJU8kdGNtZx+q57wyL9g=;
- b=k4/aW3+tAGPfx2VwaaKPVG5ZQaTL0sidjHjPmKr6zKbAjNOdJO8mtHLX
- W6S21NgnTXz4DngDHYh/LK1cB+8BKRIxNySI8SrBJ2z+EvmS4/pCzRNSg
- DkvxzKj33YxcjuWaYcnwGfMJDHGc/L4eHhH3W3gyOQBCTEH1IfOvF3V0n
- DnO6K09WovwddszUL2LMYf5v0245xSA65D/Bp9BZRaoNoOAj4IejBlHkc
- XGwyKjhj+1vv+gFHb4tS86z6dlOdO1Vd1YFqmKq14oAzFACtGtfr7YW6X
- xBjnGcBaYrbyd5fkBGglGyq1sDCFUxvzwjsBRUxZyCT9smyX/e72QRmdp w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="270827710"
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; 
- d="scan'208,217";a="270827710"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2022 03:45:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; 
- d="scan'208,217";a="781194501"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga005.jf.intel.com with ESMTP; 10 Aug 2022 03:45:36 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Wed, 10 Aug 2022 03:45:36 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Wed, 10 Aug 2022 03:45:36 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Wed, 10 Aug 2022 03:45:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TbC0A7ZiCN/qyryRiAc8B4GSC419BgqYkYP7zqAKGdEkOvDLMGPg4mBj1zSnlefhi/jI2MerroneV+oDOzg8aCnZjBJ3CaUxlCI0eji6x9fZbS882yA9Owon0uskHFwb26ZfiuXjbSfzCcEXV+N/izrMrdfDTW393C/xgvjR7dHdrkbKq8y6g4yPTed48XRezoTjozh0SMxJ5bW1F2l+bY0bqTH+AToYwVfsjM4Y+fSftaN7OQzbKn8Pv718fwtpmM8dflKvr6fxXS6eykpB3YQFipPrFSA873LP/75VUgkdWppeuBsPIQTTGw9NcMX0pSJKuJ4jLLuHekhtHsUS/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C9TZvS9vJBxazDYsa+Y1FauZ3RhQY6An3SdhvK/ZeDk=;
- b=GzsWVDvI9Jh/SpBJYamQzChR6vsYMndPBKTd00hNu7kLTMEs7oz4POhVefI1ACQwTjiOY+ZPq7KJY1WFKkpzHDwF27Vyfe2P5EQ+ObFOvBjZn/8xK8BvkMyXfDprLwSggzt6GKFwEI4dxI+sE0hCCutAxZZuRe9snyRH3zEDXLw1Ss0Av9eu3tD1fTrIwkkMSowKgF7tSfMd7j3imnP4/l15HjX/oNFro3CmFnp0JCo62uCuJujAalJgzpLD/jPcld5VM7aXQt7G9bCOOcYHAO0XoI6qI5SdeVfNS7yuuIJEARKCTRr39pNiJeEMDESjjLAdDBG7QMqwRw/pBojmQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB6109.namprd11.prod.outlook.com (2603:10b6:208:3cf::18)
- by DM4PR11MB6551.namprd11.prod.outlook.com (2603:10b6:8:b9::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20; Wed, 10 Aug
- 2022 10:45:35 +0000
-Received: from MN0PR11MB6109.namprd11.prod.outlook.com
- ([fe80::d529:889d:4cb5:6d6e]) by MN0PR11MB6109.namprd11.prod.outlook.com
- ([fe80::d529:889d:4cb5:6d6e%7]) with mapi id 15.20.5504.017; Wed, 10 Aug 2022
- 10:45:34 +0000
-From: "Lu, Jingdong" <jingdong.lu@intel.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Shared memory between host and guest
-Thread-Topic: Shared memory between host and guest
-Thread-Index: AdisnA1F15TtaOZgSn+a4I68uIFVag==
-Date: Wed, 10 Aug 2022 10:45:34 +0000
-Message-ID: <MN0PR11MB61090F118B8D3977D0EC03FEF0659@MN0PR11MB6109.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b5855dd8-3e8a-47a9-fec9-08da7abd7489
-x-ms-traffictypediagnostic: DM4PR11MB6551:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bbgjzHXVrkDecavzlmertycaT55U5/PnDmnrCvY1qN6oa7RebPGgzct2hnRl5Nt2AHmYsm8ZzVZ1px2I5CF3/sKe6LDusIS+EAzTjdKNq+ZXzaeCcdMSflLz/mo+S7xtAW/kP0DPCSvIe0REGglfhjwTOcHg/xbC+dfVdBwc73EUaXYjUAKyizDoLs5rLySQFer+T/YSpzM5E2VKRU86hDM283JDVWNRv3eLc8N6wCSGfTUSjyQc/kXbuB83a20tFYZBcxqKbx29AJajILfXhxJmiNqjv8e9cjLStGDCexa/ciMNSbElbNd5sTxRRCISRXlkw+r9uOyhqqM1HG1cFzH63eqqZ7oXhwrbMRAKNekPiGvO2hiPxOgWUoh/C35Pb1jqSCCpTTGPO9P5H8p25tJflwLA7KkTyCkVWXCgPUqQ1q0G/J3o85vP3Ginnqxd5+ume3sfZ0VvIcPvqtTOX4Dxca5ckECE1eNmLuVOm8eSDzujIHQGrlcRjzaNuT8i+qhoHsRZhH04xwDexmVJe3taSkv4NuljK2/3XWLB/KzUOYvEJOrF3Y0RCpwrIkyJDXqKDqOiKsTSXQJRVgCHMr6h06dmwn6WE2LN9cYM7VZjdoglPYYmulb4yaxYtHdk1PFNGCx9+gxhEX40ShWNQZ9jFffNhYoUW86NHNEUyZ1Bm4Zb632B5TmUbiHcMBKt3GF31hhkOftS4wc1doYvTYM6VOpIGqDejdDii/Hael9Fobo6PGg7Q2/Sd6mT6PHjKi3qQPjJpZNfJm/qXPVk452BPYM3I8iIGdXl0pQQ5X8=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6109.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(39860400002)(366004)(376002)(346002)(136003)(396003)(26005)(8676002)(66946007)(38100700002)(66556008)(66446008)(64756008)(66476007)(82960400001)(9686003)(76116006)(7696005)(2906002)(6506007)(316002)(86362001)(6916009)(55016003)(38070700005)(478600001)(41300700001)(71200400001)(186003)(122000001)(8936002)(83380400001)(4744005)(33656002)(5660300002)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZHojFcGT55w8jjDPzu0Ld6ozEgrrmVFSIJpLtIFOZLxGd2BJAwEa2bQxjFcO?=
- =?us-ascii?Q?U1MNNXkiQx2dANugsqS5SqPLl/rBkgu98P4SfOJ4nl9CNsv+sRUTYepWKUEy?=
- =?us-ascii?Q?KJ+EXXf2Rr5AcbTPTgTfz+aGP/rJytie0ochePvMdRCzICr6ZcvKQ6zdvUUt?=
- =?us-ascii?Q?sy21Ap1qW/S9CEBWRGE6CDPbg29Bu1w1Eslq8cmayX1AqmftCbyifWnzfDob?=
- =?us-ascii?Q?mT+zx7nPLIajRil6jmakgMAWOKJMZm3Xj35BV5tD6qSjf+fTkryc19Hp/FU4?=
- =?us-ascii?Q?hw7fODkMBiC/LnxgCBZnOyrcnJou8+mEifEmbrbjSPkF3IP93KVectPSrbjW?=
- =?us-ascii?Q?SYgnp1UFH8v8jLkuuCiYbxraox9mVqHKpwK6y3hi1jb4bRbHzw27LVBIM80E?=
- =?us-ascii?Q?PQcGpBPhDgh7sxI9mW34mUhf7W5KxVM7IQB+MQbBX+t5rSLfT7LEE4TEYAIo?=
- =?us-ascii?Q?pbrWJ7pKRgyojNKfgHWwKXLXWBZ8T+2qblq4BaBNa1pX86r5fbTvMUCv0Vy8?=
- =?us-ascii?Q?bV9OLz4kJajMN2NyiEKdrrR0Y+NIn3QxW4/3ZeG0rkwKcwDYvM/fl5/rOBTF?=
- =?us-ascii?Q?UQymAe1YQNMz3IVcCOE7HGar4OO2Oqv9JzRb67v2nb2ESLZi6RYFRZyhO5EH?=
- =?us-ascii?Q?A7KPbPDeIXMm60ftpsCskqyYa2Pm+09xOpOgKDDQyKS8XcNIMo45Qe62/4S7?=
- =?us-ascii?Q?yfkFNGllwLQ+buzNHAJoscadtAjgWX2jK/0x+xTcilNb6oqJdk1SGa0nkrJW?=
- =?us-ascii?Q?TQuiYK8ssed1k7FIxbMLELGHkyFlLXrB0nDbnX+UDSeSJIW8MNnFFfvWyGvq?=
- =?us-ascii?Q?mh8tH5QMyEY3ItHxiR3ri2ooal4tQoh1CyWZhehWDAet+I0bah/BoBmxVEB8?=
- =?us-ascii?Q?/XEKYwl8Rf18LIZrSbBPeEEeMFISapY7IMAylELTgjcaz5Bu2LcBmKqwLOOW?=
- =?us-ascii?Q?8oJfzif+geTi4YfDtk01QhZUBqg35kx/SQu0rXVsgAFy9zCWViDl4709s1hp?=
- =?us-ascii?Q?lIFuGspIVYz7CxBn86SJL4c05s9zlRp0dRBilE70VWcquU15FONYFnd8etvc?=
- =?us-ascii?Q?lf/E9E7tRXcNtnwdKeRlJRAe8+ujyQQIvI6v283dSZVH61eaqrwsScxvi23L?=
- =?us-ascii?Q?ayChojhlGRNy8KT2DW5uQuWN/VkeIoCOG41Ht2KFwWwmKZrVuYrRFiSQDeb9?=
- =?us-ascii?Q?GhJ5WS2K8niQiizFRWS0pLabVYh+pvhJzsnt1lfm4ye+iXEORk9E3CT0PDBU?=
- =?us-ascii?Q?/EZGHB5kLSAGBsnMD0NWG9B1pEIc5h0YSbPlNp2fQs0wkxBTCwE2cSN9lxHB?=
- =?us-ascii?Q?pkZYIMMpKrIVc6p01smmcRjq5lFVBy9VPIfKGfVmIqAURCR/Tx+ssDI+hmLR?=
- =?us-ascii?Q?kDB5pepEenVERjmetvyO/XBAO86d+qypgOjllUZtxTJUPT/XI6H01zP0HKlH?=
- =?us-ascii?Q?FHE3LLD6dLSCCmYUvzO+6S5wdAPBEHfkA/WuAp+vhNBnzB1TSjsaJlxuKRFd?=
- =?us-ascii?Q?B5AIh2Aztq79O/JmYmTQwxPSA2cUkp6rYFjW6mwPcD6lTulz6t1NQijoilCV?=
- =?us-ascii?Q?h2HTpzVZPHKMfYy3V+6BOi1DywcrkA4kbe0o1Wor?=
-Content-Type: multipart/alternative;
- boundary="_000_MN0PR11MB61090F118B8D3977D0EC03FEF0659MN0PR11MB6109namp_"
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oLk3p-0000Ui-Ep; Wed, 10 Aug 2022 07:39:44 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3DC28746324;
+ Wed, 10 Aug 2022 13:39:37 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6ED34746307; Wed, 10 Aug 2022 13:39:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 6CBD97462D3;
+ Wed, 10 Aug 2022 13:39:36 +0200 (CEST)
+Date: Wed, 10 Aug 2022 13:39:36 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 23/24] ppc/ppc405: QOM'ify SDRAM
+In-Reply-To: <a71c2ecb-3cdc-d193-0b16-3dbc59625eed@kaod.org>
+Message-ID: <67d4f375-fa2e-dd7d-11fa-5bd1e4b134fd@eik.bme.hu>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-24-clg@kaod.org>
+ <d0dca62f-f54f-1f43-18b5-5b67497bc451@eik.bme.hu>
+ <a71c2ecb-3cdc-d193-0b16-3dbc59625eed@kaod.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6109.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5855dd8-3e8a-47a9-fec9-08da7abd7489
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2022 10:45:34.8798 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lYjIOhNrSQHPL4T7itvhXU7y/ibG7xI073E1P4B4d2B6ymzW27vCrMkQ0lsm96KTyrDkMRjFlO1jJpTx9H54+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6551
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=jingdong.lu@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Type: multipart/mixed;
+ boundary="3866299591-753779303-1660131576=:31978"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -164,167 +64,404 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_MN0PR11MB61090F118B8D3977D0EC03FEF0659MN0PR11MB6109namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Hi experts,
+--3866299591-753779303-1660131576=:31978
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-I have some basic questions regarding shared memory between host and guest =
-based on QEMU/KVM:
-
-1, Can host and guest share the same block of physical memory? Ivshmem? Is =
-it continuous physical memory?
-
-2, More specifically, is there any way to support the following operations?
-
-  1.  Guest starts.
-  2.  Host side allocates one block of physical memory like 2MB.
-  3.  Host side adds this memory to running guest  memory mapping.
-  4.  Both of host and guest can access this shared memory.
-
-Best Regards,
-Jingdong
-
---_000_MN0PR11MB61090F118B8D3977D0EC03FEF0659MN0PR11MB6109namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Wed, 10 Aug 2022, Cédric Le Goater wrote:
+> On 8/9/22 19:53, BALATON Zoltan wrote:
+>> On Tue, 9 Aug 2022, Cédric Le Goater wrote:
+>>> This is an initial change of the SDRAM controller preserving the
+>>> compatibility with the current modeling. Further cleanup will be
+>>> possible after conversion of the ppc4xx_sdram_banks() and
+>>> ppc4xx_sdram_init() routines of the sam460ex and bamboo machines.
+>>> 
+>>> The size and base address of the RAM banks are now set using QOM
+>>> property arrays. RAM is equally distributed on each bank at the SoC
+>>> level depending on the number of banks we want to initialize (default
+>>> is 2). Each RAM memory region representing a RAM bank is initialized
+>>> in the realize routine of the SDRAM model after a minimal check on the
+>>> RAM size value with the sdram_bcr() routine. This has the benefit of
+>>> reporting an error to the user if the requested RAM size is invalid
+>>> for the SDRAM controller.
+>> 
+>> Haven't looked at it in detail yet but I think we have two versions of this 
+>> (one in ppc4xx_devs.c and another in ppc440_uc.c) that are slightly 
+>> different due to the differences of the memory controllers of later SoCs. 
+>> I'm not sure how to clean this up and forgot most of the details about 
+>> this.
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"\@DengXian";
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1384139476;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-2140401060 67698705 67698713 67698715 67698703 6769=
-8713 67698715 67698703 67698713 67698715;}
-@list l0:level1
-	{mso-level-text:"%1\)";
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi experts,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I have some basic questions regarding shared memory =
-between host and guest based on QEMU/KVM:<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">1, Can host and guest share the same block of physic=
-al memory? Ivshmem? Is it continuous physical memory?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">2, More specifically, is there any way to support th=
-e following operations?<o:p></o:p></p>
-<ol style=3D"margin-top:0in" start=3D"1" type=3D"1">
-<li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 =
-lfo1">Guest starts.<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"=
-margin-left:0in;mso-list:l0 level1 lfo1">Host side allocates one block of p=
-hysical memory like 2MB.<o:p></o:p></li><li class=3D"MsoListParagraph" styl=
-e=3D"margin-left:0in;mso-list:l0 level1 lfo1">Host side adds this memory to=
- running guest &nbsp;memory mapping.<o:p></o:p></li><li class=3D"MsoListPar=
-agraph" style=3D"margin-left:0in;mso-list:l0 level1 lfo1">Both of host and =
-guest can access this shared memory.<o:p></o:p></li></ol>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Best Regards,<o:p></o:p></p>
-<p class=3D"MsoNormal">Jingdong<o:p></o:p></p>
-</div>
-</body>
-</html>
+> AFAICT We need a Ppc4xxSdramClass to abstract the differences.
 
---_000_MN0PR11MB61090F118B8D3977D0EC03FEF0659MN0PR11MB6109namp_--
+So maybe this one in this patch is beter named 405 then. Some devices are 
+common to both 405 and 440 which should be named 4xx then where there are 
+differences we should use 405 and 440 (or 40x and 44x if we have different 
+SoCs of the same family). This wasn't followed strictly before so there's 
+some naming to clean up.
+
+Regards,
+BALATON Zoltan
+
+> Thanks,
+>
+> C.
+>
+>> 
+>> Regards,
+>> BALATON Zoltan
+>> 
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>> hw/ppc/ppc405.h         |   6 +--
+>>> include/hw/ppc/ppc4xx.h |  32 ++++++++++++
+>>> hw/ppc/ppc405_uc.c      |  34 ++++++++----
+>>> hw/ppc/ppc4xx_devs.c    | 113 ++++++++++++++++++++++++++++------------
+>>> 4 files changed, 140 insertions(+), 45 deletions(-)
+>>> 
+>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>> index 56881b181ba1..8c19d167391c 100644
+>>> --- a/hw/ppc/ppc405.h
+>>> +++ b/hw/ppc/ppc405.h
+>>> @@ -228,12 +228,9 @@ struct Ppc405SoCState {
+>>>     DeviceState parent_obj;
+>>> 
+>>>     /* Public */
+>>> -    MemoryRegion ram_banks[2];
+>>> -    hwaddr ram_bases[2], ram_sizes[2];
+>>> -    bool do_dram_init;
+>>> -
+>>>     MemoryRegion *dram_mr;
+>>>     hwaddr ram_size;
+>>> +    uint32_t nr_banks;
+>>> 
+>>>     PowerPCCPU cpu;
+>>>     PPCUIC uic;
+>>> @@ -241,6 +238,7 @@ struct Ppc405SoCState {
+>>>     Ppc405GptState gpt;
+>>>     Ppc405OcmState ocm;
+>>>     Ppc405GpioState gpio;
+>>> +    Ppc4xxSdramState sdram;
+>>>     Ppc405DmaState dma;
+>>>     PPC4xxI2CState i2c;
+>>>     Ppc405EbcState ebc;
+>>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+>>> index acd096cb2394..b841f6600b55 100644
+>>> --- a/include/hw/ppc/ppc4xx.h
+>>> +++ b/include/hw/ppc/ppc4xx.h
+>>> @@ -87,4 +87,36 @@ struct Ppc4xxMalState {
+>>> void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>>>                      qemu_irq irqs[4]);
+>>> 
+>>> +/* SDRAM controller */
+>>> +#define TYPE_PPC4xx_SDRAM "ppc4xx-sdram"
+>>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxSdramState, PPC4xx_SDRAM);
+>>> +struct Ppc4xxSdramState {
+>>> +    Ppc4xxDcrDeviceState parent_obj;
+>>> +
+>>> +    MemoryRegion *dram_mr;
+>>> +    bool dram_init;
+>>> +
+>>> +    MemoryRegion containers[4]; /* used for clipping */
+>>> +    MemoryRegion *ram_memories;
+>>> +    hwaddr *ram_bases;
+>>> +    hwaddr *ram_sizes;
+>>> +    uint32_t nb_ram_bases;
+>>> +    uint32_t nb_ram_sizes;
+>>> +    uint32_t nbanks; /* Redundant */
+>>> +
+>>> +    uint32_t addr;
+>>> +    uint32_t besr0;
+>>> +    uint32_t besr1;
+>>> +    uint32_t bear;
+>>> +    uint32_t cfg;
+>>> +    uint32_t status;
+>>> +    uint32_t rtr;
+>>> +    uint32_t pmit;
+>>> +    uint32_t bcr[4];
+>>> +    uint32_t tr;
+>>> +    uint32_t ecccfg;
+>>> +    uint32_t eccesr;
+>>> +    qemu_irq irq;
+>>> +};
+>>> +
+>>> #endif /* PPC4XX_H */
+>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>>> index 1045f5f13e6c..fe0c92ba0d54 100644
+>>> --- a/hw/ppc/ppc405_uc.c
+>>> +++ b/hw/ppc/ppc405_uc.c
+>>> @@ -1361,6 +1361,9 @@ static void ppc405_soc_instance_init(Object *obj)
+>>> 
+>>>     object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
+>>> 
+>>> +    object_initialize_child(obj, "sdram", &s->sdram, TYPE_PPC4xx_SDRAM);
+>>> +    object_property_add_alias(obj, "dram-init", OBJECT(&s->sdram), 
+>>> "dram-init");
+>>> +
+>>>     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
+>>> 
+>>>     object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
+>>> @@ -1432,15 +1435,28 @@ static void ppc405_soc_realize(DeviceState *dev, 
+>>> Error **errp)
+>>> 
+>>>     /* SDRAM controller */
+>>>         /* XXX 405EP has no ECC interrupt */
+>>> -    s->ram_bases[0] = 0;
+>>> -    s->ram_sizes[0] = s->ram_size;
+>>> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
+>>> -                             "ppc405.sdram0", s->dram_mr,
+>>> -                             s->ram_bases[0], s->ram_sizes[0]);
+>>> +    object_property_set_link(OBJECT(&s->sdram), "dram", 
+>>> OBJECT(s->dram_mr),
+>>> +                             &error_abort);
+>>> +
+>>> +    qdev_prop_set_uint32(DEVICE(&s->sdram), "len-ram-sizes", 
+>>> s->nr_banks);
+>>> +    qdev_prop_set_uint32(DEVICE(&s->sdram), "len-ram-bases", 
+>>> s->nr_banks);
+>>> 
+>>> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
+>>> -                      s->ram_banks, s->ram_bases, s->ram_sizes,
+>>> -                      s->do_dram_init);
+>>> +    for (i = 0; i < s->nr_banks; i++) {
+>>> +        char name[32];
+>>> +        snprintf(name, sizeof(name), "ram-bases[%d]", i);
+>>> +        qdev_prop_set_uint32(DEVICE(&s->sdram), name,
+>>> +                             i * s->ram_size / s->nr_banks);
+>>> +
+>>> +        snprintf(name, sizeof(name), "ram-sizes[%d]", i);
+>>> +        qdev_prop_set_uint32(DEVICE(&s->sdram), name,
+>>> +                             s->ram_size / s->nr_banks);
+>>> +    }
+>>> +
+>>> +    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->sdram), &s->cpu, errp)) 
+>>> {
+>>> +        return;
+>>> +    }
+>>> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdram), 0,
+>>> +                       qdev_get_gpio_in(DEVICE(&s->uic), 17));
+>>> 
+>>>     /* External bus controller */
+>>>     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
+>>> @@ -1520,7 +1536,7 @@ static void ppc405_soc_realize(DeviceState *dev, 
+>>> Error **errp)
+>>> static Property ppc405_soc_properties[] = {
+>>>     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+>>>                      MemoryRegion *),
+>>> -    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
+>>> +    DEFINE_PROP_UINT32("nr-banks", Ppc405SoCState, nr_banks, 2),
+>>>     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+>>>     DEFINE_PROP_END_OF_LIST(),
+>>> };
+>>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+>>> index c06c20b195cd..a9ceea13f218 100644
+>>> --- a/hw/ppc/ppc4xx_devs.c
+>>> +++ b/hw/ppc/ppc4xx_devs.c
+>>> @@ -39,28 +39,6 @@
+>>> 
+>>> /*****************************************************************************/
+>>> /* SDRAM controller */
+>>> -typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
+>>> -struct ppc4xx_sdram_t {
+>>> -    uint32_t addr;
+>>> -    int nbanks;
+>>> -    MemoryRegion containers[4]; /* used for clipping */
+>>> -    MemoryRegion *ram_memories;
+>>> -    hwaddr ram_bases[4];
+>>> -    hwaddr ram_sizes[4];
+>>> -    uint32_t besr0;
+>>> -    uint32_t besr1;
+>>> -    uint32_t bear;
+>>> -    uint32_t cfg;
+>>> -    uint32_t status;
+>>> -    uint32_t rtr;
+>>> -    uint32_t pmit;
+>>> -    uint32_t bcr[4];
+>>> -    uint32_t tr;
+>>> -    uint32_t ecccfg;
+>>> -    uint32_t eccesr;
+>>> -    qemu_irq irq;
+>>> -};
+>>> -
+>>> enum {
+>>>     SDRAM0_CFGADDR = 0x010,
+>>>     SDRAM0_CFGDATA = 0x011,
+>>> @@ -128,7 +106,7 @@ static target_ulong sdram_size (uint32_t bcr)
+>>>     return size;
+>>> }
+>>> 
+>>> -static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
+>>> +static void sdram_set_bcr(Ppc4xxSdramState *sdram, int i,
+>>>                           uint32_t bcr, int enabled)
+>>> {
+>>>     if (sdram->bcr[i] & 0x00000001) {
+>>> @@ -154,7 +132,7 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int 
+>>> i,
+>>>     }
+>>> }
+>>> 
+>>> -static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
+>>> +static void sdram_map_bcr(Ppc4xxSdramState *sdram)
+>>> {
+>>>     int i;
+>>> 
+>>> @@ -168,7 +146,7 @@ static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
+>>>     }
+>>> }
+>>> 
+>>> -static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
+>>> +static void sdram_unmap_bcr(Ppc4xxSdramState *sdram)
+>>> {
+>>>     int i;
+>>> 
+>>> @@ -182,7 +160,7 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
+>>> 
+>>> static uint32_t dcr_read_sdram (void *opaque, int dcrn)
+>>> {
+>>> -    ppc4xx_sdram_t *sdram;
+>>> +    Ppc4xxSdramState *sdram;
+>>>     uint32_t ret;
+>>> 
+>>>     sdram = opaque;
+>>> @@ -250,7 +228,7 @@ static uint32_t dcr_read_sdram (void *opaque, int 
+>>> dcrn)
+>>> 
+>>> static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
+>>> {
+>>> -    ppc4xx_sdram_t *sdram;
+>>> +    Ppc4xxSdramState *sdram;
+>>> 
+>>>     sdram = opaque;
+>>>     switch (dcrn) {
+>>> @@ -329,11 +307,10 @@ static void dcr_write_sdram (void *opaque, int dcrn, 
+>>> uint32_t val)
+>>>     }
+>>> }
+>>> 
+>>> -static void sdram_reset (void *opaque)
+>>> +static void ppc4xx_sdram_reset(DeviceState *dev)
+>>> {
+>>> -    ppc4xx_sdram_t *sdram;
+>>> +    Ppc4xxSdramState *sdram = (Ppc4xxSdramState *) dev;
+>>> 
+>>> -    sdram = opaque;
+>>>     sdram->addr = 0x00000000;
+>>>     sdram->bear = 0x00000000;
+>>>     sdram->besr0 = 0x00000000; /* No error */
+>>> @@ -349,21 +326,88 @@ static void sdram_reset (void *opaque)
+>>>     sdram->cfg = 0x00800000;
+>>> }
+>>> 
+>>> +static void sdram_reset(void *opaque)
+>>> +{
+>>> +    ppc4xx_sdram_reset(opaque);
+>>> +}
+>>> +
+>>> +static void ppc4xx_sdram_realize(DeviceState *dev, Error **errp)
+>>> +{
+>>> +    Ppc4xxSdramState *s = PPC4xx_SDRAM(dev);
+>>> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+>>> +    int i;
+>>> +
+>>> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+>>> +
+>>> +    ppc4xx_dcr_register(dcr, SDRAM0_CFGADDR, &dcr_read_sdram, 
+>>> &dcr_write_sdram);
+>>> +    ppc4xx_dcr_register(dcr, SDRAM0_CFGDATA, &dcr_read_sdram, 
+>>> &dcr_write_sdram);
+>>> +
+>>> +    if (!s->nb_ram_bases || s->nb_ram_bases != s->nb_ram_sizes) {
+>>> +        error_setg(errp, "Invalid number of RAM banks");
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    s->ram_memories = g_new0(MemoryRegion, s->nb_ram_bases);
+>>> +    for (i = 0; i < s->nb_ram_bases; i++) {
+>>> +        g_autofree char *name = g_strdup_printf(TYPE_PPC4xx_SDRAM "%d", 
+>>> i);
+>>> +
+>>> +        if (!sdram_bcr(s->ram_bases[i], s->ram_sizes[i])) {
+>>> +            error_setg(errp, "Invalid RAM size 0x%" HWADDR_PRIx,
+>>> +                       s->ram_sizes[i]);
+>>> +            return;
+>>> +        }
+>>> +
+>>> +        memory_region_init_alias(&s->ram_memories[i], OBJECT(s), name,
+>>> +                                 s->dram_mr, s->ram_bases[i], 
+>>> s->ram_sizes[i]);
+>>> +    }
+>>> +
+>>> +    s->nbanks = s->nb_ram_sizes;
+>>> +    if (s->dram_init) {
+>>> +        sdram_map_bcr(s);
+>>> +    }
+>>> +}
+>>> +
+>>> +static Property ppc4xx_sdram_properties[] = {
+>>> +    DEFINE_PROP_LINK("dram", Ppc4xxSdramState, dram_mr, 
+>>> TYPE_MEMORY_REGION,
+>>> +                     MemoryRegion *),
+>>> +    DEFINE_PROP_BOOL("dram-init", Ppc4xxSdramState, dram_init, false),
+>>> +    DEFINE_PROP_ARRAY("ram-sizes", Ppc4xxSdramState, nb_ram_sizes,
+>>> +                      ram_sizes, qdev_prop_uint64, uint64_t),
+>>> +    DEFINE_PROP_ARRAY("ram-bases", Ppc4xxSdramState, nb_ram_bases,
+>>> +                      ram_bases, qdev_prop_uint64, uint64_t),
+>>> +    DEFINE_PROP_END_OF_LIST(),
+>>> +};
+>>> +
+>>> +static void ppc4xx_sdram_class_init(ObjectClass *oc, void *data)
+>>> +{
+>>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>>> +
+>>> +    dc->realize = ppc4xx_sdram_realize;
+>>> +    dc->user_creatable = false;
+>>> +    dc->reset = ppc4xx_sdram_reset;
+>>> +    device_class_set_props(dc, ppc4xx_sdram_properties);
+>>> +}
+>>> +
+>>> void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+>>>                         MemoryRegion *ram_memories,
+>>>                         hwaddr *ram_bases,
+>>>                         hwaddr *ram_sizes,
+>>>                         int do_init)
+>>> {
+>>> -    ppc4xx_sdram_t *sdram;
+>>> +    Ppc4xxSdramState *sdram;
+>>> 
+>>> -    sdram = g_new0(ppc4xx_sdram_t, 1);
+>>> +    sdram = g_new0(Ppc4xxSdramState, 1);
+>>>     sdram->irq = irq;
+>>>     sdram->nbanks = nbanks;
+>>>     sdram->ram_memories = ram_memories;
+>>> +
+>>> +    sdram->ram_bases = g_new0(hwaddr, 4);
+>>> +
+>>>     memset(sdram->ram_bases, 0, 4 * sizeof(hwaddr));
+>>>     memcpy(sdram->ram_bases, ram_bases,
+>>>            nbanks * sizeof(hwaddr));
+>>> +
+>>> +    sdram->ram_sizes = g_new0(hwaddr, 4);
+>>>     memset(sdram->ram_sizes, 0, 4 * sizeof(hwaddr));
+>>>     memcpy(sdram->ram_sizes, ram_sizes,
+>>>            nbanks * sizeof(hwaddr));
+>>> @@ -683,6 +727,11 @@ static void ppc4xx_dcr_class_init(ObjectClass *oc, 
+>>> void *data)
+>>> 
+>>> static const TypeInfo ppc4xx_types[] = {
+>>>     {
+>>> +        .name           = TYPE_PPC4xx_SDRAM,
+>>> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
+>>> +        .instance_size  = sizeof(Ppc4xxSdramState),
+>>> +        .class_init     = ppc4xx_sdram_class_init,
+>>> +    }, {
+>>>         .name           = TYPE_PPC4xx_MAL,
+>>>         .parent         = TYPE_PPC4xx_DCR_DEVICE,
+>>>         .instance_size  = sizeof(Ppc4xxMalState),
+>>> 
+>
+>
+>
+--3866299591-753779303-1660131576=:31978--
 
