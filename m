@@ -2,63 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69BC58EDC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:00:36 +0200 (CEST)
-Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B28E58EDCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:02:48 +0200 (CEST)
+Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLmGB-0003C8-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:00:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
+	id 1oLmIJ-0006F9-Cg
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLllC-0004Qd-Bq
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:28:34 -0400
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:41655)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oLlgQ-0002ya-V7; Wed, 10 Aug 2022 09:23:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLllA-0005z2-10
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:28:33 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2E67D1FEEC;
- Wed, 10 Aug 2022 13:28:29 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 10 Aug
- 2022 15:28:28 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001f0dc0602-eb14-4bfd-b980-a1e6a414d9b0,
- 043EABA4B22CD34FCE1B70F8CBB6C707CA017DB3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.155.17
-Message-ID: <b9595c23-a97c-25bc-2770-be274f05d815@kaod.org>
-Date: Wed, 10 Aug 2022 15:28:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v3 05/11] ppc/pnv: turn chip8->phbs[] into a
- PnvPHB* array
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>, <fbarrat@linux.ibm.com>
-References: <20220810100536.473859-1-danielhb413@gmail.com>
- <20220810100536.473859-6-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220810100536.473859-6-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oLlgN-0005Eb-2A; Wed, 10 Aug 2022 09:23:38 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27AD7t53016938;
+ Wed, 10 Aug 2022 13:23:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=D+uzEVYXVrAwnEUa2GdgarGsoU7BSyZmpJ7ziwGJmpY=;
+ b=NuCNrTn5uaZ7FJogiNwTe7wdyFa/Xo7ls+65NwTDwYQhbQiLxZI+YaeTBL5LSbzT2W1C
+ lsxJOtKISQt8E7trwD1Msc8SdY6xUdcIgvSKyP96o/fGo1jTwYbp4RmdL9lYBPB1uoAB
+ sYe0mHEiPXoPKziyovF2st7Y0zJ5Up5JupB2+58R9jBXarQsm5ZTkHGEOvkVFYlDZKhX
+ l3DFX5SOXFGobsR9ZWEGGGCeZm5x4987svL5HS0Nyw6wsOcmQGAfRmfFqDddJxKlaXHb
+ 3pCHLlMboGNuXqoDcDGQBBedovctqTmE1Mzr3neN9uyRoMCMJhqpoAYRnQrd0VgqvUVD pw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hv6dcwu6b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Aug 2022 13:23:28 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27ADAKHO029045;
+ Wed, 10 Aug 2022 13:23:28 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hv6dcwu52-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Aug 2022 13:23:27 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27ADKJ6m009876;
+ Wed, 10 Aug 2022 13:23:25 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04fra.de.ibm.com with ESMTP id 3huww18nbx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Aug 2022 13:23:25 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27ADNNFs29491708
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Aug 2022 13:23:23 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF0B411C04C;
+ Wed, 10 Aug 2022 13:23:22 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 76D3B11C04A;
+ Wed, 10 Aug 2022 13:23:22 +0000 (GMT)
+Received: from p-imbrenda (unknown [9.145.0.105])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 10 Aug 2022 13:23:22 +0000 (GMT)
+Date: Wed, 10 Aug 2022 15:15:44 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, Igor
+ Mammedov <imammedo@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-s390x@nongnu.org
+Subject: Re: [PATCH v2 1/3] backends/hostmem: Fix support of
+ memory-backend-memfd in qemu_maxrampagesize()
+Message-ID: <20220810151544.60955541@p-imbrenda>
+In-Reply-To: <20220810125720.3849835-2-thuth@redhat.com>
+References: <20220810125720.3849835-1-thuth@redhat.com>
+ <20220810125720.3849835-2-thuth@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: yLu3_Mr0PmwDhA8sG7CE9O53UCs-7k6k
+X-Proofpoint-GUID: LhlUVW-nyQaWLiQdu39FOt2iXtfGinym
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 605fa039-d855-45c2-a6dc-bdb393695528
-X-Ovh-Tracer-Id: 12861436113087859680
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegvddgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhgsrghrrhgrtheslhhinhhugidrihgsmhdrtghomhdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-10_08,2022-08-10_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ priorityscore=1501 clxscore=1011 lowpriorityscore=0 malwarescore=0
+ adultscore=0 impostorscore=0 mlxlogscore=945 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208100037
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,149 +120,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/22 12:05, Daniel Henrique Barboza wrote:
-> When enabling user created PHBs (a change reverted by commit 9c10d86fee)
-> we were handling PHBs created by default versus by the user in different
-> manners. The only difference between these PHBs is that one will have a
-> valid phb3->chip that is assigned during pnv_chip_power8_realize(),
-> while the user created needs to search which chip it belongs to.
+On Wed, 10 Aug 2022 14:57:18 +0200
+Thomas Huth <thuth@redhat.com> wrote:
+
+> It is currently not possible yet to use "memory-backend-memfd" on s390x
+> with hugepages enabled. This problem is caused by qemu_maxrampagesize()
+> not taking memory-backend-memfd objects into account yet, so the code
+> in s390_memory_init() fails to enable the huge page support there via
+> s390_set_max_pagesize(). Fix it by generalizing the code, so that it
+> looks at qemu_ram_pagesize(memdev->mr.ram_block) instead of re-trying
+> to get the information from the filesystem.
 > 
-> Aside from that there shouldn't be any difference. Making the default
-> PHBs behave in line with the user created ones will make it easier to
-> re-introduce them later on. It will also make the code easier to follow
-> since we are dealing with them in equal manner.
-> 
-> The first step is to turn chip8->phbs[] into a PnvPHB3 pointer array.
-> This will allow us to assign user created PHBs into it later on. The way
-> we initilize the default case is now more in line with that would happen
-> with the user created case: the object is created, parented by the chip
-> because pnv_xscom_dt() relies on it, and then assigned to the array.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2116496
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+more removed lines than added, I like it
+
+Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+
 > ---
->   hw/pci-host/pnv_phb.c |  7 +++++++
->   hw/ppc/pnv.c          | 20 +++++++++++++++-----
->   include/hw/ppc/pnv.h  |  6 +++++-
->   3 files changed, 27 insertions(+), 6 deletions(-)
+>  backends/hostmem.c | 14 ++------------
+>  1 file changed, 2 insertions(+), 12 deletions(-)
 > 
-> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-> index 18a050a6d3..40a960c54c 100644
-> --- a/hw/pci-host/pnv_phb.c
-> +++ b/hw/pci-host/pnv_phb.c
-> @@ -90,6 +90,13 @@ static void pnv_phb_user_device_init(PnvPHB *phb)
->       }
->   
->       if (phb->version == 3) {
-> +        Pnv8Chip *chip8 = PNV8_CHIP(chip);
-> +
-> +        phb->chip = chip;
-> +
-> +        chip8->phbs[chip8->num_phbs] = phb;
-> +        chip8->num_phbs++;
-> +
-
-I think we need an helper to register a phb in the chip, or a chip class
-handler, to isolate the code modifying the chip from a sub chip model.
-It would be cleaner.
-
-
->           parent = OBJECT(chip);
->       } else {
->           /* phb4 support will be added later */
-
-Specially when you look at the PHB4 version which is very different.
-It could return the parent also.
-
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index f9e5a3d248..44066ffb8c 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -661,7 +661,7 @@ static void pnv_chip_power8_pic_print_info(PnvChip *chip, Monitor *mon)
->       ics_pic_print_info(&chip8->psi.ics, mon);
->   
->       for (i = 0; i < chip8->num_phbs; i++) {
-> -        PnvPHB *phb = &chip8->phbs[i];
-> +        PnvPHB *phb = chip8->phbs[i];
->           PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
->   
->           pnv_phb3_msi_pic_print_info(&phb3->msis, mon);
-> @@ -1154,7 +1154,17 @@ static void pnv_chip_power8_instance_init(Object *obj)
->       chip8->num_phbs = pcc->num_phbs;
->   
->       for (i = 0; i < chip8->num_phbs; i++) {
-> -        object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB);
-> +        PnvPHB *phb = PNV_PHB(object_new(TYPE_PNV_PHB));
-
-
-may be use :
-
-           Object *phb = object_new(TYPE_PNV_PHB);
-
-> +
-> +        /*
-> +         * We need the chip to parent the PHB to allow the DT
-> +         * to build correctly (via pnv_xscom_dt()).
-> +         *
-> +         * TODO: the PHB should be parented by a PEC device that, at
-> +         * this moment, is not modelled powernv8/phb3.
-> +         */
-> +        object_property_add_child(obj, "phb[*]", OBJECT(phb));
-> +        chip8->phbs[i] = phb;
-
-and :
-            object_property_add_child(obj, "phb[*]", phb);
-            chip8->phbs[i] = PNV_PHB(phb);
-
-This is minor.
-
-C.
-
->       }
->   
->   }
-> @@ -1270,7 +1280,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
->   
->       /* PHB controllers */
->       for (i = 0; i < chip8->num_phbs; i++) {
-> -        PnvPHB *phb = &chip8->phbs[i];
-> +        PnvPHB *phb = chip8->phbs[i];
->   
->           object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
->           object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
-> @@ -1938,7 +1948,7 @@ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
->           }
->   
->           for (j = 0; j < chip8->num_phbs; j++) {
-> -            PnvPHB *phb = &chip8->phbs[j];
-> +            PnvPHB *phb = chip8->phbs[j];
->               PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
->   
->               if (ics_valid_irq(&phb3->lsis, irq)) {
-> @@ -1977,7 +1987,7 @@ static void pnv_ics_resend(XICSFabric *xi)
->           ics_resend(&chip8->psi.ics);
->   
->           for (j = 0; j < chip8->num_phbs; j++) {
-> -            PnvPHB *phb = &chip8->phbs[j];
-> +            PnvPHB *phb = chip8->phbs[j];
->               PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
->   
->               ics_resend(&phb3->lsis);
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 033d907287..aea6128e7f 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -81,7 +81,11 @@ struct Pnv8Chip {
->       PnvHomer     homer;
->   
->   #define PNV8_CHIP_PHB3_MAX 4
-> -    PnvPHB       phbs[PNV8_CHIP_PHB3_MAX];
-> +    /*
-> +     * The array is used to allow quick access to the phbs by
-> +     * pnv_ics_get_child() and pnv_ics_resend_child().
-> +     */
-> +    PnvPHB       *phbs[PNV8_CHIP_PHB3_MAX];
->       uint32_t     num_phbs;
->   
->       XICSFabric    *xics;
+> diff --git a/backends/hostmem.c b/backends/hostmem.c
+> index 624bb7ecd3..4428e06738 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -306,22 +306,12 @@ bool host_memory_backend_is_mapped(HostMemoryBackend *backend)
+>      return backend->is_mapped;
+>  }
+>  
+> -#ifdef __linux__
+>  size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
+>  {
+> -    Object *obj = OBJECT(memdev);
+> -    char *path = object_property_get_str(obj, "mem-path", NULL);
+> -    size_t pagesize = qemu_mempath_getpagesize(path);
+> -
+> -    g_free(path);
+> +    size_t pagesize = qemu_ram_pagesize(memdev->mr.ram_block);
+> +    g_assert(pagesize >= qemu_real_host_page_size());
+>      return pagesize;
+>  }
+> -#else
+> -size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
+> -{
+> -    return qemu_real_host_page_size();
+> -}
+> -#endif
+>  
+>  static void
+>  host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
 
 
