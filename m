@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21C158EE51
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:29:29 +0200 (CEST)
-Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2466658EDF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:10:38 +0200 (CEST)
+Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLmi8-0000Hk-TZ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34288)
+	id 1oLmPt-0002QR-8d
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:10:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oLmDc-0008Qj-1D; Wed, 10 Aug 2022 09:57:56 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:45233)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1oLmGt-0003xn-UZ
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:01:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oLmDY-0002uj-Rt; Wed, 10 Aug 2022 09:57:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 131A811DC15BD;
- Wed, 10 Aug 2022 15:57:45 +0200 (CEST)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 10 Aug
- 2022 15:57:45 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-109S003c0e225a5-959e-452f-9a99-4e9e05a88c3e,
- 043EABA4B22CD34FCE1B70F8CBB6C707CA017DB3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.155.17
-Message-ID: <7cccd86d-5bf2-e45c-b592-80ba10c06a41@kaod.org>
-Date: Wed, 10 Aug 2022 15:57:43 +0200
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1oLmGq-0003jU-KW
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 10:01:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660140075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LM8c/jWXyXKqoRGbEn4UjoYfT1Bt7f+6TSrH0a9BBwQ=;
+ b=DhkPry78vJW6J57PamUmYDFL0Qpyi4s80EOiGnmqKbOdqWDvcDkV5jAazyY0wnpyuhL1ju
+ 3Fz4udxV5b1VwPABd+GeDb5s0ZzIzTy9OlsOTIceAHxHUQg8hVYLvMVFuCEMcZ1iNK7/RD
+ RE3G66LkLMztEynhVAfTnV0U2xdpNCg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-171-1iVAiYPwOpuragkXVqC6rA-1; Wed, 10 Aug 2022 10:00:09 -0400
+X-MC-Unique: 1iVAiYPwOpuragkXVqC6rA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6556718F0244;
+ Wed, 10 Aug 2022 14:00:09 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.194.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7163A492C3B;
+ Wed, 10 Aug 2022 14:00:08 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: Sean Christopherson <seanjc@google.com>
+Subject: [PATCH RFC v1 0/2] i386: KVM: Fix 'system_reset' failures when vCPU
+ is in VMX root operation
+Date: Wed, 10 Aug 2022 16:00:05 +0200
+Message-Id: <20220810140007.1036293-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4 08/24] ppc/ppc4xx: Introduce a DCR device model
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-9-clg@kaod.org>
- <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
- <77bc11f5-129a-a3a8-6c24-09c83da2fabd@kaod.org>
- <alpine.LMD.2.03.2208101524000.10818@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <alpine.LMD.2.03.2208101524000.10818@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 83e43fcd-7230-4c92-b15b-0b8db08659c9
-X-Ovh-Tracer-Id: 13355706174157065123
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegvddgieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,153 +78,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/22 15:28, BALATON Zoltan wrote:
-> On Wed, 10 Aug 2022, Cédric Le Goater wrote:
->> On 8/9/22 19:21, BALATON Zoltan wrote:
->>> On Tue, 9 Aug 2022, Cédric Le Goater wrote:
->>>> The Device Control Registers (DCR) of on-SoC devices are accessed by
->>>> software through the use of the mtdcr and mfdcr instructions. These
->>>> are converted in transactions on a side band bus, the DCR bus, which
->>>> connects the on-SoC devices to the CPU.
->>>>
->>>> Ideally, we should model these accesses with a DCR namespace and DCR
->>>> memory regions but today the DCR handlers are installed in a DCR table
->>>> under the CPU. Instead introduce a little device model wrapper to hold
->>>> a CPU link and handle registration of DCR handlers.
->>>>
->>>> The DCR device inherits from SysBus because most of these devices also
->>>> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
->>>> to install the device model in the overall SoC.
->>>>
->>>> The "cpu" link should be considered as modeling the piece of HW logic
->>>> connecting the device to the DCR bus.
->>>>
->>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>> ---
->>>> include/hw/ppc/ppc4xx.h | 17 ++++++++++++++++
->>>> hw/ppc/ppc4xx_devs.c    | 44 +++++++++++++++++++++++++++++++++++++++++
->>>> 2 files changed, 61 insertions(+)
->>>>
->>>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->>>> index 591e2421a343..82e60b0e0742 100644
->>>> --- a/include/hw/ppc/ppc4xx.h
->>>> +++ b/include/hw/ppc/ppc4xx.h
->>>> @@ -27,6 +27,7 @@
->>>>
->>>> #include "hw/ppc/ppc.h"
->>>> #include "exec/memory.h"
->>>> +#include "hw/sysbus.h"
->>>>
->>>> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->>>>                         MemoryRegion ram_memories[],
->>>> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->>>>
->>>> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->>>>
->>>> +/*
->>>> + * Generic DCR device
->>>> + */
->>>> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
->>>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
->>>> +struct Ppc4xxDcrDeviceState {
->>>> +    SysBusDevice parent_obj;
->>>> +
->>>> +    PowerPCCPU *cpu;
->>>> +};
->>>> +
->>>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
->>>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->>>> +                        Error **errp);
->>>> +
->>>> #endif /* PPC4XX_H */
->>>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->>>> index 069b51195160..bce7ef461346 100644
->>>> --- a/hw/ppc/ppc4xx_devs.c
->>>> +++ b/hw/ppc/ppc4xx_devs.c
->>>> @@ -664,3 +664,47 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->>>>                          mal, &dcr_read_mal, &dcr_write_mal);
->>>>     }
->>>> }
->>>> +
->>>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
->>>
->>> I still think this should have a separate void *opaque parameter for the callbacks and not pass dev for that as the callbacks could use anything they wish for that parameter. (Additionally this allows dropping a lot of QOM casts. If you want to see how often these are accessed, you can try -trace enable="ppc_dcr*"; on the machines and OS I've tested some are read/written frequently so I'd not add unnecessary overhead without a good reason.)
->>
->> This machine has been abandoned for 15 years and broken for maybe 10.
->> I think it is fine for now. We will see if further needs arise.
-> 
-> It will arise as I'd like to keep at least the devices used by sam460ex somewhat sane 
+It was discovered that Windows 11 with WSL2 (Hyper-V) enabled guests fail
+to reboot when QEMU's 'system_reset' command is issued. The problem appears
+to be that KVM_SET_SREGS2 fails because zeroed CR4 register value doesn't
+pass vmx_is_valid_cr4() check in KVM as certain bits can't be zero while in
+VMX root operation (post-VMXON). kvm_arch_put_registers() does call 
+kvm_put_nested_state() which is supposed to kick vCPU out of VMX root
+operation, however, it only does so after kvm_put_sregs2() and there's
+a good reason for that: 'real' nested state requires e.g. EFER.SVME to
+be set. While swapping kvm_put_sregs2()/kvm_put_nested_state() order
+in kvm_arch_put_registers() can't be done in KVM_PUT_FULL_STATE case,
+doing it in KVM_PUT_RESET_STATE seems like a reasonable band aid.
 
-What do you mean by somewhat sane ? If it is the QOM casts, I don't
-understand why you worry so much about it because QOM cast debugging
-is not enabled by default. So it really should not impact performance
-as you think it would.
+The root cause of the issue seems to be that QEMU is doing quite a lot
+to forcefully reset a vCPU as KVM doesn't export kvm_vcpu_reset() (or,
+rather, it's super-set) yet. While all the numerous existing APIs for
+setting a vCPU state work fine for a newly created vCPU, using them for
+vCPU reset is a mess caused by various dependencies between different
+components of the state (VMX, SMM, MSRs, XCRs, CPUIDs, ...). It would've
+been possible to allow to set 'inconsistent' state and only validate it
+upon VCPU_RUN from the very beginning but that ship has long sailed for
+KVM. A new, dedicated API for vCPU reset is likely the way to go.
 
-C.
+RFC part: the immediate issue could've probably been solved in KVM too
+by avoiding vmx_is_valid_cr4() check from __set_sregs2() and hoping that
+someone will check for the resulting inconsistency later. I don't quite
+like this option so I didn't explore it in depth.
 
-> so if you don't change this now I'd likely want to change it back. I undetstand it's a hassle to do in a rebase now but keeping the opaque parameter means just a search replace from the old ppc_dcr_register to ppc4xx_dcr_register so maybe not that hard to do at this point. Once you apply this patch it will be more difficult to revert it.
-> 
-> Regards,
-> BALATON Zoltan
-> 
->> Thanks,
->>
->> C.
->>
->>>
->>> Otherwise:
->>>
->>> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>
->>> Regards,
->>> BALATOn Zoltan
->>>
->>>> +{
->>>> +    CPUPPCState *env;
->>>> +
->>>> +    assert(dev->cpu);
->>>> +
->>>> +    env = &dev->cpu->env;
->>>> +
->>>> +    ppc_dcr_register(env, dcrn, dev, dcr_read, dcr_write);
->>>> +}
->>>> +
->>>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->>>> +                        Error **errp)
->>>> +{
->>>> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
->>>> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
->>>> +}
->>>> +
->>>> +static Property ppc4xx_dcr_properties[] = {
->>>> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
->>>> +                     PowerPCCPU *),
->>>> +    DEFINE_PROP_END_OF_LIST(),
->>>> +};
->>>> +
->>>> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
->>>> +{
->>>> +    DeviceClass *dc = DEVICE_CLASS(oc);
->>>> +
->>>> +    device_class_set_props(dc, ppc4xx_dcr_properties);
->>>> +}
->>>> +
->>>> +static const TypeInfo ppc4xx_types[] = {
->>>> +    {
->>>> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
->>>> +        .parent         = TYPE_SYS_BUS_DEVICE,
->>>> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
->>>> +        .class_init     = ppc4xx_dcr_class_init,
->>>> +        .abstract       = true,
->>>> +    }
->>>> +};
->>>> +
->>>> +DEFINE_TYPES(ppc4xx_types)
->>>>
->>
->>
->>
+Vitaly Kuznetsov (2):
+  i386: reset KVM nested state upon CPU reset
+  i386: reorder kvm_put_sregs2() and kvm_put_nested_state() when vCPU is
+    reset
+
+ target/i386/kvm/kvm.c | 57 ++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 45 insertions(+), 12 deletions(-)
+
+-- 
+2.37.1
 
 
