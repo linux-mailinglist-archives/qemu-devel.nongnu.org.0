@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F2058F296
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 20:56:24 +0200 (CEST)
-Received: from localhost ([::1]:33020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105F958F286
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 20:49:27 +0200 (CEST)
+Received: from localhost ([::1]:53244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLqsR-0004yV-6E
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 14:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42430)
+	id 1oLqle-0007pp-LA
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 14:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oLqfG-00028u-FM
+ id 1oLqfG-00028w-Gi
  for qemu-devel@nongnu.org; Wed, 10 Aug 2022 14:42:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48015)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oLqfB-0006hD-6c
+ id 1oLqfC-0006iZ-1K
  for qemu-devel@nongnu.org; Wed, 10 Aug 2022 14:42:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660156956;
+ s=mimecast20190719; t=1660156961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kTgbAuKIFtbiTbct78PH3a5nyxF/B2YC+cxL9w/h+/A=;
- b=a5d2jHuhAjq6UNSgjwcjWn9vFW7BsMwt5vS7XuLkgdZ4w8ZIZBDN7jcmUuM28s6/nurUS5
- 2XmD9ejRphkN460/rUTW52utnFhWAZ7/aCvRz/sXHWvLEvlKrCDHSnCujNkPdIJHaODtz4
- nBRV7c4b0Yd7i1lIbv09335l/ZEH/7c=
+ bh=JIy294Nk8MMn2A5k68elxAY+jDuXdJrJI/yT3QsTNOo=;
+ b=S8w6MCj0IIaGRJI3drYS2NwRdkvx4uBIOAhsPqot0ZZETD25vnwkKKT4UmQUU9Lnm2zkta
+ sR6LH9PrEEHBlJhN9cyb+vYH3E84IQvc9Z2RokrTFpidcZUbx8qoBP0pXZIyVZz87dBce0
+ 9T+EEtyz+8ArcpvZk5bTKQBlErZbUJg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-674-1R6qhDMSNDmCdJcEso_lzA-1; Wed, 10 Aug 2022 14:42:34 -0400
-X-MC-Unique: 1R6qhDMSNDmCdJcEso_lzA-1
+ us-mta-616-j1rJP7exM_uCUuxEyiNgfA-1; Wed, 10 Aug 2022 14:42:37 -0400
+X-MC-Unique: j1rJP7exM_uCUuxEyiNgfA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2674D29DD99A;
- Wed, 10 Aug 2022 18:42:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFD253800C34;
+ Wed, 10 Aug 2022 18:42:36 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84C56C15BA3;
- Wed, 10 Aug 2022 18:42:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 690B0C15BA3;
+ Wed, 10 Aug 2022 18:42:34 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -54,9 +54,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>
-Subject: [RFC 3/8] vhost: expose memory listener priority
-Date: Wed, 10 Aug 2022 20:42:15 +0200
-Message-Id: <20220810184220.2362292-4-eperezma@redhat.com>
+Subject: [RFC 4/8] vdpa: Add log_enabled to VhostVDPAState
+Date: Wed, 10 Aug 2022 20:42:16 +0200
+Message-Id: <20220810184220.2362292-5-eperezma@redhat.com>
 In-Reply-To: <20220810184220.2362292-1-eperezma@redhat.com>
 References: <20220810184220.2362292-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -87,46 +87,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to perform changes to vhost_vdpa devices before the memory
-listener inform them about the migration. Otherwise, it will reach them
-with no SVQ enabled and it cannot be guaranteed that it will be enabled
-afterwards.
+This enables VhostVDPAState to track the logging of the memory.
 
-Expose the vhost memory listener priority so we can assign a lower one
-to net/vhost-vdpa one.
+It cannot be merged with s->always_svq because always_svq is immutable
+from the moment the device is parsed, and log_enabled must be enabled or
+disabled depending on the log state.
+
+Apart from that, they will affect the same to vhost vdpa device,
+enabling the shadow virtqueue unconditionally.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/vhost.h | 2 ++
- hw/virtio/vhost.c         | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ net/vhost-vdpa.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index a346f23d13..ccd6cc5549 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -104,6 +104,8 @@ struct vhost_dev {
-     const VhostDevConfigOps *config_ops;
- };
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 85b10799bd..a035c89c34 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -42,6 +42,10 @@ typedef struct VhostVDPAState {
  
-+#define VHOST_DEV_MEMORY_LISTENER_PRIORITY 10
+     /* The device always have SVQ enabled */
+     bool always_svq;
 +
- extern const VhostOps kernel_ops;
- extern const VhostOps user_ops;
- extern const VhostOps vdpa_ops;
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 0827d631c0..a1e822b871 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1411,7 +1411,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-         .log_global_stop = vhost_log_global_stop,
-         .eventfd_add = vhost_eventfd_add,
-         .eventfd_del = vhost_eventfd_del,
--        .priority = 10
-+        .priority = VHOST_DEV_MEMORY_LISTENER_PRIORITY
-     };
++    /* Device log enabled */
++    bool log_enabled;
++
+     bool started;
+ } VhostVDPAState;
  
-     hdev->iommu_listener = (MemoryListener) {
+@@ -346,15 +350,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+     cvq_group.index = v->dev->vq_index_end - 1;
+ 
+     /* Default values */
+-    v->listener_shadow_vq = s->always_svq;
+-    v->shadow_vqs_enabled = s->always_svq;
++    v->listener_shadow_vq = s->always_svq || s->log_enabled;
++    v->shadow_vqs_enabled = s->always_svq || s->log_enabled;
+     s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_PASSTHROUGH;
+ 
+     if (s->address_space_num < 2) {
+         return 0;
+     }
+ 
+-    if (s->always_svq) {
++    if (s->always_svq || s->log_enabled) {
+         goto out;
+     }
+ 
 -- 
 2.31.1
 
