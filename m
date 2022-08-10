@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F1958E9D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:41:52 +0200 (CEST)
-Received: from localhost ([::1]:45322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD1D58E9EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:44:24 +0200 (CEST)
+Received: from localhost ([::1]:47702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLiDm-0003fs-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57050)
+	id 1oLiGC-0005Jx-2F
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oLi59-0008Jm-Bn
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:32:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60591)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oLiEb-0003yN-CF
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:42:41 -0400
+Received: from mga02.intel.com ([134.134.136.20]:39313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oLi55-0004Ci-Li
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:32:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660123970;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CMAcozNlpam1BJ+hDJV/m/SJvRXVN4KAVq3lMGxpq9Q=;
- b=a5CKD3SIF0XuFGIjcEywVLckjZEFjPHNu6Dv1IZXMTNVH38EKwExQcPB/RAZZ6DZP70t4q
- fFPYjJ6dRmIGWKXsnHpmFwjEHAjBuJURklHbe6n0jImRKHnkldPSDU1Tw4H4SJy9OCSEvq
- Omwbl5GMN39+cVQGY9Xorwmp2MTtZNg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-88-_IVYt31MMU6PoLx_gxaylQ-1; Wed, 10 Aug 2022 05:32:49 -0400
-X-MC-Unique: _IVYt31MMU6PoLx_gxaylQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6431338149AB;
- Wed, 10 Aug 2022 09:32:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF04B40CFD0B;
- Wed, 10 Aug 2022 09:32:48 +0000 (UTC)
-Date: Wed, 10 Aug 2022 10:32:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH for 7.1] linux-user: fix compat with glibc >= 2.36
- sys/mount.h
-Message-ID: <YvN7Phdaw6b8D7ky@redhat.com>
-References: <20220802164134.1851910-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oLiEZ-0005YI-01
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:42:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660124559; x=1691660559;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=qA0d1ma9sBVaq90sMThImxJYL3jWm10WlrkDB0bRLLI=;
+ b=L/R/CS5qgf6Tm84tNDO8XHOQJ8Mrqs9gj/gARTMZgXDa7S2s+HldipPF
+ t8suRQ9WC1zYaSG9lBUMXLbJ6C/uWIw50TBlyY7zuQNx4OsLUILxBq+eu
+ 74T9qsp34O6j+qYpWnGpQ00u0Sv6jWEXmAKXKv/mNtED31Cx6JaJNmlXF
+ md9j0dIrDyygWif6y2NF0+9Ml7eESBTJ4gUgLQY+qYlzNIfYuAFC5Hs8T
+ zRtANid17UT8JsG12IQI+X5IGXBl5otjaSTgVbs6ABf6TUef85HMRvoPE
+ uTGhYRBkO67eBJuf6SB/DijfxLYhdE36fEy75ER36YfnafednavvINDDf g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="277982558"
+X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="277982558"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2022 02:42:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="601757337"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 10 Aug 2022 02:42:27 -0700
+Date: Wed, 10 Aug 2022 17:37:41 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Message-ID: <20220810093741.GE862421@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
+ <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220802164134.1851910-1-berrange@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,114 +97,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent: ping,
+On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
+> On 06.07.22 10:20, Chao Peng wrote:
+> > Introduce a new memfd_create() flag indicating the content of the
+> > created memfd is inaccessible from userspace through ordinary MMU
+> > access (e.g., read/write/mmap). However, the file content can be
+> > accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> > 
+> > It provides semantics required for KVM guest private memory support
+> > that a file descriptor with this flag set is going to be used as the
+> > source of guest memory in confidential computing environments such
+> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
+> > 
+> > The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+> > also impossible for a memfd created with this flag.
+> 
+> It's kind of weird to have it that way. Why should the user have to
+> care? It's the notifier requirement to have that, no?
+> 
+> Why can't we handle that when register a notifier? If anything is
+> already mapped, fail registering the notifier if the notifier has these
+> demands. If registering succeeds, block it internally.
+> 
+> Or what am I missing? We might not need the memfile set flag semantics
+> eventually and would not have to expose such a flag to user space.
 
-Can you consider queuing this so 7.1 isn't broken with latest glibc
-releases.
+This makes sense if doable. The major concern was: is there a reliable
+way to detect this (already mapped) at the time of memslot registering.
 
-On Tue, Aug 02, 2022 at 12:41:34PM -0400, Daniel P. Berrangé wrote:
-> The latest glibc 2.36 has extended sys/mount.h so that it
-> defines the FSCONFIG_* enum constants. These are historically
-> defined in linux/mount.h, and thus if you include both headers
-> the compiler complains:
+Chao
 > 
-> In file included from /usr/include/linux/fs.h:19,
->                  from ../linux-user/syscall.c:98:
-> /usr/include/linux/mount.h:95:6: error: redeclaration of 'enum fsconfig_command'
->    95 | enum fsconfig_command {
->       |      ^~~~~~~~~~~~~~~~
-> In file included from ../linux-user/syscall.c:31:
-> /usr/include/sys/mount.h:189:6: note: originally defined here
->   189 | enum fsconfig_command
->       |      ^~~~~~~~~~~~~~~~
-> /usr/include/linux/mount.h:96:9: error: redeclaration of enumerator 'FSCONFIG_SET_FLAG'
->    96 |         FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
->       |         ^~~~~~~~~~~~~~~~~
-> /usr/include/sys/mount.h:191:3: note: previous definition of 'FSCONFIG_SET_FLAG' with type 'enum fsconfig_command'
->   191 |   FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
->       |   ^~~~~~~~~~~~~~~~~
-> ...snip...
-> 
-> QEMU doesn't include linux/mount.h, but it does use
-> linux/fs.h and thus gets linux/mount.h indirectly.
-> 
-> glibc acknowledges this problem but does not appear to
-> be intending to fix it in the forseeable future, simply
-> documenting it as a known incompatibility with no
-> workaround:
-> 
->   https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
->   https://sourceware.org/glibc/wiki/Synchronizing_Headers
-> 
-> To address this requires either removing use of sys/mount.h
-> or linux/fs.h, despite QEMU needing declarations from
-> both.
-> 
-> This patch removes linux/fs.h, meaning we have to define
-> various FS_IOC constants that are now unavailable.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  linux-user/syscall.c | 18 ++++++++++++++++++
->  meson.build          |  2 ++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index b27a6552aa..52d178afe7 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -95,7 +95,25 @@
->  #include <linux/soundcard.h>
->  #include <linux/kd.h>
->  #include <linux/mtio.h>
-> +
-> +#ifdef HAVE_SYS_MOUNT_FSCONFIG
-> +/*
-> + * glibc >= 2.36 linux/mount.h conflicts with sys/mount.h,
-> + * which in turn prevents use of linux/fs.h. So we have to
-> + * define the constants ourselves for now.
-> + */
-> +#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
-> +#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
-> +#define FS_IOC_GETVERSION              _IOR('v', 1, long)
-> +#define FS_IOC_SETVERSION              _IOW('v', 2, long)
-> +#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
-> +#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
-> +#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
-> +#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
-> +#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
-> +#else
->  #include <linux/fs.h>
-> +#endif
->  #include <linux/fd.h>
->  #if defined(CONFIG_FIEMAP)
->  #include <linux/fiemap.h>
-> diff --git a/meson.build b/meson.build
-> index 294e9a8f32..30a380752c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1963,6 +1963,8 @@ config_host_data.set('HAVE_OPTRESET',
->                       cc.has_header_symbol('getopt.h', 'optreset'))
->  config_host_data.set('HAVE_IPPROTO_MPTCP',
->                       cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
-> +config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
-> +                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET_FLAG'))
->  
->  # has_member
->  config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
 > -- 
-> 2.37.1
+> Thanks,
 > 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> David / dhildenb
+> 
 
