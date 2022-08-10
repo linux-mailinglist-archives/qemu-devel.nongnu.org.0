@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB85358F095
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 18:42:36 +0200 (CEST)
-Received: from localhost ([::1]:48012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F86758F0D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 18:55:38 +0200 (CEST)
+Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLomv-0005rc-KL
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 12:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46236)
+	id 1oLozZ-0002kM-0K
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 12:55:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oLoic-0001uG-KH
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:38:06 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:33853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oLoia-0004e4-Hw
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:38:06 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MmUDf-1ndRTV0AQj-00iXPx; Wed, 10 Aug 2022 18:38:00 +0200
-Message-ID: <eed04e3e-c15b-cb93-ca4d-6749d4712732@vivier.eu>
-Date: Wed, 10 Aug 2022 18:37:59 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oLosr-0007Dz-SH
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:48:41 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:39865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oLosq-00067f-3X
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 12:48:41 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id k12so24213749ybk.6
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 09:48:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=tNqpNUl55dURjmOoDIIeRz/Oe+X/6cGqsZptlEpA/Tc=;
+ b=xCvnu+6v0rd7a9YmUbz4ldOZDtZgYfDlb1W5JwwXYJKjjPGyXTJoXkDD8dlZMRDuS1
+ WZ12Kt/ee4Iy8dmj8aRYtbMyRHlklo7S7nHKdTduuB5ebhVVMQ375KwaroasivElg6zI
+ qu3x+BXM1kffq1280pooOWJIeCjjZgTy4vgMqqVYZLrg2TOMUk9OdZvZSXlFBMhTvAzS
+ 0+RGC+fEppuSJaosfoKbpZhnxS3v2QWYR1YFmWtVq3tk4pur5/Ll5Lfk8JolXHBglzWB
+ aUr+M6w4idy45kuS9vVJR7Kf2f4UV1f20mNfIStpcJ/6CNeJ+KGd6h8TavV4cMdQSJyH
+ YUVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=tNqpNUl55dURjmOoDIIeRz/Oe+X/6cGqsZptlEpA/Tc=;
+ b=ZKWfqxiVSNWGmfdW5m/oTeebes53HAtlMozGa6ls1ioSz7Iik3Gtw4iw6DZMPwm7WB
+ TrVSohw0KZA2AlrUlPztcv1uNr1xf4opPSP/a4Koo/+1tDwrEQsGj3eWtjPWLUud0Bht
+ uMQ2Hk8RMwA2wHW06ZgjOb0Nfmta6scsxBjCeh03AihTifzaN1w28ZwK6OR2kmQnpgAl
+ /X0knYqtwKLp4Hj3R5ZES0eo8Q6GnUI+H2KD3kbXmrme3OoPAxVDRD1/tK7tecINQTm1
+ 18L1KHP0LaJ/OrVxLlA/Fms41QXK7mFr2zj3TVaCQJJSDbPBWlk8X78db2gZqrtu4ktm
+ ba+A==
+X-Gm-Message-State: ACgBeo0Bqy+LvaazqyB1M4OiRTi8+oqKn4JLdwRQtwusYg+QuPoNtOEZ
+ VrJcEXo7D6889I+eNasYiBj2QHu68hIGSTf3IEW6LQ==
+X-Google-Smtp-Source: AA6agR7bXt2vK9GoSvzHfP8C8gI7yPcWea2sgvQ1DcM5FkNZZhagE2XjTRZFZTfrUkSJ/wWhKhX3U42XgARKFOKw3eI=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr25359730ybq.140.1660150118827; Wed, 10
+ Aug 2022 09:48:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH for 7.1] linux-user: fix compat with glibc >= 2.36
- sys/mount.h
-Content-Language: fr
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20220802164134.1851910-1-berrange@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220802164134.1851910-1-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YH/aeUbePwZXZCH4HSqWI5iKwmd0P4m3hqAiwUWheAzaTbqAuco
- 9VWHX0YvGWy+LJY3de0+eZtBIccUuMbQux1RmXBW6P8UtEMKzqlgV/psn0mLVrqQoTPZNDF
- CDoqRHJdpyiY98UOB8qaxFuFwlLFrVbBTEfuuG8lmzmW95DL15xuJaFXUP0w5468nPXn2vF
- RzxC4j7fZh7UUe4X6TCNQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YCubozckLW0=:y5lP3Cg3wMjMubK9/m1Fus
- l2Ts94KLnBtt+G2v27nK3xU/2v9FegeeBz90Ydua9nXE96uvsKK/EmnjwzYo1CQFRFnzoDU57
- MQGK7NXG2hR6r1rawty0rxoc5YzBS5uIKqGU9vvrxqSJ7F5Fc7R3guF8/9qW0vV4mVbHPMFiE
- 7Emb+XA0qs2J0bpYO5jvRtLc1bIWVMFiYt0s3jBBQe60Qh3YdHAK86tG8qtCSp4ZMpmoIbd9e
- IQt2C1R2AFeIAbU3p0L3ERtFz1vEQ9KFvkcHfbbns5wg7dotrnVahwv8g+hDoF75HxYjMnlC4
- 2KCxRETBo4159nHRiQAlo2WyQYrdRgMpQlofMXeJ7VFWFWqVlEslGGLCRq6BvFCqOFzG0qeE0
- b8bfcs+1LkNNtEI+nCBGTCTwNgsSCEmm7v28GhK5ORarjmaNOBI2eATK+S5VIsI7HeSsvicDF
- gymoRrA4mQO9mFsHzeFalw2A14Dw+LRTatSDWOVcv23OaT0bQqJ9jQT1hFtNOVZ0dqgCbbRrc
- suhyD/eecTqXJtdZuJ2hEgZMj3ez3zZpSARxW9Wqya3vmNgeMVJpUt/BtltvuyFN1vE2+ntOg
- Vyagj5JpItnCBkVJuwihr6ArLAU/Wt2NxQWyarJ+H5P16BFurEdZ2D1lkD4mNVJaNY3jNMih5
- le8fqMB2W2f9OUxy/L4FcI/43sUXK3KTf/1cJewmQNqQ9FWBNSK+OZQU3F5cuNr8akOTVacK8
- qrPEBgMBsKT5zMiYMEm8UwjY2qaCH2wEfW4Mnw==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+References: <20220506180242.216785-1-richard.henderson@linaro.org>
+ <20220506180242.216785-25-richard.henderson@linaro.org>
+ <1d915529-cd32-82b3-42ad-4d202d3590d8@huawei.com>
+In-Reply-To: <1d915529-cd32-82b3-42ad-4d202d3590d8@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 10 Aug 2022 17:47:58 +0100
+Message-ID: <CAFEAcA-FQ3W78c=kwzZZ=wCuCbPWO=9vxG7ge4wnEZR6qBGHVA@mail.gmail.com>
+Subject: Re: [PATCH v6 24/24] target/arm: Define neoverse-n1
+To: Zenghui Yu <yuzenghui@huawei.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,100 +85,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/08/2022 à 18:41, Daniel P. Berrangé a écrit :
-> The latest glibc 2.36 has extended sys/mount.h so that it
-> defines the FSCONFIG_* enum constants. These are historically
-> defined in linux/mount.h, and thus if you include both headers
-> the compiler complains:
-> 
-> In file included from /usr/include/linux/fs.h:19,
->                   from ../linux-user/syscall.c:98:
-> /usr/include/linux/mount.h:95:6: error: redeclaration of 'enum fsconfig_command'
->     95 | enum fsconfig_command {
->        |      ^~~~~~~~~~~~~~~~
-> In file included from ../linux-user/syscall.c:31:
-> /usr/include/sys/mount.h:189:6: note: originally defined here
->    189 | enum fsconfig_command
->        |      ^~~~~~~~~~~~~~~~
-> /usr/include/linux/mount.h:96:9: error: redeclaration of enumerator 'FSCONFIG_SET_FLAG'
->     96 |         FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
->        |         ^~~~~~~~~~~~~~~~~
-> /usr/include/sys/mount.h:191:3: note: previous definition of 'FSCONFIG_SET_FLAG' with type 'enum fsconfig_command'
->    191 |   FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
->        |   ^~~~~~~~~~~~~~~~~
-> ...snip...
-> 
-> QEMU doesn't include linux/mount.h, but it does use
-> linux/fs.h and thus gets linux/mount.h indirectly.
-> 
-> glibc acknowledges this problem but does not appear to
-> be intending to fix it in the forseeable future, simply
-> documenting it as a known incompatibility with no
-> workaround:
-> 
->    https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
->    https://sourceware.org/glibc/wiki/Synchronizing_Headers
-> 
-> To address this requires either removing use of sys/mount.h
-> or linux/fs.h, despite QEMU needing declarations from
-> both.
-> 
-> This patch removes linux/fs.h, meaning we have to define
-> various FS_IOC constants that are now unavailable.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   linux-user/syscall.c | 18 ++++++++++++++++++
->   meson.build          |  2 ++
->   2 files changed, 20 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index b27a6552aa..52d178afe7 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -95,7 +95,25 @@
->   #include <linux/soundcard.h>
->   #include <linux/kd.h>
->   #include <linux/mtio.h>
-> +
-> +#ifdef HAVE_SYS_MOUNT_FSCONFIG
-> +/*
-> + * glibc >= 2.36 linux/mount.h conflicts with sys/mount.h,
-> + * which in turn prevents use of linux/fs.h. So we have to
-> + * define the constants ourselves for now.
-> + */
-> +#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
-> +#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
-> +#define FS_IOC_GETVERSION              _IOR('v', 1, long)
-> +#define FS_IOC_SETVERSION              _IOW('v', 2, long)
-> +#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
-> +#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
-> +#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
-> +#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
-> +#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
-> +#else
->   #include <linux/fs.h>
-> +#endif
->   #include <linux/fd.h>
->   #if defined(CONFIG_FIEMAP)
->   #include <linux/fiemap.h>
-> diff --git a/meson.build b/meson.build
-> index 294e9a8f32..30a380752c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1963,6 +1963,8 @@ config_host_data.set('HAVE_OPTRESET',
->                        cc.has_header_symbol('getopt.h', 'optreset'))
->   config_host_data.set('HAVE_IPPROTO_MPTCP',
->                        cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
-> +config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
-> +                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET_FLAG'))
->   
->   # has_member
->   config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
+On Wed, 10 Aug 2022 at 14:14, Zenghui Yu <yuzenghui@huawei.com> wrote:
+> The r4p1 TRM says that the Neoverse N1 core supports SPE (the value
+> of ID_AA64DFR0.PMSVer is 0b0001) but do we really support SPE
+> emulation in QEMU?
+>
+> The guest immediately received an unexpected exception (with EC==0,
+> at EFI stage) when I tried to boot it using something like:
+>
+> /path/to/qemu-system-aarch64 \
+> -M virt,gic-version=3,virtualization=on \
+> -cpu neoverse-n1 -accel tcg \
+> -bios QEMU_EFI.fd [...]
+>
+> and QEMU shouted that "read access to unsupported AArch64 system
+> register op0:3 op1:0 crn:9 crm:10 op2:7", which told us that the
+> guest attempted to read the PMBIDR_EL1 register.
 
-Applied to my linux-user-for-7.1 branch.
+No, we don't emulate SPE. We should probably not advertise it
+(we might do a no-op implementation eventually).
 
-Thanks,
-Laurent
+What guest is this ?
 
+thanks
+-- PMM
 
