@@ -2,49 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F24658EDFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:11:34 +0200 (CEST)
-Received: from localhost ([::1]:37602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCE558EE22
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 16:20:39 +0200 (CEST)
+Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLmQn-00045G-Iu
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58614)
+	id 1oLmZZ-0001dL-TB
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 10:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
- id 1oLluq-0002jt-84
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:38:32 -0400
-Received: from jedlik.phy.bme.hu ([152.66.102.83]:53660)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oLlou-0002Iw-61; Wed, 10 Aug 2022 09:32:28 -0400
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:54593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
- id 1oLlun-0007lA-RT
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:38:31 -0400
-Received: by jedlik.phy.bme.hu (Postfix, from userid 1000)
- id 58179A00FB; Wed, 10 Aug 2022 15:28:55 +0200 (CEST)
-Date: Wed, 10 Aug 2022 15:28:55 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 08/24] ppc/ppc4xx: Introduce a DCR device model
-In-Reply-To: <77bc11f5-129a-a3a8-6c24-09c83da2fabd@kaod.org>
-Message-ID: <alpine.LMD.2.03.2208101524000.10818@eik.bme.hu>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-9-clg@kaod.org>
- <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
- <77bc11f5-129a-a3a8-6c24-09c83da2fabd@kaod.org>
-User-Agent: Alpine 2.03 (LMD 1266 2009-07-14)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oLlor-0006k1-RX; Wed, 10 Aug 2022 09:32:23 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 3D9112465D;
+ Wed, 10 Aug 2022 13:32:19 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 10 Aug
+ 2022 15:32:18 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0021b9d5c7e-cadc-491a-bb86-4e3e62b56095,
+ 043EABA4B22CD34FCE1B70F8CBB6C707CA017DB3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.155.17
+Message-ID: <ed0a9ad5-5260-6fbc-ee04-bfdc0b523955@kaod.org>
+Date: Wed, 10 Aug 2022 15:32:12 +0200
 MIME-Version: 1.0
-Content-Type: MULTIPART/MIXED;
- BOUNDARY="1117279078-356758949-1660138135=:10818"
-Received-SPF: none client-ip=152.66.102.83;
- envelope-from=balaton@jedlik.phy.bme.hu; helo=jedlik.phy.bme.hu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH for-7.2 v3 07/11] ppc/pnv: add PHB4 helpers for user
+ created pnv-phb
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>, <fbarrat@linux.ibm.com>
+References: <20220810100536.473859-1-danielhb413@gmail.com>
+ <20220810100536.473859-8-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220810100536.473859-8-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 8bdee36a-0d87-4cfe-afde-9c0f2b8c77cb
+X-Ovh-Tracer-Id: 12926175356700232672
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegvddgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhgsrghrrhgrtheslhhinhhugidrihgsmhdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,195 +75,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 8/10/22 12:05, Daniel Henrique Barboza wrote:
+> The PHB4 backend relies on a link with the corresponding PEC element.
+> This is trivial to do during machine_init() time for default devices,
+> but not so much for user created ones.
+> 
+> pnv_phb4_get_pec() is a small variation of the function that was
+> reverted by commit 9c10d86fee "ppc/pnv: Remove user-created PHB{3,4,5}
+> devices". We'll use it to determine the appropriate PEC for a given user
+> created pnv-phb that uses a PHB4 backend.
+> 
+> This is done during realize() time, in pnv_phb_user_device_init().
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/pci-host/pnv_phb.c | 40 ++++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 38 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+> index 887b25d49e..f9516fdc4a 100644
+> --- a/hw/pci-host/pnv_phb.c
+> +++ b/hw/pci-host/pnv_phb.c
+> @@ -50,6 +50,34 @@ static void pnv_parent_bus_fixup(DeviceState *parent, DeviceState *child)
+>       }
+>   }
+>   
+> +static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
+> +                                         Error **errp)
+> +{
+> +    Pnv9Chip *chip9 = PNV9_CHIP(chip);
+> +    int chip_id = phb->chip_id;
+> +    int index = phb->phb_id;
+> +    int i, j;
+> +
+> +    for (i = 0; i < chip->num_pecs; i++) {
+> +        /*
+> +         * For each PEC, check the amount of phbs it supports
+> +         * and see if the given phb4 index matches an index.
+> +         */
+> +        PnvPhb4PecState *pec = &chip9->pecs[i];
+> +
+> +        for (j = 0; j < pec->num_phbs; j++) {
+> +            if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
+> +                return pec;
+> +            }
+> +        }
+> +    }
+> +    error_setg(errp,
+> +               "pnv-phb4 chip-id %d index %d didn't match any existing PEC",
+> +               chip_id, index);
+> +
+> +    return NULL;
+> +}
+> +
+>   /*
+>    * Attach a root port device.
+>    *
+> @@ -100,8 +128,16 @@ static void pnv_phb_user_device_init(PnvPHB *phb)
+>   
+>           parent = OBJECT(chip);
+>       } else {
+> -        /* phb4 support will be added later */
+> -        return;
+> +        Error *local_err = NULL;
+> +
+> +        phb->pec = pnv_phb4_get_pec(chip, PNV_PHB4(phb->backend), &local_err);
+> +
+> +        if (local_err) {
+> +            error_propagate(&error_fatal, local_err);
 
---1117279078-356758949-1660138135=:10818
-Content-Type: TEXT/PLAIN; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+That's weird. pnv_phb_user_device_init() should have an errp parameter I think.
 
-On Wed, 10 Aug 2022, C=C3=A9dric Le Goater wrote:
-> On 8/9/22 19:21, BALATON Zoltan wrote:
->> On Tue, 9 Aug 2022, C=C3=A9dric Le Goater wrote:
->>> The Device Control Registers (DCR) of on-SoC devices are accessed by
->>> software through the use of the mtdcr and mfdcr instructions. These
->>> are converted in transactions on a side band bus, the DCR bus, which
->>> connects the on-SoC devices to the CPU.
->>>=20
->>> Ideally, we should model these accesses with a DCR namespace and DCR
->>> memory regions but today the DCR handlers are installed in a DCR table
->>> under the CPU. Instead introduce a little device model wrapper to hold
->>> a CPU link and handle registration of DCR handlers.
->>>=20
->>> The DCR device inherits from SysBus because most of these devices also
->>> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
->>> to install the device model in the overall SoC.
->>>=20
->>> The "cpu" link should be considered as modeling the piece of HW logic
->>> connecting the device to the DCR bus.
->>>=20
->>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->>> ---
->>> include/hw/ppc/ppc4xx.h | 17 ++++++++++++++++
->>> hw/ppc/ppc4xx_devs.c=C2=A0=C2=A0=C2=A0 | 44 +++++++++++++++++++++++++++=
-++++++++++++++
->>> 2 files changed, 61 insertions(+)
->>>=20
->>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->>> index 591e2421a343..82e60b0e0742 100644
->>> --- a/include/hw/ppc/ppc4xx.h
->>> +++ b/include/hw/ppc/ppc4xx.h
->>> @@ -27,6 +27,7 @@
->>>=20
->>> #include "hw/ppc/ppc.h"
->>> #include "exec/memory.h"
->>> +#include "hw/sysbus.h"
->>>=20
->>> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Memor=
-yRegion ram_memories[],
->>> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnu=
-m,=20
->>> uint8_t rxcnum,
->>>=20
->>> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->>>=20
->>> +/*
->>> + * Generic DCR device
->>> + */
->>> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
->>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
->>> +struct Ppc4xxDcrDeviceState {
->>> +=C2=A0=C2=A0=C2=A0 SysBusDevice parent_obj;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 PowerPCCPU *cpu;
->>> +};
->>> +
->>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- dcr_read_cb dcr_read, dcr_write_cb dcr_write);
->>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error=
- **errp);
->>> +
->>> #endif /* PPC4XX_H */
->>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->>> index 069b51195160..bce7ef461346 100644
->>> --- a/hw/ppc/ppc4xx_devs.c
->>> +++ b/hw/ppc/ppc4xx_devs.c
->>> @@ -664,3 +664,47 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t=20
->>> txcnum, uint8_t rxcnum,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- mal, &dcr_read_mal, &dcr_write_mal);
->>> =C2=A0=C2=A0=C2=A0 }
->>> }
->>> +
->>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- dcr_read_cb dcr_read, dcr_write_cb dcr_write)
->>=20
->> I still think this should have a separate void *opaque parameter for the=
-=20
->> callbacks and not pass dev for that as the callbacks could use anything=
-=20
->> they wish for that parameter. (Additionally this allows dropping a lot o=
-f=20
->> QOM casts. If you want to see how often these are accessed, you can try=
-=20
->> -trace enable=3D"ppc_dcr*"; on the machines and OS I've tested some are=
-=20
->> read/written frequently so I'd not add unnecessary overhead without a go=
-od=20
->> reason.)
->
-> This machine has been abandoned for 15 years and broken for maybe 10.
-> I think it is fine for now. We will see if further needs arise.
+C.
 
-It will arise as I'd like to keep at least the devices used by sam460ex=20
-somewhat sane so if you don't change this now I'd likely want to change it=
-=20
-back. I undetstand it's a hassle to do in a rebase now but keeping the=20
-opaque parameter means just a search replace from the old ppc_dcr_register=
-=20
-to ppc4xx_dcr_register so maybe not that hard to do at this point. Once=20
-you apply this patch it will be more difficult to revert it.
+> +            return;
+> +        }
+> +
+> +        parent = OBJECT(phb->pec);
+>       }
+>   
+>       /*
 
-Regards,
-BALATON Zoltan
-
-> Thanks,
->
-> C.
->
->>=20
->> Otherwise:
->>=20
->> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
->>=20
->> Regards,
->> BALATOn Zoltan
->>=20
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 CPUPPCState *env;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 assert(dev->cpu);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 env =3D &dev->cpu->env;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 ppc_dcr_register(env, dcrn, dev, dcr_read, dcr_writ=
-e);
->>> +}
->>> +
->>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error=
- **errp)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 object_property_set_link(OBJECT(dev), "cpu", OBJECT=
-(cpu),=20
->>> &error_abort);
->>> +=C2=A0=C2=A0=C2=A0 return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
->>> +}
->>> +
->>> +static Property ppc4xx_dcr_properties[] =3D {
->>> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, =
-TYPE_POWERPC_CPU,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PowerPCCPU *),
->>> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_END_OF_LIST(),
->>> +};
->>> +
->>> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 DeviceClass *dc =3D DEVICE_CLASS(oc);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 device_class_set_props(dc, ppc4xx_dcr_properties);
->>> +}
->>> +
->>> +static const TypeInfo ppc4xx_types[] =3D {
->>> +=C2=A0=C2=A0=C2=A0 {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_PPC4xx_DCR_DEVICE,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .parent=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_SYS_BUS_DEVICE,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .instance_size=C2=A0 =3D si=
-zeof(Ppc4xxDcrDeviceState),
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .class_init=C2=A0=C2=A0=C2=
-=A0=C2=A0 =3D ppc4xx_dcr_class_init,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .abstract=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 =3D true,
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +};
->>> +
->>> +DEFINE_TYPES(ppc4xx_types)
->>>=20
->
->
->
---1117279078-356758949-1660138135=:10818--
 
