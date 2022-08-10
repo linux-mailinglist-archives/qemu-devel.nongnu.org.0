@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D658158EC9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:00:19 +0200 (CEST)
-Received: from localhost ([::1]:39304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89AA258ECC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:09:09 +0200 (CEST)
+Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLlJq-0004uv-Ho
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:00:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46782)
+	id 1oLlSO-0006qH-JN
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oLl9e-0001po-Sl
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:49:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51001)
+ id 1oLl9o-0001qt-5U
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:50:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oLl9c-0007TZ-H9
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:49:46 -0400
+ id 1oLl9m-0007X2-M0
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:49:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660135784;
+ s=mimecast20190719; t=1660135794;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cXeHyRBJtGysaTbKi6BQA5NTou5Xw3Vjerjw7B6BxIY=;
- b=HE+7Jq29hLUXhhXJDuxLWfG5FVWXCp15wuoFvuj/g9mwIJzViUZDhuyHQnND3lUrJ4GlnX
- YF/s/172TKXCQeSPPDKWD2BPycQ9uDuzqnrpNL2qK1e0tOZXUuNDsaIVLusJn4CTzzWPDb
- J5kkKatF4K+jZkOFZo9KrB2tKh1+p8g=
+ bh=WP4Tsro7iq92SWtEJiexLXCN4s47+YUpCxoFN4SCMN0=;
+ b=Ijl7gTfZGYWVrAikig6CuCzFF5EgcW5RnobMgi1t3VVL7jYw8m7C9ZjCGPkZb4h9dAFHCS
+ U8zSXgSuidRMrcifXGxGefcLbGGJCk/+nPAynVQOy4L3ihIM5Zf7UXEr1jt3zbWSpbTVdp
+ IRBzwNYDFRMPS/NcXeT2vRrizCnW2pE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-lEevv345MSCQ5ztdh0Q2kg-1; Wed, 10 Aug 2022 08:49:42 -0400
-X-MC-Unique: lEevv345MSCQ5ztdh0Q2kg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-304-I0TFpxAqM3y3xfvtX9H2hQ-1; Wed, 10 Aug 2022 08:49:51 -0400
+X-MC-Unique: I0TFpxAqM3y3xfvtX9H2hQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F4983C14CC5;
- Wed, 10 Aug 2022 12:49:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 282BC3C10171;
+ Wed, 10 Aug 2022 12:49:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59F39492C3B;
- Wed, 10 Aug 2022 12:49:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 051942026D64;
+ Wed, 10 Aug 2022 12:49:46 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>,
@@ -50,15 +50,15 @@ Cc: Markus Armbruster <armbru@redhat.com>,
  Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
  Xie Yongji <xieyongji@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v3 08/16] scripts/qapi-gen: add -i option
-Date: Wed, 10 Aug 2022 16:48:49 +0400
-Message-Id: <20220810124857.1360211-9-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 09/16] scripts/qapi: add required system includes to visitor
+Date: Wed, 10 Aug 2022 16:48:50 +0400
+Message-Id: <20220810124857.1360211-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20220810124857.1360211-1-marcandre.lureau@redhat.com>
 References: <20220810124857.1360211-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,417 +86,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Replace hard-coded "qemu/osdep.h" include with a qapi-gen option to
-specify the headers to include. This will allow to substitute QEMU
-osdep.h with glib.h for example, for projects with different
-global headers.
-
-For historical reasons, we can keep the default as "qemu/osdep.h".
+The generated visitor code includes abort() & assert(), we shouldn't
+rely on the global "-i" headers to include the necessary system headers.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 ---
- scripts/qapi/commands.py   | 15 ++++++++++-----
- scripts/qapi/events.py     | 17 +++++++++++------
- scripts/qapi/gen.py        | 15 +++++++++++++++
- scripts/qapi/introspect.py | 11 +++++++----
- scripts/qapi/main.py       | 17 +++++++++++------
- scripts/qapi/types.py      | 17 +++++++++++------
- scripts/qapi/visit.py      | 17 +++++++++++------
- 7 files changed, 76 insertions(+), 33 deletions(-)
+ scripts/qapi/visit.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 38ca38a7b9..781491b639 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -294,9 +294,9 @@ def gen_register_command(name: str,
- 
- 
- class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
--    def __init__(self, prefix: str, gen_tracing: bool):
-+    def __init__(self, prefix: str, include: List[str], gen_tracing: bool):
-         super().__init__(
--            prefix, 'qapi-commands',
-+            prefix, include, 'qapi-commands',
-             ' * Schema-defined QAPI/QMP commands', None, __doc__,
-             gen_tracing=gen_tracing)
-         self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
-@@ -308,7 +308,8 @@ def _begin_user_module(self, name: str) -> None:
-         types = self._module_basename('qapi-types', name)
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "qapi/compat-policy.h"
- #include "qapi/visitor.h"
- #include "qapi/qmp/qdict.h"
-@@ -318,6 +319,7 @@ def _begin_user_module(self, name: str) -> None:
- #include "%(commands)s.h"
- 
- ''',
-+                             include=self.genc_include(),
-                              commands=commands, visit=visit))
- 
-         if self._gen_tracing and commands != 'qapi-commands':
-@@ -344,7 +346,8 @@ def visit_begin(self, schema: QAPISchema) -> None:
- ''',
-                              c_prefix=c_name(self._prefix, protect=False)))
-         self._genc.add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "%(prefix)sqapi-commands.h"
- #include "%(prefix)sqapi-init-commands.h"
- 
-@@ -353,6 +356,7 @@ def visit_begin(self, schema: QAPISchema) -> None:
-     QTAILQ_INIT(cmds);
- 
- ''',
-+                             include=self.genc_include(),
-                              prefix=self._prefix,
-                              c_prefix=c_name(self._prefix, protect=False)))
- 
-@@ -404,7 +408,8 @@ def visit_command(self,
- def gen_commands(schema: QAPISchema,
-                  output_dir: str,
-                  prefix: str,
-+                 include: List[str],
-                  gen_tracing: bool) -> None:
--    vis = QAPISchemaGenCommandVisitor(prefix, gen_tracing)
-+    vis = QAPISchemaGenCommandVisitor(prefix, include, gen_tracing)
-     schema.visit(vis)
-     vis.write(output_dir)
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 27b44c49f5..6e677d11d2 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -175,9 +175,9 @@ def gen_event_send(name: str,
- 
- class QAPISchemaGenEventVisitor(QAPISchemaModularCVisitor):
- 
--    def __init__(self, prefix: str):
-+    def __init__(self, prefix: str, include: List[str]):
-         super().__init__(
--            prefix, 'qapi-events',
-+            prefix, include, 'qapi-events',
-             ' * Schema-defined QAPI/QMP events', None, __doc__)
-         self._event_enum_name = c_name(prefix + 'QAPIEvent', protect=False)
-         self._event_enum_members: List[QAPISchemaEnumMember] = []
-@@ -188,7 +188,8 @@ def _begin_user_module(self, name: str) -> None:
-         types = self._module_basename('qapi-types', name)
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "%(prefix)sqapi-emit-events.h"
- #include "%(events)s.h"
- #include "%(visit)s.h"
-@@ -198,6 +199,7 @@ def _begin_user_module(self, name: str) -> None:
- #include "qapi/qmp-event.h"
- 
- ''',
-+                             include=self.genc_include(),
-                              events=events, visit=visit,
-                              prefix=self._prefix))
-         self._genh.add(mcgen('''
-@@ -209,9 +211,11 @@ def _begin_user_module(self, name: str) -> None:
-     def visit_end(self) -> None:
-         self._add_module('./emit', ' * QAPI Events emission')
-         self._genc.preamble_add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "%(prefix)sqapi-emit-events.h"
- ''',
-+                                      include=self.genc_include(),
-                                       prefix=self._prefix))
-         self._genh.preamble_add(mcgen('''
- #include "qapi/util.h"
-@@ -246,7 +250,8 @@ def visit_event(self,
- 
- def gen_events(schema: QAPISchema,
-                output_dir: str,
--               prefix: str) -> None:
--    vis = QAPISchemaGenEventVisitor(prefix)
-+               prefix: str,
-+               include: List[str]) -> None:
-+    vis = QAPISchemaGenEventVisitor(prefix, include)
-     schema.visit(vis)
-     vis.write(output_dir)
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 113b49134d..7db46653de 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -17,6 +17,7 @@
- from typing import (
-     Dict,
-     Iterator,
-+    List,
-     Optional,
-     Sequence,
-     Tuple,
-@@ -45,6 +46,10 @@ def gen_special_features(features: Sequence[QAPISchemaFeature]) -> str:
-     return ' | '.join(special_features) or '0'
- 
- 
-+def genc_include(include: List[str]) -> str:
-+    return '\n'.join([f'#include "{inc}"' for inc in include])
-+
-+
- class QAPIGen:
-     def __init__(self, fname: str):
-         self.fname = fname
-@@ -228,16 +233,21 @@ def ifcontext(ifcond: QAPISchemaIfCond, *args: QAPIGenCCode) -> Iterator[None]:
- class QAPISchemaMonolithicCVisitor(QAPISchemaVisitor):
-     def __init__(self,
-                  prefix: str,
-+                 include: List[str],
-                  what: str,
-                  blurb: str,
-                  pydoc: str):
-         self._prefix = prefix
-+        self._include = include
-         self._what = what
-         self._genc = QAPIGenC(self._prefix + self._what + '.c',
-                               blurb, pydoc)
-         self._genh = QAPIGenH(self._prefix + self._what + '.h',
-                               blurb, pydoc)
- 
-+    def genc_include(self) -> str:
-+        return genc_include(self._include)
-+
-     def write(self, output_dir: str) -> None:
-         self._genc.write(output_dir)
-         self._genh.write(output_dir)
-@@ -246,12 +256,14 @@ def write(self, output_dir: str) -> None:
- class QAPISchemaModularCVisitor(QAPISchemaVisitor):
-     def __init__(self,
-                  prefix: str,
-+                 include: List[str],
-                  what: str,
-                  user_blurb: str,
-                  builtin_blurb: Optional[str],
-                  pydoc: str,
-                  gen_tracing: bool = False):
-         self._prefix = prefix
-+        self._include = include
-         self._what = what
-         self._user_blurb = user_blurb
-         self._builtin_blurb = builtin_blurb
-@@ -262,6 +274,9 @@ def __init__(self,
-         self._main_module: Optional[str] = None
-         self._gen_tracing = gen_tracing
- 
-+    def genc_include(self) -> str:
-+        return genc_include(self._include)
-+
-     @property
-     def _genc(self) -> QAPIGenC:
-         assert self._current_module is not None
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 67c7d89aae..d965d17694 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -170,9 +170,9 @@ def to_c_string(string: str) -> str:
- 
- class QAPISchemaGenIntrospectVisitor(QAPISchemaMonolithicCVisitor):
- 
--    def __init__(self, prefix: str, unmask: bool):
-+    def __init__(self, prefix: str, include: List[str], unmask: bool):
-         super().__init__(
--            prefix, 'qapi-introspect',
-+            prefix, include, 'qapi-introspect',
-             ' * QAPI/QMP schema introspection', __doc__)
-         self._unmask = unmask
-         self._schema: Optional[QAPISchema] = None
-@@ -180,10 +180,12 @@ def __init__(self, prefix: str, unmask: bool):
-         self._used_types: List[QAPISchemaType] = []
-         self._name_map: Dict[str, str] = {}
-         self._genc.add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "%(prefix)sqapi-introspect.h"
- 
- ''',
-+                             include=self.genc_include(),
-                              prefix=prefix))
- 
-     def visit_begin(self, schema: QAPISchema) -> None:
-@@ -384,7 +386,8 @@ def visit_event(self, name: str, info: Optional[QAPISourceInfo],
- 
- 
- def gen_introspect(schema: QAPISchema, output_dir: str, prefix: str,
-+                   include: List[str],
-                    opt_unmask: bool) -> None:
--    vis = QAPISchemaGenIntrospectVisitor(prefix, opt_unmask)
-+    vis = QAPISchemaGenIntrospectVisitor(prefix, include, opt_unmask)
-     schema.visit(vis)
-     vis.write(output_dir)
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-index fc216a53d3..eba98cb9ac 100644
---- a/scripts/qapi/main.py
-+++ b/scripts/qapi/main.py
-@@ -9,7 +9,7 @@
- 
- import argparse
- import sys
--from typing import Optional
-+from typing import List, Optional
- 
- from .commands import gen_commands
- from .common import must_match
-@@ -31,6 +31,7 @@ def invalid_prefix_char(prefix: str) -> Optional[str]:
- def generate(schema_file: str,
-              output_dir: str,
-              prefix: str,
-+             include: List[str],
-              unmask: bool = False,
-              builtins: bool = False,
-              gen_tracing: bool = False) -> None:
-@@ -48,11 +49,11 @@ def generate(schema_file: str,
-     assert invalid_prefix_char(prefix) is None
- 
-     schema = QAPISchema(schema_file)
--    gen_types(schema, output_dir, prefix, builtins)
--    gen_visit(schema, output_dir, prefix, builtins)
--    gen_commands(schema, output_dir, prefix, gen_tracing)
--    gen_events(schema, output_dir, prefix)
--    gen_introspect(schema, output_dir, prefix, unmask)
-+    gen_types(schema, output_dir, prefix, include, builtins)
-+    gen_visit(schema, output_dir, prefix, include, builtins)
-+    gen_commands(schema, output_dir, prefix, include, gen_tracing)
-+    gen_events(schema, output_dir, prefix, include)
-+    gen_introspect(schema, output_dir, prefix, include, unmask)
- 
- 
- def main() -> int:
-@@ -75,6 +76,9 @@ def main() -> int:
-     parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
-                         dest='unmask',
-                         help="expose non-ABI names in introspection")
-+    parser.add_argument('-i', '--include', nargs='*',
-+                        default=['qemu/osdep.h'],
-+                        help="top-level include headers")
- 
-     # Option --suppress-tracing exists so we can avoid solving build system
-     # problems.  TODO Drop it when we no longer need it.
-@@ -94,6 +98,7 @@ def main() -> int:
-         generate(args.schema,
-                  output_dir=args.output_dir,
-                  prefix=args.prefix,
-+                 include=args.include,
-                  unmask=args.unmask,
-                  builtins=args.builtins,
-                  gen_tracing=not args.suppress_tracing)
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 477d027001..9617b7d4ed 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -282,18 +282,20 @@ def gen_type_cleanup(name: str) -> str:
- 
- class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisitor):
- 
--    def __init__(self, prefix: str):
-+    def __init__(self, prefix: str, include: List[str]):
-         super().__init__(
--            prefix, 'qapi-types', ' * Schema-defined QAPI types',
-+            prefix, include, 'qapi-types', ' * Schema-defined QAPI types',
-             ' * Built-in QAPI types', __doc__)
- 
-     def _begin_builtin_module(self) -> None:
-         self._genc.preamble_add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "qapi/dealloc-visitor.h"
- #include "qapi/qapi-builtin-types.h"
- #include "qapi/qapi-builtin-visit.h"
--'''))
-+''',
-+                                      include=self.genc_include()))
-         self._genh.preamble_add(mcgen('''
- #include "qapi/util.h"
- '''))
-@@ -302,11 +304,13 @@ def _begin_user_module(self, name: str) -> None:
-         types = self._module_basename('qapi-types', name)
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.preamble_add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "qapi/dealloc-visitor.h"
- #include "%(types)s.h"
- #include "%(visit)s.h"
- ''',
-+                                      include=self.genc_include(),
-                                       types=types, visit=visit))
-         self._genh.preamble_add(mcgen('''
- #include "qapi/qapi-builtin-types.h"
-@@ -381,7 +385,8 @@ def visit_alternate_type(self,
- def gen_types(schema: QAPISchema,
-               output_dir: str,
-               prefix: str,
-+              include: List[str],
-               opt_builtins: bool) -> None:
--    vis = QAPISchemaGenTypeVisitor(prefix)
-+    vis = QAPISchemaGenTypeVisitor(prefix, include)
-     schema.visit(vis)
-     vis.write(output_dir, opt_builtins)
 diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 380fa197f5..1ff464c036 100644
+index 1ff464c036..4aba5ddd8a 100644
 --- a/scripts/qapi/visit.py
 +++ b/scripts/qapi/visit.py
-@@ -318,17 +318,19 @@ def gen_visit_object(name: str) -> str:
- 
- class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
- 
--    def __init__(self, prefix: str):
-+    def __init__(self, prefix: str, include: List[str]):
-         super().__init__(
--            prefix, 'qapi-visit', ' * Schema-defined QAPI visitors',
-+            prefix, include, 'qapi-visit', ' * Schema-defined QAPI visitors',
-             ' * Built-in QAPI visitors', __doc__)
- 
-     def _begin_builtin_module(self) -> None:
-         self._genc.preamble_add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
- #include "qapi/error.h"
- #include "qapi/qapi-builtin-visit.h"
--'''))
-+''',
-+                                      include=self.genc_include()))
-         self._genh.preamble_add(mcgen('''
- #include "qapi/visitor.h"
- #include "qapi/qapi-builtin-types.h"
-@@ -339,11 +341,13 @@ def _begin_user_module(self, name: str) -> None:
-         types = self._module_basename('qapi-types', name)
+@@ -342,6 +342,8 @@ def _begin_user_module(self, name: str) -> None:
          visit = self._module_basename('qapi-visit', name)
          self._genc.preamble_add(mcgen('''
--#include "qemu/osdep.h"
-+%(include)s
-+
+ %(include)s
++#include <assert.h>
++#include <stdlib.h>
+ 
  #include "qapi/error.h"
  #include "qapi/qmp/qerror.h"
- #include "%(visit)s.h"
- ''',
-+                                      include=self.genc_include(),
-                                       visit=visit))
-         self._genh.preamble_add(mcgen('''
- #include "qapi/qapi-builtin-visit.h"
-@@ -408,7 +412,8 @@ def visit_alternate_type(self,
- def gen_visit(schema: QAPISchema,
-               output_dir: str,
-               prefix: str,
-+              include: List[str],
-               opt_builtins: bool) -> None:
--    vis = QAPISchemaGenVisitVisitor(prefix)
-+    vis = QAPISchemaGenVisitVisitor(prefix, include)
-     schema.visit(vis)
-     vis.write(output_dir, opt_builtins)
 -- 
 2.37.1
 
