@@ -2,92 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A399958EA0F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:52:49 +0200 (CEST)
-Received: from localhost ([::1]:53648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA5558EA25
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 11:58:33 +0200 (CEST)
+Received: from localhost ([::1]:56462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLiOO-0001LJ-FU
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58816)
+	id 1oLiTv-0003VH-QX
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 05:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oLiHY-0006EV-3g
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:45:51 -0400
-Received: from mga11.intel.com ([192.55.52.93]:1674)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLiQz-0001kA-74
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:55:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oLiHW-00061N-3Z
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:45:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660124742; x=1691660742;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=sBavDjNKIFmd2M6Jg3bF8kVDIymkWHMnSEIr5WIN7a0=;
- b=VtnfMlvENCqCUVPhG79qSyX1jMy4P2ee7kjqPxA2g43k4DAFSLiolif5
- nG7meToaB4bPEs2zo/EjHXuKfrISCNAxuwDeLecv9NqCsK4Vg+dGS9Q1E
- 4tRhH7OlUDp7tcGThvCiadMl4gU8Dl510L5WW2y0gFarNupao9D5bCHsh
- ojYP5hE+lvzirnJfhblmvFaG8pw0SwmSQhHGU4rch3Sls6sSk+bspNP5L
- NzVQSacPmBYVrQd1dXVJyxY66qGfmMYfKT/X0OULxYDMw6LhB93N6cm2X
- Z+Kh7I1LxleeAceT+DO1RxaaEsn3aJ/xL87jvtSjLfcLlIAJDXUauyvSh Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="288610866"
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="288610866"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2022 02:45:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="601757857"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 10 Aug 2022 02:45:24 -0700
-Date: Wed, 10 Aug 2022 17:40:39 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oLiQw-0007lY-Mr
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 05:55:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660125325;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m5UKomJJr5XDUN8t2Kmb7khiadiUQsrzaj90s+j66gQ=;
+ b=XauGWYwm2YHllDCVya8h3dh2VCxcMp2eXLrGwCCuukmjOLrdAx5dk/CMcpX/u+Lxbe24xF
+ 6/yzLXImuFsBVkN5tVXkNKcIczY4r9o46GIbAr0lLA4DDNQc4p7aNcS4wjx+f70N3f13Je
+ hmRhx8eqHVUmTxMEGhGKI3mOSI+l6LM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-307-IZbexXH-NHe26_R-GNrU1Q-1; Wed, 10 Aug 2022 05:55:23 -0400
+X-MC-Unique: IZbexXH-NHe26_R-GNrU1Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c66-20020a1c3545000000b003a37b7e0764so854483wma.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 02:55:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=m5UKomJJr5XDUN8t2Kmb7khiadiUQsrzaj90s+j66gQ=;
+ b=ESTwTeqWbixlIvrVbrxe7yyIYy5JNyYqE3Q+ZYNxjN7DUj7b4pITVVcZTP4r76RGAA
+ Gb5IX6t3LiACjmjkCgSMwcTuLZwxfzbUutMglCmaZ0iQVz0FJRfsVGG6louH1ijA51RQ
+ cHBTocmYhFt7oyp91XFKNwLn1EaZNB2jdfgMsVe/BR/hJkcFcILstVaHtmgwfAasTgWG
+ S4rw36PGy4JopcakK32Rsk+CEhXpHfFV7v1yDdsvqS8m9GJNgG5XSiyDynza03yvQcgb
+ GxGkZJsBSJVBVBXMGbV2G0JLbBVpVOntll8U+eaBJd4ZWABGWKP4UZ1RkCuyPmNwG3qo
+ EMeQ==
+X-Gm-Message-State: ACgBeo2xFt8mjz3Ngu51dt0Kbp1tfI0PJgmInRF8OMDEh8XIg7IIkH60
+ 4EQ7PXal/VGunyzTSP7ueSA2MK6nZ30m0zdnk6v692NtjSFFn33Kny9+5PHuB1qAhFVZ+uYWBAo
+ 7LHf6h8BtQbFV8XY=
+X-Received: by 2002:a5d:64e4:0:b0:222:d4da:c2e1 with SMTP id
+ g4-20020a5d64e4000000b00222d4dac2e1mr7468929wri.15.1660125322319; 
+ Wed, 10 Aug 2022 02:55:22 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR57ng+8LAmFqiWIYkxzU0qIaLTw96OSbpCj25JDzNCtyJxE1FXqxz6BaUC8mUFwvCSeHhucCg==
+X-Received: by 2002:a5d:64e4:0:b0:222:d4da:c2e1 with SMTP id
+ g4-20020a5d64e4000000b00222d4dac2e1mr7468880wri.15.1660125322007; 
+ Wed, 10 Aug 2022 02:55:22 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:1600:a3ce:b459:ef57:7b93?
+ (p200300cbc7071600a3ceb459ef577b93.dip0.t-ipconnect.de.
+ [2003:cb:c707:1600:a3ce:b459:ef57:7b93])
+ by smtp.gmail.com with ESMTPSA id
+ l3-20020a05600c4f0300b003a4bb3f9bc6sm1837127wmq.41.2022.08.10.02.55.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Aug 2022 02:55:21 -0700 (PDT)
+Message-ID: <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
+Date: Wed, 10 Aug 2022 11:55:19 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
  linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
  Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
  Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
  "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
  Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
  Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
-Message-ID: <20220810094039.GG862421@chaop.bj.intel.com>
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
- <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
- <a2b8fa73-4efd-426f-abcd-7975ff9a7101@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a2b8fa73-4efd-426f-abcd-7975ff9a7101@redhat.com>
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
+ <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+ <20220810093741.GE862421@chaop.bj.intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220810093741.GE862421@chaop.bj.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,39 +123,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05, 2022 at 08:06:03PM +0200, David Hildenbrand wrote:
-> On 05.08.22 19:55, Paolo Bonzini wrote:
-> > On 7/21/22 11:44, David Hildenbrand wrote:
-> >>
-> >> Also, I*think*  you can place pages via userfaultfd into shmem. Not
-> >> sure if that would count "auto alloc", but it would certainly bypass
-> >> fallocate().
-> > 
-> > Yeah, userfaultfd_register would probably have to forbid this for 
-> > F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for 
-> > this, adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then 
-> > userfault_register would do something like 
-> > memfile_node_get_flags(vma->vm_file) and check the result.
+On 10.08.22 11:37, Chao Peng wrote:
+> On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
+>> On 06.07.22 10:20, Chao Peng wrote:
+>>> Introduce a new memfd_create() flag indicating the content of the
+>>> created memfd is inaccessible from userspace through ordinary MMU
+>>> access (e.g., read/write/mmap). However, the file content can be
+>>> accessed via a different mechanism (e.g. KVM MMU) indirectly.
+>>>
+>>> It provides semantics required for KVM guest private memory support
+>>> that a file descriptor with this flag set is going to be used as the
+>>> source of guest memory in confidential computing environments such
+>>> as Intel TDX/AMD SEV but may not be accessible from host userspace.
+>>>
+>>> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+>>> also impossible for a memfd created with this flag.
+>>
+>> It's kind of weird to have it that way. Why should the user have to
+>> care? It's the notifier requirement to have that, no?
+>>
+>> Why can't we handle that when register a notifier? If anything is
+>> already mapped, fail registering the notifier if the notifier has these
+>> demands. If registering succeeds, block it internally.
+>>
+>> Or what am I missing? We might not need the memfile set flag semantics
+>> eventually and would not have to expose such a flag to user space.
 > 
-> An alternative is to simply have the shmem allocation fail in a similar
-> way. Maybe it does already, I haven't checked (don't think so).
+> This makes sense if doable. The major concern was: is there a reliable
+> way to detect this (already mapped) at the time of memslot registering.
 
-This sounds a better option. We don't need uAPI changes for
-userfault_register uAPI but I guess we will still need a KVM uAPI,
-either on the memslot or on the whole VM since Roth said this feature
-should be optional because some usages may want to disable it for
-performance reason. For details please see discussion:
-  https://lkml.org/lkml/2022/6/23/1905
+If too complicated, we could simplify to "was this ever mapped" and fail
+for now. Hooking into shmem_mmap() might be sufficient for that to get
+notified about the first mmap.
 
-Chao
-> 
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+As an alternative, mapping_mapped() or similar *might* do what we want.
+
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
