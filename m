@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A5058EC49
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:51:12 +0200 (CEST)
-Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DC058EC3A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 14:44:50 +0200 (CEST)
+Received: from localhost ([::1]:46114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLlB1-0002Gi-4s
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
+	id 1oLl4r-0005lT-CO
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 08:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oLkwV-0001jt-NP
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:36:11 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oLkwT-0004VW-1i
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:36:11 -0400
-Received: by mail-wr1-x432.google.com with SMTP id p10so17569534wru.8
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 05:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=lCNEjUUOL+K7ivB3Bsp5vnl640q/xKKPyEI979dGd7E=;
- b=Q5muJBqAiD0aaRMbnHFR3339WU1V+ABAzWuc9rnhShfqfe2qNBFBmJaLZQe9PIHXN+
- xsvESEEbf9woe7sXaa9E278h0rfmGRZW08inLt0WanABBE7hzi0w0huivhFesv4LZhab
- C/AI0QDiXj/rffzqO4Qfsbjm2adPrAycIoshbTGjkw+/7HJGxaB5/SUPkAnPgsXPfL/t
- GVRb35ERN7YRXNlDAZr1jZVFBNRCbUQP3Df6sfcb2QwipZz5c8o2ugwRmBUqmqwDZ3O3
- uo0bk1NU2qRrxKTx66H23+88YclFDRd6wrCz0x9i7gqkYyKnLbUHsoMMyNldlTy4wxVY
- FBwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=lCNEjUUOL+K7ivB3Bsp5vnl640q/xKKPyEI979dGd7E=;
- b=5/jFtltSj6iDcDbKsOtQA1lwbgrxS1GvjYf/hopXaBK82E16hyleQJTSDS0EgjVVD5
- DllPtlHn72xm32AyBwpie4k9zO9IcFHfleDxj5+KnG9AhrvoBjoLovzow/YvvesrficG
- L4IxPdZnKypjC9bWR8sXG+AIRAtmMKVugPyvgyG9//V8Qme3dtv8KAamZOw4XZMr2LDd
- jdG9kXu1jhtsiXWzh4Eskv7mEF0OAOplNEwxyAJo7afWi68P25hrHzveeIzBQXyzincc
- 5e9OQb1RrmxYA8K1kK7QT3zsn05erRIbdigCT58uZN4Hwi3GQCSJA7QY+H0pRrdCBNfX
- ROaQ==
-X-Gm-Message-State: ACgBeo22fMFOcuaHQr2QJa6o6ZxkbEayIu3pvIvb7c6Y1Afuy7XXNVW4
- pcTlhg2CTwnO5XzsowXE3kwxaA==
-X-Google-Smtp-Source: AA6agR50pYc9bHOOV1lJUVQSI4uq6FtXjf3S+pj7YFSEwZvi0yzCIQGuC2Z/NWak3Ms80YeMvmgm3g==
-X-Received: by 2002:a05:6000:985:b0:223:8131:e1f4 with SMTP id
- by5-20020a056000098500b002238131e1f4mr1500759wrb.65.1660134967617; 
- Wed, 10 Aug 2022 05:36:07 -0700 (PDT)
-Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
- by smtp.gmail.com with ESMTPSA id
- j42-20020a05600c1c2a00b003a30c3d0c9csm2628871wms.8.2022.08.10.05.36.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 05:36:06 -0700 (PDT)
-Date: Wed, 10 Aug 2022 14:36:05 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Ben Dooks <qemu@ben.fluff.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com,
- peter.maydell@linaro.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH v4 5/6] hw/mips: use qemu_fdt_setprop_strings()
-Message-ID: <20220810123605.rsn4vjduxxyd7zln@kamzik>
-References: <20220809185639.750345-1-qemu@ben.fluff.org>
- <20220809185639.750345-6-qemu@ben.fluff.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLkyc-0003yK-VJ
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:38:23 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:53091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oLkya-0004gZ-8p
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 08:38:22 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E54D720856;
+ Wed, 10 Aug 2022 12:38:07 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 10 Aug
+ 2022 14:38:06 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0021c10886f-a536-4778-ab7f-cf9985552644,
+ 043EABA4B22CD34FCE1B70F8CBB6C707CA017DB3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.155.17
+Message-ID: <77bc11f5-129a-a3a8-6c24-09c83da2fabd@kaod.org>
+Date: Wed, 10 Aug 2022 14:38:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220809185639.750345-6-qemu@ben.fluff.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v4 08/24] ppc/ppc4xx: Introduce a DCR device model
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-9-clg@kaod.org>
+ <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: b7c775d2-e668-466d-aa75-3dc15e5b0ddc
+X-Ovh-Tracer-Id: 12010818731253205923
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegvddgheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,45 +76,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 09, 2022 at 07:56:39PM +0100, Ben Dooks wrote:
-> Change to using qemu_fdt_setprop_strings() helper in hw/mips.
+On 8/9/22 19:21, BALATON Zoltan wrote:
+> On Tue, 9 Aug 2022, Cédric Le Goater wrote:
+>> The Device Control Registers (DCR) of on-SoC devices are accessed by
+>> software through the use of the mtdcr and mfdcr instructions. These
+>> are converted in transactions on a side band bus, the DCR bus, which
+>> connects the on-SoC devices to the CPU.
+>>
+>> Ideally, we should model these accesses with a DCR namespace and DCR
+>> memory regions but today the DCR handlers are installed in a DCR table
+>> under the CPU. Instead introduce a little device model wrapper to hold
+>> a CPU link and handle registration of DCR handlers.
+>>
+>> The DCR device inherits from SysBus because most of these devices also
+>> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
+>> to install the device model in the overall SoC.
+>>
+>> The "cpu" link should be considered as modeling the piece of HW logic
+>> connecting the device to the DCR bus.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> include/hw/ppc/ppc4xx.h | 17 ++++++++++++++++
+>> hw/ppc/ppc4xx_devs.c    | 44 +++++++++++++++++++++++++++++++++++++++++
+>> 2 files changed, 61 insertions(+)
+>>
+>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+>> index 591e2421a343..82e60b0e0742 100644
+>> --- a/include/hw/ppc/ppc4xx.h
+>> +++ b/include/hw/ppc/ppc4xx.h
+>> @@ -27,6 +27,7 @@
+>>
+>> #include "hw/ppc/ppc.h"
+>> #include "exec/memory.h"
+>> +#include "hw/sysbus.h"
+>>
+>> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+>>                         MemoryRegion ram_memories[],
+>> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>>
+>> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+>>
+>> +/*
+>> + * Generic DCR device
+>> + */
+>> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
+>> +struct Ppc4xxDcrDeviceState {
+>> +    SysBusDevice parent_obj;
+>> +
+>> +    PowerPCCPU *cpu;
+>> +};
+>> +
+>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
+>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
+>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+>> +                        Error **errp);
+>> +
+>> #endif /* PPC4XX_H */
+>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+>> index 069b51195160..bce7ef461346 100644
+>> --- a/hw/ppc/ppc4xx_devs.c
+>> +++ b/hw/ppc/ppc4xx_devs.c
+>> @@ -664,3 +664,47 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>>                          mal, &dcr_read_mal, &dcr_write_mal);
+>>     }
+>> }
+>> +
+>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
+>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
 > 
-> Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/mips/boston.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index d2ab9da1a0..759f6daafe 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -515,9 +515,6 @@ static const void *create_fdt(BostonState *s,
->      MachineState *mc = s->mach;
->      uint32_t platreg_ph, gic_ph, clk_ph;
->      char *name, *gic_name, *platreg_name, *stdout_name;
-> -    static const char * const syscon_compat[2] = {
-> -        "img,boston-platform-regs", "syscon"
-> -    };
->  
->      fdt = create_device_tree(dt_size);
->      if (!fdt) {
-> @@ -608,9 +605,8 @@ static const void *create_fdt(BostonState *s,
->      platreg_name = g_strdup_printf("/soc/system-controller@%" HWADDR_PRIx,
->                                     memmap[BOSTON_PLATREG].base);
->      qemu_fdt_add_subnode(fdt, platreg_name);
-> -    qemu_fdt_setprop_string_array(fdt, platreg_name, "compatible",
-> -                                 (char **)&syscon_compat,
-> -                                 ARRAY_SIZE(syscon_compat));
-> +    qemu_fdt_setprop_strings(fdt, platreg_name, "compatible",
-> +                             "img,boston-platform-regs", "syscon");
->      qemu_fdt_setprop_cells(fdt, platreg_name, "reg",
->                             memmap[BOSTON_PLATREG].base,
->                             memmap[BOSTON_PLATREG].size);
-> -- 
-> 2.35.1
-> 
->
+> I still think this should have a separate void *opaque parameter for the callbacks and not pass dev for that as the callbacks could use anything they wish for that parameter. (Additionally this allows dropping a lot of QOM casts. If you want to see how often these are accessed, you can try -trace enable="ppc_dcr*"; on the machines and OS I've tested some are read/written frequently so I'd not add unnecessary overhead without a good reason.)
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+This machine has been abandoned for 15 years and broken for maybe 10.
+I think it is fine for now. We will see if further needs arise.
+
+Thanks,
+
+C.
+
+> 
+> Otherwise:
+> 
+> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+> 
+> Regards,
+> BALATOn Zoltan
+> 
+>> +{
+>> +    CPUPPCState *env;
+>> +
+>> +    assert(dev->cpu);
+>> +
+>> +    env = &dev->cpu->env;
+>> +
+>> +    ppc_dcr_register(env, dcrn, dev, dcr_read, dcr_write);
+>> +}
+>> +
+>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+>> +                        Error **errp)
+>> +{
+>> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
+>> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
+>> +}
+>> +
+>> +static Property ppc4xx_dcr_properties[] = {
+>> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
+>> +                     PowerPCCPU *),
+>> +    DEFINE_PROP_END_OF_LIST(),
+>> +};
+>> +
+>> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +
+>> +    device_class_set_props(dc, ppc4xx_dcr_properties);
+>> +}
+>> +
+>> +static const TypeInfo ppc4xx_types[] = {
+>> +    {
+>> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
+>> +        .parent         = TYPE_SYS_BUS_DEVICE,
+>> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
+>> +        .class_init     = ppc4xx_dcr_class_init,
+>> +        .abstract       = true,
+>> +    }
+>> +};
+>> +
+>> +DEFINE_TYPES(ppc4xx_types)
+>>
+
 
