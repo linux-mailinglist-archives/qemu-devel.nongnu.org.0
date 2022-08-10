@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D43958ED68
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:34:44 +0200 (CEST)
-Received: from localhost ([::1]:55000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF1658ED8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 15:45:13 +0200 (CEST)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLlr9-0005ac-QJ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52404)
+	id 1oLm1I-0005gn-6s
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 09:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLlVA-0004pY-T3
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:12:00 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oLlV8-00033r-QH
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 09:12:00 -0400
-Received: by mail-ej1-x636.google.com with SMTP id m4so27649448ejr.3
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 06:11:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=eUDHjxliG5q7Vh4G/6lKAujXu2JvT+nMQJL19HPFEi0=;
- b=BItvCraZozwgv13htKuvFMe4lPnsrfEjhIW6CcX16OajEVrpmogmaGSnpVI6GSMw+w
- /Ghib1dRoZme/TKogUErY007MiusYzYxMyXMAsR8EJft3DAsmdp4Rrfk+0fzF/BTRX+k
- 3h2fkCu6ZC5Ooyh+rvnURIgNDhWsxR5ZGPOPvqjzf8KzcJ3/YADNe6J6a4E5CpJNyPBG
- pulJ1buCSTnug7waQrCp/ap29QBtTtekQcDyaJISkOLDP/+1NmW1VhEOMzfDBy2iIWG4
- aDBCK58ZaIOSvbP7UpmBPIDP8ljg/Sg1Ooo86gIWye+e5xvWUSbsiTAzUgx4uMkNNYXS
- 8jhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=eUDHjxliG5q7Vh4G/6lKAujXu2JvT+nMQJL19HPFEi0=;
- b=T9EGnp3fcx0skvM7E5VdazM+RI0g1nDPSHbfNC7NG0bYEnIiJa8cPY/ESuhG+HAhAo
- ABfkTJVShxhuX9VtRWV+5NwA/uOuHESabTSLPimAeEjaPpjBAbqwq5JuYO0a1Cxq37zk
- P1nYcNAjzbmBaaUPyWql8Q/7IBR1iLdA4i7HphIzAtpsVQkzYh1OtjipJ9VICIdAEhcP
- u/giBRq4tcv9mb4KLx8SP3CJ3jOpJnFxqk4fx7CK8hAohVVRZlirFPEXj60rp57EzuS5
- /nqeM6Ibw98agpRbVm1482xU7zIbuLYhXDDWpSinMkaX0SKMBfKtQvdZxzBIxgWkf7q7
- Zdrw==
-X-Gm-Message-State: ACgBeo08Kl/wePGv9LEWEwj4qvIIgQDrs39bCHG3IVPWP68eei+FkzUE
- UH01NaThQyPbw63IedbnxuUT/A==
-X-Google-Smtp-Source: AA6agR50HstuL/rz7Gc19Dp7F06kFUl84EA3+FcbT5mld6r6aAOhihVXWZSRkOP33HbH0bZVWrOznw==
-X-Received: by 2002:a17:907:7628:b0:730:b755:4414 with SMTP id
- jy8-20020a170907762800b00730b7554414mr20186298ejc.11.1660137117214; 
- Wed, 10 Aug 2022 06:11:57 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a1709063d2900b00730af3346d6sm2298442ejf.212.2022.08.10.06.11.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 06:11:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1D9FF1FFB7;
- Wed, 10 Aug 2022 14:11:56 +0100 (BST)
-References: <20220703082419.770989-1-richard.henderson@linaro.org>
- <20220703082419.770989-18-richard.henderson@linaro.org>
-User-agent: mu4e 1.8.8; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1oLlWJ-0006Nu-Gc; Wed, 10 Aug 2022 09:13:11 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:5168)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1oLlWF-0003Cn-A4; Wed, 10 Aug 2022 09:13:10 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4M2r1G50hTzGpHW;
+ Wed, 10 Aug 2022 21:11:30 +0800 (CST)
+Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 10 Aug 2022 21:12:55 +0800
+Received: from [10.174.185.179] (10.174.185.179) by
+ kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 10 Aug 2022 21:12:55 +0800
+Subject: Re: [PATCH v6 24/24] target/arm: Define neoverse-n1
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH 17/62] target/arm: Remove is_subpage argument to
- pmsav8_mpu_lookup
-Date: Wed, 10 Aug 2022 14:11:06 +0100
-In-reply-to: <20220703082419.770989-18-richard.henderson@linaro.org>
-Message-ID: <871qtomeeb.fsf@linaro.org>
+CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <20220506180242.216785-1-richard.henderson@linaro.org>
+ <20220506180242.216785-25-richard.henderson@linaro.org>
+Message-ID: <1d915529-cd32-82b3-42ad-4d202d3590d8@huawei.com>
+Date: Wed, 10 Aug 2022 21:12:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20220506180242.216785-25-richard.henderson@linaro.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.179]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemm600007.china.huawei.com (7.193.23.208)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189; envelope-from=yuzenghui@huawei.com;
+ helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,35 +69,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Zenghui Yu <yuzenghui@huawei.com>
+From:  Zenghui Yu via <qemu-devel@nongnu.org>
 
+On 2022/5/7 2:02, Richard Henderson wrote:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+> +static void aarch64_neoverse_n1_initfn(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +
+> +    cpu->dtb_compatible = "arm,neoverse-n1";
+> +    set_feature(&cpu->env, ARM_FEATURE_V8);
+> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+> +    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
+> +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL2);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
+> +
+> +    /* Ordered by B2.4 AArch64 registers by functional group */
+> +    cpu->clidr = 0x82000023;
+> +    cpu->ctr = 0x8444c004;
+> +    cpu->dcz_blocksize = 4;
+> +    cpu->isar.id_aa64dfr0  = 0x0000000110305408ull;
 
-> This can be made redundant with result->page_size, by moving
-> the basic set of page_size from get_phys_addr_pmsav8.  We still
-> need to overwrite page_size when v8m_security_lookup signals
-> a subpage.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-<snip>
->=20=20
->      ret =3D pmsav8_mpu_lookup(env, address, access_type, mmu_idx,
-> -                            result, &mpu_is_subpage, fi, NULL);
-> -    result->page_size =3D
-> -        sattrs.subpage || mpu_is_subpage ? 1 : TARGET_PAGE_SIZE;
-> +                            result, fi, NULL);
-> +    if (sattrs.subpage) {
-> +        result->page_size =3D 1;
-> +    }
+The r4p1 TRM says that the Neoverse N1 core supports SPE (the value
+of ID_AA64DFR0.PMSVer is 0b0001) but do we really support SPE
+emulation in QEMU?
 
-We should probably document the meaning of page_size =3D=3D 1 in the
-comments for the definition of GetPhysAddrResult.
+The guest immediately received an unexpected exception (with EC==0,
+at EFI stage) when I tried to boot it using something like:
 
->      return ret;
->  }
+/path/to/qemu-system-aarch64 \
+-M virt,gic-version=3,virtualization=on \
+-cpu neoverse-n1 -accel tcg \
+-bios QEMU_EFI.fd [...]
 
+and QEMU shouted that "read access to unsupported AArch64 system
+register op0:3 op1:0 crn:9 crm:10 op2:7", which told us that the
+guest attempted to read the PMBIDR_EL1 register.
 
---=20
-Alex Benn=C3=A9e
+Zenghui
 
