@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9CD58F307
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 21:27:46 +0200 (CEST)
-Received: from localhost ([::1]:41752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9914C58F333
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Aug 2022 21:32:16 +0200 (CEST)
+Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLrMm-0007Hl-MW
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 15:27:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50786)
+	id 1oLrR9-00012F-Gd
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 15:32:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oLrKY-0005pM-Az
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 15:25:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27536)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oLrKU-0005ej-R6
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 15:25:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660159520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V4WH+o0nEQZiENT/2WQOFqZjZFSRQUjC3g6kVFJ11IM=;
- b=DBq9mbxEaKGWVBDG8YcaDJ9PyKTbMmQkSCCNtCMv9t4ni0fHqhEyDplBkISmorPUMHmX6s
- z3M2/+AE4sFo1sb62jWD0j1O9vROPC5nrgZxp6TN5WuZWI6kZIGzbk0jfMRpJTe0m2gbez
- 3RM0FJiHQA7zmdeWnWrph1KJdBVh3ug=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-KSF5M-yuMmiPrdE7n7kfcg-1; Wed, 10 Aug 2022 15:25:18 -0400
-X-MC-Unique: KSF5M-yuMmiPrdE7n7kfcg-1
-Received: by mail-lj1-f199.google.com with SMTP id
- g3-20020a2e9cc3000000b00253cc2b5ab5so4766812ljj.19
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 12:25:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oLrPQ-0007tO-GZ
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 15:30:28 -0400
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:37616)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oLrPN-0006KP-NO
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 15:30:28 -0400
+Received: by mail-vs1-xe2e.google.com with SMTP id 66so16193991vse.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 12:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=81QDp6ivo25W8qCto76QBt6sTAhLB8bdCZngmtzh/VA=;
+ b=Pk76h1S3G5QX8/QeROEwZqyhNv5CDgPO0VgBeJuwgd86MbAMuXq9KnSZut/FOC5pjg
+ kfPQxCowNhz3vNQEP1O0knz8sHOcr1qEyiuMP5BC8fADBtjNm9N/MWEhKJmF+i7gyVvr
+ PIhsBewkLiv3zndMb5LRkeTX/pB3GLwGecj0xHovOkDtEP8r9BDpfwgRXeMKqt/FekKy
+ Bk12Cd04YR2++i6J97RcOp3eOKxoAHT5G4OzQG4i+LePpboCBebAAWWRg0fUjhUnz1+o
+ K3bGtcwukhZ5DFXaZyuGbegfm+Q/S8qbYaqkcXfobQBeuw0tSnkOauuGvCWTXiSAOfl+
+ FIWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=V4WH+o0nEQZiENT/2WQOFqZjZFSRQUjC3g6kVFJ11IM=;
- b=ylmTt6bq1kcqHRE/fXaPmy/ELry3Q0zgIDU0x0KwRTUsYB4NVmnp8hNyY8iHV8xi0e
- OtmuHbttpAx31DeakBo06wuhOc1Y3kGy1zOUrPvcqOZtxHNHN8IQTWLra9VuqWrtVXDK
- FxMvm1XMceil8NN+h4gBf4K/MeJBT2a+13aysh2DCxA8gL8Ijd4s6YqauIeGZVFJvhqI
- b5GVTYGfVJAjM/Et2lX6m+0x0VUBsOiyJHy+MCrGax3JlaMbWDkfie6OUlQaME2+mZwb
- T96Br6pR9lpxpzNjDuZjWFumNOKah2ZUvWhCJEX3skP6iDGg2zj6oRkdRe0LP4Sm3865
- BK0A==
-X-Gm-Message-State: ACgBeo1m0vY4iYX1qE5lE/ivfE8cnZh2AF2l33gWg2cZSwT+J/WXANRc
- jR3++uupcYngJELg5cXKJddqXqcv/D8B15yqAEg/ZyD2/4bt5j1DEoiyLQr+ZfZy+2m03ScoFXx
- dx2YULwaYizIZdRFBcgq1obY2dJ7NASo=
-X-Received: by 2002:a05:6512:b1a:b0:47f:b574:9539 with SMTP id
- w26-20020a0565120b1a00b0047fb5749539mr9558450lfu.143.1660159517408; 
- Wed, 10 Aug 2022 12:25:17 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6XtHS2KM3rjWxOXqoWLYtu0sH12ZGqf2oF79v74sp/QJzkct3U1+wn4MX9gC1Z/lmDFvEWPc3BbtMkvMQYFUg=
-X-Received: by 2002:a05:6512:b1a:b0:47f:b574:9539 with SMTP id
- w26-20020a0565120b1a00b0047fb5749539mr9558443lfu.143.1660159517141; Wed, 10
- Aug 2022 12:25:17 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=81QDp6ivo25W8qCto76QBt6sTAhLB8bdCZngmtzh/VA=;
+ b=mYPajmz5mOxfU9PCtkc1T0Esf3J6ALny6Ej0kntj15z2Kp87elMQ8B8+7S5nhxCF1j
+ wNXQl6ct18LV7E9EATZIYDzZp8Nto3lwg+V28cfd69UD3JVY04AdkPyctyHdGSj17R8v
+ OxDouM9oy0MbdeNd3/EsFTMoJXJJhwDj/7ntspUEFplzQc85dH95KgluR4n1NWDHtt7q
+ FKZKyX4oYeRhdz+lSYSso7qpUN7YjmK6GiBtim0wEoc0rJ2EmssM17ENEFdiETQywYc+
+ HcymhwyabDn8V21ckleCPGEejdzEJfCHHo2blcqNRaCaxPC9C5jUqtrI2EExMwOxOvQY
+ bvtA==
+X-Gm-Message-State: ACgBeo3QjhGCqu790JkMraUEBwKe1SYrR6E+FPPB6wUiQO6OTYFCI7O/
+ Kto2iYFm4xEsAkDGfO5P7+r8G1iyChY=
+X-Google-Smtp-Source: AA6agR57ZpLDc/wIrlCNDLrOaHcPsznHCCCb1PedygNGvSJtfR4PzyqSyyCiN3laag5znE64fxG7hw==
+X-Received: by 2002:a67:c311:0:b0:385:741:ad42 with SMTP id
+ r17-20020a67c311000000b003850741ad42mr12404728vsj.76.1660159824569; 
+ Wed, 10 Aug 2022 12:30:24 -0700 (PDT)
+Received: from [192.168.10.102] (201-43-216-47.dsl.telesp.net.br.
+ [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a05612200c400b00378eacd2b70sm442970vkc.37.2022.08.10.12.30.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Aug 2022 12:30:24 -0700 (PDT)
+Message-ID: <76f3b0f6-73ba-3ff2-98d1-fdc1da1e9872@gmail.com>
+Date: Wed, 10 Aug 2022 16:30:21 -0300
 MIME-Version: 1.0
-References: <20220810165942.104545-1-pbonzini@redhat.com>
- <20220810130346-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220810130346-mutt-send-email-mst@kernel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 10 Aug 2022 21:25:05 +0200
-Message-ID: <CABgObfa0dr3H7tr8S5L+pLjFyJUMP7rVTPxr4senHDfofBq1RA@mail.gmail.com>
-Subject: Re: [PATCH v3] pc: hide linuxboot RNG seed behind a machine property
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Jason A . Donenfeld" <Jason@zx2c4.com>
-Content-Type: multipart/alternative; boundary="0000000000004a478b05e5e80244"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH for-7.2 v2 09/20] hw/ppc: set machine->fdt in pnv_reset()
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, david@gibson.dropbear.id.au,
+ Frederic Barrat <fbarrat@linux.ibm.com>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
+ <20220805093948.82561-10-danielhb413@gmail.com>
+ <1312fa72-d742-5528-714f-f1e5d30a9e59@kaod.org>
+ <13e63a36-dbc4-cf4c-93d0-b2cf8af2d538@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <13e63a36-dbc4-cf4c-93d0-b2cf8af2d538@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,219 +97,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004a478b05e5e80244
-Content-Type: text/plain; charset="UTF-8"
 
-Il mer 10 ago 2022, 19:06 Michael S. Tsirkin <mst@redhat.com> ha scritto:
 
-> > @@ -1387,6 +1405,7 @@ static void x86_machine_initfn(Object *obj)
-> >      x86ms->acpi = ON_OFF_AUTO_AUTO;
-> >      x86ms->pit = ON_OFF_AUTO_AUTO;
-> >      x86ms->pic = ON_OFF_AUTO_AUTO;
-> > +    x86ms->linuxboot_randomness = ON_OFF_AUTO_OFF;
-> >      x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
-> >      x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-> >      x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
->
->
-> This is a weird thing to do in that there's no way to make it auto now.
->
+On 8/8/22 04:13, Cédric Le Goater wrote:
+> On 8/8/22 08:47, Cédric Le Goater wrote:
+>> On 8/5/22 11:39, Daniel Henrique Barboza wrote:
+>>> This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
+>>> all powernv machines.
+>>
+>> I might have missed some emails but dumpdtb is already suppported :
+>> commit 8d4092614161 ("ppc/pnv: activate the "dumpdtb" option on the
+>> powernv machine")
+> 
+> ok. found the patchset "QMP/HMP: add 'dumpdtb' and 'info fdt' commands"
+> 
+> 'info fdt' would have been of great help when we were developing the
+> PowerNV machine. Initially, I was even using pmemsave to extract the
+> FDT blob ... So this is a great idea ! (which needs a g_free() )
+> 
+> Do we have something similar to dump ACPI tables, btw ?
 
-Sure, -M x-linuxboot-randomness=auto works. And making it already
-on/off/auto will limit future patches to the injection logic rather than
-the QOM boilerplate.
+In QEMU? No idea. I didn't find users of libfdt in x86 files so I didn't
+bothered checking.
 
-Paolo
+I am aware of something you can do in userland to dump the ACPI tables. I
+did it once for research when I was working in the NUMA FORM2 extension
+for pseries. This is the procedure do dump the ACPI SLIT table:
 
-And in that case, let's just make it a simple boolean property for now?
->
-> > @@ -1426,6 +1445,12 @@ static void x86_machine_class_init(ObjectClass
-> *oc, void *data)
-> >      object_class_property_set_description(oc, X86_MACHINE_PIT,
-> >          "Enable i8254 PIT");
-> >
-> > +    object_class_property_add(oc, X86_MACHINE_LINUXBOOT_RANDOMNESS,
-> "OnOffAuto",
-> > +        x86_machine_get_linuxboot_randomness,
-> x86_machine_set_linuxboot_randomness,
-> > +        NULL, NULL);
-> > +    object_class_property_set_description(oc,
-> X86_MACHINE_LINUXBOOT_RANDOMNESS,
-> > +        "Pass random number seed to -kernel Linux image");
-> > +
-> >      object_class_property_add(oc, X86_MACHINE_PIC, "OnOffAuto",
-> >                                x86_machine_get_pic,
-> >                                x86_machine_set_pic,
-> > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> > index 8435733bd6..9cc3f5d338 100644
-> > --- a/include/hw/i386/pc.h
-> > +++ b/include/hw/i386/pc.h
-> > @@ -128,9 +128,6 @@ struct PCMachineClass {
-> >
-> >      /* create kvmclock device even when KVM PV features are not exposed
-> */
-> >      bool kvmclock_create_always;
-> > -
-> > -    /* skip passing an rng seed for legacy machines */
-> > -    bool legacy_no_rng_seed;
-> >  };
-> >
-> >  #define TYPE_PC_MACHINE "generic-pc-machine"
-> > diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-> > index 62fa5774f8..d7a2eb6f1c 100644
-> > --- a/include/hw/i386/x86.h
-> > +++ b/include/hw/i386/x86.h
-> > @@ -70,6 +70,7 @@ struct X86MachineState {
-> >      OnOffAuto acpi;
-> >      OnOffAuto pit;
-> >      OnOffAuto pic;
-> > +    OnOffAuto linuxboot_randomness;
-> >
-> >      char *oem_id;
-> >      char *oem_table_id;
-> > @@ -94,6 +95,7 @@ struct X86MachineState {
-> >  #define X86_MACHINE_OEM_ID           "x-oem-id"
-> >  #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
-> >  #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
-> > +#define X86_MACHINE_LINUXBOOT_RANDOMNESS "x-linuxboot-randomness"
-> >
-> >  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
-> >  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-> > @@ -126,8 +128,7 @@ void x86_bios_rom_init(MachineState *ms, const char
-> *default_firmware,
-> >  void x86_load_linux(X86MachineState *x86ms,
-> >                      FWCfgState *fw_cfg,
-> >                      int acpi_data_size,
-> > -                    bool pvh_enabled,
-> > -                    bool legacy_no_rng_seed);
-> > +                    bool pvh_enabled);
-> >
-> >  bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
-> >  bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
-> > --
-> > 2.37.1
->
->
 
---0000000000004a478b05e5e80244
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+danielhb@ubuntu-vm:~$ sudo acpidump > acpidata.dat
+[sudo] password for danielhb:
+danielhb@ubuntu-vm:~$
+danielhb@ubuntu-vm:~$ sudo acpixtract -sSLIT acpidata.dat
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mer 10 ago 2022, 19:06 Michael S. Tsirkin &lt;<a hr=
-ef=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; ha scritto:</div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">
-&gt; @@ -1387,6 +1405,7 @@ static void x86_machine_initfn(Object *obj)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 x86ms-&gt;acpi =3D ON_OFF_AUTO_AUTO;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 x86ms-&gt;pit =3D ON_OFF_AUTO_AUTO;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 x86ms-&gt;pic =3D ON_OFF_AUTO_AUTO;<br>
-&gt; +=C2=A0 =C2=A0 x86ms-&gt;linuxboot_randomness =3D ON_OFF_AUTO_OFF;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 x86ms-&gt;pci_irq_mask =3D ACPI_BUILD_PCI_IRQS;<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 x86ms-&gt;oem_id =3D g_strndup(ACPI_BUILD_APPNAME6=
-, 6);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 x86ms-&gt;oem_table_id =3D g_strndup(ACPI_BUILD_AP=
-PNAME8, 8);<br>
-<br>
-<br>
-This is a weird thing to do in that there&#39;s no way to make it auto now.=
-<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-Sure, -M x-linuxboot-randomness=3Dauto works. And making it already on/off/=
-auto will limit future patches to the injection logic rather than the QOM b=
-oilerplate.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">
-And in that case, let&#39;s just make it a simple boolean property for now?=
-<br>
-<br>
-&gt; @@ -1426,6 +1445,12 @@ static void x86_machine_class_init(ObjectClass =
-*oc, void *data)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 object_class_property_set_description(oc, X86_MACH=
-INE_PIT,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Enable i8254 PIT&quot;);<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 object_class_property_add(oc, X86_MACHINE_LINUXBOOT_RAN=
-DOMNESS, &quot;OnOffAuto&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 x86_machine_get_linuxboot_randomness, x86=
-_machine_set_linuxboot_randomness,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL);<br>
-&gt; +=C2=A0 =C2=A0 object_class_property_set_description(oc, X86_MACHINE_L=
-INUXBOOT_RANDOMNESS,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Pass random number seed to -kernel =
-Linux image&quot;);<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 object_class_property_add(oc, X86_MACHINE_PIC, &qu=
-ot;OnOffAuto&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x86_machine_get_pic,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x86_machine_set_pic,<br>
-&gt; diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
-&gt; index 8435733bd6..9cc3f5d338 100644<br>
-&gt; --- a/include/hw/i386/pc.h<br>
-&gt; +++ b/include/hw/i386/pc.h<br>
-&gt; @@ -128,9 +128,6 @@ struct PCMachineClass {<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 /* create kvmclock device even when KVM PV feature=
-s are not exposed */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool kvmclock_create_always;<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 /* skip passing an rng seed for legacy machines */<br>
-&gt; -=C2=A0 =C2=A0 bool legacy_no_rng_seed;<br>
-&gt;=C2=A0 };<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #define TYPE_PC_MACHINE &quot;generic-pc-machine&quot;<br>
-&gt; diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h<br>
-&gt; index 62fa5774f8..d7a2eb6f1c 100644<br>
-&gt; --- a/include/hw/i386/x86.h<br>
-&gt; +++ b/include/hw/i386/x86.h<br>
-&gt; @@ -70,6 +70,7 @@ struct X86MachineState {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 OnOffAuto acpi;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 OnOffAuto pit;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 OnOffAuto pic;<br>
-&gt; +=C2=A0 =C2=A0 OnOffAuto linuxboot_randomness;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 char *oem_id;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 char *oem_table_id;<br>
-&gt; @@ -94,6 +95,7 @@ struct X86MachineState {<br>
-&gt;=C2=A0 #define X86_MACHINE_OEM_ID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;x-oem-id&quot;<br>
-&gt;=C2=A0 #define X86_MACHINE_OEM_TABLE_ID=C2=A0 =C2=A0 =C2=A0&quot;x-oem-=
-table-id&quot;<br>
-&gt;=C2=A0 #define X86_MACHINE_BUS_LOCK_RATELIMIT=C2=A0 &quot;bus-lock-rate=
-limit&quot;<br>
-&gt; +#define X86_MACHINE_LINUXBOOT_RANDOMNESS &quot;x-linuxboot-randomness=
-&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #define TYPE_X86_MACHINE=C2=A0 =C2=A0MACHINE_TYPE_NAME(&quot;x86=
-&quot;)<br>
-&gt;=C2=A0 OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHIN=
-E)<br>
-&gt; @@ -126,8 +128,7 @@ void x86_bios_rom_init(MachineState *ms, const cha=
-r *default_firmware,<br>
-&gt;=C2=A0 void x86_load_linux(X86MachineState *x86ms,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 FWCfgState *fw_cfg,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 int acpi_data_size,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- bool pvh_enabled,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- bool legacy_no_rng_seed);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- bool pvh_enabled);<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);<b=
-r>
-&gt;=C2=A0 bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);<=
-br>
-&gt; -- <br>
-&gt; 2.37.1<br>
-<br>
-</blockquote></div></div></div>
+Intel ACPI Component Architecture
+ACPI Binary Table Extraction Utility version 20200925
+Copyright (c) 2000 - 2020 Intel Corporation
 
---0000000000004a478b05e5e80244--
+   SLIT -      60 bytes written (0x0000003C) - slit.dat
+danielhb@ubuntu-vm:~$
+danielhb@ubuntu-vm:~$ iasl -d slit.dat
 
+Intel ACPI Component Architecture
+ASL+ Optimizing Compiler/Disassembler version 20200925
+Copyright (c) 2000 - 2020 Intel Corporation
+
+File appears to be binary: found 24 non-ASCII characters, disassembling
+Binary file appears to be a valid ACPI table, disassembling
+Input file slit.dat, Length 0x3C (60) bytes
+ACPI: SLIT 0x0000000000000000 00003C (v01 BOCHS  BXPCSLIT 00000001 BXPC 00000001)
+Acpi Data Table [SLIT] decoded
+Formatted output:  slit.dsl - 1489 bytes
+danielhb@ubuntu-vm:~$
+danielhb@ubuntu-vm:~$ cat slit.dsl
+/*
+  * Intel ACPI Component Architecture
+  * AML/ASL+ Disassembler version 20200925 (64-bit version)
+  * Copyright (c) 2000 - 2020 Intel Corporation
+  *
+  * Disassembly of slit.dat, Wed Jun  2 19:00:54 2021
+  *
+  * ACPI Data Table [SLIT]
+  *
+  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
+  */
+
+[000h 0000   4]                    Signature : "SLIT"    [System Locality Information Table]
+[004h 0004   4]                 Table Length : 0000003C
+[008h 0008   1]                     Revision : 01
+[009h 0009   1]                     Checksum : A0
+[00Ah 0010   6]                       Oem ID : "BOCHS "
+[010h 0016   8]                 Oem Table ID : "BXPCSLIT"
+[018h 0024   4]                 Oem Revision : 00000001
+[01Ch 0028   4]              Asl Compiler ID : "BXPC"
+[020h 0032   4]        Asl Compiler Revision : 00000001
+
+[024h 0036   8]                   Localities : 0000000000000004
+[02Ch 0044   4]                 Locality   0 : 0A 16 16 16
+[030h 0048   4]                 Locality   1 : 2C 0A 2C 2C
+[034h 0052   4]                 Locality   2 : 42 42 0A 42
+[038h 0056   4]                 Locality   3 : 58 58 58 0A
+
+Raw Table Data: Length 60 (0x3C)
+
+     0000: 53 4C 49 54 3C 00 00 00 01 A0 42 4F 43 48 53 20  // SLIT<.....BOCHS
+     0010: 42 58 50 43 53 4C 49 54 01 00 00 00 42 58 50 43  // BXPCSLIT....BXPC
+     0020: 01 00 00 00 04 00 00 00 00 00 00 00 0A 16 16 16  // ................
+     0030: 2C 0A 2C 2C 42 42 0A 42 58 58 58 0A              // ,.,,BB.BXXX.
+danielhb@ubuntu-vm:~$
+
+
+So basically a combination of acpidump and acpixtract commands in the guest.
+
+
+Daniel
+
+
+> 
+> Thanks,
+> 
+> C.
+> 
+> 
+>>>
+>>> Cc: Cédric Le Goater <clg@kaod.org>
+>>> Cc: Frederic Barrat <fbarrat@linux.ibm.com>
+>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> ---
+>>>   hw/ppc/pnv.c | 6 +++++-
+>>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>>> index d3f77c8367..f5162f8b7b 100644
+>>> --- a/hw/ppc/pnv.c
+>>> +++ b/hw/ppc/pnv.c
+>>> @@ -608,7 +608,11 @@ static void pnv_reset(MachineState *machine)
+>>>       qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
+>>>       cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
+>>> -    g_free(fdt);
+>>> +    /*
+>>> +     * Update the machine->fdt pointer to enable support for
+>>> +     * 'dumpdtb' and 'info fdt' commands.
+>>> +     */
+>>> +    machine->fdt = fdt;
+>>>   }
+>>>   static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **errp)
+>>
+> 
 
