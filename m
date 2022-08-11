@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4A8590050
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 17:41:28 +0200 (CEST)
-Received: from localhost ([::1]:44370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6346D590052
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 17:41:34 +0200 (CEST)
+Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMAJL-0007dX-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 11:41:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50274)
+	id 1oMAJR-0007q2-AA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 11:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oMAGJ-00033C-2l
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:38:19 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:49800 helo=cstnet.cn)
+ id 1oMAGS-00036m-4H; Thu, 11 Aug 2022 11:38:28 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:49836 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oMAGF-00023L-Pr
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:38:18 -0400
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oMAGO-00026A-VV; Thu, 11 Aug 2022 11:38:27 -0400
 Received: from localhost.localdomain (unknown [159.226.43.62])
- by APP-01 (Coremail) with SMTP id qwCowAA3GFlSIvViGUPiBw--.35837S2;
- Thu, 11 Aug 2022 23:38:00 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowAA3GFlSIvViGUPiBw--.35837S3;
+ Thu, 11 Aug 2022 23:38:13 +0800 (CST)
 From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 To: qemu-devel@nongnu.org
 Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Subject: [PATCH 0/4] hw/nvme: add irqfd support
-Date: Thu, 11 Aug 2022 23:37:35 +0800
-Message-Id: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org (open list:nvme)
+Subject: [PATCH 1/4] hw/nvme: avoid unnecessary call to irq (de)assertion
+ functions
+Date: Thu, 11 Aug 2022 23:37:36 +0800
+Message-Id: <20220811153739.3079672-2-fanjinhao21s@ict.ac.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
+References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAA3GFlSIvViGUPiBw--.35837S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF4xJFyxZw45GF4DZFyrZwb_yoWDWFgE9F
- 10y34rC3WUXanayFyDWF17XryUKayrGw1Ut3WqqFy2qr409r98Wr1vyr1UZF48ZFW5Xr13
- XryDJryrury2gjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbz8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
- Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
- rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
- vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
- x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
- xKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
- 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoT5lUUUUU
+X-CM-TRANSID: qwCowAA3GFlSIvViGUPiBw--.35837S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1xKw15uF4fZFy8KryDKFg_yoW8Kr1kpa
+ 93W3WSkrWxWry2gw17ta47Xw1rXw4fZr1DArs3ta4xJwn3Ary5JFWrGryxGF9xZFZ7XrW5
+ ArZ3JF4xu3WrX37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+ x26xkF7I0E14v26r1Y6r1xM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+ vE14v26r1j6r18McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+ Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0264kExVAvwVAq07x20x
+ yl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWU
+ JVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7V
+ AKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW8JVW3JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42
+ IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUnLvtDUUUU
 X-Originating-IP: [159.226.43.62]
 X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
 Received-SPF: pass client-ip=159.226.251.21;
@@ -72,27 +75,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series changes qemu-nvme's interrupt emulation to use event
-notifiers, which can ensure thread-safe interrupt delivery when iothread
-is used. In the first two patches, I convert qemu-nvme's IO emulation
-logic to send irq via eventfd, so that the actual assertion and
-deassertion is always done in the main loop thread with BQL held. In the
-third patch, support is added to send irq via KVM irqfd, bypassing
-qemu's MSI-x emulation. In the last patch, I add MSI-x mask handlers
-when irqfd is enabled so that qemu-nvme knows which vector is masked
-even when qemu's MSI-x emulation is bypassed.
+nvme_irq_assert() only does useful work when cq->irq_enabled is true.
+nvme_irq_deassert() only works for pin-based interrupts. Avoid calls
+into these functions if we are sure they will not do useful work.
 
-Jinhao Fan (4):
-  hw/nvme: avoid unnecessary call to irq (de)assertion functions
-  hw/nvme: add option to (de)assert irq with eventfd
-  hw/nvme: use irqfd to send interrupts
-  hw/nvme: add MSI-x mask handlers for irqfd
+This will be most useful when we use eventfd to send interrupts. We
+can avoid the unnecessary overhead of signalling eventfd.
 
- hw/nvme/ctrl.c       | 251 +++++++++++++++++++++++++++++++++++++++----
- hw/nvme/nvme.h       |   7 ++
- hw/nvme/trace-events |   3 +
- 3 files changed, 243 insertions(+), 18 deletions(-)
+Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+---
+ hw/nvme/ctrl.c | 40 ++++++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 87aeba0564..bd3350d7e0 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1377,11 +1377,13 @@ static void nvme_post_cqes(void *opaque)
+         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+     }
+     if (cq->tail != cq->head) {
+-        if (cq->irq_enabled && !pending) {
+-            n->cq_pending++;
+-        }
++        if (cq->irq_enabled) {
++            if (!pending) {
++                n->cq_pending++;
++            }
+ 
+-        nvme_irq_assert(n, cq);
++            nvme_irq_assert(n, cq);
++        }
+     }
+ }
+ 
+@@ -4244,12 +4246,11 @@ static void nvme_cq_notifier(EventNotifier *e)
+ 
+     nvme_update_cq_head(cq);
+ 
+-    if (cq->tail == cq->head) {
+-        if (cq->irq_enabled) {
+-            n->cq_pending--;
++    if (cq->irq_enabled && cq->tail == cq->head) {
++        n->cq_pending--;
++        if (!msix_enabled(&n->parent_obj)) {
++            nvme_irq_deassert(n, cq);
+         }
+-
+-        nvme_irq_deassert(n, cq);
+     }
+ 
+     nvme_post_cqes(cq);
+@@ -4730,11 +4731,15 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_INVALID_QUEUE_DEL;
+     }
+ 
+-    if (cq->irq_enabled && cq->tail != cq->head) {
+-        n->cq_pending--;
+-    }
++    if (cq->irq_enabled) {
++        if (cq->tail != cq->head) {
++            n->cq_pending--;
++        }
+ 
+-    nvme_irq_deassert(n, cq);
++        if (!msix_enabled(&n->parent_obj)) {
++            nvme_irq_deassert(n, cq);
++        }
++    }
+     trace_pci_nvme_del_cq(qid);
+     nvme_free_cq(cq, n);
+     return NVME_SUCCESS;
+@@ -6918,12 +6923,11 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+             timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+         }
+ 
+-        if (cq->tail == cq->head) {
+-            if (cq->irq_enabled) {
+-                n->cq_pending--;
++        if (cq->irq_enabled && cq->tail == cq->head) {
++            n->cq_pending--;
++            if (!msix_enabled(&n->parent_obj)) {
++                nvme_irq_deassert(n, cq);
+             }
+-
+-            nvme_irq_deassert(n, cq);
+         }
+     } else {
+         /* Submission queue doorbell write */
 -- 
 2.25.1
 
