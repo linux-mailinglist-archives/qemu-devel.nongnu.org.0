@@ -2,78 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB6058FD3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:17:30 +0200 (CEST)
-Received: from localhost ([::1]:38934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270EE58FD59
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:27:14 +0200 (CEST)
+Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM841-0005qS-7b
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
+	id 1oM8DQ-0004wd-OI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oM7yH-0005PT-Oy
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:11:33 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:43757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oM7yF-0002S5-Sg
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:11:33 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- ay39-20020a05600c1e2700b003a5503a80cfso2651688wmb.2
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 06:11:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=k68GJCsXzp4pYyzictD/vspk8Hpg7R7QnHN8rfSxOlU=;
- b=ZBTQiJIC215CmXzdV37UFZ4WCS42JrrBrEZVMf2Hp7Xo43l3MuX3fKDOC73dljc5WD
- qQEfb79zsPeeddg1O+UkdspzHmiMhpD8F1WLv5pcwTXFZDFC4qFvymHMk2cM5+C80yJ+
- 1DoesFboaPFvNf+Czl4vXHjctZIxOBzICxOy1ZYO10BNVtcJcEP1vwQt50w4/NlsYxRw
- hu8AoRwAcOzYLCJBLztYpzEu19t3+xa3AB460K7ef3wq51gMBQRrN/+13mkNaGqarxc4
- mKwK+JB6wFtIAVh3jLJbcNRJeEfJfuLc2vMwm0Z4NAsRbzfU7e7mFY0O7+0XnuJl+Xxk
- 77pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=k68GJCsXzp4pYyzictD/vspk8Hpg7R7QnHN8rfSxOlU=;
- b=B20xiFVYj1aUN8/eJxzekRHUt1Z+XloQgMUqCe+HnkB+9tXVLf9rls/mpkkRZ8LXGy
- J2uK5VcLHofUO2pbdidw9gqFrgPQqMpyhVgQtYbbxY+pQ7b/VodJumsWnN4MdTzKtXmN
- t9Ov24+fioBgcgO2puRRCwX8Ua+UxAgEIOEoEATABzZp2Km3PgHYnohNLc79K9s/xJdp
- O/szgICjAVILx08L1rmASqKc4AofjdS0nI8QBQFRPIc6WLyQqOnMZ7oEI3d7IE/Ke98i
- ypgVfoRuDl4EtpimdKb4/LK2UjLjaRAo5hjil6dFlGHFK/lGMDQcgyuvlPyPqlpSI7lc
- pl3A==
-X-Gm-Message-State: ACgBeo3NUV/ffkm8e2lA+IpAvpqU3h6GIQjrrtIs/97+ihsj1iPfHEax
- 9ypcf+XDe3Xd1OwyoIQ20YF90w==
-X-Google-Smtp-Source: AA6agR4MTh+RhYfKKhzH0KPjVUWf1V5e1NENsytXxOqRg8OR53m56vf67aeyJ3nXWM9LgKO/3MmHdQ==
-X-Received: by 2002:a05:600c:1c83:b0:3a3:2631:2fec with SMTP id
- k3-20020a05600c1c8300b003a326312fecmr5448604wms.155.1660223490337; 
- Thu, 11 Aug 2022 06:11:30 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- b3-20020a05600010c300b002206261cb6esm18785693wrx.66.2022.08.11.06.11.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 06:11:29 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Zenghui Yu <yuzenghui@huawei.com>
-Subject: [PATCH for-7.1] target/arm: Don't report Statistical Profiling
- Extension in ID registers
-Date: Thu, 11 Aug 2022 14:11:27 +0100
-Message-Id: <20220811131127.947334-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oM8A5-0000cQ-Ab
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:23:45 -0400
+Received: from mga07.intel.com ([134.134.136.100]:10588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oM8A3-0004SP-1V
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:23:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660224223; x=1691760223;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=TXGp2l7srz7CG/35HC62yaH3SzOuZ/KTY0IN1dEpGAI=;
+ b=J146/Uf9hWjToUswt2dku2nRIqli9IhBzm0I61O5WbvDEPxckWwIDm6q
+ GUIjo3iDvhwoaihU5JaLuOenCP10PAZOobIvBDC1EB+rr2CDJ/MjIJicK
+ XQjqoRRb12P+G2oozKyV33U9fPIQr1N9cYJT5+RuAoO22otB1C5mnPZTA
+ pRCTYOoUZm3LYJtgs5IWaZTVtmWtDLU7OlZQRdxKXelpFGWaeMvwt7t5p
+ iBuEASJ66O5aetkm/meRyHWXF6A+ZRHzJp+T8YGEsk1y1CRfOZ2N/+3Kw
+ Y1lV5MC78cbsiCeSKG0q0qzlcA/fwqhSpTBk/uW85b9OaJ3cy3McjTv7u Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="355345868"
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="355345868"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 06:22:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="608920719"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2022 06:22:23 -0700
+Date: Thu, 11 Aug 2022 21:17:38 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Message-ID: <20220811131738.GA916119@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
+ <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+ <20220810093741.GE862421@chaop.bj.intel.com>
+ <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
+Received-SPF: none client-ip=134.134.136.100;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,61 +99,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The newly added neoverse-n1 CPU has ID register values which indicate
-the presence of the Statistical Profiling Extension, because the real
-hardware has this feature.  QEMU's TCG emulation does not yet
-implement SPE, though (not even as a minimal stub implementation), so
-guests will crash if they try to use it because the SPE system
-registers don't exist.
+On Wed, Aug 10, 2022 at 11:55:19AM +0200, David Hildenbrand wrote:
+> On 10.08.22 11:37, Chao Peng wrote:
+> > On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
+> >> On 06.07.22 10:20, Chao Peng wrote:
+> >>> Introduce a new memfd_create() flag indicating the content of the
+> >>> created memfd is inaccessible from userspace through ordinary MMU
+> >>> access (e.g., read/write/mmap). However, the file content can be
+> >>> accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> >>>
+> >>> It provides semantics required for KVM guest private memory support
+> >>> that a file descriptor with this flag set is going to be used as the
+> >>> source of guest memory in confidential computing environments such
+> >>> as Intel TDX/AMD SEV but may not be accessible from host userspace.
+> >>>
+> >>> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+> >>> also impossible for a memfd created with this flag.
+> >>
+> >> It's kind of weird to have it that way. Why should the user have to
+> >> care? It's the notifier requirement to have that, no?
+> >>
+> >> Why can't we handle that when register a notifier? If anything is
+> >> already mapped, fail registering the notifier if the notifier has these
+> >> demands. If registering succeeds, block it internally.
+> >>
+> >> Or what am I missing? We might not need the memfile set flag semantics
+> >> eventually and would not have to expose such a flag to user space.
+> > 
+> > This makes sense if doable. The major concern was: is there a reliable
+> > way to detect this (already mapped) at the time of memslot registering.
+> 
+> If too complicated, we could simplify to "was this ever mapped" and fail
+> for now. Hooking into shmem_mmap() might be sufficient for that to get
+> notified about the first mmap.
+> 
+> As an alternative, mapping_mapped() or similar *might* do what we want.
 
-Force ID_AA64DFR0_EL1.PMSVer to 0 in CPU realize for TCG, so that
-we don't advertise to the guest a feature that doesn't exist.
+mapping_mapped() sounds the right one, I remember SEV people want first
+map then unmap. "was this ever mapped" may not work for them.
 
-(We could alternatively do this by editing the value that
-aarch64_neoverse_n1_initfn() sets for this ID register, but
-suppressing the field in realize means we won't re-introduce this bug
-when we add other CPUs that have SPE in hardware, such as the
-Neoverse-V1.)
-
-An example of a non-booting guest is current mainline Linux (5.19),
-when booting in EL2 on the virt board (ie with -machine
-virtualization=on).
-
-Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-I think we missed this earlier because it happens not to be hit if
-you boot the kernel into EL1, only EL2.
----
- target/arm/cpu.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 1b7b3d76bb3..7ec3281da9a 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1933,6 +1933,17 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- #endif
- 
-+    if (tcg_enabled()) {
-+        /*
-+         * Don't report the Statistical Profiling Extension in the ID
-+         * registers, because TCG doesn't implement it yet (not even a
-+         * minimal stub version) and guests will fall over when they
-+         * try to access the non-existent system registers for it.
-+         */
-+        cpu->isar.id_aa64dfr0 =
-+            FIELD_DP64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, PMSVER, 0);
-+    }
-+
-     /* MPU can be configured out of a PMSA CPU either by setting has-mpu
-      * to false or by setting pmsav7-dregion to 0.
-      */
--- 
-2.25.1
-
+Thanks,
+Chao
+> 
+> 
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
