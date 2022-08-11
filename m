@@ -2,83 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8077A58F9C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 11:12:06 +0200 (CEST)
-Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB1358F9FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 11:21:58 +0200 (CEST)
+Received: from localhost ([::1]:48580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM4EX-0003QA-Ec
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 05:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
+	id 1oM4O5-0007yI-7k
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 05:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM48H-0006rM-CL
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:05:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24719)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1oM4J2-0004lL-16
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:16:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM48C-0001Gs-WE
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:05:35 -0400
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1oM4Iy-0003dR-Bv
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:16:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660208732;
+ s=mimecast20190719; t=1660209396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HxaTeXArh9Dmhd/qkwRjm/YBGtJB0bayEncmLzJMP+Y=;
- b=iMSOiMlVgUBj4oZa8AhRNysF4d6BU436vxg3k2O5rSFtrQ07wTftIlvygxCBpledwi8LSB
- ar0gRpS5YFiYz1sxT9cobQIUbdNg3MKVHAlHXUW+wy4dhfcMPD4GZF7eIvbcFE1EMSBUSs
- dl0MPeyBhZizNEZrSL8fCuJbXZah1No=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-CXBkncfPO9ezu4gG_yxNEQ-1; Thu, 11 Aug 2022 05:05:29 -0400
-X-MC-Unique: CXBkncfPO9ezu4gG_yxNEQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 846091857F08;
- Thu, 11 Aug 2022 09:05:28 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BA6D40D2827;
- Thu, 11 Aug 2022 09:05:27 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6357621E668B; Thu, 11 Aug 2022 11:05:26 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Cleber Rosa
- <crosa@redhat.com>,  qemu-block@nongnu.org,  Paolo Bonzini
- <pbonzini@redhat.com>,  Xie Yongji <xieyongji@bytedance.com>,  Kyle Evans
- <kevans@freebsd.org>,  Peter Maydell <peter.maydell@linaro.org>,  John
- Snow <jsnow@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Warner
- Losh <imp@bsdimp.com>,  Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  Laurent Vivier <laurent@vivier.eu>,  Fam
- Zheng <fam@euphon.net>,  Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
-References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
- <20220712093528.4144184-12-marcandre.lureau@redhat.com>
- <87pmhf86ew.fsf@pond.sub.org>
- <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
- <8735e38e6t.fsf@pond.sub.org>
- <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
-Date: Thu, 11 Aug 2022 11:05:26 +0200
-In-Reply-To: <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
- (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Thu, 11 Aug 2022
- 11:11:15 +0400")
-Message-ID: <87o7wr5ew9.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ bh=27EQecvAHke1dbw+GfKQoc9CD0N4revzVpBHrthUUzM=;
+ b=PXdqJ/7EgFuqUdn9EClqS0CFKKFl/SaKtCHoSELtZptG/9ujDP8LIxz1IBhMc0C6CqLeBr
+ UglO6mb2FQckza8nhdzqUbtZnHby2XbCIQ5DpzvhgMxcFla3mcRB5wfScpOqb/5si+VWCu
+ e3lIghLXEaza5fHoDwY7+GifkXMeKdo=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-553-fJ0Y_GTvOea8nP9JSYmtDQ-1; Thu, 11 Aug 2022 05:16:33 -0400
+X-MC-Unique: fJ0Y_GTvOea8nP9JSYmtDQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ p6-20020a9f3806000000b00384ca6cf4c3so3334217uad.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 02:16:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc;
+ bh=27EQecvAHke1dbw+GfKQoc9CD0N4revzVpBHrthUUzM=;
+ b=xgeAohyeEPRzLYpqVsTmAgvvYVh9dN4UbFZzYoeJqEctr7vdsVaRHTU11deuVfQIYu
+ dxerRzULlvxWwj/EJl36R4tx6ociD1PnZOKOi1FkWd3ajd6J7lexnBMn5oKbS5vQ/Tuc
+ nDsUvnv+aVQvv/DtW43MON2BQBQBP691uWKWRTUAAZ1HuvID5bxYOMWj4aJrmUSfw9Zo
+ GrB37QiUHRerQIuIcYgWkRviBlaM2sn7F4a0W8eiBCr/xUm1xwAp2BbKLJkFZCYRFFPi
+ iYxpbG69U4z4NeP1Se20xFqpg3A0dRaNancrYa09Vh/YHcYSO/5EqEJSRnthnwR6SCzd
+ Uqeg==
+X-Gm-Message-State: ACgBeo0GuUzv0VTKR+f7GhnjPksgSroykOxiSps/1bieMY421LUhxqTa
+ rBxV9EG9/PSsPA6boe2FfOWXt5hinV4bkd8QuLg7UN1rCjm/EQ8Jy/DPp5b+XEqw6WmHNT2WcOG
+ hAhUHmq+t5gkyxq8=
+X-Received: by 2002:a1f:1d93:0:b0:37b:c50d:a055 with SMTP id
+ d141-20020a1f1d93000000b0037bc50da055mr4454036vkd.21.1660209392679; 
+ Thu, 11 Aug 2022 02:16:32 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4Q7XiTVKPmpw3Pqj4p+t5NdfK17Nv2uwYOeQOK5D3zASFH1wLR6Iehkc+6obtLIcud/HgWiA==
+X-Received: by 2002:a1f:1d93:0:b0:37b:c50d:a055 with SMTP id
+ d141-20020a1f1d93000000b0037bc50da055mr4454028vkd.21.1660209392475; 
+ Thu, 11 Aug 2022 02:16:32 -0700 (PDT)
+Received: from ?IPv6:2804:1b3:a800:5713:6880:fd74:a3e5:2086?
+ ([2804:1b3:a800:5713:6880:fd74:a3e5:2086])
+ by smtp.gmail.com with ESMTPSA id
+ g19-20020a056122063300b00376f4f93745sm1476493vkp.10.2022.08.11.02.16.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Aug 2022 02:16:31 -0700 (PDT)
+Message-ID: <b46a95640229beaabf8bc7af1254f9a95d23fbfb.camel@redhat.com>
+Subject: Re: [PATCH v7 07/12] multifd: Prepare to send a packet without the
+ mutex held
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>, Eric Blake
+ <eblake@redhat.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <f4bug@amsat.org>,  Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster
+ <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+Date: Thu, 11 Aug 2022 06:16:28 -0300
+In-Reply-To: <20220802063907.18882-8-quintela@redhat.com>
+References: <20220802063907.18882-1-quintela@redhat.com>
+ <20220802063907.18882-8-quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Evolution 3.44.3 
+MIME-Version: 1.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,136 +107,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
+> We do the send_prepare() and the fill of the head packet without the
+> mutex held.  It will help a lot for compression and later in the
+> series for zero pages.
+>=20
+> Notice that we can use p->pages without holding p->mutex because
+> p->pending_job =3D=3D 1.
+>=20
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  migration/multifd.h |  2 ++
+>  migration/multifd.c | 11 ++++++-----
+>  2 files changed, 8 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index a67cefc0a2..cd389d18d2 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -109,7 +109,9 @@ typedef struct {
+>      /* array of pages to sent.
+>       * The owner of 'pages' depends of 'pending_job' value:
+>       * pending_job =3D=3D 0 -> migration_thread can use it.
+> +     *                     No need for mutex lock.
+>       * pending_job !=3D 0 -> multifd_channel can use it.
+> +     *                     No need for mutex lock.
+>       */
+>      MultiFDPages_t *pages;
+> =20
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 09a40a9135..68fc9f8e88 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -663,6 +663,8 @@ static void *multifd_send_thread(void *opaque)
+>                  p->flags |=3D MULTIFD_FLAG_SYNC;
+>                  p->sync_needed =3D false;
+>              }
+> +            qemu_mutex_unlock(&p->mutex);
+> +
 
-> Hi
->
-> On Thu, Aug 11, 2022 at 10:52 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
->
->> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
->>
->> > Hi
->> >
->> > On Fri, Aug 5, 2022 at 12:12 PM Markus Armbruster <armbru@redhat.com>
->> wrote:
->> >
->> >> marcandre.lureau@redhat.com writes:
->> >>
->> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >> >
->> >> > This is just moving qapi-gen.py and related subdir to qemu-common, =
-to
->> >> > ease review and proceed step by step. The following patches will mo=
-ve
->> >> > related necessary code, tests etc.
->> >> >
->> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >>
->> >> As moved files tend to become low-level annoyances for a long time, I=
-'d
->> >> like to understand why you want to move them.  The commit message says
->> >> "to ease review", which I suspect isn't the real reason.  Perhaps you
->> >> explained all that elsewhere already, but I missed it.
->> >>
->> >>
->> >>
->> > The end goal is to split some projects, such as qemu-ga, to standalone
->> > meson projects/subprojects. We will be able to build them independently
->> > from the rest of QEMU, and later on perhaps handle them outside of QEMU
->> > main repository. To achieve this, I first introduce a qemu-common
->> > subproject, where qapi and common units are provided. You can check
->> > https://gitlab.com/marcandre.lureau/qemu/-/commits/qga for a sneak pee=
-k at
->> > current end result.
->>
->> I worry this move of the QAPI generator code into
->> subjprojects/common/scripts/qapi/ will be followed by a move into its
->> own subproject.
->>
->
-> Do you mean: it could be moved again to another smaller subproject? not
-> really, see below
->
->
->> Ignorant question: could we turn the QAPI generator into a subproject in
->> place?
->>
->
-> If it's just the generator, probably the target would then be a python
-> project (not meson), similar to python-qemu-qmp.
->
-> But I don't see much point, since it's not really a standalone python
-> module, it generates code, and that code needs most of what is in
-> qemu-common (see
-> https://gitlab.com/marcandre.lureau/qemu/-/tree/qga/subprojects/qemu-comm=
-on).
-> It's best to have it together imho. Maybe we can consider a different
-> naming or to be more careful not to add stuff that is not strictly needed
-> by qapi?
+If it unlocks here, we will have unprotected:
+for (int i =3D 0; i < p->pages->num; i++) {
+    p->normal[p->normal_num] =3D p->pages->offset[i];
+    p->normal_num++;
+}
 
-I had a look at subjprojects/qemu-common in your qga branch.  Contents:
+And p->pages seems to be in the mutex-protected area.
+Should it be ok?
 
-* Subproject machinery
+Also, under that we have:
+            if (p->normal_num) {
+                ret =3D multifd_send_state->ops->send_prepare(p, &local_err=
+);
+                if (ret !=3D 0) {
+                    qemu_mutex_unlock(&p->mutex);
+                    break;
+                }
+            }
 
-* Some common headers (glib-compat.h), but not others (qemu/osdep.h).  I
-  guess it's whatever subjproject code needs.
+Calling mutex_unlock() here, even though the unlock already happened before=
+,
+could cause any issue?
 
-  Is subprojects/qemu-common/include/block/nvme.h there by accident?
 
-* Most of the QObject subsystem
+>              p->normal_num =3D 0;
+> =20
+>              if (use_zero_copy_send) {
+> @@ -684,11 +686,6 @@ static void *multifd_send_thread(void *opaque)
+>                  }
+>              }
+>              multifd_send_fill_packet(p);
+> -            p->num_packets++;
+> -            p->total_normal_pages +=3D p->normal_num;
+> -            p->pages->num =3D 0;
+> -            p->pages->block =3D NULL;
+> -            qemu_mutex_unlock(&p->mutex);
+> =20
+>              trace_multifd_send(p->id, packet_num, p->normal_num, p->flag=
+s,
+>                                 p->next_packet_size);
+> @@ -713,6 +710,10 @@ static void *multifd_send_thread(void *opaque)
+>              }
+> =20
+>              qemu_mutex_lock(&p->mutex);
+> +            p->num_packets++;
+> +            p->total_normal_pages +=3D p->normal_num;
+> +            p->pages->num =3D 0;
+> +            p->pages->block =3D NULL;
+>              p->sent_bytes +=3D p->packet_len;;
+>              p->sent_bytes +=3D p->next_packet_size;
+>              p->pending_job--;
 
-  qobject/block-qdict.c is left behind.
+Not used in the interval, this part seems ok.
 
-* Most of the QAPI subsystem
-
-  Some visitors left behind: opts, forward, string input / output.  Hmm,
-  only the .c, the .h are in the subjproject.  Accident?
-
-  A bit of HMP support left behind.
-
-* Parts of util/ and include/qemu/
-
-  Error reporting, key-value CLI, some C utilities, but not others
-  (e.g. qemu/atomic.h, but not qemu/atomic128.h).  I guess it's again
-  whatever subjproject code needs.
-
-* Parts of the QAPI Schema subsystem
-
-Aside: MAINTAINERS mostly not updated.
-
-Your moves tear closely related code apart.  This is going to be a drag
-for developers in general and maintainers in particular.
-
-Ergonomics suffer when related code is in multiple places.  Having to
-switch between directories and remember where is what will a constant
-low-level pain.  Things that used to be simple & quick, like git-grep
-qapi/*.c, become more involved.
-
-Hurts even when merely consuming the subsystem: when I see #include
-"qemu/foo.h", the straightforward include/qemu/foo.h may or may not do.
-When it doesn't, I need to know where to look instead.
-
-subprojects/qemu-common/include/ is a lot to type.  Sufficiently
-powerful editors mitigate, but not completely.
-
-When changes need to be applied to every instance of an abstraction,
-it's easy to miss instances "elsewhere".  There's a reason the QAPI
-visitors are all in one place.
-
-The actual split seems somewhat arbitrary in places.  I suspect more
-code will move over time.  Invalidating "what is where" knowledge.
-
-I believe a serious think about other ways to accomplish your goals is
-called for.
-
-> (fwiw, it's a bit of a shame python-qemu-qmp didn't import git history fr=
-om
-> qemu.. we did better with libslirp. If we ever move code in standalone
-> repositories again, we should be careful to keep history with it)
-
-Yes, we should preserve history whenever practical.
-
-[...]
+Best regards,
+Leo
 
 
