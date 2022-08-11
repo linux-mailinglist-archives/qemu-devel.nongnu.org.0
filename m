@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC7F5906DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 21:12:15 +0200 (CEST)
-Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D32A5906E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 21:12:24 +0200 (CEST)
+Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMDbK-0006dw-LT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 15:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34710)
+	id 1oMDbT-0006wG-IY
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 15:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMDYv-00038B-1x
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 15:09:45 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:34501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMDYt-00013p-Lp
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 15:09:44 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-31f443e276fso182587917b3.1
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 12:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=H+6KarpXTJi2BQ7Om1X+mS0kZETovXqKWh4rqtsJMtk=;
- b=akxTDVKm4JWwAFoG8mWcidQpWYNKmDTmEZjBm9emjsRajSk0TR8MuHhKGyDlyg/LaH
- Zzv2aVPD7qxPVKIwPcrg+6jP5ZqORCNsm5w6eQA1BthcMDg7m9EE3oD17c62cj467RT8
- H0slacsNtEYZymzlbW71PM8FoZqkliKkflBMTGHc8p6L34CVcizKHkR84co3RPWjXhUh
- MZy0Dncuqu/qE2ArUXV44YYfPDvbQSYpm4XpBOIPd4ZIM+aMCqMdQBd/UNG2qwpqXWO8
- mWYuXUMHfI8Qk14jBcCqchsclciVqtmQKwgnyGcbFEOFLTWQdMWU/kXkfoeeH+16P9VG
- jzvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=H+6KarpXTJi2BQ7Om1X+mS0kZETovXqKWh4rqtsJMtk=;
- b=q6BQP6OWNR9qyB3llC26MRczi3kPSjgSv4O5p8FpVPlT5DeEb7smcV41hOEeXOAbWE
- b6dIbKLom3fddhoI5vnEPG4gd0+eyfgUT+v2aLUGSTElTHtBNNN422kz71CJb1L6pVO2
- 3kCAlyID3kf6NVawxQtr0Gs7YlxH3WsbpiugYMp7x2xsaAzAzBMW9SkHCE2GjfRBF/FO
- lLbq3J8jj5d1/42pNCjOzLk9dRE/vsby1Sp9jV+joEYoxobI1jZ9V+I1tvMGApHGWYLi
- PVzWAFS5MfO7AD9ZJuPoaMZxSHEpMSI5obfnfRMn1xv3vMXXLyQifjORimUJEsK1r3VD
- W7Dw==
-X-Gm-Message-State: ACgBeo339mw9no34xPadbaEj8YmaXJraeOM8ieIDFuyE+cow9FGKzJhB
- 7Xltv/PBV+boSlcWiAOi1v80LNypQKR28AEn194IbQ==
-X-Google-Smtp-Source: AA6agR4gAmFX7WDSB2+3xe8VncWa+P+MX3jn+fPHE/ZhZBr9ARJ9Utwi5tBSS3am+HyP0JNC7Im0+yts7Ynsi6LhnOg=
-X-Received: by 2002:a81:9942:0:b0:326:5dab:8915 with SMTP id
- q63-20020a819942000000b003265dab8915mr678625ywg.10.1660244982378; Thu, 11 Aug
- 2022 12:09:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oMDZF-0003Oj-U7
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 15:10:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oMDZD-0001Aw-UX
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 15:10:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660245003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rDfv+8GgVRJAU021J5fi2MP03MTmpRcw+d8Q3GXn2m4=;
+ b=WgNyzfwNQ4zBjvQZErw7Ecwk51ZBKyym1fGIXaBM/RKF1WAB+0exSqjV2M4W0tdZnYLbqS
+ Yo9F8DCww1nKOsO6xo6an0ldSo1Rzj1z4BJ5jsBu5ULYzAweEBK8/nXRbmDkwceUBR4L7s
+ iJdRj/LOj5dOwtQ7rPyeDMuXlzrMZ3E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-62-Rv5FofBVPn6xm7VxMlK0kg-1; Thu, 11 Aug 2022 15:09:59 -0400
+X-MC-Unique: Rv5FofBVPn6xm7VxMlK0kg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49E5A3817A6F;
+ Thu, 11 Aug 2022 19:09:59 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD530492C3B;
+ Thu, 11 Aug 2022 19:09:58 +0000 (UTC)
+Date: Thu, 11 Aug 2022 15:09:57 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, Alberto Faria <afaria@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
+ sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Yanan Wang <wangyanan55@huawei.com>, pkrempa@redhat.com
+Subject: Re: [RFC v3 1/8] blkio: add io_uring block driver using libblkio
+Message-ID: <YvVUBVQnuaZPiPxZ@fedora>
+References: <20220708041737.1768521-1-stefanha@redhat.com>
+ <20220708041737.1768521-2-stefanha@redhat.com>
+ <YuGTFJ3r7+MMAxhR@redhat.com>
 MIME-Version: 1.0
-References: <20220811171619.1154755-1-peter.maydell@linaro.org>
- <20220811171619.1154755-6-peter.maydell@linaro.org>
- <34861211-e1f0-31d0-9619-9b99953ff031@linaro.org>
-In-Reply-To: <34861211-e1f0-31d0-9619-9b99953ff031@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Aug 2022 20:09:01 +0100
-Message-ID: <CAFEAcA8mD=VXyEwAoSjNVYGc-bEib6N13GEoLMDtuSZ2VYuMVA@mail.gmail.com>
-Subject: Re: [PATCH 05/10] target/arm: Honour MDCR_EL2.HPMD in Secure EL2
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+o9vgjHY/9JccPpf"
+Content-Disposition: inline
+In-Reply-To: <YuGTFJ3r7+MMAxhR@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,12 +92,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Aug 2022 at 18:48, Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> You can use |= for bool as well.  You don't need the short-circuting of || here.
 
-That seems like the kind of thing that -Wbool-operation is likely to
-warn about either now or in future, though...
+--+o9vgjHY/9JccPpf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- PMM
+On Wed, Jul 27, 2022 at 09:33:40PM +0200, Kevin Wolf wrote:
+> Am 08.07.2022 um 06:17 hat Stefan Hajnoczi geschrieben:
+> > libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
+> > high-performance disk I/O. It currently supports io_uring and
+> > virtio-blk-vhost-vdpa with additional drivers under development.
+> >=20
+> > One of the reasons for developing libblkio is that other applications
+> > besides QEMU can use it. This will be particularly useful for
+> > vhost-user-blk which applications may wish to use for connecting to
+> > qemu-storage-daemon.
+> >=20
+> > libblkio also gives us an opportunity to develop in Rust behind a C API
+> > that is easy to consume from QEMU.
+> >=20
+> > This commit adds io_uring and virtio-blk-vhost-vdpa BlockDrivers to QEMU
+> > using libblkio. It will be easy to add other libblkio drivers since they
+> > will share the majority of code.
+> >=20
+> > For now I/O buffers are copied through bounce buffers if the libblkio
+> > driver requires it. Later commits add an optimization for
+> > pre-registering guest RAM to avoid bounce buffers.
+> >=20
+> > The syntax is:
+> >=20
+> >   --blockdev io_uring,node-name=3Ddrive0,filename=3Dtest.img,readonly=
+=3Don|off,cache.direct=3Don|off
+> >=20
+> > and:
+> >=20
+> >   --blockdev virtio-blk-vhost-vdpa,node-name=3Ddrive0,path=3D/dev/vdpa.=
+=2E.,readonly=3Don|off
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>=20
+> The subject line implies only io_uring, but you actually add vhost-vdpa
+> support, too. I think the subject line should be changed.
+>=20
+> I think it would also make sense to already implement support for
+> vhost-user-blk on the QEMU side even if support isn't compiled in
+> libblkio by default and opening vhost-user-blk images would therefore
+> always fail with a default build.
+>=20
+> But then you could run QEMU with a custom build of libblkio to make use
+> of it without patching QEMU. This is probably useful for getting libvirt
+> support for using a storage daemon implemented without having to wait
+> for another QEMU release. (Peter, do you have any opinion on this?)
+
+vhost-user-blk is now supported in all builds of libblkio. I'll add it.
+
+Stefan
+
+--+o9vgjHY/9JccPpf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmL1VAUACgkQnKSrs4Gr
+c8jRPwgAtygtCZJA+ehKG3Cj9WM9Zsg9hU6wNkV2/zThXpZeoYlNXZlJ8Xe7Ed2d
+NotW/aiNvIfoxdoAMnvu/FoiS/4p1JlMGL9hYbIeCzMit0ujtG1F5QFLD/4Jwd/k
+Ug0jOBnyXgU6atcaSrgu4k3SL3eTotM0xch/bPaFHGgoXf7MnRE0TFQYqD5Mhv4A
+V4onWXk6T02czNUOa8GfhMVbKjQEWaT5Z5pDJROQt1r47hK4AIHHmOXlw2dgWwLp
+rgBahMg2B+SZE9ZpkuQo6KJN8oo7mC9GaMC32nqxBoehU934MePh7gpgUaHenxdJ
+1aNlck0XKsTxD8zpBwciILMhp4rf4Q==
+=OJCF
+-----END PGP SIGNATURE-----
+
+--+o9vgjHY/9JccPpf--
+
 
