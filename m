@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3501F590559
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:04:24 +0200 (CEST)
-Received: from localhost ([::1]:49320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400C4590564
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:08:32 +0200 (CEST)
+Received: from localhost ([::1]:55614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBbb-0001cs-A0
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:04:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39226)
+	id 1oMBfb-000728-AZ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMBWM-00041Q-Da
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:58:58 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:51182)
+ id 1oMBWY-0004Fq-EK
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:59:10 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:41816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMBWK-0006cM-Ee
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:58:57 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id gj1so18249596pjb.0
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 09:58:55 -0700 (PDT)
+ id 1oMBWW-0006ci-Lj
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:59:10 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ t2-20020a17090a4e4200b001f21572f3a4so5685663pjl.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 09:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=nSWHpL5to8azTIVXgT3gO4EqNQG1z+h3ktK8N3RF98I=;
- b=f0/pjwp/m+NDYA0DrNpBLey5NIMfsYf9Nqio8UPxv6H3u994HhLPiKpofxTyeBUjRe
- dR/2l+r+KZztxh33yGkfUIw6VwWaHfkms70DhUTG2UejOuOOeZ7auPBn1dgZ4rKZZcJp
- HnTkqrMI8SLuKCNde8s5VIe9ZawP2lvieEOUoQmit38odX+DhN1HfQBHiAHO+dbF3SZA
- plZ9Vzs1+fvZYmiLK75JtwjDYiJVZ9DrD8YTn+7yx+9iGCeqxxIUFo40JRET2VFqqN3/
- KbsdDay0pYXPsAV1kF/QRJkfFTCK4DtDvYBopEZsaS4Hjr5H2iTqbm+K4y9cr1JV0kWc
- 42hA==
+ :from:to:cc; bh=zT8T6sxrCwXBBodbWaoOQl3/bePC88v3PaZFtpmYM0g=;
+ b=qu5g3jEGA6wdTa3HrTVs1rwSab8JmczhnB+5fRiwoX3i+ERoGF3iTSxqdUkuwOU2Ij
+ QvpTjcesV2KbihDNoYik0+sUp1DV3ZKUEciLDBZx0wvczB75sFBGOjAbg+dREHnPc+Il
+ lYv0iL2wO/fwFm7V2nPVvfZOknUnYDeJJje46o0mffSRGcysH8i4Db3TMpUjQEajn2Q+
+ eSPxe68RdeLioomD5SAovdcZgkZd+uzaOq5/mthW2UBlQVwtlO0tFsSzLlnZKJz+xjj6
+ vI6lfpUQsUG6MmqnFHjhCjh0gttSJ45sdRGEM1yjmjycoiedjHAs47Xn9c4rCuks3FYZ
+ qCJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=nSWHpL5to8azTIVXgT3gO4EqNQG1z+h3ktK8N3RF98I=;
- b=ueyV1vIrX6g1kjYR8L0mZ4qlIpM2krGtglUZUHY7t4ilE60EDX5yts6joZo5F7iDv+
- 7tuiFF+dEDLw5V394R9g+pJldsn/iYV+GNMgLBATz39CiGlwam7ndBd1aWyae+h3IYZU
- hwNLVryVwzB1OXdWoUYr7UquiEYQHWBsO+Jxy5+VuK3meafJfOq+Fjg/rjhORbNbRESW
- rrpExki+9vb7WLAKFLK3lrIotnXpwS+YLQjdLLopiXPYEDLO1BOXf92Liq9G4G5SoEBG
- wlJ2Mj7COHVTIL0TTcYfnghSljPXVAQzPPV9+8UYN48Qz3sp06synZl6cYKm+FSACBdB
- iBfQ==
-X-Gm-Message-State: ACgBeo2ys3pCfPFPks0h/305t4QTvDpSJDzo8HwClmRJevnKO1qDhv6S
- oH/sdrMvGtZajoT50eDGTPRgvQ==
-X-Google-Smtp-Source: AA6agR7zm0vxPa1AWpkfnI8PcHdzvjxgjz9OSczFGuVn0tR8Sw8fhKQkhY2aQ8CF60DPys/ByiYaew==
-X-Received: by 2002:a17:902:7e84:b0:16d:be50:f729 with SMTP id
- z4-20020a1709027e8400b0016dbe50f729mr212855pla.16.1660237134692; 
- Thu, 11 Aug 2022 09:58:54 -0700 (PDT)
+ bh=zT8T6sxrCwXBBodbWaoOQl3/bePC88v3PaZFtpmYM0g=;
+ b=jQYTnB5smQ/Zs6r8ry5mrQHWFOBQXpHeIxKibT7z2Y2kqRtvDDnNZdwi683T0PgLzp
+ RMFJr2sO4RxtwSirs/BRHmN9gF9ZQ4BQpq39xRNeQ/3KFyJ1fuuSlbYTEnIuz45lsp2/
+ lBxsVpDUG7g5SqD1KLt3LIA11zGu4JrhSz/jVWTUUj4lGEMtXH/SkSvg/mZnea/LCLkA
+ R8WvLVSz80iQbHBMJ9xfBi+7fAb3d25KepcFPglqVC8Ui2FEqwkkBpRSk+iNeXnFsqP5
+ z3fiVv+essCd8rTUIlqdnY4hD2Z+fGuc6E3hmQFJMJ0pSAOzt7VRdEXxOfRQHHsM/8FD
+ IGUQ==
+X-Gm-Message-State: ACgBeo0UGkiFiYA4fQpi6Gs5Q99xiJoJBwrJ7NdmVRJh5JMhcxIgI63h
+ eR50l1yVrv3efpDkw00+afPJ9w==
+X-Google-Smtp-Source: AA6agR4eVnX1VTMT1Rw9zb0Deht7SYUArIik7MJ6Y4VyKme+QCHcqDaWqoqkM52ScLXXx+xQWyU4VA==
+X-Received: by 2002:a17:902:b08a:b0:16c:68b6:311 with SMTP id
+ p10-20020a170902b08a00b0016c68b60311mr110226plr.166.1660237147162; 
+ Thu, 11 Aug 2022 09:59:07 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:72e2:2d06:c2b1:b106?
  ([2602:ae:154e:e201:72e2:2d06:c2b1:b106])
  by smtp.gmail.com with ESMTPSA id
- 12-20020a170902c10c00b0016bb24f5d19sm14967789pli.209.2022.08.11.09.58.53
+ x2-20020aa79a42000000b0052e0b928c3csm4250899pfj.219.2022.08.11.09.59.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 09:58:54 -0700 (PDT)
-Message-ID: <9d15064f-3580-49a8-596b-019663b084fb@linaro.org>
-Date: Thu, 11 Aug 2022 09:58:52 -0700
+ Thu, 11 Aug 2022 09:59:06 -0700 (PDT)
+Message-ID: <038e706b-2838-8c02-77c8-c2525feb692d@linaro.org>
+Date: Thu, 11 Aug 2022 09:59:04 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v4 4/5] target/i386: Make translator stop before the end
+Subject: Re: [PATCH v4 3/5] target/s390x: Make translator stop before the end
  of a page
 Content-Language: en-US
 To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
@@ -73,13 +74,13 @@ To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>,
 Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
  Christian Borntraeger <borntraeger@linux.ibm.com>
 References: <20220811095534.241224-1-iii@linux.ibm.com>
- <20220811095534.241224-5-iii@linux.ibm.com>
+ <20220811095534.241224-4-iii@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220811095534.241224-5-iii@linux.ibm.com>
+In-Reply-To: <20220811095534.241224-4-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -107,22 +108,45 @@ On 8/11/22 02:55, Ilya Leoshkevich wrote:
 > breaks reporting of fault locations when the last instruction of a
 > multi-insn translation block crosses a page boundary.
 > 
-> An implementation, like the one arm and s390x have, would require an
-> i386 length disassembler, which is burdensome to maintain. Another
-> alternative would be to single-step at the end of a guest page, but
-> this may come with a performance impact.
-> 
-> Fix by snapshotting disassembly state and restoring it after we figured
-> out we crossed a page boundary. This includes rolling back cc_op
-> updates and emitted ops.
-> 
 > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   target/i386/tcg/translate.c | 25 ++++++++++++++++++++++++-
->   1 file changed, 24 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/s390x/tcg/translate.c | 15 +++++++++++----
+>   1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+> index e2ee005671..8e45a0e0d3 100644
+> --- a/target/s390x/tcg/translate.c
+> +++ b/target/s390x/tcg/translate.c
+> @@ -6609,6 +6609,14 @@ static void s390x_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
+>       dc->insn_start = tcg_last_op();
+>   }
+>   
+> +static target_ulong get_next_pc(CPUS390XState *env, DisasContext *s,
+> +                                uint64_t pc)
+> +{
+> +    uint64_t insn = ld_code2(env, s, pc);
+> +
+> +    return pc + get_ilen((insn >> 8) & 0xff);
+> +}
+> +
+>   static void s390x_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+>   {
+>       CPUS390XState *env = cs->env_ptr;
+> @@ -6616,10 +6624,9 @@ static void s390x_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+>   
+>       dc->base.is_jmp = translate_one(env, dc);
+>       if (dc->base.is_jmp == DISAS_NEXT) {
+> -        uint64_t page_start;
+> -
+> -        page_start = dc->base.pc_first & TARGET_PAGE_MASK;
+> -        if (dc->base.pc_next - page_start >= TARGET_PAGE_SIZE || dc->ex_value) {
+> +        if (!is_same_page(dcbase, dc->base.pc_next) ||
+> +            !is_same_page(dcbase, get_next_pc(env, dc, dc->base.pc_next)) ||
+> +            dc->ex_value) {
+>               dc->base.is_jmp = DISAS_TOO_MANY;
+>           }
+>       }
 
-
-r~
 
