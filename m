@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6436D590419
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 18:46:16 +0200 (CEST)
-Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91018590517
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 18:51:13 +0200 (CEST)
+Received: from localhost ([::1]:51634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBK3-0002Wz-GZ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 12:46:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35664)
+	id 1oMBOq-0007mM-KT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 12:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMBE5-0001Kz-6t; Thu, 11 Aug 2022 12:40:05 -0400
-Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:33534)
+ id 1oMBE7-0001Qk-DB; Thu, 11 Aug 2022 12:40:09 -0400
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c]:40867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMBE3-0003Vw-EZ; Thu, 11 Aug 2022 12:40:04 -0400
-Received: by mail-vs1-xe31.google.com with SMTP id q15so18889390vsr.0;
- Thu, 11 Aug 2022 09:40:02 -0700 (PDT)
+ id 1oMBE5-0003hG-GU; Thu, 11 Aug 2022 12:40:07 -0400
+Received: by mail-vs1-xe2c.google.com with SMTP id q190so18804967vsb.7;
+ Thu, 11 Aug 2022 09:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=O97pVC+LXnGk5PNh1e+NwaT3e1S2FbEewKrN94V2Fbs=;
- b=eolLP3Kg2pNiphfnODQyCGSBkch9VbSLdDU7fLYywrYTGImDmddM8lDDaJC+QuNzWj
- +MuE/natKy49KHxDk4Om/GkrEKqzT3CFUWeb/X71N99SUMZNUYNN1iuES/GHx/dqDSB2
- YTTxQOQzxBPUzy8Fvlbv6XDjAVBtOx/Filpt+QM6utTriyQpVXSndFnxMveyUG69ncYj
- pYNVunpihUOr0B36cJfyaoZnZ0ehhrGiIa1dDjYIuyeGO8xC01cx+ienyUD1oCCU4HQm
- lfGFGOKErroVyzQT0pQsEERu4HPFhJAN0ai8z24TmR1mtqrNPeidPdcpi5cio2v8FkGK
- Vd9Q==
+ bh=6oq1M7UnbweB3WGReo1l6aOWLG7t+q5Z5OY9Z6VeNAA=;
+ b=prcDOxJHxGTFfJ1KOBiuvgByew0qFTFlWFQJNmyA3uYT2W3lA2fevJy6C6//+ODu+M
+ 5xazsyQkzFbt9dNTksyBanMEa3t9DqtZ6xxFWv8bMKmsvPPF5gk1MawAXxV2rV9jyaPV
+ snSWMcQrpCD72LpR+GEtDLEQki6lWcEyt2Lam8c6PX32Hw285J7Tjw+LXlvLH4g4gaw3
+ ZTYxdrj2nlqm6NLPXkBTu5ItTuEgB+CPMwUAzYcIz4CqiKR8bkd23THC1P0OpfqTewmF
+ 1Dtdh+17FhLoahzJcAeNwnHt1GPSD3fz1PDoKj8jB3zighefb95gfBYDv3dSc3spVvVl
+ 0urw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=O97pVC+LXnGk5PNh1e+NwaT3e1S2FbEewKrN94V2Fbs=;
- b=mb3grvTgBLtaTnQWYuzMYIa9wuRz2TuB6bhbLfrJ0gea2kj+dcdVb0h8Xx7EELPeo3
- xWCyXHnwj3PoF8qQK6r2W0YwUiq4AzsQxpY2i5OkWUy151c9ARYMR0n71ZGcRy/WgyON
- 3dRFvsfJOqXU73q9+28Bz8OQ/IHOmYW8+jJO7Mx7SVHBE4qOiodlk2UJy0xybrNO4W5c
- QAlzZUxK19wBFT1b3/c15Q1Uze4J+E/lbZvxyDVSP5YKM4vM/CEYL6e/T+FwIr/uhkae
- qQutBWZju0GsJvVL/oD16lIHqn81vjET+0fdRgVhp60mU4lhcJ7Vtm2kY10vYl4YLomT
- vuMA==
-X-Gm-Message-State: ACgBeo2xOjgKeqp+f0j8KOE0r4//UtxrR5zFN/9Qiwa6CfnyUsn5CSrU
- 261dXVZVA2iDdho7+R66DqDca5MiSw0=
-X-Google-Smtp-Source: AA6agR4/EbDpi0iKnIcYHLJc6k8DE2+rekLGCSZCliSGAuIkA8PdHJ4t9yYs4pGThQwX3odBB9WqcQ==
-X-Received: by 2002:a67:ca83:0:b0:374:ab95:ed82 with SMTP id
- a3-20020a67ca83000000b00374ab95ed82mr13671783vsl.60.1660236001811; 
- Thu, 11 Aug 2022 09:40:01 -0700 (PDT)
+ bh=6oq1M7UnbweB3WGReo1l6aOWLG7t+q5Z5OY9Z6VeNAA=;
+ b=lMX46x3P0S+aBj+G/ruTMVFlzk0exoLYjIK9Jw8kBC+qeKb8PSjZDiOAtSMdlrGxz4
+ 0P3Vpd1T//KJ7XhPT5Ao/G2VxDOTxmdeeX1qlWG/U/sS2EQp5O82OXjnWatDYChR4X7M
+ dcyez6v1aBEFfhOWYp2U+yUsfzpqv+ME8dwA8XWoECMS2k6HEs6XNDKBPdHxBXvGJebw
+ RJvDnqzFNQRnko9DbTGyGi1PrFITD9d7xBhNwHTGylgSOYjmVPJV47KttBzCRlP9P0KU
+ /19xtVhJrXQNTrpV8G7/4PPD5liCGrOq03hO5+HIYqpe2rkbpTApKk4oRvRlpxkojOPB
+ 6lRg==
+X-Gm-Message-State: ACgBeo2/0zMAidcEn+ANoXKQ+fGTxnXUBlI0p1DvpUrcrF60pwypd0UB
+ zcAdqMUaaFIidjHSRVQiVu4RH6f9vY0=
+X-Google-Smtp-Source: AA6agR5nO6oxvcNzj1lMreyf6UwXmK9+BhWmSa1GL/lKAzlRTnyRtETJrRSlYJtHAia4tlbgUWoPjg==
+X-Received: by 2002:a67:ac49:0:b0:358:576f:f51 with SMTP id
+ n9-20020a67ac49000000b00358576f0f51mr13288183vsh.80.1660236003991; 
+ Thu, 11 Aug 2022 09:40:03 -0700 (PDT)
 Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
  [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- j9-20020a67fa49000000b00373d697e3e2sm1755013vsq.19.2022.08.11.09.39.59
+ j9-20020a67fa49000000b00373d697e3e2sm1755013vsq.19.2022.08.11.09.40.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 09:40:01 -0700 (PDT)
+ Thu, 11 Aug 2022 09:40:03 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 v4 03/11] ppc/pnv: set root port chassis and slot
- using Bus properties
-Date: Thu, 11 Aug 2022 13:39:42 -0300
-Message-Id: <20220811163950.578927-4-danielhb413@gmail.com>
+Subject: [PATCH for-7.2 v4 04/11] ppc/pnv: add helpers for pnv-phb user devices
+Date: Thu, 11 Aug 2022 13:39:43 -0300
+Message-Id: <20220811163950.578927-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220811163950.578927-1-danielhb413@gmail.com>
 References: <20220811163950.578927-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,84 +88,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For default root ports we have a way of accessing chassis and slot,
-before root_port_realize(), via pnv_phb_attach_root_port(). For the
-future user created root ports this won't be the case: we can't use
-this helper because we don't have access to the PHB phb-id/chip-id
-values.
+pnv_parent_qom_fixup() and pnv_parent_bus_fixup() are versions of the
+helpers that were reverted by commit 9c10d86fee "ppc/pnv: Remove
+user-created PHB{3,4,5} devices". They are needed to amend the QOM and
+bus hierarchies of user created pnv-phbs, matching them with default
+pnv-phbs.
 
-In earlier patches we've added phb-id and chip-id to pnv-phb-root-bus
-objects. We're now able to use the bus to retrieve them. The bus is
-reachable for both user created and default devices, so we're changing
-all the code paths. This also allow us to validate these changes with
-the existing default devices.
+A new helper pnv_phb_user_device_init() is created to handle
+user-created devices setup. We're going to call it inside
+pnv_phb_realize() in case we're realizing an user created device. This
+will centralize all user device realated in a single spot, leaving the
+realize functions of the phb3/phb4 backends untouched.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Another helper called pnv_chip_add_phb() was added to handle the
+particularities of each chip version when adding a new PHB.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ hw/pci-host/pnv_phb.c | 75 +++++++++++++++++++++++++++++++++++++++++++
+ hw/ppc/pnv.c          | 20 ++++++++++++
+ include/hw/ppc/pnv.h  |  1 +
+ 3 files changed, 96 insertions(+)
 
 diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-index c47ed92462..826c0c144e 100644
+index 826c0c144e..5dc44f45d1 100644
 --- a/hw/pci-host/pnv_phb.c
 +++ b/hw/pci-host/pnv_phb.c
-@@ -25,21 +25,19 @@
-  * QOM id. 'chip_id' is going to be used as PCIE chassis for the
-  * root port.
-  */
--static void pnv_phb_attach_root_port(PCIHostState *pci, int index, int chip_id)
-+static void pnv_phb_attach_root_port(PCIHostState *pci)
- {
-     PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
--    g_autofree char *default_id = g_strdup_printf("%s[%d]",
--                                                  TYPE_PNV_PHB_ROOT_PORT,
--                                                  index);
-     const char *dev_id = DEVICE(root)->id;
-+    g_autofree char *default_id = NULL;
-+    int index;
+@@ -18,6 +18,38 @@
+ #include "hw/qdev-properties.h"
+ #include "qom/object.h"
+ 
 +
-+    index = object_property_get_int(OBJECT(pci->bus), "phb-id", &error_fatal);
-+    default_id = g_strdup_printf("%s[%d]", TYPE_PNV_PHB_ROOT_PORT, index);
- 
-     object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
-                               OBJECT(root));
- 
--    /* Set unique chassis/slot values for the root port */
--    qdev_prop_set_uint8(DEVICE(root), "chassis", chip_id);
--    qdev_prop_set_uint16(DEVICE(root), "slot", index);
--
++/*
++ * Set the QOM parent of an object child. If the device state
++ * associated with the child has an id, use it as QOM id. Otherwise
++ * use object_typename[index] as QOM id.
++ */
++static void pnv_parent_qom_fixup(Object *parent, Object *child, int index)
++{
++    g_autofree char *default_id =
++        g_strdup_printf("%s[%d]", object_get_typename(child), index);
++    const char *dev_id = DEVICE(child)->id;
++
++    if (child->parent == parent) {
++        return;
++    }
++
++    object_ref(child);
++    object_unparent(child);
++    object_property_add_child(parent, dev_id ? dev_id : default_id, child);
++    object_unref(child);
++}
++
++static void pnv_parent_bus_fixup(DeviceState *parent, DeviceState *child,
++                                 Error **errp)
++{
++    BusState *parent_bus = qdev_get_parent_bus(parent);
++
++    if (!qdev_set_parent_bus(child, parent_bus, errp)) {
++        return;
++    }
++}
++
+ /*
+  * Attach a root port device.
+  *
+@@ -41,6 +73,39 @@ static void pnv_phb_attach_root_port(PCIHostState *pci)
      pci_realize_and_unref(root, pci->bus, &error_fatal);
  }
  
-@@ -93,7 +91,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
-         pnv_phb4_bus_init(dev, PNV_PHB4(phb->backend));
-     }
++/*
++ * User created devices won't have the initial setup that default
++ * devices have. This setup consists of assigning a parent device
++ * (chip for PHB3, PEC for PHB4/5) that will be the QOM/bus parent
++ * of the PHB.
++ */
++static bool pnv_phb_user_device_init(PnvPHB *phb, Error **errp)
++{
++    PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
++    PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
++    Object *parent = NULL;
++
++    if (!chip) {
++        error_setg(errp, "invalid chip id: %d", phb->chip_id);
++        return false;
++    }
++
++    parent = pnv_chip_add_phb(chip, phb, errp);
++    if (!parent) {
++        return false;
++    }
++
++    /*
++     * Reparent user created devices to the chip to build
++     * correctly the device tree. pnv_xscom_dt() needs every
++     * PHB to be a child of the chip to build the DT correctly.
++     */
++    pnv_parent_qom_fixup(parent, OBJECT(phb), phb->phb_id);
++    pnv_parent_bus_fixup(DEVICE(chip), DEVICE(phb), errp);
++
++    return true;
++}
++
+ static void pnv_phb_realize(DeviceState *dev, Error **errp)
+ {
+     PnvPHB *phb = PNV_PHB(dev);
+@@ -74,6 +139,16 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
+     object_property_set_uint(phb->backend, "chip-id", phb->chip_id, errp);
+     object_property_set_link(phb->backend, "phb-base", OBJECT(phb), errp);
  
--    pnv_phb_attach_root_port(pci, phb->phb_id, phb->chip_id);
-+    pnv_phb_attach_root_port(pci);
++    /*
++     * Handle user created devices. User devices will not have a
++     * pointer to a chip (PHB3) and a PEC (PHB4/5).
++     */
++    if (!phb->chip && !phb->pec) {
++        if (!pnv_phb_user_device_init(phb, errp)) {
++            return;
++        }
++    }
++
+     if (phb->version == 3) {
+         object_property_set_link(phb->backend, "chip",
+                                  OBJECT(phb->chip), errp);
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index f9e5a3d248..2deaac17f7 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -281,6 +281,26 @@ static void pnv_dt_icp(PnvChip *chip, void *fdt, uint32_t pir,
+     g_free(reg);
  }
  
- static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
-@@ -162,9 +160,18 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
++/*
++ * Adds a PnvPHB to the chip. Returns the parent obj of the
++ * PHB which varies with each version (phb version 3 is parented
++ * by the chip, version 4 and 4 are parented by the PEC
++ * device).
++ *
++ * TODO: for version 3 we're still parenting the PHB with the
++ * chip. We should parent with a (so far not implemented)
++ * PHB3 PEC device.
++ */
++Object *pnv_chip_add_phb(PnvChip *chip, PnvPHB *phb, Error **errp)
++{
++    if (phb->version == 3) {
++        return OBJECT(chip);
++    } else {
++        /* phb4 support will be added later */
++        return NULL;
++    }
++}
++
+ static void pnv_chip_power8_dt_populate(PnvChip *chip, void *fdt)
  {
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
-     PnvPHBRootPort *phb_rp = PNV_PHB_ROOT_PORT(dev);
-+    PCIBus *bus = PCI_BUS(qdev_get_parent_bus(dev));
-     PCIDevice *pci = PCI_DEVICE(dev);
-     uint16_t device_id = 0;
-     Error *local_err = NULL;
-+    int chip_id, index;
-+
-+    chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
-+    index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
-+
-+    /* Set unique chassis/slot values for the root port */
-+    qdev_prop_set_uint8(dev, "chassis", chip_id);
-+    qdev_prop_set_uint16(dev, "slot", index);
+     static const char compat[] = "ibm,power8-xscom\0ibm,xscom";
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 033d907287..781d0acffa 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -231,6 +231,7 @@ struct PnvMachineState {
+ };
  
-     rpc->parent_realize(dev, &local_err);
-     if (local_err) {
+ PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id);
++Object *pnv_chip_add_phb(PnvChip *chip, PnvPHB *phb, Error **errp);
+ 
+ #define PNV_FDT_ADDR          0x01000000
+ #define PNV_TIMEBASE_FREQ     512000000ULL
 -- 
 2.36.1
 
