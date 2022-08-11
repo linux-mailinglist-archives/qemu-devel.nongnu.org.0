@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1D358FD14
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:09:45 +0200 (CEST)
-Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEB158FD22
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:13:44 +0200 (CEST)
+Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM7wV-0002vd-Vu
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
+	id 1oM80N-0000aF-CM
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oM7dK-0004oS-ET
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:49:54 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oM7dI-0006ey-8s
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:49:53 -0400
-Received: by mail-ej1-x629.google.com with SMTP id gk3so33285371ejb.8
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 05:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc;
- bh=A07yJS5knIZsqQl19b8n3fBewyFGRsx5RsuaVhLPoLo=;
- b=YUBx0lYUDj0etKEoVt97sPntsfihRCs07LgEHcS4baIPdG6BJfgJhs2h9Pd0/tnoA+
- De1PVjWY92nPBMUsKU6PkDOBbtBe6vyI2JMGodbvF6MB6Gm9O/bjyrx4EbVK1D3eJIvp
- oPeGt4TrAaqoptbWdmFM62yNBSnZGPj954F4Rwwmd2/SnA124YQ1sbXlDOSxX71OT5HV
- JzGZnkq6sq1FbO2uOdc+B4cdbhWU0UYNaB2bbcJRgXo5wQQH4Fbs7jD0UORMmw8fx7dR
- LL/pzHwM1yj+ptTtS9WWpSfiHtVYnFwLp5cWcuNxSgEkXdg0OwFrKbe+zcAMX9m3vMZ8
- a1uA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oM7g4-0001MC-Fl
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:52:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oM7g1-0007Xh-5u
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:52:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660222359;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ccHKV60GUy43jU9rl4e6LjFMRT/GAai6MdkD4oo/FDM=;
+ b=BijjSc3y4c8lI6ruBgExGWfAaadHbyRf/m5U7bP4uc7FQr95Hd6CJFnylBW4DuQVIzeWQp
+ GL1a2P4vueSnowj0hx0rlJ10u+GOIVqISq9y2h20BPG1nZXolf56PA75LijGtf6QxBub0/
+ uSfKW6aJqeTeZKfCe6W3P1lXPm7dcyc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-668-BajT4HcsO6eSdiYAucVJNg-1; Thu, 11 Aug 2022 08:52:37 -0400
+X-MC-Unique: BajT4HcsO6eSdiYAucVJNg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k21-20020adfb355000000b0022079dc2559so2670640wrd.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 05:52:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc;
- bh=A07yJS5knIZsqQl19b8n3fBewyFGRsx5RsuaVhLPoLo=;
- b=mSGI+h4hazMjFVhKOQdo4GuQ3vxifuFSejIqJsu7dIgQuLo5lsu9IeTPpnvesnbnb0
- rQqX3reyxuokcEInEkfFzUk3+jaFKwBAA2bYuOBQrOEBNC4bv0M/GyG6l8glNSrjSgUf
- /5CKVgOqK9suwn8ybzPX21QdX0Sv27WixSoLJ6igauGtzwMvDQ3Lqlhod+7z4i7s8h7m
- d6CP6Qv69X/yi5XOam7FoL1DmxiA0IZxElVW26BP6q/BOsSfosQqLk+PNias5oEURu2h
- YIr53XEE2EaV8YSACgwY5oJEyOtg+3xHdujY1PE/5GMAxNHgJniDnSJymLVBwJ1nb9b+
- Ph+w==
-X-Gm-Message-State: ACgBeo0vMRyTH235yGeckxfiXjGM+839EPOhVkmHyZEoe9MKdzr34cdT
- jgmBIz9cAp3tDjI+nGlacGo=
-X-Google-Smtp-Source: AA6agR6NcetABSLC92M715mGsoNi3yGLYFsAF4pM3kVLFY67E3w3PvpzDhLM+ZfYJ1qeJ7jzl6uYyg==
-X-Received: by 2002:a17:907:6095:b0:731:87a0:b9e8 with SMTP id
- ht21-20020a170907609500b0073187a0b9e8mr10440096ejc.124.1660222183495; 
- Thu, 11 Aug 2022 05:49:43 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- q9-20020a056402040900b0043ab81e4230sm9137115edv.50.2022.08.11.05.49.42
+ :x-gm-message-state:from:to:cc;
+ bh=ccHKV60GUy43jU9rl4e6LjFMRT/GAai6MdkD4oo/FDM=;
+ b=71Xf/rbyY1dagc3QgC2yem9P6ZVg8sx59l+Vgp1KR9tParxHaHNPrIRT7CAxKEnIVY
+ ttRtdlTGaRMvWoOk+JFThWt0/dGitKFXleRpujvPwLynGdKfg/W1Q37eWaJRz3NDDPAO
+ j7kS1/j1Hzb4AVeBqckY3fKoEQNAIuqpmde2lq7gbkFkg6pZs2WgmjwFKjhsHbIj3CIa
+ t+m26YIW89YDDJDJmHOaAXjSwQ6cnfo85JPQUkDY69mt5mnU8J/7xZ9hMWfLYgacjFRs
+ zOpc4D0qBAzQDW0sz0TMhH1lmI8aGeNIoeHiImgYoDaMiZTEmiHhV5CI7PqxfAhdODRj
+ BDbw==
+X-Gm-Message-State: ACgBeo3RsVm55AftCq2s/LRPjGTsgLybUZHl17czsfrxIgpoSZA7iNvx
+ WV/aCEUDqic4AIOjHnw0QqiDx35l36XaXX+ecWB9xrj/jtTAy4TwcOMf0AZstGGfHUDurQizLbX
+ 8++ds1kB4YAO5Lh0=
+X-Received: by 2002:a5d:64e5:0:b0:220:7859:7bc with SMTP id
+ g5-20020a5d64e5000000b00220785907bcmr18788670wri.669.1660222356750; 
+ Thu, 11 Aug 2022 05:52:36 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7gaBV7mIJu9yk69aGmTrdJwTF3MhfFPuzS82xXMiFSbDWF4gQ0mkJVJpcyVdG52+GOF/WjpA==
+X-Received: by 2002:a5d:64e5:0:b0:220:7859:7bc with SMTP id
+ g5-20020a5d64e5000000b00220785907bcmr18788661wri.669.1660222356534; 
+ Thu, 11 Aug 2022 05:52:36 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-42-115-19.web.vodafone.de.
+ [109.42.115.19]) by smtp.gmail.com with ESMTPSA id
+ p10-20020a05600c064a00b003a54f49c1c8sm5978048wmm.12.2022.08.11.05.52.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 05:49:42 -0700 (PDT)
-Message-ID: <6872ae96-df3d-fe4f-5815-37d044c8112e@redhat.com>
-Date: Thu, 11 Aug 2022 14:49:40 +0200
+ Thu, 11 Aug 2022 05:52:36 -0700 (PDT)
+Message-ID: <55aa1d93-f026-9a47-8502-96f648a37e4b@redhat.com>
+Date: Thu, 11 Aug 2022 14:52:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PULL 0/5] Misc QEMU 7.1 fixes for 2002-08-08
+Subject: Re: [PATCH] tests/qtest: misc tweaks to readconfig
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220808125706.60511-1-pbonzini@redhat.com>
- <70743a29-474e-728f-4ee1-dd4c734f342f@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <70743a29-474e-728f-4ee1-dd4c734f342f@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20220809093854.168438-1-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220809093854.168438-1-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,20 +102,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/22 16:23, Thomas Huth wrote:
+On 09/08/2022 11.38, Daniel P. Berrangé wrote:
+> The property name parameter is ignored when visiting a top
+> level type, but the obvious typo should be fixed to avoid
+> confusion. A few indentation issues were tidied up. We
+> can break out of the loop when finding the RNG device.
+> Finally, close the temp FD immediately when no longer
+> needed.
 > 
-> I still had some questions wrt to Daniel's patch, especially there seems 
-> to be a bug ("spcie" instead of "spice"), see:
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   tests/qtest/readconfig-test.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01153.html
-> 
-> I doubt that this test is working if spice is enabled...
-> (which leads us to the next question: if the CI did not fail for you, 
-> are we missing a build with spice enabled there?)
+> diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
+> index 2e604d7c2d..c7a9b0c7dd 100644
+> --- a/tests/qtest/readconfig-test.c
+> +++ b/tests/qtest/readconfig-test.c
+> @@ -33,13 +33,12 @@ static QTestState *qtest_init_with_config(const char *cfgdata)
+>       g_assert_cmpint(cfgfd, >=, 0);
+>   
+>       ret = qemu_write_full(cfgfd, cfgdata, strlen(cfgdata));
+> +    close(cfgfd);
+>       if (ret < 0) {
+>           unlink(cfgpath);
+>       }
+>       g_assert_cmpint(ret, ==, strlen(cfgdata));
+>   
+> -    close(cfgfd);
+> -
+>       args = g_strdup_printf("-nodefaults -machine none -readconfig %s", cfgpath);
+>   
+>       qts = qtest_init(args);
+> @@ -79,7 +78,7 @@ static void test_x86_memdev(void)
+>           "size = \"200\"";
+>   
+>       qts = qtest_init_with_config(cfgdata);
+> -   /* Test valid command */
+> +    /* Test valid command */
+>       resp = qtest_qmp(qts, "{ 'execute': 'query-memdev' }");
+>       test_x86_memdev_resp(qdict_get(resp, "return"));
+>       qobject_unref(resp);
+> @@ -96,7 +95,7 @@ static void test_spice_resp(QObject *res)
+>   
+>       g_assert(res);
+>       v = qobject_input_visitor_new(res);
+> -    visit_type_SpiceInfo(v, "spcie", &spice, &error_abort);
+> +    visit_type_SpiceInfo(v, "spice", &spice, &error_abort);
+>   
+>       g_assert(spice);
+>       g_assert(spice->enabled);
+> @@ -114,7 +113,7 @@ static void test_spice(void)
+>           "unix = \"on\"\n";
+>   
+>       qts = qtest_init_with_config(cfgdata);
+> -   /* Test valid command */
+> +    /* Test valid command */
+>       resp = qtest_qmp(qts, "{ 'execute': 'query-spice' }");
+>       test_spice_resp(qdict_get(resp, "return"));
+>       qobject_unref(resp);
+> @@ -144,6 +143,7 @@ static void test_object_rng_resp(QObject *res)
+>           if (g_str_equal(obj->name, "rng0") &&
+>               g_str_equal(obj->type, "child<rng-builtin>")) {
+>               seen_rng = true;
+> +            break;
+>           }
+>   
+>           tmp = tmp->next;
+> @@ -164,7 +164,7 @@ static void test_object_rng(void)
+>           "id = \"rng0\"\n";
+>   
+>       qts = qtest_init_with_config(cfgdata);
+> -   /* Test valid command */
+> +    /* Test valid command */
+>       resp = qtest_qmp(qts,
+>                        "{ 'execute': 'qom-list',"
+>                        "  'arguments': {'path': '/objects' }}");
 
-Fortunately the typo is not an issue; the top item of the visit does not 
-have a key and therefore the name passed to the toplevel visit_type_* 
-call is not used.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Paolo
 
