@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E21B5905C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:23:27 +0200 (CEST)
-Received: from localhost ([::1]:48062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D6C5905D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:26:45 +0200 (CEST)
+Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBu2-0004of-9A
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43016)
+	id 1oMBxE-0001wB-6l
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnF-0006jY-Q9
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:25 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:44587)
+ id 1oMBnH-0006m1-4A
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:27 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnE-0000sO-2v
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:25 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- b21-20020a05600c4e1500b003a32bc8612fso2978485wmq.3
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:23 -0700 (PDT)
+ id 1oMBnE-0000tk-Ct
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:26 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id n4so20286704wrp.10
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc;
- bh=bBQi63nUBjyD4P8li6gSvAkrvfkoQz4taZFgjQpefug=;
- b=PbYn+ImqxRrZalnxqoq/L7G3eeVOoA1PJW/yAjviXUWAX+SeJOcxBlEcleqJiCZMpN
- FrLIdXdmMJzuy4ZYThI8Cf2Bv/VTFdyeDK0Uak54EHTMy/FH9qzaAUZc0Sn4f4aYtIio
- KXyZAa4mgg+atjvuZShVXpjgTnyyQ4sSINOT53lo5uEc4HHfrfaA80potRaKMlqq5QSS
- j1KbJajodGlcLI4pIFPOQsRucVtFaagMSu48mmoA3e4EO+DBvsy27PH3PVWK13MbK8eQ
- 0vAa9g+l0huGd8R6ZD7RqYlo3AsoX9jdqnBnMg7gJNEUo4JSSFJ/tinXBkPiq+2Equhd
- 5RsQ==
+ bh=uwBdsBVOiqHy9AjYw9A5odDA4xVS3sjfOA/XRmbIZCE=;
+ b=rEJMdqsnNliLGyfMkICr/W2ZAH/nxPja8LLc0i1FlkAaZ9nzUiXa7JPe+vKOkYMpo3
+ Xus2pLl7avB5dESdr0e9i2mZOg2wL8XqUgiLy5wAd/KolVfkL85csUE97WP1GE26j8Ws
+ T2+M2mmaLjmMx+ih0g1y4TWsPNw6S7iwYns+6xjzcmkjS58IxS9T1VJs2dVqPdr2x45n
+ yrO81dsBSJ8FBDMVSnuArVhyU6EIMvuhtI//DSK21Ui8h5058Ly2FbfBWBZ2epjuzOYu
+ YZ3+iQ9yy+4Na/2elu7k+DsY51bkt/banKLIWMxTxH9Vg8DkVjdKYoLx54AMF50T/urD
+ VjLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=bBQi63nUBjyD4P8li6gSvAkrvfkoQz4taZFgjQpefug=;
- b=o1Kl2Ec/ff31LO01xidyPl6qcu2FXEfiAybljHyviMqSTfBxadFAGjs8BnqeelEIAu
- M18X63vM1oXNpXytVdrd8O3XiqGxa7WVRuCPOtZZ3M+BpcrmGZKWlXeh8Grsfw90uDDM
- f4SKXJa+J4PFwGxQ9d1rUlj0Tfr30CekEFXN8ww39fQGZY+e93Fcw9vQwekvGCImWJ5p
- lm7G01TRHM/rwrp+7QeVEdroFzm2kcJuy3ncHjUng2rt8BhcdwnmLoeho1e2GvcSUGTl
- 6WzKXMpIL3n+hU/PHXxy0mDUFGkBRZ76MZkZqyeaxzBp6gPc5PNO42ak+JMpCpTpFtUp
- BC2Q==
-X-Gm-Message-State: ACgBeo1nv4v8VdbrqPTQ6RKrwNWi+6Zq7viro9lG+kjoGmEIX9fQdG/e
- vFV2GY3Wu1aYDjiyiO3qqJPF6w==
-X-Google-Smtp-Source: AA6agR4eBFQVCwBwoYQ/Dky3JbZTY59xDZBu0l2pgbgLcIh8BigNhcNTPnF/Wrud8xJ6pIQjbCXbOQ==
-X-Received: by 2002:a1c:6a0a:0:b0:3a5:bcad:f2cc with SMTP id
- f10-20020a1c6a0a000000b003a5bcadf2ccmr2907305wmc.74.1660238181983; 
- Thu, 11 Aug 2022 10:16:21 -0700 (PDT)
+ bh=uwBdsBVOiqHy9AjYw9A5odDA4xVS3sjfOA/XRmbIZCE=;
+ b=daKxvMVaFSP1PYer4k55NuRMnG5MV8lZT7tjmSkD+J9N/FuBOdFimV6W8yhWwtVeql
+ LEbC4K7sfF/rtLmiCNv9pM4R0HOe03NpRJD8i5HIa5yM20t+zA96TJgQ9DAPaZwtY+tE
+ WjjCx4dY7eqt4vmsVvWFqEhnclYGA5QzU0nyVbXfDSIwBgkIH3h1yalnG7+tgZFZL7vA
+ IRjviYMREFKSyrnuXNWfQ1OzVBjeJhf6fygPfgSRMG+cjEYP12K+LCoYERAu1mYMki4K
+ uwZagORpH8EzFLSeh0V6mbp72N+Cn/W8NePCvDj4mud1WI6D3zdUR/G5xL61NLZ7dpch
+ Kxcw==
+X-Gm-Message-State: ACgBeo38m11VQgkEdUoUP4rfF8Rz8sL6oRwPTxB2AeOfJ3ItDrQoXL3H
+ j8UxVDoeVo5rupt98V7zbp3u3w==
+X-Google-Smtp-Source: AA6agR4t9IdGR/rDRxKz1hEtph1M4tona/essKf9cFL+tQauURXThs0Xhi8GgBgTd0eLYHdEYZ+Hgg==
+X-Received: by 2002:a05:6000:993:b0:222:d509:4b5b with SMTP id
+ by19-20020a056000099300b00222d5094b5bmr42242wrb.52.1660238182759; 
+ Thu, 11 Aug 2022 10:16:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.21
+ b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 10:16:21 -0700 (PDT)
+ Thu, 11 Aug 2022 10:16:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 01/10] target/arm: Don't corrupt high half of PMOVSR when
- cycle counter overflows
-Date: Thu, 11 Aug 2022 18:16:10 +0100
-Message-Id: <20220811171619.1154755-2-peter.maydell@linaro.org>
+Subject: [PATCH 02/10] target/arm: Correct value returned by pmu_counter_mask()
+Date: Thu, 11 Aug 2022 18:16:11 +0100
+Message-Id: <20220811171619.1154755-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220811171619.1154755-1-peter.maydell@linaro.org>
 References: <20220811171619.1154755-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,28 +88,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the cycle counter overflows, we are intended to set bit 31 in PMOVSR
-to indicate this. However a missing ULL suffix means that we end up
-setting all of bits 63-31. Fix the bug.
+pmu_counter_mask() accidentally returns a value with bits [63:32]
+set, because the expression it returns is evaluated as a signed value
+that gets sign-extended to 64 bits.  Force the whole expression to be
+evaluated with 64-bit arithmetic with ULL suffixes.
+
+The main effect of this bug was that a guest could write to the bits
+in the high half of registers like PMCNTENSET_EL0 that are supposed
+to be RES0.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 2 +-
+ target/arm/internals.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d7bc467a2a5..87c89748954 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1186,7 +1186,7 @@ static void pmccntr_op_start(CPUARMState *env)
-         uint64_t overflow_mask = env->cp15.c9_pmcr & PMCRLC ? \
-                                  1ull << 63 : 1ull << 31;
-         if (env->cp15.c15_ccnt & ~new_pmccntr & overflow_mask) {
--            env->cp15.c9_pmovsr |= (1 << 31);
-+            env->cp15.c9_pmovsr |= (1ULL << 31);
-             pmu_update_irq(env);
-         }
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index b8fefdff675..83526166de0 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1296,7 +1296,7 @@ static inline uint32_t pmu_num_counters(CPUARMState *env)
+ /* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
+ static inline uint64_t pmu_counter_mask(CPUARMState *env)
+ {
+-  return (1 << 31) | ((1 << pmu_num_counters(env)) - 1);
++  return (1ULL << 31) | ((1ULL << pmu_num_counters(env)) - 1);
+ }
  
+ #ifdef TARGET_AARCH64
 -- 
 2.25.1
 
