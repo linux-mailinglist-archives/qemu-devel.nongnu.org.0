@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FE1590936
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 01:36:13 +0200 (CEST)
-Received: from localhost ([::1]:54694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E65590940
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 01:42:13 +0200 (CEST)
+Received: from localhost ([::1]:59854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMHim-0001To-Q7
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 19:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43216)
+	id 1oMHoa-00059m-AC
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 19:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oMHhM-0008SH-8x
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:34:44 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:43897)
+ id 1oMHjv-0001bA-KI
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:37:23 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oMHhK-0004gI-R3
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:34:43 -0400
-Received: by mail-pg1-x529.google.com with SMTP id h132so18397372pgc.10
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 16:34:42 -0700 (PDT)
+ id 1oMHju-00057R-3I
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:37:23 -0400
+Received: by mail-pf1-x431.google.com with SMTP id p125so14219946pfp.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 16:37:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=K7iz4G/GeF5tLFNDrkTgvZRn18qFE6Er1TP+g5d7D48=;
- b=QZzEp+k1ciCK4zscCAA92a3IHsuKzpQBrkYBNTj61k983F8vig+FOcI7CW8hXX4P/K
- /lWyYxOM06n1mim/n11v5x8ZPhD2SFM8qJ+HRAjt4/kxtglJJC71kM23BzQeCSsxLFHc
- YF2BQ2KmYc/2n45L+lr2ZQV8bzLcUSMNS9mgR8eYfs5Vl9rjehDWE9g8Kh9Rn2TgOuT0
- CdRpbaalOYB1dJMWo5hVb1nYL9B5+jSrIK5Z/oyANxkxBafq8Wjmmf7ZPsPMDrSjIHni
- 0UX75cAQpaKzFov7x1+rRtQX/41dIxmAdw2oLpHPQa1fxDguzpddyIt64gHzuB/p24sw
- EFOA==
+ bh=wFpcglhzSlzo6u8PM+nMMAP/C86CFLIoX2wB2EWjf1E=;
+ b=KC1m1h1vOtqc80bsDYu6DqJJRdQyY9nZZDWh2UpD4wqI0pcJPmeExwpmKhRvU7sxGX
+ htR1ElG3V6FGXUFJj48WjBqcoWH7gn8DzWXygSwMDPQR93PS9wSX/qxMdAjzBqv+Zbn7
+ dPnGawu07Avi1ZtS7qPYwgJ3tZtCk6hlO3NfOi5x74Q9iVu+KOhLbvexj48DAzBeINPt
+ Iqw44yVnKQFdLqy4ODxG8PfFvhqkAcprSSA91gQH4ACOf1bHQ3d9ojfITMny9qEzEnK6
+ 2BYKA6J2P7I2ooXIjaOzguRszialGbjCK2yoGJ4TYU8Qg3cPqmcwhXekKSB2Va7Xy6Jc
+ ERlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=K7iz4G/GeF5tLFNDrkTgvZRn18qFE6Er1TP+g5d7D48=;
- b=EKwcDshNIcxZAi6+rY2RFKwLqwKnigWMtFADdHeqcusqsCi2PQmhT85AtzsK8V/jC/
- jmHVLJieq5jyE1IouEiFrn5C/OZvFfZRMhLb2fgt0bH76CGrXMLXgJItlHBSR9Qxb9Rv
- qFaGaYLMZsow2TCwXhQHsEmw19Ahv6LdyEDcsaHkmD7ZPY9noW9SD0JWZRL5j+RY2tIS
- yICq3Vo/nDbwc+2GLxDxOVWDQx6v6ocJyny/IcTboGuDfZ5QvN8Ktxc/EvMZwirgXM2V
- ovL8/n/oWZrtZntLnxEoQvZXbTTXNrKJbgVrIyWQvnUCYpUXKw+FGk/M2laGdfpZVocB
- ii4A==
-X-Gm-Message-State: ACgBeo3/zN8NenGZTrJmj0HHw43Pwbk+kdwt9gpwNvkFTqfQiZgFbSI6
- HrqwC/kLni7A+ocyLCA5E7Q=
-X-Google-Smtp-Source: AA6agR4wM8YYQs5W+iV/nV4A382J0T4Dzmqh6XXLSwcJhuowDo7Rgh3FpYUpd1TLSr+IF07CjBG7Rg==
-X-Received: by 2002:a63:210f:0:b0:41c:650c:aea4 with SMTP id
- h15-20020a63210f000000b0041c650caea4mr994963pgh.267.1660260881204; 
- Thu, 11 Aug 2022 16:34:41 -0700 (PDT)
+ bh=wFpcglhzSlzo6u8PM+nMMAP/C86CFLIoX2wB2EWjf1E=;
+ b=fgivBGeS2yyq3mE92WIEcmXeVulXsLMV7TA/RRUY5g0LkGXf4c0kH6uMpKTmMAIGNB
+ hbHCMjBVekJecVFj53/OARgIWE7EWp2ElMmYyI1Kygq/sqBmgqEmCQTafBr1FMGGSyQM
+ LM4tfUPvSGvu6QoRLWejJVwr/Hob9awMmACO/WEbELxbzxoISYcpavvl0/jef1fMgk0p
+ 3Lv61jK3UKQK/W9Hjuf5AruqU/hAxRR3XnQ6btoyzHxcSW3ToFWczt2tGOzhysJxCxla
+ hU2YLa+dsVH3nV0zUPcZFe+ZfnZ9nX9rOEHpPc+q9IV3S194+Vhs4/AGscDGfzgP8xop
+ kHqQ==
+X-Gm-Message-State: ACgBeo0F2qiTL+qYt2t6lVAnDTa5Q+40t/tksZwMt7XsgyCE1HpBFjB9
+ kOT08IxF9BAgWaCe2F5HQTE=
+X-Google-Smtp-Source: AA6agR6Iuygt0Gk20sA7Y6iR7XQyuMyuDzP54MHBFPrahW14d8y90YkGS/L6km90fNh+dq8GZJkcLA==
+X-Received: by 2002:a63:2205:0:b0:417:61fd:cd35 with SMTP id
+ i5-20020a632205000000b0041761fdcd35mr1019643pgi.544.1660261040192; 
+ Thu, 11 Aug 2022 16:37:20 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- ix15-20020a170902f80f00b00171311470eesm244385plb.8.2022.08.11.16.34.39
+ l15-20020a17090a150f00b001ef9479373fsm4303036pja.4.2022.08.11.16.37.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 16:34:40 -0700 (PDT)
-Message-ID: <a2c919f2-514e-834b-3271-2d7a46aeb4ac@amsat.org>
-Date: Fri, 12 Aug 2022 01:34:37 +0200
+ Thu, 11 Aug 2022 16:37:18 -0700 (PDT)
+Message-ID: <d454fc53-b6d6-0550-2ec5-fb7889dc6cc8@amsat.org>
+Date: Fri, 12 Aug 2022 01:37:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: Missing dll
+Subject: Re: [PATCH v1 2/8] cpu: cache CPUClass in CPUState for hot code paths
 Content-Language: en-US
-To: Peter Butler <peter-butler@comcast.net>, qemu-devel@nongnu.org
-References: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
-Cc: Stefan Weil <sw@weilnetz.de>, Yonggang Luo <luoyonggang@gmail.com>
-In-Reply-To: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>
+References: <20220811151413.3350684-1-alex.bennee@linaro.org>
+ <20220811151413.3350684-3-alex.bennee@linaro.org>
+In-Reply-To: <20220811151413.3350684-3-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,19 +99,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Cc'ing qemu-windows@ team
+On 11/8/22 17:14, Alex Bennée wrote:
+> The class cast checkers are quite expensive and always on (unlike the
+> dynamic case who's checks are gated by CONFIG_QOM_CAST_DEBUG). To
+> avoid the overhead of repeatedly checking something which should never
+> change we cache the CPUClass reference for use in the hot code paths.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   include/hw/core/cpu.h | 9 +++++++++
+>   cpu.c                 | 9 ++++-----
+>   2 files changed, 13 insertions(+), 5 deletions(-)
 
-On 10/8/22 23:42, Peter Butler wrote:
-> In x64 win10 I today I d/l QEMU into new directory. Then navigated to 
-> that dir and…
-> 
-> qemu-system-aarch64 -boot d -cdrom 
-> f:\Downloads\debian-11.4.0-arm64-netinst.iso -m 2048
-> 
-> Error message:…libncursesw6.dll not found…
-> 
-> Please help
-> Thank you
-> 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
