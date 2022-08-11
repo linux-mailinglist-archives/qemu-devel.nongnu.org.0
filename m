@@ -2,94 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B7958F80D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 09:03:48 +0200 (CEST)
-Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF5658F7FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 08:58:21 +0200 (CEST)
+Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM2EF-0008AC-Cp
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 03:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
+	id 1oM28w-0004g4-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 02:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oM23s-0001nN-9d
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 02:52:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27837)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM23a-0001gR-SW
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 02:52:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oM23q-0003a5-Lr
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 02:52:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM23V-0003W3-Jk
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 02:52:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660200773;
+ s=mimecast20190719; t=1660200752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XykmjRKG8WObBKegscFBSwy10icIqFhwWTyUiIaUfWM=;
- b=HTsW6jHIyN8FpCK5ty2R2reGz+YN6O6wE/L5XvHA0mrBuu+etKkDpw0t8CaGJYKCgdKzGV
- K4HVDrKaOQXr44eJZPS/Wkck7mzBmhEfCtYQydIkmcqwJSNcJ5FXAANeKpZQrTHQCdhfsF
- peXtF4fHujlFIOrHtHIXVgV3eu6AyaA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-312-X_W6nIwoOeS1Sl0j-deG1A-1; Thu, 11 Aug 2022 02:52:51 -0400
-X-MC-Unique: X_W6nIwoOeS1Sl0j-deG1A-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bq32-20020a05620a46a000b006b9c033bbe5so1193159qkb.5
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 23:52:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=XykmjRKG8WObBKegscFBSwy10icIqFhwWTyUiIaUfWM=;
- b=QDn++h8PY4qE+zh83bcIGACt9VghTGYFPh25aQHs3NiguC55CXFPfNPO66F9uaJXrw
- E91O2KtsE2ZD6Cn8t4Hampfoxl1Y5j79v4yt2T0ErCP6BD6LlG0t9aVgPsyuJ8zwj4nK
- aD916PmizZbiv5HKKIdyPxHsq4MpGDxkDDzsiH6xlZ5cteFzWeNDsY78y8r1fYaFKNQO
- m2dDXhKPMcH47mRJ8s/ex6gcmAogfYEbe1pnB9SnsqJhNnNOCL3wciBgwHmgWJd0yAVY
- HjVPo+ZABeR7lfs8ORiGlj1qSplhRd2Vi5VrsiqKsDgQf2J5hpJJTox5E0p5dDn1xFn+
- jT2A==
-X-Gm-Message-State: ACgBeo3lyd1IrcOYc/g97txY0r8VaND3TthiqQHyVJOVziWodHXy2L+p
- FdZhoyaqc63PMlFZPgMxBl6MFh0cWYnwvWtryfxDzV7iDEiCvPeOAxxROOXJcNn9FrZiBIoUMWd
- nLTLFAzDkDIxH4IElCYLVkNFLceYc3HQ=
-X-Received: by 2002:a05:622a:1102:b0:343:66b0:4a2 with SMTP id
- e2-20020a05622a110200b0034366b004a2mr1157756qty.495.1660200771165; 
- Wed, 10 Aug 2022 23:52:51 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5aiWpNr47SWLFFkQy4fAiKxua97e9PTz3Q5QYOZcXHpcfXj5EPHEnsrLkHXoZlfOWG5SrT1Ofgnf7EigIj7Pk=
-X-Received: by 2002:a05:622a:1102:b0:343:66b0:4a2 with SMTP id
- e2-20020a05622a110200b0034366b004a2mr1157732qty.495.1660200770969; Wed, 10
- Aug 2022 23:52:50 -0700 (PDT)
+ bh=tQXKk6e0JkbSNv153GgQSTUY6CCmtGnXHdRUx88fpAw=;
+ b=aWTbzMrX5Guh9K18MX9PlX5GCENbg5syB7rZu0ZUlhcKfEChZJ39n68j/DVPr/3p5b+/Na
+ KcYWEk/oDJJ7HKQbYctBdgJrPGcWV79jvacFi7jzw8DFZuYkLMyasjmbA1wvJvEkgLhYxO
+ oGQSdiFvUKKpc+c13iQgMAz7+WW/VQ8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-575-RsacmTmCNmKkgJ4Edt-LFA-1; Thu, 11 Aug 2022 02:52:29 -0400
+X-MC-Unique: RsacmTmCNmKkgJ4Edt-LFA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC0C51C07561;
+ Thu, 11 Aug 2022 06:52:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F624C15BAA;
+ Thu, 11 Aug 2022 06:52:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4F68F21E668B; Thu, 11 Aug 2022 08:52:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Cleber Rosa
+ <crosa@redhat.com>,  qemu-block@nongnu.org,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Xie Yongji <xieyongji@bytedance.com>,  Kyle Evans
+ <kevans@freebsd.org>,  Peter Maydell <peter.maydell@linaro.org>,  John
+ Snow <jsnow@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Warner
+ Losh <imp@bsdimp.com>,  Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Laurent Vivier <laurent@vivier.eu>,  Fam
+ Zheng <fam@euphon.net>,  Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+ <20220712093528.4144184-12-marcandre.lureau@redhat.com>
+ <87pmhf86ew.fsf@pond.sub.org>
+ <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
+Date: Thu, 11 Aug 2022 08:52:26 +0200
+In-Reply-To: <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Fri, 5 Aug 2022
+ 12:49:55 +0400")
+Message-ID: <8735e38e6t.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220809173926.1695280-1-eperezma@redhat.com>
- <20220809173926.1695280-12-eperezma@redhat.com>
- <CACGkMEv0hsLskgOj7LC4NEKEjQ9ssCVLBXE1NTY6g0xzDESD6w@mail.gmail.com>
-In-Reply-To: <CACGkMEv0hsLskgOj7LC4NEKEjQ9ssCVLBXE1NTY6g0xzDESD6w@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 11 Aug 2022 08:52:14 +0200
-Message-ID: <CAJaqyWf637fWeA7bfBsQopwxU=h1UNmDHs2O6Xmn=amxeUzM3Q@mail.gmail.com>
-Subject: Re: [PATCH v8 11/12] vdpa: Add virtio-net mac address via CVQ at start
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- Eric Blake <eblake@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eli Cohen <eli@mellanox.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,111 +93,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 10, 2022 at 7:09 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Aug 10, 2022 at 1:40 AM Eugenio P=C3=A9rez <eperezma@redhat.com> =
-wrote:
-> >
-> > This is needed so the destination vdpa device see the same state a the
-> > guest set in the source.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> > v8:
-> > * Delete unneeded copy from device's in buffer.
-> >
-> > v6:
-> > * Map and unmap command buffers at the start and end of device usage.
-> >
-> > v5:
-> > * Rename s/start/load/
-> > * Use independent NetClientInfo to only add load callback on cvq.
-> > ---
-> >  net/vhost-vdpa.c | 41 +++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 41 insertions(+)
-> >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index df85567cff..e775957952 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -363,11 +363,52 @@ static ssize_t vhost_vdpa_net_cvq_add(VhostVDPASt=
-ate *s, size_t out_len,
-> >      return vhost_svq_poll(svq);
-> >  }
-> >
-> > +static int vhost_vdpa_net_load(NetClientState *nc)
-> > +{
-> > +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> > +    VirtIONet *n;
-> > +    uint64_t features;
-> > +
-> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> > +
-> > +    if (!v->shadow_vqs_enabled) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    n =3D VIRTIO_NET(v->dev->vdev);
-> > +    features =3D v->dev->vdev->host_features;
-> > +    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
-> > +        const struct virtio_net_ctrl_hdr ctrl =3D {
-> > +            .class =3D VIRTIO_NET_CTRL_MAC,
-> > +            .cmd =3D VIRTIO_NET_CTRL_MAC_ADDR_SET,
-> > +        };
-> > +        char *cursor =3D s->cvq_cmd_out_buffer;
-> > +        ssize_t dev_written;
-> > +
-> > +        memcpy(cursor, &ctrl, sizeof(ctrl));
-> > +        cursor +=3D sizeof(ctrl);
-> > +        memcpy(cursor, n->mac, sizeof(n->mac));
-> > +        cursor +=3D sizeof(n->mac);
->
-> I'd cast and initialize directly from the cmd_out_buff. But this could
-> be done on top.
->
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-Actually you are right, that's valid for MAC. I think the compiler
-should be able to omit the memcpy call if the direct write is safe,
-but I haven't checked.
+> Hi
+>
+> On Fri, Aug 5, 2022 at 12:12 PM Markus Armbruster <armbru@redhat.com> wro=
+te:
+>
+>> marcandre.lureau@redhat.com writes:
+>>
+>> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >
+>> > This is just moving qapi-gen.py and related subdir to qemu-common, to
+>> > ease review and proceed step by step. The following patches will move
+>> > related necessary code, tests etc.
+>> >
+>> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>
+>> As moved files tend to become low-level annoyances for a long time, I'd
+>> like to understand why you want to move them.  The commit message says
+>> "to ease review", which I suspect isn't the real reason.  Perhaps you
+>> explained all that elsewhere already, but I missed it.
+>>
+>>
+>>
+> The end goal is to split some projects, such as qemu-ga, to standalone
+> meson projects/subprojects. We will be able to build them independently
+> from the rest of QEMU, and later on perhaps handle them outside of QEMU
+> main repository. To achieve this, I first introduce a qemu-common
+> subproject, where qapi and common units are provided. You can check
+> https://gitlab.com/marcandre.lureau/qemu/-/commits/qga for a sneak peek at
+> current end result.
 
-In a second review, either this last increment of the "cursor"
-variable is useless and we can delete it or we could use it to
-calculate the output size (cursor - s->cvq_cmd_out_buffer).
+I worry this move of the QAPI generator code into
+subjprojects/common/scripts/qapi/ will be followed by a move into its
+own subproject.
 
-> So
->
-> Acked-by: Jason Wang <jasowang@redhat.com>
->
->
-> > +
-> > +        dev_written =3D vhost_vdpa_net_cvq_add(s, sizeof(ctrl) + sizeo=
-f(n->mac),
-> > +                                             sizeof(virtio_net_ctrl_ac=
-k));
-> > +        if (unlikely(dev_written < 0)) {
-> > +            return dev_written;
-> > +        }
-> > +
-> > +        return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) !=3D VIR=
-TIO_NET_OK;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
-> >      .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
-> >      .size =3D sizeof(VhostVDPAState),
-> >      .receive =3D vhost_vdpa_receive,
-> >      .start =3D vhost_vdpa_net_cvq_start,
-> > +    .load =3D vhost_vdpa_net_load,
-> >      .stop =3D vhost_vdpa_net_cvq_stop,
-> >      .cleanup =3D vhost_vdpa_cleanup,
-> >      .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
-> > --
-> > 2.31.1
-> >
->
+Ignorant question: could we turn the QAPI generator into a subproject in
+place?
+
+> I said "to ease review and proceed step by step" simply because there are
+> no other changes: I don't move the rest of the qapi code & tests all
+> together, it's in the subsequent series.
+
+I'd recommend to provide a bit more context in the commit message, even
+if you copy it to several messages in a row.  Our future selves will
+likely be grateful.
 
 
