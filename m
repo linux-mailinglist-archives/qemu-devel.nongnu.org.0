@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2AB5905BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:22:52 +0200 (CEST)
-Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945D45905D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:26:17 +0200 (CEST)
+Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBtT-00046C-3u
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43160)
+	id 1oMBwm-0001NV-NI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:26:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnI-0006pM-VI
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:28 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46656)
+ id 1oMBnJ-0006rC-Uq
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:29 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnH-0000uW-52
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:28 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id l4so22016496wrm.13
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:26 -0700 (PDT)
+ id 1oMBnH-0000un-W4
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:29 -0400
+Received: by mail-wr1-x434.google.com with SMTP id h13so22075246wrf.6
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc;
- bh=xIpHKKN+tPPlk9zHLorB4jiMN60VN0Gc9hDUeByyUhY=;
- b=ESIKAthsjp+1hELU+BXHhSyiHuRJmO327ujRsD5l6uq1uRK4pkjG4CekhvJEMBCwOO
- dYwPD5OXTHf3THJ3qJe5NNRz1X2K4O1GnDo1HlcMMDc4VdlmjO0ZeOgkfYz7WbCci3XR
- 26XzTGl1q/etsn2E5Q0P8xiNek6/Jhi3KbChpG08hkW4ZnBcP+EPsnZ3EXbSOqn5W+Ib
- ex5N3IMReBhGcqlQ7IDm2JKEwpSqIHtP9LAFe9Ikl+7feOTNsk+RTtKEKsheiE7OZYz/
- MvUSa0JAnqY2MKFYpIfC0AN3/8rQbkHjXJora/aJdlrIPAkpWIpTWOY+5MnqAa6e0YKS
- X7Yg==
+ bh=7JOOvNmtI1acCNeUuTnyvZig9bTiBz+pPJfNeB7v0uo=;
+ b=gCQaMIR1nw1BU1oWukn9ljVoNP6sS45rgkDjS5xN/khnizeQDFQUx+gvSqoIYjE+fi
+ XoK5/OjTEjObUCDEm1r3wZ17sfs6Xr0yciNKjFf5ZPwXPdfOvAMx5fg7jdfYP/UIa63q
+ Pb9P68PyIzXBG25/64Nym/D7y1sKxyfkUIlvxQ1Ggw8+LSDAuDwMTtnR7i3kaEjC7ISi
+ GEkFUVFUTsNwIkGk9KRfcL0C2qjb9WvyJs+Fi3hG0GbnFnJfq8VcCAxWegTp9ortwhCL
+ rWv6Kn+qyZyDffZh+GT5ZNC7CZnd5i6JYVGMNZrptt4Fk740QQ3kbUCc5FnmKOmz8uzo
+ ZgcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=xIpHKKN+tPPlk9zHLorB4jiMN60VN0Gc9hDUeByyUhY=;
- b=ixmY2eLHIjuAYHr5bpZkuMGBro2kb9p6+QHQw36D50x9vZQoFCJJZLAqKBKTzXSmKo
- 3SROfJr0QKjvgJnrTHCEptpHHtkokPt4CVQTeRtGMotLcf7UfGGej9osO2FtCP2mpq9Z
- cnq6QeA+dVNsaDsD8dOt/lCcqtJaJ+r2ma2VctfWRHep1aGalL+ZDe3B+Gp/41uavoqa
- eHnoAoUKVc9VKUa7iaB3NXsXp4bvo0+7wcSwX7dkV4oRUlr3EJJ9mHAIJnaFaPuV+OOP
- uMLGtUjUGbCA2+nX9NZCKuCbZEeRh5INIUr6vkJEL7B4lqUp4G8sMFTHK5JUb87dn8Qd
- /LLQ==
-X-Gm-Message-State: ACgBeo1ZIpBzYGgTAUmMxh+h4MCjiMk38lGnLqzar8pUBqzlEYIrW5t/
- /qnoV9Pl6kIGCBA05BRjwvaauibSNypelQ==
-X-Google-Smtp-Source: AA6agR7HIO5ssJURkbr53eWKJHoNPSAsJXxQE00bRtH2JgE8o5LBlO7opZSFn93DnrldbEX/z3t7YA==
-X-Received: by 2002:a05:6000:1379:b0:21f:c4d:957a with SMTP id
- q25-20020a056000137900b0021f0c4d957amr36011wrz.210.1660238185410; 
- Thu, 11 Aug 2022 10:16:25 -0700 (PDT)
+ bh=7JOOvNmtI1acCNeUuTnyvZig9bTiBz+pPJfNeB7v0uo=;
+ b=KoeV/Y0s2Bz1Y1PlBuYoovge38SCSnUMo4QrvrQKIrpcuZGl5O1DU21ojWzHkW8hve
+ KovRsxGjisPa/vtwYPBDLkwQxQGvlyKyVzKa5YKoMLO/yt8jyv9znRX1XO5xfKvojm9+
+ NgtqMSr7E/SAhLxR9g28ZKNEpuC/+tPtUmWvBkz+0EaYV1/pC8EZxXwKZULykuF0RIPO
+ 42NXrdm0b6rpy5zoPOEC8qq9AQNPiUb6Ta1BLZNJXvVEpn1zgyavsLxOo8vHrsjOELst
+ DCvEgJfynhVyxXnRX53jeqhwEsdD730OPHnOPHhLdS9MUuyiPmAw6mN4tCPXYTCxI4kH
+ 6uOw==
+X-Gm-Message-State: ACgBeo0Gb+Ocqux2p0cijZg5vGest5uEuFqlkxOjt9Tybx1d3Y1pGt58
+ I1kyKQa2EW62iKwooj6FhcFxVluvx+D9vw==
+X-Google-Smtp-Source: AA6agR4Z4GNQkKPx2618+Yx3uJ2OnJlyDGED3dqvxlo+cVGz5iUU0CvbIGstgsag2xp8k1LXRWiBpQ==
+X-Received: by 2002:a5d:6102:0:b0:220:6382:eab1 with SMTP id
+ v2-20020a5d6102000000b002206382eab1mr2932wrt.539.1660238186480; 
+ Thu, 11 Aug 2022 10:16:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.24
+ b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 10:16:24 -0700 (PDT)
+ Thu, 11 Aug 2022 10:16:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 05/10] target/arm: Honour MDCR_EL2.HPMD in Secure EL2
-Date: Thu, 11 Aug 2022 18:16:14 +0100
-Message-Id: <20220811171619.1154755-6-peter.maydell@linaro.org>
+Subject: [PATCH 06/10] target/arm: Detect overflow when calculating next PMU
+ interrupt
+Date: Thu, 11 Aug 2022 18:16:15 +0100
+Message-Id: <20220811171619.1154755-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220811171619.1154755-1-peter.maydell@linaro.org>
 References: <20220811171619.1154755-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,59 +89,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The logic in pmu_counter_enabled() for handling the 'prohibit event
-counting' bits MDCR_EL2.HPMD and MDCR_EL3.SPME is written in a way
-that assumes that EL2 is never Secure.  This used to be true, but the
-architecture now permits Secure EL2, and QEMU can emulate this.
+In pmccntr_op_finish() and pmevcntr_op_finish() we calculate the next
+point at which we will get an overflow and need to fire the PMU
+interrupt or set the overflow flag.  We do this by calculating the
+number of nanoseconds to the overflow event and then adding it to
+qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL).  However, we don't check
+whether that signed addition overflows, which can happen if the next
+PMU interrupt would happen massively far in the future (250 years or
+more).
 
-Refactor the prohibit logic so that we effectively OR together
-the various prohibit bits when they apply, rather than trying to
-construct an if-else ladder where any particular state of the CPU
-ends up in exactly one branch of the ladder.
-
-This fixes the Secure EL2 case and also is a better structure for
-adding the PMUv8.5 bits MDCR_EL2.HCCD and MDCR_EL3.SCCD.
+Since QEMU assumes that "when the QEMU_CLOCK_VIRTUAL rolls over" is
+"never", the sensible behaviour in this situation is simply to not
+try to set the timer if it would be beyond that point.  Detect the
+overflow, and skip setting the timer in that case.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ target/arm/helper.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 41def52cf7b..434885d024a 100644
+index 434885d024a..b7a420981f8 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -1094,7 +1094,7 @@ static bool pmu_counter_enabled(CPUARMState *env, uint8_t counter)
- {
-     uint64_t filter;
-     bool e, p, u, nsk, nsu, nsh, m;
--    bool enabled, prohibited, filtered;
-+    bool enabled, prohibited = false, filtered;
-     bool secure = arm_is_secure(env);
-     int el = arm_current_el(env);
-     uint64_t mdcr_el2 = arm_mdcr_el2_eff(env);
-@@ -1112,15 +1112,12 @@ static bool pmu_counter_enabled(CPUARMState *env, uint8_t counter)
-     }
-     enabled = e && (env->cp15.c9_pmcnten & (1 << counter));
+@@ -1227,10 +1227,13 @@ static void pmccntr_op_finish(CPUARMState *env)
+         int64_t overflow_in = cycles_ns_per(remaining_cycles);
  
--    if (!secure) {
--        if (el == 2 && (counter < hpmn || counter == 31)) {
--            prohibited = mdcr_el2 & MDCR_HPMD;
--        } else {
--            prohibited = false;
--        }
--    } else {
--        prohibited = arm_feature(env, ARM_FEATURE_EL3) &&
--           !(env->cp15.mdcr_el3 & MDCR_SPME);
-+    /* Is event counting prohibited? */
-+    if (el == 2 && (counter < hpmn || counter == 31)) {
-+        prohibited = mdcr_el2 & MDCR_HPMD;
-+    }
-+    if (secure) {
-+        prohibited = prohibited || !(env->cp15.mdcr_el3 & MDCR_SPME);
-     }
+         if (overflow_in > 0) {
+-            int64_t overflow_at = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+-                overflow_in;
+-            ARMCPU *cpu = env_archcpu(env);
+-            timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            int64_t overflow_at;
++
++            if (!sadd64_overflow(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                                overflow_in, &overflow_at)) {
++                ARMCPU *cpu = env_archcpu(env);
++                timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            }
+         }
+ #endif
  
-     if (prohibited && counter == 31) {
+@@ -1275,10 +1278,13 @@ static void pmevcntr_op_finish(CPUARMState *env, uint8_t counter)
+         int64_t overflow_in = pm_events[event_idx].ns_per_count(delta);
+ 
+         if (overflow_in > 0) {
+-            int64_t overflow_at = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+-                overflow_in;
+-            ARMCPU *cpu = env_archcpu(env);
+-            timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            int64_t overflow_at;
++
++            if (!sadd64_overflow(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                                 overflow_in, &overflow_at)) {
++                ARMCPU *cpu = env_archcpu(env);
++                timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            }
+         }
+ #endif
+ 
 -- 
 2.25.1
 
