@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38BEC590949
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 01:44:27 +0200 (CEST)
-Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4754559094B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 01:47:18 +0200 (CEST)
+Received: from localhost ([::1]:38322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMHqk-0007Nl-CA
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 19:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43940)
+	id 1oMHtV-0001SJ-Dl
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 19:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oMHp6-0005p8-QQ
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:42:46 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40758)
+ id 1oMHqe-0007Kt-S0
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:44:20 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:37600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oMHp5-0005hc-8B
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:42:44 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- s5-20020a17090a13c500b001f4da9ffe5fso6800826pjf.5
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 16:42:42 -0700 (PDT)
+ id 1oMHqd-0005lD-9q
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:44:20 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id bh13so18428190pgb.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 16:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=yaUSsm9aXqh0IGoOM/GerbNL0vwXUpF7owqdNfZCOus=;
- b=diaRH3IKDM2+zrxB37iZkmTlaDplfuvzfB0jfCK3wawTUJRjTLqS/VQO0Q8MIKLBkk
- OXHxVasywI0857XOcCY4ZxX1sW25lf7a3T92zm5FBvZntBEXyphcJp762mRI6j22CZdT
- I0y4dO/CeomdRq1jygZFnHZqSDQ8/zZJ35TurZZ0Q2U5aSLHa7CXEFsrFEwSYuaw2Wog
- VgFU3VVNrLtd7jxcgkdwprEXbAus+/sAnC6keMxc/OctTkW2d7aHSuPBmEripPF+2b9Q
- hZcwQ0iZda5rYSJ7dyGSgNcRROGXWnl9vr2QkVNuFrTuS3uf7n10XbyJPeq3z0rgW/mW
- I0HA==
+ bh=EoYcxRTF74V6K+m3gC9a6LN2HIXl63S47mzcrd+c8IY=;
+ b=DEzEUu2F7Q+n+9dUgJFMHwAczJYCSHoBq3MF6LwnXGBZIxfA4WxydEwHd0N9t1DZHm
+ OZVJV2cj0CnYOjTH2cNOczDlfSTP9Wg4QgJcB8Ivm9tcjZhzL/pD9ipPqYtLEx3t8NGd
+ 7e2NhrE0TOAq1ex1bgKZXru4QNuLVxD7cz0Ny4cdV9mW6Y+IlOeSz+drrh5mWm5THvGv
+ J3uDVAkENvGtt/wPgU+s9CBu6YukKWsoyfVG67ozm1TK2F2cyW2XPHQcUR3iUfr/PeWz
+ afvwxGfEzJY+pNRkUY8hMpCLdQCQ+CC3wUcdRUl3FmAYYYQei4ZRbvmPYSsjgH/6caY5
+ Zgog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=yaUSsm9aXqh0IGoOM/GerbNL0vwXUpF7owqdNfZCOus=;
- b=k7g8Z0ubYMaAy6pUK83Kq3zJxwpDyTgZYJOpvpnDJyl7yic5JfRNQZucKAFmCA898N
- oiGfHQUWkSUVit5vxY+xXA7ChFR3O4dYlGneSQCgeMTjZNcuZ4cjwSdj5xy+J5XSf3v3
- ZY7BmQ2r58pPdrEKP/gApZWuoLNh0/PURqO/e3cg08zamM2Jdf0aCJ0GW3JeumDeZ+CJ
- rEL2QBFTNj4yONfdlsV39C7pOUSpYQ3kVF2qnBufY9Y5ukWLozlSSdA6SetVSuan0swh
- 1Kbdje4pnxak3YEdSIs0CQ5eWiUC3NrPft23M7IVD3Va16CVREZSJ09V2u/rIj8IbiCO
- SWmA==
-X-Gm-Message-State: ACgBeo3eXVrcCs+bbI1mM9ohV5F79Eo6dWnQQB03PFAeQsaL+Z5WLP/z
- KnxJ0P1dA8RulvwwprFvWDo=
-X-Google-Smtp-Source: AA6agR7Wv2KSrQwFIBRpOIGMODzcXh+MvIri0k1QF5y9B7/rn9m1zzAMxH7DHQqjiHYNAHktdD6u+g==
-X-Received: by 2002:a17:902:694c:b0:16d:cc5a:8485 with SMTP id
- k12-20020a170902694c00b0016dcc5a8485mr1491540plt.90.1660261360707; 
- Thu, 11 Aug 2022 16:42:40 -0700 (PDT)
+ bh=EoYcxRTF74V6K+m3gC9a6LN2HIXl63S47mzcrd+c8IY=;
+ b=5EUPAiin/Fio94/0jUH0BJSQiy23l6UjqPazs8q5teEHqwwoPNKNAfM/lqURxvyLu3
+ b5Ms0es5SIu9xEFtlb2WJak8C4M8VF9YGMffZX8ma7HAixQFwjp6XVrSfKbCq92p18oy
+ qn3rDTTSj773xTnhPlkm6qlwbeLe9KYF6cD/KxU9q+JQg9xK3ddG3yoegRnBdwJG7ekJ
+ fO86e1bFvpOcRZGvEIPWB0qeS30my0gHykEGV8sC8H0KIBKnOj8jTdiMyaDtlMMMrSIH
+ 53MvF7XZhF2JOYHxlE2GWYlEx/5jznpeQtvY1iKqoBeHXmeuzxziE2OPkazMDAPBLZhF
+ GQVw==
+X-Gm-Message-State: ACgBeo3Nxmy5DH+LgOLIoJJqLcF4I0BuUNohHWuZCY7D8H7V367BvrFP
+ pnkpeUJVX5Kl4wKjMw+GD84=
+X-Google-Smtp-Source: AA6agR68PzAJ82MsyV9BQ+U1slc2OrEXkn1QtRQ3sWsvIbpVnMcQTaThP/0ASYiRITlYd0g6UByipw==
+X-Received: by 2002:a62:1a14:0:b0:52d:daae:b289 with SMTP id
+ a20-20020a621a14000000b0052ddaaeb289mr1415005pfa.55.1660261457930; 
+ Thu, 11 Aug 2022 16:44:17 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q2-20020a170902f78200b0016d1f474653sm246664pln.52.2022.08.11.16.42.38
+ y5-20020aa79425000000b00525442ac579sm240570pfo.212.2022.08.11.16.44.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 16:42:40 -0700 (PDT)
-Message-ID: <4c5e815f-468a-5626-017f-7da031d95eb8@amsat.org>
-Date: Fri, 12 Aug 2022 01:42:36 +0200
+ Thu, 11 Aug 2022 16:44:17 -0700 (PDT)
+Message-ID: <3c21c1c5-dc30-1e77-b8e5-38519e257b2e@amsat.org>
+Date: Fri, 12 Aug 2022 01:44:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v1 5/8] ssi: cache SSIPeripheralClass to avoid GET_CLASS()
+Subject: Re: [PATCH v1 8/8] accel/tcg: remove trace_vcpu_dstate TB checking
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 References: <20220811151413.3350684-1-alex.bennee@linaro.org>
- <20220811151413.3350684-6-alex.bennee@linaro.org>
-In-Reply-To: <20220811151413.3350684-6-alex.bennee@linaro.org>
+ <20220811151413.3350684-9-alex.bennee@linaro.org>
+In-Reply-To: <20220811151413.3350684-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,58 +99,28 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 11/8/22 17:14, Alex Bennée wrote:
-> Investigating why some BMC models are so slow compared to a plain ARM
-> virt machines I did some profiling of:
+> We removed the ability to do vcpu tcg tracing between:
 > 
->    ./qemu-system-arm -M romulus-bmc -nic user \
->      -drive
->      file=obmc-phosphor-image-romulus.static.mtd,format=raw,if=mtd \
->      -nographic -serial mon:stdio
+>    d9a6bad542 (docs: remove references to TCG tracing)
+>    and
+>    126d4123c5 (tracing: excise the tcg related from tracetool)
 > 
-> And saw that object_class_dynamic_cast_assert was dominating the
-> profile times. We have a number of cases in this model of the SSI bus.
-> As the class is static once the object is created we just cache it and
-> use it instead of the dynamic case macros.
+> but missed a bunch of other code. Lets continue the clean-up by
+> removing the extra field from tb_hash saving us 4 bytes per-TB and the
+> additional cost of hashing/checking something that was always empty
+> anyway.
 > 
-> Profiling against:
+> There remain some per-vcpu trace points which don't look as though
+> they are called anywhere and the command line/QMP machinery to
+> clean-up.
 > 
->    ./tests/venv/bin/avocado run \
->      tests/avocado/machine_aspeed.py:test_arm_ast2500_romulus_openbmc_v2_9_0
-> 
-> Before: 35.565 s ±  0.087 s
-> After: 15.713 s ±  0.287 s
-
-Wow!
-
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Cédric Le Goater <clg@kaod.org>
-> 
 > ---
-> v2
->   - split patches
-> ---
->   include/hw/ssi/ssi.h |  3 +++
->   hw/ssi/ssi.c         | 18 ++++++++----------
->   2 files changed, 11 insertions(+), 10 deletions(-)
+>   accel/tcg/tb-hash.h       |  6 +++---
+>   include/exec/exec-all.h   |  3 ---
+>   accel/tcg/cpu-exec.c      |  6 +-----
+>   accel/tcg/translate-all.c | 13 ++-----------
+>   4 files changed, 6 insertions(+), 22 deletions(-)
 
-> @@ -48,11 +47,11 @@ static void ssi_cs_default(void *opaque, int n, int level)
->   
->   static uint32_t ssi_transfer_raw_default(SSIPeripheral *dev, uint32_t val)
->   {
-> -    SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(dev);
-> +    SSIPeripheralClass *ssc = dev->spc;
->   
->       if ((dev->cs && ssc->cs_polarity == SSI_CS_HIGH) ||
-> -            (!dev->cs && ssc->cs_polarity == SSI_CS_LOW) ||
-> -            ssc->cs_polarity == SSI_CS_NONE) {
-> +        (!dev->cs && ssc->cs_polarity == SSI_CS_LOW) ||
-> +        ssc->cs_polarity == SSI_CS_NONE) {
-
-Spurious de-indent?
-
-Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->           return ssc->transfer(dev, val);
->       }
 
