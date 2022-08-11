@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB1B58F65A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 05:19:31 +0200 (CEST)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4C158F64F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 05:12:53 +0200 (CEST)
+Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLyjH-0005a7-Hu
-	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 23:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37654)
+	id 1oLyco-0000Ot-25
+	for lists+qemu-devel@lfdr.de; Wed, 10 Aug 2022 23:12:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oLyaE-0003CD-Ki
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 23:10:06 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:60642 helo=loongson.cn)
+ id 1oLyaD-0003BD-Is
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 23:10:05 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:60658 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oLyaC-0006Bd-3p
- for qemu-devel@nongnu.org; Wed, 10 Aug 2022 23:10:06 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1oLyaB-0006Bi-Dw
+ for qemu-devel@nongnu.org; Wed, 10 Aug 2022 23:10:05 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxzyP9cvRi8RcNAA--.8789S7;
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxzyP9cvRi8RcNAA--.8789S8;
  Thu, 11 Aug 2022 11:09:52 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH v1 5/6] hw/loongarch: Add hotplug handler for machine
-Date: Thu, 11 Aug 2022 11:09:47 +0800
-Message-Id: <20220811030948.2994206-6-yangxiaojuan@loongson.cn>
+Subject: [PATCH v1 6/6] hw/loongarch: Add RAMFB to dynamic_sysbus_devices list
+Date: Thu, 11 Aug 2022 11:09:48 +0800
+Message-Id: <20220811030948.2994206-7-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220811030948.2994206-1-yangxiaojuan@loongson.cn>
 References: <20220811030948.2994206-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxzyP9cvRi8RcNAA--.8789S7
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFW3JF13GFW5Cw4kuFyfJFb_yoW8tF47pF
- y7ZFyFyr48WFs2ga9xA3s8WF15Crs3uay2qFs2yrsaka4DWr98Wry8A34qvay8J3yDJF1F
- qrn5Jay7Wa15Kw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxzyP9cvRi8RcNAA--.8789S8
+X-Coremail-Antispam: 1UD129KBjvdXoW7JFyrtry8ZF13Zw43Zw4ruFg_yoWfArX_uF
+ 13Ar4xurW8A3W0g3W2qa15Jr12k3W7JFs5CFsIgan7Z34UJw15KFW2ywn8Zr12gw4j9r43
+ Jw40gry5CryagjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,74 +62,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add hotplug handler for LoongArch virt machine and now only support
-the dynamic sysbus device.
+Add RAMFB device to dynamic_sysbus_devices list so that it can be
+hotpluged to the machine.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- hw/loongarch/virt.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ hw/loongarch/virt.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index 3976e8a058..a3dd35d579 100644
+index a3dd35d579..1e1dc699ef 100644
 --- a/hw/loongarch/virt.c
 +++ b/hw/loongarch/virt.c
-@@ -804,9 +804,35 @@ static void loongarch_machine_initfn(Object *obj)
-     lams->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+@@ -39,6 +39,7 @@
+ #include <libfdt.h>
+ #include "hw/core/sysbus-fdt.h"
+ #include "hw/platform-bus.h"
++#include "hw/display/ramfb.h"
+ 
+ static void create_fdt(LoongArchMachineState *lams)
+ {
+@@ -853,6 +854,7 @@ static void loongarch_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, "acpi",
+         "Enable ACPI");
++    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
  }
  
-+static void loongarch_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-+                                        DeviceState *dev, Error **errp)
-+{
-+    LoongArchMachineState *lams = LOONGARCH_MACHINE(hotplug_dev);
-+    MachineClass *mc = MACHINE_GET_CLASS(lams);
-+
-+    if (device_is_dynamic_sysbus(mc, dev)) {
-+        if (lams->platform_bus_dev) {
-+            platform_bus_link_device(PLATFORM_BUS_DEVICE(lams->platform_bus_dev),
-+                                     SYS_BUS_DEVICE(dev));
-+        }
-+    }
-+}
-+
-+static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-+                                                        DeviceState *dev)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-+
-+    if (device_is_dynamic_sysbus(mc, dev)) {
-+        return HOTPLUG_HANDLER(machine);
-+    }
-+    return NULL;
-+}
-+
- static void loongarch_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
- 
-     mc->desc = "Loongson-3A5000 LS7A1000 machine";
-     mc->init = loongarch_init;
-@@ -819,6 +845,8 @@ static void loongarch_class_init(ObjectClass *oc, void *data)
-     mc->block_default_type = IF_VIRTIO;
-     mc->default_boot_order = "c";
-     mc->no_cdrom = 1;
-+    mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
-+    hc->plug = loongarch_machine_device_plug_cb;
- 
-     object_class_property_add(oc, "acpi", "OnOffAuto",
-         loongarch_get_acpi, loongarch_set_acpi,
-@@ -834,6 +862,10 @@ static const TypeInfo loongarch_machine_types[] = {
-         .instance_size  = sizeof(LoongArchMachineState),
-         .class_init     = loongarch_class_init,
-         .instance_init = loongarch_machine_initfn,
-+        .interfaces = (InterfaceInfo[]) {
-+         { TYPE_HOTPLUG_HANDLER },
-+         { }
-+        },
-     }
- };
- 
+ static const TypeInfo loongarch_machine_types[] = {
 -- 
 2.31.1
 
