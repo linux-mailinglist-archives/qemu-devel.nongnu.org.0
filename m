@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7555905F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:37:30 +0200 (CEST)
-Received: from localhost ([::1]:49548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A81859060A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:43:32 +0200 (CEST)
+Received: from localhost ([::1]:58244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMC7d-0000sE-IG
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
+	id 1oMCDT-00070g-62
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMBtK-00045U-Cs
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:22:42 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39930)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMBwr-0001dR-CF
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:26:23 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:40618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMBtH-0001r8-Kz
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:22:41 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- h21-20020a17090aa89500b001f31a61b91dso6003991pjq.4
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:22:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMBwp-0002YL-Vr
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:26:21 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-324ec5a9e97so179453337b3.7
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=Im9vZhlwVSS5MSHDbabaP7K9a0BEoLwH1rO4LgHCzrk=;
- b=nXIGIeJi+Y8BD86HlNY7IoPKp19aA/zwK1lbKvAO8dnnSc0w+6MX9uDoMA0nfsXleP
- CleeqCZ2dtPgaao1fuaw6b0lehJR/dB5pgAk2JZryPJgew4JBGb2pmePTMbq4yHfxo+x
- eP52/O4TBztZAo7OqqqtFdfF2NstwbDl1MKiP1q+Nj7RGBJGT+wjb04vJRbDluFWXW3m
- yPFlo+CLigd1jTEGvFyuNgaYo9XFP0GEPaUKa17Q3WCLywAY6rkOj8MCmRxIKHkvZjnQ
- QE0d2LGcLys79Rof2gaIO8/AmZQastLPAfvEKc+AJARdAsABa+NMeystEo37RYqeVWqE
- FgPA==
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc; bh=m5hafQZhWqwKswUWjWDDb0unhg0fAft7hPrBVTQuvu0=;
+ b=ZPeTXA6S5Pj/1T30QyKvGSki5fUbZJXr3pmV8m+e3/ljREjvNUoYth8T1Aso9ySvAU
+ p8bNwAz1FcARlhNYHeIj/HirY3/wU4abOq7J9EY8pkUYzuiVCCiUDGi9RLqeZw5DolpT
+ nlBH/G3Klll4QaKPJaDq1pmr62Gl1NsBn9kHKZ7upQX6ST39HaBpwWkzYpb1ZIe7AKUR
+ 7GODCL33PB9jjhC8tEC7yxROkYJ7ilat7V+UHVdm9h0mDmu7WVHpvWUoM+681kSLrUjZ
+ pAVotpzceql7Ve0N1rFBGJBT0Ov6fgXHdR1bGgI80A8GQxuXbt6t7YvfZEEtpBi37cIY
+ p4Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
  :x-gm-message-state:from:to:cc;
- bh=Im9vZhlwVSS5MSHDbabaP7K9a0BEoLwH1rO4LgHCzrk=;
- b=XoiuqsGXcOXDqW6+SK5C/4PGn43ePxFRg5p7gPS7rNBsCTS+vNV1nwkNuxk6aSZksm
- kJZgcrhPUBsbqJxg4eKAC7hPteE7W4wNvsTn+UybI1vZiC3wT/RZr/nqthmMqZGfYjEm
- FdxDvUyTUA2XaXsiJscJqGF/xY/WoV83PZyKcrlh8wZ1qPNJcNopuioaf9nka3Q49dg+
- kbvdI2sAvC79OC1e4D4iDkqdzpMCVBckSfU1l48750/km1KXjWKrD8mcFtnMXyneshbD
- IPj03wXXHTdIEuSwjoeR5QLjPiWrjrgU/rGyogQ8pUvji4O2WIIF2idU34wJahb4DfY3
- 9Imw==
-X-Gm-Message-State: ACgBeo2VnixO3trvs6TDDUef5zFpS0Cdxuz33TCoGs30H4XKQKsQYbNF
- YiktSOWzUiSVAyYpYoqN7Fve9w==
-X-Google-Smtp-Source: AA6agR4NJE/Lvf5BbodQ64jlWoYQldrLhsrM7h+F+FYaqPTMNx8cNBOEL0hdjoNgaG+5OpjUW9D5PA==
-X-Received: by 2002:a17:902:8302:b0:16d:bf03:847c with SMTP id
- bd2-20020a170902830200b0016dbf03847cmr162736plb.125.1660238557851; 
- Thu, 11 Aug 2022 10:22:37 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:72e2:2d06:c2b1:b106?
- ([2602:ae:154e:e201:72e2:2d06:c2b1:b106])
- by smtp.gmail.com with ESMTPSA id
- b7-20020a170902d50700b0016f057b88c9sm15229516plg.26.2022.08.11.10.22.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 10:22:36 -0700 (PDT)
-Message-ID: <3b0644da-a48d-2ad0-aea1-80f6bfbb1265@linaro.org>
-Date: Thu, 11 Aug 2022 10:22:34 -0700
+ bh=m5hafQZhWqwKswUWjWDDb0unhg0fAft7hPrBVTQuvu0=;
+ b=sqFsBEYfUadhROD9/iAOn6zQd3szl9r2hbk3DSvfEpU7CoS0+RZ+IEYmh0ny5rOLcy
+ w+xx+tdIZACTXTEBNweztZaaPXFh1Rd99zo85NbT2S4zjKyd8LrohsjHvakGcgRnhRsr
+ LPqlIwoJ8Nu8pChyiksW19yrJcPW0QB3d2Wm+Npwju+OtXIv1URkC0iwVENppJMFa1od
+ 3XisZg2LMxvxLDyh4vI2wkpJmgH/xfzsWjZJ6Qpv78q7s90Jq0cxNvrB4uC4aFTGLiVb
+ aj7ogj2HCLcx4yNMoCwXIagLEs0blT69Js4C4zTtDRfFwIN0FFzWxKP6vVed1BamuZBg
+ JI7Q==
+X-Gm-Message-State: ACgBeo1Yw9sSTwsheYqRCCDDI3Fz0H+XrdvD93iXUxDgs1kpfbG//HZ/
+ 6YfT7SYYGixboNnoycY2h6bPNzJeKlV/kYQ+q9J4d8QrWiQ=
+X-Google-Smtp-Source: AA6agR7FMePgHJLyQbNwyET08xMWLpKrFqzWy2BL5jra7YOIN3HpLFJcn595NxzxMJG60Tz6mB8kte16WmaGxSDev54=
+X-Received: by 2002:a81:9942:0:b0:326:5dab:8915 with SMTP id
+ q63-20020a819942000000b003265dab8915mr280918ywg.10.1660238777663; Thu, 11 Aug
+ 2022 10:26:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 4/5] target/i386: Make translator stop before the end
- of a page
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220811095534.241224-1-iii@linux.ibm.com>
- <20220811095534.241224-5-iii@linux.ibm.com>
- <9d15064f-3580-49a8-596b-019663b084fb@linaro.org>
-In-Reply-To: <9d15064f-3580-49a8-596b-019663b084fb@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+References: <20220811171619.1154755-1-peter.maydell@linaro.org>
+ <20220811171619.1154755-11-peter.maydell@linaro.org>
+In-Reply-To: <20220811171619.1154755-11-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Aug 2022 18:26:06 +0100
+Message-ID: <CAFEAcA-FTaf1FKYgmaoocaDGdozx3hr3xvQ7zRhUDPacvhxr6A@mail.gmail.com>
+Subject: Re: [PATCH 10/10] target/arm: Report FEAT_PMUv3p5 for TCG '-cpu max'
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,31 +82,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/11/22 09:58, Richard Henderson wrote:
-> On 8/11/22 02:55, Ilya Leoshkevich wrote:
->> Right now translator stops right *after* the end of a page, which
->> breaks reporting of fault locations when the last instruction of a
->> multi-insn translation block crosses a page boundary.
->>
->> An implementation, like the one arm and s390x have, would require an
->> i386 length disassembler, which is burdensome to maintain. Another
->> alternative would be to single-step at the end of a guest page, but
->> this may come with a performance impact.
->>
->> Fix by snapshotting disassembly state and restoring it after we figured
->> out we crossed a page boundary. This includes rolling back cc_op
->> updates and emitted ops.
->>
->> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
->> ---
->>   target/i386/tcg/translate.c | 25 ++++++++++++++++++++++++-
->>   1 file changed, 24 insertions(+), 1 deletion(-)
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Thu, 11 Aug 2022 at 18:16, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Update the ID registers for TCG's '-cpu max' to report a FEAT_PMUv3p5
+> compliant PMU.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Also,
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1143
+Oops, forgot the docs update:
+
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -52,6 +52,7 @@ the following architecture extensions:
+ - FEAT_PMULL (PMULL, PMULL2 instructions)
+ - FEAT_PMUv3p1 (PMU Extensions v3.1)
+ - FEAT_PMUv3p4 (PMU Extensions v3.4)
++- FEAT_PMUv3p5 (PMU Extensions v3.5)
+ - FEAT_RAS (Reliability, availability, and serviceability)
+ - FEAT_RASv1p1 (RAS Extension v1.1)
+ - FEAT_RDM (Advanced SIMD rounding double multiply accumulate instructions)
 
 
-r~
+thanks
+-- PMM
 
