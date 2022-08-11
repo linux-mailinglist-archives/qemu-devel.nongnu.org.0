@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA2958F753
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 07:39:42 +0200 (CEST)
-Received: from localhost ([::1]:57624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B7958F80D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 09:03:48 +0200 (CEST)
+Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM0ux-00007Y-0Y
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 01:39:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
+	id 1oM2EF-0008AC-Cp
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 03:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oM0oO-0006TX-Hf
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 01:32:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34741)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oM23s-0001nN-9d
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 02:52:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oM0oK-0000hP-SK
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 01:32:50 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oM23q-0003a5-Lr
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 02:52:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660195966;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1660200773;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HHO6M5KdQ9RvAW5WU48T35KaFRI3/56bYTJi+mbOiDo=;
- b=LAePWaeVghPNyw3rd2G0aYOPRnrf7DpeLyUA4qtBcgqkMqrq3eusjHWwxp57MDNgbzykW5
- wokHLIgMdMF9cdHpDWpFEo1wJa5Re2cS1veEgZlwi7c3+mf8Y7NKTYVsdFfinf8MXt+Kbw
- mJgsV3pRyr2lbHg1FLLfST5F3tLI5DY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-BiWHpMA1O9GzmGtToTFzhg-1; Thu, 11 Aug 2022 01:32:43 -0400
-X-MC-Unique: BiWHpMA1O9GzmGtToTFzhg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D193F8039A1;
- Thu, 11 Aug 2022 05:32:42 +0000 (UTC)
-Received: from [10.64.54.77] (vpn2-54-77.bne.redhat.com [10.64.54.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 572E7492C3B;
- Thu, 11 Aug 2022 05:32:38 +0000 (UTC)
-Subject: Re: [PATCH 1/2] hw/arm/virt: Improve address assignment for highmem
- IO regions
-To: Marc Zyngier <maz@kernel.org>
-Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- peter.maydell@linaro.org, richard.henderson@linaro.org, cohuck@redhat.com,
- zhenyzha@redhat.com, shan.gavin@gmail.com
-References: <20220802064529.547361-1-gshan@redhat.com>
- <20220802064529.547361-2-gshan@redhat.com>
- <dcca0792-4f62-2cf0-9080-309d2e78e690@redhat.com>
- <9c8365c6-d27b-df76-371d-bd32ca2a26f7@redhat.com>
- <87tu6tbyk9.wl-maz@kernel.org>
- <0ed2ebc7-8d6e-7555-3af4-31eb071a584b@redhat.com>
- <87fsi7w0vn.wl-maz@kernel.org>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <6669dd3f-c1cd-e3f3-21a7-afab4deb91f5@redhat.com>
-Date: Thu, 11 Aug 2022 15:32:36 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ bh=XykmjRKG8WObBKegscFBSwy10icIqFhwWTyUiIaUfWM=;
+ b=HTsW6jHIyN8FpCK5ty2R2reGz+YN6O6wE/L5XvHA0mrBuu+etKkDpw0t8CaGJYKCgdKzGV
+ K4HVDrKaOQXr44eJZPS/Wkck7mzBmhEfCtYQydIkmcqwJSNcJ5FXAANeKpZQrTHQCdhfsF
+ peXtF4fHujlFIOrHtHIXVgV3eu6AyaA=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-312-X_W6nIwoOeS1Sl0j-deG1A-1; Thu, 11 Aug 2022 02:52:51 -0400
+X-MC-Unique: X_W6nIwoOeS1Sl0j-deG1A-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bq32-20020a05620a46a000b006b9c033bbe5so1193159qkb.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 23:52:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=XykmjRKG8WObBKegscFBSwy10icIqFhwWTyUiIaUfWM=;
+ b=QDn++h8PY4qE+zh83bcIGACt9VghTGYFPh25aQHs3NiguC55CXFPfNPO66F9uaJXrw
+ E91O2KtsE2ZD6Cn8t4Hampfoxl1Y5j79v4yt2T0ErCP6BD6LlG0t9aVgPsyuJ8zwj4nK
+ aD916PmizZbiv5HKKIdyPxHsq4MpGDxkDDzsiH6xlZ5cteFzWeNDsY78y8r1fYaFKNQO
+ m2dDXhKPMcH47mRJ8s/ex6gcmAogfYEbe1pnB9SnsqJhNnNOCL3wciBgwHmgWJd0yAVY
+ HjVPo+ZABeR7lfs8ORiGlj1qSplhRd2Vi5VrsiqKsDgQf2J5hpJJTox5E0p5dDn1xFn+
+ jT2A==
+X-Gm-Message-State: ACgBeo3lyd1IrcOYc/g97txY0r8VaND3TthiqQHyVJOVziWodHXy2L+p
+ FdZhoyaqc63PMlFZPgMxBl6MFh0cWYnwvWtryfxDzV7iDEiCvPeOAxxROOXJcNn9FrZiBIoUMWd
+ nLTLFAzDkDIxH4IElCYLVkNFLceYc3HQ=
+X-Received: by 2002:a05:622a:1102:b0:343:66b0:4a2 with SMTP id
+ e2-20020a05622a110200b0034366b004a2mr1157756qty.495.1660200771165; 
+ Wed, 10 Aug 2022 23:52:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5aiWpNr47SWLFFkQy4fAiKxua97e9PTz3Q5QYOZcXHpcfXj5EPHEnsrLkHXoZlfOWG5SrT1Ofgnf7EigIj7Pk=
+X-Received: by 2002:a05:622a:1102:b0:343:66b0:4a2 with SMTP id
+ e2-20020a05622a110200b0034366b004a2mr1157732qty.495.1660200770969; Wed, 10
+ Aug 2022 23:52:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87fsi7w0vn.wl-maz@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+References: <20220809173926.1695280-1-eperezma@redhat.com>
+ <20220809173926.1695280-12-eperezma@redhat.com>
+ <CACGkMEv0hsLskgOj7LC4NEKEjQ9ssCVLBXE1NTY6g0xzDESD6w@mail.gmail.com>
+In-Reply-To: <CACGkMEv0hsLskgOj7LC4NEKEjQ9ssCVLBXE1NTY6g0xzDESD6w@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 11 Aug 2022 08:52:14 +0200
+Message-ID: <CAJaqyWf637fWeA7bfBsQopwxU=h1UNmDHs2O6Xmn=amxeUzM3Q@mail.gmail.com>
+Subject: Re: [PATCH v8 11/12] vdpa: Add virtio-net mac address via CVQ at start
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Harpreet Singh Anand <hanand@xilinx.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Eric Blake <eblake@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,227 +102,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Marc,
+On Wed, Aug 10, 2022 at 7:09 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Wed, Aug 10, 2022 at 1:40 AM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
+> >
+> > This is needed so the destination vdpa device see the same state a the
+> > guest set in the source.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> > v8:
+> > * Delete unneeded copy from device's in buffer.
+> >
+> > v6:
+> > * Map and unmap command buffers at the start and end of device usage.
+> >
+> > v5:
+> > * Rename s/start/load/
+> > * Use independent NetClientInfo to only add load callback on cvq.
+> > ---
+> >  net/vhost-vdpa.c | 41 +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 41 insertions(+)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index df85567cff..e775957952 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -363,11 +363,52 @@ static ssize_t vhost_vdpa_net_cvq_add(VhostVDPASt=
+ate *s, size_t out_len,
+> >      return vhost_svq_poll(svq);
+> >  }
+> >
+> > +static int vhost_vdpa_net_load(NetClientState *nc)
+> > +{
+> > +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> > +    VirtIONet *n;
+> > +    uint64_t features;
+> > +
+> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > +
+> > +    if (!v->shadow_vqs_enabled) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    n =3D VIRTIO_NET(v->dev->vdev);
+> > +    features =3D v->dev->vdev->host_features;
+> > +    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
+> > +        const struct virtio_net_ctrl_hdr ctrl =3D {
+> > +            .class =3D VIRTIO_NET_CTRL_MAC,
+> > +            .cmd =3D VIRTIO_NET_CTRL_MAC_ADDR_SET,
+> > +        };
+> > +        char *cursor =3D s->cvq_cmd_out_buffer;
+> > +        ssize_t dev_written;
+> > +
+> > +        memcpy(cursor, &ctrl, sizeof(ctrl));
+> > +        cursor +=3D sizeof(ctrl);
+> > +        memcpy(cursor, n->mac, sizeof(n->mac));
+> > +        cursor +=3D sizeof(n->mac);
+>
+> I'd cast and initialize directly from the cmd_out_buff. But this could
+> be done on top.
+>
 
-On 8/8/22 7:17 PM, Marc Zyngier wrote:
-> On Wed, 03 Aug 2022 14:02:04 +0100,
-> Gavin Shan <gshan@redhat.com> wrote:
->> On 8/3/22 5:01 PM, Marc Zyngier wrote:
->>> On Wed, 03 Aug 2022 04:01:04 +0100,
->>> Gavin Shan <gshan@redhat.com> wrote:
->>>> On 8/2/22 7:41 PM, Eric Auger wrote:
->>>>> On 8/2/22 08:45, Gavin Shan wrote:
->>>>>> There are 3 highmem IO regions as below. They can be disabled in
->>>>>> two situations: (a) The specific region is disabled by user. (b)
->>>>>> The specific region doesn't fit in the PA space. However, the base
->>>>>> address and highest_gpa are still updated no matter if the region
->>>>>> is enabled or disabled. It's incorrectly incurring waste in the PA
->>>>>> space.
->>>>> If I am not wrong highmem_redists and highmem_mmio are not user selectable
->>>>>
->>>>> Only highmem ecam depends on machine type & ACPI setup. But I would say
->>>>> that in server use case it is always set. So is that optimization really
->>>>> needed?
->>>>
->>>> There are two other cases you missed.
->>>>
->>>> - highmem_ecam is enabled after virt-2.12, meaning it stays disabled
->>>>     before that.
->>>
->>> I don't get this. The current behaviour is to disable highmem_ecam if
->>> it doesn't fit in the PA space. I can't see anything that enables it
->>> if it was disabled the first place.
->>>
->>
->> There are several places or conditions where vms->highmem_ecam can be
->> disabled:
->>
->> - virt_instance_init() where vms->highmem_ecam is inherited from
->>    !vmc->no_highmem_ecam. The option is set to true after virt-2.12
->>    in virt_machine_2_12_options().
->>
->> - machvirt_init() where vms->highmem_ecam can be disable if we have
->>    32-bits vCPUs and failure on loading firmware.
-> 
-> Right. But at no point do we *enable* something that was disabled
-> beforehand, which is how I understood your previous comment.
-> 
+Actually you are right, that's valid for MAC. I think the compiler
+should be able to omit the memcpy call if the direct write is safe,
+but I haven't checked.
 
-Sorry for the delay. I think the original changelog is confusing
-enough and sorry about it. I will improve it if v2 is needed :)
+In a second review, either this last increment of the "cursor"
+variable is useless and we can delete it or we could use it to
+calculate the output size (cursor - s->cvq_cmd_out_buffer).
 
-Yes, we shouldn't assign address to VIRT_HIGH_PCIE_ECAM region
-and enable it when vms->highmem_ecam is false in virt_set_memmap().
-
-In the original implementation of virt_set_memmap(), the memory
-regioin is disabled when when vms->highmem_ecam is false. However,
-the address is still assigned to the memory region, even when
-vms->highmem_ecam is false. This leads to waste in the PA space.
-
-In hw/arm/virt.c::virt_set_memmap(), @base is always added with
-the memory region size, even the memory region has been disabled.
-
-     for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-         hwaddr size = extended_memmap[i].size;
-         bool fits;
-
-         base = ROUND_UP(base, size);               /* The roundup isn't necessary for disabled region */
-         vms->memmap[i].base = base;
-         vms->memmap[i].size = size;
-
-          :
-          :
-
-         base += size;                              /* The increment isn't necessary for disabled region */
-     }
-
->>
->> - Another place is where we're talking about. It's address assignment
->>    to fit the PA space.
-> 
-> Alignment? No, the alignment is cast into stone: it is set to the
-> smallest power-of-two containing the region (natural alignment).
-> 
-
-Nope, I was talking about address assignment, instead of address
-alignment. Lets have an example here to explain. For example,
-we have following capability and user's command lines. In this
-specific example, the memory layout is something like below:
-
-     PA space limit:            40 bits (1TB)
-     user's command line:       -m 1GB,maxmem=1019G,slots=4
-
-     VIRT_MEM region start:     1GB
-     VIRT_MEM region end:       2GB
-     device_memory_base:        2GB                               // in virt_set_memmap()
-     device_memory_size:     1022GB    (end at 1024GB)            // in virt_set_memmap()
-     
-All the high memory regions won't be enabled because we don't
-have more free areas in the PA space. In virt_set_memmap(),
-@base is still increased by the region's size, as said above.
-
-
->>
->>>>
->>>> - The high memory region can be disabled if user is asking large
->>>>     (normal) memory space through 'maxmem=' option. When the requested
->>>>     memory by 'maxmem=' is large enough, the high memory regions are
->>>>     disabled. It means the normal memory has higher priority than those
->>>>     high memory regions. This is the case I provided in (b) of the
->>>>     commit log.
->>>
->>> Why is that a problem? It matches the expected behaviour, as the
->>> highmem IO region is floating and is pushed up by the memory region.
->>>
->>
->> Eric thought that VIRT_HIGH_GIC_REDIST2 and VIRT_HIGH_PCIE_MMIO regions
->> aren't user selectable. I tended to explain why it's not true. 'maxmem='
->> can affect the outcome. When 'maxmem=' value is big enough, there will be
->> no free area in the PA space to hold those two regions.
-> 
-> Right, that's an interesting point. This is a consequence of these
-> upper regions floating above RAM.
-> 
-
-Yep, it's fine for those high memory region floating above RAM, and to
-disable them if we run out of PA space. Something may be irrelevant
-to this topic: VIRT_HIGH_PCIE_MMIO region has 512GB, which is huge one.
-It may be nice to fall back smaller sizes when we're having tight PA
-space. For example, we can fall back to try 256GB if 512GB doesn't fit
-into the PA space.
-
-However, I'm not sure how we had the size (512GB) for the region. Are
-there practical factors why we need a 512GB PCIe 64-bits MMIO space?
-
->>
->>>>
->>>> In the commit log, I was supposed to say something like below for
->>>> (a):
->>>>
->>>> - The specific high memory region can be disabled through changing
->>>>     the code by user or developer. For example, 'vms->highmem_mmio'
->>>>     is changed from true to false in virt_instance_init().
->>>
->>> Huh. By this principle, the user can change anything. Why is it
->>> important?
->>>
->>
->> Still like above. I was explaining the possible cases where those
->> 3 switches can be turned on/off by users or developers. Our code
->> needs to be consistent and comprehensive.
->>
->>    vms->highmem_redists
->>    vms->highmem_ecam
->>    vms->mmio
->>
->>>>
->>>>>>
->>>>>> Improve address assignment for highmem IO regions to avoid the waste
->>>>>> in the PA space by putting the logic into virt_memmap_fits().
->>>
->>> I guess that this is what I understand the least. What do you mean by
->>> "wasted PA space"? Either the regions fit in the PA space, and
->>> computing their addresses in relevant, or they fall outside of it and
->>> what we stick in memap[index].base is completely irrelevant.
->>>
->>
->> It's possible that we run into the following combination. we should
->> have enough PA space to enable VIRT_HIGH_PCIE_MMIO region. However,
->> the region is disabled in the original implementation because
->> VIRT_HIGH_{GIC_REDIST2, PCIE_ECAM} regions consumed 1GB, which is
->> unecessary and waste in the PA space.
->>
->>      static MemMapEntry extended_memmap[] = {
->>          [VIRT_HIGH_GIC_REDIST2] =   { 0x0, 64 * MiB },
->>          [VIRT_HIGH_PCIE_ECAM] =     { 0x0, 256 * MiB },
->>          [VIRT_HIGH_PCIE_MMIO] =     { 0x0, 512 * GiB },
->>      };
->>
->>      IPA_LIMIT           = (1UL << 40)
->>      '-maxmem'           = 511GB              /* Memory starts from 1GB */
->>      '-slots'            = 0
->>      vms->highmem_rdist2 = false
->>      vms->highmem_ecam   = false
->>      vms->highmem_mmio   = true
->>
-> 
-> Sure. But that's not how QEMU works today, and these regions are
-> enabled in order (though it could well be that my recent changes have
-> made the situation more complicated).
-> 
-> What you're suggesting is a pretty radical change in the way the
-> memory map is set. My hunch is that allowing the highmem IO regions to
-> be selectively enabled and allowed to float in the high IO space
-> should come as a new virt machine revision, with user-visible options.
-> 
-
-Yeah, These regions are enabled in order. It also means they have ascending
-priorities. In other words, '-maxmem' has higher priority than those 3 high
-memory regions.
-
-My suggested code changes just improve the address assignment for these 3
-high memory regions, without changing the mechanism fundamentally. The
-intention of the proposed changes are like below.
-
-- In virt_set_memmap(), don't assign address for one specific high memory
-   region if it has been disabled.
-
-- Put the logic into standalone helper, to simplify the code.
-
-I'm not sure about the user-visible options. I would say it's going to
-increase user's load. I means the user experience will be degraded.
-Those user-visible options needs to be worried by users :)
-
-Marc, lets improve the changelog and the code changes in v2, to seek
-your comments if you agree? :)
-
-Thanks,
-Gavin
-
-
+> So
+>
+> Acked-by: Jason Wang <jasowang@redhat.com>
+>
+>
+> > +
+> > +        dev_written =3D vhost_vdpa_net_cvq_add(s, sizeof(ctrl) + sizeo=
+f(n->mac),
+> > +                                             sizeof(virtio_net_ctrl_ac=
+k));
+> > +        if (unlikely(dev_written < 0)) {
+> > +            return dev_written;
+> > +        }
+> > +
+> > +        return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) !=3D VIR=
+TIO_NET_OK;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+> >      .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
+> >      .size =3D sizeof(VhostVDPAState),
+> >      .receive =3D vhost_vdpa_receive,
+> >      .start =3D vhost_vdpa_net_cvq_start,
+> > +    .load =3D vhost_vdpa_net_load,
+> >      .stop =3D vhost_vdpa_net_cvq_stop,
+> >      .cleanup =3D vhost_vdpa_cleanup,
+> >      .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
+> > --
+> > 2.31.1
+> >
+>
 
 
