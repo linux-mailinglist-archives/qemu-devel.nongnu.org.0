@@ -2,158 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC1558FA6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 12:09:30 +0200 (CEST)
-Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEC458FA83
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 12:11:44 +0200 (CEST)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM585-0006TP-Os
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 06:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
+	id 1oM5AF-0008Ei-RI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 06:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikunj.dadhania@amd.com>)
- id 1oM56P-000587-99
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:07:53 -0400
-Received: from mail-bn8nam04on20621.outbound.protection.outlook.com
- ([2a01:111:f400:7e8d::621]:15961
- helo=NAM04-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikunj.dadhania@amd.com>)
- id 1oM56J-0004Ce-55
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:07:43 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PoP5yaIRf0pdsc+wRlyva97TRkS7aTl6BtER1qwfHo7NbDdOUWM66TEMIyDUS+lBmzCsSGDXcYVhRkWNuDtCL/NYuA2rUmgegEq8Wtv5RdGtbR+VpYw0I5Azqr+/SAhbzea6qKwx2I1nL8cqaIMwmGk3OvwAdAdDQKjT8fhB+A4FgJcel6JopYMGrIfUc2+/H+wfAXYJv4NHwlnpBM5cZfsDArG/AFaBtdjNtfvjTIFJyiYcZjqQymHx1tgv8Kvq4pP1KzaAph5W61dh8lunVTgg9ZpO9SLHr+xrWJ1XZYTsjrapK+APrHLQO80t2ldp2i7QzeZEL6D8wc88sOvy/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nuwtq3Wpe/IXYCBtL8rZv9MnSzmQQt2Frd2aoxUjlek=;
- b=g7Qm9GRoPATpIxxQx+CcnZqMudMmg9zEPRt8fTw/xZOkOKPMCaKnzkBr+7UsJNEJWlX7ld/4Lx7dzR6nLy/Lcl0Qd2oVhaD5s1joDSHrp84yPI63gufEJzAu4BIkVLEdnbznujde75v61s/8f+vbs7nx5Wr6Jnx1U+GNpAQRFBtCPfjN/Ms2XbsDYGywjxB466GRR+udEZqtuuJUYB0+44XRYk+Jr5kYnyOB+J9GnJItwUOw6WjpoX/Ehm3jGQcaJ0ym73Iq2QkRTtftkQOudjKeeXvoFp1YdO82dOMMpDslpJrG1qbnDb4Q17oTbhD+YjsLZ8nRZeE/VhiyBVxm9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Nuwtq3Wpe/IXYCBtL8rZv9MnSzmQQt2Frd2aoxUjlek=;
- b=caxUCu2ZLeFyMdJJDINlCaXBSNZ1cNiRP4nkqyaZBQItcqEF7rbIWcerCJ/yAxJ8Z3watplBxiLRNel7m/h8UW5K/xSccZRpFMIfoMKxD0Bc9HjCna2Du4QT2ErMJB3K8jbwSRabBwWlYwDl3iHLVTlf3SwNKWhrJmHwSB5/BLs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6309.namprd12.prod.outlook.com (2603:10b6:8:96::19) by
- BN6PR12MB1425.namprd12.prod.outlook.com (2603:10b6:404:1f::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5525.11; Thu, 11 Aug 2022 10:02:33 +0000
-Received: from DS7PR12MB6309.namprd12.prod.outlook.com
- ([fe80::d9f4:5879:843b:55da]) by DS7PR12MB6309.namprd12.prod.outlook.com
- ([fe80::d9f4:5879:843b:55da%9]) with mapi id 15.20.5525.011; Thu, 11 Aug 2022
- 10:02:33 +0000
-Message-ID: <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
-Date: Thu, 11 Aug 2022 15:32:07 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Content-Language: en-US
-To: Chao Peng <chao.p.peng@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-fsdevel@vger.kernel.org
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
-From: "Nikunj A. Dadhania" <nikunj@amd.com>
-In-Reply-To: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0100.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:af::9) To DS7PR12MB6309.namprd12.prod.outlook.com
- (2603:10b6:8:96::19)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oM58H-0006aD-De; Thu, 11 Aug 2022 06:09:41 -0400
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:42648)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oM58E-0004Qj-Pb; Thu, 11 Aug 2022 06:09:41 -0400
+Received: by mail-lf1-x133.google.com with SMTP id z6so17445839lfu.9;
+ Thu, 11 Aug 2022 03:09:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=+hvIvzMc8QUmhHV3UYAMntHl0A0babCUQeGZ9y6aRTg=;
+ b=FkUrJLFs8OSPYSNa2r2Rt9XR/vfd9J6FKGFkJMAcHzMKutMY03g2912TkATL7PkY01
+ YxEliA+Ca4utxFPId17bm726N1ig4z/uTQTBajbeoTlBCydmbBzzCZTZkETqbhpHtZbK
+ HYKl/3aV6Z3NyUxgN6Fhg0qqmPZkh0E3F7UnmFyxQBvUCf7y8smXS/R1LXXSxlfYw5eB
+ WE4A8ZyR6dk69Tt6nQk8fzBqO6ga/w0GuoLsZOxttYimuOgwCDcn8kPvBocmfD0r08K9
+ wiJwDvsblj8+1TkmIGtv7QkDTuGq1ZqQyNdENyL/Irk5L7ybO0F5pHL6bBmHwG+gLnjt
+ C2Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=+hvIvzMc8QUmhHV3UYAMntHl0A0babCUQeGZ9y6aRTg=;
+ b=p3LwH2rIp1gZ82QEDbxGDAZJT0NcucFfD1lJ8L84nv46kzTZ6Un0OynQ0ENgYmyOfJ
+ s91eCmSGGrfpTYXC5aMA4qtNwtKA/6Fmo3kt9DbadAkPTCMJzvGBtIqfMwnrX4FvxW45
+ tv/hd+VHbiFvm5NaKJxile3Q9v0ii2TVgdgAYBOA5CzyH9IS7GZuXxw45bgVu4eJQwJ3
+ QEh5SkVaY1rUlK36Z3pBr0eorreMAVsZH2QrDsa5/ha9lDvWHWJZwhzaspILvvm+Xnty
+ 6WyhwEo1vcx5UplvWUwRqi0QEEA2nA+nZr/sEr1Dg03oNgUJgTz5Wnrf90X5sTwC7i5R
+ YNUQ==
+X-Gm-Message-State: ACgBeo2NLcN0zT3HaEeTQOsGDMGbzcRD4SKy4A8wfe5Rt219LvuJ5e8z
+ vEl0V8sp6oJgdENOorKzci6fs7NB86g39VMamH4=
+X-Google-Smtp-Source: AA6agR7ZK4egGsDlwKJcHqDW+yEu/pFwo8GJhJTcPg4VZb2Zu6M68Tq8qpCAzy9TaNTBgWdM2dvMkqsDjx1SJDVaZQ0=
+X-Received: by 2002:ac2:55af:0:b0:48d:3b2c:dd4f with SMTP id
+ y15-20020ac255af000000b0048d3b2cdd4fmr2207351lfg.329.1660212576470; Thu, 11
+ Aug 2022 03:09:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 51000e01-ef96-48e1-f62d-08da7b809c33
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1425:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q0F4L6a0IJCoobPF7YMyO0tic0EPNUsQdeBFOlHde+WSa3LF/wFRezNhAO0X/FoS+ENPW0ZMHppx4QYA2ajjt54QyUtfcXCeM5rWt1NVO87QQejQD3OPrK56GBBmMW8xvi4WvrlQN0ftALOXXa1etnkR3cHi+zntVLtKR7m0MBTYHlFAgw+4zOc0ywQ+rXgRZss5k2Y13DeORpiMBucPdstrNxK/ufCt4RxzMUx2Ninqpeh/hf+ZW7HnG7FSqvZ0NpulbGqBau9l4lSI6yH/4iSSURiDpYQXD0RSvprOwdB5rEI4od9qy0s6o3a5yp5NpwTht4zHvOmwSh4v9+Nt2Z6cVT9LF49QvsNoh4ORzRGVaUmi7qgwK619utQBWSbGl34wF8AjS6FLA5YVANsY73Xq+P4yP7dIFaPEjqwHs2SZ/n2UQdFW420kgnhPdniESfgBtH/f71aqTZjaT7wJeqPKkN3fhiM4sWlZRQovZgrnbu/X3v6g8vAwi7QbvOu3WKuFvRcuS6P+yocGJRBFiL1GsAHihF50WRNMYes/F5Ha0+unpp9986LpyDtf1Fv2oJoae/cBYJTbHlKkCDUnETJ8ikmrxFVON8qt4yqVYacGAiUUzBnnfZrDaVlkTsJ/a3OXm0scsxdYglb1GdD/4UXTjifg6chsdkAggfc8C6CIVGgS96mQuLYemI1chVF2zAaQqHHYMcYBOiQ9tEY1tmsth6lH2mePi1Gz8jMdLtTsr5RK9aG1xqEDCpxQBg0raKOJjRYtpajh9iNeudgZN9/QqnnSdWhu91H0isI5xf9ZOZAVhphKiakmMxt2pvkPNuuhOrLstvJB2jfPEK/AzeJfZCncGnHPtYBZshHOIV7og0D3MlJ1jmEVDfGzHTdCgqqhfGZ7KQUBdppOQyyB9A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB6309.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(346002)(376002)(136003)(39860400002)(366004)(186003)(83380400001)(38100700002)(66946007)(66556008)(66476007)(8676002)(4326008)(316002)(5660300002)(2906002)(6666004)(6506007)(8936002)(41300700001)(2616005)(53546011)(26005)(6512007)(110136005)(54906003)(7406005)(6486002)(36756003)(7416002)(478600001)(31696002)(966005)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVAyM0Q0SXZDaXBLMzhwL0UreGQ5dk95TUdYd3hvejFNNnd0WEtJM1kxVS9K?=
- =?utf-8?B?QVRDSzQvd1Y3eVh1M245eFhZV1R3M2RNT2FaUkpqRUQrZU16WEdkTDA5M3hs?=
- =?utf-8?B?Z0FrVUJhTkpOTzkrMmFqSzJZSDd1S1FINkh3aUxDN20yUDgwTW9mU1lyY1R0?=
- =?utf-8?B?UkFabXovai8vR1hHaE5GWTVnS1M0UnloblYyUUUrUVJTaHA3TGdDbmRUNWk1?=
- =?utf-8?B?NFd6L3M1eUwwVjdTaXd6aVlvNGhBNUtjeFNVMGdyS0xWN21HNDBGaVc5OHhT?=
- =?utf-8?B?ZFk0dWovWDZXcmdlYVNwcm1lZ3FHSDBjcStPSkhnd0NtdmxCZnhYNjg3NEtX?=
- =?utf-8?B?bFNyRkVSU0VjeXRYVW9tRGpMQTY0bjFYWkEyQ21JOEgxbTR0STlOaFQ3MzRo?=
- =?utf-8?B?T2lraDhRMzIwaU9sclgxWWlWWkwxUUsyNDJmOHdUeGRPSzYrRWI4d21QZDd4?=
- =?utf-8?B?cmUrUTZnUWxTSXlqNmt6ak9HclVDZlZ5QVlZZVBZd3I4MTJxbm1zTEltRVF5?=
- =?utf-8?B?aTJ4bGR2NlRoYnp4aTd2WlZaWjJ2WWVWeWVqcnR6U0hHbU8wSW9rd2ZJcm1i?=
- =?utf-8?B?Q0d2Snc2UjlOdUEvQjcvYVBMN1JlVkRxUTU2bk5ZS1RjNXNSbEE0VHpFQUNU?=
- =?utf-8?B?T1Y5a1FRK0ptaUFMN3JYWHlGT2Q0TnZCdTlnTlFaS3RBcUtYNjhOSkMrYVA5?=
- =?utf-8?B?UVRWdmRYd2hWbmpIVlUvcnRacVlySmwrZysrczdaQ2tTNVRZMmxzNURaTUt5?=
- =?utf-8?B?YUI1ZXBSRDZiaXZRUEVIWHl1K3l0SFN3RWs3NzJ3YlJxMm9tYnlFVWZLTlZV?=
- =?utf-8?B?NGtoVDR6ZFBXZ0EzY0xKSnVjRDhKTkhEZnJUQk1FclVTS2tJbzU3Qk8zN2hV?=
- =?utf-8?B?dXdYTmc1VFpyWGN0S0lNOGtiVGk5Ry9BUjZUazIvZ0hmRlJXaU0wMGxMQW4r?=
- =?utf-8?B?UFkza3JXU1BtVjhVcXZPRzBoOEcwNE80dEZzRm4xVktCV0VHZ1A3SlBFeTU1?=
- =?utf-8?B?aWtpcGJCdXF2VzR0amZWM2pnYkhRTUVDWlVxQ05jUDJVUkgrME5ubmJOZUg3?=
- =?utf-8?B?bWZDTzU2UFZPbWVSYnV2OVVVbFFSR0NHMWo0azhJb3FUS3JJaW1sOHRDdngw?=
- =?utf-8?B?WGJxOGpiRTFKcExBUFBVMW11SnZHM0JUUGtScnhUZmVEZ0Juekw3c2RXQlo3?=
- =?utf-8?B?cEpuVytjTlMxcjdBTDk2MGtQOGhKaDV6aXliWmdRZGdXdnFOdEZzOUlFUmkw?=
- =?utf-8?B?MUpERlZVb1RuUDJCVUdPeXNFYTJZL3JRYW5JL3RhZDBNUzJyaWRoZUxTOTdp?=
- =?utf-8?B?QWpQUjVXYWJHTkQvdVlEVUN6RnFtN0VZWENwb2lEcTZqV0VZSEJhbWFFVjZv?=
- =?utf-8?B?bUhEcG1idHI0dytMSWlQTDZraUlhSkxCeVhCaDJhOXRxRHQ0V3JlaFI1U2hn?=
- =?utf-8?B?dFY4UFJoUGorWGpoUDRtekFVZUZObFpwKzlaK1hMclIyZEx3U01QcVRRSGxH?=
- =?utf-8?B?YW1OQjZmWk00eS9YUkl2ZzhBNVhNVE9uTXhNaHdPbEJMeE02TDRBVmhtMEhM?=
- =?utf-8?B?UzV0cjVlN1RIeThvUlpsbElHdnd4V29WTTlVc2Zldlh1cXgweU1OQlZtTXcx?=
- =?utf-8?B?ZFlYcWR6QmU2bGdmVE5meG9SekVtTllqRUt3cVJwZFVKbllJSVN0enVBK3I2?=
- =?utf-8?B?TWd2ZUhZeEh0OU5sekc5RjlEZWVDZnd1dDczVmVBc0pUNVM4THVLMSt5T2kx?=
- =?utf-8?B?ZlM3NERsdzdvZnBhZlY1VmNnUHBscnBiUC9MWG1nK1pLZ0grQzcrUU96dld3?=
- =?utf-8?B?aVhIYzIyRWRoOVpySlJ3SVg4L2UwMnJIZWdHNXBydk84cU5JK2JKVFBGY3F5?=
- =?utf-8?B?RTNmUHQ0b2puK2IrQWJabE5jc1k0UXdVa2docUs0dytyWEZxTERDb09LNmNE?=
- =?utf-8?B?NnhoVk1ndE9jU20vVG5QZEUvRmFOS1JnR2RLOGZGQ3VibFFvaEZzcG9TVFRj?=
- =?utf-8?B?Ynd3dmFyNjFSM0h2MnRxbStNYzgrTVhWNTRCeE1MVVV3YWtTTDg2S3Y3eVBO?=
- =?utf-8?B?ZG1qclBpN3VkWFY3bXdNWmVxVDk3T1NETUVYTTR4Nzk1OHNFNFZMdzFPdElj?=
- =?utf-8?Q?clbAG+WwZDwBaaEvFnLYFIO9T?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51000e01-ef96-48e1-f62d-08da7b809c33
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6309.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 10:02:33.4757 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9I0FKcVV1qdyZpQ7QmoMAlH2k9tBMA92oXTMQh6NFZe1P4rwi+rQ0om+CbbEN24Cjkiz1XTYdFehi/FmDZvlrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1425
-Received-SPF: softfail client-ip=2a01:111:f400:7e8d::621;
- envelope-from=nikunj.dadhania@amd.com;
- helo=NAM04-BN8-obe.outbound.protection.outlook.com
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+ <20220712093528.4144184-12-marcandre.lureau@redhat.com>
+ <87pmhf86ew.fsf@pond.sub.org>
+ <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
+ <8735e38e6t.fsf@pond.sub.org>
+ <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
+ <87o7wr5ew9.fsf@pond.sub.org>
+In-Reply-To: <87o7wr5ew9.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 11 Aug 2022 14:09:24 +0400
+Message-ID: <CAJ+F1CKbkTOX7Fh9RvkBvuW_gZqZjYSta=7nEKbzm-OefPE_GQ@mail.gmail.com>
+Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
+ Cleber Rosa <crosa@redhat.com>, qemu-block@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Xie Yongji <xieyongji@bytedance.com>, 
+ Kyle Evans <kevans@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>, 
+ John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Warner Losh <imp@bsdimp.com>, 
+ Kevin Wolf <kwolf@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <laurent@vivier.eu>, 
+ Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000df4c9a05e5f45cfd"
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -169,126 +95,426 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/07/22 13:50, Chao Peng wrote:
-> This is the v7 of this series which tries to implement the fd-based KVM
-> guest private memory. The patches are based on latest kvm/queue branch
-> commit:
-> 
->   b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
-> split_desc_cache only by default capacity
-> 
-> Introduction
-> ------------
-> In general this patch series introduce fd-based memslot which provides
-> guest memory through memory file descriptor fd[offset,size] instead of
-> hva/size. The fd can be created from a supported memory filesystem
-> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
-> and the the memory backing store exchange callbacks when such memslot
-> gets created. At runtime KVM will call into callbacks provided by the
-> backing store to get the pfn with the fd+offset. Memory backing store
-> will also call into KVM callbacks when userspace punch hole on the fd
-> to notify KVM to unmap secondary MMU page table entries.
-> 
-> Comparing to existing hva-based memslot, this new type of memslot allows
-> guest memory unmapped from host userspace like QEMU and even the kernel
-> itself, therefore reduce attack surface and prevent bugs.
-> 
-> Based on this fd-based memslot, we can build guest private memory that
-> is going to be used in confidential computing environments such as Intel
-> TDX and AMD SEV. When supported, the memory backing store can provide
-> more enforcement on the fd and KVM can use a single memslot to hold both
-> the private and shared part of the guest memory. 
-> 
-> mm extension
-> ---------------------
-> Introduces new MFD_INACCESSIBLE flag for memfd_create(), the file
-> created with these flags cannot read(), write() or mmap() etc via normal
-> MMU operations. The file content can only be used with the newly
-> introduced memfile_notifier extension.
-> 
-> The memfile_notifier extension provides two sets of callbacks for KVM to
-> interact with the memory backing store:
->   - memfile_notifier_ops: callbacks for memory backing store to notify
->     KVM when memory gets invalidated.
->   - backing store callbacks: callbacks for KVM to call into memory
->     backing store to request memory pages for guest private memory.
-> 
-> The memfile_notifier extension also provides APIs for memory backing
-> store to register/unregister itself and to trigger the notifier when the
-> bookmarked memory gets invalidated.
-> 
-> The patchset also introduces a new memfd seal F_SEAL_AUTO_ALLOCATE to
-> prevent double allocation caused by unintentional guest when we only
-> have a single side of the shared/private memfds effective.
-> 
-> memslot extension
-> -----------------
-> Add the private fd and the fd offset to existing 'shared' memslot so
-> that both private/shared guest memory can live in one single memslot.
-> A page in the memslot is either private or shared. Whether a guest page
-> is private or shared is maintained through reusing existing SEV ioctls
-> KVM_MEMORY_ENCRYPT_{UN,}REG_REGION.
-> 
-> Test
-> ----
-> To test the new functionalities of this patch TDX patchset is needed.
-> Since TDX patchset has not been merged so I did two kinds of test:
-> 
-> -  Regresion test on kvm/queue (this patchset)
->    Most new code are not covered. Code also in below repo:
->    https://github.com/chao-p/linux/tree/privmem-v7
-> 
-> -  New Funational test on latest TDX code
->    The patch is rebased to latest TDX code and tested the new
->    funcationalities. See below repos:
->    Linux: https://github.com/chao-p/linux/tree/privmem-v7-tdx
->    QEMU: https://github.com/chao-p/qemu/tree/privmem-v7
+--000000000000df4c9a05e5f45cfd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-While debugging an issue with SEV+UPM, found that fallocate() returns 
-an error in QEMU which is not handled (EINTR). With the below handling 
-of EINTR subsequent fallocate() succeeds:
+On Thu, Aug 11, 2022 at 1:05 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+
+> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+>
+> > Hi
+> >
+> > On Thu, Aug 11, 2022 at 10:52 AM Markus Armbruster <armbru@redhat.com>
+> > wrote:
+> >
+> >> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+> >>
+> >> > Hi
+> >> >
+> >> > On Fri, Aug 5, 2022 at 12:12 PM Markus Armbruster <armbru@redhat.com=
+>
+> >> wrote:
+> >> >
+> >> >> marcandre.lureau@redhat.com writes:
+> >> >>
+> >> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> >> >
+> >> >> > This is just moving qapi-gen.py and related subdir to qemu-common=
+,
+> to
+> >> >> > ease review and proceed step by step. The following patches will
+> move
+> >> >> > related necessary code, tests etc.
+> >> >> >
+> >> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.co=
+m>
+> >> >>
+> >> >> As moved files tend to become low-level annoyances for a long time,
+> I'd
+> >> >> like to understand why you want to move them.  The commit message
+> says
+> >> >> "to ease review", which I suspect isn't the real reason.  Perhaps y=
+ou
+> >> >> explained all that elsewhere already, but I missed it.
+> >> >>
+> >> >>
+> >> >>
+> >> > The end goal is to split some projects, such as qemu-ga, to standalo=
+ne
+> >> > meson projects/subprojects. We will be able to build them
+> independently
+> >> > from the rest of QEMU, and later on perhaps handle them outside of
+> QEMU
+> >> > main repository. To achieve this, I first introduce a qemu-common
+> >> > subproject, where qapi and common units are provided. You can check
+> >> > https://gitlab.com/marcandre.lureau/qemu/-/commits/qga for a sneak
+> peek at
+> >> > current end result.
+> >>
+> >> I worry this move of the QAPI generator code into
+> >> subjprojects/common/scripts/qapi/ will be followed by a move into its
+> >> own subproject.
+> >>
+> >
+> > Do you mean: it could be moved again to another smaller subproject? not
+> > really, see below
+> >
+> >
+> >> Ignorant question: could we turn the QAPI generator into a subproject =
+in
+> >> place?
+> >>
+> >
+> > If it's just the generator, probably the target would then be a python
+> > project (not meson), similar to python-qemu-qmp.
+> >
+> > But I don't see much point, since it's not really a standalone python
+> > module, it generates code, and that code needs most of what is in
+> > qemu-common (see
+> >
+> https://gitlab.com/marcandre.lureau/qemu/-/tree/qga/subprojects/qemu-comm=
+on
+> ).
+> > It's best to have it together imho. Maybe we can consider a different
+> > naming or to be more careful not to add stuff that is not strictly need=
+ed
+> > by qapi?
+>
+> I had a look at subjprojects/qemu-common in your qga branch.  Contents:
+>
+> * Subproject machinery
+>
+> * Some common headers (glib-compat.h), but not others (qemu/osdep.h).  I
+>   guess it's whatever subjproject code needs.
+>
+>   Is subprojects/qemu-common/include/block/nvme.h there by accident?
+>
+
+It's a header shared with qemu-ga (the commit message explains)
 
 
-diff --git a/backends/hostmem-memfd-private.c b/backends/hostmem-memfd-private.c
-index af8fb0c957..e8597ed28d 100644
---- a/backends/hostmem-memfd-private.c
-+++ b/backends/hostmem-memfd-private.c
-@@ -39,7 +39,7 @@ priv_memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-     MachineState *machine = MACHINE(qdev_get_machine());
-     uint32_t ram_flags;
-     char *name;
--    int fd, priv_fd;
-+    int fd, priv_fd, ret;
- 
-     if (!backend->size) {
-         error_setg(errp, "can't create backend with size 0");
-@@ -65,7 +65,15 @@ priv_memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-                                    backend->size, ram_flags, fd, 0, errp);
-     g_free(name);
- 
--    fallocate(priv_fd, 0, 0, backend->size);
-+again:
-+    ret = fallocate(priv_fd, 0, 0, backend->size);
-+    if (ret) {
-+           perror("Fallocate failed: \n");
-+           if (errno == EINTR)
-+                   goto again;
-+           else
-+                   exit(1);
-+    }
+>
+> * Most of the QObject subsystem
+>
+>   qobject/block-qdict.c is left behind.
+>
 
-However, fallocate() preallocates full guest memory before starting the guest.
-With this behaviour guest memory is *not* demand pinned. Is there a way to 
-prevent fallocate() from reserving full guest memory?
+It's qemu block specific. Not needed to move at this point, it drags other
+stuff iirc.
 
-> An example QEMU command line for TDX test:
-> -object tdx-guest,id=tdx,debug=off,sept-ve-disable=off \
-> -machine confidential-guest-support=tdx \
-> -object memory-backend-memfd-private,id=ram1,size=${mem} \
-> -machine memory-backend=ram1
-> 
 
-Regards,
-Nikunj
+> * Most of the QAPI subsystem
+>
+>   Some visitors left behind: opts, forward, string input / output.  Hmm,
+>   only the .c, the .h are in the subjproject.  Accident?
+>
 
+If they are not shared with qemu-ga, I didn't move them yet. They can stay
+specific to qemu or specific subprojects, or we can decide to move them (if
+that doesn't drag too much stuff along).
+
+
+>
+>   A bit of HMP support left behind.
+>
+
+Can you be more specific?
+
+
+>
+> * Parts of util/ and include/qemu/
+>
+>   Error reporting, key-value CLI, some C utilities, but not others
+>   (e.g. qemu/atomic.h, but not qemu/atomic128.h).  I guess it's again
+>   whatever subjproject code needs.
+>
+>
+* Parts of the QAPI Schema subsystem
+>
+> Aside: MAINTAINERS mostly not updated.
+>
+>
+That needs fixing.
+
+
+> Your moves tear closely related code apart.  This is going to be a drag
+> for developers in general and maintainers in particular.
+>
+> Ergonomics suffer when related code is in multiple places.  Having to
+> switch between directories and remember where is what will a constant
+> low-level pain.  Things that used to be simple & quick, like git-grep
+> qapi/*.c, become more involved.
+>
+>
+It's inevitable when a project grows. QEMU is already a very large project.
+Over the years, we have structured the project, by moving things and
+splitting in subdirectories. Imho, this is actually helpful in many ways,
+and we got used to it easily hopefully.
+
+Do you see fundamental reasons why qemu-ga or (qemu-img, qemu-nbd,
+storage-daemon, virtiofsd, vhost-user-*, *helper, ivshmem* etc) need to be
+tight to qemu code, release and management process? I am not saying it's
+time to move them out of qemu project, but I believe it's helpful to have
+code that is structured and can be compiled indepently.
+
+And by having "standalone" subprojects, we can more easily evolve in new
+directions, without touching the rest of the projects.
+
+Hurts even when merely consuming the subsystem: when I see #include
+> "qemu/foo.h", the straightforward include/qemu/foo.h may or may not do.
+> When it doesn't, I need to know where to look instead.
+>
+> subprojects/qemu-common/include/ is a lot to type.  Sufficiently
+> powerful editors mitigate, but not completely.
+>
+> When changes need to be applied to every instance of an abstraction,
+> it's easy to miss instances "elsewhere".  There's a reason the QAPI
+> visitors are all in one place.
+>
+
+I understand it's nice to have all the code in one place. At the same time,
+this goes against modularity and composability..
+
+>
+> The actual split seems somewhat arbitrary in places.  I suspect more
+> code will move over time.  Invalidating "what is where" knowledge.
+>
+
+Are you insinuating that this is obvious today? :) By having smaller
+standalone projects, we have better defined scope, test range, reusability
+etc. And we avoid creating a jam of dependencies, making code review &
+change a bit easier..
+
+
+> I believe a serious think about other ways to accomplish your goals is
+> called for.
+>
+
+I don't claim to have the perfect solution. It's evolution, hopefully a
+step in a better direction.
+
+thanks
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000df4c9a05e5f45cfd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 11, 2022 at 1:05 PM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Marc=
+-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=
+=3D"_blank">marcandre.lureau@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Thu, Aug 11, 2022 at 10:52 AM Markus Armbruster &lt;<a href=3D"mail=
+to:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmai=
+l.com" target=3D"_blank">marcandre.lureau@gmail.com</a>&gt; writes:<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; Hi<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; On Fri, Aug 5, 2022 at 12:12 PM Markus Armbruster &lt;<a href=
+=3D"mailto:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt;<b=
+r>
+&gt;&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"=
+_blank">marcandre.lureau@redhat.com</a> writes:<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
+arcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</=
+a>&gt;<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; This is just moving qapi-gen.py and related subdir t=
+o qemu-common, to<br>
+&gt;&gt; &gt;&gt; &gt; ease review and proceed step by step. The following =
+patches will move<br>
+&gt;&gt; &gt;&gt; &gt; related necessary code, tests etc.<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D=
+"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@red=
+hat.com</a>&gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; As moved files tend to become low-level annoyances for a =
+long time, I&#39;d<br>
+&gt;&gt; &gt;&gt; like to understand why you want to move them.=C2=A0 The c=
+ommit message says<br>
+&gt;&gt; &gt;&gt; &quot;to ease review&quot;, which I suspect isn&#39;t the=
+ real reason.=C2=A0 Perhaps you<br>
+&gt;&gt; &gt;&gt; explained all that elsewhere already, but I missed it.<br=
+>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt; The end goal is to split some projects, such as qemu-ga, to s=
+tandalone<br>
+&gt;&gt; &gt; meson projects/subprojects. We will be able to build them ind=
+ependently<br>
+&gt;&gt; &gt; from the rest of QEMU, and later on perhaps handle them outsi=
+de of QEMU<br>
+&gt;&gt; &gt; main repository. To achieve this, I first introduce a qemu-co=
+mmon<br>
+&gt;&gt; &gt; subproject, where qapi and common units are provided. You can=
+ check<br>
+&gt;&gt; &gt; <a href=3D"https://gitlab.com/marcandre.lureau/qemu/-/commits=
+/qga" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/marcandre.lur=
+eau/qemu/-/commits/qga</a> for a sneak peek at<br>
+&gt;&gt; &gt; current end result.<br>
+&gt;&gt;<br>
+&gt;&gt; I worry this move of the QAPI generator code into<br>
+&gt;&gt; subjprojects/common/scripts/qapi/ will be followed by a move into =
+its<br>
+&gt;&gt; own subproject.<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Do you mean: it could be moved again to another smaller subproject? no=
+t<br>
+&gt; really, see below<br>
+&gt;<br>
+&gt;<br>
+&gt;&gt; Ignorant question: could we turn the QAPI generator into a subproj=
+ect in<br>
+&gt;&gt; place?<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; If it&#39;s just the generator, probably the target would then be a py=
+thon<br>
+&gt; project (not meson), similar to python-qemu-qmp.<br>
+&gt;<br>
+&gt; But I don&#39;t see much point, since it&#39;s not really a standalone=
+ python<br>
+&gt; module, it generates code, and that code needs most of what is in<br>
+&gt; qemu-common (see<br>
+&gt; <a href=3D"https://gitlab.com/marcandre.lureau/qemu/-/tree/qga/subproj=
+ects/qemu-common" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/m=
+arcandre.lureau/qemu/-/tree/qga/subprojects/qemu-common</a>).<br>
+&gt; It&#39;s best to have it together imho. Maybe we can consider a differ=
+ent<br>
+&gt; naming or to be more careful not to add stuff that is not strictly nee=
+ded<br>
+&gt; by qapi?<br>
+<br>
+I had a look at subjprojects/qemu-common in your qga branch.=C2=A0 Contents=
+:<br>
+<br>
+* Subproject machinery<br>
+<br>
+* Some common headers (glib-compat.h), but not others (qemu/osdep.h).=C2=A0=
+ I<br>
+=C2=A0 guess it&#39;s whatever subjproject code needs.<br>
+<br>
+=C2=A0 Is subprojects/qemu-common/include/block/nvme.h there by accident?<b=
+r></blockquote><div><br></div><div>It&#39;s a header shared with qemu-ga (t=
+he commit message explains)</div><div>=C2=A0 <br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+<br>
+* Most of the QObject subsystem<br>
+<br>
+=C2=A0 qobject/block-qdict.c is left behind.<br></blockquote><div><br></div=
+><div>It&#39;s qemu block specific. Not needed to move at this point, it dr=
+ags other stuff iirc.</div><div><br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+<br>
+* Most of the QAPI subsystem<br>
+<br>
+=C2=A0 Some visitors left behind: opts, forward, string input / output.=C2=
+=A0 Hmm,<br>
+=C2=A0 only the .c, the .h are in the subjproject.=C2=A0 Accident?<br></blo=
+ckquote><div><br></div><div>If they are not shared with qemu-ga, I didn&#39=
+;t move them yet. They can stay specific to qemu or specific subprojects, o=
+r we can decide to move them (if that doesn&#39;t drag too much stuff along=
+).<br></div><div>=C2=A0 <br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+=C2=A0 A bit of HMP support left behind.<br></blockquote><div><br></div><di=
+v>Can you be more specific?</div><div>=C2=A0<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+<br>
+* Parts of util/ and include/qemu/<br>
+<br>
+=C2=A0 Error reporting, key-value CLI, some C utilities, but not others<br>
+=C2=A0 (e.g. qemu/atomic.h, but not qemu/atomic128.h).=C2=A0 I guess it&#39=
+;s again<br>
+=C2=A0 whatever subjproject code needs.<br>=C2=A0 <br></blockquote><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+* Parts of the QAPI Schema subsystem<br>
+<br>
+Aside: MAINTAINERS mostly not updated.<br>
+<br></blockquote><div><br></div><div>That needs fixing.<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Your moves tear closely related code apart.=C2=A0 This is going to be a dra=
+g<br>
+for developers in general and maintainers in particular.<br>
+<br>
+Ergonomics suffer when related code is in multiple places.=C2=A0 Having to<=
+br>
+switch between directories and remember where is what will a constant<br>
+low-level pain.=C2=A0 Things that used to be simple &amp; quick, like git-g=
+rep<br>
+qapi/*.c, become more involved.<br>
+<br></blockquote><div><br></div><div>It&#39;s inevitable when a project gro=
+ws. QEMU is already a very large project. Over the years, we have structure=
+d the project, by moving things and splitting in subdirectories. Imho, this=
+ is actually helpful in many ways, and we got used to it easily hopefully.<=
+/div><div><br></div><div>Do you see fundamental reasons why qemu-ga or (qem=
+u-img, qemu-nbd, storage-daemon, virtiofsd, vhost-user-*, *helper, ivshmem*=
+ etc) need to be tight to qemu code, release and management process? I am n=
+ot saying it&#39;s time to move them out of qemu project, but I believe it&=
+#39;s helpful to have code that is structured and can be compiled indepentl=
+y.</div><div><br></div><div>And by having &quot;standalone&quot; subproject=
+s, we can more easily evolve in new directions, without touching the rest o=
+f the projects.</div><div><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+Hurts even when merely consuming the subsystem: when I see #include<br>
+&quot;qemu/foo.h&quot;, the straightforward include/qemu/foo.h may or may n=
+ot do.<br>
+When it doesn&#39;t, I need to know where to look instead.<br>
+<br>
+subprojects/qemu-common/include/ is a lot to type.=C2=A0 Sufficiently<br>
+powerful editors mitigate, but not completely.<br>
+<br>
+When changes need to be applied to every instance of an abstraction,<br>
+it&#39;s easy to miss instances &quot;elsewhere&quot;.=C2=A0 There&#39;s a =
+reason the QAPI<br>
+visitors are all in one place.<br></blockquote><div><br></div>I understand =
+it&#39;s nice to have all the code in one place. At the same time, this goe=
+s against modularity and composability..<br></div><div class=3D"gmail_quote=
+">=C2=A0<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+The actual split seems somewhat arbitrary in places.=C2=A0 I suspect more<b=
+r>
+code will move over time.=C2=A0 Invalidating &quot;what is where&quot; know=
+ledge.<br></blockquote><div><br></div><div>Are you insinuating that this is=
+ obvious today? :) By having smaller standalone projects, we have better de=
+fined scope, test range, reusability etc. And we avoid creating a jam of de=
+pendencies, making code review &amp; change a bit easier..<br></div><div><b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+I believe a serious think about other ways to accomplish your goals is<br>
+called for.<br></blockquote><div><br></div><div>I don&#39;t claim to have t=
+he perfect solution. It&#39;s evolution, hopefully a step in a better direc=
+tion.=C2=A0</div><div><br></div><div>thanks<br></div></div><br clear=3D"all=
+"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lur=
+eau<br></div></div>
+
+--000000000000df4c9a05e5f45cfd--
 
