@@ -2,93 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B735590098
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 17:45:24 +0200 (CEST)
-Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4F59010F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 17:50:01 +0200 (CEST)
+Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMAN9-0004iU-5U
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 11:45:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51530)
+	id 1oMARc-0007JE-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 11:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMAK4-0000rU-RP
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:42:12 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:38845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMAK2-0002kE-N8
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:42:12 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id r22so15044630pgm.5
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 08:42:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=z3hn8pLmklMWB3HO3epYREDckYICdYNbLOBpFglUlS0=;
- b=y1/PFRye5mzuti2ol6eh+RkDYl9YwXHZ1w1Sy+fxhfzju1MLTMnZZToRL/I3jplJa5
- Vh7xTbtrX78Vd2zR3YXbnN0D5WXSEM66aEwcihdMKJl6TZVTwW3U3YAHjpcs5rAhtyhO
- 3lwiFRPrfoKZl8BX+W0bV9AQuj9e531KtX8vaDpLc91/E9PAtRhi6IZZY8qE6Y8i2zSt
- UCzKU7T7R6xLV4QWqjSl3/Bhjf5zlcBh18N5SXdvwBihYzyYCs+/2wE+nnU0kDF/K6S4
- XPCGmQ9ojPeP8TpA9pletvj+QqtH2c4w3jeXStB54j9OCV1wFXshga9GiYCHcW7u0RIy
- Z/FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=z3hn8pLmklMWB3HO3epYREDckYICdYNbLOBpFglUlS0=;
- b=7BMZYDyQ8qU8ykrjRND5Y+BWHF6LjvQslJ95jYaf9FIoMzuLv0WGNfKgsqZXq6ZHCf
- q4ErVA1qTGU0hzOsBYlaWrcNthPo+d0qX4/zg4OqKZF5T/YRg2iekbEE1VCINwr2jHSs
- p341DWPGSuMmjW9YTKlU4yEUHYXhVUULCu/udeh/oqoyi/sph98j3oYOEXjTx/W7nXns
- cB/uyO8EKwk5Xk99R5NfxvNMrtLRMJ/N+bCMGZy/lODKNTV6GRnN9W3mFkdS/iJEuZNt
- iQ7kWCdFItf8r7kl3s9EEAsK1El96eLXH24M3eH/cgPq01ToDuyb9EuxNSFWb053K97Y
- Umnw==
-X-Gm-Message-State: ACgBeo1luBCbTZZDLLP+Hg5yNwgSD7LsyRh4PNKkq20LKEdbMpMnruMY
- ax3HDwo/rMJxZl3FjI+iYdcMug==
-X-Google-Smtp-Source: AA6agR612p0kIVLReJTZFGOGEyHsRwmAX0kyWTENRRsiz2bIngWhbkuBwWDzLlG1a4wcj526dQkPiw==
-X-Received: by 2002:a63:1e5f:0:b0:419:d6bf:b9d7 with SMTP id
- p31-20020a631e5f000000b00419d6bfb9d7mr27663382pgm.593.1660232529174; 
- Thu, 11 Aug 2022 08:42:09 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:72e2:2d06:c2b1:b106?
- ([2602:ae:154e:e201:72e2:2d06:c2b1:b106])
- by smtp.gmail.com with ESMTPSA id
- ij29-20020a170902ab5d00b0015e8d4eb219sm14995572plb.99.2022.08.11.08.42.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 08:42:08 -0700 (PDT)
-Message-ID: <0070ac70-9c86-b360-e877-3d7e01d176ea@linaro.org>
-Date: Thu, 11 Aug 2022 08:42:07 -0700
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oMAOm-0004sx-Av
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:47:06 -0400
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:32879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oMAOi-0003Vh-6Y
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:47:02 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.235])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 62C7C21761;
+ Thu, 11 Aug 2022 15:46:56 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 11 Aug
+ 2022 17:46:55 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0032a1b15f1-1be8-4b21-9664-bcd2f688e1c6,
+ B18B381393FCCA734C2622819310E7EBE9D8D149) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.155.17
+Message-ID: <ada41672-b1dd-c988-c347-96a3355f2da8@kaod.org>
+Date: Thu, 11 Aug 2022 17:46:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 1/4] accel/tcg: Invalidate translations when clearing
- PAGE_EXEC
+ Thunderbird/91.12.0
+Subject: Re: [RFC] Testing 7.1.0-rc2, qemu-ppc does not give valid disassembly
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220808171022.49439-1-iii@linux.ibm.com>
- <20220808171022.49439-2-iii@linux.ibm.com>
- <6e3e5974-15eb-05e8-a005-942884732fef@linaro.org>
- <23d43d7cda9293eca9afbba91c50f613d004a407.camel@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <23d43d7cda9293eca9afbba91c50f613d004a407.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+To: Pierre Muller <pierre@freepascal.org>, "qemu-devel@nongnu.org Developers"
+ <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ John Paul Adrian
+ Glaubitz <glaubitz@physik.fu-berlin.de>, Thomas Huth <thuth@redhat.com>,
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>
+References: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 0b27b074-39c1-4909-bd0f-d5d7d79de175
+X-Ovh-Tracer-Id: 2625598585974786921
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeggedgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgffgleefledvkeejjeffgfejiedttddvledvlefhteffgedujeekteetheeuudfhnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,15 +77,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/11/22 02:28, Ilya Leoshkevich wrote:
-> How is qemu-user's get_page_addr_code() involved here?
+Hello Pierre,
+
+On 8/11/22 15:31, Pierre Muller wrote:
+>    Hello,
 > 
-> I tried to experiment with it, and while I agree that it looks buggy,
-> it's called only from translation code paths. If we already have a
-> translation block, these code paths are not used.
+>    I don't know if this is the right place to submit this report,
 
-It's called from tb_lookup too, when we're trying to find an existing TB.
+Here is a good place :
 
+    https://gitlab.com/qemu-project/qemu/-/issues/
 
-r~
+> but I have a problem with my attempt to check the 7.1.0 release candidate
+> for linux user powerpc CPU.
+> 
+>    I am testing a simple executable, compiled with Free Pacal compiler,
+> but also linked to libc.
+> 
+> This is what I obtain with the new rc:
+> 
+> ~/gnu/qemu/build-qemu-7.1.0-rc1/qemu-ppc -L ~/sys-root/powerpc-linux -d in_asm tprintf
+> ----------------
+> IN: _start
+> 0x3ffda784:
+> OBJD-T: 7c230b78388000003821fff0908100004bfe756d
+> 
+> ----------------
+> IN: _dl_start
+> 0x3ffc1d00:
+> OBJD-T: 9421fd407c0802a6429f0005
+> 
+> ----------------
+> IN: _dl_start
+> 0x3ffc1d0c:
+> OBJD-T: 93c102b8938102b092e1029c930102a07fc802a6932102a4934102a8936102ac
+> OBJD-T: 900102c493a102b493e102bc7c7c1b783fde00043bded2d07d4d42a67d2c42a6
+> OBJD-T: 7d0d42a67c0a40004082fff0
+> 
+> ----------------
+> IN: _dl_start
+> 0x3ffc1d58:
+> OBJD-T: 9141026838e00013f00004d7
+> 
+> With qemu-ppc version 7.0.0, I get this:
+> ----------------
+> IN: _start
+> 0x3ffda784:  7c230b78  mr       r3, r1
+> 0x3ffda788:  38800000  li       r4, 0
+> 0x3ffda78c:  3821fff0  addi     r1, r1, -0x10
+> 0x3ffda790:  90810000  stw      r4, 0(r1)
+> 0x3ffda794:  4bfe756d  bl       0x3ffc1d00
+> 
+> ----------------
+> IN: _dl_start
+> 0x3ffc1d00:  9421fd40  stwu     r1, -0x2c0(r1)
+> 0x3ffc1d04:  7c0802a6  mflr     r0
+> 0x3ffc1d08:  429f0005  bdnzl    0x3ffc1d0c
+> 
+> Which is way better!
+> 
+>    I did find that this is related to the fact that
+> upon configuration, meson finds no capstone library,
+> while disassembly of powerpc CPU has been moved to use of
+> capstone in this commit:
+> 
+> 
+> commit 333f944c15e7a6f5503f92d80529a368519d6638
+> Author: Thomas Huth <thuth@redhat.com>
+> Date:   Thu May 5 19:36:19 2022 +0200
+> 
+>       disas: Remove old libopcode ppc disassembler
+> 
+>       Capstone should be superior to the old libopcode disassembler,
+>       so we can drop the old file nowadays.
+> 
+>       Message-Id: <20220505173619.488350-1-thuth@redhat.com>
+>       Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>       Signed-off-by: Thomas Huth <thuth@redhat.com>
+> 
+> 
+> Even when trying to compile the git checkout,
+> which contains capstone as a sub-module, in capstone sub-directory,
+> I always get capstone support set to NO by meson configuration.
+> 
+> configure --help says:
+> 
+> 155:  capstone        Whether and how to find the capstone library
+> 
+>    Is there a way to tell configure to use the submodule?
+> Why doesn't it use the sub-module if pkg-config says that there
+> is not system capstone library installed?
+
+Did you try --enable-capstone ?
+
+See :
+
+    https://lore.kernel.org/qemu-devel/4986d31e-00b3-bb94-654d-9659af8ae09f@linaro.org/
+
+Thanks,
+
+C.
 
