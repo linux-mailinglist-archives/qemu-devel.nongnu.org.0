@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28937590569
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:11:15 +0200 (CEST)
-Received: from localhost ([::1]:34424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C188D590578
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:13:55 +0200 (CEST)
+Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBiE-0003UW-9A
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41552)
+	id 1oMBko-0005b0-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oMBgJ-0000SI-DL; Thu, 11 Aug 2022 13:09:15 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oMBgG-00088s-Ci; Thu, 11 Aug 2022 13:09:15 -0400
-Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M3YDj3T2Cz67ZHP;
- Fri, 12 Aug 2022 01:08:53 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Thu, 11 Aug 2022 19:08:58 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 11 Aug
- 2022 18:08:58 +0100
-Date: Thu, 11 Aug 2022 18:08:57 +0100
-To: Bobo WL <lmw.bobo@gmail.com>
-CC: <linux-cxl@vger.kernel.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: Re: [BUG] cxl can not create region
-Message-ID: <20220811180857.00005e67@huawei.com>
-In-Reply-To: <20220809170825.00001b61@huawei.com>
-References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
- <20220808133727.00001171@huawei.com>
- <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
- <20220809170825.00001b61@huawei.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMBiM-0003lw-Jh
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:11:22 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:35519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMBiK-0000Cy-WD
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:11:22 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-32269d60830so179449587b3.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=5Nf0rU0OpsHl056S1h+tq4hZ2Zm/hn/hNmbHuIjPS8o=;
+ b=py18k4cxcMdc4To2+rwwTiQgE0UeoPEfWCcZG3AluknRDBcziWanyL1lxV3SC1YHrL
+ xmxwMLCIuZdX4OCEPbnpUJHQTpop4Q6UgDENxk39fmmUCRTJRiz/zUyD4sYWFiGFaoPY
+ 4JwVyoKSju8LdayzDX06PlflqBuJMUCOjr2WNv96UKrn+TGW/OpxHRMLkpHe8ub07SLg
+ CrlVIuKqktiKtLHhjR2hkv3MxLNo7i2V81xdb5tgyrskpSoVSblxYhVKZPsMsJaQNqkK
+ SxeW2hB1PPrgqErsS+W7Py8qWTaxFcSANpem80wUU4hIea8NceSddAJK8dGNfyq8ufxr
+ algQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=5Nf0rU0OpsHl056S1h+tq4hZ2Zm/hn/hNmbHuIjPS8o=;
+ b=zBDmrDgvOm1/qiFmZYXKJCpENAaZKcQHg0HpyXC3b6pc4umu8Kn/9u4unNkES7OFzB
+ EJDn55NRYG3/vemUwyJe/IsOLWgBe9Ulxo18gURAcdhzZ8+GniSSQRZ1qKY42vW+mG0h
+ YE6Ev5HaZXyRP6P4t6OLOffHmY9eDXRDEmmFwTEr94XwftbfBPUCAWk/GmGcpCfn5/0j
+ 7rber7FwWOQ65W71PQuIqKqSqXQoLFoIt0fnBrsLCWruCe9ZHRn0POmkXkn1xE3S8E5S
+ 9tTGevA/CZdINFH1miwnzduGkbFrUzx7gAdGvXhFqi53Y9s0nVK8iHRiRhuYdmkOwHFE
+ PG3Q==
+X-Gm-Message-State: ACgBeo3LkFejdZiyyT563nBgG6EFKXEtCNSS6JPvEEE0oFAXbz74i+LI
+ QMgukUPO+iX7QLvzeWUMgsxkNMc7Sux2Umg3owlVMw==
+X-Google-Smtp-Source: AA6agR7LjCEn82EiTQHunWLiDFvJA8Ljn5aKkDSTT+80lG5T5v8tNy3SePERxfAtkEjsQj+EMdndzmGhcQwcuJvHFnk=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr165640ywb.257.1660237877377; Thu, 11 Aug
+ 2022 10:11:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
+In-Reply-To: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Aug 2022 18:11:06 +0100
+Message-ID: <CAFEAcA-0wkYiDgs7DOpnMuwVw=z=H_440Yyrfaa9_V-YRyoU-w@mail.gmail.com>
+Subject: Re: [RFC] Testing 7.1.0-rc2, qemu-ppc does not give valid disassembly
+To: Pierre Muller <pierre@freepascal.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,65 +85,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Tue, 9 Aug 2022 17:08:25 +0100
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+On Thu, 11 Aug 2022 at 14:35, Pierre Muller <pierre@freepascal.org> wrote:
+>    I don't know if this is the right place to submit this report,
+> but I have a problem with my attempt to check the 7.1.0 release candidate
+> for linux user powerpc CPU.
+>
+>    I am testing a simple executable, compiled with Free Pacal compiler,
+> but also linked to libc.
+>
+> This is what I obtain with the new rc:
+>
+> ~/gnu/qemu/build-qemu-7.1.0-rc1/qemu-ppc -L ~/sys-root/powerpc-linux -d i=
+n_asm tprintf
+> ----------------
+> IN: _start
+> 0x3ffda784:
+> OBJD-T: 7c230b78388000003821fff0908100004bfe756d
 
-> On Tue, 9 Aug 2022 21:07:06 +0800
-> Bobo WL <lmw.bobo@gmail.com> wrote:
-> 
-> > Hi Jonathan
-> > 
-> > Thanks for your reply!
-> > 
-> > On Mon, Aug 8, 2022 at 8:37 PM Jonathan Cameron
-> > <Jonathan.Cameron@huawei.com> wrote:  
-> > >
-> > > Probably not related to your problem, but there is a disconnect in QEMU /
-> > > kernel assumptionsaround the presence of an HDM decoder when a HB only
-> > > has a single root port. Spec allows it to be provided or not as an implementation choice.
-> > > Kernel assumes it isn't provide. Qemu assumes it is.
-> > >
-> > > The temporary solution is to throw in a second root port on the HB and not
-> > > connect anything to it.  Longer term I may special case this so that the particular
-> > > decoder defaults to pass through settings in QEMU if there is only one root port.
-> > >    
-> > 
-> > You are right! After adding an extra HB in qemu, I can create a x1
-> > region successfully.
-> > But have some errors in Nvdimm:
-> > 
-> > [   74.925838] Unknown online node for memory at 0x10000000000, assuming node 0
-> > [   74.925846] Unknown target node for memory at 0x10000000000, assuming node 0
-> > [   74.927470] nd_region region0: nmem0: is disabled, failing probe  
-> 
-> Ah. I've seen this one, but not chased it down yet.  Was on my todo list to chase
-> down. Once I reach this state I can verify the HDM Decode is correct which is what
-> I've been using to test (Which wasn't true until earlier this week). 
-> I'm currently testing via devmem, more for historical reasons than because it makes
-> that much sense anymore.  
+This is because you don't have the libcapstone development package
+installed on your host system.
 
-*embarassed cough*.  We haven't fully hooked the LSA up in qemu yet.
-I'd forgotten that was still on the todo list. I don't think it will
-be particularly hard to do and will take a look in next few days.
+>    I did find that this is related to the fact that
+> upon configuration, meson finds no capstone library,
+> while disassembly of powerpc CPU has been moved to use of
+> capstone in this commit:
 
-Very very indirectly this error is causing a driver probe fail that means that
-we hit a code path that has a rather odd looking check on NDD_LABELING.
-Should not have gotten near that path though - hence the problem is actually
-when we call cxl_pmem_get_config_data() and it returns an error because
-we haven't fully connected up the command in QEMU.
+The other relevant commit here is
 
-Jonathan
+commit 83602083b4ada6ceb86bfb327e83556ebab120fc
+Author: Thomas Huth <thuth@redhat.com>
+Date:   Mon May 16 16:58:23 2022 +0200
 
+    capstone: Remove the capstone submodule
 
-> 
-> > 
-> > And x4 region still failed with same errors, using latest cxl/preview
-> > branch don't work.
-> > I have picked "Two CXL emulation fixes" patches in qemu, still not working.
-> > 
-> > Bob  
+    Now that we allow compiling with Capstone v3.0.5 again, all our support=
+ed
+    build hosts should provide at least this version of the disassembler
+    library, so we do not need to ship this as a submodule anymore.
 
+> Even when trying to compile the git checkout,
+> which contains capstone as a sub-module, in capstone sub-directory,
+> I always get capstone support set to NO by meson configuration.
+
+If your git checkout still has a capstone subdirectory this
+is an old leftover from a checkout that predated 83602083b4ada.
+('git status' will tell you this, and a suitable 'git clean'
+command will get rid of it for you.)
+
+> Why doesn't it use the sub-module if pkg-config says that there
+> is not system capstone library installed?
+
+Because we now can rely on all our supported host distributions
+being modern enough to ship libcapstone, and we don't need to
+cart around a submodule any more (which reduces our maintenance
+burden). As C=C3=A9dric suggests, you can pass '--enable-capstone'
+to configure if you would like configure to fail if it can't
+find the system libcapstone, rather than falling back to the
+binary-blob disassembler.
+
+thanks
+-- PMM
 
