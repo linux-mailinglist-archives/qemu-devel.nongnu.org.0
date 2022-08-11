@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5A85905C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:22:52 +0200 (CEST)
-Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E21B5905C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:23:27 +0200 (CEST)
+Received: from localhost ([::1]:48062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBtT-00047A-5k
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43068)
+	id 1oMBu2-0004of-9A
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:23:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnH-0006m3-66
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:27 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46645)
+ id 1oMBnF-0006jY-Q9
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:25 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:44587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnE-0000sG-39
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:26 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- k6-20020a05600c1c8600b003a54ecc62f6so2980892wms.5
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:22 -0700 (PDT)
+ id 1oMBnE-0000sO-2v
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:25 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ b21-20020a05600c4e1500b003a32bc8612fso2978485wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc;
- bh=LAPtWKrKaZqjEi+4+qsyZ39lAOW3AbKKlekZOCCWKzU=;
- b=pGRI/RsFcnnKlcZ0VsCfUSq1w7tIY9lfBhEqS3zVmdv0LncpOaFuB0Fkg7gDZLUAEt
- DV0dpunuy4zlOTbEpDvcxyeO3FRSnZ+KhHBCn0Z/vgmA3ecqk3nI/blrb/StPNJWp68V
- 7F509+FXi00Sivz9Fe2k9+KW6LmWfUM8mFWFOxSUoHJWUCymmqNFPrTmgIcsapG9urhv
- VdfQzQ+C2PHtZzs8UdWM0WLKQfPVn2ERGyX4QxQYjdPOChnI7aRfVVLUguGo2POhVL2G
- 7bDzAFcEnLSwEKb0SByQb4fcEarut9336NFbPB1eNa7CqbhxEMpgXgYINVLNWBU4CdWf
- u4fg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc;
+ bh=bBQi63nUBjyD4P8li6gSvAkrvfkoQz4taZFgjQpefug=;
+ b=PbYn+ImqxRrZalnxqoq/L7G3eeVOoA1PJW/yAjviXUWAX+SeJOcxBlEcleqJiCZMpN
+ FrLIdXdmMJzuy4ZYThI8Cf2Bv/VTFdyeDK0Uak54EHTMy/FH9qzaAUZc0Sn4f4aYtIio
+ KXyZAa4mgg+atjvuZShVXpjgTnyyQ4sSINOT53lo5uEc4HHfrfaA80potRaKMlqq5QSS
+ j1KbJajodGlcLI4pIFPOQsRucVtFaagMSu48mmoA3e4EO+DBvsy27PH3PVWK13MbK8eQ
+ 0vAa9g+l0huGd8R6ZD7RqYlo3AsoX9jdqnBnMg7gJNEUo4JSSFJ/tinXBkPiq+2Equhd
+ 5RsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=LAPtWKrKaZqjEi+4+qsyZ39lAOW3AbKKlekZOCCWKzU=;
- b=s96auJkxOoRfTIM1BeaL85JtS8rrRWFfR/S/V5cYIOJcA3pZXrkVhF0ME3YxsljAbG
- PNPMQicHXvrQUpZovSZ4Jvjp9BgfqFToVi5PQpLVC0b79Xr7rRZRc/yidLB6z51axM/P
- HGmsM+410WoZKGY4UjGdp5y2TxsZzLBt0PmSjD6EIWlWW0jOjCPt4D6vLYDPi3WKxAPY
- CpQsKpeR4dva2OBG5z/M8QPt/IcQcg3Ek/OL+93TkvkYyhCHacGRyyPw0/bTBOeg6U/u
- Rs5b/xLwFSD8vPJHlle1OlQbHtd5XfcCc5RaFUKdAyKIwaWjA+9a94Oauuu+7ggL711n
- Lpkw==
-X-Gm-Message-State: ACgBeo0wLatI5lzb0iGrVcG61O7Mry1SyxrpLN3mrBgSpXzk82rXb5yv
- kR+aWci9EHM1KZc0W4ETGmLtEBsObFsjkA==
-X-Google-Smtp-Source: AA6agR61LVfRhT1n+HebIX2ALYPeTzQJIulIojQgXTakJYgBNEJmkIrcyyMZsfcHyeGVtb5us0CwDg==
-X-Received: by 2002:a1c:541b:0:b0:3a5:411:5575 with SMTP id
- i27-20020a1c541b000000b003a504115575mr139082wmb.65.1660238181177; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+ bh=bBQi63nUBjyD4P8li6gSvAkrvfkoQz4taZFgjQpefug=;
+ b=o1Kl2Ec/ff31LO01xidyPl6qcu2FXEfiAybljHyviMqSTfBxadFAGjs8BnqeelEIAu
+ M18X63vM1oXNpXytVdrd8O3XiqGxa7WVRuCPOtZZ3M+BpcrmGZKWlXeh8Grsfw90uDDM
+ f4SKXJa+J4PFwGxQ9d1rUlj0Tfr30CekEFXN8ww39fQGZY+e93Fcw9vQwekvGCImWJ5p
+ lm7G01TRHM/rwrp+7QeVEdroFzm2kcJuy3ncHjUng2rt8BhcdwnmLoeho1e2GvcSUGTl
+ 6WzKXMpIL3n+hU/PHXxy0mDUFGkBRZ76MZkZqyeaxzBp6gPc5PNO42ak+JMpCpTpFtUp
+ BC2Q==
+X-Gm-Message-State: ACgBeo1nv4v8VdbrqPTQ6RKrwNWi+6Zq7viro9lG+kjoGmEIX9fQdG/e
+ vFV2GY3Wu1aYDjiyiO3qqJPF6w==
+X-Google-Smtp-Source: AA6agR4eBFQVCwBwoYQ/Dky3JbZTY59xDZBu0l2pgbgLcIh8BigNhcNTPnF/Wrud8xJ6pIQjbCXbOQ==
+X-Received: by 2002:a1c:6a0a:0:b0:3a5:bcad:f2cc with SMTP id
+ f10-20020a1c6a0a000000b003a5bcadf2ccmr2907305wmc.74.1660238181983; 
  Thu, 11 Aug 2022 10:16:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.20
+ b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 10:16:20 -0700 (PDT)
+ Thu, 11 Aug 2022 10:16:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 00/10] target/arm: Implement FEAT_PMUv3p5
-Date: Thu, 11 Aug 2022 18:16:09 +0100
-Message-Id: <20220811171619.1154755-1-peter.maydell@linaro.org>
+Subject: [PATCH 01/10] target/arm: Don't corrupt high half of PMOVSR when
+ cycle counter overflows
+Date: Thu, 11 Aug 2022 18:16:10 +0100
+Message-Id: <20220811171619.1154755-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220811171619.1154755-1-peter.maydell@linaro.org>
+References: <20220811171619.1154755-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,43 +90,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements the Armv8.5 feature FEAT_PMUv3p5, which is
-a set of minor enhancements to the PMU:
- * EL2 and EL3 can now prohibit the cycle counter from counting
-   when in EL2 or when Secure, using new MDCR_EL2.HCCD and
-   MDCR_EL3.SCCD bits
- * event counters are now 64 bits, with the overflow detection
-   configurably at the 32 bit or 64 bit mark
+When the cycle counter overflows, we are intended to set bit 31 in PMOVSR
+to indicate this. However a missing ULL suffix means that we end up
+setting all of bits 63-31. Fix the bug.
 
-It also fixes a set of bugs in the existing PMU emulation which I
-discovered while trying to test my additions.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is of course all intended for 7.2.
-
-thanks
--- PMM
-
-Peter Maydell (10):
-  target/arm: Don't corrupt high half of PMOVSR when cycle counter
-    overflows
-  target/arm: Correct value returned by pmu_counter_mask()
-  target/arm: Don't mishandle count when enabling or disabling PMU
-    counters
-  target/arm: Ignore PMCR.D when PMCR.LC is set
-  target/arm: Honour MDCR_EL2.HPMD in Secure EL2
-  target/arm: Detect overflow when calculating next PMU interrupt
-  target/arm: Rename pmu_8_n feature test functions
-  target/arm: Implement FEAT_PMUv3p5 cycle counter disable bits
-  target/arm: Support 64-bit event counters for FEAT_PMUv3p5
-  target/arm: Report FEAT_PMUv3p5 for TCG '-cpu max'
-
- target/arm/cpu.h       |  37 ++++++--
- target/arm/internals.h |   5 +-
- target/arm/cpu64.c     |   2 +-
- target/arm/cpu_tcg.c   |   2 +-
- target/arm/helper.c    | 197 ++++++++++++++++++++++++++++++++---------
- 5 files changed, 190 insertions(+), 53 deletions(-)
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d7bc467a2a5..87c89748954 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1186,7 +1186,7 @@ static void pmccntr_op_start(CPUARMState *env)
+         uint64_t overflow_mask = env->cp15.c9_pmcr & PMCRLC ? \
+                                  1ull << 63 : 1ull << 31;
+         if (env->cp15.c15_ccnt & ~new_pmccntr & overflow_mask) {
+-            env->cp15.c9_pmovsr |= (1 << 31);
++            env->cp15.c9_pmovsr |= (1ULL << 31);
+             pmu_update_irq(env);
+         }
+ 
 -- 
 2.25.1
 
