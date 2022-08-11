@@ -2,103 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB364590411
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 18:39:59 +0200 (CEST)
-Received: from localhost ([::1]:59184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C02590414
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 18:42:44 +0200 (CEST)
+Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBDy-00017k-82
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 12:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35200)
+	id 1oMBGd-0006Rp-IO
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 12:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oMBBl-0007KF-1V
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:37:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oMBBh-0003IW-4W
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:37:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660235856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iOS2Sotu9DqerDNA9hgMMio0QIs9vwAeh9S83vEZ4L4=;
- b=XZq6A90KLNuIdzbiZqesNbfElsEZaeSBmz58BXo9aix4w4s80q0W2U3LGSIC0XgkpJBt/x
- /JZcsd8eoxPozoDiUu3JhNg1w1t+yOjPlkAHP5/b6zOIZDv+z8DzJaMyexIE5xWGf8Ra01
- LsK9pxlhI3cD+i7AUVYW/5ExxjSoAWA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-26-SOnMpKQfNkeYbkEsFaODJA-1; Thu, 11 Aug 2022 12:37:34 -0400
-X-MC-Unique: SOnMpKQfNkeYbkEsFaODJA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 131-20020a1c0289000000b003a52a0c70b0so7128599wmc.2
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 09:37:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oMBE0-0001DY-QT; Thu, 11 Aug 2022 12:40:00 -0400
+Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930]:35656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oMBDy-0003V2-Iq; Thu, 11 Aug 2022 12:39:59 -0400
+Received: by mail-ua1-x930.google.com with SMTP id f10so7156011uap.2;
+ Thu, 11 Aug 2022 09:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=awyYdUNueaTLUWrcfnpkP3c+BR329PRR0N5mtdm/TnA=;
+ b=FcLCIbXQj75TrfY4D50WXOlZHKMx8cXDfoHwxjZHq+3cGnlpYIPWyL5C4+XUEANuMY
+ AgeIGCKHLC8jj8+yJ3KuxnHal63ZLV1GQubyJZEioYY2eru3aVMxyeASdlZl/kqvLXvy
+ MuTf1lwH0qJ0p7zlkV5Smy6699w7+SaxDrH9+liDDjWhwpgFTEhz/8T/5GLnR8Rkwff7
+ lGdRAYD5UOwETZfLu3R9n+9zlJladyhWJxkdtVW6WJAangPl7Qu8GE8FiywlxiveZJO1
+ sYg89J9kI4t3WQCh3TaIenbzKabVv//uBc9Oq9gi0PdxUNMYdbvxZnkyPl9m0dNekd8V
+ cRDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=iOS2Sotu9DqerDNA9hgMMio0QIs9vwAeh9S83vEZ4L4=;
- b=mBY1iPycZZA/W9ShWTlnr/TMRN0oy12TK2ybRl6vsuTZc9E5x0HJoArCxndFQUiSIJ
- aZDYXpuE4fXEuZNk3vDBOvw8F1jHp4GvBqlykW+aQTE9CNqPux9ojV7cwCsbLrYtBnCi
- KClBH2KkdU7hP5w6BL4ZN20SlBX9Q28DUIbQOYwOoSrIjQ4ewM+MgkOj65DmdydDbaOs
- 1+RwM2c+Lp3HL0Fk8KhBf5IJkPj2PSJqV1FHnrYcaBJ8aR1A8CAxL90vvpbu3D5M01xT
- 3UwgFDqcFM9kDgzLqjexDfM9pgpQxnYcNon7EHY05yu81PA8IBuSxlWRXhZrJobvPTsT
- vpUA==
-X-Gm-Message-State: ACgBeo1k17OVrq745mN9uE2BoNNwWKgmt1naeTesI8AmtYdVj4irHwoN
- Z9xG7ZJH13zbgzhSdSDMN5f2by9glEwvYqpH8W3A69H7FkI8Sf3CeSFIbhZrMciUYUl+jKi1aT6
- iFaZZpCxCsNxr5mU=
-X-Received: by 2002:adf:ec92:0:b0:21f:f65:2e57 with SMTP id
- z18-20020adfec92000000b0021f0f652e57mr19905518wrn.95.1660235853607; 
- Thu, 11 Aug 2022 09:37:33 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5ZRP7rF115Fjhili7YpAzVorx5OcgZN096bBYym344C+62OUrHwHnXHqM/KYYIYIudsEjB7Q==
-X-Received: by 2002:adf:ec92:0:b0:21f:f65:2e57 with SMTP id
- z18-20020adfec92000000b0021f0f652e57mr19905494wrn.95.1660235853273; 
- Thu, 11 Aug 2022 09:37:33 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c708:2e00:4009:47dc:d0e5:dcd2?
- (p200300cbc7082e00400947dcd0e5dcd2.dip0.t-ipconnect.de.
- [2003:cb:c708:2e00:4009:47dc:d0e5:dcd2])
- by smtp.gmail.com with ESMTPSA id
- u23-20020a7bc057000000b003a3211112f8sm6311743wmc.46.2022.08.11.09.37.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 09:37:32 -0700 (PDT)
-Message-ID: <1f6b9db6-69bc-b196-3abd-65ba7f9933b0@redhat.com>
-Date: Thu, 11 Aug 2022 18:37:32 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=awyYdUNueaTLUWrcfnpkP3c+BR329PRR0N5mtdm/TnA=;
+ b=BzflkRECvSXFHwODJlbdMN339eE6sP4ekVCE8wu3VEQDYPKQcctaRRn2oWoarAA/ZZ
+ cu+t99ldJ2olbtNd1pCZ5SQcw9HzJiDdVqAo2G6Fu4lv3ndWAv2gNSBRE3cxuBPofkCe
+ DoUsmyt+b/r1nq3ZYF0MZcATRC6Wl10k1HA9tVPiIEkksjoh3Im1cSFtWrPPEruNNsZi
+ 07+z5zxnnITbmQ6iosV+kUvdlgPXQxYVE/yN/zdu5bh63JfcvTSs9QYVguKqXPKf1Miw
+ JMhL9x6EkoX0iT4OJ5n7I8irOZb52xJGDOGalUDoRm48vSfiwemtCAJ9kJnhWXhOuOfo
+ L30A==
+X-Gm-Message-State: ACgBeo0DHXORRWZ56QxSeRowfklXg1KhF8A3hE/jClWzL51hqZczEXUa
+ VMBungw9RDwe5SFtu0IPaQgeTKYCvmA=
+X-Google-Smtp-Source: AA6agR5iGPDpzVfYrvxKRfAaXlM2vk2XWZ8VMhlw/DBoPvYIP5Lyg1P4q4WlQzR/r7p2QLA3FqyiuA==
+X-Received: by 2002:ab0:7c46:0:b0:38c:8967:bd23 with SMTP id
+ d6-20020ab07c46000000b0038c8967bd23mr9689276uaw.105.1660235995719; 
+ Thu, 11 Aug 2022 09:39:55 -0700 (PDT)
+Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
+ [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
+ j9-20020a67fa49000000b00373d697e3e2sm1755013vsq.19.2022.08.11.09.39.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Aug 2022 09:39:55 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH for-7.2 v4 00/11] enable pnv-phb user created devices
+Date: Thu, 11 Aug 2022 13:39:39 -0300
+Message-Id: <20220811163950.578927-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v6 2/2] target/s390x: support SHA-512 extensions
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-References: <20220803125108.626995-2-Jason@zx2c4.com>
- <20220803171536.1314717-1-Jason@zx2c4.com>
- <20220803171536.1314717-2-Jason@zx2c4.com>
- <6ad7580d-ee43-d744-8eed-cd363c4fb911@redhat.com>
- <Yu0UtNzyb81O0ND2@zx2c4.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <Yu0UtNzyb81O0ND2@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x930.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,101 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.08.22 15:01, Jason A. Donenfeld wrote:
-> Hi David,
-> 
-> On Fri, Aug 05, 2022 at 01:28:18PM +0200, David Hildenbrand wrote:
->> On 03.08.22 19:15, Jason A. Donenfeld wrote:
->>> In order to fully support MSA_EXT_5, we have to also support the SHA-512
->>> special instructions. So implement those.
->>>
->>> The implementation began as something TweetNacl-like, and then was
->>> adjusted to be useful here. It's not very beautiful, but it is quite
->>> short and compact, which is what we're going for.
->>>
->>
->> NIT: we could think about reversing the order of patches. IIRC, patch #1
->> itself would trigger a warning when starting QEMU. Having this patch
->> first make sense logically.
-> 
-> Good idea. Will do.
-> 
->>> +static int kimd_sha512(CPUS390XState *env, uintptr_t ra, uint64_t parameter_block,
->>> +                       uint64_t *message_reg, uint64_t *len_reg, uint8_t *stack_buffer)
->>> +{
->>> +    enum { MAX_BLOCKS_PER_RUN = 64 }; /* This is arbitrary, just to keep interactivity. */
->>
->> I'd just use a #define outside of the function for that.
-> 
-> Why? What does leaking this into file-level scope do?
-> 
+Hi,
 
-I'd say common coding practice in QEMU, but I might be wrong ;)
+This version contains changes based on Cedric's v3 feedback. The biggest
+change was made in patch 4, where a new helper was added to handle the
+logic where a PHB is added to a chip. 
 
->>
->>> +    uint64_t z[8], b[8], a[8], w[16], t;
->>> +    uint64_t message = message_reg ? *message_reg : 0, len = *len_reg, processed = 0;
->>> +    int i, j, reg_len = 64, blocks = 0, cc = 0;
->>> +
->>> +    if (!(env->psw.mask & PSW_MASK_64)) {
->>> +        len = (uint32_t)len;
->>> +        reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
->>> +    }
->>
+Changes from v3:
+- patch 4:
+  - added Error **errp parameter to pnv_parent_bus_fixup() and pnv_phb_user_device_init()
+  - added pnv_chip_add_phb() helper
+- patch 5:
+  - changed pnv_chip_power8_instance_init() to use an 'Object *phb' pointer
+- patch 6:
+  - added the default PHBs under an "if (defaults_enabled())" case
+- patch 7:
+  - pnv_phb4_get_pec() was moved to hw/ppc/pnv.c 
+- patch 9:
+  - use g_assert_not_reached() in pnv_phb4_get_pec()
+- v3 link: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01548.html
 
-[...]
-> 
->>> +    for (i = 0; i < 8; ++i) {
->>> +        cpu_stq_be_data_ra(env, wrap_address(env, parameter_block + 8 * i), z[i], ra);
->>
->> I wonder what happens if we get an exception somewhere in the middle
->> here ... fortunately we can only involve 2 pages.
-> 
-> If this fails, then message_reg and len_reg won't be updated, so it will
-> have to start over. If it fails part way through, though, then things
-> are inconsistent. I don't think we want to hassle with trying to restore
-> the previous state or something insane though. That seems a bit much.
+Daniel Henrique Barboza (11):
+  ppc/pnv: add phb-id/chip-id PnvPHB3RootBus properties
+  ppc/pnv: add phb-id/chip-id PnvPHB4RootBus properties
+  ppc/pnv: set root port chassis and slot using Bus properties
+  ppc/pnv: add helpers for pnv-phb user devices
+  ppc/pnv: turn chip8->phbs[] into a PnvPHB* array
+  ppc/pnv: enable user created pnv-phb for powernv8
+  ppc/pnv: add PHB4 helpers for user created pnv-phb
+  ppc/pnv: enable user created pnv-phb for powernv9
+  ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
+  ppc/pnv: user creatable pnv-phb for powernv10
+  ppc/pnv: fix QOM parenting of user creatable root ports
 
-Okay, but there could be scenarios where we mess up?
-
-> 
->>> +    cc = kimd_sha512(env, ra, parameter_block, message_reg, len_reg, NULL);
->>> +    if (cc) {
->>> +        return cc;
->>> +    }
->>
->> Doesn't kimd_sha512() update the length register? And if we return with
->> cc=3, we'd be in trouble, no?
-> 
-> cc=3 means partial completion. In that case, klmd also returns with a
-> partial completion. That's good and expected! It means that the next
-> time it's called, it'll keep going where it left off.
-> 
-> I've actually tried this with the Linux implementation, and it works as
-> expected.
-> 
->> One idea could be to simply only process one block at a time. Read all
->> inputs first for that block and handle it completely without any
->> register modifications. Perform all memory writes in a single call.
-> 
-> That *is* what already happens. Actually, the memory writes only ever
-> happen at the very end of kimd_sha512.
-> 
->> Further, I wonder if we should factor out the core of kimd_sha512() to
->> only work on temp buffers without any loading/storing of memory, and let
->> only kimd_sha512/klmd_sha512 perform all loading/storing. Then it's much
->> cleaner who modifies what.
-> 
-> That's not necessary and will complicate things ultimately. See the
-> above; this is already working as expected.
-
-I'll have a closer look and see if I might improve it in the upcomming
-weeks. I'll be on vacation for ~1.5 weeks. And as history has shown, I
-need some days afterwards to dig through my overflowing mailbox :)
+ hw/pci-host/pnv_phb.c          | 120 +++++++++++++++++++++++++++------
+ hw/pci-host/pnv_phb3.c         |  50 ++++++++++++++
+ hw/pci-host/pnv_phb4.c         |  51 ++++++++++++++
+ hw/pci-host/pnv_phb4_pec.c     |   6 +-
+ hw/ppc/pnv.c                   | 103 +++++++++++++++++++++++++---
+ include/hw/pci-host/pnv_phb3.h |   9 ++-
+ include/hw/pci-host/pnv_phb4.h |  10 +++
+ include/hw/ppc/pnv.h           |   7 +-
+ 8 files changed, 325 insertions(+), 31 deletions(-)
 
 -- 
-Thanks,
-
-David / dhildenb
+2.36.1
 
 
