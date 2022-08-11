@@ -2,108 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D2758FCCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 14:51:49 +0200 (CEST)
-Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1D358FD14
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:09:45 +0200 (CEST)
+Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM7fA-0007IV-PM
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 08:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
+	id 1oM7wV-0002vd-Vu
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:09:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1oM7IF-0004VQ-G0
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:28:07 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:33456)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oM7dK-0004oS-ET
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:49:54 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1oM7IB-0002fu-Ic
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:28:05 -0400
-Received: by mail-ed1-x530.google.com with SMTP id b96so22827201edf.0
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 05:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=3MRcVxkQskaoR9Gu8vTdfe3SAmvath2jQNxcSxuvW1Y=;
- b=NHGbxl9pUrdbk/qb8xkMm4zoxhQhX6Rs444HQVekSH5HLue8co3CqoPnGbERLio2dM
- LGx24QotE4kcbcEEhmgdmUCglkMRj9LUgkSP/KpiNA700mP6h94Dn1d/wFOg8IXrTV5Q
- 7t8086tWE8qBuYhtW+ve33VVpMjT6RO9u3JV6fo+OXTJ5nEqqLqt5Xfar1N/31vDl+kb
- /Qc9CeYpCrRSPvgdT5jKrAYi+Bis7pm8rvEJBRuOqCqT9rTRlL5ZiL661wC2BrmdE5CH
- +f94perJ/2Z6mBI0Mqi+Tsy+mMxy6HBFjWyJQNFav6rilu1dhdspBsJwb60836MPgNiY
- wunw==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oM7dI-0006ey-8s
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 08:49:53 -0400
+Received: by mail-ej1-x629.google.com with SMTP id gk3so33285371ejb.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 05:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc;
+ bh=A07yJS5knIZsqQl19b8n3fBewyFGRsx5RsuaVhLPoLo=;
+ b=YUBx0lYUDj0etKEoVt97sPntsfihRCs07LgEHcS4baIPdG6BJfgJhs2h9Pd0/tnoA+
+ De1PVjWY92nPBMUsKU6PkDOBbtBe6vyI2JMGodbvF6MB6Gm9O/bjyrx4EbVK1D3eJIvp
+ oPeGt4TrAaqoptbWdmFM62yNBSnZGPj954F4Rwwmd2/SnA124YQ1sbXlDOSxX71OT5HV
+ JzGZnkq6sq1FbO2uOdc+B4cdbhWU0UYNaB2bbcJRgXo5wQQH4Fbs7jD0UORMmw8fx7dR
+ LL/pzHwM1yj+ptTtS9WWpSfiHtVYnFwLp5cWcuNxSgEkXdg0OwFrKbe+zcAMX9m3vMZ8
+ a1uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=3MRcVxkQskaoR9Gu8vTdfe3SAmvath2jQNxcSxuvW1Y=;
- b=fnfqQ4RzShpQdWTftrSsuwcxe4dUfnR2RYIBTya3kRjIyjrk7St8FofO32u8Eqecqk
- wRN423ZGUBNsaRNht07A9T7NTJoWWTnf799AoYrDUhoCN9pYK4LgGBNNnoarMb2fNhj7
- IO4lEkfei5z7wwAq1eS0mueb5xYOOE2uXtSM7TkkMGf17QASu4J3DQwO3As8/6jlBVeg
- pEyidmZIO++hgGlI1zLMT8ZidxUeYaOxBQXsYL8YUsL8Kbw/lkTdh2M1TjMrZJdVx1lc
- qHzjBdmkeRFKBcgtGMi7fw5duK8WEa5lTnUPRoDSE1zZq956VKxhbLRMwZq3ygHhJp4w
- 3BoA==
-X-Gm-Message-State: ACgBeo3pjmfX9kAJy+i4TsCnCUZIy5W1r82vZAaXieZK4CxgWSE0ZI8x
- JTGPMCysGaEMgppSpkc96BGnXA==
-X-Google-Smtp-Source: AA6agR6+Oii1v3EbiMDbdYw7/ayqCsy6sGwTAVm4xglPzXzpkb8k3QGndmL9Qe4QpGf4syQIGgATXw==
-X-Received: by 2002:a05:6402:3583:b0:43d:6943:44a with SMTP id
- y3-20020a056402358300b0043d6943044amr30188049edc.409.1660220881001; 
- Thu, 11 Aug 2022 05:28:01 -0700 (PDT)
-Received: from google.com (64.227.90.34.bc.googleusercontent.com.
- [34.90.227.64]) by smtp.gmail.com with ESMTPSA id
- v20-20020a170906381400b007307d099ed7sm3440458ejc.121.2022.08.11.05.27.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 05:27:59 -0700 (PDT)
-Date: Thu, 11 Aug 2022 12:27:56 +0000
-From: Quentin Perret <qperret@google.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: David Hildenbrand <david@redhat.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
- Will Deacon <will@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: Re: [PATCH v7 03/14] mm: Introduce memfile_notifier
-Message-ID: <YvT1zOQtTQl2t300@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-4-chao.p.peng@linux.intel.com>
- <13394075-fca0-6f2b-92a2-f1291fcec9a3@redhat.com>
- <20220810092232.GC862421@chaop.bj.intel.com>
- <00f1aa03-bc82-ffce-569b-e2d5c459992c@redhat.com>
- <YvPC87FMgF7uac7z@google.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc;
+ bh=A07yJS5knIZsqQl19b8n3fBewyFGRsx5RsuaVhLPoLo=;
+ b=mSGI+h4hazMjFVhKOQdo4GuQ3vxifuFSejIqJsu7dIgQuLo5lsu9IeTPpnvesnbnb0
+ rQqX3reyxuokcEInEkfFzUk3+jaFKwBAA2bYuOBQrOEBNC4bv0M/GyG6l8glNSrjSgUf
+ /5CKVgOqK9suwn8ybzPX21QdX0Sv27WixSoLJ6igauGtzwMvDQ3Lqlhod+7z4i7s8h7m
+ d6CP6Qv69X/yi5XOam7FoL1DmxiA0IZxElVW26BP6q/BOsSfosQqLk+PNias5oEURu2h
+ YIr53XEE2EaV8YSACgwY5oJEyOtg+3xHdujY1PE/5GMAxNHgJniDnSJymLVBwJ1nb9b+
+ Ph+w==
+X-Gm-Message-State: ACgBeo0vMRyTH235yGeckxfiXjGM+839EPOhVkmHyZEoe9MKdzr34cdT
+ jgmBIz9cAp3tDjI+nGlacGo=
+X-Google-Smtp-Source: AA6agR6NcetABSLC92M715mGsoNi3yGLYFsAF4pM3kVLFY67E3w3PvpzDhLM+ZfYJ1qeJ7jzl6uYyg==
+X-Received: by 2002:a17:907:6095:b0:731:87a0:b9e8 with SMTP id
+ ht21-20020a170907609500b0073187a0b9e8mr10440096ejc.124.1660222183495; 
+ Thu, 11 Aug 2022 05:49:43 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ q9-20020a056402040900b0043ab81e4230sm9137115edv.50.2022.08.11.05.49.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Aug 2022 05:49:42 -0700 (PDT)
+Message-ID: <6872ae96-df3d-fe4f-5815-37d044c8112e@redhat.com>
+Date: Thu, 11 Aug 2022 14:49:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvPC87FMgF7uac7z@google.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=qperret@google.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PULL 0/5] Misc QEMU 7.1 fixes for 2002-08-08
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220808125706.60511-1-pbonzini@redhat.com>
+ <70743a29-474e-728f-4ee1-dd4c734f342f@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <70743a29-474e-728f-4ee1-dd4c734f342f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,24 +97,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+CC Fuad
-
-On Wednesday 10 Aug 2022 at 14:38:43 (+0000), Sean Christopherson wrote:
-> > I understand Sean's suggestion about abstracting, but if the new name
-> > makes it harder to grasp and there isn't really an alternative to memfd
-> > in sight, I'm not so sure I enjoy the tried abstraction here.
+On 8/8/22 16:23, Thomas Huth wrote:
 > 
-> ARM's pKVM implementation is potentially (hopefully) going to switch to this API
-> (as a consumer) sooner than later.  If they anticipate being able to use memfd,
-> then there's unlikely to be a second backing type any time soon.
+> I still had some questions wrt to Daniel's patch, especially there seems 
+> to be a bug ("spcie" instead of "spice"), see:
 > 
-> Quentin, Will?
+> https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01153.html
+> 
+> I doubt that this test is working if spice is enabled...
+> (which leads us to the next question: if the CI did not fail for you, 
+> are we missing a build with spice enabled there?)
 
-Yep, Fuad is currently trying to port the pKVM mm stuff on top of this
-series to see how well it fits, so stay tuned. I think there is still
-some room for discussion around page conversions (private->shared etc),
-and we'll need a clearer idea of what the code might look like to have a
-constructive discussion, but so far it does seem like using a memfd (the
-new private one or perhaps just memfd_secret, to be discussed) + memfd
-notifiers is a promising option.
+Fortunately the typo is not an issue; the top item of the visit does not 
+have a key and therefore the name passed to the toplevel visit_type_* 
+call is not used.
+
+Paolo
 
