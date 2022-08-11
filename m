@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1A558FE39
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 16:26:51 +0200 (CEST)
-Received: from localhost ([::1]:47536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A8658FE69
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 16:35:06 +0200 (CEST)
+Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM998-0005bV-Kk
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 10:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57854)
+	id 1oM9H7-0008Pi-BI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 10:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oM96z-0003tf-Jw
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 10:24:37 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55132)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oM9EC-0006hH-5q
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 10:32:07 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:44997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oM96y-00064c-4H
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 10:24:37 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id s23so2377139wmj.4
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 07:24:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=GIcHkvQVyf94dhEEk0HFuPwk/rwKl+xWHhYwOdFaSJM=;
- b=cZIc3y+x+tXPoHH/J5Aly+wbSZHa4o/KbmnDP7m1yvTMg4dm63Lh2m0AUOpUIb9gJp
- J+2Nb/ZyO4agOcWY3J7HRqivyTlP78/Pe6tbUUWh+aROyUlhL6m61JMEO1SY8XJgzfAU
- N57luWR+JdXBMPGbwARrN+DF8nJV5aV/yFUPvDP2UZ9h4bEVAZemCBCzfBPlvNBvUgjM
- NEYgvEn6z0b6jUuM4FKPUzkCZeDJeZXZ5IwTrF2q51vmo1SuOzZRGz3/VUerbbaYDdKd
- IZDmiTyZ+4D1btkTpeaBfGmcy/tzpYFn9wOnlT3Cbx3g11yBTl+yogXhaWvaUcbnbSjF
- jZ5A==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oM9E8-0007HN-71
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 10:32:03 -0400
+Received: by mail-ed1-x532.google.com with SMTP id t5so23146006edc.11
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 07:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=0RqX4MfNSB0P4w4oruTNY5fGHJvxfdAf1CDQapSDhAY=;
+ b=XZddJGaadAPMxhXJZ0xDuA+aPotWwlb6bnc5kdWoanrnY7CZTjnudtX3Hrvfad198w
+ qGCEmQAx/IRqumn7n/2tYqkVLcVaQt0p5H7RP+nneYEF7LS67s3/Eb6NXampL6Qu5slE
+ m8OlcpE5O0b3cVIoCFjSbBZZSA/qtQGfE2UgpekNWW5gdFHYBOBR/B6Dm3ygASvRGC/Y
+ LOe/s+XIAE9T0edxJRKsnw24tC2quQQ3qzEox+8hlWe/WfIfldOlw5a0/yclurmtwmqb
+ 94l9cCxJX/HnwM5Us9+xPaVUTxbxNAdBEhUv12mhUE0ek6nG6m2QmfPycfy12xo78ZHi
+ p9eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=GIcHkvQVyf94dhEEk0HFuPwk/rwKl+xWHhYwOdFaSJM=;
- b=A1Ii07tY95ukVVlOnmg/0mM8Y37yBQc5AxE5WojHMPf2Awicd+laKXhpg+z+znBvEb
- JOAfqc+8ze+21x77HIB3G54GqdfdNVQEwebgqSjW9FgLtZavEie5iPaTfBOJuwK0y7pF
- AG+tQj338hzhl+i+37ah+mGvY3rB9aeC4s8t7CnGPCd+7tVRWiRHQR3h5ajqVouXRDeJ
- tOuV2gDYJfTIKhtozrGyKpsCklzDtaOpS5qPTID8n7/M4r1CvuaVAC19kS68V8DB8mQl
- vxxbubqHGTL9Ti20I01JflB0zq43giClByYdUO8625I+R0u2YTshVQ3zyzz+F79LiltQ
- 82Vw==
-X-Gm-Message-State: ACgBeo2zQ3YX1ANRk9uCPA0nYdpIjSXXF+vbBfqQkkW/ho43d1a8s65a
- 9IJGwksNX2IRq28XO0uHUpQrnw==
-X-Google-Smtp-Source: AA6agR4MuXSq2PBnFCubNlufSnh0LCi5uoSIuQA7rmm9GYQ1HLOi28zmvkpAOW+o4gJBKYccSvcchg==
-X-Received: by 2002:a05:600c:204a:b0:3a5:c272:c113 with SMTP id
- p10-20020a05600c204a00b003a5c272c113mr1152017wmg.13.1660227874742; 
- Thu, 11 Aug 2022 07:24:34 -0700 (PDT)
-Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=0RqX4MfNSB0P4w4oruTNY5fGHJvxfdAf1CDQapSDhAY=;
+ b=sNFmXrxYKwbOXeGp9gXXNzeLg/fx2DQnY3U4VUzLVOhRXgaJHzcEqD+3eGw46m/e/v
+ x3lrv/NXqpEZEUGsfCu6yozfJvKG8iRjboKkZYJ6cnbOOzLU3FllkI72t54CjRNowTHs
+ nTfsQmuvTlOP7cPOb7gEy8gC2Pj8X4Abw32h0VtQ91EWRmZJpvERFtj1JMeI5KNIZ8iE
+ 981NkaLcZ00RsCYd44f45BMRVvgFYNXPfKa997lnaN5vnAJfctjqX0NBLRyRsuSn8u8N
+ Z/iB/ntfZkcJRjKS42nl6gAeXfNFKJ0k6wmPYuCLIk+jVWtCkg7DB3b63XYRXknmbfyJ
+ bWFw==
+X-Gm-Message-State: ACgBeo11HWEAkeNwXoroO7S/ujV34EjLeROdg1uN0Cadl88Io+8QQbIn
+ /NzobIrdRYjPg5hP1exFbbuh2Q==
+X-Google-Smtp-Source: AA6agR42NQ1XVcakD6St+cwoc4hGT9HNzr/7zVzv7v9/PniaPWWQcJvCqXgzK35BNx7qVOyr+P1X/w==
+X-Received: by 2002:a05:6402:27cf:b0:43f:f6a:3286 with SMTP id
+ c15-20020a05640227cf00b0043f0f6a3286mr28470267ede.1.1660228318270; 
+ Thu, 11 Aug 2022 07:31:58 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m3-20020a05600c4f4300b003a3200bc788sm6989786wmq.33.2022.08.11.07.24.33
+ d25-20020a170906305900b007317f00a6d9sm3506978ejd.208.2022.08.11.07.31.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 07:24:34 -0700 (PDT)
-Date: Thu, 11 Aug 2022 16:24:33 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
-Cc: Alistair.Francis@wdc.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: Re: [PATCH 1/3] hw/ssi: fixup typos in ibex_spi_host
-Message-ID: <20220811142433.6mecilgt4qpaetua@kamzik>
-References: <20220810230200.149398-1-wilfred.mallawa@opensource.wdc.com>
+ Thu, 11 Aug 2022 07:31:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7315D1FFB7;
+ Thu, 11 Aug 2022 15:31:57 +0100 (BST)
+References: <20220811114315.3065951-1-alex.bennee@linaro.org>
+ <CAFn=p-a2zUPHv-XJa3VHDPZUwnkPZ4pgS4Y53oP9T4kGZp7r5Q@mail.gmail.com>
+User-agent: mu4e 1.8.8; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, Wainer dos
+ Santos Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH] tests/avocado: apply a band aid to aspeed-evb login
+Date: Thu, 11 Aug 2022 15:30:47 +0100
+In-reply-to: <CAFn=p-a2zUPHv-XJa3VHDPZUwnkPZ4pgS4Y53oP9T4kGZp7r5Q@mail.gmail.com>
+Message-ID: <87v8qyj1gi.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220810230200.149398-1-wilfred.mallawa@opensource.wdc.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=ajones@ventanamicro.com; helo=mail-wm1-x32c.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,51 +96,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 11, 2022 at 09:01:58AM +1000, Wilfred Mallawa wrote:
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> 
-> This patch fixes up minor typos in ibex_spi_host
-> 
-> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> ---
->  hw/ssi/ibex_spi_host.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
-> index d14580b409..601041d719 100644
-> --- a/hw/ssi/ibex_spi_host.c
-> +++ b/hw/ssi/ibex_spi_host.c
-> @@ -172,7 +172,7 @@ static void ibex_spi_host_irq(IbexSPIHostState *s)
->                          & R_INTR_STATE_SPI_EVENT_MASK;
->      int err_irq = 0, event_irq = 0;
->  
-> -    /* Error IRQ enabled and Error IRQ Cleared*/
-> +    /* Error IRQ enabled and Error IRQ Cleared */
->      if (error_en && !err_pending) {
->          /* Event enabled, Interrupt Test Error */
->          if (s->regs[IBEX_SPI_HOST_INTR_TEST] & R_INTR_TEST_ERROR_MASK) {
-> @@ -434,7 +434,7 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
->      case IBEX_SPI_HOST_TXDATA:
->          /*
->           * This is a hardware `feature` where
-> -         * the first word written TXDATA after init is omitted entirely
-> +         * the first word written to TXDATA after init is omitted entirely
->           */
->          if (s->init_status) {
->              s->init_status = false;
-> @@ -487,7 +487,7 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
->          break;
->      case IBEX_SPI_HOST_ERROR_STATUS:
->      /*
-> -     *  Indicates that any errors that have occurred.
-> +     *  Indicates any errors that have occurred.
->       *  When an error occurs, the corresponding bit must be cleared
->       *  here before issuing any further commands
->       */
-> -- 
-> 2.37.1
-> 
->
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+John Snow <jsnow@redhat.com> writes:
+
+> On Thu, Aug 11, 2022 at 7:43 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>>
+>> This is really a limitation of the underlying console code which
+>> doesn't allow us to detect the login: and following "#" prompts
+>> because it reads input line wise. By adding a small delay we ensure
+>> that the login prompt has appeared so we don't accidentally spaff the
+>> shell commands to a confused getty in the guest.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: C=C3=A9dric Le Goater <clg@kaod.org>
+>> Cc: John Snow <jsnow@redhat.com>
+>> ---
+>>  tests/avocado/machine_aspeed.py | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_asp=
+eed.py
+>> index c54da0fd8f..65d38f4efa 100644
+>> --- a/tests/avocado/machine_aspeed.py
+>> +++ b/tests/avocado/machine_aspeed.py
+>> @@ -101,7 +101,9 @@ def do_test_arm_aspeed_buidroot_start(self, image, c=
+pu_id):
+>>          self.wait_for_console_pattern('Starting kernel ...')
+>>          self.wait_for_console_pattern('Booting Linux on physical CPU ' =
++ cpu_id)
+>>          self.wait_for_console_pattern('lease of 10.0.2.15')
+>> +        # the line before login:
+>>          self.wait_for_console_pattern('Aspeed EVB')
+>> +        time.sleep(0.1)
+>>          exec_command(self, 'root')
+>>          time.sleep(0.1)
+>>
+>> --
+>> 2.30.2
+>>
+>
+> Augh. Sorry my hunch was wrong. I wasn't aware of this problem.
+>
+> Is ... this 0.1 second sleep really sufficient? I guess it's better
+> than not having it, and I can't reasonably ask for something more
+> thorough.
+
+We could still do with fixing _console_interaction() so we can handle
+waiting for prompts without newlines in them. I had a go but it just got
+messy.
+
+>
+> Acked-by: John Snow <jsnow@redhat.com>
+
+
+--=20
+Alex Benn=C3=A9e
 
