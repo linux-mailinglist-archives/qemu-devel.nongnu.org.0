@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9733558FA55
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 11:59:17 +0200 (CEST)
-Received: from localhost ([::1]:51804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15FD758FA52
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 11:59:09 +0200 (CEST)
+Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM4yC-0006Ui-N7
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 05:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
+	id 1oM4y3-0006Mc-ND
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 05:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oM4uz-0002BE-Up; Thu, 11 Aug 2022 05:55:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35754)
+ id 1oM4uy-0002Ak-HB; Thu, 11 Aug 2022 05:55:56 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oM4uw-0002fn-G5; Thu, 11 Aug 2022 05:55:57 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B8n43f004436;
- Thu, 11 Aug 2022 09:55:42 GMT
+ id 1oM4uw-0002fo-GD; Thu, 11 Aug 2022 05:55:56 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B82H70003823;
+ Thu, 11 Aug 2022 09:55:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=X/Bf5iYMz2ZQ/1y1KRbMI54HNwYtQfBZucxgPxj7Z/8=;
- b=hcTkpY5kAyP0v2LxRghWEl9w1vtF69kDpIXa37sNJ1j6MkpuCb/wHNiig1kyVFKKpanJ
- jBJ3MY56zOtUMPBS9MVHQ6LnL2LBV2B+bpxZ+MFkPhQTjBjNFIz9i+DDULkLladrjUI+
- eM3/ZNQ9pD9s9Yg1AXtskWnhmM9Q431AnjXSw5hZ39RZOImgtI6D1U8+w4vd51H1WYCj
- 3HdnrSAUhliEVTqINzQs3U25T/+K0NyXY/zsgSGxDvFXatgxLTPANNSWpSk6k08KL+R4
- d9Ca9I/yd86GedS5osulOT8e4GR7cOiHdvJNbm57cyJc2sl4p0JmDW6mmXW5hK0h+2ip kA== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=+JAO3hReEkzoOoRBeJnKndQpD4pR/meFfm3qaYPkoH8=;
+ b=a4oMepT9iwaGEzc2FrX5kVyi2qCF7XOUQlKnGSRpc7mqGjdLyMClJf+kaHNHlmAIczSg
+ Prn7XOcLv77CP485+aWuSps7cg26tdE7h9+VkYrZccLLCtRNc4pCC0QJW3uWMtuRiC03
+ /NWNUBrXqwHJ5LoAtW16+r830P21X1ESOZMFBZj/++elMTmqKQsZP+7uZuMx77F09Mbf
+ oxvIVQtCKSj7/lWsYr2onjBXlfnePyFql4TFRQQuiDsXklDSx1zAJ5iixvomRdfh3rf8
+ 9HqYwZrlWh+4IaLyfF9BqR9HiNVundgL8mTTFYlDGnuQfyixDP0uXSskAgO+/kin9d0N 7A== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hvxkf1tk8-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hvuggq9ec-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 09:55:42 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27B9tFm7013860;
- Thu, 11 Aug 2022 09:55:41 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hvxkf1tjg-1
+ Thu, 11 Aug 2022 09:55:44 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27B9jH8c023063;
+ Thu, 11 Aug 2022 09:55:43 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hvuggq9d5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 09:55:41 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27B9oNbw031911;
- Thu, 11 Aug 2022 09:55:39 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma02fra.de.ibm.com with ESMTP id 3huww0sm4m-1
+ Thu, 11 Aug 2022 09:55:43 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27B9pARm022084;
+ Thu, 11 Aug 2022 09:55:40 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03fra.de.ibm.com with ESMTP id 3huwvfsda5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 09:55:38 +0000
+ Thu, 11 Aug 2022 09:55:40 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27B9tZuM30933438
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 27B9tsAN31850996
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Aug 2022 09:55:35 GMT
+ Thu, 11 Aug 2022 09:55:54 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8FEF3A404D;
- Thu, 11 Aug 2022 09:55:35 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id F18BAA404D;
+ Thu, 11 Aug 2022 09:55:36 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAF18A4040;
- Thu, 11 Aug 2022 09:55:34 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 559FEA4040;
+ Thu, 11 Aug 2022 09:55:36 +0000 (GMT)
 Received: from heavy.ibmuc.com (unknown [9.171.43.253])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 11 Aug 2022 09:55:34 +0000 (GMT)
+ Thu, 11 Aug 2022 09:55:36 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -75,26 +76,26 @@ To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>,
 Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v4 0/5] linux-user: Fix siginfo_t contents when jumping to
- non-readable pages
-Date: Thu, 11 Aug 2022 11:55:29 +0200
-Message-Id: <20220811095534.241224-1-iii@linux.ibm.com>
+Subject: [PATCH v4 2/5] accel/tcg: Introduce is_same_page()
+Date: Thu, 11 Aug 2022 11:55:31 +0200
+Message-Id: <20220811095534.241224-3-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.37.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HN_4MpuBkwDxLQy-QVrSPKyMiVvbHStu
-X-Proofpoint-ORIG-GUID: cIeJing09WA6I_FmMHt3netgDeg-fnCa
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20220811095534.241224-1-iii@linux.ibm.com>
+References: <20220811095534.241224-1-iii@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 376dmWGanya0-5Ihw8W2cqLUElyKrjxm
+X-Proofpoint-GUID: 39QD_ek-qN3_LlWe0J0y1Ohi3A4pd3__
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-11_05,2022-08-10_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- bulkscore=0 mlxlogscore=996 spamscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2208110027
+ impostorscore=0
+ malwarescore=0 adultscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ suspectscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208110027
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -119,59 +120,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Introduce a function that checks whether a given address is on the same
+page as where disassembly started. Having it improves readability of
+the following patches.
 
-I noticed that when we get a SEGV due to jumping to non-readable
-memory, sometimes si_addr and program counter in siginfo_t are slightly
-off. I tracked this down to the assumption that translators stop before
-the end of a page, while in reality they may stop right after it.
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ include/exec/translator.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Patch 1 fixes a minor invalidation issue, which may prevent SEGV from
-happening altogether.
-Patch 2 introduces a helper function.
-Patches 3-4 fix the main issue on x86_64 and s390x. Many other
-architectures have fixed-size instructions and are not affected.
-Patch 5 adds tests.
-
-Best regards,
-Ilya
-
-v1: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00822.html
-v1 -> v2: Fix individual translators instead of translator_loop
-          (Peter).
-
-v2: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01079.html
-v2 -> v3: Peek at the next instruction on s390x (Richard).
-          Undo more on i386 (Richard).
-          Check PAGE_EXEC, not PAGE_READ (Peter, Richard).
-
-v3: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01306.html
-v3 -> v4: Improve the commit message in patch 1 to better reflect what
-          exactly is being fixed there.
-          Factor out the is_same_page() patch (Richard).
-          Do not touch the common code in the i386 fix (Richard).
-
-Ilya Leoshkevich (5):
-  accel/tcg: Invalidate translations when clearing PAGE_EXEC
-  accel/tcg: Introduce is_same_page()
-  target/s390x: Make translator stop before the end of a page
-  target/i386: Make translator stop before the end of a page
-  tests/tcg: Test siginfo_t contents when jumping to non-readable pages
-
- accel/tcg/translate-all.c        |  17 ++--
- include/exec/translator.h        |  10 +++
- target/i386/tcg/translate.c      |  25 +++++-
- target/s390x/tcg/translate.c     |  15 +++-
- tests/tcg/multiarch/noexec.h     | 114 ++++++++++++++++++++++++
- tests/tcg/s390x/Makefile.target  |   1 +
- tests/tcg/s390x/noexec.c         | 145 +++++++++++++++++++++++++++++++
- tests/tcg/x86_64/Makefile.target |   3 +-
- tests/tcg/x86_64/noexec.c        | 116 +++++++++++++++++++++++++
- 9 files changed, 435 insertions(+), 11 deletions(-)
- create mode 100644 tests/tcg/multiarch/noexec.h
- create mode 100644 tests/tcg/s390x/noexec.c
- create mode 100644 tests/tcg/x86_64/noexec.c
-
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 7db6845535..d27f8c33b6 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -187,4 +187,14 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
+ 
+ #undef GEN_TRANSLATOR_LD
+ 
++/*
++ * Return whether addr is on the same page as where disassembly started.
++ * Translators can use this to enforce the rule that only single-insn
++ * translation blocks are allowed to cross page boundaries.
++ */
++static inline bool is_same_page(DisasContextBase *db, target_ulong addr)
++{
++    return ((addr ^ db->pc_first) & TARGET_PAGE_MASK) == 0;
++}
++
+ #endif /* EXEC__TRANSLATOR_H */
 -- 
 2.37.1
 
