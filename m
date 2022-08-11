@@ -2,49 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6A15908B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 00:33:00 +0200 (CEST)
-Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E7C59089F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 00:12:33 +0200 (CEST)
+Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMGjb-00083D-6p
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 18:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
+	id 1oMGPl-0003ks-Ab
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 18:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cp@absolutedigital.net>)
- id 1oMGFH-0007af-B3; Thu, 11 Aug 2022 18:01:39 -0400
-Received: from mx2.absolutedigital.net ([50.242.207.105]:39431)
+ (Exim 4.90_1) (envelope-from <pierre@freepascal.org>)
+ id 1oMGNm-0002Mv-WD
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 18:10:27 -0400
+Received: from mail.freepascal.org ([178.33.235.90]:45402)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cp@absolutedigital.net>)
- id 1oMGFF-0000F2-Qt; Thu, 11 Aug 2022 18:01:39 -0400
-Received: from lancer.cnet.absolutedigital.net
- (lancer.cnet.absolutedigital.net [10.7.5.10])
- by luxor.inet.absolutedigital.net (8.14.4/8.14.4) with ESMTP id 27BM1IdV003150
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
- Thu, 11 Aug 2022 18:01:19 -0400
+ (envelope-from <pierre@freepascal.org>) id 1oMGNk-0001FC-Az
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 18:10:26 -0400
 Received: from localhost (localhost [127.0.0.1])
- by lancer.cnet.absolutedigital.net (8.17.1/8.17.1) with ESMTPS id
- 27BM1c9j014312
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
- Thu, 11 Aug 2022 18:01:38 -0400
-Date: Thu, 11 Aug 2022 18:01:38 -0400 (EDT)
-From: Cal Peake <cp@absolutedigital.net>
-To: qemu-devel@nongnu.org
-cc: qemu-stable@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] ui/console: Get tab completion working again in the SDL
- monitor vc
-Message-ID: <7054816e-99c-7e2-6737-7cf98cc56e2@absolutedigital.net>
+ by mail.freepascal.org (Postfix) with ESMTP id E9AD61803BC
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 22:10:22 +0000 (UTC)
+Received: from mail.freepascal.org ([127.0.0.1])
+ by localhost (idefixng.freepascal.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BqD1IP5L7NJD for <qemu-devel@nongnu.org>;
+ Thu, 11 Aug 2022 22:10:22 +0000 (UTC)
+Received: from [192.168.1.23]
+ (i16-les02-ix2-176-180-129-30.sfr.lns.abo.bbox.fr [176.180.129.30])
+ by mail.freepascal.org (Postfix) with ESMTPSA id BE08E180394
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 22:10:22 +0000 (UTC)
+Message-ID: <5a6e0f1a-038a-cd2a-309e-e437cf6c6c1a@freepascal.org>
+Date: Fri, 12 Aug 2022 00:10:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=50.242.207.105;
- envelope-from=cp@absolutedigital.net; helo=mx2.absolutedigital.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
+ generated on gcc110 machine
+Content-Language: fr
+To: qemu-devel@nongnu.org
+References: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
+From: Pierre Muller <pierre@freepascal.org>
+In-Reply-To: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.33.235.90; envelope-from=pierre@freepascal.org;
+ helo=mail.freepascal.org
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 11 Aug 2022 18:31:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,45 +63,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Pierre Muller <pierre@freepascal.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define a QEMU special key constant for the tab key and add an entry for
-it in the qcode_to_keysym table. This allows tab completion to work again
-in the SDL monitor virtual console, which has been broken ever since the
-migration from SDL1 to SDL2.
 
-Signed-off-by: Cal Peake <cp@absolutedigital.net>
----
- include/ui/console.h | 1 +
- ui/console.c         | 1 +
- 2 files changed, 2 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index c0520c694c..e400ee9fa7 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -70,6 +70,7 @@ void hmp_mouse_set(Monitor *mon, const QDict *qdict);
- /* keysym is a unicode code except for special keys (see QEMU_KEY_xxx
-    constants) */
- #define QEMU_KEY_ESC1(c) ((c) | 0xe100)
-+#define QEMU_KEY_TAB        0x0009
- #define QEMU_KEY_BACKSPACE  0x007f
- #define QEMU_KEY_UP         QEMU_KEY_ESC1('A')
- #define QEMU_KEY_DOWN       QEMU_KEY_ESC1('B')
-diff --git a/ui/console.c b/ui/console.c
-index e139f7115e..addaafba28 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1368,6 +1368,7 @@ static const int qcode_to_keysym[Q_KEY_CODE__MAX] = {
-     [Q_KEY_CODE_PGUP]   = QEMU_KEY_PAGEUP,
-     [Q_KEY_CODE_PGDN]   = QEMU_KEY_PAGEDOWN,
-     [Q_KEY_CODE_DELETE] = QEMU_KEY_DELETE,
-+    [Q_KEY_CODE_TAB]    = QEMU_KEY_TAB,
-     [Q_KEY_CODE_BACKSPACE] = QEMU_KEY_BACKSPACE,
- };
- 
--- 
-2.35.3
+Le 11/08/2022 à 23:38, Pierre Muller a écrit :
+> 
+>     I am using qemu to check code generated by Free Pascal compiler
+> for various CPUs.
+> 
+>     Recently, this allowed me to find out that Free Pascal was generating
+> wrong instructions, leading to SIGBUS errors using qemu-mips.
+>     The same binaries worked without troubles on mips test machines,
+> probably because SIGBUS is handled directly inside the kernel.
+> 
+>     Here I would like to report the problem I get when trying to run
+> powerpc executables using shared libs generated on gcc110 machine.
+> 
+>     I copied over the needed libraries into a sys-root directory.
+> 
+>     The problem is that the code crashes with a Illegal Instruction
+> after only a very few instructions:
+> 
+> muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc -cpu g2 -d in_asm -L ~/sys-root/powerpc-linux ./twide1
+> ----------------
+> IN: _start
+> 0x3ffda784:  7c230b78  mr       r3, r1
+> 0x3ffda788:  38800000  li       r4, 0
+> 0x3ffda78c:  3821fff0  addi     r1, r1, -0x10
+> 0x3ffda790:  90810000  stw      r4, 0(r1)
+> 0x3ffda794:  4bfe756d  bl       0x3ffc1d00
+> 
+> ----------------
+> IN: _dl_start
+> 0x3ffc1d00:  9421fd40  stwu     r1, -0x2c0(r1)
+> 0x3ffc1d04:  7c0802a6  mflr     r0
+> 0x3ffc1d08:  429f0005  bdnzl    0x3ffc1d0c
+> 
+> ----------------
+> IN: _dl_start
+> 0x3ffc1d0c:  93c102b8  stw      r30, 0x2b8(r1)
+> 0x3ffc1d10:  938102b0  stw      r28, 0x2b0(r1)
+> 0x3ffc1d14:  92e1029c  stw      r23, 0x29c(r1)
+> 0x3ffc1d18:  930102a0  stw      r24, 0x2a0(r1)
+> 0x3ffc1d1c:  7fc802a6  mflr     r30
+> 0x3ffc1d20:  932102a4  stw      r25, 0x2a4(r1)
+> 0x3ffc1d24:  934102a8  stw      r26, 0x2a8(r1)
+> 0x3ffc1d28:  936102ac  stw      r27, 0x2ac(r1)
+> 0x3ffc1d2c:  900102c4  stw      r0, 0x2c4(r1)
+> 0x3ffc1d30:  93a102b4  stw      r29, 0x2b4(r1)
+> 0x3ffc1d34:  93e102bc  stw      r31, 0x2bc(r1)
+> 0x3ffc1d38:  7c7c1b78  mr       r28, r3
+> 0x3ffc1d3c:  3fde0004  addis    r30, r30, 4
+> 0x3ffc1d40:  3bded2d0  addi     r30, r30, -0x2d30
+> 0x3ffc1d44:  7d4d42a6  mfspr    r10, 0x10d
+> 0x3ffc1d48:  7d2c42a6  mfspr    r9, 0x10c
+> 0x3ffc1d4c:  7d0d42a6  mfspr    r8, 0x10d
+> 0x3ffc1d50:  7c0a4000  cmpw     r10, r8
+> 0x3ffc1d54:  4082fff0  bne      0x3ffc1d44
+> 
+> ----------------
+> IN: _dl_start
+> 0x3ffc1d58:  91410268  stw      r10, 0x268(r1)
+> 0x3ffc1d5c:  38e00013  li       r7, 0x13
+> 0x3ffc1d60:  f00004d7  xxlxor   v0, v0, v0
 
+   Small improvement, with 7.1.0-rc2, with capstone library, I get:
+muller@gcc186:~/pas/check$ ~/gnu/qemu/build-qemu-7.1.0-rc2/qemu-ppc  -cpu g2  -L ~/sys-root/powerpc-linux -d in_asm ./twide1
+....
+----------------
+IN: _dl_start
+0x3ffc1d58:  91410268  stw      r10, 0x268(r1)
+0x3ffc1d5c:  38e00013  li       r7, 0x13
+0x3ffc1d60:  f00004d7  xxlxor   vs32, vs32, vs32
+
+qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+Illegal instruction
+
+The only difference I get, when scanning the whole cpu list,
+is that a few of them abort even before starting to display powerpc instructions:
+
+muller@gcc186:~/pas/check$ ~/gnu/qemu/build-qemu-7.1.0-rc2/qemu-ppc -cpu 755 ./twide1
+qemu-ppc: ../qemu-7.1.0-rc2/target/ppc/helper_regs.c:330: _spr_register: Assertion `spr->name == NULL' failed.
+Aborted
+
+The special register HID0 seems to be set twice:
+First time:
+Thread 1 "qemu-ppc" hit Breakpoint 1, _spr_register (env=env@entry=0x5555558619d0, num=num@entry=1008, name=name@entry=0x555555714fe2 "HID0",
+     uea_read=uea_read@entry=0x5555555d3e40 <spr_noaccess>, uea_write=uea_write@entry=0x5555555d3e40 <spr_noaccess>, initial_value=initial_value@entry=0)
+     at ../qemu-7.1.0-rc2/target/ppc/helper_regs.c:330
+330         assert(spr->name == NULL);
+$38 = 0x555555714fe2 "HID0"
+(gdb) bt
+#0  _spr_register (env=env@entry=0x5555558619d0, num=num@entry=1008, name=name@entry=0x555555714fe2 "HID0", uea_read=uea_read@entry=0x5555555d3e40 <spr_noaccess>,
+     uea_write=uea_write@entry=0x5555555d3e40 <spr_noaccess>, initial_value=initial_value@entry=0) at ../qemu-7.1.0-rc2/target/ppc/helper_regs.c:330
+#1  0x00005555555ab69a in register_7xx_sprs (env=env@entry=0x5555558619d0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:210
+#2  0x00005555555ad12f in init_proc_745 (env=env@entry=0x5555558619d0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:4010
+#3  0x00005555555ad25f in init_proc_755 (env=0x5555558619d0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:4067
+#4  0x00005555555ae9e3 in init_ppc_proc (cpu=0x5555558596a0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:6697
+#5  ppc_cpu_realize (dev=0x5555558596a0, errp=0x7fffffffd0c0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:6846
+#6  0x00005555556b7a1e in device_set_realized (obj=<optimized out>, value=<optimized out>, errp=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/hw/core/qdev.c:553
+#7  0x00005555556bbb56 in property_set_bool (obj=0x5555558596a0, v=<optimized out>, name=<optimized out>, opaque=0x55555584ab60, errp=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/qom/object.c:2273
+#8  0x00005555556beb84 in object_property_set (obj=obj@entry=0x5555558596a0, name=name@entry=0x55555572fb1f "realized", v=v@entry=0x5555558525a0, errp=errp@entry=0x7fffffffd1f0)
+     at ../qemu-7.1.0-rc2/qom/object.c:1408
+#9  0x00005555556c1f20 in object_property_set_qobject (obj=obj@entry=0x5555558596a0, name=name@entry=0x55555572fb1f "realized", value=value@entry=0x555555850fe0,
+     errp=errp@entry=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/qom/qom-qobject.c:28
+#10 0x00005555556bf195 in object_property_set_bool (obj=0x5555558596a0, name=name@entry=0x55555572fb1f "realized", value=value@entry=true, errp=errp@entry=0x7fffffffd1f0)
+     at ../qemu-7.1.0-rc2/qom/object.c:1477
+#11 0x00005555556b849e in qdev_realize (dev=<optimized out>, bus=bus@entry=0x0, errp=errp@entry=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/hw/core/qdev.c:333
+#12 0x000055555559cde5 in cpu_create (typename=<optimized out>) at ../qemu-7.1.0-rc2/hw/core/cpu-common.c:61
+#13 0x000055555559bdec in main (argc=4, argv=0x7fffffffd928, envp=<optimized out>) at ../qemu-7.1.0-rc2/linux-user/main.c:744
+
+Second time there:
+Thread 1 "qemu-ppc" hit Breakpoint 1, _spr_register (env=env@entry=0x5555558619d0, num=num@entry=1008, name=name@entry=0x555555714fe2 "HID0",
+     uea_read=uea_read@entry=0x5555555d3e40 <spr_noaccess>, uea_write=uea_write@entry=0x5555555d3e40 <spr_noaccess>, initial_value=initial_value@entry=0)
+     at ../qemu-7.1.0-rc2/target/ppc/helper_regs.c:330
+330         assert(spr->name == NULL);
+$45 = 0x555555714fe2 "HID0"
+(gdb) bt
+#0  _spr_register (env=env@entry=0x5555558619d0, num=num@entry=1008, name=name@entry=0x555555714fe2 "HID0", uea_read=uea_read@entry=0x5555555d3e40 <spr_noaccess>,
+     uea_write=uea_write@entry=0x5555555d3e40 <spr_noaccess>, initial_value=initial_value@entry=0) at ../qemu-7.1.0-rc2/target/ppc/helper_regs.c:330
+#1  0x00005555555ad1c7 in register_745_sprs (env=0x5555558619d0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:85
+#2  init_proc_745 (env=env@entry=0x5555558619d0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:4011
+#3  0x00005555555ad25f in init_proc_755 (env=0x5555558619d0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:4067
+#4  0x00005555555ae9e3 in init_ppc_proc (cpu=0x5555558596a0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:6697
+#5  ppc_cpu_realize (dev=0x5555558596a0, errp=0x7fffffffd0c0) at ../qemu-7.1.0-rc2/target/ppc/cpu_init.c:6846
+#6  0x00005555556b7a1e in device_set_realized (obj=<optimized out>, value=<optimized out>, errp=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/hw/core/qdev.c:553
+#7  0x00005555556bbb56 in property_set_bool (obj=0x5555558596a0, v=<optimized out>, name=<optimized out>, opaque=0x55555584ab60, errp=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/qom/object.c:2273
+#8  0x00005555556beb84 in object_property_set (obj=obj@entry=0x5555558596a0, name=name@entry=0x55555572fb1f "realized", v=v@entry=0x5555558525a0, errp=errp@entry=0x7fffffffd1f0)
+     at ../qemu-7.1.0-rc2/qom/object.c:1408
+#9  0x00005555556c1f20 in object_property_set_qobject (obj=obj@entry=0x5555558596a0, name=name@entry=0x55555572fb1f "realized", value=value@entry=0x555555850fe0,
+     errp=errp@entry=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/qom/qom-qobject.c:28
+#10 0x00005555556bf195 in object_property_set_bool (obj=0x5555558596a0, name=name@entry=0x55555572fb1f "realized", value=value@entry=true, errp=errp@entry=0x7fffffffd1f0)
+     at ../qemu-7.1.0-rc2/qom/object.c:1477
+#11 0x00005555556b849e in qdev_realize (dev=<optimized out>, bus=bus@entry=0x0, errp=errp@entry=0x7fffffffd1f0) at ../qemu-7.1.0-rc2/hw/core/qdev.c:333
+#12 0x000055555559cde5 in cpu_create (typename=<optimized out>) at ../qemu-7.1.0-rc2/hw/core/cpu-common.c:61
+#13 0x000055555559bdec in main (argc=4, argv=0x7fffffffd928, envp=<optimized out>) at ../qemu-7.1.0-rc2/linux-user/main.c:744
+
+So apparently both register_7xx_sprs  and register_745_sprs
+initialize HID0 and probably also HID1...
+
+Pierre
 
