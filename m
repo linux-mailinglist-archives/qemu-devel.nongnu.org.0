@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D32A5906E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 21:12:24 +0200 (CEST)
-Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE2059078A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 22:47:26 +0200 (CEST)
+Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMDbT-0006wG-IY
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 15:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
+	id 1oMF5Q-0005mR-WC
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 16:47:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oMDZF-0003Oj-U7
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 15:10:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oMDZD-0001Aw-UX
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 15:10:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660245003;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rDfv+8GgVRJAU021J5fi2MP03MTmpRcw+d8Q3GXn2m4=;
- b=WgNyzfwNQ4zBjvQZErw7Ecwk51ZBKyym1fGIXaBM/RKF1WAB+0exSqjV2M4W0tdZnYLbqS
- Yo9F8DCww1nKOsO6xo6an0ldSo1Rzj1z4BJ5jsBu5ULYzAweEBK8/nXRbmDkwceUBR4L7s
- iJdRj/LOj5dOwtQ7rPyeDMuXlzrMZ3E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-Rv5FofBVPn6xm7VxMlK0kg-1; Thu, 11 Aug 2022 15:09:59 -0400
-X-MC-Unique: Rv5FofBVPn6xm7VxMlK0kg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49E5A3817A6F;
- Thu, 11 Aug 2022 19:09:59 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD530492C3B;
- Thu, 11 Aug 2022 19:09:58 +0000 (UTC)
-Date: Thu, 11 Aug 2022 15:09:57 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, Alberto Faria <afaria@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
- sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
- Yanan Wang <wangyanan55@huawei.com>, pkrempa@redhat.com
-Subject: Re: [RFC v3 1/8] blkio: add io_uring block driver using libblkio
-Message-ID: <YvVUBVQnuaZPiPxZ@fedora>
-References: <20220708041737.1768521-1-stefanha@redhat.com>
- <20220708041737.1768521-2-stefanha@redhat.com>
- <YuGTFJ3r7+MMAxhR@redhat.com>
+ (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
+ id 1oMEzd-0003yw-KI
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 16:41:25 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:44938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
+ id 1oMEzV-0005jl-I8
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 16:41:19 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id h28so17425586pfq.11
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 13:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=0N4nP6kWOkSVDN5AS7NAV6lK9AvoNJvZoVvifNo6cBw=;
+ b=5Y0mVsHDNZSiHjMxnxtHsGBMoX1GWgkjDFI4/pJI+tRSl80ehnkQCP0r+YTNA5qPJP
+ jlpXhm2qrUvfaBgHLVUjFwyZn0VzXUMkg4+Bv96uOh8E8cMGdExi9RVmJItb9l4C23GJ
+ 3pMimrsJTbAjO7qhxppXo2BNY9Dl5RbuTkBLZlijHXtutTBnON0mgdfb9ve6RO3wd/NN
+ 4M0JP6WBNTTBYS5KZofDcAh71KavmastlohZS5IF6zmIP47K16mVygU/JXJyhW/pdRsE
+ AM9HpZ0gYs2YjMOARGw3srfCD1oWNV68xeBhsz8jYHoTPHbK2MeWQWQh8qllWeJaqU8z
+ ZYHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=0N4nP6kWOkSVDN5AS7NAV6lK9AvoNJvZoVvifNo6cBw=;
+ b=FU+EaV9kxHHxhnFg15oLcUlXiLveu8d2VOikZ0dcF+DNXi4kZyiR0l7CP+pi1HpnIq
+ b162upU62CLZex5v+GmQZNOxYMbBfC6BVSdKmvm/eCYfryhDH158tvmzgohhnOEaGP67
+ TBR8mZ82XTxqVhybcAT9oJwuIR3GwJL2eAq2u5nXA9VljKti/dlFiyOUxHuxHVvZFoks
+ 2HqipuNc3Wyl9wVEwWxzBTEokF+FpjYsCqnM1805D+SqncUG2LVE70xK+SicEbkpmvEi
+ V28r2MjD2SqkeyP8XoBDq0Z1GxoqhXHWNe4/EYjvjUEjpR6rSRIh7v7bQAzKsuxDeti9
+ 907A==
+X-Gm-Message-State: ACgBeo2WNB1fdIFayW0ohYG0A6AWu35tb0j35QFsF/Yq0/cm+Tv2i0f+
+ c9LNrDWyoT3YXFaRmJhDToORM+yQaPMv0zurFHGc2A==
+X-Google-Smtp-Source: AA6agR6aHJJ3Kmql+modxaf9kffw6wlIt+LE3gD2Ib23h9bHOnhS1qdHXQVofEXNhIh1AEaxY0fhSqIl4BtlAKtuq6U=
+X-Received: by 2002:a05:6a00:10cf:b0:528:48c3:79e0 with SMTP id
+ d15-20020a056a0010cf00b0052848c379e0mr866756pfu.18.1660250475200; Thu, 11 Aug
+ 2022 13:41:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+o9vgjHY/9JccPpf"
-Content-Disposition: inline
-In-Reply-To: <YuGTFJ3r7+MMAxhR@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: Furquan Shaikh <furquan@rivosinc.com>
+Date: Thu, 11 Aug 2022 13:41:04 -0700
+Message-ID: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
+Subject: [PATCH] riscv: Make semihosting configurable for all privilege modes
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=furquan@rivosinc.com; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 11 Aug 2022 16:43:28 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,78 +83,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Unlike ARM, RISC-V does not define a separate breakpoint type for
+semihosting. Instead, it is entirely ABI. Thus, we need an option
+to allow users to configure what the ebreak behavior should be for
+different privilege levels - M, S, U, VS, VU. As per the RISC-V
+privilege specification[1], ebreak traps into the execution
+environment. However, RISC-V debug specification[2] provides
+ebreak{m,s,u,vs,vu} configuration bits to allow ebreak behavior to
+be configured to trap into debug mode instead. This change adds
+settable properties for RISC-V CPUs - `ebreakm`, `ebreaks`, `ebreaku`,
+`ebreakvs` and `ebreakvu` to allow user to configure whether qemu
+should treat ebreak as semihosting traps or trap according to the
+privilege specification.
 
---+o9vgjHY/9JccPpf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[1] https://github.com/riscv/riscv-isa-manual/releases/download/draft-20220723-10eea63/riscv-privileged.pdf
+[2] https://github.com/riscv/riscv-debug-spec/blob/release/riscv-debug-release.pdf
 
-On Wed, Jul 27, 2022 at 09:33:40PM +0200, Kevin Wolf wrote:
-> Am 08.07.2022 um 06:17 hat Stefan Hajnoczi geschrieben:
-> > libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-> > high-performance disk I/O. It currently supports io_uring and
-> > virtio-blk-vhost-vdpa with additional drivers under development.
-> >=20
-> > One of the reasons for developing libblkio is that other applications
-> > besides QEMU can use it. This will be particularly useful for
-> > vhost-user-blk which applications may wish to use for connecting to
-> > qemu-storage-daemon.
-> >=20
-> > libblkio also gives us an opportunity to develop in Rust behind a C API
-> > that is easy to consume from QEMU.
-> >=20
-> > This commit adds io_uring and virtio-blk-vhost-vdpa BlockDrivers to QEMU
-> > using libblkio. It will be easy to add other libblkio drivers since they
-> > will share the majority of code.
-> >=20
-> > For now I/O buffers are copied through bounce buffers if the libblkio
-> > driver requires it. Later commits add an optimization for
-> > pre-registering guest RAM to avoid bounce buffers.
-> >=20
-> > The syntax is:
-> >=20
-> >   --blockdev io_uring,node-name=3Ddrive0,filename=3Dtest.img,readonly=
-=3Don|off,cache.direct=3Don|off
-> >=20
-> > and:
-> >=20
-> >   --blockdev virtio-blk-vhost-vdpa,node-name=3Ddrive0,path=3D/dev/vdpa.=
-=2E.,readonly=3Don|off
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> The subject line implies only io_uring, but you actually add vhost-vdpa
-> support, too. I think the subject line should be changed.
->=20
-> I think it would also make sense to already implement support for
-> vhost-user-blk on the QEMU side even if support isn't compiled in
-> libblkio by default and opening vhost-user-blk images would therefore
-> always fail with a default build.
->=20
-> But then you could run QEMU with a custom build of libblkio to make use
-> of it without patching QEMU. This is probably useful for getting libvirt
-> support for using a storage daemon implemented without having to wait
-> for another QEMU release. (Peter, do you have any opinion on this?)
+Signed-off-by: Furquan Shaikh <furquan@rivosinc.com>
+---
+ target/riscv/cpu.c        |  8 ++++++++
+ target/riscv/cpu.h        |  7 +++++++
+ target/riscv/cpu_helper.c | 26 +++++++++++++++++++++++++-
+ 3 files changed, 40 insertions(+), 1 deletion(-)
 
-vhost-user-blk is now supported in all builds of libblkio. I'll add it.
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ac6f82ebd0..082194652b 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -953,6 +953,14 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
+cfg.short_isa_string, false),
 
-Stefan
+     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
++
++    /* Debug spec */
++    DEFINE_PROP_BOOL("ebreakm", RISCVCPU, cfg.ebreakm, true),
++    DEFINE_PROP_BOOL("ebreaks", RISCVCPU, cfg.ebreaks, false),
++    DEFINE_PROP_BOOL("ebreaku", RISCVCPU, cfg.ebreaku, false),
++    DEFINE_PROP_BOOL("ebreakvs", RISCVCPU, cfg.ebreakvs, false),
++    DEFINE_PROP_BOOL("ebreakvu", RISCVCPU, cfg.ebreakvu, false),
++
+     DEFINE_PROP_END_OF_LIST(),
+ };
 
---+o9vgjHY/9JccPpf
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5c7acc055a..eee8e487a6 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -454,6 +454,13 @@ struct RISCVCPUConfig {
+     bool epmp;
+     bool aia;
+     bool debug;
++
++    /* Debug spec */
++    bool ebreakm;
++    bool ebreaks;
++    bool ebreaku;
++    bool ebreakvs;
++    bool ebreakvu;
+     uint64_t resetvec;
 
------BEGIN PGP SIGNATURE-----
+     bool short_isa_string;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 59b3680b1b..be09abbe27 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1314,6 +1314,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr
+address, int size,
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmL1VAUACgkQnKSrs4Gr
-c8jRPwgAtygtCZJA+ehKG3Cj9WM9Zsg9hU6wNkV2/zThXpZeoYlNXZlJ8Xe7Ed2d
-NotW/aiNvIfoxdoAMnvu/FoiS/4p1JlMGL9hYbIeCzMit0ujtG1F5QFLD/4Jwd/k
-Ug0jOBnyXgU6atcaSrgu4k3SL3eTotM0xch/bPaFHGgoXf7MnRE0TFQYqD5Mhv4A
-V4onWXk6T02czNUOa8GfhMVbKjQEWaT5Z5pDJROQt1r47hK4AIHHmOXlw2dgWwLp
-rgBahMg2B+SZE9ZpkuQo6KJN8oo7mC9GaMC32nqxBoehU934MePh7gpgUaHenxdJ
-1aNlck0XKsTxD8zpBwciILMhp4rf4Q==
-=OJCF
------END PGP SIGNATURE-----
+     return true;
+ }
++
++static bool semihosting_enabled(RISCVCPU *cpu)
++{
++    CPURISCVState *env = &cpu->env;
++
++    switch (env->priv) {
++    case PRV_M:
++        return cpu->cfg.ebreakm;
++    case PRV_S:
++        if (riscv_cpu_virt_enabled(env)) {
++            return cpu->cfg.ebreakvs;
++        } else {
++            return cpu->cfg.ebreaks;
++        }
++    case PRV_U:
++        if (riscv_cpu_virt_enabled(env)) {
++            return cpu->cfg.ebreakvu;
++        } else {
++            return cpu->cfg.ebreaku;
++        }
++    }
++
++    return false;
++}
+ #endif /* !CONFIG_USER_ONLY */
 
---+o9vgjHY/9JccPpf--
+ /*
+@@ -1342,7 +1366,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     target_ulong mtval2 = 0;
 
+     if  (cause == RISCV_EXCP_SEMIHOST) {
+-        if (env->priv >= PRV_S) {
++        if (semihosting_enabled(cpu)) {
+             do_common_semihosting(cs);
+             env->pc += 4;
+             return;
+--
+2.34.1
 
