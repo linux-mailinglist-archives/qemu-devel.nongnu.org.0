@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0051590933
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 01:32:51 +0200 (CEST)
-Received: from localhost ([::1]:52324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FE1590936
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 01:36:13 +0200 (CEST)
+Received: from localhost ([::1]:54694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMHfW-0007fk-Ra
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 19:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42810)
+	id 1oMHim-0001To-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 19:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oMHdM-00067b-9J
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:30:36 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54837)
+ id 1oMHhM-0008SH-8x
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:34:44 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:43897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oMHdJ-0004HJ-3y
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:30:35 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id gp7so4606436pjb.4
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 16:30:32 -0700 (PDT)
+ id 1oMHhK-0004gI-R3
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 19:34:43 -0400
+Received: by mail-pg1-x529.google.com with SMTP id h132so18397372pgc.10
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 16:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=ZBfwUmGhXnPufVVy5+vc4bbK2K8yUBYr5DtZOwb6yIw=;
- b=ZbUJbjaGuw0dIWGCx0YKJMenfIhwXLQiM3CqZtZyFppDZA0Sf6bECcdisYcLT4mOo2
- uSkriUtebh0Obel34lwuV+XjuP6siJOqtCo9lYopFyFpzGH0Jxx+IiS1kDZP/0oWmUmF
- 5bJbws8QDJ1gQcJYqIA+9YeUffz6mwZW4rnKiL/nsdNlCoQPdnIxwmOPvLR/bIsVz175
- tMFlsI/ZqPOu5vtIGBiS/LifOYs4AWNabRCL8BQmd5QqxCtsGSartc0ewsIhkSBEEHmf
- NsDJEQfHJQwKDzmVdPx9lm9F1Up0vdD+cRep876kxDe7mcHUyrY8M9xwC+EaEUns18iB
- 4Kxg==
+ bh=K7iz4G/GeF5tLFNDrkTgvZRn18qFE6Er1TP+g5d7D48=;
+ b=QZzEp+k1ciCK4zscCAA92a3IHsuKzpQBrkYBNTj61k983F8vig+FOcI7CW8hXX4P/K
+ /lWyYxOM06n1mim/n11v5x8ZPhD2SFM8qJ+HRAjt4/kxtglJJC71kM23BzQeCSsxLFHc
+ YF2BQ2KmYc/2n45L+lr2ZQV8bzLcUSMNS9mgR8eYfs5Vl9rjehDWE9g8Kh9Rn2TgOuT0
+ CdRpbaalOYB1dJMWo5hVb1nYL9B5+jSrIK5Z/oyANxkxBafq8Wjmmf7ZPsPMDrSjIHni
+ 0UX75cAQpaKzFov7x1+rRtQX/41dIxmAdw2oLpHPQa1fxDguzpddyIt64gHzuB/p24sw
+ EFOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=ZBfwUmGhXnPufVVy5+vc4bbK2K8yUBYr5DtZOwb6yIw=;
- b=WXe4sphZXJwqg0zJIftitlAG38CR2YWVzYuXnV8XN4qW8e4dfdo6BVtZa5ikI9e4jg
- t2mz5+7jlSNbRXQOjpKXKfvRlh1yYI8oO2gXX3+0Rkvq7NGT7E4kcOWPhK4Oa61ip4Vi
- 7nLjL4KL0WBBtPrqxSpWtEjHbEw3Kq/CBGObMJ8jWIFNQTF645HHU0TAiMCYCauzVjAQ
- vbrJrHX/zZ5p5v96s0ZXoyGTn0qbJFqkhceeoEJO3THViDx1RM18eaeLWDOzImzyYF9f
- hfewiWeSrYsdDSzGjUXOxlCuV5yNQxQIfBV1xYg2gvAn3cpGf4WMBRZAUX7zw8Hz1WtL
- dE/g==
-X-Gm-Message-State: ACgBeo2FePNtV4TgCzZJq3K+qYwBYI0Us+TetYQ95gtXcFJVEtORBJvM
- NpSHFGXecBIG6OePF+W/wynCZbrvJT4=
-X-Google-Smtp-Source: AA6agR6P5LQYB5sARw4I1crSFTs8PsuxbEJP2F4bECXIY8RSIphb3LcaxHxS08jey+TEVJMmWUThqg==
-X-Received: by 2002:a17:903:2303:b0:16d:c555:9b2 with SMTP id
- d3-20020a170903230300b0016dc55509b2mr1442185plh.46.1660260631604; 
- Thu, 11 Aug 2022 16:30:31 -0700 (PDT)
+ bh=K7iz4G/GeF5tLFNDrkTgvZRn18qFE6Er1TP+g5d7D48=;
+ b=EKwcDshNIcxZAi6+rY2RFKwLqwKnigWMtFADdHeqcusqsCi2PQmhT85AtzsK8V/jC/
+ jmHVLJieq5jyE1IouEiFrn5C/OZvFfZRMhLb2fgt0bH76CGrXMLXgJItlHBSR9Qxb9Rv
+ qFaGaYLMZsow2TCwXhQHsEmw19Ahv6LdyEDcsaHkmD7ZPY9noW9SD0JWZRL5j+RY2tIS
+ yICq3Vo/nDbwc+2GLxDxOVWDQx6v6ocJyny/IcTboGuDfZ5QvN8Ktxc/EvMZwirgXM2V
+ ovL8/n/oWZrtZntLnxEoQvZXbTTXNrKJbgVrIyWQvnUCYpUXKw+FGk/M2laGdfpZVocB
+ ii4A==
+X-Gm-Message-State: ACgBeo3/zN8NenGZTrJmj0HHw43Pwbk+kdwt9gpwNvkFTqfQiZgFbSI6
+ HrqwC/kLni7A+ocyLCA5E7Q=
+X-Google-Smtp-Source: AA6agR4wM8YYQs5W+iV/nV4A382J0T4Dzmqh6XXLSwcJhuowDo7Rgh3FpYUpd1TLSr+IF07CjBG7Rg==
+X-Received: by 2002:a63:210f:0:b0:41c:650c:aea4 with SMTP id
+ h15-20020a63210f000000b0041c650caea4mr994963pgh.267.1660260881204; 
+ Thu, 11 Aug 2022 16:34:41 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- x5-20020a623105000000b005302cef1684sm254811pfx.34.2022.08.11.16.30.29
+ ix15-20020a170902f80f00b00171311470eesm244385plb.8.2022.08.11.16.34.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 16:30:31 -0700 (PDT)
-Message-ID: <d2d89961-bf0a-a28b-bffc-3d0afd8d1db4@amsat.org>
-Date: Fri, 12 Aug 2022 01:30:27 +0200
+ Thu, 11 Aug 2022 16:34:40 -0700 (PDT)
+Message-ID: <a2c919f2-514e-834b-3271-2d7a46aeb4ac@amsat.org>
+Date: Fri, 12 Aug 2022 01:34:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH] tests/qtest: misc tweaks to readconfig
+Subject: Re: Missing dll
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220809093854.168438-1-berrange@redhat.com>
-In-Reply-To: <20220809093854.168438-1-berrange@redhat.com>
+To: Peter Butler <peter-butler@comcast.net>, qemu-devel@nongnu.org
+References: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
+Cc: Stefan Weil <sw@weilnetz.de>, Yonggang Luo <luoyonggang@gmail.com>
+In-Reply-To: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,18 +95,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 9/8/22 11:38, Daniel P. Berrangé wrote:
-> The property name parameter is ignored when visiting a top
-> level type, but the obvious typo should be fixed to avoid
-> confusion. A few indentation issues were tidied up. We
-> can break out of the loop when finding the RNG device.
-> Finally, close the temp FD immediately when no longer
-> needed.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   tests/qtest/readconfig-test.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+Cc'ing qemu-windows@ team
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 10/8/22 23:42, Peter Butler wrote:
+> In x64 win10 I today I d/l QEMU into new directory. Then navigated to 
+> that dir and…
+> 
+> qemu-system-aarch64 -boot d -cdrom 
+> f:\Downloads\debian-11.4.0-arm64-netinst.iso -m 2048
+> 
+> Error message:…libncursesw6.dll not found…
+> 
+> Please help
+> Thank you
+> 
+
 
