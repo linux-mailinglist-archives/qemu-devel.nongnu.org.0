@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D24258F8F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 10:21:25 +0200 (CEST)
-Received: from localhost ([::1]:43376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3515E58F90A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 10:28:38 +0200 (CEST)
+Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM3RS-00077i-UL
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 04:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59512)
+	id 1oM3YT-0002SB-2s
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 04:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oM3Hy-00005A-9D
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 04:11:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oM3Hw-0000Jq-Du
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 04:11:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660205491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=loI5xv0OBHRlLXVRQ0M4jzh51GrYE75qga6KjSQUzPk=;
- b=VKMKdl3Wf8YMU9nW3HfGudiMEvh5P7VXiO3JwphqJyoLP/GZhWK/XXrYFn7pUaxsMDg7vU
- vvxRW2uHoP5P2lvd0kxekU9BbojIlomKajk0kiP488jw3vast+gdh6TUrVGcPl7yjTrfLi
- OOjxxe26wppVLqavM2FyKy43fjqnOpU=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-325-dixVPocENDKh4k-r5AsyYQ-1; Thu, 11 Aug 2022 04:11:30 -0400
-X-MC-Unique: dixVPocENDKh4k-r5AsyYQ-1
-Received: by mail-vs1-f70.google.com with SMTP id
- j15-20020a056102000f00b00386db4622c2so2833258vsp.18
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 01:11:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oM3Uj-0008NW-KK; Thu, 11 Aug 2022 04:24:47 -0400
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:45728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oM3Ud-0002BP-CA; Thu, 11 Aug 2022 04:24:41 -0400
+Received: by mail-vs1-xe34.google.com with SMTP id m67so17541906vsc.12;
+ Thu, 11 Aug 2022 01:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=WwbFqSXsSRuidxYrebQoaqDB3kAAWCNu9lSC/nIt8kg=;
+ b=GYoV/6Uo1S81YbKAmVhYIX8MOshdSq8tjVBjaE2tOFdcQe+KZgMW3IrwzE1sfZXDY1
+ v0jMSztNjQr/JuhKicTan4UN4V5NTYHoffL+VvmUoH75/ZOxo8w/ifPoF8zGbOh7KPrI
+ jHPzF0xXbb35M6T+R0A9nUsTez4PIaEJNtmoymSz1iQw+ZIEn6NyQFBRnw0gkGXiwF5/
+ EaukhF/IPElKScK5HfNur9ZgqJuxVnRxieo6CSTS6cKZpoyZV1DHg7aiVcQBaBVrsM/c
+ 8MsxG28UsqR8SCZLNlhbuTu49CI3XTheq4e1sBlTiSO32srNgkYxhgtZkskDhMvU6+Q8
+ DHww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc;
- bh=loI5xv0OBHRlLXVRQ0M4jzh51GrYE75qga6KjSQUzPk=;
- b=FBWUC0MIHBHKeeK6uJ/ZA6CZVObcnXconzhusHRXtDrCZpBSau0MF1tvOYPULyX+9N
- 0TvHBejTcDdlyy/gCOnPboe+uES1FMsRWRriC+WomJeSvhvgxaaMiNNGnMxE+8U86SHk
- nAjtZlSt0SJIYzhUOcYeNu4Xwe/mjlAR7erO6TIFnyn9VWQbCCIOJWYykV+exmDHAKvj
- TztjYKJ/I2d0r77Gz+f8EieyZ9dQZKs8JQ+DApXCVQKuFc8bbcI2OlJ71oNw9OCTJAzI
- L5Vu3dxGW4PSyS/gSUIBok+DO/6h/eDtKEJ8FYgu8BhE7XlvHjPUYIUZWjz0HunJHq10
- Z9Jw==
-X-Gm-Message-State: ACgBeo1BANr5P714ZqIz9YjRkisNv1R5SDBG+xJbye1WzfmCoBl3lx2S
- 1+oVZlI6YPaZ42OeG+dArgvW4Qov8Tda7iN4j+/LImGY47EsvBeE5JyDammb4Dy0HLSfF+0opzt
- x/Hvq9kHcFj/RFek=
-X-Received: by 2002:a67:c814:0:b0:385:1a6b:7284 with SMTP id
- u20-20020a67c814000000b003851a6b7284mr13187914vsk.15.1660205489836; 
- Thu, 11 Aug 2022 01:11:29 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5A1EPbXShbT+pqXgZwbCaebnGh4sm+jV0hPS1imU9tP7DGh4iGNhw22P+eb0W027e8K7wECg==
-X-Received: by 2002:a67:c814:0:b0:385:1a6b:7284 with SMTP id
- u20-20020a67c814000000b003851a6b7284mr13187903vsk.15.1660205489635; 
- Thu, 11 Aug 2022 01:11:29 -0700 (PDT)
-Received: from ?IPv6:2804:1b3:a800:5713:6880:fd74:a3e5:2086?
- ([2804:1b3:a800:5713:6880:fd74:a3e5:2086])
- by smtp.gmail.com with ESMTPSA id
- d203-20020a1f9bd4000000b00374060fae12sm1515633vke.4.2022.08.11.01.11.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 01:11:29 -0700 (PDT)
-Message-ID: <01fcdde9f6246836b4058efc8c298a82e86d1458.camel@redhat.com>
-Subject: Re: [PATCH v7 05/12] migration: Make ram_save_target_page() a pointer
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>, Eric Blake
- <eblake@redhat.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
- <f4bug@amsat.org>,  Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster
- <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Date: Thu, 11 Aug 2022 05:11:25 -0300
-In-Reply-To: <20220802063907.18882-6-quintela@redhat.com>
-References: <20220802063907.18882-1-quintela@redhat.com>
- <20220802063907.18882-6-quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.3 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=WwbFqSXsSRuidxYrebQoaqDB3kAAWCNu9lSC/nIt8kg=;
+ b=F9IcC2RJ8h02mGGkxJQ+hL00zoKHrtHdgtUlQcGZ90tvNREJ9wEAlbDkM+9UsqHbfc
+ U14goAUWrYZ1w32wLL0qSAXvmFC9MVZmmSKN4k3qXtOKxYPIOIvCfTk+GIjALMVrQGI6
+ jnzazpp7i1CZd+qxL5m47QkP0n63JozjbKDsope/s5u1Q4RE3pOP9HjBc0B+YTZFJlG1
+ BrjvrV4p99IP9EpXamH+4lgk9++KfcbkzmBFlTQmmAj1dEc3c3YnUl8VnpYflmK3OMjK
+ SpO5cSM9ubmfS8zdMCJ3jHM8xPO4nDlGsL//854YJE8MHHGEXboDH74tL5AjGPaaeFd7
+ USaw==
+X-Gm-Message-State: ACgBeo3UkrodtRNsG5w+XIaZAkQwHsCOfexrJZptNkYJvpqte/95WdpW
+ FYSDFC9XttiX6AzgsBaxncc=
+X-Google-Smtp-Source: AA6agR5YDJpvIIa0cLF/HTPO9Jxx/Hzk5sYltFbafxEmQzKJc4Vsk/fSGAst22JxprfeW3ad9aygtA==
+X-Received: by 2002:a67:ca88:0:b0:356:51a5:993e with SMTP id
+ a8-20020a67ca88000000b0035651a5993emr13071069vsl.12.1660206277953; 
+ Thu, 11 Aug 2022 01:24:37 -0700 (PDT)
+Received: from [192.168.10.102] (201-43-216-47.dsl.telesp.net.br.
+ [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
+ k124-20020a1fec82000000b00377b6c5f926sm1456725vkh.42.2022.08.11.01.24.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Aug 2022 01:24:37 -0700 (PDT)
+Message-ID: <ecf67325-f640-23e6-08f4-adbfa03c025e@gmail.com>
+Date: Thu, 11 Aug 2022 05:24:34 -0300
 MIME-Version: 1.0
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 00/24] ppc: QOM'ify 405 board
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220809153904.485018-1-clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220809153904.485018-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,115 +92,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
-> We are going to create a new function for multifd latest in the series.
->=20
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+Cedric,
 
-Double Signed-off-by again.
-
-> ---
->  migration/ram.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
->=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 85d89d61ac..499d9b2a90 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -310,6 +310,9 @@ typedef struct {
->      bool preempted;
->  } PostcopyPreemptState;
-> =20
-> +typedef struct RAMState RAMState;
-> +typedef struct PageSearchStatus PageSearchStatus;
-> +
->  /* State of RAM for migration */
->  struct RAMState {
->      /* QEMUFile used for this migration */
-> @@ -372,8 +375,9 @@ struct RAMState {
->       * is enabled.
->       */
->      unsigned int postcopy_channel;
-> +
-> +    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
->  };
-> -typedef struct RAMState RAMState;
-> =20
->  static RAMState *ram_state;
-> =20
-> @@ -2255,14 +2259,14 @@ static bool save_compress_page(RAMState *rs, RAMB=
-lock *block, ram_addr_t offset)
->  }
-> =20
->  /**
-> - * ram_save_target_page: save one target page
-> + * ram_save_target_page_legacy: save one target page
->   *
->   * Returns the number of pages written
->   *
->   * @rs: current RAM state
->   * @pss: data about the page we want to send
->   */
-> -static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-> +static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *p=
-ss)
->  {
->      RAMBlock *block =3D pss->block;
->      ram_addr_t offset =3D ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-> @@ -2469,7 +2473,7 @@ static int ram_save_host_page(RAMState *rs, PageSea=
-rchStatus *pss)
-> =20
->          /* Check the pages is dirty and if it is send it */
->          if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
-> -            tmppages =3D ram_save_target_page(rs, pss);
-> +            tmppages =3D rs->ram_save_target_page(rs, pss);
->              if (tmppages < 0) {
->                  return tmppages;
->              }
-> @@ -3223,6 +3227,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque=
-)
->      ram_control_before_iterate(f, RAM_CONTROL_SETUP);
->      ram_control_after_iterate(f, RAM_CONTROL_SETUP);
-> =20
-> +    (*rsp)->ram_save_target_page =3D ram_save_target_page_legacy;
->      ret =3D  multifd_send_sync_main(f);
->      if (ret < 0) {
->          return ret;
+I pushed patches 1-7 to gitlab.com/danielhb/qemu/tree/ppc-7.2. This
+way you have 7 less patches to worry about for the next versions.
 
 
-So, IIUC:
-- Rename ram_save_target_page -> ram_save_target_page_legacy
-- Add a function pointer to RAMState (or a callback)
-- Assign function pointer =3D ram_save_target_page_legacy at setup
-- Replace ram_save_target_page() by indirect function call using above poin=
-ter.
+Thanks,
 
-I could see no issue in this, so I belive it works fine.
+Daniel
 
-The only thing that concerns me is the name RAMState.
-IMHO, a struct named RAMState is supposed to just reflect the state of ram =
-(or
-according to this struct's comments, the state of RAM for migration. Having=
- a
-function pointer here that saves a page seems counterintuitive, since it do=
-es
-not reflect the state of RAM.
 
-Maybe we could rename the struct, or even better, create another struct tha=
-t
-could look something like this:
-
-struct RAMMigration {
-    RAMState state;
-    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
-    /* Other callbacks or further info.*/
-}
-
-What do you think about it?
-
-Best regards,=20
-Leo
-
+On 8/9/22 12:38, Cédric Le Goater wrote:
+> Hello,
+> 
+> Here is large series QOM'ifying the PPC405 board. It introduces a new
+> generic machine and SoC models, converts the current device models to
+> QOM and populates the SoC. The process is quite mechanical without too
+> much issues to handle. The noisy part is the initial patch introducing
+> the SoC realize routine.
+> 
+> Thanks,
+> 
+> C.
+> 
+> Changes in v4 :
+> 
+>   - Attempt to QOM'ify SDRAM controller, with 2 initialized banks at
+>     the SoC level
+>   - Report errors to the user for invalid RAM config
+>   - Moved CPU reset in PPC405 model
+>   - user_creatable comments
+>   - Renamed FPGA device model
+>   - Various small cleanups
+> 
+> Changes in v3 :
+> 
+>   - New device model Ppc4xxDcrDeviceState
+>   - Removal of ppc4xx_mal_init(), ppc4xx_plb_init() and ppc405_ebc_init()
+>   - Fixes for some reset issues
+>   - Kept 2 RAM banks at the Soc level but only one is initialized.
+>   - Moved SRAM under the machine. It's not part of the SoC according
+>     to the 405 specs
+> 
+> Changes in v2 :
+> 
+>   - docs/about/removed-features.rst update
+>   - Fix compile breakage (uic)
+>   - Fix CPU reset, which breaking u-boot boot
+>   - Changed prefix of memory regions to "ppc405"
+>   - Reduced the number of RAM banks to 1. Second was a dummy one to
+>     please ppc405ep_init()
+> 
+> Cédric Le Goater (24):
+>    ppc/ppc405: Remove taihu machine
+>    ppc/ppc405: Introduce a PPC405 generic machine
+>    ppc/ppc405: Move devices under the ref405ep machine
+>    ppc/ppc405: Move SRAM under the ref405ep machine
+>    ppc/ppc405: Introduce a PPC405 SoC
+>    ppc/ppc405: Start QOMification of the SoC
+>    ppc/ppc405: QOM'ify CPU
+>    ppc/ppc4xx: Introduce a DCR device model
+>    ppc/ppc405: QOM'ify CPC
+>    ppc/ppc405: QOM'ify GPT
+>    ppc/ppc405: QOM'ify OCM
+>    ppc/ppc405: QOM'ify GPIO
+>    ppc/ppc405: QOM'ify DMA
+>    ppc/ppc405: QOM'ify EBC
+>    ppc/ppc405: QOM'ify OPBA
+>    ppc/ppc405: QOM'ify POB
+>    ppc/ppc405: QOM'ify PLB
+>    ppc/ppc405: QOM'ify MAL
+>    ppc/ppc405: QOM'ify FPGA
+>    ppc/ppc405: Use an embedded PPCUIC model in SoC state
+>    ppc/ppc405: Use an explicit I2C object
+>    ppc/ppc4xx: Fix sdram trace events
+>    ppc/ppc405: QOM'ify SDRAM
+>    ppc/ppc405: Add check on minimum RAM size
+> 
+>   docs/about/deprecated.rst       |   9 -
+>   docs/about/removed-features.rst |   6 +
+>   docs/system/ppc/embedded.rst    |   1 -
+>   hw/ppc/ppc405.h                 | 196 +++++++-
+>   include/hw/ppc/ppc4xx.h         |  82 ++-
+>   hw/ppc/ppc405_boards.c          | 381 ++++----------
+>   hw/ppc/ppc405_uc.c              | 859 +++++++++++++++++---------------
+>   hw/ppc/ppc4xx_devs.c            | 326 +++++++-----
+>   hw/ppc/sam460ex.c               |  24 +-
+>   MAINTAINERS                     |   2 +-
+>   hw/ppc/trace-events             |   3 -
+>   11 files changed, 1042 insertions(+), 847 deletions(-)
+> 
 
