@@ -2,92 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AE558FD8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:41:34 +0200 (CEST)
-Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E63858FD8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:41:15 +0200 (CEST)
+Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM8RG-0003ve-OV
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:41:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
+	id 1oM8Qz-0003mQ-Er
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oM8Nq-0007mi-1v
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:37:58 -0400
-Received: from mga17.intel.com ([192.55.52.151]:61843)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM8Lq-00057n-7C
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:35:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oM8Nm-0007RM-6I
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:37:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660225074; x=1691761074;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=3YSnNJEECrBHaKlYPHVfDKRlWH4sV/biWsKMZr6LyGA=;
- b=heT5Y/SBRl6VoVUV6eyglAYDTJSYK8VowgG7zK27SIwsEoEI9sOBQ/vi
- vfRJRZ5NdeWlQ2sQbuGPD1cuEIk46P5uHo/u0Hu5EaFWxHNGG0pOedHY6
- 1vVkJzwY5sHJYVhc2iXA7SaDdu0k5vLhDoUfAygl+8mm3uIY+/t0WjUEY
- tsy3NKt0TNOV0YKGFVljDBIDUQlOQmGNvF46c3jQIuIUPSy2oGVeP9mBz
- veVfff7J/vz6kkcpU3YH0e/EJEscMo8YVh/I/Nnef9ptdKzOpa18hcBzg
- HfQwC5HjOe2P5LZ7tok9Bsxe20NLh4RaDknG+e3rDCpjJvL6kPsC3Mo7b A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="271730694"
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="271730694"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2022 06:37:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="665375567"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga008.fm.intel.com with ESMTP; 11 Aug 2022 06:37:40 -0700
-Date: Thu, 11 Aug 2022 21:32:55 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc: "Nikunj A. Dadhania" <nikunj@amd.com>,
- Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220811133255.GB916119@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
- <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM8Ll-00075R-HS
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:35:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660224947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DOuCxKPSiRdzM8PGe+NTjYRa3c3QtCGa4R5sNnZMoCk=;
+ b=HaDh9b187+LE3lrNzZ1WWkqLxP5gy3nTHvCQZ2klFByHOE+dKk2ouMYFOxopQRXU0D1EuJ
+ rmpd0rVsbVAC7ht7mOs2nlsrFiW5fGJXAtjG6mPdnpYvWGbVjGeSofEbYU5DKnVDRdnsXn
+ N3PCgJdEeF0+S3xlsuxfHLyakYTUwr4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-qK6-Hd6_MP-we5XcDvf8Ig-1; Thu, 11 Aug 2022 09:35:44 -0400
+X-MC-Unique: qK6-Hd6_MP-we5XcDvf8Ig-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E49281C00145;
+ Thu, 11 Aug 2022 13:35:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65F6D1415129;
+ Thu, 11 Aug 2022 13:35:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 456E121E693E; Thu, 11 Aug 2022 15:35:42 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Cleber Rosa
+ <crosa@redhat.com>,  qemu-block@nongnu.org,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Xie Yongji <xieyongji@bytedance.com>,  Kyle Evans
+ <kevans@freebsd.org>,  John Snow <jsnow@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  Warner Losh <imp@bsdimp.com>,  Kevin Wolf
+ <kwolf@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,  Laurent Vivier
+ <laurent@vivier.eu>,  Fam Zheng <fam@euphon.net>,  Hanna Reitz
+ <hreitz@redhat.com>
+Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+ <20220712093528.4144184-12-marcandre.lureau@redhat.com>
+ <87pmhf86ew.fsf@pond.sub.org>
+ <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
+ <8735e38e6t.fsf@pond.sub.org>
+ <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
+ <87o7wr5ew9.fsf@pond.sub.org>
+ <CAJ+F1CKbkTOX7Fh9RvkBvuW_gZqZjYSta=7nEKbzm-OefPE_GQ@mail.gmail.com>
+ <CAFEAcA8E7uTSHh+BdnU2ZHiaquaQDqpYMurUwpjvVmK-Ks522w@mail.gmail.com>
+ <CAJ+F1CLb=+gA=Keb3WgW3Mf84eWRikWVxV8HTjdQU8pFTVNMEg@mail.gmail.com>
+ <YvTy8zYFQYAKqgoF@redhat.com>
+Date: Thu, 11 Aug 2022 15:35:42 +0200
+In-Reply-To: <YvTy8zYFQYAKqgoF@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 11 Aug 2022 13:15:47 +0100")
+Message-ID: <87o7wqoqc1.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,152 +99,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 11, 2022 at 01:30:06PM +0200, Gupta, Pankaj wrote:
-> 
-> > > This is the v7 of this series which tries to implement the fd-based KVM
-> > > guest private memory. The patches are based on latest kvm/queue branch
-> > > commit:
-> > > 
-> > >    b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
-> > > split_desc_cache only by default capacity
-> > > 
-> > > Introduction
-> > > ------------
-> > > In general this patch series introduce fd-based memslot which provides
-> > > guest memory through memory file descriptor fd[offset,size] instead of
-> > > hva/size. The fd can be created from a supported memory filesystem
-> > > like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
-> > > and the the memory backing store exchange callbacks when such memslot
-> > > gets created. At runtime KVM will call into callbacks provided by the
-> > > backing store to get the pfn with the fd+offset. Memory backing store
-> > > will also call into KVM callbacks when userspace punch hole on the fd
-> > > to notify KVM to unmap secondary MMU page table entries.
-> > > 
-> > > Comparing to existing hva-based memslot, this new type of memslot allows
-> > > guest memory unmapped from host userspace like QEMU and even the kernel
-> > > itself, therefore reduce attack surface and prevent bugs.
-> > > 
-> > > Based on this fd-based memslot, we can build guest private memory that
-> > > is going to be used in confidential computing environments such as Intel
-> > > TDX and AMD SEV. When supported, the memory backing store can provide
-> > > more enforcement on the fd and KVM can use a single memslot to hold both
-> > > the private and shared part of the guest memory.
-> > > 
-> > > mm extension
-> > > ---------------------
-> > > Introduces new MFD_INACCESSIBLE flag for memfd_create(), the file
-> > > created with these flags cannot read(), write() or mmap() etc via normal
-> > > MMU operations. The file content can only be used with the newly
-> > > introduced memfile_notifier extension.
-> > > 
-> > > The memfile_notifier extension provides two sets of callbacks for KVM to
-> > > interact with the memory backing store:
-> > >    - memfile_notifier_ops: callbacks for memory backing store to notify
-> > >      KVM when memory gets invalidated.
-> > >    - backing store callbacks: callbacks for KVM to call into memory
-> > >      backing store to request memory pages for guest private memory.
-> > > 
-> > > The memfile_notifier extension also provides APIs for memory backing
-> > > store to register/unregister itself and to trigger the notifier when the
-> > > bookmarked memory gets invalidated.
-> > > 
-> > > The patchset also introduces a new memfd seal F_SEAL_AUTO_ALLOCATE to
-> > > prevent double allocation caused by unintentional guest when we only
-> > > have a single side of the shared/private memfds effective.
-> > > 
-> > > memslot extension
-> > > -----------------
-> > > Add the private fd and the fd offset to existing 'shared' memslot so
-> > > that both private/shared guest memory can live in one single memslot.
-> > > A page in the memslot is either private or shared. Whether a guest page
-> > > is private or shared is maintained through reusing existing SEV ioctls
-> > > KVM_MEMORY_ENCRYPT_{UN,}REG_REGION.
-> > > 
-> > > Test
-> > > ----
-> > > To test the new functionalities of this patch TDX patchset is needed.
-> > > Since TDX patchset has not been merged so I did two kinds of test:
-> > > 
-> > > -  Regresion test on kvm/queue (this patchset)
-> > >     Most new code are not covered. Code also in below repo:
-> > >     https://github.com/chao-p/linux/tree/privmem-v7
-> > > 
-> > > -  New Funational test on latest TDX code
-> > >     The patch is rebased to latest TDX code and tested the new
-> > >     funcationalities. See below repos:
-> > >     Linux: https://github.com/chao-p/linux/tree/privmem-v7-tdx
-> > >     QEMU: https://github.com/chao-p/qemu/tree/privmem-v7
-> > 
-> > While debugging an issue with SEV+UPM, found that fallocate() returns
-> > an error in QEMU which is not handled (EINTR). With the below handling
-> > of EINTR subsequent fallocate() succeeds:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-QEMU code has not well-tested so it's not strange you met problem. But
-from the man page, there is signal was caught for EINTR, do you know
-the signal number?
+> On Thu, Aug 11, 2022 at 02:50:01PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+>> Hi
+>>=20
+>> On Thu, Aug 11, 2022 at 2:22 PM Peter Maydell <peter.maydell@linaro.org>
+>> wrote:
 
-Thanks for you patch but before we change it in QEMU I want to make sure
-it's indeed a QEMU issue (e.g. not a kernel isssue).
+[...]
 
-> > 
-> > 
-> > diff --git a/backends/hostmem-memfd-private.c b/backends/hostmem-memfd-private.c
-> > index af8fb0c957..e8597ed28d 100644
-> > --- a/backends/hostmem-memfd-private.c
-> > +++ b/backends/hostmem-memfd-private.c
-> > @@ -39,7 +39,7 @@ priv_memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-> >       MachineState *machine = MACHINE(qdev_get_machine());
-> >       uint32_t ram_flags;
-> >       char *name;
-> > -    int fd, priv_fd;
-> > +    int fd, priv_fd, ret;
-> >       if (!backend->size) {
-> >           error_setg(errp, "can't create backend with size 0");
-> > @@ -65,7 +65,15 @@ priv_memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-> >                                      backend->size, ram_flags, fd, 0, errp);
-> >       g_free(name);
-> > -    fallocate(priv_fd, 0, 0, backend->size);
-> > +again:
-> > +    ret = fallocate(priv_fd, 0, 0, backend->size);
-> > +    if (ret) {
-> > +           perror("Fallocate failed: \n");
-> > +           if (errno == EINTR)
-> > +                   goto again;
-> > +           else
-> > +                   exit(1);
-> > +    }
-> > 
-> > However, fallocate() preallocates full guest memory before starting the guest.
-> > With this behaviour guest memory is *not* demand pinned. Is there a way to
-> > prevent fallocate() from reserving full guest memory?
-> 
-> Isn't the pinning being handled by the corresponding host memory backend
-> with mmu notifier and architecture support while doing the memory operations
-> e.g page migration and swapping/reclaim (not supported
-> currently AFAIU). But yes, we need to allocate entire guest memory with the
-> new flags MEMFILE_F_{UNMOVABLE, UNRECLAIMABLE etc}.
+>> > As Markus says, your branch ends up moving most of qobject into
+>> > qemu-common/. We are never going to let that out of QEMU proper,
+>> > because we are never going to allow ourselves to be tied to API
+>> > compatibility with it as an external library. So anything that
+>> >
+>>=20
+>> Why is that? We do it with a lot of dependencies already, with stable AP=
+Is.
+>>=20
+>> Furthermore, we don't "have to" be tied to a specific ABI/API, we can
+>> continue to link statically and compile against a specific version. like
+>> with libvfio-user today.
+>>=20
+>> And at this point, I am _not_ proposing to have an extra "qemu-common"
+>> repository. I don't think there are enough reasons to want that either.
+>>=20
+>>=20
+>>=20
+>> > needs qobject is never going to leave the QEMU codebase. Which
+>> > means that there's not much gain from shoving it into subproject/
+>> > IMHO.
+>>=20
+>>=20
+>> (just to be extra clear, it's qobject not QOM we are talking about)
+>>=20
+>> qobject is fundamental to all the QAPI related generated code. Why should
+>> that remain tight to QEMU proper?
+>
+> Neither qobject nor QOM have ever been designed to be public APIs.
+> Though admittedly qobject is quite a bit simpler as an API, I'm
+> not convinced its current design is something we want to consider
+> public. As an example, just last month Markus proposed changing
+> QDict's implementation
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg00758.html
+>
+>
+> If we want external projects to be able to take advantage of QAPI,
+> the bare minimum we need to be public is a QAPI parser, from which
+> people can then build any code generators desired.
 
-Right.
+Basically scripts/qapi/ less the code generators.
 
-> 
-> 
-> Thanks,
-> Pankaj
-> 
-> > 
-> > > An example QEMU command line for TDX test:
-> > > -object tdx-guest,id=tdx,debug=off,sept-ve-disable=off \
-> > > -machine confidential-guest-support=tdx \
-> > > -object memory-backend-memfd-private,id=ram1,size=${mem} \
-> > > -machine memory-backend=ram1
-> > > 
-> > 
-> > Regards,
-> > Nikunj
-> > 
-> > 
+Not sure a subproject would be a good fit.
+
+Shot from the hip: could the build process spit out something external
+projects could consume?  It's how "consumables" are commonly delivered.
+E.g. .so + a bunch of headers.  Sometimes that gets packaged.  Sometimes
+it gets copied into the consuming tree ("vendored").
+
+> We don't neccessarily need the current QAPI C code generator. There
+> could be a new C generator that didn't use qobject, but instead used
+> some standard GLib types like GHashTable/GList instead of QDict/QList.
+
+Yes, that should be possible.
+
 
