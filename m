@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C188D590578
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:13:55 +0200 (CEST)
-Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5A85905C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:22:52 +0200 (CEST)
+Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBko-0005b0-Lh
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
+	id 1oMBtT-00047A-5k
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBiM-0003lw-Jh
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:11:22 -0400
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:35519)
+ id 1oMBnH-0006m3-66
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:27 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBiK-0000Cy-WD
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:11:22 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-32269d60830so179449587b3.2
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:11:20 -0700 (PDT)
+ id 1oMBnE-0000sG-39
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:26 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ k6-20020a05600c1c8600b003a54ecc62f6so2980892wms.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=5Nf0rU0OpsHl056S1h+tq4hZ2Zm/hn/hNmbHuIjPS8o=;
- b=py18k4cxcMdc4To2+rwwTiQgE0UeoPEfWCcZG3AluknRDBcziWanyL1lxV3SC1YHrL
- xmxwMLCIuZdX4OCEPbnpUJHQTpop4Q6UgDENxk39fmmUCRTJRiz/zUyD4sYWFiGFaoPY
- 4JwVyoKSju8LdayzDX06PlflqBuJMUCOjr2WNv96UKrn+TGW/OpxHRMLkpHe8ub07SLg
- CrlVIuKqktiKtLHhjR2hkv3MxLNo7i2V81xdb5tgyrskpSoVSblxYhVKZPsMsJaQNqkK
- SxeW2hB1PPrgqErsS+W7Py8qWTaxFcSANpem80wUU4hIea8NceSddAJK8dGNfyq8ufxr
- algQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc;
+ bh=LAPtWKrKaZqjEi+4+qsyZ39lAOW3AbKKlekZOCCWKzU=;
+ b=pGRI/RsFcnnKlcZ0VsCfUSq1w7tIY9lfBhEqS3zVmdv0LncpOaFuB0Fkg7gDZLUAEt
+ DV0dpunuy4zlOTbEpDvcxyeO3FRSnZ+KhHBCn0Z/vgmA3ecqk3nI/blrb/StPNJWp68V
+ 7F509+FXi00Sivz9Fe2k9+KW6LmWfUM8mFWFOxSUoHJWUCymmqNFPrTmgIcsapG9urhv
+ VdfQzQ+C2PHtZzs8UdWM0WLKQfPVn2ERGyX4QxQYjdPOChnI7aRfVVLUguGo2POhVL2G
+ 7bDzAFcEnLSwEKb0SByQb4fcEarut9336NFbPB1eNa7CqbhxEMpgXgYINVLNWBU4CdWf
+ u4fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=5Nf0rU0OpsHl056S1h+tq4hZ2Zm/hn/hNmbHuIjPS8o=;
- b=zBDmrDgvOm1/qiFmZYXKJCpENAaZKcQHg0HpyXC3b6pc4umu8Kn/9u4unNkES7OFzB
- EJDn55NRYG3/vemUwyJe/IsOLWgBe9Ulxo18gURAcdhzZ8+GniSSQRZ1qKY42vW+mG0h
- YE6Ev5HaZXyRP6P4t6OLOffHmY9eDXRDEmmFwTEr94XwftbfBPUCAWk/GmGcpCfn5/0j
- 7rber7FwWOQ65W71PQuIqKqSqXQoLFoIt0fnBrsLCWruCe9ZHRn0POmkXkn1xE3S8E5S
- 9tTGevA/CZdINFH1miwnzduGkbFrUzx7gAdGvXhFqi53Y9s0nVK8iHRiRhuYdmkOwHFE
- PG3Q==
-X-Gm-Message-State: ACgBeo3LkFejdZiyyT563nBgG6EFKXEtCNSS6JPvEEE0oFAXbz74i+LI
- QMgukUPO+iX7QLvzeWUMgsxkNMc7Sux2Umg3owlVMw==
-X-Google-Smtp-Source: AA6agR7LjCEn82EiTQHunWLiDFvJA8Ljn5aKkDSTT+80lG5T5v8tNy3SePERxfAtkEjsQj+EMdndzmGhcQwcuJvHFnk=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr165640ywb.257.1660237877377; Thu, 11 Aug
- 2022 10:11:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
-In-Reply-To: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=LAPtWKrKaZqjEi+4+qsyZ39lAOW3AbKKlekZOCCWKzU=;
+ b=s96auJkxOoRfTIM1BeaL85JtS8rrRWFfR/S/V5cYIOJcA3pZXrkVhF0ME3YxsljAbG
+ PNPMQicHXvrQUpZovSZ4Jvjp9BgfqFToVi5PQpLVC0b79Xr7rRZRc/yidLB6z51axM/P
+ HGmsM+410WoZKGY4UjGdp5y2TxsZzLBt0PmSjD6EIWlWW0jOjCPt4D6vLYDPi3WKxAPY
+ CpQsKpeR4dva2OBG5z/M8QPt/IcQcg3Ek/OL+93TkvkYyhCHacGRyyPw0/bTBOeg6U/u
+ Rs5b/xLwFSD8vPJHlle1OlQbHtd5XfcCc5RaFUKdAyKIwaWjA+9a94Oauuu+7ggL711n
+ Lpkw==
+X-Gm-Message-State: ACgBeo0wLatI5lzb0iGrVcG61O7Mry1SyxrpLN3mrBgSpXzk82rXb5yv
+ kR+aWci9EHM1KZc0W4ETGmLtEBsObFsjkA==
+X-Google-Smtp-Source: AA6agR61LVfRhT1n+HebIX2ALYPeTzQJIulIojQgXTakJYgBNEJmkIrcyyMZsfcHyeGVtb5us0CwDg==
+X-Received: by 2002:a1c:541b:0:b0:3a5:411:5575 with SMTP id
+ i27-20020a1c541b000000b003a504115575mr139082wmb.65.1660238181177; 
+ Thu, 11 Aug 2022 10:16:21 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Aug 2022 10:16:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Aug 2022 18:11:06 +0100
-Message-ID: <CAFEAcA-0wkYiDgs7DOpnMuwVw=z=H_440Yyrfaa9_V-YRyoU-w@mail.gmail.com>
-Subject: Re: [RFC] Testing 7.1.0-rc2, qemu-ppc does not give valid disassembly
-To: Pierre Muller <pierre@freepascal.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/10] target/arm: Implement FEAT_PMUv3p5
+Date: Thu, 11 Aug 2022 18:16:09 +0100
+Message-Id: <20220811171619.1154755-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,64 +87,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Aug 2022 at 14:35, Pierre Muller <pierre@freepascal.org> wrote:
->    I don't know if this is the right place to submit this report,
-> but I have a problem with my attempt to check the 7.1.0 release candidate
-> for linux user powerpc CPU.
->
->    I am testing a simple executable, compiled with Free Pacal compiler,
-> but also linked to libc.
->
-> This is what I obtain with the new rc:
->
-> ~/gnu/qemu/build-qemu-7.1.0-rc1/qemu-ppc -L ~/sys-root/powerpc-linux -d i=
-n_asm tprintf
-> ----------------
-> IN: _start
-> 0x3ffda784:
-> OBJD-T: 7c230b78388000003821fff0908100004bfe756d
+This patchset implements the Armv8.5 feature FEAT_PMUv3p5, which is
+a set of minor enhancements to the PMU:
+ * EL2 and EL3 can now prohibit the cycle counter from counting
+   when in EL2 or when Secure, using new MDCR_EL2.HCCD and
+   MDCR_EL3.SCCD bits
+ * event counters are now 64 bits, with the overflow detection
+   configurably at the 32 bit or 64 bit mark
 
-This is because you don't have the libcapstone development package
-installed on your host system.
+It also fixes a set of bugs in the existing PMU emulation which I
+discovered while trying to test my additions.
 
->    I did find that this is related to the fact that
-> upon configuration, meson finds no capstone library,
-> while disassembly of powerpc CPU has been moved to use of
-> capstone in this commit:
-
-The other relevant commit here is
-
-commit 83602083b4ada6ceb86bfb327e83556ebab120fc
-Author: Thomas Huth <thuth@redhat.com>
-Date:   Mon May 16 16:58:23 2022 +0200
-
-    capstone: Remove the capstone submodule
-
-    Now that we allow compiling with Capstone v3.0.5 again, all our support=
-ed
-    build hosts should provide at least this version of the disassembler
-    library, so we do not need to ship this as a submodule anymore.
-
-> Even when trying to compile the git checkout,
-> which contains capstone as a sub-module, in capstone sub-directory,
-> I always get capstone support set to NO by meson configuration.
-
-If your git checkout still has a capstone subdirectory this
-is an old leftover from a checkout that predated 83602083b4ada.
-('git status' will tell you this, and a suitable 'git clean'
-command will get rid of it for you.)
-
-> Why doesn't it use the sub-module if pkg-config says that there
-> is not system capstone library installed?
-
-Because we now can rely on all our supported host distributions
-being modern enough to ship libcapstone, and we don't need to
-cart around a submodule any more (which reduces our maintenance
-burden). As C=C3=A9dric suggests, you can pass '--enable-capstone'
-to configure if you would like configure to fail if it can't
-find the system libcapstone, rather than falling back to the
-binary-blob disassembler.
+This is of course all intended for 7.2.
 
 thanks
 -- PMM
+
+Peter Maydell (10):
+  target/arm: Don't corrupt high half of PMOVSR when cycle counter
+    overflows
+  target/arm: Correct value returned by pmu_counter_mask()
+  target/arm: Don't mishandle count when enabling or disabling PMU
+    counters
+  target/arm: Ignore PMCR.D when PMCR.LC is set
+  target/arm: Honour MDCR_EL2.HPMD in Secure EL2
+  target/arm: Detect overflow when calculating next PMU interrupt
+  target/arm: Rename pmu_8_n feature test functions
+  target/arm: Implement FEAT_PMUv3p5 cycle counter disable bits
+  target/arm: Support 64-bit event counters for FEAT_PMUv3p5
+  target/arm: Report FEAT_PMUv3p5 for TCG '-cpu max'
+
+ target/arm/cpu.h       |  37 ++++++--
+ target/arm/internals.h |   5 +-
+ target/arm/cpu64.c     |   2 +-
+ target/arm/cpu_tcg.c   |   2 +-
+ target/arm/helper.c    | 197 ++++++++++++++++++++++++++++++++---------
+ 5 files changed, 190 insertions(+), 53 deletions(-)
+
+-- 
+2.25.1
+
 
