@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004EE590520
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 18:54:57 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAC1590533
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 18:57:11 +0200 (CEST)
+Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMBSS-0005zP-QJ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 12:54:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35812)
+	id 1oMBUZ-0001Ma-O9
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 12:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMBEL-0001Yj-8t; Thu, 11 Aug 2022 12:40:26 -0400
-Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:45994)
+ id 1oMBEL-0001ZD-Sg; Thu, 11 Aug 2022 12:40:26 -0400
+Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:41872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMBEJ-0003j9-Bd; Thu, 11 Aug 2022 12:40:20 -0400
-Received: by mail-vs1-xe31.google.com with SMTP id m67so18770091vsc.12;
- Thu, 11 Aug 2022 09:40:17 -0700 (PDT)
+ id 1oMBEK-0003ki-6y; Thu, 11 Aug 2022 12:40:21 -0400
+Received: by mail-vk1-xa2f.google.com with SMTP id bq26so6208312vkb.8;
+ Thu, 11 Aug 2022 09:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Sn4xl/142S+OTYEPzp1yUWz15FgOyBWufr7c6LSMjp4=;
- b=nI36pYXdy2twWkprf/4mCr42b5LT6OqsGao4fgcj9S9tr4aWA2YrkPdHyj92I7JxmS
- QQ7fEBYqL4zwpiHl5Xw2/CvIPA2q9LH2sFi/qWb8SdZj3tsazQmEnRj4gii4TzvnOJsq
- V1QxFeTig4+v+EbXHuSUtApNaxXgZS5xdzHH7vKiK/B9NJrs9qVkHyWjQMtMZ0t0Jqlk
- CRp4rAMivZs9BxpWat2rCQAg0PS6l7oJoE7oU/qZWZNuFJHP4IdeKzuiTa+4rDFbR/3L
- Yu46kbx2/gsWrTvqN+vkNxQW+CScdBfcZ4kJIeOqAXuDI7tf83YOcP9n+QTCsKDJAhP9
- lSsA==
+ bh=PcWVNOAgWDO/W7JEzvkTrCH0fv8iZ5ni1BIRQP3V8yQ=;
+ b=b8BJOsikABhNreSli3F1kZu9vPgdghP+mAEP5n7G49uLgxvW2nJyTIVzhLzJlPOjHp
+ ibrrZBknrHhMdmSc5+xpS8JsIxZGCQgR6LHXsqKYNFcqcr/KgoGZrBJci250v3p+PJBM
+ n8Faau3j2rcBVt7WJfwSni4oDqQ9WHyDqJov3g+lPbp4dEy0KLjLJuBvUCkxEbdwO++5
+ riylKbDSibByfccNnPCtYoeJrvGCp8Q8T6kcAktw9VawP+oIRitFg1/Mfh2Wv/XJJ8P2
+ k7iqvh2A1waVUCi4iPVCjtrK/VpIs4wsNX3brudMw2vTXosP9/eptYsfTiYhTJhWmGyl
+ GR6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Sn4xl/142S+OTYEPzp1yUWz15FgOyBWufr7c6LSMjp4=;
- b=7YnKz6v2m9KTCBLX+8LSTYJlMR/V9mErZ0W/Eq92w6ct/qh0V/NxE6L9YPqQV1pfaQ
- a8HTH7uSipXolSM7sn1G/W9eR5laKM1PViliQYYqqlAAW3mqcy8SrUIsJmtZLXa+Ww9S
- 3UebPrrUbXBKNiDvhAPINQJCA8udFcxkuK3i+UUandALwuzTMfEospEkgSVgTi2IMdRT
- 7xFELaX2UrDdyKycT0TE7+gZxiBg7SKSM2na5WMAs84Y/TBs6qFfBK9ZLEcditpxX91G
- kAUJmcfNFs1Vojk+fn6ewC6GmWzETfim2gndUAMLgzS4oKflGzePNaQeKs8+KBVqx4le
- iFnw==
-X-Gm-Message-State: ACgBeo1ZUFd32nw+On1qkIXy9lE3nqPGRxLfHJ4gT/lR9Ju6fhbugx5N
- U01wacCImyKGYLfsd7sE83231v9dCQY=
-X-Google-Smtp-Source: AA6agR4TbrrW6LRglbvDVB7s+EinQt7PA3AJVGhZU7e+z0Ltgy3C76s9V0yuarc3NFG2M8mY1u5XMw==
-X-Received: by 2002:a05:6102:3d9a:b0:388:b72a:7e4 with SMTP id
- h26-20020a0561023d9a00b00388b72a07e4mr2510vsv.32.1660236016528; 
- Thu, 11 Aug 2022 09:40:16 -0700 (PDT)
+ bh=PcWVNOAgWDO/W7JEzvkTrCH0fv8iZ5ni1BIRQP3V8yQ=;
+ b=rHOmjz7ofS8dmrBN8dBodf9VfmaJDzeHIbxNiw3ipJzjMvP5O6oCJPqq4yj6ORb6hj
+ gw5znERAhAe+VK9zmMb/a05ie7H4TqGOppw0NQXH/vpcFtZuQb9teki3vFUSUadDN8sA
+ 7xZI6Oss21axu1qh7gbUaDeu0Hk394nesTZKpDIeQr9CV42LhrIfiq37Z0U2ZZYi90Ja
+ PRiwDxU0R4g9WcAEZwJmBJ8L3O2j5ALyNXPkkc2b7RBzUp0Gt7T4HrgKNXhn7Hbql9et
+ EcdyM6WUNNNUHm6SmFBpwUvOjci9kAFOGyPkSgQZ5tsZ02V0X4BrE59efDHO7ZX++Ek2
+ tzzg==
+X-Gm-Message-State: ACgBeo3P6DzXK7LF4a5ZVbaIYjp2ZOK45IPVaYTB+EucYDh+UUXipUY+
+ 9Ov3JlukVFtKF+Kz973lAAvqyVS5hNU=
+X-Google-Smtp-Source: AA6agR6TUwpoJf2QOkFCzcL2BMZOCg8YS+zbXQ3+mFM2hn+qtNOUjw5X/NtxvcBGDxcnGjwu5F3q6g==
+X-Received: by 2002:a1f:5c53:0:b0:377:6247:1075 with SMTP id
+ q80-20020a1f5c53000000b0037762471075mr14666261vkb.4.1660236018403; 
+ Thu, 11 Aug 2022 09:40:18 -0700 (PDT)
 Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
  [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- j9-20020a67fa49000000b00373d697e3e2sm1755013vsq.19.2022.08.11.09.40.14
+ j9-20020a67fa49000000b00373d697e3e2sm1755013vsq.19.2022.08.11.09.40.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 09:40:16 -0700 (PDT)
+ Thu, 11 Aug 2022 09:40:18 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 v4 10/11] ppc/pnv: user creatable pnv-phb for powernv10
-Date: Thu, 11 Aug 2022 13:39:49 -0300
-Message-Id: <20220811163950.578927-11-danielhb413@gmail.com>
+Subject: [PATCH for-7.2 v4 11/11] ppc/pnv: fix QOM parenting of user creatable
+ root ports
+Date: Thu, 11 Aug 2022 13:39:50 -0300
+Message-Id: <20220811163950.578927-12-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220811163950.578927-1-danielhb413@gmail.com>
 References: <20220811163950.578927-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,29 +89,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Given that powernv9 and powernv10 uses the same pnv-phb backend, the
-logic to allow user created pnv-phbs for powernv10 is already in place.
-Let's flip the switch.
+User creatable root ports are being parented by the 'peripheral' or the
+'peripheral-anon' container. This happens because this is the regular
+QOM schema for sysbus devices that are added via the command line.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Let's make this QOM hierarchy similar to what we have with default root
+ports, i.e. the root port must be parented by the pnv-root-bus. To do
+that we change the qom and bus parent of the root port during
+root_port_realize(). The realize() is shared by the default root port
+code path, so we can remove the code inside pnv_phb_attach_root_port()
+that was adding the root port as a child of the bus as well.
+
+While we're at it, change pnv_phb_attach_root_port() to receive a PCIBus
+instead of a PCIHostState to make it clear that the function does not
+make use of the PHB.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/pci-host/pnv_phb.c | 35 +++++++++++++++--------------------
+ 1 file changed, 15 insertions(+), 20 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index e6c14fe231..9bf35ca9d6 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -2226,6 +2226,8 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
-     pmc->dt_power_mgt = pnv_dt_power_mgt;
- 
-     xfc->match_nvt = pnv10_xive_match_nvt;
-+
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB);
+diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+index 17d9960aa1..65ed1f9eb4 100644
+--- a/hw/pci-host/pnv_phb.c
++++ b/hw/pci-host/pnv_phb.c
+@@ -51,27 +51,11 @@ static void pnv_parent_bus_fixup(DeviceState *parent, DeviceState *child,
+     }
  }
  
- static bool pnv_machine_get_hb(Object *obj, Error **errp)
+-/*
+- * Attach a root port device.
+- *
+- * 'index' will be used both as a PCIE slot value and to calculate
+- * QOM id. 'chip_id' is going to be used as PCIE chassis for the
+- * root port.
+- */
+-static void pnv_phb_attach_root_port(PCIHostState *pci)
++static void pnv_phb_attach_root_port(PCIBus *bus)
+ {
+     PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
+-    const char *dev_id = DEVICE(root)->id;
+-    g_autofree char *default_id = NULL;
+-    int index;
+-
+-    index = object_property_get_int(OBJECT(pci->bus), "phb-id", &error_fatal);
+-    default_id = g_strdup_printf("%s[%d]", TYPE_PNV_PHB_ROOT_PORT, index);
+-
+-    object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
+-                              OBJECT(root));
+ 
+-    pci_realize_and_unref(root, pci->bus, &error_fatal);
++    pci_realize_and_unref(root, bus, &error_fatal);
+ }
+ 
+ /*
+@@ -171,7 +155,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    pnv_phb_attach_root_port(pci);
++    pnv_phb_attach_root_port(pci->bus);
+ }
+ 
+ static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
+@@ -240,12 +224,18 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+ {
+     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+     PnvPHBRootPort *phb_rp = PNV_PHB_ROOT_PORT(dev);
+-    PCIBus *bus = PCI_BUS(qdev_get_parent_bus(dev));
++    BusState *qbus = qdev_get_parent_bus(dev);
++    PCIBus *bus = PCI_BUS(qbus);
+     PCIDevice *pci = PCI_DEVICE(dev);
+     uint16_t device_id = 0;
+     Error *local_err = NULL;
+     int chip_id, index;
+ 
++    /*
++     * 'index' will be used both as a PCIE slot value and to calculate
++     * QOM id. 'chip_id' is going to be used as PCIE chassis for the
++     * root port.
++     */
+     chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
+     index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
+ 
+@@ -253,6 +243,11 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+     qdev_prop_set_uint8(dev, "chassis", chip_id);
+     qdev_prop_set_uint16(dev, "slot", index);
+ 
++    pnv_parent_qom_fixup(OBJECT(bus), OBJECT(dev), index);
++    if (!qdev_set_parent_bus(dev, qbus, &error_fatal)) {
++        return;
++    }
++
+     rpc->parent_realize(dev, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
 -- 
 2.36.1
 
