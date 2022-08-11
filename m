@@ -2,66 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4F59010F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 17:50:01 +0200 (CEST)
-Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB364590411
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 18:39:59 +0200 (CEST)
+Received: from localhost ([::1]:59184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMARc-0007JE-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 11:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52326)
+	id 1oMBDy-00017k-82
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 12:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oMAOm-0004sx-Av
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:47:06 -0400
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:32879)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oMBBl-0007KF-1V
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:37:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oMAOi-0003Vh-6Y
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:47:02 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.235])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 62C7C21761;
- Thu, 11 Aug 2022 15:46:56 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 11 Aug
- 2022 17:46:55 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0032a1b15f1-1be8-4b21-9664-bcd2f688e1c6,
- B18B381393FCCA734C2622819310E7EBE9D8D149) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.155.17
-Message-ID: <ada41672-b1dd-c988-c347-96a3355f2da8@kaod.org>
-Date: Thu, 11 Aug 2022 17:46:49 +0200
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oMBBh-0003IW-4W
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 12:37:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660235856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iOS2Sotu9DqerDNA9hgMMio0QIs9vwAeh9S83vEZ4L4=;
+ b=XZq6A90KLNuIdzbiZqesNbfElsEZaeSBmz58BXo9aix4w4s80q0W2U3LGSIC0XgkpJBt/x
+ /JZcsd8eoxPozoDiUu3JhNg1w1t+yOjPlkAHP5/b6zOIZDv+z8DzJaMyexIE5xWGf8Ra01
+ LsK9pxlhI3cD+i7AUVYW/5ExxjSoAWA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-26-SOnMpKQfNkeYbkEsFaODJA-1; Thu, 11 Aug 2022 12:37:34 -0400
+X-MC-Unique: SOnMpKQfNkeYbkEsFaODJA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 131-20020a1c0289000000b003a52a0c70b0so7128599wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 09:37:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=iOS2Sotu9DqerDNA9hgMMio0QIs9vwAeh9S83vEZ4L4=;
+ b=mBY1iPycZZA/W9ShWTlnr/TMRN0oy12TK2ybRl6vsuTZc9E5x0HJoArCxndFQUiSIJ
+ aZDYXpuE4fXEuZNk3vDBOvw8F1jHp4GvBqlykW+aQTE9CNqPux9ojV7cwCsbLrYtBnCi
+ KClBH2KkdU7hP5w6BL4ZN20SlBX9Q28DUIbQOYwOoSrIjQ4ewM+MgkOj65DmdydDbaOs
+ 1+RwM2c+Lp3HL0Fk8KhBf5IJkPj2PSJqV1FHnrYcaBJ8aR1A8CAxL90vvpbu3D5M01xT
+ 3UwgFDqcFM9kDgzLqjexDfM9pgpQxnYcNon7EHY05yu81PA8IBuSxlWRXhZrJobvPTsT
+ vpUA==
+X-Gm-Message-State: ACgBeo1k17OVrq745mN9uE2BoNNwWKgmt1naeTesI8AmtYdVj4irHwoN
+ Z9xG7ZJH13zbgzhSdSDMN5f2by9glEwvYqpH8W3A69H7FkI8Sf3CeSFIbhZrMciUYUl+jKi1aT6
+ iFaZZpCxCsNxr5mU=
+X-Received: by 2002:adf:ec92:0:b0:21f:f65:2e57 with SMTP id
+ z18-20020adfec92000000b0021f0f652e57mr19905518wrn.95.1660235853607; 
+ Thu, 11 Aug 2022 09:37:33 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5ZRP7rF115Fjhili7YpAzVorx5OcgZN096bBYym344C+62OUrHwHnXHqM/KYYIYIudsEjB7Q==
+X-Received: by 2002:adf:ec92:0:b0:21f:f65:2e57 with SMTP id
+ z18-20020adfec92000000b0021f0f652e57mr19905494wrn.95.1660235853273; 
+ Thu, 11 Aug 2022 09:37:33 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c708:2e00:4009:47dc:d0e5:dcd2?
+ (p200300cbc7082e00400947dcd0e5dcd2.dip0.t-ipconnect.de.
+ [2003:cb:c708:2e00:4009:47dc:d0e5:dcd2])
+ by smtp.gmail.com with ESMTPSA id
+ u23-20020a7bc057000000b003a3211112f8sm6311743wmc.46.2022.08.11.09.37.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Aug 2022 09:37:32 -0700 (PDT)
+Message-ID: <1f6b9db6-69bc-b196-3abd-65ba7f9933b0@redhat.com>
+Date: Thu, 11 Aug 2022 18:37:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC] Testing 7.1.0-rc2, qemu-ppc does not give valid disassembly
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v6 2/2] target/s390x: support SHA-512 extensions
 Content-Language: en-US
-To: Pierre Muller <pierre@freepascal.org>, "qemu-devel@nongnu.org Developers"
- <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- John Paul Adrian
- Glaubitz <glaubitz@physik.fu-berlin.de>, Thomas Huth <thuth@redhat.com>,
- "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, Daniel Henrique Barboza
- <danielhb413@gmail.com>
-References: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 0b27b074-39c1-4909-bd0f-d5d7d79de175
-X-Ovh-Tracer-Id: 2625598585974786921
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeggedgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgffgleefledvkeejjeffgfejiedttddvledvlefhteffgedujeekteetheeuudfhnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+References: <20220803125108.626995-2-Jason@zx2c4.com>
+ <20220803171536.1314717-1-Jason@zx2c4.com>
+ <20220803171536.1314717-2-Jason@zx2c4.com>
+ <6ad7580d-ee43-d744-8eed-cd363c4fb911@redhat.com>
+ <Yu0UtNzyb81O0ND2@zx2c4.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <Yu0UtNzyb81O0ND2@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,104 +114,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Pierre,
+On 05.08.22 15:01, Jason A. Donenfeld wrote:
+> Hi David,
+> 
+> On Fri, Aug 05, 2022 at 01:28:18PM +0200, David Hildenbrand wrote:
+>> On 03.08.22 19:15, Jason A. Donenfeld wrote:
+>>> In order to fully support MSA_EXT_5, we have to also support the SHA-512
+>>> special instructions. So implement those.
+>>>
+>>> The implementation began as something TweetNacl-like, and then was
+>>> adjusted to be useful here. It's not very beautiful, but it is quite
+>>> short and compact, which is what we're going for.
+>>>
+>>
+>> NIT: we could think about reversing the order of patches. IIRC, patch #1
+>> itself would trigger a warning when starting QEMU. Having this patch
+>> first make sense logically.
+> 
+> Good idea. Will do.
+> 
+>>> +static int kimd_sha512(CPUS390XState *env, uintptr_t ra, uint64_t parameter_block,
+>>> +                       uint64_t *message_reg, uint64_t *len_reg, uint8_t *stack_buffer)
+>>> +{
+>>> +    enum { MAX_BLOCKS_PER_RUN = 64 }; /* This is arbitrary, just to keep interactivity. */
+>>
+>> I'd just use a #define outside of the function for that.
+> 
+> Why? What does leaking this into file-level scope do?
+> 
 
-On 8/11/22 15:31, Pierre Muller wrote:
->    Hello,
-> 
->    I don't know if this is the right place to submit this report,
+I'd say common coding practice in QEMU, but I might be wrong ;)
 
-Here is a good place :
+>>
+>>> +    uint64_t z[8], b[8], a[8], w[16], t;
+>>> +    uint64_t message = message_reg ? *message_reg : 0, len = *len_reg, processed = 0;
+>>> +    int i, j, reg_len = 64, blocks = 0, cc = 0;
+>>> +
+>>> +    if (!(env->psw.mask & PSW_MASK_64)) {
+>>> +        len = (uint32_t)len;
+>>> +        reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
+>>> +    }
+>>
 
-    https://gitlab.com/qemu-project/qemu/-/issues/
+[...]
+> 
+>>> +    for (i = 0; i < 8; ++i) {
+>>> +        cpu_stq_be_data_ra(env, wrap_address(env, parameter_block + 8 * i), z[i], ra);
+>>
+>> I wonder what happens if we get an exception somewhere in the middle
+>> here ... fortunately we can only involve 2 pages.
+> 
+> If this fails, then message_reg and len_reg won't be updated, so it will
+> have to start over. If it fails part way through, though, then things
+> are inconsistent. I don't think we want to hassle with trying to restore
+> the previous state or something insane though. That seems a bit much.
 
-> but I have a problem with my attempt to check the 7.1.0 release candidate
-> for linux user powerpc CPU.
-> 
->    I am testing a simple executable, compiled with Free Pacal compiler,
-> but also linked to libc.
-> 
-> This is what I obtain with the new rc:
-> 
-> ~/gnu/qemu/build-qemu-7.1.0-rc1/qemu-ppc -L ~/sys-root/powerpc-linux -d in_asm tprintf
-> ----------------
-> IN: _start
-> 0x3ffda784:
-> OBJD-T: 7c230b78388000003821fff0908100004bfe756d
-> 
-> ----------------
-> IN: _dl_start
-> 0x3ffc1d00:
-> OBJD-T: 9421fd407c0802a6429f0005
-> 
-> ----------------
-> IN: _dl_start
-> 0x3ffc1d0c:
-> OBJD-T: 93c102b8938102b092e1029c930102a07fc802a6932102a4934102a8936102ac
-> OBJD-T: 900102c493a102b493e102bc7c7c1b783fde00043bded2d07d4d42a67d2c42a6
-> OBJD-T: 7d0d42a67c0a40004082fff0
-> 
-> ----------------
-> IN: _dl_start
-> 0x3ffc1d58:
-> OBJD-T: 9141026838e00013f00004d7
-> 
-> With qemu-ppc version 7.0.0, I get this:
-> ----------------
-> IN: _start
-> 0x3ffda784:  7c230b78  mr       r3, r1
-> 0x3ffda788:  38800000  li       r4, 0
-> 0x3ffda78c:  3821fff0  addi     r1, r1, -0x10
-> 0x3ffda790:  90810000  stw      r4, 0(r1)
-> 0x3ffda794:  4bfe756d  bl       0x3ffc1d00
-> 
-> ----------------
-> IN: _dl_start
-> 0x3ffc1d00:  9421fd40  stwu     r1, -0x2c0(r1)
-> 0x3ffc1d04:  7c0802a6  mflr     r0
-> 0x3ffc1d08:  429f0005  bdnzl    0x3ffc1d0c
-> 
-> Which is way better!
-> 
->    I did find that this is related to the fact that
-> upon configuration, meson finds no capstone library,
-> while disassembly of powerpc CPU has been moved to use of
-> capstone in this commit:
-> 
-> 
-> commit 333f944c15e7a6f5503f92d80529a368519d6638
-> Author: Thomas Huth <thuth@redhat.com>
-> Date:   Thu May 5 19:36:19 2022 +0200
-> 
->       disas: Remove old libopcode ppc disassembler
-> 
->       Capstone should be superior to the old libopcode disassembler,
->       so we can drop the old file nowadays.
-> 
->       Message-Id: <20220505173619.488350-1-thuth@redhat.com>
->       Reviewed-by: Cédric Le Goater <clg@kaod.org>
->       Signed-off-by: Thomas Huth <thuth@redhat.com>
-> 
-> 
-> Even when trying to compile the git checkout,
-> which contains capstone as a sub-module, in capstone sub-directory,
-> I always get capstone support set to NO by meson configuration.
-> 
-> configure --help says:
-> 
-> 155:  capstone        Whether and how to find the capstone library
-> 
->    Is there a way to tell configure to use the submodule?
-> Why doesn't it use the sub-module if pkg-config says that there
-> is not system capstone library installed?
+Okay, but there could be scenarios where we mess up?
 
-Did you try --enable-capstone ?
+> 
+>>> +    cc = kimd_sha512(env, ra, parameter_block, message_reg, len_reg, NULL);
+>>> +    if (cc) {
+>>> +        return cc;
+>>> +    }
+>>
+>> Doesn't kimd_sha512() update the length register? And if we return with
+>> cc=3, we'd be in trouble, no?
+> 
+> cc=3 means partial completion. In that case, klmd also returns with a
+> partial completion. That's good and expected! It means that the next
+> time it's called, it'll keep going where it left off.
+> 
+> I've actually tried this with the Linux implementation, and it works as
+> expected.
+> 
+>> One idea could be to simply only process one block at a time. Read all
+>> inputs first for that block and handle it completely without any
+>> register modifications. Perform all memory writes in a single call.
+> 
+> That *is* what already happens. Actually, the memory writes only ever
+> happen at the very end of kimd_sha512.
+> 
+>> Further, I wonder if we should factor out the core of kimd_sha512() to
+>> only work on temp buffers without any loading/storing of memory, and let
+>> only kimd_sha512/klmd_sha512 perform all loading/storing. Then it's much
+>> cleaner who modifies what.
+> 
+> That's not necessary and will complicate things ultimately. See the
+> above; this is already working as expected.
 
-See :
+I'll have a closer look and see if I might improve it in the upcomming
+weeks. I'll be on vacation for ~1.5 weeks. And as history has shown, I
+need some days afterwards to dig through my overflowing mailbox :)
 
-    https://lore.kernel.org/qemu-devel/4986d31e-00b3-bb94-654d-9659af8ae09f@linaro.org/
-
+-- 
 Thanks,
 
-C.
+David / dhildenb
+
 
