@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A115905D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:27:45 +0200 (CEST)
-Received: from localhost ([::1]:59694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF675905EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:35:46 +0200 (CEST)
+Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMByC-0004SU-84
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:27:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43308)
+	id 1oMC5x-00070K-UG
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnM-0006z0-4y
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:32 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39738)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oMBoV-0001Sl-8K
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:17:54 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:54020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMBnK-0000un-Ko
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:16:31 -0400
-Received: by mail-wr1-x434.google.com with SMTP id h13so22075407wrf.6
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:16:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oMBoT-00017l-Dr
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:17:42 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id pm17so18256556pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:17:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc;
- bh=r1E74ZaWNn2P/5ThDCeDHfHuw0UPDT5gSmbhru7GXsY=;
- b=elre4/iwhtxwJZnQdKxhFNECMdA/Xljk2hGO2/gPjXD8B/IyuQR+wwqm+JYKncQ0cL
- CJKVPpsSeJippjlCFz4DnzWRubCm6BsAXLOt5z0BJqqkIdf52nsG28hIlKbq3iZujZ93
- VPRKzrFAr0ugNMkl+GfE3wo3kPCLT9Be3CvKcEQrRdlEjLqv8BsUcRRaPWH2qK3OCA4y
- pulobMQS9wdU8h3mVrbwDheeAWCISaQB4hR69qXNU6+Hc92YtDIo8v4SEmLyPteRQimK
- Bbf4GwTu89vTXPz8lauE331V5fTabThE/OI47NsUjJ60rN/hyQZ9n/oRYwUjfta7wvtD
- gCgQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=Z19BcLcolNTRDZBvQTSx41uMxInp89c1VRu20T56pEA=;
+ b=WgOkae1Hu3/UrPDRTTXLKkl//BbdF7xTAHTPaUb8RJT1JUFZG51VOHaVXn5WVToRM3
+ kC4sqv88X5vXeJ2R4MqR5T8RjEV4ty/h3Ajc1vV8HPEjNPJTPcMdo5A9ivnO5TJ3MagJ
+ UGlLzJ+9zajolQHRqhBRFn0Y9VtnOCFKZxSxguLDNQr9lmtsi68BRRhQtXozxnMcg4kS
+ /ULgVaUL1eqUeoq1koGI1mAo70g8NN62E+Pl45VCf+Nq9ZFWYe6TQm9xciY3F9rkkTgV
+ UCPo46gsryHGcjqmb8Nbo5306NYZM762yr2WulWdV3mYqhvtQ5k8LbqQA0pZKkLPtbTQ
+ 7o4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=r1E74ZaWNn2P/5ThDCeDHfHuw0UPDT5gSmbhru7GXsY=;
- b=UgOL1KmcmeoqjwnwH9uL3g9szC8QDzDTRtwFlyNeFixfeQo0Db5O3snwXLkhbOfYXU
- 20IwrGlWccmi/CjzHqqIE+a5Lgq4QriSF7GCEHFbKTFcQxgsvrRnbEK0EhRP/IZBXgRQ
- UU3JGtAxIxvQLKXMcyv71h3uNhi9xGqBaWN8YXhwt6SU6O3dhJaugcgdRlCJRrvfdAmi
- hC8eqDRjMjJk2ZKGPEhDPZp1FtFyOiTC9drUs/+IMVqeveGg0ppd7msC2gokuyFZa0Jk
- E0Jz6Ekp3W4XOvZPhgz7dD60XaXiO+/aIRXxb6T7uQf8Q7cGRfFhZiYTjgKoKLQkS3GB
- PfTw==
-X-Gm-Message-State: ACgBeo3C1WIfRLe39HcSurlgGgHBS1+GSdlPg6wKiFPS1xlxk2UAvWaG
- dA1Q677btcXLiDb7MTtMVSPu2LD9TXCaIQ==
-X-Google-Smtp-Source: AA6agR7RDpWYXBQ/v1hNwQgEARFJWDOn/tBvmqgcB/pPsh/2BeEFtqGYQc6ngtwe1BfFD+bgGtoVzg==
-X-Received: by 2002:a5d:5848:0:b0:222:c8cd:288 with SMTP id
- i8-20020a5d5848000000b00222c8cd0288mr42196wrf.34.1660238189834; 
- Thu, 11 Aug 2022 10:16:29 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=Z19BcLcolNTRDZBvQTSx41uMxInp89c1VRu20T56pEA=;
+ b=5IH4IbDKaw2A5B2t7sEhyL9SeJ8cy3UW9gCt5C9JTAxTseLz67/82zpPA8w6NOwnX+
+ T0oi/LOCBEkgsfWTutjtD5uxtmqAlAGgYb/2SmXyZwdXIayEm0tpoKQhAC0g4Itq+DA6
+ ucP+lM9e2bZ0YNJ+GrB0v3I++eMZKtZyZ8iqdkrZoNPF9DRPTOyZ+rnVcTvukbAkFaTb
+ VuPoZqRvXQDwqh/T8ZZcwIsgyxcofrO7Se5Sj3lbT/R/qLRHlHCowqmFKnJlGsoJ2puH
+ kOGnQPjrtGIf7Aj4N/7EeRRKcpdxDFc/0kDlHIumoz3bWtmjvdcM6Nrl3YqzpXpmP0yz
+ XFig==
+X-Gm-Message-State: ACgBeo2RFIiuaZPo5hsXWEdNyPYs/euJcwtX10m5u3SevO9N5zHjiMNi
+ zAtUVcyKyX9OuqOQXM5sBmvypA==
+X-Google-Smtp-Source: AA6agR5u6vec4wYspN12vhJl7+HoKjXApoBZZR0DvOA3Vjwyfg5cj1WKJeQPCMDyPR6rv0bV8E2Cpw==
+X-Received: by 2002:a17:90b:354c:b0:1f7:aea5:a915 with SMTP id
+ lt12-20020a17090b354c00b001f7aea5a915mr9878404pjb.159.1660238259340; 
+ Thu, 11 Aug 2022 10:17:39 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:72e2:2d06:c2b1:b106?
+ ([2602:ae:154e:e201:72e2:2d06:c2b1:b106])
  by smtp.gmail.com with ESMTPSA id
- b1-20020a05600c4e0100b003a2f6367049sm6633918wmq.48.2022.08.11.10.16.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 10:16:29 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 10/10] target/arm: Report FEAT_PMUv3p5 for TCG '-cpu max'
-Date: Thu, 11 Aug 2022 18:16:19 +0100
-Message-Id: <20220811171619.1154755-11-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220811171619.1154755-1-peter.maydell@linaro.org>
-References: <20220811171619.1154755-1-peter.maydell@linaro.org>
+ h14-20020a170902f54e00b0016db441edd7sm15375287plf.40.2022.08.11.10.17.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Aug 2022 10:17:38 -0700 (PDT)
+Message-ID: <258ec37a-98d0-8051-3117-031b9257f771@linaro.org>
+Date: Thu, 11 Aug 2022 10:17:36 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 2/8] cpu: cache CPUClass in CPUState for hot code paths
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+References: <20220811151413.3350684-1-alex.bennee@linaro.org>
+ <20220811151413.3350684-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220811151413.3350684-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,42 +98,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the ID registers for TCG's '-cpu max' to report a FEAT_PMUv3p5
-compliant PMU.
+On 8/11/22 08:14, Alex Bennée wrote:
+> The class cast checkers are quite expensive and always on (unlike the
+> dynamic case who's checks are gated by CONFIG_QOM_CAST_DEBUG). To
+> avoid the overhead of repeatedly checking something which should never
+> change we cache the CPUClass reference for use in the hot code paths.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   include/hw/core/cpu.h | 9 +++++++++
+>   cpu.c                 | 9 ++++-----
+>   2 files changed, 13 insertions(+), 5 deletions(-)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu64.c   | 2 +-
- target/arm/cpu_tcg.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 78e27f778ac..fa4b0152706 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -1072,7 +1072,7 @@ static void aarch64_max_initfn(Object *obj)
- 
-     t = cpu->isar.id_aa64dfr0;
-     t = FIELD_DP64(t, ID_AA64DFR0, DEBUGVER, 9);  /* FEAT_Debugv8p4 */
--    t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5);    /* FEAT_PMUv3p4 */
-+    t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 6);    /* FEAT_PMUv3p5 */
-     cpu->isar.id_aa64dfr0 = t;
- 
-     t = cpu->isar.id_aa64smfr0;
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 3099b38e32b..4c71a0b612d 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -81,7 +81,7 @@ void aa32_max_features(ARMCPU *cpu)
-     t = cpu->isar.id_dfr0;
-     t = FIELD_DP32(t, ID_DFR0, COPDBG, 9);        /* FEAT_Debugv8p4 */
-     t = FIELD_DP32(t, ID_DFR0, COPSDBG, 9);       /* FEAT_Debugv8p4 */
--    t = FIELD_DP32(t, ID_DFR0, PERFMON, 5);       /* FEAT_PMUv3p4 */
-+    t = FIELD_DP32(t, ID_DFR0, PERFMON, 6);       /* FEAT_PMUv3p5 */
-     cpu->isar.id_dfr0 = t;
- }
- 
--- 
-2.25.1
-
+r~
 
