@@ -2,90 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0B058FAA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 12:24:15 +0200 (CEST)
-Received: from localhost ([::1]:41522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FF358FAB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 12:32:23 +0200 (CEST)
+Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM5MM-0003a1-Cq
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 06:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
+	id 1oM5UE-00007J-7V
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 06:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oM5L4-0001Be-VH
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:22:54 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:33762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oM5L2-0006ZC-UY
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:22:54 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-32a09b909f6so64107957b3.0
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 03:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=V0JSjYCH5SK3fauL3WT7d181YMDyhIMIFwMZ3oJvChQ=;
- b=YacPTkG1JJoHK9klHaNXld/hl57r1SnHhl6IoVxqa/VpgHge9TCfq7Ub0ZKP14uSe1
- 5xBgIpZhuIvnEWmoG007eVPegrZsMMzI4c2YKp4h5JTL0XsVU5iFRzs5C47jb/ONRyjK
- xBfPxrLD5QSv8PNVwff/swB3ReunU2a51uZTnV3kHuwT2NkvoLoOTs8CACegt0iUDWOZ
- w3upYhxaC40tyG+BXGTlJKXadhchx79ocOCNobGcasPxJ0lGRC3sQIhuuyu40wL8XqLo
- QiK/qVajQNqP4Al27GW96KFPC9aqSJo60wNjO817It6h//jgVrPn0H821B5yZQKxB2ba
- 0a3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=V0JSjYCH5SK3fauL3WT7d181YMDyhIMIFwMZ3oJvChQ=;
- b=Dy6xwFfHrdc/B1hlQm9PHgrtz5Vr1Bpa02nBfL1/YUtL5y5NJFVEm/87zkvDN7zToH
- cH/wVJ456m2wHJ8vcX7TN8chy7EY0t5XhZrT89XNSblm7YdN3gQIpLhsWWOTavzDU4cQ
- eZsCqghEGw9q3L6UPTa/m1s3LL5DzT7OtU5UZFijhC0SGoxGTJli2eyW+dMF5m9yjYC4
- YIctY5YF4E7OmD/mqs5H5JvdgcVhlEKX4GY72JBfbLID5vvS9mH58SVrZMp6Dw55mkeM
- kiOxIcqQGQUDjLRfQU+IVdkOefy58CihiDwb2XW2KTTv3ESrbc3dpgul6MBOa/y/m6cG
- Zxrg==
-X-Gm-Message-State: ACgBeo2dhCsicUFqYclaSEnWZXiRSg5T6M72JxbF5BrPd9RBZ2pRJYpY
- ExuROzUJcVqIPSEHqf4jsqaNOBjE6hDgQwAZeBejcA==
-X-Google-Smtp-Source: AA6agR7ae7s9/m8d9JUihZFKZ+ywTfyAeDnmhhdbAWVESJjIrDuCGnuwdM9Bvz9bMLq3b+FA1d9/r4Im76p9/mXxOP4=
-X-Received: by 2002:a0d:fd05:0:b0:329:3836:53ac with SMTP id
- n5-20020a0dfd05000000b00329383653acmr30606696ywf.455.1660213371645; Thu, 11
- Aug 2022 03:22:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
- <20220712093528.4144184-12-marcandre.lureau@redhat.com>
- <87pmhf86ew.fsf@pond.sub.org>
- <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
- <8735e38e6t.fsf@pond.sub.org>
- <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
- <87o7wr5ew9.fsf@pond.sub.org>
- <CAJ+F1CKbkTOX7Fh9RvkBvuW_gZqZjYSta=7nEKbzm-OefPE_GQ@mail.gmail.com>
-In-Reply-To: <CAJ+F1CKbkTOX7Fh9RvkBvuW_gZqZjYSta=7nEKbzm-OefPE_GQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Aug 2022 11:22:40 +0100
-Message-ID: <CAFEAcA8E7uTSHh+BdnU2ZHiaquaQDqpYMurUwpjvVmK-Ks522w@mail.gmail.com>
-Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
- Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-block@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Xie Yongji <xieyongji@bytedance.com>, 
- Kyle Evans <kevans@freebsd.org>, John Snow <jsnow@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Warner Losh <imp@bsdimp.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <laurent@vivier.eu>, 
- Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oM5R1-0006Hx-1Z
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:29:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13702
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oM5Qy-0007mF-Fs
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:29:02 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B9hgFt006398;
+ Thu, 11 Aug 2022 10:28:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=VKtu0iYq8YjHmWuwykGMmvsXou9LPzODANlloWopSz8=;
+ b=CyOa709R/WUd+1BQSmECDbeG2dnxMwBtU6FJblEAK/ktU/BA2n7sQba2I1Ep3YF/gElv
+ ZVmyTesaF+hV30GjdMCmWeI1Tk390zMIfWWyqc5sJgf2XveA7K1oataJDcDjN5Jbiny7
+ YXL2S/uEzkdxWnh10+hsLpl6DvPD+jjQGPHMrrE2JGrElMVTEqwyPsB8hYrGL1Hhe4yw
+ o0E6XfvysMgslZhO6OLGHWwJN+Oy+q6abp5vKiK3rIT98ENG7bcQ+XAQ6Y+/EPfHOOh2
+ xswpLZ6I0F2P3Ijf+ej+jmzCfT9LHFcjMgWzG0Y8wBTd+KntwSMpzqieZnXF0wYCfOhW RQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hvycxhc2n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Aug 2022 10:28:58 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27B9xDDX010526;
+ Thu, 11 Aug 2022 10:28:57 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hvycxhc27-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Aug 2022 10:28:57 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27BAKSbJ023432;
+ Thu, 11 Aug 2022 10:28:56 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3huww2hw7p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Aug 2022 10:28:55 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 27BAQLna33816902
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Aug 2022 10:26:21 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AABCEAE051;
+ Thu, 11 Aug 2022 10:28:53 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5D377AE04D;
+ Thu, 11 Aug 2022 10:28:53 +0000 (GMT)
+Received: from [9.171.43.253] (unknown [9.171.43.253])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 11 Aug 2022 10:28:53 +0000 (GMT)
+Message-ID: <f3e78c4b63827e4f32722bc471a7cfbf5d708f15.camel@linux.ibm.com>
+Subject: [PING] [PATCH v2] linux-user: Passthrough MADV_DONTNEED for certain
+ file mappings
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+Date: Thu, 11 Aug 2022 12:28:53 +0200
+In-Reply-To: <20220725125043.43048-1-iii@linux.ibm.com>
+References: <20220725125043.43048-1-iii@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: fs6NN17Lk11nu22wPe9ez2f0em0gqBE8
+X-Proofpoint-GUID: OerTSzH2m_Yur-O29lFzXkiehcmiqXU5
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-11_05,2022-08-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
+ mlxlogscore=999 bulkscore=0 impostorscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208110028
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,55 +117,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Aug 2022 at 11:09, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
-> On Thu, Aug 11, 2022 at 1:05 PM Markus Armbruster <armbru@redhat.com> wro=
-te:
->> Your moves tear closely related code apart.  This is going to be a drag
->> for developers in general and maintainers in particular.
->>
->> Ergonomics suffer when related code is in multiple places.  Having to
->> switch between directories and remember where is what will a constant
->> low-level pain.  Things that used to be simple & quick, like git-grep
->> qapi/*.c, become more involved.
->>
->
-> It's inevitable when a project grows. QEMU is already a very large projec=
-t. Over the years, we have structured the project, by moving things and spl=
-itting in subdirectories. Imho, this is actually helpful in many ways, and =
-we got used to it easily hopefully.
+On Mon, 2022-07-25 at 14:50 +0200, Ilya Leoshkevich wrote:
+> This is a follow-up for commit 892a4f6a750a ("linux-user: Add partial
+> support for MADV_DONTNEED"), which added passthrough for anonymous
+> mappings. File mappings can be handled in a similar manner.
+> 
+> In order to do that, mark pages, for which mmap() was passed through,
+> with PAGE_PASSTHROUGH, and then allow madvise() passthrough for these
+> pages as well.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+> 
+> v1:
+> https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg00112.html
+> v1 -> v2: Fix PAGE_PASSTHROUGH value; make checks consistent with
+>           page_set_flags() (Laurent).
+> 
+>  include/exec/cpu-all.h |  6 ++++++
+>  linux-user/mmap.c      | 25 +++++++++++++++++++++----
+>  2 files changed, 27 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index f5bda2c3ca..2d29ba13c0 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -262,6 +262,12 @@ extern const TargetPageBits target_page;
+>  #define PAGE_TARGET_1  0x0200
+>  #define PAGE_TARGET_2  0x0400
+>  
+> +/*
+> + * For linux-user, indicates that the page is mapped with the same
+> semantics
+> + * in both guest and host.
+> + */
+> +#define PAGE_PASSTHROUGH 0x0800
+> +
+>  #if defined(CONFIG_USER_ONLY)
+>  void page_dump(FILE *f);
+>  
+> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+> index 4e7a6be6ee..79928e3ae5 100644
+> --- a/linux-user/mmap.c
+> +++ b/linux-user/mmap.c
+> @@ -424,7 +424,8 @@ abi_ulong mmap_find_vma(abi_ulong start,
+> abi_ulong size, abi_ulong align)
+>  abi_long target_mmap(abi_ulong start, abi_ulong len, int
+> target_prot,
+>                       int flags, int fd, abi_ulong offset)
+>  {
+> -    abi_ulong ret, end, real_start, real_end, retaddr, host_offset,
+> host_len;
+> +    abi_ulong ret, end, real_start, real_end, retaddr, host_offset,
+> host_len,
+> +              passthrough_start = -1, passthrough_end = -1;
+>      int page_flags, host_prot;
+>  
+>      mmap_lock();
+> @@ -537,6 +538,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong
+> len, int target_prot,
+>              host_start += offset - host_offset;
+>          }
+>          start = h2g(host_start);
+> +        passthrough_start = start;
+> +        passthrough_end = start + len;
+>      } else {
+>          if (start & ~TARGET_PAGE_MASK) {
+>              errno = EINVAL;
+> @@ -619,6 +622,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong
+> len, int target_prot,
+>                       host_prot, flags, fd, offset1);
+>              if (p == MAP_FAILED)
+>                  goto fail;
+> +            passthrough_start = real_start;
+> +            passthrough_end = real_end;
+>          }
+>      }
+>   the_end1:
+> @@ -626,7 +631,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong
+> len, int target_prot,
+>          page_flags |= PAGE_ANON;
+>      }
+>      page_flags |= PAGE_RESET;
+> -    page_set_flags(start, start + len, page_flags);
+> +    if (passthrough_start == passthrough_end) {
+> +        page_set_flags(start, start + len, page_flags);
+> +    } else {
+> +        if (start < passthrough_start) {
+> +            page_set_flags(start, passthrough_start, page_flags);
+> +        }
+> +        page_set_flags(passthrough_start, passthrough_end,
+> +                       page_flags | PAGE_PASSTHROUGH);
+> +        if (passthrough_end < start + len) {
+> +            page_set_flags(passthrough_end, start + len,
+> page_flags);
+> +        }
+> +    }
+>   the_end:
+>      trace_target_mmap_complete(start);
+>      if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+> @@ -845,7 +861,7 @@ static bool
+> can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
+>      }
+>  
+>      for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
+> -        if (!(page_get_flags(addr) & PAGE_ANON)) {
+> +        if (!(page_get_flags(addr) & (PAGE_ANON |
+> PAGE_PASSTHROUGH))) {
+>              return false;
+>          }
+>      }
+> @@ -888,7 +904,8 @@ abi_long target_madvise(abi_ulong start,
+> abi_ulong len_in, int advice)
+>       *
+>       * This breaks MADV_DONTNEED, completely implementing which is
+> quite
+>       * complicated. However, there is one low-hanging fruit: host-
+> page-aligned
+> -     * anonymous mappings. In this case passthrough is safe, so do
+> it.
+> +     * anonymous mappings or mappings that are known to have the
+> same semantics
+> +     * in the host and the guest. In this case passthrough is safe,
+> so do it.
+>       */
+>      mmap_lock();
+>      if ((advice & MADV_DONTNEED) &&
 
-I agree with this. But generally we've tried to do that by
-having the subdirectory splitting and naming match the
-structure of the codebase. The exception, which I strongly
-dislike, is that contrib/ is a grabbag of random stuff.
-subprojects/ is starting to feel like it is also turning
-into "place where random stuff ends up"...
+Hi,
 
-> Do you see fundamental reasons why qemu-ga or (qemu-img, qemu-nbd, storag=
-e-daemon, virtiofsd, vhost-user-*, *helper, ivshmem* etc) need to be tight =
-to qemu code, release and management process? I am not saying it's time to =
-move them out of qemu project, but I believe it's helpful to have code that=
- is structured and can be compiled indepently.
->
-> And by having "standalone" subprojects, we can more easily evolve in new =
-directions, without touching the rest of the projects.
+I know it's quite late, but since you are going to take the aarch64
+MADV_DONTNEED patch, would it be reasonable to take this one as well?
 
-As Markus says, your branch ends up moving most of qobject into
-qemu-common/. We are never going to let that out of QEMU proper,
-because we are never going to allow ourselves to be tied to API
-compatibility with it as an external library. So anything that
-needs qobject is never going to leave the QEMU codebase. Which
-means that there's not much gain from shoving it into subproject/
-IMHO.
-
-If there's stuff that is reasonably independent then it may be
-worth disentangling from our build process, but it has to be
-actually independent, or made that way, first, I think. And,
-as with libslirp, there needs to be a clear beneficiary who
-would want to take that independent-sub-thingy and use it
-entirely distinctly from QEMU.
-
-thanks
--- PMM
+Best regards,
+Ilya
 
