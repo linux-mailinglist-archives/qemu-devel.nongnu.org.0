@@ -2,91 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270EE58FD59
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:27:14 +0200 (CEST)
-Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F43958FD5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 15:28:20 +0200 (CEST)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM8DQ-0004wd-OI
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
+	id 1oM8EU-0005rI-VO
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 09:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oM8A5-0000cQ-Ab
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:23:45 -0400
-Received: from mga07.intel.com ([134.134.136.100]:10588)
+ (Exim 4.90_1) (envelope-from <wbx@openadk.org>) id 1oM8BA-0001h6-R0
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:24:57 -0400
+Received: from helium.openadk.org ([89.238.66.15]:55688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oM8A3-0004SP-1V
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:23:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660224223; x=1691760223;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=TXGp2l7srz7CG/35HC62yaH3SzOuZ/KTY0IN1dEpGAI=;
- b=J146/Uf9hWjToUswt2dku2nRIqli9IhBzm0I61O5WbvDEPxckWwIDm6q
- GUIjo3iDvhwoaihU5JaLuOenCP10PAZOobIvBDC1EB+rr2CDJ/MjIJicK
- XQjqoRRb12P+G2oozKyV33U9fPIQr1N9cYJT5+RuAoO22otB1C5mnPZTA
- pRCTYOoUZm3LYJtgs5IWaZTVtmWtDLU7OlZQRdxKXelpFGWaeMvwt7t5p
- iBuEASJ66O5aetkm/meRyHWXF6A+ZRHzJp+T8YGEsk1y1CRfOZ2N/+3Kw
- Y1lV5MC78cbsiCeSKG0q0qzlcA/fwqhSpTBk/uW85b9OaJ3cy3McjTv7u Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="355345868"
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="355345868"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2022 06:22:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="608920719"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2022 06:22:23 -0700
-Date: Thu, 11 Aug 2022 21:17:38 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220811131738.GA916119@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
- <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
- <20220810093741.GE862421@chaop.bj.intel.com>
- <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
+ (Exim 4.90_1) (envelope-from <wbx@openadk.org>) id 1oM8B7-0004mg-P3
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 09:24:51 -0400
+Received: by helium.openadk.org (Postfix, from userid 1000)
+ id 542E831E00C3; Thu, 11 Aug 2022 15:24:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=openadk.org; s=2022;
+ t=1660224285; bh=Mhw9eGnozu8TwnHOhByEdpUuNBrNi18518IF4vfFvb8=;
+ h=Date:From:To:Subject:From;
+ b=EUl26UzmMqwp1BNcM3Mg1oZS4eZcXk2VCJ1UQXwNcMIh9zRQ5uW8/9190sxgpVCSH
+ TG2EdU5oHNID2l9HqsObGbkije5Q4/itx80sk1+GFmaIrs2H9t6rJ/GBR4RiL8p0lb
+ J7KtAutorj5mDHwegiYyH0UV2BAqckJmNXZ0bSnVQORaQMCTEx8IHAhUbJLNTHWAhR
+ OC+gc5BYxBfsaUGD+chQWS+O4wyIWZkzBgWLZb4XBl8JAWFQrifNrWmguCFVOglfJd
+ vneGB9gfiE8XxcZlxpMb2V0E4Rp9Sqfw+fWdXuDYcWccWLgngTxu4NVyplrqvzIiC9
+ sjjdaZpMgQzQQ==
+Date: Thu, 11 Aug 2022 15:24:45 +0200
+From: Waldemar Brodkorb <wbx@openadk.org>
+To: qemu-devel@nongnu.org
+Subject: problem with qemu-system-loongarch64
+Message-ID: <YvUDHecm0tYqb3bI@waldemar-brodkorb.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Operating-System: Linux 5.10.0-10-amd64 x86_64
+Received-SPF: pass client-ip=89.238.66.15; envelope-from=wbx@openadk.org;
+ helo=helium.openadk.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,56 +57,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 10, 2022 at 11:55:19AM +0200, David Hildenbrand wrote:
-> On 10.08.22 11:37, Chao Peng wrote:
-> > On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
-> >> On 06.07.22 10:20, Chao Peng wrote:
-> >>> Introduce a new memfd_create() flag indicating the content of the
-> >>> created memfd is inaccessible from userspace through ordinary MMU
-> >>> access (e.g., read/write/mmap). However, the file content can be
-> >>> accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> >>>
-> >>> It provides semantics required for KVM guest private memory support
-> >>> that a file descriptor with this flag set is going to be used as the
-> >>> source of guest memory in confidential computing environments such
-> >>> as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> >>>
-> >>> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> >>> also impossible for a memfd created with this flag.
-> >>
-> >> It's kind of weird to have it that way. Why should the user have to
-> >> care? It's the notifier requirement to have that, no?
-> >>
-> >> Why can't we handle that when register a notifier? If anything is
-> >> already mapped, fail registering the notifier if the notifier has these
-> >> demands. If registering succeeds, block it internally.
-> >>
-> >> Or what am I missing? We might not need the memfile set flag semantics
-> >> eventually and would not have to expose such a flag to user space.
-> > 
-> > This makes sense if doable. The major concern was: is there a reliable
-> > way to detect this (already mapped) at the time of memslot registering.
-> 
-> If too complicated, we could simplify to "was this ever mapped" and fail
-> for now. Hooking into shmem_mmap() might be sufficient for that to get
-> notified about the first mmap.
-> 
-> As an alternative, mapping_mapped() or similar *might* do what we want.
+Hi Qemu developers,
 
-mapping_mapped() sounds the right one, I remember SEV people want first
-map then unmap. "was this ever mapped" may not work for them.
+I am trying to bootup a loongarch64 Linux kernel in Qemu 7.1.0-rc2.
+The problem is I get no output when using following command:
+qemu-system-loongarch64 -M virt -nographic -kernel vmlinux
 
-Thanks,
-Chao
-> 
-> 
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+You can find my vmlinux initramfs here:
+https://debug.openadk.org/vmlinux
+
+It is cross-compiled with binutils 2.39, gcc 12.1, glibc 2.36 and
+Linux 5.19. I use the provided defconfig loongson3_defconfig for the
+kernel build.
+
+Any hint what I can do to get a bootable Linux image?
+
+best regards
+ Waldemar
 
