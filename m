@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3080590837
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 23:42:47 +0200 (CEST)
-Received: from localhost ([::1]:50932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0FF59086A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 23:57:30 +0200 (CEST)
+Received: from localhost ([::1]:54982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMFwz-00034G-RT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 17:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56244)
+	id 1oMGBF-0006Tk-Bu
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 17:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierre@freepascal.org>)
- id 1oMFt4-0001V1-PQ
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 17:38:42 -0400
-Received: from mail.freepascal.org ([178.33.235.90]:44738)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pierre@freepascal.org>) id 1oMFsr-0005Fp-Pv
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 17:38:41 -0400
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oMG9x-00050I-Ec; Thu, 11 Aug 2022 17:56:10 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:26876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oMG9u-0007io-U6; Thu, 11 Aug 2022 17:56:08 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8723D747871;
+ Thu, 11 Aug 2022 23:55:58 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5107E746307; Thu, 11 Aug 2022 23:55:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by mail.freepascal.org (Postfix) with ESMTP id 231DE1803BC
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 21:38:26 +0000 (UTC)
-Received: from mail.freepascal.org ([127.0.0.1])
- by localhost (idefixng.freepascal.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2FBUqqIiszX5 for <qemu-devel@nongnu.org>;
- Thu, 11 Aug 2022 21:38:26 +0000 (UTC)
-Received: from [192.168.1.23]
- (i16-les02-ix2-176-180-129-30.sfr.lns.abo.bbox.fr [176.180.129.30])
- by mail.freepascal.org (Postfix) with ESMTPSA id EA27D18038B
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 21:38:25 +0000 (UTC)
-Message-ID: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
-Date: Thu, 11 Aug 2022 23:38:23 +0200
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4F9E4745702;
+ Thu, 11 Aug 2022 23:55:58 +0200 (CEST)
+Date: Thu, 11 Aug 2022 23:55:58 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 08/24] ppc/ppc4xx: Introduce a DCR device model
+In-Reply-To: <a974a679-b80e-fa87-30fd-2c4e40fdeec8@kaod.org>
+Message-ID: <50f1fe76-b0b-1c3a-d8cb-5555339f4c7@eik.bme.hu>
+References: <20220809153904.485018-1-clg@kaod.org>
+ <20220809153904.485018-9-clg@kaod.org>
+ <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
+ <77bc11f5-129a-a3a8-6c24-09c83da2fabd@kaod.org>
+ <alpine.LMD.2.03.2208101524000.10818@eik.bme.hu>
+ <7cccd86d-5bf2-e45c-b592-80ba10c06a41@kaod.org>
+ <96386d50-8f2-4f63-c425-a1dc5247dcb7@eik.bme.hu>
+ <fabc82c0-9443-73cb-9437-320fd1dc766e@kaod.org>
+ <b25a16ed-3c9b-d983-a489-3e3c184cab5@eik.bme.hu>
+ <a974a679-b80e-fa87-30fd-2c4e40fdeec8@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Content-Language: fr, en-US
-From: Pierre Muller <pierre@freepascal.org>
-To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Subject: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
- generated on gcc110 machine
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.33.235.90; envelope-from=pierre@freepascal.org;
- helo=mail.freepascal.org
+Content-Type: multipart/mixed;
+ boundary="3866299591-875603270-1660254958=:27498"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -60,90 +66,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Pierre Muller <pierre@freepascal.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-   I am using qemu to check code generated by Free Pascal compiler
-for various CPUs.
+--3866299591-875603270-1660254958=:27498
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-   Recently, this allowed me to find out that Free Pascal was generating
-wrong instructions, leading to SIGBUS errors using qemu-mips.
-   The same binaries worked without troubles on mips test machines,
-probably because SIGBUS is handled directly inside the kernel.
+On Thu, 11 Aug 2022, Cédric Le Goater wrote:
+>> Don't drop Ppc4xxDcrDeviceState, that simplifies it a lot. If you don't 
+>> want to make mote changes, let me take your series and make a version with 
+>> my proposed changes.
+>
+> Patch 1-7 are already merged. You can grab the rest here  :
+>
+>  https://github.com/legoater/qemu/tree/ppc-ref405ep
+>
+> I have done the minor fixes already.
 
-   Here I would like to report the problem I get when trying to run
-powerpc executables using shared libs generated on gcc110 machine.
+OK, thanks. I'll send an updated version in the weekend.
 
-   I copied over the needed libraries into a sys-root directory.
-
-   The problem is that the code crashes with a Illegal Instruction
-after only a very few instructions:
-
-muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc -cpu g2 -d in_asm -L ~/sys-root/powerpc-linux ./twide1
-----------------
-IN: _start
-0x3ffda784:  7c230b78  mr       r3, r1
-0x3ffda788:  38800000  li       r4, 0
-0x3ffda78c:  3821fff0  addi     r1, r1, -0x10
-0x3ffda790:  90810000  stw      r4, 0(r1)
-0x3ffda794:  4bfe756d  bl       0x3ffc1d00
-
-----------------
-IN: _dl_start
-0x3ffc1d00:  9421fd40  stwu     r1, -0x2c0(r1)
-0x3ffc1d04:  7c0802a6  mflr     r0
-0x3ffc1d08:  429f0005  bdnzl    0x3ffc1d0c
-
-----------------
-IN: _dl_start
-0x3ffc1d0c:  93c102b8  stw      r30, 0x2b8(r1)
-0x3ffc1d10:  938102b0  stw      r28, 0x2b0(r1)
-0x3ffc1d14:  92e1029c  stw      r23, 0x29c(r1)
-0x3ffc1d18:  930102a0  stw      r24, 0x2a0(r1)
-0x3ffc1d1c:  7fc802a6  mflr     r30
-0x3ffc1d20:  932102a4  stw      r25, 0x2a4(r1)
-0x3ffc1d24:  934102a8  stw      r26, 0x2a8(r1)
-0x3ffc1d28:  936102ac  stw      r27, 0x2ac(r1)
-0x3ffc1d2c:  900102c4  stw      r0, 0x2c4(r1)
-0x3ffc1d30:  93a102b4  stw      r29, 0x2b4(r1)
-0x3ffc1d34:  93e102bc  stw      r31, 0x2bc(r1)
-0x3ffc1d38:  7c7c1b78  mr       r28, r3
-0x3ffc1d3c:  3fde0004  addis    r30, r30, 4
-0x3ffc1d40:  3bded2d0  addi     r30, r30, -0x2d30
-0x3ffc1d44:  7d4d42a6  mfspr    r10, 0x10d
-0x3ffc1d48:  7d2c42a6  mfspr    r9, 0x10c
-0x3ffc1d4c:  7d0d42a6  mfspr    r8, 0x10d
-0x3ffc1d50:  7c0a4000  cmpw     r10, r8
-0x3ffc1d54:  4082fff0  bne      0x3ffc1d44
-
-----------------
-IN: _dl_start
-0x3ffc1d58:  91410268  stw      r10, 0x268(r1)
-0x3ffc1d5c:  38e00013  li       r7, 0x13
-0x3ffc1d60:  f00004d7  xxlxor   v0, v0, v0
-
-qemu: uncaught target signal 4 (Illegal instruction) - core dumped
-
-The problem is the the 'xxlxor' instruction is a VSX extension instruction.
-
-  There is apparently no cpu in the powerpc cpu list that enabled this extension.
-The output of cat /proc/cpuinfo on gcc110 gives that:
-.....
-processor       : 63
-cpu             : POWER7 (architected), altivec supported
-clock           : 3550.000000MHz
-revision        : 2.1 (pvr 003f 0201)
-
-timebase        : 512000000
-platform        : pSeries
-model           : IBM,8231-E2B
-machine         : CHRP IBM,8231-E2B
-
-   Is there a way to enable cpu features separately for ppc like is done for x86_64?
-Or would it be possible to define a new cpu inside qemu source that would match
-the description above?
-
-  Pierre Muller
+Regards,
+BALATON Zoltan
+--3866299591-875603270-1660254958=:27498--
 
