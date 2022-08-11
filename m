@@ -2,91 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E0858F6A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 06:10:50 +0200 (CEST)
-Received: from localhost ([::1]:34004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AE758F6AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 06:13:07 +0200 (CEST)
+Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oLzWs-0003NB-GI
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 00:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43944)
+	id 1oLzZ9-0004fc-6I
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 00:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLzUp-0001gm-HR
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 00:08:35 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:54009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oLzUn-0005pj-T0
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 00:08:35 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id pm17so16633922pjb.3
- for <qemu-devel@nongnu.org>; Wed, 10 Aug 2022 21:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=NGHVAGsB2OuOTAXdlJJ80qpvBGM7iS5X9CKn2XknuN8=;
- b=TcLNVNU9rVF1mU/+h6Zz2YG91PaFyT8vd1OJdKJYdy3BoOTmtL65ibdIbA60ZlOq6Z
- veW7NNlzRpzQ/g3rAE1J9fUJgtTj2tTZio1B754/aXOaLUfWqsx1lnffv1LfkcNdlSTI
- O0YGDrD6TTrWRrQiY1sFkSDOM2mLGTNaT1W7gotrj0Ca6gOzUTdaeoIi3uZzmhE/4KkF
- mAIA8rgox+XKkDXbFuPAZ6rv6pf5hD/bYGqPbAl5xISH7Ubtx5k7tmwksDBe0d353sGD
- PNfI9cLxaB6xNf0woqR89l5I+EYR9MePuejmZrIfr+F2r1FVaeQzr2MSZkUzJuUeWUg5
- se6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=NGHVAGsB2OuOTAXdlJJ80qpvBGM7iS5X9CKn2XknuN8=;
- b=wfdp+yrltdAREMUaPS04+ZeX/WzTYWROO5OJIU3GlLZebz8bZuNhvQj2EnpIouSuXB
- f6ZHmTMIWI9H49XSXHCxyhf6ZBg0oZUVEc1RXpoPlc+8FNJy8yRuB8awTceXqmWPuxvN
- gixJ6PJU9Ju2SDVOc8T6AFy18vsz/zwDhYW5J27xewaSgyRMllwf2Q2FAPqw3lAERm43
- sfX/bItdb/VO3tygbtidt8mj9N/nNOUqZT+1IWaR38eZoh4jzd8CESF5z7SQzbJ/5+xY
- hUXIZVbLaVGf18OnKT26J9EQJTXGeOSmnP5MVnR8p5PFRk/FsqkaxsrqAzi+8kD3XUpi
- UySg==
-X-Gm-Message-State: ACgBeo0pmPOGzeZa2SMFhAg1OdQQWSZEK1L+3VUL3DTnOX76YSj6/nIE
- nxQ0PheF1naX9akUEtMzZXGddw==
-X-Google-Smtp-Source: AA6agR4fip004JbLGJPpc0ROIoX8Vn7jlr8e2QjBMF2IjgyK+cd9sOd0AhBAixUsp8zyLA9uWbxvkQ==
-X-Received: by 2002:a17:902:f70d:b0:16c:50a2:78d1 with SMTP id
- h13-20020a170902f70d00b0016c50a278d1mr29947059plo.34.1660190912254; 
- Wed, 10 Aug 2022 21:08:32 -0700 (PDT)
-Received: from ?IPV6:2602:ae:154e:e201:1d05:6ab9:1c4d:d646?
- ([2602:ae:154e:e201:1d05:6ab9:1c4d:d646])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a170903120900b0016bfbd99f64sm13963695plh.118.2022.08.10.21.08.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Aug 2022 21:08:31 -0700 (PDT)
-Message-ID: <2a763fda-f8c5-5716-9d89-91232f66eafe@linaro.org>
-Date: Wed, 10 Aug 2022 21:08:29 -0700
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oLzVv-0002RQ-FA
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 00:09:43 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oLzVr-0005tQ-21
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 00:09:43 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4M3CxN0rBsz4x1d; Thu, 11 Aug 2022 14:09:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1660190968;
+ bh=5c5+vcJ7dw0x0MxDpnUmqlb6rGeenAt3aFwseRbsbAU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aIGYZQ4M+dw9mQG8CBKeMZ+TCARjiWwrfqljGG+SjDPGL7iBIi6XS7WJgqoy4Ki2p
+ C7XG824qRG8tVe1IAyLp4joy7l0wqUsYjzI/nUJm4IB/BCALKD4mE17hHE9NLG/YZo
+ CVTtanuzYAVn+AvMMBI58ZTTJNpk4ja4CHsjHIL4=
+Date: Thu, 11 Aug 2022 14:09:21 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com
+Subject: Re: [PATCH for-7.2 v2 16/20] device_tree.c: support string props in
+ fdt_format_node()
+Message-ID: <YvSA8RQE5ksAhHrl@yekko>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
+ <20220805093948.82561-17-danielhb413@gmail.com>
+ <YvCSx8eV5jkMbD6C@yekko>
+ <8512d624-d741-d4df-b729-9e3d4559e6c3@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 2/4] target/s390x: Make translator stop before the end
- of a page
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220808171022.49439-1-iii@linux.ibm.com>
- <20220808171022.49439-3-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220808171022.49439-3-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+heBkiyVmfO6kUl8"
+Content-Disposition: inline
+In-Reply-To: <8512d624-d741-d4df-b729-9e3d4559e6c3@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,37 +68,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/22 10:10, Ilya Leoshkevich wrote:
-> Right now translator stops right *after* the end of a page, which
-> breaks reporting of fault locations when the last instruction of a
-> multi-insn translation block crosses a page boundary.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   include/exec/translator.h    | 10 ++++++++++
->   target/s390x/tcg/translate.c | 15 +++++++++++----
->   2 files changed, 21 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/exec/translator.h b/include/exec/translator.h
-> index 7db6845535..d27f8c33b6 100644
-> --- a/include/exec/translator.h
-> +++ b/include/exec/translator.h
-> @@ -187,4 +187,14 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
->   
->   #undef GEN_TRANSLATOR_LD
->   
-> +/*
-> + * Return whether addr is on the same page as where disassembly started.
-> + * Translators can use this to enforce the rule that only single-insn
-> + * translation blocks are allowed to cross page boundaries.
-> + */
-> +static inline bool is_same_page(DisasContextBase *db, target_ulong addr)
-> +{
-> +    return ((addr ^ db->pc_first) & TARGET_PAGE_MASK) == 0;
-> +}
 
-FYI, I've had occasion to pull this out to a separate patch locally.
+--+heBkiyVmfO6kUl8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Aug 10, 2022 at 04:40:18PM -0300, Daniel Henrique Barboza wrote:
+>=20
+>=20
+> On 8/8/22 01:36, David Gibson wrote:
+> > On Fri, Aug 05, 2022 at 06:39:44AM -0300, Daniel Henrique Barboza wrote:
+> > > To support printing string properties in 'info fdt' we need to determ=
+ine
+> > > whether a void data might contain a string.
+> >=20
+> > Oh... sorry, obviously I hadn't read these later patches when I
+> > complained about the command not printing property values.
+> >=20
+> > >=20
+> > > We do that by casting the void data to a string array and:
+> > >=20
+> > > - check if the array finishes with a null character
+> > > - check if all characters are printable
+> >=20
+> > This won't handle the case of the "string list" several strings tacked
+> > together, separated by their terminating \0 characters.
+>=20
+> Hmmmm how is this printed? Should we concatenate them? Replace the \0
+> with a whitespace? Or ignore the zero and concatenate them?
+>=20
+> E.g. this is a\0string\0list
+>=20
+> Should we print it as:
+>=20
+> this is astringlist
+>=20
+> or
+>=20
+> this is a string list ?
 
-r~
+Well, if you're going for dts like output, which you seem to be, you
+have two options:
+
+1) Escape the medial nulls
+
+	"this\0is\0a\0string\0list"
+
+2) Multiple strings:
+
+	"this", "is", "a", "string", "list"
+
+Both forms are allowed in dts and will result in an identical
+bytestring in the property.
+
+> > > If both conditions are met, we'll consider it to be a string data type
+> > > and print it accordingly. After this change, 'info fdt' is now able to
+> > > print string properties. Here's an example with the ARM 'virt' machin=
+e:
+> > >=20
+> > > (qemu) info fdt /chosen
+> > > chosen {
+> > >      stdout-path =3D '/pl011@9000000'
+> > >      rng-seed;
+> > >      kaslr-seed;
+> > > }
+> > >=20
+> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > > ---
+> > >   softmmu/device_tree.c | 25 ++++++++++++++++++++++++-
+> > >   1 file changed, 24 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> > > index 3fb07b537f..8691c3ccc0 100644
+> > > --- a/softmmu/device_tree.c
+> > > +++ b/softmmu/device_tree.c
+> > > @@ -663,6 +663,24 @@ void qemu_fdt_qmp_dumpdtb(const char *filename, =
+Error **errp)
+> > >       error_setg(errp, "Error when saving machine FDT to file %s", fi=
+lename);
+> > >   }
+> > > +static bool fdt_prop_is_string(const void *data, int size)
+> > > +{
+> > > +    const char *str =3D data;
+> > > +    int i;
+> > > +
+> > > +    if (size <=3D 0 || str[size - 1] !=3D '\0') {
+> > > +        return false;
+> > > +    }
+> > > +
+> > > +    for (i =3D 0; i < size - 1; i++) {
+> > > +        if (!g_ascii_isprint(str[i])) {
+> > > +            return false;
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return true;
+> > > +}
+> > > +
+> > >   static void fdt_format_node(GString *buf, int node, int depth)
+> > >   {
+> > >       const struct fdt_property *prop =3D NULL;
+> > > @@ -681,7 +699,12 @@ static void fdt_format_node(GString *buf, int no=
+de, int depth)
+> > >           prop =3D fdt_get_property_by_offset(fdt, property, &prop_si=
+ze);
+> > >           propname =3D fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
+> > > -        g_string_append_printf(buf, "%*s%s;\n", padding, "", propnam=
+e);
+> > > +        if (fdt_prop_is_string(prop->data, prop_size)) {
+> > > +            g_string_append_printf(buf, "%*s%s =3D '%s'\n",
+> > > +                                   padding, "", propname, prop->data=
+);
+> >=20
+> > If you're going for dts like output, I'd suggest going all the way.
+> > That means \" instead of \' and a ';' at the end of the line.
+> >=20
+> > > +        } else {
+> > > +            g_string_append_printf(buf, "%*s%s;\n", padding, "", pro=
+pname);
+> > > +        }
+> > >       }
+> > >       padding -=3D 4;
+> >=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--+heBkiyVmfO6kUl8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmL0gNkACgkQgypY4gEw
+YSIiQxAAjXw1NRUTacpcG6tvx/yq3s0bQXnuFrAXW+QD2bmrkEZtGLUlIWwrrx5+
+kV55JWu+taux6dZzwoSTfIKH9pnCmSGL1uORdTUgh/SzRz1NbREOhtrAbSJF5j4S
+SCtbXKKuQtMioKjLlPyW0FrePMXIV2jJgrFh4heRvNM8rBPOormWlpT92dJUIHCK
+EfS5KzzXpuYqd8ot7aoRpSJFyYOyu3tFqkidYytKFAkhNoHN/E794fUK8LArkjyV
+Iqmtlad1qhA/hTpUgYYFzivXCWzgSlKI+eNQBu5dI5Byd6Dqqm1nwK0izraG2JOx
++D+aDs9fMZt4H8jITULyviD4SXDh4PPXDnLqagpxXtlhWpudTBpKlHZ/FI0FraDf
+AbaxxKpkrtO49WrnDx0BZc9l0Llr53Iqy0b4bcMOkznSBOkyVFmyN212SUAw65HY
+YPJkKodqqUSjFfyrESpQbIPf7O0OBpQvJ7hHNqj1kZtJQEfWNxlsDl9i74oysCH6
+AueVPfg2Mju3F+LmLtvegK2VOeeTyVR2/uigjRNDTubAYlXhvyvTES/XJWU9Bto2
+qy8VNVsyeBCOGy1RMf1N5NrcG4DxxGEk6OuhHOegixBv0/S70DNA21Dv4JQdtQ+V
+FT1vfDZKMcBtPcHy75Q5+v6Dr9HqPtz1N2bHq2GTvtIkKzlV01w=
+=S0N0
+-----END PGP SIGNATURE-----
+
+--+heBkiyVmfO6kUl8--
 
