@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6111058FB8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 13:43:24 +0200 (CEST)
-Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4AC58FB9A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 13:48:57 +0200 (CEST)
+Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM6aw-0007Za-Uj
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 07:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52534)
+	id 1oM6gH-0003VR-4O
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 07:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oM6XW-0003YE-PQ; Thu, 11 Aug 2022 07:39:50 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oM6XG-0002a4-Tw; Thu, 11 Aug 2022 07:39:49 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B967E746307;
- Thu, 11 Aug 2022 13:39:30 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 60D247462D3; Thu, 11 Aug 2022 13:39:30 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 5E853745702;
- Thu, 11 Aug 2022 13:39:30 +0200 (CEST)
-Date: Thu, 11 Aug 2022 13:39:30 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 08/24] ppc/ppc4xx: Introduce a DCR device model
-In-Reply-To: <fabc82c0-9443-73cb-9437-320fd1dc766e@kaod.org>
-Message-ID: <b25a16ed-3c9b-d983-a489-3e3c184cab5@eik.bme.hu>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-9-clg@kaod.org>
- <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
- <77bc11f5-129a-a3a8-6c24-09c83da2fabd@kaod.org>
- <alpine.LMD.2.03.2208101524000.10818@eik.bme.hu>
- <7cccd86d-5bf2-e45c-b592-80ba10c06a41@kaod.org>
- <96386d50-8f2-4f63-c425-a1dc5247dcb7@eik.bme.hu>
- <fabc82c0-9443-73cb-9437-320fd1dc766e@kaod.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oM6aw-0007gz-Vz
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 07:43:23 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oM6av-0003BQ-BR
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 07:43:22 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ i128-20020a1c3b86000000b003a536d58f73so2561653wma.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 04:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=6yL8qt4Q2b/2Os/3Ap8GjGx1WK6fNgdpCqjVFOICsnY=;
+ b=unz1bM7s5c7oyoHpAeUaxDvFu1Fen9z/wzj4xsm91fi3VQsUpBwu3z6LWVkmCkW37s
+ y++vudYtetjQhF1MD5TEdr3lnLtvdCNCQsLScLN2qWr6sUltMBF01kyRAGre5SdJETHH
+ NgpgqXlN4Z88/64XDRs8tsJGGZwrNaxew6QQo+VIzc3CnZfCpPEaGLlRu0Yuh6ydfCDB
+ XeRzgWFRYmVH7InVqaKuGT3n1GmxSFzAPFdlMfb040hNL9GiUUbJOxHW4no5gHrMiDvY
+ fYH9+DAWp27UUDFuUVSanS4pRdn+Y/EhjMsn7k1lbnBIArCLfLWXhjCVH+QBuG6HXb/P
+ fw1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=6yL8qt4Q2b/2Os/3Ap8GjGx1WK6fNgdpCqjVFOICsnY=;
+ b=cPrwWJ0efry2ToCoFFQJxDu1NKRJPJ2Vrv3gs5eSptQISqpKmLV9NmK2IZuuBoCi4X
+ 9eqjabCUTXILrhw9XhUvDNVLMU9wDCOltTH6kPHEhSiuhz4uSJona7uJWbjBK/HYFKyW
+ pWi+R83HnOi/k4Jo7S2c1Nupzh6z+18YHoB1USqPuGcbyforwzvTcQVYDghBQrGgj/Hi
+ bs7YlH9LEHjrvfG6F0TWKPxU1LSR/ejOxq2+HuZVDxqgKcYy2Bv7LaxcLunnmBhx+1ko
+ C4iMwu+5VFD9nhMY582fxMqaQO/0g3mqgpnlPVYpqxPtdibJA7Da1kAggVbi0AIcFbeW
+ to0A==
+X-Gm-Message-State: ACgBeo0P/VEbvRQNG/HFg599UgitMCcHV7VjuHhgrzvRZ5S57dE0Q0AF
+ /BtuX0e/yTYjxYZ+euygTLuveQ==
+X-Google-Smtp-Source: AA6agR7vKPjoFgrRBDU0F9CvUF4xy4kppOgakn/29ZSZthYAR5Qd5WLhWQI9Rtm2nMldV1di/8du9Q==
+X-Received: by 2002:a7b:ce12:0:b0:3a5:4d8b:65df with SMTP id
+ m18-20020a7bce12000000b003a54d8b65dfmr5453437wmc.27.1660218199362; 
+ Thu, 11 Aug 2022 04:43:19 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ g10-20020a05600c4eca00b003a3199c243bsm8955740wmq.0.2022.08.11.04.43.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Aug 2022 04:43:18 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D5EC01FFB7;
+ Thu, 11 Aug 2022 12:43:17 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH] tests/avocado: apply a band aid to aspeed-evb login
+Date: Thu, 11 Aug 2022 12:43:15 +0100
+Message-Id: <20220811114315.3065951-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-452738291-1660217970=:75546"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,148 +96,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This is really a limitation of the underlying console code which
+doesn't allow us to detect the login: and following "#" prompts
+because it reads input line wise. By adding a small delay we ensure
+that the login prompt has appeared so we don't accidentally spaff the
+shell commands to a confused getty in the guest.
 
---3866299591-452738291-1660217970=:75546
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Cédric Le Goater <clg@kaod.org>
+Cc: John Snow <jsnow@redhat.com>
+---
+ tests/avocado/machine_aspeed.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Thu, 11 Aug 2022, Cédric Le Goater wrote:
-> On 8/10/22 16:48, BALATON Zoltan wrote:
->> On Wed, 10 Aug 2022, Cédric Le Goater wrote:
->>> On 8/10/22 15:28, BALATON Zoltan wrote:
->>>> On Wed, 10 Aug 2022, Cédric Le Goater wrote:
->>>>> On 8/9/22 19:21, BALATON Zoltan wrote:
->>>>>> On Tue, 9 Aug 2022, Cédric Le Goater wrote:
->>>>>>> The Device Control Registers (DCR) of on-SoC devices are accessed by
->>>>>>> software through the use of the mtdcr and mfdcr instructions. These
->>>>>>> are converted in transactions on a side band bus, the DCR bus, which
->>>>>>> connects the on-SoC devices to the CPU.
->>>>>>> 
->>>>>>> Ideally, we should model these accesses with a DCR namespace and DCR
->>>>>>> memory regions but today the DCR handlers are installed in a DCR table
->>>>>>> under the CPU. Instead introduce a little device model wrapper to hold
->>>>>>> a CPU link and handle registration of DCR handlers.
->>>>>>> 
->>>>>>> The DCR device inherits from SysBus because most of these devices also
->>>>>>> have MMIO regions and/or IRQs. Being a SysBusDevice makes things 
->>>>>>> easier
->>>>>>> to install the device model in the overall SoC.
->>>>>>> 
->>>>>>> The "cpu" link should be considered as modeling the piece of HW logic
->>>>>>> connecting the device to the DCR bus.
->>>>>>> 
->>>>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>>>>> ---
->>>>>>> include/hw/ppc/ppc4xx.h | 17 ++++++++++++++++
->>>>>>> hw/ppc/ppc4xx_devs.c    | 44 +++++++++++++++++++++++++++++++++++++++++
->>>>>>> 2 files changed, 61 insertions(+)
->>>>>>> 
->>>>>>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->>>>>>> index 591e2421a343..82e60b0e0742 100644
->>>>>>> --- a/include/hw/ppc/ppc4xx.h
->>>>>>> +++ b/include/hw/ppc/ppc4xx.h
->>>>>>> @@ -27,6 +27,7 @@
->>>>>>> 
->>>>>>> #include "hw/ppc/ppc.h"
->>>>>>> #include "exec/memory.h"
->>>>>>> +#include "hw/sysbus.h"
->>>>>>> 
->>>>>>> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->>>>>>>                         MemoryRegion ram_memories[],
->>>>>>> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t 
->>>>>>> txcnum, uint8_t rxcnum,
->>>>>>> 
->>>>>>> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->>>>>>> 
->>>>>>> +/*
->>>>>>> + * Generic DCR device
->>>>>>> + */
->>>>>>> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
->>>>>>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
->>>>>>> +struct Ppc4xxDcrDeviceState {
->>>>>>> +    SysBusDevice parent_obj;
->>>>>>> +
->>>>>>> +    PowerPCCPU *cpu;
->>>>>>> +};
->>>>>>> +
->>>>>>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>>>>>> +                         dcr_read_cb dcr_read, dcr_write_cb 
->>>>>>> dcr_write);
->>>>>>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->>>>>>> +                        Error **errp);
->>>>>>> +
->>>>>>> #endif /* PPC4XX_H */
->>>>>>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->>>>>>> index 069b51195160..bce7ef461346 100644
->>>>>>> --- a/hw/ppc/ppc4xx_devs.c
->>>>>>> +++ b/hw/ppc/ppc4xx_devs.c
->>>>>>> @@ -664,3 +664,47 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t 
->>>>>>> txcnum, uint8_t rxcnum,
->>>>>>>                          mal, &dcr_read_mal, &dcr_write_mal);
->>>>>>>     }
->>>>>>> }
->>>>>>> +
->>>>>>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>>>>>> +                         dcr_read_cb dcr_read, dcr_write_cb 
->>>>>>> dcr_write)
->>>>>> 
->>>>>> I still think this should have a separate void *opaque parameter for 
->>>>>> the callbacks and not pass dev for that as the callbacks could use 
->>>>>> anything they wish for that parameter. (Additionally this allows 
->>>>>> dropping a lot of QOM casts. If you want to see how often these are 
->>>>>> accessed, you can try -trace enable="ppc_dcr*"; on the machines and OS 
->>>>>> I've tested some are read/written frequently so I'd not add unnecessary 
->>>>>> overhead without a good reason.)
->>>>> 
->>>>> This machine has been abandoned for 15 years and broken for maybe 10.
->>>>> I think it is fine for now. We will see if further needs arise.
->>>> 
->>>> It will arise as I'd like to keep at least the devices used by sam460ex 
->>>> somewhat sane 
->>> 
->>> What do you mean by somewhat sane ? If it is the QOM casts, I don't
->>> understand why you worry so much about it because QOM cast debugging
->>> is not enabled by default. So it really should not impact performance
->>> as you think it would.
->> 
->> I think it is enabled by default unless you explicitly disable> it which is 
->> not done by most distros so it's generally may
->> impact performance (or if it's already slow for other reasons
->> then it just increase inefficiency needlessly). If it's simple
->> to avoid like here why not avoid it? 
->
-> It is not. you need to add '--enable-qom-cast-debug' to configure.
->
->> Also conceptually the
->> opaque parameter is a closure for the callback functions while
->> dev is a self pointer for the method and you're now mixing
->> these two. I think it's cleaner to keep them separate and not
->> impose a restiction on the callbacks.
->> 
->> Sorry but I have strong feeling on this one. 
->
-> Sorry but I don't think it is well justified.
->
->> I think the simplest way to rebase and revert this is to do an
->> interactive rebase editing each patch and do interactive
->> revert of just the lines changing ppc4xx_dcr_register followed
->> by a search replace of "ppc_dcr_register("
->> with "ppc4xx_dcr_register(dcr, ". That should not be too
->> difficult to do now. (It could be done afterwatds too but I'd
->> appreciate and would be less chutn if you did that now.)
->
-> The simplest way for me is to come back the initial proposal, remove
-> the Ppc4xxDcrDeviceState model and reintroduce the explicit "cpu" link
-> for each device which was less controversial. Expect that in v5 and
-> that will be all for me.
+diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+index c54da0fd8f..65d38f4efa 100644
+--- a/tests/avocado/machine_aspeed.py
++++ b/tests/avocado/machine_aspeed.py
+@@ -101,7 +101,9 @@ def do_test_arm_aspeed_buidroot_start(self, image, cpu_id):
+         self.wait_for_console_pattern('Starting kernel ...')
+         self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
+         self.wait_for_console_pattern('lease of 10.0.2.15')
++        # the line before login:
+         self.wait_for_console_pattern('Aspeed EVB')
++        time.sleep(0.1)
+         exec_command(self, 'root')
+         time.sleep(0.1)
+ 
+-- 
+2.30.2
 
-Don't drop Ppc4xxDcrDeviceState, that simplifies it a lot. If you don't 
-want to make mote changes, let me take your series and make a version with 
-my proposed changes.
-
-Regards,
-BALATON Zoltan
---3866299591-452738291-1660217970=:75546--
 
