@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B23959061B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:54:03 +0200 (CEST)
-Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCCF590620
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 19:57:58 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMCNe-0004D3-2F
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
+	id 1oMCRR-0003Cr-2O
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 13:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMCEa-0000V1-J7
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:44:41 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:40646)
+ id 1oMCFT-0001R2-Ol
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:45:41 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:39578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMCEZ-00054Y-3r
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:44:40 -0400
-Received: by mail-pg1-x529.google.com with SMTP id 24so1257418pgr.7
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:44:38 -0700 (PDT)
+ id 1oMCFR-0005Ud-H5
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 13:45:35 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id q16so17711778pgq.6
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 10:45:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=IH3iAXOWi7XpjwddJhaUE6hrPW5BB6SruKgK5JwOxnU=;
- b=MAw8u/5OqXJ3aEUf+x5DyB79S4Dkf7s/udVjeJdjEUrIhMiKuzANZXlzVpG8A/wsv3
- eeU6bnz6V8e8+PJvGSbGUB+5WsOkFk1P3NFPJRbAkKHnW0Z9jYS+Sm/WhUbfN05C+1za
- 5xACitiMDZMbOqxPk212zQEvXU37BnRp8klIX5UWpj9PycZ0TKkHl5LvyLngfU3/X95a
- AYWm73Sn8mu3fwZtk62/ogSHfjF00DmJQaigACCh3d1FSRkzV5BmYiD5RcuZTZnayUaG
- isvN8M0gvq3zXzx5x10n+83frtyMWzmrJDUpQNagLi5meR1mMm05trKJHEEo8NBgiyx5
- M3uQ==
+ :from:to:cc; bh=tj+kcBZAMEwFi2YqVHw9QomSBhCtv6/nTd9fckzU2ys=;
+ b=LGMC+WIwAeJ2EIEAFOHQABNh2eTwyId+mkclDA3H/61xDacDcOUEw/A7/1qT/noxIy
+ pwn5i993UxRyOOBs5afwDTtcje8Y0fTPQyhw9gQtiIL9nvU9uEjpcJNI3u5fX3iMOxvg
+ /B+mHhJuulj+yRWSiafEVZBVX9XpR63Xf6LQ6WWDu0PRQ2mycq+XGQ7wfRzkNLEk4F9l
+ mcH4Gm/6HSSb7jdBgYeBgtlI6j45MBG4VjXVmFVTqUIba2VccVCMUMhodCpkJKglaUJa
+ KQemTg2nQJnLCw4KWONMBfMi+szYtYmWTUdhwwkFsWOodXBthl1hH8PQPvx1G/lbkVj3
+ SVBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=IH3iAXOWi7XpjwddJhaUE6hrPW5BB6SruKgK5JwOxnU=;
- b=de7P9c+LFc452y/CS4n9FIG8WzWcGvqIw5/HceWrpDXxB1PBwKmI4QkDExp+DlGoAo
- CIB3++tmoYIhotBzVN6Csfl/mdD4XxK5iU8TRrYj+GKFBDt7jfrgecEPOz7yFwDbn4JT
- ii4LNIakv6n4Xx77xlIAAlhWu8SJnxX0Qpn6lbdAq1K91/m+MTKkm2z5AsLtqK6EEWqJ
- RoiVxAgrGU2W0WiQ5mxkxrLbT2ZTWrcX90uaa0HA5J2Vy1HbcMfPWArGFm0WTFRTx46j
- /vZ66+3d3c9BbNaiqz8TR1PYnl7hI9nC6kdmMvpNJsgBgzo8tRRw6PKEW9M/Zwl9SV0v
- T1uA==
-X-Gm-Message-State: ACgBeo3jizfx7EBUY2raUTd4kSovR+ojL1DBLqrsCc/hV7dGu/0xZHQa
- kBCLlOtU0MsW7bHj5zBjbaqUMIVk4axZvw==
-X-Google-Smtp-Source: AA6agR41FE+FJymX87UVuRMnuTzIkR9u/Mb7UJMG1ZJrom+kj8H0nrfgcl0CvZneJdHmmFQX+heigw==
-X-Received: by 2002:a63:4d0e:0:b0:412:1877:9820 with SMTP id
- a14-20020a634d0e000000b0041218779820mr138056pgb.177.1660239877345; 
- Thu, 11 Aug 2022 10:44:37 -0700 (PDT)
+ bh=tj+kcBZAMEwFi2YqVHw9QomSBhCtv6/nTd9fckzU2ys=;
+ b=WPobzYoEqrr+B/XjtvyMxYvi/oMGHhvDQeUmh41QCJZTEgv+od/iJO67w4EXqtzfAd
+ xn6aF1CJZG4qt9doXh+lMf6P4p5wYx8ULLKJDEODHEJjMevJxwDiMOu6J/tbaLJ/j4Zw
+ s2tg1ZLjJkzLaxwgXKCZslwE2oY/XXLNGTFV5hV/7g7Wa14rrRggTmR/BjPv2DnyM3Z0
+ 6b+82PNs3snxZ2ncNtDqqskqdOqkIpNApeIajJciDG8ZtsieAkZVGOID5LC8t9/CHdIY
+ YgQ4IAKXmk7QJ1o5P0Fh+j7TN7oZ62Oire1dEpvDCymQe3x33lv1ApXCYbfRbYt2CjYz
+ PObw==
+X-Gm-Message-State: ACgBeo3VTB9cUo+SvONxPNtav2nfVBfK3Mf2fDFTxm5RDyr/tBLpjlEj
+ QqaNdgHXhI20kE/Zs/qd7suXSQ==
+X-Google-Smtp-Source: AA6agR6oqDtYIEalkNpvxruWtecoGR3/jRUjwUu/DSBFcZyWv0OsQKKt3nUHfpzk6Aep0gevgW1Mlg==
+X-Received: by 2002:a62:1a56:0:b0:52d:4352:3ae0 with SMTP id
+ a83-20020a621a56000000b0052d43523ae0mr240270pfa.35.1660239932115; 
+ Thu, 11 Aug 2022 10:45:32 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:72e2:2d06:c2b1:b106?
  ([2602:ae:154e:e201:72e2:2d06:c2b1:b106])
  by smtp.gmail.com with ESMTPSA id
- v1-20020a17090a0c8100b001f3244768d4sm3934200pja.13.2022.08.11.10.44.36
+ s124-20020a625e82000000b0052e987c64efsm4490217pfb.174.2022.08.11.10.45.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 10:44:36 -0700 (PDT)
-Message-ID: <f5826249-1d8a-1910-002f-dbac5cd7b6ba@linaro.org>
-Date: Thu, 11 Aug 2022 10:44:35 -0700
+ Thu, 11 Aug 2022 10:45:31 -0700 (PDT)
+Message-ID: <81d8044e-5625-e730-59f8-2927a9bf038b@linaro.org>
+Date: Thu, 11 Aug 2022 10:45:30 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 03/10] target/arm: Don't mishandle count when enabling or
- disabling PMU counters
+Subject: Re: [PATCH 04/10] target/arm: Ignore PMCR.D when PMCR.LC is set
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220811171619.1154755-1-peter.maydell@linaro.org>
- <20220811171619.1154755-4-peter.maydell@linaro.org>
+ <20220811171619.1154755-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220811171619.1154755-4-peter.maydell@linaro.org>
+In-Reply-To: <20220811171619.1154755-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,41 +95,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/11/22 10:16, Peter Maydell wrote:
-> +static void mdcr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
-> +                           uint64_t value)
-> +{
-> +    /*
-> +     * Some MDCR_EL3 bits affect whether PMU counters are running:
+> The architecture requires that if PMCR.LC is set (for a 64-bit cycle
+> counter) then PMCR.D (which enables the clock divider so the counter
+> ticks every 64 cycles rather than every cycle) should be ignored.  We
+> were always honouring PMCR.D; fix the bug so we correctly ignore it
+> in this situation.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/helper.c | 17 +++++++++++++----
+>   1 file changed, 13 insertions(+), 4 deletions(-)
 
-Typo el3.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-> +     * if we are trying to change any of those then we must
-> +     * bracket this update with PMU start/finish calls.
-> +     */
-> +    bool pmu_op = (env->cp15.mdcr_el2 ^ value) & MDCR_EL2_PMU_ENABLE_BITS;
-> +
-> +    if (pmu_op) {
-> +        pmu_op_start(env);
-> +    }
-> +    env->cp15.mdcr_el2 = value;
-> +    if (pmu_op) {
-> +        pmu_op_finish(env);
-> +    }
->   }
->   
->   static const ARMCPRegInfo v8_cp_reginfo[] = {
-> @@ -7669,6 +7713,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
->           ARMCPRegInfo mdcr_el2 = {
->               .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
->               .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
-> +            .writefn = mdcr_el2_write,
->               .access = PL2_RW, .resetvalue = pmu_num_counters(env),
->               .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el2),
->           };
-
 
