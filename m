@@ -2,64 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF8559007F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 17:43:42 +0200 (CEST)
-Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B735590098
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 17:45:24 +0200 (CEST)
+Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMALV-000352-Po
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 11:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50552)
+	id 1oMAN9-0004iU-5U
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 11:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oMAGV-0003Hj-Oo; Thu, 11 Aug 2022 11:38:31 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:49856 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oMAGR-00028h-UH; Thu, 11 Aug 2022 11:38:31 -0400
-Received: from localhost.localdomain (unknown [159.226.43.62])
- by APP-01 (Coremail) with SMTP id qwCowAA3GFlSIvViGUPiBw--.35837S6;
- Thu, 11 Aug 2022 23:38:25 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org (open list:nvme)
-Subject: [PATCH 4/4] hw/nvme: add MSI-x mask handlers for irqfd
-Date: Thu, 11 Aug 2022 23:37:39 +0800
-Message-Id: <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
-References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oMAK4-0000rU-RP
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:42:12 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:38845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oMAK2-0002kE-N8
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 11:42:12 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id r22so15044630pgm.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 08:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=z3hn8pLmklMWB3HO3epYREDckYICdYNbLOBpFglUlS0=;
+ b=y1/PFRye5mzuti2ol6eh+RkDYl9YwXHZ1w1Sy+fxhfzju1MLTMnZZToRL/I3jplJa5
+ Vh7xTbtrX78Vd2zR3YXbnN0D5WXSEM66aEwcihdMKJl6TZVTwW3U3YAHjpcs5rAhtyhO
+ 3lwiFRPrfoKZl8BX+W0bV9AQuj9e531KtX8vaDpLc91/E9PAtRhi6IZZY8qE6Y8i2zSt
+ UCzKU7T7R6xLV4QWqjSl3/Bhjf5zlcBh18N5SXdvwBihYzyYCs+/2wE+nnU0kDF/K6S4
+ XPCGmQ9ojPeP8TpA9pletvj+QqtH2c4w3jeXStB54j9OCV1wFXshga9GiYCHcW7u0RIy
+ Z/FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=z3hn8pLmklMWB3HO3epYREDckYICdYNbLOBpFglUlS0=;
+ b=7BMZYDyQ8qU8ykrjRND5Y+BWHF6LjvQslJ95jYaf9FIoMzuLv0WGNfKgsqZXq6ZHCf
+ q4ErVA1qTGU0hzOsBYlaWrcNthPo+d0qX4/zg4OqKZF5T/YRg2iekbEE1VCINwr2jHSs
+ p341DWPGSuMmjW9YTKlU4yEUHYXhVUULCu/udeh/oqoyi/sph98j3oYOEXjTx/W7nXns
+ cB/uyO8EKwk5Xk99R5NfxvNMrtLRMJ/N+bCMGZy/lODKNTV6GRnN9W3mFkdS/iJEuZNt
+ iQ7kWCdFItf8r7kl3s9EEAsK1El96eLXH24M3eH/cgPq01ToDuyb9EuxNSFWb053K97Y
+ Umnw==
+X-Gm-Message-State: ACgBeo1luBCbTZZDLLP+Hg5yNwgSD7LsyRh4PNKkq20LKEdbMpMnruMY
+ ax3HDwo/rMJxZl3FjI+iYdcMug==
+X-Google-Smtp-Source: AA6agR612p0kIVLReJTZFGOGEyHsRwmAX0kyWTENRRsiz2bIngWhbkuBwWDzLlG1a4wcj526dQkPiw==
+X-Received: by 2002:a63:1e5f:0:b0:419:d6bf:b9d7 with SMTP id
+ p31-20020a631e5f000000b00419d6bfb9d7mr27663382pgm.593.1660232529174; 
+ Thu, 11 Aug 2022 08:42:09 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:72e2:2d06:c2b1:b106?
+ ([2602:ae:154e:e201:72e2:2d06:c2b1:b106])
+ by smtp.gmail.com with ESMTPSA id
+ ij29-20020a170902ab5d00b0015e8d4eb219sm14995572plb.99.2022.08.11.08.42.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Aug 2022 08:42:08 -0700 (PDT)
+Message-ID: <0070ac70-9c86-b360-e877-3d7e01d176ea@linaro.org>
+Date: Thu, 11 Aug 2022 08:42:07 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAA3GFlSIvViGUPiBw--.35837S6
-X-Coremail-Antispam: 1UD129KBjvJXoWxKrWDuw1UCF4rAFyDtr15CFg_yoW7GFW7pa
- s7XFZ3WFZ7tFWIganIvrsrJr15Z39YqryUJw43Kw1IkayIkr9IvFW8KF15AFy5GFZxXF1Y
- v3y5tr47WwnxXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPj14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr
- 1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0264kExVAvwVAq07
- x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
- xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrx
- kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
- 6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUnT5lDUUU
- U
-X-Originating-IP: [159.226.43.62]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 1/4] accel/tcg: Invalidate translations when clearing
+ PAGE_EXEC
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220808171022.49439-1-iii@linux.ibm.com>
+ <20220808171022.49439-2-iii@linux.ibm.com>
+ <6e3e5974-15eb-05e8-a005-942884732fef@linaro.org>
+ <23d43d7cda9293eca9afbba91c50f613d004a407.camel@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <23d43d7cda9293eca9afbba91c50f613d004a407.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,164 +104,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When irqfd is enabled, we bypass QEMU's irq emulation and let KVM to
-directly assert the irq. However, KVM is not aware of the device's MSI-x
-masking status. Add MSI-x mask bookkeeping in NVMe emulation and
-detach the corresponding irqfd when the certain vector is masked.
+On 8/11/22 02:28, Ilya Leoshkevich wrote:
+> How is qemu-user's get_page_addr_code() involved here?
+> 
+> I tried to experiment with it, and while I agree that it looks buggy,
+> it's called only from translation code paths. If we already have a
+> translation block, these code paths are not used.
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
----
- hw/nvme/ctrl.c       | 82 ++++++++++++++++++++++++++++++++++++++++++++
- hw/nvme/nvme.h       |  2 ++
- hw/nvme/trace-events |  3 ++
- 3 files changed, 87 insertions(+)
+It's called from tb_lookup too, when we're trying to find an existing TB.
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 63f988f2f9..ac5460c7c8 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -7478,10 +7478,84 @@ static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
- 
-     return 0;
- }
-+static int nvme_vector_unmask(PCIDevice *pci_dev, unsigned vector,
-+                               MSIMessage msg)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+    int ret;
-+
-+    trace_pci_nvme_irq_unmask(vector, msg.address, msg.data);
-+    
-+    for (uint32_t i = 0; i < n->params.max_ioqpairs + 1; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+        /* 
-+         * If this function is called, then irqfd must be available. Therefore,
-+         * irqfd must be in use if cq->assert_notifier.initialized is true.
-+         */
-+        if (cq && cq->vector == vector && cq->assert_notifier.initialized) {
-+            if (cq->msg.data != msg.data || cq->msg.address != msg.address) {
-+                ret = kvm_irqchip_update_msi_route(kvm_state, cq->virq, msg,
-+                                                   pci_dev);
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+                kvm_irqchip_commit_routes(kvm_state);
-+                cq->msg = msg;
-+            }
-+
-+            ret = kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
-+                                                     &cq->assert_notifier,
-+                                                     NULL, cq->virq);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static void nvme_vector_mask(PCIDevice *pci_dev, unsigned vector)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+
-+    trace_pci_nvme_irq_mask(vector);
-+    
-+    for (uint32_t i = 0; i < n->params.max_ioqpairs + 1; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+        if (cq && cq->vector == vector && cq->assert_notifier.initialized) {
-+            kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
-+                                                  &cq->assert_notifier,
-+                                                  cq->virq);
-+        }
-+    }
-+}
-+
-+static void nvme_vector_poll(PCIDevice *pci_dev,
-+                             unsigned int vector_start,
-+                             unsigned int vector_end)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+
-+    trace_pci_nvme_irq_poll(vector_start, vector_end);
-+
-+    for (uint32_t i = 0; i < n->params.max_ioqpairs + 1; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+        if (cq && cq->vector >= vector_start && cq->vector <= vector_end 
-+            && msix_is_masked(pci_dev, cq->vector) 
-+            && cq->assert_notifier.initialized) {
-+            if (event_notifier_test_and_clear(&cq->assert_notifier)) {
-+                msix_set_pending(pci_dev, i);
-+            }
-+        }
-+    }
-+}
- 
- static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- {
-     uint8_t *pci_conf = pci_dev->config;
-+    bool with_irqfd = msix_enabled(&n->parent_obj) &&
-+                      kvm_msi_via_irqfd_enabled();
-     uint64_t bar_size;
-     unsigned msix_table_offset, msix_pba_offset;
-     int ret;
-@@ -7534,6 +7608,13 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-         }
-     }
- 
-+    if (with_irqfd) {
-+        msix_set_vector_notifiers(pci_dev,
-+                                  nvme_vector_unmask,
-+                                  nvme_vector_mask,
-+                                  nvme_vector_poll);
-+    }
-+
-     nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
- 
-     if (n->params.cmb_size_mb) {
-@@ -7781,6 +7862,7 @@ static void nvme_exit(PCIDevice *pci_dev)
-         pcie_sriov_pf_exit(pci_dev);
-     }
- 
-+    msix_unset_vector_notifiers(pci_dev);
-     msix_uninit(pci_dev, &n->bar0, &n->bar0);
-     memory_region_del_subregion(&n->bar0, &n->iomem);
- }
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 85fd9cd0e2..707a55ebfc 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -20,6 +20,7 @@
- 
- #include "qemu/uuid.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/msi.h"
- #include "hw/block/block.h"
- 
- #include "block/nvme.h"
-@@ -401,6 +402,7 @@ typedef struct NvmeCQueue {
-     EventNotifier notifier;
-     EventNotifier assert_notifier;
-     EventNotifier deassert_notifier;
-+    MSIMessage  msg;
-     bool        first_io_cqe;
-     bool        ioeventfd_enabled;
-     QTAILQ_HEAD(, NvmeSQueue) sq_list;
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index fccb79f489..b11fcf4a65 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -2,6 +2,9 @@
- pci_nvme_irq_msix(uint32_t vector) "raising MSI-X IRQ vector %u"
- pci_nvme_irq_pin(void) "pulsing IRQ pin"
- pci_nvme_irq_masked(void) "IRQ is masked"
-+pci_nvme_irq_mask(uint32_t vector) "IRQ %u gets masked"
-+pci_nvme_irq_unmask(uint32_t vector, uint64_t addr, uint32_t data) "IRQ %u gets unmasked, addr=0x%"PRIx64" data=0x%"PRIu32""
-+pci_nvme_irq_poll(uint32_t vector_start, uint32_t vector_end) "IRQ poll, start=0x%"PRIu32" end=0x%"PRIu32""
- pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2=0x%"PRIx64""
- pci_nvme_dbbuf_config(uint64_t dbs_addr, uint64_t eis_addr) "dbs_addr=0x%"PRIx64" eis_addr=0x%"PRIx64""
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
--- 
-2.25.1
 
+r~
 
