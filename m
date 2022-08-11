@@ -2,74 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A746759079F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 22:59:06 +0200 (CEST)
-Received: from localhost ([::1]:42556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C06C590807
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 23:28:31 +0200 (CEST)
+Received: from localhost ([::1]:46620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMFGj-00010c-6Q
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 16:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49490)
+	id 1oMFjB-0006Ue-PD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 17:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
- id 1oMFEV-0007nn-Ey
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 16:56:47 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:33744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
- id 1oMFET-0007ec-JD
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 16:56:47 -0400
-Received: by mail-pf1-x431.google.com with SMTP id k14so15454487pfh.0
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 13:56:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=4kQ8SClVRPi6gG4NE9lmhAaoU1UWuHouWCJez7bhymU=;
- b=ubO0m69GjwZPxBoNl7IEdbzw6jp7ng1kEotzRDJsTNS4Xti+yCHx2ndD5mAqXwt2iC
- qTaINMtw4Mf412M17/PuOfNqUQUVdcLPm7la9HoD3Zy7yy03IVVc7Z8izYh5Rj/R46gN
- Mrg8copB32+Eb6ERKVunnMWAzhSe5a1hC1zfuxK5JyanUeCgh6GrpzNpszoXHBputEfW
- x1ocZU3HjLZvWe3LGHI2SpZNgvLIftMbRJvLxtxWNEoFDc1G6COqnJ+1r43QupFfpo2q
- fTVQB9nmDaBUPv8wXyQuhd6uMbkpJA2xj5CXx+lOENR+rH/j8t97snYKPROUYN36yxUI
- qKNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=4kQ8SClVRPi6gG4NE9lmhAaoU1UWuHouWCJez7bhymU=;
- b=6KwpzV4L9NHf9663VPbk1+ObyHXK1E5MBGeqY0nIkUGRN/aQ4+NkooVOAa/IPBaGOl
- kLTmKFnj9FOZoqC/FDzBrKc8fPDcsvBxAZ6Fi3fdaL59f8yDy9Up2L1REyNpP+977E+w
- ftJ6P4105UWifbHlkY2rgSKeSMxVyuYOd3sBS3y2pPBdEp1yh/7fft1liczXO3mNPd2x
- oQ5irEAngPLOCvfPF1ttOpNGjCJxQjiLIhCwaXbmS6rBpCAL4WNXi4RKcMcV9QuWKaP+
- cxE3HBxvClsTaHcahzPBeOdNT3k4N3FExq8bcVtdKcOGqzE3GhvwRUWiM6uODizXn0A1
- 9fEQ==
-X-Gm-Message-State: ACgBeo3hYETZCRNvOiZxCOtsmU0RHmu0mA0QMvHA0xeGW5uIZT08mRmJ
- +0uXOp5hRn3b9SS4OYq7D4dqBYu7Fer90xVHur7V1g==
-X-Google-Smtp-Source: AA6agR6LA7IzVyqwmxyoQW8cTd3AtUOYijDKg9KS779FKuG92dJY887Q7w7qSRtJe+iQX+ZaipTJpu2A17rSLtTTGB8=
-X-Received: by 2002:a63:4004:0:b0:41b:64ff:7fe2 with SMTP id
- n4-20020a634004000000b0041b64ff7fe2mr617025pga.172.1660251403739; Thu, 11 Aug
- 2022 13:56:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pierre@freepascal.org>)
+ id 1oMFhm-00056v-LK
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 17:27:02 -0400
+Received: from mail.freepascal.org ([178.33.235.90]:44292)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pierre@freepascal.org>) id 1oMFhk-0003r9-2E
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 17:27:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.freepascal.org (Postfix) with ESMTP id 3265318038B;
+ Thu, 11 Aug 2022 21:26:57 +0000 (UTC)
+Received: from mail.freepascal.org ([127.0.0.1])
+ by localhost (idefixng.freepascal.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id rjuMs7Z-SDEY; Thu, 11 Aug 2022 21:26:57 +0000 (UTC)
+Received: from [192.168.1.23]
+ (i16-les02-ix2-176-180-129-30.sfr.lns.abo.bbox.fr [176.180.129.30])
+ by mail.freepascal.org (Postfix) with ESMTPSA id CD6D2180389;
+ Thu, 11 Aug 2022 21:26:56 +0000 (UTC)
+Message-ID: <dea1c082-54e7-de1a-0f0c-a7b8a1060a1b@freepascal.org>
+Date: Thu, 11 Aug 2022 23:26:54 +0200
 MIME-Version: 1.0
-References: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
-In-Reply-To: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
-From: Furquan Shaikh <furquan@rivosinc.com>
-Date: Thu, 11 Aug 2022 13:56:33 -0700
-Message-ID: <CA+tJHD6ka-Nh8H6aMBzTsPBb26XA4M5Jki5E=YRXkOxwpkXiuw@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Make semihosting configurable for all privilege
- modes
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=furquan@rivosinc.com; helo=mail-pf1-x431.google.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [RFC] Testing 7.1.0-rc2, qemu-ppc does not give valid disassembly
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
+ <CAFEAcA-0wkYiDgs7DOpnMuwVw=z=H_440Yyrfaa9_V-YRyoU-w@mail.gmail.com>
+Content-Language: fr, en-US
+From: Pierre Muller <pierre@freepascal.org>
+In-Reply-To: <CAFEAcA-0wkYiDgs7DOpnMuwVw=z=H_440Yyrfaa9_V-YRyoU-w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.33.235.90; envelope-from=pierre@freepascal.org;
+ helo=mail.freepascal.org
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,124 +64,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Pierre Muller <pierre@freepascal.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry for the top-posting. I noticed that the patch appears really
-weird in patchwork [1] where part of the diff is above the PATCH
-section. It looks fine in the archives[2] though.
 
-[1] https://patchwork.ozlabs.org/project/qemu-devel/patch/CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com/
-[2] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01905.html
 
-On Thu, Aug 11, 2022 at 1:41 PM Furquan Shaikh <furquan@rivosinc.com> wrote:
->
-> Unlike ARM, RISC-V does not define a separate breakpoint type for
-> semihosting. Instead, it is entirely ABI. Thus, we need an option
-> to allow users to configure what the ebreak behavior should be for
-> different privilege levels - M, S, U, VS, VU. As per the RISC-V
-> privilege specification[1], ebreak traps into the execution
-> environment. However, RISC-V debug specification[2] provides
-> ebreak{m,s,u,vs,vu} configuration bits to allow ebreak behavior to
-> be configured to trap into debug mode instead. This change adds
-> settable properties for RISC-V CPUs - `ebreakm`, `ebreaks`, `ebreaku`,
-> `ebreakvs` and `ebreakvu` to allow user to configure whether qemu
-> should treat ebreak as semihosting traps or trap according to the
-> privilege specification.
->
-> [1] https://github.com/riscv/riscv-isa-manual/releases/download/draft-20220723-10eea63/riscv-privileged.pdf
-> [2] https://github.com/riscv/riscv-debug-spec/blob/release/riscv-debug-release.pdf
->
-> Signed-off-by: Furquan Shaikh <furquan@rivosinc.com>
-> ---
->  target/riscv/cpu.c        |  8 ++++++++
->  target/riscv/cpu.h        |  7 +++++++
->  target/riscv/cpu_helper.c | 26 +++++++++++++++++++++++++-
->  3 files changed, 40 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ac6f82ebd0..082194652b 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -953,6 +953,14 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
-> cfg.short_isa_string, false),
->
->      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-> +
-> +    /* Debug spec */
-> +    DEFINE_PROP_BOOL("ebreakm", RISCVCPU, cfg.ebreakm, true),
-> +    DEFINE_PROP_BOOL("ebreaks", RISCVCPU, cfg.ebreaks, false),
-> +    DEFINE_PROP_BOOL("ebreaku", RISCVCPU, cfg.ebreaku, false),
-> +    DEFINE_PROP_BOOL("ebreakvs", RISCVCPU, cfg.ebreakvs, false),
-> +    DEFINE_PROP_BOOL("ebreakvu", RISCVCPU, cfg.ebreakvu, false),
-> +
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 5c7acc055a..eee8e487a6 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -454,6 +454,13 @@ struct RISCVCPUConfig {
->      bool epmp;
->      bool aia;
->      bool debug;
-> +
-> +    /* Debug spec */
-> +    bool ebreakm;
-> +    bool ebreaks;
-> +    bool ebreaku;
-> +    bool ebreakvs;
-> +    bool ebreakvu;
->      uint64_t resetvec;
->
->      bool short_isa_string;
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 59b3680b1b..be09abbe27 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -1314,6 +1314,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr
-> address, int size,
->
->      return true;
->  }
-> +
-> +static bool semihosting_enabled(RISCVCPU *cpu)
-> +{
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    switch (env->priv) {
-> +    case PRV_M:
-> +        return cpu->cfg.ebreakm;
-> +    case PRV_S:
-> +        if (riscv_cpu_virt_enabled(env)) {
-> +            return cpu->cfg.ebreakvs;
-> +        } else {
-> +            return cpu->cfg.ebreaks;
-> +        }
-> +    case PRV_U:
-> +        if (riscv_cpu_virt_enabled(env)) {
-> +            return cpu->cfg.ebreakvu;
-> +        } else {
-> +            return cpu->cfg.ebreaku;
-> +        }
-> +    }
-> +
-> +    return false;
-> +}
->  #endif /* !CONFIG_USER_ONLY */
->
->  /*
-> @@ -1342,7 +1366,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      target_ulong mtval2 = 0;
->
->      if  (cause == RISCV_EXCP_SEMIHOST) {
-> -        if (env->priv >= PRV_S) {
-> +        if (semihosting_enabled(cpu)) {
->              do_common_semihosting(cs);
->              env->pc += 4;
->              return;
-> --
-> 2.34.1
+Le 11/08/2022 à 19:11, Peter Maydell a écrit :
+> On Thu, 11 Aug 2022 at 14:35, Pierre Muller <pierre@freepascal.org> wrote:
+>>     I don't know if this is the right place to submit this report,
+>> but I have a problem with my attempt to check the 7.1.0 release candidate
+>> for linux user powerpc CPU.
+>>
+>>     I am testing a simple executable, compiled with Free Pacal compiler,
+>> but also linked to libc.
+>>
+>> This is what I obtain with the new rc:
+>>
+>> ~/gnu/qemu/build-qemu-7.1.0-rc1/qemu-ppc -L ~/sys-root/powerpc-linux -d in_asm tprintf
+>> ----------------
+>> IN: _start
+>> 0x3ffda784:
+>> OBJD-T: 7c230b78388000003821fff0908100004bfe756d
+> 
+> This is because you don't have the libcapstone development package
+> installed on your host system.
+> 
+>>     I did find that this is related to the fact that
+>> upon configuration, meson finds no capstone library,
+>> while disassembly of powerpc CPU has been moved to use of
+>> capstone in this commit:
+> 
+> The other relevant commit here is
+> 
+> commit 83602083b4ada6ceb86bfb327e83556ebab120fc
+> Author: Thomas Huth <thuth@redhat.com>
+> Date:   Mon May 16 16:58:23 2022 +0200
+> 
+>      capstone: Remove the capstone submodule
+> 
+>      Now that we allow compiling with Capstone v3.0.5 again, all our supported
+>      build hosts should provide at least this version of the disassembler
+>      library, so we do not need to ship this as a submodule anymore.
+
+   Ok, this explains why there is no way to specific the use of the submodule!
+--enable-capstone works indeed to force configure to fail
+if capstone is not found.
+
+>> Even when trying to compile the git checkout,
+>> which contains capstone as a sub-module, in capstone sub-directory,
+>> I always get capstone support set to NO by meson configuration.
+> 
+> If your git checkout still has a capstone subdirectory this
+> is an old leftover from a checkout that predated 83602083b4ada.
+> ('git status' will tell you this, and a suitable 'git clean'
+> command will get rid of it for you.)
+
+   There are still git domain I don't really master...
+
+>> Why doesn't it use the sub-module if pkg-config says that there
+>> is not system capstone library installed?
+> 
+> Because we now can rely on all our supported host distributions
+> being modern enough to ship libcapstone, and we don't need to
+> cart around a submodule any more (which reduces our maintenance
+> burden). As Cédric suggests, you can pass '--enable-capstone'
+> to configure if you would like configure to fail if it can't
+> find the system libcapstone, rather than falling back to the
+> binary-blob disassembler.
+
+   But as I use machines on which I am not admin,
+I needed to compile capstone locally, install it inside my home dir,
+and export PKG_CONFIG_PATH to allow the meson configuration
+to correctly detect this local installation...
+
+   However, this is not optimal, especially if I want to be able to
+copy over the resulting binaries to other test machines,
+on which the configuration completely fails,
+like gcc188 for which the current clib is too old according to
+the configure requirements.
+
+   Is it really required to have glibc 2.56?
+On several of these test machines, the version is much older...
+I tried to force acceptance by reducing the requirement,
+and it did compile successfully after that.
+
+   Is there a solid reason to be so restrictive?
+
+
+Pierre Muller
 
