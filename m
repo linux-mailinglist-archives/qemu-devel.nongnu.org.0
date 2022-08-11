@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E3858FBBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 13:58:19 +0200 (CEST)
-Received: from localhost ([::1]:34786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAAB58FBBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 14:00:01 +0200 (CEST)
+Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM6pO-0003eU-AP
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 07:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55200)
+	id 1oM6r2-0005BK-71
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 08:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oM6mF-0008Jb-Ph
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 07:55:04 -0400
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:46870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oM6mE-0005Ft-54
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 07:55:03 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-31f445bd486so169572597b3.13
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 04:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=gZ/spJQV6kqeSHCWbWhGtuL0uupDpyaPh3AVYavUODM=;
- b=TFhdu4lHu9j5YxsClQJIxagjATFOpAZZdk60ND9MzdVH3yOe7LGrduGNi1Ka3kRLx7
- 9MOTdpHI/SGIiYeRmqVL/y3sURcBKAY2MLK5rEXd3vywGYZUqWNggJlKZ+uVaCXnDK2S
- 0X4IfCrQyRzkuyTs7O2vBYHZGL3AnBl3oOFmv2x6PXU03PEotwoDW+LrVDNuj2AYFdJt
- cCDTZ8HeIuujU3da48VMl4GJRLzgkcR68RClTSAl5dpbB1774hZPl8T6seD+qHA6yoGB
- lHBpfDJkzZmYFgCEnoQpdSEFNWmraAA2w8qz38W18MaWqReGlJL+ArkYZ0UEgnIldulq
- RcOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=gZ/spJQV6kqeSHCWbWhGtuL0uupDpyaPh3AVYavUODM=;
- b=a0t5ZRwGu0CqGQMSWaQHj9RRXYIWxVUj8Hz37RC3vsZ4IS7R09JWSF20lxBFRQjH4f
- LlA+UgPCRTLNw/Egis8V+QEGRoWBMr7dKPsDUfEFn5i5YtVviUWa+PSSf/bbzQ4TXjrJ
- PjoY45NaDgHni5lHlmg+HHUQIncvMe+gIaT7irvyCd6NVfshRoP4ehqZKnu7y8R68rtB
- K+lwPIzvl9rhGyJ/U1COePd/5Si2PNgZn4vK5yGNZ9hpDyBb3ikcz4dDJIlsm9JPvE0B
- AMwAkVFyroKuhM6dYFL3Hgx4VL489Is1oLcbeJVKxzNnxUZOPShFtUtM/j8kzAGuGgIc
- B9xQ==
-X-Gm-Message-State: ACgBeo2vMUA3VHhph13K1cYH85jpqFDrIWa64Yv3ZblOzvsVpfl/B4ek
- 6TYEeuQzTBfcayxH7jYDtSzqrrYkzWNqmtYH/QQ75Q==
-X-Google-Smtp-Source: AA6agR6cS9FoHBHwvyy3zqqQ55JVbDX+A0YU7KED0BDEdVwPDDCsTUHALiZ/8KZv09poxhmSv/2NIOWq6lU+H43g7tc=
-X-Received: by 2002:a0d:fd05:0:b0:329:3836:53ac with SMTP id
- n5-20020a0dfd05000000b00329383653acmr30940972ywf.455.1660218901084; Thu, 11
- Aug 2022 04:55:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oM6mf-0000Rb-3D
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 07:55:29 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:47741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oM6md-0005WM-7m
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 07:55:28 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EB0EB11DE86F0;
+ Thu, 11 Aug 2022 13:55:22 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 11 Aug
+ 2022 13:55:22 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00512e61c34-2d58-4592-9b14-8d1d82405f74,
+ B18B381393FCCA734C2622819310E7EBE9D8D149) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.155.17
+Message-ID: <d5d5f7cf-83ef-ca3d-f192-31efc56d055f@kaod.org>
+Date: Thu, 11 Aug 2022 13:55:21 +0200
 MIME-Version: 1.0
-References: <CAPjTjwsb0jAsQq4PHOsFGW7SjpAe=Ug2b_fxhdccEEnzh=cQUA@mail.gmail.com>
- <CAFEAcA-F8rUTH1FimHf+FaV0O6dQ4QGHihaygxdjn9BKYPazBg@mail.gmail.com>
- <CAPjTjwuNwXdemwFYOUDi4Qnc5fA9KWzAEZQ1JaCNu+0x3RUh7Q@mail.gmail.com>
- <8b32824b-4dc1-3d1a-1916-918a3fffab26@linaro.org>
- <67a42d65-8289-b26c-26f6-275ea0bfac98@vivier.eu>
-In-Reply-To: <67a42d65-8289-b26c-26f6-275ea0bfac98@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Aug 2022 12:54:49 +0100
-Message-ID: <CAFEAcA8AXodRV=eG2Ra4Sf9rsap499zDJEu6hC=c+V9gE2KjfA@mail.gmail.com>
-Subject: Re: [PATCH] [PATCH] linux-user/aarch64: Reset target data on
- MADV_DONTNEED
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Vitaly Buka <vitalybuka@google.com>, 
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [RFC PATCH] tests/avocado: apply a band aid to aspeed-evb login
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Wainer dos Santos
+ Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+References: <20220811114315.3065951-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220811114315.3065951-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: f517cc22-2bb5-45a7-87e0-1c6ae965044d
+X-Ovh-Tracer-Id: 17161529332691536745
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeggedggeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegslhgvrghlsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,47 +76,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Aug 2022 at 09:29, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 10/08/2022 =C3=A0 22:47, Richard Henderson a =C3=A9crit :
-> > On 8/10/22 13:32, Vitaly Buka wrote:
-> >> Sorry, I only noticed today that it's not submitted.
-> >> Version is not critical for us, as we build from masters anyway.
-> >> Richard, do you know a reason to consider this critical?
-> >>
-> >> On Wed, 10 Aug 2022 at 13:04, Peter Maydell <peter.maydell@linaro.org
-> >> <mailto:peter.maydell@linaro.org>> wrote:
-> >>
-> >>     On Wed, 10 Aug 2022 at 21:00, Vitaly Buka <vitalybuka@google.com
-> >>     <mailto:vitalybuka@google.com>> wrote:
-> >>      >
-> >>      > How can we land this one?
-> >>
-> >>     Pinging it a week ago rather than now would have been a good start=
- :-(
-> >>     I think it got missed because you didn't cc the linux-user maintai=
-ner.
-> >>
-> >>     Is this a critical fix for 7.1 or can we let it slip to 7.2 ?
-> >
-> > It's unfortunate that it got missed.  It's not critical, but it would b=
-e nice, because support for
-> > MADV_DONTNEED is new in 7.1 (previously, we ignored all madvise).
-> >
-> > I'll note there are missing braces for coding style on an IF.
-> >
-> > Laurent, do you have an objection to merging this for rc3?
-> >
->
-> No objection.
->
-> Do you want it goes via the arm branch or via the linux-user branch?
->
-> If it goes via linux-user I can run the LTP testsuite but it takes 1 day.
+On 8/11/22 13:43, Alex Bennée wrote:
+> This is really a limitation of the underlying console code which
+> doesn't allow us to detect the login: and following "#" prompts
+> because it reads input line wise. By adding a small delay we ensure
+> that the login prompt has appeared so we don't accidentally spaff the
+> shell commands to a confused getty in the guest.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Cédric Le Goater <clg@kaod.org>
+> Cc: John Snow <jsnow@redhat.com>
 
-I think we should definitely run the LTP testsuite on it, so
-taking it via linux-user probably makes more sense.
 
-thanks
--- PMM
+May be you should also add the missing timeout setting ?
+
+Anyhow,
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
+> ---
+>   tests/avocado/machine_aspeed.py | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+> index c54da0fd8f..65d38f4efa 100644
+> --- a/tests/avocado/machine_aspeed.py
+> +++ b/tests/avocado/machine_aspeed.py
+> @@ -101,7 +101,9 @@ def do_test_arm_aspeed_buidroot_start(self, image, cpu_id):
+>           self.wait_for_console_pattern('Starting kernel ...')
+>           self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
+>           self.wait_for_console_pattern('lease of 10.0.2.15')
+> +        # the line before login:
+>           self.wait_for_console_pattern('Aspeed EVB')
+> +        time.sleep(0.1)
+>           exec_command(self, 'root')
+>           time.sleep(0.1)
+>   
+
 
