@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1EC58FC83
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 14:40:40 +0200 (CEST)
-Received: from localhost ([::1]:33276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3402858FC54
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 14:33:35 +0200 (CEST)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM7UN-00022K-9F
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 08:40:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
+	id 1oM7NW-0003dN-8X
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 08:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oM73v-0004df-O2; Thu, 11 Aug 2022 08:13:19 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23074
+ id 1oM749-0005Oa-Ex; Thu, 11 Aug 2022 08:13:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9442
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oM73t-0000GO-Ux; Thu, 11 Aug 2022 08:13:19 -0400
+ id 1oM744-0000HZ-N7; Thu, 11 Aug 2022 08:13:33 -0400
 Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BC6xeP013682;
- Thu, 11 Aug 2022 12:13:16 GMT
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BC6tUZ013304;
+ Thu, 11 Aug 2022 12:13:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=+wZog8rZ0BGhlvEX7q61NapXJEsQWRkb2CDGwKI8n9o=;
- b=j8P8+FAmTaG4D9XvmI7rwC4qPDR1UEGQnxHptoA5zsS81sCuBehVY2IMPWP6YGmLNdic
- PNDrAhj7guSLP7UBihWderBnaCoI7v9X6viZGBZ3SFWKY0FKbYHphHtbXdJYMJwM0Q69
- /wBYMQ+EE0x6HMaBQfTEFoSceBMuN/EcLhgk29ZpoSwEI5ozBDVQvJMYWRf1TIObU/tW
- Nmaq6lMks3lUhy8Rya7EalOTojlA2XaHEqrXKxSmzhSOdwZE3WXUISnTLMoA0XjkiyUW
- BS3+msdPdw0eb3qTBhx7RXBRcloorm4treFpdoRvxaEmocDQZ9aa6gOsAexUKd6HNIZX bQ== 
+ bh=voPlRj8GPGQVW5MEv458j60nxAy5q0cngODTWlIpjao=;
+ b=ftJBU3/nzsJbibfJLlJEZBMaGIMmIRF/Otpb4enVn7a718Hocr/SbyHPjzFWJyso4++m
+ nJ+Uswzs/EoLhbrkVkzgv460ASNv+qMcR6nHzTaxMPGOorxv1CuXi/3LXiVrwvTWuM/f
+ 9uZ/Z/JkdZai9ycRI9mAx+psA6b68kb2xkEitQqS/mqMz0bqbo8j6WYP6El2d0Q2yyNr
+ C3Zf+RKYcyCl7sTyFUUcTAFe+Nhkpb9U5dz+iNs3N6A59e2aMdHIh3dxixsUi80DT+Ql
+ P1GNllsQkXq0qUb3c7blSMGRr6pHDd/ZjEmVT8lFFQEihSWbYJqWU8XLvXP0f0lS6a3S 2w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hw1dp0q6e-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hw1dp0qra-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 12:13:16 +0000
+ Thu, 11 Aug 2022 12:13:26 +0000
 Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27BC7oQj022535;
- Thu, 11 Aug 2022 12:12:54 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hw1dp0pbs-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27BC7QBk018032;
+ Thu, 11 Aug 2022 12:13:19 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hw1dp0pd3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 12:12:52 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27BC6Mgp025336;
- Thu, 11 Aug 2022 12:12:18 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3huww2j0g4-1
+ Thu, 11 Aug 2022 12:13:19 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27BC7Fuk029831;
+ Thu, 11 Aug 2022 12:12:19 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3huwvf1ywt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 12:12:17 +0000
+ Thu, 11 Aug 2022 12:12:19 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 27BCCWW025887156
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27BCCGAO28836134
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Aug 2022 12:12:32 GMT
+ Thu, 11 Aug 2022 12:12:16 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C6902AE04D;
+ by IMSVA (Postfix) with ESMTP id 19EF0AE04D;
+ Thu, 11 Aug 2022 12:12:16 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ECBF9AE045;
  Thu, 11 Aug 2022 12:12:14 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A5CA2AE045;
- Thu, 11 Aug 2022 12:12:13 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 11 Aug 2022 12:12:13 +0000 (GMT)
+ Thu, 11 Aug 2022 12:12:14 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com, scgl@linux.ibm.com
-Subject: [PATCH v5 12/18] dump/dump: Add section string table support
-Date: Thu, 11 Aug 2022 12:11:05 +0000
-Message-Id: <20220811121111.9878-13-frankja@linux.ibm.com>
+Subject: [PATCH v5 13/18] dump/dump: Add arch section support
+Date: Thu, 11 Aug 2022 12:11:06 +0000
+Message-Id: <20220811121111.9878-14-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220811121111.9878-1-frankja@linux.ibm.com>
 References: <20220811121111.9878-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LWO4GMeTa8I3xgTm2SF_Ylwm3hvLvXke
-X-Proofpoint-ORIG-GUID: h5HJ5iwLrU86fzATA8Q440wf8X1tVz1W
+X-Proofpoint-GUID: NjGt04qqb-fwXF_FR4IB-TkH21rPM3BU
+X-Proofpoint-ORIG-GUID: 4X-3Vi7H7ZzV4bJAoOPRmjRzLVVpspmO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-11_05,2022-08-11_01,2022-06-22_01
@@ -116,170 +116,220 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As sections don't have a type like the notes do we need another way to
-determine their contents. The string table allows us to assign each
-section an identification string which architectures can then use to
-tag their sections with.
-
-There will be no string table if the architecture doesn't add custom
-sections which are introduced in a following patch.
+Add hooks which architectures can use to add arbitrary data to custom
+sections.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- dump/dump.c           | 71 +++++++++++++++++++++++++++++++++++++++++++
- include/sysemu/dump.h |  4 +++
- 2 files changed, 75 insertions(+)
+ dump/dump.c                | 120 ++++++++++++++++++++++++++++++-------
+ include/sysemu/dump-arch.h |   3 +
+ 2 files changed, 100 insertions(+), 23 deletions(-)
 
 diff --git a/dump/dump.c b/dump/dump.c
-index 31eb20108c..0d6dbf453a 100644
+index 0d6dbf453a..65b18fc602 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -103,6 +103,7 @@ static int dump_cleanup(DumpState *s)
-     memory_mapping_list_free(&s->list);
-     close(s->fd);
-     g_free(s->guest_note);
-+    g_array_unref(s->string_table_buf);
-     s->guest_note = NULL;
-     if (s->resume) {
-         if (s->detached) {
-@@ -156,6 +157,9 @@ static void prepare_elf64_header(DumpState *s, Elf64_Ehdr *elf_header)
-         elf_header->e_shoff = cpu_to_dump64(s, s->shdr_offset);
-         elf_header->e_shentsize = cpu_to_dump16(s, sizeof(Elf64_Shdr));
-         elf_header->e_shnum = cpu_to_dump16(s, s->shdr_num);
-+        if (s->string_table_usage) {
-+            elf_header->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
-+        }
-     }
+@@ -430,7 +430,7 @@ static void prepare_elf_section_hdr_string(DumpState *s, void *buff)
+     memcpy(buff, shdr, shdr_size);
  }
  
-@@ -184,6 +188,9 @@ static void prepare_elf32_header(DumpState *s, Elf32_Ehdr *elf_header)
-         elf_header->e_shoff = cpu_to_dump32(s, s->shdr_offset);
-         elf_header->e_shentsize = cpu_to_dump16(s, sizeof(Elf32_Shdr));
-         elf_header->e_shnum = cpu_to_dump16(s, s->shdr_num);
-+        if (s->string_table_usage) {
-+            elf_header->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
-+        }
-     }
- }
- 
-@@ -393,17 +400,50 @@ static void prepare_elf_section_hdr_zero(DumpState *s)
-     }
- }
- 
-+static void prepare_elf_section_hdr_string(DumpState *s, void *buff)
-+{
-+    Elf32_Shdr shdr32;
-+    Elf64_Shdr shdr64;
-+    int shdr_size;
-+    void *shdr;
-+
-+    if (dump_is_64bit(s)) {
-+        shdr_size = sizeof(Elf64_Shdr);
-+        memset(&shdr64, 0, shdr_size);
-+        shdr64.sh_type = SHT_STRTAB;
-+        shdr64.sh_offset = s->section_offset + s->elf_section_data_size;
-+        shdr64.sh_name = s->string_table_buf->len;
-+        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
-+        shdr64.sh_size = s->string_table_buf->len;
-+        shdr = &shdr64;
-+    } else {
-+        shdr_size = sizeof(Elf32_Shdr);
-+        memset(&shdr32, 0, shdr_size);
-+        shdr32.sh_type = SHT_STRTAB;
-+        shdr32.sh_offset = s->section_offset + s->elf_section_data_size;
-+        shdr32.sh_name = s->string_table_buf->len;
-+        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
-+        shdr32.sh_size = s->string_table_buf->len;
-+        shdr = &shdr32;
-+    }
-+
-+    memcpy(buff, shdr, shdr_size);
-+}
-+
- static void prepare_elf_section_hdrs(DumpState *s)
+-static void prepare_elf_section_hdrs(DumpState *s)
++static void prepare_elf_section_hdrs(DumpState *s, Error **errp)
  {
      size_t len, sizeof_shdr;
-+    void *buff_hdr;
- 
+     void *buff_hdr;
+@@ -438,6 +438,7 @@ static void prepare_elf_section_hdrs(DumpState *s)
      /*
       * Section ordering:
       * - HDR zero
-+     * - String table hdr
++     * - Arch section hdrs
+      * - String table hdr
       */
      sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-     len = sizeof_shdr * s->shdr_num;
-     s->elf_section_hdrs = g_malloc0(len);
-+    buff_hdr = s->elf_section_hdrs;
- 
-     /*
-      * The first section header is ALWAYS a special initial section
-@@ -419,6 +459,17 @@ static void prepare_elf_section_hdrs(DumpState *s)
-     if (s->phdr_num >= PN_XNUM) {
-         prepare_elf_section_hdr_zero(s);
+@@ -465,6 +466,16 @@ static void prepare_elf_section_hdrs(DumpState *s)
+         return;
      }
-+    buff_hdr += sizeof_shdr;
+ 
++    /* Add architecture defined section headers */
++    if (s->dump_info.arch_sections_write_hdr_fn) {
++        buff_hdr += s->dump_info.arch_sections_write_hdr_fn(s, buff_hdr);
 +
-+    if (s->shdr_num < 2) {
++        if (s->shdr_num >= SHN_LORESERVE) {
++            error_setg_errno(errp, EINVAL, "dump: too many architecture defined sections");
++            return;
++        }
++    }
++
+     /*
+      * String table is the last section since strings are added via
+      * arch_sections_write_hdr().
+@@ -477,7 +488,10 @@ static void write_elf_section_headers(DumpState *s, Error **errp)
+     size_t sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
+     int ret;
+ 
+-    prepare_elf_section_hdrs(s);
++    prepare_elf_section_hdrs(s, errp);
++    if (*errp) {
++        return;
++    }
+ 
+     ret = fd_write_vmcore(s->elf_section_hdrs, s->shdr_num * sizeof_shdr, s);
+     if (ret < 0) {
+@@ -485,6 +499,30 @@ static void write_elf_section_headers(DumpState *s, Error **errp)
+     }
+ }
+ 
++static void write_elf_sections(DumpState *s, Error **errp)
++{
++    int ret;
++
++    if (!s->elf_section_data_size) {
 +        return;
 +    }
 +
-+    /*
-+     * String table is the last section since strings are added via
-+     * arch_sections_write_hdr().
-+     */
-+    prepare_elf_section_hdr_string(s, buff_hdr);
++    /* Write architecture section data */
++    ret = fd_write_vmcore(s->elf_section_data,
++                          s->elf_section_data_size, s);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "dump: failed to write architecture section  data");
++        return;
++    }
++
++    /* Write string table */
++    ret = fd_write_vmcore(s->string_table_buf->data,
++                          s->string_table_buf->len, s);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "dump: failed to write string table data");
++    }
++}
++
+ static void write_data(DumpState *s, void *buf, int length, Error **errp)
+ {
+     int ret;
+@@ -744,6 +782,24 @@ static void dump_iterate(DumpState *s, Error **errp)
+     }
  }
  
- static void write_elf_section_headers(DumpState *s, Error **errp)
-@@ -1688,6 +1739,14 @@ static void dump_init(DumpState *s, int fd, bool has_format,
-     s->filter_area_begin = begin;
-     s->filter_area_length = length;
- 
-+    /* First index is 0, it's the special null name */
-+    s->string_table_buf = g_array_new(FALSE, TRUE, 1);
-+    /*
-+     * Allocate the null name, due to the clearing option set to true
-+     * it will be 0.
-+     */
-+    g_array_set_size(s->string_table_buf, 1);
++static void dump_end(DumpState *s, Error **errp)
++{
++    ERRP_GUARD();
 +
-     memory_mapping_list_init(&s->list);
++    if (!s->elf_section_data_size) {
++        return;
++    }
++    s->elf_section_data = g_malloc0(s->elf_section_data_size);
++
++    /* Adds the architecture defined section data to s->elf_section_data  */
++    if (s->dump_info.arch_sections_write_fn) {
++        s->dump_info.arch_sections_write_fn(s, s->elf_section_data);
++    }
++
++    /* write sections to vmcore */
++    write_elf_sections(s, errp);
++}
++
+ static void create_vmcore(DumpState *s, Error **errp)
+ {
+     ERRP_GUARD();
+@@ -758,6 +814,9 @@ static void create_vmcore(DumpState *s, Error **errp)
+     if (*errp) {
+         return;
+     }
++
++    /* Write the section data */
++    dump_end(s, errp);
+ }
  
-     guest_phys_blocks_init(&s->guest_phys_blocks);
-@@ -1844,6 +1903,18 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+ static int write_start_flat_header(int fd)
+@@ -1883,38 +1942,53 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+     }
+ 
+     /*
+-     * calculate phdr_num
+-     *
+-     * the type of ehdr->e_phnum is uint16_t, so we should avoid overflow
++     * Adds the number of architecture sections to shdr_num, sets
++     * string_table_usage and sets elf_section_data_size so we know
++     * the offsets and sizes of all parts.
+      */
+-    s->phdr_num = 1; /* PT_NOTE */
+-    if (s->list.num < UINT16_MAX - 2) {
+-        s->shdr_num = 0;
+-        s->phdr_num += s->list.num;
+-    } else {
+-        /* sh_info of section 0 holds the real number of phdrs */
+-        s->shdr_num = 1;
++    if (s->dump_info.arch_sections_add_fn) {
++        s->dump_info.arch_sections_add_fn(s);
+ 
+-        /* the type of shdr->sh_info is uint32_t, so we should avoid overflow */
+-        if (s->list.num <= UINT32_MAX - 1) {
+-            s->phdr_num += s->list.num;
+-        } else {
+-            s->phdr_num = UINT32_MAX;
++        if (s->shdr_num) {
++            s->string_table_usage = true;
          }
      }
  
+     /*
+-     * calculate shdr_num and elf_section_data_size so we know the offsets and
+-     * sizes of all parts.
++     * Calculate phdr_num
+      *
+-     * If phdr_num overflowed we have at least one section header
+-     * More sections/hdrs can be added by the architectures
++     * The absolute maximum amount of phdrs is UINT32_MAX - 1 as
++     * sh_info is 32 bit. There's special handling once we go over
++     * UINT16_MAX - 1 but that is handled in the ehdr and section
++     * code.
+      */
+-    if (s->shdr_num > 1) {
+-        /* Reserve the string table */
++    s->phdr_num = 1; /* Reserve PT_NOTE */
++    if (s->list.num <= UINT32_MAX - 1) {
++        s->phdr_num += s->list.num;
++    } else {
++        s->phdr_num = UINT32_MAX;
++    }
++
 +    /*
-+     * calculate shdr_num and elf_section_data_size so we know the offsets and
-+     * sizes of all parts.
++     * The first section header is always a special one in which most
++     * fields are 0.
 +     *
-+     * If phdr_num overflowed we have at least one section header
-+     * More sections/hdrs can be added by the architectures
++     * We need it if we have custom sections and if phdr_num >=
++     * PN_XNUM so we can write the real phdr_num into sh_info.
 +     */
-+    if (s->shdr_num > 1) {
-+        /* Reserve the string table */
++    if (s->shdr_num || s->phdr_num >= PN_XNUM) {
+         s->shdr_num += 1;
+     }
+ 
++    /* Reserve the string table for the arch sections if needed */
++    if (s->string_table_usage) {
 +        s->shdr_num += 1;
 +    }
 +
++    /*
++     * Now that the number of section and program headers is known we
++     * can calculate the offsets of the headers and data.
++     */
      if (dump_is_64bit(s)) {
          s->shdr_offset = sizeof(Elf64_Ehdr);
          s->phdr_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index 9ed811b313..358b038d47 100644
---- a/include/sysemu/dump.h
-+++ b/include/sysemu/dump.h
-@@ -180,6 +180,10 @@ typedef struct DumpState {
-     hwaddr note_offset;
+diff --git a/include/sysemu/dump-arch.h b/include/sysemu/dump-arch.h
+index e25b02e990..824c0c1152 100644
+--- a/include/sysemu/dump-arch.h
++++ b/include/sysemu/dump-arch.h
+@@ -21,6 +21,9 @@ typedef struct ArchDumpInfo {
+     uint32_t page_size;      /* The target's page size. If it's variable and
+                               * unknown, then this should be the maximum. */
+     uint64_t phys_base;      /* The target's physmem base. */
++    void (*arch_sections_add_fn)(DumpState *s);
++    uint64_t (*arch_sections_write_hdr_fn)(DumpState *s, uint8_t *buff);
++    void (*arch_sections_write_fn)(DumpState *s, uint8_t *buff);
+ } ArchDumpInfo;
  
-     void *elf_section_hdrs;     /* Pointer to section header buffer */
-+    void *elf_section_data;     /* Pointer to section data buffer */
-+    uint64_t elf_section_data_size; /* Size of section data */
-+    GArray *string_table_buf;   /* String table data buffer */
-+    bool string_table_usage;    /* Indicates if string table is used */
- 
-     uint8_t *note_buf;          /* buffer for notes */
-     size_t note_buf_offset;     /* the writing place in note_buf */
+ struct GuestPhysBlockList; /* memory_mapping.h */
 -- 
 2.34.1
 
