@@ -2,87 +2,180 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B230C58FAF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 12:53:21 +0200 (CEST)
-Received: from localhost ([::1]:53118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6C358FAF8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 12:53:43 +0200 (CEST)
+Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM5oW-0005GS-AC
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 06:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
+	id 1oM5os-0005en-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 06:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oM5lZ-0002Vs-PD; Thu, 11 Aug 2022 06:50:17 -0400
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:38890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oM5lX-0002ED-UN; Thu, 11 Aug 2022 06:50:17 -0400
-Received: by mail-lj1-x229.google.com with SMTP id x25so18885926ljm.5;
- Thu, 11 Aug 2022 03:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=1gZWtclOB4MbUdhj5n25JfvNxLaA5EuvMg/3N7lzN14=;
- b=QF5BRAzXE6jAFqKCJWG0CIcetrl1J4GqPj0rxNK87a9VE0P05HKrefdTLFhJfCYm7K
- q9rukXzE0j1AzgZazdoVIGJtqpTUP1xDxEoNuOrPNIBv5ql/R0wFqufkeHhn1RVlzW7E
- +TSIHLSN4mVbIw83vO6P2hEdq+1XWqzQRe+fRr6gi7i7wQNRyW2adMwf+5jE49TTgs3y
- S4LOr4VjjWT6njjdec8vYpf+IZkuUB6smtiFaQBB22Sys2KI2ZHLJ0/nECXn4n7dmuhC
- kXxPqDoPob2cEXVMko+1nwZdYZVydFeYkWyGro/nuks7kssigtkmR/8ZSbQPCG5KnUzG
- qPnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=1gZWtclOB4MbUdhj5n25JfvNxLaA5EuvMg/3N7lzN14=;
- b=g1pGnc/CwDdiRUc59h1lhIFFiiGosc9L2UkWj6vQqWrBJVWn0YB8+e6SiMDFkCACRO
- clwyxqlheQiG7mHXiIHMA5Q6q8fNMg7M8OUxRuqIG4AblSt7uf4m8tlbGZQarCLMoW7C
- 4QSJBKPJiP3qpPNpdL1RpBZSaBBfqjrObbwLGZlVI/UDoW2c0TkTi2Em8xyDcEJ8aV8Z
- zbp7Dok/HYxDCcq1jWue4Jodb2++5jC947kICvR2U4DxUYrPAf6qG2atOkW4haBLmizn
- loiGPFnShGln+sI04350jaRcMlpIKcDSc38LD8F/LiPqipINp1PNoH4D+WhkQYOnlENd
- MRnQ==
-X-Gm-Message-State: ACgBeo34PDATgWLAFrgCiJCOgUPHMoEFYDqbsvlcRnUe3Rl7XKZh34/b
- fgDgleoDpe2Bps4G0oPb/U02UyMZbb6Z5r6XutQ=
-X-Google-Smtp-Source: AA6agR5vvxs4+SEkK/H30HUM2sCer1wBfXqK0YU+nhGttUZk3m5q/swMJsF6229nJUAIMBRuwSycwWPmRHmL/GNLVtw=
-X-Received: by 2002:a05:651c:4cf:b0:25e:690b:ab3e with SMTP id
- e15-20020a05651c04cf00b0025e690bab3emr9770695lji.94.1660215012707; Thu, 11
- Aug 2022 03:50:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1oM5lq-0002d5-OH
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:50:34 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:5084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1oM5lj-0002GF-As
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 06:50:33 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B95qgb032442;
+ Thu, 11 Aug 2022 10:50:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ from : subject : to : cc : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=MZaLuSjoCsKp7RN8JOjxrVElpIs+f4w0WzPkpIS17oQ=;
+ b=FG1QKSq7VDZ7bpF9wrwvAea6chIVCL5rUbdkYFIkK8Kz/kuoUQRv+Y9j9+s8Q4iSd3Hc
+ 8o+3IIbed5vJVKTUcQrMCX5VWo3uSJiuMB/vfZQ1B+vltuG3M+hzwfsDtUW47nAxDw49
+ zsCLsm3Efg0Z86OBHLWUXpcnQB//zAffcp3v3/k2xjL+4zToAvyF6ACHUaPMPSpHCgRM
+ i4LhwYwThthrjT3gMKFCnQxivmsmQhsxDoPYPDtR8lg/xSoly7SM7uijxNbp3kkqGWwL
+ HtDlJmPvUlV0QrNxmHQj6Lld0DS+21gGl8QSdUvLHRJ8urnoUFaSVOM5Eq46V7Xz4Iwq sQ== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3huwqdvdkt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Aug 2022 10:50:16 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 27B99TWc040690; Thu, 11 Aug 2022 10:50:16 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3huwqgrbyc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Aug 2022 10:50:15 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lNHzdv/uD3aStXuJsBQjk1jh5b4Moz6rctC6UirbtmWmRticPBvO+9RDQSFQPdX5YjmjyGL9buuuSMyo177Ef3+8aEQjGKiUaJ92q/Wms3OkhH7mcWNjos/UXY6rtHuNgIvcpBTBDHyFvCf64Fwc3amji++o4Bpk5GTyNUfNJD8zbo1e4ClWxNWHZbP5Fq8vwdoU9thLS4kGpe4KxfVbOgM/LaS6itDWCBmLRHuFhMgmf5TwGO5CdFZ81dZOMEk3NGwmWsa+57mZ326PP0+c+wi6vH2tqQhjU7gwlq5eXiiAGLsBe8zaBl5TWKsW6gS1Ip2EmHNlwNGbOzyk1+dRKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MZaLuSjoCsKp7RN8JOjxrVElpIs+f4w0WzPkpIS17oQ=;
+ b=ZjkcbMZNM5LaKbCpBpEaZNe61gRVSlvcu7x6Hn2GnIOlz8S3JV9hhicAkXf1HjTciAacSdrRtXd9q2L+feuBxaFtG1azfk/6QGg7s99pQKeLrR6hA1f0/YISya/SKSfu6irXPEsNlrbLYZZzyr73o57x0hlXKyo07H87fRp4kf9lCutGdguNYX1v53ydVU3o5+80iDIdCvmRm2f2ZZR+7zzYYU93HVGmqx+WHZ8pkU8JDalr5F8J7jNEA3Q7Nwmfw81mt7tjb/PgXR4q7YSUtmIdHSu3h22TVvUa0pgn3rcYmSJjBtaWjkz7OxWKUwe+QXDX99JXrFBOSVlHx32o3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MZaLuSjoCsKp7RN8JOjxrVElpIs+f4w0WzPkpIS17oQ=;
+ b=AZ/lKn5HN+Wnz06eXSZu+3lUl4j73oSsFIbzLgPRalNeN8467rZz35jB/OARqEO3RGKTgbJqUKt9t9urPWE7C8MtiRLADu1D6zjdXT0o2Oro+VhlIXKWb3zAUzxGFiYUT3AVQIKgTwSEXBHmC6pmet6ZxgOHmONh1geJkxNkE7A=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by DM6PR10MB3948.namprd10.prod.outlook.com (2603:10b6:5:1d0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 11 Aug
+ 2022 10:50:13 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::89:b21d:7dc4:24d9]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::89:b21d:7dc4:24d9%9]) with mapi id 15.20.5525.011; Thu, 11 Aug 2022
+ 10:50:13 +0000
+Message-ID: <c1190e87-c532-a1c4-d107-1495cff34208@oracle.com>
+Date: Thu, 11 Aug 2022 11:50:05 +0100
+From: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH RFC 0/7] hostmem: NUMA-aware memory preallocation using
+ ThreadContext
+To: David Hildenbrand <david@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Mark Kanda <mark.kanda@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20220721120732.118133-1-david@redhat.com>
+ <f8ab5723-07ba-f418-3011-e7850324adc1@oracle.com>
+ <31107841-f033-5e40-2333-9c258a631027@redhat.com>
+Content-Language: en-US
+In-Reply-To: <31107841-f033-5e40-2333-9c258a631027@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0111.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:192::8) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
- <20220712093528.4144184-12-marcandre.lureau@redhat.com>
- <87pmhf86ew.fsf@pond.sub.org>
- <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
- <8735e38e6t.fsf@pond.sub.org>
- <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
- <87o7wr5ew9.fsf@pond.sub.org>
- <CAJ+F1CKbkTOX7Fh9RvkBvuW_gZqZjYSta=7nEKbzm-OefPE_GQ@mail.gmail.com>
- <CAFEAcA8E7uTSHh+BdnU2ZHiaquaQDqpYMurUwpjvVmK-Ks522w@mail.gmail.com>
-In-Reply-To: <CAFEAcA8E7uTSHh+BdnU2ZHiaquaQDqpYMurUwpjvVmK-Ks522w@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 11 Aug 2022 14:50:01 +0400
-Message-ID: <CAJ+F1CLb=+gA=Keb3WgW3Mf84eWRikWVxV8HTjdQU8pFTVNMEg@mail.gmail.com>
-Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
- Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-block@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Xie Yongji <xieyongji@bytedance.com>, 
- Kyle Evans <kevans@freebsd.org>, John Snow <jsnow@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Warner Losh <imp@bsdimp.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <laurent@vivier.eu>, 
- Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000015537b05e5f4ee09"
-Received-SPF: pass client-ip=2a00:1450:4864:20::229;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x229.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6bedd2a5-5abc-4943-95ce-08da7b8744fe
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3948:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jdGF2rWoRbnloDM1MOhZ3vFuKbkAZwmF7pdtyKarRpGiEqQm9bp96CY092gpDXFNKYscGkKUUNLhYlRzvEti/F3XSfALiD+S6GJBBWy808rObI92aPCZzEk6YS56+xWcKZ9qZ+jlP8dil5MDb6NmuCn9f3uroxNwV1kG8jLirxnRn4Ku2w9IJAhaJNiB36z+flOT6DmE7aU/ah47vUu5TF6e9p35pYkWBSRqUEeoxwG5ss3E4a8zDsTTSGvRSfyRGTk/GZAdH/bP1r8iLnq8Kru/kmFMxMcf0/QnYdnlUeR2AJYk9h+2b4UowmIKJsFIPFLnrsXv/MO/7h8JHvvkVm6S68n1SGVYo1TeZjzdGsgCOoj3T6SUJzMI6sLmj1GTUq4bdwIxhFS6uGjXbKDEOqx7lQSBLyhIJMZlHm4youOHQoFUaMOOgRybEVGY5CW8bl0PCw3sOiVFqthtd8u4iOiC66tBUljNq2rOlF0gOTgzaV+xpd8Wwbysr2kZ5ZwkIT5GDYy+Q8/RUUv1wMIO1wWHoDssjw2JMNbXjKBxFPploZDkSB6Nx7SWpzFct9kN/RbN5+uVh6eslncOcydqyYSvnRZa1cfPu61TRBZ0n9iCI2Dc0Fygsxi2n1DNaxFcZP7qc7IdOkOWWlM8V6D88AhPwZHQw90rHXTgMfKNxfSdKumWcAji1ug89PA5Uxe6rJD4FDcTewGXyJPGAwNvaAxDHdXi66GRJAdGuTxQIM4VtWf+k8WmYG3urNfXCtw4mSLHuqcTao0C5qu9kBLozogTUImt3Qtxq9ZcMXR0kbs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(376002)(39860400002)(136003)(346002)(396003)(36756003)(38100700002)(86362001)(53546011)(6506007)(2616005)(83380400001)(6512007)(31686004)(26005)(6666004)(31696002)(186003)(8676002)(478600001)(316002)(54906003)(6916009)(41300700001)(6486002)(7416002)(66556008)(4326008)(5660300002)(8936002)(66476007)(66946007)(2906002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmkzY0FoVnMzSnNpVE4zTzlRYnZkMTBTT2FHdHZBb2FzL0QwQlgyd0xTam5x?=
+ =?utf-8?B?K3BwczdTM2tIVFlIcjJuL2xDQ1REeElrYklyNEMrMXZOUDFxZ3FuMGtrNmIr?=
+ =?utf-8?B?eHpmTHVqTWJMWEJXZ2x1M1hMR0g5Wk93Sm41TTJxV1M0a2pBd3E5ZjUyS2U1?=
+ =?utf-8?B?TVQzR3FjMWY4TkJIa3I2ZElOb0h4K1g2WXRGV3dLTU5ZZGdydkhWd2hqQk1m?=
+ =?utf-8?B?ZHpRd3JPdy9UU0QrQ2RmRHpBdnR0Q3RWYXF6cXE0QWJwcmJzRW4vejF1VWsv?=
+ =?utf-8?B?NDdjUWpWd0FMeFBuZ0s3TGtIWnZ3aXlzUEhSOFB6SXQvb1ZsSEpXcmFKbkhW?=
+ =?utf-8?B?WUt2OFd2UTRNblFSYmlNWSsreVJKUldWSHFzbnJGWWx5OUF4RGZTRWR1d1oy?=
+ =?utf-8?B?NHVxcXZ4YVg4aCs1VXlDMzQ5bVFwa0Nzc3JmQzNJcWkwZ09VV0xrQlhtVUZ5?=
+ =?utf-8?B?d1FoSXpsam1UR3YyUXlvUkQ1by9UWEg2ODYvM2VaRkJkaGx3OVVSQUpaREIz?=
+ =?utf-8?B?TjJpMkt6QmpaallndmIrUHJMeFhRMVFRaFdrRThMbG55WllVZzF2OFVUcDY0?=
+ =?utf-8?B?VHZuTEd6cXJoOVpEbFQ2MjNpbUNVSENRdTUvU2FZVzlXME9aT2FVbkhlM21o?=
+ =?utf-8?B?YSthcnBmNTA0QXNZcDZWejRQR1NHdFVKY3U2a0JSSGpxLzJwTjZ3dmFKYmI1?=
+ =?utf-8?B?R0VGaytieW03K2RUUSsvN3prT2xiTWcyZkNCTGZrMjF0Z0dOYklDY2s2UEVn?=
+ =?utf-8?B?MHFEUDN0cGltUkNRQVZad0lOZzZXRzA1TzB3UStMSGZPem1RcXplbWZRbGdS?=
+ =?utf-8?B?c2dxVFAzWmxJS2NXaEN1WXNtMllpUXBQbDI3RjZpWEVwSEhGQVdOdUhxVStr?=
+ =?utf-8?B?cjBPN1hqMW44SmNjWU1naWw0VWtaWXN6L0NKVm4yZlRHSzEyMGtFQXdsblFi?=
+ =?utf-8?B?MjYyRkpCdVFFVnU0SWQxaTZMQy9QaWl0N1lHajkxU0dYQjlDQ0Z1Tjg3bm5u?=
+ =?utf-8?B?a0g3b3NjcTEwRDRWN2FOa2dacmJ0bmpQZ1d3aGplaC9zMS9hQWpaMWJNaTRp?=
+ =?utf-8?B?Tk5KMnVCVEdkQ3daUzh1cFVicm5PTzVOQjVMcDdPYWM4NDQ2ZS9NcklvVVZ3?=
+ =?utf-8?B?NHVHMFh3dDlHZURzbWVUVVM5OUZQZWR6YUg1VjVYL09ucHUrdWhOQ0xMbHhX?=
+ =?utf-8?B?M1pxSDVnbVFQWEw5UjJUNWl3R3U4bUFydHFLMkthQW45ZXd3VEJwQmJEaUpn?=
+ =?utf-8?B?c2xqLzBrL3d5bkN1c0dJVHNZcld3L1dMZDl5YldqakcrRHludHdpOGhOSDRK?=
+ =?utf-8?B?UmRqOTZJTTdUc29oRkJiWDdyYk9hZEJwODlzbmVzcE55eVh3MjFBenYxbzhB?=
+ =?utf-8?B?dHY1Z3JqcW9oRHRsNldLRDh5UTVTeUlvRnZPanlnMjdGalEyRnluWkVJckNz?=
+ =?utf-8?B?ZXJVc2IweVZSVGkxRzJPalQ4NW4wMGU3ZXFxdWlrUkk5SjlvSmdlTWF5bGFp?=
+ =?utf-8?B?TmI3KzBCMFhhWHhkOXhuNWEyZ3ZJc001NGQ2dHM2a0RsLzNsaGUrU3JMRWI4?=
+ =?utf-8?B?T1cyNmdNaENEQXgwNzNDeFJzZmYvRDcyTUlKQ2FZckhhcEpuYWtOclJnOXZp?=
+ =?utf-8?B?S2VpcmJDaStIRU9laFUrZk5oY0lLMGF4eURWY2lLSko5czdNSUZNaThyNlov?=
+ =?utf-8?B?MmlyL2FGNTFsUGhWTnl4QXZaMEt0SG9TcWVaNEFKSmVhUFJwdUFOY1V5Mmpz?=
+ =?utf-8?B?SSs2TTdEVEZDbEVHS0RHdFZycFZxYlNLN0RvVXBtcnJSNkorZGNmRXdnUzZG?=
+ =?utf-8?B?U2JKZ1RUbStnREpKZm9XMG5iR2dDQjFaTTQvZFBsZzFXbjBKL1cwWDFiU1RZ?=
+ =?utf-8?B?WWtJOEdUelkzdmdqS1l1UkR5dndPc24zKytzSDZGam4vUXJuTlVoSEZpV3pt?=
+ =?utf-8?B?QW0vOENPSjk2d2E4TEpCVC9XZ0l6azJFYlRoZjB6OC9DZVcrWFI1MVorVjdB?=
+ =?utf-8?B?OFczZmlBZWdFMUo2V3dEeDFhZFU5R05odVRsTUlRK204bGlrZzVnOVRDTkxV?=
+ =?utf-8?B?WFhDM01Nc3JWWkIwRGthM2l4bGpBNXlIKzBSaUt0RFpaU3VJSjBTMkZrN1ps?=
+ =?utf-8?B?cnVFb2RqNHRlSmVjaVpqK3RGT2hVUGpuOXpkSFJ4Y2JEU2VTdGY3RFNBNWJX?=
+ =?utf-8?B?OWc9PQ==?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bedd2a5-5abc-4943-95ce-08da7b8744fe
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 10:50:13.5777 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Oe1zIVemHW+Urcbo5CmxhmD3pFCsqCZg22axUbLqBzL2BBT3ShhdF2WI5Sc2wfMrVVskLtlkQK9J/cthimUioL889hVeHNVxKid3OFOez3U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3948
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-11_05,2022-08-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208110031
+X-Proofpoint-GUID: 2F9WeLPT8bO9BAjAJR7zYNvQNJdcbwB7
+X-Proofpoint-ORIG-GUID: 2F9WeLPT8bO9BAjAJR7zYNvQNJdcbwB7
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,176 +191,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000015537b05e5f4ee09
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 8/9/22 19:06, David Hildenbrand wrote:
+> On 09.08.22 12:56, Joao Martins wrote:
+>> On 7/21/22 13:07, David Hildenbrand wrote:
+>>> This is a follow-up on "util: NUMA aware memory preallocation" [1] by
+>>> Michal.
+>>>
+>>> Setting the CPU affinity of threads from inside QEMU usually isn't
+>>> easily possible, because we don't want QEMU -- once started and running
+>>> guest code -- to be able to mess up the system. QEMU disallows relevant
+>>> syscalls using seccomp, such that any such invocation will fail.
+>>>
+>>> Especially for memory preallocation in memory backends, the CPU affinity
+>>> can significantly increase guest startup time, for example, when running
+>>> large VMs backed by huge/gigantic pages, because of NUMA effects. For
+>>> NUMA-aware preallocation, we have to set the CPU affinity, however:
+>>>
+>>> (1) Once preallocation threads are created during preallocation, management
+>>>     tools cannot intercept anymore to change the affinity. These threads
+>>>     are created automatically on demand.
+>>> (2) QEMU cannot easily set the CPU affinity itself.
+>>> (3) The CPU affinity derived from the NUMA bindings of the memory backend
+>>>     might not necessarily be exactly the CPUs we actually want to use
+>>>     (e.g., CPU-less NUMA nodes, CPUs that are pinned/used for other VMs).
+>>>
+>>> There is an easy "workaround". If we have a thread with the right CPU
+>>> affinity, we can simply create new threads on demand via that prepared
+>>> context. So, all we have to do is setup and create such a context ahead
+>>> of time, to then configure preallocation to create new threads via that
+>>> environment.
+>>>
+>>> So, let's introduce a user-creatable "thread-context" object that
+>>> essentially consists of a context thread used to create new threads.
+>>> QEMU can either try setting the CPU affinity itself ("cpu-affinity",
+>>> "node-affinity" property), or upper layers can extract the thread id
+>>> ("thread-id" property) to configure it externally.
+>>>
+>>> Make memory-backends consume a thread-context object
+>>> (via the "prealloc-context" property) and use it when preallocating to
+>>> create new threads with the desired CPU affinity. Further, to make it
+>>> easier to use, allow creation of "thread-context" objects, including
+>>> setting the CPU affinity directly from QEMU, *before* enabling the
+>>> sandbox option.
+>>>
+>>>
+>>> Quick test on a system with 2 NUMA nodes:
+>>>
+>>> Without CPU affinity:
+>>>     time qemu-system-x86_64 \
+>>>         -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind \
+>>>         -nographic -monitor stdio
+>>>
+>>>     real    0m5.383s
+>>>     real    0m3.499s
+>>>     real    0m5.129s
+>>>     real    0m4.232s
+>>>     real    0m5.220s
+>>>     real    0m4.288s
+>>>     real    0m3.582s
+>>>     real    0m4.305s
+>>>     real    0m5.421s
+>>>     real    0m4.502s
+>>>
+>>>     -> It heavily depends on the scheduler CPU selection
+>>>
+>>> With CPU affinity:
+>>>     time qemu-system-x86_64 \
+>>>         -object thread-context,id=tc1,node-affinity=0 \
+>>>         -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind,prealloc-context=tc1 \
+>>>         -sandbox enable=on,resourcecontrol=deny \
+>>>         -nographic -monitor stdio
+>>>
+>>>     real    0m1.959s
+>>>     real    0m1.942s
+>>>     real    0m1.943s
+>>>     real    0m1.941s
+>>>     real    0m1.948s
+>>>     real    0m1.964s
+>>>     real    0m1.949s
+>>>     real    0m1.948s
+>>>     real    0m1.941s
+>>>     real    0m1.937s
+>>>
+>>> On reasonably large VMs, the speedup can be quite significant.
+>>>
+>> Really awesome work!
+> 
+> Thanks!
+> 
+>>
+>> I am not sure I picked up this well while reading the series, but it seems to me that
+>> prealloc is still serialized on per memory-backend when solely configured by command-line
+>> right?
+> 
+> I think it's serialized in any case, even when preallocation is
+> triggered manually using prealloc=on. I might be wrong, but any kind of
+> object creation or property changes should be serialized by the BQL.
+> 
+> In theory, we can "easily" preallocate in our helper --
+> qemu_prealloc_mem() -- concurrently when we don't have to bother about
+> handling SIGBUS -- that is, when the kernel supports
+> MADV_POPULATE_WRITE. Without MADV_POPULATE_WRITE on older kernels, we'll
+> serialize in there as well.
+> 
+/me nods matches my understanding
 
-Hi
+>>
+>> Meaning when we start prealloc we wait until the memory-backend thread-context action is
+>> completed (per-memory-backend) even if other to-be-configured memory-backends will use a
+>> thread-context on a separate set of pinned CPUs on another node ... and wouldn't in theory
+>> "need" to wait until the former prealloc finishes?
+> 
+> Yes. This series only takes care of NUMA-aware preallocation, but
+> doesn't preallocate multiple memory backends in parallel.
+> 
+> In theory, it would be quite easy to preallocate concurrently: simply
+> create the memory backend objects passed on the QEMU cmdline
+> concurrently from multiple threads.
+> 
+Right
 
-On Thu, Aug 11, 2022 at 2:22 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+> In practice, we have to be careful I think with the BQL. But it doesn't
+> sound horribly complicated to achieve that. We can perform all
+> synchronized under the BQL and only trigger actual expensive
+> preallocation (-> qemu_prealloc_mem()) , which we know is MT-safe, with
+> released BQL.
+> 
+Right.
 
-> On Thu, 11 Aug 2022 at 11:09, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@gmail.com> wrote:
-> > On Thu, Aug 11, 2022 at 1:05 PM Markus Armbruster <armbru@redhat.com>
-> wrote:
-> >> Your moves tear closely related code apart.  This is going to be a dra=
-g
-> >> for developers in general and maintainers in particular.
-> >>
-> >> Ergonomics suffer when related code is in multiple places.  Having to
-> >> switch between directories and remember where is what will a constant
-> >> low-level pain.  Things that used to be simple & quick, like git-grep
-> >> qapi/*.c, become more involved.
-> >>
-> >
-> > It's inevitable when a project grows. QEMU is already a very large
-> project. Over the years, we have structured the project, by moving things
-> and splitting in subdirectories. Imho, this is actually helpful in many
-> ways, and we got used to it easily hopefully.
->
-> I agree with this. But generally we've tried to do that by
-> having the subdirectory splitting and naming match the
-> structure of the codebase. The exception, which I strongly
-> dislike, is that contrib/ is a grabbag of random stuff.
-> subprojects/ is starting to feel like it is also turning
-> into "place where random stuff ends up"...
->
+The small bit to take care (AFAIU from the code) is to defer waiting for all the memset
+threads to finish. The problem in command line at least is that you attempt at memsetting,
+but then wait for all the threads to finish. And because the context
+passed to memset is allocated over the stack we must wait as we would lose that
+state. So it's mainly moving the tracking to be global and defer the time
+that we wait to join all threads. With MADV_POPULATE_WRITE we know we are OK but I
+wonder if sigbus could be made to work too like only registering only once, and the
+sigbus handler would look for the thread based on the address range it is handling,
+having the just-MCEd address. And we only unregister the sigbus handler also once after
+all prealloc threads are finished.
 
-Yes, most of contrib/* should probably be standalone projects. If only we
-had some kind of common library/subproject :)
+Via QMP, I am not sure BQL is the only "problem", there might be some monitor lock there
+too or some sort of request handling serialization that only one thread processes QMP
+requests and dispatches them. Simply releasing BQL prior to prealloc doesn't do much,
+but though it may help doing other work while that is happening.
 
-subproject/* is a meson *cough* convention (imposed location for
-subprojects). If we don't want to depend on external released libraries,
-that's just the way it is.
+>>
+>> Unless as you alluded in one of the last patches: we can pass these thread-contexts with
+>> prealloc=off (and prealloc-context=NNN) while qemu is paused (-S) and have different QMP
+>> clients set prealloc=on, and thus prealloc would happen concurrently per node?
+> 
+> I think we will serialize in any case when modifying properties. Can you
+> give it a shot and see if it would work as of now? I doubt it, but I
+> might be wrong.
+> 
 
+Over a quick experiment with two monitors each
+attempting at prealloc each node in parallel, well it takes the same 7secs (on a small
+2-node 128G test) regardless. Your expectation looks indeed correct.
 
->
-> > Do you see fundamental reasons why qemu-ga or (qemu-img, qemu-nbd,
-> storage-daemon, virtiofsd, vhost-user-*, *helper, ivshmem* etc) need to b=
-e
-> tight to qemu code, release and management process? I am not saying it's
-> time to move them out of qemu project, but I believe it's helpful to have
-> code that is structured and can be compiled indepently.
-> >
-> > And by having "standalone" subprojects, we can more easily evolve in ne=
-w
-> directions, without touching the rest of the projects.
->
-> As Markus says, your branch ends up moving most of qobject into
-> qemu-common/. We are never going to let that out of QEMU proper,
-> because we are never going to allow ourselves to be tied to API
-> compatibility with it as an external library. So anything that
->
-
-Why is that? We do it with a lot of dependencies already, with stable APIs.
-
-Furthermore, we don't "have to" be tied to a specific ABI/API, we can
-continue to link statically and compile against a specific version. like
-with libvfio-user today.
-
-And at this point, I am _not_ proposing to have an extra "qemu-common"
-repository. I don't think there are enough reasons to want that either.
-
-
-
-> needs qobject is never going to leave the QEMU codebase. Which
->
-means that there's not much gain from shoving it into subproject/
-> IMHO.
-
-
-(just to be extra clear, it's qobject not QOM we are talking about)
-
-qobject is fundamental to all the QAPI related generated code. Why should
-that remain tight to QEMU proper?
-
-
-thanks
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000015537b05e5f4ee09
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 11, 2022 at 2:22 PM Pet=
-er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
-naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Thu, 11 Aug 2022 at 11:09, Marc-Andr=C3=A9 Lureau<br>
-&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
-re.lureau@gmail.com</a>&gt; wrote:<br>
-&gt; On Thu, Aug 11, 2022 at 1:05 PM Markus Armbruster &lt;<a href=3D"mailt=
-o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
-&gt;&gt; Your moves tear closely related code apart.=C2=A0 This is going to=
- be a drag<br>
-&gt;&gt; for developers in general and maintainers in particular.<br>
-&gt;&gt;<br>
-&gt;&gt; Ergonomics suffer when related code is in multiple places.=C2=A0 H=
-aving to<br>
-&gt;&gt; switch between directories and remember where is what will a const=
-ant<br>
-&gt;&gt; low-level pain.=C2=A0 Things that used to be simple &amp; quick, l=
-ike git-grep<br>
-&gt;&gt; qapi/*.c, become more involved.<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; It&#39;s inevitable when a project grows. QEMU is already a very large=
- project. Over the years, we have structured the project, by moving things =
-and splitting in subdirectories. Imho, this is actually helpful in many way=
-s, and we got used to it easily hopefully.<br>
-<br>
-I agree with this. But generally we&#39;ve tried to do that by<br>
-having the subdirectory splitting and naming match the<br>
-structure of the codebase. The exception, which I strongly<br>
-dislike, is that contrib/ is a grabbag of random stuff.<br>
-subprojects/ is starting to feel like it is also turning<br>
-into &quot;place where random stuff ends up&quot;...<br></blockquote><div><=
-br></div><div>Yes, most of contrib/* should probably be standalone projects=
-. If only we had some kind of common library/subproject :)<br></div><div>=
-=C2=A0</div><div>subproject/* is a meson *cough* convention (imposed locati=
-on for subprojects). If we don&#39;t want to depend on external released li=
-braries, that&#39;s just the way it is.<br></div><div>=C2=A0 <br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; Do you see fundamental reasons why qemu-ga or (qemu-img, qemu-nbd, sto=
-rage-daemon, virtiofsd, vhost-user-*, *helper, ivshmem* etc) need to be tig=
-ht to qemu code, release and management process? I am not saying it&#39;s t=
-ime to move them out of qemu project, but I believe it&#39;s helpful to hav=
-e code that is structured and can be compiled indepently.<br>
-&gt;<br>
-&gt; And by having &quot;standalone&quot; subprojects, we can more easily e=
-volve in new directions, without touching the rest of the projects.<br>
-<br>
-As Markus says, your branch ends up moving most of qobject into<br>
-qemu-common/. We are never going to let that out of QEMU proper,<br>
-because we are never going to allow ourselves to be tied to API<br>
-compatibility with it as an external library. So anything that<br></blockqu=
-ote><div><br></div><div>Why is that? We do it with a lot of dependencies al=
-ready, with stable APIs.<br></div><div><br></div><div>Furthermore, we don&#=
-39;t &quot;have to&quot; be tied to a specific ABI/API, we can continue to =
-link statically and compile against a specific version. like with libvfio-u=
-ser today.</div><div><br></div><div>And at this point, I am _not_ proposing=
- to have an extra &quot;qemu-common&quot; repository. I don&#39;t think the=
-re are enough reasons to want that either.<br></div><div><br></div><div>=C2=
-=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-needs qobject is never going to leave the QEMU codebase. Which <br></blockq=
-uote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
-means that there&#39;s not much gain from shoving it into subproject/<br></=
-div>
-IMHO.</blockquote><div><br></div></div><div class=3D"gmail_quote">(just to =
-be extra clear, it&#39;s qobject not QOM we are talking about)<br></div><di=
-v class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">qobject is fun=
-damental to all the QAPI related generated code. Why should that remain tig=
-ht to QEMU proper?<br></div><div><br></div><div><br></div><div>thanks</div>=
-<div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
-
---00000000000015537b05e5f4ee09--
+>>
+>> We were thinking to extend it to leverage per socket bandwidth essentially to parallel
+>> this even further (we saw improvements with something like that but haven't tried this
+>> series yet). Likely this is already possible with your work and I didn't pick up on it,
+>> hence just making sure this is the case :)
+> 
+> With this series, you can essentially tell QEMU which physical CPUs to
+> use for preallocating a given memory backend. But memory backends are
+> not created+preallocated concurrently yet.
+> 
+Yeap, thanks for the context/info.
 
