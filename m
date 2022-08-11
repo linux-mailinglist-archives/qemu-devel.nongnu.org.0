@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0FE58F830
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 09:15:30 +0200 (CEST)
-Received: from localhost ([::1]:56188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAE358F838
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 09:18:03 +0200 (CEST)
+Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM2Ph-0007cG-3S
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 03:15:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
+	id 1oM2S9-0000cD-GC
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 03:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oM2KM-0003Ow-C2
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 03:09:58 -0400
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:52751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oM2KI-0005tA-Hc
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 03:09:57 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.25])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 4DADB243AB;
- Thu, 11 Aug 2022 07:09:49 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 11 Aug
- 2022 09:09:48 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0012127c4d5-b1b5-44c6-921c-e579629269ac,
- B18B381393FCCA734C2622819310E7EBE9D8D149) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.155.17
-Message-ID: <fabc82c0-9443-73cb-9437-320fd1dc766e@kaod.org>
-Date: Thu, 11 Aug 2022 09:09:47 +0200
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oM2Lt-0004D3-Ha; Thu, 11 Aug 2022 03:11:33 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:33757)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oM2Lq-0006M7-C3; Thu, 11 Aug 2022 03:11:32 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id j3so11246127ljo.0;
+ Thu, 11 Aug 2022 00:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=1VD50tSs9SkeVrV4KBX2C6wBbZWP1djoTjHkUX2vtD4=;
+ b=ni248imdGorA1a7LtifeAW4pO8iIYPpn899cNBX81qAPbedXJFb4/Tc0sn/zglddEU
+ xBtxhfTb35MdZTH3DKBiA7dOxib+XkxWSJO1AVbn3W+AcET7W2cxAcRY0FjumWVTSimG
+ 4QUrjWupkB5a+xsDZusb32/qAvP60XDuUBdWGNtZfgWwvJQ9zITc/3Ni3D9n9vFSd4ZJ
+ fwiysgX2MyHmLEwzVdPzQS0Pq2VaLzUZtASF5fUCyXKUbtNNl7YLIf2R1UHIAZSODTCh
+ pzWEUeBufg5fZar31EOF0PNKys9x+9cKqyWiTsyanaVdvwm0tEJnjlarmZZfYyGLzDPn
+ uh8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=1VD50tSs9SkeVrV4KBX2C6wBbZWP1djoTjHkUX2vtD4=;
+ b=oQ2v3u+W0RB7TaR1cHyPHCMyiUt05VHcGB5/B4IBXAMjvx/SgMT/YiRavWX1RyOvbK
+ TKtRJLmJoPJvkSwGVYDUACxRWc/x+xG4V42VKRGaEH8VQCTXQajFhiD1XhSwLw3Qqdnn
+ OOmb+ARKExTKONTfjtupY9a1GLEl6neMODwM9K3INeNiU8DJgZONk81/DV6MMEdZP5yR
+ HoiP4OPgSoB1i+B0qV+NphRKPlhpJtCE/WiKFvWl/xHvVunH4RP+77RYpJ6tkMGQqL6m
+ GIrhr55T1ea4rYPHu1H0CADjAwHm6Hd+bjm3vhcE539xmdQ8auUhc8AZJaTkEWQSROSE
+ s1TQ==
+X-Gm-Message-State: ACgBeo1sm9ry2ClazD+8NNUUuDwRpEBHD9W212fpd63RruFzZ7SNy+T7
+ II7S+AKR0qKRWP5BOe7RkGhq8Ogm6obXJu9vmnA=
+X-Google-Smtp-Source: AA6agR4lVm6fmApuihLJCU4uSMMi6ajfjGtTQ0s+QCNX8Gu8yaSEWweaajYZqiX7T0SF6ndrnVc593V32vcnn+EvOTk=
+X-Received: by 2002:a2e:5455:0:b0:25e:4b87:9714 with SMTP id
+ y21-20020a2e5455000000b0025e4b879714mr9181119ljd.463.1660201887539; Thu, 11
+ Aug 2022 00:11:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4 08/24] ppc/ppc4xx: Introduce a DCR device model
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: <qemu-ppc@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220809153904.485018-1-clg@kaod.org>
- <20220809153904.485018-9-clg@kaod.org>
- <8dcf2a12-f799-673f-d5bf-1cecba42447a@eik.bme.hu>
- <77bc11f5-129a-a3a8-6c24-09c83da2fabd@kaod.org>
- <alpine.LMD.2.03.2208101524000.10818@eik.bme.hu>
- <7cccd86d-5bf2-e45c-b592-80ba10c06a41@kaod.org>
- <96386d50-8f2-4f63-c425-a1dc5247dcb7@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <96386d50-8f2-4f63-c425-a1dc5247dcb7@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 556d1bdd-ba55-4ad4-80d0-5860dea3bb61
-X-Ovh-Tracer-Id: 12338737080510942115
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegfedguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+ <20220712093528.4144184-12-marcandre.lureau@redhat.com>
+ <87pmhf86ew.fsf@pond.sub.org>
+ <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
+ <8735e38e6t.fsf@pond.sub.org>
+In-Reply-To: <8735e38e6t.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 11 Aug 2022 11:11:15 +0400
+Message-ID: <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
+Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
+ Cleber Rosa <crosa@redhat.com>, qemu-block@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Xie Yongji <xieyongji@bytedance.com>, 
+ Kyle Evans <kevans@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>, 
+ John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Warner Losh <imp@bsdimp.com>, 
+ Kevin Wolf <kwolf@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <laurent@vivier.eu>, 
+ Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000c3282405e5f1df26"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,123 +93,191 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/22 16:48, BALATON Zoltan wrote:
-> On Wed, 10 Aug 2022, Cédric Le Goater wrote:
->> On 8/10/22 15:28, BALATON Zoltan wrote:
->>> On Wed, 10 Aug 2022, Cédric Le Goater wrote:
->>>> On 8/9/22 19:21, BALATON Zoltan wrote:
->>>>> On Tue, 9 Aug 2022, Cédric Le Goater wrote:
->>>>>> The Device Control Registers (DCR) of on-SoC devices are accessed by
->>>>>> software through the use of the mtdcr and mfdcr instructions. These
->>>>>> are converted in transactions on a side band bus, the DCR bus, which
->>>>>> connects the on-SoC devices to the CPU.
->>>>>>
->>>>>> Ideally, we should model these accesses with a DCR namespace and DCR
->>>>>> memory regions but today the DCR handlers are installed in a DCR table
->>>>>> under the CPU. Instead introduce a little device model wrapper to hold
->>>>>> a CPU link and handle registration of DCR handlers.
->>>>>>
->>>>>> The DCR device inherits from SysBus because most of these devices also
->>>>>> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
->>>>>> to install the device model in the overall SoC.
->>>>>>
->>>>>> The "cpu" link should be considered as modeling the piece of HW logic
->>>>>> connecting the device to the DCR bus.
->>>>>>
->>>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>>>> ---
->>>>>> include/hw/ppc/ppc4xx.h | 17 ++++++++++++++++
->>>>>> hw/ppc/ppc4xx_devs.c    | 44 +++++++++++++++++++++++++++++++++++++++++
->>>>>> 2 files changed, 61 insertions(+)
->>>>>>
->>>>>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->>>>>> index 591e2421a343..82e60b0e0742 100644
->>>>>> --- a/include/hw/ppc/ppc4xx.h
->>>>>> +++ b/include/hw/ppc/ppc4xx.h
->>>>>> @@ -27,6 +27,7 @@
->>>>>>
->>>>>> #include "hw/ppc/ppc.h"
->>>>>> #include "exec/memory.h"
->>>>>> +#include "hw/sysbus.h"
->>>>>>
->>>>>> void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->>>>>>                         MemoryRegion ram_memories[],
->>>>>> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->>>>>>
->>>>>> #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->>>>>>
->>>>>> +/*
->>>>>> + * Generic DCR device
->>>>>> + */
->>>>>> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
->>>>>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
->>>>>> +struct Ppc4xxDcrDeviceState {
->>>>>> +    SysBusDevice parent_obj;
->>>>>> +
->>>>>> +    PowerPCCPU *cpu;
->>>>>> +};
->>>>>> +
->>>>>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>>>>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
->>>>>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->>>>>> +                        Error **errp);
->>>>>> +
->>>>>> #endif /* PPC4XX_H */
->>>>>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->>>>>> index 069b51195160..bce7ef461346 100644
->>>>>> --- a/hw/ppc/ppc4xx_devs.c
->>>>>> +++ b/hw/ppc/ppc4xx_devs.c
->>>>>> @@ -664,3 +664,47 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->>>>>>                          mal, &dcr_read_mal, &dcr_write_mal);
->>>>>>     }
->>>>>> }
->>>>>> +
->>>>>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn,
->>>>>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
->>>>>
->>>>> I still think this should have a separate void *opaque parameter for the callbacks and not pass dev for that as the callbacks could use anything they wish for that parameter. (Additionally this allows dropping a lot of QOM casts. If you want to see how often these are accessed, you can try -trace enable="ppc_dcr*"; on the machines and OS I've tested some are read/written frequently so I'd not add unnecessary overhead without a good reason.)
->>>>
->>>> This machine has been abandoned for 15 years and broken for maybe 10.
->>>> I think it is fine for now. We will see if further needs arise.
->>>
->>> It will arise as I'd like to keep at least the devices used by sam460ex somewhat sane 
->>
->> What do you mean by somewhat sane ? If it is the QOM casts, I don't
->> understand why you worry so much about it because QOM cast debugging
->> is not enabled by default. So it really should not impact performance
->> as you think it would.
-> 
-> I think it is enabled by default unless you explicitly disable> it which is not done by most distros so it's generally may
-> impact performance (or if it's already slow for other reasons
-> then it just increase inefficiency needlessly). If it's simple
-> to avoid like here why not avoid it? 
+--000000000000c3282405e5f1df26
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It is not. you need to add '--enable-qom-cast-debug' to configure.
+Hi
 
-> Also conceptually the
-> opaque parameter is a closure for the callback functions while
-> dev is a self pointer for the method and you're now mixing
-> these two. I think it's cleaner to keep them separate and not
-> impose a restiction on the callbacks.
+On Thu, Aug 11, 2022 at 10:52 AM Markus Armbruster <armbru@redhat.com>
+wrote:
+
+> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 >
-> Sorry but I have strong feeling on this one. 
+> > Hi
+> >
+> > On Fri, Aug 5, 2022 at 12:12 PM Markus Armbruster <armbru@redhat.com>
+> wrote:
+> >
+> >> marcandre.lureau@redhat.com writes:
+> >>
+> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> >
+> >> > This is just moving qapi-gen.py and related subdir to qemu-common, t=
+o
+> >> > ease review and proceed step by step. The following patches will mov=
+e
+> >> > related necessary code, tests etc.
+> >> >
+> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>
+> >> As moved files tend to become low-level annoyances for a long time, I'=
+d
+> >> like to understand why you want to move them.  The commit message says
+> >> "to ease review", which I suspect isn't the real reason.  Perhaps you
+> >> explained all that elsewhere already, but I missed it.
+> >>
+> >>
+> >>
+> > The end goal is to split some projects, such as qemu-ga, to standalone
+> > meson projects/subprojects. We will be able to build them independently
+> > from the rest of QEMU, and later on perhaps handle them outside of QEMU
+> > main repository. To achieve this, I first introduce a qemu-common
+> > subproject, where qapi and common units are provided. You can check
+> > https://gitlab.com/marcandre.lureau/qemu/-/commits/qga for a sneak peek
+> at
+> > current end result.
+>
+> I worry this move of the QAPI generator code into
+> subjprojects/common/scripts/qapi/ will be followed by a move into its
+> own subproject.
+>
 
-Sorry but I don't think it is well justified.
+Do you mean: it could be moved again to another smaller subproject? not
+really, see below
 
-> I think the simplest way to rebase and revert this is to do an
-> interactive rebase editing each patch and do interactive
-> revert of just the lines changing ppc4xx_dcr_register followed
-> by a search replace of "ppc_dcr_register("
-> with "ppc4xx_dcr_register(dcr, ". That should not be too
-> difficult to do now. (It could be done afterwatds too but I'd
-> appreciate and would be less chutn if you did that now.)
 
-The simplest way for me is to come back the initial proposal, remove
-the Ppc4xxDcrDeviceState model and reintroduce the explicit "cpu" link
-for each device which was less controversial. Expect that in v5 and
-that will be all for me.
+> Ignorant question: could we turn the QAPI generator into a subproject in
+> place?
+>
 
-Thanks,
+If it's just the generator, probably the target would then be a python
+project (not meson), similar to python-qemu-qmp.
 
-C.
+But I don't see much point, since it's not really a standalone python
+module, it generates code, and that code needs most of what is in
+qemu-common (see
+https://gitlab.com/marcandre.lureau/qemu/-/tree/qga/subprojects/qemu-common=
+).
+It's best to have it together imho. Maybe we can consider a different
+naming or to be more careful not to add stuff that is not strictly needed
+by qapi?
+
+(fwiw, it's a bit of a shame python-qemu-qmp didn't import git history from
+qemu.. we did better with libslirp. If we ever move code in standalone
+repositories again, we should be careful to keep history with it)
+
+
+> > I said "to ease review and proceed step by step" simply because there a=
+re
+> > no other changes: I don't move the rest of the qapi code & tests all
+> > together, it's in the subsequent series.
+>
+> I'd recommend to provide a bit more context in the commit message, even
+> if you copy it to several messages in a row.  Our future selves will
+> likely be grateful.
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000c3282405e5f1df26
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 11, 2022 at 10:52 AM Ma=
+rkus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">M=
+arc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" tar=
+get=3D"_blank">marcandre.lureau@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Fri, Aug 5, 2022 at 12:12 PM Markus Armbruster &lt;<a href=3D"mailt=
+o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">m=
+arcandre.lureau@redhat.com</a> writes:<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; This is just moving qapi-gen.py and related subdir to qemu-co=
+mmon, to<br>
+&gt;&gt; &gt; ease review and proceed step by step. The following patches w=
+ill move<br>
+&gt;&gt; &gt; related necessary code, tests etc.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
+arcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</=
+a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; As moved files tend to become low-level annoyances for a long time=
+, I&#39;d<br>
+&gt;&gt; like to understand why you want to move them.=C2=A0 The commit mes=
+sage says<br>
+&gt;&gt; &quot;to ease review&quot;, which I suspect isn&#39;t the real rea=
+son.=C2=A0 Perhaps you<br>
+&gt;&gt; explained all that elsewhere already, but I missed it.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt; The end goal is to split some projects, such as qemu-ga, to standalone=
+<br>
+&gt; meson projects/subprojects. We will be able to build them independentl=
+y<br>
+&gt; from the rest of QEMU, and later on perhaps handle them outside of QEM=
+U<br>
+&gt; main repository. To achieve this, I first introduce a qemu-common<br>
+&gt; subproject, where qapi and common units are provided. You can check<br=
+>
+&gt; <a href=3D"https://gitlab.com/marcandre.lureau/qemu/-/commits/qga" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/marcandre.lureau/qemu/=
+-/commits/qga</a> for a sneak peek at<br>
+&gt; current end result.<br>
+<br>
+I worry this move of the QAPI generator code into<br>
+subjprojects/common/scripts/qapi/ will be followed by a move into its<br>
+own subproject.<br></blockquote><div><br></div><div>Do you mean: it could b=
+e moved again to another smaller subproject? not really, see below<br></div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Ignorant question: could we turn the QAPI generator into a subproject in<br=
+>
+place?<br></blockquote><div><br></div><div>If it&#39;s just the generator, =
+probably the target would then be a python project (not meson), similar to =
+python-qemu-qmp.<br></div><div>=C2=A0</div><div>But I don&#39;t see much po=
+int, since it&#39;s not really a standalone python module, it generates cod=
+e, and that code needs most of what is in qemu-common (see <a href=3D"https=
+://gitlab.com/marcandre.lureau/qemu/-/tree/qga/subprojects/qemu-common">htt=
+ps://gitlab.com/marcandre.lureau/qemu/-/tree/qga/subprojects/qemu-common</a=
+>). It&#39;s best to have it together imho. Maybe we can consider a differe=
+nt naming or to be more careful not to add stuff that is not strictly neede=
+d by qapi?<br></div><div><br></div><div>(fwiw, it&#39;s a bit of a shame py=
+thon-qemu-qmp didn&#39;t import git history from qemu.. we did better with =
+libslirp. If we ever move code in standalone repositories again, we should =
+be careful to keep history with it)<br></div><div><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; I said &quot;to ease review and proceed step by step&quot; simply beca=
+use there are<br>
+&gt; no other changes: I don&#39;t move the rest of the qapi code &amp; tes=
+ts all<br>
+&gt; together, it&#39;s in the subsequent series.<br>
+<br>
+I&#39;d recommend to provide a bit more context in the commit message, even=
+<br>
+if you copy it to several messages in a row.=C2=A0 Our future selves will<b=
+r>
+likely be grateful.<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000c3282405e5f1df26--
 
