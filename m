@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7902658F9C7
+	by mail.lfdr.de (Postfix) with ESMTPS id 8077A58F9C8
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 Aug 2022 11:12:06 +0200 (CEST)
-Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oM4EX-0003P3-1A
+	id 1oM4EX-0003QA-Ec
 	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 05:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oM475-0006Wv-QF
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:04:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35061)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM48H-0006rM-CL
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:05:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oM471-0000sZ-Nj
- for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:04:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oM48C-0001Gs-WE
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 05:05:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660208658;
+ s=mimecast20190719; t=1660208732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l5UHF+3vsDP3xcv4+37tdLs7T4wytv3KBf5VvJJ6DFY=;
- b=AHqm9ftOF6bVtVslLEWTxiWS+79FBpUm19xBj4GuVRWL8XSIVHyOMp9PZjnHZziKgLV5ea
- Rg19gt9OqnpFcxP+G//CidI45GNDbav+y5yTleoNCbfFzzqrrRn/O4VdHSHeIJhqOlfc56
- YH8QPJyTrkdbIzPq8i8VfNkvj0H4hxc=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-412-gkK3e3nMMMCB2PWbbwxb3Q-1; Thu, 11 Aug 2022 05:04:17 -0400
-X-MC-Unique: gkK3e3nMMMCB2PWbbwxb3Q-1
-Received: by mail-ua1-f70.google.com with SMTP id
- q8-20020ab054c8000000b00383a1b97212so3409728uaa.11
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 02:04:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc;
- bh=l5UHF+3vsDP3xcv4+37tdLs7T4wytv3KBf5VvJJ6DFY=;
- b=n4E0Ln3r+RAGGGcwY7uz3/6/okaHLtsSX0JKulrmbXNVjqH1qj9tbwlXNDgQ4Gk2Oe
- A9oMNflGro/UBItH8qw0pAwj+4NXOIXyeNe1JC31IVq7fga1A97SvnoJmukw+HUQJRj2
- TgIg0MChKk0zHpA5rWAL6WKjne/onkXd4ozNZ1MCCnztl1PZLLXoZDB38u1KA1/7WnHJ
- vXi52rMCoPg2JU1md62fSAxpBjHeaDxvN0Nuq8D3KEeVOdYheiHWnx0tFhWh0GkqdEr8
- SN/oSCOviTJ4qwdkGrE/NSaw+NOi004kRmiddFPFQ+orVFdS6tOb01XBzmxO8O9DJCAB
- G4+g==
-X-Gm-Message-State: ACgBeo3ynKc16gIfyMjoLtn6C1FSQVH2Dm3CN7my8fi4DDRsVfTtzdsS
- P2TSBUL7PlYGPocIa4tKfJfUS13dfSlYds8v2IZ8JvBJPn8fkt6T33T0qF8sBPWEBwTyns975mh
- 2vaGSDWuT1w1Z0so=
-X-Received: by 2002:a9f:37f1:0:b0:381:e385:2fdc with SMTP id
- q104-20020a9f37f1000000b00381e3852fdcmr12975713uaq.116.1660208656146; 
- Thu, 11 Aug 2022 02:04:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6c6CE+YdMyLQJUuMcMNZOJ5Vu1eG46STd1CZ7E2U3VnHMGcRAu3VAXCmXsLYramOX/P5IwvA==
-X-Received: by 2002:a9f:37f1:0:b0:381:e385:2fdc with SMTP id
- q104-20020a9f37f1000000b00381e3852fdcmr12975702uaq.116.1660208655873; 
- Thu, 11 Aug 2022 02:04:15 -0700 (PDT)
-Received: from ?IPv6:2804:1b3:a800:5713:6880:fd74:a3e5:2086?
- ([2804:1b3:a800:5713:6880:fd74:a3e5:2086])
- by smtp.gmail.com with ESMTPSA id
- o16-20020ab03770000000b0038467d003e3sm14119799uat.38.2022.08.11.02.04.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 02:04:14 -0700 (PDT)
-Message-ID: <ef7bff6220e3759c7acb5382ae211de1623cdf5e.camel@redhat.com>
-Subject: Re: [PATCH v7 06/12] multifd: Make flags field thread local
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>, Eric Blake
- <eblake@redhat.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
- <f4bug@amsat.org>,  Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster
- <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Date: Thu, 11 Aug 2022 06:04:11 -0300
-In-Reply-To: <20220802063907.18882-7-quintela@redhat.com>
-References: <20220802063907.18882-1-quintela@redhat.com>
- <20220802063907.18882-7-quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.3 
+ bh=HxaTeXArh9Dmhd/qkwRjm/YBGtJB0bayEncmLzJMP+Y=;
+ b=iMSOiMlVgUBj4oZa8AhRNysF4d6BU436vxg3k2O5rSFtrQ07wTftIlvygxCBpledwi8LSB
+ ar0gRpS5YFiYz1sxT9cobQIUbdNg3MKVHAlHXUW+wy4dhfcMPD4GZF7eIvbcFE1EMSBUSs
+ dl0MPeyBhZizNEZrSL8fCuJbXZah1No=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-608-CXBkncfPO9ezu4gG_yxNEQ-1; Thu, 11 Aug 2022 05:05:29 -0400
+X-MC-Unique: CXBkncfPO9ezu4gG_yxNEQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 846091857F08;
+ Thu, 11 Aug 2022 09:05:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BA6D40D2827;
+ Thu, 11 Aug 2022 09:05:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6357621E668B; Thu, 11 Aug 2022 11:05:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Cleber Rosa
+ <crosa@redhat.com>,  qemu-block@nongnu.org,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Xie Yongji <xieyongji@bytedance.com>,  Kyle Evans
+ <kevans@freebsd.org>,  Peter Maydell <peter.maydell@linaro.org>,  John
+ Snow <jsnow@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Warner
+ Losh <imp@bsdimp.com>,  Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Laurent Vivier <laurent@vivier.eu>,  Fam
+ Zheng <fam@euphon.net>,  Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+ <20220712093528.4144184-12-marcandre.lureau@redhat.com>
+ <87pmhf86ew.fsf@pond.sub.org>
+ <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
+ <8735e38e6t.fsf@pond.sub.org>
+ <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
+Date: Thu, 11 Aug 2022 11:05:26 +0200
+In-Reply-To: <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Thu, 11 Aug 2022
+ 11:11:15 +0400")
+Message-ID: <87o7wr5ew9.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -106,200 +95,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
-> Use of flags with respect to locking was incensistant.  For the
-> sending side:
-> - it was set to 0 with mutex held on the multifd channel.
-> - MULTIFD_FLAG_SYNC was set with mutex held on the migration thread.
-> - Everything else was done without the mutex held on the multifd channel.
->=20
-> On the reception side, it is not used on the migration thread, only on
-> the multifd channels threads.
->=20
-> So we move it to the multifd channels thread only variables, and we
-> introduce a new bool sync_needed on the send side to pass that informatio=
-n.
->=20
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  migration/multifd.h | 10 ++++++----
->  migration/multifd.c | 23 +++++++++++++----------
->  2 files changed, 19 insertions(+), 14 deletions(-)
->=20
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 36f899c56f..a67cefc0a2 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -98,12 +98,12 @@ typedef struct {
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-Just noticed having no name in 'typedef struct' line makes it harder to
-understand what is going on.=20
+> Hi
+>
+> On Thu, Aug 11, 2022 at 10:52 AM Markus Armbruster <armbru@redhat.com>
+> wrote:
+>
+>> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+>>
+>> > Hi
+>> >
+>> > On Fri, Aug 5, 2022 at 12:12 PM Markus Armbruster <armbru@redhat.com>
+>> wrote:
+>> >
+>> >> marcandre.lureau@redhat.com writes:
+>> >>
+>> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >> >
+>> >> > This is just moving qapi-gen.py and related subdir to qemu-common, =
+to
+>> >> > ease review and proceed step by step. The following patches will mo=
+ve
+>> >> > related necessary code, tests etc.
+>> >> >
+>> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >>
+>> >> As moved files tend to become low-level annoyances for a long time, I=
+'d
+>> >> like to understand why you want to move them.  The commit message says
+>> >> "to ease review", which I suspect isn't the real reason.  Perhaps you
+>> >> explained all that elsewhere already, but I missed it.
+>> >>
+>> >>
+>> >>
+>> > The end goal is to split some projects, such as qemu-ga, to standalone
+>> > meson projects/subprojects. We will be able to build them independently
+>> > from the rest of QEMU, and later on perhaps handle them outside of QEMU
+>> > main repository. To achieve this, I first introduce a qemu-common
+>> > subproject, where qapi and common units are provided. You can check
+>> > https://gitlab.com/marcandre.lureau/qemu/-/commits/qga for a sneak pee=
+k at
+>> > current end result.
+>>
+>> I worry this move of the QAPI generator code into
+>> subjprojects/common/scripts/qapi/ will be followed by a move into its
+>> own subproject.
+>>
+>
+> Do you mean: it could be moved again to another smaller subproject? not
+> really, see below
+>
+>
+>> Ignorant question: could we turn the QAPI generator into a subproject in
+>> place?
+>>
+>
+> If it's just the generator, probably the target would then be a python
+> project (not meson), similar to python-qemu-qmp.
+>
+> But I don't see much point, since it's not really a standalone python
+> module, it generates code, and that code needs most of what is in
+> qemu-common (see
+> https://gitlab.com/marcandre.lureau/qemu/-/tree/qga/subprojects/qemu-comm=
+on).
+> It's best to have it together imho. Maybe we can consider a different
+> naming or to be more careful not to add stuff that is not strictly needed
+> by qapi?
 
-MultiFDSendParams
+I had a look at subjprojects/qemu-common in your qga branch.  Contents:
 
->      bool running;
->      /* should this thread finish */
->      bool quit;
-> -    /* multifd flags for each packet */
-> -    uint32_t flags;
->      /* global number of generated multifd packets */
->      uint64_t packet_num;
->      /* How many bytes have we sent on the last packet */
->      uint64_t sent_bytes;
-> +    /* Do we need to do an iteration sync */
-> +    bool sync_needed;
->      /* thread has work to do */
->      int pending_job;
->      /* array of pages to sent.
-> @@ -117,6 +117,8 @@ typedef struct {
-> =20
->      /* pointer to the packet */
->      MultiFDPacket_t *packet;
-> +    /* multifd flags for each packet */
-> +    uint32_t flags;
->      /* size of the next packet that contains pages */
->      uint32_t next_packet_size;
->      /* packets sent through this channel */
+* Subproject machinery
 
-MultiFDRecvParams
+* Some common headers (glib-compat.h), but not others (qemu/osdep.h).  I
+  guess it's whatever subjproject code needs.
 
-> @@ -163,8 +165,6 @@ typedef struct {
->      bool running;
->      /* should this thread finish */
->      bool quit;
-> -    /* multifd flags for each packet */
-> -    uint32_t flags;
->      /* global number of generated multifd packets */
->      uint64_t packet_num;
-> =20
-> @@ -172,6 +172,8 @@ typedef struct {
-> =20
->      /* pointer to the packet */
->      MultiFDPacket_t *packet;
-> +    /* multifd flags for each packet */
-> +    uint32_t flags;
->      /* size of the next packet that contains pages */
->      uint32_t next_packet_size;
->      /* packets sent through this channel */
+  Is subprojects/qemu-common/include/block/nvme.h there by accident?
 
-So, IIUC, the struct member flags got moved down (same struct) to an area
-described as thread-local, meaning it does not need locking.=20
+* Most of the QObject subsystem
 
-Interesting, I haven't noticed this different areas in the same struct.
+  qobject/block-qdict.c is left behind.
 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index e25b529235..09a40a9135 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -602,7 +602,7 @@ int multifd_send_sync_main(QEMUFile *f)
->          }
-> =20
->          p->packet_num =3D multifd_send_state->packet_num++;
-> -        p->flags |=3D MULTIFD_FLAG_SYNC;
-> +        p->sync_needed =3D true;
->          p->pending_job++;
->          qemu_mutex_unlock(&p->mutex);
->          qemu_sem_post(&p->sem);
-> @@ -658,7 +658,11 @@ static void *multifd_send_thread(void *opaque)
-> =20
->          if (p->pending_job) {
->              uint64_t packet_num =3D p->packet_num;
-> -            uint32_t flags =3D p->flags;
-> +            p->flags =3D 0;
-> +            if (p->sync_needed) {
-> +                p->flags |=3D MULTIFD_FLAG_SYNC;
-> +                p->sync_needed =3D false;
-> +            }
+* Most of the QAPI subsystem
 
-Any particular reason why doing p->flags =3D 0, then p->flags |=3D MULTIFD_=
-FLAG_SYNC
-?
+  Some visitors left behind: opts, forward, string input / output.  Hmm,
+  only the .c, the .h are in the subjproject.  Accident?
 
-[1] Couldn't it be done without the |=3D , since it's already being set to =
-zero
-before?=C2=A0(becoming "p->flags =3D MULTIFD_FLAG_SYNC" )
+  A bit of HMP support left behind.
 
+* Parts of util/ and include/qemu/
 
->              p->normal_num =3D 0;
-> =20
->              if (use_zero_copy_send) {
-> @@ -680,14 +684,13 @@ static void *multifd_send_thread(void *opaque)
->                  }
->              }
->              multifd_send_fill_packet(p);
-> -            p->flags =3D 0;
->              p->num_packets++;
->              p->total_normal_pages +=3D p->normal_num;
->              p->pages->num =3D 0;
->              p->pages->block =3D NULL;
->              qemu_mutex_unlock(&p->mutex);
-> =20
-> -            trace_multifd_send(p->id, packet_num, p->normal_num, flags,
-> +            trace_multifd_send(p->id, packet_num, p->normal_num, p->flag=
-s,
->                                 p->next_packet_size);
-> =20
->              if (use_zero_copy_send) {
-> @@ -715,7 +718,7 @@ static void *multifd_send_thread(void *opaque)
->              p->pending_job--;
->              qemu_mutex_unlock(&p->mutex);
-> =20
-> -            if (flags & MULTIFD_FLAG_SYNC) {
-> +            if (p->flags & MULTIFD_FLAG_SYNC) {
->                  qemu_sem_post(&p->sem_sync);
->              }
->              qemu_sem_post(&multifd_send_state->channels_ready);
+  Error reporting, key-value CLI, some C utilities, but not others
+  (e.g. qemu/atomic.h, but not qemu/atomic128.h).  I guess it's again
+  whatever subjproject code needs.
 
-IIUC it uses p->sync_needed to keep the sync info, instead of the previous =
-flags
-local var, and thus it can set p->flags =3D 0 earlier. Seems to not change =
-any
-behavior AFAICS.
+* Parts of the QAPI Schema subsystem
 
+Aside: MAINTAINERS mostly not updated.
 
+Your moves tear closely related code apart.  This is going to be a drag
+for developers in general and maintainers in particular.
 
-> @@ -1090,7 +1093,7 @@ static void *multifd_recv_thread(void *opaque)
->      rcu_register_thread();
-> =20
->      while (true) {
-> -        uint32_t flags;
-> +        bool sync_needed =3D false;
-> =20
->          if (p->quit) {
->              break;
-> @@ -1112,11 +1115,11 @@ static void *multifd_recv_thread(void *opaque)
->              break;
->          }
-> =20
-> -        flags =3D p->flags;
-> +        trace_multifd_recv(p->id, p->packet_num, p->normal_num, p->flags=
-,
-> +                           p->next_packet_size);
-> +        sync_needed =3D p->flags & MULTIFD_FLAG_SYNC;
->          /* recv methods don't know how to handle the SYNC flag */
->          p->flags &=3D ~MULTIFD_FLAG_SYNC;
-> -        trace_multifd_recv(p->id, p->packet_num, p->normal_num, flags,
-> -                           p->next_packet_size);
->          p->num_packets++;
->          p->total_normal_pages +=3D p->normal_num;
->          qemu_mutex_unlock(&p->mutex);
-> @@ -1128,7 +1131,7 @@ static void *multifd_recv_thread(void *opaque)
->              }
->          }
-> =20
-> -        if (flags & MULTIFD_FLAG_SYNC) {
-> +        if (sync_needed) {
->              qemu_sem_post(&multifd_recv_state->sem_sync);
->              qemu_sem_wait(&p->sem_sync);
->          }
+Ergonomics suffer when related code is in multiple places.  Having to
+switch between directories and remember where is what will a constant
+low-level pain.  Things that used to be simple & quick, like git-grep
+qapi/*.c, become more involved.
 
-Ok, IIUC this part should have the same behavior as before, but using a boo=
-l
-instead of an u32.
+Hurts even when merely consuming the subsystem: when I see #include
+"qemu/foo.h", the straightforward include/qemu/foo.h may or may not do.
+When it doesn't, I need to know where to look instead.
 
-Other than question [1], LGTM.=C2=A0
+subprojects/qemu-common/include/ is a lot to type.  Sufficiently
+powerful editors mitigate, but not completely.
 
-FWIW:
-Reviewed-by: Leonardo Bras <leobras@redhat.com>
+When changes need to be applied to every instance of an abstraction,
+it's easy to miss instances "elsewhere".  There's a reason the QAPI
+visitors are all in one place.
+
+The actual split seems somewhat arbitrary in places.  I suspect more
+code will move over time.  Invalidating "what is where" knowledge.
+
+I believe a serious think about other ways to accomplish your goals is
+called for.
+
+> (fwiw, it's a bit of a shame python-qemu-qmp didn't import git history fr=
+om
+> qemu.. we did better with libslirp. If we ever move code in standalone
+> repositories again, we should be careful to keep history with it)
+
+Yes, we should preserve history whenever practical.
+
+[...]
 
 
