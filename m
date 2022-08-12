@@ -2,105 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC65C591415
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 18:40:52 +0200 (CEST)
-Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE98C59142F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 18:45:52 +0200 (CEST)
+Received: from localhost ([::1]:38030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMXiN-00084V-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 12:40:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
+	id 1oMXnD-0004SB-L9
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 12:45:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oMXKi-0008Ih-2n; Fri, 12 Aug 2022 12:16:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51466)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oMXXx-00017a-79
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 12:30:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oMXKg-0006KI-Ir; Fri, 12 Aug 2022 12:16:23 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27CG7iA0004444;
- Fri, 12 Aug 2022 16:16:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+TczRs0p9bZd4PDW2zrZLdrviZ8Zjv9PcHaWmNvuC+k=;
- b=bIq4mlp9xfKJXnqf5rC8uukHIaWUriOQkwLpXpIODDeGr+OyN1KPsKcYkYATQRa0JnT/
- kin6GKPFXfslugv8ydoL6VVWs26PJAVnu92tXOJdnBKEe46ecI+Mzet81SAlomeEymlc
- dwaJSj5yGkCpW/Jg7uICT5HRDn3lX1mI326sZQjj7PQUShZbhxuMuxWIAyKMdd3LhHxS
- lOnjmHKPgRTH8hS59Dy1X5+0xe3mw1h1UWTDE7NqROXYBbmeFH/JKixUExnH+9sLfWtO
- L+JDqOeCRSdEK/qYcsbeSbxoUDzVFS770MO5gJ1sWQOcpImpgFGvoWtk3wBARBWRbwqm yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwsuerj12-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 16:16:14 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27CG7upA005717;
- Fri, 12 Aug 2022 16:16:13 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwsuerj0d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 16:16:13 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27CG6QSB011118;
- Fri, 12 Aug 2022 16:16:11 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04ams.nl.ibm.com with ESMTP id 3hw3wfs81b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 16:16:11 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27CGG9JL27656470
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 Aug 2022 16:16:09 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 747824C050;
- Fri, 12 Aug 2022 16:16:09 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2E0434C046;
- Fri, 12 Aug 2022 16:16:09 +0000 (GMT)
-Received: from [9.101.4.17] (unknown [9.101.4.17])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 12 Aug 2022 16:16:09 +0000 (GMT)
-Message-ID: <bd56dde3-7992-fe14-0ba0-13abf6fb2ac4@linux.ibm.com>
-Date: Fri, 12 Aug 2022 18:16:08 +0200
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oMXXt-0008RD-MM
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 12:30:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660321800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nul/L14LVJGmSoKk9jRKbJpSiPNJPuolWbE5su9XgAY=;
+ b=E/cTF+DLWOZO2znTorU88hU22wO1Dvkmc1LU/nM0HNYed2aFMbubZKYft0xdu5AlKIEezo
+ WN6rKFuByCv5hvSbtCcurwsmDFGfdbiQkrkwcwnoqdYO4pQ+1K/qXir+4C7thOtic17fDl
+ XOByT9SVLItH6nnQXGnyVJwqDGOTXhI=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-114-v1l-wWwqMJCWPbLpSqCQRg-1; Fri, 12 Aug 2022 12:29:58 -0400
+X-MC-Unique: v1l-wWwqMJCWPbLpSqCQRg-1
+Received: by mail-il1-f200.google.com with SMTP id
+ a19-20020a921a13000000b002df8a28c30dso888843ila.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 09:29:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=nul/L14LVJGmSoKk9jRKbJpSiPNJPuolWbE5su9XgAY=;
+ b=D7rHGPbyYEbCOjd8Eh1JOhkc0M/z+d1xMDjXwfEfSrY92YhAPdAYfJN0h9s/K/p271
+ 2LM14OkCBhTFEdBx+GEkw4m8kWbTngFtkBDcuz/JSuMwTW9xMZPGLCc6JZyEu5uyXnLq
+ sAOjEUmKV16DvvsFlRFoBh/HEUuP0JHqgPpZz4Z8LOWJCt0n7kT07zCR1GeJkxbwfAng
+ izZS5ov35koeQbng73Gs1nmeyLOOxtI7yveFvl8oK+Cl7d5/Ck3oJjXZVumVwb28tVKw
+ 8HCmJ+7asGV/Fnxf7Zv8QtwVne9k0QRSxnct7Nqyx5FzQ4Z1+7abYmCVCF8k4lta25bb
+ ikhQ==
+X-Gm-Message-State: ACgBeo2BjgzzK6lGkJle2E1dOZzEY+DO/bZJEbcjxjp/airxeApY3QcT
+ hZdOD50YuroxEyo5TByu3iBHaMWcrCTyacTCs3wHj/zAow7bGnGVlQbhl/Warlt0pG9v0H/ytB7
+ poeZ75wscV1FM73xjhdBMzDUAvo9fka8=
+X-Received: by 2002:a05:6602:1355:b0:669:40a5:9c26 with SMTP id
+ i21-20020a056602135500b0066940a59c26mr2137559iov.105.1660321797986; 
+ Fri, 12 Aug 2022 09:29:57 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4hWTbeT1ytr7xbhX2e6Bc60xFonAWoAOKbYEg/4n/uXeT/dotMKPEVxy7fup0poHNOp+6b1VydDhsLwYBe7Pw=
+X-Received: by 2002:a05:6602:1355:b0:669:40a5:9c26 with SMTP id
+ i21-20020a056602135500b0066940a59c26mr2137505iov.105.1660321797700; Fri, 12
+ Aug 2022 09:29:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v4 08/11] ppc/pnv: enable user created pnv-phb for
- powernv9
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220811163950.578927-1-danielhb413@gmail.com>
- <20220811163950.578927-9-danielhb413@gmail.com>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220811163950.578927-9-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MLAq6l--mMoSPpIo54CeX7myn71GlZY_
-X-Proofpoint-ORIG-GUID: psYom1_LKiSJXKXjvBzCNIKULBdUbAB5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-12_10,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0 mlxlogscore=658
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208120043
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220729130040.1428779-1-afaria@redhat.com>
+ <20220729130040.1428779-3-afaria@redhat.com>
+ <YupSAhFRK962i+nL@work-vm>
+ <CAELaAXyh0MzuVzDCfhC8hJNAwb=niwFRsXqhc63JiWGxxitkqg@mail.gmail.com>
+ <20220803111520.GO1127@redhat.com>
+In-Reply-To: <20220803111520.GO1127@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
+Date: Fri, 12 Aug 2022 17:29:21 +0100
+Message-ID: <CAELaAXxm3whnSLeiMXqUsZPyp-n-aJcVfbkdiUxJyUthVSyO4w@mail.gmail.com>
+Subject: Re: [RFC v2 02/10] Drop unused static function return values
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Hannes Reinecke <hare@suse.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, 
+ "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>, Peter Lieven <pl@kamp.de>,
+ kvm@vger.kernel.org, 
+ Xie Yongji <xieyongji@bytedance.com>, Eric Auger <eric.auger@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Eric Blake <eblake@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Stefan Weil <sw@weilnetz.de>, 
+ Klaus Jensen <its@irrelevant.dk>, Laurent Vivier <lvivier@redhat.com>, 
+ Alberto Garcia <berto@igalia.com>, Michael Roth <michael.roth@amd.com>, 
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-block@nongnu.org, 
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Marcelo Tosatti <mtosatti@redhat.com>, Greg Kurz <groug@kaod.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,70 +126,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 3, 2022 at 12:15 PM Richard W.M. Jones <rjones@redhat.com> wrote:
+> If it helps to think about this, Coverity checks for consistency.
+> Across the whole code base, is the return value of a function used or
+> ignored consistently.  You will see Coverity errors like:
+>
+>       Error: CHECKED_RETURN (CWE-252): [#def37]
+>       libnbd-1.12.5/fuse/operations.c:180: check_return: Calling "nbd_poll" without checking return value (as is done elsewhere 5 out of 6 times).
+>       libnbd-1.12.5/examples/aio-connect-read.c:96: example_checked: Example 1: "nbd_poll(nbd, -1)" has its value checked in "nbd_poll(nbd, -1) == -1".
+>       libnbd-1.12.5/examples/aio-connect-read.c:128: example_checked: Example 2: "nbd_poll(nbd, -1)" has its value checked in "nbd_poll(nbd, -1) == -1".
+>       libnbd-1.12.5/examples/strict-structured-reads.c:246: example_checked: Example 3: "nbd_poll(nbd, -1)" has its value checked in "nbd_poll(nbd, -1) == -1".
+>       libnbd-1.12.5/ocaml/nbd-c.c:2599: example_assign: Example 4: Assigning: "r" = return value from "nbd_poll(h, timeout)".
+>       libnbd-1.12.5/ocaml/nbd-c.c:2602: example_checked: Example 4 (cont.): "r" has its value checked in "r == -1".
+>       libnbd-1.12.5/python/methods.c:2806: example_assign: Example 5: Assigning: "ret" = return value from "nbd_poll(h, timeout)".
+>       libnbd-1.12.5/python/methods.c:2808: example_checked: Example 5 (cont.): "ret" has its value checked in "ret == -1".
+>       #  178|       /* Dispatch work while there are commands in flight. */
+>       #  179|       while (thread->in_flight > 0)
+>       #  180|->       nbd_poll (h, -1);
+>       #  181|     }
+>       #  182|
+>
+> What it's saying is that in this code base, nbd_poll's return value
+> was checked by the caller 5 out of 6 times, but ignored here.  (This
+> turned out to be a real bug which we fixed).
+>
+> It seems like the check implemented in your patch is: If the return
+> value is used 0 times anywhere in the code base, change the return
+> value to 'void'.  Coverity would not flag this.
+>
+> Maybe a consistent use check is better?
 
+Note that the analyzer is currently limited to analyzing a single
+translation unit at a time, so we would only be able to implement a
+consistent use check for static functions (this is why the current
+"return-value-never-used" check only applies to static functions).
 
-On 11/08/2022 18:39, Daniel Henrique Barboza wrote:
-> Enable pnv-phb user created devices for powernv9 now that we have
-> everything in place.
-> 
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+It may be worthwhile exploring cross-translation unit analysis,
+although it may be difficult to accomplish while also avoiding
+reanalyzing the entire tree every time a single translation unit is
+modified.
 
+Alberto
 
-Same comment as in patch 6 regarding the QOM relationship of the 
-user-created root port.
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-
-   Fred
-
-
->   hw/pci-host/pnv_phb.c      | 2 +-
->   hw/pci-host/pnv_phb4_pec.c | 6 ++++--
->   hw/ppc/pnv.c               | 2 ++
->   3 files changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-> index 1f53ff77c5..17d9960aa1 100644
-> --- a/hw/pci-host/pnv_phb.c
-> +++ b/hw/pci-host/pnv_phb.c
-> @@ -167,7 +167,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
->           pnv_phb4_bus_init(dev, PNV_PHB4(phb->backend));
->       }
->   
-> -    if (phb->version == 3 && !defaults_enabled()) {
-> +    if (!defaults_enabled()) {
->           return;
->       }
->   
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 8dc363d69c..9871f462cd 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -146,8 +146,10 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->       pec->num_phbs = pecc->num_phbs[pec->index];
->   
->       /* Create PHBs if running with defaults */
-> -    for (i = 0; i < pec->num_phbs; i++) {
-> -        pnv_pec_default_phb_realize(pec, i, errp);
-> +    if (defaults_enabled()) {
-> +        for (i = 0; i < pec->num_phbs; i++) {
-> +            pnv_pec_default_phb_realize(pec, i, errp);
-> +        }
->       }
->   
->       /* Initialize the XSCOM regions for the PEC registers */
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 0644f45a1d..ec0558ed1c 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -2188,6 +2188,8 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
->       pmc->compat = compat;
->       pmc->compat_size = sizeof(compat);
->       pmc->dt_power_mgt = pnv_dt_power_mgt;
-> +
-> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB);
->   }
->   
->   static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
 
