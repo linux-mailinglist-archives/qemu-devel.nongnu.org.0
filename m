@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D953E591717
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 00:04:53 +0200 (CEST)
-Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0CB591726
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 00:07:53 +0200 (CEST)
+Received: from localhost ([::1]:34196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMclw-00084r-K6
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 18:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33954)
+	id 1oMcoq-0001KC-22
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 18:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMckg-0006Vh-Ei; Fri, 12 Aug 2022 18:03:34 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:37803)
+ (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
+ id 1oMcmT-0008De-4n
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 18:05:25 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:35365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMcke-00084k-Kv; Fri, 12 Aug 2022 18:03:34 -0400
-Received: by mail-ua1-x929.google.com with SMTP id 38so803869uau.4;
- Fri, 12 Aug 2022 15:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=kM9vEiKOIgNnWwn/LCRDisQyrRsPNNHjB+s+Dk18WAk=;
- b=HEnChPUEWm99Dg7LdYrDEdQUkxoc5g5kYbnVIKALoCsHtebPYJ4jh5DpY16lxYGfpi
- cdHsISNwu2866wmpq2lQBjt1Sss+ekR90oO2pNQk3k4XfCtgucGWmH19Fi4KklrrsCm0
- EbHn4R8oPyoDW+OAr0z9bkEC99G9JQfXyLorW92SEGslrL/SCuAw2GOrXBhNSWeHAMAk
- /jXzz0xAjMw1x9UlN1zJ2RNjnY9618NghdKfTajKvUCG9bds23GWS+7JGSwEnPEUvGsL
- 4FAd9jvsDfYX9vwaz4mXGprCfesVgEE4tIkbK3Xax/LXH2RKdM0qFLkQqvKGlAM1BNe7
- eToQ==
+ (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
+ id 1oMcmQ-0008NI-7w
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 18:05:24 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id p125so2047095pfp.2
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 15:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=VnyEWyHtDQ9CQhguApANT9oyMrdyTxg72PEr7/VYbJY=;
+ b=Szbzq8obQqBaMGCCqe1z8WbVJZ+edd4RoKLN0rH9TRXfhNfX2EKQLdPeSUZgsv9+Fq
+ wH73q78N9fIYvY7xmGbvIMJVsT0hhrteS6kyFSiNquKsGhRA7TXlFoOlCTlvfY+Ant9L
+ glDv9QUVHvlLUUHff5pgIzXb7NJpjaEiESSFVXTN/PIfmhXXZ1dWRkD1/WN/MIg+Tsu0
+ ur7plI+jmq4c6IiolMLXy1NDXb1vkaxWaDB6Tit9YhmVJSH5eU5QZKtSPSp7xYfzKBJB
+ RwEPITvLt3FnDKJdcEeb6j38aGD8uM3OTm6COTWcG+YZzdKBJdvXRZOwWhHwEvhw9smW
+ MtYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=kM9vEiKOIgNnWwn/LCRDisQyrRsPNNHjB+s+Dk18WAk=;
- b=ix2719DQfRbibO1nGiJA4L0xGRRaSGMDP21kqmlQS8a4AAOesy2C5Mp7CefYgYYtFK
- YvjSFR1gr0biO23zIJR/ZOqkjlB5rJapA0OlR5l2ikVfXhQl+5+ecF4g3kyn5SUgpNdl
- r+ZvGnDR3pWkT6pYe54NMaL2IkiObEQRKhNtxo4aq/8yexpBnB2fHJO2bPOQFuxyWT3K
- FmgfuFPkxXI6my8f35ZEDVfdQrYAtcjkcRZbvzBN33AzNPFsYOm62AXNkAaPFMds5Yl7
- tF/l4pVZ2IrYz4rIpUtWw3IwX42ufNf4Tx+Q3ezz5rsLxOjQ+X7wB+2IUBICe+HB4GT5
- mF/g==
-X-Gm-Message-State: ACgBeo1n3gxv25N+U/gx5ehUX/kH9Zd3el1nwfsTZsHjuaITj6KA/vms
- Xza2XdxuzI6jxZEZVNoP8mw=
-X-Google-Smtp-Source: AA6agR5vgVewyE/qqbgO4/eo3j2PBQwhK8AuVrgAucSL70YigD/DjX85XLWzJ2thjVMalk7TZ7U7FA==
-X-Received: by 2002:ab0:3da5:0:b0:382:7933:fdcc with SMTP id
- l37-20020ab03da5000000b003827933fdccmr2817471uac.88.1660341810867; 
- Fri, 12 Aug 2022 15:03:30 -0700 (PDT)
-Received: from [192.168.10.102] (201-43-216-47.dsl.telesp.net.br.
- [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- m23-20020a056102053700b00388510a234dsm2004831vsa.4.2022.08.12.15.03.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Aug 2022 15:03:30 -0700 (PDT)
-Message-ID: <2414971c-5e65-96f2-26ee-6d0a35823bdd@gmail.com>
-Date: Fri, 12 Aug 2022 19:03:26 -0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=VnyEWyHtDQ9CQhguApANT9oyMrdyTxg72PEr7/VYbJY=;
+ b=4Ey50DkR5ApsMRMv678/muaYqZaO9h/YMaCFx6W9GkdR4XX7FahCcf/0TrYwui58Yc
+ BgwEGEAHVXz/Z7clRQUcLgOrd6WCgKDYa95gxKBak1SqNlMAwy1yRYS1wv58qo46fajZ
+ NLVAlDwdRJz47FkurijHaCkh3GuCAo600xZgV1iCQypCrAxwo/MAMYG6VeMpYseBt9qp
+ b/SswwCsUwMjf2T6YGflZsIYDQcZ6PB/LGP6jukDB6B9tb7nlrMHsMXGdSabVRAmLSAP
+ /+5MztwhlU+29JFLl62i+cEydH65KZztfNbNGXkZ4o/1EtoiCkwde7OqgZEdmv/4vWUL
+ 7NOw==
+X-Gm-Message-State: ACgBeo3ps/bBZa+hIsGPBVDhIu5l6qgNX7v3uB/5ZrHPzL8VLNnn0sIx
+ D3RbeZ+Rqb3KjIc/XoSg6t1wZeYL48B6H+om0jAnkQ==
+X-Google-Smtp-Source: AA6agR49lTJdNNbMhBEP0erHiJ5tIpgQsrDOlYSzPXZn6vLQCW6KRDviaNkyNRfYH4fIORrTeimgffCDZs6S5S1yDxY=
+X-Received: by 2002:a62:79c4:0:b0:52d:cd3d:2027 with SMTP id
+ u187-20020a6279c4000000b0052dcd3d2027mr5900890pfc.71.1660341919020; Fri, 12
+ Aug 2022 15:05:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v2 01/20] hw/arm: do not free machine->fdt in
- arm_load_dtb()
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-2-danielhb413@gmail.com> <YvCBwE200sVzMixz@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <YvCBwE200sVzMixz@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
+References: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
+ <20220812110411.b3yx5yojrdrux6pd@kamzik>
+In-Reply-To: <20220812110411.b3yx5yojrdrux6pd@kamzik>
+From: Furquan Shaikh <furquan@rivosinc.com>
+Date: Fri, 12 Aug 2022 15:05:08 -0700
+Message-ID: <CA+tJHD7L3Jxp06O1bAxsy_Z+qkUvUVNOhoXJM_PL6rxx1FsAAQ@mail.gmail.com>
+Subject: Re: [PATCH] riscv: Make semihosting configurable for all privilege
+ modes
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=furquan@rivosinc.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,93 +87,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David,
+On Fri, Aug 12, 2022 at 4:04 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+>
+> On Thu, Aug 11, 2022 at 01:41:04PM -0700, Furquan Shaikh wrote:
+> > Unlike ARM, RISC-V does not define a separate breakpoint type for
+> > semihosting. Instead, it is entirely ABI. Thus, we need an option
+> > to allow users to configure what the ebreak behavior should be for
+> > different privilege levels - M, S, U, VS, VU. As per the RISC-V
+> > privilege specification[1], ebreak traps into the execution
+> > environment. However, RISC-V debug specification[2] provides
+> > ebreak{m,s,u,vs,vu} configuration bits to allow ebreak behavior to
+> > be configured to trap into debug mode instead. This change adds
+> > settable properties for RISC-V CPUs - `ebreakm`, `ebreaks`, `ebreaku`,
+> > `ebreakvs` and `ebreakvu` to allow user to configure whether qemu
+> > should treat ebreak as semihosting traps or trap according to the
+> > privilege specification.
+> >
+> > [1] https://github.com/riscv/riscv-isa-manual/releases/download/draft-20220723-10eea63/riscv-privileged.pdf
+> > [2] https://github.com/riscv/riscv-debug-spec/blob/release/riscv-debug-release.pdf
+> >
+> > Signed-off-by: Furquan Shaikh <furquan@rivosinc.com>
+> > ---
+> >  target/riscv/cpu.c        |  8 ++++++++
+> >  target/riscv/cpu.h        |  7 +++++++
+> >  target/riscv/cpu_helper.c | 26 +++++++++++++++++++++++++-
+> >  3 files changed, 40 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index ac6f82ebd0..082194652b 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -953,6 +953,14 @@ static Property riscv_cpu_properties[] = {
+> >      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
+> > cfg.short_isa_string, false),
+> >
+> >      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+> > +
+> > +    /* Debug spec */
+> > +    DEFINE_PROP_BOOL("ebreakm", RISCVCPU, cfg.ebreakm, true),
+> > +    DEFINE_PROP_BOOL("ebreaks", RISCVCPU, cfg.ebreaks, false),
+> > +    DEFINE_PROP_BOOL("ebreaku", RISCVCPU, cfg.ebreaku, false),
+> > +    DEFINE_PROP_BOOL("ebreakvs", RISCVCPU, cfg.ebreakvs, false),
+> > +    DEFINE_PROP_BOOL("ebreakvu", RISCVCPU, cfg.ebreakvu, false),
+> > +
+> >      DEFINE_PROP_END_OF_LIST(),
+> >  };
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 5c7acc055a..eee8e487a6 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -454,6 +454,13 @@ struct RISCVCPUConfig {
+> >      bool epmp;
+> >      bool aia;
+> >      bool debug;
+> > +
+> > +    /* Debug spec */
+> > +    bool ebreakm;
+> > +    bool ebreaks;
+> > +    bool ebreaku;
+> > +    bool ebreakvs;
+> > +    bool ebreakvu;
+>
+> There's only five of these, so having each separate probably makes the
+> most sense, but I wanted to point out that we could keep the properties
+> independent booleans, as we should, but still consolidate the values
+> into a single bitmap like we did for the sve vq bitmap for arm (see
+> cpu_arm_get/set_vq). Maybe worth considering?
 
-On 8/8/22 00:23, David Gibson wrote:
-> On Fri, Aug 05, 2022 at 06:39:29AM -0300, Daniel Henrique Barboza wrote:
->> At this moment, arm_load_dtb() can free machine->fdt when
->> binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
->> retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
->> the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
->> machine->fdt. And, in that case, the existing g_free(fdt) at the end of
->> arm_load_dtb() will make machine->fdt point to an invalid memory region.
->>
->> This is not an issue right now because there's no code that access
->> machine->fdt after arm_load_dtb(), but we're going to add a couple do
->> FDT HMP commands that will rely on machine->fdt being valid.
->>
->> Instead of freeing 'fdt' at the end of arm_load_dtb(), assign it to
->> machine->fdt. This will allow the FDT of ARM machines that relies on
->> arm_load_dtb() to be accessed later on.
->>
->> Since all ARM machines allocates the FDT only once, we don't need to
->> worry about leaking the existing FDT during a machine reset (which is
->> something that other machines have to look after, e.g. the ppc64 pSeries
->> machine).
->>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: qemu-arm@nongnu.org
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/arm/boot.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
->> index ada2717f76..9f5ceb62d2 100644
->> --- a/hw/arm/boot.c
->> +++ b/hw/arm/boot.c
->> @@ -684,7 +684,13 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
->>        */
->>       rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
->>   
->> -    g_free(fdt);
->> +    /*
->> +     * Update the ms->fdt pointer to enable support for 'dumpdtb'
->> +     * and 'info fdt' commands. Use fdt_pack() to shrink the blob
->> +     * size we're going to store.
->> +     */
->> +    fdt_pack(fdt);
->> +    ms->fdt = fdt;
->>   
->>       return size;
-> 
-> fdt_pack() could change (reduce) the effective size of the dtb blob,
-> so returning a 'size' value from above rather than the new value of
-> fdt_totalsize(fdt) doesn't see right.
+Thanks for the review and feedback, Andrew! I gave your suggestion a
+try and updated the independent booleans to a single bitmap. It works,
+but I am not sure if we really need all that additional code for this.
+Like you mentioned, it is just five of these and having independent
+booleans isn't too bad. If you or others feel strongly about switching
+this to a bitmap, I can push a revised patchset. Else, I will keep the
+change as is.
 
-After some thought I think executing fdt_pack() like I'm doing here is not
-a good idea. The first problem is that I'm not returning the updated size,
-as you've said.
-
-But I can't just amend a 'return fdt_totalsize(fdt);' either. I'm packing the
-FDT **after** the machine store it in the guest physical memory. If I return
-the packed size, but the machine isn't packing the FDT before a
-cpu_physical_memory_write(), I'll be under-reporting the FDT size written.
-
-Machines such as e500 (patch 4) uses this returned value to put more stuff in
-the guest memory. In that case, returning a smaller size that what was actually
-written can cause the machine to overwrite the FDT by accident. In fact, only
-a handful of machines (ppc/pseries, ppc/pvn, riscv, oepenrisc) is doing a
-fdt_pack() before a cpu_physical_memory_write(). So this change would be
-potentially harmful to a lot of people.
-
-One alternative would be to do a fdt_pack() before the machine writes the
-FDT in the guest memory, but that is too intrusive to do because I can't say
-if each of these machines will be OK with that. I have a hunch that it would
-be OK, but a hunch isn't going to cut it.
-
-I'll just drop the fdt_pack() for each of these patches. If the machine code
-is already packing it, fine. If not, that's fine too. Each maintainer can
-assess whether packing the FDT is worth it or not.
-
-
-Thanks,
-
-
-Daniel
-
-
-> 
-> I believe some of the other patches in the series have similar concerns.
-> 
+>
+> >      uint64_t resetvec;
+> >
+> >      bool short_isa_string;
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 59b3680b1b..be09abbe27 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -1314,6 +1314,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr
+> > address, int size,
+> >
+> >      return true;
+> >  }
+> > +
+> > +static bool semihosting_enabled(RISCVCPU *cpu)
+> > +{
+> > +    CPURISCVState *env = &cpu->env;
+> > +
+> > +    switch (env->priv) {
+> > +    case PRV_M:
+> > +        return cpu->cfg.ebreakm;
+> > +    case PRV_S:
+> > +        if (riscv_cpu_virt_enabled(env)) {
+> > +            return cpu->cfg.ebreakvs;
+> > +        } else {
+> > +            return cpu->cfg.ebreaks;
+> > +        }
+> > +    case PRV_U:
+> > +        if (riscv_cpu_virt_enabled(env)) {
+> > +            return cpu->cfg.ebreakvu;
+> > +        } else {
+> > +            return cpu->cfg.ebreaku;
+> > +        }
+> > +    }
+> > +
+> > +    return false;
+> > +}
+> >  #endif /* !CONFIG_USER_ONLY */
+> >
+> >  /*
+> > @@ -1342,7 +1366,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >      target_ulong mtval2 = 0;
+> >
+> >      if  (cause == RISCV_EXCP_SEMIHOST) {
+> > -        if (env->priv >= PRV_S) {
+> > +        if (semihosting_enabled(cpu)) {
+> >              do_common_semihosting(cs);
+> >              env->pc += 4;
+> >              return;
+> > --
+> > 2.34.1
+> >
+>
+> Bitmap or no bitmap,
+>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
