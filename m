@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF1E5911BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 15:53:27 +0200 (CEST)
-Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C51D5911D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 16:04:26 +0200 (CEST)
+Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMV6M-0002wd-Bw
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 09:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33384)
+	id 1oMVGz-0007yu-5t
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 10:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hal.martin@gmail.com>)
- id 1oMV4u-0001Yw-QM
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 09:51:56 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:37767)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oMVDr-0005pK-My
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:01:11 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:45888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hal.martin@gmail.com>)
- id 1oMV4t-0000aw-2J
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 09:51:56 -0400
-Received: by mail-qk1-x729.google.com with SMTP id a15so368809qko.4
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 06:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=Vlymm73aKTQzomsrrEGpSEc1BKDyXSY8xM3WZa1ArBE=;
- b=FKtoG0Ckmn+eObhTQYVcVicMZtjhTN+fqV+odhusil6xA4gG6c1Cc2009ZTEXdsu0O
- tB48pC0sZQz2HxYXnd3RIY8es+Z7efoqs9sGZjY5ax6yhM+jCNGkR6ZVWggWkUMVs5og
- CrcG9/7TOJeWcIY2ulecwTGoBVqFa2S+B5n4H0lrNrzkRIh4urTVqIbGctl9rVsUY2vy
- hprOo01l1pB45EtU0LdpswyJJhT70mJ1awtF1K3/F8FtcQW0C65F0shDuVRI1HO+Wcwy
- dr7g0BJclxRsCUNIJMa903SslYOQwvIsVRinn6pJckXDqrQJYQ+I/3Bd52ysF0asfS9g
- BftQ==
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oMVDn-00025G-SR
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:01:10 -0400
+Received: by mail-ej1-x636.google.com with SMTP id dc19so2166622ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 07:01:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=UXa0Pabual+iQu/vNcU9hBH3Mwq/wUZ/0AlBXbFhSog=;
+ b=ZNNy3GXPS+toKrm0uyMlOEU5SUZ46e+FP+btmYlLVuP2sludnLWKpv0AFpNKxNAx68
+ 1oQfDDS6oUHC30Mt055WFxkNqyAC5y9lnyQmdwtM6mmZkkLz+xVElUD0as2sTM06KyEO
+ mPqEA4EboD2PZXqdatGhr8WtH4PBqaKjRfOtlOhH4Y84LbXZ/T6ux7SqMqbLbn+MrK3z
+ otiZHJouhZFy8irk8wUP5Ujmvwlnds+dRXeAtozLFfEnMdGaQh77d2Un9Fo0c9EIxYej
+ zoQ38XpwbHleYZS1jaLeaE2FEiHj5e0IoFnmEKhJ1g5ip6kUQQ8pvxpnlIQGzuvFMQu0
+ /XgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=Vlymm73aKTQzomsrrEGpSEc1BKDyXSY8xM3WZa1ArBE=;
- b=T+0yXNbDKJBt+BUeTqir9S45m/Ywaibj/NPwJwfh1Grpr34LBNl2xtnVg2ho+J4rvP
- X+PwpQGpzT9BcoSp503hdjN0l6xg6wUOAqlJrOgwzx0Se+kYo3LizReVXlkRra282zTi
- 7/ei0ygFEpzs+UstS06izaTSZE38GrdH9qqH9kTeKq+uvALIaOEgXGkd/uOf+N1PpGNj
- WiOONpXh601H3YiEWhR/uMjOvAKiPCOYBLPeK22mtEHeuAUp9XEfo0xQG0w4VfxMvx8n
- R+kP+0TDLp5+leNo9IU92ismc6vXP9BvlYuTlc0evRbqkK+v1jDeS2+fvOqcZDOOn+3v
- dx/w==
-X-Gm-Message-State: ACgBeo3Bd7CJliBqSzYJrqyhpXYHE2zDCVdQSU61plW26aA6ry6YX5LE
- tdVQT77uG5GWaCa9xFGlPz+ceWHczRA=
-X-Google-Smtp-Source: AA6agR4xEhahzpz5rb1z50Swgl+YbWgMsz1J1zfGvxcnd/r8i+wX4EpeTiFokBLQvBgy+QcjIhVywA==
-X-Received: by 2002:a05:620a:2699:b0:6b8:c299:23c2 with SMTP id
- c25-20020a05620a269900b006b8c29923c2mr2789251qkp.768.1660312313629; 
- Fri, 12 Aug 2022 06:51:53 -0700 (PDT)
-Received: from cezanne.lan ([84.55.118.52]) by smtp.gmail.com with ESMTPSA id
- u12-20020a05620a454c00b006b8c575ce27sm1996324qkp.109.2022.08.12.06.51.51
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=UXa0Pabual+iQu/vNcU9hBH3Mwq/wUZ/0AlBXbFhSog=;
+ b=uI6OLR5f66vts8DC0jN4Tuoxwjdp0g7eU3gNEMSRPzsQ+PmiCtQv0qsORd1zHTmiTc
+ RtAkOsW4bph9yCb10aJYQ98z0Oty1MBzkxsga3XnZyOXPuNOiU1UWmT4zkBZV3EbbgEd
+ /tC+GOPIGyEe0vi5EBU/gYxjm9mCmHZO1orICmUe00Y1ZgEtnxgwFgw4Zxk7fumoCkB5
+ HuGJbbajpRsyAC4hEAiqGfYzcAndUN5cdTVQgGp51er/kBpPdaLxviatJiDaM6AUkWAO
+ y+STxsef4CaTi7e7Ps6NjYT4TVmBl4vyqfvamFFbVvZH/yaMTL3x2m1mxPjwG8X66+PG
+ YnxA==
+X-Gm-Message-State: ACgBeo1c04ZH/nJ8NyBgWBy7pdR//Mxxx5ifI+fvmP8l/yoNM931929A
+ 8rDfeytc3vVC/tMY0txMjZJd1w==
+X-Google-Smtp-Source: AA6agR6Kxl/DNpwQVTTYqUtdCg5EU0FTw8/EgPqinu2F7pyQBQrxBn4mK2pebVcOImyJ9hsDx1g71A==
+X-Received: by 2002:a17:907:1629:b0:730:7d10:639c with SMTP id
+ hb41-20020a170907162900b007307d10639cmr2726872ejc.256.1660312865634; 
+ Fri, 12 Aug 2022 07:01:05 -0700 (PDT)
+Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
+ by smtp.gmail.com with ESMTPSA id
+ b25-20020aa7dc19000000b0043d668dec21sm1384083edu.38.2022.08.12.07.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 06:51:53 -0700 (PDT)
-From: Hal Martin <hal.martin@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Hal Martin <hal.martin@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH v2] hw/smbios: support for type 8 (port connector)
-Date: Fri, 12 Aug 2022 15:51:53 +0200
-Message-Id: <20220812135153.17859-1-hal.martin@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ Fri, 12 Aug 2022 07:01:04 -0700 (PDT)
+Date: Fri, 12 Aug 2022 16:01:03 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 1/2] target/riscv: fence.i: update decode pattern
+Message-ID: <20220812140103.3lbh45oidiw2fhsf@kamzik>
+References: <20220812131304.1674484-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=hal.martin@gmail.com; helo=mail-qk1-x729.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220812131304.1674484-1-philipp.tomsich@vrull.eu>
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,170 +91,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PATCH v1: add support for SMBIOS type 8 to qemu
-PATCH v2: incorporate patch v1 feedback and add smbios type=8 to qemu-options
 
-internal_reference: internal reference designator
-external_reference: external reference designator
-connector_type: hex value for port connector type (see SMBIOS 7.9.2)
-port_type: hex value for port type (see SMBIOS 7.9.3)
+Please use a cover-letter for multi-patch patch series.
 
-After studying various vendor implementationsi (Dell, Lenovo, MSI),
-the value of internal connector type was hard-coded to 0x0 (None).
+On Fri, Aug 12, 2022 at 03:13:03PM +0200, Philipp Tomsich wrote:
+> The RISC-V specification specifies imm12, rs1 and rd to be all-zeros,
+> so we can't ignore these bits when decoding into fence.i.
+> 
+> Update the decode pattern to reflect the specification.
 
-Example usage:
--smbios type=8,internal_reference=JUSB1,external_reference=USB1,connector_type=0x12,port_type=0x10 \
--smbios type=8,internal_reference=JAUD1,external_reference="Audio Jack",connector_type=0x1f,port_type=0x1d \
--smbios type=8,internal_reference=LAN,external_reference=Ethernet,connector_type=0x0b,port_type=0x1f \
--smbios type=8,internal_reference=PS2,external_reference=Mouse,connector_type=0x0f,port_type=0x0e \
--smbios type=8,internal_reference=PS2,external_reference=Keyboard,connector_type=0x0f,port_type=0x0d
+I got hung-up on this for a bit since there isn't any "must-be-0" fields,
+only ignored fields, but the next patch gives a clue which helped me make
+sense of this. The encoding of these instructions with ignored fields set
+to anything except zero gets into reserved instruction territory, and QEMU
+may legally raise an illegal-instruction in that case, which this patch
+will start doing. It'd be nice to have a bit more text in this commit
+message to make that clear.
 
+> 
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> ---
+> 
+>  target/riscv/insn32.decode | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 014127d066..089128c3dc 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -151,7 +151,7 @@ sra      0100000 .....    ..... 101 ..... 0110011 @r
+>  or       0000000 .....    ..... 110 ..... 0110011 @r
+>  and      0000000 .....    ..... 111 ..... 0110011 @r
+>  fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
+> -fence_i  ---- ----   ----   ----- 001 ----- 0001111
+> +fence_i  000000000000     00000 001 00000 0001111
+                        ^ need two more spaces here to line up with fence.
 
-Signed-off-by: Hal Martin <hal.martin@gmail.com>
+>  csrrw    ............     ..... 001 ..... 1110011 @csr
+>  csrrs    ............     ..... 010 ..... 1110011 @csr
+>  csrrc    ............     ..... 011 ..... 1110011 @csr
+> -- 
+> 2.34.1
+> 
+> 
 
----
- hw/smbios/smbios.c           | 63 ++++++++++++++++++++++++++++++++++++
- include/hw/firmware/smbios.h | 10 ++++++
- qemu-options.hx              |  2 ++
- 3 files changed, 75 insertions(+)
-
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 60349ee402..578cae0f0a 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -111,6 +111,13 @@ static struct {
-     .processor_id = 0,
- };
- 
-+struct type8_instance {
-+    const char *internal_reference, *external_reference;
-+    uint8_t connector_type, port_type;
-+    QTAILQ_ENTRY(type8_instance) next;
-+};
-+static QTAILQ_HEAD(, type8_instance) type8 = QTAILQ_HEAD_INITIALIZER(type8);
-+
- static struct {
-     size_t nvalues;
-     char **values;
-@@ -337,6 +344,29 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
-     { /* end of list */ }
- };
- 
-+static const QemuOptDesc qemu_smbios_type8_opts[] = {
-+    {
-+        .name = "internal_reference",
-+        .type = QEMU_OPT_STRING,
-+        .help = "internal reference designator",
-+    },
-+    {
-+        .name = "external_reference",
-+        .type = QEMU_OPT_STRING,
-+        .help = "external reference designator",
-+    },
-+    {
-+        .name = "connector_type",
-+        .type = QEMU_OPT_NUMBER,
-+        .help = "connector type",
-+    },
-+    {
-+        .name = "port_type",
-+        .type = QEMU_OPT_NUMBER,
-+        .help = "port type",
-+    },
-+};
-+
- static const QemuOptDesc qemu_smbios_type11_opts[] = {
-     {
-         .name = "value",
-@@ -718,6 +748,26 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
-     smbios_type4_count++;
- }
- 
-+static void smbios_build_type_8_table(void)
-+{
-+    unsigned instance = 0;
-+    struct type8_instance *t8;
-+
-+    QTAILQ_FOREACH(t8, &type8, next) {
-+        SMBIOS_BUILD_TABLE_PRE(8, T0_BASE + instance, true);
-+
-+        SMBIOS_TABLE_SET_STR(8, internal_reference_str, t8->internal_reference);
-+        SMBIOS_TABLE_SET_STR(8, external_reference_str, t8->external_reference);
-+        /* most vendors seem to set this to None */
-+        t->internal_connector_type = 0x0;
-+        t->external_connector_type = t8->connector_type;
-+        t->port_type = t8->port_type;
-+
-+        SMBIOS_BUILD_TABLE_POST;
-+        instance++;
-+    }
-+}
-+
- static void smbios_build_type_11_table(void)
- {
-     char count_str[128];
-@@ -1030,6 +1080,7 @@ void smbios_get_tables(MachineState *ms,
-             smbios_build_type_4_table(ms, i);
-         }
- 
-+        smbios_build_type_8_table();
-         smbios_build_type_11_table();
- 
- #define MAX_DIMM_SZ (16 * GiB)
-@@ -1346,6 +1397,18 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
-                            UINT16_MAX);
-             }
-             return;
-+        case 8:
-+            if (!qemu_opts_validate(opts, qemu_smbios_type8_opts, errp)) {
-+                return;
-+            }
-+            struct type8_instance *t;
-+            t = g_new0(struct type8_instance, 1);
-+            save_opt(&t->internal_reference, opts, "internal_reference");
-+            save_opt(&t->external_reference, opts, "external_reference");
-+            t->connector_type = qemu_opt_get_number(opts, "connector_type", 0);
-+            t->port_type = qemu_opt_get_number(opts, "port_type", 0);
-+            QTAILQ_INSERT_TAIL(&type8, t, next);
-+            return;
-         case 11:
-             if (!qemu_opts_validate(opts, qemu_smbios_type11_opts, errp)) {
-                 return;
-diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-index 4b7ad77a44..e7d386f7c8 100644
---- a/include/hw/firmware/smbios.h
-+++ b/include/hw/firmware/smbios.h
-@@ -189,6 +189,16 @@ struct smbios_type_4 {
-     uint16_t processor_family2;
- } QEMU_PACKED;
- 
-+/* SMBIOS type 8 - Port Connector Information */
-+struct smbios_type_8 {
-+    struct smbios_structure_header header;
-+    uint8_t internal_reference_str;
-+    uint8_t internal_connector_type;
-+    uint8_t external_reference_str;
-+    uint8_t external_connector_type;
-+    uint8_t port_type;
-+} QEMU_PACKED;
-+
- /* SMBIOS type 11 - OEM strings */
- struct smbios_type_11 {
-     struct smbios_structure_header header;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd8..a27ab6afee 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2538,6 +2538,8 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
-     "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
-     "              [,processor-id=%d]\n"
-     "                specify SMBIOS type 4 fields\n"
-+    "-smbios type=8[,external_reference=str][,internal_reference=str][,connector_type=%d][,port_type=%d]\n"
-+    "                specify SMBIOS type 8 fields\n"
-     "-smbios type=11[,value=str][,path=filename]\n"
-     "                specify SMBIOS type 11 fields\n"
-     "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
--- 
-2.36.1
-
+Thanks,
+drew
 
