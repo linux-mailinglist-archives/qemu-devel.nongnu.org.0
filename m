@@ -2,104 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CF25911A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 15:38:43 +0200 (CEST)
-Received: from localhost ([::1]:59536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF1E5911BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 15:53:27 +0200 (CEST)
+Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMUs5-0005cg-P7
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 09:38:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57984)
+	id 1oMV6M-0002wd-Bw
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 09:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oMUoc-0003gf-Oe
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 09:35:09 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36996)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1oMUoZ-00063T-Lo
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 09:35:06 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27CDNebs008584;
- Fri, 12 Aug 2022 13:35:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=lqY8Px+DFaYyOEg6RpqTHm1WoDFiY+iTLxDvD4oa10A=;
- b=om/bSY7Oes3PQP1Eplc0ePOV8A9v/BJKThOZ9pfdg2Qk2OTdDUfm6YVEbOaOTXg8H5zP
- RlB8nyDoZlMbLxsviO/lyR0d7OuMH3qMumaGkDkrcZzn2UzJF87PEctJ0s+o6r14f0Mj
- pRrFDOayEWIOW76hgwtcNz3YphdYa1h4DFNPvdJn3SzJe06qslJ929W4rbgSEBMLPqoN
- Ecj+4bnZic+nLh2gcChpNxCn1U7dRJElo7KDFJIAgNS0s/Y1yB+NqajV9KFM1XBWJB3S
- Ih2sTk+XSSjkangZWvZmezlpj8TzedjCsEsSve+fl/SOby+0DUZi5McqONwoLkI7UIay OQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwqq60a63-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 13:35:00 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27CDPGco014135;
- Fri, 12 Aug 2022 13:35:00 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwqq60a2n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 13:35:00 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27CDTnCN010057;
- Fri, 12 Aug 2022 13:34:58 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3huwvf3962-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 13:34:58 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 27CDWJw032637386
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 Aug 2022 13:32:19 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D310C11C050;
- Fri, 12 Aug 2022 13:34:54 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1E6E011C04A;
- Fri, 12 Aug 2022 13:34:54 +0000 (GMT)
-Received: from p-imbrenda.ibmuc.com (unknown [9.145.3.179])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 12 Aug 2022 13:34:54 +0000 (GMT)
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: pbonzini@redhat.com
-Cc: qemu-devel@nongnu.org, david@redhat.com, cohuck@redhat.com,
- thuth@redhat.com, borntraeger@de.ibm.com, frankja@linux.ibm.com,
- fiuczy@linux.ibm.com, pasic@linux.ibm.com, berrange@redhat.com,
- alex.bennee@linaro.org, armbru@redhat.com,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Subject: [PATCH v4 1/1] os-posix: asynchronous teardown for shutdown on Linux
-Date: Fri, 12 Aug 2022 15:34:53 +0200
-Message-Id: <20220812133453.82671-1-imbrenda@linux.ibm.com>
-X-Mailer: git-send-email 2.37.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: h3KYxNQUlHU2D1kcL2IuTl-ocKUbFta0
-X-Proofpoint-GUID: DrXvOzYe99xlnvtSaOy7xHI4wiIeJn-J
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <hal.martin@gmail.com>)
+ id 1oMV4u-0001Yw-QM
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 09:51:56 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:37767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hal.martin@gmail.com>)
+ id 1oMV4t-0000aw-2J
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 09:51:56 -0400
+Received: by mail-qk1-x729.google.com with SMTP id a15so368809qko.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 06:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=Vlymm73aKTQzomsrrEGpSEc1BKDyXSY8xM3WZa1ArBE=;
+ b=FKtoG0Ckmn+eObhTQYVcVicMZtjhTN+fqV+odhusil6xA4gG6c1Cc2009ZTEXdsu0O
+ tB48pC0sZQz2HxYXnd3RIY8es+Z7efoqs9sGZjY5ax6yhM+jCNGkR6ZVWggWkUMVs5og
+ CrcG9/7TOJeWcIY2ulecwTGoBVqFa2S+B5n4H0lrNrzkRIh4urTVqIbGctl9rVsUY2vy
+ hprOo01l1pB45EtU0LdpswyJJhT70mJ1awtF1K3/F8FtcQW0C65F0shDuVRI1HO+Wcwy
+ dr7g0BJclxRsCUNIJMa903SslYOQwvIsVRinn6pJckXDqrQJYQ+I/3Bd52ysF0asfS9g
+ BftQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=Vlymm73aKTQzomsrrEGpSEc1BKDyXSY8xM3WZa1ArBE=;
+ b=T+0yXNbDKJBt+BUeTqir9S45m/Ywaibj/NPwJwfh1Grpr34LBNl2xtnVg2ho+J4rvP
+ X+PwpQGpzT9BcoSp503hdjN0l6xg6wUOAqlJrOgwzx0Se+kYo3LizReVXlkRra282zTi
+ 7/ei0ygFEpzs+UstS06izaTSZE38GrdH9qqH9kTeKq+uvALIaOEgXGkd/uOf+N1PpGNj
+ WiOONpXh601H3YiEWhR/uMjOvAKiPCOYBLPeK22mtEHeuAUp9XEfo0xQG0w4VfxMvx8n
+ R+kP+0TDLp5+leNo9IU92ismc6vXP9BvlYuTlc0evRbqkK+v1jDeS2+fvOqcZDOOn+3v
+ dx/w==
+X-Gm-Message-State: ACgBeo3Bd7CJliBqSzYJrqyhpXYHE2zDCVdQSU61plW26aA6ry6YX5LE
+ tdVQT77uG5GWaCa9xFGlPz+ceWHczRA=
+X-Google-Smtp-Source: AA6agR4xEhahzpz5rb1z50Swgl+YbWgMsz1J1zfGvxcnd/r8i+wX4EpeTiFokBLQvBgy+QcjIhVywA==
+X-Received: by 2002:a05:620a:2699:b0:6b8:c299:23c2 with SMTP id
+ c25-20020a05620a269900b006b8c29923c2mr2789251qkp.768.1660312313629; 
+ Fri, 12 Aug 2022 06:51:53 -0700 (PDT)
+Received: from cezanne.lan ([84.55.118.52]) by smtp.gmail.com with ESMTPSA id
+ u12-20020a05620a454c00b006b8c575ce27sm1996324qkp.109.2022.08.12.06.51.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Aug 2022 06:51:53 -0700 (PDT)
+From: Hal Martin <hal.martin@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Hal Martin <hal.martin@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH v2] hw/smbios: support for type 8 (port connector)
+Date: Fri, 12 Aug 2022 15:51:53 +0200
+Message-Id: <20220812135153.17859-1-hal.martin@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-12_08,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 phishscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0
- clxscore=1015 priorityscore=1501 bulkscore=0 mlxlogscore=999 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208120037
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=hal.martin@gmail.com; helo=mail-qk1-x729.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,332 +86,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds support for asynchronously tearing down a VM on Linux.
+PATCH v1: add support for SMBIOS type 8 to qemu
+PATCH v2: incorporate patch v1 feedback and add smbios type=8 to qemu-options
 
-When qemu terminates, either naturally or because of a fatal signal,
-the VM is torn down. If the VM is huge, it can take a considerable
-amount of time for it to be cleaned up. In case of a protected VM, it
-might take even longer than a non-protected VM (this is the case on
-s390x, for example).
+internal_reference: internal reference designator
+external_reference: external reference designator
+connector_type: hex value for port connector type (see SMBIOS 7.9.2)
+port_type: hex value for port type (see SMBIOS 7.9.3)
 
-Some users might want to shut down a VM and restart it immediately,
-without having to wait. This is especially true if management
-infrastructure like libvirt is used.
+After studying various vendor implementationsi (Dell, Lenovo, MSI),
+the value of internal connector type was hard-coded to 0x0 (None).
 
-This patch implements a simple trick on Linux to allow qemu to return
-immediately, with the teardown of the VM being performed
-asynchronously.
+Example usage:
+-smbios type=8,internal_reference=JUSB1,external_reference=USB1,connector_type=0x12,port_type=0x10 \
+-smbios type=8,internal_reference=JAUD1,external_reference="Audio Jack",connector_type=0x1f,port_type=0x1d \
+-smbios type=8,internal_reference=LAN,external_reference=Ethernet,connector_type=0x0b,port_type=0x1f \
+-smbios type=8,internal_reference=PS2,external_reference=Mouse,connector_type=0x0f,port_type=0x0e \
+-smbios type=8,internal_reference=PS2,external_reference=Keyboard,connector_type=0x0f,port_type=0x0d
 
-If the new commandline option -async-teardown is used, a new process is
-spawned from qemu at startup, using the clone syscall, in such way that
-it will share its address space with qemu.The new process will have the
-name "cleanup/<QEMU_PID>". It will wait until qemu terminates
-completely, and then it will exit itself.
 
-This allows qemu to terminate quickly, without having to wait for the
-whole address space to be torn down. The cleanup process will exit
-after qemu, so it will be the last user of the address space, and
-therefore it will take care of the actual teardown. The cleanup
-process will share the same cgroups as qemu, so both memory usage and
-cpu time will be accounted properly.
+Signed-off-by: Hal Martin <hal.martin@gmail.com>
 
-If possible, close_range will be used in the cleanup process to close
-all open file descriptors. If it is not available or if it fails, /proc
-will be used to determine which file descriptors to close.
-
-If the cleanup process is forcefully killed with SIGKILL before the
-main qemu process has terminated completely, the mechanism is defeated
-and the teardown will not be asynchronous.
-
-This feature can already be used with libvirt by adding the following
-to the XML domain definition to pass the parameter to qemu directly:
-
-  <commandline xmlns="http://libvirt.org/schemas/domain/qemu/1.0">
-  <arg value='-async-teardown'/>
-  </commandline>
-
-Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Reviewed-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Tested-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 ---
- include/qemu/async-teardown.h |  22 +++++
- meson.build                   |   1 +
- os-posix.c                    |   6 ++
- qemu-options.hx               |  19 +++++
- util/async-teardown.c         | 155 ++++++++++++++++++++++++++++++++++
- util/meson.build              |   1 +
- 6 files changed, 204 insertions(+)
- create mode 100644 include/qemu/async-teardown.h
- create mode 100644 util/async-teardown.c
+ hw/smbios/smbios.c           | 63 ++++++++++++++++++++++++++++++++++++
+ include/hw/firmware/smbios.h | 10 ++++++
+ qemu-options.hx              |  2 ++
+ 3 files changed, 75 insertions(+)
 
-diff --git a/include/qemu/async-teardown.h b/include/qemu/async-teardown.h
-new file mode 100644
-index 0000000000..092e7a37e7
---- /dev/null
-+++ b/include/qemu/async-teardown.h
-@@ -0,0 +1,22 @@
-+/*
-+ * Asynchronous teardown
-+ *
-+ * Copyright IBM, Corp. 2022
-+ *
-+ * Authors:
-+ *  Claudio Imbrenda <imbrenda@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at your
-+ * option) any later version.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+#ifndef QEMU_ASYNC_TEARDOWN_H
-+#define QEMU_ASYNC_TEARDOWN_H
-+
-+#include "config-host.h"
-+
-+#ifdef CONFIG_LINUX
-+void init_async_teardown(void);
-+#endif
-+
-+#endif
-diff --git a/meson.build b/meson.build
-index 294e9a8f32..7bccad93d0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1892,6 +1892,7 @@ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
- config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 60349ee402..578cae0f0a 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -111,6 +111,13 @@ static struct {
+     .processor_id = 0,
+ };
  
- # has_function
-+config_host_data.set('CONFIG_CLOSE_RANGE', cc.has_function('close_range'))
- config_host_data.set('CONFIG_ACCEPT4', cc.has_function('accept4'))
- config_host_data.set('CONFIG_CLOCK_ADJTIME', cc.has_function('clock_adjtime'))
- config_host_data.set('CONFIG_DUP3', cc.has_function('dup3'))
-diff --git a/os-posix.c b/os-posix.c
-index 321fc4bd13..4858650c3e 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -39,6 +39,7 @@
++struct type8_instance {
++    const char *internal_reference, *external_reference;
++    uint8_t connector_type, port_type;
++    QTAILQ_ENTRY(type8_instance) next;
++};
++static QTAILQ_HEAD(, type8_instance) type8 = QTAILQ_HEAD_INITIALIZER(type8);
++
+ static struct {
+     size_t nvalues;
+     char **values;
+@@ -337,6 +344,29 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
+     { /* end of list */ }
+ };
  
- #ifdef CONFIG_LINUX
- #include <sys/prctl.h>
-+#include "qemu/async-teardown.h"
- #endif
++static const QemuOptDesc qemu_smbios_type8_opts[] = {
++    {
++        .name = "internal_reference",
++        .type = QEMU_OPT_STRING,
++        .help = "internal reference designator",
++    },
++    {
++        .name = "external_reference",
++        .type = QEMU_OPT_STRING,
++        .help = "external reference designator",
++    },
++    {
++        .name = "connector_type",
++        .type = QEMU_OPT_NUMBER,
++        .help = "connector type",
++    },
++    {
++        .name = "port_type",
++        .type = QEMU_OPT_NUMBER,
++        .help = "port type",
++    },
++};
++
+ static const QemuOptDesc qemu_smbios_type11_opts[] = {
+     {
+         .name = "value",
+@@ -718,6 +748,26 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     smbios_type4_count++;
+ }
  
- /*
-@@ -150,6 +151,11 @@ int os_parse_cmd_args(int index, const char *optarg)
-     case QEMU_OPTION_daemonize:
-         daemonize = 1;
-         break;
-+#if defined(CONFIG_LINUX)
-+    case QEMU_OPTION_asyncteardown:
-+        init_async_teardown();
-+        break;
-+#endif
-     default:
-         return -1;
-     }
++static void smbios_build_type_8_table(void)
++{
++    unsigned instance = 0;
++    struct type8_instance *t8;
++
++    QTAILQ_FOREACH(t8, &type8, next) {
++        SMBIOS_BUILD_TABLE_PRE(8, T0_BASE + instance, true);
++
++        SMBIOS_TABLE_SET_STR(8, internal_reference_str, t8->internal_reference);
++        SMBIOS_TABLE_SET_STR(8, external_reference_str, t8->external_reference);
++        /* most vendors seem to set this to None */
++        t->internal_connector_type = 0x0;
++        t->external_connector_type = t8->connector_type;
++        t->port_type = t8->port_type;
++
++        SMBIOS_BUILD_TABLE_POST;
++        instance++;
++    }
++}
++
+ static void smbios_build_type_11_table(void)
+ {
+     char count_str[128];
+@@ -1030,6 +1080,7 @@ void smbios_get_tables(MachineState *ms,
+             smbios_build_type_4_table(ms, i);
+         }
+ 
++        smbios_build_type_8_table();
+         smbios_build_type_11_table();
+ 
+ #define MAX_DIMM_SZ (16 * GiB)
+@@ -1346,6 +1397,18 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+                            UINT16_MAX);
+             }
+             return;
++        case 8:
++            if (!qemu_opts_validate(opts, qemu_smbios_type8_opts, errp)) {
++                return;
++            }
++            struct type8_instance *t;
++            t = g_new0(struct type8_instance, 1);
++            save_opt(&t->internal_reference, opts, "internal_reference");
++            save_opt(&t->external_reference, opts, "external_reference");
++            t->connector_type = qemu_opt_get_number(opts, "connector_type", 0);
++            t->port_type = qemu_opt_get_number(opts, "port_type", 0);
++            QTAILQ_INSERT_TAIL(&type8, t, next);
++            return;
+         case 11:
+             if (!qemu_opts_validate(opts, qemu_smbios_type11_opts, errp)) {
+                 return;
+diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
+index 4b7ad77a44..e7d386f7c8 100644
+--- a/include/hw/firmware/smbios.h
++++ b/include/hw/firmware/smbios.h
+@@ -189,6 +189,16 @@ struct smbios_type_4 {
+     uint16_t processor_family2;
+ } QEMU_PACKED;
+ 
++/* SMBIOS type 8 - Port Connector Information */
++struct smbios_type_8 {
++    struct smbios_structure_header header;
++    uint8_t internal_reference_str;
++    uint8_t internal_connector_type;
++    uint8_t external_reference_str;
++    uint8_t external_connector_type;
++    uint8_t port_type;
++} QEMU_PACKED;
++
+ /* SMBIOS type 11 - OEM strings */
+ struct smbios_type_11 {
+     struct smbios_structure_header header;
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 3f23a42fa8..f913fc307f 100644
+index 377d22fbd8..a27ab6afee 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -4743,6 +4743,25 @@ HXCOMM Internal use
- DEF("qtest", HAS_ARG, QEMU_OPTION_qtest, "", QEMU_ARCH_ALL)
- DEF("qtest-log", HAS_ARG, QEMU_OPTION_qtest_log, "", QEMU_ARCH_ALL)
- 
-+#ifdef __linux__
-+DEF("async-teardown", 0, QEMU_OPTION_asyncteardown,
-+    "-async-teardown enable asynchronous teardown\n",
-+    QEMU_ARCH_ALL)
-+#endif
-+SRST
-+``-async-teardown``
-+    Enable asynchronous teardown. A new process called "cleanup/<QEMU_PID>"
-+    will be created at startup sharing the address space with the main qemu
-+    process, using clone. It will wait for the main qemu process to
-+    terminate completely, and then exit.
-+    This allows qemu to terminate very quickly even if the guest was
-+    huge, leaving the teardown of the address space to the cleanup
-+    process. Since the cleanup process shares the same cgroups as the
-+    main qemu process, accounting is performed correctly. This only
-+    works if the cleanup process is not forcefully killed with SIGKILL
-+    before the main qemu process has terminated completely.
-+ERST
-+
- DEF("msg", HAS_ARG, QEMU_OPTION_msg,
-     "-msg [timestamp[=on|off]][,guest-name=[on|off]]\n"
-     "                control error message format\n"
-diff --git a/util/async-teardown.c b/util/async-teardown.c
-new file mode 100644
-index 0000000000..02ab14a1f8
---- /dev/null
-+++ b/util/async-teardown.c
-@@ -0,0 +1,155 @@
-+/*
-+ * Asynchronous teardown
-+ *
-+ * Copyright IBM, Corp. 2022
-+ *
-+ * Authors:
-+ *  Claudio Imbrenda <imbrenda@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at your
-+ * option) any later version.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <sys/types.h>
-+#include <sys/unistd.h>
-+#include <dirent.h>
-+#include <sys/prctl.h>
-+#include <signal.h>
-+#include <sched.h>
-+#include <unistd.h>
-+
-+#ifdef CONFIG_CLOSE_RANGE
-+#include <linux/close_range.h>
-+#endif
-+
-+#include "qemu/osdep.h"
-+#include "qemu/async-teardown.h"
-+
-+#ifdef _SC_THREAD_STACK_MIN
-+#define CLONE_STACK_SIZE sysconf(_SC_THREAD_STACK_MIN)
-+#else
-+#define CLONE_STACK_SIZE 16384
-+#endif
-+
-+static pid_t the_ppid;
-+
-+/*
-+ * Close all open file descriptors.
-+ */
-+static void close_all_open_fd(void)
-+{
-+    struct dirent *de;
-+    int i, fd, dfd;
-+    DIR *dir;
-+
-+#ifdef CONFIG_CLOSE_RANGE
-+    i = close_range(0, ~0U, 0);
-+    if (!i) {
-+        /* Success, no need to try other ways. */
-+        return;
-+    }
-+#endif
-+
-+    dir = opendir("/proc/self/fd");
-+    if (!dir) {
-+        /* If /proc is not mounted, there is nothing that can be done. */
-+        return;
-+    }
-+    /* Avoid closing the directory. */
-+    dfd = dirfd(dir);
-+
-+    for (de = readdir(dir); de; de = readdir(dir)) {
-+        fd = atoi(de->d_name);
-+        if (fd != dfd) {
-+            close(fd);
-+        }
-+    }
-+    closedir(dir);
-+}
-+
-+static void hup_handler(int signal)
-+{
-+    /* Check every second if this process has been reparented. */
-+    while (the_ppid == getppid()) {
-+        /* sleep() is safe to use in a signal handler. */
-+        sleep(1);
-+    }
-+
-+    /* At this point the parent process has terminated completely. */
-+    _exit(0);
-+}
-+
-+static int async_teardown_fn(void *arg)
-+{
-+    struct sigaction sa = { .sa_handler = hup_handler };
-+    sigset_t hup_signal;
-+    char name[16];
-+
-+    /* Set a meaningful name for this process. */
-+    snprintf(name, 16, "cleanup/%d", the_ppid);
-+    prctl(PR_SET_NAME, (unsigned long)name);
-+
-+    /*
-+     * Close all file descriptors that might have been inherited from the
-+     * main qemu process when doing clone, needed to make libvirt happy.
-+     * Not using close_range for increased compatibility with older kernels.
-+     */
-+    close_all_open_fd();
-+
-+    /* Set up a handler for SIGHUP and unblock SIGHUP. */
-+    sigaction(SIGHUP, &sa, NULL);
-+    sigemptyset(&hup_signal);
-+    sigaddset(&hup_signal, SIGHUP);
-+    sigprocmask(SIG_UNBLOCK, &hup_signal, NULL);
-+
-+    /* Ask to receive SIGHUP when the parent dies. */
-+    prctl(PR_SET_PDEATHSIG, SIGHUP);
-+
-+    /*
-+     * Sleep forever, unless the parent process has already terminated. The
-+     * only interruption can come from the SIGHUP signal, which in normal
-+     * operation is received when the parent process dies.
-+     */
-+    if (the_ppid == getppid()) {
-+        pause();
-+    }
-+
-+    /* At this point the parent process has terminated completely. */
-+    _exit(0);
-+}
-+
-+/*
-+ * Allocate a new stack of a reasonable size, and return a pointer to its top.
-+ */
-+static void *new_stack_for_clone(void)
-+{
-+    size_t stack_size = CLONE_STACK_SIZE;
-+    char *stack_ptr;
-+
-+    /* Allocate a new stack and get a pointer to its top. */
-+    stack_ptr = qemu_alloc_stack(&stack_size);
-+#if !defined(HOST_HPPA)
-+    /* The top is at the end of the area, except on HPPA. */
-+    stack_ptr += stack_size;
-+#endif
-+
-+    return stack_ptr;
-+}
-+
-+/*
-+ * Block all signals, start (clone) a new process sharing the address space
-+ * with qemu (CLONE_VM), then restore signals.
-+ */
-+void init_async_teardown(void)
-+{
-+    sigset_t all_signals, old_signals;
-+
-+    the_ppid = getpid();
-+
-+    sigfillset(&all_signals);
-+    sigprocmask(SIG_BLOCK, &all_signals, &old_signals);
-+    clone(async_teardown_fn, new_stack_for_clone(), CLONE_VM, NULL);
-+    sigprocmask(SIG_SETMASK, &old_signals, NULL);
-+}
-diff --git a/util/meson.build b/util/meson.build
-index 5e282130df..63acd59bb0 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -2,6 +2,7 @@ util_ss.add(files('osdep.c', 'cutils.c', 'unicode.c', 'qemu-timer-common.c'))
- if not config_host_data.get('CONFIG_ATOMIC64')
-   util_ss.add(files('atomic64.c'))
- endif
-+util_ss.add(when: 'CONFIG_LINUX', if_true: files('async-teardown.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('aio-posix.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('fdmon-poll.c'))
- if config_host_data.get('CONFIG_EPOLL_CREATE1')
+@@ -2538,6 +2538,8 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+     "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
+     "              [,processor-id=%d]\n"
+     "                specify SMBIOS type 4 fields\n"
++    "-smbios type=8[,external_reference=str][,internal_reference=str][,connector_type=%d][,port_type=%d]\n"
++    "                specify SMBIOS type 8 fields\n"
+     "-smbios type=11[,value=str][,path=filename]\n"
+     "                specify SMBIOS type 11 fields\n"
+     "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
 -- 
-2.37.1
+2.36.1
 
 
