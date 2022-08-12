@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014C759106C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:58:06 +0200 (CEST)
-Received: from localhost ([::1]:45218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F49D59107C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 14:06:33 +0200 (CEST)
+Received: from localhost ([::1]:52696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMTIj-0006Ja-2c
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
+	id 1oMTQt-0003rQ-Va
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 08:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMTBW-0003eC-Ka
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:50:39 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:33543)
+ id 1oMTAS-00033s-L8
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:49:32 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:39823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMTBV-0003G0-2m
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:50:38 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-32a09b909f6so7764487b3.0
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:50:36 -0700 (PDT)
+ id 1oMTAR-0002mq-2f
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:49:32 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id k12so1093815ybk.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=SZyKxP8P2UgSq9IZ5ACKYq+nbiG06pY7wnvsFtJqdRE=;
- b=ybT2y6GqC2Ap6xloJS5sV6ZP9L+jU+PUt4zxEv/3XL29YZW0kYqUqB+dzKvBBjhEdD
- o+byELF4MQvFdT8gqJMHA2FiiJpLJDRY+rkOycC23beQNvF5Z5zxsXNr83m8vJDGt751
- Dt4IIjirQ7nUOogxeWuX8U7TJCyKf6ciapClpJJ8iT0O56103uVMlXoFiM8d2H7Gd/+2
- pJ3ZJ1dVT++in4kE7pVyBvrNqOrE75IOPULDfHmLVNCDQfHvisBmn2zqWey+uc0U+OBc
- IiOj+VGpzj3oypPAMB37/SbpXU1AdaivyJjoSo6ziRN8MxqdzVso73Pledqgkbj3u0WY
- rKIg==
+ bh=daEDCujVTyKE+KSN6EG2XLk7AN3wYbRkIKbEMsQ01mo=;
+ b=eop230Rl34OwDzVOSsd+/FYUgw9jJSAhmdn7PDwLdC/CX2rufzx1hHCaW5B6I9PqsZ
+ NtWyCErkcl9eOzGldWjA3X0QMWcHFrXotdVjZgzrPToBywjnJZdvB5zVe4VAwRyFichg
+ Y3mkS0zJknnlzQMFtQUed+hX6OLsI5k+cfOaHoBCLlVKqljJwao+Rni4SQ4DFSUNrbY9
+ yPOVmlRrF8+zPPotiZ3nTqDnCCNKhjiWcmI7Wh6dgO3PEmDCG47t7R9xGDbZkzxPKX1u
+ RriIbQB3fp8/WRDcfyz9P08vorYAAe+mKeM7uKVVqzRQy81zL6+UDeyttQhyp0tT9+se
+ NoIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=SZyKxP8P2UgSq9IZ5ACKYq+nbiG06pY7wnvsFtJqdRE=;
- b=iKYvjnIQhHNuGNV6hTgCpLVTAWm9Q2YmJCaKnSB1HB7+PUw6PYAezJ4vMPoC/ruK5/
- 3kIaNTBbNAmNe7Rp5Wwian97hgi1wZwyvnjS3uyBBzNz/XaBMxDlI5BTfShUfZYeDPgh
- WAkV4bPBDlCvs/2LPNxE91K3rmvAsFJVonAT++YV6w0U3XuDQa1Z/w8gVY6PHRk/Wnqx
- frfUDZZyTQHIQ218ZfNzZddYRJzENWty9XcdEtjYG3aanZEl3s1ucgFb2YqfKcBArajB
- xhLJCwNO5KwCjqfZhxbMFWzIKOV1lx+b5D3k6lB/ydb3RVLWrG3PTcbdUqEVO/dWYFXI
- +V3g==
-X-Gm-Message-State: ACgBeo1gf6jY6yY8xMEMdLao5+lnD4gOz12SUv8DpnnJ4F/q86BCGKY+
- YaEEiKnYue5fR8i72tdI6LvwVHCvmgVI+5EfYlfY5g==
-X-Google-Smtp-Source: AA6agR4oiuwaFTETS4wp+3jDWeCGE/LY9gE7y7Mdprekw8ZCPzvw+hksy7P7OefcRCLztdGJ8llpHeSGJLCmS3yfRzI=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr3439428ywb.257.1660305035530; Fri, 12 Aug
- 2022 04:50:35 -0700 (PDT)
+ bh=daEDCujVTyKE+KSN6EG2XLk7AN3wYbRkIKbEMsQ01mo=;
+ b=73JsPDkW3FjZc7glCMNEgfqtrVCGaQjbvOH0LQAHq/R6s/5XHaaImPiW7n0go+rtvS
+ y9Sweu/HfayvoTowZxT5FpSjnnQ3IwOwjcHD/ruhHC63BwAnDHORt/LzvbNRG7aUWAxW
+ mXtLQUH0duBUrHoJhlRzKx7+DtlXGQMWBopfys6G2Jq8a5IsSd84LqbDNS9PSyJVn2lA
+ hObmm+pfHgYQUlUdLhREkcyp3sTY/9nN1IvU4cxkcrYnLMxca0KyzwqUF0hnP1JCKjMf
+ Chem/jkSxOCgyrf0CP3fNy+qdrwP/5Hp8RpPRiyyei6skh5FbJuDzGcCki5+IzietnFB
+ FbBw==
+X-Gm-Message-State: ACgBeo17xdL4LZ+hBLAOuS/txO/IrdWZ7zpu9oeqrJ+2Fj5m5svXhgGm
+ GogbncLjg+vOaTvBTpuBY6KPNG1BSATjqVFl4ijgBw==
+X-Google-Smtp-Source: AA6agR7B1ZMlGiBmjdEjG0grja1co/9ujtKJhu9HINs3WCfdySyGEacALB6GPDqqhEmQU+vLg5MsjaZHaSwQot02DBk=
+X-Received: by 2002:a25:d4a:0:b0:671:6d11:d14e with SMTP id
+ 71-20020a250d4a000000b006716d11d14emr3136171ybn.479.1660304969988; Fri, 12
+ Aug 2022 04:49:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1660303075.git.tugy@chinatelecom.cn>
- <3e370aa5326809d63f7eef573be558da987d27f5.1660303075.git.tugy@chinatelecom.cn>
-In-Reply-To: <3e370aa5326809d63f7eef573be558da987d27f5.1660303075.git.tugy@chinatelecom.cn>
+ <211833676831b86d70af12df9912aa971d46092b.1660303075.git.tugy@chinatelecom.cn>
+In-Reply-To: <211833676831b86d70af12df9912aa971d46092b.1660303075.git.tugy@chinatelecom.cn>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 12:50:24 +0100
-Message-ID: <CAFEAcA_MsAPxaqzgszYP2xSacNFMWZFH-8QQSRvSHCGjN93T3A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] vhost-user: Call qemu_socketpair() instead of
- socketpair()
+Date: Fri, 12 Aug 2022 12:49:18 +0100
+Message-ID: <CAFEAcA-So11YhE=P2Xb2FXG4-dbG_gq2eg60O9q=ejh+bBC4NA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] osdeps: Introduce qemu_socketpair()
 To: tugy@chinatelecom.cn
 Cc: f4bug@amsat.org, marcandre.lureau@redhat.com, qemu_oss@crudebyte.com, 
  richard.henderson@linaro.org, berrange@redhat.com, mst@redhat.com, 
  kraxel@redhat.com, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,11 +89,46 @@ On Fri, 12 Aug 2022 at 12:44, <tugy@chinatelecom.cn> wrote:
 >
 > From: Guoyi Tu <tugy@chinatelecom.cn>
 >
-> set close-on-exec flag on the new opened file descriptors at default
+> qemu_socketpair() will create a pair of connected sockets
+> with FD_CLOEXEC set
+>
+> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+> ---
+>  include/qemu/sockets.h |  3 +++
+>  util/osdep.c           | 24 ++++++++++++++++++++++++
+>  2 files changed, 27 insertions(+)
+>
+> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+> index 038faa157f..52cf2855df 100644
+> --- a/include/qemu/sockets.h
+> +++ b/include/qemu/sockets.h
+> @@ -14,6 +14,9 @@ int inet_aton(const char *cp, struct in_addr *ia);
+>  /* misc helpers */
+>  bool fd_is_socket(int fd);
+>  int qemu_socket(int domain, int type, int protocol);
+> +#ifndef WIN32
+> +int qemu_socketpair(int domain, int type, int protocol, int sv[2]);
 
-What goes wrong if we don't do this? The commit message
-is a good place to explain what bug the commit is fixing,
-and its consequences.
+Any new function declaration in a header file needs a
+doc-comment documenting what it does, please.
+
+> +#endif
+>  int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
+>  int socket_set_cork(int fd, int v);
+>  int socket_set_nodelay(int fd);
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 60fcbbaebe..4b1ab623c7 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -481,6 +481,30 @@ int qemu_socket(int domain, int type, int protocol)
+>      return ret;
+>  }
+>
+> +#ifndef _WIN32
+
+If this function only exists and is usable on posix
+hosts, put it in util/oslib-posix.c rather than having
+it here with a win32 ifdef.
 
 thanks
 -- PMM
