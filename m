@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BE05912B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 17:13:49 +0200 (CEST)
-Received: from localhost ([::1]:36226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8A05912E1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 17:26:11 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMWM7-00077z-BS
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 11:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47330)
+	id 1oMWY7-0007Rk-0Y
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 11:26:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oMWCn-0007im-Dk
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 11:04:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35099)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1oMWJW-0004b4-LN; Fri, 12 Aug 2022 11:11:10 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:43812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oMWCi-0003O8-FX
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 11:04:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660316643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ees+rv9+1NiNUkn53Q6RzkKXl92l3LPsyuQnf/e5QV4=;
- b=YQLYV7+HdiFSO2+5Q3hXj75ohXZMKFoSVzwZs0HUQ6lH2Z88hi2YOHGQUCdIr6WtTeBPq4
- 5Pe3Focs59awRiNxcFE56j7Udm6fsBwqYRdONul5l3YcslRMcpkrn8e4TfXXlEiPuFRN1q
- PBeyV6K5dHyDWBq3VrSfc7sZg5/81Zw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-381-rS7hrOI-OfyQzq-tabGb1w-1; Fri, 12 Aug 2022 11:04:01 -0400
-X-MC-Unique: rS7hrOI-OfyQzq-tabGb1w-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d6-20020adfa346000000b002206e4c29caso204067wrb.8
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 08:04:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=ees+rv9+1NiNUkn53Q6RzkKXl92l3LPsyuQnf/e5QV4=;
- b=CjHc4EjRpryWb6NZuiosobHEpKrqPvPczn9Ly9fwUHf/nmJgSm7i077Ghon+LMcx62
- 42hYpfRLo54ksr1JKFuWsDPvljorjoe+iDNgpkC5kzUs9KdjI8qy1OAw5e2YmYq67xhI
- haqG5Xpy+GDO2cTrx5rwefpxzsyBmOTSh6l2ZACNr9CrSQEDursgR8DlmeMZK5J1YG4B
- 196qAFkkrehXTecDxHYeUVa3bOIuL6wuZ9jWn+KAtGMSx7p3bXyPOhX4+nI4mon8gJol
- XuA0Sl97Ee4G5ceI31Q6VdJxG/C2MKic8fn8OvQB+3i2iHzIdeyWCteGPZzuN0be56mX
- 2H2A==
-X-Gm-Message-State: ACgBeo2gIn6MxVeTqjbfyT0Ed5m6hmRrSEgC93rMcb2vGvRzBDYYwqZD
- ILGh6MfXMhdge0kcCobf0ygmYOoEU2FGgq8b1nZJ1XugtmxwMUcFnRD1n7ma+rrmG1eIazaNje+
- cnIJqApUNKr3dgnE=
-X-Received: by 2002:a05:600c:1f16:b0:3a3:214c:a85e with SMTP id
- bd22-20020a05600c1f1600b003a3214ca85emr2975725wmb.95.1660316640696; 
- Fri, 12 Aug 2022 08:04:00 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR71PfsuVIEFRHXzlps1zlRtOJ3pqHNWQGqJZ2C98RV/OxUKuUpsLUS/dQ+llDHewR+TSGelCQ==
-X-Received: by 2002:a05:600c:1f16:b0:3a3:214c:a85e with SMTP id
- bd22-20020a05600c1f1600b003a3214ca85emr2975694wmb.95.1660316640375; 
- Fri, 12 Aug 2022 08:04:00 -0700 (PDT)
-Received: from redhat.com ([2.52.152.113]) by smtp.gmail.com with ESMTPSA id
- v20-20020a1cf714000000b003a5125049c9sm12604178wmh.9.2022.08.12.08.03.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 08:03:59 -0700 (PDT)
-Date: Fri, 12 Aug 2022 11:03:56 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Hal Martin <hal.martin@gmail.com>
-Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v2] hw/smbios: support for type 8 (port connector)
-Message-ID: <20220812110220-mutt-send-email-mst@kernel.org>
-References: <20220812135153.17859-1-hal.martin@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220812135153.17859-1-hal.martin@gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1oMWJT-0004XH-4e; Fri, 12 Aug 2022 11:11:06 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id BB5F5B8233E;
+ Fri, 12 Aug 2022 15:10:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EB24C433C1;
+ Fri, 12 Aug 2022 15:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660317057;
+ bh=PsoT4xVGMOMcLIqFv2j2CLNKwBnJLaQIjJLfrLW8DBI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Jymxm8QGs9bQuLVwrym+yXvnehCDOidxbqc0uOYubSF3f9XeEVWwwReTpbgmQ1XgC
+ hx85Y1CZ6WEeOF5gu/+DR2PAKqeSLlcJiZu/WFaZaj0GEOp5YpDArDu8lT6HDFuIef
+ eJlx1frgFSdWYFdhMkjq+APGm2R3vwqDNYojvu5DLVVHUjxoMEKOQIJ8YAsKHXpHrT
+ C/elUM8Evrha/EynJ2QG7dgsMoFXgwqhmeajgkGghKqsFLnoEY3E0P+vpwaWSqD45P
+ OGnQ5DuCI1cSMr9NNlxniJCr1wdwzTFOuzh3/IxdBMy6f/Aer6kOS/LvGGAnA/mYdf
+ UZ1T+J34KcdUg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1oMWJL-002Zt7-67;
+ Fri, 12 Aug 2022 16:10:55 +0100
+Date: Fri, 12 Aug 2022 16:10:54 +0100
+Message-ID: <87fsi1v6o1.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-arm@nongnu.org,
+ kvmarm <kvmarm@lists.cs.columbia.edu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dmitry V. Levin" <ldv@altlinux.org>
+Subject: Re: qemu-system-aarch64: Failed to retrieve host CPU features
+In-Reply-To: <CAFEAcA9BuSe4SwpoWTALURaxoj-8U2y83k=und7oKrZBggLarQ@mail.gmail.com>
+References: <20220812021427.cwenhciuftgtaj64@altlinux.org>
+ <20220812084529.ur5qcyws5qvoyvuc@altlinux.org>
+ <CAFEAcA9BuSe4SwpoWTALURaxoj-8U2y83k=und7oKrZBggLarQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, vt@altlinux.org,
+ qemu-arm@nongnu.org, kvmarm@lists.cs.columbia.edu, qemu-devel@nongnu.org,
+ ldv@altlinux.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=maz@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,178 +88,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 12, 2022 at 03:51:53PM +0200, Hal Martin wrote:
-> PATCH v1: add support for SMBIOS type 8 to qemu
-> PATCH v2: incorporate patch v1 feedback and add smbios type=8 to qemu-options
-
-history after --- pls
-
-> internal_reference: internal reference designator
-> external_reference: external reference designator
-> connector_type: hex value for port connector type (see SMBIOS 7.9.2)
-> port_type: hex value for port type (see SMBIOS 7.9.3)
+On Fri, 12 Aug 2022 10:25:55 +0100,
+Peter Maydell <peter.maydell@linaro.org> wrote:
 > 
-> After studying various vendor implementationsi (Dell, Lenovo, MSI),
-> the value of internal connector type was hard-coded to 0x0 (None).
+> I've added some more relevant mailing lists to the cc.
 > 
-> Example usage:
-> -smbios type=8,internal_reference=JUSB1,external_reference=USB1,connector_type=0x12,port_type=0x10 \
-> -smbios type=8,internal_reference=JAUD1,external_reference="Audio Jack",connector_type=0x1f,port_type=0x1d \
-> -smbios type=8,internal_reference=LAN,external_reference=Ethernet,connector_type=0x0b,port_type=0x1f \
-> -smbios type=8,internal_reference=PS2,external_reference=Mouse,connector_type=0x0f,port_type=0x0e \
-> -smbios type=8,internal_reference=PS2,external_reference=Keyboard,connector_type=0x0f,port_type=0x0d
+> On Fri, 12 Aug 2022 at 09:45, Vitaly Chikunov <vt@altlinux.org> wrote:
+> > On Fri, Aug 12, 2022 at 05:14:27AM +0300, Vitaly Chikunov wrote:
+> > > I noticed that we starting to get many errors like this:
+> > >
+> > >   qemu-system-aarch64: Failed to retrieve host CPU features
+> > >
+> > > Where many is 1-2% per run, depends on host, host is Kunpeng-920, and
+> > > Linux kernel is v5.15.59, but it started to appear months before that.
+> > >
+> > > strace shows in erroneous case:
+> > >
+> > >   1152244 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+> > >
+> > > And I see in target/arm/kvm.c:kvm_arm_create_scratch_host_vcpu:
+> > >
+> > >     vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> > >     if (vmfd < 0) {
+> > >         goto err;
+> > >     }
+> > >
+> > > Maybe it should restart ioctl on EINTR?
+> > >
+> > > I don't see EINTR documented in ioctl(2) nor in Linux'
+> > > Documentation/virt/kvm/api.rst for KVM_CREATE_VM, but for KVM_RUN it
+> > > says "an unmasked signal is pending".
+> >
+> > I am suggested that almost any blocking syscall could return EINTR, so I
+> > checked the strace log and it does not show evidence of arriving a signal,
+> > the log ends like this:
+> >
+> >   1152244 openat(AT_FDCWD, "/dev/kvm", O_RDWR|O_CLOEXEC) = 9
+> >   1152244 ioctl(9, KVM_CHECK_EXTENSION, KVM_CAP_ARM_VM_IPA_SIZE) = 48
+> >   1152244 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+> >   1152244 close(9)                        = 0
+> >   1152244 newfstatat(2, "", {st_dev=makedev(0, 0xd), st_ino=57869925, st_mode=S_IFIFO|0600, st_nlink=1, st_uid=517, st_gid=517, st_blksize=4096, st_blocks=0, st_size=0, st_atime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_atime_nsec=850436293, st_mtime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_mtime_nsec=850436293, st_ctime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_ctime_nsec=850436293}, AT_EMPTY_PATH) = 0
+> >   1152244 write(2, "qemu-system-aarch64: Failed to r"..., 58) = 58
+> >   1152244 exit_group(1)                   = ?
+> >   1152245 <... clock_nanosleep resumed> <unfinished ...>) = ?
+> >   1152245 +++ exited with 1 +++
+> >   1152244 +++ exited with 1 +++
 > 
+> KVM folks: should we expect that KVM_CREATE_VM might fail EINTR
+> and need retrying?
 > 
-> Signed-off-by: Hal Martin <hal.martin@gmail.com>
+> (I suspect the answer is "yes", given we do this in the generic
+> code in kvm-all.c.)
 
-We are in freeze, I tagged this for after the release.
-Just to make sure pls ping me after the release if possible.
+Interestingly, this has cropped up in the (distant) past:
 
+https://lists.gnu.org/archive/html/qemu-devel/2014-01/msg01031.html
 
+and seems to point at the path I was mentioning earlier (the code
+hasn't changed too much since, apparently).
 
-> ---
->  hw/smbios/smbios.c           | 63 ++++++++++++++++++++++++++++++++++++
->  include/hw/firmware/smbios.h | 10 ++++++
->  qemu-options.hx              |  2 ++
->  3 files changed, 75 insertions(+)
-> 
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index 60349ee402..578cae0f0a 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -111,6 +111,13 @@ static struct {
->      .processor_id = 0,
->  };
->  
-> +struct type8_instance {
-> +    const char *internal_reference, *external_reference;
-> +    uint8_t connector_type, port_type;
-> +    QTAILQ_ENTRY(type8_instance) next;
-> +};
-> +static QTAILQ_HEAD(, type8_instance) type8 = QTAILQ_HEAD_INITIALIZER(type8);
-> +
->  static struct {
->      size_t nvalues;
->      char **values;
-> @@ -337,6 +344,29 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
->      { /* end of list */ }
->  };
->  
-> +static const QemuOptDesc qemu_smbios_type8_opts[] = {
-> +    {
-> +        .name = "internal_reference",
-> +        .type = QEMU_OPT_STRING,
-> +        .help = "internal reference designator",
-> +    },
-> +    {
-> +        .name = "external_reference",
-> +        .type = QEMU_OPT_STRING,
-> +        .help = "external reference designator",
-> +    },
-> +    {
-> +        .name = "connector_type",
-> +        .type = QEMU_OPT_NUMBER,
-> +        .help = "connector type",
-> +    },
-> +    {
-> +        .name = "port_type",
-> +        .type = QEMU_OPT_NUMBER,
-> +        .help = "port type",
-> +    },
-> +};
-> +
->  static const QemuOptDesc qemu_smbios_type11_opts[] = {
->      {
->          .name = "value",
-> @@ -718,6 +748,26 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
->      smbios_type4_count++;
->  }
->  
-> +static void smbios_build_type_8_table(void)
-> +{
-> +    unsigned instance = 0;
-> +    struct type8_instance *t8;
-> +
-> +    QTAILQ_FOREACH(t8, &type8, next) {
-> +        SMBIOS_BUILD_TABLE_PRE(8, T0_BASE + instance, true);
-> +
-> +        SMBIOS_TABLE_SET_STR(8, internal_reference_str, t8->internal_reference);
-> +        SMBIOS_TABLE_SET_STR(8, external_reference_str, t8->external_reference);
-> +        /* most vendors seem to set this to None */
-> +        t->internal_connector_type = 0x0;
-> +        t->external_connector_type = t8->connector_type;
-> +        t->port_type = t8->port_type;
-> +
-> +        SMBIOS_BUILD_TABLE_POST;
-> +        instance++;
-> +    }
-> +}
-> +
->  static void smbios_build_type_11_table(void)
->  {
->      char count_str[128];
-> @@ -1030,6 +1080,7 @@ void smbios_get_tables(MachineState *ms,
->              smbios_build_type_4_table(ms, i);
->          }
->  
-> +        smbios_build_type_8_table();
->          smbios_build_type_11_table();
->  
->  #define MAX_DIMM_SZ (16 * GiB)
-> @@ -1346,6 +1397,18 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
->                             UINT16_MAX);
->              }
->              return;
-> +        case 8:
-> +            if (!qemu_opts_validate(opts, qemu_smbios_type8_opts, errp)) {
-> +                return;
-> +            }
-> +            struct type8_instance *t;
-> +            t = g_new0(struct type8_instance, 1);
-> +            save_opt(&t->internal_reference, opts, "internal_reference");
-> +            save_opt(&t->external_reference, opts, "external_reference");
-> +            t->connector_type = qemu_opt_get_number(opts, "connector_type", 0);
-> +            t->port_type = qemu_opt_get_number(opts, "port_type", 0);
-> +            QTAILQ_INSERT_TAIL(&type8, t, next);
-> +            return;
->          case 11:
->              if (!qemu_opts_validate(opts, qemu_smbios_type11_opts, errp)) {
->                  return;
-> diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-> index 4b7ad77a44..e7d386f7c8 100644
-> --- a/include/hw/firmware/smbios.h
-> +++ b/include/hw/firmware/smbios.h
-> @@ -189,6 +189,16 @@ struct smbios_type_4 {
->      uint16_t processor_family2;
->  } QEMU_PACKED;
->  
-> +/* SMBIOS type 8 - Port Connector Information */
-> +struct smbios_type_8 {
-> +    struct smbios_structure_header header;
-> +    uint8_t internal_reference_str;
-> +    uint8_t internal_connector_type;
-> +    uint8_t external_reference_str;
-> +    uint8_t external_connector_type;
-> +    uint8_t port_type;
-> +} QEMU_PACKED;
-> +
->  /* SMBIOS type 11 - OEM strings */
->  struct smbios_type_11 {
->      struct smbios_structure_header header;
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 377d22fbd8..a27ab6afee 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2538,6 +2538,8 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
->      "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
->      "              [,processor-id=%d]\n"
->      "                specify SMBIOS type 4 fields\n"
-> +    "-smbios type=8[,external_reference=str][,internal_reference=str][,connector_type=%d][,port_type=%d]\n"
-> +    "                specify SMBIOS type 8 fields\n"
->      "-smbios type=11[,value=str][,path=filename]\n"
->      "                specify SMBIOS type 11 fields\n"
->      "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
-> -- 
-> 2.36.1
+I'd still like to understand the underlying reason though.
 
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
