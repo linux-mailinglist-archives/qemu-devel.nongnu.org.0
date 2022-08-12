@@ -2,76 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8140591214
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 16:22:35 +0200 (CEST)
-Received: from localhost ([::1]:60356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFCD591223
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 16:24:55 +0200 (CEST)
+Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMVYZ-0003fx-2Y
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 10:22:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
+	id 1oMVao-0007Ep-OT
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 10:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMVUl-0007yE-KO
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:18:44 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:38706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMVUj-0004ab-Lw
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:18:39 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id i62so1702742yba.5
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 07:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=aZuoj+N1RHsoVrh3/zFHoD3KQhFxD2ezVPsDRIU9ByQ=;
- b=ft6t93PQFxTWd8OJbiCy9NxmdDvx3t2fVK6wPBEbLnO34t1ZKufKv8o5slSvxQw4n8
- 1tHBUGDO7fVAR41bypg9Yh2uJ2COXfxsF+kebLVfFfVB5xsNml13WfX9pQ8KErXXkGg9
- Jgln2T8KeyZXhhRcfvyMn1mzfYGtyHhKpiZBKLkH72qs61EaSQpZ17SBwxk68qANUyil
- nA2VPRFF3087KnVlSYAh7+OawpmmiNMGvCmF1aj0rdJtpbhh+vUh0w3vGJOrUJ+PMkx8
- tk++ZXgtgJtCgt+JJhfTEqmQH373W+x4ipbrbaBQSGidpL99tj/g5dBQffPHiWLBIGNw
- 972w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=aZuoj+N1RHsoVrh3/zFHoD3KQhFxD2ezVPsDRIU9ByQ=;
- b=q2yNjh8+i/YPA8i801d7yA+gSG6CHIosUjlXpgTlKBKoXoWLxjpalRJskaw6qjVbrH
- Dwj9CF4pf+5jUPrjRvbz5BL2SS2+cfDM/SkZt3VbesAHh2IIUl4/UqoP6CWoGbefuSjw
- gS7ep/Y1jPLqPBi10m7dY/LW8JY2mqLSfzMafN2czRw/M5WTrdxj7ceOkkN014aIicw4
- HjmLX3NY6bBWL0YexCDxGCSXUVZPb8lN/f/LWGUkJviUNlZ733IYtn9AR8lhH+mzYanq
- 0dLyiN6g5C4MSQiOjNEOkygxFtKLd6jhSlKCYSO3DxdZppxrOtU/Lp8v65+PrsE/cjow
- TS/A==
-X-Gm-Message-State: ACgBeo340kiFsdr3TLAYXbolHEqFGHdELYzaXc4X0SkpKxCrWMIfiUnG
- InbzAI1EO4uMqrCKhcf/V0GMw37cDQURimd3/QbOFA==
-X-Google-Smtp-Source: AA6agR6VSVyYnHQ2zjkeg/sg4J3yf+Zljs69wQRuQruS603C7Smd7eAavoBwau0ueinVrX79/sQ7JZ0vnigZ29R4idw=
-X-Received: by 2002:a25:9a06:0:b0:676:4585:3df7 with SMTP id
- x6-20020a259a06000000b0067645853df7mr3796081ybn.193.1660313916623; Fri, 12
- Aug 2022 07:18:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oMVVp-0000cd-QH; Fri, 12 Aug 2022 10:19:45 -0400
+Received: from mail-vi1eur05on2128.outbound.protection.outlook.com
+ ([40.107.21.128]:16353 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oMVVm-0004fP-FB; Fri, 12 Aug 2022 10:19:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ADM8H+arRLTcBsEChX45NtwF3+emTo5fv4tu3KO9D8et53ctspzglMN+rQ/1S0JTLQtcIuvqCfedJvl4hYcl7DQoNVrU1ZW8/A9lzkf/SO0SWaXquveY+BhSngXfol77WTwdf7IWVlkEuvldnKmPJiztFM3IEfidR88ZySKD1RMEpaQiDM6/Gpk8MrxDBIONxJZMzmSjlASrGwofHR0KX/2EKtySJjt37mlPRTd9SuD7sXtAOi9g7ErUOhcUdmDWrLUGSzyZJFXf/dPSP0wL+d/Et8hEl+lO7XdPjGFmnxufGINA8EW5b2OB4scDQxUaVDBRjSjUZ1XqGEjWfLH58g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3rm7sAW2zpicSYYTwrcXXAItJLNc/jj7nv8UhRTPjRU=;
+ b=Cu9T9KESVZDcIVdXY7zxTuPLg0VEo2ts/eTBeTA6VxZH3QIgs8xKRCofJa/nvp665Di5MhTZAn5XdkOrrD6sLyZfHbv7QDCIDHb3des/mw2rhFT4G+mAt+fSf+al4VXGvqH68mgMhGrQ2a74fxXSblfgGESf6JSJ0TqdpiIHpiPbBzaUXsTuAZzT01SAbP+6w/h7IQPorPySY1kVkeKa2KclV67a2386zVDLBKFlDR1bFv6WDBcBmmb6ihECNhDuVEtQkQIIMD7tWVSLWW+7RMMurFaBsF+HTLG9y6XU3DLwoXlYMrqMlwodqcrFr374cvQ/jvlGRlKrUNlmursCaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3rm7sAW2zpicSYYTwrcXXAItJLNc/jj7nv8UhRTPjRU=;
+ b=y1NZXKy3Z5YBiGyu5brZ3RAeyC9YkndMMv8viKyHNmcjcPtv/fPH4KtYfBfOUIBKvFeUUU50UO3iH4Ut5H+1tyZXAJGOUHi9/pDwrPtPbXgMT+dYG6VjnLr/+FrO0Fhw/Y8DJluhT5yqLTu/Sw4c7vjg/uMshauuAIPwTyAG2IgdiYcanbg2bcpQiUYmdWer7ndzMZ6zd4bvXJfgdjKkM24qkV+1VW00Qt5cQ6z2vm7F2W2RT5lO8WAjcCdrhEJIpeIScCgi5f2pm8sOCubBoODTPimDuoBDwTc0kdvhReXH2Xx7OSnumtTSIUOuYJBX1Ee6GeUL+Je7Eq/j732Sfw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by DB7PR08MB3705.eurprd08.prod.outlook.com (2603:10a6:10:78::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Fri, 12 Aug
+ 2022 14:19:38 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d%4]) with mapi id 15.20.5504.023; Fri, 12 Aug 2022
+ 14:19:38 +0000
+Message-ID: <70e30936-7e94-2c00-7aea-f86e7adde27b@virtuozzo.com>
+Date: Fri, 12 Aug 2022 16:19:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 2/8] parallels: Move BAT entry setting to a separate
+ function
+Content-Language: en-US
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, vsementsov@yandex-team.ru,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20220811150044.1704013-1-alexander.ivanov@virtuozzo.com>
+ <20220811150044.1704013-3-alexander.ivanov@virtuozzo.com>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <20220811150044.1704013-3-alexander.ivanov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1P190CA0006.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:802:2b::19) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
 MIME-Version: 1.0
-References: <20220812131304.1674484-1-philipp.tomsich@vrull.eu>
- <20220812140103.3lbh45oidiw2fhsf@kamzik>
- <CAAeLtUDbVwvQzr9u+D2KH6qBoiu4ikEbf3aVahbmK_i=6gEM7A@mail.gmail.com>
-In-Reply-To: <CAAeLtUDbVwvQzr9u+D2KH6qBoiu4ikEbf3aVahbmK_i=6gEM7A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 15:18:25 +0100
-Message-ID: <CAFEAcA9Br-7mxsN-y7FciW8k=jtG2vhrf4tiO80bVcFBrCdUuA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/riscv: fence.i: update decode pattern
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Cc: Andrew Jones <ajones@ventanamicro.com>, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b2541d91-b18c-4d17-a98c-08da7c6db094
+X-MS-TrafficTypeDiagnostic: DB7PR08MB3705:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6A1/b3QBo74YEONcJ4dft+NDwyGG8d6xlk5NqSeFALNZWHpv/eKK0mbFvPhjlLbCCrqNcxAIK0KbQBB0lh6EMBCr4YTKwDYg3nxDnChwRqysKjQNizCVudmwIgiDHjR6SU990LDv5+6/UVlPXdN7wb7BtlbJz4g2/OD83ui0x3ZCXZTXfQpHE7IdrkxIFRtKydePwWQT21FZbTGrf1Cc65gSB3kv/Wcjra4wMuRSjNgt5T8kVpxSya36nh7HEkWhsvurlI/IppyU6Vhe30xRBgDds3ADpe2X/uIMQYF/0bPVXPMrm+9YCIiJDbQmSLsVS8gTF4aG7hZ1cYCDsTUmXJ/8erSnomicdXCsEdOUZb2oJQxM69qTIqXy+wCzun0L7mAOA+c+bH3A4OqJMxJVcURRXsFPppW673o/Dgyaj8QJCxvFXIqlCljBQejS8M1plybINHrZSasntroYKk9ZeiZxvROxoG2h477ipoWJdsQgPcXueE7V2owOx3bo5yXwIL5HkLrgUwPHoGXw/LSnxD7WvYsU/nByv474I6CVW93FOrxZcPfAA166sVQ+uLGLthj5o82jTDMdiORsoVU83NT+08FRWLQaunhz3a2v6uhc3L/3wqqeQ4w2s5inFbiPlplRdvwTL7Z3wED5P/t0myQz/fSL48a7MJ1OoyyAVcp8rzs81nRhGqkWWFr6jmgZwqdtsKzs+6IdXmAzMXcrR1BkLAAap9QToDpRdAhmZsDN1EQ3fZVhaejPNdK2WLzhZVkH+Am7N8iGbg83hbaP7lZeGFbdNOQlYWrhzKgWm7d1XyE9lYFVXW9H2ifTOkuJfoigNfZC6leeZTTR+3t05WmVLeexyE3Dh2eH/3ODHLk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39840400004)(396003)(136003)(346002)(366004)(376002)(53546011)(316002)(52116002)(478600001)(6486002)(26005)(6512007)(5660300002)(186003)(83380400001)(41300700001)(36756003)(2616005)(31686004)(6506007)(8676002)(2906002)(66476007)(66946007)(4326008)(31696002)(86362001)(8936002)(66556008)(38100700002)(38350700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZERwSmhsMVFyYXNZd1dGcXkyWkhxQ3JOd3dvY1A4eGFtZDh3cWhxUFY1UGdi?=
+ =?utf-8?B?YzlzaHUrL2FXK2VXejlNSC9ySk1mL3NGdURnYk1QeWF3VXMzNkxSeW1ueXhO?=
+ =?utf-8?B?Wm9oeTBBL0xkVWdRMmN1eVVNNDUzYm00ckl2cUtaZ2s5dnBVRWNKZXBpQ2Nr?=
+ =?utf-8?B?L3NVbnJoVU85bWFpQXNRN0tyeWJIK0p5S1ltYW1jYktaUVVLeG14aGRnemoz?=
+ =?utf-8?B?QlpTMEIyUmVMNUpWaXl1cUZ5cTNyRUIzOG5venVzSXh0bU9ydW1wcU5XcktL?=
+ =?utf-8?B?SCsyUXB1M0l0RC9Fd0xlMmJmOXptTUpBdnpieThOL2VHaVg2TWZNc2U0MVVh?=
+ =?utf-8?B?MXE0NFBPMlJwbDhFSmQyYVRQVDl0MnVYU0xESzJVK2dNM0VwTWhwTG9aMnhH?=
+ =?utf-8?B?VHFUZ2hVaHRsMzU0WlhET055OU1PK1pMbm00d0NPdStZcEJzdktpQ1UvOGxv?=
+ =?utf-8?B?Y2ZvQU1UL3hDNkppN3JFajNzU1FBWHQyVjF3cFVYbmRneGdieTRuSGcyM043?=
+ =?utf-8?B?LzU0cUM5RzczWnFYN0w4bUFLelpXaTdiRWEzd2NYZHFiOGx2bEVDMFkrMGZa?=
+ =?utf-8?B?MnZZbmhLV1JOVXJmS01OWWFKM25PMWZMM2s1dC80TGw2SWVpT0d6MjJuYlBH?=
+ =?utf-8?B?N1Yrb1pXUTVEd3ZVMmpNTEo2YlR3WWovbmZBQ0ptN0tWdEdmVndmbkZ0NGVW?=
+ =?utf-8?B?RlUvdll5OTdoVi9VcVZsZExCZFJjV0lLUnBjTzBISWJwSWRJSjBEU3RCaE5o?=
+ =?utf-8?B?ZUhlSGxiTUZKREJCUytyeVNvcEEvRXZ0MlQzVkFiOEtLbVJIWEw4MUZYaFdn?=
+ =?utf-8?B?M05YVnRxWEdlNWNWVXlaTHFaZzVITEVCekptNGZQWFB3bnBJcHdyTW96ODdP?=
+ =?utf-8?B?YW5aWU5BbTJuRzNFUC9vTlRoSTk2eDkrWThRSU5ON1VqYXVaTWhTUUIzM1BF?=
+ =?utf-8?B?OTFXb0FXcitGeWZWUWRxb3NJVjFnbEg5RWFwVDExY0NNUlFOb0xKSkl0MUFX?=
+ =?utf-8?B?K3FmS21TMEFkeVlwK2tEODgza215M0E4RGM2bjZwL0lYZnZzb1grVXBxQWFK?=
+ =?utf-8?B?a3ZhbGF3NnJrUlVQNDRrQWkzeWpHc0JJa3BZRVpRYU9OcjZBNXZSR3pJRWFn?=
+ =?utf-8?B?RjJUZXU3ZHUxOEpCQ0x2ajlDcFpsYndjWnZiNnFsMkVveWVnS0d6eGpuZ1Jh?=
+ =?utf-8?B?Mlhtb1YxTVZZb0U3Vlg0R3M5WnZRYnlwczBJVTJqWEN4bktLQ0JIUGdubkFT?=
+ =?utf-8?B?bjJTdExyKzRoeHJFNVBJT2lCdkt1TlhQTW81RHBBdUZ6cERwbjdEMjdKVnZR?=
+ =?utf-8?B?U0NZa09iODI2d1RVLzNwZ0lHK2o2SlU2R1d0ZzB4QnBERkh6S05KMmtTL3VM?=
+ =?utf-8?B?RVIxakF6cHMyOWEySUdTY3o3UVNMRnVEeVVSd2pvdFFSeGlSbVFyQmhGZSs0?=
+ =?utf-8?B?ZHdBcHhKSGx3ZUdkM1UvV0hZNU51SjZXY0tvYUloOWh3Rm5IcDExMmYrQzdX?=
+ =?utf-8?B?dW1vSjVlZmdDT3RsR2gyMjZzOHdTVW50YmpzQVE5UGJVS2xqT2gwUHpGY2dh?=
+ =?utf-8?B?dHBEVWpRVXlmaGg2OEdySmVZR1VFa08xeWk0eFpkUXBOcW5TUmpaZC9RaUoz?=
+ =?utf-8?B?MXpMSTI3VVJhSlNJbHlrOHA2Yk5GZW8rNkpPa2Q5UjBKZGo3WENtRTFSbU5l?=
+ =?utf-8?B?TUFuUWJOYWpSQi9QZFUrWEswVnNiWlpQWUhyZjdodkp4a0ZQSlRMTWRYUisr?=
+ =?utf-8?B?WjV0QWlMRWxBS2d4bzlKZC85SFFWckdJZ25CbG1nVnowNXpLUllhcmtDRVIr?=
+ =?utf-8?B?V01KamFZYy9MWnNVcnRad1VLNVJnanlsYWE1QThHNVlScDNTZGRxRnd4cGJp?=
+ =?utf-8?B?QmhWNzdnZ2tqcnR2dnlQaXZrZDc4ODhqZ0YvLzdyNjRTS3JBT2lMeGJSYnJz?=
+ =?utf-8?B?WjFadFBMQ3JUNU5ZSTAzTzY1ZHJsYXJOUXF0WVNZQTAyMEd4RmF4SEVsK2RR?=
+ =?utf-8?B?MnZmYjVmY3JoVkVjN1pjRlBMYlJGRmdMQml6OGVjSFgvZzlReVBuSHRFOHlw?=
+ =?utf-8?B?dEI4bjMwbGxRb1IrKzd3UzJBRVZuK2Q4dW1BMWNNcHNzcC9sTW1TT3RNK0JC?=
+ =?utf-8?Q?9xi2vAZFL3We/DkyDemOBgd4v?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2541d91-b18c-4d17-a98c-08da7c6db094
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2022 14:19:38.3096 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aw8tFVzprD/yR8FtysteLIB1tEd9U3hGB4joAWTgYtGws11pGzavQgosDhgCwFDe++iOJXDD9ln6BJnuASteXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3705
+Received-SPF: pass client-ip=40.107.21.128; envelope-from=den@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,42 +146,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Aug 2022 at 15:11, Philipp Tomsich <philipp.tomsich@vrull.eu> wr=
-ote:
+On 11.08.2022 17:00, Alexander Ivanov wrote:
+> Will need to set BAT entry in multiple places.
+> Move the code of settings entries and marking relevant blocks dirty
+> to a separate helper parallels_set_bat_entry.
+The comment and the patch text is ambiguous.
+You say that we need to set BAT in multiple places
+but patch changes one place only. I think that it would
+be better to say like the following:
+
+"parallels: create parallels_set_bat_entry_helper() to assign BAT value
+
+This helper will be reused in next patches during parallels_co_check
+rework to simplify its code"
+
+> v2: A new patch - a part of a splitted patch.
+Same note about version tracking
+
+With above taken into account:
+Reviewed-by: Denis V. Lunev <den@openvz.org>
+
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+>   block/parallels.c | 12 +++++++++---
+>   1 file changed, 9 insertions(+), 3 deletions(-)
 >
-> On Fri, 12 Aug 2022 at 16:01, Andrew Jones <ajones@ventanamicro.com> wrot=
-e:
-> >
-> > > Update the decode pattern to reflect the specification.
-> >
-> > I got hung-up on this for a bit since there isn't any "must-be-0" field=
-s,
->
-> Please refer to '=E2=80=9CZifencei=E2=80=9D Instruction-Fetch Fence, Vers=
-ion 2.0' in
-> the specification.
-> The encoding diagram clearly states 0 for imm[11:0], 0 for rs1 and 0 for =
-rd.
->
-> However, there is an explanatory paragraph below (unfortunately, it is
-> not clear whether this is normative or informative):
+> diff --git a/block/parallels.c b/block/parallels.c
+> index a76cf9d993..7f68f3cbc9 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -165,6 +165,13 @@ static int64_t block_status(BDRVParallelsState *s, int64_t sector_num,
+>       return start_off;
+>   }
+>   
+> +static void parallels_set_bat_entry(BDRVParallelsState *s,
+> +                                    uint32_t index, uint32_t offset)
+> +{
+> +    s->bat_bitmap[index] = offset;
+> +    bitmap_set(s->bat_dirty_bmap, bat_entry_off(index) / s->bat_dirty_block, 1);
+> +}
+> +
+>   static int64_t allocate_clusters(BlockDriverState *bs, int64_t sector_num,
+>                                    int nb_sectors, int *pnum)
+>   {
+> @@ -250,10 +257,9 @@ static int64_t allocate_clusters(BlockDriverState *bs, int64_t sector_num,
+>       }
+>   
+>       for (i = 0; i < to_allocate; i++) {
+> -        s->bat_bitmap[idx + i] = cpu_to_le32(s->data_end / s->off_multiplier);
+> +        parallels_set_bat_entry(s, idx + i,
+> +                                cpu_to_le32(s->data_end / s->off_multiplier));
+>           s->data_end += s->tracks;
+> -        bitmap_set(s->bat_dirty_bmap,
+> -                   bat_entry_off(idx + i) / s->bat_dirty_block, 1);
+>       }
+>   
+>       return bat2sect(s, idx) + sector_num % s->tracks;
 
-> > The unused fields in the FENCE.I instruction, imm[11:0], rs1, and rd, a=
-re reserved for finer-grain fences in future extensions. For forward compat=
-ibility, base implementations shall ignore these fields, and standard softw=
-are shall zero these fields.
-
-That's pretty clear that this patch is wrong, then -- QEMU
-is an implementation, and so we must ignore these fields.
-Otherwise when a future version of the spec defines a finer-grain
-fence instruction in this part of the encoding space, older
-QEMU will incorrectly make software that uses it crash.
-
-If you think the spec is insufficiently clear about whether that
-is normative then that would be something to raise with the
-spec authors, preferably before anybody builds hardware that
-enforces must-be-zeroes on these fields...
-
-thanks
--- PMM
 
