@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B277B590C0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 08:41:30 +0200 (CEST)
-Received: from localhost ([::1]:59926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25CE0590C15
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 08:46:16 +0200 (CEST)
+Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMOMK-0004cf-GI
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 02:41:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40690)
+	id 1oMOQw-0006Ep-V1
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 02:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1oMOJQ-0002oU-LJ
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 02:38:28 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:44958)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1oMOJO-0005F3-7i
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 02:38:27 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4DD966174D
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 06:38:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2781C433C1
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 06:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660286300;
- bh=c8PhfD1wPpme22OBy4FgJEA0qjZBmu48R3PhaBEHTrQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=T3WzfHRXqSM1jMMjqkVQ+/wpL+3P8L28/QNk+q028i3OBIPDVbg/AVntH0hpeX24O
- X7WpZI2X01y30Ow8vkuXKtDfaMEvrFp7YgcEMJ7YnOUgFP5olR05anPRzNiDmqQzT6
- UPx1wX7IzeNX8ss5WVHjbjBKs64vr9GUCeNDODW6hiRqJxXxfsEcPdKzsBthBHh1Ya
- 7cUYzZxnVMOPcqU08q6ob4hsds1z+ctoNYJFNzTaZ7EmYVMSan99xoS+PUE+M8X2WT
- 2zYB2cjtZI9TO0ZXlGXV8BHO7hMA//ylhK1zHJ32o86ZzoNzRhbPpdYC3/JPLbg76a
- SqLEdhE9/ZzCQ==
-Received: by mail-ua1-f51.google.com with SMTP id c19so2247uat.6
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 23:38:20 -0700 (PDT)
-X-Gm-Message-State: ACgBeo03pqOtTfFTGRRtnwllFNEbwT0i+b3TgVbG9t7hPSPSk8MmI/VS
- hpjU/wuZGH+dDopzuZOmAQI/wun07gj4Jtsv8bc=
-X-Google-Smtp-Source: AA6agR431l/7ExRtcNXrW46a7DAJcM9BKUx5uj/RSXLEGBNyXJl+BKUIueGd6/AGGwj6FVEpS4JP/a2OhWLeCz2I3ro=
-X-Received: by 2002:ab0:1393:0:b0:383:26e8:7bf3 with SMTP id
- m19-20020ab01393000000b0038326e87bf3mr1257229uae.22.1660286299599; Thu, 11
- Aug 2022 23:38:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oMONw-0004pK-Hi
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 02:43:08 -0400
+Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:36415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oMONu-0005od-V3
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 02:43:08 -0400
+Received: by mail-vs1-xe31.google.com with SMTP id o123so20458249vsc.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 23:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=sdKr2AxO0aesGrae4RkePuyC1E+6yvc4uOZSl0QBD10=;
+ b=KlnqsqFFpwkWV+aSfThxpt33y8dBYjs9eXEphhoNgBf3W3R9Jmq2C/wPNuWKQxfUCo
+ 4xz2RQ6vwnRwtuiw4hwPeSmFBSqEnrEGYF2vOZAA0jzFgXojIR0ZK4dHmmb3PdfRVxBN
+ OvwSX7yVwVM75LXnYdA572CJJsXMTFVH6YBAK7WCWcQ7fZ8tVdxHbMIaaD0tlE7B/d8U
+ DF1zXegHq4g8dQtoVel491i9nOxMP+YmfTZhFes4ao+MCn42zTxrKuc+uLI50Br/PAeW
+ J/vTwCO5pg5j8RUtbzz7iPoYLfyq1JZ+KPc6jGflMZJko2BjszraozUfY6SZmMSxI3iJ
+ ZLWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=sdKr2AxO0aesGrae4RkePuyC1E+6yvc4uOZSl0QBD10=;
+ b=TDsBvoWgZkr+Mfd64H+1fcyRbYw8ObM77SX0jkgZ+4SV/GYFc/pIyDrO0+1qCZtnGW
+ kG4SRehiW00S+/4bSmdtESOapn5rDXtzUE6pNJrZiLPdRfUbDneW2H5b0VEk2Q/wWzFR
+ 6om7JRia+3D/1/vOxjv7nH+eDGxi0iuNAKqtsuDoVm83myC4Yff09RGsV5cNyAkQ67qh
+ 0w5VZqskBrw0zF3rppISq1wDTfiAPA0c5afNHMkZCiVOj/7xEQPNM0z7SGaisQih7NvT
+ KmjnSmhFZjl7jfCQLdPJjwDCV/3rmOTrJhpF6sdV1ORdYYxMf6jkE8fuoUT4/gnjQNd3
+ DlHw==
+X-Gm-Message-State: ACgBeo0VjVAMh8MSd0j9Lj5NEU4TBnx0BTIRo9MiMI1EweEjYNGbBM7E
+ 6PzCgeGGH953S4RgP5wbdkj5AvbFjzwCIm83Y48=
+X-Google-Smtp-Source: AA6agR4LrQVx/xW9ZBNI9sO13M8m10XRa0nozRCyRrCSWWPrSlfdEV0H1BM2M/Gcj9ZQmwov1o9c3SoBUikqUAmhvTs=
+X-Received: by 2002:a67:c814:0:b0:385:1a6b:7284 with SMTP id
+ u20-20020a67c814000000b003851a6b7284mr1363215vsk.15.1660286584900; Thu, 11
+ Aug 2022 23:43:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <YvUDHecm0tYqb3bI@waldemar-brodkorb.de>
- <fce3be91-fa93-931e-fba4-e0513b005e1e@loongson.cn>
-In-Reply-To: <fce3be91-fa93-931e-fba4-e0513b005e1e@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Fri, 12 Aug 2022 14:38:07 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6EEHoGBNmgaWdg7E+cHhrY0ESdkGAJoz9wLrSQ-o59jw@mail.gmail.com>
-Message-ID: <CAAhV-H6EEHoGBNmgaWdg7E+cHhrY0ESdkGAJoz9wLrSQ-o59jw@mail.gmail.com>
-Subject: Re: problem with qemu-system-loongarch64
-To: gaosong <gaosong@loongson.cn>
-Cc: Waldemar Brodkorb <wbx@openadk.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=chenhuacai@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
+In-Reply-To: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Fri, 12 Aug 2022 14:42:53 +0800
+Message-ID: <CAE2XoE_qESRD6_rN15JaDiLtmnZWsrqsJTdqGkX7W4kR8R+HLQ@mail.gmail.com>
+Subject: Re: Missing dll
+To: Peter Butler <peter-butler@comcast.net>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000001e566d05e605981a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
+ envelope-from=luoyonggang@gmail.com; helo=mail-vs1-xe31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,36 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, all,
+--0000000000001e566d05e605981a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 12, 2022 at 10:26 AM gaosong <gaosong@loongson.cn> wrote:
+On Thu, Aug 11, 2022 at 6:15 AM Peter Butler <peter-butler@comcast.net>
+wrote:
 >
-> CC: Huacai Chen <chenhuacai@kernel.org>
+> In x64 win10 I today I d/l QEMU into new directory. Then navigated to
+that dir and=E2=80=A6
 >
-> On 2022/8/11 =E4=B8=8B=E5=8D=889:24, Waldemar Brodkorb wrote:
-> > Hi Qemu developers,
-> >
-> > I am trying to bootup a loongarch64 Linux kernel in Qemu 7.1.0-rc2.
-> > The problem is I get no output when using following command:
-> > qemu-system-loongarch64 -M virt -nographic -kernel vmlinux
-> >
-> > You can find my vmlinux initramfs here:
-> > https://debug.openadk.org/vmlinux
-> >
-> > It is cross-compiled with binutils 2.39, gcc 12.1, glibc 2.36 and
-> > Linux 5.19. I use the provided defconfig loongson3_defconfig for the
-> > kernel build.
-> >
-> > Any hint what I can do to get a bootable Linux image?
-The official v5.19 still lacks boot support now, please use this one:
-https://github.com/loongson/linux/commits/loongarch-next
+> qemu-system-aarch64 -boot d -cdrom
+f:\Downloads\debian-11.4.0-arm64-netinst.iso -m 2048
+>
 
-Huacai
-> >
-> > best regards
-> >   Waldemar
+Where do you download? I think it's because libncursesw6 is not pack into
+that packages.
+I am using msys2 install qemu, I think that's would be fine, downloading
+qemu is third-party's work.
+
+> Error message:=E2=80=A6libncursesw6.dll not found=E2=80=A6
 >
+> Please help
+> Thank you
+
+
+
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--0000000000001e566d05e605981a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Thu, Aug 11, 2022 at 6:15 AM Peter Butler &lt;<=
+a href=3D"mailto:peter-butler@comcast.net">peter-butler@comcast.net</a>&gt;=
+ wrote:<br>&gt;<br>&gt; In x64 win10 I today I d/l QEMU into new directory.=
+ Then navigated to that dir and=E2=80=A6<br>&gt;<br>&gt; qemu-system-aarch6=
+4 -boot d -cdrom f:\Downloads\debian-11.4.0-arm64-netinst.iso -m 2048<br>&g=
+t;<br><br>Where do you download? I think it&#39;s because libncursesw6=C2=
+=A0is not pack into that packages.<div>I am using msys2 install qemu, I thi=
+nk that&#39;s would be fine, downloading qemu is third-party&#39;s work.<br=
+><br>&gt; Error message:=E2=80=A6libncursesw6.dll not found=E2=80=A6<br>&gt=
+;<br>&gt; Please help<br>&gt; Thank you<br><br><br><br>--<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=
+=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<br></div></d=
+iv>
+
+--0000000000001e566d05e605981a--
 
