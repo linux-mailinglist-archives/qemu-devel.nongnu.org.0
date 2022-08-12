@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6B659151D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 19:57:59 +0200 (CEST)
-Received: from localhost ([::1]:39538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D6E59152F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 20:02:45 +0200 (CEST)
+Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMYv0-0006KE-71
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 13:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51450)
+	id 1oMYzb-00026E-TJ
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 14:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMYs1-0003rP-IL
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:54:53 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:42745)
+ id 1oMYwO-0007LM-77
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:59:24 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:41930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMYrz-00046d-Vx
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:54:53 -0400
-Received: by mail-pl1-x634.google.com with SMTP id w14so1361614plp.9
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 10:54:51 -0700 (PDT)
+ id 1oMYwM-00053H-Js
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:59:23 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ t2-20020a17090a4e4200b001f21572f3a4so1597604pjl.0
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 10:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=1hhCpWSM04GCt+NsDHRBvvjLjdGAbeiIi7V9QJIyBBg=;
- b=v3x2vPQjl9XDcdPWu8QXJE3FzHXTvqTVNeDx1v+X8m0iB45MDhyVZDTgW5o2+MGU03
- g57BFagW2gVuNMFZ+hAW6H8buGFm//ZiKOCo1XA2Dg3VPd2jyroVrSTEw3Zy1DAA401i
- nhpUwsEzeX6upRV0zxa8CjC1Jm2e1KkCICIVfpslSffPGv/2N0fGTtWaFRxhaXO89OQz
- Hnuw3KnXcXY8KezBp/hyPyYSrwGNLbnnKBf3tkB/C4lcN0ygz4TqDztYU3Loj7LeE8xm
- 9dps2MdJ3IIKtvtGDPrt4hBzrdG+69hI8v8xNuPv1Dw2dwb34VnivZSyB2SqaMaXdAJd
- 1bGw==
+ :from:to:cc; bh=xIZxyPEcVNxzlWwb/ROE99ceXSCjc1BRbUMBIh9l3SI=;
+ b=f0gPFCae84dPdx5PQXIDQh4CNn1w0zn2A9ZDDlejfagVawYayeA+Jt8Q+btZjQ9aCb
+ SACe73lPbdCXZi5/QGrXeGfK7cgbPwoyVMVbyzEWqnKpouLJOAPHwenxasZ1esSqAVPN
+ WraqYcQyTxvue1u6ITWGWZ98XGB8MpnfTITv1yIqHM+Ko6KWMS++FsSEvRcp1RCcJISW
+ zoW1k1V3vNi3N0xK1HNJveLjduJzKaV6h1aojnXbTff+iks1iH8ivRq7PEjuOnaUu9jJ
+ Gw+v7Ev8Bz9cUKLT39PcO9+f/nZmGHBabTXrh5rP7/PfcGs1IUgbuF5fVzz62O/F+rTM
+ Asug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=1hhCpWSM04GCt+NsDHRBvvjLjdGAbeiIi7V9QJIyBBg=;
- b=xQO1mwRG422ziGUHP97EbofciBdemMCjNNWLuGhwT0KYaHyfx3bZ+NChHRUM38s5Ev
- 3PN2Nk04cCIDBm0AmkwFpL9/v7irWG0qnqdVFAUF2kxZ4x85izeprFvCxKmptTk/M76W
- B7di26TrmjDbJqWPlDJLjA2cpESQCEj2X/qQrEfvQ8Sxkc/wvakzBgEH6O/plTKalk0Q
- qknRwirW+o/8cCD3iG8KV9Ch5zyowaJvBimX8LG4L6JkGKZDo1cZ2xOi6IOvCvSO50Vx
- P2CQfNpBIb6jIBSMuPWFkXgnt8xNEQQ6NKXG7ccK3VgS3KfVg0KYLICJv58KBfOwUFW7
- Cc5A==
-X-Gm-Message-State: ACgBeo1orKRt0LWeWQmfmeaLG00/qK3r9LHjRimXTzBWbPbDE6roDJXS
- V/G2X4nou7kxJW6vY42dXCkhWg==
-X-Google-Smtp-Source: AA6agR59Sk0z+XexEbz8VcJDJ7NKTcPGC0hFYuu6jN0XPpSaI3+qLvxR0KVCEdEEuB/RaTL/cqlb3w==
-X-Received: by 2002:a17:902:d2c6:b0:16e:d285:c602 with SMTP id
- n6-20020a170902d2c600b0016ed285c602mr5116115plc.81.1660326890472; 
- Fri, 12 Aug 2022 10:54:50 -0700 (PDT)
+ bh=xIZxyPEcVNxzlWwb/ROE99ceXSCjc1BRbUMBIh9l3SI=;
+ b=79OOglAkorXabSV1icK4gqeyps/FZKiWO7PCtH3twELIWZcyZYj7Kvkr+k8lR0N3JY
+ HHZACWEaA7HsU4dj2h2FjCd9vjV+0hylNKDxhF4eWnCxth+LlqWYi9033VVSJhjc8WdT
+ IyIgL8EF5jQkh4ihhX6I+vBmRBedIBrYAA5dxLs7mdnXqy9ciLrHAJXghJ/sQnBWjl5M
+ SSB5CslwZRkgDFIBAGt3MLb7mmWvmGxqrpjhYdQFEqIE9IXJM7tBvw2WVcjObwWq6aDf
+ r8DxhsipfeokVF4YPz4Sht/zP08hAP7v+45Fxu651it+NvZybKCL/2mK+AU1yPwNyIB3
+ /1+g==
+X-Gm-Message-State: ACgBeo1bDG4fcetMmq1HJgzB1H9LiTA5WZxcT2oS/KeJ5GAj228XJ1vv
+ 5S7Jog/pGzj5leK0SCSrJOG2+A==
+X-Google-Smtp-Source: AA6agR5DoSbBAyx1GIE6HD1uTklVEe1QxpK1RPzjfsM69XjwFYHHGmQNBH+wn8LJPBqWtYjaBn1PAw==
+X-Received: by 2002:a17:90b:4ac7:b0:1f5:3441:d11a with SMTP id
+ mh7-20020a17090b4ac700b001f53441d11amr5145908pjb.182.1660327160918; 
+ Fri, 12 Aug 2022 10:59:20 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:a7aa:1d1d:c857:5500?
  ([2602:ae:154e:e201:a7aa:1d1d:c857:5500])
  by smtp.gmail.com with ESMTPSA id
- e9-20020a170902d38900b0016dcc381bbasm2005173pld.144.2022.08.12.10.54.48
+ q4-20020a17090311c400b0016bffc59718sm2094109plh.58.2022.08.12.10.59.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Aug 2022 10:54:48 -0700 (PDT)
-Message-ID: <a159021a-bcad-aadd-f57a-197b54eb0160@linaro.org>
-Date: Fri, 12 Aug 2022 10:54:46 -0700
+ Fri, 12 Aug 2022 10:59:19 -0700 (PDT)
+Message-ID: <26301be8-ca14-290e-06a2-0ad22f525048@linaro.org>
+Date: Fri, 12 Aug 2022 10:59:17 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 00/62] target/arm: Implement FEAT_HAFDBS
+Subject: Re: [PATCH v3 1/4] accel/tcg: Invalidate translations when clearing
+ PAGE_EXEC
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220703082419.770989-1-richard.henderson@linaro.org>
- <CAFEAcA95O5N_gOJ88zkaPx5BvTFYSSOLF=7XMFc3egCU+s1RkQ@mail.gmail.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220808171022.49439-1-iii@linux.ibm.com>
+ <20220808171022.49439-2-iii@linux.ibm.com>
+ <6e3e5974-15eb-05e8-a005-942884732fef@linaro.org>
+ <23d43d7cda9293eca9afbba91c50f613d004a407.camel@linux.ibm.com>
+ <0070ac70-9c86-b360-e877-3d7e01d176ea@linaro.org>
+ <7f42b244079087f3a2e53e67871dde377d8402cf.camel@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA95O5N_gOJ88zkaPx5BvTFYSSOLF=7XMFc3egCU+s1RkQ@mail.gmail.com>
+In-Reply-To: <7f42b244079087f3a2e53e67871dde377d8402cf.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,15 +107,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/22 09:31, Peter Maydell wrote:
-> Is it possible to rearrange this patchset so the easy
-> refactoring patches that do "use a struct to return
-> values from get_phys_addr and friends" are at the front
-> (ie before the stuff that touches core code) ?
-> That way they're easy to take into the tree early while
-> the rest of the series is still under review...
+On 8/12/22 08:02, Ilya Leoshkevich wrote:
+> tb_lookup() skips get_page_addr_code() if tb is found in tb_jmp_cache.
+> I assume it's a bug?
 
-Yes, I think so.
+Yes, I think so.  I've rearranged that for other reasons, and so may have inadvertently 
+fix this.  I'll post the in-progress work in a moment.
 
 
 r~
