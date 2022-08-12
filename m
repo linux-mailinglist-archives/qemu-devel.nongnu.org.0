@@ -2,77 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A67E591069
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:55:55 +0200 (CEST)
-Received: from localhost ([::1]:39966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A49CF591071
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 14:02:19 +0200 (CEST)
+Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMTGc-0002h3-BT
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35638)
+	id 1oMTMn-0001ot-Lb
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 08:02:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMT6f-0000NG-FF
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:45:40 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMT6d-0002PX-Tx
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:45:37 -0400
-Received: by mail-wm1-x329.google.com with SMTP id k17so477010wmr.2
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc;
- bh=KmqiERqNZgSUdjGvKdTtZjsQUeVX3Ph3gCx7pWaoXiU=;
- b=eJHVakWrsLu0wgL7jJ+3Ypp1nmzBHk59XxPfw8lYftYxER1OVTUBIB6+GforoppGPp
- gk91f9Zp8mQqU5k3R7q1tVXxdKyNjmLIus/Oxz/FjEd0AInfK6ccQyooJht1gGZJ8+tj
- 7ngfCJnV05iuHItuF2ULLoU2efyrrvwZTdzopKtauEOhtEZG1ZuW4vz6wP1Be05DHC/x
- 0MM7HdcX70YGPfv7y5YbgaXrRFlwuH0ti26a5VKgXr2G5C5FOcH7S/uWDxjbuIIqxyPe
- +hoc7JXuRBOreT4aMoFn6xVl7bRa8EpO0WF6DYbhHlGMKAz4inHHie4KqK+3nvyeBUBt
- lbZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=KmqiERqNZgSUdjGvKdTtZjsQUeVX3Ph3gCx7pWaoXiU=;
- b=pbI1CWmsYyDMjwg9jSjVlPFNYvoTsCvx8YL0+myoLXgH/KfbAQo+0Wm2uyRDctY6I8
- GN3mqp3VzqVDDRLftA62kofhksZgLE8SZKbOMLETN450Wal8WE6Ja9i4p4pKnVXLTI2W
- /E1jNnL5Jc79gT+Gzr3YKQSCEA9evmJZq7zC7WiXB9cCaxI84elLMG3ImH/lybaoZsVT
- DE/xBvrD0i2A+m8h0aBehzbRfVETZr0rcQW38IiNxhjhHz5wFxRV6ezwS3WOmrSe8zlc
- /9GMst/zLfPmf9yJAYO0b5AudP7FD1mRXd/EaQBXuuIgjwPY5/eU0Vq9jFulrFNnaWyH
- aHOw==
-X-Gm-Message-State: ACgBeo0Eln5CPrsZgw6TEeHzaqf4PzLWGXw9YebSELg0UYhqrW4A23xx
- P48bgmw9nM+RU5l17YM6sBrKL3CkXSZsQg==
-X-Google-Smtp-Source: AA6agR4VOr5RClCeDRt3tmieLH+IRTlZFuOySvUFd86BO0uMKSQ0W7eJYYMPINp5Iskhi0VRAbriGQ==
-X-Received: by 2002:a05:600c:4196:b0:3a5:3da4:ef78 with SMTP id
- p22-20020a05600c419600b003a53da4ef78mr2402340wmh.156.1660304734472; 
- Fri, 12 Aug 2022 04:45:34 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- n8-20020a05600c3b8800b003a5418245b9sm11257797wms.19.2022.08.12.04.45.33
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 04:45:34 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] cutils: Add missing dyld(3) include on macOS
-Date: Fri, 12 Aug 2022 12:45:27 +0100
-Message-Id: <20220812114527.1336370-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220812114527.1336370-1-peter.maydell@linaro.org>
-References: <20220812114527.1336370-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oMT6m-0000OU-JT
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:45:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38382
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1oMT6g-0002Q5-CE
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:45:39 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27CBMYUJ030840;
+ Fri, 12 Aug 2022 11:45:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=9Fqhu1FcQWxJPUODRb/BfY38b3wtrMHyHIMPWGcaAsU=;
+ b=cXVGzQSgwTHLLtiE/N+kpW27bxZr4Xd+v8vU+5FdOJFH9emnNWwyaxkd8M2RjAEKRhKe
+ S5Hppjy/QZHxdeGbZQXIhFDrzruM26zafL56641kyt6qgyMuOA8rHW7HUUMN5J6r4nOP
+ HkjOIZ5ufD+HrxwWhOaCPAedlyLESNSAIUiUgjzag/YzmxYpeuZMe5HfbZxPPERcDvmz
+ VV7HP3x1Ryvsdbj68p48633d5FiqUa5Z+X7lThMPsACnEGAyHouwkW0pOObKLJMoTAvg
+ NYUGgNh/ri6hjD5SrFgG1/aVaC9l9VxPA3ZNDnJvHeHJxOgpN7VXoAPfsXS4ZTq57xgL +A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwnxdrkg2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Aug 2022 11:45:36 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27CBNNqJ000778;
+ Fri, 12 Aug 2022 11:45:36 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwnxdrkev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Aug 2022 11:45:36 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27CBLWwW005931;
+ Fri, 12 Aug 2022 11:45:34 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03fra.de.ibm.com with ESMTP id 3huwvftcbb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Aug 2022 11:45:34 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27CBjUSE29032886
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 12 Aug 2022 11:45:30 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8B3C2AE053;
+ Fri, 12 Aug 2022 11:45:30 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CCE8BAE045;
+ Fri, 12 Aug 2022 11:45:29 +0000 (GMT)
+Received: from p-imbrenda (unknown [9.145.3.179])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 12 Aug 2022 11:45:29 +0000 (GMT)
+Date: Fri, 12 Aug 2022 13:45:27 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: Murilo Opsfelder =?UTF-8?B?QXJhw7pqbw==?= <muriloo@linux.ibm.com>
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
+ cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
+ frankja@linux.ibm.com, fiuczy@linux.ibm.com, pasic@linux.ibm.com,
+ alex.bennee@linaro.org, armbru@redhat.com
+Subject: Re: [PATCH v3 1/1] os-posix: asynchronous teardown for shutdown on
+ Linux
+Message-ID: <20220812134527.70391185@p-imbrenda>
+In-Reply-To: <fcc03c35-d2c6-a124-d9d0-958056476f20@linux.ibm.com>
+References: <20220809064024.15259-1-imbrenda@linux.ibm.com>
+ <YvT1wC0vi2juO5n3@redhat.com> <20220811155623.25f0d4b4@p-imbrenda>
+ <YvUL2+Y6td7Ak0N/@redhat.com>
+ <42b6bfa1-1983-b065-6b0d-9b5d89465f9b@linux.ibm.com>
+ <20220812092623.19058f32@p-imbrenda>
+ <fcc03c35-d2c6-a124-d9d0-958056476f20@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: UOhbTyw67-dDaNOK_2goKDsydBGXCR5K
+X-Proofpoint-GUID: 3qcLfOae9LdWWcB4oM6YxBOaxtu-8OVS
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-12_08,2022-08-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 mlxlogscore=987
+ suspectscore=0 spamscore=0 adultscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208120032
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,62 +128,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Fri, 12 Aug 2022 08:38:59 -0300
+Murilo Opsfelder Ara=C3=BAjo <muriloo@linux.ibm.com> wrote:
 
-Commit 06680b15b4 moved qemu_*_exec_dir() to cutils but forgot
-to move the macOS dyld(3) include, resulting in the following
-error (when building with Homebrew GCC on macOS Monterey 12.4):
+> On 8/12/22 04:26, Claudio Imbrenda wrote:
+> > On Thu, 11 Aug 2022 23:05:52 -0300
+> > Murilo Opsfelder Ara=C3=BAjo <muriloo@linux.ibm.com> wrote:
+> >=20=20
+> >> On 8/11/22 11:02, Daniel P. Berrang=C3=A9 wrote:
+> >> [...]=20=20
+> >>>>> Hmm, I was hoping you could just use SIGKILL to guarantee that this
+> >>>>> gets killed off.  Is SIGKILL delivered too soon to allow for the
+> >>>>> main QEMU process to have exited quickly ?=20=20
+> >>>>
+> >>>> yes, I tried. qemu has not finished exiting when the signal is
+> >>>> delivered, the cleanup process dies before qemu, which defeats the
+> >>>> purpose=20=20
+> >>>
+> >>> Ok, too bad.
+> >>>=20=20
+> >>>>> If so I wonder what happens when systemd just delivers SIGKILL to
+> >>>>> all processes in the cgroup - I'm not sure there's a guarantee it
+> >>>>> will SIGKILL the main qemu before it SIGKILLs this helper=20=20
+> >>>>
+> >>>> I'm afraid in that case there is no guarantee.
+> >>>>
+> >>>> for what it's worth, both virsh shutdown and destroy seem to do thin=
+gs
+> >>>> properly.=20=20
+> >>>
+> >>> Hmm, probably because libvirt tells QEMU to exit before systemd comes
+> >>> along and tells everything in the cgroup to die with SIGKILL.=20=20
+> >>
+> >> It seems Libvirt sends SIGKILL if qemu process doesn't terminate withi=
+n 10
+> >> seconds after Libvirt sent SIGTERM:
+> >>
+> >> https://gitlab.com/libvirt/libvirt/-/blob/0615df084ec9996b5df88d6a1b59=
+c557e22f3a12/src/util/virprocess.c#L375=20=20
+> >
+> > but this is fine.
+> >
+> > with asynchronous teardown, qemu will exit almost immediately when
+> > receiving SIGTERM, and the cleanup process will start cleaning up.=20=20
+>=20
+> Under normal and orderly conditions, yes.
+>=20
+> >> So I guess this patch happened to work with Libvirt because the main q=
+emu
+> >> process terminated before the timeout and before SIGKILL was delivered=
+.=20=20
+> >
+> > it seems so
+> >=20=20
+> >>
+> >> The cleanup process is trying to solve the problem where the main qemu=
+ process
+> >> takes too long to terminate. However, if the cleanup process itself ta=
+kes too
+> >> long, SIGKILL will be sent by Libvirt anyway.=20=20
+> >
+> > but that is not a problem, the sole purpose of the cleanup process is
+> > to terminate _after_ qemu. it doesn't matter what happens after qemu
+> > has terminated. if you look at the patch, after going to great lengths
+> > to assure that qemu has terminated, all the child process does is
+> > _exit(0).
+> >=20=20
+> >>
+> >> Perhaps we can describe this situation in the parameter help, e.g.: If
+> >> management layer decides to send SIGKILL (e.g.: due to timeout or deli=
+berate
+> >> decision), the cleanup process can exit before the main process, decei=
+ving its
+> >> purpose.=20=20
+> >
+> > if the management layer (or the user) decides to send SIGKILL
+> > immediately to the whole cgroup without sending SIGTERM first, then
+> > this whole asynchronous teardown mechanism is defeated, yes.=20=20
+>=20
+> This situation is what we likely want to describe in the parameter help. =
+I don't
+> want to give users the false impression that this option will *always* be=
+have
+> the manner we expect it to work *most* of the time.
 
-  [313/1197] Compiling C object libqemuutil.a.p/util_cutils.c.o
-  FAILED: libqemuutil.a.p/util_cutils.c.o
-  ../../util/cutils.c:1039:13: error: implicit declaration of function '_NSGetExecutablePath' [-Werror=implicit-function-declaration]
-   1039 |         if (_NSGetExecutablePath(fpath, &len) == 0) {
-        |             ^~~~~~~~~~~~~~~~~~~~
-  ../../util/cutils.c:1039:13: error: nested extern declaration of '_NSGetExecutablePath' [-Werror=nested-externs]
+fair enough, I'll improve the documentation
 
-Fix by moving the include line to cutils.
-
-Fixes: 06680b15b4 ("include: move qemu_*_exec_dir() to cutils")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220809222046.30812-1-f4bug@amsat.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- util/cutils.c      | 4 ++++
- util/oslib-posix.c | 4 ----
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/util/cutils.c b/util/cutils.c
-index cb43dda213c..def9c746ced 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -39,6 +39,10 @@
- #include <kernel/image.h>
- #endif
- 
-+#ifdef __APPLE__
-+#include <mach-o/dyld.h>
-+#endif
-+
- #ifdef G_OS_WIN32
- #include <pathcch.h>
- #include <wchar.h>
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index bffec18869e..d55af69c112 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -58,10 +58,6 @@
- #include <lwp.h>
- #endif
- 
--#ifdef __APPLE__
--#include <mach-o/dyld.h>
--#endif
--
- #include "qemu/mmap-alloc.h"
- 
- #ifdef CONFIG_DEBUG_STACK_USAGE
--- 
-2.25.1
+>=20
+> --
+> Murilo
 
 
