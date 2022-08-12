@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F49D59107C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 14:06:33 +0200 (CEST)
-Received: from localhost ([::1]:52696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B18BF591119
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 14:55:44 +0200 (CEST)
+Received: from localhost ([::1]:51186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMTQt-0003rQ-Va
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 08:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35884)
+	id 1oMUCV-0002Er-8x
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 08:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMTAS-00033s-L8
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:49:32 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:39823)
+ id 1oMU93-0006a7-Jy
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 08:52:09 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:42752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMTAR-0002mq-2f
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:49:32 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id k12so1093815ybk.6
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:49:30 -0700 (PDT)
+ id 1oMU8y-0006Rl-5b
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 08:52:07 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-32a17d3bba2so8811927b3.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 05:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=daEDCujVTyKE+KSN6EG2XLk7AN3wYbRkIKbEMsQ01mo=;
- b=eop230Rl34OwDzVOSsd+/FYUgw9jJSAhmdn7PDwLdC/CX2rufzx1hHCaW5B6I9PqsZ
- NtWyCErkcl9eOzGldWjA3X0QMWcHFrXotdVjZgzrPToBywjnJZdvB5zVe4VAwRyFichg
- Y3mkS0zJknnlzQMFtQUed+hX6OLsI5k+cfOaHoBCLlVKqljJwao+Rni4SQ4DFSUNrbY9
- yPOVmlRrF8+zPPotiZ3nTqDnCCNKhjiWcmI7Wh6dgO3PEmDCG47t7R9xGDbZkzxPKX1u
- RriIbQB3fp8/WRDcfyz9P08vorYAAe+mKeM7uKVVqzRQy81zL6+UDeyttQhyp0tT9+se
- NoIw==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=9j8Y2hQLN6DUqt6w5q3ISZJIpo9DnK1DVCd3ZtviYHs=;
+ b=Ywk0irQw0fLFr6+9txfciL0w5QoHhmlFx7pRJq8Q8ZihBJ6hww5MH5CIc+8eoPoqsS
+ UWLzqR1/3tRbfY/M8KSh+UntOjkm8SvycLEIUKkbiFpMmq2cw9QEYwsIEtFliuVuk0ul
+ o56jFtx+2lOXUNrz05HpeU7GqGHlrRwnfhv1rUWn50D98/3oJN9DAsDL/yDp4nJEJ+dF
+ 6PEpmEtsE5YynN17aovj+E8WflYsO3L1xbR4+cDLn1QjzPzegKD0xsXenUjzMFEk4yVO
+ MgHn/AdZk/5k1cJIeiNOhg/2i9gRrWONtaDXE+stz4p2Lk+7qjJzN7nVAf/AFbEKhyS9
+ YIyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=daEDCujVTyKE+KSN6EG2XLk7AN3wYbRkIKbEMsQ01mo=;
- b=73JsPDkW3FjZc7glCMNEgfqtrVCGaQjbvOH0LQAHq/R6s/5XHaaImPiW7n0go+rtvS
- y9Sweu/HfayvoTowZxT5FpSjnnQ3IwOwjcHD/ruhHC63BwAnDHORt/LzvbNRG7aUWAxW
- mXtLQUH0duBUrHoJhlRzKx7+DtlXGQMWBopfys6G2Jq8a5IsSd84LqbDNS9PSyJVn2lA
- hObmm+pfHgYQUlUdLhREkcyp3sTY/9nN1IvU4cxkcrYnLMxca0KyzwqUF0hnP1JCKjMf
- Chem/jkSxOCgyrf0CP3fNy+qdrwP/5Hp8RpPRiyyei6skh5FbJuDzGcCki5+IzietnFB
- FbBw==
-X-Gm-Message-State: ACgBeo17xdL4LZ+hBLAOuS/txO/IrdWZ7zpu9oeqrJ+2Fj5m5svXhgGm
- GogbncLjg+vOaTvBTpuBY6KPNG1BSATjqVFl4ijgBw==
-X-Google-Smtp-Source: AA6agR7B1ZMlGiBmjdEjG0grja1co/9ujtKJhu9HINs3WCfdySyGEacALB6GPDqqhEmQU+vLg5MsjaZHaSwQot02DBk=
-X-Received: by 2002:a25:d4a:0:b0:671:6d11:d14e with SMTP id
- 71-20020a250d4a000000b006716d11d14emr3136171ybn.479.1660304969988; Fri, 12
- Aug 2022 04:49:29 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=9j8Y2hQLN6DUqt6w5q3ISZJIpo9DnK1DVCd3ZtviYHs=;
+ b=NDCxEafKHId87dDRC/1hdmm4KulT1npkC3c+4hiQHk8i6mY4wyco9AJfaMJJRBG4Xt
+ Qk9ZZjLbGIBrH3hFOItudTs7HpmjhJPP0J/Zcp9MSI0k0kwcGGYiOza8fhhXrvJFX5Ml
+ mSiFS7JYmM2D2cbi2+NN+4xVLbcFOHHEhPy5v1MT68rFLtRhvsIkq8rG86NUsMjBan5x
+ mFX+Y7bsqMCw4eFvaBWVp8jNC0f2AWPXNyWAp7wrCEMhcfb4rSnAkC0pJQMqUu0oDpyl
+ Ln8mdZtUhFMBcZspFaYz/bJ27OHHA+XkCz8Giz973vqWxPQE4eqrRUIq09WwuGrYbUau
+ 1J5Q==
+X-Gm-Message-State: ACgBeo1lgx1mwlbg3c+TDhZfT42pASCrgfpFcu4lEteKKmwjsN4EBrDI
+ 5beDJjcKGD5DCmZKsM/k2MKiTSgq2Pg7OEyMLWPDkg==
+X-Google-Smtp-Source: AA6agR6N7J+5f9JRdjsmnxwY+g/VdLMbg3CTgm5B7PRSWJrmjyt0IMUL4OKwPClMA/vKJYydvgxVdAlKmQFT3XQdrIY=
+X-Received: by 2002:a81:7bd6:0:b0:328:297a:f31f with SMTP id
+ w205-20020a817bd6000000b00328297af31fmr3672085ywc.469.1660308723044; Fri, 12
+ Aug 2022 05:52:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1660303075.git.tugy@chinatelecom.cn>
- <211833676831b86d70af12df9912aa971d46092b.1660303075.git.tugy@chinatelecom.cn>
-In-Reply-To: <211833676831b86d70af12df9912aa971d46092b.1660303075.git.tugy@chinatelecom.cn>
+References: <20220718115433.802-1-quic_trohmel@quicinc.com>
+ <20220718115433.802-3-quic_trohmel@quicinc.com>
+In-Reply-To: <20220718115433.802-3-quic_trohmel@quicinc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 12:49:18 +0100
-Message-ID: <CAFEAcA-So11YhE=P2Xb2FXG4-dbG_gq2eg60O9q=ejh+bBC4NA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] osdeps: Introduce qemu_socketpair()
-To: tugy@chinatelecom.cn
-Cc: f4bug@amsat.org, marcandre.lureau@redhat.com, qemu_oss@crudebyte.com, 
- richard.henderson@linaro.org, berrange@redhat.com, mst@redhat.com, 
- kraxel@redhat.com, qemu-devel@nongnu.org
+Date: Fri, 12 Aug 2022 13:51:52 +0100
+Message-ID: <CAFEAcA_-uX0BqHTm_4NqGGoF_AJ5LZD0Gp_0Pyx4WAZV_BpRLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] target/arm: Don't add all MIDR aliases for Cortex-R
+To: Tobias Roehmel <quic_trohmel@quicinc.com>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,50 +85,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Aug 2022 at 12:44, <tugy@chinatelecom.cn> wrote:
+On Mon, 18 Jul 2022 at 12:54, Tobias Roehmel <quic_trohmel@quicinc.com> wro=
+te:
 >
-> From: Guoyi Tu <tugy@chinatelecom.cn>
+> From: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
 >
-> qemu_socketpair() will create a pair of connected sockets
-> with FD_CLOEXEC set
+> Cortex-R52 has the MPUIR register which has the same encoding
+> has the MIDR alias with opc2=3D4. So we only add that alias
+> when we are not realizing a Cortex-R.
 >
-> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+> Signed-off-by: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
 > ---
->  include/qemu/sockets.h |  3 +++
->  util/osdep.c           | 24 ++++++++++++++++++++++++
->  2 files changed, 27 insertions(+)
+>  target/arm/helper.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
 >
-> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> index 038faa157f..52cf2855df 100644
-> --- a/include/qemu/sockets.h
-> +++ b/include/qemu/sockets.h
-> @@ -14,6 +14,9 @@ int inet_aton(const char *cp, struct in_addr *ia);
->  /* misc helpers */
->  bool fd_is_socket(int fd);
->  int qemu_socket(int domain, int type, int protocol);
-> +#ifndef WIN32
-> +int qemu_socketpair(int domain, int type, int protocol, int sv[2]);
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 6457e6301c..03bdc3d149 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -8189,9 +8189,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>                .fieldoffset =3D offsetof(CPUARMState, cp15.c0_cpuid),
+>                .readfn =3D midr_read },
+>              /* crn =3D 0 op1 =3D 0 crm =3D 0 op2 =3D 4,7 : AArch32 alias=
+es of MIDR */
 
-Any new function declaration in a header file needs a
-doc-comment documenting what it does, please.
+Moving the op2=3D4 register definition makes this comment out of date,
+so you need to update it (ie remove the '4' here, and add a comment
+similarly noting what id_v8_midr_alias_cp_reginfo[] is doing).
 
-> +#endif
->  int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
->  int socket_set_cork(int fd, int v);
->  int socket_set_nodelay(int fd);
-> diff --git a/util/osdep.c b/util/osdep.c
-> index 60fcbbaebe..4b1ab623c7 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -481,6 +481,30 @@ int qemu_socket(int domain, int type, int protocol)
->      return ret;
->  }
->
-> +#ifndef _WIN32
+> -            { .name =3D "MIDR", .type =3D ARM_CP_ALIAS | ARM_CP_CONST,
+> -              .cp =3D 15, .crn =3D 0, .crm =3D 0, .opc1 =3D 0, .opc2 =3D=
+ 4,
+> -              .access =3D PL1_R, .resetvalue =3D cpu->midr },
+>              { .name =3D "MIDR", .type =3D ARM_CP_ALIAS | ARM_CP_CONST,
+>                .cp =3D 15, .crn =3D 0, .crm =3D 0, .opc1 =3D 0, .opc2 =3D=
+ 7,
+>                .access =3D PL1_R, .resetvalue =3D cpu->midr },
+> @@ -8201,6 +8198,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>                .accessfn =3D access_aa64_tid1,
+>                .type =3D ARM_CP_CONST, .resetvalue =3D cpu->revidr },
+>          };
+> +        ARMCPRegInfo id_v8_midr_alias_cp_reginfo[] =3D {
+> +            { .name =3D "MIDR", .type =3D ARM_CP_ALIAS | ARM_CP_CONST,
+> +              .cp =3D 15, .crn =3D 0, .crm =3D 0, .opc1 =3D 0, .opc2 =3D=
+ 4,
+> +              .access =3D PL1_R, .resetvalue =3D cpu->midr },
+> +        };
 
-If this function only exists and is usable on posix
-hosts, put it in util/oslib-posix.c rather than having
-it here with a win32 ifdef.
+If there's only one register, you don't need to define a
+single-element array, you can use define_one_arm_cp_reg()
+and pass it a single ARMCPRegInfo struct.
+
+>          ARMCPRegInfo id_cp_reginfo[] =3D {
+>              /* These are common to v8 and pre-v8 */
+>              { .name =3D "CTR",
+> @@ -8264,8 +8266,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>              id_mpuir_reginfo.access =3D PL1_RW;
+>              id_tlbtr_reginfo.access =3D PL1_RW;
+>          }
+> +
+>          if (arm_feature(env, ARM_FEATURE_V8)) {
+>              define_arm_cp_regs(cpu, id_v8_midr_cp_reginfo);
+> +            if (!arm_feature(env, ARM_FEATURE_V8_R)) {
+
+You can use ARM_FEATURE_PMSA here.
+
+> +                define_arm_cp_regs(cpu, id_v8_midr_alias_cp_reginfo);
+> +            }
+>          } else {
+>              define_arm_cp_regs(cpu, id_pre_v8_midr_cp_reginfo);
+>          }
+> --
 
 thanks
 -- PMM
