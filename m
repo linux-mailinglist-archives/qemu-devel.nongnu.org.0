@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F53590F62
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:23:21 +0200 (CEST)
-Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB3D590F6C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:27:47 +0200 (CEST)
+Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMRp2-00021N-OH
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:23:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51024)
+	id 1oMRtJ-0004PE-KE
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMRnT-0000Vt-D6
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:21:43 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:36527)
+ id 1oMRpo-000296-RE
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:24:08 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:45769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMRnR-0005OZ-Q9
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:21:43 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-31e7ca45091so5758107b3.3
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 03:21:41 -0700 (PDT)
+ id 1oMRpn-0005fW-6d
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:24:08 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-3246910dac3so5553077b3.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 03:24:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=9ajT5T91DJU6yQAET/XmN0QwtvVk+eRLbBY0xk2u+ns=;
- b=jcnVIDAkbGi3eAOzPaAC8nbQ/pH7N3Q1VWv7VtL+hi6kX8vlq+ZWUnLspbqZ6D49/5
- i2xOKp7Hbpbl4a4StOKgjEWh/63IfQi9Sz5OzzufM0GQ3gkD5uzpjhrzX6xM4y031n1y
- bmuoVp00CdFnL1S+XH6tfoI1E75tTnVJsvvpGCeJxIyd/ZjEnnC3XO1wINcjJfKXtjw0
- 5No2lL2xVsJOeKqUhNpwT/IAmyVQSdP9bMUK3NbnAYkPwD+4E5+McuV9nBPlP5gxe8Ap
- zFpeG/RH4i6DvwZ5uSEQbZBabcGd1EbJ9mFentYKBy9BwZRS52ANFVHn467CH1bY76Lh
- TOIA==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=eOQodsDfDOFaM0GnM3/lGWY5i6I/A327N6V+LgoVclc=;
+ b=M8u/4dkj0Wj2oTPx4jERgDMRNw2WFc89Mn5UhArwBjL00xTV3r8DQV3brW+MzrPsAc
+ bIggS3MfLdT1KmDoFnQv5cAXkjR6fynJ8Pfj/5aOW0UaDWxvmCSrHTnNge7zmL2hagKc
+ qLUzA7xYh2kLwe0vNRq5ZnT0Q2lwaQFk62cNvQF2FTrLa9gzRJUweQ2XlV0Wk9FpmXmp
+ mzYKUfKlaGGW4MFEL1JMq824lLh+BcZRBMK+Nu7xaL2VE6lLaWc6jzRx4wO2BF7QB98/
+ nRs+x/5wyoJ2vlcOidwGKs5GP/+CgyBE7MjuTmA2+/6gO8PKtzMqs69Hxc1XqwBBCK6j
+ Mvlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=9ajT5T91DJU6yQAET/XmN0QwtvVk+eRLbBY0xk2u+ns=;
- b=Ed0wuSJ0zHjGhyTBSslDWl0JUNYIiRBDRKXuqiI1EqFFQultH1bSn5ClYKS6Km1t+J
- 7Wh7wxfLNaI35q2PzPx1ZALOp3XG9reLG/Ovc7zTXrZaTvYfQwReOlzkOm4b9IoNMwt+
- IIL4GY/PLBEmzQ708Sc6y3iQTus02XNpBv6knUTfMvtoCXdFlDPJmhFIK5YSMPLl602c
- Fjn7D2x+o6MVGkmryCXtSMGBJ459MphaYTbtkm1GKjMyGPvgVJGTWZVmiEtFWdtGQ0CE
- GIuNXkY++0ixQj8X8PKadki/hlafoZUWxI1Rn8vr7u+1G8Oy5EFL4A2IHQayuGd98+eH
- bMFg==
-X-Gm-Message-State: ACgBeo2zkuS46uCIn1HICJYdhYYcOxfGhq0UO/VqJ0U5lh+UrafPTDee
- 7Ik8UblPWxMan2ROPwuJw6K2RbcN24i/a4R2yERvwA==
-X-Google-Smtp-Source: AA6agR4FF6vdMED5rFWqHgpyhJfzg07gdV231qt5rOMWvfZT3yLPBacKYwit3dj7FxjNR4aWijxqGqKp773Dd5BzKKs=
-X-Received: by 2002:a81:13c5:0:b0:32a:8e40:d469 with SMTP id
- 188-20020a8113c5000000b0032a8e40d469mr3346142ywt.64.1660299700467; Fri, 12
- Aug 2022 03:21:40 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=eOQodsDfDOFaM0GnM3/lGWY5i6I/A327N6V+LgoVclc=;
+ b=0QnQMT8veQH1YzhJhy419GPvsshvDVkcAoe8HDybsQk/7VkPUOUVkM2vdwJd6AVFgt
+ B6uJdC+HjMQilJlP/yzuJl9Cpn/uxuJzurM+ntXj1qNzwmIFxaj44mI1vDly7Q4TK2Se
+ ntd9bh6d4n/I8i0bFp9kU1XgfcKFMtBPQ6uKQpf8EvkH9JWKnU7PWUtG7tP9g5YzuuVp
+ oTGEX1AGfVGWgJdoZk3ri+0gbJh55wAqI8WtIj+buAK69TkGKIocL8en8iWcp5xqX5IO
+ BZMvsRxbedG4gsK5mih3Ae9FshxBEKN16DVYqsp8EqBSnN8varZFfcAHxA5VuYl9VPzV
+ frNg==
+X-Gm-Message-State: ACgBeo2PVQO2ZcIsZKEMH3+uV0frvzGjctCJnITjLZZBpvppKNQni7Zo
+ 92WiIX41sFT/XmGyWHKdJEfD+Lunrfw7qZf/sKgRSQ==
+X-Google-Smtp-Source: AA6agR7FVnxXJTQzwt3JlIGUkZXxa8Hylk1lKsrWAvsc21FLwxyY/sMfIdtIZ7F9A3eaufMDNnEDcdUcvTiiebUjKDs=
+X-Received: by 2002:a81:63c6:0:b0:324:928:c672 with SMTP id
+ x189-20020a8163c6000000b003240928c672mr3129489ywb.329.1660299846074; Fri, 12
+ Aug 2022 03:24:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220812075642.1200578-1-sw@weilnetz.de>
-In-Reply-To: <20220812075642.1200578-1-sw@weilnetz.de>
+References: <20220810121513.1356081-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220810121513.1356081-1-marcandre.lureau@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 11:21:29 +0100
-Message-ID: <CAFEAcA_bsKODn=fh1wipOouqPy3A6On-9aO-vyj4BxSbm3d+NQ@mail.gmail.com>
-Subject: Re: [PATCH for-7.1?] Fix some typos in documentation (most of them
- found by codespell)
-To: Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, Hongren Zheng <i@zenithal.me>,
- libvir-list@redhat.com, 
- "Canokeys . org" <contact@canokeys.org>, qemu-trivial@nongnu.org
+Date: Fri, 12 Aug 2022 11:23:55 +0100
+Message-ID: <CAFEAcA9jXnxwC4f3kfjB74TBrnftLcHkfApvL3Oe=HSASvt_kg@mail.gmail.com>
+Subject: Re: [PATCH] tests/unit: fix a -Wformat-trunction warning
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,20 +85,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Aug 2022 at 08:59, Stefan Weil via <qemu-devel@nongnu.org> wrote:
+On Wed, 10 Aug 2022 at 13:20, <marcandre.lureau@redhat.com> wrote:
 >
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
->  docs/about/deprecated.rst       |  2 +-
->  docs/specs/acpi_erst.rst        |  4 ++--
->  docs/system/devices/canokey.rst |  8 ++++----
->  docs/system/devices/cxl.rst     | 12 ++++++------
->  4 files changed, 13 insertions(+), 13 deletions(-)
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
+> ../tests/test-qobject-input-visitor.c: In function =E2=80=98test_visitor_=
+in_list=E2=80=99:
+> ../tests/test-qobject-input-visitor.c:454:49: warning: =E2=80=98%d=E2=80=
+=99 directive output may be truncated writing between 1 and 10 bytes into a=
+ region of size 6 [-Wformat-truncation=3D]
+>   454 |         snprintf(string, sizeof(string), "string%d", i);
+>       |                                                 ^~
+> ../tests/test-qobject-input-visitor.c:454:42: note: directive argument in=
+ the range [0, 2147483606]
+>   454 |         snprintf(string, sizeof(string), "string%d", i);
+>       |                                          ^~~~~~~~~~
+> ../tests/test-qobject-input-visitor.c:454:9: note: =E2=80=98snprintf=E2=
+=80=99 output between 8 and 17 bytes into a destination of size 12
+>   454 |         snprintf(string, sizeof(string), "string%d", i);
+>       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Not trying to be clever, this is called 3 times during tests,
+> let simply use g_strdup_printf().
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Docs patches are safe for rc3. I have to do a target-arm
-pullreq anyway for rc3, so I'll take this via that, unless
-anybody objects.
+This is a pretty safe fix and compiler warnings seem like they're
+worth fixing for rc3. Since I need to do a target-arm pullreq
+anyway I'll take this via that, unless anybody objects.
+
+(I've fixed up the commit message typo in my tree.)
 
 thanks
 -- PMM
