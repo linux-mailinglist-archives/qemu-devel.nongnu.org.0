@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72212591062
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:53:17 +0200 (CEST)
-Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A67E591069
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:55:55 +0200 (CEST)
+Received: from localhost ([::1]:39966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMTE3-0006N3-HC
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35636)
+	id 1oMTGc-0002h3-BT
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMT6e-0000ND-RH
+ id 1oMT6f-0000NG-FF
  for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:45:40 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41754)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMT6d-0002PT-3J
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:45:36 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- az6-20020a05600c600600b003a530cebbe3so434612wmb.0
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:45:34 -0700 (PDT)
+ id 1oMT6d-0002PX-Tx
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:45:37 -0400
+Received: by mail-wm1-x329.google.com with SMTP id k17so477010wmr.2
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:45:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc;
- bh=Ce+a9h2NdhVEtI5y5oWvwzc5i/EiA02fVrOU8Twutdg=;
- b=sIO8QMx/VkbIxT5PXGC23PKhsjbavkbcWKMCaGffVa0gcNPYNvZdSTyVTqnQj1pRp5
- omN2OCXFOAZ8u2EmEy2GVkFo6HG525KwidnTa72Kl7/JFFJhhP6hYpGr4PSgVwPqqqak
- XDUlfV7XTJyuusPcbj4W09gr2JYDPQ1jeIka2PUjH3VogDu6KCR26hOLkqXRyVtkwrmt
- lSpB3ZlliZrkpdlaJ4FHvBrvRSanrdyUeFBTT9mlLbHZy2Rn5B8gvq3VTtG/5v5wnC5W
- B5C+DUN2gOZlhEeixnnm72HSrHe5Ux/gLE44SQIypTgi5RsjyR4+REpeqO/TK45ZDPE9
- 6l8g==
+ bh=KmqiERqNZgSUdjGvKdTtZjsQUeVX3Ph3gCx7pWaoXiU=;
+ b=eJHVakWrsLu0wgL7jJ+3Ypp1nmzBHk59XxPfw8lYftYxER1OVTUBIB6+GforoppGPp
+ gk91f9Zp8mQqU5k3R7q1tVXxdKyNjmLIus/Oxz/FjEd0AInfK6ccQyooJht1gGZJ8+tj
+ 7ngfCJnV05iuHItuF2ULLoU2efyrrvwZTdzopKtauEOhtEZG1ZuW4vz6wP1Be05DHC/x
+ 0MM7HdcX70YGPfv7y5YbgaXrRFlwuH0ti26a5VKgXr2G5C5FOcH7S/uWDxjbuIIqxyPe
+ +hoc7JXuRBOreT4aMoFn6xVl7bRa8EpO0WF6DYbhHlGMKAz4inHHie4KqK+3nvyeBUBt
+ lbZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=Ce+a9h2NdhVEtI5y5oWvwzc5i/EiA02fVrOU8Twutdg=;
- b=SFZ/su0rOK1z8HD7U404+APUvdsvUAonx6FjQXi051PM6hKkkhzpI1nNnF0qYTQ4CL
- ErbpkKnfXGy85ZDmqrWvZw+L2U9a42/Ex8EMnVoQW7QIEUxvryaJYGKZKyM+Ebkwo39R
- kytR4FvOhM2iE4AThEdDiFT4/V6701XXDtUPBHKKtkxledL4Tm7AGpYzMBFiTsXakKhA
- sym8vJ/PC/JU9Mir/aXhoAIOduj+rhdRj85Tg1xPBp2EXxdyhkgosIFeqvz6rSOtPPXb
- s5BF8X99i5UmGWF0zYmwo5Ku/p78zrtqe8hx5uBjNCH845qdh80nxpQ5zYQy+fzsZgJb
- yyww==
-X-Gm-Message-State: ACgBeo1/rAnO27CZlGqG+nHT+OUvlDX2vRl8d2oZhpPmIM15TauIBOPP
- BurOVfanijW/y5pLWhPZ9dP6ANf9biUWpA==
-X-Google-Smtp-Source: AA6agR4hgzziYjFMP3OQrM0HRlgFwqykggkpqh2GKJCjiZ1XOoAx1AIOXQYv9e8h2yul1u7rYaQJFg==
-X-Received: by 2002:a05:600c:4ec9:b0:3a5:a567:137f with SMTP id
- g9-20020a05600c4ec900b003a5a567137fmr8728228wmq.46.1660304733742; 
- Fri, 12 Aug 2022 04:45:33 -0700 (PDT)
+ bh=KmqiERqNZgSUdjGvKdTtZjsQUeVX3Ph3gCx7pWaoXiU=;
+ b=pbI1CWmsYyDMjwg9jSjVlPFNYvoTsCvx8YL0+myoLXgH/KfbAQo+0Wm2uyRDctY6I8
+ GN3mqp3VzqVDDRLftA62kofhksZgLE8SZKbOMLETN450Wal8WE6Ja9i4p4pKnVXLTI2W
+ /E1jNnL5Jc79gT+Gzr3YKQSCEA9evmJZq7zC7WiXB9cCaxI84elLMG3ImH/lybaoZsVT
+ DE/xBvrD0i2A+m8h0aBehzbRfVETZr0rcQW38IiNxhjhHz5wFxRV6ezwS3WOmrSe8zlc
+ /9GMst/zLfPmf9yJAYO0b5AudP7FD1mRXd/EaQBXuuIgjwPY5/eU0Vq9jFulrFNnaWyH
+ aHOw==
+X-Gm-Message-State: ACgBeo0Eln5CPrsZgw6TEeHzaqf4PzLWGXw9YebSELg0UYhqrW4A23xx
+ P48bgmw9nM+RU5l17YM6sBrKL3CkXSZsQg==
+X-Google-Smtp-Source: AA6agR4VOr5RClCeDRt3tmieLH+IRTlZFuOySvUFd86BO0uMKSQ0W7eJYYMPINp5Iskhi0VRAbriGQ==
+X-Received: by 2002:a05:600c:4196:b0:3a5:3da4:ef78 with SMTP id
+ p22-20020a05600c419600b003a53da4ef78mr2402340wmh.156.1660304734472; 
+ Fri, 12 Aug 2022 04:45:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n8-20020a05600c3b8800b003a5418245b9sm11257797wms.19.2022.08.12.04.45.32
+ n8-20020a05600c3b8800b003a5418245b9sm11257797wms.19.2022.08.12.04.45.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 04:45:33 -0700 (PDT)
+ Fri, 12 Aug 2022 04:45:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] hw/arm/virt-acpi-build: Present the GICR structure
- properly for GICv4
-Date: Fri, 12 Aug 2022 12:45:26 +0100
-Message-Id: <20220812114527.1336370-5-peter.maydell@linaro.org>
+Subject: [PULL 5/5] cutils: Add missing dyld(3) include on macOS
+Date: Fri, 12 Aug 2022 12:45:27 +0100
+Message-Id: <20220812114527.1336370-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220812114527.1336370-1-peter.maydell@linaro.org>
 References: <20220812114527.1336370-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,47 +89,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zenghui Yu <yuzenghui@huawei.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-With the introduction of the new TCG GICv4, build_madt() is badly broken
-as we do not present any GIC Redistributor structure in MADT for GICv4
-guests, so that they have no idea about where the Redistributor
-register frames are. This fixes a Linux guest crash at boot time with
-ACPI enabled and '-machine gic-version=4'.
+Commit 06680b15b4 moved qemu_*_exec_dir() to cutils but forgot
+to move the macOS dyld(3) include, resulting in the following
+error (when building with Homebrew GCC on macOS Monterey 12.4):
 
-While at it, let's convert the remaining hard coded gic_version into
-enumeration VIRT_GIC_VERSION_2 for consistency.
+  [313/1197] Compiling C object libqemuutil.a.p/util_cutils.c.o
+  FAILED: libqemuutil.a.p/util_cutils.c.o
+  ../../util/cutils.c:1039:13: error: implicit declaration of function '_NSGetExecutablePath' [-Werror=implicit-function-declaration]
+   1039 |         if (_NSGetExecutablePath(fpath, &len) == 0) {
+        |             ^~~~~~~~~~~~~~~~~~~~
+  ../../util/cutils.c:1039:13: error: nested extern declaration of '_NSGetExecutablePath' [-Werror=nested-externs]
 
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-Message-id: 20220812022018.1069-1-yuzenghui@huawei.com
+Fix by moving the include line to cutils.
+
+Fixes: 06680b15b4 ("include: move qemu_*_exec_dir() to cutils")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220809222046.30812-1-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt-acpi-build.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ util/cutils.c      | 4 ++++
+ util/oslib-posix.c | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 449fab00805..9b3aee01bf8 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -732,7 +732,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         uint32_t pmu_interrupt = arm_feature(&armcpu->env, ARM_FEATURE_PMU) ?
-                                              PPI(VIRTUAL_PMU_IRQ) : 0;
+diff --git a/util/cutils.c b/util/cutils.c
+index cb43dda213c..def9c746ced 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -39,6 +39,10 @@
+ #include <kernel/image.h>
+ #endif
  
--        if (vms->gic_version == 2) {
-+        if (vms->gic_version == VIRT_GIC_VERSION_2) {
-             physical_base_address = memmap[VIRT_GIC_CPU].base;
-             gicv = memmap[VIRT_GIC_VCPU].base;
-             gich = memmap[VIRT_GIC_HYP].base;
-@@ -762,7 +762,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         build_append_int_noprefix(table_data, armcpu->mp_affinity, 8);
-     }
++#ifdef __APPLE__
++#include <mach-o/dyld.h>
++#endif
++
+ #ifdef G_OS_WIN32
+ #include <pathcch.h>
+ #include <wchar.h>
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index bffec18869e..d55af69c112 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -58,10 +58,6 @@
+ #include <lwp.h>
+ #endif
  
--    if (vms->gic_version == 3) {
-+    if (vms->gic_version != VIRT_GIC_VERSION_2) {
-         build_append_gicr(table_data, memmap[VIRT_GIC_REDIST].base,
-                                       memmap[VIRT_GIC_REDIST].size);
-         if (virt_gicv3_redist_region_count(vms) == 2) {
+-#ifdef __APPLE__
+-#include <mach-o/dyld.h>
+-#endif
+-
+ #include "qemu/mmap-alloc.h"
+ 
+ #ifdef CONFIG_DEBUG_STACK_USAGE
 -- 
 2.25.1
 
