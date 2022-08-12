@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D02E590FE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:11:23 +0200 (CEST)
-Received: from localhost ([::1]:42830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C038590FE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:11:52 +0200 (CEST)
+Received: from localhost ([::1]:43312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMSZW-0006Nw-FX
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
+	id 1oMSZy-00076M-J8
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=216174f26=niklas.cassel@wdc.com>)
- id 1oMSQT-0008Ou-2G; Fri, 12 Aug 2022 07:02:01 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:45092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=216174f26=niklas.cassel@wdc.com>)
- id 1oMSQO-0003H3-PB; Fri, 12 Aug 2022 07:02:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1660302115; x=1691838115;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xLZpnKr6h0/cKLicI08oyMxSU61a1comCrhZaZi1070=;
- b=hpY+HmMsiCYkG4zpD72vO8wQBLHD2EtKhei4qTVZ5gkrcEM1ahH9pWPm
- GnFeJpFQlXAIrAkGbPakUDCWz+oylFNNikKNPv38ltpM7GshBiuWSu1xd
- e7/GlAIvZOY8vpfOtzQStgZ6ujNM/xidl3xqNm+VLcvgS2yrKvl7n8TBT
- g9vNGMm0AOfX9Jyt/djGTorESz5nLaOOYLTJ3shlekbjpF02UuGafLfmZ
- Q8EnVJBYxY99NCT3bnmubUwthy+/2WPlzeyjY2XMGa3RST90PUvWYOWU0
- NEnukJiW9RQA5FIUlsY3uQS49ntU5/tv62ub02xpPt73Mu0y0xu7VD4Ug Q==;
-X-IronPort-AV: E=Sophos;i="5.93,231,1654531200"; d="scan'208";a="213567982"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 12 Aug 2022 19:01:45 +0800
-IronPort-SDR: JkncinqVoT+4VJgYCdEF1E6F2rxec/z92mJZIUD6CAowhGpGGAucfS+6z0Zi0hcNlpsnNmrjto
- aTTYXYFy2+Zn1ZRJWVnDNpnNhbykxxznAkUcfTCS/qmQJazoly77cPo+gdrx2H0WJAEslvsbBV
- QQozHL0/MoCqeYC382hs80EpG8AzxQvUnhxRMg2KcE2gBs57WefYenWQPigRANs1qEvUQiOWod
- ykrLWLBN4LyWK6jPxTbxRa8PZp5oW/3eaeszpb9uuxT30BwzwXrI3caZbfdj8BdZyKDbmrHEhw
- XVIqYL/STg7SL/cvE2pUwLVO
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 12 Aug 2022 03:17:20 -0700
-IronPort-SDR: K9tZAILyflEfmtDgvWwTr9ujXfgO/6VcZTRusRy6jCRXZrRI/6I6j3jH/o2VwYFRSKICUb8c95
- Z2GBPC0xqJdwOAm1JuEH6y7bhvOkohOto+zfGIZ+seHmKKwR76qay96FobUJfsdfPtx+82f2+B
- pvLdzB8j4+T8JNR48BA9TINFMKDJX97/qVjWo2CZ189hDae+RXuqWWb5M0GGHVIL0SMOv7m/UN
- Jg5Qd9raFl3lYtXiFrm/oWxYaxooX2/wH/mfiZQmB9sX5c0V7WO34e+94bWZW0zIpHbXgf/IL1
- jpc=
-WDCIronportException: Internal
-Received: from unknown (HELO x1-carbon.wdc.com) ([10.225.164.89])
- by uls-op-cesaip02.wdc.com with ESMTP; 12 Aug 2022 04:01:45 -0700
-To: kbusch@kernel.org,
-	its@irrelevant.dk
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>
-Subject: [PATCH] hw/nvme: remove param zoned.auto_transition
-Date: Fri, 12 Aug 2022 13:01:37 +0200
-Message-Id: <20220812110137.1011659-1-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.37.1
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oMSSq-0000mr-33
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:04:29 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oMSSf-0003eL-Sg
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:04:19 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id w19so1423496ejc.7
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=ygCcGWTvLWfrRDKfwA3TKExTQ1B1b7l3ix6u1KRE/Js=;
+ b=edBgCrKaTIK3psjWnLJBpaN7zQDNir1LRo7wPWem75K7lDzEX+BaWnHN/OxnnrVRUg
+ PGjXyEBz9BwBGDC9NNjUiiDVZzcGQVEdlDLYdQen+Taw68QzpRZ/ig5MriXuvle8XG6y
+ lHkK8/MM47Z06nwQVCGVCnT/xot3kBof5Hk36CAA5UrjwpyvnZhO0z3PKtvl/aRyIvpV
+ GUN8qJJpzPr17arwUHNaP3hMKZFHu4aqZJY+73E1Q4XJn+Be6Nk0d74FYkvk5y3EtUiU
+ B36G0zM+330YJGxFERwoGgc+rNueLv0F4GGziVBZn1y0510QJcm+IMrxA2f9d+m+Hpuc
+ Qd9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=ygCcGWTvLWfrRDKfwA3TKExTQ1B1b7l3ix6u1KRE/Js=;
+ b=Olm27drl2Sf5vsaGaLYEY5RQtostP3ab9cCPojpv4dfcsijiIKUqPm3VTB9L57VzNz
+ lz/g/sUEbTFJSBLI2E+c7J9oLNqyIoUu8GpXjP4YK1zhyUF8eJgsq7y1aNtHHY16sPUg
+ ozcrm2UlxEBDJjr8VDibbFejecktSx4xsOyW1vKR31LbaXwPmDZSxZwmn3IGOe2qQoVQ
+ MiaMNF5+0VU7HZWMUfiQL4+lc74ncX126PGDUoPWqkq0J63CMUJzn1RU1G41e7krKyjV
+ TfQ22GWSMcCImkOyDdlGy41EUe7fLoEkdnBq2Qv37U9QewU7Y8Ebsu0xBr3xfMGy4MuS
+ ELug==
+X-Gm-Message-State: ACgBeo0TjOkjekGqRVkssLY5jKRsfe9NmPK3wVFTPEOsapABxIE5XOT5
+ 0J1f4rY2KIjPyTAMRsZ7IwnSgA==
+X-Google-Smtp-Source: AA6agR5P2wW6O0DDEb+QynlyBn6S1TQF46ARxW5RFNV+RQB7Vd9WtG4FJ8fo8rI/nWeHaoPFgvsq4A==
+X-Received: by 2002:a17:907:96a1:b0:730:e0bd:1420 with SMTP id
+ hd33-20020a17090796a100b00730e0bd1420mr2340613ejc.83.1660302252878; 
+ Fri, 12 Aug 2022 04:04:12 -0700 (PDT)
+Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
+ by smtp.gmail.com with ESMTPSA id
+ q19-20020a17090676d300b0072fa24c2ecbsm679279ejn.94.2022.08.12.04.04.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Aug 2022 04:04:12 -0700 (PDT)
+Date: Fri, 12 Aug 2022 13:04:11 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Furquan Shaikh <furquan@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] riscv: Make semihosting configurable for all privilege
+ modes
+Message-ID: <20220812110411.b3yx5yojrdrux6pd@kamzik>
+References: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=216174f26=niklas.cassel@wdc.com; helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,201 +92,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Niklas Cassel <niklas.cassel@wdc.com>
-From:  Niklas Cassel via <qemu-devel@nongnu.org>
 
-The intention of the Zoned Namespace Command Set Specification was
-never to make an automatic zone transition optional.
+On Thu, Aug 11, 2022 at 01:41:04PM -0700, Furquan Shaikh wrote:
+> Unlike ARM, RISC-V does not define a separate breakpoint type for
+> semihosting. Instead, it is entirely ABI. Thus, we need an option
+> to allow users to configure what the ebreak behavior should be for
+> different privilege levels - M, S, U, VS, VU. As per the RISC-V
+> privilege specification[1], ebreak traps into the execution
+> environment. However, RISC-V debug specification[2] provides
+> ebreak{m,s,u,vs,vu} configuration bits to allow ebreak behavior to
+> be configured to trap into debug mode instead. This change adds
+> settable properties for RISC-V CPUs - `ebreakm`, `ebreaks`, `ebreaku`,
+> `ebreakvs` and `ebreakvu` to allow user to configure whether qemu
+> should treat ebreak as semihosting traps or trap according to the
+> privilege specification.
+> 
+> [1] https://github.com/riscv/riscv-isa-manual/releases/download/draft-20220723-10eea63/riscv-privileged.pdf
+> [2] https://github.com/riscv/riscv-debug-spec/blob/release/riscv-debug-release.pdf
+> 
+> Signed-off-by: Furquan Shaikh <furquan@rivosinc.com>
+> ---
+>  target/riscv/cpu.c        |  8 ++++++++
+>  target/riscv/cpu.h        |  7 +++++++
+>  target/riscv/cpu_helper.c | 26 +++++++++++++++++++++++++-
+>  3 files changed, 40 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ac6f82ebd0..082194652b 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -953,6 +953,14 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
+> cfg.short_isa_string, false),
+> 
+>      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+> +
+> +    /* Debug spec */
+> +    DEFINE_PROP_BOOL("ebreakm", RISCVCPU, cfg.ebreakm, true),
+> +    DEFINE_PROP_BOOL("ebreaks", RISCVCPU, cfg.ebreaks, false),
+> +    DEFINE_PROP_BOOL("ebreaku", RISCVCPU, cfg.ebreaku, false),
+> +    DEFINE_PROP_BOOL("ebreakvs", RISCVCPU, cfg.ebreakvs, false),
+> +    DEFINE_PROP_BOOL("ebreakvu", RISCVCPU, cfg.ebreakvu, false),
+> +
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> 
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 5c7acc055a..eee8e487a6 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -454,6 +454,13 @@ struct RISCVCPUConfig {
+>      bool epmp;
+>      bool aia;
+>      bool debug;
+> +
+> +    /* Debug spec */
+> +    bool ebreakm;
+> +    bool ebreaks;
+> +    bool ebreaku;
+> +    bool ebreakvs;
+> +    bool ebreakvu;
 
-Excerpt from the nvmexpress.org zns mailing list:
-"""
-A question came up internally on the differences between ZNS and ZAC/ZBC
-that asked about when a controller should transitions a specific zone in
-the Implicitly Opened state to Closed state.
+There's only five of these, so having each separate probably makes the
+most sense, but I wanted to point out that we could keep the properties
+independent booleans, as we should, but still consolidate the values
+into a single bitmap like we did for the sve vq bitmap for arm (see
+cpu_arm_get/set_vq). Maybe worth considering?
 
-For example, consider a ZNS SSD that supports a max of 20 active zones,
-and a max of 10 open zones, which has the following actions occur:
+>      uint64_t resetvec;
+> 
+>      bool short_isa_string;
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 59b3680b1b..be09abbe27 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -1314,6 +1314,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr
+> address, int size,
+> 
+>      return true;
+>  }
+> +
+> +static bool semihosting_enabled(RISCVCPU *cpu)
+> +{
+> +    CPURISCVState *env = &cpu->env;
+> +
+> +    switch (env->priv) {
+> +    case PRV_M:
+> +        return cpu->cfg.ebreakm;
+> +    case PRV_S:
+> +        if (riscv_cpu_virt_enabled(env)) {
+> +            return cpu->cfg.ebreakvs;
+> +        } else {
+> +            return cpu->cfg.ebreaks;
+> +        }
+> +    case PRV_U:
+> +        if (riscv_cpu_virt_enabled(env)) {
+> +            return cpu->cfg.ebreakvu;
+> +        } else {
+> +            return cpu->cfg.ebreaku;
+> +        }
+> +    }
+> +
+> +    return false;
+> +}
+>  #endif /* !CONFIG_USER_ONLY */
+> 
+>  /*
+> @@ -1342,7 +1366,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>      target_ulong mtval2 = 0;
+> 
+>      if  (cause == RISCV_EXCP_SEMIHOST) {
+> -        if (env->priv >= PRV_S) {
+> +        if (semihosting_enabled(cpu)) {
+>              do_common_semihosting(cs);
+>              env->pc += 4;
+>              return;
+> --
+> 2.34.1
+>
 
-First, the host writes to ten empty zones, thereby transitioning 10 zones
-to the Implicitly Opened state.
+Bitmap or no bitmap,
 
-Second, the host issues a write to an 11th empty zone.
-
-Given that state, my understanding of the second part is that the ZNS SSD
-chooses one of the previously 10 zones, and transition the chosen zone to
-the Closed state, and then proceeds to write to the new zone which also
-implicitly transition it from the Empty state to the Impl. Open state.
-After this, there would be 11 active zones in total, 10 in impl. Open
-state, and one in closed state.
-
-The above assumes that a ZNS SSD will always transition an implicitly
-opened zone to closed state when required to free up resources when
-another zone is opened. However, it isn’t strictly said in the ZNS spec.
-
-The paragraph that should cover it is defined in section
-2.1.1.4.1 – Managing Resources:
-The controller may transition zones in the ZSIO:Implicitly Opened state
-to the ZSC:Closed state for resource management purposes.
-
-However, it doesn’t say “when” it should occur. Thus, as the text stand,
-it could be misinterpreted that the controller shouldn’t do close a zone
-to make room for a new zone. The issue with this, is that it makes the
-point of having implicitly managed zones moot.
-
-The ZAC/ZBC specs is more specific and clarifies when a zone should be
-closed. I think it would be natural to the same here.
-"""
-
-While the Zoned Namespace Command Set Specification hasn't received an
-errata yet, it is quite clear that the intention was that an automatic
-zone transition was never supposed to be optional, as then the whole
-point of having implictly open zones would be pointless. Therefore,
-remove the param zoned.auto_transition, as this was never supposed to
-be controller implementation specific.
-
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
----
- hw/nvme/ctrl.c | 35 ++++++++++++-----------------------
- hw/nvme/nvme.h |  1 -
- 2 files changed, 12 insertions(+), 24 deletions(-)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 87aeba0564..b8c8075301 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -34,7 +34,6 @@
-  *              aerl=<N[optional]>,aer_max_queued=<N[optional]>, \
-  *              mdts=<N[optional]>,vsl=<N[optional]>, \
-  *              zoned.zasl=<N[optional]>, \
-- *              zoned.auto_transition=<on|off[optional]>, \
-  *              sriov_max_vfs=<N[optional]> \
-  *              sriov_vq_flexible=<N[optional]> \
-  *              sriov_vi_flexible=<N[optional]> \
-@@ -106,11 +105,6 @@
-  *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
-  *   defaulting to the value of `mdts`).
-  *
-- * - `zoned.auto_transition`
-- *   Indicates if zones in zone state implicitly opened can be automatically
-- *   transitioned to zone state closed for resource management purposes.
-- *   Defaults to 'on'.
-- *
-  * - `sriov_max_vfs`
-  *   Indicates the maximum number of PCIe virtual functions supported
-  *   by the controller. The default value is 0. Specifying a non-zero value
-@@ -1867,8 +1861,8 @@ enum {
-     NVME_ZRM_ZRWA = 1 << 1,
- };
- 
--static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
--                                    NvmeZone *zone, int flags)
-+static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
-+                                    int flags)
- {
-     int act = 0;
-     uint16_t status;
-@@ -1880,9 +1874,7 @@ static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
-         /* fallthrough */
- 
-     case NVME_ZONE_STATE_CLOSED:
--        if (n->params.auto_transition_zones) {
--            nvme_zrm_auto_transition_zone(ns);
--        }
-+        nvme_zrm_auto_transition_zone(ns);
-         status = nvme_zns_check_resources(ns, act, 1,
-                                           (flags & NVME_ZRM_ZRWA) ? 1 : 0);
-         if (status) {
-@@ -1925,10 +1917,9 @@ static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
-     }
- }
- 
--static inline uint16_t nvme_zrm_auto(NvmeCtrl *n, NvmeNamespace *ns,
--                                     NvmeZone *zone)
-+static inline uint16_t nvme_zrm_auto(NvmeNamespace *ns, NvmeZone *zone)
- {
--    return nvme_zrm_open_flags(n, ns, zone, NVME_ZRM_AUTO);
-+    return nvme_zrm_open_flags(ns, zone, NVME_ZRM_AUTO);
- }
- 
- static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
-@@ -3065,7 +3056,7 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
-             goto invalid;
-         }
- 
--        status = nvme_zrm_auto(n, ns, iocb->zone);
-+        status = nvme_zrm_auto(ns, iocb->zone);
-         if (status) {
-             goto invalid;
-         }
-@@ -3471,7 +3462,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-             goto invalid;
-         }
- 
--        status = nvme_zrm_auto(n, ns, zone);
-+        status = nvme_zrm_auto(ns, zone);
-         if (status) {
-             goto invalid;
-         }
-@@ -3579,7 +3570,7 @@ static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
-         flags = NVME_ZRM_ZRWA;
-     }
- 
--    return nvme_zrm_open_flags(nvme_ctrl(req), ns, zone, flags);
-+    return nvme_zrm_open_flags(ns, zone, flags);
- }
- 
- static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
-@@ -3854,8 +3845,8 @@ done:
-     }
- }
- 
--static uint16_t nvme_zone_mgmt_send_zrwa_flush(NvmeCtrl *n, NvmeZone *zone,
--                                               uint64_t elba, NvmeRequest *req)
-+static uint16_t nvme_zone_mgmt_send_zrwa_flush(NvmeZone *zone, uint64_t elba,
-+                                               NvmeRequest *req)
- {
-     NvmeNamespace *ns = req->ns;
-     uint16_t ozcs = le16_to_cpu(ns->id_ns_zoned->ozcs);
-@@ -3880,7 +3871,7 @@ static uint16_t nvme_zone_mgmt_send_zrwa_flush(NvmeCtrl *n, NvmeZone *zone,
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
- 
--    status = nvme_zrm_auto(n, ns, zone);
-+    status = nvme_zrm_auto(ns, zone);
-     if (status) {
-         return status;
-     }
-@@ -3999,7 +3990,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
-             return NVME_INVALID_FIELD | NVME_DNR;
-         }
- 
--        return nvme_zone_mgmt_send_zrwa_flush(n, zone, slba, req);
-+        return nvme_zone_mgmt_send_zrwa_flush(zone, slba, req);
- 
-     default:
-         trace_pci_nvme_err_invalid_mgmt_action(action);
-@@ -7672,8 +7663,6 @@ static Property nvme_props[] = {
-     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
-     DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, false),
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
--    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
--                     params.auto_transition_zones, true),
-     DEFINE_PROP_UINT8("sriov_max_vfs", NvmeCtrl, params.sriov_max_vfs, 0),
-     DEFINE_PROP_UINT16("sriov_vq_flexible", NvmeCtrl,
-                        params.sriov_vq_flexible, 0),
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 79f5c281c2..93713817e1 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -419,7 +419,6 @@ typedef struct NvmeParams {
-     uint8_t  vsl;
-     bool     use_intel_id;
-     uint8_t  zasl;
--    bool     auto_transition_zones;
-     bool     legacy_cmb;
-     bool     ioeventfd;
-     uint8_t  sriov_max_vfs;
--- 
-2.37.1
-
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
