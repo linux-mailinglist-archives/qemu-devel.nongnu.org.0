@@ -2,90 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B54F590AF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 06:18:28 +0200 (CEST)
-Received: from localhost ([::1]:49378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E40590BB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 08:01:38 +0200 (CEST)
+Received: from localhost ([::1]:42130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMM7v-0001DQ-6V
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 00:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
+	id 1oMNjk-0006D4-GW
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 02:01:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oMM6C-0007lj-6j
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 00:16:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50435)
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1oMNgF-0003wp-FW
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 01:57:59 -0400
+Received: from mga09.intel.com ([134.134.136.24]:42497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oMM67-0001aF-KK
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 00:16:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660277793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lZePtITI0RX4qss63XRIgN5ENaY7IBADXY73bqg8SdU=;
- b=bAT3VgA5Cg1uzHlLr9H1AinZI8b+XpfsDR/mAcxp+Jw6VMFQUF/tTbd72txAuco2uOAvN4
- DRuKs4lp4qhgA9TrM3+JqgsXibIfbH9SEWfUgbcN5HQWjTGSrp75dplj0g5WZYut+rpQ+o
- B5Tp1XnCmWAbfnIU16jGaK2s1IN1Bm0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-418-KIj7FLm0MFOn4vdlpjtphw-1; Fri, 12 Aug 2022 00:16:30 -0400
-X-MC-Unique: KIj7FLm0MFOn4vdlpjtphw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- m22-20020a056402431600b0043d6a88130aso12065412edc.18
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 21:16:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=lZePtITI0RX4qss63XRIgN5ENaY7IBADXY73bqg8SdU=;
- b=usw0hxRaaltwY9XDPCZgVHHc8HFe6YADAZqUPbEWRO+42bI6k8R9yZnpKb9/SdHWxj
- 4YXHzJwtt7im9uVgmmYQ8zfxU/PiTgGa+jt07zRtT82naxT95N5qqZGeAuyORJtKJb1L
- Wntty8OXrDKuIX+8+a9ekBz1Thjy0hopNd6tnz/Bgl/9S4dOSxtluA3VTWSR7aiUu55J
- ci/cYPNhtHBn5bK7+VbujP1p+nvpmwGdfjiNARW98yL6FDiWBdXuixLZva8HKQ3psslK
- CZVN8uGGSyf1IFR76EmyLk7LEQ7quhFE2LcmytvQKPwqVoFgSv5bkVgCpVok3KFg0i4B
- qCOw==
-X-Gm-Message-State: ACgBeo1D+AKL6O0WydaSEXnSup5wmnG2fIUO4bxQQyZlZ6edWU3bOcZK
- iiO+VXtSCSgdVMF3nMEbY3LwrNIHDRDCI+fbMT2Xjff1ThDhwGdZxhNJzmY05cAb+cn7wR9xqUr
- r/+IyIQ8AkUJPh70=
-X-Received: by 2002:a17:907:7e8f:b0:733:16da:24bf with SMTP id
- qb15-20020a1709077e8f00b0073316da24bfmr1392905ejc.349.1660277789928; 
- Thu, 11 Aug 2022 21:16:29 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4lkCiRv3XEct8CNUdJ5fTfTpjXmqN6JnYX+rr4LTCLy0Fg9p5cTLWYZriXczUMyk98TaReHQ==
-X-Received: by 2002:a17:907:7e8f:b0:733:16da:24bf with SMTP id
- qb15-20020a1709077e8f00b0073316da24bfmr1392897ejc.349.1660277789705; 
- Thu, 11 Aug 2022 21:16:29 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-42-115-19.web.vodafone.de.
- [109.42.115.19]) by smtp.gmail.com with ESMTPSA id
- bv18-20020a170906b1d200b007315e57ba0asm340114ejb.114.2022.08.11.21.16.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 21:16:29 -0700 (PDT)
-Message-ID: <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
-Date: Fri, 12 Aug 2022 06:16:28 +0200
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1oMNgC-0007Ep-2C
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 01:57:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660283876; x=1691819876;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Yw88t9qHfrUVpKBNdjqbFVoE0y93agkJ7r5E+RW10Yw=;
+ b=RkYK7GtmVUrQcrptXGkN+K7SdI8qfzhRhIeOwrhdJcSde4Af2C6to5Q7
+ CBkvnhbLUAtoFe4Ct2Zmn/4JNkUxgdV3UYLSv5gyiNQRLuaY/OivsFrcx
+ qcAqHw5WaRN2lv5varUbc9qsLzhddXop0NaQP26rV2Z5QXZktp7mWNwYo
+ gK6YVS051zzuhjQ6Q1Q9sGIUzE5fOyrQvx1jBLDvw5VavHDioT9KtcKvI
+ fvvRXwuJv62OkuZ/Qj5Q1FycV0kPNEyfd8IChOKcz2B6JQS9Nt5aAdihc
+ HLLudz50yp4gysnYzkmToqPX1UsvX4eXfCdocXUYWkg6PpsI2JKZrNLBz A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="292322935"
+X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; d="scan'208";a="292322935"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 22:57:51 -0700
+X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; d="scan'208";a="695161281"
+Received: from b49691a74b20.jf.intel.com ([10.45.76.123])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 22:57:51 -0700
+From: "Wang, Lei" <lei4.wang@intel.com>
+To: pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, robert.hu@intel.com, xiaoyao.li@intel.com,
+ chenyi.qiang@intel.com
+Subject: [PATCH] i386: Add new CPU model SapphireRapids
+Date: Thu, 11 Aug 2022 22:57:51 -0700
+Message-Id: <20220812055751.14553-1-lei4.wang@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
- generated on gcc110 machine
-Content-Language: en-US
-To: Pierre Muller <pierre@freepascal.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-References: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=lei4.wang@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,60 +75,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/08/2022 23.38, Pierre Muller wrote:
-> 
->    I am using qemu to check code generated by Free Pascal compiler
-> for various CPUs.
-> 
->    Recently, this allowed me to find out that Free Pascal was generating
-> wrong instructions, leading to SIGBUS errors using qemu-mips.
->    The same binaries worked without troubles on mips test machines,
-> probably because SIGBUS is handled directly inside the kernel.
-> 
->    Here I would like to report the problem I get when trying to run
-> powerpc executables using shared libs generated on gcc110 machine.
-> 
->    I copied over the needed libraries into a sys-root directory.
-> 
->    The problem is that the code crashes with a Illegal Instruction
-> after only a very few instructions:
-> 
-> muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc -cpu g2 -d in_asm -L 
-> ~/sys-root/powerpc-linux ./twide1
-[...]
-> 0x3ffc1d60:  f00004d7  xxlxor   v0, v0, v0
-> 
-> qemu: uncaught target signal 4 (Illegal instruction) - core dumped
-> 
-> The problem is the the 'xxlxor' instruction is a VSX extension instruction.
-> 
->   There is apparently no cpu in the powerpc cpu list that enabled this 
-> extension.
-> The output of cat /proc/cpuinfo on gcc110 gives that:
-> .....
-> processor       : 63
-> cpu             : POWER7 (architected), altivec supported
-> clock           : 3550.000000MHz
-> revision        : 2.1 (pvr 003f 0201)
-> 
-> timebase        : 512000000
-> platform        : pSeries
-> model           : IBM,8231-E2B
-> machine         : CHRP IBM,8231-E2B
-> 
->    Is there a way to enable cpu features separately for ppc like is done for 
-> x86_64?
-> Or would it be possible to define a new cpu inside qemu source that would match
-> the description above?
+The new CPU model mostly inherits features from Icelake-Server, while
+adding new features:
+ - AMX (Advance Matrix eXtensions)
+ - Bus Lock Debug Exception
+and new instructions:
+ - AVX VNNI (Vector Neural Network Instruction):
+    - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
+    - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
+    - VPDPWSSD: Multiply and Add Signed Word Integers
+    - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
+ - FP16: Replicates existing AVX512 computational SP (FP32) instructions
+   using FP16 instead of FP32 for ~2X performance gain
+ - SERIALIZE: Provide software with a simple way to force the processor to
+   complete all modifications, faster, allowed in all privilege levels and
+   not causing an unconditional VM exit
+ - TSX Suspend Load Address Tracking: Allows programmers to choose which
+   memory accesses do not need to be tracked in the TSX read set
+ - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
+   inputs and conversion instructions from IEEE single precision
 
-So you are building on a POWER7 host and try to run the binaries on an 
-emulated G2? That sounds weird. Why don't you use
+Features may be added in future versions:
+ - CET (virtualization support hasn't been merged)
+Instructions may be added in future versions:
+ - fast zero-length MOVSB (KVM doesn't support yet)
+ - fast short STOSB (KVM doesn't support yet)
+ - fast short CMPSB, SCASB (KVM doesn't support yet)
 
-  qemu-ppc64 -cpu power7 ...
+Signed-off-by: Wang, Lei <lei4.wang@intel.com>
+Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
+---
+ target/i386/cpu.c | 128 ++++++++++++++++++++++++++++++++++++++++++++++
+ target/i386/cpu.h |   4 ++
+ 2 files changed, 132 insertions(+)
 
-?
-
-  Thomas
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 1db1278a59..abb43853d4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3467,6 +3467,134 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+             { /* end of list */ }
+         }
+     },
++    {
++        .name = "SapphireRapids",
++        .level = 0x20,
++        .vendor = CPUID_VENDOR_INTEL,
++        .family = 6,
++        .model = 143,
++        .stepping = 4,
++        /*
++         * please keep the ascending order so that we can have a clear view of
++         * bit position of each feature.
++         */
++        .features[FEAT_1_EDX] =
++            CPUID_FP87 | CPUID_VME | CPUID_DE | CPUID_PSE | CPUID_TSC |
++            CPUID_MSR | CPUID_PAE | CPUID_MCE | CPUID_CX8 | CPUID_APIC |
++            CPUID_SEP | CPUID_MTRR | CPUID_PGE | CPUID_MCA | CPUID_CMOV |
++            CPUID_PAT | CPUID_PSE36 | CPUID_CLFLUSH | CPUID_MMX | CPUID_FXSR |
++            CPUID_SSE | CPUID_SSE2,
++        .features[FEAT_1_ECX] =
++            CPUID_EXT_SSE3 | CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSSE3 |
++            CPUID_EXT_FMA | CPUID_EXT_CX16 | CPUID_EXT_PCID | CPUID_EXT_SSE41 |
++            CPUID_EXT_SSE42 | CPUID_EXT_X2APIC | CPUID_EXT_MOVBE |
++            CPUID_EXT_POPCNT | CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_AES |
++            CPUID_EXT_XSAVE | CPUID_EXT_AVX | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
++        .features[FEAT_8000_0001_EDX] =
++            CPUID_EXT2_SYSCALL | CPUID_EXT2_NX | CPUID_EXT2_PDPE1GB |
++            CPUID_EXT2_RDTSCP | CPUID_EXT2_LM,
++        .features[FEAT_8000_0001_ECX] =
++            CPUID_EXT3_LAHF_LM | CPUID_EXT3_ABM | CPUID_EXT3_3DNOWPREFETCH,
++        .features[FEAT_8000_0008_EBX] =
++            CPUID_8000_0008_EBX_WBNOINVD,
++        .features[FEAT_7_0_EBX] =
++            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_HLE |
++            CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 |
++            CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVPCID | CPUID_7_0_EBX_RTM |
++            CPUID_7_0_EBX_AVX512F | CPUID_7_0_EBX_AVX512DQ |
++            CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP |
++            CPUID_7_0_EBX_AVX512IFMA | CPUID_7_0_EBX_CLFLUSHOPT |
++            CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_AVX512CD | CPUID_7_0_EBX_SHA_NI |
++            CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512VL,
++        .features[FEAT_7_0_ECX] =
++            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
++            CPUID_7_0_ECX_AVX512_VBMI2 | CPUID_7_0_ECX_GFNI |
++            CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
++            CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
++            CPUID_7_0_ECX_AVX512_VPOPCNTDQ | CPUID_7_0_ECX_LA57 |
++            CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_BUS_LOCK_DETECT,
++        .features[FEAT_7_0_EDX] =
++            CPUID_7_0_EDX_FSRM | CPUID_7_0_EDX_SERIALIZE |
++            CPUID_7_0_EDX_TSX_LDTRK | CPUID_7_0_EDX_AMX_BF16 |
++            CPUID_7_0_EDX_AVX512_FP16 | CPUID_7_0_EDX_AMX_TILE |
++            CPUID_7_0_EDX_AMX_INT8 | CPUID_7_0_EDX_SPEC_CTRL |
++            CPUID_7_0_EDX_ARCH_CAPABILITIES | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
++        .features[FEAT_ARCH_CAPABILITIES] =
++            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
++            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
++            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
++        .features[FEAT_XSAVE] =
++            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
++            CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES | CPUID_D_1_EAX_XFD,
++        .features[FEAT_6_EAX] =
++            CPUID_6_EAX_ARAT,
++        .features[FEAT_7_1_EAX] =
++            CPUID_7_1_EAX_AVX_VNNI | CPUID_7_1_EAX_AVX512_BF16,
++        .features[FEAT_VMX_BASIC] =
++            MSR_VMX_BASIC_INS_OUTS | MSR_VMX_BASIC_TRUE_CTLS,
++        .features[FEAT_VMX_ENTRY_CTLS] =
++            VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS | VMX_VM_ENTRY_IA32E_MODE |
++            VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
++            VMX_VM_ENTRY_LOAD_IA32_PAT | VMX_VM_ENTRY_LOAD_IA32_EFER,
++        .features[FEAT_VMX_EPT_VPID_CAPS] =
++            MSR_VMX_EPT_EXECONLY |
++            MSR_VMX_EPT_PAGE_WALK_LENGTH_4 | MSR_VMX_EPT_PAGE_WALK_LENGTH_5 |
++            MSR_VMX_EPT_WB | MSR_VMX_EPT_2MB | MSR_VMX_EPT_1GB |
++            MSR_VMX_EPT_INVEPT | MSR_VMX_EPT_AD_BITS |
++            MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT | MSR_VMX_EPT_INVEPT_ALL_CONTEXT |
++            MSR_VMX_EPT_INVVPID | MSR_VMX_EPT_INVVPID_SINGLE_ADDR |
++            MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT |
++            MSR_VMX_EPT_INVVPID_ALL_CONTEXT |
++            MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS,
++        .features[FEAT_VMX_EXIT_CTLS] =
++            VMX_VM_EXIT_SAVE_DEBUG_CONTROLS |
++            VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
++            VMX_VM_EXIT_ACK_INTR_ON_EXIT | VMX_VM_EXIT_SAVE_IA32_PAT |
++            VMX_VM_EXIT_LOAD_IA32_PAT | VMX_VM_EXIT_SAVE_IA32_EFER |
++            VMX_VM_EXIT_LOAD_IA32_EFER | VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER,
++        .features[FEAT_VMX_MISC] =
++            MSR_VMX_MISC_STORE_LMA | MSR_VMX_MISC_ACTIVITY_HLT |
++            MSR_VMX_MISC_VMWRITE_VMEXIT,
++        .features[FEAT_VMX_PINBASED_CTLS] =
++            VMX_PIN_BASED_EXT_INTR_MASK | VMX_PIN_BASED_NMI_EXITING |
++            VMX_PIN_BASED_VIRTUAL_NMIS | VMX_PIN_BASED_VMX_PREEMPTION_TIMER |
++            VMX_PIN_BASED_POSTED_INTR,
++        .features[FEAT_VMX_PROCBASED_CTLS] =
++            VMX_CPU_BASED_VIRTUAL_INTR_PENDING |
++            VMX_CPU_BASED_USE_TSC_OFFSETING | VMX_CPU_BASED_HLT_EXITING |
++            VMX_CPU_BASED_INVLPG_EXITING | VMX_CPU_BASED_MWAIT_EXITING |
++            VMX_CPU_BASED_RDPMC_EXITING | VMX_CPU_BASED_RDTSC_EXITING |
++            VMX_CPU_BASED_CR3_LOAD_EXITING | VMX_CPU_BASED_CR3_STORE_EXITING |
++            VMX_CPU_BASED_CR8_LOAD_EXITING | VMX_CPU_BASED_CR8_STORE_EXITING |
++            VMX_CPU_BASED_TPR_SHADOW | VMX_CPU_BASED_VIRTUAL_NMI_PENDING |
++            VMX_CPU_BASED_MOV_DR_EXITING | VMX_CPU_BASED_UNCOND_IO_EXITING |
++            VMX_CPU_BASED_USE_IO_BITMAPS | VMX_CPU_BASED_MONITOR_TRAP_FLAG |
++            VMX_CPU_BASED_USE_MSR_BITMAPS | VMX_CPU_BASED_MONITOR_EXITING |
++            VMX_CPU_BASED_PAUSE_EXITING |
++            VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS,
++        .features[FEAT_VMX_SECONDARY_CTLS] =
++            VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
++            VMX_SECONDARY_EXEC_ENABLE_EPT | VMX_SECONDARY_EXEC_DESC |
++            VMX_SECONDARY_EXEC_RDTSCP |
++            VMX_SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE |
++            VMX_SECONDARY_EXEC_ENABLE_VPID | VMX_SECONDARY_EXEC_WBINVD_EXITING |
++            VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST |
++            VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT |
++            VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
++            VMX_SECONDARY_EXEC_RDRAND_EXITING |
++            VMX_SECONDARY_EXEC_ENABLE_INVPCID |
++            VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
++            VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML |
++            VMX_SECONDARY_EXEC_XSAVES,
++        .features[FEAT_VMX_VMFUNC] =
++            MSR_VMX_VMFUNC_EPT_SWITCHING,
++        .xlevel = 0x80000008,
++        .model_id = "Intel Xeon Processor (SapphireRapids)",
++        .versions = (X86CPUVersionDefinition[]) {
++            { .version = 1 },
++            { /* end of list */ },
++        },
++    },
+     {
+         .name = "Denverton",
+         .level = 21,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 82004b65b9..ef3e8a5ed5 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -879,10 +879,14 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+ #define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
+ /* Architectural LBRs */
+ #define CPUID_7_0_EDX_ARCH_LBR          (1U << 19)
++/* AMX_BF16 instruction */
++#define CPUID_7_0_EDX_AMX_BF16          (1U << 22)
+ /* AVX512_FP16 instruction */
+ #define CPUID_7_0_EDX_AVX512_FP16       (1U << 23)
+ /* AMX tile (two-dimensional register) */
+ #define CPUID_7_0_EDX_AMX_TILE          (1U << 24)
++/* AMX_INT8 instruction */
++#define CPUID_7_0_EDX_AMX_INT8          (1U << 25)
+ /* Speculation Control */
+ #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
+ /* Single Thread Indirect Branch Predictors */
+-- 
+2.34.1
 
 
