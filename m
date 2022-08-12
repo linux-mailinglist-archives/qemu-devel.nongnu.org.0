@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8958D591513
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 19:52:01 +0200 (CEST)
-Received: from localhost ([::1]:33488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6B659151D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 19:57:59 +0200 (CEST)
+Received: from localhost ([::1]:39538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMYpE-0001xh-FR
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 13:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50188)
+	id 1oMYv0-0006KE-71
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 13:57:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMYjL-0007Tx-3M
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:45:56 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:34747)
+ id 1oMYs1-0003rP-IL
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:54:53 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:42745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMYjH-0002pv-EI
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:45:54 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id f28so1553217pfk.1
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 10:45:50 -0700 (PDT)
+ id 1oMYrz-00046d-Vx
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:54:53 -0400
+Received: by mail-pl1-x634.google.com with SMTP id w14so1361614plp.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 10:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=SM/ujSAynMi+2s6n7WaJgwOSn4TD2PQezU5en+CQRzI=;
- b=NcdYl9NwlTW8rDICHdNdbNlbfXKROy22/GOFFfLFfBJeOEmKXG60feY4T3EIgj6P3t
- bPxNf1+J/raW8Y65/zN7v2MYwcMtYmeGR1HQSYV6BEStmamjewhHEbE0ti1WIeo6k+CY
- CmHxwkumLLmgXggHRdetpFglhAG1W/bFRKX/RcLQLxXamxjRyPk5cmDjkB9ShldtyPQB
- MvKKpiTxgFVVezSHC20Yj0jGBT9Xsq8qPVgKsFG4x4hozu6mD+siIg+h4LHrrbJXB5qJ
- /+Y/LY8OgtJYnGvJ0EE8yhNEqW5wvvkJ4SkDvLtuOwJaZ9FWBqGOQCl4jlnoydk/Ldr8
- iNHw==
+ :from:to:cc; bh=1hhCpWSM04GCt+NsDHRBvvjLjdGAbeiIi7V9QJIyBBg=;
+ b=v3x2vPQjl9XDcdPWu8QXJE3FzHXTvqTVNeDx1v+X8m0iB45MDhyVZDTgW5o2+MGU03
+ g57BFagW2gVuNMFZ+hAW6H8buGFm//ZiKOCo1XA2Dg3VPd2jyroVrSTEw3Zy1DAA401i
+ nhpUwsEzeX6upRV0zxa8CjC1Jm2e1KkCICIVfpslSffPGv/2N0fGTtWaFRxhaXO89OQz
+ Hnuw3KnXcXY8KezBp/hyPyYSrwGNLbnnKBf3tkB/C4lcN0ygz4TqDztYU3Loj7LeE8xm
+ 9dps2MdJ3IIKtvtGDPrt4hBzrdG+69hI8v8xNuPv1Dw2dwb34VnivZSyB2SqaMaXdAJd
+ 1bGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=SM/ujSAynMi+2s6n7WaJgwOSn4TD2PQezU5en+CQRzI=;
- b=XPk8e2gJ+QA7vBLYqw51cKfD9QLKXljETzywZrrvWq1huPXXCbOqJwzu5NT3vmBHl+
- Ky3mtjTwsEOSzxBAwV2Nn5SKP/ZrclJV0t0wziQTXh7M2iUWXRwM2pkeedWgJ0ddyXH1
- Art0x93n5JHQbbsK2zNVH6u50lET5nG1DmM54++TsAW1s43mZ66FePM8sVV977AFoAVb
- TBnlLiaeC0mjtj9Ul5AGX3dK3gNdqXV1hIeDCm2GKhWTqZd3LjBPbgDidag3TA77rNil
- ftrtw/x6hu8cOmo31L9POQztIsCe2VCPLimZb/ZDCuM9I7NcE/lGDmoDFwBDsLz91hRv
- 5F6w==
-X-Gm-Message-State: ACgBeo3hFdwdwuHcrjbmrhVi1Gkm4Iv9InIhrQ8gKnCjdzkgzTZujiZO
- YKjVrEc7tkJuh8AuY9BwQlYkqgsSh2CKEw==
-X-Google-Smtp-Source: AA6agR5ZA5fuhgZrt+jg4G8Bmh1v3w3qq2tncsqLIFI72AXAqBGVXJPkbPolFPe3CqsApTdzug/iYg==
-X-Received: by 2002:a05:6a00:1688:b0:52b:cf1f:807a with SMTP id
- k8-20020a056a00168800b0052bcf1f807amr4894843pfc.21.1660326349226; 
- Fri, 12 Aug 2022 10:45:49 -0700 (PDT)
+ bh=1hhCpWSM04GCt+NsDHRBvvjLjdGAbeiIi7V9QJIyBBg=;
+ b=xQO1mwRG422ziGUHP97EbofciBdemMCjNNWLuGhwT0KYaHyfx3bZ+NChHRUM38s5Ev
+ 3PN2Nk04cCIDBm0AmkwFpL9/v7irWG0qnqdVFAUF2kxZ4x85izeprFvCxKmptTk/M76W
+ B7di26TrmjDbJqWPlDJLjA2cpESQCEj2X/qQrEfvQ8Sxkc/wvakzBgEH6O/plTKalk0Q
+ qknRwirW+o/8cCD3iG8KV9Ch5zyowaJvBimX8LG4L6JkGKZDo1cZ2xOi6IOvCvSO50Vx
+ P2CQfNpBIb6jIBSMuPWFkXgnt8xNEQQ6NKXG7ccK3VgS3KfVg0KYLICJv58KBfOwUFW7
+ Cc5A==
+X-Gm-Message-State: ACgBeo1orKRt0LWeWQmfmeaLG00/qK3r9LHjRimXTzBWbPbDE6roDJXS
+ V/G2X4nou7kxJW6vY42dXCkhWg==
+X-Google-Smtp-Source: AA6agR59Sk0z+XexEbz8VcJDJ7NKTcPGC0hFYuu6jN0XPpSaI3+qLvxR0KVCEdEEuB/RaTL/cqlb3w==
+X-Received: by 2002:a17:902:d2c6:b0:16e:d285:c602 with SMTP id
+ n6-20020a170902d2c600b0016ed285c602mr5116115plc.81.1660326890472; 
+ Fri, 12 Aug 2022 10:54:50 -0700 (PDT)
 Received: from ?IPV6:2602:ae:154e:e201:a7aa:1d1d:c857:5500?
  ([2602:ae:154e:e201:a7aa:1d1d:c857:5500])
  by smtp.gmail.com with ESMTPSA id
- a3-20020aa79703000000b0052d4cb47339sm1870715pfg.151.2022.08.12.10.45.48
+ e9-20020a170902d38900b0016dcc381bbasm2005173pld.144.2022.08.12.10.54.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Aug 2022 10:45:48 -0700 (PDT)
-Message-ID: <087499b4-bf3b-b74e-22e4-355ea4110af4@linaro.org>
-Date: Fri, 12 Aug 2022 10:45:46 -0700
+ Fri, 12 Aug 2022 10:54:48 -0700 (PDT)
+Message-ID: <a159021a-bcad-aadd-f57a-197b54eb0160@linaro.org>
+Date: Fri, 12 Aug 2022 10:54:46 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PULL 0/1] Linux user for 7.1 patches
+Subject: Re: [PATCH 00/62] target/arm: Implement FEAT_HAFDBS
 Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20220812103353.2631628-1-laurent@vivier.eu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220703082419.770989-1-richard.henderson@linaro.org>
+ <CAFEAcA95O5N_gOJ88zkaPx5BvTFYSSOLF=7XMFc3egCU+s1RkQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220812103353.2631628-1-laurent@vivier.eu>
+In-Reply-To: <CAFEAcA95O5N_gOJ88zkaPx5BvTFYSSOLF=7XMFc3egCU+s1RkQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,38 +94,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/22 03:33, Laurent Vivier wrote:
-> The following changes since commit a6b1c53e79d08a99a28cc3e67a3e1a7c34102d6b:
-> 
->    Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-10 10:26:57 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
-> 
-> for you to fetch changes up to dbbf89751b14aa5d281bad3af273e9ffaae82262:
-> 
->    linux-user/aarch64: Reset target data on MADV_DONTNEED (2022-08-11 11:34:17 +0200)
-> 
-> ----------------------------------------------------------------
-> Pull request linux-user 20220812
+On 8/12/22 09:31, Peter Maydell wrote:
+> Is it possible to rearrange this patchset so the easy
+> refactoring patches that do "use a struct to return
+> values from get_phys_addr and friends" are at the front
+> (ie before the stuff that touches core code) ?
+> That way they're easy to take into the tree early while
+> the rest of the series is still under review...
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Yes, I think so.
 
 
 r~
-
-
-> 
-> ----------------------------------------------------------------
-> 
-> Vitaly Buka (1):
->    linux-user/aarch64: Reset target data on MADV_DONTNEED
-> 
->   accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
->   include/exec/cpu-all.h    |  1 +
->   linux-user/mmap.c         |  3 +++
->   3 files changed, 30 insertions(+)
-> 
-
 
