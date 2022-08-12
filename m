@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0E5590F93
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:39:24 +0200 (CEST)
-Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A1B590F94
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:39:34 +0200 (CEST)
+Received: from localhost ([::1]:60100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMS4Z-0004HN-D1
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:39:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
+	id 1oMS4j-0004h5-Ha
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:39:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzS-0000B1-0e
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:06 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:37161)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzP-0007Y8-05
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:05 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMp08-1o3ofp30xI-00IlIN; Fri, 12
- Aug 2022 12:33:57 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Buka <vitalybuka@google.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 1/1] linux-user/aarch64: Reset target data on MADV_DONTNEED
-Date: Fri, 12 Aug 2022 12:33:53 +0200
-Message-Id: <20220812103353.2631628-2-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220812103353.2631628-1-laurent@vivier.eu>
-References: <20220812103353.2631628-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMS0I-0000Qw-EG
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:59 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:42532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMS0G-0007ba-Rk
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:58 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-32a17d3bba2so5851687b3.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 03:34:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=KRvRLEmnKZud9SRQRXdnMaHnOtx0ctCn3LMLrdGNl6c=;
+ b=goUlJafP3qk0WBcTyHoTCXAD2XGa2j3OeWrCvQDWH385RLEufwDU8K6vWkyaLiEQO2
+ NeCQmoGlZLbhBerzgk0sMUXhTKyVe3p+El1f2dC1B0lInqud6u2wGjD8SPmPES/sxrGB
+ H8bVZzYCvGP7eA+X6UoBmG2ZR/w3qNCu11bo5X0PTiRX5Gva00dD4E/cpLkLAGDv0lsZ
+ ryzvd7bVF2GAMA+cEr2YM8CjWOgzi1AXdnfsH1+ZgyALPpQ/YjH6esYozC35yaIxYlX6
+ DJr0r1JGkajcU3WckLJqnVE5z7B4A89NO7qMva+MfZ7kTa7VaX+QN75HH7AwkFU1Ve6y
+ ZNkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=KRvRLEmnKZud9SRQRXdnMaHnOtx0ctCn3LMLrdGNl6c=;
+ b=djqkkcFZwpuYcfiyvqGlkIu42KKdZIYS04Bd5tlj3gnajjSNy1BgFRW741v549MAY6
+ A4jN1+iv8gwgTQgjx+PPCwZpYfuro4Fon2cwRuOpITMkggFlsVQ97Oc41NoVSxwExd3V
+ VRCTjmk/FUFe+xuAa3Csi6e5Wfbq5bmzinMiotYeLVcFMjfEOS0rL6Qe8Y8Fb2O/W3t2
+ WBv4Lu03Vh2AZAfzt7aFzd+AzEBVzZ0++a+YVTXeCvZfkNFqMocywqrPK8+kI0Qm099P
+ Tykof8Xfd69WzTRqW7HoK2ZjqDgLiR05dbsCiON696kunSY4TqKEby8b9S3UijPKAc9G
+ 5hNw==
+X-Gm-Message-State: ACgBeo3zkxuGo5N5ghQM48LQ89HX+lUmRV/1AiVoFQVKPW3sUf1hf568
+ 5gO0jkXw/LwkOsc7u6i4wwfs7jDPJsQnIiEwFrHluQ==
+X-Google-Smtp-Source: AA6agR4H8Nl53bpg7vKGsAGhxIejJb3gjK4aOq8K/U7bOpITue+fjvY1cHvJWbOZ2T+I20vZSky0xsaHYxGUy09y6fc=
+X-Received: by 2002:a81:7bd6:0:b0:328:297a:f31f with SMTP id
+ w205-20020a817bd6000000b00328297af31fmr3249695ywc.469.1660300495768; Fri, 12
+ Aug 2022 03:34:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qemosotl/vQR/RgmTxG8jakQupwMvYXwYdK07y5kUVfVFvz1CMw
- 2BALWrAD6pOsGgRg+aHIN2/3lF/98pdiVJQmBWJ+GrDygeOk6aE7mXwTMxjIhX2jYSxyBRy
- pZmqRDiCvlep/SlnDnROT+Za2OBF0ZI0JWI5hkBgd/JbSkIS0odzuy8HW5CDpGRyw2pCaXl
- IFUgPrNQ5AYlemq/7jYYw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xfB96JctVG8=:wS8W+/qYivXZ6rGCUEHtVv
- oeLBeELt/uP3I4cP23TBQK7pw2GGv2/TAtvIZCYVni3zZVeI/mc2Yw32VQscD2L8jLzhr1vu5
- PVNbbbGWVjAHtzPffjLFEOrFZb0hPcRGB8RRuAFn9adMFAHVcMZs+jSOV9PIeK2t7PwlirBBE
- IXuYQDdvprG8HJdi54tFNBeDoO3nitrsN4WANSe9sNj2yHGt1Um81NQO3DrOlmTNL5jrhgI9j
- U3MzKLhmYZvAkbZCmYZqemIhjz/p7j51cjRGx0WxmTy4cBAM3pA1NQnvegsvN89+UcNKZB5dR
- FwgyFTGGxLhLLGP5ydhR0VyyH+7ggzcm+UVfEnkBOZ9say25ph4M+GKlyDBZPKIIDJrD1TKfX
- n/g7R0f5wiA/FoGiiV/NXeVqGnYZOlJoGBzJHSOkA/y6rjbF9Wdk7npSpHR0duSmOdTMkUYU2
- Av/Hl3PNn6ukPqYp93U5KpG3JNuDTwNdozXPLL8TuydoR6iddQQ+jp1qY/WUH3KcZMwRbEujT
- XWmYQKa/b3euzvFbh/cChD5tU3Q+BIFkYm9Z7u8Aql8qkyR04cQkX+2lc0eHtzDQgeZvQh2Hn
- ySz5nTQEePa1Z+tHflbB2bdb386yWsuuH2stQ/TUhQtvoZxbXMexIJXGN24UCv6+ZAqTQudKH
- D66oyMsaEhbzuo7FthvtDRsvAApxRnJhWiuUGSSxBDye15rFriZHkiNxmHU9tHYd2q0BHuOki
- 13RH5Qxp1kcqIC4sqgmshyy/sCa3p/kHceY+5w==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+References: <20220809222046.30812-1-f4bug@amsat.org>
+In-Reply-To: <20220809222046.30812-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 Aug 2022 11:34:44 +0100
+Message-ID: <CAFEAcA98Ux219kJEsD2ggec786UCxkx1V99OHzgyaz9R4GxCCg@mail.gmail.com>
+Subject: Re: [PATCH for-7.1] cutils: Add missing dyld(3) include on macOS
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,86 +87,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Buka <vitalybuka@google.com>
+On Tue, 9 Aug 2022 at 23:22, Philippe Mathieu-Daud=C3=A9 via
+<qemu-devel@nongnu.org> wrote:
+>
+> Commit 06680b15b4 moved qemu_*_exec_dir() to cutils but forgot
+> to move the macOS dyld(3) include, resulting in the following
+> error (when building with Homebrew GCC on macOS Monterey 12.4):
+>
+>   [313/1197] Compiling C object libqemuutil.a.p/util_cutils.c.o
+>   FAILED: libqemuutil.a.p/util_cutils.c.o
+>   ../../util/cutils.c:1039:13: error: implicit declaration of function '_=
+NSGetExecutablePath' [-Werror=3Dimplicit-function-declaration]
+>    1039 |         if (_NSGetExecutablePath(fpath, &len) =3D=3D 0) {
+>         |             ^~~~~~~~~~~~~~~~~~~~
+>   ../../util/cutils.c:1039:13: error: nested extern declaration of '_NSGe=
+tExecutablePath' [-Werror=3Dnested-externs]
+>
+> Fix by moving the include line to cutils.
+>
+> Fixes: 06680b15b4 ("include: move qemu_*_exec_dir() to cutils")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
 
-aarch64 stores MTE tags in target_date, and they should be reset by
-MADV_DONTNEED.
+I wonder why this doesn't show up with clang?
 
-Signed-off-by: Vitaly Buka <vitalybuka@google.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220711220028.2467290-1-vitalybuka@google.com>
-[lv: fix code style issues]
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
- include/exec/cpu-all.h    |  1 +
- linux-user/mmap.c         |  3 +++
- 3 files changed, 30 insertions(+)
+Anyway, obvious fix. I'll take it via target-arm.next for my
+pull for rc3, unless anybody has a different preference.
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index ef62a199c7db..b83161a08190 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2314,6 +2314,32 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
-     }
- }
- 
-+void page_reset_target_data(target_ulong start, target_ulong end)
-+{
-+    target_ulong addr, len;
-+
-+    /*
-+     * This function should never be called with addresses outside the
-+     * guest address space.  If this assert fires, it probably indicates
-+     * a missing call to h2g_valid.
-+     */
-+    assert(end - 1 <= GUEST_ADDR_MAX);
-+    assert(start < end);
-+    assert_memory_lock();
-+
-+    start = start & TARGET_PAGE_MASK;
-+    end = TARGET_PAGE_ALIGN(end);
-+
-+    for (addr = start, len = end - start;
-+         len != 0;
-+         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
-+        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
-+
-+        g_free(p->target_data);
-+        p->target_data = NULL;
-+    }
-+}
-+
- void *page_get_target_data(target_ulong address)
- {
-     PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index f5bda2c3caa7..491629b9ba7a 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -271,6 +271,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
- 
- int page_get_flags(target_ulong address);
- void page_set_flags(target_ulong start, target_ulong end, int flags);
-+void page_reset_target_data(target_ulong start, target_ulong end);
- int page_check_range(target_ulong start, target_ulong len, int flags);
- 
- /**
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index edceaca4a8e1..048c4135af14 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -894,6 +894,9 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
-     if (advice == MADV_DONTNEED &&
-         can_passthrough_madv_dontneed(start, end)) {
-         ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
-+        if (ret == 0) {
-+            page_reset_target_data(start, start + len);
-+        }
-     }
-     mmap_unlock();
- 
--- 
-2.37.1
-
+thanks
+-- PMM
 
