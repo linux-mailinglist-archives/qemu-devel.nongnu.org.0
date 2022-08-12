@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A1B590F94
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:39:34 +0200 (CEST)
-Received: from localhost ([::1]:60100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E24590FDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:10:18 +0200 (CEST)
+Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMS4j-0004h5-Ha
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:39:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53302)
+	id 1oMSYS-000569-LD
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:10:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMS0I-0000Qw-EG
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:59 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:42532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMS0G-0007ba-Rk
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:58 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-32a17d3bba2so5851687b3.9
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 03:34:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=KRvRLEmnKZud9SRQRXdnMaHnOtx0ctCn3LMLrdGNl6c=;
- b=goUlJafP3qk0WBcTyHoTCXAD2XGa2j3OeWrCvQDWH385RLEufwDU8K6vWkyaLiEQO2
- NeCQmoGlZLbhBerzgk0sMUXhTKyVe3p+El1f2dC1B0lInqud6u2wGjD8SPmPES/sxrGB
- H8bVZzYCvGP7eA+X6UoBmG2ZR/w3qNCu11bo5X0PTiRX5Gva00dD4E/cpLkLAGDv0lsZ
- ryzvd7bVF2GAMA+cEr2YM8CjWOgzi1AXdnfsH1+ZgyALPpQ/YjH6esYozC35yaIxYlX6
- DJr0r1JGkajcU3WckLJqnVE5z7B4A89NO7qMva+MfZ7kTa7VaX+QN75HH7AwkFU1Ve6y
- ZNkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=KRvRLEmnKZud9SRQRXdnMaHnOtx0ctCn3LMLrdGNl6c=;
- b=djqkkcFZwpuYcfiyvqGlkIu42KKdZIYS04Bd5tlj3gnajjSNy1BgFRW741v549MAY6
- A4jN1+iv8gwgTQgjx+PPCwZpYfuro4Fon2cwRuOpITMkggFlsVQ97Oc41NoVSxwExd3V
- VRCTjmk/FUFe+xuAa3Csi6e5Wfbq5bmzinMiotYeLVcFMjfEOS0rL6Qe8Y8Fb2O/W3t2
- WBv4Lu03Vh2AZAfzt7aFzd+AzEBVzZ0++a+YVTXeCvZfkNFqMocywqrPK8+kI0Qm099P
- Tykof8Xfd69WzTRqW7HoK2ZjqDgLiR05dbsCiON696kunSY4TqKEby8b9S3UijPKAc9G
- 5hNw==
-X-Gm-Message-State: ACgBeo3zkxuGo5N5ghQM48LQ89HX+lUmRV/1AiVoFQVKPW3sUf1hf568
- 5gO0jkXw/LwkOsc7u6i4wwfs7jDPJsQnIiEwFrHluQ==
-X-Google-Smtp-Source: AA6agR4H8Nl53bpg7vKGsAGhxIejJb3gjK4aOq8K/U7bOpITue+fjvY1cHvJWbOZ2T+I20vZSky0xsaHYxGUy09y6fc=
-X-Received: by 2002:a81:7bd6:0:b0:328:297a:f31f with SMTP id
- w205-20020a817bd6000000b00328297af31fmr3249695ywc.469.1660300495768; Fri, 12
- Aug 2022 03:34:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tugy@chinatelecom.cn>)
+ id 1oMSQI-0008Hy-Hq
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:01:50 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:50462
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <tugy@chinatelecom.cn>) id 1oMSQC-0003CI-RU
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:01:50 -0400
+HMM_SOURCE_IP: 172.18.0.48:33104.1040593120
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id D2D452800B6;
+ Fri, 12 Aug 2022 19:01:28 +0800 (CST)
+X-189-SAVE-TO-SEND: +tugy@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 6f113a3c3a7f46fda2f82f41d7dbbe91 for
+ armbru@redhat.com; Fri, 12 Aug 2022 19:01:32 CST
+X-Transaction-ID: 6f113a3c3a7f46fda2f82f41d7dbbe91
+X-Real-From: tugy@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <f73d60dd-fbc7-2873-4ed1-d30df19ce661@chinatelecom.cn>
+Date: Fri, 12 Aug 2022 19:01:27 +0800
 MIME-Version: 1.0
-References: <20220809222046.30812-1-f4bug@amsat.org>
-In-Reply-To: <20220809222046.30812-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 11:34:44 +0100
-Message-ID: <CAFEAcA98Ux219kJEsD2ggec786UCxkx1V99OHzgyaz9R4GxCCg@mail.gmail.com>
-Subject: Re: [PATCH for-7.1] cutils: Add missing dyld(3) include on macOS
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Akihiko Odaki <akihiko.odaki@gmail.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, tugy@chinatelecom.cn
+From: Guoyi Tu <tugy@chinatelecom.cn>
+Subject: [PATCH] osdep: Introduce qemu_get_fd() to wrap the common codes
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.222; envelope-from=tugy@chinatelecom.cn;
+ helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,35 +73,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Aug 2022 at 23:22, Philippe Mathieu-Daud=C3=A9 via
-<qemu-devel@nongnu.org> wrote:
->
-> Commit 06680b15b4 moved qemu_*_exec_dir() to cutils but forgot
-> to move the macOS dyld(3) include, resulting in the following
-> error (when building with Homebrew GCC on macOS Monterey 12.4):
->
->   [313/1197] Compiling C object libqemuutil.a.p/util_cutils.c.o
->   FAILED: libqemuutil.a.p/util_cutils.c.o
->   ../../util/cutils.c:1039:13: error: implicit declaration of function '_=
-NSGetExecutablePath' [-Werror=3Dimplicit-function-declaration]
->    1039 |         if (_NSGetExecutablePath(fpath, &len) =3D=3D 0) {
->         |             ^~~~~~~~~~~~~~~~~~~~
->   ../../util/cutils.c:1039:13: error: nested extern declaration of '_NSGe=
-tExecutablePath' [-Werror=3Dnested-externs]
->
-> Fix by moving the include line to cutils.
->
-> Fixes: 06680b15b4 ("include: move qemu_*_exec_dir() to cutils")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
+socket_get_fd() have much the same codes as monitor_fd_param(),
+so qemu_get_fd() is introduced to implement the common logic.
+now socket_get_fd() and monitor_fd_param() directly call this
+function.
 
-I wonder why this doesn't show up with clang?
+Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+---
+  include/qemu/osdep.h |  1 +
+  monitor/misc.c       | 21 +--------------------
+  util/osdep.c         | 25 +++++++++++++++++++++++++
+  util/qemu-sockets.c  | 17 +++++------------
+  4 files changed, 32 insertions(+), 32 deletions(-)
 
-Anyway, obvious fix. I'll take it via target-arm.next for my
-pull for rc3, unless anybody has a different preference.
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index b1c161c035..b920f128a7 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -491,6 +491,7 @@ int qemu_open_old(const char *name, int flags, ...);
+  int qemu_open(const char *name, int flags, Error **errp);
+  int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+  int qemu_close(int fd);
++int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp);
+  int qemu_unlink(const char *name);
+  #ifndef _WIN32
+  int qemu_dup_flags(int fd, int flags);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 3d2312ba8d..0d3372cf2b 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1395,26 +1395,7 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
 
-thanks
--- PMM
+  int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+  {
+-    int fd;
+-    Error *local_err = NULL;
+-
+-    if (!qemu_isdigit(fdname[0]) && mon) {
+-        fd = monitor_get_fd(mon, fdname, &local_err);
+-    } else {
+-        fd = qemu_parse_fd(fdname);
+-        if (fd == -1) {
+-            error_setg(&local_err, "Invalid file descriptor number '%s'",
+-                       fdname);
+-        }
+-    }
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        assert(fd == -1);
+-    } else {
+-        assert(fd != -1);
+-    }
+-
+-    return fd;
++    return qemu_get_fd(mon, fdname, errp);
+  }
+
+  /* Please update hmp-commands.hx when adding or changing commands */
+diff --git a/util/osdep.c b/util/osdep.c
+index 60fcbbaebe..c57551ca78 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -23,6 +23,7 @@
+   */
+  #include "qemu/osdep.h"
+  #include "qapi/error.h"
++#include "qemu/ctype.h"
+  #include "qemu/cutils.h"
+  #include "qemu/sockets.h"
+  #include "qemu/error-report.h"
+@@ -413,6 +414,30 @@ int qemu_close(int fd)
+      return close(fd);
+  }
+
++int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp)
++{
++    int fd;
++    Error *local_err = NULL;
++
++    if (!qemu_isdigit(fdname[0]) && mon) {
++        fd = monitor_get_fd(mon, fdname, &local_err);
++    } else {
++        fd = qemu_parse_fd(fdname);
++        if (fd == -1) {
++            error_setg(&local_err, "Invalid file descriptor number '%s'",
++                       fdname);
++        }
++    }
++    if (local_err) {
++        error_propagate(errp, local_err);
++        assert(fd == -1);
++    } else {
++        assert(fd != -1);
++    }
++
++    return fd;
++}
++
+  /*
+   * Delete a file from the filesystem, unless the filename is 
+/dev/fdset/...
+   *
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 13b5b197f9..92960ee6eb 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -1142,19 +1142,12 @@ static int socket_get_fd(const char *fdstr, 
+Error **errp)
+  {
+      Monitor *cur_mon = monitor_cur();
+      int fd;
+-    if (cur_mon) {
+-        fd = monitor_get_fd(cur_mon, fdstr, errp);
+-        if (fd < 0) {
+-            return -1;
+-        }
+-    } else {
+-        if (qemu_strtoi(fdstr, NULL, 10, &fd) < 0) {
+-            error_setg_errno(errp, errno,
+-                             "Unable to parse FD number %s",
+-                             fdstr);
+-            return -1;
+-        }
++
++    fd = qemu_get_fd(cur_mon, fdstr, errp);
++    if (fd < 0) {
++        return -1;
+      }
++
+      if (!fd_is_socket(fd)) {
+          error_setg(errp, "File descriptor '%s' is not a socket", fdstr);
+          close(fd);
+-- 
+2.25.1
+
 
