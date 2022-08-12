@@ -2,45 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35DA590D19
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 09:59:23 +0200 (CEST)
-Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122B1590D34
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 10:10:31 +0200 (CEST)
+Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMPZi-0000iY-LE
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 03:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52058)
+	id 1oMPkS-00038X-49
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 04:10:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1oMPXe-0007Nz-F1; Fri, 12 Aug 2022 03:57:14 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:44296
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1oMPXb-0008RK-QM; Fri, 12 Aug 2022 03:57:13 -0400
-Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id C9260DA046A;
- Fri, 12 Aug 2022 09:57:07 +0200 (CEST)
-Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id 2459046001C; Fri, 12 Aug 2022 09:57:07 +0200 (CEST)
-To: qemu-devel@nongnu.org,
-	Hongren Zheng <i@zenithal.me>
-Cc: libvir-list@redhat.com, "Canokeys . org" <contact@canokeys.org>,
- qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH for-7.1?] Fix some typos in documentation (most of them found
- by codespell)
-Date: Fri, 12 Aug 2022 09:56:42 +0200
-Message-Id: <20220812075642.1200578-1-sw@weilnetz.de>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMPiN-0001hF-R4
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 04:08:20 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:38742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMPiM-0001ZS-2w
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 04:08:19 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id i62so374694yba.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 01:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=hrmnSb9E6gDKLwn3HHU8d1H2Em9x1rqieGnJ7ajmTDw=;
+ b=fB2Jwgnr+jK/VtvOWXTmgqGpcgjfa620Bz8RaAWNFaY2r18586WPIQUZg8eqQAntyL
+ TWMovcEHjtzk8ATHKqVk0F3SyvgdL5bRwkBPi8d2Jok32IpzGBNtegKLDWQ4JCmjqKUi
+ 9XWbBW0UqwQZKD4z2jALPFOq7iKBUfWrw8uYa7JsWESJVhXqajgZ/h33XUIB0ER0tMPH
+ lm5eB3KtIcE07g6pEOWysPTpp8G4LBqYvcLsc2U5ufkawmr+7daiEHFW5+Oe7Qk199I1
+ EsMnh0MGl14vqZmRoi2GSPtohcKk+scYnpO05JRcUi4J4sWd6L9u5b08QmQs+5usQFag
+ oEaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=hrmnSb9E6gDKLwn3HHU8d1H2Em9x1rqieGnJ7ajmTDw=;
+ b=IMNdiPwgz+hszZJzu5/RC6vIfugWNH5Abdh7p4f2wY7rAjwf5ERGqZS4T47d0ONJ8N
+ CtfO2131xUvTE8dZ1ctTKlU97JZKk5W56+iyEZP4m1dlHlLRAj4MX57iL37NRkbSwtwo
+ Hj9qDpiu7hjsWQXKG3FUhyhyevCv8ctV867yP4zFKnHQSOfmS2ix6awMLwHE/WRSoeYf
+ Qo+62T1VNAYpXHyrpuQUdD1bLJ6noAWrCxWCHgL7ezz1yGO5TQXOfJ1eWur4QiN6G2iF
+ s+soFd67VWgZ9K/yPSwLDKfRYObKPPIAKOxUUAcn7+Jdvx/OyySujkK4GUGpOLzK4/NP
+ O5ug==
+X-Gm-Message-State: ACgBeo0aPRgUBcH0j7f8Yrm0FBbjC6ftp1TDeVVT17yWd38nv/n49LBY
+ lgcB455aHCvID4K6mvGmDXRb5vvha+s0wDZ61WOg+w==
+X-Google-Smtp-Source: AA6agR6HBFAY0NLJEWnVECe6Tzbj3r5Y5HTLx6T8+oBuEzYCyGBvtRApjE4h0g9nVRkMRfhaes7x3ueXkvchqABiOFU=
+X-Received: by 2002:a25:9a06:0:b0:676:4585:3df7 with SMTP id
+ x6-20020a259a06000000b0067645853df7mr2692984ybn.193.1660291695842; Fri, 12
+ Aug 2022 01:08:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
+ <CAFEAcA-0wkYiDgs7DOpnMuwVw=z=H_440Yyrfaa9_V-YRyoU-w@mail.gmail.com>
+ <dea1c082-54e7-de1a-0f0c-a7b8a1060a1b@freepascal.org>
+In-Reply-To: <dea1c082-54e7-de1a-0f0c-a7b8a1060a1b@freepascal.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 Aug 2022 09:07:34 +0100
+Message-ID: <CAFEAcA_Kws=ZTyd=Yp7KV_HLowbojaWNmDihgnYx0Qhvo3Ga0Q@mail.gmail.com>
+Subject: Re: [RFC] Testing 7.1.0-rc2, qemu-ppc does not give valid disassembly
+To: Pierre Muller <pierre@freepascal.org>
+Cc: qemu-devel@nongnu.org, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,136 +85,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
----
- docs/about/deprecated.rst       |  2 +-
- docs/specs/acpi_erst.rst        |  4 ++--
- docs/system/devices/canokey.rst |  8 ++++----
- docs/system/devices/cxl.rst     | 12 ++++++------
- 4 files changed, 13 insertions(+), 13 deletions(-)
+On Thu, 11 Aug 2022 at 22:26, Pierre Muller <pierre@freepascal.org> wrote:
+>    But as I use machines on which I am not admin,
+> I needed to compile capstone locally, install it inside my home dir,
+> and export PKG_CONFIG_PATH to allow the meson configuration
+> to correctly detect this local installation...
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 7ee26626d5..91b03115ee 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -297,7 +297,7 @@ by using ``-machine graphics=off``.
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- In QEMU versions 6.1, 6.2 and 7.0, the ``nvme-ns`` generates an EUI-64
--identifer that is not globally unique. If an EUI-64 identifer is required, the
-+identifier that is not globally unique. If an EUI-64 identifier is required, the
- user must set it explicitly using the ``nvme-ns`` device parameter ``eui64``.
- 
- ``-device nvme,use-intel-id=on|off`` (since 7.1)
-diff --git a/docs/specs/acpi_erst.rst b/docs/specs/acpi_erst.rst
-index a8a9d22d25..2339b60ad7 100644
---- a/docs/specs/acpi_erst.rst
-+++ b/docs/specs/acpi_erst.rst
-@@ -108,7 +108,7 @@ Slot 0 contains a backend storage header that identifies the contents
- as ERST and also facilitates efficient access to the records.
- Depending upon the size of the backend storage, additional slots will
- be designated to be a part of the slot 0 header. For example, at 8KiB,
--the slot 0 header can accomodate 1021 records. Thus a storage size
-+the slot 0 header can accommodate 1021 records. Thus a storage size
- of 8MiB (8KiB * 1024) requires an additional slot for use by the
- header. In this scenario, slot 0 and slot 1 form the backend storage
- header, and records can be stored starting at slot 2.
-@@ -196,5 +196,5 @@ References
- [2] "Unified Extensible Firmware Interface Specification",
-     version 2.1, October 2008.
- 
--[3] "Windows Hardware Error Architecture", specfically
-+[3] "Windows Hardware Error Architecture", specifically
-     "Error Record Persistence Mechanism".
-diff --git a/docs/system/devices/canokey.rst b/docs/system/devices/canokey.rst
-index c2c58ae3e7..cfa6186e48 100644
---- a/docs/system/devices/canokey.rst
-+++ b/docs/system/devices/canokey.rst
-@@ -28,9 +28,9 @@ With the same software configuration as a hardware key,
- the guest OS can use all the functionalities of a secure key as if
- there was actually an hardware key plugged in.
- 
--CanoKey QEMU provides much convenience for debuging:
-+CanoKey QEMU provides much convenience for debugging:
- 
--* libcanokey-qemu supports debuging output thus developers can
-+* libcanokey-qemu supports debugging output thus developers can
-   inspect what happens inside a secure key
- * CanoKey QEMU supports trace event thus event
- * QEMU USB stack supports pcap thus USB packet between the guest
-@@ -102,8 +102,8 @@ and find CanoKey QEMU there:
- 
- You may setup the key as guided in [6]_. The console for the key is at [7]_.
- 
--Debuging
--========
-+Debugging
-+=========
- 
- CanoKey QEMU consists of two parts, ``libcanokey-qemu.so`` and ``canokey.c``,
- the latter of which resides in QEMU. The former provides core functionality
-diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index 36031325cc..f25783a4ec 100644
---- a/docs/system/devices/cxl.rst
-+++ b/docs/system/devices/cxl.rst
-@@ -83,7 +83,7 @@ CXL Fixed Memory Windows (CFMW)
- A CFMW consists of a particular range of Host Physical Address space
- which is routed to particular CXL Host Bridges.  At time of generic
- software initialization it will have a particularly interleaving
--configuration and associated Quality of Serice Throtling Group (QTG).
-+configuration and associated Quality of Service Throttling Group (QTG).
- This information is available to system software, when making
- decisions about how to configure interleave across available CXL
- memory devices.  It is provide as CFMW Structures (CFMWS) in
-@@ -98,7 +98,7 @@ specification defined register interface called CXL Host Bridge
- Component Registers (CHBCR). The location of this CHBCR MMIO
- space is described to system software via a CXL Host Bridge
- Structure (CHBS) in the CEDT ACPI table.  The actual interfaces
--are identical to those used for other parts of the CXL heirarchy
-+are identical to those used for other parts of the CXL hierarchy
- as CXL Component Registers in PCI BARs.
- 
- Interfaces provided include:
-@@ -143,7 +143,7 @@ CXL Memory Devices - Type 3
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
- CXL type 3 devices use a PCI class code and are intended to be supported
- by a generic operating system driver. They have HDM decoders
--though in these EP devices, the decoder is reponsible not for
-+though in these EP devices, the decoder is responsible not for
- routing but for translation of the incoming host physical address (HPA)
- into a Device Physical Address (DPA).
- 
-@@ -209,7 +209,7 @@ Notes:
-     ranges of the system physical address map.  Each CFMW has
-     particular interleave setup across the CXL Host Bridges (HB)
-     CFMW0 provides uninterleaved access to HB0, CFW2 provides
--    uninterleaved acess to HB1. CFW1 provides interleaved memory access
-+    uninterleaved access to HB1. CFW1 provides interleaved memory access
-     across HB0 and HB1.
- 
- (2) **Two CXL Host Bridges**. Each of these has 2 CXL Root Ports and
-@@ -282,7 +282,7 @@ Example topology involving a switch::
-             ---------------------------------------------------
-            |    Switch 0  USP as PCI 0d:00.0                   |
-            |    USP has HDM decoder which direct traffic to    |
--           |    appropiate downstream port                     |
-+           |    appropriate downstream port                    |
-            |    Switch BUS appears as 0e                       |
-            |x__________________________________________________|
-             |                  |               |              |
-@@ -366,7 +366,7 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
- Kernel Configuration Options
- ----------------------------
- 
--In Linux 5.18 the followings options are necessary to make use of
-+In Linux 5.18 the following options are necessary to make use of
- OS management of CXL memory devices as described here.
- 
- * CONFIG_CXL_BUS
--- 
-2.30.2
+Yes, like all of QEMU's many library dependencies, if you
+aren't in a position to get them installed as system libraries
+you'll need to sort them out locally as an individual user.
+This, to the extent it's a pain, is a Linux distro problem,
+not a QEMU problem.
 
+>    However, this is not optimal, especially if I want to be able to
+> copy over the resulting binaries to other test machines,
+> on which the configuration completely fails,
+> like gcc188 for which the current clib is too old according to
+> the configure requirements.
+>>    Is it really required to have glibc 2.56?
+
+Do you mean glib or glibc ? The two are different...
+
+> On several of these test machines, the version is much older...
+> I tried to force acceptance by reducing the requirement,
+> and it did compile successfully after that.
+>
+>    Is there a solid reason to be so restrictive?
+
+We try not to arbitrarily bump the version requirements,
+so usually when we do there is a reason. More generally,
+you should check out the "supported build platforms"
+information at
+https://www.qemu.org/docs/master/about/build-platforms.html
+For Linux distros, we support the most recent major version,
+and we support the major version prior to that for 2 years
+after it's been superseded. We don't bump things like
+glib version requirements if this would break one of
+our supported build platforms.
+
+So if you're running into a version problem with the
+system version of a library, this means that you're
+trying to build on a host platform which is not in our
+supported set, probably because it is simply too old.
+You can always expect that that is going to be potentially
+awkward and that you're going to have to carry local
+workarounds or build newer versions of dependent libraries
+locally. The fix is to upgrade the machine to a newer
+version of the distro.
+
+thanks
+-- PMM
 
