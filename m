@@ -2,58 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259C0591699
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 23:08:11 +0200 (CEST)
-Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C0359168E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 23:03:33 +0200 (CEST)
+Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMbt3-00078A-QO
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 17:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47202)
+	id 1oMboa-0003r1-B6
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 17:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anton.kochkov@proton.me>)
- id 1oMYPs-00019D-OP
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:25:48 -0400
-Received: from mail-4316.protonmail.ch ([185.70.43.16]:59787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anton.kochkov@proton.me>)
- id 1oMYPp-0000AH-7v
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 13:25:48 -0400
-Date: Fri, 12 Aug 2022 17:25:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=protonmail; t=1660325134; x=1660584334;
- bh=B+8YRXUekClts287dgJ90AN/X1xAs3WhdNiUVYKRSKc=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
- b=l+TFAE1PpCgBwGxrWP20qdgpQEn6KfPgahDgTIJHZcJJM3boALs0P4tt0OQGhQIJN
- sqKB3b/3YajiAexL0R/1+yAwBChV7d7u8WWkgHQ00lqjgmcnhxYdlXaINXmVBlX4IQ
- 0aWnkL6TMVMAd2ZzyybBHVYPQPPRw3hkt8wp5qkXrjjW0UR99uwj/DvY2+RAehjoro
- FatmBrhJ33ME2HFWR6LS5SUhCZniBDJElaJ6l/vWgzFmneVDiQPUPoYw79AHBXzf6t
- 8AeLIFGLNbGkUdBgnEny9D5+1UvS3dCpqlr0lkgh+t7V3SFn06KVOEj5ZMfj6EwTSY
- daBkbLaM56VvQ==
-To: qemu-devel@nongnu.org
-From: Anton Kochkov <anton.kochkov@proton.me>
-Cc: Anton Kochkov <anton.kochkov@proton.me>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Vikram Garhwal <fnu.vikram@xilinx.com>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH] can: fix Xilinx ZynqMP CAN RX FIFO logic
-Message-ID: <20220812172420.1946484-1-anton.kochkov@proton.me>
-Feedback-ID: 53490844:user:proton
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oMbnM-0002SL-MZ
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 17:02:16 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oMbnJ-0006IT-Pj
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 17:02:16 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id bh13so1742226pgb.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 14:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=T2lIIpiIeG9rSqi8hEsOxkdPyp0d0kw7hZ32tWYRZBo=;
+ b=BsJ/aBbpOh5tpYBy0penKXHwEF6lbifVeem+7L27ZBfpXbKQ9UBh0umO1qesZWnil3
+ uTZ+NJ5i8z5Q/yUNX4tzViRGXDw8GTOcPs+EFp0vH+0W8N2JATUI8gEEibW0ioT4wXXr
+ V5SvrG70GSbb22JV92uNIxhQQ+Gfwqbi6AHsPO6rYrLv3Kj5drvcW5CNpB8EZBu6ZOU9
+ 7oLNaMRCoqjE8f7KJRBTtphHOvKbZRxOGLpTgmc45FyDdaQ3hXBSIQoPHeIr9y41lnBU
+ AAQwagk0q05o0VNaGRx+l+5M5DjG15ejwDdjSfs0Am5mjNlPKDu+HYkKtFSGuXFvD0Dw
+ SlMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=T2lIIpiIeG9rSqi8hEsOxkdPyp0d0kw7hZ32tWYRZBo=;
+ b=YBJLEdjetZ2gdtqy/r8caOqtuWfJLzDLYBjLWiptCyD/UCN9FFRjKGXdSkkUFVBEuu
+ JSiLSAoB2i24UXasrPKgZAP4XKAZB15nqnDBAVrseW2Y5abqFotLmwZ8NVfUjUZkJ8DX
+ HurTv3HqGcroxL7p/Yqj7RfLl0NW14eutWgGFaLkKxyjb5hKqX9blrbOQOiDUa6GhIr0
+ GKwV4Q0vtb2TDRkTLjShOUodhWdczMDlgZ642Svy21vrrmK2PqzE1g68a8185wyjkDX9
+ Ad1rpQ1X2ora7+gw5UgVXuVXsPWjEZQ3ZWGvy67f+TjtonY9omR+S88wRD+nK1IsHvft
+ NbtA==
+X-Gm-Message-State: ACgBeo2NSR8H51bdVlgRuFWwFnu3MTlkITI59PuJAqTL+Ge+sSHn7TGF
+ A7zhNNR+7LRAFYNwKoeNeO/hgw==
+X-Google-Smtp-Source: AA6agR4o1ojV1MEZoNqpaLEI7LkcsdjvwE4eIq0DAfD2+nwmTMWxqQyqKBT3zMfyHS+S7c6T0zYIUQ==
+X-Received: by 2002:a63:492:0:b0:41b:ee40:9b36 with SMTP id
+ 140-20020a630492000000b0041bee409b36mr4623488pge.538.1660338132023; 
+ Fri, 12 Aug 2022 14:02:12 -0700 (PDT)
+Received: from ?IPV6:2602:ae:154e:e201:a7aa:1d1d:c857:5500?
+ ([2602:ae:154e:e201:a7aa:1d1d:c857:5500])
+ by smtp.gmail.com with ESMTPSA id
+ e14-20020a17090301ce00b0016ef7235e09sm2215194plh.168.2022.08.12.14.02.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Aug 2022 14:02:09 -0700 (PDT)
+Message-ID: <2888602a-93fe-fca5-552a-b41e9dfca887@linaro.org>
+Date: Fri, 12 Aug 2022 14:02:07 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.70.43.16;
- envelope-from=anton.kochkov@proton.me; helo=mail-4316.protonmail.ch
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 0/5] target-arm queue
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20220812114527.1336370-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220812114527.1336370-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 12 Aug 2022 17:06:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,89 +89,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Anton Kochkov <anton.kochkov@proton.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Function "update_rx_fifo()" should operate on the RX FIFO
-registers, not the TX FIFO ones.
+On 8/12/22 04:45, Peter Maydell wrote:
+> This pullreq has:
+>   * two arm bug fixes which fix some "Linux fails to boot" bugs
+>   * a docs typo-fixing patch
+>   * a couple of compile failure/warning issues
+> 
+> I think they're all pretty safe and worth having in rc3.
+> 
+> thanks
+> -- PMM
+> 
+> The following changes since commit a6b1c53e79d08a99a28cc3e67a3e1a7c34102d6b:
+> 
+>    Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-10 10:26:57 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220812
+> 
+> for you to fetch changes up to 4311682ea8293f720730f260e8a7601117d79e65:
+> 
+>    cutils: Add missing dyld(3) include on macOS (2022-08-12 11:33:52 +0100)
+> 
+> ----------------------------------------------------------------
+> target-arm queue:
+>   * Don't report Statistical Profiling Extension in ID registers
+>   * virt ACPI tables: Present the GICR structure properly for GICv4
+>   * Fix some typos in documentation
+>   * tests/unit: fix a -Wformat-truncation warning
+>   * cutils: Add missing dyld(3) include on macOS
 
-Signed-off-by: Anton Kochkov <anton.kochkov@proton.me>
-Resolves: https://gitlab.com/qemu-projects/qemu/-/issues/1123
----
- hw/net/can/xlnx-zynqmp-can.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-diff --git a/hw/net/can/xlnx-zynqmp-can.c b/hw/net/can/xlnx-zynqmp-can.c
-index 82ac48cee2..e93e6c5e19 100644
---- a/hw/net/can/xlnx-zynqmp-can.c
-+++ b/hw/net/can/xlnx-zynqmp-can.c
-@@ -696,30 +696,30 @@ static void update_rx_fifo(XlnxZynqMPCANState *s, con=
-st qemu_can_frame *frame)
-                                                timestamp));
 
-             /* First 32 bit of the data. */
--            fifo32_push(&s->rx_fifo, deposit32(0, R_TXFIFO_DATA1_DB3_SHIFT=
-,
--                                               R_TXFIFO_DATA1_DB3_LENGTH,
-+            fifo32_push(&s->rx_fifo, deposit32(0, R_RXFIFO_DATA1_DB3_SHIFT=
-,
-+                                               R_RXFIFO_DATA1_DB3_LENGTH,
-                                                frame->data[0]) |
--                                     deposit32(0, R_TXFIFO_DATA1_DB2_SHIFT=
-,
--                                               R_TXFIFO_DATA1_DB2_LENGTH,
-+                                     deposit32(0, R_RXFIFO_DATA1_DB2_SHIFT=
-,
-+                                               R_RXFIFO_DATA1_DB2_LENGTH,
-                                                frame->data[1]) |
--                                     deposit32(0, R_TXFIFO_DATA1_DB1_SHIFT=
-,
--                                               R_TXFIFO_DATA1_DB1_LENGTH,
-+                                     deposit32(0, R_RXFIFO_DATA1_DB1_SHIFT=
-,
-+                                               R_RXFIFO_DATA1_DB1_LENGTH,
-                                                frame->data[2]) |
--                                     deposit32(0, R_TXFIFO_DATA1_DB0_SHIFT=
-,
--                                               R_TXFIFO_DATA1_DB0_LENGTH,
-+                                     deposit32(0, R_RXFIFO_DATA1_DB0_SHIFT=
-,
-+                                               R_RXFIFO_DATA1_DB0_LENGTH,
-                                                frame->data[3]));
-             /* Last 32 bit of the data. */
--            fifo32_push(&s->rx_fifo, deposit32(0, R_TXFIFO_DATA2_DB7_SHIFT=
-,
--                                               R_TXFIFO_DATA2_DB7_LENGTH,
-+            fifo32_push(&s->rx_fifo, deposit32(0, R_RXFIFO_DATA2_DB7_SHIFT=
-,
-+                                               R_RXFIFO_DATA2_DB7_LENGTH,
-                                                frame->data[4]) |
--                                     deposit32(0, R_TXFIFO_DATA2_DB6_SHIFT=
-,
--                                               R_TXFIFO_DATA2_DB6_LENGTH,
-+                                     deposit32(0, R_RXFIFO_DATA2_DB6_SHIFT=
-,
-+                                               R_RXFIFO_DATA2_DB6_LENGTH,
-                                                frame->data[5]) |
--                                     deposit32(0, R_TXFIFO_DATA2_DB5_SHIFT=
-,
--                                               R_TXFIFO_DATA2_DB5_LENGTH,
-+                                     deposit32(0, R_RXFIFO_DATA2_DB5_SHIFT=
-,
-+                                               R_RXFIFO_DATA2_DB5_LENGTH,
-                                                frame->data[6]) |
--                                     deposit32(0, R_TXFIFO_DATA2_DB4_SHIFT=
-,
--                                               R_TXFIFO_DATA2_DB4_LENGTH,
-+                                     deposit32(0, R_RXFIFO_DATA2_DB4_SHIFT=
-,
-+                                               R_RXFIFO_DATA2_DB4_LENGTH,
-                                                frame->data[7]));
+r~
 
-             ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, RXOK, 1);
---
-2.37.1
 
+> 
+> ----------------------------------------------------------------
+> Marc-André Lureau (1):
+>        tests/unit: fix a -Wformat-truncation warning
+> 
+> Peter Maydell (1):
+>        target/arm: Don't report Statistical Profiling Extension in ID registers
+> 
+> Philippe Mathieu-Daudé (1):
+>        cutils: Add missing dyld(3) include on macOS
+> 
+> Stefan Weil (1):
+>        Fix some typos in documentation (most of them found by codespell)
+> 
+> Zenghui Yu (1):
+>        hw/arm/virt-acpi-build: Present the GICR structure properly for GICv4
+> 
+>   docs/about/deprecated.rst               |  2 +-
+>   docs/specs/acpi_erst.rst                |  4 ++--
+>   docs/system/devices/canokey.rst         |  8 ++++----
+>   docs/system/devices/cxl.rst             | 12 ++++++------
+>   hw/arm/virt-acpi-build.c                |  4 ++--
+>   target/arm/cpu.c                        | 11 +++++++++++
+>   tests/unit/test-qobject-input-visitor.c |  3 +--
+>   util/cutils.c                           |  4 ++++
+>   util/oslib-posix.c                      |  4 ----
+>   9 files changed, 31 insertions(+), 21 deletions(-)
+> 
 
 
