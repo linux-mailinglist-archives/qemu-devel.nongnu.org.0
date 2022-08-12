@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05BE590F6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:28:51 +0200 (CEST)
-Received: from localhost ([::1]:50424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831FE590F92
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:37:36 +0200 (CEST)
+Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMRuM-0005C0-Rn
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
+	id 1oMS2p-0002AH-23
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMRr8-0002rQ-8I
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:25:31 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41708)
+ id 1oMRwc-0006jr-H7
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:31:10 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:43793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMRr5-00064b-4s
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:25:29 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id y127so798299yby.8
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 03:25:22 -0700 (PDT)
+ id 1oMRwa-0007F9-Od
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:31:10 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-328303afa6eso5772567b3.10
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 03:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=+abl8N5peQYxspD7v1R9DQ+8Uy5z0WJfU4AknXzrH0o=;
- b=UNs56c8fFphZJjs0J6uE3/7FkE82Gx6L6MOP2tDL+a6wgI4Y+WaVI6Ckw/XFbp/tl9
- BKa5F6LV+4nhNQ7R4qQ73l7ZtzqMYotLhntFzZhiSZhXnU5TjYF7V71qXjwOxWTDhCSN
- 9lqyaAWSxQTlJyLV+xWJXzacvXau7GSd/bm93IT3oaid2Tfz3LqkYbibWt+RL12Sv2Em
- e7cTT6WaeGcCElWQHm5a4WnuwzEbHqVa/zTJZ9JZnRMkzpJKvy9aOHrgJTXEo6uc3aIe
- 2X2nffbHeO2TNyUrFalzfWV8UTHZA7XPgnzo3aMuVZz82zOtCFTxvOjSVW2/hnILQZJp
- tx8g==
+ bh=/PZz8U1wt2t9LyrYY9eWAnlUGlm7HC1lkA2XWsS9g3s=;
+ b=razmEO2wGp6IpnOsJ4GgLYlvFOOVvyDghrnq4wDjSV6yqwup2EX4wnPMaKxNOkHJPj
+ tD+WK+JSNp0dldg3PHpm2U8/dwDZKS7ApQJGs0yAJyhI97pa4+Nfvc7SUPyFCrN/+q/7
+ z4myMa1PP/D0Aeyzt5yh6c7GBIdCIwn7+/ErjC7z0Jr1jExQ26SnBThJHXJs3Q/rDl8K
+ NJR3d/r+/IEP8UfSMACljr94p/HNTzQrgFmBj8KNQxi3ASBDkehvatAigu+0wO7DP2sf
+ D4V4+hS88j2+axvL5eIgBe7aaJpNwquphcbQPHUXq3lI3cDypXNBOOHVWzRShi16spfq
+ 9MWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=+abl8N5peQYxspD7v1R9DQ+8Uy5z0WJfU4AknXzrH0o=;
- b=kBku4KXJ90nswdJ6El9+IsSaq1XBNg5n3A+ieg7ZlrMdzbFR85CUPOzYIUo6KiMbVQ
- 1+AYdlBbdmh874LI70ASqol8jZ94r3NHv3wdssNz/rIv4YLPb+g0xRNC91SesEMqoyjZ
- QiYUY1X8zTf1oFbO6WrtV60K/QZGd0tMn1t11qon7ilKXmQLR+vqqXptoAxXZvrxpgcO
- AK70KBCYOoQghZKjv3HJGsvsCAqETWi0fx+NUCVGrp6/QARTszi5UF9SiEPx8rw1DklR
- VimRSd3liJks8EynrYnK/uB/Rq3xieyuBklU3uXUyTC0ax0+0887zMpTPK1SNpjmh1Py
- wzWw==
-X-Gm-Message-State: ACgBeo2slrxVPuvhuYLTKzzXjfkDz/ELDpbkDvqG7IjBKX3F6MTIoUBL
- PF8vMV1vecKovEjzP/VliXHgvw/yHTm1Xky+5TTpkw==
-X-Google-Smtp-Source: AA6agR6kqz1lGtJc2D8IEYvxvN64wKpEtroMYPJQtzWn06T5Iabp1nIVcsZy6QdFkY2cqLLRNPXZkU3yPmMh8CIATNQ=
-X-Received: by 2002:a5b:10:0:b0:684:2180:a637 with SMTP id
- a16-20020a5b0010000000b006842180a637mr403037ybp.85.1660299922057; 
- Fri, 12 Aug 2022 03:25:22 -0700 (PDT)
+ bh=/PZz8U1wt2t9LyrYY9eWAnlUGlm7HC1lkA2XWsS9g3s=;
+ b=iMwVAxYL1Tlsl1tJjqFLAL5tuNSt9N76waEtldnzNK4q3PUwX8gtRuamnVAt+FL0El
+ JOaLgc2py7tF+YfZdR/2L0iQ8iA6XZQdpIxJMFtKAbkuMkvKSYZd4yq4wHgl/rF6QJmb
+ ohAwLwPm+kUiXMiQioTlWJNY2/IJXKuNTNAGbCMRmnNWIkRu5vEjI8UcCQ8oMyX4vAnD
+ MElcs85lvzSkSYzsa1B9pSrekzrltLdLtGZJ3C1ckn4BDqpGU4KrOa+0ajUgToMJ6212
+ +02inZ/G5mrCLhZXjTHr8zYZQpdOZTJKq7AlyJL3+JjfsD17pLbHdlB9dB/AfScBMvm/
+ 2mGA==
+X-Gm-Message-State: ACgBeo2CxmwxAypeQ4UwFkLYawJYUK7FlBG/HC2UFZtFwBmGnScG+XDl
+ qxQZKjUTb3OrNDVAI+85H+Soj9Mfr6C6c8Ypxop0yQ==
+X-Google-Smtp-Source: AA6agR5LI1LaT8YXZ6hi+tLVMykpChNaQHszJzuGTk3J8VKqaFkepbr4zigFewMfDbkNUNRExQWJJ3DMLbXGcBYxl7Q=
+X-Received: by 2002:a0d:fd05:0:b0:329:3836:53ac with SMTP id
+ n5-20020a0dfd05000000b00329383653acmr3294063ywf.455.1660300267482; Fri, 12
+ Aug 2022 03:31:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220812022018.1069-1-yuzenghui@huawei.com>
-In-Reply-To: <20220812022018.1069-1-yuzenghui@huawei.com>
+References: <20220809185639.750345-1-qemu@ben.fluff.org>
+In-Reply-To: <20220809185639.750345-1-qemu@ben.fluff.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 11:25:11 +0100
-Message-ID: <CAFEAcA-43AE5C_2nv3oyxW4jySKXdmZBp=s6xKuw=1ddxprzJA@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt-acpi-build: Present the GICR structure
- properly for GICv4
-To: Zenghui Yu <yuzenghui@huawei.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, shannon.zhaosl@gmail.com, 
- wanghaibin.wang@huawei.com
+Date: Fri, 12 Aug 2022 11:30:56 +0100
+Message-ID: <CAFEAcA-yFBJOTRrVdCM+YESKxmsPHGJA58mjcREt4erRKv=3vQ@mail.gmail.com>
+Subject: Re: add qemu_fdt_setprop_strings() and use it in most places
+To: Ben Dooks <qemu@ben.fluff.org>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, 
+ qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,27 +84,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Aug 2022 at 03:20, Zenghui Yu <yuzenghui@huawei.com> wrote:
+On Tue, 9 Aug 2022 at 19:57, Ben Dooks <qemu@ben.fluff.org> wrote:
 >
-> With the introduction of the new TCG GICv4, build_madt() is badly broken
-> as we do not present any GIC Redistributor structure in MADT for GICv4
-> guests, so that they have no idea about where the Redistributor
-> register frames are. This fixes a Linux guest crash at boot time with
-> ACPI enabled and '-machine gic-version=4'.
+> Add a helper for qemu_fdt_setprop_strings() to take a set of strings
+> to put into a device-tree, which removes several open-coded methods
+> such as setting an char arr[] = {..} or setting char val[] = "str\0str2";
 >
-> While at it, let's convert the remaining hard coded gic_version into
-> enumeration VIRT_GIC_VERSION_2 for consistency.
->
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> This is for hw/arm, hw/mips and hw/riscv as well as a couple of cores. It
+> is not fully tested over all of those, I may not have caught all places
+> this is to be replaced.
 
-Oops, I missed the ACPI side of things when I added GICv4
-support :-(
+Hi; just as a minor process thing for next time you send a
+patchset: the usual convention is that the 'cover letter'
+email has a subject starting with a tag like "[PATCH v4 0/6]".
+This makes it easier to pick the cover letter out when eyeballing
+a set of subject lines, and also helps some of the automated
+tooling (eg I think this is why https://patchew.org/QEMU/ didn't
+notice this series). Usually 'git format-patch --cover-letter'
+will get this right automatically for you.
 
-Crash-on-boot seems like a bug worth fixing for rc3...
-
-
-
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
