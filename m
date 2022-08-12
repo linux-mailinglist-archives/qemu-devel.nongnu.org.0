@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E3B59158A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 20:39:00 +0200 (CEST)
-Received: from localhost ([::1]:60580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0911591591
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 20:42:30 +0200 (CEST)
+Received: from localhost ([::1]:38010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMZYg-0000wr-Ux
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 14:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54386)
+	id 1oMZc4-0005Js-NO
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 14:42:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMZ5D-0003c9-7x
+ id 1oMZ5D-0003dr-5y
  for qemu-devel@nongnu.org; Fri, 12 Aug 2022 14:08:31 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:51995)
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oMZ5A-0006Yp-Cf
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 14:08:29 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id t22so1686576pjy.1
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 11:08:28 -0700 (PDT)
+ id 1oMZ5B-0006Yy-EU
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 14:08:30 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id r69so1420431pgr.2
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 11:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=71zJ9JVsNe4pIZ3KVbgGd+9ZJfblxCtFtXmI8ZHhp6w=;
- b=mkb1J/QOk3b+Z223YUHiXzJmkTKxLzVoOSPb77oSqdMZsQ0gjOcP7jHEkAnbFYoawM
- e6DXjbAHVAA8DAJR+kyymexWXpvYQHWJTyEdTuKIfbAwvhRoxOc1rAuqhRVTg/tyX76T
- H5U1E2Ck8YRHvMQRVq420dJ7SVGW3EZfgRcHtNxFgLxcapthLmy9AMsNVMhSoUBvaD2i
- bahYREDjTVg8xnT4ScMXxjOFk1FL/qzdkOwIyEaldbxEd+ly3Xr5gxdNYrGXEDMlUQtQ
- ZdKrRww6p+axvghd6HvC1ko6HCdz6fcX1H8JYN6sF9jZH43gVcFBDokcIozqLjXfK4Xt
- PRNA==
+ bh=JZq1kh3/m/x8QsHt/1ellu9XpF1B8rCKef3DoEDaYYo=;
+ b=ZIkyQGwUgdcDOF9XIbViRwf5IFMxzpiR6+PngpzqPJxmecVD1QGFJ7DHfaHkw5+Bct
+ DnU48ywTFQU8u1jzfMUA6FKVZPQiQJEjQmAGVtATky7lVcIhPEB3gidHdzLthAMXRN+O
+ DfEi+YJG4CnNgKU/SPyQ3pY3bABydf+SYZ+HyHd28iBPEJqj5D1a/sHYPTyi5b4goM6U
+ 2XgTvav7niBSl3bE9NE5Moo2RJ+JqwaGq+Hu1rn2f/jM8rSy2NEHaEDO5qup197K5LuL
+ FJL0lE4x4Cn7+chRadh5VWhRpcChdAW0arkJLCeSNkO04QHXLcWo8n8G2T16LPd8RKV4
+ wVNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=71zJ9JVsNe4pIZ3KVbgGd+9ZJfblxCtFtXmI8ZHhp6w=;
- b=X0mGu+DJZ/nhCqxGGfn/g4d+B3kFnRmK2d5m9YNv7bFmNmjRYFU8e7PGP1FHo3QpKq
- NQ5zjNIjlimXCgg7hOegqFXmpqekJMoBboDRVUyBX+DvHyMhdKTyw18qMJ7+LWh6EoqI
- vmtbub1niIhqIV1NUFf0lLDV5wTBq+0DvF2+8YIRscxdnJBIobCg3KdvQpadUMttlDo/
- iYKNm5MLopH5Je/5ueHFiPGvmE2r/AcvNqWq8AilZeZ2O5vze8xhg0JEIHuuli7LW+Dz
- Z75/ICteTOiS1UASyWQV2KgjAjerQBCFvzTY2ITgXdOKk2QkliuwLcdGupa7xiY4CPIE
- 5qOg==
-X-Gm-Message-State: ACgBeo2nMUsr7cspWXAGj3lGXVYVaVPIVzQ9TzJqc6yRAFuiJ6EVBfhT
- H5gCqOLFSXWkQDbjPG7j8o3capraSpTKzg==
-X-Google-Smtp-Source: AA6agR7275vWVTSm38u6jwFhZ1yIEDZ4i17rdrNmDK1ZbI7R1EDQh93NsmXK9OVtNgWd4GgxwuFw+g==
-X-Received: by 2002:a17:902:6b82:b0:16d:d268:3842 with SMTP id
- p2-20020a1709026b8200b0016dd2683842mr5235852plk.16.1660327707080; 
- Fri, 12 Aug 2022 11:08:27 -0700 (PDT)
+ bh=JZq1kh3/m/x8QsHt/1ellu9XpF1B8rCKef3DoEDaYYo=;
+ b=nJJyYFo3fTUQnvu7siFDi8Q3hjztyEytkkkKJFhzbOpbu/3h70uGIgoFpl1Z5xjC/L
+ LS8mr4g1gn86m/Cubanf9Hzx9299r4ZItZKYersXfTdaUXhCOY9kRFgU208yg6t3uxJi
+ q38ubSXtVPfW72YOOlzyAQPJhWCfI0OkQbRXFHXYVi1mFURmucHv6BlnFzKZuDAZ+eig
+ l+r/5MHKMw1pk4KqDHegyLegmxWDbFoEsjzCg/W6s5rNTRmo1IT6H7ZGmTEhDcZE1QnA
+ /fBeIWe2q/BuO3V8I/nr7NLGF1R7eFjwxqR4aZQmNbTG3/IW/GyfI06L/EeiLaMNDfPr
+ yAxQ==
+X-Gm-Message-State: ACgBeo0HBIyACikMblYbxCzIA1UVQZTrkobN233KWj7e5OUIMG8lhYJ3
+ t609wxMTRgsW/J4sUfudTURprMEXd1N5eQ==
+X-Google-Smtp-Source: AA6agR6lN7oVWIet/UwpTv2fgi6uF4SEV/b+kcv0ttAgP28lHVpbxtT+q9wFGvORUH48eoE0L4mCUQ==
+X-Received: by 2002:a05:6a00:1588:b0:52f:a5bb:b992 with SMTP id
+ u8-20020a056a00158800b0052fa5bbb992mr4683251pfk.38.1660327708180; 
+ Fri, 12 Aug 2022 11:08:28 -0700 (PDT)
 Received: from stoup.. ([2602:ae:154e:e201:a7aa:1d1d:c857:5500])
  by smtp.gmail.com with ESMTPSA id
- h9-20020a056a00000900b0052dee21fecdsm1914761pfk.77.2022.08.12.11.08.26
+ h9-20020a056a00000900b0052dee21fecdsm1914761pfk.77.2022.08.12.11.08.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 11:08:26 -0700 (PDT)
+ Fri, 12 Aug 2022 11:08:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu,
 	iii@linux.ibm.com,
 	alex.bennee@linaro.org
-Subject: [PATCH for-7.2 15/21] accel/tcg: Hoist get_page_addr_code out of
- tb_gen_code
-Date: Fri, 12 Aug 2022 11:08:00 -0700
-Message-Id: <20220812180806.2128593-16-richard.henderson@linaro.org>
+Subject: [PATCH for-7.2 16/21] accel/tcg: Raise PROT_EXEC exception early
+Date: Fri, 12 Aug 2022 11:08:01 -0700
+Message-Id: <20220812180806.2128593-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220812180806.2128593-1-richard.henderson@linaro.org>
 References: <20220812180806.2128593-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,135 +90,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reuse the result that we just used with tb_lookup.
-Pass in host_pc while touching these lines, to be used shortly.
-We must widen the scope of the mmap_lock, so that the page table
-lookup that is finally used is covered by the lock.
+We currently ignore PROT_EXEC on the initial lookup, and
+defer raising the exception until cpu_ld*_code().
+It makes more sense to raise the exception early.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h      |  7 ++++---
- accel/tcg/cpu-exec.c      | 20 ++++++++++++--------
- accel/tcg/translate-all.c |  5 ++---
- 3 files changed, 18 insertions(+), 14 deletions(-)
+ accel/tcg/cpu-exec.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index 3092bfa964..920d35e8bb 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -11,9 +11,10 @@
- 
- #include "exec/exec-all.h"
- 
--TranslationBlock *tb_gen_code(CPUState *cpu, target_ulong pc,
--                              target_ulong cs_base, uint32_t flags,
--                              int cflags);
-+TranslationBlock *tb_gen_code(CPUState *cpu,
-+                              tb_page_addr_t phys_pc, void *host_pc,
-+                              target_ulong pc, target_ulong cs_base,
-+                              uint32_t flags, int cflags);
- G_NORETURN void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
- void page_init(void);
- void tb_htable_init(void);
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 889355b341..5278d1837b 100644
+index 5278d1837b..6a3ca8224f 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -485,6 +485,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     target_ulong cs_base, pc;
-     uint32_t flags, cflags;
-     tb_page_addr_t phys_pc;
-+    void *host_pc;
-     int tb_exit;
+@@ -376,7 +376,7 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
+         cpu_loop_exit(cpu);
+     }
  
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-@@ -507,17 +508,17 @@ void cpu_exec_step_atomic(CPUState *cpu)
-          * Any breakpoint for this insn will have been recognized earlier.
+-    phys_pc = get_page_addr_code(env, pc);
++    phys_pc = get_page_addr_code_hostp(env, pc, false, NULL);
+     if (phys_pc == -1) {
+         return tcg_code_gen_epilogue;
+     }
+@@ -509,7 +509,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
           */
  
--        phys_pc = get_page_addr_code(env, pc);
-+        mmap_lock();
-+        phys_pc = get_page_addr_code_hostp(env, pc, true, &host_pc);
+         mmap_lock();
+-        phys_pc = get_page_addr_code_hostp(env, pc, true, &host_pc);
++        phys_pc = get_page_addr_code_hostp(env, pc, false, &host_pc);
          if (phys_pc == -1) {
              tb = NULL;
          } else {
-             tb = tb_lookup(cpu, phys_pc, pc, cs_base, flags, cflags);
-         }
-         if (tb == NULL) {
--            mmap_lock();
--            tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
--            mmap_unlock();
-+            tb = tb_gen_code(cpu, phys_pc, host_pc, pc, cs_base, flags, cflags);
-         }
-+        mmap_unlock();
+@@ -983,7 +983,7 @@ int cpu_exec(CPUState *cpu)
  
-         cpu_exec_enter(cpu);
-         /* execute the generated code */
-@@ -958,6 +959,7 @@ int cpu_exec(CPUState *cpu)
-             target_ulong cs_base, pc;
-             uint32_t flags, cflags;
-             tb_page_addr_t phys_pc;
-+            void *host_pc;
- 
-             cpu_get_tb_cpu_state(cpu->env_ptr, &pc, &cs_base, &flags);
- 
-@@ -979,22 +981,24 @@ int cpu_exec(CPUState *cpu)
-                 break;
-             }
- 
--            phys_pc = get_page_addr_code(cpu->env_ptr, pc);
-+            mmap_lock();
-+            phys_pc = get_page_addr_code_hostp(cpu->env_ptr, pc,
-+                                               true, &host_pc);
+             mmap_lock();
+             phys_pc = get_page_addr_code_hostp(cpu->env_ptr, pc,
+-                                               true, &host_pc);
++                                               false, &host_pc);
              if (phys_pc == -1) {
                  tb = NULL;
              } else {
-                 tb = tb_lookup(cpu, phys_pc, pc, cs_base, flags, cflags);
-             }
-             if (tb == NULL) {
--                mmap_lock();
--                tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
--                mmap_unlock();
-+                tb = tb_gen_code(cpu, phys_pc, host_pc, pc,
-+                                 cs_base, flags, cflags);
-                 /*
-                  * We add the TB in the virtual pc hash table
-                  * for the fast lookup
-                  */
-                 qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
-             }
-+            mmap_unlock();
- 
- #ifndef CONFIG_USER_ONLY
-             /*
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 65a23f47d6..86e7644c1b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1326,12 +1326,13 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
- 
- /* Called with mmap_lock held for user mode emulation.  */
- TranslationBlock *tb_gen_code(CPUState *cpu,
-+                              tb_page_addr_t phys_pc, void *host_pc,
-                               target_ulong pc, target_ulong cs_base,
-                               uint32_t flags, int cflags)
- {
-     CPUArchState *env = cpu->env_ptr;
-     TranslationBlock *tb, *existing_tb;
--    tb_page_addr_t phys_pc, phys_page2;
-+    tb_page_addr_t phys_page2;
-     target_ulong virt_page2;
-     tcg_insn_unit *gen_code_buf;
-     int gen_code_size, search_size, max_insns;
-@@ -1343,8 +1344,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     assert_memory_lock();
-     qemu_thread_jit_write();
- 
--    phys_pc = get_page_addr_code(env, pc);
--
-     if (phys_pc == -1) {
-         /* Generate a one-shot TB with 1 insn in it */
-         cflags = (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
 -- 
 2.34.1
 
