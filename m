@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C038590FE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:11:52 +0200 (CEST)
-Received: from localhost ([::1]:43312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC23591010
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:32:16 +0200 (CEST)
+Received: from localhost ([::1]:48110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMSZy-00076M-J8
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
+	id 1oMStj-00041L-AK
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:32:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oMSSq-0000mr-33
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:04:29 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40673)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMSqN-0001Lw-Hp
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:28:47 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:45614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oMSSf-0003eL-Sg
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:04:19 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id w19so1423496ejc.7
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:04:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=ygCcGWTvLWfrRDKfwA3TKExTQ1B1b7l3ix6u1KRE/Js=;
- b=edBgCrKaTIK3psjWnLJBpaN7zQDNir1LRo7wPWem75K7lDzEX+BaWnHN/OxnnrVRUg
- PGjXyEBz9BwBGDC9NNjUiiDVZzcGQVEdlDLYdQen+Taw68QzpRZ/ig5MriXuvle8XG6y
- lHkK8/MM47Z06nwQVCGVCnT/xot3kBof5Hk36CAA5UrjwpyvnZhO0z3PKtvl/aRyIvpV
- GUN8qJJpzPr17arwUHNaP3hMKZFHu4aqZJY+73E1Q4XJn+Be6Nk0d74FYkvk5y3EtUiU
- B36G0zM+330YJGxFERwoGgc+rNueLv0F4GGziVBZn1y0510QJcm+IMrxA2f9d+m+Hpuc
- Qd9g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oMSqG-000055-Lo
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:28:47 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id e127so994098yba.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 04:28:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=g3wO+MInPhXOJJuApiOb69B9Nmg/XgtAZTT79PQbkC4=;
+ b=vIbPPDBp/rsiVOCtZ0rwe1nqmd8fjqqdW2BNM34TzIGS6bONbdx3ujlg1w1rGOODn0
+ zdAF32v7+sGEh03BnW9KcHwr4yQ7cCXWfqDgrhGAJrZOVgVjilqGCYAa/3OwBhJk+n5u
+ y09qiBmveUXcYcJRxndLku4fBS5BvEhp+XPwNQVaKlQFFdzvCcqvVabCkynBd8J8/Sjj
+ ViC8KqjpkOylbcWr7zhwy+/qbenS4aTbSlnu+9//wT+RfhUnJjzwyh4FvS7bbyNM53Hi
+ YahRtG8an0B0yBIHkByLQ4mZMG1+Al1VvQZ18DnXl2bvV+Ai8T6dYi/xa1rX/nSqAsW+
+ GY1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=ygCcGWTvLWfrRDKfwA3TKExTQ1B1b7l3ix6u1KRE/Js=;
- b=Olm27drl2Sf5vsaGaLYEY5RQtostP3ab9cCPojpv4dfcsijiIKUqPm3VTB9L57VzNz
- lz/g/sUEbTFJSBLI2E+c7J9oLNqyIoUu8GpXjP4YK1zhyUF8eJgsq7y1aNtHHY16sPUg
- ozcrm2UlxEBDJjr8VDibbFejecktSx4xsOyW1vKR31LbaXwPmDZSxZwmn3IGOe2qQoVQ
- MiaMNF5+0VU7HZWMUfiQL4+lc74ncX126PGDUoPWqkq0J63CMUJzn1RU1G41e7krKyjV
- TfQ22GWSMcCImkOyDdlGy41EUe7fLoEkdnBq2Qv37U9QewU7Y8Ebsu0xBr3xfMGy4MuS
- ELug==
-X-Gm-Message-State: ACgBeo0TjOkjekGqRVkssLY5jKRsfe9NmPK3wVFTPEOsapABxIE5XOT5
- 0J1f4rY2KIjPyTAMRsZ7IwnSgA==
-X-Google-Smtp-Source: AA6agR5P2wW6O0DDEb+QynlyBn6S1TQF46ARxW5RFNV+RQB7Vd9WtG4FJ8fo8rI/nWeHaoPFgvsq4A==
-X-Received: by 2002:a17:907:96a1:b0:730:e0bd:1420 with SMTP id
- hd33-20020a17090796a100b00730e0bd1420mr2340613ejc.83.1660302252878; 
- Fri, 12 Aug 2022 04:04:12 -0700 (PDT)
-Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
- by smtp.gmail.com with ESMTPSA id
- q19-20020a17090676d300b0072fa24c2ecbsm679279ejn.94.2022.08.12.04.04.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 04:04:12 -0700 (PDT)
-Date: Fri, 12 Aug 2022 13:04:11 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Furquan Shaikh <furquan@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=g3wO+MInPhXOJJuApiOb69B9Nmg/XgtAZTT79PQbkC4=;
+ b=OUB1lz9FVC2GxluEaiYr0DMoUsRp2sefLKZGlItwNZo8ABUG7m/wZKqBekl6veaeNZ
+ U6XYk565CMGxpjsP3WIkwhIeqJiNDc6ODBQrOG/0AjP2gTzrXfPMhiQvp0CXdq4pOX6n
+ XJRuSldio2r4JDtTYuySpbKUD69eBboAmoXz1jA3AYLG/h0IRXIlsLdvUqEgDNxDqBPI
+ 4ONBA5WGIqPbfdEl9R6iV4UkR3AuEA4Ro2bEVGBeZ+346x6ozOV+shPp+HczNxlZFtXN
+ 8v7C87pnDoo9sU7iWmYCAI6Rv3e1XTL+UBaBO76ItAm//WgiUywNlFPTfF4jL/uWUE8D
+ ePnA==
+X-Gm-Message-State: ACgBeo3020AWURZbjNHjTshXX5BVNuPvj+XC3l/Pzmu4ifFg+/d2ROLG
+ r+DerONONHRbcnmgW5FiRQDJvFu/rFPxZGHzYxeQaQ==
+X-Google-Smtp-Source: AA6agR6gztmtwvBGmjrpMLy97Hfq4TyWBW7QRvKHssg2CS2kA7aOAH6B9ZtubDP1SZ15jJZY5zYeX/FUXslYhhUp3mw=
+X-Received: by 2002:a25:3d0:0:b0:67c:2231:65e with SMTP id
+ 199-20020a2503d0000000b0067c2231065emr2806450ybd.67.1660303719579; 
+ Fri, 12 Aug 2022 04:28:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
+In-Reply-To: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 Aug 2022 12:28:28 +0100
+Message-ID: <CAFEAcA91NRxn5OedUx0pLp1ThO4jLjmRMRbnL3zPRXq4g68qAA@mail.gmail.com>
 Subject: Re: [PATCH] riscv: Make semihosting configurable for all privilege
  modes
-Message-ID: <20220812110411.b3yx5yojrdrux6pd@kamzik>
-References: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62b.google.com
+To: Furquan Shaikh <furquan@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,7 +85,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 11, 2022 at 01:41:04PM -0700, Furquan Shaikh wrote:
+On Thu, 11 Aug 2022 at 21:47, Furquan Shaikh <furquan@rivosinc.com> wrote:
+>
 > Unlike ARM, RISC-V does not define a separate breakpoint type for
 > semihosting. Instead, it is entirely ABI. Thus, we need an option
 > to allow users to configure what the ebreak behavior should be for
@@ -106,112 +99,27 @@ On Thu, Aug 11, 2022 at 01:41:04PM -0700, Furquan Shaikh wrote:
 > `ebreakvs` and `ebreakvu` to allow user to configure whether qemu
 > should treat ebreak as semihosting traps or trap according to the
 > privilege specification.
-> 
+>
 > [1] https://github.com/riscv/riscv-isa-manual/releases/download/draft-20220723-10eea63/riscv-privileged.pdf
 > [2] https://github.com/riscv/riscv-debug-spec/blob/release/riscv-debug-release.pdf
-> 
-> Signed-off-by: Furquan Shaikh <furquan@rivosinc.com>
-> ---
->  target/riscv/cpu.c        |  8 ++++++++
->  target/riscv/cpu.h        |  7 +++++++
->  target/riscv/cpu_helper.c | 26 +++++++++++++++++++++++++-
->  3 files changed, 40 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ac6f82ebd0..082194652b 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -953,6 +953,14 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
-> cfg.short_isa_string, false),
-> 
->      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-> +
-> +    /* Debug spec */
-> +    DEFINE_PROP_BOOL("ebreakm", RISCVCPU, cfg.ebreakm, true),
-> +    DEFINE_PROP_BOOL("ebreaks", RISCVCPU, cfg.ebreaks, false),
-> +    DEFINE_PROP_BOOL("ebreaku", RISCVCPU, cfg.ebreaku, false),
-> +    DEFINE_PROP_BOOL("ebreakvs", RISCVCPU, cfg.ebreakvs, false),
-> +    DEFINE_PROP_BOOL("ebreakvu", RISCVCPU, cfg.ebreakvu, false),
-> +
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> 
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 5c7acc055a..eee8e487a6 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -454,6 +454,13 @@ struct RISCVCPUConfig {
->      bool epmp;
->      bool aia;
->      bool debug;
-> +
-> +    /* Debug spec */
-> +    bool ebreakm;
-> +    bool ebreaks;
-> +    bool ebreaku;
-> +    bool ebreakvs;
-> +    bool ebreakvu;
 
-There's only five of these, so having each separate probably makes the
-most sense, but I wanted to point out that we could keep the properties
-independent booleans, as we should, but still consolidate the values
-into a single bitmap like we did for the sve vq bitmap for arm (see
-cpu_arm_get/set_vq). Maybe worth considering?
+As a general rule we don't allow userspace to make semihosting
+calls, as a (rather weak) attempt at fencing off unprivileged
+guest code from being able to scribble all over the host
+filesystem. We should try to be consistent across architectures
+about that, and in particular about how we enable it.
 
->      uint64_t resetvec;
-> 
->      bool short_isa_string;
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 59b3680b1b..be09abbe27 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -1314,6 +1314,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr
-> address, int size,
-> 
->      return true;
->  }
-> +
-> +static bool semihosting_enabled(RISCVCPU *cpu)
-> +{
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    switch (env->priv) {
-> +    case PRV_M:
-> +        return cpu->cfg.ebreakm;
-> +    case PRV_S:
-> +        if (riscv_cpu_virt_enabled(env)) {
-> +            return cpu->cfg.ebreakvs;
-> +        } else {
-> +            return cpu->cfg.ebreaks;
-> +        }
-> +    case PRV_U:
-> +        if (riscv_cpu_virt_enabled(env)) {
-> +            return cpu->cfg.ebreakvu;
-> +        } else {
-> +            return cpu->cfg.ebreaku;
-> +        }
-> +    }
-> +
-> +    return false;
-> +}
->  #endif /* !CONFIG_USER_ONLY */
-> 
->  /*
-> @@ -1342,7 +1366,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      target_ulong mtval2 = 0;
-> 
->      if  (cause == RISCV_EXCP_SEMIHOST) {
-> -        if (env->priv >= PRV_S) {
-> +        if (semihosting_enabled(cpu)) {
->              do_common_semihosting(cs);
->              env->pc += 4;
->              return;
-> --
-> 2.34.1
->
+I have a half-finished patchset where I was planning to add
+a --semihosting-config userspace-enable=on option or similar
+to that effect.
 
-Bitmap or no bitmap,
+It sounds like these ebreak bits are somewhat architectural,
+so maybe they make sense as a riscv specific thing, but we
+should consider how they ought to interact with the general
+behaviour of semihosting. As it stands in QEMU today, we
+(at least in theory) ought not to permit userspace to make
+semihosting ebreak calls at all I think.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+thanks
+-- PMM
 
