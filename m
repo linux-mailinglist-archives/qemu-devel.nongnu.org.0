@@ -2,151 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736F45909A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 02:49:51 +0200 (CEST)
-Received: from localhost ([::1]:52860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5FD5909B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 02:56:34 +0200 (CEST)
+Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMIs1-0007YA-VB
-	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 20:49:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51372)
+	id 1oMIyX-0001vh-UF
+	for lists+qemu-devel@lfdr.de; Thu, 11 Aug 2022 20:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dan.j.williams@intel.com>)
- id 1oMIqU-0005to-Kn; Thu, 11 Aug 2022 20:48:14 -0400
-Received: from mga17.intel.com ([192.55.52.151]:18304)
+ (Exim 4.90_1)
+ (envelope-from <prvs=216cf6cd4=wilfred.mallawa@opensource.wdc.com>)
+ id 1oMIw7-0008EC-Vc
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 20:54:04 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:52078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dan.j.williams@intel.com>)
- id 1oMIqR-00065h-OQ; Thu, 11 Aug 2022 20:48:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660265291; x=1691801291;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=m+kS30RxbU4AyFiTu8x6U4CPj+DoPMGyJFt+79WRvZU=;
- b=j2z9/CB+8a5gefH0wTk8q4kuMFvnZPcRVuWI1bEURWlcWKztUSK/6+so
- xhLhr4Qw+4sVzpmQNxRoMaKIaiIpasbZBgmpqRyoEkOUGwjjMd2k2OV8q
- js4kRXcUjw2edoxTpXoqPpit0QiSxXYzjlOLFvoxWDcIT7Q98RgoMfwrG
- YatRo6pEXHvFA1WIsYVjCWLdwRTbZ6UEpR0jXLCyeRWyYhOEUWtaMfr+B
- DEIXKqibLIZKV6h0pBn8lHk8G8BZvvWC/E8opm6BzqpEu7zVjSOlKfrMK
- k5NAfhNDBwyJS9B9+wRBJr6QgsSI0d2shc4kIk8N2jSeIZTe6UbJhn34i w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="271876817"
-X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; d="scan'208";a="271876817"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2022 17:47:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; d="scan'208";a="638724856"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga001.jf.intel.com with ESMTP; 11 Aug 2022 17:47:06 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 11 Aug 2022 17:47:05 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Thu, 11 Aug 2022 17:47:05 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.44) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Thu, 11 Aug 2022 17:47:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P4/5hTaNDVEKdTXD1IEXMtXhZNnul7rWgir0ze1L/kxZvA/+ZCAXO47BiQK8Mzwa9PfiZBOeVCaOYylo3TpIVGBI/D1l/OF/YyTkuiuKA993UC07YoSraJbcgE2xEETwpVhXnMxzIu2c3y144HJqpCVf8pbq8uHDk9fVd6YJ5QRukTzTR+hiLAjNhOgXuBVzu4UB+k1qpeP2lpWUmqAyI8xrqeIZcV03Lcz0Z5jpzXUh6QugY9Jt0SfUnDH+i57YPv4G6ZyXNgG54MnZKF/k1GYaQaZ0YqpiUd4XPN861K8nlkWnFaQzLtI/ABjvBVdLHzTS2Kq38vWpcDAVp3rE2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ocFAsLPUs8wINdQcvjvUyFBK8qmlS3VhSsHjK5TxMIY=;
- b=k5t9M+2/VjQGuNglRo51rqIWgFYJw7x0HYKxSfUxOyE6jehXL+i8ZmH2r/9+3gtAitjYSGhckq5Cw3hXH8IW70OzGc/EqNwvzIARcgUj6PL+dQq+kRYWnk2r+A4Kxww7NEdhqHx15Yim7xAqDOE72uUHsnb/uTH296RADXGOd8y4xFhNcK2MviGrppwJM337oDmfBFsikVznR1gyP/fuPFGPH8QgtVo5Adz3F8PjUzamwu84qejdV7Dr/NL9+PjzooBB3Jx+vceHuPMiLeYmP/RccES57RZHdFBP15kaOS92KZPCYQcvLw6bNq+b7Y9Q7qqE5AM4U/f4ulfWGYGShw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
- (2603:10b6:301:50::20) by IA1PR11MB6395.namprd11.prod.outlook.com
- (2603:10b6:208:3ac::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.23; Fri, 12 Aug
- 2022 00:46:58 +0000
-Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
- ([fe80::9847:345e:4c5b:ca12]) by MWHPR1101MB2126.namprd11.prod.outlook.com
- ([fe80::9847:345e:4c5b:ca12%6]) with mapi id 15.20.5504.025; Fri, 12 Aug 2022
- 00:46:58 +0000
-Date: Thu, 11 Aug 2022 17:46:55 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, Bobo WL <lmw.bobo@gmail.com>
-CC: <linux-cxl@vger.kernel.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: Re: [BUG] cxl can not create region
-Message-ID: <62f5a2ffe8be0_3ce68294a4@dwillia2-xfh.jf.intel.com.notmuch>
-References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
- <62f132aee401b_1b3c294c@dwillia2-xfh.jf.intel.com.notmuch>
- <CAGr_yG389Bm_NL8CLgo_ZkGd4staocNENbtb-ULVA5vh_ywmcw@mail.gmail.com>
- <62f27a8e9acb6_1f18b294e2@dwillia2-xfh.jf.intel.com.notmuch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <62f27a8e9acb6_1f18b294e2@dwillia2-xfh.jf.intel.com.notmuch>
-X-ClientProxiedBy: SJ0PR03CA0068.namprd03.prod.outlook.com
- (2603:10b6:a03:331::13) To MWHPR1101MB2126.namprd11.prod.outlook.com
- (2603:10b6:301:50::20)
+ (Exim 4.90_1)
+ (envelope-from <prvs=216cf6cd4=wilfred.mallawa@opensource.wdc.com>)
+ id 1oMIw6-0006t1-5s
+ for qemu-devel@nongnu.org; Thu, 11 Aug 2022 20:54:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1660265642; x=1691801642;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9bVAoEgvlRaabyMifblnKOMq5ZLIJCVOXI8jjpw86a4=;
+ b=YTLUZ+qUaG8RiR7Q8RflQtFJSJILgwrYftjGPbVbspjw5FsyjJkO9lo6
+ H0EojN4cbKiMCWzCm6KWLGrqtUtTYpGPHqhMftveAWF7Ur0uQYC6aKIJo
+ UeNZQUMC0seT7f3RV011b5YvBl/rUZzyHx2EtxFJg9UlKE240IdHzd3IW
+ jV5TB0M3oIh6n2yB9DxdiVIobdheebAgKBBBOyyVkiZT2wEjUr/oALpth
+ HLDnf6RXXqFtsFo7zZcXbpfr/C2PJl48Cbgh9z7Op/xXa8JQUXEHmjsv4
+ f2tDK7w5mgBKskiMn7lx0LcwmvwE2k+xJrts6i4Q73MCoP9Dsn9Av4+8V Q==;
+X-IronPort-AV: E=Sophos;i="5.93,231,1654531200"; d="scan'208";a="312780673"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 12 Aug 2022 08:53:53 +0800
+IronPort-SDR: LFHa+6EASWGNvwVHUq741a3QA+DzVzoHgQcfiQwIX8jZhuh6czWtIn/EUnWa+fJMCbRnwr7b+F
+ HPVBKJ8VEWk5zTEe5UodWxDMhMZmDFhWZ4UfrE8NsCUhexbiOQRrWYMEgK3E+AqSm8rZLh5fUn
+ H44+sEFVKReCviN4tmGZFl6HtCGjtgaLyMzj17ISqfNBbG1iJEiSCFvnLMtwzEeMvMKQHEBWlL
+ BswXW2xbwnhl8kBk+Dqbq+zRFJ5vlbhwfMJHTWULV6k13UiN81jbikEJgkTJhxkQ8p1ENy3zbL
+ f4ih9t9tlyZ4ZdVYNMAVKzLd
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 11 Aug 2022 17:14:46 -0700
+IronPort-SDR: r4Fmp31GyyAuOcQHNwGZsuPa2e5oameHdwOytWcgDlXOpPTzozYo0jz6lLg3+PaQ6+7+YyX3rr
+ 4RmPvmu5nte5cgS5boygljngaZkH7DR3KSCk5tT7kAtS/+qHyNAtYqyP8PUPWMi7Wi4N8/XhID
+ AKlRo59iQ0wbW4CsDYjrqhvgy8OmrsYp6I+I+hkCZ0gCkua2lIWNE3QQtNa0u45SH6ug6c2Ph8
+ EYZMhHIoUMj6KWFbU43q3RwYo5mFCpXzCHQzBXyJaoho+ndnmdSvCPg9zk00p6rY97hrLNLtHq
+ YB8=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 11 Aug 2022 17:53:53 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4M3lYD3YP6z1Rwnx
+ for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 17:53:52 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1660265631;
+ x=1662857632; bh=9bVAoEgvlRaabyMifblnKOMq5ZLIJCVOXI8jjpw86a4=; b=
+ JLINma8e5oU2Wb2M6/Nu1OrnAmZrOcHB+VjL0c9TDazgpvOGIR7nYF8FrisvyOqa
+ /zYUFSqpUz0UcqHUZOeT0gJUen1z4X33xje9In1lK3Yvu+edDHBuMSbQcnFkFJVy
+ HgV0AJ/UOGRiXC2scjSUcJsBjRaQT4pO72mbh7KHxWxqTmJj84sjwz/7YwfSOhLk
+ lhkn7/zSJ2xB3PCBQgTxFXtGGMLaqe+MJEyeF9IWTTpZ8C67TVhTCOTWPR/dnLD2
+ U8SvluWndPlBPervVeF809n+PXov1rhO4rLxUH/rdql6DO6gMch5BYJH4wSTDzb7
+ qhblJW9kuH9+wbDjQanz+Q==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id IpoYPol_rIbX for <qemu-devel@nongnu.org>;
+ Thu, 11 Aug 2022 17:53:51 -0700 (PDT)
+Received: from fedora.wdc.com (unknown [10.225.165.27])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4M3lY86GQRz1RtVk;
+ Thu, 11 Aug 2022 17:53:48 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+To: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org
+Cc: qemu-devel@nongnu.org,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH] hw/riscv: opentitan: bump opentitan version
+Date: Fri, 12 Aug 2022 10:52:30 +1000
+Message-Id: <20220812005229.358850-1-wilfred.mallawa@opensource.wdc.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d1028ffa-72d4-4fbe-d013-08da7bfc290f
-X-MS-TrafficTypeDiagnostic: IA1PR11MB6395:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LLQoIamgNjNknIRst2wPjMtm8ax0gsFmvcuK3VmsCPNrl0JY1siSeRYNsS1pqKU7DjM2/biuRTQFs/feCo0fY8wE3NyOflBuODmrtY2UDLsAAG4jSjvy+EnOIMo8HuV7N4mZHp4ZYHw4gGOioNwJIf7wptk2b907EbL+A/N2C2j37IdbjdKFfZ4UeGxWpNSSkgl8cy3TFUh/JDOr7coqckLbef53GwTiKcRLvB5Qi6Zk93HYmmNRNqpb1aGuZiBQl0ESHrI9ELLsoiKAVqdopyysvh+SnZhTj289nOgzjc3b2VvPS7VMU+8Zpd5Jnwe0SZ3Jverd40CZxkCHojH3M5Tqb4WSDngeLLCSFstJyse3y/AESkANdMbsWV1geA96VsYG2vV95YQf5un4bWqrxm+sQWwwonvk916R4iPY38Z7AOmWHOGOCb24RDCOEkuyhAvmVZ2+DaXXgwzwR/4ndTvbDBbdAlosI+NNNlKgkaxSGpUNJ4aZkmr+NbKTwEQr5HA1vjzyiaYRdHvzRhKT52ZT04C4x3G881eXyxpo+9XZeJrcnSD7rreivxK+G0HchsLRAffFT8P1eVtWzsXCsTKIIwS+WFTV7aexUygenz8fp12pJkA1CdNwJGuJhjr4N9Nbb5uC7QfKwrEa8fqjRvJWRrzpcmfUGpiFZty2Djq5Dkc8MTcJm+G8CBTF8lAZa8DpoM+v3veYY+cLv6zv1Wl4rZsFAKcPxBtkM6PLOUfgQJIZbNDETy4DuE1DHt87
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1101MB2126.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(39860400002)(346002)(376002)(366004)(136003)(41300700001)(186003)(110136005)(316002)(26005)(53546011)(478600001)(86362001)(9686003)(6666004)(6512007)(6486002)(38100700002)(6506007)(82960400001)(83380400001)(5660300002)(2906002)(8936002)(66946007)(66476007)(8676002)(66556008)(4326008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6kXa5AXQgQwa2lgCD6w4B91RWyMa2jjCmFC6phiDSLUBAEci11cTcPYHqam3?=
- =?us-ascii?Q?wdaK6MwAjnZNkWp6+kdFQM47Yezi6eHRqGDvPQkbzBYh+ncvCO3kUy5N7O/d?=
- =?us-ascii?Q?e/T477JnottDpQupn/1KLA8aHouxjlwulU7soz0pfYEnO4rnPanhnhBqli5h?=
- =?us-ascii?Q?NN6rfPJw+woluyF6UwUS3YtLdHK5PzaNvPC0tomuFlmK8w9L4ji8DB2eEgFe?=
- =?us-ascii?Q?EVods8Ca6pr3f8jxNo+E+fu4xFWH4YD6vQekk8w6zZoUmdhVgrz9sqAhKouM?=
- =?us-ascii?Q?RTsRpjX+uRTeu4ORbzn7pch8XrepoFnwhS1GFQoU0xXxU1HaRM71QWZnZHSu?=
- =?us-ascii?Q?kSK+5lr7bBq1nT1vmELbPEXSkLfki2AvgsRIPmLppg3WIA4IeCr6pl4u/Pd9?=
- =?us-ascii?Q?VF2xhXIEAo8q0GbuDrCyRGsEvxCYW2q8hrdNLNFY8RqlNZH/aygjqW5Z2P3P?=
- =?us-ascii?Q?uG/7kuUyC91q32oiKnPo0MwiH2wQ6o+nJyc1a+67vrVArfuXmmzpIbPID4A0?=
- =?us-ascii?Q?9U/3jJIfpXIpbG+K1q+K9e+BlUtYVNWdkOtx81Fc0hTKJJrjwWcnAhtWqRqA?=
- =?us-ascii?Q?xVnO0Pk4rCicSHDbGHIKk/hX9H1tk9AL6kMdmFbSG0Y+iZKSriIBW9M+tzLN?=
- =?us-ascii?Q?ehv9JWey9YKtGyTNGVtHpPhZvGW5GWJt48h2wyLrcIyya4gZAoE42LvaERTi?=
- =?us-ascii?Q?zfhFeuWIzfrg/3EbVHf8a/6xa39nACOBnO2Cwa6spXzy4xaTYexY2y6/vab7?=
- =?us-ascii?Q?5lwXSc4uxgaalMnN2r/kGBNq1SJf3V3eXRIrq4OhfRDDsVtoO6mZaNvB9sBX?=
- =?us-ascii?Q?GmPrqHOrUaJdbV3fflHSh6G/YM2tYBp2vslwyDggPVK0olmuFiQ+P8095Jcb?=
- =?us-ascii?Q?AoD6zS2nrQRNYwPrHqRdZxEx45aQwIwF16C3WDSU07/NdkpPC9quV/TQSYB3?=
- =?us-ascii?Q?p8bg+M+W6xc4WmuZctPXedURCxB/diV4RpXjlLbVwv6tTb1zIHYdWHrSBfaK?=
- =?us-ascii?Q?IgNPgSW4EC9GCYtdgdVwqmkGIdJo1T3xIdUxMa5ic2FBXEV1Admt5N95fxNs?=
- =?us-ascii?Q?4iCAfzK2WLrGDvwMcGuSXOsLuu6Mjd3pNEIxrmffg3cGTjNEstPKuiD5yJK9?=
- =?us-ascii?Q?yv+xT2DyKkOky1Mz8NkV6yOJNBTwqhjFQmQ7+0fDUltlnhY3HZMFeWG9a/j8?=
- =?us-ascii?Q?3gp8TadE0LflmIVr8llxoq9eT+uoAkjsrI75gNC0iXU50o64UqBuzk8pYkty?=
- =?us-ascii?Q?ThZF6bhZGF/dZRsjuWW5tynYeSmUJfWs/NUQkue7ITTFBdCjhtVF2PHyr1AZ?=
- =?us-ascii?Q?JDIGwdJplftT7AshCkIDKyzb1gOW506p9tflWEG2lKoNct1KULcgsHb6gtxw?=
- =?us-ascii?Q?ZQnR122bU1sNxXy/OPS8/6LTYDmepB6kay/hYxR6sz5V+LcDbbHEyVJOXuzy?=
- =?us-ascii?Q?8nxGWTuJh4n4QFhFVCRfI38KXiO0hIVb94m6tlxJRf5x9ChsQCmxFHobtabv?=
- =?us-ascii?Q?DongEDfvj0KUd0iPE/9dHfmWu5Um7KJvlTw3I5kIcUwz+4UOBJssk8WzPjqv?=
- =?us-ascii?Q?Jn+NGB2751kr9Og9kfGSY7P+cMSWwqHwX5uW3AnknMCKCe1/k/pGttVvUdU+?=
- =?us-ascii?Q?lQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1028ffa-72d4-4fbe-d013-08da7bfc290f
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2126.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2022 00:46:58.2223 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +/wnNqtK+eL2qjnHcjXQehvEBFccOcDMIpTqIcy/Yab83Itd2CdcrDNWA0cPAg5Whjsym2SGntm7uUIlLIgJ+n3+qmUnFzpmsE88/ShjFcs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6395
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=dan.j.williams@intel.com; helo=mga17.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=216cf6cd4=wilfred.mallawa@opensource.wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -162,68 +114,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dan Williams wrote:
-> Bobo WL wrote:
-> > Hi Dan,
-> > 
-> > Thanks for your reply!
-> > 
-> > On Mon, Aug 8, 2022 at 11:58 PM Dan Williams <dan.j.williams@intel.com> wrote:
-> > >
-> > > What is the output of:
-> > >
-> > >     cxl list -MDTu -d decoder0.0
-> > >
-> > > ...? It might be the case that mem1 cannot be mapped by decoder0.0, or
-> > > at least not in the specified order, or that validation check is broken.
-> > 
-> > Command "cxl list -MDTu -d decoder0.0" output:
-> 
-> Thanks for this, I think I know the problem, but will try some
-> experiments with cxl_test first.
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Hmm, so my cxl_test experiment unfortunately passed so I'm not
-reproducing the failure mode. This is the result of creating x4 region
-with devices directly attached to a single host-bridge:
+The following patch updates opentitan to match the new configuration,
+as per, lowRISC/opentitan@217a0168ba118503c166a9587819e3811eeb0c0c
 
-# cxl create-region -d decoder3.5 -w 4 -m -g 256 mem{12,10,9,11} -s $((1<<30))
-{
-  "region":"region8",
-  "resource":"0xf1f0000000",
-  "size":"1024.00 MiB (1073.74 MB)",
-  "interleave_ways":4,
-  "interleave_granularity":256,
-  "decode_state":"commit",
-  "mappings":[
-    {
-      "position":3,
-      "memdev":"mem11",
-      "decoder":"decoder21.0"
-    },
-    {
-      "position":2,
-      "memdev":"mem9",
-      "decoder":"decoder19.0"
-    },
-    {
-      "position":1,
-      "memdev":"mem10",
-      "decoder":"decoder20.0"
-    },
-    {
-      "position":0,
-      "memdev":"mem12",
-      "decoder":"decoder22.0"
-    }
-  ]
-}
-cxl region: cmd_create_region: created 1 region
+Note: with this patch we now skip the usage of the opentitan
+`boot_rom`. The Opentitan boot rom contains hw verification
+for devies which we are currently not supporting in qemu. As of now,
+the `boot_rom` has no major significance, however, would be good to
+support in the future.
 
-> Did the commit_store() crash stop reproducing with latest cxl/preview
-> branch?
+Tested by running utests from the latest tock [1]
+(that supports this version of OT).
 
-I missed the answer to this question.
+[1] https://github.com/tock/tock/pull/3056
 
-All of these changes are now in Linus' tree perhaps give that a try and
-post the debug log again?
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+ hw/riscv/opentitan.c         | 12 ++++++++----
+ include/hw/riscv/opentitan.h | 11 ++++++-----
+ 2 files changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 4495a2c039..af13dbe3b1 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -29,9 +29,9 @@
+ #include "sysemu/sysemu.h"
+=20
+ static const MemMapEntry ibex_memmap[] =3D {
+-    [IBEX_DEV_ROM] =3D            {  0x00008000, 16 * KiB },
+-    [IBEX_DEV_RAM] =3D            {  0x10000000,  0x10000 },
+-    [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x80000 },
++    [IBEX_DEV_ROM] =3D            {  0x00008000,   0x8000 },
++    [IBEX_DEV_RAM] =3D            {  0x10000000,  0x20000 },
++    [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x100000 },
+     [IBEX_DEV_UART] =3D           {  0x40000000,  0x1000  },
+     [IBEX_DEV_GPIO] =3D           {  0x40040000,  0x1000  },
+     [IBEX_DEV_SPI_DEVICE] =3D     {  0x40050000,  0x1000  },
+@@ -40,6 +40,7 @@ static const MemMapEntry ibex_memmap[] =3D {
+     [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x1000  },
+     [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40110000,  0x1000  },
+     [IBEX_DEV_OTP_CTRL] =3D       {  0x40130000,  0x4000  },
++    [IBEX_DEV_LC_CTRL] =3D        {  0x40140000,  0x1000  },
+     [IBEX_DEV_USBDEV] =3D         {  0x40150000,  0x1000  },
+     [IBEX_DEV_SPI_HOST0] =3D      {  0x40300000,  0x1000  },
+     [IBEX_DEV_SPI_HOST1] =3D      {  0x40310000,  0x1000  },
+@@ -141,7 +142,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+                             &error_abort);
+-    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error=
+_abort);
++    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x20000490,
++                            &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
+=20
+     /* Boot ROM */
+@@ -253,6 +255,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+         memmap[IBEX_DEV_SENSOR_CTRL].base, memmap[IBEX_DEV_SENSOR_CTRL].=
+size);
+     create_unimplemented_device("riscv.lowrisc.ibex.otp_ctrl",
+         memmap[IBEX_DEV_OTP_CTRL].base, memmap[IBEX_DEV_OTP_CTRL].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.lc_ctrl",
++        memmap[IBEX_DEV_LC_CTRL].base, memmap[IBEX_DEV_LC_CTRL].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.pwrmgr",
+         memmap[IBEX_DEV_PWRMGR].base, memmap[IBEX_DEV_PWRMGR].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.rstmgr",
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 68892cd8e5..26d960f288 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -74,6 +74,7 @@ enum {
+     IBEX_DEV_TIMER,
+     IBEX_DEV_SENSOR_CTRL,
+     IBEX_DEV_OTP_CTRL,
++    IBEX_DEV_LC_CTRL,
+     IBEX_DEV_PWRMGR,
+     IBEX_DEV_RSTMGR,
+     IBEX_DEV_CLKMGR,
+@@ -105,11 +106,11 @@ enum {
+     IBEX_UART0_RX_BREAK_ERR_IRQ   =3D 6,
+     IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
+     IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
+-    IBEX_TIMER_TIMEREXPIRED0_0    =3D 126,
+-    IBEX_SPI_HOST0_ERR_IRQ        =3D 150,
+-    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 151,
+-    IBEX_SPI_HOST1_ERR_IRQ        =3D 152,
+-    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 153,
++    IBEX_TIMER_TIMEREXPIRED0_0    =3D 127,
++    IBEX_SPI_HOST0_ERR_IRQ        =3D 151,
++    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 152,
++    IBEX_SPI_HOST1_ERR_IRQ        =3D 153,
++    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 154,
+ };
+=20
+ #endif
+--=20
+2.37.1
+
 
