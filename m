@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F046B59105F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:52:21 +0200 (CEST)
-Received: from localhost ([::1]:59446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A447591060
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 13:52:22 +0200 (CEST)
+Received: from localhost ([::1]:59478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMTDB-0005DG-2F
+	id 1oMTDB-0005Eg-F9
 	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 07:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tugy@chinatelecom.cn>)
- id 1oMT5r-0007wI-R0
+ id 1oMT5r-0007wJ-R6
  for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:44:47 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:38288
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:38307
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tugy@chinatelecom.cn>) id 1oMT5o-00029Q-Kj
+ (envelope-from <tugy@chinatelecom.cn>) id 1oMT5o-00029e-V5
  for qemu-devel@nongnu.org; Fri, 12 Aug 2022 07:44:47 -0400
 HMM_SOURCE_IP: 172.18.0.48:45914.1860825121
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 0982B2800AB;
- Fri, 12 Aug 2022 19:44:36 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id AAFD72800B5;
+ Fri, 12 Aug 2022 19:44:40 +0800 (CST)
 X-189-SAVE-TO-SEND: +tugy@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 5780c06b26034459af61b9476233f7a0 for
- peter.maydell@linaro.org; Fri, 12 Aug 2022 19:44:39 CST
-X-Transaction-ID: 5780c06b26034459af61b9476233f7a0
+ by app0024 with ESMTP id a814a91a80944a169063d287d92060d2 for
+ peter.maydell@linaro.org; Fri, 12 Aug 2022 19:44:43 CST
+X-Transaction-ID: a814a91a80944a169063d287d92060d2
 X-Real-From: tugy@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
@@ -37,9 +37,9 @@ To: peter.maydell@linaro.org, f4bug@amsat.org, marcandre.lureau@redhat.com,
  qemu_oss@crudebyte.com, richard.henderson@linaro.org, berrange@redhat.com,
  mst@redhat.com, kraxel@redhat.com, qemu-devel@nongnu.org,
  tugy@chinatelecom.cn
-Subject: [PATCH 1/2] osdeps: Introduce qemu_socketpair()
-Date: Fri, 12 Aug 2022 19:44:29 +0800
-Message-Id: <211833676831b86d70af12df9912aa971d46092b.1660303075.git.tugy@chinatelecom.cn>
+Subject: [PATCH 2/2] vhost-user: Call qemu_socketpair() instead of socketpair()
+Date: Fri, 12 Aug 2022 19:44:30 +0800
+Message-Id: <3e370aa5326809d63f7eef573be558da987d27f5.1660303075.git.tugy@chinatelecom.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1660303075.git.tugy@chinatelecom.cn>
 References: <cover.1660303075.git.tugy@chinatelecom.cn>
@@ -69,64 +69,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guoyi Tu <tugy@chinatelecom.cn>
 
-qemu_socketpair() will create a pair of connected sockets
-with FD_CLOEXEC set
+set close-on-exec flag on the new opened file descriptors at default
 
 Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
 ---
- include/qemu/sockets.h |  3 +++
- util/osdep.c           | 24 ++++++++++++++++++++++++
- 2 files changed, 27 insertions(+)
+ hw/display/vhost-user-gpu.c | 3 ++-
+ hw/virtio/vhost-user.c      | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 038faa157f..52cf2855df 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -14,6 +14,9 @@ int inet_aton(const char *cp, struct in_addr *ia);
- /* misc helpers */
- bool fd_is_socket(int fd);
- int qemu_socket(int domain, int type, int protocol);
-+#ifndef WIN32
-+int qemu_socketpair(int domain, int type, int protocol, int sv[2]);
-+#endif
- int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
- int socket_set_cork(int fd, int v);
- int socket_set_nodelay(int fd);
-diff --git a/util/osdep.c b/util/osdep.c
-index 60fcbbaebe..4b1ab623c7 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -481,6 +481,30 @@ int qemu_socket(int domain, int type, int protocol)
-     return ret;
- }
- 
-+#ifndef _WIN32
-+/*
-+ * Create a pair of connected sockets with FD_CLOEXEC set
-+ */
-+int qemu_socketpair(int domain, int type, int protocol, int sv[2])
-+{
-+    int ret;
-+
-+#ifdef SOCK_CLOEXEC
-+    ret = socketpair(domain, type | SOCK_CLOEXEC, protocol, sv);
-+    if (ret != -1 || errno != EINVAL) {
-+        return ret;
-+    }
-+#endif
-+    ret = socketpair(domain, type, protocol, sv);;
-+    if (ret == 0) {
-+        qemu_set_cloexec(sv[0]);
-+        qemu_set_cloexec(sv[1]);
-+    }
-+
-+    return ret;
-+}
-+#endif
-+
- /*
-  * Accept a connection and set FD_CLOEXEC
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index 3340ef9e5f..19c0e20103 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -11,6 +11,7 @@
   */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/sockets.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/virtio/virtio-gpu.h"
+ #include "chardev/char-fe.h"
+@@ -375,7 +376,7 @@ vhost_user_gpu_do_set_socket(VhostUserGPU *g, Error **errp)
+     Chardev *chr;
+     int sv[2];
+ 
+-    if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
++    if (qemu_socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
+         error_setg_errno(errp, errno, "socketpair() failed");
+         return false;
+     }
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 75b8df21a4..4d2b227028 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1726,7 +1726,7 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
+         return 0;
+     }
+ 
+-    if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
++    if (qemu_socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
+         int saved_errno = errno;
+         error_report("socketpair() failed");
+         return -saved_errno;
 -- 
 2.25.1
 
