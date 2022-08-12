@@ -2,110 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A23C5912CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 17:16:05 +0200 (CEST)
-Received: from localhost ([::1]:38136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BE05912B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 17:13:49 +0200 (CEST)
+Received: from localhost ([::1]:36226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMWOK-0008Sn-0x
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 11:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47152)
+	id 1oMWM7-00077z-BS
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 11:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oMWBq-0006Ty-Sn; Fri, 12 Aug 2022 11:03:10 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2484
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oMWCn-0007im-Dk
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 11:04:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oMWBp-0003F5-6i; Fri, 12 Aug 2022 11:03:10 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27CEkNwx008071;
- Fri, 12 Aug 2022 15:02:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=NPbmEH90aj2j56JFE8JtFm/4c+NNqp0XS7AUBV/jjd8=;
- b=YmKAmkxoAFaPHneElZSjs/Ac8U3AVxGIqFXd5Uorl5ET6zhVe/zgHnxkfzAyNFgCtSee
- 0ez5wKPnNqob8XTyXvMCmu1xUccQ/stM6EqK/bwJ9UfRFlM/6MagVOPdJlFKCDhIGEWO
- tvBZ3CI6V5p27qPqQgSc4yasR+6ULN5T7Uj/gmS0OQ3QhFdWI5PpE2qAhApR6iJ7orxf
- piAYVz4r5GCFPQad/pIT/YJ8LYKIo+man4dLvMfi9Ta6WBsHMWg2m89D54QcV3+ApWYl
- zzrwpgvsz+ABkI6/FGbmZI45UqLfGNGrRIeOs7vULKTxU14Erq7hDtUQTiL+uH65DgF6 Vw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwrwn8j1s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 15:02:47 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27CEkjCZ009379;
- Fri, 12 Aug 2022 15:02:47 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwrwn8j0h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 15:02:47 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27CEqPS4017937;
- Fri, 12 Aug 2022 15:02:45 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 3huww0tr4y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 15:02:45 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 27CF30Tt35193114
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 Aug 2022 15:03:00 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AE11B5204F;
- Fri, 12 Aug 2022 15:02:42 +0000 (GMT)
-Received: from [9.171.65.88] (unknown [9.171.65.88])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 23B495204E;
- Fri, 12 Aug 2022 15:02:42 +0000 (GMT)
-Message-ID: <7f42b244079087f3a2e53e67871dde377d8402cf.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 1/4] accel/tcg: Invalidate translations when clearing
- PAGE_EXEC
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Laurent Vivier
- <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Yanan Wang
- <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, David
- Hildenbrand <david@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, Christian Borntraeger
- <borntraeger@linux.ibm.com>
-Date: Fri, 12 Aug 2022 17:02:41 +0200
-In-Reply-To: <0070ac70-9c86-b360-e877-3d7e01d176ea@linaro.org>
-References: <20220808171022.49439-1-iii@linux.ibm.com>
- <20220808171022.49439-2-iii@linux.ibm.com>
- <6e3e5974-15eb-05e8-a005-942884732fef@linaro.org>
- <23d43d7cda9293eca9afbba91c50f613d004a407.camel@linux.ibm.com>
- <0070ac70-9c86-b360-e877-3d7e01d176ea@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oMWCi-0003O8-FX
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 11:04:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660316643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ees+rv9+1NiNUkn53Q6RzkKXl92l3LPsyuQnf/e5QV4=;
+ b=YQLYV7+HdiFSO2+5Q3hXj75ohXZMKFoSVzwZs0HUQ6lH2Z88hi2YOHGQUCdIr6WtTeBPq4
+ 5Pe3Focs59awRiNxcFE56j7Udm6fsBwqYRdONul5l3YcslRMcpkrn8e4TfXXlEiPuFRN1q
+ PBeyV6K5dHyDWBq3VrSfc7sZg5/81Zw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-381-rS7hrOI-OfyQzq-tabGb1w-1; Fri, 12 Aug 2022 11:04:01 -0400
+X-MC-Unique: rS7hrOI-OfyQzq-tabGb1w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d6-20020adfa346000000b002206e4c29caso204067wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 08:04:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=ees+rv9+1NiNUkn53Q6RzkKXl92l3LPsyuQnf/e5QV4=;
+ b=CjHc4EjRpryWb6NZuiosobHEpKrqPvPczn9Ly9fwUHf/nmJgSm7i077Ghon+LMcx62
+ 42hYpfRLo54ksr1JKFuWsDPvljorjoe+iDNgpkC5kzUs9KdjI8qy1OAw5e2YmYq67xhI
+ haqG5Xpy+GDO2cTrx5rwefpxzsyBmOTSh6l2ZACNr9CrSQEDursgR8DlmeMZK5J1YG4B
+ 196qAFkkrehXTecDxHYeUVa3bOIuL6wuZ9jWn+KAtGMSx7p3bXyPOhX4+nI4mon8gJol
+ XuA0Sl97Ee4G5ceI31Q6VdJxG/C2MKic8fn8OvQB+3i2iHzIdeyWCteGPZzuN0be56mX
+ 2H2A==
+X-Gm-Message-State: ACgBeo2gIn6MxVeTqjbfyT0Ed5m6hmRrSEgC93rMcb2vGvRzBDYYwqZD
+ ILGh6MfXMhdge0kcCobf0ygmYOoEU2FGgq8b1nZJ1XugtmxwMUcFnRD1n7ma+rrmG1eIazaNje+
+ cnIJqApUNKr3dgnE=
+X-Received: by 2002:a05:600c:1f16:b0:3a3:214c:a85e with SMTP id
+ bd22-20020a05600c1f1600b003a3214ca85emr2975725wmb.95.1660316640696; 
+ Fri, 12 Aug 2022 08:04:00 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR71PfsuVIEFRHXzlps1zlRtOJ3pqHNWQGqJZ2C98RV/OxUKuUpsLUS/dQ+llDHewR+TSGelCQ==
+X-Received: by 2002:a05:600c:1f16:b0:3a3:214c:a85e with SMTP id
+ bd22-20020a05600c1f1600b003a3214ca85emr2975694wmb.95.1660316640375; 
+ Fri, 12 Aug 2022 08:04:00 -0700 (PDT)
+Received: from redhat.com ([2.52.152.113]) by smtp.gmail.com with ESMTPSA id
+ v20-20020a1cf714000000b003a5125049c9sm12604178wmh.9.2022.08.12.08.03.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Aug 2022 08:03:59 -0700 (PDT)
+Date: Fri, 12 Aug 2022 11:03:56 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Hal Martin <hal.martin@gmail.com>
+Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v2] hw/smbios: support for type 8 (port connector)
+Message-ID: <20220812110220-mutt-send-email-mst@kernel.org>
+References: <20220812135153.17859-1-hal.martin@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dAJz9tAEJGjENpSVFjjTyA4cJmvhjmLq
-X-Proofpoint-ORIG-GUID: jTmAn1WYpp71kjEedEb8YEltW3vvuG0a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-12_09,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015
- adultscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=381
- mlxscore=0 priorityscore=1501 impostorscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2208120039
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220812135153.17859-1-hal.martin@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,25 +95,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2022-08-11 at 08:42 -0700, Richard Henderson wrote:
-> On 8/11/22 02:28, Ilya Leoshkevich wrote:
-> > How is qemu-user's get_page_addr_code() involved here?
-> > 
-> > I tried to experiment with it, and while I agree that it looks
-> > buggy,
-> > it's called only from translation code paths. If we already have a
-> > translation block, these code paths are not used.
-> 
-> It's called from tb_lookup too, when we're trying to find an existing
-> TB.
-> 
-> 
-> r~
-> 
+On Fri, Aug 12, 2022 at 03:51:53PM +0200, Hal Martin wrote:
+> PATCH v1: add support for SMBIOS type 8 to qemu
+> PATCH v2: incorporate patch v1 feedback and add smbios type=8 to qemu-options
 
-Oh, I see. I was first worried about direct block chaining with
-goto_tb, but it turned out that translator_use_goto_tb() prevented it.
+history after --- pls
 
-tb_lookup() skips get_page_addr_code() if tb is found in tb_jmp_cache.
-I assume it's a bug?
+> internal_reference: internal reference designator
+> external_reference: external reference designator
+> connector_type: hex value for port connector type (see SMBIOS 7.9.2)
+> port_type: hex value for port type (see SMBIOS 7.9.3)
+> 
+> After studying various vendor implementationsi (Dell, Lenovo, MSI),
+> the value of internal connector type was hard-coded to 0x0 (None).
+> 
+> Example usage:
+> -smbios type=8,internal_reference=JUSB1,external_reference=USB1,connector_type=0x12,port_type=0x10 \
+> -smbios type=8,internal_reference=JAUD1,external_reference="Audio Jack",connector_type=0x1f,port_type=0x1d \
+> -smbios type=8,internal_reference=LAN,external_reference=Ethernet,connector_type=0x0b,port_type=0x1f \
+> -smbios type=8,internal_reference=PS2,external_reference=Mouse,connector_type=0x0f,port_type=0x0e \
+> -smbios type=8,internal_reference=PS2,external_reference=Keyboard,connector_type=0x0f,port_type=0x0d
+> 
+> 
+> Signed-off-by: Hal Martin <hal.martin@gmail.com>
+
+We are in freeze, I tagged this for after the release.
+Just to make sure pls ping me after the release if possible.
+
+
+
+> ---
+>  hw/smbios/smbios.c           | 63 ++++++++++++++++++++++++++++++++++++
+>  include/hw/firmware/smbios.h | 10 ++++++
+>  qemu-options.hx              |  2 ++
+>  3 files changed, 75 insertions(+)
+> 
+> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+> index 60349ee402..578cae0f0a 100644
+> --- a/hw/smbios/smbios.c
+> +++ b/hw/smbios/smbios.c
+> @@ -111,6 +111,13 @@ static struct {
+>      .processor_id = 0,
+>  };
+>  
+> +struct type8_instance {
+> +    const char *internal_reference, *external_reference;
+> +    uint8_t connector_type, port_type;
+> +    QTAILQ_ENTRY(type8_instance) next;
+> +};
+> +static QTAILQ_HEAD(, type8_instance) type8 = QTAILQ_HEAD_INITIALIZER(type8);
+> +
+>  static struct {
+>      size_t nvalues;
+>      char **values;
+> @@ -337,6 +344,29 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
+>      { /* end of list */ }
+>  };
+>  
+> +static const QemuOptDesc qemu_smbios_type8_opts[] = {
+> +    {
+> +        .name = "internal_reference",
+> +        .type = QEMU_OPT_STRING,
+> +        .help = "internal reference designator",
+> +    },
+> +    {
+> +        .name = "external_reference",
+> +        .type = QEMU_OPT_STRING,
+> +        .help = "external reference designator",
+> +    },
+> +    {
+> +        .name = "connector_type",
+> +        .type = QEMU_OPT_NUMBER,
+> +        .help = "connector type",
+> +    },
+> +    {
+> +        .name = "port_type",
+> +        .type = QEMU_OPT_NUMBER,
+> +        .help = "port type",
+> +    },
+> +};
+> +
+>  static const QemuOptDesc qemu_smbios_type11_opts[] = {
+>      {
+>          .name = "value",
+> @@ -718,6 +748,26 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+>      smbios_type4_count++;
+>  }
+>  
+> +static void smbios_build_type_8_table(void)
+> +{
+> +    unsigned instance = 0;
+> +    struct type8_instance *t8;
+> +
+> +    QTAILQ_FOREACH(t8, &type8, next) {
+> +        SMBIOS_BUILD_TABLE_PRE(8, T0_BASE + instance, true);
+> +
+> +        SMBIOS_TABLE_SET_STR(8, internal_reference_str, t8->internal_reference);
+> +        SMBIOS_TABLE_SET_STR(8, external_reference_str, t8->external_reference);
+> +        /* most vendors seem to set this to None */
+> +        t->internal_connector_type = 0x0;
+> +        t->external_connector_type = t8->connector_type;
+> +        t->port_type = t8->port_type;
+> +
+> +        SMBIOS_BUILD_TABLE_POST;
+> +        instance++;
+> +    }
+> +}
+> +
+>  static void smbios_build_type_11_table(void)
+>  {
+>      char count_str[128];
+> @@ -1030,6 +1080,7 @@ void smbios_get_tables(MachineState *ms,
+>              smbios_build_type_4_table(ms, i);
+>          }
+>  
+> +        smbios_build_type_8_table();
+>          smbios_build_type_11_table();
+>  
+>  #define MAX_DIMM_SZ (16 * GiB)
+> @@ -1346,6 +1397,18 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+>                             UINT16_MAX);
+>              }
+>              return;
+> +        case 8:
+> +            if (!qemu_opts_validate(opts, qemu_smbios_type8_opts, errp)) {
+> +                return;
+> +            }
+> +            struct type8_instance *t;
+> +            t = g_new0(struct type8_instance, 1);
+> +            save_opt(&t->internal_reference, opts, "internal_reference");
+> +            save_opt(&t->external_reference, opts, "external_reference");
+> +            t->connector_type = qemu_opt_get_number(opts, "connector_type", 0);
+> +            t->port_type = qemu_opt_get_number(opts, "port_type", 0);
+> +            QTAILQ_INSERT_TAIL(&type8, t, next);
+> +            return;
+>          case 11:
+>              if (!qemu_opts_validate(opts, qemu_smbios_type11_opts, errp)) {
+>                  return;
+> diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
+> index 4b7ad77a44..e7d386f7c8 100644
+> --- a/include/hw/firmware/smbios.h
+> +++ b/include/hw/firmware/smbios.h
+> @@ -189,6 +189,16 @@ struct smbios_type_4 {
+>      uint16_t processor_family2;
+>  } QEMU_PACKED;
+>  
+> +/* SMBIOS type 8 - Port Connector Information */
+> +struct smbios_type_8 {
+> +    struct smbios_structure_header header;
+> +    uint8_t internal_reference_str;
+> +    uint8_t internal_connector_type;
+> +    uint8_t external_reference_str;
+> +    uint8_t external_connector_type;
+> +    uint8_t port_type;
+> +} QEMU_PACKED;
+> +
+>  /* SMBIOS type 11 - OEM strings */
+>  struct smbios_type_11 {
+>      struct smbios_structure_header header;
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 377d22fbd8..a27ab6afee 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2538,6 +2538,8 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+>      "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
+>      "              [,processor-id=%d]\n"
+>      "                specify SMBIOS type 4 fields\n"
+> +    "-smbios type=8[,external_reference=str][,internal_reference=str][,connector_type=%d][,port_type=%d]\n"
+> +    "                specify SMBIOS type 8 fields\n"
+>      "-smbios type=11[,value=str][,path=filename]\n"
+>      "                specify SMBIOS type 11 fields\n"
+>      "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
+> -- 
+> 2.36.1
+
 
