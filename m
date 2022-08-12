@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831FE590F92
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:37:36 +0200 (CEST)
-Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47DF590F97
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:40:09 +0200 (CEST)
+Received: from localhost ([::1]:60982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMS2p-0002AH-23
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
+	id 1oMS5I-0005JG-K9
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:40:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMRwc-0006jr-H7
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:31:10 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:43793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMRwa-0007F9-Od
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:31:10 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-328303afa6eso5772567b3.10
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 03:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=/PZz8U1wt2t9LyrYY9eWAnlUGlm7HC1lkA2XWsS9g3s=;
- b=razmEO2wGp6IpnOsJ4GgLYlvFOOVvyDghrnq4wDjSV6yqwup2EX4wnPMaKxNOkHJPj
- tD+WK+JSNp0dldg3PHpm2U8/dwDZKS7ApQJGs0yAJyhI97pa4+Nfvc7SUPyFCrN/+q/7
- z4myMa1PP/D0Aeyzt5yh6c7GBIdCIwn7+/ErjC7z0Jr1jExQ26SnBThJHXJs3Q/rDl8K
- NJR3d/r+/IEP8UfSMACljr94p/HNTzQrgFmBj8KNQxi3ASBDkehvatAigu+0wO7DP2sf
- D4V4+hS88j2+axvL5eIgBe7aaJpNwquphcbQPHUXq3lI3cDypXNBOOHVWzRShi16spfq
- 9MWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=/PZz8U1wt2t9LyrYY9eWAnlUGlm7HC1lkA2XWsS9g3s=;
- b=iMwVAxYL1Tlsl1tJjqFLAL5tuNSt9N76waEtldnzNK4q3PUwX8gtRuamnVAt+FL0El
- JOaLgc2py7tF+YfZdR/2L0iQ8iA6XZQdpIxJMFtKAbkuMkvKSYZd4yq4wHgl/rF6QJmb
- ohAwLwPm+kUiXMiQioTlWJNY2/IJXKuNTNAGbCMRmnNWIkRu5vEjI8UcCQ8oMyX4vAnD
- MElcs85lvzSkSYzsa1B9pSrekzrltLdLtGZJ3C1ckn4BDqpGU4KrOa+0ajUgToMJ6212
- +02inZ/G5mrCLhZXjTHr8zYZQpdOZTJKq7AlyJL3+JjfsD17pLbHdlB9dB/AfScBMvm/
- 2mGA==
-X-Gm-Message-State: ACgBeo2CxmwxAypeQ4UwFkLYawJYUK7FlBG/HC2UFZtFwBmGnScG+XDl
- qxQZKjUTb3OrNDVAI+85H+Soj9Mfr6C6c8Ypxop0yQ==
-X-Google-Smtp-Source: AA6agR5LI1LaT8YXZ6hi+tLVMykpChNaQHszJzuGTk3J8VKqaFkepbr4zigFewMfDbkNUNRExQWJJ3DMLbXGcBYxl7Q=
-X-Received: by 2002:a0d:fd05:0:b0:329:3836:53ac with SMTP id
- n5-20020a0dfd05000000b00329383653acmr3294063ywf.455.1660300267482; Fri, 12
- Aug 2022 03:31:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzR-0000B0-Ay
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:06 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:43219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzO-0007Xp-Ux
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:04 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MYtoe-1nrhjB11pQ-00UoWJ; Fri, 12
+ Aug 2022 12:33:57 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/1] Linux user for 7.1 patches
+Date: Fri, 12 Aug 2022 12:33:52 +0200
+Message-Id: <20220812103353.2631628-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220809185639.750345-1-qemu@ben.fluff.org>
-In-Reply-To: <20220809185639.750345-1-qemu@ben.fluff.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 11:30:56 +0100
-Message-ID: <CAFEAcA-yFBJOTRrVdCM+YESKxmsPHGJA58mjcREt4erRKv=3vQ@mail.gmail.com>
-Subject: Re: add qemu_fdt_setprop_strings() and use it in most places
-To: Ben Dooks <qemu@ben.fluff.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, 
- qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Sbt3AIVSm93hq4TV5LOmzkH3DHg06Ux9QpFYx2G2vjudRESS8on
+ o7Ffh5sCbjIUO/10G/JLP36od0a/35P1LCth8tAIDUXSZxOv2/NqWgdI0KGIT8BMl9VtLBo
+ CHdGqiLJqSnRTO93hmJ0SWWngjU6+EwPmMWObzryWqpH+DAuzmk+CJfufqMuLi5srKYmIyd
+ vnxqKLordybXsv9HaXRhQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5jY9+74ZBL4=:KekTZE0jxGZdoAGHewD85Y
+ CYzDSLbIwZ3u9KCcK2yO4Xj4OE4x74vXK9OLarT58cayeNcmiQY+DVAF7kNyZvJcv4QOXcyaH
+ BF+f4vXOMbLtF6WujEUmorodWilQYBCoX2Z7KzBbzxmmCD688kBT0po+shkLA8ZqPJELJZwoU
+ LvlKKj1m9EFdKeLa6eqyCZlbTgUQOGQ9JbJawI41tjFJb3IyIrSj95ci5JxwfxmH93j69fs/n
+ pi5EMMH82z16W+0XUlWjfJopc5la4aB25AsYsiirZL1kxJeWtpSNPFZ/GDppK6TEhNw0MMPjv
+ IUfI866JxIrgl6tToiT+0g/op/Q2mIIru/wXVRNA+ZivrVwHB39wQjgXq6tNSztTvlG2FFnKa
+ GGcQhdzMfVvGn0ExNeJEoK6g5RYKoqwZ1YcZWi+wC/RkVcBQlMq1jl04o32Cfoc0dpUbGX9ls
+ BXDn0Cmeh3arK38SCfB/AysK3G/P3KYTuMAcME3yg3j9Xi1BaATF1syoBaH2DhoosPfoa/hrb
+ NP/gqIYeUggX4n3JlNQwF7onYd0s8512tM+CQ3xTVQHQqML8ZrMTfeK/Gawsrq85bK0I+F2j0
+ UiVPHjW4KfH5C3NbXqg3NoVa4PqXoJW6lJ3FidqgQjBMjlhiku2M3F8maU5Epc6UAVlTh67Aa
+ 1xEFEcx/YycfHflwE4LibK6SgeVYpRt38ciHnjn/ZosLClskl+6/t6Le5RzDtArlzjMPWEd9N
+ sDF9FrxDrkiWIAGiUtwjIzz2dsNapJF/nXWX9Q==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,25 +69,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Aug 2022 at 19:57, Ben Dooks <qemu@ben.fluff.org> wrote:
->
-> Add a helper for qemu_fdt_setprop_strings() to take a set of strings
-> to put into a device-tree, which removes several open-coded methods
-> such as setting an char arr[] = {..} or setting char val[] = "str\0str2";
->
-> This is for hw/arm, hw/mips and hw/riscv as well as a couple of cores. It
-> is not fully tested over all of those, I may not have caught all places
-> this is to be replaced.
+The following changes since commit a6b1c53e79d08a99a28cc3e67a3e1a7c34102d6b:
 
-Hi; just as a minor process thing for next time you send a
-patchset: the usual convention is that the 'cover letter'
-email has a subject starting with a tag like "[PATCH v4 0/6]".
-This makes it easier to pick the cover letter out when eyeballing
-a set of subject lines, and also helps some of the automated
-tooling (eg I think this is why https://patchew.org/QEMU/ didn't
-notice this series). Usually 'git format-patch --cover-letter'
-will get this right automatically for you.
+  Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-10 10:26:57 -0700)
 
-thanks
--- PMM
+are available in the Git repository at:
+
+  https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
+
+for you to fetch changes up to dbbf89751b14aa5d281bad3af273e9ffaae82262:
+
+  linux-user/aarch64: Reset target data on MADV_DONTNEED (2022-08-11 11:34:17 +0200)
+
+----------------------------------------------------------------
+Pull request linux-user 20220812
+
+----------------------------------------------------------------
+
+Vitaly Buka (1):
+  linux-user/aarch64: Reset target data on MADV_DONTNEED
+
+ accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
+ include/exec/cpu-all.h    |  1 +
+ linux-user/mmap.c         |  3 +++
+ 3 files changed, 30 insertions(+)
+
+-- 
+2.37.1
+
 
