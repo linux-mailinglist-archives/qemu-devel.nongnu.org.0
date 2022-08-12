@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100CA59173F
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 00:24:51 +0200 (CEST)
-Received: from localhost ([::1]:41766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E2859177E
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 01:02:51 +0200 (CEST)
+Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMd5F-0007pT-MR
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 18:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43210)
+	id 1oMdg0-0005qT-Iw
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 19:02:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMd3j-0006F6-P0; Fri, 12 Aug 2022 18:23:15 -0400
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:38519)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1oMdeA-0003nc-Ha
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 19:00:54 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:35577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oMd3i-0004Ug-1x; Fri, 12 Aug 2022 18:23:15 -0400
-Received: by mail-vs1-xe29.google.com with SMTP id 125so2125685vsd.5;
- Fri, 12 Aug 2022 15:23:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=RNlc8BH8+QrIuqmQjuL1/j3o9IK/A4MPALog30eIG4w=;
- b=Lmz9AbAkpr8Roo5DAxalrIWwqiU876FMIal1Qfty9POKlP9EQAdfvDKHe6bAO65fIp
- 86T0eqKcdijkX4dWtRHXfQSVdJSM1valUdr0oO0a6SOKyvliP0VKudzv/Q9pSIaYxYVp
- p/bjZPJ5ceV9fcyelDf1R1xPX76+lQsQtBB+fRrTxSsZS12mg1pRutgmhSGaTe1XK7Mj
- 6Ns5xxX/HxUx8jjILvPeWVCPretNvoP4KEekXJivIpNEBsOqn162g8a4UtHspbUoGUhK
- pNU89B0aiYwyUx3ySJrRq4g6g/XkJPLcA8twy6zP63l6vxmXjte/kxdvX+nzymlNJK7K
- lO5Q==
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1oMde7-0002Lx-U3
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 19:00:54 -0400
+Received: by mail-pf1-x430.google.com with SMTP id p125so2137906pfp.2
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 16:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc;
+ bh=k6yWT/0OjMT08JWrp5IdU9/chuuVGBhkOndCfNLMzYY=;
+ b=yLsgRIRwA8ZiH4+lGdH6RRS5ILYT+orT7GeS21/wHoWZ8ZUt5l/J1W2vNdZPcHIDku
+ JLBDyE6yd6mqOn8IxccJ27Ly01t0Lm+UXmlsX5CuEuuBquJd4oYmCWN/jTi6MtilqJ4R
+ RN/S5dnc8+h+tqSxXpFhP2xXu9a0PDdcA9rLpNSGXhHy8Ti0RHNOeh4NE97+KfqhU8jP
+ p4rITjJfdGxe8kSpEmx6egLLGYzUFPizMbZKinQ6qywVWiXe3TFAUlrRrHfpRGDCTTz8
+ 5coK/0HuRmLTTLH83qM07Tv7Fmuka2tymI+KPUC5AIql4ysW3nY+ap9wrd1e3vsguMRt
+ ZwjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=RNlc8BH8+QrIuqmQjuL1/j3o9IK/A4MPALog30eIG4w=;
- b=NiPvOfLE6cICQKOpHtgYmldq+GoH2CPeD3asAtgJkpZ/qpHQQXSOiAPJWAi9eJ9kl5
- JTIEcG8MzWQPp+APPmpx5N7gTrCR7AC6mCTrezEJeZx5sYrif3p3Z8e1PJFL5XGHK4Iv
- 2Zr1nQAYKELg7GTZEMALLuMG4gS/V8rfjOdeuewH+6dvQYXFchFn2aqWXHBdjVXJEe6o
- 8BdZhpnbc0GG8CTVgX65lpCjeaFoOsfNa2c4YBkC5ySfEAIcZaB+fCK0U/J+0dOJgQ5i
- f+3MyxI8brnlGoZVOjmFYvZZDZFU+ORhj9Wsmj+w0pvwIi9SUvz4gFdsyLQ8hiuLowL2
- b+Lg==
-X-Gm-Message-State: ACgBeo04AmS/qVqczEAdefcnnH/DLtPjAuQmzhj695vQD7eLkGo6C87M
- enxesneaazNh6zlE6hrOXv4=
-X-Google-Smtp-Source: AA6agR4LY1bCpi47Z8BAP8VkmXVhcNWl93OwEkuAo66lzxAW/ogWGu0fB0+PrnVXAmL+XxV8z+se1A==
-X-Received: by 2002:a05:6102:d89:b0:379:2914:9cfa with SMTP id
- d9-20020a0561020d8900b0037929149cfamr3079840vst.18.1660342992570; 
- Fri, 12 Aug 2022 15:23:12 -0700 (PDT)
-Received: from [192.168.10.102] (201-43-216-47.dsl.telesp.net.br.
- [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- a6-20020a056102094600b003884d8319fesm2084680vsi.26.2022.08.12.15.23.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Aug 2022 15:23:12 -0700 (PDT)
-Message-ID: <1991166b-a463-4812-a6fe-eae5299fc3f1@gmail.com>
-Date: Fri, 12 Aug 2022 19:23:09 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v2 10/20] hw/ppc: set machine->fdt in spapr machine
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-11-danielhb413@gmail.com> <YvCCbNOkX4ZtaoWl@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <YvCCbNOkX4ZtaoWl@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc;
+ bh=k6yWT/0OjMT08JWrp5IdU9/chuuVGBhkOndCfNLMzYY=;
+ b=Nk4DSaNXoTrHtpVMvH/JInTnc0NiiWxL8bonucNyRYmiymUWv89GxA/MwQUF88e8YC
+ iNwDA5rH4XjsKCPo9zygS0Y5y9Q2NtcYMXis07TT+Bzy6eJILmQl+efUxvzgtIeuBMXv
+ +5PsX0UCt5YaEWLI8Tl91k3r1gXjXkgPa1cHA7Lvn0sTbEgKekYuJitSkB0XRVhv4WIj
+ ApiWgBswN60Plf2tH1tUXZKAfcRxfaL76NtwFpbvUmQHMRV6tk6235C1CfBLjlTDeE7C
+ cRRxb2PanZN4jUCIAilSzldYpLApSz/5bBiyqsGnl0OcyirxoKBnUWy60flhL03yIllO
+ DKyA==
+X-Gm-Message-State: ACgBeo3kSaXYabYdpFVGM415Wfo6EV/S0M70y7w3GUnI7p9Y5G3srscF
+ U8Wv9oQLzCeC6qUIP+i+2lVnhw==
+X-Google-Smtp-Source: AA6agR6YU7Kq1IN6evLerwH3DeoTNNMprVg4VlHypyA9pq6EZ+iEt6VZLA/JHoYU6S51Ntyif6ktZg==
+X-Received: by 2002:a05:6a00:4306:b0:52e:3bdc:2635 with SMTP id
+ cb6-20020a056a00430600b0052e3bdc2635mr5939200pfb.79.1660345249567; 
+ Fri, 12 Aug 2022 16:00:49 -0700 (PDT)
+Received: from localhost ([50.221.140.186]) by smtp.gmail.com with ESMTPSA id
+ q200-20020a632ad1000000b0041c30def5e8sm1843735pgq.33.2022.08.12.16.00.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Aug 2022 16:00:48 -0700 (PDT)
+Date: Fri, 12 Aug 2022 16:00:48 -0700 (PDT)
+X-Google-Original-Date: Fri, 12 Aug 2022 16:00:44 PDT (-0700)
+Subject: Re: [PATCH] riscv: Make semihosting configurable for all privilege
+ modes
+In-Reply-To: <CA+tJHD7L3Jxp06O1bAxsy_Z+qkUvUVNOhoXJM_PL6rxx1FsAAQ@mail.gmail.com>
+CC: ajones@ventanamicro.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: furquan@rivosinc.com
+Message-ID: <mhng-2b0bb7a1-581d-4c56-88bc-d5b548520df1@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=palmer@dabbelt.com; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,91 +89,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/8/22 00:26, David Gibson wrote:
-> On Fri, Aug 05, 2022 at 06:39:38AM -0300, Daniel Henrique Barboza wrote:
->> The pSeries machine never bothered with the common machine->fdt
->> attribute. We do all the FDT related work using spapr->fdt_blob.
+On Fri, 12 Aug 2022 15:05:08 PDT (-0700), furquan@rivosinc.com wrote:
+> On Fri, Aug 12, 2022 at 4:04 AM Andrew Jones <ajones@ventanamicro.com> wrote:
 >>
->> We're going to introduce HMP commands to read and save the FDT, which
->> will rely on setting machine->fdt properly to work across all machine
->> archs/types.
+>> On Thu, Aug 11, 2022 at 01:41:04PM -0700, Furquan Shaikh wrote:
+>> > Unlike ARM, RISC-V does not define a separate breakpoint type for
+>> > semihosting. Instead, it is entirely ABI. Thus, we need an option
+>> > to allow users to configure what the ebreak behavior should be for
+>> > different privilege levels - M, S, U, VS, VU. As per the RISC-V
+>> > privilege specification[1], ebreak traps into the execution
+>> > environment. However, RISC-V debug specification[2] provides
+>> > ebreak{m,s,u,vs,vu} configuration bits to allow ebreak behavior to
+>> > be configured to trap into debug mode instead. This change adds
+>> > settable properties for RISC-V CPUs - `ebreakm`, `ebreaks`, `ebreaku`,
+>> > `ebreakvs` and `ebreakvu` to allow user to configure whether qemu
+>> > should treat ebreak as semihosting traps or trap according to the
+>> > privilege specification.
+>> >
+>> > [1] https://github.com/riscv/riscv-isa-manual/releases/download/draft-20220723-10eea63/riscv-privileged.pdf
+>> > [2] https://github.com/riscv/riscv-debug-spec/blob/release/riscv-debug-release.pdf
+>> >
+>> > Signed-off-by: Furquan Shaikh <furquan@rivosinc.com>
+>> > ---
+>> >  target/riscv/cpu.c        |  8 ++++++++
+>> >  target/riscv/cpu.h        |  7 +++++++
+>> >  target/riscv/cpu_helper.c | 26 +++++++++++++++++++++++++-
+>> >  3 files changed, 40 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> > index ac6f82ebd0..082194652b 100644
+>> > --- a/target/riscv/cpu.c
+>> > +++ b/target/riscv/cpu.c
+>> > @@ -953,6 +953,14 @@ static Property riscv_cpu_properties[] = {
+>> >      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
+>> > cfg.short_isa_string, false),
+>> >
+>> >      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+>> > +
+>> > +    /* Debug spec */
+>> > +    DEFINE_PROP_BOOL("ebreakm", RISCVCPU, cfg.ebreakm, true),
+>> > +    DEFINE_PROP_BOOL("ebreaks", RISCVCPU, cfg.ebreaks, false),
+>> > +    DEFINE_PROP_BOOL("ebreaku", RISCVCPU, cfg.ebreaku, false),
+>> > +    DEFINE_PROP_BOOL("ebreakvs", RISCVCPU, cfg.ebreakvs, false),
+>> > +    DEFINE_PROP_BOOL("ebreakvu", RISCVCPU, cfg.ebreakvu, false),
+>> > +
+>> >      DEFINE_PROP_END_OF_LIST(),
+>> >  };
+>> >
+>> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> > index 5c7acc055a..eee8e487a6 100644
+>> > --- a/target/riscv/cpu.h
+>> > +++ b/target/riscv/cpu.h
+>> > @@ -454,6 +454,13 @@ struct RISCVCPUConfig {
+>> >      bool epmp;
+>> >      bool aia;
+>> >      bool debug;
+>> > +
+>> > +    /* Debug spec */
+>> > +    bool ebreakm;
+>> > +    bool ebreaks;
+>> > +    bool ebreaku;
+>> > +    bool ebreakvs;
+>> > +    bool ebreakvu;
 >>
->> Let's set machine->fdt in the two places where we manipulate the FDT:
->> spapr_machine_reset() and CAS. spapr->fdt_blob is left untouched: what
->> we want is a way to access the FDT from HMP, not replace
->> spapr->fdt_blob.
-> 
-> Given there is now an fdt field in the generic MACHINE structure, we
-> should be able to remove the one in spapr->fdt_blob, yes?
-
-I thought about it but I backed down when I realized that spapr->fdt_blob is
-being migrated.
-
-At first glance it would be a matter of migrating ms->fdt and then removing
-spapr->fdt_blob, but then I got confused about how a migration to an older
-version would occur (e.g. QEMU 7.2 with ms->fdt to a QEMU 7.0 with
-spapr->fdt_blob).
-
-Migration to a newer QEMU would require us to move the spapr->version_id to 4
-and then handle the old version accordingly in spapr_post_load().
-
-Probably something to think about after this work is accepted.
-
-
-Thanks,
-
-
-Daniel
-
-
-
-> 
+>> There's only five of these, so having each separate probably makes the
+>> most sense, but I wanted to point out that we could keep the properties
+>> independent booleans, as we should, but still consolidate the values
+>> into a single bitmap like we did for the sve vq bitmap for arm (see
+>> cpu_arm_get/set_vq). Maybe worth considering?
+>
+> Thanks for the review and feedback, Andrew! I gave your suggestion a
+> try and updated the independent booleans to a single bitmap. It works,
+> but I am not sure if we really need all that additional code for this.
+> Like you mentioned, it is just five of these and having independent
+> booleans isn't too bad. If you or others feel strongly about switching
+> this to a bitmap, I can push a revised patchset. Else, I will keep the
+> change as is.
+>
 >>
->> Cc: Cédric Le Goater <clg@kaod.org>
->> Cc: qemu-ppc@nongnu.org
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr.c       | 6 ++++++
->>   hw/ppc/spapr_hcall.c | 8 ++++++++
->>   2 files changed, 14 insertions(+)
+>> >      uint64_t resetvec;
+>> >
+>> >      bool short_isa_string;
+>> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> > index 59b3680b1b..be09abbe27 100644
+>> > --- a/target/riscv/cpu_helper.c
+>> > +++ b/target/riscv/cpu_helper.c
+>> > @@ -1314,6 +1314,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr
+>> > address, int size,
+>> >
+>> >      return true;
+>> >  }
+>> > +
+>> > +static bool semihosting_enabled(RISCVCPU *cpu)
+>> > +{
+>> > +    CPURISCVState *env = &cpu->env;
+>> > +
+>> > +    switch (env->priv) {
+>> > +    case PRV_M:
+>> > +        return cpu->cfg.ebreakm;
+>> > +    case PRV_S:
+>> > +        if (riscv_cpu_virt_enabled(env)) {
+>> > +            return cpu->cfg.ebreakvs;
+>> > +        } else {
+>> > +            return cpu->cfg.ebreaks;
+>> > +        }
+>> > +    case PRV_U:
+>> > +        if (riscv_cpu_virt_enabled(env)) {
+>> > +            return cpu->cfg.ebreakvu;
+>> > +        } else {
+>> > +            return cpu->cfg.ebreaku;
+>> > +        }
+>> > +    }
+>> > +
+>> > +    return false;
+>> > +}
+>> >  #endif /* !CONFIG_USER_ONLY */
+>> >
+>> >  /*
+>> > @@ -1342,7 +1366,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>> >      target_ulong mtval2 = 0;
+>> >
+>> >      if  (cause == RISCV_EXCP_SEMIHOST) {
+>> > -        if (env->priv >= PRV_S) {
+>> > +        if (semihosting_enabled(cpu)) {
+>> >              do_common_semihosting(cs);
+>> >              env->pc += 4;
+>> >              return;
+>> > --
+>> > 2.34.1
+>> >
 >>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index bc9ba6e6dc..94c90f0351 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -1713,6 +1713,12 @@ static void spapr_machine_reset(MachineState *machine)
->>       spapr->fdt_initial_size = spapr->fdt_size;
->>       spapr->fdt_blob = fdt;
->>   
->> +    /*
->> +     * Set the common machine->fdt pointer to enable support
->> +     * for 'dumpdtb' and 'info fdt' commands.
->> +     */
->> +    machine->fdt = fdt;
->> +
->>       /* Set up the entry state */
->>       first_ppc_cpu->env.gpr[5] = 0;
->>   
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index a8d4a6bcf0..0079bc6fdc 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1256,6 +1256,14 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
->>       spapr->fdt_initial_size = spapr->fdt_size;
->>       spapr->fdt_blob = fdt;
->>   
->> +    /*
->> +     * Set the machine->fdt pointer again since we just freed
->> +     * it above (by freeing spapr->fdt_blob). We set this
->> +     * pointer to enable support for 'dumpdtb' and 'info fdt'
->> +     * HMP commands.
->> +     */
->> +    MACHINE(spapr)->fdt = fdt;
->> +
->>       return H_SUCCESS;
->>   }
->>   
-> 
+>> Bitmap or no bitmap,
+>>
+>> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+
+Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+
+Also no strong feelings on the bitmap, but I do like the feature.  When 
+using an external JTAG debugger to talk to a this would probably be 
+configured via something like GDB's monitor commands.  We could probably 
+hook this up to QEMU's monitor as well, but doing it this way seems 
+easier to implement and use.
+
+We should document it, though.  Maybe just something like this?
+
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 3f23a42fa8..f9444a1e4b 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4635,7 +4635,9 @@ SRST
+     open/read/write/seek/select. Tensilica baremetal libc for ISS and
+     linux platform "sim" use this interface.
+
+-    On RISC-V this implements the standard semihosting API, version 0.2.
++    On RISC-V this implements the standard semihosting API, version 0.2.  See
++    the ebreak{m,s,u,vs,vu} CPU properties to control which modes treat
++    breakpoints as semihosting calls.
+
+     ``target=native|gdb|auto``
+         Defines where the semihosting calls will be addressed, to QEMU
 
