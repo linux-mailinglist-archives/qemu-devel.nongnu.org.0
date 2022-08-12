@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47DF590F97
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:40:09 +0200 (CEST)
-Received: from localhost ([::1]:60982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0E5590F93
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 12:39:24 +0200 (CEST)
+Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMS5I-0005JG-K9
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
+	id 1oMS4Z-0004HN-D1
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 06:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzR-0000B0-Ay
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzS-0000B1-0e
  for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:06 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:43219)
+Received: from mout.kundenserver.de ([212.227.126.187]:37161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzO-0007Xp-Ux
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:04 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oMRzP-0007Y8-05
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 06:34:05 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MYtoe-1nrhjB11pQ-00UoWJ; Fri, 12
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMp08-1o3ofp30xI-00IlIN; Fri, 12
  Aug 2022 12:33:57 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 0/1] Linux user for 7.1 patches
-Date: Fri, 12 Aug 2022 12:33:52 +0200
-Message-Id: <20220812103353.2631628-1-laurent@vivier.eu>
+Cc: Vitaly Buka <vitalybuka@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 1/1] linux-user/aarch64: Reset target data on MADV_DONTNEED
+Date: Fri, 12 Aug 2022 12:33:53 +0200
+Message-Id: <20220812103353.2631628-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220812103353.2631628-1-laurent@vivier.eu>
+References: <20220812103353.2631628-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Sbt3AIVSm93hq4TV5LOmzkH3DHg06Ux9QpFYx2G2vjudRESS8on
- o7Ffh5sCbjIUO/10G/JLP36od0a/35P1LCth8tAIDUXSZxOv2/NqWgdI0KGIT8BMl9VtLBo
- CHdGqiLJqSnRTO93hmJ0SWWngjU6+EwPmMWObzryWqpH+DAuzmk+CJfufqMuLi5srKYmIyd
- vnxqKLordybXsv9HaXRhQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5jY9+74ZBL4=:KekTZE0jxGZdoAGHewD85Y
- CYzDSLbIwZ3u9KCcK2yO4Xj4OE4x74vXK9OLarT58cayeNcmiQY+DVAF7kNyZvJcv4QOXcyaH
- BF+f4vXOMbLtF6WujEUmorodWilQYBCoX2Z7KzBbzxmmCD688kBT0po+shkLA8ZqPJELJZwoU
- LvlKKj1m9EFdKeLa6eqyCZlbTgUQOGQ9JbJawI41tjFJb3IyIrSj95ci5JxwfxmH93j69fs/n
- pi5EMMH82z16W+0XUlWjfJopc5la4aB25AsYsiirZL1kxJeWtpSNPFZ/GDppK6TEhNw0MMPjv
- IUfI866JxIrgl6tToiT+0g/op/Q2mIIru/wXVRNA+ZivrVwHB39wQjgXq6tNSztTvlG2FFnKa
- GGcQhdzMfVvGn0ExNeJEoK6g5RYKoqwZ1YcZWi+wC/RkVcBQlMq1jl04o32Cfoc0dpUbGX9ls
- BXDn0Cmeh3arK38SCfB/AysK3G/P3KYTuMAcME3yg3j9Xi1BaATF1syoBaH2DhoosPfoa/hrb
- NP/gqIYeUggX4n3JlNQwF7onYd0s8512tM+CQ3xTVQHQqML8ZrMTfeK/Gawsrq85bK0I+F2j0
- UiVPHjW4KfH5C3NbXqg3NoVa4PqXoJW6lJ3FidqgQjBMjlhiku2M3F8maU5Epc6UAVlTh67Aa
- 1xEFEcx/YycfHflwE4LibK6SgeVYpRt38ciHnjn/ZosLClskl+6/t6Le5RzDtArlzjMPWEd9N
- sDF9FrxDrkiWIAGiUtwjIzz2dsNapJF/nXWX9Q==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:qemosotl/vQR/RgmTxG8jakQupwMvYXwYdK07y5kUVfVFvz1CMw
+ 2BALWrAD6pOsGgRg+aHIN2/3lF/98pdiVJQmBWJ+GrDygeOk6aE7mXwTMxjIhX2jYSxyBRy
+ pZmqRDiCvlep/SlnDnROT+Za2OBF0ZI0JWI5hkBgd/JbSkIS0odzuy8HW5CDpGRyw2pCaXl
+ IFUgPrNQ5AYlemq/7jYYw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xfB96JctVG8=:wS8W+/qYivXZ6rGCUEHtVv
+ oeLBeELt/uP3I4cP23TBQK7pw2GGv2/TAtvIZCYVni3zZVeI/mc2Yw32VQscD2L8jLzhr1vu5
+ PVNbbbGWVjAHtzPffjLFEOrFZb0hPcRGB8RRuAFn9adMFAHVcMZs+jSOV9PIeK2t7PwlirBBE
+ IXuYQDdvprG8HJdi54tFNBeDoO3nitrsN4WANSe9sNj2yHGt1Um81NQO3DrOlmTNL5jrhgI9j
+ U3MzKLhmYZvAkbZCmYZqemIhjz/p7j51cjRGx0WxmTy4cBAM3pA1NQnvegsvN89+UcNKZB5dR
+ FwgyFTGGxLhLLGP5ydhR0VyyH+7ggzcm+UVfEnkBOZ9say25ph4M+GKlyDBZPKIIDJrD1TKfX
+ n/g7R0f5wiA/FoGiiV/NXeVqGnYZOlJoGBzJHSOkA/y6rjbF9Wdk7npSpHR0duSmOdTMkUYU2
+ Av/Hl3PNn6ukPqYp93U5KpG3JNuDTwNdozXPLL8TuydoR6iddQQ+jp1qY/WUH3KcZMwRbEujT
+ XWmYQKa/b3euzvFbh/cChD5tU3Q+BIFkYm9Z7u8Aql8qkyR04cQkX+2lc0eHtzDQgeZvQh2Hn
+ ySz5nTQEePa1Z+tHflbB2bdb386yWsuuH2stQ/TUhQtvoZxbXMexIJXGN24UCv6+ZAqTQudKH
+ D66oyMsaEhbzuo7FthvtDRsvAApxRnJhWiuUGSSxBDye15rFriZHkiNxmHU9tHYd2q0BHuOki
+ 13RH5Qxp1kcqIC4sqgmshyy/sCa3p/kHceY+5w==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,31 +72,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a6b1c53e79d08a99a28cc3e67a3e1a7c34102d6b:
+From: Vitaly Buka <vitalybuka@google.com>
 
-  Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-08-10 10:26:57 -0700)
+aarch64 stores MTE tags in target_date, and they should be reset by
+MADV_DONTNEED.
 
-are available in the Git repository at:
-
-  https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
-
-for you to fetch changes up to dbbf89751b14aa5d281bad3af273e9ffaae82262:
-
-  linux-user/aarch64: Reset target data on MADV_DONTNEED (2022-08-11 11:34:17 +0200)
-
-----------------------------------------------------------------
-Pull request linux-user 20220812
-
-----------------------------------------------------------------
-
-Vitaly Buka (1):
-  linux-user/aarch64: Reset target data on MADV_DONTNEED
-
+Signed-off-by: Vitaly Buka <vitalybuka@google.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220711220028.2467290-1-vitalybuka@google.com>
+[lv: fix code style issues]
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
  accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
  include/exec/cpu-all.h    |  1 +
  linux-user/mmap.c         |  3 +++
  3 files changed, 30 insertions(+)
 
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index ef62a199c7db..b83161a08190 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2314,6 +2314,32 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+     }
+ }
+ 
++void page_reset_target_data(target_ulong start, target_ulong end)
++{
++    target_ulong addr, len;
++
++    /*
++     * This function should never be called with addresses outside the
++     * guest address space.  If this assert fires, it probably indicates
++     * a missing call to h2g_valid.
++     */
++    assert(end - 1 <= GUEST_ADDR_MAX);
++    assert(start < end);
++    assert_memory_lock();
++
++    start = start & TARGET_PAGE_MASK;
++    end = TARGET_PAGE_ALIGN(end);
++
++    for (addr = start, len = end - start;
++         len != 0;
++         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
++        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
++
++        g_free(p->target_data);
++        p->target_data = NULL;
++    }
++}
++
+ void *page_get_target_data(target_ulong address)
+ {
+     PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index f5bda2c3caa7..491629b9ba7a 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -271,6 +271,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
+ 
+ int page_get_flags(target_ulong address);
+ void page_set_flags(target_ulong start, target_ulong end, int flags);
++void page_reset_target_data(target_ulong start, target_ulong end);
+ int page_check_range(target_ulong start, target_ulong len, int flags);
+ 
+ /**
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index edceaca4a8e1..048c4135af14 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -894,6 +894,9 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
+     if (advice == MADV_DONTNEED &&
+         can_passthrough_madv_dontneed(start, end)) {
+         ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
++        if (ret == 0) {
++            page_reset_target_data(start, start + len);
++        }
+     }
+     mmap_unlock();
+ 
 -- 
 2.37.1
 
