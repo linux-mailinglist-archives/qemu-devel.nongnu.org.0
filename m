@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CB4590C4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 09:10:59 +0200 (CEST)
-Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA4C590C50
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 09:12:59 +0200 (CEST)
+Received: from localhost ([::1]:42716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMOos-0003oj-A9
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 03:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
+	id 1oMOqo-0005QJ-GR
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 03:12:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierre@freepascal.org>)
- id 1oMOhY-0000zf-3v
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 03:03:28 -0400
-Received: from mail.freepascal.org ([178.33.235.90]:59318)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pierre@freepascal.org>) id 1oMOhU-0000M6-I3
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 03:03:22 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.freepascal.org (Postfix) with ESMTP id 03400180312;
- Fri, 12 Aug 2022 07:03:19 +0000 (UTC)
-Received: from mail.freepascal.org ([127.0.0.1])
- by localhost (idefixng.freepascal.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RBQldX8s9RPw; Fri, 12 Aug 2022 07:03:18 +0000 (UTC)
-Received: from [192.168.50.107] (gw-ics.u-strasbg.fr [130.79.210.225])
- by mail.freepascal.org (Postfix) with ESMTPSA id BCA97180310;
- Fri, 12 Aug 2022 07:03:18 +0000 (UTC)
-Message-ID: <1f4c81d1-7127-6441-2435-cfd2aa557550@freepascal.org>
-Date: Fri, 12 Aug 2022 09:03:16 +0200
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oMOlI-0002Q5-HD; Fri, 12 Aug 2022 03:07:20 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39912)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oMOlF-0000vO-U2; Fri, 12 Aug 2022 03:07:16 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id q16so117019pgq.6;
+ Fri, 12 Aug 2022 00:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=Q/cSE+zuMRph6Y1kgNKHM0NF+DXwfxFFJUytDQ+UsTM=;
+ b=Klh8aKZ2fVeVCvtTQYejdh62rr3Y23MfGZ/+KIQ2K41w3WnqFoRGsLwiTIs7NFOkYI
+ Ql7dyvSezXuEP4T1GVjyOFozy+SPHLcKuoyqJL2UhzeHdLJACWN+qPo9XvNacRUbkXuJ
+ PfscOMdHahvsVM8uVKdvhHb3rj/39GWXpV3Q1IN9f1/S0n8TERSaCbgQDN2MUC75KfAA
+ sfFOOWLFN6VRPHTtnkKROhCvhqCB6pM2AzVN/4NhWUcrDB7X79jLFTkwZW9TrdJDfF0o
+ E3eAiucctl3qfAj2cGrHUMFtNixJ7e1+afaAIs68IPxVDFF+SRTL5yFfvMvjkoUfTCyK
+ hfLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Q/cSE+zuMRph6Y1kgNKHM0NF+DXwfxFFJUytDQ+UsTM=;
+ b=zivxPmivTBzWpE921axmTDq4gqatPnZhfBcnVqLaGXYoYSYXDdnM/ilI9kkyVRfAcS
+ Qv67mE0/970tQ8FbBszGg2oj/KbG8/8TANpdS3/5u91X6WtPEeZbr7h9utqKV6VX5xav
+ 093v2qdmdei21Mh9yocWt2uVui3DAOsxvAdCBbi4+OidB2NFIojWsuDFrlNLQ1VJGdtx
+ HsRTcvGPjNjjzlMZFMzTRMqTSB6p0n9btz4AktVtiYyQ2y4Nn6wwfsgwocPrTNzsbsW6
+ 8sbx0pADD79npn5mUUqnKEdE3FHt7RLnrWEi5OlW8AHEwMMjoHa4FPXLjQ4h0OsO69gw
+ heuw==
+X-Gm-Message-State: ACgBeo3NdSd8TcCJrNRw+sPs7DGXsxYXwyNPGKL3VTvEnMWn2WwTx1AO
+ 5W78rxpv4khQ5FohP31HO34kz+dthpNFJFFmNPU=
+X-Google-Smtp-Source: AA6agR7W6z4D/5ppsBPVCx0CixvkPhEVIRC5PzeCndP7mMcI1d4eXWN1yctN1UhVHAlfc5+kTCyrm0K/gz/YAOjGa7E=
+X-Received: by 2002:aa7:8317:0:b0:52d:640e:322e with SMTP id
+ bk23-20020aa78317000000b0052d640e322emr2614257pfb.4.1660288031755; Fri, 12
+ Aug 2022 00:07:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
- generated on gcc110 machine
-Content-Language: fr, en-US
-To: Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-References: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
- <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
-From: Pierre Muller <pierre@freepascal.org>
-In-Reply-To: <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.33.235.90; envelope-from=pierre@freepascal.org;
- helo=mail.freepascal.org
+References: <20220812005229.358850-1-wilfred.mallawa@opensource.wdc.com>
+In-Reply-To: <20220812005229.358850-1-wilfred.mallawa@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 12 Aug 2022 17:06:44 +1000
+Message-ID: <CAKmqyKPo++8sJggKcWnaA1C5yjhRR4ci4zPd80eUxGxmZyF_DA@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: opentitan: bump opentitan version
+To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,84 +82,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Pierre Muller <pierre@freepascal.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Aug 12, 2022 at 10:54 AM Wilfred Mallawa
+<wilfred.mallawa@opensource.wdc.com> wrote:
+>
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>
+> The following patch updates opentitan to match the new configuration,
+> as per, lowRISC/opentitan@217a0168ba118503c166a9587819e3811eeb0c0c
+>
+> Note: with this patch we now skip the usage of the opentitan
+> `boot_rom`. The Opentitan boot rom contains hw verification
+> for devies which we are currently not supporting in qemu. As of now,
+> the `boot_rom` has no major significance, however, would be good to
+> support in the future.
+>
+> Tested by running utests from the latest tock [1]
+> (that supports this version of OT).
+>
+> [1] https://github.com/tock/tock/pull/3056
+>
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Le 12/08/2022 à 06:16, Thomas Huth a écrit :
-> On 11/08/2022 23.38, Pierre Muller wrote:
->>
->>     I am using qemu to check code generated by Free Pascal compiler
->> for various CPUs.
->>
->>     Recently, this allowed me to find out that Free Pascal was generating
->> wrong instructions, leading to SIGBUS errors using qemu-mips.
->>     The same binaries worked without troubles on mips test machines,
->> probably because SIGBUS is handled directly inside the kernel.
->>
->>     Here I would like to report the problem I get when trying to run
->> powerpc executables using shared libs generated on gcc110 machine.
->>
->>     I copied over the needed libraries into a sys-root directory.
->>
->>     The problem is that the code crashes with a Illegal Instruction
->> after only a very few instructions:
->>
->> muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc -cpu g2 -d in_asm -L
->> ~/sys-root/powerpc-linux ./twide1
-> [...]
->> 0x3ffc1d60:  f00004d7  xxlxor   v0, v0, v0
->>
->> qemu: uncaught target signal 4 (Illegal instruction) - core dumped
->>
->> The problem is the the 'xxlxor' instruction is a VSX extension instruction.
->>
->>    There is apparently no cpu in the powerpc cpu list that enabled this
->> extension.
->> The output of cat /proc/cpuinfo on gcc110 gives that:
->> .....
->> processor       : 63
->> cpu             : POWER7 (architected), altivec supported
->> clock           : 3550.000000MHz
->> revision        : 2.1 (pvr 003f 0201)
->>
->> timebase        : 512000000
->> platform        : pSeries
->> model           : IBM,8231-E2B
->> machine         : CHRP IBM,8231-E2B
->>
->>     Is there a way to enable cpu features separately for ppc like is done for
->> x86_64?
->> Or would it be possible to define a new cpu inside qemu source that would match
->> the description above?
-> 
-> So you are building on a POWER7 host and try to run the binaries on an
-> emulated G2? That sounds weird. Why don't you use
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-   The g2 was just an example, I used a script to iterate
-over all possible cpus (as listed by --cpu help),
-but I always get a Illegal instruction on xllxor,
-because none of the cpu in the least seems to enable VSX
-extension.
+Alistair
 
->    qemu-ppc64 -cpu power7 ...
-
-Because I am interested in testing 32-bit ELF binaries:
-
-muller@gcc186:~/pas/check$ file ./twide1
-./twide1: ELF 32-bit MSB executable, PowerPC or cisco 4500, version 1 (SYSV), dynamically linked, interpreter /lib/ld.so.1, stripped
-muller@gcc186:~/pas/check$ qemu-ppc64 -cpu power7  ./twide1
--bash: qemu-ppc64: command not found
-muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc64 -cpu power7  ./twide1
-qemu-ppc64: ./twide1: Invalid ELF image for this architecture
-muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc64 --version
-qemu-ppc64 version 7.0.0
-Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
-muller@gcc186:~/pas/check$ ~/gnu/qemu/build-qemu-7.1.0-rc2/qemu-ppc64 -cpu power7  ./twide1
-qemu-ppc64: ./twide1: Invalid ELF image for this architecture
-
-So qemu-ppc64 (7.0.0 and 7.1.0-rc2) is only able to run 64-bit binaries.
-
-Pierre
+> ---
+>  hw/riscv/opentitan.c         | 12 ++++++++----
+>  include/hw/riscv/opentitan.h | 11 ++++++-----
+>  2 files changed, 14 insertions(+), 9 deletions(-)
+>
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 4495a2c039..af13dbe3b1 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -29,9 +29,9 @@
+>  #include "sysemu/sysemu.h"
+>
+>  static const MemMapEntry ibex_memmap[] = {
+> -    [IBEX_DEV_ROM] =            {  0x00008000, 16 * KiB },
+> -    [IBEX_DEV_RAM] =            {  0x10000000,  0x10000 },
+> -    [IBEX_DEV_FLASH] =          {  0x20000000,  0x80000 },
+> +    [IBEX_DEV_ROM] =            {  0x00008000,   0x8000 },
+> +    [IBEX_DEV_RAM] =            {  0x10000000,  0x20000 },
+> +    [IBEX_DEV_FLASH] =          {  0x20000000,  0x100000 },
+>      [IBEX_DEV_UART] =           {  0x40000000,  0x1000  },
+>      [IBEX_DEV_GPIO] =           {  0x40040000,  0x1000  },
+>      [IBEX_DEV_SPI_DEVICE] =     {  0x40050000,  0x1000  },
+> @@ -40,6 +40,7 @@ static const MemMapEntry ibex_memmap[] = {
+>      [IBEX_DEV_TIMER] =          {  0x40100000,  0x1000  },
+>      [IBEX_DEV_SENSOR_CTRL] =    {  0x40110000,  0x1000  },
+>      [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x4000  },
+> +    [IBEX_DEV_LC_CTRL] =        {  0x40140000,  0x1000  },
+>      [IBEX_DEV_USBDEV] =         {  0x40150000,  0x1000  },
+>      [IBEX_DEV_SPI_HOST0] =      {  0x40300000,  0x1000  },
+>      [IBEX_DEV_SPI_HOST1] =      {  0x40310000,  0x1000  },
+> @@ -141,7 +142,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>                              &error_abort);
+>      object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+>                              &error_abort);
+> -    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
+> +    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x20000490,
+> +                            &error_abort);
+>      sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
+>
+>      /* Boot ROM */
+> @@ -253,6 +255,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>          memmap[IBEX_DEV_SENSOR_CTRL].base, memmap[IBEX_DEV_SENSOR_CTRL].size);
+>      create_unimplemented_device("riscv.lowrisc.ibex.otp_ctrl",
+>          memmap[IBEX_DEV_OTP_CTRL].base, memmap[IBEX_DEV_OTP_CTRL].size);
+> +    create_unimplemented_device("riscv.lowrisc.ibex.lc_ctrl",
+> +        memmap[IBEX_DEV_LC_CTRL].base, memmap[IBEX_DEV_LC_CTRL].size);
+>      create_unimplemented_device("riscv.lowrisc.ibex.pwrmgr",
+>          memmap[IBEX_DEV_PWRMGR].base, memmap[IBEX_DEV_PWRMGR].size);
+>      create_unimplemented_device("riscv.lowrisc.ibex.rstmgr",
+> diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+> index 68892cd8e5..26d960f288 100644
+> --- a/include/hw/riscv/opentitan.h
+> +++ b/include/hw/riscv/opentitan.h
+> @@ -74,6 +74,7 @@ enum {
+>      IBEX_DEV_TIMER,
+>      IBEX_DEV_SENSOR_CTRL,
+>      IBEX_DEV_OTP_CTRL,
+> +    IBEX_DEV_LC_CTRL,
+>      IBEX_DEV_PWRMGR,
+>      IBEX_DEV_RSTMGR,
+>      IBEX_DEV_CLKMGR,
+> @@ -105,11 +106,11 @@ enum {
+>      IBEX_UART0_RX_BREAK_ERR_IRQ   = 6,
+>      IBEX_UART0_RX_TIMEOUT_IRQ     = 7,
+>      IBEX_UART0_RX_PARITY_ERR_IRQ  = 8,
+> -    IBEX_TIMER_TIMEREXPIRED0_0    = 126,
+> -    IBEX_SPI_HOST0_ERR_IRQ        = 150,
+> -    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 151,
+> -    IBEX_SPI_HOST1_ERR_IRQ        = 152,
+> -    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 153,
+> +    IBEX_TIMER_TIMEREXPIRED0_0    = 127,
+> +    IBEX_SPI_HOST0_ERR_IRQ        = 151,
+> +    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 152,
+> +    IBEX_SPI_HOST1_ERR_IRQ        = 153,
+> +    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 154,
+>  };
+>
+>  #endif
+> --
+> 2.37.1
+>
+>
 
