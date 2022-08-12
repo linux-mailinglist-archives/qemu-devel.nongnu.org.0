@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122B1590D34
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 10:10:31 +0200 (CEST)
-Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC28590D79
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 10:37:47 +0200 (CEST)
+Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMPkS-00038X-49
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 04:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54086)
+	id 1oMQAq-0002eV-WC
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 04:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMPiN-0001hF-R4
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 04:08:20 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:38742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMPiM-0001ZS-2w
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 04:08:19 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id i62so374694yba.5
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 01:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=hrmnSb9E6gDKLwn3HHU8d1H2Em9x1rqieGnJ7ajmTDw=;
- b=fB2Jwgnr+jK/VtvOWXTmgqGpcgjfa620Bz8RaAWNFaY2r18586WPIQUZg8eqQAntyL
- TWMovcEHjtzk8ATHKqVk0F3SyvgdL5bRwkBPi8d2Jok32IpzGBNtegKLDWQ4JCmjqKUi
- 9XWbBW0UqwQZKD4z2jALPFOq7iKBUfWrw8uYa7JsWESJVhXqajgZ/h33XUIB0ER0tMPH
- lm5eB3KtIcE07g6pEOWysPTpp8G4LBqYvcLsc2U5ufkawmr+7daiEHFW5+Oe7Qk199I1
- EsMnh0MGl14vqZmRoi2GSPtohcKk+scYnpO05JRcUi4J4sWd6L9u5b08QmQs+5usQFag
- oEaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=hrmnSb9E6gDKLwn3HHU8d1H2Em9x1rqieGnJ7ajmTDw=;
- b=IMNdiPwgz+hszZJzu5/RC6vIfugWNH5Abdh7p4f2wY7rAjwf5ERGqZS4T47d0ONJ8N
- CtfO2131xUvTE8dZ1ctTKlU97JZKk5W56+iyEZP4m1dlHlLRAj4MX57iL37NRkbSwtwo
- Hj9qDpiu7hjsWQXKG3FUhyhyevCv8ctV867yP4zFKnHQSOfmS2ix6awMLwHE/WRSoeYf
- Qo+62T1VNAYpXHyrpuQUdD1bLJ6noAWrCxWCHgL7ezz1yGO5TQXOfJ1eWur4QiN6G2iF
- s+soFd67VWgZ9K/yPSwLDKfRYObKPPIAKOxUUAcn7+Jdvx/OyySujkK4GUGpOLzK4/NP
- O5ug==
-X-Gm-Message-State: ACgBeo0aPRgUBcH0j7f8Yrm0FBbjC6ftp1TDeVVT17yWd38nv/n49LBY
- lgcB455aHCvID4K6mvGmDXRb5vvha+s0wDZ61WOg+w==
-X-Google-Smtp-Source: AA6agR6HBFAY0NLJEWnVECe6Tzbj3r5Y5HTLx6T8+oBuEzYCyGBvtRApjE4h0g9nVRkMRfhaes7x3ueXkvchqABiOFU=
-X-Received: by 2002:a25:9a06:0:b0:676:4585:3df7 with SMTP id
- x6-20020a259a06000000b0067645853df7mr2692984ybn.193.1660291695842; Fri, 12
- Aug 2022 01:08:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wanghao232@huawei.com>)
+ id 1oMQ5c-0000ol-Fc
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 04:32:20 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:5169)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wanghao232@huawei.com>)
+ id 1oMQ5Z-0005JY-6l
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 04:32:20 -0400
+Received: from kwepemi500011.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4M3xh54y44zGpTc;
+ Fri, 12 Aug 2022 16:30:29 +0800 (CST)
+Received: from [10.174.185.207] (10.174.185.207) by
+ kwepemi500011.china.huawei.com (7.221.188.124) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 12 Aug 2022 16:31:56 +0800
+Subject: [BUG] Qemu abort with error "kvm_mem_ioeventfd_add: error adding
+ ioeventfd: File exists (17)"
+To: <qemu-devel@nongnu.org>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, Xiexiangyou <xiexiangyou@huawei.com>
+Message-ID: <de9c479a-e144-17b6-3eb5-6d548fd176ac@huawei.com>
+Date: Fri, 12 Aug 2022 16:31:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <56c2f192-c897-85bf-9f1a-377eff8d575e@freepascal.org>
- <CAFEAcA-0wkYiDgs7DOpnMuwVw=z=H_440Yyrfaa9_V-YRyoU-w@mail.gmail.com>
- <dea1c082-54e7-de1a-0f0c-a7b8a1060a1b@freepascal.org>
-In-Reply-To: <dea1c082-54e7-de1a-0f0c-a7b8a1060a1b@freepascal.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Aug 2022 09:07:34 +0100
-Message-ID: <CAFEAcA_Kws=ZTyd=Yp7KV_HLowbojaWNmDihgnYx0Qhvo3Ga0Q@mail.gmail.com>
-Subject: Re: [RFC] Testing 7.1.0-rc2, qemu-ppc does not give valid disassembly
-To: Pierre Muller <pierre@freepascal.org>
-Cc: qemu-devel@nongnu.org, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.207]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemi500011.china.huawei.com (7.221.188.124)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wanghao232@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,55 +63,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hao Wang <wanghao232@huawei.com>
+From:  Hao Wang via <qemu-devel@nongnu.org>
 
-On Thu, 11 Aug 2022 at 22:26, Pierre Muller <pierre@freepascal.org> wrote:
->    But as I use machines on which I am not admin,
-> I needed to compile capstone locally, install it inside my home dir,
-> and export PKG_CONFIG_PATH to allow the meson configuration
-> to correctly detect this local installation...
+Hi list,
 
-Yes, like all of QEMU's many library dependencies, if you
-aren't in a position to get them installed as system libraries
-you'll need to sort them out locally as an individual user.
-This, to the extent it's a pain, is a Linux distro problem,
-not a QEMU problem.
+When I did some tests in my virtual domain with live-attached virtio deivces, I got a coredump file of Qemu.
 
->    However, this is not optimal, especially if I want to be able to
-> copy over the resulting binaries to other test machines,
-> on which the configuration completely fails,
-> like gcc188 for which the current clib is too old according to
-> the configure requirements.
->>    Is it really required to have glibc 2.56?
+The error print from qemu is "kvm_mem_ioeventfd_add: error adding ioeventfd: File exists (17)".
+And the call trace in the coredump file displays as below:
+#0  0x0000ffff89acecc8 in ?? () from /usr/lib64/libc.so.6
+#1  0x0000ffff89a8acbc in raise () from /usr/lib64/libc.so.6
+#2  0x0000ffff89a78d2c in abort () from /usr/lib64/libc.so.6
+#3  0x0000aaaabd7ccf1c in kvm_mem_ioeventfd_add (listener=<optimized out>, section=<optimized out>, match_data=<optimized out>, data=<optimized out>, e=<optimized out>) at ../accel/kvm/kvm-all.c:1607
+#4  0x0000aaaabd6e0304 in address_space_add_del_ioeventfds (fds_old_nb=164, fds_old=0xffff5c80a1d0, fds_new_nb=160, fds_new=0xffff5c565080, as=0xaaaabdfa8810 <address_space_memory>)
+    at ../softmmu/memory.c:795
+#5  address_space_update_ioeventfds (as=0xaaaabdfa8810 <address_space_memory>) at ../softmmu/memory.c:856
+#6  0x0000aaaabd6e24d8 in memory_region_commit () at ../softmmu/memory.c:1113
+#7  0x0000aaaabd6e25c4 in memory_region_transaction_commit () at ../softmmu/memory.c:1144
+#8  0x0000aaaabd394eb4 in pci_bridge_update_mappings (br=br@entry=0xaaaae755f7c0) at ../hw/pci/pci_bridge.c:248
+#9  0x0000aaaabd394f4c in pci_bridge_write_config (d=0xaaaae755f7c0, address=44, val=<optimized out>, len=4) at ../hw/pci/pci_bridge.c:272
+#10 0x0000aaaabd39a928 in rp_write_config (d=0xaaaae755f7c0, address=44, val=128, len=4) at ../hw/pci-bridge/pcie_root_port.c:39
+#11 0x0000aaaabd6df328 in memory_region_write_accessor (mr=0xaaaae63898d0, addr=65580, value=<optimized out>, size=4, shift=<optimized out>, mask=<optimized out>, attrs=...) at ../softmmu/memory.c:494
+#12 0x0000aaaabd6dcb6c in access_with_adjusted_size (addr=addr@entry=65580, value=value@entry=0xffff817adc78, size=size@entry=4, access_size_min=<optimized out>, access_size_max=<optimized out>,
+    access_fn=access_fn@entry=0xaaaabd6df284 <memory_region_write_accessor>, mr=mr@entry=0xaaaae63898d0, attrs=attrs@entry=...) at ../softmmu/memory.c:556
+#13 0x0000aaaabd6e0dc8 in memory_region_dispatch_write (mr=mr@entry=0xaaaae63898d0, addr=65580, data=<optimized out>, op=MO_32, attrs=attrs@entry=...) at ../softmmu/memory.c:1534
+#14 0x0000aaaabd6d0574 in flatview_write_continue (fv=fv@entry=0xffff5c02da00, addr=addr@entry=275146407980, attrs=attrs@entry=..., ptr=ptr@entry=0xffff8aa8c028, len=len@entry=4,
+    addr1=<optimized out>, l=<optimized out>, mr=mr@entry=0xaaaae63898d0) at /usr/src/debug/qemu-6.2.0-226.aarch64/include/qemu/host-utils.h:165
+#15 0x0000aaaabd6d4584 in flatview_write (len=4, buf=0xffff8aa8c028, attrs=..., addr=275146407980, fv=0xffff5c02da00) at ../softmmu/physmem.c:3375
+#16 address_space_write (as=<optimized out>, addr=275146407980, attrs=..., buf=buf@entry=0xffff8aa8c028, len=4) at ../softmmu/physmem.c:3467
+#17 0x0000aaaabd6d462c in address_space_rw (as=<optimized out>, addr=<optimized out>, attrs=..., attrs@entry=..., buf=buf@entry=0xffff8aa8c028, len=<optimized out>, is_write=<optimized out>)
+    at ../softmmu/physmem.c:3477
+#18 0x0000aaaabd7cf6e8 in kvm_cpu_exec (cpu=cpu@entry=0xaaaae625dfd0) at ../accel/kvm/kvm-all.c:2970
+#19 0x0000aaaabd7d09bc in kvm_vcpu_thread_fn (arg=arg@entry=0xaaaae625dfd0) at ../accel/kvm/kvm-accel-ops.c:49
+#20 0x0000aaaabd94ccd8 in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:559
 
-Do you mean glib or glibc ? The two are different...
 
-> On several of these test machines, the version is much older...
-> I tried to force acceptance by reducing the requirement,
-> and it did compile successfully after that.
->
->    Is there a solid reason to be so restrictive?
+By printing more info in the coredump file, I found that the addr of fds_old[146] and fds_new[146] are same, but fds_old[146] belonged to a live-attached virtio-scsi device while fds_new[146] was owned by another live-attached virtio-net.
+The reason why addr conflicted was then been found from vm's console log. Just before qemu aborted, the guest kernel crashed and kdump.service booted the dump-capture kernel where re-alloced address for the devices.
+Because those virtio devices were live-attached after vm creating, different addr may been assigned to them in the dump-capture kernel:
 
-We try not to arbitrarily bump the version requirements,
-so usually when we do there is a reason. More generally,
-you should check out the "supported build platforms"
-information at
-https://www.qemu.org/docs/master/about/build-platforms.html
-For Linux distros, we support the most recent major version,
-and we support the major version prior to that for 2 years
-after it's been superseded. We don't bump things like
-glib version requirements if this would break one of
-our supported build platforms.
+the initial kernel booting log:
+[    1.663297] pci 0000:00:02.1: BAR 14: assigned [mem 0x11900000-0x11afffff]
+[    1.664560] pci 0000:00:02.1: BAR 15: assigned [mem 0x8001800000-0x80019fffff 64bit pref]
 
-So if you're running into a version problem with the
-system version of a library, this means that you're
-trying to build on a host platform which is not in our
-supported set, probably because it is simply too old.
-You can always expect that that is going to be potentially
-awkward and that you're going to have to carry local
-workarounds or build newer versions of dependent libraries
-locally. The fix is to upgrade the machine to a newer
-version of the distro.
+the dump-capture kernel booting log:
+[    1.845211] pci 0000:00:02.0: BAR 14: assigned [mem 0x11900000-0x11bfffff]
+[    1.846542] pci 0000:00:02.0: BAR 15: assigned [mem 0x8001800000-0x8001afffff 64bit pref]
 
-thanks
--- PMM
+
+I think directly aborting the qemu process may not be the best choice in this case cuz it will interrupt the work of kdump.service so that failed to generate memory dump of the crashed guest kernel.
+Perhaps, IMO, the error could be simply ignored in this case and just let kdump to reboot the system after memory-dump finishing, but I failed to find a suitable judgment in the codes.
+
+Any solution for this problem? Hope I can get some helps here.
+
+Hao
 
