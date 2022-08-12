@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194E65911DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 16:07:19 +0200 (CEST)
-Received: from localhost ([::1]:45210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE785911F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 16:11:35 +0200 (CEST)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMVJj-0001Lb-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 10:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36258)
+	id 1oMVNu-0003fR-FH
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 10:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oMVG5-0007b4-RN
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:03:31 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:41532)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1oMVLy-0001vg-VM
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:09:35 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:40658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oMVG4-0002TX-1W
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:03:29 -0400
-Received: by mail-ej1-x631.google.com with SMTP id gk3so2196882ejb.8
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 07:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=ET6LCnfm56bY9bauPGbviCH/syCoFNpSb7IaucL4v7g=;
- b=XSpdkHRwRYApWYGd+dlz661EMnYRAc87miBwAYegAGguM+sxTUIBeujh2WO4kVN1Gf
- 6cc7piufJtuAiU8bxgQWzT2zFTr+oYfr+L2Sb63ww3m6aaLatxOFubjXzMy8U38b1vL2
- KQMFcx3lfdKBUZQFKlif+/21ZJ8VEACRjofYwkIb/G9OvCr1Ab9EDgD54ZRTL2by1HxP
- KMXSB1d5sVX+tJHmzN7w2VhJW6NZ7FDNC45NFHdE2JnU/h96r9YtYSpzhFuzj0VogtlJ
- QfzjLcjBCh1aW+MsfG8lKqt3/DD1tMo362xe6pKnMlp46RWKug37fKYKkElkO+Zkj6DY
- /GBg==
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1oMVLw-0003GG-OO
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 10:09:34 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-324ec5a9e97so11006137b3.7
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 07:09:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=ubM9o0C2c/Ax331L8WBvvEOdXkeMlgLRtcARvYDJ7G8=;
+ b=XRyOccXh+a5b9j3QggAOjXX8Y+8+jzuEqPi4TrVYkWSWAxqjHgaNYg23ol4lZfsLcI
+ SoCvcrqoH47zoVDehrUR0z9dK9hlyVqlBpIkF+le4UbDLSjOJmECZXtXoCcbuxfWhiR9
+ /EjnLz7llxaJSF+7O36c1QzCycbQ/BfCemt4p9/F/qDcDElRr3uZmciIc+OBt/WkwlM1
+ 35Mw9mG0Ziex0pTzqCgB+OU2URdEHYPtTh0y12guQCpW8PGvdy3rM3j2Z45ANk/u1OvO
+ 3rNljEmaeuwo6B3t25lWGWg3p3XFjwmtOv9d8MYqk1wiwVWxbMiaqeliaOUVrl3hZo4K
+ DA/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=ET6LCnfm56bY9bauPGbviCH/syCoFNpSb7IaucL4v7g=;
- b=3xiVKLIEh27gSLSMtwxzac3QJGWHEVuhUYmJ+YZIwrqGdza2OI+6t7gyJld01VUOvL
- VwqbLLn20irEtz7s6NampOBy6XtvoLu+Na1PUqnnF0UU9UYlwpoR9ai96059Qk01Qdxh
- vH/DG/v+qvPNIifuJBbpLKV/g1nJ5UUhbmRUT1tj06IAt+YoA/KapRjsPCZGix1ZCV+y
- /fRbY2Uyd9+7osAGKo97i393HwFTpLxd2toqBPAkVFc9qj7A6svJ1Ez3AUAFe4wpSH3e
- oOrLg4JK+jagh4UxRtAJncWdazDM8TjCThBfhOwUbFmVb7H/4u13CJuSzzwHBaKDaA3N
- ORxQ==
-X-Gm-Message-State: ACgBeo2E5ViNl9YAQq2FwgrWr4WESrSuIqR1FgudgKPmKuhEP7LcR7Bm
- gJjg2p0ynotdNXg/x2pFFGUTssOthgIUrQ==
-X-Google-Smtp-Source: AA6agR7r4CtFpff7YhHwCN8SzRy1wFLde4KwP2Eqi+iNAVVZG/cNkcE2Pitp/ueQKtEt3uMvydqIew==
-X-Received: by 2002:a17:907:1689:b0:731:e57:bf23 with SMTP id
- hc9-20020a170907168900b007310e57bf23mr2829082ejc.388.1660313006431; 
- Fri, 12 Aug 2022 07:03:26 -0700 (PDT)
-Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
- by smtp.gmail.com with ESMTPSA id
- eq20-20020a056402299400b0043bbcd94ee4sm1368005edb.51.2022.08.12.07.03.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 07:03:25 -0700 (PDT)
-Date: Fri, 12 Aug 2022 16:03:24 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
-Subject: Re: [PATCH 2/2] target/riscv: fence: reconcile with specification
-Message-ID: <20220812140324.w2geesnjhbhcdack@kamzik>
-References: <20220812131304.1674484-1-philipp.tomsich@vrull.eu>
- <20220812131304.1674484-2-philipp.tomsich@vrull.eu>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=ubM9o0C2c/Ax331L8WBvvEOdXkeMlgLRtcARvYDJ7G8=;
+ b=4oIBXs/LwnruqIeSpYZpLASeXOjuC6VdHUwLt6OVrgliw4XL1cZhJbyywUPfF8OffX
+ JTmDVLZ6fkFWU1cb0/AWFN8V2Nx3X6vJYlf7XtPwSXBPcx8Uv8bqw9kq6Ddw/6crE/yy
+ oZWPCnZv11+YPLD5pUhUzKGOyDbGUqY5Qfa3sH8MyLSlt/iDp+le8xCMcHgN/RiG8usR
+ 3rwtR0/FVvOUWDNM91F/SwG+XuxYlNDXqBB/xBbK388VWKdqvUI5Vw7Rwey2MaINh/6i
+ nAAqUL1nSNdHcAOzSnbPUQFs3qyTjd1Q6VHSudnXopDkhnL7rBh7LowJoJoxP2IL9O2V
+ awzg==
+X-Gm-Message-State: ACgBeo2Y7YZnFWFpybtCr1NaAb7iXSiyepsL1kuEiCKnuNOKXGN4HzYT
+ cw3vu5SYZ7n7lasK8ohDKPKBX1b1fMqfbjpNoEnU5Q==
+X-Google-Smtp-Source: AA6agR7yx292fJpNx+5n6POr/jeInUJu4ymSjWhFryV9qiVirK7MLFtwU2LIeG4KfAdKfrxb9tjgRVjxdyGyJSCsnqA=
+X-Received: by 2002:a81:1dc5:0:b0:328:8d1b:bd54 with SMTP id
+ d188-20020a811dc5000000b003288d1bbd54mr3882175ywd.110.1660313370608; Fri, 12
+ Aug 2022 07:09:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220812131304.1674484-2-philipp.tomsich@vrull.eu>
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x631.google.com
+References: <20220812131304.1674484-1-philipp.tomsich@vrull.eu>
+ <20220812140103.3lbh45oidiw2fhsf@kamzik>
+In-Reply-To: <20220812140103.3lbh45oidiw2fhsf@kamzik>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Fri, 12 Aug 2022 16:09:19 +0200
+Message-ID: <CAAeLtUDbVwvQzr9u+D2KH6qBoiu4ikEbf3aVahbmK_i=6gEM7A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/riscv: fence.i: update decode pattern
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-yw1-x112c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,78 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 12, 2022 at 03:13:04PM +0200, Philipp Tomsich wrote:
-> Our decoding of fence-instructions is problematic in respect to the
-> RISC-V ISA specification:
-> - rs and rd are ignored, but need to be 0
-> - fm is ignored
-> 
-> This change adjusts the decode pattern to enfore rs and rd being 0,
-> and validates the fm-field (together with pred/succ for FENCE.TSO) to
-> determine whether a reserved instruction is specified.
-> 
-> While the specification allows UNSPECIFIED behaviour for reserved
-> instructions, we now always raise an illegal instruction exception.
-> 
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> 
-> ---
-> 
->  target/riscv/insn32.decode              |  2 +-
->  target/riscv/insn_trans/trans_rvi.c.inc | 19 ++++++++++++++++++-
->  2 files changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 089128c3dc..4e53df1b62 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -150,7 +150,7 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
->  sra      0100000 .....    ..... 101 ..... 0110011 @r
->  or       0000000 .....    ..... 110 ..... 0110011 @r
->  and      0000000 .....    ..... 111 ..... 0110011 @r
-> -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
-> +fence    fm:4 pred:4 succ:4 00000 000 00000 0001111
->  fence_i  000000000000     00000 001 00000 0001111
->  csrrw    ............     ..... 001 ..... 1110011 @csr
->  csrrs    ............     ..... 010 ..... 1110011 @csr
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index ca8e3d1ea1..515bb3b22a 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -795,7 +795,24 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
->  
->  static bool trans_fence(DisasContext *ctx, arg_fence *a)
->  {
-> -    /* FENCE is a full memory barrier. */
-> +    switch (a->fm) {
-> +    case 0b0000:
-> +         /* normal fence */
-> +         break;
-> +
-> +    case 0b0001:
-> +         /* FENCE.TSO requires PRED and SUCC to be RW */
-> +         if (a->pred != 0xb0011 || a->succ != 0b0011) {
-> +            return false;
-> +         }
-> +         break;
-> +
-> +    default:
-> +        /* reserved for future use */
-> +        return false;
-> +    }
-> +
-> +    /* We implement FENCE(.TSO) is a full memory barrier. */
+On Fri, 12 Aug 2022 at 16:01, Andrew Jones <ajones@ventanamicro.com> wrote:
+>
+> > Update the decode pattern to reflect the specification.
+>
+> I got hung-up on this for a bit since there isn't any "must-be-0" fields,
 
-s/is/as/
+Please refer to '=E2=80=9CZifencei=E2=80=9D Instruction-Fetch Fence, Versio=
+n 2.0' in
+the specification.
+The encoding diagram clearly states 0 for imm[11:0], 0 for rs1 and 0 for rd=
+.
+
+However, there is an explanatory paragraph below (unfortunately, it is
+not clear whether this is normative or informative):
+> The unused fields in the FENCE.I instruction, imm[11:0], rs1, and rd, are=
+ reserved for finer-grain fences in future extensions. For forward compatib=
+ility, base implementations shall ignore these fields, and standard softwar=
+e shall zero these fields.
+
+Strictly speaking, this patch may be too restrictive (it violates the
+"for forward-compatibility" part =E2=80=94 which I consider informative onl=
+y,
+though).
 
 Thanks,
-drew
-
->      tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
->      return true;
->  }
-> -- 
-> 2.34.1
-> 
-> 
+Philipp.
 
