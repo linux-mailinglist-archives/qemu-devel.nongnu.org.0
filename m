@@ -2,71 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25CE0590C15
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 08:46:16 +0200 (CEST)
-Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CB4590C4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 09:10:59 +0200 (CEST)
+Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMOQw-0006Ep-V1
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 02:46:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
+	id 1oMOos-0003oj-A9
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 03:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1oMONw-0004pK-Hi
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 02:43:08 -0400
-Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:36415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1oMONu-0005od-V3
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 02:43:08 -0400
-Received: by mail-vs1-xe31.google.com with SMTP id o123so20458249vsc.3
- for <qemu-devel@nongnu.org>; Thu, 11 Aug 2022 23:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
- :mime-version:from:to:cc;
- bh=sdKr2AxO0aesGrae4RkePuyC1E+6yvc4uOZSl0QBD10=;
- b=KlnqsqFFpwkWV+aSfThxpt33y8dBYjs9eXEphhoNgBf3W3R9Jmq2C/wPNuWKQxfUCo
- 4xz2RQ6vwnRwtuiw4hwPeSmFBSqEnrEGYF2vOZAA0jzFgXojIR0ZK4dHmmb3PdfRVxBN
- OvwSX7yVwVM75LXnYdA572CJJsXMTFVH6YBAK7WCWcQ7fZ8tVdxHbMIaaD0tlE7B/d8U
- DF1zXegHq4g8dQtoVel491i9nOxMP+YmfTZhFes4ao+MCn42zTxrKuc+uLI50Br/PAeW
- J/vTwCO5pg5j8RUtbzz7iPoYLfyq1JZ+KPc6jGflMZJko2BjszraozUfY6SZmMSxI3iJ
- ZLWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=sdKr2AxO0aesGrae4RkePuyC1E+6yvc4uOZSl0QBD10=;
- b=TDsBvoWgZkr+Mfd64H+1fcyRbYw8ObM77SX0jkgZ+4SV/GYFc/pIyDrO0+1qCZtnGW
- kG4SRehiW00S+/4bSmdtESOapn5rDXtzUE6pNJrZiLPdRfUbDneW2H5b0VEk2Q/wWzFR
- 6om7JRia+3D/1/vOxjv7nH+eDGxi0iuNAKqtsuDoVm83myC4Yff09RGsV5cNyAkQ67qh
- 0w5VZqskBrw0zF3rppISq1wDTfiAPA0c5afNHMkZCiVOj/7xEQPNM0z7SGaisQih7NvT
- KmjnSmhFZjl7jfCQLdPJjwDCV/3rmOTrJhpF6sdV1ORdYYxMf6jkE8fuoUT4/gnjQNd3
- DlHw==
-X-Gm-Message-State: ACgBeo0VjVAMh8MSd0j9Lj5NEU4TBnx0BTIRo9MiMI1EweEjYNGbBM7E
- 6PzCgeGGH953S4RgP5wbdkj5AvbFjzwCIm83Y48=
-X-Google-Smtp-Source: AA6agR4LrQVx/xW9ZBNI9sO13M8m10XRa0nozRCyRrCSWWPrSlfdEV0H1BM2M/Gcj9ZQmwov1o9c3SoBUikqUAmhvTs=
-X-Received: by 2002:a67:c814:0:b0:385:1a6b:7284 with SMTP id
- u20-20020a67c814000000b003851a6b7284mr1363215vsk.15.1660286584900; Thu, 11
- Aug 2022 23:43:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pierre@freepascal.org>)
+ id 1oMOhY-0000zf-3v
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 03:03:28 -0400
+Received: from mail.freepascal.org ([178.33.235.90]:59318)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pierre@freepascal.org>) id 1oMOhU-0000M6-I3
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 03:03:22 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.freepascal.org (Postfix) with ESMTP id 03400180312;
+ Fri, 12 Aug 2022 07:03:19 +0000 (UTC)
+Received: from mail.freepascal.org ([127.0.0.1])
+ by localhost (idefixng.freepascal.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RBQldX8s9RPw; Fri, 12 Aug 2022 07:03:18 +0000 (UTC)
+Received: from [192.168.50.107] (gw-ics.u-strasbg.fr [130.79.210.225])
+ by mail.freepascal.org (Postfix) with ESMTPSA id BCA97180310;
+ Fri, 12 Aug 2022 07:03:18 +0000 (UTC)
+Message-ID: <1f4c81d1-7127-6441-2435-cfd2aa557550@freepascal.org>
+Date: Fri, 12 Aug 2022 09:03:16 +0200
 MIME-Version: 1.0
-References: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
-In-Reply-To: <Mailbird-b8b59964-b286-46fb-a5ce-ad43ad8c76d0@comcast.net>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Fri, 12 Aug 2022 14:42:53 +0800
-Message-ID: <CAE2XoE_qESRD6_rN15JaDiLtmnZWsrqsJTdqGkX7W4kR8R+HLQ@mail.gmail.com>
-Subject: Re: Missing dll
-To: Peter Butler <peter-butler@comcast.net>
-Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000001e566d05e605981a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
- envelope-from=luoyonggang@gmail.com; helo=mail-vs1-xe31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
+ generated on gcc110 machine
+Content-Language: fr, en-US
+To: Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
+ <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
+From: Pierre Muller <pierre@freepascal.org>
+In-Reply-To: <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.33.235.90; envelope-from=pierre@freepascal.org;
+ helo=mail.freepascal.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,61 +63,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
+Reply-To: Pierre Muller <pierre@freepascal.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001e566d05e605981a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 11, 2022 at 6:15 AM Peter Butler <peter-butler@comcast.net>
-wrote:
->
-> In x64 win10 I today I d/l QEMU into new directory. Then navigated to
-that dir and=E2=80=A6
->
-> qemu-system-aarch64 -boot d -cdrom
-f:\Downloads\debian-11.4.0-arm64-netinst.iso -m 2048
->
+Le 12/08/2022 à 06:16, Thomas Huth a écrit :
+> On 11/08/2022 23.38, Pierre Muller wrote:
+>>
+>>     I am using qemu to check code generated by Free Pascal compiler
+>> for various CPUs.
+>>
+>>     Recently, this allowed me to find out that Free Pascal was generating
+>> wrong instructions, leading to SIGBUS errors using qemu-mips.
+>>     The same binaries worked without troubles on mips test machines,
+>> probably because SIGBUS is handled directly inside the kernel.
+>>
+>>     Here I would like to report the problem I get when trying to run
+>> powerpc executables using shared libs generated on gcc110 machine.
+>>
+>>     I copied over the needed libraries into a sys-root directory.
+>>
+>>     The problem is that the code crashes with a Illegal Instruction
+>> after only a very few instructions:
+>>
+>> muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc -cpu g2 -d in_asm -L
+>> ~/sys-root/powerpc-linux ./twide1
+> [...]
+>> 0x3ffc1d60:  f00004d7  xxlxor   v0, v0, v0
+>>
+>> qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+>>
+>> The problem is the the 'xxlxor' instruction is a VSX extension instruction.
+>>
+>>    There is apparently no cpu in the powerpc cpu list that enabled this
+>> extension.
+>> The output of cat /proc/cpuinfo on gcc110 gives that:
+>> .....
+>> processor       : 63
+>> cpu             : POWER7 (architected), altivec supported
+>> clock           : 3550.000000MHz
+>> revision        : 2.1 (pvr 003f 0201)
+>>
+>> timebase        : 512000000
+>> platform        : pSeries
+>> model           : IBM,8231-E2B
+>> machine         : CHRP IBM,8231-E2B
+>>
+>>     Is there a way to enable cpu features separately for ppc like is done for
+>> x86_64?
+>> Or would it be possible to define a new cpu inside qemu source that would match
+>> the description above?
+> 
+> So you are building on a POWER7 host and try to run the binaries on an
+> emulated G2? That sounds weird. Why don't you use
 
-Where do you download? I think it's because libncursesw6 is not pack into
-that packages.
-I am using msys2 install qemu, I think that's would be fine, downloading
-qemu is third-party's work.
+   The g2 was just an example, I used a script to iterate
+over all possible cpus (as listed by --cpu help),
+but I always get a Illegal instruction on xllxor,
+because none of the cpu in the least seems to enable VSX
+extension.
 
-> Error message:=E2=80=A6libncursesw6.dll not found=E2=80=A6
->
-> Please help
-> Thank you
+>    qemu-ppc64 -cpu power7 ...
 
+Because I am interested in testing 32-bit ELF binaries:
 
+muller@gcc186:~/pas/check$ file ./twide1
+./twide1: ELF 32-bit MSB executable, PowerPC or cisco 4500, version 1 (SYSV), dynamically linked, interpreter /lib/ld.so.1, stripped
+muller@gcc186:~/pas/check$ qemu-ppc64 -cpu power7  ./twide1
+-bash: qemu-ppc64: command not found
+muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc64 -cpu power7  ./twide1
+qemu-ppc64: ./twide1: Invalid ELF image for this architecture
+muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc64 --version
+qemu-ppc64 version 7.0.0
+Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
+muller@gcc186:~/pas/check$ ~/gnu/qemu/build-qemu-7.1.0-rc2/qemu-ppc64 -cpu power7  ./twide1
+qemu-ppc64: ./twide1: Invalid ELF image for this architecture
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+So qemu-ppc64 (7.0.0 and 7.1.0-rc2) is only able to run 64-bit binaries.
 
---0000000000001e566d05e605981a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On Thu, Aug 11, 2022 at 6:15 AM Peter Butler &lt;<=
-a href=3D"mailto:peter-butler@comcast.net">peter-butler@comcast.net</a>&gt;=
- wrote:<br>&gt;<br>&gt; In x64 win10 I today I d/l QEMU into new directory.=
- Then navigated to that dir and=E2=80=A6<br>&gt;<br>&gt; qemu-system-aarch6=
-4 -boot d -cdrom f:\Downloads\debian-11.4.0-arm64-netinst.iso -m 2048<br>&g=
-t;<br><br>Where do you download? I think it&#39;s because libncursesw6=C2=
-=A0is not pack into that packages.<div>I am using msys2 install qemu, I thi=
-nk that&#39;s would be fine, downloading qemu is third-party&#39;s work.<br=
-><br>&gt; Error message:=E2=80=A6libncursesw6.dll not found=E2=80=A6<br>&gt=
-;<br>&gt; Please help<br>&gt; Thank you<br><br><br><br>--<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=
-=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<br></div></d=
-iv>
-
---0000000000001e566d05e605981a--
+Pierre
 
