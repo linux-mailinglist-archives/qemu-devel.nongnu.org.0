@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C960359127C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 16:48:41 +0200 (CEST)
-Received: from localhost ([::1]:35068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3760959126C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 16:44:26 +0200 (CEST)
+Received: from localhost ([::1]:57148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMVxo-0000r7-JS
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 10:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42470)
+	id 1oMVth-0004pW-2a
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 10:44:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oMVpI-0008Cr-MO; Fri, 12 Aug 2022 10:39:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43130)
+ id 1oMVpQ-0008Rp-4W; Fri, 12 Aug 2022 10:40:00 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oMVpF-0007si-FW; Fri, 12 Aug 2022 10:39:52 -0400
+ id 1oMVpO-0007u3-Eo; Fri, 12 Aug 2022 10:39:59 -0400
 Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27CEZrOb001840;
- Fri, 12 Aug 2022 14:39:39 GMT
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27CEZqN1001544;
+ Fri, 12 Aug 2022 14:39:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=eP5tOVKsaoEFYT9vjP4qD1RmphOujLZfoRESozct3wk=;
- b=G7oN7AXB73djDHJ3jwFOWqR+g+o71q8AWikDjwhXSKc8MhqWdb29H8pEYaaTL7lwMJzk
- k5WsZPgLZeEkGWJq4pzP6vxBwDb0rwReVRLNScnuEyL09ld0ZMTTC3af6sZO2WikTGUJ
- yB5c9x+E/ACT/aAWP5WM+3xXZcS2aDccY3/tqAQur2zjioCJMr7eIJw2nsTY725v2WIw
- HU3cEv+ml80dVpCx49zc3ejtNcCx3Oy+IlrNhVDz/WHoNS3/BgT0eqB8dIkQmPohknsZ
- mevFfDQ9srmUqPS57vSNvlWnS6yHrAP5ImdKAIVkPvaKMuKo2VRQf9JhTSbbTaiIOVgY vQ== 
+ bh=6n8o+YDJS5x8y3FdmlU7JkYCbHWauIFE1f8P+OQocL4=;
+ b=rp1vHFFndg96dh0iikXv8wfa+AdnFwci+G3rilPJTmeNfIJbNKnVKG52oqStb4Mtfviz
+ JJWUEGTb7ersrSGq09SxK1BCpSey8d8IhB/AhNWwxVfZ6QfDD+QLXT/8brX/a9Vf1Evt
+ TwYHNJPFPhxJNURkMsO5l3142N+p3LuqpxcbLp37EzqiKu+ykdvv60LlvVpkE87OJg03
+ I8qVgatNerThQQVK3uS7PFUAtMCSY1p+YPdwqWwj91CCxZWJmswWNnZ277hzCYY6eaze
+ 5Sn2NhX0RCNrQPlraNaMeZVD9UzKb6jzOxKZEssfJaOD8yZZtHJq5RIIoeqB6q1zufhL Qg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwrry0b49-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwrry0bmf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 14:39:39 +0000
+ Fri, 12 Aug 2022 14:39:55 +0000
 Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27CEaQOh005579;
- Fri, 12 Aug 2022 14:39:39 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwrry0ayx-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27CEaMYC005309;
+ Fri, 12 Aug 2022 14:39:53 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwrry0bj5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 14:39:39 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27CEaxGQ017281;
- Fri, 12 Aug 2022 14:39:34 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma02fra.de.ibm.com with ESMTP id 3huww0tq57-1
+ Fri, 12 Aug 2022 14:39:53 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27CEaUD5024330;
+ Fri, 12 Aug 2022 14:39:51 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 3huwvjjgun-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 14:39:34 +0000
+ Fri, 12 Aug 2022 14:39:51 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27CEdWfJ36045066
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27CEdm8t25428326
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 Aug 2022 14:39:32 GMT
+ Fri, 12 Aug 2022 14:39:48 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A6414C04A;
- Fri, 12 Aug 2022 14:39:32 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 941034C046;
+ Fri, 12 Aug 2022 14:39:48 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C01DE4C040;
- Fri, 12 Aug 2022 14:39:31 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 336CA4C064;
+ Fri, 12 Aug 2022 14:39:48 +0000 (GMT)
 Received: from [9.101.4.17] (unknown [9.101.4.17])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 12 Aug 2022 14:39:31 +0000 (GMT)
-Message-ID: <c73ae54a-30b9-5eda-059f-71dc76c48eff@linux.ibm.com>
-Date: Fri, 12 Aug 2022 16:39:31 +0200
+ Fri, 12 Aug 2022 14:39:48 +0000 (GMT)
+Message-ID: <4eef0123-3a83-4e64-4e58-c4edabeecf2d@linux.ibm.com>
+Date: Fri, 12 Aug 2022 16:39:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v4 01/11] ppc/pnv: add phb-id/chip-id
- PnvPHB3RootBus properties
+Subject: Re: [PATCH for-7.2 v4 02/11] ppc/pnv: add phb-id/chip-id
+ PnvPHB4RootBus properties
 Content-Language: en-US
 To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org
 References: <20220811163950.578927-1-danielhb413@gmail.com>
- <20220811163950.578927-2-danielhb413@gmail.com>
+ <20220811163950.578927-3-danielhb413@gmail.com>
 From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220811163950.578927-2-danielhb413@gmail.com>
+In-Reply-To: <20220811163950.578927-3-danielhb413@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YKb0WzPge7guuQZnu4vW6jfoz7_p9zZE
-X-Proofpoint-ORIG-GUID: 4MO-IT2QBwE7yJJ-OtRw4wYTRJjle1vy
+X-Proofpoint-GUID: B2zMWpjMXdnu1JXwmJYRpdy_8jvmJg31
+X-Proofpoint-ORIG-GUID: dkx-FqZRQkBoAa2eBVJNGfC6X_sjZFJP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-12_09,2022-08-11_01,2022-06-22_01
@@ -91,7 +91,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  bulkscore=0
  lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501
  malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 mlxscore=0
- mlxlogscore=999 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=973 impostorscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2207270000 definitions=main-2208120040
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
@@ -120,23 +120,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 11/08/2022 18:39, Daniel Henrique Barboza wrote:
-> We rely on the phb-id and chip-id, which are PHB properties, to assign
-> chassis and slot to the root port. For default devices this is no big
-> deal: the root port is being created under pnv_phb_realize() and the
-> values are being passed on via the 'index' and 'chip-id' of the
-> pnv_phb_attach_root_port() helper.
+> The same rationale provided in the PHB3 bus case applies here.
 > 
-> If we want to implement user created root ports we have a problem. The
-> user created root port will not be aware of which PHB it belongs to,
-> unless we're willing to violate QOM best practices and access the PHB
-> via dev->parent_bus->parent. What we can do is to access the root bus
-> parent bus.
+> Note: we could have merged both buses in a single object, like we did
+> with the root ports, and spare some boilerplate. The reason we opted to
+> preserve both buses objects is twofold:
 > 
-> Since we're already assigning the root port as QOM child of the bus, and
-> the bus is initiated using PHB properties, let's add phb-id and chip-id
-> as properties of the bus. This will allow us trivial access to them, for
-> both user-created and default root ports, without doing anything too
-> shady with QOM.
+> - there's not user side advantage in doing so. Unifying the root ports
+> presents a clear user QOL change when we enable user created devices back.
+> The buses objects, aside from having a different QOM name, is transparent
+> to the user;
+> 
+> - we leave a door opened in case we want to increase the root port limit
+> for phb4/5 later on without having to deal with phb3 code.
 > 
 > Reviewed-by: Cédric Le Goater <clg@kaod.org>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
@@ -148,35 +144,36 @@ Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
    Fred
 
 
->   hw/pci-host/pnv_phb3.c         | 50 ++++++++++++++++++++++++++++++++++
->   include/hw/pci-host/pnv_phb3.h |  9 +++++-
->   2 files changed, 58 insertions(+), 1 deletion(-)
+>   hw/pci-host/pnv_phb4.c         | 51 ++++++++++++++++++++++++++++++++++
+>   include/hw/pci-host/pnv_phb4.h | 10 +++++++
+>   2 files changed, 61 insertions(+)
 > 
-> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index d4c04a281a..af8575c007 100644
-> --- a/hw/pci-host/pnv_phb3.c
-> +++ b/hw/pci-host/pnv_phb3.c
-> @@ -1006,6 +1006,11 @@ void pnv_phb3_bus_init(DeviceState *dev, PnvPHB3 *phb)
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index b98c394713..824e1a73fb 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1551,6 +1551,12 @@ void pnv_phb4_bus_init(DeviceState *dev, PnvPHB4 *phb)
+>                                        pnv_phb4_set_irq, pnv_phb4_map_irq, phb,
 >                                        &phb->pci_mmio, &phb->pci_io,
->                                        0, 4, TYPE_PNV_PHB3_ROOT_BUS);
->   
+>                                        0, 4, TYPE_PNV_PHB4_ROOT_BUS);
+> +
 > +    object_property_set_int(OBJECT(pci->bus), "phb-id", phb->phb_id,
 > +                            &error_abort);
 > +    object_property_set_int(OBJECT(pci->bus), "chip-id", phb->chip_id,
 > +                            &error_abort);
 > +
->       pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
+>       pci_setup_iommu(pci->bus, pnv_phb4_dma_iommu, phb);
+>       pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
 >   }
->   
-> @@ -1105,10 +1110,55 @@ static const TypeInfo pnv_phb3_type_info = {
->       .instance_init = pnv_phb3_instance_init,
+> @@ -1708,10 +1714,55 @@ static const TypeInfo pnv_phb5_type_info = {
+>       .instance_size = sizeof(PnvPHB4),
 >   };
 >   
-> +static void pnv_phb3_root_bus_get_prop(Object *obj, Visitor *v,
+> +static void pnv_phb4_root_bus_get_prop(Object *obj, Visitor *v,
 > +                                       const char *name,
 > +                                       void *opaque, Error **errp)
 > +{
-> +    PnvPHB3RootBus *bus = PNV_PHB3_ROOT_BUS(obj);
+> +    PnvPHB4RootBus *bus = PNV_PHB4_ROOT_BUS(obj);
 > +    uint64_t value = 0;
 > +
 > +    if (strcmp(name, "phb-id") == 0) {
@@ -188,12 +185,12 @@ Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 > +    visit_type_size(v, name, &value, errp);
 > +}
 > +
-> +static void pnv_phb3_root_bus_set_prop(Object *obj, Visitor *v,
+> +static void pnv_phb4_root_bus_set_prop(Object *obj, Visitor *v,
 > +                                       const char *name,
 > +                                       void *opaque, Error **errp)
 > +
 > +{
-> +    PnvPHB3RootBus *bus = PNV_PHB3_ROOT_BUS(obj);
+> +    PnvPHB4RootBus *bus = PNV_PHB4_ROOT_BUS(obj);
 > +    uint64_t value;
 > +
 > +    if (!visit_type_size(v, name, &value, errp)) {
@@ -207,43 +204,43 @@ Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 > +    }
 > +}
 > +
->   static void pnv_phb3_root_bus_class_init(ObjectClass *klass, void *data)
+>   static void pnv_phb4_root_bus_class_init(ObjectClass *klass, void *data)
 >   {
 >       BusClass *k = BUS_CLASS(klass);
 >   
 > +    object_class_property_add(klass, "phb-id", "int",
-> +                              pnv_phb3_root_bus_get_prop,
-> +                              pnv_phb3_root_bus_set_prop,
+> +                              pnv_phb4_root_bus_get_prop,
+> +                              pnv_phb4_root_bus_set_prop,
 > +                              NULL, NULL);
 > +
 > +    object_class_property_add(klass, "chip-id", "int",
-> +                              pnv_phb3_root_bus_get_prop,
-> +                              pnv_phb3_root_bus_set_prop,
+> +                              pnv_phb4_root_bus_get_prop,
+> +                              pnv_phb4_root_bus_set_prop,
 > +                              NULL, NULL);
 > +
 >       /*
->        * PHB3 has only a single root complex. Enforce the limit on the
+>        * PHB4 has only a single root complex. Enforce the limit on the
 >        * parent bus
-> diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-> index bff69201d9..4854f6d2f6 100644
-> --- a/include/hw/pci-host/pnv_phb3.h
-> +++ b/include/hw/pci-host/pnv_phb3.h
-> @@ -104,9 +104,16 @@ struct PnvPBCQState {
->   };
+> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+> index 20aa4819d3..50d4faa001 100644
+> --- a/include/hw/pci-host/pnv_phb4.h
+> +++ b/include/hw/pci-host/pnv_phb4.h
+> @@ -45,7 +45,17 @@ typedef struct PnvPhb4DMASpace {
+>       QLIST_ENTRY(PnvPhb4DMASpace) list;
+>   } PnvPhb4DMASpace;
 >   
->   /*
-> - * PHB3 PCIe Root port
-> + * PHB3 PCIe Root Bus
->    */
->   #define TYPE_PNV_PHB3_ROOT_BUS "pnv-phb3-root"
-> +struct PnvPHB3RootBus {
+> +/*
+> + * PHB4 PCIe Root Bus
+> + */
+>   #define TYPE_PNV_PHB4_ROOT_BUS "pnv-phb4-root"
+> +struct PnvPHB4RootBus {
 > +    PCIBus parent;
 > +
 > +    uint32_t chip_id;
 > +    uint32_t phb_id;
 > +};
-> +OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB3RootBus, PNV_PHB3_ROOT_BUS)
+> +OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB4RootBus, PNV_PHB4_ROOT_BUS)
 >   
 >   /*
->    * PHB3 PCIe Host Bridge for PowerNV machines (POWER8)
+>    * PHB4 PCIe Host Bridge for PowerNV machines (POWER9)
 
