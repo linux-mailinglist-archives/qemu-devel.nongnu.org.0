@@ -2,106 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580B05912A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 17:08:05 +0200 (CEST)
-Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784225912A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Aug 2022 17:08:45 +0200 (CEST)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMWGZ-0001eP-UT
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 11:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45094)
+	id 1oMWHE-00023O-Al
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 11:08:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oMW1P-0003B0-CQ; Fri, 12 Aug 2022 10:52:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24496)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oMW3z-0005nb-3v; Fri, 12 Aug 2022 10:55:03 -0400
+Received: from mail-vi1eur05on2102.outbound.protection.outlook.com
+ ([40.107.21.102]:39521 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oMW1M-0001fK-Hx; Fri, 12 Aug 2022 10:52:23 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27CEgIik027980;
- Fri, 12 Aug 2022 14:52:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=K+tknSAREW7LgBRVsAxD2UUvIgHqVR2Bvl1jChek82Y=;
- b=MILd22IB4MriWiLwW7Zeygnk4tNYUZfm6PHqePlpSH6bhFayh2/XQIjjcHwWVS9St6TA
- 8FwPFec7mvVCbvVVGqkwHr5PN1Z0rqVbDQJUGASr7eo4t0n2k/7klfmw9FNYPFC4Jboc
- +Tufq/4iJ9KggAa/ZNKo2i2zywPGCw/yCGtETS8GyMwD2Gcj21mSeI0bhaHI58vairNQ
- lOYS0005U+8VJnKXXN4J3hcjGpZgHgdtR6kr6kueC3dr9z0IxeJjnhBLe0sucsbVSXI6
- 4bzruPjZJnWkOsKZoIWDC8+nSjHA4w9lVd6hO1Qi1Woa1r7WxOIV0126NRTwYacgAgl3 pQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwruxga7m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 14:52:10 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27CEkRhB013880;
- Fri, 12 Aug 2022 14:52:10 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hwruxga69-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 14:52:10 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27CEaada017235;
- Fri, 12 Aug 2022 14:52:08 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 3huww0tqhp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Aug 2022 14:52:07 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27CEq52126345926
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 Aug 2022 14:52:05 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5DEEA4C046;
- Fri, 12 Aug 2022 14:52:05 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 21D8F4C044;
- Fri, 12 Aug 2022 14:52:05 +0000 (GMT)
-Received: from [9.101.4.17] (unknown [9.101.4.17])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 12 Aug 2022 14:52:04 +0000 (GMT)
-Message-ID: <32f26acd-104d-fdcb-cff3-481b9ccff950@linux.ibm.com>
-Date: Fri, 12 Aug 2022 16:52:04 +0200
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oMW3w-0001qE-73; Fri, 12 Aug 2022 10:55:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YObR12FLG90/Se1BME6R2/Kplo8HW5c6wfP0gk0KGn6HwBfK7AhSLOGJFOFZVchNE4uEzehjMcOn/6xZg8nXtdUXnUDdvm5KmV21cB6thMWDTZKyhL3eMqlpdHKyDE1lPYQGEDep79hfvehF8KeCY2BJU4hvaL5px3ZYhWyUHKWAKB1VDdzoo7KALhuispRSLkJkiUXqmY66wElqtl5E6bGgOlBpxpOREAZMZ8Rd5fgTjgLYcKnsQB7wTX1uEczYb/K+/Q4SSsM0UZTTEs/NLslEvUFjR5s4jRtdlnEyt1vV5BkPi6QlJeNZQA6N/7p1RJGqW3gCRVr7ddVWh5zf9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EFgppDztiaEE1E9VuZWyW+DBp6MA6fdWnDh18ljv3Z0=;
+ b=QohV7lOs3ko5l8c+yfvSYPiOnjkrLufKo68tepHjBhooJPYT12jAXC7tqtR99L+bqRo47LvODXr0kTUwP/yJJ8kHF3bbX4LVUYvCoDuPQA0shRCYS96hPycSNUViN4ZJRGZtoGke73WI8YEfNmS1mKj1ieM+RJh8U93mAC7kyjbofDKvFxsBP2Rbnh+ConHp732Gz5yLe0iVSHYzEnS6w1Xi8uCPqIPilRiy5HZ5qSO3CdLibPe8kTWWBQcs7sNoQ83RB9DHyeZaaUqqesXMcsiMQUd9x8oPF/TFd7UAidStHeF5LzmtsbN+5CGOylxHpzj1IPJbYCpi3UvoQJSG2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EFgppDztiaEE1E9VuZWyW+DBp6MA6fdWnDh18ljv3Z0=;
+ b=gNjwp8CsbeS/3mevno2RL+2tMfCrKoyL/+rEn8cE+Dz5IIZ65alDgMxYbApgm65NE1GBnUCbAM8lu7i6DaPluiRphLLMd1prh4WHz4yaWEYH/hcgvLTw6CcpydXln2IRlhG6uy977O7t8bOXQVlrW2lKB4QtxQ7PwxG907kYRWhuUhZvQoM3DkKEVyjU7FH+2xY4eHoZe6TGa9V2k9VPDGH6UAY56EsWGQfBesFutWAUe5WhnoPnEoMsahgvVlqPGVVYrYGmyrThZ8xg3V9LXRgBPache/XyuIc4TB01XcdvbtzaED+MfKSqN7CFYXhkLQCLq9IS4jJqoYaehxYm4g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by VE1PR08MB5053.eurprd08.prod.outlook.com (2603:10a6:803:10e::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Fri, 12 Aug
+ 2022 14:54:55 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d%4]) with mapi id 15.20.5504.023; Fri, 12 Aug 2022
+ 14:54:55 +0000
+Message-ID: <30224617-d292-0410-dcff-2312dfa83f17@virtuozzo.com>
+Date: Fri, 12 Aug 2022 16:54:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v4 05/11] ppc/pnv: turn chip8->phbs[] into a
- PnvPHB* array
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 8/8] parallels: Replace qemu_co_mutex_lock by
+ WITH_QEMU_LOCK_GUARD
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220811163950.578927-1-danielhb413@gmail.com>
- <20220811163950.578927-6-danielhb413@gmail.com>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220811163950.578927-6-danielhb413@gmail.com>
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, vsementsov@yandex-team.ru,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20220811150044.1704013-1-alexander.ivanov@virtuozzo.com>
+ <20220811150044.1704013-9-alexander.ivanov@virtuozzo.com>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <20220811150044.1704013-9-alexander.ivanov@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: w8IG34dt4CA6irtuvpWC9J0cWvt42S5s
-X-Proofpoint-GUID: vVbmt7CcfquCBkMqnkeD8cJd2AguQcwW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-12_09,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- impostorscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- bulkscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2208120040
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-ClientProxiedBy: VI1PR0102CA0028.eurprd01.prod.exchangelabs.com
+ (2603:10a6:802::41) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3f4c06a3-c37c-4e97-609b-08da7c729ea3
+X-MS-TrafficTypeDiagnostic: VE1PR08MB5053:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9d2KHC+byWidITEDmrFoPeJ3Y8eZ399EtKFtDVSNnrNcyblMy/5YimvHRx1i0Y2tWU8ByPsquY/m7/7SCfUv3W8cumdzq7mduNDAIUz9T1s6heE9qNDtCQuE4HS0+T8ephQ4lW26X6b3cXK3Fbf8+VA1y4yauKg4Fn3HuxBwGg/2+w2BRPkCGDIxNPweR2vklsvG6/S0pLKezs2Zy/YxnprEKjDax+p2DZSij5yFscPbh52iIsaz446EFLVpWyWu4APomtaVKEOUAWHOmJPilcF6cmxWAfkQt8c09sxrvHxt3kfF4IWB25mCkExsMV66i15Eeo+9BrsQHsFaS6cesyBTDvb3kR5nntgMegSsTnda15iTtXBcuZipCAmEOXuzgZQSln94oDYpM2BVXAVQZSrqwcazW3VcZ87GY7aMDSzyj4eKo2A6Dl8IjZEmulRJ86Wet9edPvQTgA4r/omfzGbSUHfmpSgpTF0+BV2Y3r2FPGcOTKIv+hCUbD6zHkIPpPZt67e6Y8D3vmfrZRvn3RfOfclX22o51dMxEQldpwPlIpmn12xj1TzLJWYLQGpS3VVn0DZmFHTZPne4MstMdDfeE0Ltc51E+POlI4LaB78VHYd8OzOm97BcEBs1Yim68lscWjgg9FzwfmTEYET/QFcMP7X4s7Mic6ANyqDS7sfaE3s8zjdf+eqwPW9VLWSLJp3+TKJTvvlcQ0FAs2veioU4lFZ9gmeAKjeoTmbRUWXux8547K7QcPQ3d7vcD0WRm0kcVjHUf0iy82ucNvreGQ1wUocmhp5HkPfzvZbQv0XfZpYuw+eUPhgimv1sBpVIZoTCxNLcK/Bc/qT6kE5YqX6BCy93pHhqbYYKKu6Ax/a1YVjgNWsXF71lOG9G0fVt
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(346002)(366004)(376002)(396003)(39840400004)(2906002)(52116002)(36756003)(6512007)(186003)(31686004)(53546011)(26005)(83380400001)(41300700001)(2616005)(38100700002)(38350700002)(5660300002)(8936002)(478600001)(6506007)(4326008)(6486002)(86362001)(66476007)(316002)(66946007)(8676002)(31696002)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWZFMVJ6WXk3dlJxVjJhK3Z0YlNBZGJKN0ZlM2JlRjdvajNNZC95VDcwai9m?=
+ =?utf-8?B?VUJucy9ZMmNSZmtYME5TdzZ3MktvRzUyOU9VSWw1ZzBtZnZOcHpBOEkxbWlJ?=
+ =?utf-8?B?dW1SYzQrSFlMbjQzWm1ReEJUQXl5WVkvK1hoVHpoWnl2U3Bsa1YvRXNJY0R1?=
+ =?utf-8?B?NVpnT1VlMy9WR1U4WDc5U084K0Y0bG9kRkQ4UE1rTnFqK3lCOUU1RllMbFFx?=
+ =?utf-8?B?UGhyWVlCSzdnRzFKbkNuZWxrVGkwR2hZOHlvSGlRL2dPMWpwbGhyY0tDWGdp?=
+ =?utf-8?B?V3hoLzYyNVJ0RU5ScXYxNzd6d25EVW1QLzFackErWEFzeGNZSGdOWmlkZmU4?=
+ =?utf-8?B?ZjBVZExud2FVK0NXRzZTQ3F0amFndm1DYUgxcExvTWgrWnpSSVZPcjJCSWxp?=
+ =?utf-8?B?MkdQU1hqUkwzK01hR2txbEE0cmQ0V1d0TWhialphU2ZaVjVXc0VvdkpEZVVw?=
+ =?utf-8?B?ZTdWdlQ5MDh1S1VBUzl5aXgzQnlXRFQ2V2pHRWtoNE1vVS85MUlNdEhMOHAz?=
+ =?utf-8?B?Skd3K0h2OHpiK2ZrUnlEaHhpN2lDbWEvTXNiOTdhZjVKN3BQSUx4eHFsQkQx?=
+ =?utf-8?B?N3lUbFhDWlFoRFBFYTRsQkFyZlI0b2NDMVNWQWtEczdLUU1mZnh2QjhBNk5M?=
+ =?utf-8?B?MzJFb2ZSbG1mOWNrTlBVVkN3SC9SYUI4SklrdFV1Qk1tbzhFVlI4azJpSVhk?=
+ =?utf-8?B?b2JHOWgrREwvY2NxSW9FbzhDM2l2d043Um83eTRvS242RDBja3E4VS9Ba2s5?=
+ =?utf-8?B?c2cwam5INWxySytPWXdjTEpSVkZQWTJEckR4aGt2bW9hRG9sSVlzNGM4VnVV?=
+ =?utf-8?B?UlZMUjZlTG8xVDlXNHM1a3IyTFVQNEM2WUtCbmZzZTBYdzdKbWl5R05TVHNT?=
+ =?utf-8?B?N1prdlhIVmpwdUFYRnhxM0VyUUR0UjRiMlpDL1BjbnUxZm1NNXVwVmY0aFpD?=
+ =?utf-8?B?SUJMWTRKaFhKM3EraE5nODdOdmZyUUUvdlZBSDd2TEFxQmd2aXlQWG1rNXp5?=
+ =?utf-8?B?RnlBSVJuNU0zcmpGSkc2WFJwSnJTZ0Rma3hua2lXN3FJenJwbW96RGgrZFpO?=
+ =?utf-8?B?QUlkdUpZdjhMYWNtMnNIdzVYY1hjenNpd1BvZFhjMEVqMVY0MHhYMXZPazUr?=
+ =?utf-8?B?MnVsVjhNNWt6TG9jWFdRck9SdkYzSkRkVENQNENaNzlqYVQzczcrVHJQbFRs?=
+ =?utf-8?B?R1FjR29FZC8rK0pPdFhTMjNpV0x2eDFVL3Z1NnJyZXBTMkhTMGxsNThRS3F0?=
+ =?utf-8?B?VStjTFRzcWtpdm14a3ljWFR1NStkNHJSMkpIeUVPV2hEWm5lejYxU0FXazdD?=
+ =?utf-8?B?eTJyL3VTVEZHQ3Q2cmRaVjVOUzhPNDEzVmtJby9NSjROYU03Ui8xYzVOblQy?=
+ =?utf-8?B?a1hlSWRCeXZ1aWpqalA0QktINVJ0NXZFMGdyaDlEL0VReHNBald2VnJBbDNV?=
+ =?utf-8?B?U0xvSUJWdlFreUEyTUpWRlVqQ0RLYy8wb0k4M2d0Q21nVFNNUjZabUJsaHpW?=
+ =?utf-8?B?aUJhMWRzaEFQL2RuMXRlWTFZWk1hZ3NRNU5JVVd5WTI4R2w5ZkQ0TkQ0ek9y?=
+ =?utf-8?B?QzRCdWxkdjZNZEh3ZE9xdm5zYXdzQzJlLzl5Q1dnandOUTNlSnFqQytWcTlj?=
+ =?utf-8?B?a1c3U3I2M28yRXBhS1JDcmJyQWozaUluV2lXalpJL0FUMkpxRlFYTnUyL2tt?=
+ =?utf-8?B?YlhlZGZiS1dEaEcxeDhvZDQ4TDBtdjdvM3EvNmppZ09uQ0xVSVdmOHd5NVNP?=
+ =?utf-8?B?Q2EyUlNEaWc5am1jYUZvSHR0QVNPOE1YbWI4MkRmWUkrby82NjJKdUp6MkVI?=
+ =?utf-8?B?eWQzSDhsWHhhbFREUW85WlArcnZWTEo3YlpFc1FlWWFRSmFDQ2ptSUR2N29t?=
+ =?utf-8?B?S2VFUVJKT29pdUlBUjI0YWpGd2pBbzgreERwdjV0MFcza2FlbWswejgyY3RY?=
+ =?utf-8?B?eFhkNnpmemZPUURBWnBFNWxmaDJaL0tpWm5yWVJUbG9jam5YRTkvSHBMUUp6?=
+ =?utf-8?B?K2dMb0ZtbjR3WlB3b3RiNk42em1KNnhySGpRSW5LSXFMQUQwaGVzcTY5WVZI?=
+ =?utf-8?B?NVl2eERRamV0RmFyb3RyTFVJbFBBQjlnQ0lUOWtmckJpMTN4QjVWVXdNd2Fk?=
+ =?utf-8?Q?x7qQ+K4NXu0/HKKTPrwB5D+ID?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f4c06a3-c37c-4e97-609b-08da7c729ea3
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2022 14:54:55.7220 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GX1D4MwaLQfPE389uSm//34dj+3VfLYpufv5yxGliB+lMzgqAbuwqBA6L0vQfkfde2PRjfN5cbGQJMeW2J0eYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5053
+Received-SPF: pass client-ip=40.107.21.102; envelope-from=den@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,127 +146,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11.08.2022 17:00, Alexander Ivanov wrote:
+> Replace the way we use mutex in parallels_co_check() for more clean code.
+I think that "cleaness" is the same, but new code would be just shorter ;)
+or less error prone.
 
-
-On 11/08/2022 18:39, Daniel Henrique Barboza wrote:
-> When enabling user created PHBs (a change reverted by commit 9c10d86fee)
-> we were handling PHBs created by default versus by the user in different
-> manners. The only difference between these PHBs is that one will have a
-> valid phb3->chip that is assigned during pnv_chip_power8_realize(),
-> while the user created needs to search which chip it belongs to.
-> 
-> Aside from that there shouldn't be any difference. Making the default
-> PHBs behave in line with the user created ones will make it easier to
-> re-introduce them later on. It will also make the code easier to follow
-> since we are dealing with them in equal manner.
-> 
-> The first step is to turn chip8->phbs[] into a PnvPHB3 pointer array.
-> This will allow us to assign user created PHBs into it later on. The way
-> we initilize the default case is now more in line with that would happen
-> with the user created case: the object is created, parented by the chip
-> because pnv_xscom_dt() relies on it, and then assigned to the array.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> v2: Fix an incorrect usage of WITH_QEMU_LOCK_GUARD.
+>
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 > ---
+>   block/parallels.c | 26 ++++++++++++--------------
+>   1 file changed, 12 insertions(+), 14 deletions(-)
+>
+> diff --git a/block/parallels.c b/block/parallels.c
+> index d0364182bb..e124a8bb7d 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -553,24 +553,22 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+>       BDRVParallelsState *s = bs->opaque;
+>       int ret;
+>   
+> -    qemu_co_mutex_lock(&s->lock);
+> +    WITH_QEMU_LOCK_GUARD(&s->lock) {
+> +        parallels_check_unclean(bs, res, fix);
+>   
+> -    parallels_check_unclean(bs, res, fix);
+> +        ret = parallels_check_outside_image(bs, res, fix);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+>   
+> -    ret = parallels_check_outside_image(bs, res, fix);
+> -    if (ret < 0) {
+> -        goto out;
+> -    }
+> -
+> -    ret = parallels_check_leak(bs, res, fix);
+> -    if (ret < 0) {
+> -        goto out;
+> -    }
+> +        ret = parallels_check_leak(bs, res, fix);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+>   
+> -    parallels_collect_statistics(bs, res, fix);
+> +        parallels_collect_statistics(bs, res, fix);
+>   
+> -out:
+> -    qemu_co_mutex_unlock(&s->lock);
+> +    }
+>   
+>       ret = bdrv_co_flush(bs);
+>       if (ret < 0) {
 
-
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-
-   Fred
-
-
->   hw/ppc/pnv.c         | 27 ++++++++++++++++++++++-----
->   include/hw/ppc/pnv.h |  6 +++++-
->   2 files changed, 27 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 2deaac17f7..e53e9e297d 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -294,6 +294,13 @@ static void pnv_dt_icp(PnvChip *chip, void *fdt, uint32_t pir,
->   Object *pnv_chip_add_phb(PnvChip *chip, PnvPHB *phb, Error **errp)
->   {
->       if (phb->version == 3) {
-> +        Pnv8Chip *chip8 = PNV8_CHIP(chip);
-> +
-> +        phb->chip = chip;
-> +
-> +        chip8->phbs[chip8->num_phbs] = phb;
-> +        chip8->num_phbs++;
-> +
->           return OBJECT(chip);
->       } else {
->           /* phb4 support will be added later */
-> @@ -681,7 +688,7 @@ static void pnv_chip_power8_pic_print_info(PnvChip *chip, Monitor *mon)
->       ics_pic_print_info(&chip8->psi.ics, mon);
->   
->       for (i = 0; i < chip8->num_phbs; i++) {
-> -        PnvPHB *phb = &chip8->phbs[i];
-> +        PnvPHB *phb = chip8->phbs[i];
->           PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
->   
->           pnv_phb3_msi_pic_print_info(&phb3->msis, mon);
-> @@ -1174,7 +1181,17 @@ static void pnv_chip_power8_instance_init(Object *obj)
->       chip8->num_phbs = pcc->num_phbs;
->   
->       for (i = 0; i < chip8->num_phbs; i++) {
-> -        object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB);
-> +        Object *phb = object_new(TYPE_PNV_PHB);
-> +
-> +        /*
-> +         * We need the chip to parent the PHB to allow the DT
-> +         * to build correctly (via pnv_xscom_dt()).
-> +         *
-> +         * TODO: the PHB should be parented by a PEC device that, at
-> +         * this moment, is not modelled powernv8/phb3.
-> +         */
-> +        object_property_add_child(obj, "phb[*]", phb);
-> +        chip8->phbs[i] = PNV_PHB(phb);
->       }
->   
->   }
-> @@ -1290,7 +1307,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
->   
->       /* PHB controllers */
->       for (i = 0; i < chip8->num_phbs; i++) {
-> -        PnvPHB *phb = &chip8->phbs[i];
-> +        PnvPHB *phb = chip8->phbs[i];
->   
->           object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
->           object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
-> @@ -1958,7 +1975,7 @@ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
->           }
->   
->           for (j = 0; j < chip8->num_phbs; j++) {
-> -            PnvPHB *phb = &chip8->phbs[j];
-> +            PnvPHB *phb = chip8->phbs[j];
->               PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
->   
->               if (ics_valid_irq(&phb3->lsis, irq)) {
-> @@ -1997,7 +2014,7 @@ static void pnv_ics_resend(XICSFabric *xi)
->           ics_resend(&chip8->psi.ics);
->   
->           for (j = 0; j < chip8->num_phbs; j++) {
-> -            PnvPHB *phb = &chip8->phbs[j];
-> +            PnvPHB *phb = chip8->phbs[j];
->               PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
->   
->               ics_resend(&phb3->lsis);
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 781d0acffa..49433281d7 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -81,7 +81,11 @@ struct Pnv8Chip {
->       PnvHomer     homer;
->   
->   #define PNV8_CHIP_PHB3_MAX 4
-> -    PnvPHB       phbs[PNV8_CHIP_PHB3_MAX];
-> +    /*
-> +     * The array is used to allow quick access to the phbs by
-> +     * pnv_ics_get_child() and pnv_ics_resend_child().
-> +     */
-> +    PnvPHB       *phbs[PNV8_CHIP_PHB3_MAX];
->       uint32_t     num_phbs;
->   
->       XICSFabric    *xics;
 
