@@ -2,52 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E409A591A1F
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 14:21:53 +0200 (CEST)
-Received: from localhost ([::1]:44966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A25591AAE
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 15:38:59 +0200 (CEST)
+Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMq9I-0007xm-CD
-	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 08:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52388)
+	id 1oMrLt-0007d2-C2
+	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 09:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anton.kochkov@proton.me>)
- id 1oMq3Y-0004Hp-6h
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 08:15:56 -0400
-Received: from mail-4316.protonmail.ch ([185.70.43.16]:29917)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1oMrFd-0002xD-BH; Sat, 13 Aug 2022 09:32:30 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:42372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anton.kochkov@proton.me>)
- id 1oMq3U-0001Q8-Bz
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 08:15:55 -0400
-Date: Sat, 13 Aug 2022 12:15:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=k5kerzt4dnaormvktcrgzhgkru.protonmail; t=1660392928; x=1660652128;
- bh=uVTMk+ZlNmRY9pdJknlwgHt1JlGkBCgdXXLcfD/noXM=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
- b=a4RPBR16wGxVKzA4B1JuiNcKDE4OBuFMJh8YOB5MX3Ooz7CjA+deZRurJPnkfrxPp
- OpYI+LtCFpMO9ooeUwLvAR4wAmI1c61mvWJtBWHLi4n+gTT/3F+6f2AJ9AVfd/ufRH
- HQ+KXIFny1/HiVmMk/E1I6MkphJyJyLJDyNAaUlmtrHZM5ErInhMRmx6GZpsJvEfIx
- m3Kxmh1lMbY9sBbKIW1NlzfWkIukUbevjVdW6TL17A+YKWrEd3kbea56JFTCyHOORm
- Ho9S6iBvwQN8PexO0cAYEnOBjXLS0ngNITdijBvW0J6AycwLP+gIzXarVQn+B97iYk
- eNtVbgNddGFNQ==
-To: qemu-devel@nongnu.org
-From: Anton Kochkov <anton.kochkov@proton.me>
-Cc: Anton Kochkov <anton.kochkov@proton.me>
-Subject: [PATCH] meson: be strict for boolean options
-Message-ID: <20220813121400.1995447-1-anton.kochkov@proton.me>
-Feedback-ID: 53490844:user:proton
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.70.43.16;
- envelope-from=anton.kochkov@proton.me; helo=mail-4316.protonmail.ch
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1oMrFa-0005dJ-TK; Sat, 13 Aug 2022 09:32:29 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EF318B800E2;
+ Sat, 13 Aug 2022 13:32:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D22C433C1;
+ Sat, 13 Aug 2022 13:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660397542;
+ bh=4tt7rfBTVdPNcYX1M4pLZ2pBDu1cWuKg6CQTeYZJTL8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pQAAWq9Q3rJzp7x/PtLEfq3vmnHAh0bW8QQEYaQhkuFYyo6EoeKg2W+Z9XiyxR1ZX
+ xq52lNyN6iYxFzCSQPMS8zQEq/rCIbadzx+kwKfhLYjKGbBbTrcVrqfqdrSlu5Hs0Z
+ zCIhVBiPuqEf2V5tNzqVdWJueqzUMOUyhgwJIKTV84xhTxOAuytriiAcjLhBOEO+uV
+ 8ZPBpRm9dfEXftW7mn24xtGOfBzNA2bnRDKllwx0nYw4NQfCECyLY5w/Xb7g0R3yUI
+ bdVtH5hcfNQzk8gLd7O7mdQCYt0ExHt+kEj9F9QdhI8y0e2DV5p/IVk+rVwX4sKQ6S
+ 2IyOSx7r0NsDw==
+Received: from sofa.misterjones.org ([185.219.108.64]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1oMrFU-002iqS-AU;
+ Sat, 13 Aug 2022 14:32:20 +0100
+Date: Sat, 13 Aug 2022 14:32:19 +0100
+Message-ID: <8735e0s1zw.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Vitaly Chikunov <vt@altlinux.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ kvmarm <kvmarm@lists.cs.columbia.edu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dmitry V. Levin" <ldv@altlinux.org>
+Subject: Re: qemu-system-aarch64: Failed to retrieve host CPU features
+In-Reply-To: <20220813111137.5plgwrfnosolj2bp@altlinux.org>
+References: <20220812021427.cwenhciuftgtaj64@altlinux.org>
+ <20220812084529.ur5qcyws5qvoyvuc@altlinux.org>
+ <CAFEAcA9BuSe4SwpoWTALURaxoj-8U2y83k=und7oKrZBggLarQ@mail.gmail.com>
+ <87h72hv71u.wl-maz@kernel.org>
+ <20220813111137.5plgwrfnosolj2bp@altlinux.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: vt@altlinux.org, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, kvmarm@lists.cs.columbia.edu, qemu-devel@nongnu.org,
+ ldv@altlinux.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=maz@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,41 +88,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Anton Kochkov <anton.kochkov@proton.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While Meson buildsystem accepts the 'false' as a value
-for boolean options, it's not covered by the specification
-and in general invalid. Some alternative Meson implementations,
-like Muon, do not accept 'false' or 'true' as a valid value
-for the boolean options.
+On Sat, 13 Aug 2022 12:11:37 +0100,
+Vitaly Chikunov <vt@altlinux.org> wrote:
+> 
+> Marc,
+> 
+> On Fri, Aug 12, 2022 at 04:02:37PM +0100, Marc Zyngier wrote:
+> > On Fri, 12 Aug 2022 10:25:55 +0100,
+> > Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > 
+> > > I've added some more relevant mailing lists to the cc.
+> > > 
+> > > On Fri, 12 Aug 2022 at 09:45, Vitaly Chikunov <vt@altlinux.org> wrote:
+> > > > On Fri, Aug 12, 2022 at 05:14:27AM +0300, Vitaly Chikunov wrote:
+> > > > > I noticed that we starting to get many errors like this:
+> > > > >
+> > > > >   qemu-system-aarch64: Failed to retrieve host CPU features
+> > > > >
+> > > > > Where many is 1-2% per run, depends on host, host is Kunpeng-920, and
+> > > > > Linux kernel is v5.15.59, but it started to appear months before that.
+> > > > >
+> > > > > strace shows in erroneous case:
+> > > > >
+> > > > >   1152244 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+> > > > >
+> > > > > And I see in target/arm/kvm.c:kvm_arm_create_scratch_host_vcpu:
+> > > > >
+> > > > >     vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> > > > >     if (vmfd < 0) {
+> > > > >         goto err;
+> > > > >     }
+> > > > >
+> > > > > Maybe it should restart ioctl on EINTR?
+> > > > >
+> > > > > I don't see EINTR documented in ioctl(2) nor in Linux'
+> > > > > Documentation/virt/kvm/api.rst for KVM_CREATE_VM, but for KVM_RUN it
+> > > > > says "an unmasked signal is pending".
+> > > >
+> > > > I am suggested that almost any blocking syscall could return EINTR, so I
+> > > > checked the strace log and it does not show evidence of arriving a signal,
+> > > > the log ends like this:
+> > > >
+> > > >   1152244 openat(AT_FDCWD, "/dev/kvm", O_RDWR|O_CLOEXEC) = 9
+> > > >   1152244 ioctl(9, KVM_CHECK_EXTENSION, KVM_CAP_ARM_VM_IPA_SIZE) = 48
+> > > >   1152244 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+> > > >   1152244 close(9)                        = 0
+> > > >   1152244 newfstatat(2, "", {st_dev=makedev(0, 0xd), st_ino=57869925, st_mode=S_IFIFO|0600, st_nlink=1, st_uid=517, st_gid=517, st_blksize=4096, st_blocks=0, st_size=0, st_atime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_atime_nsec=850436293, st_mtime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_mtime_nsec=850436293, st_ctime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_ctime_nsec=850436293}, AT_EMPTY_PATH) = 0
+> > > >   1152244 write(2, "qemu-system-aarch64: Failed to r"..., 58) = 58
+> > > >   1152244 exit_group(1)                   = ?
+> > > >   1152245 <... clock_nanosleep resumed> <unfinished ...>) = ?
+> > > >   1152245 +++ exited with 1 +++
+> > > >   1152244 +++ exited with 1 +++
+> > > 
+> > > KVM folks: should we expect that KVM_CREATE_VM might fail EINTR
+> > > and need retrying?
+> > 
+> > In general, yes. But for this particular one, this is pretty odd.
+> > 
+> > The only path I can so far see that would match this behaviour is if
+> > mm_take_all_locks() (called from __mmu_notifier_register()) was
+> > getting interrupted by a signal (I'm looking at a 5.19-ish kernel,
+> > which may slightly differ from the 5.15 mentioned above).
+> > 
+> > But as Vitaly points out, it doesn't seem to be a signal delivered
+> > here.
+> > 
+> > Vitaly: could you please share your exact test case (full qemu command
+> > line), and instrument your kernel to see if mm_take_all_locks() is the
+> > one failing?
+> 
+> Full command is `qemu-system-aarch64 -M accel=kvm:tcg -m 4096M -smp
+>   cores=8 -nodefaults -nographic -no-reboot -fsdev
+>   local,id=root,path=/,security_model=none,multidevs=remap -device
+>   virtio-9p-pci,fsdev=root,mount_tag=/dev/root -device virtio-rng-pci
+>   -serial mon:stdio -kernel /boot/vmlinuz-5.18.16-un-def-alt1 -initrd
+>   /usr/src/tmp/initramfs-5.18.16-un-def-alt1.img -sandbox on,spawn=deny -M
+>   virt,gic-version=3 -cpu max -append 'console=ttyAMA0 mitigations=off
+>   nokaslr quiet panic=-1 SCRIPT=/usr/src/tmp/tmp.458pkF5r8d'`.
+> 
+> But a minified reproducer is `qemu-system-aarch64 -M virt,accel=kvm -cpu max -kernel qwe`. 
 
-See https://mesonbuild.com/Build-options.html
+Ah, couldn't be smaller! ;-) Thanks for that!
 
-Signed-off-by: Anton Kochkov <anton.kochkov@proton.me>
----
- meson_options.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> I traced with kprobe event tracer with the probes:
+> 
+>   echo 'p kvm_dev_ioctl'               > kprobe_events
+>   echo 'r kvm_dev_ioctl $retval'      >> kprobe_events
+>   echo 'p mm_take_all_locks'          >> kprobe_events
+>   echo 'r mm_take_all_locks $retval'  >> kprobe_events
+> 
+> Then run reproducer in the loop
+> 
+>   for ((i=0;i<100;i++));do echo $i; strace -fvo bb.$i qemu-system-aarch64 -M virt,accel=kvm -cpu max -kernel qwe 2>&1 | grep Failed && break; done
+> 
+> And on 97th iteration it's failed, strace log to check that PID is the same with
+> the following trace:
+> 
+>   3611463 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+> 
+> Event trace log:
+> 
+>   qemu-system-aar-3611463 [002] d.... 342920.535549: p_kvm_dev_ioctl_0: (kvm_dev_ioctl+0x0/0x910)
+>   qemu-system-aar-3611463 [002] d.... 342920.535635: p_mm_take_all_locks_0: (mm_take_all_locks+0x0/0x390)
+>   qemu-system-aar-3611463 [002] ..... 342920.535657: r_mm_take_all_locks_0: (__mmu_notifier_register+0x44/0x200 <- mm_take_all_locks) arg1=0xfffffffc
+>   qemu-system-aar-3611463 [002] ..... 342920.535695: r_kvm_dev_ioctl_0: (__arm64_sys_ioctl+0xcc/0x124 <- kvm_dev_ioctl) arg1=0xfffffffffffffffc
+> 
+> So that's mm_take_all_locks returns EINTR.
+> 
+> (I tried also to make C reproducer which opens /dev/kvm and call
+> `ioctl(kvm, KVM_CREATE_VM, 0)` in the loop and it does not reproduce the
+> problem, so it seems it's also something additional that QEMU does.)
 
-diff --git a/meson_options.txt b/meson_options.txt
-index e58e158396..63f0725174 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -82,9 +82,9 @@ option('tcg', type: 'feature', value: 'enabled',
-        description: 'TCG support')
- option('tcg_interpreter', type: 'boolean', value: false,
-        description: 'TCG with bytecode interpreter (slow)')
--option('cfi', type: 'boolean', value: 'false',
-+option('cfi', type: 'boolean', value: false,
-        description: 'Control-Flow Integrity (CFI)')
--option('cfi_debug', type: 'boolean', value: 'false',
-+option('cfi_debug', type: 'boolean', value: false,
-        description: 'Verbose errors in case of CFI violation')
- option('multiprocess', type: 'feature', value: 'auto',
-        description: 'Out of process device emulation support')
---
-2.37.1
+On my fast test box, it takes several hundreds of iterations to fire,
+but that's not completely impossible to trigger (strace actually helps
+here). I was expecting it to fire more on a slow one, but that's not
+the case.
 
+And indeed, no signal seems to be delivered. I suspect that
+FIT_NOTIFY_SIGNAL is set, but I need to investigate more. With a
+reproducer, it should be easier to diagnose fully.
 
+But we probably need to handle EINTR when creating the mini VM.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
