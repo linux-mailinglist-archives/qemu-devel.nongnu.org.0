@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07465918F7
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 07:59:11 +0200 (CEST)
-Received: from localhost ([::1]:51970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AF0591905
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 08:21:32 +0200 (CEST)
+Received: from localhost ([::1]:57720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMkAw-0003WS-R1
-	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 01:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38696)
+	id 1oMkWY-0001CH-Uq
+	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 02:21:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1oMk9D-0001mV-Jb
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 01:57:23 -0400
-Received: from mail-il1-f177.google.com ([209.85.166.177]:44708)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oMkRi-0007CB-PC
+ for qemu-devel@nongnu.org; Sat, 13 Aug 2022 02:16:31 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1oMk9A-0007ES-KO
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 01:57:23 -0400
-Received: by mail-il1-f177.google.com with SMTP id g14so1476202ile.11
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 22:57:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oMkRg-00016w-J7
+ for qemu-devel@nongnu.org; Sat, 13 Aug 2022 02:16:30 -0400
+Received: by mail-wr1-x429.google.com with SMTP id l4so3178548wrm.13
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 23:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:user-agent:from:to:cc;
+ bh=J/yu8t65NuL3it7Gj/+Z69nS+R4m955LsB8cz2h6Gw4=;
+ b=ARGCnlBaUIxYmgfDnXTN7BijtQCCeLvgt6DvmEknKsBxPBMrgKrbLl/HvAmi6cG5Yl
+ SEfNfWj+TwZ7NR9yoP7aVc2YjxnDqXqvv84VFWQsqleZgYxoR7S7T9zpDok8Fj8H4duG
+ hpjEkO4topD8Od6W30wAOOkxvX9B4idqnX5a6njt+eNOe8V9hpOWhBGKa23zmvQWIJ9A
+ CXEE65RWFnQajY0ALtHveZ+yHmQg9nzfHfvcMnzCwMT9p6daP/+dqF40tR17byNcc8NU
+ knZQD2kfUgQSHlOdQG3xulCctMP3BZPFJUL9Tcyibr8CVtA/r781yFvCCHJlypNOTCqc
+ ekdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=Ct4UaHPGOQJrMzlKzrhnGWF1GHR8f7qUbp/i55AvxD0=;
- b=JF0XIO0xxZ5egWkOQhIWJcfQQeWdTZv9GpcLwSdtaQrP9MZRXa95ySwVW5eWmlEkL+
- 1w4sMA6IayyGSqADVyOD2TJ6OU5A9azyqniMYCjclP8f9xcyKA6gXmLvnCtoriwzeNNL
- 1xVPsmz6GT9iJaQnnnUjHnmlMppdIW8Rq5D0Gz+/6VachwQ+STyx8QONrcakmdPgp+0b
- btsiOGfT2UbZJGXxg8tjUO66xQ8Nt2eCzEKgObrt9EK/2TB8MGM31WTL1+s083EsHZDI
- b6MXUZNWTnuv3Ow08QTFmhGYAWH0sYZfAViuj3whEufgnEThTnsZqfxSPGlq2DKx6xG2
- DttA==
-X-Gm-Message-State: ACgBeo3dX70Ipn2qcQ3VRbF85sCuPksDPVrkK1iG6Q6TW2pO2qyAqpMj
- PWhrvxmZvSS/ldvCHZjjEj6EURizXs8=
-X-Google-Smtp-Source: AA6agR5EC9jwpSozQg754EC9eaRdzuuS9dNw1tYWlxSRm4eyAt/KCwxGKanu8lqZW0c6/0g9RNuQWQ==
-X-Received: by 2002:a05:6e02:20ea:b0:2e5:93:3086 with SMTP id
- q10-20020a056e0220ea00b002e500933086mr1002663ilv.231.1660370239536; 
- Fri, 12 Aug 2022 22:57:19 -0700 (PDT)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
- [209.85.166.50]) by smtp.gmail.com with ESMTPSA id
- e4-20020a0566380cc400b003435d8a6ee1sm715330jak.69.2022.08.12.22.57.19
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Aug 2022 22:57:19 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id q124so2344601iod.3
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 22:57:19 -0700 (PDT)
-X-Received: by 2002:a02:8484:0:b0:343:9bed:be9f with SMTP id
- f4-20020a028484000000b003439bedbe9fmr567118jai.217.1660370239131; Fri, 12 Aug
- 2022 22:57:19 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:user-agent:x-gm-message-state:from:to:cc;
+ bh=J/yu8t65NuL3it7Gj/+Z69nS+R4m955LsB8cz2h6Gw4=;
+ b=FLCwJ19JBIrq9LsvspeoGGk/fJzur0DSgYBCQHEMqe+T1Oty2ualNqdCSTbfA561xP
+ uyc1AapMFLUhXYy9ef/Xse02ji5+x3byun4zYwlbtfDbaTHuyokE6zhMpeNSjtdDNRv7
+ XjhkLyXAu3aNLUfgNBCZxNsCSr9CY2aF30k3ByFe/isPD2HvfE71E/yGV19iITfOk1Z4
+ 55hSIvuCVD5pt2aH1WwxGdbjYhPDg07w/zu9kif9808h9EGNTGnBQlAq3e6kF4kKG/Dr
+ gv2vDdSPGtehr71jjc/N80m/RO4ziHTQgKgyy9ZR7Y+VdEd8J33IAweypQtiKdeHr0jE
+ zt0w==
+X-Gm-Message-State: ACgBeo06JrrzGbacgOMXhE+ZfGAuDxvTWJYdiV4oOBTROCOoJiK8kQmF
+ qsm3EfLcEGOI5T4Ei3qWwJ0uOA==
+X-Google-Smtp-Source: AA6agR6xm6L3RdD90D6p1ndDyTQrBJ4h5Xod2Dfx3p1+nfrumnW48VwuVwTOAXwxTx2I39DWzRvt/Q==
+X-Received: by 2002:a5d:47c4:0:b0:21f:e92:7ba1 with SMTP id
+ o4-20020a5d47c4000000b0021f0e927ba1mr3662631wrc.408.1660371386633; 
+ Fri, 12 Aug 2022 23:16:26 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bg6-20020a05600c3c8600b003a308e9a192sm1787096wmb.30.2022.08.12.23.16.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Aug 2022 23:16:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 318C11FFB7;
+ Sat, 13 Aug 2022 07:16:25 +0100 (BST)
+User-agent: mu4e 1.8.8; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>
+Subject: Info about the slowest avocado tcg tests (arm, s390x, ppc, replay)
+Date: Sat, 13 Aug 2022 07:10:32 +0100
+Message-ID: <87r11kpt1j.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220813011031.3744-1-j@getutm.app>
- <20220813011031.3744-4-j@getutm.app>
- <20220813052956.vnnvukb5xt7f4p6i@tapioca>
- <CA+E+eSAzY6ZVJ-1qqTRs9a-Z5OaxGyhs1R8Jj0H21d2jyo5JPQ@mail.gmail.com>
- <20220813055033.tzdummia7c3igzgm@tapioca>
-In-Reply-To: <20220813055033.tzdummia7c3igzgm@tapioca>
-From: Joelle van Dyne <j@getutm.app>
-Date: Fri, 12 Aug 2022 22:57:08 -0700
-X-Gmail-Original-Message-ID: <CA+E+eSBYcDPncJsqZp+U735qM+hEKb9PjhnqLiquDjJfw425eA@mail.gmail.com>
-Message-ID: <CA+E+eSBYcDPncJsqZp+U735qM+hEKb9PjhnqLiquDjJfw425eA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] usbredir: avoid queuing hello packet on snapshot
- restore
-To: Victor Toso <victortoso@redhat.com>
-Cc: Joelle van Dyne <j@getutm.app>, QEMU Developers <qemu-devel@nongnu.org>, 
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.177; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f177.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,74 +94,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 12, 2022 at 10:50 PM Victor Toso <victortoso@redhat.com> wrote:
->
-> Hi,
->
-> On Fri, Aug 12, 2022 at 10:33:54PM -0700, Joelle van Dyne wrote:
-> > On Fri, Aug 12, 2022 at 10:30 PM Victor Toso <victortoso@redhat.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Fri, Aug 12, 2022 at 06:10:31PM -0700, Joelle van Dyne wrote:
-> > > > When launching QEMU with "-loadvm", usbredir_create_parser() should avoid
-> > > > setting up the hello packet (just as with "-incoming". On the latest version
-> > > > of libusbredir, usbredirparser_unserialize() will return error if the parser
-> > > > is not "pristine."
-> > >
-> > > That was wrong in the usbredir side. The fix [0] was merged and
-> > > included in the latest 0.13.0 release
-> >
-> > This is good to know. Should the entire runstate_check in
-> > usbredir_create_parser be removed?
->
-> From my POV your patch looks correct and would avoid migration
-> issues such as [1] with usbredir 0.12.0 that was not patched
->
-> [1] https://bugzilla.redhat.com/show_bug.cgi?id=2096008
->
-> So, I'd keep the check and the patch :)
+[RESEND because the ML ate my email again]
 
-I have to admit I'm not too familiar with the inner workings of
-libusbredir. But is it desirable to skip the HELLO packet on "loadvm"?
-I wrote this on the assumption that it's correct because libusbredir
-enforces it, but if that's wrong, then I'm wondering if maybe we need
-the HELLO to re-establish communication (that was the issue I triaged
-with "-S", when USB devices did not work due to the HELLO packet not
-being sent). In a migration, it makes sense that a SPICE client has
-not reset the USB device. However, when re-starting QEMU with
-"-loadvm", it's possible the USB device has been disconnected and
-reconnected. Ideally, we report that to the guest and let it handle
-the reset. Would "usbredirparser_fl_no_hello" prevent that?
+Hi All,
 
->
-> > > [0] https://gitlab.freedesktop.org/spice/usbredir/-/merge_requests/61
-> > >
-> > > > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > > > ---
-> > > >  hw/usb/redirect.c | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-> > > > index fd7df599bc..47fac3895a 100644
-> > > > --- a/hw/usb/redirect.c
-> > > > +++ b/hw/usb/redirect.c
-> > > > @@ -1280,7 +1280,8 @@ static void usbredir_create_parser(USBRedirDevice *dev)
-> > > >      }
-> > > >  #endif
-> > > >
-> > > > -    if (runstate_check(RUN_STATE_INMIGRATE)) {
-> > > > +    if (runstate_check(RUN_STATE_INMIGRATE) ||
-> > > > +        runstate_check(RUN_STATE_RESTORE_VM)) {
-> > > >          flags |= usbredirparser_fl_no_hello;
-> > > >      }
-> > > >      usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
-> > > > --
-> > > > 2.28.0
-> > > >
-> > > >
->
-> Cheers,
-> Victor
->
+In my investigations into our current Avocado tests I identified all
+that ran for more than 30s for an --enable-debug build. They are:
+
+  tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2: PASS( 7=
+63.81 s)
+  tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3: PASS( 7=
+42.75 s)
+
+The main slowness here is due to inefficient TB invalidation of code
+generated during the firmware phase when the rest of the system boots.
+
+  tests/avocado/boot_linux.py:BootLinuxS390X.test_s390_ccw_virtio_tcg:  PAS=
+S( 433.48 s)
+
+This looks like a very fat distro. A lot of slow delays waiting for
+systemd units to come up. That said the positively svelte Alpine ISO
+still takes about 4min30s to churn through it's userspace boot.
+
+Looking at the callchains though it might be helped by the same fixes as
+the ARM tcg GIC tests:
+
+-   28.15%     0.16%  qemu-system-s39  qemu-system-s390x             [.] st=
+ore_helper
+   - 27.99% store_helper
+      - 23.08% notdirty_write
+         - 17.51% page_collection_lock
+              2.76% page_trylock_add
+              1.22% g_tree_lookup
+              0.62% g_tree_find_node
+         - 4.53% tb_invalidate_phys_page_fast
+            - 4.37% tb_invalidate_phys_page_range__locked
+               - 3.44% tb_phys_invalidate__locked
+                  - 3.44% do_tb_phys_invalidate
+                       3.40% tb_page_remove
+           0.63% page_trylock_add
+      - 4.25% tlb_fill
+         - 4.21% s390_cpu_tlb_fill
+            - 2.35% mmu_translate
+               - 1.77% mmu_translate_asce
+                  - 1.58% read_table_entry
+                     - 1.39% address_space_read_full
+                        - 1.11% flatview_read
+                           - 0.62% flatview_translate
+                                0.55% flatview_do_translate
+            - 1.70% tlb_set_page
+               - 1.64% tlb_set_page_with_attrs
+                    0.52% cpu_physical_memory_is_clean
+-   25.10%     0.02%  qemu-system-s39  qemu-system-s390x             [.] no=
+tdirty_write
+   - 25.08% notdirty_write
+      - 18.14% page_collection_lock
+           2.84% page_trylock_add
+           1.25% g_tree_lookup
+           0.64% g_tree_find_node
+      - 5.86% tb_invalidate_phys_page_fast
+         - 5.69% tb_invalidate_phys_page_range__locked
+            - 4.62% tb_phys_invalidate__locked
+               - 4.62% do_tb_phys_invalidate
+                    4.57% tb_page_remove
+        0.65% page_trylock_add
+
+There might be some millage looking at the tb_jmp_cache utilisation
+though because it looks like pretty much all tb_lookup falls through to
+the full QHT lookup:
+
+-   19.82%     1.65%  qemu-system-s39  qemu-system-s390x             [.] tb=
+_lookup
+   - 18.17% tb_lookup
+      - 17.84% tb_htable_lookup
+         - 9.94% get_page_addr_code
+            - 9.66% get_page_addr_code_hostp
+               - 5.55% tlb_fill
+                  - 5.48% s390_cpu_tlb_fill
+                     - 3.55% mmu_translate
+                        - 2.73% mmu_translate_asce
+                           - 2.44% read_table_entry
+                              - 2.17% address_space_read_full
+                                 - 1.72% flatview_read
+                                    - 0.93% flatview_translate
+                                       - 0.83% flatview_do_translate
+                                            0.58% address_space_translate_i=
+nternal
+                        - 0.54% mmu_absolute_addr_valid
+                             0.51% address_space_access_valid
+                     - 1.73% tlb_set_page
+                        - 1.64% tlb_set_page_with_attrs
+                             0.54% tlb_flush_vtlb_page_locked
+               - 1.56% qemu_ram_addr_from_host_nofail
+                  - 1.40% qemu_ram_addr_from_host
+                       1.17% qemu_ram_block_from_host
+                 0.73% tlb_entry
+         - 4.30% qht_lookup_custom
+            - 1.90% qht_do_lookup
+                 1.21% tb_lookup_cmp
+              1.59% seqlock_read_begin
+         - 2.82% tb_hash_func
+            - 2.66% qemu_xxhash6
+               - 2.35% qemu_xxhash7
+                    rol32
+
+  tests/avocado/boot_linux.py:BootLinuxPPC64.test_pseries_tcg: PASS( 341.90=
+ s)
+  tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg: PASS( 240.=
+76 s)
+  tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q35_tcg: PASS( 221.70 =
+s)
+
+Nothing especially jumps out of perf (in fact it looks very similar to
+s390x):
+
+   6.40%  qemu-system-ppc  qemu-system-ppc64        [.] tb_lookup
+   5.63%  qemu-system-ppc  qemu-system-ppc64        [.] check_regs
+   4.87%  qemu-system-ppc  qemu-system-ppc64        [.] hreg_compute_hflags=
+_value
+   4.21%  qemu-system-ppc  qemu-system-ppc64        [.] pmu_increment_insns
+   2.42%  qemu-system-ppc  qemu-system-ppc64        [.] helper_insns_inc
+   2.26%  qemu-system-ppc  qemu-system-ppc64        [.] cpu_get_tb_cpu_state
+   2.20%  qemu-system-ppc  qemu-system-ppc64        [.] type_get_parent
+   2.07%  qemu-system-ppc  qemu-system-ppc64        [.] helper_lookup_tb_ptr
+   1.96%  qemu-system-ppc  [kernel.kallsyms]        [k] list_lru_count_one
+   1.63%  qemu-system-ppc  qemu-system-ppc64        [.] type_is_ancestor
+   1.62%  qemu-system-ppc  qemu-system-ppc64        [.] helper_vsldoi
+   1.49%  qemu-system-ppc  qemu-system-ppc64        [.] la_reset_pref
+   1.14%  qemu-system-ppc  qemu-system-ppc64        [.] seqlock_read_begin
+   1.02%  qemu-system-ppc  qemu-system-ppc64        [.] liveness_pass_1
+   0.97%  qemu-system-ppc  [kernel.kallsyms]        [k] _raw_spin_lock
+   0.81%  qemu-system-ppc  qemu-system-ppc64        [.] curr_cflags
+   0.76%  qemu-system-ppc  libglib-2.0.so.0.5600.4  [.] g_hash_table_lookup
+   0.75%  qemu-system-ppc  qemu-system-ppc64        [.] check_for_breakpoin=
+ts
+   0.75%  qemu-system-ppc  qemu-system-ppc64        [.] tb_jmp_cache_hash_f=
+unc=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+which all looks fairly typical for --debug code with heavy computed
+jumps (triggering a lot of tb_lookups).
+
+  tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu: WARN( 91.80 s)
+  tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_strict: WARN( 91=
+.47 s)
+  tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_pt: WARN( 91.36 =
+s)
+  tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_strict_cm: WARN(=
+ 88.56 s)
+
+These all end with WARN so could be broken anyway and just timing out.
+Didn't dig in too deeply.
+
+  tests/avocado/replay_kernel.py:ReplayKernelNormal.test_arm_cubieboard_ini=
+trd: PASS( 63.24 s)
+  tests/avocado/replay_kernel.py:ReplayKernelNormal.test_sparc_ss20: PASS( =
+59.36 s)
+
+This could just be replay being inherently slow given it runs several
+times under icount.
+
+  tests/avocado/boot_xen.py:BootXen.test_arm64_xen_411_and_dom0: PASS( 57.1=
+5 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd=
+: PASS( 55.00 s)
+  tests/avocado/machine_aspeed.py:AST2x00Machine.test_arm_ast2500_romulus_o=
+penbmc_v2_9_0: PASS( 52.73 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_x86_64_pc: PASS=
+( 51.08 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_xlnx_ve=
+rsal_virt: PASS( 47.98 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_ast2600_deb=
+ian: PASS( 47.48 s)
+  tests/avocado/linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_work=
+_with_linux_v4_16: PASS( 45.29 s)
+  tests/avocado/machine_aspeed.py:AST2x00Machine.test_arm_ast2400_palmetto_=
+openbmc_v2_9_0: PASS( 44.54 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_in=
+itrd: PASS( 40.96 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_exynos4210_=
+initrd: PASS( 37.70 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_=
+initrd: PASS( 34.29 s)
+  tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_=
+sata: PASS( 33.19 s)
+
+--=20
+Alex Benn=C3=A9e
 
