@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA435919D4
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 12:23:40 +0200 (CEST)
-Received: from localhost ([::1]:40142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919705919FA
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 13:13:33 +0200 (CEST)
+Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMoIt-0007Wd-HX
-	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 06:23:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38390)
+	id 1oMp5A-0007Y1-8C
+	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 07:13:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMoGn-0004qX-7v
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 06:21:29 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:41743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oMoGj-0000RJ-23
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 06:21:28 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id y127so4909310yby.8
- for <qemu-devel@nongnu.org>; Sat, 13 Aug 2022 03:21:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=s3qu38xhtbvJl87MpDEF3axrKsGQKH/PsT9zWIa+kcs=;
- b=YzEXm3JTbZq/AetI/d67T/B6NknfUMUy4o3S362HHnfXHs/LKlpbgL/c1/QfTMnVJb
- XjDonJYz5ef2HKsrl33/BZqxv/4fT1Thgxn/uZgUEiPtI8nSyPNUrPvE6HQGWIaQduhE
- LOVZLbrZ51NwYLmd5GZ6apyhZV96q4SV8UsNxgTr+4ukHC93GqwuCGj8ZYcrMEPjZYDu
- esV6dELHDHvCgh5iFx66KWp4UN1MF0Wu4Dmk5GyyNPcTaUQ6KXjSsWVDdXFvFxb7+ZYJ
- 0yfNcflEcS0iQU9xCQTXyjO+5UHYhWLc1Bph9LqTV5Xi3BrqzMxCTFmtJhGRpuwlmO3S
- dNJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=s3qu38xhtbvJl87MpDEF3axrKsGQKH/PsT9zWIa+kcs=;
- b=cFc+D+k5fFjYMimma3dAH1Pg6Ujb7woWHpbbGhAxiF8NuH66mx9o8EVRweCRU0bQQb
- 2VVO8VR5ZP3rj200sX/h13HwzayXD5ly1okQ3qFCaY0SVL49UsApC0WewVWgCODnX5fj
- v2QSAITmJ7QkaDsZv8L3xM5rnLm+sAo4qVHaeS7AuyDpqpT1LY30Rl+KdjYBdyXmx23y
- gATweRH5RvR+pVTmkISDc7/wtEuNaKfaX/c8JuaOFm+OtabMoFEeiTUe4kSLXssf24je
- emgvBzQkzAJABmlQsqOEvfjHZ/RLIwpL3wNbbfooJVuOSVfCRda1XR/VubNgBIUtAFYW
- v1Ig==
-X-Gm-Message-State: ACgBeo3Y0ndQn44nI+KHu1ivNcesGX4p4HC3iFHdlU8oTHAwn2sIX6qm
- V+/9Ss+qKulO2mDJtAyu83rDjf/PnFU7Rjg60s+zPQ==
-X-Google-Smtp-Source: AA6agR4SF/NHCmDB+tj6ObWwdepqdqDLqRWFs8s6JIGxhAUQZOBiXoTXv9651yrVHJ3K3fkt5/wpeHZDJyO1yINZA6I=
-X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
- t6-20020a5b07c6000000b006706ba6d046mr5951626ybq.140.1660386083511; Sat, 13
- Aug 2022 03:21:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
+ id 1oMp3S-0005yV-Jg; Sat, 13 Aug 2022 07:11:47 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:55992)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <vt@altlinux.org>)
+ id 1oMp3Q-0008GR-9Y; Sat, 13 Aug 2022 07:11:46 -0400
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+ by vmicros1.altlinux.org (Postfix) with ESMTP id 5416072C90B;
+ Sat, 13 Aug 2022 14:11:38 +0300 (MSK)
+Received: from altlinux.org (sole.flsd.net [185.75.180.6])
+ by imap.altlinux.org (Postfix) with ESMTPSA id 314A54A46FE;
+ Sat, 13 Aug 2022 14:11:38 +0300 (MSK)
+Date: Sat, 13 Aug 2022 14:11:37 +0300
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ kvmarm <kvmarm@lists.cs.columbia.edu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dmitry V. Levin" <ldv@altlinux.org>
+Subject: Re: qemu-system-aarch64: Failed to retrieve host CPU features
+Message-ID: <20220813111137.5plgwrfnosolj2bp@altlinux.org>
+References: <20220812021427.cwenhciuftgtaj64@altlinux.org>
+ <20220812084529.ur5qcyws5qvoyvuc@altlinux.org>
+ <CAFEAcA9BuSe4SwpoWTALURaxoj-8U2y83k=und7oKrZBggLarQ@mail.gmail.com>
+ <87h72hv71u.wl-maz@kernel.org>
 MIME-Version: 1.0
-References: <CA+tJHD4Fdv54_u9vffu9tNuor4Tu_Ld-eYZkLRmTxi=X2wknnw@mail.gmail.com>
-In-Reply-To: <CA+tJHD4Fdv54_u9vffu9tNuor4Tu_Ld-eYZkLRmTxi=X2wknnw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 13 Aug 2022 11:20:42 +0100
-Message-ID: <CAFEAcA9vZMKwCN8Qe0FhGta7k5dTaa8oWK+tNZgiLpQh+d-rEQ@mail.gmail.com>
-Subject: Re: [PATCH v2] riscv: Make semihosting configurable for all privilege
- modes
-To: Furquan Shaikh <furquan@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Andrew Jones <ajones@ventanamicro.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <87h72hv71u.wl-maz@kernel.org>
+Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
+ helo=vmicros1.altlinux.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,36 +62,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 13 Aug 2022 at 00:23, Furquan Shaikh <furquan@rivosinc.com> wrote:
->
-> Unlike ARM, RISC-V does not define a separate breakpoint type for
-> semihosting. Instead, it is entirely ABI. Thus, we need an option
-> to allow users to configure what the ebreak behavior should be for
-> different privilege levels - M, S, U, VS, VU. As per the RISC-V
-> privilege specification[1], ebreak traps into the execution
-> environment. However, RISC-V debug specification[2] provides
-> ebreak{m,s,u,vs,vu} configuration bits to allow ebreak behavior to
-> be configured to trap into debug mode instead. This change adds
-> settable properties for RISC-V CPUs - `ebreakm`, `ebreaks`, `ebreaku`,
-> `ebreakvs` and `ebreakvu` to allow user to configure whether qemu
-> should treat ebreak as semihosting traps or trap according to the
-> privilege specification.
->
-> [1] https://github.com/riscv/riscv-isa-manual/releases/download/draft-202=
-20723-10eea63/riscv-privileged.pdf
-> [2] https://github.com/riscv/riscv-debug-spec/blob/release/riscv-debug-re=
-lease.pdf
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Signed-off-by: Furquan Shaikh <furquan@rivosinc.com>
-> ---
+Marc,
 
-As per the discussion thread on the v1 patch, I don't think this
-is the right way to solve the underlying problem you ran into.
-We should fix that with a generic "allow semihosting calls
-from userspace" option.
+On Fri, Aug 12, 2022 at 04:02:37PM +0100, Marc Zyngier wrote:
+> On Fri, 12 Aug 2022 10:25:55 +0100,
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+> > 
+> > I've added some more relevant mailing lists to the cc.
+> > 
+> > On Fri, 12 Aug 2022 at 09:45, Vitaly Chikunov <vt@altlinux.org> wrote:
+> > > On Fri, Aug 12, 2022 at 05:14:27AM +0300, Vitaly Chikunov wrote:
+> > > > I noticed that we starting to get many errors like this:
+> > > >
+> > > >   qemu-system-aarch64: Failed to retrieve host CPU features
+> > > >
+> > > > Where many is 1-2% per run, depends on host, host is Kunpeng-920, and
+> > > > Linux kernel is v5.15.59, but it started to appear months before that.
+> > > >
+> > > > strace shows in erroneous case:
+> > > >
+> > > >   1152244 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+> > > >
+> > > > And I see in target/arm/kvm.c:kvm_arm_create_scratch_host_vcpu:
+> > > >
+> > > >     vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> > > >     if (vmfd < 0) {
+> > > >         goto err;
+> > > >     }
+> > > >
+> > > > Maybe it should restart ioctl on EINTR?
+> > > >
+> > > > I don't see EINTR documented in ioctl(2) nor in Linux'
+> > > > Documentation/virt/kvm/api.rst for KVM_CREATE_VM, but for KVM_RUN it
+> > > > says "an unmasked signal is pending".
+> > >
+> > > I am suggested that almost any blocking syscall could return EINTR, so I
+> > > checked the strace log and it does not show evidence of arriving a signal,
+> > > the log ends like this:
+> > >
+> > >   1152244 openat(AT_FDCWD, "/dev/kvm", O_RDWR|O_CLOEXEC) = 9
+> > >   1152244 ioctl(9, KVM_CHECK_EXTENSION, KVM_CAP_ARM_VM_IPA_SIZE) = 48
+> > >   1152244 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+> > >   1152244 close(9)                        = 0
+> > >   1152244 newfstatat(2, "", {st_dev=makedev(0, 0xd), st_ino=57869925, st_mode=S_IFIFO|0600, st_nlink=1, st_uid=517, st_gid=517, st_blksize=4096, st_blocks=0, st_size=0, st_atime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_atime_nsec=850436293, st_mtime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_mtime_nsec=850436293, st_ctime=1660268019 /* 2022-08-12T01:33:39.850436293+0000 */, st_ctime_nsec=850436293}, AT_EMPTY_PATH) = 0
+> > >   1152244 write(2, "qemu-system-aarch64: Failed to r"..., 58) = 58
+> > >   1152244 exit_group(1)                   = ?
+> > >   1152245 <... clock_nanosleep resumed> <unfinished ...>) = ?
+> > >   1152245 +++ exited with 1 +++
+> > >   1152244 +++ exited with 1 +++
+> > 
+> > KVM folks: should we expect that KVM_CREATE_VM might fail EINTR
+> > and need retrying?
+> 
+> In general, yes. But for this particular one, this is pretty odd.
+> 
+> The only path I can so far see that would match this behaviour is if
+> mm_take_all_locks() (called from __mmu_notifier_register()) was
+> getting interrupted by a signal (I'm looking at a 5.19-ish kernel,
+> which may slightly differ from the 5.15 mentioned above).
+> 
+> But as Vitaly points out, it doesn't seem to be a signal delivered
+> here.
+> 
+> Vitaly: could you please share your exact test case (full qemu command
+> line), and instrument your kernel to see if mm_take_all_locks() is the
+> one failing?
 
-thanks
--- PMM
+Full command is `qemu-system-aarch64 -M accel=kvm:tcg -m 4096M -smp
+  cores=8 -nodefaults -nographic -no-reboot -fsdev
+  local,id=root,path=/,security_model=none,multidevs=remap -device
+  virtio-9p-pci,fsdev=root,mount_tag=/dev/root -device virtio-rng-pci
+  -serial mon:stdio -kernel /boot/vmlinuz-5.18.16-un-def-alt1 -initrd
+  /usr/src/tmp/initramfs-5.18.16-un-def-alt1.img -sandbox on,spawn=deny -M
+  virt,gic-version=3 -cpu max -append 'console=ttyAMA0 mitigations=off
+  nokaslr quiet panic=-1 SCRIPT=/usr/src/tmp/tmp.458pkF5r8d'`.
+
+But a minified reproducer is `qemu-system-aarch64 -M virt,accel=kvm -cpu max -kernel qwe`. 
+
+I traced with kprobe event tracer with the probes:
+
+  echo 'p kvm_dev_ioctl'               > kprobe_events
+  echo 'r kvm_dev_ioctl $retval'      >> kprobe_events
+  echo 'p mm_take_all_locks'          >> kprobe_events
+  echo 'r mm_take_all_locks $retval'  >> kprobe_events
+
+Then run reproducer in the loop
+
+  for ((i=0;i<100;i++));do echo $i; strace -fvo bb.$i qemu-system-aarch64 -M virt,accel=kvm -cpu max -kernel qwe 2>&1 | grep Failed && break; done
+
+And on 97th iteration it's failed, strace log to check that PID is the same with
+the following trace:
+
+  3611463 ioctl(9, KVM_CREATE_VM, 0x30)   = -1 EINTR (Interrupted system call)
+
+Event trace log:
+
+  qemu-system-aar-3611463 [002] d.... 342920.535549: p_kvm_dev_ioctl_0: (kvm_dev_ioctl+0x0/0x910)
+  qemu-system-aar-3611463 [002] d.... 342920.535635: p_mm_take_all_locks_0: (mm_take_all_locks+0x0/0x390)
+  qemu-system-aar-3611463 [002] ..... 342920.535657: r_mm_take_all_locks_0: (__mmu_notifier_register+0x44/0x200 <- mm_take_all_locks) arg1=0xfffffffc
+  qemu-system-aar-3611463 [002] ..... 342920.535695: r_kvm_dev_ioctl_0: (__arm64_sys_ioctl+0xcc/0x124 <- kvm_dev_ioctl) arg1=0xfffffffffffffffc
+
+So that's mm_take_all_locks returns EINTR.
+
+(I tried also to make C reproducer which opens /dev/kvm and call
+`ioctl(kvm, KVM_CREATE_VM, 0)` in the loop and it does not reproduce the
+problem, so it seems it's also something additional that QEMU does.)
+
+Thanks,
 
