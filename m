@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818E8591B88
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 17:39:22 +0200 (CEST)
-Received: from localhost ([::1]:36750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8CF591B84
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 17:39:14 +0200 (CEST)
+Received: from localhost ([::1]:36084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMtEP-0006S1-Io
-	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 11:39:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52556)
+	id 1oMtEH-0005zp-48
+	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 11:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oMt9n-0008Re-JM; Sat, 13 Aug 2022 11:34:35 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:23019)
+ id 1oMt9n-0008SI-Ko; Sat, 13 Aug 2022 11:34:35 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:28277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oMt9l-0006IJ-3b; Sat, 13 Aug 2022 11:34:34 -0400
+ id 1oMt9l-0006IK-5R; Sat, 13 Aug 2022 11:34:35 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8BF0E74633F;
- Sat, 13 Aug 2022 17:34:27 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 4310574818E;
+ Sat, 13 Aug 2022 17:34:28 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E9B0E746335; Sat, 13 Aug 2022 17:34:26 +0200 (CEST)
-Message-Id: <cover.1660402839.git.balaton@eik.bme.hu>
+ id 05E98746397; Sat, 13 Aug 2022 17:34:28 +0200 (CEST)
+Message-Id: <50e79b2c5f2c17e2b6b7920dd6526b5c091ac8bb.1660402839.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1660402839.git.balaton@eik.bme.hu>
+References: <cover.1660402839.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 00/22] QOMify PPC4xx devices and minor clean ups
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH 01/22] ppc/ppc4xx: Introduce a DCR device model
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -35,7 +34,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 13 Aug 2022 17:34:26 +0200 (CEST)
+Date: Sat, 13 Aug 2022 17:34:28 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -60,63 +59,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+From: Cédric Le Goater <clg@kaod.org>
 
-This is mased on gitlab.com/danielhb/qemu/tree/ppc-7.2
+The Device Control Registers (DCR) of on-SoC devices are accessed by
+software through the use of the mtdcr and mfdcr instructions. These
+are converted in transactions on a side band bus, the DCR bus, which
+connects the on-SoC devices to the CPU.
 
-This series contains the rest of Cédric's patches modified according
-my review comments and some other small clean ups I've noticed along
-the way. I've kept the From line of Cédric for patches that were
-originally his even though they are modified a bit. Not sure what's
-the best way for this or what Cédric prefers.
+Ideally, we should model these accesses with a DCR namespace and DCR
+memory regions but today the DCR handlers are installed in a DCR table
+under the CPU. Instead, introduce a little device model wrapper to hold
+a CPU link and handle registration of DCR handlers.
 
-The last sdram changes are not yet here because I'm still looking at
-those and will come back to them but this series is ready to merge
-unless there are comments that need further changes. Please let me
-know what do you think.
+The DCR device inherits from SysBus because most of these devices also
+have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
+to install the device model in the overall SoC.
 
-Regards,
-BALATON Zoltan
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/ppc/ppc4xx_devs.c    | 41 +++++++++++++++++++++++++++++++++++++++++
+ include/hw/ppc/ppc4xx.h | 17 +++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
-BALATON Zoltan (22):
-  ppc/ppc4xx: Introduce a DCR device model
-  ppc/ppc405: QOM'ify CPC
-  ppc/ppc405: QOM'ify GPT
-  ppc/ppc405: QOM'ify OCM
-  ppc/ppc405: QOM'ify GPIO
-  ppc/ppc405: QOM'ify DMA
-  ppc/ppc405: QOM'ify EBC
-  ppc/ppc405: QOM'ify OPBA
-  ppc/ppc405: QOM'ify POB
-  ppc/ppc405: QOM'ify PLB
-  ppc/ppc405: QOM'ify MAL
-  ppc4xx: Move PLB model to ppc4xx_devs.c
-  ppc4xx: Move EBC model to ppc4xx_devs.c
-  ppc/ppc405: Use an embedded PPCUIC model in SoC state
-  hw/intc/ppc-uic: Convert ppc-uic to a PPC4xx DCR device
-  ppc/ppc405: Use an explicit I2C object
-  ppc/ppc405: QOM'ify FPGA
-  ppc405: Move machine specific code to ppc405_boards.c
-  hw/ppc/Kconfig: Remove PPC405 dependency from sam460ex
-  hw/ppc/Kconfig: Move imply before select
-  ppc4xx: Drop empty default cases
-  ppc/ppc4xx: Fix sdram trace events
-
- hw/intc/ppc-uic.c         |   26 +-
- hw/ppc/Kconfig            |    3 +-
- hw/ppc/ppc405.h           |  182 +++++--
- hw/ppc/ppc405_boards.c    |  360 +++++++++----
- hw/ppc/ppc405_uc.c        | 1071 ++++++++++++-------------------------
- hw/ppc/ppc440_bamboo.c    |    7 +-
- hw/ppc/ppc440_uc.c        |   27 -
- hw/ppc/ppc4xx_devs.c      |  473 +++++++++++++---
- hw/ppc/sam460ex.c         |   37 +-
- hw/ppc/trace-events       |    3 -
- hw/ppc/virtex_ml507.c     |    7 +-
- include/hw/intc/ppc-uic.h |    6 +-
- include/hw/ppc/ppc4xx.h   |   71 ++-
- 13 files changed, 1223 insertions(+), 1050 deletions(-)
-
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index 069b511951..f4d7ae9567 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -664,3 +664,44 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+                          mal, &dcr_read_mal, &dcr_write_mal);
+     }
+ }
++
++/* PPC4xx_DCR_DEVICE */
++
++void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
++                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
++{
++    assert(dev->cpu);
++    ppc_dcr_register(&dev->cpu->env, dcrn, opaque, dcr_read, dcr_write);
++}
++
++bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
++                        Error **errp)
++{
++    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
++    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
++}
++
++static Property ppc4xx_dcr_properties[] = {
++    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
++                     PowerPCCPU *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    device_class_set_props(dc, ppc4xx_dcr_properties);
++}
++
++static const TypeInfo ppc4xx_types[] = {
++    {
++        .name           = TYPE_PPC4xx_DCR_DEVICE,
++        .parent         = TYPE_SYS_BUS_DEVICE,
++        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
++        .class_init     = ppc4xx_dcr_class_init,
++        .abstract       = true,
++    }
++};
++
++DEFINE_TYPES(ppc4xx_types)
+diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+index 591e2421a3..a537a5567b 100644
+--- a/include/hw/ppc/ppc4xx.h
++++ b/include/hw/ppc/ppc4xx.h
+@@ -27,6 +27,7 @@
+ 
+ #include "hw/ppc/ppc.h"
+ #include "exec/memory.h"
++#include "hw/sysbus.h"
+ 
+ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+                         MemoryRegion ram_memories[],
+@@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+ 
+ #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+ 
++/*
++ * Generic DCR device
++ */
++#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
++struct Ppc4xxDcrDeviceState {
++    SysBusDevice parent_obj;
++
++    PowerPCCPU *cpu;
++};
++
++void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
++                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
++bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
++                        Error **errp);
++
+ #endif /* PPC4XX_H */
 -- 
 2.30.4
 
