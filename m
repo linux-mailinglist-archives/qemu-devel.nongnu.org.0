@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6FE59180E
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 03:12:25 +0200 (CEST)
-Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C832E591814
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 03:13:51 +0200 (CEST)
+Received: from localhost ([::1]:53048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMfhQ-0000UW-4c
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 21:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40662)
+	id 1oMfio-0002Lb-Uy
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 21:13:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1oMffk-0004ri-2h
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:40 -0400
-Received: from mail-pl1-f181.google.com ([209.85.214.181]:37483)
+ id 1oMffl-0004ug-Ln
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:41 -0400
+Received: from mail-pj1-f47.google.com ([209.85.216.47]:35530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1oMffi-0003EV-Ka
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:39 -0400
-Received: by mail-pl1-f181.google.com with SMTP id m2so2094736pls.4
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 18:10:37 -0700 (PDT)
+ id 1oMffk-0003F7-8e
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:41 -0400
+Received: by mail-pj1-f47.google.com with SMTP id
+ o3-20020a17090a0a0300b001f7649cd317so9793407pjo.0
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 18:10:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=aFjqM+75xe8JTbG4L4Tsyj4ASkTpwhBNYS9QcoG4Et0=;
- b=qHmC25As+ZARseFHk5BCu38GSV3T4BnI6sS49UT7iY+JcqeJEcSK18RGWh/LUUqzKS
- tNM5UPCAjfwzm4XYliSuuOqrFJ9UPSOPBBwhvSeWf7DksvOqJe1mdedgESUuLN3QU5Zd
- YbJEuJE1bOe3R/TFB7h0dyv6MmA+fwYIiLWoTUOpzr6aaddiJwwswkfnwqTpsYuQciiF
- ZWOXUDpGc6hntQ00/WpBRcGwUOY12wJQHkhj5iY65Dp+G0iGV+S4ucp+QfPTf2deHO/p
- ZM13RbLQCjEbiMC97toZ7Xj86QdRq1cdN9o/8YRiNwJafdKT/sEwN/BQztWnWWFIbRKD
- s/Kg==
-X-Gm-Message-State: ACgBeo0+S+Xxqeba7tYiHtpTXS/dosvLt/9Uc59ezJxJ8qZIr13zdfi9
- h9Q5UEtGQnibJ3sVC2rOMHuqbnYjswM=
-X-Google-Smtp-Source: AA6agR6cS0P4N5I1h8a9ksnYVv3CRI3ebxinlsFXi22T0y6dQTnbhkypztx/xBM+ihX7DwDvHjlTZA==
-X-Received: by 2002:a17:903:492:b0:16d:d562:42d6 with SMTP id
- jj18-20020a170903049200b0016dd56242d6mr6477345plb.47.1660353036662; 
- Fri, 12 Aug 2022 18:10:36 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=oXQhEqesQmOkBaOOD7EPr55TRQt7Z0UZEV6CPXFQ1eM=;
+ b=aj1beelHz4S0hgPGhLm9gyx0BJAJ07lCuKkNQ6auLGVi7RaR0tmKneg/NDSIoIN5Kf
+ U1cPwYY9bbYv50e+K2BWKFYxxaCg2ys4L0jiLPIGgPxBbkZviQXEKfTwO164+bPgIpG1
+ 0PYYxzHeBT4vCgVBkXhvLnRPkhq/Y1HG/+WywNHAgt+zOmJNsYnT8nmRvlYsjJaPVKXa
+ prELSxxyz7LexD4RsLOoUspEerSsguOFzDtBAaFfpbmYIv29YHMUBvVlkZGWFU//Ko7z
+ 1GbzxW2WUBoJA0alcwbta5la0awaDrWYGtFCctuwfJXrOVTtlQ5f4ezs/+zuoi3KTAY3
+ Nv8A==
+X-Gm-Message-State: ACgBeo2lP/mRsbc38kdXnnNDPPf+01lHqGM95+om3tbYfup/CiGyLqxV
+ 00eMf4iwEoOqRqUUKq9BFYOMEg1KdsB65w==
+X-Google-Smtp-Source: AA6agR6Qy9+jIGMfMzyI2WxtdVjIM2o9qMBDqmUnelg7TFhWSAzku1F0SRdyefRdNcZQAkS73nIVpQ==
+X-Received: by 2002:a17:903:248:b0:168:ce2f:cbd2 with SMTP id
+ j8-20020a170903024800b00168ce2fcbd2mr6456936plh.63.1660353038640; 
+ Fri, 12 Aug 2022 18:10:38 -0700 (PDT)
 Received: from localhost.localdomain ([2601:642:4c09:6206:ddeb:f971:2f4c:7f03])
  by smtp.gmail.com with ESMTPSA id
- i10-20020a170902c94a00b0016dcfedfe30sm2440976pla.90.2022.08.12.18.10.35
- for <qemu-devel@nongnu.org>
+ i10-20020a170902c94a00b0016dcfedfe30sm2440976pla.90.2022.08.12.18.10.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 18:10:36 -0700 (PDT)
+ Fri, 12 Aug 2022 18:10:38 -0700 (PDT)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] Set runstate to RUN_STATE_RESTORE_VM when started with
- "-loadvm"
-Date: Fri, 12 Aug 2022 18:10:28 -0700
-Message-Id: <20220813011031.3744-1-j@getutm.app>
+Cc: Joelle van Dyne <j@getutm.app>,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 1/3] Revert "usbredir: avoid queuing hello packet on snapshot
+ restore"
+Date: Fri, 12 Aug 2022 18:10:29 -0700
+Message-Id: <20220813011031.3744-2-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20220813011031.3744-1-j@getutm.app>
+References: <20220813011031.3744-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.214.181; envelope-from=osy86dev@gmail.com;
- helo=mail-pl1-f181.google.com
+Received-SPF: pass client-ip=209.85.216.47; envelope-from=osy86dev@gmail.com;
+ helo=mail-pj1-f47.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -78,33 +82,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously, there was a bug in usbredir which prevented "-loadvm" from working
-because libusbredir's usbredirparser_unserialize() fails when a HELLO packet is
-sent as part of the device's initalization.
+Run state is also in RUN_STATE_PRELAUNCH while "-S" is used.
 
-The fix was to not send HELLO when in the RUN_STATE_PRELAUNCH state. However,
-recently we found that this breaks when QEMU is started with "-S" because it
-is in the RUN_STATE_PRELAUNCH state while halted before boot as well.
+This reverts commit 12d182898a4866e4be418e2abac286b497cfa1b2.
 
-This patch attempts to re-fix the issue by setting the run state to
-RUN_STATE_RESTORE_VM when started with "-loadvm" and recognizing that state
-in usbredir's initalization.
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+---
+ hw/usb/redirect.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-To make sure there's no unintended side effects, we searched for
-"RUN_STATE_RESTORE_VM" in the code base and found only references in
-migration/savevm.c, monitor/hmp-cmds.c, and replay/replay-debugging.c. None of
-these seems to be affected by RUN_STATE_RESTORE_VM before RUN_STATE_RUNNING.
-
-Joelle van Dyne (3):
-  Revert "usbredir: avoid queuing hello packet on snapshot restore"
-  vl: on -loadvm set run state to "restore-vm"
-  usbredir: avoid queuing hello packet on snapshot restore
-
- hw/usb/redirect.c  | 2 +-
- softmmu/runstate.c | 1 +
- softmmu/vl.c       | 3 +++
- 3 files changed, 5 insertions(+), 1 deletion(-)
-
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 1bd30efc3e..fd7df599bc 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -1280,8 +1280,7 @@ static void usbredir_create_parser(USBRedirDevice *dev)
+     }
+ #endif
+ 
+-    if (runstate_check(RUN_STATE_INMIGRATE) ||
+-        runstate_check(RUN_STATE_PRELAUNCH)) {
++    if (runstate_check(RUN_STATE_INMIGRATE)) {
+         flags |= usbredirparser_fl_no_hello;
+     }
+     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
 -- 
 2.28.0
 
