@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A67591C03
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 18:32:50 +0200 (CEST)
-Received: from localhost ([::1]:44454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 288AA591C32
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 19:56:15 +0200 (CEST)
+Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMu47-0005cf-Ox
-	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 12:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59928)
+	id 1oMvMr-0000fk-Pd
+	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 13:56:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oMtz4-000894-Tl
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 12:27:34 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oMtz3-0005Tc-78
- for qemu-devel@nongnu.org; Sat, 13 Aug 2022 12:27:34 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id B7B4B5C00DA;
- Sat, 13 Aug 2022 12:27:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Sat, 13 Aug 2022 12:27:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1660408051; x=1660494451; bh=Zk
- jXCaOWL58K7ZMeAQFjuuRpamyHM5rJ95oAggQodcA=; b=IH0fgTpXw5ISl4F4Tw
- eKTZqB/lkkCjsBdiHX8ZKR+0l7ZnMuJnmBGym7EGJtgpnPHunThxdKaKwf/ltwOi
- 8yH0F4NVQwpIB+zsYijcgF2ni8fHI/BRiTfm8e2ddVJ8Lk3rG6kbGZPF7zVMaoBf
- iqYDDBeh6T/uIY6zeWZZAo4m8bEVhezlHlNPuDZfaaYiOMnuGbiRwd9EDm8lHz3y
- bEpbAqbiDm/Kw9GeUI0dHwTQJ1vfv0Oae4D1GHEEufvRLSQMMfe+OZl7PIDxEhEf
- MltiJ6g5OvYeaxi3tALl+A5SHCy7Gyx/AGF1wn9KomiksCROg1tbWmrsOSyhgskL
- Wflw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1660408051; x=1660494451; bh=ZkjXCaOWL58K7
- ZMeAQFjuuRpamyHM5rJ95oAggQodcA=; b=BGtO/sg9AHSB7UKisE2oATYgwc1Te
- 4lqtizG61bJ4NR1dgzRzFLXj+VtkD7ujbTguogiPrJjuwHMuMcq70GuW5DGCbvIu
- VwJsdE95tMtAuj0FGB8AMp+MZlRGv6P+JDMSySbMPLL8cJQ7v8EX4nm2ygWYeriF
- ZDYFlJqJGfhs4ai9NzNak7lyNSPK/3qXxYQqnlkPfA8LVEskTGjhhxCcCkdotV6x
- aqT0WXyLkYDApiJF8ulNyW6lehbYgkpQa5l9ANzmwu0spObC0oSftF16mySFUozO
- c1M+kSIjb6QkYlj31jRCSfsDFPn0RHCVTbJKgbnSiTJ7TQgB+hEM9ghvA==
-X-ME-Sender: <xms:89D3Yr2X8xCuavpNiDN80IpEdGJPJgIE4zByi5PY0mqfE6EUFM3dUg>
- <xme:89D3YqGFPSJVSv_5OLGtu_Ve3twZ8UZjJiOP9RgfrVCt-Oly7rQrFxxKmy-Zzbtfd
- BbOijOw36-eHTD-1tA>
-X-ME-Received: <xmr:89D3Yr7jDKClEcqdLFgvlHYVWlWFRVa2b6UCCq3ljUCX0lrAfJ9hghStyJfP8BfpgcO8ymYEqGcQYyQ7499HkRQWyfNpY48ZsTwxqLQadb3-GdA_BJlLK_UG>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegkedguddtfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhgggfestd
- ekredtredttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigr
- nhhgsehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeefledufeehgedvue
- dvvdegkefgvddttedtleeiiefhgeetudegkefhvdfhjeeftdenucevlhhushhtvghrufhi
- iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflh
- ihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:89D3Yg0YJbbu8nKtjVmN37sKrGoCLP9Nd7zt9jO_6ZGAYgBL5J74tg>
- <xmx:89D3YuGvpo9ZAhb6rvbG7tlWbgD_KS9rOLjm0Aluz5W-KpjpL-Ttyg>
- <xmx:89D3Yh-lT67G0SwszHkU7Fw7WfihWokNYU-nVJyluUhABNc6dH3Viw>
- <xmx:89D3YgM48CycLGXODvBBBsIAhdiacsHrwepgQycrJBx3QXfBp9Pa4A>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 13 Aug 2022 12:27:31 -0400 (EDT)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: f4bug@amsat.org
-Cc: qemu-devel@nongnu.org,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 2/2] hw/mips/boston: Pack fdt in fdt filter
-Date: Sat, 13 Aug 2022 17:27:20 +0100
-Message-Id: <20220813162720.60008-3-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220813162720.60008-1-jiaxun.yang@flygoat.com>
-References: <20220813162720.60008-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <shinysaana@gmail.com>)
+ id 1oMub7-0000MD-Px; Sat, 13 Aug 2022 13:06:53 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:46712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shinysaana@gmail.com>)
+ id 1oMub6-0002UU-8G; Sat, 13 Aug 2022 13:06:53 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ q7-20020a17090a7a8700b001f300db8677so3453228pjf.5; 
+ Sat, 13 Aug 2022 10:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=d6+WqawZ6bYb/eT0yzkwDBNoVUw3EGLEc13+cWpGXLQ=;
+ b=KAYC0xNyrOaKh9jCG9lrXY0n+ZkVjpnCWGwqjFfW1SUOW8H6BmMU1YsMbS/R3VmXxG
+ 7YZt+FAPxhc4SqjyWljN41y8fa0asa/c5JgPUMxA8wqzBIny2jSngPIrlewx30Z9owKe
+ 9FGtkCtoJy+0m2hsYfbftuuLZauFgaU/r1NxQKPQObNcraucAiu71ctxwtGQ50hDyjkX
+ mXlI5l7Nblmac/Iyc2jE/+ss4k8nGVXmAZoJE8Vg3yEz1+8ksIiyxpET93uJd4mF95To
+ 6KDnnFQap3tD1Btgu3XnYuRc6zvnlO6JVKXYnSLlR2XbTCFJBCTrTZOYFbGMMZ8wl2sy
+ Wn1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=d6+WqawZ6bYb/eT0yzkwDBNoVUw3EGLEc13+cWpGXLQ=;
+ b=MqrDMLjslkCY8OlJggFHSVjg4KqPzJA7KotiRFO7G/PvkAMwKv6SOhwcWVrxLFjl+T
+ iol++FdGxi/98RVVlFPgb/CrGHvq1X17hu1NAhvmxsVQJ8A1oIQD0VE9quRN7G5OLT9b
+ Y98SZxxwfy4Y8h4TiYGeyj3C0hQEqld6pvX+hRS5nPd7MukNS0x53cjwoCe97L7tBT8s
+ SVgjmkxB3HhoBBqz8Zyvz1k2H5lfDpKWd2tmCSbTWNqGoqiW0rPSteu6gTK0NjTsGqrg
+ X5+jy87JQ3ztEq+5zpXlQ6p521/4jjImDS4/yjHPvIx2zLnmTtkgpUxcezdCPjpppAn1
+ Ci9g==
+X-Gm-Message-State: ACgBeo2slKEr6hjC9HRa4CbDOjeLHyl2u6wj5t2GRgmAl0PAI94eyAfV
+ 0Xz0RD410oEv11r6FnoqreLdhnVgDZKUvWNJetcOHtaOKOU=
+X-Google-Smtp-Source: AA6agR79JaM//ICb9Z704tXYJOP0fu1VbXHLmAd3t/Fr39/Ri98PerFJybYGBk2eTfCPQrmCfN9uEwhr7cvwDI6R2qs=
+X-Received: by 2002:a17:902:c408:b0:16d:c48d:978e with SMTP id
+ k8-20020a170902c40800b0016dc48d978emr9321178plk.70.1660410409803; Sat, 13 Aug
+ 2022 10:06:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=jiaxun.yang@flygoat.com;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+From: Shiny Saana <shinysaana@gmail.com>
+Date: Sat, 13 Aug 2022 19:06:39 +0200
+Message-ID: <CAJtCPL0rRU9Q=s6kUFDHjC5uUmx2w=ePYMMaib6vq57g48qk0Q@mail.gmail.com>
+Subject: Teensy 4.1 Implementation
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000a8661305e6226cef"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=shinysaana@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 13 Aug 2022 13:54:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,27 +79,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FDT can be awfully fat after series of modifications in fdt
-filter. Just pack it up before add to ram.
+--000000000000a8661305e6226cef
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- hw/mips/boston.c | 1 +
- 1 file changed, 1 insertion(+)
+Hello!
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 5145179951..a40f193f78 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -400,6 +400,7 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
-                         1, boston_memmap[BOSTON_HIGHDDR].base + ram_low_sz,
-                         1, ram_high_sz);
- 
-+    fdt_pack(fdt);
-     fdt = g_realloc(fdt, fdt_totalsize(fdt));
-     qemu_fdt_dumpdtb(fdt, fdt_sz);
- 
--- 
-2.32.1 (Apple Git-133)
+I'd like to implement support for emulating the teensy 4.1 board (
+https://www.pjrc.com/store/teensy41.html) to QEMU.
 
+I'm honestly quite lost as to where to start at the moment, since I can't
+really find any emulated Cortex-M7 that would be close to that board
+already implemented.
+
+I asked around on IRC, and I was redirected to those two mailing lists, for
+guidance, and also as writing code without maintainers approval would be
+pointless.
+
+Thank you!
+
+--000000000000a8661305e6226cef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello!<div><br></div><div dir=3D"auto">I&#39;d like to implement support fo=
+r emulating the teensy 4.1 board (<div dir=3D"auto"><a href=3D"https://www.=
+pjrc.com/store/teensy41.html">https://www.pjrc.com/store/teensy41.html</a>)=
+ to QEMU.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;m honest=
+ly quite lost as to where to start at the moment, since I can&#39;t really =
+find any emulated Cortex-M7 that would be close to that board already imple=
+mented.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I asked around o=
+n IRC, and I was redirected to those two mailing lists, for guidance, and a=
+lso as writing code without maintainers approval would be pointless.</div><=
+div dir=3D"auto"><br></div><div dir=3D"auto">Thank you!</div><div dir=3D"au=
+to"><br></div></div>
+
+--000000000000a8661305e6226cef--
 
