@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C4E591BB8
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 17:50:18 +0200 (CEST)
-Received: from localhost ([::1]:59034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8FD591BC5
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 17:56:23 +0200 (CEST)
+Received: from localhost ([::1]:48380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMtOy-00058P-VG
-	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 11:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52784)
+	id 1oMtUs-0000hi-F4
+	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 11:56:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oMtA0-0000fH-7H; Sat, 13 Aug 2022 11:34:48 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:28352)
+ id 1oMtA1-0000iC-Bp; Sat, 13 Aug 2022 11:34:49 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:28359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oMt9x-0006Lo-GZ; Sat, 13 Aug 2022 11:34:47 -0400
+ id 1oMt9y-0006M4-IZ; Sat, 13 Aug 2022 11:34:49 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id F273374819A;
- Sat, 13 Aug 2022 17:34:43 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 1138A748191;
+ Sat, 13 Aug 2022 17:34:45 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D3EC474818E; Sat, 13 Aug 2022 17:34:43 +0200 (CEST)
-Message-Id: <dcfacf003103e1e0ebe283ad28087ce745d96877.1660402839.git.balaton@eik.bme.hu>
+ id E1E3174818E; Sat, 13 Aug 2022 17:34:44 +0200 (CEST)
+Message-Id: <092ec66e749939f9c7ab3d1252012461366719ac.1660402839.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660402839.git.balaton@eik.bme.hu>
 References: <cover.1660402839.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 16/22] ppc/ppc405: Use an explicit I2C object
+Subject: [PATCH 17/22] ppc/ppc405: QOM'ify FPGA
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -34,8 +34,8 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 13 Aug 2022 17:34:43 +0200 (CEST)
-X-Spam-Probability: 10%
+Date: Sat, 13 Aug 2022 17:34:44 +0200 (CEST)
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -61,64 +61,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-Having an explicit I2C model object will help if one day we want to
-add I2C devices on the bus from the machine init routine.
-
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/ppc405.h    |  2 ++
- hw/ppc/ppc405_uc.c | 10 ++++++++--
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ hw/ppc/ppc405_boards.c | 56 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 39 insertions(+), 17 deletions(-)
 
-diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index 5bcbce2893..12eee97169 100644
---- a/hw/ppc/ppc405.h
-+++ b/hw/ppc/ppc405.h
-@@ -28,6 +28,7 @@
- #include "qom/object.h"
- #include "hw/ppc/ppc4xx.h"
- #include "hw/intc/ppc-uic.h"
-+#include "hw/i2c/ppc4xx_i2c.h"
- 
- #define PPC405EP_SDRAM_BASE 0x00000000
- #define PPC405EP_NVRAM_BASE 0xF0000000
-@@ -215,6 +216,7 @@ struct Ppc405SoCState {
-     Ppc405OcmState ocm;
-     Ppc405GpioState gpio;
-     Ppc405DmaState dma;
-+    PPC4xxI2CState i2c;
-     Ppc405EbcState ebc;
-     Ppc405OpbaState opba;
-     Ppc405PobState pob;
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index aa3617f876..a7a7d7e65b 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -1093,6 +1093,8 @@ static void ppc405_soc_instance_init(Object *obj)
- 
-     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
- 
-+    object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 3677793adc..7af0d7feef 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -71,18 +71,23 @@ struct Ppc405MachineState {
+  * - NVRAM (0xF0000000)
+  * - FPGA  (0xF0300000)
+  */
+-typedef struct ref405ep_fpga_t ref405ep_fpga_t;
+-struct ref405ep_fpga_t {
 +
-     object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
++#define TYPE_REF405EP_FPGA "ref405ep-fpga"
++OBJECT_DECLARE_SIMPLE_TYPE(Ref405epFpgaState, REF405EP_FPGA);
++struct Ref405epFpgaState {
++    SysBusDevice parent_obj;
++
++    MemoryRegion iomem;
++
+     uint8_t reg0;
+     uint8_t reg1;
+ };
  
-     object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
-@@ -1185,8 +1187,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-     }
+ static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
+ {
+-    ref405ep_fpga_t *fpga;
++    Ref405epFpgaState *fpga = opaque;
+     uint32_t ret;
  
-     /* I2C controller */
--    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
--                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
-+    sbd = SYS_BUS_DEVICE(&s->i2c);
-+    if (!sysbus_realize(sbd, errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(sbd, 0, 0xef600500);
-+    sysbus_connect_irq(sbd, 0, qdev_get_gpio_in(DEVICE(&s->uic), 2));
+-    fpga = opaque;
+     switch (addr) {
+     case 0x0:
+         ret = fpga->reg0;
+@@ -101,9 +106,8 @@ static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
+ static void ref405ep_fpga_writeb(void *opaque, hwaddr addr, uint64_t value,
+                                  unsigned size)
+ {
+-    ref405ep_fpga_t *fpga;
++    Ref405epFpgaState *fpga = opaque;
  
-     /* GPIO */
-     sbd = SYS_BUS_DEVICE(&s->gpio);
+-    fpga = opaque;
+     switch (addr) {
+     case 0x0:
+         /* Read only */
+@@ -126,27 +130,40 @@ static const MemoryRegionOps ref405ep_fpga_ops = {
+     .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
+-static void ref405ep_fpga_reset (void *opaque)
++static void ref405ep_fpga_reset(DeviceState *dev)
+ {
+-    ref405ep_fpga_t *fpga;
++    Ref405epFpgaState *fpga = REF405EP_FPGA(dev);
+ 
+-    fpga = opaque;
+     fpga->reg0 = 0x00;
+     fpga->reg1 = 0x0F;
+ }
+ 
+-static void ref405ep_fpga_init(MemoryRegion *sysmem, uint32_t base)
++static void ref405ep_fpga_realize(DeviceState *dev, Error **errp)
+ {
+-    ref405ep_fpga_t *fpga;
+-    MemoryRegion *fpga_memory = g_new(MemoryRegion, 1);
++    Ref405epFpgaState *s = REF405EP_FPGA(dev);
+ 
+-    fpga = g_new0(ref405ep_fpga_t, 1);
+-    memory_region_init_io(fpga_memory, NULL, &ref405ep_fpga_ops, fpga,
++    memory_region_init_io(&s->iomem, OBJECT(s), &ref405ep_fpga_ops, s,
+                           "fpga", 0x00000100);
+-    memory_region_add_subregion(sysmem, base, fpga_memory);
+-    qemu_register_reset(&ref405ep_fpga_reset, fpga);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
++}
++
++static void ref405ep_fpga_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->realize = ref405ep_fpga_realize;
++    dc->reset = ref405ep_fpga_reset;
++    /* Reason: only works as part of a ppc405 board */
++    dc->user_creatable = false;
+ }
+ 
++static const TypeInfo ref405ep_fpga_type = {
++    .name = TYPE_REF405EP_FPGA,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(Ref405epFpgaState),
++    .class_init = ref405ep_fpga_class_init,
++};
++
+ /*
+  * CPU reset handler when booting directly from a loaded kernel
+  */
+@@ -331,7 +348,11 @@ static void ref405ep_init(MachineState *machine)
+     memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE, sram);
+ 
+     /* Register FPGA */
+-    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
++    dev = qdev_new(TYPE_REF405EP_FPGA);
++    object_property_add_child(OBJECT(machine), "fpga", OBJECT(dev));
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, PPC405EP_FPGA_BASE);
++
+     /* Register NVRAM */
+     dev = qdev_new("sysbus-m48t08");
+     qdev_prop_set_int32(dev, "base-year", 1968);
+@@ -376,6 +397,7 @@ static void ppc405_machine_init(void)
+ {
+     type_register_static(&ppc405_machine_type);
+     type_register_static(&ref405ep_type);
++    type_register_static(&ref405ep_fpga_type);
+ }
+ 
+ type_init(ppc405_machine_init)
 -- 
 2.30.4
 
