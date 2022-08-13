@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C832E591814
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 03:13:51 +0200 (CEST)
-Received: from localhost ([::1]:53048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9FE59180F
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 03:12:28 +0200 (CEST)
+Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMfio-0002Lb-Uy
-	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 21:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40692)
+	id 1oMfhT-0000cR-Vu
+	for lists+qemu-devel@lfdr.de; Fri, 12 Aug 2022 21:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1oMffl-0004ug-Ln
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:41 -0400
-Received: from mail-pj1-f47.google.com ([209.85.216.47]:35530)
+ id 1oMffn-0004yg-Lq
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:43 -0400
+Received: from mail-pl1-f178.google.com ([209.85.214.178]:42687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1oMffk-0003F7-8e
- for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:41 -0400
-Received: by mail-pj1-f47.google.com with SMTP id
- o3-20020a17090a0a0300b001f7649cd317so9793407pjo.0
- for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 18:10:39 -0700 (PDT)
+ id 1oMffm-0003GP-4u
+ for qemu-devel@nongnu.org; Fri, 12 Aug 2022 21:10:43 -0400
+Received: by mail-pl1-f178.google.com with SMTP id w14so2077897plp.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Aug 2022 18:10:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=oXQhEqesQmOkBaOOD7EPr55TRQt7Z0UZEV6CPXFQ1eM=;
- b=aj1beelHz4S0hgPGhLm9gyx0BJAJ07lCuKkNQ6auLGVi7RaR0tmKneg/NDSIoIN5Kf
- U1cPwYY9bbYv50e+K2BWKFYxxaCg2ys4L0jiLPIGgPxBbkZviQXEKfTwO164+bPgIpG1
- 0PYYxzHeBT4vCgVBkXhvLnRPkhq/Y1HG/+WywNHAgt+zOmJNsYnT8nmRvlYsjJaPVKXa
- prELSxxyz7LexD4RsLOoUspEerSsguOFzDtBAaFfpbmYIv29YHMUBvVlkZGWFU//Ko7z
- 1GbzxW2WUBoJA0alcwbta5la0awaDrWYGtFCctuwfJXrOVTtlQ5f4ezs/+zuoi3KTAY3
- Nv8A==
-X-Gm-Message-State: ACgBeo2lP/mRsbc38kdXnnNDPPf+01lHqGM95+om3tbYfup/CiGyLqxV
- 00eMf4iwEoOqRqUUKq9BFYOMEg1KdsB65w==
-X-Google-Smtp-Source: AA6agR6Qy9+jIGMfMzyI2WxtdVjIM2o9qMBDqmUnelg7TFhWSAzku1F0SRdyefRdNcZQAkS73nIVpQ==
-X-Received: by 2002:a17:903:248:b0:168:ce2f:cbd2 with SMTP id
- j8-20020a170903024800b00168ce2fcbd2mr6456936plh.63.1660353038640; 
- Fri, 12 Aug 2022 18:10:38 -0700 (PDT)
+ bh=TEHd4ZAuJdnbR0WlQ9ufodDYz6/UkNFQZuqgmJr3GAU=;
+ b=FVW3yb46ofpNUyfojZ5JNeROMa6s2ZePXfdZXMsttG7Mkn7arS9DLv1niQttexxfLh
+ HvfMejvqWddQwDuVgQ/+HyURLFGvMb4anKcIw969SvbWEZ4RNceZMRLJ6bbDL63e3Q+u
+ eZy+7dmdI1zoBz/y6iOxnsg7UWkw9yxFSviBuKSGlIuJ+E8xVcBMalwA7KeTbn0mgcPH
+ b8sszgSgy+O1jsQ2RWj4lQikAvh5B33wVyel9UfwUeGQwc+EuA9tn1NvZEscXzMfCbxq
+ wzsCzwkl0iqOdhV1MwnGrwnX37vjDjj7DTgYSKonv082mpQXLuArIrRri8xFDmT+Xh0V
+ 7AdQ==
+X-Gm-Message-State: ACgBeo2QDO+jQnIT2WF29EMOKqS/Gi8pv2kFUSXJdOtyNIBt1/bGq6fb
+ BEzqYQqIDgj8VKXxFMS3k84oqaTsujoOpw==
+X-Google-Smtp-Source: AA6agR4E9ncsVoCsLS26Pxwi3nINyeF1ONwhIdjEaLN2vQ/C/HP0l+CFAYu+l9yS1+lZIyB/KNZDeQ==
+X-Received: by 2002:a17:902:b70c:b0:171:407c:e1bd with SMTP id
+ d12-20020a170902b70c00b00171407ce1bdmr6562243pls.33.1660353040808; 
+ Fri, 12 Aug 2022 18:10:40 -0700 (PDT)
 Received: from localhost.localdomain ([2601:642:4c09:6206:ddeb:f971:2f4c:7f03])
  by smtp.gmail.com with ESMTPSA id
- i10-20020a170902c94a00b0016dcfedfe30sm2440976pla.90.2022.08.12.18.10.36
+ i10-20020a170902c94a00b0016dcfedfe30sm2440976pla.90.2022.08.12.18.10.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 18:10:38 -0700 (PDT)
+ Fri, 12 Aug 2022 18:10:40 -0700 (PDT)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
 Cc: Joelle van Dyne <j@getutm.app>,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 1/3] Revert "usbredir: avoid queuing hello packet on snapshot
- restore"
-Date: Fri, 12 Aug 2022 18:10:29 -0700
-Message-Id: <20220813011031.3744-2-j@getutm.app>
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 2/3] vl: on -loadvm set run state to "restore-vm"
+Date: Fri, 12 Aug 2022 18:10:30 -0700
+Message-Id: <20220813011031.3744-3-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20220813011031.3744-1-j@getutm.app>
 References: <20220813011031.3744-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.47; envelope-from=osy86dev@gmail.com;
- helo=mail-pj1-f47.google.com
+Received-SPF: pass client-ip=209.85.214.178; envelope-from=osy86dev@gmail.com;
+ helo=mail-pl1-f178.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -82,29 +80,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Run state is also in RUN_STATE_PRELAUNCH while "-S" is used.
-
-This reverts commit 12d182898a4866e4be418e2abac286b497cfa1b2.
+This allows us to differentiate between a fresh boot and a restore boot.
 
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- hw/usb/redirect.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ softmmu/runstate.c | 1 +
+ softmmu/vl.c       | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 1bd30efc3e..fd7df599bc 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -1280,8 +1280,7 @@ static void usbredir_create_parser(USBRedirDevice *dev)
-     }
- #endif
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index 1e68680b9d..fa3dd3a4ab 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -76,6 +76,7 @@ typedef struct {
  
--    if (runstate_check(RUN_STATE_INMIGRATE) ||
--        runstate_check(RUN_STATE_PRELAUNCH)) {
-+    if (runstate_check(RUN_STATE_INMIGRATE)) {
-         flags |= usbredirparser_fl_no_hello;
-     }
-     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
+ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
++    { RUN_STATE_PRELAUNCH, RUN_STATE_RESTORE_VM },
+ 
+     { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
+     { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 706bd7cff7..29586d94ff 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3131,6 +3131,9 @@ void qemu_init(int argc, char **argv, char **envp)
+                 add_device_config(DEV_DEBUGCON, optarg);
+                 break;
+             case QEMU_OPTION_loadvm:
++                if (!loadvm) {
++                    runstate_set(RUN_STATE_RESTORE_VM);
++                }
+                 loadvm = optarg;
+                 break;
+             case QEMU_OPTION_full_screen:
 -- 
 2.28.0
 
