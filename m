@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A517591BC8
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 17:57:43 +0200 (CEST)
-Received: from localhost ([::1]:52106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B66591BDD
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Aug 2022 18:04:17 +0200 (CEST)
+Received: from localhost ([::1]:34854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oMtWA-0003MV-Hw
-	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 11:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
+	id 1oMtcV-0002eE-L6
+	for lists+qemu-devel@lfdr.de; Sat, 13 Aug 2022 12:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oMtTI-0006m2-SE; Sat, 13 Aug 2022 11:54:47 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:47411)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oMt9z-0000dK-Ps; Sat, 13 Aug 2022 11:34:47 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oMtTH-0000jX-3t; Sat, 13 Aug 2022 11:54:44 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N1whr-1nP2do3yKv-012GCh; Sat, 13 Aug 2022 17:54:38 +0200
-Message-ID: <531cdb6a-f660-b671-375c-a3819d90c030@vivier.eu>
-Date: Sat, 13 Aug 2022 17:54:35 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oMt9w-0006Lb-FR; Sat, 13 Aug 2022 11:34:47 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 09F5074819D;
+ Sat, 13 Aug 2022 17:34:43 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C95A874818E; Sat, 13 Aug 2022 17:34:42 +0200 (CEST)
+Message-Id: <221c889d9c783397dce54390cf6fcc3f3b194d22.1660402839.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1660402839.git.balaton@eik.bme.hu>
+References: <cover.1660402839.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH 15/22] hw/intc/ppc-uic: Convert ppc-uic to a PPC4xx DCR device
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] [PATCH] linux-user/aarch64: Reset target data on
- MADV_DONTNEED
-Content-Language: fr
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Vitaly Buka <vitalybuka@google.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <CAPjTjwsb0jAsQq4PHOsFGW7SjpAe=Ug2b_fxhdccEEnzh=cQUA@mail.gmail.com>
- <CAFEAcA-F8rUTH1FimHf+FaV0O6dQ4QGHihaygxdjn9BKYPazBg@mail.gmail.com>
- <CAPjTjwuNwXdemwFYOUDi4Qnc5fA9KWzAEZQ1JaCNu+0x3RUh7Q@mail.gmail.com>
- <8b32824b-4dc1-3d1a-1916-918a3fffab26@linaro.org>
- <67a42d65-8289-b26c-26f6-275ea0bfac98@vivier.eu>
- <CAFEAcA8AXodRV=eG2Ra4Sf9rsap499zDJEu6hC=c+V9gE2KjfA@mail.gmail.com>
- <52225a7c-310f-444f-0b75-0ad2536a30c0@vivier.eu> <87r11miz8i.fsf@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <87r11miz8i.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8nWnS8Fw0Kbrg56GpVJiYTJk+CQeS/Z3+Ew4Fqsh/reHwORm9Y8
- evLfHpOV/f1uV69kh9LkFrR7gqrhrOUD8ITlbyIulyEbx3BmKOhRMsUZNCA+i6pKEp93qIW
- kRkEraQra69gaRukDi3nPB8Lie6XUJdpDLHlTX0vuII3g0a5h+Rik35qF8nBk8wsMBavcOs
- SjMCQEArE5IEesUxWJ+Ng==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DoAKKLWKxgw=:4tpbR/6022nCs4AL25Cvey
- kavUjQo4cl5CKz2L6lUtQFPxqmDRnsWs2ymeYcLC0h6hojHf7s4bcdJu4sikJPQIs/jEn6Rl3
- tzWnSVUN1wJ2ukHfax2oY4L1Iinrlr1ez7lZ/rr7LKseHx6/YPPQuaBnrRFcMDn036ELHrmYk
- 0ZcNGavLjzO5kziPikHV2shtoJPbRw2FNUMDyzURJPykVrziJgPw2Kg7oeESiplRNU6eG6B5M
- Z/XyxSxrXsAXmPw+xAlRx9FsPWYr9hOv2Ibsb6gIyeoPOTbwQT6SRmdZtnFja4IXXdqZZZG3i
- It8eKIUOZHeewRiMq2c00W3YCvKtDywcoGgYXm82/NKzuEKTT7XAIUV6C+ZKXKXdx+QNjuEe6
- m4hnnMC1soReNZJKwXnXmwl9imNivZ6f0ON62H2gASRGXG9UI1+1XMeY1JTJTbJ0lqcBffgby
- gHkCrYJ8edCw1Dbvx08uy373kZY1oNQGeckFThvB57yGMdC58Sh0MZy35bh6xGWXs5Brvo/0A
- hdoSxrgjHSY1JAv+UtpfAkWzFC33GvJ7Pg3UCDNaXYDE2XNNnlZqXseFhIZ04EtRqtZUZueqo
- G7AmiERyR78903vbT2w+vz8EFVm4EdG3VKFleRko5VwREIC8LC62dPFMNmSJ/hszlFFXqan4s
- 5qQK8lAxqO/v7V9kXyk36vTmrtJPyECBlE/53i8nI6PDYwnHUs/WRu2L4nIR0g1g1i1Lw3lIY
- ScJG/Lrt2AZRd/OwYzDe87OccZyYZABKY9WlEg==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 13 Aug 2022 17:34:42 +0200 (CEST)
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,66 +58,252 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/08/2022 à 17:18, Alex Bennée a écrit :
-> 
-> Laurent Vivier <laurent@vivier.eu> writes:
-> 
->> Le 11/08/2022 à 13:54, Peter Maydell a écrit :
->>> On Thu, 11 Aug 2022 at 09:29, Laurent Vivier <laurent@vivier.eu> wrote:
->>>>
->>>> Le 10/08/2022 à 22:47, Richard Henderson a écrit :
->>>>> On 8/10/22 13:32, Vitaly Buka wrote:
->>>>>> Sorry, I only noticed today that it's not submitted.
->>>>>> Version is not critical for us, as we build from masters anyway.
->>>>>> Richard, do you know a reason to consider this critical?
->>>>>>
->>>>>> On Wed, 10 Aug 2022 at 13:04, Peter Maydell <peter.maydell@linaro.org
->>>>>> <mailto:peter.maydell@linaro.org>> wrote:
->>>>>>
->>>>>>       On Wed, 10 Aug 2022 at 21:00, Vitaly Buka <vitalybuka@google.com
->>>>>>       <mailto:vitalybuka@google.com>> wrote:
->>>>>>        >
->>>>>>        > How can we land this one?
->>>>>>
->>>>>>       Pinging it a week ago rather than now would have been a good start :-(
->>>>>>       I think it got missed because you didn't cc the linux-user maintainer.
->>>>>>
->>>>>>       Is this a critical fix for 7.1 or can we let it slip to 7.2 ?
->>>>>
->>>>> It's unfortunate that it got missed.  It's not critical, but it would be nice, because support for
->>>>> MADV_DONTNEED is new in 7.1 (previously, we ignored all madvise).
->>>>>
->>>>> I'll note there are missing braces for coding style on an IF.
->>>>>
->>>>> Laurent, do you have an objection to merging this for rc3?
->>>>>
->>>>
->>>> No objection.
->>>>
->>>> Do you want it goes via the arm branch or via the linux-user branch?
->>>>
->>>> If it goes via linux-user I can run the LTP testsuite but it takes 1 day.
->>> I think we should definitely run the LTP testsuite on it, so
->>> taking it via linux-user probably makes more sense.
->>
->> ok, applied to my linux-user-for-7.1 branch.
->>
->> Running tests.
-> 
-> Any chance you could pick up:
-> 
->    Subject: [PATCH v2] linux-user: un-parent OBJECT(cpu) when closing thread
->    Date: Wed,  3 Aug 2022 14:05:37 +0100
->    Message-Id: <20220803130537.763666-1-alex.bennee@linaro.org>
-> 
-> before you run the tests?
-> 
+Make ppc-uic a subclass of ppc4xx-dcr-device which will handle the cpu
+link and make it uniform with the other PPC4xx devices.
 
-I've tested it, it works fine.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/intc/ppc-uic.c         | 26 ++++++--------------------
+ hw/ppc/ppc405_uc.c        |  6 ++----
+ hw/ppc/ppc440_bamboo.c    |  7 ++-----
+ hw/ppc/ppc4xx_devs.c      |  1 -
+ hw/ppc/sam460ex.c         | 17 +++++++----------
+ hw/ppc/virtex_ml507.c     |  7 ++-----
+ include/hw/intc/ppc-uic.h |  6 ++----
+ 7 files changed, 21 insertions(+), 49 deletions(-)
 
-Do you plan to do a PR including it or do you want I do (there will be only this one in mine)?
-
-Thanks,
-Laurent
+diff --git a/hw/intc/ppc-uic.c b/hw/intc/ppc-uic.c
+index 60013f2dde..dcf5de5d43 100644
+--- a/hw/intc/ppc-uic.c
++++ b/hw/intc/ppc-uic.c
+@@ -25,11 +25,8 @@
+ #include "qemu/osdep.h"
+ #include "hw/intc/ppc-uic.h"
+ #include "hw/irq.h"
+-#include "cpu.h"
+-#include "hw/ppc/ppc.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+-#include "qapi/error.h"
+ 
+ enum {
+     DCR_UICSR  = 0x000,
+@@ -105,10 +102,9 @@ static void ppcuic_trigger_irq(PPCUIC *uic)
+ 
+ static void ppcuic_set_irq(void *opaque, int irq_num, int level)
+ {
+-    PPCUIC *uic;
++    PPCUIC *uic = opaque;
+     uint32_t mask, sr;
+ 
+-    uic = opaque;
+     mask = 1U << (31 - irq_num);
+     LOG_UIC("%s: irq %d level %d uicsr %08" PRIx32
+                 " mask %08" PRIx32 " => %08" PRIx32 " %08" PRIx32 "\n",
+@@ -144,10 +140,9 @@ static void ppcuic_set_irq(void *opaque, int irq_num, int level)
+ 
+ static uint32_t dcr_read_uic(void *opaque, int dcrn)
+ {
+-    PPCUIC *uic;
++    PPCUIC *uic = opaque;
+     uint32_t ret;
+ 
+-    uic = opaque;
+     dcrn -= uic->dcr_base;
+     switch (dcrn) {
+     case DCR_UICSR:
+@@ -192,9 +187,8 @@ static uint32_t dcr_read_uic(void *opaque, int dcrn)
+ 
+ static void dcr_write_uic(void *opaque, int dcrn, uint32_t val)
+ {
+-    PPCUIC *uic;
++    PPCUIC *uic = opaque;
+ 
+-    uic = opaque;
+     dcrn -= uic->dcr_base;
+     LOG_UIC("%s: dcr %d val 0x%x\n", __func__, dcrn, val);
+     switch (dcrn) {
+@@ -251,19 +245,12 @@ static void ppc_uic_reset(DeviceState *dev)
+ static void ppc_uic_realize(DeviceState *dev, Error **errp)
+ {
+     PPCUIC *uic = PPC_UIC(dev);
++    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-    PowerPCCPU *cpu;
+     int i;
+ 
+-    if (!uic->cpu) {
+-        /* This is a programming error in the code using this device */
+-        error_setg(errp, "ppc-uic 'cpu' link property was not set");
+-        return;
+-    }
+-
+-    cpu = POWERPC_CPU(uic->cpu);
+     for (i = 0; i < DCR_UICMAX; i++) {
+-        ppc_dcr_register(&cpu->env, uic->dcr_base + i, uic,
++        ppc4xx_dcr_register(dcr, uic->dcr_base + i, uic,
+                          &dcr_read_uic, &dcr_write_uic);
+     }
+ 
+@@ -273,7 +260,6 @@ static void ppc_uic_realize(DeviceState *dev, Error **errp)
+ }
+ 
+ static Property ppc_uic_properties[] = {
+-    DEFINE_PROP_LINK("cpu", PPCUIC, cpu, TYPE_CPU, CPUState *),
+     DEFINE_PROP_UINT32("dcr-base", PPCUIC, dcr_base, 0xc0),
+     DEFINE_PROP_BOOL("use-vectors", PPCUIC, use_vectors, true),
+     DEFINE_PROP_END_OF_LIST()
+@@ -308,7 +294,7 @@ static void ppc_uic_class_init(ObjectClass *klass, void *data)
+ 
+ static const TypeInfo ppc_uic_info = {
+     .name = TYPE_PPC_UIC,
+-    .parent = TYPE_SYS_BUS_DEVICE,
++    .parent = TYPE_PPC4xx_DCR_DEVICE,
+     .instance_size = sizeof(PPCUIC),
+     .class_init = ppc_uic_class_init,
+ };
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index 82830f52bf..aa3617f876 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -1149,12 +1149,10 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(sbd, 0, 0xef600600);
+ 
+     /* Universal interrupt controller */
+-    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
+-                             &error_fatal);
+-    sbd = SYS_BUS_DEVICE(&s->uic);
+-    if (!sysbus_realize(sbd, errp)) {
++    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->uic), &s->cpu, errp)) {
+         return;
+     }
++    sbd = SYS_BUS_DEVICE(&s->uic);
+     sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
+                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
+     sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index 873f930c77..b14a9ef776 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -193,12 +193,9 @@ static void bamboo_init(MachineState *machine)
+ 
+     /* interrupt controller */
+     uicdev = qdev_new(TYPE_PPC_UIC);
++    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uicdev), cpu, &error_fatal);
++    object_unref(OBJECT(uicdev));
+     uicsbd = SYS_BUS_DEVICE(uicdev);
+-
+-    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+-                             &error_fatal);
+-    sysbus_realize_and_unref(uicsbd, &error_fatal);
+-
+     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+                        qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index 96941ae040..49793b56cd 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -29,7 +29,6 @@
+ #include "hw/irq.h"
+ #include "hw/ppc/ppc.h"
+ #include "hw/ppc/ppc4xx.h"
+-#include "hw/intc/ppc-uic.h"
+ #include "hw/qdev-properties.h"
+ #include "qemu/log.h"
+ #include "exec/address-spaces.h"
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index c16303462d..c96de98690 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -314,7 +314,6 @@ static void sam460ex_init(MachineState *machine)
+ 
+     /* interrupt controllers */
+     for (i = 0; i < ARRAY_SIZE(uic); i++) {
+-        SysBusDevice *sbd;
+         /*
+          * UICs 1, 2 and 3 are cascaded through UIC 0.
+          * input_ints[n] is the interrupt number on UIC 0 which
+@@ -326,22 +325,20 @@ static void sam460ex_init(MachineState *machine)
+         const int input_ints[] = { -1, 30, 10, 16 };
+ 
+         uic[i] = qdev_new(TYPE_PPC_UIC);
+-        sbd = SYS_BUS_DEVICE(uic[i]);
+-
+         qdev_prop_set_uint32(uic[i], "dcr-base", 0xc0 + i * 0x10);
+-        object_property_set_link(OBJECT(uic[i]), "cpu", OBJECT(cpu),
+-                                 &error_fatal);
+-        sysbus_realize_and_unref(sbd, &error_fatal);
++        ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uic[i]), cpu, &error_fatal);
++        object_unref(OBJECT(uic[i]));
+ 
++        sbdev = SYS_BUS_DEVICE(uic[i]);
+         if (i == 0) {
+-            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
++            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_INT,
+                              qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+-            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
++            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_CINT,
+                              qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
+         } else {
+-            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
++            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_INT,
+                                qdev_get_gpio_in(uic[0], input_ints[i]));
+-            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
++            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_CINT,
+                                qdev_get_gpio_in(uic[0], input_ints[i] + 1));
+         }
+     }
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 53b126ff48..493ea0c19f 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -104,12 +104,9 @@ static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t sysclk)
+ 
+     /* interrupt controller */
+     uicdev = qdev_new(TYPE_PPC_UIC);
++    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uicdev), cpu, &error_fatal);
++    object_unref(OBJECT(uicdev));
+     uicsbd = SYS_BUS_DEVICE(uicdev);
+-
+-    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+-                             &error_fatal);
+-    sysbus_realize_and_unref(uicsbd, &error_fatal);
+-
+     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+                        qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+diff --git a/include/hw/intc/ppc-uic.h b/include/hw/intc/ppc-uic.h
+index 22dd5e5ac2..4d82e9a3c6 100644
+--- a/include/hw/intc/ppc-uic.h
++++ b/include/hw/intc/ppc-uic.h
+@@ -25,8 +25,7 @@
+ #ifndef HW_INTC_PPC_UIC_H
+ #define HW_INTC_PPC_UIC_H
+ 
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
++#include "hw/ppc/ppc4xx.h"
+ 
+ #define TYPE_PPC_UIC "ppc-uic"
+ OBJECT_DECLARE_SIMPLE_TYPE(PPCUIC, PPC_UIC)
+@@ -56,14 +55,13 @@ enum {
+ 
+ struct PPCUIC {
+     /*< private >*/
+-    SysBusDevice parent_obj;
++    Ppc4xxDcrDeviceState parent_obj;
+ 
+     /*< public >*/
+     qemu_irq output_int;
+     qemu_irq output_cint;
+ 
+     /* properties */
+-    CPUState *cpu;
+     uint32_t dcr_base;
+     bool use_vectors;
+ 
+-- 
+2.30.4
 
 
