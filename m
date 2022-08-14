@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D7B59266E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Aug 2022 22:54:44 +0200 (CEST)
-Received: from localhost ([::1]:35754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093A55926BA
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Aug 2022 23:58:05 +0200 (CEST)
+Received: from localhost ([::1]:52126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNKd9-00043y-EA
-	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 16:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36512)
+	id 1oNLcR-0000en-Ot
+	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 17:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oNKbn-0002j3-2j
- for qemu-devel@nongnu.org; Sun, 14 Aug 2022 16:53:19 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:45733)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oNLaN-0006fo-LX; Sun, 14 Aug 2022 17:55:56 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oNKbl-0006Hv-Ip
- for qemu-devel@nongnu.org; Sun, 14 Aug 2022 16:53:18 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- p14-20020a17090a74ce00b001f4d04492faso5248419pjl.4
- for <qemu-devel@nongnu.org>; Sun, 14 Aug 2022 13:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=H5IeZ+hhSAZ+ybSP0+31Nf0MYRYwL7qKI8YXNBcIqBE=;
- b=w2vIFf/IVJV9WT2VuRAX2peYGmGmXgfuV70bDpITdAAz8i68KnmkfpASWcr0sOlqLR
- iL1nmEbyykHH3iCzGf5a2XZEqxshWkgIoW7DJ65sT1IrgAFFq1UjkCw00X0ZBNgfkOUU
- gYZkH43QaHSwy0cfDuvMWdeiUn+eE6iRo+64f9qcOVAQw14/IG0N57u4GLknWHJaYkYi
- s2/CFkPKUeJLzYKNGOUWv9ZSfxFA6VUfIOg8fkLsFh1mrFmUFjjePqOMPqOvUhXj8HZW
- LBQgCVV4XD83SE2U0OWIrzzp3Jr8WSAg7+DRerxyZ3PfZXwePz2vl9Vceh5lHaDVyjU1
- 5PvA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oNLaM-0005yu-1J; Sun, 14 Aug 2022 17:55:55 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ o3-20020a17090a0a0300b001f7649cd317so12974504pjo.0; 
+ Sun, 14 Aug 2022 14:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=GBxN+sPBU9Sl/lscOMy1MjZne9FQGdwFrSHvq8m8+nI=;
+ b=oBjLax2Hb1iTZPLfIi6JtGAJb3V4i6Nmq7wzQOfrLjsD+q6Mzj1wTHKEIkXx6/bfGw
+ xXtYOh0qMRjjXRJOMFSvDWydVdoTBPBMOHs9meNINibjj1ITFQPa8Kgelm5wuldYYr+o
+ 3/cjBDEhOdY5Hs6ayChQ9USXPc6ve4g8U4Lo/p9ZvjmMHmCm4tOBJPq+uW4byCgwE6PO
+ SCrhgjq4JVHtpN+qk9WMRfZ3S6IROjdoHsoM/dkyByPnrHj2isRvLT5JXu867nG+RYZ9
+ mJPyaud49gPuX7pfk0gaev37694oe0W9oKlHqwQL/r+v4G/hXvgnN6t4TFhq6do8kWuQ
+ 8ayw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=H5IeZ+hhSAZ+ybSP0+31Nf0MYRYwL7qKI8YXNBcIqBE=;
- b=66ltwt44bQn9N8BHwg2JgpcS7WDqUEQ1rhpbONlz0ZZXKi7d1UYkquBIw8QrjrbMdn
- 6YNgvmV+V8oUnJ6jcfaeI0/u7tYw4NQxQYNmhqeyup5HIk61QeE+gjOGsJOzPecXPTA/
- pe4fX1B4sYRpXcBsCB7XTct4AfVZNNk520ChFQXhGm1K6jQPNKjA1QDbsVAfRuHsJ9si
- +jXWG7KaAsUcNG5ApeUYRs51x0u9BlZ8ivlK+Y3C47Wb1Svw9sGcWMkYX+dfhIDRjNq+
- gLfDtmOYs1VGmik4uJNe1AUJAWqW1D06MAIosNv98oSkkueIvhlwOUPPk6HclVmazYSQ
- tpsQ==
-X-Gm-Message-State: ACgBeo2ZtZ3OOpGRn+JGx7jGF+5JA1i9PNPiYNhN4UWi3cRCPKZQRPoE
- 75cSU/enIl65pYZQDbg+5Ps6ww==
-X-Google-Smtp-Source: AA6agR5JK/w79kgc1ZezXKBmIBJ7XSAEC6D2Ce4oezwZeGuYUF7NXb7degAGTOHPSPt+WkzuNnO6Nw==
-X-Received: by 2002:a17:90b:164b:b0:1f5:15ae:3206 with SMTP id
- il11-20020a17090b164b00b001f515ae3206mr14652069pjb.140.1660510395718; 
- Sun, 14 Aug 2022 13:53:15 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:8012:29b7:7129:d9b8:d112:9475?
- ([2605:ef80:8012:29b7:7129:d9b8:d112:9475])
- by smtp.gmail.com with ESMTPSA id
- z4-20020aa79484000000b00534a7a127bcsm2372837pfk.164.2022.08.14.13.53.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Aug 2022 13:53:15 -0700 (PDT)
-Message-ID: <1c4ae4dd-7365-1d5b-0608-31ba04ee96e0@linaro.org>
-Date: Sun, 14 Aug 2022 15:53:11 -0500
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=GBxN+sPBU9Sl/lscOMy1MjZne9FQGdwFrSHvq8m8+nI=;
+ b=t/B20ymJl6OsEiEjNUqeAdeqpFzzaONbDZISDstLygH5k/pSNxyU+RRA512fRZW8fS
+ Mq5iXDj+QJ4j8qAcZAPgCJW8QHo8hzVccCE4eLSkJ04M3m8hqNRg2bNN0C8o4fWvcnzM
+ 1hsnyTeMzXEiG55SYFXDdVddEXTTN0YOEnIylNezxKpK/uk9sIEA0KNpCeqVq1aK9Cr/
+ JrneLl2pVWKNBZGkRnRC9p1ehtyRccotrE+vEsY3trXO5pjF+JCz4Z3mPSA6H9bVkERC
+ kHMGErOEg5xdf8Qd4Vov9cTpSH6+9n5SvfbOw60rVos1cEubUqtrPwFXPY4dMiV4oLWH
+ EPzg==
+X-Gm-Message-State: ACgBeo0OQxRRn6eFEjtObC3SOb/3u0r3Cm5WNY0mNxRMNVtjS0niNixM
+ tg5ZT4N1auiHgkDx4PMm8qiMG7okh84EWNBNmfg=
+X-Google-Smtp-Source: AA6agR5gG7rPAnxy+e9v42mucMt3OdSKehsj7JfSJQua93wDgp2dXsWTI7YBZmeXcc2Pm1Ol8QQ/bP6gC+xAJWmpUvU=
+X-Received: by 2002:a17:902:d4c1:b0:16f:8311:54bc with SMTP id
+ o1-20020a170902d4c100b0016f831154bcmr13270201plg.25.1660514151794; Sun, 14
+ Aug 2022 14:55:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.1 3/4] target/loongarch: rename the TCG CPU "la464"
- to "qemu64-v1.00"
-Content-Language: en-US
-To: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
-Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
- WANG Xuerui <git@xen0n.name>
-References: <20220814145351.1474753-1-git@xen0n.name>
- <20220814145522.1474927-4-i.qemu@xen0n.name>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220814145522.1474927-4-i.qemu@xen0n.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20220810184612.157317-1-mail@conchuod.ie>
+ <20220810184612.157317-4-mail@conchuod.ie>
+In-Reply-To: <20220810184612.157317-4-mail@conchuod.ie>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 Aug 2022 07:55:25 +1000
+Message-ID: <CAKmqyKMUZQ-XXxED=2-QQcQsbh270=Q4ODwfZn4qNuiUj15AWw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] hw/riscv: virt: fix syscon subnode paths
+To: Conor Dooley <mail@conchuod.ie>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor.dooley@microchip.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ linux-riscv <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,38 +89,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/14/22 09:55, WANG Xuerui wrote:
-> From: WANG Xuerui <git@xen0n.name>
-> 
-> The only LoongArch CPU implemented is modeled after the Loongson 3A5000,
-> but it is not the real thing, ...
+On Thu, Aug 11, 2022 at 5:06 AM Conor Dooley <mail@conchuod.ie> wrote:
+>
+> From: Conor Dooley <conor.dooley@microchip.com>
+>
+> The reset and poweroff features of the syscon were originally added to
+> top level, which is a valid path for a syscon subnode. Subsequently a
+> reorganisation was carried out while implementing NUMA in which the
+> subnodes were moved into the /soc node. As /soc is a "simple-bus", this
+> path is invalid, and so dt-validate produces the following warnings:
+>
+> /stuff/qemu/qemu.dtb: soc: poweroff: {'value': [[21845]], 'offset': [[0]], 'regmap': [[4]], 'compatible': ['syscon-poweroff']} should not be valid under {'type': 'object'}
+>         From schema: /home/conor/.local/lib/python3.9/site-packages/dtschema/schemas/simple-bus.yaml
+> /stuff/qemu/qemu.dtb: soc: reboot: {'value': [[30583]], 'offset': [[0]], 'regmap': [[4]], 'compatible': ['syscon-reboot']} should not be valid under {'type': 'object'}
+>         From schema: /home/conor/.local/lib/python3.9/site-packages/dtschema/schemas/simple-bus.yaml
+>
+> Move the syscon subnodes back to the top level and silence the warnings.
+>
+> Reported-by: Rob Herring <robh@kernel.org>
+> Link: https://lore.kernel.org/linux-riscv/20220803170552.GA2250266-robh@kernel.org/
+> Fixes: 18df0b4695 ("hw/riscv: virt: Allow creating multiple NUMA sockets")
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 
-The 3A5000 is the SoC, as far as I could find, and the documentation of that says the core 
-is named the la464.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
 
-> In general, high-fidelity models can and should be named after the real
-> hardware model, while generic emulation-oriented models should be named
-> after ISA levels.
-
-This wasn't intended to be a generic emulation model, as far as I know.  There are missing 
-features, but presumably those would eventually be filled in.
-
-
-> For now, the best reference for LoongArch ISA levels
-> is the revision number of the LoongArch ISA Manual, of which v1.00 is
-> still the latest. (v1.01 and v1.02 are minor revisions without
-> substantive change.)
-> 
-> As defined by various specs, the vendor and model names are also
-> reflected in respective CSRs, and are 8 bytes long. So, rename "la464"
-> to "qemu64-v1.00", with "QEMU64" as vendor name and "v1.00" as model
-> name.
-
-Eh, I suppose.  I'm not really keen on this though, as I would presume there will be 
-eventual forward progress on completing the real cpu model.  We simply won't give any 
-compatibility guarantees for loongarch until we are ready to do so.
-
-
-r~
+> ---
+> I dropped your R-b Alistair intentionally.
+> Tested both Linux and FreeBSD:
+> [    0.073406] device: 'poweroff': device_add
+> [    0.073441] bus: 'platform': add device poweroff
+> [    0.502347] bus: 'platform': add driver syscon-poweroff
+> [    0.502379] bus: 'platform': __driver_probe_device: matched device poweroff with driver syscon-poweroff
+> [    0.502397] bus: 'platform': really_probe: probing driver syscon-poweroff with device poweroff
+> [    0.502423] syscon-poweroff poweroff: no pinctrl handle
+> [    0.502681] syscon-poweroff poweroff: pm_power_off already claimed for sbi_srst_power_off
+> [    0.503333] syscon-poweroff: probe of poweroff failed with error -16
+> [    0.073629] device: 'reboot': device_add
+> [    0.073664] bus: 'platform': add device reboot
+> [    0.500640] bus: 'platform': add driver syscon-reboot
+> [    0.500673] bus: 'platform': __driver_probe_device: matched device reboot with driver syscon-reboot
+> [    0.500694] bus: 'platform': really_probe: probing driver syscon-reboot with device reboot
+> [    0.500725] syscon-reboot reboot: no pinctrl handle
+> [    0.502168] driver: 'syscon-reboot': driver_bound: bound to device 'reboot'
+> [    0.502242] bus: 'platform': really_probe: bound device reboot to driver syscon-reboot
+>
+> syscon_power0: <Syscon poweroff> on ofwbus0
+> syscon_power1: <Syscon reboot> on ofwbus0
+> ---
+>  hw/riscv/virt.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 8b2978076e..6f0fd1541b 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -896,7 +896,7 @@ static void create_fdt_reset(RISCVVirtState *s, const MemMapEntry *memmap,
+>      test_phandle = qemu_fdt_get_phandle(mc->fdt, name);
+>      g_free(name);
+>
+> -    name = g_strdup_printf("/soc/reboot");
+> +    name = g_strdup_printf("/reboot");
+>      qemu_fdt_add_subnode(mc->fdt, name);
+>      qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-reboot");
+>      qemu_fdt_setprop_cell(mc->fdt, name, "regmap", test_phandle);
+> @@ -904,7 +904,7 @@ static void create_fdt_reset(RISCVVirtState *s, const MemMapEntry *memmap,
+>      qemu_fdt_setprop_cell(mc->fdt, name, "value", FINISHER_RESET);
+>      g_free(name);
+>
+> -    name = g_strdup_printf("/soc/poweroff");
+> +    name = g_strdup_printf("/poweroff");
+>      qemu_fdt_add_subnode(mc->fdt, name);
+>      qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-poweroff");
+>      qemu_fdt_setprop_cell(mc->fdt, name, "regmap", test_phandle);
+> --
+> 2.37.1
+>
+>
 
