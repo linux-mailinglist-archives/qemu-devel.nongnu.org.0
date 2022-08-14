@@ -2,46 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD0F5922AF
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Aug 2022 17:52:23 +0200 (CEST)
-Received: from localhost ([::1]:40868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3653559204A
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Aug 2022 16:58:10 +0200 (CEST)
+Received: from localhost ([::1]:43984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNFuY-0000ws-51
-	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 11:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
+	id 1oNF44-0006aa-Rh
+	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 10:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1oNFre-0006li-3R
- for qemu-devel@nongnu.org; Sun, 14 Aug 2022 11:49:23 -0400
-Received: from mail.xen0n.name ([115.28.160.31]:54614
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1oNF26-0002Eo-TV
+ for qemu-devel@nongnu.org; Sun, 14 Aug 2022 10:56:06 -0400
+Received: from mail.xen0n.name ([115.28.160.31]:54606
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1oNFrb-0006Dp-Ql
- for qemu-devel@nongnu.org; Sun, 14 Aug 2022 11:49:21 -0400
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1oNF22-0007Oc-Bs
+ for qemu-devel@nongnu.org; Sun, 14 Aug 2022 10:56:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1660488845; bh=CIS4wg3Xvmdf0sUqrXioCykANyS6UlMdzlH2sGfx74A=;
- h=From:To:Cc:Subject:Date:From;
- b=VjRoZ7ae4HTtang5iUaJCQJAZmHKudCXYdIxu7PrtEjaxVZYqW+P+NtQAO8vJPDoD
- MEfsPsWpD8b1nR6N0qVijwJ2hebWPcSqesJVFiBYL+gYzRwa3rQDd+ZGDOA8NIbpty
- pWDgxlXatebl9GntaaxlVrszA/WLm5xJzpNdqSvk=
+ t=1660488948; bh=7fqqbxSiwMiSghRpfLHiYPLKCY1CYMyCDHuauIcZAKw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qBS+KBezxDdienosyuSGib6/t2haoeLR7NcUUm3t0rtkPpzvodfG6X22PjsHJbwIt
+ Zf/CcFs+HwUwSbcaalJNwf9v0vul80LffZFGQmqAWnFYXW1Y0iEpp1G+F4TmlHJQCe
+ zPTCligQPabNZiLnc0iwhxDz3EOn6ypcTdas7hik=
 Received: from ld50.lan (unknown [101.88.24.16])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 2990460074;
- Sun, 14 Aug 2022 22:54:02 +0800 (CST)
-From: WANG Xuerui <git@xen0n.name>
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6225A6061B;
+ Sun, 14 Aug 2022 22:55:47 +0800 (CST)
+From: WANG Xuerui <i.qemu@xen0n.name>
 To: qemu-devel@nongnu.org
-Cc: WANG Xuerui <git@xen0n.name>,
+Cc: WANG Xuerui <i.qemu@xen0n.name>,
  Richard Henderson <richard.henderson@linaro.org>,
- Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH for-7.1 0/4] Last-minute LoongArch CPU model naming tweaks
-Date: Sun, 14 Aug 2022 22:53:47 +0800
-Message-Id: <20220814145351.1474753-1-git@xen0n.name>
+ Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ WANG Xuerui <git@xen0n.name>
+Subject: [PATCH for-7.1 1/4] target/loongarch: Only allow short -cpu arguments
+ without type name suffix
+Date: Sun, 14 Aug 2022 22:55:19 +0800
+Message-Id: <20220814145522.1474927-2-i.qemu@xen0n.name>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220814145351.1474753-1-git@xen0n.name>
+References: <20220814145351.1474753-1-git@xen0n.name>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
  helo=mailbox.box.xen0n.name
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,42 +68,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: WANG Xuerui <git@xen0n.name>
 
-Some people are already testing out the 7.1 RCs for the LoongArch
-emulation, and have suggested improvements to the CPU model naming
-scheme. While assessing the situation I also found the documentation
-already out-of-date, in addition to being especially hard to read (for a
-Chinese who could *not* understand Chinglish, though).
+Previously both "foo" and "foo-loongarch-cpu" are accepted for the -cpu
+command-line option, the latter of which being excessively long and
+redundant, hence unwanted. Remove support for consistency with other
+targets and simpler code.
 
-Sorry for being really late (I've mostly been focusing on my day job and
-LLVM bringup work for LoongArch recently), but hopefully these changes
-could still be integrated, because target/loongarch is fresh addition
-for 7.1 nobody should have depended on its implementation details yet.
-Anyway, since the "new world" ecosystem isn't expected to mature and
-attract lots of users very soon, it could be acceptable to just punt
-this to 7.2, and issue incompatible change notices as usual. I
-personally would be fine with either.
+Signed-off-by: WANG Xuerui <git@xen0n.name>
+---
+ target/loongarch/cpu.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-WANG Xuerui (4):
-  target/loongarch: Only allow short -cpu arguments without type name
-    suffix
-  target/loongarch: Trim type name suffix in -cpu help output
-  target/loongarch: rename the TCG CPU "la464" to "qemu64-v1.00"
-  docs, target/loongarch: Rewrite the LoongArch docs
-
- docs/system/loongarch/loongson3.rst | 41 ------------
- docs/system/loongarch/virt.rst      | 41 ++++++++++++
- hw/loongarch/virt.c                 | 14 +---
- target/loongarch/README             | 99 -----------------------------
- target/loongarch/README.md          | 75 ++++++++++++++++++++++
- target/loongarch/cpu.c              | 21 +++---
- 6 files changed, 128 insertions(+), 163 deletions(-)
- delete mode 100644 docs/system/loongarch/loongson3.rst
- create mode 100644 docs/system/loongarch/virt.rst
- delete mode 100644 target/loongarch/README
- create mode 100644 target/loongarch/README.md
-
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 941e2772bc..dc233ee209 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -573,14 +573,11 @@ static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+ {
+     ObjectClass *oc;
+ 
+-    oc = object_class_by_name(cpu_model);
++    g_autofree char *typename = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"),
++                                                cpu_model);
++    oc = object_class_by_name(typename);
+     if (!oc) {
+-        g_autofree char *typename 
+-            = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
+-        oc = object_class_by_name(typename);
+-        if (!oc) {
+-            return NULL;
+-        }
++        return NULL;
+     }
+ 
+     if (object_class_dynamic_cast(oc, TYPE_LOONGARCH_CPU)
 -- 
 2.35.1
 
