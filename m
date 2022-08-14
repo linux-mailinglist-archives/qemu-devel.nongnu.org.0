@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED857591EFC
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Aug 2022 09:52:19 +0200 (CEST)
-Received: from localhost ([::1]:48384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9976C591F97
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Aug 2022 12:52:52 +0200 (CEST)
+Received: from localhost ([::1]:42060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oN8Py-0002e4-Id
-	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 03:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54522)
+	id 1oNBEh-0002yP-8C
+	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 06:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
- id 1oN8Ls-00089m-LX
- for qemu-devel@nongnu.org; Sun, 14 Aug 2022 03:48:04 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:36402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
- id 1oN8Lr-00041w-3C
- for qemu-devel@nongnu.org; Sun, 14 Aug 2022 03:48:04 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-31e7ca45091so43708457b3.3
- for <qemu-devel@nongnu.org>; Sun, 14 Aug 2022 00:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc;
- bh=eR+yCSVjXAWVDFLB4FMgLtjT6WdNXTZcdApKfvzPFuc=;
- b=eNv1FSnRc9b2yGdb37ht/IolTAsMMHoi1DJQKO/yPfv1eLfyZAKbKKf8fnZh6BUjzH
- 8krCqp1aW3g5SLZ2ho7DMZZ8xPp1NR89rMocLvh6od/hPp7/FJjbmVgt117TbzlpQ5J0
- DHOnZLXjcWTNuRoilalVVNvKCH4y8gc/af/CExueOZ/oeMpem4mu9SNCUzkDRPmHsFlC
- CQe5ZiQSNmFyZt6g85hQhTyx3vW7+KFv+XbGa6E+Z7fjrR7+BCwaVBcWmTBE5njU7N1k
- 54b962uHkFUgvNEOwy+olKbhBaQXH0eyhQg2NljSAjGUDG2VEXouGchEolULrrt8bCrV
- GLog==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oNBAF-0001T3-Do
+ for qemu-devel@nongnu.org; Sun, 14 Aug 2022 06:48:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oNBAA-00043Q-Cq
+ for qemu-devel@nongnu.org; Sun, 14 Aug 2022 06:48:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660474088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NheGGj2hlHIpeQ8SOdrp7mlRm3r4i7dVdptVnr17rlk=;
+ b=ZscWZ9grV1vQqP8qTIEMRdCocruJQ9iuBsEYBUKlCm5d7Ho62Q/pwIZ0SOQMZeYsB6fT4Y
+ ZhYPrGRXEXW6az03QVvzTrHat/yS+dkVWRYlVmqtfxpoJsgn9ABPo2MlQt9Ueq62cS8Bhq
+ SU1S+s6X+n4O1J9+DKtAyt5eutQcTO8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-602-JSMp1cRhMcybKZI3nrq9fg-1; Sun, 14 Aug 2022 06:48:06 -0400
+X-MC-Unique: JSMp1cRhMcybKZI3nrq9fg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h127-20020a1c2185000000b003a534ec2570so1356279wmh.7
+ for <qemu-devel@nongnu.org>; Sun, 14 Aug 2022 03:48:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc;
- bh=eR+yCSVjXAWVDFLB4FMgLtjT6WdNXTZcdApKfvzPFuc=;
- b=fRmM1DBcZNapS3kwlevQS1XZmE3AVfdXkA2VDvFikGbuBuXzAXm23/JLsKCJIconMq
- U3n/LBnBtpcwkb0gZSXy51LeeBa3/gOHNMy9hHaVKXYyrvABWSP/pGB8XOZrIUPX+eB5
- /52RHVCZsRt8n1OfYdlNys19cMBg6nzt16vJvfHN1T2xE6bzMptFg/6NhimzDPfZuN56
- trV7Up+NYWuh7ta92SuW6Nf97urasvQVHw6boNoGjeZeQejESYsAxDhS0gpnvZoiINYm
- jfj1vTvzLvmOASj9MLiIl2YXbtxixx6Y2ReOuyLkZxX5pSAq09waeqtv5zMO78Yu+F12
- 52eA==
-X-Gm-Message-State: ACgBeo0lrGLgxUmFgou72fpXrUFRyXISoPlDMkqWzcklAVVR/pWh7kHB
- UYIyqM9kore8dV0BVC9hfQrxwPOByg71+jSJJdQ=
-X-Google-Smtp-Source: AA6agR5KyIgsa8K3aQytYad4lIKhGyYCiqeUhDaZvNhhhW9lp/FkxSeOTR8BAcFaP4zeT3Qx9RxCt+xsq3nxsGHSl+w=
-X-Received: by 2002:a81:1b83:0:b0:328:a7be:ec81 with SMTP id
- b125-20020a811b83000000b00328a7beec81mr9540994ywb.398.1660463281228; Sun, 14
- Aug 2022 00:48:01 -0700 (PDT)
-MIME-Version: 1.0
-From: Paul Schlacter <wlfightup@gmail.com>
-Date: Sun, 14 Aug 2022 15:47:49 +0800
-Message-ID: <CADak6y5OdAgSwCmsdghy9JarwFqeR7GtaK2pz+TSLvSiAy8PQA@mail.gmail.com>
-Subject: [PATCH] xio3130_upstream: Add ACS (Access Control Services) capability
-To: mst@redhat.com, marcel.apfelbaum@gmail.com, fam@euphon.net, 
- kwolf@redhat.com, stefanha@redhat.com, k.jensen@samsung.com, f4bug@amsat.org, 
- its@irrelevant.dk, xypron.glpk@gmx.de, imammedo@redhat.com, 
- qemu-devel@nongnu.org, armbru@redhat.com, kbusch@kernel.org, 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=NheGGj2hlHIpeQ8SOdrp7mlRm3r4i7dVdptVnr17rlk=;
+ b=cilLZWpQjrszm0QnNGlvb7kYe79driI3o0/cfFmxKw8JjuAkzPyHziZiqNiqCtc6aB
+ xuwtK5a8RW0/pfFO5btuWpdyK6CfIzdAmo3qOVuewAxvMhbdLI48T32gXgjrEf2GLWxj
+ nJBRt68OTrrh0InkKJV5P8uQpo+ANfJDqBS/s/sp5vUmqicBr8wGuNmZBu3VUrUV6vDY
+ AeNzAXZVhSwHvdFyy/af+mkQZlZMDGxr8WNjR2SdjRGL64tBQiP4piLZg7k1eFpITPXA
+ x4g+iGWS2c/2GMIUEffHcUHJT/oYaTOTHtqtc0Yn9mFKm1c585kn/u+Pk0pM4OT8LlNE
+ u3Fg==
+X-Gm-Message-State: ACgBeo0iu7leoUEImI1ckG8BVblH1X360PGC0LWOOCMAFOkzscM36VO6
+ /5KjGNPbS3ToKEd0FkIelITAQQf0Nao/3g//kNIECGtdxhq39rLvyzR/1XmcsMipmMZHYL/69XX
+ I8JcpUW4/eQwOmaw=
+X-Received: by 2002:a5d:5311:0:b0:224:f76e:ad6f with SMTP id
+ e17-20020a5d5311000000b00224f76ead6fmr2368923wrv.54.1660474085485; 
+ Sun, 14 Aug 2022 03:48:05 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5z5tlB1B5cAhumf1ukqydlTYmveaCXLLEKLLTdG7BNQV3jpeYznOjPkIVx2cQn1zjYVlNmyg==
+X-Received: by 2002:a5d:5311:0:b0:224:f76e:ad6f with SMTP id
+ e17-20020a5d5311000000b00224f76ead6fmr2368898wrv.54.1660474085200; 
+ Sun, 14 Aug 2022 03:48:05 -0700 (PDT)
+Received: from redhat.com ([2.52.152.113]) by smtp.gmail.com with ESMTPSA id
+ c7-20020a05600c0a4700b003a5de95b105sm5826722wmq.41.2022.08.14.03.48.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Aug 2022 03:48:04 -0700 (PDT)
+Date: Sun, 14 Aug 2022 06:47:59 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paul Schlacter <wlfightup@gmail.com>
+Cc: marcel.apfelbaum@gmail.com, fam@euphon.net, kwolf@redhat.com,
+ stefanha@redhat.com, k.jensen@samsung.com, f4bug@amsat.org,
+ its@irrelevant.dk, xypron.glpk@gmx.de, imammedo@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, kbusch@kernel.org,
  hreitz@redhat.com, ani@anisinha.ca
-Content-Type: multipart/alternative; boundary="0000000000000a506805e62ebc00"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=wlfightup@gmail.com; helo=mail-yw1-x1133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Subject: Re: [PATCH] xio3130_upstream: Add ACS (Access Control Services)
+ capability
+Message-ID: <20220814064705-mutt-send-email-mst@kernel.org>
+References: <CADak6y5OdAgSwCmsdghy9JarwFqeR7GtaK2pz+TSLvSiAy8PQA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADak6y5OdAgSwCmsdghy9JarwFqeR7GtaK2pz+TSLvSiAy8PQA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,229 +102,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000a506805e62ebc00
-Content-Type: text/plain; charset="UTF-8"
+On Sun, Aug 14, 2022 at 03:47:49PM +0800, Paul Schlacter wrote:
+> If it is a pcie device, check that all devices on the path from
+> 
+> the device to the root complex have ACS enabled, and then the
+> 
+> device will become an iommu_group.
+> 
+> it will have the effect of isolation
+> 
+> 
+> Signed-off-by: wlfightup <wlfightup@gmail.com>
+
+I don't think we can do this unconditionally. Has to have
+a property and disabled for old versions.
+
+> ---
+> 
+>  hw/pci-bridge/xio3130_upstream.c | 3 +++
+> 
+>  1 file changed, 3 insertions(+)
+> 
+> 
+> diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/
+> xio3130_upstream.c
+> 
+> index 5ff46ef050..2df952222b 100644
+> 
+> --- a/hw/pci-bridge/xio3130_upstream.c
+> 
+> +++ b/hw/pci-bridge/xio3130_upstream.c
+> 
+> @@ -37,6 +37,8 @@
+> 
+>  #define XIO3130_SSVID_SSID              0
+> 
+>  #define XIO3130_EXP_OFFSET              0x90
+> 
+>  #define XIO3130_AER_OFFSET              0x100
+> 
+> +#define XIO3130_ACS_OFFSET \
+> 
+> +        (XIO3130_AER_OFFSET + PCI_ERR_SIZEOF)
+> 
+> 
+>  static void xio3130_upstream_write_config(PCIDevice *d, uint32_t address,
+> 
+>                                            uint32_t val, int len)
+> 
+> @@ -92,6 +94,7 @@ static void xio3130_upstream_realize(PCIDevice *d, Error
+> **errp)
+> 
+>          goto err;
+> 
+>      }
+> 
+> 
+> +    pcie_acs_init(d, XIO3130_ACS_OFFSET);
+> 
+>      return;
+> 
+> 
+>  err:
+> 
+> --
+> 
+> 2.24.3 (Apple Git-128)
+> 
 
-If it is a pcie device, check that all devices on the path from
-
-the device to the root complex have ACS enabled, and then the
-
-device will become an iommu_group.
-
-it will have the effect of isolation
-
-
-Signed-off-by: wlfightup <wlfightup@gmail.com>
-
----
-
- hw/pci-bridge/xio3130_upstream.c | 3 +++
-
- 1 file changed, 3 insertions(+)
-
-
-diff --git a/hw/pci-bridge/xio3130_upstream.c
-b/hw/pci-bridge/xio3130_upstream.c
-
-index 5ff46ef050..2df952222b 100644
-
---- a/hw/pci-bridge/xio3130_upstream.c
-
-+++ b/hw/pci-bridge/xio3130_upstream.c
-
-@@ -37,6 +37,8 @@
-
- #define XIO3130_SSVID_SSID              0
-
- #define XIO3130_EXP_OFFSET              0x90
-
- #define XIO3130_AER_OFFSET              0x100
-
-+#define XIO3130_ACS_OFFSET \
-
-+        (XIO3130_AER_OFFSET + PCI_ERR_SIZEOF)
-
-
- static void xio3130_upstream_write_config(PCIDevice *d, uint32_t address,
-
-                                           uint32_t val, int len)
-
-@@ -92,6 +94,7 @@ static void xio3130_upstream_realize(PCIDevice *d, Error
-**errp)
-
-         goto err;
-
-     }
-
-
-+    pcie_acs_init(d, XIO3130_ACS_OFFSET);
-
-     return;
-
-
- err:
-
---
-
-2.24.3 (Apple Git-128)
-
---0000000000000a506805e62ebc00
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">
-
-
-
-
-
-<p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"=
-><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatur=
-es">If it is a pcie device, check that all devices on the path from</span><=
-/p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,=
-0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-liga=
-tures">the device to the root complex have ACS enabled, and then the</span>=
-</p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0=
-,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-lig=
-atures">device will become an iommu_group.</span></p><p class=3D"gmail-p1" =
-style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-=
-s1" style=3D"font-variant-ligatures:no-common-ligatures">it will have the e=
-ffect of isolation</span></p><p class=3D"gmail-p2" style=3D"margin:0px;font=
-:11px Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gmail-s1" styl=
-e=3D"font-variant-ligatures:no-common-ligatures"></span><br></p><p class=3D=
-"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span clas=
-s=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">Signed-=
-off-by: wlfightup &lt;<a href=3D"mailto:wlfightup@gmail.com">wlfightup@gmai=
-l.com</a>&gt;</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px=
- Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-lig=
-atures:no-common-ligatures">---</span></p><p class=3D"gmail-p1" style=3D"ma=
-rgin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=
-=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-=
-converted-space">=C2=A0</span>hw/pci-bridge/xio3130_upstream.c | 3 +++</spa=
-n></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0=
-,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-l=
-igatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</span>1 file c=
-hanged, 3 insertions(+)</span></p><p class=3D"gmail-p2" style=3D"margin:0px=
-;font:11px Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gmail-s1"=
- style=3D"font-variant-ligatures:no-common-ligatures"></span><br></p><p cla=
-ss=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span=
- class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">di=
-ff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstrea=
-m.c</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;col=
-or:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-=
-common-ligatures">index 5ff46ef050..2df952222b 100644</span></p><p class=3D=
-"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span clas=
-s=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">--- a/h=
-w/pci-bridge/xio3130_upstream.c</span></p><p class=3D"gmail-p1" style=3D"ma=
-rgin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=
-=3D"font-variant-ligatures:no-common-ligatures">+++ b/hw/pci-bridge/xio3130=
-_upstream.c</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px M=
-enlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligat=
-ures:no-common-ligatures">@@ -37,6 +37,8 @@</span></p><p class=3D"gmail-p1"=
- style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail=
--s1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gm=
-ail-Apple-converted-space">=C2=A0</span>#define XIO3130_SSVID_SSID<span cla=
-ss=3D"gmail-Apple-converted-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 </span>0</span></p><p class=3D"gmail-p1" style=3D"margin:0px;fon=
-t:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-varia=
-nt-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-converted-spac=
-e">=C2=A0</span>#define XIO3130_EXP_OFFSET<span class=3D"gmail-Apple-conver=
-ted-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>0x90</sp=
-an></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(=
-0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-=
-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</span>#define=
- XIO3130_AER_OFFSET<span class=3D"gmail-Apple-converted-space">=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>0x100</span></p><p class=3D"g=
-mail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=
-=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">+#define=
- XIO3130_ACS_OFFSET \</span></p><p class=3D"gmail-p1" style=3D"margin:0px;f=
-ont:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-var=
-iant-ligatures:no-common-ligatures">+<span class=3D"gmail-Apple-converted-s=
-pace">=C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>(XIO3130_AER_OFFSET + PCI_ERR_SIZE=
-OF)</span></p><p class=3D"gmail-p2" style=3D"margin:0px;font:11px Menlo;col=
-or:rgb(0,0,0);min-height:13px"><span class=3D"gmail-s1" style=3D"font-varia=
-nt-ligatures:no-common-ligatures"></span><br></p><p class=3D"gmail-p1" styl=
-e=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" =
-style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-A=
-pple-converted-space">=C2=A0</span>static void xio3130_upstream_write_confi=
-g(PCIDevice *d, uint32_t address,</span></p><p class=3D"gmail-p1" style=3D"=
-margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=
-=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-=
-converted-space">=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 </span>uint32_t val, int len)</span></p><p class=3D"gm=
-ail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=
-=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">@@ -92,6=
- +94,7 @@ static void xio3130_upstream_realize(PCIDevice *d, Error **errp)<=
-/span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:r=
-gb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-comm=
-on-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 </span>goto err;</span></p><p class=3D"gmail-p1" style=3D=
-"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" styl=
-e=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple=
--converted-space">=C2=A0=C2=A0 =C2=A0 </span>}</span></p><p class=3D"gmail-=
-p2" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0);min-height:13px"><=
-span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures=
-"></span><br></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;=
-color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:=
-no-common-ligatures">+<span class=3D"gmail-Apple-converted-space">=C2=A0 =
-=C2=A0 </span>pcie_acs_init(d, XIO3130_ACS_OFFSET);</span></p><p class=3D"g=
-mail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=
-=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><span cl=
-ass=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>return;</spa=
-n></p><p class=3D"gmail-p2" style=3D"margin:0px;font:11px Menlo;color:rgb(0=
-,0,0);min-height:13px"><span class=3D"gmail-s1" style=3D"font-variant-ligat=
-ures:no-common-ligatures"></span><br></p><p class=3D"gmail-p1" style=3D"mar=
-gin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D=
-"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-con=
-verted-space">=C2=A0</span>err:</span></p><p class=3D"gmail-p1" style=3D"ma=
-rgin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=
-=3D"font-variant-ligatures:no-common-ligatures">--</span></p><p class=3D"gm=
-ail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-variant-east-a=
-sian:normal;font-stretch:normal;font-size:11px;line-height:normal;font-fami=
-ly:Menlo;color:rgb(0,0,0)">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</p><p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;f=
-ont-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-heigh=
-t:normal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=
-=3D"font-variant-ligatures:no-common-ligatures">2.24.3 (Apple Git-128)</spa=
-n></p></div>
-
---0000000000000a506805e62ebc00--
 
