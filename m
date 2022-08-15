@@ -2,65 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EA4593A8E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 22:05:02 +0200 (CEST)
-Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E170593A91
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 22:11:38 +0200 (CEST)
+Received: from localhost ([::1]:33998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNgKb-0004tt-4i
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 16:05:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49402)
+	id 1oNgQz-0007H9-Gs
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 16:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNgIN-0003QU-Av
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 16:02:43 -0400
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:33825)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1oNgP3-0005cu-AG; Mon, 15 Aug 2022 16:09:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNgIK-0006yJ-LI
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 16:02:42 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.121])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id F1CDF20E42;
- Mon, 15 Aug 2022 20:02:25 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 15 Aug
- 2022 22:02:25 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0026fa7910c-6eea-4cf4-8962-cdff7b4e9a94,
- ED195773DA48A3F619B8600B5AFD578ACA86CAE0) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <012f86ce-25da-a42d-3a36-f13f64c248e9@kaod.org>
-Date: Mon, 15 Aug 2022 22:02:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC PATCH 00/13] PowerPC interrupt rework
-Content-Language: en-US
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>, 
- <fbarrat@linux.ibm.com>, <alex.bennee@linaro.org>, Fabiano Rosas
- <farosas@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1oNgOz-00084A-0E; Mon, 15 Aug 2022 16:09:35 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27FK615t014898;
+ Mon, 15 Aug 2022 20:09:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=lqLcZfLMSe+DABbKi1YJWSu4XxEy7BLyMGaGOHTpU/E=;
+ b=TAgsRYPMn6XccgRo8y2ENFkEgEKdvDszhFQe55uyV8gRQqr2noSA4jvPTTxjB12Mlekj
+ i/khZHtjrf+eSytrDcdkx1K/COOjgB0mUjC1fyT3ZINjJkc4e2vBMxAEDYbTsV3RWBQb
+ 1L2ifWxGWr3DZuIAGIS5eD4hBDnFxVVDk/LeWlJhRsUHnL+NQr8cZkhJveyihgqfLnPq
+ +obQ7MuK+muJHQ+LP5voEala+cREbgX/3NAXIh6fvwPin0ArFvTfIQQ41bYSMr9sG9Id
+ 6etlj8xJhLNeoSMO13sf21X1H4nwXmGJEMXHjyDo7+cl5292eRodoBWpmYwOoQvce9O0 cA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hyvb5gyph-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Aug 2022 20:09:19 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27FK7dua019980;
+ Mon, 15 Aug 2022 20:09:19 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hyvb5gyp8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Aug 2022 20:09:19 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27FK5cbr028444;
+ Mon, 15 Aug 2022 20:09:18 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 3hx3k9sb8d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Aug 2022 20:09:18 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27FK9HPw59507140
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 15 Aug 2022 20:09:17 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A7AFAC05B;
+ Mon, 15 Aug 2022 20:09:17 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F38EEAC059;
+ Mon, 15 Aug 2022 20:09:16 +0000 (GMT)
+Received: from localhost (unknown [9.160.104.128])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Mon, 15 Aug 2022 20:09:16 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
+ Ferst <matheus.ferst@eldorado.org.br>
+Subject: Re: [RFC PATCH 03/13] target/ppc: move interrupt masking out of
+ ppc_hw_interrupt
+In-Reply-To: <20220815162020.2420093-4-matheus.ferst@eldorado.org.br>
 References: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: c7ad7e97-1e98-41b7-9eba-e4f4a7aec304
-X-Ovh-Tracer-Id: 11984360087268002738
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgudegiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeejueefjeehgeeiudffjedvheeitdffjeehkeetudehveduudeluddufeejvedtnecuffhomhgrihhnpehgnhhurdhorhhgpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ <20220815162020.2420093-4-matheus.ferst@eldorado.org.br>
+Date: Mon, 15 Aug 2022 17:09:15 -0300
+Message-ID: <87a6856zh0.fsf@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: O9D4b4Z9u7wsxN9qgBG-h-Jcbq_pmT3i
+X-Proofpoint-ORIG-GUID: Sw5cpQo8GsDV1jDQE1pHsMKg3MTUPjJe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-15_08,2022-08-15_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ spamscore=0 malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ clxscore=1011 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208150077
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,96 +114,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[ Adding Fabiano who reworked all exception models for 7.0 and Nick
-   who rewrote the Linux side sometime ago ]
+Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 
-On 8/15/22 18:20, Matheus Ferst wrote:
-> Currently, PowerPC interrupts are handled as follows:
-> 
-> 1) The CPU_INTERRUPT_HARD bit of cs->interrupt_request gates all
->     interrupts;
-> 2) The bits of env->pending_interrupts identify which particular
->     interrupt is raised;
-> 3) ppc_set_irq can be used to set/clear env->pending_interrupt bit and
->     CPU_INTERRUPT_HARD, but some places access env->pending_interrupt
->     directly;
-> 4) ppc_cpu_exec_interrupt is called by cpu_handle_interrupt when
->     cs->interrupt_request indicates that there is some interrupt pending.
->     This method checks CPU_INTERRUPT_HARD and calls ppc_hw_interrupt. If
->     env->pending_interrupt is zero after this call, CPU_INTERRUPT_HARD
->     will be cleared.
-> 5) ppc_hw_interrupt checks if there is any unmasked interrupt and calls
->     powerpc_excp with the appropriate POWERPC_EXCP_* value. The method
->     will also reset the corresponding bit in env->pending_interrupt for
->     interrupts that clear on delivery.
-> 
-> If all pending interrupts are masked, CPU_INTERRUPT_HARD will be set,
-> but ppc_hw_interrupt will not deliver or clear the interrupt, so
-> CPU_INTERRUPT_HARD will not be reset by ppc_cpu_exec_interrupt. With
-> that, cs->has_work keeps returning true, creating a loop that acquires
-> and release qemu_mutex_lock_iothread, causing the poor performance
-> reported in [1].
-> 
-> This patch series attempts to rework the PowerPC interrupt code to set
-> CPU_INTERRUPT_HARD only when there are unmasked interrupts. Then
-> cs->has_work can be simplified to a check of CPU_INTERRUPT_HARD, so it
-> also only returns true when at least one interrupt can be delivered.
-> 
-> To achieve that, we are basically following Alex Bannée's suggestion[2]
-> in the original thread: the interrupt masking logic will be factored
-> out of ppc_hw_interrupt in a new method, ppc_pending_interrupts. This
-> method is then used to decide if CPU_INTERRUPT_HARD should be set or
-> cleared after changes to MSR, LPCR, env->pending_interrupts, and
-> power-management instructions.
-> 
-> We used [3] to check for regressions at each patch in this series. After
-> patch 12, booting a powernv machine with a newer skiboot with "-smp 4"
-> goes from 1m09s to 20.79s.
+> Move the interrupt masking logic to a new method, ppc_pending_interrupt,
+> and only handle the interrupt processing in ppc_hw_interrupt.
+>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+>  target/ppc/excp_helper.c | 228 ++++++++++++++++++++++++---------------
+>  1 file changed, 141 insertions(+), 87 deletions(-)
+>
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
 
-whaou ! PowerNV is really an heavy weight platform, so that's a great
-improvement.
+<snip>
 
-Did you try KVM guests under PowerNV (L1 under an emulated L0) and KVM
-under pseries (L2 under an emulated L1) ? Try some intensive I/O on a
-SMP machine, like a large scp transfer.
+> @@ -1884,15 +1915,38 @@ bool ppc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>  {
+>      PowerPCCPU *cpu = POWERPC_CPU(cs);
+>      CPUPPCState *env = &cpu->env;
+> +    int pending_interrupt;
 
-We should try the MacOS images also.
+I would give this a simpler name to avoid confusion with the other two
+pending_interrupt terms.
 
-Thanks,
+>  
+> -    if (interrupt_request & CPU_INTERRUPT_HARD) {
+> -        ppc_hw_interrupt(env);
+> -        if (env->pending_interrupts == 0) {
+> -            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
+> -        }
+> -        return true;
+> +    if ((interrupt_request & CPU_INTERRUPT_HARD) == 0) {
+> +        return false;
+>      }
+> -    return false;
+> +
 
-C.
+It seems we're assuming that after this point we certainly have some
+pending interrupt...
 
+> +    pending_interrupt = ppc_pending_interrupt(env);
+> +    if (pending_interrupt == 0) {
 
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-ppc/2022-06/msg00336.html
-> [2] https://lists.gnu.org/archive/html/qemu-ppc/2022-06/msg00372.html
-> [3] https://github.com/legoater/qemu-ppc-boot
-> 
-> Matheus Ferst (13):
->    target/ppc: define PPC_INTERRUPT_* values directly
->    target/ppc: always use ppc_set_irq to set env->pending_interrupts
->    target/ppc: move interrupt masking out of ppc_hw_interrupt
->    target/ppc: prepare to split ppc_interrupt_pending by excp_model
->    target/ppc: create a interrupt masking method for POWER9/POWER10
->    target/ppc: remove embedded interrupts from ppc_pending_interrupt_p9
->    target/ppc: create a interrupt masking method for POWER8
->    target/ppc: remove unused interrupts from ppc_pending_interrupt_p8
->    target/ppc: create a interrupt masking method for POWER7
->    target/ppc: remove unused interrupts from ppc_pending_interrupt_p7
->    target/ppc: remove ppc_store_lpcr from CONFIG_USER_ONLY builds
->    target/ppc: introduce ppc_maybe_interrupt
->    target/ppc: unify cpu->has_work based on cs->interrupt_request
-> 
->   hw/ppc/ppc.c             |  17 +-
->   hw/ppc/trace-events      |   2 +-
->   target/ppc/cpu.c         |   2 +
->   target/ppc/cpu.h         |  43 +--
->   target/ppc/cpu_init.c    | 212 +------------
->   target/ppc/excp_helper.c | 651 ++++++++++++++++++++++++++++++++-------
->   target/ppc/helper_regs.c |   2 +
->   target/ppc/misc_helper.c |  11 +-
->   target/ppc/translate.c   |   8 +-
->   9 files changed, 580 insertions(+), 368 deletions(-)
-> 
+...but how then is this able to return 0? Could the function's name be
+made a bit clearer? Maybe interrupt = ppc_next_pending_interrupt or
+something to that effect.
 
+> +        if (env->resume_as_sreset) {
+> +            /*
+> +             * This is a bug ! It means that has_work took us out of halt
+> +             * without anything to deliver while in a PM state that requires
+> +             * getting out via a 0x100
+> +             *
+> +             * This means we will incorrectly execute past the power management
+> +             * instruction instead of triggering a reset.
+> +             *
+> +             * It generally means a discrepancy between the wakeup conditions in
+> +             * the processor has_work implementation and the logic in this
+> +             * function.
+> +             */
+> +            cpu_abort(env_cpu(env),
+> +                      "Wakeup from PM state but interrupt Undelivered");
+
+This condition is BookS only. Perhaps it would be better to move it
+inside each of the processor-specific functions. And since you're
+merging has_work with pending_interrupts, can't you solve that issue
+earlier? Specifically the "has_work tooks us out of halt..." part.
+
+> +        }
+> +        return false;
+> +    }
+> +
+> +    ppc_hw_interrupt(env, pending_interrupt);
+
+Some verbs would be nice. ppc_deliver_interrupt?
+
+> +    if (env->pending_interrupts == 0) {
+> +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> +    }
+> +    return true;
+>  }
+>  
+>  #endif /* !CONFIG_USER_ONLY */
 
