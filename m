@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A00C593363
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 18:44:28 +0200 (CEST)
-Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135B359337C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 18:50:08 +0200 (CEST)
+Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNdCV-0001ap-DX
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 12:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33188)
+	id 1oNdHy-0007eg-OJ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 12:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oNcrC-0008NV-RZ; Mon, 15 Aug 2022 12:22:26 -0400
+ id 1oNcrH-00005L-P1; Mon, 15 Aug 2022 12:22:31 -0400
 Received: from [200.168.210.66] (port=4179 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oNcrB-0005wd-99; Mon, 15 Aug 2022 12:22:26 -0400
+ id 1oNcrE-0005wd-0K; Mon, 15 Aug 2022 12:22:31 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 15 Aug 2022 13:20:44 -0300
+ Mon, 15 Aug 2022 13:20:45 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 9BB4F800186;
+ by p9ibm (Postfix) with ESMTP id C02A980046B;
  Mon, 15 Aug 2022 13:20:44 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [RFC PATCH 08/13] target/ppc: remove unused interrupts from
- ppc_pending_interrupt_p8
-Date: Mon, 15 Aug 2022 13:20:14 -0300
-Message-Id: <20220815162020.2420093-9-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 09/13] target/ppc: create an interrupt masking method for
+ POWER7
+Date: Mon, 15 Aug 2022 13:20:15 -0300
+Message-Id: <20220815162020.2420093-10-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
 References: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Aug 2022 16:20:44.0860 (UTC)
- FILETIME=[F89CCFC0:01D8B0C2]
+X-OriginalArrivalTime: 15 Aug 2022 16:20:45.0063 (UTC)
+ FILETIME=[F8BBC970:01D8B0C2]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,64 +64,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Hypervisor Virtualization Interrupt was introduced in PowerISA v3.0.
-Critical Input, Watchdog Timer, and Fixed Interval Timer are only
-defined for embedded CPUs. The Programmable Interval Timer is 40x-only.
+The new method is based on cpu_has_work_POWER7 and
+ppc_pending_interrupt_legacy.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/excp_helper.c | 27 ---------------------------
- 1 file changed, 27 deletions(-)
+ target/ppc/excp_helper.c | 130 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 130 insertions(+)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 13c2d5e2ce..0dbd385bf0 100644
+index 0dbd385bf0..a67ab28661 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1739,15 +1739,6 @@ static int ppc_pending_interrupt_p8(CPUPPCState *env)
-         }
-     }
+@@ -1678,6 +1678,134 @@ void ppc_cpu_do_interrupt(CPUState *cs)
+     powerpc_excp(cpu, cs->exception_index);
+ }
  
--    /* Hypervisor virtualization interrupt */
--    if (env->pending_interrupts & PPC_INTERRUPT_HVIRT) {
--        /* LPCR will be clear when not supported so this will work */
--        bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
--        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
--            return PPC_INTERRUPT_HVIRT;
--        }
--    }
--
-     /* External interrupt can ignore MSR:EE under some circumstances */
-     if (env->pending_interrupts & PPC_INTERRUPT_EXT) {
-         bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
-@@ -1759,28 +1750,10 @@ static int ppc_pending_interrupt_p8(CPUPPCState *env)
-             return PPC_INTERRUPT_EXT;
-         }
-     }
--    if (FIELD_EX64(env->msr, MSR, CE)) {
--        /* External critical interrupt */
--        if (env->pending_interrupts & PPC_INTERRUPT_CEXT) {
--            return PPC_INTERRUPT_CEXT;
--        }
--    }
-     if (async_deliver != 0) {
--        /* Watchdog timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_WDT) {
--            return PPC_INTERRUPT_WDT;
--        }
-         if (env->pending_interrupts & PPC_INTERRUPT_CDOORBELL) {
-             return PPC_INTERRUPT_CDOORBELL;
-         }
--        /* Fixed interval timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_FIT) {
--            return PPC_INTERRUPT_FIT;
--        }
--        /* Programmable interval timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_PIT) {
--            return PPC_INTERRUPT_PIT;
--        }
-         /* Decrementer exception */
-         if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
-             return PPC_INTERRUPT_DECR;
++static int ppc_pending_interrupt_p7(CPUPPCState *env)
++{
++    CPUState *cs = env_cpu(env);
++    bool async_deliver;
++
++    /* External reset */
++    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
++        return PPC_INTERRUPT_RESET;
++    }
++
++    if (cs->halted) {
++        if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
++            (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
++            return PPC_INTERRUPT_EXT;
++        }
++        if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
++            (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
++            return PPC_INTERRUPT_DECR;
++        }
++        if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
++            (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
++            return PPC_INTERRUPT_MCK;
++        }
++        if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
++            (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
++            return PPC_INTERRUPT_HMI;
++        }
++        return 0;
++    }
++
++    /* Machine check exception */
++    if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
++        return PPC_INTERRUPT_MCK;
++    }
++
++    /*
++     * For interrupts that gate on MSR:EE, we need to do something a
++     * bit more subtle, as we need to let them through even when EE is
++     * clear when coming out of some power management states (in order
++     * for them to become a 0x100).
++     */
++    async_deliver = FIELD_EX64(env->msr, MSR, EE) || env->resume_as_sreset;
++
++    /* Hypervisor decrementer exception */
++    if (env->pending_interrupts & PPC_INTERRUPT_HDECR) {
++        /* LPCR will be clear when not supported so this will work */
++        bool hdice = !!(env->spr[SPR_LPCR] & LPCR_HDICE);
++        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hdice) {
++            /* HDEC clears on delivery */
++            return PPC_INTERRUPT_HDECR;
++        }
++    }
++
++    /* Hypervisor virtualization interrupt */
++    if (env->pending_interrupts & PPC_INTERRUPT_HVIRT) {
++        /* LPCR will be clear when not supported so this will work */
++        bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
++        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
++            return PPC_INTERRUPT_HVIRT;
++        }
++    }
++
++    /* External interrupt can ignore MSR:EE under some circumstances */
++    if (env->pending_interrupts & PPC_INTERRUPT_EXT) {
++        bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
++        bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
++        /* HEIC blocks delivery to the hypervisor */
++        if ((async_deliver && !(heic && FIELD_EX64_HV(env->msr) &&
++            !FIELD_EX64(env->msr, MSR, PR))) ||
++            (env->has_hv_mode && !FIELD_EX64_HV(env->msr) && !lpes0)) {
++            return PPC_INTERRUPT_EXT;
++        }
++    }
++    if (FIELD_EX64(env->msr, MSR, CE)) {
++        /* External critical interrupt */
++        if (env->pending_interrupts & PPC_INTERRUPT_CEXT) {
++            return PPC_INTERRUPT_CEXT;
++        }
++    }
++    if (async_deliver != 0) {
++        /* Watchdog timer on embedded PowerPC */
++        if (env->pending_interrupts & PPC_INTERRUPT_WDT) {
++            return PPC_INTERRUPT_WDT;
++        }
++        if (env->pending_interrupts & PPC_INTERRUPT_CDOORBELL) {
++            return PPC_INTERRUPT_CDOORBELL;
++        }
++        /* Fixed interval timer on embedded PowerPC */
++        if (env->pending_interrupts & PPC_INTERRUPT_FIT) {
++            return PPC_INTERRUPT_FIT;
++        }
++        /* Programmable interval timer on embedded PowerPC */
++        if (env->pending_interrupts & PPC_INTERRUPT_PIT) {
++            return PPC_INTERRUPT_PIT;
++        }
++        /* Decrementer exception */
++        if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
++            return PPC_INTERRUPT_DECR;
++        }
++        if (env->pending_interrupts & PPC_INTERRUPT_DOORBELL) {
++            return PPC_INTERRUPT_DOORBELL;
++        }
++        if (env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) {
++            return PPC_INTERRUPT_HDOORBELL;
++        }
++        if (env->pending_interrupts & PPC_INTERRUPT_PERFM) {
++            return PPC_INTERRUPT_PERFM;
++        }
++        /* Thermal interrupt */
++        if (env->pending_interrupts & PPC_INTERRUPT_THERM) {
++            return PPC_INTERRUPT_THERM;
++        }
++        /* EBB exception */
++        if (env->pending_interrupts & PPC_INTERRUPT_EBB) {
++            /*
++             * EBB exception must be taken in problem state and
++             * with BESCR_GE set.
++             */
++            if (FIELD_EX64(env->msr, MSR, PR) &&
++                (env->spr[SPR_BESCR] & BESCR_GE)) {
++                return PPC_INTERRUPT_EBB;
++            }
++        }
++    }
++
++    return 0;
++}
++
+ static int ppc_pending_interrupt_p8(CPUPPCState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -2041,6 +2169,8 @@ static int ppc_pending_interrupt_legacy(CPUPPCState *env)
+ static int ppc_pending_interrupt(CPUPPCState *env)
+ {
+     switch (env->excp_model) {
++    case POWERPC_EXCP_POWER7:
++        return ppc_pending_interrupt_p7(env);
+     case POWERPC_EXCP_POWER8:
+         return ppc_pending_interrupt_p8(env);
+     case POWERPC_EXCP_POWER9:
 -- 
 2.25.1
 
