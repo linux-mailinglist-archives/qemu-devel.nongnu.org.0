@@ -2,130 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCC1592AFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 10:35:27 +0200 (CEST)
-Received: from localhost ([::1]:45702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0EE592AE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 10:08:16 +0200 (CEST)
+Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNVZG-0004Am-8W
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 04:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33462)
+	id 1oNV8x-0007Py-5Z
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 04:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUaD-0001NV-6q
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:32:26 -0400
-Received: from mail-eopbgr130101.outbound.protection.outlook.com
- ([40.107.13.101]:9382 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNUp1-0006sf-6L
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:47:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUZv-0001Ew-FI
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:32:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ja8/ydMAou94zw/y5vDcdZnw7z4Sa2xj1eGx029HQSsT9MOBKv3VP7gneB2WzGJCzB2vm9CtyjaPyUyJxx2rFh17Ure4+VMnTcOzrKXmABjfht2Qwr34bzdP1pWyHVlg2PLXl0uN1sLF97Kq2bHj+znWZtISVhi2FbCitojT6cL59BQH5oyJeLiq/HTh6AlQO3/qO4MqqctVwz9CKjM/TKuKYbU/QqiXdRK/BiX922gv4l13X8dFMn4tuiP9dH/Il+7MzFIz3kU1LvUL2YuxJSMfiG6MnDNXZSoslqi0pzScX6WyDuvz5X0CG3tnvh1fDa2L2/nGkJ8K1gVe3mhdNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W8OJU3rJZoa/pMIsrfD8bai9v6W7HqgZirV1PrqHZAE=;
- b=Lpa1/Z7uUMV9qeN62ihbDiU+geFpXrSmEUCuIcYjUOY7aLUUqIwL4TIWXIQOoY8j3xKQLIBe9fOWo5wI/bb2k/aqlSq5iPMtbkz6VCLc+XM8CNfaAWB6Xvdk9a2qu8laW4JlvJ3MEFsHgFVA5O/eUROqBFgcajumEl8oAZm+G9yxhovcL5fm2NzKKoYhRFAKa7u+8wSUYBKzOa19qlvz6o0wlfBHdRk9frFpM+WdBibYP42fR5iyg2BkoVaKIXs7WIE5ExOdHJS3hRFCe3IA8Z1IkQqm6ZGIJUtbg0a489QE4Yky34OZKzdfq6zsHY6PYvPJ8vEChCKGFqQb5OOrJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W8OJU3rJZoa/pMIsrfD8bai9v6W7HqgZirV1PrqHZAE=;
- b=JKEFRMc8WKXga6bGjFWVJ4LwZzvxCfACf1c7TqDdvpAMRg2FRp+1ZhIg//5C3c/VC0c45BxrP6lSkmt51nlg6kXmcRwXu9tRFiPF0whbivSZfYxHj27CtJzICJ/Pw3cD+76ZwC76oGQqya83ROWe4xhUsMRiddl3zWpjgSpJ5o4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB6045.eurprd03.prod.outlook.com (2603:10a6:803:112::20)
- by DU0PR03MB9152.eurprd03.prod.outlook.com (2603:10a6:10:471::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Mon, 15 Aug
- 2022 07:32:01 +0000
-Received: from VE1PR03MB6045.eurprd03.prod.outlook.com
- ([fe80::7996:9fde:76d3:745]) by VE1PR03MB6045.eurprd03.prod.outlook.com
- ([fe80::7996:9fde:76d3:745%5]) with mapi id 15.20.5525.010; Mon, 15 Aug 2022
- 07:32:01 +0000
-From: Milica Lazarevic <milica.lazarevic@syrmia.com>
-To: thuth@redhat.com
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
- pbonzini@redhat.com, vince.delvecchio@mediatek.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org,
- djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com,
- Milica Lazarevic <milica.lazarevic@syrmia.com>
-Subject: [PATCH 18/20] disas/nanomips: Add struct keyword
-Date: Mon, 15 Aug 2022 09:26:27 +0200
-Message-Id: <20220815072629.12865-19-milica.lazarevic@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
-References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VE1PR08CA0009.eurprd08.prod.outlook.com
- (2603:10a6:803:104::22) To VE1PR03MB6045.eurprd03.prod.outlook.com
- (2603:10a6:803:112::20)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNUox-0003cW-5L
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:47:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660549654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J5Lo0t4lOyXHwCzXW/rCLU2cvbkr0Sfl0JnoA6nIOZw=;
+ b=UIO9Id7A31Da259mwKUYMmK7EA9cwZkRj//TiCcgwOKAdouvSoEconFc3XkDmTHDm+zY7/
+ NniJ94LiyKKqT4uZT9qh8uDulo8Vz7N0fh6I+cOqk9nobUaysWPkYp/GbfcurIfu2HU6SL
+ Jcks6xoaOASBgn6lDD5HDNn9FwOapQQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-348-CY-WHj13OWGTlCm5htQIbQ-1; Mon, 15 Aug 2022 03:47:32 -0400
+X-MC-Unique: CY-WHj13OWGTlCm5htQIbQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p9-20020adfba89000000b002238405b027so888092wrg.17
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 00:47:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=J5Lo0t4lOyXHwCzXW/rCLU2cvbkr0Sfl0JnoA6nIOZw=;
+ b=xOlW7ahljt2E77rLHu5VgLUDMYtiQHbpEYwXFZFImKZ+8iH+XZrm9M1X1aMQDKhc11
+ QK49P3D5oeggYuR+MTWKQAR3puyQg/xfeO421JCKUPGassL80rp/cbal104+jAp/olA0
+ FRhUiSOTt0C9rcwHtHjrGUofO4vORuafUA0Mb7WPCP1uQmX2O6utVmnnBJajhcPPXlQ4
+ QjbEJ2n92NR5QF/D/lLyF4qM5gAIYegAplZvSiPQHlIs2PrMLzOcNEgVRQNT5leWOvb3
+ tAAnHlHHL1lDE1piK/iqx7XfE9BkFZr5k5uYIxaTTC0ZOcTIc/1hEHYOq1BEui5rKXZB
+ Y6bg==
+X-Gm-Message-State: ACgBeo1arB74qQ/CGccjcy4Ln+AsDudJuCIVCn+vDoUix7iwoJ+Y+bdI
+ hBjO8CyrZoyvuc9voXrzv91i9GQtpfouWRAn61zVQ5X4zkVbGoQXANsbg19cVZMBiM5p0V960tG
+ rohJyNldWHHDBwiI=
+X-Received: by 2002:a5d:5a10:0:b0:221:7c17:abee with SMTP id
+ bq16-20020a5d5a10000000b002217c17abeemr8101837wrb.698.1660549651118; 
+ Mon, 15 Aug 2022 00:47:31 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7DP2uGFhDt8dm+pEBcYvfPCjqJPNICa6NEFIA+cN9RLyCmtgHengpHxSKb4Ge/OCtMtp/1vw==
+X-Received: by 2002:a5d:5a10:0:b0:221:7c17:abee with SMTP id
+ bq16-20020a5d5a10000000b002217c17abeemr8101824wrb.698.1660549650873; 
+ Mon, 15 Aug 2022 00:47:30 -0700 (PDT)
+Received: from [192.168.8.103] (tmo-096-168.customers.d1-online.com.
+ [80.187.96.168]) by smtp.gmail.com with ESMTPSA id
+ g7-20020a05600c4ec700b003a3170a7af9sm8716326wmq.4.2022.08.15.00.47.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Aug 2022 00:47:30 -0700 (PDT)
+Message-ID: <7fa38fda-0f33-8e43-93f4-956c2917eb74@redhat.com>
+Date: Mon, 15 Aug 2022 09:47:29 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3d1133e9-8a55-42b7-4d9b-08da7e903e4c
-X-MS-TrafficTypeDiagnostic: DU0PR03MB9152:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eCla+FA/AMTBPqKr/2+SSg2ecJ/I3NzVIwMmGQ0+mnu5zuYWhZ7Cpo5Wx0L+/RpmhYjuAfyQV3X6cMVOpcPY8Joy1nuJ1PAN93GHc2Js7ChzZtS6boF9DhA74i7KR4IwI6KLaoohM+kiIJnwBrPADDtGO8/isvxWMsJgxk0Ohh6WLWoTWximbd6qGFcd3TAIcBgYRd9bAkQy0xliUKOiAoVBEtm3WWovGze7G8LG9Nj3OXTEj6QzNKMLL13TuLOEh0dq3sC3D/GBWmJXqngBwX/oDF9Jp8UN7fnJcS7ufmM/gWR3TTXhzDpDDWR8BoO1xCe4Hg9OGDA2KKBVd0pbbZC4wUQtkqJc0pzz3vWN5/EKIGlR55nzf76GLX03puf88slwzvO5dU6uEw3HloiMWxYtE6jvw5j97lww48yiEdRNdT4n5uh7Lphyy4f8ngr4J8JYKKCXJq2qB6ipueUH2DUPywXEfWlczstl7dGI/fGvyxg35FSl+WeW3KaktQkw+QKFcPtX6ifUY9AbBVrN9D8cgqenBmXsvg/eSvR/UU2xZ9hbiYk9CKF/ULqXuIfxMr7wpUK819u3N8ZkaF/31L1I1TwRXIZGmV3eLmfduA1spu9jr+VVKGREdWPl8h9jAetA7BnVCczS5RpgCTclFIRRQ/CwvBOrtcJxfaqItc1dKCe6jumyI4eguZEw6A2P4PWi6FiMi2aa93jaImKRTf6nX952yDn/4+zc2L6nt5JkTAW/NBBg8jP6ThudrI8Y+SDQR/eqlsZ6suGUuMsEm4/Gi8zaOexHUKKW0AGr/eE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB6045.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(39840400004)(376002)(396003)(136003)(346002)(366004)(52116002)(1076003)(8936002)(5660300002)(44832011)(2906002)(26005)(86362001)(4744005)(41300700001)(66476007)(186003)(6666004)(2616005)(6506007)(6512007)(83380400001)(478600001)(38100700002)(4326008)(8676002)(66556008)(316002)(107886003)(6916009)(38350700002)(6486002)(66946007)(36756003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HEdy1zn+IkzqiUZhiHDH2/u4nmz2G47xB9FXIyZI76QB0ZqjKfrHqxom7C6M?=
- =?us-ascii?Q?CkQs0uPBgxN2m3eviklR4CN1qMMr/5K8lWRwnBNujnhc1ZO2QLxJY725NLuW?=
- =?us-ascii?Q?cxYR7g3GPYx/kXIxvMgDQlld0Nb7YFD5WnhAchDF8Dr5rPWUkSqLsHBH5LdI?=
- =?us-ascii?Q?hy70cTwmY36NRPh2b/qCI18SM9K9qamDfTvf6H3VC6dX9tbRC0kQf6JDojsC?=
- =?us-ascii?Q?ijGD+OPaEng1twxXCJCvQypPNZS60QeIXrL/cPE4EV86Mb6IzBKr+TL0Qg0Q?=
- =?us-ascii?Q?WZ79PQFaVZBcrS2SJQbdnaIaLRImxQL7TFDAysJC7gtctgNVKVV2aYG4vBcH?=
- =?us-ascii?Q?RBVq+ZOnLJVRfRxk12xZYYIdnwU7kBeYXFWHvWBV/GNiteQzF28JF3x3mAbl?=
- =?us-ascii?Q?B3kxIY+y3RaahC6JaYmnZRKGrb73VLy7xRKbxve9Rb1ydGVzbOfd3dZhhFX0?=
- =?us-ascii?Q?9KAPr47+RJmQutdjjhaiHVeqxKJfWEF1nqx1rfvMQgJYxZZbLPBWZmmLWT7h?=
- =?us-ascii?Q?94KtlCN5EYE/4f9bmQjzB0Ac9MG6nJMLI3RCIlANas0a4W9c4XTg6o/w7WnE?=
- =?us-ascii?Q?o8EBlfAENt0+m3HDoew3UTg6HCp55bHhPQG77aFezdI8SLjDuCYcPXNBSwtu?=
- =?us-ascii?Q?NNv1snTdWVub9D1selWWWIa8idGJBMKvC5whB0GQTQ8KtPJqG9C4s85p8Uq7?=
- =?us-ascii?Q?uBUkRSN+bkagx9N94u7KeoC7GTVg4mKfe5w4O40hdQxrg6fEIemG9u5sHxuc?=
- =?us-ascii?Q?hBg+zYhkRI4Q17V2fqUdmUr2FL0yYMEZYVyjIQ2t5JZZeDmITZVvQx1AVqX/?=
- =?us-ascii?Q?N6J25OA6jCRyzVyBrmj0PYUKnEMUlCiwBDoLp2FSCs0jLZuuKhN6N/mGW+RL?=
- =?us-ascii?Q?1cTAPqXG9gT6qrRJEzWpi5PpOOTAMl/3EujzYyfWBWHQD+VJ4IWrURiL+Pxx?=
- =?us-ascii?Q?VNLuI+SIWel3HCmLrEXBXVSqGu9BHbnGwZlyhhzGGj/h81ghMWB1+4595Hff?=
- =?us-ascii?Q?FBs+gidJhF9D8PUjQZqBw78LRjAWoJDB0MjiF+NxrqANi2ZMYZ/HEF83s+kT?=
- =?us-ascii?Q?7s8j6FAgjrfXwE6zn/soMcIDOk3TVySUM6s1KU4pNNamtzGQ8jv50sl/tFc3?=
- =?us-ascii?Q?AqmNti0AtY9qrXPE7o5gKwUwQCJEuhWpny/vfuJjfalDrzuO8/F5HbNumejU?=
- =?us-ascii?Q?Pi4uo4QeDxBtUVJOZkzhvP3VtVL/BI+h+wZmB4jC389FAFrPtIdtfX2yBGYj?=
- =?us-ascii?Q?PobSyfBVGedVlvt0mKybwqskgNqLEEQ1dkGK4/nSz+ymiSKDiMyKpea4dEyj?=
- =?us-ascii?Q?+wLgs8QzAXh01Cm+Qv59fUqcI9+JrG3q9RURxdM5IVDCGzw1Ojf9Zo1MNeFZ?=
- =?us-ascii?Q?bpX821hyn7BrI/TLWlGHuRgeX8TlkHiVWPiwoC2TTeKez8UPAOeKnJLLnmY+?=
- =?us-ascii?Q?5efpLH9xySIOswNHONnYIUKj2APnEse9QIrSV1WiLSUaYVOaqE72lVqBLsQL?=
- =?us-ascii?Q?8wmGy/5l9/W6Dap1F6lDm/1UnbjsK/6DGsD/6C6ki4AhLVphJ5irkFyymV48?=
- =?us-ascii?Q?EnRjioAxuKc65260afb2cgyqNH0NdFztEJSqPNQHj5O6CMLbkYkU4zafNcAT?=
- =?us-ascii?Q?lQ=3D=3D?=
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d1133e9-8a55-42b7-4d9b-08da7e903e4c
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB6045.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:32:01.3174 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SOfqWpHUbfCl2mLABopaLDt0u6wnOjv+FRSBKwxp+0tRe9+rqSlrO5kofMHUUV7ylloj0JDNlR4zfjvE9YKdhm6mwfqyV/oGA4Z/GH0UCYw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR03MB9152
-Received-SPF: pass client-ip=40.107.13.101;
- envelope-from=Milica.Lazarevic@Syrmia.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
+ generated on gcc110 machine
+Content-Language: en-US
+To: Pierre Muller <pierre@freepascal.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
+ <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
+ <1f4c81d1-7127-6441-2435-cfd2aa557550@freepascal.org>
+Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <1f4c81d1-7127-6441-2435-cfd2aa557550@freepascal.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -141,29 +106,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changed the type of the table parameter in Disassemble function:
-- from const Pool *
-- to const struct Pool *
+On 12/08/2022 09.03, Pierre Muller wrote:
+> 
+> Le 12/08/2022 à 06:16, Thomas Huth a écrit :
+>> On 11/08/2022 23.38, Pierre Muller wrote:
+>>>
+>>>     I am using qemu to check code generated by Free Pascal compiler
+>>> for various CPUs.
+>>>
+>>>     Recently, this allowed me to find out that Free Pascal was generating
+>>> wrong instructions, leading to SIGBUS errors using qemu-mips.
+>>>     The same binaries worked without troubles on mips test machines,
+>>> probably because SIGBUS is handled directly inside the kernel.
+>>>
+>>>     Here I would like to report the problem I get when trying to run
+>>> powerpc executables using shared libs generated on gcc110 machine.
+>>>
+>>>     I copied over the needed libraries into a sys-root directory.
+>>>
+>>>     The problem is that the code crashes with a Illegal Instruction
+>>> after only a very few instructions:
+>>>
+>>> muller@gcc186:~/pas/check$ ~/sys-root/bin/qemu-ppc -cpu g2 -d in_asm -L
+>>> ~/sys-root/powerpc-linux ./twide1
+>> [...]
+>>> 0x3ffc1d60:  f00004d7  xxlxor   v0, v0, v0
+>>>
+>>> qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+>>>
+>>> The problem is the the 'xxlxor' instruction is a VSX extension instruction.
+>>>
+>>>    There is apparently no cpu in the powerpc cpu list that enabled this
+>>> extension.
+>>> The output of cat /proc/cpuinfo on gcc110 gives that:
+>>> .....
+>>> processor       : 63
+>>> cpu             : POWER7 (architected), altivec supported
+>>> clock           : 3550.000000MHz
+>>> revision        : 2.1 (pvr 003f 0201)
+>>>
+>>> timebase        : 512000000
+>>> platform        : pSeries
+>>> model           : IBM,8231-E2B
+>>> machine         : CHRP IBM,8231-E2B
+>>>
+>>>     Is there a way to enable cpu features separately for ppc like is done 
+>>> for
+>>> x86_64?
+>>> Or would it be possible to define a new cpu inside qemu source that would 
+>>> match
+>>> the description above?
+>>
+>> So you are building on a POWER7 host and try to run the binaries on an
+>> emulated G2? That sounds weird. Why don't you use
+> 
+>    The g2 was just an example, I used a script to iterate
+> over all possible cpus (as listed by --cpu help),
+> but I always get a Illegal instruction on xllxor,
+> because none of the cpu in the least seems to enable VSX
+> extension.
 
-Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
----
- disas/nanomips.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ok, I see, so the question is wether it is somehow possible to enable the 
+vector extensions on a 32-bit CPU by default somehow...
+CC:-ing Laurent, maybe he knows...
 
-diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index 7dfefdc5ed..e7d6bffe84 100644
---- a/disas/nanomips.cpp
-+++ b/disas/nanomips.cpp
-@@ -638,7 +638,7 @@ static uint64 extract_op_code_value(const uint16 *data, int size)
-  *      disassembly string  - on error will constain error string
-  */
- static int Disassemble(const uint16 *data, char *dis,
--                       TABLE_ENTRY_TYPE *type, const Pool *table,
-+                       TABLE_ENTRY_TYPE *type, const struct Pool *table,
-                        int table_size)
- {
-     for (int i = 0; i < table_size; i++) {
--- 
-2.25.1
+  Thomas
 
 
