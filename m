@@ -2,105 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501CE593AA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 22:28:23 +0200 (CEST)
-Received: from localhost ([::1]:40092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7907593AA1
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 22:28:46 +0200 (CEST)
+Received: from localhost ([::1]:34024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNghB-0000r1-VD
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 16:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54390)
+	id 1oNghZ-0001d0-Ku
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 16:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1oNgek-00068G-KD; Mon, 15 Aug 2022 16:25:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48484
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1oNgei-0002Pp-Pi; Mon, 15 Aug 2022 16:25:50 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27FKJp13010257;
- Mon, 15 Aug 2022 20:25:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=x5aSsFdzRH62V4MuqAazOoxAxVEUmPJt7tVMIpfkVCM=;
- b=QchjTTLoMTj2JkvcjkERuxHfzQHJwX0H1Pj6NDUNmtVKw9FSK2/t7bwb/yjSu2BpCjHS
- vVyrXxo5SsJITbRnlMzJPprVyABKo964zo2W/o7LWtN/bMRedsLRMGshpM5ZtdaCWKWq
- vWkCmBMu6IB139EU4V4rXY5r+BQ4wdqKGwD8dYvKUbuSv5RncbkeydzGvjrTjSJFTSdh
- WM9p7J6/+T8irTwjnckPiAcQRRDUbz8q41prMYgbKGmu+lKdLNi3JRClRPvwP+owsGSC
- Zyo9sovkqzdC8xD4kXiSC8ksLtTdmuET/bls1w8mrPoId1cbG95eTq2r270xvOy5MPh9 MQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hyuw727ex-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Aug 2022 20:25:39 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27FKK92I013117;
- Mon, 15 Aug 2022 20:25:39 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hyuw727ec-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Aug 2022 20:25:39 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27FKLVcA018248;
- Mon, 15 Aug 2022 20:25:38 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma05wdc.us.ibm.com with ESMTP id 3hx3k9wyq5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Aug 2022 20:25:38 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27FKPcoi9437724
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Aug 2022 20:25:38 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 041F5112067;
- Mon, 15 Aug 2022 20:25:38 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 70B10112062;
- Mon, 15 Aug 2022 20:25:37 +0000 (GMT)
-Received: from localhost (unknown [9.160.104.128])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 15 Aug 2022 20:25:37 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
- Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [RFC PATCH 04/13] target/ppc: prepare to split
- ppc_interrupt_pending by excp_model
-In-Reply-To: <20220815162020.2420093-5-matheus.ferst@eldorado.org.br>
-References: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
- <20220815162020.2420093-5-matheus.ferst@eldorado.org.br>
-Date: Mon, 15 Aug 2022 17:25:36 -0300
-Message-ID: <877d396ypr.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oNgg8-0007Dq-Qx
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 16:27:16 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:40642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oNgft-0002VS-Fh
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 16:27:16 -0400
+Received: by mail-qt1-x832.google.com with SMTP id w28so6374653qtc.7
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 13:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=7kvCSjUGbtTiTEBzCyfkVe/cnxqgIrI2gkhLBAH80cE=;
+ b=IX3afyZr6GMYKFotwlsFribmqXeF+YEQEjfChL5dzLFu5/TuBVUr0tXmm+nyY5hr16
+ /PscQe46oZj0GS4+Q0Fd1JVRxwgLYwQgpz/8a1HDrtGkqwnTYfIqK0CyNnyvwjqNEbL/
+ /6g2SGth2y6afnDduU6ticJ0PClb3o/JJLZqPxUMTYT55sdG+t0yc0WrhOW3xQXiQ/Az
+ wgQ3WPgsKYSYyI5eCm36ziimSi8hDjzmZYDFBTS508bF5Pnjke1rVl4JJM2Ahfxxmoyw
+ +c8YV0X+zGmXqL6U+8LuIoJbutTgisy0Mdnd6Q0HnOsIcwjiV174phSfhCxr2EfHxgAC
+ xmeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=7kvCSjUGbtTiTEBzCyfkVe/cnxqgIrI2gkhLBAH80cE=;
+ b=UP/nVl2K341ZhcfNda0VDTbOjLN9XjZsTWZzoMqtn1QhNoX1N2IA4QS9sCnCmB73oO
+ LUXt28h7+XQ+qHMZbn2lVfOJdCzT4yIKq7n7BfIqA3TL+FuuGo9CgQaEikArcsGa5iTg
+ RHHxMHzbFTAjSahH5i5CHy5ew7B+xn6zHnMwa5q+fd9zxgM7c/9sfm9sWGTEZNqaqucm
+ UPegrRT1+2GN3x80cHaasVy8bwemNNVVSVSqL64IxZPqUtLXVRI/KqLRnh3RooEzuAfi
+ Y1xB1G+VP8ODuRt0Lzta5Xula6rXbKWkqZ63dMj8YFumObrycED74d7b2l20GeQmS3Rn
+ tIOg==
+X-Gm-Message-State: ACgBeo3/5MmPzKtIjrTCJPb6gy6AjjaTP/TKyz6+DgqiG8po0ujEF9VE
+ 82jbugMIzVBeRWcbLgZ3MabQpA==
+X-Google-Smtp-Source: AA6agR4imi8S6bmmh3CWG/Q12I+YZIJaNpTGmLDBUea6LH/R7qo/8etEMthUPrYeC1qRoWObvcbpfQ==
+X-Received: by 2002:ac8:5ad1:0:b0:343:5e13:795d with SMTP id
+ d17-20020ac85ad1000000b003435e13795dmr15694290qtd.625.1660595219306; 
+ Mon, 15 Aug 2022 13:26:59 -0700 (PDT)
+Received: from [192.168.125.227]
+ (173-11-255-51-houston.txt.hfc.comcastbusiness.net. [173.11.255.51])
+ by smtp.gmail.com with ESMTPSA id
+ a8-20020ac86108000000b003435bb7fe9csm8443384qtm.78.2022.08.15.13.26.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Aug 2022 13:26:58 -0700 (PDT)
+Message-ID: <08d41c28-728a-0ef2-c528-b55c4984ca2b@linaro.org>
+Date: Mon, 15 Aug 2022 15:26:55 -0500
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 3Srda-p3MzdRbpvBl7nYnR9-zyoatOB-
-X-Proofpoint-GUID: VfID_ckw2nCsrijm9hSuGJphH8x_3nwu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-15_08,2022-08-15_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 mlxlogscore=999
- malwarescore=0 mlxscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2208150077
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 7/7] target/riscv: Honour -semihosting-config userspace=on
+ and enable=on
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Stefan Pejic <stefan.pejic@syrmia.com>, Chris Wulff <crwulff@gmail.com>,
+ Marek Vasut <marex@denx.de>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Furquan Shaikh <furquan@rivosinc.com>
+References: <20220815190303.2061559-1-peter.maydell@linaro.org>
+ <20220815190303.2061559-8-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220815190303.2061559-8-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x832.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,50 +105,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
-
-> Rename the method to ppc_interrupt_pending_legacy and create a new
-> ppc_interrupt_pending that will call the appropriate interrupt masking
-> method based on env->excp_model.
->
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On 8/15/22 14:03, Peter Maydell wrote:
+> The riscv target incorrectly enabled semihosting always, whether the
+> user asked for it or not.  Call semihosting_enabled() passing the
+> correct value to the is_userspace argument, which fixes this and also
+> handles the userspace=on argument.
+> 
+> Note that this is a behaviour change: we used to default to
+> semihosting being enabled, and now the user must pass
+> "-semihosting-config enable=on" if they want it.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/ppc/excp_helper.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 8690017c70..59981efd16 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1678,7 +1678,7 @@ void ppc_cpu_do_interrupt(CPUState *cs)
->      powerpc_excp(cpu, cs->exception_index);
->  }
->  
-> -static int ppc_pending_interrupt(CPUPPCState *env)
-> +static int ppc_pending_interrupt_legacy(CPUPPCState *env)
+>   target/riscv/cpu_helper.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 59b3680b1b2..49c4ea98ac9 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -24,6 +24,7 @@
+>   #include "exec/exec-all.h"
+>   #include "tcg/tcg-op.h"
+>   #include "trace.h"
+> +#include "semihosting/semihost.h"
+>   #include "semihosting/common-semi.h"
+>   
+>   int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+> @@ -1342,7 +1343,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>       target_ulong mtval2 = 0;
+>   
+>       if  (cause == RISCV_EXCP_SEMIHOST) {
+> -        if (env->priv >= PRV_S) {
+> +        if (semihosting_enabled(env->priv < PRV_S)) {
+>               do_common_semihosting(cs);
+>               env->pc += 4;
+>               return;
 
-Won't this code continue to be used for the older CPUs? If so, I don't
-think the term legacy is appropriate. It ends up being dependent on
-context and what people's definitions of "legacy" are.
+I think this should be done in translate.  We should not have the overhead of checking the 
+three insn sequence around ebreak unless semihosting is enabled.  Note that ctx->mem_idx 
+== env->priv, per cpu_mem_index().
 
-(if this function is removed in a later patch, then that's ok).
 
->  {
->      bool async_deliver;
->  
-> @@ -1790,6 +1790,14 @@ static int ppc_pending_interrupt(CPUPPCState *env)
->      return 0;
->  }
->  
-> +static int ppc_pending_interrupt(CPUPPCState *env)
-> +{
-> +    switch (env->excp_model) {
-> +    default:
-> +        return ppc_pending_interrupt_legacy(env);
-> +    }
-> +}
-> +
->  static void ppc_hw_interrupt(CPUPPCState *env, int pending_interrupt)
->  {
->      PowerPCCPU *cpu = env_archcpu(env);
+r~
+
 
