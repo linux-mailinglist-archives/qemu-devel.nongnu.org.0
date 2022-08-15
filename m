@@ -2,84 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8784A5942D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 00:49:52 +0200 (CEST)
-Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEBC5943A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 00:57:21 +0200 (CEST)
+Received: from localhost ([::1]:38422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNiu7-0000y7-9b
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 18:49:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49826)
+	id 1oNj1N-0003st-0w
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 18:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oNisg-00083N-66
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 18:48:22 -0400
-Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:43969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oNisd-0005st-UY
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 18:48:21 -0400
-Received: by mail-ua1-x92b.google.com with SMTP id s18so3396984uac.10
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 15:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=EDgMpNSCBokBmm14+knk86ut90WruWV65l5y0h1IZgs=;
- b=AejaUrMvu8QdIooavzWql0ceyt5+/MsuVadoQLJG0tJZXzfhXIUZiVLtjxh32sB8Je
- gW6+gL5wkTHx1IglwpEXTTiHhrt5a9Zp6FPxQXIBlUkTAQdi+rIAIY0x515U0RFaSjcT
- PnUNju+capx6BFANyv5ZtgpsLZ2QXYYnuu5U0QZhUFSIM7qTkaXH5nkIN6os2TuqTVRv
- dJVvopYZqm4hL01wwCR0iS6RyU+6/GUsBJxJ6b5XONlHdYuH9xqSf5n8zOzus8eI3M1k
- iQz/S/78I5CZntNtZSg6tXXJEXAJtZn4gbNK+J5gAGBHqrFcbb7+hi0ySrAvOSoK29Fw
- fF0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=EDgMpNSCBokBmm14+knk86ut90WruWV65l5y0h1IZgs=;
- b=pLXYG526irnGIPbdNRY54i2OkXgi23GU/3jqODUKpay2pDuUUhCpK35wGtK+O4bPOP
- BUuZjRQxgZgsLD8GW8b5MhfmfegfN45FqCvPC9gGNFxQGRZ9KuWAlcLpvlNATeDmq5OG
- iHc6IJuFO9MqgBP+yaLIccTX+MgidpVxGpEKLffv3H3OPXpqM3eAr8hlMmhRmy21ZqNs
- SkgRRDkigqD+aVXoFEFsrrn4rscIfHnFHS+UdAZw+X1gdJHLzNI1bDvTFS6ZI8UE49tH
- az9DEGkWoSouNRJOfi8YBSJ7fMhJCMQgdDan0DZFoKS8cWrZQ9GSb3AqrzrQ84qq8Cts
- 4bUg==
-X-Gm-Message-State: ACgBeo1c9JsGi9+h3jROF+BocJOptTcTGNxIE0BdA0r0kEy3hU0xNvWE
- LWhY5uSTbaUBMOiFBq1jazzKFcQ9X10d5g==
-X-Google-Smtp-Source: AA6agR6DgLZeQiON1QmqTm4+YPlRdBf943qKyqB0/4n+mVsCrjZQafOc25iqRGXAZJVvVsxEY+lwCA==
-X-Received: by 2002:a05:6130:112:b0:38c:4226:62f2 with SMTP id
- h18-20020a056130011200b0038c422662f2mr7608760uag.82.1660603698541; 
- Mon, 15 Aug 2022 15:48:18 -0700 (PDT)
-Received: from [192.168.10.102] (201-43-216-47.dsl.telesp.net.br.
- [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- b21-20020a056102233500b0037c457e4b49sm6533802vsa.6.2022.08.15.15.48.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 15:48:18 -0700 (PDT)
-Message-ID: <2e4509e2-db98-70ff-fb12-9d753127bd64@gmail.com>
-Date: Mon, 15 Aug 2022 19:48:14 -0300
+ (Exim 4.90_1) (envelope-from <dan.j.williams@intel.com>)
+ id 1oNizf-0002Bi-DX; Mon, 15 Aug 2022 18:55:35 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:14474 helo=mga06.intel.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dan.j.williams@intel.com>)
+ id 1oNizb-0007JK-RR; Mon, 15 Aug 2022 18:55:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660604131; x=1692140131;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=eAJQF3+1IDHTATO7iW3InDIibL40VaBeeiznfCicSpI=;
+ b=Wmshex0Ci4rB+5rB+mcIkK5F9aKHzawPT1Hgd+ZT5xxrVwV2r0Kf4jK2
+ CUU22PmJnuY80d0NQO7O/k8fBUCsvOxPhU3iRbT9Rv3YwJ+nph1XPW7ZK
+ VHZk67z8qTPU/SLsdJ8WP2EvXI9ezCCR8VJorN4ucBhFWB30xiTTXblR2
+ 3EwtYCFHK2TRatAAk2aB9NwSaLvIN3Cx0i2YdXJRX6pXJDobs4btDGjVe
+ ma5p4YippJvJXe4jUWrpPmlOZYr0T4YsLSTRZuBxgPupw4s9GO0jp0IrP
+ EFj4iwB/JL2YKKLRgAmEZGZfpqMkudomOozStO6VqHPYZ30+jpDCADUbm A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="353817848"
+X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="353817848"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2022 15:55:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="934654699"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga005.fm.intel.com with ESMTP; 15 Aug 2022 15:55:20 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Mon, 15 Aug 2022 15:55:20 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Mon, 15 Aug 2022 15:55:20 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Mon, 15 Aug 2022 15:55:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fjr2E3vlKvLnVGzkcwZuhzn33Hmir1LqEp4EnIncB8x1jyIO8ubx6VrN1OLlSlfpAK3w2epNV/+PNNStmvUZORpUW1ni64TPyiKwgMk7gipDiBZXoAUCCK1J6s+BqKDsIP9glMGByKm9YwW0xq0vEULUlGDM83p2jBQlS+MTEOeA4Rq39GoGakP2tbpupQ3W8N4LJPv1M4NUzOnHCTv+fvGMhfzbH1keK7Iv+PfBr79ZhDKeC1LnZW8rNujZlCi+U0ZioUNeKLBAcVwcKD8QsPcEdJLaA+m1/g7NIgfjSFj3Eifzn7BquSvVLx8/MKQG0JbgJRE1K98nPstHOORCNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2MJy4ctPNCzjY35UYeLt9gjT1nyvgV3T0Ae73Za/FWY=;
+ b=D6vw25R/BCrmhNQAXTnhho8/gAUP3/If6Bh2jkhVF7Asx6wCQ+Pjvqp44iwzcyEPq4CEHK+rqhGmV0xJXbxA5gkczeTn0XHXpJ7v6gMiYz5vuUNr4et3+Ep6fIJvNHdRYNOaITO26vbHh/v5Jc31d4i7ZEChfhh0kqYR9QFXYjYDxcMuvBwhFV2TJp5mtBPgUc8UP1FXAWMrzijndOuzuyzwy2mzaxQJvxIH6913NFYm7bk5EM4QI23w3lG7Gh70nSqcpn6PQb2rPElLaIJVUgAxuFmkwaEybvXGjYox5bYn2S68WTtuyzxRYxFLeOrBOTehAsM/lfMxPg+9klZsnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
+ (2603:10b6:301:50::20) by SN6PR11MB2829.namprd11.prod.outlook.com
+ (2603:10b6:805:62::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.18; Mon, 15 Aug
+ 2022 22:55:17 +0000
+Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
+ ([fe80::9847:345e:4c5b:ca12]) by MWHPR1101MB2126.namprd11.prod.outlook.com
+ ([fe80::9847:345e:4c5b:ca12%6]) with mapi id 15.20.5504.028; Mon, 15 Aug 2022
+ 22:55:17 +0000
+Date: Mon, 15 Aug 2022 15:55:15 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jonathan Cameron via
+ <qemu-devel@nongnu.org>
+CC: Bobo WL <lmw.bobo@gmail.com>, <linux-cxl@vger.kernel.org>,
+ <qemu-arm@nongnu.org>
+Subject: Re: [BUG] cxl can not create region
+Message-ID: <62faced380b00_dfbc129494@dwillia2-xfh.jf.intel.com.notmuch>
+References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
+ <20220808133727.00001171@huawei.com>
+ <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
+ <20220809170825.00001b61@huawei.com>
+ <20220811180857.00005e67@huawei.com>
+ <20220812164403.00001654@huawei.com>
+ <20220815180444.00006bdf@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220815180444.00006bdf@huawei.com>
+X-ClientProxiedBy: BYAPR11CA0096.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::37) To MWHPR1101MB2126.namprd11.prod.outlook.com
+ (2603:10b6:301:50::20)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v2 15/20] qmp/hmp, device_tree.c: introduce 'info
- fdt' command
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-16-danielhb413@gmail.com> <YvCPT8eZSKMM4zk5@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <YvCPT8eZSKMM4zk5@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2d108bd6-c9ea-4740-ba38-08da7f1138ef
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2829:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fO6tN6L/SBqyObYRkJKWNAPwEA3ponoVS8e7vWPDgPYmWCXii+ALA+SOFO/tdJHQppjKjcJrDsK+AkPlubBuh4istKMdAs82zhCv+mWJMUet/G3Txr5h20TUPYERvXUyg3u+6omF3gNmockHTNoXLHRPy6E/W9kWs4Q+pULIFzcTgF+oGneA5ANTcYFJ9hTEFvTZ4EEyVFAYRut33dsuVcf4LlxuX/qXiY8z02fjg9Jsh5qqqHbLH8vAQCquym0qLNfAo8PLXfSTZD678HPOgIye3lnObMiO7p1/eSUp+nKYZA631xEQ7KHRGsKUNmZsEfXoD38YQ36fXw/c0GUPCHtCtR5g63vPBIzMfNcArcL1zAF5qEs9Ta5Hh0ZMeZyqRmjUXxaDLQHxcPfHPTXA99AoXgVYtiNvPGdy6yXloRIrmVaAs1I0YLZuJ8+pBfRJM1LBHv8m9kJ+68VP/NHcdSsZxZb//4fJpBhpVDEfA7Wg9dCcj1Ds7Zv6XnMGBYTfy0VVMQr2TNNy1AS69aNVtqlnYfabxTA/CKNx/HLlBE30EbmgclGajk21wdol8ykxeiggQMZajnrKgoLJNIpK7aa4C6jUxwtcUfT/MGMlorEYeOzC01Z6WZxWxiODVCU1btdYVTmUkGYflsR0pl/2r4oANp9FCM0O2UgBxnvEKLUOgw6d2h1UQpSSioyup6M4zvKH31Q70Zh9lERKYfSnAeJfelHryPKbrtyxJ+1lSovrcn1ICZznYTXLSuLRD/Bu
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1101MB2126.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(136003)(396003)(376002)(39860400002)(346002)(86362001)(478600001)(53546011)(6512007)(41300700001)(2906002)(6506007)(26005)(9686003)(6486002)(8676002)(66556008)(66476007)(82960400001)(110136005)(316002)(45080400002)(38100700002)(186003)(5660300002)(4326008)(8936002)(66946007)(83380400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8GHQEWGDAmV9i5MmWLTdS3Eo/7LKtbkxS0WR38jZn7+MSy5h24sfM2dvyvSm?=
+ =?us-ascii?Q?Pdvx3GlcSR9fQGkFUzwZzjojIF9dOJIYS0aCnWf/BKnxN/CmIN4mZmMYukQC?=
+ =?us-ascii?Q?stE9oxUU4nnCdLu1vGgPYgtzx1Z+wLZQ7LrFln8xK6imyEPp4GbTPPKhp1Vh?=
+ =?us-ascii?Q?pzis/oa8ffvycnzkwIGgniOE7mJSEMKCflCjvZljMH1oHoi+UEYZP9NcpEf5?=
+ =?us-ascii?Q?b/4WG9xcVrdOmXMU0P4XLOiVlj2+AO7SJzNCQjAitzeKKjgreIbw7hOyrb8C?=
+ =?us-ascii?Q?pyEhDYwarJuIgqMnYaJv5ePa44kNE0lyFsGaLuaDwR6WIBrFrJu1CRTfB0xe?=
+ =?us-ascii?Q?Q7HIQzeVUqxt27uRDP0pICiu8UnrsfY9RKAA4IuzvTusjkR54PvCQVyjnIcV?=
+ =?us-ascii?Q?rZq0v6GGDrGpJaz2CKcxZUNlxso+g0Sqrv28Ag/OlJ16XBpWB0Ox/74X1klT?=
+ =?us-ascii?Q?wHNhNi6X7Nm9UeT0diaEfqiC4FqAr+k1HtHhRsdvcoCKPRsOxZTnAk7KrK7k?=
+ =?us-ascii?Q?nRUBMDXqVxzJMfOGFbYCjp4KY130hcQrgjN9ALa8hSexxJvGr6VwUaEaHN20?=
+ =?us-ascii?Q?PrEgCeibncY9ilerQEdq4doOHwMRznYUdKWUCG8GVDiuG6+Ne8bXu2styz5b?=
+ =?us-ascii?Q?KlTH1Czy/JWLDN5h5+DOaI1W7Zu93Q9JDBi/L9YmhQaQem1IGSGIaAnV/7IT?=
+ =?us-ascii?Q?ttGqoKuOSTZLH/q1uGSdesQCa/g1+IX6/EuuKACuxe5EpJ8P2PyqPlRtzU5m?=
+ =?us-ascii?Q?sdFSns4kSBx4NVQp1JHfCbThc+Dym5MpymZLKBdbKtB5xVuCIixctxsWSuVp?=
+ =?us-ascii?Q?+NxU/mYelJeyyRhZ5tfAJGWjRMNmjeFQLRJlNUIohHiaxYyQsri2+jYxzlLT?=
+ =?us-ascii?Q?CkKMrHuQMr7KS5f/D9Z4ruyRT4r6sdkIs17bb5GVLaMSnhKCv/kBxeIyQbba?=
+ =?us-ascii?Q?PilLVQSSV6Caalmxhyg0cvFkWzlwve5i5YeGx/taYTjqe8WWSSzCiEm+eVng?=
+ =?us-ascii?Q?6PtSRp4yvjSnNJe9QGYe38D2nnUXcOmd0As+vy35a5pFOhX/7CeHwm1V5rV6?=
+ =?us-ascii?Q?cFbqCcXwbKRee8fyEs8K/F8/YEvL6id91trGf7drIpnJvyyvvh6TFtMR4xWc?=
+ =?us-ascii?Q?26cDH8y1iIDd+f31izSYQROKE7S4Jjl8pc3O5pqnUHM/fUc0hpyGd8LuFQv5?=
+ =?us-ascii?Q?Mtq6qSNVlhsmc3/HDsWNeral86+SJWjcHvgGZQh1ZJ6LPm3PgdxFwGUL+6/y?=
+ =?us-ascii?Q?ugip8bc2VCQhst8CTc/X3B3X+zbTf5J7Qv6fPNWZI0wDLSmqGoR1gCYT76vX?=
+ =?us-ascii?Q?tOoyIZTyMrAGHvyFmlrZ+WhzM4enAMh6IwZ6w0aj6fwILxmfjDH56JsQO0e2?=
+ =?us-ascii?Q?imcUemuzFb0TDzGR69i1yfkRalQGIuM9kX0H5G8mmr93iHir1i8uhiRugzuW?=
+ =?us-ascii?Q?wvn9bQR8aMHZon90xJ5odwiULCmfa7WXR92AWabauhoYY35ty/jbMV2AiPhJ?=
+ =?us-ascii?Q?IfkxcHpqGQQjYACYpF80hsqkdRWrtjkFRpYd9a4t6L+vQBdyDTUMhl+Dwffp?=
+ =?us-ascii?Q?pJlafqpEwqOdgW4M3fkANaaxoYItb6n2cvc1bhtFO4LalAUcBwAy6zBd1ytR?=
+ =?us-ascii?Q?+w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d108bd6-c9ea-4740-ba38-08da7f1138ef
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2126.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 22:55:17.4471 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e4o1PKjYIbKSYXNCmchsouUdzXZPT3gmcqBAmace08vloCYeFIrQFoc0RRit1C4X48k5+Q2DMm9VZDo3aPtiTj2jZ1vQ9Sz41auGIf3kyeI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2829
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.31;
+ envelope-from=dan.j.williams@intel.com; helo=mga06.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,309 +167,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/8/22 01:21, David Gibson wrote:
-> On Fri, Aug 05, 2022 at 06:39:43AM -0300, Daniel Henrique Barboza wrote:
->> Reading the FDT requires that the user saves the fdt_blob and then use
->> 'dtc' to read the contents. Saving the file and using 'dtc' is a strong
->> use case when we need to compare two FDTs, but it's a lot of steps if
->> you want to do quick check on a certain node or property.
->>
->> 'info fdt' retrieves FDT nodes (and properties, later on) and print it
->> to the user. This can be used to check the FDT on running machines
->> without having to save the blob and use 'dtc'.
->>
->> The implementation is based on the premise that the machine thas a FDT
->> created using libfdt and pointed by 'machine->fdt'. As long as this
->> pre-requisite is met the machine should be able to support it.
->>
->> For now we're going to add the required QMP/HMP boilerplate and the
->> capability of printing the name of the properties of a given node. Next
->> patches will extend 'info fdt' to be able to print nodes recursively,
->> and then individual properties.
->>
->> 'info fdt' is not something that we expect to be used aside from debugging,
->> so we're implementing it in QMP as 'x-query-fdt'.
->>
->> This is an example of 'info fdt' fetching the '/chosen' node of the
->> pSeries machine:
->>
->> (qemu) info fdt /chosen
->> chosen {
->>      ibm,architecture-vec-5;
->>      rng-seed;
->>      ibm,arch-vec-5-platform-support;
->>      linux,pci-probe-only;
->>      stdout-path;
->>      linux,stdout-path;
->>      qemu,graphic-depth;
->>      qemu,graphic-height;
->>      qemu,graphic-width;
->> }
->>
->> And the same node for the aarch64 'virt' machine:
->>
->> (qemu) info fdt /chosen
->> chosen {
->>      stdout-path;
->>      rng-seed;
->>      kaslr-seed;
->> }
+Jonathan Cameron wrote:
+> On Fri, 12 Aug 2022 16:44:03 +0100
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 > 
-> So... it's listing the names of the properties, but not the contents?
-> That seems kind of odd.
+> > On Thu, 11 Aug 2022 18:08:57 +0100
+> > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+> > 
+> > > On Tue, 9 Aug 2022 17:08:25 +0100
+> > > Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+> > >   
+> > > > On Tue, 9 Aug 2022 21:07:06 +0800
+> > > > Bobo WL <lmw.bobo@gmail.com> wrote:
+> > > >     
+> > > > > Hi Jonathan
+> > > > > 
+> > > > > Thanks for your reply!
+> > > > > 
+> > > > > On Mon, Aug 8, 2022 at 8:37 PM Jonathan Cameron
+> > > > > <Jonathan.Cameron@huawei.com> wrote:      
+> > > > > >
+> > > > > > Probably not related to your problem, but there is a disconnect in QEMU /
+> > > > > > kernel assumptionsaround the presence of an HDM decoder when a HB only
+> > > > > > has a single root port. Spec allows it to be provided or not as an implementation choice.
+> > > > > > Kernel assumes it isn't provide. Qemu assumes it is.
+> > > > > >
+> > > > > > The temporary solution is to throw in a second root port on the HB and not
+> > > > > > connect anything to it.  Longer term I may special case this so that the particular
+> > > > > > decoder defaults to pass through settings in QEMU if there is only one root port.
+> > > > > >        
+> > > > > 
+> > > > > You are right! After adding an extra HB in qemu, I can create a x1
+> > > > > region successfully.
+> > > > > But have some errors in Nvdimm:
+> > > > > 
+> > > > > [   74.925838] Unknown online node for memory at 0x10000000000, assuming node 0
+> > > > > [   74.925846] Unknown target node for memory at 0x10000000000, assuming node 0
+> > > > > [   74.927470] nd_region region0: nmem0: is disabled, failing probe      
+> > > > 
+> > > > Ah. I've seen this one, but not chased it down yet.  Was on my todo list to chase
+> > > > down. Once I reach this state I can verify the HDM Decode is correct which is what
+> > > > I've been using to test (Which wasn't true until earlier this week). 
+> > > > I'm currently testing via devmem, more for historical reasons than because it makes
+> > > > that much sense anymore.      
+> > > 
+> > > *embarassed cough*.  We haven't fully hooked the LSA up in qemu yet.
+> > > I'd forgotten that was still on the todo list. I don't think it will
+> > > be particularly hard to do and will take a look in next few days.
+> > > 
+> > > Very very indirectly this error is causing a driver probe fail that means that
+> > > we hit a code path that has a rather odd looking check on NDD_LABELING.
+> > > Should not have gotten near that path though - hence the problem is actually
+> > > when we call cxl_pmem_get_config_data() and it returns an error because
+> > > we haven't fully connected up the command in QEMU.  
+> > 
+> > So a least one bug in QEMU. We were not supporting variable length payloads on mailbox
+> > inputs (but were on outputs).  That hasn't mattered until we get to LSA writes.
+> > We just need to relax condition on the supplied length.
+> > 
+> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> > index c352a935c4..fdda9529fe 100644
+> > --- a/hw/cxl/cxl-mailbox-utils.c
+> > +++ b/hw/cxl/cxl-mailbox-utils.c
+> > @@ -510,7 +510,7 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+> >      cxl_cmd = &cxl_cmd_set[set][cmd];
+> >      h = cxl_cmd->handler;
+> >      if (h) {
+> > -        if (len == cxl_cmd->in) {
+> > +        if (len == cxl_cmd->in || !cxl_cmd->in) {
+> Fix is wrong as we use ~0 as the placeholder for variable payload, not 0.
 > 
->>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hmp-commands-info.hx         | 13 ++++++++++
->>   include/monitor/hmp.h        |  1 +
->>   include/sysemu/device_tree.h |  4 +++
->>   monitor/hmp-cmds.c           | 13 ++++++++++
->>   monitor/qmp-cmds.c           | 12 +++++++++
->>   qapi/machine.json            | 19 +++++++++++++++
->>   softmmu/device_tree.c        | 47 ++++++++++++++++++++++++++++++++++++
->>   7 files changed, 109 insertions(+)
->>
->> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->> index 188d9ece3b..743b48865d 100644
->> --- a/hmp-commands-info.hx
->> +++ b/hmp-commands-info.hx
->> @@ -921,3 +921,16 @@ SRST
->>     ``stats``
->>       Show runtime-collected statistics
->>   ERST
->> +
->> +    {
->> +        .name       = "fdt",
->> +        .args_type  = "nodepath:s",
->> +        .params     = "nodepath",
->> +        .help       = "show firmware device tree node given its path",
->> +        .cmd        = hmp_info_fdt,
->> +    },
->> +
->> +SRST
->> +  ``info fdt``
->> +    Show a firmware device tree node given its path. Requires libfdt.
->> +ERST
->> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
->> index d7f324da59..c0883dd1e3 100644
->> --- a/include/monitor/hmp.h
->> +++ b/include/monitor/hmp.h
->> @@ -135,6 +135,7 @@ void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->>   void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->>   void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->>   void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
->> +void hmp_info_fdt(Monitor *mon, const QDict *qdict);
->>   void hmp_human_readable_text_helper(Monitor *mon,
->>                                       HumanReadableText *(*qmp_handler)(Error **));
->>   void hmp_info_stats(Monitor *mon, const QDict *qdict);
->> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
->> index bf7684e4ed..057d13e397 100644
->> --- a/include/sysemu/device_tree.h
->> +++ b/include/sysemu/device_tree.h
->> @@ -14,6 +14,8 @@
->>   #ifndef DEVICE_TREE_H
->>   #define DEVICE_TREE_H
->>   
->> +#include "qapi/qapi-types-common.h"
->> +
->>   void *create_device_tree(int *sizep);
->>   void *load_device_tree(const char *filename_path, int *sizep);
->>   #ifdef CONFIG_LINUX
->> @@ -137,6 +139,8 @@ int qemu_fdt_add_path(void *fdt, const char *path);
->>   
->>   void qemu_fdt_dumpdtb(void *fdt, int size);
->>   void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
->> +HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath,
->> +                                          Error **errp);
->>   
->>   /**
->>    * qemu_fdt_setprop_sized_cells_from_array:
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index d23ec85f9d..accde90380 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -2484,3 +2484,16 @@ void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
->>           error_report_err(local_err);
->>       }
->>   }
->> +
->> +void hmp_info_fdt(Monitor *mon, const QDict *qdict)
->> +{
->> +    const char *nodepath = qdict_get_str(qdict, "nodepath");
->> +    Error *err = NULL;
->> +    g_autoptr(HumanReadableText) info = qmp_x_query_fdt(nodepath, &err);
->> +
->> +    if (hmp_handle_error(mon, err)) {
->> +        return;
->> +    }
->> +
->> +    monitor_printf(mon, "%s", info->human_readable_text);
->> +}
->> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
->> index 8415aca08c..db2c6aa7da 100644
->> --- a/monitor/qmp-cmds.c
->> +++ b/monitor/qmp-cmds.c
->> @@ -603,9 +603,21 @@ void qmp_dumpdtb(const char *filename, Error **errp)
->>   {
->>       return qemu_fdt_qmp_dumpdtb(filename, errp);
->>   }
->> +
->> +HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
->> +{
->> +    return qemu_fdt_qmp_query_fdt(nodepath, errp);
->> +}
->>   #else
->>   void qmp_dumpdtb(const char *filename, Error **errp)
->>   {
->>       error_setg(errp, "dumpdtb requires libfdt");
->>   }
->> +
->> +HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
->> +{
->> +    error_setg(errp, "this command requires libfdt");
->> +
->> +    return NULL;
->> +}
->>   #endif
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index aeb013f3dd..96cff541ca 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -1681,3 +1681,22 @@
->>   ##
->>   { 'command': 'dumpdtb',
->>     'data': { 'filename': 'str' } }
->> +
->> +##
->> +# @x-query-fdt:
->> +#
->> +# Query for FDT element (node or property). Requires 'libfdt'.
->> +#
->> +# @nodepath: the path of the FDT node to be retrieved
->> +#
->> +# Features:
->> +# @unstable: This command is meant for debugging.
->> +#
->> +# Returns: FDT node
->> +#
->> +# Since: 7.2
->> +##
->> +{ 'command': 'x-query-fdt',
->> +  'data': { 'nodepath': 'str' },
->> +  'returns': 'HumanReadableText',
->> +  'features': [ 'unstable' ]  }
-> 
-> 
-> A QMP command that returns human readable text, rather than something
-> JSON structured seems... odd.
-> 
-> Admittedly, *how* you'd JSON structure the results gets a bit tricky.
-> Listing nodes or property names would be easy enough, but getting the
-> property contents is hairy, since JSON strings are supposed to be
-> Unicode, but DT properties can be arbitrary bytestrings.
-> 
->> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
->> index cd487ddd4d..3fb07b537f 100644
->> --- a/softmmu/device_tree.c
->> +++ b/softmmu/device_tree.c
->> @@ -18,6 +18,7 @@
->>   #endif
->>   
->>   #include "qapi/error.h"
->> +#include "qapi/type-helpers.h"
->>   #include "qemu/error-report.h"
->>   #include "qemu/option.h"
->>   #include "qemu/bswap.h"
->> @@ -661,3 +662,49 @@ void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp)
->>   
->>       error_setg(errp, "Error when saving machine FDT to file %s", filename);
->>   }
->> +
->> +static void fdt_format_node(GString *buf, int node, int depth)
->> +{
->> +    const struct fdt_property *prop = NULL;
->> +    const char *propname = NULL;
->> +    void *fdt = current_machine->fdt;
->> +    int padding = depth * 4;
->> +    int property = 0;
->> +    int prop_size;
->> +
->> +    g_string_append_printf(buf, "%*s%s {\n", padding, "",
->> +                           fdt_get_name(fdt, node, NULL));
->> +
->> +    padding += 4;
->> +
->> +    fdt_for_each_property_offset(property, fdt, node) {
->> +        prop = fdt_get_property_by_offset(fdt, property, &prop_size);
->> +        propname = fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
->> +
->> +        g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
->> +    }
->> +
->> +    padding -= 4;
->> +    g_string_append_printf(buf, "%*s}\n", padding, "");
-> 
-> So, this lists it in dts format... kind of.  Because you don't include
-> the property values, it makes it look like all properties are binary
-> (either absent or present-but-empty).  I think that's misleading.  If
-> you're only going to list properties, I think you'd be better off
-> using different formatting (and maybe a more specific command name as
-> well).
+> With that fixed we hit new fun paths - after some errors we get the
+> worrying - not totally sure but looks like a failure on an error cleanup.
+> I'll chase down the error source, but even then this is probably triggerable by
+> hardware problem or similar.  Some bonus prints in here from me chasing
+> error paths, but it's otherwise just cxl/next + the fix I posted earlier today.
 
-As you've already noticed in the next patch, I decided to split between QMP/HMP
-introduction and the dts formatting to avoid clogging everything in a single patch.
-In the end the whole fdt tree can be printed with all the properties types.
+One of the scenarios that I cannot rule out is nvdimm_probe() racing
+nd_region_probe(), but given all the work it takes to create a region I
+suspect all the nvdimm_probe() work to have completed...
 
-As for using HumanReadableText, I tried to imagine a structured output for
-'info fdt'. It would be something like:
-
-- struct Property: an union of the possible types (none, string, uint32 array,
-byte array)
-
-- struct Node: an array of properties and subnodes
-
-And then 'info fdt <node>' would return a struct node and  'info fdt <node> <prop>'
-would return a struct Property
-
-Adding this stable ABI sounded like too much extra work for a command that would be
-used mostly for debug/development purposes. Every other command that outputs
-internal guest state (info roms, info rdma, info irq, info numa ...) are happy with
-returning HumanReadableFormat and being considered debug only. I decided to do the
-same thing.
-
-
-Thanks,
-
-Daniel
-
-
+It is at least one potentially wrong hypothesis that needs to be chased
+down.
 
 > 
->> +}
->> +
->> +HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath, Error **errp)
->> +{
->> +    g_autoptr(GString) buf = g_string_new("");
->> +    int node;
->> +
->> +    if (!current_machine->fdt) {
->> +        error_setg(errp, "Unable to find the machine FDT");
->> +        return NULL;
->> +    }
->> +
->> +    node = fdt_path_offset(current_machine->fdt, nodepath);
->> +    if (node < 0) {
->> +        error_setg(errp, "node '%s' not found in FDT", nodepath);
->> +        return NULL;
->> +    }
->> +
->> +    fdt_format_node(buf, node, 0);
->> +
->> +    return human_readable_text_from_str(buf);
->> +}
-> 
+> [   69.919877] nd_bus ndbus0: START: nd_region.probe(region0)
+> [   69.920108] nd_region_probe
+> [   69.920623] ------------[ cut here ]------------
+> [   69.920675] refcount_t: addition on 0; use-after-free.
+> [   69.921314] WARNING: CPU: 3 PID: 710 at lib/refcount.c:25 refcount_warn_saturate+0xa0/0x144
+> [   69.926949] Modules linked in: cxl_pmem cxl_mem cxl_pci cxl_port cxl_acpi cxl_core
+> [   69.928830] CPU: 3 PID: 710 Comm: kworker/u8:9 Not tainted 5.19.0-rc3+ #399
+> [   69.930596] Hardware name: QEMU QEMU Virtual Machine, BIOS 0.0.0 02/06/2015
+> [   69.931482] Workqueue: events_unbound async_run_entry_fn
+> [   69.932403] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [   69.934023] pc : refcount_warn_saturate+0xa0/0x144
+> [   69.935161] lr : refcount_warn_saturate+0xa0/0x144
+> [   69.936541] sp : ffff80000890b960
+> [   69.937921] x29: ffff80000890b960 x28: 0000000000000000 x27: 0000000000000000
+> [   69.940917] x26: ffffa54a90d5cb10 x25: ffffa54a90809e98 x24: 0000000000000000
+> [   69.942537] x23: ffffa54a91a3d8d8 x22: ffff0000c5254800 x21: ffff0000c5254800
+> [   69.944013] x20: ffff0000ce924180 x19: ffff0000c5254800 x18: ffffffffffffffff
+> [   69.946100] x17: ffff5ab66e5ef000 x16: ffff80000801c000 x15: 0000000000000000
+> [   69.947585] x14: 0000000000000001 x13: 0a2e656572662d72 x12: 657466612d657375
+> [   69.948670] x11: 203b30206e6f206e x10: 6f69746964646120 x9 : ffffa54a8f63d288
+> [   69.950679] x8 : 206e6f206e6f6974 x7 : 69646461203a745f x6 : 00000000fffff31e
+> [   69.952113] x5 : ffff0000ff61ba08 x4 : 00000000fffff31e x3 : ffff5ab66e5ef000
+> root@debian:/sys/bus/cxl/devices/decoder0.0/region0# [   69.954752] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c512e740
+> [   69.957098] Call trace:
+> [   69.957959]  refcount_warn_saturate+0xa0/0x144
+> [   69.958773]  get_ndd+0x5c/0x80
+> [   69.959294]  nd_region_register_namespaces+0xe4/0xe90
+> [   69.960253]  nd_region_probe+0x100/0x290
+> [   69.960796]  nvdimm_bus_probe+0xf4/0x1c0
+> [   69.962087]  really_probe+0x19c/0x3f0
+> [   69.962620]  __driver_probe_device+0x11c/0x190
+> [   69.963258]  driver_probe_device+0x44/0xf4
+> [   69.963773]  __device_attach_driver+0xa4/0x140
+> [   69.964471]  bus_for_each_drv+0x84/0xe0
+> [   69.965068]  __device_attach+0xb0/0x1f0
+> [   69.966101]  device_initial_probe+0x20/0x30
+> [   69.967142]  bus_probe_device+0xa4/0xb0
+> [   69.968104]  device_add+0x3e8/0x910
+> [   69.969111]  nd_async_device_register+0x24/0x74
+> [   69.969928]  async_run_entry_fn+0x40/0x150
+> [   69.970725]  process_one_work+0x1dc/0x450
+> [   69.971796]  worker_thread+0x154/0x450
+> [   69.972700]  kthread+0x118/0x120
+> [   69.974141]  ret_from_fork+0x10/0x20
+> [   69.975141] ---[ end trace 0000000000000000 ]---
+> [   70.117887] Into nd_namespace_pmem_set_resource()
 
