@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BD3592A65
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:38:51 +0200 (CEST)
-Received: from localhost ([::1]:42494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05792592A66
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:39:29 +0200 (CEST)
+Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNUgT-0006E9-Vd
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60966)
+	id 1oNUh6-00071w-0h
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUY4-0008Rh-5b
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:30:08 -0400
-Received: from mail-eopbgr80122.outbound.protection.outlook.com
- ([40.107.8.122]:52230 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1oNUXm-0008Oj-9S
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:29:55 -0400
+Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
+ ([40.107.21.137]:37263 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUY1-0000jm-Dp
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:30:07 -0400
+ id 1oNUXj-0000jI-Sh
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:29:49 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eXWAgbDWq+FyEiVN3U4qthzIOH6Qr7fF0acumtCHpaaI5e1/2oFIhhnvGxl/zcCl+CJKx2lDPz6J4GKxZ/x/xWvSQKoKjyuNNhZZlpgl/1tjADkymMnWRpTcWfRqxf83Sj/yn8o8ueW+rTS/3/jGPYjTu8rzzU6PaxNf7j9uWr/BmuJ3xiPBTC6cS8tiffrNsAkDvNqfcU7LNZsP+kOtfsUNyeVxIZ61xAYhpuQR6V6Aithae9FFQNeKNqDVODc8Wa4ZXsO70mOe2pV0G8tT4d9mRoua2teUHFq4QJLhSyEju8C6wo9ckZBG9xtAM4pQ0UoE8+6g9Z03s4y+Ei2hkg==
+ b=YyvFWgmv3//I3EseurvEPSVg9vxYkJvp5bh+0m4azRid0I5Xiwt+Dw6a8+ozL4cjiAarAB4ZzVrs9CSwc+uhc5a2VPQS1INfeqhaK071OpwoXzLz+39lGaTVjyx61+h3XWtbBSn5ktXQTTe/r+DYq96L2kyWc5DmbUsl9x2Wld9h5xHWCKOTQpG8NRHo96njv7uzwXkGy0eZiNAFpRn/fcp+joZROLGzs+3Tjhd5DiIPs1nN9i4j5ELwiCNzGIHAZ8DVLP/o24COOUNXDh7LSOU3uazWIoVhkRnKiRSRYC43M7Ylu4Z2yjcrTVkO5Cukgh12tDYwEqI4zJ9SD2Kj7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eoLvbZbtjo+QPQn5q7Cv7jU/N4X43Xz+G/TkOOipvUI=;
- b=Mo2Mz4EJX1rlQxXndOabX4FEsf8o3IDPjdAxcEsl+amvKojFHEzpzIlo6i+QpQb2tjaaPti+QD87GRElQpHc4sPEidJRkNlG/0L2gUywELyvueVoB1drN0H/Zz6Z5GhkxPTblNjoHgc0k4YMwN3VQtjTCYkbRKTV4WlrlG+vEvqrK2d8T3+dVv0FCCXq4Raqqb/C41h9YZ9eGEsvhypTjk1mOdd4DCI5zUcstjdzIXY6RSp/czl9L5mw4UzbetR3Fexb1eppgAON7Srjics1JtqXt1QdT+Lmr+a+bZUwCmDfLI6rBFVwwh6LWhPIaSp/jiQFuKu2Z7yPv+x43OU4qA==
+ bh=AQfCSJsHsYrANhzCQk80tLAUfKqg2MA8KG18UVMpRQk=;
+ b=PnpAHJ2IP8qtu8C9dP6yFqUmb+2xJs3Bfcs+MfouQN9m3EQXdOihOCiTpmvv9VowIq0eXBNKVl6yOBgcoB0JxEc0Fvii1vwBt6d0Ljc++gAuxsdhFxTCqMrU3iYt4DfVB5vr1dTQhoqjXt4PQ4mXSzCI0CDinyZuhz/wuHollTi1e3ZvHp3PGDHXMpBhJ/Qo2p+cPbJfObQ81//caMipnbiafXQoyO3EJLrnE2HsmBs4CoQTmgBq1ANjAiIqc0J2BCfmcnH6kMW45cvJ+8LlFvA0hAbSxs+TUvXArHFkf3GU7Vaw41weBh+eiK6rtG6fHoww05N7k7ackk/wBh7lzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eoLvbZbtjo+QPQn5q7Cv7jU/N4X43Xz+G/TkOOipvUI=;
- b=n+bAmeu9PJ0iuhxzDDpqbsYgU6vZaf6Qj4w7xNSk2ehDkUpChqEgtMlU5VVfstZgiGYFdlVj1DdQ15Y3B7HJlDE/t93um6rY20e/4Jkb3unIFfTu9QutaC1OYYNcRWGcwAnx/3bnNJm7Vek3Oyn+N38QSrRDr6ShTl1qal/rbl8=
+ bh=AQfCSJsHsYrANhzCQk80tLAUfKqg2MA8KG18UVMpRQk=;
+ b=UR7cbWmAya/T31d4QG0S2jVkbOw2X0x0IqhQ6QAD/aJEwdTQQdgQ+2Wxk6wEUe2lD5yGm78OcM2gqfR/a3+kNpn0smTPaeNP+uuGMM8f6MVvSkRXbxRj4QLNMqN0zhu/4U5uq6Wx9BF0c38TMHOYZfeSTNobQBxEPRwwIuwwUG8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com (2603:10a6:803:112::20)
- by PA4PR03MB8134.eurprd03.prod.outlook.com (2603:10a6:102:2a1::22)
+ by AM0PR03MB4515.eurprd03.prod.outlook.com (2603:10a6:208:c2::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.19; Mon, 15 Aug
- 2022 07:29:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.28; Mon, 15 Aug
+ 2022 07:29:43 +0000
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::7996:9fde:76d3:745]) by VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::7996:9fde:76d3:745%5]) with mapi id 15.20.5525.010; Mon, 15 Aug 2022
- 07:29:37 +0000
+ 07:29:43 +0000
 From: Milica Lazarevic <milica.lazarevic@syrmia.com>
 To: thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -54,9 +54,9 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com,
  Milica Lazarevic <milica.lazarevic@syrmia.com>
-Subject: [PATCH 08/20] disas/nanomips: Remove NMD class
-Date: Mon, 15 Aug 2022 09:26:17 +0200
-Message-Id: <20220815072629.12865-9-milica.lazarevic@syrmia.com>
+Subject: [PATCH 09/20] disas/nanomips: Move typedefs etc to nanomips.cpp
+Date: Mon, 15 Aug 2022 09:26:18 +0200
+Message-Id: <20220815072629.12865-10-milica.lazarevic@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
 References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
@@ -67,58 +67,58 @@ X-ClientProxiedBy: VE1PR08CA0009.eurprd08.prod.outlook.com
  (2603:10a6:803:112::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 416f6ee6-6293-405c-1808-08da7e8fe879
-X-MS-TrafficTypeDiagnostic: PA4PR03MB8134:EE_
+X-MS-Office365-Filtering-Correlation-Id: db78d62e-dbc2-4976-562e-08da7e8febf2
+X-MS-TrafficTypeDiagnostic: AM0PR03MB4515:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tTnvxmaNh2VqNOAZB/neoadqi5hu4uAplItYgi00XFivlAPdLrPgLQaMXbDUg74JFktnatQx6qq0xWTDvRCRYuEtc0rlkPb1uZgVtETK5ArOnhlvW4rCiOdGTa92PFrD/38NqAlGXk7MgjcoX/Xn3jYqri68zB0XdAHSkcJjspITw1y/oo+UjOPjgKpFdM5q+K/Ma2E+rzVP1eW+GDDzKxUHEUJ5lx2vxWxZX/vUPje8le/SfFeZExnRIjDUSVcVOE7Hgp08Qiz7MbxiMNThO+iEqJCZ2RGXlD9VNGC2zYGXFJTKNZY6C+mLwf4vX51mJ+BfxAsNa15RNVbOvSyRcKdXeAh5S5W8WsgChsxQXGPpe4IXZxFgp/KoADfZZxh9rM+jlRph8o2Z7DY0lBDAkTUP4WQCpR7+igacWQ2VfyZbj4sJvXl48nPI/7rimaGzE3WhJ97bphD4Y/ozOYzpf5dxmedzPgymXlNFWGmtDZCO0PBepRxMRkzIBlz5PucB/aRZyUmanwU1UfZ06ZVZR5n5+/J0UMVJyYhHu4a7YAStgZwy28XBbgFAf8/D2h8dOi4CGBsDlfDPx7wf8HJQ04JTYZwJfipre5fvvcE7jfsX5/J8MKt9M5rmUgbmF5YfxB8Lehjb5KtWcXVuqI/BhXcnzzrDVPKoZym2yGdUpA9ci5ccIZZFnTYiEBvQVvfnXKxq+b5LnNEeb06IELGR2Hce+HbipszVKb0gdNJJ0w4hTLg4wY+ZHkKnxuy7UDl+iWPeHR4r81X1pZFOX/FES9jAN3CgzSQWrd4cFsFi4Qo=
+X-Microsoft-Antispam-Message-Info: 5FnuUfKj1wWSSsgGH2+tUf1k1K+dBchXrCrGZk0QHfHZcHZuBxPSHpRbMckWnTZxmOozD9auA91uECcQecbnSAw2GPmiJ08/w+XT9JIQfBl+MZyXIjZwsoeVaMctHb9Yzwgyv/lcuEF/Ivl4DocUM1JKBwgaGo7X1sYlBOGN7JzrucvO+ONjqkNqtjwpjWOY72oQP5fvItCGnYLd6wJtQ5Bve/Pt4CqyhYzxLi7ivwE+fLPUlL6jYx3lG0j7V1tMOU+RvZZlw1dTHKSC6XQFeQBgdA9OP8cmXW7OMFUwWaGSdQhKSCpalm3HfiKEvYdCtDs8t8gz5zlRW/Wf4fNS1qP33mp1Zu9jBK9D73NvgXr2DBU4c71bmu0Gy92rxn43PDYidjaGx7AlAwBHrOxSToZLKtJ8sADSP0a/fDI4L5fA+aCb+WlhRmct9IedSIlnvQv4V4ywbs6LfAnHvD/PCq8SHl7qiMClCM20Aktg7gQVzU+3seOHllRk2KQyzQQZJm2qL7uzdzNOVsuKI3tDgdM+IshYkGpBu8LU1H8mIGNgWXE4mxwpdTle2Hg4iK7X0IjG7hQeYm+K6zegIWzHieJUIxclT/oJvnNYqMPFEnZ7/jYY6705LDxCAbfwLWj5GhM78ahqpEQjfxumvb099+o/1gIoW7LI4P9p6E9sFLtIvYlGPCVhd9/iIBb+buN45xY6zkoV5O2vBE6OiVOBnqdyR2TZnHP8d1AA/os6hiG8mQvLjDpMYwkm3Cgl9zpFglVdXd81rXKxaKz/38gkOTIutgn4sYwJEugUFNYA0FA=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB6045.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(366004)(346002)(39830400003)(136003)(396003)(38100700002)(2906002)(26005)(66556008)(5660300002)(66946007)(66476007)(6512007)(52116002)(6506007)(38350700002)(6916009)(478600001)(6486002)(107886003)(41300700001)(186003)(86362001)(2616005)(6666004)(316002)(83380400001)(4326008)(1076003)(8676002)(44832011)(8936002)(36756003);
+ SFS:(13230016)(39830400003)(366004)(136003)(346002)(376002)(396003)(86362001)(107886003)(186003)(1076003)(2616005)(38350700002)(83380400001)(38100700002)(5660300002)(8936002)(36756003)(66556008)(66476007)(8676002)(4326008)(66946007)(2906002)(44832011)(478600001)(41300700001)(52116002)(26005)(6512007)(6506007)(6666004)(6486002)(316002)(6916009);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?88qSDWCffEbseBlnXGzjG4LVvmjekC+01rf9nADJbNeVIinFq//6n8yoY937?=
- =?us-ascii?Q?ES1MCTq1Dhb7GyY0ofHupnJCX37rIhT3iPl5w5IO8+T4UBdW7+Yii/h6R3gu?=
- =?us-ascii?Q?bdRFMy3XLD69LofmHEacW938J4x1bfVxrTMvloALsC3TXoeeud2n7w+E4tIZ?=
- =?us-ascii?Q?D/E9K1K3TJGGBjuqkTRs0ygzpUUqCyLU01OEqOYQSB//3+yogRqZiigy0xPm?=
- =?us-ascii?Q?2K5TYvfpEAiM2OVHpy0SWsdr/DDqZ8j8ZNYlbDD1za8SKbUKJOzFlT0Yq9mi?=
- =?us-ascii?Q?SwOVPvWblriYZScdsHsjl3JM0FT87Et81hoq9zxU/wRty+Ngg0iTKlnS0dik?=
- =?us-ascii?Q?2nxuAMzHNWmU8eepF883cYhBgrpR+L+dsS5+dwx5nj540CTtm9qz1fWwzqTR?=
- =?us-ascii?Q?Up5udRgdo7hR6CH3vAOCTZq9amIecUZS9vA96/exaY5wLEZWODGwmPuC/YqE?=
- =?us-ascii?Q?xLlUI39/cYRb73jUK3o0DyH8m5I4rP1PnellVm3iPayynWgovBLSQcyqFcAj?=
- =?us-ascii?Q?FNufLFdbUrJhiUATWDDr1rmL42G05BtsjcoFlhPOnbw/uY4wl6R0AhSMXOdu?=
- =?us-ascii?Q?8O583sPv6Dv49T/gQCAno/LczTVjTT99OdnLtTuVvH2ALqYZHcVCoXRarZNN?=
- =?us-ascii?Q?UY4RmXNNC4necinJ43TBnNbIwQ8V8ZFEOmlPG+OfTJNze72tlepSQS+O9X58?=
- =?us-ascii?Q?yqD8nBnM2IvkpDhX0uTqBH/ifAgg22AxQttHo3G2g+1cFeWtvMufzscg34/u?=
- =?us-ascii?Q?EJ8Bg4lYfiur53HYllI9XhPhciHUOFvSUaQHWvVB5MUVGPOzmXppB4cqzZYo?=
- =?us-ascii?Q?3TWrXQgABhOwVk1CfRTmFyivIDphRbVB3zYYK1+CBOQCMXt50YevvgQ4ucRd?=
- =?us-ascii?Q?TWrM43w7VKeK5DL+Xm+HdALRLdniJNSTzJiAi8lgNXr4I/qGNe5Rlo42k5Af?=
- =?us-ascii?Q?jyaBIS+cXjW7znN3inRdrZd9OLUNwWzJdu/HQGHUzrBODch/2Hf+ECkilHrj?=
- =?us-ascii?Q?/grzpAPhUVQZG/Q+0cH4y5mp+BrgLTMMKyl7pXxlL4HWHF/UJlDKbR4QWn3P?=
- =?us-ascii?Q?1WTvip5kdx167zFStTCuEciW/Xpdq/vplMOcrWkOSejMFNZ1rvHLdiGHg0TK?=
- =?us-ascii?Q?R5I2+V1kgp2lIM3tG/Sh5U33nKwr1GzYLaUZtFkO4w7Wil+HJ3T4Cuc31YD+?=
- =?us-ascii?Q?JYT8I7DGxKD5x7TXuP+fmE6ofG8FeWYn3UqqMFmYbiHP6gsHHUCNW6u3I7kO?=
- =?us-ascii?Q?uNGCt+/Fa8tvCuNBbGjp2gWUzXDQ71iFtNe3Gk8b/ymN/WLfeiwH5dzSZSJw?=
- =?us-ascii?Q?1clXQP6zf0s8es9/SyhNepPtNcqeNLPtEBdPcdoX1S1m40O/SYboawyXlXJS?=
- =?us-ascii?Q?HVYC9GLLe6xu5/wTU8hyGnR/s7orwZ7eIHkEddvDLGh8jGe3mHgMP8UV35rd?=
- =?us-ascii?Q?IaL1sZkuqfIiQJ09emiHOb7HujK4tJ31qPg1UQNw+drXQTRnKojc+w50WgE8?=
- =?us-ascii?Q?rO75gki//P7P2IHNMpzfTT9pmguJqcigZTGO1jtYIaR8rKJNRx3607kaLjaY?=
- =?us-ascii?Q?BgZx82dwjE4P31NOGEsG5FOEIcCuBc60GG+dEuf0Slx5xScOOiu5Vr6xvlDj?=
- =?us-ascii?Q?/A=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AHliaVupNE2CcYFoEZmx+MRdmRQAABl0UJJ4bT1O45Q2KQ4yvVHcYzEibU0B?=
+ =?us-ascii?Q?jDwxxp6t/Z53bJVqW2kNUJQToElgPjDf336r7kmOwRCEVNd+8z4WkFw9JhlV?=
+ =?us-ascii?Q?s51rbK5cdadJZM5eKDc4QTSQF9NbX5qdxppMTEms5YzldoQQtgGCpCriXLM5?=
+ =?us-ascii?Q?cCLY4xmh6SlLLDNuglEeQ9wPeu7gjChMetyQvQw2ptVhon+Uq7CKZ6SdXmrJ?=
+ =?us-ascii?Q?kiCZ+X7sLL+34h6OlhjcK4l5Z4zx9Wc/Ui3s/hMDoqz3zCoYtYlpU5AUiZ76?=
+ =?us-ascii?Q?/84yIlWY9qrbuXA9Pvw++39FB37YYOkR3v7akwocZtooIKdwDgWAwdAusidp?=
+ =?us-ascii?Q?Byci8DLFSRmimP0SCvqu3GWTQIqcRSW53YYTuFvU3N7gIWUXpJzbop0r/HB3?=
+ =?us-ascii?Q?pjTLkZI85KrlmRgJW9l+eVjMA84BpybheJehyIjJHYYl7aCgEoieEkyR4/FK?=
+ =?us-ascii?Q?a2kJaVKD8JpeaxIf/01M69u1RqraLfJ5FozoNO9ALG/yNGSxEgYlW9ym9w3v?=
+ =?us-ascii?Q?PsBMMUtCnRG7kmYb2ObqcjcysORqmMXvb/1iibya5ox6BjtHfec2yRyYipY7?=
+ =?us-ascii?Q?AcZkxFswV5OH+d2d/xQpkJxPyaS8BgQ5+p5V3/Jssl0IMBsbbTIynFYMVqf6?=
+ =?us-ascii?Q?lcGUiSbwkEYzPYG8R+GUvf0LO90+7d7+i9h1B7FGU0WDsNsv9nYoqrAoD4yF?=
+ =?us-ascii?Q?w/6nznlehL6w6F8Ypj809zCicQSrR07lIcW6u51c66yVHHkMRLa1EfThh1B9?=
+ =?us-ascii?Q?YxmOJfDti6bC4C+w6tc2yTqFR23XFBN7Su9bY2x4DNbMqC7DPx5mj32vIgoK?=
+ =?us-ascii?Q?S1XrVAbZvA700Dx2C/L5Pq4y5ELSctgWlzs7bwuifYuMKhHtx3NCKUHl04sF?=
+ =?us-ascii?Q?HNsDHy+euUCO/xtuCcJmTWGfAjtbQyfI6DXpLL5X1tePhYQq4ujfwB7avH8a?=
+ =?us-ascii?Q?zSLkXdwEaJCFnWPCykmVw9V/yv3MvvmA+/r8pdTdW/cqOjINhAyn5mrnAUYv?=
+ =?us-ascii?Q?nQVFGVlBAq2o86hzcT5uTFEya+6kj9i8UmgcarPc1Dj0jfc22Lv5URoAOVz9?=
+ =?us-ascii?Q?6YfOt4J4Swm8Mb6cO0BvcnClVphe5mxaivVGHRZJgyh4FbS+T0o4q9dFI4hL?=
+ =?us-ascii?Q?qzlGG+Q46Rgqve+y2Z7Xdv/V4yMM9aInKRKR2v/oBePR7rC8keEtzNAS2C/i?=
+ =?us-ascii?Q?sVNg0QQYAU3so2EdvhIYYa9HIzGPcTl84cgFrQf0eg/Hu1B+sRbYyGUoVa43?=
+ =?us-ascii?Q?CPoxtYIK45731RGWTaolcWPgQCXm4rs6pNO2W/x2Q/er4aAyIyl4hbRKB1wf?=
+ =?us-ascii?Q?f6nPrqQSsXkLLb3eJ+oI34/SwBHoR8Tsq3BzcVrzyEROmhZbZ9QFh65rzMn/?=
+ =?us-ascii?Q?cRycmDHj2NOghiUyPeactWfvG0usbbq0iStzzyndSs9tqilZHhRXKlfYtR2L?=
+ =?us-ascii?Q?hgWeggVUm2o0fPAAaGdGtQQoxipyyQJxRGnFAO6DMFy6BqaQmIm8wOaJH6nK?=
+ =?us-ascii?Q?AUVN4Lzqkd4o205T7vFAmxPptoseBI1sGASk0qUjbSm5zza8AxqSnVDPCMvR?=
+ =?us-ascii?Q?wzxsHn8m2fyxca0DTbbJuK3BKxJV9Ws0RlBTHeJbXxpKT2Sbln4VMoLvHFA5?=
+ =?us-ascii?Q?KQ=3D=3D?=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 416f6ee6-6293-405c-1808-08da7e8fe879
+X-MS-Exchange-CrossTenant-Network-Message-Id: db78d62e-dbc2-4976-562e-08da7e8febf2
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB6045.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:29:37.3113 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:29:43.1234 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7hjernO1hIrfK05HKWauZ0ywuaasmiQKhgclY0HievoORFzrCRlsx5MFvW+EMXRcpbA74/KCN+l0VofaiNvXuHusDMf6TkgJJiu7prKytp8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR03MB8134
-Received-SPF: pass client-ip=40.107.8.122;
+X-MS-Exchange-CrossTenant-UserPrincipalName: jT7DsnVeKxg9VEDweAuIfSJaG970PZ5VmKf1Ao9HGcmJYw9riGe8nX6LgS+G3ofzYeIwnrXbckwoMY9t+gFtWVOzGAiBaxfhtjo2Jybtvw8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB4515
+Received-SPF: pass client-ip=40.107.21.137;
  envelope-from=Milica.Lazarevic@Syrmia.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -141,281 +141,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NMD class has been deleted. The following methods are now declared as
-static functions:
-- public NMD::Disassemble method
-- private NMD::Disassemble method
-- private NMD::extract_op_code_value helper method
-
-Also, the implementation of the print_insn_nanomips function and
-nanomips_dis function is moved to the end of the nanomips.cpp file,
-right after the implementation of the Disassemble function.
+The following is moved from the nanomips.h to nanomips.cpp file:
+- #include line
+- typedefs
+- enums
+- definition of the Pool struct.
+Header file nanomips.h will be deleted to be consistent with the rest of
+the disas/ code.
 
 Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 ---
- disas/nanomips.cpp | 204 ++++++++++++++++++++++-----------------------
- disas/nanomips.h   |  14 ----
- 2 files changed, 101 insertions(+), 117 deletions(-)
+ disas/nanomips.cpp | 53 +++++++++++++++++++++++++++++++++++++++++++++-
+ disas/nanomips.h   | 51 --------------------------------------------
+ 2 files changed, 52 insertions(+), 52 deletions(-)
 
 diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index c35ece428c..be6705d0c3 100644
+index be6705d0c3..cab53f482b 100644
 --- a/disas/nanomips.cpp
 +++ b/disas/nanomips.cpp
-@@ -43,104 +43,6 @@
- static img_address           m_pc;
- static TABLE_ATTRIBUTE_TYPE   m_requested_instruction_categories;
+@@ -36,7 +36,58 @@
+ #include <stdio.h>
+ #include <stdarg.h>
  
--int nanomips_dis(char *buf,
--                 unsigned address,
--                 unsigned short one,
--                 unsigned short two,
--                 unsigned short three)
--{
--    std::string disasm;
--    uint16 bits[3] = {one, two, three};
--
--    TABLE_ENTRY_TYPE type;
--    m_pc = address;
--    m_requested_instruction_categories = ALL_ATTRIBUTES;
--    NMD d;
--    int size = d.Disassemble(bits, disasm, type);
--
--    strcpy(buf, disasm.c_str());
--    return size;
--}
--
--int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
--{
--    int status;
--    bfd_byte buffer[2];
--    uint16_t insn1 = 0, insn2 = 0, insn3 = 0;
--    char buf[200];
--
--    info->bytes_per_chunk = 2;
--    info->display_endian = info->endian;
--    info->insn_info_valid = 1;
--    info->branch_delay_insns = 0;
--    info->data_size = 0;
--    info->insn_type = dis_nonbranch;
--    info->target = 0;
--    info->target2 = 0;
--
--    status = (*info->read_memory_func)(memaddr, buffer, 2, info);
--    if (status != 0) {
--        (*info->memory_error_func)(status, memaddr, info);
--        return -1;
--    }
--
--    if (info->endian == BFD_ENDIAN_BIG) {
--        insn1 = bfd_getb16(buffer);
--    } else {
--        insn1 = bfd_getl16(buffer);
--    }
--    (*info->fprintf_func)(info->stream, "%04x ", insn1);
--
--    /* Handle 32-bit opcodes.  */
--    if ((insn1 & 0x1000) == 0) {
--        status = (*info->read_memory_func)(memaddr + 2, buffer, 2, info);
--        if (status != 0) {
--            (*info->memory_error_func)(status, memaddr + 2, info);
--            return -1;
--        }
--
--        if (info->endian == BFD_ENDIAN_BIG) {
--            insn2 = bfd_getb16(buffer);
--        } else {
--            insn2 = bfd_getl16(buffer);
--        }
--        (*info->fprintf_func)(info->stream, "%04x ", insn2);
--    } else {
--        (*info->fprintf_func)(info->stream, "     ");
--    }
--    /* Handle 48-bit opcodes.  */
--    if ((insn1 >> 10) == 0x18) {
--        status = (*info->read_memory_func)(memaddr + 4, buffer, 2, info);
--        if (status != 0) {
--            (*info->memory_error_func)(status, memaddr + 4, info);
--            return -1;
--        }
--
--        if (info->endian == BFD_ENDIAN_BIG) {
--            insn3 = bfd_getb16(buffer);
--        } else {
--            insn3 = bfd_getl16(buffer);
--        }
--        (*info->fprintf_func)(info->stream, "%04x ", insn3);
--    } else {
--        (*info->fprintf_func)(info->stream, "     ");
--    }
--
--    int length = nanomips_dis(buf, memaddr, insn1, insn2, insn3);
--
--    /* FIXME: Should probably use a hash table on the major opcode here.  */
--
--    (*info->fprintf_func) (info->stream, "%s", buf);
--    if (length > 0) {
--        return length / 8;
--    }
--
--    info->insn_type = dis_noninsn;
--
--    return insn3 ? 6 : insn2 ? 4 : 2;
--}
--
--
- std::string img_format(const char *format, ...)
- {
-     char buffer[256];
-@@ -742,7 +644,7 @@ static std::string ADDRESS(uint64 value, int instruction_size)
- }
+-#include "nanomips.h"
++#include <string>
++
++typedef int64_t int64;
++typedef uint64_t uint64;
++typedef uint32_t uint32;
++typedef uint16_t uint16;
++typedef uint64_t img_address;
++
++typedef bool(*conditional_function)(uint64 instruction);
++typedef std::string(*disassembly_function)(uint64 instruction);
++
++enum TABLE_ENTRY_TYPE {
++    instruction,
++    call_instruction,
++    branch_instruction,
++    return_instruction,
++    reserved_block,
++    pool,
++};
++
++enum TABLE_ATTRIBUTE_TYPE {
++    MIPS64_    = 0x00000001,
++    XNP_       = 0x00000002,
++    XMMS_      = 0x00000004,
++    EVA_       = 0x00000008,
++    DSP_       = 0x00000010,
++    MT_        = 0x00000020,
++    EJTAG_     = 0x00000040,
++    TLBINV_    = 0x00000080,
++    CP0_       = 0x00000100,
++    CP1_       = 0x00000200,
++    CP2_       = 0x00000400,
++    UDI_       = 0x00000800,
++    MCU_       = 0x00001000,
++    VZ_        = 0x00002000,
++    TLB_       = 0x00004000,
++    MVH_       = 0x00008000,
++    ALL_ATTRIBUTES = 0xffffffffull,
++};
++
++struct Pool {
++    TABLE_ENTRY_TYPE     type;
++    struct Pool          *next_table;
++    int                  next_table_size;
++    int                  instructions_size;
++    uint64               mask;
++    uint64               value;
++    disassembly_function disassembly;
++    conditional_function condition;
++    uint64               attributes;
++};
++
  
+ #define IMGASSERTONCE(test)
  
--uint64 NMD::extract_op_code_value(const uint16 * data, int size)
-+static uint64 extract_op_code_value(const uint16 *data, int size)
- {
-     switch (size) {
-     case 16:
-@@ -768,9 +670,9 @@ uint64 NMD::extract_op_code_value(const uint16 * data, int size)
-  *      instruction size    - negative is error
-  *      disassembly string  - on error will constain error string
-  */
--int NMD::Disassemble(const uint16 * data, std::string & dis,
--                     TABLE_ENTRY_TYPE & type, const Pool *table,
--                     int table_size)
-+static int Disassemble(const uint16 *data, std::string & dis,
-+                       TABLE_ENTRY_TYPE & type, const Pool *table,
-+                       int table_size)
- {
-     try
-     {
-@@ -22361,8 +22263,104 @@ static struct Pool MAJOR[2] = {
-        0x0                 },        /* P16 */
- };
- 
--int NMD::Disassemble(const uint16 * data, std::string & dis,
-+static int Disassemble(const uint16 *data, std::string & dis,
-                      TABLE_ENTRY_TYPE & type)
- {
-     return Disassemble(data, dis, type, MAJOR, 2);
- }
-+
-+int nanomips_dis(char *buf,
-+                 unsigned address,
-+                 unsigned short one,
-+                 unsigned short two,
-+                 unsigned short three)
-+{
-+    std::string disasm;
-+    uint16 bits[3] = {one, two, three};
-+
-+    TABLE_ENTRY_TYPE type;
-+    m_pc = address;
-+    m_requested_instruction_categories = ALL_ATTRIBUTES;
-+    int size = Disassemble(bits, disasm, type);
-+
-+    strcpy(buf, disasm.c_str());
-+    return size;
-+}
-+
-+int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-+{
-+    int status;
-+    bfd_byte buffer[2];
-+    uint16_t insn1 = 0, insn2 = 0, insn3 = 0;
-+    char buf[200];
-+
-+    info->bytes_per_chunk = 2;
-+    info->display_endian = info->endian;
-+    info->insn_info_valid = 1;
-+    info->branch_delay_insns = 0;
-+    info->data_size = 0;
-+    info->insn_type = dis_nonbranch;
-+    info->target = 0;
-+    info->target2 = 0;
-+
-+    status = (*info->read_memory_func)(memaddr, buffer, 2, info);
-+    if (status != 0) {
-+        (*info->memory_error_func)(status, memaddr, info);
-+        return -1;
-+    }
-+
-+    if (info->endian == BFD_ENDIAN_BIG) {
-+        insn1 = bfd_getb16(buffer);
-+    } else {
-+        insn1 = bfd_getl16(buffer);
-+    }
-+    (*info->fprintf_func)(info->stream, "%04x ", insn1);
-+
-+    /* Handle 32-bit opcodes.  */
-+    if ((insn1 & 0x1000) == 0) {
-+        status = (*info->read_memory_func)(memaddr + 2, buffer, 2, info);
-+        if (status != 0) {
-+            (*info->memory_error_func)(status, memaddr + 2, info);
-+            return -1;
-+        }
-+
-+        if (info->endian == BFD_ENDIAN_BIG) {
-+            insn2 = bfd_getb16(buffer);
-+        } else {
-+            insn2 = bfd_getl16(buffer);
-+        }
-+        (*info->fprintf_func)(info->stream, "%04x ", insn2);
-+    } else {
-+        (*info->fprintf_func)(info->stream, "     ");
-+    }
-+    /* Handle 48-bit opcodes.  */
-+    if ((insn1 >> 10) == 0x18) {
-+        status = (*info->read_memory_func)(memaddr + 4, buffer, 2, info);
-+        if (status != 0) {
-+            (*info->memory_error_func)(status, memaddr + 4, info);
-+            return -1;
-+        }
-+
-+        if (info->endian == BFD_ENDIAN_BIG) {
-+            insn3 = bfd_getb16(buffer);
-+        } else {
-+            insn3 = bfd_getl16(buffer);
-+        }
-+        (*info->fprintf_func)(info->stream, "%04x ", insn3);
-+    } else {
-+        (*info->fprintf_func)(info->stream, "     ");
-+    }
-+
-+    int length = nanomips_dis(buf, memaddr, insn1, insn2, insn3);
-+
-+    /* FIXME: Should probably use a hash table on the major opcode here.  */
-+
-+    (*info->fprintf_func) (info->stream, "%s", buf);
-+    if (length > 0) {
-+        return length / 8;
-+    }
-+
-+    info->insn_type = dis_noninsn;
-+
-+    return insn3 ? 6 : insn2 ? 4 : 2;
-+}
 diff --git a/disas/nanomips.h b/disas/nanomips.h
-index da1ec2ad8f..fb832619e1 100644
+index fb832619e1..b3186971ee 100644
 --- a/disas/nanomips.h
 +++ b/disas/nanomips.h
-@@ -76,18 +76,4 @@ struct Pool {
- };
+@@ -23,57 +23,6 @@
+ #ifndef DISAS_NANOMIPS_H
+ #define DISAS_NANOMIPS_H
  
- 
--class NMD
--{
--public:
+-#include <string>
 -
--    int Disassemble(const uint16 *data, std::string & dis,
--                    TABLE_ENTRY_TYPE & type);
+-typedef int64_t int64;
+-typedef uint64_t uint64;
+-typedef uint32_t uint32;
+-typedef uint16_t uint16;
+-typedef uint64_t img_address;
 -
--private:
+-typedef bool(*conditional_function)(uint64 instruction);
+-typedef std::string(*disassembly_function)(uint64 instruction);
 -
--    uint64 extract_op_code_value(const uint16 *data, int size);
--    int Disassemble(const uint16 *data, std::string & dis,
--                    TABLE_ENTRY_TYPE & type, const Pool *table, int table_size);
+-enum TABLE_ENTRY_TYPE {
+-    instruction,
+-    call_instruction,
+-    branch_instruction,
+-    return_instruction,
+-    reserved_block,
+-    pool,
 -};
 -
+-enum TABLE_ATTRIBUTE_TYPE {
+-    MIPS64_    = 0x00000001,
+-    XNP_       = 0x00000002,
+-    XMMS_      = 0x00000004,
+-    EVA_       = 0x00000008,
+-    DSP_       = 0x00000010,
+-    MT_        = 0x00000020,
+-    EJTAG_     = 0x00000040,
+-    TLBINV_    = 0x00000080,
+-    CP0_       = 0x00000100,
+-    CP1_       = 0x00000200,
+-    CP2_       = 0x00000400,
+-    UDI_       = 0x00000800,
+-    MCU_       = 0x00001000,
+-    VZ_        = 0x00002000,
+-    TLB_       = 0x00004000,
+-    MVH_       = 0x00008000,
+-    ALL_ATTRIBUTES = 0xffffffffull,
+-};
+-
+-struct Pool {
+-    TABLE_ENTRY_TYPE     type;
+-    struct Pool          *next_table;
+-    int                  next_table_size;
+-    int                  instructions_size;
+-    uint64               mask;
+-    uint64               value;
+-    disassembly_function disassembly;
+-    conditional_function condition;
+-    uint64               attributes;
+-};
+ 
+ 
  #endif
 -- 
 2.25.1
