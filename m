@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463C3592B65
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 12:23:08 +0200 (CEST)
-Received: from localhost ([::1]:45564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B78E592DE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 13:09:19 +0200 (CEST)
+Received: from localhost ([::1]:53958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNXFS-0000w2-Rc
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 06:23:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44154)
+	id 1oNXy9-0000sX-Fe
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 07:09:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oNXBq-00072X-Bp
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 06:19:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oNXBm-00032D-88
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 06:19:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660558756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sw0Bm1QTW6vSJY+2KXhwVHuNYYkQLCfjwJSil9AdICU=;
- b=AYykRmpWzVvMf6UdQNEgMbRm+aLzmp9iV/lfuIji0v1GeTqrQVQGLHlwK7jrxVr4NsDSqm
- G9DbHRP6gM2FHoHnsTZfp1QD3juZVRj786rhS+vBuwn12dnr3BZPcB+/TlKhv6QMet0Pmo
- hmuVY/Au2mig7Jy+APJ5fPELC9cpiH8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-347-jfNkXbn1MC-qUZhVDrlBGQ-1; Mon, 15 Aug 2022 06:19:14 -0400
-X-MC-Unique: jfNkXbn1MC-qUZhVDrlBGQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- h6-20020a05640250c600b0043d9964d2ceso4457014edb.4
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 03:19:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oNXoy-00060t-Dk
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 06:59:48 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:36752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oNXow-0000kL-DI
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 06:59:48 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id x10so6050882plb.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 03:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc;
+ bh=DI3mYz6wo0UbVBePbbvu6zaIsUocR+fdlReeTrU9jI0=;
+ b=lzlWr5lDjxIjMBAW2z4DFphAPRV7rH+o6Ql38h+J/0/LnpAyCRW4zcWFdUKMR9snM5
+ E4EUYIhQAGORxjkDO02CZC0hllBkB/1c/JL+NEbN6HhaHGcc4sY/mQsHL6VYDkfYQKfj
+ HWkHvM+FRFZokS4lR+Il8Vr153ekx7xzloSbEzfOqTfyzLRs5Vzn4erXxQP8i5FRNVgZ
+ LepjGCxmpovyrO786BLkDMpsv0B3uCU2Rq1K4uM3Bkyf/tsntbCYy7MDi0xY4tJ5GNT8
+ wfuW2VuxTnAJA9alZ8PX2Jv10J4WeGbEvE4qmoWqMFR7EWAHAAqY2UDVA4s1dMkP+hS0
+ oETQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=sw0Bm1QTW6vSJY+2KXhwVHuNYYkQLCfjwJSil9AdICU=;
- b=0sZ5850POylLUk6jRs0s1QSOfT1AwsgieaYaMRkLAbe8cMrxZP0eSW5aBB/ejZx3vB
- VKPnnVb+oA75rrWLzXpnJdspTRKdQ0H2IQNrwtj9feaApKft7iUWRhg61mGKuyPwJ71f
- QYfmVx/SGlKbn2Ie+6afypTWwy6fF8RkTej6dB3gxU/pEoOrAQb4EsF6Um/A81i+Nf/3
- tX9L2k5Cpw2P79y2RZOyHZbwM+Mno+l9NnJj+Lc9crPNan1tfpaahu5ekBxovylzt4of
- 5sxtc6ibedvTkxkHTON3rz5zADtf0R26fm8rW/pn+gcg8qVhh3fwjbnZGKFp5ixQlgsJ
- pTGQ==
-X-Gm-Message-State: ACgBeo18gK2XAkiKHFhzKHkQXGor4S9smuQTbKQvVbxIIH+upTvTTpp1
- 2BzMIKZknfPJRtpG7nBGEXY+q30INtMAL6JJmNMKA0197GIraru6Vy1iLuBtT9c4tmh7M7YL0km
- +7zvJ2Q9tXiPlOIs=
-X-Received: by 2002:aa7:cc06:0:b0:440:7258:ad16 with SMTP id
- q6-20020aa7cc06000000b004407258ad16mr13722665edt.74.1660558753923; 
- Mon, 15 Aug 2022 03:19:13 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4wtHDXfifb+ikwX1/txLXTv1t4+OXRR/QHpoOCspU/ZDYQwIVW1+aBeUShhbGgWIJZD0i3pg==
-X-Received: by 2002:aa7:cc06:0:b0:440:7258:ad16 with SMTP id
- q6-20020aa7cc06000000b004407258ad16mr13722657edt.74.1660558753714; 
- Mon, 15 Aug 2022 03:19:13 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc;
+ bh=DI3mYz6wo0UbVBePbbvu6zaIsUocR+fdlReeTrU9jI0=;
+ b=vcMAw605YVNc6oCGH7OaanJSZ+QETux++cM7CGGhyMXA8bWxTawfedDcjI5H0B9UtB
+ dch9n3Wq/G4SV/41WjSiSPMtYjPwMcr79czLRAZtgWn3udjCNZokTlzR/ni2JIeANC12
+ WMS3jxW3HW3VsclhwnPnTPsutsnEx0jsPN24Pj5XhKjQaaqWPKJPaXb3uwiZcVi2LQBr
+ BRdh8mWdIPqNkEG3EqWA9g/geoymUhP1wF+ff6nwwmSRqMrPzGdaUhKf+cooK25RGcxn
+ Jn4NYh0r3Xc1c5bl71tMHjC9RrbQCYqHJYMtKxpnQj1U77qqzcx7eC2asDqQJeY9KwZ9
+ 9tGg==
+X-Gm-Message-State: ACgBeo0FlFrQft2+YFl70J4n/zzjg/huFx199X6d12+qdMMTjeRlQg/L
+ TZGPcG+1Q+SByNwAAZUmTuA=
+X-Google-Smtp-Source: AA6agR6lYRLpssL+zOwaEK16F6RF5I6ckx4fFq4nhFYQxpv6C4Oh8iBu8UP+j9crMraFTeuuxHBfiQ==
+X-Received: by 2002:a17:90a:17a6:b0:1f4:f635:93e2 with SMTP id
+ q35-20020a17090a17a600b001f4f63593e2mr17881128pja.156.1660561184568; 
+ Mon, 15 Aug 2022 03:59:44 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- w10-20020a170906130a00b0072ecef772a7sm3910676ejb.160.2022.08.15.03.19.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Aug 2022 03:19:13 -0700 (PDT)
-Date: Mon, 15 Aug 2022 12:19:11 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: WANG Xuerui <i.qemu@xen0n.name>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- WANG Xuerui <git@xen0n.name>
-Subject: Re: [PATCH for-7.1 1/4] target/loongarch: Only allow short -cpu
- arguments without type name suffix
-Message-ID: <20220815121911.572b5d65@redhat.com>
-In-Reply-To: <20220814145522.1474927-2-i.qemu@xen0n.name>
-References: <20220814145351.1474753-1-git@xen0n.name>
- <20220814145522.1474927-2-i.qemu@xen0n.name>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ t14-20020a170902e84e00b0016d88dc7745sm6740794plg.259.2022.08.15.03.59.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Aug 2022 03:59:44 -0700 (PDT)
+Message-ID: <93ee6d8e-7ecc-6dfb-cca7-f5b5eaad333d@amsat.org>
+Date: Mon, 15 Aug 2022 12:59:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH 03/20] disas/nanomips: Delete NMD class fields
+Content-Language: en-US
+To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com
+References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
+ <20220815072629.12865-4-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220815072629.12865-4-milica.lazarevic@syrmia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,51 +97,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Sun, 14 Aug 2022 22:55:19 +0800
-WANG Xuerui <i.qemu@xen0n.name> wrote:
-
-> From: WANG Xuerui <git@xen0n.name>
+On 15/8/22 09:26, Milica Lazarevic wrote:
+> Class fields have been replaced with the public static variables.
+> Therefore, there is no more need for a constructor. The main goal is to
+> remove NMD class completely.
 > 
-> Previously both "foo" and "foo-loongarch-cpu" are accepted for the -cpu
-> command-line option, the latter of which being excessively long and
-> redundant, hence unwanted. Remove support for consistency with other
-> targets and simpler code.
-
-to be consistent wit -device and other (qmp/monitor interfaces)
-it's better to drop short variants (they are there mainly for compat
-reasons) and use only long names (i.e. complete type name).
-
-use avr_cpu_class_by_name() as an example
-
-> 
-> Signed-off-by: WANG Xuerui <git@xen0n.name>
+> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 > ---
->  target/loongarch/cpu.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-> index 941e2772bc..dc233ee209 100644
-> --- a/target/loongarch/cpu.c
-> +++ b/target/loongarch/cpu.c
-> @@ -573,14 +573,11 @@ static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
->  {
->      ObjectClass *oc;
->  
-> -    oc = object_class_by_name(cpu_model);
-> +    g_autofree char *typename = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"),
-> +                                                cpu_model);
-> +    oc = object_class_by_name(typename);
->      if (!oc) {
-> -        g_autofree char *typename 
-> -            = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
-> -        oc = object_class_by_name(typename);
-> -        if (!oc) {
-> -            return NULL;
-> -        }
-> +        return NULL;
->      }
->  
->      if (object_class_dynamic_cast(oc, TYPE_LOONGARCH_CPU)
+>   disas/nanomips.cpp | 6 +++++-
+>   disas/nanomips.h   | 9 ---------
+>   2 files changed, 5 insertions(+), 10 deletions(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
