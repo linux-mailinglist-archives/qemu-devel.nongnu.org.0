@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65E4592933
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 07:54:53 +0200 (CEST)
-Received: from localhost ([::1]:47482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25AF2592998
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 08:29:29 +0200 (CEST)
+Received: from localhost ([::1]:57866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNT3s-00016Y-HM
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 01:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44290)
+	id 1oNTbL-0000d4-NS
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 02:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dz4list@gmail.com>)
- id 1oNSxA-0007N7-C7; Mon, 15 Aug 2022 01:47:56 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:36370)
+ (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
+ id 1oNTWO-0007FN-Oj
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 02:24:20 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:36522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dz4list@gmail.com>)
- id 1oNSx8-0002Dd-Ff; Mon, 15 Aug 2022 01:47:56 -0400
-Received: by mail-qk1-x735.google.com with SMTP id n21so4925342qkk.3;
- Sun, 14 Aug 2022 22:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=LQdwDoFdhJiFRqQAFor/83pFe9z3RF/99jVQ2ACLxCg=;
- b=GTq8RElGHIL5kxdS8o1ZJeF9QRRGl7Olt1wdrO99gdfCs0IFjZLrM3CHF+AHb3OdoC
- ncYiCZHFRmRpeFsTHev0ETg8G13QLr5Q6UB+6vLT+fKDJ3qFXJ+d3JwjGKlXlaqtf5kS
- iYj/ipXd0VS8ja25NJYS0lXYcO6BP90h97RUC86S7XN8dasQxB6gw1DSdbIljReVYrBq
- 3L1H2OErTlnIafBCJIDjhMvopL2s2Cn28s5/uPBrlNeswUxdByl7G0Qo4I1Wz05stnTo
- Fz6muLZbIukzS24EH6tCoB4GIQWOIabkuJHN7IvAvUw/fxXxke0jsdkzYY8ryu9qir2N
- qlEw==
+ (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
+ id 1oNTWM-0007kd-VZ
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 02:24:20 -0400
+Received: by mail-pg1-x533.google.com with SMTP id s206so5804215pgs.3
+ for <qemu-devel@nongnu.org>; Sun, 14 Aug 2022 23:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=o2xWr1+n7Kt42+dlH3e2BIes24KNG/pmkB6btjXvSkk=;
+ b=PXrQlceKjUFu1FvIuox2GrH9nDHKLBMqFYZagtZzgHDZgPelqRhMzRPNknTyO/fwcF
+ lBXzKQMy+054Q3P3jhOcx4gSL2s9BgCyjvBVbRRPMT3EYc3IDu+BG3/nrmPKkMrJUQdJ
+ QSMrfXdLM9/xS48Ayy6yWxYkMyzsL3A5uHKO+qqSNUCsUKY1eNuG87++HQ2IHlQZPngx
+ EEBqZxKHeeBf0C/BEPx900b/baeSNB4JgJ1wN3So8WaozIO3SOo4Kp2LDJBd99ur23FJ
+ a79WGHpa8FPN01zYxpaCYNLz6346aOb6Ib24iJdmJPYFU+mA+bkNmZyykBwcHY7SBxhl
+ 0fCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=LQdwDoFdhJiFRqQAFor/83pFe9z3RF/99jVQ2ACLxCg=;
- b=5xcFU/BcUCI98J/6VkgGbuAMDu/hIGtX3HlHFn9pmKRhptF0rzzojs6oSTLPZTtJBU
- oag+zXZsgtFwEMagJmSXNV1qy8c8VLi3VrDc4tkh//u08QfBB6ArEU5dQYR+VQ1VuZ5s
- A0Q7VABK4Vu9ZqtgkuIctX1W9crIsVcDAqUPJSy5li//gk2+HzKADioy0R56Ch0cG7rX
- OzhVAmtPhPEHNxi9zsdKVs8yZMRth5yfEUmeQ4NzzJE9L94LnqxBvgFGhAHF6IuBw23A
- tiInhtpgfQ1xrglgTMJ8HJjf5GsnrSyxX09czANLC+MfBpQL1wh917KGvb+SVnwQVOQb
- 1gMw==
-X-Gm-Message-State: ACgBeo017xKZlhK23xuNXKwZy6cO2RyPqOFnfgeM9866nSQsld4ZYc5U
- UDA94xttP2Ml6dU4dgEQFezTFsEP0Bp8nzbX/xo=
-X-Google-Smtp-Source: AA6agR70bPY02MS4VW5VOyJAKJFkHeq6wR7HmGal872eLW07bOYCdHnPUak6YB88UNK/qxve9chSvspKVZTYNPF3hpw=
-X-Received: by 2002:a05:620a:573:b0:6bb:2865:e3cc with SMTP id
- p19-20020a05620a057300b006bb2865e3ccmr2606459qkp.15.1660542472802; Sun, 14
- Aug 2022 22:47:52 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=o2xWr1+n7Kt42+dlH3e2BIes24KNG/pmkB6btjXvSkk=;
+ b=InO91bBbSr6YN+TiHwi6gAIwrf+clcLuDHBMumUMN2XyFWWsugqN5j2yaAY0l5g1s+
+ wM+1PotSX96vL79xGLigyxHEaUzPjzkiuUNtwh8O26wU2wXbTGvQQh90/ODRfl5okNDL
+ qB2FSqH4jOOLw2ucnZEHnJZtdYDMCBRe81QMBy7Ign3bX7GTWO6Xq1RGbUd3YVkREBu7
+ j+rGKIdezNorSJBlG5Avz35mnUc2Xy9+ituU7/1u4YLkBahSzhh65fLjCKJrZmnhiwlu
+ 0LVDVwjgS0ZNkMGbbRoFzcTiFSikdUlYKHxxN7oKVJbv8TIh1N4KW9y9UhP9uKy+MT4/
+ VU/Q==
+X-Gm-Message-State: ACgBeo2cQyUb9zeJGZDSrrHNdYNLN5yrCFURyz0kWtdhFtFNZfW92xUr
+ JpddY76K0DVAUvNVdRn7o+P4R8qnBKUhctslem2LCw==
+X-Google-Smtp-Source: AA6agR5TCi02SDuhcX7XAA8xi23yU7njS4ds1jDODTaRGzJ2xvMIQHOObRHDdbq8VA470ExHLlSTN/PZIiMCnBFZmsg=
+X-Received: by 2002:a05:6a00:b82:b0:52f:518f:fe6c with SMTP id
+ g2-20020a056a000b8200b0052f518ffe6cmr15141447pfj.80.1660544656924; Sun, 14
+ Aug 2022 23:24:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <BY5PR12MB38917595B0306085EEBB1921B4629@BY5PR12MB3891.namprd12.prod.outlook.com>
- <CACPK8XfjXq6RW=M++UebfiGeij=GDSk5f6ZftNaL+2oeyCGnHw@mail.gmail.com>
- <ec20d3af-5f99-8e56-9352-75562c4548de@kaod.org>
-In-Reply-To: <ec20d3af-5f99-8e56-9352-75562c4548de@kaod.org>
-From: Dan Zhang <dz4list@gmail.com>
-Date: Sun, 14 Aug 2022 22:47:41 -0700
-Message-ID: <CAJxKyLf1jUvx6m=0u3cf+vEfj6j4t6L7g7cowxKpNx-Xhh+xyQ@mail.gmail.com>
-Subject: Re: AST2600 support in QEMU
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: Joel Stanley <joel@jms.id.au>, Shivi Fotedar <sfotedar@nvidia.com>, 
- Peter Delevoryas <peter@pjd.dev>, Jeremy Kerr <jk@ozlabs.org>,
- Klaus Jensen <its@irrelevant.dk>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Andrew Jeffery <andrew@aj.id.au>, 
- "Amit Kumar (Engrg-SW)" <asinghal@nvidia.com>,
- Prasanna Karmalkar <pkarmalkar@nvidia.com>, 
- "Tim Chen (SW-GPU)" <timch@nvidia.com>, Newton Liu <newtonl@nvidia.com>, 
- Deepak Kodihalli <dkodihalli@nvidia.com>, qemu-arm <qemu-arm@nongnu.org>
+References: <CA+tJHD7FcrBTetGRO0vZn-XGPmZmQraMrw1dw9ia6jzHQniB0w@mail.gmail.com>
+ <37244ef8-d2f1-038a-8a51-01d9f62fbe2c@linaro.org>
+ <f977101c-bdc0-3b24-5fad-a75b07b5dac7@linaro.org>
+ <CA+tJHD4MC9xjVkDAg6QZ3Yq2L-cKDQkofQyGjX67cD_qxbCf1g@mail.gmail.com>
+ <804cd7cd-e83c-2b89-f2ba-cc2ca5c7f835@linaro.org>
+ <CA+tJHD6gNrtcrZ9bkDet8NuiR8mcSQfeN-Rk3dtm3LmeakKnvQ@mail.gmail.com>
+ <CAFEAcA--QMVgw0ZH6S3=jHsazM-AJQX45Hm+aJ+EhDhDrzNubA@mail.gmail.com>
+ <CAKmqyKPcr=umn4zUpxNFwBJ8MuuRkdwH5KpDgDiHHn8YMiaj4g@mail.gmail.com>
+In-Reply-To: <CAKmqyKPcr=umn4zUpxNFwBJ8MuuRkdwH5KpDgDiHHn8YMiaj4g@mail.gmail.com>
+From: Furquan Shaikh <furquan@rivosinc.com>
+Date: Sun, 14 Aug 2022 23:24:05 -0700
+Message-ID: <CA+tJHD4wsGD_EYrR9Lvpjh8dwFAx1eskxv9JS2mhxiLfFedFiA@mail.gmail.com>
+Subject: Re: [PATCH] riscv: Make semihosting configurable for all privilege
+ modes
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=dz4list@gmail.com; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=furquan@rivosinc.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,61 +96,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 9, 2022 at 10:51 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Sun, Aug 14, 2022 at 3:04 PM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> Hello,
+> On Sat, Aug 13, 2022 at 8:20 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Sat, 13 Aug 2022 at 01:53, Furquan Shaikh <furquan@rivosinc.com> wrote:
+> > > I ran into a problem when I was testing a project (with a microkernel
+> > > in M-mode and tasks in U-mode) that uses semihosting for debugging.
+> > > The semihosting worked fine for M-mode but not in U-mode. As I started
+> > > digging into this, I realized that this is because qemu restricts
+> > > semihosting to only M and S modes.
+> >
+> > Right. We should fix this by having a generic works-for-all-architectures
+> > semihosting config knob, because this is not a riscv specific problem,
+> > and we already have issues with different target architectures
+> > developing their own solutions to things.
 >
-> On 8/10/22 04:37, Joel Stanley wrote:
-> > Hello Shivi,
-> >
-> > I've added others to cc who may have some input.
-> >
-> > On Tue, 9 Aug 2022 at 21:38, Shivi Fotedar <sfotedar@nvidia.com> wrote:
-> >>
-> >> Hello, we are looking for support for few features for AST2600 in QEMU=
-, specifically
-> >>
-> >> PCIe RC support so BMC can talk to downstream devices for management f=
-unctions.
-Normally the RC is the host CPU, BMC and the devices to be managed,
-which support MCTP-over-PCIe will be the endpoint (downstream) device
-as BMC.  The MCTP message Peer transaction between BMC and managed
-device will using route-by-Id to RC(host) then down to endpoint.  I am
-referring to DMTF DSP0238 spec. section 6.4
+> I agree with Peter here. I don't see a strong use case for a RISC-V
+> specific fine grained control. A user can either enable/disable
+> semihosting for privilege or usermodes (with Peter's patchset). That
+> seems like enough configuration options, it is unlikely that someone
+> will need semihosting only available to S-mode for example.
 
-So what does the "PCIe RC support" means? the BMC will be the PCIe RC?
-or BMC will be PCIe-Endpoint connect to host PCIe RC.
+Sounds good. Thanks for the feedback. I can continue with the changes
+that Peter has.
+
+>
+> Alistair
+>
+> >
+> > I'll see if I can dig out the half-done patchset I had for this.
+
+Let me know if you want to collaborate on this to get this to
+completion. Thanks!
 
 > >
-> > I haven't seen any PCIe work done yet.
->
-> I haven't either. There is clearly a need now that we are moving
-> away from LPC.
->
-> >> MCTP controller to run MCTP protocol on top of PCIe or I2C.
+> > thanks
+> > -- PMM
 > >
-> > What work would be required to do this on top of i2c?
->
-> I think Jonathan and Klaus worked on this. See :
->
->    https://lore.kernel.org/qemu-devel/20220525121422.00003a84@Huawei.com/
->
-> >> I2C slave so BMC can talk to host CPU QEMU for IPMI
-> >
-> > Some support for slave mode was merged in v7.1.
->
-> yes.
->
-> Peter D. experimented with IPMI. See :
->
->    https://lore.kernel.org/qemu-devel/20220630045133.32251-14-me@pjd.dev/
->
-> We also merged a new machine including a BMC ast2600 running OpenBMC
-> and an ast1030 SoC running OpenBIC. Work to interconnect them on the
-> same I2C bus is in progress.
->
-> Thanks,
->
-> C.
->
 
