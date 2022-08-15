@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651F2592E2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 13:27:05 +0200 (CEST)
-Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25208592E83
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 13:51:48 +0200 (CEST)
+Received: from localhost ([::1]:50232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNYFM-0007uw-07
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 07:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55426)
+	id 1oNYdG-0004ne-OI
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 07:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNYBE-0005Jx-Pz
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 07:22:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNYBB-0005PC-0Q
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 07:22:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660562563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xg7Y37c7+Mu2tte7xay/if57/McOvInDyjpF61fwY5U=;
- b=ceyKxhKFeHXG+VlBWYq8+hVL7GZmLL8VKPbzt34TznLVhQRi2ElW2SY5D8eTIaCVL4l/du
- y6hSIJNp0/gVKI0eE2mCzfd0lIfyqEtHi+PCvTibt3mHt2dws+oDkIPhT5fTHAJ5BSUZBM
- 4jYVOAq7PDjdNY0ebTnidodzmKJfzKs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-80-BAttUL_nNGWZKhTpHjPuJw-1; Mon, 15 Aug 2022 07:22:42 -0400
-X-MC-Unique: BAttUL_nNGWZKhTpHjPuJw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A4C363801157;
- Mon, 15 Aug 2022 11:22:41 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 640F14050067;
- Mon, 15 Aug 2022 11:22:41 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 960791800082; Mon, 15 Aug 2022 13:22:39 +0200 (CEST)
-Date: Mon, 15 Aug 2022 13:22:39 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: race condition in display device caused by run_on_cpu() dropping
- the iothread lock
-Message-ID: <20220815112239.37xm3zwbe5gd7trz@sirius.home.kraxel.org>
-References: <CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oNYXB-0000rQ-D9
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 07:45:29 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:44575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oNYX9-0001kZ-OE
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 07:45:29 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ e8-20020a17090a280800b001f2fef7886eso6514223pjd.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 04:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc;
+ bh=CX5CfII/E+5mCuQERAYWJFJSSS3l73YAxA97+aT2Ekc=;
+ b=nQh6slNKrEUVgapqQ+3IQmL4CeRjoPInfNiF2jRSQbA6QrVUBUnqoZ745T3F7+mXVm
+ bEgqH8wX21bn1F2aI5+tfcfRphIogxIJBVdemR2vW8HObOzpfrnnNOAi5kEXA1cU83ct
+ /JhFrnV2DfsY9TnBpqKPXtxCTKOVUaf4w21iqtZzaQIb2f3FYCb1vYq7IR50Qp+FKdzB
+ FlbKSEgYv3tYMq75Y0s3KURDW4J1RmwQ72o1DFbr6F9OhDH94fsMzWYteXxPh4ERHXUj
+ HnVX3lJOynbJfF7aDad02Z2WdHENuotd6iHiNy1LFEPMWus+tyvgdFkUDtaTBKKx3DHq
+ kthg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc;
+ bh=CX5CfII/E+5mCuQERAYWJFJSSS3l73YAxA97+aT2Ekc=;
+ b=XlgKt7Y+XVBUu5EMXK21ApaBTJaRMWTk1pnTDuJ6j6c9mFkxszyHA2XJIjhcmBGsH5
+ 8sHnPhZRrskeMgwot/UvossqCEVp1zum7F6iNn5yZekxBuwzNyaimV8bhlKWqffa12ln
+ 9bfzX/O+ZThrFdEhBuBdDENmzGtuR935CMej1aYyzVmZ35z2NF4ocbuGAGCSS5/rKwcc
+ cRT6OxnoWtUhRRHPxoIiIojZxJAUZ2eBDlQdNZ1NG6tA1q/trd45F30VL2zUvBHF6HlE
+ FdlOCkCa2/sP5W6g9p3+TO9h+7c+9JFDoiE8k7CM07aVfKOqRl2ouJ5NjQUcNtqm9Q+4
+ cgjw==
+X-Gm-Message-State: ACgBeo34fhBkunFezP6IRBwlRAwGoIiSXd+5ll4Ssh2akKi9HcXIjDX/
+ YbsPaCb/sExKjSJcUN8zHTw=
+X-Google-Smtp-Source: AA6agR7e6vlLJ+GNol9dh4I7Pdi1nCa4i+cVVaCBYTc6gNT50rJDAd90Yupb4s1+CTWf6mdwX+33Nw==
+X-Received: by 2002:a17:902:eac2:b0:172:57c5:42f8 with SMTP id
+ p2-20020a170902eac200b0017257c542f8mr11775615pld.139.1660563926343; 
+ Mon, 15 Aug 2022 04:45:26 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ 192-20020a6215c9000000b0052de390357esm6390691pfv.130.2022.08.15.04.45.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Aug 2022 04:45:25 -0700 (PDT)
+Message-ID: <5f39bb7c-8f8a-97a3-3423-ab105446d947@amsat.org>
+Date: Mon, 15 Aug 2022 13:45:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH 06/20] disas/nanomips: Remove disasm methods from class
+Content-Language: en-US
+To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com
+References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
+ <20220815072629.12865-7-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220815072629.12865-7-milica.lazarevic@syrmia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,46 +98,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Mon, Aug 01, 2022 at 02:23:55PM +0100, Peter Maydell wrote:
-> I've been debugging a segfault in the raspi3b display device, and I've
-> tracked it down to a race condition, but I'm not sure what the right
-> way to fix it is...
+On 15/8/22 09:26, Milica Lazarevic wrote:
+> NMD class methods with the disassembly_function type like
+> NMD::ABS_D, NMD::ABS_S, etc. are removed from the class. They're now
+> declared global static functions. Therefore, typedef of the function
+> pointer, disassembly_function is defined outside of the class.
 > 
-> The race is that a vCPU thread is handling a guest register write that
-> says "resize the framebuffer", which it implements by calling
-> qemu_console_resize().
+> Now that disassembly_function type functions are not part of the NMD
+> class we can't access them using the this pointer. Thus, the use of
+> the this pointer has been deleted.
+> 
+> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
+> ---
+>   disas/nanomips.cpp | 2546 ++++++++++++++++++++++----------------------
+>   disas/nanomips.h   |  640 +----------
+>   2 files changed, 1274 insertions(+), 1912 deletions(-)
+> 
+> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+> index 9e720d0e8d..205c4f3143 100644
+> --- a/disas/nanomips.cpp
+> +++ b/disas/nanomips.cpp
+> @@ -815,7 +815,7 @@ int NMD::Disassemble(const uint16 * data, std::string & dis,
+>                                   return -6;
+>                               }
+>                               type = table[i].type;
+> -                            dis = (this->*dis_fn)(op_code);
+> +                            dis = (dis_fn)(op_code);
 
-[ back online after vacation ]
+   dis_fn(op_code);
 
-Easiest is probably to not instantly resize the display surface but
-let the update handler do that on the next display refresh.
+>                               return table[i].instructions_size;
+>                           } else {
+>                               dis = "reserved instruction";
 
-Many display devices do that anyway because often multiple register
-updates are needed to perform a resize and you don't want your ui
-window run through all the temporary states ...
+> diff --git a/disas/nanomips.h b/disas/nanomips.h
+> index 0e6670adf5..d27711b4e2 100644
+> --- a/disas/nanomips.h
+> +++ b/disas/nanomips.h
+> @@ -32,6 +32,7 @@ typedef uint16_t uint16;
+>   typedef uint64_t img_address;
+>   
+>   typedef bool(*conditional_function)(uint64 instruction);
+> +typedef std::string(*disassembly_function)(uint64 instruction);
 
-Alternative: The DisplaySurface is backed by pixman images which are
-reference counted.  Some qemu code which depends on the backing store
-staying around while not holding the iolock work with the pixman image
-directly because they can just take a reference then to avoid the image
-being freed while they use it.
+    typedef std::string (*nmd_disas_fn)(uint64 instruction);
 
->  * memory_region_snapshot_and_clear_dirty() ends up calling run_on_cpu(),
->    which briefly drops the iothread lock.
+>   
+>   enum TABLE_ENTRY_TYPE {
+>       instruction,
+> @@ -72,8 +73,6 @@ public:
+>   
+>   private:
+>   
+> -    typedef std::string(NMD:: *disassembly_function)(uint64 instruction);
+> -
+>       struct Pool {
+>           TABLE_ENTRY_TYPE     type;
+>           struct Pool          *next_table;
+> @@ -90,643 +89,6 @@ private:
+>       int Disassemble(const uint16 *data, std::string & dis,
+>                       TABLE_ENTRY_TYPE & type, const Pool *table, int table_size);
 
-Oh.  Is that new?
-
-> How is this intended to work? I feel like if run_on_cpu() silently
-> drops the iothread lock this probably invalidates a lot of assumptions
-> that QEMU code makes, especially in this kind of setup where
-> the code making the assumptions is several layers in the callstack
-> above whatever it is that ends up calling run_on_cpu()...
-
-Indeed.  The display update code paths using dirty bitmap snapshots
-certainly don't expect that.
-
-take care,
-  Gerd
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
