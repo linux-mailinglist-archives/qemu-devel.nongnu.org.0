@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF6A593364
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 18:44:30 +0200 (CEST)
-Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE563593398
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 18:55:00 +0200 (CEST)
+Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNdCX-0001j5-W7
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 12:44:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
+	id 1oNdMg-0002oo-PI
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 12:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oNcrN-000089-6k; Mon, 15 Aug 2022 12:22:41 -0400
+ id 1oNcrP-00008E-Vd; Mon, 15 Aug 2022 12:22:41 -0400
 Received: from [200.168.210.66] (port=4179 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oNcrI-0005wd-Rd; Mon, 15 Aug 2022 12:22:34 -0400
+ id 1oNcrO-0005wd-CK; Mon, 15 Aug 2022 12:22:39 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 15 Aug 2022 13:20:45 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id EF20A800186;
- Mon, 15 Aug 2022 13:20:44 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 244EF80046B;
+ Mon, 15 Aug 2022 13:20:45 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [RFC PATCH 10/13] target/ppc: remove unused interrupts from
- ppc_pending_interrupt_p7
-Date: Mon, 15 Aug 2022 13:20:16 -0300
-Message-Id: <20220815162020.2420093-11-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 11/13] target/ppc: remove ppc_store_lpcr from
+ CONFIG_USER_ONLY builds
+Date: Mon, 15 Aug 2022 13:20:17 -0300
+Message-Id: <20220815162020.2420093-12-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
 References: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Aug 2022 16:20:45.0219 (UTC)
- FILETIME=[F8D39730:01D8B0C2]
+X-OriginalArrivalTime: 15 Aug 2022 16:20:45.0626 (UTC)
+ FILETIME=[F911B1A0:01D8B0C2]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,83 +64,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Hypervisor Virtualization Interrupt was introduced in PowerISA v3.0.
-Critical Input, Watchdog Timer, and Fixed Interval Timer are only
-defined for embedded CPUs. The Programmable Interval Timer is 40x-only.
-The Event-Based Branch Facility was added in PowerISA v2.07.
+Writes to LPCR are hypervisor privileged.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/excp_helper.c | 38 --------------------------------------
- 1 file changed, 38 deletions(-)
+ target/ppc/cpu.c | 2 ++
+ target/ppc/cpu.h | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a67ab28661..b4c1198ea2 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -1731,15 +1731,6 @@ static int ppc_pending_interrupt_p7(CPUPPCState *env)
-         }
-     }
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index 401b6f9e63..9f261bde8e 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -73,6 +73,7 @@ void ppc_store_msr(CPUPPCState *env, target_ulong value)
+     hreg_store_msr(env, value, 0);
+ }
  
--    /* Hypervisor virtualization interrupt */
--    if (env->pending_interrupts & PPC_INTERRUPT_HVIRT) {
--        /* LPCR will be clear when not supported so this will work */
--        bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
--        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
--            return PPC_INTERRUPT_HVIRT;
--        }
--    }
--
-     /* External interrupt can ignore MSR:EE under some circumstances */
-     if (env->pending_interrupts & PPC_INTERRUPT_EXT) {
-         bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
-@@ -1751,28 +1742,10 @@ static int ppc_pending_interrupt_p7(CPUPPCState *env)
-             return PPC_INTERRUPT_EXT;
-         }
-     }
--    if (FIELD_EX64(env->msr, MSR, CE)) {
--        /* External critical interrupt */
--        if (env->pending_interrupts & PPC_INTERRUPT_CEXT) {
--            return PPC_INTERRUPT_CEXT;
--        }
--    }
-     if (async_deliver != 0) {
--        /* Watchdog timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_WDT) {
--            return PPC_INTERRUPT_WDT;
--        }
-         if (env->pending_interrupts & PPC_INTERRUPT_CDOORBELL) {
-             return PPC_INTERRUPT_CDOORBELL;
-         }
--        /* Fixed interval timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_FIT) {
--            return PPC_INTERRUPT_FIT;
--        }
--        /* Programmable interval timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_PIT) {
--            return PPC_INTERRUPT_PIT;
--        }
-         /* Decrementer exception */
-         if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
-             return PPC_INTERRUPT_DECR;
-@@ -1790,17 +1763,6 @@ static int ppc_pending_interrupt_p7(CPUPPCState *env)
-         if (env->pending_interrupts & PPC_INTERRUPT_THERM) {
-             return PPC_INTERRUPT_THERM;
-         }
--        /* EBB exception */
--        if (env->pending_interrupts & PPC_INTERRUPT_EBB) {
--            /*
--             * EBB exception must be taken in problem state and
--             * with BESCR_GE set.
--             */
--            if (FIELD_EX64(env->msr, MSR, PR) &&
--                (env->spr[SPR_BESCR] & BESCR_GE)) {
--                return PPC_INTERRUPT_EBB;
--            }
--        }
-     }
++#if !defined(CONFIG_USER_ONLY)
+ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+ {
+     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+@@ -82,6 +83,7 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+     /* The gtse bit affects hflags */
+     hreg_compute_hflags(env);
+ }
++#endif
  
-     return 0;
+ static inline void fpscr_set_rounding_mode(CPUPPCState *env)
+ {
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c7864bb3b1..5018296f02 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1370,9 +1370,9 @@ void ppc_translate_init(void);
+ 
+ #if !defined(CONFIG_USER_ONLY)
+ void ppc_store_sdr1(CPUPPCState *env, target_ulong value);
++void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
+ #endif /* !defined(CONFIG_USER_ONLY) */
+ void ppc_store_msr(CPUPPCState *env, target_ulong value);
+-void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
+ 
+ void ppc_cpu_list(void);
+ 
 -- 
 2.25.1
 
