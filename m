@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F271592A72
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:49:29 +0200 (CEST)
-Received: from localhost ([::1]:56978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC37592A73
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:51:47 +0200 (CEST)
+Received: from localhost ([::1]:59822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNUqm-0007zy-Jp
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:49:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
+	id 1oNUt1-0001fg-54
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUZX-00017o-Rc
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:31:39 -0400
-Received: from mail-eopbgr50098.outbound.protection.outlook.com
- ([40.107.5.98]:11086 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ id 1oNUZk-0001Gf-UV
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:31:53 -0400
+Received: from mail-eopbgr130123.outbound.protection.outlook.com
+ ([40.107.13.123]:62853 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUZV-0001Au-Su
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:31:39 -0400
+ id 1oNUZj-0001DF-BO
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:31:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J0UQgjeuuPQ5rinVMouw8AlHUaB9EmGPm9xyeOFb4NsB4MFPgZce9BVirFWeh5sfpICl+/oaosjXIPZXB8yE79D8kUMKx8GHr+t9Jej3JgEG+nDVDatCQIfyK9GCWuLodPulJU6zt4WNTQNPBlNOIAkhp9rRnx26CdfJ3Ne4rOdQUta6YdcLm7QPqu7Y3zLkTCbXdPl81HvK3cUIS9jVNWV2JdOTQML2EyzUEA2OtYZIHPFrls+8RJWck4hhKy2ZYCtCP7Oil9u6vSFvbtBW2KAtr+03GZ15p8jNi6szM1FxSas5SgX7Hsh9pQXNexB8M0OECITeI6hW8Wvox4DtQA==
+ b=TvhNq5f7TCMLzpCWnuJDhQU0ARd2pZs9lzySuHXihX2dRpoalIt1SbX7aSb/hfoK3cLtmJ/Fn9DafiToqmBzyv8xjdg+JUvikSuRfJ8pg8ZlIdzY4l9zIC9okWMl682ZGiEEPpGn+VOfpz1apB+Mux5cfExC7M2G6H+XcYLHoWwzItaYjoqVJsEWKTtxSh3OcYj89FKctRU/04SAViwTfE0pkGlKG6O3c/LdN16+vID5yazEhXehWp5XiH8584H9kaK/jLi/jzrjxySfqKiHwoTCHRj1NHuW9fQkBlTOjaAG9KWSq2BHmX95R1cGNWKiUyMIQ1OKxXKhU+XssTtsXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iaES7A8kAWzkTdZNDYyI84C4VLeHa+Bvwj3BlYBBBdc=;
- b=cjndF54TiE13YOaqi1tepIboOcnuWu7zFEA2vVWqG4Hf27ir2nZZjPPSHTLM56qkqi/apMdI9Jf0Ump2Av5Gt0+VTypsl3w5oDUO3ArFOyp6gWa97a+3xPt20MMLa+7HpkG77vyivHZt47bT0CFMprVUumRxQIjUeQ8zBqBFae4euIx30sywn3kAaec1lOAEX0Bl8ju4gLWDr1dsnsoiim5T2GT9CNhvyAdmzMoHN5biT8Qb72f/1fJunTMZw3lOdMWdlEp7R/WLDPQri6r6SEKhejLTc7B2cJLLKvFQI+arVKaMA+v+lGVN6vkJ4+vFcLANvd3sgLup3wFywD4BPw==
+ bh=bf6BXyHkHS/2ZlvufP1+er50Fo5Z+SmABjiDo0y1tAI=;
+ b=NWIIvoKYkOtseJmur3obpShhXgaAsoDBVqQwOmLel1vyFLKOpNY9Ec9mbBRRDDfX4ly3Ervf8DJr/GFN2lPyC73HBSnuIl9w4q8EEYbtNQFXGiXhMKBL422dKk4s0k5Iudf0FXLPKeXwSQj0Gk/C/l0O3Yg48xsPVoRv82Co1VWlCKxwBJACsxmR0BCpodT8oUTVPXMiCuH7o2Y06tdYQZh1votVQKC/Ky/USf+A6SkShENcPFe5b/3eLNll8w5lYu23FKP87Sl7p8Ai0GuY4LYX2OoxVS0pb8JUQOMKkMGUC+YWZrucdvg4TRymKSB38r+SBvtLdn8UOKsOcGIyUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iaES7A8kAWzkTdZNDYyI84C4VLeHa+Bvwj3BlYBBBdc=;
- b=b9jR/aSGOFygiRwDoG9TCZYmwFUf6tJIKyTOI1dvSnQrp0SPZ/k+FXKlhBZWKKxcGIHous+2GgFyY6kHFfyX1ffKQvBXJAWoLpZWAzi7BNKJyo6ZZOhA+MvGlOV54P70tElgadIXLlNZTGdt+sErTpQzuQLI1zymJ8m+lkfz2S0=
+ bh=bf6BXyHkHS/2ZlvufP1+er50Fo5Z+SmABjiDo0y1tAI=;
+ b=WSVwLIsxPsUOxVBdAn4e50isMrkiri3fOIZYeFIc2gTwJ0qI1imWDUQyth86q16llWXfdjdDPv6z7Og/7u1KaofHt9mMqdRGNcjedsAGlcVOU3WStGSG3qm0cgd/UUym2+gd5h4iihEGopAX2hbD1a2IKGBV3VqbMDMnc6+ieSk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com (2603:10a6:803:112::20)
  by DU0PR03MB9152.eurprd03.prod.outlook.com (2603:10a6:10:471::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Mon, 15 Aug
- 2022 07:31:31 +0000
+ 2022 07:31:46 +0000
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::7996:9fde:76d3:745]) by VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::7996:9fde:76d3:745%5]) with mapi id 15.20.5525.010; Mon, 15 Aug 2022
- 07:31:31 +0000
+ 07:31:46 +0000
 From: Milica Lazarevic <milica.lazarevic@syrmia.com>
 To: thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -54,9 +54,9 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com,
  Milica Lazarevic <milica.lazarevic@syrmia.com>
-Subject: [PATCH 15/20] disas/nanomips: Replace exception handling
-Date: Mon, 15 Aug 2022 09:26:24 +0200
-Message-Id: <20220815072629.12865-16-milica.lazarevic@syrmia.com>
+Subject: [PATCH 16/20] disas/nanomips: Replace Cpp enums for C enums
+Date: Mon, 15 Aug 2022 09:26:25 +0200
+Message-Id: <20220815072629.12865-17-milica.lazarevic@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
 References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
@@ -67,58 +67,58 @@ X-ClientProxiedBy: VE1PR08CA0009.eurprd08.prod.outlook.com
  (2603:10a6:803:112::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 62e9d9cd-56f8-4cf5-2f32-08da7e902ca4
+X-MS-Office365-Filtering-Correlation-Id: 595c6171-cf82-4c87-c7a6-08da7e903581
 X-MS-TrafficTypeDiagnostic: DU0PR03MB9152:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9Dvvmy+IIK/PMtx0oPbQ1k9U46gXGoqcxmyuzBzDOe3L7HuL8HnHbv+TV05/A9SH13EeioGKDWvoZrfYOnOxIq9UM1tJGBDfvqiNdwNwHnoMxlf6pg+KdnkSHYh+U/Pi3lL5GGRUWSwD52L7ezTnQnf+2ye3VxFfVTuv23V53UdbEGekpdbxQZdXBzWSqSPnnbz9K0xQGT07PhjQv2Msfsd56ZuqUy9DMvNr7pcoqL+lZCNXIDkJuAYktNM57lnvHHlBZM8xfW386SAG8CYB4n0l0KzPS+YxsBkcGqDez9IjsVUUE6pQQSfnQkoBUiiIX7/jM44zhCyzVstKhi2lfcD5GDO/1N8jySQv/jO+sqaKPhIKxt7KObc/lhLR7W2Mln22+IZNn2BTba6kGdxqRDRIrpmyxr03v7Oe3IVvxEiwzw8kp4r8iKQ5tiRwT8v7WlJE07MYnyvYkW0aiZFuhNNsrCRcmqu/yfeuxHB38pg1tut+f6tY6HxTEnaK2VTIzQLobChBCZ8n4wpgp0KuE5yBBSXgUGUre5fA4HfTsD7AbBuoDlwbQ8J3ObfbI0i86FkNG5BzrX2HHRJKvVQWeiPBlgd7YZkpjfdQXiKkIk27GiKhPvfQLuAqXP7O2AaqJPNVvm07CTDWp0h/haf96jHnTQE0e8szSO3FS8NIQ/dykR2EsZcSf4eOOaxBh7uL3zlK4WD2rwLaMfpRNlfOl2KNxyG/QZQ7mkxPyh/AHDLxUMPD/6dNFrdj5iVIpzr7M6y5yhjh7UQ9Ysk/QURBo8/W21zPamSAkihK961GPcs=
+X-Microsoft-Antispam-Message-Info: Qx8cN/CACpd+RY0BMIpvnWyi4twJY+3vg8zMJ9zMy4mFiQnCEW2DUocbAbyVVbQS5N4Va+5WJNeGPLQgJEd20J3VLj94DmJ8UcemyG6Y11nrHx5OpoiEXuc3HlNA/Mv2dSvl8M6WeXtlCzsEnRjY2Vg/JOhPhlAdq/+o2Gjfybz4dOOMRpRvkcEV0jsjYiA3jy4Dxf9v1dCcZPizjFYED1QExDkoyBZ2Z71QRgtDgnX5K8kG3c44C85m9sfUcTo94iQiyBx9sepSeH7Zggk2DsfrFM4cYRs/sNdLrpCV//ssi3IA7y7KlnjcJeY4nzfYBj18jq/FEGic2uKJXu8XWL34LSsoVx/Cm4cRaZtQyoK3xTo4ORAJNuI2bq0oFfyU4S27l6sYbQWdfC7qYdTjg/vVbJnMW8cc9ow71ZUnKxk1UgR6DklZ6Y7SzvjKf/iABQmdR8o2RADYvWoPwYTWxZMXanCZRgbk1/v6LyXcrwlUhAGGx3zOWJbErY//y0ia4XpRsitRA33rbQUx9P+B/Ki/5W2pF7PXhEi8BPhXUACU6D2lVxewBOncpprcM+wVwlUgdEVkShVl1Uvd+MhgVGuG4rgiV/znvMMaYea+SfNGOPymN0ugumKQdIAC5NeEgvul/YXiPO9IGwdqJb8r6Zcam4/VWidcx+dEzfMLftygzmtUL+MV+HhPKGIS2rObuSk1hCcCn1QMjgMfIl9O7KdqlwDXHtkKYGTCWgBqvNy2r+bEOm+3bF5EHEt8uMej1XV4iwqXw6XRltKw/jjCJLz9Ra+Zxui8+huat5DitOM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB6045.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(39840400004)(376002)(396003)(136003)(346002)(366004)(52116002)(1076003)(8936002)(5660300002)(44832011)(2906002)(26005)(86362001)(41300700001)(66476007)(186003)(6666004)(2616005)(6506007)(6512007)(83380400001)(478600001)(38100700002)(4326008)(8676002)(66556008)(316002)(107886003)(6916009)(38350700002)(6486002)(66946007)(36756003);
+ SFS:(13230016)(39840400004)(376002)(396003)(136003)(346002)(366004)(52116002)(1076003)(8936002)(5660300002)(44832011)(2906002)(26005)(86362001)(4744005)(41300700001)(66476007)(186003)(6666004)(2616005)(6506007)(6512007)(83380400001)(478600001)(38100700002)(4326008)(8676002)(66556008)(316002)(107886003)(6916009)(38350700002)(6486002)(66946007)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xxIsVttx/5QUTYF8zO8MsX3EwG/JqvxrWQFPD9XqTU+SYXWRVPKnXTPywwG1?=
- =?us-ascii?Q?VChlgII5fjWjfp/1odyR9X4TVaTxVZ5P6r8ggxlq6VBhoY1psz2+PPjDjb7n?=
- =?us-ascii?Q?1UaaYa+RuIX5dk6bVsEm1KgWWgwJnpcaxschBBI6al0/8vQqbXsQaw9dK9fA?=
- =?us-ascii?Q?a3FifZVuujQ+4yxvFF5IfPKClj6wTssqK/HAU6zAd9IZA9bNjaIsDgiOycNx?=
- =?us-ascii?Q?OggqMTAsN996dtsMyyRSlLZSj28dIL9x5p8HgGtI35qn4Kb6SdGx7nZKWXKk?=
- =?us-ascii?Q?5TZjq6AQtnp5YFz5NbIk4MyuDuPIrp90i74jSKn0ezs5vVtfyV0I0as5+c1a?=
- =?us-ascii?Q?PItQZVXuHZcIs6nnl6q2xwhhPxRJ5jKgap6hQ4OAdr41NNw74ej159j/R8w0?=
- =?us-ascii?Q?9QaY4HVVzzaYH1I288Ri8ju9xMyalSi9voUR9J8eHHr4xuafi57oG3PAu0qv?=
- =?us-ascii?Q?nnsgYoEzDm94kYiIBEtz1CsTcfzYD7r5N4tpMWLMSroqsXm2U6kUvy1LijhA?=
- =?us-ascii?Q?7lRlVIbAlBZHkeuRAUtE0BPPucy7AIxaHVl2qExErvh6NpmksIVcT8kZRVme?=
- =?us-ascii?Q?RQShhEX76UyIKvwvzokcVMUxRYLzhiM9TrOgxntZGRCqiXSmL8CzVyPJrk6o?=
- =?us-ascii?Q?bqukL1Rq+sOQV7Ekn2T2BRQ4sEyflK3pFwgJjP6FyD3YRZy1Ml6ErPcT3s5e?=
- =?us-ascii?Q?5HdzVvzu0Nt2z+GPm18PgQyxJXm9UvryqnIDSJ7XGAT88V7ygDGw4J7QnMFf?=
- =?us-ascii?Q?lVYgtIjQu59dFoJg7Q67y7EL6usDpONZWnNhbdEKYFFCwaTANjrMWP0fJb4u?=
- =?us-ascii?Q?e46pDLpZA/pkRO6+613O/aRerwzEjDXAramRBIK0X6xrbcZg0oDD0+zAiNhT?=
- =?us-ascii?Q?I7vevmu81XBllgCyEgGcUOJEoND3Q0oL/ejXWgRsd5QDNMVvfP7Fk06HS4ON?=
- =?us-ascii?Q?kSJe2690KdmH2ce4f3uDs2/vA1rTzzuz5gb7RWmhPHmatlM2U8ConLFRuuxq?=
- =?us-ascii?Q?2s4BpamIwN1CewVSIp7o3WNM0Jy+iMX0/IpUfroRM9qICBJwWqoSZLxivlAE?=
- =?us-ascii?Q?ZT5i/gcpOeSordAHqUw9uRqtLUzRwK+FbrfFLvBVNglt48P8bmzDNw0oyINA?=
- =?us-ascii?Q?Iiamiy4Yco80clqpFzIoRbp5bpsv1fIySUHJhTYNpo5Q3RD55zGNgWdF4qxl?=
- =?us-ascii?Q?qiliTJdvoFBIqvTpKwQw/7+kuVjY7GUqsRw5dHX8ICSGimGiUncfgQ3KLOy8?=
- =?us-ascii?Q?sNG6NWU/2y5fRd9vIx6QUi3TynN6p1btRr06aMklSsckYRB4y4Rm7L3YzFFV?=
- =?us-ascii?Q?be39dNapwYrse8yN2j9oaQ9x0Vnrg/aoKLUxmaRWGUtyyzuER/PJeptZi7CH?=
- =?us-ascii?Q?DT5XqfudTo7QFES9YHeypjsMriKu7WBHtJX2w9DJ+5YS47hgPaFTAQsapsFd?=
- =?us-ascii?Q?MitpFQNgHoyudJUIcEUSTm+1bZa+w5VRhNGZzHNiW7tbZCqdk9gTDiJIG1Oy?=
- =?us-ascii?Q?bYXYyHI5xxnVJjnbex6zgparuusqQjIMAYeSwNzRSGx4JiGn7We02RlKmGQ9?=
- =?us-ascii?Q?5ITUWkJ/doUzmGKvEFATp5imJ2u4HOS6qoI4bparrt3zj3CnhycL3p31kPOK?=
- =?us-ascii?Q?xQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?El0TU9FA7NM69M9x1heQefkiyuXpKB/NTp0oI7Lm7Q1iA72OzvU5hCK2pTn1?=
+ =?us-ascii?Q?mvL3obCKXU/xNN7o0OuP/HDOpNwsfHP0tfP3+eXLIbqb2X6skRIXVG5QpDc7?=
+ =?us-ascii?Q?P4X0MJ4C+o7donMVxhpzJsLaLL04FwIveNnJmJoJSMbkWg2S64Agiaj/q1tO?=
+ =?us-ascii?Q?kzvpzvyKQUShoZkq7BETSNyAuYj9Tnpatc+S/8wU1AGSwPeyRD55ivNnyiLu?=
+ =?us-ascii?Q?eaBv7faW6iq9Yiy2Wk5tkoqLu80G1u6FqaImsfGJ9RtvMz2jnYMcV4tj2kHz?=
+ =?us-ascii?Q?E+EH0dIqJnNQVI13rAS1Iqn+kIE4DQes8UES9OSIFlJT8XYbIYRQu6ctdcxO?=
+ =?us-ascii?Q?Uaxnr8suYEpf3tNB6JnZmMf6Q53grIgfloTCu2k+TJB3TowggH8/9ZEhYjVx?=
+ =?us-ascii?Q?gy7W1INoDbd7p8xMGLzKkXeQR9ScYV4TiXwgEaWXM/eMuUuEmMEupnZxt6Rb?=
+ =?us-ascii?Q?D2ruY6lxRYgZ7Z/vMCIDIYbWYzqpz3u64YkJNgh2zAnmvzOz/OJ9vAu9wIHa?=
+ =?us-ascii?Q?xhOknlVlQAE4ldVtqNAsPGpLU+UwYBon3doQCSlVcOeYmxuHrsGwOVbwGWd7?=
+ =?us-ascii?Q?QXFnZMXsrNCfwGuPjuz4VXTP0JhInUKMrg8mHff3SPl3R2wcf7fmspZPjtPg?=
+ =?us-ascii?Q?aYaFI8YYe9Lb90PQW0ZBu6zgDnI/E8SM0p3Iox/vg/pRESt6WiAsyhHOlH+/?=
+ =?us-ascii?Q?Qw7xw/L/u6dEbkUst50m4k0/wo/xPYE3fqHGydwCgsuam3XUBsCXAE4k+kf9?=
+ =?us-ascii?Q?Sf3d9V3dnV4+zMS4d9cUGJRSEYT2Y9DhMITK/VlTXj4eEc0JyVG/P5rG8pBu?=
+ =?us-ascii?Q?xZ4ofeL2CiK+uiWe3tINSD8T6+1yvNpYphS9Gznlwq6jkV1fihhNtsaJiyiW?=
+ =?us-ascii?Q?08+9gasMTceOh9R+BGVq6zJDkQsj4bG6bzQRi96P0AKBVRh/yrDuoTETjBWH?=
+ =?us-ascii?Q?9wK4DKhUGv00y1STnYIjPrtUtPjLOmK3cDB7RvV6FYQwq0gwKBAk1MInmirR?=
+ =?us-ascii?Q?gpJudqN+hqHGjCMok43lv8IKwjbb50u6lrWiSNcAnfo+udoHH3a+HoNNW3Vd?=
+ =?us-ascii?Q?8+YdQxJxDUTddsun8Ynag5a6ZljcWwOZOg6vbhRi+gmdCqGUOIaPk70i7ZCZ?=
+ =?us-ascii?Q?/ugQ27R5RUyW842MFngKt3jyrkgH4VJ2CHIDWwzbXYY9D4QYULRpwMNWfAHt?=
+ =?us-ascii?Q?+EYNT2z1Hxh58bWDT4OVGjgZ6P6fwhMJau1bvcxc2VhOhOObekwCI1lqiPtb?=
+ =?us-ascii?Q?beOg9RrNvCcTWkbOMIsAUldEMg6uSlwtydTCu72zQs4k9RQwCl9WEupCIYBz?=
+ =?us-ascii?Q?HrCp2mgItsKaDypdjd8jYsB3+d3X4FfAFN49HJG4IOZonxCCYo36CC/lrAAQ?=
+ =?us-ascii?Q?+z8EwA1y5b7ThbYEiezvC2Q1sm9s7By9RaCU+BPbUel1FjvEqclMOrq+rP1Z?=
+ =?us-ascii?Q?LFwHY06wZzfNWd9DUZkb19STXEkeLVgwq5ZN+inLpVb4PaFO21T9x2zuIYze?=
+ =?us-ascii?Q?SnOpUvDKohtd/I6sKcWxSx99CtKDh65ufmXN0Eu8AqSsrn24r9LEnarhYQEd?=
+ =?us-ascii?Q?JP8uWuTqXyd1qBl6iYbisbLsIygcTnzuPJle5LLVUsQMfVTpnEexex2M67pv?=
+ =?us-ascii?Q?4g=3D=3D?=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62e9d9cd-56f8-4cf5-2f32-08da7e902ca4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 595c6171-cf82-4c87-c7a6-08da7e903581
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB6045.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:31:31.6944 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:31:46.5528 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p6GvJKJcB7nWBdxpVo0HtFA8cdHrjuXNh8iRl+5gThGPIPFjD8xe8j24U+Uy2TspxX34IVeqSYc8x4YtP65NOuNVYX3SLkLe0HZWhlXY7ro=
+X-MS-Exchange-CrossTenant-UserPrincipalName: C0xR5gl+yw0OlBnIazijB6pgp4rsUElUa6d4/+/OUPXq65YK4wgWoBMYeBwStKLXkH0KcQCJsrA2iZgWQ8LL/SwVcgwp5GMFLDvPoh2ZuyU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR03MB9152
-Received-SPF: pass client-ip=40.107.5.98;
+Received-SPF: pass client-ip=40.107.13.123;
  envelope-from=Milica.Lazarevic@Syrmia.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -141,227 +141,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since there's no support for exception handling in C, the try-catch
-blocks have been deleted, and throw clauses are replaced. When a runtime
-error happens, we're printing out the error message. Disassembling of
-the current instruction interrupts. This behavior is achieved by adding
-sigsetjmp() to discard further disassembling after the error message
-prints and by adding the siglongjmp() function to imitate throwing an
-error.The goal was to maintain the same output as it was.
+Change enums to typedef enums to keep naming clear
 
 Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 ---
- disas/nanomips.cpp | 135 +++++++++++++++++++++++----------------------
- 1 file changed, 69 insertions(+), 66 deletions(-)
+ disas/nanomips.cpp | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index 769368a984..a8cd878809 100644
+index a8cd878809..9406805367 100644
 --- a/disas/nanomips.cpp
 +++ b/disas/nanomips.cpp
-@@ -31,7 +31,6 @@
- #include "disas/dis-asm.h"
+@@ -43,16 +43,16 @@ typedef uint64_t img_address;
+ typedef bool(*conditional_function)(uint64 instruction);
+ typedef const char *(*disassembly_function)(uint64 instruction);
  
- #include <string.h>
--#include <stdexcept>
- #include <stdio.h>
- #include <stdarg.h>
+-enum TABLE_ENTRY_TYPE {
++typedef enum {
+     instruction,
+     call_instruction,
+     branch_instruction,
+     return_instruction,
+     reserved_block,
+     pool,
+-};
++} TABLE_ENTRY_TYPE;
  
-@@ -90,6 +89,8 @@ struct Pool {
+-enum TABLE_ATTRIBUTE_TYPE {
++typedef enum {
+     MIPS64_    = 0x00000001,
+     XNP_       = 0x00000002,
+     XMMS_      = 0x00000004,
+@@ -70,7 +70,7 @@ enum TABLE_ATTRIBUTE_TYPE {
+     TLB_       = 0x00004000,
+     MVH_       = 0x00008000,
+     ALL_ATTRIBUTES = 0xffffffffull,
+-};
++} TABLE_ATTRIBUTE_TYPE;
  
- static img_address           m_pc;
- static TABLE_ATTRIBUTE_TYPE   m_requested_instruction_categories;
-+static struct disassemble_info *disassm_info;
-+static jmp_buf j_buf;
- 
- static const char *img_format(const char *format, ...)
- {
-@@ -133,10 +134,13 @@ static uint64 renumber_registers(uint64 index, uint64 *register_list,
-         return register_list[index];
-     }
- 
--    throw std::runtime_error(img_format(
--                   "Invalid register mapping index %" PRIu64
--                   ", size of list = %zu",
--                   index, register_list_size));
-+    const char *err = img_format(
-+                      "Invalid register mapping index %" PRIu64
-+                      ", size of list = %zu",
-+                      index, register_list_size);
-+    (*disassm_info->fprintf_func)(disassm_info->stream, "%s", err);
-+    free((char *)err);
-+    siglongjmp(j_buf, 1);
- }
- 
- 
-@@ -513,8 +517,11 @@ static const char *GPR(uint64 reg)
-         return gpr_reg[reg];
-     }
- 
--    throw std::runtime_error(img_format("Invalid GPR register index %" PRIu64,
--                                         reg));
-+    const char *err = img_format("Invalid GPR register index %" PRIu64,
-+                                 reg);
-+    (*disassm_info->fprintf_func)(disassm_info->stream, "%s", err);
-+    free((char *)err);
-+    siglongjmp(j_buf, 1);
- }
- 
- 
-@@ -548,8 +555,11 @@ static const char *FPR(uint64 reg)
-         return fpr_reg[reg];
-     }
- 
--    throw std::runtime_error(img_format("Invalid FPR register index %" PRIu64,
--                                         reg));
-+    const char *err = img_format("Invalid FPR register index %" PRIu64,
-+                                 reg);
-+    (*disassm_info->fprintf_func)(disassm_info->stream, "%s", err);
-+    free((char *)err);
-+    siglongjmp(j_buf, 1);
- }
- 
- 
-@@ -563,8 +573,11 @@ static const char *AC(uint64 reg)
-         return ac_reg[reg];
-     }
- 
--    throw std::runtime_error(img_format("Invalid AC register index %" PRIu64,
--                                         reg));
-+    const char *err = img_format("Invalid AC register index %" PRIu64,
-+                                 reg);
-+    (*disassm_info->fprintf_func)(disassm_info->stream, "%s", err);
-+    free((char *)err);
-+    siglongjmp(j_buf, 1);
- }
- 
- 
-@@ -628,67 +641,50 @@ static int Disassemble(const uint16 *data, char *dis,
-                        TABLE_ENTRY_TYPE & type, const Pool *table,
-                        int table_size)
- {
--    try
--    {
--        for (int i = 0; i < table_size; i++) {
--            uint64 op_code = extract_op_code_value(data,
--                                 table[i].instructions_size);
--            if ((op_code & table[i].mask) == table[i].value) {
--                /* possible match */
--                conditional_function cond = table[i].condition;
--                if ((cond == 0) || (cond)(op_code)) {
--                    try
--                    {
--                        if (table[i].type == pool) {
--                            return Disassemble(data, dis, type,
--                                               table[i].next_table,
--                                               table[i].next_table_size);
--                        } else if ((table[i].type == instruction) ||
--                                   (table[i].type == call_instruction) ||
--                                   (table[i].type == branch_instruction) ||
--                                   (table[i].type == return_instruction)) {
--                            if ((table[i].attributes != 0) &&
--                                (m_requested_instruction_categories &
--                                 table[i].attributes) == 0) {
--                                /*
--                                 * failed due to instruction having
--                                 * an ASE attribute and the requested version
--                                 * not having that attribute
--                                 */
--                                strcpy(dis, "ASE attribute mismatch");
--                                return -5;
--                            }
--                            disassembly_function dis_fn = table[i].disassembly;
--                            if (dis_fn == 0) {
--                                strcpy(dis,
--                                "disassembler failure - bad table entry");
--                                return -6;
--                            }
--                            type = table[i].type;
--                            const char *dis_str = dis_fn(op_code);
--                            strcpy(dis, dis_str);
--                            free((char *)dis_str);
--                            return table[i].instructions_size;
--                        } else {
--                            strcpy(dis, "reserved instruction");
--                            return -2;
--                        }
-+    for (int i = 0; i < table_size; i++) {
-+        uint64 op_code = extract_op_code_value(data,
-+                             table[i].instructions_size);
-+        if ((op_code & table[i].mask) == table[i].value) {
-+            /* possible match */
-+            conditional_function cond = table[i].condition;
-+            if ((cond == 0) || (cond)(op_code)) {
-+                if (table[i].type == pool) {
-+                    return Disassemble(data, dis, type,
-+                                       table[i].next_table,
-+                                       table[i].next_table_size);
-+                } else if ((table[i].type == instruction) ||
-+                           (table[i].type == call_instruction) ||
-+                           (table[i].type == branch_instruction) ||
-+                           (table[i].type == return_instruction)) {
-+                    if ((table[i].attributes != 0) &&
-+                        (m_requested_instruction_categories &
-+                         table[i].attributes) == 0) {
-+                        /*
-+                         * failed due to instruction having
-+                         * an ASE attribute and the requested version
-+                         * not having that attribute
-+                         */
-+                        strcpy(dis, "ASE attribute mismatch");
-+                        return -5;
-                     }
--                    catch (std::runtime_error & e)
--                    {
--                        strcpy(dis, e.what());
--                        return -3;          /* runtime error */
-+                    disassembly_function dis_fn = table[i].disassembly;
-+                    if (dis_fn == 0) {
-+                        strcpy(dis,
-+                        "disassembler failure - bad table entry");
-+                        return -6;
-                     }
-+                    type = table[i].type;
-+                    const char *dis_str = dis_fn(op_code);
-+                    strcpy(dis, dis_str);
-+                    free((char *)dis_str);
-+                    return table[i].instructions_size;
-+                } else {
-+                    strcpy(dis, "reserved instruction");
-+                    return -2;
-                 }
-             }
-         }
-     }
--    catch (std::exception & e)
--    {
--        strcpy(dis, e.what());
--        return -4;          /* runtime error */
--    }
--
-     strcpy(dis, "failed to disassemble");
-     return -1;      /* failed to disassemble        */
- }
-@@ -22817,6 +22813,7 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-     info->insn_type = dis_nonbranch;
-     info->target = 0;
-     info->target2 = 0;
-+    disassm_info = info;
- 
-     status = (*info->read_memory_func)(memaddr, buffer, 2, info);
-     if (status != 0) {
-@@ -22866,6 +22863,12 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-         (*info->fprintf_func)(info->stream, "     ");
-     }
- 
-+    /* Handle runtime errors. */
-+    if (sigsetjmp(j_buf, 0) != 0) {
-+        info->insn_type = dis_noninsn;
-+        return insn3 ? 6 : insn2 ? 4 : 2;
-+    }
-+
-     int length = nanomips_dis(buf, memaddr, insn1, insn2, insn3);
- 
-     /* FIXME: Should probably use a hash table on the major opcode here.  */
+ struct Pool {
+     TABLE_ENTRY_TYPE     type;
 -- 
 2.25.1
 
