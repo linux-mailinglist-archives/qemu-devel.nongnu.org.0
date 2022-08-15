@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E55F593104
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 16:50:20 +0200 (CEST)
-Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBA4593118
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 16:57:33 +0200 (CEST)
+Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNbQ3-00067W-1B
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 10:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41592)
+	id 1oNbX2-0003vZ-NT
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 10:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oNbLK-0001Fx-Oq
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 10:45:26 -0400
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:33315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oNbKs-0007E6-Uu
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 10:45:03 -0400
-Received: by mail-qv1-xf2a.google.com with SMTP id d1so5505221qvs.0
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 07:44:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=wMW10sjYQZN0D37/Yk9ecGrC6/3f8Xys+FzlrSp9c2Q=;
- b=RNLfbXVMpbjBcTAkOlC70BnGn1WKbnaIT3EQlQRkgFwMVLZ4eM+LwA+fT0xsZdkg2R
- mQBclYwr0gLmgYAYk3Hqkftq+4v2TF2O9StNatmY9M8YLiURao+Huvt1KCqdYcQkkS1o
- kR6+FAl0221bkQ+Ve98yYtblORDDfganGSuuVMcr9HEhXezJwCkdYkjDsK6eaCVnpNES
- Hw0rKJ6ued07rhuwYlUHBmYPzdYKZnq2JanYSg4bqH81e4cTPxUcxf4rwYCudYE0LaMM
- 3nyiagmQb35mWpXs9v6A80NHLBIxC/wcCcQ63xsgIJgdd4O6ilBei3RF5bUSX6ob8FL2
- gtpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=wMW10sjYQZN0D37/Yk9ecGrC6/3f8Xys+FzlrSp9c2Q=;
- b=SyIte33gJQqvwF5XVuCUxr9ynzQgJ/Mv4QU+mwnmixu9tBVtOxnPLYt/MbQDoiT37J
- Xm/fhymkaSagPK4agMpedn8N8PffSgqfO+SWvWaGxUBR+0WwWRvgN7BOIzSL4lczg3gh
- YPqW9yRMDkOyN5o2puy7auHIGyQ5C5cE4As6grT8gtTo4bXh16Nf2pJoKeHM/DlWokoN
- MfdTKJpjdm+Vn7/dUfURparGeXdgYu/YU06e8kHrLbLzFvPB63lwfPeyqIMI8mSWmsZL
- XQ+BR2jAn4XTmRRRnj02C8uhbM2Y6ZLw08OSULFrOt2FgDnCeWu5ShvvuHKDtdFYNaHs
- iD8g==
-X-Gm-Message-State: ACgBeo2apPEQId7v2J6n5SOgCRIriCCMqzJXqSKZ6JPhjPhfBdpATGeS
- dCWqDgkgw4hOp32BndLJ2gvQXA==
-X-Google-Smtp-Source: AA6agR6WkDrFzw59L3zhEISsfSxc5kuoAoCXkoOfewREX40IxHUE/D/JST2e+8zzbja6g6596aEZCQ==
-X-Received: by 2002:a05:6214:d6c:b0:476:94f5:aa7b with SMTP id
- 12-20020a0562140d6c00b0047694f5aa7bmr14077203qvs.92.1660574697011; 
- Mon, 15 Aug 2022 07:44:57 -0700 (PDT)
-Received: from [192.168.138.233] ([50.233.235.3])
- by smtp.gmail.com with ESMTPSA id
- t24-20020a37ea18000000b006b9a8fc0c93sm8993814qkj.53.2022.08.15.07.44.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 07:44:56 -0700 (PDT)
-Message-ID: <474085b0-eef1-1c27-e3f7-8c6b5314a51f@linaro.org>
-Date: Mon, 15 Aug 2022 09:44:53 -0500
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oNbV1-0001oX-Cy; Mon, 15 Aug 2022 10:55:27 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2674)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oNbUx-00012D-VK; Mon, 15 Aug 2022 10:55:27 -0400
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M5y1G4Yjjz67tG2;
+ Mon, 15 Aug 2022 22:52:18 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 15 Aug 2022 16:55:17 +0200
+Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 15 Aug
+ 2022 15:55:17 +0100
+Date: Mon, 15 Aug 2022 15:55:16 +0100
+To: Jonathan Cameron via <qemu-devel@nongnu.org>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Dan Williams
+ <dan.j.williams@intel.com>, Bobo WL <lmw.bobo@gmail.com>,
+ <linux-cxl@vger.kernel.org>, <qemu-arm@nongnu.org>
+Subject: Re: [BUG] cxl can not create region
+Message-ID: <20220815155516.00007ebf@huawei.com>
+In-Reply-To: <20220815151809.0000294c@huawei.com>
+References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
+ <20220808133727.00001171@huawei.com>
+ <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
+ <20220809170825.00001b61@huawei.com>
+ <20220811180857.00005e67@huawei.com>
+ <20220812164403.00001654@huawei.com>
+ <62f679b67828f_992102942@dwillia2-xfh.jf.intel.com.notmuch>
+ <20220812171509.00006034@huawei.com>
+ <20220815151809.0000294c@huawei.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
- generated on gcc110 machine
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Pierre Muller <pierre@freepascal.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
-References: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
- <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
- <1f4c81d1-7127-6441-2435-cfd2aa557550@freepascal.org>
- <7fa38fda-0f33-8e43-93f4-956c2917eb74@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <7fa38fda-0f33-8e43-93f4-956c2917eb74@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,15 +75,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 8/15/22 02:47, Thomas Huth wrote:
-> Ok, I see, so the question is wether it is somehow possible to enable the vector 
-> extensions on a 32-bit CPU by default somehow...
-> CC:-ing Laurent, maybe he knows...
+On Mon, 15 Aug 2022 15:18:09 +0100
+Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
 
-You'd do this for ppc32-user-only by defining e.g. a power9 cpu, and setting all the bits 
-so that it's in narrow mode, and the correct endianness.
+> On Fri, 12 Aug 2022 17:15:09 +0100
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+> 
+> > On Fri, 12 Aug 2022 09:03:02 -0700
+> > Dan Williams <dan.j.williams@intel.com> wrote:
+> >   
+> > > Jonathan Cameron wrote:    
+> > > > On Thu, 11 Aug 2022 18:08:57 +0100
+> > > > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+> > > >       
+> > > > > On Tue, 9 Aug 2022 17:08:25 +0100
+> > > > > Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+> > > > >       
+> > > > > > On Tue, 9 Aug 2022 21:07:06 +0800
+> > > > > > Bobo WL <lmw.bobo@gmail.com> wrote:
+> > > > > >         
+> > > > > > > Hi Jonathan
+> > > > > > > 
+> > > > > > > Thanks for your reply!
+> > > > > > > 
+> > > > > > > On Mon, Aug 8, 2022 at 8:37 PM Jonathan Cameron
+> > > > > > > <Jonathan.Cameron@huawei.com> wrote:          
+> > > > > > > >
+> > > > > > > > Probably not related to your problem, but there is a disconnect in QEMU /
+> > > > > > > > kernel assumptionsaround the presence of an HDM decoder when a HB only
+> > > > > > > > has a single root port. Spec allows it to be provided or not as an implementation choice.
+> > > > > > > > Kernel assumes it isn't provide. Qemu assumes it is.
+> > > > > > > >
+> > > > > > > > The temporary solution is to throw in a second root port on the HB and not
+> > > > > > > > connect anything to it.  Longer term I may special case this so that the particular
+> > > > > > > > decoder defaults to pass through settings in QEMU if there is only one root port.
+> > > > > > > >            
+> > > > > > > 
+> > > > > > > You are right! After adding an extra HB in qemu, I can create a x1
+> > > > > > > region successfully.
+> > > > > > > But have some errors in Nvdimm:
+> > > > > > > 
+> > > > > > > [   74.925838] Unknown online node for memory at 0x10000000000, assuming node 0
+> > > > > > > [   74.925846] Unknown target node for memory at 0x10000000000, assuming node 0
+> > > > > > > [   74.927470] nd_region region0: nmem0: is disabled, failing probe          
+> > > > > > 
+> > > > > > Ah. I've seen this one, but not chased it down yet.  Was on my todo list to chase
+> > > > > > down. Once I reach this state I can verify the HDM Decode is correct which is what
+> > > > > > I've been using to test (Which wasn't true until earlier this week). 
+> > > > > > I'm currently testing via devmem, more for historical reasons than because it makes
+> > > > > > that much sense anymore.          
+> > > > > 
+> > > > > *embarassed cough*.  We haven't fully hooked the LSA up in qemu yet.
+> > > > > I'd forgotten that was still on the todo list. I don't think it will
+> > > > > be particularly hard to do and will take a look in next few days.
+> > > > > 
+> > > > > Very very indirectly this error is causing a driver probe fail that means that
+> > > > > we hit a code path that has a rather odd looking check on NDD_LABELING.
+> > > > > Should not have gotten near that path though - hence the problem is actually
+> > > > > when we call cxl_pmem_get_config_data() and it returns an error because
+> > > > > we haven't fully connected up the command in QEMU.      
+> > > > 
+> > > > So a least one bug in QEMU. We were not supporting variable length payloads on mailbox
+> > > > inputs (but were on outputs).  That hasn't mattered until we get to LSA writes.
+> > > > We just need to relax condition on the supplied length.
+> > > > 
+> > > > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> > > > index c352a935c4..fdda9529fe 100644
+> > > > --- a/hw/cxl/cxl-mailbox-utils.c
+> > > > +++ b/hw/cxl/cxl-mailbox-utils.c
+> > > > @@ -510,7 +510,7 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+> > > >      cxl_cmd = &cxl_cmd_set[set][cmd];
+> > > >      h = cxl_cmd->handler;
+> > > >      if (h) {
+> > > > -        if (len == cxl_cmd->in) {
+> > > > +        if (len == cxl_cmd->in || !cxl_cmd->in) {
+> > > >              cxl_cmd->payload = cxl_dstate->mbox_reg_state +
+> > > >                  A_CXL_DEV_CMD_PAYLOAD;
+> > > >              ret = (*h)(cxl_cmd, cxl_dstate, &len);
+> > > > 
+> > > > 
+> > > > This lets the nvdimm/region probe fine, but I'm getting some issues with
+> > > > namespace capacity so I'll look at what is causing that next.
+> > > > Unfortunately I'm not that familiar with the driver/nvdimm side of things
+> > > > so it's take a while to figure out what kicks off what!      
+> > > 
+> > > The whirlwind tour is that 'struct nd_region' instances that represent a
+> > > persitent memory address range are composed of one more mappings of
+> > > 'struct nvdimm' objects. The nvdimm object is driven by the dimm driver
+> > > in drivers/nvdimm/dimm.c. That driver is mainly charged with unlocking
+> > > the dimm (if locked) and interrogating the label area to look for
+> > > namespace labels.
+> > > 
+> > > The label command calls are routed to the '->ndctl()' callback that was
+> > > registered when the CXL nvdimm_bus_descriptor was created. That callback
+> > > handles both 'bus' scope calls, currently none for CXL, and per nvdimm
+> > > calls. cxl_pmem_nvdimm_ctl() translates those generic LIBNVDIMM commands
+> > > to CXL commands.
+> > > 
+> > > The 'struct nvdimm' objects that the CXL side registers have the
+> > > NDD_LABELING flag set which means that namespaces need to be explicitly
+> > > created / provisioned from region capacity. Otherwise, if
+> > > drivers/nvdimm/dimm.c does not find a namespace-label-index block then
+> > > the region reverts to label-less mode and a default namespace equal to
+> > > the size of the region is instantiated.
+> > > 
+> > > If you are seeing small mismatches in namespace capacity then it may
+> > > just be the fact that by default 'ndctl create-namespace' results in an
+> > > 'fsdax' mode namespace which just means that it is a block device where
+> > > 1.5% of the capacity is reserved for 'struct page' metadata. You should
+> > > be able to see namespace capacity == region capacity by doing "ndctl
+> > > create-namespace -m raw", and disable DAX operation.    
+> > 
+> > Currently ndctl create-namespace crashes qemu ;)
+> > Which isn't ideal!
+> >   
+> 
+> Found a cause for this one.  Mailbox payload may be as small as 256 bytes.
+> We have code in kernel sanity checking that output payload fits in the
+> mailbox, but nothing on the input payload.  Symptom is that we write just
+> off the end whatever size the payload is.  Note doing this shouldn't crash
+> qemu - so I need to fix a range check somewhere.
+> 
+> I think this is because cxl_pmem_get_config_size() returns the mailbox
+> payload size as being the available LSA size, forgetting to remove the
+> size of the headers on the set_lsa side of things.
+> https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/tree/drivers/cxl/pmem.c?h=next#n110
+> 
+> I've hacked the max_payload to be -8
+> 
+> Now we still don't succeed in creating the namespace, but bonus is it doesn't crash any more.
+
+In the interests of defensive / correct handling from QEMU I took a
+look into why it was crashing.  Turns out that providing a NULL write callback for
+the memory device region (that the above overlarge write was spilling into) isn't
+a safe thing to do.  Needs a stub. Oops.
+
+On plus side we might never have noticed this was going wrong without the crash
+*silver lining in every cloud*
+
+Fix to follow...
+
+Jonathan
 
 
-r~
+> 
+> 
+> Jonathan
+> 
+> 
+> 
+> > > 
+> > > Hope that helps.    
+> > Got me looking at the right code. Thanks!
+> > 
+> > Jonathan
+> > 
+> >   
+> 
+> 
+
 
