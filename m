@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C290259314A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 17:08:04 +0200 (CEST)
-Received: from localhost ([::1]:41188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A303593154
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 17:11:09 +0200 (CEST)
+Received: from localhost ([::1]:38512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNbhD-0008Ae-1h
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 11:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45620)
+	id 1oNbkC-0001i1-IU
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 11:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oNbcI-0006Nx-KE
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 11:03:00 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:43641)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oNbh2-0008AJ-Of
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 11:07:55 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:33486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oNbcG-0002AB-9c
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 11:02:57 -0400
-Received: by mail-qk1-x731.google.com with SMTP id j6so5674321qkl.10
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 08:02:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oNbh1-0002ux-9r
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 11:07:52 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-32a09b909f6so79803267b3.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 08:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=4XhTm4tdaUg4zgB/gl4AMNmTQvil5IAMB3or1VBufAU=;
- b=JgW10TmVQLIsA/6ij0R47f38ssm339fX6yHPdShltvPKzBB3pxZ5R3e49XF3SsZzeb
- +AHvr2wv9Zqz77hVf0ynkhldD3WuzyAv+BnQuUeD+mOgXtsRnPuaxDbYQdE7WOqLb4Yn
- Sl72LbI1wRJDiRMvi9Y8uD85cIpMRlx+lEq8igMMTtksHWWccgOk3sL7Y2tELXX5T7jf
- yz7+T1x+S0IK1u5J0wPEuxfbGjUFDisid2ZnE9HLCSSUNNVpCpls4g1MgdoY764vpdFj
- cG1INlW8BktSDYtRY2EQtRGGz9XU+OHtql39JWwav17VRXPyp4K0yUi7F+w/mGnBXmJ/
- Mv9w==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=xk3D0qnFEv6Js9SIYN+NeNUNen8iIiMti5KqnenDtCI=;
+ b=ZH6i/Urv/InUOrTukcha3fE+bZS6aGdaVCDDgASyKAGXLUOVK7zkPfMTgD+q1XiYKe
+ XpceXTzpGn6Oea5qDcf5Ku1txwNGqT7OQ0Zf4YN5VjDGBEss5z6tqHyWiU3rkow5pML1
+ h9jrAC2reqibXLrKNZYLy6DyZqSjrtT5v/+ruaQVyLhJcnQKQtaPk8N8bkDBA86gD+tW
+ hgH95iVJI0KZaudcu0+/KZDaZvLv+NmDN85pFcZMRIriggIhe07Dy+Yq3dFK1Xt4U827
+ R8ixwyUW4xU/DkofqSF+jWfGZZjyunonJ8gAoByp4uh5rEU3k3kJ2DVzyN8qu8IrLOqP
+ XMPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=4XhTm4tdaUg4zgB/gl4AMNmTQvil5IAMB3or1VBufAU=;
- b=bH1eCg2jlmrZ2TP7AaSypd5H8r0+2CuRLdcaQfa1bg6un750IJfjB8xTyWflwHc5xf
- BCId4kWOHLV0YnDl0wJEIJtJSIOjNe/xkUgGPBXHhrVOaBJEKs1yEb+wbIl0GNFudc1q
- tRQS34V3i61MdEmVnYyrgKR05DsNzoGeGpnaHP57VY88ernBlXac+xzvKFmaYtsyne0W
- YhYxO/yC+gc3E3U85MCmLsrUfpdIF+nwrHNSPviiO2Q40O7xf7GIydm7rZ3wjzE2n6c9
- mZY1rv0KFgubVSUXxkXyl7Dpf+dLubQQggyC2LBheibLsddKXbv8RhDyC5vb707qVLs1
- 5rdQ==
-X-Gm-Message-State: ACgBeo1lNJ8hZEud7jPe+z/vljT1dSItvTVI+oq7gKZKTzNzlbfedZ4W
- sAk/Qbwa1xVfiV1o0UAc1+vCcg==
-X-Google-Smtp-Source: AA6agR6feQQkAmSRS93WNQZ0f/A0ulX7pRlczrNtMf+G1KbUA04L5bPR+PJ1eCuYyKFnewzGXMMhYw==
-X-Received: by 2002:a05:620a:4551:b0:6b6:1d51:99a0 with SMTP id
- u17-20020a05620a455100b006b61d5199a0mr11536436qkp.187.1660575775118; 
- Mon, 15 Aug 2022 08:02:55 -0700 (PDT)
-Received: from [192.168.138.233] ([50.233.235.3])
- by smtp.gmail.com with ESMTPSA id
- s16-20020a05620a255000b006b5f06186aesm9154294qko.65.2022.08.15.08.02.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 08:02:54 -0700 (PDT)
-Message-ID: <f2b2233d-f88d-86b8-e8d0-e4d7f426ec3c@linaro.org>
-Date: Mon, 15 Aug 2022 10:02:51 -0500
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=xk3D0qnFEv6Js9SIYN+NeNUNen8iIiMti5KqnenDtCI=;
+ b=M/KkRfaoGqmVn35dR3lozFAJkpQFnRzzGHwXY8EG8h/yVRM2Dbk/Vx7I57OPDDik+8
+ xJRyN5mwxlIFHHNR9YpU9RDKJBR2va83fOxiAkMUh7dmrd+zFShYcqDkJuq37sZH+PaP
+ /uoiNQdmF1BwSzIkinYQATGb0gsFeFBxan5sOPzgsITFhULC6Ia2neECYrHkGrZiz6Ck
+ lO5MumZN9LnSRPGol+3Dwxpd+bLfF354rs69s9ERL/j+58/H/rANXonNMV+6BeO7pSR+
+ trtjZn01+s6tWTuUmjx1YCalxJj5hiZzY4KymU5l10Bre14BfosGy+pHGWZbgwVy4vVp
+ ugnA==
+X-Gm-Message-State: ACgBeo3Aw9pL67S/U63jVdEaSJrwd9xdKjsoofum0COU6RmTjta8poar
+ MDSfVtSYGvJ96nSRpwHk7g2iwG9S4b++s6XallBNyQ==
+X-Google-Smtp-Source: AA6agR4L9eBhYf/u6xcB6hHHOL1HXUayoG7nN0as29bQs6+piWi4PvaXa5/6/kh0erO8HDYmskZS0QDSiqEPNGAF690=
+X-Received: by 2002:a25:d4a:0:b0:671:6d11:d14e with SMTP id
+ 71-20020a250d4a000000b006716d11d14emr12595202ybn.479.1660576070236; Mon, 15
+ Aug 2022 08:07:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 03/20] disas/nanomips: Delete NMD class fields
-Content-Language: en-US
-To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
- pbonzini@redhat.com, vince.delvecchio@mediatek.com,
- peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com
-References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
- <20220815072629.12865-4-milica.lazarevic@syrmia.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220815072629.12865-4-milica.lazarevic@syrmia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
+References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
+ <20220808133727.00001171@huawei.com>
+ <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
+ <20220809170825.00001b61@huawei.com> <20220811180857.00005e67@huawei.com>
+ <20220812164403.00001654@huawei.com>
+ <62f679b67828f_992102942@dwillia2-xfh.jf.intel.com.notmuch>
+ <20220812171509.00006034@huawei.com> <20220815151809.0000294c@huawei.com>
+ <20220815155516.00007ebf@huawei.com>
+In-Reply-To: <20220815155516.00007ebf@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Aug 2022 16:07:09 +0100
+Message-ID: <CAFEAcA-W-xnm_H_qo_YJXY0Ve75DCMH8WQkZh_AWU1RF3JQcwA@mail.gmail.com>
+Subject: Re: [BUG] cxl can not create region
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Cameron via <qemu-devel@nongnu.org>,
+ Dan Williams <dan.j.williams@intel.com>, 
+ Bobo WL <lmw.bobo@gmail.com>, linux-cxl@vger.kernel.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,31 +92,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/15/22 02:26, Milica Lazarevic wrote:
-> Class fields have been replaced with the public static variables.
-> Therefore, there is no more need for a constructor. The main goal is to
-> remove NMD class completely.
-> 
-> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
-> ---
->   disas/nanomips.cpp | 6 +++++-
->   disas/nanomips.h   | 9 ---------
->   2 files changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-> index 00e489fd59..2cbaa122ae 100644
-> --- a/disas/nanomips.cpp
-> +++ b/disas/nanomips.cpp
-> @@ -40,6 +40,8 @@
->   
->   #define IMGASSERTONCE(test)
->   
-> +static img_address           m_pc;
-> +static TABLE_ATTRIBUTE_TYPE   m_requested_instruction_categories;
+On Mon, 15 Aug 2022 at 15:55, Jonathan Cameron via <qemu-arm@nongnu.org> wrote:
+> In the interests of defensive / correct handling from QEMU I took a
+> look into why it was crashing.  Turns out that providing a NULL write callback for
+> the memory device region (that the above overlarge write was spilling into) isn't
+> a safe thing to do.  Needs a stub. Oops.
 
-This is not a viable solution, as it is not thread-safe.  You need to keep a struct and 
-add it as an explicit argument where required.
+Yeah. We've talked before about adding an assert so that that kind of
+"missing function" bug is caught at device creation rather than only
+if the guest tries to access the device, but we never quite got around
+to it...
 
-
-r~
+-- PMM
 
