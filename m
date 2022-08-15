@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05792592A66
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:39:29 +0200 (CEST)
-Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578C6592A6C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:44:42 +0200 (CEST)
+Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNUh6-00071w-0h
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60786)
+	id 1oNUm9-0004FT-EJ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:44:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUXm-0008Oj-9S
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:29:55 -0400
-Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
- ([40.107.21.137]:37263 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1oNUXv-0008P7-T6
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:30:04 -0400
+Received: from mail-vi1eur05on2116.outbound.protection.outlook.com
+ ([40.107.21.116]:36512 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUXj-0000jI-Sh
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:29:49 -0400
+ id 1oNUXq-0000kD-Fk
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:29:57 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YyvFWgmv3//I3EseurvEPSVg9vxYkJvp5bh+0m4azRid0I5Xiwt+Dw6a8+ozL4cjiAarAB4ZzVrs9CSwc+uhc5a2VPQS1INfeqhaK071OpwoXzLz+39lGaTVjyx61+h3XWtbBSn5ktXQTTe/r+DYq96L2kyWc5DmbUsl9x2Wld9h5xHWCKOTQpG8NRHo96njv7uzwXkGy0eZiNAFpRn/fcp+joZROLGzs+3Tjhd5DiIPs1nN9i4j5ELwiCNzGIHAZ8DVLP/o24COOUNXDh7LSOU3uazWIoVhkRnKiRSRYC43M7Ylu4Z2yjcrTVkO5Cukgh12tDYwEqI4zJ9SD2Kj7w==
+ b=JJjdFvBg4e8WqjoBDlMT9or+QcosIXWnc8UdWv28u3+foSTcgE2sS6vLE+vn1aQO2lA7s12lpMORrGBa2Crx+dDTyc+uRrBScWWQhj5VE2vQIL+M8rFm8bG1P/obR7ddlE6nbkxAQJLdBZcIWkYJswHOCUfbd70vhQ5X4/r9KqjtxRf1TYUM+hQcb2LUq7d26yBad8JH7pSht7RcBe9Zd52SxCaJNnvQ5TkwqWvPja5bP27ti46HiKgrEgPzSDyEiOyeog5x8ddO/BlJM+6gVO6/usR3ae+mPk1+c65LyPt0a6ucYEOhErbGZrssKMBvAnzLX5zSaVBKoUUtDlHr0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AQfCSJsHsYrANhzCQk80tLAUfKqg2MA8KG18UVMpRQk=;
- b=PnpAHJ2IP8qtu8C9dP6yFqUmb+2xJs3Bfcs+MfouQN9m3EQXdOihOCiTpmvv9VowIq0eXBNKVl6yOBgcoB0JxEc0Fvii1vwBt6d0Ljc++gAuxsdhFxTCqMrU3iYt4DfVB5vr1dTQhoqjXt4PQ4mXSzCI0CDinyZuhz/wuHollTi1e3ZvHp3PGDHXMpBhJ/Qo2p+cPbJfObQ81//caMipnbiafXQoyO3EJLrnE2HsmBs4CoQTmgBq1ANjAiIqc0J2BCfmcnH6kMW45cvJ+8LlFvA0hAbSxs+TUvXArHFkf3GU7Vaw41weBh+eiK6rtG6fHoww05N7k7ackk/wBh7lzA==
+ bh=9fLuU5uh0Q9NgvwZqa3Zzh1S6AcQ9PiX1+CJL9lfeQA=;
+ b=hzo0efGIt7fTfArzmeLoYsGfQ5e1cM6/TjmPD8XD2IQj46us8EZtSGCIzs26AAY0IzysXoPHeo1+jmgari44IGleX7q5ou1pKaSp8OWUsISt6PFOcJH2mChqlXCCXXnsk/fVL972vnWwo7tNaT9atg8X1hKh2H94+PyNdLtQxjDTMi0oYahGXbtTuiMoN0jErOi7q4gaC9Peb1Yps1SETyBKbk5ZEvfpTibLQNsiRxIWgjD1Ggyi9P1gy8Udx2Ht1e22Nc5arsy4tPYohr5WLsKkgw985zXcMfWAU+VHemvbswVOrHLSfZwTo2LeLTkN6LhnuPgAGvc3vV6HWxaoug==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AQfCSJsHsYrANhzCQk80tLAUfKqg2MA8KG18UVMpRQk=;
- b=UR7cbWmAya/T31d4QG0S2jVkbOw2X0x0IqhQ6QAD/aJEwdTQQdgQ+2Wxk6wEUe2lD5yGm78OcM2gqfR/a3+kNpn0smTPaeNP+uuGMM8f6MVvSkRXbxRj4QLNMqN0zhu/4U5uq6Wx9BF0c38TMHOYZfeSTNobQBxEPRwwIuwwUG8=
+ bh=9fLuU5uh0Q9NgvwZqa3Zzh1S6AcQ9PiX1+CJL9lfeQA=;
+ b=j7jZYyHWjdYfL1MykmEknRfDBSYumiSehPgA0vVbfPwmd+QgfBJobGmoiLwnCy0pi9ageJcRjNONIVQMKervwD4DLHv1HpphtYpadW6/6NAujUhIXGwywxHsoJzCw9dcT8iAABtFww/h8lZoCr/ay+dvfRSTRX9S46ikVJM4av8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com (2603:10a6:803:112::20)
  by AM0PR03MB4515.eurprd03.prod.outlook.com (2603:10a6:208:c2::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.28; Mon, 15 Aug
- 2022 07:29:43 +0000
+ 2022 07:29:51 +0000
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::7996:9fde:76d3:745]) by VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::7996:9fde:76d3:745%5]) with mapi id 15.20.5525.010; Mon, 15 Aug 2022
- 07:29:43 +0000
+ 07:29:51 +0000
 From: Milica Lazarevic <milica.lazarevic@syrmia.com>
 To: thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -54,9 +54,9 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com,
  Milica Lazarevic <milica.lazarevic@syrmia.com>
-Subject: [PATCH 09/20] disas/nanomips: Move typedefs etc to nanomips.cpp
-Date: Mon, 15 Aug 2022 09:26:18 +0200
-Message-Id: <20220815072629.12865-10-milica.lazarevic@syrmia.com>
+Subject: [PATCH 10/20] disas/nanomips: Delete nanomips.h
+Date: Mon, 15 Aug 2022 09:26:19 +0200
+Message-Id: <20220815072629.12865-11-milica.lazarevic@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
 References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
@@ -67,56 +67,56 @@ X-ClientProxiedBy: VE1PR08CA0009.eurprd08.prod.outlook.com
  (2603:10a6:803:112::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db78d62e-dbc2-4976-562e-08da7e8febf2
+X-MS-Office365-Filtering-Correlation-Id: 6cca5f6d-906b-4823-a7bd-08da7e8ff0a8
 X-MS-TrafficTypeDiagnostic: AM0PR03MB4515:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5FnuUfKj1wWSSsgGH2+tUf1k1K+dBchXrCrGZk0QHfHZcHZuBxPSHpRbMckWnTZxmOozD9auA91uECcQecbnSAw2GPmiJ08/w+XT9JIQfBl+MZyXIjZwsoeVaMctHb9Yzwgyv/lcuEF/Ivl4DocUM1JKBwgaGo7X1sYlBOGN7JzrucvO+ONjqkNqtjwpjWOY72oQP5fvItCGnYLd6wJtQ5Bve/Pt4CqyhYzxLi7ivwE+fLPUlL6jYx3lG0j7V1tMOU+RvZZlw1dTHKSC6XQFeQBgdA9OP8cmXW7OMFUwWaGSdQhKSCpalm3HfiKEvYdCtDs8t8gz5zlRW/Wf4fNS1qP33mp1Zu9jBK9D73NvgXr2DBU4c71bmu0Gy92rxn43PDYidjaGx7AlAwBHrOxSToZLKtJ8sADSP0a/fDI4L5fA+aCb+WlhRmct9IedSIlnvQv4V4ywbs6LfAnHvD/PCq8SHl7qiMClCM20Aktg7gQVzU+3seOHllRk2KQyzQQZJm2qL7uzdzNOVsuKI3tDgdM+IshYkGpBu8LU1H8mIGNgWXE4mxwpdTle2Hg4iK7X0IjG7hQeYm+K6zegIWzHieJUIxclT/oJvnNYqMPFEnZ7/jYY6705LDxCAbfwLWj5GhM78ahqpEQjfxumvb099+o/1gIoW7LI4P9p6E9sFLtIvYlGPCVhd9/iIBb+buN45xY6zkoV5O2vBE6OiVOBnqdyR2TZnHP8d1AA/os6hiG8mQvLjDpMYwkm3Cgl9zpFglVdXd81rXKxaKz/38gkOTIutgn4sYwJEugUFNYA0FA=
+X-Microsoft-Antispam-Message-Info: qwO5ToniJ63yITkj44EFKSI3v+PvfBTatMp442Ttzb8gwdj/SxICGdxlFUWqmOobqDKb7sZfI+SuqAoEFwEqo3QJkCblqz2DAe+ySCea1OxYhaNC27pTRmXgr9CqPBDLM0drmd4XDHKwVxV1G9m7R0xRlWFf7EuU4uvxctll13L8Z949V8WOz+ztfWQ+6HxDU4+xVshYR/OINjuqJ83kYQ3TZkGuTTkhsTt3TZI6wsOOkN9fXAJL/wGnTxem61mZ2sAAWZRKSF3Ls4YD4KMVgE0HSbQxWnZ2yF/qsG96hzHI3R6JjIsBgBjBS5u2uzs7/uosxAXqCcjDz7bkffaONk63kFVLs4jjOjtkrkhf2D84fh/aXqiMFH+Ek7pxon39ddHAopAKjV3yqoLme4M8XE3IC1SDQ6RWLr2m/9BghXHA9nExsn3aetEiWPHu9NfqowD4uWQbvI8M82K5kdyzkD3Z2KB5aVCIephITpSsDFiLUrEIiBk0zyotCbq5kP26o9G4jiZk8wSSj+GvPPz+MiImLiYY1YQAxJbLZdOH8QTHivCgy4i0RXrSpLB5XHGIpvUiwBWeifi5/aRsoDAbeb9Rj09uQrqmts7nYJMmI1Vvup6y4nHfDSluXtlhtPmmpSWNV4a6Ecy5WYbU8xXpM2UUNUKde2yc0Yb+E0oPVDrrZZI1JrzS8sf+1krNWUcouF3p6x5/Eq7Ji/uYjNWgOwbFTzNhaGwESgFWGt80jpF1UQ1yHI4VI6JHPKCoLSbuqtK1W1Xj5BpncdNjgdSLQs2atpkb9Jz9u/4kRkAVeLBhQHsqp0FCsyPAWh5imlo7ZPODl9jQzSR4bO7aOL3aKQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB6045.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(39830400003)(366004)(136003)(346002)(376002)(396003)(86362001)(107886003)(186003)(1076003)(2616005)(38350700002)(83380400001)(38100700002)(5660300002)(8936002)(36756003)(66556008)(66476007)(8676002)(4326008)(66946007)(2906002)(44832011)(478600001)(41300700001)(52116002)(26005)(6512007)(6506007)(6666004)(6486002)(316002)(6916009);
+ SFS:(13230016)(39830400003)(366004)(136003)(346002)(376002)(396003)(86362001)(107886003)(186003)(1076003)(2616005)(38350700002)(83380400001)(38100700002)(5660300002)(8936002)(36756003)(66556008)(66476007)(8676002)(4326008)(66946007)(2906002)(44832011)(478600001)(41300700001)(52116002)(26005)(6512007)(6506007)(6666004)(6486002)(316002)(6916009)(2004002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AHliaVupNE2CcYFoEZmx+MRdmRQAABl0UJJ4bT1O45Q2KQ4yvVHcYzEibU0B?=
- =?us-ascii?Q?jDwxxp6t/Z53bJVqW2kNUJQToElgPjDf336r7kmOwRCEVNd+8z4WkFw9JhlV?=
- =?us-ascii?Q?s51rbK5cdadJZM5eKDc4QTSQF9NbX5qdxppMTEms5YzldoQQtgGCpCriXLM5?=
- =?us-ascii?Q?cCLY4xmh6SlLLDNuglEeQ9wPeu7gjChMetyQvQw2ptVhon+Uq7CKZ6SdXmrJ?=
- =?us-ascii?Q?kiCZ+X7sLL+34h6OlhjcK4l5Z4zx9Wc/Ui3s/hMDoqz3zCoYtYlpU5AUiZ76?=
- =?us-ascii?Q?/84yIlWY9qrbuXA9Pvw++39FB37YYOkR3v7akwocZtooIKdwDgWAwdAusidp?=
- =?us-ascii?Q?Byci8DLFSRmimP0SCvqu3GWTQIqcRSW53YYTuFvU3N7gIWUXpJzbop0r/HB3?=
- =?us-ascii?Q?pjTLkZI85KrlmRgJW9l+eVjMA84BpybheJehyIjJHYYl7aCgEoieEkyR4/FK?=
- =?us-ascii?Q?a2kJaVKD8JpeaxIf/01M69u1RqraLfJ5FozoNO9ALG/yNGSxEgYlW9ym9w3v?=
- =?us-ascii?Q?PsBMMUtCnRG7kmYb2ObqcjcysORqmMXvb/1iibya5ox6BjtHfec2yRyYipY7?=
- =?us-ascii?Q?AcZkxFswV5OH+d2d/xQpkJxPyaS8BgQ5+p5V3/Jssl0IMBsbbTIynFYMVqf6?=
- =?us-ascii?Q?lcGUiSbwkEYzPYG8R+GUvf0LO90+7d7+i9h1B7FGU0WDsNsv9nYoqrAoD4yF?=
- =?us-ascii?Q?w/6nznlehL6w6F8Ypj809zCicQSrR07lIcW6u51c66yVHHkMRLa1EfThh1B9?=
- =?us-ascii?Q?YxmOJfDti6bC4C+w6tc2yTqFR23XFBN7Su9bY2x4DNbMqC7DPx5mj32vIgoK?=
- =?us-ascii?Q?S1XrVAbZvA700Dx2C/L5Pq4y5ELSctgWlzs7bwuifYuMKhHtx3NCKUHl04sF?=
- =?us-ascii?Q?HNsDHy+euUCO/xtuCcJmTWGfAjtbQyfI6DXpLL5X1tePhYQq4ujfwB7avH8a?=
- =?us-ascii?Q?zSLkXdwEaJCFnWPCykmVw9V/yv3MvvmA+/r8pdTdW/cqOjINhAyn5mrnAUYv?=
- =?us-ascii?Q?nQVFGVlBAq2o86hzcT5uTFEya+6kj9i8UmgcarPc1Dj0jfc22Lv5URoAOVz9?=
- =?us-ascii?Q?6YfOt4J4Swm8Mb6cO0BvcnClVphe5mxaivVGHRZJgyh4FbS+T0o4q9dFI4hL?=
- =?us-ascii?Q?qzlGG+Q46Rgqve+y2Z7Xdv/V4yMM9aInKRKR2v/oBePR7rC8keEtzNAS2C/i?=
- =?us-ascii?Q?sVNg0QQYAU3so2EdvhIYYa9HIzGPcTl84cgFrQf0eg/Hu1B+sRbYyGUoVa43?=
- =?us-ascii?Q?CPoxtYIK45731RGWTaolcWPgQCXm4rs6pNO2W/x2Q/er4aAyIyl4hbRKB1wf?=
- =?us-ascii?Q?f6nPrqQSsXkLLb3eJ+oI34/SwBHoR8Tsq3BzcVrzyEROmhZbZ9QFh65rzMn/?=
- =?us-ascii?Q?cRycmDHj2NOghiUyPeactWfvG0usbbq0iStzzyndSs9tqilZHhRXKlfYtR2L?=
- =?us-ascii?Q?hgWeggVUm2o0fPAAaGdGtQQoxipyyQJxRGnFAO6DMFy6BqaQmIm8wOaJH6nK?=
- =?us-ascii?Q?AUVN4Lzqkd4o205T7vFAmxPptoseBI1sGASk0qUjbSm5zza8AxqSnVDPCMvR?=
- =?us-ascii?Q?wzxsHn8m2fyxca0DTbbJuK3BKxJV9Ws0RlBTHeJbXxpKT2Sbln4VMoLvHFA5?=
- =?us-ascii?Q?KQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yhPBXGNeCrUbZc/XwG8pWEjjYS6Ju8NZEq8EZTnR0x4q4OK2oawLKyp3x/66?=
+ =?us-ascii?Q?55yqPUkKp0GlvIZvV/jQsekrcF3ifBT/mv0Eids2UYAfHO6cYvyoapLSXdXP?=
+ =?us-ascii?Q?vnSCyrwmbTa30leUZOmH7Rt3Ociz1hQI6h8McA3pUi/XTso4KgByAN+aaCJo?=
+ =?us-ascii?Q?d+SDMHo2Glfqwn1ZWcH2OS5+Y/Xu5EcxSz64QJXqBhkPuR++9sWzxX3Thusx?=
+ =?us-ascii?Q?v2kMSvM0bt7azcLA79BYTroikT5JCeUTOYBOwA3xzGjJoBWBdDtyvYNT/hJS?=
+ =?us-ascii?Q?S9KnTH15byIHEzwafJVdm9Vi8T3mip5VWuJTSdKU+daNZpuI+POuwUlnFZZF?=
+ =?us-ascii?Q?LXNXZomwn9ApdjXHmHhSP6f8tVezt3VCvVaxPxzgbbaAvLbObsHuPwJ+G1YX?=
+ =?us-ascii?Q?efIZrLaW4y66jj7738SgLAbBUba0A6DEi6MtB3zPavyIJqKp6Fz519ya6A2z?=
+ =?us-ascii?Q?tREnl0dPVe8vQkQDHlQ/9OhwtwrYiQXMLhzXccuKbgSxUig80+3jWTob885p?=
+ =?us-ascii?Q?rbb6eNUKlnqBB2rL11LzIjiH/CeK6S7VGhfSFKJwwF5Ve3Y7/eLxA9vytdko?=
+ =?us-ascii?Q?DNN+uHDhJ46/W4jV+K5G3dm3JwaRSODhl+0d8u8EHp+XC2E6PSbmaHRTRmIX?=
+ =?us-ascii?Q?SN1EuAv9aV1QmeMh8aFGC3zodbzHt3894PvlFPyQBlbRUrXRo3keHxI5MUXp?=
+ =?us-ascii?Q?58VIFYDMVPg3bzt9gtoojnxdpNdDv+MOi9w4JjYk08sVIKslX1bBarX6Xuzz?=
+ =?us-ascii?Q?mzOMUtDc6Vf9Agvb4zGhHvxNdlNpFxm+2ZyzIScH5E+pPKnveyyf38vpzX1X?=
+ =?us-ascii?Q?T/kC92dBh+K7Fv6m75kmcUl50qhL+pedCNf4PI0gTix2U99aWXJCociCOm57?=
+ =?us-ascii?Q?/fWvAvxSKwu3m7YWX6Kza3YEW5QbpKRY7A2UmnLo9yb/H/0qG+UhnF9JjGg9?=
+ =?us-ascii?Q?Q0vOsibdmbTYP4XQtt2jzHJpjjOHmcqpN3S8YafcOAs8rI+lWe17Ts2WCEq+?=
+ =?us-ascii?Q?HDiLlwmw8luR7o6DYmySpmshlWm009ElYUAHtL9Uqe6mHS1/QIdgdf1pdy4J?=
+ =?us-ascii?Q?VADehUpbjc+LZvAbGH5NOi24QZXUPyH9moBj/3sNxakrUCJZV7ZAnORbtB6A?=
+ =?us-ascii?Q?WQr1tgWpda11jT6GqFtHisiiIPbYVZ3jLrn733Vn7R4GS5Iv9c4YbDKLNe/L?=
+ =?us-ascii?Q?bkKPE8H/ga7j3IAS8TH9NGkFZ0h23zNMO73OznGiXE+25rMfJ41UGRsqUbUz?=
+ =?us-ascii?Q?kiprWgaRiislYeGeegg3Dxx9jBVEE9tSHUr2tA1SaFE5syMeqGCh8uLqwG4V?=
+ =?us-ascii?Q?4sooL1OLDu9BUAUWs5cTin+Bn7wxC62XUxtQ2+O6vDwswV2odB7GnELLsqbH?=
+ =?us-ascii?Q?ByXZSYvkJJMj/RsXHe28PI1kSULB3Rp7HjWLYigyYdxFYZ6C3oaHrtWSWaM3?=
+ =?us-ascii?Q?DTsHcbYFhjIs0Uqr0q8SOwNG7ltFZgLZTlasNTWw8zvSa4apxm4eU7LC4q4p?=
+ =?us-ascii?Q?k3itAwP0PkjMFOBl0oAa7hwRohCvI3ziDq6xkCtyQkD8PSGjSeRBHsg+VacB?=
+ =?us-ascii?Q?1Wu00P7gULr74ImU+zrGelIkueGOTciszp82V02LxZsi8d/TAfDQq3hFfotO?=
+ =?us-ascii?Q?AQ=3D=3D?=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db78d62e-dbc2-4976-562e-08da7e8febf2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cca5f6d-906b-4823-a7bd-08da7e8ff0a8
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB6045.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:29:43.1234 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:29:51.0291 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jT7DsnVeKxg9VEDweAuIfSJaG970PZ5VmKf1Ao9HGcmJYw9riGe8nX6LgS+G3ofzYeIwnrXbckwoMY9t+gFtWVOzGAiBaxfhtjo2Jybtvw8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: dlDvaMDHePb9JJ35qz9qCSkw4ElPjHs66HJWzJ2CqfzXj4nSZLa4/3BKwz71EGw8o5UYJuVDPQXSsJc/2Lzz+eCF3FmyRejI6UsuQNEpuS4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB4515
-Received-SPF: pass client-ip=40.107.21.137;
+Received-SPF: pass client-ip=40.107.21.116;
  envelope-from=Milica.Lazarevic@Syrmia.com;
  helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -141,146 +141,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following is moved from the nanomips.h to nanomips.cpp file:
-- #include line
-- typedefs
-- enums
-- definition of the Pool struct.
-Header file nanomips.h will be deleted to be consistent with the rest of
-the disas/ code.
+Header file nanomips.h has been deleted for the nanomips disassembler to
+stay consistent with the rest of the disassemblers which don't include
+extra header files.
 
 Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 ---
- disas/nanomips.cpp | 53 +++++++++++++++++++++++++++++++++++++++++++++-
- disas/nanomips.h   | 51 --------------------------------------------
- 2 files changed, 52 insertions(+), 52 deletions(-)
+ disas/nanomips.h | 28 ----------------------------
+ 1 file changed, 28 deletions(-)
+ delete mode 100644 disas/nanomips.h
 
-diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index be6705d0c3..cab53f482b 100644
---- a/disas/nanomips.cpp
-+++ b/disas/nanomips.cpp
-@@ -36,7 +36,58 @@
- #include <stdio.h>
- #include <stdarg.h>
- 
--#include "nanomips.h"
-+#include <string>
-+
-+typedef int64_t int64;
-+typedef uint64_t uint64;
-+typedef uint32_t uint32;
-+typedef uint16_t uint16;
-+typedef uint64_t img_address;
-+
-+typedef bool(*conditional_function)(uint64 instruction);
-+typedef std::string(*disassembly_function)(uint64 instruction);
-+
-+enum TABLE_ENTRY_TYPE {
-+    instruction,
-+    call_instruction,
-+    branch_instruction,
-+    return_instruction,
-+    reserved_block,
-+    pool,
-+};
-+
-+enum TABLE_ATTRIBUTE_TYPE {
-+    MIPS64_    = 0x00000001,
-+    XNP_       = 0x00000002,
-+    XMMS_      = 0x00000004,
-+    EVA_       = 0x00000008,
-+    DSP_       = 0x00000010,
-+    MT_        = 0x00000020,
-+    EJTAG_     = 0x00000040,
-+    TLBINV_    = 0x00000080,
-+    CP0_       = 0x00000100,
-+    CP1_       = 0x00000200,
-+    CP2_       = 0x00000400,
-+    UDI_       = 0x00000800,
-+    MCU_       = 0x00001000,
-+    VZ_        = 0x00002000,
-+    TLB_       = 0x00004000,
-+    MVH_       = 0x00008000,
-+    ALL_ATTRIBUTES = 0xffffffffull,
-+};
-+
-+struct Pool {
-+    TABLE_ENTRY_TYPE     type;
-+    struct Pool          *next_table;
-+    int                  next_table_size;
-+    int                  instructions_size;
-+    uint64               mask;
-+    uint64               value;
-+    disassembly_function disassembly;
-+    conditional_function condition;
-+    uint64               attributes;
-+};
-+
- 
- #define IMGASSERTONCE(test)
- 
 diff --git a/disas/nanomips.h b/disas/nanomips.h
-index fb832619e1..b3186971ee 100644
+deleted file mode 100644
+index b3186971ee..0000000000
 --- a/disas/nanomips.h
-+++ b/disas/nanomips.h
-@@ -23,57 +23,6 @@
- #ifndef DISAS_NANOMIPS_H
- #define DISAS_NANOMIPS_H
- 
--#include <string>
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/*
+- *  Header file for nanoMIPS disassembler component of QEMU
+- *
+- *  Copyright (C) 2018  Wave Computing, Inc.
+- *  Copyright (C) 2018  Matthew Fortune <matthew.fortune@mips.com>
+- *  Copyright (C) 2018  Aleksandar Markovic <amarkovic@wavecomp.com>
+- *
+- *  This program is free software: you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation, either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+- *
+- */
 -
--typedef int64_t int64;
--typedef uint64_t uint64;
--typedef uint32_t uint32;
--typedef uint16_t uint16;
--typedef uint64_t img_address;
+-#ifndef DISAS_NANOMIPS_H
+-#define DISAS_NANOMIPS_H
 -
--typedef bool(*conditional_function)(uint64 instruction);
--typedef std::string(*disassembly_function)(uint64 instruction);
 -
--enum TABLE_ENTRY_TYPE {
--    instruction,
--    call_instruction,
--    branch_instruction,
--    return_instruction,
--    reserved_block,
--    pool,
--};
 -
--enum TABLE_ATTRIBUTE_TYPE {
--    MIPS64_    = 0x00000001,
--    XNP_       = 0x00000002,
--    XMMS_      = 0x00000004,
--    EVA_       = 0x00000008,
--    DSP_       = 0x00000010,
--    MT_        = 0x00000020,
--    EJTAG_     = 0x00000040,
--    TLBINV_    = 0x00000080,
--    CP0_       = 0x00000100,
--    CP1_       = 0x00000200,
--    CP2_       = 0x00000400,
--    UDI_       = 0x00000800,
--    MCU_       = 0x00001000,
--    VZ_        = 0x00002000,
--    TLB_       = 0x00004000,
--    MVH_       = 0x00008000,
--    ALL_ATTRIBUTES = 0xffffffffull,
--};
--
--struct Pool {
--    TABLE_ENTRY_TYPE     type;
--    struct Pool          *next_table;
--    int                  next_table_size;
--    int                  instructions_size;
--    uint64               mask;
--    uint64               value;
--    disassembly_function disassembly;
--    conditional_function condition;
--    uint64               attributes;
--};
- 
- 
- #endif
+-#endif
 -- 
 2.25.1
 
