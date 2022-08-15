@@ -2,130 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F2E592A7F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 10:00:05 +0200 (CEST)
-Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF53592A78
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:57:46 +0200 (CEST)
+Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNV13-0002nV-2M
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 04:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33608)
+	id 1oNUyl-0007lp-Ge
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:57:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUaK-0001OB-BX
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:32:37 -0400
-Received: from mail-eopbgr130101.outbound.protection.outlook.com
- ([40.107.13.101]:9382 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oNUaI-0001Ew-M4
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:32:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S/+W5wLZhF/oO2L/x2oNZ6nGaBU+QpQgI1gvyDchuYmtOvpqCqUR/BIE+0a2daY7Y5T52AFajhEUaxYy5sitz+G9+o1WX+uXKMhr5eIzG309nIqSHcx5xGvs0ZIbGojZEU7y57tU0T1kdvx9d9TgvV1F3Bz/rF84GeFFtqtNW+18uRQSGINrIHgAm/W589vmXEZTKMP/ky7YVExOQRJYUq7uKkMOGqrxy0rKMYPm7iqGrFDKCkqSxYihZBOsXGkYExVPPIGEwblElt2ZUKZXdC9wxwc0EZIG8NzZ7D0ko9Unfiix2NGU6Ab4zOowMiieaRhy+Qp3m018rRIIjnIAzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kMlcJUVYCt3Lm+2rl3tGWUBLdrPGpCyzUuBost9me58=;
- b=d22DJtARdqNaQfUb/tjwpSScSiVmXJWAe4uuyEFu6jEFhmP/iz52zzxIen9lBQyUe6SvAJF7XDrhVAHmaLKn7LhAk286FxaMekqsw3yu4cu6FaUFzz91tZMFnB/Qzr2SGqicp+oJiceIMSXXMP5rgu6gnfbwGWLEtSBzn1t/JKuNXSK3BumM63IStYnA/BdaV5YAllvg+9UntDe0CTd3wTXx/+qBDFO+w80ihJhVSy1tJpyUVoiBBl3bVnbCCAyNpGATithkdCQMm80FzkGrA02WD6asHq6iD3aFyzovyLrDrpyIpxDnx1QHH3XfhYNkaBnEPLsxm1anm5apJYdwXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kMlcJUVYCt3Lm+2rl3tGWUBLdrPGpCyzUuBost9me58=;
- b=WJeXAz91KVD6BrXbkrFo2aivg5J7/zuuEsxezlEvjAIb6y9wPu8rIOuA8XWbj3jcCe802h5zg6do5mLey4Wv42zzMJ65YrKY9pu6fLtDP5loXVZ4WgQ2EjS2R/yf9xPppIGYT+Bat+fSGuiEtiFAHxUhVLo/ChSrJfSc2KxpnaU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB6045.eurprd03.prod.outlook.com (2603:10a6:803:112::20)
- by DU0PR03MB9152.eurprd03.prod.outlook.com (2603:10a6:10:471::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Mon, 15 Aug
- 2022 07:32:19 +0000
-Received: from VE1PR03MB6045.eurprd03.prod.outlook.com
- ([fe80::7996:9fde:76d3:745]) by VE1PR03MB6045.eurprd03.prod.outlook.com
- ([fe80::7996:9fde:76d3:745%5]) with mapi id 15.20.5525.010; Mon, 15 Aug 2022
- 07:32:19 +0000
-From: Milica Lazarevic <milica.lazarevic@syrmia.com>
-To: thuth@redhat.com
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
- pbonzini@redhat.com, vince.delvecchio@mediatek.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org,
- djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com,
- Milica Lazarevic <milica.lazarevic@syrmia.com>
-Subject: [PATCH 20/20] disas/nanomips: Rename nanomips.cpp to nanomips.c
-Date: Mon, 15 Aug 2022 09:26:29 +0200
-Message-Id: <20220815072629.12865-21-milica.lazarevic@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
-References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VE1PR08CA0009.eurprd08.prod.outlook.com
- (2603:10a6:803:104::22) To VE1PR03MB6045.eurprd03.prod.outlook.com
- (2603:10a6:803:112::20)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oNUix-0001il-Hl
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:41:23 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oNUiv-0002lo-3r
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 03:41:23 -0400
+Received: by mail-ej1-x630.google.com with SMTP id uj29so12259320ejc.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 00:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=byotxI7jMyq+IQzy1IQvgNabPGrnSAohBi0AAs3mPUY=;
+ b=UW2bxW5tjTPNMYymEcLeVKo70UrsC3Cj8r370r5Lc5EHjY7nYOR/GAEjMaXSbU0Hvl
+ KoGLyheoE4B0/BzU4bh+ld3mtrXaKfyZgtzhgF63Dwbsevo4cY6aaYk6vV3q4iaC3QYa
+ 8AQKC+zDSdRrFBvLdLUrvFZ6yiS5dVDgrHeU7crxO59qRWOsjEI6MLU2ZfILjl6qs90v
+ OZCkVbrqbI4hVxvZxhg74Uny8VbVXlzYuF6vXUX6w1N2LXg9M9RCY0ArvdrwMypqBM+B
+ lmmFdL3xDy7q6QJOmhhISbhubZyjEcDC5ZHey7qbfe0Dq5iuHFXLUh7XMNxojMVe1Nyt
+ JB/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=byotxI7jMyq+IQzy1IQvgNabPGrnSAohBi0AAs3mPUY=;
+ b=i0koy5oEe4m1F5dM2F46RYLEPLzKxP1U7D0iSDFA5EuGZPvQ8IDamsff3zEOdK2KQN
+ K6yEo1m0bSkyRawY7rvOQO4FzsyOZBbjjuJBew7PGz2Yjz4shhQSEextjWSsNckExmyH
+ XqfUhax5CWTH3P9Y1zo3/kPH/aFAesQVlfmYAyemrf8JpHZxrNPKD4+853A5BPkqIxgz
+ osHUnjMEATLGF6Tc8rhAwJBY4/16nB1MOh7WkLkJUj14jh8E3fH2Znj3x5UGDymnmCil
+ n9zYKbrKD7GLi1thqKC76qYLWh/dRGu2wnRWbEhrJX0hk7Q+2EjPizcRGFhTo3nRX93W
+ FWqQ==
+X-Gm-Message-State: ACgBeo1FM/N/4K0snoNzo3wvDYOOrB/eRCUhZRbZxGoH/YMtdchaHmL4
+ c9NKeOIeQuEKU88BNu8M8cmMYQ==
+X-Google-Smtp-Source: AA6agR4xKho9maMMpXf6CBudYZSPX6MQezo/YdCLsC3NMlwtyjhCClJCTEXuHoLNlrP72lTkTAKxHw==
+X-Received: by 2002:a17:907:2be3:b0:730:6866:a9b1 with SMTP id
+ gv35-20020a1709072be300b007306866a9b1mr9585372ejc.693.1660549279003; 
+ Mon, 15 Aug 2022 00:41:19 -0700 (PDT)
+Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
+ by smtp.gmail.com with ESMTPSA id
+ n26-20020a1709062bda00b00730bfe6adc4sm3785455ejg.37.2022.08.15.00.41.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Aug 2022 00:41:18 -0700 (PDT)
+Date: Mon, 15 Aug 2022 09:41:17 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+Cc: Alistair.Francis@wdc.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: Re: [PATCH v2 2/4] hw/ssi: ibex_spi: fixup coverity issue
+Message-ID: <20220815074117.b3slzfukacenpg2u@kamzik>
+References: <20220815031624.170857-1-wilfred.mallawa@opensource.wdc.com>
+ <20220815031624.170857-3-wilfred.mallawa@opensource.wdc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 49d2640c-689c-44ea-7501-08da7e904949
-X-MS-TrafficTypeDiagnostic: DU0PR03MB9152:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pHB8excA4JnKD8QNR1EnzNNm42Q33DmmTnkVNUiDQMx9xN8GydJXin72wop3t8WISWtJZ10JWOVDnIWuOZ53pKgPdZ3ZJ8SkVxXkl6PiLooqI4mig4PJUa68h/MZLmQ3qR30SO5WtN5LxNw34qOz7wEm1S0GIfPFNdPgCVW9AfS6y3aIZgYrqsc6io3xBsfOAxdCtGHyU0RRzMoRQzNjxq2eW0UBxTcuoHC/fcXjJoSuYCP9TVg59zGdLIRnE7mx1ZdSgC9ZVCug2EFTxNul+EasynZSCeocDqmhak8+E7tIUqURVPYkJQvH5Vb3U3o/zxEE/Z74MV5Rki2Um1qGzwfEC8Hn2ftlo8Cr0okbBgVax/Y56tnrowshjaOQGJev/l5iqriDmueUWMxVtbvo9Hb+LHOipyOXnh+1Y1+VWJ1B7kuNXYru0smLCI+PBZi6OBhUjmG+V5Z5uBR1Oo1pRDm0Y8JwNTN0vLc0OUXDd63GQqLyhZ6c/YrdBAQQ9THx1gRZmDL+ysVZYAgykq9VCJ7W63v+TW+QfhHLXLOVBJmuGKVYtKblY/zQVM0fZYjMWkPWbzZ9iymaK3aDGge6RVaGsH8Zi5eINmoux+SoSbmqpMnZnfvedWYZm6ee51AVen5lJ+kifEkYJlSN+irbkUHF6aJi3lNECHWAb7bYW1NJzBBP3iqP1988c3d5siiIRLUQ8pTgBFJcZV9a9lHLD1F0b2r/5ABiSw8JRbY5yUKiaQGrtqxyEbmxhtnFDV6245Gw8Rtpopv7/OkV83LXqt/ZqNrq75fzQPDTk7xueas=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB6045.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(39840400004)(376002)(396003)(136003)(346002)(366004)(52116002)(1076003)(8936002)(5660300002)(44832011)(2906002)(26005)(86362001)(41300700001)(66476007)(186003)(6666004)(2616005)(6506007)(6512007)(83380400001)(478600001)(38100700002)(4326008)(8676002)(66556008)(316002)(107886003)(6916009)(38350700002)(6486002)(66946007)(36756003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Z5beKhZ4uVhbj5IXh1PY1dpA39FONZo3fMxEoSUwrtcewv+lac1nFziYibSy?=
- =?us-ascii?Q?61LVAHhmrwphZqzdL5HeqYZ8ucqCyYnJyOCA92bDKYpBTdO5cFB99A8TgOQ4?=
- =?us-ascii?Q?RowtdxPee2AO4UFZBce0sOzKSReD+j1qJLcWNCU9DTfIDOrokKpRAZ/eHj/a?=
- =?us-ascii?Q?+NOgkszUS0KQHNbXW108qwHIp2sQMyHKvMYo1RT6E5DGf6oT5WqiMEAtU/zO?=
- =?us-ascii?Q?DzWevgHy8DUttriWuem24UAz3Ud163iVeIElrvLhgBIrZtWD78PoAheftx7S?=
- =?us-ascii?Q?suzeGOVHd7QXu8Q21rMlmAELCQsSSzlE9xcyvRD5QqPAnwUyakRQMKUWinjt?=
- =?us-ascii?Q?lzY7h9LJwU3ktr83YlrvudRU5PK5JyrCJmf6AeC4PAwzZiG78ofL7tGcUddp?=
- =?us-ascii?Q?0CRb2bq6ZAIZ8MYMuamr2yycV4WZhfDPxrrmgOUikVtbUfQvf4M4gM4bwGib?=
- =?us-ascii?Q?fI3gdT85X7FfGB34kTWb9yBgBTpFf/4JSx2M/0Jc1SYzWXKbpMRtoMX11XJ9?=
- =?us-ascii?Q?x2zNkBjSx74IXpK6fA136ETvOGwFXdel0Pj+YlAXSDprIACDBwwUZKB1rkh4?=
- =?us-ascii?Q?MwxjYDAPFI+YUo2GqW4UlggGsOxLj9l0eKz/LjlJAOi2bpbmcyqiLONPAfpf?=
- =?us-ascii?Q?hlI/2aCNgRQF0iPMAc26yX5IWhb799WI1jIoZqhBHjRyRlUnKpmDJ/cYr2Hj?=
- =?us-ascii?Q?0NMMpiaLfvkscUP7rtELPCjx9AkkD4Opq3bjZYTJSZO6Ega3V6Kjp3MZL4w5?=
- =?us-ascii?Q?NIA7I2ksomCAdLGkivbDwoj5SszRFzls0VUAbk4I/kFpXMHcp0OGgB5+2s1N?=
- =?us-ascii?Q?LZ6B6tVSpf7oBoAiRMliVdd7+UqgckCpwps/itVOeFVQl2f5JDs97sZBbIZ1?=
- =?us-ascii?Q?+9tLsnd/qJVt4rYmB8gy843sYf9+7Ws4e+3LHXmSo0sSfy4tacrmHLF0vFgv?=
- =?us-ascii?Q?vb6Q6O+Y3Oqeh1sXLqU6xZOqNKgzMwyHkXnb30mZCJJmeh7G+rBqrs72s1f5?=
- =?us-ascii?Q?BivVj2nRd5gYsv33AnEri4YkXg/TVLEkOj+5k6uywO81W83Br5RRlvcvG9pf?=
- =?us-ascii?Q?vGIkh8BfqnEmNJ+E4O+tx3r6rsSwrUJ3nCX4659ghdlcsue9nBChSHMeLcG1?=
- =?us-ascii?Q?0ZEaoQgG4qMDjHPLheNtkIuvlx0AiJ2RVuKEMTwSGRLa1tx2IvIk6AC4Drse?=
- =?us-ascii?Q?U0V7JZwWLgwoOw/A0B8INtDlV9/ggmKrw0TPbTTnxgzbb5RLkRuTUp4ZGpjz?=
- =?us-ascii?Q?6eGdbwkpdcmvPawQVawUhV7aMuUKk39DPvDWxYL6ihID6lSGJ/yGy5QQ1pGY?=
- =?us-ascii?Q?Ja9QFtwox9PDxXwRgmfv51FWug72B4FF36dGdf56sys+aM+S0l5QGevTvXCF?=
- =?us-ascii?Q?571iEEjNeF9mNLbOXhxxj8ywqkPCfucDhu25dBc8GlzEXu4LkXpWZSGxJmke?=
- =?us-ascii?Q?8z3wsdHfXRol6YYZr/yLR48Vt8YCyxJEU9pA/gCzb+kmn3FrE/qx1XxaYlZR?=
- =?us-ascii?Q?NrDIHOJcEb1dGGcX8F7WzOT1bvXkNCFqiLX1wolsgnxyvHvw+eKrJd0Wbuzh?=
- =?us-ascii?Q?wqs8IOi0WNzENxhbV3cdeptfuBoSwoYYxjyzvamHPyC9iWuS7pw03LSqFZwk?=
- =?us-ascii?Q?Gg=3D=3D?=
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49d2640c-689c-44ea-7501-08da7e904949
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB6045.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 07:32:19.7381 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aUJEoEsh5Lx+rzLxhzmCEhKETbAllAb6qTi17SI2A1GmTuGvoqVNJEbmBUqHbCpfwHSaPQLedge2OMPgw/+O7QOQ/mUkVu1yooixNMKHrFo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR03MB9152
-Received-SPF: pass client-ip=40.107.13.101;
- envelope-from=Milica.Lazarevic@Syrmia.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220815031624.170857-3-wilfred.mallawa@opensource.wdc.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -141,34 +91,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that everything has been converted to C code the nanomips.cpp file
-has been renamed. Therefore, meson.build file is also changed.
+On Mon, Aug 15, 2022 at 01:16:23PM +1000, Wilfred Mallawa wrote:
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> 
+> This patch addresses the coverity issues specified in [1],
+> as suggested, `FIELD_DP32()`/`FIELD_EX32()` macros have been
+> implemented to clean up the code.
+> 
+> Patch V2: Style changes have been made as suggested by
+> Andrew Jones, to promote code readability.
 
-Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
----
- disas/meson.build                  | 2 +-
- disas/{nanomips.cpp => nanomips.c} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename disas/{nanomips.cpp => nanomips.c} (100%)
+This should go below the '---' to keep it out of the final commit.
 
-diff --git a/disas/meson.build b/disas/meson.build
-index ba22f7cbcd..1977f5cd92 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -5,7 +5,7 @@ common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
- common_ss.add(when: 'CONFIG_M68K_DIS', if_true: files('m68k.c'))
- common_ss.add(when: 'CONFIG_MICROBLAZE_DIS', if_true: files('microblaze.c'))
- common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c'))
--common_ss.add(when: 'CONFIG_NANOMIPS_DIS', if_true: files('nanomips.cpp'))
-+common_ss.add(when: 'CONFIG_NANOMIPS_DIS', if_true: files('nanomips.c'))
- common_ss.add(when: 'CONFIG_NIOS2_DIS', if_true: files('nios2.c'))
- common_ss.add(when: 'CONFIG_RISCV_DIS', if_true: files('riscv.c'))
- common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
-diff --git a/disas/nanomips.cpp b/disas/nanomips.c
-similarity index 100%
-rename from disas/nanomips.cpp
-rename to disas/nanomips.c
--- 
-2.25.1
+> 
+> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg887713.html
+> 
+> Fixes: Coverity CID 1488107
+> 
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> ---
+>  hw/ssi/ibex_spi_host.c | 128 +++++++++++++++++++++--------------------
+>  1 file changed, 65 insertions(+), 63 deletions(-)
+> 
+> diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
+> index 601041d719..d377f1100c 100644
+> --- a/hw/ssi/ibex_spi_host.c
+> +++ b/hw/ssi/ibex_spi_host.c
+> @@ -108,18 +108,20 @@ static inline uint8_t div4_round_up(uint8_t dividend)
+>  
+>  static void ibex_spi_rxfifo_reset(IbexSPIHostState *s)
+>  {
+> +    uint32_t data = s->regs[IBEX_SPI_HOST_STATUS];
+>      /* Empty the RX FIFO and assert RXEMPTY */
+>      fifo8_reset(&s->rx_fifo);
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_RXFULL_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_RXEMPTY_MASK;
+> +    data = FIELD_DP32(data, STATUS, RXEMPTY, 1);
+> +    s->regs[IBEX_SPI_HOST_STATUS] = data;
+>  }
+>  
+>  static void ibex_spi_txfifo_reset(IbexSPIHostState *s)
+>  {
+> +    uint32_t data = s->regs[IBEX_SPI_HOST_STATUS];
+>      /* Empty the TX FIFO and assert TXEMPTY */
+>      fifo8_reset(&s->tx_fifo);
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXFULL_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_TXEMPTY_MASK;
+> +    data = FIELD_DP32(data, STATUS, TXEMPTY, 1);
+> +    s->regs[IBEX_SPI_HOST_STATUS] = data;
+>  }
+>  
+>  static void ibex_spi_host_reset(DeviceState *dev)
+> @@ -162,37 +164,38 @@ static void ibex_spi_host_reset(DeviceState *dev)
+>   */
+>  static void ibex_spi_host_irq(IbexSPIHostState *s)
+>  {
+> -    bool error_en = s->regs[IBEX_SPI_HOST_INTR_ENABLE]
+> -                    & R_INTR_ENABLE_ERROR_MASK;
+> -    bool event_en = s->regs[IBEX_SPI_HOST_INTR_ENABLE]
+> -                    & R_INTR_ENABLE_SPI_EVENT_MASK;
+> -    bool err_pending = s->regs[IBEX_SPI_HOST_INTR_STATE]
+> -                        & R_INTR_STATE_ERROR_MASK;
+> -    bool status_pending = s->regs[IBEX_SPI_HOST_INTR_STATE]
+> -                        & R_INTR_STATE_SPI_EVENT_MASK;
+> +    uint32_t intr_test_reg = s->regs[IBEX_SPI_HOST_INTR_TEST];
+> +    uint32_t intr_en_reg = s->regs[IBEX_SPI_HOST_INTR_ENABLE];
+> +    uint32_t intr_state_reg = s->regs[IBEX_SPI_HOST_INTR_STATE];
+> +
+> +    uint32_t err_en_reg = s->regs[IBEX_SPI_HOST_ERROR_ENABLE];
+> +    uint32_t event_en_reg = s->regs[IBEX_SPI_HOST_EVENT_ENABLE];
+> +    uint32_t err_status_reg = s->regs[IBEX_SPI_HOST_ERROR_STATUS];
+> +    uint32_t status_reg = s->regs[IBEX_SPI_HOST_STATUS];
+> +
+> +
+> +    bool error_en = FIELD_EX32(intr_en_reg, INTR_ENABLE, ERROR);
+> +    bool event_en = FIELD_EX32(intr_en_reg, INTR_ENABLE, SPI_EVENT);
+> +    bool err_pending = FIELD_EX32(intr_state_reg, INTR_STATE, ERROR);
+> +    bool status_pending = FIELD_EX32(intr_state_reg, INTR_STATE, SPI_EVENT);
+> +
+>      int err_irq = 0, event_irq = 0;
+>  
+>      /* Error IRQ enabled and Error IRQ Cleared */
+>      if (error_en && !err_pending) {
+>          /* Event enabled, Interrupt Test Error */
+> -        if (s->regs[IBEX_SPI_HOST_INTR_TEST] & R_INTR_TEST_ERROR_MASK) {
+> +        if (FIELD_EX32(intr_test_reg, INTR_TEST,  ERROR)) {
+>              err_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_ERROR_ENABLE]
+> -                    &  R_ERROR_ENABLE_CMDBUSY_MASK) &&
+> -                    s->regs[IBEX_SPI_HOST_ERROR_STATUS]
+> -                    & R_ERROR_STATUS_CMDBUSY_MASK) {
+> +        } else if (FIELD_EX32(err_en_reg, ERROR_ENABLE,  CMDBUSY) &&
+> +                    FIELD_EX32(err_status_reg, ERROR_STATUS,  CMDBUSY)) {
 
+Looks like the second line has an extra space. The 'FIELD_EX32's should
+line up.
+
+>              /* Wrote to COMMAND when not READY */
+>              err_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_ERROR_ENABLE]
+> -                    &  R_ERROR_ENABLE_CMDINVAL_MASK) &&
+> -                    s->regs[IBEX_SPI_HOST_ERROR_STATUS]
+> -                    & R_ERROR_STATUS_CMDINVAL_MASK) {
+> +        } else if (FIELD_EX32(err_en_reg, ERROR_ENABLE,  CMDINVAL)  &&
+> +                    FIELD_EX32(err_status_reg, ERROR_STATUS,  CMDINVAL)) {
+>              /* Invalid command segment */
+>              err_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_ERROR_ENABLE]
+> -                    & R_ERROR_ENABLE_CSIDINVAL_MASK) &&
+> -                    s->regs[IBEX_SPI_HOST_ERROR_STATUS]
+> -                    & R_ERROR_STATUS_CSIDINVAL_MASK) {
+> +        } else if (FIELD_EX32(err_en_reg, ERROR_ENABLE,  CSIDINVAL) &&
+> +                    FIELD_EX32(err_status_reg, ERROR_STATUS,  CSIDINVAL)) {
+>              /* Invalid value for CSID */
+>              err_irq = 1;
+>          }
+> @@ -204,22 +207,19 @@ static void ibex_spi_host_irq(IbexSPIHostState *s)
+>  
+>      /* Event IRQ Enabled and Event IRQ Cleared */
+>      if (event_en && !status_pending) {
+> -        if (s->regs[IBEX_SPI_HOST_INTR_TEST] & R_INTR_TEST_SPI_EVENT_MASK) {
+> +        if (FIELD_EX32(intr_test_reg, INTR_STATE,  SPI_EVENT)) {
+>              /* Event enabled, Interrupt Test Event */
+>              event_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_EVENT_ENABLE]
+> -                    & R_EVENT_ENABLE_READY_MASK) &&
+> -                    (s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_READY_MASK)) {
+> +        } else if (FIELD_EX32(event_en_reg, EVENT_ENABLE,  READY) &&
+> +                    FIELD_EX32(status_reg, STATUS, READY)) {
+>              /* SPI Host ready for next command */
+>              event_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_EVENT_ENABLE]
+> -                    & R_EVENT_ENABLE_TXEMPTY_MASK) &&
+> -                    (s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_TXEMPTY_MASK)) {
+> +        } else if (FIELD_EX32(event_en_reg, EVENT_ENABLE,  TXEMPTY) &&
+> +                    FIELD_EX32(status_reg, STATUS,  TXEMPTY)) {
+>              /* SPI TXEMPTY, TXFIFO drained */
+>              event_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_EVENT_ENABLE]
+> -                    & R_EVENT_ENABLE_RXFULL_MASK) &&
+> -                    (s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_RXFULL_MASK)) {
+> +        } else if (FIELD_EX32(event_en_reg, EVENT_ENABLE,  RXFULL) &&
+> +                    FIELD_EX32(status_reg, STATUS,  RXFULL)) {
+>              /* SPI RXFULL, RXFIFO  full */
+>              event_irq = 1;
+>          }
+> @@ -232,10 +232,11 @@ static void ibex_spi_host_irq(IbexSPIHostState *s)
+>  
+>  static void ibex_spi_host_transfer(IbexSPIHostState *s)
+>  {
+> -    uint32_t rx, tx;
+> +    uint32_t rx, tx, data;
+>      /* Get num of one byte transfers */
+> -    uint8_t segment_len = ((s->regs[IBEX_SPI_HOST_COMMAND] & R_COMMAND_LEN_MASK)
+> -                          >> R_COMMAND_LEN_SHIFT);
+> +    uint8_t segment_len = FIELD_EX32(s->regs[IBEX_SPI_HOST_COMMAND],
+> +                                     COMMAND,  LEN);
+> +
+>      while (segment_len > 0) {
+>          if (fifo8_is_empty(&s->tx_fifo)) {
+>              /* Assert Stall */
+> @@ -262,22 +263,21 @@ static void ibex_spi_host_transfer(IbexSPIHostState *s)
+>          --segment_len;
+>      }
+>  
+> +    data = s->regs[IBEX_SPI_HOST_STATUS];
+>      /* Assert Ready */
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_READY_MASK;
+> +    data = FIELD_DP32(data, STATUS, READY, 1);
+>      /* Set RXQD */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_RXQD_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= (R_STATUS_RXQD_MASK
+> -                                    & div4_round_up(segment_len));
+> +    data = FIELD_DP32(data, STATUS, RXQD, div4_round_up(segment_len));
+>      /* Set TXQD */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXQD_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= (fifo8_num_used(&s->tx_fifo) / 4)
+> -                                    & R_STATUS_TXQD_MASK;
+> +    data = FIELD_DP32(data, STATUS, TXQD, fifo8_num_used(&s->tx_fifo) / 4);
+>      /* Clear TXFULL */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXFULL_MASK;
+> -    /* Assert TXEMPTY and drop remaining bytes that exceed segment_len */
+> -    ibex_spi_txfifo_reset(s);
+> +    data = FIELD_DP32(data, STATUS, TXFULL, 0);
+>      /* Reset RXEMPTY */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_RXEMPTY_MASK;
+> +    data = FIELD_DP32(data, STATUS, RXEMPTY, 0);
+> +    /* Update register status */
+> +    s->regs[IBEX_SPI_HOST_STATUS] = data;
+> +    /* Drop remaining bytes that exceed segment_len */
+> +    ibex_spi_txfifo_reset(s);
+>  
+>      ibex_spi_host_irq(s);
+>  }
+> @@ -340,7 +340,7 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>  {
+>      IbexSPIHostState *s = opaque;
+>      uint32_t val32 = val64;
+> -    uint32_t shift_mask = 0xff;
+> +    uint32_t shift_mask = 0xff, data = 0, status = 0;
+>      uint8_t txqd_len;
+>  
+>      trace_ibex_spi_host_write(addr, size, val64);
+> @@ -397,21 +397,23 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>          s->regs[addr] = val32;
+>  
+>          /* STALL, IP not enabled */
+> -        if (!(s->regs[IBEX_SPI_HOST_CONTROL] & R_CONTROL_SPIEN_MASK)) {
+> +        if (!(FIELD_EX32(s->regs[IBEX_SPI_HOST_CONTROL],
+> +                         CONTROL, SPIEN))) {
+>              return;
+>          }
+>  
+>          /* SPI not ready, IRQ Error */
+> -        if (!(s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_READY_MASK)) {
+> +        if (!(FIELD_EX32(s->regs[IBEX_SPI_HOST_STATUS],
+> +                         STATUS, READY))) {
+>              s->regs[IBEX_SPI_HOST_ERROR_STATUS] |= R_ERROR_STATUS_CMDBUSY_MASK;
+>              ibex_spi_host_irq(s);
+>              return;
+>          }
+> +
+>          /* Assert Not Ready */
+>          s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_READY_MASK;
+>  
+> -        if (((val32 & R_COMMAND_DIRECTION_MASK) >> R_COMMAND_DIRECTION_SHIFT)
+> -            != BIDIRECTIONAL_TRANSFER) {
+> +        if (FIELD_EX32(val32, COMMAND, DIRECTION) != BIDIRECTIONAL_TRANSFER) {
+>                  qemu_log_mask(LOG_UNIMP,
+>                            "%s: Rx Only/Tx Only are not supported\n", __func__);
+>          }
+> @@ -452,8 +454,8 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>                  return;
+>              }
+>              /* Byte ordering is set by the IP */
+> -            if ((s->regs[IBEX_SPI_HOST_STATUS] &
+> -                R_STATUS_BYTEORDER_MASK) == 0) {
+> +            status = s->regs[IBEX_SPI_HOST_STATUS];
+> +            if (FIELD_EX32(status, STATUS, BYTEORDER) == 0) {
+>                  /* LE: LSB transmitted first (default for ibex processor) */
+>                  shift_mask = 0xff << (i * 8);
+>              } else {
+> @@ -464,18 +466,18 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>  
+>              fifo8_push(&s->tx_fifo, (val32 & shift_mask) >> (i * 8));
+>          }
+> -
+> +        status = s->regs[IBEX_SPI_HOST_STATUS];
+>          /* Reset TXEMPTY */
+> -        s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXEMPTY_MASK;
+> +        status = FIELD_DP32(status, STATUS, TXEMPTY, 0);
+>          /* Update TXQD */
+> -        txqd_len = (s->regs[IBEX_SPI_HOST_STATUS] &
+> -                    R_STATUS_TXQD_MASK) >> R_STATUS_TXQD_SHIFT;
+> +        txqd_len = FIELD_EX32(status, STATUS, TXQD);
+>          /* Partial bytes (size < 4) are padded, in words. */
+>          txqd_len += 1;
+> -        s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXQD_MASK;
+> -        s->regs[IBEX_SPI_HOST_STATUS] |= txqd_len;
+> +        status = FIELD_DP32(status, STATUS, TXQD, txqd_len);
+>          /* Assert Ready */
+> -        s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_READY_MASK;
+> +        status = FIELD_DP32(status, STATUS, READY, 1);
+> +        /* Update register status */
+> +        s->regs[IBEX_SPI_HOST_STATUS] = status;
+>          break;
+>      case IBEX_SPI_HOST_ERROR_ENABLE:
+>          s->regs[addr] = val32;
+> -- 
+> 2.37.1
+> 
+>
+
+Other than the indentation and the commit message,
+
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
