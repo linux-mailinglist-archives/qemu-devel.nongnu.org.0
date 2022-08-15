@@ -2,94 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E095933B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 18:58:51 +0200 (CEST)
-Received: from localhost ([::1]:32996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50EA5933D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 19:08:09 +0200 (CEST)
+Received: from localhost ([::1]:40220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNdQQ-00068M-IR
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 12:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
+	id 1oNdZQ-0004st-F2
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 13:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNd9b-0006wu-Fq
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 12:41:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45411)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oNdWL-0000ko-1F; Mon, 15 Aug 2022 13:04:57 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNd9V-00007B-R0
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 12:41:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660581679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NR98/kZ7Krvw3RgPI8zkYdEIx996ywYJoRNniqLcJ84=;
- b=giEhruUcYL6udBh8lNLeG8rx/IfdkcBaysQo1PMH4LQtmXk1KoH2WerThbdcUxjXrkW3VG
- ESf+9bvihE+eDF4H/ZKJyIcfbCMUS21lHqCi1aJUFMsHDwKa7pueQxLhGbf3kwtmSxrAWp
- ahl3H7U0H6jFfmyJH2V/T6rMuDQxerI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-459-lj3uIBAFPKqaE54ADz-h7g-1; Mon, 15 Aug 2022 12:41:16 -0400
-X-MC-Unique: lj3uIBAFPKqaE54ADz-h7g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v64-20020a1cac43000000b003a4bea31b4dso8890894wme.3
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 09:41:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=NR98/kZ7Krvw3RgPI8zkYdEIx996ywYJoRNniqLcJ84=;
- b=DZ4Eq/w4tIoB/sjHwMNW2BBGiYc70Lh3nKxNxocPSXLrUYaEuOWEV8/w5iGq/VQchF
- LVMzx7fAfEtV5Q2vdX4mRvA2swr3QClLc8wFCoTVSqc0Rd35rQEPodzwemSJ366JwJoZ
- UHKJu4G42tP1lQHIc82iEszXHXwTSyYBOia93RUIsiyOhoqiJvGlZk/us27S3MiZ8nkF
- kDPa3qVMXieOkUG7nt9PCE6aTfRCU7DX4ZtfMdgp4p5MqVMF5UWMFWZgBsa8N0jncSRW
- PFQDo1VYPFGjoDyMS45XiztBC0XzTRXL+M3QcZERLdSYxEK255pYifE2EKSHfOEbFqa6
- ux7Q==
-X-Gm-Message-State: ACgBeo32yNKtM/Ptob6WBX2xdHgYtPqIFIoHdBGdIDEkZkkSn7c8Z/Ea
- vNDbAbBZ4IYcp3PtI4cIMh9bhdR5sVQlGWOo1Q7DSEtUe8isr0UTH6gDVsbzG7yPLPZ2B+Z2DNT
- dKNEx0/G7ix1vUTo=
-X-Received: by 2002:a05:6000:1549:b0:220:71a4:58b6 with SMTP id
- 9-20020a056000154900b0022071a458b6mr9239801wry.67.1660581675219; 
- Mon, 15 Aug 2022 09:41:15 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6reb6nQk18Chg3kRuanQoB1vMtUWO1PLnlaOUJaLEVV1AQ5ymTP/1FKIvyOBHlJrt8N6eN7g==
-X-Received: by 2002:a05:6000:1549:b0:220:71a4:58b6 with SMTP id
- 9-20020a056000154900b0022071a458b6mr9239785wry.67.1660581674988; 
- Mon, 15 Aug 2022 09:41:14 -0700 (PDT)
-Received: from [192.168.8.103] (tmo-096-168.customers.d1-online.com.
- [80.187.96.168]) by smtp.gmail.com with ESMTPSA id
- n127-20020a1c2785000000b003a5c7a942edsm10270331wmn.28.2022.08.15.09.41.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 09:41:14 -0700 (PDT)
-Message-ID: <89382fa3-b541-3544-e682-3bf63902d9b6@redhat.com>
-Date: Mon, 15 Aug 2022 18:41:12 +0200
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oNdWI-0003xA-68; Mon, 15 Aug 2022 13:04:56 -0400
+Received: from fraeml737-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M60xt6w5bz67Xcd;
+ Tue, 16 Aug 2022 01:04:34 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml737-chm.china.huawei.com (10.206.15.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 15 Aug 2022 19:04:45 +0200
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 15 Aug
+ 2022 18:04:45 +0100
+Date: Mon, 15 Aug 2022 18:04:44 +0100
+To: Jonathan Cameron via <qemu-devel@nongnu.org>
+CC: Bobo WL <lmw.bobo@gmail.com>, <linux-cxl@vger.kernel.org>,
+ <qemu-arm@nongnu.org>
+Subject: Re: [BUG] cxl can not create region
+Message-ID: <20220815180444.00006bdf@huawei.com>
+In-Reply-To: <20220812164403.00001654@huawei.com>
+References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
+ <20220808133727.00001171@huawei.com>
+ <CAGr_yG36GSO8esyO9nn6OeOEN5zPSosEmBHbfYGwqNGiYOh9vw@mail.gmail.com>
+ <20220809170825.00001b61@huawei.com>
+ <20220811180857.00005e67@huawei.com>
+ <20220812164403.00001654@huawei.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 04/20] disas/nanomips: Remove helper methods from class
-Content-Language: en-US
-To: Milica Lazarevic <milica.lazarevic@syrmia.com>
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
- pbonzini@redhat.com, vince.delvecchio@mediatek.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org,
- djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com
-References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
- <20220815072629.12865-5-milica.lazarevic@syrmia.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220815072629.12865-5-milica.lazarevic@syrmia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,24 +72,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 15/08/2022 09.26, Milica Lazarevic wrote:
-> Helper methods from NMD class like NMD::renumber_registers,
-> NMD::decode_gpr_gpr4... etc. are removed from the class. They're now
-> declared global static functions.
-> 
-> Following helper methods have been deleted because they're not used by
-> the nanomips disassembler:
-> - NMD::encode_msbd_from_pos_and_size,
-> - NMD::encode_s_from_s_hi,
-> - NMD::neg_copy
-> 
-> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
-> ---
->   disas/nanomips.cpp | 322 +++++++++++++++++++++------------------------
->   disas/nanomips.h   | 144 --------------------
->   2 files changed, 151 insertions(+), 315 deletions(-)
+On Fri, 12 Aug 2022 16:44:03 +0100
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> On Thu, 11 Aug 2022 18:08:57 +0100
+> Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+> 
+> > On Tue, 9 Aug 2022 17:08:25 +0100
+> > Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+> >   
+> > > On Tue, 9 Aug 2022 21:07:06 +0800
+> > > Bobo WL <lmw.bobo@gmail.com> wrote:
+> > >     
+> > > > Hi Jonathan
+> > > > 
+> > > > Thanks for your reply!
+> > > > 
+> > > > On Mon, Aug 8, 2022 at 8:37 PM Jonathan Cameron
+> > > > <Jonathan.Cameron@huawei.com> wrote:      
+> > > > >
+> > > > > Probably not related to your problem, but there is a disconnect in QEMU /
+> > > > > kernel assumptionsaround the presence of an HDM decoder when a HB only
+> > > > > has a single root port. Spec allows it to be provided or not as an implementation choice.
+> > > > > Kernel assumes it isn't provide. Qemu assumes it is.
+> > > > >
+> > > > > The temporary solution is to throw in a second root port on the HB and not
+> > > > > connect anything to it.  Longer term I may special case this so that the particular
+> > > > > decoder defaults to pass through settings in QEMU if there is only one root port.
+> > > > >        
+> > > > 
+> > > > You are right! After adding an extra HB in qemu, I can create a x1
+> > > > region successfully.
+> > > > But have some errors in Nvdimm:
+> > > > 
+> > > > [   74.925838] Unknown online node for memory at 0x10000000000, assuming node 0
+> > > > [   74.925846] Unknown target node for memory at 0x10000000000, assuming node 0
+> > > > [   74.927470] nd_region region0: nmem0: is disabled, failing probe      
+> > > 
+> > > Ah. I've seen this one, but not chased it down yet.  Was on my todo list to chase
+> > > down. Once I reach this state I can verify the HDM Decode is correct which is what
+> > > I've been using to test (Which wasn't true until earlier this week). 
+> > > I'm currently testing via devmem, more for historical reasons than because it makes
+> > > that much sense anymore.      
+> > 
+> > *embarassed cough*.  We haven't fully hooked the LSA up in qemu yet.
+> > I'd forgotten that was still on the todo list. I don't think it will
+> > be particularly hard to do and will take a look in next few days.
+> > 
+> > Very very indirectly this error is causing a driver probe fail that means that
+> > we hit a code path that has a rather odd looking check on NDD_LABELING.
+> > Should not have gotten near that path though - hence the problem is actually
+> > when we call cxl_pmem_get_config_data() and it returns an error because
+> > we haven't fully connected up the command in QEMU.  
+> 
+> So a least one bug in QEMU. We were not supporting variable length payloads on mailbox
+> inputs (but were on outputs).  That hasn't mattered until we get to LSA writes.
+> We just need to relax condition on the supplied length.
+> 
+> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> index c352a935c4..fdda9529fe 100644
+> --- a/hw/cxl/cxl-mailbox-utils.c
+> +++ b/hw/cxl/cxl-mailbox-utils.c
+> @@ -510,7 +510,7 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+>      cxl_cmd = &cxl_cmd_set[set][cmd];
+>      h = cxl_cmd->handler;
+>      if (h) {
+> -        if (len == cxl_cmd->in) {
+> +        if (len == cxl_cmd->in || !cxl_cmd->in) {
+Fix is wrong as we use ~0 as the placeholder for variable payload, not 0.
+
+With that fixed we hit new fun paths - after some errors we get the
+worrying - not totally sure but looks like a failure on an error cleanup.
+I'll chase down the error source, but even then this is probably triggerable by
+hardware problem or similar.  Some bonus prints in here from me chasing
+error paths, but it's otherwise just cxl/next + the fix I posted earlier today.
+
+[   69.919877] nd_bus ndbus0: START: nd_region.probe(region0)
+[   69.920108] nd_region_probe
+[   69.920623] ------------[ cut here ]------------
+[   69.920675] refcount_t: addition on 0; use-after-free.
+[   69.921314] WARNING: CPU: 3 PID: 710 at lib/refcount.c:25 refcount_warn_saturate+0xa0/0x144
+[   69.926949] Modules linked in: cxl_pmem cxl_mem cxl_pci cxl_port cxl_acpi cxl_core
+[   69.928830] CPU: 3 PID: 710 Comm: kworker/u8:9 Not tainted 5.19.0-rc3+ #399
+[   69.930596] Hardware name: QEMU QEMU Virtual Machine, BIOS 0.0.0 02/06/2015
+[   69.931482] Workqueue: events_unbound async_run_entry_fn
+[   69.932403] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   69.934023] pc : refcount_warn_saturate+0xa0/0x144
+[   69.935161] lr : refcount_warn_saturate+0xa0/0x144
+[   69.936541] sp : ffff80000890b960
+[   69.937921] x29: ffff80000890b960 x28: 0000000000000000 x27: 0000000000000000
+[   69.940917] x26: ffffa54a90d5cb10 x25: ffffa54a90809e98 x24: 0000000000000000
+[   69.942537] x23: ffffa54a91a3d8d8 x22: ffff0000c5254800 x21: ffff0000c5254800
+[   69.944013] x20: ffff0000ce924180 x19: ffff0000c5254800 x18: ffffffffffffffff
+[   69.946100] x17: ffff5ab66e5ef000 x16: ffff80000801c000 x15: 0000000000000000
+[   69.947585] x14: 0000000000000001 x13: 0a2e656572662d72 x12: 657466612d657375
+[   69.948670] x11: 203b30206e6f206e x10: 6f69746964646120 x9 : ffffa54a8f63d288
+[   69.950679] x8 : 206e6f206e6f6974 x7 : 69646461203a745f x6 : 00000000fffff31e
+[   69.952113] x5 : ffff0000ff61ba08 x4 : 00000000fffff31e x3 : ffff5ab66e5ef000
+root@debian:/sys/bus/cxl/devices/decoder0.0/region0# [   69.954752] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c512e740
+[   69.957098] Call trace:
+[   69.957959]  refcount_warn_saturate+0xa0/0x144
+[   69.958773]  get_ndd+0x5c/0x80
+[   69.959294]  nd_region_register_namespaces+0xe4/0xe90
+[   69.960253]  nd_region_probe+0x100/0x290
+[   69.960796]  nvdimm_bus_probe+0xf4/0x1c0
+[   69.962087]  really_probe+0x19c/0x3f0
+[   69.962620]  __driver_probe_device+0x11c/0x190
+[   69.963258]  driver_probe_device+0x44/0xf4
+[   69.963773]  __device_attach_driver+0xa4/0x140
+[   69.964471]  bus_for_each_drv+0x84/0xe0
+[   69.965068]  __device_attach+0xb0/0x1f0
+[   69.966101]  device_initial_probe+0x20/0x30
+[   69.967142]  bus_probe_device+0xa4/0xb0
+[   69.968104]  device_add+0x3e8/0x910
+[   69.969111]  nd_async_device_register+0x24/0x74
+[   69.969928]  async_run_entry_fn+0x40/0x150
+[   69.970725]  process_one_work+0x1dc/0x450
+[   69.971796]  worker_thread+0x154/0x450
+[   69.972700]  kthread+0x118/0x120
+[   69.974141]  ret_from_fork+0x10/0x20
+[   69.975141] ---[ end trace 0000000000000000 ]---
+[   70.117887] Into nd_namespace_pmem_set_resource()
+
+>              cxl_cmd->payload = cxl_dstate->mbox_reg_state +
+>                  A_CXL_DEV_CMD_PAYLOAD;
+>              ret = (*h)(cxl_cmd, cxl_dstate, &len);
+> 
+> 
+> This lets the nvdimm/region probe fine, but I'm getting some issues with
+> namespace capacity so I'll look at what is causing that next.
+> Unfortunately I'm not that familiar with the driver/nvdimm side of things
+> so it's take a while to figure out what kicks off what!
+> 
+> Jonathan
+> 
+> > 
+> > Jonathan
+> > 
+> >   
+> > >     
+> > > > 
+> > > > And x4 region still failed with same errors, using latest cxl/preview
+> > > > branch don't work.
+> > > > I have picked "Two CXL emulation fixes" patches in qemu, still not working.
+> > > > 
+> > > > Bob      
+> > 
+> >   
+> 
 
 
