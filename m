@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7075929DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 08:51:35 +0200 (CEST)
-Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DEB592A54
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 09:24:45 +0200 (CEST)
+Received: from localhost ([::1]:59872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNTwj-0003g6-6O
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 02:51:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52126)
+	id 1oNUSp-0006Ov-Tq
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 03:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oNTce-0000u1-BW
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 02:30:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oNTcb-0000Y9-8j
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 02:30:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660545042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CyHYMsEVB3lzAtT6LR6ywQx4IJdNEwgjMYYAM4Z1Cxg=;
- b=hpAzMS/fA+x5J5x3jgyIomNrQWSAhfLYZxS/AxpVVB1iJXcenPY5Ir1zQZWG9lmZ/dskcs
- 5quF3uo2tHmDMZwvSQ5bDVWEXWDG1bVt4O/xGDLoAfT+vwKCfqSlSalXc+4bc8TByB6r36
- 9wznxfd3ToCpO51i6Xo0MudP4p0Rwsg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-y6miWDE-P-u-SL4PGU4Law-1; Mon, 15 Aug 2022 02:30:36 -0400
-X-MC-Unique: y6miWDE-P-u-SL4PGU4Law-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E94A11C0515A;
- Mon, 15 Aug 2022 06:30:35 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-77.bne.redhat.com [10.64.54.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45BE62026D64;
- Mon, 15 Aug 2022 06:30:31 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
- cohuck@redhat.com, zhenyzha@redhat.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, shan.gavin@gmail.com
-Subject: [PATCH v2 4/4] virt/hw/virt: Add virt_set_high_memmap() helper
-Date: Mon, 15 Aug 2022 14:29:58 +0800
-Message-Id: <20220815062958.100366-5-gshan@redhat.com>
-In-Reply-To: <20220815062958.100366-1-gshan@redhat.com>
-References: <20220815062958.100366-1-gshan@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oNUQY-0004tI-MZ; Mon, 15 Aug 2022 03:22:22 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oNUQO-0007lu-7f; Mon, 15 Aug 2022 03:22:22 -0400
+Received: by mail-pl1-x636.google.com with SMTP id x10so5713486plb.3;
+ Mon, 15 Aug 2022 00:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=dmfbuDLJ6Q3FvOkoWKlh63QYIsWXLm8WDQ+AhB6NsrQ=;
+ b=cMuwGcwhBVkD7jiwPs0lu8UY11f5FsKBfHCAJ85X0tb25uBqr/0Qr5q7h6/ZsaVgCa
+ +tOVPWXd+F8Igeuej4AVDFrH6Uwm5mTfwu28RAI0Ng1un5ddLHyxqKJgrmBZifcZ99WK
+ 4nRJmwEozvBFDXMsABXD1+S8TwvadTGtRdSPKFn7dFrVGvHqaHNrO0hmSXa9WOZY9ii9
+ npaDth7wzMcFeiiG8P42fl4KG+ALyxN9aKgboJnrMUseRfzj9mImg9nONamvBktQo/G5
+ IPxX6bjLah/7Iu0Q6a+RDt1zd3Hv/ljTd3jd72qVrC7S7CQMCPgJ3N5LiiwY342t25oz
+ ItRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=dmfbuDLJ6Q3FvOkoWKlh63QYIsWXLm8WDQ+AhB6NsrQ=;
+ b=GycMrYhIWjcWwUAE5gEUYW9WNQdY3anACSeCYtXq+OLaufX/ZgvM25qW4O0fgDVDsc
+ B7OCHOvWMbqlII652zAeqLEUoJCiCFIjt4FyIU0A2Fxb6ExwL7tulLg2YpuP5OKAkVVM
+ 3rB/tu11bRvJ8223WR6bSbperx0ZZLsgE7wq2hvT4fyr5oGZ4IHsqv3/mcwqw/ydWtDR
+ zk2t+Tl07/bVn63eoE7alkGZ64LSxb4ufUCTBbQCEeRE0BCymuhChvDmE+OqzkKQn8KB
+ K4l4YWTMizzlPIScfzIOcJlC/5afyyfjm1P2jpzIKtT/VAYASML28pQxEhGDvNUuPIm0
+ ZJ5A==
+X-Gm-Message-State: ACgBeo0YezXloI3tnpCeg7SbUV9l7zFvudZk/6gSxSelcsBlBdIUSk9/
+ aBdvrpOIVHqMxndZ19h/a+ffR9Z1+kEkQebZxTI=
+X-Google-Smtp-Source: AA6agR4Ng0YzjKGItUdauZt4/kPTeKA5G4yyjhvWij5sLy2wpNO+iQpyN5jfG7tu+pDHYAAmiu2V/GxMDzo08MgkIQo=
+X-Received: by 2002:a17:90b:100e:b0:1f3:a4a:2620 with SMTP id
+ gm14-20020a17090b100e00b001f30a4a2620mr16767338pjb.120.1660548130332; Mon, 15
+ Aug 2022 00:22:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220815031624.170857-1-wilfred.mallawa@opensource.wdc.com>
+ <20220815031624.170857-5-wilfred.mallawa@opensource.wdc.com>
+In-Reply-To: <20220815031624.170857-5-wilfred.mallawa@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 Aug 2022 17:21:44 +1000
+Message-ID: <CAKmqyKNn9p7z=1590Uwz0Tr64J-HVW+_6Pq4jkcHuedY7etOuA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] hw/ssi: ibex_spi: update reg addr
+To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,128 +84,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The logic to assign high memory region's address in virt_set_memmap()
-is independent. Lets move the logic to virt_set_high_memmap() helper.
-"each device" is replaced by "each region" in the comments.
+On Mon, Aug 15, 2022 at 1:20 PM Wilfred Mallawa
+<wilfred.mallawa@opensource.wdc.com> wrote:
+>
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>
+> Updates the `EVENT_ENABLE` register to offset `0x34` as per
+> OpenTitan spec [1].
+>
+> [1] https://docs.opentitan.org/hw/ip/spi_host/doc/#Reg_event_enable
+>
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-No functional change intended.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- hw/arm/virt.c | 92 ++++++++++++++++++++++++++++-----------------------
- 1 file changed, 50 insertions(+), 42 deletions(-)
+Alistair
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e38b6919c9..4dde08a924 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1688,6 +1688,55 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
-     return arm_cpu_mp_affinity(idx, clustersz);
- }
- 
-+static void virt_set_high_memmap(VirtMachineState *vms,
-+                                 hwaddr base, int pa_bits)
-+{
-+    hwaddr region_base, region_size;
-+    bool *region_enabled, fits;
-+    int i;
-+
-+    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-+        region_base = ROUND_UP(base, extended_memmap[i].size);
-+        region_size = extended_memmap[i].size;
-+
-+        switch (i) {
-+        case VIRT_HIGH_GIC_REDIST2:
-+            region_enabled = &vms->highmem_redists;
-+            break;
-+        case VIRT_HIGH_PCIE_ECAM:
-+            region_enabled = &vms->highmem_ecam;
-+            break;
-+        case VIRT_HIGH_PCIE_MMIO:
-+            region_enabled = &vms->highmem_mmio;
-+            break;
-+        default:
-+            region_enabled = NULL;
-+        }
-+
-+        /* Skip unknwon or disabled regions */
-+        if (!region_enabled || !*region_enabled) {
-+            continue;
-+        }
-+
-+        /*
-+         * Check each region to see if they fit in the PA space,
-+         * moving highest_gpa as we go.
-+         *
-+         * For each device that doesn't fit, disable it.
-+         */
-+        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
-+        if (fits) {
-+            vms->memmap[i].base = region_base;
-+            vms->memmap[i].size = region_size;
-+
-+            base = region_base + region_size;
-+            vms->highest_gpa = region_base + region_size - 1;
-+        } else {
-+            *region_enabled = false;
-+        }
-+    }
-+}
-+
- static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
- {
-     MachineState *ms = MACHINE(vms);
-@@ -1742,48 +1791,7 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
- 
-     /* We know for sure that at least the memory fits in the PA space */
-     vms->highest_gpa = memtop - 1;
--
--    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
--        hwaddr region_base = ROUND_UP(base, extended_memmap[i].size);
--        hwaddr region_size = extended_memmap[i].size;
--        bool *region_enabled, fits;
--
--        switch (i) {
--        case VIRT_HIGH_GIC_REDIST2:
--            region_enabled = &vms->highmem_redists;
--            break;
--        case VIRT_HIGH_PCIE_ECAM:
--            region_enabled = &vms->highmem_ecam;
--            break;
--        case VIRT_HIGH_PCIE_MMIO:
--            region_enabled = &vms->highmem_mmio;
--            break;
--        default:
--            region_enabled = NULL;
--        }
--
--        /* Skip unknwon or disabled regions */
--        if (!region_enabled || !*region_enabled) {
--            continue;
--        }
--
--        /*
--         * Check each device to see if they fit in the PA space,
--         * moving highest_gpa as we go.
--         *
--         * For each device that doesn't fit, disable it.
--         */
--        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
--        if (fits) {
--            vms->memmap[i].base = region_base;
--            vms->memmap[i].size = region_size;
--
--            base = region_base + region_size;
--            vms->highest_gpa = region_base + region_size - 1;
--        } else {
--            *region_enabled = false;
--        }
--    }
-+    virt_set_high_memmap(vms, base, pa_bits);
- 
-     if (device_memory_size > 0) {
-         ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
--- 
-2.23.0
-
+> ---
+>  hw/ssi/ibex_spi_host.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
+> index 19dd094d76..3b8dcbce05 100644
+> --- a/hw/ssi/ibex_spi_host.c
+> +++ b/hw/ssi/ibex_spi_host.c
+> @@ -93,7 +93,7 @@ REG32(ERROR_STATUS, 0x30)
+>      FIELD(ERROR_STATUS, CMDINVAL, 3, 1)
+>      FIELD(ERROR_STATUS, CSIDINVAL, 4, 1)
+>      FIELD(ERROR_STATUS, ACCESSINVAL, 5, 1)
+> -REG32(EVENT_ENABLE, 0x30)
+> +REG32(EVENT_ENABLE, 0x34)
+>      FIELD(EVENT_ENABLE, RXFULL, 0, 1)
+>      FIELD(EVENT_ENABLE, TXEMPTY, 1, 1)
+>      FIELD(EVENT_ENABLE, RXWM, 2, 1)
+> --
+> 2.37.1
+>
+>
 
