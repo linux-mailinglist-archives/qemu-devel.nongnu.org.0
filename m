@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5DD593110
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 16:55:22 +0200 (CEST)
-Received: from localhost ([::1]:41030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E55F593104
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 16:50:20 +0200 (CEST)
+Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNbUv-0001Wr-Aj
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 10:55:21 -0400
+	id 1oNbQ3-00067W-1B
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 10:50:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:41592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fb@frank-buss.de>) id 1oNbLe-0001Fx-DI
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 10:45:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:36883)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fb@frank-buss.de>) id 1oNbBh-0005rO-Lq
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 10:35:31 -0400
-Received: from [192.168.11.32] ([89.0.228.67]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MnpP8-1nYbF03HIo-00pMPR for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022
- 16:35:24 +0200
-Message-ID: <83bb27f7-8700-f96c-617c-8e9dfa485db6@frank-buss.de>
-Date: Mon, 15 Aug 2022 16:35:24 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oNbLK-0001Fx-Oq
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 10:45:26 -0400
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:33315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oNbKs-0007E6-Uu
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 10:45:03 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id d1so5505221qvs.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 07:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=wMW10sjYQZN0D37/Yk9ecGrC6/3f8Xys+FzlrSp9c2Q=;
+ b=RNLfbXVMpbjBcTAkOlC70BnGn1WKbnaIT3EQlQRkgFwMVLZ4eM+LwA+fT0xsZdkg2R
+ mQBclYwr0gLmgYAYk3Hqkftq+4v2TF2O9StNatmY9M8YLiURao+Huvt1KCqdYcQkkS1o
+ kR6+FAl0221bkQ+Ve98yYtblORDDfganGSuuVMcr9HEhXezJwCkdYkjDsK6eaCVnpNES
+ Hw0rKJ6ued07rhuwYlUHBmYPzdYKZnq2JanYSg4bqH81e4cTPxUcxf4rwYCudYE0LaMM
+ 3nyiagmQb35mWpXs9v6A80NHLBIxC/wcCcQ63xsgIJgdd4O6ilBei3RF5bUSX6ob8FL2
+ gtpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=wMW10sjYQZN0D37/Yk9ecGrC6/3f8Xys+FzlrSp9c2Q=;
+ b=SyIte33gJQqvwF5XVuCUxr9ynzQgJ/Mv4QU+mwnmixu9tBVtOxnPLYt/MbQDoiT37J
+ Xm/fhymkaSagPK4agMpedn8N8PffSgqfO+SWvWaGxUBR+0WwWRvgN7BOIzSL4lczg3gh
+ YPqW9yRMDkOyN5o2puy7auHIGyQ5C5cE4As6grT8gtTo4bXh16Nf2pJoKeHM/DlWokoN
+ MfdTKJpjdm+Vn7/dUfURparGeXdgYu/YU06e8kHrLbLzFvPB63lwfPeyqIMI8mSWmsZL
+ XQ+BR2jAn4XTmRRRnj02C8uhbM2Y6ZLw08OSULFrOt2FgDnCeWu5ShvvuHKDtdFYNaHs
+ iD8g==
+X-Gm-Message-State: ACgBeo2apPEQId7v2J6n5SOgCRIriCCMqzJXqSKZ6JPhjPhfBdpATGeS
+ dCWqDgkgw4hOp32BndLJ2gvQXA==
+X-Google-Smtp-Source: AA6agR6WkDrFzw59L3zhEISsfSxc5kuoAoCXkoOfewREX40IxHUE/D/JST2e+8zzbja6g6596aEZCQ==
+X-Received: by 2002:a05:6214:d6c:b0:476:94f5:aa7b with SMTP id
+ 12-20020a0562140d6c00b0047694f5aa7bmr14077203qvs.92.1660574697011; 
+ Mon, 15 Aug 2022 07:44:57 -0700 (PDT)
+Received: from [192.168.138.233] ([50.233.235.3])
+ by smtp.gmail.com with ESMTPSA id
+ t24-20020a37ea18000000b006b9a8fc0c93sm8993814qkj.53.2022.08.15.07.44.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Aug 2022 07:44:56 -0700 (PDT)
+Message-ID: <474085b0-eef1-1c27-e3f7-8c6b5314a51f@linaro.org>
+Date: Mon, 15 Aug 2022 09:44:53 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
+ Thunderbird/91.11.0
+Subject: Re: [RFC] Unable to use qemu-ppc to run 32-bit powerpc executables
+ generated on gcc110 machine
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-From: Frank Buss <fb@frank-buss.de>
-Subject: CAN driver for the MCP2515 IC
+To: Thomas Huth <thuth@redhat.com>, Pierre Muller <pierre@freepascal.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <66112e17-e4ac-59fd-ceaf-56047015918a@freepascal.org>
+ <9d24dd87-782f-ab15-9d48-51653801cee0@redhat.com>
+ <1f4c81d1-7127-6441-2435-cfd2aa557550@freepascal.org>
+ <7fa38fda-0f33-8e43-93f4-956c2917eb74@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <7fa38fda-0f33-8e43-93f4-956c2917eb74@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:xy9qTFHPowULCYfG1MzZYOozwDHgCLstHFScAgn4ljHhRq3xbf/
- zuxGqEXLftbp7fmNxExS+L8ziNTTphSB982qrmaHGR+LiyVjX8Wgp+l1n+dL9JzLx45TmgA
- U6+UpH0kfRMDEt8SnZUmzzMZp6Qe16ug/YIc7JHWpw0GxfqaNWsaEIoRucTyup88idNQIi8
- EtFaYZBp6QgLDumf5JKWg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:u6Mmr0xdg3o=:qC9meT3B5VkpYkDpVnzHnJ
- Dun8IMMX5KE6itxT3NZi4ZaVczX5yfcjucqWNeBo2AiRYuxQsrD93jZmWgo9olH2GoL4fDncG
- r1DjF86Y6PX7FCyyE04KxepPlAronjr734kbuDpiSxD9BwbRFkFHsCFCqAXcqELxUBCrIbM5y
- RnMaMItdx3oKQbaTTz17x/UWljaC5yRVTyCHmMXUp8kQEvFoXe0RSOgv5UeObAucdnz4HePmh
- 41WDYs2zZS5SBmt84ODnmQyTi9xGxoYJEpARM3JoPPon53qTge8M3VOsuDDnav3ArHJE7EVC+
- Z3YW/0pT4rU4C7Eh+hKdKxdTSaAvo5oHqedYyzeNq4HmIghy9glR++3ioyDmdRJ2Ga4oHlqlj
- nCvcBgkuS1JuyIDrpfRhFHMkQUn36M2eJtgrneX73xnIMz2MbwWbJBWDgpZXJyzQzb2UlDV8Z
- nCzawaTgnjTrqBbJLUCSnVS6SNvISlGzq9OJLd8AgT9hrl+6MynXTM2xMyTyJCrTfRLiL+bSx
- yDcaQYOUBsjf+sNomypP2ZViGHD1Bozi06VMw+/lOxVPs8DHKvd78T8M9oet7yMZLPmlGfAWw
- ggpVbThXQH/elqZANwoyzfJqt9oN23wc1Z29gBi3M9D1/AZq1cZm8th6+lrHSXPQlcCnBGmbD
- vt1ORE29CiHgOnCwKCIvRqCjRL45IFiEFJDIEO/t5peM6Eru2Sj1AbcoxNPCgocLM3lD+0Kq7
- tP75jsIqr2DrxhF7tPYkglEs59D7uoZkmcPRbQ==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=fb@frank-buss.de;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,15 +98,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On 8/15/22 02:47, Thomas Huth wrote:
+> Ok, I see, so the question is wether it is somehow possible to enable the vector 
+> extensions on a 32-bit CPU by default somehow...
+> CC:-ing Laurent, maybe he knows...
 
-I'm using the MCP2515 CAN controller IC with Zephyr. For easier testing, 
-I would like to simulate it with QEMU, forwarding it to the Linux host 
-CAN system. Is there already such an implementation? Otherwise I would 
-write one (probably based on the Xilinx CAN implementation) and send a 
-patch, shouldn't be much work.
+You'd do this for ppc32-user-only by defining e.g. a power9 cpu, and setting all the bits 
+so that it's in narrow mode, and the correct endianness.
 
-Best regards,
 
-Frank
+r~
 
