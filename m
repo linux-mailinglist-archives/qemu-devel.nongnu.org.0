@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FFA592706
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 02:06:25 +0200 (CEST)
-Received: from localhost ([::1]:38196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D820A5927DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 04:44:02 +0200 (CEST)
+Received: from localhost ([::1]:59244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNNce-0001Or-E2
-	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 20:06:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56684)
+	id 1oNQ5B-00069J-FS
+	for lists+qemu-devel@lfdr.de; Sun, 14 Aug 2022 22:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oNNZ3-0007UT-4Z; Sun, 14 Aug 2022 20:02:43 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oNNZ0-0005Sa-WB; Sun, 14 Aug 2022 20:02:40 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- o3-20020a17090a0a0300b001f7649cd317so13125305pjo.0; 
- Sun, 14 Aug 2022 17:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=Gaxlwb6dLyqJz9EFJ5XHUA8qZiCCh0aeC+PKFeenQmA=;
- b=aYk+lb3FMjhy+vEOzfvmVw7ZK1Vf+7Sfzuhk80fp9X+leDFB7HsAMqsoINmJUSN1Lj
- Dd8nr+e4zm3Ixc9OuYvtXHE2hmAlYY5hEh6F/QcJuiHTdR3Kyg86/lVpQUY4gBtUPH6U
- PpLclaB4nRj0Ew4Otzt6DZ+uHZLUoF0ucltNLtk4DBjcwLqcecUxp0kKZiz1nC+X78a5
- bLKUJ+88jcuTRTIlbQ3B0gtAmLubVV5kXMcLzD0xKHcAT2s/R/n04srRKvT3byKJqivi
- Ocb5p50TKuutXSXuaIlgwptvNYBT9DeYnNE1Ume1+oUNfbR8pF4zqk/m5+mLolbRfa7w
- rz3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=Gaxlwb6dLyqJz9EFJ5XHUA8qZiCCh0aeC+PKFeenQmA=;
- b=DMn0FzmhGAuN13rD77n6P9tuYqMUQ1VX3d0UD40m3nufc/cTxnAcihxvqnPn6k/4AT
- P8PMRm3FZ+v3//MzNetL2umag7/uF39MjGcuIVC4QXErexOLlJK7/O1S9wMWw1n9lgbz
- uhKPtgIQxb1+i+VUREzOXWiqlk/5bvUyOjw3HhAtLVRiKVwtyZPgisJpEgWofPMfa26p
- Xai56+kDIX9RGiQquHrLHWvQgndYPNUIbUp5XQ850FjBcYRy2iMRvfclCgCS+B27vXoB
- CEQDve5KZcqRJ/SNULTCOckA0o9KQ4H6PBOZGA9qf17PcS7SXE+zMA38xtyCNvknTY+u
- oKzA==
-X-Gm-Message-State: ACgBeo1RfPlN5lFdlw74V+qO8efqWwm4jrqYAG+i+w7z8ZJZGAWgSAGD
- ZfJCRLNtPNwcu9GpTx7sQ6uJsxku8R+X/3XJQIY=
-X-Google-Smtp-Source: AA6agR5JWMUIaaX05DyNprjjnPPl1dY3dA3T0Ha3LSYel85PDfnTFm1xPU7hP64KsFUVc/UMKjU/XrLUPzmncL4AEpQ=
-X-Received: by 2002:a17:902:e5c8:b0:16f:1511:7575 with SMTP id
- u8-20020a170902e5c800b0016f15117575mr14530365plf.83.1660521756945; Sun, 14
- Aug 2022 17:02:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oNPzL-0001HF-JI; Sun, 14 Aug 2022 22:38:00 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:54503)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oNPzH-0001HY-Rz; Sun, 14 Aug 2022 22:37:59 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4M5djk3PyRz4xL5; Mon, 15 Aug 2022 12:37:46 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1660531066;
+ bh=0BHLAs1OeZdtkxJwDFeK0dHKYwqiN0jVqOP4wlTvO44=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XfuLKOP5oB7Vri/azUTuz4D62gADDufCWFHNkHq+hSm0iZcCRqTwduqVC5QvoUV4r
+ qlu56D9D1Y3xjUrvII1ESvnzrGOFpCPLt1EVIqW0SNOhdEYnerr0xehacCppmLknBy
+ wHQzq0PnpQS3DSw+rEWo9Yq934me4U2XseKp2e7E=
+Date: Mon, 15 Aug 2022 12:36:25 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Subject: Re: [PATCH for-7.2 v2 01/20] hw/arm: do not free machine->fdt in
+ arm_load_dtb()
+Message-ID: <YvmxKX2m2YYQqBz0@yekko>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
+ <20220805093948.82561-2-danielhb413@gmail.com>
+ <YvCBwE200sVzMixz@yekko>
+ <2414971c-5e65-96f2-26ee-6d0a35823bdd@gmail.com>
 MIME-Version: 1.0
-References: <20220802233307.2106839-1-atishp@rivosinc.com>
- <CAOnJCULUCvLrofjeCP5ROBn+Nt77=ay0sFOWpLAUh-hwNP+DTw@mail.gmail.com>
-In-Reply-To: <CAOnJCULUCvLrofjeCP5ROBn+Nt77=ay0sFOWpLAUh-hwNP+DTw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Aug 2022 10:02:10 +1000
-Message-ID: <CAKmqyKOp_39-giP8K=pqrgh781X9GP37ZBwDEMyKGP-a+_Q22g@mail.gmail.com>
-Subject: Re: [PATCH v12 0/6] Improve PMU support
-To: Atish Patra <atishp@atishpatra.org>
-Cc: Atish Patra <atishp@rivosinc.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="U8urR2n3HnWSToWw"
+Content-Disposition: inline
+In-Reply-To: <2414971c-5e65-96f2-26ee-6d0a35823bdd@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,196 +67,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 12, 2022 at 12:05 PM Atish Patra <atishp@atishpatra.org> wrote:
->
-> On Tue, Aug 2, 2022 at 4:33 PM Atish Patra <atishp@rivosinc.com> wrote:
-> >
-> > The latest version of the SBI specification includes a Performance Moni=
-toring
-> > Unit(PMU) extension[1] which allows the supervisor to start/stop/config=
-ure
-> > various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervis=
-or-level
-> > extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filterin=
-g)
-> > extension[2] allows the perf like tool to handle overflow interrupts an=
-d
-> > filtering support.
-> >
-> > This series implements remaining PMU infrastructure to support
-> > PMU in virt machine. The first seven patches from the original series
-> > have been merged already.
-> >
-> > This will allow us to add any PMU events in future.
-> > Currently, this series enables the following omu events.
-> > 1. cycle count
-> > 2. instruction count
-> > 3. DTLB load/store miss
-> > 4. ITLB prefetch miss
-> >
-> > The first two are computed using host ticks while last three are counte=
-d during
-> > cpu_tlb_fill. We can do both sampling and count from guest userspace.
-> > This series has been tested on both RV64 and RV32. Both Linux[3] and Op=
-ensbi[4]
-> > patches are required to get the perf working.
-> >
-> > Here is an output of perf stat/report while running hackbench with late=
-st
-> > OpenSBI & Linux kernel.
-> >
-> > Perf stat:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > [root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load=
--misses -e dTLB-store-misses -e iTLB-load-misses \
-> > > perf bench sched messaging -g 1 -l 10
-> > # Running 'sched/messaging' benchmark:
-> > # 20 sender and receiver processes per group
-> > # 1 groups =3D=3D 40 processes run
-> >
-> >      Total time: 0.265 [sec]
-> >
-> >  Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
-> >
-> >      4,167,825,362      cycles
-> >      4,166,609,256      instructions              #    1.00  insn per c=
-ycle
-> >          3,092,026      dTLB-load-misses
-> >            258,280      dTLB-store-misses
-> >          2,068,966      iTLB-load-misses
-> >
-> >        0.585791767 seconds time elapsed
-> >
-> >        0.373802000 seconds user
-> >        1.042359000 seconds sys
-> >
-> > Perf record:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > [root@fedora-riscv ~]# perf record -e cycles -e instructions \
-> > > -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000=
- \
-> > > perf bench sched messaging -g 1 -l 10
-> > # Running 'sched/messaging' benchmark:
-> > # 20 sender and receiver processes per group
-> > # 1 groups =3D=3D 40 processes run
-> >
-> >      Total time: 1.397 [sec]
-> > [ perf record: Woken up 10 times to write data ]
-> > Check IO/CPU overload!
-> > [ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
-> >
-> > [root@fedora-riscv riscv]# perf report
-> > Available samples
-> > 107K cycles                                                            =
-        =E2=97=86
-> > 107K instructions                                                      =
-        =E2=96=92
-> > 250 dTLB-load-misses                                                   =
-        =E2=96=92
-> > 13 dTLB-store-misses                                                   =
-        =E2=96=92
-> > 172 iTLB-load-misses
-> > ..
-> >
-> > Changes from v11->v12:
-> > 1. Rebased on top of the apply-next.
-> > 2. Aligned the write function & .min_priv to the previous line.
-> > 3. Fixed the FDT generations for multi-socket scenario.
-> > 4. Dropped interrupt property from the DT.
-> > 5. Generate illegal instruction fault instead of virtual instruction fa=
-ult
-> >    for VS/VU access while mcounteren is not set.
-> >
-> > Changes from v10->v11:
-> > 1. Rebased on top of the master where first 7 patches were already merg=
-ed.
-> > 2. Removed unnecessary additional check in ctr predicate function.
-> > 3. Removed unnecessary priv version checks in mcountinhibit read/write.
-> > 4. Added Heiko's reviewed-by/tested-by tags.
-> >
-> > Changes from v8->v9:
-> > 1. Added the write_done flags to the vmstate.
-> > 2. Fixed the hpmcounter read access from M-mode.
-> >
-> > Changes from v7->v8:
-> > 1. Removeding ordering constraints for mhpmcounter & mhpmevent.
-> >
-> > Changes from v6->v7:
-> > 1. Fixed all the compilation errors for the usermode.
-> >
-> > Changes from v5->v6:
-> > 1. Fixed compilation issue with PATCH 1.
-> > 2. Addressed other comments.
-> >
-> > Changes from v4->v5:
-> > 1. Rebased on top of the -next with following patches.
-> >    - isa extension
-> >    - priv 1.12 spec
-> > 2. Addressed all the comments on v4
-> > 3. Removed additional isa-ext DT node in favor of riscv,isa string upda=
-te
-> >
-> > Changes from v3->v4:
-> > 1. Removed the dummy events from pmu DT node.
-> > 2. Fixed pmu_avail_counters mask generation.
-> > 3. Added a patch to simplify the predicate function for counters.
-> >
-> > Changes from v2->v3:
-> > 1. Addressed all the comments on PATCH1-4.
-> > 2. Split patch1 into two separate patches.
-> > 3. Added explicit comments to explain the event types in DT node.
-> > 4. Rebased on latest Qemu.
-> >
-> > Changes from v1->v2:
-> > 1. Dropped the ACks from v1 as signficant changes happened after v1.
-> > 2. sscofpmf support.
-> > 3. A generic counter management framework.
-> >
-> > [1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sb=
-i.adoc
-> > [2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/e=
-dit
-> > [3] https://github.com/atishp04/qemu/tree/riscv_pmu_v12
-> >
-> > Atish Patra (6):
-> > target/riscv: Add sscofpmf extension support
-> > target/riscv: Simplify counter predicate function
-> > target/riscv: Add few cache related PMU events
-> > hw/riscv: virt: Add PMU DT node to the device tree
-> > target/riscv: Update the privilege field for sscofpmf CSRs
-> > target/riscv: Remove additional priv version check for mcountinhibit
-> >
-> > hw/riscv/virt.c           |  16 ++
-> > target/riscv/cpu.c        |  12 ++
-> > target/riscv/cpu.h        |  25 +++
-> > target/riscv/cpu_bits.h   |  55 +++++
-> > target/riscv/cpu_helper.c |  25 +++
-> > target/riscv/csr.c        | 312 +++++++++++++++++-----------
-> > target/riscv/machine.c    |   1 +
-> > target/riscv/pmu.c        | 414 +++++++++++++++++++++++++++++++++++++-
-> > target/riscv/pmu.h        |   8 +
-> > 9 files changed, 749 insertions(+), 119 deletions(-)
-> >
-> > --
-> > 2.25.1
-> >
-> >
->
-> Any other comments on this series ?
 
-Sooo....
+--U8urR2n3HnWSToWw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The series looks good, the patches are all reviewed, but do you mind
-rebasing this on
-https://github.com/alistair23/qemu/tree/riscv-to-apply.next ? Sorry
-about the hassle
+On Fri, Aug 12, 2022 at 07:03:26PM -0300, Daniel Henrique Barboza wrote:
+> David,
+>=20
+> On 8/8/22 00:23, David Gibson wrote:
+> > On Fri, Aug 05, 2022 at 06:39:29AM -0300, Daniel Henrique Barboza wrote:
+> > > At this moment, arm_load_dtb() can free machine->fdt when
+> > > binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will=
+ be
+> > > retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as =
+is
+> > > the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer =
+to
+> > > machine->fdt. And, in that case, the existing g_free(fdt) at the end =
+of
+> > > arm_load_dtb() will make machine->fdt point to an invalid memory regi=
+on.
+> > >=20
+> > > This is not an issue right now because there's no code that access
+> > > machine->fdt after arm_load_dtb(), but we're going to add a couple do
+> > > FDT HMP commands that will rely on machine->fdt being valid.
+> > >=20
+> > > Instead of freeing 'fdt' at the end of arm_load_dtb(), assign it to
+> > > machine->fdt. This will allow the FDT of ARM machines that relies on
+> > > arm_load_dtb() to be accessed later on.
+> > >=20
+> > > Since all ARM machines allocates the FDT only once, we don't need to
+> > > worry about leaking the existing FDT during a machine reset (which is
+> > > something that other machines have to look after, e.g. the ppc64 pSer=
+ies
+> > > machine).
+> > >=20
+> > > Cc: Peter Maydell <peter.maydell@linaro.org>
+> > > Cc: qemu-arm@nongnu.org
+> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > > ---
+> > >   hw/arm/boot.c | 8 +++++++-
+> > >   1 file changed, 7 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> > > index ada2717f76..9f5ceb62d2 100644
+> > > --- a/hw/arm/boot.c
+> > > +++ b/hw/arm/boot.c
+> > > @@ -684,7 +684,13 @@ int arm_load_dtb(hwaddr addr, const struct arm_b=
+oot_info *binfo,
+> > >        */
+> > >       rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
+> > > -    g_free(fdt);
+> > > +    /*
+> > > +     * Update the ms->fdt pointer to enable support for 'dumpdtb'
+> > > +     * and 'info fdt' commands. Use fdt_pack() to shrink the blob
+> > > +     * size we're going to store.
+> > > +     */
+> > > +    fdt_pack(fdt);
+> > > +    ms->fdt =3D fdt;
+> > >       return size;
+> >=20
+> > fdt_pack() could change (reduce) the effective size of the dtb blob,
+> > so returning a 'size' value from above rather than the new value of
+> > fdt_totalsize(fdt) doesn't see right.
+>=20
+> After some thought I think executing fdt_pack() like I'm doing here is not
+> a good idea. The first problem is that I'm not returning the updated size,
+> as you've said.
+>=20
+> But I can't just amend a 'return fdt_totalsize(fdt);' either. I'm packing=
+ the
+> FDT **after** the machine store it in the guest physical memory. If I ret=
+urn
+> the packed size, but the machine isn't packing the FDT before a
+> cpu_physical_memory_write(), I'll be under-reporting the FDT size written.
 
-Alistair
+Ah... good point.
 
->
->
-> --
-> Regards,
-> Atish
->
+> Machines such as e500 (patch 4) uses this returned value to put more stuf=
+f in
+> the guest memory. In that case, returning a smaller size that what was ac=
+tually
+> written can cause the machine to overwrite the FDT by accident. In fact, =
+only
+> a handful of machines (ppc/pseries, ppc/pvn, riscv, oepenrisc) is doing a
+> fdt_pack() before a cpu_physical_memory_write(). So this change would be
+> potentially harmful to a lot of people.
+>=20
+> One alternative would be to do a fdt_pack() before the machine writes the
+> FDT in the guest memory, but that is too intrusive to do because I can't =
+say
+> if each of these machines will be OK with that. I have a hunch that it wo=
+uld
+> be OK, but a hunch isn't going to cut it.
+
+Hmm.. I'd be fairly confident that would be ok.  It certainly should
+be ok for the fdt content itself, fdt_pack() doesn't change that
+semantically.  If the machine is using that size to put stuff after, I
+can't really see how that could break, either.  Unless the machine
+were using the fdtsize in one place and a fixed size somewhere else to
+address the same data, which would be a bug.
+
+> I'll just drop the fdt_pack() for each of these patches. If the machine c=
+ode
+> is already packing it, fine. If not, that's fine too. Each maintainer can
+> assess whether packing the FDT is worth it or not.
+
+That's probably reasonable for the time being.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--U8urR2n3HnWSToWw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmL5sRQACgkQgypY4gEw
+YSI8RA/+Is9QYROmiu3560pOwpyRrTzZNsVWE0WWRUczQ1HMGsSE89JDzuupCJMU
+IEWJJkcVs1EILT4Krew19Y4fKCR1N9fuES6UIOA1BXosC9nhvbnv6pymN8BhR+Cq
+idChZ2XdSajk2o+4RUVaSmMD8Q6KG5foPYxEKh090n3S7CBp+vl2UHo/heVK3BsD
+m8ej7jCzK6GHwoWm4U5gFyUDjCZFrK+rDMU8AgdChzg/s2i0n+fWZSkvsdJZEsqE
+EZFQgLTlwDK1O3T6slqmsk41DdZyeDDkFM5mb1ZPwVX86LUQaY6EBz2YBm+GevNi
+oR2QIFBoN8Z8Irp+3Hqd39jLRBMBMMnN3jMVTNqeECRawgcj0L2GYPem+NGxu85W
+M0VcNc4MZt/NV73xjXMOSKK0rsRs3Rx7Z8wnP9afB5L9hogtVMW7P7b/Fi0nPDrc
+z9wUOaOyDDXAitdx+KKkgaMD9AAouq6h5DO3xv3OqXH5zoGhBEuZC+wcherGNRCT
+irOkdOthdSNMeJY9fmJ0kNgKpoF8q6UPAIrZvQNJST5jro7mBXxXOt4BKgHkHLqq
+qeBHkuff5xqbI1reOEPX+iETVGN/fLrtuExceKmvmjJ96yswm3fBqF9oMadSkykg
+IC1lPw2lzz5+SYIludGUzRsdvPd6duvBNLUg3or42emToU8qfAA=
+=NlOA
+-----END PGP SIGNATURE-----
+
+--U8urR2n3HnWSToWw--
 
