@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD29E592F37
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 14:51:10 +0200 (CEST)
-Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E164592F5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Aug 2022 15:05:52 +0200 (CEST)
+Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNZYj-00022c-Ac
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 08:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43892)
+	id 1oNZmw-0007tz-PH
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 09:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oNZTb-0007Y3-O3
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 08:45:59 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:24650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oNZTY-0003q2-OQ
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 08:45:51 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A6CF4747DFD;
- Mon, 15 Aug 2022 14:45:42 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5752374633F; Mon, 15 Aug 2022 14:45:42 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 551977462D3;
- Mon, 15 Aug 2022 14:45:42 +0200 (CEST)
-Date: Mon, 15 Aug 2022 14:45:42 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Gerd Hoffmann <kraxel@redhat.com>
-cc: Elliot Nunn <elliot@nunn.io>, qemu-devel@nongnu.org, hsp.cat7@gmail.com
-Subject: Re: VGA hardware cursor query
-In-Reply-To: <20220815115657.5szgmhoqvqz7xep4@sirius.home.kraxel.org>
-Message-ID: <149cd3bb-57b2-f51f-cfcc-26f886a0d7b4@eik.bme.hu>
-References: <9A92120A-46B5-48A4-9424-8E606143291F@nunn.io>
- <20220815115657.5szgmhoqvqz7xep4@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oNZki-00068a-Mf
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 09:03:36 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:33549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oNZkg-0007hE-LP
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 09:03:32 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-32a09b909f6so70516747b3.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 06:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=6PIcwyThYzZWWJhZ8a+KS1oyLUCBBpC6o5KnYAhvrZ8=;
+ b=N1StCkieuaYUXjhPH2mLHiOopxHsR/DnadVrxt5A3VKq1Xlwz0Ew6Xw/WbWkx+QneA
+ tvCk6ijwykPA4bpSRHFTMJ5sEMuSC0CG6BIMG6Bw/yICtZQkyrFItyBRm7/S8bPDt+9R
+ pCvv3rYZ7a3aJtML/M/jcVF1LkJfdfrJXSqlRu8WIS2C3YyU3XSXCPl00nPDVHy6ijsK
+ EKBPuHkXi/PeaBmphr7b8xIpEppONaULik7Ewxsav9ho9uoyBTg6dxR/Nmv0DFT78QFE
+ XutUNufVfDlnzmf6KB8m1HsiDimECMB/e/y/mMsibA6QkeGyEl4PKINJ/lAUgO4gdr55
+ gptg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=6PIcwyThYzZWWJhZ8a+KS1oyLUCBBpC6o5KnYAhvrZ8=;
+ b=0Me6RwyTIuanJeQnno3bYaz7KLyTXTrFR56MJsMw35Kg5dIlTXi717xhbOLpj+M++6
+ UhJ/pEiRCAES8orcJSGXMIFoGNTH7AvFAkxyIayxekgugV9h0nbJNJBPvlcGMF2RJqOI
+ er/14j+Xs/cLwWCb017/G+6Olic8nepm+Vqx9jwXvuq8+7udLHb4mDs9rvNCednqdFui
+ KOcmBUH4OUifzfeqe7HYX51/5GZMqfY0TaBlDL/Q99S9Q4cHXBWMzuPi1wfl/i1HfMn4
+ r2SEr9UdoladF0XOgCoPctSh17WaMPpAYNMsARmicwqZTIbtiNBgk3fcH8aWhrIomvlH
+ MqEQ==
+X-Gm-Message-State: ACgBeo0k2Uqih9mj0FVg1mPPb7ymlq0u41HhGNiyZBDtnt1zJH/htXsb
+ 9gSqu9D8E5bYjVN6vOWKfqMca2hWzdTH/oDMsOa5mg==
+X-Google-Smtp-Source: AA6agR6nn7MRM7SjSFFKB8iLMXIl5KjaY4mkgVaBitJuz36O0rnYgpgzeTce6P+LgBH/pSv+IhKbHvsc5NNsF0/4iAk=
+X-Received: by 2002:a81:7bd6:0:b0:328:297a:f31f with SMTP id
+ w205-20020a817bd6000000b00328297af31fmr12894601ywc.469.1660568608476; Mon, 15
+ Aug 2022 06:03:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com>
+ <20220815112239.37xm3zwbe5gd7trz@sirius.home.kraxel.org>
+In-Reply-To: <20220815112239.37xm3zwbe5gd7trz@sirius.home.kraxel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Aug 2022 14:02:47 +0100
+Message-ID: <CAFEAcA_vFUfGA+51YT-Up3GCVzQKPtpscXMncqiGd849oC9NkA@mail.gmail.com>
+Subject: Re: race condition in display device caused by run_on_cpu() dropping
+ the iothread lock
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,65 +87,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Aug 2022, Gerd Hoffmann wrote:
-> On Mon, Aug 01, 2022 at 11:58:51AM +0800, Elliot Nunn wrote:
->> Dear all,
->>
->> I want to give Mac OS 9 clients access to hardware cursor support, to improve
->> responsiveness in absolute-cursor mode.
->>
->> Would it be acceptable to add a hardware cursor interface to the VGA device?
->> And if so, can anyone advise on an appropriate register layout?
+On Mon, 15 Aug 2022 at 12:22, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> Certainly acceptable.  Toyed with the idea, but never actually did it
-> because in most cases it is easier to just use virtio-gpu instead ;)
+> On Mon, Aug 01, 2022 at 02:23:55PM +0100, Peter Maydell wrote:
+> > I've been debugging a segfault in the raspi3b display device, and I've
+> > tracked it down to a race condition, but I'm not sure what the right
+> > way to fix it is...
+> >
+> > The race is that a vCPU thread is handling a guest register write that
+> > says "resize the framebuffer", which it implements by calling
+> > qemu_console_resize().
+>
+> [ back online after vacation ]
+>
+> Easiest is probably to not instantly resize the display surface but
+> let the update handler do that on the next display refresh.
 
-I think that's the way Elliot ended up going for as well also because it 
-could provide more features in the future. Getting just the framebuffer 
-and hardware cursor working with virtio-vga may be relatively easy to do.
+I feel like this will fix the immediate crash but isn't
+addressing the wider underlying problem. (For instance, if the
+user does something with the UI at just the wrong moment this
+can probably get in during the we-dropped-the-iothread-lock window.)
 
->> +#define VBE_DISPI_INDEX_CURSOR_IMG      0xb
->> +#define VBE_DISPI_INDEX_CURSOR_HOTSPOT  0xc
->> +#define VBE_DISPI_INDEX_CURSOR_ABS      0xd
+> Many display devices do that anyway because often multiple register
+> updates are needed to perform a resize and you don't want your ui
+> window run through all the temporary states ...
 >
-> There already is a qemu-specific register extension set (see
-> pci_vga_qext_ops in hw/display/vga-pci.c).  Right now it has two
-> registers:  One r/o register returning the size of the register
-> area, and one register to get/set the frame buffer byte order.
+> Alternative: The DisplaySurface is backed by pixman images which are
+> reference counted.  Some qemu code which depends on the backing store
+> staying around while not holding the iolock work with the pixman image
+> directly because they can just take a reference then to avoid the image
+> being freed while they use it.
 >
-> So, when adding hardware cursor support I'd strongly suggest to
-> add the registers there.  First because that is already
-> qemu-specific, and second because handling backward compatibility
-> is much easier then.  Guests can easily figure whenever hardware
-> cursors are supported by checking the size register and see
-> whenever the hwcursor registers are there or not.
+> >  * memory_region_snapshot_and_clear_dirty() ends up calling run_on_cpu(),
+> >    which briefly drops the iothread lock.
 >
-> I'd also suggest to use more verbose register names and use a separate
-> register for each value, i.e.
->
-> PCI_VGA_QEXT_REG_HWCURSOR_ENABLE
-> PCI_VGA_QEXT_REG_HWCURSOR_VRAM_OFFSET
-> PCI_VGA_QEXT_REG_HWCURSOR_HOTSPOT_X
-> PCI_VGA_QEXT_REG_HWCURSOR_HOTSPOT_Y
-> PCI_VGA_QEXT_REG_HWCURSOR_POSITION_X
-> PCI_VGA_QEXT_REG_HWCURSOR_POSITION_Y
+> Oh.  Is that new?
 
-Having at least position in a single register may be better as then 
-updating it is a single register write instead of two. Not likely to have 
-so big VGA screens that don't fit in one register.
+Since commit 9458a9a1df1a4 in 2018.
 
-Regards,
-BALATON Zoltan
+> > How is this intended to work? I feel like if run_on_cpu() silently
+> > drops the iothread lock this probably invalidates a lot of assumptions
+> > that QEMU code makes, especially in this kind of setup where
+> > the code making the assumptions is several layers in the callstack
+> > above whatever it is that ends up calling run_on_cpu()...
+>
+> Indeed.  The display update code paths using dirty bitmap snapshots
+> certainly don't expect that.
 
-> Also define clear semantics for each register and for the cursor format.
->
-> Do we want just a fixed 64x64 rgba format?
-> If not we need more registers ...
->
-> Is position the upper left corner of the image or the hotspot?
->
-> take care,
->  Gerd
->
->
+Yeah. The problem is that to fix the bug that 9458a9a1df1a4 is
+trying to fix we really do have to allow guest code to run,
+because we need to make sure that the TCG CPU thread has
+finished writing to RAM and got out of the generated code
+block, otherwise the dirty flag won't be consistent.
+
+-- PMM
 
