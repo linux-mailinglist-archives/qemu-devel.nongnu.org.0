@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BEC596164
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:46:05 +0200 (CEST)
-Received: from localhost ([::1]:44728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440BF59618B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:54:29 +0200 (CEST)
+Received: from localhost ([::1]:56856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO0dg-0001Pa-1T
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
+	id 1oO0lo-0004Uq-CO
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Sw-00056F-2S; Tue, 16 Aug 2022 13:34:58 -0400
-Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:36397)
+ id 1oO0Sy-0005Ea-Oh; Tue, 16 Aug 2022 13:35:10 -0400
+Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31]:44907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Su-0002OY-Hu; Tue, 16 Aug 2022 13:34:57 -0400
-Received: by mail-vs1-xe31.google.com with SMTP id o123so10852336vsc.3;
- Tue, 16 Aug 2022 10:34:55 -0700 (PDT)
+ id 1oO0Sx-0002O0-8W; Tue, 16 Aug 2022 13:35:00 -0400
+Received: by mail-vk1-xa31.google.com with SMTP id j11so5516603vkk.11;
+ Tue, 16 Aug 2022 10:34:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Fq0fN3wHA48GNTZRD1sHCkuC5wNorM3KMo/gVJyzLng=;
- b=UDV1TBvBLt9FAAPKPx581L4eQlxphxGZxwFBAO9foAOCV3rd61/UEXCE9yDqSxukIv
- BuXPWJAXxF7Ty9mfk4oQ7zOWQEBX3eYLcJK468kPE8e2/t+MWc43goCziC4nz5+Xu4HF
- 0N5B9vS8vMI63RxSTesU7lL7WO821/lAPVs9vjo9fMfVAJO8nxfRSOFsKef5jaVeHvj5
- C0lIxDJ6GpiFm9XJ5b4VmyRZi0GnKgWJIIxvSJuFQmURwPXY9V0rnTBdKQT2RP7C/oE1
- W7bBjdzHxShevteHSNw7qniUV6/5qYYVfytypJwFtAezTQyeJZbZ5YC+2dffStE6HDpj
- 3emg==
+ bh=+tgSxhNIGYEobQmCYPQhC6Jsb/JEojThXZIWNcaw8QA=;
+ b=NMJlOMhGGsWal+5MCDocMbS+0R9gmmahaaMfSEOlJmY9sAEQR4x+ILglD5aZSR254c
+ THJ91IhGdiXr8bC1y5bN1mRHdL00orLE/16bB3sd+d3TpBZpjJsMECPlmSkQ6L9OgNEi
+ HZtQvcvRf6AZ41enalFgWUDeVR/mRK+lBf6MJPWQbG/URuEE6ZrKPpdzVM/fxIxUT6iB
+ ElPi7U9Y9XAUHaIV6ADsDFUio96GtCJKGdZoOfOozRYpK0JG6fHvvoP9mQf2bAhJ4IGh
+ HQfLikO8JOTaYWhwvjKhRL/g/7x3+HUJkVgASsblbIajCUTjvOEJ1AwdDmDwDuLUkAHT
+ 3FTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Fq0fN3wHA48GNTZRD1sHCkuC5wNorM3KMo/gVJyzLng=;
- b=7G3Zv/H7630S2Prv8nKz74+7TBqJOSLIyNE02lj2x8cfhmxKWzYHwD9A72HJPPO64w
- VpR9SbxgyRyC6iJbgkAvZeiFJ3aoLhppcg1CSnwFJIY59naF5gPJTsj5lVD43brN+6r2
- 9ffsv/4sqlV0gE4h4pKu1jwq+Rw2obvOiHNuiwzgEmizno16UG4HiyjtE910jzCX0r0F
- 5iOz4PmkKQFOSwF7mxq2kP+kZtColNWYyfDXalpG8SCmYt9iDWUZyVFY+S37zo2oIdtx
- OiJKu0MgOwpyeDpf1eGeAdXXLgs1Z5mdYP2RsGK2dYjsM1Kkk+6t1RtbtHSeZZwV+DyA
- TfXw==
-X-Gm-Message-State: ACgBeo3Q1/F7IXP9iXrTmrxlsdr8p4ASA6T4YXIWxAFkNvaj+HDZC07B
- hbmQ6DMcNeXMOb9UU7mhTl3+KKApAgP5yg==
-X-Google-Smtp-Source: AA6agR5rSDvVkWYAYaj9a7DzARxr9eNpXHhmPelN/EtQ1UzNwCe8uCAkpfKKiqT24uFUB49BvpPcOg==
-X-Received: by 2002:a67:e243:0:b0:387:3666:4e67 with SMTP id
- w3-20020a67e243000000b0038736664e67mr8558048vse.47.1660671295215; 
- Tue, 16 Aug 2022 10:34:55 -0700 (PDT)
+ bh=+tgSxhNIGYEobQmCYPQhC6Jsb/JEojThXZIWNcaw8QA=;
+ b=OsanPnVcU/XC6qAViYSxgdHbVyIdlGuLUHsc1GSCpAkvmIxhoFCwZiElATQe0c1B56
+ X0ckwbbyJArQxri9cEjbTbhIFPG64jGpndf2BqUnL86i1BLXLR/c9xiWgYDP8+w/qQNE
+ nFsbkpi7TIjBUVQLrUSdb9Agz2aXaH/8L5gtIVok7NhPteaNeZuad0w7twbSnyZKyzpT
+ T3sRixMZ1CBUTHn0ETNSaOvwbLRX+OPKutYtz5YTLI9k6fWgyc80eoBMKB8J/5pzT9b4
+ GPzGPwI68qn3Dm/J+trS2/b70Agqo4v1YMA3ceKmGcq5jYtu8MgtHTHxz0LoSd8cH2Pw
+ i3rg==
+X-Gm-Message-State: ACgBeo259wyM859hmxAan4CMIDPhoi/gistuMJUXHP95r9dJrO1z8qIJ
+ Lp63Si102N2nVQGpzid2eM4rRSYLfs9P3A==
+X-Google-Smtp-Source: AA6agR762/0460CKqkAAO4gIlTTfmMLwSHNG77DySbm5vDpRrgn7e4BLm8P7i41WxWzcksv2klt8RQ==
+X-Received: by 2002:a1f:9013:0:b0:377:2b95:d7a5 with SMTP id
+ s19-20020a1f9013000000b003772b95d7a5mr9570376vkd.24.1660671297938; 
+ Tue, 16 Aug 2022 10:34:57 -0700 (PDT)
 Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
  [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.52
+ 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 10:34:54 -0700 (PDT)
+ Tue, 16 Aug 2022 10:34:57 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, alistair.francis@wdc.com,
  david@gibson.dropbear.id.au,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH for-7.2 v3 08/20] hw/ppc: set machine->fdt in
- pegasos2_machine_reset()
-Date: Tue, 16 Aug 2022 14:34:16 -0300
-Message-Id: <20220816173428.157304-9-danielhb413@gmail.com>
+ Frederic Barrat <fbarrat@linux.ibm.com>
+Subject: [PATCH for-7.2 v3 09/20] hw/ppc: set machine->fdt in pnv_reset()
+Date: Tue, 16 Aug 2022 14:34:17 -0300
+Message-Id: <20220816173428.157304-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220816173428.157304-1-danielhb413@gmail.com>
 References: <20220816173428.157304-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,34 +91,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll introduce QMP/HMP commands that requires machine->fdt to be set
-properly.
+This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
+all powernv machines.
 
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-ppc@nongnu.org
+Cc: Cédric Le Goater <clg@kaod.org>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pegasos2.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/ppc/pnv.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 61f4263953..624036d88b 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -331,6 +331,13 @@ static void pegasos2_machine_reset(MachineState *machine)
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index d3f77c8367..296995a600 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -608,7 +608,13 @@ static void pnv_reset(MachineState *machine)
+     qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
+     cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
  
-     vof_build_dt(fdt, pm->vof);
-     vof_client_open_store(fdt, pm->vof, "/chosen", "stdout", "/failsafe");
-+
+-    g_free(fdt);
 +    /*
-+     * Set the common machine->fdt pointer to enable support
-+     * for 'dumpdtb' and 'info fdt' QMP/HMP commands.
++     * Update the machine->fdt pointer to enable support for
++     * 'dumpdtb' and 'info fdt' commands. Free the existing
++     * machine->fdt to avoid leaking it during a reset.
 +     */
++    g_free(machine->fdt);
 +    machine->fdt = fdt;
-+
-     pm->cpu->vhyp = PPC_VIRTUAL_HYPERVISOR(machine);
  }
  
+ static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **errp)
 -- 
 2.37.2
 
