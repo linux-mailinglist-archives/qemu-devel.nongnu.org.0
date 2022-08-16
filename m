@@ -2,85 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A86596028
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 18:29:16 +0200 (CEST)
-Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D703596029
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 18:29:20 +0200 (CEST)
+Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNzRL-0002Rc-Co
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 12:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55220)
+	id 1oNzRP-0002ai-7n
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 12:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
- id 1oNmrB-0007L7-2k
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 23:03:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40465)
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1oNpyS-0004mA-FM
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 02:22:49 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:59299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
- id 1oNmr7-0007x3-Rn
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 23:03:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660618981;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SZmbzNOS8NjSoBbl17bufFSjI9Oge7FAiTEfq0le+Wc=;
- b=R1rHdmFq9LF307+9qE0dtkDqDuec51Y/NFsUIKLnmtE6HKwpRDvJCxJYnGi80YdJBp7of3
- wBlpdfYtWw/y4k0Lf6eN0Xf1XtUSSivI5E7n5BNHZp76gEO/WMvocK+jWhJyGMUqchoVoz
- j9S7kl54DSgxJRRfIaXPetMdQE17Vvg=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-491-s7e1201kOvmCcCDbD1Jpsw-1; Mon, 15 Aug 2022 23:01:49 -0400
-X-MC-Unique: s7e1201kOvmCcCDbD1Jpsw-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-31f63772b89so86219887b3.6
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 20:01:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=SZmbzNOS8NjSoBbl17bufFSjI9Oge7FAiTEfq0le+Wc=;
- b=TZInMIs6X0iCYqlep7jtOwSbajIkHlhkLgE/qoajNEsHKyaL01yeunRMhm08L62Qhq
- RNvO5RT1NCw9exldxiWkaWXdBWIPtK2zj2zPNNH8ku5UZ+xSzTFg6K7+dx3UeXK/45LR
- kSvr4tD1J4fr2tD8jMWxZzqjYuUWTYIkw5V2N+Qh7t6ciB5idcCRN4XygIjz3Kd0dl2f
- o5YhN/tdkAiWzxtjTzuOojfAp06ABjr+xlVD/KiEhfolb/mA1qzKf0ITHLnFemv2GmxB
- YxIuazgi4YFmsLDzqa/6uGRXbyzfRIwiXkV7Kn178QZ5hxQkNxUkQnrSnpB/8z3P4uXn
- rL8A==
-X-Gm-Message-State: ACgBeo0fFmTUO2Se071ZS3A3ubc8YQQLdD1RChtn6YyYfl21b1oYTYG/
- HD5W8/HTceS1JYYEM7QMPLNajtIVr43GjnOOzHObnzDC2aT45G6/sWLWjPFajkBY83MWotHoKak
- 6z1lzp+p277X7hhqHSYcLgHFuNBowmBM=
-X-Received: by 2002:a5b:b49:0:b0:67c:cf0:4565 with SMTP id
- b9-20020a5b0b49000000b0067c0cf04565mr13219075ybr.442.1660618908666; 
- Mon, 15 Aug 2022 20:01:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ppzGiFuF7UAJZC+MyRptstIF3nIzyWW1GXRKoFp0oIfiK8mv2G8yPuhdKcV3zLn+uKivIs6no6sOYN3IMSpA=
-X-Received: by 2002:a5b:b49:0:b0:67c:cf0:4565 with SMTP id
- b9-20020a5b0b49000000b0067c0cf04565mr13219062ybr.442.1660618908425; 
- Mon, 15 Aug 2022 20:01:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220815062958.100366-1-gshan@redhat.com>
- <20220815062958.100366-5-gshan@redhat.com>
-In-Reply-To: <20220815062958.100366-5-gshan@redhat.com>
-From: Zhenyu Zhang <zhenyzha@redhat.com>
-Date: Tue, 16 Aug 2022 11:01:12 +0800
-Message-ID: <CAJFLiB+2r2bphcMxjdaUcEs9LgtYXGODhpE47Deng03xN4Dz6A@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] virt/hw/virt: Add virt_set_high_memmap() helper
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, maz@kernel.org, 
- Auger Eric <eric.auger@redhat.com>, cohuck@redhat.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, shan.gavin@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=zhenyzha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1oNpyK-0003Af-69
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 02:22:43 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VMP-jo5_1660630630; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0VMP-jo5_1660630630) by smtp.aliyun-inc.com;
+ Tue, 16 Aug 2022 14:17:11 +0800
+Message-ID: <1660630557.1887379-3-xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH 00/24] Support VIRTIO_F_RING_RESET for virtio-net,
+ vhost-user, vhost-kernel in virtio pci-modern
+Date: Tue, 16 Aug 2022 14:15:57 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, jasowang@redhat.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
+ hengqi@linux.alibaba.com, Kangjie Xu <kangjie.xu@linux.alibaba.com>
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <20220816021322-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220816021322-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=115.124.30.43;
+ envelope-from=xuanzhuo@linux.alibaba.com;
+ helo=out30-43.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 16 Aug 2022 12:27:19 -0400
+X-Mailman-Approved-At: Tue, 16 Aug 2022 12:27:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,179 +64,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-commit 49e00c1fe2ab24b73ac16908f3c05ebe88b9186d (HEAD -> master)
-Author: Gavin Shan <gshan@redhat.com>
-Date:   Mon Aug 15 14:29:58 2022 +0800
-
-    virt/hw/virt: Add virt_set_high_memmap() helper
-
-    The logic to assign high memory region's address in virt_set_memmap()
-    is independent. Lets move the logic to virt_set_high_memmap() helper.
-    "each device" is replaced by "each region" in the comments.
-
-    No functional change intended.
-
-    Signed-off-by: Gavin Shan <gshan@redhat.com>
-
-The patchs works well on my Fujitsu host.
-
-[root@hpe-apollo80-02-n00 qemu]# /home/qemu/build/qemu-system-aarch64 -version
-QEMU emulator version 7.0.92 (v7.1.0-rc2-12-gd102b8162a)
-[root@hpe-apollo80-02-n00 qemu]# /home/qemu/build/qemu-system-aarch64
--accel kvm -m 4096,maxmem=1023G -machine virt-2.12 -cpu host
-
-[root@hpe-apollo80-02-n00 qemu]# /home/qemu/build/qemu-system-aarch64
--accel kvm -m 4096,maxmem=1024G -machine virt-2.12 -cpu host
-qemu-system-aarch64: -accel kvm: Addressing limited to 40 bits, but
-memory exceeds it by 1073741824 bytes
-
-[root@hpe-apollo80-02-n00 qemu]# /home/qemu/build/qemu-system-aarch64
--accel kvm -m 4096,maxmem=1023G -machine virt -cpu host
-
-[root@hpe-apollo80-02-n00 qemu]# /home/qemu/build/qemu-system-aarch64
--accel kvm -m 4096,maxmem=1024G -machine virt -cpu host
-qemu-system-aarch64: -accel kvm: Addressing limited to 40 bits, but
-memory exceeds it by 1073741824 bytes
-
-Tested-by:zhenyzha@redhat.com
-
-
-On Mon, Aug 15, 2022 at 2:30 PM Gavin Shan <gshan@redhat.com> wrote:
+On Tue, 16 Aug 2022 02:14:10 -0400, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> On Tue, Aug 16, 2022 at 09:06:12AM +0800, Kangjie Xu wrote:
+> > The virtio queue reset function has already been defined in the virtio spec 1.2.
+> > The relevant virtio spec information is here:
+> >
+> >     https://github.com/oasis-tcs/virtio-spec/issues/124
+> >     https://github.com/oasis-tcs/virtio-spec/issues/139
+> >
+> > This patch set is to support this function in QEMU. It consists of several parts:
+> > 1. Patches 1-7 are the basic interfaces for vq reset in virtio and virtio-pci.
+> > 2. Patches 8-12 support vq stop and vq restart for vhost-kernel.
+> > 3. Patches 13-19 support vq stop and vq restart for vhost-user.
+> > 4. Patches 20-22 support vq reset and re-enable for virtio-net.
+> > 5. Patches 23-24 enable the vq reset feature for vhost-kernel and vhost-user.
+> >
+> > The process of virtqueue reset can be concluded as:
+> > 1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
+> > 2. Then the virtqueue can be optionally restarted(re-enabled).
+> >
+> > Since this patch set involves multiple modules and seems a bit messy, we briefly describe the
+> > calling process for different modes below.
+> > virtio-net:
+> > 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+> >     -> virtio_queue_reset() [virtio]
+> >         -> virtio_net_queue_reset() [virtio-net]
+> >         -> __virtio_queue_reset()
+> > 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+> >     -> set enabled, reset status of vq.
+> >
+> > vhost-kernel:
+> > 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+> >     -> virtio_queue_reset() [virtio]
+> >         -> virtio_net_queue_reset() [virtio-net]
+> >             -> vhost_net_virtqueue_stop() [vhost-net]
+> >                 -> vhost_net_set_backend() [vhost]
+> >                 -> vhost_dev_virtqueue_stop()
+> >                     -> vhost_virtqueue_unmap()
+> >         -> __virtio_queue_reset()
+> > 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+> >     -> virtio_queue_enable() [virtio]
+> >         -> virtio_net_queue_enable() [virtio-net]
+> >             -> vhost_net_virtqueue_restart() [vhost-net]
+> >                 -> vhost_dev_virtqueue_restart() [vhost]
+> >                     -> vhost_virtqueue_start()
+> >                 -> vhost_net_set_backend()
+> >     -> set enabled, reset status of vq.
+> >
+> > vhost-user:
+> > 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+> >     -> virtio_queue_reset() [virtio]
+> >         -> virtio_net_queue_reset() [virtio-net]
+> >             -> vhost_net_virtqueue_stop() [vhost-net]
+> >                 -> vhost_dev_virtqueue_stop() [vhost]
+> >                     -> vhost_user_reset_vring() [vhost-user]
+> >                         -> send VHOST_USER_RESET_VRING to the device
+> >                     -> vhost_virtqueue_unmap()
+> >         -> __virtio_queue_reset()
+> > 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+> >     -> virtio_queue_enable() [virtio]
+> >         -> virtio_net_queue_enable() [virtio-net]
+> >             -> vhost_net_virtqueue_restart() [vhost-net]
+> >                 -> vhost_dev_virtqueue_restart() [vhost]
+> >                     -> vhost_virtqueue_start()
+> >                     -> vhost_user_set_single_vring_enable [vhost-user]
+> >                         -> send VHOST_USER_SET_VRING_ENABLE to the device
+> >     -> set enabled, reset status of vq.
+> >
+> >
+> > Test environment:
+> >     Host: 5.19.0-rc3 (With vq reset support)
+> >     Qemu: QEMU emulator version 7.0.50
+> >     Guest: 5.19.0-rc3 (With vq reset support)
+> >     DPDK: 22.07-rc1 (With vq reset support)
+> >     Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
+> >
+> >     The drvier can resize the virtio queue, then virtio queue reset function should
+> >     be triggered.
+> >
+> >     The default is split mode, modify Qemu virtio-net to add PACKED feature to
+> >     test packed mode.
 >
-> The logic to assign high memory region's address in virt_set_memmap()
-> is independent. Lets move the logic to virt_set_high_memmap() helper.
-> "each device" is replaced by "each region" in the comments.
->
-> No functional change intended.
->
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->  hw/arm/virt.c | 92 ++++++++++++++++++++++++++++-----------------------
->  1 file changed, 50 insertions(+), 42 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index e38b6919c9..4dde08a924 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1688,6 +1688,55 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->      return arm_cpu_mp_affinity(idx, clustersz);
->  }
->
-> +static void virt_set_high_memmap(VirtMachineState *vms,
-> +                                 hwaddr base, int pa_bits)
-> +{
-> +    hwaddr region_base, region_size;
-> +    bool *region_enabled, fits;
-> +    int i;
-> +
-> +    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-> +        region_base = ROUND_UP(base, extended_memmap[i].size);
-> +        region_size = extended_memmap[i].size;
-> +
-> +        switch (i) {
-> +        case VIRT_HIGH_GIC_REDIST2:
-> +            region_enabled = &vms->highmem_redists;
-> +            break;
-> +        case VIRT_HIGH_PCIE_ECAM:
-> +            region_enabled = &vms->highmem_ecam;
-> +            break;
-> +        case VIRT_HIGH_PCIE_MMIO:
-> +            region_enabled = &vms->highmem_mmio;
-> +            break;
-> +        default:
-> +            region_enabled = NULL;
-> +        }
-> +
-> +        /* Skip unknwon or disabled regions */
-> +        if (!region_enabled || !*region_enabled) {
-> +            continue;
-> +        }
-> +
-> +        /*
-> +         * Check each region to see if they fit in the PA space,
-> +         * moving highest_gpa as we go.
-> +         *
-> +         * For each device that doesn't fit, disable it.
-> +         */
-> +        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
-> +        if (fits) {
-> +            vms->memmap[i].base = region_base;
-> +            vms->memmap[i].size = region_size;
-> +
-> +            base = region_base + region_size;
-> +            vms->highest_gpa = region_base + region_size - 1;
-> +        } else {
-> +            *region_enabled = false;
-> +        }
-> +    }
-> +}
-> +
->  static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->  {
->      MachineState *ms = MACHINE(vms);
-> @@ -1742,48 +1791,7 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->
->      /* We know for sure that at least the memory fits in the PA space */
->      vms->highest_gpa = memtop - 1;
-> -
-> -    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-> -        hwaddr region_base = ROUND_UP(base, extended_memmap[i].size);
-> -        hwaddr region_size = extended_memmap[i].size;
-> -        bool *region_enabled, fits;
-> -
-> -        switch (i) {
-> -        case VIRT_HIGH_GIC_REDIST2:
-> -            region_enabled = &vms->highmem_redists;
-> -            break;
-> -        case VIRT_HIGH_PCIE_ECAM:
-> -            region_enabled = &vms->highmem_ecam;
-> -            break;
-> -        case VIRT_HIGH_PCIE_MMIO:
-> -            region_enabled = &vms->highmem_mmio;
-> -            break;
-> -        default:
-> -            region_enabled = NULL;
-> -        }
-> -
-> -        /* Skip unknwon or disabled regions */
-> -        if (!region_enabled || !*region_enabled) {
-> -            continue;
-> -        }
-> -
-> -        /*
-> -         * Check each device to see if they fit in the PA space,
-> -         * moving highest_gpa as we go.
-> -         *
-> -         * For each device that doesn't fit, disable it.
-> -         */
-> -        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
-> -        if (fits) {
-> -            vms->memmap[i].base = region_base;
-> -            vms->memmap[i].size = region_size;
-> -
-> -            base = region_base + region_size;
-> -            vms->highest_gpa = region_base + region_size - 1;
-> -        } else {
-> -            *region_enabled = false;
-> -        }
-> -    }
-> +    virt_set_high_memmap(vms, base, pa_bits);
->
->      if (device_memory_size > 0) {
->          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
-> --
-> 2.23.0
->
+> legacy mode testing?
 
 
--- 
-I respect your work/life balance, no need to reply to this email if it
-is outside of your normal working hours.
+legacy does not support vq reset.
 
-Zhenyu Zhang
+Thanks.
 
-Senior Quality Engineer, Products And Technologies
-
-Red Hat Software (Beijing) Co., R&D Branch
-
+>
+> > Guest Kernel Patch:
+> >     https://lore.kernel.org/bpf/20220801063902.129329-1-xuanzhuo@linux.alibaba.com/
+> >
+> > DPDK Patch:
+> >     https://github.com/middaywords/dpdk/compare/72206323a5dd3182b13f61b25a64abdddfee595c...eabadfac7953da66bc10ffb8284b490d09bb7ec7
+> >
+> > Host Kernel Patch:
+> >     https://github.com/middaywords/linux/commit/19a91e0d7167b2031e46078c6215c213b89cb2c3
+> >
+> > Looking forward to your review and comments. Thanks.
+> >
+> > Kangjie Xu (19):
+> >   virtio: introduce virtio_queue_enable()
+> >   virtio: core: vq reset feature negotation support
+> >   virtio-pci: support queue enable
+> >   vhost: extract the logic of unmapping the vrings and desc
+> >   vhost: introduce vhost_dev_virtqueue_stop()
+> >   vhost: introduce vhost_dev_virtqueue_restart()
+> >   vhost-net: vhost-kernel: introduce vhost_net_virtqueue_stop()
+> >   vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
+> >   docs: vhost-user: add VHOST_USER_RESET_VRING message
+> >   vhost-user: introduce vhost_reset_vring() interface
+> >   vhost-user: add op to enable or disable a single vring
+> >   vhost: vhost-user: update vhost_dev_virtqueue_stop()
+> >   vhost: vhost-user: update vhost_dev_virtqueue_restart()
+> >   vhost-net: vhost-user: update vhost_net_virtqueue_stop()
+> >   vhost-net: vhost-user: update vhost_net_virtqueue_restart()
+> >   virtio-net: introduce flush_or_purge_queued_packets()
+> >   virtio-net: support queue_enable
+> >   vhost: vhost-kernel: enable vq reset feature
+> >   vhost: vhost-user: enable vq reset feature
+> >
+> > Xuan Zhuo (5):
+> >   virtio: sync relevant definitions with linux
+> >   virtio: introduce __virtio_queue_reset()
+> >   virtio: introduce virtio_queue_reset()
+> >   virtio-pci: support queue reset
+> >   virtio-net: support queue reset
+> >
+> >  docs/interop/vhost-user.rst                   | 10 +++
+> >  hw/core/machine.c                             |  1 +
+> >  hw/net/vhost_net.c                            | 79 +++++++++++++++++++
+> >  hw/net/virtio-net.c                           | 58 ++++++++++++--
+> >  hw/virtio/vhost-user.c                        | 67 ++++++++++++++--
+> >  hw/virtio/vhost.c                             | 79 +++++++++++++++++--
+> >  hw/virtio/virtio-pci.c                        | 20 +++++
+> >  hw/virtio/virtio.c                            | 62 +++++++++++----
+> >  include/hw/virtio/vhost-backend.h             |  6 ++
+> >  include/hw/virtio/vhost.h                     |  5 ++
+> >  include/hw/virtio/virtio-pci.h                |  1 +
+> >  include/hw/virtio/virtio.h                    |  8 +-
+> >  include/net/vhost_net.h                       |  4 +
+> >  .../standard-headers/linux/virtio_config.h    |  5 ++
+> >  include/standard-headers/linux/virtio_pci.h   |  2 +
+> >  15 files changed, 371 insertions(+), 36 deletions(-)
+> >
+> > --
+> > 2.32.0
+>
 
