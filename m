@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509BE595BC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:29:48 +0200 (CEST)
-Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66DF595BC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:30:29 +0200 (CEST)
+Received: from localhost ([::1]:43502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNvhb-0000l8-E4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51904)
+	id 1oNviG-00018S-UM
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oNveX-00055K-Uz
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:37 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37612)
+ id 1oNveP-0004gh-9U
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:29 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oNveM-0001jG-11
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:37 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- c187-20020a1c35c4000000b003a30d88fe8eso9294024wma.2
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:26:24 -0700 (PDT)
+ id 1oNveM-0001ja-UC
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:28 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id n7so1232389wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:26:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=QgrduMlHGiXz/KQJdizjHfOEEcIHkCd/ccyCx+VT6a0=;
- b=PNNzilDHiFXdtzq83W+4+f9Q5xgunVdy11GD1R3ZgcQemCrm7arklLF5Yb8LrXD9ou
- 8UM6fS8DmD7azQqheJ3G6Vqb/a4FHk8zjkKSUwf1A1+EYqiV+hi9bHVmTmf+HSVQs8fj
- +IZsCXhZJQ1y6Dextpg210f+yVZOZICdl0QAT3i3wnTY1EzVm3ahZ6TyZlTEM7sH28Dz
- ixtCakKuiALvL5FOj/a1HXKjKp+yGGfG/+XgfJ60aiNbvD9D/PS3YD6HY4BjzqM0BCKh
- DLGe9LGVPHgFiDirVkZ/gR3awgg258NC8dkUm8znfc5S83Pudzj+DMxjXAAUFn2We3yb
- U2tw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=bwzqfA6o9KxVQ+yh1ggjjAyIYRr9k3xUnAlnxn391Io=;
+ b=hVupO/BbnR/puOKWMrDR9gWDlqWO6mB2t0k8CKg6WP7+HdJLhi2hbELMWX4mUJ7q8E
+ LiNnr3lCif/t6rN2cwewWOkT2AjDR0vFhIqWnXEt5TZxE2psqsYobOEGRZPVBKP/+OB1
+ XVmUCzF9PCJnRPCrr9DoHydLELmouwWnm/PeE1LHKyVzy7W1fgukuHuq5oBdgYNuh1jD
+ OSuFyxekd/Wj2HavLX+PiKf67jYUAitK1sim+QwVFhFy+hlKIJTHiPpOsA/RsWPdflXv
+ KH2mUlwxsTFVsxlKpuKir/HRShEcsN/qse/fZrtFI52vGCSaMvISQkuyu+yapZo5c5oH
+ Kd8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=QgrduMlHGiXz/KQJdizjHfOEEcIHkCd/ccyCx+VT6a0=;
- b=DfLdCGdEY/lB5NYu/+zJ7hMgyJVsTg8ZkdcS6m6Hd9uIMaIao/p67TCogjXLSer8ef
- sis632fB+oo2kt8utRtvslgOlYObRhdY7takAMpvPo8cNvEmwJrAxwNe50uq2mQEwUSK
- MyYr+AM6O2vw4w10bbz+ifHGKrRGHsYf+CTjbJ9DI9XK+ylicxHtYrtuL9k7xOQG60sQ
- U/0+st9JNBUKMrXjSgXsRwXJeqVd7INgwQxyn5Zoe8N6cflTJqSmNXTuWOkQqX5xV+/P
- CCzFo9VuTqKuG7uDRoy73vA36rSp8zs3obb2ocrSkTZQN/ehuSw+IiBGl3t6jAyfwuRj
- 3TNg==
-X-Gm-Message-State: ACgBeo2A6+rO6H/vXnIW9mO/hmSPLz4VG1MVyGVMqTUg08Xwb/dA0JZ3
- ah/x6sjt6m2DIDeclnEct+1awg==
-X-Google-Smtp-Source: AA6agR5mnCDAPb3rNUbGUFwpbciLf6DdBP7cpx47QzZMNay0IeqRwERV2DsiOG28ErPtckgcBIG2xQ==
-X-Received: by 2002:a1c:ed19:0:b0:3a5:4fb5:bcd6 with SMTP id
- l25-20020a1ced19000000b003a54fb5bcd6mr18498276wmh.100.1660652783241; 
- Tue, 16 Aug 2022 05:26:23 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=bwzqfA6o9KxVQ+yh1ggjjAyIYRr9k3xUnAlnxn391Io=;
+ b=PMR4isStjWHfzw4GEfwlXMmOm/+5IfmQ6gM01iwGLhaGClYJxp9B0QK92HB3Mz6JoZ
+ ngGMNVmX1lpMIxHaK9b4DWgUh0BXSQ/L/EsOismKK60yOjYB9wID3Ob/qHoav1pCY56r
+ w/Nt8ud7gXGcDvK9DdAwhI0N1asH4cGkZC7ll42mwpdNM62iioDhHViF74gTLTz1eKfU
+ P9Blb/3pgTwKWh0Zhtd1Ca3v3NoynZv4Cxr4uT+coo/r0Xf8D8QteBsBmF1wh/XOKthN
+ TV5Ooh37FqH+sUDFRhduQyP5eMo5F3yzxgWs8VkTRTczf/lVyFJVwoMTfknKInb6g06l
+ y7Gw==
+X-Gm-Message-State: ACgBeo327BrkVuImsQL3LOVz1blMQkaKnmCR010v4m5LVsjLU5u6r1mh
+ lxP2lcVoqJhldF5uCunyTcRtvw==
+X-Google-Smtp-Source: AA6agR7mOxPAmib3eQoY4/e9/CGYGKUVheW6GTO1WrbdfIq2mQ3b9EvP+WG0VrZky8rBTBhTn5Ad0w==
+X-Received: by 2002:a05:6000:170b:b0:220:6535:26d8 with SMTP id
+ n11-20020a056000170b00b00220653526d8mr12127609wrc.577.1660652785563; 
+ Tue, 16 Aug 2022 05:26:25 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bp15-20020a5d5a8f000000b0021ee65426a2sm10287052wrb.65.2022.08.16.05.26.22
+ g7-20020a05600c4ec700b003a3170a7af9sm13186389wmq.4.2022.08.16.05.26.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 16 Aug 2022 05:26:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D05F01FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id DD7B31FFB8;
  Tue, 16 Aug 2022 13:26:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
 Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL for 7.1 0/3] memory leak and testing tweaks
-Date: Tue, 16 Aug 2022 13:26:18 +0100
-Message-Id: <20220816122621.2066292-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 1/3] linux-user: un-parent OBJECT(cpu) when closing thread
+Date: Tue, 16 Aug 2022 13:26:19 +0100
+Message-Id: <20220816122621.2066292-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220816122621.2066292-1-alex.bennee@linaro.org>
+References: <20220816122621.2066292-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,36 +95,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d102b8162a1e5fe8288d4d5c01801ce6536ac2d1:
+While forcing the CPU to unrealize by hand does trigger the clean-up
+code we never fully free resources because refcount never reaches
+zero. This is because QOM automatically added objects without an
+explicit parent to /unattached/, incrementing the refcount.
 
-  Merge tag 'pull-la-20220814' of https://gitlab.com/rth7680/qemu into staging (2022-08-14 08:48:11 -0500)
+Instead of manually triggering unrealization just unparent the object
+and let the device machinery deal with that for us.
 
-are available in the Git repository at:
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/866
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220811151413.3350684-2-alex.bennee@linaro.org>
 
-  https://github.com/stsquad/qemu.git tags/pull-for-7.1-fixes-160822-1
-
-for you to fetch changes up to 65711f9a87874a9ec61108c6009f8baec07c8b0d:
-
-  tests/avocado: apply a band aid to aspeed-evb login (2022-08-16 09:57:12 +0100)
-
-----------------------------------------------------------------
-A few small fixes:
-
-  - properly un-parent OBJECT(cpu) when closing -user thread
-  - add missing timeout to aspeed tests
-  - reduce raciness of login: prompt handling for aspeed tests
-
-----------------------------------------------------------------
-Alex Bennée (3):
-      linux-user: un-parent OBJECT(cpu) when closing thread
-      tests/avocado: add timeout to the aspeed tests
-      tests/avocado: apply a band aid to aspeed-evb login
-
- linux-user/syscall.c            | 13 +++++++------
- tests/avocado/machine_aspeed.py |  4 ++++
- 2 files changed, 11 insertions(+), 6 deletions(-)
-
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f409121202..bfdd60136b 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8594,7 +8594,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         if (CPU_NEXT(first_cpu)) {
+             TaskState *ts = cpu->opaque;
+ 
+-            object_property_set_bool(OBJECT(cpu), "realized", false, NULL);
++            if (ts->child_tidptr) {
++                put_user_u32(0, ts->child_tidptr);
++                do_sys_futex(g2h(cpu, ts->child_tidptr),
++                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
++            }
++
++            object_unparent(OBJECT(cpu));
+             object_unref(OBJECT(cpu));
+             /*
+              * At this point the CPU should be unrealized and removed
+@@ -8604,11 +8610,6 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+ 
+             pthread_mutex_unlock(&clone_lock);
+ 
+-            if (ts->child_tidptr) {
+-                put_user_u32(0, ts->child_tidptr);
+-                do_sys_futex(g2h(cpu, ts->child_tidptr),
+-                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
+-            }
+             thread_cpu = NULL;
+             g_free(ts);
+             rcu_unregister_thread();
 -- 
 2.30.2
 
