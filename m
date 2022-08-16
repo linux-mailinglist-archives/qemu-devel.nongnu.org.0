@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9582E594BAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 02:46:41 +0200 (CEST)
-Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F02594BAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 02:50:56 +0200 (CEST)
+Received: from localhost ([::1]:44928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNkjA-0005If-78
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 20:46:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37098)
+	id 1oNknH-0000Um-Kw
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 20:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oNkhM-0003oJ-TF
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:44:48 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:54209)
+ id 1oNkjK-0005OC-Pr
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:46:51 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oNkhL-0005Mi-CN
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:44:48 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id pm17so8362343pjb.3
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 17:44:47 -0700 (PDT)
+ id 1oNkjJ-0005rS-7m
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:46:50 -0400
+Received: by mail-wm1-x333.google.com with SMTP id h1so4530511wmd.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 17:46:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=7VNJ9FNxvAF2P1djNQyh9QYSnZ+cIJShTLT1Rh2hK6g=;
- b=FEnp8hbL9aso2otwWvMvhmHeduq0MfnsT22Xke4HPo4MAsLtCYPLLkodD/vK39jfWh
- ZQaIDV2mwxzh4GUOtdiAI70OuFmtvuHdSfon/f4vDzCmTu0LndvQLF+CWmAi7y+nc2Vz
- 8x7eO/YmRzIOaWYDbWV5AeWy/0pcNKed0r90t1VFTGxZl8OZF8PTqDjk9zY+Qn+AK3Vf
- QU7alc3YidnbSKFa0/4zMapasJUz5BZd3lgmWRN1aEdisDDvMQZWRwt4/S0OYXJiD12J
- NG3yJQfBC1ZB6wIdpi6owQZrpuu2UyjSmdDWlmEPYE9kurUoFVCUPLZzlSFgKmy7hzsI
- uT0w==
+ bh=ZAZYFkQNV1Aj9fnisrWG8Jx9VnO7LIym7Ls24ERj0ZA=;
+ b=dFHLmuCCpIqwCwxYbYv053V4TZS7vhqBFoDvKDJY6Zwq4MxJhO35Bs6v78zsuwO12H
+ ZaW7k3Ylokj2eknUrP7Agjhjj1zxd5bd7VAcl9bhtrIHxS2KhmeYM+ZJF9I/6pbY4JA/
+ QvtW7H7Jysq4bkbUsFPMc9MQ9RCEFtLAb1RMiEijrl67+4K899bQHCSL96aHb7GKIrtj
+ 7PJomGlwt2GhKzbQJ/uXb8rKctPqsfEDHvmOoTfOvjcybTUUjljdSPwLfqrnqlD2BLtq
+ xPz034NYXEcDYM8hDSqlnlzpNr63HkrYe9k0yPEodYIJl93rvrSwvjjmw6PWAd2T97IC
+ Mpyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=7VNJ9FNxvAF2P1djNQyh9QYSnZ+cIJShTLT1Rh2hK6g=;
- b=RG/DB+TC0LssqPd97T8OvSHSvYkiGKkknEnlWdubIkYDw4d7N0tHpD5XmlaRWOydCb
- +Fudx+zOxWC/hJi/iqY8JA5frlPJ6kovmX+PTkE/4bsUsy0N2F1pTdh+Z9aI1h0M3szL
- WFr8506DDJ3U6hHKTeRaKMnHxS4NkfaoYfZf6nMQs9ymr+bjXN0nPjfnOqtphYrrWYcl
- m4v1zcAnAi0PXoN6R3eKbhzJAmBaw2SytEjNdd+qtm3vGDaC4Mg9gqIAseEFuj9sxmMZ
- llBd3eIjJ2EfBakN9CzW+h5MpHHB0vz9wUkJ9WakKrjjzz7g/TfU3tISQRBMCwYn47/U
- HNDQ==
-X-Gm-Message-State: ACgBeo3R8c+lnU0imkSQzypJ+dDZXgFtrnHQ+qFE3tHtNwszLwrd3GQg
- uukoyOKU714Ja+9pwvdhkLXO8XfyANg=
-X-Google-Smtp-Source: AA6agR43hfRbOVA319Z3cqVjaovwCNRxZtsJ1ryPDbWBREPo4qWiXlPb6lg8fXENc5HvgOw/Pqx94g==
-X-Received: by 2002:a17:902:7c11:b0:172:71ea:e99 with SMTP id
- x17-20020a1709027c1100b0017271ea0e99mr6057648pll.73.1660610685905; 
- Mon, 15 Aug 2022 17:44:45 -0700 (PDT)
+ bh=ZAZYFkQNV1Aj9fnisrWG8Jx9VnO7LIym7Ls24ERj0ZA=;
+ b=yjegfK/48YD/F9xyzYw8+2tXv6RKJhpAQIR5uhcaJdXQ+cwOWA69hJhSwB7Vr6FZbA
+ Xjqi8f68AkRsoaGzFsJDdPqHWpad5wTjI04Hv3tgqH2kcFLtm/BCefeM+yMrEQA6S1DE
+ WBDiX2x+4xgdJIQ01VVB2Xo8qNEVsm14cc/9SGKy6RVS935NselxCzEk7yz6TaKKJ9Lt
+ 7Qwswtx4384dSYAgvjknfufrP+5u6oug7aQOPkHExLZjbJhXJ7DnaXFuNu/NTHL4q3Yp
+ hH2K6QUEz6wHke6hbW/bWpQYHCql6WWxA6QHtmErsoQHoCgDPg5WtL3IAZHKzFdyTQ4a
+ A4hQ==
+X-Gm-Message-State: ACgBeo1nApc8yra3ssb8F75TVnl+BvnIWBTG5pKiAiHmGAmu3J0EWiXE
+ 2Zj7kwdJi20zVcO9+aZsQnw=
+X-Google-Smtp-Source: AA6agR4KwBrnCB1wqhk7Y8xj1l+cMAbATQueOl7lLeNdtga/+fsMPRuoBkrDFslPPeHEFVHm2lxXQQ==
+X-Received: by 2002:a05:600c:a03:b0:39e:4f0c:938c with SMTP id
+ z3-20020a05600c0a0300b0039e4f0c938cmr11521876wmp.145.1660610807166; 
+ Mon, 15 Aug 2022 17:46:47 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p185-20020a625bc2000000b0052de4886706sm7343645pfb.10.2022.08.15.17.44.43
+ p17-20020a5d68d1000000b00222c96d8656sm8481478wrw.114.2022.08.15.17.46.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 17:44:45 -0700 (PDT)
-Message-ID: <277f1180-02f4-9372-2493-1954a250e35f@amsat.org>
-Date: Tue, 16 Aug 2022 02:44:41 +0200
+ Mon, 15 Aug 2022 17:46:46 -0700 (PDT)
+Message-ID: <9135204c-cf67-b334-cc25-1c3148dc8769@amsat.org>
+Date: Tue, 16 Aug 2022 02:46:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH 2/2] hw/mips/boston: Pack fdt in fdt filter
+Subject: Re: [PATCH] meson: be strict for boolean options
 Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Alistair Francis <alistair@alistair23.me>
-References: <20220813162720.60008-1-jiaxun.yang@flygoat.com>
- <20220813162720.60008-3-jiaxun.yang@flygoat.com>
-In-Reply-To: <20220813162720.60008-3-jiaxun.yang@flygoat.com>
+To: Anton Kochkov <anton.kochkov@proton.me>, qemu-devel@nongnu.org
+References: <20220813121400.1995447-1-anton.kochkov@proton.me>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+In-Reply-To: <20220813121400.1995447-1-anton.kochkov@proton.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,27 +96,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 13/8/22 18:27, Jiaxun Yang wrote:
-> FDT can be awfully fat after series of modifications in fdt
-> filter. Just pack it up before add to ram.
+On 13/8/22 14:15, Anton Kochkov wrote:
+> While Meson buildsystem accepts the 'false' as a value
+> for boolean options, it's not covered by the specification
+> and in general invalid. Some alternative Meson implementations,
+> like Muon, do not accept 'false' or 'true' as a valid value
+> for the boolean options.
 > 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> See https://mesonbuild.com/Build-options.html
+> 
+> Signed-off-by: Anton Kochkov <anton.kochkov@proton.me>
 > ---
->   hw/mips/boston.c | 1 +
->   1 file changed, 1 insertion(+)
+>   meson_options.txt | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index 5145179951..a40f193f78 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -400,6 +400,7 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
->                           1, boston_memmap[BOSTON_HIGHDDR].base + ram_low_sz,
->                           1, ram_high_sz);
->   
-> +    fdt_pack(fdt);
->       fdt = g_realloc(fdt, fdt_totalsize(fdt));
->       qemu_fdt_dumpdtb(fdt, fdt_sz);
->   
+> diff --git a/meson_options.txt b/meson_options.txt
+> index e58e158396..63f0725174 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -82,9 +82,9 @@ option('tcg', type: 'feature', value: 'enabled',
+>          description: 'TCG support')
+>   option('tcg_interpreter', type: 'boolean', value: false,
+>          description: 'TCG with bytecode interpreter (slow)')
+> -option('cfi', type: 'boolean', value: 'false',
+> +option('cfi', type: 'boolean', value: false,
+>          description: 'Control-Flow Integrity (CFI)')
+> -option('cfi_debug', type: 'boolean', value: 'false',
+> +option('cfi_debug', type: 'boolean', value: false,
+>          description: 'Verbose errors in case of CFI violation')
+>   option('multiprocess', type: 'feature', value: 'auto',
+>          description: 'Out of process device emulation support')
+> --
+> 2.37.1
+> 
+> 
+> 
 
-Why not pack by default in qemu_fdt_dumpdtb()?
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
