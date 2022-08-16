@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E890594700
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 01:49:42 +0200 (CEST)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E296594964
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 02:13:36 +0200 (CEST)
+Received: from localhost ([::1]:44608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNjq0-0006gv-Jh
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 19:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59192)
+	id 1oNkD8-00042F-U2
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 20:13:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oNjoa-0005Cx-Jg; Mon, 15 Aug 2022 19:48:12 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:34668)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oNkBr-0002fy-8p
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:12:15 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:46846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oNjoZ-0006Qm-1c; Mon, 15 Aug 2022 19:48:12 -0400
-Received: by mail-pg1-x535.google.com with SMTP id 12so7831855pga.1;
- Mon, 15 Aug 2022 16:48:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oNkBp-0001HA-PG
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:12:14 -0400
+Received: by mail-pl1-x635.google.com with SMTP id jm11so5534290plb.13
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 17:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=47OFDDtteS0niVKTMTzCSGHpbnd4rcvMQMfO9K8kgAg=;
- b=SKaIyL1i3KAT0saBsJdnHrYvqwWaIkwrPYQz01ymw55PKGQPsGsiQAsnWBKTTJUVbS
- 7Yv4ggDr4O6O3F26OEXlvk5RIRl/TcKaFuRpR7DyTgVfgYcGHD4fLbB7Q6OIzHyNiwsH
- VMSYDIbJ75pmelDSZg19TfXfrnxRZ7ly5B+UnwT94AIF90pgAwBp90SsOqmgOdOpus2G
- tcAFQeANyNlHpRehnoA2N+SRuLKhMk8g4Fpvq9i39+Z2pd2n+FC8+2HipYGsw7JT/1Eu
- uGDoe4Uz42wtlX5lBv8zMRuwixhk0XfiwChXHQRhNiexgkuAfCMkiYcWJQg5kBHwMguj
- Qrjw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc;
+ bh=NMokZM7xPXvaZ339Gl/Cqu66fu0FGDASl/zYO9ugpVA=;
+ b=gDrLR3/y/O4+BELjY+1vzcKZpMsjgYP0zPQFsBZKsqOA9KhblR0+xt59POqiNBsoxy
+ dtlZPr3CY44r1b90AxYMBfD+q/hcvVLi3BtYkz1CZntiuaUTfT4EzwkOAYc3ekXmCrrT
+ 2bn9s7s/xjTnABVnQ+Rj6y1uHCACkNzLOR9HNY70GB1n73SU9wzc/w3wNuX81K7HfgFj
+ SfdVaIjCo/8Ph/ouako9bofqU+dTf0pF43zAQlEx1IBIZC++LCrgkTT2HGgtz91b+xXX
+ h7Yp2R72I8NpIFi0YK95XMCjdK76htx4f6B9DHsdWj9bg+X905HZtAdYDMU6HOZrKj8S
+ 4LVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=47OFDDtteS0niVKTMTzCSGHpbnd4rcvMQMfO9K8kgAg=;
- b=Cb1RuVOo9DFmKs8TmcTJAFHnZrHV6h+sMqkoi/pomL8FN2shbh5zuJ9gok6Y9QLQB/
- q/DPWgC4wgaRHScDEaimd6za0pyBKV/005GG7zCnre5SNwDWjoBeWUkFb/0A9+HSAXbQ
- 0Y2crqtdDP3red+0VO3uwFulFT+6Q67KVZH6QFuSZlTsVUQZbQXzPXFddDt0bEk57CeB
- YHGVn2SVnnQw0BFnLffmvGP+AbtXuw848nvk/3gDQQJqhbkJtc+Y88c53m3hvPYfgTlM
- UXOLIx+P8AmpF6IpLENOBsiyKYy/v8Sn2OWfM+m5RWl5HeUx0zNySBB6CN9h+tQpwn9Y
- X7rA==
-X-Gm-Message-State: ACgBeo02uEBVRCsH1q1LSIFOasN26HApHphvAUFKf8/wA4TwK8j58hzS
- +PbXhbRLbMcFF0Erl6ppSZNs4MVRUieguhYS6k1ffvih/8aveOKN
-X-Google-Smtp-Source: AA6agR52QP3syNsTFMtmgbdgYoouiOU5RhJRU0ncw24tR3ew4IiWmw+KnCyDP5nEXmHEIUaTwAeQKDGSC/6+JhUrmVU=
-X-Received: by 2002:a63:f14c:0:b0:41a:b83d:a636 with SMTP id
- o12-20020a63f14c000000b0041ab83da636mr15526488pgk.361.1660607288696; Mon, 15
- Aug 2022 16:48:08 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc;
+ bh=NMokZM7xPXvaZ339Gl/Cqu66fu0FGDASl/zYO9ugpVA=;
+ b=hv/fTXfozEO7F2N5ABgg47w0n2M6s+nuyyizPhF7Hb4+Un34LBfLvP36pgadSZ8EOI
+ IdDuQwcw+vrK4hS/aT4zo6qOh9GmYHfXrBxl27KR5PQZmegjWF3DAEcClFVTLDMxtdov
+ ALwI6DmHNMOFDInHA9tgKrmyUgMTXS8nPWsBSmstV30b6tmD/TYeytKA7Gq+3Z1WhVQU
+ YdhFT12pTIwXmNycwV/atDhgRmfQfBIVf8W8SD+4SsVNkMS5kvbWQuT3tKeecBu3OYRU
+ TrWFV38yBS1xQQk8tTA8bK1w33gKvppHU4W4kHrRgYzG96c54f0y6JuYne9IcBwVdf9m
+ R/pQ==
+X-Gm-Message-State: ACgBeo25bkPFf8AQzLNecOHmQS0mdan/lcum2hI5YskVCpfy8b6Zt4IH
+ 1vggsChj2IQf3x9OBbhB+no=
+X-Google-Smtp-Source: AA6agR7yvQa9fZsW0tHAL5uw7CLtdN6AcdPgN0aubDENNmDeLCh6teUVXpq9JALPDC3RfbFDUyAQ7w==
+X-Received: by 2002:a17:902:ea10:b0:16e:d88e:b14c with SMTP id
+ s16-20020a170902ea1000b0016ed88eb14cmr19419108plg.25.1660608731712; 
+ Mon, 15 Aug 2022 17:12:11 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ ix9-20020a170902f80900b0016be14a776asm7524217plb.286.2022.08.15.17.12.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Aug 2022 17:12:11 -0700 (PDT)
+Message-ID: <23322eae-2d72-33e2-07dd-df5bbe476564@amsat.org>
+Date: Tue, 16 Aug 2022 02:12:04 +0200
 MIME-Version: 1.0
-References: <20220815174138.19766-1-coder@frtk.ru>
-In-Reply-To: <20220815174138.19766-1-coder@frtk.ru>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 16 Aug 2022 09:47:42 +1000
-Message-ID: <CAKmqyKN7XuiwjdXNAXz7JgQvBcA2MjV=FqczqtEqhN2xVF6VQA@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: Setting address of vector reset is improved
-To: Maksim Perov <coder@frtk.ru>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH 07/20] disas/nanomips: Remove Pool tables from the class
+Content-Language: en-US
+To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com
+References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
+ <20220815072629.12865-8-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220815072629.12865-8-milica.lazarevic@syrmia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,48 +97,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Tue, Aug 16, 2022 at 6:15 AM Maksim Perov <coder@frtk.ru> wrote:
->
-> Previously address is set by default value 0x1000 which is hardcoded in target/riscv/cpu_bits.h
-> If add to new RISC-V Machine in which ROM area is not based on 0x1000 address than there is problem of running simulation
->
-> Signed-off-by: Maksim Perov <coder@frtk.ru>
+On 15/8/22 09:26, Milica Lazarevic wrote:
+> Pool tables are no longer declared as static fields of the NMD
+> class but as global static variables.
+> 
+> The NMD::Disassemble method is using the MAJOR Pool table variable, so
+> its implementation is moved to the end of the nanomips.cpp file,
+> right after the initialization of the MAJOR Pool table.
+> 
+> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 > ---
->  hw/riscv/boot.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 06b4fc5ac3..5e2438d39a 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -327,6 +327,10 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
->      riscv_rom_copy_firmware_info(machine, rom_base, rom_size, sizeof(reset_vec),
->                                   kernel_entry);
->
-> +    /* change reset vector address */
-> +    for (i = 0; i < harts->num_harts; i++) {
-> +        harts->harts[i].env.resetvec = rom_base;
-> +    }
+>   disas/nanomips.cpp | 363 ++++++++++++++++++++++-----------------------
+>   disas/nanomips.h   | 201 ++-----------------------
+>   2 files changed, 193 insertions(+), 371 deletions(-)
 
-Thanks for the patch!
-
-We don't want to do this though. The reset vector is part of the
-hardware design, we don't want to change the reset vector based on the
-software that is loaded.
-
-The reset vector is exposed as a property (resetvec) and can be
-configured from a board. You could also configure it from the command
-line if you wanted to (although it might be overridden, I haven't
-checked).
-
-Alistair
-
->      return;
->  }
->
-> --
-> 2.17.1
->
->
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
