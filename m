@@ -2,73 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A8F15957E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:18:18 +0200 (CEST)
-Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3295958E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:49:05 +0200 (CEST)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNteL-0004Nh-Jb
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
+	id 1oNu88-0000l5-AP
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:49:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNtZK-0005iE-QA
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:13:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53608)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oNu64-0007H5-KB; Tue, 16 Aug 2022 06:46:56 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:41477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNtZG-0004KS-80
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:13:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660644781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NKA6rxMzSG9plLayOOUgu+lS1k1tefQ9X0WWKNpyvdw=;
- b=XCU5lU3RUSE+uzFTkM33+eeTlHeJhu9FtvOKh4dahoIQorkRiSKpBhpI0wIV2tGfnmwIvE
- OtE9E0EV37s/7cg5JTkDjYIg5Onxq9xRHqAwNG7cO0Sbb9XS/cZBJgpNd7zR2rSBP30NRn
- qAV6BEaFT1Fcc6kf/3MhP0JvQnFHQMM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-Lryv6ImxNMy3GiCPK2AxZA-1; Tue, 16 Aug 2022 06:12:57 -0400
-X-MC-Unique: Lryv6ImxNMy3GiCPK2AxZA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B104E85A586;
- Tue, 16 Aug 2022 10:12:56 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CF7640D2827;
- Tue, 16 Aug 2022 10:12:56 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl to
- the commit phase
-Date: Tue, 16 Aug 2022 06:12:50 -0400
-Message-Id: <20220816101250.1715523-3-eesposit@redhat.com>
-In-Reply-To: <20220816101250.1715523-1-eesposit@redhat.com>
-References: <20220816101250.1715523-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oNu62-0002fP-SD; Tue, 16 Aug 2022 06:46:56 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 62A653200929;
+ Tue, 16 Aug 2022 06:46:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 16 Aug 2022 06:46:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1660646807; x=1660733207; bh=Nl
+ Zd5lB0Jl69YT/6gp9AkuRlkcOz901nXi8+C4CpaqQ=; b=1RJZFyqR8Dmu72fyqo
+ OIPSsR+1iMuHanO31taXJ/Q8NXEDH9zKO+Zmr4c9SZAz0ltMkjGggnoaXMRY7RKl
+ f2SQJWrQWB63lTS10wGR2SmjsdexDv3Q6s+OdedJoLn6UB0S0PVJKixprOAeziyz
+ +imjkJX1uYpGYXQt9BRnR30T1AwU8iB2ApcrpeUi8b2NvUE0RnnVrTtoDyLHAVou
+ DmoPRlEFgkhq8vR9pW0nTDu3Nh+gFa84HEfvBD54HoSU5BWeE0mRXJGcekPmEhSV
+ it+k7HRebZyvIlBaLS2P8BbAYAg8l3AC1VKTnej1DRTQ7BDXECmPqX2DAmVzx9SG
+ xkOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660646807; x=1660733207; bh=NlZd5lB0Jl69YT/6gp9AkuRlkcOz
+ 901nXi8+C4CpaqQ=; b=WsiiqGGvxIKyVy6jQOH7cpKcC/oFgSbDSM2LqxHTANn3
+ TF/O0nlLwLY2S1Ywp/xo/dSjn4j7XRtPeVlcRUCuMkSymNXl+1lyUwRjyWCuOUH0
+ plzHm6mAG5RXrymA3cXFKcbps46VydNg/Ejev9OwmtcmT1xayjUg5a+bPuw9MH9r
+ x6Fcel5l88y0fuxk3Q1D/V9e5cTcypVfOeoX8ybnifsQHuqa7q2XosMt8+rxp0kh
+ 5thPqiw2rv+vXikADArQHhklqsFhNVepMXudEN7Vr+SghNeYpZueTLBTlDbwumRT
+ sQKYgBcNIICUHNgr3vZSP5Dg1QUAPWrj3LbpzmZCJw==
+X-ME-Sender: <xms:lnX7Yg7HtlZphrZvB3ur7DW-k5gAzWd-aeD7Xazo9yHnAd9fgGliBA>
+ <xme:lnX7Yh5xhw-mUJNW3OBmfiLD8CmA7XIwhmsiFLD9CQQE8-1MywLePYwqjKrq0sL4i
+ Cv0cBqZifOYlXsKI7s>
+X-ME-Received: <xmr:lnX7Yvd1VI9POlxV3FTUwRSkd_day-jEswELq1dEe3uhOzmMFqUEKIaoENEnKZ9pddZic9bWvMh5Q-JUOg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgfedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:lnX7YlKQiR_fLoD1H9gChI-76M_sOYURK0LNY8YFX-Am3jKEViAVsQ>
+ <xmx:lnX7YkLjF2nHrZFnwmwPtQHq3cOsLt-WnBqud_WHInTuZ4RhtY4UIw>
+ <xmx:lnX7YmyrF3MwkE2nJNUgMOyB3bEHe0owkeJXFxngxsaT4QoUHoUzJw>
+ <xmx:l3X7YpGzDb1ObDCYzAMsasaeNlRw-4h4_NhMg0QPJdRJI-HsPaNeqQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 06:46:45 -0400 (EDT)
+Date: Tue, 16 Aug 2022 12:46:43 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH 4/4] hw/nvme: add MSI-x mask handlers for irqfd
+Message-ID: <Yvt1k5X6Gu0xW3Lg@apples>
+References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
+ <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lC8sYTtQGfFaWs+6"
+Content-Disposition: inline
+In-Reply-To: <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,206 +101,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of sending a single ioctl every time ->region_* or ->log_*
-callbacks are called, "queue" all memory regions in a list that will
-be emptied only when committing.
 
-This allow the KVM kernel API to be extended and support multiple
-memslots updates in a single call.
+--lC8sYTtQGfFaWs+6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- accel/kvm/kvm-all.c       | 99 ++++++++++++++++++++++++++++-----------
- include/sysemu/kvm_int.h  |  6 +++
- linux-headers/linux/kvm.h |  9 ++++
- 3 files changed, 87 insertions(+), 27 deletions(-)
+On Aug 11 23:37, Jinhao Fan wrote:
+> When irqfd is enabled, we bypass QEMU's irq emulation and let KVM to
+> directly assert the irq. However, KVM is not aware of the device's MSI-x
+> masking status. Add MSI-x mask bookkeeping in NVMe emulation and
+> detach the corresponding irqfd when the certain vector is masked.
+>=20
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 645f0a249a..3afa46b2ef 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -357,39 +357,40 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
-     return ret;
- }
- 
-+static void kvm_memory_region_node_add(KVMMemoryListener *kml,
-+                                       struct kvm_userspace_memory_region *mem)
-+{
-+    MemoryRegionNode *node;
-+
-+    node = g_malloc(sizeof(MemoryRegionNode));
-+    *node = (MemoryRegionNode) {
-+        .mem = mem,
-+    };
-+    QTAILQ_INSERT_TAIL(&kml->mem_list, node, list);
-+}
-+
- static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, bool new)
- {
--    KVMState *s = kvm_state;
--    struct kvm_userspace_memory_region mem;
--    int ret;
-+    struct kvm_userspace_memory_region *mem;
- 
--    mem.slot = slot->slot | (kml->as_id << 16);
--    mem.guest_phys_addr = slot->start_addr;
--    mem.userspace_addr = (unsigned long)slot->ram;
--    mem.flags = slot->flags;
-+    mem = g_malloc(sizeof(struct kvm_userspace_memory_region));
- 
--    if (slot->memory_size && !new && (mem.flags ^ slot->old_flags) & KVM_MEM_READONLY) {
-+    mem->slot = slot->slot | (kml->as_id << 16);
-+    mem->guest_phys_addr = slot->start_addr;
-+    mem->userspace_addr = (unsigned long)slot->ram;
-+    mem->flags = slot->flags;
-+
-+    if (slot->memory_size && !new && (mem->flags ^ slot->old_flags) &
-+        KVM_MEM_READONLY) {
-         /* Set the slot size to 0 before setting the slot to the desired
-          * value. This is needed based on KVM commit 75d61fbc. */
--        mem.memory_size = 0;
--        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
--        if (ret < 0) {
--            goto err;
--        }
--    }
--    mem.memory_size = slot->memory_size;
--    ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
--    slot->old_flags = mem.flags;
--err:
--    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
--                              mem.memory_size, mem.userspace_addr, ret);
--    if (ret < 0) {
--        error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
--                     " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
--                     __func__, mem.slot, slot->start_addr,
--                     (uint64_t)mem.memory_size, strerror(errno));
-+        mem->memory_size = 0;
-+        kvm_memory_region_node_add(kml, mem);
-     }
--    return ret;
-+    mem->memory_size = slot->memory_size;
-+    kvm_memory_region_node_add(kml, mem);
-+    slot->old_flags = mem->flags;
-+    return 0;
- }
- 
- static int do_kvm_destroy_vcpu(CPUState *cpu)
-@@ -1517,12 +1518,52 @@ static void kvm_region_add(MemoryListener *listener,
- static void kvm_region_del(MemoryListener *listener,
-                            MemoryRegionSection *section)
- {
--    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
-+    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
-+                                          listener);
- 
-     kvm_set_phys_mem(kml, section, false);
-     memory_region_unref(section->mr);
- }
- 
-+static void kvm_begin(MemoryListener *listener)
-+{
-+    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
-+                                          listener);
-+    assert(QTAILQ_EMPTY(&kml->mem_list));
-+}
-+
-+static void kvm_commit(MemoryListener *listener)
-+{
-+    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
-+                                          listener);
-+    MemoryRegionNode *node, *next;
-+    KVMState *s = kvm_state;
-+
-+    QTAILQ_FOREACH_SAFE(node, &kml->mem_list, list, next) {
-+        struct kvm_userspace_memory_region *mem = node->mem;
-+        int ret;
-+
-+        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, mem);
-+
-+        trace_kvm_set_user_memory(mem->slot, mem->flags, mem->guest_phys_addr,
-+                                  mem->memory_size, mem->userspace_addr, 0);
-+
-+        if (ret < 0) {
-+            error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
-+                         " start=0x%" PRIx64 ": %s",
-+                         __func__, mem->slot,
-+                         (uint64_t)mem->memory_size, strerror(errno));
-+        }
-+
-+        QTAILQ_REMOVE(&kml->mem_list, node, list);
-+        g_free(mem);
-+        g_free(node);
-+    }
-+
-+
-+
-+}
-+
- static void kvm_log_sync(MemoryListener *listener,
-                          MemoryRegionSection *section)
- {
-@@ -1664,8 +1705,12 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-         kml->slots[i].slot = i;
-     }
- 
-+    QTAILQ_INIT(&kml->mem_list);
-+
-     kml->listener.region_add = kvm_region_add;
-     kml->listener.region_del = kvm_region_del;
-+    kml->listener.begin = kvm_begin;
-+    kml->listener.commit = kvm_commit;
-     kml->listener.log_start = kvm_log_start;
-     kml->listener.log_stop = kvm_log_stop;
-     kml->listener.priority = 10;
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 1f5487d9b7..eab8598007 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -30,9 +30,15 @@ typedef struct KVMSlot
-     ram_addr_t ram_start_offset;
- } KVMSlot;
- 
-+typedef struct MemoryRegionNode {
-+    struct kvm_userspace_memory_region *mem;
-+    QTAILQ_ENTRY(MemoryRegionNode) list;
-+} MemoryRegionNode;
-+
- typedef struct KVMMemoryListener {
-     MemoryListener listener;
-     KVMSlot *slots;
-+    QTAILQ_HEAD(, MemoryRegionNode) mem_list;
-     int as_id;
- } KVMMemoryListener;
- 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index f089349149..f215efdaa8 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -103,6 +103,13 @@ struct kvm_userspace_memory_region {
- 	__u64 userspace_addr; /* start of the userspace allocated memory */
- };
- 
-+/* for KVM_SET_USER_MEMORY_REGION_LIST */
-+struct kvm_userspace_memory_region_list {
-+	__u32 nent;
-+	__u32 flags;
-+	struct kvm_userspace_memory_region entries[0];
-+};
-+
- /*
-  * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
-  * other bits are reserved for kvm internal use which are defined in
-@@ -1426,6 +1433,8 @@ struct kvm_vfio_spapr_tce {
- 					struct kvm_userspace_memory_region)
- #define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)
- #define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)
-+#define KVM_SET_USER_MEMORY_REGION_LIST _IOW(KVMIO, 0x49, \
-+					struct kvm_userspace_memory_region_list)
- 
- /* enable ucontrol for s390 */
- struct kvm_s390_ucas_mapping {
--- 
-2.31.1
+Did qtest work out for you for testing? If so, it would be nice to add a
+simple test case as well.
 
+--lC8sYTtQGfFaWs+6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmL7dY8ACgkQTeGvMW1P
+DelNoggAnSV4Zk1y0zmwqAZyuScnjJfWXDoqSDzw5UHp3O8qRqG6Nw/mSsevMbxj
+oIt7sxxaj8awb+MrsSo3hSc9ToyPSH/6jsyUJNlssAGhorPy/4io21z+0gf4BJhI
+K/z938dEbVewX5kplNm2r0epjOcLRxpGwioqrDmEpEBUlstDRA7NfO1IGQCrj+Fu
+eQMUbGHm24xLTfWhqw8OWG3r8hQ0ivY7hv2K5MqjkmnYvQxEPT4LFaJBc7pdSXFp
+dwLj/RkRC+96irrv/Gbr6i/AElMQmzEeSPFSUQgZKEiDKRdpKQKraJrRe4iZdZ5O
+lCCBXytRC27rcxKWJ/ecT71YzQNooQ==
+=wGeR
+-----END PGP SIGNATURE-----
+
+--lC8sYTtQGfFaWs+6--
 
