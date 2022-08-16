@@ -2,64 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DF95959DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 13:23:28 +0200 (CEST)
-Received: from localhost ([::1]:42984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D675959F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 13:26:22 +0200 (CEST)
+Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNufP-0004Bz-BT
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 07:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
+	id 1oNuiD-0006aw-GQ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 07:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNubW-00089I-D8
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 07:19:26 -0400
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:47489)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oNucQ-0008Oy-Pg; Tue, 16 Aug 2022 07:20:28 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:42143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNubU-0008Or-2Q
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 07:19:26 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.170])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 8CBDA22294;
- Tue, 16 Aug 2022 11:19:21 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 16 Aug
- 2022 13:19:21 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R00246afd56c-7691-4eb8-9c41-d111a8813404,
- F9C770E940B196DD2347A7F94772438AA2E7EC4E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3f08d853-87fc-c396-5908-bbb12843dcf5@kaod.org>
-Date: Tue, 16 Aug 2022 13:19:20 +0200
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oNucL-0000Gn-90; Tue, 16 Aug 2022 07:20:19 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 3A904320091D;
+ Tue, 16 Aug 2022 07:20:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 16 Aug 2022 07:20:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1660648813; x=1660735213; bh=Bp
+ iBjJD/mgy0xhGcff/bxJ+LKWwEGbhjChNnbwTMpSw=; b=SGtBqHIV+PO4tb23mR
+ 7Mz1/QlJGE5dZMGwHENU6Me1nPFdArLXypKs5D7nkf3PBU3dJsvwQTXMZTS3EBba
+ 4sc/CEfNho4zvEv5vVqmNZTG6FCW1kTzs0fzX04MTfJ8tFZuOHShzG9llbXOnPV5
+ N/r9Wbkdp+0oLQ6o/XK1lnS8gKByXRjSG14JAUvq+AQpJ6GNK7lmvRjBcXknRqOC
+ OAF/D2RgsqBQFbSYUatHntWFLXBqN72ExC8NZyuOw3Y8bcKnGmSoaV+rQAVT3l1o
+ 7bfvi2S5agza2HgUeUU4q7RYULM4GSjopt6gvKJXRYr+hNIUNmuRmyzHMFeJpz51
+ fyKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660648813; x=1660735213; bh=BpiBjJD/mgy0xhGcff/bxJ+LKWwE
+ GbhjChNnbwTMpSw=; b=au4OKhjRziVfYdxkd6fVgZ1gv83dNk3VOzXW6hc9eNDC
+ 9z0iTLAnDbhmaWbm+PwAfrTKBwegtQBILRX2/ZkjjUCvihmS3LXFukikPbNU0A+c
+ 0To+f8VpRBZZUzh55bLe3WVbozHDxulDzKZI8j1GetOjeRw6hUrBMOD9DXvh+q5k
+ fKV9X6x9Nms8zP98nzfYarXtgCbRCgN1CM5qPRvWMQnejNYQ432RPlli44OjsZuU
+ Q/1/+zCAixyVewla5Gk7e8p0+pHTS+aRf8UGihkL92Q554uB+TzNsTICy23IjG4J
+ JpzEXdo4Vgc8Dz06FcubP91bhqG48S5CczydkOTK2A==
+X-ME-Sender: <xms:bX37Ynm3AqHZRNr7MoIHDUk2_SfOb-JHr7WJ3NsN9Kp9TAJbksWXGw>
+ <xme:bX37Yq3wgFhGZFxWo0mkk45HAGxFITWMmNX_gOxjrYI4yt7L5kE3wjs88jHbu2msw
+ pZlUwE1tDwkyLZkTuE>
+X-ME-Received: <xmr:bX37Yto__mOWM7MHipZf_B--6Uy_8pZGCdjcJWQfnnhapnp8KRPuNZepn-gV6aYD-NGZjhL8btw8Q41fSw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgfeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:bX37Yvl3ei7HJoIIj02dIEQhM6UJwok9_QoAlYiUnCes786lBNdrSg>
+ <xmx:bX37Yl2PvpXXiPD-dmwVYtjtr1T8OuoZjz7_fYr_GCNT2HGMqVrcTg>
+ <xmx:bX37Yus0k0dCvsunbnlubA2FqsDpXLtSFobZTy-z9-M7oyXAQEgKUA>
+ <xmx:bX37YgTIPTcyDeTT3NirabXySqdJxYlbhHppFSADia5PsdwwnZYCYg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 07:20:12 -0400 (EDT)
+Date: Tue, 16 Aug 2022 13:20:10 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH 2/4] hw/nvme: add option to (de)assert irq with eventfd
+Message-ID: <Yvt9aiRHrxA7GklC@apples>
+References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
+ <20220811153739.3079672-3-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 00/22] QOMify PPC4xx devices and minor clean ups
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <cover.1660402839.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <cover.1660402839.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: b7424f18-d413-46ae-b3fd-82635dc48ab7
-X-Ovh-Tracer-Id: 9023243329596001187
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeljefhieetffeltdefteeutdekhfefuedttdevteffffffgedttdekieeftdetkeenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WSphPYwfm5O6Q9me"
+Content-Disposition: inline
+In-Reply-To: <20220811153739.3079672-3-fanjinhao21s@ict.ac.cn>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,75 +101,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/13/22 17:34, BALATON Zoltan wrote:
-> Hello,
-> 
-> This is mased on gitlab.com/danielhb/qemu/tree/ppc-7.2
-> 
-> This series contains the rest of Cédric's patches modified according
-> my review comments and some other small clean ups I've noticed along
-> the way. I've kept the From line of Cédric for patches that were
-> originally his even though they are modified a bit. Not sure what's
-> the best way for this or what Cédric prefers.
-> 
-> The last sdram changes are not yet here because I'm still looking at
-> those and will come back to them but this series is ready to merge
-> unless there are comments that need further changes. Please let me
-> know what do you think.
 
-LGTM. In case you resend, may be change the names of the models which
-are now common to PPC4xx. That's minor really.
+--WSphPYwfm5O6Q9me
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I would dig the default case labels a little more before removing
-them.
+On Aug 11 23:37, Jinhao Fan wrote:
+> When the new option 'irq-eventfd' is turned on, the IO emulation code
+> signals an eventfd when it want to (de)assert an irq. The main loop
+> eventfd handler does the actual irq (de)assertion.  This paves the way
+> for iothread support since QEMU's interrupt emulation is not thread
+> safe.
+>=20
+> Asserting and deasseting irq with eventfd has some performance
+> implications. For small queue depth it increases request latency but
+> for large queue depth it effectively coalesces irqs.
+>=20
+> Comparision (KIOPS):
+>=20
+> QD            1   4  16  64
+> QEMU         38 123 210 329
+> irq-eventfd  32 106 240 364
+>=20
+> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+> ---
+>  hw/nvme/ctrl.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++++--
+>  hw/nvme/nvme.h |  4 +++
+>  2 files changed, 90 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index bd3350d7e0..8a1c5ce3e1 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -7675,6 +7757,7 @@ static Property nvme_props[] =3D {
+>      DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, fals=
+e),
+>      DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
+>      DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, false),
+> +    DEFINE_PROP_BOOL("irq-eventfd", NvmeCtrl, params.irq_eventfd, false),
 
-Thanks,
+This option does not seem to change anything - the value is never used
+;)
 
-C.
+--WSphPYwfm5O6Q9me
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Regards,
-> BALATON Zoltan
-> 
-> BALATON Zoltan (22):
->    ppc/ppc4xx: Introduce a DCR device model
->    ppc/ppc405: QOM'ify CPC
->    ppc/ppc405: QOM'ify GPT
->    ppc/ppc405: QOM'ify OCM
->    ppc/ppc405: QOM'ify GPIO
->    ppc/ppc405: QOM'ify DMA
->    ppc/ppc405: QOM'ify EBC
->    ppc/ppc405: QOM'ify OPBA
->    ppc/ppc405: QOM'ify POB
->    ppc/ppc405: QOM'ify PLB
->    ppc/ppc405: QOM'ify MAL
->    ppc4xx: Move PLB model to ppc4xx_devs.c
->    ppc4xx: Move EBC model to ppc4xx_devs.c
->    ppc/ppc405: Use an embedded PPCUIC model in SoC state
->    hw/intc/ppc-uic: Convert ppc-uic to a PPC4xx DCR device
->    ppc/ppc405: Use an explicit I2C object
->    ppc/ppc405: QOM'ify FPGA
->    ppc405: Move machine specific code to ppc405_boards.c
->    hw/ppc/Kconfig: Remove PPC405 dependency from sam460ex
->    hw/ppc/Kconfig: Move imply before select
->    ppc4xx: Drop empty default cases
->    ppc/ppc4xx: Fix sdram trace events
-> 
->   hw/intc/ppc-uic.c         |   26 +-
->   hw/ppc/Kconfig            |    3 +-
->   hw/ppc/ppc405.h           |  182 +++++--
->   hw/ppc/ppc405_boards.c    |  360 +++++++++----
->   hw/ppc/ppc405_uc.c        | 1071 ++++++++++++-------------------------
->   hw/ppc/ppc440_bamboo.c    |    7 +-
->   hw/ppc/ppc440_uc.c        |   27 -
->   hw/ppc/ppc4xx_devs.c      |  473 +++++++++++++---
->   hw/ppc/sam460ex.c         |   37 +-
->   hw/ppc/trace-events       |    3 -
->   hw/ppc/virtex_ml507.c     |    7 +-
->   include/hw/intc/ppc-uic.h |    6 +-
->   include/hw/ppc/ppc4xx.h   |   71 ++-
->   13 files changed, 1223 insertions(+), 1050 deletions(-)
-> 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmL7fWgACgkQTeGvMW1P
+DenlKQgAnzD3Dy0AheNLcrY+6dbh3ZsXEo3YuyrG3dnqWBdgd6cQs1WmNOJbZGNx
+EYbcfs8EsVcbBpRIC9U/KdO5jNqRF4TGqB3ZlpiL2hdMOuwlACK7lD/mrKsundF3
+mHu//0ZspDWZnaFUOL5N4VU+yzOHHS+qN6LFMtPn+4652hx6QDCIaIyde2eRqDGg
+GxpbEXeD9Yw4hSoEz1UX1SLfAkUabyG6oB7dELLSjh2wm4rYzYCR3UhJ+dja8X/4
+zurdJzdIS2b6lxLOKcwPrS+uQoo77uimAhDLcFQ81shhXyulWeiispTQkHE4V7zT
+6iHNyHbCpr+2784Cn8cdTRiISYniGA==
+=dnBL
+-----END PGP SIGNATURE-----
 
+--WSphPYwfm5O6Q9me--
 
