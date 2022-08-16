@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3295958E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:49:05 +0200 (CEST)
-Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D61E5958FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:52:14 +0200 (CEST)
+Received: from localhost ([::1]:33812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNu88-0000l5-AP
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:49:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
+	id 1oNuBA-0002xL-KO
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oNu64-0007H5-KB; Tue, 16 Aug 2022 06:46:56 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:41477)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oNu9Y-0001J0-1K; Tue, 16 Aug 2022 06:50:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:43813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oNu62-0002fP-SD; Tue, 16 Aug 2022 06:46:56 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 62A653200929;
- Tue, 16 Aug 2022 06:46:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 16 Aug 2022 06:46:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1660646807; x=1660733207; bh=Nl
- Zd5lB0Jl69YT/6gp9AkuRlkcOz901nXi8+C4CpaqQ=; b=1RJZFyqR8Dmu72fyqo
- OIPSsR+1iMuHanO31taXJ/Q8NXEDH9zKO+Zmr4c9SZAz0ltMkjGggnoaXMRY7RKl
- f2SQJWrQWB63lTS10wGR2SmjsdexDv3Q6s+OdedJoLn6UB0S0PVJKixprOAeziyz
- +imjkJX1uYpGYXQt9BRnR30T1AwU8iB2ApcrpeUi8b2NvUE0RnnVrTtoDyLHAVou
- DmoPRlEFgkhq8vR9pW0nTDu3Nh+gFa84HEfvBD54HoSU5BWeE0mRXJGcekPmEhSV
- it+k7HRebZyvIlBaLS2P8BbAYAg8l3AC1VKTnej1DRTQ7BDXECmPqX2DAmVzx9SG
- xkOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660646807; x=1660733207; bh=NlZd5lB0Jl69YT/6gp9AkuRlkcOz
- 901nXi8+C4CpaqQ=; b=WsiiqGGvxIKyVy6jQOH7cpKcC/oFgSbDSM2LqxHTANn3
- TF/O0nlLwLY2S1Ywp/xo/dSjn4j7XRtPeVlcRUCuMkSymNXl+1lyUwRjyWCuOUH0
- plzHm6mAG5RXrymA3cXFKcbps46VydNg/Ejev9OwmtcmT1xayjUg5a+bPuw9MH9r
- x6Fcel5l88y0fuxk3Q1D/V9e5cTcypVfOeoX8ybnifsQHuqa7q2XosMt8+rxp0kh
- 5thPqiw2rv+vXikADArQHhklqsFhNVepMXudEN7Vr+SghNeYpZueTLBTlDbwumRT
- sQKYgBcNIICUHNgr3vZSP5Dg1QUAPWrj3LbpzmZCJw==
-X-ME-Sender: <xms:lnX7Yg7HtlZphrZvB3ur7DW-k5gAzWd-aeD7Xazo9yHnAd9fgGliBA>
- <xme:lnX7Yh5xhw-mUJNW3OBmfiLD8CmA7XIwhmsiFLD9CQQE8-1MywLePYwqjKrq0sL4i
- Cv0cBqZifOYlXsKI7s>
-X-ME-Received: <xmr:lnX7Yvd1VI9POlxV3FTUwRSkd_day-jEswELq1dEe3uhOzmMFqUEKIaoENEnKZ9pddZic9bWvMh5Q-JUOg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgfedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
- elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:lnX7YlKQiR_fLoD1H9gChI-76M_sOYURK0LNY8YFX-Am3jKEViAVsQ>
- <xmx:lnX7YkLjF2nHrZFnwmwPtQHq3cOsLt-WnBqud_WHInTuZ4RhtY4UIw>
- <xmx:lnX7YmyrF3MwkE2nJNUgMOyB3bEHe0owkeJXFxngxsaT4QoUHoUzJw>
- <xmx:l3X7YpGzDb1ObDCYzAMsasaeNlRw-4h4_NhMg0QPJdRJI-HsPaNeqQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 06:46:45 -0400 (EDT)
-Date: Tue, 16 Aug 2022 12:46:43 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
- "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH 4/4] hw/nvme: add MSI-x mask handlers for irqfd
-Message-ID: <Yvt1k5X6Gu0xW3Lg@apples>
-References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
- <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oNu9W-0003KQ-98; Tue, 16 Aug 2022 06:50:31 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MjgfT-1nczfv3pCF-00lFUN; Tue, 16 Aug 2022 12:50:25 +0200
+Message-ID: <cdf8a0a4-d196-bd84-53fe-5962292636fc@vivier.eu>
+Date: Tue, 16 Aug 2022 12:50:23 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lC8sYTtQGfFaWs+6"
-Content-Disposition: inline
-In-Reply-To: <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] [PATCH] linux-user/aarch64: Reset target data on
+ MADV_DONTNEED
+Content-Language: fr
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Vitaly Buka <vitalybuka@google.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <CAPjTjwsb0jAsQq4PHOsFGW7SjpAe=Ug2b_fxhdccEEnzh=cQUA@mail.gmail.com>
+ <CAFEAcA-F8rUTH1FimHf+FaV0O6dQ4QGHihaygxdjn9BKYPazBg@mail.gmail.com>
+ <CAPjTjwuNwXdemwFYOUDi4Qnc5fA9KWzAEZQ1JaCNu+0x3RUh7Q@mail.gmail.com>
+ <8b32824b-4dc1-3d1a-1916-918a3fffab26@linaro.org>
+ <67a42d65-8289-b26c-26f6-275ea0bfac98@vivier.eu>
+ <CAFEAcA8AXodRV=eG2Ra4Sf9rsap499zDJEu6hC=c+V9gE2KjfA@mail.gmail.com>
+ <52225a7c-310f-444f-0b75-0ad2536a30c0@vivier.eu> <87r11miz8i.fsf@linaro.org>
+ <531cdb6a-f660-b671-375c-a3819d90c030@vivier.eu> <87zgg4bmwq.fsf@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <87zgg4bmwq.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:BLkwoyrF+1S4X3kARX+Z33hSL+OPE3Ch63e7rr+UrGFxCeKaOA2
+ Lk9Rwj3r69sY4sf6eTa8Vaf8oPmwQlMSRZ5uvV37th6Z5DoeXV1TbioZimicWk+Crr7N6oo
+ DHg/QhjyhPtfYwNKj/xtPMxbIsmhg8wMs//WnRT2AmjkemtBMv1vXb5YJ5bIxAoC4n42Krq
+ bcItW0XfgoLFWXyzQBnjA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b7jjD1o1Fiw=:ySSDdPB3uCKvYkt69cdNUJ
+ kUwbM6ySo5N7oHXvfoJRCmb54sxV/DShQQVza0nLsjvkWKVbTLtv3KtEADUBiefNopWl2jtCx
+ 5N7TsCzsmBFHv3SmHtc1KDSmu+5nXZp0z5Ox81157OOTDB/gniXs5+SmEcSqkL7qnfIIUrPIZ
+ s80lnZ3I6LY3V1K4nv+0nPycD4Zb+FWtayBVVJ93YR4LRjCYhagWRl99Xe+hCqsOQVQKX1vQG
+ vILExMPcxd2tSexEPIV3R+u5JrqeLN3fTMt+ZQcQwNHvQg4mEEUeErYA5VspNUXLu7ojsCr3K
+ 7cx3ds0XAi/1iG6VhnpYkw83BE0llgecVEuisjtaS2LKG85/JBcYAF17eLtF20ftib9xnQ5Ce
+ /CXJpLCxHkXxEYBVQXcmeSjpoTS36OOJnwwxG8wCvSa7w0h3QFHFUtflqusD+wV07o6NecNta
+ ASbDNSB0+W2A9jsc0u4ZcgF+MB1qU/eRoUuSseGYkqevEO+tFnUsrQS7X5D2FZ5F58MhhBQo5
+ RfJCQ4WYNgNvAumDnhZrfgNVN/AqOjR+/6RvmyXxVqvpJsQ0mRUu7OJiLCs0PFxU1ciQPmM0e
+ hQ6bBS20W2b4cZQInWk3wD9tG3Qiv3BcPCIX+C/gV/zjB2h507QhwbyymWT/ZnL+GFbMKhoFL
+ 4IR+IeLmT/3crw1sQsqoWkYzN0IJapnhf82gctZOryb6/GhuDIF0kk+HMnFhdYb4gmmkSv0O4
+ HizMkhrMku1cTW5gsgriQQSsFheqWX6wL13+UQ==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,36 +84,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 16/08/2022 à 10:41, Alex Bennée a écrit :
+> 
+> Laurent Vivier <laurent@vivier.eu> writes:
+> 
+>> Le 11/08/2022 à 17:18, Alex Bennée a écrit :
+>>> Laurent Vivier <laurent@vivier.eu> writes:
+>>>
+>>>> Le 11/08/2022 à 13:54, Peter Maydell a écrit :
+>>>>> On Thu, 11 Aug 2022 at 09:29, Laurent Vivier <laurent@vivier.eu> wrote:
+>>>>>>
+>>>>>> Le 10/08/2022 à 22:47, Richard Henderson a écrit :
+>>>>>>> On 8/10/22 13:32, Vitaly Buka wrote:
+>>>>>>>> Sorry, I only noticed today that it's not submitted.
+>>>>>>>> Version is not critical for us, as we build from masters anyway.
+>>>>>>>> Richard, do you know a reason to consider this critical?
+>>>>>>>>
+>>>>>>>> On Wed, 10 Aug 2022 at 13:04, Peter Maydell <peter.maydell@linaro.org
+>>>>>>>> <mailto:peter.maydell@linaro.org>> wrote:
+>>>>>>>>
+>>>>>>>>        On Wed, 10 Aug 2022 at 21:00, Vitaly Buka <vitalybuka@google.com
+>>>>>>>>        <mailto:vitalybuka@google.com>> wrote:
+>>>>>>>>         >
+>>>>>>>>         > How can we land this one?
+>>>>>>>>
+>>>>>>>>        Pinging it a week ago rather than now would have been a good start :-(
+>>>>>>>>        I think it got missed because you didn't cc the linux-user maintainer.
+>>>>>>>>
+>>>>>>>>        Is this a critical fix for 7.1 or can we let it slip to 7.2 ?
+>>>>>>>
+>>>>>>> It's unfortunate that it got missed.  It's not critical, but it would be nice, because support for
+>>>>>>> MADV_DONTNEED is new in 7.1 (previously, we ignored all madvise).
+>>>>>>>
+>>>>>>> I'll note there are missing braces for coding style on an IF.
+>>>>>>>
+>>>>>>> Laurent, do you have an objection to merging this for rc3?
+>>>>>>>
+>>>>>>
+>>>>>> No objection.
+>>>>>>
+>>>>>> Do you want it goes via the arm branch or via the linux-user branch?
+>>>>>>
+>>>>>> If it goes via linux-user I can run the LTP testsuite but it takes 1 day.
+>>>>> I think we should definitely run the LTP testsuite on it, so
+>>>>> taking it via linux-user probably makes more sense.
+>>>>
+>>>> ok, applied to my linux-user-for-7.1 branch.
+>>>>
+>>>> Running tests.
+>>> Any chance you could pick up:
+>>>     Subject: [PATCH v2] linux-user: un-parent OBJECT(cpu) when
+>>> closing thread
+>>>     Date: Wed,  3 Aug 2022 14:05:37 +0100
+>>>     Message-Id: <20220803130537.763666-1-alex.bennee@linaro.org>
+>>> before you run the tests?
+>>>
+>>
+>> I've tested it, it works fine.
+>>
+>> Do you plan to do a PR including it or do you want I do (there will be
+>> only this one in mine)?
+> 
+> I'm going to a roll a PR today so I can include it. Shall I add a
+> Tested-by for you?
+> 
 
---lC8sYTtQGfFaWs+6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK. No need to add the Tested-by, I've run generic tests, not targeted to this problem.
 
-On Aug 11 23:37, Jinhao Fan wrote:
-> When irqfd is enabled, we bypass QEMU's irq emulation and let KVM to
-> directly assert the irq. However, KVM is not aware of the device's MSI-x
-> masking status. Add MSI-x mask bookkeeping in NVMe emulation and
-> detach the corresponding irqfd when the certain vector is masked.
->=20
+Thanks,
+Laurent
 
-Did qtest work out for you for testing? If so, it would be nice to add a
-simple test case as well.
-
---lC8sYTtQGfFaWs+6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmL7dY8ACgkQTeGvMW1P
-DelNoggAnSV4Zk1y0zmwqAZyuScnjJfWXDoqSDzw5UHp3O8qRqG6Nw/mSsevMbxj
-oIt7sxxaj8awb+MrsSo3hSc9ToyPSH/6jsyUJNlssAGhorPy/4io21z+0gf4BJhI
-K/z938dEbVewX5kplNm2r0epjOcLRxpGwioqrDmEpEBUlstDRA7NfO1IGQCrj+Fu
-eQMUbGHm24xLTfWhqw8OWG3r8hQ0ivY7hv2K5MqjkmnYvQxEPT4LFaJBc7pdSXFp
-dwLj/RkRC+96irrv/Gbr6i/AElMQmzEeSPFSUQgZKEiDKRdpKQKraJrRe4iZdZ5O
-lCCBXytRC27rcxKWJ/ecT71YzQNooQ==
-=wGeR
------END PGP SIGNATURE-----
-
---lC8sYTtQGfFaWs+6--
 
