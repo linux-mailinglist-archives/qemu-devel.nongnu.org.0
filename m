@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE5D595787
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:07:48 +0200 (CEST)
-Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122985957AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:11:21 +0200 (CEST)
+Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNtUB-0005A8-45
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:07:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
+	id 1oNtXc-0002dL-4m
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:11:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNtLi-00059I-ND
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:59:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32509)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNtLh-0000zD-09
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:59:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660643940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9EcByTx8o21JX/WVTo586WE5QiGfvM9rQBHXjkXSUJo=;
- b=VJYhGRa+aC8C09Z0uBWXRA75op16BJBE36sLm6zvEYgia5d7BPScHTAxybIwchzmFjrabL
- 4jHgbRsfLJQibucRMAiUYTc0t2Ex7UhX3XeZp3ReuovfCmJhZ3LR9m8Zw6BzAoLTPSn+Yy
- FjgDyrzkgxSdTzyX+jW31zqRMM16MY8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-fCJ6pXcxMxOfmDrlSRDKAQ-1; Tue, 16 Aug 2022 05:58:57 -0400
-X-MC-Unique: fCJ6pXcxMxOfmDrlSRDKAQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4ED78037B7;
- Tue, 16 Aug 2022 09:58:56 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 566AD492C3B;
- Tue, 16 Aug 2022 09:58:55 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 2/2] hw/usb/hcd-xhci: Fix unbounded loop in
- xhci_ring_chain_length() (CVE-2020-14394)
-Date: Tue, 16 Aug 2022 11:58:49 +0200
-Message-Id: <20220816095849.211139-3-thuth@redhat.com>
-In-Reply-To: <20220816095849.211139-1-thuth@redhat.com>
-References: <20220816095849.211139-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oNtSq-00042V-6X
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:06:24 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:34533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oNtSo-0002s2-DW
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:06:23 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-333b049f231so26080987b3.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 03:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=nj5CYFBzeUSey2i8rGPQhDmgbPxh3BPDWQVX54U0AUU=;
+ b=lDnjUQ8oLG8axquGD8OqHK/vSl1oDd1vrXjO/w3OiC/vzsxqW5LYT89WLOVsEQAqEz
+ 3LlT1PYMPJJw8AmzxAuZIQcOruyzl+Hc4RbcgtQtawjec2tilOXR3Yt1D/ozq1iGE6FZ
+ gPuXrwY1yXtFXLyF/5JunCfj0o/qyDqsRcEeH5HseTj7Lbyorg0aUjkD1dNwiP6MoeA5
+ xbxLgToz/wZLRCBNGLqWk447t213aBiJXQ6070XDDwZmM1Oe6R0NbqawM38vv3N8lArb
+ XoDHQkIOr7l8tsiMOPwX8gOkP6mZ3fupLyvcGRZIRpPBFgzdbObrvHbA0lG0ZWABbvjH
+ w93w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=nj5CYFBzeUSey2i8rGPQhDmgbPxh3BPDWQVX54U0AUU=;
+ b=jXBet+/bzNDTc4NEsuqkQS4DP+4cSmIhLomrH7gFTS9wGaAtB0zJ3oatIELXE4kUQ0
+ DqmNpLHr7STvsOVl89SmQNIU2gfshJuZLQBdeQFqGdZr3dDrW9yFzDeLY+iE70kO7nLy
+ 0GjE3fQnIlur5FYDaIeFXXs8bsx2J9FavGC+WAxEn9sx4xPNZ7n46bl5VVVZuU6OxyE/
+ OtQtwdIWEYRR2eEsnDLEMkAwH/mdYcNr8IvOPB8zrUGuEEWZ0KPutt5Z63I5tyg+ENb8
+ nnKlgorJgcDNXaO3uA8hLBcTGBzECqCEg3JRT4ey8En54vmCgkUeyLlHB2X/ApGu4EiG
+ 97Xg==
+X-Gm-Message-State: ACgBeo31ftz7UZplSxr3Ns3PrB2FeqaAlYMlsC21c3n+sK1Zm6NZUN2C
+ e08kNTzBIACLsYK2Oq/PvbmfLR6Ucf9VYacGHzX6oA==
+X-Google-Smtp-Source: AA6agR6xdZkurRaeaSnddhLsRh95GjMHu3H7Dj5Req3MIrdmnMvJ37kZYo14keDq+anHMJjx6cqA2uOQKUzE47vMZVs=
+X-Received: by 2002:a25:40cc:0:b0:68d:5ef2:67c8 with SMTP id
+ n195-20020a2540cc000000b0068d5ef267c8mr2517617yba.39.1660644381216; Tue, 16
+ Aug 2022 03:06:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <CAJtCPL0rRU9Q=s6kUFDHjC5uUmx2w=ePYMMaib6vq57g48qk0Q@mail.gmail.com>
+ <CAFEAcA81OfC_Z_uQvrSRUKHQf4mmOgbLrHYiwsfzmgH8u8sUqg@mail.gmail.com>
+ <CAJtCPL3yNpNkK0Ljzo=QOFX_gLQtGGcqDoomwJ+RH0hq5G=YQA@mail.gmail.com>
+ <87r11gbjbv.fsf@linaro.org>
+In-Reply-To: <87r11gbjbv.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Aug 2022 11:05:40 +0100
+Message-ID: <CAFEAcA-6X=ptfDXGWA79-L9kRCQRq6jtci7ODPy0Ct369_EvCA@mail.gmail.com>
+Subject: Re: Teensy 4.1 Implementation
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Shiny Saana <shinysaana@gmail.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,72 +89,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The loop condition in xhci_ring_chain_length() is under control of
-the guest, and additionally the code does not check for failed DMA
-transfers (e.g. if reaching the end of the RAM), so the loop there
-could run for a very long time or even forever. Fix it by checking
-the return value of dma_memory_read() and by introducing a maximum
-loop length.
+On Tue, 16 Aug 2022 at 10:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> Shiny Saana <shinysaana@gmail.com> writes:
+> > I personally don't need any of the GPIO interfaces, but if needed
+> > by someone else, that could be a good second step to
+> > work on once that part of the board is implemented.
+>
+> Handling GPIOs in QEMU is fine (we have things like the qdev_init_gpio_*
+> functions to handle them). The problem is usually what to do with the
+> actual general purpose pins which aren't wired to something we emulate
+> in the board. Some boards expose their values via QMP properties but I
+> suspect whats really needed is a generic mechanism for exposing GPIO to
+> external scripts rather than have every board define it's own thing.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/646
-Message-Id: <20220804131300.96368-1-thuth@redhat.com>
-Reviewed-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/usb/hcd-xhci.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+Yes. However one key thing for trying to get a new board model
+in is not to get tangled up in trying to improve/extend
+the core QEMU facilities for something. That's much harder
+than "my board model supports GPIO output lines to the same
+extent as the other existing board models" :-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 296cc6c8e6..3c48b58dde 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -21,6 +21,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/timer.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/queue.h"
- #include "migration/vmstate.h"
-@@ -725,10 +726,14 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
-     bool control_td_set = 0;
-     uint32_t link_cnt = 0;
- 
--    while (1) {
-+    do {
-         TRBType type;
--        dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE,
--                        MEMTXATTRS_UNSPECIFIED);
-+        if (dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE,
-+                        MEMTXATTRS_UNSPECIFIED) != MEMTX_OK) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: DMA memory access failed!\n",
-+                          __func__);
-+            return -1;
-+        }
-         le64_to_cpus(&trb.parameter);
-         le32_to_cpus(&trb.status);
-         le32_to_cpus(&trb.control);
-@@ -762,7 +767,17 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
-         if (!control_td_set && !(trb.control & TRB_TR_CH)) {
-             return length;
-         }
--    }
-+
-+        /*
-+         * According to the xHCI spec, Transfer Ring segments should have
-+         * a maximum size of 64 kB (see chapter "6 Data Structures")
-+         */
-+    } while (length < TRB_LINK_LIMIT * 65536 / TRB_SIZE);
-+
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: exceeded maximum tranfer ring size!\n",
-+                          __func__);
-+
-+    return -1;
- }
- 
- static void xhci_er_reset(XHCIState *xhci, int v)
--- 
-2.31.1
-
+thanks
+-- PMM
 
