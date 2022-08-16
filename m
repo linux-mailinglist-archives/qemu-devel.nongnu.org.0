@@ -2,92 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE0459557E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 10:43:04 +0200 (CEST)
-Received: from localhost ([::1]:47870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06F1595581
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 10:44:35 +0200 (CEST)
+Received: from localhost ([::1]:42716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNsAB-0007YE-Cu
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 04:43:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52638)
+	id 1oNsBe-0001Ii-K3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 04:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oNs8w-0005oo-EX
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 04:41:46 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oNs8u-0005pq-MP
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 04:41:46 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id ay12so4908904wmb.1
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 01:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=N57HHkKyKy2tF7Yxd/OoIAmEcTDN5Vt66zT1kiVQLiQ=;
- b=LxudoWMwTntyfPcy/+JiPChV2oXbR1iYCt8YmdIHizKa1lV5ueW3l28Db1HNKlVdec
- zKhDo+MCbx8CTutfzmbnewjMy9JoEPM/tw4SLOfvAuUf5nS7T2lD6V+rMHP39nBvh5BL
- ggj2HK8KiZOUMVIogvuYDyBdG9VrjVNNZcpRgLZrmLu9izIwrfqXRa79CWAPmWiyJOVq
- Lz9D9uDXuOEQKIDmPhUibAq/KP74lJ9JGVGxEz1Y3qbT0svIrPKVRYchaPeZMNWmLC5l
- sB69/dsln5Kr9MVE9CAmGNJ1f6guGpFvOui6Uhj1VlsS6Sbj8jfgNoj9a9XQ622hNR7r
- cfQQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNs9z-0007HB-J2
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 04:42:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNs9w-0005ux-E5
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 04:42:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660639367;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5lQ/NnnHLoJoC42Bv+WLmmifuSsM+8dLJTO5huLf+R8=;
+ b=g6H1/temxtVc65Bv1Kj8ipZyOfTwTbya3PfEQ3NqGC/UFQy1IBZWU9SE2eVnmoZjfKiB60
+ TAc0NouDg3z10Do8dG1Jud/rAd3uxpTPZquQsxnbrwDg15J6Y8HtnqjvmiWaDWI8Tpq1yj
+ nt60fFPMEWR44xpezVO/YcQEREu6yS0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-372-iWVAij_JMdapqX480ZpBLw-1; Tue, 16 Aug 2022 04:42:45 -0400
+X-MC-Unique: iWVAij_JMdapqX480ZpBLw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x5-20020adfbb45000000b0021ee56506dfso1686018wrg.11
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 01:42:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=N57HHkKyKy2tF7Yxd/OoIAmEcTDN5Vt66zT1kiVQLiQ=;
- b=4IesIHgQxbUjTGWKF/lEykFzDEoUSjgfEm/W/q+dxD7liXsitMae8jHme43pvGbqPk
- BLbN7sahvX8b0Hr3lkSLTKW0lnOXLsiYsuD3sfeCT7um+SnHz0ZQX7C8Ln8JZ95+yrMb
- XPwce4kprzXF2Ane9+FqDPNSLrfp34lVIKsCV9v7Zi95BCW5OAfbOtQDlj3sU/w4HrRy
- WDlhbFXN69gU/OzdOdSfSYzcmE1xN8pIsUqJP/QP2akeF6zOtxSqF5kE3PoVk5E/PKNy
- VxqWaX2x8JW44qNx+nnQgkBqYQVwt276kL3tsDBKtM4OKtPiTtNB9hb++QogAen/jCLn
- Wi3Q==
-X-Gm-Message-State: ACgBeo3V6vwgeDz41R/YgmSMMk0BsAVobzJBq4DPuSkocsedtce85A8T
- cCkKs7LsadAZJXugj5sSlTa4sQ==
-X-Google-Smtp-Source: AA6agR5SSIBwUohF6wLyazEOhQXBAXggVk1WXwuCeJOVdC9xzBwRUMD/+L++NzyXla9RFsOOjrW47w==
-X-Received: by 2002:a1c:2b87:0:b0:3a5:aac8:fe40 with SMTP id
- r129-20020a1c2b87000000b003a5aac8fe40mr12226790wmr.125.1660639302735; 
- Tue, 16 Aug 2022 01:41:42 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a5d620b000000b00222cf973e8csm9525547wru.69.2022.08.16.01.41.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 01:41:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 864FC1FFB7;
- Tue, 16 Aug 2022 09:41:41 +0100 (BST)
-References: <CAPjTjwsb0jAsQq4PHOsFGW7SjpAe=Ug2b_fxhdccEEnzh=cQUA@mail.gmail.com>
- <CAFEAcA-F8rUTH1FimHf+FaV0O6dQ4QGHihaygxdjn9BKYPazBg@mail.gmail.com>
- <CAPjTjwuNwXdemwFYOUDi4Qnc5fA9KWzAEZQ1JaCNu+0x3RUh7Q@mail.gmail.com>
- <8b32824b-4dc1-3d1a-1916-918a3fffab26@linaro.org>
- <67a42d65-8289-b26c-26f6-275ea0bfac98@vivier.eu>
- <CAFEAcA8AXodRV=eG2Ra4Sf9rsap499zDJEu6hC=c+V9gE2KjfA@mail.gmail.com>
- <52225a7c-310f-444f-0b75-0ad2536a30c0@vivier.eu>
- <87r11miz8i.fsf@linaro.org>
- <531cdb6a-f660-b671-375c-a3819d90c030@vivier.eu>
-User-agent: mu4e 1.8.9; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>, Vitaly Buka <vitalybuka@google.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH] [PATCH] linux-user/aarch64: Reset target data on
- MADV_DONTNEED
-Date: Tue, 16 Aug 2022 09:41:19 +0100
-In-reply-to: <531cdb6a-f660-b671-375c-a3819d90c030@vivier.eu>
-Message-ID: <87zgg4bmwq.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=5lQ/NnnHLoJoC42Bv+WLmmifuSsM+8dLJTO5huLf+R8=;
+ b=7yXBF/fEEQE4Xly+xLwMoT26Y1S6vUuvxjS7TQfxPWrpcTkqZs3eLhK8KcavXsE3E6
+ U7B86+UtHDD4H8bSX/UvVxdTHoRsUg0EO4tALQL6KwHTeL35dGSLEDJWt5zQvPgK+6Yv
+ /+B1a2qRJIOJeFe2AWDGESKZjBRf+CVzw5LMaZaGzX2wfhATB785KHZcW2LfJM2KnUUs
+ DqCUbTNSn4BNCfF6e/CacCwVOoQMZzWj0axo8L1LD2Tg5xv1kK8Z0KaU3GGeDeMjZizH
+ HPNpAB6yr+wv7/eIq1sO4FHWiv8MOwdf4mvh1usPaGCnrPBy3qGLm+UNADgi1xcp7KUu
+ kLjQ==
+X-Gm-Message-State: ACgBeo05lU74fOU1nuPKFGcdMt5xJ3dvPUW+81Ol0lLeQINtEVeGCcFT
+ iWgZwE4RmqhRsT4yvf42RELTDtqhCn81pV7BSFoxzhD6E0L307VCRzI3EHEPiV14EcCLHqeRunw
+ TFy4Nzyx+rOLXZPE=
+X-Received: by 2002:a05:6000:178b:b0:222:c6c4:b42e with SMTP id
+ e11-20020a056000178b00b00222c6c4b42emr11785726wrg.275.1660639364615; 
+ Tue, 16 Aug 2022 01:42:44 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5ZSmZJLni8AQ60iDvxbIGz3OIU0ch7cJlEF0HvuAL/ElkBdK4uwnnZs6cNPQxE6sFy3FY/6w==
+X-Received: by 2002:a05:6000:178b:b0:222:c6c4:b42e with SMTP id
+ e11-20020a056000178b00b00222c6c4b42emr11785708wrg.275.1660639364409; 
+ Tue, 16 Aug 2022 01:42:44 -0700 (PDT)
+Received: from [192.168.8.103] (tmo-096-168.customers.d1-online.com.
+ [80.187.96.168]) by smtp.gmail.com with ESMTPSA id
+ n6-20020a1c2706000000b003a511e92abcsm12155557wmn.34.2022.08.16.01.42.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Aug 2022 01:42:43 -0700 (PDT)
+Message-ID: <2b40953b-3514-2e69-b2df-0790eb7fe4a3@redhat.com>
+Date: Tue, 16 Aug 2022 10:42:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] hw/usb/hcd-xhci: Fix endless loop in case the DMA access
+ fails (CVE-2020-14394)
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ mcascell@redhat.com, f4bug@amsat.org
+References: <20220802134834.454749-1-thuth@redhat.com>
+ <CAFEAcA_oZni8G7LeciOywasY2rcEnpo=v01xCaaCTBp5_pDTLQ@mail.gmail.com>
+ <aaa3210f-0c81-5c4e-7757-10fa99f5ac27@redhat.com>
+ <CAFEAcA8Nsa131yeONs7-3H4wq885r1yuCwwSs=O09SS_Q7xUdQ@mail.gmail.com>
+ <d3880c4d-b100-b412-e1f1-4f5c650cc22d@redhat.com>
+ <CAFEAcA9azLEWsK-ewXT_ovsc2u+2ykMMJNK8b9UXdfBZ49w6eA@mail.gmail.com>
+ <d2c8abec-1f87-01e5-a882-8502d9547f39@redhat.com>
+ <20220816083703.vopxgj2omjittb6j@sirius.home.kraxel.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220816083703.vopxgj2omjittb6j@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,80 +109,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 16/08/2022 10.37, Gerd Hoffmann wrote:
+> On Thu, Aug 04, 2022 at 01:43:14PM +0200, Thomas Huth wrote:
+>> On 04/08/2022 12.17, Peter Maydell wrote:
+>>> That sounds like we do still have an unbounded-loop problem,
+>>> then: there's no limit on the number of consecutive TRBs
+>>> we try to read in that function. Maybe we're missing an
+>>> error check of some kind (does the spec limit how many
+>>> consecutive TRBs there can be somehow?) or else we need
+>>> another artificial limit.
+>>
+>> I'm not an XHCI expert at all, but while at least having a quick glance at
+>> the spec, I did not see any limit there. So I assume that we should enforce
+>> an artificial limit? What would be a good value for this? Gerd, do you maybe
+>> have any opinion?
+> 
+> Hmm, dunno.  Typical workflow is that the driver allocates a page
+> (or multiple physically contiguous pages) for the TRBs, and when
+> it reaches the end of the allocation it gets a new block and chains
+> it using TRB_LINK.
+> 
+> Right now we have a limit for type=TRB_LINK only, having another one for
+> all TRBs makes sense.  The number of TRBs for a transfer can be quite
+> large (think usb-storage reads/writes), so don't set that too low, 64k
+> maybe?
 
-Laurent Vivier <laurent@vivier.eu> writes:
+Yes, after some more reading, I found a remark in the spec (in chapter 6) 
+saying that each segment should be limited by 64 kb.
 
-> Le 11/08/2022 =C3=A0 17:18, Alex Benn=C3=A9e a =C3=A9crit=C2=A0:
->> Laurent Vivier <laurent@vivier.eu> writes:
->>=20
->>> Le 11/08/2022 =C3=A0 13:54, Peter Maydell a =C3=A9crit=C2=A0:
->>>> On Thu, 11 Aug 2022 at 09:29, Laurent Vivier <laurent@vivier.eu> wrote:
->>>>>
->>>>> Le 10/08/2022 =C3=A0 22:47, Richard Henderson a =C3=A9crit :
->>>>>> On 8/10/22 13:32, Vitaly Buka wrote:
->>>>>>> Sorry, I only noticed today that it's not submitted.
->>>>>>> Version is not critical for us, as we build from masters anyway.
->>>>>>> Richard, do you know a reason to consider this critical?
->>>>>>>
->>>>>>> On Wed, 10 Aug 2022 at 13:04, Peter Maydell <peter.maydell@linaro.o=
-rg
->>>>>>> <mailto:peter.maydell@linaro.org>> wrote:
->>>>>>>
->>>>>>>       On Wed, 10 Aug 2022 at 21:00, Vitaly Buka <vitalybuka@google.=
-com
->>>>>>>       <mailto:vitalybuka@google.com>> wrote:
->>>>>>>        >
->>>>>>>        > How can we land this one?
->>>>>>>
->>>>>>>       Pinging it a week ago rather than now would have been a good =
-start :-(
->>>>>>>       I think it got missed because you didn't cc the linux-user ma=
-intainer.
->>>>>>>
->>>>>>>       Is this a critical fix for 7.1 or can we let it slip to 7.2 ?
->>>>>>
->>>>>> It's unfortunate that it got missed.  It's not critical, but it woul=
-d be nice, because support for
->>>>>> MADV_DONTNEED is new in 7.1 (previously, we ignored all madvise).
->>>>>>
->>>>>> I'll note there are missing braces for coding style on an IF.
->>>>>>
->>>>>> Laurent, do you have an objection to merging this for rc3?
->>>>>>
->>>>>
->>>>> No objection.
->>>>>
->>>>> Do you want it goes via the arm branch or via the linux-user branch?
->>>>>
->>>>> If it goes via linux-user I can run the LTP testsuite but it takes 1 =
-day.
->>>> I think we should definitely run the LTP testsuite on it, so
->>>> taking it via linux-user probably makes more sense.
->>>
->>> ok, applied to my linux-user-for-7.1 branch.
->>>
->>> Running tests.
->> Any chance you could pick up:
->>    Subject: [PATCH v2] linux-user: un-parent OBJECT(cpu) when
->> closing thread
->>    Date: Wed,  3 Aug 2022 14:05:37 +0100
->>    Message-Id: <20220803130537.763666-1-alex.bennee@linaro.org>
->> before you run the tests?
->>=20
->
-> I've tested it, it works fine.
->
-> Do you plan to do a PR including it or do you want I do (there will be
-> only this one in mine)?
+I've sent a v2 with that limit check here (it has a slightly different 
+subject, so it's hard to relate it to this v1 here):
 
-I'm going to a roll a PR today so I can include it. Shall I add a
-Tested-by for you?
+ 
+https://patchwork.kernel.org/project/qemu-devel/patch/20220804131300.96368-1-thuth@redhat.com/
 
->
-> Thanks,
-> Laurent
+  Thomas
 
-
---=20
-Alex Benn=C3=A9e
 
