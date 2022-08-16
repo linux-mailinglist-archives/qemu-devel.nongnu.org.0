@@ -2,114 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6722A5961D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 20:03:46 +0200 (CEST)
-Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B4B5961F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 20:07:31 +0200 (CEST)
+Received: from localhost ([::1]:54030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO0un-0000ia-Gm
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 14:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36446)
+	id 1oO0yR-0004ei-15
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 14:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=22053a6f0=damien.lemoal@opensource.wdc.com>)
- id 1oO0Ts-00061f-Ii
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:35:56 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:32710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=22053a6f0=damien.lemoal@opensource.wdc.com>)
- id 1oO0Tn-0002fJ-G2
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:35:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1660671352; x=1692207352;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=01Qck+d3f/C5+Mk2+fZRzh6u2yRofykqrRR1rsfxSvU=;
- b=P8qaqKciuZSKicsfWtbcb5NP1QLL4LSw6Z2JxTyddRpieYkGzgnOxXsj
- QlYorTyopLqFyOFFD70medtUvPUt+o+gjd/g8wgJZJyGRvMdNqnICOHr5
- eeNrlTgQcMbBociSWh2zOWwXx7HhZRoO/LPS0FCUJ7Z0dCtBENPLjh0RR
- eB9ZsPD+9NJToubtHpcUmszAoBkCcgeVwzkHePYSSxPvgN7hFd3ysBCtP
- sa7jnnAWxoPCtmK4vVu6j3lOLLymzI5y4eRQzqSby+DBvl7fH+qJQ+z2F
- 8yOMEw9HLKc1l+LmkIap9EOMuGbCtX/nHfzdjeo8IpJd34/LO8tbWfQLx w==;
-X-IronPort-AV: E=Sophos;i="5.93,241,1654531200"; d="scan'208";a="320952990"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 17 Aug 2022 01:35:36 +0800
-IronPort-SDR: WWzvM575OGnv0RN7abt8Cu78l17iHC64bQkdrXL2FPO74RGOSWlGEQgb7tv4GiHeyzWXchN0va
- 0TMY0tWjJMHzWEZb/hwlOj2reMCmE46JXKjBoEBGQ0vnas4acAndH9wyD3Q6pEQJ959/Lk5jLp
- a8QyuqRbV8u8QLEeqyJ9xia5lsWUpgiwf54gXCmwPAuwlz0ayehcQIr5q6pUSbjC29uP+50zzS
- nToRPI1nklSpuwx6FWWpcu2j5ft+C0c4dudlHxbPxcLIxtKJQGn6J/CcrV1lBt55psL7FXZgVM
- ZwYlRIwtL15Y7TjwzbAeObcq
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Aug 2022 09:56:21 -0700
-IronPort-SDR: RsTLFzC9A2F4sTRTumUvlgppEw5DeDTxeFYkJlKrulAnumM/aRC7VBVZHTXpthkw2t5miujuH0
- qceiMtrQ7tBwJhKQTOFcBqcaQ8sUnCI7rDobp0AyZW1de0UXWkROaBSWztamxrzxyLuZ7Gi1yK
- CfqNH+GlAqFN3+IklSZJfiJAA3OmSesz5TJtU+HCNb34vFN9ftgkhvJx0fHk2KocY91plvyofO
- G30jou7C7s5+HUW4LlUW5mUb5Kgu+mUJxOBUYIRAirf1N696kbJC8TV/f+ahd4q/VfWTSr+GMg
- /lM=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Aug 2022 10:35:34 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4M6db92LfFz1Rws7
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 10:35:33 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :in-reply-to:organization:from:references:to:content-language
- :subject:user-agent:mime-version:date:message-id; s=dkim; t=
- 1660671332; x=1663263333; bh=01Qck+d3f/C5+Mk2+fZRzh6u2yRofykqrRR
- 1rsfxSvU=; b=ND9NnNbNcjJZK0q4g8ZlJiI2e0ieBXytYxqyUQF3nCRLy8vt8Iq
- NO2L69lNHVVQGv7+2b4iTuO+G2VRuuJ8b+BHmoBzIvXaWDSh0sUaWssofEBptLOh
- j9vbtdjqI5TzYu8NPzsBi+TmWp7i4tJZiBnGgCn3vBnRv2Nk43gICg/tquHjsag6
- ha6QRuHf+1ZwdbTET4URqdvcQfIy7B9juEvqve8aGU5s6ZXeeSbura2JESzwNIGG
- YDBIEhf7EbZXYi5ky55y7y/FBquLg5uN/lq3RKAOHkk/btlwKoYGWRv4jr8Xrk1K
- Ma6RhV2v3yawhTDkbA6NmzRdgoW1V1nb3cA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 2ofAzsTcbI4J for <qemu-devel@nongnu.org>;
- Tue, 16 Aug 2022 10:35:32 -0700 (PDT)
-Received: from [10.111.64.29] (c02drav6md6t.sdcorp.global.sandisk.com
- [10.111.64.29])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4M6db7608Lz1RtVk;
- Tue, 16 Aug 2022 10:35:31 -0700 (PDT)
-Message-ID: <69f2b5bd-2312-a581-7ce1-065159eeaf5d@opensource.wdc.com>
-Date: Tue, 16 Aug 2022 10:35:31 -0700
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oO0dV-0001Ce-LC
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:45:53 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:34311)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oO0dT-0003zs-VW
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:45:53 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-10e615a36b0so12451055fac.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 10:45:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=A2t35N+kmK/1syT9408j3VWsqFIZjA5jCgJo6PNgJY0=;
+ b=jAiBggifW/kFNZxKNVNpfvRoP8S4qScRw6k0eqE9WpBxalwlLjJtjfVbkCXkDiHa5V
+ z0RMxvvsDc1y45r5oonn0h6VVULqUMe46CeaI0pDA4zyWsNiZ+LDroo5eJojLVdfAY9k
+ 9f17kw7691lTy7SPly533LHXQV+SWFedJYSDwe3x8hSQu3jVh98DsHzDFGZR/GTsLJfh
+ d1PiuPD154bSr1tJEmu3tN57/EEVFAEIlRSy2P2OtoUl0uMi8eT1HqiNg/t7VaKFfRtB
+ 4w3wOi1/ZF07T4INuWQiA18vo1i0At7nr+tx7HmY+REpk/AJUwHisLnHPpSUbKFE0oQ8
+ zVOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=A2t35N+kmK/1syT9408j3VWsqFIZjA5jCgJo6PNgJY0=;
+ b=gYtg/F7JFCGrywgLb0ugRPV18C/xSIMU7fIhZrk0/mZifT6obZpbamo2eAPLPBcFm3
+ hjbgm8EuuvqRzz/Xy4YdCsdaMdnpJl+UHTIcAua8Mq19DCpiV39D7Wka2gUGKUsFltUn
+ rInH8Ps+zZeoeTmebR0wYiJg8g7MsWuTXgFJTYrwJvIn0QNyQ0Y4EhATkKO4+VJ/5fta
+ 9nNVkOYTWFFXlIw6fryq/BrMIiyFPBLNYHESUii8v2Nn0/4if93OatJJniomMzP2RBkL
+ z3YkrPGSP1V48uBWT4LpegRQ3Q0L3XbK09c2Mu4/CAHitSniBBIQZh8BkzbISZO474AK
+ tOxA==
+X-Gm-Message-State: ACgBeo3+rUka+fxMIyCNXZSP9lDhc0wbmY9YNUeJnzqS60ESYgTKkR+P
+ soc16ul5ueGETCyrI1Qi0CFjfA==
+X-Google-Smtp-Source: AA6agR6L8RRFT5FYtafH5j1Ker4Guxvzz5Wp3gtFxj6vzLKtel6K7jj19nMJUF9y27olkTK3zhPhxA==
+X-Received: by 2002:a05:6870:5b84:b0:10c:d1fa:2f52 with SMTP id
+ em4-20020a0568705b8400b0010cd1fa2f52mr9587028oab.92.1660671950518; 
+ Tue, 16 Aug 2022 10:45:50 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:80f1:2110:a4dd:9176:6d98:8dab?
+ ([2605:ef80:80f1:2110:a4dd:9176:6d98:8dab])
+ by smtp.gmail.com with ESMTPSA id
+ z2-20020a056808048200b003437e4f2510sm2158428oid.11.2022.08.16.10.45.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Aug 2022 10:45:49 -0700 (PDT)
+Message-ID: <620cfa81-0868-1a85-7161-d58f88e6690d@linaro.org>
+Date: Tue, 16 Aug 2022 12:45:46 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v7 3/8] file-posix: introduce get_sysfs_long_val for the
- long sysfs attribute
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC PATCH] tests/avocado: push default timeout to QemuBaseTest
 Content-Language: en-US
-To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
-Cc: hare@suse.de, Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- stefanha@redhat.com, Hanna Reitz <hreitz@redhat.com>,
- dmitry.fomichev@wdc.com, qemu-block@nongnu.org
-References: <20220816062522.85714-1-faithilikerun@gmail.com>
- <20220816062522.85714-4-faithilikerun@gmail.com>
-From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <20220816062522.85714-4-faithilikerun@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=22053a6f0=damien.lemoal@opensource.wdc.com;
- helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220816133831.2166761-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220816133831.2166761-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x30.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -125,69 +98,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/08/15 23:25, Sam Li wrote:
-> Use sysfs attribute files to get the long value of zoned device
-> information.
+On 8/16/22 08:38, Alex Bennée wrote:
+> All of the QEMU tests eventually end up derrived from this class. Move
+> the default timeout from LinuxTest to ensure we catch them all.
 > 
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  block/file-posix.c | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
+>   tests/avocado/avocado_qemu/__init__.py | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index c07ac4c697..727389488c 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1258,6 +1258,33 @@ static int get_sysfs_zoned_model(struct stat *st, BlockZoneModel *zoned) {
->      return 0;
->  }
->  
-> +/*
-> + * Get zoned device information (chunk_sectors, zoned_append_max_bytes,
-> + * max_open_zones, max_active_zones) through sysfs attribute files.
-> + */
-
-The comment here needs to be more generic since this helper is used in patch 2
-in hdev_get_max_segments(). So simply something like:
-
-/*
- * Get a sysfs attribute value as a long integer.
- */
-
-And since this helper is used in patch 2, this patch needs to go before patch 2
-(reverse patch 2 and 3 order).
-
-> +static long get_sysfs_long_val(struct stat *st, const char *attribute) {
-> +#ifdef CONFIG_LINUX
-> +    g_autofree char *str = NULL;
-> +    const char *end;
-> +    long val;
-> +    int ret;
+> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+> index ed4853c805..9d17a287cf 100644
+> --- a/tests/avocado/avocado_qemu/__init__.py
+> +++ b/tests/avocado/avocado_qemu/__init__.py
+> @@ -227,6 +227,10 @@ def exec_command_and_wait_for_pattern(test, command,
+>       _console_interaction(test, success_message, failure_message, command + '\r')
+>   
+>   class QemuBaseTest(avocado.Test):
 > +
-> +    ret = get_sysfs_str_val(st, attribute, &str);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
+> +    # default timeout for all tests, can be overridden
+> +    timeout = 900
 > +
-> +    /* The file is ended with '\n', pass 'end' to accept that. */
-> +    ret = qemu_strtol(str, &end, 10, &val);
-> +    if (ret == 0 && end && *end == '\n') {
-> +        ret = val;
-> +    }
-> +    return ret;
-> +#else
-> +    return -ENOTSUP;
-> +#endif
-> +}
-> +
->  static int hdev_get_max_segments(int fd, struct stat *st) {
->      int ret;
->      if (S_ISCHR(st->st_mode)) {
+>       def _get_unique_tag_val(self, tag_name):
+>           """
+>           Gets a tag value, if unique for a key
+> @@ -512,7 +516,6 @@ class LinuxTest(LinuxSSHMixIn, QemuSystemTest):
+>       to start with than the more vanilla `QemuSystemTest` class.
+>       """
+>   
+> -    timeout = 900
+
+Is 15 minutes really a reasonable default?
 
 
--- 
-Damien Le Moal
-Western Digital Research
+r~
+
+>       distro = None
+>       username = 'root'
+>       password = 'password'
+
 
