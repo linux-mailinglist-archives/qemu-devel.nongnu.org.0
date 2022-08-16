@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D373594BC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:19:31 +0200 (CEST)
-Received: from localhost ([::1]:48364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A0D594BCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:21:36 +0200 (CEST)
+Received: from localhost ([::1]:57858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNlEv-0003BS-Hw
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
+	id 1oNlGx-0007RD-MW
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2l-0008UW-QN
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:06:55 -0400
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:45382)
+ id 1oNl2m-0008Um-6v
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:06:56 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:48102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2i-00005y-9N
+ id 1oNl2j-000063-Ld
  for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:06:55 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R961e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VMNkO1U_1660612007; 
+ TI=SMTPD_---0VMNIK8Q_1660612008; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VMNkO1U_1660612007) by smtp.aliyun-inc.com;
- Tue, 16 Aug 2022 09:06:47 +0800
+ fp:SMTPD_---0VMNIK8Q_1660612008) by smtp.aliyun-inc.com;
+ Tue, 16 Aug 2022 09:06:48 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v2 10/24] vhost: introduce vhost_dev_virtqueue_restart()
-Date: Tue, 16 Aug 2022 09:06:22 +0800
-Message-Id: <df42fc68d6cf780cce0e5d1c0e020cd3b687b42c.1660611460.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v2 11/24] vhost-net: vhost-kernel: introduce
+ vhost_net_virtqueue_stop()
+Date: Tue, 16 Aug 2022 09:06:23 +0800
+Message-Id: <9f5f233aaef3096fa1715095f3c436bb3c855fe5.1660611460.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.56;
+Received-SPF: pass client-ip=115.124.30.133;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-56.freemail.mail.aliyun.com
+ helo=out30-133.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
 X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,47 +65,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce vhost_dev_virtqueue_restart(), which can restart the
-virtqueue when the vhost has already started running.
+Introduce vhost_virtqueue_stop(), which can reset the virtqueue
+in the device. Then it will unmap vrings and the desc of the
+virtqueue.
+
+This patch only considers the case for vhost-kernel, when
+NetClientDriver is NET_CLIENT_DRIVER_TAP.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/virtio/vhost.c         | 13 +++++++++++++
- include/hw/virtio/vhost.h |  2 ++
- 2 files changed, 15 insertions(+)
+ hw/net/vhost_net.c      | 21 +++++++++++++++++++++
+ include/net/vhost_net.h |  2 ++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 1bca9ff48d..fc3f550c76 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1913,3 +1913,16 @@ void vhost_dev_virtqueue_stop(struct vhost_dev *hdev, VirtIODevice *vdev,
-                           hdev->vqs + idx,
-                           idx);
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index ccac5b7a64..aa60dd901c 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -514,3 +514,24 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
+ 
+     return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
  }
 +
-+int vhost_dev_virtqueue_restart(struct vhost_dev *hdev, VirtIODevice *vdev,
-+                                int idx)
++void vhost_net_virtqueue_stop(VirtIODevice *vdev, NetClientState *nc,
++                              int vq_index)
 +{
-+    const VhostOps *vhost_ops = hdev->vhost_ops;
++    VHostNetState *net = get_vhost_net(nc->peer);
++    const VhostOps *vhost_ops = net->dev.vhost_ops;
++    struct vhost_vring_file file = { .fd = -1 };
++    int idx;
 +
 +    assert(vhost_ops);
 +
-+    return vhost_virtqueue_start(hdev,
-+                                 vdev,
-+                                 hdev->vqs + idx,
-+                                 hdev->vq_index + idx);
++    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
++
++    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
++        file.index = idx;
++        int r = vhost_net_set_backend(&net->dev, &file);
++        assert(r >= 0);
++    }
++
++    vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
 +}
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 574888440c..b3394b6348 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -291,4 +291,6 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index 387e913e4e..9b3aaf3814 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -48,4 +48,6 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net);
  
- void vhost_dev_virtqueue_stop(struct vhost_dev *hdev, VirtIODevice *vdev,
-                               int idx);
-+int vhost_dev_virtqueue_restart(struct vhost_dev *hdev, VirtIODevice *vdev,
-+                                int idx);
+ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+ 
++void vhost_net_virtqueue_stop(VirtIODevice *vdev, NetClientState *nc,
++                              int vq_index);
  #endif
 -- 
 2.32.0
