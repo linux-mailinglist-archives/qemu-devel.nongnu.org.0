@@ -2,80 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57505961FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 20:09:11 +0200 (CEST)
-Received: from localhost ([::1]:40556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6722A5961D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 20:03:46 +0200 (CEST)
+Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO102-0006hQ-Pk
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 14:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36372)
+	id 1oO0un-0000ia-Gm
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 14:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0TS-0005b7-19; Tue, 16 Aug 2022 13:35:42 -0400
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:37686)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0TP-0002c2-RC; Tue, 16 Aug 2022 13:35:29 -0400
-Received: by mail-vs1-xe29.google.com with SMTP id z185so1298920vsb.4;
- Tue, 16 Aug 2022 10:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=UM1w2DHKtrYxtYYq5uWUmNXReRFsb3rxAEPbAJKrJIA=;
- b=P7HwE12Fnjk6+U2YMnFHBEn1o2pnvw0l8xWvD2V4mJhRMiVdW7orUWjopQiyg42G6R
- pq7NIgvFS+vr57Kcxb0zCch1L2AL9los0i7yneYmpER/XzXx1RwXsRYeRTObWlPT1m1x
- G1OOWiBxYTbp6E7AoblSCUplUrgJb3v/BilOdEPTqHJSWpybbLES9+yNbZkSZiYp7qw7
- DqOlbkUa18X7Alz9fpNAZmv04oDuStE/dUbYs1ZiR3hWtWA/MOsbx3D4CKM2BqZyQRJ7
- oGsf6fkaT/XVRsI0sZTt+BIm+l5ifIKtpqodz0BKgHb2Eud2IDadcORDNJQswOVEjaXF
- AFFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=UM1w2DHKtrYxtYYq5uWUmNXReRFsb3rxAEPbAJKrJIA=;
- b=wUgaUebh3lTqnAFFRgyHAofnqk2K6CG4sqrWulDhcYpcDVRk3rtkgBhLkUYFxvQab3
- jBdDXLIhoU4370jpMKVTJAbC4lJN2FxQd6eScys7NArjs2Q6j7XmlGM28bWMzSaV03rj
- eOqUFw0vcn7eqg5kts1q119sCOtvdn5RnOe6TbO9/dbqcCg4nW3QFLXxXH5rsE4clTHv
- WVN7SPt2ElCCMXnol//rS5Z0FiJgpznC/873kRoGg+bMHEQ6gtDMU9VLO/gd4jr2A78E
- xaeCpSna84/YgwyMLR7JtyDcGk4IyYo97riOXmpt/63zfOzyFf0sHZbQ4xmja7oNvisI
- +pCQ==
-X-Gm-Message-State: ACgBeo39JwZZjCC5Dg7nbePHRcpZv5DHDxpRIS+PUI836EckUgmpN35S
- ZpdxtxyImwlvkg6evtpZvRHY5S4Uo+CSbw==
-X-Google-Smtp-Source: AA6agR57Hp+pmNnI62rp9mymmtuQReBVVjLJD+zuGqKiOrLVkmB+fsZlFXnCdgQEp5fDzPrUb8vjKw==
-X-Received: by 2002:a67:c807:0:b0:385:4678:a62b with SMTP id
- u7-20020a67c807000000b003854678a62bmr8934190vsk.11.1660671326660; 
- Tue, 16 Aug 2022 10:35:26 -0700 (PDT)
-Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
- [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.35.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 10:35:26 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, alistair.francis@wdc.com,
- david@gibson.dropbear.id.au,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH for-7.2 v3 20/20] hmp,
- device_tree.c: add 'info fdt <property>' support
-Date: Tue, 16 Aug 2022 14:34:28 -0300
-Message-Id: <20220816173428.157304-21-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220816173428.157304-1-danielhb413@gmail.com>
-References: <20220816173428.157304-1-danielhb413@gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=22053a6f0=damien.lemoal@opensource.wdc.com>)
+ id 1oO0Ts-00061f-Ii
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:35:56 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:32710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=22053a6f0=damien.lemoal@opensource.wdc.com>)
+ id 1oO0Tn-0002fJ-G2
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:35:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1660671352; x=1692207352;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=01Qck+d3f/C5+Mk2+fZRzh6u2yRofykqrRR1rsfxSvU=;
+ b=P8qaqKciuZSKicsfWtbcb5NP1QLL4LSw6Z2JxTyddRpieYkGzgnOxXsj
+ QlYorTyopLqFyOFFD70medtUvPUt+o+gjd/g8wgJZJyGRvMdNqnICOHr5
+ eeNrlTgQcMbBociSWh2zOWwXx7HhZRoO/LPS0FCUJ7Z0dCtBENPLjh0RR
+ eB9ZsPD+9NJToubtHpcUmszAoBkCcgeVwzkHePYSSxPvgN7hFd3ysBCtP
+ sa7jnnAWxoPCtmK4vVu6j3lOLLymzI5y4eRQzqSby+DBvl7fH+qJQ+z2F
+ 8yOMEw9HLKc1l+LmkIap9EOMuGbCtX/nHfzdjeo8IpJd34/LO8tbWfQLx w==;
+X-IronPort-AV: E=Sophos;i="5.93,241,1654531200"; d="scan'208";a="320952990"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Aug 2022 01:35:36 +0800
+IronPort-SDR: WWzvM575OGnv0RN7abt8Cu78l17iHC64bQkdrXL2FPO74RGOSWlGEQgb7tv4GiHeyzWXchN0va
+ 0TMY0tWjJMHzWEZb/hwlOj2reMCmE46JXKjBoEBGQ0vnas4acAndH9wyD3Q6pEQJ959/Lk5jLp
+ a8QyuqRbV8u8QLEeqyJ9xia5lsWUpgiwf54gXCmwPAuwlz0ayehcQIr5q6pUSbjC29uP+50zzS
+ nToRPI1nklSpuwx6FWWpcu2j5ft+C0c4dudlHxbPxcLIxtKJQGn6J/CcrV1lBt55psL7FXZgVM
+ ZwYlRIwtL15Y7TjwzbAeObcq
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Aug 2022 09:56:21 -0700
+IronPort-SDR: RsTLFzC9A2F4sTRTumUvlgppEw5DeDTxeFYkJlKrulAnumM/aRC7VBVZHTXpthkw2t5miujuH0
+ qceiMtrQ7tBwJhKQTOFcBqcaQ8sUnCI7rDobp0AyZW1de0UXWkROaBSWztamxrzxyLuZ7Gi1yK
+ CfqNH+GlAqFN3+IklSZJfiJAA3OmSesz5TJtU+HCNb34vFN9ftgkhvJx0fHk2KocY91plvyofO
+ G30jou7C7s5+HUW4LlUW5mUb5Kgu+mUJxOBUYIRAirf1N696kbJC8TV/f+ahd4q/VfWTSr+GMg
+ /lM=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Aug 2022 10:35:34 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4M6db92LfFz1Rws7
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 10:35:33 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1660671332; x=1663263333; bh=01Qck+d3f/C5+Mk2+fZRzh6u2yRofykqrRR
+ 1rsfxSvU=; b=ND9NnNbNcjJZK0q4g8ZlJiI2e0ieBXytYxqyUQF3nCRLy8vt8Iq
+ NO2L69lNHVVQGv7+2b4iTuO+G2VRuuJ8b+BHmoBzIvXaWDSh0sUaWssofEBptLOh
+ j9vbtdjqI5TzYu8NPzsBi+TmWp7i4tJZiBnGgCn3vBnRv2Nk43gICg/tquHjsag6
+ ha6QRuHf+1ZwdbTET4URqdvcQfIy7B9juEvqve8aGU5s6ZXeeSbura2JESzwNIGG
+ YDBIEhf7EbZXYi5ky55y7y/FBquLg5uN/lq3RKAOHkk/btlwKoYGWRv4jr8Xrk1K
+ Ma6RhV2v3yawhTDkbA6NmzRdgoW1V1nb3cA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id 2ofAzsTcbI4J for <qemu-devel@nongnu.org>;
+ Tue, 16 Aug 2022 10:35:32 -0700 (PDT)
+Received: from [10.111.64.29] (c02drav6md6t.sdcorp.global.sandisk.com
+ [10.111.64.29])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4M6db7608Lz1RtVk;
+ Tue, 16 Aug 2022 10:35:31 -0700 (PDT)
+Message-ID: <69f2b5bd-2312-a581-7ce1-065159eeaf5d@opensource.wdc.com>
+Date: Tue, 16 Aug 2022 10:35:31 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v7 3/8] file-posix: introduce get_sysfs_long_val for the
+ long sysfs attribute
+Content-Language: en-US
+To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
+Cc: hare@suse.de, Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ stefanha@redhat.com, Hanna Reitz <hreitz@redhat.com>,
+ dmitry.fomichev@wdc.com, qemu-block@nongnu.org
+References: <20220816062522.85714-1-faithilikerun@gmail.com>
+ <20220816062522.85714-4-faithilikerun@gmail.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220816062522.85714-4-faithilikerun@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=22053a6f0=damien.lemoal@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,197 +125,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'info fdt' is only able to print full nodes so far. It would be good to
-be able to also print single properties, since ometimes we just want
-to verify a single value from the FDT.
+On 2022/08/15 23:25, Sam Li wrote:
+> Use sysfs attribute files to get the long value of zoned device
+> information.
+> 
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  block/file-posix.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index c07ac4c697..727389488c 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1258,6 +1258,33 @@ static int get_sysfs_zoned_model(struct stat *st, BlockZoneModel *zoned) {
+>      return 0;
+>  }
+>  
+> +/*
+> + * Get zoned device information (chunk_sectors, zoned_append_max_bytes,
+> + * max_open_zones, max_active_zones) through sysfs attribute files.
+> + */
 
-libfdt does not have support to find a property given its full path, but
-it does have a way to return a fdt_property given a prop name and its
-subnode.
+The comment here needs to be more generic since this helper is used in patch 2
+in hdev_get_max_segments(). So simply something like:
 
-Add a new optional 'propname' parameter to x-query-fdt to specify the
-property of a given node. If it's present, we'll proceed to find the
-node as usual but, instead of printing the node, we'll attempt to find
-the property and print it standalone.
+/*
+ * Get a sysfs attribute value as a long integer.
+ */
 
-After this change, if an user wants to print just the value of 'cpu' inside
-/cpu/cpu-map(...) from an ARM FDT, we can do it:
+And since this helper is used in patch 2, this patch needs to go before patch 2
+(reverse patch 2 and 3 order).
 
-(qemu) info fdt /cpus/cpu-map/socket0/cluster0/core0 cpu
-/cpus/cpu-map/socket0/cluster0/core0/cpu = <0x8001>
+> +static long get_sysfs_long_val(struct stat *st, const char *attribute) {
+> +#ifdef CONFIG_LINUX
+> +    g_autofree char *str = NULL;
+> +    const char *end;
+> +    long val;
+> +    int ret;
+> +
+> +    ret = get_sysfs_str_val(st, attribute, &str);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    /* The file is ended with '\n', pass 'end' to accept that. */
+> +    ret = qemu_strtol(str, &end, 10, &val);
+> +    if (ret == 0 && end && *end == '\n') {
+> +        ret = val;
+> +    }
+> +    return ret;
+> +#else
+> +    return -ENOTSUP;
+> +#endif
+> +}
+> +
+>  static int hdev_get_max_segments(int fd, struct stat *st) {
+>      int ret;
+>      if (S_ISCHR(st->st_mode)) {
 
-Or the 'ibm,my-dma-window' from the v-scsi device inside the pSeries
-FDT:
 
-(qemu) info fdt /vdevice/v-scsi@71000003 ibm,my-dma-window
-/vdevice/v-scsi@71000003/ibm,my-dma-window = <0x71000003 0x0 0x0 0x0 0x10000000>
-
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hmp-commands-info.hx         |  9 +++++----
- include/sysemu/device_tree.h |  2 ++
- monitor/hmp-cmds.c           |  5 ++++-
- monitor/qmp-cmds.c           |  8 +++++---
- qapi/machine.json            |  4 +++-
- softmmu/device_tree.c        | 29 ++++++++++++++++++++++++-----
- 6 files changed, 43 insertions(+), 14 deletions(-)
-
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 743b48865d..17d6ee4d30 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -924,13 +924,14 @@ ERST
- 
-     {
-         .name       = "fdt",
--        .args_type  = "nodepath:s",
--        .params     = "nodepath",
--        .help       = "show firmware device tree node given its path",
-+        .args_type  = "nodepath:s,propname:s?",
-+        .params     = "nodepath [propname]",
-+        .help       = "show firmware device tree node or property given its path",
-         .cmd        = hmp_info_fdt,
-     },
- 
- SRST
-   ``info fdt``
--    Show a firmware device tree node given its path. Requires libfdt.
-+    Show a firmware device tree node or property given its path.
-+    Requires libfdt.
- ERST
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index 057d13e397..551a02dee2 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -140,6 +140,8 @@ int qemu_fdt_add_path(void *fdt, const char *path);
- void qemu_fdt_dumpdtb(void *fdt, int size);
- void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
- HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath,
-+                                          bool has_propname,
-+                                          const char *propname,
-                                           Error **errp);
- 
- /**
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index accde90380..df8493adc5 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2488,8 +2488,11 @@ void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
- void hmp_info_fdt(Monitor *mon, const QDict *qdict)
- {
-     const char *nodepath = qdict_get_str(qdict, "nodepath");
-+    const char *propname = qdict_get_try_str(qdict, "propname");
-     Error *err = NULL;
--    g_autoptr(HumanReadableText) info = qmp_x_query_fdt(nodepath, &err);
-+    g_autoptr(HumanReadableText) info = NULL;
-+
-+    info = qmp_x_query_fdt(nodepath, propname != NULL, propname, &err);
- 
-     if (hmp_handle_error(mon, err)) {
-         return;
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index db2c6aa7da..ca2a96cdf7 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -604,9 +604,10 @@ void qmp_dumpdtb(const char *filename, Error **errp)
-     return qemu_fdt_qmp_dumpdtb(filename, errp);
- }
- 
--HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
-+HumanReadableText *qmp_x_query_fdt(const char *nodepath, bool has_propname,
-+                                   const char *propname, Error **errp)
- {
--    return qemu_fdt_qmp_query_fdt(nodepath, errp);
-+    return qemu_fdt_qmp_query_fdt(nodepath, has_propname, propname, errp);
- }
- #else
- void qmp_dumpdtb(const char *filename, Error **errp)
-@@ -614,7 +615,8 @@ void qmp_dumpdtb(const char *filename, Error **errp)
-     error_setg(errp, "dumpdtb requires libfdt");
- }
- 
--HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
-+HumanReadableText *qmp_x_query_fdt(const char *nodepath, bool has_propname,
-+                                   const char *propname, Error **errp)
- {
-     error_setg(errp, "this command requires libfdt");
- 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 96cff541ca..c15ce60f46 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1688,6 +1688,7 @@
- # Query for FDT element (node or property). Requires 'libfdt'.
- #
- # @nodepath: the path of the FDT node to be retrieved
-+# @propname: name of the property inside the node
- #
- # Features:
- # @unstable: This command is meant for debugging.
-@@ -1697,6 +1698,7 @@
- # Since: 7.2
- ##
- { 'command': 'x-query-fdt',
--  'data': { 'nodepath': 'str' },
-+  'data': { 'nodepath': 'str',
-+            '*propname': 'str' },
-   'returns': 'HumanReadableText',
-   'features': [ 'unstable' ]  }
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index 9e681739bd..523c9b8d4d 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -823,23 +823,42 @@ static void fdt_format_node(GString *buf, int node, int depth,
-     g_string_append_printf(buf, "%*s}\n", padding, "");
- }
- 
--HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath, Error **errp)
-+HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath,
-+                                          bool has_propname,
-+                                          const char *propname,
-+                                          Error **errp)
- {
-     g_autoptr(GString) buf = g_string_new("");
--    int node;
-+    const struct fdt_property *prop = NULL;
-+    void *fdt = current_machine->fdt;
-+    int node, prop_size;
- 
--    if (!current_machine->fdt) {
-+    if (!fdt) {
-         error_setg(errp, "Unable to find the machine FDT");
-         return NULL;
-     }
- 
--    node = fdt_path_offset(current_machine->fdt, nodepath);
-+    node = fdt_path_offset(fdt, nodepath);
-     if (node < 0) {
-         error_setg(errp, "node '%s' not found in FDT", nodepath);
-         return NULL;
-     }
- 
--    fdt_format_node(buf, node, 0, nodepath);
-+    if (!has_propname) {
-+        fdt_format_node(buf, node, 0, nodepath);
-+    } else {
-+        g_autofree char *proppath = g_strdup_printf("%s/%s", nodepath,
-+                                                    propname);
-+
-+        prop = fdt_get_property(fdt, node, propname, &prop_size);
-+        if (!prop) {
-+            error_setg(errp, "property '%s' not found in node '%s' in FDT",
-+                       propname, nodepath);
-+            return NULL;
-+        }
-+
-+        fdt_format_property(buf, proppath, prop->data, prop_size, 0);
-+    }
- 
-     return human_readable_text_from_str(buf);
- }
 -- 
-2.37.2
-
+Damien Le Moal
+Western Digital Research
 
