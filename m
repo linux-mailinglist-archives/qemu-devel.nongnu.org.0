@@ -2,101 +2,167 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EE1595C75
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:56:30 +0200 (CEST)
-Received: from localhost ([::1]:52192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714C9595CC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 15:06:27 +0200 (CEST)
+Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNw7R-0000aK-SG
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57736)
+	id 1oNwH3-0003yg-Tx
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 09:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNw4u-0004ta-Dz
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:53:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25044)
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oNwES-0002U5-0H
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 09:03:44 -0400
+Received: from mail-dm6nam11on2085.outbound.protection.outlook.com
+ ([40.107.223.85]:39108 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNw4s-0005iR-SH
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:53:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660654430;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bX1y+u/KSpFPUg0CiLSr1hMkBsLujb0RBkGY8XG/Nwg=;
- b=IblshAoPLebzazycAYZxLUeInVlR4C1ZES1lziQUfmxVNmQWgV1EOoecGUMWeH/z4oGmfS
- mDIkqyWICKacRuEmqYKafjg70UVCEtv9hcv3knbWZl2ViTVF9UgQ00xAw2jcQBBVZKm+wZ
- xrgaFJ2zmXFv+8l1prCNN2ukfDGo0D0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-137-drvE2No7NlOnY8LI48LasA-1; Tue, 16 Aug 2022 08:53:49 -0400
-X-MC-Unique: drvE2No7NlOnY8LI48LasA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f18-20020a05600c4e9200b003a5f81299caso1779769wmq.7
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:53:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=bX1y+u/KSpFPUg0CiLSr1hMkBsLujb0RBkGY8XG/Nwg=;
- b=oB6LcNed2dS9EwaekfxbBxLkMYoWI9O9WF3BboGl9z3654t9cEohIFyhDA3jXcrBfK
- yxag5hF+DKtIXDh78gW9Y+Sku1ZNdxCi/W+b8wxe8uGDmgJxK/mIqV/YrmSPITKZ97ro
- o9+rtOh9Wx6+6z2PuG45SLYeodA4ZiFpFaIQRSYnsrWL2Maq4sh6PDIEQkw9HydM5t9H
- h0dPlHQbBV0hjXKQTKm1Hshdz8CHEPUNMy59pjP1GCjWazyXPW2ib/Qbn9l8Gg16zDte
- 3F10vV/sAnHdDaRKwV0UHHIwRUkTtgq04G7DZlaZzjH42BqGGucoIcs+GMRQFMNMtlpt
- WxqA==
-X-Gm-Message-State: ACgBeo1E9vTrftqgOnVJL3v208KTNoFG6sWbKwqnc/A6pBNOjMYet3yF
- XOZ4Rtg7/1cA9AhnuGeK2GJeeNpkXeSEItWZxZbutwDZa+0gKTr73u4fsWQOU8TOkf83x7zsA5i
- 0N24knBbXcebxI2I=
-X-Received: by 2002:a05:600c:a47:b0:39e:f953:84e2 with SMTP id
- c7-20020a05600c0a4700b0039ef95384e2mr18929551wmq.202.1660654428176; 
- Tue, 16 Aug 2022 05:53:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5/7NqZAQJOKbRaM3xK9ND1jCmV0HQtYIH2zvNAweH75avyCoQ+qM7prxGQFWQyqQnwSOohhw==
-X-Received: by 2002:a05:600c:a47:b0:39e:f953:84e2 with SMTP id
- c7-20020a05600c0a4700b0039ef95384e2mr18929543wmq.202.1660654428025; 
- Tue, 16 Aug 2022 05:53:48 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- p6-20020a5d6386000000b002251c75c09csm1324228wru.90.2022.08.16.05.53.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Aug 2022 05:53:47 -0700 (PDT)
-Message-ID: <3404f913-ea2b-b429-f382-2f20b917b953@redhat.com>
-Date: Tue, 16 Aug 2022 14:53:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v10 18/21] job.c: enable job lock/unlock and remove
- Aiocontext locks
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oNwEP-0007QH-Fa
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 09:03:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b/pklq7vSxOnOAkF71P/1VEWOU1y0BBjuu3IgodFcv0eRqj/rz4SXQ0fCwjI9t+iM+ewMMuQGf04ALTvGMRCqLnhS/DLk8IgDOiGkbFqz+f6GEYIlhNYnLt/Xt7VeduEK5BMz4afHNtq8mSAt446HPZwl/OlGPyGSkwjY2OegyjcT2FLT6OS7dTFzyJpVCKmlPQ20fUsU1XfAOUkhKrGFW8ncTTRRQ93DqQGSK0+mRC/97MHLjY4MPYOSAnYNbNVIFv0TOkpC2S4dSX8gceLablttdbH0TiURMK3WiAryvCxhEObZjh7VDpMdGdRVEJQg/j6PqjMm5kYjX8ySvSCOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t+8FT6JiTQcMC/ALVK6sn7OMTE0JPDM/uwycojdLWNA=;
+ b=fU/GJ5HLejsFWn8vk+afk/+lTexCibOsEG+Pq7gtJntO3X0UvC5t2o+tBZ7oZ8voTlKSCQe/tSG0Arsve6PAOFaSi63HLCXCPfehW5ziIosKXugneHC608Tx73a1KLJNjrxWb716H9CEWIADQHg+3JbB7dvnN3uozXlB7h1x7YTSILlY0F9jI6zSdWb8zTwf9tnh93KGZI6pYSQvCcdLQVC8WDPSlZE0sFvFPXHrY6+BD4E+JJvtQ+pdUiJHMG49hxXiXcu6zUvs72/+FvkP7EKP1L27A/W8Ur2unGDhRL1IPYRhKSQNnmM2zmAoZB9kfnvf/dpWJIow7P+C0lPYUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t+8FT6JiTQcMC/ALVK6sn7OMTE0JPDM/uwycojdLWNA=;
+ b=ILx28ZA63mYSvq5ws9EDir64C1C3GoLjdnrcUOY27IlArZOjmL1FZ3uqk+IS3YTwlBUrto896AVfqOsxXlHYBzyOxww6SDVXrX/QnvW/r0pV6jgV19wZPtXAqknyTIudLcVPJR/YBmcEVLZMbxVocaM7bXX7N2bDUN2TYT2TD2Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by DM4PR12MB5071.namprd12.prod.outlook.com
+ (2603:10b6:5:38a::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15; Tue, 16 Aug
+ 2022 13:03:34 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5504.025; Tue, 16 Aug
+ 2022 13:03:33 +0000
+Message-ID: <f95f35af-4824-2a2a-7cd0-71d1fda6867a@amd.com>
+Date: Tue, 16 Aug 2022 15:03:12 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220725073855.76049-1-eesposit@redhat.com>
- <20220725073855.76049-19-eesposit@redhat.com>
- <d3212eb9-1054-9821-4062-5e9b960da630@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <d3212eb9-1054-9821-4062-5e9b960da630@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>,
+ "Nikunj A. Dadhania" <nikunj@amd.com>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-fsdevel@vger.kernel.org
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
+ <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
+ <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
+ <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
+ <1407c70c-0c0b-6955-10bb-d44c5928f2d9@amd.com>
+ <1136925c-2e37-6af4-acac-be8bed9f6ed5@amd.com>
+ <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
+ <20220815130411.GA1073443@chaop.bj.intel.com>
+ <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
+ <20220816122457.2fjyd4uz5hp5cani@box.shutemov.name>
+From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+In-Reply-To: <20220816122457.2fjyd4uz5hp5cani@box.shutemov.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0010.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::9) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c13efbc1-f89b-4968-0765-08da7f87b955
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5071:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3P/R0ngget9w/tNl+YiggXMHDqv2yEBs3v6AjBXC1ld07V40vX8xNu9FXGg1CUO0C063Y3QnFGbVLFNmx9mobfozniHK6xe7i8bCgYj3Gvt5gvCKNgUnB7KKs/p/ZwlflPbz8mtqrnK0HfNHzfxJZVAqbm1sKg8LZ0clYTYo6gGMw4IaV+R81Pl2bso3Lcl7ezhmjsJAEwMsaSD8YgICN4IsC4Y4RqwrscZauRxJfMT9pFMvD7M63rEMLwC2rYE3/N+fN6cgzuaNeswvAbk67Nell6CDFNedjGi8Q0X6dIa7665lf8/ynprtj2JeGqlNHKfP6BMBUeKbRc7LGX6PbSClu9GGNkHwxZnidMOj4wWT8NGgdXRf2RaLlTyBSaFyQLcpd8eX0mRuXvX33rEjkH5tcAIyipyVOdTpDLkwxSSK/0fcHgzHC7hs0tNeVZTatGItUU/4ys+FwhMiyYFUiWz9mqJubEcbRboxw/zL/worE4Ica0tfSgt3BVRVFCqkk0DsiPxYKDoRZ2NKhEsqVTuXlwC3KuaUgp3duPQSHtVwbMPOnGKY5v0QyxwO8ml+mHOtNByVq9YJsaTnl69tZvQVVa4lnPPmQEY+VT9wO0gZg4ZGcpUElW+XVNUwYpUsb9N/Qak0x9leAMArhqGMcTXMBopj4ojw2X7r7fpXYMbodRYBOijJWzoCrYXk0oTRHSga3luf/e0WdZ9u1/TzyRe35/R2FMaLnApWojtUXkvdLzpedlOV94o475U8FwqkyP9CFMM6JFVa2KzeFEl03sJodpplodgD/8n5sEsuQefcYO+gaCXUFYfQ6TpsL0/MyhjGAujR1CvHB/MRKlVbDw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(186003)(31686004)(41300700001)(8676002)(2616005)(6666004)(83380400001)(66556008)(2906002)(4326008)(66946007)(66476007)(54906003)(6916009)(36756003)(316002)(38100700002)(26005)(6512007)(31696002)(5660300002)(478600001)(86362001)(8936002)(6506007)(7406005)(7416002)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlhMZkRKSDBjblhHZHd4a1EzOXFRUkFDOFFHaXMvcmpTUFVGNXJtUklocnB1?=
+ =?utf-8?B?OTFZbG5KWUUwdllETldPc0svUEUzWm5qTjZJVjBWeGthelFSNE9YcFB4cmxl?=
+ =?utf-8?B?SFlVejhMUGV4T0pXTFVpbXhIZDY5bmVvdWYyK2xEODJpa1BJQmZBQ3E1c25J?=
+ =?utf-8?B?RzR3VVY4eWcxaVhjU1hyZzVYZzVEbkU5SzA0M3RncVR1aG00a3cra3F5Z2Qy?=
+ =?utf-8?B?eDl3Wm1DUnhHU05acm8yUk5tVUN5a0xVSk01d1IxQlM0d2NweXN2ZElJcUNw?=
+ =?utf-8?B?WWNTMFJHT0RwT1krM3I2aHlGOUdGWVlVZkdRUkl5bTRvcWNkY2kycS80WFFS?=
+ =?utf-8?B?QjJWaUdjZDh2dE9wQ0dWUXdPeXVQaUdjZWJGY3BsZDd1aDdWWUtrbjh1UmU4?=
+ =?utf-8?B?U0hGdms3QVZZak8rNmxPbG5vVlBpSElwU3c5QVJma0t0QlNqY1h1WG92TmVC?=
+ =?utf-8?B?anBMc3pFRlBlcW8rZUFvWVdpcllHMFF6Mm1WV3A5bFBkVEU3bEwxY1c0bVlG?=
+ =?utf-8?B?MFZUZVhjWWFycXc4SFhsMXNzMUNiKzZkbC9jTVZnNHNmUDNUT1RXR1Rqdm9W?=
+ =?utf-8?B?STZLK0Zhaytkc3EwWjZTdjk3S3FpYUljcGpQYU5KRithcStydUV5bHBuSHd4?=
+ =?utf-8?B?b05wNGFCWStLdnMraDJzRU9oQzA0UGI4VkI2Q25MSXNRSzNrUCtKdXdoYVNm?=
+ =?utf-8?B?bWVMZ0xFa24rUVF3TjFSUkV1RWtyYkJHWFlENHJzSmJ2TmMvRnFjMmgwaGJr?=
+ =?utf-8?B?Mlp1M3lESjVQemJJRHFnZ1RzQTVkZkd3MlU4SzlTZU55ZW1CL3ZDMzVTU0Jt?=
+ =?utf-8?B?Zmk5RjVKSC9PMU1UMkZPYWFYVXRkZVo1cXpOSGFtUmdFTFZZKzRkcGs1SjZq?=
+ =?utf-8?B?Z3lrZ3VjT2YvRFJCY09LUlU0VFNwdzFsdmduSlF6S0k3V21UZGU3VUxnZGpM?=
+ =?utf-8?B?TnhZNE9mY1FnOG0yd0pKSjZoNHhuNi9Ec0ZHMkhZVS9RdERDNWU4Z0lPTWxv?=
+ =?utf-8?B?TENBNnRqUGw2dXYraHdkL1FCOTNkYUlwMEtxSWlLS05KaEVpZXU4RE1GRXZV?=
+ =?utf-8?B?eVFOK1pUcXp5Qm52QVdUenJnRExVQmFIYnFXam9rRlJhd093enpqSk03TWlJ?=
+ =?utf-8?B?RDNKd09MN1A5VkQvOHFXK2RxcmlWbmFrV2pKbk13ZlIrcTM1Yk5XRTlkUHdl?=
+ =?utf-8?B?WGtMdGMwdjRaZnBzN1FyWVhualp4ZjdkUmNmNzdzR1NmL0p3WG83TDliTWhU?=
+ =?utf-8?B?b25iUXo1aTNSSzZNb3RwWm1SOEhQc0N2b0YvNFlvb044a2YyTXJaYkg2TmVj?=
+ =?utf-8?B?Tk81SWM5K1cveWJmaE11SUV4ZDdjYlZ3N2ZaOGgrUGc2RlpZVUZHVk5oNlpN?=
+ =?utf-8?B?VU9jUDRidndNTTF4UUR2Sjdld1o4azZJVmJoNG1UeGdZdlYvQldDRUtiR2Fh?=
+ =?utf-8?B?MWJTcWxBZ3MvL09Sb1A5c0IrYWVFRWVlZDdLV29BQm4wQ3pRZFhXemRyZnJh?=
+ =?utf-8?B?dGJZTGxFQmxpNEFYRkVxR01FekczVURuWW9nN2NSdFl2TS9YZWlQRCtnWlhi?=
+ =?utf-8?B?R01rR1VQajQvb0YwVDVPMTJwUVJCUFhGMFFQYytLUkpiUzUxMXlLTHhGR0RU?=
+ =?utf-8?B?M1BzTS9vRHpZUVJLWHBpSEtRdEpFRmwwbnNJdEsvYVhVWXlQYmVsNDJPTjZC?=
+ =?utf-8?B?cEEvWEZzeWMvckZzYmxyUElURHppY2dFNVQ5aHJuWC9nMlFjcU1VM28xbVl2?=
+ =?utf-8?B?TTVrMWZ4MlJxS0MxQWxlQ2p3cmM0UDhjU0FaaENrbWI3NDJoQ1VsUU1FMG1z?=
+ =?utf-8?B?WFB4aGlsTzUzWE1kZ095aFZZVjRPa3k0eGQwK0ErakUxV3BlODd5VnYyMkts?=
+ =?utf-8?B?VlR2bFpWMUJlQ0VGZnlBZ1NEbVBHMnBIeDVCYVNrdDZKcmI4cGwvSUpjYUdE?=
+ =?utf-8?B?bFc2NXlaMEppTGRxbXhtblRzbVU5UWpxeC9BTlZHZnhhRnJlNi9HUStwb1lo?=
+ =?utf-8?B?QisxSXdxMlhSRlFpb0t4eTl2Z1RJTmxpUkQ3RnhJK0tDMlpNbGVUQXdZZEFr?=
+ =?utf-8?B?Z3hRakVyUEc0enp1UExjcVJ5OU9uRW5wdVpTdHk3MmEwWXF5K3Z2MGlyYTlw?=
+ =?utf-8?Q?qQPg5tTn2CJYvlNlrpyi8bE1x?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c13efbc1-f89b-4968-0765-08da7f87b955
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2022 13:03:33.6141 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ywbB9TW87oUD4PWsX5vZlZ2sfD81AQRYc5k7m+zcgBUF5mv/QNJUEUi/uz9OIwD1EQ10ARynuIN6Sg57JTnEWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5071
+Received-SPF: softfail client-ip=40.107.223.85;
+ envelope-from=Pankaj.Gupta@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,43 +180,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+>>> Actually the current version allows you to delay the allocation to a
+>>> later time (e.g. page fault time) if you don't call fallocate() on the
+>>> private fd. fallocate() is necessary in previous versions because we
+>>> treat the existense in the fd as 'private' but in this version we track
+>>> private/shared info in KVM so we don't rely on that fact from memory
+>>> backstores.
+>>
+>> Does this also mean reservation of guest physical memory with secure
+>> processor (both for SEV-SNP & TDX) will also happen at page fault time?
+>>
+>> Do we plan to keep it this way?
+> 
+> If you are talking about accepting memory by the guest, it is initiated by
+> the guest and has nothing to do with page fault time vs fallocate()
+> allocation of host memory. I mean acceptance happens after host memory
+> allocation but they are not in lockstep, acceptance can happen much later.
 
-Am 27/07/2022 um 17:53 schrieb Vladimir Sementsov-Ogievskiy:
->>    * job_lock:
->> @@ -672,7 +673,7 @@ void job_user_cancel_locked(Job *job, bool force,
->> Error **errp);
->>    * Returns the return value from the job if the job actually completed
->>    * during the call, or -ECANCELED if it was canceled.
->>    *
->> - * Callers must hold the AioContext lock of job->aio_context.
->> + * Called with job_lock held.
-> 
-> That's wrong, it should be called with job_lock not held :)
-> 
->>    */
->>   int job_cancel_sync(Job *job, bool force);
->>   @@ -697,8 +698,7 @@ void job_cancel_sync_all(void);
->>    * function).
->>    *
->>    * Returns the return value from the job.
->> - *
->> - * Callers must hold the AioContext lock of job->aio_context.
->> + * Called with job_lock held.
-> 
-> and this,
-> 
->>    */
->>   int job_complete_sync(Job *job, Error **errp);
->>   @@ -734,7 +734,7 @@ void job_dismiss_locked(Job **job, Error **errp);
->>    * Returns 0 if the job is successfully completed, -ECANCELED if the
->> job was
->>    * cancelled before completing, and -errno in other error cases.
->>    *
->> - * Callers must hold the AioContext lock of job->aio_context.
->> + * Called with job_lock held.
-> 
-> and this.
+No, I meant reserving guest physical memory range from hypervisor e.g 
+with RMPUpdate for SEV-SNP or equivalent at TDX side (PAMTs?).
 
-Well, except for this part here :) You're right here.
-
+Thanks,
+Pankaj
 
