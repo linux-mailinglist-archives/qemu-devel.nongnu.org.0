@@ -2,114 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEC15953A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:23:34 +0200 (CEST)
-Received: from localhost ([::1]:43694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D12445953FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:38:20 +0200 (CEST)
+Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNqvG-0004TD-0k
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38744)
+	id 1oNr8Q-0000KC-3h
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oNqpS-0001J7-UO
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:17:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23222)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNr49-0006Vv-1p
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:32:45 -0400
+Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:45215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oNqpR-00023W-7j
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:17:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660634252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9NlYQWc+6aBw1qwGE9zxDoYsLr+macgpG/AeCk641Rw=;
- b=OYzYXUf1vsgVaNe208EkvG+kAla+TXjZ/Z/koTdh0cAoCQipLZCKNW/G8dDRAaKx983RlH
- W2ZOl6Bpz7j6pI3K5sSkPPEBq+5chM7tV0FaAoBchB1ms+tdXmeaemDWPwuY94EZqHr+ZV
- M+Z3yn39gf+pRn4DyoPVgms6w0vPWJI=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-306-jsMDxqy1NoqYzWdLi1KgJw-1; Tue, 16 Aug 2022 03:17:30 -0400
-X-MC-Unique: jsMDxqy1NoqYzWdLi1KgJw-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-11c1fdd025cso5723fac.0
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 00:17:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=9NlYQWc+6aBw1qwGE9zxDoYsLr+macgpG/AeCk641Rw=;
- b=n+3nOmO850ctq+EagnzGOphYaZv9mYsTZuE7mcU/sr+II137irPD5M+KAS/jKcB8bs
- /XgF3aGRM7Fc2yYIRoPRjxwE8auwasFvYT5k6j4wZda6yxeAet9EVXew6JeDZ8u/vfp4
- db7xqVAwB/ja6EqMrviV2GtUhoRKvHhd4mO3s7C+6wwmcFm097Ythfq5guVnh8/oRXYn
- wkeTTNJBQ31lhqceSz/h5jWDu0P9kh+yTmP2hSxN2dGE/CeZJFgnR0NFrE5bj8d8jf4t
- RF/KLBotvofjCfwLzhnV6OozsCbQzKEfmxb+tKmQmCZ9yVQKZ1IUo0jFagFLIgfnk8/g
- JloA==
-X-Gm-Message-State: ACgBeo2h70LueYbj6EKLFuZjQnrlIvRA4irJZCy31cjENhGU2c+/Tp9e
- fPl2n68WTvDmHK6LPJMXEpydvL0a0cYtxJcP2YUaonirB+1z+SMLpyr1cly2ozIaIeZQVxy1Srw
- KhCrdhaFFiOPuDOJ+wlKe6gArxjIbIUk=
-X-Received: by 2002:a05:6830:2645:b0:638:99a4:e483 with SMTP id
- f5-20020a056830264500b0063899a4e483mr3722702otu.38.1660634250278; 
- Tue, 16 Aug 2022 00:17:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7dSwjOmu6TOPXETS8+YQW7VuTxfhlUCtpD4IMoID4EXpwCKHWFhai1KGRFW9EAWX5yZpzZOhtiEDfa4kjtpMs=
-X-Received: by 2002:a05:6830:2645:b0:638:99a4:e483 with SMTP id
- f5-20020a056830264500b0063899a4e483mr3722659otu.38.1660634250051; Tue, 16 Aug
- 2022 00:17:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNr46-0004Lx-I1
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:32:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.102])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5337C23226;
+ Tue, 16 Aug 2022 07:32:38 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 16 Aug
+ 2022 09:32:37 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005b1fae85e-3648-4fb9-b46b-2399ebbf26fd,
+ F9C770E940B196DD2347A7F94772438AA2E7EC4E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c3fc221b-1860-ab43-40b1-39faf96eca73@kaod.org>
+Date: Tue, 16 Aug 2022 09:32:36 +0200
 MIME-Version: 1.0
-References: <20220729130040.1428779-1-afaria@redhat.com>
- <CAMxuvazGhtbPUSoM-NiAbTnRnOQ=MEnkMAVyVgOg4zc37HJ1-w@mail.gmail.com>
- <CAELaAXxeNOkmSkh6t9Q-eL=xJg8kEAY0O1x_PVFhUttSVH=urQ@mail.gmail.com>
-In-Reply-To: <CAELaAXxeNOkmSkh6t9Q-eL=xJg8kEAY0O1x_PVFhUttSVH=urQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 16 Aug 2022 11:17:19 +0400
-Message-ID: <CAMxuvayCrw4VrB4HZweAJNMzarBpbXe-dG+wsisjjhqLVeJXJw@mail.gmail.com>
-Subject: Re: [RFC v2 00/10] Introduce an extensible static analyzer
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
- Hannes Reinecke <hare@suse.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, 
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>, Peter Lieven <pl@kamp.de>,
- kvm@vger.kernel.org, 
- Xie Yongji <xieyongji@bytedance.com>, Eric Auger <eric.auger@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Eric Blake <eblake@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Stefan Weil <sw@weilnetz.de>, 
- Klaus Jensen <its@irrelevant.dk>, Laurent Vivier <lvivier@redhat.com>, 
- Alberto Garcia <berto@igalia.com>, Michael Roth <michael.roth@amd.com>, 
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-block@nongnu.org, 
- Konstantin Kostiuk <kkostiuk@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Marcelo Tosatti <mtosatti@redhat.com>, Greg Kurz <groug@kaod.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>, 
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Jason Wang <jasowang@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Keith Busch <kbusch@kernel.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "Richard W.M. Jones" <rjones@redhat.com>, John Snow <jsnow@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 01/22] ppc/ppc4xx: Introduce a DCR device model
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <cover.1660402839.git.balaton@eik.bme.hu>
+ <50e79b2c5f2c17e2b6b7920dd6526b5c091ac8bb.1660402839.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <50e79b2c5f2c17e2b6b7920dd6526b5c091ac8bb.1660402839.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: aad6e75e-4524-4cd0-87f4-9d5413a6024c
+X-Ovh-Tracer-Id: 5194339221767097251
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehfedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
+ helo=4.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -127,28 +76,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 8/13/22 17:34, BALATON Zoltan wrote:
+> From: Cédric Le Goater <clg@kaod.org>
+> 
+> The Device Control Registers (DCR) of on-SoC devices are accessed by
+> software through the use of the mtdcr and mfdcr instructions. These
+> are converted in transactions on a side band bus, the DCR bus, which
+> connects the on-SoC devices to the CPU.
+> 
+> Ideally, we should model these accesses with a DCR namespace and DCR
+> memory regions but today the DCR handlers are installed in a DCR table
+> under the CPU. Instead, introduce a little device model wrapper to hold
+> a CPU link and handle registration of DCR handlers.
+> 
+> The DCR device inherits from SysBus because most of these devices also
+> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
+> to install the device model in the overall SoC.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
-On Fri, Aug 12, 2022 at 7:49 PM Alberto Faria <afaria@redhat.com> wrote:
->
-> On Thu, Aug 4, 2022 at 12:44 PM Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@redhat.com> wrote:
-> > On fc36, I had several dependencies I needed to install manually (imho
-> > they should have been pulled by python3-clang), but more annoyingly I
-> > got:
-> > clang.cindex.LibclangError: libclang.so: cannot open shared object
-> > file: No such file or directory. To provide a path to libclang use
-> > Config.set_library_path() or Config.set_library_file().
-> >
-> > clang-libs doesn't install libclang.so, I wonder why. I made a link
-> > manually and it works, but it's probably incorrect. I'll try to open
-> > issues for the clang packaging.
->
-> That's strange. Thanks for looking into this.
+When re-sending a patch, it is a good practice to list the changes before
+the Sob of the person doing the resend.
 
-No that's normal, I just got confused. clang-devel provides it.
+I think you only changed the ppc4xx_dcr_register prototype. Correct ?
 
-However, I opened https://bugzilla.redhat.com/show_bug.cgi?id=3D2115362
-"python3-clang depends on libclang.so"
+Thanks,
+
+C.
+
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/ppc/ppc4xx_devs.c    | 41 +++++++++++++++++++++++++++++++++++++++++
+>   include/hw/ppc/ppc4xx.h | 17 +++++++++++++++++
+>   2 files changed, 58 insertions(+)
+> 
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index 069b511951..f4d7ae9567 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -664,3 +664,44 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>                            mal, &dcr_read_mal, &dcr_write_mal);
+>       }
+>   }
+> +
+> +/* PPC4xx_DCR_DEVICE */
+> +
+> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
+> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
+> +{
+> +    assert(dev->cpu);
+> +    ppc_dcr_register(&dev->cpu->env, dcrn, opaque, dcr_read, dcr_write);
+> +}
+> +
+> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+> +                        Error **errp)
+> +{
+> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
+> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
+> +}
+> +
+> +static Property ppc4xx_dcr_properties[] = {
+> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
+> +                     PowerPCCPU *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    device_class_set_props(dc, ppc4xx_dcr_properties);
+> +}
+> +
+> +static const TypeInfo ppc4xx_types[] = {
+> +    {
+> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
+> +        .parent         = TYPE_SYS_BUS_DEVICE,
+> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
+> +        .class_init     = ppc4xx_dcr_class_init,
+> +        .abstract       = true,
+> +    }
+> +};
+> +
+> +DEFINE_TYPES(ppc4xx_types)
+> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+> index 591e2421a3..a537a5567b 100644
+> --- a/include/hw/ppc/ppc4xx.h
+> +++ b/include/hw/ppc/ppc4xx.h
+> @@ -27,6 +27,7 @@
+>   
+>   #include "hw/ppc/ppc.h"
+>   #include "exec/memory.h"
+> +#include "hw/sysbus.h"
+>   
+>   void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+>                           MemoryRegion ram_memories[],
+> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+>   
+>   #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+>   
+> +/*
+> + * Generic DCR device
+> + */
+> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
+> +struct Ppc4xxDcrDeviceState {
+> +    SysBusDevice parent_obj;
+> +
+> +    PowerPCCPU *cpu;
+> +};
+> +
+> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
+> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
+> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+> +                        Error **errp);
+> +
+>   #endif /* PPC4XX_H */
 
 
