@@ -2,56 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3656596048
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 18:31:43 +0200 (CEST)
-Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68ACF595FF9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 18:16:10 +0200 (CEST)
+Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNzTi-0004Tu-Rj
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 12:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33818)
+	id 1oNzEf-0004L5-0y
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 12:16:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1oNqGD-00005b-NK
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 02:41:10 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:39257)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1oNqG5-0005Yz-RE
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 02:41:04 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R671e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VMP-ra5_1660632050; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VMP-ra5_1660632050) by smtp.aliyun-inc.com;
- Tue, 16 Aug 2022 14:40:51 +0800
-Message-ID: <1660632013.6600778-4-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH 00/24] Support VIRTIO_F_RING_RESET for virtio-net,
- vhost-user, vhost-kernel in virtio pci-modern
-Date: Tue, 16 Aug 2022 14:40:13 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, jasowang@redhat.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
- hengqi@linux.alibaba.com, Kangjie Xu <kangjie.xu@linux.alibaba.com>
-References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
- <20220816021322-mutt-send-email-mst@kernel.org>
- <1660630557.1887379-3-xuanzhuo@linux.alibaba.com>
- <20220816022156-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220816022156-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=115.124.30.45;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oNzAl-0000H3-In; Tue, 16 Aug 2022 12:12:07 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:46996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oNzAj-0006In-6x; Tue, 16 Aug 2022 12:12:06 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-31f445bd486so163903737b3.13; 
+ Tue, 16 Aug 2022 09:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=zPRQnJFvWtCG/bmjOUV9YwnCITH9A7OwlZq1xte67UA=;
+ b=Lhg9GHkDmhrjhd3S0Eyb+oO8jgSKY0xtBu/gsDS3Zlms9aNyj0Mnt5p2IEeHdvZ6Nx
+ SRjRx6FnTtnmY4HN4n7pXtL34oe+ZtQG1Bs3dFALkSaxV1xoQx8zEnUvGkeoijtpvjld
+ LMZodzR6c+ev8OOEsbd7zyu8a/53KjtFi8vGXg2PCVMjQQil8KtKJBSFSg1CEtqavg7S
+ WylinaZJ9+dfhVhPQ9aeCXCiKcveZK8tT+ferJYDO0XteTdk7225kf+TDBJWbKshhJ2U
+ guLcFenZAbBqnvkKoFerTMI1fIo+TUGZmdMt+gUWiaDFdovLFDzQCSTwqyUZYCMJyOrv
+ 05Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=zPRQnJFvWtCG/bmjOUV9YwnCITH9A7OwlZq1xte67UA=;
+ b=oo4VpNoz7b21DWC+OPLF5OptgnmxioYRVyv1Iv5R448TGweCvpYB6KeZY3DH3Lqr8g
+ VxiGIjIjmVwP2B2/nWheiP1OTFAvT1+DwUtD7UBc264nFgzfRUwzih/ZIcI7huxm0nXe
+ lDsU9arT5ZrTib9jK7cT26m0A9K2Dw7rdrbV36XPXLtjl+MgTma9OpN/s5uiBwwe7as0
+ /b7q4KbHnIj7K3dGdHv0xs8stS3HTYSwu8GHsz3gN+8q5HuaVX1ZNmBzbvTn00fRDK5E
+ Y3790LFI4174aSc5ZaZmtTHKBLNObnfJEQOsmi4k/0+NMMFRiu4rlesvGQq3jjSS+8Jp
+ ocKA==
+X-Gm-Message-State: ACgBeo0FgCHlIHELbURoBMQhyuSmZZZ9/ba0yXb97V4uOXMirkuG90af
+ XPfNKejJ5Q+sqrdG123j/37+HRxaZSdMHWZUOO2fMz4PcmawN5k6
+X-Google-Smtp-Source: AA6agR4SRVqG0EbvF5MxOjlD24T06QL4FuaoYgUBmlkQu5PjNHqV0Xtmq6e4Y+DiDXxiGTTj02WtsmBA+kzwt6aGHxI=
+X-Received: by 2002:a0d:dd96:0:b0:334:b86d:78cc with SMTP id
+ g144-20020a0ddd96000000b00334b86d78ccmr47863ywe.267.1660666323350; Tue, 16
+ Aug 2022 09:12:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220816062522.85714-1-faithilikerun@gmail.com>
+ <20220816062522.85714-3-faithilikerun@gmail.com>
+In-Reply-To: <20220816062522.85714-3-faithilikerun@gmail.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Wed, 17 Aug 2022 00:11:41 +0800
+Message-ID: <CAAAx-8KbEQ10oCYkpg6zugmunF578j6mOvufTM-YqtNuR0r45Q@mail.gmail.com>
+Subject: Re: [PATCH v7 2/8] file-posix: introduce get_sysfs_str_val for device
+ zoned model
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Hannes Reinecke <hare@suse.de>, Fam Zheng <fam@euphon.net>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu block <qemu-block@nongnu.org>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 16 Aug 2022 12:27:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,163 +89,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Aug 2022 02:22:16 -0400, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> On Tue, Aug 16, 2022 at 02:15:57PM +0800, Xuan Zhuo wrote:
-> > On Tue, 16 Aug 2022 02:14:10 -0400, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > On Tue, Aug 16, 2022 at 09:06:12AM +0800, Kangjie Xu wrote:
-> > > > The virtio queue reset function has already been defined in the virtio spec 1.2.
-> > > > The relevant virtio spec information is here:
-> > > >
-> > > >     https://github.com/oasis-tcs/virtio-spec/issues/124
-> > > >     https://github.com/oasis-tcs/virtio-spec/issues/139
-> > > >
-> > > > This patch set is to support this function in QEMU. It consists of several parts:
-> > > > 1. Patches 1-7 are the basic interfaces for vq reset in virtio and virtio-pci.
-> > > > 2. Patches 8-12 support vq stop and vq restart for vhost-kernel.
-> > > > 3. Patches 13-19 support vq stop and vq restart for vhost-user.
-> > > > 4. Patches 20-22 support vq reset and re-enable for virtio-net.
-> > > > 5. Patches 23-24 enable the vq reset feature for vhost-kernel and vhost-user.
-> > > >
-> > > > The process of virtqueue reset can be concluded as:
-> > > > 1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
-> > > > 2. Then the virtqueue can be optionally restarted(re-enabled).
-> > > >
-> > > > Since this patch set involves multiple modules and seems a bit messy, we briefly describe the
-> > > > calling process for different modes below.
-> > > > virtio-net:
-> > > > 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
-> > > >     -> virtio_queue_reset() [virtio]
-> > > >         -> virtio_net_queue_reset() [virtio-net]
-> > > >         -> __virtio_queue_reset()
-> > > > 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
-> > > >     -> set enabled, reset status of vq.
-> > > >
-> > > > vhost-kernel:
-> > > > 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
-> > > >     -> virtio_queue_reset() [virtio]
-> > > >         -> virtio_net_queue_reset() [virtio-net]
-> > > >             -> vhost_net_virtqueue_stop() [vhost-net]
-> > > >                 -> vhost_net_set_backend() [vhost]
-> > > >                 -> vhost_dev_virtqueue_stop()
-> > > >                     -> vhost_virtqueue_unmap()
-> > > >         -> __virtio_queue_reset()
-> > > > 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
-> > > >     -> virtio_queue_enable() [virtio]
-> > > >         -> virtio_net_queue_enable() [virtio-net]
-> > > >             -> vhost_net_virtqueue_restart() [vhost-net]
-> > > >                 -> vhost_dev_virtqueue_restart() [vhost]
-> > > >                     -> vhost_virtqueue_start()
-> > > >                 -> vhost_net_set_backend()
-> > > >     -> set enabled, reset status of vq.
-> > > >
-> > > > vhost-user:
-> > > > 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
-> > > >     -> virtio_queue_reset() [virtio]
-> > > >         -> virtio_net_queue_reset() [virtio-net]
-> > > >             -> vhost_net_virtqueue_stop() [vhost-net]
-> > > >                 -> vhost_dev_virtqueue_stop() [vhost]
-> > > >                     -> vhost_user_reset_vring() [vhost-user]
-> > > >                         -> send VHOST_USER_RESET_VRING to the device
-> > > >                     -> vhost_virtqueue_unmap()
-> > > >         -> __virtio_queue_reset()
-> > > > 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
-> > > >     -> virtio_queue_enable() [virtio]
-> > > >         -> virtio_net_queue_enable() [virtio-net]
-> > > >             -> vhost_net_virtqueue_restart() [vhost-net]
-> > > >                 -> vhost_dev_virtqueue_restart() [vhost]
-> > > >                     -> vhost_virtqueue_start()
-> > > >                     -> vhost_user_set_single_vring_enable [vhost-user]
-> > > >                         -> send VHOST_USER_SET_VRING_ENABLE to the device
-> > > >     -> set enabled, reset status of vq.
-> > > >
-> > > >
-> > > > Test environment:
-> > > >     Host: 5.19.0-rc3 (With vq reset support)
-> > > >     Qemu: QEMU emulator version 7.0.50
-> > > >     Guest: 5.19.0-rc3 (With vq reset support)
-> > > >     DPDK: 22.07-rc1 (With vq reset support)
-> > > >     Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
-> > > >
-> > > >     The drvier can resize the virtio queue, then virtio queue reset function should
-> > > >     be triggered.
-> > > >
-> > > >     The default is split mode, modify Qemu virtio-net to add PACKED feature to
-> > > >     test packed mode.
-> > >
-> > > legacy mode testing?
-> >
-> >
-> > legacy does not support vq reset.
-> >
-> > Thanks.
+Sam Li <faithilikerun@gmail.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=8816=E6=97=
+=A5=E5=91=A8=E4=BA=8C 14:25=E5=86=99=E9=81=93=EF=BC=9A
 >
-> yes but did it break with all these code changes?
-
-OK, I see, we'll test this.
-
-Thanks.
-
-
+> Use sysfs attribute files to get the string value of device
+> zoned model. Then get_sysfs_zoned_model can convert it to
+> BlockZoneModel type in QEMU.
 >
-> > >
-> > > > Guest Kernel Patch:
-> > > >     https://lore.kernel.org/bpf/20220801063902.129329-1-xuanzhuo@linux.alibaba.com/
-> > > >
-> > > > DPDK Patch:
-> > > >     https://github.com/middaywords/dpdk/compare/72206323a5dd3182b13f61b25a64abdddfee595c...eabadfac7953da66bc10ffb8284b490d09bb7ec7
-> > > >
-> > > > Host Kernel Patch:
-> > > >     https://github.com/middaywords/linux/commit/19a91e0d7167b2031e46078c6215c213b89cb2c3
-> > > >
-> > > > Looking forward to your review and comments. Thanks.
-> > > >
-> > > > Kangjie Xu (19):
-> > > >   virtio: introduce virtio_queue_enable()
-> > > >   virtio: core: vq reset feature negotation support
-> > > >   virtio-pci: support queue enable
-> > > >   vhost: extract the logic of unmapping the vrings and desc
-> > > >   vhost: introduce vhost_dev_virtqueue_stop()
-> > > >   vhost: introduce vhost_dev_virtqueue_restart()
-> > > >   vhost-net: vhost-kernel: introduce vhost_net_virtqueue_stop()
-> > > >   vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
-> > > >   docs: vhost-user: add VHOST_USER_RESET_VRING message
-> > > >   vhost-user: introduce vhost_reset_vring() interface
-> > > >   vhost-user: add op to enable or disable a single vring
-> > > >   vhost: vhost-user: update vhost_dev_virtqueue_stop()
-> > > >   vhost: vhost-user: update vhost_dev_virtqueue_restart()
-> > > >   vhost-net: vhost-user: update vhost_net_virtqueue_stop()
-> > > >   vhost-net: vhost-user: update vhost_net_virtqueue_restart()
-> > > >   virtio-net: introduce flush_or_purge_queued_packets()
-> > > >   virtio-net: support queue_enable
-> > > >   vhost: vhost-kernel: enable vq reset feature
-> > > >   vhost: vhost-user: enable vq reset feature
-> > > >
-> > > > Xuan Zhuo (5):
-> > > >   virtio: sync relevant definitions with linux
-> > > >   virtio: introduce __virtio_queue_reset()
-> > > >   virtio: introduce virtio_queue_reset()
-> > > >   virtio-pci: support queue reset
-> > > >   virtio-net: support queue reset
-> > > >
-> > > >  docs/interop/vhost-user.rst                   | 10 +++
-> > > >  hw/core/machine.c                             |  1 +
-> > > >  hw/net/vhost_net.c                            | 79 +++++++++++++++++++
-> > > >  hw/net/virtio-net.c                           | 58 ++++++++++++--
-> > > >  hw/virtio/vhost-user.c                        | 67 ++++++++++++++--
-> > > >  hw/virtio/vhost.c                             | 79 +++++++++++++++++--
-> > > >  hw/virtio/virtio-pci.c                        | 20 +++++
-> > > >  hw/virtio/virtio.c                            | 62 +++++++++++----
-> > > >  include/hw/virtio/vhost-backend.h             |  6 ++
-> > > >  include/hw/virtio/vhost.h                     |  5 ++
-> > > >  include/hw/virtio/virtio-pci.h                |  1 +
-> > > >  include/hw/virtio/virtio.h                    |  8 +-
-> > > >  include/net/vhost_net.h                       |  4 +
-> > > >  .../standard-headers/linux/virtio_config.h    |  5 ++
-> > > >  include/standard-headers/linux/virtio_pci.h   |  2 +
-> > > >  15 files changed, 371 insertions(+), 36 deletions(-)
-> > > >
-> > > > --
-> > > > 2.32.0
-> > >
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> ---
+>  block/file-posix.c               | 93 ++++++++++++++++++--------------
+>  include/block/block_int-common.h |  3 ++
+>  2 files changed, 55 insertions(+), 41 deletions(-)
+>
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 48cd096624..c07ac4c697 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1210,66 +1210,71 @@ static int hdev_get_max_hw_transfer(int fd, struc=
+t stat *st)
+>  #endif
+>  }
+>
+> -static int hdev_get_max_segments(int fd, struct stat *st)
+> -{
+> +/*
+> + * Convert the zoned attribute file in sysfs to internal value.
+> + */
+> +static int get_sysfs_str_val(struct stat *st, const char *attribute,
+> +                             char **val) {
+>  #ifdef CONFIG_LINUX
+> -    char buf[32];
+> -    const char *end;
+> -    char *sysfspath =3D NULL;
+> +    g_autofree char *sysfspath =3D NULL;
+>      int ret;
+> -    int sysfd =3D -1;
+> -    long max_segments;
+> -
+> -    if (S_ISCHR(st->st_mode)) {
+> -        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) =3D=3D 0) {
+> -            return ret;
+> -        }
+> -        return -ENOTSUP;
+> -    }
+> +    size_t len;
+>
+>      if (!S_ISBLK(st->st_mode)) {
+>          return -ENOTSUP;
+>      }
+>
+> -    sysfspath =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segmen=
+ts",
+> -                                major(st->st_rdev), minor(st->st_rdev));
+> -    sysfd =3D open(sysfspath, O_RDONLY);
+> -    if (sysfd =3D=3D -1) {
+> -        ret =3D -errno;
+> -        goto out;
+> +    sysfspath =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/%s",
+> +                                major(st->st_rdev), minor(st->st_rdev),
+> +                                attribute);
+> +    ret =3D g_file_get_contents(sysfspath, val, &len, NULL);
+> +    if (ret =3D=3D -1) {
+> +        return -ENOENT;
+>      }
+
++/* The file is ended with '\n' */
++char *p;
++p =3D *val;
++if (*(p + len - 1) =3D=3D '\n') {
++    *(p + len - 1) =3D '\0';
++}
+
+I'm sorry to miss this part to make the str end with '\0'.
+
+> -    do {
+> -        ret =3D read(sysfd, buf, sizeof(buf) - 1);
+> -    } while (ret =3D=3D -1 && errno =3D=3D EINTR);
+> +    return ret;
+> +#else
+> +    return -ENOTSUP;
+> +#endif
+> +}
+> +
+> +static int get_sysfs_zoned_model(struct stat *st, BlockZoneModel *zoned)=
+ {
+> +    g_autofree char *val =3D NULL;
+> +    int ret;
+> +
+> +    ret =3D get_sysfs_str_val(st, "zoned", &val);
+>      if (ret < 0) {
+> -        ret =3D -errno;
+> -        goto out;
+> -    } else if (ret =3D=3D 0) {
+> -        ret =3D -EIO;
+> -        goto out;
+> +        return ret;
+>      }
+> -    buf[ret] =3D 0;
+> -    /* The file is ended with '\n', pass 'end' to accept that. */
+> -    ret =3D qemu_strtol(buf, &end, 10, &max_segments);
+> -    if (ret =3D=3D 0 && end && *end =3D=3D '\n') {
+> -        ret =3D max_segments;
+> +
+> +    if (strcmp(val, "host-managed") =3D=3D 0) {
+> +        *zoned =3D BLK_Z_HM;
+> +    } else if (strcmp(val, "host-aware") =3D=3D 0) {
+> +        *zoned =3D BLK_Z_HA;
+> +    } else if (strcmp(val, "none") =3D=3D 0) {
+> +        *zoned =3D BLK_Z_NONE;
+> +    } else {
+> +        return -ENOTSUP;
+>      }
+> +    return 0;
+> +}
+>
+> -out:
+> -    if (sysfd !=3D -1) {
+> -        close(sysfd);
+> +static int hdev_get_max_segments(int fd, struct stat *st) {
+> +    int ret;
+> +    if (S_ISCHR(st->st_mode)) {
+> +        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) =3D=3D 0) {
+> +            return ret;
+> +        }
+> +        return -ENOTSUP;
+>      }
+> -    g_free(sysfspath);
+> -    return ret;
+> -#else
+> -    return -ENOTSUP;
+> -#endif
+> +    return get_sysfs_long_val(st, "max_segments");
+>  }
+>
+>  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>  {
+>      BDRVRawState *s =3D bs->opaque;
+>      struct stat st;
+> +    int ret;
+> +    BlockZoneModel zoned;
+>
+>      s->needs_alignment =3D raw_needs_alignment(bs);
+>      raw_probe_alignment(bs, s->fd, errp);
+> @@ -1307,6 +1312,12 @@ static void raw_refresh_limits(BlockDriverState *b=
+s, Error **errp)
+>              bs->bl.max_hw_iov =3D ret;
+>          }
+>      }
+> +
+> +    ret =3D get_sysfs_zoned_model(s->fd, &st, &zoned);
+> +    if (ret < 0) {
+> +        zoned =3D BLK_Z_NONE;
+> +    }
+> +    bs->bl.zoned =3D zoned;
+>  }
+>
+>  static int check_for_dasd(int fd)
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-c=
+ommon.h
+> index 8947abab76..7f7863cc9e 100644
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -825,6 +825,9 @@ typedef struct BlockLimits {
+>
+>      /* maximum number of iovec elements */
+>      int max_iov;
+> +
+> +    /* device zone model */
+> +    BlockZoneModel zoned;
+>  } BlockLimits;
+>
+>  typedef struct BdrvOpBlocker BdrvOpBlocker;
+> --
+> 2.37.1
 >
 
