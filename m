@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA40595418
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:45:58 +0200 (CEST)
-Received: from localhost ([::1]:45222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D2559544F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:59:12 +0200 (CEST)
+Received: from localhost ([::1]:42028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNrGs-0007iS-4j
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
+	id 1oNrTi-0007Xu-WB
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNrBC-0003N8-Ju
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:40:02 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:56747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNrB9-0005FU-8k
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:40:02 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id F0D7D21742;
- Tue, 16 Aug 2022 07:39:56 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 16 Aug
- 2022 09:39:56 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001729a3748-00b1-4adc-a693-5c7b0c508f7b,
- F9C770E940B196DD2347A7F94772438AA2E7EC4E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <869468d3-8437-c8fa-ff64-e6a25339be61@kaod.org>
-Date: Tue, 16 Aug 2022 09:39:48 +0200
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oNrBY-0003hp-Pl
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:40:26 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oNrBV-0005Tz-Dz
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:40:24 -0400
+Received: by mail-pg1-x536.google.com with SMTP id l64so8599398pge.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 00:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=ymPL6R/7hhQxMF8ZNEadR4cmLBuGjEyRhfwfsCxxdlQ=;
+ b=VUMhh0LgprH/jQjM4T6LIRHFBmXIenpoWzJDNTsD46u+Z619IAzwKfqxBD/T62XwKX
+ wwOa0SgocgnMQILd7CGutuv653tQKgBLk/J7b5+bI1OCJixKvW6H9UVH3IkVsGMCrPnV
+ EO4RmJYnE1TJbD1/cFHrpmyO9a29JeDqj1m3bNmbDiTThOe+e2CWwu3uVWCfHtqazB8z
+ 8iwema2ldMMeSOO2xwSaQay03/ZllqIiSXB63XKBuI6SDZxDPb98WnqsVaPdYALMK+aO
+ +amIR3/bGHxH2uWarw488DvU6p7b6VjdZpODNjtBF+2Ow1GryjD0u83PW6axy5V4eLPh
+ XqaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=ymPL6R/7hhQxMF8ZNEadR4cmLBuGjEyRhfwfsCxxdlQ=;
+ b=MpUOCl8d97UirHIm/d6Liykoc+HPckqJHAyKSC05kqkOlT8ZQTUISt9ndAU0xYjEHJ
+ PWoIeizGlEn6Y4F9RUDUDu+LRLQP0IqGckEARgw/BJwCPO+0w2iUeRcWSDo1qM6+YI6f
+ JS3uzsYvw5eYPIY3ddax30Hbu2IuJQnEH7bO6sYALCiclk348302sPQ67zRQSHw0D7j0
+ MeEoNj81Pl9Bot5CSikOV23nGv2YkMVdNm4cYXt21W81lOPfT5wk6MIWKkeVoci5jNOn
+ yAq3OrRngvnd1WNInxWn2SgJOL+nmYQQQNhvMERET1579vtFLewytlh9kchCAsRzdEiL
+ FR4Q==
+X-Gm-Message-State: ACgBeo2WdEwoCXcmhHRg5Wmq6HFlpgEkUSqhtbA5D6H6+nVfxLAoRBAP
+ b5lWCZTy6Gumj0VoCWAy/3xJGXfAwmtTARhPdySJGw==
+X-Google-Smtp-Source: AA6agR5ZTaDV6LZCNJuDMj5JxWCNLXdzSYzlqbJSppfVeW2oVIuq3Eso0Dlh2NUxPm6UzmRrQ4jEIMMk29x/qky8YgQ=
+X-Received: by 2002:a62:38d8:0:b0:52d:1496:6775 with SMTP id
+ f207-20020a6238d8000000b0052d14966775mr20199063pfa.15.1660635616700; Tue, 16
+ Aug 2022 00:40:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 20/22] hw/ppc/Kconfig: Move imply before select
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <cover.1660402839.git.balaton@eik.bme.hu>
- <4bd1f2f953fac2c70091446ec5805f41857c44fd.1660402839.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <4bd1f2f953fac2c70091446ec5805f41857c44fd.1660402839.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: af893bed-d02f-4862-bc70-619d9fd36b2a
-X-Ovh-Tracer-Id: 5317625263045053347
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehfedguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
- helo=10.mo548.mail-out.ovh.net
+References: <20220802233307.2106839-1-atishp@rivosinc.com>
+ <20220802233307.2106839-3-atishp@rivosinc.com>
+ <20220815075417.nhfdzw3b5ysygct3@kamzik>
+In-Reply-To: <20220815075417.nhfdzw3b5ysygct3@kamzik>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Tue, 16 Aug 2022 00:39:55 -0700
+Message-ID: <CAHBxVyHpdK1cKRfP6VDmDg72OCHwZwfmw6XtxR35rDkND0rX-w@mail.gmail.com>
+Subject: Re: [PATCH v12 2/6] target/riscv: Simplify counter predicate function
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bmeng.cn@gmail.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000000904df05e656dc57"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=atishp@rivosinc.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,40 +87,437 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/13/22 17:34, BALATON Zoltan wrote:
-> In pegasos2 section move imply before select to match other sections.
+--0000000000000904df05e656dc57
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+On Mon, Aug 15, 2022 at 12:54 AM Andrew Jones <ajones@ventanamicro.com>
+wrote:
 
-Thanks,
+> On Tue, Aug 02, 2022 at 04:33:03PM -0700, Atish Patra wrote:
+> > All the hpmcounters and the fixed counters (CY, IR, TM) can be
+> represented
+> > as a unified counter. Thus, the predicate function doesn't need handle
+> each
+> > case separately.
+> >
+> > Simplify the predicate function so that we just handle things differently
+> > between RV32/RV64 and S/HS mode.
+> >
+> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  target/riscv/csr.c | 110 ++++-----------------------------------------
+> >  1 file changed, 9 insertions(+), 101 deletions(-)
+> >
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 9b45c49ab45f..6690b72ea0e7 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -74,6 +74,7 @@ static RISCVException ctr(CPURISCVState *env, int
+> csrno)
+> >      CPUState *cs = env_cpu(env);
+> >      RISCVCPU *cpu = RISCV_CPU(cs);
+> >      int ctr_index;
+> > +    target_ulong ctr_mask;
+> >      int base_csrno = CSR_CYCLE;
+> >      bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
+> >
+> > @@ -82,122 +83,29 @@ static RISCVException ctr(CPURISCVState *env, int
+> csrno)
+> >          base_csrno += 0x80;
+> >      }
+> >      ctr_index = csrno - base_csrno;
+> > +    ctr_mask = BIT(ctr_index);
+> >
+> >      if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
+> >          (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
+> >          goto skip_ext_pmu_check;
+> >      }
+> >
+> > -    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index))))
+> {
+> > +    if (!(cpu->pmu_avail_ctrs & ctr_mask)) {
+> >          /* No counter is enabled in PMU or the counter is out of range
+> */
+> >          return RISCV_EXCP_ILLEGAL_INST;
+> >      }
+> >
+> >  skip_ext_pmu_check:
+> >
+> > -    if (env->priv == PRV_S) {
+> > -        switch (csrno) {
+> > -        case CSR_CYCLE:
+> > -            if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+> > -                return RISCV_EXCP_ILLEGAL_INST;
+> > -            }
+> > -            break;
+> > -        case CSR_TIME:
+> > -            if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+> > -                return RISCV_EXCP_ILLEGAL_INST;
+> > -            }
+> > -            break;
+> > -        case CSR_INSTRET:
+> > -            if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+> > -                return RISCV_EXCP_ILLEGAL_INST;
+> > -            }
+> > -            break;
+> > -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> > -            if (!get_field(env->mcounteren, 1 << ctr_index)) {
+> > -                return RISCV_EXCP_ILLEGAL_INST;
+> > -            }
+> > -            break;
+> > -        }
+> > -        if (rv32) {
+> > -            switch (csrno) {
+> > -            case CSR_CYCLEH:
+> > -                if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+> > -                    return RISCV_EXCP_ILLEGAL_INST;
+> > -                }
+> > -                break;
+> > -            case CSR_TIMEH:
+> > -                if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+> > -                    return RISCV_EXCP_ILLEGAL_INST;
+> > -                }
+> > -                break;
+> > -            case CSR_INSTRETH:
+> > -                if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+> > -                    return RISCV_EXCP_ILLEGAL_INST;
+> > -                }
+> > -                break;
+> > -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> > -                if (!get_field(env->mcounteren, 1 << ctr_index)) {
+> > -                    return RISCV_EXCP_ILLEGAL_INST;
+> > -                }
+> > -                break;
+> > -            }
+> > -        }
+> > +    if (((env->priv == PRV_S) && (!get_field(env->mcounteren,
+> ctr_mask))) ||
+> > +       ((env->priv == PRV_U) && (!get_field(env->scounteren,
+> ctr_mask)))) {
+>     ^ there should be another space here
+>
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> >      }
+> >
+> >      if (riscv_cpu_virt_enabled(env)) {
+> > -        switch (csrno) {
+> > -        case CSR_CYCLE:
+> > -            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> > -                get_field(env->mcounteren, COUNTEREN_CY)) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        case CSR_TIME:
+> > -            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> > -                get_field(env->mcounteren, COUNTEREN_TM)) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        case CSR_INSTRET:
+> > -            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> > -                get_field(env->mcounteren, COUNTEREN_IR)) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> > -            if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> > -                 get_field(env->mcounteren, 1 << ctr_index)) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        }
+> > -        if (rv32) {
+> > -            switch (csrno) {
+> > -            case CSR_CYCLEH:
+> > -                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> > -                    get_field(env->mcounteren, COUNTEREN_CY)) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            case CSR_TIMEH:
+> > -                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> > -                    get_field(env->mcounteren, COUNTEREN_TM)) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            case CSR_INSTRETH:
+> > -                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> > -                    get_field(env->mcounteren, COUNTEREN_IR)) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> > -                if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> > -                     get_field(env->mcounteren, 1 << ctr_index)) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            }
+> > +        if (!get_field(env->hcounteren, ctr_mask) &&
+> > +           get_field(env->mcounteren, ctr_mask)) {
+>      ^ and here
+> > +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> >          }
+> >      }
+> >  #endif
+> > --
+> > 2.25.1
+> >
+> >
+>
+>
+Fixed.Thanks.
 
-C.
 
+> Thanks,
+> drew
+>
 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index 205f9f98d7..3a4418a69e 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -71,6 +71,7 @@ config SAM460EX
->   
->   config PEGASOS2
->       bool
-> +    imply ATI_VGA
->       select MV64361
->       select VT82C686
->       select IDE_VIA
-> @@ -78,7 +79,6 @@ config PEGASOS2
->       select VOF
->   # This should come with VT82C686
->       select ACPI_X86
-> -    imply ATI_VGA
->   
->   config PREP
->       bool
+--0000000000000904df05e656dc57
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 15, 2022 at 12:54 AM Andr=
+ew Jones &lt;<a href=3D"mailto:ajones@ventanamicro.com">ajones@ventanamicro=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">On Tue, Aug 02, 2022 at 04:33:03PM -0700, Atish Patra wrote:<br>
+&gt; All the hpmcounters and the fixed counters (CY, IR, TM) can be represe=
+nted<br>
+&gt; as a unified counter. Thus, the predicate function doesn&#39;t need ha=
+ndle each<br>
+&gt; case separately.<br>
+&gt; <br>
+&gt; Simplify the predicate function so that we just handle things differen=
+tly<br>
+&gt; between RV32/RV64 and S/HS mode.<br>
+&gt; <br>
+&gt; Reviewed-by: Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com" target=
+=3D"_blank">bmeng.cn@gmail.com</a>&gt;<br>
+&gt; Acked-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
+com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
+target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/csr.c | 110 ++++-----------------------------------=
+------<br>
+&gt;=C2=A0 1 file changed, 9 insertions(+), 101 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
+&gt; index 9b45c49ab45f..6690b72ea0e7 100644<br>
+&gt; --- a/target/riscv/csr.c<br>
+&gt; +++ b/target/riscv/csr.c<br>
+&gt; @@ -74,6 +74,7 @@ static RISCVException ctr(CPURISCVState *env, int cs=
+rno)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(cs);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int ctr_index;<br>
+&gt; +=C2=A0 =C2=A0 target_ulong ctr_mask;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int base_csrno =3D CSR_CYCLE;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool rv32 =3D riscv_cpu_mxl(env) =3D=3D MXL_RV32 ?=
+ true : false;<br>
+&gt;=C2=A0 <br>
+&gt; @@ -82,122 +83,29 @@ static RISCVException ctr(CPURISCVState *env, int=
+ csrno)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 base_csrno +=3D 0x80;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ctr_index =3D csrno - base_csrno;<br>
+&gt; +=C2=A0 =C2=A0 ctr_mask =3D BIT(ctr_index);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if ((csrno &gt;=3D CSR_CYCLE &amp;&amp; csrno &lt;=
+=3D CSR_INSTRET) ||<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (csrno &gt;=3D CSR_CYCLEH &amp;&amp;=
+ csrno &lt;=3D CSR_INSTRETH)) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto skip_ext_pmu_check;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if ((!cpu-&gt;cfg.pmu_num || !(cpu-&gt;pmu_avail_ctrs &=
+amp; BIT(ctr_index)))) {<br>
+&gt; +=C2=A0 =C2=A0 if (!(cpu-&gt;pmu_avail_ctrs &amp; ctr_mask)) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* No counter is enabled in PMU or t=
+he counter is out of range */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 skip_ext_pmu_check:<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if (env-&gt;priv =3D=3D PRV_S) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLE:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;mcou=
+nteren, COUNTEREN_CY)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIME:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;mcou=
+nteren, COUNTEREN_TM)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRET:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;mcou=
+nteren, COUNTEREN_IR)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:<=
+br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;mcou=
+nteren, 1 &lt;&lt; ctr_index)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (rv32) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLEH:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;mcounteren, COUNTEREN_CY)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIMEH:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;mcounteren, COUNTEREN_TM)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRETH:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;mcounteren, COUNTEREN_IR)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOUNTER3H...CSR=
+_HPMCOUNTER31H:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;mcounteren, 1 &lt;&lt; ctr_index)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 if (((env-&gt;priv =3D=3D PRV_S) &amp;&amp; (!get_field=
+(env-&gt;mcounteren, ctr_mask))) ||<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0((env-&gt;priv =3D=3D PRV_U) &amp;&amp; (!=
+get_field(env-&gt;scounteren, ctr_mask)))) {<br>
+=C2=A0 =C2=A0 ^ there should be another space here<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (riscv_cpu_virt_enabled(env)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLE:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;hcou=
+nteren, COUNTEREN_CY) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 get_field(env=
+-&gt;mcounteren, COUNTEREN_CY)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIME:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;hcou=
+nteren, COUNTEREN_TM) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 get_field(env=
+-&gt;mcounteren, COUNTEREN_TM)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRET:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;hcou=
+nteren, COUNTEREN_IR) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 get_field(env=
+-&gt;mcounteren, COUNTEREN_IR)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:<=
+br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;hcou=
+nteren, 1 &lt;&lt; ctr_index) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0get_fie=
+ld(env-&gt;mcounteren, 1 &lt;&lt; ctr_index)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_=
+EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (rv32) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLEH:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;hcounteren, COUNTEREN_CY) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ get_field(env-&gt;mcounteren, COUNTEREN_CY)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIMEH:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;hcounteren, COUNTEREN_TM) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ get_field(env-&gt;mcounteren, COUNTEREN_TM)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRETH:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;hcounteren, COUNTEREN_IR) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ get_field(env-&gt;mcounteren, COUNTEREN_IR)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOUNTER3H...CSR=
+_HPMCOUNTER31H:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_fiel=
+d(env-&gt;hcounteren, 1 &lt;&lt; ctr_index) &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0get_field(env-&gt;mcounteren, 1 &lt;&lt; ctr_index)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;hcounteren, ctr_ma=
+sk) &amp;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0get_field(env-&gt;mcounteren=
+, ctr_mask)) {<br>
+=C2=A0 =C2=A0 =C2=A0^ and here<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_VIRT_INST=
+RUCTION_FAULT;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 #endif<br>
+&gt; -- <br>
+&gt; 2.25.1<br>
+&gt; <br>
+&gt;<br>
+<br></blockquote><div><br></div><div>Fixed.Thanks.</div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+Thanks,<br>
+drew<br>
+</blockquote></div></div>
+
+--0000000000000904df05e656dc57--
 
