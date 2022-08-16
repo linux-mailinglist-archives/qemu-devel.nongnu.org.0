@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56653596150
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:41:41 +0200 (CEST)
-Received: from localhost ([::1]:47384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A55459615E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:43:55 +0200 (CEST)
+Received: from localhost ([::1]:40030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO0ZP-0002qv-UH
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
+	id 1oO0ba-0006Yg-Gz
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Sd-0004fI-8J; Tue, 16 Aug 2022 13:34:39 -0400
-Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30]:40903)
+ id 1oO0Sf-0004jM-UL; Tue, 16 Aug 2022 13:34:42 -0400
+Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30]:43824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Sb-0002Mw-QG; Tue, 16 Aug 2022 13:34:38 -0400
-Received: by mail-vk1-xa30.google.com with SMTP id c22so5515653vko.7;
- Tue, 16 Aug 2022 10:34:36 -0700 (PDT)
+ id 1oO0Se-0002NF-BV; Tue, 16 Aug 2022 13:34:41 -0400
+Received: by mail-vk1-xa30.google.com with SMTP id w129so5508240vkg.10;
+ Tue, 16 Aug 2022 10:34:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=7nsBpd6U2T94rIp6E9694uNRx1OUw5ceVkhMbv8n9sQ=;
- b=P5o9N1gtOqJtIt+KVeAIcYFnY2axcZt+0PhRXcxvygsNuovbH/pb/vlmPsyB8KM7Td
- k8B2qMaUukKNlhXozmm0YmempqVIbdOOf5westKuSJlCh6rLH8cRkUSTIIx+vhIzSluu
- Iuaw6fkuZxy0ZbZzPlWl4E1eZCZ0o0/D2cHOb0ELRHvxNPd/hJ77hvjrlfsrnU6QliAt
- 2g6hSLkXqskIWa0+upRSuBZUutQeXlp1cUDDk2eVwfMHZQvi8agGR+uT1rXwUy3KmyeY
- k35a47YaUiizrzJBYlv0YUvMsNX9BDzzB6gddTywWVYVAiXF0a583bNh51Uz3u3zaIyH
- mDCg==
+ bh=j1RYsPISHcQmqkfg0bCXBflgdHOzA77Z6HtOczxpsOA=;
+ b=HNwCPRT0ioQk2418GrDYhoXj+eZwj4ZY/oH+mMVdIWWS2DZ/QsCqxyYlc5DSKlag+c
+ P8mRe/sHp/9SKC6N8EuPOf4uacsgCs2LtrNphUlcMYE/tBJXuvkxavYaLCgT0IF+1wnz
+ h75uEDvYKsT0jTkHm34659CjsBKNBpiDEf59BAajEKorgF0RFEoMNmT5v6EQTmaHJ0SH
+ 4Bp0K0V+E8yXKC9vv39l9CEpNuH/JB0lkXQ1JRUdM/CHrVSWr0qnpAff2Vg20jo0FNYi
+ zGg7E4hEkirmT7Tbf8ROu9WcKEkDyHGs4pZlY1mALn0cku6KgLXb3mqoZDp1kAKpknac
+ b8Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=7nsBpd6U2T94rIp6E9694uNRx1OUw5ceVkhMbv8n9sQ=;
- b=xPHj6XebuPZz72PfkqOHXott5YtKdzjUEUVDGdy/kEyhN6IidN4psDUVkB5ziKyxD/
- 3QjRFdsM/JccXD5T/GqSRw0QqQNYvbe0R6E+bI9YyC999hIfISXQJTN0ccqQ4RFV95NA
- GCWXaAEeM6U0wPfdo2wqj9em0a6UIyTdHVwwRFLsfl/ulBfpZ26cDXfIypLjsjhyXkss
- kVhSdr4YOqyUk9NqnMHC0Z4f5ZnRC6OEfJWU2v66FH/V/gmkDjNRS97/y9a7O3TBtNOv
- wjO2n3Ib76v3ilWmqy4MLiFXvRtCwg8t1DihhG2AEeP+SIxYf/hSYY6hDGD7gdgJWRlE
- q3wg==
-X-Gm-Message-State: ACgBeo2TNRhRa4eVWbY4fsFHVbSTK4RLoK/hUrmyAAW5xhCFB/VWptmv
- yMJ4f9RjSr0s6JYNVMvMzXGe3EwiPxjiCA==
-X-Google-Smtp-Source: AA6agR4S37L5yKKK7Rwyc8fURHzsM2BUUpgs+ZmbWqTc5buv8GT4Gcqiut2n+uW19djfRBToPbuu7g==
-X-Received: by 2002:a1f:9007:0:b0:377:83a0:b9a1 with SMTP id
- s7-20020a1f9007000000b0037783a0b9a1mr9556987vkd.32.1660671275878; 
- Tue, 16 Aug 2022 10:34:35 -0700 (PDT)
+ bh=j1RYsPISHcQmqkfg0bCXBflgdHOzA77Z6HtOczxpsOA=;
+ b=a6HRdYAe8DfV4QHudUfFOMZtHoWRFLTtG+Eb7dT0KIuhNJuj+PQYMm7/KBAUJa14Rf
+ VGXu8RYH+CtnAVX00ZBBCN5vP89OFghXSnoBG+oeExHqjwSvz/Bz3Y9gG6pyk4Nq6l5f
+ VQyYECKd0pPihudTNjnA0IqETxsW2vgw9YbFlt7RIWJ4x9lqfv+HiQEf1pyJ/WUkPb4z
+ kzXjqK6RiZuragcbZupBg//9CyfHsY9PBq4G4xHDXuAKekghNpfUI8MR+nCBmpV4f3AF
+ XZ+qu5p7N1GuHDiTsZOdH32iFpfxrqzWsxpsiyrTDa0SnvBeT24RYvW5wVyW96ehjhCq
+ D03Q==
+X-Gm-Message-State: ACgBeo1C2tpOM9MsoVNYrSDGjYYDYAhgYISQMRLMkg1G1EKCyWQobrKI
+ QyzHl060eVscyoE8HMg+anBxqmOSWUFMVQ==
+X-Google-Smtp-Source: AA6agR7k9cKLB8kIcViCK2/5pBfmY6lEk8lgzx52E4Mp5maqoGBN0DZhqD8ngM76a2XPpj+8gZqeKQ==
+X-Received: by 2002:a05:6122:817:b0:377:59fa:3193 with SMTP id
+ 23-20020a056122081700b0037759fa3193mr9556091vkj.4.1660671279069; 
+ Tue, 16 Aug 2022 10:34:39 -0700 (PDT)
 Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
  [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.33
+ 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 10:34:35 -0700 (PDT)
+ Tue, 16 Aug 2022 10:34:38 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, alistair.francis@wdc.com,
  david@gibson.dropbear.id.au,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-Subject: [PATCH for-7.2 v3 01/20] hw/arm: do not free machine->fdt in
- arm_load_dtb()
-Date: Tue, 16 Aug 2022 14:34:09 -0300
-Message-Id: <20220816173428.157304-2-danielhb413@gmail.com>
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Subject: [PATCH for-7.2 v3 02/20] hw/microblaze: set machine->fdt in
+ microblaze_load_dtb()
+Date: Tue, 16 Aug 2022 14:34:10 -0300
+Message-Id: <20220816173428.157304-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220816173428.157304-1-danielhb413@gmail.com>
 References: <20220816173428.157304-1-danielhb413@gmail.com>
@@ -91,50 +91,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At this moment, arm_load_dtb() can free machine->fdt when
-binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
-retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
-the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
-machine->fdt. And, in that case, the existing g_free(fdt) at the end of
-arm_load_dtb() will make machine->fdt point to an invalid memory region.
+This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
+all microblaze machines that uses microblaze_load_dtb().
 
-This is not an issue right now because there's no code that access
-machine->fdt after arm_load_dtb(), but we're going to add a couple do
-FDT HMP commands that will rely on machine->fdt being valid.
-
-Instead of freeing 'fdt' at the end of arm_load_dtb(), assign it to
-machine->fdt. This will allow the FDT of ARM machines that relies on
-arm_load_dtb() to be accessed later on.
-
-Since all ARM machines allocates the FDT only once, we don't need to
-worry about leaking the existing FDT during a machine reset (which is
-something that other machines have to look after, e.g. the ppc64 pSeries
-machine).
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/arm/boot.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/microblaze/boot.c      | 11 ++++++++++-
+ hw/microblaze/meson.build |  2 +-
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index ada2717f76..669a978157 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -684,7 +684,11 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-      */
-     rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
+diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+index 8b92a9801a..e9ebc04381 100644
+--- a/hw/microblaze/boot.c
++++ b/hw/microblaze/boot.c
+@@ -39,6 +39,8 @@
  
+ #include "boot.h"
+ 
++#include <libfdt.h>
++
+ static struct
+ {
+     void (*machine_cpu_reset)(MicroBlazeCPU *);
+@@ -72,6 +74,7 @@ static int microblaze_load_dtb(hwaddr addr,
+                                const char *kernel_cmdline,
+                                const char *dtb_filename)
+ {
++    MachineState *machine = MACHINE(qdev_get_machine());
+     int fdt_size;
+     void *fdt = NULL;
+     int r;
+@@ -100,7 +103,13 @@ static int microblaze_load_dtb(hwaddr addr,
+     }
+ 
+     cpu_physical_memory_write(addr, fdt, fdt_size);
 -    g_free(fdt);
++
 +    /*
-+     * Update the ms->fdt pointer to enable support for
++     * Update the machine->fdt pointer to enable support for
 +     * 'dumpdtb' and 'info fdt' QMP/HMP commands.
 +     */
-+    ms->fdt = fdt;
++    machine->fdt = fdt;
++
+     return fdt_size;
+ }
  
-     return size;
- 
+diff --git a/hw/microblaze/meson.build b/hw/microblaze/meson.build
+index bb9e4eb8f4..a38a397872 100644
+--- a/hw/microblaze/meson.build
++++ b/hw/microblaze/meson.build
+@@ -1,5 +1,5 @@
+ microblaze_ss = ss.source_set()
+-microblaze_ss.add(files('boot.c'))
++microblaze_ss.add(files('boot.c'), fdt)
+ microblaze_ss.add(when: 'CONFIG_PETALOGIX_S3ADSP1800', if_true: files('petalogix_s3adsp1800_mmu.c'))
+ microblaze_ss.add(when: 'CONFIG_PETALOGIX_ML605', if_true: files('petalogix_ml605_mmu.c'))
+ microblaze_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-zynqmp-pmu.c'))
 -- 
 2.37.2
 
