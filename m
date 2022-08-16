@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E855956B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 11:39:37 +0200 (CEST)
-Received: from localhost ([::1]:42928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBCD5956D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 11:43:52 +0200 (CEST)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNt2u-0003gk-Gw
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 05:39:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34694)
+	id 1oNt71-0007K6-CZ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 05:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
- id 1oNt0s-0001Wd-PJ
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:37:32 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:39678)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
- id 1oNt0q-0005bS-0u
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:37:29 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-32fd97c199fso111401437b3.6
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 02:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc;
- bh=F9l/Lza+GcuQ/N6yTTp2h8rEGkAGDZZo0keA34OVn7g=;
- b=pxmi8GWC2LYXgrU9p3G+Jg2rHsH8f5AQCGBn1QV51hJ6QXYvo7dUVjHT6ek/ZiE/Cl
- IFIJz1hScpU4zX/71hh6BqPzGrJwY0j673av8lPKxNOAtrcG7FJnF9yo0jOL1UqVZquu
- yqC52lPp78yLyZZrBDZGAlJ0lCkrn+ttxkblRMbu36/+IkgGaTBaGYiNJZI7fqyER3Lf
- Iv24Q+mq0xBBm3eZ5QSGhpTkHV5DsLbIvvZhyASIFu1dAZTDq8Qn7c+LJsPKsB7fnrl4
- +6oeeeErVrd7izPI5fcmqCz/rB8UP+ROPq8Gv3aUTaRp815rSTJ4MJwB5nrU9JQwe+sD
- aezA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc;
- bh=F9l/Lza+GcuQ/N6yTTp2h8rEGkAGDZZo0keA34OVn7g=;
- b=2Iq2LU3n4jqFYR73TzLLb384m9kIa9hIRmWAJHbIOsvaLGEBnA0oNmTf4X72nfvjaw
- ZADB/xiKtmanuZwoSEMmg97ZVEtXM6mnUnInuaHcbb18+/BmbGKCl9tFCH2kreKAEuZN
- jbSfTJkeWkD0SUq5KhfWjpbZpIRSoyhRc39kaCNDj4jP71YaS6cY84dMVZ3PRA0V/zSH
- ZZohhugmKrQrQnr8XBXTiPHjrHRAZpS0oqdu4LDmcp9WaNrfhrgQdx6WeG1T39nE0jk/
- 3GQV8/Y1KvJtcYNaqhn2OmZaHW9jTibj3QwuGCvG03+9bw6x8LA7Zk2Q6PvC8sTO6nzx
- Tlxg==
-X-Gm-Message-State: ACgBeo0hmLZNHcZwOAUj1ESHVM/OL5uuztwd7n3k+fiKtIl2JWVQdxgr
- H+UKeCDPmuyImpp5bdvY1hkamTt8xFshwYdPK30=
-X-Google-Smtp-Source: AA6agR4suT0btzNxb268GYujKMFCKimokkf38uxioyAs0/jIIgc/lV3q9P9UkOuvUyg3WhxXMp1aJ9nYwlbWXmrSHoE=
-X-Received: by 2002:a81:1d09:0:b0:31d:a40:8332 with SMTP id
- d9-20020a811d09000000b0031d0a408332mr17035960ywd.138.1660642646000; Tue, 16
- Aug 2022 02:37:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1oNt2t-0003lN-8J; Tue, 16 Aug 2022 05:39:35 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:4519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1oNt2p-0005mJ-AB; Tue, 16 Aug 2022 05:39:34 -0400
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4M6Qxy5SSxzkWNl;
+ Tue, 16 Aug 2022 17:36:06 +0800 (CST)
+Received: from dggpeml100022.china.huawei.com (7.185.36.176) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 16 Aug 2022 17:39:26 +0800
+Received: from kwepemm600016.china.huawei.com (7.193.23.20) by
+ dggpeml100022.china.huawei.com (7.185.36.176) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 16 Aug 2022 17:39:26 +0800
+Received: from kwepemm600016.china.huawei.com ([7.193.23.20]) by
+ kwepemm600016.china.huawei.com ([7.193.23.20]) with mapi id 15.01.2375.024;
+ Tue, 16 Aug 2022 17:39:25 +0800
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org"
+ <qemu-arm@nongnu.org>, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, Eric Auger
+ <eric.auger@redhat.com>, Peter Xu <peterx@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, "Wanghaibin (D)" <wanghaibin.wang@huawei.com>
+Subject: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIGFjcGlfZ2VkOiBBZGQgb3NwbV9zdGF0dXMgaG9v?=
+ =?utf-8?Q?k_implementation?=
+Thread-Topic: [PATCH] acpi_ged: Add ospm_status hook implementation
+Thread-Index: AQHYsVJa+vqGTE7yt0qRXZ8lKONLy62wvNAAgACG/8A=
+Date: Tue, 16 Aug 2022 09:39:25 +0000
+Message-ID: <47f60df98b514502b422adee6b970880@huawei.com>
+References: <20220816092624.15168-1-zhukeqian1@huawei.com>
+ <CAFEAcA8UN=NABfNzzP-m5b3ki5mKH1qyfwgi6_yiT__6u_-1ng@mail.gmail.com>
+In-Reply-To: <CAFEAcA8UN=NABfNzzP-m5b3ki5mKH1qyfwgi6_yiT__6u_-1ng@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.187.224]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-From: Paul Schlacter <wlfightup@gmail.com>
-Date: Tue, 16 Aug 2022 17:37:14 +0800
-Message-ID: <CADak6y7h9fyQnbfka3MLXhSKFJC+d=d5_Kmu0g_gaHQ_L1XUOg@mail.gmail.com>
-Subject: [PATCH v3] xio3130_upstream: Add ACS, Access Control Services,
- capability
-To: "Michael S. Tsirkin" <mst@redhat.com>, marcel.apfelbaum@gmail.com,
- fam@euphon.net, 
- kwolf@redhat.com, stefanha@redhat.com, k.jensen@samsung.com, f4bug@amsat.org, 
- its@irrelevant.dk, xypron.glpk@gmx.de, imammedo@redhat.com, 
- qemu-devel@nongnu.org, armbru@redhat.com, kbusch@kernel.org, 
- hreitz@redhat.com, ani@anisinha.ca
-Content-Type: multipart/alternative; boundary="00000000000003893805e6587f91"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=wlfightup@gmail.com; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,507 +77,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
---00000000000003893805e6587f91
-Content-Type: text/plain; charset="UTF-8"
-
-v2 -> v3:
-- Add the missing code in V2.
-
-v1 -> v2:
-- Allow ACS to be disabled.
-- Suggested by Michael S. Tsirkin, use disable-acs to set property.
-
-v1:
-- Add ACS (Access Control Services) capability.
-
-If it is a pcie device, check that all devices on the path from
-
-the device to the root complex have ACS enabled, and then the
-
-device will become an iommu_group.
-
-it will have the effect of isolation
-
-
-
-
-Signed-off-by: wlfightup <wlfightup@gmail.com>
-
-Signed-off-by: wangliang <wangliang40@baidu.com>
-
----
-
- hw/pci-bridge/xio3130_upstream.c | 13 +++++++++++++
-
- 1 file changed, 13 insertions(+)
-
-
-diff --git a/hw/pci-bridge/xio3130_upstream.c
-b/hw/pci-bridge/xio3130_upstream.c
-
-index 5ff46ef050..5433d06fb3 100644
-
---- a/hw/pci-bridge/xio3130_upstream.c
-
-+++ b/hw/pci-bridge/xio3130_upstream.c
-
-@@ -24,6 +24,7 @@
-
- #include "hw/pci/msi.h"
-
- #include "hw/pci/pcie.h"
-
- #include "hw/pci/pcie_port.h"
-
-+#include "hw/qdev-properties.h"
-
- #include "migration/vmstate.h"
-
- #include "qemu/module.h"
-
-
-
-@@ -37,6 +38,8 @@
-
- #define XIO3130_SSVID_SSID              0
-
- #define XIO3130_EXP_OFFSET              0x90
-
- #define XIO3130_AER_OFFSET              0x100
-
-+#define XIO3130_ACS_OFFSET \
-
-+        (XIO3130_AER_OFFSET + PCI_ERR_SIZEOF)
-
-
-
- static void xio3130_upstream_write_config(PCIDevice *d, uint32_t address,
-
-                                           uint32_t val, int len)
-
-@@ -57,6 +60,7 @@ static void xio3130_upstream_reset(DeviceState *qdev)
-
- static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
-
- {
-
-     PCIEPort *p = PCIE_PORT(d);
-
-+    PCIESlot *s = PCIE_SLOT(d);
-
-     int rc;
-
-
-
-     pci_bridge_initfn(d, TYPE_PCIE_BUS);
-
-@@ -92,6 +96,9 @@ static void xio3130_upstream_realize(PCIDevice *d, Error
-**errp)
-
-         goto err;
-
-     }
-
-
-
-+    if (!s->disable_acs) {
-
-+        pcie_acs_init(d, XIO3130_ACS_OFFSET);
-
-+    }
-
-     return;
-
-
-
- err:
-
-@@ -110,6 +117,11 @@ static void xio3130_upstream_exitfn(PCIDevice *d)
-
-     pci_bridge_exitfn(d);
-
- }
-
-
-
-+static Property xio3130_upstream_props[] = {
-
-+    DEFINE_PROP_BOOL("disable-acs", PCIESlot, disable_acs, false),
-
-+    DEFINE_PROP_END_OF_LIST()
-
-+};
-
-+
-
- static const VMStateDescription vmstate_xio3130_upstream = {
-
-     .name = "xio3130-express-upstream-port",
-
-     .priority = MIG_PRI_PCI_BUS,
-
-@@ -139,6 +151,7 @@ static void xio3130_upstream_class_init(ObjectClass
-*klass, void *data)
-
-     dc->desc = "TI X3130 Upstream Port of PCI Express Switch";
-
-     dc->reset = xio3130_upstream_reset;
-
-     dc->vmsd = &vmstate_xio3130_upstream;
-
-+    device_class_set_props(dc, xio3130_upstream_props);
-
- }
-
-
-
- static const TypeInfo xio3130_upstream_info = {
-
--- 
-
-2.24.3 (Apple Git-128)
-
---00000000000003893805e6587f91
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>v2 -&gt; v3:<br>- Add the missing code in V2.<br></di=
-v><div><br></div>v1 -&gt; v2:<br>- Allow ACS to be disabled.<br>- Suggested=
- by Michael S. Tsirkin, use disable-acs to set property.<br><br>v1:<br>- Ad=
-d ACS (Access Control Services) capability.<br><br><p style=3D"font-variant=
--numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-siz=
-e:11px;line-height:normal;font-family:Menlo;margin:0px;color:rgb(0,0,0)"><s=
-pan style=3D"font-variant-ligatures:no-common-ligatures">If it is a pcie de=
-vice, check that all devices on the path from</span></p><p style=3D"font-va=
-riant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;fon=
-t-size:11px;line-height:normal;font-family:Menlo;margin:0px;color:rgb(0,0,0=
-)"><span style=3D"font-variant-ligatures:no-common-ligatures">the device to=
- the root complex have ACS enabled, and then the</span></p><p style=3D"font=
--variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;=
-font-size:11px;line-height:normal;font-family:Menlo;margin:0px;color:rgb(0,=
-0,0)"><span style=3D"font-variant-ligatures:no-common-ligatures">device wil=
-l become an iommu_group.</span></p><p style=3D"font-variant-numeric:normal;=
-font-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-heig=
-ht:normal;font-family:Menlo;margin:0px;color:rgb(0,0,0)"><span style=3D"fon=
-t-variant-ligatures:no-common-ligatures">it will have the effect of isolati=
-on</span></p><p style=3D"font-variant-numeric:normal;font-variant-east-asia=
-n:normal;font-stretch:normal;font-size:11px;line-height:normal;font-family:=
-Menlo;margin:0px;color:rgb(0,0,0)"><span style=3D"font-variant-ligatures:no=
--common-ligatures"><br></span></p><p style=3D"font-variant-numeric:normal;f=
-ont-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-heigh=
-t:normal;font-family:Menlo;margin:0px;color:rgb(0,0,0)"><span style=3D"font=
--variant-ligatures:no-common-ligatures"><br></span></p><p style=3D"font-var=
-iant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font=
--size:11px;line-height:normal;font-family:Menlo;margin:0px;color:rgb(0,0,0)=
-"><span style=3D"font-variant-ligatures:no-common-ligatures"><br></span></p=
-><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)=
-"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatu=
-res">Signed-off-by: wlfightup &lt;<a href=3D"mailto:wlfightup@gmail.com">wl=
-fightup@gmail.com</a>&gt;</span></p><p class=3D"gmail-p1" style=3D"margin:0=
-px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font=
--variant-ligatures:no-common-ligatures">Signed-off-by: wangliang &lt;<a hre=
-f=3D"mailto:wangliang40@baidu.com">wangliang40@baidu.com</a>&gt;</span></p>=
-<p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"=
-><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatur=
-es">---</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo=
-;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures=
-:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</s=
-pan>hw/pci-bridge/xio3130_upstream.c | 13 +++++++++++++</span></p><p class=
-=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span c=
-lass=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><spa=
-n class=3D"gmail-Apple-converted-space">=C2=A0</span>1 file changed, 13 ins=
-ertions(+)</span></p><p class=3D"gmail-p2" style=3D"margin:0px;font:11px Me=
-nlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gmail-s1" style=3D"fon=
-t-variant-ligatures:no-common-ligatures"></span><br></p><p class=3D"gmail-p=
-1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gma=
-il-s1" style=3D"font-variant-ligatures:no-common-ligatures">diff --git a/hw=
-/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c</span></p=
-><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)=
-"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatu=
-res">index 5ff46ef050..5433d06fb3 100644</span></p><p class=3D"gmail-p1" st=
-yle=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1=
-" style=3D"font-variant-ligatures:no-common-ligatures">--- a/hw/pci-bridge/=
-xio3130_upstream.c</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font=
-:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-varian=
-t-ligatures:no-common-ligatures">+++ b/hw/pci-bridge/xio3130_upstream.c</sp=
-an></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(=
-0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-=
-ligatures">@@ -24,6 +24,7 @@</span></p><p class=3D"gmail-p1" style=3D"margi=
-n:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"f=
-ont-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conve=
-rted-space">=C2=A0</span>#include &quot;hw/pci/msi.h&quot;</span></p><p cla=
-ss=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span=
- class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><s=
-pan class=3D"gmail-Apple-converted-space">=C2=A0</span>#include &quot;hw/pc=
-i/pcie.h&quot;</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11p=
-x Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-li=
-gatures:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=
-=C2=A0</span>#include &quot;hw/pci/pcie_port.h&quot;</span></p><p class=3D"=
-gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=
-=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">+#includ=
-e &quot;hw/qdev-properties.h&quot;</span></p><p class=3D"gmail-p1" style=3D=
-"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" styl=
-e=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple=
--converted-space">=C2=A0</span>#include &quot;migration/vmstate.h&quot;</sp=
-an></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(=
-0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-=
-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</span>#includ=
-e &quot;qemu/module.h&quot;</span></p><p class=3D"gmail-p2" style=3D"margin=
-:0px;font:11px Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gmail=
--s1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gm=
-ail-Apple-converted-space">=C2=A0</span></span></p><p class=3D"gmail-p1" st=
-yle=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1=
-" style=3D"font-variant-ligatures:no-common-ligatures">@@ -37,6 +38,8 @@</s=
-pan></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb=
-(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common=
--ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</span>#defin=
-e XIO3130_SSVID_SSID<span class=3D"gmail-Apple-converted-space">=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>0</span></p><p class=3D"gmail=
--p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"g=
-mail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=
-=3D"gmail-Apple-converted-space">=C2=A0</span>#define XIO3130_EXP_OFFSET<sp=
-an class=3D"gmail-Apple-converted-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 </span>0x90</span></p><p class=3D"gmail-p1" style=3D"margin:=
-0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"fon=
-t-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-convert=
-ed-space">=C2=A0</span>#define XIO3130_AER_OFFSET<span class=3D"gmail-Apple=
--converted-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>0=
-x100</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;co=
-lor:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no=
--common-ligatures">+#define XIO3130_ACS_OFFSET \</span></p><p class=3D"gmai=
-l-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"=
-gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">+<span class=
-=3D"gmail-Apple-converted-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>(XIO313=
-0_AER_OFFSET + PCI_ERR_SIZEOF)</span></p><p class=3D"gmail-p2" style=3D"mar=
-gin:0px;font:11px Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gm=
-ail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D=
-"gmail-Apple-converted-space">=C2=A0</span></span></p><p class=3D"gmail-p1"=
- style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail=
--s1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gm=
-ail-Apple-converted-space">=C2=A0</span>static void xio3130_upstream_write_=
-config(PCIDevice *d, uint32_t address,</span></p><p class=3D"gmail-p1" styl=
-e=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" =
-style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-A=
-pple-converted-space">=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>uint32_t val, int len)</span></p><p clas=
-s=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span =
-class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">@@ =
--57,6 +60,7 @@ static void xio3130_upstream_reset(DeviceState *qdev)</span>=
-</p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0=
-,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-lig=
-atures"><span class=3D"gmail-Apple-converted-space">=C2=A0</span>static voi=
-d xio3130_upstream_realize(PCIDevice *d, Error **errp)</span></p><p class=
-=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span c=
-lass=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><spa=
-n class=3D"gmail-Apple-converted-space">=C2=A0</span>{</span></p><p class=
-=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span c=
-lass=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><spa=
-n class=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>PCIEPort=
- *p =3D PCIE_PORT(d);</span></p><p class=3D"gmail-p1" style=3D"margin:0px;f=
-ont:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-var=
-iant-ligatures:no-common-ligatures">+<span class=3D"gmail-Apple-converted-s=
-pace">=C2=A0 =C2=A0 </span>PCIESlot *s =3D PCIE_SLOT(d);</span></p><p class=
-=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span c=
-lass=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><spa=
-n class=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>int rc;<=
-/span></p><p class=3D"gmail-p2" style=3D"margin:0px;font:11px Menlo;color:r=
-gb(0,0,0);min-height:13px"><span class=3D"gmail-s1" style=3D"font-variant-l=
-igatures:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=
-=C2=A0</span></span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px=
- Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-lig=
-atures:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=
-=A0=C2=A0 =C2=A0 </span>pci_bridge_initfn(d, TYPE_PCIE_BUS);</span></p><p c=
-lass=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><sp=
-an class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">=
-@@ -92,6 +96,9 @@ static void xio3130_upstream_realize(PCIDevice *d, Error =
-**errp)</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo=
-;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures=
-:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 </span>goto err;</span></p><p class=3D"gmail-p1" s=
-tyle=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s=
-1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmai=
-l-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>}</span></p><p class=3D=
-"gmail-p2" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0);min-height:=
-13px"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-li=
-gatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</span></span></=
-p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0=
-)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligat=
-ures">+<span class=3D"gmail-Apple-converted-space">=C2=A0 =C2=A0 </span>if =
-(!s-&gt;disable_acs) {</span></p><p class=3D"gmail-p1" style=3D"margin:0px;=
-font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-va=
-riant-ligatures:no-common-ligatures">+<span class=3D"gmail-Apple-converted-=
-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>pcie_acs_init(d, XIO3130_ACS_OFFS=
-ET);</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;co=
-lor:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no=
--common-ligatures">+<span class=3D"gmail-Apple-converted-space">=C2=A0 =C2=
-=A0 </span>}</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px =
-Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-liga=
-tures:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=
-=A0=C2=A0 =C2=A0 </span>return;</span></p><p class=3D"gmail-p2" style=3D"ma=
-rgin:0px;font:11px Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"g=
-mail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=
-=3D"gmail-Apple-converted-space">=C2=A0</span></span></p><p class=3D"gmail-=
-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gm=
-ail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D=
-"gmail-Apple-converted-space">=C2=A0</span>err:</span></p><p class=3D"gmail=
--p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"g=
-mail-s1" style=3D"font-variant-ligatures:no-common-ligatures">@@ -110,6 +11=
-7,11 @@ static void xio3130_upstream_exitfn(PCIDevice *d)</span></p><p clas=
-s=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span =
-class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><sp=
-an class=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>pci_bri=
-dge_exitfn(d);</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11p=
-x Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-li=
-gatures:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=
-=C2=A0</span>}</span></p><p class=3D"gmail-p2" style=3D"margin:0px;font:11p=
-x Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gmail-s1" style=3D=
-"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-con=
-verted-space">=C2=A0</span></span></p><p class=3D"gmail-p1" style=3D"margin=
-:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"fo=
-nt-variant-ligatures:no-common-ligatures">+static Property xio3130_upstream=
-_props[] =3D {</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11p=
-x Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-li=
-gatures:no-common-ligatures">+<span class=3D"gmail-Apple-converted-space">=
-=C2=A0 =C2=A0 </span>DEFINE_PROP_BOOL(&quot;disable-acs&quot;, PCIESlot, di=
-sable_acs, false),</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font=
-:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-varian=
-t-ligatures:no-common-ligatures">+<span class=3D"gmail-Apple-converted-spac=
-e">=C2=A0 =C2=A0 </span>DEFINE_PROP_END_OF_LIST()</span></p><p class=3D"gma=
-il-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D=
-"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">+};</span><=
-/p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,=
-0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-liga=
-tures">+</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menl=
-o;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligature=
-s:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</=
-span>static const VMStateDescription vmstate_xio3130_upstream =3D {</span><=
-/p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,=
-0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-liga=
-tures"><span class=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </sp=
-an>.name =3D &quot;xio3130-express-upstream-port&quot;,</span></p><p class=
-=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span c=
-lass=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><spa=
-n class=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>.priorit=
-y =3D MIG_PRI_PCI_BUS,</span></p><p class=3D"gmail-p1" style=3D"margin:0px;=
-font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-va=
-riant-ligatures:no-common-ligatures">@@ -139,6 +151,7 @@ static void xio313=
-0_upstream_class_init(ObjectClass *klass, void *data)</span></p><p class=3D=
-"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span clas=
-s=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures"><span c=
-lass=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>dc-&gt;desc=
- =3D &quot;TI X3130 Upstream Port of PCI Express Switch&quot;;</span></p><p=
- class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><=
-span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures=
-"><span class=3D"gmail-Apple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>dc=
--&gt;reset =3D xio3130_upstream_reset;</span></p><p class=3D"gmail-p1" styl=
-e=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" =
-style=3D"font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-A=
-pple-converted-space">=C2=A0=C2=A0 =C2=A0 </span>dc-&gt;vmsd =3D &amp;vmsta=
-te_xio3130_upstream;</span></p><p class=3D"gmail-p1" style=3D"margin:0px;fo=
-nt:11px Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-vari=
-ant-ligatures:no-common-ligatures">+<span class=3D"gmail-Apple-converted-sp=
-ace">=C2=A0 =C2=A0 </span>device_class_set_props(dc, xio3130_upstream_props=
-);</span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;colo=
-r:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-ligatures:no-c=
-ommon-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=A0</span>}=
-</span></p><p class=3D"gmail-p2" style=3D"margin:0px;font:11px Menlo;color:=
-rgb(0,0,0);min-height:13px"><span class=3D"gmail-s1" style=3D"font-variant-=
-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=
-=C2=A0</span></span></p><p class=3D"gmail-p1" style=3D"margin:0px;font:11px=
- Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"font-variant-lig=
-atures:no-common-ligatures"><span class=3D"gmail-Apple-converted-space">=C2=
-=A0</span>static const TypeInfo xio3130_upstream_info =3D {</span></p><p cl=
-ass=3D"gmail-p1" style=3D"margin:0px;font:11px Menlo;color:rgb(0,0,0)"><spa=
-n class=3D"gmail-s1" style=3D"font-variant-ligatures:no-common-ligatures">-=
--<span class=3D"gmail-Apple-converted-space">=C2=A0</span></span></p><p sty=
-le=3D"font-variant-numeric:normal;font-variant-east-asian:normal;font-stret=
-ch:normal;font-size:11px;line-height:normal;font-family:Menlo;margin:0px;co=
-lor:rgb(0,0,0)">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</p><div class=3D"gmail-gs" style=3D"margin:0px;padding:0px 0px 20px;width:=
-1024px;font-family:&quot;Google Sans&quot;,Roboto,RobotoDraft,Helvetica,Ari=
-al,sans-serif;font-size:medium"><div class=3D"gmail-"><div id=3D"gmail-:1o0=
-" class=3D"gmail-ii gmail-gt" style=3D"direction:ltr;margin:8px 0px 0px;pad=
-ding:0px;font-size:0.875rem"><div id=3D"gmail-:18z" class=3D"gmail-a3s gmai=
-l-aiL" style=3D"font-variant-numeric:normal;font-variant-east-asian:normal;=
-font-stretch:normal;font-size:small;line-height:1.5;font-family:Arial,Helve=
-tica,sans-serif;overflow:hidden"><div dir=3D"ltr"><p style=3D"margin:0px;fo=
-nt-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:norma=
-l;font-size:11px;line-height:normal;font-family:Menlo;color:rgb(0,0,0)"><sp=
-an style=3D"font-variant-ligatures:no-common-ligatures">2.24.3 (Apple Git-1=
-28)</span></p></div></div></div></div></div></div>
-
---00000000000003893805e6587f91--
+Reply-to:  zhukeqian <zhukeqian1@huawei.com>
+From:  zhukeqian via <qemu-devel@nongnu.org>
+
+SGkgUGV0ZXIsDQoNClNldHVwIGFuIEFSTSB2aXJ0dWFsIG1hY2hpbmUgb2YgbWFjaGluZSB2aXJ0
+IGFuZCBleGVjdXRlIHFtcCAicXVlcnktYWNwaS1vc3BtLXN0YXR1cyIgY2FuIHRyaWdnZXIgdGhp
+cyBidWcuDQoNClRoYW5rcy4NCg0KLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0K5Y+R5Lu25Lq6OiBR
+ZW11LWRldmVsIFttYWlsdG86cWVtdS1kZXZlbC1ib3VuY2VzK3podWtlcWlhbjE9aHVhd2VpLmNv
+bUBub25nbnUub3JnXSDku6PooaggUGV0ZXIgTWF5ZGVsbA0K5Y+R6YCB5pe26Ze0OiAyMDIy5bm0
+OOaciDE25pelIDE3OjMwDQrmlLbku7bkuro6IHpodWtlcWlhbiA8emh1a2VxaWFuMUBodWF3ZWku
+Y29tPg0K5oqE6YCBOiBxZW11LWRldmVsQG5vbmdudS5vcmc7IHFlbXUtYXJtQG5vbmdudS5vcmc7
+IHFlbXUtdHJpdmlhbEBub25nbnUub3JnOyBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1k
+QHJlZGhhdC5jb20+OyBFcmljIEF1Z2VyIDxlcmljLmF1Z2VyQHJlZGhhdC5jb20+OyBQZXRlciBY
+dSA8cGV0ZXJ4QHJlZGhhdC5jb20+OyBJZ29yIE1hbW1lZG92IDxpbWFtbWVkb0ByZWRoYXQuY29t
+PjsgV2FuZ2hhaWJpbiAoRCkgPHdhbmdoYWliaW4ud2FuZ0BodWF3ZWkuY29tPg0K5Li76aKYOiBS
+ZTogW1BBVENIXSBhY3BpX2dlZDogQWRkIG9zcG1fc3RhdHVzIGhvb2sgaW1wbGVtZW50YXRpb24N
+Cg0KT24gVHVlLCAxNiBBdWcgMjAyMiBhdCAxMDoyNiwgS2VxaWFuIFpodSA8emh1a2VxaWFuMUBo
+dWF3ZWkuY29tPiB3cm90ZToNCj4NCj4gVGhpcyBmaXhlcyBhIGJ1ZyB0aGF0IGNhdXNlcyBzZWdt
+ZW50YXRpb24gZmF1bHQgd2l0aCBmb2xsb3dpbmcgZHVtcHN0YWNrOg0KPiAgIzEgIDB4MDAwMGFh
+YWFhYjY0MjM1YyBpbiBxbXBfcXVlcnlfYWNwaV9vc3BtX3N0YXR1cyANCj4gKGVycnA9ZXJycEBl
+bnRyeT0weGZmZmZmZmZmZjAzMCkgYXQgLi4vbW9uaXRvci9xbXAtY21kcy5jOjMxMg0KPiAgIzIg
+IDB4MDAwMGFhYWFhYmZjNGUyMCBpbiBxbXBfbWFyc2hhbF9xdWVyeV9hY3BpX29zcG1fc3RhdHVz
+IA0KPiAoYXJncz08b3B0aW1pemVkIG91dD4sIHJldD0weGZmZmZlYTRmZmU5MCwgZXJycD0weGZm
+ZmZlYTRmZmU4OCkgYXQgDQo+IHFhcGkvcWFwaS1jb21tYW5kcy1hY3BpLmM6NjMNCj4gICMzICAw
+eDAwMDBhYWFhYWJmZjhiYTAgaW4gZG9fcW1wX2Rpc3BhdGNoX2JoIChvcGFxdWU9MHhmZmZmZWE0
+ZmZlOTgpIA0KPiBhdCAuLi9xYXBpL3FtcC1kaXNwYXRjaC5jOjEyOA0KPiAgIzQgIDB4MDAwMGFh
+YWFhYzAyZTU5NCBpbiBhaW9fYmhfY2FsbCAoYmg9MHhmZmZmZTAwMDRkODApIGF0IA0KPiAuLi91
+dGlsL2FzeW5jLmM6MTUwDQo+ICAjNSAgYWlvX2JoX3BvbGwgKGN0eD1jdHhAZW50cnk9MHhhYWFh
+YWQwZjYwNDApIGF0IC4uL3V0aWwvYXN5bmMuYzoxNzgNCj4gICM2ICAweDAwMDBhYWFhYWMwMGJk
+NDAgaW4gYWlvX2Rpc3BhdGNoIChjdHg9Y3R4QGVudHJ5PTB4YWFhYWFkMGY2MDQwKSANCj4gYXQg
+Li4vdXRpbC9haW8tcG9zaXguYzo0MjENCj4gICM3ICAweDAwMDBhYWFhYWMwMmUwMTAgaW4gYWlv
+X2N0eF9kaXNwYXRjaCAoc291cmNlPTB4YWFhYWFkMGY2MDQwLCANCj4gY2FsbGJhY2s9PG9wdGlt
+aXplZCBvdXQ+LCB1c2VyX2RhdGE9PG9wdGltaXplZCBvdXQ+KSBhdCANCj4gLi4vdXRpbC9hc3lu
+Yy5jOjMyMA0KPiAgIzggIDB4MDAwMGZmZmZmNzZmNjg4NCBpbiBnX21haW5fY29udGV4dF9kaXNw
+YXRjaCAoKSBhdCANCj4gL3Vzci9saWI2NC9saWJnbGliLTIuMC5zby4wDQo+ICAjOSAgMHgwMDAw
+YWFhYWFjMDQ1MmQ0IGluIGdsaWJfcG9sbGZkc19wb2xsICgpIGF0IA0KPiAuLi91dGlsL21haW4t
+bG9vcC5jOjI5Nw0KPiAgIzEwIG9zX2hvc3RfbWFpbl9sb29wX3dhaXQgKHRpbWVvdXQ9MCkgYXQg
+Li4vdXRpbC9tYWluLWxvb3AuYzozMjANCj4gICMxMSBtYWluX2xvb3Bfd2FpdCAobm9uYmxvY2tp
+bmc9bm9uYmxvY2tpbmdAZW50cnk9MCkgYXQgDQo+IC4uL3V0aWwvbWFpbi1sb29wLmM6NTk2DQo+
+ICAjMTIgMHgwMDAwYWFhYWFiNWM5ZTUwIGluIHFlbXVfbWFpbl9sb29wICgpIGF0IA0KPiAuLi9z
+b2Z0bW11L3J1bnN0YXRlLmM6NzM0DQo+ICAjMTMgMHgwMDAwYWFhYWFiMTg1MzcwIGluIHFlbXVf
+bWFpbiAoYXJnYz1hcmdjQGVudHJ5PTQ3LCANCj4gYXJndj1hcmd2QGVudHJ5PTB4ZmZmZmZmZmZm
+NTE4LCBlbnZwPWVudnBAZW50cnk9MHgwKSBhdCANCj4gLi4vc29mdG1tdS9tYWluLmM6MzgNCj4g
+ICMxNCAweDAwMDBhYWFhYWIxNmY5OWMgaW4gbWFpbiAoYXJnYz00NywgYXJndj0weGZmZmZmZmZm
+ZjUxOCkgYXQgDQo+IC4uL3NvZnRtbXUvbWFpbi5jOjQ3DQoNCldoYXQgYXJlIHRoZSBjb25kaXRp
+b25zIHJlcXVpcmVkIHRvIHRyaWdnZXIgdGhlIHNlZ2ZhdWx0Pw0KDQoNCj4gRml4ZXM6IGViYjYy
+MDc1MDIxYSAoImh3L2FjcGk6IEFkZCBBQ1BJIEdlbmVyaWMgRXZlbnQgRGV2aWNlIFN1cHBvcnQi
+KQ0KPiBTaWduZWQtb2ZmLWJ5OiBLZXFpYW4gWmh1IDx6aHVrZXFpYW4xQGh1YXdlaS5jb20+DQo+
+IC0tLQ0KPiAgaHcvYWNwaS9nZW5lcmljX2V2ZW50X2RldmljZS5jIHwgOCArKysrKysrKw0KPiAg
+MSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvaHcvYWNw
+aS9nZW5lcmljX2V2ZW50X2RldmljZS5jIA0KPiBiL2h3L2FjcGkvZ2VuZXJpY19ldmVudF9kZXZp
+Y2UuYyBpbmRleCBlMjg0NTdhN2QxLi5hM2QzMTYzMWZlIDEwMDY0NA0KPiAtLS0gYS9ody9hY3Bp
+L2dlbmVyaWNfZXZlbnRfZGV2aWNlLmMNCj4gKysrIGIvaHcvYWNwaS9nZW5lcmljX2V2ZW50X2Rl
+dmljZS5jDQo+IEBAIC0yNjcsNiArMjY3LDEzIEBAIHN0YXRpYyB2b2lkIGFjcGlfZ2VkX3VucGx1
+Z19jYihIb3RwbHVnSGFuZGxlciAqaG90cGx1Z19kZXYsDQo+ICAgICAgfQ0KPiAgfQ0KPg0KPiAr
+c3RhdGljIHZvaWQgYWNwaV9nZWRfb3NwbV9zdGF0dXMoQWNwaURldmljZUlmICphZGV2LCBBQ1BJ
+T1NUSW5mb0xpc3QgDQo+ICsqKipsaXN0KSB7DQo+ICsgICAgQWNwaUdlZFN0YXRlICpzID0gQUNQ
+SV9HRUQoYWRldik7DQo+ICsNCj4gKyAgICBhY3BpX21lbW9yeV9vc3BtX3N0YXR1cygmcy0+bWVt
+aHBfc3RhdGUsIGxpc3QpOyB9DQo+ICsNCj4gIHN0YXRpYyB2b2lkIGFjcGlfZ2VkX3NlbmRfZXZl
+bnQoQWNwaURldmljZUlmICphZGV2LCANCj4gQWNwaUV2ZW50U3RhdHVzQml0cyBldikgIHsNCj4g
+ICAgICBBY3BpR2VkU3RhdGUgKnMgPSBBQ1BJX0dFRChhZGV2KTsgQEAgLTQwOSw2ICs0MTYsNyBA
+QCBzdGF0aWMgdm9pZCANCj4gYWNwaV9nZWRfY2xhc3NfaW5pdChPYmplY3RDbGFzcyAqY2xhc3Ms
+IHZvaWQgKmRhdGEpDQo+ICAgICAgaGMtPnVucGx1Z19yZXF1ZXN0ID0gYWNwaV9nZWRfdW5wbHVn
+X3JlcXVlc3RfY2I7DQo+ICAgICAgaGMtPnVucGx1ZyA9IGFjcGlfZ2VkX3VucGx1Z19jYjsNCj4N
+Cj4gKyAgICBhZGV2Yy0+b3NwbV9zdGF0dXMgPSBhY3BpX2dlZF9vc3BtX3N0YXR1czsNCj4gICAg
+ICBhZGV2Yy0+c2VuZF9ldmVudCA9IGFjcGlfZ2VkX3NlbmRfZXZlbnQ7ICB9DQo+DQo+IC0tDQoN
+CnRoYW5rcw0KLS0gUE1NDQoNCg==
 
