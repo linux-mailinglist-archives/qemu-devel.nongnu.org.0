@@ -2,78 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7FC5961A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:56:07 +0200 (CEST)
-Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2605961B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:59:52 +0200 (CEST)
+Received: from localhost ([::1]:60174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO0nO-00087T-SE
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
+	id 1oO0r1-0005CU-5e
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0TO-0005ax-Ge; Tue, 16 Aug 2022 13:35:42 -0400
-Received: from mail-vk1-xa34.google.com ([2607:f8b0:4864:20::a34]:41912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0TM-0002cH-Up; Tue, 16 Aug 2022 13:35:26 -0400
-Received: by mail-vk1-xa34.google.com with SMTP id bq26so5508368vkb.8;
- Tue, 16 Aug 2022 10:35:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=7MSOrzKW9De/OsPUl8FUotcZQZzHLy31adv2QBBK3xM=;
- b=ndkxuHF9BAU4wQb1kOc01x13HH87ql3pCtXfkWs7ieI78+UqNSTL1dhp74Jkfyw8hy
- +SZiP1ury5rWJMfS4ocgRa/aXSUCvrMmD5kkBfra1AwMotjhEjjbKmxOmG6YjlDicmbE
- 5m6yvmAP/8lGBveUReOTDR9376csZ3s8mK8fTAWO8G0VUOYIZqjgJZmRhB1n+vOkqGSr
- /kqgBoRAr5RcdI3afcbOdSJqQLs+qKL2NixR7ISKWw+3kfNoFh7BGJfh0pzsFQWI8W3m
- mheV+cYCmqWXlP5c1d/67P27Pf66FpD6Nkr8eEOF15j12BfBOV9w61Ik8GlCjRsOuVsJ
- NThw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=7MSOrzKW9De/OsPUl8FUotcZQZzHLy31adv2QBBK3xM=;
- b=KxNKKsVjI0eq0gtxvxw4DxstURq/bwCo5dZKOU5rCqJESOUcwHCSErZGP6MSIWGFaF
- INkP9NX0GpT/g9joya49jJsi+FgbMD4eKWx+WXVrIXFMNSpOY44NiKAFDur4rtTmd7Wg
- VjvdkbQbFoifO1wX/WJyHPCRfSJPsq5TNAln3JWNKUYH/UpA2qF8HFWBjEhqvlgkRDSH
- wL4fcAFqQFIe8r4CtshMGCywIWrCzac6uB0WXIV9ESa/RHrrvET+nL8kCnHJbkbQQcbR
- DNqrlKQEQhFXo661C6aGogDJ7YxvJU7DMQjAXYLcJlzvHiI35uEo0GoNFbZLqgc39Z4g
- g+QA==
-X-Gm-Message-State: ACgBeo2ge2eckqX3IQNDBRPYIdDcpdQrmkpVJ1cCN5pYgMVukhjkoT/J
- VUARq0Oz/+IHS4xijrRxdscpaZa2EbW9Fw==
-X-Google-Smtp-Source: AA6agR6rJAsu7eRr4U7L4uiVFX7iF58qpdV3S2YKiGjuTFEf07wjpSdF8r6VjbNq/HKQg9Hcp8kxhQ==
-X-Received: by 2002:a05:6122:11a4:b0:377:d5aa:6f4e with SMTP id
- y4-20020a05612211a400b00377d5aa6f4emr9532912vkn.33.1660671323291; 
- Tue, 16 Aug 2022 10:35:23 -0700 (PDT)
-Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
- [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.35.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 10:35:22 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, alistair.francis@wdc.com,
- david@gibson.dropbear.id.au,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 v3 19/20] device_tree.c: add fdt_format_property()
- helper
-Date: Tue, 16 Aug 2022 14:34:27 -0300
-Message-Id: <20220816173428.157304-20-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220816173428.157304-1-danielhb413@gmail.com>
-References: <20220816173428.157304-1-danielhb413@gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=22053a6f0=damien.lemoal@opensource.wdc.com>)
+ id 1oO0n5-0007lU-LV
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:55:48 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:64893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=22053a6f0=damien.lemoal@opensource.wdc.com>)
+ id 1oO0n3-0005UW-GH
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 13:55:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1660672545; x=1692208545;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DdSZB7kqEoHdYhKrWtEdOIFqvxg7TVcCR26zqT46a5g=;
+ b=HPvnqrBOQAAeXq532EPzKi+CuxZQtFWnugu6DzA+8iU07KtnjQzh2oFj
+ WkW17Cu9q90YODVB4Tgn12O/VCIpko2+H6KNcqV3Cug+VwiyXur+HbkAl
+ eE7J5RxCu+DimsuO6v9GMIgCUekx4fQexFqBqkynSkGLuNecilp8i4bfh
+ T2LhXLq8NXjdjyi5Jb37DkDhH3qyy7Lso0fR4or/Fl1B2SjO+bbcaxSI1
+ VXNEwf8H7BXWFlOhWtVloh6NGuRxtBPmtwEmHdi76pOybICTm9176Hngp
+ n6UNIwlVrTuZQOkQGLg0hDlyBMGXsHNlbnAzbYz/ck0kPXkqOS9Bz5b5f g==;
+X-IronPort-AV: E=Sophos;i="5.93,241,1654531200"; d="scan'208";a="320954181"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Aug 2022 01:55:41 +0800
+IronPort-SDR: gCfsBNVlYp+TNV5llLgpi/0dUWtFsOxLHl7FQOYsb7NsRT+282UIxlBVQZHvSY7zirWebtjlMN
+ 2/GN3QNhLa1CbRHGFLWcOyVgpTPxgJefPq96mMReL1KIbjfadjZU0NXMsvLRjxVhwENZgyPvYB
+ BJ49p7YAXs7eTyoAKGFOE7uyq/YRURD5cJl7xjDA7qlwzL89o/K1H/2oCAlCHynyi4AUqXo44N
+ VaD2ndvNr6yr9rSiBnsdofzuvJl5vgObUCJTYd8yIv+/6eIDwhmseblHuKQZSNu+lAkuKtnLDk
+ fha54lfScNJNNrZiiKYlWIWD
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Aug 2022 10:16:29 -0700
+IronPort-SDR: QiLsBCs9C04gnQYd0vIgDFhTxECXTnIa9WfVnSuPnIldCVX4jx4aSTMn7tcRqRo1FBIGXzKBte
+ mITOVk6W59h8I+xXVNSKPnlZvhJbNrrjtlMVNm3k5/HFlQDvRm+g2PVohiwVqsILCHTfQlxTCx
+ 4QrSDgV4+tFF2hIqdzt8Qjmht8zzusHigDpR/O0nPc+1hfErKcfPpUIFMX6wSxp+I8wldmaEGs
+ l6ei3k7Wvr9Em0p1MpMNTPU80W7vdZQQlMa3eZlOojxfyyJF7Qt8Qne7SSgosAGDoXj/E9edqo
+ hI8=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Aug 2022 10:55:42 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4M6f2P3spSz1RwqM
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 10:55:41 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1660672540; x=1663264541; bh=DdSZB7kqEoHdYhKrWtEdOIFqvxg7TVcCR26
+ zqT46a5g=; b=Tdq3t4Upx+Okxv0RMoTH7DerIUl/oXeJJzFUOwgf+1nywYoMTyo
+ SQ0BhAEZ4oBPuHobCZ49qmvobUgrwxxUFctGoe9LSx86QUh7sueAn7BMJuNEmWuE
+ GKO6jXOiwMCpraR96S2mhI3rg5E4NuPzfcipcfLL3pBPEL6hhBZIovOdjmPM4q00
+ p9w4y3HE7MOhUXwwSn6ivG/IZJraDn7Y+5e6EVQ+P7Eea2Uz+ECk+nuPsSTTtVTd
+ Xdi61QS8KAJGz6Um3G//2KjDlCbUenbLIFMJdAcryDtO2Se11hL3nahQzxdUaZ5V
+ GhPFSM8yRbg0wgobXMeQmClANpmJxPYKLNQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id Y3QZDac9qjhP for <qemu-devel@nongnu.org>;
+ Tue, 16 Aug 2022 10:55:40 -0700 (PDT)
+Received: from [10.111.64.29] (c02drav6md6t.sdcorp.global.sandisk.com
+ [10.111.64.29])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4M6f2N1d1qz1RtVk;
+ Tue, 16 Aug 2022 10:55:40 -0700 (PDT)
+Message-ID: <fbdebf32-fc26-4b23-3bc9-aeba0020535f@opensource.wdc.com>
+Date: Tue, 16 Aug 2022 10:55:39 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a34;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa34.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v7 3/8] file-posix: introduce get_sysfs_long_val for the
+ long sysfs attribute
+Content-Language: en-US
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
+ Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu block <qemu-block@nongnu.org>
+References: <20220816062522.85714-1-faithilikerun@gmail.com>
+ <20220816062522.85714-4-faithilikerun@gmail.com>
+ <69f2b5bd-2312-a581-7ce1-065159eeaf5d@opensource.wdc.com>
+ <CAAAx-8+j=HrzhzHDzdE+LWKay6fRkvqugk+1CTb-zAc8ZxpFrg@mail.gmail.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <CAAAx-8+j=HrzhzHDzdE+LWKay6fRkvqugk+1CTb-zAc8ZxpFrg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=22053a6f0=damien.lemoal@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,70 +128,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to be able to also print properties with 'info fdt'.
+On 2022/08/16 10:53, Sam Li wrote:
+> Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B4=
+8=E6=9C=8817=E6=97=A5=E5=91=A8=E4=B8=89 01:35=E5=86=99=E9=81=93=EF=BC=9A
+>>
+>> On 2022/08/15 23:25, Sam Li wrote:
+>>> Use sysfs attribute files to get the long value of zoned device
+>>> information.
+>>>
+>>> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+>>> Reviewed-by: Hannes Reinecke <hare@suse.de>
+>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> ---
+>>>  block/file-posix.c | 27 +++++++++++++++++++++++++++
+>>>  1 file changed, 27 insertions(+)
+>>>
+>>> diff --git a/block/file-posix.c b/block/file-posix.c
+>>> index c07ac4c697..727389488c 100644
+>>> --- a/block/file-posix.c
+>>> +++ b/block/file-posix.c
+>>> @@ -1258,6 +1258,33 @@ static int get_sysfs_zoned_model(struct stat *=
+st, BlockZoneModel *zoned) {
+>>>      return 0;
+>>>  }
+>>>
+>>> +/*
+>>> + * Get zoned device information (chunk_sectors, zoned_append_max_byt=
+es,
+>>> + * max_open_zones, max_active_zones) through sysfs attribute files.
+>>> + */
+>>
+>> The comment here needs to be more generic since this helper is used in=
+ patch 2
+>> in hdev_get_max_segments(). So simply something like:
+>>
+>> /*
+>>  * Get a sysfs attribute value as a long integer.
+>>  */
+>>
+>> And since this helper is used in patch 2, this patch needs to go befor=
+e patch 2
+>> (reverse patch 2 and 3 order).
+>=20
+> Can I merge patch2 and patch 3 into one patch? Because in patch 2
+> hdev_get_max_segments -> get_sysfs_long_val(-> get_sysfs_str_val)
+> while in patch 3 get_sysfs_long_val-> get_sysfs_str_val,
+> hdev_get_max_segments is required for qemu setting up I guess so the
+> dependency is intertwined here. If we use separate patches, then the
+> last patch will modify the first patch's code, which I think is messy.
 
-Create a helper to format properties based on the already existing code
-from fdt_format_node().
+Indeed. So merge the 2 patches to solve this. Rework the commit message t=
+oo to
+mention the introduction of the get_sysfs_long_val() helper.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- softmmu/device_tree.c | 35 ++++++++++++++++++++---------------
- 1 file changed, 20 insertions(+), 15 deletions(-)
+>=20
+>>
+>>> +static long get_sysfs_long_val(struct stat *st, const char *attribut=
+e) {
+>>> +#ifdef CONFIG_LINUX
+>>> +    g_autofree char *str =3D NULL;
+>>> +    const char *end;
+>>> +    long val;
+>>> +    int ret;
+>>> +
+>>> +    ret =3D get_sysfs_str_val(st, attribute, &str);
+>>> +    if (ret < 0) {
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    /* The file is ended with '\n', pass 'end' to accept that. */
+>>> +    ret =3D qemu_strtol(str, &end, 10, &val);
+>>> +    if (ret =3D=3D 0 && end && *end =3D=3D '\n') {
+>>> +        ret =3D val;
+>>> +    }
+>>> +    return ret;
+>>> +#else
+>>> +    return -ENOTSUP;
+>>> +#endif
+>>> +}
+>>> +
+>>>  static int hdev_get_max_segments(int fd, struct stat *st) {
+>>>      int ret;
+>>>      if (S_ISCHR(st->st_mode)) {
+>>
+>>
+>> --
+>> Damien Le Moal
+>> Western Digital Research
 
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index a6bfbc0617..9e681739bd 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -766,6 +766,25 @@ static void fdt_prop_format_val(GString *buf, const char *propname,
-     g_string_append_printf(buf, "];\n");
- }
- 
-+static void fdt_format_property(GString *buf, const char *propname,
-+                                const void *data, int prop_size,
-+                                int padding)
-+{
-+    if (prop_size == 0) {
-+        g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
-+        return;
-+    }
-+
-+    if (fdt_prop_is_string_array(data, prop_size)) {
-+        fdt_prop_format_string_array(buf, propname, data, prop_size,
-+                                     padding);
-+    } else if (fdt_prop_is_uint32_array(prop_size)) {
-+        fdt_prop_format_uint32_array(buf, propname, data, prop_size,
-+                                     padding);
-+    } else {
-+        fdt_prop_format_val(buf, propname, data, prop_size, padding);
-+    }
-+}
- 
- static void fdt_format_node(GString *buf, int node, int depth,
-                             const char *fullpath)
-@@ -793,21 +812,7 @@ static void fdt_format_node(GString *buf, int node, int depth,
-         prop = fdt_get_property_by_offset(fdt, property, &prop_size);
-         propname = fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
- 
--        if (prop_size == 0) {
--            g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
--            continue;
--        }
--
--        if (fdt_prop_is_string_array(prop->data, prop_size)) {
--            fdt_prop_format_string_array(buf, propname, prop->data,
--                                         prop_size, padding);
--        } else if (fdt_prop_is_uint32_array(prop_size)) {
--            fdt_prop_format_uint32_array(buf, propname, prop->data, prop_size,
--                                         padding);
--        } else {
--            fdt_prop_format_val(buf, propname, prop->data,
--                                prop_size, padding);
--        }
-+        fdt_format_property(buf, propname, prop->data, prop_size, padding);
-     }
- 
-     fdt_for_each_subnode(node, fdt, parent) {
--- 
-2.37.2
 
+--=20
+Damien Le Moal
+Western Digital Research
 
