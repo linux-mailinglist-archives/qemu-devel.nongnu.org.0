@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E296594964
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 02:13:36 +0200 (CEST)
-Received: from localhost ([::1]:44608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC0D594983
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 02:14:32 +0200 (CEST)
+Received: from localhost ([::1]:44166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNkD8-00042F-U2
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 20:13:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
+	id 1oNkE3-0005ST-Fn
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 20:14:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oNkBr-0002fy-8p
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:12:15 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:46846)
+ id 1oNkD2-0003wd-Bl
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:13:28 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:36430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oNkBp-0001HA-PG
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:12:14 -0400
-Received: by mail-pl1-x635.google.com with SMTP id jm11so5534290plb.13
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 17:12:12 -0700 (PDT)
+ id 1oNkD0-0001Kd-V3
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 20:13:28 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id a22so7385341pfg.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 17:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=NMokZM7xPXvaZ339Gl/Cqu66fu0FGDASl/zYO9ugpVA=;
- b=gDrLR3/y/O4+BELjY+1vzcKZpMsjgYP0zPQFsBZKsqOA9KhblR0+xt59POqiNBsoxy
- dtlZPr3CY44r1b90AxYMBfD+q/hcvVLi3BtYkz1CZntiuaUTfT4EzwkOAYc3ekXmCrrT
- 2bn9s7s/xjTnABVnQ+Rj6y1uHCACkNzLOR9HNY70GB1n73SU9wzc/w3wNuX81K7HfgFj
- SfdVaIjCo/8Ph/ouako9bofqU+dTf0pF43zAQlEx1IBIZC++LCrgkTT2HGgtz91b+xXX
- h7Yp2R72I8NpIFi0YK95XMCjdK76htx4f6B9DHsdWj9bg+X905HZtAdYDMU6HOZrKj8S
- 4LVQ==
+ bh=Vp96v3OY3Eaqb2DxEwx2g+7w8KrVxmJLcR5I/ZuxJpA=;
+ b=pHS4uD8l+tLbhOs4jV7K2dtMMCSmcEvzHQNcpgsNg2/Tir6jdIjTch16TyQBjE4IAS
+ 2a/dlOCGe/nJTMafMzonyk6DzDDuYy35Cw+RaLXSvsiyXIY92bloU7YB7O40sF7+hXgu
+ VP+RZhDVaz9QRlEJWbD3cppQOGBpi/K473xuZG0eEdPF9fCYUXf8OxUWHIgQsVmsewVc
+ 4LSWsSz1p2Ky49KO27TN8CAfWzRao0blkx6kB2xrl8uWjg6wW/b6kgmQYIOBYgBUi2Gw
+ 5wT9LKfDSaQ2DXjg56taV3Lz8mt1cvcdNgiim4u3SMb/EyJvOAgelLWfxELGjFd4NSqt
+ oJNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=NMokZM7xPXvaZ339Gl/Cqu66fu0FGDASl/zYO9ugpVA=;
- b=hv/fTXfozEO7F2N5ABgg47w0n2M6s+nuyyizPhF7Hb4+Un34LBfLvP36pgadSZ8EOI
- IdDuQwcw+vrK4hS/aT4zo6qOh9GmYHfXrBxl27KR5PQZmegjWF3DAEcClFVTLDMxtdov
- ALwI6DmHNMOFDInHA9tgKrmyUgMTXS8nPWsBSmstV30b6tmD/TYeytKA7Gq+3Z1WhVQU
- YdhFT12pTIwXmNycwV/atDhgRmfQfBIVf8W8SD+4SsVNkMS5kvbWQuT3tKeecBu3OYRU
- TrWFV38yBS1xQQk8tTA8bK1w33gKvppHU4W4kHrRgYzG96c54f0y6JuYne9IcBwVdf9m
- R/pQ==
-X-Gm-Message-State: ACgBeo25bkPFf8AQzLNecOHmQS0mdan/lcum2hI5YskVCpfy8b6Zt4IH
- 1vggsChj2IQf3x9OBbhB+no=
-X-Google-Smtp-Source: AA6agR7yvQa9fZsW0tHAL5uw7CLtdN6AcdPgN0aubDENNmDeLCh6teUVXpq9JALPDC3RfbFDUyAQ7w==
-X-Received: by 2002:a17:902:ea10:b0:16e:d88e:b14c with SMTP id
- s16-20020a170902ea1000b0016ed88eb14cmr19419108plg.25.1660608731712; 
- Mon, 15 Aug 2022 17:12:11 -0700 (PDT)
+ bh=Vp96v3OY3Eaqb2DxEwx2g+7w8KrVxmJLcR5I/ZuxJpA=;
+ b=KWG2Dl0uhDq46JS3M3AgTdu02ckFV/t8UE9kbieHgpzwKgsdo2ANzr+xaUu0YMzC7q
+ 54hVkaAK9Wg7TBuo2AoW3D2r4F+luxCbNYuiGY9U2nGQ+n11XfUeqlkf+n7okVaWfI4i
+ sWF5LuMEUk9gWXEx2wepfm6NTzeEL1RryUoyyBWcgJ4iNXnvMrRnjfWV1L/RjSoaAx7Z
+ EzxRCCabhsxLQdhFIxNaXKkrrXwtXi2MWev0iwjUvnAAIlXdVuSznnC7C04Gq3XHX/Z6
+ BvtwSZSf1eD+mUondtNr0dqEYU1Oqf85LGZuI1DFFq9f5M9JOzOIqB5bqWZzD5JakZFh
+ WOoQ==
+X-Gm-Message-State: ACgBeo1dWBNZz3cmE0fxMgwJ4ippb+H7P76oCWIMrjf5SYd6R6msppRp
+ or0nyGQG3h5EYLAYofrcQ/A=
+X-Google-Smtp-Source: AA6agR4fcwhbM+VlD5+7+G/cPODVwBnd7ZmTJwqsjTiBcqYzwWYdXVDTh8qEStCCLp7h28UX3h20wg==
+X-Received: by 2002:a63:90ca:0:b0:41b:d0ed:d121 with SMTP id
+ a193-20020a6390ca000000b0041bd0edd121mr15630048pge.287.1660608805406; 
+ Mon, 15 Aug 2022 17:13:25 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- ix9-20020a170902f80900b0016be14a776asm7524217plb.286.2022.08.15.17.12.07
+ o13-20020a170902d4cd00b0016bd8fb1fafsm7552410plg.307.2022.08.15.17.13.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 17:12:11 -0700 (PDT)
-Message-ID: <23322eae-2d72-33e2-07dd-df5bbe476564@amsat.org>
-Date: Tue, 16 Aug 2022 02:12:04 +0200
+ Mon, 15 Aug 2022 17:13:24 -0700 (PDT)
+Message-ID: <c5af0082-67e5-d8ed-feeb-2538caa58c12@amsat.org>
+Date: Tue, 16 Aug 2022 02:13:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH 07/20] disas/nanomips: Remove Pool tables from the class
+Subject: Re: [PATCH 09/20] disas/nanomips: Move typedefs etc to nanomips.cpp
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -69,12 +69,12 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
- <20220815072629.12865-8-milica.lazarevic@syrmia.com>
-In-Reply-To: <20220815072629.12865-8-milica.lazarevic@syrmia.com>
+ <20220815072629.12865-10-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220815072629.12865-10-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -101,18 +101,19 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 15/8/22 09:26, Milica Lazarevic wrote:
-> Pool tables are no longer declared as static fields of the NMD
-> class but as global static variables.
-> 
-> The NMD::Disassemble method is using the MAJOR Pool table variable, so
-> its implementation is moved to the end of the nanomips.cpp file,
-> right after the initialization of the MAJOR Pool table.
+> The following is moved from the nanomips.h to nanomips.cpp file:
+> - #include line
+> - typedefs
+> - enums
+> - definition of the Pool struct.
+> Header file nanomips.h will be deleted to be consistent with the rest of
+> the disas/ code.
 > 
 > Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 363 ++++++++++++++++++++++-----------------------
->   disas/nanomips.h   | 201 ++-----------------------
->   2 files changed, 193 insertions(+), 371 deletions(-)
+>   disas/nanomips.cpp | 53 +++++++++++++++++++++++++++++++++++++++++++++-
+>   disas/nanomips.h   | 51 --------------------------------------------
+>   2 files changed, 52 insertions(+), 52 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
