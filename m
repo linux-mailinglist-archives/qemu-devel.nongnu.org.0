@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66DF595BC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:30:29 +0200 (CEST)
-Received: from localhost ([::1]:43502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B67595BC5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:29:43 +0200 (CEST)
+Received: from localhost ([::1]:44894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNviG-00018S-UM
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51820)
+	id 1oNvhW-0000Sb-65
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oNveP-0004gh-9U
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:29 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37703)
+ id 1oNveN-0004dL-TT
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:27 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:50764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oNveM-0001ja-UC
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:28 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id n7so1232389wrv.4
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:26:26 -0700 (PDT)
+ id 1oNveM-0001jO-0v
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:26:27 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id j26so2921314wms.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=bwzqfA6o9KxVQ+yh1ggjjAyIYRr9k3xUnAlnxn391Io=;
- b=hVupO/BbnR/puOKWMrDR9gWDlqWO6mB2t0k8CKg6WP7+HdJLhi2hbELMWX4mUJ7q8E
- LiNnr3lCif/t6rN2cwewWOkT2AjDR0vFhIqWnXEt5TZxE2psqsYobOEGRZPVBKP/+OB1
- XVmUCzF9PCJnRPCrr9DoHydLELmouwWnm/PeE1LHKyVzy7W1fgukuHuq5oBdgYNuh1jD
- OSuFyxekd/Wj2HavLX+PiKf67jYUAitK1sim+QwVFhFy+hlKIJTHiPpOsA/RsWPdflXv
- KH2mUlwxsTFVsxlKpuKir/HRShEcsN/qse/fZrtFI52vGCSaMvISQkuyu+yapZo5c5oH
- Kd8Q==
+ bh=lcoW7Lzpi1sLzNSIYAaJ/EO/qi9Z5QpCbFBSmRllJwE=;
+ b=YzxllfUqpgE6pDtlwGbkji85vJjbK3adYD81KbyQq8vDyHjj2ZCvR7VE/59qHOUpVz
+ FYlzBLGZfs9/Dpox1a89gjjOsoGHXcp96yogZRuM4Wx4BpapRWV10rLum6T9OoWrBBgA
+ 5U4xazV++38jrNuixxQhwRRyLm/hz+JXCmvkjzIkGRI4ANosOVysn0xEERuvPPmuGkhp
+ dd6GvnDZEWFHibC7ubps3k2ewAHWm5ZluZSNdwZjXVPKQaNuEDaUDfDM+olRuKAluwBn
+ h0FKW7Y5vbkwDpxcNS39/cg/jrA/1BomQogxyMiPcpLEGPWHQcEgYkQSVL6gqMp0wcmy
+ 37GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=bwzqfA6o9KxVQ+yh1ggjjAyIYRr9k3xUnAlnxn391Io=;
- b=PMR4isStjWHfzw4GEfwlXMmOm/+5IfmQ6gM01iwGLhaGClYJxp9B0QK92HB3Mz6JoZ
- ngGMNVmX1lpMIxHaK9b4DWgUh0BXSQ/L/EsOismKK60yOjYB9wID3Ob/qHoav1pCY56r
- w/Nt8ud7gXGcDvK9DdAwhI0N1asH4cGkZC7ll42mwpdNM62iioDhHViF74gTLTz1eKfU
- P9Blb/3pgTwKWh0Zhtd1Ca3v3NoynZv4Cxr4uT+coo/r0Xf8D8QteBsBmF1wh/XOKthN
- TV5Ooh37FqH+sUDFRhduQyP5eMo5F3yzxgWs8VkTRTczf/lVyFJVwoMTfknKInb6g06l
- y7Gw==
-X-Gm-Message-State: ACgBeo327BrkVuImsQL3LOVz1blMQkaKnmCR010v4m5LVsjLU5u6r1mh
- lxP2lcVoqJhldF5uCunyTcRtvw==
-X-Google-Smtp-Source: AA6agR7mOxPAmib3eQoY4/e9/CGYGKUVheW6GTO1WrbdfIq2mQ3b9EvP+WG0VrZky8rBTBhTn5Ad0w==
-X-Received: by 2002:a05:6000:170b:b0:220:6535:26d8 with SMTP id
- n11-20020a056000170b00b00220653526d8mr12127609wrc.577.1660652785563; 
- Tue, 16 Aug 2022 05:26:25 -0700 (PDT)
+ bh=lcoW7Lzpi1sLzNSIYAaJ/EO/qi9Z5QpCbFBSmRllJwE=;
+ b=sJ9mfpyYJ5hqzM/zz+sYiZxPrXZsZa74d6KRJX4xbUW5FF4tMLqdKC1bVzBxjMV2Lc
+ 2fuBIe+EgAtRakqJOl1fP1wcuPoK+le0iNmf638KGEiPTaOkaZFBbO2snn9Tg9xzTi4h
+ aVHKAji+HNEtOxcONxr0sXSV38G3glpbHy4HMz+Nu+tr9sM7+7lk9Q3Wq5j5ZGZDy49h
+ R+9zza3dgDOpdAJCom0U6xE68PlArrJO90zpqlI6zFf1oxHeeCmw8ClWEeUjvJVD7bYk
+ 15tC2YDtDg0F7kgK6feUGo+BNU/g4ew0NFQG7GZyu3+u5bm1zXQsR63/e3UXk7PUjq3Y
+ zKdg==
+X-Gm-Message-State: ACgBeo3BrFz0JfEdeOsa4QCu7YtoZxf2HEQPCi821pnugnBeFdYHk/58
+ +MmZdP4cnry6Yhs6TOsDAVb6Vg==
+X-Google-Smtp-Source: AA6agR6WeeYp3s8dZTumzCkb7IfjhhK/G7NvEP8BkbAbr5fOoFwaeO3sWBHYFHmyjYXE1jXO9yTA3A==
+X-Received: by 2002:a05:600c:1551:b0:3a5:e40b:1477 with SMTP id
+ f17-20020a05600c155100b003a5e40b1477mr8332317wmg.16.1660652784523; 
+ Tue, 16 Aug 2022 05:26:24 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g7-20020a05600c4ec700b003a3170a7af9sm13186389wmq.4.2022.08.16.05.26.22
+ m8-20020a05600c4f4800b003a603f96db7sm3640742wmq.36.2022.08.16.05.26.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 16 Aug 2022 05:26:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DD7B31FFB8;
- Tue, 16 Aug 2022 13:26:21 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 00E531FFBA;
+ Tue, 16 Aug 2022 13:26:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
 Cc: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 1/3] linux-user: un-parent OBJECT(cpu) when closing thread
-Date: Tue, 16 Aug 2022 13:26:19 +0100
-Message-Id: <20220816122621.2066292-2-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 2/3] tests/avocado: add timeout to the aspeed tests
+Date: Tue, 16 Aug 2022 13:26:20 +0100
+Message-Id: <20220816122621.2066292-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220816122621.2066292-1-alex.bennee@linaro.org>
 References: <20220816122621.2066292-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,50 +98,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While forcing the CPU to unrealize by hand does trigger the clean-up
-code we never fully free resources because refcount never reaches
-zero. This is because QOM automatically added objects without an
-explicit parent to /unattached/, incrementing the refcount.
+On some systems the test can hang. At least defining a timeout stops
+it from hanging forever.
 
-Instead of manually triggering unrealization just unparent the object
-and let the device machinery deal with that for us.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/866
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220811151413.3350684-2-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220811151413.3350684-7-alex.bennee@linaro.org>
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f409121202..bfdd60136b 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8594,7 +8594,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-         if (CPU_NEXT(first_cpu)) {
-             TaskState *ts = cpu->opaque;
+diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+index b4e35a3d07..c54da0fd8f 100644
+--- a/tests/avocado/machine_aspeed.py
++++ b/tests/avocado/machine_aspeed.py
+@@ -40,6 +40,8 @@ def test_ast1030_zephyros(self):
  
--            object_property_set_bool(OBJECT(cpu), "realized", false, NULL);
-+            if (ts->child_tidptr) {
-+                put_user_u32(0, ts->child_tidptr);
-+                do_sys_futex(g2h(cpu, ts->child_tidptr),
-+                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
-+            }
+ class AST2x00Machine(QemuSystemTest):
+ 
++    timeout = 90
 +
-+            object_unparent(OBJECT(cpu));
-             object_unref(OBJECT(cpu));
-             /*
-              * At this point the CPU should be unrealized and removed
-@@ -8604,11 +8610,6 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
- 
-             pthread_mutex_unlock(&clone_lock);
- 
--            if (ts->child_tidptr) {
--                put_user_u32(0, ts->child_tidptr);
--                do_sys_futex(g2h(cpu, ts->child_tidptr),
--                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
--            }
-             thread_cpu = NULL;
-             g_free(ts);
-             rcu_unregister_thread();
+     def wait_for_console_pattern(self, success_message, vm=None):
+         wait_for_console_pattern(self, success_message,
+                                  failure_message='Kernel panic - not syncing',
 -- 
 2.30.2
 
