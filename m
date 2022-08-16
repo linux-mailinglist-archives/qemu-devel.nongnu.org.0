@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EEE594BD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:28:04 +0200 (CEST)
-Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA374594BD0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:25:33 +0200 (CEST)
+Received: from localhost ([::1]:35752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNlND-0002BJ-3k
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39886)
+	id 1oNlKm-0005k2-QV
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:25:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2w-0000FB-Fh
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:06 -0400
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:45330)
+ id 1oNl2y-0000Kg-DT
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:09 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:40563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2t-00009l-Op
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:05 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ id 1oNl2u-00009z-Dx
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:07 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VMNmF3K_1660612017; 
+ TI=SMTPD_---0VMNhltz_1660612018; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VMNmF3K_1660612017) by smtp.aliyun-inc.com;
- Tue, 16 Aug 2022 09:06:57 +0800
+ fp:SMTPD_---0VMNhltz_1660612018) by smtp.aliyun-inc.com;
+ Tue, 16 Aug 2022 09:06:58 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v2 20/24] virtio-net: introduce flush_or_purge_queued_packets()
-Date: Tue, 16 Aug 2022 09:06:32 +0800
-Message-Id: <a2ba0d2f8ba86f2b931050402d2f543da2eac5f7.1660611460.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v2 21/24] virtio-net: support queue reset
+Date: Tue, 16 Aug 2022 09:06:33 +0800
+Message-Id: <58daee15b4c2247c7a31e56ce3e99e33888c1484.1660611460.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.44;
+Received-SPF: pass client-ip=115.124.30.45;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-44.freemail.mail.aliyun.com
+ helo=out30-45.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,51 +64,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the fucntion flush_or_purge_queued_packets(), it will be
-used in device reset and virtqueue reset. Therefore, we extract the
-common logic as a new function.
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+virtio-net, vhost-kernel, vhost-user implement queue reset.
+Queued packets in the corresponding queue pair are flushed
+or purged.
+
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 ---
- hw/net/virtio-net.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ hw/net/virtio-net.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index dd0d056fde..27b59c0ad6 100644
+index 27b59c0ad6..e2989487ec 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -118,6 +118,16 @@ static int vq2q(int queue_index)
-     return queue_index / 2;
+@@ -540,6 +540,24 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
+     return info;
  }
  
-+static void flush_or_purge_queued_packets(NetClientState *nc)
++static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
 +{
++    VirtIONet *n = VIRTIO_NET(vdev);
++    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++
 +    if (!nc->peer) {
 +        return;
 +    }
 +
-+    qemu_flush_or_purge_queued_packets(nc->peer, true);
-+    assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
++    if (get_vhost_net(nc->peer) &&
++        ((nc->peer->info->type == NET_CLIENT_DRIVER_TAP) ||
++         (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER))) {
++        vhost_net_virtqueue_stop(vdev, nc, queue_index);
++    }
++
++    flush_or_purge_queued_packets(nc);
 +}
 +
- /* TODO
-  * - we could suppress RX interrupt if we were so inclined.
-  */
-@@ -560,12 +570,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
- 
-     /* Flush any async TX */
-     for (i = 0;  i < n->max_queue_pairs; i++) {
--        NetClientState *nc = qemu_get_subqueue(n->nic, i);
--
--        if (nc->peer) {
--            qemu_flush_or_purge_queued_packets(nc->peer, true);
--            assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
--        }
-+        flush_or_purge_queued_packets(qemu_get_subqueue(n->nic, i));
-     }
- }
- 
+ static void virtio_net_reset(VirtIODevice *vdev)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+@@ -3784,6 +3802,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
+     vdc->set_features = virtio_net_set_features;
+     vdc->bad_features = virtio_net_bad_features;
+     vdc->reset = virtio_net_reset;
++    vdc->queue_reset = virtio_net_queue_reset;
+     vdc->set_status = virtio_net_set_status;
+     vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
+     vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
 -- 
 2.32.0
 
