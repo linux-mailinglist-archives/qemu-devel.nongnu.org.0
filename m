@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41315952E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 08:47:19 +0200 (CEST)
-Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED483595398
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:19:27 +0200 (CEST)
+Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNqMA-0005UT-SO
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 02:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60588)
+	id 1oNqrG-0001aY-LG
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oNq1Z-0006Ez-C9; Tue, 16 Aug 2022 02:26:01 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:35661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oNq1X-0003dm-Cr; Tue, 16 Aug 2022 02:26:00 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- m10-20020a17090a730a00b001fa986fd8eeso568207pjk.0; 
- Mon, 15 Aug 2022 23:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=LR986ojhUARUop8jfo7ruxBtsc8WmLIQeeugiixceKA=;
- b=Lmzd/m9abN23+bEg6o2tXMtbX4nEkWIG/0WVIv+9kvwz5QeWSDPvexT29XV9wDrmru
- yQSXX7MvLtuWfbCkUlKV8MGs5WRAORL7FpoFB2QFlgRlU/dDkLRvgqzB5GACA45+H/hW
- AndjRGZr4jJh2p9Olz4d0gS1cr7H+5aRXhjCPBR2tTC7ea/jJFyslnscrobWToQlGh3f
- ltkFK2ej0M+SC9wqfaZ/YGUbIDTK5iwN6WVOnJji1gOomT9nisuSZ+f7/IygMAe000JP
- 7NpVGaKT559n6D/emFvPzIKLBWk7W6FHSFPjUXFnSQUJQmrKmb9VLxBZM9vzhBqyUa9b
- vVrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=LR986ojhUARUop8jfo7ruxBtsc8WmLIQeeugiixceKA=;
- b=U0AaBFnYIw5Ay7BhBGE81TAx8SGsDCx2eiAa1x0tZVM9f0OZmBJ3O++DIUFwpluPE+
- +aUe38+F4rbnCHHXyPiYK2fzYRaYaepZX+6lSdxegcqUMR4ntO7DQ4HrfFR0yZoCodNA
- hFbbVRzyCxOO4BTQhSOFBvDp3mJAB3TqbuAEFm+Ix3wCibuIKfigeurqRZnYuLSS84h0
- Gyl3yCafKn3DS87seQ0fNQBF+1/v4MBRULkvHHz3M1xcBs6CPXAO+kUfial/oZegyZaR
- R2eHx0/5+Aeo4uWvUPZAqgOjXsDG57i4jaxC2FDf1nbLBbjSL0SmWqv7MpxpLSkN+rkx
- GRYQ==
-X-Gm-Message-State: ACgBeo2+I2ro7qz1kewNd4+nzqftdDSfUp5dkfnRbQHvK5oEAGRyOsUa
- Z4iKWtBa7524Cq+ZB+azGaWk/lJkJix/KA==
-X-Google-Smtp-Source: AA6agR7gffjW5qF/OZRY42jPBYq6Rhrj/bRgYgncSC7ZVd8H1qeIqH6JhbMC+XZOtArVvPVTP1DQ6A==
-X-Received: by 2002:a17:90b:33cb:b0:1f4:f635:93f8 with SMTP id
- lk11-20020a17090b33cb00b001f4f63593f8mr32885998pjb.74.1660631157472; 
- Mon, 15 Aug 2022 23:25:57 -0700 (PDT)
-Received: from roots.. ([106.84.129.185]) by smtp.gmail.com with ESMTPSA id
- e15-20020a170902784f00b0016f1c1f50f4sm8082868pln.235.2022.08.15.23.25.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Aug 2022 23:25:57 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: hare@suse.de, Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- stefanha@redhat.com, Hanna Reitz <hreitz@redhat.com>,
- dmitry.fomichev@wdc.com, qemu-block@nongnu.org,
- damien.lemoal@opensource.wdc.com, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v7 8/8] docs/zoned-storage: add zoned device documentation
-Date: Tue, 16 Aug 2022 14:25:22 +0800
-Message-Id: <20220816062522.85714-9-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220816062522.85714-1-faithilikerun@gmail.com>
-References: <20220816062522.85714-1-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNqlj-0007cx-6j
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:13:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNqlf-0001T3-Dj
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:13:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660634018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=muPuRsbWUNvQq+AV/tXjZ/pmXJv9hf0eowkhwUQZsZs=;
+ b=b6GIbqCPZQkUQEO1tdyzriMCZDOJ6XaZ7nk/OpCsSyQblGjdXgf1Of745iSxELyNYZJxMx
+ cWA4issOBxKneTchPTq0H93J/+lizFKF7lnDk5aURw3TJT9oI1J22hjPGW6YXH9qKiARQ/
+ qwV1qyX99VGnIf2NxUA6q+VO/udMAks=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-ygmvnsJ7N7yVnCqhMFKjbQ-1; Tue, 16 Aug 2022 03:13:36 -0400
+X-MC-Unique: ygmvnsJ7N7yVnCqhMFKjbQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F41D1C16B40;
+ Tue, 16 Aug 2022 07:13:36 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A34FA40CF8EA;
+ Tue, 16 Aug 2022 07:13:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 402C018003A8; Tue, 16 Aug 2022 09:13:34 +0200 (CEST)
+Date: Tue, 16 Aug 2022 09:13:34 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+Subject: Re: [RFC PATCH v4 18/36] i386/tdx: Skip BIOS shadowing setup
+Message-ID: <20220816071334.6aygj32xwnf6t2i3@sirius.home.kraxel.org>
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-19-xiaoyao.li@intel.com>
+ <20220524070804.tcrsg7cwlnbkzhjz@sirius.home.kraxel.org>
+ <b294af31-fe92-f251-5d3e-0e439a59ee1e@intel.com>
+ <20220530114904.242xqql3xfugy2a7@sirius.home.kraxel.org>
+ <ad425c66-ce61-3e21-307e-55fc7131d954@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad425c66-ce61-3e21-307e-55fc7131d954@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,82 +93,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the documentation about the zoned device support to virtio-blk
-emulation.
+On Fri, Jul 29, 2022 at 03:14:02PM +0800, Xiaoyao Li wrote:
+> On 5/30/2022 7:49 PM, Gerd Hoffmann wrote:
+> > On Thu, May 26, 2022 at 10:48:56AM +0800, Xiaoyao Li wrote:
+> > > On 5/24/2022 3:08 PM, Gerd Hoffmann wrote:
+> > > > On Thu, May 12, 2022 at 11:17:45AM +0800, Xiaoyao Li wrote:
+> > > > > TDX guest cannot go to real mode, so just skip the setup of isa-bios.
+> > > > 
+> > > > Does isa-bios setup cause any actual problems?
+> > > > (same question for patch #19).
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- docs/devel/zoned-storage.rst           | 41 ++++++++++++++++++++++++++
- docs/system/qemu-block-drivers.rst.inc |  6 ++++
- 2 files changed, 47 insertions(+)
- create mode 100644 docs/devel/zoned-storage.rst
+> > There is no need for copying, end_of_1M is a alias memory region for
+> > end_of_4G, so the backing storage is the same.
+> 
+> It is a reason that current alias approach cannot work for TDX. Because in
+> TDX a private page can be only mapped to one gpa.
 
-diff --git a/docs/devel/zoned-storage.rst b/docs/devel/zoned-storage.rst
-new file mode 100644
-index 0000000000..ead2d149cc
---- /dev/null
-+++ b/docs/devel/zoned-storage.rst
-@@ -0,0 +1,41 @@
-+=============
-+zoned-storage
-+=============
-+
-+Zoned Block Devices (ZBDs) devide the LBA space into block regions called zones
-+that are larger than the LBA size. It can only allow sequential writes, which
-+reduces write amplification in SSDs, leading to higher throughput and increased
-+capacity. More details about ZBDs can be found at:
-+
-+https://zonedstorage.io/docs/introduction/zoned-storage
-+
-+1. Block layer APIs for zoned storage
-+-------------------------------------
-+QEMU block layer has three zoned storage model:
-+- BLK_Z_HM: This model only allows sequential writes access. It supports a set
-+of ZBD-specific I/O request that used by the host to manage device zones.
-+- BLK_Z_HA: It deals with both sequential writes and random writes access.
-+- BLK_Z_NONE: Regular block devices and drive-managed ZBDs are treated as
-+non-zoned devices.
-+
-+The block device information resides inside BlockDriverState. QEMU uses
-+BlockLimits struct(BlockDriverState::bl) that is continuously accessed by the
-+block layer while processing I/O requests. A BlockBackend has a root pointer to
-+a BlockDriverState graph(for example, raw format on top of file-posix). The
-+zoned storage information can be propagated from the leaf BlockDriverState all
-+the way up to the BlockBackend. If the zoned storage model in file-posix is
-+set to BLK_Z_HM, then block drivers will declare support for zoned host device.
-+
-+The block layer APIs support commands needed for zoned storage devices,
-+including report zones, four zone operations, and zone append.
-+
-+2. Emulating zoned storage controllers
-+--------------------------------------
-+When the BlockBackend's BlockLimits model reports a zoned storage device, users
-+like the virtio-blk emulation or the qemu-io-cmds.c utility can use block layer
-+APIs for zoned storage emulation or testing.
-+
-+For example, the command line for zone report testing a null_blk device of
-+qemu-io-cmds.c is:
-+$ path/to/qemu-io --image-opts driver=zoned_host_device,filename=/dev/nullb0 -c
-+"zrp offset nr_zones"
-diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-index dfe5d2293d..0b97227fd9 100644
---- a/docs/system/qemu-block-drivers.rst.inc
-+++ b/docs/system/qemu-block-drivers.rst.inc
-@@ -430,6 +430,12 @@ Hard disks
-   you may corrupt your host data (use the ``-snapshot`` command
-   line option or modify the device permissions accordingly).
- 
-+Zoned block devices
-+  Zoned block devices can be passed through to the guest if the emulated storage
-+  controller supports zoned storage. Use ``--blockdev zoned_host_device,
-+  node-name=drive0,filename=/dev/nullb0`` to pass through ``/dev/nullb0``
-+  as ``drive0``.
-+
- Windows
- ^^^^^^^
- 
--- 
-2.37.1
+Ok, so memory aliasing not being supported by TDX is the underlying
+reason.
+
+> So for simplicity, I will
+> just skip isa-bios shadowing for TDX instead of implementing a non-alias +
+> memcpy approach.
+
+Makes sense given that tdx wouldn't use the mapping below 1M anyway.
+A comment explaining the tdx aliasing restriction would be good to make
+clear why the special case for tdx exists.
+
+take care,
+  Gerd
 
 
