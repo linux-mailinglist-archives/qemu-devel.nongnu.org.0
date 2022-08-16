@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6B559570B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 11:51:07 +0200 (CEST)
-Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B8B595723
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 11:54:26 +0200 (CEST)
+Received: from localhost ([::1]:53314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNtE1-0004hw-VQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 05:51:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36190)
+	id 1oNtHF-0008Vw-EB
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 05:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oNt6P-0006ch-Ea
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:43:13 -0400
-Received: from madras.collabora.co.uk
- ([2a00:1098:0:82:1000:25:2eeb:e5ab]:43308)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1oNtDH-0004CP-Mn; Tue, 16 Aug 2022 05:50:19 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oNt6J-0006Ta-Vt
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:43:09 -0400
-Received: from dellino.fritz.box (host-82-49-100-203.retail.telecomitalia.it
- [82.49.100.203])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A567F6600379;
- Tue, 16 Aug 2022 10:43:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1660642985;
- bh=zgAkwkHHaTxMrqMCkE07evkOHPeHMLjjiTu5oGKA7Lc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CVbhZ2yzocxm00koIr9yvQkf3GAN9IarQv7FF70Kj9unbrMuP2tMukN5RDniLwoOO
- NPywbplA8xST91Ay0hX/nor/beur54dEYoDH2pJpbXIeZEhENKnlDVlsbAA3lg5vPy
- YtJiWW+sqYJI9L3TneqJPLkV/eUyyMNJpeQY26GxTSr4VTTKbVvhLU3vSWTV82u0+R
- CbP4tQFMPHYpQPOLxXvfDxu1SaON1s25nNr0AH4WWESM94b9Vc+Opqw+2GRn88fC1g
- cTj4+g62AnYhoItOljTIjdo+8pUe39aNqEp5+z4zQvQ1887FPMLMLPKtagabxODXFQ
- l9I3Vqgv8v+NA==
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PATCH v3 2/2] virtio-gpu: hostmem
-Date: Tue, 16 Aug 2022 11:42:45 +0200
-Message-Id: <20220816094245.64153-3-antonio.caggiano@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220816094245.64153-1-antonio.caggiano@collabora.com>
-References: <20220816094245.64153-1-antonio.caggiano@collabora.com>
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1oNtD6-0007fA-Ub; Tue, 16 Aug 2022 05:50:19 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4M6RCV4HYxzhYQn;
+ Tue, 16 Aug 2022 17:47:50 +0800 (CST)
+Received: from kwepemm600016.china.huawei.com (7.193.23.20) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 16 Aug 2022 17:50:01 +0800
+Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.224) by
+ kwepemm600016.china.huawei.com (7.193.23.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 16 Aug 2022 17:50:00 +0800
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <qemu-trivial@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Eric Auger
+ <eric.auger@redhat.com>, Peter Xu <peterx@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, <wanghaibin.wang@huawei.com>
+Subject: [PATCH v2] hw/acpi: Add ospm_status hook implementation for acpi-ged
+Date: Tue, 16 Aug 2022 17:49:57 +0800
+Message-ID: <20220816094957.31700-1-zhukeqian1@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
- envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.224]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600016.china.huawei.com (7.193.23.20)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,136 +64,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Keqian Zhu <zhukeqian1@huawei.com>
+From:  Keqian Zhu via <qemu-devel@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+Setup an ARM virtual machine of machine virt and execute qmp "query-acpi-ospm-status"
+causes segmentation fault with following dumpstack:
+ #1  0x0000aaaaab64235c in qmp_query_acpi_ospm_status (errp=errp@entry=0xfffffffff030) at ../monitor/qmp-cmds.c:312
+ #2  0x0000aaaaabfc4e20 in qmp_marshal_query_acpi_ospm_status (args=<optimized out>, ret=0xffffea4ffe90, errp=0xffffea4ffe88) at qapi/qapi-commands-acpi.c:63
+ #3  0x0000aaaaabff8ba0 in do_qmp_dispatch_bh (opaque=0xffffea4ffe98) at ../qapi/qmp-dispatch.c:128
+ #4  0x0000aaaaac02e594 in aio_bh_call (bh=0xffffe0004d80) at ../util/async.c:150
+ #5  aio_bh_poll (ctx=ctx@entry=0xaaaaad0f6040) at ../util/async.c:178
+ #6  0x0000aaaaac00bd40 in aio_dispatch (ctx=ctx@entry=0xaaaaad0f6040) at ../util/aio-posix.c:421
+ #7  0x0000aaaaac02e010 in aio_ctx_dispatch (source=0xaaaaad0f6040, callback=<optimized out>, user_data=<optimized out>) at ../util/async.c:320
+ #8  0x0000fffff76f6884 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
+ #9  0x0000aaaaac0452d4 in glib_pollfds_poll () at ../util/main-loop.c:297
+ #10 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:320
+ #11 main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:596
+ #12 0x0000aaaaab5c9e50 in qemu_main_loop () at ../softmmu/runstate.c:734
+ #13 0x0000aaaaab185370 in qemu_main (argc=argc@entry=47, argv=argv@entry=0xfffffffff518, envp=envp@entry=0x0) at ../softmmu/main.c:38
+ #14 0x0000aaaaab16f99c in main (argc=47, argv=0xfffffffff518) at ../softmmu/main.c:47
 
-Use VIRTIO_GPU_SHM_ID_HOST_VISIBLE as id for virtio-gpu.
-
-v2: Formatting fixes
-
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Fixes: ebb62075021a ("hw/acpi: Add ACPI Generic Event Device Support")
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
 ---
- hw/display/virtio-gpu-pci.c    | 15 +++++++++++++++
- hw/display/virtio-gpu.c        |  1 +
- hw/display/virtio-vga.c        | 33 ++++++++++++++++++++++++---------
- include/hw/virtio/virtio-gpu.h |  5 +++++
- 4 files changed, 45 insertions(+), 9 deletions(-)
+ hw/acpi/generic_event_device.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
-index 93f214ff58..2cbbacd7fe 100644
---- a/hw/display/virtio-gpu-pci.c
-+++ b/hw/display/virtio-gpu-pci.c
-@@ -33,6 +33,21 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     DeviceState *vdev = DEVICE(g);
-     int i;
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index e28457a7d1..a3d31631fe 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -267,6 +267,13 @@ static void acpi_ged_unplug_cb(HotplugHandler *hotplug_dev,
+     }
+ }
  
-+    if (virtio_gpu_hostmem_enabled(g->conf)) {
-+        vpci_dev->msix_bar_idx = 1;
-+        vpci_dev->modern_mem_bar_idx = 2;
-+        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
-+                           g->conf.hostmem);
-+        pci_register_bar(&vpci_dev->pci_dev, 4,
-+                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                         PCI_BASE_ADDRESS_MEM_PREFETCH |
-+                         PCI_BASE_ADDRESS_MEM_TYPE_64,
-+                         &g->hostmem);
-+        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem,
-+                               VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
-+    }
++static void acpi_ged_ospm_status(AcpiDeviceIf *adev, ACPIOSTInfoList ***list)
++{
++    AcpiGedState *s = ACPI_GED(adev);
 +
-+    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus), errp);
-     virtio_pci_force_virtio_1(vpci_dev);
-     if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
-         return;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 20cc703dcc..506b3b8eef 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -1424,6 +1424,7 @@ static Property virtio_gpu_properties[] = {
-                      256 * MiB),
-     DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
-                     VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
-+    DEFINE_PROP_SIZE("hostmem", VirtIOGPU, parent_obj.conf.hostmem, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index 4dcb34c4a7..aa8d1ab993 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -115,17 +115,32 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     pci_register_bar(&vpci_dev->pci_dev, 0,
-                      PCI_BASE_ADDRESS_MEM_PREFETCH, &vga->vram);
- 
--    /*
--     * Configure virtio bar and regions
--     *
--     * We use bar #2 for the mmio regions, to be compatible with stdvga.
--     * virtio regions are moved to the end of bar #2, to make room for
--     * the stdvga mmio registers at the start of bar #2.
--     */
--    vpci_dev->modern_mem_bar_idx = 2;
--    vpci_dev->msix_bar_idx = 4;
-     vpci_dev->modern_io_bar_idx = 5;
- 
-+    if (!virtio_gpu_hostmem_enabled(g->conf)) {
-+        /*
-+         * Configure virtio bar and regions
-+         *
-+         * We use bar #2 for the mmio regions, to be compatible with stdvga.
-+         * virtio regions are moved to the end of bar #2, to make room for
-+         * the stdvga mmio registers at the start of bar #2.
-+         */
-+        vpci_dev->modern_mem_bar_idx = 2;
-+        vpci_dev->msix_bar_idx = 4;
-+    } else {
-+        vpci_dev->msix_bar_idx = 1;
-+        vpci_dev->modern_mem_bar_idx = 2;
-+        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
-+                           g->conf.hostmem);
-+        pci_register_bar(&vpci_dev->pci_dev, 4,
-+                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                         PCI_BASE_ADDRESS_MEM_PREFETCH |
-+                         PCI_BASE_ADDRESS_MEM_TYPE_64,
-+                         &g->hostmem);
-+        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem,
-+                               VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
-+    }
++    acpi_memory_ospm_status(&s->memhp_state, list);
++}
 +
-     if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
-         /*
-          * with page-per-vq=off there is no padding space we can use
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 2e28507efe..eafce75b04 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -102,12 +102,15 @@ enum virtio_gpu_base_conf_flags {
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
- #define virtio_gpu_blob_enabled(_cfg) \
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
-+#define virtio_gpu_hostmem_enabled(_cfg) \
-+    (_cfg.hostmem > 0)
+ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
+ {
+     AcpiGedState *s = ACPI_GED(adev);
+@@ -409,6 +416,7 @@ static void acpi_ged_class_init(ObjectClass *class, void *data)
+     hc->unplug_request = acpi_ged_unplug_request_cb;
+     hc->unplug = acpi_ged_unplug_cb;
  
- struct virtio_gpu_base_conf {
-     uint32_t max_outputs;
-     uint32_t flags;
-     uint32_t xres;
-     uint32_t yres;
-+    uint64_t hostmem;
- };
++    adevc->ospm_status = acpi_ged_ospm_status;
+     adevc->send_event = acpi_ged_send_event;
+ }
  
- struct virtio_gpu_ctrl_command {
-@@ -131,6 +134,8 @@ struct VirtIOGPUBase {
-     int renderer_blocked;
-     int enable;
- 
-+    MemoryRegion hostmem;
-+
-     struct virtio_gpu_scanout scanout[VIRTIO_GPU_MAX_SCANOUTS];
- 
-     int enabled_output_bitmask;
 -- 
-2.34.1
+2.33.0
 
 
