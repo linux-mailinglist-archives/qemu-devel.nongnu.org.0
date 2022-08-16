@@ -2,77 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA487595BF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:42:23 +0200 (CEST)
-Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF6B595BFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:43:20 +0200 (CEST)
+Received: from localhost ([::1]:33242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNvtm-00028b-RV
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:42:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54976)
+	id 1oNvuh-0003SI-Vi
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
- id 1oNvqY-0006wZ-Ju
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:39:02 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:42741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
- id 1oNvqS-0003aZ-2e
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:39:02 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-32a17d3bba2so146757897b3.9
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:38:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=gicI4eDtIx0UqCl7xbyFu6UoubrlZRFHwbDgizUxrOs=;
- b=UNhcND34VeMHLsqeg//IRd2Woh85G8A0r7/4hpdlsmRDj+XIR4Be5l9Y2nzvoyCRiE
- ydulT/ybG7h+7R/s/fn1Al2KTpVNU6rf5V0wzw62ba2Pi1sA5IGf6qfKACfxoIqFSMbo
- H0VEtX3x3w7nir6TKucrZtjTfIqK4XIzV9dU3aUwqr5w3UD0gPEGm2ws95qIWiW7gWgY
- EOAl5xeYbuZ6Or0p7gfzQPAnWes32aNUfiR8MNYA+MmlgX+xGN8qtvCoppIuNmQYbkC8
- 9d2niSgvXhkCy/ATt62dLO3oI07QnCjVb5+W6ZKrn39PgIzsMbX1o2PpBKfol/eEkzOY
- XpYQ==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oNvrB-0007i6-8v
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:39:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oNvr8-0003eI-0q
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:39:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660653577;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mS1gj1lQMltftSk1i7s2NYRdyZ3yV2rkJ6XC3JDu0XI=;
+ b=UFpXNdMLIvrzzY6d0zYnRBCWtj1eIm8QqFza3oUYNTpHtmWARxJ+af2WU4/pnNoMitZU0x
+ 6JR0CKxcpsqowvUdaXmTrvlBLBBdpg6hrEQPFj36FN7Vm0IgHeHWSGsfBHvF8OcRGzCgJy
+ 9GlrPFlIfJpR1mZzAUw5kS5WC8OsuPg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-288-MCQfBziDO4m9oEI4fhr32w-1; Tue, 16 Aug 2022 08:39:28 -0400
+X-MC-Unique: MCQfBziDO4m9oEI4fhr32w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z16-20020a05600c0a1000b003a5c18a66f0so4868462wmp.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:39:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=gicI4eDtIx0UqCl7xbyFu6UoubrlZRFHwbDgizUxrOs=;
- b=AGfHCewavXYp95QwW9XYTF9zJeHQMcVK08oSwGC7bq0tT6ngWScT2TOXQnnxncLSmt
- UyOYVOnzdsGp63UJ4FN+GJP3SfV+qVM05lzoiIJo2gZnxE4Elx11CI1j1r6pQJRuMTAS
- 6CMverCVhfCzZ1MvpAjTKxQBlBndOhnjLoUK45O4WZbmee2Z5kV3n8Xjzxx5DeQWewnV
- XHrYK0GSEp1hr0ibhRlLnjjW3QsP7FaJK0oooonVAXS5Tcai8xxIkYq8pVg6RQPCh5Ma
- A/F+C94sZCn+LzuEWMAaRVOUFzS6281irQdQWzC6wQv0dPe0dsIyKKuU3pU+E1lV6DXF
- 0HzQ==
-X-Gm-Message-State: ACgBeo3sOopG7n/FP9CVGlHXVemBu80hi7AC1rCf1N62ydgneyAgSeBY
- TSYUfEVgGAsfBnxmlReWSNFiykxatVPf4uboutw=
-X-Google-Smtp-Source: AA6agR5whRAOjG3S9p9RItLUgRDaQWZuvNBeSkdqqq4BPp1ezQMEVmLl5IQ3pNlDeKicOg6F5/dRcyWNWkTWjsjvolY=
-X-Received: by 2002:a25:5086:0:b0:68f:ba5:dc9b with SMTP id
- e128-20020a255086000000b0068f0ba5dc9bmr770110ybb.87.1660653534922; Tue, 16
- Aug 2022 05:38:54 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=mS1gj1lQMltftSk1i7s2NYRdyZ3yV2rkJ6XC3JDu0XI=;
+ b=pXmmeziwbR7LkTkMf7s6rPV2uEdPDd5pOnEEt9s1pig/XSGKvrqh0fMwIzzk4FBDUM
+ 3nuOFb67q7NgWyN2OUspLmm1UR3MQ31KElEUtmAmf/Xk+fS9ldq+/nWqkKRBh2IptxIf
+ 2o+NlrvJN/qNcKwZQC3IUPe9iBipgHm2/2Tt/X4UvPAxTlPpAd6ORGu2HWgQR1j5HmNc
+ o9sxOvNCXS9rnPOom59sWqX25n0ZQLuPRrBc7lzFGZPeOyD4EmYsOzdJitCVqe7woZrQ
+ yojaupv2mXdKj1ufP8DofPloda8qYWicxUUmuGhssK0UVL/57ftTksAt/U8Ocw84hBYb
+ H1ww==
+X-Gm-Message-State: ACgBeo3amwVoX1GHyUGLYh24qmqxRSdRtjlfrXIX9DvdI4iNh2ziKRCr
+ MNPsmaS3zbrjgh6zaTByTZzMqAtgifWwNbBBiC4l7CCWwXXaG2KJTLjMWJ6ZYLUzZWyMAhymZq2
+ RVH5pp5Dl0Ts1Of0=
+X-Received: by 2002:a05:600c:1912:b0:3a5:f4fc:cd40 with SMTP id
+ j18-20020a05600c191200b003a5f4fccd40mr6021104wmq.205.1660653567287; 
+ Tue, 16 Aug 2022 05:39:27 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR73hyWkksUhSEcjYCDAUMTZYPoUp7T7GKpws+LmsXE8NyD9vZdNGTO0G8eO9u9C0j9a7/pRpg==
+X-Received: by 2002:a05:600c:1912:b0:3a5:f4fc:cd40 with SMTP id
+ j18-20020a05600c191200b003a5f4fccd40mr6021079wmq.205.1660653567071; 
+ Tue, 16 Aug 2022 05:39:27 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ l4-20020adffe84000000b0021eff2ecb31sm10239517wrr.95.2022.08.16.05.39.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Aug 2022 05:39:26 -0700 (PDT)
+Message-ID: <4f1e3d46-88d7-301c-b98a-65f0e3b5c0c6@redhat.com>
+Date: Tue, 16 Aug 2022 14:39:25 +0200
 MIME-Version: 1.0
-References: <CADak6y6U=jBXWWBtPruGrPxkwYZZwk5GekSG2n8DsGOvpQMh_A@mail.gmail.com>
- <20220816060903-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220816060903-mutt-send-email-mst@kernel.org>
-From: Paul Schlacter <wlfightup@gmail.com>
-Date: Tue, 16 Aug 2022 20:38:43 +0800
-Message-ID: <CADak6y5FsVx0h9R6Ccn74_-6_TFvyeRiieRk9Okz93RmTF3nQg@mail.gmail.com>
-Subject: Re: [PATCH v2] xio3130_upstream: Add ACS (Access Control Services)
- capability
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: marcel.apfelbaum@gmail.com, fam@euphon.net, kwolf@redhat.com, 
- stefanha@redhat.com, k.jensen@samsung.com, f4bug@amsat.org, its@irrelevant.dk, 
- xypron.glpk@gmx.de, imammedo@redhat.com, qemu-devel@nongnu.org, 
- armbru@redhat.com, kbusch@kernel.org, hreitz@redhat.com, ani@anisinha.ca
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=wlfightup@gmail.com; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v10 17/21] blockjob: protect iostatus field in BlockJob
+ struct
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220725073855.76049-1-eesposit@redhat.com>
+ <20220725073855.76049-18-eesposit@redhat.com>
+ <41d4b19d-f0c1-99dd-b5c5-735694241dcc@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <41d4b19d-f0c1-99dd-b5c5-735694241dcc@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,183 +114,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 16, 2022 at 6:11 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Aug 16, 2022 at 05:16:38PM +0800, Paul Schlacter wrote:
-> > v1 -> v2:
-> > - Allow ACS to be disabled.
-> > - Suggested by Michael S. Tsirkin, use disable-acs to set property.
-> >
-> > v1:
-> > - Add ACS (Access Control Services) capability.
->
-> changelog generally after ---
->
-> >
-> > If it is a pcie device, check that all devices on the path from
->
->
-> Hmm I don't see any checks on a path. what does this refer to?
 
-pci_acs_path_enabled, this function in the Linux kernel,
-it means that if the device is a PCIe device,
-check the path from the device to the root complex. If ACS is all enabled,
-the device will become an iommu_group.
-acs determine whether it is a separate iommu_group.
->
-> >
-> > the device to the root complex have ACS enabled, and then the
-> >
-> > device will become an iommu_group.
-> >
-> > it will have the effect of isolation
-> >
-> >
-> >
-> > Signed-off-by: wangliang <wlfightup@gmail.com>
-> >
-> > Signed-off-by: wangliang <wangliang40@baidu.com>
-> >
->
-> why two signatures?
->
-> >
-> > ---
->
-> >
-> >  hw/pci-bridge/xio3130_upstream.c | 12 +++++++++++-
-> >
-> >  1 file changed, 11 insertions(+), 1 deletion(-)
-> >
->
-> Patch has corrupted whitespace.
->
-> >
-> > diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/
-> > xio3130_upstream.c
-> >
-> > index 2df952222b..5433d06fb3 100644
-> >
-> > --- a/hw/pci-bridge/xio3130_upstream.c
-> >
-> > +++ b/hw/pci-bridge/xio3130_upstream.c
-> >
-> > @@ -24,6 +24,7 @@
-> >
-> >  #include "hw/pci/msi.h"
-> >
-> >  #include "hw/pci/pcie.h"
-> >
-> >  #include "hw/pci/pcie_port.h"
-> >
-> > +#include "hw/qdev-properties.h"
-> >
-> >  #include "migration/vmstate.h"
-> >
-> >  #include "qemu/module.h"
-> >
-> >
-> >
-> > @@ -59,6 +60,7 @@ static void xio3130_upstream_reset(DeviceState *qdev)
-> >
-> >  static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
-> >
-> >  {
-> >
-> >      PCIEPort *p = PCIE_PORT(d);
-> >
-> > +    PCIESlot *s = PCIE_SLOT(d);
-> >
-> >      int rc;
-> >
-> >
-> >
-> >      pci_bridge_initfn(d, TYPE_PCIE_BUS);
-> >
-> > @@ -94,7 +96,9 @@ static void xio3130_upstream_realize(PCIDevice *d, Error
-> > **errp)
-> >
-> >          goto err;
-> >
-> >      }
-> >
-> >
-> >
-> > -    pcie_acs_init(d, XIO3130_ACS_OFFSET);
-> >
-> > +    if (!s->disable_acs) {
-> >
-> > +        pcie_acs_init(d, XIO3130_ACS_OFFSET);
-> >
-> > +    }
-> >
-> >      return;
-> >
-> >
-> >
-> >  err:
-> >
-> > @@ -113,6 +117,11 @@ static void xio3130_upstream_exitfn(PCIDevice *d)
-> >
-> >      pci_bridge_exitfn(d);
-> >
-> >  }
-> >
-> >
-> >
-> > +static Property xio3130_upstream_props[] = {
-> >
-> > +    DEFINE_PROP_BOOL("disable-acs", PCIESlot, disable_acs, false),
-> >
-> > +    DEFINE_PROP_END_OF_LIST()
-> >
-> > +};
-> >
-> > +
->
-> I'd say prefix the property with "x-".
 
-Do you want me to change it to this?
-DEFINE_PROP_BOOL("x-disable-acs", PCIESlot, disable_acs, false),
+Am 27/07/2022 um 17:29 schrieb Vladimir Sementsov-Ogievskiy:
+> On 7/25/22 10:38, Emanuele Giuseppe Esposito wrote:
+>> iostatus is the only field (together with .job) that needs
+>> protection using the job mutex.
+>>
+>> It is set in the main loop (GLOBAL_STATE functions) but read
+>> in I/O code (block_job_error_action).
+> 
+> Hmm, block_job_error_action doesn't read iostatus..
 
-disable_acs is a field in PCIESlot, which is also used by other code.
-It may not be good to modify this field
->
->
-> >
-> >  static const VMStateDescription vmstate_xio3130_upstream = {
-> >
-> >      .name = "xio3130-express-upstream-port",
-> >
-> >      .priority = MIG_PRI_PCI_BUS,
-> >
-> > @@ -142,6 +151,7 @@ static void xio3130_upstream_class_init(ObjectClass *klass,
-> > void *data)
-> >
-> >      dc->desc = "TI X3130 Upstream Port of PCI Express Switch";
-> >
-> >      dc->reset = xio3130_upstream_reset;
-> >
-> >      dc->vmsd = &vmstate_xio3130_upstream;
-> >
-> > +    device_class_set_props(dc, xio3130_upstream_props);
-> >
-> >  }
-> >
->
-> Seems to lack compat machinety for existing machine types.
+block_job_error_action -> block_job_iostatus_set_err_locked -> reads
+iostatus
 
-DEFINE_PROP_BOOL("x-disable-acs", PCIESlot, disable_acs, true),
-If I change the default value to true, can I not add compat machine
->
->
-> >
-> >
-> >  static const TypeInfo xio3130_upstream_info = {
-> >
-> > --
-> >
-> > 2.24.3 (Apple Git-128)
-> >
->
+>  
+> Also, iostatus is read by by mirror_run, which is not protected.
+
+Will do, thanks
+
+Emanuele
+
+>>
+>> In order to protect it, change block_job_iostatus_set_err
+>> to block_job_iostatus_set_err_locked(), always called under
+>> job lock.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   blockjob.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/blockjob.c b/blockjob.c
+>> index 0663faee2c..448bdb5a53 100644
+>> --- a/blockjob.c
+>> +++ b/blockjob.c
+>> @@ -363,7 +363,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error
+>> **errp)
+>>       return block_job_query_locked(job, errp);
+>>   }
+>>   -static void block_job_iostatus_set_err(BlockJob *job, int error)
+>> +/* Called with job lock held */
+>> +static void block_job_iostatus_set_err_locked(BlockJob *job, int error)
+>>   {
+>>       if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
+>>           job->iostatus = error == ENOSPC ?
+>> BLOCK_DEVICE_IO_STATUS_NOSPACE :
+>> @@ -577,8 +578,8 @@ BlockErrorAction block_job_error_action(BlockJob
+>> *job, BlockdevOnError on_err,
+>>                    */
+>>                   job->job.user_paused = true;
+>>               }
+>> +            block_job_iostatus_set_err_locked(job, error);
+>>           }
+>> -        block_job_iostatus_set_err(job, error);
+>>       }
+>>       return action;
+>>   }
+> 
+> 
+
 
