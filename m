@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A156596411
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 22:59:18 +0200 (CEST)
-Received: from localhost ([::1]:42284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0FA5963C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 22:38:06 +0200 (CEST)
+Received: from localhost ([::1]:39618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO3ed-0003SN-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 16:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39594)
+	id 1oO3K9-0002oK-Dp
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 16:38:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oO3Gm-0004oa-Vc
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:38 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:46689)
+ id 1oO3GN-0004db-NL
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:11 -0400
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:42727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oO3Gd-0004Vs-L7
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:36 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id o184so13277699oif.13
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 13:34:21 -0700 (PDT)
+ id 1oO3GM-0004TD-1U
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:11 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id
+ h9-20020a9d5549000000b0063727299bb4so8181143oti.9
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 13:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=G8c2iuTDo4UvuF2iefnqT1KVHhsC+sQtSAyF/QMhIQM=;
- b=w0zIOOHS7ryC5iuQg72ubsMeLLPgjTuOPJ3tFEDfwQ0gavk1eJC5h6KXYzA1Z9RnO4
- tEPS0+udpkEiQL7Nc7k3KbhaPSwAbtFuxu/n8Uieg4uEfru4qO8Ur9/G9iUHvKsniM/C
- P3rLqCU1agm8OMMDBJjcieJj8//JywAe9NbPnZtYA/oPf5VunaMQpAgtxLQUCuZ2pGJ6
- MkWj5lcTgiqi0F9yWU07choNbBVU6dV56MrLbl2kT2HtwQQTDx55wf3SrRHJELLz2WAX
- FART2Hd9BzXN9DJYowsdP6+i5pPMXwqjPbwu9jOQpTEO95tPZ8MgfJ5zjux9/Pv2v/Ov
- TWxw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=ztH2KdOZugDOiuPkZQawXgA4F56Gwh34Y3mDIuElS7Y=;
+ b=k/ox2S1M/Ib8Keo8gFKZVVAxPG0DOokverOMlR4uf+xFdItR/ln1QeR1QKAiHQfMkq
+ aEm1lyanUkxj0tSBn2yDG0VFmqV+CRjeA6a7p37g3Ledt48kwt6pzE3PgjXnkNQob2uW
+ DB3zp1W3hIEUN+zV1Z25vD09cP+4D/Cpis5QUPTkbqtH1OIeFk/kGHOTu4pnURLu7xhU
+ lDiatEZlUXu89iEDSZzOF/Pf0fyK/eEld8Bl8YzHf0xk57GII8Cf2w57pBtxczDxkhbP
+ 56fGoRCja8hNPGN9+p5JkvbVeETCZHnPWfMpfgIYA+ZMavhQJWAcS9DpMouu2+lfm5Up
+ c2CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=G8c2iuTDo4UvuF2iefnqT1KVHhsC+sQtSAyF/QMhIQM=;
- b=fI26xcHHA2mLPvJ6rBKX9A/8K1OI1RwH7qptqYbpUkvTUgtEC7Wk5uJMnn5+TDdB0D
- PjB3w6LSfRc8rn+fr5x+Y+wp4Jn+cE7Byvk+jLJ6O9+Myk4GXznJi0BOV5/0y12bpJe5
- u3rVecIBsOXbzWFmpQXDlAOOsUnqJWEeJaLyM/1tWCJAbp00rdVuxrlrnoIbdmjJigrB
- XPrMxEXXs9KPb+X5j+ljWtIcizT5x56Tj00QXUYSs+gwFGO/YYsw8Ta/UCfVKFh4a4yY
- 2d96XL3U2frXnixAV+1APgktO7SBNXW3xt3UvPexyFlfj+l395QLp5biDv7vkTfnAljp
- Y1hw==
-X-Gm-Message-State: ACgBeo3lV46+SHZe01uhljdpDkoJAzKbKJTziIs37s2MvG/SmR2m5kkg
- iUnj/BqwLIUOyYhogn+nyl/KY9HVMxWvWA==
-X-Google-Smtp-Source: AA6agR57vG6MWxm9HtEq/26etcPAHY6doS70J5mZFCvIR+qFsBYS7CXodpCUKk45F/ZXRssjwiAnTg==
-X-Received: by 2002:aca:6088:0:b0:343:75a6:d6a3 with SMTP id
- u130-20020aca6088000000b0034375a6d6a3mr155569oib.92.1660682045494; 
- Tue, 16 Aug 2022 13:34:05 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=ztH2KdOZugDOiuPkZQawXgA4F56Gwh34Y3mDIuElS7Y=;
+ b=CJfPjPfWMWuJSvK+u8Y/fxidlnilDEtqU0WAE9v1sb54Zz8igNRynq93V/cCiuhE65
+ MoBWMngsIQh8sHCReighvWqQAgI7bGLJFc5edAKL8CgtKy8ARMfBzLP7cJXftxKX8h3t
+ yi+8a/af45I6In/xUnZWF0Y5cHwsuDa4GnpUy5ZGC8jI4dF5T7MvWM1E6Yz6IfIJYM+M
+ DNSHOebDg2xmYSJ4q7dFv9MdFXjTZi3D/Plge6TSDiW0t4iMEz3SArRwNb1t+tK1Zsr+
+ DNqrJmeH0Vo+2v2rr5yDs3Y3+1agyXfxMO+tJh13Y753nUsovJEraCsSM9N/xgHSyeLs
+ 35Jg==
+X-Gm-Message-State: ACgBeo3dJ0R5k2VJMvzrph6MxVIMjMOCbfvN1no3kGNlbdcw9IgNrM+h
+ 1FD6NEZCBHQX5UIzjbZ1BHZzfOTaI2jLMg==
+X-Google-Smtp-Source: AA6agR5V9GoITawW1PJBmFeyfKc9ymSCLbIO8RBBz5Xs6LZ4Xvy4xoUW3j9Udb56NgpU4HBaCYluMg==
+X-Received: by 2002:a9d:7d15:0:b0:636:de31:4cb4 with SMTP id
+ v21-20020a9d7d15000000b00636de314cb4mr7960300otn.261.1660682048582; 
+ Tue, 16 Aug 2022 13:34:08 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:80f6:61fa:9bc2:5095:d612:5e22])
  by smtp.gmail.com with ESMTPSA id
- y23-20020a056870b01700b0010ef8ccde67sm2285220oae.13.2022.08.16.13.34.02
+ y23-20020a056870b01700b0010ef8ccde67sm2285220oae.13.2022.08.16.13.34.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 13:34:04 -0700 (PDT)
+ Tue, 16 Aug 2022 13:34:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	alex.bennee@linaro.org,
 	iii@linux.ibm.com
-Subject: [PATCH v2 00/33] accel/tcg + target/arm: pc-relative translation
-Date: Tue, 16 Aug 2022 15:33:27 -0500
-Message-Id: <20220816203400.161187-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/33] linux-user/arm: Mark the commpage executable
+Date: Tue, 16 Aug 2022 15:33:28 -0500
+Message-Id: <20220816203400.161187-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220816203400.161187-1-richard.henderson@linaro.org>
+References: <20220816203400.161187-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,181 +91,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Supercedes: 20220812180806.2128593-1-richard.henderson@linaro.org
-("accel/tcg: minimize tlb lookups during translate + user-only PROT_EXEC fixes")
+We're about to start validating PAGE_EXEC, which means
+that we've got to mark the commpage executable.  We had
+been placing the commpage outside of reserved_va, which
+was incorrect and lead to an abort.
 
-A few changes to the PROT_EXEC work that I posted last week, and
-then continuing to the main event.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/arm/target_cpu.h | 4 ++--
+ linux-user/elfload.c        | 6 +++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-My initial goal was to reduce the overhead of TB flushing, which
-Alex Bennee identified as a significant issue with respect to
-booting AArch64 kernels under avocado.  Our initial guess was that
-we need a more efficient data structure for walking TBs associated
-with a physical page.
-
-While I was looking at some of those numbers, I noted that we were
-seeing up to 16000 TBs attached to a single page, which is well more
-than I expected to see, and means that a new data structure isn't
-going to help as much as simply reducing the number of translations.
-
-It turns out the retranslation is due to the guest kernel's userland
-address space randomization.  Each process gets e.g. libc mapped to
-a different virtual address, which caused a new translation.
-
-This, then, introduces some infrastructure for writing "pc-relative"
-translation blocks, in which the guest pc is treated as a variable
-just like any other guest cpu register.  The hashing for these TBs
-are adjusted to compare the physical address.  The target/arm backend
-is adjusted to use the new feature.
-
-This does result in a significant reduction in translation.  From the
-BootLinuxAarch64.test_virt_tcg_gicv2 test, at the login prompt:
-
-    Before:
-
-    gen code size       160684739/1073736704
-    TB count            289808
-    TB flush count      1
-    TB invalidate count 235143
-
-    After:
-
-    gen code size       277992547/1073736704
-    TB count            503882
-    TB flush count      0
-    TB invalidate count 69282
-
-Before TARGET_TB_PCREL, we generate approximately 1.1GB of TBs
-(overflow 1GB, flush, and fill 153MB again).  Afterward, we only
-generate 265MB of TBs.
-
-Surprisingly, this does not affect wall-clock times nearly as
-much as I would have expected:
-
-                                       before   after   change
- BootLinuxAarch64.test_virt_tcg_gicv2:  97.35    85.11   -12%
- BootLinuxAarch64.test_virt_tcg_gicv3: 102.75    96.87    -5%
-
-Change in profile, top 10 entries before, matched up with after:
-
-  before                                                           after
-   9.01%  qemu-system-aar  [.] helper_lookup_tb_ptr                10.67%
-   4.92%  qemu-system-aar  [.] qht_lookup_custom                    5.06%
-   4.79%  qemu-system-aar  [.] get_phys_addr_lpae                   5.24%
-   2.57%  qemu-system-aar  [.] address_space_ldq_le                 2.77%
-   2.33%  qemu-system-aar  [.] liveness_pass_1                      0.60%
-   2.24%  qemu-system-aar  [.] cpu_get_tb_cpu_state                 2.58%
-   1.76%  qemu-system-aar  [.] address_space_translate_internal     1.75%
-   1.71%  qemu-system-aar  [.] tb_lookup_cmp                        1.92%
-   1.65%  qemu-system-aar  [.] tcg_gen_code                         0.44%
-   1.64%  qemu-system-aar  [.] do_tb_phys_invalidate                0.09%
-
-
-r~
-
-
-Ilya Leoshkevich (1):
-  accel/tcg: Introduce is_same_page()
-
-Richard Henderson (32):
-  linux-user/arm: Mark the commpage executable
-  linux-user/hppa: Allocate page zero as a commpage
-  linux-user/x86_64: Allocate vsyscall page as a commpage
-  linux-user: Honor PT_GNU_STACK
-  tests/tcg/i386: Move smc_code2 to an executable section
-  accel/tcg: Remove PageDesc code_bitmap
-  accel/tcg: Use bool for page_find_alloc
-  accel/tcg: Make tb_htable_lookup static
-  accel/tcg: Move qemu_ram_addr_from_host_nofail to physmem.c
-  accel/tcg: Properly implement get_page_addr_code for user-only
-  accel/tcg: Use probe_access_internal for softmmu
-    get_page_addr_code_hostp
-  accel/tcg: Add nofault parameter to get_page_addr_code_hostp
-  accel/tcg: Unlock mmap_lock after longjmp
-  accel/tcg: Raise PROT_EXEC exception early
-  accel/tcg: Remove translator_ldsw
-  accel/tcg: Add pc and host_pc params to gen_intermediate_code
-  accel/tcg: Add fast path for translator_ld*
-  accel/tcg: Use DisasContextBase in plugin_gen_tb_start
-  accel/tcg: Do not align tb->page_addr[0]
-  include/hw/core: Create struct CPUJumpCache
-  accel/tcg: Introduce tb_pc and tb_pc_log
-  accel/tcg: Introduce TARGET_TB_PCREL
-  accel/tcg: Split log_cpu_exec into inline and slow path
-  target/arm: Introduce curr_insn_len
-  target/arm: Change gen_goto_tb to work on displacements
-  target/arm: Change gen_*set_pc_im to gen_*update_pc
-  target/arm: Change gen_exception_insn* to work on displacements
-  target/arm: Change gen_exception_internal to work on displacements
-  target/arm: Change gen_jmp* to work on displacements
-  target/arm: Introduce gen_pc_plus_diff for aarch64
-  target/arm: Introduce gen_pc_plus_diff for aarch32
-  target/arm: Enable TARGET_TB_PCREL
-
- include/elf.h                           |   1 +
- include/exec/cpu-common.h               |   1 +
- include/exec/cpu-defs.h                 |   3 +
- include/exec/exec-all.h                 | 138 +++++++-------
- include/exec/plugin-gen.h               |   7 +-
- include/exec/translator.h               |  85 +++++++--
- include/hw/core/cpu.h                   |   9 +-
- linux-user/arm/target_cpu.h             |   4 +-
- linux-user/qemu.h                       |   1 +
- target/arm/cpu-param.h                  |   2 +
- target/arm/translate-a32.h              |   2 +-
- target/arm/translate.h                  |  21 ++-
- accel/tcg/cpu-exec.c                    | 222 +++++++++++++---------
- accel/tcg/cputlb.c                      |  98 +++-------
- accel/tcg/plugin-gen.c                  |  23 +--
- accel/tcg/translate-all.c               | 197 +++++++-------------
- accel/tcg/translator.c                  | 122 +++++++++---
- accel/tcg/user-exec.c                   |  15 ++
- linux-user/elfload.c                    |  81 +++++++-
- softmmu/physmem.c                       |  12 ++
- target/alpha/translate.c                |   5 +-
- target/arm/cpu.c                        |  23 +--
- target/arm/translate-a64.c              | 174 ++++++++++-------
- target/arm/translate-m-nocp.c           |   6 +-
- target/arm/translate-mve.c              |   2 +-
- target/arm/translate-vfp.c              |  10 +-
- target/arm/translate.c                  | 237 +++++++++++++++---------
- target/avr/cpu.c                        |   2 +-
- target/avr/translate.c                  |   5 +-
- target/cris/translate.c                 |   5 +-
- target/hexagon/cpu.c                    |   2 +-
- target/hexagon/translate.c              |   6 +-
- target/hppa/cpu.c                       |   4 +-
- target/hppa/translate.c                 |   5 +-
- target/i386/tcg/tcg-cpu.c               |   2 +-
- target/i386/tcg/translate.c             |   7 +-
- target/loongarch/cpu.c                  |   2 +-
- target/loongarch/translate.c            |   6 +-
- target/m68k/translate.c                 |   5 +-
- target/microblaze/cpu.c                 |   2 +-
- target/microblaze/translate.c           |   5 +-
- target/mips/tcg/exception.c             |   2 +-
- target/mips/tcg/sysemu/special_helper.c |   2 +-
- target/mips/tcg/translate.c             |   5 +-
- target/nios2/translate.c                |   5 +-
- target/openrisc/cpu.c                   |   2 +-
- target/openrisc/translate.c             |   6 +-
- target/ppc/translate.c                  |   5 +-
- target/riscv/cpu.c                      |   4 +-
- target/riscv/translate.c                |   5 +-
- target/rx/cpu.c                         |   2 +-
- target/rx/translate.c                   |   5 +-
- target/s390x/tcg/translate.c            |   5 +-
- target/sh4/cpu.c                        |   4 +-
- target/sh4/translate.c                  |   5 +-
- target/sparc/cpu.c                      |   2 +-
- target/sparc/translate.c                |   5 +-
- target/tricore/cpu.c                    |   2 +-
- target/tricore/translate.c              |   6 +-
- target/xtensa/translate.c               |   6 +-
- tcg/tcg.c                               |   6 +-
- tests/tcg/i386/test-i386.c              |   2 +-
- 62 files changed, 979 insertions(+), 666 deletions(-)
-
+diff --git a/linux-user/arm/target_cpu.h b/linux-user/arm/target_cpu.h
+index 709d19bc9e..89ba274cfc 100644
+--- a/linux-user/arm/target_cpu.h
++++ b/linux-user/arm/target_cpu.h
+@@ -34,9 +34,9 @@ static inline unsigned long arm_max_reserved_va(CPUState *cs)
+     } else {
+         /*
+          * We need to be able to map the commpage.
+-         * See validate_guest_space in linux-user/elfload.c.
++         * See init_guest_commpage in linux-user/elfload.c.
+          */
+-        return 0xffff0000ul;
++        return 0xfffffffful;
+     }
+ }
+ #define MAX_RESERVED_VA  arm_max_reserved_va
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index ce902dbd56..3e3dc02499 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -398,7 +398,8 @@ enum {
+ 
+ static bool init_guest_commpage(void)
+ {
+-    void *want = g2h_untagged(HI_COMMPAGE & -qemu_host_page_size);
++    abi_ptr commpage = HI_COMMPAGE & -qemu_host_page_size;
++    void *want = g2h_untagged(commpage);
+     void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
+                       MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
+ 
+@@ -417,6 +418,9 @@ static bool init_guest_commpage(void)
+         perror("Protecting guest commpage");
+         exit(EXIT_FAILURE);
+     }
++
++    page_set_flags(commpage, commpage + qemu_host_page_size,
++                   PAGE_READ | PAGE_EXEC | PAGE_VALID);
+     return true;
+ }
+ 
 -- 
 2.34.1
 
