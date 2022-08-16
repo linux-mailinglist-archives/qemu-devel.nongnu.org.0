@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAEC35957D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:16:49 +0200 (CEST)
-Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8F15957E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:18:18 +0200 (CEST)
+Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNtct-0002eL-Tf
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49896)
+	id 1oNteL-0004Nh-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:18:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNtZF-0005Zl-3L
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:13:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50415)
+ id 1oNtZK-0005iE-QA
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:13:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNtZD-0004Jz-Dr
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:13:00 -0400
+ id 1oNtZG-0004KS-80
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 06:13:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660644778;
+ s=mimecast20190719; t=1660644781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cxOtHMeWpRKVHAmqRlfILA8ZLjrIx8Hld0hXMLuWU4c=;
- b=EuPmR7FILzQLBuM2i77+bF9GFYllwFocrFyN7b4vWKXdRI/MwyyqB1YTFAVhZ3UjleUr9B
- EewXTjNEN6LawO/U6n/2rsaQiViiKH4xFY7sw0444jKIhslYoFQh9Uayo/u7uvOU0242xK
- Ii5Cm9PedKDKOMnkAxX1Hq2+RtOoUn8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NKA6rxMzSG9plLayOOUgu+lS1k1tefQ9X0WWKNpyvdw=;
+ b=XCU5lU3RUSE+uzFTkM33+eeTlHeJhu9FtvOKh4dahoIQorkRiSKpBhpI0wIV2tGfnmwIvE
+ OtE9E0EV37s/7cg5JTkDjYIg5Onxq9xRHqAwNG7cO0Sbb9XS/cZBJgpNd7zR2rSBP30NRn
+ qAV6BEaFT1Fcc6kf/3MhP0JvQnFHQMM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-a2SB4FsjMU2i5tzHHrcd0g-1; Tue, 16 Aug 2022 06:12:56 -0400
-X-MC-Unique: a2SB4FsjMU2i5tzHHrcd0g-1
+ us-mta-455-Lryv6ImxNMy3GiCPK2AxZA-1; Tue, 16 Aug 2022 06:12:57 -0400
+X-MC-Unique: Lryv6ImxNMy3GiCPK2AxZA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6387638164C7;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B104E85A586;
  Tue, 16 Aug 2022 10:12:56 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1EEE540D2827;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CF7640D2827;
  Tue, 16 Aug 2022 10:12:56 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-devel@nongnu.org
@@ -52,23 +52,23 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [RFC PATCH 1/2] softmmu/memory: add missing begin/commit callback
- calls
-Date: Tue, 16 Aug 2022 06:12:49 -0400
-Message-Id: <20220816101250.1715523-2-eesposit@redhat.com>
+Subject: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl to
+ the commit phase
+Date: Tue, 16 Aug 2022 06:12:50 -0400
+Message-Id: <20220816101250.1715523-3-eesposit@redhat.com>
 In-Reply-To: <20220816101250.1715523-1-eesposit@redhat.com>
 References: <20220816101250.1715523-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,36 +85,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm listeners now need ->commit callback in order to actually send
-the ioctl to the hypervisor. Therefore, add missing callers around
-address_space_set_flatview(), which in turn calls
-address_space_update_topology_pass() which calls ->region_* and
-->log_* callbacks.
+Instead of sending a single ioctl every time ->region_* or ->log_*
+callbacks are called, "queue" all memory regions in a list that will
+be emptied only when committing.
 
-Using MEMORY_LISTENER_CALL_GLOBAL is a little bit an overkill,
-but it is harmless, considering that other listeners that are not
-invoked in address_space_update_topology_pass() won't do anything,
-since they won't have anything to commit.
+This allow the KVM kernel API to be extended and support multiple
+memslots updates in a single call.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- softmmu/memory.c | 2 ++
- 1 file changed, 2 insertions(+)
+ accel/kvm/kvm-all.c       | 99 ++++++++++++++++++++++++++++-----------
+ include/sysemu/kvm_int.h  |  6 +++
+ linux-headers/linux/kvm.h |  9 ++++
+ 3 files changed, 87 insertions(+), 27 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7ba2048836..1afd3f9703 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1076,7 +1076,9 @@ static void address_space_update_topology(AddressSpace *as)
-     if (!g_hash_table_lookup(flat_views, physmr)) {
-         generate_memory_topology(physmr);
-     }
-+    MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
-     address_space_set_flatview(as);
-+    MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 645f0a249a..3afa46b2ef 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -357,39 +357,40 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
+     return ret;
  }
  
- void memory_region_transaction_begin(void)
++static void kvm_memory_region_node_add(KVMMemoryListener *kml,
++                                       struct kvm_userspace_memory_region *mem)
++{
++    MemoryRegionNode *node;
++
++    node = g_malloc(sizeof(MemoryRegionNode));
++    *node = (MemoryRegionNode) {
++        .mem = mem,
++    };
++    QTAILQ_INSERT_TAIL(&kml->mem_list, node, list);
++}
++
+ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, bool new)
+ {
+-    KVMState *s = kvm_state;
+-    struct kvm_userspace_memory_region mem;
+-    int ret;
++    struct kvm_userspace_memory_region *mem;
+ 
+-    mem.slot = slot->slot | (kml->as_id << 16);
+-    mem.guest_phys_addr = slot->start_addr;
+-    mem.userspace_addr = (unsigned long)slot->ram;
+-    mem.flags = slot->flags;
++    mem = g_malloc(sizeof(struct kvm_userspace_memory_region));
+ 
+-    if (slot->memory_size && !new && (mem.flags ^ slot->old_flags) & KVM_MEM_READONLY) {
++    mem->slot = slot->slot | (kml->as_id << 16);
++    mem->guest_phys_addr = slot->start_addr;
++    mem->userspace_addr = (unsigned long)slot->ram;
++    mem->flags = slot->flags;
++
++    if (slot->memory_size && !new && (mem->flags ^ slot->old_flags) &
++        KVM_MEM_READONLY) {
+         /* Set the slot size to 0 before setting the slot to the desired
+          * value. This is needed based on KVM commit 75d61fbc. */
+-        mem.memory_size = 0;
+-        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
+-        if (ret < 0) {
+-            goto err;
+-        }
+-    }
+-    mem.memory_size = slot->memory_size;
+-    ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
+-    slot->old_flags = mem.flags;
+-err:
+-    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
+-                              mem.memory_size, mem.userspace_addr, ret);
+-    if (ret < 0) {
+-        error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
+-                     " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
+-                     __func__, mem.slot, slot->start_addr,
+-                     (uint64_t)mem.memory_size, strerror(errno));
++        mem->memory_size = 0;
++        kvm_memory_region_node_add(kml, mem);
+     }
+-    return ret;
++    mem->memory_size = slot->memory_size;
++    kvm_memory_region_node_add(kml, mem);
++    slot->old_flags = mem->flags;
++    return 0;
+ }
+ 
+ static int do_kvm_destroy_vcpu(CPUState *cpu)
+@@ -1517,12 +1518,52 @@ static void kvm_region_add(MemoryListener *listener,
+ static void kvm_region_del(MemoryListener *listener,
+                            MemoryRegionSection *section)
+ {
+-    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
++    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
++                                          listener);
+ 
+     kvm_set_phys_mem(kml, section, false);
+     memory_region_unref(section->mr);
+ }
+ 
++static void kvm_begin(MemoryListener *listener)
++{
++    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
++                                          listener);
++    assert(QTAILQ_EMPTY(&kml->mem_list));
++}
++
++static void kvm_commit(MemoryListener *listener)
++{
++    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
++                                          listener);
++    MemoryRegionNode *node, *next;
++    KVMState *s = kvm_state;
++
++    QTAILQ_FOREACH_SAFE(node, &kml->mem_list, list, next) {
++        struct kvm_userspace_memory_region *mem = node->mem;
++        int ret;
++
++        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, mem);
++
++        trace_kvm_set_user_memory(mem->slot, mem->flags, mem->guest_phys_addr,
++                                  mem->memory_size, mem->userspace_addr, 0);
++
++        if (ret < 0) {
++            error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
++                         " start=0x%" PRIx64 ": %s",
++                         __func__, mem->slot,
++                         (uint64_t)mem->memory_size, strerror(errno));
++        }
++
++        QTAILQ_REMOVE(&kml->mem_list, node, list);
++        g_free(mem);
++        g_free(node);
++    }
++
++
++
++}
++
+ static void kvm_log_sync(MemoryListener *listener,
+                          MemoryRegionSection *section)
+ {
+@@ -1664,8 +1705,12 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+         kml->slots[i].slot = i;
+     }
+ 
++    QTAILQ_INIT(&kml->mem_list);
++
+     kml->listener.region_add = kvm_region_add;
+     kml->listener.region_del = kvm_region_del;
++    kml->listener.begin = kvm_begin;
++    kml->listener.commit = kvm_commit;
+     kml->listener.log_start = kvm_log_start;
+     kml->listener.log_stop = kvm_log_stop;
+     kml->listener.priority = 10;
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index 1f5487d9b7..eab8598007 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -30,9 +30,15 @@ typedef struct KVMSlot
+     ram_addr_t ram_start_offset;
+ } KVMSlot;
+ 
++typedef struct MemoryRegionNode {
++    struct kvm_userspace_memory_region *mem;
++    QTAILQ_ENTRY(MemoryRegionNode) list;
++} MemoryRegionNode;
++
+ typedef struct KVMMemoryListener {
+     MemoryListener listener;
+     KVMSlot *slots;
++    QTAILQ_HEAD(, MemoryRegionNode) mem_list;
+     int as_id;
+ } KVMMemoryListener;
+ 
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index f089349149..f215efdaa8 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -103,6 +103,13 @@ struct kvm_userspace_memory_region {
+ 	__u64 userspace_addr; /* start of the userspace allocated memory */
+ };
+ 
++/* for KVM_SET_USER_MEMORY_REGION_LIST */
++struct kvm_userspace_memory_region_list {
++	__u32 nent;
++	__u32 flags;
++	struct kvm_userspace_memory_region entries[0];
++};
++
+ /*
+  * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
+  * other bits are reserved for kvm internal use which are defined in
+@@ -1426,6 +1433,8 @@ struct kvm_vfio_spapr_tce {
+ 					struct kvm_userspace_memory_region)
+ #define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)
+ #define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)
++#define KVM_SET_USER_MEMORY_REGION_LIST _IOW(KVMIO, 0x49, \
++					struct kvm_userspace_memory_region_list)
+ 
+ /* enable ucontrol for s390 */
+ struct kvm_s390_ucas_mapping {
 -- 
 2.31.1
 
