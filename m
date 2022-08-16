@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F41594BD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:26:48 +0200 (CEST)
-Received: from localhost ([::1]:56434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766D5594BD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:29:32 +0200 (CEST)
+Received: from localhost ([::1]:47572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNlM0-00085w-0T
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
+	id 1oNlOd-0003bI-Jt
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2w-0000FA-Ew
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:06 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:51786)
+ id 1oNl2y-0000KX-CZ
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:09 -0400
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:34100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2q-00009U-Ru
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:05 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R351e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
+ id 1oNl2s-00009c-Nu
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:06 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VMNo4Tt_1660612014; 
+ TI=SMTPD_---0VMNrTmZ_1660612015; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VMNo4Tt_1660612014) by smtp.aliyun-inc.com;
- Tue, 16 Aug 2022 09:06:55 +0800
+ fp:SMTPD_---0VMNrTmZ_1660612015) by smtp.aliyun-inc.com;
+ Tue, 16 Aug 2022 09:06:56 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v2 18/24] vhost-net: vhost-user: update
- vhost_net_virtqueue_stop()
-Date: Tue, 16 Aug 2022 09:06:30 +0800
-Message-Id: <303811ffeac48647ac4c81eeec542292e8f67a0e.1660611460.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v2 19/24] vhost-net: vhost-user: update
+ vhost_net_virtqueue_restart()
+Date: Tue, 16 Aug 2022 09:06:31 +0800
+Message-Id: <73f25e2ffde00e25535902ba4bf7b92097f51d4a.1660611460.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.133;
+Received-SPF: pass client-ip=115.124.30.57;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-133.freemail.mail.aliyun.com
+ helo=out30-57.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -65,7 +65,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update vhost_net_virtqueue_stop() for vhost-user scenario.
+Update vhost_net_virtqueue_restart() for vhost-user scenario.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
@@ -74,20 +74,20 @@ Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 2ab67e875e..c0d408f3b4 100644
+index c0d408f3b4..778081e54a 100644
 --- a/hw/net/vhost_net.c
 +++ b/hw/net/vhost_net.c
-@@ -533,6 +533,10 @@ void vhost_net_virtqueue_stop(VirtIODevice *vdev, NetClientState *nc,
-         assert(r >= 0);
-     }
+@@ -556,6 +556,10 @@ int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+ 
+     idx =  vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
  
 +    if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
 +        idx = idx - net->dev.vq_index;
 +    }
 +
-     vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
- }
- 
+     r = vhost_dev_virtqueue_restart(&net->dev, vdev, idx);
+     if (r < 0) {
+         goto err_start;
 -- 
 2.32.0
 
