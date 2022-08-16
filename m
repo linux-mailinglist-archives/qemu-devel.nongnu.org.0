@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A55459615E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:43:55 +0200 (CEST)
-Received: from localhost ([::1]:40030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E3B596153
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:41:58 +0200 (CEST)
+Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO0ba-0006Yg-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36022)
+	id 1oO0Zi-00034s-24
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Sf-0004jM-UL; Tue, 16 Aug 2022 13:34:42 -0400
-Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30]:43824)
+ id 1oO0Sj-0004ls-S1; Tue, 16 Aug 2022 13:34:46 -0400
+Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:39686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Se-0002NF-BV; Tue, 16 Aug 2022 13:34:41 -0400
-Received: by mail-vk1-xa30.google.com with SMTP id w129so5508240vkg.10;
- Tue, 16 Aug 2022 10:34:39 -0700 (PDT)
+ id 1oO0Si-0002NQ-B3; Tue, 16 Aug 2022 13:34:45 -0400
+Received: by mail-vs1-xe31.google.com with SMTP id c3so10818521vsc.6;
+ Tue, 16 Aug 2022 10:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=j1RYsPISHcQmqkfg0bCXBflgdHOzA77Z6HtOczxpsOA=;
- b=HNwCPRT0ioQk2418GrDYhoXj+eZwj4ZY/oH+mMVdIWWS2DZ/QsCqxyYlc5DSKlag+c
- P8mRe/sHp/9SKC6N8EuPOf4uacsgCs2LtrNphUlcMYE/tBJXuvkxavYaLCgT0IF+1wnz
- h75uEDvYKsT0jTkHm34659CjsBKNBpiDEf59BAajEKorgF0RFEoMNmT5v6EQTmaHJ0SH
- 4Bp0K0V+E8yXKC9vv39l9CEpNuH/JB0lkXQ1JRUdM/CHrVSWr0qnpAff2Vg20jo0FNYi
- zGg7E4hEkirmT7Tbf8ROu9WcKEkDyHGs4pZlY1mALn0cku6KgLXb3mqoZDp1kAKpknac
- b8Aw==
+ bh=4f24mixCYIhi0sIPdZyXjyavjHpNtJ1OrG02fjTafCg=;
+ b=ZCbDpzzIwTMA67wU7jkNrFhX7LbpqYUFkh4TxlyEOr6htH9moEtCjTBc5iKuT3lvNp
+ KQeA3Qsu5y/JfVzlZTJTkXj94Nqt4lAeunczytIOpBN1MSNWVC8Mn3hm/ABxLcMUa3Ci
+ nfrtjwRrzMN3B1fbhMFDKD5c3+ScZUXcs0oB5qvUPBPWHYbuKh2c9nphHYcUKAifVokh
+ s+AK+FiFLpC0/rOwu7La+VGHYR7cZ2UIVB1HJHKigZyi5b6iCxBMDBule7UxOg5ztAoJ
+ mLXf90CS+oRO+XPfKktE5gD58QrvgMV4ljyrrm/UuyS7ZpKKNSnlaaItZGOjgQKv2+yd
+ 7keA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=j1RYsPISHcQmqkfg0bCXBflgdHOzA77Z6HtOczxpsOA=;
- b=a6HRdYAe8DfV4QHudUfFOMZtHoWRFLTtG+Eb7dT0KIuhNJuj+PQYMm7/KBAUJa14Rf
- VGXu8RYH+CtnAVX00ZBBCN5vP89OFghXSnoBG+oeExHqjwSvz/Bz3Y9gG6pyk4Nq6l5f
- VQyYECKd0pPihudTNjnA0IqETxsW2vgw9YbFlt7RIWJ4x9lqfv+HiQEf1pyJ/WUkPb4z
- kzXjqK6RiZuragcbZupBg//9CyfHsY9PBq4G4xHDXuAKekghNpfUI8MR+nCBmpV4f3AF
- XZ+qu5p7N1GuHDiTsZOdH32iFpfxrqzWsxpsiyrTDa0SnvBeT24RYvW5wVyW96ehjhCq
- D03Q==
-X-Gm-Message-State: ACgBeo1C2tpOM9MsoVNYrSDGjYYDYAhgYISQMRLMkg1G1EKCyWQobrKI
- QyzHl060eVscyoE8HMg+anBxqmOSWUFMVQ==
-X-Google-Smtp-Source: AA6agR7k9cKLB8kIcViCK2/5pBfmY6lEk8lgzx52E4Mp5maqoGBN0DZhqD8ngM76a2XPpj+8gZqeKQ==
-X-Received: by 2002:a05:6122:817:b0:377:59fa:3193 with SMTP id
- 23-20020a056122081700b0037759fa3193mr9556091vkj.4.1660671279069; 
- Tue, 16 Aug 2022 10:34:39 -0700 (PDT)
+ bh=4f24mixCYIhi0sIPdZyXjyavjHpNtJ1OrG02fjTafCg=;
+ b=xdMUNPQz2IkvfZyOS/ygn4g6uY4oG14CtzQQ/7HOf+HcVhxeCcVkJWzv4xyibYkuyL
+ qDzIn0uN4VqSfSLX+nCzb9JmSlNhbZuvrux6xHxnu8cLdDQG8ZBo+eAm5Ol0aHCjwm32
+ eX4smDMCJspYOewJIhS4rMkfwKc03+/TUYXhH1MR7Bv86W7/g7tJ7CTutKMCHEzDP6w0
+ h5ccS1AH/GEKb61cNDd6biPQmAVpHoJq4EvJHa9be38t5YsP4EntUg5umE29F72m+o2H
+ 3AaahqEQz5w63IVxTFbAl3OZIHRN0+6sWaDsHZQ/J9jGge6GUhasynNfu9JayHLXiC9Y
+ 4Dog==
+X-Gm-Message-State: ACgBeo2rE8gXuS68o2FdeohrSDC/bN1hhdi3DPec15WaPwLzkvBCu9/y
+ gznziBQgo/tfiVOmvmrXzc6gVRUqsBQYZQ==
+X-Google-Smtp-Source: AA6agR5gzc0JQjCAPzb7F5I1K0eJ3Gx2YSdD/ZZNPRqWIemp6zwz70VuepV4JHWeP2GBLbdlAImOLw==
+X-Received: by 2002:a05:6102:31bc:b0:388:454a:7961 with SMTP id
+ d28-20020a05610231bc00b00388454a7961mr8755346vsh.16.1660671282147; 
+ Tue, 16 Aug 2022 10:34:42 -0700 (PDT)
 Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
  [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.36
+ 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 10:34:38 -0700 (PDT)
+ Tue, 16 Aug 2022 10:34:41 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, alistair.francis@wdc.com,
  david@gibson.dropbear.id.au,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
-Subject: [PATCH for-7.2 v3 02/20] hw/microblaze: set machine->fdt in
- microblaze_load_dtb()
-Date: Tue, 16 Aug 2022 14:34:10 -0300
-Message-Id: <20220816173428.157304-3-danielhb413@gmail.com>
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>
+Subject: [PATCH for-7.2 v3 03/20] hw/nios2: set machine->fdt in
+ nios2_load_dtb()
+Date: Tue, 16 Aug 2022 14:34:11 -0300
+Message-Id: <20220816173428.157304-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220816173428.157304-1-danielhb413@gmail.com>
 References: <20220816173428.157304-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a30;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,40 +92,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
-all microblaze machines that uses microblaze_load_dtb().
+all nios2 machines that uses nios2_load_dtb().
 
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+Cc: Chris Wulff <crwulff@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/microblaze/boot.c      | 11 ++++++++++-
- hw/microblaze/meson.build |  2 +-
+ hw/nios2/boot.c      | 11 ++++++++++-
+ hw/nios2/meson.build |  2 +-
  2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
-index 8b92a9801a..e9ebc04381 100644
---- a/hw/microblaze/boot.c
-+++ b/hw/microblaze/boot.c
-@@ -39,6 +39,8 @@
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 21cbffff47..db3b21fea6 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -43,6 +43,8 @@
  
  #include "boot.h"
  
 +#include <libfdt.h>
 +
- static struct
- {
-     void (*machine_cpu_reset)(MicroBlazeCPU *);
-@@ -72,6 +74,7 @@ static int microblaze_load_dtb(hwaddr addr,
-                                const char *kernel_cmdline,
-                                const char *dtb_filename)
+ #define NIOS2_MAGIC    0x534f494e
+ 
+ static struct nios2_boot_info {
+@@ -81,6 +83,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+                           const char *kernel_cmdline, const char *dtb_filename)
  {
 +    MachineState *machine = MACHINE(qdev_get_machine());
      int fdt_size;
      void *fdt = NULL;
      int r;
-@@ -100,7 +103,13 @@ static int microblaze_load_dtb(hwaddr addr,
+@@ -113,7 +116,13 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
      }
  
-     cpu_physical_memory_write(addr, fdt, fdt_size);
+     cpu_physical_memory_write(bi.fdt, fdt, fdt_size);
 -    g_free(fdt);
 +
 +    /*
@@ -137,17 +138,17 @@ index 8b92a9801a..e9ebc04381 100644
      return fdt_size;
  }
  
-diff --git a/hw/microblaze/meson.build b/hw/microblaze/meson.build
-index bb9e4eb8f4..a38a397872 100644
---- a/hw/microblaze/meson.build
-+++ b/hw/microblaze/meson.build
+diff --git a/hw/nios2/meson.build b/hw/nios2/meson.build
+index 6c58e8082b..22277bd6c5 100644
+--- a/hw/nios2/meson.build
++++ b/hw/nios2/meson.build
 @@ -1,5 +1,5 @@
- microblaze_ss = ss.source_set()
--microblaze_ss.add(files('boot.c'))
-+microblaze_ss.add(files('boot.c'), fdt)
- microblaze_ss.add(when: 'CONFIG_PETALOGIX_S3ADSP1800', if_true: files('petalogix_s3adsp1800_mmu.c'))
- microblaze_ss.add(when: 'CONFIG_PETALOGIX_ML605', if_true: files('petalogix_ml605_mmu.c'))
- microblaze_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-zynqmp-pmu.c'))
+ nios2_ss = ss.source_set()
+-nios2_ss.add(files('boot.c'))
++nios2_ss.add(files('boot.c'), fdt)
+ nios2_ss.add(when: 'CONFIG_NIOS2_10M50', if_true: files('10m50_devboard.c'))
+ nios2_ss.add(when: 'CONFIG_NIOS2_GENERIC_NOMMU', if_true: files('generic_nommu.c'))
+ 
 -- 
 2.37.2
 
