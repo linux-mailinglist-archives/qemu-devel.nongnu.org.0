@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BD05959D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 13:22:48 +0200 (CEST)
-Received: from localhost ([::1]:48718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DF95959DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 13:23:28 +0200 (CEST)
+Received: from localhost ([::1]:42984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNuek-0002gP-2n
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 07:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39416)
+	id 1oNufP-0004Bz-BT
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 07:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oNuaz-0007iF-5V; Tue, 16 Aug 2022 07:18:53 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:51205)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNubW-00089I-D8
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 07:19:26 -0400
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:47489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oNuaw-0008LX-5o; Tue, 16 Aug 2022 07:18:52 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.66])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0AEA611E99715;
- Tue, 16 Aug 2022 13:18:45 +0200 (CEST)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNubU-0008Or-2Q
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 07:19:26 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.170])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 8CBDA22294;
+ Tue, 16 Aug 2022 11:19:21 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 16 Aug
- 2022 13:18:42 +0200
+ 2022 13:19:21 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-109S003017f52aa-6f7d-4d60-a2c1-1701964575d9,
+ (GARM-98R00246afd56c-7691-4eb8-9c41-d111a8813404,
  F9C770E940B196DD2347A7F94772438AA2E7EC4E) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <79b80025-a5e1-8293-5d93-01450b94b16b@kaod.org>
-Date: Tue, 16 Aug 2022 13:18:41 +0200
+Message-ID: <3f08d853-87fc-c396-5908-bbb12843dcf5@kaod.org>
+Date: Tue, 16 Aug 2022 13:19:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 21/22] ppc4xx: Drop empty default cases
+Subject: Re: [PATCH 00/22] QOMify PPC4xx devices and minor clean ups
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
  <qemu-ppc@nongnu.org>
 CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
  <peter.maydell@linaro.org>
 References: <cover.1660402839.git.balaton@eik.bme.hu>
- <011b7081d56ae856c1862bbfe92207ea8fe52399.1660402839.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <011b7081d56ae856c1862bbfe92207ea8fe52399.1660402839.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1660402839.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: c937b486-124c-4caf-bcbd-35b917c43e06
-X-Ovh-Tracer-Id: 9012265806236191651
+X-Ovh-Tracer-GUID: b7424f18-d413-46ae-b3fd-82635dc48ab7
+X-Ovh-Tracer-Id: 9023243329596001187
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeljefhieetffeltdefteeutdekhfefuedttdevteffffffgedttdekieeftdetkeenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,370 +76,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/13/22 17:34, BALATON Zoltan wrote:
-> Remove default case labels that do nothing or only there to set a
-> default value that could easily be done at the variable definition
-> instead.
+> Hello,
+> 
+> This is mased on gitlab.com/danielhb/qemu/tree/ppc-7.2
+> 
+> This series contains the rest of Cédric's patches modified according
+> my review comments and some other small clean ups I've noticed along
+> the way. I've kept the From line of Cédric for patches that were
+> originally his even though they are modified a bit. Not sure what's
+> the best way for this or what Cédric prefers.
+> 
+> The last sdram changes are not yet here because I'm still looking at
+> those and will come back to them but this series is ready to merge
+> unless there are comments that need further changes. Please let me
+> know what do you think.
 
-May be instead, the default case labels deserve a LOG_GUEST_ERROR or
-a UNIMP or even g_assert_not_reached() ?
+LGTM. In case you resend, may be change the names of the models which
+are now common to PPC4xx. That's minor really.
+
+I would dig the default case labels a little more before removing
+them.
+
+Thanks,
 
 C.
 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/ppc405_boards.c |  7 +------
->   hw/ppc/ppc405_uc.c     | 29 +++++------------------------
->   hw/ppc/ppc440_uc.c     | 27 ---------------------------
->   hw/ppc/ppc4xx_devs.c   | 31 ++++---------------------------
->   4 files changed, 10 insertions(+), 84 deletions(-)
+
 > 
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 083f12b23e..a876b4af85 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -401,7 +401,7 @@ struct Ref405epFpgaState {
->   static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
->   {
->       Ref405epFpgaState *fpga = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (addr) {
->       case 0x0:
-> @@ -410,9 +410,6 @@ static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
->       case 0x1:
->           ret = fpga->reg1;
->           break;
-> -    default:
-> -        ret = 0;
-> -        break;
->       }
->   
->       return ret;
-> @@ -430,8 +427,6 @@ static void ref405ep_fpga_writeb(void *opaque, hwaddr addr, uint64_t value,
->       case 0x1:
->           fpga->reg1 = value;
->           break;
-> -    default:
-> -        break;
->       }
->   }
->   
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index b13026200f..6c84d87330 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -56,7 +56,7 @@ enum {
->   static uint32_t dcr_read_pob(void *opaque, int dcrn)
->   {
->       Ppc405PobState *pob = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (dcrn) {
->       case POB0_BEAR:
-> @@ -68,10 +68,6 @@ static uint32_t dcr_read_pob(void *opaque, int dcrn)
->       case POB0_BESR1:
->           ret = pob->besr1;
->           break;
-> -    default:
-> -        /* Avoid gcc warning */
-> -        ret = 0;
-> -        break;
->       }
->   
->       return ret;
-> @@ -131,7 +127,7 @@ static void ppc405_pob_class_init(ObjectClass *oc, void *data)
->   static uint64_t opba_readb(void *opaque, hwaddr addr, unsigned size)
->   {
->       Ppc405OpbaState *opba = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (addr) {
->       case 0x00:
-> @@ -140,9 +136,6 @@ static uint64_t opba_readb(void *opaque, hwaddr addr, unsigned size)
->       case 0x01:
->           ret = opba->pr;
->           break;
-> -    default:
-> -        ret = 0x00;
-> -        break;
->       }
->   
->       trace_opba_readb(addr, ret);
-> @@ -163,8 +156,6 @@ static void opba_writeb(void *opaque, hwaddr addr, uint64_t value,
->       case 0x01:
->           opba->pr = value & 0xFF;
->           break;
-> -    default:
-> -        break;
->       }
->   }
->   static const MemoryRegionOps opba_ops = {
-> @@ -403,7 +394,7 @@ static void ocm_update_mappings(Ppc405OcmState *ocm,
->   static uint32_t dcr_read_ocm(void *opaque, int dcrn)
->   {
->       Ppc405OcmState *ocm = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (dcrn) {
->       case OCM0_ISARC:
-> @@ -418,9 +409,6 @@ static uint32_t dcr_read_ocm(void *opaque, int dcrn)
->       case OCM0_DSACNTL:
->           ret = ocm->dsacntl;
->           break;
-> -    default:
-> -        ret = 0;
-> -        break;
->       }
->   
->       return ret;
-> @@ -556,7 +544,7 @@ static void ppc4xx_gpt_compute_timer(Ppc405GptState *gpt)
->   static uint64_t ppc4xx_gpt_read(void *opaque, hwaddr addr, unsigned size)
->   {
->       Ppc405GptState *gpt = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = -1;
->       int idx;
->   
->       trace_ppc4xx_gpt_read(addr, size);
-> @@ -598,9 +586,6 @@ static uint64_t ppc4xx_gpt_read(void *opaque, hwaddr addr, unsigned size)
->           idx = (addr - 0xC0) >> 2;
->           ret = gpt->mask[idx];
->           break;
-> -    default:
-> -        ret = -1;
-> -        break;
->       }
->   
->       return ret;
-> @@ -844,7 +829,7 @@ static void ppc405ep_compute_clocks(Ppc405CpcState *cpc)
->   static uint32_t dcr_read_epcpc(void *opaque, int dcrn)
->   {
->       Ppc405CpcState *cpc = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (dcrn) {
->       case PPC405EP_CPC0_BOOT:
-> @@ -871,10 +856,6 @@ static uint32_t dcr_read_epcpc(void *opaque, int dcrn)
->       case PPC405EP_CPC0_PCI:
->           ret = cpc->pci;
->           break;
-> -    default:
-> -        /* Avoid gcc warning */
-> -        ret = 0;
-> -        break;
->       }
->   
->       return ret;
-> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-> index 11fdb88c22..b390672bce 100644
-> --- a/hw/ppc/ppc440_uc.c
-> +++ b/hw/ppc/ppc440_uc.c
-> @@ -147,9 +147,6 @@ static uint32_t dcr_read_l2sram(void *opaque, int dcrn)
->       case DCR_ISRAM0_DPC:
->           ret = l2sram->isram0[dcrn - DCR_ISRAM0_BASE];
->           break;
-> -
-> -    default:
-> -        break;
->       }
->   
->       return ret;
-> @@ -304,12 +301,8 @@ static uint32_t dcr_read_cpr(void *opaque, int dcrn)
->           case CPR0_AHBD:
->               ret = (1 << 24);
->               break;
-> -        default:
-> -            break;
->           }
->           break;
-> -    default:
-> -        break;
->       }
->   
->       return ret;
-> @@ -325,8 +318,6 @@ static void dcr_write_cpr(void *opaque, int dcrn, uint32_t val)
->           break;
->       case CPR0_CFGDATA:
->           break;
-> -    default:
-> -        break;
->       }
->   }
->   
-> @@ -421,12 +412,8 @@ static uint32_t dcr_read_sdr(void *opaque, int dcrn)
->           case PESDR1_LOOP:
->               ret = 1 << 12;
->               break;
-> -        default:
-> -            break;
->           }
->           break;
-> -    default:
-> -        break;
->       }
->   
->       return ret;
-> @@ -444,12 +431,8 @@ static void dcr_write_sdr(void *opaque, int dcrn, uint32_t val)
->           switch (sdr->addr) {
->           case 0x00: /* B0CR */
->               break;
-> -        default:
-> -            break;
->           }
->           break;
-> -    default:
-> -        break;
->       }
->   }
->   
-> @@ -646,12 +629,8 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
->           case 0xE1: /* SDR0_DDR0 */
->               ret = SDR0_DDR0_DDRM_ENCODE(1) | SDR0_DDR0_DDRM_DDR1;
->               break;
-> -        default:
-> -            break;
->           }
->           break;
-> -    default:
-> -        break;
->       }
->   
->       return ret;
-> @@ -679,12 +658,8 @@ static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
->           switch (sdram->addr) {
->           case 0x00: /* B0CR */
->               break;
-> -        default:
-> -            break;
->           }
->           break;
-> -    default:
-> -        break;
->       }
->   }
->   
-> @@ -760,8 +735,6 @@ static uint32_t dcr_read_ahb(void *opaque, int dcrn)
->       case AHB_BOT:
->           ret = ahb->bot;
->           break;
-> -    default:
-> -        break;
->       }
->   
->       return ret;
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 49793b56cd..f5806f06e7 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -182,7 +182,7 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
->   static uint32_t dcr_read_sdram (void *opaque, int dcrn)
->   {
->       ppc4xx_sdram_t *sdram;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       sdram = opaque;
->       switch (dcrn) {
-> @@ -238,10 +238,6 @@ static uint32_t dcr_read_sdram (void *opaque, int dcrn)
->               break;
->           }
->           break;
-> -    default:
-> -        /* Avoid gcc warning */
-> -        ret = 0x00000000;
-> -        break;
->       }
->   
->       return ret;
-> @@ -321,8 +317,6 @@ static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
->                   qemu_irq_lower(sdram->irq);
->               sdram->eccesr = val;
->               break;
-> -        default: /* Error */
-> -            break;
->           }
->           break;
->       }
-> @@ -476,7 +470,7 @@ static void ppc4xx_mal_reset(DeviceState *dev)
->   static uint32_t dcr_read_mal(void *opaque, int dcrn)
->   {
->       Ppc4xxMalState *mal = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (dcrn) {
->       case MAL0_CFG:
-> @@ -512,9 +506,6 @@ static uint32_t dcr_read_mal(void *opaque, int dcrn)
->       case MAL0_RXDEIR:
->           ret = mal->rxdeir;
->           break;
-> -    default:
-> -        ret = 0;
-> -        break;
->       }
->       if (dcrn >= MAL0_TXCTP0R && dcrn < MAL0_TXCTP0R + mal->txcnum) {
->           ret = mal->txctpr[dcrn - MAL0_TXCTP0R];
-> @@ -671,7 +662,7 @@ enum {
->   static uint32_t dcr_read_plb(void *opaque, int dcrn)
->   {
->       Ppc405PlbState *plb = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (dcrn) {
->       case PLB0_ACR:
-> @@ -683,10 +674,6 @@ static uint32_t dcr_read_plb(void *opaque, int dcrn)
->       case PLB0_BESR:
->           ret = plb->besr;
->           break;
-> -    default:
-> -        /* Avoid gcc warning */
-> -        ret = 0;
-> -        break;
->       }
->   
->       return ret;
-> @@ -756,7 +743,7 @@ enum {
->   static uint32_t dcr_read_ebc(void *opaque, int dcrn)
->   {
->       Ppc405EbcState *ebc = opaque;
-> -    uint32_t ret;
-> +    uint32_t ret = 0;
->   
->       switch (dcrn) {
->       case EBC0_CFGADDR:
-> @@ -824,14 +811,8 @@ static uint32_t dcr_read_ebc(void *opaque, int dcrn)
->           case 0x23: /* CFG */
->               ret = ebc->cfg;
->               break;
-> -        default:
-> -            ret = 0x00000000;
-> -            break;
->           }
->           break;
-> -    default:
-> -        ret = 0x00000000;
-> -        break;
->       }
->   
->       return ret;
-> @@ -887,12 +868,8 @@ static void dcr_write_ebc(void *opaque, int dcrn, uint32_t val)
->               break;
->           case 0x23: /* CFG */
->               break;
-> -        default:
-> -            break;
->           }
->           break;
-> -    default:
-> -        break;
->       }
->   }
->   
+> Regards,
+> BALATON Zoltan
+> 
+> BALATON Zoltan (22):
+>    ppc/ppc4xx: Introduce a DCR device model
+>    ppc/ppc405: QOM'ify CPC
+>    ppc/ppc405: QOM'ify GPT
+>    ppc/ppc405: QOM'ify OCM
+>    ppc/ppc405: QOM'ify GPIO
+>    ppc/ppc405: QOM'ify DMA
+>    ppc/ppc405: QOM'ify EBC
+>    ppc/ppc405: QOM'ify OPBA
+>    ppc/ppc405: QOM'ify POB
+>    ppc/ppc405: QOM'ify PLB
+>    ppc/ppc405: QOM'ify MAL
+>    ppc4xx: Move PLB model to ppc4xx_devs.c
+>    ppc4xx: Move EBC model to ppc4xx_devs.c
+>    ppc/ppc405: Use an embedded PPCUIC model in SoC state
+>    hw/intc/ppc-uic: Convert ppc-uic to a PPC4xx DCR device
+>    ppc/ppc405: Use an explicit I2C object
+>    ppc/ppc405: QOM'ify FPGA
+>    ppc405: Move machine specific code to ppc405_boards.c
+>    hw/ppc/Kconfig: Remove PPC405 dependency from sam460ex
+>    hw/ppc/Kconfig: Move imply before select
+>    ppc4xx: Drop empty default cases
+>    ppc/ppc4xx: Fix sdram trace events
+> 
+>   hw/intc/ppc-uic.c         |   26 +-
+>   hw/ppc/Kconfig            |    3 +-
+>   hw/ppc/ppc405.h           |  182 +++++--
+>   hw/ppc/ppc405_boards.c    |  360 +++++++++----
+>   hw/ppc/ppc405_uc.c        | 1071 ++++++++++++-------------------------
+>   hw/ppc/ppc440_bamboo.c    |    7 +-
+>   hw/ppc/ppc440_uc.c        |   27 -
+>   hw/ppc/ppc4xx_devs.c      |  473 +++++++++++++---
+>   hw/ppc/sam460ex.c         |   37 +-
+>   hw/ppc/trace-events       |    3 -
+>   hw/ppc/virtex_ml507.c     |    7 +-
+>   include/hw/intc/ppc-uic.h |    6 +-
+>   include/hw/ppc/ppc4xx.h   |   71 ++-
+>   13 files changed, 1223 insertions(+), 1050 deletions(-)
+> 
 
 
