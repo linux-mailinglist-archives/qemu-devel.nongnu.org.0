@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE11595417
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:45:34 +0200 (CEST)
-Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D7F595401
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:39:58 +0200 (CEST)
+Received: from localhost ([::1]:55240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNrGX-0007bv-PK
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:45:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42228)
+	id 1oNrB7-0002xh-OO
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNr93-0001Qf-Ra
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:37:49 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:41615)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oNr8C-0000BO-V6; Tue, 16 Aug 2022 03:36:57 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:53749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNr8x-00052f-T4
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:37:49 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7B55D11E8E7E5;
- Tue, 16 Aug 2022 09:37:40 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oNr84-0004yT-5D; Tue, 16 Aug 2022 03:36:56 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.139])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B248911E8E727;
+ Tue, 16 Aug 2022 09:36:43 +0200 (CEST)
+Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 16 Aug
- 2022 09:37:39 +0200
+ 2022 09:36:43 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00334409749-b4b2-46a4-b6e8-eb90e05bc53a,
+ (GARM-110S0049db59f52-6475-4219-848e-335ecf3cd326,
  F9C770E940B196DD2347A7F94772438AA2E7EC4E) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <346db6e4-0c6e-bcc6-f746-e773ec29a0bc@kaod.org>
-Date: Tue, 16 Aug 2022 09:35:00 +0200
+Message-ID: <79d02c8c-7753-d589-c41d-88b880914f9b@kaod.org>
+Date: Tue, 16 Aug 2022 09:36:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 13/22] ppc4xx: Move EBC model to ppc4xx_devs.c
+Subject: Re: [PATCH 15/22] hw/intc/ppc-uic: Convert ppc-uic to a PPC4xx DCR
+ device
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
  <qemu-ppc@nongnu.org>
 CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
  <peter.maydell@linaro.org>
 References: <cover.1660402839.git.balaton@eik.bme.hu>
- <b0f82bc6a7a8e6fb2cb79b98336b75b31136c7dc.1660402839.git.balaton@eik.bme.hu>
+ <221c889d9c783397dce54390cf6fcc3f3b194d22.1660402839.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <b0f82bc6a7a8e6fb2cb79b98336b75b31136c7dc.1660402839.git.balaton@eik.bme.hu>
+In-Reply-To: <221c889d9c783397dce54390cf6fcc3f3b194d22.1660402839.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: 8d598514-19fd-4903-867a-4e7d7f2835d9
-X-Ovh-Tracer-Id: 5279344664519609251
+X-Ovh-Tracer-GUID: 1f680da1-7153-468a-8675-bea8051927b4
+X-Ovh-Tracer-Id: 5263300591866317731
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehfedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehfedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,490 +78,256 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/13/22 17:34, BALATON Zoltan wrote:
-> The EBC is shared between 405 and 440 so move it to shared file.
+> Make ppc-uic a subclass of ppc4xx-dcr-device which will handle the cpu
+> link and make it uniform with the other PPC4xx devices.
 
-Should we rename the device to Ppc4xxEbcState ?
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
 C.
 
-
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/ppc405.h         |  15 ----
->   hw/ppc/ppc405_uc.c      | 191 ----------------------------------------
->   hw/ppc/ppc4xx_devs.c    | 191 ++++++++++++++++++++++++++++++++++++++++
->   include/hw/ppc/ppc4xx.h |  15 ++++
->   4 files changed, 206 insertions(+), 206 deletions(-)
+>   hw/intc/ppc-uic.c         | 26 ++++++--------------------
+>   hw/ppc/ppc405_uc.c        |  6 ++----
+>   hw/ppc/ppc440_bamboo.c    |  7 ++-----
+>   hw/ppc/ppc4xx_devs.c      |  1 -
+>   hw/ppc/sam460ex.c         | 17 +++++++----------
+>   hw/ppc/virtex_ml507.c     |  7 ++-----
+>   include/hw/intc/ppc-uic.h |  6 ++----
+>   7 files changed, 21 insertions(+), 49 deletions(-)
 > 
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index d85c595f9d..c0251f0894 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -85,21 +85,6 @@ struct Ppc405OpbaState {
->       uint8_t pr;
->   };
+> diff --git a/hw/intc/ppc-uic.c b/hw/intc/ppc-uic.c
+> index 60013f2dde..dcf5de5d43 100644
+> --- a/hw/intc/ppc-uic.c
+> +++ b/hw/intc/ppc-uic.c
+> @@ -25,11 +25,8 @@
+>   #include "qemu/osdep.h"
+>   #include "hw/intc/ppc-uic.h"
+>   #include "hw/irq.h"
+> -#include "cpu.h"
+> -#include "hw/ppc/ppc.h"
+>   #include "hw/qdev-properties.h"
+>   #include "migration/vmstate.h"
+> -#include "qapi/error.h"
 >   
-> -/* Peripheral controller */
-> -#define TYPE_PPC405_EBC "ppc405-ebc"
-> -OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
-> -struct Ppc405EbcState {
-> -    Ppc4xxDcrDeviceState parent_obj;
-> -
-> -    uint32_t addr;
-> -    uint32_t bcr[8];
-> -    uint32_t bap[8];
-> -    uint32_t bear;
-> -    uint32_t besr0;
-> -    uint32_t besr1;
-> -    uint32_t cfg;
-> -};
-> -
->   /* DMA controller */
->   #define TYPE_PPC405_DMA "ppc405-dma"
->   OBJECT_DECLARE_SIMPLE_TYPE(Ppc405DmaState, PPC405_DMA);
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 3de6c77631..01625e3237 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -299,192 +299,6 @@ static void ppc405_opba_class_init(ObjectClass *oc, void *data)
->   /* Code decompression controller */
->   /* XXX: TODO */
->   
-> -/*****************************************************************************/
-> -/* Peripheral controller */
-> -enum {
-> -    EBC0_CFGADDR = 0x012,
-> -    EBC0_CFGDATA = 0x013,
-> -};
-> -
-> -static uint32_t dcr_read_ebc(void *opaque, int dcrn)
-> -{
-> -    Ppc405EbcState *ebc = opaque;
-> -    uint32_t ret;
-> -
-> -    switch (dcrn) {
-> -    case EBC0_CFGADDR:
-> -        ret = ebc->addr;
-> -        break;
-> -    case EBC0_CFGDATA:
-> -        switch (ebc->addr) {
-> -        case 0x00: /* B0CR */
-> -            ret = ebc->bcr[0];
-> -            break;
-> -        case 0x01: /* B1CR */
-> -            ret = ebc->bcr[1];
-> -            break;
-> -        case 0x02: /* B2CR */
-> -            ret = ebc->bcr[2];
-> -            break;
-> -        case 0x03: /* B3CR */
-> -            ret = ebc->bcr[3];
-> -            break;
-> -        case 0x04: /* B4CR */
-> -            ret = ebc->bcr[4];
-> -            break;
-> -        case 0x05: /* B5CR */
-> -            ret = ebc->bcr[5];
-> -            break;
-> -        case 0x06: /* B6CR */
-> -            ret = ebc->bcr[6];
-> -            break;
-> -        case 0x07: /* B7CR */
-> -            ret = ebc->bcr[7];
-> -            break;
-> -        case 0x10: /* B0AP */
-> -            ret = ebc->bap[0];
-> -            break;
-> -        case 0x11: /* B1AP */
-> -            ret = ebc->bap[1];
-> -            break;
-> -        case 0x12: /* B2AP */
-> -            ret = ebc->bap[2];
-> -            break;
-> -        case 0x13: /* B3AP */
-> -            ret = ebc->bap[3];
-> -            break;
-> -        case 0x14: /* B4AP */
-> -            ret = ebc->bap[4];
-> -            break;
-> -        case 0x15: /* B5AP */
-> -            ret = ebc->bap[5];
-> -            break;
-> -        case 0x16: /* B6AP */
-> -            ret = ebc->bap[6];
-> -            break;
-> -        case 0x17: /* B7AP */
-> -            ret = ebc->bap[7];
-> -            break;
-> -        case 0x20: /* BEAR */
-> -            ret = ebc->bear;
-> -            break;
-> -        case 0x21: /* BESR0 */
-> -            ret = ebc->besr0;
-> -            break;
-> -        case 0x22: /* BESR1 */
-> -            ret = ebc->besr1;
-> -            break;
-> -        case 0x23: /* CFG */
-> -            ret = ebc->cfg;
-> -            break;
-> -        default:
-> -            ret = 0x00000000;
-> -            break;
-> -        }
-> -        break;
-> -    default:
-> -        ret = 0x00000000;
-> -        break;
-> -    }
-> -
-> -    return ret;
-> -}
-> -
-> -static void dcr_write_ebc(void *opaque, int dcrn, uint32_t val)
-> -{
-> -    Ppc405EbcState *ebc = opaque;
-> -
-> -    switch (dcrn) {
-> -    case EBC0_CFGADDR:
-> -        ebc->addr = val;
-> -        break;
-> -    case EBC0_CFGDATA:
-> -        switch (ebc->addr) {
-> -        case 0x00: /* B0CR */
-> -            break;
-> -        case 0x01: /* B1CR */
-> -            break;
-> -        case 0x02: /* B2CR */
-> -            break;
-> -        case 0x03: /* B3CR */
-> -            break;
-> -        case 0x04: /* B4CR */
-> -            break;
-> -        case 0x05: /* B5CR */
-> -            break;
-> -        case 0x06: /* B6CR */
-> -            break;
-> -        case 0x07: /* B7CR */
-> -            break;
-> -        case 0x10: /* B0AP */
-> -            break;
-> -        case 0x11: /* B1AP */
-> -            break;
-> -        case 0x12: /* B2AP */
-> -            break;
-> -        case 0x13: /* B3AP */
-> -            break;
-> -        case 0x14: /* B4AP */
-> -            break;
-> -        case 0x15: /* B5AP */
-> -            break;
-> -        case 0x16: /* B6AP */
-> -            break;
-> -        case 0x17: /* B7AP */
-> -            break;
-> -        case 0x20: /* BEAR */
-> -            break;
-> -        case 0x21: /* BESR0 */
-> -            break;
-> -        case 0x22: /* BESR1 */
-> -            break;
-> -        case 0x23: /* CFG */
-> -            break;
-> -        default:
-> -            break;
-> -        }
-> -        break;
-> -    default:
-> -        break;
-> -    }
-> -}
-> -
-> -static void ppc405_ebc_reset(DeviceState *dev)
-> -{
-> -    Ppc405EbcState *ebc = PPC405_EBC(dev);
-> -    int i;
-> -
-> -    ebc->addr = 0x00000000;
-> -    ebc->bap[0] = 0x7F8FFE80;
-> -    ebc->bcr[0] = 0xFFE28000;
-> -    for (i = 0; i < 8; i++) {
-> -        ebc->bap[i] = 0x00000000;
-> -        ebc->bcr[i] = 0x00000000;
-> -    }
-> -    ebc->besr0 = 0x00000000;
-> -    ebc->besr1 = 0x00000000;
-> -    ebc->cfg = 0x80400000;
-> -}
-> -
-> -static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
-> -{
-> -    Ppc405EbcState *ebc = PPC405_EBC(dev);
-> -    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
-> -
-> -    ppc4xx_dcr_register(dcr, EBC0_CFGADDR, ebc, &dcr_read_ebc, &dcr_write_ebc);
-> -    ppc4xx_dcr_register(dcr, EBC0_CFGDATA, ebc, &dcr_read_ebc, &dcr_write_ebc);
-> -}
-> -
-> -static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
-> -{
-> -    DeviceClass *dc = DEVICE_CLASS(oc);
-> -
-> -    dc->realize = ppc405_ebc_realize;
-> -    dc->reset = ppc405_ebc_reset;
-> -    /* Reason: only works as function of a ppc4xx SoC */
-> -    dc->user_creatable = false;
-> -}
-> -
->   /*****************************************************************************/
->   /* DMA controller */
 >   enum {
-> @@ -1456,11 +1270,6 @@ static const TypeInfo ppc405_types[] = {
->           .parent         = TYPE_SYS_BUS_DEVICE,
->           .instance_size  = sizeof(Ppc405OpbaState),
->           .class_init     = ppc405_opba_class_init,
-> -    }, {
-> -        .name           = TYPE_PPC405_EBC,
-> -        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-> -        .instance_size  = sizeof(Ppc405EbcState),
-> -        .class_init     = ppc405_ebc_class_init,
->       }, {
->           .name           = TYPE_PPC405_DMA,
->           .parent         = TYPE_PPC4xx_DCR_DEVICE,
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 843d759b1b..96941ae040 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -747,6 +747,192 @@ static void ppc405_plb_class_init(ObjectClass *oc, void *data)
->       dc->user_creatable = false;
+>       DCR_UICSR  = 0x000,
+> @@ -105,10 +102,9 @@ static void ppcuic_trigger_irq(PPCUIC *uic)
+>   
+>   static void ppcuic_set_irq(void *opaque, int irq_num, int level)
+>   {
+> -    PPCUIC *uic;
+> +    PPCUIC *uic = opaque;
+>       uint32_t mask, sr;
+>   
+> -    uic = opaque;
+>       mask = 1U << (31 - irq_num);
+>       LOG_UIC("%s: irq %d level %d uicsr %08" PRIx32
+>                   " mask %08" PRIx32 " => %08" PRIx32 " %08" PRIx32 "\n",
+> @@ -144,10 +140,9 @@ static void ppcuic_set_irq(void *opaque, int irq_num, int level)
+>   
+>   static uint32_t dcr_read_uic(void *opaque, int dcrn)
+>   {
+> -    PPCUIC *uic;
+> +    PPCUIC *uic = opaque;
+>       uint32_t ret;
+>   
+> -    uic = opaque;
+>       dcrn -= uic->dcr_base;
+>       switch (dcrn) {
+>       case DCR_UICSR:
+> @@ -192,9 +187,8 @@ static uint32_t dcr_read_uic(void *opaque, int dcrn)
+>   
+>   static void dcr_write_uic(void *opaque, int dcrn, uint32_t val)
+>   {
+> -    PPCUIC *uic;
+> +    PPCUIC *uic = opaque;
+>   
+> -    uic = opaque;
+>       dcrn -= uic->dcr_base;
+>       LOG_UIC("%s: dcr %d val 0x%x\n", __func__, dcrn, val);
+>       switch (dcrn) {
+> @@ -251,19 +245,12 @@ static void ppc_uic_reset(DeviceState *dev)
+>   static void ppc_uic_realize(DeviceState *dev, Error **errp)
+>   {
+>       PPCUIC *uic = PPC_UIC(dev);
+> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+>       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> -    PowerPCCPU *cpu;
+>       int i;
+>   
+> -    if (!uic->cpu) {
+> -        /* This is a programming error in the code using this device */
+> -        error_setg(errp, "ppc-uic 'cpu' link property was not set");
+> -        return;
+> -    }
+> -
+> -    cpu = POWERPC_CPU(uic->cpu);
+>       for (i = 0; i < DCR_UICMAX; i++) {
+> -        ppc_dcr_register(&cpu->env, uic->dcr_base + i, uic,
+> +        ppc4xx_dcr_register(dcr, uic->dcr_base + i, uic,
+>                            &dcr_read_uic, &dcr_write_uic);
+>       }
+>   
+> @@ -273,7 +260,6 @@ static void ppc_uic_realize(DeviceState *dev, Error **errp)
 >   }
 >   
-> +/*****************************************************************************/
-> +/* Peripheral controller */
-> +enum {
-> +    EBC0_CFGADDR = 0x012,
-> +    EBC0_CFGDATA = 0x013,
-> +};
-> +
-> +static uint32_t dcr_read_ebc(void *opaque, int dcrn)
-> +{
-> +    Ppc405EbcState *ebc = opaque;
-> +    uint32_t ret;
-> +
-> +    switch (dcrn) {
-> +    case EBC0_CFGADDR:
-> +        ret = ebc->addr;
-> +        break;
-> +    case EBC0_CFGDATA:
-> +        switch (ebc->addr) {
-> +        case 0x00: /* B0CR */
-> +            ret = ebc->bcr[0];
-> +            break;
-> +        case 0x01: /* B1CR */
-> +            ret = ebc->bcr[1];
-> +            break;
-> +        case 0x02: /* B2CR */
-> +            ret = ebc->bcr[2];
-> +            break;
-> +        case 0x03: /* B3CR */
-> +            ret = ebc->bcr[3];
-> +            break;
-> +        case 0x04: /* B4CR */
-> +            ret = ebc->bcr[4];
-> +            break;
-> +        case 0x05: /* B5CR */
-> +            ret = ebc->bcr[5];
-> +            break;
-> +        case 0x06: /* B6CR */
-> +            ret = ebc->bcr[6];
-> +            break;
-> +        case 0x07: /* B7CR */
-> +            ret = ebc->bcr[7];
-> +            break;
-> +        case 0x10: /* B0AP */
-> +            ret = ebc->bap[0];
-> +            break;
-> +        case 0x11: /* B1AP */
-> +            ret = ebc->bap[1];
-> +            break;
-> +        case 0x12: /* B2AP */
-> +            ret = ebc->bap[2];
-> +            break;
-> +        case 0x13: /* B3AP */
-> +            ret = ebc->bap[3];
-> +            break;
-> +        case 0x14: /* B4AP */
-> +            ret = ebc->bap[4];
-> +            break;
-> +        case 0x15: /* B5AP */
-> +            ret = ebc->bap[5];
-> +            break;
-> +        case 0x16: /* B6AP */
-> +            ret = ebc->bap[6];
-> +            break;
-> +        case 0x17: /* B7AP */
-> +            ret = ebc->bap[7];
-> +            break;
-> +        case 0x20: /* BEAR */
-> +            ret = ebc->bear;
-> +            break;
-> +        case 0x21: /* BESR0 */
-> +            ret = ebc->besr0;
-> +            break;
-> +        case 0x22: /* BESR1 */
-> +            ret = ebc->besr1;
-> +            break;
-> +        case 0x23: /* CFG */
-> +            ret = ebc->cfg;
-> +            break;
-> +        default:
-> +            ret = 0x00000000;
-> +            break;
-> +        }
-> +        break;
-> +    default:
-> +        ret = 0x00000000;
-> +        break;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +static void dcr_write_ebc(void *opaque, int dcrn, uint32_t val)
-> +{
-> +    Ppc405EbcState *ebc = opaque;
-> +
-> +    switch (dcrn) {
-> +    case EBC0_CFGADDR:
-> +        ebc->addr = val;
-> +        break;
-> +    case EBC0_CFGDATA:
-> +        switch (ebc->addr) {
-> +        case 0x00: /* B0CR */
-> +            break;
-> +        case 0x01: /* B1CR */
-> +            break;
-> +        case 0x02: /* B2CR */
-> +            break;
-> +        case 0x03: /* B3CR */
-> +            break;
-> +        case 0x04: /* B4CR */
-> +            break;
-> +        case 0x05: /* B5CR */
-> +            break;
-> +        case 0x06: /* B6CR */
-> +            break;
-> +        case 0x07: /* B7CR */
-> +            break;
-> +        case 0x10: /* B0AP */
-> +            break;
-> +        case 0x11: /* B1AP */
-> +            break;
-> +        case 0x12: /* B2AP */
-> +            break;
-> +        case 0x13: /* B3AP */
-> +            break;
-> +        case 0x14: /* B4AP */
-> +            break;
-> +        case 0x15: /* B5AP */
-> +            break;
-> +        case 0x16: /* B6AP */
-> +            break;
-> +        case 0x17: /* B7AP */
-> +            break;
-> +        case 0x20: /* BEAR */
-> +            break;
-> +        case 0x21: /* BESR0 */
-> +            break;
-> +        case 0x22: /* BESR1 */
-> +            break;
-> +        case 0x23: /* CFG */
-> +            break;
-> +        default:
-> +            break;
-> +        }
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +}
-> +
-> +static void ppc405_ebc_reset(DeviceState *dev)
-> +{
-> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
-> +    int i;
-> +
-> +    ebc->addr = 0x00000000;
-> +    ebc->bap[0] = 0x7F8FFE80;
-> +    ebc->bcr[0] = 0xFFE28000;
-> +    for (i = 0; i < 8; i++) {
-> +        ebc->bap[i] = 0x00000000;
-> +        ebc->bcr[i] = 0x00000000;
-> +    }
-> +    ebc->besr0 = 0x00000000;
-> +    ebc->besr1 = 0x00000000;
-> +    ebc->cfg = 0x80400000;
-> +}
-> +
-> +static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
-> +{
-> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
-> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
-> +
-> +    ppc4xx_dcr_register(dcr, EBC0_CFGADDR, ebc, &dcr_read_ebc, &dcr_write_ebc);
-> +    ppc4xx_dcr_register(dcr, EBC0_CFGDATA, ebc, &dcr_read_ebc, &dcr_write_ebc);
-> +}
-> +
-> +static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = ppc405_ebc_realize;
-> +    dc->reset = ppc405_ebc_reset;
-> +    /* Reason: only works as function of a ppc4xx SoC */
-> +    dc->user_creatable = false;
-> +}
-> +
->   /* PPC4xx_DCR_DEVICE */
+>   static Property ppc_uic_properties[] = {
+> -    DEFINE_PROP_LINK("cpu", PPCUIC, cpu, TYPE_CPU, CPUState *),
+>       DEFINE_PROP_UINT32("dcr-base", PPCUIC, dcr_base, 0xc0),
+>       DEFINE_PROP_BOOL("use-vectors", PPCUIC, use_vectors, true),
+>       DEFINE_PROP_END_OF_LIST()
+> @@ -308,7 +294,7 @@ static void ppc_uic_class_init(ObjectClass *klass, void *data)
 >   
->   void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
-> @@ -788,6 +974,11 @@ static const TypeInfo ppc4xx_types[] = {
->           .parent         = TYPE_PPC4xx_DCR_DEVICE,
->           .instance_size  = sizeof(Ppc405PlbState),
->           .class_init     = ppc405_plb_class_init,
-> +    }, {
-> +        .name           = TYPE_PPC405_EBC,
-> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-> +        .instance_size  = sizeof(Ppc405EbcState),
-> +        .class_init     = ppc405_ebc_class_init,
->       }, {
->           .name           = TYPE_PPC4xx_DCR_DEVICE,
->           .parent         = TYPE_SYS_BUS_DEVICE,
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index e696e159f3..6e361cf254 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -94,4 +94,19 @@ struct Ppc405PlbState {
->       uint32_t besr;
+>   static const TypeInfo ppc_uic_info = {
+>       .name = TYPE_PPC_UIC,
+> -    .parent = TYPE_SYS_BUS_DEVICE,
+> +    .parent = TYPE_PPC4xx_DCR_DEVICE,
+>       .instance_size = sizeof(PPCUIC),
+>       .class_init = ppc_uic_class_init,
 >   };
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index 82830f52bf..aa3617f876 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -1149,12 +1149,10 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>       sysbus_mmio_map(sbd, 0, 0xef600600);
 >   
-> +/* Peripheral controller */
-> +#define TYPE_PPC405_EBC "ppc405-ebc"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
-> +struct Ppc405EbcState {
+>       /* Universal interrupt controller */
+> -    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
+> -                             &error_fatal);
+> -    sbd = SYS_BUS_DEVICE(&s->uic);
+> -    if (!sysbus_realize(sbd, errp)) {
+> +    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->uic), &s->cpu, errp)) {
+>           return;
+>       }
+> +    sbd = SYS_BUS_DEVICE(&s->uic);
+>       sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
+>                          qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
+>       sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
+> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+> index 873f930c77..b14a9ef776 100644
+> --- a/hw/ppc/ppc440_bamboo.c
+> +++ b/hw/ppc/ppc440_bamboo.c
+> @@ -193,12 +193,9 @@ static void bamboo_init(MachineState *machine)
+>   
+>       /* interrupt controller */
+>       uicdev = qdev_new(TYPE_PPC_UIC);
+> +    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uicdev), cpu, &error_fatal);
+> +    object_unref(OBJECT(uicdev));
+>       uicsbd = SYS_BUS_DEVICE(uicdev);
+> -
+> -    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+> -                             &error_fatal);
+> -    sysbus_realize_and_unref(uicsbd, &error_fatal);
+> -
+>       sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+>                          qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+>       sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index 96941ae040..49793b56cd 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -29,7 +29,6 @@
+>   #include "hw/irq.h"
+>   #include "hw/ppc/ppc.h"
+>   #include "hw/ppc/ppc4xx.h"
+> -#include "hw/intc/ppc-uic.h"
+>   #include "hw/qdev-properties.h"
+>   #include "qemu/log.h"
+>   #include "exec/address-spaces.h"
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index c16303462d..c96de98690 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -314,7 +314,6 @@ static void sam460ex_init(MachineState *machine)
+>   
+>       /* interrupt controllers */
+>       for (i = 0; i < ARRAY_SIZE(uic); i++) {
+> -        SysBusDevice *sbd;
+>           /*
+>            * UICs 1, 2 and 3 are cascaded through UIC 0.
+>            * input_ints[n] is the interrupt number on UIC 0 which
+> @@ -326,22 +325,20 @@ static void sam460ex_init(MachineState *machine)
+>           const int input_ints[] = { -1, 30, 10, 16 };
+>   
+>           uic[i] = qdev_new(TYPE_PPC_UIC);
+> -        sbd = SYS_BUS_DEVICE(uic[i]);
+> -
+>           qdev_prop_set_uint32(uic[i], "dcr-base", 0xc0 + i * 0x10);
+> -        object_property_set_link(OBJECT(uic[i]), "cpu", OBJECT(cpu),
+> -                                 &error_fatal);
+> -        sysbus_realize_and_unref(sbd, &error_fatal);
+> +        ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uic[i]), cpu, &error_fatal);
+> +        object_unref(OBJECT(uic[i]));
+>   
+> +        sbdev = SYS_BUS_DEVICE(uic[i]);
+>           if (i == 0) {
+> -            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
+> +            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_INT,
+>                                qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+> -            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
+> +            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_CINT,
+>                                qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
+>           } else {
+> -            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
+> +            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_INT,
+>                                  qdev_get_gpio_in(uic[0], input_ints[i]));
+> -            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
+> +            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_CINT,
+>                                  qdev_get_gpio_in(uic[0], input_ints[i] + 1));
+>           }
+>       }
+> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+> index 53b126ff48..493ea0c19f 100644
+> --- a/hw/ppc/virtex_ml507.c
+> +++ b/hw/ppc/virtex_ml507.c
+> @@ -104,12 +104,9 @@ static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t sysclk)
+>   
+>       /* interrupt controller */
+>       uicdev = qdev_new(TYPE_PPC_UIC);
+> +    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uicdev), cpu, &error_fatal);
+> +    object_unref(OBJECT(uicdev));
+>       uicsbd = SYS_BUS_DEVICE(uicdev);
+> -
+> -    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+> -                             &error_fatal);
+> -    sysbus_realize_and_unref(uicsbd, &error_fatal);
+> -
+>       sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+>                          qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
+>       sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+> diff --git a/include/hw/intc/ppc-uic.h b/include/hw/intc/ppc-uic.h
+> index 22dd5e5ac2..4d82e9a3c6 100644
+> --- a/include/hw/intc/ppc-uic.h
+> +++ b/include/hw/intc/ppc-uic.h
+> @@ -25,8 +25,7 @@
+>   #ifndef HW_INTC_PPC_UIC_H
+>   #define HW_INTC_PPC_UIC_H
+>   
+> -#include "hw/sysbus.h"
+> -#include "qom/object.h"
+> +#include "hw/ppc/ppc4xx.h"
+>   
+>   #define TYPE_PPC_UIC "ppc-uic"
+>   OBJECT_DECLARE_SIMPLE_TYPE(PPCUIC, PPC_UIC)
+> @@ -56,14 +55,13 @@ enum {
+>   
+>   struct PPCUIC {
+>       /*< private >*/
+> -    SysBusDevice parent_obj;
 > +    Ppc4xxDcrDeviceState parent_obj;
-> +
-> +    uint32_t addr;
-> +    uint32_t bcr[8];
-> +    uint32_t bap[8];
-> +    uint32_t bear;
-> +    uint32_t besr0;
-> +    uint32_t besr1;
-> +    uint32_t cfg;
-> +};
-> +
->   #endif /* PPC4XX_H */
+>   
+>       /*< public >*/
+>       qemu_irq output_int;
+>       qemu_irq output_cint;
+>   
+>       /* properties */
+> -    CPUState *cpu;
+>       uint32_t dcr_base;
+>       bool use_vectors;
+>   
 
 
