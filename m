@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F44594F5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 06:24:29 +0200 (CEST)
-Received: from localhost ([::1]:34190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF33594F90
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 06:29:23 +0200 (CEST)
+Received: from localhost ([::1]:45748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNo7w-0001EN-B8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 00:24:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36714)
+	id 1oNoCg-0004Wy-4O
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 00:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vaishu071998@gmail.com>)
- id 1oNo6L-0008H8-US
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 00:22:49 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:45860)
+ id 1oNoBY-0003Bn-6q
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 00:28:12 -0400
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:37417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <vaishu071998@gmail.com>)
- id 1oNo6K-00021x-6l
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 00:22:49 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-3246910dac3so121500127b3.12
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 21:22:47 -0700 (PDT)
+ id 1oNoBW-0002zL-KC
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 00:28:11 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-32194238c77so122026277b3.4
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 21:28:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=Z4HclG8aTio85EIYPum+zbH5b8VK+0gJfbyj7KApy5M=;
- b=d/NI74yJxEAF3o7+4VI/iDcf87abaVxGpkNX/qSrfI4w6aS2WORDV4yJKsQugRENLm
- KltZusQxUA2zeuyiwFjiLvcHutanDQ7NdWfp9k2ftxVcr6TYkk2AFrTs8aKwLTZXO4Xu
- bI+Zx3APIGEJsu7gHlMQpljn7S3IrIOmVQv1Y8soCB9w0rwOzlQ7/bgl/xaOHd2EMJ2z
- Jqv2zeE9/H0qFrP4LEDbHmfzOlResBV2ghtFoy/bcbKn8Dq8I4gmiIMxgfyq36/kLmnB
- rgnDWGw5HUJ0tOvQdhr7yKXP+y4aZVibOp1T7V1253dwPwu4VFKEUZWReJkN0+67e46u
- lCfA==
+ bh=quADI/kjFtBikm6McoG6FGtm67oyPMwGUB37TMIQS8o=;
+ b=bLqy9xXDUVLobXETgLOU6dtHH6DlB1+mMohcEHGA4KnVAb8RtUgs/X5nZNcLTmZRQD
+ jczXYBs9J3+rcLPhMr/6jFzzddkX273UcA74U87SFdcoSWMg6W62JbDqUnr4ElvFqs+k
+ RD8eoAoJpxKbNIyz8IWDXKTWSk5OtnLOgCE8F2YNOsc1eqbdKmY/nHXF2qqFNJzOPf/v
+ o+/JB/hnCh9xTV9GznXBR1kHv/IiemZj4UeWXFTymoEpSFjR75FpiJ45rKgVf6xAMaXn
+ LgWUBIMW03hE55SmYSAlEl+K14OGd9PtCes1b21aeuXz8hM4gH9w/vqiCgr08BKX+Rvk
+ Fvig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=Z4HclG8aTio85EIYPum+zbH5b8VK+0gJfbyj7KApy5M=;
- b=Jk9J9KuLu2fW7lELRWeUO91Vrd1VSPlUSiF4OUiNfM3cVJRhlaV09XgNU5bRyBwclD
- SLY+NdpncBW8RQfvIdycGWYBuKGpffqEx4JVw+boPglQxPISjjb61ueknN8t2fC7IACi
- mqV3GQtFghCguLya+Ijuu0xJj2s46fivBgN/66/VBOyTiAEhBkm3nKNzXeNKved6WSl3
- qipzBD4QIOEzQ51ee/oxrUr9bxv2cEosHuRuWolMT5VbwC9ArWGJctCbNGiF7+EOYwUL
- l51ioHcIcuh1EOwfCXyNCJIQ0cs6KHDjG1FT+rF0Dbo9hDQYlZagEL4YPm6GqpSJQpYO
- C7DA==
-X-Gm-Message-State: ACgBeo1LEBxGEEOjh55c5B8ZLvhtqC3ULptGW4donE2J4PzXJ5f4Aj5S
- MjXBC8mxn7JhnnCzDVxhf8VCxNoof/0+60jvorc=
-X-Google-Smtp-Source: AA6agR5w1P2xQA75I51qstyIdAuhWCHpk2IuIbglPEFVv11xwxM/b/2mdqYdA+W+yHOwqlWeiB6j9NoEYS4MIoH5T28=
-X-Received: by 2002:a05:6902:244:b0:66f:8383:b51c with SMTP id
- k4-20020a056902024400b0066f8383b51cmr15285976ybs.471.1660623767064; Mon, 15
- Aug 2022 21:22:47 -0700 (PDT)
+ bh=quADI/kjFtBikm6McoG6FGtm67oyPMwGUB37TMIQS8o=;
+ b=65my1t6uCupLwA3JbAsb71JStg8FIUmjoztHxJH+qYldzYt8OdY5EHY5Xeqz2IAXhd
+ Fyz0qTyaz5qiP+S9WAvxg4KFFicNJrF5LmVuii9EDV6QGsmYoZ2/x815o3U4hd5ejgJ4
+ EWEVWlC6oABvsEfXlxg8aAD2WN753mvGCFj6j8s6FMR7+NeCF7GTZOOfGAVw9cnkKbQK
+ 0EoYNsyGYWjszCGJ+KOYT9Xo4WoAl9JbVRLhs1guTigzq4e8AbmOkQpG5ZxwnbCKrACu
+ iT8TbTEYvxMsGG/VWNJSijzolGMlm2QAdEsDQ2ABfCGdZclbatIEAaWUKmia7q9FBIwL
+ m7PQ==
+X-Gm-Message-State: ACgBeo20unxY57Mg5a+M/lPbGsyl5lKV/SW2diy8BFKAu/Fxkya/b2SV
+ CBQUV+yR72OV0UgvQRW0g+AV3MR/ThRE4Fo44hw=
+X-Google-Smtp-Source: AA6agR5SZzHWb/9yj/s1or+LcGnmjkWDoY2JLVyuz9X3e82Yijr8PzL9xj4L0W88L9lBOIlyYG8SScnphPDxDk/4uC4=
+X-Received: by 2002:a05:6902:110e:b0:66d:e6dc:5f31 with SMTP id
+ o14-20020a056902110e00b0066de6dc5f31mr14547779ybu.628.1660624089308; Mon, 15
+ Aug 2022 21:28:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAEcBaE1DOVtq+D1jh42ZO01guWo_zVRbFWoAOigpD2xm0YPSKQ@mail.gmail.com>
- <9e3a4a71-7d96-9fab-2d4e-4167b2f248f7@redhat.com>
-In-Reply-To: <9e3a4a71-7d96-9fab-2d4e-4167b2f248f7@redhat.com>
+ <CAFEAcA9+UmPzjDeFQDEbq3DW_t-zUHeZaA-eY6S8baT0ko7uwg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9+UmPzjDeFQDEbq3DW_t-zUHeZaA-eY6S8baT0ko7uwg@mail.gmail.com>
 From: vaishu venkat <vaishu071998@gmail.com>
-Date: Tue, 16 Aug 2022 09:52:34 +0530
-Message-ID: <CAEcBaE1fmko6BTgKXtUdd3JcJRZP7Obq6LvXLdUtDAkVmrG9hQ@mail.gmail.com>
+Date: Tue, 16 Aug 2022 09:57:56 +0530
+Message-ID: <CAEcBaE24F5F=LQQ6do=j5Epznv8h-9sUw76wWSmMV=GjVK+WUw@mail.gmail.com>
 Subject: Re: Bluetooth support in QEMU
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000bdd52805e65419bd"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=vaishu071998@gmail.com; helo=mail-yw1-x1131.google.com
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f2e37e05e6542c7a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=vaishu071998@gmail.com; helo=mail-yw1-x112a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,104 +85,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bdd52805e65419bd
+--000000000000f2e37e05e6542c7a
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Thomas,
+Hi Peter,
 
-Thanks for prompt response.
+Thanks for quick reply.
 
-We currently using the QEMU version as below,
+We don't have an existing application running with qemu functionality.
 
 
 
-*qemu-system-aarch64 -versionQEMU emulator version 4.2.1 (Debian
-1:4.2-3ubuntu6.23)Copyright (c) 2003-2019 Fabrice Bellard and the QEMU
-Project developers*
+On Mon, Aug 15, 2022 at 9:36 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Could you please guide us with the, how to access the real bluetooth
-devices in the guest
-
-On Mon, Aug 15, 2022 at 9:40 PM Thomas Huth <thuth@redhat.com> wrote:
-
-> On 15/08/2022 13.27, vaishu venkat wrote:
-> > Hi team,
-> >              We are currently required to use QEMU for virtualization of
-> > customized application. The application requires Bluetooth and Wi-fi
-> > support, as observed below warning,
-> > *qemu-system-aarch64: -bt hci,host: warning: The bluetooth subsystem is
-> > deprecated and will be removed soon. If the bluetooth subsystem is still
-> > useful for you, please send a mail to qemu-devel@nongnu.org
-> > <mailto:qemu-devel@nongnu.org> with your usecase.*
+> On Mon, 15 Aug 2022 at 16:53, vaishu venkat <vaishu071998@gmail.com>
+> wrote:
 > >
-> >   Could you please help us with the support of bluetooth in QEMU.
+> > Hi team,
+> >             We are currently required to use QEMU for virtualization of
+> customized application. The application requires Bluetooth and Wi-fi
+> support, as observed below warning,
+> > qemu-system-aarch64: -bt hci,host: warning: The bluetooth subsystem is
+> deprecated and will be removed soon. If the bluetooth subsystem is still
+> useful for you, please send a mail to qemu-devel@nongnu.org with your
+> usecase.
+> >
+> >  Could you please help us with the support of bluetooth in QEMU.
 >
-> Which version of QEMU are you using? Bluetooth support has been completely
-> removed in QEMU v5.0.0 (which was released more than two years ago
-> already)
-> since nobody spoke up saying that they were still using the completely
-> bit-rotten code. So sorry, but it's gone now and cannot be used anymore in
-> recent versions.
+> You're rather late... Bluetooth was deprecated in 2018 for
+> QEMU v3.1 (hence that warning message), and was subsequently
+> removed entirely for QEMU v5.0, released in 2020.
 >
-> If you just need access to real bluetooth devices in the guest, you could
-> try to passthrough a real bluetooth USB device to the guest instead.
+> The code in QEMU was, as far as we could tell at the time,
+> basically unused, unmaintained and also broken. It isn't
+> coming back, I'm afraid.
 >
->   HTH,
->    Thomas
+> Do you have an existing application that runs and works with
+> the bluetooth functionality on the QEMU version you have,
+> or are you instead trying to get it working as a new thing?
+> If the former, the answer is "just keep using that old QEMU".
+> If the latter, the answer is "it never really worked anyway,
+> so don't bother trying".
 >
+> thanks
+> -- PMM
 >
 
---000000000000bdd52805e65419bd
+--000000000000f2e37e05e6542c7a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hi Thomas,<br><div><br><=
-/div><div>Thanks for prompt response.</div><div><br></div><div>We currently=
- using the QEMU version as below,</div><div><b><br></b></div><div><b>qemu-s=
-ystem-aarch64 -version<br>QEMU emulator version 4.2.1 (Debian 1:4.2-3ubuntu=
-6.23)<br>Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project devel=
-opers</b></div><div><br></div><div>Could you please guide us with the, how =
-to access the real bluetooth devices in the guest<b><br></b></div></div></d=
-iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Mon, Aug 15, 2022 at 9:40 PM Thomas Huth &lt;<a href=3D"mailto:thuth@=
-redhat.com">thuth@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">On 15/08/2022 13.27, vaishu venkat wrote:<br>
+<div dir=3D"ltr"><div>Hi Peter,</div><div><br></div><div>Thanks for quick r=
+eply.</div><div><br></div><div>We don&#39;t have an existing application ru=
+nning with qemu functionality. <br></div><div><br></div><div><br></div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On M=
+on, Aug 15, 2022 at 9:36 PM Peter Maydell &lt;<a href=3D"mailto:peter.mayde=
+ll@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">On Mon, 15 Aug 2022 at 16:53, vaishu=
+ venkat &lt;<a href=3D"mailto:vaishu071998@gmail.com" target=3D"_blank">vai=
+shu071998@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
 &gt; Hi team,<br>
-&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 We are currently required to use QEMU for virtualization of <br>
-&gt; customized application. The application requires Bluetooth and Wi-fi <=
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0We are currently requir=
+ed to use QEMU for virtualization of customized application. The applicatio=
+n requires Bluetooth and Wi-fi support, as observed below warning,<br>
+&gt; qemu-system-aarch64: -bt hci,host: warning: The bluetooth subsystem is=
+ deprecated and will be removed soon. If the bluetooth subsystem is still u=
+seful for you, please send a mail to <a href=3D"mailto:qemu-devel@nongnu.or=
+g" target=3D"_blank">qemu-devel@nongnu.org</a> with your usecase.<br>
+&gt;<br>
+&gt;=C2=A0 Could you please help us with the support of bluetooth in QEMU.<=
 br>
-&gt; support, as observed below warning,<br>
-&gt; *qemu-system-aarch64: -bt hci,host: warning: The bluetooth subsystem i=
-s <br>
-&gt; deprecated and will be removed soon. If the bluetooth subsystem is sti=
-ll <br>
-&gt; useful for you, please send a mail to <a href=3D"mailto:qemu-devel@non=
-gnu.org" target=3D"_blank">qemu-devel@nongnu.org</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">=
-qemu-devel@nongnu.org</a>&gt; with your usecase.*<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0Could you please help us with the support of bluetooth in =
-QEMU.<br>
 <br>
-Which version of QEMU are you using? Bluetooth support has been completely =
+You&#39;re rather late... Bluetooth was deprecated in 2018 for<br>
+QEMU v3.1 (hence that warning message), and was subsequently<br>
+removed entirely for QEMU v5.0, released in 2020.<br>
 <br>
-removed in QEMU v5.0.0 (which was released more than two years ago already)=
- <br>
-since nobody spoke up saying that they were still using the completely <br>
-bit-rotten code. So sorry, but it&#39;s gone now and cannot be used anymore=
- in <br>
-recent versions.<br>
+The code in QEMU was, as far as we could tell at the time,<br>
+basically unused, unmaintained and also broken. It isn&#39;t<br>
+coming back, I&#39;m afraid.<br>
 <br>
-If you just need access to real bluetooth devices in the guest, you could <=
-br>
-try to passthrough a real bluetooth USB device to the guest instead.<br>
+Do you have an existing application that runs and works with<br>
+the bluetooth functionality on the QEMU version you have,<br>
+or are you instead trying to get it working as a new thing?<br>
+If the former, the answer is &quot;just keep using that old QEMU&quot;.<br>
+If the latter, the answer is &quot;it never really worked anyway,<br>
+so don&#39;t bother trying&quot;.<br>
 <br>
-=C2=A0 HTH,<br>
-=C2=A0 =C2=A0Thomas<br>
-<br>
+thanks<br>
+-- PMM<br>
 </blockquote></div>
 
---000000000000bdd52805e65419bd--
+--000000000000f2e37e05e6542c7a--
 
