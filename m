@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB93C596444
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 23:12:25 +0200 (CEST)
-Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18DD596438
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 23:09:29 +0200 (CEST)
+Received: from localhost ([::1]:60950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO3rM-0007Ax-Pf
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 17:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39978)
+	id 1oO3oW-0001la-B8
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 17:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oO3H7-00057d-96
+ id 1oO3H7-00057c-7M
  for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:58 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:44710)
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:36416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oO3H1-0004bj-71
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:57 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- t11-20020a05683014cb00b0063734a2a786so8171229otq.11
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 13:34:49 -0700 (PDT)
+ id 1oO3H1-0004WL-UP
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:56 -0400
+Received: by mail-oi1-x233.google.com with SMTP id s199so13320253oie.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 13:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=nnTf8vYQrhFGbCh9F71+TS9pu/cqcKGq2pxwJ/zBizo=;
- b=kQWys5LKPME3++maxshyi9tj+cntKWUdfJhPQpwWnj1cYxmgIWhu4tBpmw3ONlN02s
- TGgdIUN20FNABTeNBe/G8tkDudR+wer6XfpyWETM/ZZ4F+w97+O64wsq2FH60CRyBU9t
- Y1cQ9W07hptdQuQkvNKn9JsbrvJ2qvKNHdkg3pxW4fwkrOIuhaCoTwwkjyfMQz9ef2GY
- Htgs16/gDFMDBThSorwJhsUf1X1MAgJmNhQZtWCP9DE2xeDLSWkZSFpvTBb/nLP7NY1y
- LcVDkI00LpRyKMicl2MFcDYewKNNLeK/RvzlDdmSahYCv+3QReVnIHng3ALaCqHe4296
- 9k2g==
+ bh=XGYmwpgiZPY1AsTDknzkrjEzLYeuV4sGoEw7odttBvA=;
+ b=UnMscL2tGHKxQ8TdC8xytlcZW/r7PhcnXy3TItnrZ47TsrTywSvBINJs52001Zqgq8
+ iXEVGm3hy1Wpt9zLgfyEY9E9yCU4wQlALd9D98sB6lyK9lxw8PMuKE+zfYUbQFyilMxi
+ IOrXGV6MQCo1jUm39K+9nv9gQvXz14aa40zy3SwAQX4m5qzeMh8UmoRdp4rWQ7fIT+le
+ vMdpjMw0sdcz1xz40XVtLDShRKru6Vv1wNSbKwGjwg3Cz0sHQacu+U3rPA151E9hmUr5
+ 6BM32PQU2xnP6rC29ml7MAntrAjfjl2npY/PMXunwp+d9E8f9cdItfLw0XIC6rHSynxA
+ ISMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=nnTf8vYQrhFGbCh9F71+TS9pu/cqcKGq2pxwJ/zBizo=;
- b=ngnEHnRQHAt6nY7XCzDuGiMPGNZ4oWyNZa8Ya0fSD9WF6k1eLF0UK8EojizCEN3jKk
- 0tykpNRbrjc2Ao7Bbir/K/H9MMfKJeNaLx38Ahnh+jDBU2xCjAIa5KjEVEs8zIYQMnmk
- /FD6asUOlDpYDFFUT9De6W6kNFnK8Oa3DH98wyqOpc0tnGe0sBndAheXAUaJzJsRLEyU
- EXTzSJXp1t9+yyONYvsEP3z61mStLoDUVkwYo8y5oW3jbCr4ITxlG4jvEsIvkG5Xdhf5
- wKPd0yHDSTpfp0Bn5FBomt3BQ6bnO10S93ZQGgetfG+744Uom6rE784jz0DRU1h0LIrA
- fvQw==
-X-Gm-Message-State: ACgBeo0Sipx9Gy1jF81swKXYMl1stMKenFAw8fyFgyuiL2FoCLF7doze
- +pOGEDEbwhwWteInKbw/oUBRo7rKJbXx2A==
-X-Google-Smtp-Source: AA6agR4KMoSQu+76ek989FMN6dfPejgCUjTy705SwSiJeISQyZJTiGXDc4uV+j3iLUpbolhL/lTfww==
-X-Received: by 2002:a9d:7a55:0:b0:637:1874:a2cb with SMTP id
- z21-20020a9d7a55000000b006371874a2cbmr8269625otm.318.1660682089295; 
- Tue, 16 Aug 2022 13:34:49 -0700 (PDT)
+ bh=XGYmwpgiZPY1AsTDknzkrjEzLYeuV4sGoEw7odttBvA=;
+ b=LqfWxNa3zaG7/ZhgNj96/LUMpmtw4NwHD77ez/O7tfDTvdj56Wa4jq4O6lPwajXCoV
+ 9IPN9+Bzd7LXVbSGaFzIe/1TKEU7eiK7NsqYmnk3zhexAyh2bhmNvKA0wOJhImadNjjt
+ bnsK1/BSIQROsCPEc273dsKRJfPSJOI2AzMABFfGhVXvCVW8FrFmsmsHPhV8v9olEWuP
+ sA3BBrAoNr+4soBpnFriqbT1YI8jx5QT51bWrfa1M1CRx27b+0CFKT/Vj2iKWkh5MEgA
+ Wh7kTgrpUrjil2ifosT/7YFp/n/CiNUzoQORWnedyj00BaJ4zurX4xTGoco3bEJT0ioW
+ ahHg==
+X-Gm-Message-State: ACgBeo29mE4ylK6LrXkHmEWKupw6y+2CCGq4w9Ewn5A06r3P3I/PFs1S
+ 9J0suGLQ1bq9VEwAq0pgYFTxresYuyUUcw==
+X-Google-Smtp-Source: AA6agR6s97iDZIwbLXL0lTAIkThy/SaWhzJUMzNdpbk2b7z0VDZgeeU4slgUEHl9QFY0DUdmH5G9Hw==
+X-Received: by 2002:a05:6808:23ca:b0:344:be60:144d with SMTP id
+ bq10-20020a05680823ca00b00344be60144dmr154235oib.38.1660682091126; 
+ Tue, 16 Aug 2022 13:34:51 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:80f6:61fa:9bc2:5095:d612:5e22])
  by smtp.gmail.com with ESMTPSA id
- y23-20020a056870b01700b0010ef8ccde67sm2285220oae.13.2022.08.16.13.34.48
+ y23-20020a056870b01700b0010ef8ccde67sm2285220oae.13.2022.08.16.13.34.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 13:34:48 -0700 (PDT)
+ Tue, 16 Aug 2022 13:34:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	alex.bennee@linaro.org,
 	iii@linux.ibm.com
-Subject: [PATCH v2 20/33] accel/tcg: Do not align tb->page_addr[0]
-Date: Tue, 16 Aug 2022 15:33:47 -0500
-Message-Id: <20220816203400.161187-21-richard.henderson@linaro.org>
+Subject: [PATCH v2 21/33] include/hw/core: Create struct CPUJumpCache
+Date: Tue, 16 Aug 2022 15:33:48 -0500
+Message-Id: <20220816203400.161187-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220816203400.161187-1-richard.henderson@linaro.org>
 References: <20220816203400.161187-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x233.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,119 +90,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let tb->page_addr[0] contain the offset within the page of the
-start of the translation block.  We need to recover this value
-anyway at various points, and it is easier to discard the page
-offset when it's not needed, which happens naturally via the
-existing find_page shift.
+Wrap the bare TranslationBlock pointer into a structure.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c      | 16 ++++++++--------
- accel/tcg/cputlb.c        |  3 ++-
- accel/tcg/translate-all.c |  9 +++++----
- 3 files changed, 15 insertions(+), 13 deletions(-)
+ include/hw/core/cpu.h     | 8 ++++++--
+ accel/tcg/cpu-exec.c      | 9 ++++++---
+ accel/tcg/cputlb.c        | 2 +-
+ accel/tcg/translate-all.c | 4 ++--
+ 4 files changed, 15 insertions(+), 8 deletions(-)
 
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 500503da13..8edef14199 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -233,6 +233,10 @@ struct hvf_vcpu_state;
+ #define TB_JMP_CACHE_BITS 12
+ #define TB_JMP_CACHE_SIZE (1 << TB_JMP_CACHE_BITS)
+ 
++typedef struct {
++    TranslationBlock *tb;
++} CPUJumpCache;
++
+ /* work queue */
+ 
+ /* The union type allows passing of 64 bit target pointers on 32 bit
+@@ -362,7 +366,7 @@ struct CPUState {
+     IcountDecr *icount_decr_ptr;
+ 
+     /* Accessed in parallel; all accesses must be atomic */
+-    TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
++    CPUJumpCache tb_jmp_cache[TB_JMP_CACHE_SIZE];
+ 
+     struct GDBRegisterState *gdb_regs;
+     int gdb_num_regs;
+@@ -453,7 +457,7 @@ static inline void cpu_tb_jmp_cache_clear(CPUState *cpu)
+     unsigned int i;
+ 
+     for (i = 0; i < TB_JMP_CACHE_SIZE; i++) {
+-        qatomic_set(&cpu->tb_jmp_cache[i], NULL);
++        qatomic_set(&cpu->tb_jmp_cache[i].tb, NULL);
+     }
+ }
+ 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 7b8977a0a4..b1fd962718 100644
+index b1fd962718..3f8e4bbbc8 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -174,7 +174,7 @@ struct tb_desc {
-     target_ulong pc;
-     target_ulong cs_base;
-     CPUArchState *env;
--    tb_page_addr_t phys_page1;
-+    tb_page_addr_t page_addr0;
-     uint32_t flags;
-     uint32_t cflags;
-     uint32_t trace_vcpu_dstate;
-@@ -186,7 +186,7 @@ static bool tb_lookup_cmp(const void *p, const void *d)
-     const struct tb_desc *desc = d;
+@@ -243,7 +243,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+     tcg_debug_assert(!(cflags & CF_INVALID));
  
-     if (tb->pc == desc->pc &&
--        tb->page_addr[0] == desc->phys_page1 &&
-+        tb->page_addr[0] == desc->page_addr0 &&
-         tb->cs_base == desc->cs_base &&
-         tb->flags == desc->flags &&
-         tb->trace_vcpu_dstate == desc->trace_vcpu_dstate &&
-@@ -195,12 +195,12 @@ static bool tb_lookup_cmp(const void *p, const void *d)
-         if (tb->page_addr[1] == -1) {
-             return true;
-         } else {
--            tb_page_addr_t phys_page2;
--            target_ulong virt_page2;
-+            tb_page_addr_t phys_page1;
-+            target_ulong virt_page1;
+     hash = tb_jmp_cache_hash_func(pc);
+-    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
++    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash].tb);
  
--            virt_page2 = (desc->pc & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
--            phys_page2 = get_page_addr_code(desc->env, virt_page2);
--            if (tb->page_addr[1] == phys_page2) {
-+            virt_page1 = TARGET_PAGE_ALIGN(desc->pc);
-+            phys_page1 = get_page_addr_code(desc->env, virt_page1);
-+            if (tb->page_addr[1] == phys_page1) {
-                 return true;
-             }
-         }
-@@ -226,7 +226,7 @@ static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
-     if (phys_pc == -1) {
+     if (likely(tb &&
+                tb->pc == pc &&
+@@ -257,7 +257,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+     if (tb == NULL) {
          return NULL;
      }
--    desc.phys_page1 = phys_pc & TARGET_PAGE_MASK;
-+    desc.page_addr0 = phys_pc;
-     h = tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
-     return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
+-    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
++    qatomic_set(&cpu->tb_jmp_cache[hash].tb, tb);
+     return tb;
  }
+ 
+@@ -978,6 +978,8 @@ int cpu_exec(CPUState *cpu)
+ 
+             tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
+             if (tb == NULL) {
++                uint32_t h;
++
+                 mmap_lock();
+                 tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+                 mmap_unlock();
+@@ -985,7 +987,8 @@ int cpu_exec(CPUState *cpu)
+                  * We add the TB in the virtual pc hash table
+                  * for the fast lookup
+                  */
+-                qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
++                h = tb_jmp_cache_hash_func(pc);
++                qatomic_set(&cpu->tb_jmp_cache[h].tb, tb);
+             }
+ 
+ #ifndef CONFIG_USER_ONLY
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index ae7b40dd51..8b81b07b79 100644
+index 8b81b07b79..a8afe1ab9f 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -951,7 +951,8 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-    can be detected */
- void tlb_protect_code(ram_addr_t ram_addr)
- {
--    cpu_physical_memory_test_and_clear_dirty(ram_addr, TARGET_PAGE_SIZE,
-+    cpu_physical_memory_test_and_clear_dirty(ram_addr & TARGET_PAGE_MASK,
-+                                             TARGET_PAGE_SIZE,
-                                              DIRTY_MEMORY_CODE);
+@@ -103,7 +103,7 @@ static void tb_jmp_cache_clear_page(CPUState *cpu, target_ulong page_addr)
+     unsigned int i, i0 = tb_jmp_cache_hash_page(page_addr);
+ 
+     for (i = 0; i < TB_JMP_PAGE_SIZE; i++) {
+-        qatomic_set(&cpu->tb_jmp_cache[i0 + i], NULL);
++        qatomic_set(&cpu->tb_jmp_cache[i0 + i].tb, NULL);
+     }
  }
  
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index a8f1c34c4e..20f00f4335 100644
+index 20f00f4335..c2745f14a6 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -1167,7 +1167,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-     qemu_spin_unlock(&tb->jmp_lock);
- 
+@@ -1187,8 +1187,8 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
      /* remove the TB from the hash list */
--    phys_pc = tb->page_addr[0] + (tb->pc & ~TARGET_PAGE_MASK);
-+    phys_pc = tb->page_addr[0];
-     h = tb_hash_func(phys_pc, tb->pc, tb->flags, orig_cflags,
-                      tb->trace_vcpu_dstate);
-     if (!qht_remove(&tb_ctx.htable, tb, h)) {
-@@ -1291,7 +1291,7 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
-      * we can only insert TBs that are fully initialized.
-      */
-     page_lock_pair(&p, phys_pc, &p2, phys_page2, true);
--    tb_page_add(p, tb, 0, phys_pc & TARGET_PAGE_MASK);
-+    tb_page_add(p, tb, 0, phys_pc);
-     if (p2) {
-         tb_page_add(p2, tb, 1, phys_page2);
-     } else {
-@@ -1644,11 +1644,12 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-         if (n == 0) {
-             /* NOTE: tb_end may be after the end of the page, but
-                it is not a problem */
--            tb_start = tb->page_addr[0] + (tb->pc & ~TARGET_PAGE_MASK);
-+            tb_start = tb->page_addr[0];
-             tb_end = tb_start + tb->size;
-         } else {
-             tb_start = tb->page_addr[1];
--            tb_end = tb_start + ((tb->pc + tb->size) & ~TARGET_PAGE_MASK);
-+            tb_end = tb_start + ((tb->page_addr[0] + tb->size)
-+                                 & ~TARGET_PAGE_MASK);
+     h = tb_jmp_cache_hash_func(tb->pc);
+     CPU_FOREACH(cpu) {
+-        if (qatomic_read(&cpu->tb_jmp_cache[h]) == tb) {
+-            qatomic_set(&cpu->tb_jmp_cache[h], NULL);
++        if (qatomic_read(&cpu->tb_jmp_cache[h].tb) == tb) {
++            qatomic_set(&cpu->tb_jmp_cache[h].tb, NULL);
          }
-         if (!(tb_end <= start || tb_start >= end)) {
- #ifdef TARGET_HAS_PRECISE_SMC
+     }
+ 
 -- 
 2.34.1
 
