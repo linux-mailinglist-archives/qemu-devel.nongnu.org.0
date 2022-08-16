@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF1359618C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:54:30 +0200 (CEST)
-Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A295B596161
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 19:45:27 +0200 (CEST)
+Received: from localhost ([::1]:43156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO0lp-0004Yl-K1
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36078)
+	id 1oO0d2-0000VV-7f
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 13:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Sr-0004qi-0R; Tue, 16 Aug 2022 13:34:53 -0400
-Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31]:44907)
+ id 1oO0Su-00052G-Gt; Tue, 16 Aug 2022 13:34:56 -0400
+Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b]:34730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO0Sp-0002O0-Fq; Tue, 16 Aug 2022 13:34:52 -0400
-Received: by mail-vk1-xa31.google.com with SMTP id j11so5516341vkk.11;
- Tue, 16 Aug 2022 10:34:50 -0700 (PDT)
+ id 1oO0Ss-0002OQ-W9; Tue, 16 Aug 2022 13:34:56 -0400
+Received: by mail-vk1-xa2b.google.com with SMTP id b81so5533331vkf.1;
+ Tue, 16 Aug 2022 10:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=MnYaB9DJvwNH6aElOaN8rUTWZD25FX0c/ifXFFw+Ai4=;
- b=Xr2wHXJ08u/GCEhlGa5tWbgWmka5tuGbTM3jW1sLE8PvB05sFoFpjV9XVoXid5jzxq
- PG5RDy9emYWKwgUtJb+F3/SU1ZXuLCVOeUXTuNI4G0NxPO4UstMJFGryN5lWXs8woJOx
- 7Locbgfspo0sk68zSl9PJ9MR+BCj6rzx8vgAEPnwhZwrWJw/v8k3TXAj3xaXfV7pZOQ+
- LiY9DooVadvIEjCnefcaocGlNxzZlLo45dAPoFZaLx8iAHsoe4p92roWBLhcZeTDR7TT
- MsSfZqaTY5lvk+KEiu5SbMRc4JEdqtulzyXd9B8+f4VZS/S2RYF/P5nHeqMvyQz030Yx
- v+JA==
+ bh=p2jAW4es8iU3F2bEOcgcbET+++QHlirQwEQQaRm1MtY=;
+ b=JUQc1cLK8XOXBf6sy4bNGff7sb3qA2Se+FXZwm5FE9GloRBtY40vNLyHLoWM3RWwVm
+ 28r4MG6KlTMZ3cDOlYcWs2S9zbl+U6g+JyS5N7uYEzLncTegdeQkambgdMk89FMHYZDk
+ Caz2NW6Z/U72smJY6+kkpkOiWsVWerBnnt0geuxbzoq3LEQUJosqyJdgjqnDBPwq7bUx
+ 2zwSB9au7rNyI5YqMZif7pE+WsDKH6Niqw2be6ZHTaYgU8gOIAzzjlK2Cdx0t/lRJUPm
+ lhrxyduukLf73zog7XrIQ9SQHtN2teOBsJerT97Z9GgfvHbONAT7DJ/mqsf2vcLDZC9D
+ j4XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=MnYaB9DJvwNH6aElOaN8rUTWZD25FX0c/ifXFFw+Ai4=;
- b=pOOY+s1PT8t30KN7vDVRb/jQsQB3TJwf8b8c1xKuEn03s7VQBbA1zw3BKr3LvviBbG
- lsIYhHcTZjwxgv9LdMXkWH88XNtaYFbicLpJhX01JIVNZqPtQ8uyX7pGQW+YpNuuQr+o
- My+trKjWCvx9MfPuS3/as1S/nTE3/2l+MWE7rN9UyvhPZdcvGTjW/CG35O5twqrtailc
- ITk6U5AQ90DUfF70kT/2f5z07aDBkkrVL1rhDmKsn+4ybo23Fb4LSOp14jUlCCYjjv2e
- 2qWwkhO2ZjjyK7Si9bA2CYqr8pdXExb4d1LBU7svtoiziFh/wkTBHahW7n/6zCumUrzp
- fENA==
-X-Gm-Message-State: ACgBeo2eyQpBPCuZaG+J0BCZIFpwyyoRgE0UQ6uIIWYcGfd1JoYIpts5
- yRICWuaDSuuT9OyuxIcrj142dKaqm+PiLA==
-X-Google-Smtp-Source: AA6agR4iMsdCiXN8z0M9yeM19xHotADwhQ7d7SzSbBnQaL4UBn/JQn6EN6DVz/C1RsnKlrWXHcQjVA==
-X-Received: by 2002:ac5:c4ce:0:b0:379:1113:bbc5 with SMTP id
- a14-20020ac5c4ce000000b003791113bbc5mr9377158vkl.1.1660671289980; 
- Tue, 16 Aug 2022 10:34:49 -0700 (PDT)
+ bh=p2jAW4es8iU3F2bEOcgcbET+++QHlirQwEQQaRm1MtY=;
+ b=jaK5jxOsifYpoF4xM30EQlx6DGD7kW5wsu2gy/0/JtbkMg86tO39eC5siq24OkbDqP
+ prPtw4C8cgbW5TFLyBLCsVyf9LKKiQ6WmnDFmfHgNN0klWG69TfiaUxBTLQRi0/23xYR
+ unJv/ePQ2/OdKjhpKsofilGBUJXxXMKmXjewho9kELIXMpElaky/PeeIW714hhu1YA+H
+ ZNTkSc956FiHSyQUXeRpAHEsH3cqAcK7o4YRzR4gXXVwi6AJL4YkM16aVV4Mm23K+p5a
+ qatrbb9sTQ13r3fEpkWzn2ma4kJ8RPwyIg3bAJ87VLd9nznU4W4a0ySjDWZwHZ1OOKDY
+ SLqw==
+X-Gm-Message-State: ACgBeo0LcYO+XTQEyeHa0RFgNbilCnG8DIJPaQG53hO2lEfPpMhFlN0l
+ zlGOOzraWbHiw6muLAIP+hJ09BedayJEbA==
+X-Google-Smtp-Source: AA6agR5Z+WIUQ5ng5VDwD7PSXf0AsUgk0NxvVnzfvR/74QwlsHfqx9hfF6t61L8buEedsxqZebwAZQ==
+X-Received: by 2002:a05:6122:179c:b0:37a:5584:25e1 with SMTP id
+ o28-20020a056122179c00b0037a558425e1mr9161649vkf.39.1660671292534; 
+ Tue, 16 Aug 2022 10:34:52 -0700 (PDT)
 Received: from balboa.COMFAST (201-43-216-47.dsl.telesp.net.br.
  [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.47
+ 16-20020a1f0210000000b00376b105115bsm8817539vkc.48.2022.08.16.10.34.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 10:34:49 -0700 (PDT)
+ Tue, 16 Aug 2022 10:34:52 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, alistair.francis@wdc.com,
  david@gibson.dropbear.id.au,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH for-7.2 v3 06/20] hw/ppc: set machine->fdt in
- sam460ex_load_device_tree()
-Date: Tue, 16 Aug 2022 14:34:14 -0300
-Message-Id: <20220816173428.157304-7-danielhb413@gmail.com>
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Subject: [PATCH for-7.2 v3 07/20] hw/ppc: set machine->fdt in
+ xilinx_load_device_tree()
+Date: Tue, 16 Aug 2022 14:34:15 -0300
+Message-Id: <20220816173428.157304-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220816173428.157304-1-danielhb413@gmail.com>
 References: <20220816173428.157304-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,30 +92,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
-the sam460ex machine.
+the virtex_ml507 machine.
 
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/sam460ex.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/ppc/virtex_ml507.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 0357ee077f..413a425d37 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -138,6 +138,7 @@ static int sam460ex_load_device_tree(hwaddr addr,
-                                      hwaddr initrd_size,
-                                      const char *kernel_cmdline)
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 53b126ff48..9f4c5d85a4 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -45,6 +45,8 @@
+ #include "hw/qdev-properties.h"
+ #include "ppc405.h"
+ 
++#include <libfdt.h>
++
+ #define EPAPR_MAGIC    (0x45504150)
+ #define FLASH_SIZE     (16 * MiB)
+ 
+@@ -153,6 +155,7 @@ static int xilinx_load_device_tree(hwaddr addr,
+                                       hwaddr initrd_size,
+                                       const char *kernel_cmdline)
  {
 +    MachineState *machine = MACHINE(qdev_get_machine());
-     uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(ramsize) };
-     char *filename;
+     char *path;
      int fdt_size;
-@@ -209,7 +210,12 @@ static int sam460ex_load_device_tree(hwaddr addr,
-                               EBC_FREQ);
- 
-     rom_add_blob_fixed(BINARY_DEVICE_TREE_FILE, fdt, fdt_size, addr);
+     void *fdt = NULL;
+@@ -197,7 +200,13 @@ static int xilinx_load_device_tree(hwaddr addr,
+     if (r < 0)
+         fprintf(stderr, "couldn't set /chosen/bootargs\n");
+     cpu_physical_memory_write(addr, fdt, fdt_size);
 -    g_free(fdt);
 +
 +    /*
@@ -123,9 +132,10 @@ index 0357ee077f..413a425d37 100644
 +     * 'dumpdtb' and 'info fdt' QMP/HMP commands.
 +     */
 +    machine->fdt = fdt;
- 
++
      return fdt_size;
  }
+ 
 -- 
 2.37.2
 
