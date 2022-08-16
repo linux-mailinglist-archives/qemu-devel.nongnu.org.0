@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8900F596292
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 20:39:48 +0200 (CEST)
-Received: from localhost ([::1]:57998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A3E5962BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 20:56:13 +0200 (CEST)
+Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO1Tf-00013j-2B
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 14:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
+	id 1oO1jX-0005kU-Rr
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 14:56:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oO1Ng-0003CB-J8
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 14:33:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oO1Nd-00037F-Do
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 14:33:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660674806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oIDdYmBkMIZ61hTWJ5eOHB7zouc/ld6286LVcywc2N4=;
- b=EuSjlDBwr3XfTgWEiewGJafdX2j6eq4JrE7pD2oT/UBizUlEV1qsX6nxynTQGx4BClNZAY
- 01V03eWiJgfRH21WrBhP58sy8go+9i3IAdN6xvo85hTuH+APxJ/kSLuHOgm2s4rK/AZ7M5
- VUuyea2zHgO99xRDe7zJV7lxfMPhTPk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-rcUZmStQOXugLnHAOXuDYg-1; Tue, 16 Aug 2022 14:33:24 -0400
-X-MC-Unique: rcUZmStQOXugLnHAOXuDYg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E91628032F1;
- Tue, 16 Aug 2022 18:33:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B7AB40CF8EA;
- Tue, 16 Aug 2022 18:33:22 +0000 (UTC)
-Date: Tue, 16 Aug 2022 14:33:20 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: Re: [PATCH v10 07/21] blockjob: introduce block_job  _locked() APIs
-Message-ID: <Yvvi8KDG7IFOnUI2@fedora>
-References: <20220725073855.76049-1-eesposit@redhat.com>
- <20220725073855.76049-8-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oO1gr-000464-S8; Tue, 16 Aug 2022 14:53:25 -0400
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:35661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oO1gq-00069N-6W; Tue, 16 Aug 2022 14:53:25 -0400
+Received: by mail-vs1-xe2e.google.com with SMTP id 67so11061475vsv.2;
+ Tue, 16 Aug 2022 11:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=HBJP/aoaRsPzKK29DgOJQMP+JRmo5AETUm/mMw7Qeb0=;
+ b=CdPkJoSnFBdLf/pOHvon72PHB74mKt4vknDC5Ajk590uVNaTeBxlwRWHoZJilPctbD
+ IAcTuxg+bKPUgVDUFpMvOIwYi4Jodu/pWqvqPscag7T7bzNoCl8kO4p5KA8PKIuUknYN
+ nGv3jXBHcvi8CglP1OfwM8Hiv0CklvuzTAHP2a9B6ZRF6TB7vOpz8Ijal4fJ87KPC0UE
+ BBu1uS0l6FlJHs6g6t+C2QDnVuo12qc0GKTQQHHhZqRfqseM0YbKRGESZVB9hNAdxz9m
+ 0NU9szBeO4xcLR9Hf3xv/tGgkpDB19G6DNDZZWHMD3TyNyzvtIWOs0S3ncUsXA3E+soD
+ 4NyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=HBJP/aoaRsPzKK29DgOJQMP+JRmo5AETUm/mMw7Qeb0=;
+ b=mAaT4o/VyC0pDIRzdSLl2Iczxs1wbZddaTYgvh7nB6EAC9t5KbWvKcEGACPjprtyPG
+ lbu1QQqqTFFPhWab3WzrPCfKhuiAWXCK6mCZxepzMHnhG2QpLlwMcgh3JjzGm/whY1Qv
+ d5yVTsgtnPzuNfo9OkN75di2JhJJdmVqW1bcR4TNry22wwO1BAocDPGgGWJOfsH8almh
+ sci/G+pjXhDUhFsMt/bQ3lR+rO9rqisjOnDot0P0YYvvKkhm08TQk6hVJh0gOZcuYqnV
+ RdchKkOIdy4hIhpvwVtRpysqrs8IsrnE9kYs6NmH6xMJNtUWDZm/U+x+c1L72xgSip+m
+ iBeQ==
+X-Gm-Message-State: ACgBeo2DqA2jn6TZDrWQSnfofqz77szvah2Qe/Go4bbunfL8HfaCLFK6
+ X0FmJ3ObvnyZZZdsJVRdGDZBc8urMWd7oaJgpfE=
+X-Google-Smtp-Source: AA6agR53HeI0LHCwRsSrijq24GEzNjGYgBSl/+AQSeOjoqsD1fa5EvlVeoMGEQ4SgDFA67N9xEeLWJKgA3Ow8QnCZYY=
+X-Received: by 2002:a67:c814:0:b0:385:1a6b:7284 with SMTP id
+ u20-20020a67c814000000b003851a6b7284mr9010041vsk.15.1660676002290; Tue, 16
+ Aug 2022 11:53:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HiSjDAxPaltV2umT"
-Content-Disposition: inline
-In-Reply-To: <20220725073855.76049-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220728200422.1502-1-luoyonggang@gmail.com>
+ <8721edcf-9f67-5428-4ca9-eba3bd94075e@linaro.org>
+In-Reply-To: <8721edcf-9f67-5428-4ca9-eba3bd94075e@linaro.org>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Wed, 17 Aug 2022 02:53:10 +0800
+Message-ID: <CAE2XoE8M+Tz3t=zh5GhX+vYCipNRdZUYieSjtAO2OUsJcYnAPw@mail.gmail.com>
+Subject: Re: [PATCH v2] ci: Upgrade msys2 release to 20220603
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000034271905e660437b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
+ envelope-from=luoyonggang@gmail.com; helo=mail-vs1-xe2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,48 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---HiSjDAxPaltV2umT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--00000000000034271905e660437b
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 25, 2022 at 03:38:41AM -0400, Emanuele Giuseppe Esposito wrote:
-> Just as done with job.h, create _locked() functions in blockjob.h
->=20
-> These functions will be later useful when caller has already taken
-> the lock. All blockjob _locked functions call job _locked functions.
->=20
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are *nop*.
->=20
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  blockjob.c               | 52 ++++++++++++++++++++++++++++++++--------
->  include/block/blockjob.h | 18 ++++++++++++++
->  2 files changed, 60 insertions(+), 10 deletions(-)
+I have reason to think that's msys2-64 bit failed because out of memory
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+I tried to show the memory size of the windows docker, it's result
+are 6224352KB, that's less than 6GB?
+https://gitlab.com/lygstate/qemu/-/jobs/2891399652
 
---HiSjDAxPaltV2umT
-Content-Type: application/pgp-signature; name="signature.asc"
+Can we increase the memory size to 16GB
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmL74vAACgkQnKSrs4Gr
-c8hgzwf+OXzuhuAnapp+ezSsUc1m1Zb2zL2SYAVlZVwbKue9HozZV15RfuV4nNH8
-nTtcxkMSLm3ehgyBhLOME9Zx32dWTQZ2Fl8LS+ZH4srJx2sUDf8u8qP9GQQ/sOO7
-0YEuSGCFgDrfAZWTTTDGAsPcYb2aYFAu3bQdtEASbKz2jqolSyB+gOv3fqF1ZeEA
-k2W++3u+rVkWTZ6eNQeIeeMMpd7qAx39LAZ16tKHyBpSBadE+CYiMWQ2UXa8Pvi0
-JR4S0YnAaBSyZpLffh6ryBWDRD1O2E//4UhFJPT/ev6yBKuD+tP+Zc1uZgIlBjQP
-kz+SgJfCOAFg3C5SlReuiYP//5zfog==
-=qBpb
------END PGP SIGNATURE-----
+On Sat, Jul 30, 2022 at 3:24 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+>
+> On 7/28/22 13:04, Yonggang Luo wrote:
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > ---
+> >   .cirrus.yml              | 2 +-
+> >   .gitlab-ci.d/windows.yml | 2 +-
+> >   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> Thanks.  Applied to master as a hot-fix.
+>
+>
+> r~
 
---HiSjDAxPaltV2umT--
 
+
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--00000000000034271905e660437b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I have reason to think that&#39;s msys2-64 bit failed beca=
+use out of memory<div><br></div><div>I tried to show the memory size of the=
+ windows docker, it&#39;s result are=C2=A06224352KB, that&#39;s less than 6=
+GB?</div><div><a href=3D"https://gitlab.com/lygstate/qemu/-/jobs/2891399652=
+">https://gitlab.com/lygstate/qemu/-/jobs/2891399652</a></div><div><br></di=
+v><div>Can we increase the memory size to 16GB</div><div><br><br>On Sat, Ju=
+l 30, 2022 at 3:24 AM Richard Henderson &lt;<a href=3D"mailto:richard.hende=
+rson@linaro.org">richard.henderson@linaro.org</a>&gt; wrote:<br>&gt;<br>&gt=
+; On 7/28/22 13:04, Yonggang Luo wrote:<br>&gt; &gt; Signed-off-by: Yonggan=
+g Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a=
+>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =C2=A0 .cirrus.yml =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>&gt; &gt; =C2=A0 .gitlab-ci.d/windows=
+.yml | 2 +-<br>&gt; &gt; =C2=A0 2 files changed, 2 insertions(+), 2 deletio=
+ns(-)<br>&gt;<br>&gt; Thanks.=C2=A0 Applied to master as a hot-fix.<br>&gt;=
+<br>&gt;<br>&gt; r~<br><br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=
+=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
+
+--00000000000034271905e660437b--
 
