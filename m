@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D5759637F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 22:05:53 +0200 (CEST)
-Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A156596411
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 22:59:18 +0200 (CEST)
+Received: from localhost ([::1]:42284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO2ox-0006O9-GL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 16:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
+	id 1oO3ed-0003SN-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 16:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO2jh-0004OA-Hw; Tue, 16 Aug 2022 16:00:29 -0400
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:33372)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oO3Gm-0004oa-Vc
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:38 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:46689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oO2jd-0007sI-Uu; Tue, 16 Aug 2022 16:00:24 -0400
-Received: by mail-vs1-xe2d.google.com with SMTP id q15so11252281vsr.0;
- Tue, 16 Aug 2022 13:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=JR+qU9A5WYmQlShQl7RpNBkpUs7vcS4zRvafxz+XecI=;
- b=BMbxMIHPDflPvXJKvU6mDEzQ9qRwEO5wzAaUgxs3yj23c9qBPFQSSvRaVRSLs9qBUt
- +EDVgKKl/+HTY46dhaLI47jP1KKtcpD9uNWFzUk9vhHMkJRKQglL2JG1Zps3OnNzRMlx
- CXHDTGMklndOO31Kj2R40i/NkClJtVg18x0vcjnV/h+q8p0qZamYDBe32zVQRYTOhH4f
- BjdQGt0rf1DpulAhYGS45vuzJ753Bdg/yJbC8FIt8puXKbRpe1frwHGaCWLe/7dyyfbY
- 4MH3xZ/PLP62pn8zuv+elYqPijCEgDyV1Z90sN8l9/IPhLj1WX8hJk+Yhx1EmGjQOLS/
- Jocw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oO3Gd-0004Vs-L7
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 16:34:36 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id o184so13277699oif.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 13:34:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=G8c2iuTDo4UvuF2iefnqT1KVHhsC+sQtSAyF/QMhIQM=;
+ b=w0zIOOHS7ryC5iuQg72ubsMeLLPgjTuOPJ3tFEDfwQ0gavk1eJC5h6KXYzA1Z9RnO4
+ tEPS0+udpkEiQL7Nc7k3KbhaPSwAbtFuxu/n8Uieg4uEfru4qO8Ur9/G9iUHvKsniM/C
+ P3rLqCU1agm8OMMDBJjcieJj8//JywAe9NbPnZtYA/oPf5VunaMQpAgtxLQUCuZ2pGJ6
+ MkWj5lcTgiqi0F9yWU07choNbBVU6dV56MrLbl2kT2HtwQQTDx55wf3SrRHJELLz2WAX
+ FART2Hd9BzXN9DJYowsdP6+i5pPMXwqjPbwu9jOQpTEO95tPZ8MgfJ5zjux9/Pv2v/Ov
+ TWxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=JR+qU9A5WYmQlShQl7RpNBkpUs7vcS4zRvafxz+XecI=;
- b=7UlgFAZsz+5qZTGNKHFGHXtOXUDPmaiQk8fHEr4TvTLl4yX6uv3iEBSRZS8XWRn8zy
- VpbRR1XtbmTMkCXp5KxZh50yU+Pn2rxukNmDm1IZDjmUY+LFrUnsWqHhS/ElytFy6Vxn
- rXMDQ51w4v6O2O7Kj25mXXQGYqE/i3BDwNZ1w+6N8yIxt1Mw53lw5dJK1NlOD8KjZdxp
- 8CKdbYN4REOLiyYZ1czTnr0/JO7b94HDEulCNanQ74fFi+dQUWFF9O/bnvGPD2Camt2e
- 4rfETxV8fWkh2JB06ek4vrsZDasmdtHrwK1x6k5CJU3g0bq9ymwOHnEvS22MFeo3DdR6
- 2hcw==
-X-Gm-Message-State: ACgBeo37AewlV0AMRXZmKota0lDANqxj512qJqq5uppOQ6MHzwHv+1ND
- AcBxaufZ7CnBUjd7c9kRze0=
-X-Google-Smtp-Source: AA6agR4g1mnkcgaFYzbL0YYUDpkCAYx+qUfulTBC27ERHcWRag4jdTCggbCOzzCR4tOtjrmNbKqjEw==
-X-Received: by 2002:a05:6102:34d:b0:386:e5ea:a931 with SMTP id
- e13-20020a056102034d00b00386e5eaa931mr8973369vsa.74.1660680020086; 
- Tue, 16 Aug 2022 13:00:20 -0700 (PDT)
-Received: from [192.168.10.102] (201-43-216-47.dsl.telesp.net.br.
- [201.43.216.47]) by smtp.gmail.com with ESMTPSA id
- m140-20020a1fa392000000b003776a46bd85sm9296767vke.56.2022.08.16.13.00.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Aug 2022 13:00:19 -0700 (PDT)
-Message-ID: <9e505923-f5e9-7927-15e5-802aacdc1e63@gmail.com>
-Date: Tue, 16 Aug 2022 17:00:17 -0300
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=G8c2iuTDo4UvuF2iefnqT1KVHhsC+sQtSAyF/QMhIQM=;
+ b=fI26xcHHA2mLPvJ6rBKX9A/8K1OI1RwH7qptqYbpUkvTUgtEC7Wk5uJMnn5+TDdB0D
+ PjB3w6LSfRc8rn+fr5x+Y+wp4Jn+cE7Byvk+jLJ6O9+Myk4GXznJi0BOV5/0y12bpJe5
+ u3rVecIBsOXbzWFmpQXDlAOOsUnqJWEeJaLyM/1tWCJAbp00rdVuxrlrnoIbdmjJigrB
+ XPrMxEXXs9KPb+X5j+ljWtIcizT5x56Tj00QXUYSs+gwFGO/YYsw8Ta/UCfVKFh4a4yY
+ 2d96XL3U2frXnixAV+1APgktO7SBNXW3xt3UvPexyFlfj+l395QLp5biDv7vkTfnAljp
+ Y1hw==
+X-Gm-Message-State: ACgBeo3lV46+SHZe01uhljdpDkoJAzKbKJTziIs37s2MvG/SmR2m5kkg
+ iUnj/BqwLIUOyYhogn+nyl/KY9HVMxWvWA==
+X-Google-Smtp-Source: AA6agR57vG6MWxm9HtEq/26etcPAHY6doS70J5mZFCvIR+qFsBYS7CXodpCUKk45F/ZXRssjwiAnTg==
+X-Received: by 2002:aca:6088:0:b0:343:75a6:d6a3 with SMTP id
+ u130-20020aca6088000000b0034375a6d6a3mr155569oib.92.1660682045494; 
+ Tue, 16 Aug 2022 13:34:05 -0700 (PDT)
+Received: from stoup.. ([2605:ef80:80f6:61fa:9bc2:5095:d612:5e22])
+ by smtp.gmail.com with ESMTPSA id
+ y23-20020a056870b01700b0010ef8ccde67sm2285220oae.13.2022.08.16.13.34.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Aug 2022 13:34:04 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org,
+	alex.bennee@linaro.org,
+	iii@linux.ibm.com
+Subject: [PATCH v2 00/33] accel/tcg + target/arm: pc-relative translation
+Date: Tue, 16 Aug 2022 15:33:27 -0500
+Message-Id: <20220816203400.161187-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v4 11/11] ppc/pnv: fix QOM parenting of user
- creatable root ports
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220811163950.578927-1-danielhb413@gmail.com>
- <20220811163950.578927-12-danielhb413@gmail.com>
- <8eda639d-b041-df07-f759-c65ec2d85312@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <8eda639d-b041-df07-f759-c65ec2d85312@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,183 +88,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Supercedes: 20220812180806.2128593-1-richard.henderson@linaro.org
+("accel/tcg: minimize tlb lookups during translate + user-only PROT_EXEC fixes")
+
+A few changes to the PROT_EXEC work that I posted last week, and
+then continuing to the main event.
+
+My initial goal was to reduce the overhead of TB flushing, which
+Alex Bennee identified as a significant issue with respect to
+booting AArch64 kernels under avocado.  Our initial guess was that
+we need a more efficient data structure for walking TBs associated
+with a physical page.
+
+While I was looking at some of those numbers, I noted that we were
+seeing up to 16000 TBs attached to a single page, which is well more
+than I expected to see, and means that a new data structure isn't
+going to help as much as simply reducing the number of translations.
+
+It turns out the retranslation is due to the guest kernel's userland
+address space randomization.  Each process gets e.g. libc mapped to
+a different virtual address, which caused a new translation.
+
+This, then, introduces some infrastructure for writing "pc-relative"
+translation blocks, in which the guest pc is treated as a variable
+just like any other guest cpu register.  The hashing for these TBs
+are adjusted to compare the physical address.  The target/arm backend
+is adjusted to use the new feature.
+
+This does result in a significant reduction in translation.  From the
+BootLinuxAarch64.test_virt_tcg_gicv2 test, at the login prompt:
+
+    Before:
+
+    gen code size       160684739/1073736704
+    TB count            289808
+    TB flush count      1
+    TB invalidate count 235143
+
+    After:
+
+    gen code size       277992547/1073736704
+    TB count            503882
+    TB flush count      0
+    TB invalidate count 69282
+
+Before TARGET_TB_PCREL, we generate approximately 1.1GB of TBs
+(overflow 1GB, flush, and fill 153MB again).  Afterward, we only
+generate 265MB of TBs.
+
+Surprisingly, this does not affect wall-clock times nearly as
+much as I would have expected:
+
+                                       before   after   change
+ BootLinuxAarch64.test_virt_tcg_gicv2:  97.35    85.11   -12%
+ BootLinuxAarch64.test_virt_tcg_gicv3: 102.75    96.87    -5%
+
+Change in profile, top 10 entries before, matched up with after:
+
+  before                                                           after
+   9.01%  qemu-system-aar  [.] helper_lookup_tb_ptr                10.67%
+   4.92%  qemu-system-aar  [.] qht_lookup_custom                    5.06%
+   4.79%  qemu-system-aar  [.] get_phys_addr_lpae                   5.24%
+   2.57%  qemu-system-aar  [.] address_space_ldq_le                 2.77%
+   2.33%  qemu-system-aar  [.] liveness_pass_1                      0.60%
+   2.24%  qemu-system-aar  [.] cpu_get_tb_cpu_state                 2.58%
+   1.76%  qemu-system-aar  [.] address_space_translate_internal     1.75%
+   1.71%  qemu-system-aar  [.] tb_lookup_cmp                        1.92%
+   1.65%  qemu-system-aar  [.] tcg_gen_code                         0.44%
+   1.64%  qemu-system-aar  [.] do_tb_phys_invalidate                0.09%
 
 
-On 8/12/22 13:13, Frederic Barrat wrote:
-> 
-> 
-> On 11/08/2022 18:39, Daniel Henrique Barboza wrote:
->> User creatable root ports are being parented by the 'peripheral' or the
->> 'peripheral-anon' container. This happens because this is the regular
->> QOM schema for sysbus devices that are added via the command line.
->>
->> Let's make this QOM hierarchy similar to what we have with default root
->> ports, i.e. the root port must be parented by the pnv-root-bus. To do
->> that we change the qom and bus parent of the root port during
->> root_port_realize(). The realize() is shared by the default root port
->> code path, so we can remove the code inside pnv_phb_attach_root_port()
->> that was adding the root port as a child of the bus as well.
->>
->> While we're at it, change pnv_phb_attach_root_port() to receive a PCIBus
->> instead of a PCIHostState to make it clear that the function does not
->> make use of the PHB.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/pci-host/pnv_phb.c | 35 +++++++++++++++--------------------
->>   1 file changed, 15 insertions(+), 20 deletions(-)
->>
->> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
->> index 17d9960aa1..65ed1f9eb4 100644
->> --- a/hw/pci-host/pnv_phb.c
->> +++ b/hw/pci-host/pnv_phb.c
->> @@ -51,27 +51,11 @@ static void pnv_parent_bus_fixup(DeviceState *parent, DeviceState *child,
->>       }
->>   }
->> -/*
->> - * Attach a root port device.
->> - *
->> - * 'index' will be used both as a PCIE slot value and to calculate
->> - * QOM id. 'chip_id' is going to be used as PCIE chassis for the
->> - * root port.
->> - */
->> -static void pnv_phb_attach_root_port(PCIHostState *pci)
->> +static void pnv_phb_attach_root_port(PCIBus *bus)
->>   {
->>       PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
->> -    const char *dev_id = DEVICE(root)->id;
->> -    g_autofree char *default_id = NULL;
->> -    int index;
->> -
->> -    index = object_property_get_int(OBJECT(pci->bus), "phb-id", &error_fatal);
->> -    default_id = g_strdup_printf("%s[%d]", TYPE_PNV_PHB_ROOT_PORT, index);
->> -
->> -    object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
->> -                              OBJECT(root));
->> -    pci_realize_and_unref(root, pci->bus, &error_fatal);
->> +    pci_realize_and_unref(root, bus, &error_fatal);
->>   }
->>   /*
->> @@ -171,7 +155,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
->>           return;
->>       }
->> -    pnv_phb_attach_root_port(pci);
->> +    pnv_phb_attach_root_port(pci->bus);
->>   }
->>   static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
->> @@ -240,12 +224,18 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
->>   {
->>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->>       PnvPHBRootPort *phb_rp = PNV_PHB_ROOT_PORT(dev);
->> -    PCIBus *bus = PCI_BUS(qdev_get_parent_bus(dev));
->> +    BusState *qbus = qdev_get_parent_bus(dev);
->> +    PCIBus *bus = PCI_BUS(qbus);
->>       PCIDevice *pci = PCI_DEVICE(dev);
->>       uint16_t device_id = 0;
->>       Error *local_err = NULL;
->>       int chip_id, index;
->> +    /*
->> +     * 'index' will be used both as a PCIE slot value and to calculate
->> +     * QOM id. 'chip_id' is going to be used as PCIE chassis for the
->> +     * root port.
->> +     */
->>       chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
->>       index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
->> @@ -253,6 +243,11 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
->>       qdev_prop_set_uint8(dev, "chassis", chip_id);
->>       qdev_prop_set_uint16(dev, "slot", index);
->> +    pnv_parent_qom_fixup(OBJECT(bus), OBJECT(dev), index);
->> +    if (!qdev_set_parent_bus(dev, qbus, &error_fatal)) {
-> 
-> 
-> That line looks surprising at first, because we got qbus from qdev_get_parent_bus() just above, so it looks like a noop. I talked to Daniel about it: the device<->bus relationship is correct when entering the function but the call to pnv_parent_qom_fixup() interferes with the bus relationship, so it needs to be re-established.
-
-The more detailed version: when adding a child property
-using object_property_add_child(), object_property_try_add_child() is called.
-This function calls internally a object_property_try_add() function with lots
-of parameters, including a release callback named 'object_finalize_child_property'.
-
-This release callback is implemented like this:
-
-static void object_finalize_child_property(Object *obj, const char *name,
-                                            void *opaque)
-{
-     Object *child = opaque;
-
-     if (child->class->unparent) {
-         (child->class->unparent)(child);
-     }
-     child->parent = NULL;
-     object_unref(child);
-}
-
-If you're adding a device as a child, which is our case here,
-child->class->unparent is device_unparent(). Note that device_unparent()
-removes the device from its parent_bus:
-
-static void device_unparent(Object *obj)
-{
-     DeviceState *dev = DEVICE(obj);
-     BusState *bus;
-
-     if (dev->realized) {
-         qdev_unrealize(dev);
-     }
-     while (dev->num_child_bus) {
-         bus = QLIST_FIRST(&dev->child_bus);
-         object_unparent(OBJECT(bus));
-     }
-     if (dev->parent_bus) {
-         bus_remove_child(dev->parent_bus, dev);
-         object_unref(OBJECT(dev->parent_bus));
-         dev->parent_bus = NULL;
-     }
-}
-
-So, back in our qom_fixup() helper, we're doing an object_unparent(). This
-function calls object_property_del_child(), which in turn calls the
-property release callback prop->release if it's defined. It is defined,
-and in our case it's the object_finalize_child_property() from above that will
-end up calling device_unparent(), which will remove the device from the bus.
-
-This is why I'm having to do a qdev_set_parent_bus() to assign the root port
-to the same parent bus it had before. We want to fixup it's QOM parent without
-changing its parent bus.
-
-Also, note that we're doing the same thing for the user created pnv-phbs in
-pnv_phb_user_device_init():
-
-     pnv_parent_qom_fixup(parent, OBJECT(phb), phb->phb_id);
-     pnv_parent_bus_fixup(DEVICE(chip), DEVICE(phb));
-
-The difference here is that the QOM parent is not the same as the parent bus,
-so it's less apparent what we're doing here.
-
-All that said, since we're always calling these 2 fixup helpers together, I think
-it's a good idea to create a single helper that handles both the QOM parenting and
-the parent bus. I can also add some comments about what I've said here to explain
-why we need to set the parent bus after doing an object_unparent().
-
-> Short of a better suggestion, it probably need a comment.
-
-I don't think we have wiggle room since we're dealing with deep QOM and qdev internals
-in this case. I'm all ears for suggestions though.
+r~
 
 
-Thanks,
+Ilya Leoshkevich (1):
+  accel/tcg: Introduce is_same_page()
 
+Richard Henderson (32):
+  linux-user/arm: Mark the commpage executable
+  linux-user/hppa: Allocate page zero as a commpage
+  linux-user/x86_64: Allocate vsyscall page as a commpage
+  linux-user: Honor PT_GNU_STACK
+  tests/tcg/i386: Move smc_code2 to an executable section
+  accel/tcg: Remove PageDesc code_bitmap
+  accel/tcg: Use bool for page_find_alloc
+  accel/tcg: Make tb_htable_lookup static
+  accel/tcg: Move qemu_ram_addr_from_host_nofail to physmem.c
+  accel/tcg: Properly implement get_page_addr_code for user-only
+  accel/tcg: Use probe_access_internal for softmmu
+    get_page_addr_code_hostp
+  accel/tcg: Add nofault parameter to get_page_addr_code_hostp
+  accel/tcg: Unlock mmap_lock after longjmp
+  accel/tcg: Raise PROT_EXEC exception early
+  accel/tcg: Remove translator_ldsw
+  accel/tcg: Add pc and host_pc params to gen_intermediate_code
+  accel/tcg: Add fast path for translator_ld*
+  accel/tcg: Use DisasContextBase in plugin_gen_tb_start
+  accel/tcg: Do not align tb->page_addr[0]
+  include/hw/core: Create struct CPUJumpCache
+  accel/tcg: Introduce tb_pc and tb_pc_log
+  accel/tcg: Introduce TARGET_TB_PCREL
+  accel/tcg: Split log_cpu_exec into inline and slow path
+  target/arm: Introduce curr_insn_len
+  target/arm: Change gen_goto_tb to work on displacements
+  target/arm: Change gen_*set_pc_im to gen_*update_pc
+  target/arm: Change gen_exception_insn* to work on displacements
+  target/arm: Change gen_exception_internal to work on displacements
+  target/arm: Change gen_jmp* to work on displacements
+  target/arm: Introduce gen_pc_plus_diff for aarch64
+  target/arm: Introduce gen_pc_plus_diff for aarch32
+  target/arm: Enable TARGET_TB_PCREL
 
-Daniel
+ include/elf.h                           |   1 +
+ include/exec/cpu-common.h               |   1 +
+ include/exec/cpu-defs.h                 |   3 +
+ include/exec/exec-all.h                 | 138 +++++++-------
+ include/exec/plugin-gen.h               |   7 +-
+ include/exec/translator.h               |  85 +++++++--
+ include/hw/core/cpu.h                   |   9 +-
+ linux-user/arm/target_cpu.h             |   4 +-
+ linux-user/qemu.h                       |   1 +
+ target/arm/cpu-param.h                  |   2 +
+ target/arm/translate-a32.h              |   2 +-
+ target/arm/translate.h                  |  21 ++-
+ accel/tcg/cpu-exec.c                    | 222 +++++++++++++---------
+ accel/tcg/cputlb.c                      |  98 +++-------
+ accel/tcg/plugin-gen.c                  |  23 +--
+ accel/tcg/translate-all.c               | 197 +++++++-------------
+ accel/tcg/translator.c                  | 122 +++++++++---
+ accel/tcg/user-exec.c                   |  15 ++
+ linux-user/elfload.c                    |  81 +++++++-
+ softmmu/physmem.c                       |  12 ++
+ target/alpha/translate.c                |   5 +-
+ target/arm/cpu.c                        |  23 +--
+ target/arm/translate-a64.c              | 174 ++++++++++-------
+ target/arm/translate-m-nocp.c           |   6 +-
+ target/arm/translate-mve.c              |   2 +-
+ target/arm/translate-vfp.c              |  10 +-
+ target/arm/translate.c                  | 237 +++++++++++++++---------
+ target/avr/cpu.c                        |   2 +-
+ target/avr/translate.c                  |   5 +-
+ target/cris/translate.c                 |   5 +-
+ target/hexagon/cpu.c                    |   2 +-
+ target/hexagon/translate.c              |   6 +-
+ target/hppa/cpu.c                       |   4 +-
+ target/hppa/translate.c                 |   5 +-
+ target/i386/tcg/tcg-cpu.c               |   2 +-
+ target/i386/tcg/translate.c             |   7 +-
+ target/loongarch/cpu.c                  |   2 +-
+ target/loongarch/translate.c            |   6 +-
+ target/m68k/translate.c                 |   5 +-
+ target/microblaze/cpu.c                 |   2 +-
+ target/microblaze/translate.c           |   5 +-
+ target/mips/tcg/exception.c             |   2 +-
+ target/mips/tcg/sysemu/special_helper.c |   2 +-
+ target/mips/tcg/translate.c             |   5 +-
+ target/nios2/translate.c                |   5 +-
+ target/openrisc/cpu.c                   |   2 +-
+ target/openrisc/translate.c             |   6 +-
+ target/ppc/translate.c                  |   5 +-
+ target/riscv/cpu.c                      |   4 +-
+ target/riscv/translate.c                |   5 +-
+ target/rx/cpu.c                         |   2 +-
+ target/rx/translate.c                   |   5 +-
+ target/s390x/tcg/translate.c            |   5 +-
+ target/sh4/cpu.c                        |   4 +-
+ target/sh4/translate.c                  |   5 +-
+ target/sparc/cpu.c                      |   2 +-
+ target/sparc/translate.c                |   5 +-
+ target/tricore/cpu.c                    |   2 +-
+ target/tricore/translate.c              |   6 +-
+ target/xtensa/translate.c               |   6 +-
+ tcg/tcg.c                               |   6 +-
+ tests/tcg/i386/test-i386.c              |   2 +-
+ 62 files changed, 979 insertions(+), 666 deletions(-)
 
-> 
->    Fred
-> 
-> 
-> 
->> +        return;
->> +    }
->> +
->>       rpc->parent_realize(dev, &local_err);
->>       if (local_err) {
->>           error_propagate(errp, local_err);
+-- 
+2.34.1
+
 
