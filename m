@@ -2,96 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF397595AA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 13:51:18 +0200 (CEST)
-Received: from localhost ([::1]:60110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6575B595B22
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:01:55 +0200 (CEST)
+Received: from localhost ([::1]:58224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNv6L-0005Kp-Dn
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 07:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
+	id 1oNvGb-0004TI-PM
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:01:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oNv25-0002Cd-AY
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 07:46:54 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:34909)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oNvDz-0001om-V8; Tue, 16 Aug 2022 07:59:11 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:48425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oNv23-00049u-Az
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 07:46:52 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 0DA4F5C02D4;
- Tue, 16 Aug 2022 07:46:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 16 Aug 2022 07:46:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1660650409; x=
- 1660736809; bh=lc23NTEwDklnsseSjdWQuzZESt++WQ0qCaV24peKn/4=; b=z
- BVNa4WyiL/tV1vXwCPet6nJXRQ6S74eYtPFIjUpmcO5JiPn0LjoImSDEzHtGX2pR
- A47iQPvcJ4oXKeguMPJWj54UqBu8wmPGcRgdS/ZEW1+mVcVgoG54rVfZsy11jEny
- y8M6SYfO4jBZKf1jjO5cjEHRDM5FSzc6y8kh4lWPtIGjCCnmzpNpdpgSwmkMfN6F
- G1eKCV4CPdgAm0AGRchGeiC93AHu+0dk9Yp35vPrN7lmGq2Xr0lz7Q/TcM2KVK+6
- pSTWXf7jO24cQ/EVMhSe/YpHNAaBw6Mw0rWFwQbqXMW13yRSENMULRW6oiDCK8lC
- jNnD0jCqgMWXWyq6TfDtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660650409; x=
- 1660736809; bh=lc23NTEwDklnsseSjdWQuzZESt++WQ0qCaV24peKn/4=; b=s
- J3YJbOzXcfJ39hjIz6HZmAgaP03VUSFMtkP1/1miNx9uQG3qS5DUiC1BFudxzpRQ
- FAu8mW2VA1eESRKUnD2c+DebtzoVxO162l6KotAh1Pn+4j4qUZmw4Y11YuCMEIgA
- Gl6JEtqdzhQoeh+vFci6yATTo13NWZ9eCJ56MlJnRsh+pSPwksXFzzWJyJEDHWIy
- JzSV2RyQi9K3eKSNCXH7970VvAVjrUyHCkeOLS7f8HCCbbcl1uj/DPq82QJxwO1m
- lCYOOgcQNmC49BvIkK19G5yBDiaTPUnxBiXdtCEvCOE+AUo8RWrcMv2d/i1OKKX3
- G4fvBbmpOzo1uJkeJT5Xg==
-X-ME-Sender: <xms:qIP7YgKwOJch9Yk_i0iQ58mJoVw7d3BEhbgRhMST1BsyXuq9Jt7rSg>
- <xme:qIP7YgLZEpfKxNZNSb-9thw2FlqCm2C8XK04XxFdgoYbbUzvaOrjlOLf3IArHpa5Q
- ocdJfeMAPTCKqQrGtI>
-X-ME-Received: <xmr:qIP7YguKNgObR8VEJGBKYXUFJTXQUNSYlc-X0yvZ_-RRaj1a2Fe-FEvfgbawfEK89NR73GnlIW0-xmeO5bLMXDfpTON8xZrH-x5utRKm_rgKfoecag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedggeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
- gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
- cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
- ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
- hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:qIP7YtYURm-XtlSQ6aVsaHFVUCauvT_nJLTSw5KRRMHt3UJO807C9Q>
- <xmx:qIP7YnbnGl3ZaQm2ataHbkU0FtD1z2LXSOY83bDoJFAaWb2c1jAiRg>
- <xmx:qIP7YpAtFwbH5mCwH2wIrqRs14CK6NEdQS91TLC6kh8Dnu-1vosinA>
- <xmx:qYP7YmktEzEhdN2R-2XBovqx7iSbRm-POd6jB5J5a7nUGT0XNMQYQg>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 07:46:47 -0400 (EDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH 2/2] hw/mips/boston: Pack fdt in fdt filter
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <277f1180-02f4-9372-2493-1954a250e35f@amsat.org>
-Date: Tue, 16 Aug 2022 12:46:46 +0100
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Alistair Francis <alistair@alistair23.me>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BEA08D52-2865-4F4F-8E65-512FF86F1F56@flygoat.com>
-References: <20220813162720.60008-1-jiaxun.yang@flygoat.com>
- <20220813162720.60008-3-jiaxun.yang@flygoat.com>
- <277f1180-02f4-9372-2493-1954a250e35f@amsat.org>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oNvDw-0005xM-PH; Tue, 16 Aug 2022 07:59:11 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4CAA674632B;
+ Tue, 16 Aug 2022 13:59:01 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id EDA4E746324; Tue, 16 Aug 2022 13:59:00 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EC35E7462D3;
+ Tue, 16 Aug 2022 13:59:00 +0200 (CEST)
+Date: Tue, 16 Aug 2022 13:59:00 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 21/22] ppc4xx: Drop empty default cases
+In-Reply-To: <79b80025-a5e1-8293-5d93-01450b94b16b@kaod.org>
+Message-ID: <1429a6f1-3b97-6eac-fae-b24fb3de34d@eik.bme.hu>
+References: <cover.1660402839.git.balaton@eik.bme.hu>
+ <011b7081d56ae856c1862bbfe92207ea8fe52399.1660402839.git.balaton@eik.bme.hu>
+ <79b80025-a5e1-8293-5d93-01450b94b16b@kaod.org>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="3866299591-2028902364-1660651140=:43945"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,39 +63,377 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+--3866299591-2028902364-1660651140=:43945
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> 2022=E5=B9=B48=E6=9C=8816=E6=97=A5 01:44=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On 13/8/22 18:27, Jiaxun Yang wrote:
->> FDT can be awfully fat after series of modifications in fdt
->> filter. Just pack it up before add to ram.
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+On Tue, 16 Aug 2022, Cédric Le Goater wrote:
+> On 8/13/22 17:34, BALATON Zoltan wrote:
+>> Remove default case labels that do nothing or only there to set a
+>> default value that could easily be done at the variable definition
+>> instead.
+>
+> May be instead, the default case labels deserve a LOG_GUEST_ERROR or
+> a UNIMP or even g_assert_not_reached() ?
+
+g_assert_not_reached() is probably too much as a lot of these models may 
+be incomplete so I think that could cause crashes where it works now but 
+adding LOG_UNIMP could be useful to detect missing pieces.
+
+Regards,
+BALATON Zoltan
+
+> C.
+>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 >> ---
->>  hw/mips/boston.c | 1 +
->>  1 file changed, 1 insertion(+)
->> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
->> index 5145179951..a40f193f78 100644
->> --- a/hw/mips/boston.c
->> +++ b/hw/mips/boston.c
->> @@ -400,6 +400,7 @@ static const void *boston_fdt_filter(void =
-*opaque, const void *fdt_orig,
->>                          1, boston_memmap[BOSTON_HIGHDDR].base + =
-ram_low_sz,
->>                          1, ram_high_sz);
->>  +    fdt_pack(fdt);
->>      fdt =3D g_realloc(fdt, fdt_totalsize(fdt));
->>      qemu_fdt_dumpdtb(fdt, fdt_sz);
->> =20
->=20
-> Why not pack by default in qemu_fdt_dumpdtb()?
-
-qemu_fdt_dumpdtb() is explicitly a function for debugging purpose.
-Donno if it=E2=80=99s wise to hijack it.
-
-Thanks.
----
-Jiaxun Yang
-
+>>   hw/ppc/ppc405_boards.c |  7 +------
+>>   hw/ppc/ppc405_uc.c     | 29 +++++------------------------
+>>   hw/ppc/ppc440_uc.c     | 27 ---------------------------
+>>   hw/ppc/ppc4xx_devs.c   | 31 ++++---------------------------
+>>   4 files changed, 10 insertions(+), 84 deletions(-)
+>> 
+>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>> index 083f12b23e..a876b4af85 100644
+>> --- a/hw/ppc/ppc405_boards.c
+>> +++ b/hw/ppc/ppc405_boards.c
+>> @@ -401,7 +401,7 @@ struct Ref405epFpgaState {
+>>   static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned 
+>> size)
+>>   {
+>>       Ref405epFpgaState *fpga = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (addr) {
+>>       case 0x0:
+>> @@ -410,9 +410,6 @@ static uint64_t ref405ep_fpga_readb(void *opaque, 
+>> hwaddr addr, unsigned size)
+>>       case 0x1:
+>>           ret = fpga->reg1;
+>>           break;
+>> -    default:
+>> -        ret = 0;
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -430,8 +427,6 @@ static void ref405ep_fpga_writeb(void *opaque, hwaddr 
+>> addr, uint64_t value,
+>>       case 0x1:
+>>           fpga->reg1 = value;
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>   }
+>>   diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>> index b13026200f..6c84d87330 100644
+>> --- a/hw/ppc/ppc405_uc.c
+>> +++ b/hw/ppc/ppc405_uc.c
+>> @@ -56,7 +56,7 @@ enum {
+>>   static uint32_t dcr_read_pob(void *opaque, int dcrn)
+>>   {
+>>       Ppc405PobState *pob = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (dcrn) {
+>>       case POB0_BEAR:
+>> @@ -68,10 +68,6 @@ static uint32_t dcr_read_pob(void *opaque, int dcrn)
+>>       case POB0_BESR1:
+>>           ret = pob->besr1;
+>>           break;
+>> -    default:
+>> -        /* Avoid gcc warning */
+>> -        ret = 0;
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -131,7 +127,7 @@ static void ppc405_pob_class_init(ObjectClass *oc, void 
+>> *data)
+>>   static uint64_t opba_readb(void *opaque, hwaddr addr, unsigned size)
+>>   {
+>>       Ppc405OpbaState *opba = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (addr) {
+>>       case 0x00:
+>> @@ -140,9 +136,6 @@ static uint64_t opba_readb(void *opaque, hwaddr addr, 
+>> unsigned size)
+>>       case 0x01:
+>>           ret = opba->pr;
+>>           break;
+>> -    default:
+>> -        ret = 0x00;
+>> -        break;
+>>       }
+>>         trace_opba_readb(addr, ret);
+>> @@ -163,8 +156,6 @@ static void opba_writeb(void *opaque, hwaddr addr, 
+>> uint64_t value,
+>>       case 0x01:
+>>           opba->pr = value & 0xFF;
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>   }
+>>   static const MemoryRegionOps opba_ops = {
+>> @@ -403,7 +394,7 @@ static void ocm_update_mappings(Ppc405OcmState *ocm,
+>>   static uint32_t dcr_read_ocm(void *opaque, int dcrn)
+>>   {
+>>       Ppc405OcmState *ocm = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (dcrn) {
+>>       case OCM0_ISARC:
+>> @@ -418,9 +409,6 @@ static uint32_t dcr_read_ocm(void *opaque, int dcrn)
+>>       case OCM0_DSACNTL:
+>>           ret = ocm->dsacntl;
+>>           break;
+>> -    default:
+>> -        ret = 0;
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -556,7 +544,7 @@ static void ppc4xx_gpt_compute_timer(Ppc405GptState 
+>> *gpt)
+>>   static uint64_t ppc4xx_gpt_read(void *opaque, hwaddr addr, unsigned size)
+>>   {
+>>       Ppc405GptState *gpt = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = -1;
+>>       int idx;
+>>         trace_ppc4xx_gpt_read(addr, size);
+>> @@ -598,9 +586,6 @@ static uint64_t ppc4xx_gpt_read(void *opaque, hwaddr 
+>> addr, unsigned size)
+>>           idx = (addr - 0xC0) >> 2;
+>>           ret = gpt->mask[idx];
+>>           break;
+>> -    default:
+>> -        ret = -1;
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -844,7 +829,7 @@ static void ppc405ep_compute_clocks(Ppc405CpcState 
+>> *cpc)
+>>   static uint32_t dcr_read_epcpc(void *opaque, int dcrn)
+>>   {
+>>       Ppc405CpcState *cpc = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (dcrn) {
+>>       case PPC405EP_CPC0_BOOT:
+>> @@ -871,10 +856,6 @@ static uint32_t dcr_read_epcpc(void *opaque, int dcrn)
+>>       case PPC405EP_CPC0_PCI:
+>>           ret = cpc->pci;
+>>           break;
+>> -    default:
+>> -        /* Avoid gcc warning */
+>> -        ret = 0;
+>> -        break;
+>>       }
+>>         return ret;
+>> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+>> index 11fdb88c22..b390672bce 100644
+>> --- a/hw/ppc/ppc440_uc.c
+>> +++ b/hw/ppc/ppc440_uc.c
+>> @@ -147,9 +147,6 @@ static uint32_t dcr_read_l2sram(void *opaque, int dcrn)
+>>       case DCR_ISRAM0_DPC:
+>>           ret = l2sram->isram0[dcrn - DCR_ISRAM0_BASE];
+>>           break;
+>> -
+>> -    default:
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -304,12 +301,8 @@ static uint32_t dcr_read_cpr(void *opaque, int dcrn)
+>>           case CPR0_AHBD:
+>>               ret = (1 << 24);
+>>               break;
+>> -        default:
+>> -            break;
+>>           }
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -325,8 +318,6 @@ static void dcr_write_cpr(void *opaque, int dcrn, 
+>> uint32_t val)
+>>           break;
+>>       case CPR0_CFGDATA:
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>   }
+>>   @@ -421,12 +412,8 @@ static uint32_t dcr_read_sdr(void *opaque, int dcrn)
+>>           case PESDR1_LOOP:
+>>               ret = 1 << 12;
+>>               break;
+>> -        default:
+>> -            break;
+>>           }
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -444,12 +431,8 @@ static void dcr_write_sdr(void *opaque, int dcrn, 
+>> uint32_t val)
+>>           switch (sdr->addr) {
+>>           case 0x00: /* B0CR */
+>>               break;
+>> -        default:
+>> -            break;
+>>           }
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>   }
+>>   @@ -646,12 +629,8 @@ static uint32_t dcr_read_sdram(void *opaque, int 
+>> dcrn)
+>>           case 0xE1: /* SDR0_DDR0 */
+>>               ret = SDR0_DDR0_DDRM_ENCODE(1) | SDR0_DDR0_DDRM_DDR1;
+>>               break;
+>> -        default:
+>> -            break;
+>>           }
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -679,12 +658,8 @@ static void dcr_write_sdram(void *opaque, int dcrn, 
+>> uint32_t val)
+>>           switch (sdram->addr) {
+>>           case 0x00: /* B0CR */
+>>               break;
+>> -        default:
+>> -            break;
+>>           }
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>   }
+>>   @@ -760,8 +735,6 @@ static uint32_t dcr_read_ahb(void *opaque, int dcrn)
+>>       case AHB_BOT:
+>>           ret = ahb->bot;
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>         return ret;
+>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+>> index 49793b56cd..f5806f06e7 100644
+>> --- a/hw/ppc/ppc4xx_devs.c
+>> +++ b/hw/ppc/ppc4xx_devs.c
+>> @@ -182,7 +182,7 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
+>>   static uint32_t dcr_read_sdram (void *opaque, int dcrn)
+>>   {
+>>       ppc4xx_sdram_t *sdram;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         sdram = opaque;
+>>       switch (dcrn) {
+>> @@ -238,10 +238,6 @@ static uint32_t dcr_read_sdram (void *opaque, int 
+>> dcrn)
+>>               break;
+>>           }
+>>           break;
+>> -    default:
+>> -        /* Avoid gcc warning */
+>> -        ret = 0x00000000;
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -321,8 +317,6 @@ static void dcr_write_sdram (void *opaque, int dcrn, 
+>> uint32_t val)
+>>                   qemu_irq_lower(sdram->irq);
+>>               sdram->eccesr = val;
+>>               break;
+>> -        default: /* Error */
+>> -            break;
+>>           }
+>>           break;
+>>       }
+>> @@ -476,7 +470,7 @@ static void ppc4xx_mal_reset(DeviceState *dev)
+>>   static uint32_t dcr_read_mal(void *opaque, int dcrn)
+>>   {
+>>       Ppc4xxMalState *mal = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (dcrn) {
+>>       case MAL0_CFG:
+>> @@ -512,9 +506,6 @@ static uint32_t dcr_read_mal(void *opaque, int dcrn)
+>>       case MAL0_RXDEIR:
+>>           ret = mal->rxdeir;
+>>           break;
+>> -    default:
+>> -        ret = 0;
+>> -        break;
+>>       }
+>>       if (dcrn >= MAL0_TXCTP0R && dcrn < MAL0_TXCTP0R + mal->txcnum) {
+>>           ret = mal->txctpr[dcrn - MAL0_TXCTP0R];
+>> @@ -671,7 +662,7 @@ enum {
+>>   static uint32_t dcr_read_plb(void *opaque, int dcrn)
+>>   {
+>>       Ppc405PlbState *plb = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (dcrn) {
+>>       case PLB0_ACR:
+>> @@ -683,10 +674,6 @@ static uint32_t dcr_read_plb(void *opaque, int dcrn)
+>>       case PLB0_BESR:
+>>           ret = plb->besr;
+>>           break;
+>> -    default:
+>> -        /* Avoid gcc warning */
+>> -        ret = 0;
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -756,7 +743,7 @@ enum {
+>>   static uint32_t dcr_read_ebc(void *opaque, int dcrn)
+>>   {
+>>       Ppc405EbcState *ebc = opaque;
+>> -    uint32_t ret;
+>> +    uint32_t ret = 0;
+>>         switch (dcrn) {
+>>       case EBC0_CFGADDR:
+>> @@ -824,14 +811,8 @@ static uint32_t dcr_read_ebc(void *opaque, int dcrn)
+>>           case 0x23: /* CFG */
+>>               ret = ebc->cfg;
+>>               break;
+>> -        default:
+>> -            ret = 0x00000000;
+>> -            break;
+>>           }
+>>           break;
+>> -    default:
+>> -        ret = 0x00000000;
+>> -        break;
+>>       }
+>>         return ret;
+>> @@ -887,12 +868,8 @@ static void dcr_write_ebc(void *opaque, int dcrn, 
+>> uint32_t val)
+>>               break;
+>>           case 0x23: /* CFG */
+>>               break;
+>> -        default:
+>> -            break;
+>>           }
+>>           break;
+>> -    default:
+>> -        break;
+>>       }
+>>   }
+>> 
+>
+>
+>
+--3866299591-2028902364-1660651140=:43945--
 
