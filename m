@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFBC59576B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:03:22 +0200 (CEST)
-Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE5D595787
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 12:07:48 +0200 (CEST)
+Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNtPk-0000GJ-8q
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
+	id 1oNtUB-0005A8-45
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 06:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNtLg-000567-Pp
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:59:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31351)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNtLi-00059I-ND
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:59:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNtLf-0000yc-AP
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:59:00 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNtLh-0000zD-09
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:59:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660643938;
+ s=mimecast20190719; t=1660643940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZzCTDd1hfU2+GJo6Yl9Co4kWnqVQUcKRurznV7vfWs8=;
- b=WjaPuzgcxr9PopHmIgyWQymtvDWT7+fBk9g/42DxK1nlm1K1iQqaCEQY7JyAuRdStEZTpK
- ChHr2hK5ETCOAmpRaWzgrb+4Hoq/M1XeQ2wrtX3jchojwqYSDgM1X9lJRr23wCyI+p2B3s
- rRcjr7mmmr/T0iyYG3nq/ihIm0gBqJk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9EcByTx8o21JX/WVTo586WE5QiGfvM9rQBHXjkXSUJo=;
+ b=VJYhGRa+aC8C09Z0uBWXRA75op16BJBE36sLm6zvEYgia5d7BPScHTAxybIwchzmFjrabL
+ 4jHgbRsfLJQibucRMAiUYTc0t2Ex7UhX3XeZp3ReuovfCmJhZ3LR9m8Zw6BzAoLTPSn+Yy
+ FjgDyrzkgxSdTzyX+jW31zqRMM16MY8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-uzjyuk1hNie-1eav6Sb0Gw-1; Tue, 16 Aug 2022 05:58:55 -0400
-X-MC-Unique: uzjyuk1hNie-1eav6Sb0Gw-1
+ us-mta-147-fCJ6pXcxMxOfmDrlSRDKAQ-1; Tue, 16 Aug 2022 05:58:57 -0400
+X-MC-Unique: fCJ6pXcxMxOfmDrlSRDKAQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB474382624A;
- Tue, 16 Aug 2022 09:58:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4ED78037B7;
+ Tue, 16 Aug 2022 09:58:56 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 14588492C3B;
- Tue, 16 Aug 2022 09:58:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 566AD492C3B;
+ Tue, 16 Aug 2022 09:58:55 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 1/2] tests/qtest: misc tweaks to readconfig
-Date: Tue, 16 Aug 2022 11:58:48 +0200
-Message-Id: <20220816095849.211139-2-thuth@redhat.com>
+Subject: [PULL 2/2] hw/usb/hcd-xhci: Fix unbounded loop in
+ xhci_ring_chain_length() (CVE-2020-14394)
+Date: Tue, 16 Aug 2022 11:58:49 +0200
+Message-Id: <20220816095849.211139-3-thuth@redhat.com>
 In-Reply-To: <20220816095849.211139-1-thuth@redhat.com>
 References: <20220816095849.211139-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,88 +77,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+The loop condition in xhci_ring_chain_length() is under control of
+the guest, and additionally the code does not check for failed DMA
+transfers (e.g. if reaching the end of the RAM), so the loop there
+could run for a very long time or even forever. Fix it by checking
+the return value of dma_memory_read() and by introducing a maximum
+loop length.
 
-The property name parameter is ignored when visiting a top
-level type, but the obvious typo should be fixed to avoid
-confusion. A few indentation issues were tidied up. We
-can break out of the loop when finding the RNG device.
-Finally, close the temp FD immediately when no longer
-needed.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220809093854.168438-1-berrange@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/646
+Message-Id: <20220804131300.96368-1-thuth@redhat.com>
+Reviewed-by: Mauro Matteo Cascella <mcascell@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/readconfig-test.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/usb/hcd-xhci.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
-index 2e604d7c2d..c7a9b0c7dd 100644
---- a/tests/qtest/readconfig-test.c
-+++ b/tests/qtest/readconfig-test.c
-@@ -33,13 +33,12 @@ static QTestState *qtest_init_with_config(const char *cfgdata)
-     g_assert_cmpint(cfgfd, >=, 0);
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 296cc6c8e6..3c48b58dde 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -21,6 +21,7 @@
  
-     ret = qemu_write_full(cfgfd, cfgdata, strlen(cfgdata));
-+    close(cfgfd);
-     if (ret < 0) {
-         unlink(cfgpath);
-     }
-     g_assert_cmpint(ret, ==, strlen(cfgdata));
+ #include "qemu/osdep.h"
+ #include "qemu/timer.h"
++#include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "qemu/queue.h"
+ #include "migration/vmstate.h"
+@@ -725,10 +726,14 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+     bool control_td_set = 0;
+     uint32_t link_cnt = 0;
  
--    close(cfgfd);
--
-     args = g_strdup_printf("-nodefaults -machine none -readconfig %s", cfgpath);
- 
-     qts = qtest_init(args);
-@@ -79,7 +78,7 @@ static void test_x86_memdev(void)
-         "size = \"200\"";
- 
-     qts = qtest_init_with_config(cfgdata);
--   /* Test valid command */
-+    /* Test valid command */
-     resp = qtest_qmp(qts, "{ 'execute': 'query-memdev' }");
-     test_x86_memdev_resp(qdict_get(resp, "return"));
-     qobject_unref(resp);
-@@ -96,7 +95,7 @@ static void test_spice_resp(QObject *res)
- 
-     g_assert(res);
-     v = qobject_input_visitor_new(res);
--    visit_type_SpiceInfo(v, "spcie", &spice, &error_abort);
-+    visit_type_SpiceInfo(v, "spice", &spice, &error_abort);
- 
-     g_assert(spice);
-     g_assert(spice->enabled);
-@@ -114,7 +113,7 @@ static void test_spice(void)
-         "unix = \"on\"\n";
- 
-     qts = qtest_init_with_config(cfgdata);
--   /* Test valid command */
-+    /* Test valid command */
-     resp = qtest_qmp(qts, "{ 'execute': 'query-spice' }");
-     test_spice_resp(qdict_get(resp, "return"));
-     qobject_unref(resp);
-@@ -144,6 +143,7 @@ static void test_object_rng_resp(QObject *res)
-         if (g_str_equal(obj->name, "rng0") &&
-             g_str_equal(obj->type, "child<rng-builtin>")) {
-             seen_rng = true;
-+            break;
+-    while (1) {
++    do {
+         TRBType type;
+-        dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE,
+-                        MEMTXATTRS_UNSPECIFIED);
++        if (dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE,
++                        MEMTXATTRS_UNSPECIFIED) != MEMTX_OK) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: DMA memory access failed!\n",
++                          __func__);
++            return -1;
++        }
+         le64_to_cpus(&trb.parameter);
+         le32_to_cpus(&trb.status);
+         le32_to_cpus(&trb.control);
+@@ -762,7 +767,17 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+         if (!control_td_set && !(trb.control & TRB_TR_CH)) {
+             return length;
          }
+-    }
++
++        /*
++         * According to the xHCI spec, Transfer Ring segments should have
++         * a maximum size of 64 kB (see chapter "6 Data Structures")
++         */
++    } while (length < TRB_LINK_LIMIT * 65536 / TRB_SIZE);
++
++    qemu_log_mask(LOG_GUEST_ERROR, "%s: exceeded maximum tranfer ring size!\n",
++                          __func__);
++
++    return -1;
+ }
  
-         tmp = tmp->next;
-@@ -164,7 +164,7 @@ static void test_object_rng(void)
-         "id = \"rng0\"\n";
- 
-     qts = qtest_init_with_config(cfgdata);
--   /* Test valid command */
-+    /* Test valid command */
-     resp = qtest_qmp(qts,
-                      "{ 'execute': 'qom-list',"
-                      "  'arguments': {'path': '/objects' }}");
+ static void xhci_er_reset(XHCIState *xhci, int v)
 -- 
 2.31.1
 
