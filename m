@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12445953FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:38:20 +0200 (CEST)
-Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF836595410
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:41:55 +0200 (CEST)
+Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNr8Q-0000KC-3h
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41106)
+	id 1oNrD0-000587-La
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNr49-0006Vv-1p
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:32:45 -0400
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:45215)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNr5V-0007Ol-B3
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:34:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oNr46-0004Lx-I1
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:32:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.102])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5337C23226;
- Tue, 16 Aug 2022 07:32:38 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 16 Aug
- 2022 09:32:37 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005b1fae85e-3648-4fb9-b46b-2399ebbf26fd,
- F9C770E940B196DD2347A7F94772438AA2E7EC4E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <c3fc221b-1860-ab43-40b1-39faf96eca73@kaod.org>
-Date: Tue, 16 Aug 2022 09:32:36 +0200
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNr5R-0004SA-Ov
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:34:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660635244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TAZ+ZgD3MzRucJr3dHZf2Bqvz+rC0RLvN0x9m3G/Fhk=;
+ b=Pq/bpzVps5mThdiENShKBmyA2yqowAsdiIyeWxARxqjFndb4fU5y6v+HLJooLz+1hxrI0+
+ B//XTxtqoVGy0AQCBbjcem7kwjSe+uYPM5zjOIhDivpWLG+BXA02e9CyBhdD5mJcPbwlxu
+ l2b4QpwTf2UjpHbdnMUFvFIjwLquy4Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-458-Eky7_b17MaG6bq60rRnpnQ-1; Tue, 16 Aug 2022 03:33:39 -0400
+X-MC-Unique: Eky7_b17MaG6bq60rRnpnQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C0C93833286;
+ Tue, 16 Aug 2022 07:33:39 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C5D32026D4C;
+ Tue, 16 Aug 2022 07:33:39 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8A4BB18003A8; Tue, 16 Aug 2022 09:33:37 +0200 (CEST)
+Date: Tue, 16 Aug 2022 09:33:37 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] ui/console: fix qemu_console_resize() regression
+Message-ID: <20220816073337.frxo6r6ljuc4yqp4@sirius.home.kraxel.org>
+References: <20220725115815.2461322-1-marcandre.lureau@redhat.com>
+ <291cacc9-ac68-4a3e-edc0-fb226bdceaf3@ilande.co.uk>
+ <ac00cbb9-e225-a7fa-ec43-d763fb985060@ilande.co.uk>
+ <CAMxuvazx5GGUzo0n_TcgA0FxkFmaecVdAXY4mutRFW+M+CrJdQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 01/22] ppc/ppc4xx: Introduce a DCR device model
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <cover.1660402839.git.balaton@eik.bme.hu>
- <50e79b2c5f2c17e2b6b7920dd6526b5c091ac8bb.1660402839.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <50e79b2c5f2c17e2b6b7920dd6526b5c091ac8bb.1660402839.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: aad6e75e-4524-4cd0-87f4-9d5413a6024c
-X-Ovh-Tracer-Id: 5194339221767097251
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehfedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehhedv
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMxuvazx5GGUzo0n_TcgA0FxkFmaecVdAXY4mutRFW+M+CrJdQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,121 +81,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/13/22 17:34, BALATON Zoltan wrote:
-> From: Cédric Le Goater <clg@kaod.org>
-> 
-> The Device Control Registers (DCR) of on-SoC devices are accessed by
-> software through the use of the mtdcr and mfdcr instructions. These
-> are converted in transactions on a side band bus, the DCR bus, which
-> connects the on-SoC devices to the CPU.
-> 
-> Ideally, we should model these accesses with a DCR namespace and DCR
-> memory regions but today the DCR handlers are installed in a DCR table
-> under the CPU. Instead, introduce a little device model wrapper to hold
-> a CPU link and handle registration of DCR handlers.
-> 
-> The DCR device inherits from SysBus because most of these devices also
-> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
-> to install the device model in the overall SoC.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> > >> diff --git a/ui/console.c b/ui/console.c
+> > >> index e139f7115e1f..765892f84f1c 100644
+> > >> --- a/ui/console.c
+> > >> +++ b/ui/console.c
+> > >> @@ -2575,11 +2575,13 @@ static void vc_chr_open(Chardev *chr,
+> > >>   void qemu_console_resize(QemuConsole *s, int width, int height)
+> > >>   {
+> > >> -    DisplaySurface *surface;
+> > >> +    DisplaySurface *surface = qemu_console_surface(s);
+> > >>       assert(s->console_type == GRAPHIC_CONSOLE);
+> > >> -    if (qemu_console_get_width(s, -1) == width &&
+> > >> +    if ((s->scanout.kind != SCANOUT_SURFACE ||
+> > >> +         (surface && surface->flags & QEMU_ALLOCATED_FLAG)) &&
+> > >> +        qemu_console_get_width(s, -1) == width &&
+> > >>           qemu_console_get_height(s, -1) == height) {
+> > >>           return;
+> > >>       }
 
-When re-sending a patch, it is a good practice to list the changes before
-the Sob of the person doing the resend.
+> Gerd, could you review the patch and let me send a MR ? (or do you
+> have other UI patches queued already and take it?)
 
-I think you only changed the ppc4xx_dcr_register prototype. Correct ?
+Patch looks good to me.
 
-Thanks,
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-C.
+[ just back from summer vacation, no pending queue atm, just started
+  walking through my email backlog though ... ]
 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/ppc4xx_devs.c    | 41 +++++++++++++++++++++++++++++++++++++++++
->   include/hw/ppc/ppc4xx.h | 17 +++++++++++++++++
->   2 files changed, 58 insertions(+)
-> 
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 069b511951..f4d7ae9567 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -664,3 +664,44 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->                            mal, &dcr_read_mal, &dcr_write_mal);
->       }
->   }
-> +
-> +/* PPC4xx_DCR_DEVICE */
-> +
-> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
-> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
-> +{
-> +    assert(dev->cpu);
-> +    ppc_dcr_register(&dev->cpu->env, dcrn, opaque, dcr_read, dcr_write);
-> +}
-> +
-> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
-> +                        Error **errp)
-> +{
-> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
-> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
-> +}
-> +
-> +static Property ppc4xx_dcr_properties[] = {
-> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
-> +                     PowerPCCPU *),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    device_class_set_props(dc, ppc4xx_dcr_properties);
-> +}
-> +
-> +static const TypeInfo ppc4xx_types[] = {
-> +    {
-> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
-> +        .parent         = TYPE_SYS_BUS_DEVICE,
-> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
-> +        .class_init     = ppc4xx_dcr_class_init,
-> +        .abstract       = true,
-> +    }
-> +};
-> +
-> +DEFINE_TYPES(ppc4xx_types)
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index 591e2421a3..a537a5567b 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -27,6 +27,7 @@
->   
->   #include "hw/ppc/ppc.h"
->   #include "exec/memory.h"
-> +#include "hw/sysbus.h"
->   
->   void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->                           MemoryRegion ram_memories[],
-> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
->   
->   #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->   
-> +/*
-> + * Generic DCR device
-> + */
-> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
-> +struct Ppc4xxDcrDeviceState {
-> +    SysBusDevice parent_obj;
-> +
-> +    PowerPCCPU *cpu;
-> +};
-> +
-> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
-> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
-> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
-> +                        Error **errp);
-> +
->   #endif /* PPC4XX_H */
+take care,
+  Gerd
 
 
