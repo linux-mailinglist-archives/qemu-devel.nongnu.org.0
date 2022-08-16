@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF836595410
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:41:55 +0200 (CEST)
-Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB89C59541A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 09:48:24 +0200 (CEST)
+Received: from localhost ([::1]:38372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNrD0-000587-La
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
+	id 1oNrJH-0000oB-Nx
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 03:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNr5V-0007Ol-B3
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:34:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29687)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oNr5z-0007aN-4S; Tue, 16 Aug 2022 03:34:39 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oNr5R-0004SA-Ov
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 03:34:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660635244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TAZ+ZgD3MzRucJr3dHZf2Bqvz+rC0RLvN0x9m3G/Fhk=;
- b=Pq/bpzVps5mThdiENShKBmyA2yqowAsdiIyeWxARxqjFndb4fU5y6v+HLJooLz+1hxrI0+
- B//XTxtqoVGy0AQCBbjcem7kwjSe+uYPM5zjOIhDivpWLG+BXA02e9CyBhdD5mJcPbwlxu
- l2b4QpwTf2UjpHbdnMUFvFIjwLquy4Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-458-Eky7_b17MaG6bq60rRnpnQ-1; Tue, 16 Aug 2022 03:33:39 -0400
-X-MC-Unique: Eky7_b17MaG6bq60rRnpnQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C0C93833286;
- Tue, 16 Aug 2022 07:33:39 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C5D32026D4C;
- Tue, 16 Aug 2022 07:33:39 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8A4BB18003A8; Tue, 16 Aug 2022 09:33:37 +0200 (CEST)
-Date: Tue, 16 Aug 2022 09:33:37 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] ui/console: fix qemu_console_resize() regression
-Message-ID: <20220816073337.frxo6r6ljuc4yqp4@sirius.home.kraxel.org>
-References: <20220725115815.2461322-1-marcandre.lureau@redhat.com>
- <291cacc9-ac68-4a3e-edc0-fb226bdceaf3@ilande.co.uk>
- <ac00cbb9-e225-a7fa-ec43-d763fb985060@ilande.co.uk>
- <CAMxuvazx5GGUzo0n_TcgA0FxkFmaecVdAXY4mutRFW+M+CrJdQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oNr5w-0004UK-DZ; Tue, 16 Aug 2022 03:34:38 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.246])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8E36E11E8E5B8;
+ Tue, 16 Aug 2022 09:34:31 +0200 (CEST)
+Received: from kaod.org (37.59.142.104) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 16 Aug
+ 2022 09:34:30 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R005aa7428e5-0fbb-43ff-88bd-17a01c5a43d2,
+ F9C770E940B196DD2347A7F94772438AA2E7EC4E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <8f8f6d43-5cfe-905f-86ab-a40d3e132096@kaod.org>
+Date: Tue, 16 Aug 2022 09:34:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMxuvazx5GGUzo0n_TcgA0FxkFmaecVdAXY4mutRFW+M+CrJdQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 12/22] ppc4xx: Move PLB model to ppc4xx_devs.c
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <cover.1660402839.git.balaton@eik.bme.hu>
+ <3f182ba0e89eeea855516cf3651fb8cc4cf9b546.1660402839.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <3f182ba0e89eeea855516cf3651fb8cc4cf9b546.1660402839.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 72d7bdef-ddf3-4463-8c17-b3983431e4f2
+X-Ovh-Tracer-Id: 5226145896468417443
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehfedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,35 +76,288 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > >> diff --git a/ui/console.c b/ui/console.c
-> > >> index e139f7115e1f..765892f84f1c 100644
-> > >> --- a/ui/console.c
-> > >> +++ b/ui/console.c
-> > >> @@ -2575,11 +2575,13 @@ static void vc_chr_open(Chardev *chr,
-> > >>   void qemu_console_resize(QemuConsole *s, int width, int height)
-> > >>   {
-> > >> -    DisplaySurface *surface;
-> > >> +    DisplaySurface *surface = qemu_console_surface(s);
-> > >>       assert(s->console_type == GRAPHIC_CONSOLE);
-> > >> -    if (qemu_console_get_width(s, -1) == width &&
-> > >> +    if ((s->scanout.kind != SCANOUT_SURFACE ||
-> > >> +         (surface && surface->flags & QEMU_ALLOCATED_FLAG)) &&
-> > >> +        qemu_console_get_width(s, -1) == width &&
-> > >>           qemu_console_get_height(s, -1) == height) {
-> > >>           return;
-> > >>       }
+On 8/13/22 17:34, BALATON Zoltan wrote:
+> The PLB is shared between 405 and 440 so move it to the shared file.
 
-> Gerd, could you review the patch and let me send a MR ? (or do you
-> have other UI patches queued already and take it?)
+Should we rename the device to Ppc4xxPlbState ?
 
-Patch looks good to me.
+Thanks,
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+C.
 
-[ just back from summer vacation, no pending queue atm, just started
-  walking through my email backlog though ... ]
-
-take care,
-  Gerd
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/ppc/ppc405.h         | 11 -----
+>   hw/ppc/ppc405_uc.c      | 93 ----------------------------------------
+>   hw/ppc/ppc4xx_devs.c    | 94 +++++++++++++++++++++++++++++++++++++++++
+>   include/hw/ppc/ppc4xx.h | 11 +++++
+>   4 files changed, 105 insertions(+), 104 deletions(-)
+> 
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index 31c94e4742..d85c595f9d 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -63,17 +63,6 @@ struct ppc4xx_bd_info_t {
+>       uint32_t bi_iic_fast[2];
+>   };
+>   
+> -/* Peripheral local bus arbitrer */
+> -#define TYPE_PPC405_PLB "ppc405-plb"
+> -OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PlbState, PPC405_PLB);
+> -struct Ppc405PlbState {
+> -    Ppc4xxDcrDeviceState parent_obj;
+> -
+> -    uint32_t acr;
+> -    uint32_t bear;
+> -    uint32_t besr;
+> -};
+> -
+>   /* PLB to OPB bridge */
+>   #define TYPE_PPC405_POB "ppc405-pob"
+>   OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PobState, PPC405_POB);
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index 922c23346f..3de6c77631 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -137,94 +137,6 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size)
+>   /*****************************************************************************/
+>   /* Shared peripherals */
+>   
+> -/*****************************************************************************/
+> -/* Peripheral local bus arbitrer */
+> -enum {
+> -    PLB3A0_ACR = 0x077,
+> -    PLB4A0_ACR = 0x081,
+> -    PLB0_BESR  = 0x084,
+> -    PLB0_BEAR  = 0x086,
+> -    PLB0_ACR   = 0x087,
+> -    PLB4A1_ACR = 0x089,
+> -};
+> -
+> -static uint32_t dcr_read_plb(void *opaque, int dcrn)
+> -{
+> -    Ppc405PlbState *plb = opaque;
+> -    uint32_t ret;
+> -
+> -    switch (dcrn) {
+> -    case PLB0_ACR:
+> -        ret = plb->acr;
+> -        break;
+> -    case PLB0_BEAR:
+> -        ret = plb->bear;
+> -        break;
+> -    case PLB0_BESR:
+> -        ret = plb->besr;
+> -        break;
+> -    default:
+> -        /* Avoid gcc warning */
+> -        ret = 0;
+> -        break;
+> -    }
+> -
+> -    return ret;
+> -}
+> -
+> -static void dcr_write_plb(void *opaque, int dcrn, uint32_t val)
+> -{
+> -    Ppc405PlbState *plb = opaque;
+> -
+> -    switch (dcrn) {
+> -    case PLB0_ACR:
+> -        /* We don't care about the actual parameters written as
+> -         * we don't manage any priorities on the bus
+> -         */
+> -        plb->acr = val & 0xF8000000;
+> -        break;
+> -    case PLB0_BEAR:
+> -        /* Read only */
+> -        break;
+> -    case PLB0_BESR:
+> -        /* Write-clear */
+> -        plb->besr &= ~val;
+> -        break;
+> -    }
+> -}
+> -
+> -static void ppc405_plb_reset(DeviceState *dev)
+> -{
+> -    Ppc405PlbState *plb = PPC405_PLB(dev);
+> -
+> -    plb->acr = 0x00000000;
+> -    plb->bear = 0x00000000;
+> -    plb->besr = 0x00000000;
+> -}
+> -
+> -static void ppc405_plb_realize(DeviceState *dev, Error **errp)
+> -{
+> -    Ppc405PlbState *plb = PPC405_PLB(dev);
+> -    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+> -
+> -    ppc4xx_dcr_register(dcr, PLB3A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> -    ppc4xx_dcr_register(dcr, PLB4A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> -    ppc4xx_dcr_register(dcr, PLB0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> -    ppc4xx_dcr_register(dcr, PLB0_BEAR, plb, &dcr_read_plb, &dcr_write_plb);
+> -    ppc4xx_dcr_register(dcr, PLB0_BESR, plb, &dcr_read_plb, &dcr_write_plb);
+> -    ppc4xx_dcr_register(dcr, PLB4A1_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> -}
+> -
+> -static void ppc405_plb_class_init(ObjectClass *oc, void *data)
+> -{
+> -    DeviceClass *dc = DEVICE_CLASS(oc);
+> -
+> -    dc->realize = ppc405_plb_realize;
+> -    dc->reset = ppc405_plb_reset;
+> -    /* Reason: only works as function of a ppc4xx SoC */
+> -    dc->user_creatable = false;
+> -}
+> -
+>   /*****************************************************************************/
+>   /* PLB to OPB bridge */
+>   enum {
+> @@ -1535,11 +1447,6 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+>   
+>   static const TypeInfo ppc405_types[] = {
+>       {
+> -        .name           = TYPE_PPC405_PLB,
+> -        .parent         = TYPE_PPC4xx_DCR_DEVICE,
+> -        .instance_size  = sizeof(Ppc405PlbState),
+> -        .class_init     = ppc405_plb_class_init,
+> -    }, {
+>           .name           = TYPE_PPC405_POB,
+>           .parent         = TYPE_PPC4xx_DCR_DEVICE,
+>           .instance_size  = sizeof(Ppc405PobState),
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index 7d40c1b68a..843d759b1b 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -658,6 +658,95 @@ static void ppc4xx_mal_class_init(ObjectClass *oc, void *data)
+>       device_class_set_props(dc, ppc4xx_mal_properties);
+>   }
+>   
+> +/*****************************************************************************/
+> +/* Peripheral local bus arbitrer */
+> +enum {
+> +    PLB3A0_ACR = 0x077,
+> +    PLB4A0_ACR = 0x081,
+> +    PLB0_BESR  = 0x084,
+> +    PLB0_BEAR  = 0x086,
+> +    PLB0_ACR   = 0x087,
+> +    PLB4A1_ACR = 0x089,
+> +};
+> +
+> +static uint32_t dcr_read_plb(void *opaque, int dcrn)
+> +{
+> +    Ppc405PlbState *plb = opaque;
+> +    uint32_t ret;
+> +
+> +    switch (dcrn) {
+> +    case PLB0_ACR:
+> +        ret = plb->acr;
+> +        break;
+> +    case PLB0_BEAR:
+> +        ret = plb->bear;
+> +        break;
+> +    case PLB0_BESR:
+> +        ret = plb->besr;
+> +        break;
+> +    default:
+> +        /* Avoid gcc warning */
+> +        ret = 0;
+> +        break;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static void dcr_write_plb(void *opaque, int dcrn, uint32_t val)
+> +{
+> +    Ppc405PlbState *plb = opaque;
+> +
+> +    switch (dcrn) {
+> +    case PLB0_ACR:
+> +        /*
+> +         * We don't care about the actual parameters written as
+> +         * we don't manage any priorities on the bus
+> +         */
+> +        plb->acr = val & 0xF8000000;
+> +        break;
+> +    case PLB0_BEAR:
+> +        /* Read only */
+> +        break;
+> +    case PLB0_BESR:
+> +        /* Write-clear */
+> +        plb->besr &= ~val;
+> +        break;
+> +    }
+> +}
+> +
+> +static void ppc405_plb_reset(DeviceState *dev)
+> +{
+> +    Ppc405PlbState *plb = PPC405_PLB(dev);
+> +
+> +    plb->acr = 0x00000000;
+> +    plb->bear = 0x00000000;
+> +    plb->besr = 0x00000000;
+> +}
+> +
+> +static void ppc405_plb_realize(DeviceState *dev, Error **errp)
+> +{
+> +    Ppc405PlbState *plb = PPC405_PLB(dev);
+> +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+> +
+> +    ppc4xx_dcr_register(dcr, PLB3A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> +    ppc4xx_dcr_register(dcr, PLB4A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> +    ppc4xx_dcr_register(dcr, PLB0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> +    ppc4xx_dcr_register(dcr, PLB0_BEAR, plb, &dcr_read_plb, &dcr_write_plb);
+> +    ppc4xx_dcr_register(dcr, PLB0_BESR, plb, &dcr_read_plb, &dcr_write_plb);
+> +    ppc4xx_dcr_register(dcr, PLB4A1_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+> +}
+> +
+> +static void ppc405_plb_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = ppc405_plb_realize;
+> +    dc->reset = ppc405_plb_reset;
+> +    /* Reason: only works as function of a ppc4xx SoC */
+> +    dc->user_creatable = false;
+> +}
+> +
+>   /* PPC4xx_DCR_DEVICE */
+>   
+>   void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
+> @@ -694,6 +783,11 @@ static const TypeInfo ppc4xx_types[] = {
+>           .instance_size  = sizeof(Ppc4xxMalState),
+>           .instance_finalize = ppc4xx_mal_finalize,
+>           .class_init     = ppc4xx_mal_class_init,
+> +    }, {
+> +        .name           = TYPE_PPC405_PLB,
+> +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
+> +        .instance_size  = sizeof(Ppc405PlbState),
+> +        .class_init     = ppc405_plb_class_init,
+>       }, {
+>           .name           = TYPE_PPC4xx_DCR_DEVICE,
+>           .parent         = TYPE_SYS_BUS_DEVICE,
+> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+> index f40bd49bc7..e696e159f3 100644
+> --- a/include/hw/ppc/ppc4xx.h
+> +++ b/include/hw/ppc/ppc4xx.h
+> @@ -83,4 +83,15 @@ struct Ppc4xxMalState {
+>       uint8_t  rxcnum;
+>   };
+>   
+> +/* Peripheral local bus arbitrer */
+> +#define TYPE_PPC405_PLB "ppc405-plb"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PlbState, PPC405_PLB);
+> +struct Ppc405PlbState {
+> +    Ppc4xxDcrDeviceState parent_obj;
+> +
+> +    uint32_t acr;
+> +    uint32_t bear;
+> +    uint32_t besr;
+> +};
+> +
+>   #endif /* PPC4XX_H */
 
 
