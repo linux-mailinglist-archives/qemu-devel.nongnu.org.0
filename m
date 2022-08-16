@@ -2,75 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20722595683
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 11:34:43 +0200 (CEST)
-Received: from localhost ([::1]:43892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70953595687
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 11:36:08 +0200 (CEST)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNsy9-00071M-Vu
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 05:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33530)
+	id 1oNszX-00005r-67
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 05:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oNsuX-0004oT-VC
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:30:57 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:43650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oNsuW-0004eM-8E
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 05:30:57 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-333a4a5d495so25971607b3.10
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 02:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=k9yhOzbAv3N+c0AtEF+yTLdEsUyzC8mSG2SFKCHHnl0=;
- b=xHTTa09EaDd6uea0vKPGrhC3oegBv1bRKOnOfiTmq0fdw2uw4MHYLVah3mzB1sTAc4
- EvEAITmC2TbdQ6Q3bKGkFkOPTjPbaG22eAf5Lm+6wYM+hhWqOwvyVFsLKPo1kbkieso1
- 4fQ0GVJYINS75cjRsFXPpJ0COC92GUrY+YnhXSc0ZUyfVNyfOKpzqHY7U5c7qAMcbejF
- ESijpDpG1xXYcD+1rCgtO50FtxtqvIKkQ+vSa4EOCna+S1QereEqfGBXeeVPSSa2E16S
- q77Od5bppfvKy6Am2/qF/xhic7y4QlMyss85I9G0M6M4Qxnj52mgP9eIvOZTyhaqRzKi
- mx5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=k9yhOzbAv3N+c0AtEF+yTLdEsUyzC8mSG2SFKCHHnl0=;
- b=lbWcb30BseXeZ5eakGBG4A8ZjSQK6eBNCuNAHgHUgvjRoF2yD3wKsldz4NDbG3wBoa
- sNeMVFRBSY2kR2mRjNqsXt6MRFjxR/v933MnSlyKBfN7b/NxMFNARlW4E0CFVD0uya58
- b39gOKw+J5Orkk/eMznscgZCdy3ho6qffVrRHiOwpKLqjKO5/sahsfJQMocUOrrGT8+k
- +qbM3uj4wiRlvpdfKC3b0oiiULA9yaYBY8aQVJFUzJNGu0sAvdvy3V8YN0GHVnaVEs86
- YRgCKguSh4HRRxHqdhf2Xka6GE3wFIQIr+VFvcvIdz1DoGqDJ7tLOK58rUCvMZD91So7
- BPzg==
-X-Gm-Message-State: ACgBeo1FmkJvfd+H1yiXzKCWMq2wsB9AvKN/RWeSuVj6PaWrDJwj7oer
- NGqFaDfA2tTExR26TGWPXpW+aHlEWNc73aeW7XG7tQ==
-X-Google-Smtp-Source: AA6agR6/qPSxlR5+QVuCYzULSD3nx7At6HNT1S0KIcrjiQAsy3BMgjhM60G8K5PteLGrq5DQLiJbp5hf9E8e30BqOiU=
-X-Received: by 2002:a81:13c5:0:b0:32a:8e40:d469 with SMTP id
- 188-20020a8113c5000000b0032a8e40d469mr16803900ywt.64.1660642255338; Tue, 16
- Aug 2022 02:30:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oNswz-0006Dx-3V; Tue, 16 Aug 2022 05:33:36 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:38834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oNsww-0004tj-0u; Tue, 16 Aug 2022 05:33:28 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3F76374632C;
+ Tue, 16 Aug 2022 11:33:22 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 23C8974632B; Tue, 16 Aug 2022 11:33:21 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 220457462D3;
+ Tue, 16 Aug 2022 11:33:21 +0200 (CEST)
+Date: Tue, 16 Aug 2022 11:33:21 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 01/22] ppc/ppc4xx: Introduce a DCR device model
+In-Reply-To: <c3fc221b-1860-ab43-40b1-39faf96eca73@kaod.org>
+Message-ID: <a396b643-1051-1012-3679-b456205cd7ba@eik.bme.hu>
+References: <cover.1660402839.git.balaton@eik.bme.hu>
+ <50e79b2c5f2c17e2b6b7920dd6526b5c091ac8bb.1660402839.git.balaton@eik.bme.hu>
+ <c3fc221b-1860-ab43-40b1-39faf96eca73@kaod.org>
 MIME-Version: 1.0
-References: <20220816092624.15168-1-zhukeqian1@huawei.com>
-In-Reply-To: <20220816092624.15168-1-zhukeqian1@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Aug 2022 10:30:12 +0100
-Message-ID: <CAFEAcA8UN=NABfNzzP-m5b3ki5mKH1qyfwgi6_yiT__6u_-1ng@mail.gmail.com>
-Subject: Re: [PATCH] acpi_ged: Add ospm_status hook implementation
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-trivial@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Eric Auger <eric.auger@redhat.com>, Peter Xu <peterx@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1806018417-1660642401=:7210"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,61 +63,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Aug 2022 at 10:26, Keqian Zhu <zhukeqian1@huawei.com> wrote:
->
-> This fixes a bug that causes segmentation fault with following dumpstack:
->  #1  0x0000aaaaab64235c in qmp_query_acpi_ospm_status (errp=errp@entry=0xfffffffff030) at ../monitor/qmp-cmds.c:312
->  #2  0x0000aaaaabfc4e20 in qmp_marshal_query_acpi_ospm_status (args=<optimized out>, ret=0xffffea4ffe90, errp=0xffffea4ffe88) at qapi/qapi-commands-acpi.c:63
->  #3  0x0000aaaaabff8ba0 in do_qmp_dispatch_bh (opaque=0xffffea4ffe98) at ../qapi/qmp-dispatch.c:128
->  #4  0x0000aaaaac02e594 in aio_bh_call (bh=0xffffe0004d80) at ../util/async.c:150
->  #5  aio_bh_poll (ctx=ctx@entry=0xaaaaad0f6040) at ../util/async.c:178
->  #6  0x0000aaaaac00bd40 in aio_dispatch (ctx=ctx@entry=0xaaaaad0f6040) at ../util/aio-posix.c:421
->  #7  0x0000aaaaac02e010 in aio_ctx_dispatch (source=0xaaaaad0f6040, callback=<optimized out>, user_data=<optimized out>) at ../util/async.c:320
->  #8  0x0000fffff76f6884 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
->  #9  0x0000aaaaac0452d4 in glib_pollfds_poll () at ../util/main-loop.c:297
->  #10 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:320
->  #11 main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:596
->  #12 0x0000aaaaab5c9e50 in qemu_main_loop () at ../softmmu/runstate.c:734
->  #13 0x0000aaaaab185370 in qemu_main (argc=argc@entry=47, argv=argv@entry=0xfffffffff518, envp=envp@entry=0x0) at ../softmmu/main.c:38
->  #14 0x0000aaaaab16f99c in main (argc=47, argv=0xfffffffff518) at ../softmmu/main.c:47
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-What are the conditions required to trigger the segfault?
+--3866299591-1806018417-1660642401=:7210
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Tue, 16 Aug 2022, Cédric Le Goater wrote:
+> On 8/13/22 17:34, BALATON Zoltan wrote:
+>> From: Cédric Le Goater <clg@kaod.org>
+>> 
+>> The Device Control Registers (DCR) of on-SoC devices are accessed by
+>> software through the use of the mtdcr and mfdcr instructions. These
+>> are converted in transactions on a side band bus, the DCR bus, which
+>> connects the on-SoC devices to the CPU.
+>> 
+>> Ideally, we should model these accesses with a DCR namespace and DCR
+>> memory regions but today the DCR handlers are installed in a DCR table
+>> under the CPU. Instead, introduce a little device model wrapper to hold
+>> a CPU link and handle registration of DCR handlers.
+>> 
+>> The DCR device inherits from SysBus because most of these devices also
+>> have MMIO regions and/or IRQs. Being a SysBusDevice makes things easier
+>> to install the device model in the overall SoC.
+>> 
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>
+> When re-sending a patch, it is a good practice to list the changes before
+> the Sob of the person doing the resend.
+>
+> I think you only changed the ppc4xx_dcr_register prototype. Correct ?
 
-> Fixes: ebb62075021a ("hw/acpi: Add ACPI Generic Event Device Support")
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> ---
->  hw/acpi/generic_event_device.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-> index e28457a7d1..a3d31631fe 100644
-> --- a/hw/acpi/generic_event_device.c
-> +++ b/hw/acpi/generic_event_device.c
-> @@ -267,6 +267,13 @@ static void acpi_ged_unplug_cb(HotplugHandler *hotplug_dev,
->      }
->  }
->
-> +static void acpi_ged_ospm_status(AcpiDeviceIf *adev, ACPIOSTInfoList ***list)
-> +{
-> +    AcpiGedState *s = ACPI_GED(adev);
-> +
-> +    acpi_memory_ospm_status(&s->memhp_state, list);
-> +}
-> +
->  static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
->  {
->      AcpiGedState *s = ACPI_GED(adev);
-> @@ -409,6 +416,7 @@ static void acpi_ged_class_init(ObjectClass *class, void *data)
->      hc->unplug_request = acpi_ged_unplug_request_cb;
->      hc->unplug = acpi_ged_unplug_cb;
->
-> +    adevc->ospm_status = acpi_ged_ospm_status;
->      adevc->send_event = acpi_ged_send_event;
->  }
->
-> --
+Mostly, and the resulting rebase but maybe some small changes here and 
+there but I think those are also just code style fixes. I did not know 
+what you prefer with the from line so if you're OK with keeping it I can 
+go through it again and mark changes before signed-off if you think that's 
+better.
 
-thanks
--- PMM
+I've also started cleaning up the sdram model, I need a bit more time for 
+that, I'll probably send it as a separate series.
+
+> Thanks,
+>
+> C.
+>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   hw/ppc/ppc4xx_devs.c    | 41 +++++++++++++++++++++++++++++++++++++++++
+>>   include/hw/ppc/ppc4xx.h | 17 +++++++++++++++++
+>>   2 files changed, 58 insertions(+)
+>> 
+>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+>> index 069b511951..f4d7ae9567 100644
+>> --- a/hw/ppc/ppc4xx_devs.c
+>> +++ b/hw/ppc/ppc4xx_devs.c
+>> @@ -664,3 +664,44 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, 
+>> uint8_t rxcnum,
+>>                            mal, &dcr_read_mal, &dcr_write_mal);
+>>       }
+>>   }
+>> +
+>> +/* PPC4xx_DCR_DEVICE */
+>> +
+>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void 
+>> *opaque,
+>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write)
+>> +{
+>> +    assert(dev->cpu);
+>> +    ppc_dcr_register(&dev->cpu->env, dcrn, opaque, dcr_read, dcr_write);
+>> +}
+>> +
+>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+>> +                        Error **errp)
+>> +{
+>> +    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), 
+>> &error_abort);
+>> +    return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
+>> +}
+>> +
+>> +static Property ppc4xx_dcr_properties[] = {
+>> +    DEFINE_PROP_LINK("cpu", Ppc4xxDcrDeviceState, cpu, TYPE_POWERPC_CPU,
+>> +                     PowerPCCPU *),
+>> +    DEFINE_PROP_END_OF_LIST(),
+>> +};
+>> +
+>> +static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +
+>> +    device_class_set_props(dc, ppc4xx_dcr_properties);
+>> +}
+>> +
+>> +static const TypeInfo ppc4xx_types[] = {
+>> +    {
+>> +        .name           = TYPE_PPC4xx_DCR_DEVICE,
+>> +        .parent         = TYPE_SYS_BUS_DEVICE,
+>> +        .instance_size  = sizeof(Ppc4xxDcrDeviceState),
+>> +        .class_init     = ppc4xx_dcr_class_init,
+>> +        .abstract       = true,
+>> +    }
+>> +};
+>> +
+>> +DEFINE_TYPES(ppc4xx_types)
+>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+>> index 591e2421a3..a537a5567b 100644
+>> --- a/include/hw/ppc/ppc4xx.h
+>> +++ b/include/hw/ppc/ppc4xx.h
+>> @@ -27,6 +27,7 @@
+>>     #include "hw/ppc/ppc.h"
+>>   #include "exec/memory.h"
+>> +#include "hw/sysbus.h"
+>>     void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+>>                           MemoryRegion ram_memories[],
+>> @@ -44,4 +45,20 @@ void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, 
+>> uint8_t rxcnum,
+>>     #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+>>   +/*
+>> + * Generic DCR device
+>> + */
+>> +#define TYPE_PPC4xx_DCR_DEVICE "ppc4xx-dcr-device"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxDcrDeviceState, PPC4xx_DCR_DEVICE);
+>> +struct Ppc4xxDcrDeviceState {
+>> +    SysBusDevice parent_obj;
+>> +
+>> +    PowerPCCPU *cpu;
+>> +};
+>> +
+>> +void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void 
+>> *opaque,
+>> +                         dcr_read_cb dcr_read, dcr_write_cb dcr_write);
+>> +bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+>> +                        Error **errp);
+>> +
+>>   #endif /* PPC4XX_H */
+>
+>
+>
+--3866299591-1806018417-1660642401=:7210--
 
