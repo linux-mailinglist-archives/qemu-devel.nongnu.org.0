@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DB3594BCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:22:06 +0200 (CEST)
-Received: from localhost ([::1]:43858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2625594BCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 03:25:07 +0200 (CEST)
+Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNlHR-0008RI-P0
-	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39826)
+	id 1oNlKN-0004q1-2L
+	for lists+qemu-devel@lfdr.de; Mon, 15 Aug 2022 21:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2q-0000Ay-SG
- for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:00 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:53003)
+ id 1oNl2q-0000B7-Ty
+ for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:07:02 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:44108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oNl2n-000084-B6
+ id 1oNl2o-00008i-0Q
  for qemu-devel@nongnu.org; Mon, 15 Aug 2022 21:06:59 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VMNo4T1_1660612012; 
+ TI=SMTPD_---0VMNhlsv_1660612013; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VMNo4T1_1660612012) by smtp.aliyun-inc.com;
- Tue, 16 Aug 2022 09:06:52 +0800
+ fp:SMTPD_---0VMNhlsv_1660612013) by smtp.aliyun-inc.com;
+ Tue, 16 Aug 2022 09:06:53 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v2 15/24] vhost-user: add op to enable or disable a single
- vring
-Date: Tue, 16 Aug 2022 09:06:27 +0800
-Message-Id: <9507fa8179afe9d02dfa03a3dbf6424cd5eba437.1660611460.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v2 16/24] vhost: vhost-user: update vhost_dev_virtqueue_stop()
+Date: Tue, 16 Aug 2022 09:06:28 +0800
+Message-Id: <a9483de778d0aa4c79acd9c716feeaf0677c9718.1660611460.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.45;
+Received-SPF: pass client-ip=115.124.30.44;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
+ helo=out30-44.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -65,91 +64,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The interface to set enable status for a single vring is lacked in
-VhostOps, since the vhost_set_vring_enable_op will manipulate all
-virtqueues in a device.
-
-Resetting a single vq will rely on this interface.
+Update vhost_dev_virtqueue_stop() for vhost-user scenario.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/virtio/vhost-user.c            | 26 +++++++++++++++++++-------
- include/hw/virtio/vhost-backend.h |  3 +++
- 2 files changed, 22 insertions(+), 7 deletions(-)
+ hw/virtio/vhost.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 56033f7a92..8307976cda 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1199,6 +1199,22 @@ static int vhost_user_set_vring_base(struct vhost_dev *dev,
-     return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
- }
- 
-+static int vhost_user_set_single_vring_enable(struct vhost_dev *dev,
-+                                              int index,
-+                                              int enable)
-+{
-+    if (index < dev->vq_index || index >= dev->vq_index + dev->nvqs) {
-+        return -EINVAL;
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index fc3f550c76..a0d6824353 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1908,10 +1908,29 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
+ void vhost_dev_virtqueue_stop(struct vhost_dev *hdev, VirtIODevice *vdev,
+                               int idx)
+ {
++    const VhostOps *vhost_ops = hdev->vhost_ops;
++    struct vhost_vring_state state;
++    int r;
++
++    assert(vhost_ops);
++
++    if (vhost_ops->vhost_reset_vring) {
++        state.index = hdev->vq_index + idx;
++        r = vhost_ops->vhost_reset_vring(hdev, &state);
++        if (r < 0) {
++            goto err_queue_reset;
++        }
 +    }
 +
-+    struct vhost_vring_state state = {
-+        .index = index,
-+        .num   = enable,
-+    };
+     vhost_virtqueue_unmap(hdev,
+                           vdev,
+                           hdev->vqs + idx,
+                           idx);
 +
-+    return vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, &state);
-+}
++    return;
 +
- static int vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
- {
-     int i;
-@@ -1208,13 +1224,8 @@ static int vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
-     }
++err_queue_reset:
++    error_report("Error when stopping the qeuue.");
+ }
  
-     for (i = 0; i < dev->nvqs; ++i) {
--        int ret;
--        struct vhost_vring_state state = {
--            .index = dev->vq_index + i,
--            .num   = enable,
--        };
--
--        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, &state);
-+        int ret = vhost_user_set_single_vring_enable(dev, dev->vq_index + i,
-+                                                     enable);
-         if (ret < 0) {
-             /*
-              * Restoring the previous state is likely infeasible, as well as
-@@ -2668,6 +2679,7 @@ const VhostOps user_ops = {
-         .vhost_reset_vring = vhost_user_reset_vring,
-         .vhost_reset_device = vhost_user_reset_device,
-         .vhost_get_vq_index = vhost_user_get_vq_index,
-+        .vhost_set_single_vring_enable = vhost_user_set_single_vring_enable,
-         .vhost_set_vring_enable = vhost_user_set_vring_enable,
-         .vhost_requires_shm_log = vhost_user_requires_shm_log,
-         .vhost_migration_done = vhost_user_migration_done,
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index f23bf71a8d..38f6b752ff 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -83,6 +83,8 @@ typedef int (*vhost_reset_vring_op)(struct vhost_dev *dev,
-                                     struct vhost_vring_state *ring);
- typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
- typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
-+typedef int (*vhost_set_single_vring_enable_op)(struct vhost_dev *dev,
-+                                                int index, int enable);
- typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
-                                          int enable);
- typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
-@@ -158,6 +160,7 @@ typedef struct VhostOps {
-     vhost_reset_device_op vhost_reset_device;
-     vhost_reset_vring_op vhost_reset_vring;
-     vhost_get_vq_index_op vhost_get_vq_index;
-+    vhost_set_single_vring_enable_op vhost_set_single_vring_enable;
-     vhost_set_vring_enable_op vhost_set_vring_enable;
-     vhost_requires_shm_log_op vhost_requires_shm_log;
-     vhost_migration_done_op vhost_migration_done;
+ int vhost_dev_virtqueue_restart(struct vhost_dev *hdev, VirtIODevice *vdev,
 -- 
 2.32.0
 
