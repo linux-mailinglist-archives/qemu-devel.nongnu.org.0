@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40557595C57
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:54:55 +0200 (CEST)
-Received: from localhost ([::1]:55468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EE1595C75
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 14:56:30 +0200 (CEST)
+Received: from localhost ([::1]:52192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNw5t-0006vN-Jf
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57608)
+	id 1oNw7R-0000aK-SG
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 08:56:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNw42-0002sG-8g
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:52:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32862)
+ id 1oNw4u-0004ta-Dz
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:53:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oNw3x-0005ec-DJ
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:52:56 -0400
+ id 1oNw4s-0005iR-SH
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 08:53:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660654372;
+ s=mimecast20190719; t=1660654430;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2daFjGvybwfH6zyKux8A/vPjoF/a6fiTuth9EXEXXgA=;
- b=RA0/WmXf2Xox52/1X7QZ+7swbdDEVPjulXBlbijIL262zHh4VsqKDjC7Zkm4vWOYdfeZL1
- dibo5alSf+KBSsNt5OTMwoovm37K11QzbfLzEezxUt/iTsIQAGD45u1JOrgnJk8Ha1T5Z3
- hedSoKf7R8u/MC1yDxHPYWCIRkaPZnc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bX1y+u/KSpFPUg0CiLSr1hMkBsLujb0RBkGY8XG/Nwg=;
+ b=IblshAoPLebzazycAYZxLUeInVlR4C1ZES1lziQUfmxVNmQWgV1EOoecGUMWeH/z4oGmfS
+ mDIkqyWICKacRuEmqYKafjg70UVCEtv9hcv3knbWZl2ViTVF9UgQ00xAw2jcQBBVZKm+wZ
+ xrgaFJ2zmXFv+8l1prCNN2ukfDGo0D0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-595--teyA0lwMkiYvECKtyRE8g-1; Tue, 16 Aug 2022 08:52:51 -0400
-X-MC-Unique: -teyA0lwMkiYvECKtyRE8g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j22-20020a05600c485600b003a5e4420552so4758413wmo.8
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:52:50 -0700 (PDT)
+ us-mta-137-drvE2No7NlOnY8LI48LasA-1; Tue, 16 Aug 2022 08:53:49 -0400
+X-MC-Unique: drvE2No7NlOnY8LI48LasA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ f18-20020a05600c4e9200b003a5f81299caso1779769wmq.7
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 05:53:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=2daFjGvybwfH6zyKux8A/vPjoF/a6fiTuth9EXEXXgA=;
- b=vrhVMmapmCiec2+s8CmlNc9WZVUX7iiclVAIfvfsuq3iHukosjShFcw0FEiXsP21Oc
- qC4by+BASaWFJ3t8LIjxeXxyRomGqE4zyDpjrww5I3kMXZ2f1zYnrCbDsU5I/wFNSM/g
- BXdGRyWfqkqKY9ESeKHAF2KjZFHfZSvodyJrTdP4/ImQyjP7p9GNXZF2rT3s+rdPj2hl
- /jbWIETlWr9nAqP3OLtrRf9KWGN2UtyuUqXAeNz7YcBPichNJYYGu3c6Xbn0uHoqSiR2
- ZDLUkpyPCqUHRg1fQkzlrQWlXPNWLnQuqRR2AZXBvzPj1A92iQV2X4nNOqccc72mIOHd
- 4Qpg==
-X-Gm-Message-State: ACgBeo0obVFpyfbFAOioMlf7enbCSbw4t5OgdbaErzWctgwhJSLsHQvL
- ctUHihxCq54bxn6f818buG6jcJ5XDY+NQYoa/xBfY0MHWQ3QYfQ3Mtv4XKQCtf7a40Rn2g62XCy
- 8hlJKFMjPFF30v1k=
-X-Received: by 2002:a05:6000:60a:b0:220:62ec:4f2b with SMTP id
- bn10-20020a056000060a00b0022062ec4f2bmr11243097wrb.313.1660654370090; 
- Tue, 16 Aug 2022 05:52:50 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6aBWP40Z+CX7pAdb+vi///WEiS5W1zkYo/aCSBMrZsUylDjin2x4PvQhQBHee7964KVCkKkg==
-X-Received: by 2002:a05:6000:60a:b0:220:62ec:4f2b with SMTP id
- bn10-20020a056000060a00b0022062ec4f2bmr11243076wrb.313.1660654369874; 
- Tue, 16 Aug 2022 05:52:49 -0700 (PDT)
+ bh=bX1y+u/KSpFPUg0CiLSr1hMkBsLujb0RBkGY8XG/Nwg=;
+ b=oB6LcNed2dS9EwaekfxbBxLkMYoWI9O9WF3BboGl9z3654t9cEohIFyhDA3jXcrBfK
+ yxag5hF+DKtIXDh78gW9Y+Sku1ZNdxCi/W+b8wxe8uGDmgJxK/mIqV/YrmSPITKZ97ro
+ o9+rtOh9Wx6+6z2PuG45SLYeodA4ZiFpFaIQRSYnsrWL2Maq4sh6PDIEQkw9HydM5t9H
+ h0dPlHQbBV0hjXKQTKm1Hshdz8CHEPUNMy59pjP1GCjWazyXPW2ib/Qbn9l8Gg16zDte
+ 3F10vV/sAnHdDaRKwV0UHHIwRUkTtgq04G7DZlaZzjH42BqGGucoIcs+GMRQFMNMtlpt
+ WxqA==
+X-Gm-Message-State: ACgBeo1E9vTrftqgOnVJL3v208KTNoFG6sWbKwqnc/A6pBNOjMYet3yF
+ XOZ4Rtg7/1cA9AhnuGeK2GJeeNpkXeSEItWZxZbutwDZa+0gKTr73u4fsWQOU8TOkf83x7zsA5i
+ 0N24knBbXcebxI2I=
+X-Received: by 2002:a05:600c:a47:b0:39e:f953:84e2 with SMTP id
+ c7-20020a05600c0a4700b0039ef95384e2mr18929551wmq.202.1660654428176; 
+ Tue, 16 Aug 2022 05:53:48 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5/7NqZAQJOKbRaM3xK9ND1jCmV0HQtYIH2zvNAweH75avyCoQ+qM7prxGQFWQyqQnwSOohhw==
+X-Received: by 2002:a05:600c:a47:b0:39e:f953:84e2 with SMTP id
+ c7-20020a05600c0a4700b0039ef95384e2mr18929543wmq.202.1660654428025; 
+ Tue, 16 Aug 2022 05:53:48 -0700 (PDT)
 Received: from [192.168.149.123]
  (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- b21-20020a05600c4e1500b003a50924f1c0sm12515295wmq.18.2022.08.16.05.52.49
+ p6-20020a5d6386000000b002251c75c09csm1324228wru.90.2022.08.16.05.53.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Aug 2022 05:52:49 -0700 (PDT)
-Message-ID: <43acbcd7-d00f-ee74-df22-314745900f93@redhat.com>
-Date: Tue, 16 Aug 2022 14:52:48 +0200
+ Tue, 16 Aug 2022 05:53:47 -0700 (PDT)
+Message-ID: <3404f913-ea2b-b429-f382-2f20b917b953@redhat.com>
+Date: Tue, 16 Aug 2022 14:53:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
@@ -114,104 +114,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-> 
->>   }
->> @@ -501,8 +481,12 @@ void job_unref_locked(Job *job)>          
->> assert(!job->txn);
->>             if (job->driver->free) {
->> +            AioContext *aio_context = job->aio_context;
->>               job_unlock();
->> +            /* FIXME: aiocontext lock is required because cb calls
->> blk_unref */
->> +            aio_context_acquire(aio_context);
->>               job->driver->free(job);
->> +            aio_context_release(aio_context);
-> 
-> So, job_unref_locked() must be called with aio_context not locked,
-> otherwise we dead-lock here? That should be documented in function
-> declaration comment.
-> 
-> For example in qemu-img.c in run_block_job() we do exactly that: call
-> job_unref_locked()  inside aio-context lock critical seaction..
 
-No, job_unref_locked has also status and refcnt and all the other fields
-that need to be protectd. Only free must be called without job lock held.
+Am 27/07/2022 um 17:53 schrieb Vladimir Sementsov-Ogievskiy:
+>>    * job_lock:
+>> @@ -672,7 +673,7 @@ void job_user_cancel_locked(Job *job, bool force,
+>> Error **errp);
+>>    * Returns the return value from the job if the job actually completed
+>>    * during the call, or -ECANCELED if it was canceled.
+>>    *
+>> - * Callers must hold the AioContext lock of job->aio_context.
+>> + * Called with job_lock held.
+> 
+> That's wrong, it should be called with job_lock not held :)
+> 
+>>    */
+>>   int job_cancel_sync(Job *job, bool force);
+>>   @@ -697,8 +698,7 @@ void job_cancel_sync_all(void);
+>>    * function).
+>>    *
+>>    * Returns the return value from the job.
+>> - *
+>> - * Callers must hold the AioContext lock of job->aio_context.
+>> + * Called with job_lock held.
+> 
+> and this,
+> 
+>>    */
+>>   int job_complete_sync(Job *job, Error **errp);
+>>   @@ -734,7 +734,7 @@ void job_dismiss_locked(Job **job, Error **errp);
+>>    * Returns 0 if the job is successfully completed, -ECANCELED if the
+>> job was
+>>    * cancelled before completing, and -errno in other error cases.
+>>    *
+>> - * Callers must hold the AioContext lock of job->aio_context.
+>> + * Called with job_lock held.
+> 
+> and this.
 
-> 
-> 
->>               job_lock();
->>           }
->>   @@ -581,21 +565,17 @@ void job_enter_cond_locked(Job *job,
->> bool(*fn)(Job *job))
->>           return;
->>       }
->>   -    real_job_lock();
->>       if (job->busy) {
->> -        real_job_unlock();
->>           return;
->>       }
->>         if (fn && !fn(job)) {
->> -        real_job_unlock();
->>           return;
->>       }
->>         assert(!job->deferred_to_main_loop);
->>       timer_del(&job->sleep_timer);
->>       job->busy = true;
->> -    real_job_unlock();
->>       job_unlock();
->>       aio_co_wake(job->co);
->>       job_lock();
->> @@ -626,13 +606,11 @@ static void coroutine_fn job_do_yield_locked(Job
->> *job, uint64_t ns)
->>   {
->>       AioContext *next_aio_context;
->>   -    real_job_lock();
->>       if (ns != -1) {
->>           timer_mod(&job->sleep_timer, ns);
->>       }
->>       job->busy = false;
->>       job_event_idle_locked(job);
->> -    real_job_unlock();
->>       job_unlock();
->>       qemu_coroutine_yield();
->>       job_lock();
->> @@ -922,6 +900,7 @@ static void job_clean(Job *job)
->>   static int job_finalize_single_locked(Job *job)
->>   {
->>       int job_ret;
->> +    AioContext *ctx = job->aio_context;
->>         assert(job_is_completed_locked(job));
->>   @@ -929,6 +908,7 @@ static int job_finalize_single_locked(Job *job)
->>       job_update_rc_locked(job);
->>         job_unlock();
->> +    aio_context_acquire(ctx);
-> 
-> Hmm, and this function and all its callers now should be called with
-> aio-context lock not locked?
-
-Why not leave it as it is?
-> 
-> For example job_exit is scheduled as as BH. Aren't BHs called with
-> aio-context lock held?
-
-I see no aiocontext call in aio_bh_schedule_oneshot and callees...
-
-So summing up, no, I don't think I will apply your suggestions for this
-patch here (assume the opposite for all the others).
-
-Emanuele
-> 
->>         if (!job->ret) {
->>           job_commit(job);
->> @@ -937,6 +917,7 @@ static int job_finalize_single_locked(Job *job)
->>       }
->>       job_clean(job);
->>   +    aio_context_release(ctx);
->>       job_lock();
->>         if (job->cb) {
-> 
-> [..]
-> 
-> 
+Well, except for this part here :) You're right here.
 
 
