@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F78459522E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 07:51:13 +0200 (CEST)
-Received: from localhost ([::1]:49160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC575595239
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Aug 2022 07:53:16 +0200 (CEST)
+Received: from localhost ([::1]:46598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oNpTr-0004qc-VR
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 01:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53050)
+	id 1oNpVr-0005t4-NY
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 01:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
- id 1oNpKE-0001KO-64
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 01:41:19 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:44973)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <furquan@rivosinc.com>)
- id 1oNpIf-0004zY-46
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 01:41:09 -0400
-Received: by mail-pf1-x430.google.com with SMTP id h28so8446127pfq.11
- for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 22:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=oPI32NRdEuu65J89pNAl9YxqkxREdXP271MOrnzfAC8=;
- b=AbcZzQsaVJ/o9mpLLvHgrYLRZp23uCwhGr7N78OvCO+DTfvlWlMPXa6wQZ10zJADKN
- zVjajT/K7TBqIzrR84NqcAf+Q/7u9QTLuzoNv+U3K2QQGqwnWt7PjXt5yy8+DZVKxAf1
- eIWms7QZ56KluxvemzTscvsh8IObjLdO0B+/R0+44SXCKXG4BKh+wyKUivG9v1t6dtAu
- MRIBWZSGZB+MjGttl5gz/93J3VoORit73I9tVeqhUJquHCUNsWaisLNjSx+/kjezxyS7
- gpuLadugcLv1+gteGbA0EiComt5HrXlMA1ijDVXqeG6191XSPZmAXSykTvso9POSS7jG
- oiJA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNpPT-0002xe-IG
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 01:46:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32649)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oNpPR-0006YC-1F
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 01:46:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660628796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jZ49nfOadLExnLAk2A4ZcCTz/8N0w7LxCrcvqQhY8S4=;
+ b=DXNIK4eLdyazYu89pt6AFy3UarTWRwFvyXKaUw/q9SDhkWxySx4rRxGEZ8a05vhNMSiHPz
+ EBX9DmwiKtj83jmaU1BCHoYgF4dPHgp4YYl4tlwN6vCyE6SA+k0ORVRxnNirG7EV2MAHcs
+ kly0pYlHxBbCOKSxf355rqBNvMSRvzA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-206-yniA2vrYPYelVLMBavxyng-1; Tue, 16 Aug 2022 01:46:23 -0400
+X-MC-Unique: yniA2vrYPYelVLMBavxyng-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p19-20020a05600c1d9300b003a5c3141365so7166883wms.9
+ for <qemu-devel@nongnu.org>; Mon, 15 Aug 2022 22:46:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=oPI32NRdEuu65J89pNAl9YxqkxREdXP271MOrnzfAC8=;
- b=x3484V0AE/opoR8Od5UpLzEDfQOPA9jw/oejDd0Cv7xzXUP9FzTJWhGQn0JOAJiY8E
- U9/safAjib85+kfu+MORC+GMi1kgd3nTDRdkQ8YVoT51GKmlRW01qlsf0lBDz2McuHNY
- BMZcfVfePcB2ofKYo/TpnJLaX4RgLOoSOqsNDmbp2/LeM8Zq7EKlTEz+OxlnCaB3kMZa
- IF6fJR+lymN0+hlEvk+k5XsKl1z7GmLq0F4+UhUbNkJs+l8ZOVQJ1VGKHUHnG+W/mHZa
- 4mitY0QViepAe2G6tbwhittKZaRmlyQdU0m/vfQZJBddU4h/crUiOIOSpwOCjyJ8Kyu6
- Farg==
-X-Gm-Message-State: ACgBeo0Tz95G3hZ3GE25lD+jiTRslJB1v8Jmv2U4C80z3gjX/U8O0pJh
- 2k4EchnZuaTFUr5rQOGyso3ScXdJxVjk4uic0O2h9A==
-X-Google-Smtp-Source: AA6agR7VKuuXf2bVs+ahRggr80t5ngK204T/A5ROc5pjXf98Vz2YFwrE+7WPlMvcypFd8oeZBf9ZcqV5FNViMTn7/yc=
-X-Received: by 2002:a62:79c4:0:b0:52d:cd3d:2027 with SMTP id
- u187-20020a6279c4000000b0052dcd3d2027mr20054985pfc.71.1660628358460; Mon, 15
- Aug 2022 22:39:18 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=jZ49nfOadLExnLAk2A4ZcCTz/8N0w7LxCrcvqQhY8S4=;
+ b=fE6f8GN8Kz9cR7VcXfUzBohXMUqNQcRurvmT7R9uudnQmWCmDPlwMiKFGg1nAp9yZb
+ nIypxgLbuVdC1ER3OPn6LY8S9wCIsd3WdQCBQmI0xq2ikCoLLxSEOVWWG8fDtb3kfSL2
+ 6SaBKA/pec5/+Hdj7Z0CUvZvpj2yOXnM4zzzRL62NdkiCi1rjG+L2dC8OaVLGvWVYB3/
+ ab6maKzRnFFfB0+UQJGUoYGA+S6IO3Ko2H9PCpTdezIsq4A5wpyz9vaZQWKCftnxi/ml
+ T6j2c4Pp7OElrVgYh8bCf59gAthOzH9B1FtfC60otShucghOeHPUXy9bYc7E18u4lNZo
+ RpmA==
+X-Gm-Message-State: ACgBeo2YVovbCr30Vt3coiQ6RqTD2x0WA3aNklZWKvO3rNxBhPooKgY1
+ fJe/4N+59p0E31B+Vzbq0f6xwe2oNDPpOUrQSaqRXiGfdjo+8MNrBkeUtOju6eJ2pYEp2e8c71A
+ MtYzVJkeelS6BM6k=
+X-Received: by 2002:a7b:cb55:0:b0:3a5:41a:829c with SMTP id
+ v21-20020a7bcb55000000b003a5041a829cmr18604342wmj.153.1660628782672; 
+ Mon, 15 Aug 2022 22:46:22 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6bg73MQ8H1iAFVTfHZGK8ZNiN2ymvPL/V+Zerg6b7QPk1DgRu7WMTFg9Ly26uCJ7ej+Q8z6g==
+X-Received: by 2002:a7b:cb55:0:b0:3a5:41a:829c with SMTP id
+ v21-20020a7bcb55000000b003a5041a829cmr18604332wmj.153.1660628782467; 
+ Mon, 15 Aug 2022 22:46:22 -0700 (PDT)
+Received: from [192.168.8.103] (tmo-096-168.customers.d1-online.com.
+ [80.187.96.168]) by smtp.gmail.com with ESMTPSA id
+ ck6-20020a5d5e86000000b00223a50b1be8sm9224397wrb.50.2022.08.15.22.46.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Aug 2022 22:46:21 -0700 (PDT)
+Message-ID: <b176754c-7c20-a578-96df-82d08c90316f@redhat.com>
+Date: Tue, 16 Aug 2022 07:46:20 +0200
 MIME-Version: 1.0
-References: <20220815190303.2061559-1-peter.maydell@linaro.org>
- <20220815190303.2061559-8-peter.maydell@linaro.org>
- <08d41c28-728a-0ef2-c528-b55c4984ca2b@linaro.org>
-In-Reply-To: <08d41c28-728a-0ef2-c528-b55c4984ca2b@linaro.org>
-From: Furquan Shaikh <furquan@rivosinc.com>
-Date: Mon, 15 Aug 2022 22:39:07 -0700
-Message-ID: <CA+tJHD6pdQXBdeF_t_qmqhkae9sJdRUustAsKqeiWmu5WuCb2w@mail.gmail.com>
-Subject: Re: [PATCH 7/7] target/riscv: Honour -semihosting-config userspace=on
- and enable=on
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
- Stefan Pejic <stefan.pejic@syrmia.com>, Chris Wulff <crwulff@gmail.com>,
- Marek Vasut <marex@denx.de>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Max Filippov <jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=furquan@rivosinc.com; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 04/20] disas/nanomips: Remove helper methods from class
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com
+References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
+ <20220815072629.12865-5-milica.lazarevic@syrmia.com>
+ <3f3c773f-3400-861c-04f8-4826f3c3d7be@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <3f3c773f-3400-861c-04f8-4826f3c3d7be@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,54 +107,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 15, 2022 at 1:26 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 8/15/22 14:03, Peter Maydell wrote:
-> > The riscv target incorrectly enabled semihosting always, whether the
-> > user asked for it or not.  Call semihosting_enabled() passing the
-> > correct value to the is_userspace argument, which fixes this and also
-> > handles the userspace=on argument.
-> >
-> > Note that this is a behaviour change: we used to default to
-> > semihosting being enabled, and now the user must pass
-> > "-semihosting-config enable=on" if they want it.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >   target/riscv/cpu_helper.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 59b3680b1b2..49c4ea98ac9 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -24,6 +24,7 @@
-> >   #include "exec/exec-all.h"
-> >   #include "tcg/tcg-op.h"
-> >   #include "trace.h"
-> > +#include "semihosting/semihost.h"
-> >   #include "semihosting/common-semi.h"
-> >
-> >   int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
-> > @@ -1342,7 +1343,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> >       target_ulong mtval2 = 0;
-> >
-> >       if  (cause == RISCV_EXCP_SEMIHOST) {
-> > -        if (env->priv >= PRV_S) {
-> > +        if (semihosting_enabled(env->priv < PRV_S)) {
-> >               do_common_semihosting(cs);
-> >               env->pc += 4;
-> >               return;
->
-> I think this should be done in translate.  We should not have the overhead of checking the
-> three insn sequence around ebreak unless semihosting is enabled.  Note that ctx->mem_idx
-> == env->priv, per cpu_mem_index().
+On 16/08/2022 02.19, Philippe Mathieu-Daudé wrote:
+> On 15/8/22 09:26, Milica Lazarevic wrote:
+>> Helper methods from NMD class like NMD::renumber_registers,
+>> NMD::decode_gpr_gpr4... etc. are removed from the class. They're now
+>> declared global static functions.
+>>
+>> Following helper methods have been deleted because they're not used by
+>> the nanomips disassembler:
+>> - NMD::encode_msbd_from_pos_and_size,
+>> - NMD::encode_s_from_s_hi,
+>> - NMD::neg_copy
+>>
+>> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
+>> ---
+>>   disas/nanomips.cpp | 322 +++++++++++++++++++++------------------------
+>>   disas/nanomips.h   | 144 --------------------
+>>   2 files changed, 151 insertions(+), 315 deletions(-)
+> 
+>> -uint64 NMD::copy(uint64 d)
+>> +static uint64 copy(uint64 d)
+>>   {
+>>       return d;
+>>   }
+>> -int64 NMD::copy(int64 d)
+>> +static int64 copy(int64 d)
+>>   {
+>>       return d;
+>>   }
+> 
+> Does that build in C? You are declaring 2 functions with the same name
+> but a different prototype... Shouldn't you squash patch #14 here which
+> rename these functions with the return value as suffix?
 
-FWIW, the current series worked fine for my risc-v use case. Thanks, Peter!
+Up to the final patch, this is still C++, so I think it's still valid, isn't it?
 
->
->
-> r~
->
+  Thomas
+
 
