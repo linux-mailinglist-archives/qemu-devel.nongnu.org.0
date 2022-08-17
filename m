@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C5759685D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 07:10:02 +0200 (CEST)
-Received: from localhost ([::1]:48590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA05C59689A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 07:29:15 +0200 (CEST)
+Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOBJZ-00040L-Fx
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 01:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58536)
+	id 1oOBcA-0000bl-Hc
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 01:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oOBHu-0002Vg-8e; Wed, 17 Aug 2022 01:08:18 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38718)
+ (Exim 4.90_1) (envelope-from <vaishu071998@gmail.com>)
+ id 1oOBaR-0007fS-P0
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 01:27:28 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:34344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oOBHr-0000QL-Ab; Wed, 17 Aug 2022 01:08:18 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id o3so11066045ple.5;
- Tue, 16 Aug 2022 22:08:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vaishu071998@gmail.com>)
+ id 1oOBaQ-000481-5B
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 01:27:27 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-333b049f231so92894327b3.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 22:27:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=wkVZrMnZcymst69JgbwxUXRv3iZQhb605Ny3U6mTXIc=;
- b=T8FzXpm4fwh5Fi53Py4ynlLha1qeg3oyyY9yn7qNTgFA+TwjoxXY1YZzsSRfdKfdiV
- pp4cIdT1zlK1PSUsdNLSFrnIByb9AEAoQ0rJaBYPHXv0/sbhNaDXp1kvgwQzdYuul4Wt
- rFwCd3jY5Fuk3xtBWpupfndnnNdmOThX7yW7rSZiKSeGMYKjd0ay7allKsfjPGfdB7gv
- qdcMad51fmXBsTRV2iPhLfC1PF1uDZfjruHFbz/NpHKD+n0Uaj96+Oy9TmgmqIyGDDqi
- R5oA6z6tbF++Rwt++Owu9XIPITxKiCVwsso3x6pxWRR4e5vUFhEQoFcpt5xTkxgn0Ang
- DP4w==
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc; bh=cWbv8i6s9c0/RIDXHyl58PZl4jLVug3vpGp7nwdqBxE=;
+ b=FCH9wMK4VBubPuSvCxIlGDTgoqG2bFsfgWQnjN5+dFkAmziGTQOIGezGd+YYh2ji2Q
+ WAW4EGmAfs1eogvi0IJSaP54e7pqDc45EZG0y/yeg7PbBxl8D8C2iqYoKc+E6pVij3El
+ qKYIW0U5FmHHml0RLO4vz4XZMSM1lXke8DcPPNOqB6mSnquiCYaSgIWEt5Cb1abIs4+k
+ oKS/zcMgALgNfVBBhERsaLLRspxyq7pTh/9TuGtDtxzNVq4By3Dp4NT0vXDXr8A9cEwI
+ UtZGyRerQ85TDDXy+0MmnlIyJgARLSh5VWRNlTJ6ow9MjP0XxK7XDNTUwMzz4L3KdpMd
+ Vunw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=wkVZrMnZcymst69JgbwxUXRv3iZQhb605Ny3U6mTXIc=;
- b=m8lTcUySo75QIZtR45u2QOXjRV0Qh/04WufOLVGa8v3R1Kjl8YMmJ0C4wA02OdSc79
- ri+4XX9i7cb2JyTOw+OZxvnFO/Mxm5VQB4qY4scOU0+Sahn6f9kAi45HPqs+BrH9pbbJ
- BkvcmI7Wy0hVwFeDH9DYmgYx+Z/hyz2LGMlJaWm0Q4XOQ48pTrVkvgQiO3uqUY73AraS
- E42wZrO2P8AegmOeYE0EItqVcLUTUFbnqCvbmSDTs6GfzdBYuYm20xbm/ACsXv5fo7ON
- +sRTBRdd5T86E0N40VLoI9X8ilr1U+1Xa2z2+AsoevZmV91mEe2WevpJOWZHvXx95aTz
- tGZQ==
-X-Gm-Message-State: ACgBeo0x2aekkQHqnctORIN6FE8lFaWYWjPG8Wg2DZXnN/jYCavyjd/N
- OQSBnudOajgTlE5MdqCVUH5X4XWznVmCfoaon4Q=
-X-Google-Smtp-Source: AA6agR7bur1JLUE7hxsPH+udyk8pcu7vuaYwby8pjl9MBZjbmDpqp9kIM7/ZwpjALX3ZE0ot4jxuuzicupb1QAMOnBM=
-X-Received: by 2002:a17:90a:f490:b0:1fa:b8c6:91b4 with SMTP id
- bx16-20020a17090af49000b001fab8c691b4mr549633pjb.166.1660712891922; Tue, 16
- Aug 2022 22:08:11 -0700 (PDT)
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc;
+ bh=cWbv8i6s9c0/RIDXHyl58PZl4jLVug3vpGp7nwdqBxE=;
+ b=7gv5d3MrclESTLJy/XhuJfcjiFnbdxgTYsgSjdV5i9oLr/7bB0Ld3WpPEfDCqJvyKb
+ ttM4P9mvCwC6CN+8h35/eVvAwvSuenA4F68m70tsc/TmGEb4B+nKLm8bGKuMEgjlW/hU
+ W8ENjYR8GX456DMHmhui1KbxopY3ybaLmslz0YJVO2DYNsr0VkyJk2jShLsA8Sn50Q7Q
+ GZFUpmdRg/A7Wyn06qrgUvrho19R875bsKxCpbiXF/B2wrx7+l9/JpS0l/TWZA3Pwgzx
+ cDlQYNUGGxW0Xwj1+WZPzX4BpOaWXuvDOm4NbUuA/WwZgb2TBcdKEifOHnEEV3MXDWqp
+ lcRw==
+X-Gm-Message-State: ACgBeo0LOpt0ksRVvF9mBt+jpz9Jg2Tk4+cemoCQq1Kn9tWuuRoa20aA
+ w6sdG2Si3st4c6RDkr2xMX7aEq2CZoszh6ZYMp8=
+X-Google-Smtp-Source: AA6agR7kIAtNH57iqj+NvHTVkwhTNrqZn+X9gzEFJtBrKoeH7rEXSsW9zX1zjmEhVxhTHV9iByat5PqwO6jTCr0I5xY=
+X-Received: by 2002:a05:6902:244:b0:66f:8383:b51c with SMTP id
+ k4-20020a056902024400b0066f8383b51cmr19537738ybs.471.1660714044571; Tue, 16
+ Aug 2022 22:27:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220816232321.558250-1-atishp@rivosinc.com>
-In-Reply-To: <20220816232321.558250-1-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 17 Aug 2022 15:07:45 +1000
-Message-ID: <CAKmqyKN-SJNnrac=AA0W2PP8tyrfOWr0td22gUjqma27WxCCZA@mail.gmail.com>
-Subject: Re: [PATCH v13 0/6] Improve PMU support
-To: Atish Patra <atishp@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62d.google.com
+References: <CAEcBaE1DOVtq+D1jh42ZO01guWo_zVRbFWoAOigpD2xm0YPSKQ@mail.gmail.com>
+ <9e3a4a71-7d96-9fab-2d4e-4167b2f248f7@redhat.com>
+ <CAEcBaE1fmko6BTgKXtUdd3JcJRZP7Obq6LvXLdUtDAkVmrG9hQ@mail.gmail.com>
+ <5be99de3-f5d1-e850-f59f-13571a83fafb@redhat.com>
+ <CAEcBaE3QQ-Q_tjqGnx94UYv+Unj2aXyo73RP4uA4JLq_SF57Og@mail.gmail.com>
+In-Reply-To: <CAEcBaE3QQ-Q_tjqGnx94UYv+Unj2aXyo73RP4uA4JLq_SF57Og@mail.gmail.com>
+From: vaishu venkat <vaishu071998@gmail.com>
+Date: Wed, 17 Aug 2022 10:57:12 +0530
+Message-ID: <CAEcBaE2mfwVsXbhiya-RNRZnxq92NLuh3CwFoaSKUOktzwXA=w@mail.gmail.com>
+Subject: Re: Bluetooth support in QEMU
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b3433605e6691e91"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=vaishu071998@gmail.com; helo=mail-yw1-x1133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,182 +86,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 17, 2022 at 9:23 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> The latest version of the SBI specification includes a Performance Monito=
-ring
-> Unit(PMU) extension[1] which allows the supervisor to start/stop/configur=
-e
-> various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor=
--level
-> extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
-> extension[2] allows the perf like tool to handle overflow interrupts and
-> filtering support.
->
-> This series implements remaining PMU infrastructure to support
-> PMU in virt machine. The first seven patches from the original series
-> have been merged already.
->
-> This will allow us to add any PMU events in future.
-> Currently, this series enables the following omu events.
-> 1. cycle count
-> 2. instruction count
-> 3. DTLB load/store miss
-> 4. ITLB prefetch miss
->
-> The first two are computed using host ticks while last three are counted =
-during
-> cpu_tlb_fill. We can do both sampling and count from guest userspace.
-> This series has been tested on both RV64 and RV32. Both Linux[3] and Open=
-sbi[4]
-> patches are required to get the perf working.
->
-> Here is an output of perf stat/report while running hackbench with latest
-> OpenSBI & Linux kernel.
->
-> Perf stat:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-m=
-isses -e dTLB-store-misses -e iTLB-load-misses \
-> > perf bench sched messaging -g 1 -l 10
-> # Running 'sched/messaging' benchmark:
-> # 20 sender and receiver processes per group
-> # 1 groups =3D=3D 40 processes run
->
->      Total time: 0.265 [sec]
->
->  Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
->
->      4,167,825,362      cycles
->      4,166,609,256      instructions              #    1.00  insn per cyc=
-le
->          3,092,026      dTLB-load-misses
->            258,280      dTLB-store-misses
->          2,068,966      iTLB-load-misses
->
->        0.585791767 seconds time elapsed
->
->        0.373802000 seconds user
->        1.042359000 seconds sys
->
-> Perf record:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [root@fedora-riscv ~]# perf record -e cycles -e instructions \
-> > -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
-> > perf bench sched messaging -g 1 -l 10
-> # Running 'sched/messaging' benchmark:
-> # 20 sender and receiver processes per group
-> # 1 groups =3D=3D 40 processes run
->
->      Total time: 1.397 [sec]
-> [ perf record: Woken up 10 times to write data ]
-> Check IO/CPU overload!
-> [ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
->
-> [root@fedora-riscv riscv]# perf report
-> Available samples
-> 107K cycles                                                              =
-      =E2=97=86
-> 107K instructions                                                        =
-      =E2=96=92
-> 250 dTLB-load-misses                                                     =
-      =E2=96=92
-> 13 dTLB-store-misses                                                     =
-      =E2=96=92
-> 172 iTLB-load-misses
-> ..
->
-> Changes from v12->v13:
-> 1. Rebased on top of the apply-next.
-> 2. Addressed comments about space & comment block.
->
-> Changes from v11->v12:
-> 1. Rebased on top of the apply-next.
-> 2. Aligned the write function & .min_priv to the previous line.
-> 3. Fixed the FDT generations for multi-socket scenario.
-> 4. Dropped interrupt property from the DT.
-> 5. Generate illegal instruction fault instead of virtual instruction faul=
-t
->    for VS/VU access while mcounteren is not set.
->
-> Changes from v10->v11:
-> 1. Rebased on top of the master where first 7 patches were already merged=
-.
-> 2. Removed unnecessary additional check in ctr predicate function.
-> 3. Removed unnecessary priv version checks in mcountinhibit read/write.
-> 4. Added Heiko's reviewed-by/tested-by tags.
->
-> Changes from v8->v9:
-> 1. Added the write_done flags to the vmstate.
-> 2. Fixed the hpmcounter read access from M-mode.
->
-> Changes from v7->v8:
-> 1. Removeding ordering constraints for mhpmcounter & mhpmevent.
->
-> Changes from v6->v7:
-> 1. Fixed all the compilation errors for the usermode.
->
-> Changes from v5->v6:
-> 1. Fixed compilation issue with PATCH 1.
-> 2. Addressed other comments.
->
-> Changes from v4->v5:
-> 1. Rebased on top of the -next with following patches.
->    - isa extension
->    - priv 1.12 spec
-> 2. Addressed all the comments on v4
-> 3. Removed additional isa-ext DT node in favor of riscv,isa string update
->
-> Changes from v3->v4:
-> 1. Removed the dummy events from pmu DT node.
-> 2. Fixed pmu_avail_counters mask generation.
-> 3. Added a patch to simplify the predicate function for counters.
->
-> Changes from v2->v3:
-> 1. Addressed all the comments on PATCH1-4.
-> 2. Split patch1 into two separate patches.
-> 3. Added explicit comments to explain the event types in DT node.
-> 4. Rebased on latest Qemu.
->
-> Changes from v1->v2:
-> 1. Dropped the ACks from v1 as signficant changes happened after v1.
-> 2. sscofpmf support.
-> 3. A generic counter management framework.
->
-> [1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.=
-adoc
-> [2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edi=
-t
-> [3] https://github.com/atishp04/qemu/tree/riscv_pmu_v13
->
-> Atish Patra (6):
-> target/riscv: Add sscofpmf extension support
-> target/riscv: Simplify counter predicate function
-> target/riscv: Add few cache related PMU events
-> hw/riscv: virt: Add PMU DT node to the device tree
-> target/riscv: Update the privilege field for sscofpmf CSRs
-> target/riscv: Remove additional priv version check for mcountinhibit
+--000000000000b3433605e6691e91
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks!
+Hi Team,
 
-Applied to riscv-to-apply.next
+Could you have any thoughts or solutions for accessing the wireless adapter
+interface inside the QEMU.
 
-Alistair
 
+Thanks and regards,
+Vaishnavi
+
+On Tue, Aug 16, 2022 at 11:33 AM vaishu venkat <vaishu071998@gmail.com>
+wrote:
+
+> Thomas,
 >
-> hw/riscv/virt.c           |  16 ++
-> target/riscv/cpu.c        |  12 ++
-> target/riscv/cpu.h        |  25 +++
-> target/riscv/cpu_bits.h   |  55 +++++
-> target/riscv/cpu_helper.c |  25 +++
-> target/riscv/csr.c        | 312 +++++++++++++++++-----------
-> target/riscv/machine.c    |   1 +
-> target/riscv/pmu.c        | 414 +++++++++++++++++++++++++++++++++++++-
-> target/riscv/pmu.h        |   8 +
-> 9 files changed, 749 insertions(+), 119 deletions(-)
+> Sure will try with the USB Passthrough. Do you have any thoughts on
+> accessing the wireless interface inside the QEMU.
 >
-> --
-> 2.25.1
+> Thanks in Anticipation.
 >
 >
+>
+>
+> Regards,
+> Vaishnavi
+>
+> On Tue, Aug 16, 2022 at 11:27 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+>> On 16/08/2022 06.22, vaishu venkat wrote:
+>> > Hi Thomas,
+>> >
+>> > Thanks for prompt response.
+>> >
+>> > We currently using the QEMU version as below,
+>> > *
+>> > *
+>> > *qemu-system-aarch64 -version
+>> > QEMU emulator version 4.2.1 (Debian 1:4.2-3ubuntu6.23)
+>> > Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers*
+>> >
+>> > Could you please guide us with the, how to access the real bluetooth
+>> devices
+>> > in the guest*
+>>
+>> Simply search for "QEMU USB passthrough" with your favourite search
+>> engine,
+>> there are plenty of help pages out there.
+>>
+>>   Thomas
+>>
+>>
+
+--000000000000b3433605e6691e91
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Team,</div><div><br></div><div>Could you have any =
+thoughts or solutions for accessing the wireless adapter interface inside t=
+he QEMU.=C2=A0</div><div><br></div><div><br></div><div>Thanks and regards,<=
+/div><div>Vaishnavi<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Aug 16, 2022 at 11:33 AM vaishu venka=
+t &lt;<a href=3D"mailto:vaishu071998@gmail.com">vaishu071998@gmail.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"ltr"><div>Thomas,</div><div><br></div><div>Sure will try with the US=
+B Passthrough. Do you have any thoughts on accessing the wireless interface=
+ inside the QEMU.</div><div><br></div><div>Thanks in Anticipation.</div><di=
+v><br></div><div><br></div><div><br></div><div><br></div><div>Regards,</div=
+><div>Vaishnavi<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Tue, Aug 16, 2022 at 11:27 AM Thomas Huth &lt;<=
+a href=3D"mailto:thuth@redhat.com" target=3D"_blank">thuth@redhat.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 16/=
+08/2022 06.22, vaishu venkat wrote:<br>
+&gt; Hi Thomas,<br>
+&gt; <br>
+&gt; Thanks for prompt response.<br>
+&gt; <br>
+&gt; We currently using the QEMU version as below,<br>
+&gt; *<br>
+&gt; *<br>
+&gt; *qemu-system-aarch64 -version<br>
+&gt; QEMU emulator version 4.2.1 (Debian 1:4.2-3ubuntu6.23)<br>
+&gt; Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developer=
+s*<br>
+&gt; <br>
+&gt; Could you please guide us with the, how to access the real bluetooth d=
+evices <br>
+&gt; in the guest*<br>
+<br>
+Simply search for &quot;QEMU USB passthrough&quot; with your favourite sear=
+ch engine, <br>
+there are plenty of help pages out there.<br>
+<br>
+=C2=A0 Thomas<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000b3433605e6691e91--
 
