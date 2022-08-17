@@ -2,96 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2FD596E2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 14:08:02 +0200 (CEST)
-Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41BB596E77
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 14:34:40 +0200 (CEST)
+Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOHq4-0002nR-GA
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 08:08:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38572)
+	id 1oOIFr-0001jw-BJ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 08:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oOHYv-0004sD-Tm; Wed, 17 Aug 2022 07:50:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oOHYt-00021R-8p; Wed, 17 Aug 2022 07:50:17 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27HBhavQ015004;
- Wed, 17 Aug 2022 11:50:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=hGdsBpeOrifTsg7ks996OKfzwQtFkPZXrXnfPheGkjo=;
- b=fJu526ClQmK1tlrB3hcdiUn+g4xMwTc9oeLq0CNkPB1Ue0yAInwlMbO7Hiy/gAXTlfAG
- XxPhogvvZcBEc4BlSEPq9y1U9Se6jaOKcXLFHVsxdw3+8pvwJPPiWNFaEtqYa6VXZK6V
- uNymqUrgY2Tq/+SgJEFwGLp4oKaPpTtYvCnZ5u9bzyd3eRE8JWH9y9t4dVM0jvew/qtp
- 4OJmVZW/83NuFweAFQb2UZQjTk8UXohFpWet8Jt3Q5k/NTBwzkLkg3FgleTD8qpORr3X
- tmFW17JcoSkdKPfIfhY5b+tCGgSDwxYb4FbTIxpvRwU+ngkh+lDRXqnLyvnANB/kYoyn Jw== 
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j0yq605ds-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Aug 2022 11:50:12 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27HBZqa0004433;
- Wed, 17 Aug 2022 11:50:11 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06fra.de.ibm.com with ESMTP id 3hx37j3ar5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Aug 2022 11:50:10 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27HBo8ZE36634880
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Aug 2022 11:50:08 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B861A4053;
- Wed, 17 Aug 2022 11:50:08 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1C005A4040;
- Wed, 17 Aug 2022 11:50:08 +0000 (GMT)
-Received: from [9.171.21.185] (unknown [9.171.21.185])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 17 Aug 2022 11:50:08 +0000 (GMT)
-Message-ID: <d9b0a1feba66763f8161608ebed7710fc885ecd7.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 03/33] linux-user/x86_64: Allocate vsyscall page as a
- commpage
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org
-Date: Wed, 17 Aug 2022 13:50:07 +0200
-In-Reply-To: <20220816203400.161187-4-richard.henderson@linaro.org>
-References: <20220816203400.161187-1-richard.henderson@linaro.org>
- <20220816203400.161187-4-richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oOIDO-00005Q-Tz
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 08:32:07 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:43822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oOIDN-0005gg-D2
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 08:32:06 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-333a4a5d495so116933107b3.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 05:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=+kPU+uD7Z1/ETT3ulfOSdkBhoSCpgg4Ij0XDQx0RGuI=;
+ b=iOJ4WboaoE9UpxLWssFrVbOtJzxOglMS2MD7QVdJO+wklhl0uHdAkVIyPdDLXZGi6s
+ pcizpvBBtJOSmEIUwCMhdh/ZMhgcXNc7EZQka//Qr+8oEGAOBmwd+Wl/zy5G9lNmIkvM
+ MeeJigr8UYji3l4cl/DIgcswjQ2qwB1GezZ8zY0L4rVhx8a6mlEOvGTPLV7wcNU4FjNV
+ NcZWJ1cB/xuJfr92pKmVoBpkJbebCSW5LJXSeRj6f6szEWRjL3nLpOvp9Q+PLSyx1FQ/
+ vi+UpjzUO2ILKfIjs+LiiQzEannL9v7allvttOjGlo+WI0kXM1jh9bFzfpFSgOS83D9E
+ ooRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=+kPU+uD7Z1/ETT3ulfOSdkBhoSCpgg4Ij0XDQx0RGuI=;
+ b=Ldz5vKsra9m40KN7ZZ2fK10g5j18IR6pF1Ugl2KtaoeIgKNBoq/R4qXMwMAu0YH/li
+ kC/+4ztx3IZFZOF4G5zKL6fY0kqjmNZ6SjJfLtEp/qkTHEFwQXX253Kbh+FczlQRWqEx
+ PKLutV/m5O23atUz1Nn2ku/4FPqEOmpgQSsrSNxTHmk2+1cgvb3djoCWI5jWRMokHtHO
+ WCocsQion7d8pnR3lJbmSdha1DKzbouNiKehDgAzfWo3J97vEO5BPEej2tbCl0YkUmFN
+ VNNUqEyP30x+88532vzTyfQmdB31Yd1fhB5c2V4NaOyw2cNzFB3hLLsr7HcQzSxSkJXz
+ 3PUA==
+X-Gm-Message-State: ACgBeo2Pv4bFr/w6t38aDIuWaGzjEzNKJtJ6sFMF91mtZ1+678rPTwJh
+ 7pLOzc1QiWXyAaFz8Qe7mY9QavJA2Svac3P6dESvig==
+X-Google-Smtp-Source: AA6agR676bu+9nFppMMoSwRzd8MLsHvGrQkte1XfsGn4uzdQzRnfUAueIP9ziXN7vBPSDbO/51Vpt9EmYV/BXDbq4Fo=
+X-Received: by 2002:a81:13c5:0:b0:32a:8e40:d469 with SMTP id
+ 188-20020a8113c5000000b0032a8e40d469mr21880400ywt.64.1660739524168; Wed, 17
+ Aug 2022 05:32:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: B9ot3n0hTzqe7sk6FlHMhhsydALfsZfo
-X-Proofpoint-GUID: B9ot3n0hTzqe7sk6FlHMhhsydALfsZfo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-17_05,2022-08-16_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- impostorscore=0 clxscore=1011 adultscore=0 mlxlogscore=999 spamscore=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2208170045
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220726163206.1780707-1-peter.maydell@linaro.org>
+ <20220726163206.1780707-3-peter.maydell@linaro.org>
+ <219fb09f-c46a-4dda-9ab7-ebb0772c17f5@linaro.org>
+ <CAFEAcA8GF8MLrp+9yqmPYJCfkVdUtc+-A7J+zn-gfvb06v-+Yw@mail.gmail.com>
+ <20220817064800-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220817064800-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 17 Aug 2022 13:31:22 +0100
+Message-ID: <CAFEAcA9joP2W9MdGKsZFz2uJWqQoSUKTfdH5TNwyRyxPhGcBBw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] pci: Sanity check mask argument to pci_set_*_by_mask()
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,66 +88,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-08-16 at 15:33 -0500, Richard Henderson wrote:
-> We're about to start validating PAGE_EXEC, which means that we've
-> got to the vsyscall page executable.  We had been special casing
-> this entirely within translate.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/elfload.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 29d910c4cc..d783240a36 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -195,6 +195,28 @@ static void
-> elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
->      (*regs)[26] = tswapreg(env->segs[R_GS].selector & 0xffff);
->  }
->  
-> +#if ULONG_MAX >= TARGET_VSYSCALL_PAGE
-> +#define HI_COMMPAGE  TARGET_VSYSCALL_PAGE
-> +
-> +static bool init_guest_commpage(void)
-> +{
-> +    /*
-> +     * The vsyscall page is at a high negative address aka kernel
-> space,
-> +     * which means that we cannot actually allocate it with
-> target_mmap.
-> +     * We still should be able to use page_set_flags, unless the
-> user
-> +     * has specified -R reserved_va, which would trigger an
-> assert().
-> +     */
-> +    if (reserved_va != 0 &&
-> +        TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE >= reserved_va) {
-> +        error_report("Cannot allocate vsyscall page");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +    page_set_flags(TARGET_VSYSCALL_PAGE,
-> +                   TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE,
-> +                   PAGE_EXEC | PAGE_VALID);
-> +    return true;
-> +}
-> +#endif
->  #else
->  
->  #define ELF_START_MMAP 0x80000000
+On Wed, 17 Aug 2022 at 11:48, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Wed, Jul 27, 2022 at 11:26:15AM +0100, Peter Maydell wrote:
+> > On Tue, 26 Jul 2022 at 23:30, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> > >
+> > > On 7/26/22 09:32, Peter Maydell wrote:
+> > > > Coverity complains that in functions like pci_set_word_by_mask()
+> > > > we might end up shifting by more than 31 bits. This is true,
+> > > > but only if the caller passes in a zero mask. Help Coverity out
+> > > > by asserting that the mask argument is valid.
+> > > >
+> > > > Fixes: CID 1487168
+> > > >
+> > > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > > > ---
+> > > > Note that only 1 of these 4 functions is used, and that only
+> > > > in 2 places in the codebase. In both cases the mask argument
+> > > > is a compile-time constant.
+> > > > ---
+> > > >   include/hw/pci/pci.h | 20 ++++++++++++++++----
+> > > >   1 file changed, 16 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> > > > index c79144bc5ef..0392b947b8b 100644
+> > > > --- a/include/hw/pci/pci.h
+> > > > +++ b/include/hw/pci/pci.h
+> > > > @@ -688,7 +688,10 @@ static inline void
+> > > >   pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
+> > > >   {
+> > > >       uint8_t val = pci_get_byte(config);
+> > > > -    uint8_t rval = reg << ctz32(mask);
+> > > > +    uint8_t rval;
+> > > > +
+> > > > +    assert(mask & 0xff);
+> > >
+> > > Why the and, especially considering the uint8_t type?
+> >
+> > Oops, yes. I think I was mixing up prototypes and thought the
+> > mask was passed as a 32-bit value in both these functions.
 
-I found this in context of wasmtime, but apparently the problem is more
-broad: after this patch any x86_64 PIE binaries no longer run:
+> Did you intend to send v2 of this without the &?
 
-qemu-x86_64: ../linux-user/elfload.c:2657: pgb_dynamic: Assertion
-`sizeof(uintptr_t) == 4' failed.
-Aborted (core dumped)
+Thanks for the reminder -- I'd forgotten I needed to respin.
 
-(Maybe we need a test for this, PIE version of "hello world" will do.)
-
-I wonder if we need this assert at all?
-There is a comment that says that 64-bit hosts should have used
-reserved_va, but what is the reasoning behind this restriction?
-Without this assert, pgb_find_hole() finds a suitable hole just fine.
+-- PMM
 
