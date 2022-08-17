@@ -2,56 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D918597014
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:46:18 +0200 (CEST)
-Received: from localhost ([::1]:47384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A613597011
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:44:45 +0200 (CEST)
+Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOJNA-0002N5-3w
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:46:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
+	id 1oOJLf-0001rZ-Om
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oOJJF-0005b6-Q4; Wed, 17 Aug 2022 09:42:13 -0400
-Received: from [200.168.210.66] (port=58716 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oOJJE-0005vr-0d; Wed, 17 Aug 2022 09:42:13 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 17 Aug 2022 10:42:07 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id AA82E800134;
- Wed, 17 Aug 2022 10:42:06 -0300 (-03)
-Message-ID: <524ce4b2-a5f3-3b42-3d49-d44aa33dadf4@eldorado.org.br>
-Date: Wed, 17 Aug 2022 10:42:06 -0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oOJJI-0005eh-7H
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:42:16 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:38414)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oOJJG-0005wd-HT
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:42:15 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id w197so15415930oie.5
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 06:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=th162/+QCyE+q3ybh9FlJczEQVylnZ5oCzlCpOcKIdM=;
+ b=Ucx/VZ4bK4t0JucQXm7aj72dngi0TYiWL4sfXzC3HlppsTD9HhHmzYKQy+kuqdUvoY
+ t3DnjOApXKHq2zdbGB5HD3r1gvypdQNt4uUK6or9ddaNCd4KoZnOZD/Q4tsJlZ9+RkfF
+ 3P3aSNOSvvybNBAFp5lZ8aeErN1cJeci3y/5rAx/SdNt7WmsH7vvIYuxHqrOH6rigGUi
+ TiQziaqIgZoRdRHvY0JkuuVqWmhhsu/zrBJC+Q98AYYi7+64O0a3XjzltZ113N1KtPxK
+ V8+lsRUSX0OURzjW6g4Y2ehbobSSE6gfJAXk3EF6dbdGXjGyD3AXNQ+ij/w0Cq4hp+8A
+ pxcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=th162/+QCyE+q3ybh9FlJczEQVylnZ5oCzlCpOcKIdM=;
+ b=dUKBr5PXtW2TswCWknD3B9UAkOJuerm4BN5puYtIiUiquvO0I/jytLFjlT8NkJvogD
+ J+6e4JfrJOJUGwgF/6QPcPf3Q7Vot5JBMjRLU2NJZSI66mpK5fA7w049zCai77gsXvCG
+ y/K+Rikt2hY8O0syd8iTWgzNCG6qFbLUwr5XGdzLgoyiBm4MLqHN+xvPdR4x7ygYLVCn
+ McYGXEclUcmeK7jORzcNnHVvdtpJaAn4fqknyB15fvcCDbZhQR+XnAnFlABMXx3AiFWG
+ CbKzloBGwyKNTZ0TkvlFMPISlPgPOW6hJnrnd5n74X99Gb9aLDqqNoS6K50hE1JSys7i
+ mumA==
+X-Gm-Message-State: ACgBeo0QRcgTwfs33VD6Il8ksQbiE7OWEm0eQ7N1dYJDc//E/cx66cn/
+ sQkm+RvLdhuXA3uF6+9g0WOTbw==
+X-Google-Smtp-Source: AA6agR6v53qowifUKdJ00v6T21JdrczfSYxWzefwcG3fOkPGDjMqayBxgfdTHuWX4LIxHXnlFZ8/RQ==
+X-Received: by 2002:a05:6808:15a2:b0:344:9c1a:1a2c with SMTP id
+ t34-20020a05680815a200b003449c1a1a2cmr1540999oiw.84.1660743733200; 
+ Wed, 17 Aug 2022 06:42:13 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:80f2:9412:75e8:df77:dd33:d368?
+ ([2605:ef80:80f2:9412:75e8:df77:dd33:d368])
+ by smtp.gmail.com with ESMTPSA id
+ cz19-20020a056870649300b00118927e0dacsm2783366oab.4.2022.08.17.06.42.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Aug 2022 06:42:12 -0700 (PDT)
+Message-ID: <2ff3270c-c78d-3ba5-58d4-1a2cd0a22f04@linaro.org>
+Date: Wed, 17 Aug 2022 08:42:09 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [RFC PATCH 00/13] PowerPC interrupt rework
+Subject: Re: [PATCH for-7.2 14/21] accel/tcg: Hoist get_page_addr_code out of
+ tb_lookup
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, groug@kaod.org,
- fbarrat@linux.ibm.com, alex.bennee@linaro.org,
- Fabiano Rosas <farosas@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>
-References: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
- <012f86ce-25da-a42d-3a36-f13f64c248e9@kaod.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <012f86ce-25da-a42d-3a36-f13f64c248e9@kaod.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, alex.bennee@linaro.org
+References: <20220812180806.2128593-1-richard.henderson@linaro.org>
+ <20220812180806.2128593-15-richard.henderson@linaro.org>
+ <15f8efa3aae897569383305155315d03ee5b70e3.camel@linux.ibm.com>
+ <a67bc498-5155-cc40-9640-81db22b2b37a@linaro.org>
+ <0727c2600d0c16caf43689a9c3abf5ca2017f28f.camel@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <0727c2600d0c16caf43689a9c3abf5ca2017f28f.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 Aug 2022 13:42:07.0123 (UTC)
- FILETIME=[246CE630:01D8B23F]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,81 +98,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/08/2022 17:02, Cédric Le Goater wrote:
-> [ Adding Fabiano who reworked all exception models for 7.0 and Nick
->    who rewrote the Linux side sometime ago ]
-> 
-> On 8/15/22 18:20, Matheus Ferst wrote:
->> Currently, PowerPC interrupts are handled as follows:
->>
->> 1) The CPU_INTERRUPT_HARD bit of cs->interrupt_request gates all
->>     interrupts;
->> 2) The bits of env->pending_interrupts identify which particular
->>     interrupt is raised;
->> 3) ppc_set_irq can be used to set/clear env->pending_interrupt bit and
->>     CPU_INTERRUPT_HARD, but some places access env->pending_interrupt
->>     directly;
->> 4) ppc_cpu_exec_interrupt is called by cpu_handle_interrupt when
->>     cs->interrupt_request indicates that there is some interrupt pending.
->>     This method checks CPU_INTERRUPT_HARD and calls ppc_hw_interrupt. If
->>     env->pending_interrupt is zero after this call, CPU_INTERRUPT_HARD
->>     will be cleared.
->> 5) ppc_hw_interrupt checks if there is any unmasked interrupt and calls
->>     powerpc_excp with the appropriate POWERPC_EXCP_* value. The method
->>     will also reset the corresponding bit in env->pending_interrupt for
->>     interrupts that clear on delivery.
->>
->> If all pending interrupts are masked, CPU_INTERRUPT_HARD will be set,
->> but ppc_hw_interrupt will not deliver or clear the interrupt, so
->> CPU_INTERRUPT_HARD will not be reset by ppc_cpu_exec_interrupt. With
->> that, cs->has_work keeps returning true, creating a loop that acquires
->> and release qemu_mutex_lock_iothread, causing the poor performance
->> reported in [1].
->>
->> This patch series attempts to rework the PowerPC interrupt code to set
->> CPU_INTERRUPT_HARD only when there are unmasked interrupts. Then
->> cs->has_work can be simplified to a check of CPU_INTERRUPT_HARD, so it
->> also only returns true when at least one interrupt can be delivered.
->>
->> To achieve that, we are basically following Alex Bannée's suggestion[2]
->> in the original thread: the interrupt masking logic will be factored
->> out of ppc_hw_interrupt in a new method, ppc_pending_interrupts. This
->> method is then used to decide if CPU_INTERRUPT_HARD should be set or
->> cleared after changes to MSR, LPCR, env->pending_interrupts, and
->> power-management instructions.
->>
->> We used [3] to check for regressions at each patch in this series. After
->> patch 12, booting a powernv machine with a newer skiboot with "-smp 4"
->> goes from 1m09s to 20.79s.
-> 
-> whaou ! PowerNV is really an heavy weight platform, so that's a great
-> improvement.
-> 
+On 8/17/22 06:08, Ilya Leoshkevich wrote:
+> +static void cpu_tb_jmp_cache_remove(TranslationBlock *tb)
+> +{
+> +    CPUState *cpu;
+> +    uint32_t h;
+> +
+> +    /* remove the TB from the hash list */
+> +    if (TARGET_TB_PCREL) {
+> +        /* Any TB may be at any virtual address */
+> +        CPU_FOREACH(cpu) {
+> +            cpu_tb_jmp_cache_clear(cpu);
+> +        }
 
-Note that this result uses Frederic's test case, where one CPU 
-decompresses the kernel and the others keep spinning to deliver a masked 
-decrement interrupt. The improvement may not be that great with other 
-workloads.
+This comment is not currently true for user-only.  Although there's an outstanding bug 
+report about our failure to manage virtual aliasing in user-only...
 
-> Did you try KVM guests under PowerNV (L1 under an emulated L0) and KVM
-> under pseries (L2 under an emulated L1) ? Try some intensive I/O on a
-> SMP machine, like a large scp transfer.
-> 
+> +            PAGE_FOR_EACH_TB(p, tb, n) {
+> +                cpu_tb_jmp_cache_remove(tb);
+> +            }
 
-So far, I have mainly tested with buildroot boot+poweroff. I'll try 
-these other tests too.
+You wouldn't want to call cpu_tb_jmp_cache_clear() 99 times for the 99 tb's on the page.
 
-> We should try the MacOS images also.
-> 
-> Thanks,
-> 
-> C.
+For user-only, I think mprotect is rare enough that just clearing the whole cache once is 
+sufficient.
 
-Unfortunately, I can't test with MacOS :/
 
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+r~
 
