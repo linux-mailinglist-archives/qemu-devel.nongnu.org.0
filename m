@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42483596F55
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:19:10 +0200 (CEST)
-Received: from localhost ([::1]:49576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DF9596FB7
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:27:45 +0200 (CEST)
+Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOIwu-0007nk-DS
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
+	id 1oOJ5E-0004Dm-Du
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:27:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOItl-00054o-EA
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:15:54 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:42673)
+ id 1oOJ3h-0002NL-B5
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:26:09 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:37779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOItj-0002wz-Ku
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:15:53 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id p132so15335305oif.9
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 06:15:50 -0700 (PDT)
+ id 1oOJ3f-0006WU-Qv
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:26:09 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id m6so3481356oib.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 06:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=Eo54v4tCR8tYaHwypVmPwY+HSyPFwxFTMgke3kLjZbk=;
- b=RL5mXxi4waIkpEGDuY8QCSMPYKUo3H5k3nya11g02WdKNeFJ34zWtvDJpGYlAuIRBj
- wT3uDQWZBmbzBxsF5yxy1SVmr7dkySIC7+PAcLO57ESYhuKEw27D6lFKm1GXcts38cGQ
- hUMA9fKRnVMNkGvdY0D5EebQg96B1+XN01bV2PQAycT3tzNSc32sOfHni0R/UY6cG6z1
- GeHJzWQA5HnE2Y7Uk7OrnUnRrCAKYz3b9Nmiy1CGiVXsWUM1hUnBN/SK/pvjH07eVAMA
- C85vX3tTZDx8deE4q4o1clevCUNbT2M72aZ7tUZ5S0Q7Knqxm/1B8iBwp6MCstwQ7tlI
- HP+g==
+ :from:to:cc; bh=+/R3nSAE0IBIrw5Ga+Z1S0Ec9gKyXDRLCS70WOUt96c=;
+ b=QhsV0EwTTKcke/xfpUvd1h6qPQZDmCbZ/6f8sIbpPczapmHYqRYjh4Vpxdks41hZKA
+ nkT25ks1Z/Tcc1GFPJs28XqXQh+22QzPvI5Lt8h0brF6kPC1v/VOPzWXf9NkpmV8PCbC
+ AneUsT/qOCT39odIGWatzOBLC3XzNO9ZS9pnrSYK66K+YrpzpTiFkCpq39HHyHpRBQES
+ EDnhD/oinhtjtsrFd7cY+ybyQvXf1zDdzPh8BiZmQQIT/75JWPbsf7R8xfYaGpDRKhZ2
+ 1aMx3jPaUotJE+UL7cyWBztgwk6KcIuaDvQyIFkbiR7C38SbxCwLDqtk9IN5Itmv4Lx7
+ 86AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=Eo54v4tCR8tYaHwypVmPwY+HSyPFwxFTMgke3kLjZbk=;
- b=4bFx2ezyp0jb72HdTEMKyRPmVnHnz0uj19SuJN4UTDWBgGOdjiekrQWS9xzzELFXru
- NWy7R3GsYhfysM6J3xbTcarZO1wUEghqzO+bys76F8L5FUfCo5a1fcArbHsnA7ebowGP
- XI8YUlyJ1Wqkn2Fc8jMEVGi/oWHezQVsIUCAGy91tcukYCcEKiaXGQpknflLZ67EbLRl
- wzM2d7vvZQdsI90bRxHp80UTatIgRZ3u4XhSzqusQbhuuINsvZDlFn/G0jSBFgOLbjSc
- EAci1rCPU7MklwiaRl/ORPChBy1LlhrkRV6tPxxSxW+g/mEDSqKAO853gyZSYT1iaB6R
- wcng==
-X-Gm-Message-State: ACgBeo1JJziWaIuJmGhwqhN19C7gkOz8QLI9/VOp/wJysy++YUnsH0SZ
- LPTuJ6t7XHqQpehYvavQ8mIJqg==
-X-Google-Smtp-Source: AA6agR5ZV+t/8pP8dgXIyFwFXOFY215DWh/uPRF2R4la0FMKmx6NXnKz/QHANK0K+AUAX0Eiq9wR5Q==
-X-Received: by 2002:a05:6808:643:b0:343:1207:b0b7 with SMTP id
- z3-20020a056808064300b003431207b0b7mr1407426oih.97.1660742150001; 
- Wed, 17 Aug 2022 06:15:50 -0700 (PDT)
+ bh=+/R3nSAE0IBIrw5Ga+Z1S0Ec9gKyXDRLCS70WOUt96c=;
+ b=gDcDjahR0sqxJDb+BIttTBFT1UsMUyB1mZlxQgBF4H4Ujt8ncNxozJLxGbd5/oJPMq
+ gzHpxdrIyR4MlY2BjWhHe+WNm84ezbJrjJBcb0PYXnfE3eob6yFVjpXLbm7T3ebFC3zI
+ oqTL70IvWEt4CcBTDSaqHijg2O6Bxxr1ZQpMxsRKotDx316EQiEyQ6xN1IZ7ltJiyKlu
+ DBBQR8g+OWNT2wpL4Lvl/8T1JeCCCcJoJpuFgCdqh4rMchOzLIfHYwJbi21SsZR9WlPn
+ xDaRi8KtFME2slbfMmkmDyRYLk0TLYQVQYyndwCpsux+sRgAKQ+n7R0MX3Rr9vXhOKCx
+ cSXA==
+X-Gm-Message-State: ACgBeo3mGmrMsfkYqkfCEUVZiRv9nXXDRdEp2/81mBdd8mZ1OHDg7LFe
+ eeIrb2Hbbr7tQ97gUPBX1KL3zQ==
+X-Google-Smtp-Source: AA6agR6050H7gbSBPIfGblmEnytRGC2DNWX7SDEWzv8nQJMvTYOE/GGETWznPTev1lrrc6plDP1MKg==
+X-Received: by 2002:a05:6808:21a6:b0:344:beb5:1fb1 with SMTP id
+ be38-20020a05680821a600b00344beb51fb1mr1507305oib.175.1660742766396; 
+ Wed, 17 Aug 2022 06:26:06 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80f2:9412:75e8:df77:dd33:d368?
  ([2605:ef80:80f2:9412:75e8:df77:dd33:d368])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a4ab6c5000000b00435785e7b49sm2991577ooo.19.2022.08.17.06.15.48
+ w21-20020a9d70d5000000b00618fa37308csm3329273otj.35.2022.08.17.06.26.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Aug 2022 06:15:49 -0700 (PDT)
-Message-ID: <cc2cab12-2dda-25db-5696-fe13971db467@linaro.org>
-Date: Wed, 17 Aug 2022 08:15:46 -0500
+ Wed, 17 Aug 2022 06:26:05 -0700 (PDT)
+Message-ID: <ac55b78a-602a-e875-5bf0-c5040d7de2a1@linaro.org>
+Date: Wed, 17 Aug 2022 08:26:01 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.2 14/21] accel/tcg: Hoist get_page_addr_code out of
- tb_lookup
+Subject: Re: [PATCH for-7.1 3/4] target/loongarch: rename the TCG CPU "la464"
+ to "qemu64-v1.00"
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, alex.bennee@linaro.org
-References: <20220812180806.2128593-1-richard.henderson@linaro.org>
- <20220812180806.2128593-15-richard.henderson@linaro.org>
- <15f8efa3aae897569383305155315d03ee5b70e3.camel@linux.ibm.com>
- <a67bc498-5155-cc40-9640-81db22b2b37a@linaro.org>
- <0727c2600d0c16caf43689a9c3abf5ca2017f28f.camel@linux.ibm.com>
+To: WANG Xuerui <i.qemu@xen0n.name>, gaosong <gaosong@loongson.cn>,
+ chen huacai <zltjiangshi@gmail.com>
+Cc: qemu-level <qemu-devel@nongnu.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, WANG Xuerui <git@xen0n.name>,
+ maobibo <maobibo@loongson.cn>
+References: <20220814145351.1474753-1-git@xen0n.name>
+ <20220814145522.1474927-4-i.qemu@xen0n.name>
+ <1c4ae4dd-7365-1d5b-0608-31ba04ee96e0@linaro.org>
+ <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
+ <2382c1cd-6318-34a2-35e8-addc751f6aeb@loongson.cn>
+ <a5fde3dc-0fd4-8739-82b1-d94781637169@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <0727c2600d0c16caf43689a9c3abf5ca2017f28f.camel@linux.ibm.com>
+In-Reply-To: <a5fde3dc-0fd4-8739-82b1-d94781637169@xen0n.name>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,25 +102,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/22 06:08, Ilya Leoshkevich wrote:
-> @@ -2243,6 +2250,13 @@ void page_set_flags(target_ulong start,
-> target_ulong end, int flags)
->               (flags & PAGE_WRITE) &&
->               p->first_tb) {
->               tb_invalidate_phys_page(addr, 0);
-> +        } else {
-> +            TranslationBlock *tb;
-> +            int n;
-> +
-> +            PAGE_FOR_EACH_TB(p, tb, n) {
-> +                cpu_tb_jmp_cache_remove(tb);
-> +            }
->           }
+On 8/17/22 04:10, WANG Xuerui wrote:
+>  From my own experiences, different use cases care about different aspects of the CPU, and 
+> that IMO is an argument in favor of providing both (high-fidelity models named after 
+> actual product model names, and virtual models named after ISA levels). But before we have 
+> truly high-fidelity models I think we should start with the virtual ones first. And don't 
+> pretend the currently implemented model is LA464 -- the kernel change I've linked to [1] 
+> implies the opposite.
 
-Here you would use tb_jmp_cache_clear_page(), which should be moved out of cputlb.c.
+No, it simply pointed to a bug in qemu that could have been fixed.
+
+The trouble with inventing virtual models is that no one knows what they mean.  Targeting 
+real hardware is better, because we have a documented standard.
 
 
 r~
-
-
 
