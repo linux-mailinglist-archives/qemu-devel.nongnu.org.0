@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AF859716D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 16:38:37 +0200 (CEST)
-Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F2D597170
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 16:41:05 +0200 (CEST)
+Received: from localhost ([::1]:59476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOKBo-0008KP-4u
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 10:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56542)
+	id 1oOKEC-0001kd-D7
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 10:41:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOK7P-0004sw-L2
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 10:34:03 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:36618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOK7N-0000AU-V4
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 10:34:03 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-332fc508d88so166505877b3.3
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 07:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=RdAuBQ9HarjbJVQF8eCfs8thmQlN+djaaefJdrhMBmE=;
- b=hoK17MiDV2OKzc5ZGgnape3clApA/V6/tYvL184HWgmfW9WCnropOJfMQgdwSFjco1
- jjFIILaIIAFIAua00miuBB9nsSM1tb769jQGwe4ZmUl4dglhhmzU8yTroZXwiylBIdW1
- UOI3OCTTp5BqJBw5LQ2x4rSaqEzUGPEv+vcfUT0yj/GYr/NfBNIxTYqOZ6xGf1f+91ul
- gdChdmmF5yFnHe52fkIHuqudykFbzcXUlSzfzfVXBnaC6CAl31XEf+YKmiAWXJCmdV2a
- TKbYtZ8Vp12LtTnEb/aV1viOVnhqJaLUb7Kw+vcx6cWYNJjkGpOia9MYj28quwxj7AhT
- QNEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=RdAuBQ9HarjbJVQF8eCfs8thmQlN+djaaefJdrhMBmE=;
- b=Y7xYIKewz9R46qG0PlU7y1OW/jUpSPhmB1Mbb8BRLJ1jj5K2Hra5QLVM71nUE4pNfb
- WXmPv58lp2f5JwDJ1ssxIfTHhI6P1nLiUwX8mtp4Imd9Ng60LUvLPIpWixCIazJsCmGi
- 2vvJtUn4X1YaYDMWbf1xPKCppDWoT2SbHiKkjoX+ojBM9SpxT86tK6xKYX/cz7eflt/r
- 4SH1V2J11il47C1cCg9tTiPMuSWTbIVSTGJgXi0UuxpYjznp34dAP5qkcvSetQ1WNpSK
- EL+Bpwy0F8pguZi1+awTSvRjPBfAVTwv14XJIQcXy/yk3cvJ9b3w2OptkdvfTwGzZXlq
- d/EA==
-X-Gm-Message-State: ACgBeo0ygYJPLY+esZUdQ6pLgDfH3/gs9C5xy9B4g2rjXDE9wmeWg2fC
- ArcQhD7IGPn4TPokGypxPQ4cGWwZY+BQrC2fRMwweQ==
-X-Google-Smtp-Source: AA6agR7UmYT9fnvUuYiuXESB6I/52jekHH9PobGlQpc7SrRqw+AfNuiATsKVtbjAkz7TPgVQk7OKCOxWC1lZpgf2nfA=
-X-Received: by 2002:a25:20c:0:b0:68e:bf0:c6d4 with SMTP id
- 12-20020a25020c000000b0068e0bf0c6d4mr6920015ybc.479.1660746840841; 
- Wed, 17 Aug 2022 07:34:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anton.kochkov@proton.me>)
+ id 1oOKAr-0007md-35
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 10:37:37 -0400
+Received: from mail-40131.protonmail.ch ([185.70.40.131]:55351)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anton.kochkov@proton.me>)
+ id 1oOKAm-0001e2-OP
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 10:37:36 -0400
+Date: Wed, 17 Aug 2022 14:37:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1660747050; x=1661006250;
+ bh=1xusjNSpDtivCGQCgOWnDakxrNhb0Bpw74ZWHpmTucc=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
+ Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
+ b=Iifvu6f/hTURTdVF+ogxVdyJp2LnuJQeMRL38OE9F6lcl3HB0EF+Gbu0Mns7BrYKV
+ oyIC+nz6tX1HoK8Bg8gD5BKiCcP7Pi2QqBPpOK8CuzDR13FYVgN/gLk5ZtmlP5xEef
+ 685i30eMVCUnvGoJ7RlACRjWZzio2esJpCAJyJNsfZMN3uaeQUfvClb7ASAlK8WA/v
+ HmdLrB11BGqBmPcJG2nvlfCKa0ZrbSRC4+zCsIDAoVv8zGkcldk3DxtT1CRD9w+CGE
+ kjYbNNm/ZnTP9SpCqxJAoNCQVUvyp0y5OXX8aYnyLZW4OtfVf8T1GwBqu3/enwePEV
+ lMywNrRDM9uWQ==
+To: qemu-devel@nongnu.org
+From: Anton Kochkov <anton.kochkov@proton.me>
+Cc: Anton Kochkov <anton.kochkov@proton.me>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v2] meson: be strict for boolean options
+Message-ID: <20220817143538.2107779-1-anton.kochkov@proton.me>
+Feedback-ID: 53490844:user:proton
 MIME-Version: 1.0
-References: <20220817141754.2105981-1-anton.kochkov@proton.me>
-In-Reply-To: <20220817141754.2105981-1-anton.kochkov@proton.me>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Aug 2022 15:33:09 +0100
-Message-ID: <CAFEAcA-ii9vOLvtO_Yb4c90KaH8dENbgUEquiuqJPkQKd03D-g@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/net/can: fix Xilinx ZynqMP CAN RX FIFO logic
-To: Anton Kochkov <anton.kochkov@proton.me>
-Cc: qemu-devel@nongnu.org, Francisco Iglesias <frasse.iglesias@gmail.com>, 
- Vikram Garhwal <fnu.vikram@xilinx.com>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>, 
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=185.70.40.131;
+ envelope-from=anton.kochkov@proton.me; helo=mail-40131.protonmail.ch
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,24 +61,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Anton Kochkov <anton.kochkov@proton.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Aug 2022 at 15:24, Anton Kochkov <anton.kochkov@proton.me> wrote:
->
-> For consistency, function "update_rx_fifo()" should use
-> the RX FIFO register names, not the TX FIFO ones even if
+While Meson buildsystem accepts the 'false' as a value
+for boolean options, it's not covered by the specification
+and in general invalid. Some alternative Meson implementations,
+like Muon, do not accept 'false' or 'true' as a valid value
+for the boolean options.
 
-"register field names"
+See https://mesonbuild.com/Build-options.html
 
-> they refer to the same memory region.
+Signed-off-by: Anton Kochkov <anton.kochkov@proton.me>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+---
+ meson_options.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-"same bit positions in the register".
+diff --git a/meson_options.txt b/meson_options.txt
+index e58e158396..63f0725174 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -82,9 +82,9 @@ option('tcg', type: 'feature', value: 'enabled',
+        description: 'TCG support')
+ option('tcg_interpreter', type: 'boolean', value: false,
+        description: 'TCG with bytecode interpreter (slow)')
+-option('cfi', type: 'boolean', value: 'false',
++option('cfi', type: 'boolean', value: false,
+        description: 'Control-Flow Integrity (CFI)')
+-option('cfi_debug', type: 'boolean', value: 'false',
++option('cfi_debug', type: 'boolean', value: false,
+        description: 'Verbose errors in case of CFI violation')
+ option('multiprocess', type: 'feature', value: 'auto',
+        description: 'Out of process device emulation support')
+--
+2.37.2
 
-(No need to spin a v3 just for that; if there's no other
-issues with the patch I'll fix it up when I take it into
-target-arm.next.)
 
-thanks
--- PMM
 
