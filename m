@@ -2,90 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFCA59700D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:40:31 +0200 (CEST)
-Received: from localhost ([::1]:60170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D918597014
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:46:18 +0200 (CEST)
+Received: from localhost ([::1]:47384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOJHa-000476-Dc
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40344)
+	id 1oOJNA-0002N5-3w
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:46:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOJFo-0002dJ-NI
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:38:40 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:37521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOJFn-0001nJ-04
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 09:38:40 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-10ec41637b3so15157319fac.4
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 06:38:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=Ev9b8hjBlruSFd2g/Y6g2hGpFtXaqoom5r/MLyWcBSY=;
- b=DadOmMaomY+qory4tRt0YQPJzzcAoNDC6dQ7eLO1gPNxQf3x0hKtGLrsQrK43ghT6B
- BAedJiF6mBnfFpkd+2IqQEd6s8ZL3w7wbPb9F4b7rgXlx1c1rGyynVyMc0x89eAZm2M4
- GmyNrKX4eu9n9DwC9xttGPbvUOrlkky3pCSpu5DBP8Z0aNSb6CblgGczWhnfnmac2bXe
- jhtqQo//njUwudnLJwWoMmrLZRLUzvGyJqAu6C0HFUY0IQWrqqvBm6rtbCoo8ejKeUrc
- Pm7CXxXfcmOCSiseBx5zK43Kb5jDv6HRPjVd4et5PJJwKPN07QdXIkvrP33L+gVfssX6
- JIlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=Ev9b8hjBlruSFd2g/Y6g2hGpFtXaqoom5r/MLyWcBSY=;
- b=RqZmn4wtzpU8aD1ErrzHP3K0Rzn+56e8XQ+mAk2BJggll46qvS3ahGDZGMgqFuGB6E
- SQ6YMDIlc+MeVOZOxTTtC2z2VOzETylRvDR40m5DWJ3Mmgi4H2QMaa3HTuQyf+tsqd2l
- bGtoNrThdHZAB5QymlqHK1PfJ4DjFf68SRJRYcj5/6B66gOR5sNXzQh5Bx2/WArKVrj1
- I4WxUPhp5h+/Xpj0uV4LsVXsBkd3zF1Wscbao1uAxAA0dazD7z094WFGNXwBZQZ7TExO
- sCN8z9AbN4exkSgyRGvt/TDBK/bYAY2y2ynI/ItmC/GUnoi62/2zY+bh2D8K6rMxC4Lu
- UrVg==
-X-Gm-Message-State: ACgBeo3BXoygm1B7nf6EcxOkFJ2rqI7WKRdDDvIR1Cdl9+Hia1+44oG1
- jEtisjpFHLk9YD5kYNyihdbyNQ==
-X-Google-Smtp-Source: AA6agR73Y1EMtHyodT0xSC4JD+FZgLZEj3nsVdV+Wp5oCnGqqW4N0GIgphBj9FE0x8Ixnl1ZSKm8wA==
-X-Received: by 2002:a05:6870:585:b0:11c:43a:5bb5 with SMTP id
- m5-20020a056870058500b0011c043a5bb5mr1622758oap.89.1660743517555; 
- Wed, 17 Aug 2022 06:38:37 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:80f2:9412:75e8:df77:dd33:d368?
- ([2605:ef80:80f2:9412:75e8:df77:dd33:d368])
- by smtp.gmail.com with ESMTPSA id
- k13-20020a056830168d00b006370b948974sm3349552otr.32.2022.08.17.06.38.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Aug 2022 06:38:37 -0700 (PDT)
-Message-ID: <fbccc410-3599-9e31-82e7-a9a20caf8d53@linaro.org>
-Date: Wed, 17 Aug 2022 08:38:31 -0500
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1oOJJF-0005b6-Q4; Wed, 17 Aug 2022 09:42:13 -0400
+Received: from [200.168.210.66] (port=58716 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1oOJJE-0005vr-0d; Wed, 17 Aug 2022 09:42:13 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 17 Aug 2022 10:42:07 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id AA82E800134;
+ Wed, 17 Aug 2022 10:42:06 -0300 (-03)
+Message-ID: <524ce4b2-a5f3-3b42-3d49-d44aa33dadf4@eldorado.org.br>
+Date: Wed, 17 Aug 2022 10:42:06 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.2 14/21] accel/tcg: Hoist get_page_addr_code out of
- tb_lookup
+Subject: Re: [RFC PATCH 00/13] PowerPC interrupt rework
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, alex.bennee@linaro.org
-References: <20220812180806.2128593-1-richard.henderson@linaro.org>
- <20220812180806.2128593-15-richard.henderson@linaro.org>
- <15f8efa3aae897569383305155315d03ee5b70e3.camel@linux.ibm.com>
- <a67bc498-5155-cc40-9640-81db22b2b37a@linaro.org>
- <0727c2600d0c16caf43689a9c3abf5ca2017f28f.camel@linux.ibm.com>
- <cc2cab12-2dda-25db-5696-fe13971db467@linaro.org>
- <f8a922e90a624453bd86ea0438b3562cc4b809a6.camel@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <f8a922e90a624453bd86ea0438b3562cc4b809a6.camel@linux.ibm.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, groug@kaod.org,
+ fbarrat@linux.ibm.com, alex.bennee@linaro.org,
+ Fabiano Rosas <farosas@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>
+References: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
+ <012f86ce-25da-a42d-3a36-f13f64c248e9@kaod.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <012f86ce-25da-a42d-3a36-f13f64c248e9@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 17 Aug 2022 13:42:07.0123 (UTC)
+ FILETIME=[246CE630:01D8B23F]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,42 +67,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/22 08:27, Ilya Leoshkevich wrote:
-> On Wed, 2022-08-17 at 08:15 -0500, Richard Henderson wrote:
->> On 8/17/22 06:08, Ilya Leoshkevich wrote:
->>> @@ -2243,6 +2250,13 @@ void page_set_flags(target_ulong start,
->>> target_ulong end, int flags)
->>>                (flags & PAGE_WRITE) &&
->>>                p->first_tb) {
->>>                tb_invalidate_phys_page(addr, 0);
->>> +        } else {
->>> +            TranslationBlock *tb;
->>> +            int n;
->>> +
->>> +            PAGE_FOR_EACH_TB(p, tb, n) {
->>> +                cpu_tb_jmp_cache_remove(tb);
->>> +            }
->>>            }
+On 15/08/2022 17:02, Cédric Le Goater wrote:
+> [ Adding Fabiano who reworked all exception models for 7.0 and Nick
+>    who rewrote the Linux side sometime ago ]
+> 
+> On 8/15/22 18:20, Matheus Ferst wrote:
+>> Currently, PowerPC interrupts are handled as follows:
 >>
->> Here you would use tb_jmp_cache_clear_page(), which should be moved
->> out of cputlb.c.
+>> 1) The CPU_INTERRUPT_HARD bit of cs->interrupt_request gates all
+>>     interrupts;
+>> 2) The bits of env->pending_interrupts identify which particular
+>>     interrupt is raised;
+>> 3) ppc_set_irq can be used to set/clear env->pending_interrupt bit and
+>>     CPU_INTERRUPT_HARD, but some places access env->pending_interrupt
+>>     directly;
+>> 4) ppc_cpu_exec_interrupt is called by cpu_handle_interrupt when
+>>     cs->interrupt_request indicates that there is some interrupt pending.
+>>     This method checks CPU_INTERRUPT_HARD and calls ppc_hw_interrupt. If
+>>     env->pending_interrupt is zero after this call, CPU_INTERRUPT_HARD
+>>     will be cleared.
+>> 5) ppc_hw_interrupt checks if there is any unmasked interrupt and calls
+>>     powerpc_excp with the appropriate POWERPC_EXCP_* value. The method
+>>     will also reset the corresponding bit in env->pending_interrupt for
+>>     interrupts that clear on delivery.
+>>
+>> If all pending interrupts are masked, CPU_INTERRUPT_HARD will be set,
+>> but ppc_hw_interrupt will not deliver or clear the interrupt, so
+>> CPU_INTERRUPT_HARD will not be reset by ppc_cpu_exec_interrupt. With
+>> that, cs->has_work keeps returning true, creating a loop that acquires
+>> and release qemu_mutex_lock_iothread, causing the poor performance
+>> reported in [1].
+>>
+>> This patch series attempts to rework the PowerPC interrupt code to set
+>> CPU_INTERRUPT_HARD only when there are unmasked interrupts. Then
+>> cs->has_work can be simplified to a check of CPU_INTERRUPT_HARD, so it
+>> also only returns true when at least one interrupt can be delivered.
+>>
+>> To achieve that, we are basically following Alex Bannée's suggestion[2]
+>> in the original thread: the interrupt masking logic will be factored
+>> out of ppc_hw_interrupt in a new method, ppc_pending_interrupts. This
+>> method is then used to decide if CPU_INTERRUPT_HARD should be set or
+>> cleared after changes to MSR, LPCR, env->pending_interrupts, and
+>> power-management instructions.
+>>
+>> We used [3] to check for regressions at each patch in this series. After
+>> patch 12, booting a powernv machine with a newer skiboot with "-smp 4"
+>> goes from 1m09s to 20.79s.
 > 
-> That was actually the first thing I tried.
+> whaou ! PowerNV is really an heavy weight platform, so that's a great
+> improvement.
 > 
-> Unfortunately tb_jmp_cache_clear_page() relies on
-> tb_jmp_cache_hash_func() returning the same top bits for addresses on
-> the same page.  This is not the case for qemu-user: there this property
-> was traded for better hashing with quite impressive performance
-> improvements (6f1653180f570).
 
-Oh my.  Well, we could
+Note that this result uses Frederic's test case, where one CPU 
+decompresses the kernel and the others keep spinning to deliver a masked 
+decrement interrupt. The improvement may not be that great with other 
+workloads.
 
-(1) revert that patch because the premise is wrong,
-(2) go with your per-tb clearing,
-(3) clear the whole thing with cpu_tb_jmp_cache_clear
+> Did you try KVM guests under PowerNV (L1 under an emulated L0) and KVM
+> under pseries (L2 under an emulated L1) ? Try some intensive I/O on a
+> SMP machine, like a large scp transfer.
+> 
 
-Ideally we'd have some benchmark numbers to inform the choice...
+So far, I have mainly tested with buildroot boot+poweroff. I'll try 
+these other tests too.
 
+> We should try the MacOS images also.
+> 
+> Thanks,
+> 
+> C.
 
-r~
+Unfortunately, I can't test with MacOS :/
+
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
