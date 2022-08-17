@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894755966F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 03:45:26 +0200 (CEST)
-Received: from localhost ([::1]:57330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D0559673C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 04:07:59 +0200 (CEST)
+Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oO87Z-0002EA-4i
-	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 21:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45242)
+	id 1oO8TO-0005hW-64
+	for lists+qemu-devel@lfdr.de; Tue, 16 Aug 2022 22:07:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oO85A-0000g4-AO
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 21:42:57 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:46938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oO857-0004QS-3x
- for qemu-devel@nongnu.org; Tue, 16 Aug 2022 21:42:55 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id o184so13986911oif.13
- for <qemu-devel@nongnu.org>; Tue, 16 Aug 2022 18:42:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=G+NX9yG+cQcSfOLtQvR4QK5L/MHuq5l84HwvCb8qhBc=;
- b=o9xMiTbQJyCv4rELXt0TgLVScrfuCA9vKNINdiEmEVaumQQZV3ZfEjWaTbobLrsAuT
- /fYDNBPM7FJew+oC/eGN7o+atDCjKyku0bP8hnYz6E8/RHsfGo6W9BuStu0UT6vw73HK
- wdfi0STPeEiE8E1AJItaCJIm0tmEBvCNqz8Url1L+15J1j970wdhZPCDCRjDT+neLTe8
- jeiIxXETAgDFfzjzCsOxT5Ik+frBcpczQdKqZ4uri802YKHGEqFMf13knH4DWNoCUr6H
- 12RCZGU4CDR30cn0d4v6aZ5B/e7oCBVq5yAfEDYEC/RwBXvFtGD6gq1VKtAtvYm/Fa2q
- JTdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=G+NX9yG+cQcSfOLtQvR4QK5L/MHuq5l84HwvCb8qhBc=;
- b=w2+yKsuP7mJfKEVWBhsKz1yT4+1de8p3Y17tVFtAXbJpZqwuoyBsL+483XLSPaNtYi
- 3BsgugCmWZv68tZx2vfGZAPJZR+CKXyNjREice9HsghuY4RCJmbz2IE8+qJjg76Pca1E
- CbjLG22S7dw5XLN0B7TrfbqvO23t455wGzhnThmMr1da3AZ4bObl+Y1oeeKHRywxkQr8
- +SIZJpbTroWYa8vC7M3V6q+JMGM+/eC+MNbxuxvmyhNKMCK8IV1igIauTksPzqt1UMQX
- PBtZYtgEozhJ1Qw8QMPbIwD3LSvagd0EJE279T9OyiXBqOEm3+wZGCF3Oa+6lB+j9BWo
- UqYg==
-X-Gm-Message-State: ACgBeo3X5nbSW6g7s06iOIKfznS0W81h8OL9BUfDAtpUvOUv3UrtKroA
- E4KblbGBz0IiDYg8KfPLE3urIg==
-X-Google-Smtp-Source: AA6agR7bM7qTDdMFBkP18sQwqleTzRNVIVqOnMtHEe4dQojT+hYSxB1DBiUqxot6lAaDkqBQtVV51Q==
-X-Received: by 2002:a05:6808:209:b0:342:ed43:2f97 with SMTP id
- l9-20020a056808020900b00342ed432f97mr526776oie.255.1660700571813; 
- Tue, 16 Aug 2022 18:42:51 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:80f6:61fa:d8dc:3b22:dd70:b1e4?
- ([2605:ef80:80f6:61fa:d8dc:3b22:dd70:b1e4])
- by smtp.gmail.com with ESMTPSA id
- l26-20020a056830155a00b00636d0984f5asm3075558otp.11.2022.08.16.18.42.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Aug 2022 18:42:50 -0700 (PDT)
-Message-ID: <a67bc498-5155-cc40-9640-81db22b2b37a@linaro.org>
-Date: Tue, 16 Aug 2022 20:42:46 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.2 14/21] accel/tcg: Hoist get_page_addr_code out of
- tb_lookup
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, alex.bennee@linaro.org
-References: <20220812180806.2128593-1-richard.henderson@linaro.org>
- <20220812180806.2128593-15-richard.henderson@linaro.org>
- <15f8efa3aae897569383305155315d03ee5b70e3.camel@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <15f8efa3aae897569383305155315d03ee5b70e3.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oO8OS-0008OV-LM
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 22:02:52 -0400
+Received: from mga09.intel.com ([134.134.136.24]:11447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oO8OO-0004ZZ-ET
+ for qemu-devel@nongnu.org; Tue, 16 Aug 2022 22:02:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660701768; x=1692237768;
+ h=from:to:cc:subject:date:message-id;
+ bh=Sl693IxK0Tv2IMegSNQ5h3hCL9MM2a2gImQ/QH6/NK0=;
+ b=m9PJu5Wfp2kyft9g3psBVAiAoknuyuxM8zmEC9n+vJITQYHrRsadOcgI
+ tYiUS8MvRS4L//a2GwtRZWljP72Juuffwau805hiteZqomxB3bW1HmTft
+ gSdIBGQiyMArxUHYrM1RpiI0P+6ap/qiCw5O12mAcg7kujI1PJ1JxdsLr
+ +H7O/ag4TQrtJfH1WdXnAutiDXrj6oKmva0gXZRnmoe44Umn5uQxR0gJW
+ wtM0er+JtvWFAyeIJrXdrfppJ83046nIeJkdZJcDDwj5piWwT9sojQIA2
+ 10n2HNvOV6CgD7ndiwdhB1v3WK+8ZoKjrAD+Jf+82K1LDW8Cq9Q2ruImT Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="293173523"
+X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="293173523"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2022 19:02:40 -0700
+X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="675456968"
+Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2022 19:02:38 -0700
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+Subject: [PATCH v5 0/3] Enable notify VM exit
+Date: Wed, 17 Aug 2022 10:08:42 +0800
+Message-Id: <20220817020845.21855-1-chenyi.qiang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=134.134.136.24;
+ envelope-from=chenyi.qiang@intel.com; helo=mga09.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,144 +74,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/22 18:43, Ilya Leoshkevich wrote:
-> On Fri, 2022-08-12 at 11:07 -0700, Richard Henderson wrote:
->> We will want to re-use the result of get_page_addr_code
->> beyond the scope of tb_lookup.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   accel/tcg/cpu-exec.c | 34 ++++++++++++++++++++++++----------
->>   1 file changed, 24 insertions(+), 10 deletions(-)
->>
->> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
->> index a9b7053274..889355b341 100644
->> --- a/accel/tcg/cpu-exec.c
->> +++ b/accel/tcg/cpu-exec.c
->> @@ -209,13 +209,12 @@ static bool tb_lookup_cmp(const void *p, const
->> void *d)
->>   }
->>   
->>   /* Might cause an exception, so have a longjmp destination ready */
->> -static TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
->> -                                   target_ulong cs_base,
->> +static TranslationBlock *tb_lookup(CPUState *cpu, tb_page_addr_t
->> phys_pc,
->> +                                   target_ulong pc, target_ulong
->> cs_base,
->>                                      uint32_t flags, uint32_t cflags)
->>   {
->>       CPUArchState *env = cpu->env_ptr;
->>       TranslationBlock *tb;
->> -    tb_page_addr_t phys_pc;
->>       struct tb_desc desc;
->>       uint32_t jmp_hash, tb_hash;
->>   
->> @@ -240,11 +239,8 @@ static TranslationBlock *tb_lookup(CPUState
->> *cpu, target_ulong pc,
->>       desc.cflags = cflags;
->>       desc.trace_vcpu_dstate = *cpu->trace_dstate;
->>       desc.pc = pc;
->> -    phys_pc = get_page_addr_code(desc.env, pc);
->> -    if (phys_pc == -1) {
->> -        return NULL;
->> -    }
->>       desc.phys_page1 = phys_pc & TARGET_PAGE_MASK;
->> +
->>       tb_hash = tb_hash_func(phys_pc, pc, flags, cflags, *cpu-
->>> trace_dstate);
->>       tb = qht_lookup_custom(&tb_ctx.htable, &desc, tb_hash,
->> tb_lookup_cmp);
->>       if (tb == NULL) {
->> @@ -371,6 +367,7 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState
->> *env)
->>       TranslationBlock *tb;
->>       target_ulong cs_base, pc;
->>       uint32_t flags, cflags;
->> +    tb_page_addr_t phys_pc;
->>   
->>       cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
->>   
->> @@ -379,7 +376,12 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState
->> *env)
->>           cpu_loop_exit(cpu);
->>       }
->>   
->> -    tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
->> +    phys_pc = get_page_addr_code(env, pc);
->> +    if (phys_pc == -1) {
->> +        return tcg_code_gen_epilogue;
->> +    }
->> +
->> +    tb = tb_lookup(cpu, phys_pc, pc, cs_base, flags, cflags);
->>       if (tb == NULL) {
->>           return tcg_code_gen_epilogue;
->>       }
->> @@ -482,6 +484,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
->>       TranslationBlock *tb;
->>       target_ulong cs_base, pc;
->>       uint32_t flags, cflags;
->> +    tb_page_addr_t phys_pc;
->>       int tb_exit;
->>   
->>       if (sigsetjmp(cpu->jmp_env, 0) == 0) {
->> @@ -504,7 +507,12 @@ void cpu_exec_step_atomic(CPUState *cpu)
->>            * Any breakpoint for this insn will have been recognized
->> earlier.
->>            */
->>   
->> -        tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
->> +        phys_pc = get_page_addr_code(env, pc);
->> +        if (phys_pc == -1) {
->> +            tb = NULL;
->> +        } else {
->> +            tb = tb_lookup(cpu, phys_pc, pc, cs_base, flags,
->> cflags);
->> +        }
->>           if (tb == NULL) {
->>               mmap_lock();
->>               tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
->> @@ -949,6 +957,7 @@ int cpu_exec(CPUState *cpu)
->>               TranslationBlock *tb;
->>               target_ulong cs_base, pc;
->>               uint32_t flags, cflags;
->> +            tb_page_addr_t phys_pc;
->>   
->>               cpu_get_tb_cpu_state(cpu->env_ptr, &pc, &cs_base,
->> &flags);
->>   
->> @@ -970,7 +979,12 @@ int cpu_exec(CPUState *cpu)
->>                   break;
->>               }
->>   
->> -            tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
->> +            phys_pc = get_page_addr_code(cpu->env_ptr, pc);
->> +            if (phys_pc == -1) {
->> +                tb = NULL;
->> +            } else {
->> +                tb = tb_lookup(cpu, phys_pc, pc, cs_base, flags,
->> cflags);
->> +            }
->>               if (tb == NULL) {
->>                   mmap_lock();
->>                   tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
-> 
-> This patch did not make it into v2, but having get_page_addr_code()
-> before tb_lookup() in helper_lookup_tb_ptr() helped raise the exception
-> when trying to execute a no-longer-executable TB.
-> 
-> Was it dropped for performance reasons?
+Notify VM exit is introduced to mitigate the potential DOS attach from
+malicious VM. This series is the userspace part to enable this feature
+through a new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT. The detailed
+info can be seen in Patch 3.
 
-Ah, yes.  I dropped it because I ran into some regression, and started minimizing the 
-tree.  Because of the extra lock that needed to be held (next patch, also dropped), I 
-couldn't prove this actually helped.
+The corresponding KVM support can be found in linux 6.0-rc1:
+(2f4073e08f4c KVM: VMX: Enable Notify VM exit)
 
-I think the bit that's causing your user-only failure at the moment is the jump cache. 
-This patch hoisted the page table check before the jmp_cache.  For system, cputlb.c takes 
-care of flushing the jump cache with page table changes; we still don't have anything in 
-user-only that takes care of that.
+---
+Change logs:
+v4 -> v5
+- Remove the assert check to avoid the nop in NDEBUG case. (Yuan)
+- v4: https://lore.kernel.org/qemu-devel/20220524140302.23272-1-chenyi.qiang@intel.com/
 
+v3 -> v4
+- Add a new KVM cap KVM_CAP_TRIPLE_FAULT_EVENT to guard the extension of triple fault
+  event save&restore.
+- v3: https://lore.kernel.org/qemu-devel/20220421074028.18196-1-chenyi.qiang@intel.com/
 
-r~
+v2 -> v3
+- Extend the argument to include both the notify window and some flags
+  when enabling KVM_CAP_X86_BUS_LOCK_EXIT CAP.
+- Change to use KVM_VCPUEVENTS_VALID_TRIPLE_FAULT in flags field and add
+  pending_triple_fault field in struct kvm_vcpu_events.
+- v2: https://lore.kernel.org/qemu-devel/20220318082934.25030-1-chenyi.qiang@intel.com/
+
+v1 -> v2
+- Add some commit message to explain why we disable Notify VM exit by default.
+- Rename KVM_VCPUEVENT_SHUTDOWN to KVM_VCPUEVENT_TRIPLE_FAULT.
+- Do the corresponding change to use the KVM_VCPUEVENTS_TRIPLE_FAULT
+  to save/restore the triple fault event to avoid lose some synthesized
+  triple fault from KVM.
+- v1: https://lore.kernel.org/qemu-devel/20220310090205.10645-1-chenyi.qiang@intel.com/
+
+---
+
+Chenyi Qiang (3):
+  Update linux headers to 6.0-rc1
+  i386: kvm: extend kvm_{get, put}_vcpu_events to support pending triple
+    fault
+  i386: Add notify VM exit support
+
+ hw/i386/x86.c                                 |  45 +++++
+ include/hw/i386/x86.h                         |   5 +
+ include/standard-headers/asm-x86/bootparam.h  |   7 +-
+ include/standard-headers/drm/drm_fourcc.h     |  73 +++++++-
+ include/standard-headers/linux/ethtool.h      |  29 +--
+ include/standard-headers/linux/input.h        |  12 +-
+ include/standard-headers/linux/pci_regs.h     |  30 ++-
+ include/standard-headers/linux/vhost_types.h  |  17 +-
+ include/standard-headers/linux/virtio_9p.h    |   2 +-
+ .../standard-headers/linux/virtio_config.h    |   7 +-
+ include/standard-headers/linux/virtio_ids.h   |  14 +-
+ include/standard-headers/linux/virtio_net.h   |  34 +++-
+ include/standard-headers/linux/virtio_pci.h   |   2 +
+ linux-headers/asm-arm64/kvm.h                 |  27 +++
+ linux-headers/asm-generic/unistd.h            |   4 +-
+ linux-headers/asm-riscv/kvm.h                 |  22 +++
+ linux-headers/asm-riscv/unistd.h              |   3 +-
+ linux-headers/asm-s390/kvm.h                  |   1 +
+ linux-headers/asm-x86/kvm.h                   |  33 ++--
+ linux-headers/asm-x86/mman.h                  |  14 --
+ linux-headers/linux/kvm.h                     | 172 +++++++++++++++++-
+ linux-headers/linux/userfaultfd.h             |  10 +-
+ linux-headers/linux/vduse.h                   |  47 +++++
+ linux-headers/linux/vfio.h                    |   4 +-
+ linux-headers/linux/vfio_zdev.h               |   7 +
+ linux-headers/linux/vhost.h                   |  35 +++-
+ target/i386/cpu.c                             |   1 +
+ target/i386/cpu.h                             |   1 +
+ target/i386/kvm/kvm.c                         |  48 +++++
+ 29 files changed, 623 insertions(+), 83 deletions(-)
+
+-- 
+2.17.1
 
 
