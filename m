@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AB6597025
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:48:23 +0200 (CEST)
-Received: from localhost ([::1]:43238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D47359702C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 15:52:55 +0200 (CEST)
+Received: from localhost ([::1]:39562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOJPC-0003Ot-CP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42294)
+	id 1oOJTY-0007Nt-II
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 09:52:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oOJJf-00065x-9j; Wed, 17 Aug 2022 09:42:39 -0400
-Received: from [200.168.210.66] (port=59547 helo=outlook.eldorado.org.br)
+ id 1oOJK5-000754-Qt; Wed, 17 Aug 2022 09:43:06 -0400
+Received: from [200.168.210.66] (port=18745 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oOJJb-00062V-UM; Wed, 17 Aug 2022 09:42:38 -0400
+ id 1oOJK1-0006Ek-6o; Wed, 17 Aug 2022 09:43:05 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 17 Aug 2022 10:42:28 -0300
+ Wed, 17 Aug 2022 10:42:59 -0300
 Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id DDAB1800134;
- Wed, 17 Aug 2022 10:42:27 -0300 (-03)
-Message-ID: <d8908f90-fa5b-66bc-bbc2-7164ee819a7d@eldorado.org.br>
-Date: Wed, 17 Aug 2022 10:42:27 -0300
+ by p9ibm (Postfix) with ESMTPS id 0925B800134;
+ Wed, 17 Aug 2022 10:42:59 -0300 (-03)
+Message-ID: <32d1a66a-3c6b-b63f-af18-7a2134b6ad8f@eldorado.org.br>
+Date: Wed, 17 Aug 2022 10:42:58 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [RFC PATCH 03/13] target/ppc: move interrupt masking out of
- ppc_hw_interrupt
+Subject: Re: [RFC PATCH 04/13] target/ppc: prepare to split
+ ppc_interrupt_pending by excp_model
 Content-Language: en-US
 To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org
 References: <20220815162020.2420093-1-matheus.ferst@eldorado.org.br>
- <20220815162020.2420093-4-matheus.ferst@eldorado.org.br>
- <87a6856zh0.fsf@linux.ibm.com>
+ <20220815162020.2420093-5-matheus.ferst@eldorado.org.br>
+ <877d396ypr.fsf@linux.ibm.com>
 From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <87a6856zh0.fsf@linux.ibm.com>
+In-Reply-To: <877d396ypr.fsf@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 17 Aug 2022 13:42:28.0277 (UTC)
- FILETIME=[3108BE50:01D8B23F]
+X-OriginalArrivalTime: 17 Aug 2022 13:42:59.0433 (UTC)
+ FILETIME=[439AC590:01D8B23F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -68,108 +68,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/08/2022 17:09, Fabiano Rosas wrote:
+On 15/08/2022 17:25, Fabiano Rosas wrote:
 > Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 > 
->> Move the interrupt masking logic to a new method, ppc_pending_interrupt,
->> and only handle the interrupt processing in ppc_hw_interrupt.
+>> Rename the method to ppc_interrupt_pending_legacy and create a new
+>> ppc_interrupt_pending that will call the appropriate interrupt masking
+>> method based on env->excp_model.
 >>
 >> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 >> ---
->>   target/ppc/excp_helper.c | 228 ++++++++++++++++++++++++---------------
->>   1 file changed, 141 insertions(+), 87 deletions(-)
+>>   target/ppc/excp_helper.c | 10 +++++++++-
+>>   1 file changed, 9 insertions(+), 1 deletion(-)
 >>
 >> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> 
-> <snip>
-> 
->> @@ -1884,15 +1915,38 @@ bool ppc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->>   {
->>       PowerPCCPU *cpu = POWERPC_CPU(cs);
->>       CPUPPCState *env = &cpu->env;
->> +    int pending_interrupt;
-> 
-> I would give this a simpler name to avoid confusion with the other two
-> pending_interrupt terms.
-> 
->>
->> -    if (interrupt_request & CPU_INTERRUPT_HARD) {
->> -        ppc_hw_interrupt(env);
->> -        if (env->pending_interrupts == 0) {
->> -            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
->> -        }
->> -        return true;
->> +    if ((interrupt_request & CPU_INTERRUPT_HARD) == 0) {
->> +        return false;
->>       }
->> -    return false;
->> +
-> 
-> It seems we're assuming that after this point we certainly have some
-> pending interrupt...
-> 
->> +    pending_interrupt = ppc_pending_interrupt(env);
->> +    if (pending_interrupt == 0) {
-> 
-> ...but how then is this able to return 0?
-
-At this point in the patch series, raising interrupts with ppc_set_irq 
-always sets CPU_INTERRUPT_HARD, so it is possible that all interrupts 
-are masked, and then ppc_pending_interrupt would return zero.
-
-> Could the function's name be
-> made a bit clearer? Maybe interrupt = ppc_next_pending_interrupt or
-> something to that effect.
-> 
-
-Maybe ppc_next_unmasked_interrupt?
-
->> +        if (env->resume_as_sreset) {
->> +            /*
->> +             * This is a bug ! It means that has_work took us out of halt
->> +             * without anything to deliver while in a PM state that requires
->> +             * getting out via a 0x100
->> +             *
->> +             * This means we will incorrectly execute past the power management
->> +             * instruction instead of triggering a reset.
->> +             *
->> +             * It generally means a discrepancy between the wakeup conditions in
->> +             * the processor has_work implementation and the logic in this
->> +             * function.
->> +             */
->> +            cpu_abort(env_cpu(env),
->> +                      "Wakeup from PM state but interrupt Undelivered");
-> 
-> This condition is BookS only. Perhaps it would be better to move it
-> inside each of the processor-specific functions. And since you're
-> merging has_work with pending_interrupts, can't you solve that issue
-> earlier? Specifically the "has_work tooks us out of halt..." part.
-> 
-
-This condition would not be an error in ppc_pending_interrupt because 
-we'll call this method from other places in the following patches, like 
-ppc_set_irq. Maybe we should move it to a "case 0:" in ppc_hw_interrupt?
-
->> +        }
->> +        return false;
->> +    }
->> +
->> +    ppc_hw_interrupt(env, pending_interrupt);
-> 
-> Some verbs would be nice. ppc_deliver_interrupt?
-
-Agreed. Should we also make processor-specific versions of this method? 
-That way, we could get rid of the calls to ppc_decr_clear_on_delivery 
-and is_book3s_arch2x.
-
-> 
->> +    if (env->pending_interrupts == 0) {
->> +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
->> +    }
->> +    return true;
+>> index 8690017c70..59981efd16 100644
+>> --- a/target/ppc/excp_helper.c
+>> +++ b/target/ppc/excp_helper.c
+>> @@ -1678,7 +1678,7 @@ void ppc_cpu_do_interrupt(CPUState *cs)
+>>       powerpc_excp(cpu, cs->exception_index);
 >>   }
 >>
->>   #endif /* !CONFIG_USER_ONLY */
+>> -static int ppc_pending_interrupt(CPUPPCState *env)
+>> +static int ppc_pending_interrupt_legacy(CPUPPCState *env)
+> 
+> Won't this code continue to be used for the older CPUs? If so, I don't
+> think the term legacy is appropriate. It ends up being dependent on
+> context and what people's definitions of "legacy" are.
+> 
+> (if this function is removed in a later patch, then that's ok).
+> 
+
+For this RFC, I created methods for CPUs that change the interrupt 
+masking logic when cs->halted is set. If the way we split the 
+interruption code in the following patches is acceptable, I'm planning 
+to add methods for all CPUs and remove ppc_pending_interrupt_legacy in 
+future versions of this patch series.
 
 Thanks,
 Matheus K. Ferst
