@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EDC597842
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 22:53:55 +0200 (CEST)
-Received: from localhost ([::1]:51960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8FD59787E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 23:03:24 +0200 (CEST)
+Received: from localhost ([::1]:34722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOQ30-00059T-Qq
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 16:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
+	id 1oOQCA-0000zM-J2
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 17:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oOQ11-0003Sd-Ng
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:51:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35626)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oOQ9H-0007Iv-5c; Wed, 17 Aug 2022 17:00:25 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:33184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oOQ0y-0008IB-Ov
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:51:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660769507;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kvIMSwEQ3fnqp62y7oXd+Ei/UUKWSiBlxzNlStYfFwA=;
- b=ALIKCXUjiTMpFzl7C/7jRjSR+4b5lpfp2vbXWC1hsPQEHqSTvmYAactbacPA3orRY0qD1V
- uCaSL6s9Po4URGWbwE3DMUtn5JWNOh/Hu7CwJO4QdLU65kpe9E5TvhBzy3tqBcypVsBIKz
- K1yoh4GcgiqgvdW8ZdxFqpfTPjEQIV0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-301-RpU8SE7UO_CBGvqZZDZXkw-1; Wed, 17 Aug 2022 16:51:44 -0400
-X-MC-Unique: RpU8SE7UO_CBGvqZZDZXkw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0A11803301;
- Wed, 17 Aug 2022 20:51:43 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5638B40CF8E4;
- Wed, 17 Aug 2022 20:51:43 +0000 (UTC)
-Date: Wed, 17 Aug 2022 16:51:41 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, Alberto Faria <afaria@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
- sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC v3 5/8] block: add BlockRAMRegistrar
-Message-ID: <Yv1U3diLPyXF1coa@fedora>
-References: <20220708041737.1768521-1-stefanha@redhat.com>
- <20220708041737.1768521-6-stefanha@redhat.com>
- <9ec50e0f-46b1-8e44-6891-dbfb983cee1f@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oOQ9D-0002vI-3j; Wed, 17 Aug 2022 17:00:21 -0400
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 4D3BF2E11CF;
+ Thu, 18 Aug 2022 00:00:07 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b4a5::1:13] (unknown
+ [2a02:6b8:b081:b4a5::1:13])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 615pcAuPDy-06OCuKA5; Thu, 18 Aug 2022 00:00:06 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1660770006; bh=BkBp+qjrI1LzpD1zGjRVXrOQuqvP7Edr6fJgRJAGIgI=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=dAyfJEratMKtt36BB6W4IF9QF4un77dJhuIYylspRR8mRj+XEdwDQapHEH1lV11jy
+ 5oLiRa4Q/HaCyw9yArTJ3HVrLclnPFt13Nbw6u2e38fREbSLJZxe2U7Hf25StyLS2J
+ RZuRyzdd4pmKZ/ce7XbWspA8ndbpwRaD5edwdMu8=
+Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <791ddbb5-cb6a-aaf6-d1d0-44d62a1aa263@yandex-team.ru>
+Date: Thu, 18 Aug 2022 00:00:05 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZRyWHmA5r//vNRuS"
-Content-Disposition: inline
-In-Reply-To: <9ec50e0f-46b1-8e44-6891-dbfb983cee1f@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3 6/8] parallels: Move check of leaks to a separate
+ function
+Content-Language: en-US
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20220815090216.1818622-1-alexander.ivanov@virtuozzo.com>
+ <20220815090216.1818622-7-alexander.ivanov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220815090216.1818622-7-alexander.ivanov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,109 +79,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/15/22 12:02, Alexander Ivanov wrote:
+> We will add more and more checks so we need a better code structure
+> in parallels_co_check. Let each check performs in a separate loop
+> in a separate helper.
+> 
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+> v2: No change.
+> v3: Fix commit message.
+> 
+>   block/parallels.c | 85 +++++++++++++++++++++++++++++------------------
+>   1 file changed, 52 insertions(+), 33 deletions(-)
+> 
+> diff --git a/block/parallels.c b/block/parallels.c
+> index 12104ba5ad..8737eadfb4 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -469,14 +469,13 @@ static int parallels_check_outside_image(BlockDriverState *bs,
+>       return 0;
+>   }
+>   
+> -static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+> -                                           BdrvCheckResult *res,
+> -                                           BdrvCheckMode fix)
+> +static int parallels_check_leak(BlockDriverState *bs,
+> +                                BdrvCheckResult *res,
+> +                                BdrvCheckMode fix)
+>   {
+>       BDRVParallelsState *s = bs->opaque;
+> -    int64_t size, prev_off, high_off;
+> -    int ret;
+> -    uint32_t i;
+> +    int64_t size, off, high_off, count;
+> +    int i, ret;
 
---ZRyWHmA5r//vNRuS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+'i' should be kept to be uint32_t, as pre-patch.
 
-On Thu, Jul 14, 2022 at 11:30:11AM +0200, Hanna Reitz wrote:
-> On 08.07.22 06:17, Stefan Hajnoczi wrote:
-> > Emulated devices and other BlockBackend users wishing to take advantage
-> > of blk_register_buf() all have the same repetitive job: register
-> > RAMBlocks with the BlockBackend using RAMBlockNotifier.
-> >=20
-> > Add a BlockRAMRegistrar API to do this. A later commit will use this
-> > from hw/block/virtio-blk.c.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >   MAINTAINERS                          |  1 +
-> >   include/sysemu/block-ram-registrar.h | 30 +++++++++++++++++++++
-> >   block/block-ram-registrar.c          | 39 ++++++++++++++++++++++++++++
-> >   block/meson.build                    |  1 +
-> >   4 files changed, 71 insertions(+)
-> >   create mode 100644 include/sysemu/block-ram-registrar.h
-> >   create mode 100644 block/block-ram-registrar.c
->=20
-> What memory is handled in ram_list?=C2=A0 Is it everything?=C2=A0 If so, =
-won=E2=80=99t devices
-> have trouble registering all those buffer, especially if they happen to be
-> fragmented in physical memory? (nvme_register_buf() seems to say it can r=
-un
-> out of slots quite easily.)
+With it fixed:
 
-I replied to this in another sub-thread. You are right, there is a
-possibility of running out of mappings and there's no smart resource
-management at the moment.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
->=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 50f340d9ee..d16189449f 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -2490,6 +2490,7 @@ F: block*
-> >   F: block/
-> >   F: hw/block/
-> >   F: include/block/
-> > +F: include/sysemu/block-*.h
-> >   F: qemu-img*
-> >   F: docs/tools/qemu-img.rst
-> >   F: qemu-io*
->=20
-> Sneaky. ;)
->=20
-> > diff --git a/include/sysemu/block-ram-registrar.h b/include/sysemu/bloc=
-k-ram-registrar.h
-> > new file mode 100644
-> > index 0000000000..09d63f64b2
-> > --- /dev/null
-> > +++ b/include/sysemu/block-ram-registrar.h
-> > @@ -0,0 +1,30 @@
-> > +/*
-> > + * BlockBackend RAM Registrar
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +
-> > +#ifndef BLOCK_RAM_REGISTRAR_H
-> > +#define BLOCK_RAM_REGISTRAR_H
-> > +
-> > +#include "exec/ramlist.h"
-> > +
-> > +/**
-> > + * struct BlockRAMRegistrar:
-> > + *
-> > + * Keeps RAMBlock memory registered with a BlockBackend using
-> > + * blk_register_buf() including hotplugged memory.
-> > + *
-> > + * Emulated devices or other BlockBackend users initialize a BlockRAMR=
-egistrar
-> > + * with blk_ram_registrar_init() before submitting I/O requests with t=
-he
-> > + * BLK_REQ_REGISTERED_BUF flag set.
->=20
-> s/BLK/BDRV/, right?
 
-Thanks, fixed!
 
-Stefan
-
---ZRyWHmA5r//vNRuS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmL9VN0ACgkQnKSrs4Gr
-c8hoVggAoQD0nA8Jj2iBkT9yJRP1fI9kQFYOYMHEucX2VZUqQxLm/9CVvjVI5D7n
-nzNhKdUVOkVjORUBB3/ycqk2HVEhCwHaV7S8YTaEuo0zyqIJ4q/3bSuaE87OytJD
-MNAr2oiAmDlMfbmL1J9RvttDt9DzexfaBMdEbm+V7aezMHBDw2BduQb6JqTxt43E
-49d9/nlPo+unODT2hZNUjxdpB8d75pyCM0wxL3UPryLzO3i60AUk40HM5TEBqOAX
-RDbbzEkC2X+zrk9lBxQN9QAmgwmyKynQFGn8vbLwxY8cqdKjM7WfaMG+p9sYRZW5
-nZTgibHW8aJCJ+y2dlVrepcST1hRDQ==
-=H2KJ
------END PGP SIGNATURE-----
-
---ZRyWHmA5r//vNRuS--
-
+-- 
+Best regards,
+Vladimir
 
