@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F58559743E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:35:39 +0200 (CEST)
-Received: from localhost ([::1]:49962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CE6597446
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:40:15 +0200 (CEST)
+Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOM13-0000Kw-7Y
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42154)
+	id 1oOM5X-0006DR-0T
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLmx-0006Me-04
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52175)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLmz-0006N1-GH
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLmt-0005T6-Gn
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLmw-0005TS-Eh
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660753258;
+ s=mimecast20190719; t=1660753261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4g8+3u7lQYsLQR7nRpbfTo7Ux1+U1muOR3lP40MDZH0=;
- b=F6Zfmkha4Aehsu2aJFfFDjPtRuTHU32AgZKxT6I886O/xv8iUjJSkJBVYGb+NybJXNTY91
- LgCajJzPjdSHoMJtC55RgTAZ1ajNyzEOftiCW29SZdcT6/ju2gUtD4Sb7yoryh2HrT+oTC
- nuVNEggcsd7BrK+81TfaedAfxBGHh0E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=k2ZpeeYKQErXhazsoSi6NbKbSpJUbceXzvANU3WD8iY=;
+ b=Xfz6XTswuwv4CH04aYzROToap1HStUuF/uvdy/rMF0ycvh7rIljZ5GIhCXm6ilWDweEXuw
+ 0e4QIlXz1KW06geqqtx7A8dgpzkq11Nwxg1liQE47OQxPy1te+IS4btnG3Fgfyz+og50dg
+ tvNE2aN98ctU3KeHlvwbf5d91+2vVF8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-235-GvMo0QXSOJ-6emTAnaU9uw-1; Wed, 17 Aug 2022 12:14:51 -0400
-X-MC-Unique: GvMo0QXSOJ-6emTAnaU9uw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v64-20020a1cac43000000b003a4bea31b4dso1275464wme.3
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:14:51 -0700 (PDT)
+ us-mta-9-HqPrCmflMUS02vgPRigHmw-1; Wed, 17 Aug 2022 12:14:54 -0400
+X-MC-Unique: HqPrCmflMUS02vgPRigHmw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c64-20020a1c3543000000b003a61987ffb3so556447wma.6
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:14:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=4g8+3u7lQYsLQR7nRpbfTo7Ux1+U1muOR3lP40MDZH0=;
- b=duhSp6eLzPG4XVyFIaqTbXW7CL3Ko8QjGD8tW7tzuungmzrPHVuoz36xim9iqqquHp
- QZ19nrSL32txf4iDqhsB97U/5nE9lXPXmg26rtSbjCNGa2qsU+lyISQKzE1B2xDZsfq7
- 5Rnap9cYWVmbP44ZkBy6h9Q62+BkADd4bHfpEOCVgPRd1539Jqr5XXFfbbFIX0GfvamB
- jeDjO6w6xXNYRHQARAaX4qmV2ByAKeaic6LCKMsptoWdJ9N4vDuwaF2rz+nzz0EOeQ97
- 1we1b4Ty2xEJQAOryrq/qLpCOv+ozDmw++NZzshMXn12ZybuN/t5Z4p32IoLlhWN4BsJ
- TsUw==
-X-Gm-Message-State: ACgBeo2hD+UCtCdAb38fWT/QCaO7STRdBkcTqWfdPdJaxGUCLn4VchQ3
- gAGutgo+FGrXAuohPOJXV+eYJtGVt7bqBDUlWPuEIZXS2odqrReDT1DlKUsYXBriO42PHVQROSU
- //V2JoUM/XwhacUtNtk6fld4uCCHYtKJFwKvSAEbv8rXbLuA6GHsZKs9/lj/C
-X-Received: by 2002:a05:6000:60e:b0:225:1d44:51c9 with SMTP id
- bn14-20020a056000060e00b002251d4451c9mr4379460wrb.0.1660752889886; 
- Wed, 17 Aug 2022 09:14:49 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6emVFN39zuy+dDn+GORmLFQEKBuNOvxdd98hE1lx8C2Rs2m2CIJCyEDwIltJWoBz62BE7WOw==
-X-Received: by 2002:a05:6000:60e:b0:225:1d44:51c9 with SMTP id
- bn14-20020a056000060e00b002251d4451c9mr4379444wrb.0.1660752889631; 
- Wed, 17 Aug 2022 09:14:49 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=k2ZpeeYKQErXhazsoSi6NbKbSpJUbceXzvANU3WD8iY=;
+ b=UzU5YPfhjvfTv5fzXmE0dJny5l1cl9kPaQWy1x7lqvs4FHLOEAGUxDofBy2TblXhMi
+ DhKcLEsozvLlNRk7zkr1PMIgsKXJ7kHWI77YreqjKnBz0VQhh7DJyPYABrLisWjnxy5h
+ nN0Xbj7cAUeHMuzZZjjFL4yZYLWt1sLKWkrtaJPKOimJtBAO+bkdPGUsKWZNIb/MlcwT
+ P/X1QFEGiyAdSrEw/F5lv4C65HRhvGdRv/7uFlz84IOX0tOuk3C5x40KMwCtyqK9CVqE
+ iqZEJcug4WNF/JFTi+ElSTfCSSKC3qS8XomjXB4HXOvUdyYReJcERUAvoSyeurBpPkVg
+ jFMQ==
+X-Gm-Message-State: ACgBeo2EAHC/9oZc432j/WpjOFqShus/fSICq0Z+ydkRTk6YC1jEWCN5
+ kA0RvdxXB67egp3lBLrfbqsVUWnUGWe6CSqGcXySi2wtNwRBJ+R/KuAH0IGJH84UCu1Wr7XhZ7p
+ jfQhBioBbCaIyExsUuvAZheL9C85lL6/2l/TEWwk/sc/C00a0c3+Josbzahc6
+X-Received: by 2002:a5d:4407:0:b0:222:cd99:3f0 with SMTP id
+ z7-20020a5d4407000000b00222cd9903f0mr14416545wrq.44.1660752893105; 
+ Wed, 17 Aug 2022 09:14:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5z8UvQ2kNCwTfyDBH5EXNFtTaEIigbriRsC+9iN2s+TL03e13pODDfRlIVkkIqIy1mpE/odA==
+X-Received: by 2002:a5d:4407:0:b0:222:cd99:3f0 with SMTP id
+ z7-20020a5d4407000000b00222cd9903f0mr14416526wrq.44.1660752892733; 
+ Wed, 17 Aug 2022 09:14:52 -0700 (PDT)
 Received: from redhat.com ([2.55.4.37]) by smtp.gmail.com with ESMTPSA id
- j33-20020a05600c48a100b003a5bd5ea215sm2410335wmp.37.2022.08.17.09.14.46
+ r12-20020a5d498c000000b0022520aba90asm3177097wrq.107.2022.08.17.09.14.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 09:14:48 -0700 (PDT)
-Date: Wed, 17 Aug 2022 12:14:45 -0400
+ Wed, 17 Aug 2022 09:14:52 -0700 (PDT)
+Date: Wed, 17 Aug 2022 12:14:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Jason A . Donenfeld" <Jason@zx2c4.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Sergio Lopez <slp@redhat.com>
-Subject: [PULL 05/10] x86: disable rng seeding via setup_data
-Message-ID: <20220817161342.240674-6-mst@redhat.com>
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Bobo WL <lmw.bobo@gmail.com>, Ben Widawsky <ben.widawsky@intel.com>
+Subject: [PULL 06/10] hw/cxl: Add stub write function for RO MemoryRegionOps
+ entries.
+Message-ID: <20220817161342.240674-7-mst@redhat.com>
 References: <20220817161342.240674-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220817161342.240674-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -106,92 +99,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Causes regressions when doing direct kernel boots with OVMF.
+There is no checking on the availability of a write callback.
+Hence QEMU crashes if a write does occur to one of these regions.
 
-At this point in the release cycle the only sensible action
-is to just disable this for 7.1 and sort it properly in the
-7.2 devel cycle.
+Discovered whilst chasing a Linux kernel bug that incorrectly
+wrote into one of these regions.
 
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20220817083940.3174933-1-kraxel@redhat.com>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Fixes: 6364adacdf ("hw/cxl/device: Implement the CAP array (8.2.8.1-2)")
+Reported-by: Bobo WL <lmw.bobo@gmail.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Message-Id: <20220817145759.32603-2-Jonathan.Cameron@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/microvm.c | 2 +-
- hw/i386/pc_piix.c | 2 +-
- hw/i386/pc_q35.c  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ hw/cxl/cxl-device-utils.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 7fe8cce03e..52cafa003d 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
-     rom_set_fw(fw_cfg);
- 
-     if (machine->kernel_filename != NULL) {
--        x86_load_linux(x86ms, fw_cfg, 0, true, false);
-+        x86_load_linux(x86ms, fw_cfg, 0, true, true);
-     }
- 
-     if (mms->option_roms) {
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index a5c65c1c35..20962c34e7 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -439,6 +439,7 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
-     m->alias = "pc";
-     m->is_default = true;
-     pcmc->default_cpu_version = 1;
-+    pcmc->legacy_no_rng_seed = true;
+diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+index 687759b301..83ce7a8270 100644
+--- a/hw/cxl/cxl-device-utils.c
++++ b/hw/cxl/cxl-device-utils.c
+@@ -141,9 +141,15 @@ static uint64_t mdev_reg_read(void *opaque, hwaddr offset, unsigned size)
+     return retval;
  }
  
- DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
-@@ -450,7 +451,6 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
-     pc_i440fx_7_1_machine_options(m);
-     m->alias = NULL;
-     m->is_default = false;
--    pcmc->legacy_no_rng_seed = true;
-     pcmc->enforce_amd_1tb_hole = false;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 3a35193ff7..2e5dae9a89 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -376,6 +376,7 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
-     pc_q35_machine_options(m);
-     m->alias = "q35";
-     pcmc->default_cpu_version = 1;
-+    pcmc->legacy_no_rng_seed = true;
- }
++static void ro_reg_write(void *opaque, hwaddr offset, uint64_t value,
++                           unsigned size)
++{
++    /* Many register sets are read only */
++}
++
+ static const MemoryRegionOps mdev_ops = {
+     .read = mdev_reg_read,
+-    .write = NULL, /* memory device register is read only */
++    .write = ro_reg_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
+@@ -173,7 +179,7 @@ static const MemoryRegionOps mailbox_ops = {
  
- DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
-@@ -386,7 +387,6 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_7_1_machine_options(m);
-     m->alias = NULL;
--    pcmc->legacy_no_rng_seed = true;
-     pcmc->enforce_amd_1tb_hole = false;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+ static const MemoryRegionOps dev_ops = {
+     .read = dev_reg_read,
+-    .write = NULL, /* status register is read only */
++    .write = ro_reg_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
+@@ -188,7 +194,7 @@ static const MemoryRegionOps dev_ops = {
+ 
+ static const MemoryRegionOps caps_ops = {
+     .read = caps_reg_read,
+-    .write = NULL, /* caps registers are read only */
++    .write = ro_reg_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
 -- 
 MST
 
