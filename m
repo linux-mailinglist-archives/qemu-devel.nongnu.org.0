@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884FE597449
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:41:00 +0200 (CEST)
-Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC8F597407
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:20:44 +0200 (CEST)
+Received: from localhost ([::1]:46710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOM6E-00078M-G8
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:40:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57784)
+	id 1oOLmc-0005Td-RT
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:20:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLgt-0007sB-Pl
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:14:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59565)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLgs-0007p9-Rt
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:14:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLgr-0001QO-D3
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:14:47 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLgr-0001QM-Cz
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:14:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1660752884;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DV2CGvKwhVU6MHqdfffqDvMvVM56xezMHq/D8UxHfEk=;
- b=WwzOgjNhrosGvTZz5DdpAYvxvWa11FYTMMjdM2T4E0ewn7fou8ELwLVmwFgvhtBhSFzZ9j
- CURb+XRqTVeeCElg2MILvu3HfLq7auku849WipHm+lIx3EPH91V4MUegVyuaISWyJu7Rhx
- cFTBzhyNHR0r3g36ppbWKNgm9yrZVIU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ciBt2hYDKhvoSd8DxUzT64ugCS+WT394gSsu02mKQvA=;
+ b=JkGI0SIzf/7z5qMaVRKEM6fWysxmW44+ZQQJ7SeVHnGqMyqzkWzdbvxKvCYXPIxkLleT6o
+ 0aNDU4hPRXHxJN+wCElqT2lb7DKc3+R+4lzg1FrDeUGT+Yl9egl1sGtRq/VpUy8u/28/4u
+ ZbvrwWVwQs/V8Hlp17K8JzpO/qI8Nsg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-446-B27zF3UkNxeGpoxaOGaKLg-1; Wed, 17 Aug 2022 12:14:41 -0400
-X-MC-Unique: B27zF3UkNxeGpoxaOGaKLg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r67-20020a1c4446000000b003a5fa79008bso1268540wma.5
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:14:40 -0700 (PDT)
+ us-mta-548-yWomPahsPSq-epQI6Oy1Bw-1; Wed, 17 Aug 2022 12:14:43 -0400
+X-MC-Unique: yWomPahsPSq-epQI6Oy1Bw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ m7-20020adfa3c7000000b002251ddd0e05so1023417wrb.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:14:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc;
- bh=DV2CGvKwhVU6MHqdfffqDvMvVM56xezMHq/D8UxHfEk=;
- b=IXtQd27a8fErJuf1EJNHZj33FOWek34l3/4yFg+T+gIXxt6asI8apLCk7hVqc3R3HH
- 4J2HPvqFkswy4jG4qBwS6FZuoiwJNA/L9/6skL5ondmswzsq0EkO5Q+u57bWLS0ftIPN
- 29hgH75kaNzcWjb6PkGnyhKh4cRl4Ic65RRf7w6etvh3yd1ufhrvw5sQ0E94OyGoK8Fe
- 17uIHjWdBVQA7OCMtOlbU3sYBiRhj4l3suoz0GPIb4bjyJpr+TNb8/lltRF9YvioZK5m
- GuJnt8k31Hso0EoHP/lLGbDxfPfejdpeQu3++9MG6T9V5AenPYygm/V/8IbWG0zmnIH7
- Djow==
-X-Gm-Message-State: ACgBeo2iGfmjrIPzckZXmzMLtmN3Z3F1aijKX24iKOduGdhBWkbEvMAT
- egCdIqX/Mx3Xul+AU5vbRjR8VFv+dKVEeY9V72Ih5WpTtOCOMnVTglIrk2f4JoOjj0J5DSQ8JH7
- jhhmZgEF5TLFO9Cn67KA+JNuoQwq4yYtNW2tdA3diznVNJlqAp/MgBnWQs7Ky
-X-Received: by 2002:a05:600c:5022:b0:3a6:ad4:1c6 with SMTP id
- n34-20020a05600c502200b003a60ad401c6mr2617282wmr.177.1660752879692; 
- Wed, 17 Aug 2022 09:14:39 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR77rB/xpdrJ8XduCTKKzxFBltKSaoRyt5HEEidQLtubQHzqYtnsIkFgqMPV4w8MaMtLtSuPPg==
-X-Received: by 2002:a05:600c:5022:b0:3a6:ad4:1c6 with SMTP id
- n34-20020a05600c502200b003a60ad401c6mr2617270wmr.177.1660752879332; 
- Wed, 17 Aug 2022 09:14:39 -0700 (PDT)
+ bh=ciBt2hYDKhvoSd8DxUzT64ugCS+WT394gSsu02mKQvA=;
+ b=dZi+v9a3jzY8WRxjA8H6Z1qYAbIghTm3IBjLVX0pyRVvdR/jUCUzPLQbV70Cqe5Kpl
+ rIbQGM1dJhqhREb33zjqM2CjD7Rq3N7k0AyFuGj16p0+7Ts1jZ7PDU53A3uZX8s69V+X
+ PE1Iu3U1ovDgk+RdRZLyxJVC0Hh0hdgye6G8zTuC0kyRK+NGdQPbeDJlNGB5lISaKxxv
+ L5siGU/A/ia95W7y+i3nZou3yeTNruLf16mFt7ChJAGFbjznHizW1oSIlvZ0HrINYIMg
+ Ngzz1DQTUvBnCsW1OTd17cW06YyDpz8mEl0FJiqh8BsC7Ob3GJhwv4TqsA20V0M+Zr9V
+ W93A==
+X-Gm-Message-State: ACgBeo3L41Feg8WsUsy2mwIoVvmfWI9Ybzy6bxe4SWRLMXMIWv6p6VVe
+ 0xYahgfdAMiSSO553xGtQJcrOzCB0l3bXjC/pTdmUz/S/RGWuO1fa7qoGJ/Zy2LNCGUSFyewwUF
+ IUS5iFidc15lqSDPwJ7K8D2mDyg2BiWWyEyGuF4g8A9zv7a2lg27H+Anqqdsh
+X-Received: by 2002:adf:fc88:0:b0:220:61dc:d297 with SMTP id
+ g8-20020adffc88000000b0022061dcd297mr14235067wrr.660.1660752882239; 
+ Wed, 17 Aug 2022 09:14:42 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6I970uUIeB6Cn59nmyl+31nqJzE7HbTxOcOOvg+1AeaEKx7YiFeAkbP3xKVrLdWMP1RDsF1w==
+X-Received: by 2002:adf:fc88:0:b0:220:61dc:d297 with SMTP id
+ g8-20020adffc88000000b0022061dcd297mr14235047wrr.660.1660752881921; 
+ Wed, 17 Aug 2022 09:14:41 -0700 (PDT)
 Received: from redhat.com ([2.55.4.37]) by smtp.gmail.com with ESMTPSA id
- bt22-20020a056000081600b002251e86241csm4079931wrb.48.2022.08.17.09.14.37
+ f16-20020adfb610000000b002237fd66585sm13148998wre.92.2022.08.17.09.14.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 09:14:38 -0700 (PDT)
-Date: Wed, 17 Aug 2022 12:14:36 -0400
+ Wed, 17 Aug 2022 09:14:41 -0700 (PDT)
+Date: Wed, 17 Aug 2022 12:14:39 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 02/10] hw/virtio: gracefully handle unset vhost_dev vdev
-Message-ID: <20220817161342.240674-3-mst@redhat.com>
+Subject: [PULL 03/10] hw/virtio: handle un-configured shutdown in virtio-pci
+Message-ID: <20220817161342.240674-4-mst@redhat.com>
 References: <20220817161342.240674-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -102,46 +102,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-I've noticed asserts firing because we query the status of vdev after
-a vhost connection is closed down. Rather than faulting on the NULL
-indirect just quietly reply false.
+The assert() protecting against leakage is a little aggressive and
+causes needless crashes if a device is shutdown without having been
+configured. In this case no descriptors are lost because none have
+been assigned.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220728135503.1060062-3-alex.bennee@linaro.org>
+Message-Id: <20220728135503.1060062-4-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ hw/virtio/virtio-pci.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 0827d631c0..f758f177bb 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -306,7 +306,7 @@ static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64_t size)
-     dev->log_size = size;
- }
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 45327f0b31..5ce61f9b45 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -996,9 +996,14 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
  
--static int vhost_dev_has_iommu(struct vhost_dev *dev)
-+static bool vhost_dev_has_iommu(struct vhost_dev *dev)
- {
-     VirtIODevice *vdev = dev->vdev;
+     nvqs = MIN(nvqs, VIRTIO_QUEUE_MAX);
  
-@@ -316,8 +316,12 @@ static int vhost_dev_has_iommu(struct vhost_dev *dev)
-      * does not have IOMMU, there's no need to enable this feature
-      * which may cause unnecessary IOTLB miss/update transactions.
+-    /* When deassigning, pass a consistent nvqs value
+-     * to avoid leaking notifiers.
++    /*
++     * When deassigning, pass a consistent nvqs value to avoid leaking
++     * notifiers. But first check we've actually been configured, exit
++     * early if we haven't.
       */
--    return virtio_bus_device_iommu_enabled(vdev) &&
--           virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-+    if (vdev) {
-+        return virtio_bus_device_iommu_enabled(vdev) &&
-+            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-+    } else {
-+        return false;
++    if (!assign && !proxy->nvqs_with_notifiers) {
++        return 0;
 +    }
- }
+     assert(assign || nvqs == proxy->nvqs_with_notifiers);
  
- static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+     proxy->nvqs_with_notifiers = nvqs;
 -- 
 MST
 
