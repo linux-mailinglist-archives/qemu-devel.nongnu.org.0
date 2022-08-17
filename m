@@ -2,87 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6597B59745D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:43:26 +0200 (CEST)
-Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E3D59743C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:34:38 +0200 (CEST)
+Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOM8b-00021z-6m
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
+	id 1oOM03-0007ZW-SY
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLnX-0007ku-4t
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45918)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLnc-000861-MS
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLnV-0005db-H4
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLnb-0005jq-3x
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660753296;
+ s=mimecast20190719; t=1660753302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dumk1EQg5Ag6vu8AL5g6B95ji6VBlJBMEnXMduaUodE=;
- b=fPENus8Fmlvz7CIiltFsGzgzaxSqh2FeIVZjrzge+h4tV/SSiAv8iIZsK+JkS2o8g47uIO
- umz4L/DoFHU8nDzaDdpY+h0HYqPzD2d2ouqL/eznuZVtF0hCG/1zGRGCNG/y8zPHk7PhAM
- UCUJiIKWZ0b/IPMnA2L1vkktIGnNaKE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O2jVKSC/T/69XGJQ1pcYIKsl06VPDaFnR237r22fRUw=;
+ b=S2IdUMsavmGkpR5h2N/uoj7/A/K0aHIqCzc+RMLQFbPE6AzoDuSmtU5EoFcqNev8tIJarq
+ pyZzRk1VJI5y/emnwFpZTrDmYq7S3tmIA5WW/1LJwpNMDCtPCEbCqQ+vYtfCsWaRjRVJIf
+ E3r9jmI6NVo5YM/gD38Q5p3ZajuzCTM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-645-BibXulo_N7a2C56F0HNMmg-1; Wed, 17 Aug 2022 12:15:01 -0400
-X-MC-Unique: BibXulo_N7a2C56F0HNMmg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- g11-20020adfa48b000000b002250d091f76so1900438wrb.3
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:15:00 -0700 (PDT)
+ us-mta-556-KnmV_bqpMYyWEXjWxqcr3A-1; Wed, 17 Aug 2022 12:15:04 -0400
+X-MC-Unique: KnmV_bqpMYyWEXjWxqcr3A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v64-20020a1cac43000000b003a4bea31b4dso1275708wme.3
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:15:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=Dumk1EQg5Ag6vu8AL5g6B95ji6VBlJBMEnXMduaUodE=;
- b=Ip+5mx/zoFOQEYbD9aXln1z4e1pA/vWmzGa6cXxPRP1lMTbkX16dL8HdnQrInvDG2O
- +Ot8pyNrzf8105ok92S2oKd3tBMD0oSi5lDlDiDqt6bBz9U/uNM/9SY63ccw1azWrY+8
- 63ipXMZwmCniQ8du5dFnG4KgDLqkuTS7hFyuB7wNvFUKKzyGsThWpKNTz2X5Of0ceT/I
- A2/JOM76EzL0xXMfYwm/rTKn4gUh/fTqU9uWDRm9YJC6ohWFzD77Eo2ucYLyHxBANi8z
- LfpufvpQvkw/M2cWBnSTo3cMxkOh14kBAIRKimQ6VLjaVsmhxKB+XhvNhvQ65xzWTfwj
- FUpg==
-X-Gm-Message-State: ACgBeo0MDMOJuUroQZ7VfAGbVdyoUkEgXxPhE3XEMZcFzaZNJ6TXottj
- xe0EIaRVdfW02S90Po9i4Zjh9Ys/NeHn6ARuvlKYMXCeSbmWQW48ByQcMqhJL1TV60qvRSEvUlC
- UU2gfjAo8QXm5P6aAjxOJ4H0iu0BbTmryGWK/mmqj91mtY2Iq1WPmyyH3MUJM
-X-Received: by 2002:a5d:64a1:0:b0:222:3b0d:c9a3 with SMTP id
- m1-20020a5d64a1000000b002223b0dc9a3mr15164680wrp.437.1660752899883; 
- Wed, 17 Aug 2022 09:14:59 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR49T2bEym4M5bXS97Or9ylPWfRsZP1qYG8kyHvmtDY4k/Gt2RyGQWodrDvK+UXPSetHsBmJGw==
-X-Received: by 2002:a5d:64a1:0:b0:222:3b0d:c9a3 with SMTP id
- m1-20020a5d64a1000000b002223b0dc9a3mr15164664wrp.437.1660752899592; 
- Wed, 17 Aug 2022 09:14:59 -0700 (PDT)
-Received: from redhat.com ([2.55.4.37]) by smtp.gmail.com with ESMTPSA id
- b3-20020a05600010c300b002217339ce90sm13498386wrx.8.2022.08.17.09.14.58
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=O2jVKSC/T/69XGJQ1pcYIKsl06VPDaFnR237r22fRUw=;
+ b=XV/5r/y207Bzod9FvLga172TizdruixGnoo4eCgJJl7oUcmWXM7AS9NMi6xoiaR/HI
+ zcQHukpP9CYFYGm34Hx+r1zH0NDEEVY8MCbXttRCOaqi6zNogV2Vh58xc1QveJYs1Lpf
+ 6HlyscPvl4oMtYlc7Pka0uFz5KSMonhU0NS+KkYMrfiHS/xteu0xaqtlqJohr/fu2tD8
+ MI3zRG2HeUra8MqW+mDgX5Cm367AL+iLpHujdb8X0PdmDiCwwWHkwEPcg85a2Ee4IPZl
+ gpUYM8xamAPdGSYkNN/KEyf356/KlXF+nJQOtTDwI/ZDZr2ZbNm3WOItQKQBsvRckD8z
+ wljA==
+X-Gm-Message-State: ACgBeo2id1of8lamBxGJcAqEJPOUZwZdjreAqTGXY9P4v9Qh8LJJn+2/
+ aEI4nhLg1EJHE/nI9cR9cgl/ctw6x7+98O06PQr3U647XBtvaaC3ScvBkOD9SFSCmPINYlKoHq9
+ eO/uqc823SVjOFjpTsHhOkrNb+vpWr8I4F/Tdw7W1ivUDB1ZZwxwWMMj7YNW/
+X-Received: by 2002:a05:600c:4e4b:b0:3a5:d36e:8349 with SMTP id
+ e11-20020a05600c4e4b00b003a5d36e8349mr2703540wmq.44.1660752903562; 
+ Wed, 17 Aug 2022 09:15:03 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4dww4JL+w+0a7mVI3yoN3Vo5tT/zjLrdxDDpRwNdtJsw8/OSfIUbZ8oU4KwcY4JupelJkTyw==
+X-Received: by 2002:a05:600c:4e4b:b0:3a5:d36e:8349 with SMTP id
+ e11-20020a05600c4e4b00b003a5d36e8349mr2703520wmq.44.1660752903205; 
+ Wed, 17 Aug 2022 09:15:03 -0700 (PDT)
+Received: from redhat.com ([2.55.43.215]) by smtp.gmail.com with ESMTPSA id
+ m18-20020adfe0d2000000b0021ea1bcc300sm13218852wri.56.2022.08.17.09.15.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 09:14:59 -0700 (PDT)
-Date: Wed, 17 Aug 2022 12:14:56 -0400
+ Wed, 17 Aug 2022 09:15:02 -0700 (PDT)
+Date: Wed, 17 Aug 2022 12:15:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL 08/10] hw/cxl: Correctly handle variable sized mailbox input
- payloads.
-Message-ID: <20220817161342.240674-9-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 09/10] tests: acpi: silence applesmc warning about invalid key
+Message-ID: <20220817161342.240674-10-mst@redhat.com>
 References: <20220817161342.240674-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220817161342.240674-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,36 +102,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-A placeholder of ~0 is used to indicate variable payload size.
-Whilst the checks for output payload correctly took this into
-account, those for input payload did not.
+OSK value is irrelevant for ACPI test case.
+Supply fake OSK explicitly to prevent QEMU complaining about
+invalid key when it fallbacks to default_osk.
 
-This results in failure of the Set LSA command.
-
-Fixes: 464e14ac43 ("hw/cxl/device: Implement basic mailbox (8.2.8.4)")
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20220817145759.32603-4-Jonathan.Cameron@huawei.com>
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20220728133713.1369596-1-imammedo@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/cxl/cxl-mailbox-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/bios-tables-test.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index 3cea8b17a8..bc1bb18844 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -425,7 +425,7 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-     cxl_cmd = &cxl_cmd_set[set][cmd];
-     h = cxl_cmd->handler;
-     if (h) {
--        if (len == cxl_cmd->in) {
-+        if (len == cxl_cmd->in || cxl_cmd->in == ~0) {
-             cxl_cmd->payload = cxl_dstate->mbox_reg_state +
-                 A_CXL_DEV_CMD_PAYLOAD;
-             ret = (*h)(cxl_cmd, cxl_dstate, &len);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 359916c228..7c5f736b51 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1632,7 +1632,9 @@ static void test_acpi_q35_applesmc(void)
+         .variant = ".applesmc",
+     };
+ 
+-    test_acpi_one("-device isa-applesmc", &data);
++    /* supply fake 64-byte OSK to silence missing key warning */
++    test_acpi_one("-device isa-applesmc,osk=any64characterfakeoskisenough"
++                  "topreventinvalidkeywarningsonstderr", &data);
+     free_test_data(&data);
+ }
+ 
 -- 
 MST
 
