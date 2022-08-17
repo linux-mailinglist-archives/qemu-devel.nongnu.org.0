@@ -2,93 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E69597982
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 00:12:05 +0200 (CEST)
-Received: from localhost ([::1]:41542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA06597A54
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 01:44:30 +0200 (CEST)
+Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oORGa-0007LU-Ev
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 18:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35386)
+	id 1oOSi4-0002IT-Ur
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 19:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORE1-0005OQ-Ab
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:09:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49743)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oOSfS-0000tY-H1
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 19:41:49 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORDy-0006nO-QJ
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:09:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660774158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hxqe6YbWY8LbNBDkE6AAwGvNQS1jk2vuJSnHWyi66A8=;
- b=BEFv6P8XpsS3Q37p+69LY0tGbGk9zqrWcom2vt/d7/b7dJqezNuPLOJyfQNoTk+fevQddG
- Mk/q2naJopy/mXVFT6wDVEW0h9jxbkaL5CpuLlrhI8RmMdW44aSqeVOl924F6ZtMyQ8HvX
- DH4I0dwe+pIucwoZEwLOsT+oHThHEMs=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-0NB4WpuhMj-gRp6H7yyN4g-1; Wed, 17 Aug 2022 18:09:14 -0400
-X-MC-Unique: 0NB4WpuhMj-gRp6H7yyN4g-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bq19-20020a05620a469300b006bb70e293ccso4317548qkb.1
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 15:09:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=Hxqe6YbWY8LbNBDkE6AAwGvNQS1jk2vuJSnHWyi66A8=;
- b=D9CYdm5pop/BFVGPbOE4YVJ4FCavmEkdYrjyBFXxjZq40AFaJA+4BOErVIj3wXesR8
- NDxp1McFn1fspO9PDmsYrvo3yqNoEuSBRGGdneHfhORagtuLfPhkltMLeBhE8KIo5LOq
- DHVC55Ctlb/wDN86vJhHbkItsHf4EvaPn1B3BgfVBNlK6XLNCUkJEL1pap8zBZwquqZ1
- 2i4f3JBu0ReQU+7lCakn6b55uCW4vLXL51xQQ18Ji9tGW/mB/IPCWfGoL/AgmXq44f8P
- VoYnf89rVKbkRMcYRwYghEUHqpu8EJWMPxAU+w/rIgSBE5eg9CzIx/OlwTgyPe+NAun5
- /0FA==
-X-Gm-Message-State: ACgBeo23Sj9vMQP6d136QuYzCl67BNNB4lD+7cZJQoTZxyWluSrARqNx
- cRrFGadzJsrD3gCZrvky/gMYFilU8A9IRQv07G9N4N40PGrdHtS2srPR16aWagfMzV/DfupeS5R
- ZPJn9y46Acnz0hfs=
-X-Received: by 2002:a05:6214:f6e:b0:496:b88d:dd96 with SMTP id
- iy14-20020a0562140f6e00b00496b88ddd96mr71294qvb.77.1660774154251; 
- Wed, 17 Aug 2022 15:09:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5jAysodGeYR92eogyDkHDxTVCOIt38yqkX8P5cmrHNW5U2x8ueHgMl/v2kMfOaMLDwx2s5sA==
-X-Received: by 2002:a05:6214:f6e:b0:496:b88d:dd96 with SMTP id
- iy14-20020a0562140f6e00b00496b88ddd96mr71271qvb.77.1660774154005; 
- Wed, 17 Aug 2022 15:09:14 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
- by smtp.gmail.com with ESMTPSA id
- m18-20020a05620a24d200b006b9a8fc0c93sm34545qkn.53.2022.08.17.15.09.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 15:09:13 -0700 (PDT)
-Date: Wed, 17 Aug 2022 18:09:12 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 4/8] migration: Implement dirty-limit convergence algo
-Message-ID: <Yv1nCNl9wzNmocM0@xz-m1.local>
-References: <cover.1658561555.git.huangy81@chinatelecom.cn>
- <a2fc4b9a622fbefcad1750b13fcb924caf60ec0b.1658561555.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oOSfQ-0000iI-Fc
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 19:41:46 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7B68B580556;
+ Wed, 17 Aug 2022 19:41:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 17 Aug 2022 19:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1660779685; x=1660786885; bh=NI
+ aAYd9poCwuCaReO0KiItjGT5b3278AiQgPlMaoGH8=; b=PuKLpG0lACFDSWgEO8
+ rwPWX4M0HQpSuEdYRtGzQptcaolkieS2EgsFIwpoZyncFWpZckNeFIzIIYOqO8zc
+ 9BpZgvlyinTevkQRn/C/ka6JMZsh8Ts9cHQWdeYq9ybnuk1SQZpubaUGZQB9t1lM
+ qk4rSx6j+tUOfRKOd3g94hTTtthwjyy2FqigUkFALmNMXV3xaGruqjoeP5+34xuk
+ J1Cinr4a4qem9KNGhx+lzwXQAr8UJisToeNsfhj8HLQwy0xeOfa5U42VQCIa7k9W
+ qZ8iK9otGm9LKKwttomxp7Dv3pSQF6Et1ZTaIBSz7M8flKM1wmlzQBaAB4PFaBIk
+ k9IQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660779685; x=1660786885; bh=NIaAYd9poCwuCaReO0KiItjGT5b3
+ 278AiQgPlMaoGH8=; b=WGuGDaggU/a6pga7pL9w3WYTfRF/tux3G1kX0A3mQjNG
+ OC+VxEFGbO+smOA+p7iGMZ3GoMIsMcaWl3/NDeaFMGDz77QMAzUSQkUiUmCGJkRW
+ xHDUodL0TH5AF7G//emEtkunMR0IZ4l2d7XmME00+CIEmSs0g9HkS3qnHI4slsRN
+ HLEINl4PWiLW8DvpQUTe/0aF8/PdVhKDH0qkmMtKQaNXy1O+iZNm5MWAKX+BYowx
+ KuXbnGKaeKu5x2AZgYGthwUdYmgJrzE5cQQyW5v4ZXRMkJgZP9HwjqtkEwDmOL4I
+ VHlt+Z4I/oeTtr+VVKyUXBqBYFKb61xw+pnbo22rNA==
+X-ME-Sender: <xms:pHz9YkXNQXrutmOXLT8qKC8bAkDrafNZwTbHHUvk4uGruAWRz8lSXw>
+ <xme:pHz9YomAAobQndykgGisfSvrEaUbnwRxPnhjaRnRKcy7rwe8iA--U-9p8AJVY1ht3
+ CHYDQX82TnQfowOqrY>
+X-ME-Received: <xmr:pHz9YoYoOJJ3U6PUwRm1npi6IHWY-81B3GDPi_Hh-Sh04EiF8v9DMalIOFzMmXc0odStsA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehjedgvdehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+ grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+ tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:pHz9YjURvYrPk7ln2G6y5jzbE1QNYYzGLgRztyxiICy4kfvUbUjaNg>
+ <xmx:pHz9Yum1Ff9XGpoiOlx7NWmi_AWkZcUFRDXkPoeuriI3uxXSxr406w>
+ <xmx:pHz9YodmYF_t-pLZ3YNAgjRYP3doKC47u2BG16XkOANkKS6FtmEg2Q>
+ <xmx:pXz9YoADMoiV4yerQswAA91U22gwFiEMHVgZT94HO2C4gO2O9zUMXQ>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Aug 2022 19:41:23 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id E5075104A77; Thu, 18 Aug 2022 02:41:20 +0300 (+03)
+Date: Thu, 18 Aug 2022 02:41:20 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
+ aarcange@redhat.com, ddutile@redhat.com,	dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,	Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com,	Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Message-ID: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a2fc4b9a622fbefcad1750b13fcb924caf60ec0b.1658561555.git.huangy81@chinatelecom.cn>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=kirill@shutemov.name;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,63 +130,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 23, 2022 at 03:49:16PM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
+> On 7/21/22 11:44, David Hildenbrand wrote:
+> > 
+> > Also, I*think*  you can place pages via userfaultfd into shmem. Not
+> > sure if that would count "auto alloc", but it would certainly bypass
+> > fallocate().
 > 
-> Implement dirty-limit convergence algo for live migration,
-> which is kind of like auto-converge algo but using dirty-limit
-> instead of cpu throttle to make migration convergent.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> ---
->  migration/ram.c        | 53 +++++++++++++++++++++++++++++++++++++-------------
->  migration/trace-events |  1 +
->  2 files changed, 41 insertions(+), 13 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index b94669b..2a5cd23 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -45,6 +45,7 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-types-migration.h"
->  #include "qapi/qapi-events-migration.h"
-> +#include "qapi/qapi-commands-migration.h"
->  #include "qapi/qmp/qerror.h"
->  #include "trace.h"
->  #include "exec/ram_addr.h"
-> @@ -57,6 +58,8 @@
->  #include "qemu/iov.h"
->  #include "multifd.h"
->  #include "sysemu/runstate.h"
-> +#include "sysemu/dirtylimit.h"
-> +#include "sysemu/kvm.h"
->  
->  #include "hw/boards.h" /* for machine_dump_guest_core() */
->  
-> @@ -1139,6 +1142,21 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
->      }
->  }
->  
-> +/*
-> + * Enable dirty-limit to throttle down the guest
-> + */
-> +static void migration_dirty_limit_guest(void)
-> +{
-> +    if (!dirtylimit_in_service()) {
-> +        MigrationState *s = migrate_get_current();
-> +        int64_t quota_dirtyrate = s->parameters.vcpu_dirty_limit;
-> +
-> +        /* Set quota dirtyrate if dirty limit not in service */
-> +        qmp_set_vcpu_dirty_limit(false, -1, quota_dirtyrate, NULL);
-> +        trace_migration_dirty_limit_guest(quota_dirtyrate);
-> +    }
-> +}
+> Yeah, userfaultfd_register would probably have to forbid this for
+> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
+> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
+> would do something like memfile_node_get_flags(vma->vm_file) and check the
+> result.
 
-What if migration is cancelled?  Do we have logic to stop the dirty limit,
-or should we?
+I donno, memory allocation with userfaultfd looks pretty intentional to
+me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
+
+Maybe we would need it in the future for post-copy migration or something?
+
+Or existing practises around userfaultfd touch memory randomly and
+therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
+
+Note, that userfaultfd is only relevant for shared memory as it requires
+VMA which we don't have for MFD_INACCESSIBLE.
 
 -- 
-Peter Xu
-
+  Kiryl Shutsemau / Kirill A. Shutemov
 
