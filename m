@@ -2,76 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41BB596E77
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 14:34:40 +0200 (CEST)
-Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EE1596E91
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 14:42:02 +0200 (CEST)
+Received: from localhost ([::1]:36084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOIFr-0001jw-BJ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 08:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48732)
+	id 1oOIMz-0004om-CW
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 08:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOIDO-00005Q-Tz
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 08:32:07 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:43822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOIDN-0005gg-D2
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 08:32:06 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-333a4a5d495so116933107b3.10
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 05:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=+kPU+uD7Z1/ETT3ulfOSdkBhoSCpgg4Ij0XDQx0RGuI=;
- b=iOJ4WboaoE9UpxLWssFrVbOtJzxOglMS2MD7QVdJO+wklhl0uHdAkVIyPdDLXZGi6s
- pcizpvBBtJOSmEIUwCMhdh/ZMhgcXNc7EZQka//Qr+8oEGAOBmwd+Wl/zy5G9lNmIkvM
- MeeJigr8UYji3l4cl/DIgcswjQ2qwB1GezZ8zY0L4rVhx8a6mlEOvGTPLV7wcNU4FjNV
- NcZWJ1cB/xuJfr92pKmVoBpkJbebCSW5LJXSeRj6f6szEWRjL3nLpOvp9Q+PLSyx1FQ/
- vi+UpjzUO2ILKfIjs+LiiQzEannL9v7allvttOjGlo+WI0kXM1jh9bFzfpFSgOS83D9E
- ooRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=+kPU+uD7Z1/ETT3ulfOSdkBhoSCpgg4Ij0XDQx0RGuI=;
- b=Ldz5vKsra9m40KN7ZZ2fK10g5j18IR6pF1Ugl2KtaoeIgKNBoq/R4qXMwMAu0YH/li
- kC/+4ztx3IZFZOF4G5zKL6fY0kqjmNZ6SjJfLtEp/qkTHEFwQXX253Kbh+FczlQRWqEx
- PKLutV/m5O23atUz1Nn2ku/4FPqEOmpgQSsrSNxTHmk2+1cgvb3djoCWI5jWRMokHtHO
- WCocsQion7d8pnR3lJbmSdha1DKzbouNiKehDgAzfWo3J97vEO5BPEej2tbCl0YkUmFN
- VNNUqEyP30x+88532vzTyfQmdB31Yd1fhB5c2V4NaOyw2cNzFB3hLLsr7HcQzSxSkJXz
- 3PUA==
-X-Gm-Message-State: ACgBeo2Pv4bFr/w6t38aDIuWaGzjEzNKJtJ6sFMF91mtZ1+678rPTwJh
- 7pLOzc1QiWXyAaFz8Qe7mY9QavJA2Svac3P6dESvig==
-X-Google-Smtp-Source: AA6agR676bu+9nFppMMoSwRzd8MLsHvGrQkte1XfsGn4uzdQzRnfUAueIP9ziXN7vBPSDbO/51Vpt9EmYV/BXDbq4Fo=
-X-Received: by 2002:a81:13c5:0:b0:32a:8e40:d469 with SMTP id
- 188-20020a8113c5000000b0032a8e40d469mr21880400ywt.64.1660739524168; Wed, 17
- Aug 2022 05:32:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oOIKK-0002zO-PN
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 08:39:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oOIKI-00073C-Nm
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 08:39:16 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27HBarWY026167;
+ Wed, 17 Aug 2022 12:39:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=BBqwqMoWI+GH8k6zfSdmpHTLp7kl+HxOF4A2Dc9Bs00=;
+ b=gjTj4B0gkhF2zGEJVjhm3YK98irMQJtWC0WNn9TmhwieYWvCIMPN9kNSYyE1PltPnqHl
+ HqxemAPbUrJJEVGBjl9I3ce1kxNTufkZJyeeXAiZigFB0u+TFU9uPgC9sz/Ti0BG7JR+
+ PJ0ZwpUjdMdO+VDUlabA1m9sPFN2c1wk9imLoY9BRQCwLduQQ6iYHQ3Kwma0d920FpC/
+ V/7d6nWU0LgYvxrttJ+dOqaHnvKiaqL41HiJCn+Ph2quDeVdeyNZAcHR37mjwjfmaEwl
+ HjZmUjQjIhULGGer/Bcb6V+Wd80FSbT8PEkcE2bBrCI1OsuTOcc23DAnv8pMO5Ott8q/ fQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j0ya7299p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 12:39:11 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27HCYFIW005636;
+ Wed, 17 Aug 2022 12:39:11 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j0ya72984-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 12:39:11 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27HCbHvc023705;
+ Wed, 17 Aug 2022 12:39:09 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06fra.de.ibm.com with ESMTP id 3hx37j3c9a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 12:39:08 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 27HCdPrc18612506
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Aug 2022 12:39:25 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7621611C04A;
+ Wed, 17 Aug 2022 12:39:06 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1EA6711C050;
+ Wed, 17 Aug 2022 12:39:06 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.21.185])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 17 Aug 2022 12:39:06 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] linux-user/s390x: Save/restore fpc when handling a signal
+Date: Wed, 17 Aug 2022 14:39:02 +0200
+Message-Id: <20220817123902.585623-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220726163206.1780707-1-peter.maydell@linaro.org>
- <20220726163206.1780707-3-peter.maydell@linaro.org>
- <219fb09f-c46a-4dda-9ab7-ebb0772c17f5@linaro.org>
- <CAFEAcA8GF8MLrp+9yqmPYJCfkVdUtc+-A7J+zn-gfvb06v-+Yw@mail.gmail.com>
- <20220817064800-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220817064800-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Aug 2022 13:31:22 +0100
-Message-ID: <CAFEAcA9joP2W9MdGKsZFz2uJWqQoSUKTfdH5TNwyRyxPhGcBBw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] pci: Sanity check mask argument to pci_set_*_by_mask()
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IFJ9Zen3ivmy0Kc6i8bMDcqw9GY1Drfm
+X-Proofpoint-ORIG-GUID: K2CoTGZ2C9HomlXhfJl_QCXQjJsSUL1W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-17_08,2022-08-16_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ spamscore=0 bulkscore=0 clxscore=1015 mlxscore=0 priorityscore=1501
+ mlxlogscore=949 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208170049
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,50 +110,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Aug 2022 at 11:48, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Jul 27, 2022 at 11:26:15AM +0100, Peter Maydell wrote:
-> > On Tue, 26 Jul 2022 at 23:30, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> > >
-> > > On 7/26/22 09:32, Peter Maydell wrote:
-> > > > Coverity complains that in functions like pci_set_word_by_mask()
-> > > > we might end up shifting by more than 31 bits. This is true,
-> > > > but only if the caller passes in a zero mask. Help Coverity out
-> > > > by asserting that the mask argument is valid.
-> > > >
-> > > > Fixes: CID 1487168
-> > > >
-> > > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > > > ---
-> > > > Note that only 1 of these 4 functions is used, and that only
-> > > > in 2 places in the codebase. In both cases the mask argument
-> > > > is a compile-time constant.
-> > > > ---
-> > > >   include/hw/pci/pci.h | 20 ++++++++++++++++----
-> > > >   1 file changed, 16 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> > > > index c79144bc5ef..0392b947b8b 100644
-> > > > --- a/include/hw/pci/pci.h
-> > > > +++ b/include/hw/pci/pci.h
-> > > > @@ -688,7 +688,10 @@ static inline void
-> > > >   pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
-> > > >   {
-> > > >       uint8_t val = pci_get_byte(config);
-> > > > -    uint8_t rval = reg << ctz32(mask);
-> > > > +    uint8_t rval;
-> > > > +
-> > > > +    assert(mask & 0xff);
-> > >
-> > > Why the and, especially considering the uint8_t type?
-> >
-> > Oops, yes. I think I was mixing up prototypes and thought the
-> > mask was passed as a 32-bit value in both these functions.
+Linux kernel does this in fpregs_store() and fpregs_load(), so
+qemu-user should do this as well.
 
-> Did you intend to send v2 of this without the &?
+Found by running valgrind's none/tests/s390x/test_sig.
 
-Thanks for the reminder -- I'd forgotten I needed to respin.
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/s390x/signal.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
--- PMM
+diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+index 4979c4b017..f72165576f 100644
+--- a/linux-user/s390x/signal.c
++++ b/linux-user/s390x/signal.c
+@@ -146,6 +146,7 @@ static void save_sigregs(CPUS390XState *env, target_sigregs *sregs)
+      * We have to store the fp registers to current->thread.fp_regs
+      * to merge them with the emulated registers.
+      */
++    __put_user(env->fpc, &sregs->fpregs.fpc);
+     for (i = 0; i < 16; i++) {
+         __put_user(*get_freg(env, i), &sregs->fpregs.fprs[i]);
+     }
+@@ -331,6 +332,7 @@ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+     for (i = 0; i < 16; i++) {
+         __get_user(env->aregs[i], &sc->regs.acrs[i]);
+     }
++    __get_user(env->fpc, &sc->fpregs.fpc);
+     for (i = 0; i < 16; i++) {
+         __get_user(*get_freg(env, i), &sc->fpregs.fprs[i]);
+     }
+-- 
+2.37.1
+
 
