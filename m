@@ -2,48 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D252C596B7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:41:57 +0200 (CEST)
-Received: from localhost ([::1]:34700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0F3596B7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:43:01 +0200 (CEST)
+Received: from localhost ([::1]:39878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOEce-0001IY-VH
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54922)
+	id 1oOEdg-0002JU-F0
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:43:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oOEZM-0004sZ-C6; Wed, 17 Aug 2022 04:38:32 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:35566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oOEZJ-0006Af-AV; Wed, 17 Aug 2022 04:38:32 -0400
-Received: from [192.168.16.116] (helo=iris.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1oOEX9-00GAqg-VT;
- Wed, 17 Aug 2022 10:37:27 +0200
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Denis V. Lunev" <den@openvz.org>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Lieven <pl@kamp.de>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH 2/2] block: make serializing requests functions 'void'
-Date: Wed, 17 Aug 2022 10:37:36 +0200
-Message-Id: <20220817083736.40981-3-den@openvz.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220817083736.40981-1-den@openvz.org>
-References: <20220817083736.40981-1-den@openvz.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
- helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oOEZ5-0004dJ-F2; Wed, 17 Aug 2022 04:38:15 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:60614 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oOEZ1-00066b-Kc; Wed, 17 Aug 2022 04:38:15 -0400
+Received: from localhost.localdomain (unknown [116.224.155.20])
+ by APP-01 (Coremail) with SMTP id qwCowABHT5_nqPxij6fUCQ--.18388S2;
+ Wed, 17 Aug 2022 16:38:01 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v3] target/riscv: fix csr check for cycle{h}, instret{h},
+ time{h}, hpmcounter3-31{h}
+Date: Wed, 17 Aug 2022 16:37:56 +0800
+Message-Id: <20220817083756.12471-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: qwCowABHT5_nqPxij6fUCQ--.18388S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw13Ar1UZF4kAw47XFy3twb_yoW8XFy3pa
+ 1rK3y5G397Cr9Fkas3W3W5Xr45CFykXrW5Ga1xCFy0yr43tF4rXr9rGr1Yqry8Jr98trsF
+ 9F1UuF9xZF47Wa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+ xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-Originating-IP: [116.224.155.20]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,108 +71,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Return codes of the following functions are never used in the code:
-* bdrv_wait_serialising_requests_locked
-* bdrv_wait_serialising_requests
-* bdrv_make_request_serialising
+- modify check for mcounteren to work in all less-privilege mode
+- modify check for scounteren to work only when S mode is enabled
+- distinguish the exception type raised by check for scounteren between U
+and VU mode
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Hanna Reitz <hreitz@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-CC: Fam Zheng <fam@euphon.net>
-CC: Ronnie Sahlberg <ronniesahlberg@gmail.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Peter Lieven <pl@kamp.de>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- block/io.c                   | 23 +++++++----------------
- include/block/block_int-io.h |  2 +-
- 2 files changed, 8 insertions(+), 17 deletions(-)
+v3:
+ - remove unnecessary ()'s
 
-diff --git a/block/io.c b/block/io.c
-index 0a8cbefe86..51d8f943a4 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -828,20 +828,16 @@ bdrv_find_conflicting_request(BdrvTrackedRequest *self)
- }
+v2:
+ - Rebase on patches v13 for "Improve PMU support"
+
+ target/riscv/csr.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 2dcd4e5b2d..ca72b5df98 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -98,17 +98,22 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
  
- /* Called with self->bs->reqs_lock held */
--static bool coroutine_fn
-+static void coroutine_fn
- bdrv_wait_serialising_requests_locked(BdrvTrackedRequest *self)
- {
-     BdrvTrackedRequest *req;
--    bool waited = false;
+ skip_ext_pmu_check:
  
-     while ((req = bdrv_find_conflicting_request(self))) {
-         self->waiting_for = req;
-         qemu_co_queue_wait(&req->wait_queue, &self->bs->reqs_lock);
-         self->waiting_for = NULL;
--        waited = true;
-     }
--
--    return waited;
- }
- 
- /* Called with req->bs->reqs_lock held */
-@@ -934,36 +930,31 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
-     bdrv_wakeup(bs);
- }
- 
--static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
-+static void coroutine_fn
-+bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
- {
-     BlockDriverState *bs = self->bs;
--    bool waited = false;
- 
-     if (!qatomic_read(&bs->serialising_in_flight)) {
--        return false;
-+        return;
+-    if (((env->priv == PRV_S) && (!get_field(env->mcounteren, ctr_mask))) ||
+-        ((env->priv == PRV_U) && (!get_field(env->scounteren, ctr_mask)))) {
++    if (env->priv < PRV_M && !get_field(env->mcounteren, ctr_mask)) {
+         return RISCV_EXCP_ILLEGAL_INST;
      }
  
-     qemu_co_mutex_lock(&bs->reqs_lock);
--    waited = bdrv_wait_serialising_requests_locked(self);
-+    bdrv_wait_serialising_requests_locked(self);
-     qemu_co_mutex_unlock(&bs->reqs_lock);
--
--    return waited;
+     if (riscv_cpu_virt_enabled(env)) {
+-        if (!get_field(env->hcounteren, ctr_mask) &&
+-            get_field(env->mcounteren, ctr_mask)) {
++        if (!get_field(env->hcounteren, ctr_mask) ||
++            (env->priv == PRV_U && !get_field(env->scounteren, ctr_mask))) {
+             return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+         }
+     }
++
++    if (riscv_has_ext(env, RVS) && env->priv == PRV_U &&
++        !get_field(env->scounteren, ctr_mask)) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
+ #endif
+     return RISCV_EXCP_NONE;
  }
- 
--bool coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
-+void coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
-                                                 uint64_t align)
- {
--    bool waited;
-     IO_CODE();
- 
-     qemu_co_mutex_lock(&req->bs->reqs_lock);
- 
-     tracked_request_set_serialising(req, align);
--    waited = bdrv_wait_serialising_requests_locked(req);
-+    bdrv_wait_serialising_requests_locked(req);
- 
-     qemu_co_mutex_unlock(&req->bs->reqs_lock);
--
--    return waited;
- }
- 
- int bdrv_check_qiov_request(int64_t offset, int64_t bytes,
-diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
-index 91cdd61692..4b0b3e17ef 100644
---- a/include/block/block_int-io.h
-+++ b/include/block/block_int-io.h
-@@ -73,7 +73,7 @@ static inline int coroutine_fn bdrv_co_pwrite(BdrvChild *child,
-     return bdrv_co_pwritev(child, offset, bytes, &qiov, flags);
- }
- 
--bool coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
-+void coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
-                                                 uint64_t align);
- BdrvTrackedRequest *coroutine_fn bdrv_co_get_self_request(BlockDriverState *bs);
- 
 -- 
-2.32.0
+2.17.1
 
 
