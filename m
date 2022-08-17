@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DD0597284
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:07:02 +0200 (CEST)
-Received: from localhost ([::1]:52494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33354597285
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:07:49 +0200 (CEST)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOKdJ-0001fI-Sw
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37232)
+	id 1oOKe4-0003w4-C8
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oOKXC-0003nW-2s
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 11:00:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29898)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oOKbt-0007q7-DP; Wed, 17 Aug 2022 11:05:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29994
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oOKX2-0001GO-SO
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 11:00:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660748431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wyVwvRb+xrcT2IzD+ksVm+iC1OY0juVk/P785IdtPQs=;
- b=N1Gc8q19lwPr2DyQOXxK32vBSAi9zmdhFX1HQqWG8bBUHvYZwNwM6R/RvibV4q6xxuze7u
- w58yx9pWByZpgc0xRyb/Hl5b8RAbnxEMv284dhSpU0XBHG9xWvfVtawuznRU37K9oygYeh
- hV8zaMLahQX8KkdIAkFK4r/6v0QtVMg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-e5raXx8PNyudSynmO5KAhQ-1; Wed, 17 Aug 2022 11:00:28 -0400
-X-MC-Unique: e5raXx8PNyudSynmO5KAhQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDB72380665F
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 15:00:27 +0000 (UTC)
-Received: from localhost (unknown [10.40.192.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85D622026D07;
- Wed, 17 Aug 2022 15:00:27 +0000 (UTC)
-Date: Wed, 17 Aug 2022 17:00:26 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Andrea Bolognani <abologna@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [RFC PATCH v2 7/8] qapi: golang: Add CommandResult type to Go
-Message-ID: <20220817150026.crnyt6kdyqybulen@tapioca>
-References: <20220617121932.249381-1-victortoso@redhat.com>
- <20220617121932.249381-8-victortoso@redhat.com>
- <CABJz62P5-Dxy5fcb9wh-xo9_EX4K89F+2Pnydayg+T6eAt3pkw@mail.gmail.com>
- <YsRrko9mtESnWISa@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oOKbq-00023Q-S8; Wed, 17 Aug 2022 11:05:33 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27HEpgdL014356;
+ Wed, 17 Aug 2022 15:05:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=1unT6p25G5UN0aShMgbQkXt8sKXsD9/zcF2bu7aquFQ=;
+ b=kJnsEA49Z+1OzFQnMHH1lQQLacVmRhFTeMp06pzMln9QFoE+uLkZroKssaPFmblvGJ+2
+ SsB0aJAjQOv8GoPHV0xxw8tqJI8ZkzZOHKzspze6ZnbBp/rf4CX0DP6VrHUK6ydojBMR
+ vjlfV490SXRZK5FboHkw10XYRUs6/eCj6JqE5FlCaSgImRAlvgmHzCh1nEc6viIaET4r
+ ryvfmw0GX4WtMQbz2b38X/jM6+9gLVUQvlmuvp5pIxidRqScIYRaPu174fjBaohHlt5l
+ xwecONMhw9nGXu+rDOvBoXHxtVKMchBn565lLBmm2Dl46S/QQn5k7W/o7doFFOs0JTaS lA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j12f58m5h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 15:05:15 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27HErMiQ028922;
+ Wed, 17 Aug 2022 15:05:14 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j12f58m0d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 15:05:14 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27HEabNn028204;
+ Wed, 17 Aug 2022 15:05:11 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma01fra.de.ibm.com with ESMTP id 3hx3k93g5u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 15:05:11 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27HF58Pq32768446
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Aug 2022 15:05:08 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 01A9011C052;
+ Wed, 17 Aug 2022 15:05:08 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5913B11C04A;
+ Wed, 17 Aug 2022 15:05:07 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.21.185])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 17 Aug 2022 15:05:07 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v5 0/4] linux-user: Fix siginfo_t contents when jumping to
+ non-readable pages
+Date: Wed, 17 Aug 2022 17:05:02 +0200
+Message-Id: <20220817150506.592862-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.37.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: lNKMIHbQ-w7iETmxfZ6dAWd3OCXIoLhL
+X-Proofpoint-GUID: XO2Q-Aa_l3XMHPDvJzJlX1WJXTyCBqEA
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dtwe7c5gjodmi44v"
-Content-Disposition: inline
-In-Reply-To: <YsRrko9mtESnWISa@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-17_09,2022-08-16_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=916
+ suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208170058
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,56 +120,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---dtwe7c5gjodmi44v
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
 Hi,
 
-On Tue, Jul 05, 2022 at 05:49:22PM +0100, Daniel P. Berrang=E9 wrote:
-> On Tue, Jul 05, 2022 at 08:46:21AM -0700, Andrea Bolognani wrote:
-> > On Fri, Jun 17, 2022 at 02:19:31PM +0200, Victor Toso wrote:
-> > > +type EmptyCommandReturn struct {
-> > > +    CommandId string          `json:"id,omitempty"`
-> > > +    Error     *QapiError      `json:"error,omitempty"`
-> > > +    Name      string          `json:"-"`
-> > > +}
-> >
-> > Do we need a specific type for this? Can't we just generate an
-> > appropriately-named type for each of the commands that don't return
-> > any data? It's not like we would have to write that code manually :)
->
-> Yes, I think having an explicit named return struct even for commands
-> not /currently/ returning data is good, and anticipates future changes
-> that might add extra return data fields to the QAPI schema.
+I noticed that when we get a SEGV due to jumping to non-readable
+memory, sometimes si_addr and program counter in siginfo_t are slightly
+off. I tracked this down to the assumption that translators stop before
+the end of a page, while in reality they may stop right after it.
 
-Sure.
+Patch 1 fixes an invalidation issue, which may prevent SEGV from
+happening altogether.
+Patches 2-3 fix the main issue on x86_64 and s390x. Many other
+architectures have fixed-size instructions and are not affected.
+Patch 4 adds tests.
 
-Cheers,
-Victor
+Note: this series depends on [1].
 
---dtwe7c5gjodmi44v
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+Ilya
 
------BEGIN PGP SIGNATURE-----
+v1: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00822.html
+v1 -> v2: Fix individual translators instead of translator_loop
+          (Peter).
 
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmL9AooACgkQl9kSPeN6
-SE/RgQ//Z1HKMQGLurPUcWw72xY9TRLN+kxKa9rHS+J2+SbQtSgLD/0Fhp5r7HPb
-zlAkniZW3ZO8tiG6oclj1JdCwHBFIH0TqM9hvC/CEQqGEL24cub4zYBe0OGlmR65
-PHQP3Rrqt25v3wc0u+TO9pHqcYpzQN8Ddi2sdnNauh+ghAswHxu/g29QWL5qHQGK
-O9b5OzCuvTuFBZBQHLj5hGq/HBLNdzJF1us79epp0qRny0FSw3BON0qU4GbjI8Hb
-jCcx/MGkEpQkP5gEnEnV238IpqzyApXwElWpa2b3Q7cUqIogDUyKBpNAtI6mJASX
-Mp03q+CZk7cS7EpxZejZXGC969H3pRm+tTURTXtMAnaj4utFyVD7qZ8ltGl2DvgX
-QAqbujip3KeJyIcvFfMZZiwv/g00qoXPPahjr0+CWBvCuZiTzYK74MOOMM05xz7v
-ZpO7YqB3uoqT2lVSB5HbZuLWDXc+349rmtxvsRDwUGKakMUoRwNRIbV85mfyLx5L
-yUrDYFQZimtKb9QOIHcqskK9Q/624GKTrsEaJuFUjRLbyp84P0nBdL93KdsTetSC
-0RO4L1ctG3GUIxnpWwLuO7pk3tn3wyfV+xVOu2RvUVuWy4Pxhm/ot0KJwzCw/AWj
-ZuCM1IBTpDAy9ZU6zC3EtMCbK5sLj/OWPQ8+VqGVo8uZhr1bJ+E=
-=aevn
------END PGP SIGNATURE-----
+v2: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01079.html
+v2 -> v3: Peek at the next instruction on s390x (Richard).
+          Undo more on i386 (Richard).
+          Check PAGE_EXEC, not PAGE_READ (Peter, Richard).
 
---dtwe7c5gjodmi44v--
+v3: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01306.html
+v3 -> v4: Improve the commit message in patch 1 to better reflect what
+          exactly is being fixed there.
+          Factor out the is_same_page() patch (Richard).
+          Do not touch the common code in the i386 fix (Richard).
+
+v4: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01747.html
+v4 -> v5: Drop patch 2.
+          Use a different fix for the invalidation issue based on
+          discussion with Richard [2].
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02472.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02556.html
+
+Ilya Leoshkevich (4):
+  linux-user: Clear tb_jmp_cache on mprotect()
+  target/s390x: Make translator stop before the end of a page
+  target/i386: Make translator stop before the end of a page
+  tests/tcg: Test siginfo_t contents when jumping to non-readable pages
+
+ linux-user/mmap.c                |  14 +++
+ target/i386/tcg/translate.c      |  25 +++++-
+ target/s390x/tcg/translate.c     |  15 +++-
+ tests/tcg/multiarch/noexec.h     | 114 ++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target  |   1 +
+ tests/tcg/s390x/noexec.c         | 145 +++++++++++++++++++++++++++++++
+ tests/tcg/x86_64/Makefile.target |   3 +-
+ tests/tcg/x86_64/noexec.c        | 116 +++++++++++++++++++++++++
+ 8 files changed, 427 insertions(+), 6 deletions(-)
+ create mode 100644 tests/tcg/multiarch/noexec.h
+ create mode 100644 tests/tcg/s390x/noexec.c
+ create mode 100644 tests/tcg/x86_64/noexec.c
+
+-- 
+2.37.1
 
 
