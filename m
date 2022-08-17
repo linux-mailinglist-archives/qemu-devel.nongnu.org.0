@@ -2,101 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651A7596B40
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:18:01 +0200 (CEST)
-Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E88596B41
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:19:52 +0200 (CEST)
+Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOEFT-0002do-Tl
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
+	id 1oOEHH-0003Kc-Ce
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oOE2T-0006Z3-Si
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:04:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22285)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oOE2R-0006kS-0P
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:04:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660723470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=anngLp3MWQpeGlT+zr3HzdmA3XcocVWCsNbFM3Qpknc=;
- b=I0rl2xFQIkNXIITxC+tc807dOk9aGkO/vPx8LiP6opmwfHfFSdQsXvbW4pK/5hn8VfBfOu
- Hl7vhsAAg7mmfRr6zCtgMjs6spd7nwJ3RFTV8jYmJ1bfE4GTzT2fM3OXTv8ikNbYfQLC97
- BQMiAkOPzubsSS6yfqWTfRx9jX4X75Y=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-597-9RWD7WuzPxWQ9aVsbH6D3A-1; Wed, 17 Aug 2022 04:04:28 -0400
-X-MC-Unique: 9RWD7WuzPxWQ9aVsbH6D3A-1
-Received: by mail-qk1-f199.google.com with SMTP id
- s9-20020a05620a254900b006b54dd4d6deso11037135qko.3
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 01:04:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=anngLp3MWQpeGlT+zr3HzdmA3XcocVWCsNbFM3Qpknc=;
- b=vDBGBhny5/mgYK3vf5to376VKtUF9D26VdUS29wQ8LsFPYdbxvaAM7Xz8uZUA8b6kO
- GL57riGSaQRmHXtWiIw/ixzAot+/olzjoQ5htd2/iVusRpaVjbUj2n27gnFzQjcgf0r1
- aVErgYHSZKD6Z987/cscffatocf1Mt++dueMoYwu8hrUguIoNk2C04/7zptNZQTfVAZ6
- PFSTAhlEmJnZ+3bGu5SnCYdsDkM/dmHrnCftdnUjDlA8e580S1s79dWzTPY0DQ2FlMnK
- kenjOvOKVPYvR7b1RWJ9259emS4wGLUgEtVQxOU1O48L7su5PRDkRJcEjYybGOWViTSY
- n+tQ==
-X-Gm-Message-State: ACgBeo3RZ82Gur9UXDA9Kf2BRJlp/v70CjLSgfDNQmbfRaY5JhqsY1kB
- sENXY5VdsdYreNBgZZPsaFhVN9fjWpilOwBLjwe9b2p0DD0XDc0VhyOdg2YMy/Z+HSGGCpGi8WQ
- L6zBwQYDsukEf1uY=
-X-Received: by 2002:ac8:5b93:0:b0:343:752b:395b with SMTP id
- a19-20020ac85b93000000b00343752b395bmr19156195qta.20.1660723467702; 
- Wed, 17 Aug 2022 01:04:27 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4cLYroTOf9lZ4cSyDVtRbz3yD2EMnU+9hyLVDzeNbd/iLho+dT3QEqsc6MI/9NJm+yXfGj7A==
-X-Received: by 2002:ac8:5b93:0:b0:343:752b:395b with SMTP id
- a19-20020ac85b93000000b00343752b395bmr19156173qta.20.1660723467452; 
- Wed, 17 Aug 2022 01:04:27 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- k20-20020a05620a415400b006bb83c2be40sm2408460qko.59.2022.08.17.01.04.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Aug 2022 01:04:26 -0700 (PDT)
-Message-ID: <bbb32ac1-0212-a0b6-9fae-a5907fbc9668@redhat.com>
-Date: Wed, 17 Aug 2022 10:04:22 +0200
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1oOE9F-0007wK-Ch
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:11:33 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:51334 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1oOE9C-00084s-KE
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:11:33 -0400
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxReKoovxi4igDAA--.16584S3; 
+ Wed, 17 Aug 2022 16:11:20 +0800 (CST)
+Subject: Re: [PATCH for-7.1 3/4] target/loongarch: rename the TCG CPU "la464"
+ to "qemu64-v1.00"
+To: chen huacai <zltjiangshi@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: WANG Xuerui <i.qemu@xen0n.name>, qemu-level <qemu-devel@nongnu.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, WANG Xuerui <git@xen0n.name>,
+ maobibo <maobibo@loongson.cn>
+References: <20220814145351.1474753-1-git@xen0n.name>
+ <20220814145522.1474927-4-i.qemu@xen0n.name>
+ <1c4ae4dd-7365-1d5b-0608-31ba04ee96e0@linaro.org>
+ <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <2382c1cd-6318-34a2-35e8-addc751f6aeb@loongson.cn>
+Date: Wed, 17 Aug 2022 16:11:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v10 14/21] jobs: protect job.aio_context with BQL and
- job_mutex
+In-Reply-To: <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220725073855.76049-1-eesposit@redhat.com>
- <20220725073855.76049-15-eesposit@redhat.com> <Yuze6ldui3LtEcZm@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <Yuze6ldui3LtEcZm@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: AQAAf8DxReKoovxi4igDAA--.16584S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7ur4kJw48Zw4rCrWxKF43Awb_yoW8urWUpF
+ W3ta1fKFs7JrnrCan2yws3Zr1SyF1xJr45XF98Xr92yr98ZryfWr4xKF4j9Fy2q3s7XanF
+ vFWUK3yfAF1rZ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
+ jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ ACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl
+ 42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JUq38nUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,95 +85,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-
-Am 05/08/2022 um 11:12 schrieb Kevin Wolf:
-> Am 25.07.2022 um 09:38 hat Emanuele Giuseppe Esposito geschrieben:
->> In order to make it thread safe, implement a "fake rwlock",
->> where we allow reads under BQL *or* job_mutex held, but
->> writes only under BQL *and* job_mutex.
-> 
-> Oh, so the "or BQL" part is only for job.aio_context? Okay.
-> 
->> The only write we have is in child_job_set_aio_ctx, which always
->> happens under drain (so the job is paused).
->> For this reason, introduce job_set_aio_context and make sure that
->> the context is set under BQL, job_mutex and drain.
->> Also make sure all other places where the aiocontext is read
->> are protected.
+在 2022/8/17 上午10:36, chen huacai 写道:
+> Hi, Richard and Xuerui,
+>
+> On Mon, Aug 15, 2022 at 4:54 AM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>> On 8/14/22 09:55, WANG Xuerui wrote:
+>>> From: WANG Xuerui <git@xen0n.name>
+>>>
+>>> The only LoongArch CPU implemented is modeled after the Loongson 3A5000,
+>>> but it is not the real thing, ...
+>> The 3A5000 is the SoC, as far as I could find, and the documentation of that says the core
+>> is named the la464.
 >>
->> Note: at this stage, job_{lock/unlock} and job lock guard macros
->> are *nop*.
 >>
->> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>  block/replication.c |  6 ++++--
->>  blockjob.c          |  3 ++-
->>  include/qemu/job.h  | 19 ++++++++++++++++++-
->>  job.c               | 12 ++++++++++++
->>  4 files changed, 36 insertions(+), 4 deletions(-)
+>>> In general, high-fidelity models can and should be named after the real
+>>> hardware model, while generic emulation-oriented models should be named
+>>> after ISA levels.
+>> This wasn't intended to be a generic emulation model, as far as I know.  There are missing
+>> features, but presumably those would eventually be filled in.
 >>
->> diff --git a/block/replication.c b/block/replication.c
->> index 55c8f894aa..2189863df1 100644
->> --- a/block/replication.c
->> +++ b/block/replication.c
->> @@ -148,8 +148,10 @@ static void replication_close(BlockDriverState *bs)
->>      }
->>      if (s->stage == BLOCK_REPLICATION_FAILOVER) {
->>          commit_job = &s->commit_job->job;
->> -        assert(commit_job->aio_context == qemu_get_current_aio_context());
->> -        job_cancel_sync(commit_job, false);
->> +        WITH_JOB_LOCK_GUARD() {
->> +            assert(commit_job->aio_context == qemu_get_current_aio_context());
->> +            job_cancel_sync_locked(commit_job, false);
->> +        }
->>      }
-> 
-> .bdrv_close runs under the BQL, so why is this needed? Maybe a
-> GLOBAL_STATE_CODE() annotation would be helpful, though.
+>>
+>>> For now, the best reference for LoongArch ISA levels
+>>> is the revision number of the LoongArch ISA Manual, of which v1.00 is
+>>> still the latest. (v1.01 and v1.02 are minor revisions without
+>>> substantive change.)
+>>>
+>>> As defined by various specs, the vendor and model names are also
+>>> reflected in respective CSRs, and are 8 bytes long. So, rename "la464"
+>>> to "qemu64-v1.00", with "QEMU64" as vendor name and "v1.00" as model
+>>> name.
+>> Eh, I suppose.  I'm not really keen on this though, as I would presume there will be
+>> eventual forward progress on completing the real cpu model.  We simply won't give any
+>> compatibility guarantees for loongarch until we are ready to do so.
+> In my opinion, real cpu name (Loongson-3A5000, Loongson-3A6000, etc.)
+> and generic qemu emulated name (qemu64-v1.00, qemu64-v2.00, vx.xx is
+> the ISA level, I found this style is used for x86) are both
+> acceptable. But la464 is not a good cpu name, because la264 and la464
+> are in the same ISA level, while la664 will be in a new level.
+I think that 'la264' , 'la464' and 'la664'  are  cpu core name. used 
+them as cpu type is more suitable.
+Although la264 and la464 are in the same ISA level,   but the features 
+should be different.
 
-I think I left it because it would be confusing to leave a _locked
-function without the job lock. I'll add the GLOBAL_STATE_CODE anyways.
-
-> 
->>      if (s->mode == REPLICATION_MODE_SECONDARY) {
->> diff --git a/blockjob.c b/blockjob.c
->> index 96fb9d9f73..9ff2727025 100644
->> --- a/blockjob.c
->> +++ b/blockjob.c
->> @@ -162,12 +162,13 @@ static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
->>          bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
->>      }
->>  
->> -    job->job.aio_context = ctx;
->> +    job_set_aio_context(&job->job, ctx);
->>  }
->>  
->>  static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
->>  {
->>      BlockJob *job = c->opaque;
->> +    assert(qemu_in_main_thread());
-> 
-> Any reason not to use GLOBAL_STATE_CODE()?
-
-4 months ago GLOBAL_STATE_CODE did not exist yet, and I didn't think
-about updating it :)
-> 
->>      return job->job.aio_context;
->>  }
-
->> +    /* protect against read in job_do_yield_locked */
->> +    JOB_LOCK_GUARD();
->> +    /* ensure the coroutine is quiescent while the AioContext is changed */
->> +    assert(job->pause_count > 0);
-> 
-> job->pause_count only shows that pausing was requested. The coroutine is
-> only really quiescent if job->busy == false, too.
-> 
-> Or maybe job->paused is actually the one you want here.
-I think job->paused works too.
-
-Emanuele
+Thanks.
+Song Gao
+> Huacai
+>
+>>
+>> r~
+>>
+>
 
 
