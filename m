@@ -2,31 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0215D597309
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:37:53 +0200 (CEST)
-Received: from localhost ([::1]:49192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78A259732F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:42:17 +0200 (CEST)
+Received: from localhost ([::1]:47400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOL7A-00088e-3k
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39834)
+	id 1oOLBO-0006J1-Hx
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKey-0004pK-G3; Wed, 17 Aug 2022 11:08:44 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:43947)
+ id 1oOKfJ-0005m6-8o; Wed, 17 Aug 2022 11:09:05 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:43952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKew-00034u-KN; Wed, 17 Aug 2022 11:08:44 -0400
+ id 1oOKfH-00035e-NQ; Wed, 17 Aug 2022 11:09:04 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1D78B7475F9;
- Wed, 17 Aug 2022 17:08:41 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 27D39746397;
+ Wed, 17 Aug 2022 17:08:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 00E8D74638A; Wed, 17 Aug 2022 17:08:40 +0200 (CEST)
-Message-Id: <4d46dde64c2e5df6db3f92426fb3ae885939c2b0.1660746880.git.balaton@eik.bme.hu>
+ id 0B81E74638A; Wed, 17 Aug 2022 17:08:42 +0200 (CEST)
+Message-Id: <0a3e454eb7fd5f2b807a9c752c28693f27829f1d.1660746880.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660746880.git.balaton@eik.bme.hu>
 References: <cover.1660746880.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 22/31] hw/ppc/Kconfig: Move imply before select
+Subject: [PATCH v2 23/31] ppc/ppc4xx: Fix sdram trace events
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -34,7 +37,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Aug 2022 17:08:40 +0200 (CEST)
+Date: Wed, 17 Aug 2022 17:08:42 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -59,34 +62,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In pegasos2 section move imply before select to match other sections.
+From: Cédric Le Goater <clg@kaod.org>
 
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/Kconfig | 2 +-
+ hw/ppc/ppc4xx_devs.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 205f9f98d7..3a4418a69e 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -71,6 +71,7 @@ config SAM460EX
- 
- config PEGASOS2
-     bool
-+    imply ATI_VGA
-     select MV64361
-     select VT82C686
-     select IDE_VIA
-@@ -78,7 +79,6 @@ config PEGASOS2
-     select VOF
- # This should come with VT82C686
-     select ACPI_X86
--    imply ATI_VGA
- 
- config PREP
-     bool
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index 37e3b87c2e..27ebbb2ffc 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -142,7 +142,7 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
+     }
+     sdram->bcr[i] = bcr & 0xFFDEE001;
+     if (enabled && (bcr & 0x00000001)) {
+-        trace_ppc4xx_sdram_unmap(sdram_base(bcr), sdram_size(bcr));
++        trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
+         memory_region_init(&sdram->containers[i], NULL, "sdram-containers",
+                            sdram_size(bcr));
+         memory_region_add_subregion(&sdram->containers[i], 0,
 -- 
 2.30.4
 
