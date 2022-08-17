@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474E75972EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:30:06 +0200 (CEST)
-Received: from localhost ([::1]:39154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0215D597309
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:37:53 +0200 (CEST)
+Received: from localhost ([::1]:49192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOKzd-0007mw-Dq
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:30:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39820)
+	id 1oOL7A-00088e-3k
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKex-0004pG-Bh; Wed, 17 Aug 2022 11:08:44 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:43942)
+ id 1oOKey-0004pK-G3; Wed, 17 Aug 2022 11:08:44 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:43947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKev-00034l-V8; Wed, 17 Aug 2022 11:08:43 -0400
+ id 1oOKew-00034u-KN; Wed, 17 Aug 2022 11:08:44 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 287657470B9;
- Wed, 17 Aug 2022 17:08:40 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 1D78B7475F9;
+ Wed, 17 Aug 2022 17:08:41 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id EC1E674638A; Wed, 17 Aug 2022 17:08:39 +0200 (CEST)
-Message-Id: <a8641d20f68e216bd1caf988c9ef187252de561b.1660746880.git.balaton@eik.bme.hu>
+ id 00E8D74638A; Wed, 17 Aug 2022 17:08:40 +0200 (CEST)
+Message-Id: <4d46dde64c2e5df6db3f92426fb3ae885939c2b0.1660746880.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660746880.git.balaton@eik.bme.hu>
 References: <cover.1660746880.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 21/31] hw/ppc/Kconfig: Remove PPC405 dependency from
- sam460ex
+Subject: [PATCH v2 22/31] hw/ppc/Kconfig: Move imply before select
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -35,7 +34,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Aug 2022 17:08:39 +0200 (CEST)
+Date: Wed, 17 Aug 2022 17:08:40 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -60,27 +59,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that shared PPC4xx devices are separated from PPC405 ones we can
-drop this depencency.
+In pegasos2 section move imply before select to match other sections.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ hw/ppc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 400511c6b7..205f9f98d7 100644
+index 205f9f98d7..3a4418a69e 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -58,7 +58,6 @@ config PPC4XX
+@@ -71,6 +71,7 @@ config SAM460EX
  
- config SAM460EX
+ config PEGASOS2
      bool
--    select PPC405
-     select PFLASH_CFI01
-     select IDE_SII3112
-     select M41T80
++    imply ATI_VGA
+     select MV64361
+     select VT82C686
+     select IDE_VIA
+@@ -78,7 +79,6 @@ config PEGASOS2
+     select VOF
+ # This should come with VT82C686
+     select ACPI_X86
+-    imply ATI_VGA
+ 
+ config PREP
+     bool
 -- 
 2.30.4
 
