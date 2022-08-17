@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8275974B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 19:00:57 +0200 (CEST)
-Received: from localhost ([::1]:38632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CA65974B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 19:01:28 +0200 (CEST)
+Received: from localhost ([::1]:56130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOMPW-0003fl-4r
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 13:00:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59598)
+	id 1oOMQ3-00048f-6R
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 13:01:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oOMMZ-0000wf-4e; Wed, 17 Aug 2022 12:57:51 -0400
+ id 1oOMMc-0000zI-T8; Wed, 17 Aug 2022 12:57:54 -0400
 Received: from [200.168.210.66] (port=1414 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oOMMX-0006aP-Bj; Wed, 17 Aug 2022 12:57:50 -0400
+ id 1oOMMa-0006aP-MZ; Wed, 17 Aug 2022 12:57:54 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 17 Aug 2022 13:57:43 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id F135C800134;
- Wed, 17 Aug 2022 13:57:42 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 361BC8003A9;
+ Wed, 17 Aug 2022 13:57:43 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-ppc@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PATCH 1/2] tests/tcg/ppc64le: Added an overflow with OE=1 test
-Date: Wed, 17 Aug 2022 13:57:03 -0300
-Message-Id: <20220817165704.165291-1-lucas.araujo@eldorado.org.br>
+Subject: [PATCH 2/2] tests/tcg/ppc64le: Added an underflow with UE=1 test
+Date: Wed, 17 Aug 2022 13:57:04 -0300
+Message-Id: <20220817165704.165291-2-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220817165704.165291-1-lucas.araujo@eldorado.org.br>
+References: <20220817165704.165291-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 Aug 2022 16:57:43.0377 (UTC)
- FILETIME=[77C72410:01D8B25A]
+X-OriginalArrivalTime: 17 Aug 2022 16:57:43.0549 (UTC)
+ FILETIME=[77E162D0:01D8B25A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,49 +65,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Added a test to see if the adjustment is being made correctly when an
-overflow occurs and OE is set.
+underflow occurs and UE is set.
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
-The prctl patch is not ready yet, so this patch does as Richard
-Henderson suggested and check the fp register in the signal handler
-
-This patch will fail without the overflow with OE set bugfix
+This patch will also fail without the underflow with UE set bugfix
 Message-Id:<20220805141522.412864-3-lucas.araujo@eldorado.org.br>
 ---
  tests/tcg/ppc64/Makefile.target   |  1 +
  tests/tcg/ppc64le/Makefile.target |  1 +
- tests/tcg/ppc64le/oe_excp.c       | 54 +++++++++++++++++++++++++++++++
+ tests/tcg/ppc64le/ue_excp.c       | 54 +++++++++++++++++++++++++++++++
  3 files changed, 56 insertions(+)
- create mode 100644 tests/tcg/ppc64le/oe_excp.c
+ create mode 100644 tests/tcg/ppc64le/ue_excp.c
 
 diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index 331fae628e..43958ad87b 100644
+index 43958ad87b..583677031b 100644
 --- a/tests/tcg/ppc64/Makefile.target
 +++ b/tests/tcg/ppc64/Makefile.target
-@@ -29,5 +29,6 @@ run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
- 
+@@ -30,5 +30,6 @@ run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
  PPC64_TESTS += signal_save_restore_xer
  PPC64_TESTS += xxspltw
-+PPC64_TESTS += oe_excp
+ PPC64_TESTS += oe_excp
++PPC64_TESTS += ue_excp
  
  TESTS += $(PPC64_TESTS)
 diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 6ca3003f02..8d11ac731d 100644
+index 8d11ac731d..b9e689c582 100644
 --- a/tests/tcg/ppc64le/Makefile.target
 +++ b/tests/tcg/ppc64le/Makefile.target
-@@ -27,5 +27,6 @@ PPC64LE_TESTS += mtfsf
- PPC64LE_TESTS += mffsce
+@@ -28,5 +28,6 @@ PPC64LE_TESTS += mffsce
  PPC64LE_TESTS += signal_save_restore_xer
  PPC64LE_TESTS += xxspltw
-+PPC64LE_TESTS += oe_excp
+ PPC64LE_TESTS += oe_excp
++PPC64LE_TESTS += ue_excp
  
  TESTS += $(PPC64LE_TESTS)
-diff --git a/tests/tcg/ppc64le/oe_excp.c b/tests/tcg/ppc64le/oe_excp.c
+diff --git a/tests/tcg/ppc64le/ue_excp.c b/tests/tcg/ppc64le/ue_excp.c
 new file mode 100644
-index 0000000000..cfc364f5ed
+index 0000000000..b25ba1f803
 --- /dev/null
-+++ b/tests/tcg/ppc64le/oe_excp.c
++++ b/tests/tcg/ppc64le/ue_excp.c
 @@ -0,0 +1,54 @@
 +#include <stdio.h>
 +#include <stdlib.h>
@@ -113,13 +112,13 @@ index 0000000000..cfc364f5ed
 +#include <signal.h>
 +#include <stdint.h>
 +
-+#define FP_OE (1ull << 6)
++#define FP_UE (1ull << 5)
 +#define MTFSF(FLM, FRB) asm volatile ("mtfsf %0, %1" :: "i" (FLM), "f" (FRB))
 +
 +void sigfpe_handler(int sig, siginfo_t *si, void *ucontext)
 +{
 +    uint64_t t;
-+    uint64_t ch = 0x5fcfffe4965a17e0ull;
++    uint64_t ch = 0x1b64f1c1b0000000ull;
 +    asm (
 +        "stfd 2, %0\n\t"
 +        : "=m"(t)
@@ -136,8 +135,8 @@ index 0000000000..cfc364f5ed
 +int main()
 +{
 +    uint64_t fpscr;
-+    uint64_t a = 0x7fdfffe816d77b00ull;
-+    uint64_t b = 0x7fdfffFC7F7FFF00ull;
++    uint64_t a = 0x00005ca8ull;
++    uint64_t b = 0x00001cefull;
 +
 +    struct sigaction sa = {
 +        .sa_sigaction = sigfpe_handler,
@@ -147,7 +146,7 @@ index 0000000000..cfc364f5ed
 +    prctl(PR_SET_FPEXC, PR_FP_EXC_PRECISE);
 +    sigaction(SIGFPE, &sa, NULL);
 +
-+    fpscr = FP_OE;
++    fpscr = FP_UE;
 +    MTFSF(0b11111111, fpscr);
 +
 +    asm (
