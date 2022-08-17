@@ -2,49 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50811597635
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 21:06:36 +0200 (CEST)
-Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3300559764E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 21:15:06 +0200 (CEST)
+Received: from localhost ([::1]:37108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOON9-0000ru-Al
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 15:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59848)
+	id 1oOOVM-0003yG-T1
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 15:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOOJ5-0006uz-W9; Wed, 17 Aug 2022 15:02:24 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:22231)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oOOTp-0002R7-MK; Wed, 17 Aug 2022 15:13:29 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:47658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOOIx-00075a-1D; Wed, 17 Aug 2022 15:02:17 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1E903746397;
- Wed, 17 Aug 2022 21:02:12 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E0B3574638A; Wed, 17 Aug 2022 21:02:11 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DEE7C746381;
- Wed, 17 Aug 2022 21:02:11 +0200 (CEST)
-Date: Wed, 17 Aug 2022 21:02:11 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 00/31] QOMify PPC4xx devices and minor clean ups
-In-Reply-To: <cover.1660746880.git.balaton@eik.bme.hu>
-Message-ID: <b61057e-9d29-1720-9926-74b59b3c0c7@eik.bme.hu>
-References: <cover.1660746880.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oOOTh-0000Sb-I2; Wed, 17 Aug 2022 15:13:27 -0400
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id F3C912E0991;
+ Wed, 17 Aug 2022 22:13:09 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b4a5::1:13] (unknown
+ [2a02:6b8:b081:b4a5::1:13])
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ YN6nLZXpp8-D8OWwk6u; Wed, 17 Aug 2022 22:13:09 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1660763589; bh=3JEls7RaB4DXnoZcQ/QC4WxzsFsNErPiZOTIPZib6Ss=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=DS3XgCQAPUZ5WgulJ+Cg4sJEHOU03GWy1p93dsUOJ1yz+WulSBvbAqwVWVQsntybh
+ bqjeOC9ut0msbiwCanzZ2YIqlaG3500nZm/i9RoHfHDT1eq5gIZvywzVPkEK2uLDbj
+ W36B6TTMqb4+1EbNly1LrsWvqjD0VjDutpSlb7aI=
+Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <f0f1cee6-1409-c94e-d9c1-68cb4c848d0a@yandex-team.ru>
+Date: Wed, 17 Aug 2022 22:13:08 +0300
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1194653798-1660762931=:79357"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3 1/8] parallels: Out of image offset in BAT leads to
+ image inflation
+Content-Language: en-US
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20220815090216.1818622-1-alexander.ivanov@virtuozzo.com>
+ <20220815090216.1818622-2-alexander.ivanov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220815090216.1818622-2-alexander.ivanov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,34 +79,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 8/15/22 12:02, Alexander Ivanov wrote:
+> data_end field in BDRVParallelsState is set to the biggest offset present
+> in BAT. If this offset is outside of the image, any further write will create
+> the cluster at this offset and/or the image will be truncated to this
+> offset on close. This is definitely not correct and should be fixed.
+> 
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+> v2: No change.
+> v3: Fix commit message.
+> 
+>   block/parallels.c | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+> 
+> diff --git a/block/parallels.c b/block/parallels.c
+> index a229c06f25..a76cf9d993 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -732,6 +732,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>       BDRVParallelsState *s = bs->opaque;
+>       ParallelsHeader ph;
+>       int ret, size, i;
+> +    int64_t file_size;
+>       QemuOpts *opts = NULL;
+>       Error *local_err = NULL;
+>       char *buf;
+> @@ -811,6 +812,22 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>           }
+>       }
+>   
+> +    file_size = bdrv_getlength(bs->file->bs);
+> +    if (file_size < 0) {
+> +        goto fail;
+> +    }
+> +
+> +    file_size >>= BDRV_SECTOR_BITS;
+> +    if (s->data_end > file_size) {
+> +        if (flags & BDRV_O_CHECK) {
+> +            s->data_end = file_size;
 
---3866299591-1194653798-1660762931=:79357
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Hm. but with this, any further allocation may lead to twice-allocted clusters, as you just modify s->data_end, but havn't yet fixed the BAT entry.. It seems unsafe. Or what I miss?
 
-On Wed, 17 Aug 2022, BALATON Zoltan wrote:
-> Hello,
->
-> This is based on gitlab.com/danielhb/qemu/tree/ppc-7.2
->
-> This series contains the rest of Cédric's OOM'ify patches modified
-> according my review comments and some other clean ups I've noticed
-> along the way.
->
-> v2 now also includes the sdram changes after some clean up to simplify
-> it. This should now be the same state as Cédric's series. I shall
-> continue with the ppc440_sdram DDR2 controller model used by the
-> sam460ex but that needs a bit more chnages. But it is independent of
-> this series so this can be merged now and I can follow up later in a
-> separate series.
+> +        } else {
+> +            error_setg(errp, "parallels: Offset in BAT is out of image");
+> +            ret = -EINVAL;
+> +            goto fail;
+> +        }
+> +    }
+> +
+>       if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
+>           /* Image was not closed correctly. The check is mandatory */
+>           s->header_unclean = true;
 
-I've resent fixed v3 patches for patch 21 and 31, hopefully there are no 
-more missing pieces. Let me know if you want the whole series resent 
-instead.
 
-Regards,
-BALATON Zoltan
---3866299591-1194653798-1660762931=:79357--
+-- 
+Best regards,
+Vladimir
 
