@@ -2,92 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02AE596BB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:56:32 +0200 (CEST)
-Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5E9596BD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 11:13:09 +0200 (CEST)
+Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOEqm-0000jP-27
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:56:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
+	id 1oOF6p-0004JT-Ox
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 05:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOEnM-0006ey-AN
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:53:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35119)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1oOF5A-0002tm-LH
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 05:11:24 -0400
+Received: from mail.xen0n.name ([115.28.160.31]:54616
+ helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOEnJ-0006s4-5y
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:52:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660726376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5MVMPqYflcNyp+DgMy6/AZ2ZRVzBrOxaK4jjuecMeNw=;
- b=E+BZN4JJfu1K9diXzs5BUVtLYNmayyPPYmVYlyNJEEJMB48knDlNuRbSlJP/I+N7f/TR9S
- JTCZnhm0VGSLmqowXAopkVcjRTdR/Fczo8NXN9/zp5NofkoUotiRIpNu7V2/+A5jqVjoUA
- 5LXkId1V9Rdr6VZph2eCZDgM+dp19rk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-35-Q2guuv_bMCmaZBSbBroYxQ-1; Wed, 17 Aug 2022 04:52:54 -0400
-X-MC-Unique: Q2guuv_bMCmaZBSbBroYxQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i132-20020a1c3b8a000000b003a537064611so6069010wma.4
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 01:52:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=5MVMPqYflcNyp+DgMy6/AZ2ZRVzBrOxaK4jjuecMeNw=;
- b=lGASed3P3sQUp+zGelVOQfug8DINoHnDR0uaHZYR5EW6ioG8kY8R2EtYQXBx79JH0K
- WW8zpjEv/QfwcN4hcGbHFXFHPN+7F7MR0qikwWz1DzUKxatNVVGzakfGjwMmsCehWLJ5
- UGQZKOVJScRi+AKh85e6ykDU4juEDPIyQM0VR3D566lKIrNTIwJtkZjP19gTWtTupKvm
- svlWBoiVCy/n466M9MFRanY/iGBWd7rAqkR/icd+g9yRifuiPdMjrdA7YoNkK2NrCMeC
- NUeTxji/SWG297qEin3eKmEQdcRAyA5+9TdVWFbxBObXeLtftUrtZ4xtG4uLwHCEKGV2
- IZqg==
-X-Gm-Message-State: ACgBeo3D0m4B6s6zO86oysQiPFkRkYAv00ceFnoZDIXIQ3bxKvlBZ8Fm
- jAcqKu3R4UPvXu+MtYn8gNR00JfxZkEDU4lX0iuSVWCqm+L+5kl47dWh/SQdgQyF1SmWRsGswlz
- EW7lrtmOThO0TNI8=
-X-Received: by 2002:a05:6000:887:b0:21e:24a0:f302 with SMTP id
- ca7-20020a056000088700b0021e24a0f302mr13109929wrb.466.1660726373498; 
- Wed, 17 Aug 2022 01:52:53 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5U/cq/2B7lReLFqxl4Y3ernG91/i8hKG9NaW9vYGlgEpBhtUzJGUjwVHgpOSDIb4xXFYQJiQ==
-X-Received: by 2002:a05:6000:887:b0:21e:24a0:f302 with SMTP id
- ca7-20020a056000088700b0021e24a0f302mr13109912wrb.466.1660726373289; 
- Wed, 17 Aug 2022 01:52:53 -0700 (PDT)
-Received: from redhat.com ([2.55.43.215]) by smtp.gmail.com with ESMTPSA id
- b3-20020a05600010c300b002217339ce90sm12412362wrx.8.2022.08.17.01.52.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 01:52:52 -0700 (PDT)
-Date: Wed, 17 Aug 2022 04:52:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Sergio Lopez <slp@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Jason A . Donenfeld" <Jason@zx2c4.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] x86: disable rng seeding via setup_data
-Message-ID: <20220817045232-mutt-send-email-mst@kernel.org>
-References: <20220817083940.3174933-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1oOF55-0004sa-Su
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 05:11:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+ t=1660727431; bh=pFexvhbgr1yXfTzBNsQxNZ2CgWorwuJ5IXAx1P71ONw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=b6J0x+jh8FTD/LuhfMNZYDUq+owNjScWfJLXTnHdiFhMV2lU6/04OoZSQj/GdouF5
+ Rzf8i+927Ns1u7LHse/X/MSofddTlSLuvyoZwf27bAHHOwJanmXTnARQpJlgTXLpxr
+ uJXY8izOXgtxZkNqInqk7moXzVDInVKUak8Ng5tE=
+Received: from [100.100.57.219] (unknown [220.248.53.61])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id EECC260074;
+ Wed, 17 Aug 2022 17:10:30 +0800 (CST)
+Message-ID: <a5fde3dc-0fd4-8739-82b1-d94781637169@xen0n.name>
+Date: Wed, 17 Aug 2022 17:10:30 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.0)
+ Gecko/20100101 Thunderbird/105.0a1
+Subject: Re: [PATCH for-7.1 3/4] target/loongarch: rename the TCG CPU "la464"
+ to "qemu64-v1.00"
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>, chen huacai <zltjiangshi@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: WANG Xuerui <i.qemu@xen0n.name>, qemu-level <qemu-devel@nongnu.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, WANG Xuerui <git@xen0n.name>,
+ maobibo <maobibo@loongson.cn>
+References: <20220814145351.1474753-1-git@xen0n.name>
+ <20220814145522.1474927-4-i.qemu@xen0n.name>
+ <1c4ae4dd-7365-1d5b-0608-31ba04ee96e0@linaro.org>
+ <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
+ <2382c1cd-6318-34a2-35e8-addc751f6aeb@loongson.cn>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <2382c1cd-6318-34a2-35e8-addc751f6aeb@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220817083940.3174933-1-kraxel@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,88 +76,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 17, 2022 at 10:39:40AM +0200, Gerd Hoffmann wrote:
-> Causes regressions when doing direct kernel boots with OVMF.
-> 
-> At this point in the release cycle the only sensible action
-> is to just disable this for 7.1 and sort it properly in the
-> 7.2 devel cycle.
-> 
-> Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Eduardo Habkost <eduardo@habkost.net>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daud� <f4bug@amsat.org>
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+On 2022/8/17 16:11, gaosong wrote:
+>
+> 在 2022/8/17 上午10:36, chen huacai 写道:
+>> Hi, Richard and Xuerui,
+>>
+>> On Mon, Aug 15, 2022 at 4:54 AM Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>> On 8/14/22 09:55, WANG Xuerui wrote:
+>>>> From: WANG Xuerui <git@xen0n.name>
+>>>>
+>>>> The only LoongArch CPU implemented is modeled after the Loongson 
+>>>> 3A5000,
+>>>> but it is not the real thing, ...
+>>> The 3A5000 is the SoC, as far as I could find, and the documentation 
+>>> of that says the core
+>>> is named the la464.
+>>>
+>>>
+>>>> In general, high-fidelity models can and should be named after the 
+>>>> real
+>>>> hardware model, while generic emulation-oriented models should be 
+>>>> named
+>>>> after ISA levels.
+>>> This wasn't intended to be a generic emulation model, as far as I 
+>>> know.  There are missing
+>>> features, but presumably those would eventually be filled in.
+>>>
+>>>
+>>>> For now, the best reference for LoongArch ISA levels
+>>>> is the revision number of the LoongArch ISA Manual, of which v1.00 is
+>>>> still the latest. (v1.01 and v1.02 are minor revisions without
+>>>> substantive change.)
+>>>>
+>>>> As defined by various specs, the vendor and model names are also
+>>>> reflected in respective CSRs, and are 8 bytes long. So, rename "la464"
+>>>> to "qemu64-v1.00", with "QEMU64" as vendor name and "v1.00" as model
+>>>> name.
+>>> Eh, I suppose.  I'm not really keen on this though, as I would 
+>>> presume there will be
+>>> eventual forward progress on completing the real cpu model. We 
+>>> simply won't give any
+>>> compatibility guarantees for loongarch until we are ready to do so.
+>> In my opinion, real cpu name (Loongson-3A5000, Loongson-3A6000, etc.)
+>> and generic qemu emulated name (qemu64-v1.00, qemu64-v2.00, vx.xx is
+>> the ISA level, I found this style is used for x86) are both
+>> acceptable. But la464 is not a good cpu name, because la264 and la464
+>> are in the same ISA level, while la664 will be in a new level.
+> I think that 'la264' , 'la464' and 'la664'  are  cpu core name. used 
+> them as cpu type is more suitable.
+> Although la264 and la464 are in the same ISA level,   but the features 
+> should be different.
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+ From my own experiences, different use cases care about different 
+aspects of the CPU, and that IMO is an argument in favor of providing 
+both (high-fidelity models named after actual product model names, and 
+virtual models named after ISA levels). But before we have truly 
+high-fidelity models I think we should start with the virtual ones 
+first. And don't pretend the currently implemented model is LA464 -- the 
+kernel change I've linked to [1] implies the opposite.
 
+If you're emulating certain boards to test kernels/drivers or similar 
+things, it could help to be able to specify exact CPU models and/or 
+machine type. However, for the linux-user case, it is almost always the 
+ISA level that actually matters, and I don't think LA264/LA364/LA464 are 
+going to differ w.r.t. unprivileged instruction behavior. Having to 
+choose an overly specific model for a broad ISA level match seems 
+inappropriate to my aesthetic sense.
 
-Will queue ASAP.
-
-> ---
->  hw/i386/microvm.c | 2 +-
->  hw/i386/pc_piix.c | 2 +-
->  hw/i386/pc_q35.c  | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 7fe8cce03e92..52cafa003d8a 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
->      rom_set_fw(fw_cfg);
->  
->      if (machine->kernel_filename != NULL) {
-> -        x86_load_linux(x86ms, fw_cfg, 0, true, false);
-> +        x86_load_linux(x86ms, fw_cfg, 0, true, true);
->      }
->  
->      if (mms->option_roms) {
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index a5c65c1c3527..20962c34e7d8 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -439,6 +439,7 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
->      m->alias = "pc";
->      m->is_default = true;
->      pcmc->default_cpu_version = 1;
-> +    pcmc->legacy_no_rng_seed = true;
->  }
->  
->  DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
-> @@ -450,7 +451,6 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
->      pc_i440fx_7_1_machine_options(m);
->      m->alias = NULL;
->      m->is_default = false;
-> -    pcmc->legacy_no_rng_seed = true;
->      pcmc->enforce_amd_1tb_hole = false;
->      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
->      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 3a35193ff74b..2e5dae9a89fa 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -376,6 +376,7 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
->      pc_q35_machine_options(m);
->      m->alias = "q35";
->      pcmc->default_cpu_version = 1;
-> +    pcmc->legacy_no_rng_seed = true;
->  }
->  
->  DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
-> @@ -386,7 +387,6 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_q35_7_1_machine_options(m);
->      m->alias = NULL;
-> -    pcmc->legacy_no_rng_seed = true;
->      pcmc->enforce_amd_1tb_hole = false;
->      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
->      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
-> -- 
-> 2.37.2
-
+[1]: 
+https://github.com/torvalds/linux/commit/71610ab1d017e131a9888ef8acd035284fb0e1dd
 
