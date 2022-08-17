@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CE6597446
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:40:15 +0200 (CEST)
-Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7E9597422
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:29:32 +0200 (CEST)
+Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOM5X-0006DR-0T
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
+	id 1oOLv9-0001j8-0L
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLmz-0006N1-GH
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20232)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLnU-0007dg-O4
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLmw-0005TS-Eh
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:03 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOLnS-0005Xk-5N
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 12:21:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660753261;
+ s=mimecast20190719; t=1660753293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=k2ZpeeYKQErXhazsoSi6NbKbSpJUbceXzvANU3WD8iY=;
- b=Xfz6XTswuwv4CH04aYzROToap1HStUuF/uvdy/rMF0ycvh7rIljZ5GIhCXm6ilWDweEXuw
- 0e4QIlXz1KW06geqqtx7A8dgpzkq11Nwxg1liQE47OQxPy1te+IS4btnG3Fgfyz+og50dg
- tvNE2aN98ctU3KeHlvwbf5d91+2vVF8=
+ bh=qDm9ba4xKEi3LKXl4UlNy7JuhkQRFooUwFqHTDiXY2A=;
+ b=P85t7GzI1mZbcabWLBzH66kglfjS5OBJ0J5OCiMfI51FhNFUW5Ed2rEJO9FRSuZQ5d2yq8
+ zYjrm9ljEJl074HpRBIAOhYknH5aumyBaSO2Pz4TozT8DzXcv9d8J5ZskvxzmgH4HqHaGF
+ Lz8xNC9zahecbUTzDoX0zNfMhi3OMaI=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-9-HqPrCmflMUS02vgPRigHmw-1; Wed, 17 Aug 2022 12:14:54 -0400
-X-MC-Unique: HqPrCmflMUS02vgPRigHmw-1
+ us-mta-571-2MYvHjyxP1yB4DRqdlPhGg-1; Wed, 17 Aug 2022 12:14:58 -0400
+X-MC-Unique: 2MYvHjyxP1yB4DRqdlPhGg-1
 Received: by mail-wm1-f71.google.com with SMTP id
- c64-20020a1c3543000000b003a61987ffb3so556447wma.6
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:14:54 -0700 (PDT)
+ v67-20020a1cac46000000b003a615c4893dso944123wme.3
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 09:14:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=k2ZpeeYKQErXhazsoSi6NbKbSpJUbceXzvANU3WD8iY=;
- b=UzU5YPfhjvfTv5fzXmE0dJny5l1cl9kPaQWy1x7lqvs4FHLOEAGUxDofBy2TblXhMi
- DhKcLEsozvLlNRk7zkr1PMIgsKXJ7kHWI77YreqjKnBz0VQhh7DJyPYABrLisWjnxy5h
- nN0Xbj7cAUeHMuzZZjjFL4yZYLWt1sLKWkrtaJPKOimJtBAO+bkdPGUsKWZNIb/MlcwT
- P/X1QFEGiyAdSrEw/F5lv4C65HRhvGdRv/7uFlz84IOX0tOuk3C5x40KMwCtyqK9CVqE
- iqZEJcug4WNF/JFTi+ElSTfCSSKC3qS8XomjXB4HXOvUdyYReJcERUAvoSyeurBpPkVg
- jFMQ==
-X-Gm-Message-State: ACgBeo2EAHC/9oZc432j/WpjOFqShus/fSICq0Z+ydkRTk6YC1jEWCN5
- kA0RvdxXB67egp3lBLrfbqsVUWnUGWe6CSqGcXySi2wtNwRBJ+R/KuAH0IGJH84UCu1Wr7XhZ7p
- jfQhBioBbCaIyExsUuvAZheL9C85lL6/2l/TEWwk/sc/C00a0c3+Josbzahc6
-X-Received: by 2002:a5d:4407:0:b0:222:cd99:3f0 with SMTP id
- z7-20020a5d4407000000b00222cd9903f0mr14416545wrq.44.1660752893105; 
- Wed, 17 Aug 2022 09:14:53 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5z8UvQ2kNCwTfyDBH5EXNFtTaEIigbriRsC+9iN2s+TL03e13pODDfRlIVkkIqIy1mpE/odA==
-X-Received: by 2002:a5d:4407:0:b0:222:cd99:3f0 with SMTP id
- z7-20020a5d4407000000b00222cd9903f0mr14416526wrq.44.1660752892733; 
- Wed, 17 Aug 2022 09:14:52 -0700 (PDT)
+ bh=qDm9ba4xKEi3LKXl4UlNy7JuhkQRFooUwFqHTDiXY2A=;
+ b=DVHmts1VyFY7zgvkm+tyE3xCHtk3xpKfJ+PbsZgDGsEQN57vUvXqHAmtPaDPif0E9Z
+ 5Vah2GBA8e8+DkfuWtlxNsQbVSq9zKXAlwJiutsHaUWDhlky5YH1nffl2xEuCJyxt+KW
+ ct24mLWoJq/e7dVcFtnY6/bRRkAVp5ZrrmXj5DDI7KerCbv+x90cjZnJwW9+dhn3fkMe
+ 2Cq189ZvMx9Tm9cnMzUjX/W6VQTd9XW81IawOSto0k8Y2FO0Pdqvq0sYc3veY3AsbNap
+ M+dQ8YMsAah/PSKrUd4AhX4J8vKPOlzzeraplnhb6mJgVjx3h7YMI2ch4SIUBNQCFQmv
+ fy6Q==
+X-Gm-Message-State: ACgBeo0cIfha83Nforwe1IJV2Z10V/vVz8+pdoeoEaJNEUP9bCK8Jlof
+ WRZ2qq5QS5DftOr5n63UXD9JMX1k5Fh9x771PktRTmSXEPft9dGs8A+cE7ZKeeE5CNFocVI+ual
+ 4C8eyyicfR9qxjhhaWQmY8+jvWTWrLwszFOPH7lWKIek3RXEJ0FwRyMFgyxYk
+X-Received: by 2002:a05:6000:50a:b0:225:210c:a7e4 with SMTP id
+ a10-20020a056000050a00b00225210ca7e4mr3068145wrf.704.1660752896635; 
+ Wed, 17 Aug 2022 09:14:56 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7N9BQhGx/L6Bl0z45YU07nurapipLrTJvNFQvghogz4N43zfTmgcYsMJ3mSLsA/m+vfa1NKg==
+X-Received: by 2002:a05:6000:50a:b0:225:210c:a7e4 with SMTP id
+ a10-20020a056000050a00b00225210ca7e4mr3068131wrf.704.1660752896367; 
+ Wed, 17 Aug 2022 09:14:56 -0700 (PDT)
 Received: from redhat.com ([2.55.4.37]) by smtp.gmail.com with ESMTPSA id
- r12-20020a5d498c000000b0022520aba90asm3177097wrq.107.2022.08.17.09.14.51
+ bt22-20020a056000081600b002251e86241csm4080678wrb.48.2022.08.17.09.14.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 09:14:52 -0700 (PDT)
-Date: Wed, 17 Aug 2022 12:14:49 -0400
+ Wed, 17 Aug 2022 09:14:55 -0700 (PDT)
+Date: Wed, 17 Aug 2022 12:14:53 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Bobo WL <lmw.bobo@gmail.com>, Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL 06/10] hw/cxl: Add stub write function for RO MemoryRegionOps
- entries.
-Message-ID: <20220817161342.240674-7-mst@redhat.com>
+ Ben Widawsky <ben.widawsky@intel.com>
+Subject: [PULL 07/10] hw/cxl: Fix Get LSA input payload size which should be
+ 8 bytes.
+Message-ID: <20220817161342.240674-8-mst@redhat.com>
 References: <20220817161342.240674-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,61 +101,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-There is no checking on the availability of a write callback.
-Hence QEMU crashes if a write does occur to one of these regions.
+Get LSA needs 4 byte offset and 4 byte length arguments.
+CXL rev 2.0 Table 178.
 
-Discovered whilst chasing a Linux kernel bug that incorrectly
-wrote into one of these regions.
-
-Fixes: 6364adacdf ("hw/cxl/device: Implement the CAP array (8.2.8.1-2)")
-Reported-by: Bobo WL <lmw.bobo@gmail.com>
+Fixes: 3ebe676a34 ("hw/cxl/device: Implement get/set Label Storage Area (LSA)")
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20220817145759.32603-2-Jonathan.Cameron@huawei.com>
+Message-Id: <20220817145759.32603-3-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/cxl/cxl-device-utils.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ hw/cxl/cxl-mailbox-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-index 687759b301..83ce7a8270 100644
---- a/hw/cxl/cxl-device-utils.c
-+++ b/hw/cxl/cxl-device-utils.c
-@@ -141,9 +141,15 @@ static uint64_t mdev_reg_read(void *opaque, hwaddr offset, unsigned size)
-     return retval;
- }
- 
-+static void ro_reg_write(void *opaque, hwaddr offset, uint64_t value,
-+                           unsigned size)
-+{
-+    /* Many register sets are read only */
-+}
-+
- static const MemoryRegionOps mdev_ops = {
-     .read = mdev_reg_read,
--    .write = NULL, /* memory device register is read only */
-+    .write = ro_reg_write,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
-@@ -173,7 +179,7 @@ static const MemoryRegionOps mailbox_ops = {
- 
- static const MemoryRegionOps dev_ops = {
-     .read = dev_reg_read,
--    .write = NULL, /* status register is read only */
-+    .write = ro_reg_write,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
-@@ -188,7 +194,7 @@ static const MemoryRegionOps dev_ops = {
- 
- static const MemoryRegionOps caps_ops = {
-     .read = caps_reg_read,
--    .write = NULL, /* caps registers are read only */
-+    .write = ro_reg_write,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index bb66c765a5..3cea8b17a8 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -406,7 +406,7 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
+         cmd_identify_memory_device, 0, 0 },
+     [CCLS][GET_PARTITION_INFO] = { "CCLS_GET_PARTITION_INFO",
+         cmd_ccls_get_partition_info, 0, 0 },
+-    [CCLS][GET_LSA] = { "CCLS_GET_LSA", cmd_ccls_get_lsa, 0, 0 },
++    [CCLS][GET_LSA] = { "CCLS_GET_LSA", cmd_ccls_get_lsa, 8, 0 },
+     [CCLS][SET_LSA] = { "CCLS_SET_LSA", cmd_ccls_set_lsa,
+         ~0, IMMEDIATE_CONFIG_CHANGE | IMMEDIATE_DATA_CHANGE },
+ };
 -- 
 MST
 
