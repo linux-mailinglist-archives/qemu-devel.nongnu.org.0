@@ -2,60 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18014596DE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 14:00:26 +0200 (CEST)
-Received: from localhost ([::1]:40204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2FD596E2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 14:08:02 +0200 (CEST)
+Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOHii-0005nr-Ib
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 08:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
+	id 1oOHq4-0002nR-GA
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 08:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oOHUZ-0002V1-3y
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 07:45:50 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2678)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oOHYv-0004sD-Tm; Wed, 17 Aug 2022 07:50:20 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oOHUW-000158-Lx
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 07:45:46 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M75gJ0KVDz67NZt;
- Wed, 17 Aug 2022 19:40:44 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 17 Aug 2022 13:45:37 +0200
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 17 Aug
- 2022 12:45:37 +0100
-Date: Wed, 17 Aug 2022 12:45:36 +0100
-To: <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, "Shameerali Kolothum
- Thodi" <shameerali.kolothum.thodi@huawei.com>, Ben Widawsky
- <bwidawsk@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/2] hw/cxl: Two CXL emulation fixes.
-Message-ID: <20220817124536.000004a4@huawei.com>
-In-Reply-To: <20220808122051.14822-1-Jonathan.Cameron@huawei.com>
-References: <20220808122051.14822-1-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oOHYt-00021R-8p; Wed, 17 Aug 2022 07:50:17 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27HBhavQ015004;
+ Wed, 17 Aug 2022 11:50:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=hGdsBpeOrifTsg7ks996OKfzwQtFkPZXrXnfPheGkjo=;
+ b=fJu526ClQmK1tlrB3hcdiUn+g4xMwTc9oeLq0CNkPB1Ue0yAInwlMbO7Hiy/gAXTlfAG
+ XxPhogvvZcBEc4BlSEPq9y1U9Se6jaOKcXLFHVsxdw3+8pvwJPPiWNFaEtqYa6VXZK6V
+ uNymqUrgY2Tq/+SgJEFwGLp4oKaPpTtYvCnZ5u9bzyd3eRE8JWH9y9t4dVM0jvew/qtp
+ 4OJmVZW/83NuFweAFQb2UZQjTk8UXohFpWet8Jt3Q5k/NTBwzkLkg3FgleTD8qpORr3X
+ tmFW17JcoSkdKPfIfhY5b+tCGgSDwxYb4FbTIxpvRwU+ngkh+lDRXqnLyvnANB/kYoyn Jw== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j0yq605ds-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 11:50:12 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27HBZqa0004433;
+ Wed, 17 Aug 2022 11:50:11 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06fra.de.ibm.com with ESMTP id 3hx37j3ar5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Aug 2022 11:50:10 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27HBo8ZE36634880
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Aug 2022 11:50:08 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6B861A4053;
+ Wed, 17 Aug 2022 11:50:08 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1C005A4040;
+ Wed, 17 Aug 2022 11:50:08 +0000 (GMT)
+Received: from [9.171.21.185] (unknown [9.171.21.185])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 17 Aug 2022 11:50:08 +0000 (GMT)
+Message-ID: <d9b0a1feba66763f8161608ebed7710fc885ecd7.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 03/33] linux-user/x86_64: Allocate vsyscall page as a
+ commpage
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org
+Date: Wed, 17 Aug 2022 13:50:07 +0200
+In-Reply-To: <20220816203400.161187-4-richard.henderson@linaro.org>
+References: <20220816203400.161187-1-richard.henderson@linaro.org>
+ <20220816203400.161187-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: B9ot3n0hTzqe7sk6FlHMhhsydALfsZfo
+X-Proofpoint-GUID: B9ot3n0hTzqe7sk6FlHMhhsydALfsZfo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-17_05,2022-08-16_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1011 adultscore=0 mlxlogscore=999 spamscore=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208170045
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,44 +107,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Mon, 8 Aug 2022 13:20:49 +0100
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
-
-> Peter Maydell reported both these issues, having looked into Coverity
-> identified issues. The memory leak was straight forward, but testing the
-> second patch identified a bug in the Linux kernel.
+On Tue, 2022-08-16 at 15:33 -0500, Richard Henderson wrote:
+> We're about to start validating PAGE_EXEC, which means that we've
+> got to the vsyscall page executable.  We had been special casing
+> this entirely within translate.
 > 
-> This bug has been fixed in the series
-> https://lore.kernel.org/linux-cxl/165973125417.1526540.14425647258796609596.stgit@dwillia2-xfh.jf.intel.com/T/#t
-> and is now available in the cxl.git pending branch.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/elfload.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> Another clear example of why QEMU emulation is useful for kernel development.
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 29d910c4cc..d783240a36 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -195,6 +195,28 @@ static void
+> elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
+>      (*regs)[26] = tswapreg(env->segs[R_GS].selector & 0xffff);
+>  }
+>  
+> +#if ULONG_MAX >= TARGET_VSYSCALL_PAGE
+> +#define HI_COMMPAGE  TARGET_VSYSCALL_PAGE
+> +
+> +static bool init_guest_commpage(void)
+> +{
+> +    /*
+> +     * The vsyscall page is at a high negative address aka kernel
+> space,
+> +     * which means that we cannot actually allocate it with
+> target_mmap.
+> +     * We still should be able to use page_set_flags, unless the
+> user
+> +     * has specified -R reserved_va, which would trigger an
+> assert().
+> +     */
+> +    if (reserved_va != 0 &&
+> +        TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE >= reserved_va) {
+> +        error_report("Cannot allocate vsyscall page");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +    page_set_flags(TARGET_VSYSCALL_PAGE,
+> +                   TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE,
+> +                   PAGE_EXEC | PAGE_VALID);
+> +    return true;
+> +}
+> +#endif
+>  #else
+>  
+>  #define ELF_START_MMAP 0x80000000
 
-Hi,
+I found this in context of wasmtime, but apparently the problem is more
+broad: after this patch any x86_64 PIE binaries no longer run:
 
-Any feedback on these two fixes?
+qemu-x86_64: ../linux-user/elfload.c:2657: pgb_dynamic: Assertion
+`sizeof(uintptr_t) == 4' failed.
+Aborted (core dumped)
 
-Along with a two more fixes to follow in a few mins these are needed for the region code
-in Linux 6.0-rc1 to work (there is a kernel fix as well that came from testing against
-QEMU).
+(Maybe we need a test for this, PIE version of "hello world" will do.)
 
-For full support we need one more feature (serial number provisioning) but without that
-we get regions working as long as you create them fresh on each boot.
-
-Thanks,
-
-Jonathan
-
-> 
-> Jonathan Cameron (2):
->   hw/cxl: Fix memory leak in error paths
->   hw/cxl: Fix wrong query of target ports
-> 
->  hw/cxl/cxl-host.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-
+I wonder if we need this assert at all?
+There is a comment that says that 64-bit hosts should have used
+reserved_va, but what is the reasoning behind this restriction?
+Without this assert, pgb_find_hole() finds a suitable hole just fine.
 
