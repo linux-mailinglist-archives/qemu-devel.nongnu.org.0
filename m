@@ -2,32 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31F85972BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:14:23 +0200 (CEST)
-Received: from localhost ([::1]:54566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757DD597300
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:31:49 +0200 (CEST)
+Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOKkR-0008L2-3L
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:14:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39758)
+	id 1oOL1I-0001qI-JP
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKet-0004lK-D1; Wed, 17 Aug 2022 11:08:40 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43922)
+ id 1oOKet-0004lM-UI; Wed, 17 Aug 2022 11:08:40 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKer-0002yx-Ay; Wed, 17 Aug 2022 11:08:39 -0400
+ id 1oOKes-0002zM-BS; Wed, 17 Aug 2022 11:08:39 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E3056746399;
- Wed, 17 Aug 2022 17:08:35 +0200 (CEST)
+ by localhost (Postfix) with SMTP id DC1AE746E06;
+ Wed, 17 Aug 2022 17:08:36 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AEE2E74638A; Wed, 17 Aug 2022 17:08:35 +0200 (CEST)
-Message-Id: <eb548130cf60aea8a6ea4dba4dee1686b3cabc3d.1660746880.git.balaton@eik.bme.hu>
+ id BB46174638A; Wed, 17 Aug 2022 17:08:36 +0200 (CEST)
+Message-Id: <68eb8b5ac408ca8cc981ebf53a3e154c0d34c7f6.1660746880.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660746880.git.balaton@eik.bme.hu>
 References: <cover.1660746880.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 17/31] hw/intc/ppc-uic: Convert ppc-uic to a PPC4xx DCR
- device
+Subject: [PATCH v2 18/31] ppc/ppc405: Use an explicit I2C object
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -35,8 +37,8 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Aug 2022 17:08:35 +0200 (CEST)
-X-Spam-Probability: 8%
+Date: Wed, 17 Aug 2022 17:08:36 +0200 (CEST)
+X-Spam-Probability: 10%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -59,252 +61,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make ppc-uic a subclass of ppc4xx-dcr-device which will handle the cpu
-link and make it uniform with the other PPC4xx devices.
+From: Cédric Le Goater <clg@kaod.org>
 
+Having an explicit I2C model object will help if one day we want to
+add I2C devices on the bus from the machine init routine.
+
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+[balaton: Symplify sysbus device casts for readibility]
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/intc/ppc-uic.c         | 26 ++++++--------------------
- hw/ppc/ppc405_uc.c        |  6 ++----
- hw/ppc/ppc440_bamboo.c    |  7 ++-----
- hw/ppc/ppc4xx_devs.c      |  1 -
- hw/ppc/sam460ex.c         | 17 +++++++----------
- hw/ppc/virtex_ml507.c     |  7 ++-----
- include/hw/intc/ppc-uic.h |  6 ++----
- 7 files changed, 21 insertions(+), 49 deletions(-)
+ hw/ppc/ppc405.h    |  2 ++
+ hw/ppc/ppc405_uc.c | 10 ++++++++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/ppc-uic.c b/hw/intc/ppc-uic.c
-index 60013f2dde..dcf5de5d43 100644
---- a/hw/intc/ppc-uic.c
-+++ b/hw/intc/ppc-uic.c
-@@ -25,11 +25,8 @@
- #include "qemu/osdep.h"
+diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+index 67f4c14f50..efa29fdfb1 100644
+--- a/hw/ppc/ppc405.h
++++ b/hw/ppc/ppc405.h
+@@ -28,6 +28,7 @@
+ #include "qom/object.h"
+ #include "hw/ppc/ppc4xx.h"
  #include "hw/intc/ppc-uic.h"
- #include "hw/irq.h"
--#include "cpu.h"
--#include "hw/ppc/ppc.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
--#include "qapi/error.h"
++#include "hw/i2c/ppc4xx_i2c.h"
  
- enum {
-     DCR_UICSR  = 0x000,
-@@ -105,10 +102,9 @@ static void ppcuic_trigger_irq(PPCUIC *uic)
- 
- static void ppcuic_set_irq(void *opaque, int irq_num, int level)
- {
--    PPCUIC *uic;
-+    PPCUIC *uic = opaque;
-     uint32_t mask, sr;
- 
--    uic = opaque;
-     mask = 1U << (31 - irq_num);
-     LOG_UIC("%s: irq %d level %d uicsr %08" PRIx32
-                 " mask %08" PRIx32 " => %08" PRIx32 " %08" PRIx32 "\n",
-@@ -144,10 +140,9 @@ static void ppcuic_set_irq(void *opaque, int irq_num, int level)
- 
- static uint32_t dcr_read_uic(void *opaque, int dcrn)
- {
--    PPCUIC *uic;
-+    PPCUIC *uic = opaque;
-     uint32_t ret;
- 
--    uic = opaque;
-     dcrn -= uic->dcr_base;
-     switch (dcrn) {
-     case DCR_UICSR:
-@@ -192,9 +187,8 @@ static uint32_t dcr_read_uic(void *opaque, int dcrn)
- 
- static void dcr_write_uic(void *opaque, int dcrn, uint32_t val)
- {
--    PPCUIC *uic;
-+    PPCUIC *uic = opaque;
- 
--    uic = opaque;
-     dcrn -= uic->dcr_base;
-     LOG_UIC("%s: dcr %d val 0x%x\n", __func__, dcrn, val);
-     switch (dcrn) {
-@@ -251,19 +245,12 @@ static void ppc_uic_reset(DeviceState *dev)
- static void ppc_uic_realize(DeviceState *dev, Error **errp)
- {
-     PPCUIC *uic = PPC_UIC(dev);
-+    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--    PowerPCCPU *cpu;
-     int i;
- 
--    if (!uic->cpu) {
--        /* This is a programming error in the code using this device */
--        error_setg(errp, "ppc-uic 'cpu' link property was not set");
--        return;
--    }
--
--    cpu = POWERPC_CPU(uic->cpu);
-     for (i = 0; i < DCR_UICMAX; i++) {
--        ppc_dcr_register(&cpu->env, uic->dcr_base + i, uic,
-+        ppc4xx_dcr_register(dcr, uic->dcr_base + i, uic,
-                          &dcr_read_uic, &dcr_write_uic);
-     }
- 
-@@ -273,7 +260,6 @@ static void ppc_uic_realize(DeviceState *dev, Error **errp)
- }
- 
- static Property ppc_uic_properties[] = {
--    DEFINE_PROP_LINK("cpu", PPCUIC, cpu, TYPE_CPU, CPUState *),
-     DEFINE_PROP_UINT32("dcr-base", PPCUIC, dcr_base, 0xc0),
-     DEFINE_PROP_BOOL("use-vectors", PPCUIC, use_vectors, true),
-     DEFINE_PROP_END_OF_LIST()
-@@ -308,7 +294,7 @@ static void ppc_uic_class_init(ObjectClass *klass, void *data)
- 
- static const TypeInfo ppc_uic_info = {
-     .name = TYPE_PPC_UIC,
--    .parent = TYPE_SYS_BUS_DEVICE,
-+    .parent = TYPE_PPC4xx_DCR_DEVICE,
-     .instance_size = sizeof(PPCUIC),
-     .class_init = ppc_uic_class_init,
- };
+ #define PPC405EP_SDRAM_BASE 0x00000000
+ #define PPC405EP_NVRAM_BASE 0xF0000000
+@@ -215,6 +216,7 @@ struct Ppc405SoCState {
+     Ppc405OcmState ocm;
+     Ppc405GpioState gpio;
+     Ppc405DmaState dma;
++    PPC4xxI2CState i2c;
+     Ppc4xxEbcState ebc;
+     Ppc405OpbaState opba;
+     Ppc405PobState pob;
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 8412c11dd5..c070102b14 100644
+index c070102b14..54a51594ca 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -1149,12 +1149,10 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(sbd, 0, 0xef600600);
+@@ -1093,6 +1093,8 @@ static void ppc405_soc_instance_init(Object *obj)
  
-     /* Universal interrupt controller */
--    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
--                             &error_fatal);
--    sbd = SYS_BUS_DEVICE(&s->uic);
--    if (!sysbus_realize(sbd, errp)) {
-+    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->uic), &s->cpu, errp)) {
-         return;
+     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
+ 
++    object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
++
+     object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC4xx_EBC);
+ 
+     object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
+@@ -1185,8 +1187,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
      }
-+    sbd = SYS_BUS_DEVICE(&s->uic);
-     sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
-                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
-     sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 873f930c77..b14a9ef776 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -193,12 +193,9 @@ static void bamboo_init(MachineState *machine)
  
-     /* interrupt controller */
-     uicdev = qdev_new(TYPE_PPC_UIC);
-+    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uicdev), cpu, &error_fatal);
-+    object_unref(OBJECT(uicdev));
-     uicsbd = SYS_BUS_DEVICE(uicdev);
--
--    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
--                             &error_fatal);
--    sysbus_realize_and_unref(uicsbd, &error_fatal);
--
-     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
-                        qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
-     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index fbfb21c8e8..37e3b87c2e 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -29,7 +29,6 @@
- #include "hw/irq.h"
- #include "hw/ppc/ppc.h"
- #include "hw/ppc/ppc4xx.h"
--#include "hw/intc/ppc-uic.h"
- #include "hw/qdev-properties.h"
- #include "qemu/log.h"
- #include "exec/address-spaces.h"
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 0d9259f0f2..348ed27211 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -314,7 +314,6 @@ static void sam460ex_init(MachineState *machine)
+     /* I2C controller */
+-    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+-                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
++    sbd = SYS_BUS_DEVICE(&s->i2c);
++    if (!sysbus_realize(sbd, errp)) {
++        return;
++    }
++    sysbus_mmio_map(sbd, 0, 0xef600500);
++    sysbus_connect_irq(sbd, 0, qdev_get_gpio_in(DEVICE(&s->uic), 2));
  
-     /* interrupt controllers */
-     for (i = 0; i < ARRAY_SIZE(uic); i++) {
--        SysBusDevice *sbd;
-         /*
-          * UICs 1, 2 and 3 are cascaded through UIC 0.
-          * input_ints[n] is the interrupt number on UIC 0 which
-@@ -326,22 +325,20 @@ static void sam460ex_init(MachineState *machine)
-         const int input_ints[] = { -1, 30, 10, 16 };
- 
-         uic[i] = qdev_new(TYPE_PPC_UIC);
--        sbd = SYS_BUS_DEVICE(uic[i]);
--
-         qdev_prop_set_uint32(uic[i], "dcr-base", 0xc0 + i * 0x10);
--        object_property_set_link(OBJECT(uic[i]), "cpu", OBJECT(cpu),
--                                 &error_fatal);
--        sysbus_realize_and_unref(sbd, &error_fatal);
-+        ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uic[i]), cpu, &error_fatal);
-+        object_unref(OBJECT(uic[i]));
- 
-+        sbdev = SYS_BUS_DEVICE(uic[i]);
-         if (i == 0) {
--            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
-+            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_INT,
-                              qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
--            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
-+            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_CINT,
-                              qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
-         } else {
--            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
-+            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_INT,
-                                qdev_get_gpio_in(uic[0], input_ints[i]));
--            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
-+            sysbus_connect_irq(sbdev, PPCUIC_OUTPUT_CINT,
-                                qdev_get_gpio_in(uic[0], input_ints[i] + 1));
-         }
-     }
-diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-index 53b126ff48..493ea0c19f 100644
---- a/hw/ppc/virtex_ml507.c
-+++ b/hw/ppc/virtex_ml507.c
-@@ -104,12 +104,9 @@ static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t sysclk)
- 
-     /* interrupt controller */
-     uicdev = qdev_new(TYPE_PPC_UIC);
-+    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(uicdev), cpu, &error_fatal);
-+    object_unref(OBJECT(uicdev));
-     uicsbd = SYS_BUS_DEVICE(uicdev);
--
--    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
--                             &error_fatal);
--    sysbus_realize_and_unref(uicsbd, &error_fatal);
--
-     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
-                        qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
-     sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
-diff --git a/include/hw/intc/ppc-uic.h b/include/hw/intc/ppc-uic.h
-index 22dd5e5ac2..4d82e9a3c6 100644
---- a/include/hw/intc/ppc-uic.h
-+++ b/include/hw/intc/ppc-uic.h
-@@ -25,8 +25,7 @@
- #ifndef HW_INTC_PPC_UIC_H
- #define HW_INTC_PPC_UIC_H
- 
--#include "hw/sysbus.h"
--#include "qom/object.h"
-+#include "hw/ppc/ppc4xx.h"
- 
- #define TYPE_PPC_UIC "ppc-uic"
- OBJECT_DECLARE_SIMPLE_TYPE(PPCUIC, PPC_UIC)
-@@ -56,14 +55,13 @@ enum {
- 
- struct PPCUIC {
-     /*< private >*/
--    SysBusDevice parent_obj;
-+    Ppc4xxDcrDeviceState parent_obj;
- 
-     /*< public >*/
-     qemu_irq output_int;
-     qemu_irq output_cint;
- 
-     /* properties */
--    CPUState *cpu;
-     uint32_t dcr_base;
-     bool use_vectors;
- 
+     /* GPIO */
+     sbd = SYS_BUS_DEVICE(&s->gpio);
 -- 
 2.30.4
 
