@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1135978C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 23:15:02 +0200 (CEST)
-Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 033F5597976
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 00:08:08 +0200 (CEST)
+Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOQNR-00085Q-3A
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 17:15:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56490)
+	id 1oORCo-0004PV-UR
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 18:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oOQLe-00066S-BJ; Wed, 17 Aug 2022 17:13:10 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:60078)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORBB-00033E-Or
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:06:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oOQLa-0005eQ-SW; Wed, 17 Aug 2022 17:13:09 -0400
-Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
- (vla5-d6d5ce7a4718.qloud-c.yandex.net
- [IPv6:2a02:6b8:c18:341e:0:640:d6d5:ce7a])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id C36FC2E0C37;
- Thu, 18 Aug 2022 00:12:54 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b4a5::1:13] (unknown
- [2a02:6b8:b081:b4a5::1:13])
- by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- a3OUsp1Tsc-CrOm887R; Thu, 18 Aug 2022 00:12:54 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1660770774; bh=zL0qu66e05lmV/+GWORtJja5ts1tPKNpolVi14yCkNo=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=FY1MrXsh+4r+Mg7sgnRhwKdIu+i8VfoDW6zOSr/V1RZryNmgYvyrSM+Ho4VwfqoEd
- qYkaF1g+Trltoncct0JRlj+doZqGt2/0+BvIrRj3jHf+PEp6pkJf/VZQZiWFUV+xKz
- uzwVibidEwvBtIpkXKnBvZx3Sq98erNiKH9pkook=
-Authentication-Results: vla5-d6d5ce7a4718.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <01310460-412d-32cf-4df8-8d3f6adb733c@yandex-team.ru>
-Date: Thu, 18 Aug 2022 00:12:53 +0300
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORB8-0006Mm-0h
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:06:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660773980;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9v97ya0iOSfCiwE2PAw9Qf/RKJyTMUZHUCQt12v8Iw4=;
+ b=FGW3zO7u5hQEMIKFWaPhwQLqQi5h7217bcf0oqed0ITx3z9XcUAro0o+YWV4ieugoDl78h
+ 4hwXnJpvI5pIVup2qkcPvLRLkscwssRf9xGx1BGS+zcHxPMY65jVPaCK7Svn1t3v59fLiy
+ ZVTjHWgZo4x3u9EhhKZ0PbmZzjl84rE=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-474-uCwHHHtOMqK8Ga0q3rIeTQ-1; Wed, 17 Aug 2022 18:06:18 -0400
+X-MC-Unique: uCwHHHtOMqK8Ga0q3rIeTQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ e30-20020ac8011e000000b00342f61e67aeso11317417qtg.3
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 15:06:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=9v97ya0iOSfCiwE2PAw9Qf/RKJyTMUZHUCQt12v8Iw4=;
+ b=HsHklzisFCxU5KuDOLBqABaXTxmtemCR5Gq/Kz787NVDAUMCeglumZv5yqOxQa1qsd
+ PNR1CsZUO8BBjOYFvVaMt3ewSjNwVi8cvRDpBmCdOhgKU1NADV9P1FB35RAZl77E2d2E
+ s8AImLr5CZvrT9w+XCkaO9++No5iOEas9NSpbtpDYXPJFGlsEhXzva/FiqLXXRy/eayM
+ HlnhwplDZJc2tn9oX2lsOepnj8gOAwK1coEK4gtiHAp6w7jjAzgkUd45X1RlS/OpCHT/
+ XRq1ew3d5JIzf9mdtwLzBBkmlPm5DOSm70CQlMHIiHefPUzSXwWph07rNL5s8Zzup3gG
+ DlFQ==
+X-Gm-Message-State: ACgBeo28FemnilMYMLP3r9H9XiefdbAcERVVNA8/kRVcX0MsQnJZ6p/x
+ HpD7TtIY+u88cbRi1h7yq56wHZGilXaXy90rsJB0aGd2OaRA96cEy5FRDMbz6IMqM78yoNDyfWk
+ pxLzDx546f7aOPpM=
+X-Received: by 2002:a05:6214:d42:b0:496:a71b:d75 with SMTP id
+ 2-20020a0562140d4200b00496a71b0d75mr4553462qvr.51.1660773978195; 
+ Wed, 17 Aug 2022 15:06:18 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7oTOeEoc5hlVHcDHCgiERyHhSQ1n5WHUcm79iC09RcD5ulFZs9WAVgggVJLZWJhW3s7ZEvMA==
+X-Received: by 2002:a05:6214:d42:b0:496:a71b:d75 with SMTP id
+ 2-20020a0562140d4200b00496a71b0d75mr4553436qvr.51.1660773977856; 
+ Wed, 17 Aug 2022 15:06:17 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+ by smtp.gmail.com with ESMTPSA id
+ cg14-20020a05622a408e00b003435983a263sm13661754qtb.46.2022.08.17.15.06.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Aug 2022 15:06:17 -0700 (PDT)
+Date: Wed, 17 Aug 2022 18:06:16 -0400
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH 1/8] qapi/migration: Introduce x-vcpu-dirty-limit-period
+ parameter
+Message-ID: <Yv1mWLkErL/BNupE@xz-m1.local>
+References: <cover.1658561555.git.huangy81@chinatelecom.cn>
+ <22a4776fc05a4174cb07728e0350430a420e2b9c.1658561555.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3 8/8] parallels: Replace qemu_co_mutex_lock by
- WITH_QEMU_LOCK_GUARD
-Content-Language: en-US
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
- kwolf@redhat.com, hreitz@redhat.com
-References: <20220815090216.1818622-1-alexander.ivanov@virtuozzo.com>
- <20220815090216.1818622-9-alexander.ivanov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220815090216.1818622-9-alexander.ivanov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <22a4776fc05a4174cb07728e0350430a420e2b9c.1658561555.git.huangy81@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,66 +106,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/15/22 12:02, Alexander Ivanov wrote:
-> Replace the way we use mutex in parallels_co_check() for simplier
-> and less error prone code.
+On Sat, Jul 23, 2022 at 03:49:13PM +0800, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> Introduce "x-vcpu-dirty-limit-period" migration experimental
+> parameter, which is used to make dirtyrate calculation period
+> configurable.
+> 
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > ---
-> v2: Fix an incorrect usage of WITH_QEMU_LOCK_GUARD.
-> v3: Fix commit message.
+>  migration/migration.c | 16 ++++++++++++++++
+>  monitor/hmp-cmds.c    |  8 ++++++++
+>  qapi/migration.json   | 31 ++++++++++++++++++++++++-------
+>  3 files changed, 48 insertions(+), 7 deletions(-)
 > 
->   block/parallels.c | 26 ++++++++++++--------------
->   1 file changed, 12 insertions(+), 14 deletions(-)
-> 
-> diff --git a/block/parallels.c b/block/parallels.c
-> index d0364182bb..e124a8bb7d 100644
-> --- a/block/parallels.c
-> +++ b/block/parallels.c
-> @@ -553,24 +553,22 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
->       BDRVParallelsState *s = bs->opaque;
->       int ret;
->   
-> -    qemu_co_mutex_lock(&s->lock);
-> +    WITH_QEMU_LOCK_GUARD(&s->lock) {
-> +        parallels_check_unclean(bs, res, fix);
->   
-> -    parallels_check_unclean(bs, res, fix);
-> +        ret = parallels_check_outside_image(bs, res, fix);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
->   
-> -    ret = parallels_check_outside_image(bs, res, fix);
-> -    if (ret < 0) {
-> -        goto out;
-> -    }
-> -
-> -    ret = parallels_check_leak(bs, res, fix);
-> -    if (ret < 0) {
-> -        goto out;
-> -    }
-> +        ret = parallels_check_leak(bs, res, fix);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
->   
-> -    parallels_collect_statistics(bs, res, fix);
-> +        parallels_collect_statistics(bs, res, fix);
->   
-> -out:
-> -    qemu_co_mutex_unlock(&s->lock);
-> +    }
->   
->       ret = bdrv_co_flush(bs);
->       if (ret < 0) {
+> diff --git a/migration/migration.c b/migration/migration.c
+> index e03f698..7b19f85 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -116,6 +116,8 @@
+>  #define DEFAULT_MIGRATE_ANNOUNCE_ROUNDS    5
+>  #define DEFAULT_MIGRATE_ANNOUNCE_STEP    100
+>  
+> +#define DEFAULT_MIGRATE_VCPU_DIRTY_LIMIT_PERIOD     500     /* ms */
 
-Aha, and here you silently fix the problem I noted in patch 3. Still, all patches should be correct, so this should be rebased onto fixed patch 3.
+Why 500 but not DIRTYLIMIT_CALC_TIME_MS?
 
-The final look of parallels_co_check is good.
+Is it intended to make this parameter experimental, but the other one not?
 
+Thanks,
 
 -- 
-Best regards,
-Vladimir
+Peter Xu
+
 
