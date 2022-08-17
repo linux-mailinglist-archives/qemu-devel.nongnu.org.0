@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AEF596B98
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:49:36 +0200 (CEST)
-Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D252C596B7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:41:57 +0200 (CEST)
+Received: from localhost ([::1]:34700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOEk3-0005Tc-9P
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
+	id 1oOEce-0001IY-VH
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oOEZL-0004q1-4j; Wed, 17 Aug 2022 04:38:31 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:35570)
+ id 1oOEZM-0004sZ-C6; Wed, 17 Aug 2022 04:38:32 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:35566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oOEZJ-0006Ag-AN; Wed, 17 Aug 2022 04:38:30 -0400
+ id 1oOEZJ-0006Af-AV; Wed, 17 Aug 2022 04:38:32 -0400
 Received: from [192.168.16.116] (helo=iris.sw.ru)
  by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1oOEX9-00GAqg-Jh;
- Wed, 17 Aug 2022 10:37:26 +0200
+ (envelope-from <den@openvz.org>) id 1oOEX9-00GAqg-VT;
+ Wed, 17 Aug 2022 10:37:27 +0200
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
@@ -29,10 +29,9 @@ Cc: "Denis V. Lunev" <den@openvz.org>, Kevin Wolf <kwolf@redhat.com>,
  Fam Zheng <fam@euphon.net>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Peter Lieven <pl@kamp.de>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH 1/2] block: use bdrv_is_sg() helper instead of raw bs->sg
- reading
-Date: Wed, 17 Aug 2022 10:37:35 +0200
-Message-Id: <20220817083736.40981-2-den@openvz.org>
+Subject: [PATCH 2/2] block: make serializing requests functions 'void'
+Date: Wed, 17 Aug 2022 10:37:36 +0200
+Message-Id: <20220817083736.40981-3-den@openvz.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220817083736.40981-1-den@openvz.org>
 References: <20220817083736.40981-1-den@openvz.org>
@@ -60,8 +59,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I believe that if the helper exists, it must be used always for reading
-of the value. It breaks expectations in the other case.
+Return codes of the following functions are never used in the code:
+* bdrv_wait_serialising_requests_locked
+* bdrv_wait_serialising_requests
+* bdrv_make_request_serialising
 
 Signed-off-by: Denis V. Lunev <den@openvz.org>
 CC: Kevin Wolf <kwolf@redhat.com>
@@ -73,59 +74,92 @@ CC: Paolo Bonzini <pbonzini@redhat.com>
 CC: Peter Lieven <pl@kamp.de>
 CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- block/file-posix.c | 2 +-
- block/iscsi.c      | 2 +-
- block/raw-format.c | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ block/io.c                   | 23 +++++++----------------
+ include/block/block_int-io.h |  2 +-
+ 2 files changed, 8 insertions(+), 17 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 48cd096624..256de1f456 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1295,7 +1295,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+diff --git a/block/io.c b/block/io.c
+index 0a8cbefe86..51d8f943a4 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -828,20 +828,16 @@ bdrv_find_conflicting_request(BdrvTrackedRequest *self)
+ }
+ 
+ /* Called with self->bs->reqs_lock held */
+-static bool coroutine_fn
++static void coroutine_fn
+ bdrv_wait_serialising_requests_locked(BdrvTrackedRequest *self)
+ {
+     BdrvTrackedRequest *req;
+-    bool waited = false;
+ 
+     while ((req = bdrv_find_conflicting_request(self))) {
+         self->waiting_for = req;
+         qemu_co_queue_wait(&req->wait_queue, &self->bs->reqs_lock);
+         self->waiting_for = NULL;
+-        waited = true;
      }
- #endif
+-
+-    return waited;
+ }
  
--    if (bs->sg || S_ISBLK(st.st_mode)) {
-+    if (bdrv_is_sg(bs) || S_ISBLK(st.st_mode)) {
-         int ret = hdev_get_max_hw_transfer(s->fd, &st);
+ /* Called with req->bs->reqs_lock held */
+@@ -934,36 +930,31 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
+     bdrv_wakeup(bs);
+ }
  
-         if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-diff --git a/block/iscsi.c b/block/iscsi.c
-index d707d0b354..612de127e5 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2065,7 +2065,7 @@ static void iscsi_refresh_limits(BlockDriverState *bs, Error **errp)
-     uint64_t max_xfer_len = iscsilun->use_16_for_rw ? 0xffffffff : 0xffff;
-     unsigned int block_size = MAX(BDRV_SECTOR_SIZE, iscsilun->block_size);
+-static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
++static void coroutine_fn
++bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
+ {
+     BlockDriverState *bs = self->bs;
+-    bool waited = false;
  
--    assert(iscsilun->block_size >= BDRV_SECTOR_SIZE || bs->sg);
-+    assert(iscsilun->block_size >= BDRV_SECTOR_SIZE || bdrv_is_sg(bs));
- 
-     bs->bl.request_alignment = block_size;
- 
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 69fd650eaf..c7278e348e 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -463,7 +463,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-         return -EINVAL;
+     if (!qatomic_read(&bs->serialising_in_flight)) {
+-        return false;
++        return;
      }
  
--    bs->sg = bs->file->bs->sg;
-+    bs->sg = bdrv_is_sg(bs->file->bs);
-     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
-         (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
-     bs->supported_zero_flags = BDRV_REQ_WRITE_UNCHANGED |
-@@ -489,7 +489,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-         return ret;
-     }
+     qemu_co_mutex_lock(&bs->reqs_lock);
+-    waited = bdrv_wait_serialising_requests_locked(self);
++    bdrv_wait_serialising_requests_locked(self);
+     qemu_co_mutex_unlock(&bs->reqs_lock);
+-
+-    return waited;
+ }
  
--    if (bs->sg && (s->offset || s->has_size)) {
-+    if (bdrv_is_sg(bs) && (s->offset || s->has_size)) {
-         error_setg(errp, "Cannot use offset/size with SCSI generic devices");
-         return -EINVAL;
-     }
+-bool coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
++void coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
+                                                 uint64_t align)
+ {
+-    bool waited;
+     IO_CODE();
+ 
+     qemu_co_mutex_lock(&req->bs->reqs_lock);
+ 
+     tracked_request_set_serialising(req, align);
+-    waited = bdrv_wait_serialising_requests_locked(req);
++    bdrv_wait_serialising_requests_locked(req);
+ 
+     qemu_co_mutex_unlock(&req->bs->reqs_lock);
+-
+-    return waited;
+ }
+ 
+ int bdrv_check_qiov_request(int64_t offset, int64_t bytes,
+diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
+index 91cdd61692..4b0b3e17ef 100644
+--- a/include/block/block_int-io.h
++++ b/include/block/block_int-io.h
+@@ -73,7 +73,7 @@ static inline int coroutine_fn bdrv_co_pwrite(BdrvChild *child,
+     return bdrv_co_pwritev(child, offset, bytes, &qiov, flags);
+ }
+ 
+-bool coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
++void coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
+                                                 uint64_t align);
+ BdrvTrackedRequest *coroutine_fn bdrv_co_get_self_request(BlockDriverState *bs);
+ 
 -- 
 2.32.0
 
