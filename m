@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCEB5977C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 22:20:49 +0200 (CEST)
-Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430215977C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 22:21:57 +0200 (CEST)
+Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOPWy-0006eL-NH
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 16:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33376)
+	id 1oOPY4-0008JA-EW
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 16:21:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPJD-0003Va-B8
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20727)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPJG-0003ie-Os
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPJB-0000Ji-Sq
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPJF-0000P4-4p
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660766793;
+ s=mimecast20190719; t=1660766796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O2jVKSC/T/69XGJQ1pcYIKsl06VPDaFnR237r22fRUw=;
- b=MC/NnVZ3xSp1m8w/Ngc1O+ittjBBLdjjo356Ldn7bNnmCkNgEGEbJPbmy0Xcf/nf85de6Y
- n9sAjpbEnUhCKcbk8bDIdSTNYXE+sBXzCGMHYfhMQq5zFh39kwayQ7KGC/sB0VqugH5Eqp
- W62nqtjqIAOrtOP5RnMn2HBwTF+Yplw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EeMkAHhf9AoIGqHoeQ4LAkZR3KVWS7ogggvX+tcW7Dw=;
+ b=fyzX6dsea7LRjQBQxwyTjOYHSfMxbENwdrlYZLMdgfOciSiqa/LyjbiQPh7q54PyfwUvV6
+ cnQmeKjM9KXOuQFe1iTLnDGJ+cLYjEiVMi2kZkdmxcMtjMlAA0ADiple8bgwr382Qoun2D
+ 69rtQG2rHPtsn+nyJikjtnoloq7dTys=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-674-RRnRC6kLOO6nX9rkUxriuw-1; Wed, 17 Aug 2022 16:06:32 -0400
-X-MC-Unique: RRnRC6kLOO6nX9rkUxriuw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- r8-20020adfbb08000000b00225239ce4deso682656wrg.1
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 13:06:32 -0700 (PDT)
+ us-mta-264-sXGJoxADNNyWYCcpXMU9Kg-1; Wed, 17 Aug 2022 16:06:35 -0400
+X-MC-Unique: sXGJoxADNNyWYCcpXMU9Kg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v67-20020a1cac46000000b003a615c4893dso1182194wme.3
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 13:06:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=O2jVKSC/T/69XGJQ1pcYIKsl06VPDaFnR237r22fRUw=;
- b=1JlNCFlZ3P/6W2rUdgldq/BU7L3DYGBrnTdzf0djA3cGhhQ0uIJGB5ackyOjHtVgmL
- y14CR3GTGdmmdTfb2HzlYXjYscKHFg/1AjPVI0q4Ahmv8FprqhgwxQNU9ZS53bx1kII1
- hyRhxTSGGqGwGsopdcnGhCkSKLYEvDSLbI8N0F7QZTw/97WBwQFw7fAjt2gx6iSHaXpE
- Eui8vDlaNdaFoF9CR+stheZOYF8vLUYMWRnAbe2BXEangcpda6v6XJ9n9NouiIlQkUb8
- vN4UKLR8KYt3uAvcPFG/RN3jTlKhLcgIzcAVSbWd915iTgNHuLOWW56AQ8sQH4UVxObj
- fURg==
-X-Gm-Message-State: ACgBeo1NaRrKsElbvjOaQcXy4OQu1IEAIbGxt9EVP2ALpbiOpo84FUXq
- vQQRLHUFr1prvcTV9HkF+FD0Ho+FZ4+TR3k6wvKqZLWTjTKY6tGZb/LuaKs1dF1OKbrtoaPf3ov
- ZlOD28WPoVZdKSqJfArftAa49+9x2CfxJlEzOM0zAYvsmXD62T/ertPnCwAQT
-X-Received: by 2002:a1c:7c18:0:b0:3a5:aaae:d203 with SMTP id
- x24-20020a1c7c18000000b003a5aaaed203mr3176719wmc.2.1660766790986; 
- Wed, 17 Aug 2022 13:06:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5uhAjCdsIYNKI43GuN2bYtumElHNmhvnJNAX6/vbd4LpXUCCDSxh2MF7ksUXygiRcQGguSRA==
-X-Received: by 2002:a1c:7c18:0:b0:3a5:aaae:d203 with SMTP id
- x24-20020a1c7c18000000b003a5aaaed203mr3176705wmc.2.1660766790752; 
- Wed, 17 Aug 2022 13:06:30 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=EeMkAHhf9AoIGqHoeQ4LAkZR3KVWS7ogggvX+tcW7Dw=;
+ b=nXKugYCB3On2uOMr3f2EeK3FkI7E3k4gZ+okeIX/jYfsyAxCKdZLCOdON1Ktp3suOx
+ q8zuuny3dwQluBlm515xndVs/ZY8RjWASkbAltcScJZDubzevvfVn7bwH/K7pI7DPd2f
+ 9/1VrAe1kzCngJBWpQ5E6HTna3KwsGvm00o3XHxai4uZawMo7tZ28VJVA9QTzF+bDCIL
+ penK6tLLY3lXyzmnIDZzoEv/jiFp6EVrxVCrLjAX1v0BcR5KUuhJbgePLY0wC58fTGEK
+ o0W61OZr5q83svZrNF6CSoTZGFZxEXU++MnYzufGPAKGxT3hfGPzieYJNMTo9zdzu4Ht
+ KUsg==
+X-Gm-Message-State: ACgBeo3GbEv6hCS9UpqHCbeJuiFDsaeBZqcb6NJB457u9z+xOonRdZz5
+ Fw9aorTjiWvW9lza3aO4kNJBCEUit0BGEWkeukJLUfMXmR9hpU9eCuxKE0y9NIwVOuGAzTLZf1D
+ mJcRUxxkvxDku6xurbwKwIh1tWRdT29fmOGbaknKkQ0iTtB5ivrbqa6WddTuq
+X-Received: by 2002:a05:600c:1c19:b0:3a5:51aa:d041 with SMTP id
+ j25-20020a05600c1c1900b003a551aad041mr3087155wms.172.1660766793902; 
+ Wed, 17 Aug 2022 13:06:33 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4NzTdNL3niBApWmTBPJWj/s42MnvhhoGX/r1VdDDY6Tzudh9p2adzJ9Pw3RTNgZbmSJWKirQ==
+X-Received: by 2002:a05:600c:1c19:b0:3a5:51aa:d041 with SMTP id
+ j25-20020a05600c1c1900b003a551aad041mr3087143wms.172.1660766793621; 
+ Wed, 17 Aug 2022 13:06:33 -0700 (PDT)
 Received: from redhat.com ([2.55.4.37]) by smtp.gmail.com with ESMTPSA id
- m18-20020adfe0d2000000b0021ea1bcc300sm13648077wri.56.2022.08.17.13.06.29
+ e26-20020a05600c219a00b003a5de95b105sm3049855wme.41.2022.08.17.13.06.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 13:06:30 -0700 (PDT)
-Date: Wed, 17 Aug 2022 16:06:27 -0400
+ Wed, 17 Aug 2022 13:06:33 -0700 (PDT)
+Date: Wed, 17 Aug 2022 16:06:30 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 11/12] tests: acpi: silence applesmc warning about invalid key
-Message-ID: <20220817200536.350795-12-mst@redhat.com>
+ Marcel Apfelbaum <marcel@redhat.com>
+Subject: [PULL 12/12] virtio-pci: don't touch pci on virtio reset
+Message-ID: <20220817200536.350795-13-mst@redhat.com>
 References: <20220817200536.350795-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220817200536.350795-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -102,37 +97,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+virtio level reset should not affect pci express
+registers such as PM, error or link.
 
-OSK value is irrelevant for ACPI test case.
-Supply fake OSK explicitly to prevent QEMU complaining about
-invalid key when it fallbacks to default_osk.
-
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220728133713.1369596-1-imammedo@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Fixes: 27ce0f3afc ("hw/virtio: fix Power Management Control Register for PCI Express virtio devices")
+Fixes: d584f1b9ca ("hw/virtio: fix Link Control Register for PCI Express virtio devices")
+Fixes: c2cabb3422 ("hw/virtio: fix error enabling flags in Device Control register")
+Cc: "Marcel Apfelbaum" <marcel@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-pci.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 359916c228..7c5f736b51 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1632,7 +1632,9 @@ static void test_acpi_q35_applesmc(void)
-         .variant = ".applesmc",
-     };
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 5ce61f9b45..a50c5a57d7 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1947,7 +1947,6 @@ static void virtio_pci_reset(DeviceState *qdev)
+ {
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
+     VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
+-    PCIDevice *dev = PCI_DEVICE(qdev);
+     int i;
  
--    test_acpi_one("-device isa-applesmc", &data);
-+    /* supply fake 64-byte OSK to silence missing key warning */
-+    test_acpi_one("-device isa-applesmc,osk=any64characterfakeoskisenough"
-+                  "topreventinvalidkeywarningsonstderr", &data);
-     free_test_data(&data);
+     virtio_bus_reset(bus);
+@@ -1960,6 +1959,13 @@ static void virtio_pci_reset(DeviceState *qdev)
+         proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
+         proxy->vqs[i].used[0] = proxy->vqs[i].used[1] = 0;
+     }
++}
++
++static void virtio_pci_bus_reset(DeviceState *qdev)
++{
++    PCIDevice *dev = PCI_DEVICE(qdev);
++
++    virtio_pci_reset(qdev);
+ 
+     if (pci_is_express(dev)) {
+         pcie_cap_deverr_reset(dev);
+@@ -2027,7 +2033,7 @@ static void virtio_pci_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_OTHERS;
+     device_class_set_parent_realize(dc, virtio_pci_dc_realize,
+                                     &vpciklass->parent_dc_realize);
+-    dc->reset = virtio_pci_reset;
++    dc->reset = virtio_pci_bus_reset;
  }
  
+ static const TypeInfo virtio_pci_info = {
 -- 
 MST
 
