@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4D75972E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:29:19 +0200 (CEST)
-Received: from localhost ([::1]:48584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104455972BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:16:06 +0200 (CEST)
+Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOKyr-00076z-H7
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:29:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39672)
+	id 1oOKm5-0001Tj-40
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:16:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKep-0004h2-7l; Wed, 17 Aug 2022 11:08:35 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43890)
+ id 1oOKep-0004h4-FF; Wed, 17 Aug 2022 11:08:35 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:43895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKem-0002up-8M; Wed, 17 Aug 2022 11:08:34 -0400
+ id 1oOKem-0002xG-9a; Wed, 17 Aug 2022 11:08:35 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8EE29747F20;
- Wed, 17 Aug 2022 17:08:28 +0200 (CEST)
+ by localhost (Postfix) with SMTP id A20FA747F21;
+ Wed, 17 Aug 2022 17:08:29 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5FBCB747F19; Wed, 17 Aug 2022 17:08:28 +0200 (CEST)
-Message-Id: <c4256d1bffca86fe1d696aa9c56732e5f563e114.1660746880.git.balaton@eik.bme.hu>
+ id 6B3F0747F19; Wed, 17 Aug 2022 17:08:29 +0200 (CEST)
+Message-Id: <d54a243dff94d95ba30dbcc09c27700a90ade932.1660746880.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660746880.git.balaton@eik.bme.hu>
 References: <cover.1660746880.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 10/31] ppc/ppc405: QOM'ify PLB
+Subject: [PATCH v2 11/31] ppc/ppc405: QOM'ify MAL
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,15 +37,16 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Aug 2022 17:08:28 +0200 (CEST)
+Date: Wed, 17 Aug 2022 17:08:29 +0200 (CEST)
 X-Spam-Probability: 10%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,191 +64,351 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-PLB is currently modeled as a simple DCR device. Also drop the
-ppc4xx_plb_init() helper and adapt the sam460ex machine.
+The Memory Access Layer (MAL) controller is currently modeled as a DCR
+device with 4 IRQs. Also drop the ppc4xx_mal_init() helper and adapt
+the sam460ex machine.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-[balaton: ppc4xx_dcr_register changes]
+[balaton: ppc4xx_dcr_register changes, add finalize method]
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/ppc405.h    | 14 ++++++++--
- hw/ppc/ppc405_uc.c | 64 ++++++++++++++++++++++++++--------------------
- hw/ppc/sam460ex.c  |  4 ++-
- 3 files changed, 51 insertions(+), 31 deletions(-)
+ hw/ppc/ppc405.h         |   1 +
+ hw/ppc/ppc405_uc.c      |  17 +++--
+ hw/ppc/ppc4xx_devs.c    | 145 ++++++++++++++++++++--------------------
+ hw/ppc/sam460ex.c       |  12 ++--
+ include/hw/ppc/ppc4xx.h |  28 +++++++-
+ 5 files changed, 117 insertions(+), 86 deletions(-)
 
 diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index 4140e811d5..cb34792daf 100644
+index cb34792daf..31c94e4742 100644
 --- a/hw/ppc/ppc405.h
 +++ b/hw/ppc/ppc405.h
-@@ -63,6 +63,17 @@ struct ppc4xx_bd_info_t {
-     uint32_t bi_iic_fast[2];
- };
- 
-+/* Peripheral local bus arbitrer */
-+#define TYPE_PPC405_PLB "ppc405-plb"
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PlbState, PPC405_PLB);
-+struct Ppc405PlbState {
-+    Ppc4xxDcrDeviceState parent_obj;
-+
-+    uint32_t acr;
-+    uint32_t bear;
-+    uint32_t besr;
-+};
-+
- /* PLB to OPB bridge */
- #define TYPE_PPC405_POB "ppc405-pob"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PobState, PPC405_POB);
-@@ -232,11 +243,10 @@ struct Ppc405SoCState {
-     Ppc405EbcState ebc;
+@@ -244,6 +244,7 @@ struct Ppc405SoCState {
      Ppc405OpbaState opba;
      Ppc405PobState pob;
-+    Ppc405PlbState plb;
+     Ppc405PlbState plb;
++    Ppc4xxMalState mal;
  };
  
  /* PowerPC 405 core */
- ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
- 
--void ppc4xx_plb_init(CPUPPCState *env);
--
- #endif /* PPC405_H */
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 0ad1cce790..94ea6b5b70 100644
+index 94ea6b5b70..922c23346f 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -148,19 +148,11 @@ enum {
-     PLB4A1_ACR = 0x089,
- };
- 
--typedef struct ppc4xx_plb_t ppc4xx_plb_t;
--struct ppc4xx_plb_t {
--    uint32_t acr;
--    uint32_t bear;
--    uint32_t besr;
--};
--
--static uint32_t dcr_read_plb (void *opaque, int dcrn)
-+static uint32_t dcr_read_plb(void *opaque, int dcrn)
- {
--    ppc4xx_plb_t *plb;
-+    Ppc405PlbState *plb = opaque;
-     uint32_t ret;
- 
--    plb = opaque;
-     switch (dcrn) {
-     case PLB0_ACR:
-         ret = plb->acr;
-@@ -180,11 +172,10 @@ static uint32_t dcr_read_plb (void *opaque, int dcrn)
-     return ret;
- }
- 
--static void dcr_write_plb (void *opaque, int dcrn, uint32_t val)
-+static void dcr_write_plb(void *opaque, int dcrn, uint32_t val)
- {
--    ppc4xx_plb_t *plb;
-+    Ppc405PlbState *plb = opaque;
- 
--    plb = opaque;
-     switch (dcrn) {
-     case PLB0_ACR:
-         /* We don't care about the actual parameters written as
-@@ -202,28 +193,36 @@ static void dcr_write_plb (void *opaque, int dcrn, uint32_t val)
-     }
- }
- 
--static void ppc4xx_plb_reset (void *opaque)
-+static void ppc405_plb_reset(DeviceState *dev)
- {
--    ppc4xx_plb_t *plb;
-+    Ppc405PlbState *plb = PPC405_PLB(dev);
- 
--    plb = opaque;
-     plb->acr = 0x00000000;
-     plb->bear = 0x00000000;
-     plb->besr = 0x00000000;
- }
- 
--void ppc4xx_plb_init(CPUPPCState *env)
-+static void ppc405_plb_realize(DeviceState *dev, Error **errp)
-+{
-+    Ppc405PlbState *plb = PPC405_PLB(dev);
-+    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
-+
-+    ppc4xx_dcr_register(dcr, PLB3A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB4A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB0_BEAR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB0_BESR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB4A1_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-+}
-+
-+static void ppc405_plb_class_init(ObjectClass *oc, void *data)
- {
--    ppc4xx_plb_t *plb;
--
--    plb = g_new0(ppc4xx_plb_t, 1);
--    ppc_dcr_register(env, PLB3A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc_dcr_register(env, PLB4A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc_dcr_register(env, PLB0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc_dcr_register(env, PLB0_BEAR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc_dcr_register(env, PLB0_BESR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc_dcr_register(env, PLB4A1_ACR, plb, &dcr_read_plb, &dcr_write_plb);
--    qemu_register_reset(ppc4xx_plb_reset, plb);
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->realize = ppc405_plb_realize;
-+    dc->reset = ppc405_plb_reset;
-+    /* Reason: only works as function of a ppc4xx SoC */
-+    dc->user_creatable = false;
- }
- 
- /*****************************************************************************/
-@@ -1371,6 +1370,8 @@ static void ppc405_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
- 
+@@ -1372,6 +1372,8 @@ static void ppc405_soc_instance_init(Object *obj)
      object_initialize_child(obj, "pob", &s->pob, TYPE_PPC405_POB);
+ 
+     object_initialize_child(obj, "plb", &s->plb, TYPE_PPC405_PLB);
 +
-+    object_initialize_child(obj, "plb", &s->plb, TYPE_PPC405_PLB);
++    object_initialize_child(obj, "mal", &s->mal, TYPE_PPC4xx_MAL);
  }
  
  static void ppc405_reset(void *opaque)
-@@ -1402,7 +1403,9 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+@@ -1382,7 +1384,6 @@ static void ppc405_reset(void *opaque)
+ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+ {
+     Ppc405SoCState *s = PPC405_SOC(dev);
+-    qemu_irq mal_irqs[4];
+     CPUPPCState *env;
+     SysBusDevice *sbd;
+     int i;
+@@ -1500,11 +1501,15 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
      }
  
-     /* PLB arbitrer */
--    ppc4xx_plb_init(env);
-+    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->plb), &s->cpu, errp)) {
+     /* MAL */
+-    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
+-    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
+-    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
+-    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
+-    ppc4xx_mal_init(env, 4, 2, mal_irqs);
++    object_property_set_int(OBJECT(&s->mal), "txc-num", 4, &error_abort);
++    object_property_set_int(OBJECT(&s->mal), "rxc-num", 2, &error_abort);
++    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->mal), &s->cpu, errp)) {
 +        return;
 +    }
++    sbd = SYS_BUS_DEVICE(&s->mal);
++    for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
++        sysbus_connect_irq(sbd, i, qdev_get_gpio_in(s->uic, 11 + i));
++    }
  
-     /* PLB to OPB bridge */
-     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->pob), &s->cpu, errp)) {
-@@ -1527,6 +1530,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+     /* Ethernet */
+     /* Uses UIC IRQs 9, 15, 17 */
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index f4d7ae9567..7d40c1b68a 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -459,32 +459,10 @@ enum {
+     MAL0_RCBS1    = 0x1E1,
+ };
  
- static const TypeInfo ppc405_types[] = {
+-typedef struct ppc4xx_mal_t ppc4xx_mal_t;
+-struct ppc4xx_mal_t {
+-    qemu_irq irqs[4];
+-    uint32_t cfg;
+-    uint32_t esr;
+-    uint32_t ier;
+-    uint32_t txcasr;
+-    uint32_t txcarr;
+-    uint32_t txeobisr;
+-    uint32_t txdeir;
+-    uint32_t rxcasr;
+-    uint32_t rxcarr;
+-    uint32_t rxeobisr;
+-    uint32_t rxdeir;
+-    uint32_t *txctpr;
+-    uint32_t *rxctpr;
+-    uint32_t *rcbs;
+-    uint8_t  txcnum;
+-    uint8_t  rxcnum;
+-};
+-
+-static void ppc4xx_mal_reset(void *opaque)
++static void ppc4xx_mal_reset(DeviceState *dev)
+ {
+-    ppc4xx_mal_t *mal;
++    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
+ 
+-    mal = opaque;
+     mal->cfg = 0x0007C000;
+     mal->esr = 0x00000000;
+     mal->ier = 0x00000000;
+@@ -498,10 +476,9 @@ static void ppc4xx_mal_reset(void *opaque)
+ 
+ static uint32_t dcr_read_mal(void *opaque, int dcrn)
+ {
+-    ppc4xx_mal_t *mal;
++    Ppc4xxMalState *mal = opaque;
+     uint32_t ret;
+ 
+-    mal = opaque;
+     switch (dcrn) {
+     case MAL0_CFG:
+         ret = mal->cfg;
+@@ -555,13 +532,12 @@ static uint32_t dcr_read_mal(void *opaque, int dcrn)
+ 
+ static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
+ {
+-    ppc4xx_mal_t *mal;
++    Ppc4xxMalState *mal = opaque;
+ 
+-    mal = opaque;
+     switch (dcrn) {
+     case MAL0_CFG:
+         if (val & 0x80000000) {
+-            ppc4xx_mal_reset(mal);
++            ppc4xx_mal_reset(DEVICE(mal));
+         }
+         mal->cfg = val & 0x00FFC087;
+         break;
+@@ -612,59 +588,76 @@ static void dcr_write_mal(void *opaque, int dcrn, uint32_t val)
+     }
+ }
+ 
+-void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+-                     qemu_irq irqs[4])
++static void ppc4xx_mal_realize(DeviceState *dev, Error **errp)
+ {
+-    ppc4xx_mal_t *mal;
++    Ppc4xxMalState *mal = PPC4xx_MAL(dev);
++    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+     int i;
+ 
+-    assert(txcnum <= 32 && rxcnum <= 32);
+-    mal = g_malloc0(sizeof(*mal));
+-    mal->txcnum = txcnum;
+-    mal->rxcnum = rxcnum;
+-    mal->txctpr = g_new0(uint32_t, txcnum);
+-    mal->rxctpr = g_new0(uint32_t, rxcnum);
+-    mal->rcbs = g_new0(uint32_t, rxcnum);
+-    for (i = 0; i < 4; i++) {
+-        mal->irqs[i] = irqs[i];
++    if (mal->txcnum > 32 || mal->rxcnum > 32) {
++        error_setg(errp, "invalid TXC/RXC number");
++        return;
++    }
++
++    mal->txctpr = g_new0(uint32_t, mal->txcnum);
++    mal->rxctpr = g_new0(uint32_t, mal->rxcnum);
++    mal->rcbs = g_new0(uint32_t, mal->rxcnum);
++
++    for (i = 0; i < ARRAY_SIZE(mal->irqs); i++) {
++        sysbus_init_irq(SYS_BUS_DEVICE(dev), &mal->irqs[i]);
+     }
+-    qemu_register_reset(&ppc4xx_mal_reset, mal);
+-    ppc_dcr_register(env, MAL0_CFG,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_ESR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_IER,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_TXCASR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_TXCARR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_TXEOBISR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_TXDEIR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_RXCASR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_RXCARR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_RXEOBISR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    ppc_dcr_register(env, MAL0_RXDEIR,
+-                     mal, &dcr_read_mal, &dcr_write_mal);
+-    for (i = 0; i < txcnum; i++) {
+-        ppc_dcr_register(env, MAL0_TXCTP0R + i,
+-                         mal, &dcr_read_mal, &dcr_write_mal);
++
++    ppc4xx_dcr_register(dcr, MAL0_CFG, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_ESR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_IER, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_TXCASR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_TXCARR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_TXEOBISR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_TXDEIR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_RXCASR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_RXCARR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_RXEOBISR, mal, &dcr_read_mal, &dcr_write_mal);
++    ppc4xx_dcr_register(dcr, MAL0_RXDEIR, mal, &dcr_read_mal, &dcr_write_mal);
++    for (i = 0; i < mal->txcnum; i++) {
++        ppc4xx_dcr_register(dcr, MAL0_TXCTP0R + i,
++                            mal, &dcr_read_mal, &dcr_write_mal);
+     }
+-    for (i = 0; i < rxcnum; i++) {
+-        ppc_dcr_register(env, MAL0_RXCTP0R + i,
+-                         mal, &dcr_read_mal, &dcr_write_mal);
++    for (i = 0; i < mal->rxcnum; i++) {
++        ppc4xx_dcr_register(dcr, MAL0_RXCTP0R + i,
++                            mal, &dcr_read_mal, &dcr_write_mal);
+     }
+-    for (i = 0; i < rxcnum; i++) {
+-        ppc_dcr_register(env, MAL0_RCBS0 + i,
+-                         mal, &dcr_read_mal, &dcr_write_mal);
++    for (i = 0; i < mal->rxcnum; i++) {
++        ppc4xx_dcr_register(dcr, MAL0_RCBS0 + i,
++                            mal, &dcr_read_mal, &dcr_write_mal);
+     }
+ }
+ 
++static void ppc4xx_mal_finalize(Object *obj)
++{
++    Ppc4xxMalState *mal = PPC4xx_MAL(obj);
++
++    g_free(mal->rcbs);
++    g_free(mal->rxctpr);
++    g_free(mal->txctpr);
++}
++
++static Property ppc4xx_mal_properties[] = {
++    DEFINE_PROP_UINT8("txc-num", Ppc4xxMalState, txcnum, 0),
++    DEFINE_PROP_UINT8("rxc-num", Ppc4xxMalState, rxcnum, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void ppc4xx_mal_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->realize = ppc4xx_mal_realize;
++    dc->reset = ppc4xx_mal_reset;
++    /* Reason: only works as function of a ppc4xx SoC */
++    dc->user_creatable = false;
++    device_class_set_props(dc, ppc4xx_mal_properties);
++}
++
+ /* PPC4xx_DCR_DEVICE */
+ 
+ void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
+@@ -696,6 +689,12 @@ static void ppc4xx_dcr_class_init(ObjectClass *oc, void *data)
+ 
+ static const TypeInfo ppc4xx_types[] = {
      {
-+        .name           = TYPE_PPC405_PLB,
++        .name           = TYPE_PPC4xx_MAL,
 +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-+        .instance_size  = sizeof(Ppc405PlbState),
-+        .class_init     = ppc405_plb_class_init,
++        .instance_size  = sizeof(Ppc4xxMalState),
++        .instance_finalize = ppc4xx_mal_finalize,
++        .class_init     = ppc4xx_mal_class_init,
 +    }, {
-         .name           = TYPE_PPC405_POB,
-         .parent         = TYPE_PPC4xx_DCR_DEVICE,
-         .instance_size  = sizeof(Ppc405PobState),
+         .name           = TYPE_PPC4xx_DCR_DEVICE,
+         .parent         = TYPE_SYS_BUS_DEVICE,
+         .instance_size  = sizeof(Ppc4xxDcrDeviceState),
 diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 320c61a7f3..31139c1554 100644
+index 31139c1554..c16303462d 100644
 --- a/hw/ppc/sam460ex.c
 +++ b/hw/ppc/sam460ex.c
-@@ -309,7 +309,9 @@ static void sam460ex_init(MachineState *machine)
-     ppc_dcr_init(env, NULL, NULL);
+@@ -280,7 +280,6 @@ static void sam460ex_init(MachineState *machine)
+     hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
+     MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
+     DeviceState *uic[4];
+-    qemu_irq mal_irqs[4];
+     int i;
+     PCIBus *pci_bus;
+     PowerPCCPU *cpu;
+@@ -387,10 +386,15 @@ static void sam460ex_init(MachineState *machine)
+     ppc4xx_sdr_init(env);
  
-     /* PLB arbitrer */
--    ppc4xx_plb_init(env);
-+    dev = qdev_new(TYPE_PPC405_PLB);
+     /* MAL */
+-    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+-        mal_irqs[i] = qdev_get_gpio_in(uic[2], 3 + i);
++    dev = qdev_new(TYPE_PPC4xx_MAL);
++    qdev_prop_set_uint32(dev, "txc-num", 4);
++    qdev_prop_set_uint32(dev, "rxc-num", 16);
 +    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(dev), cpu, &error_fatal);
 +    object_unref(OBJECT(dev));
++    sbdev = SYS_BUS_DEVICE(dev);
++    for (i = 0; i < ARRAY_SIZE(PPC4xx_MAL(dev)->irqs); i++) {
++        sysbus_connect_irq(sbdev, i, qdev_get_gpio_in(uic[2], 3 + i));
+     }
+-    ppc4xx_mal_init(env, 4, 16, mal_irqs);
  
-     /* interrupt controllers */
-     for (i = 0; i < ARRAY_SIZE(uic); i++) {
+     /* DMA */
+     ppc4xx_dma_init(env, 0x200);
+diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+index a537a5567b..f40bd49bc7 100644
+--- a/include/hw/ppc/ppc4xx.h
++++ b/include/hw/ppc/ppc4xx.h
+@@ -40,9 +40,6 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+                         hwaddr *ram_sizes,
+                         int do_init);
+ 
+-void ppc4xx_mal_init(CPUPPCState *env, uint8_t txcnum, uint8_t rxcnum,
+-                     qemu_irq irqs[4]);
+-
+ #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+ 
+ /*
+@@ -61,4 +58,29 @@ void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
+ bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
+                         Error **errp);
+ 
++/* Memory Access Layer (MAL) */
++#define TYPE_PPC4xx_MAL "ppc4xx-mal"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxMalState, PPC4xx_MAL);
++struct Ppc4xxMalState {
++    Ppc4xxDcrDeviceState parent_obj;
++
++    qemu_irq irqs[4];
++    uint32_t cfg;
++    uint32_t esr;
++    uint32_t ier;
++    uint32_t txcasr;
++    uint32_t txcarr;
++    uint32_t txeobisr;
++    uint32_t txdeir;
++    uint32_t rxcasr;
++    uint32_t rxcarr;
++    uint32_t rxeobisr;
++    uint32_t rxdeir;
++    uint32_t *txctpr;
++    uint32_t *rxctpr;
++    uint32_t *rcbs;
++    uint8_t  txcnum;
++    uint8_t  rxcnum;
++};
++
+ #endif /* PPC4XX_H */
 -- 
 2.30.4
 
