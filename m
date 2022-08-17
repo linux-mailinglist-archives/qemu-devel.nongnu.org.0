@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E88596B41
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:19:52 +0200 (CEST)
-Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEB4596B51
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:29:13 +0200 (CEST)
+Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOEHH-0003Kc-Ce
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48520)
+	id 1oOEQK-0002S7-2A
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oOE9F-0007wK-Ch
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:11:33 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:51334 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oOE9C-00084s-KE
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:11:33 -0400
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxReKoovxi4igDAA--.16584S3; 
- Wed, 17 Aug 2022 16:11:20 +0800 (CST)
-Subject: Re: [PATCH for-7.1 3/4] target/loongarch: rename the TCG CPU "la464"
- to "qemu64-v1.00"
-To: chen huacai <zltjiangshi@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: WANG Xuerui <i.qemu@xen0n.name>, qemu-level <qemu-devel@nongnu.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, WANG Xuerui <git@xen0n.name>,
- maobibo <maobibo@loongson.cn>
-References: <20220814145351.1474753-1-git@xen0n.name>
- <20220814145522.1474927-4-i.qemu@xen0n.name>
- <1c4ae4dd-7365-1d5b-0608-31ba04ee96e0@linaro.org>
- <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <2382c1cd-6318-34a2-35e8-addc751f6aeb@loongson.cn>
-Date: Wed, 17 Aug 2022 16:11:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oOEI1-0003s4-LA
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:20:45 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oOEHx-0001bw-T7
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:20:36 -0400
+Received: by mail-ej1-x635.google.com with SMTP id fy5so23248864ejc.3
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 01:20:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=+kKt8V8bMab3XLUr/76uPUSlOUpzzELbVi46hKmH6A4=;
+ b=PTCHyBEsL4ZXOfG5/lLZHIqIa6lDdoqxkoCpSbcjP0r84XX2K44YtldMplZTKrEZSG
+ ZjxBVD1qFNlkHAzsqDgKNtuOTDNLLOOYNdUColnpAX/uHFozGZ6nusXw3Jt4SThf+sHH
+ QKZTh1X2vHtb7JNcZFsLOCH4Pyc2ighKKIiVofNz7jgbraM7zgF/k0SE3mXfr6FccGa9
+ bO0Xl+LsmY50kiS8CHXqTYtzWEzZaGSzu33SzR/YDU6tf9Ui/cRqw98yTmVGVi7xSUNH
+ AUCB2Jxw66oBmDwbybguUzGyR0ltYJHn1pcO4xIbjJf/ktERNreMOj+aV8mpDGzy7RZv
+ gPlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=+kKt8V8bMab3XLUr/76uPUSlOUpzzELbVi46hKmH6A4=;
+ b=L8twrw9XXLNyDSPnTBIxa9Np1tsNmCIphPGkyb3XBuhkk3pkkFs5fw89GLl3Lz/TR3
+ +R8qtAVVnhlUtHYlQeazgW5neWDWQea+vTcDqRF/rmm9ZWyAfQJ0uGZy82J5w+Nnbvzr
+ ylqh6AlzG4f8gRnUe3isChb1/9ysQkhNumIGGQr6re9CM//ThEP/OxOi85gdT7QG+wF+
+ KvFQQjn9RIPkOjL/WM9DsTGiD4/XJ/pVM5XLXalcAdvEghMcf79Zw9M34WA6JcYoSFTk
+ 0cpqINimPszOX4/bO0KpF1QIqZvUS8T1YjfGuaxQpJB3ft3Qo5Esis15xsUnQkvPiVGG
+ 8/iw==
+X-Gm-Message-State: ACgBeo1cPbAYblgWw3E+G+3uSEfKenBolQNiv32+ylzcmYtbuwoIZgKQ
+ s/y4DNUsQM6XZPmj3wYKwB6vrw==
+X-Google-Smtp-Source: AA6agR7ayLyBUURZ0WeAw2gQC5GpZoDzSG+3yOVtKnLf1sxPd9ykhpFEMXugPMCPQ6ToUb/RMszaoQ==
+X-Received: by 2002:a17:907:2e02:b0:732:7679:cae2 with SMTP id
+ ig2-20020a1709072e0200b007327679cae2mr15762672ejc.179.1660724429395; 
+ Wed, 17 Aug 2022 01:20:29 -0700 (PDT)
+Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
+ by smtp.gmail.com with ESMTPSA id
+ e8-20020a170906844800b0072af102e65csm6468762ejy.152.2022.08.17.01.20.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Aug 2022 01:20:28 -0700 (PDT)
+Date: Wed, 17 Aug 2022 10:20:27 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [PATCH v2] target/riscv: fix csr check for cycle{h}, instret{h}, 
+ time{h}, hpmcounter3-31{h}
+Message-ID: <20220817082027.6dquoa76dhafvxch@kamzik>
+References: <20220817073635.29609-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
-In-Reply-To: <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8DxReKoovxi4igDAA--.16584S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ur4kJw48Zw4rCrWxKF43Awb_yoW8urWUpF
- W3ta1fKFs7JrnrCan2yws3Zr1SyF1xJr45XF98Xr92yr98ZryfWr4xKF4j9Fy2q3s7XanF
- vFWUK3yfAF1rZ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
- Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- ACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl
- 42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7
- v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
- AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
- VjvjDU0xZFpf9x0JUq38nUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220817073635.29609-1-liweiwei@iscas.ac.cn>
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,57 +92,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 17, 2022 at 03:36:35PM +0800, Weiwei Li wrote:
+> - modify check for mcounteren to work in all less-privilege mode
+> - modify check for scounteren to work only when S mode is enabled
+> - distinguish the exception type raised by check for scounteren between U
+> and VU mode
+> 
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+> v2:
+>  - Rebase on patches v13 for "Improve PMU support"
+> 
+>  target/riscv/csr.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>  
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 2dcd4e5b2d..a6bf2ff964 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -98,17 +98,22 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>  
+>  skip_ext_pmu_check:
+>  
+> -    if (((env->priv == PRV_S) && (!get_field(env->mcounteren, ctr_mask))) ||
+> -        ((env->priv == PRV_U) && (!get_field(env->scounteren, ctr_mask)))) {
+> +    if ((env->priv < PRV_M) && (!get_field(env->mcounteren, ctr_mask))) {
 
-在 2022/8/17 上午10:36, chen huacai 写道:
-> Hi, Richard and Xuerui,
->
-> On Mon, Aug 15, 2022 at 4:54 AM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> On 8/14/22 09:55, WANG Xuerui wrote:
->>> From: WANG Xuerui <git@xen0n.name>
->>>
->>> The only LoongArch CPU implemented is modeled after the Loongson 3A5000,
->>> but it is not the real thing, ...
->> The 3A5000 is the SoC, as far as I could find, and the documentation of that says the core
->> is named the la464.
->>
->>
->>> In general, high-fidelity models can and should be named after the real
->>> hardware model, while generic emulation-oriented models should be named
->>> after ISA levels.
->> This wasn't intended to be a generic emulation model, as far as I know.  There are missing
->> features, but presumably those would eventually be filled in.
->>
->>
->>> For now, the best reference for LoongArch ISA levels
->>> is the revision number of the LoongArch ISA Manual, of which v1.00 is
->>> still the latest. (v1.01 and v1.02 are minor revisions without
->>> substantive change.)
->>>
->>> As defined by various specs, the vendor and model names are also
->>> reflected in respective CSRs, and are 8 bytes long. So, rename "la464"
->>> to "qemu64-v1.00", with "QEMU64" as vendor name and "v1.00" as model
->>> name.
->> Eh, I suppose.  I'm not really keen on this though, as I would presume there will be
->> eventual forward progress on completing the real cpu model.  We simply won't give any
->> compatibility guarantees for loongarch until we are ready to do so.
-> In my opinion, real cpu name (Loongson-3A5000, Loongson-3A6000, etc.)
-> and generic qemu emulated name (qemu64-v1.00, qemu64-v2.00, vx.xx is
-> the ISA level, I found this style is used for x86) are both
-> acceptable. But la464 is not a good cpu name, because la264 and la464
-> are in the same ISA level, while la664 will be in a new level.
-I think that 'la264' , 'la464' and 'la664'  are  cpu core name. used 
-them as cpu type is more suitable.
-Although la264 and la464 are in the same ISA level,   but the features 
-should be different.
+I'd drop the unnecessary ()'s on both sides of the &&
 
-Thanks.
-Song Gao
-> Huacai
->
->>
->> r~
->>
->
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>  
+>      if (riscv_cpu_virt_enabled(env)) {
+> -        if (!get_field(env->hcounteren, ctr_mask) &&
+> -            get_field(env->mcounteren, ctr_mask)) {
+> +        if (!get_field(env->hcounteren, ctr_mask) ||
+> +            ((env->priv == PRV_U) && !get_field(env->scounteren, ctr_mask))) {
 
+() around env->priv == PRV_U can be dropped too
+
+>              return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>          }
+>      }
+> +
+> +    if (riscv_has_ext(env, RVS) && (env->priv == PRV_U) &&
+
+And here. Hmm, it seems a lot of env->priv checks in this file have
+unnecessary ()'s. Oh well, I like lisp.
+
+Thanks,
+drew
+
+> +        !get_field(env->scounteren, ctr_mask)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+>  #endif
+>      return RISCV_EXCP_NONE;
+>  }
+> -- 
+> 2.17.1
+> 
+> 
 
