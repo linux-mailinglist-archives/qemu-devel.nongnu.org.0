@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AC5597799
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 22:12:45 +0200 (CEST)
-Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E752B59779A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 22:15:03 +0200 (CEST)
+Received: from localhost ([::1]:57122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOPP9-0006lw-PJ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 16:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50164)
+	id 1oOPRP-0001Lp-1O
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 16:15:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPIo-0002z0-UG
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36930)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPIt-000311-2X
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPIn-0000FT-KK
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:10 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOPIr-0000Ft-A5
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 16:06:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660766767;
+ s=mimecast20190719; t=1660766772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rlFScFbd6bA9xQKNfgYlcaL7eylrZChQGwf+YKV00bU=;
- b=NliMa2iMB23DfIEWKngjfUO7wM4IDkp/ZvQMXt5/K32OmXID4NAv4JtwgWoDDZVQQydfxM
- gRmOkBEKUGW9Fdq9qqChyEL/CWHiKUjhFhRFc33D2BNgZL6FZk3yT2tZPB4pFU6/nuTBNv
- Tg8i4dMfzNXNroplVhnOA2I9LSobGbo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4g8+3u7lQYsLQR7nRpbfTo7Ux1+U1muOR3lP40MDZH0=;
+ b=MfrJLwsHPCoDJgxQLV8iZE4hpIGGSX2T4Whg12+/mLDi5TlGXhVKeyyt218SHWqXxJDtG1
+ 27MrpAyWCkRu0ESCcMoApMZk1aX2TB66U4Xaz0dCxalB/cvl2tVP/s+LEAQY1R1JblgkNS
+ 5huVt0bfDWiYRZC6Od/KAVvVB8p79eE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-389-8IEXyy0rM5WOAnmWuCWBsw-1; Wed, 17 Aug 2022 16:06:06 -0400
-X-MC-Unique: 8IEXyy0rM5WOAnmWuCWBsw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f5-20020a1cc905000000b003a60ef7ec71so601560wmb.4
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 13:06:06 -0700 (PDT)
+ us-mta-518-lyOhGUlYP1-jY8XqomZ3kg-1; Wed, 17 Aug 2022 16:06:11 -0400
+X-MC-Unique: lyOhGUlYP1-jY8XqomZ3kg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ t12-20020adfba4c000000b0021e7440666bso2705627wrg.22
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 13:06:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc;
- bh=rlFScFbd6bA9xQKNfgYlcaL7eylrZChQGwf+YKV00bU=;
- b=XvP5IxLInow/SIsyMVhCXW97rKA1lkgPxmicTXKAplmB/S1N20CsSvW8soM3mc8Qyg
- czalNQnme2w4I2t3oaLIN9oVDnx+IYT7aolPJhAYPUtshsjG4O66lE6JdRHB83gQnGP2
- FPPskVKWeRCJtGY2rvU711UnmPV9HgB1VaNRDN3eQV+wv7/0BX3gjMnxRDcoN9R7TlxR
- t3B8pxRMpMWiGV+DcTsEtENwZffX83F7yc566Z/h408XnETzZCm+n4mTnb7mqyTpg0Rb
- LfbusGAlok8qug8phTRvE5DmBcJs/g5CdFLa+XoC46Ad7iGW4f70UZ2xM4cUabN4Cd2H
- N8Nw==
-X-Gm-Message-State: ACgBeo2xM88C2da5o8sJuDNGoR2ZaOtEjAdf7UUydK/l9+ELXzwlfPIb
- vyEgSRwHJxT84vEAOoMVqIZoSToL4MKhqbt0RsL7LaS1p2mrMMmmdPxC1jLVJhLo6iZMuOYZaj3
- q8utGH2BIt5vBUJJGVT1Rt1jH9hPDz9uKTZQ0QjREdxzkmhiX0mLdCP0+Rbsj
-X-Received: by 2002:a05:600c:206:b0:3a5:abe9:8a91 with SMTP id
- 6-20020a05600c020600b003a5abe98a91mr3066595wmi.155.1660766765156; 
- Wed, 17 Aug 2022 13:06:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ZewWLcpM48Wj0uMqKFj1ccKUTe9j/OC+aDlRxbfidwOvLSVwg0kwP6kN1P3JzdigfNPgAlg==
-X-Received: by 2002:a05:600c:206:b0:3a5:abe9:8a91 with SMTP id
- 6-20020a05600c020600b003a5abe98a91mr3066583wmi.155.1660766764835; 
- Wed, 17 Aug 2022 13:06:04 -0700 (PDT)
+ bh=4g8+3u7lQYsLQR7nRpbfTo7Ux1+U1muOR3lP40MDZH0=;
+ b=y1DSt/5liE8BxKCioYhwnMqza/Zp5n+pKs2R7vc86NaLiVMnLXBTAugglwhYLIlohD
+ y2i4y9foNXkGRw7izOpnLA34ydYzDkdNT0ii99ue+NUrIJXU89MFzfPIjZv9TZADW6SH
+ zBaiUJuWZElx7UAnMS++nZwv1WdWSoDrzlkEK91ygwWtMHvT6ZDgQ/2h5Jaa5ja5H1Ff
+ kGU+XtFL+OWUdQYxSFaW3JW/YqSPFnc6zXuZAbV6a530w0lDGytl9KdUPbtr2fmh/NCf
+ Zi1CIkhe3asD/99YzZ6/loR5yi08lsi1aiZOsNlUeB+us5Gsni+QwgxRLyu3xnepwMTR
+ vLCA==
+X-Gm-Message-State: ACgBeo1V3OaEQD3B++hCWHjZn7qcwadf1dveheLmZ/urPvPVtfs7Yga4
+ HWzKO6wC9imhDNGm/01Jq/9Ky/71kXZdHtQ6w5BZREZtj0YYKpGQMvriXyf5v95jnxKNTa32Bn3
+ Z0NZUBohN84WM61/XMK3amJqRei/Pyn0v+YX2hHkkZI7piXQLZuLq9zpQd4Z8
+X-Received: by 2002:adf:c007:0:b0:220:76fc:eacc with SMTP id
+ z7-20020adfc007000000b0022076fceaccmr14595614wre.101.1660766770174; 
+ Wed, 17 Aug 2022 13:06:10 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6HyIuriooZ8P343nbADBDK+NHwBltdLZDCvkxbj4fGF68FkjSTgbU4isT5kdB8v3QQfvME1g==
+X-Received: by 2002:adf:c007:0:b0:220:76fc:eacc with SMTP id
+ z7-20020adfc007000000b0022076fceaccmr14595596wre.101.1660766769730; 
+ Wed, 17 Aug 2022 13:06:09 -0700 (PDT)
 Received: from redhat.com ([2.55.4.37]) by smtp.gmail.com with ESMTPSA id
- r15-20020a5d52cf000000b0021f73c66198sm13813537wrv.1.2022.08.17.13.06.03
+ j20-20020a05600c191400b003a5c1e916c8sm9919988wmq.1.2022.08.17.13.06.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 13:06:04 -0700 (PDT)
-Date: Wed, 17 Aug 2022 16:06:01 -0400
+ Wed, 17 Aug 2022 13:06:09 -0700 (PDT)
+Date: Wed, 17 Aug 2022 16:06:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PULL 04/12] hw/virtio: fix vhost_user_read tracepoint
-Message-ID: <20220817200536.350795-5-mst@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Sergio Lopez <slp@redhat.com>
+Subject: [PULL 05/12] x86: disable rng seeding via setup_data
+Message-ID: <20220817200536.350795-6-mst@redhat.com>
 References: <20220817200536.350795-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -77,14 +82,14 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220817200536.350795-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,44 +106,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-As reads happen in the callback we were never seeing them. We only
-really care about the header so move the tracepoint to when the header
-is complete.
+Causes regressions when doing direct kernel boots with OVMF.
 
-Fixes: 6ca6d8ee9d (hw/virtio: add vhost_user_[read|write] trace points)
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20220728135503.1060062-5-alex.bennee@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+At this point in the release cycle the only sensible action
+is to just disable this for 7.1 and sort it properly in the
+7.2 devel cycle.
+
+Cc: Jason A. Donenfeld <Jason@zx2c4.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20220817083940.3174933-1-kraxel@redhat.com>
+Cc: Jason A. Donenfeld <Jason@zx2c4.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/virtio/vhost-user.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/microvm.c | 2 +-
+ hw/i386/pc_piix.c | 2 +-
+ hw/i386/pc_q35.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 75b8df21a4..bd24741be8 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -295,6 +295,8 @@ static int vhost_user_read_header(struct vhost_dev *dev, VhostUserMsg *msg)
-         return -EPROTO;
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 7fe8cce03e..52cafa003d 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     rom_set_fw(fw_cfg);
+ 
+     if (machine->kernel_filename != NULL) {
+-        x86_load_linux(x86ms, fw_cfg, 0, true, false);
++        x86_load_linux(x86ms, fw_cfg, 0, true, true);
      }
  
-+    trace_vhost_user_read(msg->hdr.request, msg->hdr.flags);
-+
-     return 0;
+     if (mms->option_roms) {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index a5c65c1c35..20962c34e7 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -439,6 +439,7 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
+     m->alias = "pc";
+     m->is_default = true;
+     pcmc->default_cpu_version = 1;
++    pcmc->legacy_no_rng_seed = true;
  }
  
-@@ -544,8 +546,6 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
-         }
-     }
- 
--    trace_vhost_user_read(msg.hdr.request, msg.hdr.flags);
--
-     return 0;
+ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+@@ -450,7 +451,6 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+     pc_i440fx_7_1_machine_options(m);
+     m->alias = NULL;
+     m->is_default = false;
+-    pcmc->legacy_no_rng_seed = true;
+     pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 3a35193ff7..2e5dae9a89 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -376,6 +376,7 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+     pcmc->default_cpu_version = 1;
++    pcmc->legacy_no_rng_seed = true;
  }
  
+ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+@@ -386,7 +387,6 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_7_1_machine_options(m);
+     m->alias = NULL;
+-    pcmc->legacy_no_rng_seed = true;
+     pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
 -- 
 MST
 
