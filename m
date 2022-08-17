@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2275972D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:22:57 +0200 (CEST)
-Received: from localhost ([::1]:37822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4DF5972DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:26:14 +0200 (CEST)
+Received: from localhost ([::1]:45260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOKsj-0004EX-1J
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:22:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39584)
+	id 1oOKvt-0001An-7J
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKem-0004fA-6l; Wed, 17 Aug 2022 11:08:32 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:43874)
+ id 1oOKen-0004go-Lz; Wed, 17 Aug 2022 11:08:35 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oOKeg-0002rP-Tp; Wed, 17 Aug 2022 11:08:28 -0400
+ id 1oOKei-0002uU-Jq; Wed, 17 Aug 2022 11:08:33 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 61F94747DFD;
- Wed, 17 Aug 2022 17:08:25 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 6841F747F1B;
+ Wed, 17 Aug 2022 17:08:26 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 351DF747DFA; Wed, 17 Aug 2022 17:08:25 +0200 (CEST)
-Message-Id: <51a0769ab605c5158f4f2f1c896725d5fe7a073b.1660746880.git.balaton@eik.bme.hu>
+ id 3E47D747F19; Wed, 17 Aug 2022 17:08:26 +0200 (CEST)
+Message-Id: <38476bc43d2332db2f09dbede9eff5234d6ce217.1660746880.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660746880.git.balaton@eik.bme.hu>
 References: <cover.1660746880.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 07/31] ppc/ppc405: QOM'ify EBC
+Subject: [PATCH v2 08/31] ppc/ppc405: QOM'ify OPBA
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,16 +37,15 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Aug 2022 17:08:25 +0200 (CEST)
+Date: Wed, 17 Aug 2022 17:08:26 +0200 (CEST)
 X-Spam-Probability: 10%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,202 +63,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-EBC is currently modeled as a DCR device. Also drop the ppc405_ebc_init()
-helper and adapt the sam460ex machine.
+The OPB arbitrer is currently modeled as a simple SysBus device with a
+unique memory region.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 [balaton: ppc4xx_dcr_register changes]
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/ppc405.h    | 17 ++++++++++++-
- hw/ppc/ppc405_uc.c | 62 ++++++++++++++++++++++++----------------------
- hw/ppc/sam460ex.c  |  4 ++-
- 3 files changed, 51 insertions(+), 32 deletions(-)
+ hw/ppc/ppc405.h     | 12 +++++++++++
+ hw/ppc/ppc405_uc.c  | 49 +++++++++++++++++++++++++++------------------
+ hw/ppc/trace-events |  1 -
+ 3 files changed, 41 insertions(+), 21 deletions(-)
 
 diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index c75e4c7cb5..82bf8dae93 100644
+index 82bf8dae93..d63c2acdc7 100644
 --- a/hw/ppc/ppc405.h
 +++ b/hw/ppc/ppc405.h
-@@ -63,6 +63,21 @@ struct ppc4xx_bd_info_t {
+@@ -63,6 +63,17 @@ struct ppc4xx_bd_info_t {
      uint32_t bi_iic_fast[2];
  };
  
-+/* Peripheral controller */
-+#define TYPE_PPC405_EBC "ppc405-ebc"
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
-+struct Ppc405EbcState {
-+    Ppc4xxDcrDeviceState parent_obj;
++/* OPB arbitrer */
++#define TYPE_PPC405_OPBA "ppc405-opba"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc405OpbaState, PPC405_OPBA);
++struct Ppc405OpbaState {
++    SysBusDevice parent_obj;
 +
-+    uint32_t addr;
-+    uint32_t bcr[8];
-+    uint32_t bap[8];
-+    uint32_t bear;
-+    uint32_t besr0;
-+    uint32_t besr1;
-+    uint32_t cfg;
++    MemoryRegion io;
++    uint8_t cr;
++    uint8_t pr;
 +};
 +
- /* DMA controller */
- #define TYPE_PPC405_DMA "ppc405-dma"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc405DmaState, PPC405_DMA);
-@@ -192,12 +207,12 @@ struct Ppc405SoCState {
-     Ppc405OcmState ocm;
+ /* Peripheral controller */
+ #define TYPE_PPC405_EBC "ppc405-ebc"
+ OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
+@@ -208,6 +219,7 @@ struct Ppc405SoCState {
      Ppc405GpioState gpio;
      Ppc405DmaState dma;
-+    Ppc405EbcState ebc;
+     Ppc405EbcState ebc;
++    Ppc405OpbaState opba;
  };
  
  /* PowerPC 405 core */
- ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
- 
- void ppc4xx_plb_init(CPUPPCState *env);
--void ppc405_ebc_init(CPUPPCState *env);
- 
- #endif /* PPC405_H */
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 40af07e321..f259de07e2 100644
+index f259de07e2..911ec958c6 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -393,28 +393,16 @@ static void ppc4xx_opba_init(hwaddr base)
+@@ -310,16 +310,9 @@ static void ppc4xx_pob_init(CPUPPCState *env)
  
  /*****************************************************************************/
- /* Peripheral controller */
--typedef struct ppc4xx_ebc_t ppc4xx_ebc_t;
--struct ppc4xx_ebc_t {
--    uint32_t addr;
--    uint32_t bcr[8];
--    uint32_t bap[8];
--    uint32_t bear;
--    uint32_t besr0;
--    uint32_t besr1;
--    uint32_t cfg;
+ /* OPB arbitrer */
+-typedef struct ppc4xx_opba_t ppc4xx_opba_t;
+-struct ppc4xx_opba_t {
+-    MemoryRegion io;
+-    uint8_t cr;
+-    uint8_t pr;
 -};
 -
- enum {
-     EBC0_CFGADDR = 0x012,
-     EBC0_CFGDATA = 0x013,
- };
- 
--static uint32_t dcr_read_ebc (void *opaque, int dcrn)
-+static uint32_t dcr_read_ebc(void *opaque, int dcrn)
+ static uint64_t opba_readb(void *opaque, hwaddr addr, unsigned size)
  {
--    ppc4xx_ebc_t *ebc;
-+    Ppc405EbcState *ebc = opaque;
+-    ppc4xx_opba_t *opba = opaque;
++    Ppc405OpbaState *opba = opaque;
      uint32_t ret;
  
--    ebc = opaque;
-     switch (dcrn) {
-     case EBC0_CFGADDR:
-         ret = ebc->addr;
-@@ -494,11 +482,10 @@ static uint32_t dcr_read_ebc (void *opaque, int dcrn)
-     return ret;
+     switch (addr) {
+@@ -341,7 +334,7 @@ static uint64_t opba_readb(void *opaque, hwaddr addr, unsigned size)
+ static void opba_writeb(void *opaque, hwaddr addr, uint64_t value,
+                         unsigned size)
+ {
+-    ppc4xx_opba_t *opba = opaque;
++    Ppc405OpbaState *opba = opaque;
+ 
+     trace_opba_writeb(addr, value);
+ 
+@@ -366,25 +359,30 @@ static const MemoryRegionOps opba_ops = {
+     .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
+-static void ppc4xx_opba_reset (void *opaque)
++static void ppc405_opba_reset(DeviceState *dev)
+ {
+-    ppc4xx_opba_t *opba;
++    Ppc405OpbaState *opba = PPC405_OPBA(dev);
+ 
+-    opba = opaque;
+     opba->cr = 0x00; /* No dynamic priorities - park disabled */
+     opba->pr = 0x11;
  }
  
--static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
-+static void dcr_write_ebc(void *opaque, int dcrn, uint32_t val)
+-static void ppc4xx_opba_init(hwaddr base)
++static void ppc405_opba_realize(DeviceState *dev, Error **errp)
  {
--    ppc4xx_ebc_t *ebc;
-+    Ppc405EbcState *ebc = opaque;
- 
--    ebc = opaque;
-     switch (dcrn) {
-     case EBC0_CFGADDR:
-         ebc->addr = val;
-@@ -554,12 +541,11 @@ static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
-     }
- }
- 
--static void ebc_reset (void *opaque)
-+static void ppc405_ebc_reset(DeviceState *dev)
- {
--    ppc4xx_ebc_t *ebc;
-+    Ppc405EbcState *ebc = PPC405_EBC(dev);
-     int i;
- 
--    ebc = opaque;
-     ebc->addr = 0x00000000;
-     ebc->bap[0] = 0x7F8FFE80;
-     ebc->bcr[0] = 0xFFE28000;
-@@ -572,16 +558,23 @@ static void ebc_reset (void *opaque)
-     ebc->cfg = 0x80400000;
- }
- 
--void ppc405_ebc_init(CPUPPCState *env)
-+static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
- {
--    ppc4xx_ebc_t *ebc;
--
--    ebc = g_new0(ppc4xx_ebc_t, 1);
--    qemu_register_reset(&ebc_reset, ebc);
--    ppc_dcr_register(env, EBC0_CFGADDR,
--                     ebc, &dcr_read_ebc, &dcr_write_ebc);
--    ppc_dcr_register(env, EBC0_CFGDATA,
--                     ebc, &dcr_read_ebc, &dcr_write_ebc);
-+    Ppc405EbcState *ebc = PPC405_EBC(dev);
-+    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
+-    ppc4xx_opba_t *opba;
++    Ppc405OpbaState *s = PPC405_OPBA(dev);
 +
-+    ppc4xx_dcr_register(dcr, EBC0_CFGADDR, ebc, &dcr_read_ebc, &dcr_write_ebc);
-+    ppc4xx_dcr_register(dcr, EBC0_CFGDATA, ebc, &dcr_read_ebc, &dcr_write_ebc);
++    memory_region_init_io(&s->io, OBJECT(s), &opba_ops, s, "opba", 2);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->io);
 +}
-+
-+static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
+ 
+-    trace_opba_init(base);
++static void ppc405_opba_class_init(ObjectClass *oc, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->realize = ppc405_ebc_realize;
-+    dc->reset = ppc405_ebc_reset;
+ 
+-    opba = g_new0(ppc4xx_opba_t, 1);
+-    memory_region_init_io(&opba->io, NULL, &opba_ops, opba, "opba", 0x002);
+-    memory_region_add_subregion(get_system_memory(), base, &opba->io);
+-    qemu_register_reset(ppc4xx_opba_reset, opba);
++    dc->realize = ppc405_opba_realize;
++    dc->reset = ppc405_opba_reset;
 +    /* Reason: only works as function of a ppc4xx SoC */
 +    dc->user_creatable = false;
  }
  
  /*****************************************************************************/
-@@ -1375,6 +1368,8 @@ static void ppc405_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
- 
+@@ -1370,6 +1368,8 @@ static void ppc405_soc_instance_init(Object *obj)
      object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
+ 
+     object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
 +
-+    object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
++    object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
  }
  
  static void ppc405_reset(void *opaque)
-@@ -1441,7 +1436,9 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-                       s->do_dram_init);
+@@ -1407,7 +1407,11 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+     ppc4xx_pob_init(env);
  
-     /* External bus controller */
--    ppc405_ebc_init(env);
-+    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
+     /* OBP arbitrer */
+-    ppc4xx_opba_init(0xef600600);
++    sbd = SYS_BUS_DEVICE(&s->opba);
++    if (!sysbus_realize(sbd, errp)) {
 +        return;
 +    }
++    sysbus_mmio_map(sbd, 0, 0xef600600);
  
-     /* DMA controller */
-     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->dma), &s->cpu, errp)) {
-@@ -1523,6 +1520,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+     /* Universal interrupt controller */
+     s->uic = qdev_new(TYPE_PPC_UIC);
+@@ -1520,6 +1524,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
  
  static const TypeInfo ppc405_types[] = {
      {
-+        .name           = TYPE_PPC405_EBC,
-+        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-+        .instance_size  = sizeof(Ppc405EbcState),
-+        .class_init     = ppc405_ebc_class_init,
++        .name           = TYPE_PPC405_OPBA,
++        .parent         = TYPE_SYS_BUS_DEVICE,
++        .instance_size  = sizeof(Ppc405OpbaState),
++        .class_init     = ppc405_opba_class_init,
 +    }, {
-         .name           = TYPE_PPC405_DMA,
+         .name           = TYPE_PPC405_EBC,
          .parent         = TYPE_PPC4xx_DCR_DEVICE,
-         .instance_size  = sizeof(Ppc405DmaState),
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 0357ee077f..320c61a7f3 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -371,7 +371,9 @@ static void sam460ex_init(MachineState *machine)
-                                qdev_get_gpio_in(uic[0], 3));
+         .instance_size  = sizeof(Ppc405EbcState),
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index 69a95f9f57..a07d5aca0f 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -161,7 +161,6 @@ ppc440_pcix_reg_write(uint64_t addr, uint32_t val, uint32_t size) "addr 0x%" PRI
+ # ppc405_boards.c
+ opba_readb(uint64_t addr, uint32_t val) "addr 0x%" PRIx64 " = 0x%" PRIx32
+ opba_writeb(uint64_t addr, uint64_t val) "addr 0x%" PRIx64 " = 0x%" PRIx64
+-opba_init(uint64_t addr) "offet 0x%" PRIx64
  
-     /* External bus controller */
--    ppc405_ebc_init(env);
-+    dev = qdev_new(TYPE_PPC405_EBC);
-+    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(dev), cpu, &error_fatal);
-+    object_unref(OBJECT(dev));
- 
-     /* CPR */
-     ppc4xx_cpr_init(env);
+ ppc405_gpio_read(uint64_t addr, uint32_t size) "addr 0x%" PRIx64 " size %d"
+ ppc405_gpio_write(uint64_t addr, uint32_t size, uint64_t val) "addr 0x%" PRIx64 " size %d = 0x%" PRIx64
 -- 
 2.30.4
 
