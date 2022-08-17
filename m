@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF803596BA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:54:48 +0200 (CEST)
-Received: from localhost ([::1]:47284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02AE596BB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 10:56:32 +0200 (CEST)
+Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOEp5-0008QC-IR
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:54:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56782)
+	id 1oOEqm-0000jP-27
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 04:56:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oOEhh-0004W6-9f
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:47:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32963)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOEnM-0006ey-AN
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:53:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oOEhe-0002ki-22
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:47:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOEnJ-0006s4-5y
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 04:52:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660726024;
+ s=mimecast20190719; t=1660726376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dgaBIAZCIMZNKM7L3ODClQ6VTEKzM5EHOFLUMEWJ/zc=;
- b=MkyGYX/0kOEzDra0y+hLy+khlg7/RfUAw7FRHZPduzZ3+fuli2/xoh7eGSUm6YEv4QY86g
- YSk6Dxa/VYpLOb645xYK7QTZA0FHYDpmoYnouERflKoroTkuDGaV4Mz6N0F2tCYJF+MkNh
- Hyv3BBtbE7kV2cs/aFIro1jiPVRoxWM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-Gc0O9wIoNg2pIcWoBXV6vA-1; Wed, 17 Aug 2022 04:47:01 -0400
-X-MC-Unique: Gc0O9wIoNg2pIcWoBXV6vA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79A8E811E7A;
- Wed, 17 Aug 2022 08:46:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BC7094585;
- Wed, 17 Aug 2022 08:46:55 +0000 (UTC)
-Date: Wed, 17 Aug 2022 10:46:54 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v10 11/21] jobs: group together API calls under the same
- job lock
-Message-ID: <Yvyq/jhJ0B0W6mtF@redhat.com>
-References: <20220725073855.76049-1-eesposit@redhat.com>
- <20220725073855.76049-12-eesposit@redhat.com>
- <Yuv9cKJotWg0NEno@redhat.com>
- <1ed3c1c5-8393-2dc8-c930-606b73778a6b@redhat.com>
+ bh=5MVMPqYflcNyp+DgMy6/AZ2ZRVzBrOxaK4jjuecMeNw=;
+ b=E+BZN4JJfu1K9diXzs5BUVtLYNmayyPPYmVYlyNJEEJMB48knDlNuRbSlJP/I+N7f/TR9S
+ JTCZnhm0VGSLmqowXAopkVcjRTdR/Fczo8NXN9/zp5NofkoUotiRIpNu7V2/+A5jqVjoUA
+ 5LXkId1V9Rdr6VZph2eCZDgM+dp19rk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-35-Q2guuv_bMCmaZBSbBroYxQ-1; Wed, 17 Aug 2022 04:52:54 -0400
+X-MC-Unique: Q2guuv_bMCmaZBSbBroYxQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i132-20020a1c3b8a000000b003a537064611so6069010wma.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 01:52:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=5MVMPqYflcNyp+DgMy6/AZ2ZRVzBrOxaK4jjuecMeNw=;
+ b=lGASed3P3sQUp+zGelVOQfug8DINoHnDR0uaHZYR5EW6ioG8kY8R2EtYQXBx79JH0K
+ WW8zpjEv/QfwcN4hcGbHFXFHPN+7F7MR0qikwWz1DzUKxatNVVGzakfGjwMmsCehWLJ5
+ UGQZKOVJScRi+AKh85e6ykDU4juEDPIyQM0VR3D566lKIrNTIwJtkZjP19gTWtTupKvm
+ svlWBoiVCy/n466M9MFRanY/iGBWd7rAqkR/icd+g9yRifuiPdMjrdA7YoNkK2NrCMeC
+ NUeTxji/SWG297qEin3eKmEQdcRAyA5+9TdVWFbxBObXeLtftUrtZ4xtG4uLwHCEKGV2
+ IZqg==
+X-Gm-Message-State: ACgBeo3D0m4B6s6zO86oysQiPFkRkYAv00ceFnoZDIXIQ3bxKvlBZ8Fm
+ jAcqKu3R4UPvXu+MtYn8gNR00JfxZkEDU4lX0iuSVWCqm+L+5kl47dWh/SQdgQyF1SmWRsGswlz
+ EW7lrtmOThO0TNI8=
+X-Received: by 2002:a05:6000:887:b0:21e:24a0:f302 with SMTP id
+ ca7-20020a056000088700b0021e24a0f302mr13109929wrb.466.1660726373498; 
+ Wed, 17 Aug 2022 01:52:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5U/cq/2B7lReLFqxl4Y3ernG91/i8hKG9NaW9vYGlgEpBhtUzJGUjwVHgpOSDIb4xXFYQJiQ==
+X-Received: by 2002:a05:6000:887:b0:21e:24a0:f302 with SMTP id
+ ca7-20020a056000088700b0021e24a0f302mr13109912wrb.466.1660726373289; 
+ Wed, 17 Aug 2022 01:52:53 -0700 (PDT)
+Received: from redhat.com ([2.55.43.215]) by smtp.gmail.com with ESMTPSA id
+ b3-20020a05600010c300b002217339ce90sm12412362wrx.8.2022.08.17.01.52.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Aug 2022 01:52:52 -0700 (PDT)
+Date: Wed, 17 Aug 2022 04:52:48 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Sergio Lopez <slp@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] x86: disable rng seeding via setup_data
+Message-ID: <20220817045232-mutt-send-email-mst@kernel.org>
+References: <20220817083940.3174933-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1ed3c1c5-8393-2dc8-c930-606b73778a6b@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220817083940.3174933-1-kraxel@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,253 +104,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.08.2022 um 16:54 hat Emanuele Giuseppe Esposito geschrieben:
-> Am 04/08/2022 um 19:10 schrieb Kevin Wolf:
-> > Am 25.07.2022 um 09:38 hat Emanuele Giuseppe Esposito geschrieben:
-> >> Now that the API offers also _locked() functions, take advantage
-> >> of it and give also the caller control to take the lock and call
-> >> _locked functions.
-> >>
-> >> This makes sense especially when we have for loops, because it
-> >> makes no sense to have:
-> >>
-> >> for(job = job_next(); ...)
-> >>
-> >> where each job_next() takes the lock internally.
-> >> Instead we want
-> >>
-> >> JOB_LOCK_GUARD();
-> >> for(job = job_next_locked(); ...)
-> >>
-> >> In addition, protect also direct field accesses, by either creating a
-> >> new critical section or widening the existing ones.
-> > 
-> > "In addition" sounds like it should be a separate patch. I was indeed
-> > surprised when after a few for loops where you just pulled the existing
-> > locking up a bit, I saw some hunks that add completely new locking.
+On Wed, Aug 17, 2022 at 10:39:40AM +0200, Gerd Hoffmann wrote:
+> Causes regressions when doing direct kernel boots with OVMF.
 > 
-> Would it be okay if we don't split it in two? There would be two
-> microscopical patches.
-
-If it would be just a hunk or two, fair enough.
-
-> >> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> >> are *nop*.
-> >>
-> >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> >> ---
-> >>  block.c            | 17 ++++++++++-------
-> >>  blockdev.c         | 12 +++++++++---
-> >>  blockjob.c         | 35 ++++++++++++++++++++++-------------
-> >>  job-qmp.c          |  4 +++-
-> >>  job.c              |  7 +++++--
-> >>  monitor/qmp-cmds.c |  7 +++++--
-> >>  qemu-img.c         | 37 +++++++++++++++++++++----------------
-> >>  7 files changed, 75 insertions(+), 44 deletions(-)
-> >>
-> >> diff --git a/block.c b/block.c
-> >> index 2c00dddd80..7559965dbc 100644
-> >> --- a/block.c
-> >> +++ b/block.c
-> >> @@ -4978,8 +4978,8 @@ static void bdrv_close(BlockDriverState *bs)
-> >>  
-> >>  void bdrv_close_all(void)
-> >>  {
-> >> -    assert(job_next(NULL) == NULL);
-> >>      GLOBAL_STATE_CODE();
-> >> +    assert(job_next(NULL) == NULL);
-> >>  
-> >>      /* Drop references from requests still in flight, such as canceled block
-> >>       * jobs whose AIO context has not been polled yet */
-> >> @@ -6165,13 +6165,16 @@ XDbgBlockGraph *bdrv_get_xdbg_block_graph(Error **errp)
-> >>          }
-> >>      }
-> >>  
-> >> -    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
-> >> -        GSList *el;
-> >> +    WITH_JOB_LOCK_GUARD() {
-> >> +        for (job = block_job_next_locked(NULL); job;
-> >> +             job = block_job_next_locked(job)) {
-> >> +            GSList *el;
-> >>  
-> >> -        xdbg_graph_add_node(gr, job, X_DBG_BLOCK_GRAPH_NODE_TYPE_BLOCK_JOB,
-> >> -                           job->job.id);
-> >> -        for (el = job->nodes; el; el = el->next) {
-> >> -            xdbg_graph_add_edge(gr, job, (BdrvChild *)el->data);
-> >> +            xdbg_graph_add_node(gr, job, X_DBG_BLOCK_GRAPH_NODE_TYPE_BLOCK_JOB,
-> >> +                                job->job.id);
-> >> +            for (el = job->nodes; el; el = el->next) {
-> >> +                xdbg_graph_add_edge(gr, job, (BdrvChild *)el->data);
-> >> +            }
-> >>          }
-> >>      }
-> >>  
-> >> diff --git a/blockdev.c b/blockdev.c
-> >> index 71f793c4ab..5b79093155 100644
-> >> --- a/blockdev.c
-> >> +++ b/blockdev.c
-> >> @@ -150,12 +150,15 @@ void blockdev_mark_auto_del(BlockBackend *blk)
-> >>          return;
-> >>      }
-> >>  
-> >> -    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
-> >> +    JOB_LOCK_GUARD();
-> >> +
-> >> +    for (job = block_job_next_locked(NULL); job;
-> >> +         job = block_job_next_locked(job)) {
-> >>          if (block_job_has_bdrv(job, blk_bs(blk))) {
-> > 
-> > Should this be renamed to block_job_has_bdrv_locked() now?
-> > 
-> > It looks to me like it does need the locking. (Which actually makes
-> > this patch a fix and not just an optimisation as the commit message
-> > suggests.)
+> At this point in the release cycle the only sensible action
+> is to just disable this for 7.1 and sort it properly in the
+> 7.2 devel cycle.
 > 
-> Nope, as GSList *nodes; is always read and written under BQL.
+> Cc: Jason A. Donenfeld <Jason@zx2c4.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Eduardo Habkost <eduardo@habkost.net>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Ah, right. I wonder if we should later take the lock anyway even for
-fields where it's not strictly necessary to simplify the locking rules.
-Having to check the rules for each field separately is kind of hard. But
-let's do only the necessary things in this series.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-> > 
-> >>              AioContext *aio_context = job->job.aio_context;
-> >>              aio_context_acquire(aio_context);
-> >>  
-> >> -            job_cancel(&job->job, false);
-> >> +            job_cancel_locked(&job->job, false);
-> >>  
-> >>              aio_context_release(aio_context);
-> >>          }
-> >> @@ -3745,7 +3748,10 @@ BlockJobInfoList *qmp_query_block_jobs(Error **errp)
-> >>      BlockJobInfoList *head = NULL, **tail = &head;
-> >>      BlockJob *job;
-> >>  
-> >> -    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
-> >> +    JOB_LOCK_GUARD();
-> >> +
-> >> +    for (job = block_job_next_locked(NULL); job;
-> >> +         job = block_job_next_locked(job)) {
-> >>          BlockJobInfo *value;
-> >>          AioContext *aio_context;
-> > 
-> > More context:
-> > 
-> >         BlockJobInfo *value;
-> >         AioContext *aio_context;
-> > 
-> >         if (block_job_is_internal(job)) {
-> >             continue;
-> >         }
-> >         aio_context = block_job_get_aio_context(job);
-> >         aio_context_acquire(aio_context);
-> >         value = block_job_query(job, errp);
-> >         aio_context_release(aio_context);
-> > 
-> > This should become block_job_query_locked(). (You do that in patch 18,
-> > but it looks a bit out of place there - which is precisely because it
-> > really belongs in this one.)
+
+Will queue ASAP.
+
+> ---
+>  hw/i386/microvm.c | 2 +-
+>  hw/i386/pc_piix.c | 2 +-
+>  hw/i386/pc_q35.c  | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> Ok
-> > 
-> >> diff --git a/blockjob.c b/blockjob.c
-> >> index 0d59aba439..96fb9d9f73 100644
-> >> --- a/blockjob.c
-> >> +++ b/blockjob.c
-> >> @@ -111,8 +111,10 @@ static bool child_job_drained_poll(BdrvChild *c)
-> >>      /* An inactive or completed job doesn't have any pending requests. Jobs
-> >>       * with !job->busy are either already paused or have a pause point after
-> >>       * being reentered, so no job driver code will run before they pause. */
-> >> -    if (!job->busy || job_is_completed(job)) {
-> >> -        return false;
-> >> +    WITH_JOB_LOCK_GUARD() {
-> >> +        if (!job->busy || job_is_completed_locked(job)) {
-> >> +            return false;
-> >> +        }
-> >>      }
-> >>  
-> >>      /* Otherwise, assume that it isn't fully stopped yet, but allow the job to
-> > 
-> > Assuming that the job status can actually change, don't we need the
-> > locking for the rest of the function, too? Otherwise we might call
-> > drv->drained_poll() for a job that has already paused or completed.
-> > 
-> > Of course, this goes against the assumption that all callbacks are
-> > called without holding the job lock. Maybe it's not a good assumption.
-> > 
-> >> @@ -475,13 +477,15 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
-> >>      job->ready_notifier.notify = block_job_event_ready;
-> >>      job->idle_notifier.notify = block_job_on_idle;
-> >>  
-> >> -    notifier_list_add(&job->job.on_finalize_cancelled,
-> >> -                      &job->finalize_cancelled_notifier);
-> >> -    notifier_list_add(&job->job.on_finalize_completed,
-> >> -                      &job->finalize_completed_notifier);
-> >> -    notifier_list_add(&job->job.on_pending, &job->pending_notifier);
-> >> -    notifier_list_add(&job->job.on_ready, &job->ready_notifier);
-> >> -    notifier_list_add(&job->job.on_idle, &job->idle_notifier);
-> >> +    WITH_JOB_LOCK_GUARD() {
-> >> +        notifier_list_add(&job->job.on_finalize_cancelled,
-> >> +                          &job->finalize_cancelled_notifier);
-> >> +        notifier_list_add(&job->job.on_finalize_completed,
-> >> +                          &job->finalize_completed_notifier);
-> >> +        notifier_list_add(&job->job.on_pending, &job->pending_notifier);
-> >> +        notifier_list_add(&job->job.on_ready, &job->ready_notifier);
-> >> +        notifier_list_add(&job->job.on_idle, &job->idle_notifier);
-> >> +    }
-> >>  
-> >>      error_setg(&job->blocker, "block device is in use by block job: %s",
-> >>                 job_type_str(&job->job));
-> > 
-> > Why is this the right scope for the lock? It looks very arbitrary to
-> > lock only here, but not for the assignments above or the function calls
-> > below.
-> > 
-> > Given that job_create() already puts the job in the job_list so it
-> > becomes visible for other code, should we not keep the job lock from the
-> > moment that we create the job until it is fully initialised?
-> 
-> I try to protect only what needs protection, nothing more. Otherwise
-> then it is not clear what are we protecting and why. According to the
-> split I made in job.h, things like job_type_str and whatever I did not
-> protect are not protected because they don't need the lock.
-
-I think the last paragraph above explains what it would protect?
-
-Having a half-initialised job in the job list without holding the lock
-sounds dangerous to me. Maybe it's actually okay in practice because
-this is GLOBAL_STATE_CODE() and we can assume that code accessing
-the job list outside of the main thread probably skips over the
-half-initialised job, but it's another case where relying on the BQL is
-confusing when there would be a more specific lock for it.
-
-> > 
-> >> @@ -558,10 +562,15 @@ BlockErrorAction block_job_error_action(BlockJob *job, BlockdevOnError on_err,
-> >>                                          action);
-> >>      }
-> >>      if (action == BLOCK_ERROR_ACTION_STOP) {
-> >> -        if (!job->job.user_paused) {
-> >> -            job_pause(&job->job);
-> >> -            /* make the pause user visible, which will be resumed from QMP. */
-> >> -            job->job.user_paused = true;
-> >> +        WITH_JOB_LOCK_GUARD() {
-> >> +            if (!job->job.user_paused) {
-> >> +                job_pause_locked(&job->job);
-> >> +                /*
-> >> +                 * make the pause user visible, which will be
-> >> +                 * resumed from QMP.
-> >> +                 */
-> >> +                job->job.user_paused = true;
-> >> +            }
-> >>          }
-> >>          block_job_iostatus_set_err(job, error);
-> > 
-> > Why is this call not in the critical section? It accesses job->iostatus.
-> 
-> But the blockjob is not yet "classified". Comes after.
-
-Ok.
-
-Kevin
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 7fe8cce03e92..52cafa003d8a 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+>      rom_set_fw(fw_cfg);
+>  
+>      if (machine->kernel_filename != NULL) {
+> -        x86_load_linux(x86ms, fw_cfg, 0, true, false);
+> +        x86_load_linux(x86ms, fw_cfg, 0, true, true);
+>      }
+>  
+>      if (mms->option_roms) {
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index a5c65c1c3527..20962c34e7d8 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -439,6 +439,7 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
+>      m->alias = "pc";
+>      m->is_default = true;
+>      pcmc->default_cpu_version = 1;
+> +    pcmc->legacy_no_rng_seed = true;
+>  }
+>  
+>  DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+> @@ -450,7 +451,6 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+>      pc_i440fx_7_1_machine_options(m);
+>      m->alias = NULL;
+>      m->is_default = false;
+> -    pcmc->legacy_no_rng_seed = true;
+>      pcmc->enforce_amd_1tb_hole = false;
+>      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 3a35193ff74b..2e5dae9a89fa 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -376,6 +376,7 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
+>      pc_q35_machine_options(m);
+>      m->alias = "q35";
+>      pcmc->default_cpu_version = 1;
+> +    pcmc->legacy_no_rng_seed = true;
+>  }
+>  
+>  DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+> @@ -386,7 +387,6 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
+>      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_q35_7_1_machine_options(m);
+>      m->alias = NULL;
+> -    pcmc->legacy_no_rng_seed = true;
+>      pcmc->enforce_amd_1tb_hole = false;
+>      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+> -- 
+> 2.37.2
 
 
