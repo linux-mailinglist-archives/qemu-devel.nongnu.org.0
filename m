@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB30F59797E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 00:10:38 +0200 (CEST)
-Received: from localhost ([::1]:60890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E69597982
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 00:12:05 +0200 (CEST)
+Received: from localhost ([::1]:41542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oORFG-0006Le-0k
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 18:10:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32888)
+	id 1oORGa-0007LU-Ev
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 18:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORCW-000469-UJ
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:07:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54841)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORE1-0005OQ-Ab
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:09:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORCV-0006ZX-4R
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:07:48 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oORDy-0006nO-QJ
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 18:09:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660774065;
+ s=mimecast20190719; t=1660774158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GUcydZgHcpvE+O6ngcbaHh5f09nexNAfdtm0zsskFyY=;
- b=A6v/UIguymIGuYyMsWxKtDQKrgE1CZ/r7omvKZbU5vU10fsYo4iIbUhkvHK6fby+OJRiAv
- qHl7rSvBRRugH5XB636msnEe4PtlrNOXWaA2/eRb+8py408WL0KgV8v1pHR+yGVmJ/dHvv
- UV5eoFZ1kxkSCpaZOkBtW0eD9o+j5YI=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Hxqe6YbWY8LbNBDkE6AAwGvNQS1jk2vuJSnHWyi66A8=;
+ b=BEFv6P8XpsS3Q37p+69LY0tGbGk9zqrWcom2vt/d7/b7dJqezNuPLOJyfQNoTk+fevQddG
+ Mk/q2naJopy/mXVFT6wDVEW0h9jxbkaL5CpuLlrhI8RmMdW44aSqeVOl924F6ZtMyQ8HvX
+ DH4I0dwe+pIucwoZEwLOsT+oHThHEMs=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-369-C01nMBRUNgye1gv_R9mUJg-1; Wed, 17 Aug 2022 18:07:43 -0400
-X-MC-Unique: C01nMBRUNgye1gv_R9mUJg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- f16-20020a05620a409000b006bacc0fcf23so12799140qko.13
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 15:07:43 -0700 (PDT)
+ us-mta-641-0NB4WpuhMj-gRp6H7yyN4g-1; Wed, 17 Aug 2022 18:09:14 -0400
+X-MC-Unique: 0NB4WpuhMj-gRp6H7yyN4g-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bq19-20020a05620a469300b006bb70e293ccso4317548qkb.1
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 15:09:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc;
- bh=GUcydZgHcpvE+O6ngcbaHh5f09nexNAfdtm0zsskFyY=;
- b=OMOVjBcJwXM9CZ2nua/QPjNAJv+70Sk068KfhME4drEczTa2KnwCqrFm95SivOlu1o
- RLtlx+qDwojW4A85eyrLWJGMpbe08CZ6K0LANqWshh+ybvUa28OznYtCuIHDGcyUFIbh
- AC4b0cS/UxColb6UJzbkGlKeOVdUQkFbMk8LMzkDhkLsc9upqtCHdZUkJx5wPs2jc5HK
- 3n9zbTlPzWXvmte2KEPE4V6D6/dOKMybLLBGbZQTwDI3qfgLKXIJJ7Rzv0NDtPqyfrp2
- cFt/5z+J5ewkKRKu8yzN9R23UGSmRl4BNNBAonKe3QZj1626S12cVahSUhCaey6sfUsA
- eX3Q==
-X-Gm-Message-State: ACgBeo1y6phhgNFIpSoWbZ0kTcKIXgIxLoqeCBCl8n5+uMYh6eXdiavJ
- XwT7fwa+2TOkSpJ3VuXauuXqEF0YmPESK+R7XX+B9/mYUGOL/SspkMb8TWbjNqdtAlb+bnwxHwX
- mocCC+BU4mWtCV4A=
-X-Received: by 2002:a05:620a:318e:b0:6b8:83b1:62d0 with SMTP id
- bi14-20020a05620a318e00b006b883b162d0mr126574qkb.2.1660774063348; 
- Wed, 17 Aug 2022 15:07:43 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6RcaA1yvecC8Uxy5Jw+spv3M2zUnIKNevKwg8KxvGK6Dc75sVD335unJo3QxNSoVgwn5dz3g==
-X-Received: by 2002:a05:620a:318e:b0:6b8:83b1:62d0 with SMTP id
- bi14-20020a05620a318e00b006b883b162d0mr126551qkb.2.1660774063062; 
- Wed, 17 Aug 2022 15:07:43 -0700 (PDT)
+ bh=Hxqe6YbWY8LbNBDkE6AAwGvNQS1jk2vuJSnHWyi66A8=;
+ b=D9CYdm5pop/BFVGPbOE4YVJ4FCavmEkdYrjyBFXxjZq40AFaJA+4BOErVIj3wXesR8
+ NDxp1McFn1fspO9PDmsYrvo3yqNoEuSBRGGdneHfhORagtuLfPhkltMLeBhE8KIo5LOq
+ DHVC55Ctlb/wDN86vJhHbkItsHf4EvaPn1B3BgfVBNlK6XLNCUkJEL1pap8zBZwquqZ1
+ 2i4f3JBu0ReQU+7lCakn6b55uCW4vLXL51xQQ18Ji9tGW/mB/IPCWfGoL/AgmXq44f8P
+ VoYnf89rVKbkRMcYRwYghEUHqpu8EJWMPxAU+w/rIgSBE5eg9CzIx/OlwTgyPe+NAun5
+ /0FA==
+X-Gm-Message-State: ACgBeo23Sj9vMQP6d136QuYzCl67BNNB4lD+7cZJQoTZxyWluSrARqNx
+ cRrFGadzJsrD3gCZrvky/gMYFilU8A9IRQv07G9N4N40PGrdHtS2srPR16aWagfMzV/DfupeS5R
+ ZPJn9y46Acnz0hfs=
+X-Received: by 2002:a05:6214:f6e:b0:496:b88d:dd96 with SMTP id
+ iy14-20020a0562140f6e00b00496b88ddd96mr71294qvb.77.1660774154251; 
+ Wed, 17 Aug 2022 15:09:14 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5jAysodGeYR92eogyDkHDxTVCOIt38yqkX8P5cmrHNW5U2x8ueHgMl/v2kMfOaMLDwx2s5sA==
+X-Received: by 2002:a05:6214:f6e:b0:496:b88d:dd96 with SMTP id
+ iy14-20020a0562140f6e00b00496b88ddd96mr71271qvb.77.1660774154005; 
+ Wed, 17 Aug 2022 15:09:14 -0700 (PDT)
 Received: from xz-m1.local
  (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
  by smtp.gmail.com with ESMTPSA id
- f21-20020a05620a409500b006bb2bca5741sm10130qko.93.2022.08.17.15.07.42
+ m18-20020a05620a24d200b006b9a8fc0c93sm34545qkn.53.2022.08.17.15.09.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 15:07:42 -0700 (PDT)
-Date: Wed, 17 Aug 2022 18:07:41 -0400
+ Wed, 17 Aug 2022 15:09:13 -0700 (PDT)
+Date: Wed, 17 Aug 2022 18:09:12 -0400
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
 Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
@@ -72,15 +72,15 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  "Daniel P. Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 2/8] qapi/migration: Introduce vcpu-dirty-limit parameters
-Message-ID: <Yv1mrddIGIBjOv3I@xz-m1.local>
+Subject: Re: [PATCH 4/8] migration: Implement dirty-limit convergence algo
+Message-ID: <Yv1nCNl9wzNmocM0@xz-m1.local>
 References: <cover.1658561555.git.huangy81@chinatelecom.cn>
- <01d837637e7725a49d1fd3cd22370d6c9f6b9e61.1658561555.git.huangy81@chinatelecom.cn>
+ <a2fc4b9a622fbefcad1750b13fcb924caf60ec0b.1658561555.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <01d837637e7725a49d1fd3cd22370d6c9f6b9e61.1658561555.git.huangy81@chinatelecom.cn>
+In-Reply-To: <a2fc4b9a622fbefcad1750b13fcb924caf60ec0b.1658561555.git.huangy81@chinatelecom.cn>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -105,38 +105,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 23, 2022 at 03:49:14PM +0800, huangy81@chinatelecom.cn wrote:
+On Sat, Jul 23, 2022 at 03:49:16PM +0800, huangy81@chinatelecom.cn wrote:
 > From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> Introduce "vcpu-dirty-limit" migration parameter used
-> to limit dirty page rate during live migration.
-> 
-> "vcpu-dirty-limit" and "x-vcpu-dirty-limit-period" are
-> two dirty-limit-related migration parameters, which can
-> be set before and during live migration by qmp
-> migrate-set-parameters.
-> 
-> This two parameters are used to help implement the dirty
-> page rate limit algo of migration.
+> Implement dirty-limit convergence algo for live migration,
+> which is kind of like auto-converge algo but using dirty-limit
+> instead of cpu throttle to make migration convergent.
 > 
 > Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > ---
->  migration/migration.c | 14 ++++++++++++++
->  monitor/hmp-cmds.c    |  8 ++++++++
->  qapi/migration.json   | 18 +++++++++++++++---
->  3 files changed, 37 insertions(+), 3 deletions(-)
+>  migration/ram.c        | 53 +++++++++++++++++++++++++++++++++++++-------------
+>  migration/trace-events |  1 +
+>  2 files changed, 41 insertions(+), 13 deletions(-)
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 7b19f85..ed1a47b 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -117,6 +117,7 @@
->  #define DEFAULT_MIGRATE_ANNOUNCE_STEP    100
+> diff --git a/migration/ram.c b/migration/ram.c
+> index b94669b..2a5cd23 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -45,6 +45,7 @@
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-types-migration.h"
+>  #include "qapi/qapi-events-migration.h"
+> +#include "qapi/qapi-commands-migration.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "trace.h"
+>  #include "exec/ram_addr.h"
+> @@ -57,6 +58,8 @@
+>  #include "qemu/iov.h"
+>  #include "multifd.h"
+>  #include "sysemu/runstate.h"
+> +#include "sysemu/dirtylimit.h"
+> +#include "sysemu/kvm.h"
 >  
->  #define DEFAULT_MIGRATE_VCPU_DIRTY_LIMIT_PERIOD     500     /* ms */
-> +#define DEFAULT_MIGRATE_VCPU_DIRTY_LIMIT            1       /* MB/s */
+>  #include "hw/boards.h" /* for machine_dump_guest_core() */
+>  
+> @@ -1139,6 +1142,21 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
+>      }
+>  }
+>  
+> +/*
+> + * Enable dirty-limit to throttle down the guest
+> + */
+> +static void migration_dirty_limit_guest(void)
+> +{
+> +    if (!dirtylimit_in_service()) {
+> +        MigrationState *s = migrate_get_current();
+> +        int64_t quota_dirtyrate = s->parameters.vcpu_dirty_limit;
+> +
+> +        /* Set quota dirtyrate if dirty limit not in service */
+> +        qmp_set_vcpu_dirty_limit(false, -1, quota_dirtyrate, NULL);
+> +        trace_migration_dirty_limit_guest(quota_dirtyrate);
+> +    }
+> +}
 
-This default value also looks a bit weird.. why 1MB/s?  Thanks,
+What if migration is cancelled?  Do we have logic to stop the dirty limit,
+or should we?
 
 -- 
 Peter Xu
