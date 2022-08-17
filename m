@@ -2,138 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3F3597351
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:51:16 +0200 (CEST)
-Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E09359705D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 16:07:51 +0200 (CEST)
+Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOLK7-0001Dt-LA
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:51:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38092)
+	id 1oOJi2-0001ku-8e
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 10:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <asinghal@nvidia.com>)
- id 1oOFOf-0002RZ-Ow; Wed, 17 Aug 2022 05:31:34 -0400
-Received: from mail-bn7nam10on2062c.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::62c]:18913
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oOJem-00068K-4h
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 10:04:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <asinghal@nvidia.com>)
- id 1oOFOR-00064I-Up; Wed, 17 Aug 2022 05:31:33 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gm1eGJLEjQ0+5MVD+q2+iuwOnpCW1KO2w4uGjQ2mQ9njExDMUa7EMEyVRgOKjTlVLis524mvnCJ7oP2MDdZeqn/Lrop4fIADwjJrxg6hIksKZzChwRM/uY9W/a9ShKCaihtzks2+XaCBjAk2vDTycHiU7wwCkpKVwSlIC+829bIA2w0yvELd2VtHOGKWDCNv9ZPg0mPcJA8xT42uaxw5lbt7hzkfaZ3AlyhtsbmkXcQMWmi7H+HnrZfUWdW/tpbAVJhiQ24kbK+eAobDU+/jJJm074UgaS9PWWgOXqMBv6esx3vck4qglWeOI7qH/T4pVBj4b4Ll9ooh5TPhZjqR/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zEeuL1mr2b5KacyZT7MA8gEJ8GAy1YP3A/ujBICsK44=;
- b=YhcRmvKntqPfQI2SdKTtikqH9ChtE4K6M+Ws4JY8ExU+nNf+S32PsWq1FEzeT2y7B/IVan89aMMg/Z81LHFOc5OEnBsZOw0fmSiZljk1pGqFyCbhHyuDaO9+hb814LO1acZtqWqnIdrIf5UH07Nt8rxIWwaAnTZHOebSGYxZcc3wfXYFR/7ZIZjNUpdCpkZTeYajS/5uPCO8XzxJQYIwawa1LUy4QfMEyMnEs2/y6Dzsnk0TbXX7YCqgGKQBFYGYFtnjZ9O1gUf6amtCANhd5QeWsaak4RgZInCxg6QWqA2xpoROwvY0XQ8qj3pI5dOLh3yzq+kpm4cDRTm9Dt+h5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zEeuL1mr2b5KacyZT7MA8gEJ8GAy1YP3A/ujBICsK44=;
- b=b/M3yN4fS7of9OG2+LIKooX00BFznfKFzqavBk6v9E2AN1rWrfYbshuYwnnIoPgf6ergXDNM0gR5MXyNBWdFD38LaJbYlP/S//RElG5CnwebfkBiGfbazv3l9xlWFWzqEA7qum3msFNzCEi1A3d9LdP9NucHZPhnF15Es+5+lvkWZm4xiEFQUy4At1m5v6B+ic4O7tp82aQ3gUfSK8pAgvxHhlEyHehxUqmLK2sh/O4yKb/Ff0i5OUWFKSorf6PGS6n19s1kXRsf1uJgASNtM9pUm7X1rLspmVA0D0q0fhcPgBeDTEegqE1EmNm4rpKmYcuMOxYGT8IZlkx+B/cLmA==
-Received: from MN0PR12MB5740.namprd12.prod.outlook.com (2603:10b6:208:373::10)
- by BYAPR12MB3080.namprd12.prod.outlook.com (2603:10b6:a03:de::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Wed, 17 Aug
- 2022 09:26:13 +0000
-Received: from MN0PR12MB5740.namprd12.prod.outlook.com
- ([fe80::70b6:6426:21df:4f72]) by MN0PR12MB5740.namprd12.prod.outlook.com
- ([fe80::70b6:6426:21df:4f72%5]) with mapi id 15.20.5525.011; Wed, 17 Aug 2022
- 09:26:12 +0000
-From: "Amit Kumar (Engrg-SW)" <asinghal@nvidia.com>
-To: Dan Zhang <dz4list@gmail.com>, =?iso-8859-1?Q?C=E9dric_Le_Goater?=
- <clg@kaod.org>
-CC: Joel Stanley <joel@jms.id.au>, Shivi Fotedar <sfotedar@nvidia.com>, Peter
- Delevoryas <peter@pjd.dev>, Jeremy Kerr <jk@ozlabs.org>, Klaus Jensen
- <its@irrelevant.dk>, Jonathan Cameron <jonathan.cameron@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Andrew Jeffery
- <andrew@aj.id.au>, Prasanna Karmalkar <pkarmalkar@nvidia.com>, "Tim Chen
- (SW-GPU)" <timch@nvidia.com>, Newton Liu <newtonl@nvidia.com>, Deepak
- Kodihalli <dkodihalli@nvidia.com>, qemu-arm <qemu-arm@nongnu.org>
-Subject: RE: AST2600 support in QEMU
-Thread-Topic: AST2600 support in QEMU
-Thread-Index: AdisIeSsY02sPIDTTCawmJGYit8mSgAQEX+AAAa47wAA+16EgABsHloA
-Date: Wed, 17 Aug 2022 09:26:12 +0000
-Message-ID: <MN0PR12MB574081DCEE8272B2D1422BAABF6A9@MN0PR12MB5740.namprd12.prod.outlook.com>
-References: <BY5PR12MB38917595B0306085EEBB1921B4629@BY5PR12MB3891.namprd12.prod.outlook.com>
- <CACPK8XfjXq6RW=M++UebfiGeij=GDSk5f6ZftNaL+2oeyCGnHw@mail.gmail.com>
- <ec20d3af-5f99-8e56-9352-75562c4548de@kaod.org>
- <CAJxKyLf1jUvx6m=0u3cf+vEfj6j4t6L7g7cowxKpNx-Xhh+xyQ@mail.gmail.com>
-In-Reply-To: <CAJxKyLf1jUvx6m=0u3cf+vEfj6j4t6L7g7cowxKpNx-Xhh+xyQ@mail.gmail.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5f654356-9493-4882-6e3b-08da8032870d
-x-ms-traffictypediagnostic: BYAPR12MB3080:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hQLCrn7TTKPhojHh2lsF7v/JTG6UYn76di/xBpDhQJkD2FYRRRplkxO8har+rnJB6mG9drp28h5qlvGWZOpNNUphOmlfX5v7IyBrLBNGU11DVqjCJ56ZM+0GypM3U9VBnNegQVvzNcBywaGmY9bI67GNGsVKzqhasWpC5Eo7jFXLYaDsSQjVJD3O5EKW/njQoRBEt3auvfDetv2Om6BBTPHMrIXGBjpjZrdgWsqQHmbnv0Tk5NJs5Hu9tOf27AEZf8rCV1ulI+MvxEXk0eNgZXdK+sksIWh/pKlKoCT3SRfaa3lDgcPXoCWvOZdsiE1KIbttHLMhsdkezAzfyYlfF7k+bjfjTBzYCJ/QIjQX3PZcb6M00tIrjYJrocXEBcN7LPdoIzKvMByjmCmUAdt2azWDwroehEyM3OGHf4JK4IvdOcxIm6F88o8ndX/4WCKWpyqdB+jZZ5ovxy4KFyFXwD//rcytKTxTZRvlTIKvLnlDttv0UhzNoRDkVwI+1dm28PbFHwRqg62sP6k0ZsmMR22ZiA0c4KTcvSdQVJxcg9y9s7no+ztLBdQirj4MizKr2CwxAZTyjyG5vu7g27E3by3F12+CYKqCAzE3d8x36GIrvfo5GKh8ClhjHgXrfa5ReZbTyIR9HXQFgW0U7z+HcmiE7Ydl5ZdZsOq3INaWa0M3jZy7AckyAEgaAcavQwsfK8dz+MlwgrCiaGl+XBE8tJNrtUUborsfpK/NAcxdpzyeMUEWhYjJ0ahYPktQc9zrRKAaGu56rfxwnoPHigT6m1NDLtaGf7wwSnHy/7f+zWUxArgMxy2TLQn1iP3fASkCig6nCn5LaFEpIpd5fyqG9g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB5740.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(136003)(396003)(346002)(366004)(376002)(2906002)(76116006)(83380400001)(4326008)(52536014)(5660300002)(8936002)(7416002)(33656002)(64756008)(66476007)(66556008)(8676002)(66946007)(66446008)(53546011)(54906003)(86362001)(478600001)(71200400001)(110136005)(7696005)(186003)(9686003)(6506007)(55236004)(26005)(316002)(38100700002)(55016003)(41300700001)(45080400002)(966005)(38070700005)(122000001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?+10fibf0RSfJYLqUotM/cvG9f6d50xiUB3vMVjLJToeYQ+dyI/ZtMyyAmb?=
- =?iso-8859-1?Q?Rjf9EA6uZKw8z37BxdIVhgO33YRS0PVluHHtaxZhY8ZGaPtGV3dDjSL0NX?=
- =?iso-8859-1?Q?PMJyX9me4tzW1eYUkNn5FDz5/32cRkOdaPP4c5HNj+cjkV3gqTn5TZg+KF?=
- =?iso-8859-1?Q?IuFwtAgolDcKoiQ/pyS+usQq77bG/rVIYyxOjdlK/uk524WirDw2fBOFuA?=
- =?iso-8859-1?Q?Zy3BYm+h/Kq4JRgCjUBkWWD624Rvg6puIlf0yyd5SqDYd7QebbrvYsHHFl?=
- =?iso-8859-1?Q?7jF1PMogVvd9pEBgsSKBVZ2FJ/s99+8eOhf+YJIW5o3XNODnGTd33wrElT?=
- =?iso-8859-1?Q?94XYD7WackEsa7Qvlusl0DOvSVRN0x3yiknEA5mxd9sN9wQ25TPAdnEItX?=
- =?iso-8859-1?Q?mNSiR2X/XFOYrSFWUrkx8vfKCrJ2ZZU3B9rJSnOBfFp1786Byz4dv7+6N/?=
- =?iso-8859-1?Q?3qZmxy/XaiUtU1IlHSMilX/ydQa2utA57UwhBiL6n7ubcXrToSjUtrG0X5?=
- =?iso-8859-1?Q?VbAApSMMHaHlULl7fUYHAmolEGMGKmqMxreBImWAb5VvSUQWsfBgJUfFSO?=
- =?iso-8859-1?Q?9/K2CHhN1TuHd2Kre7ESoUFYdLjp0Dds/19FEfTBQQtR2OC2Y9cLaQzoNw?=
- =?iso-8859-1?Q?aD+AZIRL1quqLnq6ylHmTFt3hsBZctcuChhKAnSQIXLNzkwA4L+/TlMFq8?=
- =?iso-8859-1?Q?xZhDHjGa/S2dcC+AGGFhCoC4NBRbWBrxaSO/nh9WejeB+I4Z+GUTqfx1oz?=
- =?iso-8859-1?Q?kLWJItf4ve+asSgeKm636g/6WQXAGuJ9yzoEP+/coSQMRGgTCHCIJLsqlH?=
- =?iso-8859-1?Q?3K36zA8hfJt9ERwWbC11K9t1kALvcHTi6zQx+Le2oDOCOJ6et0rmTyJfDf?=
- =?iso-8859-1?Q?KmrVLilu8p0VfF56tNdwKN7f202IZ9OYZy0uTSjFmBazK6OL6Gpd/VBKIH?=
- =?iso-8859-1?Q?iKv/fqiF53kLkpOoBvMOA5ywXqFBkHAGDrV+SXQsD6qJbaoMU51riY6vuE?=
- =?iso-8859-1?Q?EPeTHdKkw2WZi1ODV7Ym2ZAC3Ap3BWImznTwf+HjDnA/vAqxNwoU6PQmio?=
- =?iso-8859-1?Q?SgPUvwlwMwWYY2gA1e8nhz/cYOcOF2fp0LSzTgwoIJbBqrhN15RZRX1d6Q?=
- =?iso-8859-1?Q?HmSJ4WPqEFle+0BlK85I7cylzVwjbz1S3cP8POVe5w98eZ0ivZM/PtTMOV?=
- =?iso-8859-1?Q?5Gas6A0Emt/6jhN+6GPfWmfuU8Y4ETxKWr+W+Sh0oKdZXm58hWz6WISG8N?=
- =?iso-8859-1?Q?Jg/P9CGPMy7LfkTEYh94BxOe7naJMAB9b0rKIEDl5kclrFkzrylPA0BsI6?=
- =?iso-8859-1?Q?peEKfXjHnCC5V6OiEsUs14oUxW6b1A31HnCF0jTEG/5jSDKWV/UFFRsY0b?=
- =?iso-8859-1?Q?LPEQmZ+PWP/3780ZWYHZyH/bq+vh+EMQIpwmykNnIt3+TP2KRkqQbnAjI7?=
- =?iso-8859-1?Q?CDqT6EcAqKasgraTEwiwQ59ACUj8g0WjrKFPdahY7X+HjRM+VjEBp6ZKLT?=
- =?iso-8859-1?Q?/nc///8DyYzm6s85xfGPvgsVWUR9tqyQbDoQtZ0kRnovM0jGgjk7OIjhQy?=
- =?iso-8859-1?Q?vDiQG5WeZ3Y5Ftxt/sfYxCbXOHdWHDBPjhNgBtSkJvMX3ZtSjopOX6zsLl?=
- =?iso-8859-1?Q?JQafCqpL5eFVYbsD0JLHNnTeW4zI4Up/rN?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oOJei-0007UO-C1
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 10:04:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660745062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GyGu6XDJHmSFHyr++P73rHxThu6sxjrXKgeiBcFFDtM=;
+ b=QMPeTUIW6+c7zVUzz4iAEzoISAOLSwn5snGo3GxHjLxeyLQkEvNdk1MnbkbV/sprJaKfG1
+ u/UOJYhBTGXwD4JIziO2FWE2x1vHeYcrTXMPcpglZl+69QhYX5XZ686rZTw4tdORhI3KFo
+ FLNIOCDgpxkkQJE4GGwgdaOTfTjMhiE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-zL8Tn21RP9q8nv0XZXaRaQ-1; Wed, 17 Aug 2022 10:04:21 -0400
+X-MC-Unique: zL8Tn21RP9q8nv0XZXaRaQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B58C8117B0
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 14:04:21 +0000 (UTC)
+Received: from localhost (unknown [10.40.192.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A9AB141511A;
+ Wed, 17 Aug 2022 14:04:20 +0000 (UTC)
+Date: Wed, 17 Aug 2022 16:04:19 +0200
+From: Victor Toso <victortoso@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v2 2/8] qapi: golang: Generate qapi's alternate types
+ in Go
+Message-ID: <20220817140419.vpxjay4ouaz2gsam@tapioca>
+References: <20220617121932.249381-1-victortoso@redhat.com>
+ <20220617121932.249381-3-victortoso@redhat.com>
+ <CABJz62NXnKFm=n=7eXmb==zSUe0VCy_0jbcFoNc8SwrQ2YKjvg@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB5740.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f654356-9493-4882-6e3b-08da8032870d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2022 09:26:12.8714 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z7DcTGe5+Jg2pFB1TeMeOW/eMFuf/3iOWOZw946UBK4irSWbZ2DH4h5P+EgwKxaFmjV99NzLLoe134cy2sjj/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3080
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::62c;
- envelope-from=asinghal@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="66sp3a4znns26mmo"
+Content-Disposition: inline
+In-Reply-To: <CABJz62NXnKFm=n=7eXmb==zSUe0VCy_0jbcFoNc8SwrQ2YKjvg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 17 Aug 2022 11:28:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,101 +84,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dan,
 
-Responding on behalf of Shivi.
+--66sp3a4znns26mmo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->> "So what does the "PCIe RC support" means? the BMC will be the PCIe RC?"
-Yes, BMC will be the PCIe RC to control downstream PCIe devices (end-points=
-).
+Hi,
 
-- Amit
+On Tue, Jul 05, 2022 at 08:45:06AM -0700, Andrea Bolognani wrote:
+> Sorry it took me a while to find the time to look into this!
 
------Original Message-----
-From: Dan Zhang <dz4list@gmail.com>=20
-Sent: 15 August 2022 11:18
-To: C=E9dric Le Goater <clg@kaod.org>
-Cc: Joel Stanley <joel@jms.id.au>; Shivi Fotedar <sfotedar@nvidia.com>; Pet=
-er Delevoryas <peter@pjd.dev>; Jeremy Kerr <jk@ozlabs.org>; Klaus Jensen <i=
-ts@irrelevant.dk>; Jonathan Cameron <jonathan.cameron@huawei.com>; qemu-dev=
-el@nongnu.org; Andrew Jeffery <andrew@aj.id.au>; Amit Kumar (Engrg-SW) <asi=
-nghal@nvidia.com>; Prasanna Karmalkar <pkarmalkar@nvidia.com>; Tim Chen (SW=
--GPU) <timch@nvidia.com>; Newton Liu <newtonl@nvidia.com>; Deepak Kodihalli=
- <dkodihalli@nvidia.com>; qemu-arm <qemu-arm@nongnu.org>
-Subject: Re: AST2600 support in QEMU
+(1.5 month later.. what can I say!) :)
 
-External email: Use caution opening links or attachments
+> Overall this second iteration is a significant improvement over the
+> initial one. There are still a few things that I think should be
+> changed, so for the time being I'm going to comment mostly on the
+> generated Go code and leave the details of the implementation for
+> later.
 
+Sure, and thanks.
 
-On Tue, Aug 9, 2022 at 10:51 PM C=E9dric Le Goater <clg@kaod.org> wrote:
->
-> Hello,
->
-> On 8/10/22 04:37, Joel Stanley wrote:
-> > Hello Shivi,
+> On Fri, Jun 17, 2022 at 02:19:26PM +0200, Victor Toso wrote:
+> > This patch handles QAPI alternate types and generates data structures
+> > in Go that handles it.
 > >
-> > I've added others to cc who may have some input.
-> >
-> > On Tue, 9 Aug 2022 at 21:38, Shivi Fotedar <sfotedar@nvidia.com> wrote:
-> >>
-> >> Hello, we are looking for support for few features for AST2600 in=20
-> >> QEMU, specifically
-> >>
-> >> PCIe RC support so BMC can talk to downstream devices for management f=
-unctions.
-Normally the RC is the host CPU, BMC and the devices to be managed, which s=
-upport MCTP-over-PCIe will be the endpoint (downstream) device as BMC.  The=
- MCTP message Peer transaction between BMC and managed device will using ro=
-ute-by-Id to RC(host) then down to endpoint.  I am referring to DMTF DSP023=
-8 spec. section 6.4
+> > At this moment, there are 5 alternates in qemu/qapi, they are:
+> >  * BlockDirtyBitmapMergeSource
+> >  * Qcow2OverlapChecks
+> >  * BlockdevRef
+> >  * BlockdevRefOrNull
+> >  * StrOrNull
+>
+> I personally don't think it's very useful to list all the alternate
+> types in the commit message, or even mention how many there are. You
+> do this for all other types too, and it seems to me that it's just an
+> opportunity for incosistent information to make their way to the git
+> repository - what if a new type is introduced between the time your
+> series is queued and merged? I'd say just drop this part.
 
-So what does the "PCIe RC support" means? the BMC will be the PCIe RC?
-or BMC will be PCIe-Endpoint connect to host PCIe RC.
+No issue on my side in dropping this bits.
 
+> > Example:
 > >
-> > I haven't seen any PCIe work done yet.
->
-> I haven't either. There is clearly a need now that we are moving away=20
-> from LPC.
->
-> >> MCTP controller to run MCTP protocol on top of PCIe or I2C.
+> > qapi:
+> >   | { 'alternate': 'BlockdevRef',
+> >   |   'data': { 'definition': 'BlockdevOptions',
+> >   |             'reference': 'str' } }
 > >
-> > What work would be required to do this on top of i2c?
->
-> I think Jonathan and Klaus worked on this. See :
->
->   =20
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore
-> .kernel.org%2Fqemu-devel%2F20220525121422.00003a84%40Huawei.com%2F&amp
-> ;data=3D05%7C01%7Casinghal%40nvidia.com%7C714d293de2ac4b7f5f9308da7e81b2
-> 7b%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637961392786299602%7CU
-> nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
-> WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3D9I35YQPk86Tjza6fa0jFVnLGCM
-> SZ7ioTHpJEQN5c%2F1g%3D&amp;reserved=3D0
->
-> >> I2C slave so BMC can talk to host CPU QEMU for IPMI
+> > go:
+> >   | type BlockdevRef struct {
+> >   |         Definition *BlockdevOptions
+> >   |         Reference  *string
+> >   | }
 > >
-> > Some support for slave mode was merged in v7.1.
+> > usage:
+> >   | input := `{"driver":"qcow2","data-file":"/some/place/my-image"}`
+> >   | k := BlockdevRef{}
+> >   | err := json.Unmarshal([]byte(input), &k)
+> >   | if err != nil {
+> >   |     panic(err)
+> >   | }
+> >   | // *k.Definition.Qcow2.DataFile.Reference == "/some/place/my-image"
 >
-> yes.
+> Let me just say that I absolutely *love* how you've added these bits
+> comparing the QAPI / Go representations as well as usage. They really
+> help a lot understanding what the generator is trying to achieve :)
+
+Thanks!
+
+> > +// Creates a decoder that errors on unknown Fields
+> > +// Returns true if successfully decoded @from string @into type
+> > +// Returns false without error is failed with "unknown field"
+> > +// Returns false with error is a different error was found
+> > +func StrictDecode(into interface{}, from []byte) error {
+> > +    dec := json.NewDecoder(strings.NewReader(string(from)))
+> > +    dec.DisallowUnknownFields()
+> > +
+> > +    if err := dec.Decode(into); err != nil {
+> > +        return err
+> > +    }
+> > +    return nil
+> > +}
 >
-> Peter D. experimented with IPMI. See :
+> The documentation doesn't seem to be consistent with how the
+> function actually works: AFAICT it returns false *with an
+> error* for any failure, including those caused by unknown
+> fields being present in the input JSON.
+
+You are correct, documentation of this helper function needs to
+be fixed if we keep the helper function, as you made a good point
+about backwards-compatible decoding a struct that might have
+introduced extra fields in a newer version.
+
+> Looking at the generated code:
 >
->   =20
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore
-> .kernel.org%2Fqemu-devel%2F20220630045133.32251-14-me%40pjd.dev%2F&amp
-> ;data=3D05%7C01%7Casinghal%40nvidia.com%7C714d293de2ac4b7f5f9308da7e81b2
-> 7b%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637961392786299602%7CU
-> nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
-> WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DHwFjdPHcM4MocoDz8hrZatYJiz
-> gmDePy24KFivENpeU%3D&amp;reserved=3D0
+> > type BlockdevRef struct {
+> >     Definition *BlockdevOptions
+> >     Reference  *string
+> > }
+> >
+> > func (s BlockdevRef) MarshalJSON() ([]byte, error) {
+> >     if s.Definition != nil {
+> >         return json.Marshal(s.Definition)
+> >     } else if s.Reference != nil {
+> >         return json.Marshal(s.Reference)
+> >     }
+> >     return nil, errors.New("BlockdevRef has empty fields")
 >
-> We also merged a new machine including a BMC ast2600 running OpenBMC=20
-> and an ast1030 SoC running OpenBIC. Work to interconnect them on the=20
-> same I2C bus is in progress.
+> Returning an error if no field is set is good. Can we be more
+> strict and returning one if more than one is set as well? That
+> feels better than just picking the first one.
+
+Sure.
+
+> > func (s *BlockdevRef) UnmarshalJSON(data []byte) error {
+> >     // Check for json-null first
+> >     if string(data) == "null" {
+> >         return errors.New(`null not supported for BlockdevRef`)
+> >     }
+> >     // Check for BlockdevOptions
+> >     {
+> >         s.Definition = new(BlockdevOptions)
+> >         if err := StrictDecode(s.Definition, data); err == nil {
+> >             return nil
+> >         }
 >
-> Thanks,
+> The use of StrictDecode() here means that we won't be able to
+> parse an alternate produced by a version of QEMU where
+> BlockdevOptions has gained additional fields, doesn't it?
+
+That's correct. This means that with this RFCv2 proposal, qapi-go
+based on qemu version 7.1 might not be able to decode a qmp
+message from qemu version 7.2 if it has introduced a new field.
+
+This needs fixing, not sure yet the way to go.
+
+> Considering that we will happily parse such a BlockdevOptions
+> outside of the context of BlockdevRef, I think we should be
+> consistent and allow the same to happen here.
+
+StrictDecode is only used with alternates because, unlike unions,
+Alternate types don't have a 'discriminator' field that would
+allow us to know what data type to expect.
+
+With this in mind, theoretically speaking, we could have very
+similar struct types as Alternate fields and we have to find on
+runtime which type is that underlying byte stream.
+
+So, to reply to your suggestion, if we allow BlockdevRef without
+StrictDecode we might find ourselves in a situation that it
+matched a few fields of BlockdevOptions but it the byte stream
+was actually another type.
+
+So, I acknowledge that current version of this patch is not
+correct but we still need to look into the fields and see if
+there is a perfect match with the information that we have.
+
+> >         s.Definition = nil
+> >     }
+> >     // Check for string
+> >     {
+> >         s.Reference = new(string)
+> >         if err := StrictDecode(s.Reference, data); err == nil {
+> >             return nil
+> >         }
+> >         s.Reference = nil
+> >     }
+> >
+> >     return errors.New(fmt.Sprintf("Can't convert to BlockdevRef: %s", string(data)))
 >
-> C.
+> On a similar note to the MarshalJSON comment above, I'm not
+> sure this is right.
 >
+> If we find that more than one field of the alternate is set, we
+> should error out - that's just invalid JSON we're dealing with.
+
+With StrictDecode (or something similar) there shouldn't be
+multiple fields being set on the Go structure. Once it finds a
+match, it returns nil (no error)
+
+> But if we couldn't find any, that might be valid JSON that's
+> been produced by a version of QEMU that introduced additional
+> options to the alternate. In the spirit of "be liberal in what
+> you accept", I think we should probably not reject that? Of
+> course then the client code will have to look like
+>
+>   if r.Definition != nil {
+>       // do something with r.Definition
+>   } else if r.Reference != nil {
+>       // do something with r.Reference
+>   } else {
+>       // we don't recognize this - error out
+>   }
+>
+> but the same is going to be true for enums, events and everything
+> else that can be extended in a backwards-compatible fashion.
+
+The client code looking like above is not much different than
+
+    if err := json.Unmarshal([]byte(input), &r); err != nil {
+        // error out: bad json? incompatibility issue?
+    } else if r.Definition != nil {
+        // do something with r.Definition
+    } else if r.Reference != nil {
+        // do something with r.Reference
+    } else {
+        // empty might be valid though, e.g: JSON null
+    }
+
+My main concern with alternate logic is not putting data that
+should go to r.Reference into r.Definition and vice versa.
+
+I took note of all your suggestions, I'll be reworking this. I'll
+revisit the problem with StrictDecode together with addressing my
+reply to Daniel:
+
+    https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg03140.html
+
+Cheers,
+Victor
+
+--66sp3a4znns26mmo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmL89WMACgkQl9kSPeN6
+SE+WYQ//ZXHpUlER+SVoASsDB0Lw6Rcf6ae+RmNBG6EL8PXsO9DQOD9+mkHWdlqS
+hD+FFpOrVu+4OdOk12ZMV0AMCdZYbLepHqmWUO8Hh7kqfmk10VtCBOf5K5amrWms
+8LgKX/FsW8sNCEs4uCCWFjtHQkmLQzhAVrU2NkJ/+IOtdyUtcfIXdAsV33ZvHH3H
+S1/MDA8aGyXIhcmHTCEGAk7efICGAAms1Ak5UTm5R5YIs6+KNPm1fy4dqJis8MoZ
+UZwx1Kk/bPIAtD4LOVrMEu72IcZyTlrxYjcNAO1xF0tv/wAknRIlzlbihmL2jaDd
+T7PbNFti3rTwAEtnJ9aiMoQon2KWpYiJbdoVX2etvmbXJSGWWyyJHiorVQ/PTlcK
+7uM3l6ZVCtGBqYnqLjFp/F5wPKPauRGnHx8sELq98jLUJs9a5C6aKk6W52Sfc9tZ
+YJholElASVtHLvwJrzho50BUC21wqhH8hq4QikBMU2PqX6GBx6YNfQmbzE4cQ9gN
+XYgLeCdrFtlX2QqJx0qo4Ud7bjYqkwj7BVUuj1084rLqv2TEKqq6b/Tvpxb6m5gI
+m5wJRlNwPBPqJgMJHUIjHBrJwAzYoJjUcQJzNnWj9UR2Aoy2q0vEKZbjd3lnmLaS
+ENBHSmX84jDd0euQIvqPG/DiT2rrf0AxWiwAXtALlGuYVzbe2fQ=
+=4FN2
+-----END PGP SIGNATURE-----
+
+--66sp3a4znns26mmo--
+
 
