@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7166D597700
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 21:45:42 +0200 (CEST)
-Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E380C597710
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 21:51:58 +0200 (CEST)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOOyz-0006RG-5B
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 15:45:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36024)
+	id 1oOP52-0002m3-Lv
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 15:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oOOxK-0004uY-KA; Wed, 17 Aug 2022 15:43:58 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:43788)
+ id 1oOP2J-0006p2-4C; Wed, 17 Aug 2022 15:49:08 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:40164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oOOxG-0001dT-CB; Wed, 17 Aug 2022 15:43:57 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 097B22E1F18;
- Wed, 17 Aug 2022 22:43:43 +0300 (MSK)
+ id 1oOP26-0002Sg-VM; Wed, 17 Aug 2022 15:48:56 -0400
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 3A7B92E202F;
+ Wed, 17 Aug 2022 22:48:46 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b4a5::1:13] (unknown
  [2a02:6b8:b081:b4a5::1:13])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- Z2pw4jOWMV-hfOaaKio; Wed, 17 Aug 2022 22:43:42 +0300
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ f7qQYPrfK0-miOWf4h4; Wed, 17 Aug 2022 22:48:45 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1660765422; bh=6/Ty5q4JDckXv8z/sZNIVic1aiZ33WSN+YeoXnLrDa8=;
+ t=1660765725; bh=jN7hqOp3GQeHcU4Wp9Wkn5N7hnKCkldI1K0fPVGvOXo=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=RAXlskTAcYpRcswd/WagGIq1NmlltjxuQC1k+IFu5+wWPbmqT7ok5kcjDvVroaawM
- SzmLD5jg0NVUfmNshdZy9U3pxgof0sdobtQWBk9ztJGTAQ3yhKQCoWkc0DbVB2qHnx
- HEjW5mXlixovFQnvJGrvSnnRlOcKTL5TA5/wNVOc=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ b=Qwb/UdNhd75Sn1aGI7/lWU/9+qIpz1DjMwElNb5NH5rwZZhdJ4VZGWdEYKek9yJHb
+ XAUuJcsn19VZCs1ivYLJm3G85DqBStETiEDIWkdReGBNecbK+BPzXjUBxMpjCLtfo1
+ C6YnHfRnsNi556D/dA88apbaIzgvLKhudZ8O1B1U=
+Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <fad01f34-b266-dbc7-6e19-6c29e835cbc1@yandex-team.ru>
-Date: Wed, 17 Aug 2022 22:43:41 +0300
+Message-ID: <d9416fb0-d227-aecd-0dcc-047067360291@yandex-team.ru>
+Date: Wed, 17 Aug 2022 22:48:44 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v3 1/8] parallels: Out of image offset in BAT leads to
- image inflation
+Subject: Re: [PATCH v3 3/8] parallels: Use generic infrastructure for BAT
+ writing in parallels_co_check()
 Content-Language: en-US
-To: "Denis V. Lunev" <den@virtuozzo.com>,
- Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, kwolf@redhat.com,
- hreitz@redhat.com
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com
 References: <20220815090216.1818622-1-alexander.ivanov@virtuozzo.com>
- <20220815090216.1818622-2-alexander.ivanov@virtuozzo.com>
- <f0f1cee6-1409-c94e-d9c1-68cb4c848d0a@yandex-team.ru>
- <30d44555-cb86-ae29-e781-959d6f12f0d2@virtuozzo.com>
+ <20220815090216.1818622-4-alexander.ivanov@virtuozzo.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <30d44555-cb86-ae29-e781-959d6f12f0d2@virtuozzo.com>
+In-Reply-To: <20220815090216.1818622-4-alexander.ivanov@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.45.199.163;
  envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,75 +79,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/22 22:27, Denis V. Lunev wrote:
-> On 17.08.2022 21:13, Vladimir Sementsov-Ogievskiy wrote:
->> On 8/15/22 12:02, Alexander Ivanov wrote:
->>> data_end field in BDRVParallelsState is set to the biggest offset present
->>> in BAT. If this offset is outside of the image, any further write will create
->>> the cluster at this offset and/or the image will be truncated to this
->>> offset on close. This is definitely not correct and should be fixed.
->>>
->>> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
->>> ---
->>> v2: No change.
->>> v3: Fix commit message.
->>>
->>>   block/parallels.c | 17 +++++++++++++++++
->>>   1 file changed, 17 insertions(+)
->>>
->>> diff --git a/block/parallels.c b/block/parallels.c
->>> index a229c06f25..a76cf9d993 100644
->>> --- a/block/parallels.c
->>> +++ b/block/parallels.c
->>> @@ -732,6 +732,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
->>>       BDRVParallelsState *s = bs->opaque;
->>>       ParallelsHeader ph;
->>>       int ret, size, i;
->>> +    int64_t file_size;
->>>       QemuOpts *opts = NULL;
->>>       Error *local_err = NULL;
->>>       char *buf;
->>> @@ -811,6 +812,22 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
->>>           }
->>>       }
->>>   +    file_size = bdrv_getlength(bs->file->bs);
->>> +    if (file_size < 0) {
->>> +        goto fail;
->>> +    }
->>> +
->>> +    file_size >>= BDRV_SECTOR_BITS;
->>> +    if (s->data_end > file_size) {
->>> +        if (flags & BDRV_O_CHECK) {
->>> +            s->data_end = file_size;
->>
->> Hm. but with this, any further allocation may lead to twice-allocted clusters, as you just modify s->data_end, but havn't yet fixed the BAT entry.. It seems unsafe. Or what I miss?
->>
-> if O_CHECK is specified, we are going to execute parallels_co_check which
-> will correctly handle this. In the other case (normal open) we will
-> face the error, which is pretty much correct under this logic.
-
-Sounds like "s->data_end = file_size" is part of this handling and should be in parallels_co_check()..
-
-Looking at it, seems more correct to recalculate s->data_end exactly after for-loop, which fixes out-of-image clusters. Also it would work better in case when we have leaked clusters at the end of file.
-
-Otherwise, ideally, you should have comment at top of parallels_co_check(), that we must first fix out-of-image clusters, before doing any kind of allocation, because data_end is already tweaked.
-
-I agree that patch should work as is.
-
+On 8/15/22 12:02, Alexander Ivanov wrote:
+> BAT is written in the context of conventional operations over
+> the image inside bdrv_co_flush() when it calls
+> parallels_co_flush_to_os() callback. Thus we should not
+> modify BAT array directly, but call parallels_set_bat_entry()
+> helper and bdrv_co_flush() further on. After that there is no
+> need to manually write BAT and track its modification.
 > 
->>> +        } else {
->>> +            error_setg(errp, "parallels: Offset in BAT is out of image");
->>> +            ret = -EINVAL;
->>> +            goto fail;
->>> +        }
->>> +    }
->>> +
->>>       if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
->>>           /* Image was not closed correctly. The check is mandatory */
->>>           s->header_unclean = true;
->>
->>
+> This makes code more generic and allows to split
+> parallels_set_bat_entry() for independent pieces.
 > 
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+> v2: Patch order was changed so the replacement is done in parallels_co_check.
+>      Now we use a helper to set BAT entry and mark the block dirty.
+> v3: Fix commit message.
+> 
+>   block/parallels.c | 19 +++++++------------
+>   1 file changed, 7 insertions(+), 12 deletions(-)
+> 
+> diff --git a/block/parallels.c b/block/parallels.c
+> index 7f68f3cbc9..6879ea4597 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -428,7 +428,6 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+>       int64_t size, prev_off, high_off;
+>       int ret;
+>       uint32_t i;
+> -    bool flush_bat = false;
+>   
+>       size = bdrv_getlength(bs->file->bs);
+>       if (size < 0) {
+> @@ -467,9 +466,8 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+>               res->corruptions++;
+>               if (fix & BDRV_FIX_ERRORS) {
+>                   prev_off = 0;
+> -                s->bat_bitmap[i] = 0;
+> +                parallels_set_bat_entry(s, i, 0);
+>                   res->corruptions_fixed++;
+> -                flush_bat = true;
+>                   continue;
+>               }
+>           }
+> @@ -485,15 +483,6 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+>           prev_off = off;
+>       }
+>   
+> -    ret = 0;
+> -    if (flush_bat) {
+> -        ret = bdrv_co_pwrite_sync(bs->file, 0, s->header_size, s->header, 0);
+> -        if (ret < 0) {
+> -            res->check_errors++;
+> -            goto out;
+> -        }
+> -    }
+> -
+>       res->image_end_offset = high_off + s->cluster_size;
+>       if (size > res->image_end_offset) {
+>           int64_t count;
+> @@ -522,6 +511,12 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+>   
+>   out:
+>       qemu_co_mutex_unlock(&s->lock);
+> +
+> +    ret = bdrv_co_flush(bs);
+
+Oops that's wrong. Here we probably rewrite previous error of bdrv_truncate stored in ret variable.
+
+> +    if (ret < 0) {
+> +        res->check_errors++;
+> +    }
+> +
+>       return ret;
+>   }
+>   
 
 
 -- 
