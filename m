@@ -2,100 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAEE597445
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:40:08 +0200 (CEST)
-Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742F659745C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 18:43:07 +0200 (CEST)
+Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOM5P-000647-F4
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49942)
+	id 1oOM8I-0001Nf-JP
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 12:43:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oOLt7-00006U-5g; Wed, 17 Aug 2022 12:27:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33756)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oOM0V-0000Dv-6o; Wed, 17 Aug 2022 12:35:05 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oOLsn-0007EM-Hx; Wed, 17 Aug 2022 12:27:20 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27HGDMQV004325;
- Wed, 17 Aug 2022 16:15:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=tFyZujuNnNwFQUf8VTT2tEeN+jd8urmNNT2XTqjSJMc=;
- b=Ifw3qyisdZBEt80QeczzFG3gyUpfKLLzOjhNBb0e9kXSSlpKHnZD1JIOeEWTZxtlnzug
- SV1d4dlhHgaXFOwy06gAZDo4uEdMAu5olQP1rpEt371oWT+SUf9VB4/yMXG09JmkspP9
- n+ZSVobo1NJD1Mwq+xX1YtGOz0LmPd3rCZySevoksvNmIzSLqhmOu+fDhnYsFMJ5cKhO
- VU9LuSjp99w5W9rTrMSERufrEtphSWvWmg6s1oes+L11AT8zUkCfSjmXfcPy9D+XA1zU
- vXzk/hh/bvpDmnGKhLGxVNbv23sfN17kt3QipLO+PYFXqLD7zlyQLuig/US/TSgMFKSv IQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j13np82pe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Aug 2022 16:15:37 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27HGDt2a006557;
- Wed, 17 Aug 2022 16:15:36 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j13np82mn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Aug 2022 16:15:36 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27HG5SSi010755;
- Wed, 17 Aug 2022 16:15:34 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma05fra.de.ibm.com with ESMTP id 3hyp8sj12r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Aug 2022 16:15:34 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 27HGFou736045078
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Aug 2022 16:15:50 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B9F2E11C054;
- Wed, 17 Aug 2022 16:15:31 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4A22E11C058;
- Wed, 17 Aug 2022 16:15:31 +0000 (GMT)
-Received: from heavy.ibmuc.com (unknown [9.171.21.185])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 17 Aug 2022 16:15:31 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH] target/s390x: Fix CLFIT and CLGIT immediate size
-Date: Wed, 17 Aug 2022 18:15:29 +0200
-Message-Id: <20220817161529.597414-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.37.1
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oOM0S-0008TS-71; Wed, 17 Aug 2022 12:35:02 -0400
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M7Cgf4sGSz67Lkw;
+ Thu, 18 Aug 2022 00:11:26 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 17 Aug 2022 18:16:20 +0200
+Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 17 Aug
+ 2022 17:16:20 +0100
+Date: Wed, 17 Aug 2022 17:16:19 +0100
+To: Dan Williams <dan.j.williams@intel.com>
+CC: Bobo WL <lmw.bobo@gmail.com>, <linux-cxl@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+Subject: Re: [BUG] cxl can not create region
+Message-ID: <20220817171619.000021ca@huawei.com>
+In-Reply-To: <62f5a2ffe8be0_3ce68294a4@dwillia2-xfh.jf.intel.com.notmuch>
+References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
+ <62f132aee401b_1b3c294c@dwillia2-xfh.jf.intel.com.notmuch>
+ <CAGr_yG389Bm_NL8CLgo_ZkGd4staocNENbtb-ULVA5vh_ywmcw@mail.gmail.com>
+ <62f27a8e9acb6_1f18b294e2@dwillia2-xfh.jf.intel.com.notmuch>
+ <62f5a2ffe8be0_3ce68294a4@dwillia2-xfh.jf.intel.com.notmuch>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: qyfIYiUolT1RT8Z_Tvo0v3A5-gmP_98S
-X-Proofpoint-ORIG-GUID: 5jGbmpkd9fnwHBRlM6rT6TX0MPrEZ63U
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-17_09,2022-08-16_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 mlxscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- mlxlogscore=921 priorityscore=1501 impostorscore=0 adultscore=0
- clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208170061
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,33 +70,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-I2 is 16 bits, not 32.
+On Thu, 11 Aug 2022 17:46:55 -0700
+Dan Williams <dan.j.williams@intel.com> wrote:
 
-Found by running valgrind's none/tests/s390x/traps.
+> Dan Williams wrote:
+> > Bobo WL wrote:  
+> > > Hi Dan,
+> > > 
+> > > Thanks for your reply!
+> > > 
+> > > On Mon, Aug 8, 2022 at 11:58 PM Dan Williams <dan.j.williams@intel.com> wrote:  
+> > > >
+> > > > What is the output of:
+> > > >
+> > > >     cxl list -MDTu -d decoder0.0
+> > > >
+> > > > ...? It might be the case that mem1 cannot be mapped by decoder0.0, or
+> > > > at least not in the specified order, or that validation check is broken.  
+> > > 
+> > > Command "cxl list -MDTu -d decoder0.0" output:  
+> > 
+> > Thanks for this, I think I know the problem, but will try some
+> > experiments with cxl_test first.  
+> 
+> Hmm, so my cxl_test experiment unfortunately passed so I'm not
+> reproducing the failure mode. This is the result of creating x4 region
+> with devices directly attached to a single host-bridge:
+> 
+> # cxl create-region -d decoder3.5 -w 4 -m -g 256 mem{12,10,9,11} -s $((1<<30))
+> {
+>   "region":"region8",
+>   "resource":"0xf1f0000000",
+>   "size":"1024.00 MiB (1073.74 MB)",
+>   "interleave_ways":4,
+>   "interleave_granularity":256,
+>   "decode_state":"commit",
+>   "mappings":[
+>     {
+>       "position":3,
+>       "memdev":"mem11",
+>       "decoder":"decoder21.0"
+>     },
+>     {
+>       "position":2,
+>       "memdev":"mem9",
+>       "decoder":"decoder19.0"
+>     },
+>     {
+>       "position":1,
+>       "memdev":"mem10",
+>       "decoder":"decoder20.0"
+>     },
+>     {
+>       "position":0,
+>       "memdev":"mem12",
+>       "decoder":"decoder22.0"
+>     }
+>   ]
+> }
+> cxl region: cmd_create_region: created 1 region
+> 
+> > Did the commit_store() crash stop reproducing with latest cxl/preview
+> > branch?  
+> 
+> I missed the answer to this question.
+> 
+> All of these changes are now in Linus' tree perhaps give that a try and
+> post the debug log again?
 
-Fixes: 1c2687518235 ("target-s390: Implement COMPARE AND TRAP")
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- target/s390x/tcg/insn-data.def | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Dan,
 
-diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-index 5e448bb2c4..6d2cfe5fa2 100644
---- a/target/s390x/tcg/insn-data.def
-+++ b/target/s390x/tcg/insn-data.def
-@@ -290,8 +290,8 @@
-     D(0xb961, CLGRT,   RRF_c, GIE, r1_o, r2_o, 0, 0, ct, 0, 1)
-     D(0xeb23, CLT,     RSY_b, MIE, r1_32u, m2_32u, 0, 0, ct, 0, 1)
-     D(0xeb2b, CLGT,    RSY_b, MIE, r1_o, m2_64, 0, 0, ct, 0, 1)
--    D(0xec73, CLFIT,   RIE_a, GIE, r1_32u, i2_32u, 0, 0, ct, 0, 1)
--    D(0xec71, CLGIT,   RIE_a, GIE, r1_o, i2_32u, 0, 0, ct, 0, 1)
-+    D(0xec73, CLFIT,   RIE_a, GIE, r1_32u, i2_16u, 0, 0, ct, 0, 1)
-+    D(0xec71, CLGIT,   RIE_a, GIE, r1_o, i2_16u, 0, 0, ct, 0, 1)
- 
- /* CONVERT TO DECIMAL */
-     C(0x4e00, CVD,     RX_a,  Z,   r1_o, a2, 0, 0, cvd, 0)
--- 
-2.37.1
+I've moved onto looking at this one.
+1 HB, 2RP (to make it configure the HDM decoder in the QEMU HB, I'll tidy that up
+at some stage), 1 switch, 4 downstream switch ports each with a type 3
+
+I'm not getting a crash, but can't successfully setup a region.
+Upon adding the final target
+It's failing in check_last_peer() as pos < distance.
+Seems distance is 4 which makes me think it's using the wrong level of the heirarchy for
+some reason or that distance check is wrong.
+Wasn't a good idea to just skip that step though as it goes boom - though
+stack trace is not useful.
+
+Jonathan
+
+
+
+
+
 
 
