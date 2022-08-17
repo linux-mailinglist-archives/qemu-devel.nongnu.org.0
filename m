@@ -2,67 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C9A597343
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:47:53 +0200 (CEST)
-Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3F3597351
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 17:51:16 +0200 (CEST)
+Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOLGq-0004CP-UC
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41498)
+	id 1oOLK7-0001Dt-LA
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 11:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liuyang22@iscas.ac.cn>)
- id 1oODn0-0000xo-R5; Wed, 17 Aug 2022 03:48:35 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:44434 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liuyang22@iscas.ac.cn>)
- id 1oODmx-0006D4-8U; Wed, 17 Aug 2022 03:48:34 -0400
-Received: from localhost.localdomain (unknown [182.37.30.21])
- by APP-01 (Coremail) with SMTP id qwCowACHaVpBnfxix+3RCQ--.34174S3;
- Wed, 17 Aug 2022 15:48:24 +0800 (CST)
-From: Yang Liu <liuyang22@iscas.ac.cn>
-To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, liweiwei@iscas.ac.cn,
- Yang Liu <liuyang22@iscas.ac.cn>
-Subject: [PATCH 2/2] target/riscv: rvv-1.0: vf[w]redsum distinguish between
- ordered/unordered
-Date: Wed, 17 Aug 2022 15:48:02 +0800
-Message-Id: <20220817074802.20765-2-liuyang22@iscas.ac.cn>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20220817074802.20765-1-liuyang22@iscas.ac.cn>
-References: <20220817074802.20765-1-liuyang22@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <asinghal@nvidia.com>)
+ id 1oOFOf-0002RZ-Ow; Wed, 17 Aug 2022 05:31:34 -0400
+Received: from mail-bn7nam10on2062c.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::62c]:18913
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <asinghal@nvidia.com>)
+ id 1oOFOR-00064I-Up; Wed, 17 Aug 2022 05:31:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gm1eGJLEjQ0+5MVD+q2+iuwOnpCW1KO2w4uGjQ2mQ9njExDMUa7EMEyVRgOKjTlVLis524mvnCJ7oP2MDdZeqn/Lrop4fIADwjJrxg6hIksKZzChwRM/uY9W/a9ShKCaihtzks2+XaCBjAk2vDTycHiU7wwCkpKVwSlIC+829bIA2w0yvELd2VtHOGKWDCNv9ZPg0mPcJA8xT42uaxw5lbt7hzkfaZ3AlyhtsbmkXcQMWmi7H+HnrZfUWdW/tpbAVJhiQ24kbK+eAobDU+/jJJm074UgaS9PWWgOXqMBv6esx3vck4qglWeOI7qH/T4pVBj4b4Ll9ooh5TPhZjqR/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zEeuL1mr2b5KacyZT7MA8gEJ8GAy1YP3A/ujBICsK44=;
+ b=YhcRmvKntqPfQI2SdKTtikqH9ChtE4K6M+Ws4JY8ExU+nNf+S32PsWq1FEzeT2y7B/IVan89aMMg/Z81LHFOc5OEnBsZOw0fmSiZljk1pGqFyCbhHyuDaO9+hb814LO1acZtqWqnIdrIf5UH07Nt8rxIWwaAnTZHOebSGYxZcc3wfXYFR/7ZIZjNUpdCpkZTeYajS/5uPCO8XzxJQYIwawa1LUy4QfMEyMnEs2/y6Dzsnk0TbXX7YCqgGKQBFYGYFtnjZ9O1gUf6amtCANhd5QeWsaak4RgZInCxg6QWqA2xpoROwvY0XQ8qj3pI5dOLh3yzq+kpm4cDRTm9Dt+h5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zEeuL1mr2b5KacyZT7MA8gEJ8GAy1YP3A/ujBICsK44=;
+ b=b/M3yN4fS7of9OG2+LIKooX00BFznfKFzqavBk6v9E2AN1rWrfYbshuYwnnIoPgf6ergXDNM0gR5MXyNBWdFD38LaJbYlP/S//RElG5CnwebfkBiGfbazv3l9xlWFWzqEA7qum3msFNzCEi1A3d9LdP9NucHZPhnF15Es+5+lvkWZm4xiEFQUy4At1m5v6B+ic4O7tp82aQ3gUfSK8pAgvxHhlEyHehxUqmLK2sh/O4yKb/Ff0i5OUWFKSorf6PGS6n19s1kXRsf1uJgASNtM9pUm7X1rLspmVA0D0q0fhcPgBeDTEegqE1EmNm4rpKmYcuMOxYGT8IZlkx+B/cLmA==
+Received: from MN0PR12MB5740.namprd12.prod.outlook.com (2603:10b6:208:373::10)
+ by BYAPR12MB3080.namprd12.prod.outlook.com (2603:10b6:a03:de::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Wed, 17 Aug
+ 2022 09:26:13 +0000
+Received: from MN0PR12MB5740.namprd12.prod.outlook.com
+ ([fe80::70b6:6426:21df:4f72]) by MN0PR12MB5740.namprd12.prod.outlook.com
+ ([fe80::70b6:6426:21df:4f72%5]) with mapi id 15.20.5525.011; Wed, 17 Aug 2022
+ 09:26:12 +0000
+From: "Amit Kumar (Engrg-SW)" <asinghal@nvidia.com>
+To: Dan Zhang <dz4list@gmail.com>, =?iso-8859-1?Q?C=E9dric_Le_Goater?=
+ <clg@kaod.org>
+CC: Joel Stanley <joel@jms.id.au>, Shivi Fotedar <sfotedar@nvidia.com>, Peter
+ Delevoryas <peter@pjd.dev>, Jeremy Kerr <jk@ozlabs.org>, Klaus Jensen
+ <its@irrelevant.dk>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Prasanna Karmalkar <pkarmalkar@nvidia.com>, "Tim Chen
+ (SW-GPU)" <timch@nvidia.com>, Newton Liu <newtonl@nvidia.com>, Deepak
+ Kodihalli <dkodihalli@nvidia.com>, qemu-arm <qemu-arm@nongnu.org>
+Subject: RE: AST2600 support in QEMU
+Thread-Topic: AST2600 support in QEMU
+Thread-Index: AdisIeSsY02sPIDTTCawmJGYit8mSgAQEX+AAAa47wAA+16EgABsHloA
+Date: Wed, 17 Aug 2022 09:26:12 +0000
+Message-ID: <MN0PR12MB574081DCEE8272B2D1422BAABF6A9@MN0PR12MB5740.namprd12.prod.outlook.com>
+References: <BY5PR12MB38917595B0306085EEBB1921B4629@BY5PR12MB3891.namprd12.prod.outlook.com>
+ <CACPK8XfjXq6RW=M++UebfiGeij=GDSk5f6ZftNaL+2oeyCGnHw@mail.gmail.com>
+ <ec20d3af-5f99-8e56-9352-75562c4548de@kaod.org>
+ <CAJxKyLf1jUvx6m=0u3cf+vEfj6j4t6L7g7cowxKpNx-Xhh+xyQ@mail.gmail.com>
+In-Reply-To: <CAJxKyLf1jUvx6m=0u3cf+vEfj6j4t6L7g7cowxKpNx-Xhh+xyQ@mail.gmail.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5f654356-9493-4882-6e3b-08da8032870d
+x-ms-traffictypediagnostic: BYAPR12MB3080:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hQLCrn7TTKPhojHh2lsF7v/JTG6UYn76di/xBpDhQJkD2FYRRRplkxO8har+rnJB6mG9drp28h5qlvGWZOpNNUphOmlfX5v7IyBrLBNGU11DVqjCJ56ZM+0GypM3U9VBnNegQVvzNcBywaGmY9bI67GNGsVKzqhasWpC5Eo7jFXLYaDsSQjVJD3O5EKW/njQoRBEt3auvfDetv2Om6BBTPHMrIXGBjpjZrdgWsqQHmbnv0Tk5NJs5Hu9tOf27AEZf8rCV1ulI+MvxEXk0eNgZXdK+sksIWh/pKlKoCT3SRfaa3lDgcPXoCWvOZdsiE1KIbttHLMhsdkezAzfyYlfF7k+bjfjTBzYCJ/QIjQX3PZcb6M00tIrjYJrocXEBcN7LPdoIzKvMByjmCmUAdt2azWDwroehEyM3OGHf4JK4IvdOcxIm6F88o8ndX/4WCKWpyqdB+jZZ5ovxy4KFyFXwD//rcytKTxTZRvlTIKvLnlDttv0UhzNoRDkVwI+1dm28PbFHwRqg62sP6k0ZsmMR22ZiA0c4KTcvSdQVJxcg9y9s7no+ztLBdQirj4MizKr2CwxAZTyjyG5vu7g27E3by3F12+CYKqCAzE3d8x36GIrvfo5GKh8ClhjHgXrfa5ReZbTyIR9HXQFgW0U7z+HcmiE7Ydl5ZdZsOq3INaWa0M3jZy7AckyAEgaAcavQwsfK8dz+MlwgrCiaGl+XBE8tJNrtUUborsfpK/NAcxdpzyeMUEWhYjJ0ahYPktQc9zrRKAaGu56rfxwnoPHigT6m1NDLtaGf7wwSnHy/7f+zWUxArgMxy2TLQn1iP3fASkCig6nCn5LaFEpIpd5fyqG9g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB5740.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(136003)(396003)(346002)(366004)(376002)(2906002)(76116006)(83380400001)(4326008)(52536014)(5660300002)(8936002)(7416002)(33656002)(64756008)(66476007)(66556008)(8676002)(66946007)(66446008)(53546011)(54906003)(86362001)(478600001)(71200400001)(110136005)(7696005)(186003)(9686003)(6506007)(55236004)(26005)(316002)(38100700002)(55016003)(41300700001)(45080400002)(966005)(38070700005)(122000001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?+10fibf0RSfJYLqUotM/cvG9f6d50xiUB3vMVjLJToeYQ+dyI/ZtMyyAmb?=
+ =?iso-8859-1?Q?Rjf9EA6uZKw8z37BxdIVhgO33YRS0PVluHHtaxZhY8ZGaPtGV3dDjSL0NX?=
+ =?iso-8859-1?Q?PMJyX9me4tzW1eYUkNn5FDz5/32cRkOdaPP4c5HNj+cjkV3gqTn5TZg+KF?=
+ =?iso-8859-1?Q?IuFwtAgolDcKoiQ/pyS+usQq77bG/rVIYyxOjdlK/uk524WirDw2fBOFuA?=
+ =?iso-8859-1?Q?Zy3BYm+h/Kq4JRgCjUBkWWD624Rvg6puIlf0yyd5SqDYd7QebbrvYsHHFl?=
+ =?iso-8859-1?Q?7jF1PMogVvd9pEBgsSKBVZ2FJ/s99+8eOhf+YJIW5o3XNODnGTd33wrElT?=
+ =?iso-8859-1?Q?94XYD7WackEsa7Qvlusl0DOvSVRN0x3yiknEA5mxd9sN9wQ25TPAdnEItX?=
+ =?iso-8859-1?Q?mNSiR2X/XFOYrSFWUrkx8vfKCrJ2ZZU3B9rJSnOBfFp1786Byz4dv7+6N/?=
+ =?iso-8859-1?Q?3qZmxy/XaiUtU1IlHSMilX/ydQa2utA57UwhBiL6n7ubcXrToSjUtrG0X5?=
+ =?iso-8859-1?Q?VbAApSMMHaHlULl7fUYHAmolEGMGKmqMxreBImWAb5VvSUQWsfBgJUfFSO?=
+ =?iso-8859-1?Q?9/K2CHhN1TuHd2Kre7ESoUFYdLjp0Dds/19FEfTBQQtR2OC2Y9cLaQzoNw?=
+ =?iso-8859-1?Q?aD+AZIRL1quqLnq6ylHmTFt3hsBZctcuChhKAnSQIXLNzkwA4L+/TlMFq8?=
+ =?iso-8859-1?Q?xZhDHjGa/S2dcC+AGGFhCoC4NBRbWBrxaSO/nh9WejeB+I4Z+GUTqfx1oz?=
+ =?iso-8859-1?Q?kLWJItf4ve+asSgeKm636g/6WQXAGuJ9yzoEP+/coSQMRGgTCHCIJLsqlH?=
+ =?iso-8859-1?Q?3K36zA8hfJt9ERwWbC11K9t1kALvcHTi6zQx+Le2oDOCOJ6et0rmTyJfDf?=
+ =?iso-8859-1?Q?KmrVLilu8p0VfF56tNdwKN7f202IZ9OYZy0uTSjFmBazK6OL6Gpd/VBKIH?=
+ =?iso-8859-1?Q?iKv/fqiF53kLkpOoBvMOA5ywXqFBkHAGDrV+SXQsD6qJbaoMU51riY6vuE?=
+ =?iso-8859-1?Q?EPeTHdKkw2WZi1ODV7Ym2ZAC3Ap3BWImznTwf+HjDnA/vAqxNwoU6PQmio?=
+ =?iso-8859-1?Q?SgPUvwlwMwWYY2gA1e8nhz/cYOcOF2fp0LSzTgwoIJbBqrhN15RZRX1d6Q?=
+ =?iso-8859-1?Q?HmSJ4WPqEFle+0BlK85I7cylzVwjbz1S3cP8POVe5w98eZ0ivZM/PtTMOV?=
+ =?iso-8859-1?Q?5Gas6A0Emt/6jhN+6GPfWmfuU8Y4ETxKWr+W+Sh0oKdZXm58hWz6WISG8N?=
+ =?iso-8859-1?Q?Jg/P9CGPMy7LfkTEYh94BxOe7naJMAB9b0rKIEDl5kclrFkzrylPA0BsI6?=
+ =?iso-8859-1?Q?peEKfXjHnCC5V6OiEsUs14oUxW6b1A31HnCF0jTEG/5jSDKWV/UFFRsY0b?=
+ =?iso-8859-1?Q?LPEQmZ+PWP/3780ZWYHZyH/bq+vh+EMQIpwmykNnIt3+TP2KRkqQbnAjI7?=
+ =?iso-8859-1?Q?CDqT6EcAqKasgraTEwiwQ59ACUj8g0WjrKFPdahY7X+HjRM+VjEBp6ZKLT?=
+ =?iso-8859-1?Q?/nc///8DyYzm6s85xfGPvgsVWUR9tqyQbDoQtZ0kRnovM0jGgjk7OIjhQy?=
+ =?iso-8859-1?Q?vDiQG5WeZ3Y5Ftxt/sfYxCbXOHdWHDBPjhNgBtSkJvMX3ZtSjopOX6zsLl?=
+ =?iso-8859-1?Q?JQafCqpL5eFVYbsD0JLHNnTeW4zI4Up/rN?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACHaVpBnfxix+3RCQ--.34174S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw1UWFy5XF1kGF43Wr1Utrb_yoWxCr4xpF
- 4Utr17Zr47CrW7Xa4rtrs8ArWUWr4vgw45CFZIqFnxWay7JFZ5CasF9r47tFWDJFZ7A34U
- W3WkAr9xA3s3Wa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBl14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWUJVWUGwAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
- x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2vY
- z4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
- 02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE
- 4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWx
- JwCI42IY6xAIw20EY4v20xvaj40_JFI_Gr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbo7K3UUUUU==
-X-Originating-IP: [182.37.30.21]
-X-CM-SenderInfo: 5olx5tdqjsjq5lvft2wodfhubq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=liuyang22@iscas.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB5740.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f654356-9493-4882-6e3b-08da8032870d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2022 09:26:12.8714 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: z7DcTGe5+Jg2pFB1TeMeOW/eMFuf/3iOWOZw946UBK4irSWbZ2DH4h5P+EgwKxaFmjV99NzLLoe134cy2sjj/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3080
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::62c;
+ envelope-from=asinghal@nvidia.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 17 Aug 2022 11:28:49 -0400
+X-Mailman-Approved-At: Wed, 17 Aug 2022 11:28:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,134 +148,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Starting with RVV1.0, the original vf[w]redsum_vs instruction was renamed
-to vf[w]redusum_vs. The distinction between ordered and unordered is also
-more consistent with other instructions, although there is no difference
-in implementation between the two for QEMU.
+Hi Dan,
 
-Signed-off-by: Yang Liu <liuyang22@iscas.ac.cn>
----
- target/riscv/helper.h                   | 15 ++++++++++-----
- target/riscv/insn32.decode              |  6 ++++--
- target/riscv/insn_trans/trans_rvv.c.inc |  6 ++++--
- target/riscv/vector_helper.c            | 19 +++++++++++++------
- 4 files changed, 31 insertions(+), 15 deletions(-)
+Responding on behalf of Shivi.
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 4ef3b2251d..a03014fe67 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1009,9 +1009,12 @@ DEF_HELPER_6(vwredsum_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- 
--DEF_HELPER_6(vfredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vfredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vfredsum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredusum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-@@ -1019,8 +1022,10 @@ DEF_HELPER_6(vfredmin_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmin_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
- 
--DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- 
- DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 4033565393..2873a7ae04 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -659,11 +659,13 @@ vredmax_vs      000111 . ..... ..... 010 ..... 1010111 @r_vm
- vwredsumu_vs    110000 . ..... ..... 000 ..... 1010111 @r_vm
- vwredsum_vs     110001 . ..... ..... 000 ..... 1010111 @r_vm
- # Vector ordered and unordered reduction sum
--vfredsum_vs     0000-1 . ..... ..... 001 ..... 1010111 @r_vm
-+vfredusum_vs    000001 . ..... ..... 001 ..... 1010111 @r_vm
-+vfredosum_vs    000011 . ..... ..... 001 ..... 1010111 @r_vm
- vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
- vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
- # Vector widening ordered and unordered float reduction sum
--vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
-+vfwredusum_vs   110001 . ..... ..... 001 ..... 1010111 @r_vm
-+vfwredosum_vs   110011 . ..... ..... 001 ..... 1010111 @r_vm
- vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
- vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
- vmandn_mm       011000 - ..... ..... 010 ..... 1010111 @r
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 6c091824b6..9c9de17f8a 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3112,7 +3112,8 @@ static bool freduction_check(DisasContext *s, arg_rmrr *a)
-            require_zve64f(s);
- }
- 
--GEN_OPFVV_TRANS(vfredsum_vs, freduction_check)
-+GEN_OPFVV_TRANS(vfredusum_vs, freduction_check)
-+GEN_OPFVV_TRANS(vfredosum_vs, freduction_check)
- GEN_OPFVV_TRANS(vfredmax_vs, freduction_check)
- GEN_OPFVV_TRANS(vfredmin_vs, freduction_check)
- 
-@@ -3124,7 +3125,8 @@ static bool freduction_widen_check(DisasContext *s, arg_rmrr *a)
-            (s->sew != MO_8);
- }
- 
--GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, freduction_widen_check)
-+GEN_OPFVV_WIDEN_TRANS(vfwredusum_vs, freduction_widen_check)
-+GEN_OPFVV_WIDEN_TRANS(vfwredosum_vs, freduction_widen_check)
- 
- /*
-  *** Vector Mask Operations
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index fd83c0b20b..d87f79ad82 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4641,9 +4641,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,           \
- }
- 
- /* Unordered sum */
--GEN_VEXT_FRED(vfredsum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
--GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
--GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
-+GEN_VEXT_FRED(vfredusum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
-+GEN_VEXT_FRED(vfredusum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
-+GEN_VEXT_FRED(vfredusum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
-+
-+/* Ordered sum */
-+GEN_VEXT_FRED(vfredosum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
-+GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
-+GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
- 
- /* Maximum value */
- GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maximum_number)
-@@ -4667,9 +4672,11 @@ static uint64_t fwadd32(uint64_t a, uint32_t b, float_status *s)
- }
- 
- /* Vector Widening Floating-Point Reduction Instructions */
--/* Unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
--GEN_VEXT_FRED(vfwredsum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
--GEN_VEXT_FRED(vfwredsum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
-+/* Ordered/unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
-+GEN_VEXT_FRED(vfwredusum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
-+GEN_VEXT_FRED(vfwredusum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
-+GEN_VEXT_FRED(vfwredosum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
-+GEN_VEXT_FRED(vfwredosum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
- 
- /*
-  *** Vector Mask Operations
--- 
-2.30.1 (Apple Git-130)
+>> "So what does the "PCIe RC support" means? the BMC will be the PCIe RC?"
+Yes, BMC will be the PCIe RC to control downstream PCIe devices (end-points=
+).
 
+- Amit
+
+-----Original Message-----
+From: Dan Zhang <dz4list@gmail.com>=20
+Sent: 15 August 2022 11:18
+To: C=E9dric Le Goater <clg@kaod.org>
+Cc: Joel Stanley <joel@jms.id.au>; Shivi Fotedar <sfotedar@nvidia.com>; Pet=
+er Delevoryas <peter@pjd.dev>; Jeremy Kerr <jk@ozlabs.org>; Klaus Jensen <i=
+ts@irrelevant.dk>; Jonathan Cameron <jonathan.cameron@huawei.com>; qemu-dev=
+el@nongnu.org; Andrew Jeffery <andrew@aj.id.au>; Amit Kumar (Engrg-SW) <asi=
+nghal@nvidia.com>; Prasanna Karmalkar <pkarmalkar@nvidia.com>; Tim Chen (SW=
+-GPU) <timch@nvidia.com>; Newton Liu <newtonl@nvidia.com>; Deepak Kodihalli=
+ <dkodihalli@nvidia.com>; qemu-arm <qemu-arm@nongnu.org>
+Subject: Re: AST2600 support in QEMU
+
+External email: Use caution opening links or attachments
+
+
+On Tue, Aug 9, 2022 at 10:51 PM C=E9dric Le Goater <clg@kaod.org> wrote:
+>
+> Hello,
+>
+> On 8/10/22 04:37, Joel Stanley wrote:
+> > Hello Shivi,
+> >
+> > I've added others to cc who may have some input.
+> >
+> > On Tue, 9 Aug 2022 at 21:38, Shivi Fotedar <sfotedar@nvidia.com> wrote:
+> >>
+> >> Hello, we are looking for support for few features for AST2600 in=20
+> >> QEMU, specifically
+> >>
+> >> PCIe RC support so BMC can talk to downstream devices for management f=
+unctions.
+Normally the RC is the host CPU, BMC and the devices to be managed, which s=
+upport MCTP-over-PCIe will be the endpoint (downstream) device as BMC.  The=
+ MCTP message Peer transaction between BMC and managed device will using ro=
+ute-by-Id to RC(host) then down to endpoint.  I am referring to DMTF DSP023=
+8 spec. section 6.4
+
+So what does the "PCIe RC support" means? the BMC will be the PCIe RC?
+or BMC will be PCIe-Endpoint connect to host PCIe RC.
+
+> >
+> > I haven't seen any PCIe work done yet.
+>
+> I haven't either. There is clearly a need now that we are moving away=20
+> from LPC.
+>
+> >> MCTP controller to run MCTP protocol on top of PCIe or I2C.
+> >
+> > What work would be required to do this on top of i2c?
+>
+> I think Jonathan and Klaus worked on this. See :
+>
+>   =20
+> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore
+> .kernel.org%2Fqemu-devel%2F20220525121422.00003a84%40Huawei.com%2F&amp
+> ;data=3D05%7C01%7Casinghal%40nvidia.com%7C714d293de2ac4b7f5f9308da7e81b2
+> 7b%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637961392786299602%7CU
+> nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
+> WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3D9I35YQPk86Tjza6fa0jFVnLGCM
+> SZ7ioTHpJEQN5c%2F1g%3D&amp;reserved=3D0
+>
+> >> I2C slave so BMC can talk to host CPU QEMU for IPMI
+> >
+> > Some support for slave mode was merged in v7.1.
+>
+> yes.
+>
+> Peter D. experimented with IPMI. See :
+>
+>   =20
+> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore
+> .kernel.org%2Fqemu-devel%2F20220630045133.32251-14-me%40pjd.dev%2F&amp
+> ;data=3D05%7C01%7Casinghal%40nvidia.com%7C714d293de2ac4b7f5f9308da7e81b2
+> 7b%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637961392786299602%7CU
+> nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
+> WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DHwFjdPHcM4MocoDz8hrZatYJiz
+> gmDePy24KFivENpeU%3D&amp;reserved=3D0
+>
+> We also merged a new machine including a BMC ast2600 running OpenBMC=20
+> and an ast1030 SoC running OpenBIC. Work to interconnect them on the=20
+> same I2C bus is in progress.
+>
+> Thanks,
+>
+> C.
+>
 
