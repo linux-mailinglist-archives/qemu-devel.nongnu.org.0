@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED06D596D06
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 12:53:53 +0200 (CEST)
-Received: from localhost ([::1]:41568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BA2596D09
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Aug 2022 12:54:17 +0200 (CEST)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOGgK-0007ii-IX
-	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 06:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54602)
+	id 1oOGgi-0008JL-0D
+	for lists+qemu-devel@lfdr.de; Wed, 17 Aug 2022 06:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOGbM-00055i-Tk
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 06:48:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33516)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOGdD-0005fi-It
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 06:50:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOGbJ-0005Tk-JF
- for qemu-devel@nongnu.org; Wed, 17 Aug 2022 06:48:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOGdB-0008O6-Sx
+ for qemu-devel@nongnu.org; Wed, 17 Aug 2022 06:50:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660733320;
+ s=mimecast20190719; t=1660733437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ka6eN+zZp+uULy3Na9f6mELLQgXO6Giwmvcqvu1LoBw=;
- b=RJxAEDNwpmIJ32u7Z4ekeQmtz6TEVaLxSleyJMDXz4JQNqbnXYFwX2OpE4W566VqhYGjXP
- 1ROWwwaov/sSHnLiMTD3aDslr4JqefQp2lhkYHj90fneG9xRRad7mncM3wnxyy5e2p/Pnv
- 5ep4lQXL33+rsRp57IfL+uQpX/Lgux8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9u+NcJgun7Iblf8I31akYbC1kVoGYvFmbgrtP9dmvuY=;
+ b=TxxgLu0HaGnqUy1mlbMpCBwIYiHoBKYqezYGZEJufTnOEBvXWUVqWFt+3pBW1XdkX1mC7V
+ GxkeybnV/sTxKQ7qjjYzJPCKRnb0aUvArJOJ4uyczN023QwyTq3nRms8Lykqn/yVOVyQKx
+ 3AZ9oAtmnoh0p7mZaJLwEw9A9IoiXWE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-91-PO1FB-ndPIOPP1PQ41zGJA-1; Wed, 17 Aug 2022 06:48:39 -0400
-X-MC-Unique: PO1FB-ndPIOPP1PQ41zGJA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m4-20020a7bce04000000b003a386063752so400121wmc.1
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 03:48:39 -0700 (PDT)
+ us-mta-386-Pud4ApU-Nqid7dJsyMvhgQ-1; Wed, 17 Aug 2022 06:50:33 -0400
+X-MC-Unique: Pud4ApU-Nqid7dJsyMvhgQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ m7-20020adfa3c7000000b002251ddd0e05so727503wrb.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 03:50:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=ka6eN+zZp+uULy3Na9f6mELLQgXO6Giwmvcqvu1LoBw=;
- b=DPSLjH5ZiFdiLDRStzVKzPB8Jtngy7+K6vdkH0Mr6gHTlEzfIJ762FMLiLm/x/hXNU
- +tQ8Zr2pPmY07dm2TNUmn0O2c7vlRhGHVrtAH/P9FZRDqt0YeIXfigrNc61uY8eEGXOO
- vzNfjSKFnDxb5zbNYMMjleqcA/VDxWVEdxeTT8cnKlV6+VY71n0qdireHLp65nMjlGKF
- EDawoWVEtflVyRPVh8t2LSJ6W0q59Gile000k0G+5rpYfsc/dtolswX5PMWVBTd/HljZ
- NAXPti20R2owGapHMCFM0iGP5ZkzFX9MMH9JESYLpl7AZ0R3KzJG3iiS7hCwrTuSUE71
- dw2A==
-X-Gm-Message-State: ACgBeo01Mrj0faUTvqQy1nLfXXbSPlXoUPsn0/A/VeQ1++NXTL7VQl3q
- nI43msfZ91UvIEbl80Z7/hN3GkX0RIiJmXfCheS6H4KuT9qJrx78IKJvNZkJhjUwfjWgtR6HKTG
- sJf23kofm+qny3lc=
-X-Received: by 2002:a5d:6f1b:0:b0:225:1b56:63 with SMTP id
- ay27-20020a5d6f1b000000b002251b560063mr3607900wrb.661.1660733318322; 
- Wed, 17 Aug 2022 03:48:38 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ZqVJhloqmx4VCvifDd7HmD8Hw3nAbzwsI2z64S2vHV5LFr8GJOGWd0HLGcMaEuGU7AxNgoQ==
-X-Received: by 2002:a5d:6f1b:0:b0:225:1b56:63 with SMTP id
- ay27-20020a5d6f1b000000b002251b560063mr3607891wrb.661.1660733318121; 
- Wed, 17 Aug 2022 03:48:38 -0700 (PDT)
+ bh=9u+NcJgun7Iblf8I31akYbC1kVoGYvFmbgrtP9dmvuY=;
+ b=csM0Cg3MrjFy80EUB0C/yvdafH6QJwmAZmmv0ZlOVzdpQubc/jhdXrq9OL5yZ17dyq
+ qRpfu9sWFduU4gn696jpcACASY9VbNm59g5VGWAmikg9gd/EFaJDapM9EpjtVYiCzxTu
+ hxanOIDX6ct9qCl4m7gA74HUfi4qRDp4BSuC3nDFFd4XdiczoeIiEULPBk5bcE18QW4S
+ Wl/GViZ6FSyRTNZFkj3X/RXPtsQsbEaojEISBrjOXQ4qgjK3JmXwx+Z7gJdspvS5lcnx
+ YQIt9U1z4g7ta0a1gvFBcvtfuqg/OaM8UhLp3fWzaPvZXq9EI+ZQzAFl18Yq/6Weul1b
+ 43vQ==
+X-Gm-Message-State: ACgBeo3JK446HETpzL/bMGdeZ8g9x8+o9ci3hX0jIpmyI/ehNoP3S9ks
+ 1QP6nbM5ty0puU1C5UQMBlfvVE6+McdgMhiTHwBnFwEEkTdmQKFTfAYZ8KMo4mGjRyDd8GfWDPz
+ 8D9CwclhDGhuLneM=
+X-Received: by 2002:a05:600c:3b16:b0:3a6:169:d7f8 with SMTP id
+ m22-20020a05600c3b1600b003a60169d7f8mr1763051wms.129.1660733432836; 
+ Wed, 17 Aug 2022 03:50:32 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR64CuOc9UF6aPNXKpdPtbpiydX1gzG127zAqeeU7D4ZJ4k2Z1F64bEoaa/ZRATt+vSy+6HGBA==
+X-Received: by 2002:a05:600c:3b16:b0:3a6:169:d7f8 with SMTP id
+ m22-20020a05600c3b1600b003a60169d7f8mr1763035wms.129.1660733432537; 
+ Wed, 17 Aug 2022 03:50:32 -0700 (PDT)
 Received: from redhat.com ([2.55.43.215]) by smtp.gmail.com with ESMTPSA id
- j11-20020adfe50b000000b00224f67bfc95sm11381901wrm.62.2022.08.17.03.48.36
+ p22-20020a05600c359600b003a35516ccc3sm2282288wmq.26.2022.08.17.03.50.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 03:48:37 -0700 (PDT)
-Date: Wed, 17 Aug 2022 06:48:34 -0400
+ Wed, 17 Aug 2022 03:50:31 -0700 (PDT)
+Date: Wed, 17 Aug 2022 06:50:28 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 2/2] pci: Sanity check mask argument to pci_set_*_by_mask()
-Message-ID: <20220817064800-mutt-send-email-mst@kernel.org>
-References: <20220726163206.1780707-1-peter.maydell@linaro.org>
- <20220726163206.1780707-3-peter.maydell@linaro.org>
- <219fb09f-c46a-4dda-9ab7-ebb0772c17f5@linaro.org>
- <CAFEAcA8GF8MLrp+9yqmPYJCfkVdUtc+-A7J+zn-gfvb06v-+Yw@mail.gmail.com>
+To: Jay Khandkar <jaykhandkar2002@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
+Subject: Re: [PATCH] hw/intc: Handle software disabling of APIC correctly
+Message-ID: <20220817065014-mutt-send-email-mst@kernel.org>
+References: <20220712141804.99494-1-jaykhandkar2002@gmail.com>
+ <CAFEAcA_sBoNCvUEaTOC26Om5vZKeZvLLJS1edkPM-pbswzQvzA@mail.gmail.com>
+ <YuQaN9GScQJ4ZXC+@thinkpad.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA8GF8MLrp+9yqmPYJCfkVdUtc+-A7J+zn-gfvb06v-+Yw@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <YuQaN9GScQJ4ZXC+@thinkpad.localdomain>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,48 +97,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 11:26:15AM +0100, Peter Maydell wrote:
-> On Tue, 26 Jul 2022 at 23:30, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > On 7/26/22 09:32, Peter Maydell wrote:
-> > > Coverity complains that in functions like pci_set_word_by_mask()
-> > > we might end up shifting by more than 31 bits. This is true,
-> > > but only if the caller passes in a zero mask. Help Coverity out
-> > > by asserting that the mask argument is valid.
+On Fri, Jul 29, 2022 at 11:04:47PM +0530, Jay Khandkar wrote:
+> On Fri, Jul 29, 2022 at 06:09:01PM +0100, Peter Maydell wrote:
+> > On Tue, 12 Jul 2022 at 19:38, Jay Khandkar <jaykhandkar2002@gmail.com> wrote:
 > > >
-> > > Fixes: CID 1487168
+> > > When the local APIC is in a software disabled state, all local interrupt
+> > > sources must be masked and all attempts to unmask them should be
+> > > ignored. Currently, we don't do either. Fix this by handling it
+> > > correctly in apic_mem_write().
 > > >
-> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > > Signed-off-by: Jay Khandkar <jaykhandkar2002@gmail.com>
 > > > ---
-> > > Note that only 1 of these 4 functions is used, and that only
-> > > in 2 places in the codebase. In both cases the mask argument
-> > > is a compile-time constant.
-> > > ---
-> > >   include/hw/pci/pci.h | 20 ++++++++++++++++----
-> > >   1 file changed, 16 insertions(+), 4 deletions(-)
+> > >  hw/intc/apic.c | 16 +++++++++++++---
+> > >  1 file changed, 13 insertions(+), 3 deletions(-)
 > > >
-> > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> > > index c79144bc5ef..0392b947b8b 100644
-> > > --- a/include/hw/pci/pci.h
-> > > +++ b/include/hw/pci/pci.h
-> > > @@ -688,7 +688,10 @@ static inline void
-> > >   pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
-> > >   {
-> > >       uint8_t val = pci_get_byte(config);
-> > > -    uint8_t rval = reg << ctz32(mask);
-> > > +    uint8_t rval;
-> > > +
-> > > +    assert(mask & 0xff);
-> >
-> > Why the and, especially considering the uint8_t type?
+> > > diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+> > > index 3df11c34d6..493c70af62 100644
+> > > --- a/hw/intc/apic.c
+> > > +++ b/hw/intc/apic.c
+> > > @@ -792,9 +792,16 @@ static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+> > >          s->dest_mode = val >> 28;
+> > >          break;
+> > >      case 0x0f:
+> > > -        s->spurious_vec = val & 0x1ff;
+> > > -        apic_update_irq(s);
+> > > -        break;
+> > > +        {
+> > > +            s->spurious_vec = val & 0x1ff;
+> > > +            if (!(val & APIC_SPURIO_ENABLED)) {
+> > > +                for (int i = 0; i < APIC_LVT_NB; i++) {
+> > > +                    s->lvt[i] |= APIC_LVT_MASKED;
+> > > +                }
+> > > +            }
+> > > +            apic_update_irq(s);
+> > > +            break;
+> > > +        }
+> > 
+> > What are the braces for here ? There's no local variable declaration...
+> > 
+> > thanks
+> > -- PMM
+> You are right, the braces are unnecessary for that part. I just put them in to
+> create a neat visually separate block. Can get rid of them.
 > 
-> Oops, yes. I think I was mixing up prototypes and thought the
-> mask was passed as a 32-bit value in both these functions.
-> 
-> -- PMM
+> Thanks,
+> Jay 
 
-Did you intend to send v2 of this without the &?
+Did you intend to send v2 of this?
 
 -- 
 MST
