@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE3B5987A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 17:42:08 +0200 (CEST)
-Received: from localhost ([::1]:47614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5576E59881C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 17:54:40 +0200 (CEST)
+Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOheo-0006ou-6H
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 11:42:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
+	id 1oOhqx-0000fc-6C
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 11:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=cnMf=YW=zx2c4.com=Jason@kernel.org>)
- id 1oOhcP-0002qR-L6
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:39:37 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:46206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=cnMf=YW=zx2c4.com=Jason@kernel.org>)
- id 1oOhcN-0004Va-PA
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:39:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A9DF6B821E5;
- Thu, 18 Aug 2022 15:39:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A10CC433C1;
- Thu, 18 Aug 2022 15:39:31 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="a2TM+cdz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1660837169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AxVollThZflidyMWlG1yGCIJSrXTMk2GpfqSLmwBL2w=;
- b=a2TM+cdz3TTHX4lkfNW1P2RYi1PnEkfL4mD+V02vjr8Chg8UMVzD0EnN3mKq4cRuTCu1l4
- QhRAHstSb06pitOPBXiNIL/OGq/FpBhozDSX6wgKyWrz/r9C/QPJlORuRGH48QLuoFlkRJ
- LrINg2+43NfedTrd1bpUibudqvgrLus=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6f83b7a5
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 18 Aug 2022 15:39:29 +0000 (UTC)
-Date: Thu, 18 Aug 2022 17:39:26 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Sergio Lopez <slp@redhat.com>
-Subject: Re: [PULL 05/10] x86: disable rng seeding via setup_data
-Message-ID: <Yv5dLl8UOaE+VpfD@zx2c4.com>
-References: <20220817161342.240674-1-mst@redhat.com>
- <20220817161342.240674-6-mst@redhat.com>
- <52a9fe51-335c-c3a1-a4ed-53d5f46b4fd8@redhat.com>
- <20220818115614.olhzz6nai5vware5@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oOhp1-0005ey-63
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:52:40 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:56003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oOhoz-0000ws-Fn
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:52:38 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id a8so2077635pjg.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 08:52:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=uoMyDG0hJqGLcptjfXW3sJ9xVCYYNxhple9K1UMyt+8=;
+ b=oi1lzYwZ1j3EQ4VtchBWyw4YznLP4a8xwnm59lWsB6NBkbk04QkZl2BFiI8n7RPCyp
+ SI5bC6GHsQM08F4ecGYpZ5/FUCkIrt9i7hUean9cxQKo5x20QblymaJIuuYiv5TCG7RB
+ c/qnBOA3PPsc6D9y7wVDot+C51G16aBt6lyjo6S9yrvt98Q6tQ7rsFsi79cA7lsiSmCL
+ 5C/Ad1FB+Ll4thYoQ035CoahXMvE8GS0X7jorIrs1exsXpox9yYSs8EyjEqdvW55LBgf
+ PEJ4p1nh4uPnIimLgwMbLMBm2+W8Ty491xpslAWpeFji5l2e2BwWhQTXZpnLYVqlgCHT
+ Zvcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=uoMyDG0hJqGLcptjfXW3sJ9xVCYYNxhple9K1UMyt+8=;
+ b=cU0sZFCRS8U+72n0rjVlpqOm5KoHpT4MzgGxaz+q/MrZwKWwEziSF0e/IJz8zOoZ1b
+ JE2zQUV2vSmdGKNDY3Wa3JNolQz3gN3ivccDTSk9+Zc3E7lu+7VRxZ8qd6zQYixhvAXM
+ msYq3wyl0SvouR6YejNHYbK9r0ltUVyRFq1ICkMjUCZvsleZkCjKTxlwxYGOA752l5qB
+ IfOxXfBJd4T0TU9XX+f7S5e1tJoyT7Rg4WLw7IQGnsvllAVEAmrSAI0fhVidd7LZqfcT
+ A893qacX8md178ZaItQ9akIWEY1F4wPIlXLd42craN8gv5Ul3Z3czYAqJUIbvd7KZf1W
+ psIQ==
+X-Gm-Message-State: ACgBeo1WHxsITduWyY19kswA0pBwAvrBZ6iKmg95SW+OWnih+ljGT+qZ
+ +ATTC3GTFPYis8MYKghZnKe2Kg==
+X-Google-Smtp-Source: AA6agR4onDAO4O5P8GPUMMvMcjpWanKbTUoQbG4C9sNeWh/UUge7r0id08TaOFvzijdfwYbRyF6B3w==
+X-Received: by 2002:a17:90a:bc8f:b0:1fa:bdb4:96c8 with SMTP id
+ x15-20020a17090abc8f00b001fabdb496c8mr3754180pjr.236.1660837955709; 
+ Thu, 18 Aug 2022 08:52:35 -0700 (PDT)
+Received: from [192.168.0.4] ([71.212.157.236])
+ by smtp.gmail.com with ESMTPSA id
+ 128-20020a620686000000b0052e6c073a3csm1820080pfg.142.2022.08.18.08.52.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Aug 2022 08:52:34 -0700 (PDT)
+Message-ID: <c45718f9-df89-aeab-f39a-91ec61365904@linaro.org>
+Date: Thu, 18 Aug 2022 08:52:33 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220818115614.olhzz6nai5vware5@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=cnMf=YW=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH for-7.1 3/4] target/loongarch: rename the TCG CPU "la464"
+ to "qemu64-v1.00"
+Content-Language: en-US
+To: WANG Xuerui <i.qemu@xen0n.name>, gaosong <gaosong@loongson.cn>,
+ chen huacai <zltjiangshi@gmail.com>
+Cc: qemu-level <qemu-devel@nongnu.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, WANG Xuerui <git@xen0n.name>,
+ maobibo <maobibo@loongson.cn>
+References: <20220814145351.1474753-1-git@xen0n.name>
+ <20220814145522.1474927-4-i.qemu@xen0n.name>
+ <1c4ae4dd-7365-1d5b-0608-31ba04ee96e0@linaro.org>
+ <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
+ <2382c1cd-6318-34a2-35e8-addc751f6aeb@loongson.cn>
+ <a5fde3dc-0fd4-8739-82b1-d94781637169@xen0n.name>
+ <ac55b78a-602a-e875-5bf0-c5040d7de2a1@linaro.org>
+ <daca3a69-08b3-be35-04b2-e6fcfe8207cd@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <daca3a69-08b3-be35-04b2-e6fcfe8207cd@xen0n.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,38 +103,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd, Michael, Paolo,
+On 8/17/22 19:31, WANG Xuerui wrote:
+> Hmm, I've looked up more context and it is indeed reasonable to generally name the QEMU 
+> models after real existing models. But in this case we could face a problem with 
+> Loongson's nomenclature: all of Loongson 3A5000, 3C5000 and 3C5000L are LA464, yet they 
+> should be distinguishable software-side by checking the model name CSR. But with only one 
+> CPU model that is LA464, currently this CSR is hard-coded to read "3A5000", and this can 
+> hurt IMO. And when we finally add LA264 and LA364 they would be identical ISA-level-wise, 
+> again the only differentiator is the model name CSR.
 
-On Thu, Aug 18, 2022 at 01:56:14PM +0200, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> > > index 3a35193ff7..2e5dae9a89 100644
-> > > --- a/hw/i386/pc_q35.c
-> > > +++ b/hw/i386/pc_q35.c
-> > > @@ -376,6 +376,7 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
-> > >       pc_q35_machine_options(m);
-> > >       m->alias = "q35";
-> > >       pcmc->default_cpu_version = 1;
-> > > +    pcmc->legacy_no_rng_seed = true;
-> > >   }
-> > >   DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
-> > > @@ -386,7 +387,6 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
-> > >       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-> > >       pc_q35_7_1_machine_options(m);
-> > >       m->alias = NULL;
-> > > -    pcmc->legacy_no_rng_seed = true;
-> > >       pcmc->enforce_amd_1tb_hole = false;
-> > >       compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-> > >       compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
-> > 
-> > Why not just revert the whole patch?
-> 
-> Tried that first.  Plain revert not working, there are conflicts.
-> So just disabling the code looked simpler and safer to me.
+Indeed, I believe that I pointed this out during review, and asked for loongarch_qemu_read 
+to be moved.  But apparently I missed it the next time around, and it snuck in.  There's 
+nothing in that memory region that is related to the core.
 
-Yea, this is fine with me. This commit will be easy enough to revert in
-7.2 when things are hopefully working properly in all circumstances.
 
-Jason
+> And by "not high-fidelity", I mean some of the features present on real HW might never get 
+> implemented, or actually implementable, like the DVFS mechanism needed by cpufreq.
+
+Certainly we can add stub versions of any such registers.  Such things are extremely 
+common under target/arm/.
+
+> Lastly, the "ISA level" I proposed is not arbitrarily made up; it's direct reference to 
+> the ISA manual revision. Each time the ISA gets some addition/revision the ISA manual has 
+> to be updated, and currently the manual's revision is the only reliable source of said 
+> information. (Loongson has a history of naming cores badly, like with the MIPS 3B1500 and 
+> 3A4000, both were "GS464V"; and 3A5000 was originally GS464V too, even though the insn 
+> encodings and some semantics have been entirely different.)
+
+That is a good argument for your isa level scheme, at least as aliases.
+
+
+r~
 
