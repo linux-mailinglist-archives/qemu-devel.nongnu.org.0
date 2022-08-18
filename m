@@ -2,94 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DB25983CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 15:11:34 +0200 (CEST)
-Received: from localhost ([::1]:58330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985EB5983FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 15:21:52 +0200 (CEST)
+Received: from localhost ([::1]:54154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOfJ6-0000Sg-VU
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 09:11:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37100)
+	id 1oOfT5-0008L8-8T
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 09:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oOfCT-0004qs-GN
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:04:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42593)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oOfNA-0003S0-0D
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:15:44 -0400
+Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:37899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oOfCK-00058J-CI
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:04:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660827870;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9ilP5YHtXJWfK0y9ugMcWVL9G0FqwSyOyjWug20ocdA=;
- b=J1rHhtfggQXIGn9SLWKH/8ZBwKzW32Mz3lSDs89TWmB5AQ+EL184/ym8U6VttQ8GuyjDqz
- cVznOHr9doUFRmnsMsSEYSmEO+nFzUcbS09GGCftZ1FxPnSXipaj0RK51vm4UqPgh8mgwp
- FndimnnKsFKyLeQFfVRj7ArAZTBGO+o=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-321-JYIPyjLrMtqazhcsZtEmFQ-1; Thu, 18 Aug 2022 09:04:29 -0400
-X-MC-Unique: JYIPyjLrMtqazhcsZtEmFQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t12-20020adfa2cc000000b00224f577fad1so203477wra.4
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 06:04:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=9ilP5YHtXJWfK0y9ugMcWVL9G0FqwSyOyjWug20ocdA=;
- b=ipGpqMfGj4WUD18fB9Fy0i3065qbCGkvwEsIeErkgcffts6vuabDkkk2BoL2SEpHVw
- SaY4d0LsUC0+W4J7PkHN82V7+1sjSKWe3p1RKZbiZPwfvR66HQUHUmkG7sjty6w68L1i
- 7M0MKVPFn8OmO11EpDUdvzC5w5MKW5BEkXqQ+iuHkkxhoC9Wci8tBqEFPE3ME2z7PkoE
- eEm4rs7/pGHiEUmeEJkIR6Y/LGMOS3UAlGD3SA2mpv3IG1HeEJBc+3JGEgAkbmRJseP8
- eUT5TeCs1aj42j2RfCGMbNiBX7vgomaFjpskXLGhvtpQOBhc6VEMrMLq+1yXyeR5T27D
- EnZw==
-X-Gm-Message-State: ACgBeo3OfEKu7hI0rccXfoM4kQdTfW6FweiHhMP2gLfHY5p6ZWOz8Az4
- dGDOv7Xv/JR7VBkniwNeS2wVnRUYcvxJytedv84xG9WJTooDFRm0SMzsK0FqQGaIXOq12bRDPwJ
- O+WsE0LzCnozq0DA=
-X-Received: by 2002:a5d:6b12:0:b0:21f:1568:c7e1 with SMTP id
- v18-20020a5d6b12000000b0021f1568c7e1mr1608834wrw.532.1660827867066; 
- Thu, 18 Aug 2022 06:04:27 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7BPPFLet3YcvvlTkf8tyjV/T4yMsXvHe4EzmFjmDEab8qTRe8uAHiv8m95jDTDNqFz568pUg==
-X-Received: by 2002:a5d:6b12:0:b0:21f:1568:c7e1 with SMTP id
- v18-20020a5d6b12000000b0021f1568c7e1mr1608814wrw.532.1660827866735; 
- Thu, 18 Aug 2022 06:04:26 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- t126-20020a1c4684000000b003a5fe5ed7edsm6225532wma.0.2022.08.18.06.04.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 06:04:25 -0700 (PDT)
-Date: Thu, 18 Aug 2022 14:04:23 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: Andrey Ryabinin <arbn@yandex-team.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, quintela@redhat.com,
- qemu-devel@nongnu.org, yc-core@yandex-team.com
-Subject: Re: [PATCH] pci/pci_expander_bridge: migrate state of pxb/pxb-pcie
- devices.
-Message-ID: <Yv441+TMUlQOZOvK@work-vm>
-References: <20220811164901.25042-1-arbn@yandex-team.com>
- <3cdc0316-b615-107f-65bf-dda340841f73@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oOfN7-0008Vm-1A
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:15:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.107])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 41DF8211CD;
+ Thu, 18 Aug 2022 13:15:28 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 18 Aug
+ 2022 15:15:26 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004deb33316-c558-44a5-814e-9dd65cf420cc,
+ 138D267EF392F478FDB2EE7689F651729D1C1BCC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <6e2e3120-93bb-1418-b494-9413acd15932@kaod.org>
+Date: Thu, 18 Aug 2022 15:15:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3cdc0316-b615-107f-65bf-dda340841f73@yandex-team.ru>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 24/31] ppc4xx: Fix code style problems reported by
+ checkpatch
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <cover.1660746880.git.balaton@eik.bme.hu>
+ <62798fbe9c200da3e0c870601ed9162b1c3a50a5.1660746880.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <62798fbe9c200da3e0c870601ed9162b1c3a50a5.1660746880.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 7daa7536-e31b-4cd6-967a-aaa7fce168df
+X-Ovh-Tracer-Id: 4282923249559243683
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehledgfeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
+ helo=5.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,147 +77,332 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vladimir Sementsov-Ogievskiy (vsementsov@yandex-team.ru) wrote:
-> [add migration maintainers]
+On 8/17/22 17:08, BALATON Zoltan wrote:
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
-> On 8/11/22 19:49, Andrey Ryabinin wrote:
-> > pxb/pxb-pcie/pxb-cxl devices currently doesn't have vmstate description
-> > So the state of device is not preserved during migration and
-> > guest can notice that as change of PCI_COMMAND_* registers state.
-> > 
-> > The diff of lspci output before and after migration:
-> > 
-> >   00:03.0 Host bridge [0600]: Red Hat, Inc. QEMU PCIe Expander bridge [1b36:000b]
-> >           Subsystem: Red Hat, Inc QEMU PCIe Expander bridge [1af4:1100]
-> >   -       Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
-> >   +       Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
-> >           Status: Cap- 66MHz+ UDF- FastB2B+ ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+C.
 
-Do you notice any other symptoms other than that minor diff?
-
-> > Add VMStateDescription to pxb devices so their state is transferred
-> > during migrations. For saving migration compatibility add
-> > 'x-config-reg-migration-enabled' property to pxb devices and disable
-> > it for all released machine types.
-> > 
-> > Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
-> > ---
-> >   hw/core/machine.c                   |  3 +++
-> >   hw/pci-bridge/pci_expander_bridge.c | 24 ++++++++++++++++++++++++
-> >   include/hw/pci/pci_bridge.h         |  1 +
-> >   3 files changed, 28 insertions(+)
-> > 
-> > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > index a673302ccec..071853469e2 100644
-> > --- a/hw/core/machine.c
-> > +++ b/hw/core/machine.c
-> > @@ -43,6 +43,9 @@
-> >   GlobalProperty hw_compat_7_0[] = {
-> >       { "arm-gicv3-common", "force-8-bit-prio", "on" },
-> >       { "nvme-ns", "eui64-default", "on"},
-> > +    { "pxb", "x-config-reg-migration-enabled", "off" },
-> > +    { "pxb-cxl", "x-config-reg-migration-enabled", "off" },
-> > +    { "pxb-pcie", "x-config-reg-migration-enabled", "off" },
+> ---
+>   hw/ppc/ppc405_uc.c     |  5 +++--
+>   hw/ppc/ppc440_bamboo.c | 27 ++++++++++++++----------
+>   hw/ppc/ppc440_uc.c     |  3 ++-
+>   hw/ppc/ppc4xx_devs.c   | 48 +++++++++++++++++++++++-------------------
+>   hw/ppc/ppc4xx_pci.c    | 31 +++++++++++++++++----------
+>   5 files changed, 67 insertions(+), 47 deletions(-)
 > 
-> 
-> Seems that it's too late for 7.1, rc2 is out and rc3 is coming soon. And that's not a degradation.
-
-Yeh
-
-> Up to maintainers, but I think we'd better start new hw_compat_7_1 for this thing.
-
-Yep.
-
-
-Dave
-> 
-> >   };
-> >   const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
-> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-> > index c9e817aa586..a3680d4d045 100644
-> > --- a/hw/pci-bridge/pci_expander_bridge.c
-> > +++ b/hw/pci-bridge/pci_expander_bridge.c
-> > @@ -23,6 +23,7 @@
-> >   #include "qemu/error-report.h"
-> >   #include "qemu/module.h"
-> >   #include "sysemu/numa.h"
-> > +#include "migration/vmstate.h"
-> >   #include "hw/boards.h"
-> >   #include "qom/object.h"
-> > @@ -404,9 +405,29 @@ static Property pxb_dev_properties[] = {
-> >       DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-> >       DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-> >       DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
-> > +    DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PXBDev,
-> > +                     migratable, true),
-> 
-> With it, do we create a user-visible property? If so, is it possible to avoid it?
-> 
-> >       DEFINE_PROP_END_OF_LIST(),
-> >   };
-> > +static bool pxb_vmstate_needed(void *opaque)
-> > +{
-> > +    PXBDev *pxb = opaque;
-> > +
-> > +    return pxb->migratable;
-> > +}
-> > +
-> > +static const VMStateDescription vmstate_pxb_device = {
-> > +    .name = "pxb-pci",
-> > +    .needed = pxb_vmstate_needed,
-> > +    .version_id = 1,
-> > +    .minimum_version_id = 1,
-> > +    .fields = (VMStateField[]) {
-> > +        VMSTATE_PCI_DEVICE(parent_obj, PXBDev),
-> > +        VMSTATE_END_OF_LIST()
-> > +    }
-> > +};
-> > +
-> >   static void pxb_dev_class_init(ObjectClass *klass, void *data)
-> >   {
-> >       DeviceClass *dc = DEVICE_CLASS(klass);
-> > @@ -422,6 +443,7 @@ static void pxb_dev_class_init(ObjectClass *klass, void *data)
-> >       device_class_set_props(dc, pxb_dev_properties);
-> >       dc->hotpluggable = false;
-> >       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-> > +    dc->vmsd = &vmstate_pxb_device;
-> >   }
-> >   static const TypeInfo pxb_dev_info = {
-> > @@ -460,6 +482,7 @@ static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
-> >       device_class_set_props(dc, pxb_dev_properties);
-> >       dc->hotpluggable = false;
-> >       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-> > +    dc->vmsd = &vmstate_pxb_device;
-> >   }
-> >   static const TypeInfo pxb_pcie_dev_info = {
-> > @@ -504,6 +527,7 @@ static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
-> >       /* Host bridges aren't hotpluggable. FIXME: spec reference */
-> >       dc->hotpluggable = false;
-> >       dc->reset = pxb_dev_reset;
-> > +    dc->vmsd = &vmstate_pxb_device;
-> >   }
-> >   static const TypeInfo pxb_cxl_dev_info = {
-> > diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-> > index ba4bafac7c2..404dc02e36e 100644
-> > --- a/include/hw/pci/pci_bridge.h
-> > +++ b/include/hw/pci/pci_bridge.h
-> > @@ -91,6 +91,7 @@ struct PXBDev {
-> >       uint8_t bus_nr;
-> >       uint16_t numa_node;
-> >       bool bypass_iommu;
-> > +    bool migratable;
-> >       struct cxl_dev {
-> >           CXLHost *cxl_host_bridge; /* Pointer to a CXLHost */
-> >       } cxl;
-> 
-> 
-> -- 
-> Best regards,
-> Vladimir
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index d541134632..6296130936 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -540,10 +540,11 @@ static void ppc4xx_gpt_set_irqs(Ppc405GptState *gpt)
+>   
+>       mask = 0x00008000;
+>       for (i = 0; i < 5; i++) {
+> -        if (gpt->is & gpt->im & mask)
+> +        if (gpt->is & gpt->im & mask) {
+>               qemu_irq_raise(gpt->irqs[i]);
+> -        else
+> +        } else {
+>               qemu_irq_lower(gpt->irqs[i]);
+> +        }
+>           mask = mask >> 1;
+>       }
+>   }
+> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+> index b14a9ef776..ea945a1c99 100644
+> --- a/hw/ppc/ppc440_bamboo.c
+> +++ b/hw/ppc/ppc440_bamboo.c
+> @@ -84,27 +84,30 @@ static int bamboo_load_device_tree(hwaddr addr,
+>   
+>       ret = qemu_fdt_setprop(fdt, "/memory", "reg", mem_reg_property,
+>                              sizeof(mem_reg_property));
+> -    if (ret < 0)
+> +    if (ret < 0) {
+>           fprintf(stderr, "couldn't set /memory/reg\n");
+> -
+> +    }
+>       ret = qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start",
+>                                   initrd_base);
+> -    if (ret < 0)
+> +    if (ret < 0) {
+>           fprintf(stderr, "couldn't set /chosen/linux,initrd-start\n");
+> -
+> +    }
+>       ret = qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end",
+>                                   (initrd_base + initrd_size));
+> -    if (ret < 0)
+> +    if (ret < 0) {
+>           fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
+> -
+> +    }
+>       ret = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+>                                     kernel_cmdline);
+> -    if (ret < 0)
+> +    if (ret < 0) {
+>           fprintf(stderr, "couldn't set /chosen/bootargs\n");
+> +    }
+>   
+> -    /* Copy data from the host device tree into the guest. Since the guest can
+> +    /*
+> +     * Copy data from the host device tree into the guest. Since the guest can
+>        * directly access the timebase without host involvement, we must expose
+> -     * the correct frequencies. */
+> +     * the correct frequencies.
+> +     */
+>       if (kvm_enabled()) {
+>           tb_freq = kvmppc_get_tbfreq();
+>           clock_freq = kvmppc_get_clockfreq();
+> @@ -246,8 +249,10 @@ static void bamboo_init(MachineState *machine)
+>       if (pcibus) {
+>           /* Register network interfaces. */
+>           for (i = 0; i < nb_nics; i++) {
+> -            /* There are no PCI NICs on the Bamboo board, but there are
+> -             * PCI slots, so we can pick whatever default model we want. */
+> +            /*
+> +             * There are no PCI NICs on the Bamboo board, but there are
+> +             * PCI slots, so we can pick whatever default model we want.
+> +             */
+>               pci_nic_init_nofail(&nd_table[i], pcibus, "e1000", NULL);
+>           }
+>       }
+> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+> index 11fdb88c22..53e981ddf4 100644
+> --- a/hw/ppc/ppc440_uc.c
+> +++ b/hw/ppc/ppc440_uc.c
+> @@ -1028,7 +1028,8 @@ void ppc4xx_dma_init(CPUPPCState *env, int dcr_base)
+>   
+>   /*****************************************************************************/
+>   /* PCI Express controller */
+> -/* FIXME: This is not complete and does not work, only implemented partially
+> +/*
+> + * FIXME: This is not complete and does not work, only implemented partially
+>    * to allow firmware and guests to find an empty bus. Cards should use PCI.
+>    */
+>   #include "hw/pci/pcie_host.h"
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index 27ebbb2ffc..ce38ae65e6 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -65,12 +65,12 @@ enum {
+>       SDRAM0_CFGDATA = 0x011,
+>   };
+>   
+> -/* XXX: TOFIX: some patches have made this code become inconsistent:
+> +/*
+> + * XXX: TOFIX: some patches have made this code become inconsistent:
+>    *      there are type inconsistencies, mixing hwaddr, target_ulong
+>    *      and uint32_t
+>    */
+> -static uint32_t sdram_bcr (hwaddr ram_base,
+> -                           hwaddr ram_size)
+> +static uint32_t sdram_bcr(hwaddr ram_base, hwaddr ram_size)
+>   {
+>       uint32_t bcr;
+>   
+> @@ -113,16 +113,17 @@ static inline hwaddr sdram_base(uint32_t bcr)
+>       return bcr & 0xFF800000;
+>   }
+>   
+> -static target_ulong sdram_size (uint32_t bcr)
+> +static target_ulong sdram_size(uint32_t bcr)
+>   {
+>       target_ulong size;
+>       int sh;
+>   
+>       sh = (bcr >> 17) & 0x7;
+> -    if (sh == 7)
+> +    if (sh == 7) {
+>           size = -1;
+> -    else
+> +    } else {
+>           size = (4 * MiB) << sh;
+> +    }
+>   
+>       return size;
+>   }
+> @@ -153,7 +154,7 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
+>       }
+>   }
+>   
+> -static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
+> +static void sdram_map_bcr(ppc4xx_sdram_t *sdram)
+>   {
+>       int i;
+>   
+> @@ -167,7 +168,7 @@ static void sdram_map_bcr (ppc4xx_sdram_t *sdram)
+>       }
+>   }
+>   
+> -static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
+> +static void sdram_unmap_bcr(ppc4xx_sdram_t *sdram)
+>   {
+>       int i;
+>   
+> @@ -179,7 +180,7 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
+>       }
+>   }
+>   
+> -static uint32_t dcr_read_sdram (void *opaque, int dcrn)
+> +static uint32_t dcr_read_sdram(void *opaque, int dcrn)
+>   {
+>       ppc4xx_sdram_t *sdram;
+>       uint32_t ret;
+> @@ -247,7 +248,7 @@ static uint32_t dcr_read_sdram (void *opaque, int dcrn)
+>       return ret;
+>   }
+>   
+> -static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
+> +static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
+>   {
+>       ppc4xx_sdram_t *sdram;
+>   
+> @@ -280,10 +281,11 @@ static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
+>                   sdram_unmap_bcr(sdram);
+>                   sdram->status |= 0x80000000;
+>               }
+> -            if (!(sdram->cfg & 0x40000000) && (val & 0x40000000))
+> +            if (!(sdram->cfg & 0x40000000) && (val & 0x40000000)) {
+>                   sdram->status |= 0x40000000;
+> -            else if ((sdram->cfg & 0x40000000) && !(val & 0x40000000))
+> +            } else if ((sdram->cfg & 0x40000000) && !(val & 0x40000000)) {
+>                   sdram->status &= ~0x40000000;
+> +            }
+>               sdram->cfg = val;
+>               break;
+>           case 0x24: /* SDRAM_STATUS */
+> @@ -315,10 +317,11 @@ static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
+>               break;
+>           case 0x98: /* SDRAM_ECCESR */
+>               val &= 0xFFF0F000;
+> -            if (sdram->eccesr == 0 && val != 0)
+> +            if (sdram->eccesr == 0 && val != 0) {
+>                   qemu_irq_raise(sdram->irq);
+> -            else if (sdram->eccesr != 0 && val == 0)
+> +            } else if (sdram->eccesr != 0 && val == 0) {
+>                   qemu_irq_lower(sdram->irq);
+> +            }
+>               sdram->eccesr = val;
+>               break;
+>           default: /* Error */
+> @@ -328,7 +331,7 @@ static void dcr_write_sdram (void *opaque, int dcrn, uint32_t val)
+>       }
+>   }
+>   
+> -static void sdram_reset (void *opaque)
+> +static void sdram_reset(void *opaque)
+>   {
+>       ppc4xx_sdram_t *sdram;
+>   
+> @@ -348,11 +351,11 @@ static void sdram_reset (void *opaque)
+>       sdram->cfg = 0x00800000;
+>   }
+>   
+> -void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+> -                        MemoryRegion *ram_memories,
+> -                        hwaddr *ram_bases,
+> -                        hwaddr *ram_sizes,
+> -                        int do_init)
+> +void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
+> +                       MemoryRegion *ram_memories,
+> +                       hwaddr *ram_bases,
+> +                       hwaddr *ram_sizes,
+> +                       int do_init)
+>   {
+>       ppc4xx_sdram_t *sdram;
+>   
+> @@ -371,8 +374,9 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+>                        sdram, &dcr_read_sdram, &dcr_write_sdram);
+>       ppc_dcr_register(env, SDRAM0_CFGDATA,
+>                        sdram, &dcr_read_sdram, &dcr_write_sdram);
+> -    if (do_init)
+> +    if (do_init) {
+>           sdram_map_bcr(sdram);
+> +    }
+>   }
+>   
+>   /*
+> @@ -429,7 +433,7 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+>           }
+>           error_report("at most %d bank%s of %s MiB each supported",
+>                        nr_banks, nr_banks == 1 ? "" : "s", s->str);
+> -        error_printf("Possible valid RAM size: %" PRIi64 " MiB \n",
+> +        error_printf("Possible valid RAM size: %" PRIi64 " MiB\n",
+>               used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
+>   
+>           g_string_free(s, true);
+> diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
+> index 5df97e6d15..8642b96455 100644
+> --- a/hw/ppc/ppc4xx_pci.c
+> +++ b/hw/ppc/ppc4xx_pci.c
+> @@ -16,8 +16,10 @@
+>    * Authors: Hollis Blanchard <hollisb@us.ibm.com>
+>    */
+>   
+> -/* This file implements emulation of the 32-bit PCI controller found in some
+> - * 4xx SoCs, such as the 440EP. */
+> +/*
+> + * This file implements emulation of the 32-bit PCI controller found in some
+> + * 4xx SoCs, such as the 440EP.
+> + */
+>   
+>   #include "qemu/osdep.h"
+>   #include "qemu/log.h"
+> @@ -65,8 +67,10 @@ struct PPC4xxPCIState {
+>   #define PCIC0_CFGADDR       0x0
+>   #define PCIC0_CFGDATA       0x4
+>   
+> -/* PLB Memory Map (PMM) registers specify which PLB addresses are translated to
+> - * PCI accesses. */
+> +/*
+> + * PLB Memory Map (PMM) registers specify which PLB addresses are translated to
+> + * PCI accesses.
+> + */
+>   #define PCIL0_PMM0LA        0x0
+>   #define PCIL0_PMM0MA        0x4
+>   #define PCIL0_PMM0PCILA     0x8
+> @@ -80,8 +84,10 @@ struct PPC4xxPCIState {
+>   #define PCIL0_PMM2PCILA     0x28
+>   #define PCIL0_PMM2PCIHA     0x2c
+>   
+> -/* PCI Target Map (PTM) registers specify which PCI addresses are translated to
+> - * PLB accesses. */
+> +/*
+> + * PCI Target Map (PTM) registers specify which PCI addresses are translated to
+> + * PLB accesses.
+> + */
+>   #define PCIL0_PTM1MS        0x30
+>   #define PCIL0_PTM1LA        0x34
+>   #define PCIL0_PTM2MS        0x38
+> @@ -96,9 +102,10 @@ static void ppc4xx_pci_reg_write4(void *opaque, hwaddr offset,
+>   {
+>       struct PPC4xxPCIState *pci = opaque;
+>   
+> -    /* We ignore all target attempts at PCI configuration, effectively
+> -     * assuming a bidirectional 1:1 mapping of PLB and PCI space. */
+> -
+> +    /*
+> +     * We ignore all target attempts at PCI configuration, effectively
+> +     * assuming a bidirectional 1:1 mapping of PLB and PCI space.
+> +     */
+>       switch (offset) {
+>       case PCIL0_PMM0LA:
+>           pci->pmm[0].la = value;
+> @@ -243,8 +250,10 @@ static void ppc4xx_pci_reset(void *opaque)
+>       memset(pci->ptm, 0, sizeof(pci->ptm));
+>   }
+>   
+> -/* On Bamboo, all pins from each slot are tied to a single board IRQ. This
+> - * may need further refactoring for other boards. */
+> +/*
+> + * On Bamboo, all pins from each slot are tied to a single board IRQ.
+> + * This may need further refactoring for other boards.
+> + */
+>   static int ppc4xx_pci_map_irq(PCIDevice *pci_dev, int irq_num)
+>   {
+>       int slot = PCI_SLOT(pci_dev->devfn);
 
 
