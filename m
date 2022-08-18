@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418525986D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 17:06:35 +0200 (CEST)
-Received: from localhost ([::1]:59298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF72B5986E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 17:08:24 +0200 (CEST)
+Received: from localhost ([::1]:42572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOh6Q-0000nH-3T
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 11:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
+	id 1oOh8B-0004fs-Vo
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 11:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1oOh1R-0003vO-LC
+ id 1oOh1R-0003vP-Hg
  for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:01:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43524)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1oOh1O-0004Tg-Kf
+ id 1oOh1O-0004cC-Kp
  for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:01:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660834877;
+ s=mimecast20190719; t=1660834880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uPup01qF1emgsUXVQK71huvudaiUaPDSW2n0MH/qlCI=;
- b=VTdz3SihdZlfR97JIlKMmRkfkCR2hLofzHktLDkO/1y0yC4ScMa3z51EZkX6AFo1pSMP1W
- RZHC9njyO/gC/jIgrXzIs0/T173FK85lm1AetXFqSFQtc6+cnkqtwpxQyz2KOwhr9s2+f5
- qtESNes0zDpL+T1jw6rzIHkr8Uo4oFA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZNtutvaNs+IyTdDaDfO0g848JBBjDcWXGm7EANLXEIg=;
+ b=WEdA2LQV+wWyYkoBvoTgfgPvEq9ne/DyiNchUV/6/Mtxyom2/GbjOcxG+1Ruc/Cmtdgmm+
+ wokCoz4f7T0WumjhKZRi1ib8Mijh2wt1x7PMOowLnP+59BGfcnerjWOSEBfbh2H37dAyJn
+ Q/SnAIPM5tTLwe2OKzOSu6CfWPQWEWk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-wVuGaDj5PsiMXoVnvU9r3w-1; Thu, 18 Aug 2022 11:01:15 -0400
-X-MC-Unique: wVuGaDj5PsiMXoVnvU9r3w-1
+ us-mta-102-RHK2Hng5Oluj4lKQNZPu8w-1; Thu, 18 Aug 2022 11:01:17 -0400
+X-MC-Unique: RHK2Hng5Oluj4lKQNZPu8w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 437B83826250;
- Thu, 18 Aug 2022 15:01:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB16E800124;
+ Thu, 18 Aug 2022 15:01:16 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58AC6404C6E3;
- Thu, 18 Aug 2022 15:01:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F2A340CFD05;
+ Thu, 18 Aug 2022 15:01:15 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
 Cc: Maxim Levitsky <mlevitsk@redhat.com>,
  Sean Christopherson <seanjc@google.com>
-Subject: [PATCH v1 0/2] i386: KVM: Fix 'system_reset' failures when vCPU is in
- VMX root operation
-Date: Thu, 18 Aug 2022 17:01:11 +0200
-Message-Id: <20220818150113.479917-1-vkuznets@redhat.com>
+Subject: [PATCH v1 1/2] i386: reset KVM nested state upon CPU reset
+Date: Thu, 18 Aug 2022 17:01:12 +0200
+Message-Id: <20220818150113.479917-2-vkuznets@redhat.com>
+In-Reply-To: <20220818150113.479917-1-vkuznets@redhat.com>
+References: <20220818150113.479917-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -79,42 +81,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since RFC:
-- Call kvm_put_msr_feature_control() before kvm_put_sregs2() to achieve
- the same result [Paolo].
-- Add Maxim's R-b to PATCH1.
+Make sure env->nested_state is cleaned up when a vCPU is reset, it may
+be stale after an incoming migration, kvm_arch_put_registers() may
+end up failing or putting vCPU in a weird state.
 
-It was discovered that Windows 11 with WSL2 (Hyper-V) enabled guests fail
-to reboot when QEMU's 'system_reset' command is issued. The problem appears
-to be that KVM_SET_SREGS2 fails because zeroed CR4 register value doesn't
-pass vmx_is_valid_cr4() check in KVM as certain bits can't be zero while in
-VMX root operation (post-VMXON). kvm_arch_put_registers() does call 
-kvm_put_nested_state() which is supposed to kick vCPU out of VMX root
-operation, however, it only does so after kvm_put_sregs2() and there's
-a good reason for that: 'real' nested state requires e.g. EFER.SVME to
-be set. 
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ target/i386/kvm/kvm.c | 37 +++++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
 
-The root cause of the issue seems to be that QEMU is doing quite a lot
-to forcefully reset a vCPU as KVM doesn't export kvm_vcpu_reset() (or,
-rather, it's super-set) yet. While all the numerous existing APIs for
-setting a vCPU state work fine for a newly created vCPU, using them for
-vCPU reset is a mess caused by various dependencies between different
-components of the state (VMX, SMM, MSRs, XCRs, CPUIDs, ...). It would've
-been possible to allow to set 'inconsistent' state and only validate it
-upon VCPU_RUN from the very beginning but that ship has long sailed for
-KVM. A new, dedicated API for vCPU reset is likely the way to go.
-
-Resolve the immediate issue by setting MSR_IA32_FEATURE_CONTROL before
-kvm_put_sregs2() (and kvm_put_nested_state()), this ensures vCPU gets
-kicked out of VMX root operation.
-
-Vitaly Kuznetsov (2):
-  i386: reset KVM nested state upon CPU reset
-  i386: do kvm_put_msr_feature_control() first thing when vCPU is reset
-
- target/i386/kvm/kvm.c | 54 +++++++++++++++++++++++++++++++------------
- 1 file changed, 39 insertions(+), 15 deletions(-)
-
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index f148a6d52fa4..4f8dacc1d4b5 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -1695,6 +1695,30 @@ static void kvm_init_xsave(CPUX86State *env)
+            env->xsave_buf_len);
+ }
+ 
++static void kvm_init_nested_state(CPUX86State *env)
++{
++    struct kvm_vmx_nested_state_hdr *vmx_hdr;
++    uint32_t size;
++
++    if (!env->nested_state) {
++        return;
++    }
++
++    size = env->nested_state->size;
++
++    memset(env->nested_state, 0, size);
++    env->nested_state->size = size;
++
++    if (cpu_has_vmx(env)) {
++        env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
++        vmx_hdr = &env->nested_state->hdr.vmx;
++        vmx_hdr->vmxon_pa = -1ull;
++        vmx_hdr->vmcs12_pa = -1ull;
++    } else if (cpu_has_svm(env)) {
++        env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
++    }
++}
++
+ int kvm_arch_init_vcpu(CPUState *cs)
+ {
+     struct {
+@@ -2122,19 +2146,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         assert(max_nested_state_len >= offsetof(struct kvm_nested_state, data));
+ 
+         if (cpu_has_vmx(env) || cpu_has_svm(env)) {
+-            struct kvm_vmx_nested_state_hdr *vmx_hdr;
+-
+             env->nested_state = g_malloc0(max_nested_state_len);
+             env->nested_state->size = max_nested_state_len;
+ 
+-            if (cpu_has_vmx(env)) {
+-                env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
+-                vmx_hdr = &env->nested_state->hdr.vmx;
+-                vmx_hdr->vmxon_pa = -1ull;
+-                vmx_hdr->vmcs12_pa = -1ull;
+-            } else {
+-                env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
+-            }
++            kvm_init_nested_state(env);
+         }
+     }
+ 
+@@ -2199,6 +2214,8 @@ void kvm_arch_reset_vcpu(X86CPU *cpu)
+     /* enabled by default */
+     env->poll_control_msr = 1;
+ 
++    kvm_init_nested_state(env);
++
+     sev_es_set_reset_vector(CPU(cpu));
+ }
+ 
 -- 
 2.37.1
 
