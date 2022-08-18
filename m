@@ -2,55 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6274598893
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 18:20:06 +0200 (CEST)
-Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0200A598899
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 18:23:25 +0200 (CEST)
+Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOiFX-0005ri-Pv
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 12:20:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
+	id 1oOiIl-0001aA-L9
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 12:23:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oOiA9-0000XI-OJ; Thu, 18 Aug 2022 12:14:29 -0400
-Received: from [200.168.210.66] (port=2953 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oOiA7-0004eK-MD; Thu, 18 Aug 2022 12:14:29 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 18 Aug 2022 13:14:23 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 58B1D800131;
- Thu, 18 Aug 2022 13:14:23 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------JUrwKKy9k0k0oiRYJZpnvYQg"
-Message-ID: <e301324f-819f-837f-edcf-c41929a89570@eldorado.org.br>
-Date: Thu, 18 Aug 2022 13:14:22 -0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oOiFU-00068v-7l
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:20:00 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:45858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oOiFO-0006O8-I4
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:19:58 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-3246910dac3so54086487b3.12
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 09:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=Lk6fHSRFoGl7Z7855YfvNidtexf4QuouIGqk9100AAo=;
+ b=ijL3nDoYI50fVSSPuvBatxzzw9FuPzUCZ58vd6Ng+1KEfmJGoOaOLKQ4EL0O1hTBRl
+ 9iqISZb530qrtda10+kEx7w+NMahMVYMVS/o+XBf2Kx/5179pfJ9lS3r96I948cmCA99
+ hqHx0hMM58wV3SPLGWeSOoX8WwkaVfO7+tPY8wKigenYUECgoCumxPXwAAGM8k4Yi5Sm
+ WM4R/pqPd+EMn242ciuc+z5TP5Ar2ZTCWLw67NAYlJ/csFiKYm2csg3AZyuz7yU4nYCq
+ mdgwIhGFk/Gnjt37466ezEXeQiZYZp6HNTvHh/slqwKPfjgZmAJCyr0jfc3LruO/KDJa
+ ct1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Lk6fHSRFoGl7Z7855YfvNidtexf4QuouIGqk9100AAo=;
+ b=y0zQfjinJWg2kybeT+3Zxm/bOwlbMVBKLy8q9Z/uQn0qw4RVQFGsiTEIAhKLB2BSpq
+ 06rPo6tQJqrGgm/tgHyl8mv3+Ls0UjQkYNvmg9kTvDB1VKuYYYo0L7LRwTB2xX3hceQ2
+ 8a5tdr8i1g6uLy7T+JPeUd3ovn3h8TNjx/bJKEO/Q3DWayJkXXdFfg2hr0Ly9HI9Nqfx
+ d3e5vOEW4/7oahskd9uYW8LEnuD7pW6CNExcYOt71cuxovRXoAu7JJiiiHOswrU0Jgs1
+ vgCoMT60I9aAdvp0lMm3Fzv4mkb4tKVZPx723WtGoTLS6i+Bc1t8+zuNM0jeHCdmMPLB
+ KKYg==
+X-Gm-Message-State: ACgBeo1hOgFNKvNpzPux0fEj8KaIymFBBZz2lCitCqD8TaxEWyZboH/h
+ gBLy8AfxYKaNq9SeH5C0W2uic61hN+HH8ripzcMHoQ==
+X-Google-Smtp-Source: AA6agR5+hSlQmM5HOb4JpRHr0Rb9TyUPp96AC63PHF6OIbuCypdXDwoASBj/3O2LSpu+wNauQB3A0R+IhNO7ZBUnqFQ=
+X-Received: by 2002:a81:10a:0:b0:333:618e:190b with SMTP id
+ 10-20020a81010a000000b00333618e190bmr3382104ywb.10.1660839592980; Thu, 18 Aug
+ 2022 09:19:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] tests/tcg/ppc64le: Added an overflow with OE=1 test
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Cc: danielhb413@gmail.com
-References: <20220817165704.165291-1-lucas.araujo@eldorado.org.br>
- <b219c68d-76e2-dd95-7855-99a58b5e5e95@linaro.org>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <b219c68d-76e2-dd95-7855-99a58b5e5e95@linaro.org>
-X-OriginalArrivalTime: 18 Aug 2022 16:14:23.0556 (UTC)
- FILETIME=[9493B040:01D8B31D]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <ae24ca7c-fc8e-ae34-5f0f-0d70840efdbe@eldorado.org.br>
+ <b2c49e7f-9b62-86bc-d714-77367df702ca@eldorado.org.br>
+In-Reply-To: <b2c49e7f-9b62-86bc-d714-77367df702ca@eldorado.org.br>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 18 Aug 2022 17:19:11 +0100
+Message-ID: <CAFEAcA_8JUgKPM=XF4_94ecJtgrt1Tz1RcMHqZHbVpn_bWwMHQ@mail.gmail.com>
+Subject: Re: Using Unicamp's Minicloud for the QEMU CI
+To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+Cc: qemu-devel@nongnu.org, qemu-ppc <qemu-ppc@nongnu.org>, 
+ Rafael Peria de Sene <rpsene@br.ibm.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,121 +90,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------JUrwKKy9k0k0oiRYJZpnvYQg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, 18 Aug 2022 at 17:11, Lucas Mateus Martins Araujo e Castro
+<lucas.araujo@eldorado.org.br> wrote:
+> Lucas wrote:
+>> I would like gauge the interest in using Minicloud's infrastructure[1]
+>> for the CI, talking with some people from there they are interested.
+>> It has both ppc64 and pp64le images, multiple versions of 4 distros
+>> (Ubuntu, Fedora, Debian and CentOS).
 
-DQpPbiAxOC8wOC8yMDIyIDEyOjMyLCBSaWNoYXJkIEhlbmRlcnNvbiB3cm90ZToNCj4gT24g
-OC8xNy8yMiAwOTo1NywgTHVjYXMgTWF0ZXVzIENhc3RybyhhbHFvdGVsKSB3cm90ZToNCj4+
-ICt2b2lkIHNpZ2ZwZV9oYW5kbGVyKGludCBzaWcsIHNpZ2luZm9fdCAqc2ksIHZvaWQgKnVj
-b250ZXh0KQ0KPj4gK3sNCj4+ICvCoMKgwqAgdWludDY0X3QgdDsNCj4+ICvCoMKgwqAgdWlu
-dDY0X3QgY2ggPSAweDVmY2ZmZmU0OTY1YTE3ZTB1bGw7DQo+PiArwqDCoMKgIGFzbSAoDQo+
-PiArwqDCoMKgwqDCoMKgwqAgInN0ZmQgMiwgJTBcblx0Ig0KPj4gK8KgwqDCoMKgwqDCoMKg
-IDogIj1tIih0KQ0KPj4gK8KgwqDCoMKgwqDCoMKgIDoNCj4+ICvCoMKgwqDCoMKgwqDCoCA6
-ICJtZW1vcnkiLCAiZnIyIg0KPj4gK8KgwqDCoCApOw0KPg0KPiBObywgeW91IG5lZWQgdG8g
-ZmV0Y2ggZjIgZnJvbSB1Y29udGV4dC7CoCBUaGVyZSdzIG5vIGd1YXJhbnRlZSBvZiBhbnkg
-DQo+IHNwZWNpZmljIHZhbHVlcyBiZWluZw0KPiBwcmVzZW50IGluIHRoZSBzaWduYWwgaGFu
-ZGxlciBvdGhlcndpc2UuDQpZZWFoLCBmb3Igc29tZSByZWFzb24gSSBjb21wbGV0ZWx5IGZv
-cmdvdCBhYm91dCB0aGlzLCBteSBiYWQuIEknbGwgc2VuZCANCmEgc2Vjb25kIHZlcnNpb24g
-Zml4aW5nIHRoaXMNCj4NCj4+ICvCoMKgwqAgcmV0dXJuIC0xOw0KPg0KPiBleGl0KC0xKSwg
-d2hpY2ggcmV0dXJuIGZyb20gbWFpbiBlcXVhdGVzIHRvLCBoZWxwZnVsIG92ZXIgRVhJVF9G
-QUlMVVJFLg0KPiBCdXQgaGVyZSBJJ2QgdGVuZCB0byBhYm9ydCgpLCBzaW5jZSBpdCByZWFs
-bHkgc2hvdWxkbid0IGJlIHJlYWNoYWJsZS4NCkdvb2QgcG9pbnQsIEknbGwgY2hhbmdlIGlu
-IHYyDQo+DQo+DQo+IHJ+DQotLSANCkx1Y2FzIE1hdGV1cyBNLiBBcmF1am8gZSBDYXN0cm8N
-Ckluc3RpdHV0byBkZSBQZXNxdWlzYXMgRUxET1JBRE8gDQo8aHR0cHM6Ly93d3cuZWxkb3Jh
-ZG8ub3JnLmJyLz91dG1fY2FtcGFpZ249YXNzaW5hdHVyYV9kZV9lLW1haWwmdXRtX21lZGl1
-bT1lbWFpbCZ1dG1fc291cmNlPVJEK1N0YXRpb24+DQpEZXBhcnRhbWVudG8gQ29tcHV0YcOn
-w6NvIEVtYmFyY2FkYQ0KQW5hbGlzdGEgZGUgU29mdHdhcmUgVHJhaW5lZQ0KQXZpc28gTGVn
-YWwgLSBEaXNjbGFpbWVyIDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1l
-ci5odG1sPg0K
---------------JUrwKKy9k0k0oiRYJZpnvYQg
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> ping
+>
+> Any interest in this?
 
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 18/08/2022 12:32, Richard Henderson=
+PPC host is something we're currently missing in our testing, so definitely
+yes in principle. I don't know what the specifics of getting new runners
+set up is, though. Alex ?
 
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:b219c68d-76e2-dd95-7855-99a58b5e5e95@linaro.org">On
-      8/17/22 09:57, Lucas Mateus Castro(alqotel) wrote:
-      <br>
-      <blockquote type=3D"cite">+void sigfpe_handler(int sig, siginfo_t
-        *si, void *ucontext)
-        <br>
-        +{
-        <br>
-        +=C2=A0=C2=A0=C2=A0 uint64_t t;
-        <br>
-        +=C2=A0=C2=A0=C2=A0 uint64_t ch =3D 0x5fcfffe4965a17e0ull;
-        <br>
-        +=C2=A0=C2=A0=C2=A0 asm (
-        <br>
-        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "stfd 2, %0\n\t"
-        <br>
-        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : "=3Dm"(t)
-        <br>
-        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :
-        <br>
-        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : "memory", "fr2"
-        <br>
-        +=C2=A0=C2=A0=C2=A0 );
-        <br>
-      </blockquote>
-      <br>
-      No, you need to fetch f2 from ucontext.=C2=A0 There's no guarantee =
-of
-      any specific values being
-      <br>
-      present in the signal handler otherwise.
-      <br>
-    </blockquote>
-    Yeah, for some reason I completely forgot about this, my bad. I'll
-    send a second version fixing this<br>
-    <blockquote type=3D"cite"
-      cite=3D"mid:b219c68d-76e2-dd95-7855-99a58b5e5e95@linaro.org">
-      <br>
-      <blockquote type=3D"cite">+=C2=A0=C2=A0=C2=A0 return -1;
-        <br>
-      </blockquote>
-      <br>
-      exit(-1), which return from main equates to, helpful over
-      EXIT_FAILURE.
-      <br>
-      But here I'd tend to abort(), since it really shouldn't be
-      reachable.
-      <br>
-    </blockquote>
-    Good point, I'll change in v2<br>
-    <blockquote type=3D"cite"
-      cite=3D"mid:b219c68d-76e2-dd95-7855-99a58b5e5e95@linaro.org">
-      <br>
-      <br>
-      r~
-      <br>
-    </blockquote>
-    <div class=3D"moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href=3D"https://www.eldorado.org.br/?utm_campaign=3Dassinatura_de_e-mail&=
-amp;utm_medium=3Demail&amp;utm_source=3DRD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computa=C3=A7=C3=A3o Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href=3D"https://www.eldorado.org.br/disclaimer.html">Aviso Legal=
-
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------JUrwKKy9k0k0oiRYJZpnvYQg--
+thanks
+-- PMM
 
