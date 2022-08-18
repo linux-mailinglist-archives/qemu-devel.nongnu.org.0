@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D670598126
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 11:56:40 +0200 (CEST)
-Received: from localhost ([::1]:59770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF82A59812E
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 11:59:53 +0200 (CEST)
+Received: from localhost ([::1]:39722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOcGV-00028N-63
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 05:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55296)
+	id 1oOcJb-000644-Ux
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 05:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ling1.xu@intel.com>)
- id 1oObwl-0007nJ-9O
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:36:22 -0400
-Received: from mga14.intel.com ([192.55.52.115]:6877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ling1.xu@intel.com>)
- id 1oObwi-0003zT-3s
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:36:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660815372; x=1692351372;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8u59AutCz/2JxSxCAgBK75k3MJzrZ4K4Arv1S6Pc7Yg=;
- b=NMuSWlnE3fYsVHUvERD2zlNE1A+/OB1mn8a1Cf1PycMRnd1bs1vcoILA
- 5jUHygH2lmPLY8etvN7l8LydwbaJw54dmyJAAAze9qpQef5g1SJw8pt9H
- Kcv4jREg2To1wrQ8wItX8uTBPil0zC0ENi7z3xHUvWbJL0W3YCA3tsAH4
- 63x93qqpYyf5ifRlMLnjPeSqOS6FVfpSwVOJiNbsS7Nns1Y2HRIkPFLzj
- lI6TsSzntcrLWChN+yEONIB7ZbyKI7g0DyROdnTh1Vbupdir68mXC5BNn
- NdQLtxfmCENyFpddmloxPjDvA2EAxjIh5PmB916BnTVZrR9xysbRLCkjn g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="292713294"
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; d="scan'208";a="292713294"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2022 02:36:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; d="scan'208";a="584141641"
-Received: from xuling-b360m-d3h.sh.intel.com ([10.239.82.110])
- by orsmga006.jf.intel.com with ESMTP; 18 Aug 2022 02:36:08 -0700
-From: ling xu <ling1.xu@intel.com>
-To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com, dgilbert@redhat.com, ling xu <ling1.xu@intel.com>,
- Zhou Zhao <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>
-Subject: [PATCH v5 2/2] Test code and benchmark code
-Date: Thu, 18 Aug 2022 17:35:59 +0800
-Message-Id: <20220818093559.2342594-3-ling1.xu@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220818093559.2342594-1-ling1.xu@intel.com>
-References: <20220818093559.2342594-1-ling1.xu@intel.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oOc0U-0001UX-PS
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:40:06 -0400
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:44709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oOc0S-0004r0-Rm
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:40:06 -0400
+Received: by mail-lj1-x236.google.com with SMTP id by6so1158998ljb.11
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 02:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=YyNAmbk6BScLb0n7Qfq5FK+Uel9G30CPB0dt1HzyKco=;
+ b=kloj1NI4yXwAmxjWRVB8FauzEeKXpXQ7oAU2CkUhMLp8ST1WjHhGM5+RwTq2PUtfOB
+ ECbGl3+iNxvKkt2rHXUhDFekGiohgzj5qF+Zhd0WhexdIkvzhyvicEvHMeUaqGVYPc/m
+ hFq3QjIexzL9177YyKn6dbDXOXAMd82HWl/iw65PQNxlr/D+V12wVzoyF7G6+D3fnZ84
+ 3qw6Cc0IBeIuxVsw2jy2xZoDFxCR/zGkJlHRYECOaWAF7vyLplYXnAVlkEPsmLNNfnrO
+ MrHIF10PjTWutwi9hWhggMe2YT0BJPtF+3XwzFXhMDjgNwTfF1k6HRnTMnihCEdksYc3
+ BNjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=YyNAmbk6BScLb0n7Qfq5FK+Uel9G30CPB0dt1HzyKco=;
+ b=aDvbvTpH1Z7fgLz8MeHCbxqUsqyYiDVdi3Zte0VA+57x/+krxoI0WUERhOq/mYHxdh
+ 4LeVycbfXBInAxuelER50Y7CjhKcpSQTWoiBWtLw6J3KH+egGYpTMu4YmMVs2IS+zXkI
+ nz5mGLac7nVFNydYb+nzz6kJgMRcr/Lq5AAtMxMhoGFKfJ9f6bdFgb8mwwLsSCs0c5Vk
+ ZKCGGSmQlED/ZuAgmot9UwNXBjCD7exZobNr5imVTghByD1tdjqc6Zl+3iUbCpfn01sM
+ Um4bV6W6Etk6rZSFN65aFGXRAOQEIUfun2b0nTjIQEanT4j0F5UrlvnKF8LIfmY1uudr
+ eYqQ==
+X-Gm-Message-State: ACgBeo1cw2YjGAgfnCGRk6fKmi+TMHW1bjarvusFlfNkbCGEI1gP79V2
+ elYVipaTvjMxnkky+mVpjYME2g9ZOvjptVFm7dY=
+X-Google-Smtp-Source: AA6agR4fK4fUCEQ+buiitYTe6mljcxIrG5qCQ8et0JQgvu15bGMq9mIkogI2cNT3wg0HztX9Ny8oe2vYorJ8QHJQsZw=
+X-Received: by 2002:a05:651c:a04:b0:25e:753b:db42 with SMTP id
+ k4-20020a05651c0a0400b0025e753bdb42mr631338ljq.529.1660815601995; Thu, 18 Aug
+ 2022 02:40:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=ling1.xu@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220818092943.106451-1-pbonzini@redhat.com>
+In-Reply-To: <20220818092943.106451-1-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 18 Aug 2022 13:39:50 +0400
+Message-ID: <CAJ+F1CL9TmUacdmYaeu_nE3tO_Wrg3KaO66HJGtDF_Dwr2pStQ@mail.gmail.com>
+Subject: Re: [PATCH] meson: remove dead code
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000fe94df05e680c3fb"
+Received-SPF: pass client-ip=2a00:1450:4864:20::236;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x236.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,594 +82,220 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test code in test-xbzrle.c, benchmark code in xbzrle-bench.c for
-performance benchmarking.
+--000000000000fe94df05e680c3fb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: ling xu <ling1.xu@intel.com>
-Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
-Co-authored-by: Jun Jin <jun.i.jin@intel.com>
----
- tests/bench/meson.build    |   4 +
- tests/bench/xbzrle-bench.c | 468 +++++++++++++++++++++++++++++++++++++
- tests/unit/test-xbzrle.c   |  39 +++-
- 3 files changed, 506 insertions(+), 5 deletions(-)
- create mode 100644 tests/bench/xbzrle-bench.c
+On Thu, Aug 18, 2022 at 1:31 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-diff --git a/tests/bench/meson.build b/tests/bench/meson.build
-index 279a8fcc33..daefead58d 100644
---- a/tests/bench/meson.build
-+++ b/tests/bench/meson.build
-@@ -3,6 +3,10 @@ qht_bench = executable('qht-bench',
-                        sources: 'qht-bench.c',
-                        dependencies: [qemuutil])
- 
-+xbzrle_bench = executable('xbzrle-bench',
-+                       sources: 'xbzrle-bench.c',
-+                       dependencies: [qemuutil,migration])
-+
- executable('atomic_add-bench',
-            sources: files('atomic_add-bench.c'),
-            dependencies: [qemuutil],
-diff --git a/tests/bench/xbzrle-bench.c b/tests/bench/xbzrle-bench.c
-new file mode 100644
-index 0000000000..6ffac62e15
---- /dev/null
-+++ b/tests/bench/xbzrle-bench.c
-@@ -0,0 +1,468 @@
-+/*
-+ * Xor Based Zero Run Length Encoding unit tests.
-+ *
-+ * Copyright 2013 Red Hat, Inc. and/or its affiliates
-+ *
-+ * Authors:
-+ *  Orit Wasserman  <owasserm@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+#include "qemu/osdep.h"
-+#include "qemu/cutils.h"
-+#include "../migration/xbzrle.h"
-+
-+#define XBZRLE_PAGE_SIZE 4096
-+
-+//int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
-+//     uint8_t *, int) = xbzrle_encode_buffer;
-+#if defined(CONFIG_AVX512BW_OPT)
-+static bool is_cpu_support_avx512bw;
-+#include "qemu/cpuid.h"
-+static void __attribute__((constructor)) init_cpu_flag(void)
-+{
-+    unsigned max = __get_cpuid_max(0, NULL);
-+    int a, b, c, d;
-+    is_cpu_support_avx512bw = false;
-+    if (max >= 1) {
-+        __cpuid(1, a, b, c, d);
-+         /* We must check that AVX is not just available, but usable.  */
-+        if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
-+            int bv;
-+            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-+            __cpuid_count(7, 0, a, b, c, d);
-+           /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512BW)) {
-+                //xbzrle_encode_buffer_func = xbzrle_encode_buffer_avx512;
-+                is_cpu_support_avx512bw = true;
-+            }
-+        }
-+    }
-+    return ;
-+}
-+#endif
-+
-+struct ResTime{
-+    float t_raw;
-+    float t_512;
-+};
-+
-+static void encode_decode_zero(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0;
-+    int dlen = 0, dlen512 = 0;
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        buffer[1000 + i] = i;
-+        buffer512[1000 + i] = i;
-+    }
-+
-+    buffer[1000 + diff_len + 3] = 103;
-+    buffer[1000 + diff_len + 5] = 105;
-+
-+    buffer512[1000 + diff_len + 3] = 103;
-+    buffer512[1000 + diff_len + 5] = 105;
-+
-+    /* encode zero page */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                       XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(buffer512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+
-+}
-+
-+static void test_encode_decode_zero_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_zero(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Zero test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_unchanged(struct ResTime *res)
-+{
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0;
-+    int dlen = 0, dlen512 = 0;
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        test[1000 + i] = i + 4;
-+        test512[1000 + i] = i + 4;
-+    }
-+
-+    test[1000 + diff_len + 3] = 107;
-+    test[1000 + diff_len + 5] = 109;
-+
-+    test512[1000 + diff_len + 3] = 107;
-+    test512[1000 + diff_len + 5] = 109;
-+
-+    /* test unchanged buffer */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, test, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, test512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(test);
-+    g_free(compressed);
-+    g_free(test512);
-+    g_free(compressed512);
-+
-+}
-+
-+static void test_encode_decode_unchanged_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_unchanged(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Unchanged test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_1_byte(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    int dlen = 0, rc = 0, dlen512 = 0, rc512 = 0;
-+    uint8_t buf[2];
-+    uint8_t buf512[2];
-+
-+    test[XBZRLE_PAGE_SIZE - 1] = 1;
-+    test512[XBZRLE_PAGE_SIZE - 1] = 1;
-+
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+                       XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(dlen == (uleb128_encode_small(&buf[0], 4095) + 2));
-+
-+    rc = xbzrle_decode_buffer(compressed, dlen, buffer, XBZRLE_PAGE_SIZE);
-+    g_assert(rc == XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test, buffer, XBZRLE_PAGE_SIZE) == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(buffer512, test512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(dlen512 == (uleb128_encode_small(&buf512[0], 4095) + 2));
-+
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, buffer512,
-+                                 XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 == XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test512, buffer512, XBZRLE_PAGE_SIZE) == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_1_byte_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_1_byte(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("1 byte test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_overflow(struct ResTime *res)
-+{
-+    uint8_t *compressed = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+
-+    for (i = 0; i < XBZRLE_PAGE_SIZE / 2 - 1; i++) {
-+        test[i * 2] = 1;
-+        test512[i * 2] = 1;
-+    }
-+
-+    /* encode overflow */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    rc = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+                              XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    g_assert(rc == -1);
-+
-+    t_start512 = clock();
-+    rc512 = xbzrle_encode_buffer_avx512(buffer512, test512, XBZRLE_PAGE_SIZE,
-+                                     compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    g_assert(rc512 == -1);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_overflow_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_overflow(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Overflow test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_range_avx512(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+    int dlen = 0, dlen512 = 0;
-+
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1006);
-+
-+    for (i = diff_len; i > 0; i--) {
-+        buffer[1000 + i] = i;
-+        test[1000 + i] = i + 4;
-+        buffer512[1000 + i] = i;
-+        test512[1000 + i] = i + 4;
-+    }
-+
-+    buffer[1000 + diff_len + 3] = 103;
-+    test[1000 + diff_len + 3] = 107;
-+
-+    buffer[1000 + diff_len + 5] = 105;
-+    test[1000 + diff_len + 5] = 109;
-+
-+    buffer512[1000 + diff_len + 3] = 103;
-+    test512[1000 + diff_len + 3] = 107;
-+
-+    buffer512[1000 + diff_len + 5] = 105;
-+    test512[1000 + diff_len + 5] = 109;
-+
-+    /* test encode/decode */
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
-+    g_assert(rc < XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test, buffer, XBZRLE_PAGE_SIZE) == 0);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, test512, XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 < XBZRLE_PAGE_SIZE);
-+    g_assert(memcmp(test512, buffer512, XBZRLE_PAGE_SIZE) == 0);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_range_avx512(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Encode decode test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+static void encode_decode_random(struct ResTime *res)
-+{
-+    uint8_t *buffer = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *buffer512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    uint8_t *compressed512 = g_malloc(XBZRLE_PAGE_SIZE);
-+    uint8_t *test512 = g_malloc0(XBZRLE_PAGE_SIZE);
-+    int i = 0, rc = 0, rc512 = 0;
-+    int dlen = 0, dlen512 = 0;
-+
-+    int diff_len = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1);
-+    /* store the index of diff */
-+    int dirty_index[diff_len];
-+    for (int j = 0; j < diff_len; j++) {
-+        dirty_index[j] = g_test_rand_int_range(0, XBZRLE_PAGE_SIZE - 1);
-+    }
-+    for (i = diff_len - 1; i >= 0; i--) {
-+        buffer[dirty_index[i]] = i;
-+        test[dirty_index[i]] = i + 4;
-+        buffer512[dirty_index[i]] = i;
-+        test512[dirty_index[i]] = i + 4;
-+    }
-+
-+    time_t t_start, t_end, t_start512, t_end512;
-+    t_start = clock();
-+    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+                                XBZRLE_PAGE_SIZE);
-+    t_end = clock();
-+    float time_val = difftime(t_end, t_start);
-+    rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
-+    g_assert(rc < XBZRLE_PAGE_SIZE);
-+
-+    t_start512 = clock();
-+    dlen512 = xbzrle_encode_buffer_avx512(test512, buffer512, XBZRLE_PAGE_SIZE,
-+                                       compressed512, XBZRLE_PAGE_SIZE);
-+    t_end512 = clock();
-+    float time_val512 = difftime(t_end512, t_start512);
-+    rc512 = xbzrle_decode_buffer(compressed512, dlen512, test512, XBZRLE_PAGE_SIZE);
-+    g_assert(rc512 < XBZRLE_PAGE_SIZE);
-+
-+    res->t_raw = time_val;
-+    res->t_512 = time_val512;
-+
-+    g_free(buffer);
-+    g_free(compressed);
-+    g_free(test);
-+    g_free(buffer512);
-+    g_free(compressed512);
-+    g_free(test512);
-+
-+}
-+
-+static void test_encode_decode_random_avx512(void)
-+{
-+    int i;
-+    float time_raw = 0.0, time_512 = 0.0;
-+    struct ResTime res;
-+    for (i = 0; i < 10000; i++) {
-+        encode_decode_random(&res);
-+        time_raw += res.t_raw;
-+        time_512 += res.t_512;
-+    }
-+    printf("Random test:\n");
-+    printf("Raw xbzrle_encode time is %f ms\n", time_raw);
-+    printf("512 xbzrle_encode time is %f ms\n", time_512);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+    g_test_rand_int();
-+    #if defined(CONFIG_AVX512BW_OPT)
-+    if (likely(is_cpu_support_avx512bw)) {
-+        g_test_add_func("/xbzrle/encode_decode_zero", test_encode_decode_zero_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_unchanged",
-+                        test_encode_decode_unchanged_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_1_byte", test_encode_decode_1_byte_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_overflow",
-+                        test_encode_decode_overflow_avx512);
-+        g_test_add_func("/xbzrle/encode_decode", test_encode_decode_avx512);
-+        g_test_add_func("/xbzrle/encode_decode_random", test_encode_decode_random_avx512);
-+    }
-+    #endif
-+    return g_test_run();
-+}
-diff --git a/tests/unit/test-xbzrle.c b/tests/unit/test-xbzrle.c
-index ef951b6e54..547046d093 100644
---- a/tests/unit/test-xbzrle.c
-+++ b/tests/unit/test-xbzrle.c
-@@ -16,6 +16,35 @@
- 
- #define XBZRLE_PAGE_SIZE 4096
- 
-+int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
-+     uint8_t *, int) = xbzrle_encode_buffer;
-+#if defined(CONFIG_AVX512BW_OPT)
-+#include "qemu/cpuid.h"
-+static void __attribute__((constructor)) init_cpu_flag(void)
-+{
-+    unsigned max = __get_cpuid_max(0, NULL);
-+    int a, b, c, d;
-+    if (max >= 1) {
-+        __cpuid(1, a, b, c, d);
-+         /* We must check that AVX is not just available, but usable.  */
-+        if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
-+            int bv;
-+            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-+            __cpuid_count(7, 0, a, b, c, d);
-+           /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512BW)) {
-+                xbzrle_encode_buffer_func = xbzrle_encode_buffer_avx512;
-+            }
-+        }
-+    }
-+    return ;
-+}
-+#endif
-+
- static void test_uleb(void)
- {
-     uint32_t i, val;
-@@ -54,7 +83,7 @@ static void test_encode_decode_zero(void)
-     buffer[1000 + diff_len + 5] = 105;
- 
-     /* encode zero page */
--    dlen = xbzrle_encode_buffer(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(buffer, buffer, XBZRLE_PAGE_SIZE, compressed,
-                        XBZRLE_PAGE_SIZE);
-     g_assert(dlen == 0);
- 
-@@ -78,7 +107,7 @@ static void test_encode_decode_unchanged(void)
-     test[1000 + diff_len + 5] = 109;
- 
-     /* test unchanged buffer */
--    dlen = xbzrle_encode_buffer(test, test, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(test, test, XBZRLE_PAGE_SIZE, compressed,
-                                 XBZRLE_PAGE_SIZE);
-     g_assert(dlen == 0);
- 
-@@ -96,7 +125,7 @@ static void test_encode_decode_1_byte(void)
- 
-     test[XBZRLE_PAGE_SIZE - 1] = 1;
- 
--    dlen = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-                        XBZRLE_PAGE_SIZE);
-     g_assert(dlen == (uleb128_encode_small(&buf[0], 4095) + 2));
- 
-@@ -121,7 +150,7 @@ static void test_encode_decode_overflow(void)
-     }
- 
-     /* encode overflow */
--    rc = xbzrle_encode_buffer(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-+    rc = xbzrle_encode_buffer_func(buffer, test, XBZRLE_PAGE_SIZE, compressed,
-                               XBZRLE_PAGE_SIZE);
-     g_assert(rc == -1);
- 
-@@ -152,7 +181,7 @@ static void encode_decode_range(void)
-     test[1000 + diff_len + 5] = 109;
- 
-     /* test encode/decode */
--    dlen = xbzrle_encode_buffer(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-+    dlen = xbzrle_encode_buffer_func(test, buffer, XBZRLE_PAGE_SIZE, compressed,
-                                 XBZRLE_PAGE_SIZE);
- 
-     rc = xbzrle_decode_buffer(compressed, dlen, test, XBZRLE_PAGE_SIZE);
--- 
-2.25.1
+> Found with "muon analyze".
+>
 
+nice
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  meson.build                 |  2 --
+>  pc-bios/keymaps/meson.build |  1 -
+>  qapi/meson.build            | 15 ---------------
+>  target/riscv/meson.build    |  2 --
+>  4 files changed, 20 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 30a380752c..8e927fc457 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -3405,7 +3405,6 @@ foreach target : target_dirs
+>      target_inc +=3D include_directories('linux-headers', is_system: true=
+)
+>    endif
+>    if target.endswith('-softmmu')
+> -    qemu_target_name =3D 'qemu-system-' + target_name
+>      target_type=3D'system'
+>      t =3D target_softmmu_arch[target_base_arch].apply(config_target,
+> strict: false)
+>      arch_srcs +=3D t.sources()
+> @@ -3422,7 +3421,6 @@ foreach target : target_dirs
+>      abi =3D config_target['TARGET_ABI_DIR']
+>      target_type=3D'user'
+>      target_inc +=3D common_user_inc
+> -    qemu_target_name =3D 'qemu-' + target_name
+>      if target_base_arch in target_user_arch
+>        t =3D target_user_arch[target_base_arch].apply(config_target, stri=
+ct:
+> false)
+>        arch_srcs +=3D t.sources()
+> diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+> index 2837eb34f4..06c75e646b 100644
+> --- a/pc-bios/keymaps/meson.build
+> +++ b/pc-bios/keymaps/meson.build
+> @@ -38,7 +38,6 @@ if meson.is_cross_build() or 'CONFIG_XKBCOMMON' not in
+> config_host
+>  else
+>    native_qemu_keymap =3D qemu_keymap
+>  endif
+> -cp =3D find_program('cp')
+>
+>  if native_qemu_keymap.found()
+>    t =3D []
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index fd5c93d643..840f1b0e19 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -68,21 +68,6 @@ if have_system or have_tools
+>    ]
+>  endif
+>
+> -qapi_storage_daemon_modules =3D [
+> -  'block-core',
+> -  'block-export',
+> -  'char',
+> -  'common',
+> -  'control',
+> -  'crypto',
+> -  'introspect',
+> -  'job',
+> -  'qom',
+> -  'sockets',
+> -  'pragma',
+> -  'transaction',
+> -]
+> -
+>  qapi_nonmodule_outputs =3D [
+>    'qapi-introspect.c', 'qapi-introspect.h',
+>    'qapi-types.c', 'qapi-types.h',
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index 2c1975e72c..6b9435d69a 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -1,6 +1,4 @@
+>  # FIXME extra_args should accept files()
+> -dir =3D meson.current_source_dir()
+> -
+>  gen =3D [
+>    decodetree.process('insn16.decode', extra_args:
+> ['--static-decode=3Ddecode_insn16', '--insnwidth=3D16']),
+>    decodetree.process('insn32.decode', extra_args:
+> '--static-decode=3Ddecode_insn32'),
+> --
+> 2.37.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000fe94df05e680c3fb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 18, 2022 at 1:31 PM Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Foun=
+d with &quot;muon analyze&quot;.<br></blockquote><div><br></div><div>nice</=
+div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandr=
+e.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; <br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 2 --<br>
+=C2=A0pc-bios/keymaps/meson.build |=C2=A0 1 -<br>
+=C2=A0qapi/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 15 ------=
+---------<br>
+=C2=A0target/riscv/meson.build=C2=A0 =C2=A0 |=C2=A0 2 --<br>
+=C2=A04 files changed, 20 deletions(-)<br>
+<br>
+diff --git a/meson.build b/meson.build<br>
+index 30a380752c..8e927fc457 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -3405,7 +3405,6 @@ foreach target : target_dirs<br>
+=C2=A0 =C2=A0 =C2=A0target_inc +=3D include_directories(&#39;linux-headers&=
+#39;, is_system: true)<br>
+=C2=A0 =C2=A0endif<br>
+=C2=A0 =C2=A0if target.endswith(&#39;-softmmu&#39;)<br>
+-=C2=A0 =C2=A0 qemu_target_name =3D &#39;qemu-system-&#39; + target_name<br=
+>
+=C2=A0 =C2=A0 =C2=A0target_type=3D&#39;system&#39;<br>
+=C2=A0 =C2=A0 =C2=A0t =3D target_softmmu_arch[target_base_arch].apply(confi=
+g_target, strict: false)<br>
+=C2=A0 =C2=A0 =C2=A0arch_srcs +=3D t.sources()<br>
+@@ -3422,7 +3421,6 @@ foreach target : target_dirs<br>
+=C2=A0 =C2=A0 =C2=A0abi =3D config_target[&#39;TARGET_ABI_DIR&#39;]<br>
+=C2=A0 =C2=A0 =C2=A0target_type=3D&#39;user&#39;<br>
+=C2=A0 =C2=A0 =C2=A0target_inc +=3D common_user_inc<br>
+-=C2=A0 =C2=A0 qemu_target_name =3D &#39;qemu-&#39; + target_name<br>
+=C2=A0 =C2=A0 =C2=A0if target_base_arch in target_user_arch<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0t =3D target_user_arch[target_base_arch].apply(c=
+onfig_target, strict: false)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0arch_srcs +=3D t.sources()<br>
+diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build<br>
+index 2837eb34f4..06c75e646b 100644<br>
+--- a/pc-bios/keymaps/meson.build<br>
++++ b/pc-bios/keymaps/meson.build<br>
+@@ -38,7 +38,6 @@ if meson.is_cross_build() or &#39;CONFIG_XKBCOMMON&#39; n=
+ot in config_host<br>
+=C2=A0else<br>
+=C2=A0 =C2=A0native_qemu_keymap =3D qemu_keymap<br>
+=C2=A0endif<br>
+-cp =3D find_program(&#39;cp&#39;)<br>
+<br>
+=C2=A0if native_qemu_keymap.found()<br>
+=C2=A0 =C2=A0t =3D []<br>
+diff --git a/qapi/meson.build b/qapi/meson.build<br>
+index fd5c93d643..840f1b0e19 100644<br>
+--- a/qapi/meson.build<br>
++++ b/qapi/meson.build<br>
+@@ -68,21 +68,6 @@ if have_system or have_tools<br>
+=C2=A0 =C2=A0]<br>
+=C2=A0endif<br>
+<br>
+-qapi_storage_daemon_modules =3D [<br>
+-=C2=A0 &#39;block-core&#39;,<br>
+-=C2=A0 &#39;block-export&#39;,<br>
+-=C2=A0 &#39;char&#39;,<br>
+-=C2=A0 &#39;common&#39;,<br>
+-=C2=A0 &#39;control&#39;,<br>
+-=C2=A0 &#39;crypto&#39;,<br>
+-=C2=A0 &#39;introspect&#39;,<br>
+-=C2=A0 &#39;job&#39;,<br>
+-=C2=A0 &#39;qom&#39;,<br>
+-=C2=A0 &#39;sockets&#39;,<br>
+-=C2=A0 &#39;pragma&#39;,<br>
+-=C2=A0 &#39;transaction&#39;,<br>
+-]<br>
+-<br>
+=C2=A0qapi_nonmodule_outputs =3D [<br>
+=C2=A0 =C2=A0&#39;qapi-introspect.c&#39;, &#39;qapi-introspect.h&#39;,<br>
+=C2=A0 =C2=A0&#39;qapi-types.c&#39;, &#39;qapi-types.h&#39;,<br>
+diff --git a/target/riscv/meson.build b/target/riscv/meson.build<br>
+index 2c1975e72c..6b9435d69a 100644<br>
+--- a/target/riscv/meson.build<br>
++++ b/target/riscv/meson.build<br>
+@@ -1,6 +1,4 @@<br>
+=C2=A0# FIXME extra_args should accept files()<br>
+-dir =3D meson.current_source_dir()<br>
+-<br>
+=C2=A0gen =3D [<br>
+=C2=A0 =C2=A0decodetree.process(&#39;insn16.decode&#39;, extra_args: [&#39;=
+--static-decode=3Ddecode_insn16&#39;, &#39;--insnwidth=3D16&#39;]),<br>
+=C2=A0 =C2=A0decodetree.process(&#39;insn32.decode&#39;, extra_args: &#39;-=
+-static-decode=3Ddecode_insn32&#39;),<br>
+-- <br>
+2.37.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000fe94df05e680c3fb--
 
