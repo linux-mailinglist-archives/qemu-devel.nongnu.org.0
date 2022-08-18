@@ -2,63 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C1C5983C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 15:10:03 +0200 (CEST)
-Received: from localhost ([::1]:54522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DB25983CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 15:11:34 +0200 (CEST)
+Received: from localhost ([::1]:58330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOfHe-0007L2-94
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 09:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44788)
+	id 1oOfJ6-0000Sg-VU
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 09:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oOf6j-0000uz-Rg
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 08:58:46 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:47125)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oOfCT-0004qs-GN
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:04:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oOf6h-0003zD-Nc
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 08:58:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Cc:
- Content-ID:Content-Description;
- bh=ZyNoFpwUlWwXRElZvgWmIZy8qXYXaNXhgo8j5okNzBI=; b=Zbug4JPHhDwUXObuPKpYLHRkJS
- cv9cGKkAM3nrpEjscwvh6wg2KFcv3BJR9V+JHP0lIMGLTPZL920NaNOfGnbvXFI9+TOHXaQXaiqpB
- AA6Z7TLVhGwVkFvn4zmkD1BGpAQS5KR+4Cn0q9GTbYuiIXoWof9c2EIdEiBCuqHDAdXCULQb4qw0n
- WId1zs7jjzG6LDFtQzYwVPruc3xhKEObhWptqEw8WuHCZZAtAd/0bud8au/ZpWaulIeY8XzvAdzFq
- N3oRaCwfKc2eIUlx5Vv979lp9w7BPkawhUohmprDMhlexaGRPpRW/HjHFNwFrP0NSyEXuMJuWLHDc
- HcPPHjApjeI49+lf1VTkrOgQPr7B2ZqKUrtuYTdPqpgmEfwHqWQHOF/Y3Bkxv2+rndJgIngRp0ZRp
- 3WXP/dXST6zqM592Dd6eFUH5tvGRdyobUwvlGlC3SnL37ibG9iKGYdV11lrgvco4lMP2NAZas9uta
- rvw0ilZuCn3e6GknVcjmepQrrnmPAtvwKmmzH41QgHCAkvm/EPs07EN8Zpo9ZbEJlpQRnFxl2AkUe
- dErxzHoaX3LFOWSYF3l30qYw9sQ74IDaiw3xIIYZrS1jj3mf58iLAiq6Lfaui9aTi/b+9tbwyLPuj
- OWQU/y4zGbMVCN7cAiWA3TpId8Kd+HzlYW+dIA3zo=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Guoyi Tu <tugy@chinatelecom.cn>
-Subject: Re: [PATCH] osdep: Introduce qemu_get_fd() to wrap the common codes
-Date: Thu, 18 Aug 2022 14:58:33 +0200
-Message-ID: <47453703.NBG3G7Ahn1@silver>
-In-Reply-To: <1442ced4-ab22-c379-76ee-5e1f1c17108a@chinatelecom.cn>
-References: <f73d60dd-fbc7-2873-4ed1-d30df19ce661@chinatelecom.cn>
- <1442ced4-ab22-c379-76ee-5e1f1c17108a@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oOfCK-00058J-CI
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:04:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660827870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ilP5YHtXJWfK0y9ugMcWVL9G0FqwSyOyjWug20ocdA=;
+ b=J1rHhtfggQXIGn9SLWKH/8ZBwKzW32Mz3lSDs89TWmB5AQ+EL184/ym8U6VttQ8GuyjDqz
+ cVznOHr9doUFRmnsMsSEYSmEO+nFzUcbS09GGCftZ1FxPnSXipaj0RK51vm4UqPgh8mgwp
+ FndimnnKsFKyLeQFfVRj7ArAZTBGO+o=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-321-JYIPyjLrMtqazhcsZtEmFQ-1; Thu, 18 Aug 2022 09:04:29 -0400
+X-MC-Unique: JYIPyjLrMtqazhcsZtEmFQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ t12-20020adfa2cc000000b00224f577fad1so203477wra.4
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 06:04:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=9ilP5YHtXJWfK0y9ugMcWVL9G0FqwSyOyjWug20ocdA=;
+ b=ipGpqMfGj4WUD18fB9Fy0i3065qbCGkvwEsIeErkgcffts6vuabDkkk2BoL2SEpHVw
+ SaY4d0LsUC0+W4J7PkHN82V7+1sjSKWe3p1RKZbiZPwfvR66HQUHUmkG7sjty6w68L1i
+ 7M0MKVPFn8OmO11EpDUdvzC5w5MKW5BEkXqQ+iuHkkxhoC9Wci8tBqEFPE3ME2z7PkoE
+ eEm4rs7/pGHiEUmeEJkIR6Y/LGMOS3UAlGD3SA2mpv3IG1HeEJBc+3JGEgAkbmRJseP8
+ eUT5TeCs1aj42j2RfCGMbNiBX7vgomaFjpskXLGhvtpQOBhc6VEMrMLq+1yXyeR5T27D
+ EnZw==
+X-Gm-Message-State: ACgBeo3OfEKu7hI0rccXfoM4kQdTfW6FweiHhMP2gLfHY5p6ZWOz8Az4
+ dGDOv7Xv/JR7VBkniwNeS2wVnRUYcvxJytedv84xG9WJTooDFRm0SMzsK0FqQGaIXOq12bRDPwJ
+ O+WsE0LzCnozq0DA=
+X-Received: by 2002:a5d:6b12:0:b0:21f:1568:c7e1 with SMTP id
+ v18-20020a5d6b12000000b0021f1568c7e1mr1608834wrw.532.1660827867066; 
+ Thu, 18 Aug 2022 06:04:27 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7BPPFLet3YcvvlTkf8tyjV/T4yMsXvHe4EzmFjmDEab8qTRe8uAHiv8m95jDTDNqFz568pUg==
+X-Received: by 2002:a5d:6b12:0:b0:21f:1568:c7e1 with SMTP id
+ v18-20020a5d6b12000000b0021f1568c7e1mr1608814wrw.532.1660827866735; 
+ Thu, 18 Aug 2022 06:04:26 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ t126-20020a1c4684000000b003a5fe5ed7edsm6225532wma.0.2022.08.18.06.04.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Aug 2022 06:04:25 -0700 (PDT)
+Date: Thu, 18 Aug 2022 14:04:23 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: Andrey Ryabinin <arbn@yandex-team.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, quintela@redhat.com,
+ qemu-devel@nongnu.org, yc-core@yandex-team.com
+Subject: Re: [PATCH] pci/pci_expander_bridge: migrate state of pxb/pxb-pcie
+ devices.
+Message-ID: <Yv441+TMUlQOZOvK@work-vm>
+References: <20220811164901.25042-1-arbn@yandex-team.com>
+ <3cdc0316-b615-107f-65bf-dda340841f73@yandex-team.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3cdc0316-b615-107f-65bf-dda340841f73@yandex-team.ru>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,178 +106,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 18. August 2022 14:06:04 CEST Guoyi Tu wrote:
-> Ping...
-> 
-> Any comments are welcome
-> 
-> On 8/12/22 19:01, Guoyi Tu wrote:
-> > socket_get_fd() have much the same codes as monitor_fd_param(),
-> > so qemu_get_fd() is introduced to implement the common logic.
-> > now socket_get_fd() and monitor_fd_param() directly call this
-> > function.
+* Vladimir Sementsov-Ogievskiy (vsementsov@yandex-team.ru) wrote:
+> [add migration maintainers]
 
-s/have/has/, s/now/Now/, some proper rephrasing wouldn't hurt either.
+Thanks,
 
-> > Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+> On 8/11/22 19:49, Andrey Ryabinin wrote:
+> > pxb/pxb-pcie/pxb-cxl devices currently doesn't have vmstate description
+> > So the state of device is not preserved during migration and
+> > guest can notice that as change of PCI_COMMAND_* registers state.
+> > 
+> > The diff of lspci output before and after migration:
+> > 
+> >   00:03.0 Host bridge [0600]: Red Hat, Inc. QEMU PCIe Expander bridge [1b36:000b]
+> >           Subsystem: Red Hat, Inc QEMU PCIe Expander bridge [1af4:1100]
+> >   -       Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+> >   +       Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+> >           Status: Cap- 66MHz+ UDF- FastB2B+ ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+
+Do you notice any other symptoms other than that minor diff?
+
+> > Add VMStateDescription to pxb devices so their state is transferred
+> > during migrations. For saving migration compatibility add
+> > 'x-config-reg-migration-enabled' property to pxb devices and disable
+> > it for all released machine types.
+> > 
+> > Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
 > > ---
+> >   hw/core/machine.c                   |  3 +++
+> >   hw/pci-bridge/pci_expander_bridge.c | 24 ++++++++++++++++++++++++
+> >   include/hw/pci/pci_bridge.h         |  1 +
+> >   3 files changed, 28 insertions(+)
 > > 
-> >   include/qemu/osdep.h |  1 +
-> >   monitor/misc.c       | 21 +--------------------
-> >   util/osdep.c         | 25 +++++++++++++++++++++++++
-> >   util/qemu-sockets.c  | 17 +++++------------
-> >   4 files changed, 32 insertions(+), 32 deletions(-)
-> > 
-> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > index b1c161c035..b920f128a7 100644
-> > --- a/include/qemu/osdep.h
-> > +++ b/include/qemu/osdep.h
-> > @@ -491,6 +491,7 @@ int qemu_open_old(const char *name, int flags, ...);
-> > 
-> >   int qemu_open(const char *name, int flags, Error **errp);
-> >   int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
-> >   int qemu_close(int fd);
-> > 
-> > +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp);
-> > 
-> >   int qemu_unlink(const char *name);
-> >   #ifndef _WIN32
-> >   int qemu_dup_flags(int fd, int flags);
-> > 
-> > diff --git a/monitor/misc.c b/monitor/misc.c
-> > index 3d2312ba8d..0d3372cf2b 100644
-> > --- a/monitor/misc.c
-> > +++ b/monitor/misc.c
-> > @@ -1395,26 +1395,7 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
-> > 
-> >   int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
-> >   {
-> > 
-> > -    int fd;
-> > -    Error *local_err = NULL;
-> > -
-> > -    if (!qemu_isdigit(fdname[0]) && mon) {
-> > -        fd = monitor_get_fd(mon, fdname, &local_err);
-> > -    } else {
-> > -        fd = qemu_parse_fd(fdname);
-> > -        if (fd == -1) {
-> > -            error_setg(&local_err, "Invalid file descriptor number '%s'",
-> > -                       fdname);
-> > -        }
-> > -    }
-> > -    if (local_err) {
-> > -        error_propagate(errp, local_err);
-> > -        assert(fd == -1);
-> > -    } else {
-> > -        assert(fd != -1);
-> > -    }
-> > -
-> > -    return fd;
-> > +    return qemu_get_fd(mon, fdname, errp);
-> > 
-> >   }
-> >  
-> >   /* Please update hmp-commands.hx when adding or changing commands */
-> > 
-> > diff --git a/util/osdep.c b/util/osdep.c
-> > index 60fcbbaebe..c57551ca78 100644
-> > --- a/util/osdep.c
-> > +++ b/util/osdep.c
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index a673302ccec..071853469e2 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -43,6 +43,9 @@
+> >   GlobalProperty hw_compat_7_0[] = {
+> >       { "arm-gicv3-common", "force-8-bit-prio", "on" },
+> >       { "nvme-ns", "eui64-default", "on"},
+> > +    { "pxb", "x-config-reg-migration-enabled", "off" },
+> > +    { "pxb-cxl", "x-config-reg-migration-enabled", "off" },
+> > +    { "pxb-pcie", "x-config-reg-migration-enabled", "off" },
+> 
+> 
+> Seems that it's too late for 7.1, rc2 is out and rc3 is coming soon. And that's not a degradation.
+
+Yeh
+
+> Up to maintainers, but I think we'd better start new hw_compat_7_1 for this thing.
+
+Yep.
+
+
+Dave
+> 
+> >   };
+> >   const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+> > index c9e817aa586..a3680d4d045 100644
+> > --- a/hw/pci-bridge/pci_expander_bridge.c
+> > +++ b/hw/pci-bridge/pci_expander_bridge.c
 > > @@ -23,6 +23,7 @@
-> > 
-> >    */
-> >   #include "qemu/osdep.h"
-> >   #include "qapi/error.h"
-> > 
-> > +#include "qemu/ctype.h"
-> > 
-> >   #include "qemu/cutils.h"
-> >   #include "qemu/sockets.h"
 > >   #include "qemu/error-report.h"
-> > 
-> > @@ -413,6 +414,30 @@ int qemu_close(int fd)
-> > 
-> >       return close(fd);
-> >   }
-> > 
-> > +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp)
+> >   #include "qemu/module.h"
+> >   #include "sysemu/numa.h"
+> > +#include "migration/vmstate.h"
+> >   #include "hw/boards.h"
+> >   #include "qom/object.h"
+> > @@ -404,9 +405,29 @@ static Property pxb_dev_properties[] = {
+> >       DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
+> >       DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
+> >       DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
+> > +    DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PXBDev,
+> > +                     migratable, true),
+> 
+> With it, do we create a user-visible property? If so, is it possible to avoid it?
+> 
+> >       DEFINE_PROP_END_OF_LIST(),
+> >   };
+> > +static bool pxb_vmstate_needed(void *opaque)
 > > +{
-> > +    int fd;
-> > +    Error *local_err = NULL;
+> > +    PXBDev *pxb = opaque;
 > > +
-> > +    if (!qemu_isdigit(fdname[0]) && mon) {
-> > +        fd = monitor_get_fd(mon, fdname, &local_err);
-> > +    } else {
-> > +        fd = qemu_parse_fd(fdname);
-> > +        if (fd == -1) {
-> > +            error_setg(&local_err, "Invalid file descriptor number '%s'",
-> > +                       fdname);
-> > +        }
-> > +    }
-> > +    if (local_err) {
-> > +        error_propagate(errp, local_err);
-> > +        assert(fd == -1);
-> > +    } else {
-> > +        assert(fd != -1);
-> > +    }
-> > +
-> > +    return fd;
+> > +    return pxb->migratable;
 > > +}
 > > +
-
-Up to here you are basically just moving the code of monitor_fd_param() to a 
-project wide shared new function qemu_get_fd(), but why? I mean you could 
-simply call monitor_fd_param() in socket_get_fd() below, no?
-
-> >   /*
-> >    * Delete a file from the filesystem, unless the filename is
-> > 
-> > /dev/fdset/...
-> > 
-> >    *
-> > 
-> > diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> > index 13b5b197f9..92960ee6eb 100644
-> > --- a/util/qemu-sockets.c
-> > +++ b/util/qemu-sockets.c
-> > @@ -1142,19 +1142,12 @@ static int socket_get_fd(const char *fdstr,
-> > Error **errp)
-> > 
+> > +static const VMStateDescription vmstate_pxb_device = {
+> > +    .name = "pxb-pci",
+> > +    .needed = pxb_vmstate_needed,
+> > +    .version_id = 1,
+> > +    .minimum_version_id = 1,
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_PCI_DEVICE(parent_obj, PXBDev),
+> > +        VMSTATE_END_OF_LIST()
+> > +    }
+> > +};
+> > +
+> >   static void pxb_dev_class_init(ObjectClass *klass, void *data)
 > >   {
-> >       Monitor *cur_mon = monitor_cur();
-> >       int fd;
-> > 
-> > -    if (cur_mon) {
-> > -        fd = monitor_get_fd(cur_mon, fdstr, errp);
-> > -        if (fd < 0) {
-> > -            return -1;
-> > -        }
-> > -    } else {
-> > -        if (qemu_strtoi(fdstr, NULL, 10, &fd) < 0) {
-> > -            error_setg_errno(errp, errno,
-> > -                             "Unable to parse FD number %s",
-> > -                             fdstr);
-> > -            return -1;
-> > -        }
-> > +
-> > +    fd = qemu_get_fd(cur_mon, fdstr, errp);
-> > +    if (fd < 0) {
-> > +        return -1;
-> > 
-> >       }
-
-This part looks like behaviour change to me. Haven't looked into the details 
-though whether it would be OK. Just saying.
-
-> > 
-> > +
-
-Unintentional white line added?
-
-> > 
-> >       if (!fd_is_socket(fd)) {
-> >           error_setg(errp, "File descriptor '%s' is not a socket", fdstr);
-> >           close(fd);
-
+> >       DeviceClass *dc = DEVICE_CLASS(klass);
+> > @@ -422,6 +443,7 @@ static void pxb_dev_class_init(ObjectClass *klass, void *data)
+> >       device_class_set_props(dc, pxb_dev_properties);
+> >       dc->hotpluggable = false;
+> >       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> > +    dc->vmsd = &vmstate_pxb_device;
+> >   }
+> >   static const TypeInfo pxb_dev_info = {
+> > @@ -460,6 +482,7 @@ static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
+> >       device_class_set_props(dc, pxb_dev_properties);
+> >       dc->hotpluggable = false;
+> >       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> > +    dc->vmsd = &vmstate_pxb_device;
+> >   }
+> >   static const TypeInfo pxb_pcie_dev_info = {
+> > @@ -504,6 +527,7 @@ static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
+> >       /* Host bridges aren't hotpluggable. FIXME: spec reference */
+> >       dc->hotpluggable = false;
+> >       dc->reset = pxb_dev_reset;
+> > +    dc->vmsd = &vmstate_pxb_device;
+> >   }
+> >   static const TypeInfo pxb_cxl_dev_info = {
+> > diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+> > index ba4bafac7c2..404dc02e36e 100644
+> > --- a/include/hw/pci/pci_bridge.h
+> > +++ b/include/hw/pci/pci_bridge.h
+> > @@ -91,6 +91,7 @@ struct PXBDev {
+> >       uint8_t bus_nr;
+> >       uint16_t numa_node;
+> >       bool bypass_iommu;
+> > +    bool migratable;
+> >       struct cxl_dev {
+> >           CXLHost *cxl_host_bridge; /* Pointer to a CXLHost */
+> >       } cxl;
+> 
+> 
+> -- 
+> Best regards,
+> Vladimir
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
