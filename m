@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C35B598AD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:03:31 +0200 (CEST)
-Received: from localhost ([::1]:60000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF64D598AE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:12:37 +0200 (CEST)
+Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOjre-0006yN-In
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:03:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
+	id 1oOk0R-0002Zo-0o
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOjq1-0005I2-5V
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:01:49 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38712)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOjxP-0000tE-Qx
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:09:29 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:37686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOjpv-0004rp-FP
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:01:48 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- s31-20020a17090a2f2200b001faaf9d92easo5429578pjd.3
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 11:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=uwEBj2vYxvHEh+vOQNh0UOespMFR/S2waDifvnO6DG0=;
- b=f9qS3y3WYNjLLjQIDV3aJ9qYZyEiqySihYIYbH6OagpUwKPrguh5niBBhT+hVrAnzk
- IfGGb8hjF5H4prSRQB2p7AavyaBtzDCIIm7XLLiEwoQwRZRR3Mle5WIQvxkmMwy88uQJ
- I2LjAaUQ6f2RlL+DFUt7I1Sum7ZAUIe8zZWa9/90rxKkISHFJAKjjmd9jITh/RmeJHd8
- DpGJkun+Q7R4Xoy4h9y9da/vcyLj1hgEcHkwg5sKJ7sWUxC/2LVnTLmGAkCPnczR37RH
- +3kjyNMg8DbE0K1PpsI1iYnvKN80/BlE8z5I04BtNRGNBtdgsSPyVII5hzI6/gO8Rtj7
- Od9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=uwEBj2vYxvHEh+vOQNh0UOespMFR/S2waDifvnO6DG0=;
- b=EXNPRap5D7QT62UQK3K9OcMNFXgkqD/kO/u5PCq2PLsOyWpxtMq95zDmqaiPIn5yn0
- /Ko0yxf0X07K4SXkSaHKTEXtXlBYZeRUi0dIucb8BE2YUyf35bW1zS3vLXAUWIKET0+1
- kX124KoKawsXJCi4JkhO1tGnomyrevYhGjmPdlTQujLW3ZCS2J1E1F8+Daq9IlUYYEuQ
- eSpwDNgWKqVMz5bSKXRfXISGWkYJx209K0p1ESDPlfEJBj2kwtqms8Z3iGU4rQ+B28EO
- o2Cr5LWDS3elRpkVCJjn8KTgkPHg9JEL94Mw+eBt8oQRlv7hlUrMSKwILTw4YdLJdC0f
- k3Dg==
-X-Gm-Message-State: ACgBeo36LfPMZMf23P1pJiAgUpJkifsaX+uWpx8elCKuSD1F+YHr9MAU
- h6irjVxWthgaddS7tKLJC8/iAg==
-X-Google-Smtp-Source: AA6agR4shv975DDZWsDO72IkzCKHjlPqRH9odzPUzb2oVxdZA10T5PkjoDoo7X9vHGddAZ1u6Of0Cg==
-X-Received: by 2002:a17:902:db0d:b0:172:925f:3c78 with SMTP id
- m13-20020a170902db0d00b00172925f3c78mr3758781plx.157.1660845701520; 
- Thu, 18 Aug 2022 11:01:41 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e?
- ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
- by smtp.gmail.com with ESMTPSA id
- s185-20020a625ec2000000b0052e82c7d91bsm1917645pfb.135.2022.08.18.11.01.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Aug 2022 11:01:40 -0700 (PDT)
-Message-ID: <566b37a5-757d-7283-12e8-3729a8cdc759@linaro.org>
-Date: Thu, 18 Aug 2022 11:01:36 -0700
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOjxN-00067A-S6
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:09:27 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BA7F23F46B;
+ Thu, 18 Aug 2022 18:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660846164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ydCvyzrukjVZA9NviHeTpCpkY8cVAkzs/9U3MpV87Q=;
+ b=jF48FOsvorX81TtHpZWUxI/f88JqAaT1Fp/iQib2NpaAGovVepPPl1SbZcELzUoZRk30j/
+ aOmwEhhoKFFIHoXDHPQfujtIlH3ZQSDTSvV4Br1SketWbdXK7UnnzZgc1sv6Ilyym91YTD
+ shlxSx5u6pGZT6u21OuqPepU4AUjCpc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660846164;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ydCvyzrukjVZA9NviHeTpCpkY8cVAkzs/9U3MpV87Q=;
+ b=Dq98YoaG0X0jeY+yJd7Iy47SDMkGfum4hLn9Wi2lZFQ/EU8zfmy8kzAL2LpAyA4IAEse6D
+ HA3SqPA/wakGJjBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 70AD1139B7;
+ Thu, 18 Aug 2022 18:09:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8GB7GVSA/mInUgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 18 Aug 2022 18:09:24 +0000
+Message-ID: <4c984c87-d8c4-0af5-0619-9509a23f916c@suse.de>
+Date: Thu, 18 Aug 2022 20:09:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 0/3] Fixes for QEMU 7.1-rc4
+ Thunderbird/91.4.0
+Subject: Re: towards a workable O_DIRECT outmigration to a file
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Beniamino Galvani <b.galvani@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, David Hildenbrand
- <david@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Antony Pavlov <antonynpavlov@gmail.com>, qemu-s390x@nongnu.org
-References: <20220818065631.324170-1-marcandre.lureau@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220818065631.324170-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Nikolay Borisov <nborisov@suse.com>, berrange@redhat.com,
+ qemu-devel@nongnu.org, Claudio Fontana <Claudio.Fontana@suse.com>,
+ Jim Fehlig <jfehlig@suse.com>, quintela@redhat.com
+References: <b727f0da-8051-2ce5-b1ab-a57452d2b0c3@suse.com>
+ <6f8a6a33-5a68-0eeb-d278-9397b1fd0015@suse.com> <Yv4ys6e0kK/2BMFk@work-vm>
+ <f1aa569d-e70f-1b7d-7e10-d6615cfafd7d@suse.de> <Yv5pcSfuLajkZSsb@work-vm>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <Yv5pcSfuLajkZSsb@work-vm>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,48 +92,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/22 23:56, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 8/18/22 18:31, Dr. David Alan Gilbert wrote:
+> * Claudio Fontana (cfontana@suse.de) wrote:
+>> On 8/18/22 14:38, Dr. David Alan Gilbert wrote:
+>>> * Nikolay Borisov (nborisov@suse.com) wrote:
+>>>> [adding Juan and David to cc as I had missed them. ]
+>>>
+>>> Hi Nikolay,
+>>>
+>>>> On 11.08.22 г. 16:47 ч., Nikolay Borisov wrote:
+>>>>> Hello,
+>>>>>
+>>>>> I'm currently looking into implementing a 'file:' uri for migration save
+>>>>> in qemu. Ideally the solution will be O_DIRECT compatible. I'm aware of
+>>>>> the branch https://gitlab.com/berrange/qemu/-/tree/mig-file. In the
+>>>>> process of brainstorming how a solution would like the a couple of
+>>>>> questions transpired that I think warrant wider discussion in the
+>>>>> community.
+>>>
+>>> OK, so this seems to be a continuation with Claudio and Daniel and co as
+>>> of a few months back.  I'd definitely be leaving libvirt sides of the
+>>> question here to Dan, and so that also means definitely looking at that
+>>> tree above.
+>>
+>> Hi Dave, yes, Nikolai is trying to continue on the qemu side.
+>>
+>> We have something working with libvirt for our short term needs which offers good performance,
+>> but it is clear that that simple solution is barred for upstream libvirt merging.
+>>
+>>
+>>>
+>>>>> First, implementing a solution which is self-contained within qemu would
+>>>>> be easy enough( famous last words) but the gist is one  has to only care
+>>>>> about the format within qemu. However, I'm being told that what libvirt
+>>>>> does is prepend its own custom header to the resulting saved file, then
+>>>>> slipstreams the migration stream from qemu. Now with the solution that I
+>>>>> envision I intend to keep all write-related logic inside qemu, this
+>>>>> means there's no way to incorporate the logic of libvirt. The reason I'd
+>>>>> like to keep the write process within qemu is to avoid an extra copy of
+>>>>> data between the two processes (qemu outging migration and libvirt),
+>>>>> with the current fd approach qemu is passed an fd, data is copied
+>>>>> between qemu/libvirt and finally the libvirt_iohelper writes the data.
+>>>>> So the question which remains to be answered is how would libvirt make
+>>>>> use of this new functionality in qemu? I was thinking something along
+>>>>> the lines of :
+>>>>>
+>>>>> 1. Qemu writes its migration stream to a file, ideally on a filesystem
+>>>>> which supports reflink - xfs/btrfs
+>>>>>
+>>>>> 2. Libvirt writes it's header to a separate file
+>>>>> 2.1 Reflinks the qemu's stream right after its header
+>>>>> 2.2 Writes its trailer
+>>>>>
+>>>>> 3. Unlink() qemu's file, now only libvirt's file remains on-disk.
+>>>>>
+>>>>> I wouldn't call this solution hacky though it definitely leaves some
+>>>>> bitter aftertaste.
+>>>
+>>> Wouldn't it be simpler to tell libvirt to write it's header, then tell
+>>> qemu to append everything?
+>>
+>> I would think so as well. 
+>>
+>>>
+>>>>> Another solution would be to extend the 'fd:' protocol to allow multiple
+>>>>> descriptors (for multifd) support to be passed in. The reason dup()
+>>>>> can't be used is because in order for multifd to be supported it's
+>>>>> required to be able to write to multiple, non-overlapping regions of the
+>>>>> file. And duplicated fd's share their offsets etc. But that really seems
+>>>>> more or less hacky. Alternatively it's possible that pwrite() are used
+>>>>> to write to non-overlapping regions in the file. Any feedback is
+>>>>> welcomed.
+>>>
+>>> I do like the idea of letting fd: take multiple fd's.
+>>
+>> Fine in my view, I think we will still need then a helper process in libvirt to merge the data into a single file, no?
+>> In case the libvirt multifd to single file multithreaded helper I proposed before is helpful as a reference you could reuse/modify those patches.
 > 
-> The following changes since commit c7208a6e0d049f9e8af15df908168a79b1f99685:
-> 
->    Update version for v7.1.0-rc3 release (2022-08-16 20:45:19 -0500)
-> 
-> are available in the Git repository at:
-> 
->    git@gitlab.com:marcandre.lureau/qemu.git tags/fixes-pull-request
-> 
-> for you to fetch changes up to 88738ea40bee4c2cf9aae05edd2ec87e0cbeaf36:
-> 
->    ui/console: fix qemu_console_resize() regression (2022-08-18 10:46:55 +0400)
-> 
-> ----------------------------------------------------------------
-> Some fixes pending on the ML:
-> * console regression fix
-> * dbus-vmstate error handling fix
-> * a build-sys fix
+> Eww that's messy isn't it.
+> (You don't fancy a huge sparse file do you?)
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Wait am I missing something obvious here?
 
+Maybe we don't need any libvirt extra process.
 
-r~
+why don't we open the _single_ file multiple times from libvirt,
 
+Lets say the "main channel" fd is opened, we write the libvirt header,
+then reopen again the same file multiple times,
+and finally pass all fds to qemu, one fd for each parallel transfer channel we want to use
+(so we solve all the permissions, security labels issues etc).
+
+And then from QEMU we can write to those fds at the right offsets for each separate channel,
+which is easier from QEMU because we can know exactly how much data we need to transfer before starting the migration,
+so we have even less need for "holes", possibly only minor ones for single byte adjustments
+for uneven division of the interleaved file.
+
+What is wrong with this one, or does anyone see some other better approach?
+
+Thanks,
+
+C
 
 > 
-> ----------------------------------------------------------------
+>> Maybe this new way will be acceptable to libvirt,
+>> ie avoiding the multifd code -> socket, but still merging the data from the multiple fds into a single file?
 > 
-> Marc-André Lureau (2):
->    build-sys: disable vhost-user-gpu if !opengl
->    ui/console: fix qemu_console_resize() regression
+> It feels to me like the problem here is really what we want is something
+> closer to a dump than the migration code; you don't need all that
+> overhead of the code to deal with live migration bitmaps and dirty pages
+> that aren't going to happen.
+> Something that just does a nice single write(2) (for each memory
+> region);
+> and then ties the device state on.
 > 
-> Priyankar Jain (1):
->    dbus-vmstate: Restrict error checks to registered proxies in
->      dbus_get_proxies
+> Dave
 > 
->   meson.build             |  2 +-
->   backends/dbus-vmstate.c | 13 +++++++++----
->   ui/console.c            |  6 ++++--
->   3 files changed, 14 insertions(+), 7 deletions(-)
-> 
+>>>
+>>> Dave
+>>>
+>>
+>> Thanks for your comments,
+>>
+>> Claudio
+>>>>>
+>>>>>
+>>>>> Regards,
+>>>>> Nikolay
+>>>>
+>>
 
 
