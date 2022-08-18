@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA8A59890D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 18:39:58 +0200 (CEST)
-Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6849C598936
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 18:48:49 +0200 (CEST)
+Received: from localhost ([::1]:50236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOiYm-000287-Mq
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 12:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51170)
+	id 1oOihM-0006l2-2w
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 12:48:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oOiWz-0000NV-J1; Thu, 18 Aug 2022 12:38:05 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2686)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oOiWw-0002Zo-NW; Thu, 18 Aug 2022 12:38:05 -0400
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M7rCC35NDz688hZ;
- Fri, 19 Aug 2022 00:37:27 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 18 Aug 2022 18:37:42 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 18 Aug
- 2022 17:37:42 +0100
-Date: Thu, 18 Aug 2022 17:37:40 +0100
-To: Dan Williams <dan.j.williams@intel.com>
-CC: Bobo WL <lmw.bobo@gmail.com>, <linux-cxl@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: Re: [BUG] cxl can not create region
-Message-ID: <20220818173740.00007f02@huawei.com>
-In-Reply-To: <20220817171619.000021ca@huawei.com>
-References: <CAGr_yG0UrfJAMWta3EkR1F0JZ4j--sig74p6vKL3K6TZDx9YGA@mail.gmail.com>
- <62f132aee401b_1b3c294c@dwillia2-xfh.jf.intel.com.notmuch>
- <CAGr_yG389Bm_NL8CLgo_ZkGd4staocNENbtb-ULVA5vh_ywmcw@mail.gmail.com>
- <62f27a8e9acb6_1f18b294e2@dwillia2-xfh.jf.intel.com.notmuch>
- <62f5a2ffe8be0_3ce68294a4@dwillia2-xfh.jf.intel.com.notmuch>
- <20220817171619.000021ca@huawei.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1oOicD-0003rZ-9Y
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:43:29 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:43567)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1oOicB-0003fo-KB
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:43:28 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id mn10so1577623qvb.10
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 09:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=L0AIQ467awCCNOdWcssDWfB6NvRKipogMOQ4OTXg0Ew=;
+ b=Bnom5CzWSctWvJILgYMbIk83h+nw57OTUaZlzXXA2/UTLKQXDay/d5O1d7P0UCsSeC
+ O5Zv1lc80PPOYi77nah9lzr9DgF6mKqB5Y8TB6ixHroAHgZDTbQBQxb6a0UoNe2WMpFj
+ ejE+uXqrUr+xMl5kB1QNeGxLP1eLhc3B82Y2LwgcRSO/8q4nWnpnppxW5MfPNO+0QPjG
+ PiIotuvOByX1aFmFMzsB2EC6ROR8WSHHZT8sT8mhnpyn9B1C3m6+Due3inA7+Cm6va3X
+ xlNm1LdrVEuAUBRp2nrShAFvltYizaJnz3w6xoykzP2QZvZT0fadXCvZJw1gd3QegYop
+ k8uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=L0AIQ467awCCNOdWcssDWfB6NvRKipogMOQ4OTXg0Ew=;
+ b=11wjKV8/44H8qu2oxh5ra12fZ3K8GhsbBoBrCB7VaSiNg1FhLZZjNELrm92JxMW6oD
+ PmHvri8Va/uIxN0EbGN5W4GJtAAjWVIR7BKYuUwUvV3kFHvcP4aqCQF3uA5wsJHhRCuq
+ 20SKzxSToXZi6MqpBVCBFkRsYEWPxsc8HhxAmNcBbqMkL9QDaG/ZwgrJ8L1iT9f6rfjL
+ kqZxLT0SxIBbeoyWtHugl5Kxl+U+TXUWOzySBZhNDQ/1BSo3CY00uHCfv/1vz1xkXJq8
+ Ys6Devf3Z/LDgo7QId8YSIWZFV0iD2U9h9UU6tRe91RAYlm0ncKPlCCIkOiHi2Uir0X0
+ IHZA==
+X-Gm-Message-State: ACgBeo1weFEjMyoGXGYDZ09GL01nhoSTeh8q20WBsAlcf8m/YbRI1Ogm
+ YVqZ6ZSFKobC9DmHZvbhjbJEXlYHinLTssARc/9ngQ==
+X-Google-Smtp-Source: AA6agR7z2pNRG0CFpsOSnb8pJNWNOYwRfOyaBEJanbcd/XppMAqklKWNrPxPtTP4PRprIibdB18/YUsfVrDnulVhcig=
+X-Received: by 2002:a05:6214:20ed:b0:47e:aa41:1d89 with SMTP id
+ 13-20020a05621420ed00b0047eaa411d89mr3161466qvk.17.1660841003150; Thu, 18 Aug
+ 2022 09:43:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220815213458.733701-1-wuhaotsh@google.com>
+ <CAFEAcA_nJzdtuMQtDQN6Fn1dHyTDFA4=qoYDUe1Bpjy8RiQpUQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_nJzdtuMQtDQN6Fn1dHyTDFA4=qoYDUe1Bpjy8RiQpUQ@mail.gmail.com>
+From: Hao Wu <wuhaotsh@google.com>
+Date: Thu, 18 Aug 2022 09:43:10 -0700
+Message-ID: <CAGcCb12Ek-2XH2Lb12udE2fFLAWgbuoWt+M922AeYG0OaRTHVg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Add cortex-a35
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Joe Komlodi <komlodi@google.com>
+Content-Type: multipart/alternative; boundary="00000000000005df7505e686ae04"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=wuhaotsh@google.com; helo=mail-qv1-xf2b.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,121 +85,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 17 Aug 2022 17:16:19 +0100
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+--00000000000005df7505e686ae04
+Content-Type: text/plain; charset="UTF-8"
 
-> On Thu, 11 Aug 2022 17:46:55 -0700
-> Dan Williams <dan.j.williams@intel.com> wrote:
-> 
-> > Dan Williams wrote:  
-> > > Bobo WL wrote:    
-> > > > Hi Dan,
-> > > > 
-> > > > Thanks for your reply!
-> > > > 
-> > > > On Mon, Aug 8, 2022 at 11:58 PM Dan Williams <dan.j.williams@intel.com> wrote:    
-> > > > >
-> > > > > What is the output of:
-> > > > >
-> > > > >     cxl list -MDTu -d decoder0.0
-> > > > >
-> > > > > ...? It might be the case that mem1 cannot be mapped by decoder0.0, or
-> > > > > at least not in the specified order, or that validation check is broken.    
-> > > > 
-> > > > Command "cxl list -MDTu -d decoder0.0" output:    
-> > > 
-> > > Thanks for this, I think I know the problem, but will try some
-> > > experiments with cxl_test first.    
-> > 
-> > Hmm, so my cxl_test experiment unfortunately passed so I'm not
-> > reproducing the failure mode. This is the result of creating x4 region
-> > with devices directly attached to a single host-bridge:
-> > 
-> > # cxl create-region -d decoder3.5 -w 4 -m -g 256 mem{12,10,9,11} -s $((1<<30))
-> > {
-> >   "region":"region8",
-> >   "resource":"0xf1f0000000",
-> >   "size":"1024.00 MiB (1073.74 MB)",
-> >   "interleave_ways":4,
-> >   "interleave_granularity":256,
-> >   "decode_state":"commit",
-> >   "mappings":[
-> >     {
-> >       "position":3,
-> >       "memdev":"mem11",
-> >       "decoder":"decoder21.0"
-> >     },
-> >     {
-> >       "position":2,
-> >       "memdev":"mem9",
-> >       "decoder":"decoder19.0"
-> >     },
-> >     {
-> >       "position":1,
-> >       "memdev":"mem10",
-> >       "decoder":"decoder20.0"
-> >     },
-> >     {
-> >       "position":0,
-> >       "memdev":"mem12",
-> >       "decoder":"decoder22.0"
-> >     }
-> >   ]
-> > }
-> > cxl region: cmd_create_region: created 1 region
-> >   
-> > > Did the commit_store() crash stop reproducing with latest cxl/preview
-> > > branch?    
-> > 
-> > I missed the answer to this question.
-> > 
-> > All of these changes are now in Linus' tree perhaps give that a try and
-> > post the debug log again?  
-> 
-> Hi Dan,
-> 
-> I've moved onto looking at this one.
-> 1 HB, 2RP (to make it configure the HDM decoder in the QEMU HB, I'll tidy that up
-> at some stage), 1 switch, 4 downstream switch ports each with a type 3
-> 
-> I'm not getting a crash, but can't successfully setup a region.
-> Upon adding the final target
-> It's failing in check_last_peer() as pos < distance.
-> Seems distance is 4 which makes me think it's using the wrong level of the heirarchy for
-> some reason or that distance check is wrong.
-> Wasn't a good idea to just skip that step though as it goes boom - though
-> stack trace is not useful.
+Hi,
 
-Turns out really weird corruption happens if you accidentally back two type3 devices
-with the same memory device. Who would have thought it :)
+This is used by a new series of Nuvoton SoC (NPCM8XX) which contains 4
+Cortex A-35 cores.
 
-That aside ignoring the check_last_peer() failure seems to make everything work for this
-topology.  I'm not seeing the crash, so my guess is we fixed it somewhere along the way.
+I'll update the missing fields in a follow-up patch set.
 
-Now for the fun one.  I've replicated the crash if we have
+On Thu, Aug 18, 2022 at 7:59 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-1HB 1*RP 1SW, 4SW-DSP, 4Type3
+> On Mon, 15 Aug 2022 at 22:35, Hao Wu <wuhaotsh@google.com> wrote:
+> >
+> > Add cortex A35 core and enable it for virt board.
+> >
+> > Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> > Reviewed-by: Joe Komlodi <komlodi@google.com>
+>
+> > +static void aarch64_a35_initfn(Object *obj)
+> > +{
+> > +    ARMCPU *cpu = ARM_CPU(obj);
+> > +
+> > +    cpu->dtb_compatible = "arm,cortex-a35";
+> > +    set_feature(&cpu->env, ARM_FEATURE_V8);
+> > +    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> > +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+> > +    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
+> > +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+> > +    set_feature(&cpu->env, ARM_FEATURE_EL2);
+> > +    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> > +    set_feature(&cpu->env, ARM_FEATURE_PMU);
+> > +
+> > +    /* From B2.2 AArch64 identification registers. */
+> > +    cpu->midr = 0x410fd042;
+>
+> The r1p0 TRM is out, so we might as well emulate that: 0x411FD040
+>
+> A few fields are missing:
+>
+>  cpu->isar.dbgdidr
+>  cpu->isar.dbgdevid
+>  cpu->isar.dbgdevid1
+>  cpu->isar.reset_pmcr_el0
+>  cpu->gic_pribits
+>
+> (these probably landed after you wrote these patch).
+>
+> Otherwise looks OK.
+>
+> Remind me, what did you want the Cortex-A35 in particular for ?
+>
+> thanks
+> -- PMM
+>
 
-Now, I'd expect to see it not 'work' because the QEMU HDM decoder won't be programmed
-but the null pointer dereference isn't related to that.
+--00000000000005df7505e686ae04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The bug is straight forward.  Not all decoders have commit callbacks... Will send out
-a possible fix shortly.
+<div dir=3D"ltr">Hi,<div><br></div><div>This is used by a new series of Nuv=
+oton SoC (NPCM8XX) which contains 4 Cortex A-35 cores.</div><div><br></div>=
+<div>I&#39;ll update the missing fields in a follow-up patch set.</div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On T=
+hu, Aug 18, 2022 at 7:59 AM Peter Maydell &lt;<a href=3D"mailto:peter.mayde=
+ll@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">On Mon, 15 Aug 2022 at 22:35, Hao Wu=
+ &lt;<a href=3D"mailto:wuhaotsh@google.com" target=3D"_blank">wuhaotsh@goog=
+le.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Add cortex A35 core and enable it for virt board.<br>
+&gt;<br>
+&gt; Signed-off-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" targe=
+t=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; Reviewed-by: Joe Komlodi &lt;<a href=3D"mailto:komlodi@google.com" tar=
+get=3D"_blank">komlodi@google.com</a>&gt;<br>
+<br>
+&gt; +static void aarch64_a35_initfn(Object *obj)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 ARMCPU *cpu =3D ARM_CPU(obj);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 cpu-&gt;dtb_compatible =3D &quot;arm,cortex-a35&quot;;<=
+br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_V8);<br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_NEON);<br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_GENERIC_TIMER=
+);<br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_AARCH64);<br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_CBAR_RO);<br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_EL2);<br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_EL3);<br>
+&gt; +=C2=A0 =C2=A0 set_feature(&amp;cpu-&gt;env, ARM_FEATURE_PMU);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* From B2.2 AArch64 identification registers. */<br>
+&gt; +=C2=A0 =C2=A0 cpu-&gt;midr =3D 0x410fd042;<br>
+<br>
+The r1p0 TRM is out, so we might as well emulate that: 0x411FD040<br>
+<br>
+A few fields are missing:<br>
+<br>
+=C2=A0cpu-&gt;isar.dbgdidr<br>
+=C2=A0cpu-&gt;isar.dbgdevid<br>
+=C2=A0cpu-&gt;isar.dbgdevid1<br>
+=C2=A0cpu-&gt;isar.reset_pmcr_el0<br>
+=C2=A0cpu-&gt;gic_pribits<br>
+<br>
+(these probably landed after you wrote these patch).<br>
+<br>
+Otherwise looks OK.<br>
+<br>
+Remind me, what did you want the Cortex-A35 in particular for ?<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div>
 
-Jonathan
-
-
-
-> 
-> Jonathan
-> 
-> 
-> 
-> 
-> 
-> 
-
+--00000000000005df7505e686ae04--
 
