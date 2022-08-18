@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0200A598899
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 18:23:25 +0200 (CEST)
-Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682B35988C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 18:26:06 +0200 (CEST)
+Received: from localhost ([::1]:52284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOiIl-0001aA-L9
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 12:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44056)
+	id 1oOiLN-0003wR-G2
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 12:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOiFU-00068v-7l
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:20:00 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:45858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOiFO-0006O8-I4
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:19:58 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-3246910dac3so54086487b3.12
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 09:19:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=Lk6fHSRFoGl7Z7855YfvNidtexf4QuouIGqk9100AAo=;
- b=ijL3nDoYI50fVSSPuvBatxzzw9FuPzUCZ58vd6Ng+1KEfmJGoOaOLKQ4EL0O1hTBRl
- 9iqISZb530qrtda10+kEx7w+NMahMVYMVS/o+XBf2Kx/5179pfJ9lS3r96I948cmCA99
- hqHx0hMM58wV3SPLGWeSOoX8WwkaVfO7+tPY8wKigenYUECgoCumxPXwAAGM8k4Yi5Sm
- WM4R/pqPd+EMn242ciuc+z5TP5Ar2ZTCWLw67NAYlJ/csFiKYm2csg3AZyuz7yU4nYCq
- mdgwIhGFk/Gnjt37466ezEXeQiZYZp6HNTvHh/slqwKPfjgZmAJCyr0jfc3LruO/KDJa
- ct1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=Lk6fHSRFoGl7Z7855YfvNidtexf4QuouIGqk9100AAo=;
- b=y0zQfjinJWg2kybeT+3Zxm/bOwlbMVBKLy8q9Z/uQn0qw4RVQFGsiTEIAhKLB2BSpq
- 06rPo6tQJqrGgm/tgHyl8mv3+Ls0UjQkYNvmg9kTvDB1VKuYYYo0L7LRwTB2xX3hceQ2
- 8a5tdr8i1g6uLy7T+JPeUd3ovn3h8TNjx/bJKEO/Q3DWayJkXXdFfg2hr0Ly9HI9Nqfx
- d3e5vOEW4/7oahskd9uYW8LEnuD7pW6CNExcYOt71cuxovRXoAu7JJiiiHOswrU0Jgs1
- vgCoMT60I9aAdvp0lMm3Fzv4mkb4tKVZPx723WtGoTLS6i+Bc1t8+zuNM0jeHCdmMPLB
- KKYg==
-X-Gm-Message-State: ACgBeo1hOgFNKvNpzPux0fEj8KaIymFBBZz2lCitCqD8TaxEWyZboH/h
- gBLy8AfxYKaNq9SeH5C0W2uic61hN+HH8ripzcMHoQ==
-X-Google-Smtp-Source: AA6agR5+hSlQmM5HOb4JpRHr0Rb9TyUPp96AC63PHF6OIbuCypdXDwoASBj/3O2LSpu+wNauQB3A0R+IhNO7ZBUnqFQ=
-X-Received: by 2002:a81:10a:0:b0:333:618e:190b with SMTP id
- 10-20020a81010a000000b00333618e190bmr3382104ywb.10.1660839592980; Thu, 18 Aug
- 2022 09:19:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oOiHU-0000b8-S5
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:22:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oOiHQ-0006oB-L3
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 12:22:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660839714;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZEmoN9oo1tpfHxERwixbSLI51JxfNWiUg8XJyx6jG68=;
+ b=T73d4FdzPSWB21bn8zyfyYPYVz32V5rRn6dV/4csgX/jlMgVmke0D53mNRtaG+Fw+v75al
+ sZ55npG5axVKw6K6QzB10axsmSbAZaEitt4cTky/NQZ0LvjLQ/gkC5bVEvw7NEKJK4mlYt
+ hKapE+dQn19FAuLfL+DNcIHtPre/3MM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-xrH96n8OPFWxYHZtB1Tv-A-1; Thu, 18 Aug 2022 12:21:53 -0400
+X-MC-Unique: xrH96n8OPFWxYHZtB1Tv-A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E8618DC047
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 16:21:53 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9331E2166B29;
+ Thu, 18 Aug 2022 16:21:45 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PATCH] tests/qtest/migration-test: Only wait for serial output where
+ migration succeeds
+Date: Thu, 18 Aug 2022 18:21:44 +0200
+Message-Id: <20220818162144.227542-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <ae24ca7c-fc8e-ae34-5f0f-0d70840efdbe@eldorado.org.br>
- <b2c49e7f-9b62-86bc-d714-77367df702ca@eldorado.org.br>
-In-Reply-To: <b2c49e7f-9b62-86bc-d714-77367df702ca@eldorado.org.br>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Aug 2022 17:19:11 +0100
-Message-ID: <CAFEAcA_8JUgKPM=XF4_94ecJtgrt1Tz1RcMHqZHbVpn_bWwMHQ@mail.gmail.com>
-Subject: Re: Using Unicamp's Minicloud for the QEMU CI
-To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Cc: qemu-devel@nongnu.org, qemu-ppc <qemu-ppc@nongnu.org>, 
- Rafael Peria de Sene <rpsene@br.ibm.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,22 +76,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Aug 2022 at 17:11, Lucas Mateus Martins Araujo e Castro
-<lucas.araujo@eldorado.org.br> wrote:
-> Lucas wrote:
->> I would like gauge the interest in using Minicloud's infrastructure[1]
->> for the CI, talking with some people from there they are interested.
->> It has both ppc64 and pp64le images, multiple versions of 4 distros
->> (Ubuntu, Fedora, Debian and CentOS).
+Waiting for the serial output can take a couple of seconds - and since
+we're doing a lot of migration tests, this time easily sums up to
+multiple minutes. But if a test is supposed to fail, it does not make
+much sense to wait for the source to be in the right state first, so
+we can skip the waiting here. This way we can speed up all tests where
+the migration is supposed to fail. In the gitlab-CI gprov-gcov test,
+each of the migration-tests now run two minutes faster!
 
-> ping
->
-> Any interest in this?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/migration-test.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-PPC host is something we're currently missing in our testing, so definitely
-yes in principle. I don't know what the specifics of getting new runners
-set up is, though. Alex ?
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 520a5f917c..7be321b62d 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1307,7 +1307,9 @@ static void test_precopy_common(MigrateCommon *args)
+     }
+ 
+     /* Wait for the first serial output from the source */
+-    wait_for_serial("src_serial");
++    if (args->result == MIG_TEST_SUCCEED) {
++        wait_for_serial("src_serial");
++    }
+ 
+     if (!args->connect_uri) {
+         g_autofree char *local_connect_uri =
+-- 
+2.31.1
 
-thanks
--- PMM
 
