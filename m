@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CF2598103
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 11:44:06 +0200 (CEST)
-Received: from localhost ([::1]:34760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6C2598105
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 11:46:25 +0200 (CEST)
+Received: from localhost ([::1]:35060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOc4L-0004xs-P9
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 05:44:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54770)
+	id 1oOc6Y-0006lp-8M
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 05:46:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oObra-0003Oe-8D
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:30:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57958)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oObtf-0005UJ-HA; Thu, 18 Aug 2022 05:33:03 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:33326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oObrX-0003Hj-Ab
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:30:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660815050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4B9yMRJ2sRt6N0wM4jhuBadOFThXpdJTHWEDBz4LJA4=;
- b=ZGrJ+3Mx1S4M8UPQZCn07pPk5aqa/PR6P6bVNAh4ot2TEsDRzB874ary0SWkvU2DoC1IpR
- ikUDjDLhq2cPhVhHawKNOb1mSMlEBZT2sC145XD6XgQcpsyn+S1o0Ej2I5NFZQ9fYxM8ZH
- GvM6yreLrVYntTNa1XbtRdF1HQnEq0o=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-388-xDlWkxYuMPilryvlkc2AFg-1; Thu, 18 Aug 2022 05:30:49 -0400
-X-MC-Unique: xDlWkxYuMPilryvlkc2AFg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 133-20020a1c028b000000b003a5f307844bso703279wmc.2
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 02:30:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=4B9yMRJ2sRt6N0wM4jhuBadOFThXpdJTHWEDBz4LJA4=;
- b=mO6hjUXZ015GlZolArYtX6Xj6vJv0WpYiRQ+8bxaTuDnAHjUhs08eLg5qbMB4CQmt4
- f5unoZYvHWRImYpEWKKRPcuaCJV8fTQGacw+elFP2jSp3gSwUi6exKMDme3XzrRWTKLS
- TBlJVoS4MeykVyKjWgkrU8KyOs3O3ZzrSCtstTcQIccu/dXb5SQcIWzk2vUkcUId8iEu
- t5rNRRRN6aByy64Bta5mtjuuqxuc5gua/s+g7OlvUBFMP9dxqkQu9MvpwSwpTY1oBNam
- hDETmcd0tyOPCvPx94s9ngq8+yRGMfDWA8QR83LJijly266oqgNMAscJPvrPCMH0MmwB
- aYmQ==
-X-Gm-Message-State: ACgBeo0bm/IJIWad2LQVaSQNyb3Fm0rbBSNEWudIEFnwf6M8Z9uUG22O
- lDtDjy8thvCQfrWXtYfg4C9xgQGXJLTlZa/8sYeQHz5pdDUQhO6EpWudanSLt0mWxQyOgFCm3c7
- nvbMs7LXI/MSVSYo=
-X-Received: by 2002:a05:6000:1c0f:b0:225:2946:f790 with SMTP id
- ba15-20020a0560001c0f00b002252946f790mr1138040wrb.238.1660815048057; 
- Thu, 18 Aug 2022 02:30:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4qQopF0rneSufiWSjR0yYpUy8WH1Z3g5Bi3pnqov0aCx1s8v8DIaNHG0XCw525hkxhQIc+Ag==
-X-Received: by 2002:a05:6000:1c0f:b0:225:2946:f790 with SMTP id
- ba15-20020a0560001c0f00b002252946f790mr1138024wrb.238.1660815047699; 
- Thu, 18 Aug 2022 02:30:47 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- m10-20020a5d624a000000b0021e6c52c921sm1106752wrv.54.2022.08.18.02.30.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 02:30:47 -0700 (PDT)
-Date: Thu, 18 Aug 2022 10:30:45 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
- alistair.francis@wdc.com, david@gibson.dropbear.id.au
-Subject: Re: [PATCH for-7.2 v3 14/20] qmp/hmp, device_tree.c: introduce dumpdtb
-Message-ID: <Yv4GxSCbbWopXfsf@work-vm>
-References: <20220816173428.157304-1-danielhb413@gmail.com>
- <20220816173428.157304-15-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oObtb-0003Xx-7V; Thu, 18 Aug 2022 05:33:02 -0400
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 336D52E11B3;
+ Thu, 18 Aug 2022 12:32:48 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:213::1:26] (unknown
+ [2a02:6b8:b081:213::1:26])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 0NkdZIvfVs-WkOa1nxx; Thu, 18 Aug 2022 12:32:47 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1660815167; bh=wD88kFLu4Iw7YqJ393vaNvY63WTOFB7+jMjxYKxmXqQ=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=ozCAsh7FYGwWrp6YwWM8oFzSOTjWD7UR6IzdqurA9Yt0/AVVMiNFzdmBk7la47Ptx
+ x49GVNsQvaGDQDF7AbAo/VD3Uc+Ivzk042h6tWc3d+HvPeNQed4nLNev9U3SK3Fd5s
+ RKUI7XeAdnbOK31m3w00wiYNiOzM1vNJc8MDE0bg=
+Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <1708321d-7500-5183-55d5-a3b7ee3062c1@yandex-team.ru>
+Date: Thu, 18 Aug 2022 12:32:46 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220816173428.157304-15-danielhb413@gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3 1/8] parallels: Out of image offset in BAT leads to
+ image inflation
+Content-Language: en-US
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, kwolf@redhat.com,
+ hreitz@redhat.com
+References: <20220815090216.1818622-1-alexander.ivanov@virtuozzo.com>
+ <20220815090216.1818622-2-alexander.ivanov@virtuozzo.com>
+ <f0f1cee6-1409-c94e-d9c1-68cb4c848d0a@yandex-team.ru>
+ <30d44555-cb86-ae29-e781-959d6f12f0d2@virtuozzo.com>
+ <fad01f34-b266-dbc7-6e19-6c29e835cbc1@yandex-team.ru>
+ <336cbc1b-c591-3440-e111-762b3088cef1@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <336cbc1b-c591-3440-e111-762b3088cef1@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,199 +84,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel Henrique Barboza (danielhb413@gmail.com) wrote:
-> To save the FDT blob we have the '-machine dumpdtb=<file>' property.
-> With this property set, the machine saves the FDT in <file> and exit.
-> The created file can then be converted to plain text dts format using
-> 'dtc'.
+On 8/18/22 11:49, Alexander Ivanov wrote:
 > 
-> There's nothing particularly sophisticated into saving the FDT that
-> can't be done with the machine at any state, as long as the machine has
-> a valid FDT to be saved.
+> On 17.08.2022 21:43, Vladimir Sementsov-Ogievskiy wrote:
+>> On 8/17/22 22:27, Denis V. Lunev wrote:
+>>> On 17.08.2022 21:13, Vladimir Sementsov-Ogievskiy wrote:
+>>>> On 8/15/22 12:02, Alexander Ivanov wrote:
+>>>>> data_end field in BDRVParallelsState is set to the biggest offset present
+>>>>> in BAT. If this offset is outside of the image, any further write will create
+>>>>> the cluster at this offset and/or the image will be truncated to this
+>>>>> offset on close. This is definitely not correct and should be fixed.
+>>>>>
+>>>>> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+>>>>> ---
+>>>>> v2: No change.
+>>>>> v3: Fix commit message.
+>>>>>
+>>>>>   block/parallels.c | 17 +++++++++++++++++
+>>>>>   1 file changed, 17 insertions(+)
+>>>>>
+>>>>> diff --git a/block/parallels.c b/block/parallels.c
+>>>>> index a229c06f25..a76cf9d993 100644
+>>>>> --- a/block/parallels.c
+>>>>> +++ b/block/parallels.c
+>>>>> @@ -732,6 +732,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>>>>>       BDRVParallelsState *s = bs->opaque;
+>>>>>       ParallelsHeader ph;
+>>>>>       int ret, size, i;
+>>>>> +    int64_t file_size;
+>>>>>       QemuOpts *opts = NULL;
+>>>>>       Error *local_err = NULL;
+>>>>>       char *buf;
+>>>>> @@ -811,6 +812,22 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>>>>>           }
+>>>>>       }
+>>>>>   +    file_size = bdrv_getlength(bs->file->bs);
+>>>>> +    if (file_size < 0) {
+>>>>> +        goto fail;
+>>>>> +    }
+>>>>> +
+>>>>> +    file_size >>= BDRV_SECTOR_BITS;
+>>>>> +    if (s->data_end > file_size) {
+>>>>> +        if (flags & BDRV_O_CHECK) {
+>>>>> +            s->data_end = file_size;
+>>>>
+>>>> Hm. but with this, any further allocation may lead to twice-allocted clusters, as you just modify s->data_end, but havn't yet fixed the BAT entry.. It seems unsafe. Or what I miss?
+>>>>
+>>> if O_CHECK is specified, we are going to execute parallels_co_check which
+>>> will correctly handle this. In the other case (normal open) we will
+>>> face the error, which is pretty much correct under this logic.
+>>
+>> Sounds like "s->data_end = file_size" is part of this handling and should be in parallels_co_check()..
+>>
+>> Looking at it, seems more correct to recalculate s->data_end exactly after for-loop, which fixes out-of-image clusters. Also it would work better in case when we have leaked clusters at the end of file.
+>>
+>> Otherwise, ideally, you should have comment at top of parallels_co_check(), that we must first fix out-of-image clusters, before doing any kind of allocation, because data_end is already tweaked.
+>>
+>> I agree that patch should work as is.
 > 
-> The 'dumpdtb' command receives a 'filename' paramenter and, if a valid
-> FDT is available, it'll save it in a file 'filename'. In short, this is
-> a '-machine dumpdtb' that can be fired on demand via QMP/HMP.
+> I would like to leave this check in parallels_open(). I think it's a good idea to have an error on a corrupted image. Later we can replace it by checking&fixing images in parallels_open().
 > 
-> A valid FDT consists of a FDT that was created using libfdt being
-> retrieved via 'current_machine->fdt' in device_tree.c. This condition is
-> met by most FDT users in QEMU.
-> 
-> This command will always be executed in-band (i.e. holding BQL),
-> avoiding potential race conditions with machines that might change the
-> FDT during runtime (e.g. PowerPC 'pseries' machine).
-> 
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hmp-commands.hx              | 13 +++++++++++++
->  include/monitor/hmp.h        |  1 +
->  include/sysemu/device_tree.h |  1 +
->  monitor/hmp-cmds.c           | 12 ++++++++++++
->  monitor/qmp-cmds.c           | 13 +++++++++++++
->  qapi/machine.json            | 17 +++++++++++++++++
->  softmmu/device_tree.c        | 18 ++++++++++++++++++
->  7 files changed, 75 insertions(+)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 182e639d14..d2554e9701 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1800,3 +1800,16 @@ ERST
->                        "\n\t\t\t\t\t limit on a specified virtual cpu",
->          .cmd        = hmp_cancel_vcpu_dirty_limit,
->      },
-> +
-> +SRST
-> +``dumpdtb`` *filename*
-> +  Save the FDT in the 'filename' file to be decoded using dtc.
-> +  Requires 'libfdt' support.
-> +ERST
-> +    {
-> +        .name       = "dumpdtb",
-> +        .args_type  = "filename:s",
+> But I agree, it would be better to move the fix of s->data_end to parallels_co_check() and then move to parallels_check_outside_image().
 
-I think you want :F there for a flename
-(you still use qdict_get_str but it'll set it up for filename
-completion.)
+Yes, right, agree.
 
-> +        .params     = "[filename] file to save the FDT",
-> +        .help       = "save the FDT in the 'filename' file to be decoded using dtc",
-> +        .cmd        = hmp_dumpdtb,
-> +    },
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index a618eb1e4e..d7f324da59 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -134,6 +134,7 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
->  void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->  void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
->  void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-> +void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
->  void hmp_human_readable_text_helper(Monitor *mon,
->                                      HumanReadableText *(*qmp_handler)(Error **));
->  void hmp_info_stats(Monitor *mon, const QDict *qdict);
-> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-> index ef060a9759..bf7684e4ed 100644
-> --- a/include/sysemu/device_tree.h
-> +++ b/include/sysemu/device_tree.h
-> @@ -136,6 +136,7 @@ int qemu_fdt_add_path(void *fdt, const char *path);
->      } while (0)
->  
->  void qemu_fdt_dumpdtb(void *fdt, int size);
-> +void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
->  
->  /**
->   * qemu_fdt_setprop_sized_cells_from_array:
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index c6cd6f91dd..d23ec85f9d 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -2472,3 +2472,15 @@ exit:
->  exit_no_print:
->      error_free(err);
->  }
-> +
-> +void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
-> +{
-> +    const char *filename = qdict_get_str(qdict, "filename");
-> +    Error *local_err = NULL;
-> +
-> +    qmp_dumpdtb(filename, &local_err);
-> +
-> +    if (local_err) {
-> +        error_report_err(local_err);
-> +    }
-
-That should be hmp_handle_error(
-
-Dave
-
-> +}
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 7314cd813d..8415aca08c 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -45,6 +45,7 @@
->  #include "hw/intc/intc.h"
->  #include "hw/rdma/rdma.h"
->  #include "monitor/stats.h"
-> +#include "sysemu/device_tree.h"
->  
->  NameInfo *qmp_query_name(Error **errp)
->  {
-> @@ -596,3 +597,15 @@ bool apply_str_list_filter(const char *string, strList *list)
->      }
->      return false;
->  }
-> +
-> +#ifdef CONFIG_FDT
-> +void qmp_dumpdtb(const char *filename, Error **errp)
-> +{
-> +    return qemu_fdt_qmp_dumpdtb(filename, errp);
-> +}
-> +#else
-> +void qmp_dumpdtb(const char *filename, Error **errp)
-> +{
-> +    error_setg(errp, "dumpdtb requires libfdt");
-> +}
-> +#endif
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 6afd1936b0..aeb013f3dd 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1664,3 +1664,20 @@
->       '*size': 'size',
->       '*max-size': 'size',
->       '*slots': 'uint64' } }
-> +
-> +##
-> +# @dumpdtb:
-> +#
-> +# Save the FDT in dtb format. Requires 'libfdt' support.
-> +#
-> +# @filename: name of the FDT file to be created
-> +#
-> +# Since: 7.2
-> +#
-> +# Example:
-> +#   {"execute": "dumpdtb"}
-> +#    "arguments": { "filename": "/tmp/fdt.dtb" } }
-> +#
-> +##
-> +{ 'command': 'dumpdtb',
-> +  'data': { 'filename': 'str' } }
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 6ca3fad285..cd487ddd4d 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -643,3 +643,21 @@ out:
->      g_free(propcells);
->      return ret;
->  }
-> +
-> +void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp)
-> +{
-> +    int size;
-> +
-> +    if (!current_machine->fdt) {
-> +        error_setg(errp, "Unable to find the machine FDT");
-> +        return;
-> +    }
-> +
-> +    size = fdt_totalsize(current_machine->fdt);
-> +
-> +    if (g_file_set_contents(filename, current_machine->fdt, size, NULL)) {
-> +        return;
-> +    }
-> +
-> +    error_setg(errp, "Error when saving machine FDT to file %s", filename);
-> +}
-> -- 
-> 2.37.2
 > 
+>>
+>>>
+>>>>> +        } else {
+>>>>> +            error_setg(errp, "parallels: Offset in BAT is out of image");
+>>>>> +            ret = -EINVAL;
+>>>>> +            goto fail;
+>>>>> +        }
+>>>>> +    }
+>>>>> +
+>>>>>       if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
+>>>>>           /* Image was not closed correctly. The check is mandatory */
+>>>>>           s->header_unclean = true;
+>>>>
+>>>>
+>>>
+>>
+>>
+
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Best regards,
+Vladimir
 
