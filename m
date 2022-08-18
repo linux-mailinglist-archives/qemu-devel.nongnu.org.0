@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF64D598AE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:12:37 +0200 (CEST)
-Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0F2598AF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:16:30 +0200 (CEST)
+Received: from localhost ([::1]:36306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOk0R-0002Zo-0o
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
+	id 1oOk4D-00057Z-IF
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOjxP-0000tE-Qx
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:09:29 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:37686)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOk1U-0002oa-0B
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:13:40 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:44520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOjxN-00067A-S6
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:09:27 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOk1S-0007I9-0L
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:13:39 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BA7F23F46B;
- Thu, 18 Aug 2022 18:09:24 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E074C5C20A;
+ Thu, 18 Aug 2022 18:13:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660846164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1660846416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ydCvyzrukjVZA9NviHeTpCpkY8cVAkzs/9U3MpV87Q=;
- b=jF48FOsvorX81TtHpZWUxI/f88JqAaT1Fp/iQib2NpaAGovVepPPl1SbZcELzUoZRk30j/
- aOmwEhhoKFFIHoXDHPQfujtIlH3ZQSDTSvV4Br1SketWbdXK7UnnzZgc1sv6Ilyym91YTD
- shlxSx5u6pGZT6u21OuqPepU4AUjCpc=
+ bh=1Kskj07Uf+Xb0iisVKajJjnyRtvrF7gpH64yb+FmyHA=;
+ b=K9lF2C0wrxez4TcWidQBm4Jouoj6UVz32w9/Mq0fmePpvLORt02gDtLliGUmI9ra+mzt/l
+ dpkbVA7KSK1OqKVhbZ+E5PRHze130TbQe2Gm7Gsdl6duBmb3RzFKDlClmjtsjT3SUNsx8W
+ ApjzNpSmFqM+BfArJGKCQz4Tc0EHKAA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660846164;
+ s=susede2_ed25519; t=1660846416;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ydCvyzrukjVZA9NviHeTpCpkY8cVAkzs/9U3MpV87Q=;
- b=Dq98YoaG0X0jeY+yJd7Iy47SDMkGfum4hLn9Wi2lZFQ/EU8zfmy8kzAL2LpAyA4IAEse6D
- HA3SqPA/wakGJjBQ==
+ bh=1Kskj07Uf+Xb0iisVKajJjnyRtvrF7gpH64yb+FmyHA=;
+ b=31bXOL1aEAHPsB9R7hgyI57vm0C54F0Kil77chXb9R5eYQz4Yd51C7Lv7aOBE7kD3RimWl
+ RzClb/Z1AJ98P0AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 70AD1139B7;
- Thu, 18 Aug 2022 18:09:24 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A4F4C139B7;
+ Thu, 18 Aug 2022 18:13:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8GB7GVSA/mInUgAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 18 Aug 2022 18:09:24 +0000
-Message-ID: <4c984c87-d8c4-0af5-0619-9509a23f916c@suse.de>
-Date: Thu, 18 Aug 2022 20:09:23 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id TYbKJlCB/mLlUwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 18 Aug 2022 18:13:36 +0000
+Message-ID: <cfd7a252-89f5-ac6e-dde6-4d5e3aa6589a@suse.de>
+Date: Thu, 18 Aug 2022 20:13:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
@@ -68,8 +68,8 @@ From: Claudio Fontana <cfontana@suse.de>
 In-Reply-To: <Yv5pcSfuLajkZSsb@work-vm>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -171,29 +171,6 @@ On 8/18/22 18:31, Dr. David Alan Gilbert wrote:
 > 
 > Eww that's messy isn't it.
 > (You don't fancy a huge sparse file do you?)
-
-Wait am I missing something obvious here?
-
-Maybe we don't need any libvirt extra process.
-
-why don't we open the _single_ file multiple times from libvirt,
-
-Lets say the "main channel" fd is opened, we write the libvirt header,
-then reopen again the same file multiple times,
-and finally pass all fds to qemu, one fd for each parallel transfer channel we want to use
-(so we solve all the permissions, security labels issues etc).
-
-And then from QEMU we can write to those fds at the right offsets for each separate channel,
-which is easier from QEMU because we can know exactly how much data we need to transfer before starting the migration,
-so we have even less need for "holes", possibly only minor ones for single byte adjustments
-for uneven division of the interleaved file.
-
-What is wrong with this one, or does anyone see some other better approach?
-
-Thanks,
-
-C
-
 > 
 >> Maybe this new way will be acceptable to libvirt,
 >> ie avoiding the multifd code -> socket, but still merging the data from the multiple fds into a single file?
@@ -201,10 +178,23 @@ C
 > It feels to me like the problem here is really what we want is something
 > closer to a dump than the migration code; you don't need all that
 > overhead of the code to deal with live migration bitmaps and dirty pages
+
+well yes you are right, we don't care about live migration bitmaps and dirty pages,
+but we don't incur in any of that anyway since (at least for what I have in mind, virsh save and restore),
+the VM is stopped.
+
 > that aren't going to happen.
 > Something that just does a nice single write(2) (for each memory
 > region);
 > and then ties the device state on.
+
+ultimately yes, it's the same thing though, whether we trigger it via migrate fd: or via another non-migration-related mechanism,
+any approach would work.
+
+Ciao,
+
+C
+
 > 
 > Dave
 > 
