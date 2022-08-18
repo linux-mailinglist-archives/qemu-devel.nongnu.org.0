@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FCF597D12
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 06:22:09 +0200 (CEST)
-Received: from localhost ([::1]:48338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3E8597E06
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 07:23:58 +0200 (CEST)
+Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOX2l-0000Uf-Os
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 00:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42340)
+	id 1oOY0a-0000Qn-PY
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 01:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oOX15-0006bA-JT; Thu, 18 Aug 2022 00:20:25 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:42643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oOX13-00083Q-25; Thu, 18 Aug 2022 00:20:22 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 73so363322pgb.9;
- Wed, 17 Aug 2022 21:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=q9zHFdXtwZj59sNvfehjBtTTfnpeXLm1QDMCzQKW5WE=;
- b=QV7FAPhWoKak9044wR72V/gRftd8B/N5IvqHggyrdZVFU2NwsUyoXE9FbVViIZ/9Hp
- soLPDqYamAXvJEBBuXB/OwHuRUnMEWKzKqoCIn1KChyaLXY/kw+DHGwps1uV7/Fxnc3f
- 37FjdtPyk5NIMYd/meCm6JXq2E8UgwGnh5MjpP6a3SzNSh16dUwCqyvawJ6fh3GwDJkg
- +XS8lTe77mzSWWfd4XLChr63ZsxGgOLpf78Cks1I0Uk7i0EKrqu21i8K8ULciNlJNlCM
- 8ruwEWk20T23p3zXwclT2dBW3d2hXWvSTo6hkOIbG6eYHp2Wse5BIy+1HwjQyWA2CUdj
- sZIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=q9zHFdXtwZj59sNvfehjBtTTfnpeXLm1QDMCzQKW5WE=;
- b=GcVhCJiZLvwRIh4g+H9Xq2xstbqnUTfueQy3IzBg5JS5fU5WOQXJyUw0YFxwnS9lOJ
- M2oqVfLVxqs0608mIDoDbdMnu0vzqH0PKJEobCzz5sbwIxlSnzp7N6tEFQDUvW2hYljY
- VfB03bGQ89pEg1ZULEWzqOhXWB3NSFp+wwvINGG1SKUou8yT0ydh4eKKgUMa5a2xD10K
- hJOEN2BSSCU9E4nPvefv8otVqfGBTaNZ4JIFGI31pMZSyXgA7fuo4HL33XE3IhgZSJh7
- xizCDpyQmISvu3OeGgPdmS2qmp+JKkZqmxgWQoA6gJR62slEzfdRVFu5gLv/F92baexE
- uAeg==
-X-Gm-Message-State: ACgBeo0PB12jEKM6gMdSG2OAjy5g0HWTLQrmyOs2iojsCbUcC9o6m5Q6
- leuJw4wFh9jfi7n+SbCZpU5/jxyIH4ozt1sN9jM=
-X-Google-Smtp-Source: AA6agR4Z2DXM3tvy5n3bSxbQkRdqMMevtses0VQNq0tW0fO6tTAM0cUx6Bzcx1JJoNKue+EIohSFpamSi4bCmwozeNg=
-X-Received: by 2002:a05:6a00:88e:b0:52c:65a3:fdb4 with SMTP id
- q14-20020a056a00088e00b0052c65a3fdb4mr1225279pfj.83.1660796418824; Wed, 17
- Aug 2022 21:20:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1oOXz1-0007VR-W7
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 01:22:20 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:45316 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1oOXyz-0003Er-6y
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 01:22:19 -0400
+Received: from [10.20.42.170] (unknown [10.20.42.170])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxrmt+zP1iDaMDAA--.5804S3; 
+ Thu, 18 Aug 2022 13:22:06 +0800 (CST)
+Message-ID: <b5fe0e53-72fe-cb01-15e4-ed7773756d7e@loongson.cn>
+Date: Thu, 18 Aug 2022 13:22:06 +0800
 MIME-Version: 1.0
-References: <20220815190303.2061559-1-peter.maydell@linaro.org>
- <20220815190303.2061559-8-peter.maydell@linaro.org>
-In-Reply-To: <20220815190303.2061559-8-peter.maydell@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 18 Aug 2022 14:19:52 +1000
-Message-ID: <CAKmqyKNo15Kz6-FtXL3C2wC7+aHHLTyGG5tOKQTpnM-c-kJO=w@mail.gmail.com>
-Subject: Re: [PATCH 7/7] target/riscv: Honour -semihosting-config userspace=on
- and enable=on
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm <qemu-arm@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
- Stefan Pejic <stefan.pejic@syrmia.com>, Chris Wulff <crwulff@gmail.com>,
- Marek Vasut <marex@denx.de>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH for-7.1 3/4] target/loongarch: rename the TCG CPU "la464"
+ to "qemu64-v1.00"
+Content-Language: en-US
+To: WANG Xuerui <i.qemu@xen0n.name>,
  Richard Henderson <richard.henderson@linaro.org>,
- Furquan Shaikh <furquan@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52b.google.com
+ gaosong <gaosong@loongson.cn>, chen huacai <zltjiangshi@gmail.com>
+Cc: qemu-level <qemu-devel@nongnu.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, WANG Xuerui <git@xen0n.name>
+References: <20220814145351.1474753-1-git@xen0n.name>
+ <20220814145522.1474927-4-i.qemu@xen0n.name>
+ <1c4ae4dd-7365-1d5b-0608-31ba04ee96e0@linaro.org>
+ <CABDp7VrhdgGG5WP7Bm5G2KmUytZ17GTDA3kYO6RPMcB5FyUo9Q@mail.gmail.com>
+ <2382c1cd-6318-34a2-35e8-addc751f6aeb@loongson.cn>
+ <a5fde3dc-0fd4-8739-82b1-d94781637169@xen0n.name>
+ <ac55b78a-602a-e875-5bf0-c5040d7de2a1@linaro.org>
+ <daca3a69-08b3-be35-04b2-e6fcfe8207cd@xen0n.name>
+From: maobibo <maobibo@loongson.cn>
+In-Reply-To: <daca3a69-08b3-be35-04b2-e6fcfe8207cd@xen0n.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxrmt+zP1iDaMDAA--.5804S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFW5Gw18tw4UJr1kZryDGFg_yoW5Cw13pF
+ yfKw4ftrs7tFZ7Aan7Zws7Zr45ArZ7Jay5Wwn8Cr93u3y5uF1Sqr4jyw4Fvay7ArWxWw1j
+ qFWjgrWkG3WkZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
+ IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
+ 6r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2
+ IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv
+ 67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf
+ 9x0JUdHUDUUUUU=
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,53 +88,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 16, 2022 at 5:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The riscv target incorrectly enabled semihosting always, whether the
-> user asked for it or not.  Call semihosting_enabled() passing the
-> correct value to the is_userspace argument, which fixes this and also
-> handles the userspace=on argument.
->
-> Note that this is a behaviour change: we used to default to
-> semihosting being enabled, and now the user must pass
-> "-semihosting-config enable=on" if they want it.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-I agree with Richard that a check in translate would be better, but
-this is also an improvement on the broken implementation we have now
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+在 2022/8/18 10:31, WANG Xuerui 写道:
+> On 2022/8/17 21:26, Richard Henderson wrote:
+>> On 8/17/22 04:10, WANG Xuerui wrote:
+>>>  From my own experiences, different use cases care about different aspects of the CPU, and that IMO is an argument in favor of providing both (high-fidelity models named after actual product model names, and virtual models named after ISA levels). But before we have truly high-fidelity models I think we should start with the virtual ones first. And don't pretend the currently implemented model is LA464 -- the kernel change I've linked to [1] implies the opposite.
+>>
+>> No, it simply pointed to a bug in qemu that could have been fixed.
+>>
+>> The trouble with inventing virtual models is that no one knows what they mean.  Targeting real hardware is better, because we have a documented standard.
+>>
+> Hmm, I've looked up more context and it is indeed reasonable to generally name the QEMU models after real existing models. But in this case we could face a problem with Loongson's nomenclature: all of Loongson 3A5000, 3C5000 and 3C5000L are LA464, yet they should be distinguishable software-side by checking the model name CSR. But with only one CPU model that is LA464, currently this CSR is hard-coded to read "3A5000", and this can hurt IMO. And when we finally add LA264 and LA364 they would be identical ISA-level-wise, again the only differentiator is the model name CSR.
+We will add LA264 later, there are some small different features with LA464, such as virtual/physical address width, unaligned address access, vector fpu width etc.
+ 
 
-Alistair
+> And by "not high-fidelity", I mean some of the features present on real HW might never get implemented, or actually implementable, like the DVFS mechanism needed by cpufreq. And I believe Bibo wouldn't have to change the kernel if it's not needed after all to run the unmodified upstream kernel on top of qemu-system-loongarch64. (I would of course accept, and learn something along the way, if this turns out not to be the case though.)
+qemu does not emulation actual voltage/freq function,  cpu freq 2000MHZ in qemu is not real freq, it is only function emulation rather than timing emulation.
 
-> ---
->  target/riscv/cpu_helper.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 59b3680b1b2..49c4ea98ac9 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -24,6 +24,7 @@
->  #include "exec/exec-all.h"
->  #include "tcg/tcg-op.h"
->  #include "trace.h"
-> +#include "semihosting/semihost.h"
->  #include "semihosting/common-semi.h"
->
->  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
-> @@ -1342,7 +1343,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      target_ulong mtval2 = 0;
->
->      if  (cause == RISCV_EXCP_SEMIHOST) {
-> -        if (env->priv >= PRV_S) {
-> +        if (semihosting_enabled(env->priv < PRV_S)) {
->              do_common_semihosting(cs);
->              env->pc += 4;
->              return;
-> --
-> 2.25.1
->
->
+regards
+bibo,mao 
+
+> Lastly, the "ISA level" I proposed is not arbitrarily made up; it's direct reference to the ISA manual revision. Each time the ISA gets some addition/revision the ISA manual has to be updated, and currently the manual's revision is the only reliable source of said information. (Loongson has a history of naming cores badly, like with the MIPS 3B1500 and 3A4000, both were "GS464V"; and 3A5000 was originally GS464V too, even though the insn encodings and some semantics have been entirely different.)
+> 
+> In conclusion, I'd accept the micro-architecture naming if the model CSR behavior could be sorted out, otherwise I'd personally prefer real model names if ISA level naming is not going to fly. This is not a strong objection to the current way of doing things though, more like some minor but anyway needed discussion that happened a bit late. Sorry for not chiming in earlier during the review process.
+
 
