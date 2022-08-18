@@ -2,108 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15073597E40
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 07:53:27 +0200 (CEST)
-Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1F6597EA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 08:32:23 +0200 (CEST)
+Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOYT8-0006um-2n
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 01:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44478)
+	id 1oOZ4o-00035u-EV
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 02:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oOYKB-0004fT-2V
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 01:44:11 -0400
-Received: from mail-mw2nam10on2043.outbound.protection.outlook.com
- ([40.107.94.43]:55168 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oOYo1-0004tF-N0; Thu, 18 Aug 2022 02:15:03 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:55685
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oOYK8-0007kE-GJ
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 01:44:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VkVsDSNAO1JNf5RVnFRXZezoHLCyD9KHMLK5Sm1Z9GU+4iHYXoGzn/xRuYPtjXs8DblgKkZ5s6qGBsLer+tWUGPTkVl8Y3GH/cuuriLuocQVAKeA5bgb6XCZQozYXKAb4cRFEGhSu1VJB43gBrseMZwhZbGUOOK7KTtFB2ocGmZpXRpO9IXelv9Yw2CEq6WNjQ7WTU3LUOtRt6HJsUK//sZ3gJFkGyJIVt6fhfas77qODbkXp9pF28HlCNpZOWd1OFA+JDoDRuY5Bf8lRiASbx3pl0NGQ8a7NOyJaF14At+Ai25W1Sd/tmKqX79SNG7FKjg3rJUIOgEm55zwzBo7Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NVHWIOo8hBxxxLDHob9TA4LiTjXlY0O+JlYPd9bagk0=;
- b=dzLLg/CD5q6I0Pnddr7IhXOo1RY2wq2A4Cds4v5g4900cYWTJDuhuanpwHOL+qgKtX4c0PYRGYa6stf0Kt/LuON97AeNJod1zNpJYLi1JORXYOA5W3IToi28ggPoyqhmY7iTONt554qg282WKYLQ8kjG7Yu0yQVjblF27JYESWCYUqVpSy5ej9tR14ScEfYs5t+rmEKK7a/RZ66IZ1VQDXmshAEQNzW5nxoURq0mpPBW7afdv2XdQYSTnx8UpJQtJjUgSNr4e7FTvIxyIY1KY+j29fsXBaapDUjrf7MKUHUF5WqI/g/vBwTaQhNSbMAquDo4qCZzScBldbOuZoa+mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NVHWIOo8hBxxxLDHob9TA4LiTjXlY0O+JlYPd9bagk0=;
- b=YkgCIpqFOCSIvn+JeQnRmWswnGUpdxzWM38qZhz9HpS3hzdQQ9fJ4i508HIGkny1uSdxzVlNtFAul7ZeDbCNqM3nONW7GEebUFuW1hNIGUi6xKiY9c2fVF4EVyMenLCsQdB47PcjFTK6FBERA9aXvcZ9rp1bRF89QEDgU+xp9S0=
-Received: from MW4PR04CA0075.namprd04.prod.outlook.com (2603:10b6:303:6b::20)
- by SJ1PR12MB6026.namprd12.prod.outlook.com (2603:10b6:a03:48b::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Thu, 18 Aug
- 2022 05:44:03 +0000
-Received: from CO1NAM11FT102.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:6b:cafe::cd) by MW4PR04CA0075.outlook.office365.com
- (2603:10b6:303:6b::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20 via Frontend
- Transport; Thu, 18 Aug 2022 05:44:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT102.mail.protection.outlook.com (10.13.175.87) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5546.7 via Frontend Transport; Thu, 18 Aug 2022 05:44:03 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 18 Aug
- 2022 00:44:01 -0500
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oOYnv-0007RD-Th; Thu, 18 Aug 2022 02:15:01 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4M7ZNj5WsDz4x7X; Thu, 18 Aug 2022 16:14:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1660803285;
+ bh=LVcVxFlyc/VhBoe80OAswsuC6tJ2aV/3tniZNEtQqUM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dFDQXWGqLuHKE5ejQFvsscX9pqIiiTqOhwWBL5bmm6ydVDYB7dUtv/7He0q2Sb5k6
+ teJ+I5qTSmQL+kXOaoTCKsKOspTIUt6mkJz5PxhZCRkW2zs3cDcG6iImsqzC3ddtt5
+ ES5QGNgLURYdS3Lls+v0R/kqk0/iffO/mX42yK9g=
+Date: Thu, 18 Aug 2022 11:31:43 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ alistair.francis@wdc.com
+Subject: Re: [PATCH for-7.2 v3 16/20] device_tree.c: support string array
+ prop in fdt_format_node()
+Message-ID: <Yv2Wf3LxLQf8LfP1@yekko>
+References: <20220816173428.157304-1-danielhb413@gmail.com>
+ <20220816173428.157304-17-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 7.1.0-rc3 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: <richard.henderson@linaro.org>
-Date: Thu, 18 Aug 2022 00:41:42 -0500
-Message-ID: <166080130228.51240.14592723336710553557@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4a4467cd-240b-46ad-5bbc-08da80dca8ad
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6026:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mfs9/RLSNeVSqyvQCPGvFyJM2fSHKE2SOFltnA5ecdOysdxi0t7pQigOH9tnjcX6rgddsXEvQOAtxBlo9ctCJn3eNUD3sdNnRL9VZwj6NiX93oAc2+VyREIxn0YwbjGey30KQLL1x2bXlCYY5xZ9VfgyU0r8qgk7sSyemaMXGs2/gOl4FJO/n3r1ovJ/LU7SpFemLMKgzsT3uWktnvDrOUkxV6ux6H5FkS2mTm8wK0ms6Bz8tFVUzHeEZBM/0QxMApEemP3vFFH720leZ+rdglioasdPkbWx2jOKWvzRLz8oMlPRjof+ZL2opIelCwKsgNi4CGy3TedRGuOEjdKWJFQXfvIGGTL+ro1fAoT6niSzfwhdIsB1CgIB6lokf10bYB1v7bvTdeJfX3xuGL5CmJmiABD9syv0/HM0Y3g9I8W++1PR6LtT8rrc6uIRfbsmb/eqAuspXWWGYqHDRCJh8oS2k1gkio+CyXVaz/wMHXphWy+KxhobiUsMovAMOsoj0EOo4ecXPZ0L8WkDTdTuSbnTTm4DnjMGyjX/j9ZSPy0m6xUaxvu4pqe+J33+/fOmzaNVgaIfkzvoXwKaACsezNE9Li/BMyImWB0B/B5poIxua2ZwbmvoYZsDdkzrcsBVSyexJGgvht8cVVM3vYVz9uKSXyMr4iVFDfPo76qWgC20JlfY8IFXLm1m0YZkPCbUum+f0uqh0zItK6oJCtpQEWwG7jA0xvHSTHToVne/z1ymyhsIYXnPYohzpvpYtOszNRVdx/QVvd/X1A4UnqVfgYjXlNiQOLE05x50ZS/E5AoMQfPfui2nWXei5jep/ES26D9aS0oTje/fYAz2IA1RsYkPgC0ca3hbNSgMTp8nd1YlmWbKCFGg9Q+vY7ZHdHK1
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(136003)(39860400002)(396003)(376002)(46966006)(36840700001)(40470700004)(40460700003)(16526019)(336012)(426003)(478600001)(966005)(186003)(66574015)(47076005)(5660300002)(36756003)(83380400001)(6916009)(8936002)(86362001)(40480700001)(36860700001)(356005)(26005)(41300700001)(316002)(4326008)(8676002)(81166007)(70586007)(2906002)(6666004)(70206006)(44832011)(2616005)(82310400005)(82740400003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 05:44:03.3534 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a4467cd-240b-46ad-5bbc-08da80dca8ad
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT102.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6026
-Received-SPF: softfail client-ip=40.107.94.43;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wt0ZnXhsYQyZesI2"
+Content-Disposition: inline
+In-Reply-To: <20220816173428.157304-17-danielhb413@gmail.com>
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,57 +67,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-fourth release candidate for the QEMU 7.1 release. This release is meant
-for testing purposes and should not be used in a production environment.
+--wt0ZnXhsYQyZesI2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  http://download.qemu-project.org/qemu-7.1.0-rc3.tar.xz
-  http://download.qemu-project.org/qemu-7.1.0-rc3.tar.xz.sig
+On Tue, Aug 16, 2022 at 02:34:24PM -0300, Daniel Henrique Barboza wrote:
+> To support printing string properties in 'info fdt' we need to determine
+> whether a void data might contain a string array.
+>=20
+> We do that by casting the void data to a string array and:
+>=20
+> - check if the array finishes with a null character
+> - check if there's no empty string in the middle of the array (i.e.
+> consecutive \0\0 characters)
+> - check if all characters of each substring are printable
+>=20
+> If all conditions are met, we'll consider it to be a string array data
+> type and print it accordingly. After this change, 'info fdt' is now able
+> to print string arrays. Here's an example of string arrays we're able to
+> print in the /rtas node of the ppc64 pSeries machine:
+>=20
+> (qemu) info fdt /rtas
+> rtas {
+>     (...)
+>     qemu,hypertas-functions =3D "hcall-memop1";
+>     ibm,hypertas-functions =3D "hcall-pft","hcall-term","hcall-dabr",
+> "hcall-interrupt","hcall-tce","hcall-vio","hcall-splpar","hcall-join",
+> "hcall-bulk","hcall-set-mode","hcall-sprg0","hcall-copy","hcall-debug",
+> "hcall-vphn","hcall-multi-tce","hcall-hpt-resize","hcall-watchdog";
 
-You can help improve the quality of the QEMU 7.1 release by testing this
-release and reporting bugs using our GitLab issue tracker:
+nit: typical dts style would have extra spaces:
+	prop =3D "foo", "bar";
+i.e. separated by ", " not just ",".
 
-  https://gitlab.com/qemu-project/qemu/-/issues
+> }
+>=20
+> 'qemu,hypertas-functions' is a property with a single string while
+> 'ibm,hypertas-functions' is a string array.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  softmmu/device_tree.c | 64 ++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 63 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index 3fb07b537f..d32d6856da 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -663,6 +663,63 @@ void qemu_fdt_qmp_dumpdtb(const char *filename, Erro=
+r **errp)
+>      error_setg(errp, "Error when saving machine FDT to file %s", filenam=
+e);
+>  }
+> =20
+> +static bool fdt_prop_is_string_array(const void *data, int size)
+> +{
+> +    const char *str_arr, *str;
+> +    int i, str_len;
+> +
+> +    str_arr =3D str =3D data;
+> +
+> +    if (size <=3D 0 || str_arr[size - 1] !=3D '\0') {
+> +        return false;
+> +    }
+> +
+> +    while (str < str_arr + size) {
+> +        str_len =3D strlen(str);
+> +
+> +        /*
+> +         * Do not consider empty strings (consecutives \0\0)
+> +         * as valid.
+> +         */
+> +        if (str_len =3D=3D 0) {
+> +            return false;
+> +        }
+> +
+> +        for (i =3D 0; i < str_len; i++) {
+> +            if (!g_ascii_isprint(str[i])) {
+> +                return false;
+> +            }
+> +        }
+> +
+> +        str +=3D str_len + 1;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+> +static void fdt_prop_format_string_array(GString *buf,
+> +                                         const char *propname,
+> +                                         const char *data,
+> +                                         int prop_size, int padding)
+> +{
+> +    const char *str =3D data;
+> +
+> +    g_string_append_printf(buf, "%*s%s =3D ", padding, "", propname);
+> +
+> +    while (str < data + prop_size) {
+> +        /* appends up to the next '\0' */
+> +        g_string_append_printf(buf, "\"%s\"", str);
+> +
+> +        str +=3D strlen(str) + 1;
+> +        if (str < data + prop_size) {
+> +            /* add a comma separator for the next string */
+> +            g_string_append_printf(buf, ",");
+> +        }
+> +    }
+> +
+> +    g_string_append_printf(buf, ";\n");
+> +}
+> +
+>  static void fdt_format_node(GString *buf, int node, int depth)
+>  {
+>      const struct fdt_property *prop =3D NULL;
+> @@ -681,7 +738,12 @@ static void fdt_format_node(GString *buf, int node, =
+int depth)
+>          prop =3D fdt_get_property_by_offset(fdt, property, &prop_size);
+>          propname =3D fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
+> =20
+> -        g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
+> +        if (fdt_prop_is_string_array(prop->data, prop_size)) {
+> +            fdt_prop_format_string_array(buf, propname, prop->data,
+> +                                         prop_size, padding);
+> +        } else {
+> +            g_string_append_printf(buf, "%*s%s;\n", padding, "", propnam=
+e);
+> +        }
+>      }
+> =20
+>      padding -=3D 4;
 
-The release plan, as well a documented known issues for release
-candidates, are available at:
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-  http://wiki.qemu.org/Planning/7.1
+--wt0ZnXhsYQyZesI2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add entries to the ChangeLog for the 7.1 release below:
+-----BEGIN PGP SIGNATURE-----
 
-  http://wiki.qemu.org/ChangeLog/7.1
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmL9lmgACgkQgypY4gEw
+YSKsjg//WfqqFZuC6nu+C4x9c6Gl+gSXPZZBQv7c10l9NYy3heVfwX+PyYbQEheB
+N5i/N+KUlu4RCVn+VMTSPjrr/ltxDVXThdlYc8ILgNKalDFp3m1B1u1MRXt5uxA2
+QAtpiev/b84Xkc7o6sfFHCfPA6Z4tTkGMuW1sLV48znI4R5e5yPDJSQDoKwePD6L
+k2dlid3gSenSya2X6NZpgHPWBvHqbewL9lgonOd6gr6b3whg6kI9UY41DkpQOt6p
+pCNiK6nrzmKQQQUwaQ9Mt6TwMnypiUuCKq/DAZirQpie+0l9Yuv/tXeAj7MGtgA3
+p27+lwrACWKX8kHq7Tgeqtb70e6RU5jxS/MzddW9SG+1EENvW2KLL+9yR5GDJIlY
+GnLmKlNtfMv3poPWUnkt3gK7cGNqV3iKp5aHdMqjOPpyB7z6EZF14/xQ66jCFKdD
+u3QMAb9r1Qa34RWrGmtZ7/D9BPkOmYrk7MyxNIRKH0+tC4Wxpc5V0CWztqTjEyVW
+JpmXzOQfhy7evix5AOvprnCC/Y7MJvlrrKERj1LXGPxiSwj5KoNC1xfIOUlONn6M
+6udpNGapJtRDaAIhxocvTGDa7H8PV07MP+WtlLpbsMPBGg36wfSjgjgpr1qKNGUI
+p/vZrl/wTZFLpSjV1m+z7uJUlgoliNtUAk9olDe+a4b8zB5QCIc=
+=79a5
+-----END PGP SIGNATURE-----
 
-Thank you to everyone involved!
-
-Changes since rc2:
-
-c7208a6e0d: Update version for v7.1.0-rc3 release (Richard Henderson)
-effaf5a240: hw/usb/hcd-xhci: Fix unbounded loop in xhci_ring_chain_length()=
- (CVE-2020-14394) (Thomas Huth)
-9c23d71934: tests/qtest: misc tweaks to readconfig (Daniel P. Berrang=C3=A9)
-65711f9a87: tests/avocado: apply a band aid to aspeed-evb login (Alex Benn=
-=C3=A9e)
-b1ceae2f5b: tests/avocado: add timeout to the aspeed tests (Alex Benn=C3=A9=
-e)
-52f0c16076: linux-user: un-parent OBJECT(cpu) when closing thread (Alex Ben=
-n=C3=A9e)
-1f90ce64fc: docs/system/loongarch: Update the LoongArch document (Xiaojuan =
-Yang)
-4311682ea8: cutils: Add missing dyld(3) include on macOS (Philippe Mathieu-=
-Daud=C3=A9)
-e1f045780b: hw/arm/virt-acpi-build: Present the GICR structure properly for=
- GICv4 (Zenghui Yu)
-6a54ac2a97: tests/unit: fix a -Wformat-truncation warning (Marc-Andr=C3=A9 =
-Lureau)
-120f765e03: Fix some typos in documentation (most of them found by codespel=
-l) (Stefan Weil)
-2daf518dd1: target/arm: Don't report Statistical Profiling Extension in ID =
-registers (Peter Maydell)
-dbbf89751b: linux-user/aarch64: Reset target data on MADV_DONTNEED (Vitaly =
-Buka)
-3cd3df2a95: linux-user: fix compat with glibc >=3D 2.36 sys/mount.h (Daniel=
- P. Berrang=C3=A9)
+--wt0ZnXhsYQyZesI2--
 
