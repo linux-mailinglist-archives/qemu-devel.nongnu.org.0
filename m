@@ -2,64 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2E65983FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 15:22:59 +0200 (CEST)
-Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AA9598408
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 15:26:29 +0200 (CEST)
+Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOfUA-0001nT-H1
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 09:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
+	id 1oOfXX-0004lc-Re
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 09:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oOfOr-0004Px-JF
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:17:31 -0400
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:49475)
+ (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
+ id 1oOfVo-0003P6-OV
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:24:40 -0400
+Received: from mga09.intel.com ([134.134.136.24]:39211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oOfOo-0000UI-P1
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:17:29 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.173])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6709421845;
- Thu, 18 Aug 2022 13:17:22 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 18 Aug
- 2022 15:17:21 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001a0d182a4-4c85-4cde-9d3c-b60687083624,
- 138D267EF392F478FDB2EE7689F651729D1C1BCC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <aed974eb-2723-9a4b-bf36-d16b319bf127@kaod.org>
-Date: Thu, 18 Aug 2022 15:17:20 +0200
+ (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
+ id 1oOfVm-0002mo-4x
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 09:24:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660829078; x=1692365078;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5TUL0pMN1Ch62fh0N5bHXldv3b4lhkGVjVf4Q20K7N8=;
+ b=PQhQUz4eTNM3EuBBb1vwfDhlRdUtLQSHtznV3X/CzwZEPf2idsMfyzHG
+ /qrYmmIGd3eyor7jfoTYl+czUftQwJcw+OMC8g2B/QvScdxjRIAoZThQ9
+ qtKrPHhxpwsBFchKtiYUhhVw8rLWQrI/VCRaSQlA5IZ6NppK6FQjwyEXU
+ 6hBt9EVKk5nv0R4NYrSwVUKXgnIGf6ecdCTEuHlp/V1Cm67I2JAcJrkTN
+ Ifdk3lUsDGYoCJ4agg82cVkzj3grELO2/vgTrzEyuXE+sARgPp93Axwfd
+ Ii8Df7lUTPKKUbIX8IC0se56uniHvMPRBTRQT6p1cc3EftFaM8ZWLBwct Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="293545882"
+X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; d="scan'208";a="293545882"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2022 06:24:34 -0700
+X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; d="scan'208";a="604253471"
+Received: from geigerri-mobl1.ger.corp.intel.com (HELO box.shutemov.name)
+ ([10.251.215.246])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2022 06:24:24 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 68132104AA0; Thu, 18 Aug 2022 16:24:21 +0300 (+03)
+Date: Thu, 18 Aug 2022 16:24:21 +0300
+From: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To: Hugh Dickins <hughd@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220818132421.6xmjqduempmxnnu2@box>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 00/31] QOMify PPC4xx devices and minor clean ups
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <cover.1660746880.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <cover.1660746880.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: c53454fb-3521-4493-93d2-150288785bbd
-X-Ovh-Tracer-Id: 4315011396386589603
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehledgfeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeljefhieetffeltdefteeutdekhfefuedttdevteffffffgedttdekieeftdetkeenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=kirill.shutemov@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,86 +104,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel,
-
-On 8/17/22 17:08, BALATON Zoltan wrote:
-> Hello,
+On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+> On Wed, 6 Jul 2022, Chao Peng wrote:
+> > This is the v7 of this series which tries to implement the fd-based KVM
+> > guest private memory.
 > 
-> This is based on gitlab.com/danielhb/qemu/tree/ppc-7.2
+> Here at last are my reluctant thoughts on this patchset.
 > 
-> This series contains the rest of Cédric's OOM'ify patches modified
-> according my review comments and some other clean ups I've noticed
-> along the way.
-
-I think patches 01-24 are good for merge.
-  
-> v2 now also includes the sdram changes after some clean up to simplify
-> it. This should now be the same state as Cédric's series. I shall
-> continue with the ppc440_sdram DDR2 controller model used by the
-> sam460ex but that needs a bit more chnages. But it is independent of
-> this series so this can be merged now and I can follow up later in a
-> separate series.
-
-I will take a look at the SDRAM changes later.
-
-Thanks,
-
-C.
-
-
-  
-> Regards,
-> BALATON Zoltan
+> fd-based approach for supporting KVM guest private memory: fine.
 > 
-> BALATON Zoltan (31):
->    ppc/ppc4xx: Introduce a DCR device model
->    ppc/ppc405: QOM'ify CPC
->    ppc/ppc405: QOM'ify GPT
->    ppc/ppc405: QOM'ify OCM
->    ppc/ppc405: QOM'ify GPIO
->    ppc/ppc405: QOM'ify DMA
->    ppc/ppc405: QOM'ify EBC
->    ppc/ppc405: QOM'ify OPBA
->    ppc/ppc405: QOM'ify POB
->    ppc/ppc405: QOM'ify PLB
->    ppc/ppc405: QOM'ify MAL
->    ppc4xx: Move PLB model to ppc4xx_devs.c
->    ppc4xx: Rename ppc405-plb to ppc4xx-plb
->    ppc4xx: Move EBC model to ppc4xx_devs.c
->    ppc4xx: Rename ppc405-ebc to ppc4xx-ebc
->    ppc/ppc405: Use an embedded PPCUIC model in SoC state
->    hw/intc/ppc-uic: Convert ppc-uic to a PPC4xx DCR device
->    ppc/ppc405: Use an explicit I2C object
->    ppc/ppc405: QOM'ify FPGA
->    ppc405: Move machine specific code to ppc405_boards.c
->    hw/ppc/Kconfig: Remove PPC405 dependency from sam460ex
->    hw/ppc/Kconfig: Move imply before select
->    ppc/ppc4xx: Fix sdram trace events
->    ppc4xx: Fix code style problems reported by checkpatch
->    ppc440_bamboo: Remove unnecessary memsets
->    ppc4xx: Introduce Ppc4xxSdramBank struct
->    ppc4xx_sdram: Get rid of the init RAM hack
->    ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
->    ppc440_bamboo: Add missing 4 MiB valid memory size
->    ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
->    ppc4xx_sdram: QOM'ify
+> Use or abuse of memfd and shmem.c: mistaken.
 > 
->   hw/intc/ppc-uic.c         |   26 +-
->   hw/ppc/Kconfig            |    3 +-
->   hw/ppc/ppc405.h           |  190 +++++--
->   hw/ppc/ppc405_boards.c    |  384 ++++++++-----
->   hw/ppc/ppc405_uc.c        | 1078 ++++++++++++-------------------------
->   hw/ppc/ppc440.h           |    5 +-
->   hw/ppc/ppc440_bamboo.c    |   63 ++-
->   hw/ppc/ppc440_uc.c        |   57 +-
->   hw/ppc/ppc4xx_devs.c      |  670 +++++++++++++++++------
->   hw/ppc/ppc4xx_pci.c       |   31 +-
->   hw/ppc/sam460ex.c         |   52 +-
->   hw/ppc/trace-events       |    3 -
->   hw/ppc/virtex_ml507.c     |    7 +-
->   include/hw/intc/ppc-uic.h |    6 +-
->   include/hw/ppc/ppc4xx.h   |  118 +++-
->   15 files changed, 1477 insertions(+), 1216 deletions(-)
+> memfd_create() was an excellent way to put together the initial prototype.
 > 
+> But since then, TDX in particular has forced an effort into preventing
+> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
+> 
+> Are any of the shmem.c mods useful to existing users of shmem.c? No.
+> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
+> 
+> What use do you have for a filesystem here?  Almost none.
+> IIUC, what you want is an fd through which QEMU can allocate kernel
+> memory, selectively free that memory, and communicate fd+offset+length
+> to KVM.  And perhaps an interface to initialize a little of that memory
+> from a template (presumably copied from a real file on disk somewhere).
+> 
+> You don't need shmem.c or a filesystem for that!
+> 
+> If your memory could be swapped, that would be enough of a good reason
+> to make use of shmem.c: but it cannot be swapped; and although there
+> are some references in the mailthreads to it perhaps being swappable
+> in future, I get the impression that will not happen soon if ever.
+> 
+> If your memory could be migrated, that would be some reason to use
+> filesystem page cache (because page migration happens to understand
+> that type of memory): but it cannot be migrated.
 
+Migration support is in pipeline. It is part of TDX 1.5 [1]. And swapping
+theoretically possible, but I'm not aware of any plans as of now.
+
+[1] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+
+> Some of these impressions may come from earlier iterations of the
+> patchset (v7 looks better in several ways than v5).  I am probably
+> underestimating the extent to which you have taken on board other
+> usages beyond TDX and SEV private memory, and rightly want to serve
+> them all with similar interfaces: perhaps there is enough justification
+> for shmem there, but I don't see it.  There was mention of userfaultfd
+> in one link: does that provide the justification for using shmem?
+> 
+> I'm afraid of the special demands you may make of memory allocation
+> later on - surprised that huge pages are not mentioned already;
+> gigantic contiguous extents? secretmem removed from direct map?
+
+The design allows for extension to hugetlbfs if needed. Combination of
+MFD_INACCESSIBLE | MFD_HUGETLB should route this way. There should be zero
+implications for shmem. It is going to be separate struct memfile_backing_store.
+
+I'm not sure secretmem is a fit here as we want to extend MFD_INACCESSIBLE
+to be movable if platform supports it and secretmem is not migratable by
+design (without direct mapping fragmentations).
+
+> Here's what I would prefer, and imagine much easier for you to maintain;
+> but I'm no system designer, and may be misunderstanding throughout.
+> 
+> QEMU gets fd from opening /dev/kvm_something, uses ioctls (or perhaps
+> the fallocate syscall interface itself) to allocate and free the memory,
+> ioctl for initializing some of it too.  KVM in control of whether that
+> fd can be read or written or mmap'ed or whatever, no need to prevent it
+> in shmem.c, no need for flags, seals, notifications to and fro because
+> KVM is already in control and knows the history.  If shmem actually has
+> value, call into it underneath - somewhat like SysV SHM, and /dev/zero
+> mmap, and i915/gem make use of it underneath.  If shmem has nothing to
+> add, just allocate and free kernel memory directly, recorded in your
+> own xarray.
+
+I guess shim layer on top of shmem *can* work. I don't see immediately why
+it would not. But I'm not sure it is right direction. We risk creating yet
+another parallel VM with own rules/locking/accounting that opaque to
+core-mm.
+
+Note that on machines that run TDX guests such memory would likely be the
+bulk of memory use. Treating it as a fringe case may bite us one day.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
