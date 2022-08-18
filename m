@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229BE598135
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 12:01:40 +0200 (CEST)
-Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C495598147
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 12:08:38 +0200 (CEST)
+Received: from localhost ([::1]:43838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOcLL-0006vj-50
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 06:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
+	id 1oOcS4-0002C9-PQ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 06:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOcEn-00008W-KF
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:54:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oOcEk-0003i2-Go
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:54:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660816488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lvvd7Zxpuz0NZVqxNTb2umlO6ujnnDXYfYjn8KNSMtI=;
- b=RFT6rnEyr/RoBniP2XSQm4mOEK1a/YQWJ3iveEjksOk//9ARgiTlRoW7kNsaqNZ8Ap1kau
- 4OoVbqqqiJJGsTcWAke5SHNgUMYmomdbC2GWMxnuGvbKXjYgklgsmfOdweXUmfzaDJ4stK
- 3zlvtwFWsFe2P2erBhM/K3ohsWMOmfI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-221-FErTBipkNHCRkb-aKh4gag-1; Thu, 18 Aug 2022 05:54:47 -0400
-X-MC-Unique: FErTBipkNHCRkb-aKh4gag-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c64-20020a1c3543000000b003a61987ffb3so720143wma.6
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 02:54:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oOc5z-0006v8-EN
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:45:47 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:43711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oOc5x-0007eI-Fp
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 05:45:47 -0400
+Received: by mail-lf1-x130.google.com with SMTP id i19so1416159lfr.10
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 02:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=SNCLZ9Z5MNhy1rJR8ljqO+Gja1srIZZrfbql4EdHJW4=;
+ b=LuZ66C7SWUPVMkDHZanr5qN8pw/wG9GIXbYT5l5oRhZAp6oCTqdPuWyq1iHy3zwEsl
+ z0JFWjizsbpjrT2fHIpw/uCQE2rECJEkrQHWNNwcHGv9vOAwXGPAc3V2d/VTTuIfOVle
+ 0CsoYk+YmRpMfywOU4d8NVwBUXkoLWOdYzx3rnizRUG2ww5pOwFZoZBxRSl0XxaVpTYY
+ oNxzExdHvIgyILYZM5E8vh1vYUbq7uZbdZNz/ganJHEfdIa1J4U6K5DggjsBLWtiV55B
+ /EWqW7xwasuIeMf45AL9g3LqVWvcyslXC6faGdxZTYGEW17qdF1mzmM06ujGmu3KifSF
+ 2N+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=lvvd7Zxpuz0NZVqxNTb2umlO6ujnnDXYfYjn8KNSMtI=;
- b=uante8/OZ4Q0o0OBRTJpDPjA1fBq3wvQ+pwL8IJSZFmk0x2kvWhgKb09bwGNGDr7NE
- /cYfuZ3aoRL/283PmYSbhrQlbZdqv6UGcwS3+gbik7DNVPjrj/CN0vKzUoGhtl+syJ9A
- izCmj6b2in2IhYeHOOMnl7V2QZ7dt/acNMqiJtCPI9m7FIf4IxMYdxKtqi+D0eA/Te/A
- 72oEwlmoNKbstUH35kLwqp1Ck436unekwZ4lD95NlOSSXPx0A81j581BXXrM8NySPruW
- WRzj9debIM+PZHPF/24fMXvGwOG82yuyTd0d3YvS+JRSKD2LvUUY0NBBU1a6ME9yEqfy
- UGOg==
-X-Gm-Message-State: ACgBeo2Xk/4inTQucEQTLs5JWXHkRVaeoGfuzvsE5yB1yBjcLX0+mhAt
- 9T0WqEO1DyKfY+AVqnjMPmg0Nc1TrH2K6njyigbJLkrj9UHPixIKhO1tIbV1DO+8UGaU8mV7pMO
- r7h0jBn2Q2uf+7uo=
-X-Received: by 2002:adf:db4d:0:b0:225:2fe0:8d08 with SMTP id
- f13-20020adfdb4d000000b002252fe08d08mr846694wrj.362.1660816486127; 
- Thu, 18 Aug 2022 02:54:46 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5PMpK10WsWOjqgF6aRDIuzaEvj6yccKGoVhm19MryObao2K65x8Nu/sJvmpVW2j/SzMT9uug==
-X-Received: by 2002:adf:db4d:0:b0:225:2fe0:8d08 with SMTP id
- f13-20020adfdb4d000000b002252fe08d08mr846678wrj.362.1660816485841; 
- Thu, 18 Aug 2022 02:54:45 -0700 (PDT)
-Received: from redhat.com ([2.55.43.215]) by smtp.gmail.com with ESMTPSA id
- u18-20020adfdb92000000b0021eaf4138aesm1149302wri.108.2022.08.18.02.54.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 02:54:45 -0700 (PDT)
-Date: Thu, 18 Aug 2022 05:54:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Jason A . Donenfeld" <Jason@zx2c4.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Sergio Lopez <slp@redhat.com>
-Subject: Re: [PULL 05/10] x86: disable rng seeding via setup_data
-Message-ID: <20220818055350-mutt-send-email-mst@kernel.org>
-References: <20220817161342.240674-1-mst@redhat.com>
- <20220817161342.240674-6-mst@redhat.com>
- <52a9fe51-335c-c3a1-a4ed-53d5f46b4fd8@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=SNCLZ9Z5MNhy1rJR8ljqO+Gja1srIZZrfbql4EdHJW4=;
+ b=7GVD+ixBbtqvBE9V+gJOh6LMIpUndtiQEED98AqEYxuLHIhl3NzKEGcEr3HFml03hv
+ 45Od0pbtqoctw1GzeAqKBoW9L4KLo4h2/u3LpSjlFZpvd1IUG/7z9qpmXyrmBCcU/PwD
+ i2B4MsE/9SS4axSo5Gzmq2HqXUK038deOeJg+2Bla43hIrE0yGtupfC0Zz3zJOYy1byh
+ M4+rSryUDNC3S3npI9PxusTLIa/ljYakGp4C7TRzEvcNNnIV/SmBs0O/HetdqqaZ7Izh
+ I6fFYcYPaJ+/4oV1Kk0oWId9Aa7BNJW9oB+mjJHJwFm+SHO8vjJkdFEX5k6fvbTGsyLD
+ ah4A==
+X-Gm-Message-State: ACgBeo1h7qcI6nN8yZV36v+1q5Nr3VeSPSqaj9fxgmTUYwVwIocQlho0
+ REOrNBL0VvjeHNoZJfZNVL17Oi0lkTPmS9TzkQQ=
+X-Google-Smtp-Source: AA6agR7wSm8Grj1JfkfPE7x89lnGA5pQDp7Lj+SyZx7Ica7V242Lf1p0vY5od5EICGRxmldSqEO4gV3+WHVZRN+oYVc=
+X-Received: by 2002:ac2:4f03:0:b0:48b:2179:5249 with SMTP id
+ k3-20020ac24f03000000b0048b21795249mr820801lfr.356.1660815943296; Thu, 18 Aug
+ 2022 02:45:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <52a9fe51-335c-c3a1-a4ed-53d5f46b4fd8@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220818092943.106451-2-pbonzini@redhat.com>
+In-Reply-To: <20220818092943.106451-2-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 18 Aug 2022 13:45:31 +0400
+Message-ID: <CAJ+F1CL9YaVVLV_n0CHfQOipoJD1d=4WLQxTKjUwACu7uedvrg@mail.gmail.com>
+Subject: Re: [PATCH] meson: remove dead assignments
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000566a2f05e680d805"
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,61 +82,251 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 18, 2022 at 11:27:30AM +0200, Paolo Bonzini wrote:
-> On 8/17/22 18:14, Michael S. Tsirkin wrote:
-> > @@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
-> >       rom_set_fw(fw_cfg);
-> >       if (machine->kernel_filename != NULL) {
-> > -        x86_load_linux(x86ms, fw_cfg, 0, true, false);
-> > +        x86_load_linux(x86ms, fw_cfg, 0, true, true);
-> >       }
-> >       if (mms->option_roms) {
-> > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> > index a5c65c1c35..20962c34e7 100644
-> > --- a/hw/i386/pc_piix.c
-> > +++ b/hw/i386/pc_piix.c
-> > @@ -439,6 +439,7 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
-> >       m->alias = "pc";
-> >       m->is_default = true;
-> >       pcmc->default_cpu_version = 1;
-> > +    pcmc->legacy_no_rng_seed = true;
-> >   }
-> >   DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
-> > @@ -450,7 +451,6 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
-> >       pc_i440fx_7_1_machine_options(m);
-> >       m->alias = NULL;
-> >       m->is_default = false;
-> > -    pcmc->legacy_no_rng_seed = true;
-> >       pcmc->enforce_amd_1tb_hole = false;
-> >       compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-> >       compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
-> > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> > index 3a35193ff7..2e5dae9a89 100644
-> > --- a/hw/i386/pc_q35.c
-> > +++ b/hw/i386/pc_q35.c
-> > @@ -376,6 +376,7 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
-> >       pc_q35_machine_options(m);
-> >       m->alias = "q35";
-> >       pcmc->default_cpu_version = 1;
-> > +    pcmc->legacy_no_rng_seed = true;
-> >   }
-> >   DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
-> > @@ -386,7 +387,6 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
-> >       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-> >       pc_q35_7_1_machine_options(m);
-> >       m->alias = NULL;
-> > -    pcmc->legacy_no_rng_seed = true;
-> >       pcmc->enforce_amd_1tb_hole = false;
-> >       compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-> >       compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
-> 
-> Why not just revert the whole patch?
-> 
-> Paolo
+--000000000000566a2f05e680d805
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-At this point I was looking for a minimally intrusive change.
+On Thu, Aug 18, 2022 at 1:44 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
--- 
-MST
+> Found with "muon analyze".
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>
 
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+> ---
+>  plugins/meson.build           |  2 +-
+>  tests/fp/meson.build          |  2 +-
+>  tests/qapi-schema/meson.build | 24 ++++++++++++------------
+>  3 files changed, 14 insertions(+), 14 deletions(-)
+>
+> diff --git a/plugins/meson.build b/plugins/meson.build
+> index fa12047327..752377c66d 100644
+> --- a/plugins/meson.build
+> +++ b/plugins/meson.build
+> @@ -2,7 +2,7 @@ plugin_ldflags =3D []
+>  # Modules need more symbols than just those in
+> plugins/qemu-plugins.symbols
+>  if not enable_modules
+>    if targetos =3D=3D 'darwin'
+> -    qemu_plugins_symbols_list =3D configure_file(
+> +    configure_file(
+>        input: files('qemu-plugins.symbols'),
+>        output: 'qemu-plugins-ld64.symbols',
+>        capture: true,
+> diff --git a/tests/fp/meson.build b/tests/fp/meson.build
+> index 2b4f00b916..6258e2bd7d 100644
+> --- a/tests/fp/meson.build
+> +++ b/tests/fp/meson.build
+> @@ -632,7 +632,7 @@ test('fp-test-mulAdd', fptest,
+>             ['f16_mulAdd', 'f32_mulAdd', 'f64_mulAdd', 'f128_mulAdd'],
+>       suite: ['softfloat-slow', 'softfloat-ops-slow', 'slow'], timeout: 9=
+0)
+>
+> -fpbench =3D executable(
+> +executable(
+>    'fp-bench',
+>    ['fp-bench.c', '../../fpu/softfloat.c'],
+>    link_with: [libtestfloat, libsoftfloat],
+> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.buil=
+d
+> index c18dd7d02f..406bc7255d 100644
+> --- a/tests/qapi-schema/meson.build
+> +++ b/tests/qapi-schema/meson.build
+> @@ -215,18 +215,18 @@ test('QAPI schema regression tests', python,
+>
+>  diff =3D find_program('diff')
+>
+> -qapi_doc =3D custom_target('QAPI doc',
+> -                         output: ['doc-good-qapi-commands.c',
+> 'doc-good-qapi-commands.h',
+> -                                  'doc-good-qapi-emit-events.c',
+> 'doc-good-qapi-emit-events.h',
+> -                                  'doc-good-qapi-events.c',
+> 'doc-good-qapi-events.h',
+> -                                  'doc-good-qapi-init-commands.c',
+> 'doc-good-qapi-init-commands.h',
+> -                                  'doc-good-qapi-introspect.c',
+> 'doc-good-qapi-introspect.h',
+> -                                  'doc-good-qapi-types.c',
+> 'doc-good-qapi-types.h',
+> -                                  'doc-good-qapi-visit.c',
+> 'doc-good-qapi-visit.h' ],
+> -                         input: files('doc-good.json'),
+> -                         command: [ qapi_gen, '-o',
+> meson.current_build_dir(),
+> -                                    '-p', 'doc-good-', '@INPUT0@' ],
+> -                         depend_files: qapi_gen_depends)
+> +custom_target('QAPI doc',
+> +              output: ['doc-good-qapi-commands.c',
+> 'doc-good-qapi-commands.h',
+> +                       'doc-good-qapi-emit-events.c',
+> 'doc-good-qapi-emit-events.h',
+> +                       'doc-good-qapi-events.c', 'doc-good-qapi-events.h=
+',
+> +                       'doc-good-qapi-init-commands.c',
+> 'doc-good-qapi-init-commands.h',
+> +                       'doc-good-qapi-introspect.c',
+> 'doc-good-qapi-introspect.h',
+> +                       'doc-good-qapi-types.c', 'doc-good-qapi-types.h',
+> +                       'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h' =
+],
+> +              input: files('doc-good.json'),
+> +              command: [ qapi_gen, '-o', meson.current_build_dir(),
+> +                         '-p', 'doc-good-', '@INPUT0@' ],
+> +              depend_files: qapi_gen_depends)
+>
+>  if build_docs
+>    # Test the document-comment document generation code by running a test
+> schema
+> --
+> 2.37.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000566a2f05e680d805
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 18, 2022 at 1:44 PM Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Foun=
+d with &quot;muon analyze&quot;.<br>
+<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
+div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
+eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0plugins/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2=
+ +-<br>
+=C2=A0tests/fp/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<b=
+r>
+=C2=A0tests/qapi-schema/meson.build | 24 ++++++++++++------------<br>
+=C2=A03 files changed, 14 insertions(+), 14 deletions(-)<br>
+<br>
+diff --git a/plugins/meson.build b/plugins/meson.build<br>
+index fa12047327..752377c66d 100644<br>
+--- a/plugins/meson.build<br>
++++ b/plugins/meson.build<br>
+@@ -2,7 +2,7 @@ plugin_ldflags =3D []<br>
+=C2=A0# Modules need more symbols than just those in plugins/qemu-plugins.s=
+ymbols<br>
+=C2=A0if not enable_modules<br>
+=C2=A0 =C2=A0if targetos =3D=3D &#39;darwin&#39;<br>
+-=C2=A0 =C2=A0 qemu_plugins_symbols_list =3D configure_file(<br>
++=C2=A0 =C2=A0 configure_file(<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0input: files(&#39;qemu-plugins.symbols&#39;),<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0output: &#39;qemu-plugins-ld64.symbols&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0capture: true,<br>
+diff --git a/tests/fp/meson.build b/tests/fp/meson.build<br>
+index 2b4f00b916..6258e2bd7d 100644<br>
+--- a/tests/fp/meson.build<br>
++++ b/tests/fp/meson.build<br>
+@@ -632,7 +632,7 @@ test(&#39;fp-test-mulAdd&#39;, fptest,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [&#39;f16_mulAdd&#39;, &#39;f32_m=
+ulAdd&#39;, &#39;f64_mulAdd&#39;, &#39;f128_mulAdd&#39;],<br>
+=C2=A0 =C2=A0 =C2=A0 suite: [&#39;softfloat-slow&#39;, &#39;softfloat-ops-s=
+low&#39;, &#39;slow&#39;], timeout: 90)<br>
+<br>
+-fpbench =3D executable(<br>
++executable(<br>
+=C2=A0 =C2=A0&#39;fp-bench&#39;,<br>
+=C2=A0 =C2=A0[&#39;fp-bench.c&#39;, &#39;../../fpu/softfloat.c&#39;],<br>
+=C2=A0 =C2=A0link_with: [libtestfloat, libsoftfloat],<br>
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build<=
+br>
+index c18dd7d02f..406bc7255d 100644<br>
+--- a/tests/qapi-schema/meson.build<br>
++++ b/tests/qapi-schema/meson.build<br>
+@@ -215,18 +215,18 @@ test(&#39;QAPI schema regression tests&#39;, python,<=
+br>
+<br>
+=C2=A0diff =3D find_program(&#39;diff&#39;)<br>
+<br>
+-qapi_doc =3D custom_target(&#39;QAPI doc&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0output: [&#39;doc-good-qapi-commands.c&#39;, &#39;doc-good=
+-qapi-commands.h&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;doc-good-qapi-emit-event=
+s.c&#39;, &#39;doc-good-qapi-emit-events.h&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;doc-good-qapi-events.c&#=
+39;, &#39;doc-good-qapi-events.h&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;doc-good-qapi-init-comma=
+nds.c&#39;, &#39;doc-good-qapi-init-commands.h&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;doc-good-qapi-introspect=
+.c&#39;, &#39;doc-good-qapi-introspect.h&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;doc-good-qapi-types.c&#3=
+9;, &#39;doc-good-qapi-types.h&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;doc-good-qapi-visit.c&#3=
+9;, &#39;doc-good-qapi-visit.h&#39; ],<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0input: files(&#39;doc-good.json&#39;),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0command: [ qapi_gen, &#39;-o&#39;, meson.current_build_dir=
+(),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;-p&#39;, &#39;doc=
+-good-&#39;, &#39;@INPUT0@&#39; ],<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0depend_files: qapi_gen_depends)<br>
++custom_target(&#39;QAPI doc&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output: [&#39;doc-good-qa=
+pi-commands.c&#39;, &#39;doc-good-qapi-commands.h&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&#39;doc-good-qapi-emit-events.c&#39;, &#39;doc-good-qapi-emit-ev=
+ents.h&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&#39;doc-good-qapi-events.c&#39;, &#39;doc-good-qapi-events.h&#39=
+;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&#39;doc-good-qapi-init-commands.c&#39;, &#39;doc-good-qapi-init-=
+commands.h&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&#39;doc-good-qapi-introspect.c&#39;, &#39;doc-good-qapi-introspe=
+ct.h&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&#39;doc-good-qapi-types.c&#39;, &#39;doc-good-qapi-types.h&#39;,=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&#39;doc-good-qapi-visit.c&#39;, &#39;doc-good-qapi-visit.h&#39; =
+],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 input: files(&#39;doc-goo=
+d.json&#39;),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ qapi_gen, &#39=
+;-o&#39;, meson.current_build_dir(),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-p&#39;, &#39;doc-good-&#39;, &#39;@INPUT0@&#39; ],<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 depend_files: qapi_gen_de=
+pends)<br>
+<br>
+=C2=A0if build_docs<br>
+=C2=A0 =C2=A0# Test the document-comment document generation code by runnin=
+g a test schema<br>
+-- <br>
+2.37.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000566a2f05e680d805--
 
