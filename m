@@ -2,91 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFE1598B55
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:39:36 +0200 (CEST)
-Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980C4598BFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:50:22 +0200 (CEST)
+Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOkQY-0007Kd-D1
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
+	id 1oOkay-0004aV-BJ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOkKc-0004aK-J6
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:33:27 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53003)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOkK9-0004rx-7v
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:33:18 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id f21so2515652pjt.2
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 11:32:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=Y2QXZGrOB18ZqqLG550YQ1cPCpWPt9PDM9vKo819liY=;
- b=tFJrYrroM+s9Mu4YS6Jmj1GoS9DnZgqgDwPTfOBPAaF6+Rq2Mc89YUeslkJvW78ce9
- n0j+R+IWbP0hH/Iv1Qt2PShpu3xlmzoKt7Vo2bqfXRItGymuUtvEcEWLkGLagrLvMff8
- mJeiajUWsKr3h3oH/6QgvFBwZilnkA9RBL7qZYMiKcgCD9pHF9dLvtLQggkSYRoTeU3X
- /1BfoNJ5bQhzv2Bb8bOQL/pQLs8BNERuni66q9/4dhOUeZmLV+DgnJBz4SA4zyGV8kqe
- /to+agdl3QYXCXGoY8i8LRsNRv9eapY26C0Fj46IqdEyMYQjPE9Sk48GpsAVsNZHJIJE
- DmvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=Y2QXZGrOB18ZqqLG550YQ1cPCpWPt9PDM9vKo819liY=;
- b=rR2iu1qJHO4WHV+fl2aJGFk/cdN/XYypirLsN87DQvtkcVeu4KSM5ZIGYnaGV3oUGa
- 0nmfqAv+k5iqLuIBbWk7MZvZy/P3b7+/l/s8A02JXkpttvplKk07kvyKHyoAkRjze061
- j7MOlG6xLrAiTKN0D8LeQjbHZu2DGxGgl/8NWXKjgGiuD6bc1eY7dWptmKk5uLUBUSX+
- vc59zoSb5w9Ao37k1GA1Rt3F9A5w4e41DWMsxevvhFtJhU78Sr3i/RtEYfgPTZbl3qn6
- o+gyrhc38cpy22r0fEeuonvTuSMppJDV6auPam1/4pmcze0hD6iI3hjMI/jIvdN8QSJM
- ydyw==
-X-Gm-Message-State: ACgBeo1JoDPD8i6sul4JV2EGGSg4uvVQJxRbhH9zGk5etogeOQLU5YVC
- Rlg8NYa7bGv6j0osZcMLX5kXrg==
-X-Google-Smtp-Source: AA6agR7vhf8hgWi4suXhBRP45jxpscxsWx5OufUfKIawExghQavD+E3/UVYoYOdVAZl8fDzgHV4vYA==
-X-Received: by 2002:a17:902:cecc:b0:170:9353:f295 with SMTP id
- d12-20020a170902cecc00b001709353f295mr3534493plg.63.1660847575404; 
- Thu, 18 Aug 2022 11:32:55 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e?
- ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
- by smtp.gmail.com with ESMTPSA id
- t21-20020a17090a5d9500b001f3162e4e55sm1789615pji.35.2022.08.18.11.32.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Aug 2022 11:32:54 -0700 (PDT)
-Message-ID: <afa9b1cc-f66b-b706-17ec-d206ec950d54@linaro.org>
-Date: Thu, 18 Aug 2022 11:32:53 -0700
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1oOkVI-0000ZK-HP; Thu, 18 Aug 2022 14:44:28 -0400
+Received: from [200.168.210.66] (port=25889 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1oOkVG-0006bK-RW; Thu, 18 Aug 2022 14:44:28 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 18 Aug 2022 15:44:22 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 9BCA0800131;
+ Thu, 18 Aug 2022 15:44:21 -0300 (-03)
+From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+To: qemu-ppc@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
+ "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+Subject: [PATCH v2 1/2] tests/tcg/ppc64le: Added an overflow with OE=1 test
+Date: Thu, 18 Aug 2022 15:44:19 -0300
+Message-Id: <20220818184420.368154-1-lucas.araujo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v5 0/4] linux-user: Fix siginfo_t contents when jumping to
- non-readable pages
-Content-Language: en-US
-To: Vivian Wang <dramforever@live.com>, Ilya Leoshkevich <iii@linux.ibm.com>, 
- Laurent Vivier <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220817150506.592862-1-iii@linux.ibm.com>
- <TYYP286MB1439C85770DC0C4AA39550BAC66D9@TYYP286MB1439.JPNP286.PROD.OUTLOOK.COM>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <TYYP286MB1439C85770DC0C4AA39550BAC66D9@TYYP286MB1439.JPNP286.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 18 Aug 2022 18:44:22.0060 (UTC)
+ FILETIME=[881A6EC0:01D8B332]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,29 +60,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/22 09:55, Vivian Wang wrote:
-> On 8/17/22 23:05, Ilya Leoshkevich wrote:
->> Hi,
->>
->> I noticed that when we get a SEGV due to jumping to non-readable
->> memory, sometimes si_addr and program counter in siginfo_t are slightly
->> off. I tracked this down to the assumption that translators stop before
->> the end of a page, while in reality they may stop right after it.
-> 
-> Hi,
-> 
-> Could this be related to issue 1155 [1]? On RISC-V, I'm getting incorrect 
-> [m|s]tval/[m|s]epc combinations for page faults in system emulation and incorrect si_addr 
-> and program counter on SIGSEGV in user emulation. Since it seems to only affect 
-> instructions that cross page boundaries, and RISC-V also has variable length instructions, 
-> it seems that I've run into the same problem as what is fixed here.
+Added a test to see if the adjustment is being made correctly when an
+overflow occurs and OE is set.
 
-It seems likely, and the code at the end of riscv_tr_translate_insn is wrong.
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+---
+The prctl patch is not ready yet, so this patch does as Richard
+Henderson suggested and check the fp register in the signal handler
 
-> Could this fix be extended be extended to targets/riscv?
+This patch will fail without the overflow with OE set bugfix
+Message-Id:<20220805141522.412864-3-lucas.araujo@eldorado.org.br>
+---
+ tests/tcg/ppc64/Makefile.target   |  1 +
+ tests/tcg/ppc64le/Makefile.target |  1 +
+ tests/tcg/ppc64le/oe_excp.c       | 53 +++++++++++++++++++++++++++++++
+ 3 files changed, 55 insertions(+)
+ create mode 100644 tests/tcg/ppc64le/oe_excp.c
 
-I'll write up something.
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index 331fae628e..43958ad87b 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -29,5 +29,6 @@ run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
+ 
+ PPC64_TESTS += signal_save_restore_xer
+ PPC64_TESTS += xxspltw
++PPC64_TESTS += oe_excp
+ 
+ TESTS += $(PPC64_TESTS)
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 6ca3003f02..8d11ac731d 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -27,5 +27,6 @@ PPC64LE_TESTS += mtfsf
+ PPC64LE_TESTS += mffsce
+ PPC64LE_TESTS += signal_save_restore_xer
+ PPC64LE_TESTS += xxspltw
++PPC64LE_TESTS += oe_excp
+ 
+ TESTS += $(PPC64LE_TESTS)
+diff --git a/tests/tcg/ppc64le/oe_excp.c b/tests/tcg/ppc64le/oe_excp.c
+new file mode 100644
+index 0000000000..c8f07d80b6
+--- /dev/null
++++ b/tests/tcg/ppc64le/oe_excp.c
+@@ -0,0 +1,53 @@
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/prctl.h>
++#include <signal.h>
++#include <ucontext.h>
++#include <stdint.h>
++
++#define FP_OE (1ull << 6)
++#define MTFSF(FLM, FRB) asm volatile ("mtfsf %0, %1" :: "i" (FLM), "f" (FRB))
++
++void sigfpe_handler(int sig, siginfo_t *si, void *ucontext)
++{
++    union {
++        uint64_t ll;
++        double dp;
++    } r;
++    uint64_t ch = 0x5fcfffe4965a17e0ull;
++    r.dp = ((ucontext_t *)ucontext)->uc_mcontext.fp_regs[2];
++    if (r.ll == ch) {
++        exit(0);
++    }
++    fprintf(stderr, "expected result: %lx\n         result: %lx\n", ch, r.ll);
++    exit(1);
++}
++
++int main()
++{
++    uint64_t fpscr;
++    uint64_t a = 0x7fdfffe816d77b00ull;
++    uint64_t b = 0x7fdfffFC7F7FFF00ull;
++
++    struct sigaction sa = {
++        .sa_sigaction = sigfpe_handler,
++        .sa_flags = SA_SIGINFO
++    };
++
++    prctl(PR_SET_FPEXC, PR_FP_EXC_PRECISE);
++    sigaction(SIGFPE, &sa, NULL);
++
++    fpscr = FP_OE;
++    MTFSF(0b11111111, fpscr);
++
++    asm (
++        "lfd 0, %0\n\t"
++        "lfd 1, %1\n\t"
++        "fmul 2, 0, 1\n\t"
++        :
++        : "m"(a), "m"(b)
++        : "memory", "fr0", "fr1", "fr2"
++    );
++
++    abort();
++}
+-- 
+2.25.1
 
-
-r~
 
