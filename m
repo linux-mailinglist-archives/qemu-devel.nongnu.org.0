@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45D9598CE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 21:51:03 +0200 (CEST)
-Received: from localhost ([::1]:59694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98966598D60
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 22:08:17 +0200 (CEST)
+Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOlXi-0001OX-JP
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 15:51:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
+	id 1oOloO-0005t7-9H
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 16:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oOlTd-0008J9-II
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 15:46:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31448)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oOllK-0003iP-1B
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 16:05:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oOlTY-00029n-3Z
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 15:46:45 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oOllG-00067k-Ce
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 16:05:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660852003;
+ s=mimecast20190719; t=1660853100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8DQPTZa+FJhGiZYzszEEmeXXw0W02fH/zbF5EavIZmk=;
- b=LmIrTm/cxHLAwODBuN90dw5HND8SQeQ+tsF/kKrFA2HNequiEAdUu7BaSdP4pjbTJwVV8U
- ioNt8hF2YBSvGRoGsvaIxc4LwSVFBdzcXbUhVQu74ilYYtGE6jyj4M4kVtrSkDFljL6XNm
- TB3HexkfIqzS7ocw6QawjIqpINlvCGw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-5ELn81eiPK67IKW-Y8dJqg-1; Thu, 18 Aug 2022 15:46:40 -0400
-X-MC-Unique: 5ELn81eiPK67IKW-Y8dJqg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 868231C01B45;
- Thu, 18 Aug 2022 19:46:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7EC8141DC28;
- Thu, 18 Aug 2022 19:46:37 +0000 (UTC)
-Date: Thu, 18 Aug 2022 15:46:36 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, Alberto Faria <afaria@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
- sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC v3 7/8] blkio: implement BDRV_REQ_REGISTERED_BUF optimization
-Message-ID: <Yv6XHAqgx1J3pTTc@fedora>
-References: <20220708041737.1768521-1-stefanha@redhat.com>
- <20220708041737.1768521-8-stefanha@redhat.com>
- <8c8faae1-9215-9b18-0051-028e78f56009@redhat.com>
+ bh=qF9mwdX42Z4XttzFYrU1Z9fWJ/vdaMjVOtdzop5CgMc=;
+ b=TLVxBQCbf/a4+DR+tGLiJ23Jr+H8gnTznmzvR3Cag6f+AQt/fI9LLo2RcQap+txzwVbPNV
+ gbxvau799A1A6CThvv16FvculBsG4hs1ZuttNgEICKqBeydJtgA/AdCMgdZ3rvXcMjqrun
+ aezEmj4fYp+mCZlHmAlGCMZQ6XpUmhQ=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-422-WLjSF-DoMMGLr4jDdOs6TQ-1; Thu, 18 Aug 2022 16:04:59 -0400
+X-MC-Unique: WLjSF-DoMMGLr4jDdOs6TQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ dh19-20020ad458d3000000b00496bf7e4a72so938540qvb.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 13:04:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=qF9mwdX42Z4XttzFYrU1Z9fWJ/vdaMjVOtdzop5CgMc=;
+ b=yLE/DNg4LaCEsnZ9zWV5/im8L0SuJUZisPT0HU8wEIjVJ4uTcQK2UoGmfKUEcex/Ly
+ 509BcncHKu5fZk8iQkjEljHgQhsfnuN0nSZJflUKpuDcIP3NHridk4xNZxTHVzQXI+r7
+ yoRUNnSJUwNi0l7vW/GUfHIZyXuf3uqbEbgbQvuhgIsSG5nrQ4eYBpN2lK1w58dfAFSH
+ 6R3h8cHuPHYfq9FScf++wPx68EA83CgTW9QvaFIv+9OD/dwsMS1ee4yMRXCFRFggYltL
+ HiNtUYW35sViFINWPVzX7g/HsFOp+qIK+zHKHKflOIIqApJriXcAsKoixcQQFy/c79il
+ 727A==
+X-Gm-Message-State: ACgBeo0uxu8WK+tpYjuYu6nucNegulHs2NwujIvW/uTK/FOBwyVMPAdb
+ ONThNkdP4DHwuYQxO1uH+q9V4872k8ozeuP6gQJZfIHNSwQYCIeFaVb/A/qcwGfT5C9qf12ZJN+
+ latOg7pK9/624Vk0=
+X-Received: by 2002:a05:6214:d6c:b0:476:94f5:aa7b with SMTP id
+ 12-20020a0562140d6c00b0047694f5aa7bmr3895812qvs.92.1660853098549; 
+ Thu, 18 Aug 2022 13:04:58 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6O9zlcJ/KMtTjIyEYwAveSzfMEIkT91qHws4tgXti0bKMuujrPu5MosTDghM+a6G4Jrn/kBw==
+X-Received: by 2002:a05:6214:d6c:b0:476:94f5:aa7b with SMTP id
+ 12-20020a0562140d6c00b0047694f5aa7bmr3895774qvs.92.1660853098131; 
+ Thu, 18 Aug 2022 13:04:58 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+ by smtp.gmail.com with ESMTPSA id
+ bm30-20020a05620a199e00b006bb11f9a859sm2185725qkb.122.2022.08.18.13.04.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Aug 2022 13:04:57 -0700 (PDT)
+Date: Thu, 18 Aug 2022 16:04:56 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay
+ kvm_vm_ioctl to the commit phase
+Message-ID: <Yv6baJoNikyuZ38R@xz-m1.local>
+References: <20220816101250.1715523-1-eesposit@redhat.com>
+ <20220816101250.1715523-3-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pButiNpP5gw2zNbp"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8c8faae1-9215-9b18-0051-028e78f56009@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220816101250.1715523-3-eesposit@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -76,7 +87,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,243 +103,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 16, 2022 at 06:12:50AM -0400, Emanuele Giuseppe Esposito wrote:
+> +static void kvm_memory_region_node_add(KVMMemoryListener *kml,
+> +                                       struct kvm_userspace_memory_region *mem)
+> +{
+> +    MemoryRegionNode *node;
+> +
+> +    node = g_malloc(sizeof(MemoryRegionNode));
+> +    *node = (MemoryRegionNode) {
+> +        .mem = mem,
+> +    };
 
---pButiNpP5gw2zNbp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Nit: direct assignment of struct looks okay, but maybe pointer assignment
+is clearer (with g_malloc0?  Or iirc we're suggested to always use g_new0):
 
-On Thu, Jul 14, 2022 at 12:13:53PM +0200, Hanna Reitz wrote:
-> On 08.07.22 06:17, Stefan Hajnoczi wrote:
-> > Avoid bounce buffers when QEMUIOVector elements are within previously
-> > registered bdrv_register_buf() buffers.
-> >=20
-> > The idea is that emulated storage controllers will register guest RAM
-> > using bdrv_register_buf() and set the BDRV_REQ_REGISTERED_BUF on I/O
-> > requests. Therefore no blkio_map_mem_region() calls are necessary in the
-> > performance-critical I/O code path.
-> >=20
-> > This optimization doesn't apply if the I/O buffer is internally
-> > allocated by QEMU (e.g. qcow2 metadata). There we still take the slow
-> > path because BDRV_REQ_REGISTERED_BUF is not set.
->=20
-> Which keeps the question relevant of how slow the slow path is, i.e. whet=
-her
-> it wouldn=E2=80=99t make sense to keep some of the mem regions allocated =
-there in a
-> cache instead of allocating/freeing them on every I/O request.
+  node = g_new0(MemoryRegionNode, 1);
+  node->mem = mem;
 
-Yes, bounce buffer reuse would be possible, but let's keep it simple for
-now.
+[...]
 
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >   block/blkio.c | 104 ++++++++++++++++++++++++++++++++++++++++++++++++--
-> >   1 file changed, 101 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/block/blkio.c b/block/blkio.c
-> > index 7fbdbd7fae..37d593a20c 100644
-> > --- a/block/blkio.c
-> > +++ b/block/blkio.c
->=20
-> [...]
->=20
-> > @@ -198,6 +203,8 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverStat=
-e *bs, int64_t offset,
-> >           BlockCompletionFunc *cb, void *opaque)
-> >   {
-> >       BDRVBlkioState *s =3D bs->opaque;
-> > +    bool needs_mem_regions =3D
-> > +        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
->=20
-> Is that condition sufficient?=C2=A0 bdrv_register_buf() has no way of ret=
-urning
-> an error, so it=E2=80=99s possible that buffers are silently not register=
-ed.=C2=A0 (And
-> there are conditions in blkio_register_buf() where the buffer will not be
-> registered, e.g. because it isn=E2=80=99t aligned.)
->=20
-> The caller knows nothing of this and will still pass
-> BDRV_REQ_REGISTERED_BUF, and then we=E2=80=99ll assume the region is mapp=
-ed but it
-> won=E2=80=99t be.
->=20
-> >       struct iovec *iov =3D qiov->iov;
-> >       int iovcnt =3D qiov->niov;
-> >       BlkioAIOCB *acb;
->=20
-> [...]
->=20
-> > @@ -324,6 +333,80 @@ static void blkio_io_unplug(BlockDriverState *bs)
-> >       }
-> >   }
-> > +static void blkio_register_buf(BlockDriverState *bs, void *host, size_=
-t size)
-> > +{
-> > +    BDRVBlkioState *s =3D bs->opaque;
-> > +    int ret;
-> > +    struct blkio_mem_region region =3D (struct blkio_mem_region){
-> > +        .addr =3D host,
-> > +        .len =3D size,
-> > +        .fd =3D -1,
-> > +    };
-> > +
-> > +    if (((uintptr_t)host | size) % s->mem_region_alignment) {
-> > +        error_report_once("%s: skipping unaligned buf %p with size %zu=
-",
-> > +                          __func__, host, size);
-> > +        return; /* skip unaligned */
-> > +    }
->=20
-> How big is mem-region-alignment generally?=C2=A0 Is it like 4k or is it g=
-oing to
-> be a real issue?
+> +/* for KVM_SET_USER_MEMORY_REGION_LIST */
+> +struct kvm_userspace_memory_region_list {
+> +	__u32 nent;
+> +	__u32 flags;
+> +	struct kvm_userspace_memory_region entries[0];
+> +};
+> +
+>  /*
+>   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
+>   * other bits are reserved for kvm internal use which are defined in
+> @@ -1426,6 +1433,8 @@ struct kvm_vfio_spapr_tce {
+>  					struct kvm_userspace_memory_region)
+>  #define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)
+>  #define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)
+> +#define KVM_SET_USER_MEMORY_REGION_LIST _IOW(KVMIO, 0x49, \
+> +					struct kvm_userspace_memory_region_list)
 
-Yes, it's usually the page size of the MMU/IOMMU. vhost-user and VFIO
-have the same requirements so I don't think anything special is
-necessary.
+I think this is probably good enough, but just to provide the other small
+(but may not be important) piece of puzzle here.  I wanted to think through
+to understand better but I never did..
 
-> (Also, we could probably register a truncated region.=C2=A0 I know, that=
-=E2=80=99ll break
-> the BDRV_REQ_REGISTERED_BUF idea because the caller won=E2=80=99t know we=
-=E2=80=99ve
-> truncated it, but that=E2=80=99s no different than just not registering t=
-he buffer
-> at all.)
->=20
-> > +
-> > +    /* Attempt to find the fd for a MemoryRegion */
-> > +    if (s->needs_mem_region_fd) {
-> > +        int fd =3D -1;
-> > +        ram_addr_t offset;
-> > +        MemoryRegion *mr;
-> > +
-> > +        /*
-> > +         * bdrv_register_buf() is called with the BQL held so mr lives=
- at least
-> > +         * until this function returns.
-> > +         */
-> > +        mr =3D memory_region_from_host(host, &offset);
-> > +        if (mr) {
-> > +            fd =3D memory_region_get_fd(mr);
-> > +        }
->=20
-> I don=E2=80=99t think it=E2=80=99s specified that buffers registered with
-> bdrv_register_buf() must be within a single memory region, is it? So can =
-we
-> somehow verify that the memory region covers the whole buffer?
+For a quick look, please read the comment in kvm_set_phys_mem().
 
-You are right, there is no guarantee. However, the range will always be
-within a RAMBlock at the moment because the bdrv_register_buf() calls
-are driven by a RAMBlock notifier and match the boundaries of the
-RAMBlocks.
+                /*
+                 * NOTE: We should be aware of the fact that here we're only
+                 * doing a best effort to sync dirty bits.  No matter whether
+                 * we're using dirty log or dirty ring, we ignored two facts:
+                 *
+                 * (1) dirty bits can reside in hardware buffers (PML)
+                 *
+                 * (2) after we collected dirty bits here, pages can be dirtied
+                 * again before we do the final KVM_SET_USER_MEMORY_REGION to
+                 * remove the slot.
+                 *
+                 * Not easy.  Let's cross the fingers until it's fixed.
+                 */
 
-I will add a check so this starts failing when that assumption is
-violated.
+One example is if we have 16G mem, we enable dirty tracking and we punch a
+hole of 1G at offset 1G, it'll change from this:
 
->=20
-> > +        if (fd =3D=3D -1) {
-> > +            error_report_once("%s: skipping fd-less buf %p with size %=
-zu",
-> > +                              __func__, host, size);
-> > +            return; /* skip if there is no fd */
-> > +        }
-> > +
-> > +        region.fd =3D fd;
-> > +        region.fd_offset =3D offset;
-> > +    }
-> > +
-> > +    WITH_QEMU_LOCK_GUARD(&s->lock) {
-> > +        ret =3D blkio_map_mem_region(s->blkio, &region);
-> > +    }
-> > +
-> > +    if (ret < 0) {
-> > +        error_report_once("Failed to add blkio mem region %p with size=
- %zu: %s",
-> > +                          host, size, blkio_get_error_msg());
-> > +    }
-> > +}
-> > +
-> > +static void blkio_unregister_buf(BlockDriverState *bs, void *host, siz=
-e_t size)
-> > +{
-> > +    BDRVBlkioState *s =3D bs->opaque;
-> > +    int ret;
-> > +    struct blkio_mem_region region =3D (struct blkio_mem_region){
-> > +        .addr =3D host,
-> > +        .len =3D size,
-> > +        .fd =3D -1,
-> > +    };
-> > +
-> > +    if (((uintptr_t)host | size) % s->mem_region_alignment) {
-> > +        return; /* skip unaligned */
-> > +    }
-> > +
-> > +    WITH_QEMU_LOCK_GUARD(&s->lock) {
-> > +        ret =3D blkio_unmap_mem_region(s->blkio, &region);
-> > +    }
->=20
-> The documentation of libblkio says that =E2=80=9Cmemory regions must be
-> unmapped/freed with exactly the same `region` field values that they were
-> mapped/allocated with.=E2=80=9D=C2=A0 We don=E2=80=99t set .fd here, thou=
-gh.
+                     (a)
+  |----------------- 16G -------------------|
 
-That's a bug. The memory region will not be unmapped because libblkio's
-HashSet won't match. I'll fix the QEMU code to pass the exact same
-struct blkio_mem_region fields.
+To this:
 
->=20
-> It=E2=80=99s also unclear whether it=E2=80=99s allowed to unmap a region =
-that wasn=E2=80=99t mapped,
-> but I=E2=80=99ll trust libblkio to detect that.
+     (b)    (c)              (d)
+  |--1G--|XXXXXX|------------14G------------|
 
-Yes, it's a nop.
+Here (c) will be a 1G hole.
 
->=20
-> > +
-> > +    if (ret < 0) {
-> > +        error_report_once("Failed to delete blkio mem region %p with s=
-ize %zu: %s",
-> > +                          host, size, blkio_get_error_msg());
-> > +    }
-> > +}
-> > +
-> >   static void blkio_parse_filename_io_uring(const char *filename, QDict=
- *options,
-> >                                             Error **errp)
-> >   {
->=20
-> [...]
->=20
-> > @@ -459,7 +553,7 @@ static int blkio_file_open(BlockDriverState *bs, QD=
-ict *options, int flags,
-> >           return ret;
-> >       }
-> > -    bs->supported_write_flags =3D BDRV_REQ_FUA;
-> > +    bs->supported_write_flags =3D BDRV_REQ_FUA | BDRV_REQ_REGISTERED_B=
-UF;
->=20
-> Shouldn=E2=80=99t we also report it as a supported read flag then?
+With current code, the hole punching will del region (a) and add back
+region (b) and (d).  After the new _LIST ioctl it'll be atomic and nicer.
 
-Yes, thank you!
+Here the question is if we're with dirty tracking it means for each region
+we have a dirty bitmap.  Currently we do the best effort of doing below
+sequence:
 
-Stefan
+  (1) fetching dirty bmap of (a)
+  (2) delete region (a)
+  (3) add region (b) (d)
 
---pButiNpP5gw2zNbp
-Content-Type: application/pgp-signature; name="signature.asc"
+Here (a)'s dirty bmap is mostly kept as best effort, but still we'll lose
+dirty pages written between step (1) and (2) (and actually if the write
+comes within (2) and (3) I think it'll crash qemu, and iiuc that's what
+we're going to fix..).
 
------BEGIN PGP SIGNATURE-----
+So ideally the atomic op can be:
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmL+lxwACgkQnKSrs4Gr
-c8jmHQf/R2kAZoTqzCfrro0YamTpX857szdAM7SKU0IQAhwVY3386Y1Pl4kMl/UE
-nQf573F9kU1bTtLY20qQCaC9PMN7CfnajU00x5VfBHzjN5k0UKxMJlgbFbJf6qdm
-on4XYfW3p6e0ma+J2sb26IKiHsTnk3OMsA5Cn3pEbgnpvDdma/qxKCvl8Y3p1HQR
-YWnyLWdgT5h3ItEHTmF2/xeVeV6OVYqOtHN31e0FK+R4WOsIzA7g4lHcAkofgsrN
-Ve7mvrgMay9ajZNdZfg+FKvNF7kISqnwVEPckoOWztj19MitM13eW1gW7KDaLnnc
-om05cJS5mXRpU5Zt5wVOlhxkzrw3Fw==
-=PvZh
------END PGP SIGNATURE-----
+  "atomically fetch dirty bmap for removed regions, remove regions, and add
+   new regions"
 
---pButiNpP5gw2zNbp--
+Rather than only:
+
+  "atomically remove regions, and add new regions"
+
+as what the new _LIST ioctl do.
+
+But... maybe that's not a real problem, at least I didn't know any report
+showing issue with current code yet caused by losing of dirty bits during
+step (1) and (2).  Neither do I know how to trigger an issue with it.
+
+I'm just trying to still provide this information so that you should be
+aware of this problem too, at the meantime when proposing the new ioctl
+change for qemu we should also keep in mind that we won't easily lose the
+dirty bmap of (a) here, which I think this patch does the right thing.
+
+Thanks!
+
+--
+Peter Xu
 
 
