@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24A7597FE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 10:16:34 +0200 (CEST)
-Received: from localhost ([::1]:52866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849AA597FE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 10:13:58 +0200 (CEST)
+Received: from localhost ([::1]:46582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOahd-0001ut-SW
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 04:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35210)
+	id 1oOaf7-0007SU-KB
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 04:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oOaVe-0002Nb-7z
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 04:04:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44421)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oOaVq-0002Tb-1L
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 04:04:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oOaVZ-0004fT-Sp
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 04:04:08 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oOaVl-0004hu-TZ
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 04:04:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660809845;
+ s=mimecast20190719; t=1660809857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CbiLutxfDLCyx977f8+D5aBKRsM6WELareBWMbNcIs4=;
- b=BPMdIPrUVbiEJQOQiTPd4x8wtOnBhrcIVEvtWnOTRWwQD9svhkgM9qN4JfVVAbIz9euwvF
- H+wTXxRlq5NOdCRa8YlHVjwGXcWeUEwG+xgDDStaNNIYNOHd4UxlTE/39OchIIwnmfPK8v
- 7LQzyHsAiEMzvD6nZGOlFT6v8PW7hYY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-vVoR7WZtOZaP7_5Pk8z_9g-1; Thu, 18 Aug 2022 04:04:03 -0400
-X-MC-Unique: vVoR7WZtOZaP7_5Pk8z_9g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F976811E76
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 08:04:03 +0000 (UTC)
-Received: from localhost (unknown [10.40.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DA8C400E86C;
- Thu, 18 Aug 2022 08:04:02 +0000 (UTC)
-Date: Thu, 18 Aug 2022 10:04:01 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- John Snow <jsnow@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH v2 0/8] qapi: add generator for Golang interface
-Message-ID: <20220818080401.bcj72i2i3xkyb3i3@tapioca>
-References: <20220617121932.249381-1-victortoso@redhat.com>
- <87fsjq60gm.fsf@pond.sub.org>
- <20220627124839.fliskdn4twbazqqk@tapioca>
- <87sfnq15wp.fsf@pond.sub.org>
+ bh=gCTqGdVUru1OhtZrjR4HqjAzI4ZR3gnn8L86oUuPxDI=;
+ b=fXyBZ+pvYUwFerHyh87+82e/9wfgjHEqfnQRevMkpeYOL5/fdPpFO32Ph2kyfpyUpUHgkf
+ C9GFbDr+7WXFVqVVRlB+tC9xuxLERaIiTxss2ZTRezzIc2EEmh/YS4gOgR6tjSrPVjz5Em
+ zK2vzSbV6JJr3yBEbaEbef9SkwZ0XcQ=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-614-gXbWLlzlNeOvKmZf0xKHcg-1; Thu, 18 Aug 2022 04:04:15 -0400
+X-MC-Unique: gXbWLlzlNeOvKmZf0xKHcg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ j10-20020a056512028a00b0048af6cf0bcbso285247lfp.11
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 01:04:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=gCTqGdVUru1OhtZrjR4HqjAzI4ZR3gnn8L86oUuPxDI=;
+ b=cqcewIumSGytpK5h1CYVydjRJvtxHnLjDLXI93JlDXWg88aT2di2J04Hr3xVOD9x4B
+ 5R8Nhp88yCelJnUKXHx9kmiCzLPorDUHUuTB9o2uPfBdsG8ms/iXLmwq17hfMyXagN24
+ b8QhMa0LVdlKdKXIylzhEYEw4TcBl39pOuH8Azj+0cpHxdMnGjUXh1TPyd+C1ZiYs9WE
+ XwaTuAswBW9qAcoabTACEJniQQR6sX50DQag3uET/dJahfcquLKp3omM/liIvtFxp3zR
+ mfyf55oh1qWW3DxewSIyCnrhTE6/c6GEmVDF74VqspywJTpo1rrgLrfLYYEKVI55wmZu
+ zsmQ==
+X-Gm-Message-State: ACgBeo36lp4GVzpgkPsv/novnq7n3ft/PmKxYUrYCORQKSazTvanmqbR
+ c/zcbqxkFnI1tefLnYwXoRPBw91JArqzGz6ua1JhB8mHlGtfykpWNjwSSQomPIYJHAZuGLbjqwH
+ MQebxpwd7ppAZbhtqASo5UYJm0/yv/sw=
+X-Received: by 2002:a2e:a418:0:b0:261:9a96:a5c2 with SMTP id
+ p24-20020a2ea418000000b002619a96a5c2mr543853ljn.487.1660809854090; 
+ Thu, 18 Aug 2022 01:04:14 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6pKVTgXeRJ3ruNTfl392WYa74OMk+OQpWT7A62d/9WrGp83uItCxHLFqpOM8Zj0xsPrG8viYXisM0s/fggHno=
+X-Received: by 2002:a2e:a418:0:b0:261:9a96:a5c2 with SMTP id
+ p24-20020a2ea418000000b002619a96a5c2mr543847ljn.487.1660809853859; Thu, 18
+ Aug 2022 01:04:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wcohdz6oypfbm73v"
-Content-Disposition: inline
-In-Reply-To: <87sfnq15wp.fsf@pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+References: <20220809084854.217943-1-chen.zhang@intel.com>
+ <MWHPR11MB0031A51C861DF8C6CB520E909B6A9@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB0031A51C861DF8C6CB520E909B6A9@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 18 Aug 2022 16:04:02 +0800
+Message-ID: <CACGkMEteTx2szBPHMPL3UkDxRnf_9DUP3WRD+hxwCo5EgiLjjg@mail.gmail.com>
+Subject: Re: [PATCH V4 RESEND] net/colo.c: Fix the pointer issue reported by
+ Coverity.
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -84,162 +94,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---wcohdz6oypfbm73v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon, Jun 27, 2022 at 05:29:26PM +0200, Markus Armbruster wrote:
-> Victor Toso <victortoso@redhat.com> writes:
+On Wed, Aug 17, 2022 at 3:45 PM Zhang, Chen <chen.zhang@intel.com> wrote:
 >
-> > Hi Markus,
+> Ping....  Jason and Peter, any comments for this patch?
+>
+> Thanks
+> Chen
+>
+> > -----Original Message-----
+> > From: Zhang, Chen <chen.zhang@intel.com>
+> > Sent: Tuesday, August 9, 2022 4:49 PM
+> > To: Jason Wang <jasowang@redhat.com>; Peter Maydell
+> > <peter.maydell@linaro.org>; Li Zhijian <lizhijian@fujitsu.com>; qemu-dev
+> > <qemu-devel@nongnu.org>
+> > Cc: Zhang, Chen <chen.zhang@intel.com>
+> > Subject: [PATCH V4 RESEND] net/colo.c: Fix the pointer issue reported by
+> > Coverity.
 > >
-> > On Mon, Jun 27, 2022 at 09:15:53AM +0200, Markus Armbruster wrote:
-> >> Victor Toso <victortoso@redhat.com> writes:
-> >>=20
-> >> > Hi,
-> >> >
-> >> > This is the second iteration of RFC v1:
-> >> >   https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg00226.html
-> >> >
-> >> >
-> >> > # What this is about?
-> >> >
-> >> > To generate a simple Golang interface that could communicate with QE=
-MU
-> >> > over QMP. The Go code that is generated is meant to be used as the b=
-are
-> >> > bones to exchange QMP messages.
-> >> >
-> >> > The goal is to have this as a Go module in QEMU gitlab namespace,
-> >> > similar to what have been done to pyhon-qemu-qmp
-> >> >   https://gitlab.com/qemu-project/python-qemu-qmp
-> >>
-> >> Aspects of review:
-> >>=20
-> >> (1) Impact on common code, if any
-> >>=20
-> >>     I care, because any messes made there are likely to affect me down
-> >>     the road.
+> > When enabled the virtio-net-pci, guest network packet will load the vnet_hdr.
+> > In COLO status, the primary VM's network packet maybe redirect to another
+> > VM, it need filter-redirect enable the vnet_hdr flag at the same time, COLO-
+> > proxy will correctly parse the original network packet. If have any
+> > misconfiguration here, the vnet_hdr_len is wrong for parse the packet, the
+> > data+offset will point to wrong place.
 > >
-> > For the first version of the Go generated interface, my goal is
-> > to have something that works and can be considered alpha to other
-> > Go projects.
+> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > ---
+> >  net/colo.c | 18 ++++++++++--------
+> >  net/colo.h |  1 +
+> >  2 files changed, 11 insertions(+), 8 deletions(-)
 > >
-> > With this first version, I don't want to bring huge changes to
-> > the python library or to the QAPI spec and its usage in QEMU.
-> > Unless someone finds that a necessity.
+> > diff --git a/net/colo.c b/net/colo.c
+> > index 6b0ff562ad..2b5568fff4 100644
+> > --- a/net/colo.c
+> > +++ b/net/colo.c
+> > @@ -44,21 +44,23 @@ int parse_packet_early(Packet *pkt)  {
+> >      int network_length;
+> >      static const uint8_t vlan[] = {0x81, 0x00};
+> > -    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
+> > +    uint8_t *data = pkt->data;
+> >      uint16_t l3_proto;
+> >      ssize_t l2hdr_len;
 > >
-> > So I hope (1) is simple :)
+> > -    if (data == NULL) {
+> > -        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
+> > +    assert(data);
+> > +
+> > +    /* Check the received vnet_hdr_len then add the offset */
+> > +    if ((pkt->vnet_hdr_len > sizeof(struct virtio_net_hdr_v1_hash)) ||
+> > +        (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
+> > +        + pkt->vnet_hdr_len)) {
+> > +        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
+> >                                          "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
+
+Nit: I think we need to be verbose here, e.g put the pkt_size here at least.
+
+Thanks
+
+> >          return 1;
+> >      }
+> > -    l2hdr_len = eth_get_l2_hdr_length(data);
+> > +    data += pkt->vnet_hdr_len;
 > >
-> >> (2) The generated Go code
-> >>=20
-> >>     Is it (close to) what we want long term?  If not, is it good enough
-> >>     short term, and how could we make necessary improvements?
-> >>=20
-> >>     I'd prefer to leave this to folks who actually know their Go.
-> >> (3) General Python sanity
-> >>=20
-> >>     We need eyes, but not necessarily mine.  Any takers?
-> >>=20
-> >> [...]
-> >>=20
-> >> >  scripts/qapi/golang.py | 765 ++++++++++++++++++++++++++++++++++++++=
-+++
-> >> >  scripts/qapi/main.py   |   2 +
-> >> >  2 files changed, 767 insertions(+)
-> >> >  create mode 100644 scripts/qapi/golang.py
-> >>=20
-> >> This adds a new generator and calls it from generate(), i.e.
-> >> review aspect (1) is empty.  "Empty" is a quick & easy way to
-> >> get my ACK!
-> >>=20
-> >> No tests?
+> > -    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
+> > -        trace_colo_proxy_main("pkt->size < ETH_HLEN");
+> > -        return 1;
+> > -    }
+> > +    l2hdr_len = eth_get_l2_hdr_length(data);
 > >
-> > I've added tests but on the qapi-go module, those are the files
-> > with _test.go prefix on them. Example for commands:
+> >      /*
+> >       * TODO: support vlan.
+> > diff --git a/net/colo.h b/net/colo.h
+> > index 8b3e8d5a83..22fc3031f7 100644
+> > --- a/net/colo.h
+> > +++ b/net/colo.h
+> > @@ -18,6 +18,7 @@
+> >  #include "qemu/jhash.h"
+> >  #include "qemu/timer.h"
+> >  #include "net/eth.h"
+> > +#include "standard-headers/linux/virtio_net.h"
 > >
-> >     https://gitlab.com/victortoso/qapi-go/-/blob/main/pkg/qapi/commands=
-_test.go
+> >  #define HASHTABLE_MAX_SIZE 16384
 > >
-> > Should the generator itself have tests or offloading that to the
-> > qapi-go seems reasonable?
+> > --
+> > 2.25.1
 >
-> Offloading may be reasonable, but how am I to run the tests then?
-> Documentation should tell me.
->
-> We have roughly three kinds of tests so far:
->
-> 1. Front end tests in tests/qapi-schema
->
-> 2. Unit tests in tests/unit/
->
->    To find them:
->
->         $ git-grep '#include ".*qapi-.*\.h"' tests/unit/
->
-> 3. Many tests talking QMP in tests/qtest/
-
-I'm thinking on the tests in QEMU side. Perhaps adding something
-with Avocado that generates the qapi-go and communicates with a
-running QEMU with that generated Go module?
-
-One thing that I try to keep in mind is to not add Go
-dependencies in QEMU and this Golang work is not internal to QEMU
-itself.
-
-> Since you leave the front end alone, you don't need the first
-> kind.
->
-> The other two kinds are less clear.
-
-I'm open for suggestions. I thought that, if we have a qapi-go Go
-module in Gitlab's qemu-project namespace, we could leverage most
-of the tests to the consumer of the actual generated code but I
-agree that it is necessary to have something in qemu too.
-
-> >> No documentation?
-> >
-> > Yes, this iteration removed the documentation of the generated
-> > types. I'm a bit sad about that. I want to consume the
-> > documentation in the QAPI files to provide the latest info from
-> > types/fields but we can't 'copy' it, the only solution is 'refer'
-> > to it with hyperlink, which I haven't done yet.
->
-> Two kinds of documentation: generated documentation for the generated Go
-> code, and documentation about the generator.  I was thinking of the
-> latter.  Specifically, docs/devel/qapi-code-gen.rst section "Code
-> generation".  Opinions on its usefulness differ.  I like it.
-
-Me too. I'll add documentation for the next iteration, thanks for
-pointing it out.
-
-Cheers,
-Victor
-
---wcohdz6oypfbm73v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmL98nEACgkQl9kSPeN6
-SE+Vyg/+LUAEezRmEBxmkYsxLtYDffG6aiinIR8ovTd5ZR2C2N4BaKROgsGEGFvO
-7I04ja/I0xeoc+sNKkTNYj79Y3MQ1YVlBtTaV7hyg0ZI4HUgkH6t/42w4dxz+6cr
-aDDUB0DLi7BaOHRuS6VhzqRXxJiqgfmfuctYUaheN445AcEkenDe2gUSgGALK0iC
-hcMgRAoG/s3yfe/b5mR5cOeMchW6p4dMgP/sq0oLRKbwYYqxQQJ6bc3By5qE8kKs
-OnD/uPG2lKO9sJ8slNcp2YwMWMcltTzavdGffU+FTc9bI0OorTSA1yVN9GRFLtvg
-M09X0uOqr61988AdjgLIAIz2YZuUZH9upja8WBN/zO8wcQf6wHGPhAdZiif/1wFc
-CEV5BvEKgeiZk24QZJWqgvfGFCBVHJOztZVzBdGxTGl5Stsdl4JD6ZUn+cgBwv4X
-fT179ZWfYf3HyXwBW/971zJVl+us7M4uRfz6/nNiUQtzBQ3ESxo8qt4la5cGQdfg
-oPoTGLSP9cM8XPfqlqalrajnr3Brehxx8mlIdC3L6WhOEJT3RcEdBEY03tJyhYaX
-cnOXN1s/fVQn+kci/485XKPpaop4rjnF95De50qTKxrKXoWJdITvIJssW7PCqFvD
-+ASoLhV9yevM8HQP+ZzrfzmoYOfXQMd4WtXlnMvPH7BwBpo9BqU=
-=gxyw
------END PGP SIGNATURE-----
-
---wcohdz6oypfbm73v--
 
 
