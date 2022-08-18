@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71517597EC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 08:47:50 +0200 (CEST)
-Received: from localhost ([::1]:47130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974CF597ED9
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 09:00:54 +0200 (CEST)
+Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOZJl-00055k-HV
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 02:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38610)
+	id 1oOZWP-0003hr-Cz
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 03:00:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oOZB6-0007dB-Bt
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 02:38:52 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35567)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oOZB4-0005yQ-O6
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 02:38:52 -0400
-Received: by mail-wr1-x430.google.com with SMTP id bs25so594891wrb.2
- for <qemu-devel@nongnu.org>; Wed, 17 Aug 2022 23:38:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=fW1cDw9USLoLQTA+gyn65FyLzqAEJWPixm0JKPhQpmo=;
- b=iw2TN8e0Pjs6j/KKdMZmnIiwxlgbVF4bErPSVzGubgEQ9cfol0wcFbmHzgvGBgJEte
- vQZnvXpdwgdla7+4d/HHMGjahG+OP0w4vphhF0+f0SMQdqTsx5lfn2kXRhV4jTLmd5rB
- BEEgbvFHdszcuys1rYPwWCgcrkdiy5fp8MbWU5Zi6H6ajcBgha4IFRTTBhcjrPM0OtrO
- 1+/DNl52WKwb4SfpncGsEE2Q7/BKEg6HABdUrjlW5gfc2Iv8XJVy1esP/lkK5QcTDCXT
- gPTgnsktjwwyyBcqFP+aDvW8W4s81ibt2g6/LMsL7q623t5LA5lIyeq+Td6qH54+8dcK
- AoMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=fW1cDw9USLoLQTA+gyn65FyLzqAEJWPixm0JKPhQpmo=;
- b=pbiPxmfHv7J/efugP2AYik2pOyTugXqoFynFaCe6LnSRAs6shRlQC041fS4YEJa+gw
- UUaT5TY0WKpgCEHVffVIYX2rBWbSRARIPmpnx3MrmpaO0DqDCGoLTih1s8wQmW4jfzd+
- k1EEC3JEnz9/F12aBJ+Kvs3ef0WihCefmKxdaMenIAa77FFlyhtj8Wvk8PACKH5sClh8
- l4A7BS7SAG4uM/zSFRS+a0YpzseGGT7gfz28FvJZl/gRgXquhiHdBkCks6WHV20bwkoS
- HfGd6MeFsCnvmSoESkxS4cXIkwf5St5W1QsNoOEOZWc9sf0D8SZITb4KKN4a7GSPWrmw
- 6vsg==
-X-Gm-Message-State: ACgBeo12GMZdFs2nOJklAZ+zAJdbT4C//oYM6eupZxVzVsqvt707rBiQ
- zasc6EWxlA58J0dPYNDcd+wlFtMXxvX+Rw==
-X-Google-Smtp-Source: AA6agR7mLlWyclYcQCg/aRqX59LWpVc0Jms1m7JEYOwPqJpfeWtwKiN6InlsBc/t1/Wy93OV9f1kqg==
-X-Received: by 2002:a05:6000:1c08:b0:21f:f61a:4087 with SMTP id
- ba8-20020a0560001c0800b0021ff61a4087mr704306wrb.200.1660804728242; 
- Wed, 17 Aug 2022 23:38:48 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c410e00b003a50924f1c0sm1056917wmi.18.2022.08.17.23.38.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 23:38:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9F8181FFB7;
- Thu, 18 Aug 2022 07:38:46 +0100 (BST)
-References: <20220728135503.1060062-1-alex.bennee@linaro.org>
- <20220728135503.1060062-3-alex.bennee@linaro.org>
- <20220817070112-mutt-send-email-mst@kernel.org>
-User-agent: mu4e 1.8.9; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 2/4] hw/virtio: gracefully handle unset vhost_dev vdev
-Date: Thu, 18 Aug 2022 07:35:56 +0100
-In-reply-to: <20220817070112-mutt-send-email-mst@kernel.org>
-Message-ID: <87h72acayx.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oOZSO-0007uC-Nf
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 02:56:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34181)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oOZSK-0001gh-HH
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 02:56:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660805798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9sBYHkhNWLWCpMuLEqiidcJQU5cBmt+xG7T5T/DHmqY=;
+ b=A8QTmXjCRZwVCuUv74AC+D+0NWG9YJo/Mv9UkmGVZvyNkA9sx0QsrDmC1WLWH4wXktHo7r
+ SxoBI8Pfqs9//JNi+77mUJYHKGucgwSQGY9TgpsQo6cxI1fLog2kTjh4+u02TJKkYPnLSl
+ eWcKhAUtnKIRrl2yj/f0lYbofFacAhM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-190-11IqFTNkNVuourhLVn6PwA-1; Thu, 18 Aug 2022 02:56:35 -0400
+X-MC-Unique: 11IqFTNkNVuourhLVn6PwA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 867DE185A79C;
+ Thu, 18 Aug 2022 06:56:34 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C128B40334F;
+ Thu, 18 Aug 2022 06:56:33 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Beniamino Galvani <b.galvani@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>, qemu-s390x@nongnu.org
+Subject: [PULL 0/3] Fixes for QEMU 7.1-rc4
+Date: Thu, 18 Aug 2022 10:56:28 +0400
+Message-Id: <20220818065631.324170-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,65 +85,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+The following changes since commit c7208a6e0d049f9e8af15df908168a79b1f99685:
 
-> On Thu, Jul 28, 2022 at 02:55:01PM +0100, Alex Benn=C3=A9e wrote:
->> I've noticed asserts firing because we query the status of vdev after
->> a vhost connection is closed down. Rather than faulting on the NULL
->> indirect just quietly reply false.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20220726192150.2435175-8-alex.bennee@linaro.org>
->
-> Please do not include this header when you post.
+  Update version for v7.1.0-rc3 release (2022-08-16 20:45:19 -0500)
 
-What the message id? It's added by b4 to track when the message was last
-posted. On my PRs I often have two message id's, one from the series
-where I picked it up and one from the last time my series was posted. I
-usually only edit them down so I'm not repeating it for each iteration
-of a series.
+are available in the Git repository at:
 
->
->
->> ---
->>  hw/virtio/vhost.c | 10 +++++++---
->>  1 file changed, 7 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->> index 0827d631c0..f758f177bb 100644
->> --- a/hw/virtio/vhost.c
->> +++ b/hw/virtio/vhost.c
->> @@ -306,7 +306,7 @@ static inline void vhost_dev_log_resize(struct vhost=
-_dev *dev, uint64_t size)
->>      dev->log_size =3D size;
->>  }
->>=20=20
->> -static int vhost_dev_has_iommu(struct vhost_dev *dev)
->> +static bool vhost_dev_has_iommu(struct vhost_dev *dev)
->>  {
->>      VirtIODevice *vdev =3D dev->vdev;
->>=20=20
->> @@ -316,8 +316,12 @@ static int vhost_dev_has_iommu(struct vhost_dev *de=
-v)
->>       * does not have IOMMU, there's no need to enable this feature
->>       * which may cause unnecessary IOTLB miss/update transactions.
->>       */
->> -    return virtio_bus_device_iommu_enabled(vdev) &&
->> -           virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->> +    if (vdev) {
->> +        return virtio_bus_device_iommu_enabled(vdev) &&
->> +            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->> +    } else {
->> +        return false;
->> +    }
->>  }
->>=20=20
->>  static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
->> --=20
->> 2.30.2
+  git@gitlab.com:marcandre.lureau/qemu.git tags/fixes-pull-request
 
+for you to fetch changes up to 88738ea40bee4c2cf9aae05edd2ec87e0cbeaf36:
 
---=20
-Alex Benn=C3=A9e
+  ui/console: fix qemu_console_resize() regression (2022-08-18 10:46:55 +0400)
+
+----------------------------------------------------------------
+Some fixes pending on the ML:
+* console regression fix
+* dbus-vmstate error handling fix
+* a build-sys fix
+
+----------------------------------------------------------------
+
+Marc-André Lureau (2):
+  build-sys: disable vhost-user-gpu if !opengl
+  ui/console: fix qemu_console_resize() regression
+
+Priyankar Jain (1):
+  dbus-vmstate: Restrict error checks to registered proxies in
+    dbus_get_proxies
+
+ meson.build             |  2 +-
+ backends/dbus-vmstate.c | 13 +++++++++----
+ ui/console.c            |  6 ++++--
+ 3 files changed, 14 insertions(+), 7 deletions(-)
+
+-- 
+2.37.1
+
 
