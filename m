@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3366B5986C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 17:03:55 +0200 (CEST)
-Received: from localhost ([::1]:55948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418525986D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 17:06:35 +0200 (CEST)
+Received: from localhost ([::1]:59298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOh3p-0006lj-Rk
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 11:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52022)
+	id 1oOh6Q-0000nH-3T
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 11:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOgze-0002pE-Fo
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 10:59:34 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:42901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOgzb-00035O-RB
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 10:59:33 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-3378303138bso7933747b3.9
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 07:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=bgqiSKA5S+ohEA7sQE95LemuafEEHdalqBhWPWevwyc=;
- b=Ce8BDW2qeVUIO2++PuIxZSveWuNY19S7kUFTJfVSfqgI21r1tVLP679EcDLvVoijvI
- reYxNMN3y4095x2/9HqeBLvKdT2lrziYTMtC0/VgGihexg4VsGRRvHFUiDQhybD42Hz8
- a5vUmbPPDxvI4upslvRQdkj7FxzBCafmk0C005va3Fb1i+ddMBCR7RxeS9Srt0gPVqak
- 1lKHuTaMd8RKtKUSsN0EI4f621vb9WGE+8RRwI8kShN/xdKV3F6GivrNBtTudyM71c5c
- 35GVNd42699XlkLf+aNsy4WbWv7tcd74xFAeX97usnvq3/X8dME5oMcWKHu5n4hODyP6
- OHGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=bgqiSKA5S+ohEA7sQE95LemuafEEHdalqBhWPWevwyc=;
- b=FjsW4sgbmW/cF74IHqd45YM2tWQoxthzMBBjEsLz57vIOjR+Gct76qPgXajw+XYRRm
- HK+w/G969M6NV36bG8wxgw4cylsPoCFIsKEReHYXo8TAEnc8MSJAPdRWtJBUBQW9xx2s
- uPMeGoqayHxv8xBOPRGBzVv8n/0xNjB7tyx1lTA/48nsmu5MoZNvwbvhaJyR1iNl41jK
- MBu7vZDok25TSuuu3JPPkQcH24+vZO9hJpGLpPXmoxUOJBqghzIAyRJhkjK0qZ4mlCiW
- sNRtZuJqe9P5M9oY4ucTJWPziigJQ/83zy5GMf1nyiC4T0e7OMLuf3PhtHdazIM2pqig
- fbSg==
-X-Gm-Message-State: ACgBeo02/qLyAMGVQej6eVTSooAmRf6kKD9oXVQatJmtDUC3MO6h97fV
- JRXJip2la8jSDRhntLAq+ERXDuSdKYhPxBw0UUiytg==
-X-Google-Smtp-Source: AA6agR5ewWe4Pyh975AgdMpVsRaUzwE4ocGxzhviHpsw+GOmTDUocQtDO+i4ejzbJQiI648nbGzRsqngdzsOJsT/XKQ=
-X-Received: by 2002:a81:10a:0:b0:333:618e:190b with SMTP id
- 10-20020a81010a000000b00333618e190bmr3035672ywb.10.1660834767115; Thu, 18 Aug
- 2022 07:59:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1oOh1R-0003vO-LC
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:01:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43524)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1oOh1O-0004Tg-Kf
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 11:01:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660834877;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uPup01qF1emgsUXVQK71huvudaiUaPDSW2n0MH/qlCI=;
+ b=VTdz3SihdZlfR97JIlKMmRkfkCR2hLofzHktLDkO/1y0yC4ScMa3z51EZkX6AFo1pSMP1W
+ RZHC9njyO/gC/jIgrXzIs0/T173FK85lm1AetXFqSFQtc6+cnkqtwpxQyz2KOwhr9s2+f5
+ qtESNes0zDpL+T1jw6rzIHkr8Uo4oFA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-404-wVuGaDj5PsiMXoVnvU9r3w-1; Thu, 18 Aug 2022 11:01:15 -0400
+X-MC-Unique: wVuGaDj5PsiMXoVnvU9r3w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 437B83826250;
+ Thu, 18 Aug 2022 15:01:15 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.194.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58AC6404C6E3;
+ Thu, 18 Aug 2022 15:01:14 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>,
+ Sean Christopherson <seanjc@google.com>
+Subject: [PATCH v1 0/2] i386: KVM: Fix 'system_reset' failures when vCPU is in
+ VMX root operation
+Date: Thu, 18 Aug 2022 17:01:11 +0200
+Message-Id: <20220818150113.479917-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-References: <20220815213458.733701-1-wuhaotsh@google.com>
-In-Reply-To: <20220815213458.733701-1-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Aug 2022 15:58:45 +0100
-Message-ID: <CAFEAcA_nJzdtuMQtDQN6Fn1dHyTDFA4=qoYDUe1Bpjy8RiQpUQ@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Add cortex-a35
-To: Hao Wu <wuhaotsh@google.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Joe Komlodi <komlodi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,46 +79,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Aug 2022 at 22:35, Hao Wu <wuhaotsh@google.com> wrote:
->
-> Add cortex A35 core and enable it for virt board.
->
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Joe Komlodi <komlodi@google.com>
+Changes since RFC:
+- Call kvm_put_msr_feature_control() before kvm_put_sregs2() to achieve
+ the same result [Paolo].
+- Add Maxim's R-b to PATCH1.
 
-> +static void aarch64_a35_initfn(Object *obj)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(obj);
-> +
-> +    cpu->dtb_compatible = "arm,cortex-a35";
-> +    set_feature(&cpu->env, ARM_FEATURE_V8);
-> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
-> +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-> +    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-> +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-> +    set_feature(&cpu->env, ARM_FEATURE_EL2);
-> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
-> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
-> +
-> +    /* From B2.2 AArch64 identification registers. */
-> +    cpu->midr = 0x410fd042;
+It was discovered that Windows 11 with WSL2 (Hyper-V) enabled guests fail
+to reboot when QEMU's 'system_reset' command is issued. The problem appears
+to be that KVM_SET_SREGS2 fails because zeroed CR4 register value doesn't
+pass vmx_is_valid_cr4() check in KVM as certain bits can't be zero while in
+VMX root operation (post-VMXON). kvm_arch_put_registers() does call 
+kvm_put_nested_state() which is supposed to kick vCPU out of VMX root
+operation, however, it only does so after kvm_put_sregs2() and there's
+a good reason for that: 'real' nested state requires e.g. EFER.SVME to
+be set. 
 
-The r1p0 TRM is out, so we might as well emulate that: 0x411FD040
+The root cause of the issue seems to be that QEMU is doing quite a lot
+to forcefully reset a vCPU as KVM doesn't export kvm_vcpu_reset() (or,
+rather, it's super-set) yet. While all the numerous existing APIs for
+setting a vCPU state work fine for a newly created vCPU, using them for
+vCPU reset is a mess caused by various dependencies between different
+components of the state (VMX, SMM, MSRs, XCRs, CPUIDs, ...). It would've
+been possible to allow to set 'inconsistent' state and only validate it
+upon VCPU_RUN from the very beginning but that ship has long sailed for
+KVM. A new, dedicated API for vCPU reset is likely the way to go.
 
-A few fields are missing:
+Resolve the immediate issue by setting MSR_IA32_FEATURE_CONTROL before
+kvm_put_sregs2() (and kvm_put_nested_state()), this ensures vCPU gets
+kicked out of VMX root operation.
 
- cpu->isar.dbgdidr
- cpu->isar.dbgdevid
- cpu->isar.dbgdevid1
- cpu->isar.reset_pmcr_el0
- cpu->gic_pribits
+Vitaly Kuznetsov (2):
+  i386: reset KVM nested state upon CPU reset
+  i386: do kvm_put_msr_feature_control() first thing when vCPU is reset
 
-(these probably landed after you wrote these patch).
+ target/i386/kvm/kvm.c | 54 +++++++++++++++++++++++++++++++------------
+ 1 file changed, 39 insertions(+), 15 deletions(-)
 
-Otherwise looks OK.
+-- 
+2.37.1
 
-Remind me, what did you want the Cortex-A35 in particular for ?
-
-thanks
--- PMM
 
