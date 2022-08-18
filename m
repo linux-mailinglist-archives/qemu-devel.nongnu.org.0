@@ -2,79 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0F2598AF3
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:16:30 +0200 (CEST)
-Received: from localhost ([::1]:36306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BE8598B3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Aug 2022 20:32:50 +0200 (CEST)
+Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOk4D-00057Z-IF
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53872)
+	id 1oOkK1-0004NY-Kt
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 14:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOk1U-0002oa-0B
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:13:40 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:44520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oOk1S-0007I9-0L
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 14:13:39 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E074C5C20A;
- Thu, 18 Aug 2022 18:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660846416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1Kskj07Uf+Xb0iisVKajJjnyRtvrF7gpH64yb+FmyHA=;
- b=K9lF2C0wrxez4TcWidQBm4Jouoj6UVz32w9/Mq0fmePpvLORt02gDtLliGUmI9ra+mzt/l
- dpkbVA7KSK1OqKVhbZ+E5PRHze130TbQe2Gm7Gsdl6duBmb3RzFKDlClmjtsjT3SUNsx8W
- ApjzNpSmFqM+BfArJGKCQz4Tc0EHKAA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660846416;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1Kskj07Uf+Xb0iisVKajJjnyRtvrF7gpH64yb+FmyHA=;
- b=31bXOL1aEAHPsB9R7hgyI57vm0C54F0Kil77chXb9R5eYQz4Yd51C7Lv7aOBE7kD3RimWl
- RzClb/Z1AJ98P0AQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A4F4C139B7;
- Thu, 18 Aug 2022 18:13:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id TYbKJlCB/mLlUwAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 18 Aug 2022 18:13:36 +0000
-Message-ID: <cfd7a252-89f5-ac6e-dde6-4d5e3aa6589a@suse.de>
-Date: Thu, 18 Aug 2022 20:13:36 +0200
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oOkGR-0002cy-A7; Thu, 18 Aug 2022 14:29:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3424
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oOkGP-0004Al-6s; Thu, 18 Aug 2022 14:29:07 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IIRS0v019835;
+ Thu, 18 Aug 2022 18:28:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Luggojym6lnMWHJnU6HeK4WJrCSeNhTnWC1cURRzC34=;
+ b=FLtB+ctSqujrSNl01zn+obvkgf3qp4GZ+z0vpSagkV5nAV+C8gRyc8xv+K0HlOeggXNL
+ Gf1acINP2rCTK/NHr5jxqGME9BgeFkqpa9DyTeTyo1aRPQmOuEuIMJSagJkV9qNCaTH4
+ fMYfr4hixLNs8wdTQDF94wmBH0hHQLx41pcd794WunwczzwRLFspwAn6iw0tA4l+GrcS
+ 39GCbD4o63OrcNLbWQ33K3yjBJ2cojuaILCI7seZAfZchpAJiDZThHowctV1eR1fo/eM
+ adftIb4oLoawStrzSQJ4ahG3VDqhu94LjnGUFYSmmQ9EBkoN1TNDxLZld2zbBzdvPPiI Cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j1tqf81x5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Aug 2022 18:28:45 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27IIRYW1020100;
+ Thu, 18 Aug 2022 18:28:44 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j1tqf81v9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Aug 2022 18:28:44 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27IIKhlH004856;
+ Thu, 18 Aug 2022 18:28:42 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04fra.de.ibm.com with ESMTP id 3hx3k8vnf0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Aug 2022 18:28:42 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 27IIPpO932178556
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Aug 2022 18:25:51 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0268CA4053;
+ Thu, 18 Aug 2022 18:28:40 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 57917A4051;
+ Thu, 18 Aug 2022 18:28:39 +0000 (GMT)
+Received: from [9.171.16.188] (unknown [9.171.16.188])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 18 Aug 2022 18:28:39 +0000 (GMT)
+Message-ID: <87c1495f29d7f3c04ec0c863aada8b87947a140e.camel@linux.ibm.com>
+Subject: Re: [PATCH v5 0/4] linux-user: Fix siginfo_t contents when jumping
+ to non-readable pages
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Vivian Wang <dramforever@live.com>, Laurent Vivier <laurent@vivier.eu>,
+ Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <f4bug@amsat.org>, Yanan Wang <wangyanan55@huawei.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, David
+ Hildenbrand <david@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, Christian Borntraeger
+ <borntraeger@linux.ibm.com>
+Date: Thu, 18 Aug 2022 20:28:39 +0200
+In-Reply-To: <TYYP286MB1439C85770DC0C4AA39550BAC66D9@TYYP286MB1439.JPNP286.PROD.OUTLOOK.COM>
+References: <20220817150506.592862-1-iii@linux.ibm.com>
+ <TYYP286MB1439C85770DC0C4AA39550BAC66D9@TYYP286MB1439.JPNP286.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: y_BepSi1Kdz7rE9puAuY4gqBhxfb_v6y
+X-Proofpoint-ORIG-GUID: FlZJ_0DaopfxDy2SGr-zRdAmhEpuIejc
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: towards a workable O_DIRECT outmigration to a file
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Nikolay Borisov <nborisov@suse.com>, berrange@redhat.com,
- qemu-devel@nongnu.org, Claudio Fontana <Claudio.Fontana@suse.com>,
- Jim Fehlig <jfehlig@suse.com>, quintela@redhat.com
-References: <b727f0da-8051-2ce5-b1ab-a57452d2b0c3@suse.com>
- <6f8a6a33-5a68-0eeb-d278-9397b1fd0015@suse.com> <Yv4ys6e0kK/2BMFk@work-vm>
- <f1aa569d-e70f-1b7d-7e10-d6615cfafd7d@suse.de> <Yv5pcSfuLajkZSsb@work-vm>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <Yv5pcSfuLajkZSsb@work-vm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-18_14,2022-08-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
+ spamscore=0 mlxscore=0 phishscore=0 impostorscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208180065
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,124 +123,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/22 18:31, Dr. David Alan Gilbert wrote:
-> * Claudio Fontana (cfontana@suse.de) wrote:
->> On 8/18/22 14:38, Dr. David Alan Gilbert wrote:
->>> * Nikolay Borisov (nborisov@suse.com) wrote:
->>>> [adding Juan and David to cc as I had missed them. ]
->>>
->>> Hi Nikolay,
->>>
->>>> On 11.08.22 г. 16:47 ч., Nikolay Borisov wrote:
->>>>> Hello,
->>>>>
->>>>> I'm currently looking into implementing a 'file:' uri for migration save
->>>>> in qemu. Ideally the solution will be O_DIRECT compatible. I'm aware of
->>>>> the branch https://gitlab.com/berrange/qemu/-/tree/mig-file. In the
->>>>> process of brainstorming how a solution would like the a couple of
->>>>> questions transpired that I think warrant wider discussion in the
->>>>> community.
->>>
->>> OK, so this seems to be a continuation with Claudio and Daniel and co as
->>> of a few months back.  I'd definitely be leaving libvirt sides of the
->>> question here to Dan, and so that also means definitely looking at that
->>> tree above.
->>
->> Hi Dave, yes, Nikolai is trying to continue on the qemu side.
->>
->> We have something working with libvirt for our short term needs which offers good performance,
->> but it is clear that that simple solution is barred for upstream libvirt merging.
->>
->>
->>>
->>>>> First, implementing a solution which is self-contained within qemu would
->>>>> be easy enough( famous last words) but the gist is one  has to only care
->>>>> about the format within qemu. However, I'm being told that what libvirt
->>>>> does is prepend its own custom header to the resulting saved file, then
->>>>> slipstreams the migration stream from qemu. Now with the solution that I
->>>>> envision I intend to keep all write-related logic inside qemu, this
->>>>> means there's no way to incorporate the logic of libvirt. The reason I'd
->>>>> like to keep the write process within qemu is to avoid an extra copy of
->>>>> data between the two processes (qemu outging migration and libvirt),
->>>>> with the current fd approach qemu is passed an fd, data is copied
->>>>> between qemu/libvirt and finally the libvirt_iohelper writes the data.
->>>>> So the question which remains to be answered is how would libvirt make
->>>>> use of this new functionality in qemu? I was thinking something along
->>>>> the lines of :
->>>>>
->>>>> 1. Qemu writes its migration stream to a file, ideally on a filesystem
->>>>> which supports reflink - xfs/btrfs
->>>>>
->>>>> 2. Libvirt writes it's header to a separate file
->>>>> 2.1 Reflinks the qemu's stream right after its header
->>>>> 2.2 Writes its trailer
->>>>>
->>>>> 3. Unlink() qemu's file, now only libvirt's file remains on-disk.
->>>>>
->>>>> I wouldn't call this solution hacky though it definitely leaves some
->>>>> bitter aftertaste.
->>>
->>> Wouldn't it be simpler to tell libvirt to write it's header, then tell
->>> qemu to append everything?
->>
->> I would think so as well. 
->>
->>>
->>>>> Another solution would be to extend the 'fd:' protocol to allow multiple
->>>>> descriptors (for multifd) support to be passed in. The reason dup()
->>>>> can't be used is because in order for multifd to be supported it's
->>>>> required to be able to write to multiple, non-overlapping regions of the
->>>>> file. And duplicated fd's share their offsets etc. But that really seems
->>>>> more or less hacky. Alternatively it's possible that pwrite() are used
->>>>> to write to non-overlapping regions in the file. Any feedback is
->>>>> welcomed.
->>>
->>> I do like the idea of letting fd: take multiple fd's.
->>
->> Fine in my view, I think we will still need then a helper process in libvirt to merge the data into a single file, no?
->> In case the libvirt multifd to single file multithreaded helper I proposed before is helpful as a reference you could reuse/modify those patches.
-> 
-> Eww that's messy isn't it.
-> (You don't fancy a huge sparse file do you?)
-> 
->> Maybe this new way will be acceptable to libvirt,
->> ie avoiding the multifd code -> socket, but still merging the data from the multiple fds into a single file?
-> 
-> It feels to me like the problem here is really what we want is something
-> closer to a dump than the migration code; you don't need all that
-> overhead of the code to deal with live migration bitmaps and dirty pages
+On Fri, 2022-08-19 at 00:55 +0800, Vivian Wang wrote:
+> Hi,
+> Could this be related to issue 1155 [1]? On RISC-V, I'm getting
+> incorrect [m|s]tval/[m|s]epc combinations for page faults in system
+> emulation and incorrect si_addr and program counter on SIGSEGV in
+> user emulation. Since it seems to only affect instructions that cross
+> page boundaries, and RISC-V also has variable length instructions, it
+> seems that I've run into the same problem as what is fixed here.
+> Could this fix be extended be extended to targets/riscv?
+> dram
+> [1]: https://gitlab.com/qemu-project/qemu/-/issues/1155
 
-well yes you are right, we don't care about live migration bitmaps and dirty pages,
-but we don't incur in any of that anyway since (at least for what I have in mind, virsh save and restore),
-the VM is stopped.
+Yes, this looks quite similar.
+I'm not too familiar with riscv, but I just googled [1].
+If the following is correct:
 
-> that aren't going to happen.
-> Something that just does a nice single write(2) (for each memory
-> region);
-> and then ties the device state on.
+---
+However, the instruction set reserves enough opcode space to make it
+possible to differentiate between 16-bit, 32-bit, 48-bit, and 64-bit
+instructions.  Instructions that start with binary 11 (in the lowest
+bit position of the instruction) are 32-bit sized instructions (but one
+pattern is reserved: so they cannot start with 11111).  The compact
+instructions use 00, 01, and 10 in that same position.  48-bit
+instructions use starting sequence 011111, and 64-bit instructions
+start with 0111111.
+---
 
-ultimately yes, it's the same thing though, whether we trigger it via migrate fd: or via another non-migration-related mechanism,
-any approach would work.
+then we can fix this the same way s390x is being fixed here.
 
-Ciao,
-
-C
-
-> 
-> Dave
-> 
->>>
->>> Dave
->>>
->>
->> Thanks for your comments,
->>
->> Claudio
->>>>>
->>>>>
->>>>> Regards,
->>>>> Nikolay
->>>>
->>
-
+[1]
+https://stackoverflow.com/questions/56874101/how-does-risc-v-variable-length-of-instruction-work-in-detail
 
