@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCA059A2F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:36:42 +0200 (CEST)
-Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C120259A2DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:23:35 +0200 (CEST)
+Received: from localhost ([::1]:40876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5vF-00024S-QE
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54388)
+	id 1oP5iY-0007dV-UB
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5N3-00083G-9b
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29977)
+ id 1oP5NH-0008Ax-Hq
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5Mz-0001uN-AH
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:19 -0400
+ id 1oP5NG-0001wv-0O
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660928476;
+ s=mimecast20190719; t=1660928493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FRxq8ciCEMSnJTweqk0QLYXUY8mWdYiCDr7lk4zv7tU=;
- b=NUhLhlPM+N5c7hO275IVSq3dHm2w1Bysfz04mdzzA45Nt8B0gVY6m1L+UNAyT9XW2cdmKW
- 5fZ5t9ToZ8WvCAUSpNF5g8Mhr+kRJ1etCjNbihtkiQNRs0nX9p5zXLuSedivim1MXSJKI5
- /Bvbf3sVtkVJicg3gAGbZ7TYER0cQdE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WlpLoJjbF+OwV7CNK6PkYjMOGlAsT4R2CbMa+M7daEg=;
+ b=YMDPDN2DMVRZCDDSKUKD3HlhgmXlY8hd7PC9BkQ1StrruJOCIIHeA5Z1PFvNRmSGp0MPw/
+ MgtpuybWSXhDMYEFOCSYOyAdGg5nWcLYo8aZfv3Wr81FysBvETt20yxJZNtybHsWakldvX
+ oCvnTJZ3cUk99sJ8dI3oDawKpf2dRAA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-IEiGLLYqPN2_CmEI_tGetw-1; Fri, 19 Aug 2022 13:01:14 -0400
-X-MC-Unique: IEiGLLYqPN2_CmEI_tGetw-1
+ us-mta-548-nwpSfxmGOdCXA-Ca7RQ98Q-1; Fri, 19 Aug 2022 13:01:18 -0400
+X-MC-Unique: nwpSfxmGOdCXA-Ca7RQ98Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E575101A589;
- Fri, 19 Aug 2022 17:01:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31AAD3C1069B;
+ Fri, 19 Aug 2022 17:01:17 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4E2640D2827;
- Fri, 19 Aug 2022 17:01:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F62240D282E;
+ Fri, 19 Aug 2022 17:01:14 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Harpreet Singh Anand <hanand@xilinx.com>,
@@ -55,9 +55,9 @@ Cc: Harpreet Singh Anand <hanand@xilinx.com>,
  Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>,
  Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v9 05/12] vhost_net: Add NetClientInfo start callback
-Date: Fri, 19 Aug 2022 19:00:41 +0200
-Message-Id: <20220819170048.3593487-6-eperezma@redhat.com>
+Subject: [PATCH v9 06/12] vhost_net: Add NetClientInfo stop callback
+Date: Fri, 19 Aug 2022 19:00:42 +0200
+Message-Id: <20220819170048.3593487-7-eperezma@redhat.com>
 In-Reply-To: <20220819170048.3593487-1-eperezma@redhat.com>
 References: <20220819170048.3593487-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,61 +88,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is used by the backend to perform actions before the device is
-started.
+Used by the backend to perform actions after the device is stopped.
 
-In particular, vdpa net use it to map CVQ buffers to the device, so it
-can send control commands using them.
+In particular, vdpa net use it to unmap CVQ buffers to the device,
+cleaning the actions performed in prepare().
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
-v9: Rename also in patch message
-v8: Rename NetClientInfo prepare callback to start, so it aligns with
-    future "stop"
+v9: Replace performend by performed in patch message
 ---
  include/net/net.h  | 2 ++
- hw/net/vhost_net.c | 7 +++++++
- 2 files changed, 9 insertions(+)
+ hw/net/vhost_net.c | 3 +++
+ 2 files changed, 5 insertions(+)
 
 diff --git a/include/net/net.h b/include/net/net.h
-index 523136c7ac..ad9e80083a 100644
+index ad9e80083a..476ad45b9a 100644
 --- a/include/net/net.h
 +++ b/include/net/net.h
-@@ -44,6 +44,7 @@ typedef struct NICConf {
- 
+@@ -45,6 +45,7 @@ typedef struct NICConf {
  typedef void (NetPoll)(NetClientState *, bool enable);
  typedef bool (NetCanReceive)(NetClientState *);
-+typedef int (NetStart)(NetClientState *);
+ typedef int (NetStart)(NetClientState *);
++typedef void (NetStop)(NetClientState *);
  typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
  typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
  typedef void (NetCleanup) (NetClientState *);
-@@ -71,6 +72,7 @@ typedef struct NetClientInfo {
-     NetReceive *receive_raw;
+@@ -73,6 +74,7 @@ typedef struct NetClientInfo {
      NetReceiveIOV *receive_iov;
      NetCanReceive *can_receive;
-+    NetStart *start;
+     NetStart *start;
++    NetStop *stop;
      NetCleanup *cleanup;
      LinkStatusChanged *link_status_changed;
      QueryRxFilter *query_rx_filter;
 diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index ccac5b7a64..2e0baeba26 100644
+index 2e0baeba26..9d4b334453 100644
 --- a/hw/net/vhost_net.c
 +++ b/hw/net/vhost_net.c
-@@ -244,6 +244,13 @@ static int vhost_net_start_one(struct vhost_net *net,
-     struct vhost_vring_file file = { };
-     int r;
- 
-+    if (net->nc->info->start) {
-+        r = net->nc->info->start(net->nc);
-+        if (r < 0) {
-+            return r;
-+        }
+@@ -320,6 +320,9 @@ static void vhost_net_stop_one(struct vhost_net *net,
+         net->nc->info->poll(net->nc, true);
+     }
+     vhost_dev_stop(&net->dev, dev);
++    if (net->nc->info->stop) {
++        net->nc->info->stop(net->nc);
 +    }
-+
-     r = vhost_dev_enable_notifiers(&net->dev, dev);
-     if (r < 0) {
-         goto fail_notifiers;
+     vhost_dev_disable_notifiers(&net->dev, dev);
+ }
+ 
 -- 
 2.31.1
 
