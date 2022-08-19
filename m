@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EC95995FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 09:29:16 +0200 (CEST)
-Received: from localhost ([::1]:58016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E778B59961B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 09:37:23 +0200 (CEST)
+Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOwRP-0003OM-RF
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 03:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32870)
+	id 1oOwZG-00070f-Em
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 03:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oOwJS-0006hb-Kv
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:21:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oOwJO-0002eG-2Q
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:21:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660893656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pq2ygIbnTjNhD5zGIgdNnLduvl4V9fqu4OPfGlZxs9E=;
- b=H+EXxBTIQQs32Hj4rJ19d13hZyPR/CiPh/na/fZcDlayb/kHEUmNj3BgaNzjF8+A/rmOE7
- ROvF2gtCb1IYV0qAp2M4AergyCsJzU5XXoHo2/DFTBABURtTqJyzTkFUBqIZznMtfoW4lr
- SdmLfhMlGPfML7oy8NcrGG5V8vi4Wi0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-obf6AgscMIilMcFU4sPY-Q-1; Fri, 19 Aug 2022 03:20:54 -0400
-X-MC-Unique: obf6AgscMIilMcFU4sPY-Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D632D3C025BB
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 07:20:53 +0000 (UTC)
-Received: from localhost (unknown [10.40.192.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E9AF492C3B;
- Fri, 19 Aug 2022 07:20:53 +0000 (UTC)
-Date: Fri, 19 Aug 2022 09:20:52 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Andrea Bolognani <abologna@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [RFC PATCH v2 4/8] qapi: golang: Generate qapi's union types in Go
-Message-ID: <20220819072052.yl4gvepa5ectlvci@tapioca>
-References: <20220617121932.249381-1-victortoso@redhat.com>
- <20220617121932.249381-5-victortoso@redhat.com>
- <CABJz62P_Fy=eyn-QjhOBSvTs_YRgMA=2=teeQwN9SsYGNKGLcQ@mail.gmail.com>
- <YsRoTs/Ev+MPiIoN@redhat.com>
- <CABJz62NwXK7SErZt4520iKpgEaeVH86L7am4GcMyr8PbG29RCA@mail.gmail.com>
- <YsVX7ir+41NPA6Xy@redhat.com> <YsVaVpXPE4YVjmVt@redhat.com>
- <20220817162556.fqjq74dtgi2uuyla@tapioca>
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1oOwU5-0003hj-U5
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:32:02 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:38870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1oOwU3-0004RT-Kv
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:32:01 -0400
+Received: by mail-oi1-x232.google.com with SMTP id w197so3969619oie.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 00:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=OmyVGadg35kSt1UySothODIfnZ7CrMCfLaI/0wlCtqI=;
+ b=Il72Y7XE1uXbakwjSagfosEG7ttd+m2iYOtJo3RST36mdP9eTqfj351eDXzTwA+j7s
+ u7f0vJGp6ihZ4T2o77YbFEPGiE8+2jyQIQWVOjejzmZCBULeFCugg85drC5ultRwKbY4
+ i2WK+EOEMNJ/mXF/Wl2D78Rn/Ex11vCVFUsN/7yTxHJa7ykNCPjWtAgUhiPb1qEpl7Ag
+ Uc3OzbV7zj1GxW7pPcp3f5uCKL/baCnyKEdbsiSLJB/KQd1kOfgVlOlO6QXF7eDh0fnO
+ gJuWCRgJYsMLlCGM7Ti4zWMGQ5kVc01ht9t+qkAPwCQE+Kz8ibwBBbt/3Xr6KJsOSEi4
+ /xEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=OmyVGadg35kSt1UySothODIfnZ7CrMCfLaI/0wlCtqI=;
+ b=SQHZjB3rtkTYLvTscm5uqOTzZCt0AEjywkfAkj6Wdg5yloq5RgRouZHCbBP28/CoLB
+ 5r5zvcmgrj8PtH0RFisXfzjWhMAqP7wKqScVTgLIqXnFxlewN8yBfwZ5JzF9QXDnLoU8
+ O2RBohQOBIPPxWQLIcYFu1H06AAdGRFi+bZ+kmFEvYrxiqt6b/3ohSv8DaVS5TMk7pTB
+ 9B1DrooWfjSLm8alTBIjz6mVqLI+7GO3eenZxKFfzo7NSCeMvPKJWwe8qOE22ACn0adY
+ qD6MIPv96I2xBMaUyrG6ILlfa+dOxWX9xjtHd28f3BnH+9EMURo5xE6QfgB8n1153vCV
+ z+Og==
+X-Gm-Message-State: ACgBeo0d6DO6q9zgArTRnJtcIWxn5bmOsNnsnZr2tUKOL/yt6kzTrES2
+ 4SnUKZcC5XMZROo7usy2no9nSA==
+X-Google-Smtp-Source: AA6agR6AphitAA4WWuXIzYe83/p44akyRdamNFHpmt08A15ThoZsGCnrMITfMK/aM5x3cJPzUfO0Dg==
+X-Received: by 2002:aca:2418:0:b0:342:f3e8:4d7b with SMTP id
+ n24-20020aca2418000000b00342f3e84d7bmr5103694oic.43.1660894318049; 
+ Fri, 19 Aug 2022 00:31:58 -0700 (PDT)
+Received: from anup-ubuntu64-vm.. ([171.76.80.76])
+ by smtp.gmail.com with ESMTPSA id
+ bj10-20020a056808198a00b00344aa3f17d9sm875197oib.10.2022.08.19.00.31.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 00:31:57 -0700 (PDT)
+From: Anup Patel <apatel@ventanamicro.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Anup Patel <apatel@ventanamicro.com>,
+ Andrew Jones <ajones@ventanamicro.com>
+Subject: [PATCH v2] target/riscv: Use official extension names for AIA CSRs
+Date: Fri, 19 Aug 2022 13:01:47 +0530
+Message-Id: <20220819073147.174790-1-apatel@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lakojj5jmu75dyyx"
-Content-Disposition: inline
-In-Reply-To: <20220817162556.fqjq74dtgi2uuyla@tapioca>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=apatel@ventanamicro.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,234 +93,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The arch review of AIA spec is completed and we now have official
+extension names for AIA: Smaia (M-mode AIA CSRs) and Ssaia (S-mode
+AIA CSRs).
 
---lakojj5jmu75dyyx
-Content-Type: multipart/mixed; boundary="ffvwmdko5pggrclo"
-Content-Disposition: inline
+Refer, section 1.6 of the latest AIA v0.3.1 stable specification at
+https://github.com/riscv/riscv-aia/releases/download/0.3.1-draft.32/riscv-interrupts-032.pdf)
 
+Based on above, we update QEMU RISC-V to:
+1) Have separate config options for Smaia and Ssaia extensions
+   which replace RISCV_FEATURE_AIA in CPU features
+2) Not generate AIA INTC compatible string in virt machine
 
---ffvwmdko5pggrclo
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+---
+Changes since v1:
+ - Remove redundant "has_aia" parameter from riscv_cpu_pending_to_irq()
+---
+ hw/intc/riscv_imsic.c     |  4 +++-
+ hw/riscv/virt.c           | 13 ++-----------
+ target/riscv/cpu.c        |  9 ++++-----
+ target/riscv/cpu.h        |  4 ++--
+ target/riscv/cpu_helper.c |  4 +++-
+ target/riscv/csr.c        | 30 ++++++++++++++++++++++++------
+ 6 files changed, 38 insertions(+), 26 deletions(-)
 
-Hi,
-
-On Wed, Aug 17, 2022 at 06:25:56PM +0200, Victor Toso wrote:
-> On Wed, Jul 06, 2022 at 10:48:06AM +0100, Daniel P. Berrang=E9 wrote:
-> > On Wed, Jul 06, 2022 at 10:37:54AM +0100, Daniel P. Berrang=E9 wrote:
-> > > On Wed, Jul 06, 2022 at 04:28:16AM -0500, Andrea Bolognani wrote:
-> > > > You're right, that is undesirable. What about something like this?
-> > > >
-> > > >   type GuestPanicInformation struct {
-> > > >       HyperV *GuestPanicInformationHyperV
-> > > >       S390   *GuestPanicInformationS390
-> > > >   }
-> > > >
-> > > >   type jsonGuestPanicInformation struct {
-> > > >       Discriminator string                       `json:"type"`
-> > > >       HyperV        *GuestPanicInformationHyperV `json:"hyper-v"`
-> > > >       S390          *GuestPanicInformationS390   `json:"s390"`
-> > > >   }
-> > >
-> > > It can possibly be even simpler with just embedding the real
-> > > struct
-> > >
-> > >    type jsonGuestPanicInformation struct {
-> > >        Discriminator string
-> > >        GuestPanicInformation
-> > >    }
->
-> Similar to what I said in previous email (same thread) to Andrea,
-> this would not work because the end result does not match with
-> QAPI spec, where HyperV or S390 fields should be at the same
-> level as 'type'.
->
-> If we embed either HyperV or S390, then it should work, like:
->
->     tmp :=3D struct {
->         GuestPanicInformationHyperV
->         Discriminator string "type"
->     }{}
->
-> But I intend to try the json.RawMessage too as with description
-> it seems like we can avoid looking the whole json data twice.
-
-For the same reason, I could not use json.RawMessage, sadly.
-
-As Andrea pointed out before, json.RawMessage is just an alias
-for []byte. We need a field for that (so, it can't be embed) and
-the contents of the JSON need to match that field's name.
-
-I've removed the string manipulation and used a few anonymous
-structs instead. I'm attaching a main.go program that tests this
-behavior together with input checks that Andrea suggested. This
-is more or less how the generated code will look like in the next
-iteration but in case one want's to find a nicer/shorter
-solution, I'm all ears :)
-
-Cheers,
-Victor
-
---ffvwmdko5pggrclo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="main.go"
-
-package main
-
-import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"strings"
-)
-
-type QCryptoBlockOptionsQCow struct {
-	KeySecret *string `json:"key-secret,omitempty"`
-}
-
-type QCryptoBlockOptionsLUKS struct {
-	KeySecret *string `json:"key-secret,omitempty"`
-}
-
-type QCryptoBlockOpenOptions struct {
-	// Variants fields
-	Qcow *QCryptoBlockOptionsQCow `json:"-"`
-	Luks *QCryptoBlockOptionsLUKS `json:"-"`
-}
-
-func (s QCryptoBlockOpenOptions) MarshalJSON() ([]byte, error) {
-	var bytes []byte
-	var err error
-	if s.Qcow != nil {
-		tmp := struct {
-			QCryptoBlockOptionsQCow
-			Discriminator string `json:"format"`
-		}{
-			QCryptoBlockOptionsQCow: *s.Qcow,
-			Discriminator:           "qcow",
-		}
-		if bytes, err = json.Marshal(tmp); err != nil {
-			return nil, err
-		}
-	}
-	if s.Luks != nil {
-		if len(bytes) != 0 {
-			return nil, errors.New(`multiple fields set for QCryptoBlockOpenOptions`)
-		}
-		tmp := struct {
-			QCryptoBlockOptionsLUKS
-			Discriminator string `json:"format"`
-		}{
-			QCryptoBlockOptionsLUKS: *s.Luks,
-			Discriminator:           "luks",
-		}
-		if bytes, err = json.Marshal(tmp); err != nil {
-			return nil, err
-		}
-	}
-	if len(bytes) == 0 {
-		return nil, errors.New(`null not supported for QCryptoBlockOpenOptions`)
-	}
-	return bytes, nil
-}
-
-func (s *QCryptoBlockOpenOptions) UnmarshalJSON(data []byte) error {
-	tmp := struct {
-		Discriminator string `json:"format"`
-	}{}
-	if err := json.Unmarshal(data, &tmp); err != nil {
-		return err
-	}
-	switch tmp.Discriminator {
-	case "qcow":
-		s.Qcow = &QCryptoBlockOptionsQCow{}
-		if err := json.Unmarshal(data, s.Qcow); err != nil {
-			s.Qcow = nil
-			return err
-		}
-	case "luks":
-		s.Luks = &QCryptoBlockOptionsLUKS{}
-		if err := json.Unmarshal(data, s.Luks); err != nil {
-			s.Luks = nil
-			return err
-		}
-	}
-	return nil
-}
-
-func main() {
-	jsonLuks := `{"key-secret":"my luks secret is here","format":"luks"}`
-	jsonQcow := `{"key-secret":"my qcow secret is here","format":"qcow"}`
-	r := QCryptoBlockOpenOptions{}
-	if err := json.Unmarshal([]byte(jsonLuks), &r); err != nil {
-		panic(err)
-	} else if r.Luks == nil || r.Qcow != nil {
-		panic(fmt.Sprintf("Wrong: %v", r))
-	} else if b, err := json.Marshal(&r); err != nil {
-		panic(err)
-	} else if string(b) != jsonLuks {
-		panic(string(b))
-	}
-
-	r = QCryptoBlockOpenOptions{}
-	if err := json.Unmarshal([]byte(jsonQcow), &r); err != nil {
-		panic(err)
-	} else if r.Luks != nil || r.Qcow == nil {
-		panic(fmt.Sprintf("Wrong: %v", r))
-	} else if b, err := json.Marshal(&r); err != nil {
-		panic(err)
-	} else if string(b) != jsonQcow {
-		panic(string(b))
-	}
-
-	r = QCryptoBlockOpenOptions{}
-	if _, err := json.Marshal(&r); err == nil {
-		panic("No fields set should be an error")
-	} else if !strings.Contains(err.Error(), "null not supported") {
-		panic(err)
-	}
-
-	qcowSecret := "my-qcow-secret-is-here"
-	luksSecret := "my-luks-secret-is-here"
-	r = QCryptoBlockOpenOptions{
-		Qcow: &QCryptoBlockOptionsQCow{
-			KeySecret: &qcowSecret,
-		},
-		Luks: &QCryptoBlockOptionsLUKS{
-			KeySecret: &luksSecret,
-		},
-	}
-
-	if _, err := json.Marshal(&r); err == nil {
-		panic("multiple fields set should be an error")
-	} else if !strings.Contains(err.Error(), "multiple fields set for") {
-		panic(err)
-	}
-}
-
---ffvwmdko5pggrclo--
-
---lakojj5jmu75dyyx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmL/OdQACgkQl9kSPeN6
-SE9xcg//YkfomPq2T+6/YnHjDsuRsDp9648cWCBLdqIFgKBfy2tda/jdyF8rWu2+
-fU0B0icIYMxkkSXpqiREhbFbslfLUCW89OyLrRsvPS9yZZvzx35GnepdrEuLPtdN
-/MHFudDyhM+FMOrVT0VgaTiPu3iTTTAUqNK78FUf01bdxVSDFMup3raiPc22ThAU
-u+K8cXZK0KCXx/2yRJZvbET2zO+A3DwY7cXpHMexz1NTnKuXcifAgI3c+HHagxxA
-Ndjlb7x8CbBpkH/Af8v//eh0Js66MLbCoifgTBaQpTa+UztmXIHJesi5hKHkQh8p
-NRsVNKphnt5KyXIaPKWHVnkXeagugf6tkPlU1iy1A4hFDEy+DKVmCHSu6PjpyZ/c
-hLYvQbkn50zoM+ezH/1p4Cc08VBf22EDii34kTXDT9AU4I+hnhilw3yepRG7nD56
-ORwvPQoAUJpgdTtlYa2qQnmM/rJ2VI53xOtX8qwRbNjM5wcEIXS83d2lEybrKJQ2
-8MHXidDvOfvdGSDCapUHxgySfKOziI6SfizZsak4hIE9Dv+mgCGpiztNbO6oGZxR
-SbY6zoQwyqQx0qkv1z2n8sWvpElBU8/cLb0OYdo7A7NV62UIzeCB4zvRhLeTC15J
-IOl8LMopPIaryByjLlOCu0qB/K4/NDXSZDwla6CPT1X7qBbH1mE=
-=qJA/
------END PGP SIGNATURE-----
-
---lakojj5jmu75dyyx--
+diff --git a/hw/intc/riscv_imsic.c b/hw/intc/riscv_imsic.c
+index 8615e4cc1d..4d4d5b50ca 100644
+--- a/hw/intc/riscv_imsic.c
++++ b/hw/intc/riscv_imsic.c
+@@ -344,9 +344,11 @@ static void riscv_imsic_realize(DeviceState *dev, Error **errp)
+ 
+     /* Force select AIA feature and setup CSR read-modify-write callback */
+     if (env) {
+-        riscv_set_feature(env, RISCV_FEATURE_AIA);
+         if (!imsic->mmode) {
++            rcpu->cfg.ext_ssaia = true;
+             riscv_cpu_set_geilen(env, imsic->num_pages - 1);
++        } else {
++            rcpu->cfg.ext_smaia = true;
+         }
+         riscv_cpu_set_aia_ireg_rmw_fn(env, (imsic->mmode) ? PRV_M : PRV_S,
+                                       riscv_imsic_rmw, imsic);
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index e779d399ae..b041b33afc 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -261,17 +261,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+         qemu_fdt_add_subnode(mc->fdt, intc_name);
+         qemu_fdt_setprop_cell(mc->fdt, intc_name, "phandle",
+             intc_phandles[cpu]);
+-        if (riscv_feature(&s->soc[socket].harts[cpu].env,
+-                          RISCV_FEATURE_AIA)) {
+-            static const char * const compat[2] = {
+-                "riscv,cpu-intc-aia", "riscv,cpu-intc"
+-            };
+-            qemu_fdt_setprop_string_array(mc->fdt, intc_name, "compatible",
+-                                      (char **)&compat, ARRAY_SIZE(compat));
+-        } else {
+-            qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
+-                "riscv,cpu-intc");
+-        }
++        qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
++            "riscv,cpu-intc");
+         qemu_fdt_setprop(mc->fdt, intc_name, "interrupt-controller", NULL, 0);
+         qemu_fdt_setprop_cell(mc->fdt, intc_name, "#interrupt-cells", 1);
+ 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index d11113fbaa..3cf0c86661 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -101,6 +101,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
++    ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
++    ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
+     ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
+     ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
+     ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
+@@ -669,10 +671,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         }
+     }
+ 
+-    if (cpu->cfg.aia) {
+-        riscv_set_feature(env, RISCV_FEATURE_AIA);
+-    }
+-
+     if (cpu->cfg.debug) {
+         riscv_set_feature(env, RISCV_FEATURE_DEBUG);
+     }
+@@ -1058,7 +1056,8 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+-    DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
++    DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
++    DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
+ 
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 42edfa4558..15cad73def 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -85,7 +85,6 @@ enum {
+     RISCV_FEATURE_PMP,
+     RISCV_FEATURE_EPMP,
+     RISCV_FEATURE_MISA,
+-    RISCV_FEATURE_AIA,
+     RISCV_FEATURE_DEBUG
+ };
+ 
+@@ -452,6 +451,8 @@ struct RISCVCPUConfig {
+     bool ext_zve64f;
+     bool ext_zmmul;
+     bool ext_sscofpmf;
++    bool ext_smaia;
++    bool ext_ssaia;
+     bool rvv_ta_all_1s;
+     bool rvv_ma_all_1s;
+ 
+@@ -472,7 +473,6 @@ struct RISCVCPUConfig {
+     bool mmu;
+     bool pmp;
+     bool epmp;
+-    bool aia;
+     bool debug;
+     uint64_t resetvec;
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 81948b37dd..137988808b 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -309,6 +309,8 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
+                                     int extirq, unsigned int extirq_def_prio,
+                                     uint64_t pending, uint8_t *iprio)
+ {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
+     int irq, best_irq = RISCV_EXCP_NONE;
+     unsigned int prio, best_prio = UINT_MAX;
+ 
+@@ -317,7 +319,7 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
+     }
+ 
+     irq = ctz64(pending);
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    if (!((extirq == IRQ_M_EXT) ? cpu->cfg.ext_smaia : cpu->cfg.ext_ssaia)) {
+         return irq;
+     }
+ 
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 2dcd4e5b2d..b9bce9821f 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -181,7 +181,10 @@ static RISCVException any32(CPURISCVState *env, int csrno)
+ 
+ static int aia_any(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_smaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -190,7 +193,10 @@ static int aia_any(CPURISCVState *env, int csrno)
+ 
+ static int aia_any32(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_smaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -217,7 +223,10 @@ static int smode32(CPURISCVState *env, int csrno)
+ 
+ static int aia_smode(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -226,7 +235,10 @@ static int aia_smode(CPURISCVState *env, int csrno)
+ 
+ static int aia_smode32(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -282,7 +294,10 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+ 
+ static int aia_hmode(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+      }
+ 
+@@ -291,7 +306,10 @@ static int aia_hmode(CPURISCVState *env, int csrno)
+ 
+ static int aia_hmode32(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+-- 
+2.34.1
 
 
