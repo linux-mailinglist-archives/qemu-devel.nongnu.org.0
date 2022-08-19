@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8B259985D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 11:19:52 +0200 (CEST)
-Received: from localhost ([::1]:43272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB8759985C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 11:19:49 +0200 (CEST)
+Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOyAQ-0001Ai-UX
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 05:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
+	id 1oOyAN-000154-MQ
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 05:19:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oOy3o-0004wq-6P
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:13:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oOy3l-00020S-0l
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:12:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660900375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/x5zfY4Hnz2TVjAGZn9AXxE8RUrNWwBIiW31HztdEo8=;
- b=fAKlNOs0eXbtHu1Q2KT1+rBY0RWhHhi/wjIvFTdRsaxWLCMP4gE947SSPxC18qVe0y7lxn
- kNKN6ycd8Mlfv/aXkQQkk8+uDCID5k7xd7Y1artMFdZVOHAuU2No330XZI7NZUKB3vBKg7
- aon/T+13vZxavVznH0RGrjSpU3oRRwU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-352-T6VsFWJGPz-79adKLPOcrQ-1; Fri, 19 Aug 2022 05:12:50 -0400
-X-MC-Unique: T6VsFWJGPz-79adKLPOcrQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- r12-20020a05640251cc00b00440647ec649so2540343edd.21
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 02:12:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oOy3n-0004xt-AA; Fri, 19 Aug 2022 05:12:59 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:46665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oOy3l-00020W-Ix; Fri, 19 Aug 2022 05:12:59 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-11c5505dba2so4552133fac.13; 
+ Fri, 19 Aug 2022 02:12:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=usMAE2f/5/0FsJJycYOfB0zVVTMiwnTfMXrg+mfoJzg=;
+ b=dz2jJFD75FMqM4Vo/Qc3VLZ1JsOxW7bzwpq7r+iU3CN6iH967xjPnA6gcxzuvNW1Bg
+ 1VJjkfwza3Qm8wGAPbeb8zYokuaaohu4SstDB4fQnl4oPAvFuAAdMtVyRZub4vIorNK5
+ 3CdZPNjFiIgrA8T3dAaTKwF5oaRMXAn/1UJjr+X2ik5zdVmCyzHKpTqgQmV5tLA8QU3P
+ xpu2OxQHLDgy5htc5XVzfpftPbnV5kkyMiHI4Vi4P3Gg0Tk+zlqOkDhxUzidQp1G/PZT
+ okvxvhzAo8zvVMcU6xhehI3n9bJPMYpeKNkebqodkh+LmTkZDI5PIMRyAZFK4AYCuKjC
+ iSCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=/x5zfY4Hnz2TVjAGZn9AXxE8RUrNWwBIiW31HztdEo8=;
- b=PGnaD/RFMQSa9/ED+ogl2zcCiZWBJ1WtvN09D3BnqMrVeotrGRl1YHrrUaEiXBFYE4
- kcq3XRdUQj/hY9r3sHKvvEZpBPVCrDMSxlwcuNxPuj35OGZRWE0ltqnDdgG+ODv42T+t
- CIJutML/f5exgdiG+6y5gSvv8LXs9+/A63VVMmCNDfnooL13hSiVL03ohZYStvWs6858
- yWbyfFF5V3BT/A9fXzJdt10qFq3aW4f6ERB5kwJYrYpbH4mjN3oa1BoB+nSoh3hFn5Q2
- rB9DHpg9GRYK4LygInTEDyfVZp1D+t/5JsNAnMnGM+qTMUT9KXKIRZF/PThjxd4kfe+Q
- tSQg==
-X-Gm-Message-State: ACgBeo3DxI6CG5muCwzmFDOgdE1u37ORbKYusUR7hnJo20B7iygV0G4/
- AoRHkBHTU2xZ3Ea/Ht82Vu9s01RcKHpLLpnCuAfakPIjRtIz2Dg8XOCUDJ/63EAzC+QQJC/kwTL
- 72qjP4BjsZ8AMIKUuN/aEmYD7xF+KwTpO0VEoswRV5bTWD25yWh8MFyH8gym+8WS1c3g=
-X-Received: by 2002:a05:6402:304c:b0:440:d482:2fa6 with SMTP id
- bs12-20020a056402304c00b00440d4822fa6mr5467740edb.344.1660900369425; 
- Fri, 19 Aug 2022 02:12:49 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ubOj2HV8EEaHsmV6lkgfMedHte+mSDUsbU0sCuqom2CRp5iJf4mCfOJ4smMyNXim3PVx0IQ==
-X-Received: by 2002:a05:6402:304c:b0:440:d482:2fa6 with SMTP id
- bs12-20020a056402304c00b00440d4822fa6mr5467727edb.344.1660900369148; 
- Fri, 19 Aug 2022 02:12:49 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- q15-20020a170906360f00b00730a73cbe08sm2052021ejb.169.2022.08.19.02.12.48
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 02:12:48 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] kvm: fix segfault with query-stats-schemas and -M none
-Date: Fri, 19 Aug 2022 11:12:46 +0200
-Message-Id: <20220819091246.178546-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220819091246.178546-1-pbonzini@redhat.com>
-References: <20220819091246.178546-1-pbonzini@redhat.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=usMAE2f/5/0FsJJycYOfB0zVVTMiwnTfMXrg+mfoJzg=;
+ b=ikxvN9PHJaVQkRIhmYrEBrR2k3cXRzMusMW3u9iJPOhFuSfatlAIzb9ZPvCeoMMzL3
+ paH2Y/ucJuxx45unrFuH22PMB+XgJ+CcHK9GzeqbU3Q3JPc8IbU3ujo7McjoFsWa+kQf
+ ZDLIHmav42pcUqtOcrWxHsSaoHpBMP9QBSOIIAInBeWJsTDm9+aqjJIF7EmAZgK6sWza
+ cuUiBwMPrxlYLAoew8zhtKge/nOF9iOQ6g0+LrlihntX6jzaxp1UnTF7CqKbd1+LzEWi
+ 3UUZ9m73y1RwFDTJ3OCErGtY4n6i+A4ADPzBOpPjyGzbprFhtDUU5QAOqUzF3GDH8cGd
+ yyvg==
+X-Gm-Message-State: ACgBeo3dIKGqwE0EyZgEy3yVuAx3uvTNyNRqbQDmXfKnsrkyekLKVBm2
+ Mi4i53/IfT8CV5tPBGUMAC8TlfFrVyEw4g==
+X-Google-Smtp-Source: AA6agR6HtJ6wDusgJrYArOXbQ7od5M2BRk2nb4fYj4wQVwf1oS4Y7bzYUX4Eo/q5NhFklhSjuoUJ+w==
+X-Received: by 2002:a05:6870:51cb:b0:116:82f3:bda2 with SMTP id
+ b11-20020a05687051cb00b0011682f3bda2mr6423778oaj.274.1660900375504; 
+ Fri, 19 Aug 2022 02:12:55 -0700 (PDT)
+Received: from [192.168.10.102] ([189.110.115.28])
+ by smtp.gmail.com with ESMTPSA id
+ q2-20020a4ad542000000b00448aff53822sm829609oos.40.2022.08.19.02.12.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Aug 2022 02:12:55 -0700 (PDT)
+Message-ID: <c687a709-9910-73f2-ed00-eee575778e22@gmail.com>
+Date: Fri, 19 Aug 2022 06:12:51 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH for-7.2 2/2] ppc/pnv: fix QOM parenting of user creatable
+ root ports
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, fbarrat@linux.ibm.com
+References: <20220818224511.373255-1-danielhb413@gmail.com>
+ <20220818224511.373255-3-danielhb413@gmail.com>
+ <125fdf68-a491-6098-9e19-2b334a1a25f9@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <125fdf68-a491-6098-9e19-2b334a1a25f9@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,39 +95,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--M none creates a guest without a vCPU, causing the following error:
 
-$ ./qemu-system-x86_64 -qmp stdio -M none -accel kvm
-{execute:qmp_capabilities}
-{"return": {}}
-{execute: query-stats-schemas}
-Segmentation fault (core dumped)
 
-Fix it by not querying the vCPU stats if first_cpu is NULL.
+On 8/19/22 04:19, Cédric Le Goater wrote:
+> On 8/19/22 00:45, Daniel Henrique Barboza wrote:
+>> User creatable root ports are being parented by the 'peripheral' or the
+>> 'peripheral-anon' container. This happens because this is the regular
+>> QOM schema for sysbus devices that are added via the command line.
+>>
+>> Let's make this QOM hierarchy similar to what we have with default root
+>> ports, i.e. the root port must be parented by the pnv-root-bus. To do
+>> that we change the qom and bus parent of the root port during
+>> root_port_realize(). The realize() is shared by the default root port
+>> code path, so we can remove the code inside pnv_phb_attach_root_port()
+>> that was adding the root port as a child of the bus as well.
+>>
+>> While we're at it, change pnv_phb_attach_root_port() to receive a PCIBus
+>> instead of a PCIHostState to make it clear that the function does not
+>> make use of the PHB.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/pci-host/pnv_phb.c | 38 +++++++++++++++++++-------------------
+>>   1 file changed, 19 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+>> index 4ea33fb6ba..38ec8571b7 100644
+>> --- a/hw/pci-host/pnv_phb.c
+>> +++ b/hw/pci-host/pnv_phb.c
+>> @@ -62,27 +62,11 @@ static bool pnv_parent_fixup(Object *parent, BusState *parent_bus,
+>>       return true;
+>>   }
+>> -/*
+>> - * Attach a root port device.
+>> - *
+>> - * 'index' will be used both as a PCIE slot value and to calculate
+>> - * QOM id. 'chip_id' is going to be used as PCIE chassis for the
+>> - * root port.
+>> - */
+>> -static void pnv_phb_attach_root_port(PCIHostState *pci)
+>> +static void pnv_phb_attach_root_port(PCIBus *bus)
+> 
+> Do we still need this pnv_phb_attach_root_port routine ?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/kvm/kvm-all.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Good point. We can just add these 2 lines in the 'defaults_enabled' case
+in pnv_phb_realize().
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 645f0a249a..8d81ab74de 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -4131,7 +4131,9 @@ void query_stats_schemas_cb(StatsSchemaList **result, Error **errp)
-     query_stats_schema(result, STATS_TARGET_VM, stats_fd, errp);
-     close(stats_fd);
- 
--    stats_args.result.schema = result;
--    stats_args.errp = errp;
--    run_on_cpu(first_cpu, query_stats_schema_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
-+    if (first_cpu) {
-+        stats_args.result.schema = result;
-+        stats_args.errp = errp;
-+        run_on_cpu(first_cpu, query_stats_schema_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
-+    }
- }
--- 
-2.37.1
+I'll re-send. Thanks,
 
+
+Daniel
+
+
+
+> 
+>>   {
+>>       PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
+>> -    const char *dev_id = DEVICE(root)->id;
+>> -    g_autofree char *default_id = NULL;
+>> -    int index;
+>> -    index = object_property_get_int(OBJECT(pci->bus), "phb-id", &error_fatal);
+>> -    default_id = g_strdup_printf("%s[%d]", TYPE_PNV_PHB_ROOT_PORT, index);
+>> -
+>> -    object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
+>> -                              OBJECT(root));
+>> -
+>> -    pci_realize_and_unref(root, pci->bus, &error_fatal);
+>> +    pci_realize_and_unref(root, bus, &error_fatal);
+>>   }
+>>   /*
+>> @@ -184,7 +168,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
+>>           return;
+>>       }
+>> -    pnv_phb_attach_root_port(pci);
+>> +    pnv_phb_attach_root_port(pci->bus);
+>>   }
+>>   static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
+>> @@ -259,6 +243,11 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+>>       Error *local_err = NULL;
+>>       int chip_id, index;
+>> +    /*
+>> +     * 'index' will be used both as a PCIE slot value and to calculate
+>> +     * QOM id. 'chip_id' is going to be used as PCIE chassis for the
+>> +     * root port.
+>> +     */
+>>       chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
+>>       index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
+>> @@ -266,6 +255,17 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+>>       qdev_prop_set_uint8(dev, "chassis", chip_id);
+>>       qdev_prop_set_uint16(dev, "slot", index);
+>> +    /*
+>> +     * User created root ports are QOM parented to one of
+>> +     * the peripheral containers but it's already at the right
+>> +     * parent bus. Change the QOM parent to be the same as the
+>> +     * parent bus it's already assigned to.
+>> +     */
+>> +    if (!pnv_parent_fixup(OBJECT(bus), BUS(bus), OBJECT(dev),
+>> +                          index, errp)) {
+>> +        return;
+>> +    }
+>> +
+>>       rpc->parent_realize(dev, &local_err);
+>>       if (local_err) {
+>>           error_propagate(errp, local_err);
+> 
 
