@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B78599CED
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 15:33:17 +0200 (CEST)
-Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C6B599D1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 15:49:42 +0200 (CEST)
+Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP27g-0001us-Ng
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 09:33:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41212)
+	id 1oP2NZ-0005Ak-GM
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 09:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oP22x-0004nv-TE
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 09:28:23 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41571)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oP2Lu-0003gj-F4
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 09:47:58 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oP22w-0001zt-AX
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 09:28:23 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- t2-20020a17090a4e4200b001f21572f3a4so4910951pjl.0
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 06:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=MPQW4Rnem4KMReYwXiEy55PhYSsQ/M3unNrHvLUzwfA=;
- b=TUml19oXwiREqzt7pFgdB8eacU4HUzHtxk+4APzqCZK9K10wuxzEHolNTwlwUoq4Ez
- jzx6BT7JcbgsSGMzk3wi3v/2hoODqfm/12n9NZyWBGt7KtXrE7RtPx6tH4VVRB/xHpe8
- ZEzaIuHRFtdS//LIADr1N7gNLB541GQr9et0Ioo4ld+FAWx4a3wQhiHGp//U9Nl0YZ9k
- 9msBV/hXRyuIIBxQhcBxFhes9NHrm0FtREiRTvGAp/zBzMaJerhD7gFE/ZYeZQSjwwDw
- p824JUVc+Y8w55YHSnhmb7Y7FdIQAjSw90I+8BcYZlbo7rQQC9ERnDZB8yfZ9uPKB0Js
- WyPg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oP2Lm-0005NV-E2
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 09:47:58 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ k18-20020a05600c0b5200b003a5dab49d0bso2506098wmr.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 06:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=uNl5yJmogQXIEdqz0BeUYFgWgMK+/WCXI3l/MwhLrIE=;
+ b=ACpEtIpsGlLFDBm1xvVKlzYBP+4b7ntpiUXXNCqPHA+5BF1leJnar6kpU83ZjzI0XD
+ k7SY5QRJLuYwu3qiVK6yjhbDZ/dOjnJ4VDYK1WHVpkEGTx670yfpso/tH5vc5vV2O0li
+ 1+KwR0fTJm6O0pzRdjgZ5YDyDCsQ63KMp4wtzJaz+MSwxIAOhIhZ7xMx43d5SPUjp/G9
+ NOSYnt3dc0xPVCUwDI7WfGgiP6DIUYw268jLR9enWKhzz45ChRQoKfKGHXPIfkCsnSMp
+ LNFsBy6f9tPBO2mYax4Z49vY0bWrL5IbbW61nkVDzS3lkVffU2Wu410VevKnJhjI87gQ
+ 7O5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=MPQW4Rnem4KMReYwXiEy55PhYSsQ/M3unNrHvLUzwfA=;
- b=X+IrJUGLJ4KtKLVThvsqeyQQf/f2u7B/rGb5LSK8AP7ZyhusXgILo3iLVLbJaDBjDd
- Mc4gjd/CcxHP6Ah3fKcjbJDAQesupUIzc/QltZnttkXFYwz/7G+Rjq6kLqITwxjLge7w
- 5krs+NzDUi1EPQ9RbH4PlqT8aNwC1LgR6aK5tPMwqwjlkoBmOAxxfIRPl9EVp658UDfp
- Ql1pNwHlBFJMTN0DvSQHKEFtI6nNclKyl60AC7frf8NsHYfhzYdLB8OBSifS1oS2A7Sz
- 0hGiqj+Dy5qTgP6uB3ra7mIncNXSJUzDcbk+Vpht8R01J6ptggqEnXvqVTRh8IAYUJx9
- CtAg==
-X-Gm-Message-State: ACgBeo1DBGnhIBHlW3RvSDcHJuExVxwJcuG0QzOVm6JcptZdZWkfvoCP
- RoRCfj+qS8GyUZtMx2no7h+s3gRei0c=
-X-Google-Smtp-Source: AA6agR7O30pC3TZVtxGOfLRcZlAoYCVv827KkXN0s8PFYXB1/fMl7QdTTNsUVbpx65L5nzwnwFTVOA==
-X-Received: by 2002:a17:902:dac7:b0:16f:13c6:938d with SMTP id
- q7-20020a170902dac700b0016f13c6938dmr7533051plx.11.1660915700630; 
- Fri, 19 Aug 2022 06:28:20 -0700 (PDT)
-Received: from localhost.localdomain ([2400:4050:c360:8200:c4c3:cfa3:24fd:3a7])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=uNl5yJmogQXIEdqz0BeUYFgWgMK+/WCXI3l/MwhLrIE=;
+ b=mGQJguHzvRk2NbyBneCyXDFhkyzdlM/Z++bTDdZ4qiKQ78Ir7e39zeHf/bmoaYNoiF
+ o3A/eKe3Lu2fJFJftfidhFC5sad9JJz238JalWqL7bvciNYzGEPgZxN0OuaHnxPd2Zch
+ bpAd0I6B2uKTr4pamJ84yy+C9XbUUisOBzjbLEOn5JNGT66cUc1LhrfxSLy0DhCGwupZ
+ ointl+80+DlXdUrpj7u04vHG5dy0j0G5wwmLxxA+EyOTk4C/PmbWQOAOp51dYuy/SOIz
+ OAMSCQJn15Z63cJDs2D9J6tVK2O8hDxK/hgPGUUUxYp2encLyurxMdYskDydBVzLePmG
+ arKQ==
+X-Gm-Message-State: ACgBeo1wNeYZoyN4vlceaNWPfCwJVhC7aETsI5pVPZqQ7Bow18UFDRJ3
+ PlVd3QS4589O9jel7Q72242w0g==
+X-Google-Smtp-Source: AA6agR4GQfVMnyOIkk9x1F21W90x+mNMPzc2k1V/PpPlvGIDG7NLdwKiEoKUh12DiyPZvTpCfPyQKA==
+X-Received: by 2002:a05:600c:1551:b0:3a6:2f4d:aeca with SMTP id
+ f17-20020a05600c155100b003a62f4daecamr2908674wmg.100.1660916868669; 
+ Fri, 19 Aug 2022 06:47:48 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a1709026b8400b0016edb59f670sm3195005plk.6.2022.08.19.06.28.17
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 19 Aug 2022 06:28:19 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v5 3/3] meson: Allow to enable gtk and sdl while cocoa is
- enabled
-Date: Fri, 19 Aug 2022 22:27:56 +0900
-Message-Id: <20220819132756.74641-4-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220819132756.74641-1-akihiko.odaki@gmail.com>
-References: <20220819132756.74641-1-akihiko.odaki@gmail.com>
+ l24-20020a1c7918000000b003a5ca627333sm8382247wme.8.2022.08.19.06.47.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 06:47:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 82FC91FFB7;
+ Fri, 19 Aug 2022 14:47:47 +0100 (BST)
+References: <ae24ca7c-fc8e-ae34-5f0f-0d70840efdbe@eldorado.org.br>
+ <b2c49e7f-9b62-86bc-d714-77367df702ca@eldorado.org.br>
+ <CAFEAcA_8JUgKPM=XF4_94ecJtgrt1Tz1RcMHqZHbVpn_bWwMHQ@mail.gmail.com>
+User-agent: mu4e 1.8.9; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc <qemu-ppc@nongnu.org>, Rafael Peria de
+ Sene <rpsene@br.ibm.com>, Cleber Rosa <crosa@redhat.com>, Beraldo Leal
+ <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>, =?utf-8?Q?C=C3=A9dric?=
+ Le Goater
+ <clg@kaod.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: Using Unicamp's Minicloud for the QEMU CI
+Date: Fri, 19 Aug 2022 14:31:34 +0100
+In-reply-to: <CAFEAcA_8JUgKPM=XF4_94ecJtgrt1Tz1RcMHqZHbVpn_bWwMHQ@mail.gmail.com>
+Message-ID: <87zgg02vlo.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1032.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,52 +100,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As ui/cocoa does no longer override main(), ui/gtk and ui/sdl
-can be enabled even ui/cocoa is enabled.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/meson.build b/meson.build
-index 20fddbd707c..48b6c22aab7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -589,12 +589,6 @@ endif
- 
- cocoa = dependency('appleframeworks', modules: ['Cocoa', 'CoreVideo'],
-                    required: get_option('cocoa'))
--if cocoa.found() and get_option('sdl').enabled()
--  error('Cocoa and SDL cannot be enabled at the same time')
--endif
--if cocoa.found() and get_option('gtk').enabled()
--  error('Cocoa and GTK+ cannot be enabled at the same time')
--endif
- 
- vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
- if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
-@@ -921,7 +915,7 @@ if not get_option('brlapi').auto() or have_system
- endif
- 
- sdl = not_found
--if not get_option('sdl').auto() or (have_system and not cocoa.found())
-+if not get_option('sdl').auto() or have_system
-   sdl = dependency('sdl2', required: get_option('sdl'), kwargs: static_kwargs)
-   sdl_image = not_found
- endif
-@@ -1187,7 +1181,7 @@ endif
- gtk = not_found
- gtkx11 = not_found
- vte = not_found
--if not get_option('gtk').auto() or (have_system and not cocoa.found())
-+if not get_option('gtk').auto() or have_system
-   gtk = dependency('gtk+-3.0', version: '>=3.22.0',
-                    method: 'pkg-config',
-                    required: get_option('gtk'),
--- 
-2.32.1 (Apple Git-133)
+> On Thu, 18 Aug 2022 at 17:11, Lucas Mateus Martins Araujo e Castro
+> <lucas.araujo@eldorado.org.br> wrote:
+>> Lucas wrote:
+>>> I would like gauge the interest in using Minicloud's infrastructure[1]
+>>> for the CI, talking with some people from there they are interested.
+>>> It has both ppc64 and pp64le images, multiple versions of 4 distros
+>>> (Ubuntu, Fedora, Debian and CentOS).
+>
+>> ping
+>>
+>> Any interest in this?
+>
+> PPC host is something we're currently missing in our testing, so definite=
+ly
+> yes in principle. I don't know what the specifics of getting new runners
+> set up is, though. Alex ?
 
+So the first thing is can we have a minicloud VM dedicated to CI 24/7?
+Our current usage of the GitLab CI model relies on the runner always
+running on the host rather than being spun up on demand.
+
+After that you need to extend:
+
+  scripts/ci/setup/build-environment.yml
+  scripts/ci/setup/gitlab-runner.yml
+
+to setup a ppc64 host and setup the gitlab runner on it. We document
+this at:
+
+  https://qemu.readthedocs.io/en/latest/devel/ci.html#machine-setup-howto
+
+After that we can define a new variable in the GitLab config
+(PPC64_RUNNER_AVAILABLE) and then define some custom build jobs in:
+
+  .gitlab-ci.d/custom-runners/
+
+to run the build and test on the native ppc64 HW.
+
+It looks like your branch has most of this stuff already but I couldn't
+see any successful runs. I think this is tripped up by our switch to not
+trigger CI by default. See the documentation about QEMU_CI:
+
+  https://qemu.readthedocs.io/en/latest/devel/ci.html#setting-aliases-in-yo=
+ur-git-config
+
+--=20
+Alex Benn=C3=A9e
 
