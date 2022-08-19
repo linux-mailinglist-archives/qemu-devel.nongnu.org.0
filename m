@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877BF5995CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 09:18:47 +0200 (CEST)
-Received: from localhost ([::1]:57078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5EF75995F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 09:27:18 +0200 (CEST)
+Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOwHG-0006AN-11
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 03:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35406)
+	id 1oOwPV-0001f8-56
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 03:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oOwFN-0004Xx-2L
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:16:49 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:36528)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oOwHp-0006Hn-KQ
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:19:27 -0400
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:39249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oOwFK-00021Z-8t
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:16:48 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1CB5A616DD
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 07:16:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6317C43140
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 07:16:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660893393;
- bh=wK/XF/F/2oIfqAatmRu9MAOiQXaBF+SFoRca/QzzhVU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ivJt1MqZp4n48EB9p1z/oE33HyXqBbgDbAn2ckSwmAu8vzEbAHPvVLJIK3sXso5Jr
- op10bSbOUYKE3HGzm5IezGpuaDXUeVCaIAUi4aGCbK7lQ0GSbtPq45/Y6Jf2SXR3C7
- XjzxEyiYJeEW11d6jHNVTfBKf10vkTM+RKv7jBCYyjKANljkOYrafDkUShbVZ/XvCD
- oHZDMy8KxgR7QAqHYJz8YDV7k3ahKMMXP1He5LhfZ/Md6VHZZUFYMURYWUuv9dULAa
- rZAxlL7jmZObBkLKS16W7UnlhwJTcgRtLyA5eEMN4r1ica3+vbvw0cHlmOtiRrmpwQ
- GuZy4D16Cwakg==
-Received: by mail-wr1-f47.google.com with SMTP id r16so4149821wrm.6
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 00:16:33 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0jI70e3W2Ie1JKk1tq6T6yXZrpaEMJyxGsJe3VCYBebiKYC7p1
- 0K3d3htjHAQfrwEoc2ckACIog/lH2x/0V81Zndk=
-X-Google-Smtp-Source: AA6agR4YxMUFB8Mh2wQONibmqrTFo5Kt/D9OYq2ZaJqwQHB+wo1l2FC9hYMF7c4Md0QVuZ4mRGyZwbGu1010D3C3m1k=
-X-Received: by 2002:a5d:6d89:0:b0:225:16c2:6816 with SMTP id
- l9-20020a5d6d89000000b0022516c26816mr3407896wrs.380.1660893392125; Fri, 19
- Aug 2022 00:16:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oOwHl-0002NQ-5l
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:19:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.41])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B0D8924170;
+ Fri, 19 Aug 2022 07:19:13 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 19 Aug
+ 2022 09:19:01 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S001b2edc332-93ca-4ad5-84ef-f70b9c4c6984,
+ B1CA06E21BA7A2C3169B20B962F9E616B459CCCE) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <125fdf68-a491-6098-9e19-2b334a1a25f9@kaod.org>
+Date: Fri, 19 Aug 2022 09:19:00 +0200
 MIME-Version: 1.0
-References: <20220804030012-mutt-send-email-mst@kernel.org>
- <bfa5704d-755c-5a52-e7cc-bd9b34e5bb03@redhat.com>
- <YuuQb3D/YY1SiUqY@redhat.com>
- <Yuu1kX9CAqSUNNAj@zx2c4.com> <Yuu3ee1iB3IoLdZS@redhat.com>
- <CAMj1kXFAz1ttRmt5_utReSC=TjdfmrgwbwSaAZTDnx6OPGuRRg@mail.gmail.com>
- <cf60456e-a2cd-a64d-0cee-4bea30708fc9@redhat.com>
- <CAHmME9pUdckUwei234Xdge_G-=b6q2e9a8mTVExrV4WE=6TLig@mail.gmail.com>
- <20220816085511.nw5w3wt5vemkyryt@sirius.home.kraxel.org>
- <Yv5c/UMrEhTUlIID@zx2c4.com>
- <20220819064051.yopqxw3ynttnncca@sirius.home.kraxel.org>
-In-Reply-To: <20220819064051.yopqxw3ynttnncca@sirius.home.kraxel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 19 Aug 2022 09:16:20 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXF_ESRptjm3QmmgB6uysYfY2Pd8+jTd9Fmgf=bwhMqMyQ@mail.gmail.com>
-Message-ID: <CAMj1kXF_ESRptjm3QmmgB6uysYfY2Pd8+jTd9Fmgf=bwhMqMyQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/i386: place setup_data at fixed place in memory
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Laszlo Ersek <lersek@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, 
- linux-efi <linux-efi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=ardb@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH for-7.2 2/2] ppc/pnv: fix QOM parenting of user creatable
+ root ports
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>, <fbarrat@linux.ibm.com>
+References: <20220818224511.373255-1-danielhb413@gmail.com>
+ <20220818224511.373255-3-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220818224511.373255-3-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: ff4bf77f-382b-4ce5-85e5-173bf1001fc9
+X-Ovh-Tracer-Id: 4135711833047010272
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeitddguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhgsrghrrhgrtheslhhinhhugidrihgsmhdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,94 +75,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Aug 2022 at 08:41, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Thu, Aug 18, 2022 at 05:38:37PM +0200, Jason A. Donenfeld wrote:
-> > Hey Gerd,
-> >
-> > > Joining the party late (and still catching up the thread).  Given we
-> > > don't need that anyway with EFI, only with legacy BIOS:  Can't that just
-> > > be a protocol between qemu and pc-bios/optionrom/*boot*.S on how to pass
-> > > those 48 bytes random seed?
-> >
-> > Actually, I want this to work with EFI, very much so.
+On 8/19/22 00:45, Daniel Henrique Barboza wrote:
+> User creatable root ports are being parented by the 'peripheral' or the
+> 'peripheral-anon' container. This happens because this is the regular
+> QOM schema for sysbus devices that are added via the command line.
+> 
+> Let's make this QOM hierarchy similar to what we have with default root
+> ports, i.e. the root port must be parented by the pnv-root-bus. To do
+> that we change the qom and bus parent of the root port during
+> root_port_realize(). The realize() is shared by the default root port
+> code path, so we can remove the code inside pnv_phb_attach_root_port()
+> that was adding the root port as a child of the bus as well.
+> 
+> While we're at it, change pnv_phb_attach_root_port() to receive a PCIBus
+> instead of a PCIHostState to make it clear that the function does not
+> make use of the PHB.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/pci-host/pnv_phb.c | 38 +++++++++++++++++++-------------------
+>   1 file changed, 19 insertions(+), 19 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+> index 4ea33fb6ba..38ec8571b7 100644
+> --- a/hw/pci-host/pnv_phb.c
+> +++ b/hw/pci-host/pnv_phb.c
+> @@ -62,27 +62,11 @@ static bool pnv_parent_fixup(Object *parent, BusState *parent_bus,
+>       return true;
+>   }
+>   
+> -/*
+> - * Attach a root port device.
+> - *
+> - * 'index' will be used both as a PCIE slot value and to calculate
+> - * QOM id. 'chip_id' is going to be used as PCIE chassis for the
+> - * root port.
+> - */
+> -static void pnv_phb_attach_root_port(PCIHostState *pci)
+> +static void pnv_phb_attach_root_port(PCIBus *bus)
 
-Even if we wire this up for EFI in some way, it will only affect
-direct kernel boot using -kernel/-initrd etc, which is a niche use
-case at best (AIUI libvirt uses it for the initial boot only)
+Do we still need this pnv_phb_attach_root_port routine ?
 
-I personally rely on it heavily for development, and I imagine others
-might too, but that is hardly relevant here.
+>   {
+>       PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
+> -    const char *dev_id = DEVICE(root)->id;
+> -    g_autofree char *default_id = NULL;
+> -    int index;
+>   
+> -    index = object_property_get_int(OBJECT(pci->bus), "phb-id", &error_fatal);
+> -    default_id = g_strdup_printf("%s[%d]", TYPE_PNV_PHB_ROOT_PORT, index);
+> -
+> -    object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
+> -                              OBJECT(root));
+> -
+> -    pci_realize_and_unref(root, pci->bus, &error_fatal);
+> +    pci_realize_and_unref(root, bus, &error_fatal);
+>   }
+>   
+>   /*
+> @@ -184,7 +168,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
+>           return;
+>       }
+>   
+> -    pnv_phb_attach_root_port(pci);
+> +    pnv_phb_attach_root_port(pci->bus);
+>   }
+>   
+>   static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
+> @@ -259,6 +243,11 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+>       Error *local_err = NULL;
+>       int chip_id, index;
+>   
+> +    /*
+> +     * 'index' will be used both as a PCIE slot value and to calculate
+> +     * QOM id. 'chip_id' is going to be used as PCIE chassis for the
+> +     * root port.
+> +     */
+>       chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
+>       index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
+>   
+> @@ -266,6 +255,17 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+>       qdev_prop_set_uint8(dev, "chassis", chip_id);
+>       qdev_prop_set_uint16(dev, "slot", index);
+>   
+> +    /*
+> +     * User created root ports are QOM parented to one of
+> +     * the peripheral containers but it's already at the right
+> +     * parent bus. Change the QOM parent to be the same as the
+> +     * parent bus it's already assigned to.
+> +     */
+> +    if (!pnv_parent_fixup(OBJECT(bus), BUS(bus), OBJECT(dev),
+> +                          index, errp)) {
+> +        return;
+> +    }
+> +
+>       rpc->parent_realize(dev, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
 
-> With EFI the kernel stub gets some random seed via EFI_RNG_PROTOCOL.
-> I can't see any good reason to derive from that.  It works no matter
-> how the kernel gets loaded.
->
-> OVMF ships with a driver for the virtio-rng device.  So just add that
-> to your virtual machine and seeding works fine ...
->
-
-... or we find other ways for the platform to speak to the OS, using
-EFI protocols or other EFI methods.
-
-Currently, the 'pure EFI' boot code is arch agnostic - it can be built
-and run on any architecture that supports EFI boot. Adding Linux+x86
-specific hacks to it is out of the question.
-
-So that means that setup_data provided by QEMU will be consumed
-directly by the kernel (when doing direct kernel boot only), using an
-out of band channel that EFI/OVMF are completely unaware of, putting
-it outside the scope of secure boot, measure boot, etc.
-
-This is not acceptable to me.
-
-> > If our objective was to just not break EFI, the solution would be
-> > simple: in the kernel we can have EFISTUB ignore the setup_data field
-> > from the image, and then bump the boot header protocol number. If QEMU
-> > sees the boot protocol number is below this one, then it won't set
-> > setup_data. Done, fixed.
->
-> As mentioned elsewhere in the thread patching in physical addresses on
-> qemu side isn't going to fly due to the different load methods we have.
->
-
-And it conflates the file representation with the in-memory
-representation, which I object to fundamentally - setup_data is part
-of the file image, and becomes part of the in-memory representation
-when it gets staged in memory for booting, which only happens in the
-EFI stub when using pure EFI boot.
-
-Using setup_data as a hidden comms channel between QEMU and the core
-kernel breaks that distinction.
-
-> > Your option ROM idea is interesting; somebody mentioned that elsewhere
-> > too I think.
->
-> Doing the setup_data patching in the option rom has the advantage that
-> it'll only happen with that specific load method being used.  Also the
-> option rom knows where it places stuff in memory so it is in a much
-> better position to find a good & non-conflicting place for the random
-> seed.  Also reserve/allocate memory if needed etc.
->
-
-Exactly. This is the only sensible place to do this.
-
-> > I'm wondering, though: do option ROMs still run when
-> > EFI/OVMF is being used?
->
-> No, they are not used with EFI.  OVMF has a completely independent
-> implementation for direct kernel boot.
->
-> The options I see for EFI are:
->
->   (1) Do nothing and continue to depend on virtio-rng.
->   (2) Implement an efi driver which gets those 48 seed bytes from
->       qemu by whatever means we'll define and hands them out via
->       EFI_RNG_PROTOCOL.
->
-
-We could explore other options, but SETUP_RNG_SEED is fundamentally
-incompatible with EFI boot (or any other boot method where the image
-is treated as an opaque file by the firmware/loader), so that is not
-an acceptable approach to me.
 
