@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA53599EFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 18:28:11 +0200 (CEST)
-Received: from localhost ([::1]:49422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18910599F1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 18:29:31 +0200 (CEST)
+Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP4qv-0007Qx-Nu
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 12:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52374)
+	id 1oP4sE-0008VH-1o
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 12:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oP4ok-0004WU-Tw
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:25:54 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oP4oj-0005QY-Hn
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:25:54 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- m3-20020a05600c3b0300b003a5e0557150so4067153wms.0
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 09:25:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=TuSfxUph4WczOVgIUN2t9bOMxr019u1sq/kX5NPpxcI=;
- b=o8lJhFfjUxlbHvA/fTEg28AVmGHxh+87fR0ZYn5rkmc9C16xkx1pg57EBSxZeZB3hi
- IuR8j5nFYsSE4IAJRkOsWMR9vrzx1LQej1u0/cuXdf/Rr+/JEB6x/lJ6z3X6SUZFyqr/
- Xox7T7C+4jzVhxIfDnvfGNusVRbkuKuKnfpLBA2d470el+qxmNrRZPQ3i2WMwrrQwT1v
- tLTOURcdym4MBqHLG6uZ5DSHK6VJvJmtZnEC838c118/k7wjGjgCYXQkvWEEqiDkjqNq
- y1uK4yMmvTHeIRhsE+arKiyF/t6LRVM1+/XYim5y3ou/jBTYFiNGcClnhU+rO9iewiEC
- Nf7w==
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1oP4q7-0006La-Tb
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:27:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25087)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1oP4q5-0005YI-43
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:27:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660926436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tBsgB8p3BaEYFbuPlydsQEUM3MS+Mdzwya6mAqQHhwI=;
+ b=DgKvh3BpqqzJgGdl74/PZJasvEoh5O7nyH+TOQTCSdiPtjbNkPGof0jjS+iyoYIJYQ3jKy
+ HX8+6I3qjeCCBkXl3PrWCU/coo9fgYGUj3Ji8cJHLZinKjJ8C121Zx2CMiWluM38yANvt5
+ YutpbQpdvmAoJ+OfYr37PwZfCOzwhFQ=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-418-Bd_X_tdbPnCwEa7Gm46VEw-1; Fri, 19 Aug 2022 12:27:14 -0400
+X-MC-Unique: Bd_X_tdbPnCwEa7Gm46VEw-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-336c3b72da5so80855557b3.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 09:27:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=TuSfxUph4WczOVgIUN2t9bOMxr019u1sq/kX5NPpxcI=;
- b=5v0KVzpGsOYHLyLsoEdSoQ5dXXiXWHJ7Z5Ggw1Fa4qtVszxArbAfCVCbMkLbxTaHmU
- pj6lmpSndRFMi1PEnWqirOXwVzC3VyE62CkzAAFOQ2FOrWCAHGMdelAuLzWw0Dvfhiwr
- sLKO5o/lKrHM64SJ7AADINx1eaPAoQoATnhKlDyKxwQ5WzThW8TuAmril9Dz+H7ZL8Pu
- oz+iAocUlRpnTF371FqQy4XqSKfQdUt7VsAY8Tzvdjl/Vxp24Jz3Gf21x0J08G6Z3lFu
- rg626pp6ZV5sppTPfC/9ssHRGtx57p9K1KLkBWUzgLLhUO4QnqIPVmhVDE2NHEv5qz4K
- hVhg==
-X-Gm-Message-State: ACgBeo1Zg1lQVopHwl2yc7KXPgWCafwnpmGVDiGVY/P9GtY2hW/Wg+u8
- jbAYwUA5g4cVmmFlGZd6QJBcAw==
-X-Google-Smtp-Source: AA6agR4KtdpsEDry+oBOrd2IarLYGPqJ8BBnndW0t2Fl1N5d+aC6ZAOXtLYuRbXUXCKgjtt4zfoDGw==
-X-Received: by 2002:a05:600c:3509:b0:3a6:1888:a4bd with SMTP id
- h9-20020a05600c350900b003a61888a4bdmr5379785wmq.191.1660926349187; 
- Fri, 19 Aug 2022 09:25:49 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- d24-20020adfa358000000b0021ea1bcc300sm4686368wrb.56.2022.08.19.09.25.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 09:25:48 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 50F881FFB7;
- Fri, 19 Aug 2022 17:25:48 +0100 (BST)
-References: <20220819053802.296584-1-thuth@redhat.com>
-User-agent: mu4e 1.8.9; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
- <berrange@redhat.com>, Peter
- Xu <peterx@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/4] Speed up migration tests
-Date: Fri, 19 Aug 2022 17:25:31 +0100
-In-reply-to: <20220819053802.296584-1-thuth@redhat.com>
-Message-ID: <87r11c2oab.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
+ :from:x-gm-message-state:from:to:cc;
+ bh=tBsgB8p3BaEYFbuPlydsQEUM3MS+Mdzwya6mAqQHhwI=;
+ b=GCiOxfjczoyTG3a+7NgKLRv3cxznvZO7IAnFy73r/vUt8WFHNoMhss5+5ySnfbZKeN
+ B+kYqPE47Byl7Iz/+RQsJY6BHlPMRG6DGOZL9UZK+w41lIcgGZ2OHMjQyKxFF4w38ja1
+ nfjq48nXp77ivfetrviJTUhjA6IuEo5/ruFcL1VLGZyO5doIoUxLQzvTsnccpkok1rNo
+ SL7cx3qlKuCOpP9DgUhB89Ivr61za27YKJFK5ceLb80bvY3vE2Jz9/rxG3xVEebmhrfh
+ Gfrcy8Kfi8y508pg9EimHhtag1SKD1pTu8UDmK+pAhGVvLQ0vBAmDXM6Fdexo7a8ue1h
+ xbaA==
+X-Gm-Message-State: ACgBeo3hWHRJNU8Uv3lhjpMpfRNOQ6HM5QHXSowRI9XniV9V7gNX3U0G
+ RIslUrxB4OYzZMwGC65ulm/MzRv76hT6++DYkqvVIuRFrUYRL32Jf8732WT74emOA+YvJLNUJ45
+ 2rvpNCtc28Nn8hGT5zY73yv9Mbq7EB30=
+X-Received: by 2002:a25:6611:0:b0:67b:e0c2:3239 with SMTP id
+ a17-20020a256611000000b0067be0c23239mr8091461ybc.18.1660926434236; 
+ Fri, 19 Aug 2022 09:27:14 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7EW+W6WeG6AxNS0oY+8MNtssOo2BK6XUbachIhsW5DyseqU6x7M+QKUiPM4HaxA1lH+eP8NGOTeHnU9/Hq1As=
+X-Received: by 2002:a25:6611:0:b0:67b:e0c2:3239 with SMTP id
+ a17-20020a256611000000b0067be0c23239mr8091442ybc.18.1660926433999; Fri, 19
+ Aug 2022 09:27:13 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 19 Aug 2022 11:27:13 -0500
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20220617121932.249381-1-victortoso@redhat.com>
+ <20220617121932.249381-3-victortoso@redhat.com>
+ <CABJz62NXnKFm=n=7eXmb==zSUe0VCy_0jbcFoNc8SwrQ2YKjvg@mail.gmail.com>
+ <20220817140419.vpxjay4ouaz2gsam@tapioca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220817140419.vpxjay4ouaz2gsam@tapioca>
+Date: Fri, 19 Aug 2022 11:27:13 -0500
+Message-ID: <CABJz62PZvdem1C-m-ODVMLrFaN6kqqJm0qyvbLxqeRPXL5jDaA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/8] qapi: golang: Generate qapi's alternate types
+ in Go
+To: Victor Toso <victortoso@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,18 +99,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Thomas Huth <thuth@redhat.com> writes:
-
-> We are currently facing the problem that the "gcov-gprof" CI jobs
-> in the gitlab-CI are running way too long - which happens since
-> the migration-tests have been enabled there recently.
+On Wed, Aug 17, 2022 at 04:04:19PM +0200, Victor Toso wrote:
+> On Tue, Jul 05, 2022 at 08:45:06AM -0700, Andrea Bolognani wrote:
+> > On Fri, Jun 17, 2022 at 02:19:26PM +0200, Victor Toso wrote:
+> > > func (s *BlockdevRef) UnmarshalJSON(data []byte) error {
+> > >     // Check for json-null first
+> > >     if string(data) == "null" {
+> > >         return errors.New(`null not supported for BlockdevRef`)
+> > >     }
+> > >     // Check for BlockdevOptions
+> > >     {
+> > >         s.Definition = new(BlockdevOptions)
+> > >         if err := StrictDecode(s.Definition, data); err == nil {
+> > >             return nil
+> > >         }
+> >
+> > The use of StrictDecode() here means that we won't be able to
+> > parse an alternate produced by a version of QEMU where
+> > BlockdevOptions has gained additional fields, doesn't it?
 >
-> These patches now speed up the migration tests, so that the
-> CI job should be fine again.
+> That's correct. This means that with this RFCv2 proposal, qapi-go
+> based on qemu version 7.1 might not be able to decode a qmp
+> message from qemu version 7.2 if it has introduced a new field.
+>
+> This needs fixing, not sure yet the way to go.
+>
+> > Considering that we will happily parse such a BlockdevOptions
+> > outside of the context of BlockdevRef, I think we should be
+> > consistent and allow the same to happen here.
+>
+> StrictDecode is only used with alternates because, unlike unions,
+> Alternate types don't have a 'discriminator' field that would
+> allow us to know what data type to expect.
+>
+> With this in mind, theoretically speaking, we could have very
+> similar struct types as Alternate fields and we have to find on
+> runtime which type is that underlying byte stream.
+>
+> So, to reply to your suggestion, if we allow BlockdevRef without
+> StrictDecode we might find ourselves in a situation that it
+> matched a few fields of BlockdevOptions but it the byte stream
+> was actually another type.
 
-Awesome stuff, queued to testing/next, thanks.
+IIUC your concern is that the QAPI schema could gain a new type,
+TotallyNotBlockdevOptions, which looks exactly like BlockdevOptions
+except for one or more extra fields.
 
---=20
-Alex Benn=C3=A9e
+If QEMU then produced a JSON like
+
+  { "description": { /* a TotallyNotBlockdevOptions here */ } }
+
+and we'd try to deserialize it with Go code like
+
+  ref := BlockdevRef{}
+  json.Unmarsal(&ref)
+
+we'd end up mistakenly parsing the TotallyNotBlockdevOptions as a
+valid BlockdevOptions, dropping the extra fields in the process.
+
+Does that correctly describe the reason why you feel that the use of
+StrictDecode is necessary?
+
+If so, I respectfully disagree :)
+
+If the client code is expecting a BlockdevRef as the return value of
+a command and QEMU is producing something that is *not* a BlockdevRef
+instead, that's an obvious bug in QEMU. If the client code is
+expecting a BlockdevRef as the return value of a command that is
+specified *not* to return a BlockdevRef, that's an obvious bug in the
+client code.
+
+In neither case it should be the responsibility of the SDK to
+second-guess the declared intent, especially when it's perfectly
+valid for a type to be extended in a backwards-compatible way by
+adding fields to it.
+
+-- 
+Andrea Bolognani / Red Hat / Virtualization
+
 
