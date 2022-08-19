@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5854859985E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 11:19:58 +0200 (CEST)
-Received: from localhost ([::1]:59910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CB95998AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 11:26:28 +0200 (CEST)
+Received: from localhost ([::1]:55304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOyAW-0001KM-SA
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 05:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
+	id 1oOyGp-0003MR-1k
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 05:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOy0p-0003fv-Cb
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:09:56 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:45812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oOy0m-0001OP-Tc
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:09:54 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-3246910dac3so105166477b3.12
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 02:09:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=BxjXz4id0AZ3P9P1aIFwFBd/Yi6UjFUKEmIrLdL8IE8=;
- b=w5z2brcO4xV8HKBKCq5oOye86SsQCQ7966aVI919VFTyTGPukuJzteZhOiplUHuriZ
- Fff5k/MKJO8CQgA6nBQAL9rIDjZ6DohhyZqZkpLze1J67QFZcu+0ifTSWFmx6utN3CXk
- MsvjyNP75ZjK0rgY4mh2LCuUUdHqwyk/Nu3jd+deDKF9ya8WtKAssEPcgRHcHDU3IewT
- 2BD3NEwNhY8ewIrlyoThxbdzhUTGP3NaR+DA1MQd4FY03dUAtaRZBbdLwf+hVQsLmLcX
- Q9v89o01uxNTi4DgRHHU0nvpzVGeGYv0gaB5xapmNeIn5qwQ6G4YeRiqjaQYvymlmrX1
- 5jsg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oOy3m-0004wJ-Jk
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:12:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20065)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oOy3g-00020N-94
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:12:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660900371;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4EMgKHQ0Xu+FUWhiEB9pMZWl3Cv1rgpBp876B0qD/Bo=;
+ b=cbjqrFy96wQSrP3ti7YQGgV7WBaf5OhBYi0uT/WWYEKQdnwXIwxAshGqsfgBEwih/37YMa
+ vvIb7JZInFOMUB+Spk174bB1ylhEpu52kRtJIlT48XUsN3mvKZVykIot3jLiw6JFzfLV7p
+ HVx/mLaLomor+ZZTy+sDQJaG89Gk7ig=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-573-AhmgIYhNOImqmddCuB1MxQ-1; Fri, 19 Aug 2022 05:12:49 -0400
+X-MC-Unique: AhmgIYhNOImqmddCuB1MxQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b13-20020a056402350d00b0043dfc84c533so2485065edd.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 02:12:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=BxjXz4id0AZ3P9P1aIFwFBd/Yi6UjFUKEmIrLdL8IE8=;
- b=S20r2amgWOKELj6TVkr5VaGuczQKK+lJ+LIJUwI/5AwPrBS86leoB4Lim9hBDJi3jl
- xtx8+0T+8sPTDzVcOUmk1k4IgeijowGyeGEPFCGg9dUuGsvbhYBJcElg7j4Gt7w3Urwa
- 7HqE5XbP4aypEWcq88gfMjU3LGu8RF0wNqDgbBQAnObRje0mB1Zs1KeM0Vc3n2LJvidd
- aJK8xawpgrSx9wcljSx+5GyY8zsgCW6DpHkk8cxWH0gZvuecu2dpyx+0+K93H1V7NZ7F
- 2AMK/AYCjj8eWBRfNEZxnn38/7ejCE+YG4TGJSPHq0TGkHVfDiZXYxYAWedgW8T7Z3Qz
- saKw==
-X-Gm-Message-State: ACgBeo2+LNHsGzzb1NUpNTYrnkcrMUewmQUzF3IYtdixtrF+abfFHebE
- tiDIC1XrR53PdmqaR5VourWWiKOy55UXnX3T7X8bVg==
-X-Google-Smtp-Source: AA6agR404c+8xHZnXLVdm3Am7D6f83J6b7OvPCUZLEzXnydA+j/i9g4Vwf61mhYasLNQUbC7bQs5UEuye03qxYt0sog=
-X-Received: by 2002:a25:55c2:0:b0:684:4159:38f4 with SMTP id
- j185-20020a2555c2000000b00684415938f4mr6542711ybb.288.1660900187158; Fri, 19
- Aug 2022 02:09:47 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=4EMgKHQ0Xu+FUWhiEB9pMZWl3Cv1rgpBp876B0qD/Bo=;
+ b=FardZ5qlYCl9DGIgA+ZQvjF3xxxm6r44Se16MOfSdxqZ9z/4RMqhsMUmqvRQRo0O2L
+ J9S8zM/3rNDLM1I9lzet2CskiFXwkXvB2DSKMC1lUasVo0nU5gtuYU3ea6Gsb8qJidPJ
+ /aZEkW0HuvWpNpAzf5A9AaCe0gS0t9mrIh9AjCJhv5mOke9NNz7fIrrZNtDMrP2EC3Ln
+ YkrVYbvXrscQ0LN/YKJU9YDfwM72fflibrgYkYNtjh2Hu+jzYk5fjbd8uig/63GULRYm
+ /WKG/ny3SIiCayI462STINUoDGkoUW/4toawjQb7cvUDXqyAfVWjwc2M14Pr9nH/vKBy
+ Yzaw==
+X-Gm-Message-State: ACgBeo2yyQgQ4bx394rfPEkYE7ML2SB8eYvyBIy3HNeCmVP7KoQwS01h
+ e33uh4kX+y6wUKodlLc3o/oUtBvc9PDf01Olcvk29IGW9JkNgda0UpCZ+smduGUowqulfM+qDpU
+ /fOEyxfsxST0eBghDlWfDrwJVbyrM2iEiRc3EnJKw16vZLJefwc6NFqJwdXl4huLCYR0=
+X-Received: by 2002:aa7:d508:0:b0:445:dd73:4f6f with SMTP id
+ y8-20020aa7d508000000b00445dd734f6fmr5305820edq.231.1660900368285; 
+ Fri, 19 Aug 2022 02:12:48 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR68O/b+1VlAH5q/XtRy91RbRU5NLh/FwoMxermco4bJRUuY+k4KlOvXAN+PeM2GXMtaerXixQ==
+X-Received: by 2002:aa7:d508:0:b0:445:dd73:4f6f with SMTP id
+ y8-20020aa7d508000000b00445dd734f6fmr5305799edq.231.1660900367870; 
+ Fri, 19 Aug 2022 02:12:47 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ h23-20020a50ed97000000b00445b5874249sm2707625edr.62.2022.08.19.02.12.46
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 02:12:47 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] query-stats-schemas crash fix for QEMU 7.1
+Date: Fri, 19 Aug 2022 11:12:45 +0200
+Message-Id: <20220819091246.178546-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220815190303.2061559-1-peter.maydell@linaro.org>
- <20220815190303.2061559-8-peter.maydell@linaro.org>
- <CAKmqyKNo15Kz6-FtXL3C2wC7+aHHLTyGG5tOKQTpnM-c-kJO=w@mail.gmail.com>
- <CAFEAcA8wbST5bc_ZMFGAsFKGyFTkYRazeEqPnwh0aL6cNp0CeQ@mail.gmail.com>
- <CAKmqyKMqrmrhRDTn11VAa1EKEmy=fzO_d+34Qp+jWYDP0uTd3Q@mail.gmail.com>
-In-Reply-To: <CAKmqyKMqrmrhRDTn11VAa1EKEmy=fzO_d+34Qp+jWYDP0uTd3Q@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Aug 2022 10:09:05 +0100
-Message-ID: <CAFEAcA_Rpu78zvaHJgC9P__ARSMDRza8ZbLUto4wD=vw2AuQTw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] target/riscv: Honour -semihosting-config userspace=on
- and enable=on
-To: Alistair Francis <alistair23@gmail.com>
-Cc: qemu-arm <qemu-arm@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
- Stefan Pejic <stefan.pejic@syrmia.com>, Chris Wulff <crwulff@gmail.com>,
- Marek Vasut <marex@denx.de>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Max Filippov <jcmvbkbc@gmail.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Furquan Shaikh <furquan@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,19 +95,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Aug 2022 at 01:55, Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Thu, Aug 18, 2022 at 11:58 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > Do you have an opinion on whether there are likely to be many
-> > users who are using riscv semihosting without explicitly enabling it
-> > on the command line ?
->
-> I don't think there are many users. We have always stated that
-> semihosting had to be enabled via the command line
+The following changes since commit c7208a6e0d049f9e8af15df908168a79b1f99685:
 
- Cool -- I'll do a v2 of this with the change RTH wants, and
-we won't go through the deprecate-and-warn process for fixing
-the "didn't pay attention to command line option" bug.
+  Update version for v7.1.0-rc3 release (2022-08-16 20:45:19 -0500)
 
--- PMM
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to a9197ad2101cfc885cc316af299f49ba89039e54:
+
+  kvm: fix segfault with query-stats-schemas and -M none (2022-08-18 14:08:24 +0200)
+
+----------------------------------------------------------------
+Fix SIGSEGV with query-stats-schema.
+
+This allows management tools to query the statistics schemas without
+worrying that some versions of QEMU will crash.
+
+----------------------------------------------------------------
+Paolo Bonzini (1):
+      kvm: fix segfault with query-stats-schemas and -M none
+
+ accel/kvm/kvm-all.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+-- 
+2.37.1
+
 
