@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7DF599EF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 18:25:50 +0200 (CEST)
-Received: from localhost ([::1]:37044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA53599EFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 18:28:11 +0200 (CEST)
+Received: from localhost ([::1]:49422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP4oe-0004Ks-L7
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 12:25:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38622)
+	id 1oP4qv-0007Qx-Nu
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 12:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oP4mY-0002CM-EQ
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:23:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29952)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oP4mU-0004yR-OS
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:23:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660926214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oPAjnFu01dQcQk8IS+Xm+P8qEOzZ7fyhjYJLhrFx/b8=;
- b=On2f1McBRLBpho7q2aArwBX5MIlziB4cVRWQn0rAGcwhB85Nc+9CDi/5+9LHwdQyMT8sba
- 3wZzv4arYlrq/vgX69s/srM79tTOy8DsG25HENFHRlHlxiMSdZ8HMRJF22NpOK1IyeRnQV
- xMUnBpyec44dL9WmdjlurxTUh8PCiw4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-372-pecRMRpzMOCITC65G7ptkg-1; Fri, 19 Aug 2022 12:23:32 -0400
-X-MC-Unique: pecRMRpzMOCITC65G7ptkg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- gn23-20020a1709070d1700b0073094d0e02cso1724924ejc.20
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 09:23:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oP4ok-0004WU-Tw
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:25:54 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oP4oj-0005QY-Hn
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:25:54 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ m3-20020a05600c3b0300b003a5e0557150so4067153wms.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 09:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=TuSfxUph4WczOVgIUN2t9bOMxr019u1sq/kX5NPpxcI=;
+ b=o8lJhFfjUxlbHvA/fTEg28AVmGHxh+87fR0ZYn5rkmc9C16xkx1pg57EBSxZeZB3hi
+ IuR8j5nFYsSE4IAJRkOsWMR9vrzx1LQej1u0/cuXdf/Rr+/JEB6x/lJ6z3X6SUZFyqr/
+ Xox7T7C+4jzVhxIfDnvfGNusVRbkuKuKnfpLBA2d470el+qxmNrRZPQ3i2WMwrrQwT1v
+ tLTOURcdym4MBqHLG6uZ5DSHK6VJvJmtZnEC838c118/k7wjGjgCYXQkvWEEqiDkjqNq
+ y1uK4yMmvTHeIRhsE+arKiyF/t6LRVM1+/XYim5y3ou/jBTYFiNGcClnhU+rO9iewiEC
+ Nf7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=oPAjnFu01dQcQk8IS+Xm+P8qEOzZ7fyhjYJLhrFx/b8=;
- b=Oif/n5aZtp3f0faWdsc5+qg/c27ZEeg35TMmJRuf3ocsY1icpBk31rSr0IQr8WoDM2
- 96jJ2tb8BGme1XX+s9t4vftEzhTbrSU5xDvm5bzExIyrtwbg5EK/TungdIwvTTe2ooi2
- 9TigPkZ7hKqdeldlMj5bVaKB6RsLmJbwgZVQH0iH4+mfQboEN6xBvFufNaobKluVoozi
- OxBJEspPTCTEo8AHm2a3MdgIwHdEBclUiyrZksP1rRkUj0ZJddIYLuOS28ZHn/sDweut
- IoTOWGkYiGe64eMalSAA490UxsPCmjTZosEPNIuz4ep0+34nLIgt61ZO7GgeaOrgploM
- v9BA==
-X-Gm-Message-State: ACgBeo1GeapJpyGX15w+uqXd+Eiz81Gsmu6U66sOsDyWkDc173YN6XFX
- pGNm4N6NDJLt6qfp14DsktZFiIeZOgKDcEQsBpN9DA3qqhcHHgB99on0Spu02jT2tCSHZHniGyW
- YsUG9r4rkKrUuqz4=
-X-Received: by 2002:a05:6402:369a:b0:43d:75c5:f16c with SMTP id
- ej26-20020a056402369a00b0043d75c5f16cmr6525130edb.57.1660926211273; 
- Fri, 19 Aug 2022 09:23:31 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6IjPLXi1LBylbfR3J4DXUjQOIft9DKXGy4wE7h2PgE2FTWjB0+X4+YpDPGpeFEM/3Bc6SaLw==
-X-Received: by 2002:a05:6402:369a:b0:43d:75c5:f16c with SMTP id
- ej26-20020a056402369a00b0043d75c5f16cmr6525119edb.57.1660926210913; 
- Fri, 19 Aug 2022 09:23:30 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- h7-20020a1709067cc700b0072f112a6ad2sm2567271ejp.97.2022.08.19.09.23.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 09:23:30 -0700 (PDT)
-Message-ID: <7e96c349-86d9-9b0c-24a3-d4394aa28f7a@redhat.com>
-Date: Fri, 19 Aug 2022 18:23:29 +0200
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=TuSfxUph4WczOVgIUN2t9bOMxr019u1sq/kX5NPpxcI=;
+ b=5v0KVzpGsOYHLyLsoEdSoQ5dXXiXWHJ7Z5Ggw1Fa4qtVszxArbAfCVCbMkLbxTaHmU
+ pj6lmpSndRFMi1PEnWqirOXwVzC3VyE62CkzAAFOQ2FOrWCAHGMdelAuLzWw0Dvfhiwr
+ sLKO5o/lKrHM64SJ7AADINx1eaPAoQoATnhKlDyKxwQ5WzThW8TuAmril9Dz+H7ZL8Pu
+ oz+iAocUlRpnTF371FqQy4XqSKfQdUt7VsAY8Tzvdjl/Vxp24Jz3Gf21x0J08G6Z3lFu
+ rg626pp6ZV5sppTPfC/9ssHRGtx57p9K1KLkBWUzgLLhUO4QnqIPVmhVDE2NHEv5qz4K
+ hVhg==
+X-Gm-Message-State: ACgBeo1Zg1lQVopHwl2yc7KXPgWCafwnpmGVDiGVY/P9GtY2hW/Wg+u8
+ jbAYwUA5g4cVmmFlGZd6QJBcAw==
+X-Google-Smtp-Source: AA6agR4KtdpsEDry+oBOrd2IarLYGPqJ8BBnndW0t2Fl1N5d+aC6ZAOXtLYuRbXUXCKgjtt4zfoDGw==
+X-Received: by 2002:a05:600c:3509:b0:3a6:1888:a4bd with SMTP id
+ h9-20020a05600c350900b003a61888a4bdmr5379785wmq.191.1660926349187; 
+ Fri, 19 Aug 2022 09:25:49 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ d24-20020adfa358000000b0021ea1bcc300sm4686368wrb.56.2022.08.19.09.25.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 09:25:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 50F881FFB7;
+ Fri, 19 Aug 2022 17:25:48 +0100 (BST)
+References: <20220819053802.296584-1-thuth@redhat.com>
+User-agent: mu4e 1.8.9; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, Peter
+ Xu <peterx@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/4] Speed up migration tests
+Date: Fri, 19 Aug 2022 17:25:31 +0100
+In-reply-to: <20220819053802.296584-1-thuth@redhat.com>
+Message-ID: <87r11c2oab.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 0/2] i386: KVM: Fix 'system_reset' failures when vCPU
- is in VMX root operation
-Content-Language: en-US
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-Cc: Maxim Levitsky <mlevitsk@redhat.com>,
- Sean Christopherson <seanjc@google.com>
-References: <20220818150113.479917-1-vkuznets@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220818150113.479917-1-vkuznets@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,38 +97,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/22 17:01, Vitaly Kuznetsov wrote:
-> Changes since RFC:
-> - Call kvm_put_msr_feature_control() before kvm_put_sregs2() to achieve
->   the same result [Paolo].
-> - Add Maxim's R-b to PATCH1.
-> 
-> It was discovered that Windows 11 with WSL2 (Hyper-V) enabled guests fail
-> to reboot when QEMU's 'system_reset' command is issued. The problem appears
-> to be that KVM_SET_SREGS2 fails because zeroed CR4 register value doesn't
-> pass vmx_is_valid_cr4() check in KVM as certain bits can't be zero while in
-> VMX root operation (post-VMXON). kvm_arch_put_registers() does call
-> kvm_put_nested_state() which is supposed to kick vCPU out of VMX root
-> operation, however, it only does so after kvm_put_sregs2() and there's
-> a good reason for that: 'real' nested state requires e.g. EFER.SVME to
-> be set.
-> 
-> The root cause of the issue seems to be that QEMU is doing quite a lot
-> to forcefully reset a vCPU as KVM doesn't export kvm_vcpu_reset() (or,
-> rather, it's super-set) yet. While all the numerous existing APIs for
-> setting a vCPU state work fine for a newly created vCPU, using them for
-> vCPU reset is a mess caused by various dependencies between different
-> components of the state (VMX, SMM, MSRs, XCRs, CPUIDs, ...). It would've
-> been possible to allow to set 'inconsistent' state and only validate it
-> upon VCPU_RUN from the very beginning but that ship has long sailed for
-> KVM. A new, dedicated API for vCPU reset is likely the way to go.
-> 
-> Resolve the immediate issue by setting MSR_IA32_FEATURE_CONTROL before
-> kvm_put_sregs2() (and kvm_put_nested_state()), this ensures vCPU gets
-> kicked out of VMX root operation.
 
-Queued, thanks.
+Thomas Huth <thuth@redhat.com> writes:
 
-Paolo
+> We are currently facing the problem that the "gcov-gprof" CI jobs
+> in the gitlab-CI are running way too long - which happens since
+> the migration-tests have been enabled there recently.
+>
+> These patches now speed up the migration tests, so that the
+> CI job should be fine again.
 
+Awesome stuff, queued to testing/next, thanks.
+
+--=20
+Alex Benn=C3=A9e
 
