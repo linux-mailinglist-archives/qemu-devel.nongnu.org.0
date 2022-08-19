@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC028599459
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 07:20:14 +0200 (CEST)
-Received: from localhost ([::1]:46790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF755994CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 07:48:10 +0200 (CEST)
+Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOuQX-0001pi-Ao
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 01:20:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
+	id 1oOurY-0000ka-RG
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 01:48:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oOuOr-0000Io-OO
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 01:18:29 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:41749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oOuOp-0008EY-E6
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 01:18:29 -0400
-Received: by mail-lf1-x134.google.com with SMTP id l1so4234879lfk.8
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 22:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=jkw465DlHJbo5Vm5LLXsCLy4JkdLY2Kjtz7RWV1C8U0=;
- b=kkJy88uw9MFkqBmJCRt+haTj9ftfZoSxnYE1hZPHuHpo1wwKeEx2TxSZGwC4r/icTh
- 4cXOO2JB4YjHTqXF7tubJoMumrZsdH22/5gu5HJDqjs2G9lHJZGChA2mKpRM4j3mz7VC
- 5G6Qr7l1exR6udOPs1RpG2I0x7CP5DOCe+q5U/K4o7CdETPBb3q73QLQKa1enjMhizyZ
- 3fzqz1Ko1qV4dDnExzFxAw1pi1qsc1duerm8jyGt0SIAfr0leF2LuOoW5HN/Ujt1LZx0
- BOgaCzegprH6Sv5vUm8hlUBliLswYq+YNARBjB8VhXBPo/oGapSrgzjnLh22gCVogx98
- b4QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=jkw465DlHJbo5Vm5LLXsCLy4JkdLY2Kjtz7RWV1C8U0=;
- b=QbNKWpKfBUZP8j+3mP3cVs6s+Dh5XxDUhqKYBf8dLBxqQW8dJDCXDu/f1IgnFeNOFQ
- xjfxuaIthOgEdsxYaAnjHj8joz9B6cO/bREnUtEPr8UeKgxapzd4bwB0anhKutQLhp5Z
- 4klndlpk1gGna+UymUYmwv12Zlsc8ayCaeJzhryoms589sAB0T5ZNh8r4GjthR5Zdls6
- YhannZaFbBe135i7ncoQEjaT1lwdb48NfR4wzsHeNZmD56ULO3oTbOZ/Y7+t9qlx/Jtm
- gOud86mqkx+xvvNFNE46obTl4rx3l53WW7KGJfD+zH/bKIbcyjAp23KAtFR7iia1bD9Q
- n2Cg==
-X-Gm-Message-State: ACgBeo3EWc4frns68I+pibWQphVb6Ipsojp57fkmmcJZlV7cPgK4i07W
- sUAd5AagvFRRF6W7i8ZrO850kgc7yoH8ZcKm41Cjbg==
-X-Google-Smtp-Source: AA6agR7b+oM1lWzPdBZbtWF+GSSlrPb86QlDfVtFIE3+5VmCPahKgM1jvWaeL3TL997k3bAEgyblWc4XDUN7BlBIWuk=
-X-Received: by 2002:a05:6512:158b:b0:48b:38:cff8 with SMTP id
- bp11-20020a056512158b00b0048b0038cff8mr1800308lfb.100.1660886304840; Thu, 18
- Aug 2022 22:18:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oOuhy-0003Ln-Sx
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 01:38:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32210)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oOuhv-0002mk-KX
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 01:38:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660887489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zuRGcUGlCdmD5fPLrt3U9qnOGeB/39pFfxpC13Fzk08=;
+ b=QZBqNwcB8kN7Ws4LYuQCjcOhHvkdb1ySwrq6wNIcLmsLvUb8UQYKSq8DaNd6pjjCxkJC6E
+ jWV00V8BpcAZ+SdfjlxKG/HQU2ki9aBb1PxJ5eB1l4cSqdzC6hB5kpq+/W+dsqLVUlZ6pB
+ lIjKVCfYNsC4LnOU7We+ZTOUilMtkWM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-542-bYuhJfJlNDiJIeJPMeLncQ-1; Fri, 19 Aug 2022 01:38:06 -0400
+X-MC-Unique: bYuhJfJlNDiJIeJPMeLncQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C93111C05ECA;
+ Fri, 19 Aug 2022 05:38:05 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89B5B4010E3C;
+ Fri, 19 Aug 2022 05:38:04 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PATCH 0/4] Speed up migration tests
+Date: Fri, 19 Aug 2022 07:37:58 +0200
+Message-Id: <20220819053802.296584-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20220819030938.166196-1-apatel@ventanamicro.com>
- <8189bac8-4873-bd7c-568a-bc99bb73781b@iscas.ac.cn>
-In-Reply-To: <8189bac8-4873-bd7c-568a-bc99bb73781b@iscas.ac.cn>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Fri, 19 Aug 2022 10:48:12 +0530
-Message-ID: <CAK9=C2XD=ssBCedsiMoyV_9bzs9uioJM5p3JZV3TWAhNxNBkUA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Use official extension names for AIA CSRs
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, 
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=apatel@ventanamicro.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,355 +75,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 19, 2022 at 10:24 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
->
-> =E5=9C=A8 2022/8/19 =E4=B8=8A=E5=8D=8811:09, Anup Patel =E5=86=99=E9=81=
-=93:
-> > The arch review of AIA spec is completed and we now have official
-> > extension names for AIA: Smaia (M-mode AIA CSRs) and Ssaia (S-mode
-> > AIA CSRs).
-> >
-> > Refer, section 1.6 of the latest AIA v0.3.1 stable specification at
-> > https://github.com/riscv/riscv-aia/releases/download/0.3.1-draft.32/ris=
-cv-interrupts-032.pdf)
-> >
-> > Based on above, we update QEMU RISC-V to:
-> > 1) Have separate config options for Smaia and Ssaia extensions
-> >     which replace RISCV_FEATURE_AIA in CPU features
-> > 2) Not generate AIA INTC compatible string in virt machine
-> >
-> > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > ---
-> >   hw/intc/riscv_imsic.c     |  4 +++-
-> >   hw/riscv/virt.c           | 13 ++-----------
-> >   target/riscv/cpu.c        |  9 ++++-----
-> >   target/riscv/cpu.h        |  4 ++--
-> >   target/riscv/cpu_helper.c | 30 ++++++++++++++++++++++--------
-> >   target/riscv/csr.c        | 30 ++++++++++++++++++++++++------
-> >   6 files changed, 57 insertions(+), 33 deletions(-)
-> >
-> > diff --git a/hw/intc/riscv_imsic.c b/hw/intc/riscv_imsic.c
-> > index 8615e4cc1d..4d4d5b50ca 100644
-> > --- a/hw/intc/riscv_imsic.c
-> > +++ b/hw/intc/riscv_imsic.c
-> > @@ -344,9 +344,11 @@ static void riscv_imsic_realize(DeviceState *dev, =
-Error **errp)
-> >
-> >       /* Force select AIA feature and setup CSR read-modify-write callb=
-ack */
-> >       if (env) {
-> > -        riscv_set_feature(env, RISCV_FEATURE_AIA);
-> >           if (!imsic->mmode) {
-> > +            rcpu->cfg.ext_ssaia =3D true;
-> >               riscv_cpu_set_geilen(env, imsic->num_pages - 1);
-> > +        } else {
-> > +            rcpu->cfg.ext_smaia =3D true;
-> >           }
-> >           riscv_cpu_set_aia_ireg_rmw_fn(env, (imsic->mmode) ? PRV_M : P=
-RV_S,
-> >                                         riscv_imsic_rmw, imsic);
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index e779d399ae..b041b33afc 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -261,17 +261,8 @@ static void create_fdt_socket_cpus(RISCVVirtState =
-*s, int socket,
-> >           qemu_fdt_add_subnode(mc->fdt, intc_name);
-> >           qemu_fdt_setprop_cell(mc->fdt, intc_name, "phandle",
-> >               intc_phandles[cpu]);
-> > -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> > -                          RISCV_FEATURE_AIA)) {
-> > -            static const char * const compat[2] =3D {
-> > -                "riscv,cpu-intc-aia", "riscv,cpu-intc"
-> > -            };
-> > -            qemu_fdt_setprop_string_array(mc->fdt, intc_name, "compati=
-ble",
-> > -                                      (char **)&compat, ARRAY_SIZE(com=
-pat));
-> > -        } else {
-> > -            qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-> > -                "riscv,cpu-intc");
-> > -        }
-> > +        qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-> > +            "riscv,cpu-intc");
-> >           qemu_fdt_setprop(mc->fdt, intc_name, "interrupt-controller", =
-NULL, 0);
-> >           qemu_fdt_setprop_cell(mc->fdt, intc_name, "#interrupt-cells",=
- 1);
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index d11113fbaa..3cf0c86661 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -101,6 +101,8 @@ static const struct isa_ext_data isa_edata_arr[] =
-=3D {
-> >       ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f)=
-,
-> >       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-> >       ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinx=
-min),
-> > +    ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
-> > +    ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
-> >       ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscof=
-pmf),
-> >       ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
-> >       ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinva=
-l),
-> > @@ -669,10 +671,6 @@ static void riscv_cpu_realize(DeviceState *dev, Er=
-ror **errp)
-> >           }
-> >       }
-> >
-> > -    if (cpu->cfg.aia) {
-> > -        riscv_set_feature(env, RISCV_FEATURE_AIA);
-> > -    }
-> > -
-> >       if (cpu->cfg.debug) {
-> >           riscv_set_feature(env, RISCV_FEATURE_DEBUG);
-> >       }
-> > @@ -1058,7 +1056,8 @@ static Property riscv_cpu_extensions[] =3D {
-> >       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-> >       /* ePMP 0.9.3 */
-> >       DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
-> > -    DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
-> > +    DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
-> > +    DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
-> >
-> >       DEFINE_PROP_END_OF_LIST(),
-> >   };
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 42edfa4558..15cad73def 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -85,7 +85,6 @@ enum {
-> >       RISCV_FEATURE_PMP,
-> >       RISCV_FEATURE_EPMP,
-> >       RISCV_FEATURE_MISA,
-> > -    RISCV_FEATURE_AIA,
-> >       RISCV_FEATURE_DEBUG
-> >   };
-> >
-> > @@ -452,6 +451,8 @@ struct RISCVCPUConfig {
-> >       bool ext_zve64f;
-> >       bool ext_zmmul;
-> >       bool ext_sscofpmf;
-> > +    bool ext_smaia;
-> > +    bool ext_ssaia;
-> >       bool rvv_ta_all_1s;
-> >       bool rvv_ma_all_1s;
-> >
-> > @@ -472,7 +473,6 @@ struct RISCVCPUConfig {
-> >       bool mmu;
-> >       bool pmp;
-> >       bool epmp;
-> > -    bool aia;
-> >       bool debug;
-> >       uint64_t resetvec;
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 81948b37dd..92685947d9 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -305,7 +305,7 @@ uint8_t riscv_cpu_default_priority(int irq)
-> >       return default_iprio[irq] ? default_iprio[irq] : IPRIO_MMAXIPRIO;
-> >   };
-> >
-> > -static int riscv_cpu_pending_to_irq(CPURISCVState *env,
-> > +static int riscv_cpu_pending_to_irq(CPURISCVState *env, bool has_aia,
-> >                                       int extirq, unsigned int extirq_d=
-ef_prio,
-> >                                       uint64_t pending, uint8_t *iprio)
->
-> It seems that we can  get cpu->cfg.ext_smaia/cpu->cfg.ext_ssaia based on
-> extirq directly from '*env' in
->
-> this function itself. If so, we can reuse the original code for
-> following riscv_cpu_*irq_pending functions.
+We are currently facing the problem that the "gcov-gprof" CI jobs
+in the gitlab-CI are running way too long - which happens since
+the migration-tests have been enabled there recently.
 
-I agree. I will send v2 soon.
+These patches now speed up the migration tests, so that the
+CI job should be fine again.
 
-Thanks,
-Anup
+This is how it looked like before my modifications:
 
->
-> Regards,
->
-> Weiwei Li
->
-> >   {
-> > @@ -317,7 +317,7 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *=
-env,
-> >       }
-> >
-> >       irq =3D ctz64(pending);
-> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +    if (!has_aia) {
-> >           return irq;
-> >       }
-> >
-> > @@ -354,34 +354,45 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env=
-)
-> >
-> >   int riscv_cpu_mirq_pending(CPURISCVState *env)
-> >   {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> >       uint64_t irqs =3D riscv_cpu_all_pending(env) & ~env->mideleg &
-> >                       ~(MIP_SGEIP | MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
-> >
-> > -    return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_M,
-> > +    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_smaia,
-> > +                                    IRQ_M_EXT, IPRIO_DEFAULT_M,
-> >                                       irqs, env->miprio);
-> >   }
-> >
-> >   int riscv_cpu_sirq_pending(CPURISCVState *env)
-> >   {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> >       uint64_t irqs =3D riscv_cpu_all_pending(env) & env->mideleg &
-> >                       ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
-> >
-> > -    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
-> > +    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-> > +                                    IRQ_S_EXT, IPRIO_DEFAULT_S,
-> >                                       irqs, env->siprio);
-> >   }
-> >
-> >   int riscv_cpu_vsirq_pending(CPURISCVState *env)
-> >   {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> >       uint64_t irqs =3D riscv_cpu_all_pending(env) & env->mideleg &
-> >                       (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
-> >
-> > -    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
-> > +    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-> > +                                    IRQ_S_EXT, IPRIO_DEFAULT_S,
-> >                                       irqs >> 1, env->hviprio);
-> >   }
-> >
-> >   static int riscv_cpu_local_irq_pending(CPURISCVState *env)
-> >   {
-> >       int virq;
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> >       uint64_t irqs, pending, mie, hsie, vsie;
-> >
-> >       /* Determine interrupt enable state of all privilege modes */
-> > @@ -404,21 +415,24 @@ static int riscv_cpu_local_irq_pending(CPURISCVSt=
-ate *env)
-> >       /* Check M-mode interrupts */
-> >       irqs =3D pending & ~env->mideleg & -mie;
-> >       if (irqs) {
-> > -        return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_=
-M,
-> > +        return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_smaia,
-> > +                                        IRQ_M_EXT, IPRIO_DEFAULT_M,
-> >                                           irqs, env->miprio);
-> >       }
-> >
-> >       /* Check HS-mode interrupts */
-> >       irqs =3D pending & env->mideleg & ~env->hideleg & -hsie;
-> >       if (irqs) {
-> > -        return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_=
-S,
-> > +        return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-> > +                                        IRQ_S_EXT, IPRIO_DEFAULT_S,
-> >                                           irqs, env->siprio);
-> >       }
-> >
-> >       /* Check VS-mode interrupts */
-> >       irqs =3D pending & env->mideleg & env->hideleg & -vsie;
-> >       if (irqs) {
-> > -        virq =3D riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAUL=
-T_S,
-> > +        virq =3D riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-> > +                                        IRQ_S_EXT, IPRIO_DEFAULT_S,
-> >                                           irqs >> 1, env->hviprio);
-> >           return (virq <=3D 0) ? virq : virq + 1;
-> >       }
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 2dcd4e5b2d..b9bce9821f 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -181,7 +181,10 @@ static RISCVException any32(CPURISCVState *env, in=
-t csrno)
-> >
-> >   static int aia_any(CPURISCVState *env, int csrno)
-> >   {
-> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_smaia) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >       }
-> >
-> > @@ -190,7 +193,10 @@ static int aia_any(CPURISCVState *env, int csrno)
-> >
-> >   static int aia_any32(CPURISCVState *env, int csrno)
-> >   {
-> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_smaia) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >       }
-> >
-> > @@ -217,7 +223,10 @@ static int smode32(CPURISCVState *env, int csrno)
-> >
-> >   static int aia_smode(CPURISCVState *env, int csrno)
-> >   {
-> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_ssaia) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >       }
-> >
-> > @@ -226,7 +235,10 @@ static int aia_smode(CPURISCVState *env, int csrno=
-)
-> >
-> >   static int aia_smode32(CPURISCVState *env, int csrno)
-> >   {
-> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_ssaia) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >       }
-> >
-> > @@ -282,7 +294,10 @@ static RISCVException pointer_masking(CPURISCVStat=
-e *env, int csrno)
-> >
-> >   static int aia_hmode(CPURISCVState *env, int csrno)
-> >   {
-> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_ssaia) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >        }
-> >
-> > @@ -291,7 +306,10 @@ static int aia_hmode(CPURISCVState *env, int csrno=
-)
-> >
-> >   static int aia_hmode32(CPURISCVState *env, int csrno)
-> >   {
-> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_ssaia) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >       }
-> >
->
+ https://gitlab.com/thuth/qemu/-/jobs/2888957948#L46
+ ...
+ 5/243 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test  OK  1265.22s
+ 8/243 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test    OK  1138.82s
+
+And this is how it looks like after the patches have been applied:
+
+ https://gitlab.com/thuth/qemu/-/jobs/2905108018#L48
+ ...
+ 5/243 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test  OK   251.14s
+ 8/243 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test    OK   336.94s
+
+That means the CI job is running ca. 30 minutes faster here now!
+
+Thomas Huth (4):
+  tests/qtest/migration-test: Only wait for serial output where
+    migration succeeds
+  tests/migration/aarch64: Speed up the aarch64 migration test
+  tests/migration/i386: Speed up the i386 migration test (when using
+    TCG)
+  tests/qtest/migration-test: Remove duplicated test_postcopy from the
+    test plan
+
+ tests/migration/aarch64/a-b-kernel.h | 10 +++++-----
+ tests/migration/i386/a-b-bootblock.h | 12 ++++++------
+ tests/qtest/migration-test.c         |  5 +++--
+ tests/migration/aarch64/a-b-kernel.S |  3 +--
+ tests/migration/i386/a-b-bootblock.S |  1 +
+ 5 files changed, 16 insertions(+), 15 deletions(-)
+
+-- 
+2.31.1
+
 
