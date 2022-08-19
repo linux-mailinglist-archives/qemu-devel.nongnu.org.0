@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE33359A2F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:50:23 +0200 (CEST)
-Received: from localhost ([::1]:56032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C3659A538
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 20:09:01 +0200 (CEST)
+Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP68U-0008BZ-Pb
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53998)
+	id 1oP6QW-0001HZ-M3
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 14:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oP5zQ-0004mN-Ak; Fri, 19 Aug 2022 13:41:01 -0400
-Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b]:40804)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oP5qT-0004M9-Mu
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:31:47 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:54111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oP5zM-0007Wx-HL; Fri, 19 Aug 2022 13:41:00 -0400
-Received: by mail-vk1-xa2b.google.com with SMTP id d6so449406vko.7;
- Fri, 19 Aug 2022 10:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oP5qO-0006GW-71
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:31:45 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id pm17so5254095pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 10:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=aY4GIdssTNqdSt8Opsmu6mc8NtJqn2kolOwZdliEoeo=;
- b=DqsbV1bjXD+5CvhQ7a6aSwkiIUjizNoNNoh8mI79lL2rnZckzOXMyrfpF6zCyAxOXF
- gJ/QPZsLMii681Q7yZBmz/8TjoyGDYiutIU14tzK5NzGbI3Y3GY/Mu0Z2gXHQTAfWVhu
- W4ycpX+vf0dqbgb4/4LhxzqbHcQZYUhFac3JhJbrKV5KZIOHSciJelEE7qhrPc7Os7pX
- st9MOq6zR9pBM+OU/dwjeylknSf3nycqSMptv/1cPIplDkXS0SMIIQZe31gZVx+LURHP
- 4RImC5yEU457osT8T3qbRcZcyYYr7Z44B8uWP9uSEasVCgoW+gC9m66P8GZdkUkm34IW
- rX3w==
+ :from:to:cc; bh=gcl/CxCDJ7xwTvpI4kXCheCYk/TrvnPyWXtrzkbHXgA=;
+ b=uB0lfutwJTXOHMk9+9C5cdG60SP7XbWNS1/G54Gs36S8n9KFCISsM5jt1RMSSMvQ2l
+ 6BUzWF/rwSPYpertu5ICDewzCWMomPhoiR5OhF/QpAF3QVJ63cCKjlWKoTdtVEUClxRT
+ 4cTResXcOqRhqxK/KiWV07ejjKfVXOot5hRjGPv6SiMeqY/Eu6xZzkWMtGVPBlQ4G1kP
+ nR+n578iBen8l8w9ODoD8plGNdZoSW68coiNprJ7QT8s/TChMh63g6XkpKzHldUd7fP3
+ HQj2wLzTfBk8A3N1D+hByKlmkse67tDrW87NzxhlrnqbuQ7SdKVqQiStAFLGrFEJNgSw
+ s4Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=aY4GIdssTNqdSt8Opsmu6mc8NtJqn2kolOwZdliEoeo=;
- b=HdWP/xKHl6cPV2QFP39s52r5cq6EyRDx+3SN18NbVBX9hNyr7UB8nIyVTCFIW4D7b+
- hx/ZUzDj+Mc39FAoBS1o4iAkvwVIBeNpZu2awWJ1CJHem6V22GFLmFF4uZ64Z/Q9qnKd
- NJMnfk+JGoRvZdXvK9ud3w44YnedW1apJPtUeoSDonW6elOQ4F6s3m96pc+JAF22unnZ
- LkSfjUnBUCC/cFS5Al0RXOe1+583u6gd/AO0gCx8TFIt+7QQ2eAoI08nRANMjMrNF90p
- mZcYzJT5561LPYTJfT2IMnqDIWFKNubK+8gWwIDtN5B6cKAgKrRjQIMHO8fSO6hVy3N2
- PSRg==
-X-Gm-Message-State: ACgBeo3CLd3ZAYnF1T9YNDEA0r69OMrn5mHei8eSw6wicOF8mTBuKd9G
- hKHFE9y6ue98Xq2jW8+h1jc=
-X-Google-Smtp-Source: AA6agR7SdrC0MiVGCsznraeUOER/a0xJhKXunymQGwpVEb51mtR3phCGpatBxDcfezSRBIeiz6OSqQ==
-X-Received: by 2002:a1f:b6c9:0:b0:37d:bb0:9005 with SMTP id
- g192-20020a1fb6c9000000b0037d0bb09005mr3609556vkf.2.1660930854605; 
- Fri, 19 Aug 2022 10:40:54 -0700 (PDT)
-Received: from [192.168.10.102] ([189.110.115.28])
+ bh=gcl/CxCDJ7xwTvpI4kXCheCYk/TrvnPyWXtrzkbHXgA=;
+ b=A+oBTL6B26iH5W27W+GvMrI+nU9zMZ3TXInvuzWqCmbx24jahZFlMziUTHDP3WwuZ9
+ AS7BLQ+wHQTK5UGyTY1CLS8DcN79Egyu6c/TouwHq34SdNT0S3M1jWbRrNj7t/F0yH9y
+ SvrQG/cKaES3duXtPAk4oxDFXhQVnw3qS2pWuvKARgdiYMUMo3o38+lbZS58DlG+NIhM
+ O7DoeCvsoli8mJWU77D9VPtSsUZEFAPjQZRVAN1NZxxa4VCzYwsKimYxLvj7YySnpG3x
+ wqpuwA9Mrse6y+T9gIInidSMgm57tYOdYgZh2fvU+G9S13c1TgosJM4cAos+N/cvqDYg
+ xn4w==
+X-Gm-Message-State: ACgBeo2y6g2H6KOISfQ1dBKi2h+ohuCcua9K6V19Q2nwHZheUZjuNrl/
+ +p4Ql2eI5/TDeMp5Uo3n1cPpmw==
+X-Google-Smtp-Source: AA6agR4a6lu9kP8Qx8jZItYBrvaZ0ybJxLgERwuXueaohU93+dgNCFlCyfeihPaxXsBBXwFSBnmr8w==
+X-Received: by 2002:a17:903:40cd:b0:172:8952:9a4f with SMTP id
+ t13-20020a17090340cd00b0017289529a4fmr8457070pld.66.1660930297817; 
+ Fri, 19 Aug 2022 10:31:37 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:f37:9eb9:ca02:d0cb?
+ ([2602:47:d49d:ec01:f37:9eb9:ca02:d0cb])
  by smtp.gmail.com with ESMTPSA id
- r5-20020ab06605000000b003842250a024sm2813798uam.10.2022.08.19.10.40.52
+ ij29-20020a170902ab5d00b0016dc26c7d30sm3436243plb.164.2022.08.19.10.31.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 10:40:54 -0700 (PDT)
-Message-ID: <c3c60d0a-1e29-99cb-64d5-ad06586331e8@gmail.com>
-Date: Fri, 19 Aug 2022 14:40:51 -0300
+ Fri, 19 Aug 2022 10:31:37 -0700 (PDT)
+Message-ID: <b3cb991c-3eae-d7a0-7c85-ada4fd6114b5@linaro.org>
+Date: Fri, 19 Aug 2022 10:31:35 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v3 10/20] hw/ppc: set machine->fdt in spapr machine
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 08/62] target/arm: Create GetPhysAddrResult
 Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
- alistair.francis@wdc.com
-References: <20220816173428.157304-1-danielhb413@gmail.com>
- <20220816173428.157304-11-danielhb413@gmail.com> <Yv2e9xTwV59QXM6I@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <Yv2e9xTwV59QXM6I@yekko>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220703082419.770989-1-richard.henderson@linaro.org>
+ <20220703082419.770989-9-richard.henderson@linaro.org>
+ <87zggcmes1.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87zggcmes1.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,120 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/17/22 23:07, David Gibson wrote:
-> On Tue, Aug 16, 2022 at 02:34:18PM -0300, Daniel Henrique Barboza wrote:
->> The pSeries machine never bothered with the common machine->fdt
->> attribute. We do all the FDT related work using spapr->fdt_blob.
->>
->> We're going to introduce HMP commands to read and save the FDT, which
->> will rely on setting machine->fdt properly to work across all machine
->> archs/types.
->>
->> Let's set machine->fdt in the two places where we manipulate the FDT:
->> spapr_machine_reset() and CAS.
+On 8/10/22 06:02, Alex Bennée wrote:
 > 
-> So, there's a third place where fdt_blob is updated, in h_update_dt();
-> that happens because SLOF can make some updates to the DT that qemu
-> needs to be aware of.  It's kinda ugly, and is a consequence of the
-> fact that qemu and SLOF kind of share the role of "platform firmware"
-> for spapr.
+> Richard Henderson <richard.henderson@linaro.org> writes:
 > 
-> But.. it's worse than that.  Those are the only 3 places we actually
-> alter fdt_blob, but not the only places we logically update the device
-> tree.  Up until now there wasn't a way to introspect the DT, and so we
-> didn't bother keeping spapr->fdt_blob update.  Essentially, we
-> considered maintaining the DT image the job of the guest after CAS.
+>> Combine 5 output pointer argument from get_phys_addr
+>> into a single struct.  Adjust all callers.
 > 
-> Specifically, every dynamic reconfiguration event (hotplug or unplug)
-> alters the device tree.  We generate an fdt fragment for the new
-> device then stream that as an update to the guest using the PAPR
-> specified interface (rtas_ibm_configure_connector).  As noted we
-> currently don't update qemu's global fdt image based on that.  On hot
-> unplug logically we need to revert those changes, which is actually
-> pretty tricky, but currently the guest's job.
-> 
-> 
-> Really, the trouble is that just dumping or viewing the dt is only
-> simple in an "embedded" style environment where the fdt is generate
-> then spit into the guest.  In an actual open firmware environment like
-> spapr, the DT is logically a dynamic thing maintained by firmware -
-> but because "firmware"'s responsibility is split between SLOF and
-> RTAS/qemu, keeping track of that is pretty nasty.  For an environment
-> like this, the flat tree format isn't really suited either - we'd want
-> a dynamic representation of the tree.  We get away with flat trees for
-> now (barely) only because we mostly delegate the responsibility for
-> managing the tree to SLOF and/or the OS kernel, both of which do use
-> non-flat representations of the tree.
+> This looks to be an improvement - I guess the real benefit is the
+> compiler isn't jamming so many closely aligned pointers on the stack
+> frame for all the return values?
 
-Thanks for the explanation, but I'm not sure what to do with this patch now.
-Should I amend the commit msg to reflect what you explained, mentioning that
-we're missing a handful of places where the FDT is updated? We can then come
-back at a later time and update ms->fdt in those places as well. This would
-be a good follow-up to do after we get rid of spapr->fdt_blob and use ms->fdt
-only.
-
-Another alternative is to drop this patch and do spapr in separate later on.
-I can live with that, but I'd rather have something for spapr even under the
-disclaimer that "this might be not the most up to date FDT the guest is
-using".
+Correct.  The number of parameters is also down to 6, which fits all in register arguments 
+for most hosts, including x86_64.   And in turn, we need to copy fewer arguments down to 
+the subroutines.
 
 
-Thanks,
-
-
-Daniel
-
-> 
->> spapr->fdt_blob is left untouched for now. To replace it with
->> machine->fdt, since we're migrating spapr->fdt_blob, we would need to
->> migrate machine->fdt as well. This is something that we would like to to
->> do keep our code simpler but it's a work we'll do another day.
->>
->> Cc: Cédric Le Goater <clg@kaod.org>
->> Cc: qemu-ppc@nongnu.org
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr.c       | 6 ++++++
->>   hw/ppc/spapr_hcall.c | 8 ++++++++
->>   2 files changed, 14 insertions(+)
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index bc9ba6e6dc..7031cf964a 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -1713,6 +1713,12 @@ static void spapr_machine_reset(MachineState *machine)
->>       spapr->fdt_initial_size = spapr->fdt_size;
->>       spapr->fdt_blob = fdt;
->>   
->> +    /*
->> +     * Set the common machine->fdt pointer to enable support
->> +     * for 'dumpdtb' and 'info fdt' QMP/HMP commands.
->> +     */
->> +    machine->fdt = fdt;
->> +
->>       /* Set up the entry state */
->>       first_ppc_cpu->env.gpr[5] = 0;
->>   
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index a8d4a6bcf0..a53bfd76f4 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1256,6 +1256,14 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
->>       spapr->fdt_initial_size = spapr->fdt_size;
->>       spapr->fdt_blob = fdt;
->>   
->> +    /*
->> +     * Set the machine->fdt pointer again since we just freed
->> +     * it above (by freeing spapr->fdt_blob). We set this
->> +     * pointer to enable support for 'dumpdtb' and 'info fdt'
->> +     * QMP/HMP commands.
->> +     */
->> +    MACHINE(spapr)->fdt = fdt;
->> +
->>       return H_SUCCESS;
->>   }
->>   
-> 
+r~
 
