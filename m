@@ -2,76 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D075991AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 02:22:37 +0200 (CEST)
-Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94725991B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 02:23:33 +0200 (CEST)
+Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOpmW-00010C-43
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 20:22:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39796)
+	id 1oOpnQ-00028W-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 20:23:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3Q9f-YggKCgw86tm054ts00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--wuhaotsh.bounces.google.com>)
- id 1oOpkO-0006eg-LC
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 20:20:24 -0400
-Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a]:51066)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oOpka-0006zU-Jr
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 20:20:36 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:41603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3Q9f-YggKCgw86tm054ts00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--wuhaotsh.bounces.google.com>)
- id 1oOpkN-00021F-30
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 20:20:24 -0400
-Received: by mail-pl1-x64a.google.com with SMTP id
- q11-20020a170902dacb00b0016efd6984c3so1790454plx.17
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 17:20:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oOpkY-00027X-TZ
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 20:20:36 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ t2-20020a17090a4e4200b001f21572f3a4so3408133pjl.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 17:20:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:mime-version:message-id:date:from:to:cc;
- bh=zVnkECe23A1Q4ukGkykwvav2i+uCcpgafUQJkyuhSoU=;
- b=S2/n7avBm0OvqOgOzXhO69PpdlWzWW2wcuxz2zIyBcikCbN1FNknh4+FeDs1Zq/+CP
- VqpwVT6Mv3ioFIa3qmoELNuvU8M7bKCHO8SeO8XFE+WzOuAGknF9AgHUtRzxz8KDR03x
- YQkRZgc217eucPWBpg9epFbidC09285E6eVX1boXc/1lXQlndS0aDwmGNv23T7Mr4Wvs
- dlLcqsnY/pQI0j6TOsR2HVaHLU6p4QfnwhN2y8L8WCsqgjsOo3cB9iccCsOc6W8A2Iif
- WM0tn8jSt82bHTpuZfZCh25QJqyMvaJut1THsec8LcX37YrJLrcsDPMpB/1zV9QHRhFJ
- +rZQ==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=pEgXnTJKFJrTL3CTka16XSJbg6kxwB4cnfOI/Ofjlz4=;
+ b=jQOCWpbvee03T0P8xijjOYN3zJfdX6BqWq3GiUDY54GeiB2kYOpPOdypH/gNOYaODr
+ ix4Q5zM5HRdkrH8VNhhYaqC4bGm3TWrsr3zotxk6UhP/oyxM/RNGcU3wIqmpKytWvU4a
+ BTREDH/HNF59rmTBvSdbCesgF6GRyz5K9//B1DM9fRziLLn/FELyxzGGJ6BTGO4HJJrl
+ o0UAtZhP3o05JqW/WffSD/W7KBey1RzgtF0ZEqIKFPy09PHnweIeH6czpkeJBsdR0KF6
+ StCY9jf29Uto9xBg0n+/eHlcuPQ9Rk2xvxAOK7+9vgIk182YafaVSJIp8WTK07eIFh8d
+ mv/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
- :from:to:cc;
- bh=zVnkECe23A1Q4ukGkykwvav2i+uCcpgafUQJkyuhSoU=;
- b=YlF8OvlX47UkI2JYtGx/8Y6dopBVp5nnYRX5a+zOx1FkxVpr79JomxARSy54mUVd9b
- E/JJaPsLaCz9QTQf3sRgrn4BUYVp/8f+55ald0rdDcneo7LY6SkARjvXKYUXrnynkRVJ
- pNsGjchXd2TxSSmgQPV8prtQSZQvt/wOLTYU5/JzNbnpSTCZIeeaEyaRIjtt+uWaTDQ7
- CwGr2+HHvJllH2wxFJNvDBe3AxYouwQu7ad0MbHAfx5vN8ZVue6uwW85mSlJcuv35dR1
- sKXkMP/k+CPLUDy5YXyxZfMbPNGVvDMc/y+DW+AKrXb0w87as80G6haQ1pJPCmrGktw9
- lp0Q==
-X-Gm-Message-State: ACgBeo2FAmYKjN2f8fa/bl/yAwafLxOAWtje55cRfRJDmudjgZg5JOM8
- Z+HUW3pQ4BWGRWJ6zF+V3zztobyVhOgTuw==
-X-Google-Smtp-Source: AA6agR48avuJSZrEasZJM61k5Cy0ObOOpebTQtpEl/6691wd/CHAovowYdCNPyf7h5oLU/sqDjqmP9Gd/Kdnog==
-X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:90a:249:b0:1e0:a8a3:3c6c with SMTP id
- t9-20020a17090a024900b001e0a8a33c6cmr159484pje.0.1660868419432; Thu, 18 Aug
- 2022 17:20:19 -0700 (PDT)
-Date: Thu, 18 Aug 2022 17:20:15 -0700
-Message-Id: <20220819002015.1663247-1-wuhaotsh@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
-Subject: [PATCH v2] target/arm: Add cortex-a35
-From: Hao Wu <wuhaotsh@google.com>
-To: peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
- Joe Komlodi <komlodi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
- envelope-from=3Q9f-YggKCgw86tm054ts00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--wuhaotsh.bounces.google.com;
- helo=mail-pl1-x64a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=pEgXnTJKFJrTL3CTka16XSJbg6kxwB4cnfOI/Ofjlz4=;
+ b=bFI8mntTAhctGV8wQ1q8OnNw7/AisrfMnNtu6LPvFXpErSCr4wpSrX7y6K9gEj2fSu
+ TBt3UUuq1wcu8ElXGcbGYrO3B102WoI67WJCsNX/EraTkTmRT0TBisuiZnLcAk1/rtf7
+ XpZaoRaJCtFhjKRBi1WA/C2r/YpKiFkjJ0vE1MFisSHpmGtnFH8sx1fh4NoL/RE4mqZ9
+ z+Eqb8v8LC9/+w6hC5kBjHFLJQ0KMS41bOEwGXGfGmp0Pn5+w5LOr5ocoBx0W4YviQ00
+ kfdrARtS6bEc5fsos3PN0pB5bRtNPsHuXMaxWsX/KIoXqLQXAn4wpzUDatU+Twna/cV+
+ hIHQ==
+X-Gm-Message-State: ACgBeo1zG28VMtSzMoKmSzhQ6F/KtngMllulQB1fbJ9o4V+6Agpdc/O4
+ bCZSDvDNefGjMdNt4VEOwvF0WA==
+X-Google-Smtp-Source: AA6agR7cPKIHabvzPHesQ7mysYM4f98Not26hLuTLYt6okFI7nMH1sNNM2K+QGI7RxRYoX8JypicJA==
+X-Received: by 2002:a17:902:7208:b0:172:a9d6:527 with SMTP id
+ ba8-20020a170902720800b00172a9d60527mr4900702plb.32.1660868432853; 
+ Thu, 18 Aug 2022 17:20:32 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ l4-20020a170903244400b0016bedcced2fsm1984501pls.35.2022.08.18.17.20.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Aug 2022 17:20:32 -0700 (PDT)
+Date: Fri, 19 Aug 2022 00:20:28 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Hugh Dickins <hughd@google.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <Yv7XTON3MwuC1Q3U@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220818132421.6xmjqduempmxnnu2@box>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,139 +116,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add cortex A35 core and enable it for virt board.
+On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
+> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+> > On Wed, 6 Jul 2022, Chao Peng wrote:
+> > But since then, TDX in particular has forced an effort into preventing
+> > (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
+> > 
+> > Are any of the shmem.c mods useful to existing users of shmem.c? No.
+> > Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
 
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Joe Komlodi <komlodi@google.com>
----
- docs/system/arm/virt.rst |  1 +
- hw/arm/virt.c            |  1 +
- target/arm/cpu64.c       | 80 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 82 insertions(+)
+But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
+aren't useful for _all_ existing users, but I don't think it's fair to say that
+they're not useful for _any_ existing users.
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 3b6ba69a9a..20442ea2c1 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -52,6 +52,7 @@ Supported guest CPU types:
- 
- - ``cortex-a7`` (32-bit)
- - ``cortex-a15`` (32-bit; the default)
-+- ``cortex-a35`` (64-bit)
- - ``cortex-a53`` (64-bit)
- - ``cortex-a57`` (64-bit)
- - ``cortex-a72`` (64-bit)
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 9633f822f3..ee06003aed 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -199,6 +199,7 @@ static const int a15irqmap[] = {
- static const char *valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a7"),
-     ARM_CPU_TYPE_NAME("cortex-a15"),
-+    ARM_CPU_TYPE_NAME("cortex-a35"),
-     ARM_CPU_TYPE_NAME("cortex-a53"),
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 78e27f778a..9d1ea32057 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -36,6 +36,85 @@
- #include "hw/qdev-properties.h"
- #include "internals.h"
- 
-+static void aarch64_a35_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a35";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+
-+    /* From B2.2 AArch64 identification registers. */
-+    cpu->midr = 0x411fd040;
-+    cpu->revidr = 0;
-+    cpu->ctr = 0x84448004;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x03010066;
-+    cpu->id_afr0 = 0;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00011142;
-+    cpu->isar.id_isar5 = 0x00011121;
-+    cpu->isar.id_aa64pfr0 = 0x00002222;
-+    cpu->isar.id_aa64pfr1 = 0;
-+    cpu->isar.id_aa64dfr0 = 0x10305106;
-+    cpu->isar.id_aa64dfr1 = 0;
-+    cpu->isar.id_aa64isar0 = 0x00011120;
-+    cpu->isar.id_aa64isar1 = 0;
-+    cpu->isar.id_aa64mmfr0 = 0x00101122;
-+    cpu->isar.id_aa64mmfr1 = 0;
-+    cpu->clidr = 0x0a200023;
-+    cpu->dcz_blocksize = 4;
-+
-+    /* From B2.4 AArch64 Virtual Memory control registers */
-+    cpu->reset_sctlr = 0x00c50838;
-+
-+    /* From B2.10 AArch64 performance monitor registers */
-+    cpu->isar.reset_pmcr_el0 = 0x410a3000;
-+
-+    /* From B2.29 Cache ID registers */
-+    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
-+    cpu->ccsidr[2] = 0x703fe03a; /* 512KB L2 cache */
-+
-+    /* From B3.5 VGIC Type register */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+
-+    /* From C6.4 Debug ID Register */
-+    cpu->isar.dbgdidr = 0x3516d000;
-+    /* From C6.5 Debug Device ID Register */
-+    cpu->isar.dbgdevid = 0x00110f13;
-+    /* From C6.6 Debug Device ID Register 1 */
-+    cpu->isar.dbgdevid1 = 0x2;
-+
-+    /* From Cortex-A35 SIMD and Floating-point Support r1p0 */
-+    /* From 3.2 AArch32 register summary */
-+    cpu->reset_fpsid = 0x41034043;
-+
-+    /* From 2.2 AArch64 register summary */
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+
-+    /* These values are the same with A53/A57/A72. */
-+    define_cortex_a72_a57_a53_cp_reginfo(cpu);
-+}
- 
- static void aarch64_a57_initfn(Object *obj)
- {
-@@ -1158,6 +1237,7 @@ static void aarch64_a64fx_initfn(Object *obj)
- }
- 
- static const ARMCPUInfo aarch64_cpus[] = {
-+    { .name = "cortex-a35",         .initfn = aarch64_a35_initfn },
-     { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
-     { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
-     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
--- 
-2.37.1.595.g718a3a8f04-goog
+> > What use do you have for a filesystem here?  Almost none.
+> > IIUC, what you want is an fd through which QEMU can allocate kernel
+> > memory, selectively free that memory, and communicate fd+offset+length
+> > to KVM.  And perhaps an interface to initialize a little of that memory
+> > from a template (presumably copied from a real file on disk somewhere).
+> > 
+> > You don't need shmem.c or a filesystem for that!
+> > 
+> > If your memory could be swapped, that would be enough of a good reason
+> > to make use of shmem.c: but it cannot be swapped; and although there
+> > are some references in the mailthreads to it perhaps being swappable
+> > in future, I get the impression that will not happen soon if ever.
+> > 
+> > If your memory could be migrated, that would be some reason to use
+> > filesystem page cache (because page migration happens to understand
+> > that type of memory): but it cannot be migrated.
+> 
+> Migration support is in pipeline. It is part of TDX 1.5 [1]. 
 
+And this isn't intended for just TDX (or SNP, or pKVM).  We're not _that_ far off
+from being able to use UPM for "regular" VMs as a way to provide defense-in-depth
+without having to take on the overhead of confidential VMs.  At that point,
+migration and probably even swap are on the table.
+
+> And swapping theoretically possible, but I'm not aware of any plans as of
+> now.
+
+Ya, I highly doubt confidential VMs will ever bother with swap.
+
+> > I'm afraid of the special demands you may make of memory allocation
+> > later on - surprised that huge pages are not mentioned already;
+> > gigantic contiguous extents? secretmem removed from direct map?
+> 
+> The design allows for extension to hugetlbfs if needed. Combination of
+> MFD_INACCESSIBLE | MFD_HUGETLB should route this way. There should be zero
+> implications for shmem. It is going to be separate struct memfile_backing_store.
+> 
+> I'm not sure secretmem is a fit here as we want to extend MFD_INACCESSIBLE
+> to be movable if platform supports it and secretmem is not migratable by
+> design (without direct mapping fragmentations).
+
+But secretmem _could_ be a fit.  If a use case wants to unmap guest private memory
+from both userspace and the kernel then KVM should absolutely be able to support
+that, but at the same time I don't want to have to update KVM to enable secretmem
+(and I definitely don't want KVM poking into the directmap itself).
+
+MFD_INACCESSIBLE should only say "this memory can't be mapped into userspace",
+any other properties should be completely separate, e.g. the inability to migrate
+pages is effective a restriction from KVM (acting on behalf of TDX/SNP), it's not
+a fundamental property of MFD_INACCESSIBLE.
 
