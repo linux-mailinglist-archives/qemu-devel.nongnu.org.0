@@ -2,63 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9074599B09
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 13:42:06 +0200 (CEST)
-Received: from localhost ([::1]:37310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811BB599B04
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 13:37:32 +0200 (CEST)
+Received: from localhost ([::1]:33620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP0O3-0000iO-QS
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 07:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45300)
+	id 1oP0Jf-0005ni-68
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 07:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oP0EG-0002cY-85
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:31:57 -0400
-Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:48137)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oP0Eh-0002hp-2s
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:32:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oP0ED-0007Bj-KH
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:31:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.243])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id CA7E82554B;
- Fri, 19 Aug 2022 11:31:48 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 19 Aug
- 2022 13:31:48 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G00496e9ecf8-e914-4cf6-9803-71c625f466a5,
- B1CA06E21BA7A2C3169B20B962F9E616B459CCCE) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <fe9a1fc3-f214-819b-911e-9b9cb047073d@kaod.org>
-Date: Fri, 19 Aug 2022 13:31:47 +0200
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oP0Ed-0007Du-BZ
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:32:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660908735;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wbTOlLP7/dU1JyrGfMDLSWhlZpMUStIr1dfpuvoaEUY=;
+ b=WUOCdxf/a2f3BXKnZq19hhoWRc6VG9GpfmLYVo6T/L0egLzNkkQiq7ky3tXzJCf/Ki4UJo
+ LLmDKVnzZ99hxN31hqbCePi08Hke1sc7scMvJpWOcsh2owujSdUXec3Y7B+OuTtKYaqcCG
+ W//JtPVqzNPhHfNpYV6LQWfdZYlHHCI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-304-6WF1a0VUNwmrc1tOpU8vug-1; Fri, 19 Aug 2022 07:32:14 -0400
+X-MC-Unique: 6WF1a0VUNwmrc1tOpU8vug-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i7-20020a1c3b07000000b003a534ec2570so2684821wma.7
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 04:32:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc;
+ bh=wbTOlLP7/dU1JyrGfMDLSWhlZpMUStIr1dfpuvoaEUY=;
+ b=sQMvt+cT7iycgAjgQ28oXLfooRxfBs38W7yUwUaK8ZsdAIqguPtyKpSFAFzPD+p0s2
+ eemlyYQicHefXr5utcNUaCGUv7Cdhr7nZhVSrvN7+Tiq427HBptr/QbTgIgBIk2gm9A6
+ 325ZBgauRJPJZsfcqh+yOQ+Kt6tumESs8Alr2YY0zzpAKfwieg8liWTwCXlJrxVhzR6R
+ wNXBUcuhkNu7ke+hTaaxAVUwWUwpv2HYzR5mqtm/IPXEFj0pksP8BZhhOiNP1K4msnxQ
+ Ae+j88eppl/1lLOyx2deYX19NHYXUpPWIMs/7dq4p+/h0P+jQC5KM1eWrpZuu6NRSkjn
+ 3sbg==
+X-Gm-Message-State: ACgBeo1qaRimEC0Rol9Y9uA+lomSS5XBMkGSbo674+7SPI6GJ55pUj8K
+ GndhDOqA7ggs6Kaqe2LfNkVLDZ4zG5+hYTGs15EBU8PsLXJ3J73IhsInNUH/n59ydU51vjqymbk
+ i91TtI9FWvsGB+6k=
+X-Received: by 2002:adf:dc8d:0:b0:225:2f5e:732d with SMTP id
+ r13-20020adfdc8d000000b002252f5e732dmr3808900wrj.646.1660908732886; 
+ Fri, 19 Aug 2022 04:32:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6PwmRtDqlWshLYSh7KWiaCeVyRqxw68jbJQZvnZxytUL52McM8hV71bWR+VndF6I9nhSpeGQ==
+X-Received: by 2002:adf:dc8d:0:b0:225:2f5e:732d with SMTP id
+ r13-20020adfdc8d000000b002252f5e732dmr3808882wrj.646.1660908732652; 
+ Fri, 19 Aug 2022 04:32:12 -0700 (PDT)
+Received: from localhost (static-205-204-7-89.ipcom.comunitel.net.
+ [89.7.204.205]) by smtp.gmail.com with ESMTPSA id
+ u1-20020a7bcb01000000b003a502c23f2asm8584681wmj.16.2022.08.19.04.32.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 04:32:12 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
+Cc: qemu-devel@nongnu.org,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  Eric Blake <eblake@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Yanan Wang
+ <wangyanan55@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>,  Eduardo Habkost
+ <eduardo@habkost.net>
+Subject: Re: [PATCH v7 07/12] multifd: Prepare to send a packet without the
+ mutex held
+In-Reply-To: <b46a95640229beaabf8bc7af1254f9a95d23fbfb.camel@redhat.com>
+ ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Thu, 11 Aug 2022 06:16:28
+ -0300")
+References: <20220802063907.18882-1-quintela@redhat.com>
+ <20220802063907.18882-8-quintela@redhat.com>
+ <b46a95640229beaabf8bc7af1254f9a95d23fbfb.camel@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Fri, 19 Aug 2022 13:32:11 +0200
+Message-ID: <878rnk1nb8.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v2 2/2] ppc/pnv: fix QOM parenting of user
- creatable root ports
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>, <fbarrat@linux.ibm.com>
-References: <20220819094748.400578-1-danielhb413@gmail.com>
- <20220819094748.400578-3-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220819094748.400578-3-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: e17510be-5f3f-4f3e-a7d6-28141ad4ee2c
-X-Ovh-Tracer-Id: 8404842805033339872
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiuddggedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehfsggrrhhrrghtsehlihhnuhigrdhisghmrdgtohhmpdfovfetjfhoshhtpehmohehhedv
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,117 +109,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/22 11:47, Daniel Henrique Barboza wrote:
-> User creatable root ports are being parented by the 'peripheral' or the
-> 'peripheral-anon' container. This happens because this is the regular
-> QOM schema for sysbus devices that are added via the command line.
-> 
-> Let's make this QOM hierarchy similar to what we have with default root
-> ports, i.e. the root port must be parented by the pnv-root-bus. To do
-> that we change the qom and bus parent of the root port during
-> root_port_realize(). The realize() is shared by the default root port
-> code path, so we can remove the code inside pnv_phb_attach_root_port()
-> that was adding the root port as a child of the bus as well.
-> 
-> After all that, remove pnv_phb_attach_root_port() and create the root
-> port explictly in the 'default_enabled()' case of pnv_phb_realize().
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
+> On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
+>> We do the send_prepare() and the fill of the head packet without the
+>> mutex held.  It will help a lot for compression and later in the
+>> series for zero pages.
+>>=20
+>> Notice that we can use p->pages without holding p->mutex because
+>> p->pending_job =3D=3D 1.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  migration/multifd.h |  2 ++
+>>  migration/multifd.c | 11 ++++++-----
+>>  2 files changed, 8 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/migration/multifd.h b/migration/multifd.h
+>> index a67cefc0a2..cd389d18d2 100644
+>> --- a/migration/multifd.h
+>> +++ b/migration/multifd.h
+>> @@ -109,7 +109,9 @@ typedef struct {
+>>      /* array of pages to sent.
+>>       * The owner of 'pages' depends of 'pending_job' value:
+>>       * pending_job =3D=3D 0 -> migration_thread can use it.
+>> +     *                     No need for mutex lock.
+>>       * pending_job !=3D 0 -> multifd_channel can use it.
+>> +     *                     No need for mutex lock.
+>>       */
+>>      MultiFDPages_t *pages;
+>>=20=20
+>> diff --git a/migration/multifd.c b/migration/multifd.c
+>> index 09a40a9135..68fc9f8e88 100644
+>> --- a/migration/multifd.c
+>> +++ b/migration/multifd.c
+>> @@ -663,6 +663,8 @@ static void *multifd_send_thread(void *opaque)
+>>                  p->flags |=3D MULTIFD_FLAG_SYNC;
+>>                  p->sync_needed =3D false;
+>>              }
+>> +            qemu_mutex_unlock(&p->mutex);
+>> +
+>
+> If it unlocks here, we will have unprotected:
+> for (int i =3D 0; i < p->pages->num; i++) {
+>     p->normal[p->normal_num] =3D p->pages->offset[i];
+>     p->normal_num++;
+> }
+>
+> And p->pages seems to be in the mutex-protected area.
+> Should it be ok?
+
+From the documentation:
+
+    /* array of pages to sent.
+     * The owner of 'pages' depends of 'pending_job' value:
+     * pending_job =3D=3D 0 -> migration_thread can use it.
+     *                     No need for mutex lock.
+     * pending_job !=3D 0 -> multifd_channel can use it.
+     *                     No need for mutex lock.
+     */
+    MultiFDPages_t *pages;
+
+So, it is right.
+
+> Also, under that we have:
+>             if (p->normal_num) {
+>                 ret =3D multifd_send_state->ops->send_prepare(p, &local_e=
+rr);
+>                 if (ret !=3D 0) {
+>                     qemu_mutex_unlock(&p->mutex);
+>                     break;
+>                 }
+>             }
+>
+> Calling mutex_unlock() here, even though the unlock already happened befo=
+re,
+> could cause any issue?
+
+Good catch.  Never got an error there.
+
+Removing that bit.
+
+> Best regards,
 
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
-> ---
->   hw/pci-host/pnv_phb.c | 47 ++++++++++++++++++-------------------------
->   1 file changed, 20 insertions(+), 27 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-> index 4ea33fb6ba..7b11f1e8dd 100644
-> --- a/hw/pci-host/pnv_phb.c
-> +++ b/hw/pci-host/pnv_phb.c
-> @@ -62,29 +62,6 @@ static bool pnv_parent_fixup(Object *parent, BusState *parent_bus,
->       return true;
->   }
->   
-> -/*
-> - * Attach a root port device.
-> - *
-> - * 'index' will be used both as a PCIE slot value and to calculate
-> - * QOM id. 'chip_id' is going to be used as PCIE chassis for the
-> - * root port.
-> - */
-> -static void pnv_phb_attach_root_port(PCIHostState *pci)
-> -{
-> -    PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
-> -    const char *dev_id = DEVICE(root)->id;
-> -    g_autofree char *default_id = NULL;
-> -    int index;
-> -
-> -    index = object_property_get_int(OBJECT(pci->bus), "phb-id", &error_fatal);
-> -    default_id = g_strdup_printf("%s[%d]", TYPE_PNV_PHB_ROOT_PORT, index);
-> -
-> -    object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
-> -                              OBJECT(root));
-> -
-> -    pci_realize_and_unref(root, pci->bus, &error_fatal);
-> -}
-> -
->   /*
->    * User created devices won't have the initial setup that default
->    * devices have. This setup consists of assigning a parent device
-> @@ -180,11 +157,11 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
->           pnv_phb4_bus_init(dev, PNV_PHB4(phb->backend));
->       }
->   
-> -    if (!defaults_enabled()) {
-> -        return;
-> -    }
-> +    if (defaults_enabled()) {
-> +        PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
->   
-> -    pnv_phb_attach_root_port(pci);
-> +        pci_realize_and_unref(root, pci->bus, errp);
-> +    }
->   }
->   
->   static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
-> @@ -259,6 +236,11 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
->       Error *local_err = NULL;
->       int chip_id, index;
->   
-> +    /*
-> +     * 'index' will be used both as a PCIE slot value and to calculate
-> +     * QOM id. 'chip_id' is going to be used as PCIE chassis for the
-> +     * root port.
-> +     */
->       chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
->       index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
->   
-> @@ -266,6 +248,17 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
->       qdev_prop_set_uint8(dev, "chassis", chip_id);
->       qdev_prop_set_uint16(dev, "slot", index);
->   
-> +    /*
-> +     * User created root ports are QOM parented to one of
-> +     * the peripheral containers but it's already at the right
-> +     * parent bus. Change the QOM parent to be the same as the
-> +     * parent bus it's already assigned to.
-> +     */
-> +    if (!pnv_parent_fixup(OBJECT(bus), BUS(bus), OBJECT(dev),
-> +                          index, errp)) {
-> +        return;
-> +    }
-> +
->       rpc->parent_realize(dev, &local_err);
->       if (local_err) {
->           error_propagate(errp, local_err);
+Thanks, Juan.
 
 
