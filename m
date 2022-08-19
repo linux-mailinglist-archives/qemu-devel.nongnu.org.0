@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0409A599ECC
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:52:18 +0200 (CEST)
-Received: from localhost ([::1]:49952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196A8599ECF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:53:06 +0200 (CEST)
+Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP4IC-0000f1-Eg
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53694)
+	id 1oP4Iz-0002K0-7m
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oP46F-0005nH-OX
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:39:57 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39655)
+ id 1oP46D-0005le-JE
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:39:53 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oP46B-000664-FA
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:39:54 -0400
-Received: by mail-wr1-x434.google.com with SMTP id r16so5620057wrm.6
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 08:39:48 -0700 (PDT)
+ id 1oP46A-00066e-Jt
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:39:53 -0400
+Received: by mail-wr1-x436.google.com with SMTP id b5so1346653wrr.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 08:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=DXJfK+guYihDgdmOYphJLRS8QCxqYa74HNzsTOAa8r0=;
- b=DyUMAANVNV/3+DdidR8URZyYe0tIx8aH5CKHdP8p6kD0wpb7Cuz/rmOyAtO1g5O9YI
- Vq/I96D+7FSyHJTK1yFKfHu1AmDHQyI2h6J4IGqtuoczYzXIOwaB+h7iPGNY00hum/j4
- kGvrW4Jet4v97jVQpQHEKMWq7WgxiAgI083TyN0R8N7NDEWvK7+CMDadnZrm3TTNZbir
- kNrh1wIfEDT72O3Q5Bjtkkww7RQG+puWm926PM2FDHV04nR45tlBUaK8jGucP/HY2d76
- 4E2b3rrGtKw/jLdD2It8iVbwXYML4XZRDptsBBMsk4kwiISLpfeRbha8kmbkZdL2k8rJ
- yJaA==
+ bh=zDPOe1uObuxexnvyi+yesTMCr3hQR4+1gwfCM4+5LO0=;
+ b=RXQ76h/CA4jXaZNLn4RwOVYu677lB4hoozg2SBc4RHoTFmiTJIej9SSYL6KQ3x0gtK
+ iigSVbLLxoI0WM1jY7zka1QCXUXbirtltrZBy7KhZtINLjbIfccQzXx/D8iSJnaXGnjj
+ yjccdRi7agGWSMhjEhvfxkarVciTFnCVxe2Cgvi5Y6fRFEWq/Nd16H5SOnU+KiGDZKDw
+ EpMnKgb6SAnpfhJ7uoY0pFclRFUNh7HxkAvY8EAS7wdbYDbrbCYjaTtUdpZlHLzyFmHP
+ 94o04J0hrNW9IsI8BrVmIg+ZXRm0drvgBrl8VxM+VBYHf3a06nImVJ3gkvdbJayN6IYg
+ f4xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=DXJfK+guYihDgdmOYphJLRS8QCxqYa74HNzsTOAa8r0=;
- b=w2lAE55BMKcmOelL+T1dQuoXuY0GVOhYt9iPSIT80C7H7SxT1RZLHasjLE8z99MFEt
- k5kuQpq9W3YkaaktYKbMtTiQSjrvQ/QsuwncSH+GUm/XeYPerfIWBH7lnWO050y/811Z
- vL5fskjaXyHUYqRRZN6QzX5Qg555Bbh/uEGd8xb5YzEh3Msh2LeAym0OpT9hm29cGATX
- vNnlISK40LMnA8NeZDYUhnGBJJ0qFfF1Pv6I0o3HO8Q4nmRyZ5P+JdXBbOBUebr6oveT
- LcuEoIJDOWnxN+UUVfwBuk26UqRZZsFeIkqa32L3kNLi1P2e3fIOaBMvI2aLUbce5+EM
- aPvg==
-X-Gm-Message-State: ACgBeo25XQCDcCiX1aeCzOnFCuGFjpw7vUZBl2XC81J2MQdLYbv4IoD6
- TYtHOhF9Zr8WhXfKptwiurWbsbQ/WvAf+g==
-X-Google-Smtp-Source: AA6agR57dyP1dzfOanR3Hupj+a3l3YMUK6P8LV81vQ26+VowFrOhQJ3xKpBuNcL5p3eKBDo4EJg8kA==
-X-Received: by 2002:a05:6000:15c3:b0:220:676e:c825 with SMTP id
- y3-20020a05600015c300b00220676ec825mr4565743wry.512.1660923587985; 
- Fri, 19 Aug 2022 08:39:47 -0700 (PDT)
+ bh=zDPOe1uObuxexnvyi+yesTMCr3hQR4+1gwfCM4+5LO0=;
+ b=chv0h1A2Hs/ER5BEdYfs175CkmwAjIjwM7zngwD6C2uBiqrEhDTkLxwoNf/83jCpqw
+ NicDTsDLv2hmZxHF1nmLfFxqtk1sMgPjxHpElmB+rq7MS4nuiOgdCNYWhDpOxFGi8Ada
+ 3b3w+ppk2lMgFgEy56g5AQGpoQFEkhfZz7sEQ+tQ3a/mIJdLXGlPKj5AzIDc2WXxRyAH
+ qgI743ObHr4E2fkWp10Mv2ALfHIynaTDEU+RpQesnFJEHgtgfAGJ8UXI+xk8OlPTANqS
+ rq26dj9mKHfUA65jIjNB799xZ9JZByMXR1u7qYD3lLvkEjGmU1pGlfH6mC+XHzPHyT+u
+ onsA==
+X-Gm-Message-State: ACgBeo3Cl0tqgcqsN2xTjzj2e0ZZkrAIUp2DqflsTfr75Sq/gYDIwyLe
+ A1/6Z5a0YS0AjlRWSM849bGBj8H7OKJdeA==
+X-Google-Smtp-Source: AA6agR5A6GZoW3JsZOQPJd9YZK+EiySrV8mTBieN7MIq9baZBH1YjZY0w0pnTUVqmnlPXQpFaFAAtg==
+X-Received: by 2002:a5d:5711:0:b0:225:2884:cc88 with SMTP id
+ a17-20020a5d5711000000b002252884cc88mr4537239wrv.141.1660923589234; 
+ Fri, 19 Aug 2022 08:39:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi13-20020a05600c3d8d00b003a54109a6a0sm5558396wmb.3.2022.08.19.08.39.46
+ bi13-20020a05600c3d8d00b003a54109a6a0sm5558396wmb.3.2022.08.19.08.39.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 08:39:47 -0700 (PDT)
+ Fri, 19 Aug 2022 08:39:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -68,24 +68,25 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-ppc@nongnu.org
-Subject: [PATCH v2 10/11] ui/curses: Avoid dynamic stack allocation
-Date: Fri, 19 Aug 2022 16:39:30 +0100
-Message-Id: <20220819153931.3147384-11-peter.maydell@linaro.org>
+Subject: [PATCH v2 11/11] tests/unit/test-vmstate: Avoid dynamic stack
+ allocation
+Date: Fri, 19 Aug 2022 16:39:31 +0100
+Message-Id: <20220819153931.3147384-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220819153931.3147384-1-peter.maydell@linaro.org>
 References: <20220819153931.3147384-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,22 +111,34 @@ Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- ui/curses.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/unit/test-vmstate.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/ui/curses.c b/ui/curses.c
-index 861d63244c7..de962faa7cd 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -69,7 +69,7 @@ static void curses_update(DisplayChangeListener *dcl,
-                           int x, int y, int w, int h)
+diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
+index 72077b57800..541bb4f63e3 100644
+--- a/tests/unit/test-vmstate.c
++++ b/tests/unit/test-vmstate.c
+@@ -87,17 +87,16 @@ static void save_buffer(const uint8_t *buf, size_t buf_size)
+ static void compare_vmstate(const uint8_t *wire, size_t size)
  {
-     console_ch_t *line;
--    cchar_t curses_line[width];
-+    g_autofree cchar_t *curses_line = g_new(cchar_t, width);
-     wchar_t wch[CCHARW_MAX];
-     attr_t attrs;
-     short colors;
+     QEMUFile *f = open_test_file(false);
+-    uint8_t result[size];
++    g_autofree uint8_t *result = g_malloc(size);
+ 
+     /* read back as binary */
+ 
+-    g_assert_cmpint(qemu_get_buffer(f, result, sizeof(result)), ==,
+-                    sizeof(result));
++    g_assert_cmpint(qemu_get_buffer(f, result, size), ==, size);
+     g_assert(!qemu_file_get_error(f));
+ 
+     /* Compare that what is on the file is the same that what we
+        expected to be there */
+-    SUCCESS(memcmp(result, wire, sizeof(result)));
++    SUCCESS(memcmp(result, wire, size));
+ 
+     /* Must reach EOF */
+     qemu_get_byte(f);
 -- 
 2.25.1
 
