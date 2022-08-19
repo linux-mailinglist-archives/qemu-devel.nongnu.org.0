@@ -2,85 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C0A5999BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 12:28:40 +0200 (CEST)
-Received: from localhost ([::1]:43540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D2A5999CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 12:39:52 +0200 (CEST)
+Received: from localhost ([::1]:53142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOzF0-0003r7-Ha
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 06:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58418)
+	id 1oOzPr-0007WY-6n
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 06:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oOzBI-0001CA-Dn
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 06:24:49 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oOzBE-0003wy-Ia
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 06:24:47 -0400
-Received: by mail-wm1-x329.google.com with SMTP id h1so2072065wmd.3
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 03:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=3wo3LxGAV1L5FpJERnFaOwp0MYyEvKEcg4qfIYFY9ww=;
- b=Kv7ELLXZ+3SVVsZpctv94nmlDy0p/OdBmWoBdWd/ua2HGbPBHnrrjMP7Qj/cy5OtLS
- CYyANS57ZPN6RrDoZGXERtV1M/ONgbdbGL4qIcneIeqDyzXH/jmWlu3y2wSKH0ChS2P5
- PyQWqFTTx4hhINUuKtevIDhV6jgtIeqlYflGU+qskI/BXefhi3lLJQJbMmzyuVcYgOWu
- o8oQfL3VNcCfC0OOhgL+YPVnnY/d6jAdhAjMwOCIA01oPyijhYx/08S1Ay9+9LcK+7PK
- bUgkCsJEvF3mZtLq2YtHBJpIHlW7IbfgSOEzf/RqMLrfZh2bQnaBJYg+RiNa+omh1f66
- IhVQ==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oOzLW-0004a5-Cc
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 06:35:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42130)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oOzLR-00063B-7A
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 06:35:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660905315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Lv4DhCSeWjil8rp8IVZCTsWg7QfGSgaEGQo+e6ll7E=;
+ b=N5Noj79QVl8u5YZEwpe9ZJqTL+wlSkNjVa3HpBlMJDe5C/IXcuPQkUrjH+6a07bOfBkanJ
+ V2T78cajumy/sv7EDrYJI3aLsr/lUzoUrtltATf65KxtKwbQUF5rBZbbIibuQMePVfDA46
+ 5fyp302PFSox+LWNGWkIQc4Cf4Kev7g=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-425-DvKytt0pMKChnEnvz4Zt-g-1; Fri, 19 Aug 2022 06:35:14 -0400
+X-MC-Unique: DvKytt0pMKChnEnvz4Zt-g-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ w22-20020a05620a445600b006bb7f43d1cfso3571060qkp.16
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 03:35:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=3wo3LxGAV1L5FpJERnFaOwp0MYyEvKEcg4qfIYFY9ww=;
- b=mIzFg6UI6G7SoSzWSvP35uA314x4nE6oeOuLoWB/lN5gtWNCOthYoz0EyIveUjKGYB
- iX7l1x0bMnPM26XpLh4v43j5AKaZPHLOopmIuwPwZ4j78NCkGibKp6h7iE1HGcGecjc0
- SNlPuyCGiEjhCES5AfIDr0bxEAAF68w8qWOPc1gfU4gY+O4NmQF9JxA1Qae2hLBWsooL
- ir4YZYMKUNyGJxl/zowPandkBdexqgTtlIWT/JUWofWd+XzBRVByDbOWY8cJ7YfR60d8
- 1AlMUgqEaVpyrGQoThl/umLpEQmOYdsCuY5RsCwhOZjqaKhimDXmKdGAS8ddxE1Rl4vK
- JsXw==
-X-Gm-Message-State: ACgBeo33vzhxtGgvrflw91gHLfuQOGz3cuR3S7VQW1XfxLsNrqVZDJQT
- 2CDvy96V8nPEY/Q1DyckksAwMg==
-X-Google-Smtp-Source: AA6agR4IDNrm9OWHllhuB0XDgW70vQ6xxOfbj2+4Hs+twUXCwGMn+ZP+J72VkaVKUNanU5Nh1MSrbg==
-X-Received: by 2002:a05:600c:3d05:b0:3a5:dd21:e201 with SMTP id
- bh5-20020a05600c3d0500b003a5dd21e201mr4343882wmb.132.1660904681842; 
- Fri, 19 Aug 2022 03:24:41 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- b16-20020adfe310000000b0022159d92004sm3514673wrj.82.2022.08.19.03.24.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 03:24:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2DBF01FFB7;
- Fri, 19 Aug 2022 11:24:40 +0100 (BST)
-References: <20220817034630.1600434-1-bmeng.cn@gmail.com>
- <87zgg2rpu5.fsf@linaro.org>
- <8c005cf6-24c0-bdbc-e892-3a4c520bb0ad@redhat.com>
-User-agent: mu4e 1.8.9; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Beraldo Leal <bleal@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Wainer dos Santos
- Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] .gitlab-ci.d/buildtest.yml: Increase the
- check-gprof-gcov job timeout
-Date: Fri, 19 Aug 2022 11:23:57 +0100
-In-reply-to: <8c005cf6-24c0-bdbc-e892-3a4c520bb0ad@redhat.com>
-Message-ID: <874jy84jkn.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=7Lv4DhCSeWjil8rp8IVZCTsWg7QfGSgaEGQo+e6ll7E=;
+ b=DEGhqxHwrl2kFUgx0lNDq0nNZvlHSr/rD1d09VKWNxoihjPblLuo7+YtxHbzyGJ/NN
+ anVAEzsA4rXpwUoBk4H7F48q+SaSJhY4obkzfiCpG040h5SW4NAWPW/bs8XdSiRa/+Ao
+ lSYRvBKTUxlOKZAYFEPeU526ts80O3jTTLxc1wEypGpRe8d84mGPwY+PG9YLJOYVW7gE
+ kHiatAHSKQ7MHVsvATFx/Z7YfEKagjYkjUbXldWxH7XnVJ1bPBsrSOz3asyjIU6jhv4w
+ G7WAJRGjkZoBk/7qbH501ajxElHIxgty8lfIV9hjvf3feT/YKVwGWv5pny5YjI6oDgtV
+ Zl9Q==
+X-Gm-Message-State: ACgBeo2Z0d1u9XDQDi2sfmNLNuyARiFbLtnQwbwNvU9NdSGlNX7Nqd1J
+ n2zcnmIdF6QluksuSKc1X2fmh9nIf7aoAffXxbc45UhYvuhL7isGHSHFqj3NlkahWLy157U86ii
+ 3jEIDDmKUmfWwM33a5YyaikUZW3t9qmw=
+X-Received: by 2002:a05:6214:1c83:b0:46b:a79a:2f0b with SMTP id
+ ib3-20020a0562141c8300b0046ba79a2f0bmr5619645qvb.103.1660905314179; 
+ Fri, 19 Aug 2022 03:35:14 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7t7HqdeeCo9wiM7Y7yQ0IXtfRTqXjX22MxLxuN/p/UxsD48sxeqtN+HIAhy+Za0DUnvvj+/kFrtTlvdY1l3ac=
+X-Received: by 2002:a05:6214:1c83:b0:46b:a79a:2f0b with SMTP id
+ ib3-20020a0562141c8300b0046ba79a2f0bmr5619627qvb.103.1660905313932; Fri, 19
+ Aug 2022 03:35:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220810184220.2362292-1-eperezma@redhat.com>
+ <20220810184220.2362292-6-eperezma@redhat.com>
+ <CACGkMEsEO1hqRMp6d5fR6eMCqCPD4A_8nFTd2ABswWiwX2xSFw@mail.gmail.com>
+ <CAJaqyWevZ7d2iNPo68nUP_DdVExD7PMFoJjsFuQ=w5tsMmG2+A@mail.gmail.com>
+ <CACGkMEtVBOYzxvzz-p7pN8NF=uLUO9NeVtgKtSD_fHgz8aUDLQ@mail.gmail.com>
+In-Reply-To: <CACGkMEtVBOYzxvzz-p7pN8NF=uLUO9NeVtgKtSD_fHgz8aUDLQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 19 Aug 2022 12:34:38 +0200
+Message-ID: <CAJaqyWcYTSnaNNgb5YRwD_fALWDMwwPzXYKfPc-m669LWcZM2Q@mail.gmail.com>
+Subject: Re: [RFC 5/8] vdpa: Add vdpa memory listener
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cindy Lu <lulu@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,37 +104,275 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Aug 19, 2022 at 11:01 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Aug 19, 2022 at 4:30 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Fri, Aug 19, 2022 at 8:29 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Thu, Aug 11, 2022 at 2:42 AM Eugenio P=C3=A9rez <eperezma@redhat.c=
+om> wrote:
+> > > >
+> > > > This enable net/vdpa to restart the full device when a migration is
+> > > > started or stopped.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >
+> > > I have the following questions
+> > >
+> > > 1) any reason that we need to make this net specific? The dirty page
+> > > tracking via shadow virtqueue is pretty general. And the net specific
+> > > part was done via NetClientInfo anyhow.
+> >
+> > The listener is only used to know when migration is started / stopped,
+> > no need for actual memory tracking. Maybe there is a better way to do
+> > so?
+>
+> Not sure, SaveVMHandlers?
+>
 
-Thomas Huth <thuth@redhat.com> writes:
+I'm fine with investigating this, but the only entry in the doc says
+it's the "legacy way". I assume the "modern way" is through
+VMStateDescription, which is in virtio-net.
 
-> On 18/08/2022 09.07, Alex Benn=C3=A9e wrote:
->> Bin Meng <bmeng.cn@gmail.com> writes:
->>=20
->>> Current project timeout is 1 hour, but the check-gprof-gcov job never
->>> completes within 1 hour. Increase the job timeout to 90 minutes.
->> I've tried to do some data mining on this test which seems to
->> indicate
->> that the average successful completion time for gprof-gcov is 27 mins.
->> So it seems the sometimes *something* causes it to run a lot more
->> slowly. I wonder if increasing the timeout just masks the problem?
->
-> I think it's very certainly the migration test that is causing the
-> timeout now. In former times, the test was skipped, see e.g.:
->
->  https://gitlab.com/qemu-project/qemu/-/jobs/2795092179#L48
->
-> Since commit 2649a72555e the tests are run and take ca. 2 * 20 minutes:
->
->  https://gitlab.com/qemu-project/qemu/-/jobs/2798625330#L48
->
-> That's why I started a discussion here for how to reduce the amount of
-> time of the migration tests in the CI:
->
->  https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01219.html
+The "pre_save" member already assumes the vhost backend is stopped, so
+I'm not sure if this way is valid.
 
-OK I have queued to this patch to testing/next while the discussion is
-had. I'll update the commit message.
+> >
+> > It's net specific because we are restarting the whole vhost_vdpa
+> > backend. We could do inside hw/virtio/vhost_vdpa.c (previous POCs did
+> > that way), but it's a little more complicated in my opinion. To do it
+> > that way, the setting of _F_LOG was detected and device were resetted
+> > and setup there.
+>
+> Can we still have a general vhost-vdpa one and introduce net specific
+> callbacks? Otherwise the block may have its own listener.
+>
 
---=20
-Alex Benn=C3=A9e
+If we reuse the vhost-vdpa listener, we cannot unregister it and
+register it again from its own log_global_start / stop. We need to
+track all the memory always, so we can map it again using qemu's IOVA
+to use SVQ. Also, we need to duplicate vhost_vdpa_dev_start / stop
+without memory register related calls.
+
+On the other hand, it will put the SVQ solution farther away from
+being "a start parameter of vhost-vdpa backend". Instead of being an
+argument of vhost_vdpa initialization, now it is a variable that can
+switch state at any moment. That implies extra code in vhost-vdpa too.
+
+> >
+> >
+> > > 2) any reason we can't re-use the vhost-vdpa listener?
+> > >
+> >
+> > At this moment, all vhost_vdpa backend is restarted. That implies that
+> > the listener will be unregistered and registered again.
+> >
+> > If we use that listener, it needs either support to unregister itself,
+> > or store all entries in the iova tree so we can iterate them, unmap
+> > and map them again.
+>
+> Ok, but let's double check whether or not we have another choice.
+
+Sure!
+
+> Using a dedicated listener to know if migration is started or not
+> seems too heavyweight.
+>
+
+Take into account that memory.c does not call a callback that does not
+exist. Although this new memory listener is registered per vdpa device
+(not per queue pair), it's skipped when memory is added or removed.
+
+In that regard, to register all hdev->memory_listener of each queue
+pair + cvq is more expensive than adding this. And they have no use in
+vdpa.
+
+Thanks!
+
+> Thanks
+>
+> >
+> > > (Anyway, it's better to explain the reason in detail in the changelog=
+.)
+> > >
+> >
+> > Sure, I can expand with this.
+> >
+> > Thanks!
+> >
+> > > Thanks
+> > >
+> > > > ---
+> > > >  net/vhost-vdpa.c | 87 ++++++++++++++++++++++++++++++++++++++++++++=
+++++
+> > > >  1 file changed, 87 insertions(+)
+> > > >
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index a035c89c34..4c6947feb8 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -21,6 +21,7 @@
+> > > >  #include "qemu/memalign.h"
+> > > >  #include "qemu/option.h"
+> > > >  #include "qapi/error.h"
+> > > > +#include "exec/address-spaces.h"
+> > > >  #include <linux/vhost.h>
+> > > >  #include <sys/ioctl.h>
+> > > >  #include <err.h>
+> > > > @@ -32,6 +33,8 @@
+> > > >  typedef struct VhostVDPAState {
+> > > >      NetClientState nc;
+> > > >      struct vhost_vdpa vhost_vdpa;
+> > > > +    MemoryListener memory_listener;
+> > > > +
+> > > >      VHostNetState *vhost_net;
+> > > >
+> > > >      /* Control commands shadow buffers */
+> > > > @@ -110,6 +113,16 @@ static const uint64_t vdpa_svq_device_features=
+ =3D
+> > > >  #define VHOST_VDPA_NET_CVQ_PASSTHROUGH 0
+> > > >  #define VHOST_VDPA_NET_CVQ_ASID 1
+> > > >
+> > > > +/*
+> > > > + * Vdpa memory listener must run before vhost one, so vhost_vdpa d=
+oes not get
+> > > > + * _F_LOG_ALL without SVQ.
+> > > > + */
+> > > > +#define VHOST_VDPA_NET_MEMORY_LISTENER_PRIORITY \
+> > > > +                                       (VHOST_DEV_MEMORY_LISTENER_=
+PRIORITY - 1)
+> > > > +/* Check for underflow */
+> > > > +QEMU_BUILD_BUG_ON(VHOST_DEV_MEMORY_LISTENER_PRIORITY <
+> > > > +                  VHOST_VDPA_NET_MEMORY_LISTENER_PRIORITY);
+> > > > +
+> > > >  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+> > > >  {
+> > > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > > > @@ -172,6 +185,9 @@ static void vhost_vdpa_cleanup(NetClientState *=
+nc)
+> > > >
+> > > >      qemu_vfree(s->cvq_cmd_out_buffer);
+> > > >      qemu_vfree(s->cvq_cmd_in_buffer);
+> > > > +    if (dev->vq_index =3D=3D 0) {
+> > > > +        memory_listener_unregister(&s->memory_listener);
+> > > > +    }
+> > > >      if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
+> > > >          g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_=
+delete);
+> > > >      }
+> > > > @@ -224,6 +240,69 @@ static ssize_t vhost_vdpa_receive(NetClientSta=
+te *nc, const uint8_t *buf,
+> > > >      return 0;
+> > > >  }
+> > > >
+> > > > +static void vhost_vdpa_net_log_global_enable(MemoryListener *liste=
+ner,
+> > > > +                                             bool enable)
+> > > > +{
+> > > > +    VhostVDPAState *s =3D container_of(listener, VhostVDPAState,
+> > > > +                                     memory_listener);
+> > > > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> > > > +    VirtIONet *n;
+> > > > +    VirtIODevice *vdev;
+> > > > +    int data_queue_pairs, cvq, r;
+> > > > +    NetClientState *peer;
+> > > > +
+> > > > +    if (s->always_svq || s->log_enabled =3D=3D enable) {
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    s->log_enabled =3D enable;
+> > > > +    vdev =3D v->dev->vdev;
+> > > > +    n =3D VIRTIO_NET(vdev);
+> > > > +    if (!n->vhost_started) {
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    if (enable) {
+> > > > +        ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
+> > > > +    }
+> > > > +    data_queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
+> > > > +    cvq =3D virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
+> > > > +                                  n->max_ncs - n->max_queue_pairs =
+: 0;
+> > > > +    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
+> > > > +
+> > > > +    peer =3D s->nc.peer;
+> > > > +    for (int i =3D 0; i < data_queue_pairs + cvq; i++) {
+> > > > +        VhostVDPAState *vdpa_state;
+> > > > +        NetClientState *nc;
+> > > > +
+> > > > +        if (i < data_queue_pairs) {
+> > > > +            nc =3D qemu_get_peer(peer, i);
+> > > > +        } else {
+> > > > +            nc =3D qemu_get_peer(peer, n->max_queue_pairs);
+> > > > +        }
+> > > > +
+> > > > +        vdpa_state =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > > > +        vdpa_state->vhost_vdpa.listener_shadow_vq =3D enable;
+> > > > +        vdpa_state->vhost_vdpa.shadow_vqs_enabled =3D enable;
+> > > > +        vdpa_state->log_enabled =3D enable;
+> > > > +    }
+> > > > +
+> > > > +    r =3D vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq=
+);
+> > > > +    if (unlikely(r < 0)) {
+> > > > +        error_report("unable to start vhost net: %s(%d)", g_strerr=
+or(-r), -r);
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static void vhost_vdpa_net_log_global_start(MemoryListener *listen=
+er)
+> > > > +{
+> > > > +    vhost_vdpa_net_log_global_enable(listener, true);
+> > > > +}
+> > > > +
+> > > > +static void vhost_vdpa_net_log_global_stop(MemoryListener *listene=
+r)
+> > > > +{
+> > > > +    vhost_vdpa_net_log_global_enable(listener, false);
+> > > > +}
+> > > > +
+> > > >  static NetClientInfo net_vhost_vdpa_info =3D {
+> > > >          .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
+> > > >          .size =3D sizeof(VhostVDPAState),
+> > > > @@ -413,6 +492,7 @@ static void vhost_vdpa_net_cvq_stop(NetClientSt=
+ate *nc)
+> > > >
+> > > >      assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > > >
+> > > > +    memory_listener_unregister(&s->memory_listener);
+> > > >      if (s->vhost_vdpa.shadow_vqs_enabled) {
+> > > >          vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_bu=
+ffer);
+> > > >          vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_in_buf=
+fer);
+> > > > @@ -671,6 +751,13 @@ static NetClientState *net_vhost_vdpa_init(Net=
+ClientState *peer,
+> > > >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> > > >      s->vhost_vdpa.listener_shadow_vq =3D svq;
+> > > >      s->vhost_vdpa.iova_tree =3D iova_tree;
+> > > > +    if (queue_pair_index =3D=3D 0) {
+> > > > +        s->memory_listener =3D (MemoryListener) {
+> > > > +            .log_global_start =3D vhost_vdpa_net_log_global_start,
+> > > > +            .log_global_stop =3D vhost_vdpa_net_log_global_stop,
+> > > > +        };
+> > > > +        memory_listener_register(&s->memory_listener, &address_spa=
+ce_memory);
+> > > > +    }
+> > > >      if (!is_datapath) {
+> > > >          s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host_pag=
+e_size(),
+> > > >                                              vhost_vdpa_net_cvq_cmd=
+_page_len());
+> > > > --
+> > > > 2.31.1
+> > > >
+> > >
+> >
+>
+
 
