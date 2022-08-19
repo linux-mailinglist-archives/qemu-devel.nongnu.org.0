@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0C659A2D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:14:37 +0200 (CEST)
-Received: from localhost ([::1]:50920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E424759A2E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:31:06 +0200 (CEST)
+Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5Zs-0003id-Du
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51444)
+	id 1oP5pq-0003IJ-2f
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:31:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5Mm-0007zO-Up
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60402)
+ id 1oP5Mq-00080Z-LQ
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5Mj-0001t6-B3
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:02 -0400
+ id 1oP5Mn-0001tR-T1
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660928460;
+ s=mimecast20190719; t=1660928465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=X7YbTEtTHWKc/9fTMWab1zakq2acdNG3dR4G+0Ydpco=;
- b=dDtbURtXDPXKaJjGNXLiDhXLYYC7uP8IJvgP/DT/YXTartDNp8lYKjYRPAwqITIRc1ZRR7
- AJcqqtfrqjm8NRBQryajVK1958tZpQm3NjB341o3y43npug4c7JDRM3oT0RW/al62Gw7/d
- 0ENfh5JLv5oG0v+ylw+qbNE8cjHEHw4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VMsdJr7duFAO3hX3qElqE6PLwLdvPNCBCrY/1ibjTaw=;
+ b=WjitsBvGiH6sEBoSAs9hP1t9fyYL0l2XU8SPJkJTaq2SF7eZ8HRxZAy2d9Akp5siiNqLBf
+ 4jx1jQ5JWSJYE7DSpeACF37giRU54fuinK999RAX7JwNchEebnS+WQxEUSVvdYGF2tIC4o
+ UE/TqrXz6g6B+zb7qMqXjssuJr0fHVA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-280-IuSMhEoUOoyGm7BkG7AqtQ-1; Fri, 19 Aug 2022 13:00:57 -0400
-X-MC-Unique: IuSMhEoUOoyGm7BkG7AqtQ-1
+ us-mta-41-kaKR5UK6PcKz7pc_ZUnRZg-1; Fri, 19 Aug 2022 13:01:00 -0400
+X-MC-Unique: kaKR5UK6PcKz7pc_ZUnRZg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD6558039A8;
- Fri, 19 Aug 2022 17:00:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09300811E75;
+ Fri, 19 Aug 2022 17:01:00 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8303740D282E;
- Fri, 19 Aug 2022 17:00:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F6CC40D2827;
+ Fri, 19 Aug 2022 17:00:57 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Harpreet Singh Anand <hanand@xilinx.com>,
@@ -54,21 +55,24 @@ Cc: Harpreet Singh Anand <hanand@xilinx.com>,
  Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>,
  Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v9 00/12] NIC vhost-vdpa state restore via Shadow CVQ
-Date: Fri, 19 Aug 2022 19:00:36 +0200
-Message-Id: <20220819170048.3593487-1-eperezma@redhat.com>
+Subject: [PATCH v9 01/12] vhost: stop transfer elem ownership in
+ vhost_handle_guest_kick
+Date: Fri, 19 Aug 2022 19:00:37 +0200
+Message-Id: <20220819170048.3593487-2-eperezma@redhat.com>
+In-Reply-To: <20220819170048.3593487-1-eperezma@redhat.com>
+References: <20220819170048.3593487-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,101 +89,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CVQ of net vhost-vdpa devices can be intercepted since the addition of x-sv=
-q.=0D
-The virtio-net device model is updated. The migration was blocked because=0D
-although the state can be megrated between VMM it was not possible to resto=
-re=0D
-on the destination NIC.=0D
-=0D
-This series add support for SVQ to inject external messages without the gue=
-st's=0D
-knowledge, so before the guest is resumed all the guest visible state is=0D
-restored. It is done using standard CVQ messages, so the vhost-vdpa device =
-does=0D
-not need to learn how to restore it: As long as they have the feature, they=
-=0D
-know how to handle it.=0D
-=0D
-Depending on the device, this series may need fixes with message id [1] to=
-=0D
-achieve full live migration.=0D
-=0D
-[1] <20220819165357.3591965-1-eperezma@redhat.com>=0D
-=0D
-v9:=0D
-- Use guest acked features instead of device's.=0D
-- Minors: fix typos and patch messages, constify vhost_vdpa and VirtIONet v=
-ars,=0D
-  delete unneeded increment of cursor.=0D
-=0D
-v8:=0D
-- Rename NetClientInfo load to start, so is symmetrical with stop()=0D
-- Delete copy of device's in buffer at vhost_vdpa_net_load=0D
-=0D
-v7:=0D
-- Remove accidental double free.=0D
-=0D
-v6:=0D
-- Move map and unmap of the buffers to the start and stop of the device. Th=
-is=0D
-  implies more callbacks on NetClientInfo, but simplifies the SVQ CVQ code.=
-=0D
-- Not assume that in buffer is sizeof(virtio_net_ctrl_ack) in=0D
-  vhost_vdpa_net_cvq_add=0D
-- Reduce the number of changes from previous versions=0D
-- Delete unused memory barrier=0D
-=0D
-v5:=0D
-- Rename s/start/load/=0D
-- Use independent NetClientInfo to only add load callback on cvq.=0D
-- Accept out sg instead of dev_buffers[] at vhost_vdpa_net_cvq_map_elem=0D
-- Use only out size instead of iovec dev_buffers to know if the descriptor =
-is=0D
-  effectively available, allowing to delete artificial !NULL VirtQueueEleme=
-nt=0D
-  on vhost_svq_add call.=0D
-=0D
-v4:=0D
-- Actually use NetClientInfo callback.=0D
-=0D
-v3:=0D
-- Route vhost-vdpa start code through NetClientInfo callback.=0D
-- Delete extra vhost_net_stop_one() call.=0D
-=0D
-v2:=0D
-- Fix SIGSEGV dereferencing SVQ when not in svq mode=0D
-=0D
-v1 from RFC:=0D
-- Do not reorder DRIVER_OK & enable patches.=0D
-- Delete leftovers=0D
-=0D
-Eugenio P=C3=A9rez (12):=0D
-  vhost: stop transfer elem ownership in vhost_handle_guest_kick=0D
-  vhost: use SVQ element ndescs instead of opaque data for desc=0D
-    validation=0D
-  vhost: Delete useless read memory barrier=0D
-  vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush=0D
-  vhost_net: Add NetClientInfo start callback=0D
-  vhost_net: Add NetClientInfo stop callback=0D
-  vdpa: add net_vhost_vdpa_cvq_info NetClientInfo=0D
-  vdpa: Move command buffers map to start of net device=0D
-  vdpa: extract vhost_vdpa_net_cvq_add from=0D
-    vhost_vdpa_net_handle_ctrl_avail=0D
-  vhost_net: add NetClientState->load() callback=0D
-  vdpa: Add virtio-net mac address via CVQ at start=0D
-  vdpa: Delete CVQ migration blocker=0D
-=0D
- include/hw/virtio/vhost-vdpa.h     |   1 -=0D
- include/net/net.h                  |   6 +=0D
- hw/net/vhost_net.c                 |  17 +++=0D
- hw/virtio/vhost-shadow-virtqueue.c |  27 ++--=0D
- hw/virtio/vhost-vdpa.c             |  15 --=0D
- net/vhost-vdpa.c                   | 224 ++++++++++++++++++-----------=0D
- 6 files changed, 177 insertions(+), 113 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+It was easier to allow vhost_svq_add to handle the memory. Now that we
+will allow qemu to add elements to a SVQ without the guest's knowledge,
+it's better to handle it in the caller.
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 82a784d250..a1261d4a0f 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -233,9 +233,6 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
+ /**
+  * Add an element to a SVQ.
+  *
+- * The caller must check that there is enough slots for the new element. It
+- * takes ownership of the element: In case of failure not ENOSPC, it is free.
+- *
+  * Return -EINVAL if element is invalid, -ENOSPC if dev queue is full
+  */
+ int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
+@@ -252,7 +249,6 @@ int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
+ 
+     ok = vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num, &qemu_head);
+     if (unlikely(!ok)) {
+-        g_free(elem);
+         return -EINVAL;
+     }
+ 
+@@ -293,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
+         virtio_queue_set_notification(svq->vq, false);
+ 
+         while (true) {
+-            VirtQueueElement *elem;
++            g_autofree VirtQueueElement *elem;
+             int r;
+ 
+             if (svq->next_guest_avail_elem) {
+@@ -324,12 +320,14 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
+                      * queue the current guest descriptor and ignore kicks
+                      * until some elements are used.
+                      */
+-                    svq->next_guest_avail_elem = elem;
++                    svq->next_guest_avail_elem = g_steal_pointer(&elem);
+                 }
+ 
+                 /* VQ is full or broken, just return and ignore kicks */
+                 return;
+             }
++            /* elem belongs to SVQ or external caller now */
++            elem = NULL;
+         }
+ 
+         virtio_queue_set_notification(svq->vq, true);
+-- 
+2.31.1
 
 
