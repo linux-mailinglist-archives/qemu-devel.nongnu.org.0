@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E81059A287
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 18:39:43 +0200 (CEST)
-Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD01C59A2B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 18:58:23 +0200 (CEST)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP526-0003Xq-Cn
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 12:39:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43722)
+	id 1oP5KA-0003yp-W9
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 12:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oP4zx-0002BG-Kp
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:37:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44154)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oP5GF-0006an-2Y
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:54:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oP4zu-0006jE-KV
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:37:28 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oP5G2-0000Z4-8v
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:54:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660927045;
+ s=mimecast20190719; t=1660928044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=MJTxDE3h9mexLATWeJiKluDv1BLvHAWVxdvTEXkKIbM=;
- b=eccyP4DHlP5LHklRIXEOFMfBQv5H60NwM7ZD+63UZA9gIauvpOJGZoJOsvI5FQAm21J8WJ
- VMKD1/KVoJmZnqC2pIJJuxFv7hysdFsRdKFtfPb3/L5Sqm12KhBlmD6R+gn/PCGtSE/stv
- JouT9a229SelXxvMYJAEWcjhLwvHyMk=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-549-6z1dWobpOXOAsl6T2DhLMQ-1; Fri, 19 Aug 2022 12:37:24 -0400
-X-MC-Unique: 6z1dWobpOXOAsl6T2DhLMQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- e25-20020ab031d9000000b0038c6145e078so963703uan.10
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 09:37:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc;
- bh=MJTxDE3h9mexLATWeJiKluDv1BLvHAWVxdvTEXkKIbM=;
- b=6zVzR/+/eDGOddJ4cmk7kNIs49++zCoqfJ2jRsW42uPrrOc07OnNVC8eqo+JK+AGcK
- RxaG95QpFOAJBMzPec+XVpZfddXaKbbe9BChJgXbw4I049To8PrkpfwFsnxwxTrB/PAt
- +nx8n3hP126qarmjXZuLAZ5hgCXCmn1rvrz6iovepqYp3yklJJQYbm+aaAw9sIAYKl2p
- 4esF3ZJBe+FuDiHSSGJFhvx2D2NyqhC9bk56HfxugXybAiN+6Rb5kP4tdh1bBMwuTyPY
- zzQWR34W266R7x8i2/75xkiBsO5NWMTK/QVELSMRDoQ6uh8JLmrACIrjEx6C+RmN4iIE
- Sxjg==
-X-Gm-Message-State: ACgBeo1Hr6OYgb0xBcOKmQkcXgKc1KUFoMBoOqXRjddIMxjavA3UrXsC
- /WEClRPccUZvXXGvOjWpceaSNoiRKsHCiuqRdlZCSB74gYTU6mQgSXPXDMUO5YBwXKBRGXFT1x3
- DO5TaOHBJZi0BzNRTn0x+ba8whXqZAco=
-X-Received: by 2002:a05:6102:321c:b0:390:217d:df6d with SMTP id
- r28-20020a056102321c00b00390217ddf6dmr1488750vsf.35.1660927043770; 
- Fri, 19 Aug 2022 09:37:23 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6n4pQOg19wiN69AiuiyH4lmiYCkXBS1Kl4uHNZs496lse5E8DGpBIC/FUKZyqNzP4byV4yv/UlbpcXiOvyY50=
-X-Received: by 2002:a05:6102:321c:b0:390:217d:df6d with SMTP id
- r28-20020a056102321c00b00390217ddf6dmr1488739vsf.35.1660927043413; Fri, 19
- Aug 2022 09:37:23 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=D+Lxr33uovmXgPhvBPqdOuruujaJpTEd7/w6pPIAy+U=;
+ b=Eoiq8XUc15QPEEVdtRwHzCtiy21NIm2Ex9QEz1ZcMYZXhGaxg/1Eu5O5HFlNmufLLu7mNK
+ kCEvDYoz0kd46Qp2U6mACp6U5eVjthUskRR0nQ0ynyfjowgv371IY+aPQKn2xSOgyKL3Ev
+ 3lz1WPjt9RxIsP0juEmJqh3r68Zilzg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-190-x_b8GRZ0OAK96jfxTp3Hbg-1; Fri, 19 Aug 2022 12:54:01 -0400
+X-MC-Unique: x_b8GRZ0OAK96jfxTp3Hbg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEECF3801F6A
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 16:54:00 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.194.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F84B2026D4C;
+ Fri, 19 Aug 2022 16:53:59 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Lei Yang <leiyang@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH 0/7] vDPA shadow virtqueue iova tree fixes.
+Date: Fri, 19 Aug 2022 18:53:50 +0200
+Message-Id: <20220819165357.3591965-1-eperezma@redhat.com>
 MIME-Version: 1.0
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 19 Aug 2022 12:37:12 -0400
-Message-ID: <CAFn=p-ZaZXKkE57ktFENxhxVLjd3k1Ea9SPpiPZxX4P8kpOoTQ@mail.gmail.com>
-Subject: Python test QMP Server implementation / version reply
-To: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>, 
- Daniel Berrange <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006bbcbf05e69ab612"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,67 +78,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006bbcbf05e69ab612
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Eric:
-
-Once upon a time I mentioned writing a QMP server implementation in Python.
-Now that the dust of the fork has (mostly) settled, I've rebased and
-uploaded that WIP here:
-
-https://gitlab.com/jsnow/python-qemu-qmp/-/commits/create_server/
-
-Tracking issue: https://gitlab.com/qemu-project/python-qemu-qmp/-/issues/2
-
-It's still in prototype shape, but mostly works (Except the OOB support
-...!). I wanted to ask again what you thought about what the version reply
-ought to be for this test appliance.
-
-I assume that it will be most helpful if the programmer can set their own
-version reply, but it should likely have a default that indicates that it's
-the qemu.qmp test server and what version it is. I want to ensure that the
-reply is aligned with the QMP spec, but the spec is a little fuzzy on what
-the requirements for the version reply are. (I can't find our previous
-discussion on the topic right now, but I know it was discussed.)
-
-My intended use case for this appliance is for unit testing the QMP library
-itself without relying on QEMU, but it may have other uses for testing
-other things, too.
-
-Thanks,
---js
-
---0000000000006bbcbf05e69ab612
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi Eric:<div dir=3D"auto"><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Once upon a time I mentioned writing a QMP server implementa=
-tion in Python. Now that the dust of the fork has (mostly) settled, I&#39;v=
-e rebased and uploaded that WIP here:</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto"><a href=3D"https://gitlab.com/jsnow/python-qemu-qmp/-/commits=
-/create_server/" target=3D"_blank" rel=3D"noreferrer">https://gitlab.com/js=
-now/python-qemu-qmp/-/commits/create_server/</a><br></div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Tracking issue:=C2=A0<a href=3D"https://gitlab=
-.com/qemu-project/python-qemu-qmp/-/issues/2" target=3D"_blank" rel=3D"nore=
-ferrer">https://gitlab.com/qemu-project/python-qemu-qmp/-/issues/2</a></div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">It&#39;s still in prototype =
-shape, but mostly works (Except the OOB support ...!). I wanted to ask agai=
-n what you thought about what the version reply ought to be for this test a=
-ppliance.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I assume that =
-it will be most helpful if the programmer can set their own version reply, =
-but it should likely have a default that indicates that it&#39;s the qemu.q=
-mp test server and what version it is. I want to ensure that the reply is a=
-ligned with the QMP spec, but the spec is a little fuzzy on what the requir=
-ements for the version reply are. (I can&#39;t find our previous discussion=
- on the topic right now, but I know it was discussed.)</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">My intended use case for this appliance is f=
-or unit testing the QMP library itself without relying on QEMU, but it may =
-have other uses for testing other things, too.</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Thanks,</div><div dir=3D"auto">--js</div><div dir=3D=
-"auto"><br></div></div></div>
-
---0000000000006bbcbf05e69ab612--
+Collection of iova tree fixes detected preparing live migration with real=0D
+devices and multiqueue.=0D
+=0D
+These cannot be triggered in simple setups (vdpa_sim_net, no display, no=0D
+device reset with different features) but it's possible to trigger them wit=
+h=0D
+real devices or if the kernel fails some step like memory mapping / unmappi=
+ng.=0D
+=0D
+First two patches are already in the list at [1]. Last one is not a fix by=
+=0D
+itself but a straightforward merge of the same code.=0D
+=0D
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-08/msg00773.html=
+=0D
+=0D
+Eugenio P=C3=A9rez (7):=0D
+  vdpa: Skip the maps not in the iova tree=0D
+  vdpa: do not save failed dma maps in SVQ iova tree=0D
+  util: make a copy of iova_tree_remove_parameter=0D
+  vdpa: Remove SVQ vring from iova_tree at shutdown=0D
+  vdpa: Make SVQ vring unmapping return void=0D
+  vhost: Always store new kick fd on vhost_svq_set_svq_kick_fd=0D
+  vdpa: Use ring hwaddr at vhost_vdpa_svq_unmap_ring=0D
+=0D
+ hw/virtio/vhost-shadow-virtqueue.c |  4 +-=0D
+ hw/virtio/vhost-vdpa.c             | 70 +++++++++++++++---------------=0D
+ util/iova-tree.c                   |  4 +-=0D
+ 3 files changed, 41 insertions(+), 37 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
