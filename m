@@ -2,98 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A0259A67B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 21:39:19 +0200 (CEST)
-Received: from localhost ([::1]:46088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B617A59A6D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 22:06:19 +0200 (CEST)
+Received: from localhost ([::1]:54774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP7pu-0003GG-02
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 15:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51322)
+	id 1oP8G0-00084M-WA
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 16:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1oP7og-0001t5-0Q
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 15:38:02 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:35573)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oP8Dh-0006gc-P1
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 16:03:53 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:37386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1oP7od-0008Aa-TD
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 15:38:01 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- m10-20020a17090a730a00b001fa986fd8eeso8477232pjk.0
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 12:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=k9KpOd9i/ZNi1t1K9tR8np0p9gkpfM3VrD2lfsO25Mo=;
- b=HC3bATKO80CNvgZPBl3R//G0TK0r3ngVuJktWYhEP8NaHJnXH6/HXfP142vc4oH9Aw
- oJyeetzADSpgcohe210zCSh8DQfsxcwVcf8c/0gFINaAT23hmdkT8TGnAAdrxDmHlKGf
- fctMqKyKBGj1alfGcbKBQ2/gLlX44if/PwK0HhdyLICbvLdbiwe2vlRz/1zOJjoePZzP
- pxHe9IuraDvzqkDJ8J71BHT2b3xfBrXGMv+aVkONLXSJx4ZIfmskklMmsRvcCwUvoOUK
- TVCUXOcQ5kN8i0t/EAZeKwJMG0HSZvtVvquJlnRoYjq4V1P98OEYU5jvAIbcSHYlInUs
- Kn4A==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oP8Df-0003F5-UL
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 16:03:53 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id bh13so4494534pgb.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 13:03:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=mmxlBsGYr6+uP9SSFRGD/3nsR4AlNgYtWFt+/SeBEp8=;
+ b=KMfnFpM168gNxROMZYnnMWTGjjt0ZztgsLpCxYLSMj8wiman4dlTtlk3K1BYLJoLpW
+ a0E4VKn3EQ7wLL9pC8GbeEYpNrOT/G3k11QOSdQbZpSjFgeWXW98v2oYfKytNY/L5ii0
+ 9gW47NBcVUtiICs4b+ZiUWlhGQGaxMEJ2pqr90LVSeCbZStS37mHJCvP0pMAWX7sCCnN
+ ehIkhTesIB9gsgvtAWj3IoZHiN4oMp9tGhBJxca5DwzGWnhz6A7dTNR/wWCIYK98NHYu
+ 1/M3GgkCvnYw3Imomw0SIxRk91Uomg89IxL22T+6qay2LM7myT3Pfr0MAo+7xgv6ij84
+ cN6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=k9KpOd9i/ZNi1t1K9tR8np0p9gkpfM3VrD2lfsO25Mo=;
- b=KOmkOmPfsbpKeItneFzDqQHFmZiUXHGwnfjUMNqaMbKedAfUDHnbcR2N2gxqL0X2Yo
- b6FwDElu10Oh2pw1nkaydmNg0dv5GyFSiMPvVhaTj7z3IYEBthu2FAY09CSiNFRcXte0
- ZoUpzhHAUQf0QXQLpnjzPJZTgudYphiZeca+bA/eGhBqcoNNV5BUWqvmhr5npoRJl+7n
- vHXK5IS1ECzHByddyNh+WZ36t763agPuyIncteSF5V3PXqaj7ZcAZJBENmrti0YPxkTh
- jT/qR9k1HWOMj5Lg7YdrjceXKEpX6B5xu9bLbv4jq8U8okZwuYsk91/bItsIfyslmhh+
- 5dPQ==
-X-Gm-Message-State: ACgBeo0sh2r6p4OFpV7AzY+rKTH8g7HKt1/OUzeHtimOdFI8PEF3AGmz
- k4v+egKUecW6yid8B0wMBZxtb86mDEPjaxFLql0nRw==
-X-Google-Smtp-Source: AA6agR6k/DAzQx9qRqaoRc0DfYUeZpNmDFrlAHfGRBtmhp/IGDr8OXnmdkj2tKhP7ciJU8phJ2DTP7DaAQ0zqKSGHws=
-X-Received: by 2002:a17:90b:4b91:b0:1f4:e116:8f1 with SMTP id
- lr17-20020a17090b4b9100b001f4e11608f1mr10112497pjb.121.1660937873970; Fri, 19
- Aug 2022 12:37:53 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=mmxlBsGYr6+uP9SSFRGD/3nsR4AlNgYtWFt+/SeBEp8=;
+ b=uRN2SHFX8y9jOp7+MN2n+BOVdCMP2XksbaSrxOYjCxpdiiaHYUlr1UaqU7UV01gH5x
+ wolOInLvcbwq6WLBhgOsoAZwschGwcr+DgJUGI9RD4kIq29ITj3vupdJsf7z74d6mN5U
+ KfotW+dnaUkxf136fEiXQPpHiOcnnZo0QjUawQseWMkhk+XvVpyRbCcpiYsHaLADB/2M
+ svR7sI0Sbfd2Dca4PUTKmM8mR8QdYgS+B5d4lHpKwYYRb8zeLQbYSp60UWzKS6+ZH9Sj
+ 5ePOK7Ae3NtybGGvmROXMNLvmIQE/m3oWh/d5EZgQnNrcZE2xh+OSa3m76BIYGtfsM6M
+ kQcw==
+X-Gm-Message-State: ACgBeo1AvIYQeXMfskEP/c2Wh6JhDolmcK0tDkyRR6Ld7rnXMiPKjov2
+ oyzkWiX/iagvHaEqkmxfvxLDsg==
+X-Google-Smtp-Source: AA6agR7NcA/6RQrEi3fCwIMeFfsa07x8g0YdGxx2Hv8K6AToheIDmexv5QIQoE7XaV077nU2Xg0tjA==
+X-Received: by 2002:a63:90c9:0:b0:42a:306e:5e2b with SMTP id
+ a192-20020a6390c9000000b0042a306e5e2bmr5258183pge.380.1660939430056; 
+ Fri, 19 Aug 2022 13:03:50 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:f37:9eb9:ca02:d0cb?
+ ([2602:47:d49d:ec01:f37:9eb9:ca02:d0cb])
+ by smtp.gmail.com with ESMTPSA id
+ jd22-20020a170903261600b0016d7b2352desm3524548plb.244.2022.08.19.13.03.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Aug 2022 13:03:49 -0700 (PDT)
+Message-ID: <73461812-f4d2-8a1b-efd5-ac10dfc1071a@linaro.org>
+Date: Fri, 19 Aug 2022 13:03:47 -0700
 MIME-Version: 1.0
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Fri, 19 Aug 2022 12:37:42 -0700
-Message-ID: <CAGtprH9xyw6bt4=RBWF6-v2CSpabOCpKq5rPz+e-9co7EisoVQ@mail.gmail.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm list <kvm@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, 
- x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, 
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, 
- Jun Nakajima <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>, 
- Andi Kleen <ak@linux.intel.com>, David Hildenbrand <david@redhat.com>,
- aarcange@redhat.com, 
- ddutile@redhat.com, dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=vannapurve@google.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] configure: improve error for ucontext coroutine backend
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220819170251.227526-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220819170251.227526-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,50 +92,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> ...
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 230c8ff9659c..bb714c2a4b06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -914,6 +914,35 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
->
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
->
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +#define KVM_MEM_ATTR_PRIVATE   0x0001
-> +static int kvm_vm_ioctl_set_encrypted_region(struct kvm *kvm, unsigned int ioctl,
-> +                                            struct kvm_enc_region *region)
-> +{
-> +       unsigned long start, end;
-> +       void *entry;
-> +       int r;
-> +
-> +       if (region->size == 0 || region->addr + region->size < region->addr)
-> +               return -EINVAL;
-> +       if (region->addr & (PAGE_SIZE - 1) || region->size & (PAGE_SIZE - 1))
-> +               return -EINVAL;
-> +
-> +       start = region->addr >> PAGE_SHIFT;
-> +       end = (region->addr + region->size - 1) >> PAGE_SHIFT;
-> +
-> +       entry = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION ?
-> +                               xa_mk_value(KVM_MEM_ATTR_PRIVATE) : NULL;
-> +
-> +       r = xa_err(xa_store_range(&kvm->mem_attr_array, start, end,
-> +                                       entry, GFP_KERNEL_ACCOUNT));
+On 8/19/22 10:02, Paolo Bonzini wrote:
+> Instead of using feature_not_found(), which is not a good match because
+> there is no "remedy" to fix the lack of makecontext(), just print a
+> custom error.
+> 
+> This happens to remove the last use of feature_not_found(), so remove
+> the definition and the documentation.
+> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   configure                   | 11 +----------
+>   docs/devel/build-system.rst |  5 -----
+>   2 files changed, 1 insertion(+), 15 deletions(-)
 
-xa_store_range seems to create multi-index entries by default.
-Subsequent xa_store_range call changes all the entries stored
-previously.
-xa_store needs to be used here instead of xa_store_range to achieve
-the intended behavior.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> +
-> +       kvm_zap_gfn_range(kvm, start, end + 1);
-> +
-> +       return r;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> +
-> ...
+r~
 
