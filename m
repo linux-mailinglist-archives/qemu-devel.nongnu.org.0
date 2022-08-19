@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E559A599ED5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:55:56 +0200 (CEST)
-Received: from localhost ([::1]:40058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07707599EDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:59:14 +0200 (CEST)
+Received: from localhost ([::1]:44706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP4Lk-000623-12
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:55:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33890)
+	id 1oP4Ov-0001S5-5w
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:59:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oP4Fa-0004l9-NR; Fri, 19 Aug 2022 11:49:36 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:35792)
+ id 1oP4HN-0007fj-J3; Fri, 19 Aug 2022 11:51:25 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:37586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oP4FW-0007WH-Ey; Fri, 19 Aug 2022 11:49:33 -0400
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 777D82E2171;
- Fri, 19 Aug 2022 18:49:03 +0300 (MSK)
+ id 1oP4HM-0007zL-1y; Fri, 19 Aug 2022 11:51:25 -0400
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id E2D3F2E0AB2;
+ Fri, 19 Aug 2022 18:51:13 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b4ab::1:3b] (unknown
  [2a02:6b8:b081:b4ab::1:3b])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- fxwO8QUUSm-n1OO108e; Fri, 19 Aug 2022 18:49:02 +0300
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ atOvRK0bE6-pCOGQkQ6; Fri, 19 Aug 2022 18:51:13 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1660924142; bh=0qQYYzmTSVrfAbkvarst4aXBOaL4S1/mZX+YVQQj/nk=;
+ t=1660924273; bh=B2VQY90qiNCDMY9nqwkyBxVF9UdGFMv2M3lQ0XWLyOg=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=cwoh2ZJKcvfjzLD5WLa2ojrasAISRVibzkRFUosgKCgR1RKoK3sqCIE5gyeKLMs75
- Qtn2f/WHPDXZUSuCiDG2c6bMD5JgZo72Cf7zjR5ugtoGmyomoZxOoJWkRrkO+0JAL0
- +LmkUxbGzd3B3o9nIxqB0IJDNKbaDUs98OpoSgz0=
-Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ b=fXHvMKKnf2yUwWJV9bCDK9ZV1QQIIB0wZ/vaEcJLYYP0HOMMFwMP9j4gbLVdnDKnZ
+ xqFEuMnIB6gn8RH5AEwb9nDnZv1DH4Y37ljAwk36YZBNxDLi4fmBpXl/de901dQm7i
+ iT4jYZa5kUfAzD6duz5TNhTzelTpLAqXI62y3JZU=
+Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <2226c905-e235-dc51-b570-dd066447f68d@yandex-team.ru>
-Date: Fri, 19 Aug 2022 18:49:01 +0300
+Message-ID: <257778c1-61af-6021-e0cd-217d918730e1@yandex-team.ru>
+Date: Fri, 19 Aug 2022 18:51:11 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v10 18/21] job.c: enable job lock/unlock and remove
- Aiocontext locks
+Subject: Re: [PATCH 1/2] block: use bdrv_is_sg() helper instead of raw bs->sg
+ reading
 Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220725073855.76049-1-eesposit@redhat.com>
- <20220725073855.76049-19-eesposit@redhat.com>
- <d3212eb9-1054-9821-4062-5e9b960da630@yandex-team.ru>
- <43acbcd7-d00f-ee74-df22-314745900f93@redhat.com>
- <efd80f7e-f024-7ce0-4227-3918d1243cbd@yandex-team.ru>
- <563d5629-d47a-9682-f5c8-6be2c4806e8c@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Lieven <pl@kamp.de>
+References: <20220817083736.40981-1-den@openvz.org>
+ <20220817083736.40981-2-den@openvz.org>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <563d5629-d47a-9682-f5c8-6be2c4806e8c@redhat.com>
+In-Reply-To: <20220817083736.40981-2-den@openvz.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=5.45.199.163;
  envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
 X-Spam_score_int: -27
@@ -88,46 +82,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/22 10:46, Emanuele Giuseppe Esposito wrote:
+On 8/17/22 11:37, Denis V. Lunev wrote:
+> I believe that if the helper exists, it must be used always for reading
+> of the value. It breaks expectations in the other case.
 > 
-> 
-> Am 17/08/2022 um 20:54 schrieb Vladimir Sementsov-Ogievskiy:
->> On 8/16/22 15:52, Emanuele Giuseppe Esposito wrote:
->>>>>     }
->>>>> @@ -501,8 +481,12 @@ void job_unref_locked(Job *job)>
->>>>> assert(!job->txn);
->>>>>               if (job->driver->free) {
->>>>> +            AioContext *aio_context = job->aio_context;
->>>>>                 job_unlock();
->>>>> +            /* FIXME: aiocontext lock is required because cb calls
->>>>> blk_unref */
->>>>> +            aio_context_acquire(aio_context);
->>>>>                 job->driver->free(job);
->>>>> +            aio_context_release(aio_context);
->>>> So, job_unref_locked() must be called with aio_context not locked,
->>>> otherwise we dead-lock here? That should be documented in function
->>>> declaration comment.
->>>>
->>>> For example in qemu-img.c in run_block_job() we do exactly that: call
->>>> job_unref_locked()  inside aio-context lock critical seaction..
->>> No, job_unref_locked has also status and refcnt and all the other fields
->>> that need to be protectd. Only free must be called without job lock held.
->>>
->>
->> I mean, don't we try here to acquire aio_context twice, when we call
->> job_unref_locked() with aio_context _already_ acquired?
->>
-> You're right, so why do we need the AioContext lock in qemu-img then?
-> All jobs API don't need it, aio_poll seems not to need it either, and
-> progress API has its own lock.
-> 
-> I guess I could remove it?
-> 
+> Signed-off-by: Denis V. Lunev<den@openvz.org>
+> CC: Kevin Wolf<kwolf@redhat.com>
+> CC: Hanna Reitz<hreitz@redhat.com>
+> CC: Stefan Hajnoczi<stefanha@redhat.com>
+> CC: Fam Zheng<fam@euphon.net>
+> CC: Ronnie Sahlberg<ronniesahlberg@gmail.com>
+> CC: Paolo Bonzini<pbonzini@redhat.com>
+> CC: Peter Lieven<pl@kamp.de>
+> CC: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
 
-Not sure, but hope that yes.
-
-Anyway, trying to lock it twice will dead-lock, as I understand.
-
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 -- 
 Best regards,
