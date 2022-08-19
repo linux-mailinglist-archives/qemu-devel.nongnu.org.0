@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF26599359
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:11:54 +0200 (CEST)
-Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775D359936F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:28:42 +0200 (CEST)
+Received: from localhost ([::1]:34304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOsQK-0008Te-S8
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45028)
+	id 1oOsgb-0006nJ-DJ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oOsOW-0006sF-Ms
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:10:00 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:39727)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oOseL-0001RP-Bv
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:21 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oOsOT-0007cK-K7
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:10:00 -0400
-Received: by mail-oi1-x233.google.com with SMTP id j5so3539336oih.6
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oOseJ-0002iF-LY
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:21 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id q19so3234008pfg.8
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc;
- bh=8r/DVsdQ9Z1jAtpgwSIe7wtgj33LBSoM3OtCS4E6yq4=;
- b=LmI5CJz2eXeeCQraA+RmXBwE96Czeu8fXnqBZiV5Qu6Up9KA5KTffC5qIrn0J4Kz4s
- nCWt9dVSideEN9G41gYrHNS0B8LMEWQWc8lJcJsGNDtY/CpcN8b2DN4uM1SrfxnvQyen
- hPB38MfMzcipZYljNStcqUUVCTEK87KFe6+fcEJrNp48H0ODlCEmC6NSkB98ZacEk6e5
- f0gqMgNEEzX01dpYvuH0HlYCVsYsOhBtqawXbs+r09hm0zj113hKCSIZyQh1J1HRSxyx
- R7dWNLgvhcsq5iHUbagxB7jExjGNJcWqUrwJYC16294v/s6iR4BBV7FAppXPW+7QYRb1
- 3eHg==
+ bh=d1gtamk6pX7WUClRyqTutZZX1d+IhzKETwFCuS+1R14=;
+ b=v4s78+wCgDtJ7DNujXJddRXqZm3MpyxMHMN4jbKWpw+WUCVL7vBozK+Fe+Jg4/f2wQ
+ zwnJFcbVRJjeDpAOy4FJODjBYkYvQI+PzVg7vUpSyfYCOubL8bQULRZuaTrY1SqjPRa8
+ iikY3uUHRDqPywOj3yzD51NNgbZLk/iyPDuaFHttm3/9FRlPQCed4RoVMERrzEN3w62w
+ Vt0MFjtd4DboEAjKtPvGVuBqcBYYCJlN6D5onCRoHmqL0AgpYBLgURgdY0GpS36QmOnt
+ 2ZUy3VJvJgFl927LroKSH8n/uVkWZB+Js9GJsFX9xcstKbRSEmsZYoCZUOR2sT9S6N6Z
+ 19wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc;
- bh=8r/DVsdQ9Z1jAtpgwSIe7wtgj33LBSoM3OtCS4E6yq4=;
- b=voXGQIRZDDxC6QpyF/T8c9ma7x74D5kDFYlCFHSrXCAglBj/ZIEW+QklcHfZx0k/t7
- YjzmjnqI0aF3ntuhE2Iy13qcM4RfArMy586yu6+dBkJHoxtA7bL/QSHvpt8zrOxQDYAg
- HI58XKGKdkPQVwjcIUxxgLH6LHBXTC47fnkBMsoJ/kjNG6QligPaaOdMx9f14IVbz3r1
- UUJFZrx0DgXINY6BauS2GusTJM0sEOKelL6ysNA+MxXLKEmLi0uF59JLR2aCkOOB5CBE
- EW5KHeibszt8KH+8+cKfpYHmlt0+9XPQ22v+p549LOW/psMf3hAZPELNcQFRb9hUMQt7
- 3R2Q==
-X-Gm-Message-State: ACgBeo0sTZx3xfeDtsRWRye/1p91T/vfUbUtAZNR3G8242sQlAlvbBzZ
- f+XdnolDqZe6v4NTfs9/otvMqQ==
-X-Google-Smtp-Source: AA6agR74QzP1e3Avd4hHxUb5O3LhC2zpobuU5kASxmqALrogv0JGdtvHnsa+Imk3t6N/cHHODQZj2g==
-X-Received: by 2002:a05:6808:3098:b0:343:2d83:5978 with SMTP id
- bl24-20020a056808309800b003432d835978mr2480216oib.35.1660878595422; 
- Thu, 18 Aug 2022 20:09:55 -0700 (PDT)
-Received: from anup-ubuntu64-vm.. ([171.76.80.76])
+ bh=d1gtamk6pX7WUClRyqTutZZX1d+IhzKETwFCuS+1R14=;
+ b=6ezyRksG0xvhwAuKMm0gsjKGVBbSj8WYjVzcLmTf3RMOFlQmMU/L8U8PR1ik+llDy4
+ 2YwepUSSBBjKQIuChRRaHr6MaxChsUl2ny5pmKfFMZlhiLiDkDxsE//ROYYbqQNlBfbU
+ hGXNclR+kEf0P7Sem9pReNttfsjTXIQYB/HRdGkOA3fcKCZb9oMRUXwjJtQcR86ZDnxJ
+ T139wqtjPCOB0Z2VrzfkNnSg9pFWDaOmdY5GitL8yqqiMsCmVRDjpBUNeeSmzZ1JgIX0
+ f+pbTjGH12yBF08lsXbQho8hOwtr8V4D7nXABLSIq4ns4yPmlsmacwSAv+K6nTu8PFSG
+ qgRA==
+X-Gm-Message-State: ACgBeo2TJIBstqSu3ooUcUsq5t4JpZ++B8+04sE5rEiqen06oTsYbTtE
+ nZc0VpcQ4Uh24flms1/u1gnnCEoknX0Wng==
+X-Google-Smtp-Source: AA6agR7ML3ZMhIQEJiwPRSz/OSAMiKn/3Dw5b1l15pAcQe3ltABAiLjtScooy9WyJQEyzzoBO//ReA==
+X-Received: by 2002:a63:d703:0:b0:41a:8d7a:eb3d with SMTP id
+ d3-20020a63d703000000b0041a8d7aeb3dmr4863416pgg.59.1660879577807; 
+ Thu, 18 Aug 2022 20:26:17 -0700 (PDT)
+Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
  by smtp.gmail.com with ESMTPSA id
- c127-20020a4a4f85000000b00425806a20f5sm701003oob.3.2022.08.18.20.09.49
+ g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:09:54 -0700 (PDT)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>,
- Andrew Jones <ajones@ventanamicro.com>
-Subject: [PATCH] target/riscv: Use official extension names for AIA CSRs
-Date: Fri, 19 Aug 2022 08:39:38 +0530
-Message-Id: <20220819030938.166196-1-apatel@ventanamicro.com>
+ Thu, 18 Aug 2022 20:26:16 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
+ alistair.francis@wdc.com, alex.bennee@linaro.org
+Subject: [PATCH v6 00/21] linux-user: Fix siginfo_t contents when jumping to
+ non-readable pages
+Date: Thu, 18 Aug 2022 20:25:54 -0700
+Message-Id: <20220819032615.884847-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=apatel@ventanamicro.com; helo=mail-oi1-x233.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,308 +88,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arch review of AIA spec is completed and we now have official
-extension names for AIA: Smaia (M-mode AIA CSRs) and Ssaia (S-mode
-AIA CSRs).
+Hi Ilya,
 
-Refer, section 1.6 of the latest AIA v0.3.1 stable specification at
-https://github.com/riscv/riscv-aia/releases/download/0.3.1-draft.32/riscv-interrupts-032.pdf)
+After adding support for riscv (similar to s390x, in that we can
+find the total insn length from the first couple of bits, so, easy),
+I find that the test case doesn't work without all of the other
+changes for PROT_EXEC, including the translator_ld changes.
 
-Based on above, we update QEMU RISC-V to:
-1) Have separate config options for Smaia and Ssaia extensions
-   which replace RISCV_FEATURE_AIA in CPU features
-2) Not generate AIA INTC compatible string in virt machine
+Other changes from your v5:
+  - mprotect invalidates tbs.  The test case is riscv, with a
+    4-byte insn at offset 0xffe, which was chained to from the
+    insn at offset 0xffa.  The fact that the 0xffe tb was not
+    invalidated meant that we chained to it and re-executed
+    without revalidating page protections.
 
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- hw/intc/riscv_imsic.c     |  4 +++-
- hw/riscv/virt.c           | 13 ++-----------
- target/riscv/cpu.c        |  9 ++++-----
- target/riscv/cpu.h        |  4 ++--
- target/riscv/cpu_helper.c | 30 ++++++++++++++++++++++--------
- target/riscv/csr.c        | 30 ++++++++++++++++++++++++------
- 6 files changed, 57 insertions(+), 33 deletions(-)
+  - rewrote the test framework to be agnostic of page size, which
+    reduces some of the repetition.  I ran into trouble with the
+    riscv linker, which relaxed the segment such that .align+.org
+    wasn't actually honored.  This new form doesn't require the
+    test bytes to be aligned in the binary.
 
-diff --git a/hw/intc/riscv_imsic.c b/hw/intc/riscv_imsic.c
-index 8615e4cc1d..4d4d5b50ca 100644
---- a/hw/intc/riscv_imsic.c
-+++ b/hw/intc/riscv_imsic.c
-@@ -344,9 +344,11 @@ static void riscv_imsic_realize(DeviceState *dev, Error **errp)
- 
-     /* Force select AIA feature and setup CSR read-modify-write callback */
-     if (env) {
--        riscv_set_feature(env, RISCV_FEATURE_AIA);
-         if (!imsic->mmode) {
-+            rcpu->cfg.ext_ssaia = true;
-             riscv_cpu_set_geilen(env, imsic->num_pages - 1);
-+        } else {
-+            rcpu->cfg.ext_smaia = true;
-         }
-         riscv_cpu_set_aia_ireg_rmw_fn(env, (imsic->mmode) ? PRV_M : PRV_S,
-                                       riscv_imsic_rmw, imsic);
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index e779d399ae..b041b33afc 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -261,17 +261,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-         qemu_fdt_add_subnode(mc->fdt, intc_name);
-         qemu_fdt_setprop_cell(mc->fdt, intc_name, "phandle",
-             intc_phandles[cpu]);
--        if (riscv_feature(&s->soc[socket].harts[cpu].env,
--                          RISCV_FEATURE_AIA)) {
--            static const char * const compat[2] = {
--                "riscv,cpu-intc-aia", "riscv,cpu-intc"
--            };
--            qemu_fdt_setprop_string_array(mc->fdt, intc_name, "compatible",
--                                      (char **)&compat, ARRAY_SIZE(compat));
--        } else {
--            qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
--                "riscv,cpu-intc");
--        }
-+        qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-+            "riscv,cpu-intc");
-         qemu_fdt_setprop(mc->fdt, intc_name, "interrupt-controller", NULL, 0);
-         qemu_fdt_setprop_cell(mc->fdt, intc_name, "#interrupt-cells", 1);
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d11113fbaa..3cf0c86661 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -101,6 +101,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-+    ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
-+    ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
-     ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
-     ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
-     ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
-@@ -669,10 +671,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    if (cpu->cfg.aia) {
--        riscv_set_feature(env, RISCV_FEATURE_AIA);
--    }
--
-     if (cpu->cfg.debug) {
-         riscv_set_feature(env, RISCV_FEATURE_DEBUG);
-     }
-@@ -1058,7 +1056,8 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     /* ePMP 0.9.3 */
-     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
--    DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
-+    DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
-+    DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
- 
-     DEFINE_PROP_END_OF_LIST(),
- };
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 42edfa4558..15cad73def 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -85,7 +85,6 @@ enum {
-     RISCV_FEATURE_PMP,
-     RISCV_FEATURE_EPMP,
-     RISCV_FEATURE_MISA,
--    RISCV_FEATURE_AIA,
-     RISCV_FEATURE_DEBUG
- };
- 
-@@ -452,6 +451,8 @@ struct RISCVCPUConfig {
-     bool ext_zve64f;
-     bool ext_zmmul;
-     bool ext_sscofpmf;
-+    bool ext_smaia;
-+    bool ext_ssaia;
-     bool rvv_ta_all_1s;
-     bool rvv_ma_all_1s;
- 
-@@ -472,7 +473,6 @@ struct RISCVCPUConfig {
-     bool mmu;
-     bool pmp;
-     bool epmp;
--    bool aia;
-     bool debug;
-     uint64_t resetvec;
- 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 81948b37dd..92685947d9 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -305,7 +305,7 @@ uint8_t riscv_cpu_default_priority(int irq)
-     return default_iprio[irq] ? default_iprio[irq] : IPRIO_MMAXIPRIO;
- };
- 
--static int riscv_cpu_pending_to_irq(CPURISCVState *env,
-+static int riscv_cpu_pending_to_irq(CPURISCVState *env, bool has_aia,
-                                     int extirq, unsigned int extirq_def_prio,
-                                     uint64_t pending, uint8_t *iprio)
- {
-@@ -317,7 +317,7 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
-     }
- 
-     irq = ctz64(pending);
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    if (!has_aia) {
-         return irq;
-     }
- 
-@@ -354,34 +354,45 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env)
- 
- int riscv_cpu_mirq_pending(CPURISCVState *env)
- {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-     uint64_t irqs = riscv_cpu_all_pending(env) & ~env->mideleg &
-                     ~(MIP_SGEIP | MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
- 
--    return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_M,
-+    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_smaia,
-+                                    IRQ_M_EXT, IPRIO_DEFAULT_M,
-                                     irqs, env->miprio);
- }
- 
- int riscv_cpu_sirq_pending(CPURISCVState *env)
- {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-     uint64_t irqs = riscv_cpu_all_pending(env) & env->mideleg &
-                     ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
- 
--    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
-+    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-+                                    IRQ_S_EXT, IPRIO_DEFAULT_S,
-                                     irqs, env->siprio);
- }
- 
- int riscv_cpu_vsirq_pending(CPURISCVState *env)
- {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-     uint64_t irqs = riscv_cpu_all_pending(env) & env->mideleg &
-                     (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
- 
--    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
-+    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-+                                    IRQ_S_EXT, IPRIO_DEFAULT_S,
-                                     irqs >> 1, env->hviprio);
- }
- 
- static int riscv_cpu_local_irq_pending(CPURISCVState *env)
- {
-     int virq;
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-     uint64_t irqs, pending, mie, hsie, vsie;
- 
-     /* Determine interrupt enable state of all privilege modes */
-@@ -404,21 +415,24 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
-     /* Check M-mode interrupts */
-     irqs = pending & ~env->mideleg & -mie;
-     if (irqs) {
--        return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_M,
-+        return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_smaia,
-+                                        IRQ_M_EXT, IPRIO_DEFAULT_M,
-                                         irqs, env->miprio);
-     }
- 
-     /* Check HS-mode interrupts */
-     irqs = pending & env->mideleg & ~env->hideleg & -hsie;
-     if (irqs) {
--        return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
-+        return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-+                                        IRQ_S_EXT, IPRIO_DEFAULT_S,
-                                         irqs, env->siprio);
-     }
- 
-     /* Check VS-mode interrupts */
-     irqs = pending & env->mideleg & env->hideleg & -vsie;
-     if (irqs) {
--        virq = riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
-+        virq = riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
-+                                        IRQ_S_EXT, IPRIO_DEFAULT_S,
-                                         irqs >> 1, env->hviprio);
-         return (virq <= 0) ? virq : virq + 1;
-     }
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 2dcd4e5b2d..b9bce9821f 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -181,7 +181,10 @@ static RISCVException any32(CPURISCVState *env, int csrno)
- 
- static int aia_any(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_smaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -190,7 +193,10 @@ static int aia_any(CPURISCVState *env, int csrno)
- 
- static int aia_any32(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_smaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -217,7 +223,10 @@ static int smode32(CPURISCVState *env, int csrno)
- 
- static int aia_smode(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -226,7 +235,10 @@ static int aia_smode(CPURISCVState *env, int csrno)
- 
- static int aia_smode32(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -282,7 +294,10 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
- 
- static int aia_hmode(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-      }
- 
-@@ -291,7 +306,10 @@ static int aia_hmode(CPURISCVState *env, int csrno)
- 
- static int aia_hmode32(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
+
+r~
+
+
+Ilya Leoshkevich (4):
+  linux-user: Clear translations and tb_jmp_cache on mprotect()
+  accel/tcg: Introduce is_same_page()
+  target/s390x: Make translator stop before the end of a page
+  target/i386: Make translator stop before the end of a page
+
+Richard Henderson (17):
+  linux-user/arm: Mark the commpage executable
+  linux-user/hppa: Allocate page zero as a commpage
+  linux-user/x86_64: Allocate vsyscall page as a commpage
+  linux-user: Honor PT_GNU_STACK
+  tests/tcg/i386: Move smc_code2 to an executable section
+  accel/tcg: Properly implement get_page_addr_code for user-only
+  accel/tcg: Unlock mmap_lock after longjmp
+  accel/tcg: Make tb_htable_lookup static
+  accel/tcg: Move qemu_ram_addr_from_host_nofail to physmem.c
+  accel/tcg: Use probe_access_internal for softmmu
+    get_page_addr_code_hostp
+  accel/tcg: Add nofault parameter to get_page_addr_code_hostp
+  accel/tcg: Raise PROT_EXEC exception early
+  accel/tcg: Remove translator_ldsw
+  accel/tcg: Add pc and host_pc params to gen_intermediate_code
+  accel/tcg: Add fast path for translator_ld*
+  target/riscv: Add MAX_INSN_LEN and insn_len
+  target/riscv: Make translator stop before the end of a page
+
+ include/elf.h                     |   1 +
+ include/exec/cpu-common.h         |   1 +
+ include/exec/exec-all.h           |  87 ++++++------------
+ include/exec/translator.h         |  96 +++++++++++++-------
+ linux-user/arm/target_cpu.h       |   4 +-
+ linux-user/qemu.h                 |   1 +
+ accel/tcg/cpu-exec.c              | 134 ++++++++++++++--------------
+ accel/tcg/cputlb.c                |  93 ++++++--------------
+ accel/tcg/plugin-gen.c            |   4 +-
+ accel/tcg/translate-all.c         |  29 +++---
+ accel/tcg/translator.c            | 136 +++++++++++++++++++++-------
+ accel/tcg/user-exec.c             |  18 +++-
+ linux-user/elfload.c              |  82 +++++++++++++++--
+ linux-user/mmap.c                 |   8 ++
+ softmmu/physmem.c                 |  12 +++
+ target/alpha/translate.c          |   5 +-
+ target/arm/translate.c            |   5 +-
+ target/avr/translate.c            |   5 +-
+ target/cris/translate.c           |   5 +-
+ target/hexagon/translate.c        |   6 +-
+ target/hppa/translate.c           |   5 +-
+ target/i386/tcg/translate.c       |  32 ++++++-
+ target/loongarch/translate.c      |   6 +-
+ target/m68k/translate.c           |   5 +-
+ target/microblaze/translate.c     |   5 +-
+ target/mips/tcg/translate.c       |   5 +-
+ target/nios2/translate.c          |   5 +-
+ target/openrisc/translate.c       |   6 +-
+ target/ppc/translate.c            |   5 +-
+ target/riscv/translate.c          |  32 +++++--
+ target/rx/translate.c             |   5 +-
+ target/s390x/tcg/translate.c      |  20 +++--
+ target/sh4/translate.c            |   5 +-
+ target/sparc/translate.c          |   5 +-
+ target/tricore/translate.c        |   6 +-
+ target/xtensa/translate.c         |   6 +-
+ tests/tcg/i386/test-i386.c        |   2 +-
+ tests/tcg/riscv64/noexec.c        |  79 +++++++++++++++++
+ tests/tcg/s390x/noexec.c          | 106 ++++++++++++++++++++++
+ tests/tcg/x86_64/noexec.c         |  75 ++++++++++++++++
+ tests/tcg/multiarch/noexec.c.inc  | 141 ++++++++++++++++++++++++++++++
+ tests/tcg/riscv64/Makefile.target |   1 +
+ tests/tcg/s390x/Makefile.target   |   1 +
+ tests/tcg/x86_64/Makefile.target  |   3 +-
+ 44 files changed, 951 insertions(+), 342 deletions(-)
+ create mode 100644 tests/tcg/riscv64/noexec.c
+ create mode 100644 tests/tcg/s390x/noexec.c
+ create mode 100644 tests/tcg/x86_64/noexec.c
+ create mode 100644 tests/tcg/multiarch/noexec.c.inc
+
 -- 
 2.34.1
 
