@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90640599E59
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:42:47 +0200 (CEST)
-Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B06599EC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:45:02 +0200 (CEST)
+Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP490-0003Hs-6y
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53660)
+	id 1oP4BB-0000X7-Vq
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oP468-0005eJ-Bj
+ id 1oP468-0005dh-1I
  for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:39:48 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50717)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oP45x-00063Z-Qc
+ id 1oP45y-00063h-3e
  for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:39:47 -0400
-Received: by mail-wm1-x333.google.com with SMTP id j26so2456007wms.0
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 08:39:36 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id bs25so5624730wrb.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 08:39:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=6fgerLR7kL9ay9yVRQtlCYUtfQofBmEyopQK5AYsrS0=;
- b=Iq3Qm9hUSVrYnIt2WvFBn/ly+oKBRW92SOjQWnjlFswOZoo20YeErSKKZuFyFdiitU
- WJJDopJfQCjiCuYjgIlXz0/77fUrcGkWLrdkQCznCqObI+HVlltJdGGzKvs0Pm7MaxB+
- 00ZKXdnWxdEW3CMiO2umECm3SICLWC3GbRwREkfYBA/ZZnSM1RoUybgNfMCGmgB5S/ep
- PXJm5qzf/OJCW5kTLSvpMdFYebY8rIULQ9ILKP2VYaRElGerTiX2vczk5nT/WxNFG2AT
- 4H7GEKLPW8whPWWEZUQRPnee1touL3pBUbpQdf74F9V5i2e3vNgy23616kNET0xKhWmN
- Neyw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=Xeh2vqFOTw5s3hqoNhblRj1bcX1xyzRqQ8DX799pYws=;
+ b=lTiOZM14C4pzD56g9hfva+qxBUzAabBWDLJN5hR2r8kR9DGDCGl9eBb37fdOHRGpUR
+ w8y2AR8hA3b4fZi27JxSkFjT2oprxw9C6nGqd4yjE4Eafp0//ZITFsbdfi9qyTffPTkj
+ DbD0bFwOW28DlJGhQAVHKoBV5V8pUhAziQSFVvpctj6+hao4KHGfcWKIypYlGKrPqndn
+ bYysnjn3QaOpgzMngCOga8dF1+atqw/eQ/PmhxwhxJ+sCw1O+oT7CLSSPpfYsUJMNM3n
+ 5tPj4S48j7KTHY3MyJNH5kN0wlBokmlwOnr6WUgzzLa2k3OwxmEQb1WVGTklXQHczk5s
+ 3khA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=6fgerLR7kL9ay9yVRQtlCYUtfQofBmEyopQK5AYsrS0=;
- b=UuF0E5veDDxxQfBl2Y7GLFH/PJx9VYGDhnQorM90s8Cc0RMSvuRFvyzeifdPtSRgnB
- Fy18GG7xVgkkSK0RFcadj3jn+0fsBiwn4fJLhZZbu72Mp5B4x8j48YUyinahLzA0DPA9
- De9fCsUmW+PSY3bwzimagxfpGmMXOD3a/gtobZF0JWivNfyIyk5JKPa+uBuI0iLw0qsL
- g8WLz/hzVoPMkNusy4bNi1YmPdTPPy45mqiqkKoYuItvuIUiG/rvp2NYRuu0BDOzSuDc
- ZdUOCITLQoU5udNQOhWr6LXQfA47RJO4HNu9zlozVBQE3kulNamHWQwKg1enAUiu5I1H
- MsZw==
-X-Gm-Message-State: ACgBeo2yOGxmKuwLp6AaiVAFYGQx23GpQDqUqH+rT0+7995UIIFT9LTA
- ldesOLFBMG6kYtOJkN0gVPD6MQf3rRXT2w==
-X-Google-Smtp-Source: AA6agR6jWhSa1UtdkMNoJqmLMRD2QK0IXQ+qpStCAcdkjdvpdD8nZx+HdpzmY3GwNEVJWJcJZh5EBg==
-X-Received: by 2002:a05:600c:4f49:b0:3a6:1cc6:afba with SMTP id
- m9-20020a05600c4f4900b003a61cc6afbamr6822716wmq.80.1660923574631; 
- Fri, 19 Aug 2022 08:39:34 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=Xeh2vqFOTw5s3hqoNhblRj1bcX1xyzRqQ8DX799pYws=;
+ b=Lb+qlxHzR14NBmm8z7gxhJWjzFFd8bqYnjn4dhC4y9tv0UkyDm/kiYvHOPE67SiimA
+ rckkbo5jxKvM0hzTkupvgoKYcERvq2/41xoCWfcV1s9kQAaohyAQ8USUqXklKuwhaJ5h
+ ykOcFn21d4iJRJGWCsaw/SjjjAMrdXhjW+5bQvAXpyIgQpB8sY2gO3kfBdf4NJ40KiHl
+ dDp+O5VzSlME7Z2RAm+09N5K6ON465uutlKmGUm2A8R11knWQiTpN5Mh7N2kWfIsfLhk
+ NvrSuWzxFb5PGeLypcD9GlwNJawpi0rs2MSyddjagymDwSBogmtGLbzomDUUCoUOQgxt
+ +08Q==
+X-Gm-Message-State: ACgBeo0mvtYZCR9nnvv2v8C1iMOyb2vd4s/OsTtbVuglJtw0c1AZnG7p
+ 5rAbLuJTuKxBx4UEkoV+1pMnDYN9fcOXAw==
+X-Google-Smtp-Source: AA6agR5lmc0U/0M92Vfeii6kNDiMUCRzy09lOo9WtpDoF9W4wBSwR2fq+7z2qzvwFcQ+LQrxAnsHUg==
+X-Received: by 2002:a05:6000:1541:b0:222:cf65:18d7 with SMTP id
+ 1-20020a056000154100b00222cf6518d7mr4464252wry.659.1660923575950; 
+ Fri, 19 Aug 2022 08:39:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi13-20020a05600c3d8d00b003a54109a6a0sm5558396wmb.3.2022.08.19.08.39.33
+ bi13-20020a05600c3d8d00b003a54109a6a0sm5558396wmb.3.2022.08.19.08.39.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 08:39:33 -0700 (PDT)
+ Fri, 19 Aug 2022 08:39:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -68,21 +68,25 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-ppc@nongnu.org
-Subject: [PATCH v2 00/11] misc: Remove variable-length arrays on the stack
-Date: Fri, 19 Aug 2022 16:39:20 +0100
-Message-Id: <20220819153931.3147384-1-peter.maydell@linaro.org>
+Subject: [PATCH v2 01/11] chardev/baum: Replace magic values by X_MAX / Y_MAX
+ definitions
+Date: Fri, 19 Aug 2022 16:39:21 +0100
+Message-Id: <20220819153931.3147384-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220819153931.3147384-1-peter.maydell@linaro.org>
+References: <20220819153931.3147384-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,54 +102,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a resend of a subset of patches from a series that
-Philippe sent out last year:
-https://patchew.org/QEMU/20210505211047.1496765-1-philmd@redhat.com/
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Basically I just pulled out the patches which:
- (1) trivially applied on a rebase
- (2) had got a Reviewed-by: or at least an Acked-by:
+Replace '84' magic value by the X_MAX definition, and '1' by Y_MAX.
 
-since these should be good to just apply immediately
-(well, as soon as we reopen for 7.2 development).
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ chardev/baum.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Given they're a mixed bag, I propose to take these via
-the target-arm.next tree, unless anybody specifically
-wishes to grab specific patches via some other route.
-
-I might come back and have another look at the other
-left-behind patches later, but this gets rid of more
-than half of the complaints that a -Wvla build reports.
-
-thanks
--- PMM
-
-Philippe Mathieu-Daudé (11):
-  chardev/baum: Replace magic values by X_MAX / Y_MAX definitions
-  chardev/baum: Use definitions to avoid dynamic stack allocation
-  chardev/baum: Avoid dynamic stack allocation
-  io/channel-websock: Replace strlen(const_str) by sizeof(const_str) - 1
-  hw/net/e1000e_core: Use definition to avoid dynamic stack allocation
-  hw/ppc/pnv: Avoid dynamic stack allocation
-  hw/intc/xics: Avoid dynamic stack allocation
-  hw/i386/multiboot: Avoid dynamic stack allocation
-  hw/usb/hcd-ohci: Use definition to avoid dynamic stack allocation
-  ui/curses: Avoid dynamic stack allocation
-  tests/unit/test-vmstate: Avoid dynamic stack allocation
-
- chardev/baum.c             | 22 +++++++++++++---------
- hw/i386/multiboot.c        |  5 ++---
- hw/intc/xics.c             |  2 +-
- hw/net/e1000e_core.c       |  7 ++++---
- hw/ppc/pnv.c               |  4 ++--
- hw/ppc/spapr.c             |  8 ++++----
- hw/ppc/spapr_pci_nvlink2.c |  2 +-
- hw/usb/hcd-ohci.c          |  7 ++++---
- io/channel-websock.c       |  2 +-
- tests/unit/test-vmstate.c  |  7 +++----
- ui/curses.c                |  2 +-
- 11 files changed, 36 insertions(+), 32 deletions(-)
-
+diff --git a/chardev/baum.c b/chardev/baum.c
+index 79d618e3504..6d538808a0f 100644
+--- a/chardev/baum.c
++++ b/chardev/baum.c
+@@ -87,6 +87,9 @@
+ 
+ #define BUF_SIZE 256
+ 
++#define X_MAX   84
++#define Y_MAX   1
++
+ struct BaumChardev {
+     Chardev parent;
+ 
+@@ -244,11 +247,11 @@ static int baum_deferred_init(BaumChardev *baum)
+         brlapi_perror("baum: brlapi__getDisplaySize");
+         return 0;
+     }
+-    if (baum->y > 1) {
+-        baum->y = 1;
++    if (baum->y > Y_MAX) {
++        baum->y = Y_MAX;
+     }
+-    if (baum->x > 84) {
+-        baum->x = 84;
++    if (baum->x > X_MAX) {
++        baum->x = X_MAX;
+     }
+ 
+     con = qemu_console_lookup_by_index(0);
 -- 
 2.25.1
 
