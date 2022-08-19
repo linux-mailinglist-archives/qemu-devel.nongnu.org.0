@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A56F59939F
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:42:02 +0200 (CEST)
-Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FF3599395
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:39:21 +0200 (CEST)
+Received: from localhost ([::1]:42914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOstV-00046y-9x
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:42:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48794)
+	id 1oOsqu-0007TS-At
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOsea-00021g-0O
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:36 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43706)
+ id 1oOseb-000254-7x
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:37 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:38438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseY-0002lz-BH
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:35 -0400
-Received: by mail-pf1-x432.google.com with SMTP id w138so627563pfc.10
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:33 -0700 (PDT)
+ id 1oOseZ-0002mF-Jo
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:36 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ s31-20020a17090a2f2200b001faaf9d92easo6400946pjd.3
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=1j65v4Vz+Z/8W42L91XnaCjj59+D2gtD2u2SeMTM3YY=;
- b=dBGYmKyHh3jZt5Ye8Yhs6jz6ivhi4x2lFj29m9BldJsvZevd0qAFzhm2FXY0je122Y
- DsboMbnCae63DDiLSTBaQsZ6mraAk2OG5+j9lbtz0LbWlWzAAY5kazwf8wkxhPrA5SwY
- sOcIuJVBuBKe2NXk2VRjfb5UIjAM+5GcHI/GcTV6sMsSs5fX4K5A8B9tI9zo6nUJIHXX
- V2u4zXoL1CoBOzjcARmvHIIsyMNiU+0qPrOIyEcxbbYQMgEKXxz6rjfdyXEkvvbII2Eh
- JA0nlWKsRztJP/3+cwUGm6gZHqGucCUj1olqTWdGVNyHY+wR49ueVPeW/9V2pNcpl2LZ
- cDvA==
+ bh=3ScK9gYYd7Yu/4MmJJp6WEZrowwZuhBtdiXOVA7xdaE=;
+ b=QUuAvuDfIo1lhfeSCjLJibqLY4hZ4JHe5xVS4cGpPIdkyMi/VffKf+Zr3YCP+bPDWf
+ nxB67Wr96U6DlARhKO0e08yXn3GrVIqiNZrk3rhfCCNd3GoMOsYkQcyBcwQj3Kba+rA5
+ xEt/tHXSv9kOzyJGGikYN+D5HEhP/z2NBtfedKWBhS14kfE4xEVDHdakNtW0ZV7lJ4yV
+ fgYetQRqChlhVs4hYwWDuLfmQ9swWWh83VDELrII+dkaq81l3t8kFxlEN60loA5J29dN
+ leFNi84mmNEo9j3eB6j8YD2MtFfZL9XVjAt6DinyIAqnHy876B/WXVj1uhCxGU/kFpCG
+ CNeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=1j65v4Vz+Z/8W42L91XnaCjj59+D2gtD2u2SeMTM3YY=;
- b=JcFMHhNln1gewMIhyDe0PF+Vo9ZBA1YXkyESAHwy/2pWi5gVrOYji4i5cron3MxUDz
- 7K9qf0ieY9aQRIjZSLiYY5PiGNktUsQDrYCMNVYNbS5lK7hhBQjgGjXnJ4PvIJSZTU8I
- qBoJJJIQiVytbrzzQVtVxWZAIOemezqpFBBgEZjkyrr8WShLuCbO2d/PuwelDGwrX3hF
- WRtX4ZdFk+DUX+Kn4K5tPOJd6bSJ8KbgSOcJ8Ch34x6VgyU/bZNYOa/lazaP2mA1Z7nD
- kOzAJTjceo/ZSKwJKXXSC00uY3l6q+gUMc2JwT5s3Hy8AIRwGeA52Jj4XuHGgeJFq7eA
- gcZw==
-X-Gm-Message-State: ACgBeo37gJYc7v5T6U9dT8WOjt0dF786YVDAem2nrsdVwUFCPpkZIjwY
- GZrFk/D2a7fNmH1IW1ombZvGQdg7jfuumA==
-X-Google-Smtp-Source: AA6agR6EMNarzqc3PdWmfLBrGTf1nW6CGaYJdLJyJNMNJLnrPz/YzZS+KwB7DpNGvbC5+y13U2dYOQ==
-X-Received: by 2002:a63:ee49:0:b0:428:8e10:200a with SMTP id
- n9-20020a63ee49000000b004288e10200amr4723798pgk.453.1660879593082; 
- Thu, 18 Aug 2022 20:26:33 -0700 (PDT)
+ bh=3ScK9gYYd7Yu/4MmJJp6WEZrowwZuhBtdiXOVA7xdaE=;
+ b=AQRINMvNxZcuyfdeU5UypfWfWVDQnihomOZIQsXjPS3VnBmS/fdCWWyTMyWdKwALQN
+ C9LbB+pka8ll/gFIASLYYiZ8lv9W/SHQMxlk8GqoJZPZi50Zb+fQF08pdDUAcS45p3sz
+ B0bgwfOZh6juK7tw6lgUjITz8moL8khnqtJbHFYqFavBKGUvfIeLJLdnmELZUgbMgJIK
+ 3Z3ev/Q2SUHB5QuzFCT2V/7eCzKYc0UrRLbfjKLFd7FURt5G0CgXHmokF9IAUtKq5VYg
+ 8N4ZLnaiKDEHbQQ13dlqg1L6quntXXYHS8hY/Jk0SSmdlZR2TzsgCEn+qfS/FRKhu4IA
+ C6pg==
+X-Gm-Message-State: ACgBeo2Ny8LtqWMG6C1Xqa+OsU1dTse2ej40Xwd3Hm6ydPxqqcxEnOyk
+ XKYQiH+zLNbWXVWkPWusYDuiItZ0qCQXGA==
+X-Google-Smtp-Source: AA6agR6NUVa1KIYZ0Xi2BNS6O0vdF6cSenZsKrx+FSGr+uHyKOMJFbex7K65tHqnVFX5ydq8CCwdgg==
+X-Received: by 2002:a17:90a:5b:b0:1fa:b78b:ad73 with SMTP id
+ 27-20020a17090a005b00b001fab78bad73mr6270814pjb.107.1660879594243; 
+ Thu, 18 Aug 2022 20:26:34 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
  by smtp.gmail.com with ESMTPSA id
- g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.31
+ g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:26:32 -0700 (PDT)
+ Thu, 18 Aug 2022 20:26:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
  alistair.francis@wdc.com, alex.bennee@linaro.org
-Subject: [PATCH v6 14/21] accel/tcg: Raise PROT_EXEC exception early
-Date: Thu, 18 Aug 2022 20:26:08 -0700
-Message-Id: <20220819032615.884847-15-richard.henderson@linaro.org>
+Subject: [PATCH v6 15/21] accel/tcg: Remove translator_ldsw
+Date: Thu, 18 Aug 2022 20:26:09 -0700
+Message-Id: <20220819032615.884847-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220819032615.884847-1-richard.henderson@linaro.org>
 References: <20220819032615.884847-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,42 +90,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently ignore PROT_EXEC on the initial lookup, and
-defer raising the exception until cpu_ld*_code().
-It makes more sense to raise the exception early.
+The only user can easily use translator_lduw and
+adjust the type to signed during the return.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c      | 2 +-
- accel/tcg/translate-all.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/exec/translator.h   | 1 -
+ target/i386/tcg/translate.c | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 7887af6f45..7b8977a0a4 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -222,7 +222,7 @@ static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
-     desc.cflags = cflags;
-     desc.trace_vcpu_dstate = *cpu->trace_dstate;
-     desc.pc = pc;
--    phys_pc = get_page_addr_code(desc.env, pc);
-+    phys_pc = get_page_addr_code_hostp(desc.env, pc, false, NULL);
-     if (phys_pc == -1) {
-         return NULL;
-     }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index b83161a081..069ed67bac 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1396,7 +1396,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     assert_memory_lock();
-     qemu_thread_jit_write();
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 0d0bf3a31e..45b9268ca4 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -178,7 +178,6 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest);
  
--    phys_pc = get_page_addr_code(env, pc);
-+    phys_pc = get_page_addr_code_hostp(env, pc, false, NULL);
+ #define FOR_EACH_TRANSLATOR_LD(F)                                       \
+     F(translator_ldub, uint8_t, cpu_ldub_code, /* no swap */)           \
+-    F(translator_ldsw, int16_t, cpu_ldsw_code, bswap16)                 \
+     F(translator_lduw, uint16_t, cpu_lduw_code, bswap16)                \
+     F(translator_ldl, uint32_t, cpu_ldl_code, bswap32)                  \
+     F(translator_ldq, uint64_t, cpu_ldq_code, bswap64)
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index b7972f0ff5..a23417d058 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -2033,7 +2033,7 @@ static inline uint8_t x86_ldub_code(CPUX86State *env, DisasContext *s)
  
-     if (phys_pc == -1) {
-         /* Generate a one-shot TB with 1 insn in it */
+ static inline int16_t x86_ldsw_code(CPUX86State *env, DisasContext *s)
+ {
+-    return translator_ldsw(env, &s->base, advance_pc(env, s, 2));
++    return translator_lduw(env, &s->base, advance_pc(env, s, 2));
+ }
+ 
+ static inline uint16_t x86_lduw_code(CPUX86State *env, DisasContext *s)
 -- 
 2.34.1
 
