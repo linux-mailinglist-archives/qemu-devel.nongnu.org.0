@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEB459937C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:36:09 +0200 (CEST)
-Received: from localhost ([::1]:42136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C9759937A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:36:00 +0200 (CEST)
+Received: from localhost ([::1]:34260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOsno-00020F-US
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54106)
+	id 1oOsnf-0001cy-RG
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseX-0001rn-Ng
+ id 1oOseX-0001t2-E3
  for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:33 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:33343)
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:33344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseU-0002kr-OZ
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:32 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id 2so3132024pll.0
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:29 -0700 (PDT)
+ id 1oOseV-0002ky-QO
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:33 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id 2so3132048pll.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=FS3DP+0K3pFLIFDXu1c6Y1ALlRlgb0mXw4XbbUyM3LE=;
- b=JUFzpsOLp8qe/lcdQS06BMeRKrAnw5vIpIRhMOQgo3p1LNpR4UtYxlW+7SWieYZVnm
- moF4mGf7bYoXZHuiWQeHpP5NujO6Yz0/O8QBUyR8tfJc8oODJGu7CjlTTHVe6Q6Qjwrx
- RwCDhFlO6EGDxhqhbdAukg7yzanb3CpVVHQNV5iju7Ee6nJ3Whuu8P3G3/LSqN9pWYvw
- eiA1JRCUXbAN40RGI0mdXIUoqOkv/sSlm+FI2L2L8RwYggtxd/uogOI+qLfp/Yp8/rab
- V7C2V3mpqrTdXUoCkMPU6TiV3dlvB5TBRng87XSbzpnjBBStpr9hObdJ7L/ClU73nm6j
- q3bA==
+ bh=zDz/TIezAGhDTjjMc0+1pA+Hd7qL30qFYVrbSwswVFk=;
+ b=U+2p8ax6lMUONdaDQ+mL3Ay/Rl4HuoGYrPdClY0w92nsEcMQW8QaqzBJOqrNpLy9/4
+ SDXxgdGy/+8T79dGElH4fBq9NsD4u7B8HAcqNzv+sg83eD+v+jrrCXK8Xwxk8CGmc4Lg
+ ziWn1wuASavlZM8p2Nyh9nOhF4bA2n+bPJxK4V9/FTbry26J0kHGgm4FNjfPG36TWtyg
+ k9aYpv3J/HYoWgiNvVbxRkusuIQuU4c6A0DYw++HHiPGnAhXDJippSoe11+IhdpbfYe1
+ qJ3oDVmoOfOy+pDTw/bsZpfv04f6qXd2pHGRAb/lHOWtvX2fXm4WQp4983HfHZrW9EHd
+ rraQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=FS3DP+0K3pFLIFDXu1c6Y1ALlRlgb0mXw4XbbUyM3LE=;
- b=rBAkRyyxvkAaelS1SRygX1kobHxemH1s5F+XEqXVUy/9orVnQQCI8050Uf8YpOjrjF
- nNFm9pBRvdoLdVlm+4VLVreQL1IuW1DFMSEaPHQsewhuocsdvQUe45ADmf6JZpq0Odzm
- 0B0sPFcK3bpjUTr9rMlgrUc5mqCSSBlrhj5fhQNRZv4pLwolKB+pmUCnvyPyABBGNJNO
- UtgDdIKhLE5Vc7ls21Rm09nkWy35jMXXFsURYh8Vy0JBZofO/e6vmTW6maSEblkNk7WF
- 1dP4qhxW7Ups3of8IPzVCm3p1VnpckCnwsPLwYRthNwo67SnslxF9GjWzxmIXGnY3KOl
- WArw==
-X-Gm-Message-State: ACgBeo3GqynQSkIundG4u8Zaq7cQxH3XZHhvF+a7yFAr2OJXzX4UUZ8R
- t9j19OqnLP6QMCyrjx61ZT4ZQT+89d7GNg==
-X-Google-Smtp-Source: AA6agR6T0JcZd2vDmXmBD19DAQfmxGysgrfPs8C6dA9qGtfvNt1fRzJqZKH+EwIDs+t+ldZpfp8IuQ==
-X-Received: by 2002:a17:90b:4c52:b0:1f6:3a26:9f08 with SMTP id
- np18-20020a17090b4c5200b001f63a269f08mr6291017pjb.206.1660879588526; 
- Thu, 18 Aug 2022 20:26:28 -0700 (PDT)
+ bh=zDz/TIezAGhDTjjMc0+1pA+Hd7qL30qFYVrbSwswVFk=;
+ b=dtwhg0vKWCPIvO1rf5MJcXcOc3UhwJsTwTIysDv66j6+tq1kP7tKZx7OpI4s9K+qMt
+ 8Pw0WCO+ZxPl+w0UzMeCNwjJdWom4MeBUktbXD52snfv9tiLekqMtAA3LO9Gq2gr6Jpc
+ rH09HowOeTLLcSI33WguyculT+HHZGy8SNolJ1hRcyuRYmatxHCnJQ4nCrE8upROkkVM
+ IxNiHGEfvESWvVv5tOBuoH67vzxP3XexNvnWmm0lPpSeOHzydqL3Tz4q1BkYajMu43O9
+ E2qTj1YaLGwNRG5a6brHxBm14HQ7leiYP8tspLoTxVOVoSjIcRHPnE76MGYoTeO7GoN5
+ j3qg==
+X-Gm-Message-State: ACgBeo3zfrH1DHNdm+B3LomwmaFLaa9ZqWrkL12W4Jdszs5JfI/2FWJ1
+ ODQEJ9FBgd7BPgE6HqdLHBnb6sD7SNW4tA==
+X-Google-Smtp-Source: AA6agR79XBA+FjcAjF8THlzRYNMxNNQDxg8Ej38q0cFYabwKRRi/Q4MMhXuACYVENjYvs7nvD5nlXQ==
+X-Received: by 2002:a17:90b:4b05:b0:1f5:b540:de3a with SMTP id
+ lx5-20020a17090b4b0500b001f5b540de3amr6201352pjb.43.1660879589480; 
+ Thu, 18 Aug 2022 20:26:29 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
  by smtp.gmail.com with ESMTPSA id
- g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.27
+ g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:26:27 -0700 (PDT)
+ Thu, 18 Aug 2022 20:26:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
  alistair.francis@wdc.com, alex.bennee@linaro.org
-Subject: [PATCH v6 10/21] accel/tcg: Make tb_htable_lookup static
-Date: Thu, 18 Aug 2022 20:26:04 -0700
-Message-Id: <20220819032615.884847-11-richard.henderson@linaro.org>
+Subject: [PATCH v6 11/21] accel/tcg: Move qemu_ram_addr_from_host_nofail to
+ physmem.c
+Date: Thu, 18 Aug 2022 20:26:05 -0700
+Message-Id: <20220819032615.884847-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220819032615.884847-1-richard.henderson@linaro.org>
 References: <20220819032615.884847-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,169 +90,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function is not used outside of cpu-exec.c.  Move it and
-its subroutines up in the file, before the first use.
+The base qemu_ram_addr_from_host function is already in
+softmmu/physmem.c; move the nofail version to be adjacent.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h |   3 -
- accel/tcg/cpu-exec.c    | 122 ++++++++++++++++++++--------------------
- 2 files changed, 61 insertions(+), 64 deletions(-)
+ include/exec/cpu-common.h |  1 +
+ accel/tcg/cputlb.c        | 12 ------------
+ softmmu/physmem.c         | 12 ++++++++++++
+ 3 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 0475ec6007..9f35e3b7a9 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -552,9 +552,6 @@ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
- #endif
- void tb_flush(CPUState *cpu);
- void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
--TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
--                                   target_ulong cs_base, uint32_t flags,
--                                   uint32_t cflags);
- void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
- 
- /* GETPC is the true target of the return instruction that we'll execute.  */
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d18081ca6f..7887af6f45 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -170,6 +170,67 @@ uint32_t curr_cflags(CPUState *cpu)
-     return cflags;
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 2281be4e10..d909429427 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -72,6 +72,7 @@ typedef uintptr_t ram_addr_t;
+ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
+ /* This should not be used by devices.  */
+ ram_addr_t qemu_ram_addr_from_host(void *ptr);
++ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr);
+ RAMBlock *qemu_ram_block_by_name(const char *name);
+ RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
+                                    ram_addr_t *offset);
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 43bd65c973..80a3eb4f1c 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1283,18 +1283,6 @@ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+                             prot, mmu_idx, size);
  }
  
-+struct tb_desc {
-+    target_ulong pc;
-+    target_ulong cs_base;
-+    CPUArchState *env;
-+    tb_page_addr_t phys_page1;
-+    uint32_t flags;
-+    uint32_t cflags;
-+    uint32_t trace_vcpu_dstate;
-+};
-+
-+static bool tb_lookup_cmp(const void *p, const void *d)
-+{
-+    const TranslationBlock *tb = p;
-+    const struct tb_desc *desc = d;
-+
-+    if (tb->pc == desc->pc &&
-+        tb->page_addr[0] == desc->phys_page1 &&
-+        tb->cs_base == desc->cs_base &&
-+        tb->flags == desc->flags &&
-+        tb->trace_vcpu_dstate == desc->trace_vcpu_dstate &&
-+        tb_cflags(tb) == desc->cflags) {
-+        /* check next page if needed */
-+        if (tb->page_addr[1] == -1) {
-+            return true;
-+        } else {
-+            tb_page_addr_t phys_page2;
-+            target_ulong virt_page2;
-+
-+            virt_page2 = (desc->pc & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
-+            phys_page2 = get_page_addr_code(desc->env, virt_page2);
-+            if (tb->page_addr[1] == phys_page2) {
-+                return true;
-+            }
-+        }
-+    }
-+    return false;
-+}
-+
-+static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
-+                                          target_ulong cs_base, uint32_t flags,
-+                                          uint32_t cflags)
-+{
-+    tb_page_addr_t phys_pc;
-+    struct tb_desc desc;
-+    uint32_t h;
-+
-+    desc.env = cpu->env_ptr;
-+    desc.cs_base = cs_base;
-+    desc.flags = flags;
-+    desc.cflags = cflags;
-+    desc.trace_vcpu_dstate = *cpu->trace_dstate;
-+    desc.pc = pc;
-+    phys_pc = get_page_addr_code(desc.env, pc);
-+    if (phys_pc == -1) {
-+        return NULL;
-+    }
-+    desc.phys_page1 = phys_pc & TARGET_PAGE_MASK;
-+    h = tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
-+    return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
-+}
-+
- /* Might cause an exception, so have a longjmp destination ready */
- static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-                                           target_ulong cs_base,
-@@ -485,67 +546,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     end_exclusive();
+-static inline ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr)
+-{
+-    ram_addr_t ram_addr;
+-
+-    ram_addr = qemu_ram_addr_from_host(ptr);
+-    if (ram_addr == RAM_ADDR_INVALID) {
+-        error_report("Bad ram pointer %p", ptr);
+-        abort();
+-    }
+-    return ram_addr;
+-}
+-
+ /*
+  * Note: tlb_fill() can trigger a resize of the TLB. This means that all of the
+  * caller's prior references to the TLB table (e.g. CPUTLBEntry pointers) must
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index dc3c3e5f2e..d4c30e99ea 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2460,6 +2460,18 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
+     return block->offset + offset;
  }
  
--struct tb_desc {
--    target_ulong pc;
--    target_ulong cs_base;
--    CPUArchState *env;
--    tb_page_addr_t phys_page1;
--    uint32_t flags;
--    uint32_t cflags;
--    uint32_t trace_vcpu_dstate;
--};
--
--static bool tb_lookup_cmp(const void *p, const void *d)
--{
--    const TranslationBlock *tb = p;
--    const struct tb_desc *desc = d;
--
--    if (tb->pc == desc->pc &&
--        tb->page_addr[0] == desc->phys_page1 &&
--        tb->cs_base == desc->cs_base &&
--        tb->flags == desc->flags &&
--        tb->trace_vcpu_dstate == desc->trace_vcpu_dstate &&
--        tb_cflags(tb) == desc->cflags) {
--        /* check next page if needed */
--        if (tb->page_addr[1] == -1) {
--            return true;
--        } else {
--            tb_page_addr_t phys_page2;
--            target_ulong virt_page2;
--
--            virt_page2 = (desc->pc & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
--            phys_page2 = get_page_addr_code(desc->env, virt_page2);
--            if (tb->page_addr[1] == phys_page2) {
--                return true;
--            }
--        }
--    }
--    return false;
--}
--
--TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
--                                   target_ulong cs_base, uint32_t flags,
--                                   uint32_t cflags)
--{
--    tb_page_addr_t phys_pc;
--    struct tb_desc desc;
--    uint32_t h;
--
--    desc.env = cpu->env_ptr;
--    desc.cs_base = cs_base;
--    desc.flags = flags;
--    desc.cflags = cflags;
--    desc.trace_vcpu_dstate = *cpu->trace_dstate;
--    desc.pc = pc;
--    phys_pc = get_page_addr_code(desc.env, pc);
--    if (phys_pc == -1) {
--        return NULL;
--    }
--    desc.phys_page1 = phys_pc & TARGET_PAGE_MASK;
--    h = tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
--    return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
--}
--
- void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr)
- {
-     if (TCG_TARGET_HAS_direct_jump) {
++ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr)
++{
++    ram_addr_t ram_addr;
++
++    ram_addr = qemu_ram_addr_from_host(ptr);
++    if (ram_addr == RAM_ADDR_INVALID) {
++        error_report("Bad ram pointer %p", ptr);
++        abort();
++    }
++    return ram_addr;
++}
++
+ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+                                  MemTxAttrs attrs, void *buf, hwaddr len);
+ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
 -- 
 2.34.1
 
