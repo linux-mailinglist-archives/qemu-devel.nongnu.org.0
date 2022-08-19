@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CDD599ED1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:53:21 +0200 (CEST)
-Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3743C599ED8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:57:16 +0200 (CEST)
+Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP4JE-0002lL-BK
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41998)
+	id 1oP4N1-0007aA-CP
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oP4ED-0003xQ-IA
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:48:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49368)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oP4E8-0007LZ-AX
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:48:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660924082;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=VSXHHLf5CzYoKbb2p6pMr5PbecwSiCDlGWOm3ex0zvQzDwfugW1A3UdFgcLrgXnQ6TK5kc
- PVABLpv9ZsIJW6gahwjaryNtBFpYrBYWgHardGNLpW7hYkLJOF7H+YOMZxAsCFVrPMqfFT
- zbuXJqF+smFtxzMreT+FCGVJ05N6UDk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-Jqg9j5rJOy6GjRyyoH0nuA-1; Fri, 19 Aug 2022 11:48:01 -0400
-X-MC-Unique: Jqg9j5rJOy6GjRyyoH0nuA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y16-20020a056402359000b0043db5186943so2999063edc.3
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 08:48:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oP4F6-0004UK-Du
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:49:04 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:44696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oP4Ez-0007Sl-7k
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:48:58 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-33387bf0c4aso131468627b3.11
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 08:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=Exxc/hnK0XGx+QDCfFlGgFUo5+l1QPVgPrN1nU4pmcg=;
+ b=IIeUA8gGtRtPZbUYur3RW8TCKLMJQ6+MxLvExHWT2rj2rgAsKB1ssC8pLVYeOKVcYZ
+ J/7KDS43ddeOsL8szmY5d27QChAvHQ3n5st5aV5ePvxgLCpGtiNakeC3grDNcSlK8gX1
+ iXPBa6tlENRGZXAH2tY0WulBqLTx+3A+IxuFUEXt/nqoh+XnXDaZbb8OphWi5L/GD2J6
+ WhNC82xqtnnmmsPN2VdUmLneBrtIAwD1qfNjG8SuTjnYwsWvZPubkmHb0cSVf/bSMQrZ
+ yiZe+92ZH3B+w/D0L5WNcfQtTCRJots1wSQ26xZ9WF/RXExfgAc6i6mW0m5SXCQOeUI/
+ Pllg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=K99fBAuMToOHGMpGYLL6ZFNHb/S2gr/6sY+DIxhU/hpM2TPnlHfjwl+WN2Id8d1ozs
- H6UpXdV+1qMkSvayFuJBoD539boJAR6aBXKZp78topElrIIsWT4PKVdruODgMq2wWFFl
- FG6Ige9kfI8rrD8T4H3A+mQTfpKYNDyUnrWWdVV3dluW6Qe4/Ww6bZbHoFb4ZI1rT3v5
- Bzrs1gNyKwkbFVoFPnW5ZD8dnrpVTC4spUkTHkN1c8ggcUBWu9iNCISFVWQhJpLbQ6Cv
- 8Q8CbjNhqOTaZMOVbgE/agHspL0kIrSZAT4t3yuZW4Ub6yOdBam7R0SiKFXfrgn8Ocfn
- 8UKg==
-X-Gm-Message-State: ACgBeo2LtS0MhI09a9vWbWaPGIJrhrCZ9wjdxMRYc974/enHIngj5QCh
- QFku0kqmObsNHFuTQ4HXniUfgLAUhvHPhQK4eivxCRExy4hFVat8ljtuZCR8W9unHmuzP6Yq0NA
- Bi8VwJjD17phAkM0=
-X-Received: by 2002:a17:907:9808:b0:731:5835:4ac7 with SMTP id
- ji8-20020a170907980800b0073158354ac7mr5284366ejc.125.1660924080332; 
- Fri, 19 Aug 2022 08:48:00 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7m48JJ4gWDbPf/Q3+03MqCCj7B2NYQlOJqscSL7/FOdBItUWGM7AWybePzBH1tk6/dQ6L9Qg==
-X-Received: by 2002:a17:907:9808:b0:731:5835:4ac7 with SMTP id
- ji8-20020a170907980800b0073158354ac7mr5284347ejc.125.1660924080100; 
- Fri, 19 Aug 2022 08:48:00 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- b2-20020a05640202c200b00440ced0e117sm3250399edx.58.2022.08.19.08.47.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 08:47:59 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: John Millikin <john@john-millikin.com>
-Cc: qemu-devel@nongnu.org, Bill Paul <noisetube@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH] esp: Handle CMD_BUSRESET by resetting the SCSI bus
-Date: Fri, 19 Aug 2022 17:47:57 +0200
-Message-Id: <20220819154757.210052-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220817053846.699310-1-john@john-millikin.com>
-References: 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Exxc/hnK0XGx+QDCfFlGgFUo5+l1QPVgPrN1nU4pmcg=;
+ b=CNw+U0ZrwXCO/J17e+dBCV1AuwdMb/dGoAVfy4yIm4ipArBCBKXge8kSEZ+CLaBIjP
+ YdoF9OniF//HmOTpfpd+AlQeb0o8wnTr/GCsUe0xJNN0Od3Sqt/iZ+Bx7bAdJDEjk4ho
+ 9EAm7q73Iz5m4o5ADhfJvtdiBBDbgAlyqGAsxovTAKELT0vYwdgXWkKlUB1F52was+T4
+ mLwToLfRkkWDGGMcuEKD2Z98Ai19DEQFPo1lMi3kkiToXrS8ypZXMoIPWPB5BXxreove
+ X28QgijW4P8w68AxChAL4CLg91eebuKLh67cvarsme1O7kX0+Q0wIC4A+JQyaXbn+7s1
+ aZ+Q==
+X-Gm-Message-State: ACgBeo38BT7Eac8LY5mOOokomi7EF8qrTD2z/dlXKOnl+6aYnzNaRtC9
+ 13yu+byZt1wclWSahFIs4Wv7iTqTO5wiws2tD3aUsg==
+X-Google-Smtp-Source: AA6agR583Ax0ZTTwU0fc7KDYPekqC7XE+Cmeub8NvXk3dEvG6wLehCpdrueoGN2JBKJepbbkhITQ0hSDvc9n/JNgEiE=
+X-Received: by 2002:a81:10a:0:b0:333:618e:190b with SMTP id
+ 10-20020a81010a000000b00333618e190bmr7748083ywb.10.1660924127744; Fri, 19 Aug
+ 2022 08:48:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220819002015.1663247-1-wuhaotsh@google.com>
+In-Reply-To: <20220819002015.1663247-1-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Aug 2022 16:48:06 +0100
+Message-ID: <CAFEAcA-K4gFor7-YeiHRaiCAe=Yu0BMoRHpR7tFzYPj-793Mcg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/arm: Add cortex-a35
+To: Hao Wu <wuhaotsh@google.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Joe Komlodi <komlodi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,9 +84,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+On Fri, 19 Aug 2022 at 01:20, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> Add cortex A35 core and enable it for virt board.
+>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Joe Komlodi <komlodi@google.com>
 
-Paolo
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-
+thanks
+-- PMM
 
