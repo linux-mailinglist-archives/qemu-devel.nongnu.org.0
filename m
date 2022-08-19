@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A01159A2FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:54:55 +0200 (CEST)
-Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C70259A2FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:58:22 +0200 (CEST)
+Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP6Cs-0007uz-6v
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
+	id 1oP6GD-0002pW-C1
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5Z3-0001HJ-9I
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:13:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60839)
+ id 1oP5ZA-0001fr-9c
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:13:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5Z1-0003R8-Gk
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:13:44 -0400
+ id 1oP5Z8-0003RT-PI
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:13:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660929222;
+ s=mimecast20190719; t=1660929228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yhm0gsPDkilsBilRLwOl3RJdeTaUppXVAvGqhwRvYv8=;
- b=JQlqK+D7SbioJWjmI6FqfFsxEUmJJqYkMkXnQxZUmNGY+cXpFsSfRn2bUCBFqT1dMZGog/
- vZkVqndHfD5UNKAn40cjETeXGBEedsSSkzR9LfndQv6L2WoPaQDwMvVXBiFaj4nEIfSPsD
- EXGKSkCLQleIlmvM5xbeQtoo6Q1Femw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6yOOSSDaKQ0fbJWVvbTbvPbjlySzJC5W4RikkHdw5Gg=;
+ b=NDtAewdqnOJzqgfVX85Gz7qQ+uij0WNW27fAlnnKvHLpw+QR00akNLp1vyRy4S9VEabsYk
+ Bp6ht2BP/qFegeCnLLbQTtOEvikiXzZ46hb3nipxnmotlbD5Fl6kf1XiFiaWTxnQAgARBK
+ sc4TxMuiJcfaCYQa78c5boiEsdREFzE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-Nmj0cMBePs2TPOHOj0QVkA-1; Fri, 19 Aug 2022 13:13:41 -0400
-X-MC-Unique: Nmj0cMBePs2TPOHOj0QVkA-1
+ us-mta-639-vH7NQXQUPESlgcpxNjfICg-1; Fri, 19 Aug 2022 13:13:44 -0400
+X-MC-Unique: vH7NQXQUPESlgcpxNjfICg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D256C80418F;
- Fri, 19 Aug 2022 17:13:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC17F3802BAC;
+ Fri, 19 Aug 2022 17:13:43 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F83A40CF8EE;
- Fri, 19 Aug 2022 17:13:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20D90404C6E3;
+ Fri, 19 Aug 2022 17:13:40 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
@@ -54,9 +54,9 @@ Cc: Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Subject: [PATCH 2/5] vdpa: Add vhost_vdpa_net_load_mq
-Date: Fri, 19 Aug 2022 19:13:26 +0200
-Message-Id: <20220819171329.3597027-3-eperezma@redhat.com>
+Subject: [PATCH 3/5] vdpa: validate MQ CVQ commands
+Date: Fri, 19 Aug 2022 19:13:27 +0200
+Message-Id: <20220819171329.3597027-4-eperezma@redhat.com>
 In-Reply-To: <20220819171329.3597027-1-eperezma@redhat.com>
 References: <20220819171329.3597027-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -87,65 +87,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same way as with the MAC, restore the expected number of queues at
-device's start.
+So we are sure we can update the device model properly before sending to
+the device.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- net/vhost-vdpa.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ net/vhost-vdpa.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 1e0dbfcced..96fd3bc835 100644
+index 96fd3bc835..d5bbda37a1 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -391,6 +391,35 @@ static int vhost_vdpa_net_load_mac(VhostVDPAState *s,
-     return 0;
- }
- 
-+static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
-+                                  const VirtIONet *n)
-+{
-+    uint64_t features = n->parent_obj.guest_features;
-+    ssize_t dev_written;
-+    void *cursor = s->cvq_cmd_out_buffer;
-+    if (!(features & BIT_ULL(VIRTIO_NET_F_MQ))) {
-+        return 0;
-+    }
-+
-+    *(struct virtio_net_ctrl_hdr *)cursor = (struct virtio_net_ctrl_hdr) {
-+        .class = VIRTIO_NET_CTRL_MQ,
-+        .cmd = VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET,
-+    };
-+    cursor += sizeof(struct virtio_net_ctrl_hdr);
-+    *(struct virtio_net_ctrl_mq *)cursor = (struct virtio_net_ctrl_mq) {
-+        .virtqueue_pairs = cpu_to_le16(n->curr_queue_pairs),
-+    };
-+    cursor += sizeof(struct virtio_net_ctrl_mq);
-+
-+    dev_written = vhost_vdpa_net_cvq_add(s, cursor - s->cvq_cmd_out_buffer,
-+                                             sizeof(virtio_net_ctrl_ack));
-+    if (unlikely(dev_written < 0)) {
-+        return dev_written;
-+    }
-+
-+    return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) != VIRTIO_NET_OK;
-+}
-+
- static int vhost_vdpa_net_load(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -409,6 +438,10 @@ static int vhost_vdpa_net_load(NetClientState *nc)
-     if (unlikely(r < 0)) {
-         return r;
-     }
-+    r = vhost_vdpa_net_load_mq(s, n);
-+    if (unlikely(r)) {
-+        return r;
-+    }
- 
-     return 0;
- }
+@@ -484,6 +484,15 @@ static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_t len)
+                           __func__, ctrl.cmd);
+         };
+         break;
++    case VIRTIO_NET_CTRL_MQ:
++        switch (ctrl.cmd) {
++        case VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET:
++            return true;
++        default:
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mq cmd %u\n",
++                          __func__, ctrl.cmd);
++        };
++        break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid control class %u\n",
+                       __func__, ctrl.class);
 -- 
 2.31.1
 
