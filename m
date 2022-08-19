@@ -2,29 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA13F59A2D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:14:15 +0200 (CEST)
-Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5949F59A2C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:11:00 +0200 (CEST)
+Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5ZW-0002US-Sr
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56408)
+	id 1oP5WN-0005Pb-Cj
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5Hf-0007mK-DF; Fri, 19 Aug 2022 12:55:49 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:14221)
+ id 1oP5Hf-0007mL-Pz; Fri, 19 Aug 2022 12:55:49 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:14227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5Hc-0000wY-FK; Fri, 19 Aug 2022 12:55:46 -0400
+ id 1oP5Hc-0000wZ-Eu; Fri, 19 Aug 2022 12:55:46 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D943774635D;
- Fri, 19 Aug 2022 18:55:38 +0200 (CEST)
+ by localhost (Postfix) with SMTP id D193C746399;
+ Fri, 19 Aug 2022 18:55:39 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A3BDE746324; Fri, 19 Aug 2022 18:55:38 +0200 (CEST)
-Message-Id: <cover.1660926381.git.balaton@eik.bme.hu>
+ id AE8BD746397; Fri, 19 Aug 2022 18:55:39 +0200 (CEST)
+Message-Id: <ba99ff4a1a83c40570c85190b5677228f0e45951.1660926381.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1660926381.git.balaton@eik.bme.hu>
+References: <cover.1660926381.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 00/20] ppc4xx_sdram QOMify and clean ups
+Subject: [PATCH 01/20] ppc440_bamboo: Remove unnecessary memsets
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -32,7 +34,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Aug 2022 18:55:38 +0200 (CEST)
+Date: Fri, 19 Aug 2022 18:55:39 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -57,59 +59,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+In ppc4xx_sdram_init() the struct is allocated with g_new0() so no
+need to clear its elements. In the bamboo machine init memset can be
+replaced with array initialiser which is shorter.
 
-This is based on gitlab.com/danielhb/qemu/tree/ppc-7.2
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/ppc/ppc440_bamboo.c | 6 ++----
+ hw/ppc/ppc4xx_devs.c   | 8 ++------
+ 2 files changed, 4 insertions(+), 10 deletions(-)
 
-This is the end of the QOMify series started by Cédric. This series
-handles the SDRAM controller models to clean them up, QOMify and unify
-them and at least partially clean up the mess that has accumulated
-around these in the past. This includes the not yet merged patches
-from the last series and new ones that change the DDR2 version used by
-sam460ex. This is all I have for now I don't intend to make any more
-bigger changes for this now.
-
-Regards,
-BALATON Zoltan
-
-BALATON Zoltan (20):
-  ppc440_bamboo: Remove unnecessary memsets
-  ppc4xx: Introduce Ppc4xxSdramBank struct
-  ppc4xx_sdram: Get rid of the init RAM hack
-  ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
-  ppc440_bamboo: Add missing 4 MiB valid memory size
-  ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
-  ppc4xx_sdram: QOM'ify
-  ppc4xx_sdram: Drop extra zeros for readability
-  ppc440_sdram: Split off map/unmap of sdram banks for later reuse
-  ppc440_sdram: Implement enable bit in the DDR2 SDRAM controller
-  ppc440_sdram: Get rid of the init RAM hack
-  ppc440_sdram: Rename local variable for readibility
-  ppc4xx_sdram: Rename functions to prevent name clashes
-  ppc440_sdram: Move RAM size check to ppc440_sdram_init
-  ppc440_sdram: QOM'ify
-  ppc4xx_sdram: Move ppc4xx DDR and DDR2 SDRAM controller models
-    together
-  ppc4xx_sdram: Use hwaddr for memory bank size
-  ppc4xx_sdram: Rename local state variable for brevity
-  ppc4xx_sdram: Generalise bank setup
-  ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
-
- hw/ppc/meson.build      |   3 +-
- hw/ppc/ppc405.h         |   8 +-
- hw/ppc/ppc405_boards.c  |  19 +-
- hw/ppc/ppc405_uc.c      |  33 +-
- hw/ppc/ppc440.h         |   4 -
- hw/ppc/ppc440_bamboo.c  |  29 +-
- hw/ppc/ppc440_uc.c      | 267 +--------------
- hw/ppc/ppc4xx_devs.c    | 413 -----------------------
- hw/ppc/ppc4xx_sdram.c   | 723 ++++++++++++++++++++++++++++++++++++++++
- hw/ppc/sam460ex.c       |  48 +--
- hw/ppc/trace-events     |   1 +
- include/hw/ppc/ppc4xx.h |  66 +++-
- 12 files changed, 844 insertions(+), 770 deletions(-)
- create mode 100644 hw/ppc/ppc4xx_sdram.c
-
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index ea945a1c99..5ec82fa8c2 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -169,8 +169,8 @@ static void bamboo_init(MachineState *machine)
+     MemoryRegion *address_space_mem = get_system_memory();
+     MemoryRegion *isa = g_new(MemoryRegion, 1);
+     MemoryRegion *ram_memories = g_new(MemoryRegion, PPC440EP_SDRAM_NR_BANKS);
+-    hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS];
+-    hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS];
++    hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS] = {0};
++    hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS] = {0};
+     PCIBus *pcibus;
+     PowerPCCPU *cpu;
+     CPUPPCState *env;
+@@ -205,8 +205,6 @@ static void bamboo_init(MachineState *machine)
+                        qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
+ 
+     /* SDRAM controller */
+-    memset(ram_bases, 0, sizeof(ram_bases));
+-    memset(ram_sizes, 0, sizeof(ram_sizes));
+     ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memories,
+                        ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
+     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index ce38ae65e6..b4cd10f735 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -363,12 +363,8 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
+     sdram->irq = irq;
+     sdram->nbanks = nbanks;
+     sdram->ram_memories = ram_memories;
+-    memset(sdram->ram_bases, 0, 4 * sizeof(hwaddr));
+-    memcpy(sdram->ram_bases, ram_bases,
+-           nbanks * sizeof(hwaddr));
+-    memset(sdram->ram_sizes, 0, 4 * sizeof(hwaddr));
+-    memcpy(sdram->ram_sizes, ram_sizes,
+-           nbanks * sizeof(hwaddr));
++    memcpy(sdram->ram_bases, ram_bases, nbanks * sizeof(hwaddr));
++    memcpy(sdram->ram_sizes, ram_sizes, nbanks * sizeof(hwaddr));
+     qemu_register_reset(&sdram_reset, sdram);
+     ppc_dcr_register(env, SDRAM0_CFGADDR,
+                      sdram, &dcr_read_sdram, &dcr_write_sdram);
 -- 
 2.30.4
 
