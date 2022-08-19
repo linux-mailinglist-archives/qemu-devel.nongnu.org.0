@@ -2,102 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208EF59934D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:05:03 +0200 (CEST)
-Received: from localhost ([::1]:60152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF26599359
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:11:54 +0200 (CEST)
+Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOsJi-0006Rb-0w
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:05:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44608)
+	id 1oOsQK-0008Te-S8
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hughd@google.com>) id 1oOsFq-0002wI-HB
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:01:17 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:33521)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1oOsOW-0006sF-Ms
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:10:00 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:39727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hughd@google.com>) id 1oOsFo-0006OZ-2T
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:01:02 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id f14so2542062qkm.0
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:from:to:cc;
- bh=SqzHyhYdK1V4JBswn3yCW3hnqnnsbZPFsQYu2RllJTY=;
- b=MxC5bzVaVdTyRqcXd62vZSPNLWDIJzWO3NZV9BGtCGtukJbO3aGq8wTVM4NPvqGiXM
- Gwc6h1B2pl0StsRb9qHw1ezYc+eQKsJIFXHOJkJLQK56Yba/yXH12A/qAvt/GHNn4Nya
- D707Il8MyVwvmgV3dWYtEIyhdJZzXlXNrItW6N159s2XcDc/5O67GqerWAOl040sCh35
- 4zpUkW1pYDENJhKanUxKdo667PCS62uqKq4XmxXxPY4k3OmC4ujqf2Q1wmpbT3OoINdz
- 1+IaFPCzNeCdYyUh7KL9Q1cBjUgSUMCQLB6oYTt/hylhnCM1omtR0JcwyZbN6lcakGds
- Oplg==
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1oOsOT-0007cK-K7
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:10:00 -0400
+Received: by mail-oi1-x233.google.com with SMTP id j5so3539336oih.6
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=8r/DVsdQ9Z1jAtpgwSIe7wtgj33LBSoM3OtCS4E6yq4=;
+ b=LmI5CJz2eXeeCQraA+RmXBwE96Czeu8fXnqBZiV5Qu6Up9KA5KTffC5qIrn0J4Kz4s
+ nCWt9dVSideEN9G41gYrHNS0B8LMEWQWc8lJcJsGNDtY/CpcN8b2DN4uM1SrfxnvQyen
+ hPB38MfMzcipZYljNStcqUUVCTEK87KFe6+fcEJrNp48H0ODlCEmC6NSkB98ZacEk6e5
+ f0gqMgNEEzX01dpYvuH0HlYCVsYsOhBtqawXbs+r09hm0zj113hKCSIZyQh1J1HRSxyx
+ R7dWNLgvhcsq5iHUbagxB7jExjGNJcWqUrwJYC16294v/s6iR4BBV7FAppXPW+7QYRb1
+ 3eHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc;
- bh=SqzHyhYdK1V4JBswn3yCW3hnqnnsbZPFsQYu2RllJTY=;
- b=cB9AXjNCPM139e0kmjTqhQN8Mb7nfhM8GEnt1r00jXBtkwN5KXpetf3xmTXyTISM6Y
- r0P43QFK0IgjhljHQPkSGeHzuVdEYE8ntQK/YdmUITuVgn9S32QY1iv8gr3hS+R0+wzT
- qB+oNkCsgTqBVVsZ1oPPWTEDYdR5tgl9JvlaKprtysrRBSsw9/0Mw9yJV7Ty7TZQtZbS
- 3yK6fKBWeKsTlGS677pwYR4yAq1LjiQMk98Ey0MVAX/QRXrkaK3a1WmSOQ5pb5RqEzVu
- xqwK2djEf7KlPdT8Xzfes6PhfSfwmi3iuWAXhQlkj8j+3thYXmynjJWRYxhDaRGwYH9/
- Glig==
-X-Gm-Message-State: ACgBeo3QMb79XkQGwkUq2fxadfxuGipO+ZsuL3m7pbatEEYnOMfV0mgv
- er7QCeEvQ03PgASvMCtFkPXm8w==
-X-Google-Smtp-Source: AA6agR7KQTVz3JYFrJLB5lhd2uJBBP000qbAVx/oSm/fFTrnVR58FRN6Fmbj1fOpDd+LLvaHPxpv8g==
-X-Received: by 2002:a05:620a:1d0e:b0:6ba:c419:81a1 with SMTP id
- dl14-20020a05620a1d0e00b006bac41981a1mr4066120qkb.526.1660878058827; 
- Thu, 18 Aug 2022 20:00:58 -0700 (PDT)
-Received: from ripple.attlocal.net
- (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=8r/DVsdQ9Z1jAtpgwSIe7wtgj33LBSoM3OtCS4E6yq4=;
+ b=voXGQIRZDDxC6QpyF/T8c9ma7x74D5kDFYlCFHSrXCAglBj/ZIEW+QklcHfZx0k/t7
+ YjzmjnqI0aF3ntuhE2Iy13qcM4RfArMy586yu6+dBkJHoxtA7bL/QSHvpt8zrOxQDYAg
+ HI58XKGKdkPQVwjcIUxxgLH6LHBXTC47fnkBMsoJ/kjNG6QligPaaOdMx9f14IVbz3r1
+ UUJFZrx0DgXINY6BauS2GusTJM0sEOKelL6ysNA+MxXLKEmLi0uF59JLR2aCkOOB5CBE
+ EW5KHeibszt8KH+8+cKfpYHmlt0+9XPQ22v+p549LOW/psMf3hAZPELNcQFRb9hUMQt7
+ 3R2Q==
+X-Gm-Message-State: ACgBeo0sTZx3xfeDtsRWRye/1p91T/vfUbUtAZNR3G8242sQlAlvbBzZ
+ f+XdnolDqZe6v4NTfs9/otvMqQ==
+X-Google-Smtp-Source: AA6agR74QzP1e3Avd4hHxUb5O3LhC2zpobuU5kASxmqALrogv0JGdtvHnsa+Imk3t6N/cHHODQZj2g==
+X-Received: by 2002:a05:6808:3098:b0:343:2d83:5978 with SMTP id
+ bl24-20020a056808309800b003432d835978mr2480216oib.35.1660878595422; 
+ Thu, 18 Aug 2022 20:09:55 -0700 (PDT)
+Received: from anup-ubuntu64-vm.. ([171.76.80.76])
  by smtp.gmail.com with ESMTPSA id
- a18-20020ac844b2000000b0031ef69c9024sm2045363qto.91.2022.08.18.20.00.54
+ c127-20020a4a4f85000000b00425806a20f5sm701003oob.3.2022.08.18.20.09.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:00:58 -0700 (PDT)
-Date: Thu, 18 Aug 2022 20:00:41 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.anvils
-To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-cc: Hugh Dickins <hughd@google.com>, Chao Peng <chao.p.peng@linux.intel.com>, 
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
- "H . Peter Anvin" <hpa@zytor.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>, 
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>, 
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org, 
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, 
- "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-In-Reply-To: <20220818132421.6xmjqduempmxnnu2@box>
-Message-ID: <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
+ Thu, 18 Aug 2022 20:09:54 -0700 (PDT)
+From: Anup Patel <apatel@ventanamicro.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Anup Patel <apatel@ventanamicro.com>,
+ Andrew Jones <ajones@ventanamicro.com>
+Subject: [PATCH] target/riscv: Use official extension names for AIA CSRs
+Date: Fri, 19 Aug 2022 08:39:38 +0530
+Message-Id: <20220819030938.166196-1-apatel@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=hughd@google.com; helo=mail-qk1-x72f.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=apatel@ventanamicro.com; helo=mail-oi1-x233.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,124 +93,309 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Aug 2022, Kirill A . Shutemov wrote:
-> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
-> > 
-> > If your memory could be swapped, that would be enough of a good reason
-> > to make use of shmem.c: but it cannot be swapped; and although there
-> > are some references in the mailthreads to it perhaps being swappable
-> > in future, I get the impression that will not happen soon if ever.
-> > 
-> > If your memory could be migrated, that would be some reason to use
-> > filesystem page cache (because page migration happens to understand
-> > that type of memory): but it cannot be migrated.
-> 
-> Migration support is in pipeline. It is part of TDX 1.5 [1]. And swapping
-> theoretically possible, but I'm not aware of any plans as of now.
-> 
-> [1] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+The arch review of AIA spec is completed and we now have official
+extension names for AIA: Smaia (M-mode AIA CSRs) and Ssaia (S-mode
+AIA CSRs).
 
-I always forget, migration means different things to different audiences.
-As an mm person, I was meaning page migration, whereas a virtualization
-person thinks VM live migration (which that reference appears to be about),
-a scheduler person task migration, an ornithologist bird migration, etc.
+Refer, section 1.6 of the latest AIA v0.3.1 stable specification at
+https://github.com/riscv/riscv-aia/releases/download/0.3.1-draft.32/riscv-interrupts-032.pdf)
 
-But you're an mm person too: you may have cited that reference in the
-knowledge that TDX 1.5 Live Migration will entail page migration of the
-kind I'm thinking of.  (Anyway, it's not important to clarify that here.)
+Based on above, we update QEMU RISC-V to:
+1) Have separate config options for Smaia and Ssaia extensions
+   which replace RISCV_FEATURE_AIA in CPU features
+2) Not generate AIA INTC compatible string in virt machine
 
-> 
-> > Some of these impressions may come from earlier iterations of the
-> > patchset (v7 looks better in several ways than v5).  I am probably
-> > underestimating the extent to which you have taken on board other
-> > usages beyond TDX and SEV private memory, and rightly want to serve
-> > them all with similar interfaces: perhaps there is enough justification
-> > for shmem there, but I don't see it.  There was mention of userfaultfd
-> > in one link: does that provide the justification for using shmem?
-> > 
-> > I'm afraid of the special demands you may make of memory allocation
-> > later on - surprised that huge pages are not mentioned already;
-> > gigantic contiguous extents? secretmem removed from direct map?
-> 
-> The design allows for extension to hugetlbfs if needed. Combination of
-> MFD_INACCESSIBLE | MFD_HUGETLB should route this way. There should be zero
-> implications for shmem. It is going to be separate struct memfile_backing_store.
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+---
+ hw/intc/riscv_imsic.c     |  4 +++-
+ hw/riscv/virt.c           | 13 ++-----------
+ target/riscv/cpu.c        |  9 ++++-----
+ target/riscv/cpu.h        |  4 ++--
+ target/riscv/cpu_helper.c | 30 ++++++++++++++++++++++--------
+ target/riscv/csr.c        | 30 ++++++++++++++++++++++++------
+ 6 files changed, 57 insertions(+), 33 deletions(-)
 
-Last year's MFD_HUGEPAGE proposal would have allowed you to do it with
-memfd via tmpfs without needing to involve hugetlbfs; but you may prefer
-the determinism of hugetlbfs, relying on /proc/sys/vm/nr_hugepages etc.
+diff --git a/hw/intc/riscv_imsic.c b/hw/intc/riscv_imsic.c
+index 8615e4cc1d..4d4d5b50ca 100644
+--- a/hw/intc/riscv_imsic.c
++++ b/hw/intc/riscv_imsic.c
+@@ -344,9 +344,11 @@ static void riscv_imsic_realize(DeviceState *dev, Error **errp)
+ 
+     /* Force select AIA feature and setup CSR read-modify-write callback */
+     if (env) {
+-        riscv_set_feature(env, RISCV_FEATURE_AIA);
+         if (!imsic->mmode) {
++            rcpu->cfg.ext_ssaia = true;
+             riscv_cpu_set_geilen(env, imsic->num_pages - 1);
++        } else {
++            rcpu->cfg.ext_smaia = true;
+         }
+         riscv_cpu_set_aia_ireg_rmw_fn(env, (imsic->mmode) ? PRV_M : PRV_S,
+                                       riscv_imsic_rmw, imsic);
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index e779d399ae..b041b33afc 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -261,17 +261,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+         qemu_fdt_add_subnode(mc->fdt, intc_name);
+         qemu_fdt_setprop_cell(mc->fdt, intc_name, "phandle",
+             intc_phandles[cpu]);
+-        if (riscv_feature(&s->soc[socket].harts[cpu].env,
+-                          RISCV_FEATURE_AIA)) {
+-            static const char * const compat[2] = {
+-                "riscv,cpu-intc-aia", "riscv,cpu-intc"
+-            };
+-            qemu_fdt_setprop_string_array(mc->fdt, intc_name, "compatible",
+-                                      (char **)&compat, ARRAY_SIZE(compat));
+-        } else {
+-            qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
+-                "riscv,cpu-intc");
+-        }
++        qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
++            "riscv,cpu-intc");
+         qemu_fdt_setprop(mc->fdt, intc_name, "interrupt-controller", NULL, 0);
+         qemu_fdt_setprop_cell(mc->fdt, intc_name, "#interrupt-cells", 1);
+ 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index d11113fbaa..3cf0c86661 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -101,6 +101,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
++    ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
++    ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
+     ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
+     ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
+     ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
+@@ -669,10 +671,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         }
+     }
+ 
+-    if (cpu->cfg.aia) {
+-        riscv_set_feature(env, RISCV_FEATURE_AIA);
+-    }
+-
+     if (cpu->cfg.debug) {
+         riscv_set_feature(env, RISCV_FEATURE_DEBUG);
+     }
+@@ -1058,7 +1056,8 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+-    DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
++    DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
++    DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
+ 
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 42edfa4558..15cad73def 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -85,7 +85,6 @@ enum {
+     RISCV_FEATURE_PMP,
+     RISCV_FEATURE_EPMP,
+     RISCV_FEATURE_MISA,
+-    RISCV_FEATURE_AIA,
+     RISCV_FEATURE_DEBUG
+ };
+ 
+@@ -452,6 +451,8 @@ struct RISCVCPUConfig {
+     bool ext_zve64f;
+     bool ext_zmmul;
+     bool ext_sscofpmf;
++    bool ext_smaia;
++    bool ext_ssaia;
+     bool rvv_ta_all_1s;
+     bool rvv_ma_all_1s;
+ 
+@@ -472,7 +473,6 @@ struct RISCVCPUConfig {
+     bool mmu;
+     bool pmp;
+     bool epmp;
+-    bool aia;
+     bool debug;
+     uint64_t resetvec;
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 81948b37dd..92685947d9 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -305,7 +305,7 @@ uint8_t riscv_cpu_default_priority(int irq)
+     return default_iprio[irq] ? default_iprio[irq] : IPRIO_MMAXIPRIO;
+ };
+ 
+-static int riscv_cpu_pending_to_irq(CPURISCVState *env,
++static int riscv_cpu_pending_to_irq(CPURISCVState *env, bool has_aia,
+                                     int extirq, unsigned int extirq_def_prio,
+                                     uint64_t pending, uint8_t *iprio)
+ {
+@@ -317,7 +317,7 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
+     }
+ 
+     irq = ctz64(pending);
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    if (!has_aia) {
+         return irq;
+     }
+ 
+@@ -354,34 +354,45 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env)
+ 
+ int riscv_cpu_mirq_pending(CPURISCVState *env)
+ {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
+     uint64_t irqs = riscv_cpu_all_pending(env) & ~env->mideleg &
+                     ~(MIP_SGEIP | MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+ 
+-    return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_M,
++    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_smaia,
++                                    IRQ_M_EXT, IPRIO_DEFAULT_M,
+                                     irqs, env->miprio);
+ }
+ 
+ int riscv_cpu_sirq_pending(CPURISCVState *env)
+ {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
+     uint64_t irqs = riscv_cpu_all_pending(env) & env->mideleg &
+                     ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+ 
+-    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
++                                    IRQ_S_EXT, IPRIO_DEFAULT_S,
+                                     irqs, env->siprio);
+ }
+ 
+ int riscv_cpu_vsirq_pending(CPURISCVState *env)
+ {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
+     uint64_t irqs = riscv_cpu_all_pending(env) & env->mideleg &
+                     (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+ 
+-    return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++    return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
++                                    IRQ_S_EXT, IPRIO_DEFAULT_S,
+                                     irqs >> 1, env->hviprio);
+ }
+ 
+ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+ {
+     int virq;
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
+     uint64_t irqs, pending, mie, hsie, vsie;
+ 
+     /* Determine interrupt enable state of all privilege modes */
+@@ -404,21 +415,24 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+     /* Check M-mode interrupts */
+     irqs = pending & ~env->mideleg & -mie;
+     if (irqs) {
+-        return riscv_cpu_pending_to_irq(env, IRQ_M_EXT, IPRIO_DEFAULT_M,
++        return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_smaia,
++                                        IRQ_M_EXT, IPRIO_DEFAULT_M,
+                                         irqs, env->miprio);
+     }
+ 
+     /* Check HS-mode interrupts */
+     irqs = pending & env->mideleg & ~env->hideleg & -hsie;
+     if (irqs) {
+-        return riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++        return riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
++                                        IRQ_S_EXT, IPRIO_DEFAULT_S,
+                                         irqs, env->siprio);
+     }
+ 
+     /* Check VS-mode interrupts */
+     irqs = pending & env->mideleg & env->hideleg & -vsie;
+     if (irqs) {
+-        virq = riscv_cpu_pending_to_irq(env, IRQ_S_EXT, IPRIO_DEFAULT_S,
++        virq = riscv_cpu_pending_to_irq(env, cpu->cfg.ext_ssaia,
++                                        IRQ_S_EXT, IPRIO_DEFAULT_S,
+                                         irqs >> 1, env->hviprio);
+         return (virq <= 0) ? virq : virq + 1;
+     }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 2dcd4e5b2d..b9bce9821f 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -181,7 +181,10 @@ static RISCVException any32(CPURISCVState *env, int csrno)
+ 
+ static int aia_any(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_smaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -190,7 +193,10 @@ static int aia_any(CPURISCVState *env, int csrno)
+ 
+ static int aia_any32(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_smaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -217,7 +223,10 @@ static int smode32(CPURISCVState *env, int csrno)
+ 
+ static int aia_smode(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -226,7 +235,10 @@ static int aia_smode(CPURISCVState *env, int csrno)
+ 
+ static int aia_smode32(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -282,7 +294,10 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+ 
+ static int aia_hmode(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+      }
+ 
+@@ -291,7 +306,10 @@ static int aia_hmode(CPURISCVState *env, int csrno)
+ 
+ static int aia_hmode32(CPURISCVState *env, int csrno)
+ {
+-    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_ssaia) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+-- 
+2.34.1
 
-But I've yet to see why you want to involve this or that filesystem
-(with all its filesystem-icity suppressed) at all.  The backing store
-is host memory, and tmpfs and hugetlbfs just impose their own
-idiosyncrasies on how that memory is allocated; but I think you would
-do better to choose your own idiosyncrasies in allocation directly -
-you don't need a different "backing store" to choose between 4k or 2M
-or 1G or whatever allocations.
-
-tmpfs and hugetlbfs and page cache are designed around sharing memory:
-TDX is designed around absolutely not sharing memory; and the further
-uses which Sean foresees appear not to need it as page cache either.
-
-Except perhaps for page migration reasons.  It's somewhat incidental,  
-but of course page migration knows how to migrate page cache, so
-masquerading as page cache will give a short cut to page migration,
-when page migration becomes at all possible.
-
-> 
-> I'm not sure secretmem is a fit here as we want to extend MFD_INACCESSIBLE
-> to be movable if platform supports it and secretmem is not migratable by
-> design (without direct mapping fragmentations).
-> 
-> > Here's what I would prefer, and imagine much easier for you to maintain;
-> > but I'm no system designer, and may be misunderstanding throughout.
-> > 
-> > QEMU gets fd from opening /dev/kvm_something, uses ioctls (or perhaps
-> > the fallocate syscall interface itself) to allocate and free the memory,
-> > ioctl for initializing some of it too.  KVM in control of whether that
-> > fd can be read or written or mmap'ed or whatever, no need to prevent it
-> > in shmem.c, no need for flags, seals, notifications to and fro because
-> > KVM is already in control and knows the history.  If shmem actually has
-> > value, call into it underneath - somewhat like SysV SHM, and /dev/zero
-> > mmap, and i915/gem make use of it underneath.  If shmem has nothing to
-> > add, just allocate and free kernel memory directly, recorded in your
-> > own xarray.
-> 
-> I guess shim layer on top of shmem *can* work. I don't see immediately why
-> it would not. But I'm not sure it is right direction. We risk creating yet
-> another parallel VM with own rules/locking/accounting that opaque to
-> core-mm.
-
-You are already proposing a new set of rules, foreign to how tmpfs works
-for others.  You're right that KVM allocating large amounts of memory,
-opaque to core-mm, carries risk: and you'd be right to say that shmem.c
-provides some clues (security_vm_enough_memory checks, memcg charging,
-user_shm_lock accounting) on what to remember.
-
-But I'm not up to the job of being the one to police you there,
-and you don't want to be waiting on me either.
-
-To take a rather silly example: Ted just added chattr support to tmpfs,
-and it fits in well.  But I don't now want to have to decide whether
-"chattr +i" FS_IMMUTABLE_FL is or is not compatible with
-MEMFILE_F_USER_INACCESSIBLE.  They are from different worlds,
-and I'd prefer KVM to carry the weight of imposing INACCESSIBLE:
-which seems easily done if it manages the fd, without making the
-memory allocated to that fd accessible to those who hold the fd.
-
-> 
-> Note that on machines that run TDX guests such memory would likely be the
-> bulk of memory use. Treating it as a fringe case may bite us one day.
-
-Yes, I suspected that machines running TDX guests might well consume
-most of the memory that way, but glad(?) to hear it confirmed.
-
-I am not suggesting that this memory be treated as a fringe case, rather
-the reverse: a different case, not something to hide away inside shmem.c.
-
-Is there a notion that /proc/meminfo "Shmem:" is going to be a good hint
-of this usage?  Whether or not it's also included in "Shmem:", I expect
-that its different characteristics will deserve its own display.
-
-Hugh
 
