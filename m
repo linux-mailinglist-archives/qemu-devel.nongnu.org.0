@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5362359A2BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:03:30 +0200 (CEST)
-Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1F559A2C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:03:38 +0200 (CEST)
+Received: from localhost ([::1]:58110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5P7-0001RD-F3
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:03:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
+	id 1oP5PB-0001TJ-1L
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5GF-0006bM-VT
+ id 1oP5GG-0006bJ-59
  for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:54:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47698)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5GD-0000Zd-H1
+ id 1oP5G9-0000ZY-BG
  for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:54:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660928049;
+ s=mimecast20190719; t=1660928048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AkQl3YdAHyUKV2KU5QLoaoaqz7lW4yv5zlw7uXbjozk=;
- b=NKbVb+BlgJVZrBe5LFdh14iXy/9WVPMscN4J8bTq1/sPpoKPCMZc6t1Izbbj4j1ljJpK3H
- gSvM3tkvmmGCvNMhysa0CWBmhoxqsQU4FEJAarOsc5vZWwT4y7zJcW5SxbsOgN55VCXHwv
- r3mnbbskfofmNxCWOXMK4ihSYqNtoYM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EusLDS+ofqEpjMUNoDF7839TtwKi1nMz+yVCRr8xqJM=;
+ b=ZMahQLr07muQlnXhPBxT5MqGQwTWJ39gTNsvMI5qEXo8RDqTjh9kr4aZmL+HNgclZDn0vB
+ ElwRtPNoShTLe+FSlnBdAY5HQMwN5ZZFP1cp8c9CBwabxYY5WC6DekNLbmqacDNYreFac4
+ kVqlfeIisVcCFiJ1XJQSJKo3MVp5uH0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-3mYo78DpOYydgTSSy33d1w-1; Fri, 19 Aug 2022 12:54:05 -0400
-X-MC-Unique: 3mYo78DpOYydgTSSy33d1w-1
+ us-mta-60-L_ZU7HVJNvqUjRzgOm-U-w-1; Fri, 19 Aug 2022 12:54:07 -0400
+X-MC-Unique: L_ZU7HVJNvqUjRzgOm-U-w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B3CA185A794
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 16:54:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B87D3801F6C
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 16:54:07 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55ABD2026D4C;
- Fri, 19 Aug 2022 16:54:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD3C12026D4C;
+ Fri, 19 Aug 2022 16:54:05 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Lei Yang <leiyang@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Peter Xu <peterx@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH 3/7] util: make a copy of iova_tree_remove_parameter
-Date: Fri, 19 Aug 2022 18:53:53 +0200
-Message-Id: <20220819165357.3591965-4-eperezma@redhat.com>
+Subject: [PATCH 4/7] vdpa: Remove SVQ vring from iova_tree at shutdown
+Date: Fri, 19 Aug 2022 18:53:54 +0200
+Message-Id: <20220819165357.3591965-5-eperezma@redhat.com>
 In-Reply-To: <20220819165357.3591965-1-eperezma@redhat.com>
 References: <20220819165357.3591965-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -81,36 +81,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's convenient to call iova_tree_remove from a map returned from
-iova_tree_find or iova_tree_find_iova. With the current code this is not
-possible, since we will free it, and then we will try to search for it
-again.
+Although the device will be reset before usage, the right thing to do is
+to clean it.
 
-Fix it making a copy of the argument. Not applying a fixes tag, since
-there is no use like that at the moment.
-
+Reported-by: Lei Yang <leiyang@redhat.com>
+Fixes: 34e3c94eda ("vdpa: Add custom IOTLB translations to SVQ")
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- util/iova-tree.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-vdpa.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/util/iova-tree.c b/util/iova-tree.c
-index fee530a579..713e3edd7b 100644
---- a/util/iova-tree.c
-+++ b/util/iova-tree.c
-@@ -166,9 +166,11 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator)
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 7e28d2f674..943799c17c 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -898,7 +898,12 @@ static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
  
- void iova_tree_remove(IOVATree *tree, const DMAMap *map)
- {
-+    /* Just in case caller is calling iova_tree_remove from a result of find */
-+    const DMAMap needle = *map;
-     const DMAMap *overlap;
- 
--    while ((overlap = iova_tree_find(tree, map))) {
-+    while ((overlap = iova_tree_find(tree, &needle))) {
-         g_tree_remove(tree->tree, overlap);
-     }
+     size = ROUND_UP(result->size, qemu_real_host_page_size());
+     r = vhost_vdpa_dma_unmap(v, result->iova, size);
+-    return r == 0;
++    if (unlikely(r < 0)) {
++        return false;
++    }
++
++    vhost_iova_tree_remove(v->iova_tree, result);
++    return 0;
  }
+ 
+ static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
 -- 
 2.31.1
 
