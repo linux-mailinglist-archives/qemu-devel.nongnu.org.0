@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775D359936F
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DBC599370
 	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:28:42 +0200 (CEST)
-Received: from localhost ([::1]:34304 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOsgb-0006nJ-DJ
+	id 1oOsgb-0006q0-39
 	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37340)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseL-0001RP-Bv
+ id 1oOseL-0001RY-OB
  for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:21 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41558)
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:36788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseJ-0002iF-LY
+ id 1oOseK-0002iT-9A
  for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:21 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id q19so3234008pfg.8
+Received: by mail-pl1-x631.google.com with SMTP id c2so3108230plo.3
  for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=d1gtamk6pX7WUClRyqTutZZX1d+IhzKETwFCuS+1R14=;
- b=v4s78+wCgDtJ7DNujXJddRXqZm3MpyxMHMN4jbKWpw+WUCVL7vBozK+Fe+Jg4/f2wQ
- zwnJFcbVRJjeDpAOy4FJODjBYkYvQI+PzVg7vUpSyfYCOubL8bQULRZuaTrY1SqjPRa8
- iikY3uUHRDqPywOj3yzD51NNgbZLk/iyPDuaFHttm3/9FRlPQCed4RoVMERrzEN3w62w
- Vt0MFjtd4DboEAjKtPvGVuBqcBYYCJlN6D5onCRoHmqL0AgpYBLgURgdY0GpS36QmOnt
- 2ZUy3VJvJgFl927LroKSH8n/uVkWZB+Js9GJsFX9xcstKbRSEmsZYoCZUOR2sT9S6N6Z
- 19wg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=ztH2KdOZugDOiuPkZQawXgA4F56Gwh34Y3mDIuElS7Y=;
+ b=x1MCq2nI2WuzpIlYXbl/jpbHcEo+NJaZbvN7kEPMwYzB8tJ1oDNLN/vqkvC5E0Z3z+
+ 2k3Sex1yChUeKGmPU2qXopnIoLjXUdlcxKARRoprpH/8Z6nACdsoMHzKfssVSndhuA7z
+ lmSvqU4Lnx5k+mmtkpEM2WY4hAFYZh4jr/8tNbbtl1xtozjxi0Rf//X6YU8LUlNhWeE4
+ ux67HkKsFZ0nqrtg2D5KpGAVlROdv8x+R/gjhmtXtRONjNe6sZh0o83vJzlSLBoonpQu
+ po4WbtG/1KZTsfehSBqKeo3hGEByUWaue9domADT6zYUN5dueaqb8EjRs9Z9dFlhxDQB
+ PHug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=d1gtamk6pX7WUClRyqTutZZX1d+IhzKETwFCuS+1R14=;
- b=6ezyRksG0xvhwAuKMm0gsjKGVBbSj8WYjVzcLmTf3RMOFlQmMU/L8U8PR1ik+llDy4
- 2YwepUSSBBjKQIuChRRaHr6MaxChsUl2ny5pmKfFMZlhiLiDkDxsE//ROYYbqQNlBfbU
- hGXNclR+kEf0P7Sem9pReNttfsjTXIQYB/HRdGkOA3fcKCZb9oMRUXwjJtQcR86ZDnxJ
- T139wqtjPCOB0Z2VrzfkNnSg9pFWDaOmdY5GitL8yqqiMsCmVRDjpBUNeeSmzZ1JgIX0
- f+pbTjGH12yBF08lsXbQho8hOwtr8V4D7nXABLSIq4ns4yPmlsmacwSAv+K6nTu8PFSG
- qgRA==
-X-Gm-Message-State: ACgBeo2TJIBstqSu3ooUcUsq5t4JpZ++B8+04sE5rEiqen06oTsYbTtE
- nZc0VpcQ4Uh24flms1/u1gnnCEoknX0Wng==
-X-Google-Smtp-Source: AA6agR7ML3ZMhIQEJiwPRSz/OSAMiKn/3Dw5b1l15pAcQe3ltABAiLjtScooy9WyJQEyzzoBO//ReA==
-X-Received: by 2002:a63:d703:0:b0:41a:8d7a:eb3d with SMTP id
- d3-20020a63d703000000b0041a8d7aeb3dmr4863416pgg.59.1660879577807; 
- Thu, 18 Aug 2022 20:26:17 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=ztH2KdOZugDOiuPkZQawXgA4F56Gwh34Y3mDIuElS7Y=;
+ b=bQQD6+QL5KkoV9cHuscDyPB+vc3+7OMQJK3dx3jG/1Ena3Y60MIFQwFRsbnhQiNhTh
+ 00LxiXdPpGJkSwftKGH7pP2hZzWr8oFhqABltmK4GgvJ9H2RnL3v9NatVWOnwvR8JBNx
+ joEuINO8S0eWaVY2VXuiFfgL2krhpBMvc3SNGpJ13IQNFmsk/HKNvanfPbvMY1vG59TI
+ gtaESQL+vrst4At1/OFei417uAMEqPpamMg8Ba2SslhUD56YSB89QwDbW/8LP0t9YL78
+ AWZ71izn/vtopidBMOBv30OjQ5Igse2U3QIE98YCVzADvfb2epSt6vfAuowu2V+QOket
+ nBAg==
+X-Gm-Message-State: ACgBeo0XvF3AAKqgxTvgn2FwgUkYVAlkO//QGYpgAeZI9oX33oMzGJYW
+ AgnLsI+KCxtfuykW7oxymV6gaLAT0xD5Lg==
+X-Google-Smtp-Source: AA6agR5SSVOZTCKWM/L/4/UjLnnprvfUncVl6UVSYO5XlcQE27VLofcm3WrSvQdEWJWSaLVm6fly7w==
+X-Received: by 2002:a17:90b:33c4:b0:1f5:8428:beb9 with SMTP id
+ lk4-20020a17090b33c400b001f58428beb9mr11821825pjb.95.1660879578520; 
+ Thu, 18 Aug 2022 20:26:18 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
  by smtp.gmail.com with ESMTPSA id
- g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.16
+ g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:26:16 -0700 (PDT)
+ Thu, 18 Aug 2022 20:26:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
  alistair.francis@wdc.com, alex.bennee@linaro.org
-Subject: [PATCH v6 00/21] linux-user: Fix siginfo_t contents when jumping to
- non-readable pages
-Date: Thu, 18 Aug 2022 20:25:54 -0700
-Message-Id: <20220819032615.884847-1-richard.henderson@linaro.org>
+Subject: [PATCH v6 01/21] linux-user/arm: Mark the commpage executable
+Date: Thu, 18 Aug 2022 20:25:55 -0700
+Message-Id: <20220819032615.884847-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220819032615.884847-1-richard.henderson@linaro.org>
+References: <20220819032615.884847-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,106 +89,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ilya,
+We're about to start validating PAGE_EXEC, which means
+that we've got to mark the commpage executable.  We had
+been placing the commpage outside of reserved_va, which
+was incorrect and lead to an abort.
 
-After adding support for riscv (similar to s390x, in that we can
-find the total insn length from the first couple of bits, so, easy),
-I find that the test case doesn't work without all of the other
-changes for PROT_EXEC, including the translator_ld changes.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/arm/target_cpu.h | 4 ++--
+ linux-user/elfload.c        | 6 +++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-Other changes from your v5:
-  - mprotect invalidates tbs.  The test case is riscv, with a
-    4-byte insn at offset 0xffe, which was chained to from the
-    insn at offset 0xffa.  The fact that the 0xffe tb was not
-    invalidated meant that we chained to it and re-executed
-    without revalidating page protections.
-
-  - rewrote the test framework to be agnostic of page size, which
-    reduces some of the repetition.  I ran into trouble with the
-    riscv linker, which relaxed the segment such that .align+.org
-    wasn't actually honored.  This new form doesn't require the
-    test bytes to be aligned in the binary.
-
-
-r~
-
-
-Ilya Leoshkevich (4):
-  linux-user: Clear translations and tb_jmp_cache on mprotect()
-  accel/tcg: Introduce is_same_page()
-  target/s390x: Make translator stop before the end of a page
-  target/i386: Make translator stop before the end of a page
-
-Richard Henderson (17):
-  linux-user/arm: Mark the commpage executable
-  linux-user/hppa: Allocate page zero as a commpage
-  linux-user/x86_64: Allocate vsyscall page as a commpage
-  linux-user: Honor PT_GNU_STACK
-  tests/tcg/i386: Move smc_code2 to an executable section
-  accel/tcg: Properly implement get_page_addr_code for user-only
-  accel/tcg: Unlock mmap_lock after longjmp
-  accel/tcg: Make tb_htable_lookup static
-  accel/tcg: Move qemu_ram_addr_from_host_nofail to physmem.c
-  accel/tcg: Use probe_access_internal for softmmu
-    get_page_addr_code_hostp
-  accel/tcg: Add nofault parameter to get_page_addr_code_hostp
-  accel/tcg: Raise PROT_EXEC exception early
-  accel/tcg: Remove translator_ldsw
-  accel/tcg: Add pc and host_pc params to gen_intermediate_code
-  accel/tcg: Add fast path for translator_ld*
-  target/riscv: Add MAX_INSN_LEN and insn_len
-  target/riscv: Make translator stop before the end of a page
-
- include/elf.h                     |   1 +
- include/exec/cpu-common.h         |   1 +
- include/exec/exec-all.h           |  87 ++++++------------
- include/exec/translator.h         |  96 +++++++++++++-------
- linux-user/arm/target_cpu.h       |   4 +-
- linux-user/qemu.h                 |   1 +
- accel/tcg/cpu-exec.c              | 134 ++++++++++++++--------------
- accel/tcg/cputlb.c                |  93 ++++++--------------
- accel/tcg/plugin-gen.c            |   4 +-
- accel/tcg/translate-all.c         |  29 +++---
- accel/tcg/translator.c            | 136 +++++++++++++++++++++-------
- accel/tcg/user-exec.c             |  18 +++-
- linux-user/elfload.c              |  82 +++++++++++++++--
- linux-user/mmap.c                 |   8 ++
- softmmu/physmem.c                 |  12 +++
- target/alpha/translate.c          |   5 +-
- target/arm/translate.c            |   5 +-
- target/avr/translate.c            |   5 +-
- target/cris/translate.c           |   5 +-
- target/hexagon/translate.c        |   6 +-
- target/hppa/translate.c           |   5 +-
- target/i386/tcg/translate.c       |  32 ++++++-
- target/loongarch/translate.c      |   6 +-
- target/m68k/translate.c           |   5 +-
- target/microblaze/translate.c     |   5 +-
- target/mips/tcg/translate.c       |   5 +-
- target/nios2/translate.c          |   5 +-
- target/openrisc/translate.c       |   6 +-
- target/ppc/translate.c            |   5 +-
- target/riscv/translate.c          |  32 +++++--
- target/rx/translate.c             |   5 +-
- target/s390x/tcg/translate.c      |  20 +++--
- target/sh4/translate.c            |   5 +-
- target/sparc/translate.c          |   5 +-
- target/tricore/translate.c        |   6 +-
- target/xtensa/translate.c         |   6 +-
- tests/tcg/i386/test-i386.c        |   2 +-
- tests/tcg/riscv64/noexec.c        |  79 +++++++++++++++++
- tests/tcg/s390x/noexec.c          | 106 ++++++++++++++++++++++
- tests/tcg/x86_64/noexec.c         |  75 ++++++++++++++++
- tests/tcg/multiarch/noexec.c.inc  | 141 ++++++++++++++++++++++++++++++
- tests/tcg/riscv64/Makefile.target |   1 +
- tests/tcg/s390x/Makefile.target   |   1 +
- tests/tcg/x86_64/Makefile.target  |   3 +-
- 44 files changed, 951 insertions(+), 342 deletions(-)
- create mode 100644 tests/tcg/riscv64/noexec.c
- create mode 100644 tests/tcg/s390x/noexec.c
- create mode 100644 tests/tcg/x86_64/noexec.c
- create mode 100644 tests/tcg/multiarch/noexec.c.inc
-
+diff --git a/linux-user/arm/target_cpu.h b/linux-user/arm/target_cpu.h
+index 709d19bc9e..89ba274cfc 100644
+--- a/linux-user/arm/target_cpu.h
++++ b/linux-user/arm/target_cpu.h
+@@ -34,9 +34,9 @@ static inline unsigned long arm_max_reserved_va(CPUState *cs)
+     } else {
+         /*
+          * We need to be able to map the commpage.
+-         * See validate_guest_space in linux-user/elfload.c.
++         * See init_guest_commpage in linux-user/elfload.c.
+          */
+-        return 0xffff0000ul;
++        return 0xfffffffful;
+     }
+ }
+ #define MAX_RESERVED_VA  arm_max_reserved_va
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index ce902dbd56..3e3dc02499 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -398,7 +398,8 @@ enum {
+ 
+ static bool init_guest_commpage(void)
+ {
+-    void *want = g2h_untagged(HI_COMMPAGE & -qemu_host_page_size);
++    abi_ptr commpage = HI_COMMPAGE & -qemu_host_page_size;
++    void *want = g2h_untagged(commpage);
+     void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
+                       MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
+ 
+@@ -417,6 +418,9 @@ static bool init_guest_commpage(void)
+         perror("Protecting guest commpage");
+         exit(EXIT_FAILURE);
+     }
++
++    page_set_flags(commpage, commpage + qemu_host_page_size,
++                   PAGE_READ | PAGE_EXEC | PAGE_VALID);
+     return true;
+ }
+ 
 -- 
 2.34.1
 
