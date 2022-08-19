@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A6E599371
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:28:44 +0200 (CEST)
-Received: from localhost ([::1]:34308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7427B599374
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:33:09 +0200 (CEST)
+Received: from localhost ([::1]:42186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOsgd-0006v5-6f
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37346)
+	id 1oOsku-00048T-BD
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseN-0001TE-NG
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:23 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44013)
+ id 1oOseP-0001X0-4l
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:25 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseM-0002jH-2p
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:23 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- o5-20020a17090a3d4500b001ef76490983so3670316pjf.2
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:21 -0700 (PDT)
+ id 1oOseN-0002jU-Ac
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:24 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id c24so2753705pgg.11
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=eHBGwaSHAS5zB0YpY3m3bpZJdiEeOQnCezVMbc66JAA=;
- b=RfN1c/T4F0ENX1O56rFHV5bXJxJYAvZ4QBb/qkUIYs+wOTXliGmBkn8ZzgIjjn/cAT
- oqNtF8moKmneoAWeslzjouQX87GDGgAm674XOv9uLPBTGwKxO7Efd1hWvuLjK51+M9jC
- CLU+Ruq+1EcGb8H3JnnENZ6eO13WEGyOFd9UDYsKO/B7HAn30NhksJ8u3DLW6kmdXGzY
- DWejtdt6gS2XKRoFQLhFWQaZpcCe0GbVjsKy6eopDbY/aiazYfOh+lvym13s6jLERhAk
- 5vZy+zfZWRnuyjC097htjzYtQuFu4Mx4pqG+74z3Fi92yxtXUIbQ//612X1B4ldGMV2G
- wFFA==
+ bh=2RHGm7LozmE44p/cezu4EoeuBcKQ/o8z7dbp9Itr8eo=;
+ b=obw0taht7rQIILQ6eiZdR0FJa2kP3ahnUodJW1Q4cqKV1tlEjT+eFHixOBRaC77eyf
+ 6wkS1+lhND21YSWSF1viBbW7KvLvEXJPPBNysekqfOYf0JfP9lrpuRXtaIzfAhpzuM1c
+ oN+6V3uH3EMcS7Jp/0VVBdYukI/mLhef1cQ1QbxaJNaDZh7LE0WEXIUyyfBJ6GbhjAJC
+ nJIuvDcITv8wyrYpM4oNFFgnMdTl6cZqjQJ1FaxL0f4mZtJdx1st1fv9oh0s/IzE2p+d
+ JjvdQon2435mc55bWe3nE3Kbev2q/Kj8t4TByAqa9SIIO+olgzz2iRo9U86sWCOY4CRt
+ Mvng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=eHBGwaSHAS5zB0YpY3m3bpZJdiEeOQnCezVMbc66JAA=;
- b=Q3sS68oAEVjg13Hg9qMjYTIuFleckGy6KuyGOPDGFYldXs1qW9jMf/g9k1QwFLh0TG
- XM0wFNVO7/Bz940CV4gsSXmJeVKue6lDH1fBgXwNbrpvBM+ubqsvf7sj+sGSH8Xj5Rem
- 9iNHMzrabH3S+RKDhzc4exoG2HEzALi/DI+YLxFIjTftIIniC5QfWnzb9N2tJ6EOpeAN
- gMYS7MUwHgNXoz1UTbqTwEAfjr7UsrbNQY/yGrGBi9YWRa9ubeSXSQaxdCWk2sr+t1JT
- uilYIhTKePh3KPxTt7HWgcJE12I+PKGMuqgVb6Rd3MMOjxdoQRS9N4BMAR8TygpSXznS
- fJbA==
-X-Gm-Message-State: ACgBeo1kxjqhDwNgpPJI7bjDQTaGq+HPgzCa6tpdf5VkWIxrAGANkglS
- yEMAiGZvaht50e7Dj04fhbT2YO+iu/h9kQ==
-X-Google-Smtp-Source: AA6agR4gVMIqXGQNDgQ5C+yoP1hIKNSleZwVLSdN2TvuqizGpWGFSuunUTWmFqVrTz+M3yBwEmCHXg==
-X-Received: by 2002:a17:902:e88d:b0:172:b898:5656 with SMTP id
- w13-20020a170902e88d00b00172b8985656mr4094417plg.63.1660879580760; 
- Thu, 18 Aug 2022 20:26:20 -0700 (PDT)
+ bh=2RHGm7LozmE44p/cezu4EoeuBcKQ/o8z7dbp9Itr8eo=;
+ b=rfpPNvJZDnZu+KuXI0e8T+aTTEskq2xyoKbIpyI2UBvgVcoegmuZf/0jg/GH9aXZxH
+ vQRimTuXLmmMdZglntWfUC6904ytz12t1uNJkoRcb6+mTetOxbkLMrj2q3ALMBWYIRjo
+ aXlXhPl3IGRHafJtPBGr4z/viSwAASrKE/Wbhj2vXv/EQOoQK26pidlAmSPM8FPzCw2K
+ wTruONvlZT8WRMsMKmovHNpynAbPvjJgDiyrCjK4ZdIvY7suCwry/N9Qm73Aj1eI+NlK
+ Qsjga7wG8ei7/rcpdh2rZYNlswKR0v92k/W7WBQ4Z2/koZa1W3GWBEfQr1HYXpJOaaoS
+ 8txw==
+X-Gm-Message-State: ACgBeo0Z0g8Xs3XPxuP7IEpLip5hR1vLq0yDAGMHCmP9OF9ekZuAButW
+ 8oa6PmVFxGqnP/GGcEV8lt/op/Srs3qT2g==
+X-Google-Smtp-Source: AA6agR4UstW4zlrdIpEvteVKqBwWlKJAIR6kFhfoaqzdWBU0xG4lcg6YzqdA6fo5Fyf6Rb8+mm5QUg==
+X-Received: by 2002:a62:6347:0:b0:531:c5a7:b209 with SMTP id
+ x68-20020a626347000000b00531c5a7b209mr5870535pfb.60.1660879581461; 
+ Thu, 18 Aug 2022 20:26:21 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
  by smtp.gmail.com with ESMTPSA id
- g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.19
+ g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
+ Thu, 18 Aug 2022 20:26:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
  alistair.francis@wdc.com, alex.bennee@linaro.org
-Subject: [PATCH v6 03/21] linux-user/x86_64: Allocate vsyscall page as a
- commpage
-Date: Thu, 18 Aug 2022 20:25:57 -0700
-Message-Id: <20220819032615.884847-4-richard.henderson@linaro.org>
+Subject: [PATCH v6 04/21] linux-user: Honor PT_GNU_STACK
+Date: Thu, 18 Aug 2022 20:25:58 -0700
+Message-Id: <20220819032615.884847-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220819032615.884847-1-richard.henderson@linaro.org>
 References: <20220819032615.884847-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,58 +89,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're about to start validating PAGE_EXEC, which means that we've
-got to the vsyscall page executable.  We had been special casing
-this entirely within translate.
+Map the stack executable if required by default or on demand.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ include/elf.h        |  1 +
+ linux-user/qemu.h    |  1 +
+ linux-user/elfload.c | 19 ++++++++++++++++++-
+ 3 files changed, 20 insertions(+), 1 deletion(-)
 
+diff --git a/include/elf.h b/include/elf.h
+index 3a4bcb646a..3d6b9062c0 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -31,6 +31,7 @@ typedef int64_t  Elf64_Sxword;
+ #define PT_LOPROC  0x70000000
+ #define PT_HIPROC  0x7fffffff
+ 
++#define PT_GNU_STACK      (PT_LOOS + 0x474e551)
+ #define PT_GNU_PROPERTY   (PT_LOOS + 0x474e553)
+ 
+ #define PT_MIPS_REGINFO   0x70000000
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 7d90de1b15..e2e93fbd1d 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -48,6 +48,7 @@ struct image_info {
+         uint32_t        elf_flags;
+         int             personality;
+         abi_ulong       alignment;
++        bool            exec_stack;
+ 
+         /* Generic semihosting knows about these pointers. */
+         abi_ulong       arg_strings;   /* strings for argv */
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 29d910c4cc..b20d513929 100644
+index b20d513929..90375c6b74 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -195,6 +195,27 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
-     (*regs)[26] = tswapreg(env->segs[R_GS].selector & 0xffff);
- }
+@@ -232,6 +232,7 @@ static bool init_guest_commpage(void)
+ #define ELF_ARCH        EM_386
  
-+#if ULONG_MAX >= TARGET_VSYSCALL_PAGE
-+#define INIT_GUEST_COMMPAGE
-+static bool init_guest_commpage(void)
-+{
-+    /*
-+     * The vsyscall page is at a high negative address aka kernel space,
-+     * which means that we cannot actually allocate it with target_mmap.
-+     * We still should be able to use page_set_flags, unless the user
-+     * has specified -R reserved_va, which would trigger an assert().
-+     */
-+    if (reserved_va != 0 &&
-+        TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE >= reserved_va) {
-+        error_report("Cannot allocate vsyscall page");
-+        exit(EXIT_FAILURE);
-+    }
-+    page_set_flags(TARGET_VSYSCALL_PAGE,
-+                   TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE,
-+                   PAGE_EXEC | PAGE_VALID);
-+    return true;
-+}
-+#endif
- #else
+ #define ELF_PLATFORM get_elf_platform()
++#define EXSTACK_DEFAULT true
  
- #define ELF_START_MMAP 0x80000000
-@@ -2360,8 +2381,10 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
- #else
- #define HI_COMMPAGE 0
- #define LO_COMMPAGE -1
-+#ifndef INIT_GUEST_COMMPAGE
- #define init_guest_commpage() true
- #endif
-+#endif
- 
- static void pgb_fail_in_use(const char *image_name)
+ static const char *get_elf_platform(void)
  {
+@@ -308,6 +309,7 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
+ 
+ #define ELF_ARCH        EM_ARM
+ #define ELF_CLASS       ELFCLASS32
++#define EXSTACK_DEFAULT true
+ 
+ static inline void init_thread(struct target_pt_regs *regs,
+                                struct image_info *infop)
+@@ -776,6 +778,7 @@ static inline void init_thread(struct target_pt_regs *regs,
+ #else
+ 
+ #define ELF_CLASS       ELFCLASS32
++#define EXSTACK_DEFAULT true
+ 
+ #endif
+ 
+@@ -973,6 +976,7 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
+ 
+ #define ELF_CLASS   ELFCLASS64
+ #define ELF_ARCH    EM_LOONGARCH
++#define EXSTACK_DEFAULT true
+ 
+ #define elf_check_arch(x) ((x) == EM_LOONGARCH)
+ 
+@@ -1068,6 +1072,7 @@ static uint32_t get_elf_hwcap(void)
+ #define ELF_CLASS   ELFCLASS32
+ #endif
+ #define ELF_ARCH    EM_MIPS
++#define EXSTACK_DEFAULT true
+ 
+ #ifdef TARGET_ABI_MIPSN32
+ #define elf_check_abi(x) ((x) & EF_MIPS_ABI2)
+@@ -1806,6 +1811,10 @@ static inline void init_thread(struct target_pt_regs *regs,
+ #define bswaptls(ptr) bswap32s(ptr)
+ #endif
+ 
++#ifndef EXSTACK_DEFAULT
++#define EXSTACK_DEFAULT false
++#endif
++
+ #include "elf.h"
+ 
+ /* We must delay the following stanzas until after "elf.h". */
+@@ -2081,6 +2090,7 @@ static abi_ulong setup_arg_pages(struct linux_binprm *bprm,
+                                  struct image_info *info)
+ {
+     abi_ulong size, error, guard;
++    int prot;
+ 
+     size = guest_stack_size;
+     if (size < STACK_LOWER_LIMIT) {
+@@ -2091,7 +2101,11 @@ static abi_ulong setup_arg_pages(struct linux_binprm *bprm,
+         guard = qemu_real_host_page_size();
+     }
+ 
+-    error = target_mmap(0, size + guard, PROT_READ | PROT_WRITE,
++    prot = PROT_READ | PROT_WRITE;
++    if (info->exec_stack) {
++        prot |= PROT_EXEC;
++    }
++    error = target_mmap(0, size + guard, prot,
+                         MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+     if (error == -1) {
+         perror("mmap stack");
+@@ -2921,6 +2935,7 @@ static void load_elf_image(const char *image_name, int image_fd,
+      */
+     loaddr = -1, hiaddr = 0;
+     info->alignment = 0;
++    info->exec_stack = EXSTACK_DEFAULT;
+     for (i = 0; i < ehdr->e_phnum; ++i) {
+         struct elf_phdr *eppnt = phdr + i;
+         if (eppnt->p_type == PT_LOAD) {
+@@ -2963,6 +2978,8 @@ static void load_elf_image(const char *image_name, int image_fd,
+             if (!parse_elf_properties(image_fd, info, eppnt, bprm_buf, &err)) {
+                 goto exit_errmsg;
+             }
++        } else if (eppnt->p_type == PT_GNU_STACK) {
++            info->exec_stack = eppnt->p_flags & PF_X;
+         }
+     }
+ 
 -- 
 2.34.1
 
