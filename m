@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B8B59A2FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:52:18 +0200 (CEST)
-Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD4F59A2EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:34:58 +0200 (CEST)
+Received: from localhost ([::1]:33672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP6AL-0003jI-Nx
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54420)
+	id 1oP5tZ-0000Mp-CV
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oP5Oc-00012u-Ls
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:02:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36305)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oP5Z1-00014w-2H
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:13:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oP5Oa-00027Y-Ne
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:02:57 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oP5Yx-0003Qv-WF
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:13:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660928576;
+ s=mimecast20190719; t=1660929219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=pM+IyLrEIm5Ms4IYg1Q/BNY6etFwZzdgve39XpewSVw=;
- b=FKYGO2BM6hoRwoK+ugq/jFGskg3ZvkQnwW+J3JHgBEn/o5dl7mJkgwJoUPRqJBsOoz1nv8
- OSuhWKC/53B/bJBOqFs2d4A9m2avZIpSK9OSKhVPcwYQQn+iF2+baUWvUnEZODU0L5HCMg
- Zb59nWLF49spzH0jYIAd4O7cFkfqifM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-567-bJ1_OROQNj2kRlfBd0sc-Q-1; Fri, 19 Aug 2022 13:02:54 -0400
-X-MC-Unique: bJ1_OROQNj2kRlfBd0sc-Q-1
-Received: by mail-ej1-f71.google.com with SMTP id
- oz39-20020a1709077da700b007313bf43f0dso1726316ejc.0
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 10:02:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=pM+IyLrEIm5Ms4IYg1Q/BNY6etFwZzdgve39XpewSVw=;
- b=u82JUUwn0fvqRxzwLINyXoaFarJcZpIo59pSjtHmfjmT2OAOENX7LW3PKTy1vmpQmv
- BcBLsn2+qZrF6EdvKuFJAn+AKlhE8ss/70G0c/nX97T/xAJsIT9cBPBzpQptVniIKpnK
- LP/oiaKRzJYkEhTjvA3EDk9ywLJh9hhN/bZzPPYzNXvuJaXH9qyKeY6rxmLxFPi3hi7v
- pcFSLZg4x43rcyVM2fYXrfaQybkPByDzVMHAQtzxuqojioF91xGvOHNnlyD1VtjCmydw
- k1pbnEHQsyeSRJxy8lDZo5YSd9RhNg9puHBDerhHgfg3Jp0lAg3RVxQVaGE8skdz6LAi
- D0vw==
-X-Gm-Message-State: ACgBeo0QEkNpz/KgYX+r4kitPAYUAzcRj4IstkwBU8wnYA3m07TN7Sao
- wxyzaCDStIvquSliB10caBe+WZU35/CUwhUK7IKggmn30NbK2Fdwc9KOXc7+etWjCoK13K8wLRd
- dKjO9qniVLCLFPKIiXGMu0OlnIyXR82AR1jZvvY6qGEWxvPss9KIOOG4Rhgn7f3NbqJ8=
-X-Received: by 2002:a05:6402:4392:b0:43e:5033:40f8 with SMTP id
- o18-20020a056402439200b0043e503340f8mr6831290edc.245.1660928573010; 
- Fri, 19 Aug 2022 10:02:53 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4ah9c0t08s2FYeGST3w217l/pw08vCmgE3LnVQRl06y8yNuvHu//M8chgZad8TgJ1vLV7KFA==
-X-Received: by 2002:a05:6402:4392:b0:43e:5033:40f8 with SMTP id
- o18-20020a056402439200b0043e503340f8mr6831261edc.245.1660928572668; 
- Fri, 19 Aug 2022 10:02:52 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- c14-20020aa7c98e000000b0043bea0a48d0sm3353841edt.22.2022.08.19.10.02.52
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 10:02:52 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ bh=wgqTWh15Iao6f1EeoxBpNDGHySQ4xn3QU69ayPbvf2s=;
+ b=a0hAZEGWSKWeDTdh5SeAJQO6A6Nq/WKLhUxGKJqL0cDkSTkTPK43fZQySGMgoRYCiXNiy0
+ Dus+Smik6OSfCv+P3oSgFRNy9/hMI3sdq8xqWM+++15x58y+vf8u/FgghqoaCEf+KHL/Hu
+ O2p0j2fvTs6MqaX4hrM1tyncgtUHd3A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-301-6kquhzm4N0inRMIN4FgARw-1; Fri, 19 Aug 2022 13:13:36 -0400
+X-MC-Unique: 6kquhzm4N0inRMIN4FgARw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3939A101A586;
+ Fri, 19 Aug 2022 17:13:35 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.194.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7728840CF8EE;
+ Fri, 19 Aug 2022 17:13:32 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: improve error for ucontext coroutine backend
-Date: Fri, 19 Aug 2022 19:02:51 +0200
-Message-Id: <20220819170251.227526-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.1
+Cc: Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Jason Wang <jasowang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Subject: [PATCH 0/5] Vhost-vdpa Shadow Virtqueue multiqueue support.
+Date: Fri, 19 Aug 2022 19:13:24 +0200
+Message-Id: <20220819171329.3597027-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,65 +84,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using feature_not_found(), which is not a good match because
-there is no "remedy" to fix the lack of makecontext(), just print a
-custom error.
-
-This happens to remove the last use of feature_not_found(), so remove
-the definition and the documentation.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure                   | 11 +----------
- docs/devel/build-system.rst |  5 -----
- 2 files changed, 1 insertion(+), 15 deletions(-)
-
-diff --git a/configure b/configure
-index 72ab03f11a..575dde1c1f 100755
---- a/configure
-+++ b/configure
-@@ -1468,15 +1468,6 @@ if test "$tcg" = "enabled"; then
-     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
- fi
- 
--feature_not_found() {
--  feature=$1
--  remedy=$2
--
--  error_exit "User requested feature $feature" \
--      "configure was not able to find it." \
--      "$remedy"
--}
--
- # ---
- # big/little endian test
- cat > $TMPC << EOF
-@@ -1639,7 +1630,7 @@ else
-     ;;
-   ucontext)
-     if test "$ucontext_works" != "yes"; then
--      feature_not_found "ucontext"
-+      error_exit "'ucontext' backend requested but makecontext not available"
-     fi
-     ;;
-   sigaltstack)
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 431caba7aa..1894721743 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -99,11 +99,6 @@ developers in checking for system features:
-    Write a minimal C program main() function to the temporary file
-    indicated by $TMPC
- 
--``feature_not_found $NAME $REMEDY``
--   Print a message to stderr that the feature $NAME was not available
--   on the system, suggesting the user try $REMEDY to address the
--   problem.
--
- ``error_exit $MESSAGE $MORE...``
-    Print $MESSAGE to stderr, followed by $MORE... and then exit from the
-    configure script with non-zero status
--- 
-2.37.1
+This series enables shadowed CVQ to intercept multiqueue commands through=0D
+shadowed CVQ, update the virtio NIC device model so qemu send it in a=0D
+migration, and the restore of that MQ state in the destination.=0D
+=0D
+It needs to be applied on top of [1].=0D
+=0D
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02965.html=0D
+=0D
+Eugenio P=C3=A9rez (5):=0D
+  vdpa: extract vhost_vdpa_net_load_mac from vhost_vdpa_net_load=0D
+  vdpa: Add vhost_vdpa_net_load_mq=0D
+  vdpa: validate MQ CVQ commands=0D
+  virtio-net: Update virtio-net curr_queue_pairs in vdpa backends=0D
+  vdpa: Allow MQ feture in SVQ=0D
+=0D
+ hw/net/virtio-net.c | 17 ++++------=0D
+ net/vhost-vdpa.c    | 82 +++++++++++++++++++++++++++++++++++++--------=0D
+ 2 files changed, 74 insertions(+), 25 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
