@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811BB599B04
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 13:37:32 +0200 (CEST)
-Received: from localhost ([::1]:33620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B04599B0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 13:42:40 +0200 (CEST)
+Received: from localhost ([::1]:33712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP0Jf-0005ni-68
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 07:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45202)
+	id 1oP0Od-00012Y-TA
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 07:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oP0Eh-0002hp-2s
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:32:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35289)
+ id 1oP0IQ-0004tU-VI
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:36:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oP0Ed-0007Du-BZ
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:32:21 -0400
+ id 1oP0IN-00086R-Mc
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 07:36:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660908735;
+ s=mimecast20190719; t=1660908969;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wbTOlLP7/dU1JyrGfMDLSWhlZpMUStIr1dfpuvoaEUY=;
- b=WUOCdxf/a2f3BXKnZq19hhoWRc6VG9GpfmLYVo6T/L0egLzNkkQiq7ky3tXzJCf/Ki4UJo
- LLmDKVnzZ99hxN31hqbCePi08Hke1sc7scMvJpWOcsh2owujSdUXec3Y7B+OuTtKYaqcCG
- W//JtPVqzNPhHfNpYV6LQWfdZYlHHCI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4LhMGAzyNsqjir2io+xF5hhLEzIDWYjgYLSr+NXzv/U=;
+ b=CKw3r1DgUWQIZyUbP+qbPCODn9ByYCe8F5XxB81cVJhA4F7XtchrFD8qDtu7uDnZN6j50v
+ wpfSwgcECAzrSFSjtNTrpx0nIA0aZQiYw6F2Em0ryYgq5MD4NzAZfz3QLxY/yCbXQNMp2l
+ Goa+EDXEWqqKVZoLKT/Ea4kSpFOWO3Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-304-6WF1a0VUNwmrc1tOpU8vug-1; Fri, 19 Aug 2022 07:32:14 -0400
-X-MC-Unique: 6WF1a0VUNwmrc1tOpU8vug-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i7-20020a1c3b07000000b003a534ec2570so2684821wma.7
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 04:32:13 -0700 (PDT)
+ us-mta-170-Acy6_oLQMvCZ3Cu7OYYeaw-1; Fri, 19 Aug 2022 07:36:08 -0400
+X-MC-Unique: Acy6_oLQMvCZ3Cu7OYYeaw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c66-20020a1c3545000000b003a5f6dd6a25so4187413wma.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 04:36:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc;
- bh=wbTOlLP7/dU1JyrGfMDLSWhlZpMUStIr1dfpuvoaEUY=;
- b=sQMvt+cT7iycgAjgQ28oXLfooRxfBs38W7yUwUaK8ZsdAIqguPtyKpSFAFzPD+p0s2
- eemlyYQicHefXr5utcNUaCGUv7Cdhr7nZhVSrvN7+Tiq427HBptr/QbTgIgBIk2gm9A6
- 325ZBgauRJPJZsfcqh+yOQ+Kt6tumESs8Alr2YY0zzpAKfwieg8liWTwCXlJrxVhzR6R
- wNXBUcuhkNu7ke+hTaaxAVUwWUwpv2HYzR5mqtm/IPXEFj0pksP8BZhhOiNP1K4msnxQ
- Ae+j88eppl/1lLOyx2deYX19NHYXUpPWIMs/7dq4p+/h0P+jQC5KM1eWrpZuu6NRSkjn
- 3sbg==
-X-Gm-Message-State: ACgBeo1qaRimEC0Rol9Y9uA+lomSS5XBMkGSbo674+7SPI6GJ55pUj8K
- GndhDOqA7ggs6Kaqe2LfNkVLDZ4zG5+hYTGs15EBU8PsLXJ3J73IhsInNUH/n59ydU51vjqymbk
- i91TtI9FWvsGB+6k=
-X-Received: by 2002:adf:dc8d:0:b0:225:2f5e:732d with SMTP id
- r13-20020adfdc8d000000b002252f5e732dmr3808900wrj.646.1660908732886; 
- Fri, 19 Aug 2022 04:32:12 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6PwmRtDqlWshLYSh7KWiaCeVyRqxw68jbJQZvnZxytUL52McM8hV71bWR+VndF6I9nhSpeGQ==
-X-Received: by 2002:adf:dc8d:0:b0:225:2f5e:732d with SMTP id
- r13-20020adfdc8d000000b002252f5e732dmr3808882wrj.646.1660908732652; 
- Fri, 19 Aug 2022 04:32:12 -0700 (PDT)
+ bh=4LhMGAzyNsqjir2io+xF5hhLEzIDWYjgYLSr+NXzv/U=;
+ b=XR6ERQeEh0hsPPY92W+j/EvLfeQburKwQh8lVJCbP2TJWjax5nMmIAfAZz9Ga5qdRr
+ Vi6k6ch4gjxm7jud1nSvivcuAaPU6B7TtSa+tZYbo5dh6GSuhIAH1qqQbHf8ZyJgvyYL
+ W38tyA5XCmobnXsdBkz+9yEFaTDqT7ISRLQ3deYUZQ6MS/hABTMVoBCwd1ZbJ0UOWAVm
+ 5sDO3HFcPzlEGa8BZduInTXhvfT9OG5U70EB4tUxFrw1kkmvxUqC1FMSajl4Sc4RMudT
+ ZTNgS2oKVztDycZjuZedx0319iqv6Qj2pBMHXLdgl/exOAe8I2CBAh8E2VsyXDujBRHK
+ xCYw==
+X-Gm-Message-State: ACgBeo1j6gjzL1XR0jv+QI1GLbe8RWXEKbQ3sIj5YN8U7B3ReXksdHHs
+ sEh5G0MuZL6uVKT68jtdu5qHCg5IH/TN+s+b+VgszmvGJ77BW9GpY6mQkFAv5p3gaAWxPwRXBvB
+ 1Kgfjfhfgxf7xMu8=
+X-Received: by 2002:a05:600c:1c99:b0:3a5:b62a:52fa with SMTP id
+ k25-20020a05600c1c9900b003a5b62a52famr7886103wms.161.1660908966764; 
+ Fri, 19 Aug 2022 04:36:06 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4nG3+mXt4sGM/R1mpSh7JkCQ8qqk1zbVuerqnOnc1d+7Eltbco3N5mfUuhR+s+5OQigrzlEg==
+X-Received: by 2002:a05:600c:1c99:b0:3a5:b62a:52fa with SMTP id
+ k25-20020a05600c1c9900b003a5b62a52famr7886088wms.161.1660908966572; 
+ Fri, 19 Aug 2022 04:36:06 -0700 (PDT)
 Received: from localhost (static-205-204-7-89.ipcom.comunitel.net.
  [89.7.204.205]) by smtp.gmail.com with ESMTPSA id
- u1-20020a7bcb01000000b003a502c23f2asm8584681wmj.16.2022.08.19.04.32.11
+ q9-20020adfdfc9000000b0021d221daccfsm3787129wrn.78.2022.08.19.04.36.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 04:32:12 -0700 (PDT)
+ Fri, 19 Aug 2022 04:36:06 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
 Cc: qemu-devel@nongnu.org,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -74,17 +74,17 @@ Cc: qemu-devel@nongnu.org,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  <wangyanan55@huawei.com>,
  Markus Armbruster <armbru@redhat.com>,  Eduardo Habkost
  <eduardo@habkost.net>
-Subject: Re: [PATCH v7 07/12] multifd: Prepare to send a packet without the
- mutex held
-In-Reply-To: <b46a95640229beaabf8bc7af1254f9a95d23fbfb.camel@redhat.com>
- ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Thu, 11 Aug 2022 06:16:28
+Subject: Re: [PATCH v7 08/12] multifd: Add capability to enable/disable
+ zero_page
+In-Reply-To: <cdf15834492aa55215ef75b6a963e1c7b3ff49a9.camel@redhat.com>
+ ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Thu, 11 Aug 2022 06:29:44
  -0300")
 References: <20220802063907.18882-1-quintela@redhat.com>
- <20220802063907.18882-8-quintela@redhat.com>
- <b46a95640229beaabf8bc7af1254f9a95d23fbfb.camel@redhat.com>
+ <20220802063907.18882-9-quintela@redhat.com>
+ <cdf15834492aa55215ef75b6a963e1c7b3ff49a9.camel@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Fri, 19 Aug 2022 13:32:11 +0200
-Message-ID: <878rnk1nb8.fsf@secure.mitica>
+Date: Fri, 19 Aug 2022 13:36:05 +0200
+Message-ID: <874jy81n4q.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -115,87 +115,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
 > On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
->> We do the send_prepare() and the fill of the head packet without the
->> mutex held.  It will help a lot for compression and later in the
->> series for zero pages.
->>=20
->> Notice that we can use p->pages without holding p->mutex because
->> p->pending_job =3D=3D 1.
+>> We have to enable it by default until we introduce the new code.
 >>=20
 >> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/multifd.h |  2 ++
->>  migration/multifd.c | 11 ++++++-----
->>  2 files changed, 8 insertions(+), 5 deletions(-)
 >>=20
->> diff --git a/migration/multifd.h b/migration/multifd.h
->> index a67cefc0a2..cd389d18d2 100644
->> --- a/migration/multifd.h
->> +++ b/migration/multifd.h
->> @@ -109,7 +109,9 @@ typedef struct {
->>      /* array of pages to sent.
->>       * The owner of 'pages' depends of 'pending_job' value:
->>       * pending_job =3D=3D 0 -> migration_thread can use it.
->> +     *                     No need for mutex lock.
->>       * pending_job !=3D 0 -> multifd_channel can use it.
->> +     *                     No need for mutex lock.
->>       */
->>      MultiFDPages_t *pages;
->>=20=20
->> diff --git a/migration/multifd.c b/migration/multifd.c
->> index 09a40a9135..68fc9f8e88 100644
->> --- a/migration/multifd.c
->> +++ b/migration/multifd.c
->> @@ -663,6 +663,8 @@ static void *multifd_send_thread(void *opaque)
->>                  p->flags |=3D MULTIFD_FLAG_SYNC;
->>                  p->sync_needed =3D false;
->>              }
->> +            qemu_mutex_unlock(&p->mutex);
->> +
+>> ---
+>>=20
+>> Change it to a capability.  As capabilities are off by default, have
+>> to change MULTIFD_ZERO_PAGE to MAIN_ZERO_PAGE, so it is false for
+>> default, and true for older versions.
 >
-> If it unlocks here, we will have unprotected:
-> for (int i =3D 0; i < p->pages->num; i++) {
->     p->normal[p->normal_num] =3D p->pages->offset[i];
->     p->normal_num++;
-> }
->
-> And p->pages seems to be in the mutex-protected area.
-> Should it be ok?
+> IIUC, the idea of a capability is to introduce some new features to the c=
+ode,
+> and let users enable or disable it.=20
 
-From the documentation:
+All capabilities are false by default.
+If we change the capability to be true by default, we need to teach
+libvirt new tricks.
 
-    /* array of pages to sent.
-     * The owner of 'pages' depends of 'pending_job' value:
-     * pending_job =3D=3D 0 -> migration_thread can use it.
-     *                     No need for mutex lock.
-     * pending_job !=3D 0 -> multifd_channel can use it.
-     *                     No need for mutex lock.
-     */
-    MultiFDPages_t *pages;
+> If it introduce a new capability, is not very intuitive to think that it =
+will be
+> always true for older versions, and false for new ones.
 
-So, it is right.
+It don't need to be intuitive, it just need to be documented correctly.
+I think that is done, no?
 
-> Also, under that we have:
->             if (p->normal_num) {
->                 ret =3D multifd_send_state->ops->send_prepare(p, &local_e=
-rr);
->                 if (ret !=3D 0) {
->                     qemu_mutex_unlock(&p->mutex);
->                     break;
->                 }
->             }
->
-> Calling mutex_unlock() here, even though the unlock already happened befo=
-re,
-> could cause any issue?
+> I would suggest adding it as MULTIFD_ZERO_PAGE, and let it disabled for n=
+ow.
+> When the full feature gets introduced, the capability could be enabled by
+> default, if desired.
 
-Good catch.  Never got an error there.
+I have it that way before it was a capability.
+but the info migrate_capabilities
 
-Removing that bit.
+showed everything false and this one true, wondering _why_ this one is
+true.
 
-> Best regards,
+So I decided to rename it, and make it true by default.
 
+> What do you think?
 
-Thanks, Juan.
+I preffer it this way, why?
+
+Because at some point in the future, we will remove the code that
+implements the capability and the capability.  So the idea is that we
+don't want to use it for old code.
+
+Later, Juan.
 
 
