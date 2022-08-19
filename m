@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA08F59A2D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:19:05 +0200 (CEST)
-Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F004C59A2DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:23:17 +0200 (CEST)
+Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5eD-0000TW-2f
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
+	id 1oP5iH-0006bN-3N
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5Ho-0007vI-Fg; Fri, 19 Aug 2022 12:55:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14286)
+ id 1oP5Hp-0007vJ-5o; Fri, 19 Aug 2022 12:55:57 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5Hm-0000zG-5f; Fri, 19 Aug 2022 12:55:56 -0400
+ id 1oP5Hn-0000zZ-7A; Fri, 19 Aug 2022 12:55:56 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BB648747F1C;
- Fri, 19 Aug 2022 18:55:52 +0200 (CEST)
+ by localhost (Postfix) with SMTP id C87FF747F21;
+ Fri, 19 Aug 2022 18:55:53 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 83295747F1B; Fri, 19 Aug 2022 18:55:52 +0200 (CEST)
-Message-Id: <70317978fe83a3710e89618fd1ac906f4e68154f.1660926381.git.balaton@eik.bme.hu>
+ id 992CA747F1B; Fri, 19 Aug 2022 18:55:53 +0200 (CEST)
+Message-Id: <01f562a28cc9959cdc71b3d1e48b4f50b595df53.1660926381.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660926381.git.balaton@eik.bme.hu>
 References: <cover.1660926381.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 13/20] ppc4xx_sdram: Rename functions to prevent name clashes
+Subject: [PATCH 14/20] ppc440_sdram: Move RAM size check to ppc440_sdram_init
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -34,7 +34,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Aug 2022 18:55:52 +0200 (CEST)
+Date: Fri, 19 Aug 2022 18:55:53 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -58,318 +58,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename functions to avoid name clashes when moving the DDR2 controller
-model currently called ppc440_sdram to ppc4xx_devs. This also more
-clearly shows which function belongs to which model.
+Move the check for valid memory sizes from board to sdram contrller
+init. Board now only checks for additinal restrictions imposed by
+firmware then sdram init checks for valid sizes for SoC.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/ppc440_uc.c   | 69 ++++++++++++++++++++++----------------------
- hw/ppc/ppc4xx_devs.c | 44 ++++++++++++++--------------
- 2 files changed, 57 insertions(+), 56 deletions(-)
+ hw/ppc/ppc440.h    |  4 ++--
+ hw/ppc/ppc440_uc.c | 15 +++++++--------
+ hw/ppc/sam460ex.c  | 32 +++++++++++++++++---------------
+ 3 files changed, 26 insertions(+), 25 deletions(-)
 
+diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
+index 7bd5cca1ab..29f6f14ed7 100644
+--- a/hw/ppc/ppc440.h
++++ b/hw/ppc/ppc440.h
+@@ -11,13 +11,13 @@
+ #ifndef PPC440_H
+ #define PPC440_H
+ 
+-#include "hw/ppc/ppc4xx.h"
++#include "hw/ppc/ppc.h"
+ 
+ void ppc4xx_l2sram_init(CPUPPCState *env);
+ void ppc4xx_cpr_init(CPUPPCState *env);
+ void ppc4xx_sdr_init(CPUPPCState *env);
+ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
+-                       Ppc4xxSdramBank ram_banks[]);
++                       MemoryRegion *ram);
+ void ppc4xx_ahb_init(CPUPPCState *env);
+ void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
+ void ppc460ex_pcie_init(CPUPPCState *env);
 diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 72eb75d3d2..b39c6dbbd2 100644
+index b39c6dbbd2..e77d56225d 100644
 --- a/hw/ppc/ppc440_uc.c
 +++ b/hw/ppc/ppc440_uc.c
-@@ -502,7 +502,7 @@ enum {
-     SDRAM_PLBADDUHB = 0x50,
- };
+@@ -486,7 +486,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
+ typedef struct ppc440_sdram_t {
+     uint32_t addr;
+     uint32_t mcopt2;
+-    int nbanks;
++    int nbanks; /* Banks to use from the 4, e.g. when board has less slots */
+     Ppc4xxSdramBank bank[4];
+ } ppc440_sdram_t;
  
--static uint32_t sdram_bcr(hwaddr ram_base, hwaddr ram_size)
-+static uint32_t sdram_ddr2_bcr(hwaddr ram_base, hwaddr ram_size)
- {
-     uint32_t bcr;
- 
-@@ -547,12 +547,12 @@ static uint32_t sdram_bcr(hwaddr ram_base, hwaddr ram_size)
-     return bcr;
+@@ -728,18 +728,17 @@ static void sdram_ddr2_reset(void *opaque)
  }
  
--static inline hwaddr sdram_base(uint32_t bcr)
-+static inline hwaddr sdram_ddr2_base(uint32_t bcr)
+ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
+-                       Ppc4xxSdramBank ram_banks[])
++                       MemoryRegion *ram)
  {
-     return (bcr & 0xffe00000) << 2;
- }
+     ppc440_sdram_t *s;
+-    int i;
++    const ram_addr_t valid_bank_sizes[] = {
++        4 * GiB, 2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * MiB,
++        32 * MiB, 16 * MiB, 8 * MiB, 0
++    };
  
--static uint64_t sdram_size(uint32_t bcr)
-+static uint64_t sdram_ddr2_size(uint32_t bcr)
- {
-     uint64_t size;
-     int sh;
-@@ -578,50 +578,51 @@ static void sdram_bank_unmap(Ppc4xxSdramBank *bank)
-     object_unparent(OBJECT(&bank->container));
- }
- 
--static void sdram_set_bcr(ppc440_sdram_t *sdram, int i,
--                          uint32_t bcr, int enabled)
-+static void sdram_ddr2_set_bcr(ppc440_sdram_t *sdram, int i,
-+                               uint32_t bcr, int enabled)
- {
-     if (sdram->bank[i].bcr & 1) {
-         /* First unmap RAM if enabled */
--        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
--                                 sdram_size(sdram->bank[i].bcr));
-+        trace_ppc4xx_sdram_unmap(sdram_ddr2_base(sdram->bank[i].bcr),
-+                                 sdram_ddr2_size(sdram->bank[i].bcr));
-         sdram_bank_unmap(&sdram->bank[i]);
-     }
-     sdram->bank[i].bcr = bcr & 0xffe0ffc1;
--    sdram->bank[i].base = sdram_base(bcr);
--    sdram->bank[i].size = sdram_size(bcr);
-+    sdram->bank[i].base = sdram_ddr2_base(bcr);
-+    sdram->bank[i].size = sdram_ddr2_size(bcr);
-     if (enabled && (bcr & 1)) {
--        trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
-+        trace_ppc4xx_sdram_map(sdram_ddr2_base(bcr), sdram_ddr2_size(bcr));
-         sdram_bank_map(&sdram->bank[i]);
-     }
- }
- 
--static void sdram_map_bcr(ppc440_sdram_t *sdram)
-+static void sdram_ddr2_map_bcr(ppc440_sdram_t *sdram)
- {
-     int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
-         if (sdram->bank[i].size) {
--            sdram_set_bcr(sdram, i, sdram_bcr(sdram->bank[i].base,
-+            sdram_ddr2_set_bcr(sdram, i,
-+                               sdram_ddr2_bcr(sdram->bank[i].base,
-                                               sdram->bank[i].size), 1);
-         } else {
--            sdram_set_bcr(sdram, i, 0, 0);
-+            sdram_ddr2_set_bcr(sdram, i, 0, 0);
-         }
-     }
- }
- 
--static void sdram_unmap_bcr(ppc440_sdram_t *sdram)
-+static void sdram_ddr2_unmap_bcr(ppc440_sdram_t *sdram)
- {
-     int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
-         if (sdram->bank[i].size) {
--            sdram_set_bcr(sdram, i, sdram->bank[i].bcr & ~1, 0);
-+            sdram_ddr2_set_bcr(sdram, i, sdram->bank[i].bcr & ~1, 0);
-         }
-     }
- }
- 
--static uint32_t dcr_read_sdram(void *opaque, int dcrn)
-+static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
- {
-     ppc440_sdram_t *sdram = opaque;
-     uint32_t ret = 0;
-@@ -632,8 +633,8 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
-     case SDRAM_R2BAS:
-     case SDRAM_R3BAS:
-         if (sdram->bank[dcrn - SDRAM_R0BAS].size) {
--            ret = sdram_bcr(sdram->bank[dcrn - SDRAM_R0BAS].base,
--                            sdram->bank[dcrn - SDRAM_R0BAS].size);
-+            ret = sdram_ddr2_bcr(sdram->bank[dcrn - SDRAM_R0BAS].base,
-+                                 sdram->bank[dcrn - SDRAM_R0BAS].size);
-         }
-         break;
-     case SDRAM_CONF1HB:
-@@ -674,7 +675,7 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
-     return ret;
- }
- 
--static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
-+static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
- {
-     ppc440_sdram_t *sdram = opaque;
- 
-@@ -700,12 +701,12 @@ static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
-             if (!(sdram->mcopt2 & 0x08000000) && (val & 0x08000000)) {
-                 trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
--                sdram_map_bcr(sdram);
-+                sdram_ddr2_map_bcr(sdram);
-                 sdram->mcopt2 |= 0x08000000;
-             } else if ((sdram->mcopt2 & 0x08000000) && !(val & 0x08000000)) {
-                 trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
--                sdram_unmap_bcr(sdram);
-+                sdram_ddr2_unmap_bcr(sdram);
-                 sdram->mcopt2 &= ~0x08000000;
-             }
-             break;
-@@ -718,7 +719,7 @@ static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
-     }
- }
- 
--static void sdram_reset(void *opaque)
-+static void sdram_ddr2_reset(void *opaque)
- {
-     ppc440_sdram_t *sdram = opaque;
- 
-@@ -739,30 +740,30 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
-         s->bank[i].base = ram_banks[i].base;
-         s->bank[i].size = ram_banks[i].size;
-     }
--    qemu_register_reset(&sdram_reset, s);
-+    qemu_register_reset(&sdram_ddr2_reset, s);
+     s = g_malloc0(sizeof(*s));
+     s->nbanks = nbanks;
+-    for (i = 0; i < nbanks; i++) {
+-        s->bank[i].ram = ram_banks[i].ram;
+-        s->bank[i].base = ram_banks[i].base;
+-        s->bank[i].size = ram_banks[i].size;
+-    }
++    ppc4xx_sdram_banks(ram, s->nbanks, s->bank, valid_bank_sizes);
+     qemu_register_reset(&sdram_ddr2_reset, s);
      ppc_dcr_register(env, SDRAM0_CFGADDR,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM0_CFGDATA,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
+                      s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index dac329d482..9b850808a3 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -74,13 +74,6 @@
+ #define EBC_FREQ 115000000
+ #define UART_FREQ 11059200
  
-     ppc_dcr_register(env, SDRAM_R0BAS,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_R1BAS,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_R2BAS,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_R3BAS,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_CONF1HB,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_PLBADDULL,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_CONF1LL,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_CONFPATHB,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
-     ppc_dcr_register(env, SDRAM_PLBADDUHB,
--                     s, &dcr_read_sdram, &dcr_write_sdram);
-+                     s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
- }
- 
- /*****************************************************************************/
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index bfe7b2d3a6..7655967351 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -81,12 +81,12 @@ static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
-     return bcr;
- }
- 
--static inline hwaddr sdram_base(uint32_t bcr)
-+static inline hwaddr sdram_ddr_base(uint32_t bcr)
+-/* The SoC could also handle 4 GiB but firmware does not work with that. */
+-/* Maybe it overflows a signed 32 bit number somewhere? */
+-static const ram_addr_t ppc460ex_sdram_bank_sizes[] = {
+-    2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * MiB,
+-    32 * MiB, 0
+-};
+-
+ struct boot_info {
+     uint32_t dt_base;
+     uint32_t dt_size;
+@@ -273,7 +266,6 @@ static void sam460ex_init(MachineState *machine)
  {
-     return bcr & 0xFF800000;
- }
- 
--static target_ulong sdram_size(uint32_t bcr)
-+static target_ulong sdram_ddr_size(uint32_t bcr)
- {
-     target_ulong size;
-     int sh;
-@@ -101,13 +101,13 @@ static target_ulong sdram_size(uint32_t bcr)
-     return size;
- }
- 
--static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
--                          uint32_t bcr, int enabled)
-+static void sdram_ddr_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
-+                              uint32_t bcr, int enabled)
- {
-     if (sdram->bank[i].bcr & 1) {
-         /* Unmap RAM */
--        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
--                                 sdram_size(sdram->bank[i].bcr));
-+        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
-+                                 sdram_ddr_size(sdram->bank[i].bcr));
-         memory_region_del_subregion(get_system_memory(),
-                                     &sdram->bank[i].container);
-         memory_region_del_subregion(&sdram->bank[i].container,
-@@ -116,38 +116,38 @@ static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
-     }
-     sdram->bank[i].bcr = bcr & 0xFFDEE001;
-     if (enabled && (bcr & 1)) {
--        trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
-+        trace_ppc4xx_sdram_map(sdram_ddr_base(bcr), sdram_ddr_size(bcr));
-         memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
--                           sdram_size(bcr));
-+                           sdram_ddr_size(bcr));
-         memory_region_add_subregion(&sdram->bank[i].container, 0,
-                                     &sdram->bank[i].ram);
-         memory_region_add_subregion(get_system_memory(),
--                                    sdram_base(bcr),
-+                                    sdram_ddr_base(bcr),
-                                     &sdram->bank[i].container);
-     }
- }
- 
--static void sdram_map_bcr(Ppc4xxSdramDdrState *sdram)
-+static void sdram_ddr_map_bcr(Ppc4xxSdramDdrState *sdram)
- {
+     MemoryRegion *address_space_mem = get_system_memory();
+     MemoryRegion *isa = g_new(MemoryRegion, 1);
+-    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank, 1);
+     MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
+     DeviceState *uic[4];
      int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
-         if (sdram->bank[i].size != 0) {
--            sdram_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
--                                                  sdram->bank[i].size), 1);
-+            sdram_ddr_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
-+                                                      sdram->bank[i].size), 1);
-         } else {
--            sdram_set_bcr(sdram, i, 0, 0);
-+            sdram_ddr_set_bcr(sdram, i, 0, 0);
-         }
+@@ -340,12 +332,22 @@ static void sam460ex_init(MachineState *machine)
      }
- }
  
--static void sdram_unmap_bcr(Ppc4xxSdramDdrState *sdram)
-+static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
- {
-     int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
--        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
--                                 sdram_size(sdram->bank[i].bcr));
-+        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
-+                                 sdram_ddr_size(sdram->bank[i].bcr));
-         memory_region_del_subregion(get_system_memory(),
-                                     &sdram->bank[i].ram);
-     }
-@@ -244,12 +244,12 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             if (!(sdram->cfg & 0x80000000) && (val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
--                sdram_map_bcr(sdram);
-+                sdram_ddr_map_bcr(sdram);
-                 sdram->status &= ~0x80000000;
-             } else if ((sdram->cfg & 0x80000000) && !(val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
--                sdram_unmap_bcr(sdram);
-+                sdram_ddr_unmap_bcr(sdram);
-                 sdram->status |= 0x80000000;
-             }
-             if (!(sdram->cfg & 0x40000000) && (val & 0x40000000)) {
-@@ -269,16 +269,16 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             sdram->pmit = (val & 0xF8000000) | 0x07C00000;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            sdram_set_bcr(sdram, 0, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(sdram, 0, val, sdram->cfg & 0x80000000);
-             break;
-         case 0x44: /* SDRAM_B1CR */
--            sdram_set_bcr(sdram, 1, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(sdram, 1, val, sdram->cfg & 0x80000000);
-             break;
-         case 0x48: /* SDRAM_B2CR */
--            sdram_set_bcr(sdram, 2, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(sdram, 2, val, sdram->cfg & 0x80000000);
-             break;
-         case 0x4C: /* SDRAM_B3CR */
--            sdram_set_bcr(sdram, 3, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(sdram, 3, val, sdram->cfg & 0x80000000);
-             break;
-         case 0x80: /* SDRAM_TR */
-             sdram->tr = val & 0x018FC01F;
+     /* SDRAM controller */
+-    /* put all RAM on first bank because board has one slot
+-     * and firmware only checks that */
+-    ppc4xx_sdram_banks(machine->ram, 1, ram_banks, ppc460ex_sdram_bank_sizes);
+-
++    /* The SoC could also handle 4 GiB but firmware does not work with that. */
++    if (machine->ram_size > 2 * GiB) {
++        error_report("Memory over 2 GiB is not supported");
++        exit(1);
++    }
++    /* Firmware needs at least 64 MiB */
++    if (machine->ram_size < 64 * MiB) {
++        error_report("Memory below 64 MiB is not supported");
++        exit(1);
++    }
++    /*
++     * Put all RAM on first bank because board has one slot
++     * and firmware only checks that
++     */
++    ppc440_sdram_init(env, 1, machine->ram);
+     /* FIXME: does 460EX have ECC interrupts? */
+-    ppc440_sdram_init(env, 1, ram_banks);
+     /* Enable SDRAM memory regions as we may boot without firmware */
+     if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x21) ||
+         ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x08000000)) {
+@@ -358,8 +360,8 @@ static void sam460ex_init(MachineState *machine)
+                                qdev_get_gpio_in(uic[0], 2));
+     i2c = PPC4xx_I2C(dev)->bus;
+     /* SPD EEPROM on RAM module */
+-    spd_data = spd_data_generate(ram_banks->size < 128 * MiB ? DDR : DDR2,
+-                                 ram_banks->size);
++    spd_data = spd_data_generate(machine->ram_size < 128 * MiB ? DDR : DDR2,
++                                 machine->ram_size);
+     spd_data[20] = 4; /* SO-DIMM module */
+     smbus_eeprom_init_one(i2c, 0x50, spd_data);
+     /* RTC */
 -- 
 2.30.4
 
