@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D0E59A2F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:48:08 +0200 (CEST)
-Received: from localhost ([::1]:44256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B8B59A2FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:52:18 +0200 (CEST)
+Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP66J-0005Hr-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39432)
+	id 1oP6AL-0003jI-Nx
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5NU-0008Ft-MK
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:02:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23091)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oP5Oc-00012u-Ls
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:02:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5NP-0001xc-9a
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:48 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oP5Oa-00027Y-Ne
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:02:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660928502;
+ s=mimecast20190719; t=1660928576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W/yeH/UjfuIbGtW+AV3RgScwoLIeQFclMU79IZ4B+ds=;
- b=VV/+edqkyV+rrruGCXdSts4lomUgm8J0VoxfUAsyAlxcTSjZ/a/vSACzd4UX8NZI9sqeFW
- RqYJk8z26RK5Qs4SSTrL8wsje1i1X9PidVyNJV9lzeVeNMHVO2PnNwutHmjrWE9aZueA7V
- c/t3r5uu7xObWYo6gvB78ogbnP4VqxI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-YkK0qjU4OS6_hsArlKKrDQ-1; Fri, 19 Aug 2022 13:01:39 -0400
-X-MC-Unique: YkK0qjU4OS6_hsArlKKrDQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1597A8032F6;
- Fri, 19 Aug 2022 17:01:39 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.194.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42EAC40D2827;
- Fri, 19 Aug 2022 17:01:36 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pM+IyLrEIm5Ms4IYg1Q/BNY6etFwZzdgve39XpewSVw=;
+ b=FKYGO2BM6hoRwoK+ugq/jFGskg3ZvkQnwW+J3JHgBEn/o5dl7mJkgwJoUPRqJBsOoz1nv8
+ OSuhWKC/53B/bJBOqFs2d4A9m2avZIpSK9OSKhVPcwYQQn+iF2+baUWvUnEZODU0L5HCMg
+ Zb59nWLF49spzH0jYIAd4O7cFkfqifM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-567-bJ1_OROQNj2kRlfBd0sc-Q-1; Fri, 19 Aug 2022 13:02:54 -0400
+X-MC-Unique: bJ1_OROQNj2kRlfBd0sc-Q-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ oz39-20020a1709077da700b007313bf43f0dso1726316ejc.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 10:02:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=pM+IyLrEIm5Ms4IYg1Q/BNY6etFwZzdgve39XpewSVw=;
+ b=u82JUUwn0fvqRxzwLINyXoaFarJcZpIo59pSjtHmfjmT2OAOENX7LW3PKTy1vmpQmv
+ BcBLsn2+qZrF6EdvKuFJAn+AKlhE8ss/70G0c/nX97T/xAJsIT9cBPBzpQptVniIKpnK
+ LP/oiaKRzJYkEhTjvA3EDk9ywLJh9hhN/bZzPPYzNXvuJaXH9qyKeY6rxmLxFPi3hi7v
+ pcFSLZg4x43rcyVM2fYXrfaQybkPByDzVMHAQtzxuqojioF91xGvOHNnlyD1VtjCmydw
+ k1pbnEHQsyeSRJxy8lDZo5YSd9RhNg9puHBDerhHgfg3Jp0lAg3RVxQVaGE8skdz6LAi
+ D0vw==
+X-Gm-Message-State: ACgBeo0QEkNpz/KgYX+r4kitPAYUAzcRj4IstkwBU8wnYA3m07TN7Sao
+ wxyzaCDStIvquSliB10caBe+WZU35/CUwhUK7IKggmn30NbK2Fdwc9KOXc7+etWjCoK13K8wLRd
+ dKjO9qniVLCLFPKIiXGMu0OlnIyXR82AR1jZvvY6qGEWxvPss9KIOOG4Rhgn7f3NbqJ8=
+X-Received: by 2002:a05:6402:4392:b0:43e:5033:40f8 with SMTP id
+ o18-20020a056402439200b0043e503340f8mr6831290edc.245.1660928573010; 
+ Fri, 19 Aug 2022 10:02:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4ah9c0t08s2FYeGST3w217l/pw08vCmgE3LnVQRl06y8yNuvHu//M8chgZad8TgJ1vLV7KFA==
+X-Received: by 2002:a05:6402:4392:b0:43e:5033:40f8 with SMTP id
+ o18-20020a056402439200b0043e503340f8mr6831261edc.245.1660928572668; 
+ Fri, 19 Aug 2022 10:02:52 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ c14-20020aa7c98e000000b0043bea0a48d0sm3353841edt.22.2022.08.19.10.02.52
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 10:02:52 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Harpreet Singh Anand <hanand@xilinx.com>,
- Laurent Vivier <lvivier@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <eli@mellanox.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v9 12/12] vdpa: Delete CVQ migration blocker
-Date: Fri, 19 Aug 2022 19:00:48 +0200
-Message-Id: <20220819170048.3593487-13-eperezma@redhat.com>
-In-Reply-To: <20220819170048.3593487-1-eperezma@redhat.com>
-References: <20220819170048.3593487-1-eperezma@redhat.com>
+Subject: [PATCH] configure: improve error for ucontext coroutine backend
+Date: Fri, 19 Aug 2022 19:02:51 +0200
+Message-Id: <20220819170251.227526-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,83 +95,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can restore the device state in the destination via CVQ now. Remove
-the migration blocker.
+Instead of using feature_not_found(), which is not a good match because
+there is no "remedy" to fix the lack of makecontext(), just print a
+custom error.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+This happens to remove the last use of feature_not_found(), so remove
+the definition and the documentation.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/virtio/vhost-vdpa.h |  1 -
- hw/virtio/vhost-vdpa.c         | 15 ---------------
- net/vhost-vdpa.c               |  2 --
- 3 files changed, 18 deletions(-)
+ configure                   | 11 +----------
+ docs/devel/build-system.rst |  5 -----
+ 2 files changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index d10a89303e..1111d85643 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -35,7 +35,6 @@ typedef struct vhost_vdpa {
-     bool shadow_vqs_enabled;
-     /* IOVA mapping used by the Shadow Virtqueue */
-     VhostIOVATree *iova_tree;
--    Error *migration_blocker;
-     GPtrArray *shadow_vqs;
-     const VhostShadowVirtqueueOps *shadow_vq_ops;
-     void *shadow_vq_ops_opaque;
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 45d6e86b45..15cb87223e 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1032,13 +1032,6 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
-         return true;
-     }
+diff --git a/configure b/configure
+index 72ab03f11a..575dde1c1f 100755
+--- a/configure
++++ b/configure
+@@ -1468,15 +1468,6 @@ if test "$tcg" = "enabled"; then
+     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
+ fi
  
--    if (v->migration_blocker) {
--        int r = migrate_add_blocker(v->migration_blocker, &err);
--        if (unlikely(r < 0)) {
--            return false;
--        }
--    }
+-feature_not_found() {
+-  feature=$1
+-  remedy=$2
 -
-     for (i = 0; i < v->shadow_vqs->len; ++i) {
-         VirtQueue *vq = virtio_get_queue(dev->vdev, dev->vq_index + i);
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-@@ -1081,10 +1074,6 @@ err:
-         vhost_svq_stop(svq);
-     }
- 
--    if (v->migration_blocker) {
--        migrate_del_blocker(v->migration_blocker);
--    }
+-  error_exit "User requested feature $feature" \
+-      "configure was not able to find it." \
+-      "$remedy"
+-}
 -
-     return false;
- }
+ # ---
+ # big/little endian test
+ cat > $TMPC << EOF
+@@ -1639,7 +1630,7 @@ else
+     ;;
+   ucontext)
+     if test "$ucontext_works" != "yes"; then
+-      feature_not_found "ucontext"
++      error_exit "'ucontext' backend requested but makecontext not available"
+     fi
+     ;;
+   sigaltstack)
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 431caba7aa..1894721743 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -99,11 +99,6 @@ developers in checking for system features:
+    Write a minimal C program main() function to the temporary file
+    indicated by $TMPC
  
-@@ -1100,10 +1089,6 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-         vhost_vdpa_svq_unmap_rings(dev, svq);
-     }
+-``feature_not_found $NAME $REMEDY``
+-   Print a message to stderr that the feature $NAME was not available
+-   on the system, suggesting the user try $REMEDY to address the
+-   problem.
 -
--    if (v->migration_blocker) {
--        migrate_del_blocker(v->migration_blocker);
--    }
- }
- 
- static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 8fad31a5fd..97b658f412 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -555,8 +555,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
--        error_setg(&s->vhost_vdpa.migration_blocker,
--                   "Migration disabled: vhost-vdpa uses CVQ.");
-     }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
+ ``error_exit $MESSAGE $MORE...``
+    Print $MESSAGE to stderr, followed by $MORE... and then exit from the
+    configure script with non-zero status
 -- 
-2.31.1
+2.37.1
 
 
