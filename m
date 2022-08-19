@@ -2,79 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7FC5993A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:42:12 +0200 (CEST)
-Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802185993AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:46:30 +0200 (CEST)
+Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOste-0004W4-9T
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
+	id 1oOsxp-0001aF-Kk
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:46:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseh-0002Ok-ID
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:43 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:39505)
+ (Exim 4.90_1) (envelope-from <hughd@google.com>) id 1oOsqY-0007Jw-MK
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:39:01 -0400
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:43717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOsef-0002k1-LV
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:43 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id q9so1839329pgq.6
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=eG1O+v8L8NJE9bJ3ZvxBbx6/WL3iXYhAToDfN+kCmp0=;
- b=vjHtIMwWNM8NKeTeKYqzlRL4PjUznKYu5wOaYlqIjR14ztgWVDOWLdABJ4S4DcVM63
- Y/6g+Q8/qt16YJlZYwfMgyeuP8/KnjvHjhPGu0SYz/foRv+c/vJTt4d5WSSfTl/NxKYY
- Nk2q5oqaE0H8AL8sKwgSHA07dJ1V3WTG9pGE6ToVPAD8enR1Ii1f2Ls9j0mFj7I8Ynkj
- jqyzVHyhhuA+UwHyPz29wtPlwPQpaVSf+9hHRcXcoEH3Hy43mmvzY2va8iDdTrdiXfGm
- G0JpZfYTIHblmtinJaAX71GJWkUZ8ilOd3tPOldXzm5scpk/Wjg3nSrjo1UTPl0uD4ma
- FmYw==
+ (Exim 4.90_1) (envelope-from <hughd@google.com>) id 1oOsqT-00052P-Sf
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:38:56 -0400
+Received: by mail-qt1-x834.google.com with SMTP id a4so2551954qto.10
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:from:to:cc;
+ bh=7QWsk1dD79/0D4u0UWDr5UxzCpKhzJRpfIhKUpnpQ+k=;
+ b=KuaCRRHm/qV9FFVeqlEN7JryKLX4RwfY1LZIY85W4Q5v1ZzNMZMPFdn7uo+ttUjCVT
+ 1HbFS5hSmTmVaadbykTq/foDTvZk+z2MPmSMfVSyEcM26pLHGI+FT1pagU3qA5YSv6Pe
+ smiTX6ALd4jvtRg4FQeIZu/V5dtCvUlK9QqKG98uq9fHrU0wTxzhMXCNUViHzxNWqeDD
+ tyUgxuRBDcr0kgwcKGkfVF51bYqzSNdXUE3NR9GsMHTj7CAWRw0dTXPSi1QBSeX/tIeL
+ hFZWouaQyyw4UZ3LD6KHID3uW3OYyosgyH7ArN1AA5RlREyiZP0Lm0kDIaJaInosSy0j
+ 3rLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=eG1O+v8L8NJE9bJ3ZvxBbx6/WL3iXYhAToDfN+kCmp0=;
- b=Nv2lXlqU55X1No2H17ueHHSAHeM2GBBmvAWy48K4kgahHY5LXrxwdfZSvkom7mXNUp
- 33e+KQ4KCsdeZFsPwV2LP+qUKamaxP7Hk4Gqe0tq7kXNbedmk3UC1JD/nBV7pZWVmxoc
- Wj+y9ZmAOSPHTBfRcawJ9TSJcIa9kmnZIlPxe5mU/fZc/rS6PK6TUHMc/LtX8mABO2WZ
- KxLDZ7qhZEOLrfDgGrfbLbFvfls83RorZGu9gq0VXbQuAXTMt/l32nkAzH/ZXd9/PT+h
- NIQ2rJ/4Itul9m9QXNOY4zHXMYwBeiX5fQxBCNYOcNyGvPsMMiTvUEoqZSCh1dCj/ELH
- 23mg==
-X-Gm-Message-State: ACgBeo3Y95xSdYEU56BRqfONOmAGBtQWbXDwJyWsan4wzeeB7NaKf7Q5
- gjSXODClwjUrNeN/IUg0TINrQTj8rp3rEg==
-X-Google-Smtp-Source: AA6agR68NsfRFpb5xS0BHOO1HY6Uwqlcrg3tVT4COnmDNzLI/a7N9cOQWe/wCdDYUt/h1xTO2kSxMw==
-X-Received: by 2002:a05:6a00:2392:b0:52e:b4fb:848 with SMTP id
- f18-20020a056a00239200b0052eb4fb0848mr5954277pfc.8.1660879600910; 
- Thu, 18 Aug 2022 20:26:40 -0700 (PDT)
-Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc;
+ bh=7QWsk1dD79/0D4u0UWDr5UxzCpKhzJRpfIhKUpnpQ+k=;
+ b=VtBdwfl6bzc8DHfcuie3LCbjpoxO2Hj1QcYC8CIHV4Ve/i6Z+9C55rG2d9mFG4efcO
+ XODv1mhWiCZ0ejsDcjng3uKSe2HNou0J82Tv5h++fp/DbV5gIzrrPrUtuvrdWJ2E4ojr
+ 8USBYUWLsYCbWYhqulrSVr1mePMF7s9dcycvxE6Y4cw74QSvMpuVdYoOkONgvBHuvCUR
+ P7WftnL7ET9rPme4gCh/TNd3kUJsWdKPNF12rqlRAiYUaSeLnJitfG5chsuPA3NPysYE
+ 9pt0LHvPBDgMxN3PSsUKUetp3cNSf2z8EC1mTAfL0QoVNq16SoM4i+kxNiwhE6JJO+1F
+ JiNA==
+X-Gm-Message-State: ACgBeo0UN2H5eV9/c3SFG1iUFSsRx8qrUeZjbRKyzNL79WXtY+Al6jK5
+ r46req8nhdVTzsEdow34gRDEEQ==
+X-Google-Smtp-Source: AA6agR40rfnrczgoKbXWMuIEA5UNdChmZMqcOy/mPNBBRihLY4ymgv1M+UCKRDg9gmCEuMhOuCh2xQ==
+X-Received: by 2002:ac8:5ad4:0:b0:344:5e40:7824 with SMTP id
+ d20-20020ac85ad4000000b003445e407824mr5218048qtd.482.1660880331003; 
+ Thu, 18 Aug 2022 20:38:51 -0700 (PDT)
+Received: from ripple.attlocal.net
+ (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
  by smtp.gmail.com with ESMTPSA id
- g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.40
+ bm25-20020a05620a199900b006b949afa980sm2881193qkb.56.2022.08.18.20.38.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:26:40 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
- alistair.francis@wdc.com, alex.bennee@linaro.org
-Subject: [PATCH v6 21/21] target/riscv: Make translator stop before the end of
- a page
-Date: Thu, 18 Aug 2022 20:26:15 -0700
-Message-Id: <20220819032615.884847-22-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220819032615.884847-1-richard.henderson@linaro.org>
-References: <20220819032615.884847-1-richard.henderson@linaro.org>
+ Thu, 18 Aug 2022 20:38:50 -0700 (PDT)
+Date: Thu, 18 Aug 2022 20:38:35 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.anvils
+To: Sean Christopherson <seanjc@google.com>
+cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, 
+ Hugh Dickins <hughd@google.com>, Chao Peng <chao.p.peng@linux.intel.com>, 
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
+ Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>, 
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>, 
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org, 
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, 
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+In-Reply-To: <Yv7XTON3MwuC1Q3U@google.com>
+Message-ID: <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
+ envelope-from=hughd@google.com; helo=mail-qt1-x834.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,144 +114,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now the translator stops right *after* the end of a page, which
-breaks reporting of fault locations when the last instruction of a
-multi-insn translation block crosses a page boundary.
+On Fri, 19 Aug 2022, Sean Christopherson wrote:
+> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
+> > On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+> > > On Wed, 6 Jul 2022, Chao Peng wrote:
+> > > But since then, TDX in particular has forced an effort into preventing
+> > > (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
+> > > 
+> > > Are any of the shmem.c mods useful to existing users of shmem.c? No.
+> > > Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
+> 
+> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
+> aren't useful for _all_ existing users, but I don't think it's fair to say that
+> they're not useful for _any_ existing users.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1155
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/translate.c          | 17 +++++--
- tests/tcg/riscv64/noexec.c        | 79 +++++++++++++++++++++++++++++++
- tests/tcg/riscv64/Makefile.target |  1 +
- 3 files changed, 93 insertions(+), 4 deletions(-)
- create mode 100644 tests/tcg/riscv64/noexec.c
+Okay, I stand corrected: there exist some users of memfd_create()
+who will also have use for "INACCESSIBLE" memory.
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index a719aa6e63..f8af6daa70 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1154,12 +1154,21 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     }
-     ctx->nftemp = 0;
- 
-+    /* Only the first insn within a TB is allowed to cross a page boundary. */
-     if (ctx->base.is_jmp == DISAS_NEXT) {
--        target_ulong page_start;
--
--        page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
--        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
-+        if (!is_same_page(&ctx->base, ctx->base.pc_next)) {
-             ctx->base.is_jmp = DISAS_TOO_MANY;
-+        } else {
-+            unsigned page_ofs = ctx->base.pc_next & ~TARGET_PAGE_MASK;
-+
-+            if (page_ofs > TARGET_PAGE_SIZE - MAX_INSN_LEN) {
-+                uint16_t next_insn = cpu_lduw_code(env, ctx->base.pc_next);
-+                int len = insn_len(next_insn);
-+
-+                if (!is_same_page(&ctx->base, ctx->base.pc_next + len)) {
-+                    ctx->base.is_jmp = DISAS_TOO_MANY;
-+                }
-+            }
-         }
-     }
- }
-diff --git a/tests/tcg/riscv64/noexec.c b/tests/tcg/riscv64/noexec.c
-new file mode 100644
-index 0000000000..86f64b28db
---- /dev/null
-+++ b/tests/tcg/riscv64/noexec.c
-@@ -0,0 +1,79 @@
-+#include "../multiarch/noexec.c.inc"
-+
-+static void *arch_mcontext_pc(const mcontext_t *ctx)
-+{
-+    return (void *)ctx->__gregs[REG_PC];
-+}
-+
-+static int arch_mcontext_arg(const mcontext_t *ctx)
-+{
-+    return ctx->__gregs[REG_A0];
-+}
-+
-+static void arch_flush(void *p, int len)
-+{
-+    __builtin___clear_cache(p, p + len);
-+}
-+
-+extern char noexec_1[];
-+extern char noexec_2[];
-+extern char noexec_end[];
-+
-+asm(".option push\n"
-+    ".option norvc\n"
-+    "noexec_1:\n"
-+    "   li a0,1\n"       /* a0 is 0 on entry, set 1. */
-+    "noexec_2:\n"
-+    "   li a0,2\n"      /* a0 is 0/1; set 2. */
-+    "   ret\n"
-+    "noexec_end:\n"
-+    ".option pop");
-+
-+int main(void)
-+{
-+    struct noexec_test noexec_tests[] = {
-+        {
-+            .name = "fallthrough",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2,
-+            .entry_ofs = noexec_1 - noexec_2,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = 0,
-+            .expected_arg = 1,
-+        },
-+        {
-+            .name = "jump",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2,
-+            .entry_ofs = 0,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = 0,
-+            .expected_arg = 0,
-+        },
-+        {
-+            .name = "fallthrough [cross]",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2 - 2,
-+            .entry_ofs = noexec_1 - noexec_2 - 2,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = -2,
-+            .expected_arg = 1,
-+        },
-+        {
-+            .name = "jump [cross]",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2 - 2,
-+            .entry_ofs = -2,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = -2,
-+            .expected_arg = 0,
-+        },
-+    };
-+
-+    return test_noexec(noexec_tests,
-+                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
-+}
-diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
-index d41bf6d60d..b5b89dfb0e 100644
---- a/tests/tcg/riscv64/Makefile.target
-+++ b/tests/tcg/riscv64/Makefile.target
-@@ -3,3 +3,4 @@
- 
- VPATH += $(SRC_PATH)/tests/tcg/riscv64
- TESTS += test-div
-+TESTS += noexec
--- 
-2.34.1
+> 
+> > > What use do you have for a filesystem here?  Almost none.
+> > > IIUC, what you want is an fd through which QEMU can allocate kernel
+> > > memory, selectively free that memory, and communicate fd+offset+length
+> > > to KVM.  And perhaps an interface to initialize a little of that memory
+> > > from a template (presumably copied from a real file on disk somewhere).
+> > > 
+> > > You don't need shmem.c or a filesystem for that!
+> > > 
+> > > If your memory could be swapped, that would be enough of a good reason
+> > > to make use of shmem.c: but it cannot be swapped; and although there
+> > > are some references in the mailthreads to it perhaps being swappable
+> > > in future, I get the impression that will not happen soon if ever.
+> > > 
+> > > If your memory could be migrated, that would be some reason to use
+> > > filesystem page cache (because page migration happens to understand
+> > > that type of memory): but it cannot be migrated.
+> > 
+> > Migration support is in pipeline. It is part of TDX 1.5 [1]. 
+> 
+> And this isn't intended for just TDX (or SNP, or pKVM).  We're not _that_ far off
+> from being able to use UPM for "regular" VMs as a way to provide defense-in-depth
 
+UPM? That's an acronym from your side of the fence, I spy references to
+it in the mail threads, but haven't tracked down a definition.  I'll
+just take it to mean the fd-based memory we're discussing.
+
+> without having to take on the overhead of confidential VMs.  At that point,
+> migration and probably even swap are on the table.
+
+Good, the more "flexible" that memory is, the better for competing users
+of memory.  But an fd supplied by KVM gives you freedom to change to a
+better implementation of allocation underneath, whenever it suits you.
+Maybe shmem beneath is good from the start, maybe not.
+
+Hugh
 
