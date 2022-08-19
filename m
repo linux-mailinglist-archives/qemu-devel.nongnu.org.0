@@ -2,103 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802185993AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:46:30 +0200 (CEST)
-Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E386159944B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 07:00:56 +0200 (CEST)
+Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOsxp-0001aF-Kk
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33592)
+	id 1oOu7q-00070W-PP
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 01:00:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hughd@google.com>) id 1oOsqY-0007Jw-MK
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:39:01 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:43717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hughd@google.com>) id 1oOsqT-00052P-Sf
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:38:56 -0400
-Received: by mail-qt1-x834.google.com with SMTP id a4so2551954qto.10
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:from:to:cc;
- bh=7QWsk1dD79/0D4u0UWDr5UxzCpKhzJRpfIhKUpnpQ+k=;
- b=KuaCRRHm/qV9FFVeqlEN7JryKLX4RwfY1LZIY85W4Q5v1ZzNMZMPFdn7uo+ttUjCVT
- 1HbFS5hSmTmVaadbykTq/foDTvZk+z2MPmSMfVSyEcM26pLHGI+FT1pagU3qA5YSv6Pe
- smiTX6ALd4jvtRg4FQeIZu/V5dtCvUlK9QqKG98uq9fHrU0wTxzhMXCNUViHzxNWqeDD
- tyUgxuRBDcr0kgwcKGkfVF51bYqzSNdXUE3NR9GsMHTj7CAWRw0dTXPSi1QBSeX/tIeL
- hFZWouaQyyw4UZ3LD6KHID3uW3OYyosgyH7ArN1AA5RlREyiZP0Lm0kDIaJaInosSy0j
- 3rLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc;
- bh=7QWsk1dD79/0D4u0UWDr5UxzCpKhzJRpfIhKUpnpQ+k=;
- b=VtBdwfl6bzc8DHfcuie3LCbjpoxO2Hj1QcYC8CIHV4Ve/i6Z+9C55rG2d9mFG4efcO
- XODv1mhWiCZ0ejsDcjng3uKSe2HNou0J82Tv5h++fp/DbV5gIzrrPrUtuvrdWJ2E4ojr
- 8USBYUWLsYCbWYhqulrSVr1mePMF7s9dcycvxE6Y4cw74QSvMpuVdYoOkONgvBHuvCUR
- P7WftnL7ET9rPme4gCh/TNd3kUJsWdKPNF12rqlRAiYUaSeLnJitfG5chsuPA3NPysYE
- 9pt0LHvPBDgMxN3PSsUKUetp3cNSf2z8EC1mTAfL0QoVNq16SoM4i+kxNiwhE6JJO+1F
- JiNA==
-X-Gm-Message-State: ACgBeo0UN2H5eV9/c3SFG1iUFSsRx8qrUeZjbRKyzNL79WXtY+Al6jK5
- r46req8nhdVTzsEdow34gRDEEQ==
-X-Google-Smtp-Source: AA6agR40rfnrczgoKbXWMuIEA5UNdChmZMqcOy/mPNBBRihLY4ymgv1M+UCKRDg9gmCEuMhOuCh2xQ==
-X-Received: by 2002:ac8:5ad4:0:b0:344:5e40:7824 with SMTP id
- d20-20020ac85ad4000000b003445e407824mr5218048qtd.482.1660880331003; 
- Thu, 18 Aug 2022 20:38:51 -0700 (PDT)
-Received: from ripple.attlocal.net
- (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
- by smtp.gmail.com with ESMTPSA id
- bm25-20020a05620a199900b006b949afa980sm2881193qkb.56.2022.08.18.20.38.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:38:50 -0700 (PDT)
-Date: Thu, 18 Aug 2022 20:38:35 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.anvils
-To: Sean Christopherson <seanjc@google.com>
-cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, 
- Hugh Dickins <hughd@google.com>, Chao Peng <chao.p.peng@linux.intel.com>, 
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
- Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>, 
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>, 
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org, 
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, 
- "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-In-Reply-To: <Yv7XTON3MwuC1Q3U@google.com>
-Message-ID: <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oOu3j-0004Fv-9H; Fri, 19 Aug 2022 00:56:39 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:58021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oOu3f-0004nQ-K1; Fri, 19 Aug 2022 00:56:39 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4M88by200Lz4x1N; Fri, 19 Aug 2022 14:56:30 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1660884990;
+ bh=ggTCKA/SfJVp8heHcZNZocbLLNp1+5LSgWPJdTuWugM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c+JUOBazvosqhx6Pxv6pBnG8RQtDZXClwi8V33AE2MmpXp6H/RjWDhIn3UHBnoX0T
+ +EEWs0t/irtVnhzdtMd0Ld936cn9b/qR3MmQZLcPCEQtl1p0/ezUGaiYmThdCeBNt/
+ pWS/Q5pnqwpEy4AX04H958FE/rxWwkLR3BR1Wk38=
+Date: Fri, 19 Aug 2022 12:33:20 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ alistair.francis@wdc.com,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH for-7.2 v2 10/20] hw/ppc: set machine->fdt in spapr machine
+Message-ID: <Yv72cDIs56AmWNq/@yekko>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
+ <20220805093948.82561-11-danielhb413@gmail.com>
+ <99485a63-f799-2741-8006-f4167c985e54@ozlabs.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=hughd@google.com; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qo3W/rCF1R56+vMA"
+Content-Disposition: inline
+In-Reply-To: <99485a63-f799-2741-8006-f4167c985e54@ozlabs.ru>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,57 +66,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Aug 2022, Sean Christopherson wrote:
-> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
-> > On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
-> > > On Wed, 6 Jul 2022, Chao Peng wrote:
-> > > But since then, TDX in particular has forced an effort into preventing
-> > > (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
-> > > 
-> > > Are any of the shmem.c mods useful to existing users of shmem.c? No.
-> > > Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
-> 
-> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
-> aren't useful for _all_ existing users, but I don't think it's fair to say that
-> they're not useful for _any_ existing users.
 
-Okay, I stand corrected: there exist some users of memfd_create()
-who will also have use for "INACCESSIBLE" memory.
+--qo3W/rCF1R56+vMA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > > What use do you have for a filesystem here?  Almost none.
-> > > IIUC, what you want is an fd through which QEMU can allocate kernel
-> > > memory, selectively free that memory, and communicate fd+offset+length
-> > > to KVM.  And perhaps an interface to initialize a little of that memory
-> > > from a template (presumably copied from a real file on disk somewhere).
-> > > 
-> > > You don't need shmem.c or a filesystem for that!
-> > > 
-> > > If your memory could be swapped, that would be enough of a good reason
-> > > to make use of shmem.c: but it cannot be swapped; and although there
-> > > are some references in the mailthreads to it perhaps being swappable
-> > > in future, I get the impression that will not happen soon if ever.
-> > > 
-> > > If your memory could be migrated, that would be some reason to use
-> > > filesystem page cache (because page migration happens to understand
-> > > that type of memory): but it cannot be migrated.
-> > 
-> > Migration support is in pipeline. It is part of TDX 1.5 [1]. 
-> 
-> And this isn't intended for just TDX (or SNP, or pKVM).  We're not _that_ far off
-> from being able to use UPM for "regular" VMs as a way to provide defense-in-depth
+On Fri, Aug 19, 2022 at 12:11:40PM +1000, Alexey Kardashevskiy wrote:
+>=20
+>=20
+> On 05/08/2022 19:39, Daniel Henrique Barboza wrote:
+> > The pSeries machine never bothered with the common machine->fdt
+> > attribute. We do all the FDT related work using spapr->fdt_blob.
+> >=20
+> > We're going to introduce HMP commands to read and save the FDT, which
+> > will rely on setting machine->fdt properly to work across all machine
+> > archs/types.
+>=20
+> Out of curiosity - why new HMP command, is not QOM'ing this ms::fdt prope=
+rty
+> enough?
 
-UPM? That's an acronym from your side of the fence, I spy references to
-it in the mail threads, but haven't tracked down a definition.  I'll
-just take it to mean the fd-based memory we're discussing.
+Huh.. I didn't think of that.  For dumpdtb you could be right, that
+you might be able to use existing qom commands to extract the
+property.  Would need to check that the size is is handled properly,
+fdt's are a bit weird in having their size "in band".
 
-> without having to take on the overhead of confidential VMs.  At that point,
-> migration and probably even swap are on the table.
+"info fdt" etc. obviously have additional funtionality in formatting
+the contents more helpfully.
 
-Good, the more "flexible" that memory is, the better for competing users
-of memory.  But an fd supplied by KVM gives you freedom to change to a
-better implementation of allocation underneath, whenever it suits you.
-Maybe shmem beneath is good from the start, maybe not.
 
-Hugh
+> Another thing is that on every HMP dump I'd probably rebuild the entire F=
+DT
+> for the reasons David explained. Thanks,
+
+This would require per-machine hooks, however.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--qo3W/rCF1R56+vMA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmL+9lYACgkQgypY4gEw
+YSKTNhAAqSFHun+pCyzgiuBRP7R1T2T2kO9Ve6uRTidePmoQ6q4i7dygOBw6M/1p
+wEZWLdQhPq1GXEhSX6bBJh/jWS9ry6XA7luC/JuZzYkvycM+ByIMabUyfzDqxb6k
+aVlb1ybJJU++TND8mNgGDoIOymDWYDRtMGmZ/m6F3qtjuKSlSl8kYMse8kRPwRsI
+nNthZeDUvkNFkdUy4INbltZ9MBfTDTLCUwentnAqgdgIdbMgdxO1eZFhoC2F4GJc
+X6g/3M5ZA6B2FTfg2KyyVba3uauW3cWn/jI7wjBnMjhmwHhrQFz1GuvHeAxtGBms
+7dW5zDw6is1ycGDWpfR7U/jCDFlsqF5l/NQl6mgyMJqVrACdtAq4oYjCRfyPISeS
+GrK3TX1EiPh4L2/O1ddUUu1oEk59+G5ucHzTHN9+dpV5mlixSu0dgDKiYqZfwZLQ
+XyJXKB9qsxxaYBNLud/ufeFZkaIpsk2FDFSimqET3kWYbi0OOVT5X8opyygE/SIF
+2mqVRbJW8Nqg+ATElfPbmgQKZARaGYV4anh7+q8kLTP4FXtCsEG3XVYOJPUldh+N
+TAVd8cT2lu5/eHyRMzow3mEyXLMBvhxeUPmK0vHcT2ohH5+nD4yGTf6u40Qxg/8u
+Jmy9iatPKqkmLlyhv6FFf0osln8NhUQ1X+3QFWt6oXxgoNu4RpQ=
+=Bzv9
+-----END PGP SIGNATURE-----
+
+--qo3W/rCF1R56+vMA--
 
