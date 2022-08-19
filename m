@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E665599375
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:33:10 +0200 (CEST)
-Received: from localhost ([::1]:54424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A6E599371
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:28:44 +0200 (CEST)
+Received: from localhost ([::1]:34308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOskv-0004Ej-Cu
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37344)
+	id 1oOsgd-0006v5-6f
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:28:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseM-0001Ri-Ke
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:22 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:34749)
+ id 1oOseN-0001TE-NG
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:23 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseL-0002ix-02
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:22 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- s4-20020a17090a5d0400b001fabc6bb0baso3838509pji.1
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:20 -0700 (PDT)
+ id 1oOseM-0002jH-2p
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:23 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ o5-20020a17090a3d4500b001ef76490983so3670316pjf.2
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=aJaNQ6aSdE9rWibAJT4lh7LTRwz3SqqWw+/j8K8vQwg=;
- b=o4lQHPJBXtb22E5FkdgLLo7CkVTU7JfliZoOqAg2fHD/9au1J89mUwSYBI58u4VWA9
- 977fWBTvQr6irVCEdHIwzaCz6YYTyyu3tN6OuUmQl2Qdw27DVjkBSniUpeHSnBirf2vK
- kt6wcI0fa1o8XXHj1hgJjxEHa7VbFVemXMPTh+fY+AvCsvA2FEIh55zvHTum63Irz0+d
- pJefjk+K27lTKCJP2Dfa04M5jQwHTLbVc9x7aLdVJYvWfPOW4vHcz6cllXD+JJ4Lw6c1
- JXX0cKDTxdWioUl9mt+/NdNLS2SXyCyh90asdp0WHTaG3aDFhTubOVB8CfScwiYR2p19
- vhuA==
+ bh=eHBGwaSHAS5zB0YpY3m3bpZJdiEeOQnCezVMbc66JAA=;
+ b=RfN1c/T4F0ENX1O56rFHV5bXJxJYAvZ4QBb/qkUIYs+wOTXliGmBkn8ZzgIjjn/cAT
+ oqNtF8moKmneoAWeslzjouQX87GDGgAm674XOv9uLPBTGwKxO7Efd1hWvuLjK51+M9jC
+ CLU+Ruq+1EcGb8H3JnnENZ6eO13WEGyOFd9UDYsKO/B7HAn30NhksJ8u3DLW6kmdXGzY
+ DWejtdt6gS2XKRoFQLhFWQaZpcCe0GbVjsKy6eopDbY/aiazYfOh+lvym13s6jLERhAk
+ 5vZy+zfZWRnuyjC097htjzYtQuFu4Mx4pqG+74z3Fi92yxtXUIbQ//612X1B4ldGMV2G
+ wFFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=aJaNQ6aSdE9rWibAJT4lh7LTRwz3SqqWw+/j8K8vQwg=;
- b=RypkPBHabRSOczXJjjOR3fENb9c/buZXRVEUSLnEXSu3bgb+zCiWbUNZ9V6fd7HjlY
- Bu4GGNMUxLJk8W6WKWJZACa2agG1GAN4G6DxAjutQHEqQSg8j6AsDzDXY4nTkvkZ7FxG
- plyGLjJm4D+dHGsST2S5t08xEVJ/xB9AF92K6DorV1N5OWxZeGA5HU0nC8i9LxPC2Pay
- 7sZwZToOOrwzG3EZDXAAHvvzqIgGGTNGUMNRW1K4VQ0vyFci1uyICsuR1SiSQ2yUXZQz
- Z7/VcPAoH+fSsLtTfZMcYHdPW3wdjpTB4RhnuwXWVUOF3taSnkRe/eVCrblCSO504UX1
- zqlw==
-X-Gm-Message-State: ACgBeo3ZSMILZwD5Hxd1QCHRQD6CCn9yQWgnkl5HP7XrbNJVpfJtP2PE
- 1gyakR1QNiKX2vGZmAHx8Aq7lU6hYn7Sog==
-X-Google-Smtp-Source: AA6agR4WtDRKFvxvymwx3w32LtluTTTFekewx8ZjMg/4PuLOIpgoAbs4XUA74nQSaRwvD+4SBNsRCQ==
-X-Received: by 2002:a17:903:2442:b0:16f:1319:d28c with SMTP id
- l2-20020a170903244200b0016f1319d28cmr5689522pls.95.1660879579602; 
- Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
+ bh=eHBGwaSHAS5zB0YpY3m3bpZJdiEeOQnCezVMbc66JAA=;
+ b=Q3sS68oAEVjg13Hg9qMjYTIuFleckGy6KuyGOPDGFYldXs1qW9jMf/g9k1QwFLh0TG
+ XM0wFNVO7/Bz940CV4gsSXmJeVKue6lDH1fBgXwNbrpvBM+ubqsvf7sj+sGSH8Xj5Rem
+ 9iNHMzrabH3S+RKDhzc4exoG2HEzALi/DI+YLxFIjTftIIniC5QfWnzb9N2tJ6EOpeAN
+ gMYS7MUwHgNXoz1UTbqTwEAfjr7UsrbNQY/yGrGBi9YWRa9ubeSXSQaxdCWk2sr+t1JT
+ uilYIhTKePh3KPxTt7HWgcJE12I+PKGMuqgVb6Rd3MMOjxdoQRS9N4BMAR8TygpSXznS
+ fJbA==
+X-Gm-Message-State: ACgBeo1kxjqhDwNgpPJI7bjDQTaGq+HPgzCa6tpdf5VkWIxrAGANkglS
+ yEMAiGZvaht50e7Dj04fhbT2YO+iu/h9kQ==
+X-Google-Smtp-Source: AA6agR4gVMIqXGQNDgQ5C+yoP1hIKNSleZwVLSdN2TvuqizGpWGFSuunUTWmFqVrTz+M3yBwEmCHXg==
+X-Received: by 2002:a17:902:e88d:b0:172:b898:5656 with SMTP id
+ w13-20020a170902e88d00b00172b8985656mr4094417plg.63.1660879580760; 
+ Thu, 18 Aug 2022 20:26:20 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
  by smtp.gmail.com with ESMTPSA id
- g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.18
+ g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
  alistair.francis@wdc.com, alex.bennee@linaro.org
-Subject: [PATCH v6 02/21] linux-user/hppa: Allocate page zero as a commpage
-Date: Thu, 18 Aug 2022 20:25:56 -0700
-Message-Id: <20220819032615.884847-3-richard.henderson@linaro.org>
+Subject: [PATCH v6 03/21] linux-user/x86_64: Allocate vsyscall page as a
+ commpage
+Date: Thu, 18 Aug 2022 20:25:57 -0700
+Message-Id: <20220819032615.884847-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220819032615.884847-1-richard.henderson@linaro.org>
 References: <20220819032615.884847-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,77 +92,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We're about to start validating PAGE_EXEC, which means that we've
-got to mark page zero executable.  We had been special casing this
-entirely within translate.
+got to the vsyscall page executable.  We had been special casing
+this entirely within translate.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 34 +++++++++++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 3 deletions(-)
+ linux-user/elfload.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 3e3dc02499..29d910c4cc 100644
+index 29d910c4cc..b20d513929 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -1646,6 +1646,34 @@ static inline void init_thread(struct target_pt_regs *regs,
-     regs->gr[31] = infop->entry;
+@@ -195,6 +195,27 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
+     (*regs)[26] = tswapreg(env->segs[R_GS].selector & 0xffff);
  }
  
-+#define LO_COMMPAGE  0
-+
++#if ULONG_MAX >= TARGET_VSYSCALL_PAGE
++#define INIT_GUEST_COMMPAGE
 +static bool init_guest_commpage(void)
 +{
-+    void *want = g2h_untagged(LO_COMMPAGE);
-+    void *addr = mmap(want, qemu_host_page_size, PROT_NONE,
-+                      MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
-+
-+    if (addr == MAP_FAILED) {
-+        perror("Allocating guest commpage");
++    /*
++     * The vsyscall page is at a high negative address aka kernel space,
++     * which means that we cannot actually allocate it with target_mmap.
++     * We still should be able to use page_set_flags, unless the user
++     * has specified -R reserved_va, which would trigger an assert().
++     */
++    if (reserved_va != 0 &&
++        TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE >= reserved_va) {
++        error_report("Cannot allocate vsyscall page");
 +        exit(EXIT_FAILURE);
 +    }
-+    if (addr != want) {
-+        return false;
-+    }
-+
-+    /*
-+     * On Linux, page zero is normally marked execute only + gateway.
-+     * Normal read or write is supposed to fail (thus PROT_NONE above),
-+     * but specific offsets have kernel code mapped to raise permissions
-+     * and implement syscalls.  Here, simply mark the page executable.
-+     * Special case the entry points during translation (see do_page_zero).
-+     */
-+    page_set_flags(LO_COMMPAGE, LO_COMMPAGE + TARGET_PAGE_SIZE,
++    page_set_flags(TARGET_VSYSCALL_PAGE,
++                   TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE,
 +                   PAGE_EXEC | PAGE_VALID);
 +    return true;
 +}
-+
- #endif /* TARGET_HPPA */
++#endif
+ #else
  
- #ifdef TARGET_XTENSA
-@@ -2326,12 +2354,12 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
- }
- 
- #if defined(HI_COMMPAGE)
--#define LO_COMMPAGE 0
-+#define LO_COMMPAGE -1
- #elif defined(LO_COMMPAGE)
- #define HI_COMMPAGE 0
+ #define ELF_START_MMAP 0x80000000
+@@ -2360,8 +2381,10 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
  #else
  #define HI_COMMPAGE 0
--#define LO_COMMPAGE 0
-+#define LO_COMMPAGE -1
+ #define LO_COMMPAGE -1
++#ifndef INIT_GUEST_COMMPAGE
  #define init_guest_commpage() true
  #endif
++#endif
  
-@@ -2555,7 +2583,7 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
-         } else {
-             offset = -(HI_COMMPAGE & -align);
-         }
--    } else if (LO_COMMPAGE != 0) {
-+    } else if (LO_COMMPAGE != -1) {
-         loaddr = MIN(loaddr, LO_COMMPAGE & -align);
-     }
- 
+ static void pgb_fail_in_use(const char *image_name)
+ {
 -- 
 2.34.1
 
