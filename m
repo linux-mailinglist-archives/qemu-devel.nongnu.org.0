@@ -2,82 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E778B59961B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 09:37:23 +0200 (CEST)
-Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D03599657
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 09:53:24 +0200 (CEST)
+Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOwZG-00070f-Em
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 03:37:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53210)
+	id 1oOwoj-0002qw-O2
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 03:53:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oOwU5-0003hj-U5
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:32:02 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:38870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oOwU3-0004RT-Kv
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:32:01 -0400
-Received: by mail-oi1-x232.google.com with SMTP id w197so3969619oie.5
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 00:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=OmyVGadg35kSt1UySothODIfnZ7CrMCfLaI/0wlCtqI=;
- b=Il72Y7XE1uXbakwjSagfosEG7ttd+m2iYOtJo3RST36mdP9eTqfj351eDXzTwA+j7s
- u7f0vJGp6ihZ4T2o77YbFEPGiE8+2jyQIQWVOjejzmZCBULeFCugg85drC5ultRwKbY4
- i2WK+EOEMNJ/mXF/Wl2D78Rn/Ex11vCVFUsN/7yTxHJa7ykNCPjWtAgUhiPb1qEpl7Ag
- Uc3OzbV7zj1GxW7pPcp3f5uCKL/baCnyKEdbsiSLJB/KQd1kOfgVlOlO6QXF7eDh0fnO
- gJuWCRgJYsMLlCGM7Ti4zWMGQ5kVc01ht9t+qkAPwCQE+Kz8ibwBBbt/3Xr6KJsOSEi4
- /xEA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oOwly-0001BO-1D
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:50:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44412)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oOwlt-0006uf-Ax
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 03:50:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660895424;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+M3g05CtGXx7cpJCY8TqrRjr4JUmERV43aiJVnf6ACE=;
+ b=Z9iWl6pbjeK29IDQPFci/4Y/xQ8sT8p+zZ3n8vZyhq6Mi8m2UPxQrlWa6rhyK9cx5srG7J
+ D09UID90rYpeE7o+gyFMiF21N01p5Ao8kHn9nI1OTyknN6COsud8X9kDvwRw6SqhYK/VxO
+ TINuvdOJPwG1RSKcyjDJRlKlWUVdlYc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-369-VbJ0m0XYPI2Sctadxy_jWg-1; Fri, 19 Aug 2022 03:50:23 -0400
+X-MC-Unique: VbJ0m0XYPI2Sctadxy_jWg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h62-20020a1c2141000000b003a4f57eaeaaso2108590wmh.8
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 00:50:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=OmyVGadg35kSt1UySothODIfnZ7CrMCfLaI/0wlCtqI=;
- b=SQHZjB3rtkTYLvTscm5uqOTzZCt0AEjywkfAkj6Wdg5yloq5RgRouZHCbBP28/CoLB
- 5r5zvcmgrj8PtH0RFisXfzjWhMAqP7wKqScVTgLIqXnFxlewN8yBfwZ5JzF9QXDnLoU8
- O2RBohQOBIPPxWQLIcYFu1H06AAdGRFi+bZ+kmFEvYrxiqt6b/3ohSv8DaVS5TMk7pTB
- 9B1DrooWfjSLm8alTBIjz6mVqLI+7GO3eenZxKFfzo7NSCeMvPKJWwe8qOE22ACn0adY
- qD6MIPv96I2xBMaUyrG6ILlfa+dOxWX9xjtHd28f3BnH+9EMURo5xE6QfgB8n1153vCV
- z+Og==
-X-Gm-Message-State: ACgBeo0d6DO6q9zgArTRnJtcIWxn5bmOsNnsnZr2tUKOL/yt6kzTrES2
- 4SnUKZcC5XMZROo7usy2no9nSA==
-X-Google-Smtp-Source: AA6agR6AphitAA4WWuXIzYe83/p44akyRdamNFHpmt08A15ThoZsGCnrMITfMK/aM5x3cJPzUfO0Dg==
-X-Received: by 2002:aca:2418:0:b0:342:f3e8:4d7b with SMTP id
- n24-20020aca2418000000b00342f3e84d7bmr5103694oic.43.1660894318049; 
- Fri, 19 Aug 2022 00:31:58 -0700 (PDT)
-Received: from anup-ubuntu64-vm.. ([171.76.80.76])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=+M3g05CtGXx7cpJCY8TqrRjr4JUmERV43aiJVnf6ACE=;
+ b=cgr4+o/8d2ldATGcwya/BHnWx2dPmmLKK5P0YDY2mQwxptKhe3EWzIN6sYgus9M5PY
+ /B+FF1w1xx2hHm97/arcQOTE7qpWEsabAvIwRmbnpQ3NiFpBtbVmO02u6ZRWvxThwvh9
+ /rpJuoMTKLIwj2XiMi3zo+9gBSKB7qgLJgmv+PzBusaoca3Y7LfjGNxOO/QPQx+Yz49x
+ WbEphfVkkZBCpGxRU9UtTNUydETrDOEd+DOLmCDMCDGINeYf8BZUJ72foIn7fHnwThjq
+ Zm+KByW216yHggJA8IXyc69bZMsS94azEGkvFGqTgUkHORMGLtLc9lTqVCasO2janZzn
+ 55yw==
+X-Gm-Message-State: ACgBeo1EaTiidhIsWCCdB+gXuZLzD9iWGKOs82SVwd/TIAxOcYR/NKch
+ FvjTtg8MbLBPZhxxI93hdS4hb9WwlbZcG2EzofpuBXvwKLIVMrHpxYh+QbAT6etBrw38LdlH5o5
+ t/qy1VqTHk5ETUrU=
+X-Received: by 2002:a1c:f718:0:b0:3a3:2416:634d with SMTP id
+ v24-20020a1cf718000000b003a32416634dmr4049690wmh.83.1660895422028; 
+ Fri, 19 Aug 2022 00:50:22 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5ap9Vgvw3XxBAiyg2dVMKux9UC0Hu1ZokluhJG2MVLk7ugEfDAXjWc9a0knBk/ypXDUiJ07w==
+X-Received: by 2002:a1c:f718:0:b0:3a3:2416:634d with SMTP id
+ v24-20020a1cf718000000b003a32416634dmr4049661wmh.83.1660895421686; 
+ Fri, 19 Aug 2022 00:50:21 -0700 (PDT)
+Received: from [10.0.0.51] (88-103-235-154.rci.o2.cz. [88.103.235.154])
  by smtp.gmail.com with ESMTPSA id
- bj10-20020a056808198a00b00344aa3f17d9sm875197oib.10.2022.08.19.00.31.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 00:31:57 -0700 (PDT)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>,
- Andrew Jones <ajones@ventanamicro.com>
-Subject: [PATCH v2] target/riscv: Use official extension names for AIA CSRs
-Date: Fri, 19 Aug 2022 13:01:47 +0530
-Message-Id: <20220819073147.174790-1-apatel@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
+ f14-20020a05600c154e00b003a32251c3f9sm9588426wmg.5.2022.08.19.00.50.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Aug 2022 00:50:21 -0700 (PDT)
+Message-ID: <2ac21034-c728-04ad-cb33-07870c1f0cc3@redhat.com>
+Date: Fri, 19 Aug 2022 09:50:20 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2] ci: Upgrade msys2 release to 20220603
+Content-Language: en-US
+To: luoyonggang@gmail.com, "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220728200422.1502-1-luoyonggang@gmail.com>
+ <8721edcf-9f67-5428-4ca9-eba3bd94075e@linaro.org>
+ <CAE2XoE8M+Tz3t=zh5GhX+vYCipNRdZUYieSjtAO2OUsJcYnAPw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAE2XoE8M+Tz3t=zh5GhX+vYCipNRdZUYieSjtAO2OUsJcYnAPw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=apatel@ventanamicro.com; helo=mail-oi1-x232.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,235 +108,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arch review of AIA spec is completed and we now have official
-extension names for AIA: Smaia (M-mode AIA CSRs) and Ssaia (S-mode
-AIA CSRs).
+On 16/08/2022 20.53, 罗勇刚(Yonggang Luo) wrote:
+> I have reason to think that's msys2-64 bit failed because out of memory
+> 
+> I tried to show the memory size of the windows docker, it's result 
+> are 6224352KB, that's less than 6GB?
+> https://gitlab.com/lygstate/qemu/-/jobs/2891399652 
+> <https://gitlab.com/lygstate/qemu/-/jobs/2891399652>
+> 
+> Can we increase the memory size to 16GB
 
-Refer, section 1.6 of the latest AIA v0.3.1 stable specification at
-https://github.com/riscv/riscv-aia/releases/download/0.3.1-draft.32/riscv-interrupts-032.pdf)
+I'm not aware of any way to increase the memory size for gitlab jobs ... 
+Daniel, Alex, do you maybe know?
 
-Based on above, we update QEMU RISC-V to:
-1) Have separate config options for Smaia and Ssaia extensions
-   which replace RISCV_FEATURE_AIA in CPU features
-2) Not generate AIA INTC compatible string in virt machine
-
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
-Changes since v1:
- - Remove redundant "has_aia" parameter from riscv_cpu_pending_to_irq()
----
- hw/intc/riscv_imsic.c     |  4 +++-
- hw/riscv/virt.c           | 13 ++-----------
- target/riscv/cpu.c        |  9 ++++-----
- target/riscv/cpu.h        |  4 ++--
- target/riscv/cpu_helper.c |  4 +++-
- target/riscv/csr.c        | 30 ++++++++++++++++++++++++------
- 6 files changed, 38 insertions(+), 26 deletions(-)
-
-diff --git a/hw/intc/riscv_imsic.c b/hw/intc/riscv_imsic.c
-index 8615e4cc1d..4d4d5b50ca 100644
---- a/hw/intc/riscv_imsic.c
-+++ b/hw/intc/riscv_imsic.c
-@@ -344,9 +344,11 @@ static void riscv_imsic_realize(DeviceState *dev, Error **errp)
- 
-     /* Force select AIA feature and setup CSR read-modify-write callback */
-     if (env) {
--        riscv_set_feature(env, RISCV_FEATURE_AIA);
-         if (!imsic->mmode) {
-+            rcpu->cfg.ext_ssaia = true;
-             riscv_cpu_set_geilen(env, imsic->num_pages - 1);
-+        } else {
-+            rcpu->cfg.ext_smaia = true;
-         }
-         riscv_cpu_set_aia_ireg_rmw_fn(env, (imsic->mmode) ? PRV_M : PRV_S,
-                                       riscv_imsic_rmw, imsic);
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index e779d399ae..b041b33afc 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -261,17 +261,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-         qemu_fdt_add_subnode(mc->fdt, intc_name);
-         qemu_fdt_setprop_cell(mc->fdt, intc_name, "phandle",
-             intc_phandles[cpu]);
--        if (riscv_feature(&s->soc[socket].harts[cpu].env,
--                          RISCV_FEATURE_AIA)) {
--            static const char * const compat[2] = {
--                "riscv,cpu-intc-aia", "riscv,cpu-intc"
--            };
--            qemu_fdt_setprop_string_array(mc->fdt, intc_name, "compatible",
--                                      (char **)&compat, ARRAY_SIZE(compat));
--        } else {
--            qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
--                "riscv,cpu-intc");
--        }
-+        qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-+            "riscv,cpu-intc");
-         qemu_fdt_setprop(mc->fdt, intc_name, "interrupt-controller", NULL, 0);
-         qemu_fdt_setprop_cell(mc->fdt, intc_name, "#interrupt-cells", 1);
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d11113fbaa..3cf0c86661 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -101,6 +101,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-+    ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
-+    ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
-     ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
-     ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
-     ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
-@@ -669,10 +671,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    if (cpu->cfg.aia) {
--        riscv_set_feature(env, RISCV_FEATURE_AIA);
--    }
--
-     if (cpu->cfg.debug) {
-         riscv_set_feature(env, RISCV_FEATURE_DEBUG);
-     }
-@@ -1058,7 +1056,8 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     /* ePMP 0.9.3 */
-     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
--    DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
-+    DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
-+    DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
- 
-     DEFINE_PROP_END_OF_LIST(),
- };
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 42edfa4558..15cad73def 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -85,7 +85,6 @@ enum {
-     RISCV_FEATURE_PMP,
-     RISCV_FEATURE_EPMP,
-     RISCV_FEATURE_MISA,
--    RISCV_FEATURE_AIA,
-     RISCV_FEATURE_DEBUG
- };
- 
-@@ -452,6 +451,8 @@ struct RISCVCPUConfig {
-     bool ext_zve64f;
-     bool ext_zmmul;
-     bool ext_sscofpmf;
-+    bool ext_smaia;
-+    bool ext_ssaia;
-     bool rvv_ta_all_1s;
-     bool rvv_ma_all_1s;
- 
-@@ -472,7 +473,6 @@ struct RISCVCPUConfig {
-     bool mmu;
-     bool pmp;
-     bool epmp;
--    bool aia;
-     bool debug;
-     uint64_t resetvec;
- 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 81948b37dd..137988808b 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -309,6 +309,8 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
-                                     int extirq, unsigned int extirq_def_prio,
-                                     uint64_t pending, uint8_t *iprio)
- {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-     int irq, best_irq = RISCV_EXCP_NONE;
-     unsigned int prio, best_prio = UINT_MAX;
- 
-@@ -317,7 +319,7 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
-     }
- 
-     irq = ctz64(pending);
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    if (!((extirq == IRQ_M_EXT) ? cpu->cfg.ext_smaia : cpu->cfg.ext_ssaia)) {
-         return irq;
-     }
- 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 2dcd4e5b2d..b9bce9821f 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -181,7 +181,10 @@ static RISCVException any32(CPURISCVState *env, int csrno)
- 
- static int aia_any(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_smaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -190,7 +193,10 @@ static int aia_any(CPURISCVState *env, int csrno)
- 
- static int aia_any32(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_smaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -217,7 +223,10 @@ static int smode32(CPURISCVState *env, int csrno)
- 
- static int aia_smode(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -226,7 +235,10 @@ static int aia_smode(CPURISCVState *env, int csrno)
- 
- static int aia_smode32(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -282,7 +294,10 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
- 
- static int aia_hmode(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-      }
- 
-@@ -291,7 +306,10 @@ static int aia_hmode(CPURISCVState *env, int csrno)
- 
- static int aia_hmode32(CPURISCVState *env, int csrno)
- {
--    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--- 
-2.34.1
+  Thomas
 
 
