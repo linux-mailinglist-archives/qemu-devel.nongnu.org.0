@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E246D59A2C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:03:53 +0200 (CEST)
-Received: from localhost ([::1]:55756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5034959A2C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:07:55 +0200 (CEST)
+Received: from localhost ([::1]:46308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5PV-0001vz-07
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56414)
+	id 1oP5TN-0007D4-Qw
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5Hh-0007nO-CL; Fri, 19 Aug 2022 12:55:49 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14232)
+ id 1oP5Hh-0007nK-BH; Fri, 19 Aug 2022 12:55:49 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5Hc-0000wf-Ez; Fri, 19 Aug 2022 12:55:48 -0400
+ id 1oP5Hc-0000wm-G5; Fri, 19 Aug 2022 12:55:48 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EE4AC746FDE;
- Fri, 19 Aug 2022 18:55:40 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 0995D74763C;
+ Fri, 19 Aug 2022 18:55:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BA5AA746E07; Fri, 19 Aug 2022 18:55:40 +0200 (CEST)
-Message-Id: <ba17808e34e7515addaf3e9e897c714b6069350f.1660926381.git.balaton@eik.bme.hu>
+ id C53287475F9; Fri, 19 Aug 2022 18:55:41 +0200 (CEST)
+Message-Id: <a6996dfd677fe3557032efdab65ae8fbf9654391.1660926381.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1660926381.git.balaton@eik.bme.hu>
 References: <cover.1660926381.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 02/20] ppc4xx: Introduce Ppc4xxSdramBank struct
+Subject: [PATCH 03/20] ppc4xx_sdram: Get rid of the init RAM hack
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -34,8 +34,8 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Aug 2022 18:55:40 +0200 (CEST)
-X-Spam-Probability: 10%
+Date: Fri, 19 Aug 2022 18:55:41 +0200 (CEST)
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -58,272 +58,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of storing sdram bank parameters in unrelated arrays put them
-in a struct so it's clear they belong to the same bank and simplify
-the state struct using this bank type.
+The do_init parameter of ppc4xx_sdram_init() is used to map memory
+regions that is normally done by the firmware by programming the SDRAM
+controller. This is needed when booting a kernel directly from -kernel
+without a firmware. Do this from board code accesing normal SDRAM
+controller registers the same way as firmware would do, so we can get
+rid of this hack.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/ppc440_uc.c      | 49 +++++++++++++++++-----------------
- hw/ppc/ppc4xx_devs.c    | 59 ++++++++++++++++++++---------------------
- include/hw/ppc/ppc4xx.h |  8 ++++++
- 3 files changed, 61 insertions(+), 55 deletions(-)
+ hw/ppc/ppc405.h         |  1 -
+ hw/ppc/ppc405_boards.c  |  9 +++++++--
+ hw/ppc/ppc405_uc.c      |  4 +---
+ hw/ppc/ppc440_bamboo.c  |  8 +++++++-
+ hw/ppc/ppc440_uc.c      |  2 --
+ hw/ppc/ppc4xx_devs.c    | 11 +----------
+ include/hw/ppc/ppc4xx.h |  8 ++++++--
+ 7 files changed, 22 insertions(+), 21 deletions(-)
 
+diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+index 1e558c7831..756865621b 100644
+--- a/hw/ppc/ppc405.h
++++ b/hw/ppc/ppc405.h
+@@ -169,7 +169,6 @@ struct Ppc405SoCState {
+     /* Public */
+     MemoryRegion ram_banks[2];
+     hwaddr ram_bases[2], ram_sizes[2];
+-    bool do_dram_init;
+ 
+     MemoryRegion *dram_mr;
+     hwaddr ram_size;
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 083f12b23e..0a29ad97c7 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -263,6 +263,13 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
+         boot_info.cmdline_size = bdloc + len;
+     }
+ 
++    /* Enable SDRAM memory regions */
++    if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
++        ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
++        error_report("Could not enable memory regions");
++        exit(1);
++    }
++
+     /* Install our custom reset handler to start from Linux */
+     qemu_register_reset(main_cpu_reset, cpu);
+     env->load_info = &boot_info;
+@@ -288,8 +295,6 @@ static void ppc405_init(MachineState *machine)
+                              machine->ram_size, &error_fatal);
+     object_property_set_link(OBJECT(&ppc405->soc), "dram",
+                              OBJECT(machine->ram), &error_abort);
+-    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+-                             kernel_filename != NULL, &error_abort);
+     object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+                              &error_abort);
+     qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index 6296130936..2833d0d538 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -1078,8 +1078,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+                              s->ram_bases[0], s->ram_sizes[0]);
+ 
+     ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
+-                      s->ram_banks, s->ram_bases, s->ram_sizes,
+-                      s->do_dram_init);
++                      s->ram_banks, s->ram_bases, s->ram_sizes);
+ 
+     /* External bus controller */
+     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
+@@ -1157,7 +1156,6 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+ static Property ppc405_soc_properties[] = {
+     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+-    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
+     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index 5ec82fa8c2..e3412c4fcd 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -211,7 +211,13 @@ static void bamboo_init(MachineState *machine)
+     ppc4xx_sdram_init(env,
+                       qdev_get_gpio_in(uicdev, 14),
+                       PPC440EP_SDRAM_NR_BANKS, ram_memories,
+-                      ram_bases, ram_sizes, 1);
++                      ram_bases, ram_sizes);
++    /* Enable SDRAM memory regions, this should be done by the firmware */
++    if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
++        ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
++        error_report("couldn't enable memory regions");
++        exit(1);
++    }
+ 
+     /* PCI */
+     dev = sysbus_create_varargs(TYPE_PPC4xx_PCI_HOST_BRIDGE,
 diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 53e981ddf4..db33334e29 100644
+index db33334e29..6ab0ad7985 100644
 --- a/hw/ppc/ppc440_uc.c
 +++ b/hw/ppc/ppc440_uc.c
-@@ -16,7 +16,7 @@
- #include "qemu/module.h"
- #include "hw/irq.h"
- #include "exec/memory.h"
--#include "hw/ppc/ppc.h"
-+#include "hw/ppc/ppc4xx.h"
- #include "hw/qdev-properties.h"
- #include "hw/pci/pci.h"
- #include "sysemu/block-backend.h"
-@@ -485,11 +485,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
- typedef struct ppc440_sdram_t {
-     uint32_t addr;
-     int nbanks;
--    MemoryRegion containers[4]; /* used for clipping */
--    MemoryRegion *ram_memories;
--    hwaddr ram_bases[4];
--    hwaddr ram_sizes[4];
--    uint32_t bcr[4];
-+    Ppc4xxSdramBank bank[4];
+@@ -489,8 +489,6 @@ typedef struct ppc440_sdram_t {
  } ppc440_sdram_t;
  
  enum {
-@@ -570,23 +566,23 @@ static uint64_t sdram_size(uint32_t bcr)
- static void sdram_set_bcr(ppc440_sdram_t *sdram, int i,
-                           uint32_t bcr, int enabled)
- {
--    if (sdram->bcr[i] & 1) {
-+    if (sdram->bank[i].bcr & 1) {
-         /* First unmap RAM if enabled */
-         memory_region_del_subregion(get_system_memory(),
--                                    &sdram->containers[i]);
--        memory_region_del_subregion(&sdram->containers[i],
--                                    &sdram->ram_memories[i]);
--        object_unparent(OBJECT(&sdram->containers[i]));
-+                                    &sdram->bank[i].container);
-+        memory_region_del_subregion(&sdram->bank[i].container,
-+                                    &sdram->bank[i].ram);
-+        object_unparent(OBJECT(&sdram->bank[i].container));
-     }
--    sdram->bcr[i] = bcr & 0xffe0ffc1;
-+    sdram->bank[i].bcr = bcr & 0xffe0ffc1;
-     if (enabled && (bcr & 1)) {
--        memory_region_init(&sdram->containers[i], NULL, "sdram-containers",
-+        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
-                            sdram_size(bcr));
--        memory_region_add_subregion(&sdram->containers[i], 0,
--                                    &sdram->ram_memories[i]);
-+        memory_region_add_subregion(&sdram->bank[i].container, 0,
-+                                    &sdram->bank[i].ram);
-         memory_region_add_subregion(get_system_memory(),
-                                     sdram_base(bcr),
--                                    &sdram->containers[i]);
-+                                    &sdram->bank[i].container);
-     }
- }
- 
-@@ -595,9 +591,9 @@ static void sdram_map_bcr(ppc440_sdram_t *sdram)
-     int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
--        if (sdram->ram_sizes[i] != 0) {
--            sdram_set_bcr(sdram, i, sdram_bcr(sdram->ram_bases[i],
--                                              sdram->ram_sizes[i]), 1);
-+        if (sdram->bank[i].size != 0) {
-+            sdram_set_bcr(sdram, i, sdram_bcr(sdram->bank[i].base,
-+                                              sdram->bank[i].size), 1);
-         } else {
-             sdram_set_bcr(sdram, i, 0, 0);
-         }
-@@ -614,9 +610,9 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
-     case SDRAM_R1BAS:
-     case SDRAM_R2BAS:
-     case SDRAM_R3BAS:
--        if (sdram->ram_sizes[dcrn - SDRAM_R0BAS]) {
--            ret = sdram_bcr(sdram->ram_bases[dcrn - SDRAM_R0BAS],
--                            sdram->ram_sizes[dcrn - SDRAM_R0BAS]);
-+        if (sdram->bank[dcrn - SDRAM_R0BAS].size) {
-+            ret = sdram_bcr(sdram->bank[dcrn - SDRAM_R0BAS].base,
-+                            sdram->bank[dcrn - SDRAM_R0BAS].size);
-         }
-         break;
-     case SDRAM_CONF1HB:
-@@ -701,12 +697,15 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
-                        int do_init)
- {
-     ppc440_sdram_t *sdram;
-+    int i;
- 
-     sdram = g_malloc0(sizeof(*sdram));
-     sdram->nbanks = nbanks;
--    sdram->ram_memories = ram_memories;
--    memcpy(sdram->ram_bases, ram_bases, nbanks * sizeof(hwaddr));
--    memcpy(sdram->ram_sizes, ram_sizes, nbanks * sizeof(hwaddr));
-+    for (i = 0; i < nbanks; i++) {
-+        sdram->bank[i].ram = ram_memories[i];
-+        sdram->bank[i].base = ram_bases[i];
-+        sdram->bank[i].size = ram_sizes[i];
-+    }
-     qemu_register_reset(&sdram_reset, sdram);
-     ppc_dcr_register(env, SDRAM0_CFGADDR,
-                      sdram, &dcr_read_sdram, &dcr_write_sdram);
+-    SDRAM0_CFGADDR = 0x10,
+-    SDRAM0_CFGDATA,
+     SDRAM_R0BAS = 0x40,
+     SDRAM_R1BAS,
+     SDRAM_R2BAS,
 diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index b4cd10f735..1226ec4aa9 100644
+index 1226ec4aa9..936d6f77fe 100644
 --- a/hw/ppc/ppc4xx_devs.c
 +++ b/hw/ppc/ppc4xx_devs.c
-@@ -42,10 +42,7 @@ typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
- struct ppc4xx_sdram_t {
-     uint32_t addr;
-     int nbanks;
--    MemoryRegion containers[4]; /* used for clipping */
--    MemoryRegion *ram_memories;
--    hwaddr ram_bases[4];
--    hwaddr ram_sizes[4];
-+    Ppc4xxSdramBank bank[4];
-     uint32_t besr0;
-     uint32_t besr1;
-     uint32_t bear;
-@@ -53,7 +50,6 @@ struct ppc4xx_sdram_t {
-     uint32_t status;
-     uint32_t rtr;
-     uint32_t pmit;
--    uint32_t bcr[4];
-     uint32_t tr;
-     uint32_t ecccfg;
-     uint32_t eccesr;
-@@ -131,26 +127,26 @@ static target_ulong sdram_size(uint32_t bcr)
- static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
-                           uint32_t bcr, int enabled)
- {
--    if (sdram->bcr[i] & 0x00000001) {
-+    if (sdram->bank[i].bcr & 0x00000001) {
-         /* Unmap RAM */
--        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bcr[i]),
--                                 sdram_size(sdram->bcr[i]));
-+        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
-+                                 sdram_size(sdram->bank[i].bcr));
-         memory_region_del_subregion(get_system_memory(),
--                                    &sdram->containers[i]);
--        memory_region_del_subregion(&sdram->containers[i],
--                                    &sdram->ram_memories[i]);
--        object_unparent(OBJECT(&sdram->containers[i]));
-+                                    &sdram->bank[i].container);
-+        memory_region_del_subregion(&sdram->bank[i].container,
-+                                    &sdram->bank[i].ram);
-+        object_unparent(OBJECT(&sdram->bank[i].container));
-     }
--    sdram->bcr[i] = bcr & 0xFFDEE001;
-+    sdram->bank[i].bcr = bcr & 0xFFDEE001;
-     if (enabled && (bcr & 0x00000001)) {
-         trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
--        memory_region_init(&sdram->containers[i], NULL, "sdram-containers",
-+        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
-                            sdram_size(bcr));
--        memory_region_add_subregion(&sdram->containers[i], 0,
--                                    &sdram->ram_memories[i]);
-+        memory_region_add_subregion(&sdram->bank[i].container, 0,
-+                                    &sdram->bank[i].ram);
-         memory_region_add_subregion(get_system_memory(),
-                                     sdram_base(bcr),
--                                    &sdram->containers[i]);
-+                                    &sdram->bank[i].container);
-     }
- }
+@@ -56,11 +56,6 @@ struct ppc4xx_sdram_t {
+     qemu_irq irq;
+ };
  
-@@ -159,9 +155,9 @@ static void sdram_map_bcr(ppc4xx_sdram_t *sdram)
-     int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
--        if (sdram->ram_sizes[i] != 0) {
--            sdram_set_bcr(sdram, i, sdram_bcr(sdram->ram_bases[i],
--                                              sdram->ram_sizes[i]), 1);
-+        if (sdram->bank[i].size != 0) {
-+            sdram_set_bcr(sdram, i, sdram_bcr(sdram->bank[i].base,
-+                                              sdram->bank[i].size), 1);
-         } else {
-             sdram_set_bcr(sdram, i, 0x00000000, 0);
-         }
-@@ -173,10 +169,10 @@ static void sdram_unmap_bcr(ppc4xx_sdram_t *sdram)
-     int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
--        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bcr[i]),
--                                 sdram_size(sdram->bcr[i]));
-+        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
-+                                 sdram_size(sdram->bank[i].bcr));
-         memory_region_del_subregion(get_system_memory(),
--                                    &sdram->ram_memories[i]);
-+                                    &sdram->bank[i].ram);
-     }
- }
- 
-@@ -214,16 +210,16 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
-             ret = sdram->pmit;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            ret = sdram->bcr[0];
-+            ret = sdram->bank[0].bcr;
-             break;
-         case 0x44: /* SDRAM_B1CR */
--            ret = sdram->bcr[1];
-+            ret = sdram->bank[1].bcr;
-             break;
-         case 0x48: /* SDRAM_B2CR */
--            ret = sdram->bcr[2];
-+            ret = sdram->bank[2].bcr;
-             break;
-         case 0x4C: /* SDRAM_B3CR */
--            ret = sdram->bcr[3];
-+            ret = sdram->bank[3].bcr;
-             break;
-         case 0x80: /* SDRAM_TR */
-             ret = -1; /* ? */
-@@ -358,13 +354,16 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
-                        int do_init)
+-enum {
+-    SDRAM0_CFGADDR = 0x010,
+-    SDRAM0_CFGDATA = 0x011,
+-};
+-
+ /*
+  * XXX: TOFIX: some patches have made this code become inconsistent:
+  *      there are type inconsistencies, mixing hwaddr, target_ulong
+@@ -350,8 +345,7 @@ static void sdram_reset(void *opaque)
+ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
+                        MemoryRegion *ram_memories,
+                        hwaddr *ram_bases,
+-                       hwaddr *ram_sizes,
+-                       int do_init)
++                       hwaddr *ram_sizes)
  {
      ppc4xx_sdram_t *sdram;
-+    int i;
- 
-     sdram = g_new0(ppc4xx_sdram_t, 1);
-     sdram->irq = irq;
-     sdram->nbanks = nbanks;
--    sdram->ram_memories = ram_memories;
--    memcpy(sdram->ram_bases, ram_bases, nbanks * sizeof(hwaddr));
--    memcpy(sdram->ram_sizes, ram_sizes, nbanks * sizeof(hwaddr));
-+    for (i = 0; i < nbanks; i++) {
-+        sdram->bank[i].ram = ram_memories[i];
-+        sdram->bank[i].base = ram_bases[i];
-+        sdram->bank[i].size = ram_sizes[i];
-+    }
-     qemu_register_reset(&sdram_reset, sdram);
-     ppc_dcr_register(env, SDRAM0_CFGADDR,
+     int i;
+@@ -369,9 +363,6 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
                       sdram, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM0_CFGDATA,
+                      sdram, &dcr_read_sdram, &dcr_write_sdram);
+-    if (do_init) {
+-        sdram_map_bcr(sdram);
+-    }
+ }
+ 
+ /*
 diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index a1781afa8e..2af0d60577 100644
+index 2af0d60577..a5e6c185af 100644
 --- a/include/hw/ppc/ppc4xx.h
 +++ b/include/hw/ppc/ppc4xx.h
-@@ -29,6 +29,14 @@
- #include "exec/memory.h"
- #include "hw/sysbus.h"
+@@ -37,6 +37,11 @@ typedef struct {
+     uint32_t bcr;
+ } Ppc4xxSdramBank;
  
-+typedef struct {
-+    MemoryRegion ram;
-+    MemoryRegion container; /* used for clipping */
-+    hwaddr base;
-+    hwaddr size;
-+    uint32_t bcr;
-+} Ppc4xxSdramBank;
++enum {
++    SDRAM0_CFGADDR = 0x010,
++    SDRAM0_CFGDATA = 0x011,
++};
 +
  void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
                          MemoryRegion ram_memories[],
                          hwaddr ram_bases[], hwaddr ram_sizes[],
+@@ -45,8 +50,7 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+                         MemoryRegion ram_memories[],
+                         hwaddr *ram_bases,
+-                        hwaddr *ram_sizes,
+-                        int do_init);
++                        hwaddr *ram_sizes);
+ 
+ #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
+ 
 -- 
 2.30.4
 
