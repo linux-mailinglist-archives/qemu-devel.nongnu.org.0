@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B111659A2C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:03:46 +0200 (CEST)
-Received: from localhost ([::1]:59564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120C259A2B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 18:58:23 +0200 (CEST)
+Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5PN-0001kB-R2
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52748)
+	id 1oP5K9-0003tt-TE
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 12:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5GJ-0006dG-IA
+ id 1oP5GJ-0006dE-HK
  for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:54:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28230)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oP5GD-0000Zs-Hv
+ id 1oP5GD-0000Zx-I3
  for qemu-devel@nongnu.org; Fri, 19 Aug 2022 12:54:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660928051;
+ s=mimecast20190719; t=1660928053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fFAaId1uFIThEgAvJmcI88AUm2jppv3aFgHjdbZAtUM=;
- b=fe4xi2HQ/IInysVeA5WBEw9e2ARkgoi1Pfz9bjvCaK/BbC81ORtC27JlxSuFla8634gzvn
- YvZ0K7xXxN95w5mYJqa57jgQDPPrX0V6VFdiUuciebsj4zEg0+H/ld+8jCeLDfeuYkVA2U
- xnN9pADPztc+0f9zadhYADUiIxNpYL0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8ZrDFQPvA2ha/NNE0Gf5lA5+keNhWYZOdGwM1beFqHQ=;
+ b=DLb42c7hocgUrh1gIyoNZJLM4QPTArqk3umDSNbHggaLgt74Qb9QtMn45ehyqoiSbO8/SC
+ DFJTVGxLVmJaKS6mQTA0mASyGwRq5a6QUTA9N5mta3W0pQMNBzTBbHuqHEByTAqCEfCyTd
+ jkc/GMpmz8ZnuIOdVenwO015BkWGzJw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-qGiAc2V_MYqLzrrml9XArQ-1; Fri, 19 Aug 2022 12:54:10 -0400
-X-MC-Unique: qGiAc2V_MYqLzrrml9XArQ-1
+ us-mta-393-3piho8MkOMqMDZOz2zQLfg-1; Fri, 19 Aug 2022 12:54:12 -0400
+X-MC-Unique: 3piho8MkOMqMDZOz2zQLfg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 415F31029F77
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 16:54:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAA4D3C025B2
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 16:54:11 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F28732026609;
- Fri, 19 Aug 2022 16:54:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86C442026D4C;
+ Fri, 19 Aug 2022 16:54:10 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Lei Yang <leiyang@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Peter Xu <peterx@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH 6/7] vhost: Always store new kick fd on
- vhost_svq_set_svq_kick_fd
-Date: Fri, 19 Aug 2022 18:53:56 +0200
-Message-Id: <20220819165357.3591965-7-eperezma@redhat.com>
+Subject: [PATCH 7/7] vdpa: Use ring hwaddr at vhost_vdpa_svq_unmap_ring
+Date: Fri, 19 Aug 2022 18:53:57 +0200
+Message-Id: <20220819165357.3591965-8-eperezma@redhat.com>
 In-Reply-To: <20220819165357.3591965-1-eperezma@redhat.com>
 References: <20220819165357.3591965-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -82,49 +81,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can unbind twice a file descriptor if we call twice
-vhost_svq_set_svq_kick_fd because of this. Since it comes from vhost and
-not from SVQ, that file descriptor could be a different thing that
-guest's vhost notifier.
+Reduce code duplication.
 
-Likewise, it can happens the same if a guest start and stop the device
-multiple times.
-
-Reported-by: Lei Yang <leiyang@redhat.com>
-Fixes: dff4426fa6 ("vhost: Add Shadow VirtQueue kick forwarding capabilities")
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-vdpa.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index e4956728dd..82a784d250 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -602,13 +602,13 @@ void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd)
-         event_notifier_set_handler(svq_kick, NULL);
-     }
- 
-+    event_notifier_init_fd(svq_kick, svq_kick_fd);
-     /*
-      * event_notifier_set_handler already checks for guest's notifications if
-      * they arrive at the new file descriptor in the switch, so there is no
-      * need to explicitly check for them.
-      */
-     if (poll_start) {
--        event_notifier_init_fd(svq_kick, svq_kick_fd);
-         event_notifier_set(svq_kick);
-         event_notifier_set_handler(svq_kick, vhost_handle_guest_kick_notifier);
-     }
-@@ -655,7 +655,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 07d00f5284..45d6e86b45 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -884,10 +884,12 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev *dev,
+ /**
+  * Unmap a SVQ area in the device
   */
- void vhost_svq_stop(VhostShadowVirtqueue *svq)
+-static void vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+-                                      const DMAMap *needle)
++static void vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v, hwaddr addr)
  {
--    event_notifier_set_handler(&svq->svq_kick, NULL);
-+    vhost_svq_set_svq_kick_fd(svq, VHOST_FILE_UNBIND);
-     g_autofree VirtQueueElement *next_avail_elem = NULL;
+-    const DMAMap *result = vhost_iova_tree_find_iova(v->iova_tree, needle);
++    const DMAMap needle = {
++        .translated_addr = addr,
++    };
++    const DMAMap *result = vhost_iova_tree_find_iova(v->iova_tree, &needle);
+     hwaddr size;
+     int r;
  
-     if (!svq->vq) {
+@@ -908,17 +910,14 @@ static void vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+ static void vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+                                        const VhostShadowVirtqueue *svq)
+ {
+-    DMAMap needle = {};
+     struct vhost_vdpa *v = dev->opaque;
+     struct vhost_vring_addr svq_addr;
+ 
+     vhost_svq_get_vring_addr(svq, &svq_addr);
+ 
+-    needle.translated_addr = svq_addr.desc_user_addr;
+-    vhost_vdpa_svq_unmap_ring(v, &needle);
++    vhost_vdpa_svq_unmap_ring(v, svq_addr.desc_user_addr);
+ 
+-    needle.translated_addr = svq_addr.used_user_addr;
+-    vhost_vdpa_svq_unmap_ring(v, &needle);
++    vhost_vdpa_svq_unmap_ring(v, svq_addr.used_user_addr);
+ }
+ 
+ /**
+@@ -996,7 +995,7 @@ static bool vhost_vdpa_svq_map_rings(struct vhost_dev *dev,
+     ok = vhost_vdpa_svq_map_ring(v, &device_region, errp);
+     if (unlikely(!ok)) {
+         error_prepend(errp, "Cannot create vq device region: ");
+-        vhost_vdpa_svq_unmap_ring(v, &driver_region);
++        vhost_vdpa_svq_unmap_ring(v, driver_region.translated_addr);
+     }
+     addr->used_user_addr = device_region.iova;
+ 
 -- 
 2.31.1
 
