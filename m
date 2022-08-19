@@ -2,83 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60AE159A71D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 22:49:18 +0200 (CEST)
-Received: from localhost ([::1]:57990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5FF59A8EB
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 00:55:56 +0200 (CEST)
+Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP8vc-0000d3-1t
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 16:49:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55634)
+	id 1oPAuB-0002Rp-DM
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 18:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oP8rZ-0007DL-4p; Fri, 19 Aug 2022 16:45:05 -0400
-Received: from mail-vk1-xa32.google.com ([2607:f8b0:4864:20::a32]:35350)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oPArZ-0000yY-6E
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 18:53:13 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oP8rX-0000az-8k; Fri, 19 Aug 2022 16:45:04 -0400
-Received: by mail-vk1-xa32.google.com with SMTP id i67so2804809vkb.2;
- Fri, 19 Aug 2022 13:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=J5FZFMyY5hsnaHfZ2yCROf/29hrcuK+MckZgnNRAOMc=;
- b=EMPK/LEPXiS0c5J/TRpc/cAtNph4riLAuevFPHj9vqU7mwmRBRLkwgGl617w6Ul6+0
- dIRVhRh2yDdZt4Y0KkO6k+sCCUAAsFSr/4jo6b8Sw6vGfbzMrqEqnGD959bgyQV7uxmm
- 72ZSpAJEdsFZO0PiW7O5zH5oyXw+W7muRwgKj3lN5t6LzY7c0WwNpXhyZ3/sxVmENohJ
- hP2U9NBPgqAGIjVugaSoBb5GBH8aGtqqrivjJgC1vXQ1JRpYS3SaZ9XEy1hGsMqMZhMY
- OglpTwmlDp3ek9jLWpxQRTkZqXmS2V9WPG6HwcWuAZJxq7EgEoSG8cXYKsHIYe6mz7pv
- e/pQ==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oPArU-0002Pk-HX
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 18:53:12 -0400
+Received: by mail-pl1-x632.google.com with SMTP id d10so5256101plr.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 15:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=bxsKzsoodl9uJzFJZZrQwWPMoj9Im81AmgcsZB9Gfmw=;
+ b=qt/sbuA4OKmJaHmOuxnwa2lGGy6KF/9YxtJ8CEBc62ECZi8/Xq0wY0tron+FkYYdUs
+ X9/M4egtRP0lG6q4e8/IWltnCwwAIXqgqPcmV59AnmXMmxflSpitxJaAXuVmi8jeOb7u
+ ZYWkCe4cfUOnwv+GJ6FAghcaXtVFWtU/VjFn+HZAKAe7LVuzmplI1YXQYgelBcp8xph3
+ XxuS2HQx3IoH2+jqfCiCLhnkIeS5J/e3C/uJb7oa4kLmq1AEXHLKDQEqspeDUi54j69u
+ rkCsWutnedC/95sn0+Cf9uinQ+8ih+35v91Myr1oidh4MK/5DNYfVzYMeF+QXp50vSUG
+ yQZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=J5FZFMyY5hsnaHfZ2yCROf/29hrcuK+MckZgnNRAOMc=;
- b=sYvhUlyY0xUykJgNq9uTHhxu6YzP5/k65ytAnfqizkRCzN98+cBz4hsIQ4ThKm4qDH
- iNp+p2Hd1zoJA/X363mPHoXU/CkUPILqDOUVzqx6mNxyiDp69G3gyvuvm9Ak+qd+uSzZ
- HhFs7rt3Yr4PMsLWl+y465cSby+JvP1hqE19wwJVVVAJY/FpT3rLbfA/ut1Xxh1fSSTQ
- AQt0JyKAKAHEaZNRobWFhW+CleQI34zQPYNMXnIUklO+j99YucVgGwwkNM3LRzcTTMzn
- tQj5DtZhrCkzLs49u1U1hhzrmJp5/ShcIr4XebU8TReLApe7OxsglpqZljF/NrORyWBh
- MkQw==
-X-Gm-Message-State: ACgBeo0L4cIvug+v20AV1K7uINvephvsvVug43COY67STjAv1mvY4+5u
- ykmT/oPC2bUJEGUHngC3IQs=
-X-Google-Smtp-Source: AA6agR4dkcVc6totp58p+IbjZqNE7dssnH5jzB3VxH+OHkWYZPskX8GyVjQToPxk+jGF810IiyR33g==
-X-Received: by 2002:a05:6122:635:b0:389:9ad6:f974 with SMTP id
- g21-20020a056122063500b003899ad6f974mr1185283vkp.4.1660941901786; 
- Fri, 19 Aug 2022 13:45:01 -0700 (PDT)
-Received: from [192.168.10.102] ([189.110.115.28])
- by smtp.gmail.com with ESMTPSA id
- n72-20020a1f274b000000b0037907a59f76sm3155984vkn.29.2022.08.19.13.44.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 13:45:01 -0700 (PDT)
-Message-ID: <f34748b1-f7e2-6363-fbf9-ad72c902e1aa@gmail.com>
-Date: Fri, 19 Aug 2022 17:44:57 -0300
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=bxsKzsoodl9uJzFJZZrQwWPMoj9Im81AmgcsZB9Gfmw=;
+ b=3FA+uXteeTEIDSWU/TJuF5NQUe1yDLGGb65HIpWPAVawUpvFRG411B9R18rnsBBel/
+ 3ot+x/BW2lJOYGTv/Rna+4deDyRDqDdbXs2KJzdOaH9rtT/9E3aYvkM5RKxwHkPQQiTF
+ Wawu3hrmZwMxHB476GZwprK0gv0xiZiKGZaOLhkOMWIw2Zk1NpnEVRm4t1W6bNMtRgh/
+ nCEXg2qwyUs6GHRFm9m20kILN5WSR5jeH3dEX0O0h3rR/rHO+E8Ji+NivsT1eWvefa8G
+ 0qZFIBKNgPMZHdjq/D+BKkZ5CXmScMk/nNwe8pVza9qLzgSPhDyuew4tYQZ8zGKPA7lU
+ XIhQ==
+X-Gm-Message-State: ACgBeo1cRHiojqd2rpQKj3DTAYMAW/qGST8I4ZMarDRz9yMOYnny6/V2
+ ivHixWpgwohBvJWdB0FYmL3ZFg==
+X-Google-Smtp-Source: AA6agR5KPMZr3qT4HevDmGgIVF/eFJY3pV4hPcGRLPDFcNa+kb45vL5UZGGsRX6sXCEs8crjgoKfEw==
+X-Received: by 2002:a17:90b:1b4a:b0:1f5:5578:6398 with SMTP id
+ nv10-20020a17090b1b4a00b001f555786398mr10621956pjb.122.1660949586764; 
+ Fri, 19 Aug 2022 15:53:06 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ h2-20020a63c002000000b0040cb1f55391sm3280975pgg.2.2022.08.19.15.53.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Aug 2022 15:53:06 -0700 (PDT)
+Date: Fri, 19 Aug 2022 22:53:02 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Hugh Dickins <hughd@google.com>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YwAUTk5BOkUQSF3B@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
+ <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH for-7.2 v3 20/20] hmp, device_tree.c: add 'info fdt
- <property>' support
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
- alistair.francis@wdc.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220816173428.157304-1-danielhb413@gmail.com>
- <20220816173428.157304-21-danielhb413@gmail.com> <Yv2XOd3kDB+fgHDi@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <Yv2XOd3kDB+fgHDi@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a32;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa32.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,218 +116,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/17/22 22:34, David Gibson wrote:
-> On Tue, Aug 16, 2022 at 02:34:28PM -0300, Daniel Henrique Barboza wrote:
->> 'info fdt' is only able to print full nodes so far. It would be good to
->> be able to also print single properties, since ometimes we just want
->> to verify a single value from the FDT.
->>
->> libfdt does not have support to find a property given its full path, but
->> it does have a way to return a fdt_property given a prop name and its
->> subnode.
->>
->> Add a new optional 'propname' parameter to x-query-fdt to specify the
->> property of a given node. If it's present, we'll proceed to find the
->> node as usual but, instead of printing the node, we'll attempt to find
->> the property and print it standalone.
->>
->> After this change, if an user wants to print just the value of 'cpu' inside
->> /cpu/cpu-map(...) from an ARM FDT, we can do it:
->>
->> (qemu) info fdt /cpus/cpu-map/socket0/cluster0/core0 cpu
->> /cpus/cpu-map/socket0/cluster0/core0/cpu = <0x8001>
->>
->> Or the 'ibm,my-dma-window' from the v-scsi device inside the pSeries
->> FDT:
->>
->> (qemu) info fdt /vdevice/v-scsi@71000003 ibm,my-dma-window
->> /vdevice/v-scsi@71000003/ibm,my-dma-window = <0x71000003 0x0 0x0 0x0 0x10000000>
+On Thu, Aug 18, 2022, Hugh Dickins wrote:
+> On Fri, 19 Aug 2022, Sean Christopherson wrote:
+> > On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
+> > > On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+> > > > If your memory could be migrated, that would be some reason to use
+> > > > filesystem page cache (because page migration happens to understand
+> > > > that type of memory): but it cannot be migrated.
+> > > 
+> > > Migration support is in pipeline. It is part of TDX 1.5 [1]. 
+> > 
+> > And this isn't intended for just TDX (or SNP, or pKVM).  We're not _that_ far off
+> > from being able to use UPM for "regular" VMs as a way to provide defense-in-depth
 > 
-> nit: dts property definitions also include a terminating ';'
-> 	prop = "foobar";
+> UPM? That's an acronym from your side of the fence, I spy references to
+> it in the mail threads, but haven't tracked down a definition.  I'll
+> just take it to mean the fd-based memory we're discussing.
 
+Ya, sorry, UPM is what we came up with as shorthand for "Unmapping guest Private
+Memory".  Your assumption is spot on, it's just a fancy way of saying "guest is
+backed with inaccessible fd-based memory".
 
-I forgot to update the commit msg. The code is already putting
-the semi-colon at the end:
-
-(qemu) info fdt /vdevice/v-scsi@71000003 ibm,my-dma-window
-/vdevice/v-scsi@71000003/ibm,my-dma-window = <0x71000003 0x0 0x0 0x0 0x10000000>;
-(qemu)
-
-
-I'll update it in v4.
-
-Thanks,
-
-Daniel
-
+> > without having to take on the overhead of confidential VMs.  At that point,
+> > migration and probably even swap are on the table.
 > 
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hmp-commands-info.hx         |  9 +++++----
->>   include/sysemu/device_tree.h |  2 ++
->>   monitor/hmp-cmds.c           |  5 ++++-
->>   monitor/qmp-cmds.c           |  8 +++++---
->>   qapi/machine.json            |  4 +++-
->>   softmmu/device_tree.c        | 29 ++++++++++++++++++++++++-----
->>   6 files changed, 43 insertions(+), 14 deletions(-)
->>
->> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->> index 743b48865d..17d6ee4d30 100644
->> --- a/hmp-commands-info.hx
->> +++ b/hmp-commands-info.hx
->> @@ -924,13 +924,14 @@ ERST
->>   
->>       {
->>           .name       = "fdt",
->> -        .args_type  = "nodepath:s",
->> -        .params     = "nodepath",
->> -        .help       = "show firmware device tree node given its path",
->> +        .args_type  = "nodepath:s,propname:s?",
->> +        .params     = "nodepath [propname]",
->> +        .help       = "show firmware device tree node or property given its path",
->>           .cmd        = hmp_info_fdt,
->>       },
->>   
->>   SRST
->>     ``info fdt``
->> -    Show a firmware device tree node given its path. Requires libfdt.
->> +    Show a firmware device tree node or property given its path.
->> +    Requires libfdt.
->>   ERST
->> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
->> index 057d13e397..551a02dee2 100644
->> --- a/include/sysemu/device_tree.h
->> +++ b/include/sysemu/device_tree.h
->> @@ -140,6 +140,8 @@ int qemu_fdt_add_path(void *fdt, const char *path);
->>   void qemu_fdt_dumpdtb(void *fdt, int size);
->>   void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
->>   HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath,
->> +                                          bool has_propname,
->> +                                          const char *propname,
->>                                             Error **errp);
->>   
->>   /**
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index accde90380..df8493adc5 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -2488,8 +2488,11 @@ void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
->>   void hmp_info_fdt(Monitor *mon, const QDict *qdict)
->>   {
->>       const char *nodepath = qdict_get_str(qdict, "nodepath");
->> +    const char *propname = qdict_get_try_str(qdict, "propname");
->>       Error *err = NULL;
->> -    g_autoptr(HumanReadableText) info = qmp_x_query_fdt(nodepath, &err);
->> +    g_autoptr(HumanReadableText) info = NULL;
->> +
->> +    info = qmp_x_query_fdt(nodepath, propname != NULL, propname, &err);
->>   
->>       if (hmp_handle_error(mon, err)) {
->>           return;
->> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
->> index db2c6aa7da..ca2a96cdf7 100644
->> --- a/monitor/qmp-cmds.c
->> +++ b/monitor/qmp-cmds.c
->> @@ -604,9 +604,10 @@ void qmp_dumpdtb(const char *filename, Error **errp)
->>       return qemu_fdt_qmp_dumpdtb(filename, errp);
->>   }
->>   
->> -HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
->> +HumanReadableText *qmp_x_query_fdt(const char *nodepath, bool has_propname,
->> +                                   const char *propname, Error **errp)
->>   {
->> -    return qemu_fdt_qmp_query_fdt(nodepath, errp);
->> +    return qemu_fdt_qmp_query_fdt(nodepath, has_propname, propname, errp);
->>   }
->>   #else
->>   void qmp_dumpdtb(const char *filename, Error **errp)
->> @@ -614,7 +615,8 @@ void qmp_dumpdtb(const char *filename, Error **errp)
->>       error_setg(errp, "dumpdtb requires libfdt");
->>   }
->>   
->> -HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
->> +HumanReadableText *qmp_x_query_fdt(const char *nodepath, bool has_propname,
->> +                                   const char *propname, Error **errp)
->>   {
->>       error_setg(errp, "this command requires libfdt");
->>   
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index 96cff541ca..c15ce60f46 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -1688,6 +1688,7 @@
->>   # Query for FDT element (node or property). Requires 'libfdt'.
->>   #
->>   # @nodepath: the path of the FDT node to be retrieved
->> +# @propname: name of the property inside the node
->>   #
->>   # Features:
->>   # @unstable: This command is meant for debugging.
->> @@ -1697,6 +1698,7 @@
->>   # Since: 7.2
->>   ##
->>   { 'command': 'x-query-fdt',
->> -  'data': { 'nodepath': 'str' },
->> +  'data': { 'nodepath': 'str',
->> +            '*propname': 'str' },
->>     'returns': 'HumanReadableText',
->>     'features': [ 'unstable' ]  }
->> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
->> index 9e681739bd..523c9b8d4d 100644
->> --- a/softmmu/device_tree.c
->> +++ b/softmmu/device_tree.c
->> @@ -823,23 +823,42 @@ static void fdt_format_node(GString *buf, int node, int depth,
->>       g_string_append_printf(buf, "%*s}\n", padding, "");
->>   }
->>   
->> -HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath, Error **errp)
->> +HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath,
->> +                                          bool has_propname,
->> +                                          const char *propname,
->> +                                          Error **errp)
->>   {
->>       g_autoptr(GString) buf = g_string_new("");
->> -    int node;
->> +    const struct fdt_property *prop = NULL;
->> +    void *fdt = current_machine->fdt;
->> +    int node, prop_size;
->>   
->> -    if (!current_machine->fdt) {
->> +    if (!fdt) {
->>           error_setg(errp, "Unable to find the machine FDT");
->>           return NULL;
->>       }
->>   
->> -    node = fdt_path_offset(current_machine->fdt, nodepath);
->> +    node = fdt_path_offset(fdt, nodepath);
->>       if (node < 0) {
->>           error_setg(errp, "node '%s' not found in FDT", nodepath);
->>           return NULL;
->>       }
->>   
->> -    fdt_format_node(buf, node, 0, nodepath);
->> +    if (!has_propname) {
->> +        fdt_format_node(buf, node, 0, nodepath);
->> +    } else {
->> +        g_autofree char *proppath = g_strdup_printf("%s/%s", nodepath,
->> +                                                    propname);
->> +
->> +        prop = fdt_get_property(fdt, node, propname, &prop_size);
->> +        if (!prop) {
->> +            error_setg(errp, "property '%s' not found in node '%s' in FDT",
->> +                       propname, nodepath);
->> +            return NULL;
->> +        }
->> +
->> +        fdt_format_property(buf, proppath, prop->data, prop_size, 0);
->> +    }
->>   
->>       return human_readable_text_from_str(buf);
->>   }
-> 
+> Good, the more "flexible" that memory is, the better for competing users
+> of memory.  But an fd supplied by KVM gives you freedom to change to a
+> better implementation of allocation underneath, whenever it suits you.
+> Maybe shmem beneath is good from the start, maybe not.
+
+The main flaw with KVM providing the fd is that it forces KVM to get into the
+memory management business, which us KVM folks really, really do not want to do.
+And based on the types of bugs KVM has had in the past related to memory management,
+it's a safe bet to say the mm folks don't want us getting involved either :-)
+
+The combination of gup()/follow_pte() and mmu_notifiers has worked very well.
+KVM gets a set of (relatively) simple rules to follow and doesn't have to be taught
+new things every time a new backing type comes along.  And from the other side, KVM
+has very rarely had to go poke into other subsystems' code to support exposing a
+new type of memory to guests.
+
+What we're trying to do with UPM/fd-based memory is establish a similar contract
+between mm and KVM, but without requiring mm to also map memory into host userspace.
+
+The only way having KVM provide the fd works out in the long run is if KVM is the
+only subsystem that ever wants to make use of memory that isn't accessible from
+userspace and isn't tied to a specific backing type, _and_ if the set of backing
+types that KVM ever supports is kept to an absolute minimum.
 
