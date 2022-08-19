@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CB95998AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 11:26:28 +0200 (CEST)
-Received: from localhost ([::1]:55304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8B259985D
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 11:19:52 +0200 (CEST)
+Received: from localhost ([::1]:43272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOyGp-0003MR-1k
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 05:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1oOyAQ-0001Ai-UX
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 05:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oOy3m-0004wJ-Jk
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:12:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20065)
+ id 1oOy3o-0004wq-6P
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:13:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oOy3g-00020N-94
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:12:54 -0400
+ id 1oOy3l-00020S-0l
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 05:12:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660900371;
+ s=mimecast20190719; t=1660900375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4EMgKHQ0Xu+FUWhiEB9pMZWl3Cv1rgpBp876B0qD/Bo=;
- b=cbjqrFy96wQSrP3ti7YQGgV7WBaf5OhBYi0uT/WWYEKQdnwXIwxAshGqsfgBEwih/37YMa
- vvIb7JZInFOMUB+Spk174bB1ylhEpu52kRtJIlT48XUsN3mvKZVykIot3jLiw6JFzfLV7p
- HVx/mLaLomor+ZZTy+sDQJaG89Gk7ig=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/x5zfY4Hnz2TVjAGZn9AXxE8RUrNWwBIiW31HztdEo8=;
+ b=fAKlNOs0eXbtHu1Q2KT1+rBY0RWhHhi/wjIvFTdRsaxWLCMP4gE947SSPxC18qVe0y7lxn
+ kNKN6ycd8Mlfv/aXkQQkk8+uDCID5k7xd7Y1artMFdZVOHAuU2No330XZI7NZUKB3vBKg7
+ aon/T+13vZxavVznH0RGrjSpU3oRRwU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-573-AhmgIYhNOImqmddCuB1MxQ-1; Fri, 19 Aug 2022 05:12:49 -0400
-X-MC-Unique: AhmgIYhNOImqmddCuB1MxQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- b13-20020a056402350d00b0043dfc84c533so2485065edd.5
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 02:12:49 -0700 (PDT)
+ us-mta-352-T6VsFWJGPz-79adKLPOcrQ-1; Fri, 19 Aug 2022 05:12:50 -0400
+X-MC-Unique: T6VsFWJGPz-79adKLPOcrQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ r12-20020a05640251cc00b00440647ec649so2540343edd.21
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 02:12:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=4EMgKHQ0Xu+FUWhiEB9pMZWl3Cv1rgpBp876B0qD/Bo=;
- b=FardZ5qlYCl9DGIgA+ZQvjF3xxxm6r44Se16MOfSdxqZ9z/4RMqhsMUmqvRQRo0O2L
- J9S8zM/3rNDLM1I9lzet2CskiFXwkXvB2DSKMC1lUasVo0nU5gtuYU3ea6Gsb8qJidPJ
- /aZEkW0HuvWpNpAzf5A9AaCe0gS0t9mrIh9AjCJhv5mOke9NNz7fIrrZNtDMrP2EC3Ln
- YkrVYbvXrscQ0LN/YKJU9YDfwM72fflibrgYkYNtjh2Hu+jzYk5fjbd8uig/63GULRYm
- /WKG/ny3SIiCayI462STINUoDGkoUW/4toawjQb7cvUDXqyAfVWjwc2M14Pr9nH/vKBy
- Yzaw==
-X-Gm-Message-State: ACgBeo2yyQgQ4bx394rfPEkYE7ML2SB8eYvyBIy3HNeCmVP7KoQwS01h
- e33uh4kX+y6wUKodlLc3o/oUtBvc9PDf01Olcvk29IGW9JkNgda0UpCZ+smduGUowqulfM+qDpU
- /fOEyxfsxST0eBghDlWfDrwJVbyrM2iEiRc3EnJKw16vZLJefwc6NFqJwdXl4huLCYR0=
-X-Received: by 2002:aa7:d508:0:b0:445:dd73:4f6f with SMTP id
- y8-20020aa7d508000000b00445dd734f6fmr5305820edq.231.1660900368285; 
- Fri, 19 Aug 2022 02:12:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR68O/b+1VlAH5q/XtRy91RbRU5NLh/FwoMxermco4bJRUuY+k4KlOvXAN+PeM2GXMtaerXixQ==
-X-Received: by 2002:aa7:d508:0:b0:445:dd73:4f6f with SMTP id
- y8-20020aa7d508000000b00445dd734f6fmr5305799edq.231.1660900367870; 
- Fri, 19 Aug 2022 02:12:47 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+ bh=/x5zfY4Hnz2TVjAGZn9AXxE8RUrNWwBIiW31HztdEo8=;
+ b=PGnaD/RFMQSa9/ED+ogl2zcCiZWBJ1WtvN09D3BnqMrVeotrGRl1YHrrUaEiXBFYE4
+ kcq3XRdUQj/hY9r3sHKvvEZpBPVCrDMSxlwcuNxPuj35OGZRWE0ltqnDdgG+ODv42T+t
+ CIJutML/f5exgdiG+6y5gSvv8LXs9+/A63VVMmCNDfnooL13hSiVL03ohZYStvWs6858
+ yWbyfFF5V3BT/A9fXzJdt10qFq3aW4f6ERB5kwJYrYpbH4mjN3oa1BoB+nSoh3hFn5Q2
+ rB9DHpg9GRYK4LygInTEDyfVZp1D+t/5JsNAnMnGM+qTMUT9KXKIRZF/PThjxd4kfe+Q
+ tSQg==
+X-Gm-Message-State: ACgBeo3DxI6CG5muCwzmFDOgdE1u37ORbKYusUR7hnJo20B7iygV0G4/
+ AoRHkBHTU2xZ3Ea/Ht82Vu9s01RcKHpLLpnCuAfakPIjRtIz2Dg8XOCUDJ/63EAzC+QQJC/kwTL
+ 72qjP4BjsZ8AMIKUuN/aEmYD7xF+KwTpO0VEoswRV5bTWD25yWh8MFyH8gym+8WS1c3g=
+X-Received: by 2002:a05:6402:304c:b0:440:d482:2fa6 with SMTP id
+ bs12-20020a056402304c00b00440d4822fa6mr5467740edb.344.1660900369425; 
+ Fri, 19 Aug 2022 02:12:49 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6ubOj2HV8EEaHsmV6lkgfMedHte+mSDUsbU0sCuqom2CRp5iJf4mCfOJ4smMyNXim3PVx0IQ==
+X-Received: by 2002:a05:6402:304c:b0:440:d482:2fa6 with SMTP id
+ bs12-20020a056402304c00b00440d4822fa6mr5467727edb.344.1660900369148; 
+ Fri, 19 Aug 2022 02:12:49 -0700 (PDT)
 Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- h23-20020a50ed97000000b00445b5874249sm2707625edr.62.2022.08.19.02.12.46
+ q15-20020a170906360f00b00730a73cbe08sm2052021ejb.169.2022.08.19.02.12.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Aug 2022 02:12:47 -0700 (PDT)
+ Fri, 19 Aug 2022 02:12:48 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] query-stats-schemas crash fix for QEMU 7.1
-Date: Fri, 19 Aug 2022 11:12:45 +0200
-Message-Id: <20220819091246.178546-1-pbonzini@redhat.com>
+Subject: [PULL 1/1] kvm: fix segfault with query-stats-schemas and -M none
+Date: Fri, 19 Aug 2022 11:12:46 +0200
+Message-Id: <20220819091246.178546-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220819091246.178546-1-pbonzini@redhat.com>
+References: <20220819091246.178546-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,30 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c7208a6e0d049f9e8af15df908168a79b1f99685:
+-M none creates a guest without a vCPU, causing the following error:
 
-  Update version for v7.1.0-rc3 release (2022-08-16 20:45:19 -0500)
+$ ./qemu-system-x86_64 -qmp stdio -M none -accel kvm
+{execute:qmp_capabilities}
+{"return": {}}
+{execute: query-stats-schemas}
+Segmentation fault (core dumped)
 
-are available in the Git repository at:
+Fix it by not querying the vCPU stats if first_cpu is NULL.
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to a9197ad2101cfc885cc316af299f49ba89039e54:
-
-  kvm: fix segfault with query-stats-schemas and -M none (2022-08-18 14:08:24 +0200)
-
-----------------------------------------------------------------
-Fix SIGSEGV with query-stats-schema.
-
-This allows management tools to query the statistics schemas without
-worrying that some versions of QEMU will crash.
-
-----------------------------------------------------------------
-Paolo Bonzini (1):
-      kvm: fix segfault with query-stats-schemas and -M none
-
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
  accel/kvm/kvm-all.c | 8 +++++---
  1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 645f0a249a..8d81ab74de 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -4131,7 +4131,9 @@ void query_stats_schemas_cb(StatsSchemaList **result, Error **errp)
+     query_stats_schema(result, STATS_TARGET_VM, stats_fd, errp);
+     close(stats_fd);
+ 
+-    stats_args.result.schema = result;
+-    stats_args.errp = errp;
+-    run_on_cpu(first_cpu, query_stats_schema_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
++    if (first_cpu) {
++        stats_args.result.schema = result;
++        stats_args.errp = errp;
++        run_on_cpu(first_cpu, query_stats_schema_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
++    }
+ }
 -- 
 2.37.1
 
