@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DBC599370
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:28:42 +0200 (CEST)
-Received: from localhost ([::1]:34306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E665599375
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 05:33:10 +0200 (CEST)
+Received: from localhost ([::1]:54424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oOsgb-0006q0-39
-	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37342)
+	id 1oOskv-0004Ej-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 18 Aug 2022 23:33:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseL-0001RY-OB
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:21 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:36788)
+ id 1oOseM-0001Ri-Ke
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:22 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:34749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oOseK-0002iT-9A
- for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:21 -0400
-Received: by mail-pl1-x631.google.com with SMTP id c2so3108230plo.3
- for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
+ id 1oOseL-0002ix-02
+ for qemu-devel@nongnu.org; Thu, 18 Aug 2022 23:26:22 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ s4-20020a17090a5d0400b001fabc6bb0baso3838509pji.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Aug 2022 20:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=ztH2KdOZugDOiuPkZQawXgA4F56Gwh34Y3mDIuElS7Y=;
- b=x1MCq2nI2WuzpIlYXbl/jpbHcEo+NJaZbvN7kEPMwYzB8tJ1oDNLN/vqkvC5E0Z3z+
- 2k3Sex1yChUeKGmPU2qXopnIoLjXUdlcxKARRoprpH/8Z6nACdsoMHzKfssVSndhuA7z
- lmSvqU4Lnx5k+mmtkpEM2WY4hAFYZh4jr/8tNbbtl1xtozjxi0Rf//X6YU8LUlNhWeE4
- ux67HkKsFZ0nqrtg2D5KpGAVlROdv8x+R/gjhmtXtRONjNe6sZh0o83vJzlSLBoonpQu
- po4WbtG/1KZTsfehSBqKeo3hGEByUWaue9domADT6zYUN5dueaqb8EjRs9Z9dFlhxDQB
- PHug==
+ bh=aJaNQ6aSdE9rWibAJT4lh7LTRwz3SqqWw+/j8K8vQwg=;
+ b=o4lQHPJBXtb22E5FkdgLLo7CkVTU7JfliZoOqAg2fHD/9au1J89mUwSYBI58u4VWA9
+ 977fWBTvQr6irVCEdHIwzaCz6YYTyyu3tN6OuUmQl2Qdw27DVjkBSniUpeHSnBirf2vK
+ kt6wcI0fa1o8XXHj1hgJjxEHa7VbFVemXMPTh+fY+AvCsvA2FEIh55zvHTum63Irz0+d
+ pJefjk+K27lTKCJP2Dfa04M5jQwHTLbVc9x7aLdVJYvWfPOW4vHcz6cllXD+JJ4Lw6c1
+ JXX0cKDTxdWioUl9mt+/NdNLS2SXyCyh90asdp0WHTaG3aDFhTubOVB8CfScwiYR2p19
+ vhuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=ztH2KdOZugDOiuPkZQawXgA4F56Gwh34Y3mDIuElS7Y=;
- b=bQQD6+QL5KkoV9cHuscDyPB+vc3+7OMQJK3dx3jG/1Ena3Y60MIFQwFRsbnhQiNhTh
- 00LxiXdPpGJkSwftKGH7pP2hZzWr8oFhqABltmK4GgvJ9H2RnL3v9NatVWOnwvR8JBNx
- joEuINO8S0eWaVY2VXuiFfgL2krhpBMvc3SNGpJ13IQNFmsk/HKNvanfPbvMY1vG59TI
- gtaESQL+vrst4At1/OFei417uAMEqPpamMg8Ba2SslhUD56YSB89QwDbW/8LP0t9YL78
- AWZ71izn/vtopidBMOBv30OjQ5Igse2U3QIE98YCVzADvfb2epSt6vfAuowu2V+QOket
- nBAg==
-X-Gm-Message-State: ACgBeo0XvF3AAKqgxTvgn2FwgUkYVAlkO//QGYpgAeZI9oX33oMzGJYW
- AgnLsI+KCxtfuykW7oxymV6gaLAT0xD5Lg==
-X-Google-Smtp-Source: AA6agR5SSVOZTCKWM/L/4/UjLnnprvfUncVl6UVSYO5XlcQE27VLofcm3WrSvQdEWJWSaLVm6fly7w==
-X-Received: by 2002:a17:90b:33c4:b0:1f5:8428:beb9 with SMTP id
- lk4-20020a17090b33c400b001f58428beb9mr11821825pjb.95.1660879578520; 
- Thu, 18 Aug 2022 20:26:18 -0700 (PDT)
+ bh=aJaNQ6aSdE9rWibAJT4lh7LTRwz3SqqWw+/j8K8vQwg=;
+ b=RypkPBHabRSOczXJjjOR3fENb9c/buZXRVEUSLnEXSu3bgb+zCiWbUNZ9V6fd7HjlY
+ Bu4GGNMUxLJk8W6WKWJZACa2agG1GAN4G6DxAjutQHEqQSg8j6AsDzDXY4nTkvkZ7FxG
+ plyGLjJm4D+dHGsST2S5t08xEVJ/xB9AF92K6DorV1N5OWxZeGA5HU0nC8i9LxPC2Pay
+ 7sZwZToOOrwzG3EZDXAAHvvzqIgGGTNGUMNRW1K4VQ0vyFci1uyICsuR1SiSQ2yUXZQz
+ Z7/VcPAoH+fSsLtTfZMcYHdPW3wdjpTB4RhnuwXWVUOF3taSnkRe/eVCrblCSO504UX1
+ zqlw==
+X-Gm-Message-State: ACgBeo3ZSMILZwD5Hxd1QCHRQD6CCn9yQWgnkl5HP7XrbNJVpfJtP2PE
+ 1gyakR1QNiKX2vGZmAHx8Aq7lU6hYn7Sog==
+X-Google-Smtp-Source: AA6agR4WtDRKFvxvymwx3w32LtluTTTFekewx8ZjMg/4PuLOIpgoAbs4XUA74nQSaRwvD+4SBNsRCQ==
+X-Received: by 2002:a17:903:2442:b0:16f:1319:d28c with SMTP id
+ l2-20020a170903244200b0016f1319d28cmr5689522pls.95.1660879579602; 
+ Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:bbf3:9914:aa9c:3b4e])
  by smtp.gmail.com with ESMTPSA id
- g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.17
+ g184-20020a6252c1000000b00535d19c46d7sm2199904pfb.203.2022.08.18.20.26.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Aug 2022 20:26:18 -0700 (PDT)
+ Thu, 18 Aug 2022 20:26:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, iii@linux.ibm.com, dramforever@live.com,
  alistair.francis@wdc.com, alex.bennee@linaro.org
-Subject: [PATCH v6 01/21] linux-user/arm: Mark the commpage executable
-Date: Thu, 18 Aug 2022 20:25:55 -0700
-Message-Id: <20220819032615.884847-2-richard.henderson@linaro.org>
+Subject: [PATCH v6 02/21] linux-user/hppa: Allocate page zero as a commpage
+Date: Thu, 18 Aug 2022 20:25:56 -0700
+Message-Id: <20220819032615.884847-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220819032615.884847-1-richard.henderson@linaro.org>
 References: <20220819032615.884847-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,56 +90,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're about to start validating PAGE_EXEC, which means
-that we've got to mark the commpage executable.  We had
-been placing the commpage outside of reserved_va, which
-was incorrect and lead to an abort.
+We're about to start validating PAGE_EXEC, which means that we've
+got to mark page zero executable.  We had been special casing this
+entirely within translate.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/arm/target_cpu.h | 4 ++--
- linux-user/elfload.c        | 6 +++++-
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ linux-user/elfload.c | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/arm/target_cpu.h b/linux-user/arm/target_cpu.h
-index 709d19bc9e..89ba274cfc 100644
---- a/linux-user/arm/target_cpu.h
-+++ b/linux-user/arm/target_cpu.h
-@@ -34,9 +34,9 @@ static inline unsigned long arm_max_reserved_va(CPUState *cs)
-     } else {
-         /*
-          * We need to be able to map the commpage.
--         * See validate_guest_space in linux-user/elfload.c.
-+         * See init_guest_commpage in linux-user/elfload.c.
-          */
--        return 0xffff0000ul;
-+        return 0xfffffffful;
-     }
- }
- #define MAX_RESERVED_VA  arm_max_reserved_va
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index ce902dbd56..3e3dc02499 100644
+index 3e3dc02499..29d910c4cc 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -398,7 +398,8 @@ enum {
- 
- static bool init_guest_commpage(void)
- {
--    void *want = g2h_untagged(HI_COMMPAGE & -qemu_host_page_size);
-+    abi_ptr commpage = HI_COMMPAGE & -qemu_host_page_size;
-+    void *want = g2h_untagged(commpage);
-     void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
-                       MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
- 
-@@ -417,6 +418,9 @@ static bool init_guest_commpage(void)
-         perror("Protecting guest commpage");
-         exit(EXIT_FAILURE);
-     }
-+
-+    page_set_flags(commpage, commpage + qemu_host_page_size,
-+                   PAGE_READ | PAGE_EXEC | PAGE_VALID);
-     return true;
+@@ -1646,6 +1646,34 @@ static inline void init_thread(struct target_pt_regs *regs,
+     regs->gr[31] = infop->entry;
  }
+ 
++#define LO_COMMPAGE  0
++
++static bool init_guest_commpage(void)
++{
++    void *want = g2h_untagged(LO_COMMPAGE);
++    void *addr = mmap(want, qemu_host_page_size, PROT_NONE,
++                      MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
++
++    if (addr == MAP_FAILED) {
++        perror("Allocating guest commpage");
++        exit(EXIT_FAILURE);
++    }
++    if (addr != want) {
++        return false;
++    }
++
++    /*
++     * On Linux, page zero is normally marked execute only + gateway.
++     * Normal read or write is supposed to fail (thus PROT_NONE above),
++     * but specific offsets have kernel code mapped to raise permissions
++     * and implement syscalls.  Here, simply mark the page executable.
++     * Special case the entry points during translation (see do_page_zero).
++     */
++    page_set_flags(LO_COMMPAGE, LO_COMMPAGE + TARGET_PAGE_SIZE,
++                   PAGE_EXEC | PAGE_VALID);
++    return true;
++}
++
+ #endif /* TARGET_HPPA */
+ 
+ #ifdef TARGET_XTENSA
+@@ -2326,12 +2354,12 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+ }
+ 
+ #if defined(HI_COMMPAGE)
+-#define LO_COMMPAGE 0
++#define LO_COMMPAGE -1
+ #elif defined(LO_COMMPAGE)
+ #define HI_COMMPAGE 0
+ #else
+ #define HI_COMMPAGE 0
+-#define LO_COMMPAGE 0
++#define LO_COMMPAGE -1
+ #define init_guest_commpage() true
+ #endif
+ 
+@@ -2555,7 +2583,7 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
+         } else {
+             offset = -(HI_COMMPAGE & -align);
+         }
+-    } else if (LO_COMMPAGE != 0) {
++    } else if (LO_COMMPAGE != -1) {
+         loaddr = MIN(loaddr, LO_COMMPAGE & -align);
+     }
  
 -- 
 2.34.1
