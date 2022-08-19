@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D55599D9B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 16:38:17 +0200 (CEST)
-Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6548F599DF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 17:12:33 +0200 (CEST)
+Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP38Y-00015y-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 10:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
+	id 1oP3fi-0006J0-Pq
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 11:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oP379-00083v-Mt
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 10:36:47 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:46937)
+ id 1oP3dT-000495-SV
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:10:11 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:46695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oP378-00056x-4S
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 10:36:47 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id p9so3409684pfq.13
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 07:36:45 -0700 (PDT)
+ id 1oP3dR-0001Pn-QE
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 11:10:10 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ o14-20020a17090a0a0e00b001fabfd3369cso5139569pjo.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 08:10:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=IIVTklJlOGXokAFr22MAaD031R6IglKOO9kkEJ3f220=;
- b=pTmuZYS4zNgrwj/F4pwSMYZR8lOauCyU+P+GrAikrkQBbUE2gUp7JE/44Cn9qdFIDw
- Q6DEoE6XrgGVelLm3BFPVXGC6GmGj7iEj8BGK2xUH2dqjhHxBlY6KMu6kEt92VTZXIBU
- HYWgWk9fnwd/jpGBXPqcs9jd7o2u3/DJ++HGzICpf5jMwbSTKpjzefya8lzvKU4FkFmN
- 715UWEeoT9XS3E5qZkAm5rXt9hVNg6FZHBRymd4N/06pchL0C8TI0SKDHbqEQPzXi/vG
- OQv881H7wSyl32p9BGAXvt25INpz/XrPLYw6O8QuGSCtYcpgg6MI8bdryl0wfKsifDK+
- JowA==
+ :from:to:cc; bh=FYm5k9h2xs2IWKY6g3jSJnodEna7VliHX/getQOREew=;
+ b=PLTrlEmQKLXEA+0wrXYufy+RF+rMWnwI4h9w6hH+eX8pPeMKPD/vikauJFTaIcT04t
+ KDo4Qkc1nwqgY4svVKeuxWSkTWYRCbAPet9BfPtynl+DSo4cuvSVPXhVPALjASFX0aZQ
+ Fi8AfLbIyC2Zz6rRQ9Ya1VsTfsvQ96ZbpyzF4baXifDKjbbs7KcGAVmSzQ4MTAbzQ2ql
+ uYxNmxMRQkQZnRkb2BpJg1t92bTlz02tVqob316/ngAEvU82Nqm45vv+WhFtVQZ1luhJ
+ B+YkX1kK98wLyl9NFTJOEjwxom1NnerdXPeM7Gnvm7fC1YPIp3n+UDwmkpZoQNG7pEmm
+ vvbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=IIVTklJlOGXokAFr22MAaD031R6IglKOO9kkEJ3f220=;
- b=v7O3IFqZo1W7YYSaMVrLLUK9pGfnlGvWSIIJzUXw9TXrrsV3lQrTEAxuVY/U8EgSeL
- rwzp3lTSdq5ZRh7VTy0jJM+E+oWbOpNR7nvbYFR4yH6SPEEWpbh/0v/auwhYhizponkw
- fLHlVagOt80Sjqb04RAy2QXjM2ScpzLV4WJf7W+ce8Lwc93h9lKxkwWa3HBK15PohIPA
- UCcRlCoVEbEGNlcc81AzvaU4enDJcdxhJgfQCHd5np35j3l8lkrItSJkQXX+IGwULnf3
- B+g2lPTjqEeOXRSDOerHyeMzHXDu3BUQy8yoOrMTfjx85DmEJtjh19WDGjPkKu3tuGnt
- Sejg==
-X-Gm-Message-State: ACgBeo0MRwlwoQBU6fZ5vClYdBX6d5lHlxosYHEX7q/NupwHEqDzMdcX
- cmetocRU8cPXTq9JpEyz27Hjrg==
-X-Google-Smtp-Source: AA6agR7g0Gb8wT99Iz6U5Qkxf14XaGLWZlVFB+hEU6OP8lZlkzWZH8V+eAY/QDZHWEZ+Kgk2lwTiWA==
-X-Received: by 2002:a63:c1f:0:b0:41a:9b73:a89e with SMTP id
- b31-20020a630c1f000000b0041a9b73a89emr6464183pgl.342.1660919804217; 
- Fri, 19 Aug 2022 07:36:44 -0700 (PDT)
+ bh=FYm5k9h2xs2IWKY6g3jSJnodEna7VliHX/getQOREew=;
+ b=D7T28gCOMcBXA6kjI0WFI7aVYZvLN6iAXAMJQA7/2s4BvSx96A/hYKZICZlr7U9v7j
+ Ov1JysCr3YDxxQVi9iCPbFT/tT2G7UdcXEqCRwEyJQERLCbBpHhoEnrII4o12QKqkeV5
+ oNwP+ihaBxs7Og8Hnb4yO7BHl05Q3Y3wsEmU8B/l4Z+sUUXrBf2c78KHUR4zhZXIbG9S
+ VvgkakOMFWt2c+HCw86aA9pXTwV31x0pebEYn/VqmKO46Lc0if87RqPD/lPu+8zfO3F6
+ P2D3dVq3MnvZ10IP+s7lSGeCKbV5L+O8CaNyy1wrzcPCxHH8FUQNV7FnoblbUgjA9SYP
+ 1Atg==
+X-Gm-Message-State: ACgBeo1rixyjYGNl1NhtRaQx2/9E+2kWatdj8TZ7vhoQAiqak25JSN/k
+ YWRiscJZIrfdoqiVKCogDhi0dQ==
+X-Google-Smtp-Source: AA6agR5JUqvGzy1gp1PahCkey+xmBc1a9CPF+QeS6LsAy26eB3Zj7Op98rxfc3dLD4f/dpgkFK/TuA==
+X-Received: by 2002:a17:902:8486:b0:171:48cd:1356 with SMTP id
+ c6-20020a170902848600b0017148cd1356mr7434586plo.153.1660921808474; 
+ Fri, 19 Aug 2022 08:10:08 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:f37:9eb9:ca02:d0cb?
  ([2602:47:d49d:ec01:f37:9eb9:ca02:d0cb])
  by smtp.gmail.com with ESMTPSA id
- li2-20020a17090b48c200b001f320faea95sm3321993pjb.2.2022.08.19.07.36.43
+ j15-20020a17090a31cf00b001f2e6388fe6sm5455678pjf.6.2022.08.19.08.10.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 07:36:43 -0700 (PDT)
-Message-ID: <d12b9a18-499a-dec8-8015-4ec0a4f4dcdf@linaro.org>
-Date: Fri, 19 Aug 2022 07:36:41 -0700
+ Fri, 19 Aug 2022 08:10:07 -0700 (PDT)
+Message-ID: <787bcb91-c20c-3b33-b052-95453cf6827c@linaro.org>
+Date: Fri, 19 Aug 2022 08:10:04 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PULL 1/3] linux-user: un-parent OBJECT(cpu) when closing thread
+Subject: Re: [PATCH v2] target/riscv: Use official extension names for AIA CSRs
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-References: <20220816122621.2066292-1-alex.bennee@linaro.org>
- <20220816122621.2066292-2-alex.bennee@linaro.org>
- <3402017d-7088-6902-61b8-4e61cea6db58@linaro.org> <87h7284ofo.fsf@linaro.org>
+To: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>
+References: <20220819073147.174790-1-apatel@ventanamicro.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87h7284ofo.fsf@linaro.org>
+In-Reply-To: <20220819073147.174790-1-apatel@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,19 +99,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/22 01:37, Alex Bennée wrote:
->> This has caused a regression in arm/aarch64.
->>
->> We hard-code ARMCPRegInfo pointers into TranslationBlocks, for calling
->> into helper_{get,set}cp_reg{,64}.  So we have a race condition between
->> whichever cpu thread translates the code first (encoding the pointer),
->> and that cpu thread exiting, so that the next execution of the TB
->> references a freed data structure.
-> 
-> What is the test case that breaks this? I guess a multi-threaded
-> sysregs.c would trigger it?
+On 8/19/22 00:31, Anup Patel wrote:
+>   static int aia_hmode(CPURISCVState *env, int csrno)
+>   {
+> -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
 
-E.g. tests/tcg/aarch64-linux-user/signals.
+Better as
+
+     RISCVCPU *cpu = env_archcpu(env);
 
 
 r~
