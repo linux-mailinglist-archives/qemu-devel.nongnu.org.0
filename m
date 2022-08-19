@@ -2,48 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA6D59A2F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:41:19 +0200 (CEST)
-Received: from localhost ([::1]:46888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0C659A2D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Aug 2022 19:14:37 +0200 (CEST)
+Received: from localhost ([::1]:50920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oP5zh-0004ep-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:41:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41962)
+	id 1oP5Zs-0003id-Du
+	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 13:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5IG-0000SI-WF; Fri, 19 Aug 2022 12:56:25 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14322)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oP5Mm-0007zO-Up
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oP5ID-00011f-N5; Fri, 19 Aug 2022 12:56:24 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 35074747F1C;
- Fri, 19 Aug 2022 18:56:00 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F3BE1747F1B; Fri, 19 Aug 2022 18:55:59 +0200 (CEST)
-Message-Id: <66bf4ca4e8555563ebea564000c257f8c143aade.1660926381.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1660926381.git.balaton@eik.bme.hu>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 20/20] ppc4xx_sdram: Convert DDR SDRAM controller to new bank
- handling
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oP5Mj-0001t6-B3
+ for qemu-devel@nongnu.org; Fri, 19 Aug 2022 13:01:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660928460;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=X7YbTEtTHWKc/9fTMWab1zakq2acdNG3dR4G+0Ydpco=;
+ b=dDtbURtXDPXKaJjGNXLiDhXLYYC7uP8IJvgP/DT/YXTartDNp8lYKjYRPAwqITIRc1ZRR7
+ AJcqqtfrqjm8NRBQryajVK1958tZpQm3NjB341o3y43npug4c7JDRM3oT0RW/al62Gw7/d
+ 0ENfh5JLv5oG0v+ylw+qbNE8cjHEHw4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-280-IuSMhEoUOoyGm7BkG7AqtQ-1; Fri, 19 Aug 2022 13:00:57 -0400
+X-MC-Unique: IuSMhEoUOoyGm7BkG7AqtQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD6558039A8;
+ Fri, 19 Aug 2022 17:00:56 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.194.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8303740D282E;
+ Fri, 19 Aug 2022 17:00:50 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Harpreet Singh Anand <hanand@xilinx.com>,
+ Laurent Vivier <lvivier@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <eli@mellanox.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v9 00/12] NIC vhost-vdpa state restore via Shadow CVQ
+Date: Fri, 19 Aug 2022 19:00:36 +0200
+Message-Id: <20220819170048.3593487-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Aug 2022 18:55:59 +0200 (CEST)
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,175 +85,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the generic bank handling introduced in previous patch in the DDR
-SDRAM controller too. This also fixes previously broken region unmap
-due to sdram_ddr_unmap_bcr() ignoring container region so it crashed
-with an assert when the guest tried to disable the controller.
-
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/ppc4xx_sdram.c | 98 ++++++++++++++++---------------------------
- 1 file changed, 37 insertions(+), 61 deletions(-)
-
-diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index b0bdfa5bc1..60c1bfcf46 100644
---- a/hw/ppc/ppc4xx_sdram.c
-+++ b/hw/ppc/ppc4xx_sdram.c
-@@ -137,6 +137,8 @@ static void sdram_bank_set_bcr(Ppc4xxSdramBank *bank, uint32_t bcr,
- 
- /*****************************************************************************/
- /* DDR SDRAM controller */
-+#define SDRAM_DDR_BCR_MASK 0xFFDEE001
-+
- static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
- {
-     uint32_t bcr;
-@@ -195,58 +197,6 @@ static hwaddr sdram_ddr_size(uint32_t bcr)
-     return size;
- }
- 
--static void sdram_ddr_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
--                              uint32_t bcr, int enabled)
--{
--    if (sdram->bank[i].bcr & 1) {
--        /* Unmap RAM */
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].container);
--        memory_region_del_subregion(&sdram->bank[i].container,
--                                    &sdram->bank[i].ram);
--        object_unparent(OBJECT(&sdram->bank[i].container));
--    }
--    sdram->bank[i].bcr = bcr & 0xFFDEE001;
--    if (enabled && (bcr & 1)) {
--        trace_ppc4xx_sdram_map(sdram_ddr_base(bcr), sdram_ddr_size(bcr));
--        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
--                           sdram_ddr_size(bcr));
--        memory_region_add_subregion(&sdram->bank[i].container, 0,
--                                    &sdram->bank[i].ram);
--        memory_region_add_subregion(get_system_memory(),
--                                    sdram_ddr_base(bcr),
--                                    &sdram->bank[i].container);
--    }
--}
--
--static void sdram_ddr_map_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        if (sdram->bank[i].size != 0) {
--            sdram_ddr_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
--                                                      sdram->bank[i].size), 1);
--        } else {
--            sdram_ddr_set_bcr(sdram, i, 0, 0);
--        }
--    }
--}
--
--static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].ram);
--    }
--}
--
- static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-@@ -317,6 +267,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-+    int i;
- 
-     switch (dcrn) {
-     case SDRAM0_CFGADDR:
-@@ -338,12 +289,24 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             if (!(s->cfg & 0x80000000) && (val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
--                sdram_ddr_map_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           1);
-+                    }
-+                }
-                 s->status &= ~0x80000000;
-             } else if ((s->cfg & 0x80000000) && !(val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
--                sdram_ddr_unmap_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           0);
-+                    }
-+                }
-                 s->status |= 0x80000000;
-             }
-             if (!(s->cfg & 0x40000000) && (val & 0x40000000)) {
-@@ -363,16 +326,16 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             s->pmit = (val & 0xF8000000) | 0x07C00000;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            sdram_ddr_set_bcr(s, 0, val, s->cfg & 0x80000000);
--            break;
-         case 0x44: /* SDRAM_B1CR */
--            sdram_ddr_set_bcr(s, 1, val, s->cfg & 0x80000000);
--            break;
-         case 0x48: /* SDRAM_B2CR */
--            sdram_ddr_set_bcr(s, 2, val, s->cfg & 0x80000000);
--            break;
-         case 0x4C: /* SDRAM_B3CR */
--            sdram_ddr_set_bcr(s, 3, val, s->cfg & 0x80000000);
-+            i = (s->addr - 0x40) / 4;
-+            val &= SDRAM_DDR_BCR_MASK;
-+            if (s->bank[i].size) {
-+                sdram_bank_set_bcr(&s->bank[i], val,
-+                                   sdram_ddr_base(val), sdram_ddr_size(val),
-+                                   s->cfg & 0x80000000);
-+            }
-             break;
-         case 0x80: /* SDRAM_TR */
-             s->tr = val & 0x018FC01F;
-@@ -422,6 +385,7 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-     const ram_addr_t valid_bank_sizes[] = {
-         256 * MiB, 128 * MiB, 64 * MiB, 32 * MiB, 16 * MiB, 8 * MiB, 4 * MiB, 0
-     };
-+    int i;
- 
-     if (s->nbanks < 1 || s->nbanks > 4) {
-         error_setg(errp, "Invalid number of RAM banks");
-@@ -432,6 +396,18 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-         return;
-     }
-     ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
-+    for (i = 0; i < s->nbanks; i++) {
-+        if (s->bank[i].size) {
-+            s->bank[i].bcr = sdram_ddr_bcr(s->bank[i].base, s->bank[i].size);
-+            sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                               s->bank[i].base, s->bank[i].size, 0);
-+        } else {
-+            sdram_bank_set_bcr(&s->bank[i], 0, 0, 0, 0);
-+        }
-+        trace_ppc4xx_sdram_init(sdram_ddr_base(s->bank[i].bcr),
-+                                sdram_ddr_size(s->bank[i].bcr),
-+                                s->bank[i].bcr);
-+    }
- 
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- 
--- 
-2.30.4
+CVQ of net vhost-vdpa devices can be intercepted since the addition of x-sv=
+q.=0D
+The virtio-net device model is updated. The migration was blocked because=0D
+although the state can be megrated between VMM it was not possible to resto=
+re=0D
+on the destination NIC.=0D
+=0D
+This series add support for SVQ to inject external messages without the gue=
+st's=0D
+knowledge, so before the guest is resumed all the guest visible state is=0D
+restored. It is done using standard CVQ messages, so the vhost-vdpa device =
+does=0D
+not need to learn how to restore it: As long as they have the feature, they=
+=0D
+know how to handle it.=0D
+=0D
+Depending on the device, this series may need fixes with message id [1] to=
+=0D
+achieve full live migration.=0D
+=0D
+[1] <20220819165357.3591965-1-eperezma@redhat.com>=0D
+=0D
+v9:=0D
+- Use guest acked features instead of device's.=0D
+- Minors: fix typos and patch messages, constify vhost_vdpa and VirtIONet v=
+ars,=0D
+  delete unneeded increment of cursor.=0D
+=0D
+v8:=0D
+- Rename NetClientInfo load to start, so is symmetrical with stop()=0D
+- Delete copy of device's in buffer at vhost_vdpa_net_load=0D
+=0D
+v7:=0D
+- Remove accidental double free.=0D
+=0D
+v6:=0D
+- Move map and unmap of the buffers to the start and stop of the device. Th=
+is=0D
+  implies more callbacks on NetClientInfo, but simplifies the SVQ CVQ code.=
+=0D
+- Not assume that in buffer is sizeof(virtio_net_ctrl_ack) in=0D
+  vhost_vdpa_net_cvq_add=0D
+- Reduce the number of changes from previous versions=0D
+- Delete unused memory barrier=0D
+=0D
+v5:=0D
+- Rename s/start/load/=0D
+- Use independent NetClientInfo to only add load callback on cvq.=0D
+- Accept out sg instead of dev_buffers[] at vhost_vdpa_net_cvq_map_elem=0D
+- Use only out size instead of iovec dev_buffers to know if the descriptor =
+is=0D
+  effectively available, allowing to delete artificial !NULL VirtQueueEleme=
+nt=0D
+  on vhost_svq_add call.=0D
+=0D
+v4:=0D
+- Actually use NetClientInfo callback.=0D
+=0D
+v3:=0D
+- Route vhost-vdpa start code through NetClientInfo callback.=0D
+- Delete extra vhost_net_stop_one() call.=0D
+=0D
+v2:=0D
+- Fix SIGSEGV dereferencing SVQ when not in svq mode=0D
+=0D
+v1 from RFC:=0D
+- Do not reorder DRIVER_OK & enable patches.=0D
+- Delete leftovers=0D
+=0D
+Eugenio P=C3=A9rez (12):=0D
+  vhost: stop transfer elem ownership in vhost_handle_guest_kick=0D
+  vhost: use SVQ element ndescs instead of opaque data for desc=0D
+    validation=0D
+  vhost: Delete useless read memory barrier=0D
+  vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush=0D
+  vhost_net: Add NetClientInfo start callback=0D
+  vhost_net: Add NetClientInfo stop callback=0D
+  vdpa: add net_vhost_vdpa_cvq_info NetClientInfo=0D
+  vdpa: Move command buffers map to start of net device=0D
+  vdpa: extract vhost_vdpa_net_cvq_add from=0D
+    vhost_vdpa_net_handle_ctrl_avail=0D
+  vhost_net: add NetClientState->load() callback=0D
+  vdpa: Add virtio-net mac address via CVQ at start=0D
+  vdpa: Delete CVQ migration blocker=0D
+=0D
+ include/hw/virtio/vhost-vdpa.h     |   1 -=0D
+ include/net/net.h                  |   6 +=0D
+ hw/net/vhost_net.c                 |  17 +++=0D
+ hw/virtio/vhost-shadow-virtqueue.c |  27 ++--=0D
+ hw/virtio/vhost-vdpa.c             |  15 --=0D
+ net/vhost-vdpa.c                   | 224 ++++++++++++++++++-----------=0D
+ 6 files changed, 177 insertions(+), 113 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
