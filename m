@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D9759AB78
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 07:24:26 +0200 (CEST)
-Received: from localhost ([::1]:60274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC35559ABF7
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 09:16:32 +0200 (CEST)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPGy9-0000yx-EA
-	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 01:24:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54990)
+	id 1oPIid-000720-A6
+	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 03:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oPGw7-0006Nd-94
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 01:22:20 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46919)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oPGw6-0004QW-0c
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 01:22:19 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id d71so5165257pgc.13
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 22:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=XlZgOSQ4NES66fut4fiHJ48r4KbfdGGMFc466qIdkkw=;
- b=OHMeD9ciras5hDTvtgrUFdp2AMKqVQAwBjUoAYT/U9AQVBRmVpm4vxTewNzUZUmG7X
- 9RNJUnftITYr+M2QRatp6I/a78/7CQ9XUJltuM/hSZgSmLHwiNF4cTZwGXtHSH4Gu1vw
- k7kBH0KTR5g/eqAYHad6f3pI5sBhJZ7bciPSPKGBnUaBVTrP2XEQQ+gfwy+8Tb3fb9uy
- Fejyh4eLM5bbgwmUbSQpR0v6h7+E8XM+yOnpfnEwQRZwu28dGWYiUBvJ00CKyZ9mAY/D
- vS6t5xomGJIWveoNJiUuVCXtpQU09VT7qp+xgxinGixCY2QpWJ3LYMcx82q/jgasqELK
- nQsA==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1oPIge-0005eI-U1
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 03:14:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1oPIga-0002Xl-Kv
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 03:14:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660979662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZRhBBHaCTDYtxUxLbqolL5BiESy+qB3h0jZiqsYqjqk=;
+ b=Ksekxg8RZt5IYHuE9Y5YOxnIdDcANb1Cleq1gxDyb3dVcoCyjP5MeFsZDA5KH5xEyeEb9i
+ r96D5NpwxQNiaary5FKr5SWoIAhW5ecrD+0am20nF2vxkTAGp/p62ehKQHqhGXyzDjgoze
+ zQnm6fFeBibUefFtK1S1z+PJyOPOCCg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-648-8eWxdFsBPBKVu7cQ6KLOqA-1; Sat, 20 Aug 2022 03:14:15 -0400
+X-MC-Unique: 8eWxdFsBPBKVu7cQ6KLOqA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ q32-20020a05640224a000b004462f105fa9so2766130eda.4
+ for <qemu-devel@nongnu.org>; Sat, 20 Aug 2022 00:14:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=XlZgOSQ4NES66fut4fiHJ48r4KbfdGGMFc466qIdkkw=;
- b=TuYbFN4A5Id2FGvHDbyabBUBDvuVMK+57h+tRfd+6PJqCMwsjv8OwM88Q56/7XF3em
- acv1oMX0ri/SUaZBYL4MbAK9YBybHyGG1vDfOW/XNRW1BmDEyS3nPs75Fj/uKS3eBd4C
- KqeC1phcSBqPdXx9a5yr01WkauBjT/oKilmq49dVM4kv3nuKLE0oh2PUcpYZjUxXYZP4
- RfDF4wsncx+zIYG3r0iaF834Rd2WGXTCLKoG0gzEJ30GEP4rLucunDEaEUnnsAn8MZ3B
- SyjmBCPWF+b3mjTL0HaxyJjYi1HttOJjwcznIdg2AeACowURDTcj5GChafW7w1raN30X
- H1UA==
-X-Gm-Message-State: ACgBeo2E4nuN59IiyJ/Dpywgh27PBGCnX6DAhi0TT2zN+vBG9WTE8XOr
- KcCZVuT6hHfsh4xLManzAD43UnBdaHLtZQ==
-X-Google-Smtp-Source: AA6agR7u22t69Xhzd3WPueJzmXBVNpP4yIQmu1JR3NDwB2MBzD2ZqqNhH6rrb3HB+YSa6hjReGyjxw==
-X-Received: by 2002:a63:8ac8:0:b0:429:71e3:4af6 with SMTP id
- y191-20020a638ac8000000b0042971e34af6mr9052151pgd.218.1660972936517; 
- Fri, 19 Aug 2022 22:22:16 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:b651:a70f:2852:70f5?
- ([2602:47:d49d:ec01:b651:a70f:2852:70f5])
- by smtp.gmail.com with ESMTPSA id
- z16-20020aa79590000000b0052d8405bcd2sm4322149pfj.163.2022.08.19.22.22.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 22:22:15 -0700 (PDT)
-Message-ID: <923c77ed-f3e7-38e1-6637-3c1196ec51c4@linaro.org>
-Date: Fri, 19 Aug 2022 22:22:12 -0700
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=ZRhBBHaCTDYtxUxLbqolL5BiESy+qB3h0jZiqsYqjqk=;
+ b=Pm5rvjQL1qr+aQckc5TYETYAhvgCVmV0XCVpf4d7IShBO3orEetY3GHXwofVO3QWWc
+ 6hYaGKb9MEfgfwCaMtZy7LFxTznRZwJrswk+YIGjCfvjDHxAu/a3gVIhNAzGM2ZXSIYt
+ yxdCnPJhIP4PYk6Ap6BB0C5NuLPBWr0C3WNdSJeeGsj95IB/6J3rrRqw7wDtUQMj2BkS
+ 3Wpn6M+a7ZsPUa+neIXSJWjOtSc7LSOgPQpKZL73sW2FXKCOAepsycxer82tFgN7ezOB
+ 81qgvBzISw2lOqN35w8v+asHGilrq8YOnzRRJM1ziWxPgdH+mjf3uBxj1jdQ5i4U64/p
+ eM8A==
+X-Gm-Message-State: ACgBeo3PePWacFHLBWTwdRwWawlDPFtaP8AGVnL3ePwLi9jibonEev/J
+ 1Q5dBuy749g3RoB2fzcHdMgaQ8ehVGaRGVNN5nhnJ8BRJrcA4gHdy0QkdEcBSOX30g3xZ0hGlPj
+ 1ip34cBIBUrMsOwxxOQGaK4I+QJSjkhk=
+X-Received: by 2002:a05:6402:5192:b0:43d:cc0d:6ea4 with SMTP id
+ q18-20020a056402519200b0043dcc0d6ea4mr8600243edd.111.1660979654751; 
+ Sat, 20 Aug 2022 00:14:14 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6R5taEE7yFO7zlPfesYTeGu7tkiH5QGtsLUCAUEd/xp3rSOVYhlZ06CEBoqXq4MxCbGglUdtjVgr5IlkUnNAQ=
+X-Received: by 2002:a05:6402:5192:b0:43d:cc0d:6ea4 with SMTP id
+ q18-20020a056402519200b0043dcc0d6ea4mr8600220edd.111.1660979654414; Sat, 20
+ Aug 2022 00:14:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 6/6] target/arm: Add missing space in comment
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220819110052.2942289-1-peter.maydell@linaro.org>
- <20220819110052.2942289-7-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220819110052.2942289-7-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220802063907.18882-1-quintela@redhat.com>
+ <20220802063907.18882-6-quintela@redhat.com>
+ <01fcdde9f6246836b4058efc8c298a82e86d1458.camel@redhat.com>
+ <87h7281ryc.fsf@secure.mitica>
+In-Reply-To: <87h7281ryc.fsf@secure.mitica>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Sat, 20 Aug 2022 04:14:03 -0300
+Message-ID: <CAJ6HWG4QsPK9y6+HE60BXT+F2bDxrfG4_oNvqgc_a9eMFVm-Dw@mail.gmail.com>
+Subject: Re: [PATCH v7 05/12] migration: Make ram_save_target_page() a pointer
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eric Blake <eblake@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster <armbru@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,16 +102,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/22 04:00, Peter Maydell wrote:
-> Fix a missing space before a comment terminator.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   target/arm/cpu_tcg.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Aug 19, 2022 at 6:52 AM Juan Quintela <quintela@redhat.com> wrote:
+>
+> Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
+> > On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
+> >> We are going to create a new function for multifd latest in the series=
+.
+> >>
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >
+> > Double Signed-off-by again.
+> >
+> >> ---
+> >>  migration/ram.c | 13 +++++++++----
+> >>  1 file changed, 9 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/migration/ram.c b/migration/ram.c
+> >> index 85d89d61ac..499d9b2a90 100644
+> >> --- a/migration/ram.c
+> >> +++ b/migration/ram.c
+> >> @@ -310,6 +310,9 @@ typedef struct {
+> >>      bool preempted;
+> >>  } PostcopyPreemptState;
+> >>
+> >> +typedef struct RAMState RAMState;
+> >> +typedef struct PageSearchStatus PageSearchStatus;
+> >> +
+> >>  /* State of RAM for migration */
+> >>  struct RAMState {
+> >>      /* QEMUFile used for this migration */
+> >> @@ -372,8 +375,9 @@ struct RAMState {
+> >>       * is enabled.
+> >>       */
+> >>      unsigned int postcopy_channel;
+> >> +
+> >> +    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
+> >>  };
+> >> -typedef struct RAMState RAMState;
+> >>
+> >>  static RAMState *ram_state;
+> >>
+> >> @@ -2255,14 +2259,14 @@ static bool save_compress_page(RAMState *rs, R=
+AMBlock *block, ram_addr_t offset)
+> >>  }
+> >>
+> >>  /**
+> >> - * ram_save_target_page: save one target page
+> >> + * ram_save_target_page_legacy: save one target page
+> >>   *
+> >>   * Returns the number of pages written
+> >>   *
+> >>   * @rs: current RAM state
+> >>   * @pss: data about the page we want to send
+> >>   */
+> >> -static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
+> >> +static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus=
+ *pss)
+> >>  {
+> >>      RAMBlock *block =3D pss->block;
+> >>      ram_addr_t offset =3D ((ram_addr_t)pss->page) << TARGET_PAGE_BITS=
+;
+> >> @@ -2469,7 +2473,7 @@ static int ram_save_host_page(RAMState *rs, Page=
+SearchStatus *pss)
+> >>
+> >>          /* Check the pages is dirty and if it is send it */
+> >>          if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) =
+{
+> >> -            tmppages =3D ram_save_target_page(rs, pss);
+> >> +            tmppages =3D rs->ram_save_target_page(rs, pss);
+> >>              if (tmppages < 0) {
+> >>                  return tmppages;
+> >>              }
+> >> @@ -3223,6 +3227,7 @@ static int ram_save_setup(QEMUFile *f, void *opa=
+que)
+> >>      ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+> >>      ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+> >>
+> >> +    (*rsp)->ram_save_target_page =3D ram_save_target_page_legacy;
+> >>      ret =3D  multifd_send_sync_main(f);
+> >>      if (ret < 0) {
+> >>          return ret;
+> >
+> >
+> > So, IIUC:
+> > - Rename ram_save_target_page -> ram_save_target_page_legacy
+> > - Add a function pointer to RAMState (or a callback)
+> > - Assign function pointer =3D ram_save_target_page_legacy at setup
+> > - Replace ram_save_target_page() by indirect function call using above =
+pointer.
+> >
+> > I could see no issue in this, so I belive it works fine.
+> >
+> > The only thing that concerns me is the name RAMState.
+>
+> Every device state is setup in RAMState.
+>
+> > IMHO, a struct named RAMState is supposed to just reflect the state of =
+ram (or
+> > according to this struct's comments, the state of RAM for migration. Ha=
+ving a
+> > function pointer here that saves a page seems counterintuitive, since i=
+t does
+> > not reflect the state of RAM.
+>
+> The big problem for adding another struct is that we would have to
+> change all the callers, or yet another global variable.  Both are bad
+> idea in my humble opinion.
+>
+> > Maybe we could rename the struct, or even better, create another struct=
+ that
+> > could look something like this:
+> >
+> > struct RAMMigration {
+> >     RAMState state;
+> >     int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
+> >     /* Other callbacks or further info.*/
+> > }
+> >
+> > What do you think about it?
+>
+> Really this depends on configuration.  What is setup for qemu
+> migration.  I think this is the easiest way to do it, we can add a new
+> struct, but it gets everything much more complicated:
+>
+> - the value that we receive in ram_save_setup() is a RAMState
+> - We would have to change all the callers form
+>   * ram_save_iterate()
+>   * ram_find_and_save_block()
+>   * ram_save_host_page()
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Maybe RAMState could be part of a bigger struct, and we could use
+something like a container_of().
+So whenever you want to use it, it would be available.
 
+What about that?
 
-r~
+>
+> So I think it is quite a bit of churn for not a lot of gain.
+>
+> Later, Juan.
+>
+
 
