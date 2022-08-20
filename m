@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43D359AABD
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 04:40:34 +0200 (CEST)
-Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA1659AB31
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 06:21:30 +0200 (CEST)
+Received: from localhost ([::1]:37036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPEPa-0002nG-1x
-	for lists+qemu-devel@lfdr.de; Fri, 19 Aug 2022 22:40:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
+	id 1oPFzF-0005Ei-CT
+	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 00:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oPEO9-0000hO-1u
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 22:39:05 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:37783)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1oPFxi-0003k5-1H
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 00:19:54 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:35421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oPEO7-0007rB-Hl
- for qemu-devel@nongnu.org; Fri, 19 Aug 2022 22:39:04 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- w11-20020a17090a380b00b001f73f75a1feso9102561pjb.2
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 19:39:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=fQra0MFLZqbH/4r0jsa1LeNiiDvseybCcRo1WtJMJ/o=;
- b=x/wWwg1JZvyRdRmG+GiXD9LhDhXsB24wFbtQ26kFerbBXoGtxe585svyRPRPHjvVG9
- 4bst4g0kvOt5oZ1LB+sYnMKCAD3dnIzl75Nxn0RbUzbi1aidREFT1OoQdsbnqIDr2Kxz
- awOx851BWBmAbT09Plw89cPzKv3iglxlmxPDicueNl33BLP3VWuhgFwMUbrnzeWUrQk0
- mlXCNbgsmLNy0ZRYB878AGSdWr23QSJ1Qz3jhdsKWm6a5CwTDSiZd9Dp7sZFWINWemAT
- aybdWih2KM87Dcw6EPVC2sFftDRBtSzCKSFP2lcYWnF8zvzYRKt7FMNZKN4nGYM+FAvO
- J1sg==
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1oPFxg-0004M9-Cd
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 00:19:53 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-33365a01f29so168461047b3.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 21:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=gcd2JxaszvhZPnTlMM/td0/i9eu/14VCTbHiMDbl7q8=;
+ b=Y6lfxeDLPvG6kI7vKFIUY7VH3avJPJXq4PSXEbT8YJHM39RlqGzZMy/+I6tlbUa3Ma
+ ErnzGnfkerCISCi+rGaULlD/5PGVHJYp4gecDjPcsBEEHzcP157KNfFilqvRvV+cra2R
+ OBDyGHXX1NKamMxKV0fGSCuhbX27du9JG1wRnObF7ZCaiCIhqDQkvYoNl9+xcnllki1h
+ 4V7zLLCiaiAlEqN0SljFVGNuZNt+5//WFiLFZu/bFrjFBFzFGVw8Z3L1RgC2TmHIJkev
+ EwirXbBCoKvY8viY0+WU6LC/L4NpjXMdAHppQWBmm67aZ3R48FirZkfpF13AYiuPyUbr
+ B6VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=fQra0MFLZqbH/4r0jsa1LeNiiDvseybCcRo1WtJMJ/o=;
- b=semYRo2WcI+oUh5IsW51meur87FlDfmOmWM7XJpv6l4/UHL6bfaS8c+Omge1+N9n4+
- Lzt9MI9C9pltcWinSrUd3dTtkVRTnwQ/rNjim+LoZ6TeQw+sujSsDAEZKDRwxQQnxsbV
- HThLVEkZDOwujkk9peD3yzvvV2ntE9COn39YvYoiyEh4pIbZWNBEhAd8jokSW//geAQP
- mDYKQmqqMew1glRi8tubDtGdSIfP3huClnSlFnknFR0XrYclnap6+nPiw5t6Z4UeWK/m
- a2d8sxAi3A7rto9ENzTBZojF1hHhHZqOrIdFoG3NvLt3hhkWB5HRYGiMC1R0Jya5n4Qy
- bHRQ==
-X-Gm-Message-State: ACgBeo11eS9Ho4rgGPitTTSf5GIl2qLqRNrnqcwdngoeyWRafBe4MOZ+
- MhBqCl69akdstFyUumMIb0mdr6+lraRmTQ==
-X-Google-Smtp-Source: AA6agR7Zjn84boQLMzeAzKzuDVX2QapmhPHzickQd2CNdOMkwr7m19JIyND9uiyqYh4UZPUK8nDiEg==
-X-Received: by 2002:a17:90a:1b66:b0:1fa:bbb5:8a5 with SMTP id
- q93-20020a17090a1b6600b001fabbb508a5mr11429561pjq.216.1660963142151; 
- Fri, 19 Aug 2022 19:39:02 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:f37:9eb9:ca02:d0cb?
- ([2602:47:d49d:ec01:f37:9eb9:ca02:d0cb])
- by smtp.gmail.com with ESMTPSA id
- l7-20020a63ba47000000b0040caab35e5bsm224284pgu.89.2022.08.19.19.39.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 19:39:01 -0700 (PDT)
-Message-ID: <8c7a0416-fab9-3fbb-ab66-9a2753eae4e9@linaro.org>
-Date: Fri, 19 Aug 2022 19:38:59 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=gcd2JxaszvhZPnTlMM/td0/i9eu/14VCTbHiMDbl7q8=;
+ b=fhpp6vwwJ3XHwDgaO0rhPLcXuN+5s35MIzklcm7hUIYmGDEsGBgQeU32johPG5YB6a
+ 4SBOng2LGxSuj29As6sMaS0CXInLCkAMOPiKh0RgPpVQvUX9Gim3iMSKXPvGmOOkGd+2
+ y2oH0weVxLYxvl5fvhmODSSSLJo2L5M5PC4N4zxYcX81wX5Tr+h+G8QjInlm2T2fqpxw
+ c45jMwpunHzdMnb3poN46Q1oGHRC1IBf6/Qdi38uj0eClj/AFnzFGBgnBsTWOcGBPOrE
+ xxX6Lgq0Vwh/SFlnJtn2p4TUc8AYk+HBBi8PqfYgrbDPSB5vjdNLdA+UgXOyfzS97bxS
+ W5jg==
+X-Gm-Message-State: ACgBeo3ASl2AyXB+CGh0qY3vXwZYBKz9vNT3Mk7cFqZcrVRQEJNn83b4
+ c7nRMT1sm0Qg3G8eEzYyEhTRoECUSA6iGsdFkinq3w==
+X-Google-Smtp-Source: AA6agR5Ue5f8imEdFMBI67NUYZ+t4VYCA8hcvlDfZjpGBZ2B6yWlGlJdcKuGSOhVZio1rezFOx6haKMsbF8acLY5NH4=
+X-Received: by 2002:a05:6902:919:b0:671:2b80:4b3e with SMTP id
+ bu25-20020a056902091900b006712b804b3emr10641892ybb.180.1660969190914; Fri, 19
+ Aug 2022 21:19:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/6] target/arm: Implement ID_MMFR5
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220819110052.2942289-1-peter.maydell@linaro.org>
- <20220819110052.2942289-4-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220819110052.2942289-4-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220819073147.174790-1-apatel@ventanamicro.com>
+ <787bcb91-c20c-3b33-b052-95453cf6827c@linaro.org>
+In-Reply-To: <787bcb91-c20c-3b33-b052-95453cf6827c@linaro.org>
+From: Anup Patel <anup@brainfault.org>
+Date: Sat, 20 Aug 2022 09:49:13 +0530
+Message-ID: <CAAhSdy1apCOYPj9eCO-EbcuTeDZZZF+8eJ3p_H2LMLEpJLHsWg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Use official extension names for AIA CSRs
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Atish Patra <atishp@atishpatra.org>, qemu-riscv@nongnu.org, 
+ qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=anup@brainfault.org; helo=mail-yw1-x1134.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,19 +90,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/22 04:00, Peter Maydell wrote:
-> In Armv8.6 a new AArch32 ID register ID_MMFR5 is defined.
-> Implement this; we want to be able to use it to report to
-> the guest that we implement FEAT_ETS.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/cpu.h    | 1 +
->   target/arm/helper.c | 4 ++--
->   target/arm/kvm64.c  | 2 ++
->   3 files changed, 5 i
+On Fri, Aug 19, 2022 at 8:40 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/19/22 00:31, Anup Patel wrote:
+> >   static int aia_hmode(CPURISCVState *env, int csrno)
+> >   {
+> > -    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+> > +    CPUState *cs = env_cpu(env);
+> > +    RISCVCPU *cpu = RISCV_CPU(cs);
+>
+> Better as
+>
+>      RISCVCPU *cpu = env_archcpu(env);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Okay, I will update.
 
-r~
+Thanks,
+Anup
+
+>
+>
+> r~
 
