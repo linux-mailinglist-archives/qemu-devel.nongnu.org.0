@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A2659AECF
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 17:11:35 +0200 (CEST)
-Received: from localhost ([::1]:50776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA43359AEBD
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 16:54:20 +0200 (CEST)
+Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPQ8K-0004HH-VD
-	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 11:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50462)
+	id 1oPPrf-0008EQ-2D
+	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 10:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1oPPKC-0005Fi-TL
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 10:19:44 -0400
-Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49]:45767)
+ id 1oPPK7-0005DG-62
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 10:19:39 -0400
+Received: from mail-out-1a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:44]:13371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1oPPKA-0003lt-E4
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 10:19:44 -0400
-X-IPAS-Result: =?us-ascii?q?A2ASBABk7ABj/5sagoZaHQEBAQEJARIBBQUBQIFPhH6ET?=
- =?us-ascii?q?pEPly6HUQsBAQEBAQEBAQEIAUIEAQGFAwICAoRiJjgTAQIEAQEBAQMCAwEBA?=
- =?us-ascii?q?QEBAQMBAQYBAQEBAQEGBIEchS9GhkMCAQMjDwFGECAFAiYCAlcGDgWCfYMjq?=
- =?us-ascii?q?RqBMYEBhHCFEgkBgQcsiBCCGoUrglCECHWEYTCDCYJlBJYogyYcOAMJBAcFL?=
- =?us-ascii?q?B5CAwsfDhYFCAkXEhAQAgQRGgsGAxY+CQIEDgNACA0DEQQDDxgJEggQBAYDM?=
- =?us-ascii?q?QwlCwMUDAEGAwYFAwEDGwMUAwUkBwMZDyMNDQQfDAMDBSUDAgIbBwICAwIGF?=
- =?us-ascii?q?QYCAjYYOQgECAQrIw8FAgcvBQQvAh4EBQYRCAIWAgYEBAQEFQIQCAIIJxcHE?=
- =?us-ascii?q?zMZAQUyJxAJIRwOGhAFBhMDIG8FBz4PKDM1OSsdGwqBEiopFQMEBAMCBhMDA?=
- =?us-ascii?q?yICEC4xAxUGKRMSLQcrdQkCAyJpBQMDBCgsAwk+BwkiJj0FBVs6BQMDECI9B?=
- =?us-ascii?q?gMJAwIpFSebDYEOgXxcwXwHghahSUyWcQKSAS2HCY9Row+EJwIEAgQFAhaBe?=
- =?us-ascii?q?IF+cYM2URcCD5xyczsCBgEKAQEDCYpcAQE?=
-IronPort-Data: A9a23:XzTpjqBdP1UtxxVW/5Thw5YqxClBgxIJ4kV8jS/XYbTApGsn0TUFz
- GFKXGnTb/qCM2ajLt5ya4uzoU8Hu8LdzNRlOVdlrnsFo1CmCCbmLYnDch2gb3v6wunrFh8PA
- xA2M4GYRCwMZiaA4E/ra9ANlFEkvU2ybuOU5NXsZ2YgHmeIdA970Ug5w75j2tYy6TSEK1rlV
- e3a8pW31GCNhmYc3lI8s8pvfzs24ZweEBtB1rAPTagjUG32zhH5P7pDTU2FFEYUd6EPdgKMb
- 7uZkOvprjuxEyAFUbtJmp6jGqEDryW70QKm0hK6UID66vROS7BbPqsTbJIhhUlrZzqhx8568
- edj76SLGQ4zJvHwn9gvDztEHHQrVUFG0OevzXmXi/Ov72D2NkC2ht8oFl4qPcgR9qB7DAmi9
- 9RBc2xLN0vbwbjohuvmF4GAhex6RCXvFJ8YsHBp1nfDCvsmRJ3Ha7/V+d8d1T47hs1IW/rTD
- yYcQWMyN0ScOEYSZz/7DroTxfm6mCOgXwcJoXatu5YqyUPNxRBuhe2F3N39P4biqd9utl+Vo
- 3+D82nnDxUyMtuZxjyYtHW2iYfnhS7nVZhUEbSp+vNuhHWXx2oaEhpQUkG0ycRVkWakRM5fJ
- lxR4XBrp+4o61CrC9DxGRG1yJKZgiMhtxNrO7VSwGmwJmD8um512kBsouZ9VeEb
-IronPort-HdrOrdr: A9a23:uUyDgq6qc5fEoNtM+QPXwPnXdLJyesId70hD6qhwISY4TiX+rb
- HIoB17726RtN9/Yh8dcLy7UpVoBEmslqKdgrNhWItKPjOGhILAFugLhrcKgQeQeREWntQts5
- uIGJIQNDSfNzVHZZGQ2njBLz9Z+rm6GfeT9J7j80s=
+ id 1oPPK2-0003mY-BE
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 10:19:37 -0400
+X-IPAS-Result: =?us-ascii?q?A2ATBABA7QBj/5sagoZaHQEBAQEJARIBBQUBQIFPhH6ET?=
+ =?us-ascii?q?pEPgROdbAsBAQEBAQEBAQEIAUIEAQGFAwICAoRiJjgTAQIEAQEBAQMCAwEBA?=
+ =?us-ascii?q?QEBAQMBAQYBAQEBAQEGBIEchS9GhkMCAQMjBAsBRhAgBQImAgJXBg4Fgn2DI?=
+ =?us-ascii?q?6kafzKBAYRwhRIJAYEHLIgQghqFK4JQgRWCc3WEYTCDCYJlBJlOHDgDCQQHB?=
+ =?us-ascii?q?SweQgMLHw4WBQgJFxIQEAIEERoLBgMWPgkCBA4DQAgNAxEEAw8YCRIIEAQGA?=
+ =?us-ascii?q?zEMJQsDFAwBBgMGBQMBAxsDFAMFJAcDGQ8jDQ0EHwwDAwUlAwICGwcCAgMCB?=
+ =?us-ascii?q?hUGAgI2GDkIBAgEKyMPBQIHLwUELwIeBAUGEQgCFgIGBAQEBBUCEAgCCCcXB?=
+ =?us-ascii?q?xMzGQEFMicQCSEcDhoQBQYTAyBvBQc+DygzNTkrHRsKgRIqKRUDBAQDAgYTA?=
+ =?us-ascii?q?wMiAhAuMQMVBikTEi0HK3UJAgMiaQUDAwQoLAMJPgcJIiY9BQVbOgUDAxAiP?=
+ =?us-ascii?q?QYDCQMCKTybDYEOo3CgZAeCFqFJTJZxApIBlwehd4EYhCcCBAIEBQIWgXiBf?=
+ =?us-ascii?q?nGDNlEXAg+OLBYVjhtzOwIGAQoBAQMJilwBAQ?=
+IronPort-Data: A9a23:WFv3B6KQtiaQCYqrFE+RY5clxSXFcZb7ZxGr2PjKsXjdYENShGMPn
+ WofUG/QOv+KZWanet53aYy/9x8Gu8fUz9RnTlMd+CA2RRqmiyZk6fexcx2sZXPCdqUvaGo9s
+ q3yv/GZdJhcokf0/0vrav64xZVF/fngqoDUUYYoAQgsA14/IMsdoUg7wbRh0tQw2YLR7z6l4
+ LseneWOYDdJ5BYpagr424rbwP+4lK2v0N+wlgVWicFj5DcypVFMZH4sDf3Zw0/Df2VhNrXSq
+ 9DrkevlpDOJp3/BPfv++lrzWhVirrc/pmFigFIOM0SpqkAqSiDfTs/XOdJEAXq7hQllkPhDl
+ M1gm4CIRD0uN4HOhrhedjVdPgRxaPguFL/veRBTsOSp8HHmXkup+K8rJgcsIpEYv+97R21Dn
+ RAaAGlWMlba3Lrwmuz9E7Qx7iggBJCD0Ic3pnZqzDjCS+whTJDGTqHi/8BE3HI5j8tOEPCYa
+ 8dxhT9HNUWeOEARagd/5JQWv9uOuFbVcmVitVOEn4cuwE3SkzFXz+24WDbSUpnQLSlPpW6Bq
+ 2fbumj0HBweHNqYzzWD7zSrnOCntTv2RI8IUrix5/JnhFm7wm0VAQcRE1yhrpGEZlWWQc1DK
+ 0EEvzF06KJ07lO3Tpz0U1u0rRZooyIhZjaZKMVigCnl90Yey1bx6rQsJtKZVOEbiQ==
+IronPort-HdrOrdr: A9a23:SSmInKAyyg55RyTlHemd55DYdb4zR+YMi2TC1yhKJSC9Ffbo8P
+ xG/c5rsSMc5wx+ZJhNo7q90ey7MBDhHP1OkOws1NWZPTUO0VHAROpfBMnZsl/d8kXFh4hgPM
+ xbHJSWZuecMbAs5vyKmDVQa+xB/DDRytHQudvj
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.93,251,1654552800"; d="scan'208";a="153843355"
+X-IronPort-AV: E=Sophos;i="5.93,251,1654552800"; d="scan'208";a="19635688"
 Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-4.itc.rwth-aachen.de with ESMTP; 20 Aug 2022 16:19:27 +0200
+ by mail-in-1a.itc.rwth-aachen.de with ESMTP; 20 Aug 2022 16:19:26 +0200
 Received: from localhost.localdomain (2a02:908:1088:5920:e70b:29db:1db5:28bf)
  by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
  SMTP
@@ -56,9 +56,10 @@ From: <tobias.roehmel@rwth-aachen.de>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
  <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v3 1/9] target/arm: Add ARM_FEATURE_V8_R
-Date: Sat, 20 Aug 2022 16:19:06 +0200
-Message-ID: <20220820141914.217399-2-tobias.roehmel@rwth-aachen.de>
+Subject: [PATCH v3 2/9] target/arm: Don't add all MIDR aliases for cores that
+ immplement PMSA
+Date: Sat, 20 Aug 2022 16:19:07 +0200
+Message-ID: <20220820141914.217399-3-tobias.roehmel@rwth-aachen.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220820141914.217399-1-tobias.roehmel@rwth-aachen.de>
 References: <20220820141914.217399-1-tobias.roehmel@rwth-aachen.de>
@@ -68,14 +69,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [2a02:908:1088:5920:e70b:29db:1db5:28bf]
 X-ClientProxiedBy: rwthex-w4-b.rwth-ad.de (2a00:8a60:1:e500::26:167) To
  RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:49;
+Received-SPF: pass client-ip=2a00:8a60:1:e501::5:44;
  envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-4.itc.rwth-aachen.de
+ helo=mail-out-1a.itc.rwth-aachen.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,25 +95,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-This flag is necessary to add features for the Cortex-R52.
+Cores with PMSA have the MPUIR register which has the
+same encoding as the MIDR alias with opc2=4. So we only
+add that alias if we are not realizing a core that
+implements PMSA.
 
 Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 ---
- target/arm/cpu.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/helper.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index df677b2d5d..86e06116a9 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2287,6 +2287,7 @@ enum arm_features {
-     ARM_FEATURE_M_SECURITY, /* M profile Security Extension */
-     ARM_FEATURE_M_MAIN, /* M profile Main Extension */
-     ARM_FEATURE_V8_1M, /* M profile extras only in v8.1M and later */
-+    ARM_FEATURE_V8_R,
- };
- 
- static inline int arm_feature(CPUARMState *env, int feature)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6457e6301c..b9547594ae 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8188,10 +8188,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_NO_RAW, .resetvalue = cpu->midr,
+               .fieldoffset = offsetof(CPUARMState, cp15.c0_cpuid),
+               .readfn = midr_read },
+-            /* crn = 0 op1 = 0 crm = 0 op2 = 4,7 : AArch32 aliases of MIDR */
+-            { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+-              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
+-              .access = PL1_R, .resetvalue = cpu->midr },
++            /* crn = 0 op1 = 0 crm = 0 op2 = 7 : AArch32 aliases of MIDR */
+             { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 7,
+               .access = PL1_R, .resetvalue = cpu->midr },
+@@ -8201,6 +8198,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .accessfn = access_aa64_tid1,
+               .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
+         };
++        ARMCPRegInfo id_v8_midr_alias_cp_reginfo = {
++              .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
++              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
++              .access = PL1_R, .resetvalue = cpu->midr
++        };
+         ARMCPRegInfo id_cp_reginfo[] = {
+             /* These are common to v8 and pre-v8 */
+             { .name = "CTR",
+@@ -8264,8 +8266,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             id_mpuir_reginfo.access = PL1_RW;
+             id_tlbtr_reginfo.access = PL1_RW;
+         }
++
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+             define_arm_cp_regs(cpu, id_v8_midr_cp_reginfo);
++            if (!arm_feature(env, ARM_FEATURE_PMSA)) {
++                define_one_arm_cp_reg(cpu, &id_v8_midr_alias_cp_reginfo);
++            }
+         } else {
+             define_arm_cp_regs(cpu, id_pre_v8_midr_cp_reginfo);
+         }
 -- 
 2.25.1
 
