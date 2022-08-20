@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC35559ABF7
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 09:16:32 +0200 (CEST)
-Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CB259AC35
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 09:26:57 +0200 (CEST)
+Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPIid-000720-A6
-	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 03:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37534)
+	id 1oPIsi-0003gE-2X
+	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 03:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1oPIge-0005eI-U1
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 03:14:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52419)
+ id 1oPIr4-0002FN-I9
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 03:25:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1oPIga-0002Xl-Kv
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 03:14:26 -0400
+ id 1oPIr0-0004HE-Am
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 03:25:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660979662;
+ s=mimecast20190719; t=1660980308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZRhBBHaCTDYtxUxLbqolL5BiESy+qB3h0jZiqsYqjqk=;
- b=Ksekxg8RZt5IYHuE9Y5YOxnIdDcANb1Cleq1gxDyb3dVcoCyjP5MeFsZDA5KH5xEyeEb9i
- r96D5NpwxQNiaary5FKr5SWoIAhW5ecrD+0am20nF2vxkTAGp/p62ehKQHqhGXyzDjgoze
- zQnm6fFeBibUefFtK1S1z+PJyOPOCCg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ma1jjT/dA/JuqqQGzNwKC6sd3FB5+B9LQvq87yfwS7g=;
+ b=e8ZZn+xvxphkqMRUWmlXDqoVcgG7h9waCmlmBRmxRxv/aK8gpa0A3qrfMQpwGhYAfMRc+w
+ gh1fM5VPTTjtTV7rtjAsxr3kyueXEli6T36FORYGOJ3JEraxlfaQlX4K3WxwKC9bb4Vq2N
+ tg3WYYK4REDkqPZSprjZCRddPLNEDHw=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648-8eWxdFsBPBKVu7cQ6KLOqA-1; Sat, 20 Aug 2022 03:14:15 -0400
-X-MC-Unique: 8eWxdFsBPBKVu7cQ6KLOqA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- q32-20020a05640224a000b004462f105fa9so2766130eda.4
- for <qemu-devel@nongnu.org>; Sat, 20 Aug 2022 00:14:15 -0700 (PDT)
+ us-mta-226-iADup53zOCqhp3a_N-LW0Q-1; Sat, 20 Aug 2022 03:25:06 -0400
+X-MC-Unique: iADup53zOCqhp3a_N-LW0Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ w5-20020a05640234c500b0043dda025648so3899527edc.8
+ for <qemu-devel@nongnu.org>; Sat, 20 Aug 2022 00:25:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=ZRhBBHaCTDYtxUxLbqolL5BiESy+qB3h0jZiqsYqjqk=;
- b=Pm5rvjQL1qr+aQckc5TYETYAhvgCVmV0XCVpf4d7IShBO3orEetY3GHXwofVO3QWWc
- 6hYaGKb9MEfgfwCaMtZy7LFxTznRZwJrswk+YIGjCfvjDHxAu/a3gVIhNAzGM2ZXSIYt
- yxdCnPJhIP4PYk6Ap6BB0C5NuLPBWr0C3WNdSJeeGsj95IB/6J3rrRqw7wDtUQMj2BkS
- 3Wpn6M+a7ZsPUa+neIXSJWjOtSc7LSOgPQpKZL73sW2FXKCOAepsycxer82tFgN7ezOB
- 81qgvBzISw2lOqN35w8v+asHGilrq8YOnzRRJM1ziWxPgdH+mjf3uBxj1jdQ5i4U64/p
- eM8A==
-X-Gm-Message-State: ACgBeo3PePWacFHLBWTwdRwWawlDPFtaP8AGVnL3ePwLi9jibonEev/J
- 1Q5dBuy749g3RoB2fzcHdMgaQ8ehVGaRGVNN5nhnJ8BRJrcA4gHdy0QkdEcBSOX30g3xZ0hGlPj
- 1ip34cBIBUrMsOwxxOQGaK4I+QJSjkhk=
-X-Received: by 2002:a05:6402:5192:b0:43d:cc0d:6ea4 with SMTP id
- q18-20020a056402519200b0043dcc0d6ea4mr8600243edd.111.1660979654751; 
- Sat, 20 Aug 2022 00:14:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6R5taEE7yFO7zlPfesYTeGu7tkiH5QGtsLUCAUEd/xp3rSOVYhlZ06CEBoqXq4MxCbGglUdtjVgr5IlkUnNAQ=
-X-Received: by 2002:a05:6402:5192:b0:43d:cc0d:6ea4 with SMTP id
- q18-20020a056402519200b0043dcc0d6ea4mr8600220edd.111.1660979654414; Sat, 20
- Aug 2022 00:14:14 -0700 (PDT)
+ bh=ma1jjT/dA/JuqqQGzNwKC6sd3FB5+B9LQvq87yfwS7g=;
+ b=1YRuVV1a1LLaLPd7SXW/terPkM8fZ9Lux7jNt8sNAd0hDQSSV+IREzBUNSplN3wDt4
+ s3sEVK2EO7S3jzi3oJBNQRyjTr7B1xqfw1MAA636pZj99dTyYiqsrkVHHVb/FLWyig3W
+ gZDDvw8TYBiupI2lawujr5p28NmtJCpCL/OXQ3zBk8JRPWwymUw2NTWUfsWOaOyWpafK
+ CMLfiCS+LFBp0DUBcswEh5Ma92Xm/hhJnXIJWpt8WE1Zi0ecXKb71thjGXJLvM1Q6Z+M
+ sG49grdDN6YDtwFyNaRKP0vCPQawrTWKCPNWjokiJxzPsdUkfI1umlvJBieYPtZljCjD
+ EHFQ==
+X-Gm-Message-State: ACgBeo2cnhHBRAwcYs7NHC0o6JxAbNDOMaHOLSsrJDZ1bF4s1AFik2qg
+ TEQqdtymu4hyWLJZNGJMC2M7oMxUpHKAwoJNSx8ZlIdoGJRx2eDALVqvBu36L3cT+51Sy4pgPE+
+ iQGIfj2VXdn+TrneZb264L+8BptwyTyU=
+X-Received: by 2002:a17:907:9694:b0:73c:4e5c:fd33 with SMTP id
+ hd20-20020a170907969400b0073c4e5cfd33mr5744936ejc.331.1660980305730; 
+ Sat, 20 Aug 2022 00:25:05 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6tmc4u5a2SVonwJjOwQtW1eiam1C4n9uSjCHXeX4HzJT1e+XOJYi7T02Fnl3n3AACdkg0QAeAPL1C/cG+GFQQ=
+X-Received: by 2002:a17:907:9694:b0:73c:4e5c:fd33 with SMTP id
+ hd20-20020a170907969400b0073c4e5cfd33mr5744910ejc.331.1660980305329; Sat, 20
+ Aug 2022 00:25:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220802063907.18882-1-quintela@redhat.com>
- <20220802063907.18882-6-quintela@redhat.com>
- <01fcdde9f6246836b4058efc8c298a82e86d1458.camel@redhat.com>
- <87h7281ryc.fsf@secure.mitica>
-In-Reply-To: <87h7281ryc.fsf@secure.mitica>
+ <20220802063907.18882-7-quintela@redhat.com>
+ <ef7bff6220e3759c7acb5382ae211de1623cdf5e.camel@redhat.com>
+ <87czcw1rfp.fsf@secure.mitica>
+In-Reply-To: <87czcw1rfp.fsf@secure.mitica>
 From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Sat, 20 Aug 2022 04:14:03 -0300
-Message-ID: <CAJ6HWG4QsPK9y6+HE60BXT+F2bDxrfG4_oNvqgc_a9eMFVm-Dw@mail.gmail.com>
-Subject: Re: [PATCH v7 05/12] migration: Make ram_save_target_page() a pointer
+Date: Sat, 20 Aug 2022 04:24:54 -0300
+Message-ID: <CAJ6HWG7hXM8jwLTqTZx_uyWm0KKBC93wVgrXV_dcC_r+HwKmPw@mail.gmail.com>
+Subject: Re: [PATCH v7 06/12] multifd: Make flags field thread local
 To: Juan Quintela <quintela@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
@@ -102,147 +102,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 19, 2022 at 6:52 AM Juan Quintela <quintela@redhat.com> wrote:
+On Fri, Aug 19, 2022 at 7:03 AM Juan Quintela <quintela@redhat.com> wrote:
 >
 > Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
 > > On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
-> >> We are going to create a new function for multifd latest in the series=
-.
+> >> Use of flags with respect to locking was incensistant.  For the
+> >> sending side:
+> >> - it was set to 0 with mutex held on the multifd channel.
+> >> - MULTIFD_FLAG_SYNC was set with mutex held on the migration thread.
+> >> - Everything else was done without the mutex held on the multifd chann=
+el.
+> >>
+> >> On the reception side, it is not used on the migration thread, only on
+> >> the multifd channels threads.
+> >>
+> >> So we move it to the multifd channels thread only variables, and we
+> >> introduce a new bool sync_needed on the send side to pass that informa=
+tion.
 > >>
 > >> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> >> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> >
-> > Double Signed-off-by again.
-> >
 > >> ---
-> >>  migration/ram.c | 13 +++++++++----
-> >>  1 file changed, 9 insertions(+), 4 deletions(-)
+> >>  migration/multifd.h | 10 ++++++----
+> >>  migration/multifd.c | 23 +++++++++++++----------
+> >>  2 files changed, 19 insertions(+), 14 deletions(-)
 > >>
-> >> diff --git a/migration/ram.c b/migration/ram.c
-> >> index 85d89d61ac..499d9b2a90 100644
-> >> --- a/migration/ram.c
-> >> +++ b/migration/ram.c
-> >> @@ -310,6 +310,9 @@ typedef struct {
-> >>      bool preempted;
-> >>  } PostcopyPreemptState;
+> >> diff --git a/migration/multifd.h b/migration/multifd.h
+> >> index 36f899c56f..a67cefc0a2 100644
+> >> --- a/migration/multifd.h
+> >> +++ b/migration/multifd.h
+> >> @@ -98,12 +98,12 @@ typedef struct {
+> >
+> > Just noticed having no name in 'typedef struct' line makes it harder to
+> > understand what is going on.
+>
+> It is common idiom in QEMU.  The principal reason is that if you don't
+> want anyone to use "struct MultiFDSendParams" but MultiFDSendParams, the
+> best way to achieve that is to do it this way.
+
+I agree, but a comment after the typedef could help reviewing. Something li=
+ke
+
+typedef struct { /* MultiFDSendParams */
+...
+} MultiFDSendParams
+
+Becomes this in diff:
+
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 134e6a7f19..93bb3a7f4a 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -90,6 +90,7 @@ typedef struct { /* MultiFDSendParams */
+[...]
+
+
+>
+> >> @@ -172,6 +172,8 @@ typedef struct {
 > >>
-> >> +typedef struct RAMState RAMState;
-> >> +typedef struct PageSearchStatus PageSearchStatus;
-> >> +
-> >>  /* State of RAM for migration */
-> >>  struct RAMState {
-> >>      /* QEMUFile used for this migration */
-> >> @@ -372,8 +375,9 @@ struct RAMState {
-> >>       * is enabled.
-> >>       */
-> >>      unsigned int postcopy_channel;
-> >> +
-> >> +    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
-> >>  };
-> >> -typedef struct RAMState RAMState;
+> >>      /* pointer to the packet */
+> >>      MultiFDPacket_t *packet;
+> >> +    /* multifd flags for each packet */
+> >> +    uint32_t flags;
+> >>      /* size of the next packet that contains pages */
+> >>      uint32_t next_packet_size;
+> >>      /* packets sent through this channel */
+> >
+> > So, IIUC, the struct member flags got moved down (same struct) to an ar=
+ea
+> > described as thread-local, meaning it does not need locking.
+> >
+> > Interesting, I haven't noticed this different areas in the same struct.
+>
+> It has changed in the last two weeks or so in upstream (it has been on
+> this patchset for several months.)
+
+Nice :)
+
+>
+>
+> >
+> >> diff --git a/migration/multifd.c b/migration/multifd.c
+> >> index e25b529235..09a40a9135 100644
+> >> --- a/migration/multifd.c
+> >> +++ b/migration/multifd.c
+> >> @@ -602,7 +602,7 @@ int multifd_send_sync_main(QEMUFile *f)
+> >>          }
 > >>
-> >>  static RAMState *ram_state;
+> >>          p->packet_num =3D multifd_send_state->packet_num++;
+> >> -        p->flags |=3D MULTIFD_FLAG_SYNC;
+> >> +        p->sync_needed =3D true;
+> >>          p->pending_job++;
+> >>          qemu_mutex_unlock(&p->mutex);
+> >>          qemu_sem_post(&p->sem);
+> >> @@ -658,7 +658,11 @@ static void *multifd_send_thread(void *opaque)
 > >>
-> >> @@ -2255,14 +2259,14 @@ static bool save_compress_page(RAMState *rs, R=
-AMBlock *block, ram_addr_t offset)
-> >>  }
+> >>          if (p->pending_job) {
+> >>              uint64_t packet_num =3D p->packet_num;
+> >> -            uint32_t flags =3D p->flags;
+> >> +            p->flags =3D 0;
+> >> +            if (p->sync_needed) {
+> >> +                p->flags |=3D MULTIFD_FLAG_SYNC;
+> >> +                p->sync_needed =3D false;
+> >> +            }
+> >
+> > Any particular reason why doing p->flags =3D 0, then p->flags |=3D MULT=
+IFD_FLAG_SYNC
+> > ?
+>
+> It is a bitmap field, and if there is anything on the future, we need to
+> set it.  I agree that when there is only one flag, it seems "weird".
+>
+> > [1] Couldn't it be done without the |=3D , since it's already being set=
+ to zero
+> > before? (becoming "p->flags =3D MULTIFD_FLAG_SYNC" )
+>
+> As said, easier to modify later, and also easier if we want to setup a
+> flag by default.
+
+Yeah, I agree. It makes sense now.
+
+Thanks
+
+>
+> I agree that it is a matter of style/taste.
+>
+> >>              p->normal_num =3D 0;
 > >>
-> >>  /**
-> >> - * ram_save_target_page: save one target page
-> >> + * ram_save_target_page_legacy: save one target page
-> >>   *
-> >>   * Returns the number of pages written
-> >>   *
-> >>   * @rs: current RAM state
-> >>   * @pss: data about the page we want to send
-> >>   */
-> >> -static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-> >> +static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus=
- *pss)
-> >>  {
-> >>      RAMBlock *block =3D pss->block;
-> >>      ram_addr_t offset =3D ((ram_addr_t)pss->page) << TARGET_PAGE_BITS=
-;
-> >> @@ -2469,7 +2473,7 @@ static int ram_save_host_page(RAMState *rs, Page=
-SearchStatus *pss)
-> >>
-> >>          /* Check the pages is dirty and if it is send it */
-> >>          if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) =
-{
-> >> -            tmppages =3D ram_save_target_page(rs, pss);
-> >> +            tmppages =3D rs->ram_save_target_page(rs, pss);
-> >>              if (tmppages < 0) {
-> >>                  return tmppages;
+> >>              if (use_zero_copy_send) {
+> >> @@ -680,14 +684,13 @@ static void *multifd_send_thread(void *opaque)
+> >>                  }
 > >>              }
-> >> @@ -3223,6 +3227,7 @@ static int ram_save_setup(QEMUFile *f, void *opa=
-que)
-> >>      ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-> >>      ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+> >>              multifd_send_fill_packet(p);
+> >> -            p->flags =3D 0;
+> >>              p->num_packets++;
+> >>              p->total_normal_pages +=3D p->normal_num;
+> >>              p->pages->num =3D 0;
+> >>              p->pages->block =3D NULL;
+> >>              qemu_mutex_unlock(&p->mutex);
 > >>
-> >> +    (*rsp)->ram_save_target_page =3D ram_save_target_page_legacy;
-> >>      ret =3D  multifd_send_sync_main(f);
-> >>      if (ret < 0) {
-> >>          return ret;
+> >> -            trace_multifd_send(p->id, packet_num, p->normal_num, flag=
+s,
+> >> +            trace_multifd_send(p->id, packet_num, p->normal_num, p->f=
+lags,
+> >>                                 p->next_packet_size);
+> >>
+> >>              if (use_zero_copy_send) {
+> >> @@ -715,7 +718,7 @@ static void *multifd_send_thread(void *opaque)
+> >>              p->pending_job--;
+> >>              qemu_mutex_unlock(&p->mutex);
+> >>
+> >> -            if (flags & MULTIFD_FLAG_SYNC) {
+> >> +            if (p->flags & MULTIFD_FLAG_SYNC) {
+> >>                  qemu_sem_post(&p->sem_sync);
+> >>              }
+> >>              qemu_sem_post(&multifd_send_state->channels_ready);
 > >
-> >
-> > So, IIUC:
-> > - Rename ram_save_target_page -> ram_save_target_page_legacy
-> > - Add a function pointer to RAMState (or a callback)
-> > - Assign function pointer =3D ram_save_target_page_legacy at setup
-> > - Replace ram_save_target_page() by indirect function call using above =
-pointer.
-> >
-> > I could see no issue in this, so I belive it works fine.
-> >
-> > The only thing that concerns me is the name RAMState.
+> > IIUC it uses p->sync_needed to keep the sync info, instead of the previ=
+ous flags
+> > local var, and thus it can set p->flags =3D 0 earlier. Seems to not cha=
+nge any
+> > behavior AFAICS.
 >
-> Every device state is setup in RAMState.
+> The protection of the global flags was being wrong.  That is the reason
+> that I decided to change it to the sync_needed.
 >
-> > IMHO, a struct named RAMState is supposed to just reflect the state of =
-ram (or
-> > according to this struct's comments, the state of RAM for migration. Ha=
-ving a
-> > function pointer here that saves a page seems counterintuitive, since i=
-t does
-> > not reflect the state of RAM.
+> The problem was that at some point we were still sending a packet (that
+> shouldn't have the SYNC flag enabled), but we received a
+> multifd_main_sync() and it got enabled anyways.  The easier way that I
+> found te fix it was this way.
 >
-> The big problem for adding another struct is that we would have to
-> change all the callers, or yet another global variable.  Both are bad
-> idea in my humble opinion.
->
-> > Maybe we could rename the struct, or even better, create another struct=
- that
-> > could look something like this:
-> >
-> > struct RAMMigration {
-> >     RAMState state;
-> >     int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
-> >     /* Other callbacks or further info.*/
-> > }
-> >
-> > What do you think about it?
->
-> Really this depends on configuration.  What is setup for qemu
-> migration.  I think this is the easiest way to do it, we can add a new
-> struct, but it gets everything much more complicated:
->
-> - the value that we receive in ram_save_setup() is a RAMState
-> - We would have to change all the callers form
->   * ram_save_iterate()
->   * ram_find_and_save_block()
->   * ram_save_host_page()
+> Problem was difficult to detect, that is the reason that I change it
+> this way.
 
-Maybe RAMState could be part of a bigger struct, and we could use
-something like a container_of().
-So whenever you want to use it, it would be available.
-
-What about that?
+Oh, I see.
 
 >
-> So I think it is quite a bit of churn for not a lot of gain.
+> >> -        if (flags & MULTIFD_FLAG_SYNC) {
+> >> +        if (sync_needed) {
+> >>              qemu_sem_post(&multifd_recv_state->sem_sync);
+> >>              qemu_sem_wait(&p->sem_sync);
+> >>          }
+> >
+> > Ok, IIUC this part should have the same behavior as before, but using a=
+ bool
+> > instead of an u32.
 >
-> Later, Juan.
+> I changed it to make sure that we only checked the flags at the
+> beggining of the function, with the lock taken.
+
+Thanks for sharing!
+
+Best regards,
+Leo
+
+>
+> >
+> > FWIW:
+> > Reviewed-by: Leonardo Bras <leobras@redhat.com>
+>
+> Thanks, Juan.
 >
 
 
