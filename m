@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7BF59AB79
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 07:24:48 +0200 (CEST)
-Received: from localhost ([::1]:33114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D9759AB78
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Aug 2022 07:24:26 +0200 (CEST)
+Received: from localhost ([::1]:60274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPGyV-0001PD-Cr
-	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 01:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
+	id 1oPGy9-0000yx-EA
+	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 01:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oPGve-0005pj-LD
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 01:21:50 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41931)
+ id 1oPGw7-0006Nd-94
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 01:22:20 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oPGvc-0004Nx-Uz
- for qemu-devel@nongnu.org; Sat, 20 Aug 2022 01:21:50 -0400
-Received: by mail-pl1-x634.google.com with SMTP id p18so5680455plr.8
- for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 22:21:48 -0700 (PDT)
+ id 1oPGw6-0004QW-0c
+ for qemu-devel@nongnu.org; Sat, 20 Aug 2022 01:22:19 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id d71so5165257pgc.13
+ for <qemu-devel@nongnu.org>; Fri, 19 Aug 2022 22:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=NDk5uDzmyZQmpEDy6CAJhPQ/D2di48CWnqJg/6Y0lW4=;
- b=wQaB7Epaf39bre54T1G9PhMLdoq7y9c7YW+VzH90VeGtmKQAVN+lqIx5tROqaBc2nm
- etQfvXHsJJHo6o5SpYu8fnDcBMF+TnVsMM9tpFtcdINaPDCduCLLDNX9yV9rZnjE4JEh
- URReZ19skj0ut5urxyCWMUOOYtDIJnbH8gzI+8X+CDJ8dH38irZq3VvBDqIhc+rTsfNS
- zBzk3M5ZLfWQAEoi8BwnGKTZmCxBXSRqBv1NuPjJvALRad5ysUmvTXxg9+AWrDWLPadQ
- IxtYCIQDhJVifHQYvavxBm8NMnjUNHi/xEAP/JbPHg8Lhrngf31MJ1mXdL3DvqSiqeOc
- tuQg==
+ :from:to:cc; bh=XlZgOSQ4NES66fut4fiHJ48r4KbfdGGMFc466qIdkkw=;
+ b=OHMeD9ciras5hDTvtgrUFdp2AMKqVQAwBjUoAYT/U9AQVBRmVpm4vxTewNzUZUmG7X
+ 9RNJUnftITYr+M2QRatp6I/a78/7CQ9XUJltuM/hSZgSmLHwiNF4cTZwGXtHSH4Gu1vw
+ k7kBH0KTR5g/eqAYHad6f3pI5sBhJZ7bciPSPKGBnUaBVTrP2XEQQ+gfwy+8Tb3fb9uy
+ Fejyh4eLM5bbgwmUbSQpR0v6h7+E8XM+yOnpfnEwQRZwu28dGWYiUBvJ00CKyZ9mAY/D
+ vS6t5xomGJIWveoNJiUuVCXtpQU09VT7qp+xgxinGixCY2QpWJ3LYMcx82q/jgasqELK
+ nQsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=NDk5uDzmyZQmpEDy6CAJhPQ/D2di48CWnqJg/6Y0lW4=;
- b=PMzyCxh/+/Tu7hk6Pjdu/m50NXPtYyg355iPmbtVPUTuqcVhVsHUeGyvXT1Q9LMxnx
- MJJYDgRedsFGh8PtVUUM8hGQ+3oV5HEq97CDJ2PXUWv1s5yfNy4a6MDWTBpX0ITI+64L
- 1nsMgnGyHbGNjvf3YkR+MTyVMwMTnu0NSDAZkJf6zUzixR7XHjfZX+EBQOcF46DdHiZU
- xlb2LCMSU+N8Rx6EW6qU2PFqOxojjxDT+6rcpwlx635evzR4byRXvx0BQbAaly6QpSe4
- J+1zN31vPTzr5YbvWTIlsoAFbmKXd5OhesqhTgi+8h1apaA8CLeDYqXUh2FhiLZ8aBIX
- uMgA==
-X-Gm-Message-State: ACgBeo3SrLA2KmMjz8xZrYVjkgD90TWUft1nkOKU4mkruWLndNu1/3YL
- mxSIju0iJtXThfu5giLI3HohmdQMN/C6iQ==
-X-Google-Smtp-Source: AA6agR4celuYhTuK0X5huGekzvuB0DLWB4D8kDC9nv55z+ZcWdElF6i/9BSSp0NF/KVsaloNYkJIvA==
-X-Received: by 2002:a17:903:1c7:b0:171:3ba4:9bb8 with SMTP id
- e7-20020a17090301c700b001713ba49bb8mr10503961plh.105.1660972907308; 
- Fri, 19 Aug 2022 22:21:47 -0700 (PDT)
+ bh=XlZgOSQ4NES66fut4fiHJ48r4KbfdGGMFc466qIdkkw=;
+ b=TuYbFN4A5Id2FGvHDbyabBUBDvuVMK+57h+tRfd+6PJqCMwsjv8OwM88Q56/7XF3em
+ acv1oMX0ri/SUaZBYL4MbAK9YBybHyGG1vDfOW/XNRW1BmDEyS3nPs75Fj/uKS3eBd4C
+ KqeC1phcSBqPdXx9a5yr01WkauBjT/oKilmq49dVM4kv3nuKLE0oh2PUcpYZjUxXYZP4
+ RfDF4wsncx+zIYG3r0iaF834Rd2WGXTCLKoG0gzEJ30GEP4rLucunDEaEUnnsAn8MZ3B
+ SyjmBCPWF+b3mjTL0HaxyJjYi1HttOJjwcznIdg2AeACowURDTcj5GChafW7w1raN30X
+ H1UA==
+X-Gm-Message-State: ACgBeo2E4nuN59IiyJ/Dpywgh27PBGCnX6DAhi0TT2zN+vBG9WTE8XOr
+ KcCZVuT6hHfsh4xLManzAD43UnBdaHLtZQ==
+X-Google-Smtp-Source: AA6agR7u22t69Xhzd3WPueJzmXBVNpP4yIQmu1JR3NDwB2MBzD2ZqqNhH6rrb3HB+YSa6hjReGyjxw==
+X-Received: by 2002:a63:8ac8:0:b0:429:71e3:4af6 with SMTP id
+ y191-20020a638ac8000000b0042971e34af6mr9052151pgd.218.1660972936517; 
+ Fri, 19 Aug 2022 22:22:16 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:b651:a70f:2852:70f5?
  ([2602:47:d49d:ec01:b651:a70f:2852:70f5])
  by smtp.gmail.com with ESMTPSA id
- b191-20020a621bc8000000b0052d2b55be32sm4425693pfb.171.2022.08.19.22.21.46
+ z16-20020aa79590000000b0052d8405bcd2sm4322149pfj.163.2022.08.19.22.22.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Aug 2022 22:21:46 -0700 (PDT)
-Message-ID: <5b2694b7-a1bf-504a-5af6-8ac95d34d5ee@linaro.org>
-Date: Fri, 19 Aug 2022 22:21:44 -0700
+ Fri, 19 Aug 2022 22:22:15 -0700 (PDT)
+Message-ID: <923c77ed-f3e7-38e1-6637-3c1196ec51c4@linaro.org>
+Date: Fri, 19 Aug 2022 22:22:12 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 5/6] target/arm: Advertise FEAT_ETS for '-cpu max'
+Subject: Re: [PATCH 6/6] target/arm: Add missing space in comment
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220819110052.2942289-1-peter.maydell@linaro.org>
- <20220819110052.2942289-6-peter.maydell@linaro.org>
+ <20220819110052.2942289-7-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220819110052.2942289-6-peter.maydell@linaro.org>
+In-Reply-To: <20220819110052.2942289-7-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,26 +95,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/19/22 04:00, Peter Maydell wrote:
-> The architectural feature FEAT_ETS (Enhanced Translation
-> Synchronization) is a set of tightened guarantees about memory
-> ordering involving translation table walks:
+> Fix a missing space before a comment terminator.
 > 
->   * if memory access RW1 is ordered-before memory access RW2 then it
->     is also ordered-before any translation table walk generated by RW2
->     that generates a translation fault, address size fault or access
->     fault
-> 
->   * TLB maintenance on non-exec-permission translations is guaranteed
->     complete after a DSB (ie it does not need the context
->     synchronization event that you have to have if you don’t have
->     FEAT_ETS)
-> 
-> For QEMU’s implementation we don’t reorder translation table walk
-> accesses, and we guarantee to finish the TLB maintenance as soon as
-> the TLB op is done (the tlb_flush functions will complete at the end
-> of the TLB, and TLB ops always end the TB because they’re sysreg
-
-First TLB on this line should be TB.
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   target/arm/cpu_tcg.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
