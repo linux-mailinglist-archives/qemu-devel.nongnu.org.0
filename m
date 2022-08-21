@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1132559B6C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 01:33:34 +0200 (CEST)
-Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C224F59B6C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 01:36:43 +0200 (CEST)
+Received: from localhost ([::1]:35026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPuRg-0000uU-W0
-	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 19:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47562)
+	id 1oPuUk-0003IJ-Sz
+	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 19:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oPuPS-0007nK-E4
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:31:14 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:34489)
+ id 1oPuRo-00010w-Rb
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:33:47 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oPuPQ-0001tm-SB
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:31:14 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id jl18so8475626plb.1
- for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 16:31:12 -0700 (PDT)
+ id 1oPuRn-000216-1M
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:33:40 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id s206so7973182pgs.3
+ for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 16:33:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=ziOLp1gg0TQQgtpMKXs5FT327pBoaEcVDukx0JxPbkE=;
- b=jzHMcMBG66mB7K79wC5MwD5QId+7herJ8tSTHsNbHvxTU4sKcPndC+01nx096KC3XT
- s3y+uA1FJDKlS3COrqhxVDUKkh3QGSBnI4rVamUYJTJ0JxsWzcjD2mpiGxGjogEgHLIf
- RP32NiDx2Veuh6u1Bf64WH45LNFnzZAorSbG5Qw51UbIPrJTXHnZ+S9UxXgSf+hrdvnU
- 75TyKCXPrmEzNR24gh/aZgta7Sq40EwFhvBJxV1lpWE+UxG72iAnjjQM+7y8WnoW3jCm
- h8n6RACi1EJYqM654g4v+s5aRPefu9MU79ta7ml/qtcf0LCowjnQrzsPCFdxV8IdO1SL
- xZMw==
+ bh=7P/i8lBZRJAboK4z1Z+YELbl3EUqdGJfPckR1aOjIdg=;
+ b=KpCL808zDUlCOzAEDMBoOuxQZvbpN4T85fuMKxW+mYp/b/LVzfe5pP3wyRDv+mAbUd
+ t/h7upI48rho1tQ/fsHB4w4TdL3wDx9H4kD8Wdfm78IipeK0iZArkEVGag0sNllTRjX+
+ z+2SysffFqSGI6HopxlJam8Z9x+UCmGL1W/1xr6ml4OhbzxdFsXXXTA39PvwvPktJBfh
+ sayHq+bxzSS5oAD4zlZWNMZj8LDdZ/lYkSJ6qb9/5v/B7Ns1OQ6z/T88GV14bR5NOG0e
+ bo6TEQlAgr2+8UHbtMBwVNvHXZlL65I0CDCGrZEYrzRnRqlGCtP682dDBzkeXNKOS982
+ 23Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=ziOLp1gg0TQQgtpMKXs5FT327pBoaEcVDukx0JxPbkE=;
- b=0c2wXiU6V1qpRO2iTWSjND+k4dy2Hzm1fav9j5cC/tiXvWVrdQuJlbzauX0vWN16jJ
- bOPXHZ6fw8DXBbbzNisiVKUe9fTBGLpGopFL0AecQ29ik7tlT9/ICdQExtMXpNyVKiLI
- KipDxhldYIBLiuZsx/lZrAq91B/bbHGp4X9MPmP91VUwpamMHc2o1CH+tDCw5KHM3uVm
- /QRt9FJ4gTGsAOsiQFpmsE1K9t1udBIGBBuL5jHVkvSCUzHXWjtctSJjDD5BEGZBOEE+
- 2jZUWqWKcEtS1vUORmoKiQIoEuS9Za60lwoDGJ5pSexBxgaO/tkCXMVm1GfYbqfyI30c
- thxA==
-X-Gm-Message-State: ACgBeo2RUW6G89+g2GbrfvcjrhgyO/z/9QYFg0HPOFyk2/QeCuisqCvL
- ybz86VjB/LPeAg0YXYxeSAgh/+BAokLsgf1UeJ0=
-X-Google-Smtp-Source: AA6agR6w0RtyD6ltQRlQNOPr7fu5aSYZrPcrOx1Q7o17krVd1y4+2pGgQurc6qEP1InHHTjNRXLqnVgXiHNHu/G/ens=
-X-Received: by 2002:a17:903:2291:b0:16e:cf55:5c72 with SMTP id
- b17-20020a170903229100b0016ecf555c72mr17867463plh.121.1661124671557; Sun, 21
- Aug 2022 16:31:11 -0700 (PDT)
+ bh=7P/i8lBZRJAboK4z1Z+YELbl3EUqdGJfPckR1aOjIdg=;
+ b=knbuLS7D5MKOD/rn2uyaKRCHw/dNwoD8uu9oIBMeAdbAXLZSktXOgXZVogthBv6+I9
+ JJfcCqcebIjmdyrV602Rhs/8NeCBZ3NcsVIGyu/1+aHjMp3k1W1yyLwXAGAT1uxsTF+N
+ bJxm6G8io8CcCyVXhIXapD/gz8yuVGl3+v9qALYWkEIThMaj/3c8+2FaiRiqeC1hQRD+
+ rg/+4whARMbOK3te1MSLpkUUVfO8b11Z/LsZn6AQXEJaSb/njQxRyKIyYIRWgCdqj9+m
+ Dr4vpiR97G2mWpwNuh+hPvdd4HQbq4FHk1ddoZHAmv20OLgQf7BCRDEHtZSLXoDUyfy5
+ 4moQ==
+X-Gm-Message-State: ACgBeo1mMkb+86fHVNyT94MV9lnA7p3LuVGHMHxcTgPj9AwPsTsvpJDk
+ x2FRoaheRCqVEBYkh+lzKbdXVPoAbz2S9LzN8w0=
+X-Google-Smtp-Source: AA6agR6oIt+ry207zm/yqXZceaISp4RSC3DSc3OADVXGlOh6TxYzLNtgXt7n6O0JjNUFEiQNwHa2OFqOOO4JQ8tuoRo=
+X-Received: by 2002:a05:6a00:88e:b0:52c:65a3:fdb4 with SMTP id
+ q14-20020a056a00088e00b0052c65a3fdb4mr17944739pfj.83.1661124817373; Sun, 21
+ Aug 2022 16:33:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220819032615.884847-1-richard.henderson@linaro.org>
- <20220819032615.884847-10-richard.henderson@linaro.org>
-In-Reply-To: <20220819032615.884847-10-richard.henderson@linaro.org>
+ <20220819032615.884847-11-richard.henderson@linaro.org>
+In-Reply-To: <20220819032615.884847-11-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 22 Aug 2022 09:30:45 +1000
-Message-ID: <CAKmqyKMNBaB_5XH8YFC+cFHOwh0DETy-sRCq-uBoykBF+ZN0dg@mail.gmail.com>
-Subject: Re: [PATCH v6 09/21] accel/tcg: Unlock mmap_lock after longjmp
+Date: Mon, 22 Aug 2022 09:33:11 +1000
+Message-ID: <CAKmqyKP3YH6jBcYB2gjxcPLW+xD+hNUDN9HgT6TZn24mMfte3w@mail.gmail.com>
+Subject: Re: [PATCH v6 10/21] accel/tcg: Make tb_htable_lookup static
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Laurent Vivier <laurent@vivier.eu>, iii@linux.ibm.com, 
  dramforever@live.com, Alistair Francis <alistair.francis@wdc.com>, 
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,72 +87,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 19, 2022 at 1:29 PM Richard Henderson
+On Fri, Aug 19, 2022 at 1:33 PM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> The mmap_lock is held around tb_gen_code.  While the comment
-> is correct that the lock is dropped when tb_gen_code runs out
-> of memory, the lock is *not* dropped when an exception is
-> raised reading code for translation.
+> The function is not used outside of cpu-exec.c.  Move it and
+> its subroutines up in the file, before the first use.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  accel/tcg/cpu-exec.c  | 12 ++++++------
->  accel/tcg/user-exec.c |  3 ---
->  2 files changed, 6 insertions(+), 9 deletions(-)
+>  include/exec/exec-all.h |   3 -
+>  accel/tcg/cpu-exec.c    | 122 ++++++++++++++++++++--------------------
+>  2 files changed, 61 insertions(+), 64 deletions(-)
 >
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index 0475ec6007..9f35e3b7a9 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -552,9 +552,6 @@ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
+>  #endif
+>  void tb_flush(CPUState *cpu);
+>  void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
+> -TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+> -                                   target_ulong cs_base, uint32_t flags,
+> -                                   uint32_t cflags);
+>  void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+>
+>  /* GETPC is the true target of the return instruction that we'll execute.  */
 > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index a565a3f8ec..d18081ca6f 100644
+> index d18081ca6f..7887af6f45 100644
 > --- a/accel/tcg/cpu-exec.c
 > +++ b/accel/tcg/cpu-exec.c
-> @@ -462,13 +462,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
->          cpu_tb_exec(cpu, tb, &tb_exit);
->          cpu_exec_exit(cpu);
->      } else {
-> -        /*
-> -         * The mmap_lock is dropped by tb_gen_code if it runs out of
-> -         * memory.
-> -         */
->  #ifndef CONFIG_SOFTMMU
->          clear_helper_retaddr();
-> -        tcg_debug_assert(!have_mmap_lock());
-> +        if (have_mmap_lock()) {
-> +            mmap_unlock();
-> +        }
->  #endif
->          if (qemu_mutex_iothread_locked()) {
->              qemu_mutex_unlock_iothread();
-> @@ -936,7 +934,9 @@ int cpu_exec(CPUState *cpu)
+> @@ -170,6 +170,67 @@ uint32_t curr_cflags(CPUState *cpu)
+>      return cflags;
+>  }
 >
->  #ifndef CONFIG_SOFTMMU
->          clear_helper_retaddr();
-> -        tcg_debug_assert(!have_mmap_lock());
-> +        if (have_mmap_lock()) {
-> +            mmap_unlock();
+> +struct tb_desc {
+> +    target_ulong pc;
+> +    target_ulong cs_base;
+> +    CPUArchState *env;
+> +    tb_page_addr_t phys_page1;
+> +    uint32_t flags;
+> +    uint32_t cflags;
+> +    uint32_t trace_vcpu_dstate;
+> +};
+> +
+> +static bool tb_lookup_cmp(const void *p, const void *d)
+> +{
+> +    const TranslationBlock *tb = p;
+> +    const struct tb_desc *desc = d;
+> +
+> +    if (tb->pc == desc->pc &&
+> +        tb->page_addr[0] == desc->phys_page1 &&
+> +        tb->cs_base == desc->cs_base &&
+> +        tb->flags == desc->flags &&
+> +        tb->trace_vcpu_dstate == desc->trace_vcpu_dstate &&
+> +        tb_cflags(tb) == desc->cflags) {
+> +        /* check next page if needed */
+> +        if (tb->page_addr[1] == -1) {
+> +            return true;
+> +        } else {
+> +            tb_page_addr_t phys_page2;
+> +            target_ulong virt_page2;
+> +
+> +            virt_page2 = (desc->pc & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
+> +            phys_page2 = get_page_addr_code(desc->env, virt_page2);
+> +            if (tb->page_addr[1] == phys_page2) {
+> +                return true;
+> +            }
 > +        }
->  #endif
->          if (qemu_mutex_iothread_locked()) {
->              qemu_mutex_unlock_iothread();
-> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index a20234fb02..58edd33896 100644
-> --- a/accel/tcg/user-exec.c
-> +++ b/accel/tcg/user-exec.c
-> @@ -80,10 +80,7 @@ MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write)
->           * (and if the translator doesn't handle page boundaries correctly
->           * there's little we can do about that here).  Therefore, do not
->           * trigger the unwinder.
-> -         *
-> -         * Like tb_gen_code, release the memory lock before cpu_loop_exit.
->           */
-> -        mmap_unlock();
->          *pc = 0;
->          return MMU_INST_FETCH;
->      }
+> +    }
+> +    return false;
+> +}
+> +
+> +static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+> +                                          target_ulong cs_base, uint32_t flags,
+> +                                          uint32_t cflags)
+> +{
+> +    tb_page_addr_t phys_pc;
+> +    struct tb_desc desc;
+> +    uint32_t h;
+> +
+> +    desc.env = cpu->env_ptr;
+> +    desc.cs_base = cs_base;
+> +    desc.flags = flags;
+> +    desc.cflags = cflags;
+> +    desc.trace_vcpu_dstate = *cpu->trace_dstate;
+> +    desc.pc = pc;
+> +    phys_pc = get_page_addr_code(desc.env, pc);
+> +    if (phys_pc == -1) {
+> +        return NULL;
+> +    }
+> +    desc.phys_page1 = phys_pc & TARGET_PAGE_MASK;
+> +    h = tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
+> +    return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
+> +}
+> +
+>  /* Might cause an exception, so have a longjmp destination ready */
+>  static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+>                                            target_ulong cs_base,
+> @@ -485,67 +546,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
+>      end_exclusive();
+>  }
+>
+> -struct tb_desc {
+> -    target_ulong pc;
+> -    target_ulong cs_base;
+> -    CPUArchState *env;
+> -    tb_page_addr_t phys_page1;
+> -    uint32_t flags;
+> -    uint32_t cflags;
+> -    uint32_t trace_vcpu_dstate;
+> -};
+> -
+> -static bool tb_lookup_cmp(const void *p, const void *d)
+> -{
+> -    const TranslationBlock *tb = p;
+> -    const struct tb_desc *desc = d;
+> -
+> -    if (tb->pc == desc->pc &&
+> -        tb->page_addr[0] == desc->phys_page1 &&
+> -        tb->cs_base == desc->cs_base &&
+> -        tb->flags == desc->flags &&
+> -        tb->trace_vcpu_dstate == desc->trace_vcpu_dstate &&
+> -        tb_cflags(tb) == desc->cflags) {
+> -        /* check next page if needed */
+> -        if (tb->page_addr[1] == -1) {
+> -            return true;
+> -        } else {
+> -            tb_page_addr_t phys_page2;
+> -            target_ulong virt_page2;
+> -
+> -            virt_page2 = (desc->pc & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
+> -            phys_page2 = get_page_addr_code(desc->env, virt_page2);
+> -            if (tb->page_addr[1] == phys_page2) {
+> -                return true;
+> -            }
+> -        }
+> -    }
+> -    return false;
+> -}
+> -
+> -TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+> -                                   target_ulong cs_base, uint32_t flags,
+> -                                   uint32_t cflags)
+> -{
+> -    tb_page_addr_t phys_pc;
+> -    struct tb_desc desc;
+> -    uint32_t h;
+> -
+> -    desc.env = cpu->env_ptr;
+> -    desc.cs_base = cs_base;
+> -    desc.flags = flags;
+> -    desc.cflags = cflags;
+> -    desc.trace_vcpu_dstate = *cpu->trace_dstate;
+> -    desc.pc = pc;
+> -    phys_pc = get_page_addr_code(desc.env, pc);
+> -    if (phys_pc == -1) {
+> -        return NULL;
+> -    }
+> -    desc.phys_page1 = phys_pc & TARGET_PAGE_MASK;
+> -    h = tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
+> -    return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
+> -}
+> -
+>  void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr)
+>  {
+>      if (TCG_TARGET_HAS_direct_jump) {
 > --
 > 2.34.1
 >
