@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8F159B3CE
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Aug 2022 14:48:21 +0200 (CEST)
-Received: from localhost ([::1]:51534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E16359B6BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 01:31:15 +0200 (CEST)
+Received: from localhost ([::1]:54110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPkNF-0006e9-Qx
-	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 08:48:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
+	id 1oPuPR-0007dj-Gb
+	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 19:31:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zheyuma97@gmail.com>)
- id 1oPkJ2-0004uB-Mi
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 08:43:56 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38654)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oPuMk-0005rz-1M
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:28:26 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zheyuma97@gmail.com>)
- id 1oPkJ1-0002Rq-1z
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 08:43:56 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- s31-20020a17090a2f2200b001faaf9d92easo11486226pjd.3
- for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 05:43:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oPuMh-0001OJ-U0
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:28:25 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id f4so6114115pgc.12
+ for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 16:28:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=ox236dA9L1+MGYx/c6ncoVVJN1eypG62H3vEwUOZzTs=;
- b=UPDQsKB7HIWo2Ap6ipQ2McJ/sGqZB4wqIPtbCoeySBwW/uGGp0GpyZyp52VpVZU6cj
- 4qsBwuCb6ZU/lhXsuNJcfnUJynX8tkhkd5Alm/aF7cjLRkKx90JmshOl9oKe0zmT93fN
- JrXxUqeuo9cg6jY266ZnnqdqHiaI5BOTc/WEKYsp++0L37qisPbOMk/oW0A99JQpGahT
- NrTiA1OKk5hrRwmQ9Yj4w7r/5Rs19ThcgVbl1JekWdr5q0+6r7vRf1HbvJx1Mq/rjMWk
- QSW1qZJEUpyXw7fl0sakYror67TGjNMOq+KdIq12+UX0UeSTk0FwbEeYvJt0TroLyBKC
- +AcA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=+CBOOh4eVN2R7OaZJbJKUnSztkggNIYmMSePGkwP4ng=;
+ b=ka7d4B06Y91iAh82BZeSVzg/d0w0gyK86jA7+tsx0qBpv2jR0jfUy0TA8Bdnypk+7c
+ wcGBlQU4jW9VunPqxHOn0vyMNO0LEwSSRF0DLH1c+PkPR3qGDufK02i/x1i91sC2j2Ht
+ zovxATH9espitBuGLcb1LKY3UbpOcfwOQjRSjLLZw7QYpD9+YpxERnm1yUUksE22cOmo
+ G0uwjStCfSs4ZtCuSTx9HgxMqy5+TiLaI0E/Qy1t5H2hrDnBGuv3D37xqnpRSPMZkysP
+ KSRgFeb+5nV3pGBf9+7eaiuJhO63d2sn0eHntgsxsW8CdUpCsDcCxh9bFglmnyYAqZpT
+ hGaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=ox236dA9L1+MGYx/c6ncoVVJN1eypG62H3vEwUOZzTs=;
- b=inhKL2WRYApNIiC+W4TMS938GhQ7c8P01g+Z6c9oLyDQFP/VckqECMb5J5fawlOc3y
- LssYQznLqpb3MrFguWe+L5dyLb9jRtMPnGXaexJDOvH8Jlr1HZJ5qjk4vNUA8heTfnJP
- +ZBYyikadEvf/wSfNmG4Cjd7jAgNAhUznUyM0utvP35xzDZ1wuj87mtSkT7MVHMZAbNQ
- yNUzOsafbnrwyxGyJgQKhTre38s76RpAe526V4tcq6lqDW9I9l5p1uKZ8i1Ck4DqWX52
- 1LxIvsMYYJBLestDU9Vh0Lb02uhnvF0gwlgwxlosUt/G4CQGD76uxO4pFGz1vh6f8/Vv
- +/1A==
-X-Gm-Message-State: ACgBeo1eS1MP5VAU4uTnBs8PWKofNYr94Q84h0i06Xs/GfV+oEseZnkR
- 8tni+QZ/sq4ZImfFaFq9Iw==
-X-Google-Smtp-Source: AA6agR5xXu+LtwbqU+MoXnFBHeBCJXYgz0Mb6amyiR1tPP/h6s+iBzuPMtrDs3fVjrQJndWV7pP2qw==
-X-Received: by 2002:a17:902:e945:b0:16b:f802:1660 with SMTP id
- b5-20020a170902e94500b0016bf8021660mr16073520pll.7.1661085833524; 
- Sun, 21 Aug 2022 05:43:53 -0700 (PDT)
-Received: from localhost.localdomain ([144.202.91.207])
- by smtp.gmail.com with ESMTPSA id
- y23-20020a17090264d700b0016b81679c1fsm6374429pli.216.2022.08.21.05.43.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Aug 2022 05:43:53 -0700 (PDT)
-From: Zheyu Ma <zheyuma97@gmail.com>
-To: svens@stackframe.org,
-	jasowang@redhat.com
-Cc: qemu-devel@nongnu.org,
-	Zheyu Ma <zheyuma97@gmail.com>
-Subject: [PATCH v2] net: tulip: Restrict DMA engine to memories
-Date: Sun, 21 Aug 2022 20:43:43 +0800
-Message-Id: <20220821124343.1336880-1-zheyuma97@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=+CBOOh4eVN2R7OaZJbJKUnSztkggNIYmMSePGkwP4ng=;
+ b=01Jw8ehT3jOfWUYj3m0P4n5CErWyI6ACiZkQgnWCnouEcMNHmq/JV/N/WNMbrLp5FY
+ k6nwEmbCGRy/Za+dR6mCnSqR/IyoxoDmq4Mfi8dcD27/fjhfutPnOjfNXSnF3RKd7s9D
+ vujfQhN5j3pFR3/tvrdSV4bGse+kIQC1wOmOTbsS3zJEByU2JeCgke+NfIEqcA0MFc4+
+ GpmLvk6ODx5CdsM/f1kzh1aSb5ttjJkeDLtUURtq+QQIbGrjIEdMhm9X2oe4wPkeAhgg
+ HBVDDpETWus9/rMu2TsFrFsLH1L8Jtsf972W/4FsJzqGT6+9HuGZ51lmFAJibgK3glmu
+ ExSw==
+X-Gm-Message-State: ACgBeo3Drl1z7BEwgDrKZeoozOmPh0OX06ii06KcO86tP4b7V3217q9L
+ LxEupBKIvgyr8OiV8ViICZxrPa4fLOIcw2XSrdk=
+X-Google-Smtp-Source: AA6agR5h4p4N7pcIUxpl0OtDT480qdLiNFXfwc/C4stOUIQgVSgIi8jaqeTx4jplYcg/Se7Vd2aMBS6TMwb0rEuhx1Q=
+X-Received: by 2002:aa7:814d:0:b0:535:c875:dd4f with SMTP id
+ d13-20020aa7814d000000b00535c875dd4fmr17916992pfn.4.1661124502006; Sun, 21
+ Aug 2022 16:28:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=zheyuma97@gmail.com; helo=mail-pj1-x1031.google.com
+References: <20220819032615.884847-1-richard.henderson@linaro.org>
+ <20220819032615.884847-8-richard.henderson@linaro.org>
+In-Reply-To: <20220819032615.884847-8-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 22 Aug 2022 09:27:55 +1000
+Message-ID: <CAKmqyKPvKjma0814hZKLhxWikRiLLU_s7dwpiU8kx29dSM2f6Q@mail.gmail.com>
+Subject: Re: [PATCH v6 07/21] accel/tcg: Introduce is_same_page()
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, iii@linux.ibm.com, 
+ dramforever@live.com, Alistair Francis <alistair.francis@wdc.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,61 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DMA engine is started by I/O access and then itself accesses the
-I/O registers, triggering a reentrancy bug.
+On Fri, Aug 19, 2022 at 1:26 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> From: Ilya Leoshkevich <iii@linux.ibm.com>
+>
+> Introduce a function that checks whether a given address is on the same
+> page as where disassembly started. Having it improves readability of
+> the following patches.
+>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Message-Id: <20220811095534.241224-3-iii@linux.ibm.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> [rth: Make the DisasContextBase parameter const.]
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-The following log can reveal it:
-==5637==ERROR: AddressSanitizer: stack-overflow
-    #0 0x5595435f6078 in tulip_xmit_list_update qemu/hw/net/tulip.c:673
-    #1 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
-    #2 0x559544637f86 in memory_region_write_accessor qemu/softmmu/memory.c:492:5
-    #3 0x5595446379fa in access_with_adjusted_size qemu/softmmu/memory.c:554:18
-    #4 0x5595446372fa in memory_region_dispatch_write qemu/softmmu/memory.c
-    #5 0x55954468b74c in flatview_write_continue qemu/softmmu/physmem.c:2825:23
-    #6 0x559544683662 in flatview_write qemu/softmmu/physmem.c:2867:12
-    #7 0x5595446833f3 in address_space_write qemu/softmmu/physmem.c:2963:18
-    #8 0x5595435fb082 in dma_memory_rw_relaxed qemu/include/sysemu/dma.h:87:12
-    #9 0x5595435fb082 in dma_memory_rw qemu/include/sysemu/dma.h:130:12
-    #10 0x5595435fb082 in dma_memory_write qemu/include/sysemu/dma.h:171:12
-    #11 0x5595435fb082 in stl_le_dma qemu/include/sysemu/dma.h:272:1
-    #12 0x5595435fb082 in stl_le_pci_dma qemu/include/hw/pci/pci.h:910:1
-    #13 0x5595435fb082 in tulip_desc_write qemu/hw/net/tulip.c:101:9
-    #14 0x5595435f7e3d in tulip_xmit_list_update qemu/hw/net/tulip.c:706:9
-    #15 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Fix this bug by restricting the DMA engine to memories regions.
+Alistair
 
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
----
-Changes in v2:
-    - Remove irrelevant relative paths in the asan log
----
- hw/net/tulip.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-index 097e905bec..b9e42c322a 100644
---- a/hw/net/tulip.c
-+++ b/hw/net/tulip.c
-@@ -70,7 +70,7 @@ static const VMStateDescription vmstate_pci_tulip = {
- static void tulip_desc_read(TULIPState *s, hwaddr p,
-         struct tulip_descriptor *desc)
- {
--    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-+    const MemTxAttrs attrs = { .memory = true };
- 
-     if (s->csr[0] & CSR0_DBO) {
-         ldl_be_pci_dma(&s->dev, p, &desc->status, attrs);
-@@ -88,7 +88,7 @@ static void tulip_desc_read(TULIPState *s, hwaddr p,
- static void tulip_desc_write(TULIPState *s, hwaddr p,
-         struct tulip_descriptor *desc)
- {
--    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-+    const MemTxAttrs attrs = { .memory = true };
- 
-     if (s->csr[0] & CSR0_DBO) {
-         stl_be_pci_dma(&s->dev, p, desc->status, attrs);
--- 
-2.25.1
-
+> ---
+>  include/exec/translator.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/include/exec/translator.h b/include/exec/translator.h
+> index 7db6845535..0d0bf3a31e 100644
+> --- a/include/exec/translator.h
+> +++ b/include/exec/translator.h
+> @@ -187,4 +187,14 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
+>
+>  #undef GEN_TRANSLATOR_LD
+>
+> +/*
+> + * Return whether addr is on the same page as where disassembly started.
+> + * Translators can use this to enforce the rule that only single-insn
+> + * translation blocks are allowed to cross page boundaries.
+> + */
+> +static inline bool is_same_page(const DisasContextBase *db, target_ulong addr)
+> +{
+> +    return ((addr ^ db->pc_first) & TARGET_PAGE_MASK) == 0;
+> +}
+> +
+>  #endif /* EXEC__TRANSLATOR_H */
+> --
+> 2.34.1
+>
+>
 
