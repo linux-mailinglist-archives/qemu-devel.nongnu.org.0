@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8323C59B3C6
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Aug 2022 14:35:47 +0200 (CEST)
-Received: from localhost ([::1]:34848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8F159B3CE
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Aug 2022 14:48:21 +0200 (CEST)
+Received: from localhost ([::1]:51534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPkB8-00023H-44
-	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 08:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49832)
+	id 1oPkNF-0006e9-Qx
+	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 08:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zheyuma97@gmail.com>)
- id 1oPk5W-0007GL-As
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 08:29:58 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:42772)
+ id 1oPkJ2-0004uB-Mi
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 08:43:56 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zheyuma97@gmail.com>)
- id 1oPk5U-0008L7-Mq
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 08:29:58 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id v23so2420342plo.9
- for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 05:29:55 -0700 (PDT)
+ id 1oPkJ1-0002Rq-1z
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 08:43:56 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ s31-20020a17090a2f2200b001faaf9d92easo11486226pjd.3
+ for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 05:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc;
- bh=qQjSa45CAi1rDOX1xs/rbbydhZ1R94nL2HiC4WOgLLw=;
- b=Yp8lEbI4wdZ3VLxQR+9JuiZTZ1fPX0/StTEFroOSGHdQ/JtvstH5hDlMuAmqJdo7+H
- wn1SAzGmBjwlSQfRLzkcuKQwO5fJHIRrJpJWwQI1mS6P+8MOYz4zZzAqV7PpBwQme+9b
- dp+fWWGtgJPx3eWAGjSBfruAo89cJ4tIWSmkBZ7D9l0s97ooOWJ2kocadNaKs2r9Rp1z
- g/jnVJweqs7Lo+H0nG0o3oZWY1XzfCMhNa6GD2CgaPjBEHny4W3IZrlgqzSEkVAE0gon
- VZ5ff69bT8vreaSPg8a/gnD/IJFlgvWGFyNPZVJEPcY6vhVTsVjjmuRuwguvGnzT/ROF
- wBVA==
+ bh=ox236dA9L1+MGYx/c6ncoVVJN1eypG62H3vEwUOZzTs=;
+ b=UPDQsKB7HIWo2Ap6ipQ2McJ/sGqZB4wqIPtbCoeySBwW/uGGp0GpyZyp52VpVZU6cj
+ 4qsBwuCb6ZU/lhXsuNJcfnUJynX8tkhkd5Alm/aF7cjLRkKx90JmshOl9oKe0zmT93fN
+ JrXxUqeuo9cg6jY266ZnnqdqHiaI5BOTc/WEKYsp++0L37qisPbOMk/oW0A99JQpGahT
+ NrTiA1OKk5hrRwmQ9Yj4w7r/5Rs19ThcgVbl1JekWdr5q0+6r7vRf1HbvJx1Mq/rjMWk
+ QSW1qZJEUpyXw7fl0sakYror67TGjNMOq+KdIq12+UX0UeSTk0FwbEeYvJt0TroLyBKC
+ +AcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc;
- bh=qQjSa45CAi1rDOX1xs/rbbydhZ1R94nL2HiC4WOgLLw=;
- b=19JRMGBFH27WQ3xQydpkNfxaXWTshkE15Q5Q4zYvwYiuxVeLhsNVGcYlHCNkqfDf15
- 79AYK3yDUtpStBQ3m+zHZXsHe4lOvmfK3CbxNNS3QTUUxtuym0NfDiebplLtgpbskQby
- 4CZgm2aGNE9qvONPIaRbQgThhcnSLpWJQ/0QYoZyMeOf6JuWgzv7u9u93D9U3Oy/YEft
- YmrXN+B3wBFLwTUMBcAXUD/1Me64zD8JJMoBfQq9506E9+B4d7+0tmOkA/TTwTXzM86t
- G336R2XYqzDM7gqrdilfLIvEwRKIJEKvstBVmKk34yrFGU6qOOvex7sbbWJ3KU8aMIvy
- AoUg==
-X-Gm-Message-State: ACgBeo3kmxa5iB9W7vQaeUzh6rmu6tV0BOjapd6mSM2reNMQ1CRvS5SM
- l5RTuKmTVfgrqOEAdhBRJA==
-X-Google-Smtp-Source: AA6agR4r67Edwf7UF1YNJbLq5x/J3Y13vh7DJPdJjNoiqU170DTpqFOr/tLIx44aXx3IA+lo3prWDQ==
-X-Received: by 2002:a17:90b:4f8e:b0:1f4:ed30:d286 with SMTP id
- qe14-20020a17090b4f8e00b001f4ed30d286mr18470845pjb.66.1661084994803; 
- Sun, 21 Aug 2022 05:29:54 -0700 (PDT)
+ bh=ox236dA9L1+MGYx/c6ncoVVJN1eypG62H3vEwUOZzTs=;
+ b=inhKL2WRYApNIiC+W4TMS938GhQ7c8P01g+Z6c9oLyDQFP/VckqECMb5J5fawlOc3y
+ LssYQznLqpb3MrFguWe+L5dyLb9jRtMPnGXaexJDOvH8Jlr1HZJ5qjk4vNUA8heTfnJP
+ +ZBYyikadEvf/wSfNmG4Cjd7jAgNAhUznUyM0utvP35xzDZ1wuj87mtSkT7MVHMZAbNQ
+ yNUzOsafbnrwyxGyJgQKhTre38s76RpAe526V4tcq6lqDW9I9l5p1uKZ8i1Ck4DqWX52
+ 1LxIvsMYYJBLestDU9Vh0Lb02uhnvF0gwlgwxlosUt/G4CQGD76uxO4pFGz1vh6f8/Vv
+ +/1A==
+X-Gm-Message-State: ACgBeo1eS1MP5VAU4uTnBs8PWKofNYr94Q84h0i06Xs/GfV+oEseZnkR
+ 8tni+QZ/sq4ZImfFaFq9Iw==
+X-Google-Smtp-Source: AA6agR5xXu+LtwbqU+MoXnFBHeBCJXYgz0Mb6amyiR1tPP/h6s+iBzuPMtrDs3fVjrQJndWV7pP2qw==
+X-Received: by 2002:a17:902:e945:b0:16b:f802:1660 with SMTP id
+ b5-20020a170902e94500b0016bf8021660mr16073520pll.7.1661085833524; 
+ Sun, 21 Aug 2022 05:43:53 -0700 (PDT)
 Received: from localhost.localdomain ([144.202.91.207])
  by smtp.gmail.com with ESMTPSA id
- c6-20020aa79526000000b005365aee486bsm2473636pfp.192.2022.08.21.05.29.52
+ y23-20020a17090264d700b0016b81679c1fsm6374429pli.216.2022.08.21.05.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Aug 2022 05:29:54 -0700 (PDT)
+ Sun, 21 Aug 2022 05:43:53 -0700 (PDT)
 From: Zheyu Ma <zheyuma97@gmail.com>
 To: svens@stackframe.org,
 	jasowang@redhat.com
 Cc: qemu-devel@nongnu.org,
 	Zheyu Ma <zheyuma97@gmail.com>
-Subject: [PATCH] net: tulip: Restrict DMA engine to memories
-Date: Sun, 21 Aug 2022 20:29:43 +0800
-Message-Id: <20220821122943.835058-1-zheyuma97@gmail.com>
+Subject: [PATCH v2] net: tulip: Restrict DMA engine to memories
+Date: Sun, 21 Aug 2022 20:43:43 +0800
+Message-Id: <20220821124343.1336880-1-zheyuma97@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=zheyuma97@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=zheyuma97@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -102,11 +103,11 @@ The following log can reveal it:
     #5 0x55954468b74c in flatview_write_continue qemu/softmmu/physmem.c:2825:23
     #6 0x559544683662 in flatview_write qemu/softmmu/physmem.c:2867:12
     #7 0x5595446833f3 in address_space_write qemu/softmmu/physmem.c:2963:18
-    #8 0x5595435fb082 in dma_memory_rw_relaxed /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:87:12
-    #9 0x5595435fb082 in dma_memory_rw /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:130:12
-    #10 0x5595435fb082 in dma_memory_write /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:171:12
-    #11 0x5595435fb082 in stl_le_dma /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:272:1
-    #12 0x5595435fb082 in stl_le_pci_dma /home/mzy/truman/third_party/qemu/include/hw/pci/pci.h:910:1
+    #8 0x5595435fb082 in dma_memory_rw_relaxed qemu/include/sysemu/dma.h:87:12
+    #9 0x5595435fb082 in dma_memory_rw qemu/include/sysemu/dma.h:130:12
+    #10 0x5595435fb082 in dma_memory_write qemu/include/sysemu/dma.h:171:12
+    #11 0x5595435fb082 in stl_le_dma qemu/include/sysemu/dma.h:272:1
+    #12 0x5595435fb082 in stl_le_pci_dma qemu/include/hw/pci/pci.h:910:1
     #13 0x5595435fb082 in tulip_desc_write qemu/hw/net/tulip.c:101:9
     #14 0x5595435f7e3d in tulip_xmit_list_update qemu/hw/net/tulip.c:706:9
     #15 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
@@ -114,6 +115,9 @@ The following log can reveal it:
 Fix this bug by restricting the DMA engine to memories regions.
 
 Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+---
+Changes in v2:
+    - Remove irrelevant relative paths in the asan log
 ---
  hw/net/tulip.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
