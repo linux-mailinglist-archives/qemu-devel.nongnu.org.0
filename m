@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD7B59B0DB
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Aug 2022 00:59:22 +0200 (CEST)
-Received: from localhost ([::1]:60642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8250F59B0F3
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Aug 2022 02:08:55 +0200 (CEST)
+Received: from localhost ([::1]:45238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPXR2-0000Y2-Rz
-	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 18:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41422)
+	id 1oPYWM-0001jh-5l
+	for lists+qemu-devel@lfdr.de; Sat, 20 Aug 2022 20:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oPXPA-00078v-Nk; Sat, 20 Aug 2022 18:57:24 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:56041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oPXP8-0002uE-LA; Sat, 20 Aug 2022 18:57:24 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id BC2545C00A0;
- Sat, 20 Aug 2022 18:57:20 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Sat, 20 Aug 2022 18:57:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1661036240; x=1661122640; bh=Ax
- rccG1XGIFoDprexo+qF6vYikfxABIObcQitYVPNgE=; b=jepTqJxFffGU0M+wdv
- M9nZCrHY+5GbmHaRY6hYSyoxI5bp9Txk0dwGuZDW/vm29ykecEAFBHGn5Adw+Pnp
- YguSf42Imcm0f1gH+LkldsdAiQ5O+UM+xT3EIyLL22FGuSBcUGGDkA5A0X4yPHHB
- OmU5yziyNxOVlkIu1zRe7a3Mt37ckOie9SB/afzgbPWyrNkcgxQHKj06KQj5xKL9
- vEEVksx6eDV7CFhtkQC6Q2NpbBDQbF2AuQlPF5x0OAb54ZytvaV2XaGL2KB6PlP0
- Ai8XnIacF1Gu0YGpQGKqYOUZYjk6QJGZrEcQYjLdvZrlRnW2+ScBscjVGD5QbW8X
- A/fA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1661036240; x=1661122640; bh=AxrccG1XGIFoD
- prexo+qF6vYikfxABIObcQitYVPNgE=; b=MJNcHQuvMHfQGypHJiPmjCMwLN9Gn
- yEXLOd9NbTj7z845Qua9i4G93HNemhvJc6TcfVkumsJ1VteK8jAs8xNbIR8FCY1X
- 0ubU04IODE9aOcyvma7wgIS+d6bxuAVaf9ihbhPcItv8DwxpjB3qLwqGKtVsMbCG
- 50ntiQvoCSNjVYD/YvzfivY0zSYjrq58HE/OG5U6heXZuuDECLxQVvqjRrDIygaH
- 9C8U+f2BZU6pLKgrJ+2EmudpxYCdnNOyrMoR/qMEb+ys2CtjF0Y6nONofvI7ytDL
- O44KRiuvJyB0LtYGNHK5fA/Ysowu/sGbjolIqqVN6XRWNsgjekEe+CPcA==
-X-ME-Sender: <xms:0GYBYwaNSn7SMCLv3Sixx5IeSueIfD_O7h85Eh8DxLY7tsvdeaF_ig>
- <xme:0GYBY7aL7z1iKPOcItmmBlmdjdHHpW-XvqhfZvPKPXR9dd2y5l6BJmfNehKvf5AW9
- kJIes8OryRP7fhc7uI>
-X-ME-Received: <xmr:0GYBY69YrC3xiM2R8eOHNW2yQdiDd3tLVqDCLx1oSm9UJYzKzdVjKeso2Bj68g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeigedgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
- dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgjfhgggfestdek
- redtredttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrh
- esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepteegleegffehvdfhleduleefueff
- kedutddtjeehffeludelvdejveejjeejuefgnecuffhomhgrihhnpehkvghrnhgvlhdroh
- hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
- vghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:0GYBY6poRhI2oFOeFOApUbA882FqCiGckFaJ60FvT9x8LLGtckCnpw>
- <xmx:0GYBY7oQ_y5jjT9CLENRKky88ezAHadM4IqQOeBr9C0u-xEKFKCsGg>
- <xmx:0GYBY4TX_2O40VxftQ8iO_2JP4MqIGReBIXEzZFEP9JFHn_yh7GtTA>
- <xmx:0GYBY3Jvyxn-JvWmjKyDpr2QAErqf_Dxa0ardgX0n98JjlDwgLjOPg>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 20 Aug 2022 18:57:20 -0400 (EDT)
-From: Peter Delevoryas <peter@pjd.dev>
-To: 
-Cc: peter@pjd.dev, patrick@stwcx.xyz, clg@kaod.org, peter.maydell@linaro.org,
- andrew@aj.id.au, joel@jms.id.au, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, dz4list@gmail.com
-Subject: [PATCH 1/1] hw/i2c/aspeed: Fix old reg slave receive
-Date: Sat, 20 Aug 2022 15:57:12 -0700
-Message-Id: <20220820225712.713209-2-peter@pjd.dev>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220820225712.713209-1-peter@pjd.dev>
-References: <20220820225712.713209-1-peter@pjd.dev>
+ (Exim 4.90_1) (envelope-from <shinysaana@gmail.com>)
+ id 1oPYTE-0007Ud-Oa; Sat, 20 Aug 2022 20:05:40 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:44621)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shinysaana@gmail.com>)
+ id 1oPYTC-0003GE-Ev; Sat, 20 Aug 2022 20:05:40 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ r15-20020a17090a1bcf00b001fabf42a11cso8078146pjr.3; 
+ Sat, 20 Aug 2022 17:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=fhdD+8huK/AI0ib7AI2ZisCth7sYg+srtwh5O8IUBBo=;
+ b=N19b0Z3rzJp7pKE+UeV5dtlYPMTNxqPJBKoFaQHI7G0FHXc7RqGiWgsP3N8wM5PGj0
+ o5LexKiGrAlXMv8n0pHUxfYRMK+D/tQhZ4qSUbwNEYV1brncn4hWT3xujBH4mv78rk23
+ bOL/oC5pb1yJwmlKEtbuPfMyEk8zyZYIpV6MprHVnJ4IQZK8GuSQO5a/YQaOXG8ZiCTQ
+ b3m1nYQH7/5VarfsTTRqg7KaUF2PR6ogRkk7cKIoSmO2I3A+8hxzk3jNk66xwPZKv2K+
+ CWJz4Z4z3yyHRPh7/fbp8XqbGSHrRReC+r0xZ8LkkGoQN/4pQHpTROcuIVZVetVE037f
+ TQuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=fhdD+8huK/AI0ib7AI2ZisCth7sYg+srtwh5O8IUBBo=;
+ b=uXxa2mhNUtxiXlL/zDKTkfD1MPxxDzypQc9saJuRvUx4ons+C8SiWXRer49U9J7y7u
+ 3TkXI4YzVq9GFTfr0m5PLeVQ7G2f7yALRO1oep/FwNZtfgZPAh9rNHgtGV6YMCU44lWI
+ OtVyU6Q+6yDJ0ya5mOXJHSQ7L2BoXM/FP9SDv9NVvdLicih79qlqV4X2KcCQJEbx3wYF
+ fnIUBdPMIZ5CR4wVK25I9iEuQQun/4c6D39IzjVY0w9bqx0pAbrWnPOQtys+g5c5On1X
+ oexwsGUaUhs4dEKr+1vevNROrpguEtTZlsfR+6Nmg6rICG7d0irLsAvzpBDmwZaO/4X1
+ Vj7Q==
+X-Gm-Message-State: ACgBeo2MEDXDearLcxQKnDDLY064VA7KDiTWQJ02d+qBQNJiIodJKoF3
+ mk2/42ao1pGkHH5qdknT7sTvIoZ/Rlr/A++mG1w=
+X-Google-Smtp-Source: AA6agR5IRhVuTPXdSTDVWGRFpb5GMXO2dk/g8MPHf1lHo79KkW8W9Lndz3KnXXgDoyhw9SYnFRZTtigzk2JUHhvW4kE=
+X-Received: by 2002:a17:902:f54a:b0:16f:16bb:778e with SMTP id
+ h10-20020a170902f54a00b0016f16bb778emr13560824plf.37.1661040333759; Sat, 20
+ Aug 2022 17:05:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=peter@pjd.dev;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <CAJtCPL0rRU9Q=s6kUFDHjC5uUmx2w=ePYMMaib6vq57g48qk0Q@mail.gmail.com>
+ <CAFEAcA81OfC_Z_uQvrSRUKHQf4mmOgbLrHYiwsfzmgH8u8sUqg@mail.gmail.com>
+ <CAJtCPL3yNpNkK0Ljzo=QOFX_gLQtGGcqDoomwJ+RH0hq5G=YQA@mail.gmail.com>
+ <87r11gbjbv.fsf@linaro.org>
+ <CAFEAcA-6X=ptfDXGWA79-L9kRCQRq6jtci7ODPy0Ct369_EvCA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-6X=ptfDXGWA79-L9kRCQRq6jtci7ODPy0Ct369_EvCA@mail.gmail.com>
+From: Shiny Saana <shinysaana@gmail.com>
+Date: Sun, 21 Aug 2022 02:05:22 +0200
+Message-ID: <CAJtCPL3Hef3d6sDA+pYJ6xChHS7y1J+2Cn9qf1NT0hwaBT8iTg@mail.gmail.com>
+Subject: Re: Teensy 4.1 Implementation
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000000d289805e6b517e1"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=shinysaana@gmail.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,78 +86,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think when Klaus ported his slave mode changes from the original patch
-series to the rewritten I2C module, he changed the behavior of the first
-byte that is received by the slave device.
+--0000000000000d289805e6b517e1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-What's supposed to happen is that the AspeedI2CBus's slave device's
-i2c_event callback should run, and if the event is "send_async", then it
-should populate the byte buffer with the 8-bit I2C address that is being
-sent to. Since we only support "send_async", the lowest bit should
-always be 0 (indicating that the master is requesting to send data).
+Hello!
 
-This is the code Klaus had previously, for reference. [1]
+Thank you all again for your initial guidance.
 
-    switch (event) {
-    case I2C_START_SEND:
-        bus->buf = bus->dev_addr << 1;
+I've been able to write an initial Teensy 4.1 machine, for now with only
+the few important memory regions initialized, and successfully ran some
+hand-written ARM code on it.
 
-        bus->buf &= I2CD_BYTE_BUF_RX_MASK;
-        bus->buf <<= I2CD_BYTE_BUF_RX_SHIFT;
+I was wondering what your opinions might be for implementing the next step,
+which in my opinion should be bootstrapping a "kernel" in the format the
+board actually expects. This is however the current roadblock I am hitting.
 
-        bus->intr_status |= (I2CD_INTR_SLAVE_ADDR_RX_MATCH | I2CD_INTR_RX_DONE);
-        aspeed_i2c_set_state(bus, I2CD_STXD);
+The documentation ( https://www.pjrc.com/teensy/IMXRT1060RM_rev3.pdf ), in
+section 9.7.1, gives some informations on how, in the actual Teensy board,
+the ROM, executed at boot, initialize the board peripherals, and also reads
+from a data structure included in the Flash memory (the user-provided
+program) where the CPU should jump to after the ROM has done its work
+(somewhere in that same Flash memory, usually).
 
-        break;
+I was able to successfully dump the ROM of the real board and confirm this
+behavior. Given that the current plan is not to emulate every peripherals,
+I am of the opinion that writing a very simple ROM that merely reads this
+Flash provided data structure and jumps to the provided address sounds like
+a good starting point, so that I can keep iterating on writing more and
+more complex code through the provided Teensy toolchain, and implementing
+needed peripherals.
 
-[1]: https://lore.kernel.org/qemu-devel/20220331165737.1073520-4-its@irrelevant.dk/
+As such, I have several questions:
 
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-Fixes: a8d48f59cd021b25 ("hw/i2c/aspeed: add slave device in old register mode")
----
- hw/i2c/aspeed_i2c.c         | 8 +++++---
- include/hw/i2c/aspeed_i2c.h | 1 +
- 2 files changed, 6 insertions(+), 3 deletions(-)
+1/ To replicate this behaviour, is this considered the correct approach by
+the current QEMU maintainers?
 
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 42c6d69b82..c166fd20fa 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -1131,7 +1131,9 @@ static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event event)
-     AspeedI2CBus *bus = ASPEED_I2C_BUS(qbus->parent);
-     uint32_t reg_intr_sts = aspeed_i2c_bus_intr_sts_offset(bus);
-     uint32_t reg_byte_buf = aspeed_i2c_bus_byte_buf_offset(bus);
--    uint32_t value;
-+    uint32_t reg_dev_addr = aspeed_i2c_bus_dev_addr_offset(bus);
-+    uint32_t dev_addr = SHARED_ARRAY_FIELD_EX32(bus->regs, reg_dev_addr,
-+                                                SLAVE_DEV_ADDR1);
- 
-     if (aspeed_i2c_is_new_mode(bus->controller)) {
-         return aspeed_i2c_bus_new_slave_event(bus, event);
-@@ -1139,8 +1141,8 @@ static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event event)
- 
-     switch (event) {
-     case I2C_START_SEND_ASYNC:
--        value = SHARED_ARRAY_FIELD_EX32(bus->regs, reg_byte_buf, TX_BUF);
--        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, value << 1);
-+        /* Bit[0] == 0 indicates "send". */
-+        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, dev_addr << 1);
- 
-         ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, SLAVE_ADDR_RX_MATCH, 1);
-         SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, RX_DONE, 1);
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index 300a89b343..adc904d6c1 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -130,6 +130,7 @@ REG32(I2CD_CMD, 0x14) /* I2CD Command/Status */
-     SHARED_FIELD(M_TX_CMD, 1, 1)
-     SHARED_FIELD(M_START_CMD, 0, 1)
- REG32(I2CD_DEV_ADDR, 0x18) /* Slave Device Address */
-+    SHARED_FIELD(SLAVE_DEV_ADDR1, 0, 7)
- REG32(I2CD_POOL_CTRL, 0x1C) /* Pool Buffer Control */
-     SHARED_FIELD(RX_COUNT, 24, 5)
-     SHARED_FIELD(RX_SIZE, 16, 5)
--- 
-2.37.1
+2/ If so, I have not been able to find any function that would be able to
+load data into a memory region "statically". Does one exist? Is there an
+alternative to this process?
 
+3/ Regarding loading the "kernel" of the board, as part of the init
+process, I am calling the usual "armv7m_load_kernel" function with its
+usual parameters. However, it seems to load it as the very start of the
+address space, which is not where the flash memory is, and so is not where
+the kernel should be loaded. I wasn't able to find a workaround. Is there
+something I'm missing?
+
+Sorry to bother you with so many questions.
+Thanks again,
+Saana
+
+Le mar. 16 ao=C3=BBt 2022 =C3=A0 12:06, Peter Maydell <peter.maydell@linaro=
+.org> a
+=C3=A9crit :
+
+> On Tue, 16 Aug 2022 at 10:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+> > Shiny Saana <shinysaana@gmail.com> writes:
+> > > I personally don't need any of the GPIO interfaces, but if needed
+> > > by someone else, that could be a good second step to
+> > > work on once that part of the board is implemented.
+> >
+> > Handling GPIOs in QEMU is fine (we have things like the qdev_init_gpio_=
+*
+> > functions to handle them). The problem is usually what to do with the
+> > actual general purpose pins which aren't wired to something we emulate
+> > in the board. Some boards expose their values via QMP properties but I
+> > suspect whats really needed is a generic mechanism for exposing GPIO to
+> > external scripts rather than have every board define it's own thing.
+>
+> Yes. However one key thing for trying to get a new board model
+> in is not to get tangled up in trying to improve/extend
+> the core QEMU facilities for something. That's much harder
+> than "my board model supports GPIO output lines to the same
+> extent as the other existing board models" :-)
+>
+> thanks
+> -- PMM
+>
+
+--0000000000000d289805e6b517e1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hello!</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>Thank you all again for your initial guidance.</div><div dir=3D"auto"><br>=
+</div><div dir=3D"auto">I&#39;ve been able to write an initial Teensy 4.1 m=
+achine, for now with only the few important memory regions initialized, and=
+ successfully ran some hand-written ARM code on it.=C2=A0</div><div dir=3D"=
+auto"><br></div><div dir=3D"auto">I was wondering what your opinions might =
+be for implementing the next step, which in my opinion should be bootstrapp=
+ing a &quot;kernel&quot; in the format the board actually expects. This is =
+however the current roadblock I am hitting.</div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">The documentation ( <a href=3D"https://www.pjrc.com/tee=
+nsy/IMXRT1060RM_rev3.pdf">https://www.pjrc.com/teensy/IMXRT1060RM_rev3.pdf<=
+/a> ), in section 9.7.1, gives some informations on how, in the actual Teen=
+sy board, the ROM, executed at boot, initialize the board peripherals, and =
+also reads from a data structure included in the Flash memory (the user-pro=
+vided program) where the CPU should jump to after the ROM has done its work=
+ (somewhere in that same Flash memory, usually).</div><div dir=3D"auto"><br=
+></div><div dir=3D"auto">I was able to successfully dump the ROM of the rea=
+l board and confirm this behavior. Given that the current plan is not to em=
+ulate every peripherals, I am of the opinion that writing a very simple ROM=
+ that merely reads this Flash provided data structure and jumps to the prov=
+ided address sounds like a good starting point, so that I can keep iteratin=
+g on writing more and more complex code through the provided Teensy toolcha=
+in, and implementing needed peripherals.</div><div dir=3D"auto"><br></div><=
+div dir=3D"auto">As such, I have several questions:</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">1/ To replicate this behaviour, is this conside=
+red the correct approach by the current QEMU maintainers?</div><div dir=3D"=
+auto"><br></div><div dir=3D"auto">2/ If so, I have not been able to find an=
+y function that would be able to load data into a memory region &quot;stati=
+cally&quot;. Does one exist? Is there an alternative to this process?</div>=
+<div dir=3D"auto"><br></div><div dir=3D"auto">3/ Regarding loading the &quo=
+t;kernel&quot; of the board, as part of the init process, I am calling the =
+usual &quot;armv7m_load_kernel&quot; function with its usual parameters. Ho=
+wever, it seems to load it as the very start of the address space, which is=
+ not where the flash memory is, and so is not where the kernel should be lo=
+aded. I wasn&#39;t able to find a workaround. Is there something I&#39;m mi=
+ssing?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Sorry to bother y=
+ou with so many questions.</div><div dir=3D"auto">Thanks again,</div><div d=
+ir=3D"auto">Saana</div><div dir=3D"auto"><br></div><div dir=3D"auto">Le=C2=
+=A0mar. 16 ao=C3=BBt 2022 =C3=A0 12:06, Peter Maydell &lt;<a href=3D"mailto=
+:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; a =C3=A9crit=C2=
+=A0:</div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
+solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On Tue, 16 Aug 2=
+022 at 10:59, Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org=
+" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wrote:<br>
+&gt; Shiny Saana &lt;<a href=3D"mailto:shinysaana@gmail.com" target=3D"_bla=
+nk">shinysaana@gmail.com</a>&gt; writes:<br>
+&gt; &gt; I personally don&#39;t need any of the GPIO interfaces, but if ne=
+eded<br>
+&gt; &gt; by someone else, that could be a good second step to<br>
+&gt; &gt; work on once that part of the board is implemented.<br>
+&gt;<br>
+&gt; Handling GPIOs in QEMU is fine (we have things like the qdev_init_gpio=
+_*<br>
+&gt; functions to handle them). The problem is usually what to do with the<=
+br>
+&gt; actual general purpose pins which aren&#39;t wired to something we emu=
+late<br>
+&gt; in the board. Some boards expose their values via QMP properties but I=
+<br>
+&gt; suspect whats really needed is a generic mechanism for exposing GPIO t=
+o<br>
+&gt; external scripts rather than have every board define it&#39;s own thin=
+g.<br>
+<br>
+Yes. However one key thing for trying to get a new board model<br>
+in is not to get tangled up in trying to improve/extend<br>
+the core QEMU facilities for something. That&#39;s much harder<br>
+than &quot;my board model supports GPIO output lines to the same<br>
+extent as the other existing board models&quot; :-)<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--0000000000000d289805e6b517e1--
 
