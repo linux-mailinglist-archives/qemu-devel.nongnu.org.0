@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E16359B6BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 01:31:15 +0200 (CEST)
-Received: from localhost ([::1]:54110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1132559B6C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 01:33:34 +0200 (CEST)
+Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPuPR-0007dj-Gb
-	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 19:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35148)
+	id 1oPuRg-0000uU-W0
+	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 19:33:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oPuMk-0005rz-1M
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:28:26 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45922)
+ id 1oPuPS-0007nK-E4
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:31:14 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:34489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oPuMh-0001OJ-U0
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:28:25 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id f4so6114115pgc.12
- for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 16:28:23 -0700 (PDT)
+ id 1oPuPQ-0001tm-SB
+ for qemu-devel@nongnu.org; Sun, 21 Aug 2022 19:31:14 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id jl18so8475626plb.1
+ for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 16:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=+CBOOh4eVN2R7OaZJbJKUnSztkggNIYmMSePGkwP4ng=;
- b=ka7d4B06Y91iAh82BZeSVzg/d0w0gyK86jA7+tsx0qBpv2jR0jfUy0TA8Bdnypk+7c
- wcGBlQU4jW9VunPqxHOn0vyMNO0LEwSSRF0DLH1c+PkPR3qGDufK02i/x1i91sC2j2Ht
- zovxATH9espitBuGLcb1LKY3UbpOcfwOQjRSjLLZw7QYpD9+YpxERnm1yUUksE22cOmo
- G0uwjStCfSs4ZtCuSTx9HgxMqy5+TiLaI0E/Qy1t5H2hrDnBGuv3D37xqnpRSPMZkysP
- KSRgFeb+5nV3pGBf9+7eaiuJhO63d2sn0eHntgsxsW8CdUpCsDcCxh9bFglmnyYAqZpT
- hGaQ==
+ bh=ziOLp1gg0TQQgtpMKXs5FT327pBoaEcVDukx0JxPbkE=;
+ b=jzHMcMBG66mB7K79wC5MwD5QId+7herJ8tSTHsNbHvxTU4sKcPndC+01nx096KC3XT
+ s3y+uA1FJDKlS3COrqhxVDUKkh3QGSBnI4rVamUYJTJ0JxsWzcjD2mpiGxGjogEgHLIf
+ RP32NiDx2Veuh6u1Bf64WH45LNFnzZAorSbG5Qw51UbIPrJTXHnZ+S9UxXgSf+hrdvnU
+ 75TyKCXPrmEzNR24gh/aZgta7Sq40EwFhvBJxV1lpWE+UxG72iAnjjQM+7y8WnoW3jCm
+ h8n6RACi1EJYqM654g4v+s5aRPefu9MU79ta7ml/qtcf0LCowjnQrzsPCFdxV8IdO1SL
+ xZMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=+CBOOh4eVN2R7OaZJbJKUnSztkggNIYmMSePGkwP4ng=;
- b=01Jw8ehT3jOfWUYj3m0P4n5CErWyI6ACiZkQgnWCnouEcMNHmq/JV/N/WNMbrLp5FY
- k6nwEmbCGRy/Za+dR6mCnSqR/IyoxoDmq4Mfi8dcD27/fjhfutPnOjfNXSnF3RKd7s9D
- vujfQhN5j3pFR3/tvrdSV4bGse+kIQC1wOmOTbsS3zJEByU2JeCgke+NfIEqcA0MFc4+
- GpmLvk6ODx5CdsM/f1kzh1aSb5ttjJkeDLtUURtq+QQIbGrjIEdMhm9X2oe4wPkeAhgg
- HBVDDpETWus9/rMu2TsFrFsLH1L8Jtsf972W/4FsJzqGT6+9HuGZ51lmFAJibgK3glmu
- ExSw==
-X-Gm-Message-State: ACgBeo3Drl1z7BEwgDrKZeoozOmPh0OX06ii06KcO86tP4b7V3217q9L
- LxEupBKIvgyr8OiV8ViICZxrPa4fLOIcw2XSrdk=
-X-Google-Smtp-Source: AA6agR5h4p4N7pcIUxpl0OtDT480qdLiNFXfwc/C4stOUIQgVSgIi8jaqeTx4jplYcg/Se7Vd2aMBS6TMwb0rEuhx1Q=
-X-Received: by 2002:aa7:814d:0:b0:535:c875:dd4f with SMTP id
- d13-20020aa7814d000000b00535c875dd4fmr17916992pfn.4.1661124502006; Sun, 21
- Aug 2022 16:28:22 -0700 (PDT)
+ bh=ziOLp1gg0TQQgtpMKXs5FT327pBoaEcVDukx0JxPbkE=;
+ b=0c2wXiU6V1qpRO2iTWSjND+k4dy2Hzm1fav9j5cC/tiXvWVrdQuJlbzauX0vWN16jJ
+ bOPXHZ6fw8DXBbbzNisiVKUe9fTBGLpGopFL0AecQ29ik7tlT9/ICdQExtMXpNyVKiLI
+ KipDxhldYIBLiuZsx/lZrAq91B/bbHGp4X9MPmP91VUwpamMHc2o1CH+tDCw5KHM3uVm
+ /QRt9FJ4gTGsAOsiQFpmsE1K9t1udBIGBBuL5jHVkvSCUzHXWjtctSJjDD5BEGZBOEE+
+ 2jZUWqWKcEtS1vUORmoKiQIoEuS9Za60lwoDGJ5pSexBxgaO/tkCXMVm1GfYbqfyI30c
+ thxA==
+X-Gm-Message-State: ACgBeo2RUW6G89+g2GbrfvcjrhgyO/z/9QYFg0HPOFyk2/QeCuisqCvL
+ ybz86VjB/LPeAg0YXYxeSAgh/+BAokLsgf1UeJ0=
+X-Google-Smtp-Source: AA6agR6w0RtyD6ltQRlQNOPr7fu5aSYZrPcrOx1Q7o17krVd1y4+2pGgQurc6qEP1InHHTjNRXLqnVgXiHNHu/G/ens=
+X-Received: by 2002:a17:903:2291:b0:16e:cf55:5c72 with SMTP id
+ b17-20020a170903229100b0016ecf555c72mr17867463plh.121.1661124671557; Sun, 21
+ Aug 2022 16:31:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220819032615.884847-1-richard.henderson@linaro.org>
- <20220819032615.884847-8-richard.henderson@linaro.org>
-In-Reply-To: <20220819032615.884847-8-richard.henderson@linaro.org>
+ <20220819032615.884847-10-richard.henderson@linaro.org>
+In-Reply-To: <20220819032615.884847-10-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 22 Aug 2022 09:27:55 +1000
-Message-ID: <CAKmqyKPvKjma0814hZKLhxWikRiLLU_s7dwpiU8kx29dSM2f6Q@mail.gmail.com>
-Subject: Re: [PATCH v6 07/21] accel/tcg: Introduce is_same_page()
+Date: Mon, 22 Aug 2022 09:30:45 +1000
+Message-ID: <CAKmqyKMNBaB_5XH8YFC+cFHOwh0DETy-sRCq-uBoykBF+ZN0dg@mail.gmail.com>
+Subject: Re: [PATCH v6 09/21] accel/tcg: Unlock mmap_lock after longjmp
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Laurent Vivier <laurent@vivier.eu>, iii@linux.ibm.com, 
  dramforever@live.com, Alistair Francis <alistair.francis@wdc.com>, 
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,48 +87,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 19, 2022 at 1:26 PM Richard Henderson
+On Fri, Aug 19, 2022 at 1:29 PM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> From: Ilya Leoshkevich <iii@linux.ibm.com>
+> The mmap_lock is held around tb_gen_code.  While the comment
+> is correct that the lock is dropped when tb_gen_code runs out
+> of memory, the lock is *not* dropped when an exception is
+> raised reading code for translation.
 >
-> Introduce a function that checks whether a given address is on the same
-> page as where disassembly started. Having it improves readability of
-> the following patches.
->
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> Message-Id: <20220811095534.241224-3-iii@linux.ibm.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> [rth: Make the DisasContextBase parameter const.]
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  include/exec/translator.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  accel/tcg/cpu-exec.c  | 12 ++++++------
+>  accel/tcg/user-exec.c |  3 ---
+>  2 files changed, 6 insertions(+), 9 deletions(-)
 >
-> diff --git a/include/exec/translator.h b/include/exec/translator.h
-> index 7db6845535..0d0bf3a31e 100644
-> --- a/include/exec/translator.h
-> +++ b/include/exec/translator.h
-> @@ -187,4 +187,14 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index a565a3f8ec..d18081ca6f 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -462,13 +462,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
+>          cpu_tb_exec(cpu, tb, &tb_exit);
+>          cpu_exec_exit(cpu);
+>      } else {
+> -        /*
+> -         * The mmap_lock is dropped by tb_gen_code if it runs out of
+> -         * memory.
+> -         */
+>  #ifndef CONFIG_SOFTMMU
+>          clear_helper_retaddr();
+> -        tcg_debug_assert(!have_mmap_lock());
+> +        if (have_mmap_lock()) {
+> +            mmap_unlock();
+> +        }
+>  #endif
+>          if (qemu_mutex_iothread_locked()) {
+>              qemu_mutex_unlock_iothread();
+> @@ -936,7 +934,9 @@ int cpu_exec(CPUState *cpu)
 >
->  #undef GEN_TRANSLATOR_LD
->
-> +/*
-> + * Return whether addr is on the same page as where disassembly started.
-> + * Translators can use this to enforce the rule that only single-insn
-> + * translation blocks are allowed to cross page boundaries.
-> + */
-> +static inline bool is_same_page(const DisasContextBase *db, target_ulong addr)
-> +{
-> +    return ((addr ^ db->pc_first) & TARGET_PAGE_MASK) == 0;
-> +}
-> +
->  #endif /* EXEC__TRANSLATOR_H */
+>  #ifndef CONFIG_SOFTMMU
+>          clear_helper_retaddr();
+> -        tcg_debug_assert(!have_mmap_lock());
+> +        if (have_mmap_lock()) {
+> +            mmap_unlock();
+> +        }
+>  #endif
+>          if (qemu_mutex_iothread_locked()) {
+>              qemu_mutex_unlock_iothread();
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index a20234fb02..58edd33896 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -80,10 +80,7 @@ MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write)
+>           * (and if the translator doesn't handle page boundaries correctly
+>           * there's little we can do about that here).  Therefore, do not
+>           * trigger the unwinder.
+> -         *
+> -         * Like tb_gen_code, release the memory lock before cpu_loop_exit.
+>           */
+> -        mmap_unlock();
+>          *pc = 0;
+>          return MMU_INST_FETCH;
+>      }
 > --
 > 2.34.1
 >
