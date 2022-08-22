@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA1A59CAF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 23:39:49 +0200 (CEST)
-Received: from localhost ([::1]:59150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C52559CB1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 23:48:33 +0200 (CEST)
+Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQF98-0007ua-Nz
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 17:39:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34318)
+	id 1oQFHc-0002VH-7S
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 17:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oQF5G-0006L1-Df
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 17:35:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oQF57-0005Ok-PV
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 17:35:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661204131;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=brIonsal9u9HU7J/7gt5nhxPMqkbgVUfzOgipBzocTQ=;
- b=W5sLaeCdunG6UAX03yJH0/yU0biba/sledynG1SQh1WCB8RzDT0F4rL/DrHqf9Nlht30mu
- jzLaCVP/4lQFFhXR9eDXszRJch7hqfCDIOj2RoYSb4BaH3llqI6HMUynL15Zmnws9F5/oC
- lSEUHzFtok9dUvUxrfdJEk9G1iA0jIo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-202-uG8i4dagMzKKp7FEM-CTpw-1; Mon, 22 Aug 2022 17:35:30 -0400
-X-MC-Unique: uG8i4dagMzKKp7FEM-CTpw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p19-20020a05600c1d9300b003a5c3141365so9220808wms.9
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 14:35:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oQFDk-0000LJ-EK; Mon, 22 Aug 2022 17:44:32 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:44019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oQFDf-0006ZX-C2; Mon, 22 Aug 2022 17:44:31 -0400
+Received: by mail-pg1-x535.google.com with SMTP id v4so10561271pgi.10;
+ Mon, 22 Aug 2022 14:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=uB4Y0B3Sx4jBeQlEByaU38tTnklc547wZ+HBNhn4ZkE=;
+ b=dxGko2gv3oPy4RHzZhJZlMJD8MKlq23D8b5nCZY70bJ1AJvVhSJSty9qMET512tuT/
+ RgEIsmAjAKPXkXSZyxNS2GvrQeqnAeWu2A/LfOc8WaAJFZcCk90r98duM2t1qzg2a3u5
+ +zxNHVgj3d8rwOy8oDCSVJul/aaY7hIJSZUiRgZM1GvpVsI0ea7HA0ZtPkscPbAybMUf
+ WhS/LQa14ls1H/r0+rpmlkgaeM1DHu8aXUve/HJ++LN/J8vOhPnGjOxVfF+sJ3ANTBGh
+ sAOwUl/oi0QY8vjaUO4GAvP3lqgASwhIEQruvygxE8I1lpwd5mF2Jty8uQDgg1zs7HGW
+ ueMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=brIonsal9u9HU7J/7gt5nhxPMqkbgVUfzOgipBzocTQ=;
- b=bcsGSGgR+a0kbr/9BVAbBdXvQlSAVlfWjMpu2rC/FLvJMTrltzB73SGhDPrzN8jwCR
- zEoRIp9MGAdyIvMEsNpKpbCek74B2YK9l/SuJDeGgdjBQvkgUC7H9RRZNuvhKaJTjOK6
- wI/5MnYGwqPNmYutY/G/q+63GUq6u8A0OW4xHr4OvoNm05O3SsgKt+yjRrpsf1ZdaUlr
- p2pPtrPKd9/e/1tZX0CacbL1yVp37++SHOJ4VOwIwKGoWMSZgQmJXpeDPe+3WzlniedR
- 6pqEqnNvh66wumtDu30tdRLjH88NjSajf198Sob1A9wVaCJJZDv2EIy4EMT0tavXJi2V
- jQ5g==
-X-Gm-Message-State: ACgBeo2RP7CwJlWsBO4JgwE0r1g/Ye3WgfbdZ3GZHAKomygWcfHo26z3
- MhvqO5eNtdeEXrEq4dly1rnl+VqZL0mV3WPpEdK3ECd9lypNcnGnFJQoqnZ3DabHuEYtwVD1LVD
- yo29LFYkosGgjMyQ=
-X-Received: by 2002:a1c:7707:0:b0:3a5:d953:838f with SMTP id
- t7-20020a1c7707000000b003a5d953838fmr167305wmi.139.1661204129371; 
- Mon, 22 Aug 2022 14:35:29 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR59Yk1T3rDyJmhOq42/pFFhpFGSOCcrxiQybP2njLNcH6Izok3Yc6eQDkyiLA5N34StV94aDQ==
-X-Received: by 2002:a1c:7707:0:b0:3a5:d953:838f with SMTP id
- t7-20020a1c7707000000b003a5d953838fmr167290wmi.139.1661204129152; 
- Mon, 22 Aug 2022 14:35:29 -0700 (PDT)
-Received: from localhost (static-205-204-7-89.ipcom.comunitel.net.
- [89.7.204.205]) by smtp.gmail.com with ESMTPSA id
- j2-20020a5d4522000000b0022546ad3a77sm7666053wra.64.2022.08.22.14.35.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 14:35:28 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Peter Xu <peterx@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  Yanan
- Wang <wangyanan55@huawei.com>,  Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v7 05/12] migration: Make ram_save_target_page() a pointer
-In-Reply-To: <CAJ6HWG4QsPK9y6+HE60BXT+F2bDxrfG4_oNvqgc_a9eMFVm-Dw@mail.gmail.com>
- (Leonardo Bras Soares Passos's message of "Sat, 20 Aug 2022 04:14:03
- -0300")
-References: <20220802063907.18882-1-quintela@redhat.com>
- <20220802063907.18882-6-quintela@redhat.com>
- <01fcdde9f6246836b4058efc8c298a82e86d1458.camel@redhat.com>
- <87h7281ryc.fsf@secure.mitica>
- <CAJ6HWG4QsPK9y6+HE60BXT+F2bDxrfG4_oNvqgc_a9eMFVm-Dw@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 22 Aug 2022 23:35:27 +0200
-Message-ID: <87lergyna8.fsf@secure.mitica>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=uB4Y0B3Sx4jBeQlEByaU38tTnklc547wZ+HBNhn4ZkE=;
+ b=TWqU6ApBe2uo48pUSItnTM5W91CmpAtic+YMNaIs7Y+zcb7Q3fpR5eYdj2sKvTWe6w
+ kWY0dtWz2AmMLdmxPlzwCiaDFkRykRzmF3vjJ3Tyq24ECNTwrMdakiJBpHNlMpIUisXT
+ 2YMChxVQvYg5qcsPeCuJH5qXPntQe504O0XaTmbbQHDIlpd514jdvodDQjHxem7DnGcQ
+ fE2KZKUxp6dDSRoAvnQo0/hN6fHUj/Jg5htBnQi02fcjCIii+PK/JG12JQjHPHL4EVwG
+ x5FTmFGRfyDC9KgLSNHXnd72aTkjziAZLojIR/qXj2LDyGAT1OLgSfPu5C5J/WaqmIuK
+ NLwQ==
+X-Gm-Message-State: ACgBeo2eqnA5VWVCrDJ5lkEl0allYdgRwZkorYVnsyFsnP1Z+6DUtnx0
+ P2jMpHGBpAjAgKLyBYOpgfs44blTdVd7wX8bHlo=
+X-Google-Smtp-Source: AA6agR7xn9DjQoLLQRX1iBKyD9/zpJqQ7W61r94jXZCX6YV2pukMJwL1LcQCnaufnonYv+I8NhpmuQfrrPmrnMTpAGI=
+X-Received: by 2002:a63:90c8:0:b0:41d:f6f6:49cc with SMTP id
+ a191-20020a6390c8000000b0041df6f649ccmr14318713pge.223.1661204650691; Mon, 22
+ Aug 2022 14:44:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20220822141230.3658237-1-peter.maydell@linaro.org>
+ <20220822141230.3658237-8-peter.maydell@linaro.org>
+In-Reply-To: <20220822141230.3658237-8-peter.maydell@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 23 Aug 2022 07:43:44 +1000
+Message-ID: <CAKmqyKN8W9mmYKnegdhynYcet4y5upC5m78Kr4bC+e+1yAtvyQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] target/riscv: Honour -semihosting-config
+ userspace=on and enable=on
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Furquan Shaikh <furquan@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -106,33 +84,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leonardo Bras Soares Passos <leobras@redhat.com> wrote:
-> On Fri, Aug 19, 2022 at 6:52 AM Juan Quintela <quintela@redhat.com> wrote:
->>
->> - the value that we receive in ram_save_setup() is a RAMState
->> - We would have to change all the callers form
->>   * ram_save_iterate()
->>   * ram_find_and_save_block()
->>   * ram_save_host_page()
+On Tue, Aug 23, 2022 at 4:55 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Maybe RAMState could be part of a bigger struct, and we could use
-> something like a container_of().
-> So whenever you want to use it, it would be available.
+> The riscv target incorrectly enabled semihosting always, whether the
+> user asked for it or not.  Call semihosting_enabled() passing the
+> correct value to the is_userspace argument, which fixes this and also
+> handles the userspace=on argument.  Because we do this at translate
+> time, we no longer need to check the privilege level in
+> riscv_cpu_do_interrupt().
 >
-> What about that?
+> Note that this is a behaviour change: we used to default to
+> semihosting being enabled, and now the user must pass
+> "-semihosting-config enable=on" if they want it.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-New struct it is:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-typedef struct {
-           int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
-} MigrationOps;
+Alistair
 
-And go from there.
-
-Later, Juan.
-
+> ---
+>  target/riscv/cpu_helper.c                      | 9 +++------
+>  target/riscv/translate.c                       | 1 +
+>  target/riscv/insn_trans/trans_privileged.c.inc | 3 ++-
+>  3 files changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 59b3680b1b2..2b84febf275 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -1342,12 +1342,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>      target_ulong mtval2 = 0;
+>
+>      if  (cause == RISCV_EXCP_SEMIHOST) {
+> -        if (env->priv >= PRV_S) {
+> -            do_common_semihosting(cs);
+> -            env->pc += 4;
+> -            return;
+> -        }
+> -        cause = RISCV_EXCP_BREAKPOINT;
+> +        do_common_semihosting(cs);
+> +        env->pc += 4;
+> +        return;
+>      }
+>
+>      if (!async) {
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 63b04e8a948..f9e6258ec5d 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -28,6 +28,7 @@
+>
+>  #include "exec/translator.h"
+>  #include "exec/log.h"
+> +#include "semihosting/semihost.h"
+>
+>  #include "instmap.h"
+>  #include "internals.h"
+> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+> index 46f96ad74d4..3281408a874 100644
+> --- a/target/riscv/insn_trans/trans_privileged.c.inc
+> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
+> @@ -52,7 +52,8 @@ static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
+>       * that no exception will be raised when fetching them.
+>       */
+>
+> -    if ((pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
+> +    if (semihosting_enabled(ctx->mem_idx < PRV_S) &&
+> +        (pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
+>          pre    = opcode_at(&ctx->base, pre_addr);
+>          ebreak = opcode_at(&ctx->base, ebreak_addr);
+>          post   = opcode_at(&ctx->base, post_addr);
+> --
+> 2.25.1
+>
+>
 
