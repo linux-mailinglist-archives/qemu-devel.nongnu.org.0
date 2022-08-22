@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4974759CC37
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 01:30:29 +0200 (CEST)
-Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEF959CC2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 01:27:31 +0200 (CEST)
+Received: from localhost ([::1]:50358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQGsG-0002DF-CN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 19:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32840)
+	id 1oQGpO-0003df-3T
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 19:27:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGlp-0005cz-8W
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:23:49 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36699)
+ id 1oQGlp-0005d0-91
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:23:50 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:54838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGli-0005aW-JU
+ id 1oQGlj-0005am-L6
  for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:23:45 -0400
-Received: by mail-pf1-x433.google.com with SMTP id w29so6259598pfj.3
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:23:42 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id bf22so12439989pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=u1rNx+z6mfX9QOf0swX80lotmkBIQnUrgYcTWCQuCO0=;
- b=sdLmjGg43PO9lTKnLfky08DInjwny15HVABQVjuB2+JbRwSPAWwdTSSCHIeDcrYLnq
- uy6IyNtvnPYIDKyIH/jwuROtaiRgEUBDyNnYdbQjg0ZdPGmuN6tT36MqyIuxsYnvobos
- WNvPW/uldIAyyYC9zJ1yT6eTmt0d5ekBOTvU2R3ttas2nKByR7ItRezMF+XPlGbLHdWj
- ozRm2zgMq8aOOhveYdCcY6AYHqYJV4fKWHTpobuHgpqGWGfE0KIwJnHt5EQ8dMQd43ge
- PyIpKMbk8gwykZRtztzhpNQ8OiQY3pXTySDr2D36sZbnzXDgIKVmbYJRVmd+iRFkpbRm
- DxqA==
+ bh=eMqYEALQlNCHryVYkn9ayeWYJiH16krDhtfDzKR3N+4=;
+ b=TYQBcK0MW3DxORsvXbqYjWpE/UmT9qOmwhv9wkrUvhF0j5rA6d5pKvtPzWcYl+9L/T
+ qAvV1jms+Lx3KVQ1w0oVJOTP6V9RgCED3VI7DW0Wmr41+DVB7iFnL0tB2rdVZMZZELP1
+ GOqwBPzN1BPfoBDd3CMGf5t88lKe44qPn0Z8dezGE4QVRb3d4BE/2NgF/UkJTI53ZcHe
+ TFt8Ynfifin+b5h9vfNuNvUP5sYDFYJSRHX2NDV7AzMKWqmXGfnVDITBA2K6vmUbeuBS
+ 6fkEcoSnRs3k6Nliqc6XHg9gL08+hW76uj7rXLSDwz5pl9p2DdWXpeAf1Irj3GzXGq13
+ PUAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=u1rNx+z6mfX9QOf0swX80lotmkBIQnUrgYcTWCQuCO0=;
- b=uDfClVHaKXWYe3DHXjdUF9zKNKcPJbHLKvGsRJA/54owf06XMfI/bbv3a7f0lpe7M5
- HcvEwx5WjmyYlbMIumIqbrSGawhHlNecWft7vgK0zQmgoVlsK1PSLGATYCjmPHk2PgWx
- 10ybXM+Z7+2PkXyEiLbHZgQVT0PWilZYSyX1PewHkt0FoUzeqGy7zsy40YgdDOoOhjjU
- C6WkgP3Lk61ENzVPyaEait4HvgTvl4eFrGg95ddQ/JIsna8wWRuAMcACEh6WBootLXti
- LURqdgDmq22PPh/1omcxX5tkzjWKsVapa01Ma8j4sOSI4OgxN79I5G3dk1ExWBGjLi2k
- 9gdQ==
-X-Gm-Message-State: ACgBeo0olQWF3yR8Ty507q+nFxn82q3psX/Tnn28yOFhNZoIH1fVz2lm
- WzV7M8YL4WdEeajqEiMa0QplY5sN5vQI4Q==
-X-Google-Smtp-Source: AA6agR4Uyqxjsguvnv9p/zAt7Voj87Kp+pX7AM7BiGUYRLAM4SDQGoGFdW05tCISLShmXDQD6bkFXw==
-X-Received: by 2002:a63:6a46:0:b0:41a:3e67:67cd with SMTP id
- f67-20020a636a46000000b0041a3e6767cdmr18773197pgc.94.1661210621087; 
- Mon, 22 Aug 2022 16:23:41 -0700 (PDT)
+ bh=eMqYEALQlNCHryVYkn9ayeWYJiH16krDhtfDzKR3N+4=;
+ b=ZYAw68cKxjlcwbCZonAe7FyuuG+ysbqvSlTkJFtgHNCkszo2iH2QTmnXKct0cMdHzj
+ ubeL0OdDFpyedQ1GQXSsQwQxZmSyPjyeM9d6TrJNGnwTll60+CgottKaG8L2ghaqHlxL
+ pf9id/eRcP1bxvFr+g6FZr1XX70EX9+yB81BR5XsAt32pUh+zKM7/D4ts3MJNj4Mi8Tp
+ 4H/2iA4Nw+hOpNtuEVzqQxT4GmZbPZZQL76kPC14rhK65p59ubFToyLmEqYrkinTh8jL
+ lqeHeTPz6/7VGiI+s/7HVdXQsGM/bUWcgp1voBCK8TvCUFF8znrbG7T52yCXdTcqZUK2
+ HCYA==
+X-Gm-Message-State: ACgBeo3DQjzWe3cI+th0VRyHg3G2MrAW0JdL9zs+DMIFYm7NAYncQdcF
+ 4chZpXH1AcrD5ubJI1kNcQcRJDX11qGQyg==
+X-Google-Smtp-Source: AA6agR588Xaw8V5mgt910iXAqfft/VUSQ2ZYw/tRblgtwlvsQt4qvLYBzF9ThYkdb36mIor2LxGMBg==
+X-Received: by 2002:a17:902:7b95:b0:172:9dc3:6c12 with SMTP id
+ w21-20020a1709027b9500b001729dc36c12mr22486423pll.94.1661210622245; 
+ Mon, 22 Aug 2022 16:23:42 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:c3f1:b74f:5edd:63af])
  by smtp.gmail.com with ESMTPSA id
- k17-20020aa79731000000b0052d3899f8c2sm3809112pfg.4.2022.08.22.16.23.40
+ k17-20020aa79731000000b0052d3899f8c2sm3809112pfg.4.2022.08.22.16.23.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 16:23:40 -0700 (PDT)
+ Mon, 22 Aug 2022 16:23:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v3 01/17] accel/tcg: Remove PageDesc code_bitmap
-Date: Mon, 22 Aug 2022 16:23:22 -0700
-Message-Id: <20220822232338.1727934-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 02/17] accel/tcg: Use bool for page_find_alloc
+Date: Mon, 22 Aug 2022 16:23:23 -0700
+Message-Id: <20220822232338.1727934-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220822232338.1727934-1-richard.henderson@linaro.org>
 References: <20220822232338.1727934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,170 +88,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bitmap is created and discarded immediately.
-We gain nothing by its existence.
+Bool is more appropriate type for the alloc parameter.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 78 ++-------------------------------------
- 1 file changed, 4 insertions(+), 74 deletions(-)
+ accel/tcg/translate-all.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index e44f40b234..34bf296250 100644
+index 34bf296250..a8f1c34c4e 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -102,21 +102,14 @@
- #define assert_memory_lock() tcg_debug_assert(have_mmap_lock())
+@@ -465,7 +465,7 @@ void page_init(void)
  #endif
- 
--#define SMC_BITMAP_USE_THRESHOLD 10
--
- typedef struct PageDesc {
-     /* list of TBs intersecting this ram page */
-     uintptr_t first_tb;
--#ifdef CONFIG_SOFTMMU
--    /* in order to optimize self modifying code, we count the number
--       of lookups we do to a given page to use a bitmap */
--    unsigned long *code_bitmap;
--    unsigned int code_write_count;
--#else
-+#ifdef CONFIG_USER_ONLY
-     unsigned long flags;
-     void *target_data;
- #endif
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_SOFTMMU
-     QemuSpin lock;
- #endif
- } PageDesc;
-@@ -907,17 +900,6 @@ void tb_htable_init(void)
-     qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
  }
  
--/* call with @p->lock held */
--static inline void invalidate_page_bitmap(PageDesc *p)
--{
--    assert_page_locked(p);
--#ifdef CONFIG_SOFTMMU
--    g_free(p->code_bitmap);
--    p->code_bitmap = NULL;
--    p->code_write_count = 0;
--#endif
--}
--
- /* Set to NULL all the 'first_tb' fields in all PageDescs. */
- static void page_flush_tb_1(int level, void **lp)
+-static PageDesc *page_find_alloc(tb_page_addr_t index, int alloc)
++static PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)
  {
-@@ -932,7 +914,6 @@ static void page_flush_tb_1(int level, void **lp)
-         for (i = 0; i < V_L2_SIZE; ++i) {
-             page_lock(&pd[i]);
-             pd[i].first_tb = (uintptr_t)NULL;
--            invalidate_page_bitmap(pd + i);
-             page_unlock(&pd[i]);
-         }
-     } else {
-@@ -1197,11 +1178,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-     if (rm_from_page_list) {
-         p = page_find(tb->page_addr[0] >> TARGET_PAGE_BITS);
-         tb_page_remove(p, tb);
--        invalidate_page_bitmap(p);
-         if (tb->page_addr[1] != -1) {
-             p = page_find(tb->page_addr[1] >> TARGET_PAGE_BITS);
-             tb_page_remove(p, tb);
--            invalidate_page_bitmap(p);
-         }
-     }
+     PageDesc *pd;
+     void **lp;
+@@ -533,11 +533,11 @@ static PageDesc *page_find_alloc(tb_page_addr_t index, int alloc)
  
-@@ -1246,35 +1225,6 @@ void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr)
-     }
+ static inline PageDesc *page_find(tb_page_addr_t index)
+ {
+-    return page_find_alloc(index, 0);
++    return page_find_alloc(index, false);
  }
  
--#ifdef CONFIG_SOFTMMU
--/* call with @p->lock held */
--static void build_page_bitmap(PageDesc *p)
--{
--    int n, tb_start, tb_end;
--    TranslationBlock *tb;
--
--    assert_page_locked(p);
--    p->code_bitmap = bitmap_new(TARGET_PAGE_SIZE);
--
--    PAGE_FOR_EACH_TB(p, tb, n) {
--        /* NOTE: this is subtle as a TB may span two physical pages */
--        if (n == 0) {
--            /* NOTE: tb_end may be after the end of the page, but
--               it is not a problem */
--            tb_start = tb->pc & ~TARGET_PAGE_MASK;
--            tb_end = tb_start + tb->size;
--            if (tb_end > TARGET_PAGE_SIZE) {
--                tb_end = TARGET_PAGE_SIZE;
--             }
--        } else {
--            tb_start = 0;
--            tb_end = ((tb->pc + tb->size) & ~TARGET_PAGE_MASK);
--        }
--        bitmap_set(p->code_bitmap, tb_start, tb_end - tb_start);
--    }
--}
--#endif
--
- /* add the tb in the target page and protect it if necessary
-  *
-  * Called with mmap_lock held for user-mode emulation.
-@@ -1295,7 +1245,6 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
-     page_already_protected = p->first_tb != (uintptr_t)NULL;
- #endif
-     p->first_tb = (uintptr_t)tb | n;
--    invalidate_page_bitmap(p);
+ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+-                           PageDesc **ret_p2, tb_page_addr_t phys2, int alloc);
++                           PageDesc **ret_p2, tb_page_addr_t phys2, bool alloc);
  
- #if defined(CONFIG_USER_ONLY)
-     /* translator_loop() must have made all TB pages non-writable */
-@@ -1357,10 +1306,8 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
-     /* remove TB from the page(s) if we couldn't insert it */
-     if (unlikely(existing_tb)) {
-         tb_page_remove(p, tb);
--        invalidate_page_bitmap(p);
-         if (p2) {
-             tb_page_remove(p2, tb);
--            invalidate_page_bitmap(p2);
-         }
-         tb = existing_tb;
-     }
-@@ -1731,7 +1678,6 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
- #if !defined(CONFIG_USER_ONLY)
-     /* if no code remaining, no need to continue to use slow writes */
-     if (!p->first_tb) {
--        invalidate_page_bitmap(p);
-         tlb_unprotect_code(start);
-     }
- #endif
-@@ -1827,24 +1773,8 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
-     }
- 
-     assert_page_locked(p);
--    if (!p->code_bitmap &&
--        ++p->code_write_count >= SMC_BITMAP_USE_THRESHOLD) {
--        build_page_bitmap(p);
--    }
--    if (p->code_bitmap) {
--        unsigned int nr;
--        unsigned long b;
--
--        nr = start & ~TARGET_PAGE_MASK;
--        b = p->code_bitmap[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG - 1));
--        if (b & ((1 << len) - 1)) {
--            goto do_invalidate;
--        }
--    } else {
--    do_invalidate:
--        tb_invalidate_phys_page_range__locked(pages, p, start, start + len,
--                                              retaddr);
--    }
-+    tb_invalidate_phys_page_range__locked(pages, p, start, start + len,
-+                                          retaddr);
+ /* In user-mode page locks aren't used; mmap_lock is enough */
+ #ifdef CONFIG_USER_ONLY
+@@ -651,7 +651,7 @@ static inline void page_unlock(PageDesc *pd)
+ /* lock the page(s) of a TB in the correct acquisition order */
+ static inline void page_lock_tb(const TranslationBlock *tb)
+ {
+-    page_lock_pair(NULL, tb->page_addr[0], NULL, tb->page_addr[1], 0);
++    page_lock_pair(NULL, tb->page_addr[0], NULL, tb->page_addr[1], false);
  }
- #else
- /* Called with mmap_lock held. If pc is not 0 then it indicates the
+ 
+ static inline void page_unlock_tb(const TranslationBlock *tb)
+@@ -840,7 +840,7 @@ void page_collection_unlock(struct page_collection *set)
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+-                           PageDesc **ret_p2, tb_page_addr_t phys2, int alloc)
++                           PageDesc **ret_p2, tb_page_addr_t phys2, bool alloc)
+ {
+     PageDesc *p1, *p2;
+     tb_page_addr_t page1;
+@@ -1290,7 +1290,7 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+      * Note that inserting into the hash table first isn't an option, since
+      * we can only insert TBs that are fully initialized.
+      */
+-    page_lock_pair(&p, phys_pc, &p2, phys_page2, 1);
++    page_lock_pair(&p, phys_pc, &p2, phys_page2, true);
+     tb_page_add(p, tb, 0, phys_pc & TARGET_PAGE_MASK);
+     if (p2) {
+         tb_page_add(p2, tb, 1, phys_page2);
+@@ -2219,7 +2219,7 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+     for (addr = start, len = end - start;
+          len != 0;
+          len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
+-        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
++        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, true);
+ 
+         /* If the write protection bit is set, then we invalidate
+            the code inside.  */
 -- 
 2.34.1
 
