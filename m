@@ -2,95 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C613B59C2D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 17:33:50 +0200 (CEST)
-Received: from localhost ([::1]:35372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2B659C2E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 17:34:23 +0200 (CEST)
+Received: from localhost ([::1]:42372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ9Qz-0006Ip-CF
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 11:33:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50770)
+	id 1oQ9RV-0006hf-S8
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 11:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oQ99J-0007et-18
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:15:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oQ995-00050j-VC
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:15:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661181318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ztKOeB8BytpGS9oJ4KOu449CuGX9ihFu6jNtz6UJJoA=;
- b=JlAXzn1HhUNgofaCfwOX/9ugC7Q38V8Wc6r8NXkyOSU1xhq4SilqohWvJ9+cubAhL2fjD+
- doyKdSeI0Z+UUbn5mSZlFjtOv65V43drm2zHBmxdBVnHlKPXltmu5xNLs0hRb4YpGYNBJz
- fAG6icCF+Q2HmvsuQ3HQm9adXrQVNy8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-662-ZxEYf1P8OsuvMZ0al5Rhig-1; Mon, 22 Aug 2022 11:00:07 -0400
-X-MC-Unique: ZxEYf1P8OsuvMZ0al5Rhig-1
-Received: by mail-ed1-f71.google.com with SMTP id
- m16-20020a056402431000b0044662a0ba2cso4272569edc.13
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:00:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQ9L9-0006xw-Dx
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:27:47 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQ9L6-0000dc-7r
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:27:45 -0400
+Received: by mail-pl1-x631.google.com with SMTP id 2so10267996pll.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=vL62SPLHXf4JeQ7NMLR/S0ogrmKS1uKF6rjwPnQFrmE=;
+ b=Z8L0vWje0pvw2QVYdeqCO5TodlW5F5gnUtKHiHXYV3zGO4q1onAngx3cZAnRGqhEit
+ R80lApKWu7p1LSgyfFEr5e1CZgsfKZIDSTL/4cIqOCwYaLjW/pEWpXPygirwYYfpeweS
+ u+JzIuWVrDR885j1s0HjCV9HAULLdJDfBz+Kpze1w6Nh5ZNXp4ph4qbKXUqYQY3MkrpD
+ uOCDPDCEPZ4hysF5YlyiGT1qekK0CPQcEifgv5S2UR4XVtG4FFff3QAv+vtVkv5xQ1JW
+ D2WEGiggsqYIhBUmvVJ8BKJdCHGNve0oRyJp4QcBfbO1h0d9VMLo/Y8kGwMzVU1lrR7d
+ sFpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=ztKOeB8BytpGS9oJ4KOu449CuGX9ihFu6jNtz6UJJoA=;
- b=APxy0TTd1laplzhG/rWGniCkq+uYaCwcKCp4r1kO4DE4LlHDnP0Xc3SzP4yzujVZxz
- Vb3g5r/SFCBaaAumSDS8XYUN/kux9l5Ort5BBIJxmGfsh83adEsjbgqD4q1zm22H9PSU
- ibz2frj5C7xTWHTuyR1b4K2FTpg0fWgPQTEo9N2n2Q4GHSZAYiZwfvXtT1AfaAwxJAMH
- z7Cpbw1+ZHggoNVQ9sNzhdvczOLkHlBpYl7jFd430gdy+4Typ6mfiKfLMZXWbKZmDqif
- Pf+URQgQUgCOASBWWz2hkkL8zjYwMeXSFbwDx+Ncz7lr2kg+l7vObEy1Vic4UGYLV1xc
- fDzw==
-X-Gm-Message-State: ACgBeo0ltyBaOLqUwxUEaWS0V7Ru5+ScJ6LeuY6OHr06fjblm380DzfP
- /xaVmhAlFP76Okc/BpGWa5iPy9WjCeo8AhZpci8tZjyfAftEWtQFB67tB4tkD+2gmESrHydzOOz
- rsKiJSNobLRL10Wk=
-X-Received: by 2002:a05:6402:2755:b0:43d:7568:c78e with SMTP id
- z21-20020a056402275500b0043d7568c78emr16839843edd.104.1661180406449; 
- Mon, 22 Aug 2022 08:00:06 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5Px/A3k/BhgO3tcIds2Ce5YHxwTCTCoZ5Kl0BNrakOcDOMdhCTB5Ff2bXe4/Mdn29r6hJ22g==
-X-Received: by 2002:a05:6402:2755:b0:43d:7568:c78e with SMTP id
- z21-20020a056402275500b0043d7568c78emr16839821edd.104.1661180406202; 
- Mon, 22 Aug 2022 08:00:06 -0700 (PDT)
-Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- j7-20020aa7c407000000b004465d1db765sm5516295edq.89.2022.08.22.08.00.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Aug 2022 08:00:05 -0700 (PDT)
-Message-ID: <f3bc61c8-d491-f79c-15d7-191208c57224@redhat.com>
-Date: Mon, 22 Aug 2022 17:00:03 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=vL62SPLHXf4JeQ7NMLR/S0ogrmKS1uKF6rjwPnQFrmE=;
+ b=05Sf/T2D4zw9OFij6NLg5YB6Y3iSxe9l3bo/iv54YDCaga2JLZCMGVLWjVPP59JI/n
+ tlgbVODnwWfGJt5R182/+/y6TdtDHzPpD/mbPT1icc0WgbWj/ALCpRj21QbVvXdHAPDT
+ Sa8D7tTMDfcAWLpgX1r+r4S5TdyJNDw4ltGCC6gt/6UJd7GHSS9f1+CMR/LmJhnf/yu+
+ VrpyQ4yxLLkYAZya2VbLH8+t4ol3LhMhv/N2n/KDi44uljeBGlfoW+K2Yr7TVLyO2QbV
+ WefC9luakyvZUkezyQ0p+06UbvsUKlQfWOF0vA7XuK6k5DhCVVnWK5bxsTj3N53tqD4D
+ gw3Q==
+X-Gm-Message-State: ACgBeo3qYAMeRhUjN9NH8XFfuswZzWetrazkmo7WRZDrQdmRyPz6lhW8
+ pLrsPBC0XHzg36hRHPH8a4IfhYGwuVHEEQ==
+X-Google-Smtp-Source: AA6agR6KrZO/gpfhXWmAgM5eLbiSXfNNiSChT7eCfXwpAvXl2igbCJJTis8vWvx5s2KLXPCLZ3et9A==
+X-Received: by 2002:a17:902:e5c6:b0:16e:f3b6:ddb5 with SMTP id
+ u6-20020a170902e5c600b0016ef3b6ddb5mr20646139plf.122.1661182062420; 
+ Mon, 22 Aug 2022 08:27:42 -0700 (PDT)
+Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
+ q7-20020a17090311c700b0016bffc59718sm8665222plh.58.2022.08.22.08.27.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Aug 2022 08:27:41 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v2 00/66] target/arm: Implement FEAT_HAFDBS
+Date: Mon, 22 Aug 2022 08:26:35 -0700
+Message-Id: <20220822152741.1617527-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v5 1/3] Update linux headers to 6.0-rc1
-Content-Language: en-US
-To: Chenyi Qiang <chenyi.qiang@intel.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220817020845.21855-1-chenyi.qiang@intel.com>
- <20220817020845.21855-2-chenyi.qiang@intel.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <20220817020845.21855-2-chenyi.qiang@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,97 +86,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/22 04:08, Chenyi Qiang wrote:
-> commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
->=20
-> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-> ---
->  include/standard-headers/asm-x86/bootparam.h  |   7 +-
->  include/standard-headers/drm/drm_fourcc.h     |  73 +++++++-
->  include/standard-headers/linux/ethtool.h      |  29 +--
->  include/standard-headers/linux/input.h        |  12 +-
->  include/standard-headers/linux/pci_regs.h     |  30 ++-
->  include/standard-headers/linux/vhost_types.h  |  17 +-
->  include/standard-headers/linux/virtio_9p.h    |   2 +-
->  .../standard-headers/linux/virtio_config.h    |   7 +-
->  include/standard-headers/linux/virtio_ids.h   |  14 +-
->  include/standard-headers/linux/virtio_net.h   |  34 +++-
->  include/standard-headers/linux/virtio_pci.h   |   2 +
->  linux-headers/asm-arm64/kvm.h                 |  27 +++
->  linux-headers/asm-generic/unistd.h            |   4 +-
->  linux-headers/asm-riscv/kvm.h                 |  22 +++
->  linux-headers/asm-riscv/unistd.h              |   3 +-
->  linux-headers/asm-s390/kvm.h                  |   1 +
->  linux-headers/asm-x86/kvm.h                   |  33 ++--
->  linux-headers/asm-x86/mman.h                  |  14 --
->  linux-headers/linux/kvm.h                     | 172 +++++++++++++++++-=
+This is a major reorg to arm page table walking.  While the result
+here is "merely" Hardware-assited Access Flag and Dirty Bit Setting
+(HAFDBS), the ultimate goal is the Realm Management Extension (RME).
+RME "recommends" that HAFDBS be implemented (I_CSLWZ).
 
->  linux-headers/linux/userfaultfd.h             |  10 +-
->  linux-headers/linux/vduse.h                   |  47 +++++
->  linux-headers/linux/vfio.h                    |   4 +-
->  linux-headers/linux/vfio_zdev.h               |   7 +
->  linux-headers/linux/vhost.h                   |  35 +++-
->  24 files changed, 523 insertions(+), 83 deletions(-)
->=20
+For HAFDBS, being able to find a host pointer for the ram that
+backs a given page table entry is required in order to perform the
+atomic update to that PTE.  The easiest way to find a host pointer
+is to use the existing softtlb mechanism.  Thus all of the page
+table walkers have been adjusted to take an mmu_idx that corresponds
+to the regime in which the page table is stored.  In some cases,
+this is a new "physical" mmu_idx that has a permanent 1-1 mapping.
 
+For RME, "physical" addresses also have page permissions, coming
+from the Root realm Granule Protection Table, which can be thought
+of as a third stage page table lookup.  So eventually the new
+Secure and Nonsecure physical mmu indexes will joined by
+Realm and Root physical mmu indexes, and all of them will take
+the new Granule Page Table into account.
 
-> diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-> index bf6e96011d..46de10a809 100644
-> --- a/linux-headers/asm-x86/kvm.h
-> +++ b/linux-headers/asm-x86/kvm.h
-> @@ -198,13 +198,13 @@ struct kvm_msrs {
->  	__u32 nmsrs; /* number of msrs in entries */
->  	__u32 pad;
-> =20
-> -	struct kvm_msr_entry entries[0];
-> +	struct kvm_msr_entry entries[];
->  };
-> =20
+Previously, we had A-profile allocate separate mmu_idx for secure
+vs non-secure.  I've done away with that.  Now, I flush all mmu_idx
+when SCR_EL3.NS is changed.  I did not see how we could reasonably
+add 8 more mmu_idx for Realm.  Moreover, I had a look through ARM
+Trusted Firmware, at the code paths used to change between Secure
+and Nonsecure.  We wind up flushing all of these mmu_idx anyway while
+swapping the EL1+EL2 cpregs, so there is no gain at all in attempting
+to keep them live at the same time within qemu.
 
-I don't think it's this simple. I think this needs to go hand in hand wit=
-h kvm_arch_get_supported_msr_feature().
+Major changes for v2:
+  * Sort as much pure arm cleanup to the front.  Most, but
+    not all, of the first 20 have been reviewed.
 
-Also, this breaks clang build:
+  * The accel/tcg changes are completely different.  I have renamed the
+    IOTLB, because it's no longer IO specific.  I've dropped the
+    PageEntryExtra struct, and standardized on the renamed CPUTLBEntryFull
+    struct, which now includes the phys_addr, page protection, and log2
+    page size; the target-specific fields are included via macro.
+    The whole CPUTLBEntryFull struct is passed to the new tlb_set_page_full,
+    simplifying usage; the struct is returned by the new probe_access_full.
 
-clang -m64 -mcx16 -Ilibqemu-x86_64-softmmu.fa.p -I. -I.. -Itarget/i386 -I=
-=2E./target/i386 -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/pixman-1 =
--I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/include/glib-2.=
-0 -I/usr/lib64/glib-2.0/include -fcolor-diagnostics -Wall -Winvalid-pch -=
-Werror -std=3Dgnu11 -O0 -g -isystem /home/zippy/work/qemu/qemu.git/linux-=
-headers -isystem linux-headers -iquote . -iquote /home/zippy/work/qemu/qe=
-mu.git -iquote /home/zippy/work/qemu/qemu.git/include -iquote /home/zippy=
-/work/qemu/qemu.git/tcg/i386 -pthread -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D=
-64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwr=
-ite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv=
- -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Win=
-it-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels=
- -Wexpansion-to-defined -Wno-initializer-overrides -Wno-missing-include-d=
-irs -Wno-shift-negative-value -Wno-string-plus-int -Wno-typedef-redefinit=
-ion -Wno-tautological-type-limit-compare -Wno-psabi -fstack-protector-str=
-ong -O0 -ggdb -fPIE -isystem../linux-headers -isystemlinux-headers -DNEED=
-_CPU_H '-DCONFIG_TARGET=3D"x86_64-softmmu-config-target.h"' '-DCONFIG_DEV=
-ICES=3D"x86_64-softmmu-config-devices.h"' -MD -MQ libqemu-x86_64-softmmu.=
-fa.p/target_i386_kvm_kvm.c.o -MF libqemu-x86_64-softmmu.fa.p/target_i386_=
-kvm_kvm.c.o.d -o libqemu-x86_64-softmmu.fa.p/target_i386_kvm_kvm.c.o -c .=
-=2E/target/i386/kvm/kvm.c
-=2E./target/i386/kvm/kvm.c:470:25: error: field 'info' with variable size=
-d type 'struct kvm_msrs' not at the end of a struct or class is a GNU ext=
-ension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-        struct kvm_msrs info;
-                        ^
-=2E./target/i386/kvm/kvm.c:1701:27: error: field 'cpuid' with variable si=
-zed type 'struct kvm_cpuid2' not at the end of a struct or class is a GNU=
- extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-        struct kvm_cpuid2 cpuid;
-                          ^
-=2E./target/i386/kvm/kvm.c:2868:25: error: field 'info' with variable siz=
-ed type 'struct kvm_msrs' not at the end of a struct or class is a GNU ex=
-tension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-        struct kvm_msrs info;
-                        ^
-3 errors generated.
+    I've been working on an x86_64 conversion to CPUTLBEntryFull as well,
+    both to figure out what another target needs, and to fix
+    https://gitlab.com/qemu-project/qemu/-/issues/279
 
 
-Michal
+r~
+
+
+Richard Henderson (66):
+  target/arm: Create GetPhysAddrResult
+  target/arm: Fix ipa_secure in get_phys_addr
+  target/arm: Use GetPhysAddrResult in get_phys_addr_lpae
+  target/arm: Use GetPhysAddrResult in get_phys_addr_v6
+  target/arm: Use GetPhysAddrResult in get_phys_addr_v5
+  target/arm: Use GetPhysAddrResult in get_phys_addr_pmsav5
+  target/arm: Use GetPhysAddrResult in get_phys_addr_pmsav7
+  target/arm: Use GetPhysAddrResult in get_phys_addr_pmsav8
+  target/arm: Use GetPhysAddrResult in pmsav8_mpu_lookup
+  target/arm: Remove is_subpage argument to pmsav8_mpu_lookup
+  target/arm: Add is_secure parameter to v8m_security_lookup
+  target/arm: Add secure parameter to pmsav8_mpu_lookup
+  target/arm: Add is_secure parameter to get_phys_addr_v5
+  target/arm: Add is_secure parameter to get_phys_addr_v6
+  target/arm: Add secure parameter to get_phys_addr_pmsav8
+  target/arm: Add is_secure parameter to pmsav7_use_background_region
+  target/arm: Add is_secure parameter to get_phys_addr_lpae
+  target/arm: Add secure parameter to get_phys_addr_pmsav7
+  target/arm: Add is_secure parameter to regime_translation_disabled
+  target/arm: Add is_secure parameter to get_phys_addr_pmsav5
+  target/arm: Split out get_phys_addr_with_secure
+  target/arm: Add is_secure parameter to v7m_read_half_insn
+  target/arm: Add TBFLAG_M32.SECURE
+  target/arm: Merge regime_is_secure into get_phys_addr
+  target/arm: Add is_secure parameter to do_ats_write
+  target/arm: Fold secure and non-secure a-profile mmu indexes
+  target/arm: Reorg regime_translation_disabled
+  target/arm: Drop secure check for HCR.TGE vs SCTLR_EL1.M
+  target/arm: Introduce arm_hcr_el2_eff_secstate
+  target/arm: Hoist read of *is_secure in S1_ptw_translate
+  target/arm: Fix S2 disabled check in S1_ptw_translate
+  target/arm: Remove env argument from combined_attrs_fwb
+  target/arm: Pass HCR to attribute subroutines.
+  target/arm: Fix ATS12NSO* from S PL1
+  target/arm: Split out get_phys_addr_disabled
+  target/arm: Reorg get_phys_addr_disabled
+  accel/tcg: Rename CPUIOTLBEntry to CPUTLBEntryFull
+  accel/tcg: Drop addr member from SavedIOTLB
+  accel/tcg: Suppress auto-invalidate in probe_access_internal
+  accel/tcg: Introduce probe_access_full
+  accel/tcg: Introduce tlb_set_page_full
+  target/arm: Use tlb_set_page_full
+  include/exec: Introduce TARGET_PAGE_ENTRY_EXTRA
+  target/arm: Enable TARGET_PAGE_ENTRY_EXTRA
+  target/arm: Use probe_access_full for MTE
+  target/arm: Use probe_access_full for BTI
+  include/exec: Remove target_tlb_bitN from MemTxAttrs
+  target/arm: Add ARMMMUIdx_Phys_{S,NS}
+  target/arm: Move ARMMMUIdx_Stage2 to a real tlb mmu_idx
+  target/arm: Use softmmu tlbs for page table walking
+  target/arm: Hoist check for disabled stage2 translation.
+  target/arm: Split out get_phys_addr_twostage
+  target/arm: Use bool consistently for get_phys_addr subroutines
+  target/arm: Only use ARMMMUIdx_Stage1* for two-stage translation
+  target/arm: Add ptw_idx argument to S1_ptw_translate
+  target/arm: Add isar predicates for FEAT_HAFDBS
+  target/arm: Extract HA and HD in aa64_va_parameters
+  target/arm: Split out S1TranslateResult type
+  target/arm: Move be test for regime into S1TranslateResult
+  target/arm: Move S1_ptw_translate outside arm_ld[lq]_ptw
+  target/arm: Add ARMFault_UnsuppAtomicUpdate
+  target/arm: Remove loop from get_phys_addr_lpae
+  target/arm: Fix fault reporting in get_phys_addr_lpae
+  target/arm: Don't shift attrs in get_phys_addr_lpae
+  target/arm: Consider GP an attribute in get_phys_addr_lpae
+  target/arm: Implement FEAT_HAFDBS
+
+ docs/system/arm/emulation.rst  |    1 +
+ include/exec/cpu-defs.h        |   45 +-
+ include/exec/exec-all.h        |   33 +
+ include/exec/memattrs.h        |   10 -
+ include/hw/core/cpu.h          |    1 -
+ target/arm/cpu-param.h         |   10 +-
+ target/arm/cpu.h               |  138 ++--
+ target/arm/internals.h         |  109 +--
+ target/arm/sve_ldst_internal.h |    1 +
+ accel/tcg/cputlb.c             |  214 ++---
+ target/arm/cpu64.c             |    1 +
+ target/arm/helper.c            |  213 +++--
+ target/arm/m_helper.c          |   83 +-
+ target/arm/mte_helper.c        |   63 +-
+ target/arm/ptw.c               | 1343 +++++++++++++++++++-------------
+ target/arm/sve_helper.c        |   54 +-
+ target/arm/tlb_helper.c        |   39 +-
+ target/arm/translate-a64.c     |   30 +-
+ target/arm/translate.c         |    9 +-
+ target/s390x/tcg/mem_helper.c  |    4 -
+ 20 files changed, 1287 insertions(+), 1114 deletions(-)
+
+-- 
+2.34.1
 
 
