@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9DD59B7CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 04:56:13 +0200 (CEST)
-Received: from localhost ([::1]:52996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE6759B7E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 05:22:50 +0200 (CEST)
+Received: from localhost ([::1]:46672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPxbn-0000H8-LA
-	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 22:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60860)
+	id 1oPy1Y-0007r5-OO
+	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 23:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1oPxZq-00077j-L7
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 22:54:10 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1oPxZo-0003zv-Pz
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 22:54:09 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id gb36so18584589ejc.10
- for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 19:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=Wy64Nk2ed1qvnaFGi/8/yjKi42pX+H4Dsft2DDhujVU=;
- b=BkNfuAQ0qUerBPWHF5B3nl+7FsoBeK+zq1AvlXx1ZlzwWlLVjO2xhBW4ccQ5ry/vKU
- /YdX/LY96o8cRIay4EcLnme9pja8yon/o79qPU442Q4mz2kM0hfx99sgOausGn6CSxyN
- sXJCB6jq+/ZJO499L61dlCDNO0Fe60qso5VOe3rTTeu9nu71kyrMwg5qKvqBA19Pi0dl
- wZaoziK/kSOaPgP/Q80qPiAsyBbMgSv8PZKX+fTt+b2+1teqNqDHkgGp3M2vxTf6UVS9
- 8fGeZ7j/9SoRRPYyK50+erURaF2nQ45cn5v0+FrqGKNQm3JVho7kpMezAd1YkN1wzgtu
- YPKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=Wy64Nk2ed1qvnaFGi/8/yjKi42pX+H4Dsft2DDhujVU=;
- b=8QN+HdEhzCsn4WBuoHKhj8RWKojq1AAKGd0oihAhIqk+mJOQb371lqM2cFIULRk/8F
- 48Y0MxU0/Nxc4mq9c3IYCMAdhv/hkKu6rJtxPjAc+Z+mKZF1iN/akmH+DPZgThdiSR79
- OS6Z+HGDJrEvgpZfruGMNIIqtXhUyNt7LAAPU/NEt0L7BSifn9EOzkMFolQ3oF18YTUC
- r45o/dgosKr7GSXeuk4u1UTWHTm6POwN2/sJSwoTB9klN60gn4LWYpABsfd7tiHZVaVC
- gnfDOJ66/UedYFnopPaXaNOvA/21TpRZQiqu3eX7iWjTP4hM0geNEB1ffwjC87LntDwo
- XVMw==
-X-Gm-Message-State: ACgBeo2iyEMSOCxMcoiEtTitRw4DdMxBf/j/XR1eJsjG0Zcl/lWeA1lZ
- qAMZHrnBglNUYL19x23t3gaihbnjyLUwJJmZ43NhLQ==
-X-Google-Smtp-Source: AA6agR57NeUKvpHFOB8SKtMUawaEJG1+35tKeNU+xK+R+DMnk7PmIhGcrRyuEjhd1BVzuG/Sw9ciSg5aOsm9sEzyatQ=
-X-Received: by 2002:a17:907:9495:b0:73c:b19e:ce06 with SMTP id
- dm21-20020a170907949500b0073cb19ece06mr9019636ejc.559.1661136846458; Sun, 21
- Aug 2022 19:54:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oPxy8-0005ck-6R; Sun, 21 Aug 2022 23:19:16 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:35593
+ helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oPxy0-0007nj-HE; Sun, 21 Aug 2022 23:19:15 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4M9yHn6861z4x1d; Mon, 22 Aug 2022 13:18:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1661138325;
+ bh=YmsOYu6XuL55+Dbi9WlQHUVdK8qzV8hXhzyIsYurjDg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=h1vxnughTyQoV0jRSbYtusWCoC0EpEUJ/iKrdsq3S6t2UZqCS7J4vE1l+TcEkZz7I
+ FeKaX+WdOAw2yJReY15OC8t7zvfZlmTlCTe4J/4OjfzDyIh8Z5A/mF42DZwE8Ek9b+
+ +hBs/DlqqPJfQy3vmO23LzznsZDuKA8dY7o5nkMI=
+Date: Mon, 22 Aug 2022 13:05:42 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ alistair.francis@wdc.com,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH for-7.2 v2 10/20] hw/ppc: set machine->fdt in spapr machine
+Message-ID: <YwLyhvijapVkpgjr@yekko>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
+ <20220805093948.82561-11-danielhb413@gmail.com>
+ <99485a63-f799-2741-8006-f4167c985e54@ozlabs.ru>
+ <f2c2e6f9-0da4-443d-55cd-c214e710d0f7@gmail.com>
 MIME-Version: 1.0
-References: <20220819071137.1140627-1-tommy.wu@sifive.com>
-In-Reply-To: <20220819071137.1140627-1-tommy.wu@sifive.com>
-From: Jim Shu <jim.shu@sifive.com>
-Date: Mon, 22 Aug 2022 10:53:55 +0800
-Message-ID: <CALw707oBLpouyEADJgk2amDFU_8A84eNxwwCM7S3nZRVYnwVSA@mail.gmail.com>
-Subject: Re: [PATCH] include/hw/riscv/sifive_e.h: Fix the type of parent_obj
- of SiFiveEState.
-To: Tommy Wu <tommy.wu@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=jim.shu@sifive.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DdD2ADl01ewO9gdw"
+Content-Disposition: inline
+In-Reply-To: <f2c2e6f9-0da4-443d-55cd-c214e710d0f7@gmail.com>
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,34 +68,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Jim Shu <jim.shu@sifive.com>
 
+--DdD2ADl01ewO9gdw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 19, 2022 at 3:11 PM Tommy Wu <tommy.wu@sifive.com> wrote:
->
-> Fix the type of parent_obj of SiFiveEState from 'SysBusDevice'
-> to 'MachineState'. Because the parent of SiFiveEState is 'MachineState'.
->
-> Signed-off-by: Tommy Wu <tommy.wu@sifive.com>
-> ---
->  include/hw/riscv/sifive_e.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-> index 83604da805..24359f9fe5 100644
-> --- a/include/hw/riscv/sifive_e.h
-> +++ b/include/hw/riscv/sifive_e.h
-> @@ -41,7 +41,7 @@ typedef struct SiFiveESoCState {
->
->  typedef struct SiFiveEState {
->      /*< private >*/
-> -    SysBusDevice parent_obj;
-> +    MachineState parent_obj;
->
->      /*< public >*/
->      SiFiveESoCState soc;
-> --
-> 2.27.0
->
->
+On Fri, Aug 19, 2022 at 06:42:34AM -0300, Daniel Henrique Barboza wrote:
+>=20
+>=20
+> On 8/18/22 23:11, Alexey Kardashevskiy wrote:
+> >=20
+> >=20
+> > On 05/08/2022 19:39, Daniel Henrique Barboza wrote:
+> > > The pSeries machine never bothered with the common machine->fdt
+> > > attribute. We do all the FDT related work using spapr->fdt_blob.
+> > >=20
+> > > We're going to introduce HMP commands to read and save the FDT, which
+> > > will rely on setting machine->fdt properly to work across all machine
+> > > archs/types.
+> >=20
+> >=20
+> > Out of curiosity - why new HMP command, is not QOM'ing this ms::fdt pro=
+perty enough?
+>=20
+> I tried to do the minimal changes needed for the commands to work. ms::fd=
+t is
+> one of the few MachineState fields that hasn't been QOMified by
+> machine_class_init() yet. All pre-existing code that uses ms::fdt are usi=
+ng the
+> pointer directly. To make a QOMified use of it would require extra patches
+> in machine.c to QOMify the property first.
+>=20
+> There's also the issue with how each machine is creating the FDT. Most ar=
+e using
+> helpers from device_tree.c, some are creating it from scratch, others req=
+uired
+> a .dtb file, most of them are not doing a fdt_pack() and so on. To really=
+ QOMify
+> the use of ms::fdt we would need some machine hooks that standardize all =
+that.
+> I believe it's worth the trouble, but it would be too much to do
+> right now.
+
+Hmm.. I think this depends on what you mean by "QOM"ify exactly.  If
+you're meaning make the full DT representation QOM objects, that you
+can look into in detail, then, yes, that's pretty complicated.
+
+I suspect what Alexey was suggesting though, was merely to make
+ms::fdt accessible as a single bytestring property on the machine QOM
+object.  Effectively it's just "dumpdtb" but as a property get.
+
+I'm not 100% certain if QOM can safely represent arbitrary bytestrings
+as QOM properties, which would need checking.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--DdD2ADl01ewO9gdw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMC8nIACgkQgypY4gEw
+YSJ8LhAAyj9yIo13JvfOn7nnwoYgU5gJ0OlalIJ5R8WKvv+Lv2/kHJGrhTaekO+i
+HP9nrqVShm9yNjZge3hDLOcJVf+OrrH2sZPgdu10uYYIY7c2Is+xSZCE6y8N/n2A
+h9MOy/O6qdy6iT/WypsCUxSXtAvLzYuziUr6FfQc0uNTX1MngMWmNKoeeWh2w0hF
+OnQYqEoWv/160gL79PvgfHE4H3Ui97L+KJvQScpi88CTvhVBofG81tyje3Ck2VYs
+5GI6O3GPSQCDAvAcvM/kxdLnpn7CbOK6YZqPpyo+Twy8v73jykmRbCsXm5jqpoZB
+GJeaej8WNJwrALXTiiqF6cWAaiT39DyFgFUQE+fsOCFLbN7qz43XwAko2XNCftfR
+RbxgiJlWAjVZaFh0Xu5PVqceLcxnD1b3arOneiV5Ku9396/kWGZ09IMaUrVD7UyE
+YaKLFlNdvRs3sowQgIpBO29srZTfM1zC9A2IYCL99nPYHX5eqm0P442PzOBC0Yz9
+2rE5h9Ng2/uKpvaRlJT/M4MMJaBxHLpXtg0RzkF68r1/1cRIoqmkcW7bcDuTYiGQ
+5fXOpf/usN4qKgG+OOdPuQskxKFCSwd+84v/1fg+hKQNIxbfRxsVC7mWNa0+5QyM
+9OiUjqYTK7s7JJnRy5tioHz4EMOlCgpPifKAUkbDIzOaWasgBnE=
+=xp3i
+-----END PGP SIGNATURE-----
+
+--DdD2ADl01ewO9gdw--
 
