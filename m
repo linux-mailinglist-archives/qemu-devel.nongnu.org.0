@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1904659BDA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 12:36:06 +0200 (CEST)
-Received: from localhost ([::1]:53542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1385359BDA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 12:36:17 +0200 (CEST)
+Received: from localhost ([::1]:38368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ4mr-0001gN-72
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 06:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38376)
+	id 1oQ4n2-0002Cm-5d
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 06:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oQ4it-0004gf-L6; Mon, 22 Aug 2022 06:31:59 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:56070)
+ id 1oQ4it-0004gg-LB; Mon, 22 Aug 2022 06:31:59 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:56075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oQ4ir-00053d-RJ; Mon, 22 Aug 2022 06:31:59 -0400
+ id 1oQ4ir-00053b-Pd; Mon, 22 Aug 2022 06:31:59 -0400
 Received: from [192.168.16.115] (helo=iris.sw.ru)
  by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1oQ4gz-00GyKO-AL;
+ (envelope-from <den@openvz.org>) id 1oQ4gz-00GyKO-Fs;
  Mon, 22 Aug 2022 12:31:24 +0200
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: "Denis V . Lunev" <den@openvz.org>, Peter Krempa <pkrempa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH v3 0/2] block: add missed block_acct_setup with new block
- device init procedure
-Date: Mon, 22 Aug 2022 12:31:29 +0200
-Message-Id: <20220822103131.381075-1-den@openvz.org>
+Cc: Helge Deller <deller@gmx.de>
+Subject: [PATCH 1/2] target/hppa: Fix proberi instruction emulation for
+ linux-user
+Date: Mon, 22 Aug 2022 12:31:30 +0200
+Message-Id: <20220822103131.381075-2-den@openvz.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220822103131.381075-1-den@openvz.org>
+References: <20220822103131.381075-1-den@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
@@ -57,40 +56,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
-the first glance, but it has changed things a lot. 'libvirt' uses it to
-detect that it should follow new initialization way and this changes
-things considerably. With this procedure followed, blockdev_init() is
-not called anymore and thus block_acct_setup() helper is not called.
+From: Helge Deller <deller@gmx.de>
 
-This means in particular that defaults for block accounting statistics
-are changed and account_invalid/account_failed are actually initialized
-as false instead of true originally.
+The proberi assembler instruction checks the read/write access rights
+for the page of a given address and shall return a value of 1 if the
+test succeeds and a value of 0 on failure in the target register.
 
-This commit changes things to match original world. There are the following
-constraints:
-* new default value in block_acct_init() is set to true
-* block_acct_setup() inside blockdev_init() is called before
-  blkconf_apply_backend_options()
-* thus newly created option in block device properties has precedence if
-  specified
+But when run in linux-user mode, qemu currently simply returns the
+return code of page_check_range() which returns 0 on success and -1 on
+failure, which is the opposite of what proberi should return.
 
-Changes from v2:
-* called bool_from_onoffauto(account_..., true) in the first patch to
-  preserve original semantics before patch 2
+Fix it by checking the return code of page_check_range() and return the
+expected return value.
 
-Changes from v1:
-* set account_invalid/account_failed to true by default
-* pass OnOffAuto to block_acct_init() to handle double initialization (patch 1)
-* changed properties on BLK device to OnOffAuto
+The easiest way to reproduce the issue is by running
+"/lib/ld.so.1 --version" in a chroot which fails without this patch.
+At startup of ld.so the __canonicalize_funcptr_for_compare() function is
+used to resolve the function address out of a function descriptor, which
+fails because proberi (due to the wrong return code) seems to indicate
+that the given address isn't accessible.
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Peter Krempa <pkrempa@redhat.com>
-CC: Markus Armbruster <armbru@redhat.com>
-CC: John Snow <jsnow@redhat.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Hanna Reitz <hreitz@redhat.com>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Signed-off-by: Helge Deller <deller@gmx.de>
+---
+ target/hppa/op_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
+index cd304f051e..fbd80e4248 100644
+--- a/target/hppa/op_helper.c
++++ b/target/hppa/op_helper.c
+@@ -170,7 +170,7 @@ target_ureg HELPER(probe)(CPUHPPAState *env, target_ulong addr,
+                           uint32_t level, uint32_t want)
+ {
+ #ifdef CONFIG_USER_ONLY
+-    return page_check_range(addr, 1, want);
++    return (page_check_range(addr, 1, want) == 0) ? 1 : 0;
+ #else
+     int prot, excp;
+     hwaddr phys;
+-- 
+2.32.0
 
 
