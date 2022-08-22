@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB5B59B7FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 05:33:11 +0200 (CEST)
-Received: from localhost ([::1]:59572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271E559B7FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 05:35:30 +0200 (CEST)
+Received: from localhost ([::1]:35138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oPyBa-0001Wb-JH
-	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 23:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
+	id 1oPyDo-0003dc-UA
+	for lists+qemu-devel@lfdr.de; Sun, 21 Aug 2022 23:35:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oPy8R-0008PN-AB
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 23:29:55 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:44613)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oPyC3-0001pt-2g; Sun, 21 Aug 2022 23:33:39 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:36762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oPy8P-0000vr-1u
- for qemu-devel@nongnu.org; Sun, 21 Aug 2022 23:29:55 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- r15-20020a17090a1bcf00b001fabf42a11cso9963324pjr.3
- for <qemu-devel@nongnu.org>; Sun, 21 Aug 2022 20:29:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=5j0OBKAgyholZH+0/r/9MuF3pGuosobrojMykmHbHzU=;
- b=PSkn2HgZhasAB35YNKu2uemslyI01m5mCJk4JSnRD6n3rM9oATROBv6h4tVHEjV8tF
- zrehn4Vszv3E+01WFjI4tu0PxJJLZOaelVRNQlZj8W14UJ8mtIu3ZMED6ztlaYyUwjsG
- d/NPQlPNoMtoCyn3NI3+szqNjhlCH5Wgmzm1SwZO5uZN6dqY2w1KEEsbranOfA6Ykf0C
- jK2OS8VdG3yGEpOjHplai2hP38FHszJTHc+CkI2aEHKg38lEmC/qWXqyEkJxgiv0cRCu
- Bf8r9ly1LhoqpQrLnxSbR1KJ2XB/vTBURMA3rbSM6Y0WT80+MZpjnjHelYgUZNj9lTTF
- MFdw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oPyC1-0001Sp-IZ; Sun, 21 Aug 2022 23:33:38 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ r14-20020a17090a4dce00b001faa76931beso12676009pjl.1; 
+ Sun, 21 Aug 2022 20:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=3xHEHROAWYLbGAgfpSKzjUUujlxh7e8cSX0MVBwf5CE=;
+ b=gEFnQBoQw++YXTuVQUJPJxefaeqWsLNjw3RoHHuu6ouh8jNCpZBhIlurZIYF2b7d8T
+ 7ASmqfwp5ZqvCATTKbhIzGNGuCL9LxhpcNYoF6LVVQSqqml6jOMR9n7GQgux+wNv74KK
+ 4TApnhNfzzpHvnu0p0e+pdWcp2oh/kmko97c1KnK0/OY7bcHS93UroxIE4vNjuBONaoM
+ zXRUeG77jG5fi/V1FstZpnFAu86zZa6l2deo8XeapQYeypczIL0hd13Dciyr3nmlUWYd
+ we2fbjmR3ODFiT94/Y6d+/h5O4d1Ls+kRr+0eSVruqYnXo/KvkQz7hsNvMStZLNxWSGx
+ xcDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=5j0OBKAgyholZH+0/r/9MuF3pGuosobrojMykmHbHzU=;
- b=aD34gLSVu2KuEoHwJ4YKFkVZ1LfrqLnf3IHSroEobTBjosorGjFrQeo4XqJ+iES+bg
- 0ANoYlxJlPei5+MMRoXTEYxck2x2gmi12UGmpc6xfq3yZ+zf7tDHgiVLjODl2Z7n7m6+
- 7zaf6QDdUVhZCTajs/OvAlvVvfxbu//Jo8XMqRW2MSHp9FeDoo90nsLrhrvkCXO4bdho
- xeTWGQtYf5gZk9+4Dk23XObCTq/t3O64jD8PYR7jSYCI7cDDmzRewx/UOARrZAzYezAD
- csXrBDL+bHlDTMRbYM9xjrUMgqN5HCgGofBlvpg/iJzL0srLURwjLAil5hj/h8eVDUTA
- PSpw==
-X-Gm-Message-State: ACgBeo3VU9jai9ho97trR6zyySb5jeiKzad0cKXhJh5DG7FTVjUWPz0p
- ML4VNgPY3iIqxZa9AjR10JzFsQ==
-X-Google-Smtp-Source: AA6agR5oe06bM+pRib6WeULIL8sXY2WMp4rzKllAUcEGp0njCsd5cVHIPl+pRM4Rbo4tjld+0GihSg==
-X-Received: by 2002:a17:902:f612:b0:172:cbb0:9b4f with SMTP id
- n18-20020a170902f61200b00172cbb09b4fmr10571509plg.142.1661138985179; 
- Sun, 21 Aug 2022 20:29:45 -0700 (PDT)
-Received: from [192.168.10.153] (203-7-124-83.dyn.iinet.net.au. [203.7.124.83])
- by smtp.gmail.com with ESMTPSA id
- v30-20020aa799de000000b0052d4ffac466sm7393133pfi.188.2022.08.21.20.29.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Aug 2022 20:29:44 -0700 (PDT)
-Message-ID: <708e6776-5589-15ab-535a-69c5d6d5f0d0@ozlabs.ru>
-Date: Mon, 22 Aug 2022 13:29:38 +1000
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=3xHEHROAWYLbGAgfpSKzjUUujlxh7e8cSX0MVBwf5CE=;
+ b=jyG0xBIJ7Hh9uekpVhM+E+qxDx5csqNxWvv6Oaa629P07HEC0IqYfWCBWPKCObh1H2
+ 3OpcNSsL8LRvNXh4zsOMNJecVFt3wpgBnd64xtgAXY2GceDlCn7e8HtUZP2XL9zF+Kkd
+ 6h6AzwBodiEIQjeQRoBFnMBNz8aojh+8csKZKECJSP4yEu+/r4DnPLQ6p/ysrWd9jzRt
+ FQFH93SEUDsmhOro/WIXGiaXvCzueuudbOR98Udoavi/eFD2tbGEnrWrbe+XnPMZ9Wcy
+ kDTvO+6yC8d+dKmmmviFsd1wGFDxt6WUxRYmfJVhIk1kMoqX84FmLonPuaGgWdIPNCEb
+ bw7A==
+X-Gm-Message-State: ACgBeo1CRhSi7Ghc2MR1C5P/4CnDv63GrEtuQ38maE5ALr4ILXWJQ3dr
+ +chojJQKZMl3MoFs0amEXmUdpvKBaIS/Oi4mzBg=
+X-Google-Smtp-Source: AA6agR7tt+byKuwn/MWew23njBWZgSh30Ug7Nq5QiM4WzR2qWCRPO9QWx2YLbT1nRwsYmK6i1cEWFKFCv/zpCcxQUMA=
+X-Received: by 2002:a17:902:e5c8:b0:16f:1511:7575 with SMTP id
+ u8-20020a170902e5c800b0016f15117575mr18457454plf.83.1661139215923; Sun, 21
+ Aug 2022 20:33:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101
- Thunderbird/104.0
-Subject: Re: [PATCH for-7.2 v2 10/20] hw/ppc: set machine->fdt in spapr machine
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-References: <20220805093948.82561-1-danielhb413@gmail.com>
- <20220805093948.82561-11-danielhb413@gmail.com>
- <99485a63-f799-2741-8006-f4167c985e54@ozlabs.ru>
- <f2c2e6f9-0da4-443d-55cd-c214e710d0f7@gmail.com> <YwLyhvijapVkpgjr@yekko>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <YwLyhvijapVkpgjr@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=aik@ozlabs.ru; helo=mail-pj1-x1030.google.com
+References: <20220819071137.1140627-1-tommy.wu@sifive.com>
+In-Reply-To: <20220819071137.1140627-1-tommy.wu@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 22 Aug 2022 13:33:09 +1000
+Message-ID: <CAKmqyKNidxPt-Bu81-Eex=g9ZWdTJ29geBdtg+w5sMTvy4hraA@mail.gmail.com>
+Subject: Re: [PATCH] include/hw/riscv/sifive_e.h: Fix the type of parent_obj
+ of SiFiveEState.
+To: Tommy Wu <tommy.wu@sifive.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,59 +86,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Aug 19, 2022 at 5:12 PM Tommy Wu <tommy.wu@sifive.com> wrote:
+>
+> Fix the type of parent_obj of SiFiveEState from 'SysBusDevice'
+> to 'MachineState'. Because the parent of SiFiveEState is 'MachineState'.
+>
+> Signed-off-by: Tommy Wu <tommy.wu@sifive.com>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On 22/08/2022 13:05, David Gibson wrote:
-> On Fri, Aug 19, 2022 at 06:42:34AM -0300, Daniel Henrique Barboza wrote:
->>
->>
->> On 8/18/22 23:11, Alexey Kardashevskiy wrote:
->>>
->>>
->>> On 05/08/2022 19:39, Daniel Henrique Barboza wrote:
->>>> The pSeries machine never bothered with the common machine->fdt
->>>> attribute. We do all the FDT related work using spapr->fdt_blob.
->>>>
->>>> We're going to introduce HMP commands to read and save the FDT, which
->>>> will rely on setting machine->fdt properly to work across all machine
->>>> archs/types.
->>>
->>>
->>> Out of curiosity - why new HMP command, is not QOM'ing this ms::fdt property enough?
->>
->> I tried to do the minimal changes needed for the commands to work. ms::fdt is
->> one of the few MachineState fields that hasn't been QOMified by
->> machine_class_init() yet. All pre-existing code that uses ms::fdt are using the
->> pointer directly. To make a QOMified use of it would require extra patches
->> in machine.c to QOMify the property first.
->>
->> There's also the issue with how each machine is creating the FDT. Most are using
->> helpers from device_tree.c, some are creating it from scratch, others required
->> a .dtb file, most of them are not doing a fdt_pack() and so on. To really QOMify
->> the use of ms::fdt we would need some machine hooks that standardize all that.
->> I believe it's worth the trouble, but it would be too much to do
->> right now.
-> 
-> Hmm.. I think this depends on what you mean by "QOM"ify exactly.  If
-> you're meaning make the full DT representation QOM objects, that you
-> can look into in detail, then, yes, that's pretty complicated.
-> 
-> I suspect what Alexey was suggesting though, was merely to make
-> ms::fdt accessible as a single bytestring property on the machine QOM
-> object.  Effectively it's just "dumpdtb" but as a property get.
+Alistair
 
-
-Yes, I meant the bytestream, as DTC can easily decompile it onto a DTS.
-
-
-> I'm not 100% certain if QOM can safely represent arbitrary bytestrings
-> as QOM properties, which would need checking.
-
-I am not sure either but rather than adding another command to HMP, I'd 
-explore this option first.
-
-
-
--- 
-Alexey
+> ---
+>  include/hw/riscv/sifive_e.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+> index 83604da805..24359f9fe5 100644
+> --- a/include/hw/riscv/sifive_e.h
+> +++ b/include/hw/riscv/sifive_e.h
+> @@ -41,7 +41,7 @@ typedef struct SiFiveESoCState {
+>
+>  typedef struct SiFiveEState {
+>      /*< private >*/
+> -    SysBusDevice parent_obj;
+> +    MachineState parent_obj;
+>
+>      /*< public >*/
+>      SiFiveESoCState soc;
+> --
+> 2.27.0
+>
+>
 
