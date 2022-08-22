@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA39359B9A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 08:35:50 +0200 (CEST)
-Received: from localhost ([::1]:52170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B6D59B9FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 09:04:46 +0200 (CEST)
+Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ12L-0003pC-AE
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 02:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54132)
+	id 1oQ1UK-0002MT-MA
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 03:04:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oQ10C-0002Ie-G7
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 02:33:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59917)
+ id 1oQ1Pq-0008SZ-1f
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 03:00:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oQ108-0001ZJ-3g
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 02:33:34 -0400
+ id 1oQ1Pl-00059w-0X
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 03:00:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661150007;
+ s=mimecast20190719; t=1661151599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CTlNR4YmngemyI7DU4NXaAO8L1BGlZgUabnG25AjYHg=;
- b=g3U4rFgGaW7fm3g5oGRFdBtGL+PItDWd2X0sJiU4rSZRPamBwxT3sa6QVG6mrC/GcZLmMV
- NcLb/XUDzzlqI0uUacHHTIISScQrD/U6oFHsRiy0KlKLGcWK7tnTnqV8VkZ3aNHA9cBdQ8
- cp4jCpsMykB5DS7UNjddEhXn/HcKNAs=
+ bh=AIZS4ZCuzmefCb7fb6T446vQco5qzbuT7cp4uvLg+DY=;
+ b=Yl1HtQ16Fl33NNYHJL/B7VaTTQhd2O53zX0ilu2U5KTSX0IfumS7qRh9b5SvOC1X5CDUzO
+ 8Y0d8rABXmdJG5RhYBtlj79nPLg/rbQWs5StUDYc0clPwPyUahJwwxRIt7qBaZZ0UCdpTP
+ 2Nq7D/Gnxq6C4XlkY7yHjC1Zpv1ObBA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-lws6SNg9My2C3C5ZBqyDOw-1; Mon, 22 Aug 2022 02:33:23 -0400
-X-MC-Unique: lws6SNg9My2C3C5ZBqyDOw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-552-c4t6HlWVOaSWVfgw-5UP4A-1; Mon, 22 Aug 2022 02:59:58 -0400
+X-MC-Unique: c4t6HlWVOaSWVfgw-5UP4A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B43C804184
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 06:33:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1E9C803301
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 06:59:57 +0000 (UTC)
 Received: from localhost (unknown [10.40.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12D03909FF;
- Mon, 22 Aug 2022 06:33:22 +0000 (UTC)
-Date: Mon, 22 Aug 2022 08:33:21 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BE0C2166B29;
+ Mon, 22 Aug 2022 06:59:57 +0000 (UTC)
+Date: Mon, 22 Aug 2022 08:59:56 +0200
 From: Victor Toso <victortoso@redhat.com>
 To: Andrea Bolognani <abologna@redhat.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [RFC PATCH v2 4/8] qapi: golang: Generate qapi's union types in Go
-Message-ID: <20220822063321.msxpxbvq5o7l4hat@tapioca>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v2 2/8] qapi: golang: Generate qapi's alternate types
+ in Go
+Message-ID: <20220822065956.nmamhjgowbda6dha@tapioca>
 References: <20220617121932.249381-1-victortoso@redhat.com>
- <20220617121932.249381-5-victortoso@redhat.com>
- <CABJz62P_Fy=eyn-QjhOBSvTs_YRgMA=2=teeQwN9SsYGNKGLcQ@mail.gmail.com>
- <YsRoTs/Ev+MPiIoN@redhat.com>
- <CABJz62NwXK7SErZt4520iKpgEaeVH86L7am4GcMyr8PbG29RCA@mail.gmail.com>
- <YsVX7ir+41NPA6Xy@redhat.com> <YsVaVpXPE4YVjmVt@redhat.com>
- <20220817162556.fqjq74dtgi2uuyla@tapioca>
- <20220819072052.yl4gvepa5ectlvci@tapioca>
- <CABJz62Msu=vCqWPF6mtREQph8F_aQA-EmC8bm8ez8-AeEiv+OA@mail.gmail.com>
+ <20220617121932.249381-3-victortoso@redhat.com>
+ <CABJz62NXnKFm=n=7eXmb==zSUe0VCy_0jbcFoNc8SwrQ2YKjvg@mail.gmail.com>
+ <20220817140419.vpxjay4ouaz2gsam@tapioca>
+ <CABJz62PZvdem1C-m-ODVMLrFaN6kqqJm0qyvbLxqeRPXL5jDaA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ekugjg53dn3xcwjj"
+ protocol="application/pgp-signature"; boundary="2f7ldgust6nohhwf"
 Content-Disposition: inline
-In-Reply-To: <CABJz62Msu=vCqWPF6mtREQph8F_aQA-EmC8bm8ez8-AeEiv+OA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124;
+In-Reply-To: <CABJz62PZvdem1C-m-ODVMLrFaN6kqqJm0qyvbLxqeRPXL5jDaA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,201 +88,173 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ekugjg53dn3xcwjj
+--2f7ldgust6nohhwf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi,
 
-On Fri, Aug 19, 2022 at 10:25:26AM -0500, Andrea Bolognani wrote:
-> > func (s QCryptoBlockOpenOptions) MarshalJSON() ([]byte, error) {
-> > 	var bytes []byte
-> > 	var err error
-> > 	if s.Qcow != nil {
-> > 		tmp := struct {
-> > 			QCryptoBlockOptionsQCow
-> > 			Discriminator string `json:"format"`
-> > 		}{
-> > 			QCryptoBlockOptionsQCow: *s.Qcow,
-> > 			Discriminator:           "qcow",
-> > 		}
-> > 		if bytes, err = json.Marshal(tmp); err != nil {
-> > 			return nil, err
-> > 		}
-> > 	}
-> > 	if s.Luks != nil {
-> > 		if len(bytes) != 0 {
-> > 			return nil, errors.New(`multiple fields set for QCryptoBlockOpenOptions`)
-> > 		}
+On Fri, Aug 19, 2022 at 11:27:13AM -0500, Andrea Bolognani wrote:
+> On Wed, Aug 17, 2022 at 04:04:19PM +0200, Victor Toso wrote:
+> > On Tue, Jul 05, 2022 at 08:45:06AM -0700, Andrea Bolognani wrote:
+> > > On Fri, Jun 17, 2022 at 02:19:26PM +0200, Victor Toso wrote:
+> > > > func (s *BlockdevRef) UnmarshalJSON(data []byte) error {
+> > > >     // Check for json-null first
+> > > >     if string(data) == "null" {
+> > > >         return errors.New(`null not supported for BlockdevRef`)
+> > > >     }
+> > > >     // Check for BlockdevOptions
+> > > >     {
+> > > >         s.Definition = new(BlockdevOptions)
+> > > >         if err := StrictDecode(s.Definition, data); err == nil {
+> > > >             return nil
+> > > >         }
+> > >
+> > > The use of StrictDecode() here means that we won't be able to
+> > > parse an alternate produced by a version of QEMU where
+> > > BlockdevOptions has gained additional fields, doesn't it?
+> >
+> > That's correct. This means that with this RFCv2 proposal, qapi-go
+> > based on qemu version 7.1 might not be able to decode a qmp
+> > message from qemu version 7.2 if it has introduced a new field.
+> >
+> > This needs fixing, not sure yet the way to go.
+> >
+> > > Considering that we will happily parse such a BlockdevOptions
+> > > outside of the context of BlockdevRef, I think we should be
+> > > consistent and allow the same to happen here.
+> >
+> > StrictDecode is only used with alternates because, unlike unions,
+> > Alternate types don't have a 'discriminator' field that would
+> > allow us to know what data type to expect.
+> >
+> > With this in mind, theoretically speaking, we could have very
+> > similar struct types as Alternate fields and we have to find on
+> > runtime which type is that underlying byte stream.
+> >
+> > So, to reply to your suggestion, if we allow BlockdevRef without
+> > StrictDecode we might find ourselves in a situation that it
+> > matched a few fields of BlockdevOptions but it the byte stream
+> > was actually another type.
 >
-> Why are you checking this here? I would just have a check like
+> IIUC your concern is that the QAPI schema could gain a new
+> type, TotallyNotBlockdevOptions, which looks exactly like
+> BlockdevOptions except for one or more extra fields.
 >
->   if s.Qcow != nil && s.Luks != nil {
->       return nil, errors.New(`multiple fields set for QCryptoBlockOpenOptions`)
->   }
+> If QEMU then produced a JSON like
 >
-> at the top of the function, so that you can abort early and
-> cheaply if the user has provided invalid input instead of
-> having to wait after one of the fields has already been
-> serialized.
-
-In general, I too prefer to return early! So I agree with you
-that it is nicer. At the same time, I was thinking a bit from the
-code generator point of view and the overall expected diffs when
-generating new code.  More below.
-
-> > 		tmp := struct {
-> > 			QCryptoBlockOptionsLUKS
-> > 			Discriminator string `json:"format"`
-> > 		}{
-> > 			QCryptoBlockOptionsLUKS: *s.Luks,
-> > 			Discriminator:           "luks",
-> > 		}
-> > 		if bytes, err = json.Marshal(tmp); err != nil {
-> > 			return nil, err
-> > 		}
-> > 	}
-> > 	if len(bytes) == 0 {
-> > 		return nil, errors.New(`null not supported for QCryptoBlockOpenOptions`)
-> > 	}
+>   { "description": { /* a TotallyNotBlockdevOptions here */ } }
 >
-> Similarly, this should be checked early. So the complete check
-> could be turned into
+> and we'd try to deserialize it with Go code like
 >
->   if (s.Qcow != nil && s.Luks != nil) || (s.Qcow == nil && s.Luks == nil) {
->       return nil, errors.New("must set exactly one field")
->   }
-
-Main problem with this approach is that there is some big unions
-like BlockdevOptions, this means that we would have to repeat all
-fields by the number fields times (40+ in BlockdevOptions' case).
-
-> You should have enough information to produce such a check when
-> generating the function, right?
-
-We do!
-
-> If making sure all possible combinations are covered up ends up
-> being too complicated, something
-> like
+>   ref := BlockdevRef{}
+>   json.Unmarsal(&ref)
 >
->   var setFields int
->   if s.Field1 != nil {
->       setFields += 1
->   }
->   if s.Field2 != nil {
->       setFields += 1
->   }
->   // ...
->   if setFields != 1 {
->       return nil, errors.New("must set exactly one field")
->   }
+> we'd end up mistakenly parsing the TotallyNotBlockdevOptions as a
+> valid BlockdevOptions, dropping the extra fields in the process.
 >
-> would also work.
+> Does that correctly describe the reason why you feel that the use of
+> StrictDecode is necessary?
 
-I started with this approach actually but then I realized that we
-can just keep the if checks and instead of counter, do check the
-variable bytes []byte. So, do you think that the counter is
-actually preferred instead of inner check? I don't mind changing
-it.
+Not quite. The problem here is related to the Alternate types of
+the QAPI specification [0], just to name a simple in-use example,
+BlockdevRefOrNul [1].
 
-> > func (s *QCryptoBlockOpenOptions) UnmarshalJSON(data []byte) error {
-> > 	tmp := struct {
-> > 		Discriminator string `json:"format"`
-> > 	}{}
-> > 	if err := json.Unmarshal(data, &tmp); err != nil {
-> > 		return err
-> > 	}
-> > 	switch tmp.Discriminator {
-> > 	case "qcow":
-> > 		s.Qcow = &QCryptoBlockOptionsQCow{}
-> > 		if err := json.Unmarshal(data, s.Qcow); err != nil {
-> > 			s.Qcow = nil
-> > 			return err
-> > 		}
-> > 	case "luks":
-> > 		s.Luks = &QCryptoBlockOptionsLUKS{}
-> > 		if err := json.Unmarshal(data, s.Luks); err != nil {
-> > 			s.Luks = nil
-> > 			return err
-> > 		}
-> > 	}
-> > 	return nil
-> > }
+[0] https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/qapi-code-gen.rst?plain=1#L387
+[1] https://gitlab.com/qemu-project/qemu/-/blob/master/qapi/block-core.json#L4349
+
+To exemplify the problem that I try to solve with StrictDecode,
+let's say there is a DeviceRef alternate type that looks like:
+
+{ 'alternate': 'DeviceRef',
+  'data': { 'memory': 'BlockdevRefInMemory',
+            'disk': 'BlockdevRefInDisk',
+            'cloud': 'BlockdevRefInCloud' } }
+
+Just a quick recap, at runtime we don't have data's payload name
+(e.g: disk).  We need to check the actual data and try to find
+what is the payload type.
+
+type BlockdevRefInMemory struct {
+    Name  *string
+    Size  uint64
+    Start uint64
+    End   uint64
+}
+
+type BlockdevRefInDisk struct {
+    Name  *string
+    Size  uint64
+    Path  *string
+}
+
+type BlockdevRefInCloud struct {
+    Name  *string
+    Size  uint64
+    Uri   *string
+}
+
+All types have unique fields but they all share some fields too.
+Golang, without StrictDecode would happily decode a "disk"
+payload into either "memory" or "cloud" fields, matching only
+what the json provides and ignoring the rest. StrictDecode would
+error if the payload had fields that don't belong to that Type so
+we could try to find a perfect match.
+
+While this should work reliably with current version of QEMU's
+qapi-schema.json, it is not future error proof... It is just a
+bit better than not checking at all.
+
+The overall expectations is that, if the fields have too much in
+common, it is likely they should have been tagged as 'union'
+instead of 'alternate'. Yet, because alternate types have this
+flexibility, we need to be extra careful.
+
+I'm still thinking about this in a way that would not give too
+much hassle when considering a generated code that talks with
+older/newer qemu where some fields might have been added/removed.
+
+> If so, I respectfully disagree :)
 >
-> Alternatively, you could define a struct that covers all
-> possible fields and deserialize everything in one go, then copy
-> the various parts over to the appropriate struct:
+> If the client code is expecting a BlockdevRef as the return
+> value of a command and QEMU is producing something that is
+> *not* a BlockdevRef instead, that's an obvious bug in QEMU. If
+> the client code is expecting a BlockdevRef as the return value
+> of a command that is specified *not* to return a BlockdevRef,
+> that's an obvious bug in the client code.
 >
->   func (s *QCryptoBlockOpenOptions) UnmarshalJSON(data []byte) error {
->       tmp := struct {
->           Discriminator string  `json:"format"`
->           KeySecret     *string `json:"key-secret,omitempty"`
->       }{}
->       if err := json.Unmarshal(data, &tmp); err != nil {
->           return err
->       }
->       switch tmp.Discriminator {
->       case "qcow":
->           s.Qcow = &QCryptoBlockOptionsQCow{}
->           s.Qcow.KeySecret = tmp.KeySecret
->       case "luks":
->           s.Luks = &QCryptoBlockOptionsLUKS{}
->           s.Luks.KeySecret = tmp.KeySecret
+> In neither case it should be the responsibility of the SDK to
+> second-guess the declared intent, especially when it's
+> perfectly valid for a type to be extended in a
+> backwards-compatible way by adding fields to it.
 
-I think this one adds a bit more complexity and I'm not convinced
-that the gains are worth.
+Yes, the SDK should consider valid QMP messages. This specific
+case is just a bit more complex qapi type that SDK needs to
+worry.
 
-For example, with types that differ over fields with the same
-name? We would need to move that inside the anonymous struct
-somehow;
-
-For example,if Luks's KeySecret was KeyScretType we would have to
-use KeySecretLuks *KeySecretType. Still, both of them would
-likely be inside of "key-secret" json object (so, same key for
-two different fields, not really sure how that would work out)
-
->       }
->       return nil
->   }
->
-> Honestly I'm unclear on which option is better. Parsing the
-> JSON twice, as you're doing in your version, could be
-> problematic when the document is large; on the other hand, my
-> approach will probably result in more copies of the same data
-> being created.
-
-It does sound nice to parse it once but if we really want to do
-that, we would need to work with Golang's JSON decoder [0]. IMHO,
-parsing twice with in-memory data might be okay for the moment
-while we are trying to keep things simple and later we could
-benchmark against a custom decoder [0] in the future.
-
-[0] https://pkg.go.dev/encoding/json#Decoder
-
-Cheers,
+Thanks for your input!
 Victor
 
---ekugjg53dn3xcwjj
+--2f7ldgust6nohhwf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmMDIzEACgkQl9kSPeN6
-SE89UQ/9E4+N3zgmHv1PrjRhSgpDc8GvBFkGPJEfN6JPHksq3o4g3podptI5DZoY
-iAcJeYN1a8DTWp4ei89fCLxZZNo3Tgx1MzlwnyYdB13eFYUZ1uPdTBbNSMM/2Lmy
-WzQAZ8/puvmJqyF+12ENgm8FaFInLCRed25mNmhp5bN8m4RtTAslMGFxL/22mKoG
-3DocFsDai11X0Gwz3e3EhxFoK1mt9++9+bIXkb6qtKX9sYxSvNN0n5VpHrjQd09m
-nXGook1k5QWybbOr23QWK4PI0eMUU5CFTt5MlFUrgNyHLeXay6wLRiFgmlYDZi+o
-pD0uUuiWwMTV6gmhpYV2y1coBHEQfhtX+hK32wj+t3+L9yU7w+TwmXXsdnWFJwZo
-ygI29ewsIXgq4fZDRL3f1wY6FZPyTPg3+mlUkv7exl1W1T2hQeLaDmHweQK99+8R
-5Z9ocmpmncbPaZbSoA0CY6MFQ4/Xx9OC1SsglM4O14zDfIj1FQ0kJj0XGBiY0E46
-UE7hPmO+Fzrjf87yEc7sLTiWwEyI1Xq+BnB577aVzBdlEP8dcagRkfUqLEjeLddA
-GmmOeC9YlendTk/wBQHSAYWr7uFUSiuczO6F+8fPjRt9O5TMGhLM1gWJsBrNhpce
-EvlnnmhLNfX2dig6uHFvbbAcrZAZa3r1bG5SpHxule5XC+ZTPOI=
-=GgdX
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmMDKWwACgkQl9kSPeN6
+SE9+yhAAu6rJBu1q1/VtDafsf5e07UnFnApXSP92CTCV7hLQCgDXToqz90wKeb0J
+YyHwjZ/KeRcYngSE44BUqIaAPISuFcvHK7UNxKB1X8m3KFVBT0FDtTEgXnz2/HNT
+0Rsv40XArmPG3SlF+Cf99zIt/PsgSamJk8rnfXe+Q38YoYQMoP1UiPGPFZfyyDkI
+dN7bnovP4/AwBAsUvzuxgDj0MFvVfupfkUZTVQetXq3/eOsyXjtdfus1++gfKiH1
+UaDvNmfC5fVl7sV/66RZOh5JM+NlpgxGsvNcnn8ecd1SYOEPB4VHRRTbsCcF6aMS
+NRoNr2+EqKBx3852ir1TUua45D8OpLIFL9ksA6d1EDn+Yj1PXYgntpcZLDQEhLxk
+S/NIec+sYNimkiDWIgjgAmOyStgbd2MyO+9DDbq0GeKuOKL3qo9XBHO5/uzN0G94
+WA6GrhzsOSDZrI5ZdSScDkx13wfi3/zjgyGea1UpHbMZ6sLICsMn6viu6qxlqfNd
+nEML4VbALIQiKRghHb7oSie16RbRRxvR+WVg7BTyu2gvxEoO3YiRw2V1brnuQbL7
+Cg8AHw3Gcsd/A6JALnSQDuidktgoCt2KbvFrsrf6qLKQSmTrzg/Q3yZHgFMOhBqu
+iqtrDqZyrD2G9wdXhTy6XdwJD8UQWuQ2NiXxp96E160gTvWmEuk=
+=Ryu/
 -----END PGP SIGNATURE-----
 
---ekugjg53dn3xcwjj--
+--2f7ldgust6nohhwf--
 
 
