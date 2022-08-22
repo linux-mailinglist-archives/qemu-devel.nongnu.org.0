@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97C059C677
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 20:36:47 +0200 (CEST)
-Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA4159C643
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 20:31:26 +0200 (CEST)
+Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQCI2-0004OZ-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 14:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42288)
+	id 1oQCCr-0006JX-Bu
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 14:31:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oQAin-0008Qc-V4
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 12:56:18 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34462)
+ id 1oQAin-0008Nf-0M
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 12:56:17 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oQAil-00060R-Vr
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 12:56:17 -0400
-Received: by mail-ej1-x630.google.com with SMTP id vw19so8797661ejb.1
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 09:56:15 -0700 (PDT)
+ id 1oQAil-000608-8H
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 12:56:16 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id j21so17064789ejs.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 09:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=LieCnn+iM2L6WoU2Lcvn6KPNMMaVm+8Sh/Nf1S623NE=;
- b=vlFtPd3/OiDx6JqbqbpDsQ53DMJaQvgNR3+UofvBX4g6/UKnID33U4ywXKkaxBscEq
- BLJSDpKwUhcWpkWXvzr1TpFhulFSz2SQj2vL3I52549/TGbbv2CtayvsPEMb2/SxGiOw
- NpqwfRyAUbkWrutXObgvtN0BeETWEtkKaaFxbjOdZptD7a5KHla/KdHbdrZiRPKJblwM
- iwjEO1z0p0AskqpgIbPdklsN9E1I6J07ks+soM4OaYuRbGJyTdQJKg81Sz+gKUdBMXQq
- Fgwa3Lefpuh6bEK3qGR65xT/gNWdZH8aoqQI/lUez6bsEgsuUhHLqq5y32aJ5O0t1DUa
- VEqw==
+ bh=tVX5rqmUAa9FyrPm9n6/GK4JRI7gAHoJ9NSzsZoKCbs=;
+ b=y18g8GyHZUdzN9ObTsFQ79DEYCWY89mQjDl5642QI2a1Q8PAJvKM7UoFwLXIUgpKFa
+ GDcL47yg3GN8HvG9IBzWdVfGRzOYPwOqqUlNikSRlFQuohnHV8GbeTtRnn078IcGim4u
+ dQbfneD5FB0r4O55sbCevi2sLU4AXQu7OKF4Wr4z7Q1ttcZJ/UMfd6qHayyxDjGgarLp
+ C2Sdgei6+gdd+2hZiYp9Krwdr47NnBZSB7nDQBe3B4moxdTXw0UALu0/k4Dgee5vzMbz
+ zxU6A17O0qK7od6GWYwVWvAl+8LaUz+bEGnVONUYWWw5owvMvOkjZz0xg7i0VJrik5iR
+ +2/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=LieCnn+iM2L6WoU2Lcvn6KPNMMaVm+8Sh/Nf1S623NE=;
- b=6Kt6WCLRNfJ1PbSD+ZEQyoOuddo38ALlOmMTiyUqHd/NMZlWV1ZPfCMY7WauQk8IeO
- AL5lwr69axjHqQ1NCGfse22d0JaBe+Gx++3RTtIddniGGYK9jDUwFn1t/VDgkrzWgUam
- WdC322epJ//fNniL8blktLtTl3wqA8mxoylmHloDOK5lcMLS5R9lvo3JpDsT8c9y/ZOu
- PyR7OBFlIVwX0B9Ep/rZOPv3srcV693jSGSF/fRyM2/bg2V6GVjSbG6ATjzlgTcfeSsv
- 2Kg8wtdIGJtjIU386UIch1wS9qV/OVLsjnxVpb3g9Bm+VM7Gg/56XdfuqffvJeuqwNua
- LeJA==
-X-Gm-Message-State: ACgBeo3f4CmQyeDoBSz2VyIZ7clrNesFMI/JJgf/RS5KdQWJDDb5kbNu
- cLti8Mcmu+PudHdybxiQcnO4s7Z7s/iI4Q==
-X-Google-Smtp-Source: AA6agR61pHGHkHS/iAWx0MAc8ZL1lB1iTNT5nRL0lpDtJdFcyICuuS3LfHoSsLK2x7Lt6Zy/TfW7Ig==
-X-Received: by 2002:a17:907:eaa:b0:730:c780:f71e with SMTP id
- ho42-20020a1709070eaa00b00730c780f71emr12809153ejc.770.1661187374665; 
- Mon, 22 Aug 2022 09:56:14 -0700 (PDT)
+ bh=tVX5rqmUAa9FyrPm9n6/GK4JRI7gAHoJ9NSzsZoKCbs=;
+ b=0RFT4Fza544Ujgbswzvdu1ZDBrVIq6CAXFC21xJZf/FZyZ42RyTcLI+o7c7dw/UecQ
+ GovR6mn1upGhVFpcT5sW8nISFIcDAlqlgSqzy8RMR5TDRCgSyZNzIVFLdOe7tI//UMRw
+ elrK7xjeKSqkcr2bnZWFot7pZEAKtsFu5ecVk/awFh4EfP3F/imamVpXLeva7t8gygD7
+ UnlMloBZAweCPSF1BkjxjzBwmvopX6/Y3YRxe6XyfRskZWf6SLJ1a7vkacKtPgmBERyI
+ UqiZF4Czbnhz26so72qSIgHw6xnlSPKNxqjCD6FIh4bneyCSpxo0b0I98ll2JtZEgCVy
+ PQJA==
+X-Gm-Message-State: ACgBeo2AVa0roTlUSL6gv6dIxRjmo71Tsms8RQKdZlXGHukNio2Aghg5
+ 5E2vAbXszdDQbk2BQF1IpuVWFQ==
+X-Google-Smtp-Source: AA6agR48ejkmBLN+hvxAkv69vqrAgDWRTqr3dmYva91Pnm2l+KlEtT2gyNYys8WYOp2vt8ZufBNMCA==
+X-Received: by 2002:a17:907:a068:b0:73d:5d21:7ed3 with SMTP id
+ ia8-20020a170907a06800b0073d5d217ed3mr8460483ejc.685.1661187373884; 
+ Mon, 22 Aug 2022 09:56:13 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- t21-20020a170906a11500b0072af56103casm6411154ejy.220.2022.08.22.09.56.10
+ w5-20020aa7cb45000000b00445b822005dsm21047edt.6.2022.08.22.09.56.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Aug 2022 09:56:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D5B11FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 697841FFBE;
  Mon, 22 Aug 2022 17:56:09 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v1 5/6] tests/qtest/migration-test: Remove duplicated
- test_postcopy from the test plan
-Date: Mon, 22 Aug 2022 17:56:07 +0100
-Message-Id: <20220822165608.2980552-6-alex.bennee@linaro.org>
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v1 6/6] qemu-options: try and clarify preferred block semantics
+Date: Mon, 22 Aug 2022 17:56:08 +0100
+Message-Id: <20220822165608.2980552-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220822165608.2980552-1-alex.bennee@linaro.org>
 References: <20220822165608.2980552-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,34 +96,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Try to correct any confusion about QEMU's Byzantine disk options by
+laying out the preferred "modern" options as-per:
 
-test_postcopy() is currently run twice - which is just a waste of resources
-and time. The commit d1a27b169b2d that introduced the duplicate talked about
-renaming the "postcopy/unix" test, but apparently it forgot to remove the
-old entry. Let's do that now.
+ "<danpb> (best:  -device + -blockdev,  2nd obsolete syntax: -device +
+     -drive,  3rd obsolete syntax: -drive, 4th obsolete syntax: -hdNN)"
 
-Fixes: d1a27b169b ("tests: Add postcopy tls migration test")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220819053802.296584-5-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/qtest/migration-test.c | 1 -
- 1 file changed, 1 deletion(-)
+Acked-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Cc: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 7be321b62d..f63edd0bc8 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2461,7 +2461,6 @@ int main(int argc, char **argv)
-     module_call_init(MODULE_INIT_QOM);
+---
+v2
+  - minor punctuation and flow fixes
+---
+ qemu-options.hx | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 3f23a42fa8..31c04f7eea 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1105,6 +1105,19 @@ DEFHEADING()
  
-     if (has_uffd) {
--        qtest_add_func("/migration/postcopy/unix", test_postcopy);
-         qtest_add_func("/migration/postcopy/plain", test_postcopy);
-         qtest_add_func("/migration/postcopy/recovery/plain",
-                        test_postcopy_recovery);
+ DEFHEADING(Block device options:)
+ 
++SRST
++The QEMU block device handling options have a long history and
++have gone through several iterations as the feature set and complexity
++of the block layer have grown. Many online guides to QEMU often
++reference older and deprecated options, which can lead to confusion.
++
++The recommended modern way to describe disks is to use a combination of
++``-device`` to specify the hardware device and ``-blockdev`` to
++describe the backend. The device defines what the guest sees and the
++backend describes how QEMU handles the data.
++
++ERST
++
+ DEF("fda", HAS_ARG, QEMU_OPTION_fda,
+     "-fda/-fdb file  use 'file' as floppy disk 0/1 image\n", QEMU_ARCH_ALL)
+ DEF("fdb", HAS_ARG, QEMU_OPTION_fdb, "", QEMU_ARCH_ALL)
 -- 
 2.30.2
 
