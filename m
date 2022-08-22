@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32FF59CBCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:54:26 +0200 (CEST)
-Received: from localhost ([::1]:49732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1821059CBD2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:57:24 +0200 (CEST)
+Received: from localhost ([::1]:54142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQGJO-0001Dn-1o
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47212)
+	id 1oQGMF-0004TK-3X
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oQGAD-000466-4C; Mon, 22 Aug 2022 18:44:57 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43944)
+ id 1oQGAF-0004CE-9W; Mon, 22 Aug 2022 18:44:59 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oQGAB-0007zj-Jc; Mon, 22 Aug 2022 18:44:56 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id gb36so24050030ejc.10;
- Mon, 22 Aug 2022 15:44:54 -0700 (PDT)
+ id 1oQGAC-00080p-QN; Mon, 22 Aug 2022 18:44:58 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id n7so5945322ejh.2;
+ Mon, 22 Aug 2022 15:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=zz3CeQemEBsnadYMwoFXVLzgOCRsBVHg7xyGX7xks9Y=;
- b=gCO+cL5Ra1H6alXR2vNqn8tOCt6EWKi3vZ4oTOlxPeQglnqE0+HnV0s32jDNDxO77h
- hoz0DJHmKXBswmBurHXjyrDxMDuevUkPw88zcTS66HuR8hmyt9Jy4bxb6BWOhHOiHNI4
- iqICao+w9/xl6Se2Rnp4tJ9x60GDfMVAsOusSJ5NV76oQUpIGjRV0Ew3tRb9Mx64AF9C
- MOFUsTkYkqpuZZj45qYowd4cVaijp3hv7B376WgbeYQKv8rIWXoCOnjnZh1+v7pUmXfa
- u9FFHgVTtJBdwZAoiXFKUFA6evFrCk6kRvRJua9YOL8938dTpT5eu1bneqPtIFmQmk1q
- YghQ==
+ bh=4YQ2htG9jiUyLtO23/aR5kFL2iQ06T5w6h1p3z+Yfms=;
+ b=pq35VYLpxBD5anMw58EaRV5kg8yMakrwEi8OyjR2PLstliT5lGl+Uo4ub5g23Q/Pag
+ eUjZGMWZrWkXKQ0orA8NQEG8GNhT2jYNjGV7Ez3YQ5UD5c3AHaABJGP56hbIlnJM4QEN
+ 8BRg8COQHXHCKih9lTXOO0ZVoF5rlqpc7O0Svgvg9lg+3b1dngIe7yBaVRd8PgluRkqq
+ +/Of59oe8Ca6rcLW7AnofGnndqkPwYXRsxNZNSsRJHfnEWEBK2HAqVABLnDv4TIyv8yI
+ WJeodlKYiRtrJhOIJlBCRf75UeX5Q8I/3ZqAyouiR4rVwjlDJ6Coi9886aaM6du2QVtR
+ vDoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=zz3CeQemEBsnadYMwoFXVLzgOCRsBVHg7xyGX7xks9Y=;
- b=YnR6oPHfztGHxnHtxG8egGOlMyxqTHWNQtekE0BVvt+ETfOYXmUQkXjWR124N+USEv
- KDJSoWDXYOHzqFMhqv7uemfmIlEpZeRsQM+ZRnTDMao0CcpgfMKJXGibXqLmXxTpLLC1
- vl5dUertPcq6GRMsFuUo8r7gAC2kguVDP8qo9QCcVBxL+rEwzjLy3r/NkB0q1cfyA+rB
- SfzT94YZRJ/4Yv1+prQE6DXupz0yz0qGS+c2kAzoBjo6nLnbcQiGc4weffpLXDYFZsWY
- X0nFK6nGtMUhXX/4+K/raWMI1hiX9RWyckX7SYWT5QTmzpvX2EypQXet1d+s7fLbNAoh
- mDrg==
-X-Gm-Message-State: ACgBeo0K8jvuvblAE8NqDgwxPj4mYt05t+sZ8usqJDdxwvCPB4m7xiTQ
- CB+RJIb7JUEjC7TnGp/Of0O5jYjeoPg=
-X-Google-Smtp-Source: AA6agR5FKUD4Qs1l9Yav6vJSmTFqYdBTXBERCrmJ/2TK/A8pD7cJw337IcMHh/MJQIeOICqs398mww==
-X-Received: by 2002:a17:907:a043:b0:73d:92f5:33ee with SMTP id
- gz3-20020a170907a04300b0073d92f533eemr1660326ejc.432.1661208293107; 
+ bh=4YQ2htG9jiUyLtO23/aR5kFL2iQ06T5w6h1p3z+Yfms=;
+ b=1i4KdC1PAR3qp/MhmlQtHfr5a4lwbQUihNSE7lD/91ZgGpD9j/pemzfNamunKpwa8g
+ repzOdLbvU5jQPKhn/RZqUqiganU+oE8NynHO1qTN3kr4nTsw1vwzlQZIaB3m/Z59LQl
+ Ty7ZrtrmqSBeWYHXeDrrbaFIdwVWGkhRuu/8AInNTBdpLybL2SvDQeAYnnlc+fngp0E2
+ LbSUZWPRiAT+BejJKwrwnXXV1174Y1NCilhoyAZqvNlnP9+2mt5kAv7PxWFC4Rp/5Ob2
+ 6FEFcWuypNgVj0TR4hrKWFcyRv1NkHTtn7Diu0/p3FyLyMfVzR+HZkCWwnhckVifvwYh
+ fUOA==
+X-Gm-Message-State: ACgBeo19b/SVLuTXu0eZ59oPPUlar3mNFiMNqM8yaR13fFBHwGmMq0q8
+ 9gaCpN+zbU7Aw940DzJGq6k95auQOKc=
+X-Google-Smtp-Source: AA6agR4DNdf/lvaQ22xSRNqBkCqVnyqvsJfAENguy0TkiLPE7XZanO35MN1qblVj6kCxFLN/1S/0Ig==
+X-Received: by 2002:a17:907:7e96:b0:73d:75f2:339 with SMTP id
+ qb22-20020a1709077e9600b0073d75f20339mr5974097ejc.277.1661208293978; 
  Mon, 22 Aug 2022 15:44:53 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-183-070-107.77.183.pool.telefonica.de. [77.183.70.107])
  by smtp.gmail.com with ESMTPSA id
- o4-20020a170906768400b0073d7b876621sm2455758ejm.205.2022.08.22.15.44.51
+ o4-20020a170906768400b0073d7b876621sm2455758ejm.205.2022.08.22.15.44.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 15:44:52 -0700 (PDT)
+ Mon, 22 Aug 2022 15:44:53 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 8/9] hw/isa/vt82c686: QOM'ify RTC creation
-Date: Tue, 23 Aug 2022 00:43:54 +0200
-Message-Id: <20220822224355.11753-9-shentey@gmail.com>
+Subject: [PATCH 9/9] hw/isa/vt82c686: Reuse errp
+Date: Tue, 23 Aug 2022 00:43:55 +0200
+Message-Id: <20220822224355.11753-10-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220822224355.11753-1-shentey@gmail.com>
 References: <20220822224355.11753-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,48 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Rather than terminating abruptly, make use of the already present errp and
+propagate the error to the caller.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ hw/isa/vt82c686.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 47f2fd2669..ee745d5d49 100644
+index ee745d5d49..15aa5b39f1 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -546,6 +546,7 @@ struct ViaISAState {
-     qemu_irq cpu_intr;
-     qemu_irq *isa_irqs;
-     ViaSuperIOState via_sio;
-+    RTCState rtc;
-     PCIIDEState ide;
-     UHCIState uhci[2];
-     ViaPMState pm;
-@@ -567,6 +568,7 @@ static void via_isa_init(Object *obj)
- {
-     ViaISAState *s = VIA_ISA(obj);
- 
-+    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, "via-ide");
-     object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
-     object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
-@@ -615,7 +617,15 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     isa_bus_irqs(isa_bus, s->isa_irqs);
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     i8257_dma_init(isa_bus, 0);
--    mc146818_rtc_init(isa_bus, 2000, NULL);
+@@ -612,7 +612,12 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+     isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+     isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
+-                          &error_fatal);
++                          errp);
 +
-+    /* RTC */
-+    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
-+    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
++    if (!isa_bus) {
 +        return;
 +    }
-+    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
-+                              "date");
-+    isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
- 
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
++
+     s->isa_irqs = i8259_init(isa_bus, *isa_irq);
+     isa_bus_irqs(isa_bus, s->isa_irqs);
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
 -- 
 2.37.2
 
