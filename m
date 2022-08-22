@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4EC59BC52
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 11:09:55 +0200 (CEST)
-Received: from localhost ([::1]:48072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F5E59BC66
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 11:12:32 +0200 (CEST)
+Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ3RR-0002tL-TC
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 05:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56834)
+	id 1oQ3Ty-000889-Et
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 05:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3N0-0005W2-4O
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3N8-0005W9-Tk
  for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:05:30 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:42639)
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:47012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3My-0006qB-Fj
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:05:17 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- s3-20020a17090a2f0300b001facfc6fdbcso9913613pjd.1
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 02:05:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3N4-0006sl-5y
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:05:24 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ o14-20020a17090a0a0e00b001fabfd3369cso10571995pjo.5
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 02:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=3gh90/+u0Z6cm+rADmaizDlRTz/nGsOSoHW4n0LHC8M=;
- b=Qo9lPJNI6eiWvBnxY1VsdXX3b8rPATHXZoCKOAtCcE7zmg4IFXrYYyicNx4B2xI38r
- VyNYFWRFcLU/WlyHL5KMpiBFN9fldL+t2JmvDIBWReo03NvfbbfzV11TzlnT/Rm+3+cA
- /7SJDruViAr0gEOAGATAx7LRZTOcB9DJamx4JcYS1BW2a/w3bCoUrG3P5aVIOvmMBYfR
- 6jsr+CuF9Em0CbEzgUe7NuRX0BeCmVaxnk3JKpu9Ck4tE04Fkvh47WBDiu+7bYRbRags
- qQ8+hTB5jzmYZcWHN5NYYTGTz4/jvdJWmHiRKTqqZtpxrTI2YQdRi3k+4qTz/ENH9SwH
- IsGA==
+ bh=Uq7rnkz9r0R8TaOt9qWOib8IZqgaXtBX++KjATGxClI=;
+ b=wHuDOgNfPvPqwYwOK3VgjK8WEMDO+JvApGMnLSVsB3CknYQbHKMNWrZS4cQZx3DqUA
+ bzdToblmpM6rf9bALQOKXe5OIL8DFKzWsydNzsZsTs1XgReldt30P4pZSAgUt7Afn+/9
+ mdolXMkv2sXGmayxcFLyKRkj2BRoJw8398YXN965Zt6vje7rLqiKaWGRnPcs+cOzMbnh
+ BC+EWOgsHyEXnF8QczV/r3iVL1Kpb5ugJ/wAhfV+0vAAyX+LLuqpuihCfPxjqpyh5Ywp
+ UTHCBViPF6R6Qfbw9zboeb7lfErv+BKdIhtZXommJf32RUHqPVpFh9m7kOjhyDjsgaXO
+ 5MHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=3gh90/+u0Z6cm+rADmaizDlRTz/nGsOSoHW4n0LHC8M=;
- b=RgiFCfX0TcVakDMTi2Vo80sbEHoCj5XR+3/lszWTpGXtKvQ3NqBfe9417V99/ZkyIz
- up2AEcBRHhxK7MeUwsv0CLxO9FL8JBl2X8HjshR2rXBlGyhdIJBT55KN1C//wcKcay6t
- JoqFnlijHnesCQ0DT1/nhBwVXGyKgN/GEqhppZ3Tv21YElsfzJmkFO1/BMML4X8PEOH+
- RYY7gC1KgJKUjQsW3vmrr3vVUDUnnv81sSVrnVO0suikbMxB3zyvRH0594X5MTJA1vUU
- OUwam7Bo5qT5kAeZHx+7cpCe+QRnUYYXxA4Cb2tfpX50HELMaBvIGrmPXuRUeU8EiGJD
- WzpQ==
-X-Gm-Message-State: ACgBeo3G9e2c2pPTl1c3Vuyi8bTw/THJqVups4Mh6Z9QCft8O1zqZeVA
- NQSfFILCSruyCur1okK2tVndFP7Tyg3EoQ==
-X-Google-Smtp-Source: AA6agR5gm6gnTJpK/tzMwg8Q2la+TtTkS/wX/q5IoWrJNji3Dk2wwK5wKky+DCf9Wf4u4L6U4to+wA==
-X-Received: by 2002:a17:903:2c7:b0:16c:ebf6:db22 with SMTP id
- s7-20020a17090302c700b0016cebf6db22mr19164211plk.16.1661159114725; 
- Mon, 22 Aug 2022 02:05:14 -0700 (PDT)
+ bh=Uq7rnkz9r0R8TaOt9qWOib8IZqgaXtBX++KjATGxClI=;
+ b=7mrLtnit764Qhja00l3Gp8cTh1wmtInSWyvqUQLxNtBDNpgFvVv5SfCZGZNfEjRW0b
+ TNLNGL9Jb5zoCfSHwVOlyBqabPA4su2r2Nxfsuo9ozIOZUFU+6M1LEQD8h2PEVkQtow7
+ v7cyxpnH8PJyyypat7Z9aOyIxSDwSEjGzqbIarUEzuUSRhw7uj7JRf6Y/Bp0NJeaTKJs
+ lUuhwZOx32hOeallUaEj3rZtIo0+ncZ8GcAND4FCEPzfSKAzdcdXDbM6gf2r7qEsTWyy
+ sLawB41z6mF6d/JiLtlsRpEt3Fu6l50WzcHSMi5KzvFZ9Du5/OxZXsraoK+e7XXjENbg
+ IYFA==
+X-Gm-Message-State: ACgBeo1d37vONq8GywObeZoZTkVvAvBhfxomohAkIoX4IqgiM3Mz3lAc
+ J292Zb/5oEFddvgFBAlywLjCoeteq6TSbw==
+X-Google-Smtp-Source: AA6agR7WAXg7UHjILh8UQkSYm6OfmeHWMx3NTFoCBoieF0weqF3/nTgcIkhFi3fnar6HrVY8rBmH8w==
+X-Received: by 2002:a17:90a:ce05:b0:1fb:226c:d6b2 with SMTP id
+ f5-20020a17090ace0500b001fb226cd6b2mr5857769pju.124.1661159120536; 
+ Mon, 22 Aug 2022 02:05:20 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([116.73.134.198])
  by smtp.googlemail.com with ESMTPSA id
- n34-20020a635c62000000b0041c3ab14ca1sm7015428pgm.0.2022.08.22.02.05.10
+ n34-20020a635c62000000b0041c3ab14ca1sm7015428pgm.0.2022.08.22.02.05.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 02:05:14 -0700 (PDT)
+ Mon, 22 Aug 2022 02:05:20 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
@@ -62,17 +62,17 @@ To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Cc: yvugenfi@redhat.com, jusual@redhat.com, kkostiuk@redhat.com,
  ybendito@redhat.com
-Subject: [PATCH] hw/acpi: set ATS capability explicitly per pcie root port
-Date: Mon, 22 Aug 2022 14:34:35 +0530
-Message-Id: <20220822090438.426748-3-ani@anisinha.ca>
+Subject: [PATCH 2/4] hw/acpi: set ATS capability explicitly per pcie root port
+Date: Mon, 22 Aug 2022 14:34:36 +0530
+Message-Id: <20220822090438.426748-4-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220822090438.426748-1-ani@anisinha.ca>
 References: <20220822090438.426748-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1029.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -106,6 +106,7 @@ ports so that we can selectively enable ATS for some and leave ATS off for
 others.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Suggested-by: Michael Tsirkin <mst@redhat.com>
 ---
  hw/i386/acpi-build.c | 74 ++++++++++++++++++++++++++++++++++++++++++--
  1 file changed, 72 insertions(+), 2 deletions(-)
