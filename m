@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5E259CBB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:46:51 +0200 (CEST)
-Received: from localhost ([::1]:52982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4861759CBC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:53:59 +0200 (CEST)
+Received: from localhost ([::1]:59104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQGC2-0005LT-4G
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:46:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40866)
+	id 1oQGIw-0008JA-Au
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQG34-0003B2-Qg
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:37:34 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:46597)
+ id 1oQG35-0003Dg-Uo
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:37:35 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:36739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQG33-0006ZQ-1K
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:37:34 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id jm11so11190073plb.13
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 15:37:32 -0700 (PDT)
+ id 1oQG34-0006Zb-56
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:37:35 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id c2so11227321plo.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 15:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc;
- bh=7wrpwlAhlqlwE5ooXTHHegH9n59t020a14KTAhU8r2Q=;
- b=XtBe98nsakyDV3jWy3Ag9QQ9t7eeMOIt2JIZ8Xeb8KWDdNKCNOZEtMW1plc86tYCCQ
- Wjyq6vTk+2ZPu5HJKXXkWt/+FVdDa1SjHf2eDnCHrpOOp7490DIRnDO7dMnGeT7sbYM/
- qQdVdEhBlz57A067F5uPwvFIGKHLFkNkgTaVTJf2z+F6BKfvkyWqb0Y7AVxmXk19V0Q4
- YeMopaVqgRY1kNpki043ow7RjEV6nO2LeaWdKJxpkzXl+47T5b9MwmeWux4TtalZ/wvX
- MxitfFxQMJrKONxqCry1jOByAVlLzNuCV6WJE5g7q9e+1oV4wudtHl0kYfr1KMGmOL25
- PIXA==
+ bh=X2jvrMtbYp1eNI0Clq6mipibH+5GoGu45vlAlcjZM8M=;
+ b=XFXOHvGzuFkLFYj0FQaPgKgdZG/A1Vs5if281+9hJUAe03KaOrny5IZbyn+G9FcMVh
+ QyT5HYVoLd54rl8cUUJLX0BX2tKTCRyReTYYfIY2Y8mYqrgzBWWD87mroqI8nTguti7S
+ XdL5V8TO2NArCg2ZY8lsVnGh4z22AfHf20z20gOULU2tQHHkI5QqAcgRihrp3/W62n/J
+ A4OpQtIW6Q6t5nuCqKmXSaEnE0id731kSad3Gh9XfuBmFgT82FuxeCrggPeFxM5Ctoh2
+ Xd0GWuP6xkxn8zFYkFshRNYJqx19Chi5bDxuAn9/M0dHxo0VDk8cDiDUVi6ORHG8gNhd
+ rxYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=7wrpwlAhlqlwE5ooXTHHegH9n59t020a14KTAhU8r2Q=;
- b=6xmBDix1jhPRTmAokxd5v7IOTCpSNIagnq3AW5wVEAO+hyOMioRlV/MToV+395Lir/
- klynwm9XaCbML+kGxHlEFRJg1P0jtj08dE1rcshM2Zhxz6iKOj3QR0N7Bpm2CG5mrBPt
- XN5159lrQggS7+1i+uBd0IMPMxAZyxZL0xoNnRTkmx/2+1AHvzY00BaF7gvCD6aE5zTC
- eTHFjaCK43igA0VgfHLrWYotG1LXhxXA6ktT/t87chVVncctnD0UyRAUTzw2PAptcmT2
- UexFKMtT2rsF5gj7pctEa6dxQbNpSKsg79/HEkRd71iozEOf3oclArfJLu5Mp4PtLDCS
- tw+g==
-X-Gm-Message-State: ACgBeo3epLKjmaZ3FD17lbZOLgYIkTK/T6OLKDGLeInDL1amlge2f5sC
- LcYWiF5lxf8i1pukl+8354vkbLmiOBKjdg==
-X-Google-Smtp-Source: AA6agR5HMvkuGy4MDQJHmrFiD59jahklX75RI6p7PsdbVVs+fUVUEr5PZF7fXe6og4o/WXbBzTpA6w==
-X-Received: by 2002:a17:903:244c:b0:171:59be:6762 with SMTP id
- l12-20020a170903244c00b0017159be6762mr21667906pls.20.1661207851581; 
- Mon, 22 Aug 2022 15:37:31 -0700 (PDT)
+ bh=X2jvrMtbYp1eNI0Clq6mipibH+5GoGu45vlAlcjZM8M=;
+ b=qEB6+5l5OXmY+JmlASztKo0HwAWWvpbYEitKGvWbShGM3Yxo8wOw4+h5y3ghyGe034
+ Fs4UfK/xZ9ZWShKaZjPzTJbzCw86tYuyJn17EmR/t8a1vxp/hZGl1wX0E29328c9eUg1
+ s2dGWD1SV/ssTcusyTeECh6XICDDOYrfTou69Bdu7jzLvTc045DzEUbaJ1zAb1VCcrIm
+ azg6s911/szng/WZQ+xOYqTXAFwu22MbT/AtCpnJjLP3BQGqXSWD1cDNYX3TFwBcu8hA
+ 0UPbZbU68tEbPfpIryF93qiVwIQ2lMlsviPrJAR6eYSUf+4FiR2uY/wKVaa1Pm3nVOTB
+ 8BcQ==
+X-Gm-Message-State: ACgBeo1eWghD/tYlPmacUFtgio+HyreoBilaIJFKpkR+P/EGusBya5Hw
+ jMjjsB4oUVnomoZQCAPjGJN3vQFIJFKuSQ==
+X-Google-Smtp-Source: AA6agR6l1QFwgzC5BNTZxaHkjGv/MjqCQ7p191FF3YaFJr2YstB/mVWr1/tDxNLAfjaysV3bVghOzQ==
+X-Received: by 2002:a17:902:f64f:b0:172:a790:320a with SMTP id
+ m15-20020a170902f64f00b00172a790320amr21896045plg.149.1661207852658; 
+ Mon, 22 Aug 2022 15:37:32 -0700 (PDT)
 Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
- z6-20020a63e106000000b0042a2777550dsm7017419pgh.47.2022.08.22.15.37.30
+ z6-20020a63e106000000b0042a2777550dsm7017419pgh.47.2022.08.22.15.37.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 15:37:30 -0700 (PDT)
+ Mon, 22 Aug 2022 15:37:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] target/i386: Use tcg gvec for p{add,sub}*
-Date: Mon, 22 Aug 2022 15:37:20 -0700
-Message-Id: <20220822223722.1697758-5-richard.henderson@linaro.org>
+Subject: [PATCH 5/6] target/i386: Use tcg gvec for pand, pandn, por, pxor
+Date: Mon, 22 Aug 2022 15:37:21 -0700
+Message-Id: <20220822223722.1697758-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220822223722.1697758-1-richard.henderson@linaro.org>
 References: <20220822223722.1697758-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,122 +87,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since psubb is the second highest overhead sse operation, at 0.9%.
-It's simple to include add and the other sizes at the same time.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/ops_sse.h        | 10 ---------
- target/i386/ops_sse_header.h | 10 ---------
- target/i386/tcg/translate.c  | 39 ++++++++++++++++++++++++++++--------
- 3 files changed, 31 insertions(+), 28 deletions(-)
+ target/i386/ops_sse.h        |  5 ----
+ target/i386/ops_sse_header.h |  5 ----
+ target/i386/tcg/translate.c  | 45 +++++++++++++++++++++++++++++-------
+ 3 files changed, 37 insertions(+), 18 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 94440a9dc5..6f035b5c16 100644
+index 6f035b5c16..b21f315f37 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -389,16 +389,6 @@ static inline int satsw(int x)
- #define FAVG(a, b) (((a) + (b) + 1) >> 1)
- #endif
+@@ -405,11 +405,6 @@ SSE_HELPER_B(helper_pmaxub, FMAXUB)
+ SSE_HELPER_W(helper_pminsw, FMINSW)
+ SSE_HELPER_W(helper_pmaxsw, FMAXSW)
  
--SSE_HELPER_B(helper_paddb, FADD)
--SSE_HELPER_W(helper_paddw, FADD)
--SSE_HELPER_L(helper_paddl, FADD)
--SSE_HELPER_Q(helper_paddq, FADD)
+-SSE_HELPER_Q(helper_pand, FAND)
+-SSE_HELPER_Q(helper_pandn, FANDN)
+-SSE_HELPER_Q(helper_por, FOR)
+-SSE_HELPER_Q(helper_pxor, FXOR)
 -
--SSE_HELPER_B(helper_psubb, FSUB)
--SSE_HELPER_W(helper_psubw, FSUB)
--SSE_HELPER_L(helper_psubl, FSUB)
--SSE_HELPER_Q(helper_psubq, FSUB)
--
- SSE_HELPER_B(helper_paddusb, FADDUB)
- SSE_HELPER_B(helper_paddsb, FADDSB)
- SSE_HELPER_B(helper_psubusb, FSUBUB)
+ SSE_HELPER_W(helper_pmullw, FMULLW)
+ #if SHIFT == 0
+ SSE_HELPER_W(helper_pmulhrw, FMULHRW)
 diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index b9f957daf8..da630fbc40 100644
+index da630fbc40..542701720e 100644
 --- a/target/i386/ops_sse_header.h
 +++ b/target/i386/ops_sse_header.h
-@@ -60,16 +60,6 @@ DEF_HELPER_3(glue(pslldq, SUFFIX), void, env, Reg, Reg)
- #define SSE_HELPER_Q(name, F)\
-     DEF_HELPER_3(glue(name, SUFFIX), void, env, Reg, Reg)
+@@ -76,11 +76,6 @@ SSE_HELPER_B(pmaxub, FMAXUB)
+ SSE_HELPER_W(pminsw, FMINSW)
+ SSE_HELPER_W(pmaxsw, FMAXSW)
  
--SSE_HELPER_B(paddb, FADD)
--SSE_HELPER_W(paddw, FADD)
--SSE_HELPER_L(paddl, FADD)
--SSE_HELPER_Q(paddq, FADD)
+-SSE_HELPER_Q(pand, FAND)
+-SSE_HELPER_Q(pandn, FANDN)
+-SSE_HELPER_Q(por, FOR)
+-SSE_HELPER_Q(pxor, FXOR)
 -
--SSE_HELPER_B(psubb, FSUB)
--SSE_HELPER_W(psubw, FSUB)
--SSE_HELPER_L(psubl, FSUB)
--SSE_HELPER_Q(psubq, FSUB)
--
- SSE_HELPER_B(paddusb, FADDUB)
- SSE_HELPER_B(paddsb, FADDSB)
- SSE_HELPER_B(psubusb, FSUBUB)
+ SSE_HELPER_W(pmullw, FMULLW)
+ #if SHIFT == 0
+ SSE_HELPER_W(pmulhrw, FMULHRW)
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 467d018b68..2a8ea3369a 100644
+index 2a8ea3369a..d25d914d63 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -2882,7 +2882,7 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
-     [0xd1] = MMX_OP2(psrlw),
-     [0xd2] = MMX_OP2(psrld),
-     [0xd3] = MMX_OP2(psrlq),
--    [0xd4] = MMX_OP2(paddq),
-+    [0xd4] = { SSE_DUMMY, SSE_DUMMY },  /* paddq */
-     [0xd5] = MMX_OP2(pmullw),
-     [0xd6] = { NULL, SSE_SPECIAL, SSE_SPECIAL, SSE_SPECIAL },
-     [0xd7] = { SSE_SPECIAL, SSE_SPECIAL }, /* pmovmskb */
-@@ -2919,13 +2919,13 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
-     [0xf6] = MMX_OP2(psadbw),
-     [0xf7] = { (SSEFunc_0_epp)gen_helper_maskmov_mmx,
-                (SSEFunc_0_epp)gen_helper_maskmov_xmm }, /* XXX: casts */
--    [0xf8] = MMX_OP2(psubb),
--    [0xf9] = MMX_OP2(psubw),
--    [0xfa] = MMX_OP2(psubl),
--    [0xfb] = MMX_OP2(psubq),
--    [0xfc] = MMX_OP2(paddb),
--    [0xfd] = MMX_OP2(paddw),
--    [0xfe] = MMX_OP2(paddl),
-+    [0xf8] = { SSE_DUMMY, SSE_DUMMY },  /* psubb */
-+    [0xf9] = { SSE_DUMMY, SSE_DUMMY },  /* psubw */
-+    [0xfa] = { SSE_DUMMY, SSE_DUMMY },  /* psubl */
-+    [0xfb] = { SSE_DUMMY, SSE_DUMMY },  /* psubq */
-+    [0xfc] = { SSE_DUMMY, SSE_DUMMY },  /* paddb */
-+    [0xfd] = { SSE_DUMMY, SSE_DUMMY },  /* paddw */
-+    [0xfe] = { SSE_DUMMY, SSE_DUMMY },  /* paddl */
- };
- 
- static const SSEFunc_0_epp sse_op_table2[3 * 8][2] = {
-@@ -4551,6 +4551,29 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             tcg_gen_gvec_cmp(TCG_COND_EQ, b - 0x74, op1_offset, op1_offset,
-                              op2_offset, vec_len, vec_len);
+@@ -2820,10 +2820,10 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
+     [0x51] = SSE_FOP(sqrt),
+     [0x52] = { gen_helper_rsqrtps, NULL, gen_helper_rsqrtss, NULL },
+     [0x53] = { gen_helper_rcpps, NULL, gen_helper_rcpss, NULL },
+-    [0x54] = { gen_helper_pand_xmm, gen_helper_pand_xmm }, /* andps, andpd */
+-    [0x55] = { gen_helper_pandn_xmm, gen_helper_pandn_xmm }, /* andnps, andnpd */
+-    [0x56] = { gen_helper_por_xmm, gen_helper_por_xmm }, /* orps, orpd */
+-    [0x57] = { gen_helper_pxor_xmm, gen_helper_pxor_xmm }, /* xorps, xorpd */
++    [0x54] = { SSE_DUMMY, SSE_DUMMY }, /* andps, andpd */
++    [0x55] = { SSE_DUMMY, SSE_DUMMY }, /* andnps, andnpd */
++    [0x56] = { SSE_DUMMY, SSE_DUMMY }, /* orps, orpd */
++    [0x57] = { SSE_DUMMY, SSE_DUMMY }, /* xorps, xorpd */
+     [0x58] = SSE_FOP(add),
+     [0x59] = SSE_FOP(mul),
+     [0x5a] = { gen_helper_cvtps2pd, gen_helper_cvtpd2ps,
+@@ -2889,11 +2889,11 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
+     [0xd8] = MMX_OP2(psubusb),
+     [0xd9] = MMX_OP2(psubusw),
+     [0xda] = MMX_OP2(pminub),
+-    [0xdb] = MMX_OP2(pand),
++    [0xdb] = { SSE_DUMMY, SSE_DUMMY }, /* pand */
+     [0xdc] = MMX_OP2(paddusb),
+     [0xdd] = MMX_OP2(paddusw),
+     [0xde] = MMX_OP2(pmaxub),
+-    [0xdf] = MMX_OP2(pandn),
++    [0xdf] = { SSE_DUMMY, SSE_DUMMY }, /* pandn */
+     [0xe0] = MMX_OP2(pavgb),
+     [0xe1] = MMX_OP2(psraw),
+     [0xe2] = MMX_OP2(psrad),
+@@ -2905,11 +2905,11 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
+     [0xe8] = MMX_OP2(psubsb),
+     [0xe9] = MMX_OP2(psubsw),
+     [0xea] = MMX_OP2(pminsw),
+-    [0xeb] = MMX_OP2(por),
++    [0xeb] = { SSE_DUMMY, SSE_DUMMY },  /* por */
+     [0xec] = MMX_OP2(paddsb),
+     [0xed] = MMX_OP2(paddsw),
+     [0xee] = MMX_OP2(pmaxsw),
+-    [0xef] = MMX_OP2(pxor),
++    [0xef] = { SSE_DUMMY, SSE_DUMMY },  /* pxor */
+     [0xf0] = { NULL, NULL, NULL, SSE_SPECIAL }, /* lddqu */
+     [0xf1] = MMX_OP2(psllw),
+     [0xf2] = MMX_OP2(pslld),
+@@ -4535,6 +4535,35 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             sse_fn_eppt = (SSEFunc_0_eppt)sse_fn_epp;
+             sse_fn_eppt(cpu_env, s->ptr0, s->ptr1, s->A0);
              break;
-+        case 0xf8: /* psubb */
-+        case 0xf9: /* psubw */
-+        case 0xfa: /* psubl */
-+        case 0xfb: /* psubq */
++        case 0x54: /* andps, andpd */
++        case 0xdb: /* pand */
 +            op1_offset += xmm_ofs;
 +            op2_offset += xmm_ofs;
-+            tcg_gen_gvec_sub(b - 0xf8, op1_offset, op1_offset,
++            tcg_gen_gvec_and(MO_64, op1_offset, op1_offset,
 +                             op2_offset, vec_len, vec_len);
 +            break;
-+        case 0xfc: /* paddb */
-+        case 0xfd: /* paddw */
-+        case 0xfe: /* paddl */
++        case 0x55: /* andnps, andnpd */
++        case 0xdf: /* pandn */
 +            op1_offset += xmm_ofs;
 +            op2_offset += xmm_ofs;
-+            tcg_gen_gvec_add(b - 0xfc, op1_offset, op1_offset,
-+                             op2_offset, vec_len, vec_len);
++            /* x86 inverts the first operand; tcg inverts the second. */
++            tcg_gen_gvec_andc(MO_64, op1_offset, op2_offset,
++                              op1_offset, vec_len, vec_len);
 +            break;
-+        case 0xd4: /* paddq */
++        case 0x56: /* orps, orpd */
++        case 0xeb: /* por */
 +            op1_offset += xmm_ofs;
 +            op2_offset += xmm_ofs;
-+            tcg_gen_gvec_add(MO_64, op1_offset, op1_offset,
++            tcg_gen_gvec_or(MO_64, op1_offset, op1_offset,
++                            op2_offset, vec_len, vec_len);
++            break;
++        case 0x57: /* xorps, xorpd */
++        case 0xef: /* pxor */
++            op1_offset += xmm_ofs;
++            op2_offset += xmm_ofs;
++            tcg_gen_gvec_xor(MO_64, op1_offset, op1_offset,
 +                             op2_offset, vec_len, vec_len);
 +            break;
-         default:
-             tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
-             tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
+         case 0x64: /* pcmpgtb */
+         case 0x65: /* pcmpgtw */
+         case 0x66: /* pcmpgtl */
 -- 
 2.34.1
 
