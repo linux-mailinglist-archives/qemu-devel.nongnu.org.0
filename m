@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55DE59BD4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 12:05:11 +0200 (CEST)
-Received: from localhost ([::1]:33710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B2D59BD62
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 12:13:13 +0200 (CEST)
+Received: from localhost ([::1]:53186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ4Iv-0002pw-IV
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 06:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43486)
+	id 1oQ4Qi-0007tl-6o
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 06:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oQ4GS-0000jR-Df
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 06:02:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46773)
+ id 1oQ4P2-0006OT-Bo
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 06:11:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oQ4GP-00006L-7v
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 06:02:34 -0400
+ id 1oQ4Oz-0001cS-8G
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 06:11:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661162552;
+ s=mimecast20190719; t=1661163082;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Cbwz0+tpe5bav+xklN4gO6sWjuNh2tla0UnuntHaYAU=;
- b=INzAZluc3Qh17ldI8Wr5mVipvskUnEE/5lnV5cGNYZQdmPLoLtKokLH6d/NZ2jsFELKoOu
- jC3GYROgx5xpwngIy96exyVdkBWLb6f9eJ50XU+r28Mao2wJ3j0scH7CKxbXlxL1+fSIYE
- 2DxuEHi65gUgGnnX/FuQqnh+zOQHK4k=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=K6ongmSrFfTl8zaOYcR/dA8kKNeZuRXRTXjxjLf3uIE=;
+ b=WbxBOX/IRo2WxvNeDHGvz6UJj3WaKsOmsngrQWMDO735oXDAlEa8/5n+fnoJ3jy1d2fU7l
+ CtlWVydrpmgFVQVWcYeFCnuG9Jmj5me/KGTtjWj3re7YeXyhbBL8oRgh7CvQJuUcw0owWC
+ sMaZAsWleLkJZvtdNx51cImRRXTDCOs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-348-J3lxM2dkMi-hHyOso51PZA-1; Mon, 22 Aug 2022 06:02:28 -0400
-X-MC-Unique: J3lxM2dkMi-hHyOso51PZA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-501-Hq6_ayGFMXGYJis0K0sykg-1; Mon, 22 Aug 2022 06:11:18 -0400
+X-MC-Unique: Hq6_ayGFMXGYJis0K0sykg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A1F48039A8;
- Mon, 22 Aug 2022 10:02:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2388A848199;
+ Mon, 22 Aug 2022 10:11:12 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D474E140EBE3;
- Mon, 22 Aug 2022 10:02:26 +0000 (UTC)
-Date: Mon, 22 Aug 2022 11:02:24 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E2D840D283B;
+ Mon, 22 Aug 2022 10:11:10 +0000 (UTC)
+Date: Mon, 22 Aug 2022 11:11:08 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: luoyonggang@gmail.com,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Beraldo Leal <bleal@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2] ci: Upgrade msys2 release to 20220603
-Message-ID: <YwNUMLxx2HqWUCXs@redhat.com>
-References: <20220728200422.1502-1-luoyonggang@gmail.com>
- <8721edcf-9f67-5428-4ca9-eba3bd94075e@linaro.org>
- <CAE2XoE8M+Tz3t=zh5GhX+vYCipNRdZUYieSjtAO2OUsJcYnAPw@mail.gmail.com>
- <2ac21034-c728-04ad-cb33-07870c1f0cc3@redhat.com>
+To: Joelle van Dyne <j@getutm.app>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/3] vl: on -loadvm set run state to "restore-vm"
+Message-ID: <YwNWPFKchWnUIO8f@redhat.com>
+References: <20220813011031.3744-1-j@getutm.app>
+ <20220813011031.3744-3-j@getutm.app>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2ac21034-c728-04ad-cb33-07870c1f0cc3@redhat.com>
+In-Reply-To: <20220813011031.3744-3-j@getutm.app>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,21 +81,49 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 19, 2022 at 09:50:20AM +0200, Thomas Huth wrote:
-> On 16/08/2022 20.53, 罗勇刚(Yonggang Luo) wrote:
-> > I have reason to think that's msys2-64 bit failed because out of memory
-> > 
-> > I tried to show the memory size of the windows docker, it's result
-> > are 6224352KB, that's less than 6GB?
-> > https://gitlab.com/lygstate/qemu/-/jobs/2891399652
-> > <https://gitlab.com/lygstate/qemu/-/jobs/2891399652>
-> > 
-> > Can we increase the memory size to 16GB
+On Fri, Aug 12, 2022 at 06:10:30PM -0700, Joelle van Dyne wrote:
+> This allows us to differentiate between a fresh boot and a restore boot.
 > 
-> I'm not aware of any way to increase the memory size for gitlab jobs ...
-> Daniel, Alex, do you maybe know?
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
+> ---
+>  softmmu/runstate.c | 1 +
+>  softmmu/vl.c       | 3 +++
+>  2 files changed, 4 insertions(+)
 
-I don't bvelieve there's any option
+What happens if the user launches QEMU with -S and NOT  -loadvm, and
+then uses the 'loadvm' monitor command to restore the VM state ?
+
+
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index 1e68680b9d..fa3dd3a4ab 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -76,6 +76,7 @@ typedef struct {
+>  
+>  static const RunStateTransition runstate_transitions_def[] = {
+>      { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+> +    { RUN_STATE_PRELAUNCH, RUN_STATE_RESTORE_VM },
+>  
+>      { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
+>      { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 706bd7cff7..29586d94ff 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -3131,6 +3131,9 @@ void qemu_init(int argc, char **argv, char **envp)
+>                  add_device_config(DEV_DEBUGCON, optarg);
+>                  break;
+>              case QEMU_OPTION_loadvm:
+> +                if (!loadvm) {
+> +                    runstate_set(RUN_STATE_RESTORE_VM);
+> +                }
+>                  loadvm = optarg;
+>                  break;
+>              case QEMU_OPTION_full_screen:
+> -- 
+> 2.28.0
+> 
+> 
 
 With regards,
 Daniel
