@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0857959C58F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 19:57:33 +0200 (CEST)
-Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BE559C4FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 19:27:06 +0200 (CEST)
+Received: from localhost ([::1]:39398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQBg2-000366-Lc
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 13:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58308)
+	id 1oQBCb-0007gZ-7v
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 13:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9Ox-0004lR-LE
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:46 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:38847)
+ id 1oQ9P0-0004lP-LY
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:48 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:55199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9Oo-0001gI-NL
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:41 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id r22so9693650pgm.5
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:31:33 -0700 (PDT)
+ id 1oQ9Op-0001gh-Dj
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:42 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id bf22so11336494pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:31:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=zmm5wl5wUr/T1I9FyVRhCcaj7lDWNVq0kdn79O03klA=;
- b=PVG96sQEAFM9Eep1MvLNTFmcZaWKFU5pYi/deeJAON9VRAbaRGGr6Vi2mZ5LTsoI2D
- plpUeaqsOoLvrC1uEDfNzL2l1MSNiW+GVgbA5UICuN0/hKqYx4JNpr4/CrMyqYptWG5Q
- mG3fsT+EHBc/NJroE5+FQlDA9OY/N+hwEDe4D+rx4TSDh65Dj3wIREzWdPN6Kd2I1J/t
- 5n1ICUIdpFuF2rUcWnXS8n3F6r04udOdai9Tejl9qiCi5KUb3eOvgk96d0VVgRMXfa7w
- vXJjg0bdMZpnestAhb4Ga+N/GloJfzcAFSp67KvAdNhJzEjVuFsiQYJnjPsvgHV5lY2C
- jTWA==
+ bh=it7B1eMCFXglWpcmLLb+ZPWhWwKZWNZeFgdZdEg2+GA=;
+ b=F1m54Fy9FU3KoBB2AO7LQxtORNYxvfXlcPYSv50/6HN00CJC/pUjPdfAzKGWZlT7Sr
+ JRqosNtSWOSP6715H8RKCszcpYpOzz2oVtsp4+i6sWUkrWgYkZVG6QKPvKesh2iyfEQ9
+ NOywRpvytKasdQG0F0xB46Ez0ROs0gZZKmp8rGZm31Exu2ILOCknF1sfgmkHXLsmFAtP
+ CvGL3Y0WLIpnnIhdAG/8AowTs+kU9fb8vSbtEVfathmslpzd9Euo1pt0aWTfneQh+SyG
+ 3JHkJFG39rT72E44A0Tl/zfxyc/BWH9WsBwtgBWl7uSbyIp1x/nbYYZGpdSODyVtyDbO
+ Zc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=zmm5wl5wUr/T1I9FyVRhCcaj7lDWNVq0kdn79O03klA=;
- b=FvwCdgwUtDajYBbVhJxBCUxJCKB+CW+8E26zkbBZwqmocdcb8O4yD/XHZ5+FQ1Xz/g
- C8c+1BqrhRZ0B9IZ6M06o6F1mV1zx+curpOxXEV6frLEeI7SPCxB3iO+uT0ygykiX5On
- HCOqfitW5Iegv/E+ra2D2yNdD8sOMwJFJwLFspLQ6sAyEvrX+HMA2WSZkQ7xHMzkAHKH
- wvEhRaex+Zx4WEZNwOSeko4VnvDbkVZWu0PwYmdnZj5petM6sUYAdAYoHkqWhMnAgTvC
- WlBCTLj28IU735x7U1J1QeNWaXhCQXaqBB5ATqBqFBsAeXaGbIwwfz6vu5BWHT86XsKv
- OzrA==
-X-Gm-Message-State: ACgBeo1OqAXUcRggye/OE4LUTF+xVZsOLeuRIeAT5Ehkup52QSwnfcin
- IfH/mHQlaCKDe213wL9ss3w+YBe9sYdAFA==
-X-Google-Smtp-Source: AA6agR7HjYTCB7dO3rG+bIKQ0RYN86SMzZ9Yd7eMZ1dVtPwy5l/otSyE/iOi/jjgh5gS+ihFuHas+A==
-X-Received: by 2002:a05:6a00:2302:b0:536:c7c2:10a9 with SMTP id
- h2-20020a056a00230200b00536c7c210a9mr3089355pfh.11.1661182292672; 
- Mon, 22 Aug 2022 08:31:32 -0700 (PDT)
+ bh=it7B1eMCFXglWpcmLLb+ZPWhWwKZWNZeFgdZdEg2+GA=;
+ b=JbokmpiSSRmana7Bz6+acb3FoipDaMphd30RDkcuRbjrWSpk/4jo9UM+zZV7yhuno+
+ 5c5LSrIcAyDYOXXCKUV1+bI5f51RlKcR/2YpZ3S5uz0ajHO3GLluubifqA2X0E+gvEEY
+ 4F1qVFw283WPbpICqPEMX+92pTTxOpfbzhetPq3PyXkwL6DIOIWXd07JQY2J46uHzn8R
+ 5RTFZLd5VHfxO9wT+t7nsXsgoPVBAZG7uRCI1Ax0Jo9fi2vFumRIzN1i9oxPyInKtMsz
+ nieGcrz3IVP1TnZOgvFuPSRxrEesGX6ff4zBl0N4sceFgV4bIYSGmOn2YIX4s3D53wb3
+ Zweg==
+X-Gm-Message-State: ACgBeo2AvGevXhkKN8oOC6cTJfZzMHD8tbIT5Iu3qqWNSAJ7QTuLCKoF
+ 7sAEWiHu2gW45Wb1KD/WqOPaSZU1G0L6XA==
+X-Google-Smtp-Source: AA6agR43xic6tMOcGzIrsIqne5EuXWjG+MZ8lfRTRo1FO18cp4+ANs08IT/9/z+coSyxPi4CzXTITQ==
+X-Received: by 2002:a17:902:694a:b0:16e:e270:1f84 with SMTP id
+ k10-20020a170902694a00b0016ee2701f84mr20838465plt.89.1661182293413; 
+ Mon, 22 Aug 2022 08:31:33 -0700 (PDT)
 Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
  i6-20020a17090a3d8600b001f262f6f717sm10353835pjc.3.2022.08.22.08.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -55,16 +55,16 @@ Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v2 57/66] target/arm: Extract HA and HD in aa64_va_parameters
-Date: Mon, 22 Aug 2022 08:27:32 -0700
-Message-Id: <20220822152741.1617527-58-richard.henderson@linaro.org>
+Subject: [PATCH v2 58/66] target/arm: Split out S1TranslateResult type
+Date: Mon, 22 Aug 2022 08:27:33 -0700
+Message-Id: <20220822152741.1617527-59-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220822152741.1617527-1-richard.henderson@linaro.org>
 References: <20220822152741.1617527-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,65 +87,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Consolidate the results of S1_ptw_translate in one struct.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h | 2 ++
- target/arm/helper.c    | 8 +++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ target/arm/ptw.c | 60 ++++++++++++++++++++++++------------------------
+ 1 file changed, 30 insertions(+), 30 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index bab3e89227..de8b3392a8 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1014,6 +1014,8 @@ typedef struct ARMVAParameters {
-     bool using64k   : 1;
-     bool tsz_oob    : 1;  /* tsz has been clamped to legal range */
-     bool ds         : 1;
-+    bool ha         : 1;
-+    bool hd         : 1;
- } ARMVAParameters;
- 
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 765638f002..9f24940d20 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10109,7 +10109,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx);
--    bool epd, hpd, using16k, using64k, tsz_oob, ds;
-+    bool epd, hpd, using16k, using64k, tsz_oob, ds, ha, hd;
-     int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
-     ARMCPU *cpu = env_archcpu(env);
- 
-@@ -10127,6 +10127,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         epd = false;
-         sh = extract32(tcr, 12, 2);
-         ps = extract32(tcr, 16, 3);
-+        ha = extract32(tcr, 21, 1) && cpu_isar_feature(aa64_hafs, cpu);
-+        hd = extract32(tcr, 22, 1) && cpu_isar_feature(aa64_hdbs, cpu);
-         ds = extract64(tcr, 32, 1);
-     } else {
-         /*
-@@ -10151,6 +10153,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-             hpd = extract64(tcr, 42, 1);
-         }
-         ps = extract64(tcr, 32, 3);
-+        ha = extract64(tcr, 39, 1) && cpu_isar_feature(aa64_hafs, cpu);
-+        hd = extract64(tcr, 40, 1) && cpu_isar_feature(aa64_hdbs, cpu);
-         ds = extract64(tcr, 59, 1);
-     }
- 
-@@ -10222,6 +10226,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         .using64k = using64k,
-         .tsz_oob = tsz_oob,
-         .ds = ds,
-+        .ha = ha,
-+        .hd = ha & hd,
-     };
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 9673b97f79..7c44e7eadd 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -190,20 +190,25 @@ static bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx,
+     return (regime_sctlr(env, mmu_idx) & SCTLR_M) == 0;
  }
  
++typedef struct {
++    bool is_secure;
++    void *hphys;
++    hwaddr gphys;
++} S1TranslateResult;
++
+ /* Translate a S1 pagetable walk through S2 if needed.  */
+ static bool S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+                              ARMMMUIdx s2_mmu_idx, hwaddr addr,
+-                             bool *is_secure_ptr, void **hphys, hwaddr *gphys,
++                             bool is_secure, S1TranslateResult *res,
+                              ARMMMUFaultInfo *fi)
+ {
+-    bool is_secure = *is_secure_ptr;
+     CPUTLBEntryFull *full;
+     int flags;
+ 
+     env->tlb_fi = fi;
+     flags = probe_access_full(env, addr, MMU_DATA_LOAD,
+                               arm_to_core_mmu_idx(s2_mmu_idx),
+-                              true, hphys, &full, 0);
++                              true, &res->hphys, &full, 0);
+     env->tlb_fi = NULL;
+ 
+     if (unlikely(flags & TLB_INVALID_MASK)) {
+@@ -249,14 +254,13 @@ static bool S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+         }
+     }
+ 
+-    if (is_secure) {
+-        /* Check if page table walk is to secure or non-secure PA space. */
+-        *is_secure_ptr = !(full->attrs.secure
+-                           ? env->cp15.vstcr_el2 & VSTCR_SW
+-                           : env->cp15.vtcr_el2 & VTCR_NSW);
+-    }
++    /* Check if page table walk is to secure or non-secure PA space. */
++    res->is_secure = (is_secure &&
++                      !(full->attrs.secure
++                        ? env->cp15.vstcr_el2 & VSTCR_SW
++                        : env->cp15.vtcr_el2 & VTCR_NSW));
+ 
+-    *gphys = full->phys_addr;
++    res->gphys = full->phys_addr;
+     return true;
+ }
+ 
+@@ -266,36 +270,34 @@ static uint32_t arm_ldl_ptw(CPUARMState *env, hwaddr addr, bool is_secure,
+                             ARMMMUFaultInfo *fi)
+ {
+     CPUState *cs = env_cpu(env);
+-    void *hphys;
+-    hwaddr gphys;
++    S1TranslateResult s1;
+     uint32_t data;
+     bool be;
+ 
+-    if (!S1_ptw_translate(env, mmu_idx, ptw_idx, addr, &is_secure,
+-                          &hphys, &gphys, fi)) {
++    if (!S1_ptw_translate(env, mmu_idx, ptw_idx, addr, is_secure, &s1, fi)) {
+         /* Failure. */
+         assert(fi->s1ptw);
+         return 0;
+     }
+ 
+     be = regime_translation_big_endian(env, mmu_idx);
+-    if (likely(hphys)) {
++    if (likely(s1.hphys)) {
+         /* Page tables are in RAM, and we have the host address. */
+         if (be) {
+-            data = ldl_be_p(hphys);
++            data = ldl_be_p(s1.hphys);
+         } else {
+-            data = ldl_le_p(hphys);
++            data = ldl_le_p(s1.hphys);
+         }
+     } else {
+         /* Page tables are in MMIO. */
+-        MemTxAttrs attrs = { .secure = is_secure };
++        MemTxAttrs attrs = { .secure = s1.is_secure };
+         AddressSpace *as = arm_addressspace(cs, attrs);
+         MemTxResult result = MEMTX_OK;
+ 
+         if (be) {
+-            data = address_space_ldl_be(as, gphys, attrs, &result);
++            data = address_space_ldl_be(as, s1.gphys, attrs, &result);
+         } else {
+-            data = address_space_ldl_le(as, gphys, attrs, &result);
++            data = address_space_ldl_le(as, s1.gphys, attrs, &result);
+         }
+         if (unlikely(result != MEMTX_OK)) {
+             fi->type = ARMFault_SyncExternalOnWalk;
+@@ -311,36 +313,34 @@ static uint64_t arm_ldq_ptw(CPUARMState *env, hwaddr addr, bool is_secure,
+                             ARMMMUFaultInfo *fi)
+ {
+     CPUState *cs = env_cpu(env);
+-    void *hphys;
+-    hwaddr gphys;
++    S1TranslateResult s1;
+     uint64_t data;
+     bool be;
+ 
+-    if (!S1_ptw_translate(env, mmu_idx, ptw_idx, addr, &is_secure,
+-                          &hphys, &gphys, fi)) {
++    if (!S1_ptw_translate(env, mmu_idx, ptw_idx, addr, is_secure, &s1, fi)) {
+         /* Failure. */
+         assert(fi->s1ptw);
+         return 0;
+     }
+ 
+     be = regime_translation_big_endian(env, mmu_idx);
+-    if (likely(hphys)) {
++    if (likely(s1.hphys)) {
+         /* Page tables are in RAM, and we have the host address. */
+         if (be) {
+-            data = ldq_be_p(hphys);
++            data = ldq_be_p(s1.hphys);
+         } else {
+-            data = ldq_le_p(hphys);
++            data = ldq_le_p(s1.hphys);
+         }
+     } else {
+         /* Page tables are in MMIO. */
+-        MemTxAttrs attrs = { .secure = is_secure };
++        MemTxAttrs attrs = { .secure = s1.is_secure };
+         AddressSpace *as = arm_addressspace(cs, attrs);
+         MemTxResult result = MEMTX_OK;
+ 
+         if (be) {
+-            data = address_space_ldq_be(as, gphys, attrs, &result);
++            data = address_space_ldq_be(as, s1.gphys, attrs, &result);
+         } else {
+-            data = address_space_ldq_le(as, gphys, attrs, &result);
++            data = address_space_ldq_le(as, s1.gphys, attrs, &result);
+         }
+         if (unlikely(result != MEMTX_OK)) {
+             fi->type = ARMFault_SyncExternalOnWalk;
 -- 
 2.34.1
 
