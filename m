@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BC159BCC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 11:24:27 +0200 (CEST)
-Received: from localhost ([::1]:33492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97C959BCEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 11:36:39 +0200 (CEST)
+Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ3fW-0004ep-AN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 05:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
+	id 1oQ3rL-0001Ua-1E
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 05:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3Py-0001ar-UC
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:08:22 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:45706)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3Q1-0001hG-Cr
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:08:25 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:51024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3Px-0007Kk-BO
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:08:22 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- x63-20020a17090a6c4500b001fabbf8debfso10582160pjj.4
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 02:08:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQ3Pz-0007LF-VG
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:08:25 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id g18so10343254pju.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 02:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=QCLDwQ7RTf39RZZ1x0cNoR4G67Onki56gUP/GuChs4o=;
- b=FWoFF6IU6xR1aYyLFSaATITW9T3583P97O00fzM79LK/Ej5e7jGrz3qWIPLdvYTRBx
- ce06iEexaS7b4pzzOgGPh3+XcryB3ZkPFsJxhgzVEYh3Gl+siW8TNRSLdaXmWgs1qFcO
- CGIGTli7n2e06Nofor54fwBHikIHWqPpvSEJ67U4SLDFFV+xIzs3yE3b8oAt2HKwHYUh
- xGsaM5JvFAf3r0zfzknU2x1LZD/u7oiQ5dl7dhleVa2I4YLdP0LbhbZUyexZnxqbuD4N
- z22YyqFgnymdKOwVZqBcyLWtXFvvSeYfgHBijT9FgEB6dbKuue2BTjcJZMS1eSlyIyK+
- cUtg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=xlZh3k59/5+iFFhHlHitsL1nJoDHeLLXvjMfiF3l4Es=;
+ b=CBJaKtL5UBx/1ce/sSXr0SUF3+CAdJWp8QrVkDE66CWVww35WXrvL/yIYg5cbFxq8d
+ AVqzZeSZnnhkmmmNt2svnU4TcjLvlI2fUnKpmu8FAGimBZ/ApKZINF5NXWCZq20Rfkh6
+ gYJquS2RTEPB9FD084c8UMxTHdSRCqNMObV5FdqdNiW8bcyFFVQS1CfxUZmdpeWxNZn2
+ +N+lKX1HRt6/bJ1fHaclHTRJN/YojpQMVnKmY3+ycL1lAV06fjfOiCSTJvH8E5akg8du
+ pKkSBGGb7nG6hiT7TKrCthPkEWNyqxqWX1pzNEEUN8VpSs9wI1OuF2Ag2w9/q0VcbjVH
+ mK/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=QCLDwQ7RTf39RZZ1x0cNoR4G67Onki56gUP/GuChs4o=;
- b=xg8fsY/EstSifwebVFCBkNFIVKSxW+gP1cccD5+opGiDr7dom6Pqu6de41vLK3daIn
- zArZI2zuc4H6D3kpqv1+Ru4UCxtGoKk3yqT5xWPpvjklRNx5JK+xha3f2RRQdZZfXX4t
- 5CmkRwLWGDRCz2KfEGtJmibUyfByVljqIgSBTZEXIswgvS4UirdT2+JThAT/YweroD2f
- EV/wWuzr6R5AkNGmEgDdGiO3manjwCzNty3hUEkjlT+gKHMtlsnYDdhCdLqU5J4Q1GKq
- ZkewobW7PyPJ6aGLc4tmB0sdRoUWzt3V5CLb472TZODWq9eiRvHcgSFWnLatKNLS21nI
- XVtw==
-X-Gm-Message-State: ACgBeo1U3Nw2jgnARoPPnZGNV/FCzfUiKbKxXWGF6anwqVO+S98WzsCt
- eLktLgBfdWYKKO8kA3En2tzXIXus5LXHzg==
-X-Google-Smtp-Source: AA6agR5dbhuEnU2UNJCfBKVtpf3HLpblI75e1uTuZ8WTLhkO7bJV/oBa5BWGS7tM3jzMwrJOpk3q/g==
-X-Received: by 2002:a17:90a:c402:b0:1f7:75ce:1206 with SMTP id
- i2-20020a17090ac40200b001f775ce1206mr22106612pjt.68.1661159298955; 
- Mon, 22 Aug 2022 02:08:18 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=xlZh3k59/5+iFFhHlHitsL1nJoDHeLLXvjMfiF3l4Es=;
+ b=Sry6X8E11jqpXAnZfJtEZ6nlwk0NmwIi6+RZ3xmLAq4prq8ySO2RS/nkgYnn3xbcab
+ Nqm6QcEHm3RRA+wFsUP0UXkzTVLPmqIuuQN75JXgkk8+f/EzdlsDCbr5m3I0isnkTGx4
+ l0COkp4+Gxb05bW3z1JFBJivw9JSMDpI4iEG1R9zjSitstzHJ6LDGFRcBZTmB6y3XyOM
+ Tn4MHH8dSWEI1menDbez3aZ7fTGmJXOnaFMMJyL//DFgaSnD0iIcW2HYsR0hhEYjOs+M
+ rToNw4ddsgakCnrMN9Ul4eCB3igbgUFEgECPpJ27yd9fvc6D9d+etfrB0A8RSsWQa3GN
+ S/RA==
+X-Gm-Message-State: ACgBeo0urw25uiEChT7X3zU7bSKfVRNbhwTYylO1gXuLHevsM8ETzCsk
+ IUbvtw53FlCWwWoD4xNdvp1XQL4XGC9A6w==
+X-Google-Smtp-Source: AA6agR7etftzSk78bs3m90+iIybFYccWcaOvEPTd6TWEKpvEfkkuKFXL/Go8HPJYEH4qFHqrFNikeQ==
+X-Received: by 2002:a17:902:d2c1:b0:172:c1af:fd26 with SMTP id
+ n1-20020a170902d2c100b00172c1affd26mr14618553plc.4.1661159302466; 
+ Mon, 22 Aug 2022 02:08:22 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([116.73.134.198])
  by smtp.googlemail.com with ESMTPSA id
- a20-20020a62d414000000b00535e6dbda16sm7364539pfh.35.2022.08.22.02.08.15
+ a20-20020a62d414000000b00535e6dbda16sm7364539pfh.35.2022.08.22.02.08.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 02:08:18 -0700 (PDT)
+ Mon, 22 Aug 2022 02:08:22 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
 Cc: yvugenfi@redhat.com, jusual@redhat.com, kkostiuk@redhat.com,
- imammedo@redhat.com, mst@redhat.com, ybendito@redhat.com,
- Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 0/4] enable ATS per pcie root port, not globally
-Date: Mon, 22 Aug 2022 14:38:07 +0530
-Message-Id: <20220822090811.427029-1-ani@anisinha.ca>
+ ybendito@redhat.com
+Subject: [PATCH 1/4] hw/acpi: allow changes to DSDT and DMAR tables
+Date: Mon, 22 Aug 2022 14:38:08 +0530
+Message-Id: <20220822090811.427029-2-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220822090811.427029-1-ani@anisinha.ca>
+References: <20220822090811.427029-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,27 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is towards a possible fix for RedHat ticket
-https://bugzilla.redhat.com/show_bug.cgi?id=2089545 . 
+Our next change modifies DMAR and DSDT tables. Make sure we whitelist those
+changes so that bios-table-test does not break.
 
-Michael suggested we try to enable ATS per pcie root port instead of enabling it
-globally by setting the ALL_PORTS flag to 1 in the Root Port ATS capability structure.
-This patchset makes this happen.
-
-
-Ani Sinha (4):
-  hw/acpi: allow changes to DSDT and DMAR tables
-  hw/acpi: set ATS capability explicitly per pcie root port
-  tests/acpi/bios-table-test: add pcie root port device for DMAR test
-  tests/acpi/bios-tables-test: update DSDT and DMAR table blobs
-
- hw/i386/acpi-build.c           |  74 ++++++++++++++++++++++++++++++++-
- tests/data/acpi/q35/DMAR.dmar  | Bin 120 -> 136 bytes
- tests/data/acpi/q35/DSDT.dmar  | Bin 0 -> 8421 bytes
- tests/qtest/bios-tables-test.c |   3 +-
- 4 files changed, 74 insertions(+), 3 deletions(-)
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ tests/data/acpi/q35/DSDT.dmar               | 0
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ 2 files changed, 2 insertions(+)
  create mode 100644 tests/data/acpi/q35/DSDT.dmar
 
+diff --git a/tests/data/acpi/q35/DSDT.dmar b/tests/data/acpi/q35/DSDT.dmar
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..4efed12b59 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.dmar",
++"tests/data/acpi/q35/DMAR.dmar",
 -- 
 2.25.1
 
