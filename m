@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BEE59BFDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 14:55:59 +0200 (CEST)
-Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9484259C041
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 15:12:53 +0200 (CEST)
+Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ6yE-0006xy-0Z
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 08:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41178)
+	id 1oQ7EZ-0001o8-E6
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 09:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oQ6wy-0005Ox-8n
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 08:54:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oQ6wv-0004xu-Ov
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 08:54:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661172877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=gAIv9kDjsmdCi05elML1vRwNXsTe7Caba4OBWtVyQPw=;
- b=QTKqHYRl7MZl0Yym6lLPVfjuJeQPb593mR8tWFzQoWkQUuaykCpGVNcukc8CJxqgHWW1dl
- JdIjf0KnyrbW3Pzx/0lXmsOw1PTBsTmUs8KYE5OwBSKK4c3hmd6SgCFX+aaj27cconpAOO
- mv6ffxc8xhQoVl1I2G1M1yF8R7OzAl0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-4sje6k2eOaK7srPc89O8Lg-1; Mon, 22 Aug 2022 08:54:31 -0400
-X-MC-Unique: 4sje6k2eOaK7srPc89O8Lg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 476CF811E7A;
- Mon, 22 Aug 2022 12:54:31 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 174F4404C6EB;
- Mon, 22 Aug 2022 12:54:29 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com, pbonzini@redhat.com, fam@euphon.net,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org
-Subject: [PATCH for-7.1?] scsi-generic: Fix emulated block limits VPD page
-Date: Mon, 22 Aug 2022 14:53:20 +0200
-Message-Id: <20220822125320.48257-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
+ id 1oQ7AP-0005KR-DC
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 09:08:33 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:41478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
+ id 1oQ7AL-0007Bw-Is
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 09:08:32 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ t2-20020a17090a4e4200b001f21572f3a4so11236518pjl.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 06:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=goEm8a9bZmzDJohwDuNowyjLTHBMe21HAyuONxQz4lE=;
+ b=iAHbfEahePsQlJtSbqgev/v/qTxK3A7yY4NMjUl6NbZ64fm5PPu0EC5pLgL7aCQbQV
+ ZFAYHvcMYi0jzM1lV9FaOSK1LMmTPBrWcNyuH19rp2GIeDtGzDfvYyN9D/e8uuWDtgW8
+ gluhmSL023BTpRZ6SHnlyqYqw9vUhipW5HmJKX3VadpyX5uTQ2Bs0yeuZ0RRtZZyXfM6
+ DpWWl0OmSf7snKB2/N4X6+iv9BJy5c4pUZGXUDT9ljn4qF1m0KLpOCLkuQpyUAs44WW0
+ qTdM0WboVG+N35UnUxs6uYI/rQlVn6BjAXGMirf+t1RFtVb26AYHzoZ3Tpnf6k745n5q
+ lyNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=goEm8a9bZmzDJohwDuNowyjLTHBMe21HAyuONxQz4lE=;
+ b=pzcNVLmX/iTqwvnWPOLy2useF22gc9hfqIPDpcGdrb0emiiiXGOtnfl3OFpdi1vejj
+ fKSah248eM0WSBeFh5KCc7L1wjdER2FlVWoRPcU6srVI8tszXO2uPV0WwChVZZ7iWpuq
+ nTGqBGT327vcoDa2VC+yk9miY7OitgGa8TqWwWhjX1ytdR4TWI6cQcXWNstOp3WtvPxK
+ 1HVTXXx8L9jQ9EfTDLhztlLNrno5ra9ZW+bbjDgzDEy6W6mvFHuqbdhryjZBeyYDV74W
+ P9okq+fw9lbBismv+T6Opq2gAL9XlowTFykY/Z5AfR7Nmn6gowJm7U5yubM0X66Rxs+G
+ +jwg==
+X-Gm-Message-State: ACgBeo0xdKsdV0eLcFFKxRVoMis3xQEj4TrHRIYXk1oFlwNkoP/OJ4sq
+ 6keb6AqFr+SSrsbnUJZabtreiaPHzicoyidS3kFrCg==
+X-Google-Smtp-Source: AA6agR7o09fHsawbnbCNyetHcG/VFkYKAEzt+/59vFgbT6cSIblP8v6Q2jPx4m3zM0BOSX2yjsdAlYF29H4jfrtjNRY=
+X-Received: by 2002:a17:902:cec1:b0:172:e677:553b with SMTP id
+ d1-20020a170902cec100b00172e677553bmr6007035plg.99.1661173706100; Mon, 22 Aug
+ 2022 06:08:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HEXHASH_WORD=1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <CY1PR03MB213764AFCA6F51DC5558C1AEB3839@CY1PR03MB2137.namprd03.prod.outlook.com>
+ <CAFEAcA8s1MTvtSuX-xjqoxbz_c7_f-V97Ra6Qzy1QdMpfXTLAA@mail.gmail.com>
+ <1000569943.5927253.1657274788950@mail.yahoo.com>
+ <CALQG_Whc5dNp1yVM5H+8grKawsPfbdzU33ExnjddSEa6n=XpYQ@mail.gmail.com>
+ <CY1PR03MB2137D5D2C2C9A0F7D83BD86FB39A9@CY1PR03MB2137.namprd03.prod.outlook.com>
+In-Reply-To: <CY1PR03MB2137D5D2C2C9A0F7D83BD86FB39A9@CY1PR03MB2137.namprd03.prod.outlook.com>
+From: Fabien Chouteau <chouteau@adacore.com>
+Date: Mon, 22 Aug 2022 15:08:09 +0200
+Message-ID: <CALQG_WgxN98VcU5+JUFo_La1qFG7kOeaXpX-Vhcp_R78UzEZxA@mail.gmail.com>
+Subject: Re: Support for Gaisler multicore LEONx SoCs
+To: Gregg Allison <Gregg.Allison@lasp.colorado.edu>
+Cc: Frederic Konrad <konrad.frederic@yahoo.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Content-Type: multipart/alternative; boundary="000000000000a9ade205e6d42436"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=chouteau@adacore.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,78 +91,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commits 01ef8185b80 amd 24b36e9813e updated the way that the maximum
-transfer length is calculated for patching block limits VPD page in an
-INQUIRY response.
+--000000000000a9ade205e6d42436
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The same updates also need to be made for the case where the host device
-does not support the block limits VPD page at all and we emulate the
-whole page.
+Hi all,
 
-Without this fix, on host block devices a maximum transfer length of
-(INT_MAX - sector_size) bytes is advertised to the guest, resulting in
-I/O errors when a request that exceeds the host limits is made by the
-guest. (Prior to commit 24b36e9813e, this code path would use the
-max_transfer value from the host instead of INT_MAX, but still miss the
-fix from 01ef8185b80 where max_transfer is also capped to max_iov
-host pages, so it would be less wrong, but still wrong.)
+On Mon, Aug 1, 2022 at 6:42 PM Gregg Allison <
+Gregg.Allison@lasp.colorado.edu> wrote:
 
-Cc: qemu-stable@nongnu.org
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2096251
-Fixes: 01ef8185b809af9d287e1a03a3f9d8ea8231118a
-Fixes: 24b36e9813ec15da7db62e3b3621730710c5f020
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- hw/scsi/scsi-generic.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+> Fabien, can I obtain the SMP Leon3/Leon4 fork from AdaCore directly?
+>
 
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index ada24d7486..3d35d307e1 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -147,6 +147,18 @@ static int execute_command(BlockBackend *blk,
-     return 0;
- }
- 
-+static uint64_t calculate_max_transfer(SCSIDevice *s)
-+{
-+    uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
-+    uint32_t max_iov = blk_get_max_hw_iov(s->conf.blk);
-+
-+    assert(max_transfer);
-+    max_transfer = MIN_NON_ZERO(max_transfer,
-+                                max_iov * qemu_real_host_page_size());
-+
-+    return max_transfer / s->blocksize;
-+}
-+
- static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
- {
-     uint8_t page, page_idx;
-@@ -179,12 +191,7 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
-         (r->req.cmd.buf[1] & 0x01)) {
-         page = r->req.cmd.buf[2];
-         if (page == 0xb0) {
--            uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
--            uint32_t max_iov = blk_get_max_hw_iov(s->conf.blk);
--
--            assert(max_transfer);
--            max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size())
--                / s->blocksize;
-+            uint64_t max_transfer = calculate_max_transfer(s);
-             stl_be_p(&r->buf[8], max_transfer);
-             /* Also take care of the opt xfer len. */
-             stl_be_p(&r->buf[12],
-@@ -230,7 +237,7 @@ static int scsi_generic_emulate_block_limits(SCSIGenericReq *r, SCSIDevice *s)
-     uint8_t buf[64];
- 
-     SCSIBlockLimits bl = {
--        .max_io_sectors = blk_get_max_transfer(s->conf.blk) / s->blocksize
-+        .max_io_sectors = calculate_max_transfer(s),
-     };
- 
-     memset(r->buf, 0, r->buflen);
--- 
-2.37.1
+Our fork is here: https://github.com/adacore/qemu/tree/qemu-stable-7.0.0
+There is much more than SMP Leon3 in there :)
 
+I add in copy Cl=C3=A9ment Chigot who is in charge of contribution to upstr=
+eam
+QEMU now.
+I think we can put SMP Leon3 on top of the TODO list for contributions.
+That being said, no promises on when it can be done :)
+
+Regards,
+
+--=20
+Fabien Chouteau
+
+--000000000000a9ade205e6d42436
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi all,<br></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 1, 2022 at 6:42 PM Gregg Allis=
+on &lt;<a href=3D"mailto:Gregg.Allison@lasp.colorado.edu">Gregg.Allison@las=
+p.colorado.edu</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex"><div class=3D"msg7666121393030158623">
+
+
+
+
+
+<div lang=3D"EN-US">
+<div class=3D"gmail-m_7666121393030158623WordSection1"><span style=3D"font-=
+size:11pt;font-family:&quot;Calibri&quot;,sans-serif;color:rgb(31,73,125)">=
+</span><span style=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-s=
+erif;color:rgb(31,73,125)">Fabien, can I obtain the SMP Leon3/Leon4 fork fr=
+om AdaCore directly?</span></div></div></div></blockquote><div><br></div><d=
+iv>Our fork is here: <a href=3D"https://github.com/adacore/qemu/tree/qemu-s=
+table-7.0.0">https://github.com/adacore/qemu/tree/qemu-stable-7.0.0</a></di=
+v><div>There is much more than SMP Leon3 in there :)</div><div><br></div><d=
+iv>I add in copy Cl=C3=A9ment Chigot who is in charge of contribution to up=
+stream QEMU now.</div><div>I think we can put SMP Leon3 on top of the TODO =
+list for contributions. That being said, no promises on when it can be done=
+ :)<br></div><div><br></div><div>Regards,</div><div><br></div></div>-- <br>=
+<div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr">Fabien Chouteau=
+<br></div></div></div>
+
+--000000000000a9ade205e6d42436--
 
