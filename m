@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF4359CCBE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 02:05:32 +0200 (CEST)
-Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9176259CD0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 02:14:34 +0200 (CEST)
+Received: from localhost ([::1]:46954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQHQA-0005ik-I7
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 20:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58818)
+	id 1oQHYv-0005ng-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 20:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGvZ-0006AI-6h
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:33:56 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40932)
+ id 1oQHJ2-0003yg-5m
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:58:08 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGvW-0007FY-9u
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:33:52 -0400
-Received: by mail-pf1-x436.google.com with SMTP id y141so11832834pfb.7
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:33:45 -0700 (PDT)
+ id 1oQHJ0-0002hb-JD
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:58:07 -0400
+Received: by mail-pg1-x536.google.com with SMTP id c24so10800574pgg.11
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:58:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc;
- bh=cs9G+21OdHQdLobnzvJt7VPWHa06hM37G+iQ/J7TZ4Y=;
- b=p6j0dpO8Jcr0jWfqc1LCZCxge97eUR6eVbEnM4r1V+OmzxVc/FLlke/+jPM+0iP+nb
- lzBeuh82hlWbfztqxNO1RfslzHDkmTVDFRoobbrcS1SBmZ4Ka578mZLtSqThUXAS9Sol
- 5E0BeUM91dryKPtlDKM/BW1txu2/o639xQn3jh3L/l7EiaUxnj/u69qpbxu0dE/tgebm
- 8d1sN8lxcqZCrEobfaoeSbQQE7fuOmnuXmIISLnDSjGZGdBH7nMKDnk6zfzNlxsLUOlE
- 2o1jplmU+Bz9/8PkHCxoMKaQgBVD+LOVJOti5jgzL86OYiEqWh1XybxZxsMMyuhUQAFb
- qbBA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=JvSp0HNM4vjSO/R6Mhl2Lwg1DUGqNpQyWASJWLKDAXg=;
+ b=VybwHTXqD+rJiUIwE65CFTSce1MgdxljmZdxMYRq6HKs1cLQI/CFAP8t2p4mCvjVv+
+ WQumN8H1AOZXMn2N4bqQVK4vm65ExwxNTGX58UoUpHjsv+scqS949cYDZG8Uti6GAUHQ
+ 9FD+FJzPAWrWfhRgqTiGL7rVame01fpiY/zOASMXdFL8OvYdS+1F5QmvpDbnEnKJM8AK
+ llni8B8o6XwLiTKT3l15gd4Y1yL+w7GJFe3nnJLvFqQvUI1UIzvkIfJo49jn+55gW6MY
+ DXWBWwCdqWYbz0wL3am745DJOerHBdNs8DrcfOe5YutLyv2xs8WDGE59LifgbrMt09hW
+ GiAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=cs9G+21OdHQdLobnzvJt7VPWHa06hM37G+iQ/J7TZ4Y=;
- b=CvW5/3O04ypx/Rg8CcDLLnrDMDf9IdqOeHyG+oFv6StdyXnB7sAa2VO7ESF5Kfu5xS
- Kr0TYJKE8cTeoLnaJEnnMw/hmN+KJE/auHQr/NmILT4GalzNgEwJsyVczRNzvUHtsuBE
- ZtyhrZpKAkshXWg2cE/NkHOkSAQHlU0fpu9js/vDcaiM5YioSQU0XiBDpnkIORdujqiU
- t2VPkSE6j7T6UawDaB5uy/uBh3NygP/oEsIfQWyAhWHkcjDfD7KO1XgcL4IkebfFlAHJ
- gXDAQKjxF14ZtHZ/CkiVXQY5wRlxYRswsirs364xxRON43ZCBAHjZiVCVadeMP4ZhkgN
- K//Q==
-X-Gm-Message-State: ACgBeo2MPTpYG+Ljtwl8a/N//8HyNeffGNNJBIYerm+uDzA1VBx4QF0X
- iaZjQHd1N5HxDt3ndYbNNQ63aPDL8Sk9Mg==
-X-Google-Smtp-Source: AA6agR5cMwjw7c43uTS1eCLeF5Qs6Tz80uH41H3sOi3ztRDogIryrAaaIirdfe6DEZ1650J1bplRtw==
-X-Received: by 2002:a05:6a00:10ca:b0:536:ec31:827c with SMTP id
- d10-20020a056a0010ca00b00536ec31827cmr1982664pfu.67.1661211225455; 
- Mon, 22 Aug 2022 16:33:45 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=JvSp0HNM4vjSO/R6Mhl2Lwg1DUGqNpQyWASJWLKDAXg=;
+ b=U9dxrc2TOXVbXM75YEDthY1CiJEeBuZa71wEapvGgTRiB+KlS1n95T2VAPydIFmTjB
+ AZ6U6lyWqdrBBBkwZ7lXHx9R1TEBbxYaSuyoX6o4m3/I5vtyELXVnDT2akCW+hyXc4CG
+ gq0+5c8ehx9zqzrM4RwDLw3Syjb/mE1YrI4gmuJwstA3p3FrLYsyt5CJtfO7+65jScun
+ oujZuuE8dGPYX6VsbIHgNMKRH0jc6sGbuHuU7zBgQzI5H2UeK5U0TeH0qkOpmCWnZIWX
+ hJs+BWqvZdKOf70JgMb5lasGC49z60ERCb+3brDxfYjJCPb52g2ztb7Tx3YZc771zhqn
+ Sp7g==
+X-Gm-Message-State: ACgBeo29PMpT3DhKGbaOoLh85LKjKYlKP15QEAygcY5agCqzl+4n96fD
+ lN8bw+o99blfrcWUGSWEhP85wzxdwG3Wbg==
+X-Google-Smtp-Source: AA6agR5SmeeQCtTlK5QGNrtmZqhmbhwYk3vWeCZrgSu3XHE+CRpjxcrBgn9FMEoKBa+P/lvlgB3Zzw==
+X-Received: by 2002:a05:6a00:230f:b0:52f:6734:90fe with SMTP id
+ h15-20020a056a00230f00b0052f673490femr23192206pfh.67.1661212685036; 
+ Mon, 22 Aug 2022 16:58:05 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:c3f1:b74f:5edd:63af])
  by smtp.gmail.com with ESMTPSA id
- 82-20020a621555000000b0053655af14easm5133124pfv.45.2022.08.22.16.33.44
- for <qemu-devel@nongnu.org>
+ w190-20020a6230c7000000b0052d52de6726sm9173159pfw.124.2022.08.22.16.58.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 16:33:44 -0700 (PDT)
+ Mon, 22 Aug 2022 16:58:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/22] target/i386: Use gen_jmp_rel for gen_repz*
-Date: Mon, 22 Aug 2022 16:33:15 -0700
-Message-Id: <20220822233318.1728621-20-richard.henderson@linaro.org>
+Cc: pbonzini@redhat.com,
+	eduardo@habkost.net
+Subject: [PATCH 00/14] target/i386: Use atomic operations for pte updates
+Date: Mon, 22 Aug 2022 16:57:49 -0700
+Message-Id: <20220822235803.1729290-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220822233318.1728621-1-richard.henderson@linaro.org>
-References: <20220822233318.1728621-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,55 +87,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Subtract cur_insn_len to restart the current insn.
+This patch set does two things:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/tcg/translate.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+(1) Remove assert(!probe) from the x86 tlb_fill
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 6d6c751c10..67c803263b 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -224,7 +224,6 @@ STUB_HELPER(wrmsr, TCGv_env env)
- 
- static void gen_eob(DisasContext *s);
- static void gen_jr(DisasContext *s);
--static void gen_jmp(DisasContext *s, target_ulong eip);
- static void gen_jmp_tb(DisasContext *s, target_ulong eip, int tb_num);
- static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num);
- static void gen_op(DisasContext *s1, int op, MemOp ot, int d);
-@@ -1277,7 +1276,7 @@ static void gen_repz(DisasContext *s, MemOp ot,
-     if (s->repz_opt) {
-         gen_op_jz_ecx(s, s->aflag, l2);
-     }
--    gen_jmp(s, s->base.pc_next - s->cs_base);
-+    gen_jmp_rel(s, MO_32, -cur_insn_len(s), 0);
- }
- 
- #define GEN_REPZ(op) \
-@@ -1297,7 +1296,7 @@ static void gen_repz2(DisasContext *s, MemOp ot, int nz,
-     if (s->repz_opt) {
-         gen_op_jz_ecx(s, s->aflag, l2);
-     }
--    gen_jmp(s, s->base.pc_next - s->cs_base);
-+    gen_jmp_rel(s, MO_32, -cur_insn_len(s), 0);
- }
- 
- #define GEN_REPZ2(op) \
-@@ -2751,11 +2750,6 @@ static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
-     gen_jmp_tb(s, dest, tb_num);
- }
- 
--static void gen_jmp(DisasContext *s, target_ulong eip)
--{
--    gen_jmp_tb(s, eip, 0);
--}
--
- static inline void gen_ldq_env_A0(DisasContext *s, int offset)
- {
-     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEUQ);
+    It turns out that this is a prerequisite for
+    [PATCH v6 00/21] linux-user: Fix siginfo_t contents when jumping
+    to non-readable pages
+
+    because of a new use of probe_access(..., nonfault)
+    when comparing TBs that cross a page boundary.
+
+    Patches 7-10 are sufficient to fix this.
+
+    After auditing all of the targets, Sparc has a similar assert,
+    and AVR simply doesn't check probe at all.  Both will need fixing.
+
+(2) Use atomic operations for pte updates, which is a long-standing
+    bug since our conversion to MTTCG.
+
+For simplicity, patches 1-6 are from the middle of 
+("[PATCH v2 00/66] target/arm: Implement FEAT_HAFDBS")
+
+
+r~
+
+
+Richard Henderson (14):
+  accel/tcg: Rename CPUIOTLBEntry to CPUTLBEntryFull
+  accel/tcg: Drop addr member from SavedIOTLB
+  accel/tcg: Suppress auto-invalidate in probe_access_internal
+  accel/tcg: Introduce probe_access_full
+  accel/tcg: Introduce tlb_set_page_full
+  include/exec: Introduce TARGET_PAGE_ENTRY_EXTRA
+  target/i386: Use MMUAccessType across excp_helper.c
+  target/i386: Direct call get_hphys from mmu_translate
+  target/i386: Introduce structures for mmu_translate
+  target/i386: Reorg GET_HPHYS
+  target/i386: Add MMU_PHYS_IDX and MMU_NESTED_IDX
+  target/i386: Use MMU_NESTED_IDX for vmload/vmsave
+  target/i386: Combine 5 sets of variables in mmu_translate
+  target/i386: Use atomic operations for pte updates
+
+ include/exec/cpu-defs.h              |  45 +-
+ include/exec/exec-all.h              |  33 ++
+ include/hw/core/cpu.h                |   1 -
+ target/i386/cpu-param.h              |   2 +-
+ target/i386/cpu.h                    |   5 +-
+ accel/tcg/cputlb.c                   | 215 +++++----
+ target/arm/mte_helper.c              |  14 +-
+ target/arm/sve_helper.c              |   4 +-
+ target/arm/translate-a64.c           |   2 +-
+ target/i386/tcg/sysemu/excp_helper.c | 692 +++++++++++++++++----------
+ target/i386/tcg/sysemu/svm_helper.c  | 234 +++++----
+ target/s390x/tcg/mem_helper.c        |   4 -
+ 12 files changed, 772 insertions(+), 479 deletions(-)
+
 -- 
 2.34.1
 
