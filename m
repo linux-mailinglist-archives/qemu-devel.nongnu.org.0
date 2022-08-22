@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C8759C245
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 17:13:00 +0200 (CEST)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5499959C280
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 17:21:13 +0200 (CEST)
+Received: from localhost ([::1]:49160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ96o-0003Pg-Bc
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 11:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51350)
+	id 1oQ9Em-0004FL-3O
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 11:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oQ93S-0007tP-0C
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:09:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21045)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oQ95D-0001DQ-EK
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:11:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oQ93O-0003Si-E7
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:09:28 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oQ95A-00045F-Sc
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:11:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661180964;
+ s=mimecast20190719; t=1661181075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vBdwi+kHeh5EHiADZNkVI7azyBtnU6yN0MKzrzW3+p4=;
- b=EqD8aLmUm8pvbatm47oUfllaJD9DatIoQUfdksdbuW18mM27tcEBDxn6doX9eeNQ9AhtM8
- BO11d3mZX9FKlxaqnOINacbu8sKtgDgBHmgWQ8TQx3NrRr1UljHCDN6OT6gQMNtH9dZGyP
- KM4vMUuDohoXVJG2ohHvYiy0KOwbV9Q=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=X2uShgSizptZrajnSXWdWy/DzzK5uu1vpmTZwlLsqw8=;
+ b=MVh09GYE3ky6ApuxnR17u4Mlad9MC6+qj/ZFD6N0q2B8rEAYEWdD9sXBiB1sQBLc4d23q0
+ Ph5YFUu4czIVg5FqV0FXddwxlGKwUOyEiAOfs0/3ROfNoU1RH+sUiRG1eiUmBwMvIXjV/Z
+ oQPeUzLdE8LPyAqNpWvAdQGUKk1MtIw=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-472-KhbQiJL-MPm8S16PCy58iA-1; Mon, 22 Aug 2022 10:09:09 -0400
-X-MC-Unique: KhbQiJL-MPm8S16PCy58iA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- ci6-20020a05622a260600b0034370b6f5d6so8468053qtb.14
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 07:09:09 -0700 (PDT)
+ us-mta-645-1_8jjNWhMCu_cl7MWW094g-1; Mon, 22 Aug 2022 10:11:00 -0400
+X-MC-Unique: 1_8jjNWhMCu_cl7MWW094g-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ v13-20020a05620a0f0d00b006b5f0ec742eso9701622qkl.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 07:11:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=vBdwi+kHeh5EHiADZNkVI7azyBtnU6yN0MKzrzW3+p4=;
- b=cnNdskb1xwN0Lu4FKsTYOrjrn1LgFpFaTpSjGB+fOrS9XntufN9XXpw7kQTHPNZtGd
- pKb9U+yJa1zO2+FdpM505Vlt6AfWMTvEJ/F4wb+WSn56WBSvED3BsDDkgQjPMaZp9y0g
- hYZXsloLJoXViag+8uF9DVggAceaB6qAlPeVuKntemDGYfz89bRbQy3572apn93861+o
- tiyS5lI5BqTW74I3aHDrjN3nlWNZKzQjmrbbxEJq8lNgtYF7P+MSrf8IlQQAqPWf08+t
- IQlR+uD2dOFawWTaE/iUf5grxoKLoZnWcp/2XgsMJ9ezI/rF91maXt4d/+WHeito7F2e
- NPWw==
-X-Gm-Message-State: ACgBeo1Dzyn5jJh0UlZbVEKIdGnJF7qz1KANalc/E1qU2qDb3taPyWlG
- 0W2vfB6d+wM8sSdafo0tX2i2/iTqBWxhyz9iaWIr8pE7XrmOqwM6i3cxz1yEETmnaPvlwOokHvz
- RFKOAtkm/5ZJJrrqxm7DZWGf07COJdIs=
-X-Received: by 2002:ad4:5c62:0:b0:496:f703:e0a3 with SMTP id
- i2-20020ad45c62000000b00496f703e0a3mr701783qvh.64.1661177348956; 
- Mon, 22 Aug 2022 07:09:08 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4Nbx5HZZhZ+qttxpQZDTd2oGNhe+DBwBvV/58de8eyEvZhB452zmyzBAD5napkVOjapJC2ba3eQzmPxR076Gw=
-X-Received: by 2002:ad4:5c62:0:b0:496:f703:e0a3 with SMTP id
- i2-20020ad45c62000000b00496f703e0a3mr701750qvh.64.1661177348570; Mon, 22 Aug
- 2022 07:09:08 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=X2uShgSizptZrajnSXWdWy/DzzK5uu1vpmTZwlLsqw8=;
+ b=xYqd/DgPo8+urWS7jiYUaUSV3BUzzUXL/TxVjYKCFeaqUfkPBu2bKDsHeSLR1LPCvW
+ HIJ7o8ELoIotp87sJz5j9gekZ1XOIMKa/5m6RmZi9t6bSlwp2Wz6KxZH1ouy/hkXEYAo
+ ecT9GhIGtPebn9/wDKtvsAZuuRsQ0pJ7tFQXO4Svl5t54etrDkCrXebr6S34QEYlNe6n
+ G2v8nqNjfV0I8Zpmm7nlbZIsCtA4KmvY1fbjPbgV2FIGQYqatWiXtSuLeLs0x9LDBTh+
+ l0J/M8IDv7eYddkczetm26/E1kcw6zBqVSSxyby4hUcEHv+/toeH4rV2CpM/9b511Yoj
+ jaLg==
+X-Gm-Message-State: ACgBeo3uMQZy+FDeC60lZmpL0mdxfVx7rzS7LncoeeIw03ftWWtoEnsH
+ rzBg2niSHZu18QE8MEKj5SZ4ywjNUvmkYcHSMxipER6lQBw/fxnnkp3eFUuQvnsmxeFb8u3pGB2
+ bo9NssLKdzn9vFZo=
+X-Received: by 2002:a05:620a:bc3:b0:6a7:9e01:95ac with SMTP id
+ s3-20020a05620a0bc300b006a79e0195acmr12771038qki.91.1661177459521; 
+ Mon, 22 Aug 2022 07:10:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6Q81+6KZjfmeiklX8+2y5Q7aXdyjYPcNKEVMQ/86HJlDYbRQBSpa49qa01I9iy9t47K7UYiw==
+X-Received: by 2002:a05:620a:bc3:b0:6a7:9e01:95ac with SMTP id
+ s3-20020a05620a0bc300b006a79e0195acmr12770993qki.91.1661177458994; 
+ Mon, 22 Aug 2022 07:10:58 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+ by smtp.gmail.com with ESMTPSA id
+ i7-20020a05620a248700b006bb0f9b89cfsm11573580qkn.87.2022.08.22.07.10.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Aug 2022 07:10:58 -0700 (PDT)
+Date: Mon, 22 Aug 2022 10:10:56 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay
+ kvm_vm_ioctl to the commit phase
+Message-ID: <YwOOcC72KKABKgU+@xz-m1.local>
+References: <20220816101250.1715523-1-eesposit@redhat.com>
+ <20220816101250.1715523-3-eesposit@redhat.com>
+ <Yv6baJoNikyuZ38R@xz-m1.local>
+ <CAJ6HWG6maoPjbP8T5qo=iXCbNeHu4dq3wHLKtRLahYKuJmMY-g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220818151244.2050-1-qtxuning1999@sjtu.edu.cn>
- <20220818151244.2050-2-qtxuning1999@sjtu.edu.cn>
-In-Reply-To: <20220818151244.2050-2-qtxuning1999@sjtu.edu.cn>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 22 Aug 2022 16:08:32 +0200
-Message-ID: <CAJaqyWePsPLtZQh8evqOSyaJAQ2HfAcmV+DhapVdGDn-S4dHdg@mail.gmail.com>
-Subject: Re: [RFC 1/2] virtio: expose used buffers
-To: Guo Zhi <qtxuning1999@sjtu.edu.cn>
-Cc: Jason Wang <jasowang@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Michael Tsirkin <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJ6HWG6maoPjbP8T5qo=iXCbNeHu4dq3wHLKtRLahYKuJmMY-g@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,93 +105,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 18, 2022 at 5:13 PM Guo Zhi <qtxuning1999@sjtu.edu.cn> wrote:
->
-> Follow VIRTIO 1.1 spec, we can only writing out a single used ring for a
-> batch of descriptors, and only notify guest when the batch of
-> descriptors have all been used.
->
-> We do that batch for tx, because the driver doesn't need to know the
-> length of tx buffer, while for rx, we don't apply the batch strategy.
->
-> Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
-> ---
->  hw/net/virtio-net.c | 29 ++++++++++++++++++++++++++---
->  1 file changed, 26 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index dd0d056f..c8e83921 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -2542,8 +2542,10 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
->      VirtIONet *n = q->n;
->      VirtIODevice *vdev = VIRTIO_DEVICE(n);
->      VirtQueueElement *elem;
-> +    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
->      int32_t num_packets = 0;
->      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
-> +    size_t j;
->      if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
->          return num_packets;
->      }
-> @@ -2621,14 +2623,35 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
->          }
->
->  drop:
-> -        virtqueue_push(q->tx_vq, elem, 0);
-> -        virtio_notify(vdev, q->tx_vq);
-> -        g_free(elem);
-> +        if (!virtio_vdev_has_feature(vdev, VIRTIO_F_IN_ORDER)) {
-> +            virtqueue_push(q->tx_vq, elem, 0);
-> +            virtio_notify(vdev, q->tx_vq);
-> +            g_free(elem);
-> +        } else {
-> +            elems[num_packets] = elem;
-> +        }
->
->          if (++num_packets >= n->tx_burst) {
->              break;
->          }
->      }
-> +
-> +    if (virtio_vdev_has_feature(vdev, VIRTIO_F_IN_ORDER) && num_packets) {
-> +        /**
-> +         * If in order feature negotiated, devices can notify the use of a batch
-> +         * of buffers to the driver by only writing out a single used ring entry
-> +         * with the id corresponding to the head entry of the descriptor chain
-> +         * describing the last buffer in the batch.
-> +         */
-> +        virtqueue_fill(q->tx_vq, elems[num_packets - 1], 0, 0);
-> +        for (j = 0; j < num_packets; j++) {
+On Thu, Aug 18, 2022 at 09:55:20PM -0300, Leonardo Bras Soares Passos wrote:
+> On Thu, Aug 18, 2022 at 5:05 PM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Tue, Aug 16, 2022 at 06:12:50AM -0400, Emanuele Giuseppe Esposito wrote:
+> > > +static void kvm_memory_region_node_add(KVMMemoryListener *kml,
+> > > +                                       struct kvm_userspace_memory_region *mem)
+> > > +{
+> > > +    MemoryRegionNode *node;
+> > > +
+> > > +    node = g_malloc(sizeof(MemoryRegionNode));
+> > > +    *node = (MemoryRegionNode) {
+> > > +        .mem = mem,
+> > > +    };
+> >
+> > Nit: direct assignment of struct looks okay, but maybe pointer assignment
+> > is clearer (with g_malloc0?  Or iirc we're suggested to always use g_new0):
+> >
+> >   node = g_new0(MemoryRegionNode, 1);
+> >   node->mem = mem;
+> >
+> > [...]
+> >
+> > > +/* for KVM_SET_USER_MEMORY_REGION_LIST */
+> > > +struct kvm_userspace_memory_region_list {
+> > > +     __u32 nent;
+> > > +     __u32 flags;
+> > > +     struct kvm_userspace_memory_region entries[0];
+> > > +};
+> > > +
+> > >  /*
+> > >   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
+> > >   * other bits are reserved for kvm internal use which are defined in
+> > > @@ -1426,6 +1433,8 @@ struct kvm_vfio_spapr_tce {
+> > >                                       struct kvm_userspace_memory_region)
+> > >  #define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)
+> > >  #define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)
+> > > +#define KVM_SET_USER_MEMORY_REGION_LIST _IOW(KVMIO, 0x49, \
+> > > +                                     struct kvm_userspace_memory_region_list)
+> >
+> > I think this is probably good enough, but just to provide the other small
+> > (but may not be important) piece of puzzle here.  I wanted to think through
+> > to understand better but I never did..
+> >
+> > For a quick look, please read the comment in kvm_set_phys_mem().
+> >
+> >                 /*
+> >                  * NOTE: We should be aware of the fact that here we're only
+> >                  * doing a best effort to sync dirty bits.  No matter whether
+> >                  * we're using dirty log or dirty ring, we ignored two facts:
+> >                  *
+> >                  * (1) dirty bits can reside in hardware buffers (PML)
+> >                  *
+> >                  * (2) after we collected dirty bits here, pages can be dirtied
+> >                  * again before we do the final KVM_SET_USER_MEMORY_REGION to
+> >                  * remove the slot.
+> >                  *
+> >                  * Not easy.  Let's cross the fingers until it's fixed.
+> >                  */
+> >
+> > One example is if we have 16G mem, we enable dirty tracking and we punch a
+> > hole of 1G at offset 1G, it'll change from this:
+> >
+> >                      (a)
+> >   |----------------- 16G -------------------|
+> >
+> > To this:
+> >
+> >      (b)    (c)              (d)
+> >   |--1G--|XXXXXX|------------14G------------|
+> >
+> > Here (c) will be a 1G hole.
+> >
+> > With current code, the hole punching will del region (a) and add back
+> > region (b) and (d).  After the new _LIST ioctl it'll be atomic and nicer.
+> >
+> > Here the question is if we're with dirty tracking it means for each region
+> > we have a dirty bitmap.  Currently we do the best effort of doing below
+> > sequence:
+> >
+> >   (1) fetching dirty bmap of (a)
+> >   (2) delete region (a)
+> >   (3) add region (b) (d)
+> >
+> > Here (a)'s dirty bmap is mostly kept as best effort, but still we'll lose
+> > dirty pages written between step (1) and (2) (and actually if the write
+> > comes within (2) and (3) I think it'll crash qemu, and iiuc that's what
+> > we're going to fix..).
+> >
+> > So ideally the atomic op can be:
+> >
+> >   "atomically fetch dirty bmap for removed regions, remove regions, and add
+> >    new regions"
+> >
+> > Rather than only:
+> >
+> >   "atomically remove regions, and add new regions"
+> >
+> > as what the new _LIST ioctl do.
+> >
+> > But... maybe that's not a real problem, at least I didn't know any report
+> > showing issue with current code yet caused by losing of dirty bits during
+> > step (1) and (2).  Neither do I know how to trigger an issue with it.
+> >
+> > I'm just trying to still provide this information so that you should be
+> > aware of this problem too, at the meantime when proposing the new ioctl
+> > change for qemu we should also keep in mind that we won't easily lose the
+> > dirty bmap of (a) here, which I think this patch does the right thing.
+> >
+> 
+> Thanks for bringing these details Peter!
+> 
+> What do you think of adding?
+> (4) Copy the corresponding part of (a)'s dirty bitmap to (b) and (d)'s
+> dirty bitmaps.
 
-There are a few calls on virtqueue_pop that we need to keep cleaning
-here. For example, the increment on vq->inuse or dma_memory_map/unmap.
-Maybe it is ok to call virtqueue_detach_element here for all skipped
-buffers of the batch, but I haven't reviewed it in depth.
+Sounds good to me, but may not cover dirty ring?  Maybe we could move on
+with the simple but clean scheme first and think about a comprehensive
+option only if very necessary.  The worst case is we need one more kvm cap
+but we should still have enough.
 
-Also, if we want to batch, we must increment used idx accordingly.
-From the standard, "The device then skips forward in the [used] ring
-according to the size of the batch. Accordingly, it increments the
-used idx by the size of the batch."
+Thanks,
 
-If we are sure virtio-net device will use tx virtqueue in order, maybe
-it is better to enable the in order feature bit before and then do the
-batching on top.
-
-Thanks!
-
-> +            g_free(elems[j]);
-> +        }
-> +
-> +        virtqueue_flush(q->tx_vq, num_packets);
-> +        virtio_notify(vdev, q->tx_vq);
-> +    }
-> +
->      return num_packets;
->  }
->
-> --
-> 2.17.1
->
+-- 
+Peter Xu
 
 
