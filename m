@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C99959C462
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 18:50:22 +0200 (CEST)
-Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1035459C3C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 18:10:55 +0200 (CEST)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQAd2-00027Q-Lm
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 12:50:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33322)
+	id 1oQA0l-0007wt-W8
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 12:10:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9LO-0007bM-GG
+ id 1oQ9LO-0007aa-7y
  for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:28:02 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:34810)
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9LD-0000gh-0N
+ id 1oQ9LG-0000hg-RP
  for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:28:01 -0400
-Received: by mail-pf1-x431.google.com with SMTP id x19so7889759pfq.1
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:27:50 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id g129so7349469pfb.8
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=J9NKDua5mjCfaRrViIxkitiohmvoSvAqzV9syZybY5w=;
- b=ys4tnb7KNFr9y4Jp2QDvFBy0no4nD1ZKcUgXYoxVUGPc4khNK1ZE7mUA/ABGhczfQF
- V9n7VSzZ3hQZHblw3nthVDO4/tkxbxCLIC8w+xxa/kqZFmTaQsYyr/BogaLIVc8y3uSG
- 55RY1aBcAmn4Zpy8TZIapnF7ResxzAKaL0Wzx1y9YOERFEwmUEZSc+g0F61ezlRIxC7l
- nq6EilMuPM524RFQVDZSn+MvqIdaAdXZBpBzJZSWPLKG8BfaHkPqqMgBweVylVduuz9l
- i2ZIWgLXN0yuMA6EMHzmVL7xdAe9uTk0cM+ZPqgRJh8snIsxIJoicKOueRwbQHNAlAin
- 53YA==
+ bh=BWRDtrDD+OIowc2u5C+0Bs/iEHTC4XxgclrlkjL6OHk=;
+ b=jF9Ny+Dv2/w2nmx73YWnpF9y56k4nLUDp2Uk4qUriUvfuCBwIoM4Kd/42lz9L9lD+h
+ 3LBcLwHAkjpMIvwtr6wKWD0HhLs3/euYYzGLsrFoSDAwLOxTAf6yqcQqmG1ybap+QjZV
+ 1xgcHyKmb6lVWA8kdanMJtOL167Vmj527HZHdHcyeHV5seXYwj2Y9zMBNleoEaTm6/2s
+ Z5l2H6bKDL0xUw1Ke3Cohop9YEzV7MM/iY5j/szKE0uydgx+EP06rib+D6PQpLq34P7z
+ Vx0qP0M8Nno0NkICr199m4WHv0R6uFW+yBcLzw/pi72t4cJJWAfK57pM9I/0o1Rlbthr
+ Q2Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=J9NKDua5mjCfaRrViIxkitiohmvoSvAqzV9syZybY5w=;
- b=sY7cD0PQdlYrbRGqMyEo/MZOilg+gWnqGHiPPE89beoqAyNy+H30TNoyXGD1qOVQYa
- rLhkxc5KS/YxGFm0bvMwPAxoC++3HAdbP9TGgzt5PXitZyKbS5HyG/YFccAvQxNlPl4Q
- DhqxmYnMubUYzJHFW0MIna4Z8L9cQ2PeeUnBSljq5kCsaxwhSFexHgHUSkFEmpVyWMfT
- tKv5P+rPAlOvKraUWGe8mquzsY6dXdV0eHeHW6DTFZOnmz991eO60JcfpMZaFJbaK+p7
- 6awHdRo5ppnJ7UghNL2ztgePvTsAaGzA+d5m4BGztufKMydGOYXbTuQbfadolx0de1WL
- SGVA==
-X-Gm-Message-State: ACgBeo0omDFEo5WI3J+YxCP/hOstBzrXEF4jscQBmgrI1fBnLiHPsHG0
- kh2MdbiLdWCIUsHE+ppUr287lHXOHozGGw==
-X-Google-Smtp-Source: AA6agR7eylNrQ+mnQ/XK62i/vXlBRmYvUmXJNqaxQykuzqoAN68xuAqA8DdWTHqmJg7bAbRNHJgOHA==
-X-Received: by 2002:a05:6a00:2789:b0:531:c43:6290 with SMTP id
- bd9-20020a056a00278900b005310c436290mr21269140pfb.21.1661182069096; 
- Mon, 22 Aug 2022 08:27:49 -0700 (PDT)
+ bh=BWRDtrDD+OIowc2u5C+0Bs/iEHTC4XxgclrlkjL6OHk=;
+ b=WTNXklIXYb6Dv6w5VE4M/DDxjsYT7PJPc6nh7Kul/w9uQVSXvEB6anykTsD8fcqPK7
+ Ayl6Byu7+h3x20U5LMWLYDEvy3NZEm1efUYxNgZPJLVpsC1s5XDxtAo1pf0kM31+lqvH
+ i/DcvykyZ0NKAFG6rldWEFlcO+C0nIJ2nvkjIL0u1m/Is4Irx4DCpJnJBs1aR6j97ZgV
+ cJr/u7leEa6Ib7pJOGOgUG41+mSHmjrWqkVEYYcMVtGfZCjncebFT/W6fhNpAR57aCM4
+ RVSHgo1YJcInQWUjux08TyF2Az/NSMSCmclkCFrFaHaeRgp2Hx0nJVTBRiKNF7eESgvX
+ kJmA==
+X-Gm-Message-State: ACgBeo1Hm5yv+9gSJpIpOgaULANIx1dJs5ryBggk2ERlmQA/Z7zY7iGl
+ peCbfwDmbJNbaI1pksbXHryOkTHs25PTSg==
+X-Google-Smtp-Source: AA6agR7cgq5AMCgaWo46LQbmWgkt9XFNMFkSvZQ4qmBDp7VMc1pu0DlKpP+ujAeqgr/idEK56gh4jQ==
+X-Received: by 2002:a05:6a00:98a:b0:536:4469:12e6 with SMTP id
+ u10-20020a056a00098a00b00536446912e6mr12705545pfg.9.1661182071497; 
+ Mon, 22 Aug 2022 08:27:51 -0700 (PDT)
 Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
- q7-20020a17090311c700b0016bffc59718sm8665222plh.58.2022.08.22.08.27.48
+ q7-20020a17090311c700b0016bffc59718sm8665222plh.58.2022.08.22.08.27.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 08:27:48 -0700 (PDT)
+ Mon, 22 Aug 2022 08:27:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 08/66] target/arm: Use GetPhysAddrResult in
- get_phys_addr_pmsav8
-Date: Mon, 22 Aug 2022 08:26:43 -0700
-Message-Id: <20220822152741.1617527-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 11/66] target/arm: Add is_secure parameter to
+ v8m_security_lookup
+Date: Mon, 22 Aug 2022 08:26:46 -0700
+Message-Id: <20220822152741.1617527-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220822152741.1617527-1-richard.henderson@linaro.org>
 References: <20220822152741.1617527-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,84 +90,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Remove the use of regime_is_secure from v8m_security_lookup,
+passing the new parameter to the lookup instead.
+
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ target/arm/internals.h | 2 +-
+ target/arm/m_helper.c  | 9 ++++++---
+ target/arm/ptw.c       | 9 +++++----
+ 3 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 3dd6708eee..225405de3b 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -1967,8 +1967,7 @@ void v8m_security_lookup(CPUARMState *env, uint32_t address,
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index fa8553a17e..7f3b5bb406 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1123,7 +1123,7 @@ typedef struct V8M_SAttributes {
  
- static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-                                  MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                                 hwaddr *phys_ptr, MemTxAttrs *txattrs,
--                                 int *prot, target_ulong *page_size,
-+                                 GetPhysAddrResult *result,
-                                  ARMMMUFaultInfo *fi)
- {
-     uint32_t secure = regime_is_secure(env, mmu_idx);
-@@ -2003,9 +2002,9 @@ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-                 } else {
-                     fi->type = ARMFault_QEMU_SFault;
-                 }
--                *page_size = sattrs.subpage ? 1 : TARGET_PAGE_SIZE;
--                *phys_ptr = address;
--                *prot = 0;
-+                result->page_size = sattrs.subpage ? 1 : TARGET_PAGE_SIZE;
-+                result->phys = address;
-+                result->prot = 0;
-                 return true;
-             }
-         } else {
-@@ -2015,7 +2014,7 @@ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-              * might downgrade a secure access to nonsecure.
-              */
-             if (sattrs.ns) {
--                txattrs->secure = false;
-+                result->attrs.secure = false;
-             } else if (!secure) {
-                 /*
-                  * NS access to S memory must fault.
-@@ -2028,17 +2027,19 @@ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-                  * for M_FAKE_FSR_SFAULT in arm_v7m_cpu_do_interrupt().
-                  */
-                 fi->type = ARMFault_QEMU_SFault;
--                *page_size = sattrs.subpage ? 1 : TARGET_PAGE_SIZE;
--                *phys_ptr = address;
--                *prot = 0;
-+                result->page_size = sattrs.subpage ? 1 : TARGET_PAGE_SIZE;
-+                result->phys = address;
-+                result->prot = 0;
-                 return true;
-             }
-         }
+ void v8m_security_lookup(CPUARMState *env, uint32_t address,
+                          MMUAccessType access_type, ARMMMUIdx mmu_idx,
+-                         V8M_SAttributes *sattrs);
++                         bool secure, V8M_SAttributes *sattrs);
+ 
+ /* Cacheability and shareability attributes for a memory access */
+ typedef struct ARMCacheAttrs {
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 01263990dc..45fbf19559 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -689,7 +689,8 @@ static bool arm_v7m_load_vector(ARMCPU *cpu, int exc, bool targets_secure,
+     if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+         V8M_SAttributes sattrs = {};
+ 
+-        v8m_security_lookup(env, addr, MMU_DATA_LOAD, mmu_idx, &sattrs);
++        v8m_security_lookup(env, addr, MMU_DATA_LOAD, mmu_idx,
++                            targets_secure, &sattrs);
+         if (sattrs.ns) {
+             attrs.secure = false;
+         } else if (!targets_secure) {
+@@ -2002,7 +2003,8 @@ static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx,
+     ARMMMUFaultInfo fi = {};
+     MemTxResult txres;
+ 
+-    v8m_security_lookup(env, addr, MMU_INST_FETCH, mmu_idx, &sattrs);
++    v8m_security_lookup(env, addr, MMU_INST_FETCH, mmu_idx,
++                        regime_is_secure(env, mmu_idx), &sattrs);
+     if (!sattrs.nsc || sattrs.ns) {
+         /*
+          * This must be the second half of the insn, and it straddles a
+@@ -2826,7 +2828,8 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
      }
  
--    ret = pmsav8_mpu_lookup(env, address, access_type, mmu_idx, phys_ptr,
--                            txattrs, prot, &mpu_is_subpage, fi, NULL);
--    *page_size = sattrs.subpage || mpu_is_subpage ? 1 : TARGET_PAGE_SIZE;
-+    ret = pmsav8_mpu_lookup(env, address, access_type, mmu_idx,
-+                            &result->phys, &result->attrs, &result->prot,
-+                            &mpu_is_subpage, fi, NULL);
-+    result->page_size =
-+        sattrs.subpage || mpu_is_subpage ? 1 : TARGET_PAGE_SIZE;
-     return ret;
+     if (env->v7m.secure) {
+-        v8m_security_lookup(env, addr, MMU_DATA_LOAD, mmu_idx, &sattrs);
++        v8m_security_lookup(env, addr, MMU_DATA_LOAD, mmu_idx,
++                            targetsec, &sattrs);
+         nsr = sattrs.ns && r;
+         nsrw = sattrs.ns && rw;
+     } else {
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index ec66ba6777..bbfb80f4dd 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1856,8 +1856,8 @@ static bool v8m_is_sau_exempt(CPUARMState *env,
  }
  
-@@ -2414,8 +2415,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-         if (arm_feature(env, ARM_FEATURE_V8)) {
-             /* PMSAv8 */
-             ret = get_phys_addr_pmsav8(env, address, access_type, mmu_idx,
--                                       &result->phys, &result->attrs,
--                                       &result->prot, &result->page_size, fi);
-+                                       result, fi);
-         } else if (arm_feature(env, ARM_FEATURE_V7)) {
-             /* PMSAv7 */
-             ret = get_phys_addr_pmsav7(env, address, access_type, mmu_idx,
+ void v8m_security_lookup(CPUARMState *env, uint32_t address,
+-                                MMUAccessType access_type, ARMMMUIdx mmu_idx,
+-                                V8M_SAttributes *sattrs)
++                         MMUAccessType access_type, ARMMMUIdx mmu_idx,
++                         bool is_secure, V8M_SAttributes *sattrs)
+ {
+     /*
+      * Look up the security attributes for this address. Compare the
+@@ -1885,7 +1885,7 @@ void v8m_security_lookup(CPUARMState *env, uint32_t address,
+     }
+ 
+     if (idau_exempt || v8m_is_sau_exempt(env, address, access_type)) {
+-        sattrs->ns = !regime_is_secure(env, mmu_idx);
++        sattrs->ns = !is_secure;
+         return;
+     }
+ 
+@@ -1974,7 +1974,8 @@ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
+     bool ret;
+ 
+     if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+-        v8m_security_lookup(env, address, access_type, mmu_idx, &sattrs);
++        v8m_security_lookup(env, address, access_type, mmu_idx,
++                            secure, &sattrs);
+         if (access_type == MMU_INST_FETCH) {
+             /*
+              * Instruction fetches always use the MMU bank and the
 -- 
 2.34.1
 
