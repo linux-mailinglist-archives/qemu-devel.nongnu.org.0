@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583DD59C422
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 18:29:50 +0200 (CEST)
-Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CD559C3F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 18:21:14 +0200 (CEST)
+Received: from localhost ([::1]:46830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQAJ7-00049r-Gh
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 12:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33334)
+	id 1oQAAp-00066D-VS
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 12:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9LR-0007ic-04
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:28:05 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:41944)
+ id 1oQ9LQ-0007gY-7e
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:28:04 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:42644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9LH-0000it-Gj
+ id 1oQ9LI-0000j5-Cp
  for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:28:03 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- t2-20020a17090a4e4200b001f21572f3a4so11693294pjl.0
+Received: by mail-pj1-x102b.google.com with SMTP id
+ s3-20020a17090a2f0300b001facfc6fdbcso10989455pjd.1
  for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:27:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=BX+4xB/VDWHk38SQNes18SXGBzYUd9d/yvot5DujC+I=;
- b=n6ywuIDZmU/esoI0SslXsFkFgnj4YQVQmtEk90igcrxqCbjK0fCmqqNYYuJ6i/PrV1
- 8xZtI3EGQ9wx979Ls7pyQr8xBd/5QLYZ29wh0vYJOGCv3Sijqg3eO9hP9Xc+CSMblkp4
- pURLEQxeH28HF678GhvlvV6WO6pZ+ieI2PMynqXippJTaaEFGixlDoRyRV1vpf5GheR1
- 7PME3mapuHLKCGBKNbJOGncy4mt7UnYBgFTCcJm1z+YlQL2yb2X22lU7x3dh5vcdhYDT
- tBnW1m9vZwcVot3nOjfUrGmOveSy0sIC0Ygtd4e6vtRldKghttfSqvdKEW/3sKEL4kWr
- 2w4Q==
+ bh=GSDRuelmXHTBnV2ZkAtPbMvnakhm9Yy5oZigW0sA2/o=;
+ b=cHY4ia1PZSpVvJpUxvTTZbwuO2D/HWRflpj0x13V4BecdfuMBpgylaFlqOAQI/8ZnD
+ IYwmpO2jIThSBmZF/tnFxk6c/L+28IUZXkMVkaEg8UuBQAlCOfwjHkOK0WKC/+YK9uck
+ mlVpdn9IIZpj4I4szremlgvWVUbNr3mv+euxyoyFbZ3VefTXwBdJgaBq/Ng84PSK9xFX
+ t3LkcgrzUHzb5Anoky24lm7sQez2DleJ+rNCdXTQz4Blsa1ezTznyfx1uDsCmSz6SmJK
+ SO+1X7TmsVI7S3KJsecg8mji9pkNa2Kn2S8KzSmJ9IOnJkwxOsRgYEuKfpPSf9M+du6h
+ xO6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=BX+4xB/VDWHk38SQNes18SXGBzYUd9d/yvot5DujC+I=;
- b=vKuU3apAgQU8+QdDGrsXRx0JLO0Cwr+lbzUInxAf3yuVJ4PmRDix1suVwSgMY+EZ+X
- teia6fE1y5Tocy/Yd9Sm/pvfmGwT3my7dSHf3d4VoCQ6/RxZsfLjoGVIFYTdFx4F48YK
- wGrWd2Q2Uv/qtteUF043LyNmv8FGni/PsjvKKWBILExhHC8JRUiL35yJ5NUzjEL77jiF
- Uo4O058mdTC9UiUfIoAIsr3h/+SocxGWFWb2TLeSKl5rYIPPZaXuVXSsqaLuLylxLhgW
- kAXR3j7EuqzChelPVD66uhAT5h4oNoKVg2zs0ZJkIgjD3DKkdsaA222ZOafRrY/guNk1
- gWow==
-X-Gm-Message-State: ACgBeo2W9yd66m1hmFQsniaBumZtwjNL2u0A447aC3/2HZ5a0wTHkMpO
- qO6OdPtslhkSreGGoYPQhyja/mJUwrwttg==
-X-Google-Smtp-Source: AA6agR5o5amRR0ROpZ3ZUzi54uBGG+9Qd8WB+aVGNz9DreFDCusFuroLq38ojCGJqRK/AauRxJTmiA==
-X-Received: by 2002:a17:902:f688:b0:172:f892:5c3c with SMTP id
- l8-20020a170902f68800b00172f8925c3cmr1906447plg.49.1661182074122; 
+ bh=GSDRuelmXHTBnV2ZkAtPbMvnakhm9Yy5oZigW0sA2/o=;
+ b=mEI3aQX/L7vW9092s+dlcEf0JJQqSNCCwD4JfO7leG3DzgImv2avXNdcTVVOi7nmBT
+ rzTGaPnWaIp7NX3AOUgKaW7w7/e66sq479huEbEuig/fAfYjhVLWKIaiAfMpbuhQQYeL
+ 125z2VRzyU84ohdCnOVt9/WtYP3tl+k4upNZoFq5flgsRoEXLbUf8flV6op0HGdPx2bm
+ jPEUjJexK76SXWveXybpIbP8+G8c6FOmUSHDsXWldalQOEcHzQJGbNW2QAVYxvNT/Ps3
+ wg5flx4kcnfTVqI1zJNzt8Fjs2bgYi4+a03TJIw0yEEnm3zz3VcklnvVfkr7a1dciTR9
+ 4jVw==
+X-Gm-Message-State: ACgBeo3fqYM/U9XNfEOHROLAcKRoH+PWM3suj2/ybKGR6Mac2b5+8ewD
+ rm5ipKGYltwRspbYrTmIC2x6ayU9plSY6A==
+X-Google-Smtp-Source: AA6agR74a3Kua1RUQ2FTMYSgGFm4G+xzSJF6XaR3TwflcTqQqJdumkXJ2tmxpngfHg40xSGQT8pE0A==
+X-Received: by 2002:a17:902:a511:b0:172:97a7:6f5d with SMTP id
+ s17-20020a170902a51100b0017297a76f5dmr20720936plq.159.1661182074999; 
  Mon, 22 Aug 2022 08:27:54 -0700 (PDT)
 Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
- q7-20020a17090311c700b0016bffc59718sm8665222plh.58.2022.08.22.08.27.53
+ q7-20020a17090311c700b0016bffc59718sm8665222plh.58.2022.08.22.08.27.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 08:27:53 -0700 (PDT)
+ Mon, 22 Aug 2022 08:27:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 14/66] target/arm: Add is_secure parameter to
- get_phys_addr_v6
-Date: Mon, 22 Aug 2022 08:26:49 -0700
-Message-Id: <20220822152741.1617527-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/66] target/arm: Add secure parameter to
+ get_phys_addr_pmsav8
+Date: Mon, 22 Aug 2022 08:26:50 -0700
+Message-Id: <20220822152741.1617527-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220822152741.1617527-1-richard.henderson@linaro.org>
 References: <20220822152741.1617527-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,58 +91,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the use of regime_is_secure from get_phys_addr_v6,
-passing the new parameter to the lookup instead.
+Remove the use of regime_is_secure from get_phys_addr_pmsav8.
+Since we already had a local variable named secure, use that.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ target/arm/ptw.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 4609278b42..a6880d051b 100644
+index a6880d051b..fccac2d71f 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -533,7 +533,8 @@ do_fault:
+@@ -1963,10 +1963,9 @@ void v8m_security_lookup(CPUARMState *env, uint32_t address,
  
- static bool get_phys_addr_v6(CPUARMState *env, uint32_t address,
-                              MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                             GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
-+                             bool is_secure, GetPhysAddrResult *result,
-+                             ARMMMUFaultInfo *fi)
+ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
+                                  MMUAccessType access_type, ARMMMUIdx mmu_idx,
+-                                 GetPhysAddrResult *result,
++                                 bool secure, GetPhysAddrResult *result,
+                                  ARMMMUFaultInfo *fi)
  {
-     ARMCPU *cpu = env_archcpu(env);
-     int level = 1;
-@@ -556,8 +557,7 @@ static bool get_phys_addr_v6(CPUARMState *env, uint32_t address,
-         fi->type = ARMFault_Translation;
-         goto do_fault;
-     }
--    desc = arm_ldl_ptw(env, table, regime_is_secure(env, mmu_idx),
--                       mmu_idx, fi);
-+    desc = arm_ldl_ptw(env, table, is_secure, mmu_idx, fi);
-     if (fi->type != ARMFault_None) {
-         goto do_fault;
-     }
-@@ -610,8 +610,7 @@ static bool get_phys_addr_v6(CPUARMState *env, uint32_t address,
-         ns = extract32(desc, 3, 1);
-         /* Lookup l2 entry.  */
-         table = (desc & 0xfffffc00) | ((address >> 10) & 0x3fc);
--        desc = arm_ldl_ptw(env, table, regime_is_secure(env, mmu_idx),
--                           mmu_idx, fi);
-+        desc = arm_ldl_ptw(env, table, is_secure, mmu_idx, fi);
-         if (fi->type != ARMFault_None) {
-             goto do_fault;
-         }
-@@ -2508,7 +2507,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-                                   result, fi);
-     } else if (regime_sctlr(env, mmu_idx) & SCTLR_XP) {
-         return get_phys_addr_v6(env, address, access_type, mmu_idx,
--                                result, fi);
-+                                is_secure, result, fi);
-     } else {
-         return get_phys_addr_v5(env, address, access_type, mmu_idx,
-                                 is_secure, result, fi);
+-    uint32_t secure = regime_is_secure(env, mmu_idx);
+     V8M_SAttributes sattrs = {};
+     bool ret;
+ 
+@@ -2411,7 +2410,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+             /* PMSAv8 */
+             ret = get_phys_addr_pmsav8(env, address, access_type, mmu_idx,
+-                                       result, fi);
++                                       is_secure, result, fi);
+         } else if (arm_feature(env, ARM_FEATURE_V7)) {
+             /* PMSAv7 */
+             ret = get_phys_addr_pmsav7(env, address, access_type, mmu_idx,
 -- 
 2.34.1
 
