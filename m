@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F401359C575
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 19:52:55 +0200 (CEST)
-Received: from localhost ([::1]:50110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00ED859C5BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 20:07:43 +0200 (CEST)
+Received: from localhost ([::1]:33572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQBba-0006uf-Qc
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 13:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42644)
+	id 1oQBps-00020t-VM
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 14:07:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQ9Pp-0005cv-Fw
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:32:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQ9Pm-0001qQ-EA
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:32:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661182345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VA2IGAlBvzhwXy5zuH6/N1Gi0n/LSl+fkDKeNTqjmgM=;
- b=I2PNi8+f/cyp3OiIQQrNQ2Usxs1R54NGUruRWmn04jJEzT1/CrNzgKI9Nc+tXTUMONARGC
- 5iUfTGC/zlLoyDU8z3v4XD6JOp6Cu9r2HX2YJ99gU2OmfSMs4+D7TCh5whK7N/NZMXw3sg
- szIPxBea3/gfOJ3OPcl3qzjHTj4POS4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-19-RIkpO3v5PT6Ozru_5nHWDQ-1; Mon, 22 Aug 2022 11:32:24 -0400
-X-MC-Unique: RIkpO3v5PT6Ozru_5nHWDQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f7-20020a1c6a07000000b003a60ede816cso2070742wmc.0
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:32:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oQ9lF-0002wa-6q
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:54:45 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:41804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oQ9lD-0005RY-E3
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:54:44 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id l19so7882153ljg.8
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=Ix5ZX0LyxSe0lq8009+k3P93c+marBxWgKkCfMS6XO4=;
+ b=xqhSh/J3Amp77yha/WEPgppTr2wvu7XP+/4bmW5/gwS59Egc1iMpjHs5yd2/Ld/w5m
+ tiG1aEIR1QCCmfdxX6keRnTd8nSY4BVJ8pd8TqUza4XGubOjSEAwgVKF2Szw3gUYy221
+ y8xUFR5KRtOjCGfucQYsJ4nWMY3turIQNHTLl/WalI7DYEPtVpe7gTn+goXXs1yH3v28
+ Pu13fbbOw4u/lXQP2zzNTgWlg4dqJ7f+SjZuREGv48W7KVV+c50PLGst/MB+mPMnr4fv
+ 98YZEQNiz1ZfEfSYUt6omnGhnAAoZvOrO1aHGqlTN0bCJiUpLbIYOGKwoU1ujBT3Z0jD
+ phMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc;
- bh=VA2IGAlBvzhwXy5zuH6/N1Gi0n/LSl+fkDKeNTqjmgM=;
- b=w4RKCwsrdcq8hT2gMVmweazc0dL5W/9Gc1XXwo6T4DlJe3opA/q9GJT1vmvXttDPu7
- wQwsmNxFjwyFJ7M7BTdNVvJFLlD09IggZV92YPEBBEPE6WnLxQDUiuffNtN7NC9aXQWD
- agUpQRx4dJSrUi4ArcY+k0i/Qz/1HbUAV571QV+HFRt18JOzbNO1bEq60wwsSMFnrJH7
- jvaf2kxhHfdtWC6jw8uPIgD1Gw/qC5abj50NbMd5c8XS4EkZFHIzsOAKRAYX61J5LTRe
- mSP2q15BHI5NKZWwxNS0WSfUxrXl6ZH9iz/HdJdtfBVTWXa7B/lWKMW4BcbAfgoNCqWE
- 6mTA==
-X-Gm-Message-State: ACgBeo07XbfPqUSEMDdqNIudI2pqbiriLcO09lMS5W4/D+vHpVV71pny
- ezYVvMOje9yrm+hxd5/cAYkyV21xGVk5cSHPrDSxqjQgK9eIHJgSKSCSwXJSikIlo+9Vx4P6Y9+
- x4KPT68oBtDLh9mU=
-X-Received: by 2002:a5d:64a6:0:b0:21f:b3b:5cc9 with SMTP id
- m6-20020a5d64a6000000b0021f0b3b5cc9mr10540267wrp.601.1661182343225; 
- Mon, 22 Aug 2022 08:32:23 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6N8uqpKlqERhhly5YKPpmAHPmfpX4MYRQCMkuf6ugVgKliiogj2WD3wSOcPUqZq0sbZ39tdA==
-X-Received: by 2002:a5d:64a6:0:b0:21f:b3b:5cc9 with SMTP id
- m6-20020a5d64a6000000b0021f0b3b5cc9mr10540251wrp.601.1661182343016; 
- Mon, 22 Aug 2022 08:32:23 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- q4-20020a1c4304000000b003a5c7a942edsm17750434wma.28.2022.08.22.08.32.22
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=Ix5ZX0LyxSe0lq8009+k3P93c+marBxWgKkCfMS6XO4=;
+ b=y1R8qv5Es7MpSuQJi5OU1zS/RMYFt1P2qW8WdsgeyuoUhE66m/0zlhtQrPjAORunvg
+ eqK4aY0S/9QsfTJtlZ+BoF/cYAp+dfcMqF9QDRXjVJMGFRcxuWLJwRh/lF9mNdZ6cO4Q
+ BMrYyT1N2IzeB5ryc8Pxhsi5VBMvV36/x0XcGI6B3zvU40UUUT/MNZhM5NwBsKRChZTz
+ UVsJjiAGA/3ujq1GaHSTcFPwKI5ft+09dTXi1eW6Ysu/NDPVG5qCI/gNgmNE9cK/dvnE
+ Vw+ehHIsd1VV8jpFoBw4j3iPfx7vjEngICkIpKgUKOY5Vh9wU6xnaa06i2WU+6Y5JKeK
+ KMZA==
+X-Gm-Message-State: ACgBeo0ICVKzZMy5NVldgOXQHCPVtBtZB0hnzPdAbDlBaDnUTw6v7efv
+ PTiL/kTX1/9wC0r0sUV/43w8A8DyMYWpyw==
+X-Google-Smtp-Source: AA6agR6UK9CYRjLszL8RAgjPVk7Y0RdS71Gjr3bIgpITeVUWzLEJL8vgq6DrnVW5wy0ncYOldHuhbQ==
+X-Received: by 2002:a5d:6b10:0:b0:21e:4bbd:e893 with SMTP id
+ v16-20020a5d6b10000000b0021e4bbde893mr11085590wrw.613.1661177559213; 
+ Mon, 22 Aug 2022 07:12:39 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ bh16-20020a05600c3d1000b003a3561d4f3fsm15184908wmb.43.2022.08.22.07.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 08:32:22 -0700 (PDT)
-Date: Mon, 22 Aug 2022 16:32:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 4/4] tests/qtest/migration-test: Remove duplicated
- test_postcopy from the test plan
-Message-ID: <YwOhhAlaqsDIp7ZM@work-vm>
-References: <20220819053802.296584-1-thuth@redhat.com>
- <20220819053802.296584-5-thuth@redhat.com>
- <YwNhhsWk9Gsn6A1e@redhat.com>
+ Mon, 22 Aug 2022 07:12:38 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Furquan Shaikh <furquan@rivosinc.com>
+Subject: [PATCH v2 4/7] target/mips: Honour -semihosting-config userspace=on
+Date: Mon, 22 Aug 2022 15:12:27 +0100
+Message-Id: <20220822141230.3658237-5-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220822141230.3658237-1-peter.maydell@linaro.org>
+References: <20220822141230.3658237-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YwNhhsWk9Gsn6A1e@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,37 +92,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Fri, Aug 19, 2022 at 07:38:02AM +0200, Thomas Huth wrote:
-> > test_postcopy() is currently run twice - which is just a waste of resources
-> > and time. The commit d1a27b169b2d that introduced the duplicate talked about
-> > renaming the "postcopy/unix" test, but apparently it forgot to remove the
-> > old entry. Let's do that now.
-> 
-> It was probably a merge error
+Honour the commandline -semihosting-config userspace=on option,
+instead of always permitting userspace semihosting calls in system
+emulation mode, by passing the correct value to the is_userspace
+argument of semihosting_enabled().
 
-Yeh I remember having to do a lot of manual merges around htere.
+Note that this is a behaviour change: if the user wants to
+do semihosting calls from userspace they must now specifically
+enable them on the command line.
 
-Dave
+MIPS semihosting is not implemented for linux-user builds.
 
-> > 
-> > Fixes: d1a27b169b ("tests: Add postcopy tls migration test")
-> > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > ---
-> >  tests/qtest/migration-test.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/mips/tcg/translate.c               | 9 +++++----
+ target/mips/tcg/micromips_translate.c.inc | 6 +++---
+ target/mips/tcg/mips16e_translate.c.inc   | 2 +-
+ target/mips/tcg/nanomips_translate.c.inc  | 4 ++--
+ 4 files changed, 11 insertions(+), 10 deletions(-)
+
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index de1511baaf8..53886618ddd 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -12082,12 +12082,13 @@ static void gen_cache_operation(DisasContext *ctx, uint32_t op, int base,
+     tcg_temp_free_i32(t0);
+ }
+ 
+-static inline bool is_uhi(int sdbbp_code)
++static inline bool is_uhi(DisasContext *ctx, int sdbbp_code)
+ {
+ #ifdef CONFIG_USER_ONLY
+     return false;
+ #else
+-    return semihosting_enabled() && sdbbp_code == 1;
++    bool is_user = (ctx->hflags & MIPS_HFLAG_KSU) == MIPS_HFLAG_UM;
++    return semihosting_enabled(is_user) && sdbbp_code == 1;
+ #endif
+ }
+ 
+@@ -13898,7 +13899,7 @@ static void decode_opc_special_r6(CPUMIPSState *env, DisasContext *ctx)
+         }
+         break;
+     case R6_OPC_SDBBP:
+-        if (is_uhi(extract32(ctx->opcode, 6, 20))) {
++        if (is_uhi(ctx, extract32(ctx->opcode, 6, 20))) {
+             ctx->base.is_jmp = DISAS_SEMIHOST;
+         } else {
+             if (ctx->hflags & MIPS_HFLAG_SBRI) {
+@@ -14310,7 +14311,7 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+         gen_cl(ctx, op1, rd, rs);
+         break;
+     case OPC_SDBBP:
+-        if (is_uhi(extract32(ctx->opcode, 6, 20))) {
++        if (is_uhi(ctx, extract32(ctx->opcode, 6, 20))) {
+             ctx->base.is_jmp = DISAS_SEMIHOST;
+         } else {
+             /*
+diff --git a/target/mips/tcg/micromips_translate.c.inc b/target/mips/tcg/micromips_translate.c.inc
+index b2c696f8916..632895cc9ef 100644
+--- a/target/mips/tcg/micromips_translate.c.inc
++++ b/target/mips/tcg/micromips_translate.c.inc
+@@ -825,7 +825,7 @@ static void gen_pool16c_insn(DisasContext *ctx)
+         generate_exception_break(ctx, extract32(ctx->opcode, 0, 4));
+         break;
+     case SDBBP16:
+-        if (is_uhi(extract32(ctx->opcode, 0, 4))) {
++        if (is_uhi(ctx, extract32(ctx->opcode, 0, 4))) {
+             ctx->base.is_jmp = DISAS_SEMIHOST;
+         } else {
+             /*
+@@ -941,7 +941,7 @@ static void gen_pool16c_r6_insn(DisasContext *ctx)
+             break;
+         case R6_SDBBP16:
+             /* SDBBP16 */
+-            if (is_uhi(extract32(ctx->opcode, 6, 4))) {
++            if (is_uhi(ctx, extract32(ctx->opcode, 6, 4))) {
+                 ctx->base.is_jmp = DISAS_SEMIHOST;
+             } else {
+                 if (ctx->hflags & MIPS_HFLAG_SBRI) {
+@@ -1310,7 +1310,7 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
+             generate_exception_end(ctx, EXCP_SYSCALL);
+             break;
+         case SDBBP:
+-            if (is_uhi(extract32(ctx->opcode, 16, 10))) {
++            if (is_uhi(ctx, extract32(ctx->opcode, 16, 10))) {
+                 ctx->base.is_jmp = DISAS_SEMIHOST;
+             } else {
+                 check_insn(ctx, ISA_MIPS_R1);
+diff --git a/target/mips/tcg/mips16e_translate.c.inc b/target/mips/tcg/mips16e_translate.c.inc
+index 7568933e234..918b15d55ce 100644
+--- a/target/mips/tcg/mips16e_translate.c.inc
++++ b/target/mips/tcg/mips16e_translate.c.inc
+@@ -951,7 +951,7 @@ static int decode_ase_mips16e(CPUMIPSState *env, DisasContext *ctx)
+             }
+             break;
+         case RR_SDBBP:
+-            if (is_uhi(extract32(ctx->opcode, 5, 6))) {
++            if (is_uhi(ctx, extract32(ctx->opcode, 5, 6))) {
+                 ctx->base.is_jmp = DISAS_SEMIHOST;
+             } else {
+                 /*
+diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
+index b3aff22c189..812c111e3c3 100644
+--- a/target/mips/tcg/nanomips_translate.c.inc
++++ b/target/mips/tcg/nanomips_translate.c.inc
+@@ -3694,7 +3694,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+                 generate_exception_end(ctx, EXCP_BREAK);
+                 break;
+             case NM_SDBBP:
+-                if (is_uhi(extract32(ctx->opcode, 0, 19))) {
++                if (is_uhi(ctx, extract32(ctx->opcode, 0, 19))) {
+                     ctx->base.is_jmp = DISAS_SEMIHOST;
+                 } else {
+                     if (ctx->hflags & MIPS_HFLAG_SBRI) {
+@@ -4633,7 +4633,7 @@ static int decode_isa_nanomips(CPUMIPSState *env, DisasContext *ctx)
+                 generate_exception_end(ctx, EXCP_BREAK);
+                 break;
+             case NM_SDBBP16:
+-                if (is_uhi(extract32(ctx->opcode, 0, 3))) {
++                if (is_uhi(ctx, extract32(ctx->opcode, 0, 3))) {
+                     ctx->base.is_jmp = DISAS_SEMIHOST;
+                 } else {
+                     if (ctx->hflags & MIPS_HFLAG_SBRI) {
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.25.1
 
 
