@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1941259BC21
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 11:00:00 +0200 (CEST)
-Received: from localhost ([::1]:60328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9378959BC42
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 11:06:22 +0200 (CEST)
+Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQ3Hq-0001Rx-RM
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 04:59:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50514)
+	id 1oQ3Ny-00061j-9N
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 05:06:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQ3FG-0006hN-9H
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 04:57:19 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:40758)
+ id 1oQ3JH-00027P-08
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:01:28 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:40825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQ3FE-0005OC-J8
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 04:57:17 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-324ec5a9e97so273966177b3.7
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 01:57:16 -0700 (PDT)
+ id 1oQ3JC-0006Aj-Os
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 05:01:26 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-324ec5a9e97so274227637b3.7
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 02:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=yIlFkqoZEYRQvCewvBv8lODkzfajzQEoizF4+M0fvmA=;
- b=b0DyEcyx59h0QLOSeIaTz0eqUPbhgU8LYAFrVL4d229RLPY5bpPeQLSfjbyLHcGu8q
- tDTtbuHOMYts+llBSPOV80Ha4DdQk+qqfrK5jmBtjuCkp097/p/UW3dKQWB4KqWheusg
- jyGSVHZg7Sofsx5XmCPP4X8hmMxLDypVfRx1iWRrkmFIxzRK/AuYQiuNpjAuJkBDx27T
- eJXI3PlIjRHbYwFjW3oFK1aKKgyl/blh1hGRr1ZQfunR6gxhaQya1zTp98/JipXth5Ej
- qBtYb/ps32b5/wLNG2wrORxTljkUdHs0qgLFMPZ5MHXLTsY+U5jR7aiy20E4ZXQol3N9
- S2yQ==
+ bh=q7/0VJ80uqa1ouLnINRrqRT6ituxker7a/1wGsOkwfo=;
+ b=U3alWppkcvVizfwJi8Qsen6gOu3cXTf9YCgqG3WLxw8A9dUa21DfBrGwQKcbXFL8DB
+ KWIfslygk9yor2dICE6YpY3rNV7SVmu2b7R24TMo56pt61INrXtkySB9wTccYARE4pP8
+ oJTChRVsCmjQAoA8ns04cM498cdl8cIOtCNlX3AO5RUNY73cbM0jqDYoxqGVialUHlMO
+ Vjz7xiVp/fpmDB8EHXzlDNT02GLN7ZySTkQGCLhRwDkaGbcuel0ltoPCyqRw4gc57w8D
+ QooK3vETbesGCvPisHiIEoRGSzMy9T8VPPuhbsKhRwCPYJwYpcOdW29H74Apuf1BJwwV
+ o1yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=yIlFkqoZEYRQvCewvBv8lODkzfajzQEoizF4+M0fvmA=;
- b=WI/+oEKz41OmS55nToaqQW2Em6Fw7+R3aMI1qwZ1jWXT+sY5ur3cU0R8cTwN2vl14v
- dclmboSrWsH8yu4Lq4qvX8kdUtakwRNooRGds0F5YLr3wP1zfJvh0l53fOPDX+Vf/C4g
- 8MmyfrpyTnXB1n+US44sGX1yyn1Qhe2EDagXP9uy8ZK1EkPec2zfVLrO5AAS8pnvP3Vo
- z92KmxzxICWNWysuBjSekiaR6OeYvOtNkJ/zyS1vdpHEtOsYJsQxWr8KK52zHfQPSuv7
- 3LdaGOGF0jaRs22xEvHMJfdAa5hCe1fLmUyhOwSbyska/T6hV3RqYyOwyVx3At5nzg6p
- /W0g==
-X-Gm-Message-State: ACgBeo1YLGv65pwARccygrmsicLOUISkggoYMoSaLao9smoIzXxGuQUT
- R6HVCRAo3O7WDcnxMvU/kQn+ZrY58xx21SjqWpqsABgmwo7s6Q==
-X-Google-Smtp-Source: AA6agR5ybIUQLf9AThQe8pIpO/WYU99GCC/XYzE+oAhUcSM8RT00/8dj/YRhRsrOoM41osp59SgXRkdOzueG1GpljVo=
-X-Received: by 2002:a25:4288:0:b0:692:8c1e:2e7e with SMTP id
- p130-20020a254288000000b006928c1e2e7emr19027963yba.479.1661158634374; Mon, 22
- Aug 2022 01:57:14 -0700 (PDT)
+ bh=q7/0VJ80uqa1ouLnINRrqRT6ituxker7a/1wGsOkwfo=;
+ b=usna4zY+yC//6WBUxTg60yW/R0Dx1M2rACZ6AQn4sMc3cU9XR7fO7SHzG2VJwXU7zO
+ /HYgZLXOfkjM5SGUnGjdwKUuiqRzLTvTxEELy1u/NPOTh8c2U+/FF/OiCP3DYPCwAXDN
+ ObUvd4LIcyzQQDUwrXKDjDNlI6PXht8V/7EVLBwhID3/r9BH/HA7brxMFSIyWBwiUvHk
+ 64T/AEOefhYDMchf7dsmaFIShtjPSsbtyoGZTmhecLpSFVQpnFJ6Rk1fQaU21D8SlqM9
+ c//h5bSl3fkp3adfr5ZBvnTILeZ58UGcWZt1lEWxMKa9i4RRdbMX9g12BPSwTaQCukEM
+ 3RnQ==
+X-Gm-Message-State: ACgBeo1vVpZ3XMCjPMvuNlb6lt7nw5mD/G2H3jO5LzmWpsybAJhl6JoW
+ lkmLNmsNArQri5kpmNKhUAeRJG32+PFtWYDOvLxCJvRCdNo=
+X-Google-Smtp-Source: AA6agR5bE0+Q1VjoytvEjURUWvaZB9JWVkg7bDKBchAumf17T03vgeWfdEuz3FO3qRtibbSHYu5xMovgmWHavesohXQ=
+X-Received: by 2002:a25:4e85:0:b0:695:8a88:903f with SMTP id
+ c127-20020a254e85000000b006958a88903fmr7563529ybb.85.1661158881464; Mon, 22
+ Aug 2022 02:01:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220811171619.1154755-1-peter.maydell@linaro.org>
- <20220811171619.1154755-9-peter.maydell@linaro.org>
- <949fb9c0-8e7f-d0bd-dbfa-e76067b867d8@linaro.org>
-In-Reply-To: <949fb9c0-8e7f-d0bd-dbfa-e76067b867d8@linaro.org>
+ <20220811171619.1154755-10-peter.maydell@linaro.org>
+ <2d2e3bf8-76cc-2364-7f72-956dd0ebe510@linaro.org>
+In-Reply-To: <2d2e3bf8-76cc-2364-7f72-956dd0ebe510@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 22 Aug 2022 09:56:32 +0100
-Message-ID: <CAFEAcA9LeJuTbB7gSNajea_2w5FLZ+2YnMOA_Qg6cuL8t4hZYA@mail.gmail.com>
-Subject: Re: [PATCH 08/10] target/arm: Implement FEAT_PMUv3p5 cycle counter
- disable bits
+Date: Mon, 22 Aug 2022 10:00:39 +0100
+Message-ID: <CAFEAcA_CThC5mc4uPiuknPbBYm5nMg5GwFSNfzyAtrOu3ZRUYQ@mail.gmail.com>
+Subject: Re: [PATCH 09/10] target/arm: Support 64-bit event counters for
+ FEAT_PMUv3p5
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,34 +86,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 20 Aug 2022 at 18:33, Richard Henderson
+On Sat, 20 Aug 2022 at 19:54, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > On 8/11/22 10:16, Peter Maydell wrote:
-> > FEAT_PMUv3p5 introduces new bits MDCR_EL2.HCCD and MDCR_EL3.SCCD,
-> > which disable the cycle counter from counting at EL2 and EL3.
-> > Add the code to support these bits.
+> > +static bool pmevcntr_is_64_bit(CPUARMState *env, int counter)
+> > +{
+> > +    /* Return true if the specified event counter is configured to be 64 bit */
+> > +
+> > +    /* This isn't intended to be used with the cycle counter */
+> > +    assert(counter < 31);
+> > +
+> > +    if (!cpu_isar_feature(any_pmuv3p5, env_archcpu(env))) {
+> > +        return false;
+> > +    }
+> > +
+> > +    if (arm_feature(env, ARM_FEATURE_EL2)) {
+> > +        /*
+> > +         * MDCR_EL2.HLP still applies even when EL2 is disabled in the
+> > +         * current security state, so we don't use arm_mdcr_el2_eff() here.
+> > +         */
+> > +        bool hlp = env->cp15.mdcr_el2 & MDCR_HLP;
+> > +        int hpmn = env->cp15.mdcr_el2 & MDCR_HPMN;
 >
-> While HCCD is v3p5, it seems MCCD (typo above) is v3p7.
+> The specs could be improved here, as the top of MDCR_EL2 says it doesn't apply if EL2
+> isn't enabled in the security state, HLP has the exception noted above, but HPMN does not.
+>   I conclude that HPMN is missing the exception, because nothing else makes sense.
 
-DDI0487H.a page D13-6158 says
-# SCCD, bit [23]
-#    When FEAT_PMUv3p5 is implemented:
-#    [...]
-
-MDCR_EL3.MCCD is a different bit, bit 34, which is indeed v3p7.
-
-It looks like I've got confused between the two and implemented
-the wrong thing.
-
-MDCR_EL3.SCCD: bit 23: v3p5: don't count in Secure state
-MDCR_EL3.MCCD: bit 34: v3p7: don't count in EL3
-
-and for completeness
-MDCR_EL2.HCCD: bit 23: v3p5: don't count in EL2
-
-I'll redo the patch to implement HCCD and SCCD. (We can leave
-MCCD until we get to the PMUv3p7 feature.)
+I suspect (but haven't thought through) that not all of the things HPMN
+controls apply when EL2 is disabled, so it's probably more complicated
+than a blanket "applies even when EL2 is disabled" tag the way HLP does it.
 
 thanks
 -- PMM
