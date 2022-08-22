@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C52559CB1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 23:48:33 +0200 (CEST)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BC659CB66
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:27:29 +0200 (CEST)
+Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQFHc-0002VH-7S
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 17:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46992)
+	id 1oQFtH-0007EH-Ry
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oQFDk-0000LJ-EK; Mon, 22 Aug 2022 17:44:32 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:44019)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oQFDf-0006ZX-C2; Mon, 22 Aug 2022 17:44:31 -0400
-Received: by mail-pg1-x535.google.com with SMTP id v4so10561271pgi.10;
- Mon, 22 Aug 2022 14:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=uB4Y0B3Sx4jBeQlEByaU38tTnklc547wZ+HBNhn4ZkE=;
- b=dxGko2gv3oPy4RHzZhJZlMJD8MKlq23D8b5nCZY70bJ1AJvVhSJSty9qMET512tuT/
- RgEIsmAjAKPXkXSZyxNS2GvrQeqnAeWu2A/LfOc8WaAJFZcCk90r98duM2t1qzg2a3u5
- +zxNHVgj3d8rwOy8oDCSVJul/aaY7hIJSZUiRgZM1GvpVsI0ea7HA0ZtPkscPbAybMUf
- WhS/LQa14ls1H/r0+rpmlkgaeM1DHu8aXUve/HJ++LN/J8vOhPnGjOxVfF+sJ3ANTBGh
- sAOwUl/oi0QY8vjaUO4GAvP3lqgASwhIEQruvygxE8I1lpwd5mF2Jty8uQDgg1zs7HGW
- ueMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=uB4Y0B3Sx4jBeQlEByaU38tTnklc547wZ+HBNhn4ZkE=;
- b=TWqU6ApBe2uo48pUSItnTM5W91CmpAtic+YMNaIs7Y+zcb7Q3fpR5eYdj2sKvTWe6w
- kWY0dtWz2AmMLdmxPlzwCiaDFkRykRzmF3vjJ3Tyq24ECNTwrMdakiJBpHNlMpIUisXT
- 2YMChxVQvYg5qcsPeCuJH5qXPntQe504O0XaTmbbQHDIlpd514jdvodDQjHxem7DnGcQ
- fE2KZKUxp6dDSRoAvnQo0/hN6fHUj/Jg5htBnQi02fcjCIii+PK/JG12JQjHPHL4EVwG
- x5FTmFGRfyDC9KgLSNHXnd72aTkjziAZLojIR/qXj2LDyGAT1OLgSfPu5C5J/WaqmIuK
- NLwQ==
-X-Gm-Message-State: ACgBeo2eqnA5VWVCrDJ5lkEl0allYdgRwZkorYVnsyFsnP1Z+6DUtnx0
- P2jMpHGBpAjAgKLyBYOpgfs44blTdVd7wX8bHlo=
-X-Google-Smtp-Source: AA6agR7xn9DjQoLLQRX1iBKyD9/zpJqQ7W61r94jXZCX6YV2pukMJwL1LcQCnaufnonYv+I8NhpmuQfrrPmrnMTpAGI=
-X-Received: by 2002:a63:90c8:0:b0:41d:f6f6:49cc with SMTP id
- a191-20020a6390c8000000b0041df6f649ccmr14318713pge.223.1661204650691; Mon, 22
- Aug 2022 14:44:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oQFqB-0001DL-VE
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oQFq7-0004XP-Vc
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661207050;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=S8etYsJJwWcTykpshtXz0DTyNavQ4Pr3jNKqwdDnldA=;
+ b=gaqtfWCKQBLSbUkLZpWUHerKpDLpgvrUuFq2LZEJijtnzlXqcPWESEIfh2AE0uE0k607ae
+ LIgukDVHeUVU7ZGXt28IQbB2SLziF4iRi68wsCPsVDalyO+zEEKL5dPDEL5qq/s0LlrgcG
+ bT3xrF229D0PtIV7GQV0H7ZeYdEf/7w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-195-3tumRKgUPG-wJmLN0M2bsg-1; Mon, 22 Aug 2022 18:24:07 -0400
+X-MC-Unique: 3tumRKgUPG-wJmLN0M2bsg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEB0B811E75;
+ Mon, 22 Aug 2022 22:24:06 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDDD3C15BC3;
+ Mon, 22 Aug 2022 22:24:03 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Peter Xu <peterx@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, integration@gluster.org,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ David Hildenbrand <david@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, sgarzare@redhat.com,
+ Alberto Faria <afaria@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Eric Blake <eblake@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, Xie Changlong <xiechanglong.d@gmail.com>
+Subject: [RFC v4 00/11] blkio: add libblkio BlockDriver
+Date: Mon, 22 Aug 2022 18:23:51 -0400
+Message-Id: <20220822222402.176088-1-stefanha@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220822141230.3658237-1-peter.maydell@linaro.org>
- <20220822141230.3658237-8-peter.maydell@linaro.org>
-In-Reply-To: <20220822141230.3658237-8-peter.maydell@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 23 Aug 2022 07:43:44 +1000
-Message-ID: <CAKmqyKN8W9mmYKnegdhynYcet4y5upC5m78Kr4bC+e+1yAtvyQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] target/riscv: Honour -semihosting-config
- userspace=on and enable=on
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- Furquan Shaikh <furquan@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,79 +95,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 23, 2022 at 4:55 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The riscv target incorrectly enabled semihosting always, whether the
-> user asked for it or not.  Call semihosting_enabled() passing the
-> correct value to the is_userspace argument, which fixes this and also
-> handles the userspace=on argument.  Because we do this at translate
-> time, we no longer need to check the privilege level in
-> riscv_cpu_do_interrupt().
->
-> Note that this is a behaviour change: we used to default to
-> semihosting being enabled, and now the user must pass
-> "-semihosting-config enable=on" if they want it.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+v4:
+- Patch 1:
+  - Add virtio-blk-vhost-user driver [Kevin]
+  - Drop .bdrv_parse_filename() and .bdrv_needs_filename for virtio-blk-vhost-vdpa [Stefano]
+  - Add copyright and license header [Hanna]
+  - Drop .bdrv_parse_filename() in favor of --blockdev or json: [Hanna]
+  - Clarify that "filename" is always non-NULL for io_uring [Hanna]
+  - Check that virtio-blk-vhost-vdpa "path" option is non-NULL [Hanna]
+  - Fix virtio-blk-vhost-vdpa cache.direct=off logic [Hanna]
+  - Use macros for driver names [Hanna]
+  - Assert that the driver name is valid [Hanna]
+  - Update "readonly" property name to "read-only" [Hanna]
+  - Call blkio_detach_aio_context() in blkio_close() [Hanna]
+  - Avoid uint32_t * to int * casts in blkio_refresh_limits() [Hanna]
+  - Remove write zeroes and discard from the todo list [Hanna]
+  - Use PRIu32 instead of %d for uint32_t [Hanna]
+  - Fix error messages with buf-alignment instead of optimal-io-size [Hanna]
+  - Call map/unmap APIs since libblkio alloc/free APIs no longer do that
+  - Update QAPI schema QEMU version to 7.2
+- Patch 5:
+  - Expand the BDRV_REQ_REGISTERED_BUF flag passthrough and drop assert(!flags)
+    in drivers [Hanna]
+- Patch 7:
+  - Fix BLK->BDRV typo [Hanna]
+  - Make BlockRAMRegistrar handle failure [Hanna]
+- Patch 8:
+  - Replace memory_region_get_fd() approach with qemu_ram_get_fd()
+- Patch 10:
+  - Use (void)ret; to discard unused return value [Hanna]
+  - libblkio's blkio_unmap_mem_region() API no longer has a return value
+  - Check for registered bufs that cross RAMBlocks [Hanna]
+- Patch 11:
+  - Handle bdrv_register_buf() errors [Hanna]
+v3:
+- Add virtio-blk-vhost-vdpa for vdpa-blk devices including VDUSE
+- Add discard and write zeroes support
+- Rebase and adopt latest libblkio APIs
+v2:
+- Add BDRV_REQ_REGISTERED_BUF to bs.supported_write_flags [Stefano]
+- Use new blkioq_get_num_completions() API
+- Implement .bdrv_refresh_limits()
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This patch series adds a QEMU BlockDriver for libblkio
+(https://gitlab.com/libblkio/libblkio/), a library for high-performance block
+device I/O.
 
-Alistair
+The first patch adds the core BlockDriver and most of the libblkio API usage.
+Three libblkio drivers are included:
+- io_uring
+- virtio-blk-vhost-user
+- virtio-blk-vhost-vdpa
 
-> ---
->  target/riscv/cpu_helper.c                      | 9 +++------
->  target/riscv/translate.c                       | 1 +
->  target/riscv/insn_trans/trans_privileged.c.inc | 3 ++-
->  3 files changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 59b3680b1b2..2b84febf275 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -1342,12 +1342,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      target_ulong mtval2 = 0;
->
->      if  (cause == RISCV_EXCP_SEMIHOST) {
-> -        if (env->priv >= PRV_S) {
-> -            do_common_semihosting(cs);
-> -            env->pc += 4;
-> -            return;
-> -        }
-> -        cause = RISCV_EXCP_BREAKPOINT;
-> +        do_common_semihosting(cs);
-> +        env->pc += 4;
-> +        return;
->      }
->
->      if (!async) {
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 63b04e8a948..f9e6258ec5d 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -28,6 +28,7 @@
->
->  #include "exec/translator.h"
->  #include "exec/log.h"
-> +#include "semihosting/semihost.h"
->
->  #include "instmap.h"
->  #include "internals.h"
-> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-> index 46f96ad74d4..3281408a874 100644
-> --- a/target/riscv/insn_trans/trans_privileged.c.inc
-> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
-> @@ -52,7 +52,8 @@ static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
->       * that no exception will be raised when fetching them.
->       */
->
-> -    if ((pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
-> +    if (semihosting_enabled(ctx->mem_idx < PRV_S) &&
-> +        (pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
->          pre    = opcode_at(&ctx->base, pre_addr);
->          ebreak = opcode_at(&ctx->base, ebreak_addr);
->          post   = opcode_at(&ctx->base, post_addr);
-> --
-> 2.25.1
->
->
+The remainder of the patch series reworks the existing QEMU bdrv_register_buf()
+API so virtio-blk emulation efficiently map guest RAM for libblkio - some
+libblkio drivers require that I/O buffer memory is pre-registered (think VFIO,
+vhost, etc).
+
+This block driver is functional enough to boot guests. The libblkio 1.0 release
+is expected soon and I will drop the "RFC" once the API is stable.
+
+See the BlockDriver struct in block/blkio.c for a list of APIs that still need
+to be implemented. The core functionality is covered.
+
+Regarding the design: each libblkio driver is a separately named BlockDriver.
+That means there is an "io_uring" BlockDriver and not a generic "libblkio"
+BlockDriver. This way QAPI and open parameters are type-safe and mandatory
+parameters can be checked by QEMU.
+
+Stefan Hajnoczi (11):
+  blkio: add libblkio block driver
+  numa: call ->ram_block_removed() in ram_block_notifer_remove()
+  block: pass size to bdrv_unregister_buf()
+  block: use BdrvRequestFlags type for supported flag fields
+  block: add BDRV_REQ_REGISTERED_BUF request flag
+  block: return errors from bdrv_register_buf()
+  block: add BlockRAMRegistrar
+  exec/cpu-common: add qemu_ram_get_fd()
+  stubs: add qemu_ram_block_from_host() and qemu_ram_get_fd()
+  blkio: implement BDRV_REQ_REGISTERED_BUF optimization
+  virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint
+
+ MAINTAINERS                                 |   7 +
+ meson_options.txt                           |   2 +
+ qapi/block-core.json                        |  53 +-
+ meson.build                                 |   9 +
+ include/block/block-common.h                |   9 +
+ include/block/block-global-state.h          |  10 +-
+ include/block/block_int-common.h            |  15 +-
+ include/exec/cpu-common.h                   |   1 +
+ include/hw/virtio/virtio-blk.h              |   2 +
+ include/sysemu/block-backend-global-state.h |   4 +-
+ include/sysemu/block-ram-registrar.h        |  37 +
+ block.c                                     |  14 +
+ block/blkio.c                               | 861 ++++++++++++++++++++
+ block/blkverify.c                           |   4 +-
+ block/block-backend.c                       |   8 +-
+ block/block-ram-registrar.c                 |  54 ++
+ block/crypto.c                              |   4 +-
+ block/file-posix.c                          |   1 -
+ block/gluster.c                             |   1 -
+ block/io.c                                  | 101 ++-
+ block/mirror.c                              |   2 +
+ block/nbd.c                                 |   1 -
+ block/nvme.c                                |  20 +-
+ block/parallels.c                           |   1 -
+ block/qcow.c                                |   2 -
+ block/qed.c                                 |   1 -
+ block/raw-format.c                          |   2 +
+ block/replication.c                         |   1 -
+ block/ssh.c                                 |   1 -
+ block/vhdx.c                                |   1 -
+ hw/block/virtio-blk.c                       |  39 +-
+ hw/core/numa.c                              |  17 +
+ qemu-img.c                                  |   6 +-
+ softmmu/physmem.c                           |   5 +
+ stubs/physmem.c                             |  13 +
+ tests/qtest/modules-test.c                  |   3 +
+ util/vfio-helpers.c                         |   5 +-
+ block/meson.build                           |   2 +
+ scripts/meson-buildoptions.sh               |   3 +
+ stubs/meson.build                           |   1 +
+ 40 files changed, 1236 insertions(+), 87 deletions(-)
+ create mode 100644 include/sysemu/block-ram-registrar.h
+ create mode 100644 block/blkio.c
+ create mode 100644 block/block-ram-registrar.c
+ create mode 100644 stubs/physmem.c
+
+-- 
+2.37.2
+
 
