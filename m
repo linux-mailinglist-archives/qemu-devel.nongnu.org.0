@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61F859CC2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 01:27:30 +0200 (CEST)
-Received: from localhost ([::1]:50356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3FB59CC47
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 01:36:54 +0200 (CEST)
+Received: from localhost ([::1]:60438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQGpN-0003c6-Eg
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 19:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32866)
+	id 1oQGyT-00019l-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 19:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGlu-0005fB-FV
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:23:54 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41915)
+ id 1oQGlv-0005gI-IR
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:23:56 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:33379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGlq-0005cP-85
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:23:54 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id 202so10747766pgc.8
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:23:49 -0700 (PDT)
+ id 1oQGlr-0005cj-6w
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:23:55 -0400
+Received: by mail-pg1-x534.google.com with SMTP id l64so10781541pge.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=tqkn/JG3p7hh15BhAIIM7TpuZb0gvOSNNm/i6FGCa5k=;
- b=V5gjnl/8ZVOuDEL7M+KJmYAgespi/skqzih9b3ZizYHyd6eaYbq9NOcCAiTw75xHj3
- umgDd4dv1RSzrKvpt6SCP2E63FTcoTr8tUGPKeCU1XKeSPGaAYUxYD3VW8KUC5vuhCvd
- sSYqSqeG99MwMS0CWhfWl6bZjcMecgo987qfsj2gAZY5+5yw84HsEtjfgv/0qcgQ21i9
- nXTl515X/RsPqm6Me2ZhcGquaS5OUmL1Vv9OfPx6wS2Sa0Fw2dhw53pBZpcqCSYduweZ
- 6BjD0C49cQsDpAKqGEvIHlGvjI8KSR6HIA2TvWHBwXNMtV4mC1qeyza+QzltDmwZcO5I
- 1SFA==
+ bh=qdoo/EFfZ9+xL61qXYRJd5BN7nP+QxbxeeGNggpMDL4=;
+ b=tJAnrn5ZTXiXYB6yNHP6dyvDQbWcpH/vsECz03Ss4f1tFx86dkn5QD/DN7KcpVj86d
+ HeBdAyFLwOPSAOyhA85stDhPVeJap5MLE4ZrurightZSCTCOZwNbuJAyLsDZugqGvs9S
+ JSnTUWLoHDhvChgWMnhqYQxTcVIRQNMEOEkVcGS/KsIeWIIUIhMFxE8EiGfx/ANUlyFH
+ QkJVirSAznGHzD2u5fxPSvVChHXjgWyQ+MKrHCDN/esfMN2UqHjhtMA99hhf1F2hXEhv
+ zA1uBhzUoupSLC3NPj5SQDd0cEunnz92lI6X0lGEwrjzigBMrLpnryuIwI5theMOtkSI
+ /eLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=tqkn/JG3p7hh15BhAIIM7TpuZb0gvOSNNm/i6FGCa5k=;
- b=slC6VLsGaiMYLG7TnWsxU+O9LOyd2rBWEQXqwdyoHkmetW/wyAWB0oMi7n7yMyrbl8
- 656sBhrSh/SiPnPXVWB2W2Xe/vO0IwDbr6hSolEtujPui6rBY5BgDMVGCWPwilJ66WDm
- xZifCdY4bPLL41y7bQES3h4i6C5ABqJtCXkQx2dXdPKly/kgMIOfcs1xNwqEyIXWR7uc
- Ujtm6puOQrakkhrBC05tYuWaVEPBd5BtZQEgowl595n9xbl5DROxj14eoouiUaThqRHZ
- lTFFk8/Cv4d91fDmmfiMYQPyIop5mKOdMRX6wkXa3ngpNH6LUBW8FjnF5tX1z+76Ub5J
- sTgg==
-X-Gm-Message-State: ACgBeo3kuj1qWZ05JchCfbF/D8fTJ8TAwvXce4v5nK65TcvhXv31kYqi
- 4ZG3nnA85nsJxYEOwXG+Q4NF0JaCx/CmSQ==
-X-Google-Smtp-Source: AA6agR4wHSUHWHBqACx19VB3qfVIWuzzbPsrAQawvp9lThEpZAyHXUMh4LbCMjp4m5L+fusPt1UbKA==
-X-Received: by 2002:a05:6a00:1aca:b0:52f:55f8:c3ec with SMTP id
- f10-20020a056a001aca00b0052f55f8c3ecmr22692315pfv.25.1661210629027; 
+ bh=qdoo/EFfZ9+xL61qXYRJd5BN7nP+QxbxeeGNggpMDL4=;
+ b=2jEdf+SBVhziz60kb0s/sq1ceJLgvBUp6qdaESxPB7FTafY6xbVJclsq3D8P52Mhd/
+ xXWfapoksqdCYaf6uhGHe8g9WbkvbN+ElIVh76X7zkhHsg9HFlsoUiT5Yl/N550HoDau
+ 6sxRRvYhx4VoHTjuuHciFAx68I5+rqT8/LOi7EknkaVFfIkx8H0TTRNHdIcY2a5fo+V6
+ yHls295aflMW10WWGStMPJS7/lr2rkwh8t42sjM3hINQCBsmfM+CRlCvOpBd0fXLDGg8
+ mXkLHUm5MWsgTC36edMgnXHv2oxilQHxLEnD4oXFOfffIYA0tLv4zHdVLTlbLJUkMMaA
+ yeuQ==
+X-Gm-Message-State: ACgBeo1BNe2K69vQaDENSaDqtq315ktY/oSFLaAU+53UcRdOWa9fktNK
+ 84FKFNnGBvsoq2oetI01T/Na54SZoHR33A==
+X-Google-Smtp-Source: AA6agR6aZ0HEn36Ws0ZRVRdPOUBSW9vmROYj4cOnhzyruPIhT+keZrR8p/TY41nTG/MDhIHlPMdO8Q==
+X-Received: by 2002:a63:f4d:0:b0:41c:5b90:f643 with SMTP id
+ 13-20020a630f4d000000b0041c5b90f643mr19164370pgp.537.1661210629852; 
  Mon, 22 Aug 2022 16:23:49 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:c3f1:b74f:5edd:63af])
  by smtp.gmail.com with ESMTPSA id
- k17-20020aa79731000000b0052d3899f8c2sm3809112pfg.4.2022.08.22.16.23.48
+ k17-20020aa79731000000b0052d3899f8c2sm3809112pfg.4.2022.08.22.16.23.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 16:23:48 -0700 (PDT)
+ Mon, 22 Aug 2022 16:23:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v3 08/17] accel/tcg: Split log_cpu_exec into inline and slow
- path
-Date: Mon, 22 Aug 2022 16:23:29 -0700
-Message-Id: <20220822232338.1727934-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/17] target/arm: Introduce curr_insn_len
+Date: Mon, 22 Aug 2022 16:23:30 -0700
+Message-Id: <20220822232338.1727934-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220822232338.1727934-1-richard.henderson@linaro.org>
 References: <20220822232338.1727934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,63 +88,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+A simple helper to retrieve the length of the current insn.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ target/arm/translate.h     | 5 +++++
+ target/arm/translate-vfp.c | 2 +-
+ target/arm/translate.c     | 5 ++---
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 3fb7ce05f8..4dc0a9ec41 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -283,12 +283,11 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-     return tb;
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index af5d4a7086..90bf7c57fc 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -226,6 +226,11 @@ static inline void disas_set_insn_syndrome(DisasContext *s, uint32_t syn)
+     s->insn_start = NULL;
  }
  
--static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
--                                const TranslationBlock *tb)
-+static void log_cpu_exec1(CPUState *cpu, const TranslationBlock *tb)
- {
--    if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_CPU | CPU_LOG_EXEC))
--        && qemu_log_in_addr_range(pc)) {
-+    target_ulong pc = tb_pc_log(tb);
- 
-+    if (qemu_log_in_addr_range(pc)) {
-         qemu_log_mask(CPU_LOG_EXEC,
-                       "Trace %d: %p [" TARGET_FMT_lx
-                       "/" TARGET_FMT_lx "/%08x/%08x] %s\n",
-@@ -315,6 +314,13 @@ static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
-     }
- }
- 
-+static inline void log_cpu_exec(CPUState *cpu, const TranslationBlock *tb)
++static inline int curr_insn_len(DisasContext *s)
 +{
-+    if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_CPU | CPU_LOG_EXEC))) {
-+        log_cpu_exec1(cpu, tb);
-+    }
++    return s->base.pc_next - s->pc_curr;
 +}
 +
- static bool check_for_breakpoints(CPUState *cpu, target_ulong pc,
-                                   uint32_t *cflags)
- {
-@@ -412,7 +418,7 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
-         return tcg_code_gen_epilogue;
+ /* is_jmp field values */
+ #define DISAS_JUMP      DISAS_TARGET_0 /* only pc was modified dynamically */
+ /* CPU state was modified dynamically; exit to main loop for interrupts. */
+diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+index bd5ae27d09..94cc1e4b77 100644
+--- a/target/arm/translate-vfp.c
++++ b/target/arm/translate-vfp.c
+@@ -242,7 +242,7 @@ static bool vfp_access_check_a(DisasContext *s, bool ignore_vfp_enabled)
+     if (s->sme_trap_nonstreaming) {
+         gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+                            syn_smetrap(SME_ET_Streaming,
+-                                       s->base.pc_next - s->pc_curr == 2));
++                                       curr_insn_len(s) == 2));
+         return false;
      }
  
--    log_cpu_exec(pc, cpu, tb);
-+    log_cpu_exec(cpu, tb);
- 
-     return tb->tc.ptr;
- }
-@@ -435,7 +441,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
-     TranslationBlock *last_tb;
-     const void *tb_ptr = itb->tc.ptr;
- 
--    log_cpu_exec(tb_pc_log(itb), cpu, itb);
-+    log_cpu_exec(cpu, itb);
- 
-     qemu_thread_jit_execute();
-     ret = tcg_qemu_tb_exec(env, tb_ptr);
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 9474e4b44b..638a051281 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -6660,7 +6660,7 @@ static ISSInfo make_issinfo(DisasContext *s, int rd, bool p, bool w)
+     /* ISS not valid if writeback */
+     if (p && !w) {
+         ret = rd;
+-        if (s->base.pc_next - s->pc_curr == 2) {
++        if (curr_insn_len(s) == 2) {
+             ret |= ISSIs16Bit;
+         }
+     } else {
+@@ -9825,8 +9825,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+             /* nothing more to generate */
+             break;
+         case DISAS_WFI:
+-            gen_helper_wfi(cpu_env,
+-                           tcg_constant_i32(dc->base.pc_next - dc->pc_curr));
++            gen_helper_wfi(cpu_env, tcg_constant_i32(curr_insn_len(dc)));
+             /*
+              * The helper doesn't necessarily throw an exception, but we
+              * must go back to the main loop to check for interrupts anyway.
 -- 
 2.34.1
 
