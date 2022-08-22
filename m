@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171B759C7BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 21:01:50 +0200 (CEST)
-Received: from localhost ([::1]:49034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6230959C5C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 20:11:13 +0200 (CEST)
+Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQCgF-0001Cg-OW
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 15:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57800)
+	id 1oQBtI-00051H-7B
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 14:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQ9k6-0001w4-Py
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:53:35 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33584)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQ9Of-0004dQ-S7
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:28 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:37385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQ9k4-0005Ko-QF
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:53:34 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- m3-20020a05600c3b0300b003a5e0557150so6023742wms.0
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:53:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQ9Od-0001ad-P6
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:25 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id x15so9783310pfp.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:31:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=tWxgdi7/uu1+ANLOaFNvQeb6l6xGI+BRWt05JvH2Mdw=;
- b=PPPM7Iwh7rk51D6kdOrW8D5NUAM0wdD8gGrR67J2qEpI4w3QshvOLP2tdiF61WXQXq
- mGqADn8bawypoSzxY6SjZGPt/OGcB8oUvemfdL3MxujGA1kbCz/cKJqNW3cTFpyOR2zl
- 5ltE+06aahY4veklRg6KBxm5J/HTEHia4PEAY/JgqON17/OiSD21lwN7tTX1lXwmO55x
- fI2ahaENOCZSTbA69mDtjc64HwJ7cInzCvrYVMc/WgCObNHqnzmily+NB41szw+5d0P5
- V2tCpG06J5GPbHhMXhV1X3ZR9+90EWWYTYpHlC3KwjEzWFCnkI36wmbD+YKhkbFMoPZa
- 4qdA==
+ bh=sLuofTzD3XcbGEKkxECtfxPk5kwjXiJfOftJpAZ8w/Y=;
+ b=eY0jKCOi/0F6BnqLwWgsFl7dY2JIWefv5PgviFwo07jZhw+hnX20H9bXyBAC5UA/ig
+ kKqEdmzo1xAbUH4IVm8+LQv2aKFx9WGImc0BPF4KBvzdL0jhUwk+ipCPfORK8N/uFfi4
+ JuFRH/XZFyLDaLpxn89ej8tPGbAGg3GGE7czY5IkX0AwVuVg/1nRIk8DB+/fmccEK2PJ
+ CZmVkFrQvExevpBD4lnUwOGkYzT1uySJrF0he/G7Movr38iY0jsf6SNqPFEluAHMNJ6c
+ JMqTOgu61bHKsWtr7iKqVKSu0LemQvPkYLdw6vvCdnU7BDuQMIrv/7zgA103bpY8hXuc
+ iDDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=tWxgdi7/uu1+ANLOaFNvQeb6l6xGI+BRWt05JvH2Mdw=;
- b=wyZP4fT/uSmReM1oJJ2L4f0FKTk5jkqvELQy/NpJvZUQyiGIlX/eHAcBXbS4AmYL8V
- gALspZlff38nQKcXfgFNyAYVTLx+TWUnfpX+QSFAaZ4UutzMvhf4bbst/ti/TRF96c0C
- D0Fa8reUPnC5PDTG5JVckXzvbH1dbeSaXTEPfDoyPzrNlPiEKMoJMrslGfGBGaiFqM5r
- WYpWB16fRDVcEW0MqpBKZAj4s/zm6cUIxBwyMgVsbO4S559JkuAKi3v7n0vML5UbKKAb
- 8SXbtt2zc9GSB5tswBQxCcaHed++2NJ+vhJYebm3mLrNjjgdN+EF1C3UY7iHx/I3v2ko
- 1bxQ==
-X-Gm-Message-State: ACgBeo3yMO2FbBAt2/Vt5JxBm21fWqBVLn8Yf1SyUDZe9BHzHGB5o1vl
- cMyH+SX4DetkSaR3Ud5iEQ1opbyT+bWcgw==
-X-Google-Smtp-Source: AA6agR6TjnePzHyEDDBx0lt4HgWmB7GrxwbakccuWJ4UlH160VcgIUAYTuqvOwd1HxVthcSTlldupA==
-X-Received: by 2002:a05:600c:1990:b0:3a6:2a00:3ddb with SMTP id
- t16-20020a05600c199000b003a62a003ddbmr11806956wmq.72.1661177562935; 
- Mon, 22 Aug 2022 07:12:42 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- bh16-20020a05600c3d1000b003a3561d4f3fsm15184908wmb.43.2022.08.22.07.12.41
+ bh=sLuofTzD3XcbGEKkxECtfxPk5kwjXiJfOftJpAZ8w/Y=;
+ b=DGYUqAyJbSsJjHsf2xaFoWXtbb/IrzIFMFbOS363jWJBgUOGrv16moYhkyXOydsDoK
+ He7yoA8aVG2cPWrx9b14tfoheS87sbWwMfyNs95NN8GJspNgqlTPpbwEp3J6Vt37t42m
+ TY0PVgSNBpfHTYB4SwLpUbFz5JNS3CtAk+1kCh0QHfaSr9yX60CDemdqnT0b9DtWPQyl
+ L1owfOfbVubsBPGg6iFLJEB3ouvDBkdzb6XghN1P4cGUWtFnqGR1501pLTNgez+Nx4Dc
+ 5WWIOhLnOK52PCHekRaX+civiDEd9t0fSutNbflFfoAyJq7bhw+yWojgu6uNAlVNS29A
+ K4mQ==
+X-Gm-Message-State: ACgBeo3BD2WnLeWp3cwgCHcW73JEJM3TYF3MaDQRFU4lmpOdxSqa+drU
+ NdjHhVMOc0Bbgi+/trBuCGw2M+Qvy/LHaQ==
+X-Google-Smtp-Source: AA6agR6czH8Mft8TafQKJto6R+8+b33d5nN6xsUeqQ+urCIJ8iR5NrrXVzuoTZ+S0FdoSrscqBl0fw==
+X-Received: by 2002:a05:6a00:1a49:b0:52d:4ad7:3bea with SMTP id
+ h9-20020a056a001a4900b0052d4ad73beamr21749452pfv.66.1661182279316; 
+ Mon, 22 Aug 2022 08:31:19 -0700 (PDT)
+Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
+ i6-20020a17090a3d8600b001f262f6f717sm10353835pjc.3.2022.08.22.08.31.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 07:12:42 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ Mon, 22 Aug 2022 08:31:18 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Furquan Shaikh <furquan@rivosinc.com>
-Subject: [PATCH v2 7/7] target/riscv: Honour -semihosting-config userspace=on
- and enable=on
-Date: Mon, 22 Aug 2022 15:12:30 +0100
-Message-Id: <20220822141230.3658237-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220822141230.3658237-1-peter.maydell@linaro.org>
-References: <20220822141230.3658237-1-peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v2 40/66] accel/tcg: Introduce probe_access_full
+Date: Mon, 22 Aug 2022 08:27:15 -0700
+Message-Id: <20220822152741.1617527-41-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220822152741.1617527-1-richard.henderson@linaro.org>
+References: <20220822152741.1617527-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,71 +87,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The riscv target incorrectly enabled semihosting always, whether the
-user asked for it or not.  Call semihosting_enabled() passing the
-correct value to the is_userspace argument, which fixes this and also
-handles the userspace=on argument.  Because we do this at translate
-time, we no longer need to check the privilege level in
-riscv_cpu_do_interrupt().
+Add an interface to return the CPUTLBEntryFull struct
+that goes with the lookup.  The result is not intended
+to be valid across multiple lookups, so the user must
+use the results immediately.
 
-Note that this is a behaviour change: we used to default to
-semihosting being enabled, and now the user must pass
-"-semihosting-config enable=on" if they want it.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu_helper.c                      | 9 +++------
- target/riscv/translate.c                       | 1 +
- target/riscv/insn_trans/trans_privileged.c.inc | 3 ++-
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ include/exec/exec-all.h | 11 +++++++++++
+ accel/tcg/cputlb.c      | 44 +++++++++++++++++++++++++----------------
+ 2 files changed, 38 insertions(+), 17 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 59b3680b1b2..2b84febf275 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1342,12 +1342,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-     target_ulong mtval2 = 0;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 311e5fb422..e366b5c1ba 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -435,6 +435,17 @@ int probe_access_flags(CPUArchState *env, target_ulong addr,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool nonfault, void **phost, uintptr_t retaddr);
  
-     if  (cause == RISCV_EXCP_SEMIHOST) {
--        if (env->priv >= PRV_S) {
--            do_common_semihosting(cs);
--            env->pc += 4;
--            return;
--        }
--        cause = RISCV_EXCP_BREAKPOINT;
-+        do_common_semihosting(cs);
-+        env->pc += 4;
-+        return;
++#ifndef CONFIG_USER_ONLY
++/**
++ * probe_access_full:
++ * Like probe_access_flags, except also return into @pfull.
++ */
++int probe_access_full(CPUArchState *env, target_ulong addr,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool nonfault, void **phost,
++                      CPUTLBEntryFull **pfull, uintptr_t retaddr);
++#endif
++
+ #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
+ 
+ /* Estimated block size for TB allocation.  */
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 5359113e8d..1c59e701e6 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1579,7 +1579,8 @@ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
+ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+                                  int fault_size, MMUAccessType access_type,
+                                  int mmu_idx, bool nonfault,
+-                                 void **phost, uintptr_t retaddr)
++                                 void **phost, CPUTLBEntryFull **pfull,
++                                 uintptr_t retaddr)
+ {
+     uintptr_t index = tlb_index(env, mmu_idx, addr);
+     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+@@ -1613,10 +1614,12 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+                                        mmu_idx, nonfault, retaddr)) {
+                 /* Non-faulting page table read failed.  */
+                 *phost = NULL;
++                *pfull = NULL;
+                 return TLB_INVALID_MASK;
+             }
+ 
+             /* TLB resize via tlb_fill may have moved the entry.  */
++            index = tlb_index(env, mmu_idx, addr);
+             entry = tlb_entry(env, mmu_idx, addr);
+ 
+             /*
+@@ -1630,6 +1633,8 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     }
+     flags &= tlb_addr;
+ 
++    *pfull = &env_tlb(env)->d[mmu_idx].fulltlb[index];
++
+     /* Fold all "mmio-like" bits into TLB_MMIO.  This is not RAM.  */
+     if (unlikely(flags & ~(TLB_WATCHPOINT | TLB_NOTDIRTY))) {
+         *phost = NULL;
+@@ -1641,37 +1646,44 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     return flags;
+ }
+ 
+-int probe_access_flags(CPUArchState *env, target_ulong addr,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool nonfault, void **phost, uintptr_t retaddr)
++int probe_access_full(CPUArchState *env, target_ulong addr,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool nonfault, void **phost, CPUTLBEntryFull **pfull,
++                      uintptr_t retaddr)
+ {
+-    int flags;
+-
+-    flags = probe_access_internal(env, addr, 0, access_type, mmu_idx,
+-                                  nonfault, phost, retaddr);
++    int flags = probe_access_internal(env, addr, 0, access_type, mmu_idx,
++                                      nonfault, phost, pfull, retaddr);
+ 
+     /* Handle clean RAM pages.  */
+     if (unlikely(flags & TLB_NOTDIRTY)) {
+-        uintptr_t index = tlb_index(env, mmu_idx, addr);
+-        CPUTLBEntryFull *full = &env_tlb(env)->d[mmu_idx].fulltlb[index];
+-
+-        notdirty_write(env_cpu(env), addr, 1, full, retaddr);
++        notdirty_write(env_cpu(env), addr, 1, *pfull, retaddr);
+         flags &= ~TLB_NOTDIRTY;
      }
  
-     if (!async) {
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 63b04e8a948..f9e6258ec5d 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -28,6 +28,7 @@
+     return flags;
+ }
  
- #include "exec/translator.h"
- #include "exec/log.h"
-+#include "semihosting/semihost.h"
++int probe_access_flags(CPUArchState *env, target_ulong addr,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool nonfault, void **phost, uintptr_t retaddr)
++{
++    CPUTLBEntryFull *full;
++
++    return probe_access_full(env, addr, access_type, mmu_idx,
++                             nonfault, phost, &full, retaddr);
++}
++
+ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+ {
++    CPUTLBEntryFull *full;
+     void *host;
+     int flags;
  
- #include "instmap.h"
- #include "internals.h"
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-index 46f96ad74d4..3281408a874 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -52,7 +52,8 @@ static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
-      * that no exception will be raised when fetching them.
-      */
+     g_assert(-(addr | TARGET_PAGE_MASK) >= size);
  
--    if ((pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
-+    if (semihosting_enabled(ctx->mem_idx < PRV_S) &&
-+        (pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
-         pre    = opcode_at(&ctx->base, pre_addr);
-         ebreak = opcode_at(&ctx->base, ebreak_addr);
-         post   = opcode_at(&ctx->base, post_addr);
+     flags = probe_access_internal(env, addr, size, access_type, mmu_idx,
+-                                  false, &host, retaddr);
++                                  false, &host, &full, retaddr);
+ 
+     /* Per the interface, size == 0 merely faults the access. */
+     if (size == 0) {
+@@ -1679,9 +1691,6 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+     }
+ 
+     if (unlikely(flags & (TLB_NOTDIRTY | TLB_WATCHPOINT))) {
+-        uintptr_t index = tlb_index(env, mmu_idx, addr);
+-        CPUTLBEntryFull *full = &env_tlb(env)->d[mmu_idx].fulltlb[index];
+-
+         /* Handle watchpoints.  */
+         if (flags & TLB_WATCHPOINT) {
+             int wp_access = (access_type == MMU_DATA_STORE
+@@ -1702,11 +1711,12 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+                         MMUAccessType access_type, int mmu_idx)
+ {
++    CPUTLBEntryFull *full;
+     void *host;
+     int flags;
+ 
+     flags = probe_access_internal(env, addr, 0, access_type,
+-                                  mmu_idx, true, &host, 0);
++                                  mmu_idx, true, &host, &full, 0);
+ 
+     /* No combination of flags are expected by the caller. */
+     return flags ? NULL : host;
 -- 
-2.25.1
+2.34.1
 
 
