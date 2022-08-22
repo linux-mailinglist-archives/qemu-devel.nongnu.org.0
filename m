@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C37059CC62
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 01:44:59 +0200 (CEST)
-Received: from localhost ([::1]:60946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D2C59CC8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 01:55:06 +0200 (CEST)
+Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQH6I-0004wW-JG
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 19:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
+	id 1oQHG5-0006NV-Gf
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 19:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGv5-0005f0-P4
+ id 1oQGv6-0005f2-Sl
  for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:33:26 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:39447)
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:44735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQGv3-0007Dx-W9
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:33:23 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id d10so11306590plr.6
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:33:21 -0700 (PDT)
+ id 1oQGv5-0007EC-6O
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 19:33:24 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ r15-20020a17090a1bcf00b001fabf42a11cso12913935pjr.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 16:33:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc;
- bh=HUHiu5SeZIXC9UpWtZeNlqf5LG5xWVD/pVI4eJRXIeQ=;
- b=x51Xk+Mv+cZ50PnpAFFWwyW8H25c9GP0wmKylN3gvZMKJiqQv4dGl44cWYHw/GisVl
- s02NZ28shEzTFqHz46BHUjJFUVO4xYivOSVUaIBu+k++bGpPLXJk8zMq69hrMLFCMah5
- Wsb1diEnfWm6K3oV9PBrQ5rp/k4NWYfwaqVsVAYSX/zTHXc8pV3tearqidvAsI2F8MAB
- RvZKzp9ukwLbkvaPA34/dKt8+w9p4rdGSZ41Vx/a6UNqRNs3ZvH+Gr39/6ECExYzm72L
- 1VaqJCSqNl3/qkQ+cTBjIVZ7kA0+5btqsTnPrVcYhfJ+0M+vcqtP/VoKVQ/iOEXjDOKL
- 3ZBw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc;
+ bh=nqq51of1Uw+NqxfwJPSf3L4cXjdgw4EFZNmf1jtw0gc=;
+ b=H2JIp7N66noHLD+kY9DnbFTfQ7OSrU9aTw+QomlB5bmnMqJo2KPDtMDOhCSTQR40E6
+ JPtm9doB6PpfS1+hCyu5OK0J26X85I5XfQOTI2tIomtxnFgVj4M7jlmBYA+y5Ck+DYnh
+ eULXEFpmf2XCXg/CEPXnNUriYQ8nRlZVdubHTkV73GRMknwecEp8VcnGflmxMR5I0Zsn
+ XncMacOS5KgrtbhbTh3++N0nf4IDBe7SbaC/FrVB/Cfoa+CzfOuI2tfRmvUNLsKgskAh
+ brYM8Zr5NozGDkGuV793z8CuV6652IQgN2P4fqwuLSUAQznh77JT11BO+1hqReIKcaCR
+ BoxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=HUHiu5SeZIXC9UpWtZeNlqf5LG5xWVD/pVI4eJRXIeQ=;
- b=bhGphZ1R11qZg84hJhGPFYDghu+fnmo1CnbcI5CIzKcILw4f7sVhBJ4t+ct037S4Od
- 5arTDONDfEoVZChf94PV8SL8aJ3ze/c782iDMd5ZNTwV9V0rO6zyMew2qMLps3idwpP/
- JMm/H4RELzITJaLFrvqSBNKBklLc09Zc1+rYZgvQJMunpm8KIz+udnfNIgbbHepoDA9i
- scgf9O6GtDu2dPZFdEZPIhPkq+G3xM1HK2CA5jtXSuVVnEuCsPGqEURsYQtXvoLQvXHj
- fObV6lugmYzYsRfflAyyInSkyW9o/G2/niU82SnK5pR3Y2AJ1Z78TzvBBAXm9Ay/XHTM
- 8i4g==
-X-Gm-Message-State: ACgBeo0ZzpDdnuznLnRNHBy7et1zCiPGCxr/NUa7a8QdLozOAiE1WqXw
- W9fuMglvMC5fcR5I/rb5KW4F2jSVqlnKDA==
-X-Google-Smtp-Source: AA6agR4R3yL0S8d2l6qdR7p0YpjtRiGFecuQFa9bHKOYvtoVcsTGPzMfuZX82kf4QMzHup3nRl/pZw==
-X-Received: by 2002:a17:902:ce86:b0:172:fad2:fb6d with SMTP id
- f6-20020a170902ce8600b00172fad2fb6dmr2618867plg.51.1661211200444; 
- Mon, 22 Aug 2022 16:33:20 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+ bh=nqq51of1Uw+NqxfwJPSf3L4cXjdgw4EFZNmf1jtw0gc=;
+ b=rtumStbEaB9KlCRBVIrzFDZxDyu/oe7htzVLAwQaUz72bvkzN5xFbDC9rD/CMk2wkY
+ eXJR/meZ2F+gvXsCY94NGJSPeOjDB0JdPFawVffDcVFMf3ebnGA267gC4yUzDn+b0AxF
+ 8HXjmkDEjM75yJ9M7k4HD7JTw2NHs0p7oxrC3Xn72GZ7P4sUyD095fIoRf5VtXuPUNnt
+ wg5Xa0nYntleLFXjKXjQXg+nlYnkR3xZWHKeYzHyaiMWH6V6JG7hjxUz2HbYjp/nGRyK
+ pAEUSR0TeFgPiBpTK07tw9THFHTzArmmNLrDibQfvfzPRSG42S0xMiGHXcDzAe1B+ELU
+ sIqQ==
+X-Gm-Message-State: ACgBeo3T+s4lKzlrg+l5KOBVyoRFOrHh3xiN7DJcY2IQyYOeV28xZTeX
+ UVsy0+NjmOu3eIPScfYGy3ATGfxhzfZm0Q==
+X-Google-Smtp-Source: AA6agR6yDnFjCzgZnJvintH6dgMakjgp0tq0H1ZY8YVk+qtBzbmkOeqcC9gwVfMWZ6u/aOQxAksynw==
+X-Received: by 2002:a17:902:f550:b0:172:fe5d:aa0a with SMTP id
+ h16-20020a170902f55000b00172fe5daa0amr1484369plf.170.1661211201767; 
+ Mon, 22 Aug 2022 16:33:21 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:c3f1:b74f:5edd:63af])
  by smtp.gmail.com with ESMTPSA id
- 82-20020a621555000000b0053655af14easm5133124pfv.45.2022.08.22.16.33.19
+ 82-20020a621555000000b0053655af14easm5133124pfv.45.2022.08.22.16.33.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 16:33:19 -0700 (PDT)
+ Mon, 22 Aug 2022 16:33:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/22] target/i386: pc-relative translation
-Date: Mon, 22 Aug 2022 16:32:56 -0700
-Message-Id: <20220822233318.1728621-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/22] target/i386: Return bool from disas_insn
+Date: Mon, 22 Aug 2022 16:32:57 -0700
+Message-Id: <20220822233318.1728621-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220822233318.1728621-1-richard.henderson@linaro.org>
+References: <20220822233318.1728621-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,65 +89,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20220822232338.1727934-1-richard.henderson@linaro.org>
-("[PATCH v3 00/17] accel/tcg + target/arm: pc-relative translation")
+Instead of returning the new pc, which is present in
+DisasContext, return true if an insn was translated.
+This is false when we detect a page crossing and must
+undo the insn under translation.
 
-Improve translation with address space randomization.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/i386/tcg/translate.c | 42 +++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
 
-Before:
-
-gen code size       232687283/1073577984
-TB count            434021
-TB flush count      1
-TB invalidate count 478996
-
-After:
-
-gen code size       281614723/1073577984
-TB count            527520
-TB flush count      0
-TB invalidate count 125631
-
-                                      before    after
-BootLinuxX8664.test_pc_i440fx_tcg:     63.79    56.01
-BootLinuxX8664.test_pc_q35_tcg:        69.11    50.00
-JOB TIME                              595.51   533.57
-
-
-r~
-
-
-Richard Henderson (22):
-  target/i386: Return bool from disas_insn
-  target/i386: Remove cur_eip argument to gen_exception
-  target/i386: Remove cur_eip, next_eip arguments to gen_interrupt
-  target/i386: Create gen_update_eip_cur
-  target/i386: Create gen_update_eip_next
-  target/i386: Introduce DISAS_EOB*
-  target/i386: Use DISAS_EOB* in gen_movl_seg_T0
-  target/i386: Use DISAS_EOB_NEXT
-  target/i386: USe DISAS_EOB_ONLY
-  target/i386: Create cur_insn_len, cur_insn_len_i32
-  target/i386: Remove cur_eip, next_eip arguments to gen_repz*
-  target/i386: Introduce DISAS_JUMP
-  target/i386: Truncate values for lcall_real to i32
-  target/i386: Create eip_next_*
-  target/i386: Use DISAS_TOO_MANY to exit after gen_io_start
-  target/i386: Create gen_jmp_rel
-  target/i386: Use gen_jmp_rel for loop and jecxz insns
-  target/i386: Use gen_jmp_rel for gen_jcc
-  target/i386: Use gen_jmp_rel for gen_repz*
-  target/i386: Use gen_jmp_rel for DISAS_TOO_MANY
-  target/i386: Create gen_eip_cur
-  target/i386: Enable TARGET_TB_PCREL
-
- target/i386/cpu-param.h      |   1 +
- target/i386/helper.h         |   2 +-
- target/i386/tcg/seg_helper.c |   6 +-
- target/i386/tcg/tcg-cpu.c    |   8 +-
- target/i386/tcg/translate.c  | 710 ++++++++++++++++++-----------------
- 5 files changed, 365 insertions(+), 362 deletions(-)
-
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index a9a9a9de6e..2bdbfc6ddf 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -4552,7 +4552,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+ 
+ /* convert one instruction. s->base.is_jmp is set if the translation must
+    be stopped. Return the next pc value */
+-static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
++static bool disas_insn(DisasContext *s, CPUState *cpu)
+ {
+     CPUX86State *env = cpu->env_ptr;
+     int b, prefixes;
+@@ -4582,12 +4582,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         return s->pc;
+     case 2:
+         /* Restore state that may affect the next instruction. */
++        s->pc = s->base.pc_next;
+         s->cc_op_dirty = orig_cc_op_dirty;
+         s->cc_op = orig_cc_op;
+         s->base.num_insns--;
+         tcg_remove_ops_after(s->prev_insn_end);
+         s->base.is_jmp = DISAS_TOO_MANY;
+-        return s->base.pc_next;
++        return false;
+     default:
+         g_assert_not_reached();
+     }
+@@ -8496,13 +8497,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     default:
+         goto unknown_op;
+     }
+-    return s->pc;
++    return true;
+  illegal_op:
+     gen_illegal_opcode(s);
+-    return s->pc;
++    return true;
+  unknown_op:
+     gen_unknown_opcode(env, s);
+-    return s->pc;
++    return true;
+ }
+ 
+ void tcg_x86_init(void)
+@@ -8667,7 +8668,6 @@ static void i386_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+ static void i386_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+-    target_ulong pc_next;
+ 
+ #ifdef TARGET_VSYSCALL_PAGE
+     /*
+@@ -8680,21 +8680,23 @@ static void i386_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     }
+ #endif
+ 
+-    pc_next = disas_insn(dc, cpu);
+-    dc->base.pc_next = pc_next;
++    if (disas_insn(dc, cpu)) {
++        target_ulong pc_next = dc->pc;
++        dc->base.pc_next = pc_next;
+ 
+-    if (dc->base.is_jmp == DISAS_NEXT) {
+-        if (dc->flags & (HF_TF_MASK | HF_INHIBIT_IRQ_MASK)) {
+-            /*
+-             * If single step mode, we generate only one instruction and
+-             * generate an exception.
+-             * If irq were inhibited with HF_INHIBIT_IRQ_MASK, we clear
+-             * the flag and abort the translation to give the irqs a
+-             * chance to happen.
+-             */
+-            dc->base.is_jmp = DISAS_TOO_MANY;
+-        } else if (!is_same_page(&dc->base, pc_next)) {
+-            dc->base.is_jmp = DISAS_TOO_MANY;
++        if (dc->base.is_jmp == DISAS_NEXT) {
++            if (dc->flags & (HF_TF_MASK | HF_INHIBIT_IRQ_MASK)) {
++                /*
++                 * If single step mode, we generate only one instruction and
++                 * generate an exception.
++                 * If irq were inhibited with HF_INHIBIT_IRQ_MASK, we clear
++                 * the flag and abort the translation to give the irqs a
++                 * chance to happen.
++                 */
++                dc->base.is_jmp = DISAS_TOO_MANY;
++            } else if (!is_same_page(&dc->base, pc_next)) {
++                dc->base.is_jmp = DISAS_TOO_MANY;
++            }
+         }
+     }
+ }
 -- 
 2.34.1
 
