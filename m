@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEA059CB9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:41:07 +0200 (CEST)
-Received: from localhost ([::1]:35842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DADF59CB79
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:31:26 +0200 (CEST)
+Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQG6U-0006Bt-A5
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:41:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48180)
+	id 1oQFx7-0005p1-8g
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:31:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQFqf-0002BA-Qu
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24290)
+ id 1oQFqd-00022H-A4
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQFqX-0004cH-Vw
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:45 -0400
+ id 1oQFqa-0004cW-7f
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661207077;
+ s=mimecast20190719; t=1661207078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N2R0iRNXrjBHd100CoIGDUAallZK+wQOgIgZJ8ae35U=;
- b=P6TBSSVSQmPAlFtor0i16khvWInehcRrm3LWwR7UbQPWl+/bvcZUfg6SiULeSteJgcN6z4
- 9a6ygMS7oKoutUT5qDSaAEhz54BTlPZXfC3qkKlYSkGSoj9j2zve4049c3mZ/R7qoRGRNK
- Yi8NmGkogkSPOgGlNixyK+5eBWaclfw=
+ bh=qUr6b3nJkUrWElMFR9+l2HmdOnxVRTT75yw1plr5//I=;
+ b=fEZLZv+SaUjXPcq4Rhg1kYDkzmucTHOotGmumPEu8uaz+4VicZMH5NaQtNq1srpmEwFDof
+ MyZj8teqMJjL5PgHt7lGtcJnGD9L3R1DVOTZEc9y1VIk+bnhM0FJ5e8Tkkl8zx/vA/vncD
+ bA0s5HgH2C3FUzkIcSAtjrK9RTaSLQ8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-191-fNpGBn2ePkekiDikc6vxsg-1; Mon, 22 Aug 2022 18:24:32 -0400
-X-MC-Unique: fNpGBn2ePkekiDikc6vxsg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-421-ZS6eQJnmM4uLTarlS9Dp2w-1; Mon, 22 Aug 2022 18:24:34 -0400
+X-MC-Unique: ZS6eQJnmM4uLTarlS9Dp2w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58E9D299E776;
- Mon, 22 Aug 2022 22:24:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD6093802AC5;
+ Mon, 22 Aug 2022 22:24:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6B01492C3B;
- Mon, 22 Aug 2022 22:24:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0D814152E0;
+ Mon, 22 Aug 2022 22:24:32 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
@@ -65,14 +65,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Jeff Cody <codyprime@gmail.com>, Xie Changlong <xiechanglong.d@gmail.com>
-Subject: [RFC v4 10/11] blkio: implement BDRV_REQ_REGISTERED_BUF optimization
-Date: Mon, 22 Aug 2022 18:24:01 -0400
-Message-Id: <20220822222402.176088-11-stefanha@redhat.com>
+Subject: [RFC v4 11/11] virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization
+ hint
+Date: Mon, 22 Aug 2022 18:24:02 -0400
+Message-Id: <20220822222402.176088-12-stefanha@redhat.com>
 In-Reply-To: <20220822222402.176088-1-stefanha@redhat.com>
 References: <20220822222402.176088-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -81,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,247 +98,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid bounce buffers when QEMUIOVector elements are within previously
-registered bdrv_register_buf() buffers.
+Register guest RAM using BlockRAMRegistrar and set the
+BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
+accesses in I/O requests.
 
-The idea is that emulated storage controllers will register guest RAM
-using bdrv_register_buf() and set the BDRV_REQ_REGISTERED_BUF on I/O
-requests. Therefore no blkio_map_mem_region() calls are necessary in the
-performance-critical I/O code path.
-
-This optimization doesn't apply if the I/O buffer is internally
-allocated by QEMU (e.g. qcow2 metadata). There we still take the slow
-path because BDRV_REQ_REGISTERED_BUF is not set.
+This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that rely
+on DMA mapping/unmapping.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/blkio.c | 142 ++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 139 insertions(+), 3 deletions(-)
+ include/hw/virtio/virtio-blk.h |  2 ++
+ hw/block/virtio-blk.c          | 39 ++++++++++++++++++++++------------
+ 2 files changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/block/blkio.c b/block/blkio.c
-index cdcba1b63e..976d37705c 100644
---- a/block/blkio.c
-+++ b/block/blkio.c
-@@ -11,7 +11,10 @@
- #include "qemu/osdep.h"
- #include <blkio.h>
- #include "block/block_int.h"
-+#include "exec/memory.h"
-+#include "exec/cpu-common.h" /* for qemu_ram_get_fd() */
- #include "qapi/error.h"
-+#include "qemu/error-report.h"
- #include "qapi/qmp/qdict.h"
- #include "qemu/module.h"
+diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
+index d311c57cca..7f589b4146 100644
+--- a/include/hw/virtio/virtio-blk.h
++++ b/include/hw/virtio/virtio-blk.h
+@@ -19,6 +19,7 @@
+ #include "hw/block/block.h"
+ #include "sysemu/iothread.h"
+ #include "sysemu/block-backend.h"
++#include "sysemu/block-ram-registrar.h"
+ #include "qom/object.h"
  
-@@ -46,6 +49,9 @@ typedef struct {
+ #define TYPE_VIRTIO_BLK "virtio-blk-device"
+@@ -64,6 +65,7 @@ struct VirtIOBlock {
+     struct VirtIOBlockDataPlane *dataplane;
+     uint64_t host_features;
+     size_t config_size;
++    BlockRAMRegistrar blk_ram_registrar;
+ };
  
-     /* Can we skip adding/deleting blkio_mem_regions? */
-     bool needs_mem_regions;
-+
-+    /* Are file descriptors necessary for blkio_mem_regions? */
-+    bool needs_mem_region_fd;
- } BDRVBlkioState;
- 
- static void blkio_aiocb_complete(BlkioAIOCB *acb, int ret)
-@@ -226,6 +232,8 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverState *bs, int64_t offset,
-         BlockCompletionFunc *cb, void *opaque)
- {
-     BDRVBlkioState *s = bs->opaque;
-+    bool needs_mem_regions =
-+        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
-     struct iovec *iov = qiov->iov;
-     int iovcnt = qiov->niov;
-     BlkioAIOCB *acb;
-@@ -234,7 +242,7 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverState *bs, int64_t offset,
- 
-     acb = blkio_aiocb_get(bs, cb, opaque);
- 
--    if (s->needs_mem_regions) {
-+    if (needs_mem_regions) {
-         if (blkio_aiocb_init_mem_region_locked(acb, bytes) < 0) {
-             qemu_aio_unref(&acb->common);
-             return NULL;
-@@ -258,6 +266,8 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverState *bs, int64_t offset,
- {
-     uint32_t blkio_flags = (flags & BDRV_REQ_FUA) ? BLKIO_REQ_FUA : 0;
-     BDRVBlkioState *s = bs->opaque;
-+    bool needs_mem_regions =
-+        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
-     struct iovec *iov = qiov->iov;
-     int iovcnt = qiov->niov;
-     BlkioAIOCB *acb;
-@@ -266,7 +276,7 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverState *bs, int64_t offset,
- 
-     acb = blkio_aiocb_get(bs, cb, opaque);
- 
--    if (s->needs_mem_regions) {
-+    if (needs_mem_regions) {
-         if (blkio_aiocb_init_mem_region_locked(acb, bytes) < 0) {
-             qemu_aio_unref(&acb->common);
-             return NULL;
-@@ -352,6 +362,117 @@ static void blkio_io_unplug(BlockDriverState *bs)
+ typedef struct VirtIOBlockReq {
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index e9ba752f6b..907f012c45 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -21,6 +21,7 @@
+ #include "hw/block/block.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/blockdev.h"
++#include "sysemu/block-ram-registrar.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/runstate.h"
+ #include "hw/virtio/virtio-blk.h"
+@@ -384,12 +385,14 @@ static void virtio_blk_handle_scsi(VirtIOBlockReq *req)
      }
  }
  
-+typedef enum {
-+    BMRR_OK,
-+    BMRR_SKIP,
-+    BMRR_FAIL,
-+} BlkioMemRegionResult;
-+
-+/*
-+ * Produce a struct blkio_mem_region for a given address and size.
-+ *
-+ * This function produces identical results when called multiple times with the
-+ * same arguments. This property is necessary because blkio_unmap_mem_region()
-+ * must receive the same struct blkio_mem_region field values that were passed
-+ * to blkio_map_mem_region().
-+ */
-+static BlkioMemRegionResult
-+blkio_mem_region_from_host(BlockDriverState *bs,
-+                           void *host, size_t size,
-+                           struct blkio_mem_region *region,
-+                           Error **errp)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    int fd = -1;
-+    ram_addr_t fd_offset = 0;
-+
-+    if (((uintptr_t)host | size) % s->mem_region_alignment) {
-+        error_setg(errp, "unaligned buf %p with size %zu", host, size);
-+        return BMRR_FAIL;
-+    }
-+
-+    /* Attempt to find the fd for the underlying memory */
-+    if (s->needs_mem_region_fd) {
-+        RAMBlock *ram_block;
-+        RAMBlock *end_block;
-+        ram_addr_t offset;
-+
-+        /*
-+         * bdrv_register_buf() is called with the BQL held so mr lives at least
-+         * until this function returns.
-+         */
-+        ram_block = qemu_ram_block_from_host(host, false, &fd_offset);
-+        if (ram_block) {
-+            fd = qemu_ram_get_fd(ram_block);
-+        }
-+        if (fd == -1) {
-+            /*
-+             * Ideally every RAMBlock would have an fd. pc-bios and other
-+             * things don't. Luckily they are usually not I/O buffers and we
-+             * can just ignore them.
-+             */
-+            return BMRR_SKIP;
-+        }
-+
-+        /* Make sure the fd covers the entire range */
-+        end_block = qemu_ram_block_from_host(host + size - 1, false, &offset);
-+        if (ram_block != end_block) {
-+            error_setg(errp, "registered buffer at %p with size %zu extends "
-+                       "beyond RAMBlock", host, size);
-+            return BMRR_FAIL;
-+        }
-+    }
-+
-+    *region = (struct blkio_mem_region){
-+        .addr = host,
-+        .len = size,
-+        .fd = fd,
-+        .fd_offset = fd_offset,
-+    };
-+    return BMRR_OK;
-+}
-+
-+static bool blkio_register_buf(BlockDriverState *bs, void *host, size_t size,
-+                               Error **errp)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    struct blkio_mem_region region;
-+    BlkioMemRegionResult region_result;
-+    int ret;
-+
-+    region_result = blkio_mem_region_from_host(bs, host, size, &region, errp);
-+    if (region_result == BMRR_SKIP) {
-+        return true;
-+    } else if (region_result != BMRR_OK) {
-+        return false;
-+    }
-+
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        ret = blkio_map_mem_region(s->blkio, &region);
-+    }
-+
-+    if (ret < 0) {
-+        error_setg(errp, "Failed to add blkio mem region %p with size %zu: %s",
-+                   host, size, blkio_get_error_msg());
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static void blkio_unregister_buf(BlockDriverState *bs, void *host, size_t size)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    struct blkio_mem_region region;
-+
-+    if (blkio_mem_region_from_host(bs, host, size, &region, NULL) != BMRR_OK) {
-+        return;
-+    }
-+
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        blkio_unmap_mem_region(s->blkio, &region);
-+    }
-+}
-+
- static int blkio_io_uring_open(BlockDriverState *bs, QDict *options, int flags,
-                                Error **errp)
+-static inline void submit_requests(BlockBackend *blk, MultiReqBuffer *mrb,
++static inline void submit_requests(VirtIOBlock *s, MultiReqBuffer *mrb,
+                                    int start, int num_reqs, int niov)
  {
-@@ -490,6 +611,17 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
-         return ret;
++    BlockBackend *blk = s->blk;
+     QEMUIOVector *qiov = &mrb->reqs[start]->qiov;
+     int64_t sector_num = mrb->reqs[start]->sector_num;
+     bool is_write = mrb->is_write;
++    BdrvRequestFlags flags = 0;
+ 
+     if (num_reqs > 1) {
+         int i;
+@@ -420,12 +423,18 @@ static inline void submit_requests(BlockBackend *blk, MultiReqBuffer *mrb,
+                               num_reqs - 1);
      }
  
-+    ret = blkio_get_bool(s->blkio,
-+                         "needs-mem-region-fd",
-+                         &s->needs_mem_region_fd);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret,
-+                         "failed to get needs-mem-region-fd: %s",
-+                         blkio_get_error_msg());
-+        blkio_destroy(&s->blkio);
-+        return ret;
++    if (blk_ram_registrar_ok(&s->blk_ram_registrar)) {
++        flags |= BDRV_REQ_REGISTERED_BUF;
 +    }
 +
-     ret = blkio_get_uint64(s->blkio,
-                            "mem-region-alignment",
-                            &s->mem_region_alignment);
-@@ -509,7 +641,7 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
-         return ret;
+     if (is_write) {
+-        blk_aio_pwritev(blk, sector_num << BDRV_SECTOR_BITS, qiov, 0,
+-                        virtio_blk_rw_complete, mrb->reqs[start]);
++        blk_aio_pwritev(blk, sector_num << BDRV_SECTOR_BITS, qiov,
++                        flags, virtio_blk_rw_complete,
++                        mrb->reqs[start]);
+     } else {
+-        blk_aio_preadv(blk, sector_num << BDRV_SECTOR_BITS, qiov, 0,
+-                       virtio_blk_rw_complete, mrb->reqs[start]);
++        blk_aio_preadv(blk, sector_num << BDRV_SECTOR_BITS, qiov,
++                       flags, virtio_blk_rw_complete,
++                       mrb->reqs[start]);
+     }
+ }
+ 
+@@ -447,14 +456,14 @@ static int multireq_compare(const void *a, const void *b)
+     }
+ }
+ 
+-static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
++static void virtio_blk_submit_multireq(VirtIOBlock *s, MultiReqBuffer *mrb)
+ {
+     int i = 0, start = 0, num_reqs = 0, niov = 0, nb_sectors = 0;
+     uint32_t max_transfer;
+     int64_t sector_num = 0;
+ 
+     if (mrb->num_reqs == 1) {
+-        submit_requests(blk, mrb, 0, 1, -1);
++        submit_requests(s, mrb, 0, 1, -1);
+         mrb->num_reqs = 0;
+         return;
+     }
+@@ -474,11 +483,11 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
+              * 3. merge would exceed maximum transfer length of backend device
+              */
+             if (sector_num + nb_sectors != req->sector_num ||
+-                niov > blk_get_max_iov(blk) - req->qiov.niov ||
++                niov > blk_get_max_iov(s->blk) - req->qiov.niov ||
+                 req->qiov.size > max_transfer ||
+                 nb_sectors > (max_transfer -
+                               req->qiov.size) / BDRV_SECTOR_SIZE) {
+-                submit_requests(blk, mrb, start, num_reqs, niov);
++                submit_requests(s, mrb, start, num_reqs, niov);
+                 num_reqs = 0;
+             }
+         }
+@@ -494,7 +503,7 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
+         num_reqs++;
      }
  
--    bs->supported_write_flags = BDRV_REQ_FUA;
-+    bs->supported_write_flags = BDRV_REQ_FUA | BDRV_REQ_REGISTERED_BUF;
-     bs->supported_zero_flags = BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP |
-                                BDRV_REQ_NO_FALLBACK;
+-    submit_requests(blk, mrb, start, num_reqs, niov);
++    submit_requests(s, mrb, start, num_reqs, niov);
+     mrb->num_reqs = 0;
+ }
  
-@@ -673,6 +805,8 @@ static BlockDriver bdrv_io_uring = {
-     .bdrv_co_pwrite_zeroes      = blkio_co_pwrite_zeroes,
-     .bdrv_io_unplug             = blkio_io_unplug,
-     .bdrv_refresh_limits        = blkio_refresh_limits,
-+    .bdrv_register_buf          = blkio_register_buf,
-+    .bdrv_unregister_buf        = blkio_unregister_buf,
- };
+@@ -509,7 +518,7 @@ static void virtio_blk_handle_flush(VirtIOBlockReq *req, MultiReqBuffer *mrb)
+      * Make sure all outstanding writes are posted to the backing device.
+      */
+     if (mrb->is_write && mrb->num_reqs > 0) {
+-        virtio_blk_submit_multireq(s->blk, mrb);
++        virtio_blk_submit_multireq(s, mrb);
+     }
+     blk_aio_flush(s->blk, virtio_blk_flush_complete, req);
+ }
+@@ -689,7 +698,7 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
+         if (mrb->num_reqs > 0 && (mrb->num_reqs == VIRTIO_BLK_MAX_MERGE_REQS ||
+                                   is_write != mrb->is_write ||
+                                   !s->conf.request_merging)) {
+-            virtio_blk_submit_multireq(s->blk, mrb);
++            virtio_blk_submit_multireq(s, mrb);
+         }
  
- static BlockDriver bdrv_virtio_blk_vhost_user = {
-@@ -713,6 +847,8 @@ static BlockDriver bdrv_virtio_blk_vhost_vdpa = {
-     .bdrv_co_pwrite_zeroes      = blkio_co_pwrite_zeroes,
-     .bdrv_io_unplug             = blkio_io_unplug,
-     .bdrv_refresh_limits        = blkio_refresh_limits,
-+    .bdrv_register_buf          = blkio_register_buf,
-+    .bdrv_unregister_buf        = blkio_unregister_buf,
- };
+         assert(mrb->num_reqs < VIRTIO_BLK_MAX_MERGE_REQS);
+@@ -796,7 +805,7 @@ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq)
+     } while (!virtio_queue_empty(vq));
  
- static void bdrv_blkio_init(void)
+     if (mrb.num_reqs) {
+-        virtio_blk_submit_multireq(s->blk, &mrb);
++        virtio_blk_submit_multireq(s, &mrb);
+     }
+ 
+     blk_io_unplug(s->blk);
+@@ -845,7 +854,7 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
+     }
+ 
+     if (mrb.num_reqs) {
+-        virtio_blk_submit_multireq(s->blk, &mrb);
++        virtio_blk_submit_multireq(s, &mrb);
+     }
+     if (is_bh) {
+         blk_dec_in_flight(s->conf.conf.blk);
+@@ -1227,6 +1236,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     s->change = qemu_add_vm_change_state_handler(virtio_blk_dma_restart_cb, s);
++    blk_ram_registrar_init(&s->blk_ram_registrar, s->blk);
+     blk_set_dev_ops(s->blk, &virtio_block_ops, s);
+ 
+     blk_iostatus_enable(s->blk);
+@@ -1252,6 +1262,7 @@ static void virtio_blk_device_unrealize(DeviceState *dev)
+         virtio_del_queue(vdev, i);
+     }
+     qemu_coroutine_dec_pool_size(conf->num_queues * conf->queue_size / 2);
++    blk_ram_registrar_destroy(&s->blk_ram_registrar);
+     qemu_del_vm_change_state_handler(s->change);
+     blockdev_mark_auto_del(s->blk);
+     virtio_cleanup(vdev);
 -- 
 2.37.2
 
