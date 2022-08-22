@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B0859C55A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 19:50:23 +0200 (CEST)
-Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0857959C58F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Aug 2022 19:57:33 +0200 (CEST)
+Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQBZ7-00059O-8B
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 13:50:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58304)
+	id 1oQBg2-000366-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 13:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9Ox-0004lO-Ki
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:43 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:47077)
+ id 1oQ9Ox-0004lR-LE
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:46 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:38847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQ9On-0001g5-R7
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:39 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id d71so9671941pgc.13
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:31:32 -0700 (PDT)
+ id 1oQ9Oo-0001gI-NL
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 11:31:41 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id r22so9693650pgm.5
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 08:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=iTCmXn4zbNmqsU+EjRI1sB7Q7oTW2VW8cDEmCqjn7r0=;
- b=gmhb5D62NZ02NLF9hoI4VJ+2R15BL+HlllsDEsFan9cYG1NgmzjrppTHnBPH88aBxB
- ZqhbRBGQKPM7srEQ8+EOjmyjBek1fl6c2TbX/ACuyce0thUf7sxquvUjU2Y+JqekrVJL
- WjoBVdZE5vZluFDFa4GYZ/bw3dkMVLpxU6PH5FC7gmmGIutFl7sxYZO7SlLx1feD8/kn
- iWblGzxupaDKSERA0g3ZZo2/CWA+Z5qFo1peX+ej9h+skO0mkpmwTbPjFxCT8IRNfW0H
- tZaJxoEN6zIkPwRaxyKvl2Knw0RtvmG3Z7DIyFd4gdVKiHBNFmFoTpv2gvScqDmaJKay
- cAFA==
+ bh=zmm5wl5wUr/T1I9FyVRhCcaj7lDWNVq0kdn79O03klA=;
+ b=PVG96sQEAFM9Eep1MvLNTFmcZaWKFU5pYi/deeJAON9VRAbaRGGr6Vi2mZ5LTsoI2D
+ plpUeaqsOoLvrC1uEDfNzL2l1MSNiW+GVgbA5UICuN0/hKqYx4JNpr4/CrMyqYptWG5Q
+ mG3fsT+EHBc/NJroE5+FQlDA9OY/N+hwEDe4D+rx4TSDh65Dj3wIREzWdPN6Kd2I1J/t
+ 5n1ICUIdpFuF2rUcWnXS8n3F6r04udOdai9Tejl9qiCi5KUb3eOvgk96d0VVgRMXfa7w
+ vXJjg0bdMZpnestAhb4Ga+N/GloJfzcAFSp67KvAdNhJzEjVuFsiQYJnjPsvgHV5lY2C
+ jTWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=iTCmXn4zbNmqsU+EjRI1sB7Q7oTW2VW8cDEmCqjn7r0=;
- b=q3rC/7Vx3+5o234WV9fbsol4oUKhu3IoRxON9PsoEVk04ikJzOt4aL7gpUZA5CN22Y
- lS1IQM2ULKN/kqZf9Xm7GeS5zDLOrGPWgYDG+7EUT8KXW/3p7nm3PyiUHb0amaCLZtUi
- T6AmNoB8i+7wqP0A8tazBqrD98Ch14Nl28fSAruNTLPz1HWOTayvYrXEvktZn3D3Kdlj
- 8lj6F9RPVfm5mDDYtpgxSH8n2Lyzty1ir36CehBpbZ3Eztm/ABl0W5wBwMGUVqUFdwMO
- ZEqGVsXX15cFJ9uBhf8N8dqyN/Sv7hY2pmz+RnYrE3MqkQs9T+5wtBcezTRJD34IrDyD
- t0Ng==
-X-Gm-Message-State: ACgBeo2QMr96Ru0+gBrM9RaIy80RczItsNfnopLTWYglfPv/nD8Y57On
- VyBrVwa14CSFQ5JuL20D7LxIzrTjNc8K0w==
-X-Google-Smtp-Source: AA6agR46epjri+93dACeTktDrD0p40SmnIjx1RAvR0ZTxDMvoD3vSmdLJ4WM41H0onakZAn4EbKNQg==
-X-Received: by 2002:a05:6a00:1a:b0:536:d522:dbf1 with SMTP id
- h26-20020a056a00001a00b00536d522dbf1mr2283516pfk.42.1661182291838; 
- Mon, 22 Aug 2022 08:31:31 -0700 (PDT)
+ bh=zmm5wl5wUr/T1I9FyVRhCcaj7lDWNVq0kdn79O03klA=;
+ b=FvwCdgwUtDajYBbVhJxBCUxJCKB+CW+8E26zkbBZwqmocdcb8O4yD/XHZ5+FQ1Xz/g
+ C8c+1BqrhRZ0B9IZ6M06o6F1mV1zx+curpOxXEV6frLEeI7SPCxB3iO+uT0ygykiX5On
+ HCOqfitW5Iegv/E+ra2D2yNdD8sOMwJFJwLFspLQ6sAyEvrX+HMA2WSZkQ7xHMzkAHKH
+ wvEhRaex+Zx4WEZNwOSeko4VnvDbkVZWu0PwYmdnZj5petM6sUYAdAYoHkqWhMnAgTvC
+ WlBCTLj28IU735x7U1J1QeNWaXhCQXaqBB5ATqBqFBsAeXaGbIwwfz6vu5BWHT86XsKv
+ OzrA==
+X-Gm-Message-State: ACgBeo1OqAXUcRggye/OE4LUTF+xVZsOLeuRIeAT5Ehkup52QSwnfcin
+ IfH/mHQlaCKDe213wL9ss3w+YBe9sYdAFA==
+X-Google-Smtp-Source: AA6agR7HjYTCB7dO3rG+bIKQ0RYN86SMzZ9Yd7eMZ1dVtPwy5l/otSyE/iOi/jjgh5gS+ihFuHas+A==
+X-Received: by 2002:a05:6a00:2302:b0:536:c7c2:10a9 with SMTP id
+ h2-20020a056a00230200b00536c7c210a9mr3089355pfh.11.1661182292672; 
+ Mon, 22 Aug 2022 08:31:32 -0700 (PDT)
 Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
- i6-20020a17090a3d8600b001f262f6f717sm10353835pjc.3.2022.08.22.08.31.31
+ i6-20020a17090a3d8600b001f262f6f717sm10353835pjc.3.2022.08.22.08.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 08:31:31 -0700 (PDT)
+ Mon, 22 Aug 2022 08:31:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v2 56/66] target/arm: Add isar predicates for FEAT_HAFDBS
-Date: Mon, 22 Aug 2022 08:27:31 -0700
-Message-Id: <20220822152741.1617527-57-richard.henderson@linaro.org>
+Subject: [PATCH v2 57/66] target/arm: Extract HA and HD in aa64_va_parameters
+Date: Mon, 22 Aug 2022 08:27:32 -0700
+Message-Id: <20220822152741.1617527-58-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220822152741.1617527-1-richard.henderson@linaro.org>
 References: <20220822152741.1617527-1-richard.henderson@linaro.org>
@@ -71,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,35 +87,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MMFR1 field may indicate support for hardware update of
-access flag alone, or access flag and dirty bit.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/arm/internals.h | 2 ++
+ target/arm/helper.c    | 8 +++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8fb4baf604..4a1a45d424 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4079,6 +4079,16 @@ static inline bool isar_feature_aa64_lva(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, VARANGE) != 0;
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index bab3e89227..de8b3392a8 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1014,6 +1014,8 @@ typedef struct ARMVAParameters {
+     bool using64k   : 1;
+     bool tsz_oob    : 1;  /* tsz has been clamped to legal range */
+     bool ds         : 1;
++    bool ha         : 1;
++    bool hd         : 1;
+ } ARMVAParameters;
+ 
+ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 765638f002..9f24940d20 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10109,7 +10109,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+                                    ARMMMUIdx mmu_idx, bool data)
+ {
+     uint64_t tcr = regime_tcr(env, mmu_idx);
+-    bool epd, hpd, using16k, using64k, tsz_oob, ds;
++    bool epd, hpd, using16k, using64k, tsz_oob, ds, ha, hd;
+     int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
+     ARMCPU *cpu = env_archcpu(env);
+ 
+@@ -10127,6 +10127,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+         epd = false;
+         sh = extract32(tcr, 12, 2);
+         ps = extract32(tcr, 16, 3);
++        ha = extract32(tcr, 21, 1) && cpu_isar_feature(aa64_hafs, cpu);
++        hd = extract32(tcr, 22, 1) && cpu_isar_feature(aa64_hdbs, cpu);
+         ds = extract64(tcr, 32, 1);
+     } else {
+         /*
+@@ -10151,6 +10153,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+             hpd = extract64(tcr, 42, 1);
+         }
+         ps = extract64(tcr, 32, 3);
++        ha = extract64(tcr, 39, 1) && cpu_isar_feature(aa64_hafs, cpu);
++        hd = extract64(tcr, 40, 1) && cpu_isar_feature(aa64_hdbs, cpu);
+         ds = extract64(tcr, 59, 1);
+     }
+ 
+@@ -10222,6 +10226,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+         .using64k = using64k,
+         .tsz_oob = tsz_oob,
+         .ds = ds,
++        .ha = ha,
++        .hd = ha & hd,
+     };
  }
  
-+static inline bool isar_feature_aa64_hafs(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, HAFDBS) != 0;
-+}
-+
-+static inline bool isar_feature_aa64_hdbs(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, HAFDBS) >= 2;
-+}
-+
- static inline bool isar_feature_aa64_tts2uxn(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, XNX) != 0;
 -- 
 2.34.1
 
