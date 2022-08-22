@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DADF59CB79
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:31:26 +0200 (CEST)
-Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AAF59CBA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 00:42:32 +0200 (CEST)
+Received: from localhost ([::1]:33356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQFx7-0005p1-8g
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
+	id 1oQG7r-0000Tf-I8
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 18:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQFqd-00022H-A4
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQFqa-0004cW-7f
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:24:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661207078;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qUr6b3nJkUrWElMFR9+l2HmdOnxVRTT75yw1plr5//I=;
- b=fEZLZv+SaUjXPcq4Rhg1kYDkzmucTHOotGmumPEu8uaz+4VicZMH5NaQtNq1srpmEwFDof
- MyZj8teqMJjL5PgHt7lGtcJnGD9L3R1DVOTZEc9y1VIk+bnhM0FJ5e8Tkkl8zx/vA/vncD
- bA0s5HgH2C3FUzkIcSAtjrK9RTaSLQ8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-ZS6eQJnmM4uLTarlS9Dp2w-1; Mon, 22 Aug 2022 18:24:34 -0400
-X-MC-Unique: ZS6eQJnmM4uLTarlS9Dp2w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD6093802AC5;
- Mon, 22 Aug 2022 22:24:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0D814152E0;
- Mon, 22 Aug 2022 22:24:32 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQG31-00030r-61
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:37:31 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:42703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQG2y-0006Xq-Ic
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 18:37:29 -0400
+Received: by mail-pl1-x636.google.com with SMTP id v23so5931298plo.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 15:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc;
+ bh=pRdOUvc4PkTYWG+B+JoKyNLMxkED6Gdco0gUACOfXsE=;
+ b=YZFLz+Ayghq1hvxRF3SuASN6hjdrUbuv5k1IwnHiwi6ggZOLFa7qojDQEyclv8gba+
+ PcTpDqDyFuMllXouOvhECVe3/pEzVD5ABXuXEJETLgxoOngXD+KxzkN9X3AM1Pd9rqbD
+ yk/CO3BZ8G+CB+57Z8BZmsRYZ24wY/nq1IggvVoflRVajaPMU/LSygakvP72Z886OJlc
+ qmtTdZ08cpLdWKtfVRyGXpl9qho4acXXXBfAb64Xa1ceGpHrUMRDR0lE+LfSrwzIqSsb
+ y6x0fXvW/16tkfxpwDcmoIylTjBawkaf+ytLJRo4DsxEvesARy3p/44iCs/EjCztgCI0
+ 6J6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=pRdOUvc4PkTYWG+B+JoKyNLMxkED6Gdco0gUACOfXsE=;
+ b=eyEOyB4yCMcWqMRln0hWAO5pKus5UeUmBK9nOi9l0eaeGpbalhV7sDUIcCoVUa9w7U
+ Guk30uB85nbTdi0MuqiKt3ASTUXgCOOXp1k+nIvIq7UbpsF98VOZ4pec1LvD9LHOhCyt
+ fTydx+XoQPFv+zugbrbeYPsqTmC/SH0xKjfkHbbQUtJkueVBGWUDQ7tkg83fDMWBqfFf
+ gkidiJGbOuZAAfjgJIuXh/5SneydQBxYPgfyOKRy1DiclZQ6dSXJuMsRVGjd4HXM0IZC
+ pJ/JNl/03Wdt6pLCPEQTlfiZH1tI7i+oIlJYHgleutWCGxVvxDBN2+sl/XgleGJlDg0P
+ Qh7A==
+X-Gm-Message-State: ACgBeo0YDReabTffVYxqdw6hpOPfC4QrcjmbBiOw1bk16pMddQR8pmgS
+ 47v+/KvVSRBOb+r+ph3zvl+o5QXWCrNsnw==
+X-Google-Smtp-Source: AA6agR6mxCtaib+ftKA3b3A1+OPItBvYEKfGlev5zX3I6YyNpajhUmtPGoOplbsNBAj876JoFIOmkA==
+X-Received: by 2002:a17:902:ced0:b0:172:e189:f709 with SMTP id
+ d16-20020a170902ced000b00172e189f709mr8728203plg.63.1661207845010; 
+ Mon, 22 Aug 2022 15:37:25 -0700 (PDT)
+Received: from stoup.. ([71.212.157.236]) by smtp.gmail.com with ESMTPSA id
+ z6-20020a63e106000000b0042a2777550dsm7017419pgh.47.2022.08.22.15.37.22
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Aug 2022 15:37:23 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Peter Xu <peterx@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, integration@gluster.org,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- David Hildenbrand <david@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Fam Zheng <fam@euphon.net>, sgarzare@redhat.com,
- Alberto Faria <afaria@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Eric Blake <eblake@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Jeff Cody <codyprime@gmail.com>, Xie Changlong <xiechanglong.d@gmail.com>
-Subject: [RFC v4 11/11] virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization
- hint
-Date: Mon, 22 Aug 2022 18:24:02 -0400
-Message-Id: <20220822222402.176088-12-stefanha@redhat.com>
-In-Reply-To: <20220822222402.176088-1-stefanha@redhat.com>
-References: <20220822222402.176088-1-stefanha@redhat.com>
+Subject: [PATCH 0/6] target/i386: Host vector ops for high-usage SSE
+Date: Mon, 22 Aug 2022 15:37:16 -0700
+Message-Id: <20220822223722.1697758-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,183 +85,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Register guest RAM using BlockRAMRegistrar and set the
-BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
-accesses in I/O requests.
+These 5 sets of conversions take care of all of the entries that
+show up above 0.1% in a normal linux boot, i.e. easy libc usage.
 
-This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that rely
-on DMA mapping/unmapping.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/hw/virtio/virtio-blk.h |  2 ++
- hw/block/virtio-blk.c          | 39 ++++++++++++++++++++++------------
- 2 files changed, 27 insertions(+), 14 deletions(-)
+r~
 
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
-index d311c57cca..7f589b4146 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -19,6 +19,7 @@
- #include "hw/block/block.h"
- #include "sysemu/iothread.h"
- #include "sysemu/block-backend.h"
-+#include "sysemu/block-ram-registrar.h"
- #include "qom/object.h"
- 
- #define TYPE_VIRTIO_BLK "virtio-blk-device"
-@@ -64,6 +65,7 @@ struct VirtIOBlock {
-     struct VirtIOBlockDataPlane *dataplane;
-     uint64_t host_features;
-     size_t config_size;
-+    BlockRAMRegistrar blk_ram_registrar;
- };
- 
- typedef struct VirtIOBlockReq {
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index e9ba752f6b..907f012c45 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -21,6 +21,7 @@
- #include "hw/block/block.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/blockdev.h"
-+#include "sysemu/block-ram-registrar.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/runstate.h"
- #include "hw/virtio/virtio-blk.h"
-@@ -384,12 +385,14 @@ static void virtio_blk_handle_scsi(VirtIOBlockReq *req)
-     }
- }
- 
--static inline void submit_requests(BlockBackend *blk, MultiReqBuffer *mrb,
-+static inline void submit_requests(VirtIOBlock *s, MultiReqBuffer *mrb,
-                                    int start, int num_reqs, int niov)
- {
-+    BlockBackend *blk = s->blk;
-     QEMUIOVector *qiov = &mrb->reqs[start]->qiov;
-     int64_t sector_num = mrb->reqs[start]->sector_num;
-     bool is_write = mrb->is_write;
-+    BdrvRequestFlags flags = 0;
- 
-     if (num_reqs > 1) {
-         int i;
-@@ -420,12 +423,18 @@ static inline void submit_requests(BlockBackend *blk, MultiReqBuffer *mrb,
-                               num_reqs - 1);
-     }
- 
-+    if (blk_ram_registrar_ok(&s->blk_ram_registrar)) {
-+        flags |= BDRV_REQ_REGISTERED_BUF;
-+    }
-+
-     if (is_write) {
--        blk_aio_pwritev(blk, sector_num << BDRV_SECTOR_BITS, qiov, 0,
--                        virtio_blk_rw_complete, mrb->reqs[start]);
-+        blk_aio_pwritev(blk, sector_num << BDRV_SECTOR_BITS, qiov,
-+                        flags, virtio_blk_rw_complete,
-+                        mrb->reqs[start]);
-     } else {
--        blk_aio_preadv(blk, sector_num << BDRV_SECTOR_BITS, qiov, 0,
--                       virtio_blk_rw_complete, mrb->reqs[start]);
-+        blk_aio_preadv(blk, sector_num << BDRV_SECTOR_BITS, qiov,
-+                       flags, virtio_blk_rw_complete,
-+                       mrb->reqs[start]);
-     }
- }
- 
-@@ -447,14 +456,14 @@ static int multireq_compare(const void *a, const void *b)
-     }
- }
- 
--static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
-+static void virtio_blk_submit_multireq(VirtIOBlock *s, MultiReqBuffer *mrb)
- {
-     int i = 0, start = 0, num_reqs = 0, niov = 0, nb_sectors = 0;
-     uint32_t max_transfer;
-     int64_t sector_num = 0;
- 
-     if (mrb->num_reqs == 1) {
--        submit_requests(blk, mrb, 0, 1, -1);
-+        submit_requests(s, mrb, 0, 1, -1);
-         mrb->num_reqs = 0;
-         return;
-     }
-@@ -474,11 +483,11 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
-              * 3. merge would exceed maximum transfer length of backend device
-              */
-             if (sector_num + nb_sectors != req->sector_num ||
--                niov > blk_get_max_iov(blk) - req->qiov.niov ||
-+                niov > blk_get_max_iov(s->blk) - req->qiov.niov ||
-                 req->qiov.size > max_transfer ||
-                 nb_sectors > (max_transfer -
-                               req->qiov.size) / BDRV_SECTOR_SIZE) {
--                submit_requests(blk, mrb, start, num_reqs, niov);
-+                submit_requests(s, mrb, start, num_reqs, niov);
-                 num_reqs = 0;
-             }
-         }
-@@ -494,7 +503,7 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
-         num_reqs++;
-     }
- 
--    submit_requests(blk, mrb, start, num_reqs, niov);
-+    submit_requests(s, mrb, start, num_reqs, niov);
-     mrb->num_reqs = 0;
- }
- 
-@@ -509,7 +518,7 @@ static void virtio_blk_handle_flush(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-      * Make sure all outstanding writes are posted to the backing device.
-      */
-     if (mrb->is_write && mrb->num_reqs > 0) {
--        virtio_blk_submit_multireq(s->blk, mrb);
-+        virtio_blk_submit_multireq(s, mrb);
-     }
-     blk_aio_flush(s->blk, virtio_blk_flush_complete, req);
- }
-@@ -689,7 +698,7 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-         if (mrb->num_reqs > 0 && (mrb->num_reqs == VIRTIO_BLK_MAX_MERGE_REQS ||
-                                   is_write != mrb->is_write ||
-                                   !s->conf.request_merging)) {
--            virtio_blk_submit_multireq(s->blk, mrb);
-+            virtio_blk_submit_multireq(s, mrb);
-         }
- 
-         assert(mrb->num_reqs < VIRTIO_BLK_MAX_MERGE_REQS);
-@@ -796,7 +805,7 @@ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq)
-     } while (!virtio_queue_empty(vq));
- 
-     if (mrb.num_reqs) {
--        virtio_blk_submit_multireq(s->blk, &mrb);
-+        virtio_blk_submit_multireq(s, &mrb);
-     }
- 
-     blk_io_unplug(s->blk);
-@@ -845,7 +854,7 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
-     }
- 
-     if (mrb.num_reqs) {
--        virtio_blk_submit_multireq(s->blk, &mrb);
-+        virtio_blk_submit_multireq(s, &mrb);
-     }
-     if (is_bh) {
-         blk_dec_in_flight(s->conf.conf.blk);
-@@ -1227,6 +1236,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-     }
- 
-     s->change = qemu_add_vm_change_state_handler(virtio_blk_dma_restart_cb, s);
-+    blk_ram_registrar_init(&s->blk_ram_registrar, s->blk);
-     blk_set_dev_ops(s->blk, &virtio_block_ops, s);
- 
-     blk_iostatus_enable(s->blk);
-@@ -1252,6 +1262,7 @@ static void virtio_blk_device_unrealize(DeviceState *dev)
-         virtio_del_queue(vdev, i);
-     }
-     qemu_coroutine_dec_pool_size(conf->num_queues * conf->queue_size / 2);
-+    blk_ram_registrar_destroy(&s->blk_ram_registrar);
-     qemu_del_vm_change_state_handler(s->change);
-     blockdev_mark_auto_del(s->blk);
-     virtio_cleanup(vdev);
+
+Richard Henderson (6):
+  target/i386: Define XMMReg and access macros
+  target/i386: Use tcg gvec for gen_op_movo
+  target/i386: Use tcg gvec for pcmp{eq,gt}*
+  target/i386: Use tcg gvec for p{add,sub}*
+  target/i386: Use tcg gvec for pand, pandn, por, pxor
+  target/i386: Use tcg gvec ops for pmovmskb
+
+ target/i386/cpu.h            |  57 +++++++---
+ target/i386/ops_sse.h        |  49 ---------
+ target/i386/ops_sse_header.h |  24 ----
+ target/i386/tcg/translate.c  | 208 ++++++++++++++++++++++++++++-------
+ 4 files changed, 214 insertions(+), 124 deletions(-)
+
 -- 
-2.37.2
+2.34.1
 
 
