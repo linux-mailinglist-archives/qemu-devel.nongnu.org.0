@@ -2,86 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9868459E720
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 18:24:44 +0200 (CEST)
-Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3E659E72F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 18:28:06 +0200 (CEST)
+Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQWhn-0000PR-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 12:24:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45284)
+	id 1oQWl3-00055q-4a
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 12:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQWTb-0008Ci-7G
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:10:03 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:36409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQWTZ-0007AP-HS
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:10:02 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- r14-20020a17090a4dce00b001faa76931beso17692909pjl.1
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 09:10:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=X8BB0jmGw6MVEHlq5B6OZ9eBbIcvZgml+G1lyXCNYv0=;
- b=XJp/RWKuUTPLmN6AhTCjAwPUggG1Aj2i0a6S1xrAkLv7H49Nj7RHpZF2lZjM4AKL+N
- fCVYNuwKQJubwAQP/j3rcutrTz/8gbRmFmTRf/UfYbQ7W4t+aA5elwBrtOWMi7Be/sIc
- HR+quG1hXIzUcNkM8qSsUp4p+7/1MiKlxYOs95uJmMIK0uIdK/oYbL1MxfHlRlHIEskb
- ObGzK1R/bKerwyKd4oGBTMW31In4ta2slzNjAO9XmIk+cYZHJsf1SE5lj5EBckWUg6qF
- ARAv2H6xCXa2IvhcXqf2v/FlAxcgQHIfu40DegE+uz83cGAWsN4a2wn271FXFVhb8wPm
- yyZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=X8BB0jmGw6MVEHlq5B6OZ9eBbIcvZgml+G1lyXCNYv0=;
- b=GfhIKpEoxdkzl47/ND42IKMydwmKBlScPlHn59bwWXnwjqtsjpyB2Y45X+qkXaw6Mq
- SdU37nRt8hzzFQBlfIQrx0GNu+w3ulp+c78tTqj7VfpbxjtVz8xetEuunQLVlJH+iMEN
- 4thcGk05osYxy4RQEYaXdfr++p3Z4zbJGdXMr54XygA33Q3JEgxVR+8WQEI7Q0X6TNlx
- tw21VtJsbXbuWuAeaZiH6D9y1Togxtuwr21plEfXt84jpnf2brLeFZpnBEmvGZrIbTDe
- dQx9OC7Ret+UGxLaYuLBiKDTBOXeVkw9yfGgZZhU6KeZoGclD1nLM3dV6EePaxH91k1s
- pMgA==
-X-Gm-Message-State: ACgBeo3WI2f9Xd7uRTHS47ijnRwg9raZy++RuXg3uLkOTmm9l/7p2GEj
- ETxshWc5i8j/hKWMrGzPaFsOqA==
-X-Google-Smtp-Source: AA6agR6GF0mIfZdTS8numTH+mhqgm4DXXdB59kZMJaarg7/StrZdKbZc8/F7EAdovywUJQaj+l1eaQ==
-X-Received: by 2002:a17:902:ecc1:b0:172:dd1f:5b76 with SMTP id
- a1-20020a170902ecc100b00172dd1f5b76mr12444206plh.28.1661270999507; 
- Tue, 23 Aug 2022 09:09:59 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9?
- ([2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9])
- by smtp.gmail.com with ESMTPSA id
- u16-20020a17090341d000b00172aa97b628sm10661926ple.186.2022.08.23.09.09.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 09:09:58 -0700 (PDT)
-Message-ID: <3680123c-c025-7e8e-342a-def8bf73b134@linaro.org>
-Date: Tue, 23 Aug 2022 09:09:57 -0700
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oQWie-0001K6-PH; Tue, 23 Aug 2022 12:25:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62310
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oQWiW-0001li-R2; Tue, 23 Aug 2022 12:25:34 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NFu8Ps006185;
+ Tue, 23 Aug 2022 16:25:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=dKKTSoCQoxAzlBp5InzbrVdC8gWCSSSReSO6OvEbnYw=;
+ b=oX/ug9DfMwdI+FHKok/4oD87RIr6X6hcKMoOmRGjvkWOr3NQP6+QAO86F1JuS17mn7Rf
+ jQLRUd0e4ZevnM14hXh00yKFX5Th6UfiJzkaE0+e0nQSI0VRb3AB34i1RL5g97+TAS57
+ c4GwduOtfHU7/MtyUcnC0kgl0Z1fx6YlTB4QI14wUTisyKjJZPt60Ojly5b+1RuoIA2+
+ FNJCyudo1dtPVdhHxkBHtbNgLtX9cmrn6CTEyowVR2E1aFmGhN9ljwuDBh94tpWBfCkp
+ 2mvW5Gp7hNf6pIl7dEQczUhGPqgE0nu76UrITu7o7hRuOHLfjZ+O/H12YaNHCB7NZvRr 1w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j51yd906v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 16:25:22 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27NFvn6s014010;
+ Tue, 23 Aug 2022 16:25:22 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j51yd905v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 16:25:22 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27NG6mDP021381;
+ Tue, 23 Aug 2022 16:25:20 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03fra.de.ibm.com with ESMTP id 3j2q892y56-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 16:25:20 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27NGPHeG33816852
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 23 Aug 2022 16:25:17 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 55B90A405F;
+ Tue, 23 Aug 2022 16:25:17 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5F84BA4054;
+ Tue, 23 Aug 2022 16:25:16 +0000 (GMT)
+Received: from [9.171.74.130] (unknown [9.171.74.130])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 23 Aug 2022 16:25:16 +0000 (GMT)
+Message-ID: <f7665657-83bb-511c-faf8-792dab3e9ab9@linux.ibm.com>
+Date: Tue, 23 Aug 2022 18:25:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 03/14] accel/tcg: Suppress auto-invalidate in
- probe_access_internal
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v8 08/12] s390x/cpu_topology: implementing numa for the
+ s390x topology
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, eduardo@habkost.net
-References: <20220822235803.1729290-1-richard.henderson@linaro.org>
- <20220822235803.1729290-4-richard.henderson@linaro.org>
- <104a0560-e1ca-1aca-1ed5-07a00ee74240@redhat.com>
- <4692433b-9592-4de6-bbd5-00d001ff82ad@linaro.org>
-In-Reply-To: <4692433b-9592-4de6-bbd5-00d001ff82ad@linaro.org>
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-9-pmorel@linux.ibm.com>
+ <3a821cd1-b8a0-e737-5279-8ef55e58a77f@linux.ibm.com>
+ <b1e89718-232c-2b0b-2133-102ab7b4dad4@linux.ibm.com>
+ <b30eb75a-5a0b-3428-b812-95a2884914e4@linux.ibm.com>
+ <14afa5dc-80de-c5a2-b57d-867c692b29cf@linux.ibm.com>
+ <e497396a-eadf-15ae-e11c-d6a2bbbff7c7@linux.ibm.com>
+ <3b2f62a7-b526-adfd-e791-f2bc2cae3ccf@linux.ibm.com>
+ <4d0d25e9-fedf-728c-12e9-70e4dc04d6b7@linux.ibm.com>
+ <2c0b3926-482a-9c3f-1937-1be672ba7aeb@linux.ibm.com>
+ <15df7e57-0126-850d-4ab6-309ec03a2130@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <15df7e57-0126-850d-4ab6-309ec03a2130@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: J5vGEJbFB68RPxx12ncJqECb1K66rYDM
+X-Proofpoint-GUID: J8vZi60WXAThqKeQKVb2A4CcAG7tIyUH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-23_07,2022-08-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0
+ clxscore=1011 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 bulkscore=0 adultscore=0 mlxscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208230065
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,22 +132,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/22 08:19, Richard Henderson wrote:
-> On 8/23/22 02:19, David Hildenbrand wrote:
->> 1) s390_probe_access() documents to "With nonfault=1, return the PGM_
->> exception that would have been injected into the guest; return 0 if no
->> exception was detected."
+
+
+On 7/22/22 14:08, Janis Schoetterl-Glausch wrote:
+> On 7/21/22 13:41, Pierre Morel wrote:
 >>
->> But in case of CONFIG_USER_ONLY, we return the flags returned by
->> s390_probe_access(), not a PGM__* value. Maybe it doesn't matter,
->> because we'll simply inject a SIGSEGV in any case ...
+>>
+>> On 7/21/22 10:16, Janis Schoetterl-Glausch wrote:
+>>> On 7/21/22 09:58, Pierre Morel wrote:
+>>>>
+>>>>
+>>
+>> ...snip...
+>>
+>>>>
+>>>> You are right, numa is redundant for us as we specify the topology using the core-id.
+>>>> The roadmap I would like to discuss is using a new:
+>>>>
+>>>> (qemu) cpu_move src dst
+>>>>
+>>>> where src is the current core-id and dst is the destination core-id.
+>>>>
+>>>> I am aware that there are deep implication on current cpu code but I do not think it is not possible.
+>>>> If it is unpossible then we would need a new argument to the device_add for cpu to define the "effective_core_id"
+>>>> But we will still need the new hmp command to update the topology.
 > 
-> I would have said it would matter for MVPG, except that is incorrectly *not* marked as a 
-> privileged instruction.  There should be no CONFIG_USER_ONLY case to answer there.
-
-Ho hum, misread that -- only privileged if access key specified (and we do not check or 
-support those).
+> Why the requirement for a hmp command specifically? Would qom-set on a cpu property work?
 
 
-r~
+We will work on modifying the topology in another series.
+Let's discuss this at that moment.
+
+>>>>
+>>> I don't think core-id is the right one, that's the guest visible CPU address, isn't it?
+>>
+>> Yes, the topology is the one seen by the guest.
+>>
+>>> Although it seems badly named then, since multiple threads are part of the same core (ok, we don't support threads).
+>>
+>> I guess that threads will always move with the core or... we do not support threads.
+>>
+>>> Instead socket-id, book-id could be changed dynamically instead of being computed from the core-id.
+>>>
+>>
+>> What becomes of the core-id ?
+> 
+> It would stay the same. It has to, right? Can't change the address as reported by STAP.
+> I would just be completely independent of the other ids.
+> 
+
+We will work on modifying the topology in another series.
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
