@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6BB59E409
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 15:12:48 +0200 (CEST)
-Received: from localhost ([::1]:34060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AC259E480
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 15:33:15 +0200 (CEST)
+Received: from localhost ([::1]:56016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQTi2-0000Ws-R8
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 09:12:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42820)
+	id 1oQU1q-0000x7-01
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 09:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQTfO-0005VW-J6
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 09:10:02 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:36585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQTfH-0003Sr-2I
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 09:10:01 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-3375488624aso348206117b3.3
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 06:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=l6D4OkRsSxRrpdxS778PHcilllcgsWp5HtxIEzGoemY=;
- b=L9NZJvY7kMoaAbOA5oTpmdFYAU6SKs95nq+5Q5j6TkmWUm8firZdonlzNDma42u68f
- AdNMbiy4PTmwehlLFuD5icqdB8TG5koDBJqcEULisNE8HwK74N6jmMKttTWByTKCZ+BN
- qY3qUxQPobZlFtfd7JxRTPwG9DRJcNcMsLg7ALjg7b2wmKee1/3Qm/tmcSNBSFkOec4w
- TneH5UeeUoKQofvHLNVfGlrND+W/9CqDLDjz+cXZHyAroSb4w3C931l3IZOJLjTAM+rJ
- +i+v0K+XFpIcJtupdiuVB+jf1xn2Gbtrb4y/8QzcPzJeVP/8Synq5Z3p67V9/G+7BiqR
- qW+w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQTzF-0007l3-Ow
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 09:30:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQTyz-00077z-4K
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 09:30:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661261415;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QZDMxaEuIdQKSuQqZQtMIgaw5oE1Md/xws3HZ974gr8=;
+ b=ZxZVDYSnuW1vYvEbwXR1D6XyFObT0+Nvd2fwJLd26BGEXNOenbmKjDKls6gn8js5d5TeJn
+ AqXxv6dPRPbn4bHlcIcBvVL8Y+ANyP7s5AKMjBMHpsG0O6tyhxPX+9/4YwQlLSBimTLyKv
+ dxYyUdIiqJ+yRAc/uT77B8QOG0XZtv8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-437-xmFerCcrP-uK-bTJkyS2og-1; Tue, 23 Aug 2022 09:30:14 -0400
+X-MC-Unique: xmFerCcrP-uK-bTJkyS2og-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ a17-20020a05600c349100b003a545125f6eso10269560wmq.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 06:30:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=l6D4OkRsSxRrpdxS778PHcilllcgsWp5HtxIEzGoemY=;
- b=4yFv8QyI50sc1iYZVfSFSgrzDKVA97edIAVN/0qXhwXBnpNaJT7UdufBWX43w9f0T0
- CkCX8ZjB/X6SNtD6zYmuk20ZkiODhDas3ViWib4RBxoomq+Y62jwVaIkWL0ziU6HCyDH
- 37132OI5FI/Mr4bJAuSIWONxBNOnVYHQXcjb8Bx7X9Jl4MM2Pi18NN4MUw+cA9EGEhx4
- lWqLuPtmV2gHiWdm++IMP4D2lVNcx1N0KYRmnHWpjgwwuR0IuwX+JHuVGusj6rTQnsdx
- c+LlF6dcyhGPer0Laf4445ayliQopCGLfX+JRcN53u2N7X5Cfh+UN6g5uUgPAgLQGlYU
- gK5A==
-X-Gm-Message-State: ACgBeo2uU+lUdd2f0IWUZE1i6hekqsqUmKxNvxixz/N3QgUzm+SQubyf
- 670jCKeqwJNi1lWSwhQ02U3zNVU4EyOkmFguqEcKcg==
-X-Google-Smtp-Source: AA6agR4wf1NBp4Fo6j5Vk3mJFoXAjbgojAnt3+xDe+2riUwFpwtzJ1obLLhK2jaJHbC+xIvHeM7f07V01GLjXmAUeF0=
-X-Received: by 2002:a05:6902:10c3:b0:695:e4a3:ea8f with SMTP id
- w3-20020a05690210c300b00695e4a3ea8fmr4848244ybu.288.1661260191530; Tue, 23
- Aug 2022 06:09:51 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=QZDMxaEuIdQKSuQqZQtMIgaw5oE1Md/xws3HZ974gr8=;
+ b=24sGIb1xt2QSfd3+eq7PVhdaIH153wL0Cr3doqe0Q7VonTUrVjUz6uASlidFesbGbz
+ rP/TTaaj3AYr14MCJNd9XXy/8BfYMfxdz06+jtwMo7XW3e+qSDuf+jaguw4A6areok5r
+ 22gj5l3HMVmIN9GnDzgA0TF2TP2v8VFwSs7GzUWhmQLJtSwQpf4NbsSkWa6eKQU19FIQ
+ InpecVlO8Dv1ucc6JY9C5ZYXdiTmyZDb5k6Ci1JNGxOJRucgt9ODTSaSj0F5/I+k42lT
+ rT4ZCIS4cwpndbtGzOi9o54k5+hBH6TGRaE8SBmHLMag7Pc+tVHDP/2eCptH5yHrh+Et
+ sHEA==
+X-Gm-Message-State: ACgBeo0OO94LCvuBhrlLbEzX/XffJfA6XcODqgNogGAObF5jhUyiKpNW
+ XgblGZ3L9AUBpnZwe1y9+serG4fyvqqxYdYdLnTLTn3l6a/3o3gCZkdmF5RtBNkogaC/YzI1JIz
+ tD4kNDKs/FPiVf0U=
+X-Received: by 2002:a5d:4a11:0:b0:225:2f5e:c704 with SMTP id
+ m17-20020a5d4a11000000b002252f5ec704mr13245452wrq.703.1661261412756; 
+ Tue, 23 Aug 2022 06:30:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4VPkqgtQASFvl0VXnyU15NJEWveqermBmzG/wRBBcecNvhy3MAC1nD76g/an01GGNmmOFi7Q==
+X-Received: by 2002:a5d:4a11:0:b0:225:2f5e:c704 with SMTP id
+ m17-20020a5d4a11000000b002252f5ec704mr13245419wrq.703.1661261412440; 
+ Tue, 23 Aug 2022 06:30:12 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-178-217.web.vodafone.de.
+ [109.43.178.217]) by smtp.gmail.com with ESMTPSA id
+ g1-20020adffc81000000b0022520aba90asm14595051wrr.107.2022.08.23.06.30.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Aug 2022 06:30:11 -0700 (PDT)
+Message-ID: <b6c981e0-56f5-25c3-3422-ed72c8561712@redhat.com>
+Date: Tue, 23 Aug 2022 15:30:08 +0200
 MIME-Version: 1.0
-References: <CAJtCPL0rRU9Q=s6kUFDHjC5uUmx2w=ePYMMaib6vq57g48qk0Q@mail.gmail.com>
- <CAFEAcA81OfC_Z_uQvrSRUKHQf4mmOgbLrHYiwsfzmgH8u8sUqg@mail.gmail.com>
- <CAJtCPL3yNpNkK0Ljzo=QOFX_gLQtGGcqDoomwJ+RH0hq5G=YQA@mail.gmail.com>
- <87r11gbjbv.fsf@linaro.org>
- <CAFEAcA-6X=ptfDXGWA79-L9kRCQRq6jtci7ODPy0Ct369_EvCA@mail.gmail.com>
- <CAJtCPL3Hef3d6sDA+pYJ6xChHS7y1J+2Cn9qf1NT0hwaBT8iTg@mail.gmail.com>
-In-Reply-To: <CAJtCPL3Hef3d6sDA+pYJ6xChHS7y1J+2Cn9qf1NT0hwaBT8iTg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Aug 2022 14:09:09 +0100
-Message-ID: <CAFEAcA8TmrMo+MOhOutUuwE=GOEFYUGxgRA2_XGZ2iunMTAe5w@mail.gmail.com>
-Subject: Re: Teensy 4.1 Implementation
-To: Shiny Saana <shinysaana@gmail.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-3-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v8 02/12] s390x/cpu_topology: CPU topology objects and
+ structures
+In-Reply-To: <20220620140352.39398-3-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,92 +107,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 21 Aug 2022 at 01:05, Shiny Saana <shinysaana@gmail.com> wrote:
-> I've been able to write an initial Teensy 4.1 machine, for now with
-> only the few important memory regions initialized, and successfully
-> ran some hand-written ARM code on it.
+On 20/06/2022 16.03, Pierre Morel wrote:
+> We use new objects to have a dynamic administration of the CPU topology.
+> The highest level object in this implementation is the s390 book and
+> in this first implementation of CPU topology for S390 we have a single
+> book.
+> The book is built as a SYSBUS bridge during the CPU initialization.
+> Other objects, sockets and core will be built after the parsing
+> of the QEMU -smp argument.
+> 
+> Every object under this single book will be build dynamically
+> immediately after a CPU has be realized if it is needed.
+> The CPU will fill the sockets once after the other, according to the
+> number of core per socket defined during the smp parsing.
+> 
+> Each CPU inside a socket will be represented by a bit in a 64bit
+> unsigned long. Set on plug and clear on unplug of a CPU.
+> 
+> For the S390 CPU topology, thread and cores are merged into
+> topology cores and the number of topology cores is the multiplication
+> of cores by the numbers of threads.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   hw/s390x/cpu-topology.c         | 391 ++++++++++++++++++++++++++++++++
+>   hw/s390x/meson.build            |   1 +
+>   hw/s390x/s390-virtio-ccw.c      |   6 +
+>   include/hw/s390x/cpu-topology.h |  74 ++++++
+>   target/s390x/cpu.h              |  47 ++++
+>   5 files changed, 519 insertions(+)
+>   create mode 100644 hw/s390x/cpu-topology.c
+>   create mode 100644 include/hw/s390x/cpu-topology.h
+...
+> +bool s390_topology_new_cpu(MachineState *ms, int core_id, Error **errp)
+> +{
+> +    S390TopologyBook *book;
+> +    S390TopologySocket *socket;
+> +    S390TopologyCores *cores;
+> +    int nb_cores_per_socket;
+> +    int origin, bit;
+> +
+> +    book = s390_get_topology();
+> +
+> +    nb_cores_per_socket = ms->smp.cores * ms->smp.threads;
+> +
+> +    socket = s390_get_socket(ms, book, core_id / nb_cores_per_socket, errp);
+> +    if (!socket) {
+> +        return false;
+> +    }
+> +
+> +    /*
+> +     * At the core level, each CPU is represented by a bit in a 64bit
+> +     * unsigned long. Set on plug and clear on unplug of a CPU.
+> +     * The firmware assume that all CPU in the core description have the same
+> +     * type, polarization and are all dedicated or shared.
+> +     * In the case a socket contains CPU with different type, polarization
+> +     * or dedication then they will be defined in different CPU containers.
+> +     * Currently we assume all CPU are identical and the only reason to have
+> +     * several S390TopologyCores inside a socket is to have more than 64 CPUs
+> +     * in that case the origin field, representing the offset of the first CPU
+> +     * in the CPU container allows to represent up to the maximal number of
+> +     * CPU inside several CPU containers inside the socket container.
+> +     */
+> +    origin = 64 * (core_id / 64);
 
-Great, that's good progress!
+Maybe faster:
 
-> The documentation ( https://www.pjrc.com/teensy/IMXRT1060RM_rev3.pdf ),
-> in section 9.7.1, gives some informations on how, in the actual
-> Teensy board, the ROM, executed at boot, initialize the board
-> peripherals, and also reads from a data structure included in the
-> Flash memory (the user-provided program) where the CPU should jump
-> to after the ROM has done its work (somewhere in that same Flash memory,
-> usually).
->
-> I was able to successfully dump the ROM of the real board and
-> confirm this behavior. Given that the current plan is not to
-> emulate every peripherals, I am of the opinion that writing a very
-> simple ROM that merely reads this Flash provided data structure and
-> jumps to the provided address sounds like a good starting point, so
-> that I can keep iterating on writing more and more complex code
-> through the provided Teensy toolchain, and implementing needed
-> peripherals.
->
-> As such, I have several questions:
->
-> 1/ To replicate this behaviour, is this considered the correct
-> approach by the current QEMU maintainers?
+	origin = core_id & ~63;
 
-Yes, I think this is probably a reasonable way to go.
+By the way, where is this limitation to 64 coming from? Just because we're 
+using a "unsigned long" for now? Or is this a limitation from the architecture?
 
-> 2/ If so, I have not been able to find any function that would be
-> able to load data into a memory region "statically". Does one
-> exist? Is there an alternative to this process?
+> +    cores = s390_get_cores(ms, socket, origin, errp);
+> +    if (!cores) {
+> +        return false;
+> +    }
+> +
+> +    bit = 63 - (core_id - origin);
+> +    set_bit(bit, &cores->mask);
+> +    cores->origin = origin;
+> +
+> +    return true;
+> +}
+...
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index cc3097bfee..a586875b24 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -43,6 +43,7 @@
+>   #include "sysemu/sysemu.h"
+>   #include "hw/s390x/pv.h"
+>   #include "migration/blocker.h"
+> +#include "hw/s390x/cpu-topology.h"
+>   
+>   static Error *pv_mig_blocker;
+>   
+> @@ -89,6 +90,7 @@ static void s390_init_cpus(MachineState *machine)
+>       /* initialize possible_cpus */
+>       mc->possible_cpu_arch_ids(machine);
+>   
+> +    s390_topology_setup(machine);
 
-Depends exactly what you want to do. If you want "let the user
-load data to an arbitrary address", then the "generic loader"
-is usually helpful:
-https://www.qemu.org/docs/master/system/generic-loader.html
+Is this safe with regards to migration? Did you tried a ping-pong migration 
+from an older QEMU to a QEMU with your modifications and back to the older 
+one? If it does not work, we might need to wire this setup to the machine 
+types...
 
-If you mean "C code within QEMU loads data to a specific place",
-rom_add_blob_fixed_as() is probably what you want. This is how
-hw/arm/boot.c loads both user-provided data files and the
-hand-coded mini-bootloader into the guest.
+>       for (i = 0; i < machine->smp.cpus; i++) {
+>           s390x_new_cpu(machine->cpu_type, i, &error_fatal);
+>       }
+> @@ -306,6 +308,10 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
+>       g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
+>       ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
+>   
+> +    if (!s390_topology_new_cpu(ms, cpu->env.core_id, errp)) {
+> +        return;
+> +    }
+> +
+>       if (dev->hotplugged) {
+>           raise_irq_cpu_hotplug();
+>       }
 
-> 3/ Regarding loading the "kernel" of the board, as part of the
-> init process, I am calling the usual "armv7m_load_kernel" function
-> with its usual parameters. However, it seems to load it as the
-> very start of the address space, which is not where the flash
-> memory is, and so is not where the kernel should be loaded. I
-> wasn't able to find a workaround. Is there something I'm missing?
+  Thomas
 
-The behaviour of armv7m_load_kernel() depends on what kind
-of file you pass to -kernel. If you pass -kernel an ELF file,
-then it will get loaded to the addresses as specified by
-the ELF file, so you can use that to put data anywhere you like.
-If you pass it a raw binary file then, yeah, at the moment
-that gets loaded to address 0. There's no real reason for this
-limitation -- it's mainly because when that code was written
-we supported very few M-profile boards, and all of them booted
-from address 0. (That is, the board doesn't set either the
-init-svtor or init-nsvtor properties on the armv7m object to
-anything other than 0.) We could change how this works, but
-the difficulty is that the desire for "Just Do What I Mean"
-behaviour for a specific board tends to conflict with the
-desire for all boards to behave in a consistent manner.
-In particular, at the moment passing a binary file to -kernel
-means "I want this to be loaded so that it has the
-CPU vector table in it and execution starts from reset as
-the architecture says it should"; it can't both mean that
-consistently across M-profile boards and also mean "on the
-teeny board, be an image file intended to boot via the ROM
-loader".
-
-Loading the teeny images via the generic loader rather than
-via -kernel would be one way to sidestep this issue...
-
-Do you know what the hardware sets the initial vector
-base address to? (that is, where the ROM itself puts its
-reset/interrupt vector table). I couldn't find anything in
-the datasheet that said that.
-
-(By the way, calling armv7m_load_kernel() is mandatory even if
-you don't care about loading an image, because it's the function
-that arranges that the CPU gets reset correctly.)
-
-thanks
--- PMM
 
