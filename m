@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DAB59E55E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 16:51:44 +0200 (CEST)
-Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782F859E5E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 17:21:20 +0200 (CEST)
+Received: from localhost ([::1]:34034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQVFn-00049U-9H
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 10:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54500)
+	id 1oQViR-0001J0-7j
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 11:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oQV8p-0007x7-Ce
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:44:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oQV8l-0002I9-AI
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:44:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661265866;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MRe0jPg5g71Ku2k6CDoiCaJUXXhBhO61wFjdlKJm7j4=;
- b=T32oGz2t7PDLxa6NrQzl5BrQkCQgWEk/luFesZ9vgSnhPK9aXNoon/++A8wTJ5BDkyzu1v
- avLXetl6sZQPr8POeuXLKZwokTjZ4z60A/N7LmF8UOQugsCn2P7cnQXk4TVY4KuXqDjCtc
- 8nlSAX18CqAVZhHV6BgcYkOAaYN8/Xs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-E_koNjaMMk6-jkxqgoWEgg-1; Tue, 23 Aug 2022 10:44:23 -0400
-X-MC-Unique: E_koNjaMMk6-jkxqgoWEgg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1CC5185A7A4;
- Tue, 23 Aug 2022 14:44:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AACF4010FA4;
- Tue, 23 Aug 2022 14:44:21 +0000 (UTC)
-Date: Tue, 23 Aug 2022 15:44:18 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-Subject: Re: [PATCH v5 1/3] Update linux headers to 6.0-rc1
-Message-ID: <YwTnwhcy7rPM+99W@redhat.com>
-References: <20220817020845.21855-1-chenyi.qiang@intel.com>
- <20220817020845.21855-2-chenyi.qiang@intel.com>
- <f3bc61c8-d491-f79c-15d7-191208c57224@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQVh1-0008He-SE
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:19:52 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:38618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQVh0-0007vw-7t
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:19:51 -0400
+Received: by mail-pg1-x533.google.com with SMTP id r22so12555629pgm.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 08:19:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=Xuqngbei0MkLpt4fmKzvUi17Onp43uX4CNRVpZIUpJU=;
+ b=RrQInnKawUU1hXvdp09kWPAOghUa3TCZS9RHTVNOAb1mYVu7sSy1QbRu9JXTbOdKDM
+ dP0uu6I2wVCp7yxXTf2Kcjm2NZupKLxrEGyDYKVqlZqenULA37iOaQakXrh70upyJjp7
+ 76LPcHiHUzOiZ8Y6f5Vsvn6gqJq3ak3fKC9KRvaVleUB4SbaMgtBRN0rHdmuLNJ4oupy
+ 1hz7h6KA+tZSpuIN7sOVE6M556/3xIJvKL0kClCBlr1NUuZdZcs29Ecqb9JGvrf/c9xV
+ nj1AxuciKCfLu8QA8rHS7pM263fUfne2UoOm8GAp4Jq4wEFBRodcX0SMbO2/rudyq1M9
+ c23g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=Xuqngbei0MkLpt4fmKzvUi17Onp43uX4CNRVpZIUpJU=;
+ b=ATb1twjpeJOe+2JPHW50PyR3s4utTpVn6yZ2NkK6WRgxE9csfBFfR4aaSCvGQYchxT
+ njxrfYXrqMbZT6EVuu5EPS02Up29IdRsdQTExh9lY+u48QbY4cBYhhnoiVaacVtXo/DJ
+ aqfKSWqHKDHdnUYx+8vNqi3TGFt6OdHy/gd+v4MTLwYqjlI2sMewddczgPGJTUcaNDCs
+ 6ldBXa1FGjI6GpaSikC6ai2sk9m/Q8gsZCsrtvTF3tftOucHi4azV/s/K3CohT4mXAef
+ pcAy1ItCWXVceczMIKsK7U0iynd3y9U0iWMJqML67HLkm0yKGvs75jPVg5dQl/eZc+u4
+ 6sTA==
+X-Gm-Message-State: ACgBeo3P3E3iWSSffncbiECrPBAsk27SpXBkxadQ8EG0Y9dRm/fGRmB9
+ liKpOJf/CQfx6JhdrObyYp7GRg==
+X-Google-Smtp-Source: AA6agR7iw4upG54PShULulIkjgnt7dX9lTcbEhy78YWGxZqtHW+mily63g5deuNv0H0AGclXGgT0+Q==
+X-Received: by 2002:aa7:88c8:0:b0:536:926:700f with SMTP id
+ k8-20020aa788c8000000b005360926700fmr21763421pff.72.1661267988076; 
+ Tue, 23 Aug 2022 08:19:48 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9?
+ ([2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9])
+ by smtp.gmail.com with ESMTPSA id
+ i62-20020a626d41000000b0052d27ccea39sm11360002pfc.19.2022.08.23.08.19.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Aug 2022 08:19:47 -0700 (PDT)
+Message-ID: <4692433b-9592-4de6-bbd5-00d001ff82ad@linaro.org>
+Date: Tue, 23 Aug 2022 08:19:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <f3bc61c8-d491-f79c-15d7-191208c57224@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 03/14] accel/tcg: Suppress auto-invalidate in
+ probe_access_internal
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, eduardo@habkost.net
+References: <20220822235803.1729290-1-richard.henderson@linaro.org>
+ <20220822235803.1729290-4-richard.henderson@linaro.org>
+ <104a0560-e1ca-1aca-1ed5-07a00ee74240@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <104a0560-e1ca-1aca-1ed5-07a00ee74240@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,113 +93,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 22, 2022 at 05:00:03PM +0200, Michal Pr=C3=ADvozn=C3=ADk wrote:
-> On 8/17/22 04:08, Chenyi Qiang wrote:
-> > commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-> >=20
-> > Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-> > ---
-> >  include/standard-headers/asm-x86/bootparam.h  |   7 +-
-> >  include/standard-headers/drm/drm_fourcc.h     |  73 +++++++-
-> >  include/standard-headers/linux/ethtool.h      |  29 +--
-> >  include/standard-headers/linux/input.h        |  12 +-
-> >  include/standard-headers/linux/pci_regs.h     |  30 ++-
-> >  include/standard-headers/linux/vhost_types.h  |  17 +-
-> >  include/standard-headers/linux/virtio_9p.h    |   2 +-
-> >  .../standard-headers/linux/virtio_config.h    |   7 +-
-> >  include/standard-headers/linux/virtio_ids.h   |  14 +-
-> >  include/standard-headers/linux/virtio_net.h   |  34 +++-
-> >  include/standard-headers/linux/virtio_pci.h   |   2 +
-> >  linux-headers/asm-arm64/kvm.h                 |  27 +++
-> >  linux-headers/asm-generic/unistd.h            |   4 +-
-> >  linux-headers/asm-riscv/kvm.h                 |  22 +++
-> >  linux-headers/asm-riscv/unistd.h              |   3 +-
-> >  linux-headers/asm-s390/kvm.h                  |   1 +
-> >  linux-headers/asm-x86/kvm.h                   |  33 ++--
-> >  linux-headers/asm-x86/mman.h                  |  14 --
-> >  linux-headers/linux/kvm.h                     | 172 +++++++++++++++++-
-> >  linux-headers/linux/userfaultfd.h             |  10 +-
-> >  linux-headers/linux/vduse.h                   |  47 +++++
-> >  linux-headers/linux/vfio.h                    |   4 +-
-> >  linux-headers/linux/vfio_zdev.h               |   7 +
-> >  linux-headers/linux/vhost.h                   |  35 +++-
-> >  24 files changed, 523 insertions(+), 83 deletions(-)
-> >=20
->=20
->=20
-> > diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-> > index bf6e96011d..46de10a809 100644
-> > --- a/linux-headers/asm-x86/kvm.h
-> > +++ b/linux-headers/asm-x86/kvm.h
-> > @@ -198,13 +198,13 @@ struct kvm_msrs {
-> >  	__u32 nmsrs; /* number of msrs in entries */
-> >  	__u32 pad;
-> > =20
-> > -	struct kvm_msr_entry entries[0];
-> > +	struct kvm_msr_entry entries[];
-> >  };
-> > =20
->=20
-> I don't think it's this simple. I think this needs to go hand in hand wit=
-h kvm_arch_get_supported_msr_feature().
->=20
-> Also, this breaks clang build:
->=20
-> clang -m64 -mcx16 -Ilibqemu-x86_64-softmmu.fa.p -I. -I.. -Itarget/i386 -I=
-=2E./target/i386 -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/pixman-1 -I=
-/usr/include/spice-server -I/usr/include/spice-1 -I/usr/include/glib-2.0 -I=
-/usr/lib64/glib-2.0/include -fcolor-diagnostics -Wall -Winvalid-pch -Werror=
- -std=3Dgnu11 -O0 -g -isystem /home/zippy/work/qemu/qemu.git/linux-headers =
--isystem linux-headers -iquote . -iquote /home/zippy/work/qemu/qemu.git -iq=
-uote /home/zippy/work/qemu/qemu.git/include -iquote /home/zippy/work/qemu/q=
-emu.git/tcg/i386 -pthread -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFI=
-LE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wm=
-issing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-defi=
-nition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-q=
-ualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defin=
-ed -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negative=
--value -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-typ=
-e-limit-compare -Wno-psabi -fstack-protector-strong -O0 -ggdb -fPIE -isyste=
-m../linux-headers -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D"x8=
-6_64-softmmu-config-target.h"' '-DCONFIG_DEVICES=3D"x86_64-softmmu-config-d=
-evices.h"' -MD -MQ libqemu-x86_64-softmmu.fa.p/target_i386_kvm_kvm.c.o -MF =
-libqemu-x86_64-softmmu.fa.p/target_i386_kvm_kvm.c.o.d -o libqemu-x86_64-sof=
-tmmu.fa.p/target_i386_kvm_kvm.c.o -c ../target/i386/kvm/kvm.c
-> ../target/i386/kvm/kvm.c:470:25: error: field 'info' with variable sized =
-type 'struct kvm_msrs' not at the end of a struct or class is a GNU extensi=
-on [-Werror,-Wgnu-variable-sized-type-not-at-end]
->         struct kvm_msrs info;
->                         ^
-> ../target/i386/kvm/kvm.c:1701:27: error: field 'cpuid' with variable size=
-d type 'struct kvm_cpuid2' not at the end of a struct or class is a GNU ext=
-ension [-Werror,-Wgnu-variable-sized-type-not-at-end]
->         struct kvm_cpuid2 cpuid;
->                           ^
-> ../target/i386/kvm/kvm.c:2868:25: error: field 'info' with variable sized=
- type 'struct kvm_msrs' not at the end of a struct or class is a GNU extens=
-ion [-Werror,-Wgnu-variable-sized-type-not-at-end]
->         struct kvm_msrs info;
->                         ^
-> 3 errors generated.
+On 8/23/22 02:19, David Hildenbrand wrote:
+> 1) s390_probe_access() documents to "With nonfault=1, return the PGM_
+> exception that would have been injected into the guest; return 0 if no
+> exception was detected."
+> 
+> But in case of CONFIG_USER_ONLY, we return the flags returned by
+> s390_probe_access(), not a PGM__* value. Maybe it doesn't matter,
+> because we'll simply inject a SIGSEGV in any case ...
 
-We're perfectly OK with using GNU extensions  in QEMU (eg the g_auto stuff),
-so IMHO just set  -Wno-gnu-variable-sized-type-not-at-end to turn off this
-warning that's only relevant to people striving for fully portable C
-code.
+I would have said it would matter for MVPG, except that is incorrectly *not* marked as a 
+privileged instruction.  There should be no CONFIG_USER_ONLY case to answer there.
+
+> 2) s390_probe_access() documents that for "CONFIG_USER_ONLY, the
+> faulting address is stored to env->__excp_addr.".
+> 
+> However, that's only set in s390_cpu_record_sigsegv(). With nonfault=1
+> that will never actually trigger, right?
+
+Correct.
+
+> I assume db9aab5783a2 ("target/s390x: Use probe_access_flags in
+> s390_probe_access") might have introduced both. We had a flag conversion
+> to PGM_ in there and stored env->__excp_addr:
+
+Indeed, that commit is faulty in that it breaks the contract of s390_probe_access.
+It's a shame, though, that we need to carry the extra code for the purpose, and that the 
+generic interfaces are not sufficient.
 
 
-With regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
+r~
 
