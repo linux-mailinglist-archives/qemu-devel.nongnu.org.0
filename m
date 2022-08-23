@@ -2,110 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F9B59D27A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 09:43:40 +0200 (CEST)
-Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A79059D27B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 09:43:57 +0200 (CEST)
+Received: from localhost ([::1]:42740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQOZV-0003GY-1x
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 03:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33790)
+	id 1oQOZo-0003is-3L
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 03:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQOTD-0006bK-CA
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:37:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55523)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oQOTn-0006w5-JN
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:37:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQOTA-0005oO-5T
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:37:06 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oQOTl-0005pO-8N
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:37:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661240222;
+ s=mimecast20190719; t=1661240260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
- b=QoG+AdmEJFhLTazALmYxXOH4iLtqDgwci802sX/4jdTKKs4NhjaLT9ue+8poTKZKPJXvue
- nmFmdOgkspSXedAXE3I5BMh6OLPQRUNlV1ya9JXx0gqdD0KegS/uqTRaEsMtd4r2rdDQv8
- MdDUr0stYsbatJPckuknEUldl2YOEEU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CIonI0pndNahGWn1l20K1UcfoNJB4vHsRJ0B1tkBDvA=;
+ b=Ky27jAD24mPWSbBKUekUIwye81yALf8UcU6LfonHV5FqbCLdyJTfdKTM0382GDU+WOXNZY
+ fLRJrVDx8JNSr/zzePt2z5s0cp2R3tLrmHLY/lcFswzAPhJRJwZE4hhlY/KDTXdg7sT75T
+ ZLIBzQqLM2kPE8ldGT3SjOw4fSRQZfw=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-673-pP46wUoaOqKdYh4aPFSsRg-1; Tue, 23 Aug 2022 03:37:01 -0400
-X-MC-Unique: pP46wUoaOqKdYh4aPFSsRg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s20-20020adfbc14000000b002252dae05f7so2042817wrg.20
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 00:37:00 -0700 (PDT)
+ us-mta-557-GF3nvmR-Pom2eBfT5hX7OQ-1; Tue, 23 Aug 2022 03:37:39 -0400
+X-MC-Unique: GF3nvmR-Pom2eBfT5hX7OQ-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ p8-20020a170902e74800b0017307429ca3so409561plf.17
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 00:37:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
- b=oy7aqQ63730ZhR5XBgl+W5l1SlDQhPpsikOuXqFCiPUBHgzivCt+q+LDEP77d5uHti
- kmUboWceuxoa+vRrydoUfT5wY5HskpdlX3sWtzUvip/2Ag/Q4FUuv9FMUz+xcicCex1L
- rHy+3hw7WbpCJKf5MiU1FNz9LABBGFPrRVATq/pkqDBbKAbDNDukyNMAFWQRFKCrk85z
- iE8ihkbIe3jaW5sZ0BOROXHUyiSI9MxI9MRVXBBYGetp61fpNML1BHgOcAZi/aKREUA3
- KoI//kKtajPafpnfEHv0RFOu8xUJ6jW3/X2Jbt6NOOqX63AeJn39ZkRYvwmUiea9XO1Z
- He4A==
-X-Gm-Message-State: ACgBeo2wgKzXvWbx1Q8FNcIkFFeE0JUVZd1VThbLwVJLCId4WTHYgVTi
- kHCHkahGRfMLShF2JqfVEjsTG1YjJx1NVxRTYA4Ny6cfTJi4h/yQTB2JGXKr21iV02JzlyiSSDp
- Hev6g5hWBwKhajVQ=
-X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id
- b4-20020a05600c4e0400b003a5a34eae81mr1210685wmq.147.1661240219951; 
- Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4NUFG4IFicJqv+j50eM5lq6Rzd1ri/9X+RKdy6Bv7oWpP5THIKdol8DYBnS2vZ39y/40KufQ==
-X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id
- b4-20020a05600c4e0400b003a5a34eae81mr1210635wmq.147.1661240219655; 
- Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182?
- (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de.
- [2003:cb:c70b:1600:c48b:1fab:a330:5182])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=CIonI0pndNahGWn1l20K1UcfoNJB4vHsRJ0B1tkBDvA=;
+ b=FDHjBSfEIkbmzu/tqHyiyP/9gG6EWWmAt/c2P650JZXpao0tz5CvVl/yM4BvCU7TIb
+ FCZfFrjC1soSVr2dGc9hTDz17K4Kj79WcJbFnhzkzRZs3Kk9s/vRHgSagjXvV9JlNKfU
+ sVbNh1P3nT16E+3fFVOqR5ip9hcD/8Mwmac1d1DaVbxFhHwjKcVysbXzRUOv5NIDSLMb
+ wIRW+1fdZSv8aFYSwKnl67I0pCJ2tZWkRvRoySypuNeHqgdFhTAXcpwsTha6/h8+E6AD
+ IdJ43ORyPjxrSq1hEOYnEyRPkSHWCUYqz5QUIMvznfkl52+0KjKX1fiwCJ4/OVGPO965
+ vV/w==
+X-Gm-Message-State: ACgBeo3kLekAnSOQAzUFfUAAV82D6CNXL94DmURww9CSMzK5435/xhG9
+ /77gvrQu0cht4j1uxCURG57sTlGk6xowVLOltHDNkknZjLfjTgzbwu/t68AeZzIL+zej3IyfiHC
+ wPwOSZ5+RgvCmm80=
+X-Received: by 2002:a17:902:a608:b0:172:ffa5:2ed8 with SMTP id
+ u8-20020a170902a60800b00172ffa52ed8mr2075209plq.164.1661240258613; 
+ Tue, 23 Aug 2022 00:37:38 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6P/h80lhkDahpuWfgo1C0h4uEVABSTwAU+1UMSffWJAqPrmQKT3OZygEKFUm3Jd6R+EBFSXQ==
+X-Received: by 2002:a17:902:a608:b0:172:ffa5:2ed8 with SMTP id
+ u8-20020a170902a60800b00172ffa52ed8mr2075189plq.164.1661240258309; 
+ Tue, 23 Aug 2022 00:37:38 -0700 (PDT)
+Received: from [10.72.13.141] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- u18-20020adfdb92000000b0021eaf4138aesm16379582wri.108.2022.08.23.00.36.57
+ c17-20020a170903235100b0016f1ef2cd44sm9734035plh.154.2022.08.23.00.37.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
-Message-ID: <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
-Date: Tue, 23 Aug 2022 09:36:57 +0200
+ Tue, 23 Aug 2022 00:37:37 -0700 (PDT)
+Message-ID: <268c8e26-2f82-2bd1-c751-6f8f6930d73f@redhat.com>
+Date: Tue, 23 Aug 2022 15:37:32 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v2 04/24] virtio: introduce virtio_queue_enable()
 Content-Language: en-US
-To: "Kirill A. Shutemov" <kirill@shutemov.name>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
- <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
- <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <d308096f0734db11159ff114e55ccb5868270c8c.1660611460.git.kangjie.xu@linux.alibaba.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <d308096f0734db11159ff114e55ccb5868270c8c.1660611460.git.kangjie.xu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -129,40 +105,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.08.22 01:41, Kirill A. Shutemov wrote:
-> On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
->> On 7/21/22 11:44, David Hildenbrand wrote:
->>>
->>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
->>> sure if that would count "auto alloc", but it would certainly bypass
->>> fallocate().
->>
->> Yeah, userfaultfd_register would probably have to forbid this for
->> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
->> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
->> would do something like memfile_node_get_flags(vma->vm_file) and check the
->> result.
-> 
-> I donno, memory allocation with userfaultfd looks pretty intentional to
-> me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
-> 
 
-Can't we say the same about a write()?
+在 2022/8/16 09:06, Kangjie Xu 写道:
+> Introduce the interface queue_enable() in VirtioDeviceClass and the
+> fucntion virtio_queue_enable() in virtio, it can be called when
+> VIRTIO_PCI_COMMON_Q_ENABLE is written and related virtqueue can be
+> started. It only supports the devices of virtio 1 or later. The
+> not-supported devices can only start the virtqueue when DRIVER_OK.
+>
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> ---
 
-> Maybe we would need it in the future for post-copy migration or something?
-> 
-> Or existing practises around userfaultfd touch memory randomly and
-> therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
-> 
-> Note, that userfaultfd is only relevant for shared memory as it requires
-> VMA which we don't have for MFD_INACCESSIBLE.
 
-This feature (F_SEAL_AUTO_ALLOCATE) is independent of all the lovely
-encrypted VM stuff, so it doesn't matter how it relates to MFD_INACCESSIBLE.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
--- 
-Thanks,
 
-David / dhildenb
+>   hw/virtio/virtio.c         | 14 ++++++++++++++
+>   include/hw/virtio/virtio.h |  2 ++
+>   2 files changed, 16 insertions(+)
+>
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 0e9d41366f..141f18c633 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -2050,6 +2050,20 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+>       __virtio_queue_reset(vdev, queue_index);
+>   }
+>   
+> +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+> +{
+> +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> +
+> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+> +        error_report("queue_enable is only suppported in devices of virtio "
+> +                     "1.0 or later.");
+> +    }
+> +
+> +    if (k->queue_enable) {
+> +        k->queue_enable(vdev, queue_index);
+> +    }
+> +}
+> +
+>   void virtio_reset(void *opaque)
+>   {
+>       VirtIODevice *vdev = opaque;
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 879394299b..085997d8f3 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -131,6 +131,7 @@ struct VirtioDeviceClass {
+>       void (*reset)(VirtIODevice *vdev);
+>       void (*set_status)(VirtIODevice *vdev, uint8_t val);
+>       void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
+> +    void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
+>       /* For transitional devices, this is a bitmap of features
+>        * that are only exposed on the legacy interface but not
+>        * the modern one.
+> @@ -270,6 +271,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
+>   int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+>   void virtio_reset(void *opaque);
+>   void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
+> +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
+>   void virtio_update_irq(VirtIODevice *vdev);
+>   int virtio_set_features(VirtIODevice *vdev, uint64_t val);
+>   
 
 
