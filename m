@@ -2,100 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD3B59DAE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 13:27:16 +0200 (CEST)
-Received: from localhost ([::1]:53080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0C559DAF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 13:35:45 +0200 (CEST)
+Received: from localhost ([::1]:38238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQS3u-0005w5-OE
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 07:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
+	id 1oQSC7-00035L-LA
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 07:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQS1D-0003Xk-WC
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 07:24:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56892)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQS6L-00087X-Ms
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 07:29:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQS19-0008Ih-SA
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 07:24:25 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQS6I-00016j-75
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 07:29:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661253863;
+ s=mimecast20190719; t=1661254181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t7fVkRcVO+6ojv6BT3Wrp7kEjscmxNtzv9sJKYbpZ2M=;
- b=Rojy7UNH5K2AC3w/xHNYkgj/U1Mc9arUB/pflJPNrXRWTK4ZVLhVSc9p2T49FZs0Fomofn
- uKaYrOZUYcQFVdEihX2CgnEZ9q0Fg9cU5VwUqYrW0Lcy/jGDY3ygKU+x5EtyyfDqlTRdat
- 7DsbV5cuRsJ6Ykvlmf2DortkxMz7S+k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vZVKIj92DLANrmPojhD39Z818Uv+rbL8ULzjxPDWG20=;
+ b=U0cuvp3ie6+Pt3CiJ8N6pXwWwRFJB1FOoW5eqDRY8vyjpFeoX6uCPLyamGbdJLyNEOLbCj
+ 1S7iRWZXNyc/RMoKDs5djPU/HMmozUMMoPSz2ZOR3xq5qQLnGMEaaY1wHaPgJ9XSNDrktX
+ HaEHa8hVcdfdRozDVMxOQbhJCY0cWoM=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-408--5fp2zUjNjGzJvaE9zzeWA-1; Tue, 23 Aug 2022 07:24:19 -0400
-X-MC-Unique: -5fp2zUjNjGzJvaE9zzeWA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r10-20020a1c440a000000b003a538a648a9so7814523wma.5
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 04:24:19 -0700 (PDT)
+ us-mta-447-k3Kty9EmO0WZwPP-sKw45g-1; Tue, 23 Aug 2022 07:29:39 -0400
+X-MC-Unique: k3Kty9EmO0WZwPP-sKw45g-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ o20-20020a0ccb14000000b00496d08db3beso3865458qvk.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 04:29:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=t7fVkRcVO+6ojv6BT3Wrp7kEjscmxNtzv9sJKYbpZ2M=;
- b=X5iEHF5m0fbRQQBnJffaW8dvtqIOqcmnavE2u4R793FzkurHE/VbiERlK15WlWggkS
- 2ZZad69uumVYeiC2udxGaP9vkrC4g/VnZV8F0N0b4I+RdVT8rbLykWGVKb58/+0z3u29
- CxExPkby3ssgDBiyFFJpGT2ctk9C++iLowxunZsQu5SjjYCdF9iW2qCe7ro8vHNIe45k
- 0pbZXGuwc7Alx2yQK9sclt9/JmiOd624dPOqe3VWHmcCfNZHdxvz+17zltjlyK6YICCL
- ztLWgXBojqMRYzzEHIX0z3/9rbFSDSC2UTrigHOLGxDdpdAEplSnwTfbIN+XVtkQ9LwE
- 3GQA==
-X-Gm-Message-State: ACgBeo2bxzorNj4bmzLu6spbPfpzLrA7ujZ9Zk+tNAcb7WZvsXjIqn4N
- y3f4CwS6YZ4fGrcnIqvsfWNfqTe0ivkkNJSXrVHLfPEY3mblrJEFbW4qxE0jG2VUjjYEfZb/8Wx
- L/6nwPdEYJ+OObQo=
-X-Received: by 2002:a05:600c:1e88:b0:3a6:2ca2:e34f with SMTP id
- be8-20020a05600c1e8800b003a62ca2e34fmr1898468wmb.146.1661253858382; 
- Tue, 23 Aug 2022 04:24:18 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR55Wv1UpM2xtkmhbWdFegYsSSikUOLUpRCYuFP4hlf5ubPDHw7BUthLbdsz+qBw97N9+JjnpA==
-X-Received: by 2002:a05:600c:1e88:b0:3a6:2ca2:e34f with SMTP id
- be8-20020a05600c1e8800b003a62ca2e34fmr1898440wmb.146.1661253858061; 
- Tue, 23 Aug 2022 04:24:18 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-178-217.web.vodafone.de.
- [109.43.178.217]) by smtp.gmail.com with ESMTPSA id
- h3-20020a05600c2ca300b003a5ea1cc63csm21469277wmc.39.2022.08.23.04.24.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 04:24:17 -0700 (PDT)
-Message-ID: <03cd9c13-04aa-b541-c5fe-c76181c13530@redhat.com>
-Date: Tue, 23 Aug 2022 13:24:16 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=vZVKIj92DLANrmPojhD39Z818Uv+rbL8ULzjxPDWG20=;
+ b=KgQ7VpppXwi97H8CYIgFPd6Ysm6bjasox30E78MzAwpmT0PJfzuXlcy2/2rQ+C5CKz
+ TtQBNJmcbMSUQdDrYCHGaTutp2M1X6xlsYP5XtgX2tQ9cyr1GfMXtwxcRuHEuGM4RE8I
+ 8lvlYI/Oqezxo2W36ziQXoXMrlqPI12xf3SfYJSy6OeVLxKAJ0V7SqOvVOGLwqldpoV9
+ cF3EB7SxtijuWXRifDXyZdWh8JSIGfNOounVd/Ewr7szp1WGqDxJUK6OdlIJR6a9qz4C
+ CVlZ4XTn+6yYWdjm3w5epGJw3YMajE6NUcjJaQ8UoI4el9YKE+dAR4UgjkYkbetdPKrL
+ o5Ww==
+X-Gm-Message-State: ACgBeo2H+zbLeSO+8wasqWfjC2H8UqD1IW1teHIwSYdCirfwxE+hgvX2
+ KmrmhnI2U0TMMBT+WGCOQwPb7tNpLNkziGn6TtFu5I49bcANPwpEOcn7bCX3ncMj54POyQfDOGY
+ 3izxoKcyXTxLeEZMH+7HIXKA/ACP0tNQ=
+X-Received: by 2002:a37:9a8c:0:b0:6ba:c06f:bc1d with SMTP id
+ c134-20020a379a8c000000b006bac06fbc1dmr15293907qke.193.1661254179333; 
+ Tue, 23 Aug 2022 04:29:39 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6wB/IjTPRzEvLGuNUf3lz5kdDIUnZPqbmEtogHzHJwitQyAPdH7Aea50GhNRUnMvMX+TI45ajCN4BB3plDvgs=
+X-Received: by 2002:a37:9a8c:0:b0:6ba:c06f:bc1d with SMTP id
+ c134-20020a379a8c000000b006bac06fbc1dmr15293895qke.193.1661254179123; Tue, 23
+ Aug 2022 04:29:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2] ci: Upgrade msys2 release to 20220603
-Content-Language: en-US
-To: luoyonggang@gmail.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Beraldo Leal <bleal@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220728200422.1502-1-luoyonggang@gmail.com>
- <8721edcf-9f67-5428-4ca9-eba3bd94075e@linaro.org>
- <CAE2XoE8M+Tz3t=zh5GhX+vYCipNRdZUYieSjtAO2OUsJcYnAPw@mail.gmail.com>
- <2ac21034-c728-04ad-cb33-07870c1f0cc3@redhat.com>
- <YwNUMLxx2HqWUCXs@redhat.com>
- <CAE2XoE9ALbmwDt9=25HewGBBNN0Z=4sJV+4BMkcowCFuWfXkGQ@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAE2XoE9ALbmwDt9=25HewGBBNN0Z=4sJV+4BMkcowCFuWfXkGQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <20220819165357.3591965-1-eperezma@redhat.com>
+ <20220819165357.3591965-5-eperezma@redhat.com>
+ <709a894f-d333-d13e-a712-dff0a77a85ab@redhat.com>
+In-Reply-To: <709a894f-d333-d13e-a712-dff0a77a85ab@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 23 Aug 2022 13:29:03 +0200
+Message-ID: <CAJaqyWcRJpLxyJ4DMRyYx_-HNER3b9zHoO+q=3dS4q7EcwU0aQ@mail.gmail.com>
+Subject: Re: [PATCH 4/7] vdpa: Remove SVQ vring from iova_tree at shutdown
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Lei Yang <leiyang@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,14 +97,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/08/2022 16.39, 罗勇刚(Yonggang Luo) wrote:
-> After digging, it seems to be a memory issue, cirrus also uses 8gb, that's 
-> rather weird...
+On Tue, Aug 23, 2022 at 8:25 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/8/20 00:53, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > Although the device will be reset before usage, the right thing to do i=
+s
+> > to clean it.
+> >
+> > Reported-by: Lei Yang <leiyang@redhat.com>
+> > Fixes: 34e3c94eda ("vdpa: Add custom IOTLB translations to SVQ")
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-vdpa.c | 7 ++++++-
+> >   1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 7e28d2f674..943799c17c 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -898,7 +898,12 @@ static bool vhost_vdpa_svq_unmap_ring(struct vhost=
+_vdpa *v,
+> >
+> >       size =3D ROUND_UP(result->size, qemu_real_host_page_size());
+> >       r =3D vhost_vdpa_dma_unmap(v, result->iova, size);
+> > -    return r =3D=3D 0;
+> > +    if (unlikely(r < 0)) {
+> > +        return false;
+>
+>
+> vhost-vdpa_svq_map_ring() will call error_report() here, should we do
+> the same?
+>
 
-If it's a memory issue, it might help to remove the "-j2" from the 
-invocation of "make", so that only one file is compiled at once...?
+We can use it unconditionally on error paths if we don't report
+errors. I can try to check if we use that way at this moment.
 
-  Thomas
-
+>      if (unlikely(r !=3D 0)) {
+>          error_setg_errno(errp, -r, "Cannot map region to device");
+>
+> (Btw the error is not very informative, we should dump the map it self
+> at least?)
+>
+> Thanks
+>
+>
+> > +    }
+> > +
+> > +    vhost_iova_tree_remove(v->iova_tree, result);
+> > +    return 0;
+> >   }
+> >
+> >   static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+>
 
 
