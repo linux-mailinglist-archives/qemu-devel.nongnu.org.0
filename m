@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BCC59E604
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 17:29:34 +0200 (CEST)
-Received: from localhost ([::1]:51252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A424159E60D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 17:33:46 +0200 (CEST)
+Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQVqP-0006ll-Rc
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 11:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60654)
+	id 1oQVuS-0002jW-MU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 11:33:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oQVn5-0001zq-9G
+ id 1oQVn5-000219-S2
  for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:26:07 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34722)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oQVn3-0000Rq-1R
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:26:06 -0400
-Received: by mail-wr1-x436.google.com with SMTP id a4so17459632wrq.1
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 08:26:01 -0700 (PDT)
+ id 1oQVn3-0000S4-1c
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:26:07 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a4so17459789wrq.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 08:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=bGIGE2rn7mBFk5hm+CQXZmnDnq1wT3WC77zwEmHTsAo=;
- b=bZwBVtfMVBDYY/c8a59LScFeSgxR7TmFyEEChtD3vXdhg0iLwmFt6brvj9pQoLT7wA
- CfI3DLdF/LPydDg6vLU/FGSAN60hUZ7mRNBuwhhceh1D7HKjn4+yoT2yYVLYbx3SpZwm
- AcBVGIvozL1xFNRc1h/a39RhG+M8Biv4EdBcsqjB+DY3ZhrkX3XYMCHg4QidED6Wrfg2
- fanHIi81KSCNNxnwjkf+/lj70XW8bOP8NaJ4UB/6M27Rms22K+iwKRlGu2r42RZQ4iz2
- E/XMUoAHnh2YEH8lCltKF5KuO6Ow49dfj8+qaHwuF8ZK3RRqmc/LukCLsaJJ397ieX5P
- 8n1g==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=3FO/jNrx9K5o/CpczuXoS1BiQEzozSQlVpBn8zveOaU=;
+ b=JaEAKh9hgkV7P+l9nLA+LKaX9fwfTS1CKHIaKJdC+TJGlDhYsurCnzEjISxtOOSHgb
+ oaHsK29FlVu3xN0RNY4XsyA+Eh7STQpwwPci+mps/C34Yi1RTU8SNzRb019KZjgnaohn
+ jjOzXBHWQbamLEVdKnHsFVQLRTnI/xTXmSsMLD+Xp+5YoaZdP9MviLn3k9G5lpf8Krv3
+ EooDkHS00PnN4oYdt6abQSNUFI4FVpqZ1DRaBccTNFmKeaGJeQRHbgUvRThdgzutI4cI
+ d4P59SiEWyn/uw9LfOY4IIVgZR+1FUAPSW4BzQhigJ8tkA6gwAQJOcRD6+AyruBwaW+4
+ SKRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=bGIGE2rn7mBFk5hm+CQXZmnDnq1wT3WC77zwEmHTsAo=;
- b=mvpMcXpqJtbi7Jwu3kYutRaAknOvXlqVEm7UkoABkPw10zDigzyo0NZCcr2M3AUXp+
- U4a1LdUjAkPAXs1Vcn++9AWuREeoVrssIMCHSRTvvSr7aDuUFewNku23FCijVK6mNZkZ
- UBA5LAP5UKexwUIGqgy9iIVtL++z7LLWsvAMRAMbwvjz/Ep8TpaLzyp0nzgT4lkeZ+SR
- dtiAeM6cAJheExqje1Nbder57/Lf4fKOCE3YwIlgBIJMop8xYqOGEOL1k1QatLWcZpZk
- /kE3gEMs/k5fjPVeru8k8tsXbF4QPkZHSKZa5TYEJEK2qznyH/b9Fc59lTlW534iF6hO
- qE+g==
-X-Gm-Message-State: ACgBeo0UlThp4zWIklb3cgwHiPuXoh3VFIitl2kars9R/adLk90e1qK2
- mPyGKNQJYO3T7u9io6fvy2azSA==
-X-Google-Smtp-Source: AA6agR4N99ZGQBNTuIa1KB+8yacxjjSlzshB25J9e4bo7Az0UBrN/2RjM6F58TzTY46bjWqD1Ne87Q==
-X-Received: by 2002:a05:6000:1c0d:b0:225:6c66:5ed3 with SMTP id
- ba13-20020a0560001c0d00b002256c665ed3mr1042704wrb.678.1661268359836; 
- Tue, 23 Aug 2022 08:25:59 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=3FO/jNrx9K5o/CpczuXoS1BiQEzozSQlVpBn8zveOaU=;
+ b=X3CJQmMW+sia1k/CHnKLlIUVeqwYmd9TEg1hH5UZj5E1KPC1TYjkJ0RBkt9lhDUb0Y
+ XoohaLGW2Cz9QZaXbSckkhSyG7Jgk/oswef41nECiCJqESMKh1UvuPiXyMRC2OlkXssA
+ sP5RFSUYJjkOm7o+wzwd+T4ynef+87BQgZsLt+dHUYnRDfYRvuPttLLzkPL48KBruPgw
+ 2utzQ1sDpmBml5QwTQfL5g7jEM6gWFhyfg6EbTXrqpT1fYzqDFStiQoDz50SymRNizaO
+ CC1w44xMxWmxE6pSW7twaz+j5ZU5QnPb8+HM8H7iBldoDJUi2yxJA2By1o7fhbkZmnB9
+ 9Hwg==
+X-Gm-Message-State: ACgBeo2SZMt1pgcjnS+ifXoUOrT6TFDduZ2ixvzg1WmaImfk3+ea6VKd
+ 2zosBy/WdviBc2tOWf+rY41D/A==
+X-Google-Smtp-Source: AA6agR5cDDVHkjIpQR1VDuElftxSNwO+zG+9Y7oX62uAwMa/VUaj3FGaAnnTdhPu+se4jPhl0lrLjQ==
+X-Received: by 2002:a05:6000:1848:b0:225:586b:e64f with SMTP id
+ c8-20020a056000184800b00225586be64fmr6369710wri.173.1661268362516; 
+ Tue, 23 Aug 2022 08:26:02 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m9-20020adfe0c9000000b00225206dd595sm14276213wri.86.2022.08.23.08.25.58
+ z3-20020a05600c0a0300b003a5c2abc412sm25634670wmp.44.2022.08.23.08.25.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 23 Aug 2022 08:25:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7EF8A1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 8A2E41FFB8;
  Tue, 23 Aug 2022 16:25:58 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
 Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL for 7.1 0/6] testing and doc updates
-Date: Tue, 23 Aug 2022 16:25:52 +0100
-Message-Id: <20220823152558.301624-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 1/6] tests/avocado: push default timeout to QemuBaseTest
+Date: Tue, 23 Aug 2022 16:25:53 +0100
+Message-Id: <20220823152558.301624-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220823152558.301624-1-alex.bennee@linaro.org>
+References: <20220823152558.301624-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,46 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ba58ccbef60338d0b7334c714589a6423a3e7f91:
+All of the QEMU tests eventually end up derrived from this class. Move
+the default timeout from LinuxTest to ensure we catch them all. As 15
+minutes is fairly excessive we drop the default down to 2 minutes
+which is a more reasonable target for tests to aim for.
 
-  Merge tag 'for-7.1-hppa' of https://github.com/hdeller/qemu-hppa into staging (2022-08-19 09:35:29 -0700)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220822165608.2980552-2-alex.bennee@linaro.org>
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-for-7.1-fixes-230822-1
-
-for you to fetch changes up to 876ed1c1d373a9eb41352165aae3806215e30b1a:
-
-  qemu-options: try and clarify preferred block semantics (2022-08-23 16:21:43 +0100)
-
-----------------------------------------------------------------
-Testing and doc updates:
-
-  - default timeout for all QemuBaseTests is 120s
-  - optimise migration tests to run faster
-  - removed duplicate migration test
-  - add some clarifying language to block options in manual
-
-----------------------------------------------------------------
-Alex Bennée (2):
-      tests/avocado: push default timeout to QemuBaseTest
-      qemu-options: try and clarify preferred block semantics
-
-Thomas Huth (4):
-      tests/qtest/migration-test: Only wait for serial output where migration succeeds
-      tests/migration/aarch64: Speed up the aarch64 migration test
-      tests/migration/i386: Speed up the i386 migration test (when using TCG)
-      tests/qtest/migration-test: Remove duplicated test_postcopy from the test plan
-
- tests/migration/aarch64/a-b-kernel.h   | 10 +++++-----
- tests/migration/i386/a-b-bootblock.h   | 12 ++++++------
- tests/qtest/migration-test.c           |  5 +++--
- qemu-options.hx                        | 13 +++++++++++++
- tests/avocado/avocado_qemu/__init__.py |  5 ++++-
- tests/migration/aarch64/a-b-kernel.S   |  3 +--
- tests/migration/i386/a-b-bootblock.S   |  1 +
- 7 files changed, 33 insertions(+), 16 deletions(-)
-
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index ed4853c805..0efd2bd212 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -227,6 +227,10 @@ def exec_command_and_wait_for_pattern(test, command,
+     _console_interaction(test, success_message, failure_message, command + '\r')
+ 
+ class QemuBaseTest(avocado.Test):
++
++    # default timeout for all tests, can be overridden
++    timeout = 120
++
+     def _get_unique_tag_val(self, tag_name):
+         """
+         Gets a tag value, if unique for a key
+@@ -512,7 +516,6 @@ class LinuxTest(LinuxSSHMixIn, QemuSystemTest):
+     to start with than the more vanilla `QemuSystemTest` class.
+     """
+ 
+-    timeout = 900
+     distro = None
+     username = 'root'
+     password = 'password'
 -- 
 2.30.2
 
