@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B8859D694
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 11:19:50 +0200 (CEST)
-Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7889D59D695
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 11:22:28 +0200 (CEST)
+Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQQ4a-0003xK-WA
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 05:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
+	id 1oQQ79-00065K-FH
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 05:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1oQQ1B-0002V3-Ju
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 05:16:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38690)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQQ4Y-0003yX-DE
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 05:19:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1oQQ18-0003nZ-Hz
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 05:16:15 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQQ4U-0004J7-RH
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 05:19:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661246173;
+ s=mimecast20190719; t=1661246382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MlqDq8fSmMBPZy0FSSlNsoORmJkq5YMSVCgpzdxLNvs=;
- b=YKT4OSjYjTlF4vDA6y/48YkM5VUrnr68v1KQn6/bKLxm7kNpgvD9reTxehWROoFDYFxwuK
- ybGJqlqjtaBw53IfbGw21+KEISIfP36fjueNjycVttMf0osA4c5wkUx2TXxPCCSPEIOi6E
- nWRRZWlAdIBB79ePMS2gY/6bnG4ADTc=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7aXotZZwyUZA2DPwhWVZz8iU1/YYUbuZecYCGoNKZ8Y=;
+ b=gq8GzyxkiOOJpk8vO5A/fNpMEZLflzbcCgZD51eOz6Cs7GmoeHwwcfD7l6tvMgNoNTH4Jh
+ lno5c8f11I26HarKq90/5XRppo9ACOuFTY667EYkw/S9Va8nnpcnXPLiiWxNNNwbMhQiVI
+ /q+bcy8TtXsh8IP0oDVIB6C2DgftKxA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-46-672R8gyONWOlUscXJ832-g-1; Tue, 23 Aug 2022 05:16:12 -0400
-X-MC-Unique: 672R8gyONWOlUscXJ832-g-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-33352499223so230452857b3.8
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 02:16:12 -0700 (PDT)
+ us-mta-207-b_s1AoZLOym06rZ8PSBmoA-1; Tue, 23 Aug 2022 05:19:40 -0400
+X-MC-Unique: b_s1AoZLOym06rZ8PSBmoA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p19-20020a05600c1d9300b003a5c3141365so9974293wms.9
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 02:19:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
- :from:x-gm-message-state:from:to:cc;
- bh=MlqDq8fSmMBPZy0FSSlNsoORmJkq5YMSVCgpzdxLNvs=;
- b=1t/0qr93/wHLHhLvwX8oopRmK122ZTkRSWIONHZn4xZ/E4yaDKJgLVAk0xqdIamfNw
- R1yBzNvdta6J7NcdSJeMy6nVKPgq/cNA98oR9dVHHZ9PoU8c9THs4QoHdtT2Ke0O2FcI
- gx5KbRM186pulRQF11+1aoECggB2jKy1l/9KJcEFm9OcfYtQKnkZ1AvYWEwiInHbTG0Q
- b/Br/x0I9jeKNNHOd6iMfW8GqLHYmcjzoarom6C3VM9SMKJIn6feW4camdnaqzbNN/mQ
- IeK18NpsFCm+CS83o4cEH8FJYTrsp+NXMKX7XjqX0U/47EG4c7HmP/XeyYPXSp1FFBCe
- F/tQ==
-X-Gm-Message-State: ACgBeo3MH5uxtiLktwVM7ZLwEaT6RcKlLELuBgIAg9ES5k9GkkXpURpS
- 9ZKIFBZrRX61XK0BdUVqBG1+0iaF1Jj9yjqnaOfHPazAGQ3K3wXqac6RrYmGUp9pTnFnGGpfefv
- AKgcmDVO2xvcUNAkEvRhMy9UIXwZ9RI8=
-X-Received: by 2002:a25:6611:0:b0:67b:e0c2:3239 with SMTP id
- a17-20020a256611000000b0067be0c23239mr22447668ybc.18.1661246171749; 
- Tue, 23 Aug 2022 02:16:11 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4KSlw1onVcbPWUXl3LsA9jCQnL7qA72obXM9C1Wk8SuVzDvcKxsiLtFLCQrNGDZCVjU1pJoM9XhCCppBSpaIU=
-X-Received: by 2002:a25:6611:0:b0:67b:e0c2:3239 with SMTP id
- a17-20020a256611000000b0067be0c23239mr22447662ybc.18.1661246171580; Tue, 23
- Aug 2022 02:16:11 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 23 Aug 2022 04:16:11 -0500
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220818165358.217613-1-jsnow@redhat.com>
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=7aXotZZwyUZA2DPwhWVZz8iU1/YYUbuZecYCGoNKZ8Y=;
+ b=Yqa3nB4abBMT5VYmTJUqPmgLm5EgNqIuoPJmF1TMtnFlwmd9Y/qL92bxlTKSlvxOwM
+ tjoCGGO147WZPRh1lh/fc9xVFP8X08XOr6dpA59S706jcOedgalDZyK9RmeCX/OIsl6/
+ tRj8NSMTNuTysEMhF42NamXDMVLAqEEmEqRIo8U4JKct3jpxkEW0nBf2RrS39Hc7wlqd
+ yaxygCbdxGzIyKzat5l/BPAUihOY6QAhjVmg24q4X4Vs9LBOPfjWpQAjqE8/J3yckM9D
+ kbjy/9+cfuQtXyNmOHBXx47vb5ncSAHu4ruKabtmZeDouuLb/q0DlEcxzZ0inlUYrMH0
+ jEZg==
+X-Gm-Message-State: ACgBeo2I4N6TrGaIGVvrAjTdC6rvKk9DjgSPpohg2xZjONP4aj39WF+R
+ VVYkbaI3uu8rK3ONA2wyZrWnLy7j5xdJLhhDYEU6QuO2SLx6wNDuytmK3Au/A86KAOD6hcjLgHN
+ s9gvOZ4qEAhCjKq8=
+X-Received: by 2002:a5d:53c1:0:b0:225:30e2:29db with SMTP id
+ a1-20020a5d53c1000000b0022530e229dbmr12278178wrw.667.1661246379373; 
+ Tue, 23 Aug 2022 02:19:39 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7ANPOF1Agt63sybwiDtBysix3fF0NIHQlbK3kE2DsLtWo4Hf9QKjRd75X1vY1JaLHEX8v5cA==
+X-Received: by 2002:a5d:53c1:0:b0:225:30e2:29db with SMTP id
+ a1-20020a5d53c1000000b0022530e229dbmr12278152wrw.667.1661246378952; 
+ Tue, 23 Aug 2022 02:19:38 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182?
+ (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de.
+ [2003:cb:c70b:1600:c48b:1fab:a330:5182])
+ by smtp.gmail.com with ESMTPSA id
+ r6-20020a05600c35c600b003a626055569sm17561325wmq.16.2022.08.23.02.19.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Aug 2022 02:19:38 -0700 (PDT)
+Message-ID: <104a0560-e1ca-1aca-1ed5-07a00ee74240@redhat.com>
+Date: Tue, 23 Aug 2022 11:19:37 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220818165358.217613-1-jsnow@redhat.com>
-Date: Tue, 23 Aug 2022 04:16:11 -0500
-Message-ID: <CABJz62M8_197kahaNtBC1eSda5WJo6i7B1tsKF5+uMD+HXfj_A@mail.gmail.com>
-Subject: Re: [qemu-web PATCH] Add signing pubkey for python-qemu-qmp package
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, eduardo@habkost.net
+References: <20220822235803.1729290-1-richard.henderson@linaro.org>
+ <20220822235803.1729290-4-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH 03/14] accel/tcg: Suppress auto-invalidate in
+ probe_access_internal
+In-Reply-To: <20220822235803.1729290-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,31 +105,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 18, 2022 at 12:53:58PM -0400, John Snow wrote:
-> Add the pubkey currently used for signing PyPI releases of qemu.qmp to a
-> stable location where it can be referenced by e.g. Fedora RPM specfiles.
->
-> At present, the key happens to just simply be my own -- but future
-> releases may be signed by a different key. In that case, we can
-> increment '1.txt' to '2.txt' and so on. The old keys should be left in
-> place.
->
-> The format for the keyfile was chosen by copying what OpenStack was
-> doing:
-> https://releases.openstack.org/_static/0x2426b928085a020d8a90d0d879ab7008d0896c8a.txt
->
-> Generated with:
-> > gpg --with-fingerprint --list-keys jsnow@redhat.com > pubkey
-> > gpg --armor --export jsnow@redhat.com >> pubkey
+On 23.08.22 01:57, Richard Henderson wrote:
+> When PAGE_WRITE_INV is set when calling tlb_set_page,
+> we immediately set TLB_INVALID_MASK in order to force
+> tlb_fill to be called on the next lookup.  Here in
+> probe_access_internal, we have just called tlb_fill
+> and eliminated true misses, thus the lookup must be valid.
+> 
+> This allows us to remove a warning comment from s390x.
+> There doesn't seem to be a reason to change the code though.
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/cputlb.c            | 10 +++++++++-
+>  target/s390x/tcg/mem_helper.c |  4 ----
+>  2 files changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index 1509df96b4..5359113e8d 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1602,6 +1602,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>      }
+>      tlb_addr = tlb_read_ofs(entry, elt_ofs);
+>  
+> +    flags = TLB_FLAGS_MASK;
+>      page_addr = addr & TARGET_PAGE_MASK;
+>      if (!tlb_hit_page(tlb_addr, page_addr)) {
+>          if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page_addr)) {
+> @@ -1617,10 +1618,17 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>  
+>              /* TLB resize via tlb_fill may have moved the entry.  */
+>              entry = tlb_entry(env, mmu_idx, addr);
+> +
+> +            /*
+> +             * With PAGE_WRITE_INV, we set TLB_INVALID_MASK immediately,
+> +             * to force the next access through tlb_fill.  We've just
+> +             * called tlb_fill, so we know that this entry *is* valid.
+> +             */
+> +            flags &= ~TLB_INVALID_MASK;
+>          }
+>          tlb_addr = tlb_read_ofs(entry, elt_ofs);
+>      }
+> -    flags = tlb_addr & TLB_FLAGS_MASK;
+> +    flags &= tlb_addr;
+>  
+>      /* Fold all "mmio-like" bits into TLB_MMIO.  This is not RAM.  */
+>      if (unlikely(flags & ~(TLB_WATCHPOINT | TLB_NOTDIRTY))) {
+> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+> index fc52aa128b..3758b9e688 100644
+> --- a/target/s390x/tcg/mem_helper.c
+> +++ b/target/s390x/tcg/mem_helper.c
+> @@ -148,10 +148,6 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
+>  #else
+>      int flags;
+>  
+> -    /*
+> -     * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or haddr==NULL
+> -     * to detect if there was an exception during tlb_fill().
+> -     */
 
-You might want to pass
+Yeah, that was primarily only a comment that we rely on tlb_fill_exc to
+obtain the exact PGM_* value -- and at the same time use it to detect if
+there was an exception at all.
 
-  --export-options export-minimal
+>      env->tlb_fill_exc = 0;
+>      flags = probe_access_flags(env, addr, access_type, mmu_idx, nonfault, phost,
+>                                 ra);
 
-to the second command in order to obtain a significantly smaller file
-that can still serve the intended purpose.
+
+Change itself looks good to me.
+
+
+However, it's been a while since I stared at this code, but I wonder how
+the CONFIG_USER_ONLY path is correct.
+
+1) s390_probe_access() documents to "With nonfault=1, return the PGM_
+exception that would have been injected into the guest; return 0 if no
+exception was detected."
+
+But in case of CONFIG_USER_ONLY, we return the flags returned by
+s390_probe_access(), not a PGM__* value. Maybe it doesn't matter,
+because we'll simply inject a SIGSEGV in any case ...
+
+I'd have assume that we have to check here if there was an exception in
+a similar way, and detect the actual type. As the old comment indicates,
+we can either
+* check for *phost == NULL
+* flags having TLB_INVALID_MASK set
+
+... and I wonder if we really care about the exception type for
+CONFIG_USER_ONLY at all.
+
+
+2) s390_probe_access() documents that for "CONFIG_USER_ONLY, the
+faulting address is stored to env->__excp_addr.".
+
+However, that's only set in s390_cpu_record_sigsegv(). With nonfault=1
+that will never actually trigger, right?
+
+
+
+I assume db9aab5783a2 ("target/s390x: Use probe_access_flags in
+s390_probe_access") might have introduced both. We had a flag conversion
+to PGM_ in there and stored env->__excp_addr:
+
+flags = page_get_flags(addr);
+if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ :
+    PAGE_WRITE_ORG))) {
+    env->__excp_addr = addr;
+    flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING;
+    if (nonfault) {
+        return flags;
+    }
+
+
 
 -- 
-Andrea Bolognani / Red Hat / Virtualization
+Thanks,
+
+David / dhildenb
 
 
