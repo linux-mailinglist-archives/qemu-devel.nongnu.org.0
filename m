@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0309759D8B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 12:04:33 +0200 (CEST)
-Received: from localhost ([::1]:50250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F1859D91D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 12:05:25 +0200 (CEST)
+Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQQls-0002Xp-2O
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 06:04:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
+	id 1oQQmf-0002vC-O6
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 06:05:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oQQf5-0001Nv-Ki; Tue, 23 Aug 2022 05:57:31 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:46325)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oQQfw-0004Wl-Tt; Tue, 23 Aug 2022 05:58:24 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:50512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oQQf3-0001vm-Me; Tue, 23 Aug 2022 05:57:31 -0400
-Received: from [192.168.16.122] (helo=iris.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1oQQdP-00H9Gd-Sl;
- Tue, 23 Aug 2022 11:57:11 +0200
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Denis V. Lunev" <den@openvz.org>, Peter Krempa <pkrempa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH 1/2] block: pass OnOffAuto instead of bool to
- block_acct_setup()
-Date: Tue, 23 Aug 2022 11:57:18 +0200
-Message-Id: <20220823095719.105387-2-den@openvz.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220823095719.105387-1-den@openvz.org>
-References: <20220823095719.105387-1-den@openvz.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oQQfq-00024I-5N; Tue, 23 Aug 2022 05:58:23 -0400
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id B11C02E09E6;
+ Tue, 23 Aug 2022 12:58:07 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b4ab::1:3b] (unknown
+ [2a02:6b8:b081:b4ab::1:3b])
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ PETKgdxLPd-w6QiWBXf; Tue, 23 Aug 2022 12:58:06 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1661248686; bh=ntSRIzA1FMNBDpmK+4kqrWg6w1rps/4MmVN21Qk/uJY=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=sdonFNmBHFrH6rGlnGnpPvqCOHMhEwHP3p8QGAG7wtQJHbirOSqcvbUE8jMkSs2Hy
+ NrtuUu5Ejm2eQOC63HxSdYn91cPER7REhskDBouU6Nhg5V8/FdlMD1A0QseowIUHG7
+ 6WGXG0KGopB1eG3Xir3gbp8pYTTrm3Ii9E0J91So=
+Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <8411cd50-6fba-27ab-ee9c-42b69a0c1a1a@yandex-team.ru>
+Date: Tue, 23 Aug 2022 12:58:06 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v5 1/9] parallels: Out of image offset in BAT leads to
+ image inflation
+Content-Language: en-US
+To: "Denis V. Lunev" <den@virtuozzo.com>,
+ Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, kwolf@redhat.com,
+ hreitz@redhat.com
+References: <20220822090517.2289697-1-alexander.ivanov@virtuozzo.com>
+ <20220822090517.2289697-2-alexander.ivanov@virtuozzo.com>
+ <8a010bb8-82e3-8b74-8ce6-414d3638c7ad@yandex-team.ru>
+ <c7c88a75-4e21-99ab-db91-bac5adc27f98@virtuozzo.com>
+ <234ffa52-e067-b80c-dbfe-427e18013655@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <234ffa52-e067-b80c-dbfe-427e18013655@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
- helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,123 +83,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We would have one more place for block_acct_setup() calling, which should
-not corrupt original value.
+On 8/23/22 12:20, Denis V. Lunev wrote:
+> On 23.08.2022 09:23, Alexander Ivanov wrote:
+>>
+>> On 23.08.2022 08:58, Vladimir Sementsov-Ogievskiy wrote:
+>>> On 8/22/22 12:05, Alexander Ivanov wrote:
+>>>> data_end field in BDRVParallelsState is set to the biggest offset present
+>>>> in BAT. If this offset is outside of the image, any further write will create
+>>>> the cluster at this offset and/or the image will be truncated to this
+>>>> offset on close. This is definitely not correct.
+>>>> Raise an error in parallels_open() if data_end points outside the image and
+>>>> it is not a check (let the check to repaire the image).
+>>>>
+>>>> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+>>>> ---
+>>>>   block/parallels.c | 14 ++++++++++++++
+>>>>   1 file changed, 14 insertions(+)
+>>>>
+>>>> diff --git a/block/parallels.c b/block/parallels.c
+>>>> index a229c06f25..c245ca35cd 100644
+>>>> --- a/block/parallels.c
+>>>> +++ b/block/parallels.c
+>>>> @@ -732,6 +732,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>>>>       BDRVParallelsState *s = bs->opaque;
+>>>>       ParallelsHeader ph;
+>>>>       int ret, size, i;
+>>>> +    int64_t file_size;
+>>>>       QemuOpts *opts = NULL;
+>>>>       Error *local_err = NULL;
+>>>>       char *buf;
+>>>> @@ -811,6 +812,19 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>>>>           }
+>>>>       }
+>>>>   +    file_size = bdrv_getlength(bs->file->bs);
+>>>> +    if (file_size < 0) {
+>>>> +        ret = file_size;
+>>>> +        goto fail;
+>>>> +    }
+>>>> +
+>>>> +    file_size >>= BDRV_SECTOR_BITS;
+>>>> +    if (s->data_end > file_size && !(flags & BDRV_O_CHECK)) {
+>>>> +        error_setg(errp, "parallels: Offset in BAT is out of image");
+>>>> +        ret = -EINVAL;
+>>>> +        goto fail;
+>>>> +    }
+>>>
+>>> If image is unaligned to sector size, and image size is less than s->data_end, but the difference itself is less than sector, the error message would be misleading.
+>>>
+>>> Should we consider "file_size = DIV_ROUND_UP(file_size, BDRV_SECTOR_SIZE)" instead of "file_size >>= BDRV_SECTOR_BITS"?
+>>>
+>>> It's hardly possible to get such image on valid scenarios with Qemu (keeping in mind bdrv_truncate() call in parallels_close()). But it still may be possible to have such images produced by another software or by some failure path.
+>>>
+>> I think you are right, it would be better to align image size up to sector size.
+> 
+> I would say that we need to align not on sector size but on cluster size.
+> That would worth additional check.
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Peter Krempa <pkrempa@redhat.com>
-CC: Markus Armbruster <armbru@redhat.com>
-CC: John Snow <jsnow@redhat.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Hanna Reitz <hreitz@redhat.com>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- block/accounting.c         | 22 ++++++++++++++++++----
- blockdev.c                 | 17 ++++++++++++++---
- include/block/accounting.h |  6 +++---
- 3 files changed, 35 insertions(+), 10 deletions(-)
+And not simply align, as data_offset is not necessarily aligned to cluster size.
 
-diff --git a/block/accounting.c b/block/accounting.c
-index 2030851d79..6b300c5129 100644
---- a/block/accounting.c
-+++ b/block/accounting.c
-@@ -40,11 +40,25 @@ void block_acct_init(BlockAcctStats *stats)
-     }
- }
- 
--void block_acct_setup(BlockAcctStats *stats, bool account_invalid,
--                      bool account_failed)
-+static bool bool_from_onoffauto(OnOffAuto val, bool def)
- {
--    stats->account_invalid = account_invalid;
--    stats->account_failed = account_failed;
-+    switch (val) {
-+    case ON_OFF_AUTO_AUTO:
-+        return def;
-+    case ON_OFF_AUTO_ON:
-+        return true;
-+    case ON_OFF_AUTO_OFF:
-+        return false;
-+    default:
-+        abort();
+Finally, what should we check?
+
+I suggest
+
+
+diff --git a/block/parallels.c b/block/parallels.c
+index 6d4ed77f16..b882ea1200 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -725,6 +725,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+      BDRVParallelsState *s = bs->opaque;
+      ParallelsHeader ph;
+      int ret, size, i;
++    int64_t file_size;
+      QemuOpts *opts = NULL;
+      Error *local_err = NULL;
+      char *buf;
+@@ -735,6 +736,11 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+          return -EINVAL;
+      }
+  
++    file_size = bdrv_getlength(bs->file->bs);
++    if (file_size < 0) {
++        return file_size;
 +    }
-+}
 +
-+void block_acct_setup(BlockAcctStats *stats, enum OnOffAuto account_invalid,
-+                      enum OnOffAuto account_failed)
-+{
-+    stats->account_invalid = bool_from_onoffauto(account_invalid, true);
-+    stats->account_failed = bool_from_onoffauto(account_failed, true);
- }
- 
- void block_acct_cleanup(BlockAcctStats *stats)
-diff --git a/blockdev.c b/blockdev.c
-index 9230888e34..392d9476e6 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -455,6 +455,17 @@ static void extract_common_blockdev_options(QemuOpts *opts, int *bdrv_flags,
-     }
- }
- 
-+static OnOffAuto account_get_opt(QemuOpts *opts, const char *name)
-+{
-+    if (!qemu_opt_find(opts, name)) {
-+        return ON_OFF_AUTO_AUTO;
-+    }
-+    if (qemu_opt_get_bool(opts, name, true)) {
-+        return ON_OFF_AUTO_ON;
-+    }
-+    return ON_OFF_AUTO_OFF;
-+}
-+
- /* Takes the ownership of bs_opts */
- static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-                                    Error **errp)
-@@ -462,7 +473,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-     const char *buf;
-     int bdrv_flags = 0;
-     int on_read_error, on_write_error;
--    bool account_invalid, account_failed;
-+    OnOffAuto account_invalid, account_failed;
-     bool writethrough, read_only;
-     BlockBackend *blk;
-     BlockDriverState *bs;
-@@ -496,8 +507,8 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-     /* extract parameters */
-     snapshot = qemu_opt_get_bool(opts, "snapshot", 0);
- 
--    account_invalid = qemu_opt_get_bool(opts, "stats-account-invalid", true);
--    account_failed = qemu_opt_get_bool(opts, "stats-account-failed", true);
-+    account_invalid = account_get_opt(opts, "stats-account-invalid");
-+    account_failed = account_get_opt(opts, "stats-account-failed");
- 
-     writethrough = !qemu_opt_get_bool(opts, BDRV_OPT_CACHE_WB, true);
- 
-diff --git a/include/block/accounting.h b/include/block/accounting.h
-index 878b4c3581..b9caad60d5 100644
---- a/include/block/accounting.h
-+++ b/include/block/accounting.h
-@@ -27,7 +27,7 @@
- 
- #include "qemu/timed-average.h"
- #include "qemu/thread.h"
--#include "qapi/qapi-builtin-types.h"
-+#include "qapi/qapi-types-common.h"
- 
- typedef struct BlockAcctTimedStats BlockAcctTimedStats;
- typedef struct BlockAcctStats BlockAcctStats;
-@@ -100,8 +100,8 @@ typedef struct BlockAcctCookie {
- } BlockAcctCookie;
- 
- void block_acct_init(BlockAcctStats *stats);
--void block_acct_setup(BlockAcctStats *stats, bool account_invalid,
--                     bool account_failed);
-+void block_acct_setup(BlockAcctStats *stats, enum OnOffAuto account_invalid,
-+                      enum OnOffAuto account_failed);
- void block_acct_cleanup(BlockAcctStats *stats);
- void block_acct_add_interval(BlockAcctStats *stats, unsigned interval_length);
- BlockAcctTimedStats *block_acct_interval_next(BlockAcctStats *stats,
+      ret = bdrv_pread(bs->file, 0, &ph, sizeof(ph));
+      if (ret < 0) {
+          goto fail;
+@@ -798,6 +804,13 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+  
+      for (i = 0; i < s->bat_size; i++) {
+          int64_t off = bat2sect(s, i);
++        if (off >= file_size) {
++            error_setg(errp, "parallels: Offset %" PRIi64 " in BAT[%d] entry "
++                       "is larger than file size (%" PRIi64 ")",
++                       off, i, file_size);
++            ret = -EINVAL;
++            goto fail;
++        }
+          if (off >= s->data_end) {
+              s->data_end = off + s->tracks;
+          }
+
+
+
+- better error message, and we check exactly what's written in the spec (docs/interop/parallels.c):
+
+
+   Cluster offsets specified by BAT entries must meet the following requirements:
+       [...]
+       - the value must be lower than the desired file size,
+
+
+
 -- 
-2.32.0
-
+Best regards,
+Vladimir
 
