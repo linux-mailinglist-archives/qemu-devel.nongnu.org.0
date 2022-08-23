@@ -2,75 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE12A59D0A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 07:43:24 +0200 (CEST)
-Received: from localhost ([::1]:36368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8045859D11D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 08:17:27 +0200 (CEST)
+Received: from localhost ([::1]:41980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQMh9-0002zs-Fc
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 01:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60132)
+	id 1oQNE6-00035B-6q
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 02:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1oQMca-0001Ry-Ji
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 01:38:40 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:54240)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1oQMcW-0002eE-Dh
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 01:38:40 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id m15so4999017pjj.3
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 22:38:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=L7up1liUtUBXDpzZUCUuRnd4V6VdL4Act02RfmpmxBQ=;
- b=Zz+agWXloSp6n/bu/4qqyGTINvLXccpMPHcyv8CpjeG8hrNj2F1gNJeq5afXPF49LJ
- 2zz9qwJDdT8SaYLgKZvRFQA6Yh05dtzitiYdEOzrUwspmXzZrP3USFQ1nF0ZPvXEedRC
- rDT18pe4I2UGGqt87z++OFGx0R+NzdKGUFTMNpL0JF7kdfQYPAD+iNHMs/RvLfmh1wDl
- lNPJnDOryCU1zhyPqDRwHqYMCBdKBos3gJQEeWF5MYMXvTEZDyt94iIYoX24MJjqAK32
- t1m4xoDlU3praVR7pNynDJ9Qk3jYtQx8kkab+6eO9j6VvcWAfvr1L/TBe/Au1FHQOjfj
- XQXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=L7up1liUtUBXDpzZUCUuRnd4V6VdL4Act02RfmpmxBQ=;
- b=sAWeqk9qdfny6ucnALAMIeO/FcEWtYjNyxM1IW8/55IakpHv6XxazlzIINEjAkwjGF
- YZUEpF/MJ+dgZEQcNZrqH1t7QbaAmN9xv/YeOCFKZ7WlRsroaSCgkQ5S4yq6hBDT+JGP
- XEdkYa1tx/v5Dd6tGpcJ4uT/AdjAssQR4SEIdWHXY8g7v1S3mAmbWN+rXZCYZyZn1neo
- 7uwry9/1zlxEbWYEIEgV90T8eOMhtETUgxYvNAu5BhONqNi74bI+LCjlGbGp1E2/O7xo
- /koLYyTgZZEVgcilZszPBY8BexUXnZzf6R+Hht3DZA1+b3aFkI3PcHFFj+ilbTYwLL9F
- Qkdw==
-X-Gm-Message-State: ACgBeo2tEkZDPeRMsRT6ZRzlg/ALfDV8V6LO2F/Yse+uuq45r2B3+dCD
- o7BNHnTDi9MnWt609LGXhOpTkg==
-X-Google-Smtp-Source: AA6agR6yOkAGd8WNfFGnFYKRWfUjy+iwYXWzcB1ZDrQOWLJGCPGB8HMTo5AWcibJBhhd5+HBJD6IcQ==
-X-Received: by 2002:a17:903:2346:b0:16e:c9fa:c3ed with SMTP id
- c6-20020a170903234600b0016ec9fac3edmr22923033plh.30.1661233112317; 
- Mon, 22 Aug 2022 22:38:32 -0700 (PDT)
-Received: from 64217.smartx.com ([154.31.112.34])
- by smtp.gmail.com with ESMTPSA id
- b66-20020a62cf45000000b00536779d43e7sm4179892pfg.201.2022.08.22.22.38.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 22:38:31 -0700 (PDT)
-From: Li Feng <fengli@smartx.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Cc: lifeng1519@gmail.com,
-	Li Feng <fengli@smartx.com>
-Subject: [PATCH] vhost: reduce the set_mem_table call frenquency
-Date: Tue, 23 Aug 2022 13:38:20 +0800
-Message-Id: <20220823053820.35499-1-fengli@smartx.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=2270691b0=wilfred.mallawa@opensource.wdc.com>)
+ id 1oQN9N-0007oZ-ER
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 02:12:34 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:20223)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=2270691b0=wilfred.mallawa@opensource.wdc.com>)
+ id 1oQN9J-0000gh-NY
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 02:12:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1661235149; x=1692771149;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=mYalqw0j3WMi5ZUrlGCkQL8FhyTQmY05Blnj0TnoUUk=;
+ b=PVestPNbZA296t0J5GWSkt8S7UNwG5DCRz5ShFlY/pcQq0zS0ieIaLKW
+ Tm9n36qtqNt7x9m7AxeFr34lTabsZkKjvL8xoh9XAUzIW6PyI7LXr/Rcx
+ rBoNXK2BLvpVyifXuDI2KvnS1I0HyIzhVGSm1yGn8AQZf+etzgI5QAcLj
+ utoBkE9FWK5pr7ajJxzzPBLo4HFk7VzT32eZXoY7a53FXG+Y5z9RtwX+Q
+ 0RQpn7mK1D6CQ+qKdSJ6NjtuO1c83THotuLdaQIhLTH8NtmDz+VbqGdYO
+ jI8nBMog8AFT0Fhn0C9YLqQkJZ9nWc17x027J6d9bPWmgJkdUFtUd897I w==;
+X-IronPort-AV: E=Sophos;i="5.93,256,1654531200"; d="scan'208";a="321495659"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Aug 2022 14:12:23 +0800
+IronPort-SDR: YuGzdX1PkU2h6mQguXQq5N90yHItb/7ALnWy2SYZ62oz3e+hfQpYegJ1omm4H7Wc3Pwmyi4PP7
+ yCowrtmFLvEgtRoDyTWY18hi/qoVfnkRlt+0ea4oedbnsP8e+vNoandB+mgHh68Jg4KxJYnAsR
+ rMDfWkUia0G7H6iqI/vxzYKyXbV9AIR8XBTSS3V50SNVZ6HR31y33pIKI1XYM9lS9fnRxxVpqh
+ xB5HX35UlDVAQPJsHmSTy48dE1i+SEkDh6Mm8MRMKx8lsMgyEgPKz9Ff6m7QeugPyeRPieEepo
+ KUCxb4TdqGK+Jtt6mQfu4eo3
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 22 Aug 2022 22:33:03 -0700
+IronPort-SDR: UbwDdcnnMhTttyLvUhcAHOkoJlqK14bwDZm7RLYYSPos0Ad1COixy7Ut5Z8AdKNTpyPyVe/D80
+ HB8Gqz9hQXgtL6xRA7wVg4SHadzkJBlOxJaSflOSfADdbenmy5GXe2XRSRPdgeYCfOOXfanZSR
+ zaF/A9JqcbQeFS7qkEU/tL0iEceLlzGIjAUyIS3ZpxE1uQ7QqTeNJMKflKEO+Cbb1GHuZItL0y
+ 60LQ3kocCIlkku3cYr4UsqUVIyUWxqedG4UY6WHp3S4X4E4qyC0SsB+u3RLW0VHhNScV0637e7
+ 4eI=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 22 Aug 2022 23:12:24 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MBf5g4pbzz1Rw4L
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 23:12:23 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1661235143;
+ x=1663827144; bh=mYalqw0j3WMi5ZUrlGCkQL8FhyTQmY05Blnj0TnoUUk=; b=
+ V77SfRIEtjmYZuedo7L/2Gw+hayjPG1mjsnuSKwZ5Imq6S1c3cKB/kWrz91BE/Rd
+ EjMmuG/pQY1AuXjfoHXBAz2kwlJoctLG7JbCGQlH1XHNKjJYTaVcyJdoP/TF2koc
+ PKEJHXsw46aApMvHTRjQeQnkJNJmsRpBa5PL3QI5807ZozGBL9IfSmUsklpq2t5t
+ JFwlB4IWth/rBVYkeB+v48zT+eYg4blyaTvxZ3zwyBwrUINhWHwi2+T614yOC2UN
+ bGnU+UaWJaRz/FK9JjKddBV+E949wSX5+ao4q21H7U3OjMs/F7mB+dbuIXrGyiiu
+ /E1xvPkHE6T0dFMOkNeSgQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id Czy4onhxgK1D for <qemu-devel@nongnu.org>;
+ Mon, 22 Aug 2022 23:12:23 -0700 (PDT)
+Received: from localhost.localdomain (unknown [10.225.165.40])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MBf5d09hNz1RtVk;
+ Mon, 22 Aug 2022 23:12:20 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+To: Alistair.Francis@wdc.com,
+	qemu-riscv@nongnu.org
+Cc: qemu-devel@nongnu.org,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH v4 0/4] hw/ssi: ibex_spi: cleanup and fixup bugs
+Date: Tue, 23 Aug 2022 16:11:58 +1000
+Message-Id: <20220823061201.132342-1-wilfred.mallawa@opensource.wdc.com>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
- envelope-from=fengli@smartx.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=2270691b0=wilfred.mallawa@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,79 +114,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the vhost memory layout doesn't change, don't need to call the vhost
-backend.
-The set_mem_table is time consuming when sending to vhost-user backend.
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-On aarch64, the edk2 uefi firmware will write the pflash which will
-trigger the vhost_commit hundreds of times.
+Patch V4 fixes up:
+    - Fixup missing register field clearing on tx/rx_fifo_reset() in [2/4=
+]
 
-Signed-off-by: Li Feng <fengli@smartx.com>
----
- hw/virtio/vhost.c         | 14 ++++++++++++++
- include/hw/virtio/vhost.h |  2 ++
- 2 files changed, 16 insertions(+)
+Testing:
+    - Tested with Opentitan unit tests for TockOS...[OK]
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index f758f177bb..848d2f20d6 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -523,6 +523,11 @@ static void vhost_commit(MemoryListener *listener)
-     /* Rebuild the regions list from the new sections list */
-     regions_size = offsetof(struct vhost_memory, regions) +
-                        dev->n_mem_sections * sizeof dev->mem->regions[0];
-+    if (dev->mem && dev->started) {
-+        g_free(dev->old_mem);
-+        dev->old_mem = dev->mem;
-+        dev->mem = NULL;
-+    }
-     dev->mem = g_realloc(dev->mem, regions_size);
-     dev->mem->nregions = dev->n_mem_sections;
-     used_memslots = dev->mem->nregions;
-@@ -542,6 +547,12 @@ static void vhost_commit(MemoryListener *listener)
-         goto out;
-     }
- 
-+    if (dev->old_mem && dev->regions_size == regions_size &&
-+            memcmp(dev->mem, dev->old_mem, dev->regions_size) == 0) {
-+        goto out;
-+    }
-+
-+    dev->regions_size = regions_size;
-     for (i = 0; i < dev->mem->nregions; i++) {
-         if (vhost_verify_ring_mappings(dev,
-                        (void *)(uintptr_t)dev->mem->regions[i].userspace_addr,
-@@ -1445,6 +1456,8 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-     hdev->mem = g_malloc0(offsetof(struct vhost_memory, regions));
-     hdev->n_mem_sections = 0;
-     hdev->mem_sections = NULL;
-+    hdev->old_mem = NULL;
-+    hdev->regions_size = 0;
-     hdev->log = NULL;
-     hdev->log_size = 0;
-     hdev->log_enabled = false;
-@@ -1491,6 +1504,7 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
-     }
-     g_free(hdev->mem);
-     g_free(hdev->mem_sections);
-+    g_free(hdev->old_mem);
-     if (hdev->vhost_ops) {
-         hdev->vhost_ops->vhost_backend_cleanup(hdev);
-     }
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index a346f23d13..b1d7287099 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -73,6 +73,8 @@ struct vhost_dev {
-     MemoryListener memory_listener;
-     MemoryListener iommu_listener;
-     struct vhost_memory *mem;
-+    struct vhost_memory *old_mem;
-+    int regions_size;
-     int n_mem_sections;
-     MemoryRegionSection *mem_sections;
-     int n_tmp_sections;
--- 
+Wilfred Mallawa (4):
+  hw/ssi: ibex_spi: fixup typos in ibex_spi_host
+  hw/ssi: ibex_spi: fixup coverity issue
+  hw/ssi: ibex_spi: fixup/add rw1c functionality
+  hw/ssi: ibex_spi: update reg addr
+
+ hw/ssi/ibex_spi_host.c         | 174 ++++++++++++++++++++-------------
+ include/hw/ssi/ibex_spi_host.h |   4 +-
+ 2 files changed, 106 insertions(+), 72 deletions(-)
+
+--=20
 2.37.2
 
 
