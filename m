@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127AA59CD3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 02:37:04 +0200 (CEST)
-Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214DD59CD44
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 02:41:06 +0200 (CEST)
+Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQHug-0005ol-LR
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 20:37:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36964)
+	id 1oQHyb-00080L-7y
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 20:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oQHtc-0004G3-OL; Mon, 22 Aug 2022 20:35:56 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oQHtZ-0000dc-W2; Mon, 22 Aug 2022 20:35:56 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EB34F74637F;
- Tue, 23 Aug 2022 02:35:48 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A71D57461AE; Tue, 23 Aug 2022 02:35:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A44C3745702;
- Tue, 23 Aug 2022 02:35:48 +0200 (CEST)
-Date: Tue, 23 Aug 2022 02:35:48 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org
-Subject: Re: [PATCH 1/9] hw/isa/vt82c686: QOM'ify Super I/O creation
-In-Reply-To: <20220822224355.11753-2-shentey@gmail.com>
-Message-ID: <13a01ca9-ee32-2784-227c-2f6331e224dd@eik.bme.hu>
-References: <20220822224355.11753-1-shentey@gmail.com>
- <20220822224355.11753-2-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oQHwX-0006VX-HY; Mon, 22 Aug 2022 20:38:57 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oQHwV-0000sM-Q3; Mon, 22 Aug 2022 20:38:57 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id f17so5801543pfk.11;
+ Mon, 22 Aug 2022 17:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=QWJSG1mCato7fy35HOi31fuuqUpRw6UFFtGTADi6+EY=;
+ b=co6Axs2GITqGBdiEiM8nvOH0i4TD0P8d8DgL8T5TzzgMMzw+g5cigYQFBLrUyZ6d2z
+ +CssZpBh6mRA14inSnmlys9gVT+hgvPUBUKJZz4vg/ketbFJNImTV4R6yuXFjuJwCnT9
+ JXW237tBumitZaMtwt09/FICrexDKA76E13yio4wXCZqclrrVA0+dXIZqAf4D5R/DG4L
+ mgnPUp05e2BJwMnlhScPgHJ3FZ3ln/CqRkaLtYkuaFfPhCwdQVy+yhI/KogD0UNgrsjs
+ 1H9qr+o6J57RiGAN4yALEfdRoKdXbXpOZWn+0Z2JbKMq83ySWwyfXPN0EazeTg1G9n1v
+ /UXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=QWJSG1mCato7fy35HOi31fuuqUpRw6UFFtGTADi6+EY=;
+ b=krBGWcFcwPwWcTRJCP5R1CYn4tsRuxCB5vLlNdp/YkMmjU+t81SMcv/yNGTBJbDFwo
+ OdaDX75dPD6hd2WWKod5L40E3g/g0M23linGT0FfoLLcWvgIE5tr/+Ksf9TusWbYusvj
+ b4ZWgl6Kecpd6OTMoWvOb5TbZ5H+dvMWByRmgustA4mJFO9ngWriiCm/awY0YLmGdQFd
+ D7gg7mss8hVTlN5WdfctmpBtmuyuj6sw1vp+0z4HOWV9u8E0jOpRlyYVXCRh2VA6U9yc
+ T3TMIwTAywkOmlaZbXt9oo4Rs+vTErRJvdgiTDHNuiPM7NbtiWhpNKUQ7Pv2BRELqliF
+ sYMQ==
+X-Gm-Message-State: ACgBeo24hMbGf9V1dIT8bwW95qT7+DLgAkZfKCv+R/7gQAcA91uiti/a
+ d/zFu7HMnaCCkWIGa8r1atnX7zpCnSxEIydOc5A=
+X-Google-Smtp-Source: AA6agR7ahsF7H1DeHY66UxmPeMKJPFBcP8doPadHZpdcWitDIGuAwSdJ35uYUJ3Gv0o80shAjS4AQv8s8qQlMRiBJ+g=
+X-Received: by 2002:a05:6a00:88e:b0:52c:65a3:fdb4 with SMTP id
+ q14-20020a056a00088e00b0052c65a3fdb4mr22631806pfj.83.1661215133438; Mon, 22
+ Aug 2022 17:38:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+References: <20220816232321.558250-1-atishp@rivosinc.com>
+ <20220816232321.558250-4-atishp@rivosinc.com>
+In-Reply-To: <20220816232321.558250-4-atishp@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 23 Aug 2022 10:38:27 +1000
+Message-ID: <CAKmqyKOZzv6gxn7ntaK=FXKe5KosN4oJFJf55n_F7rsKz2TZWw@mail.gmail.com>
+Subject: Re: [PATCH v13 3/6] target/riscv: Add few cache related PMU events
+To: Atish Patra <atishp@rivosinc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,146 +86,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Aug 2022, Bernhard Beschow wrote:
-> The object creation now happens in chip-specific init methods which
-> allows the realize methods to be consolidated into one method. Shifting
-> the logic into the init methods has the addidional advantage that the
-> parent object's init methods are called implicitly.
+On Wed, Aug 17, 2022 at 9:24 AM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> From: Atish Patra <atish.patra@wdc.com>
+>
+> Qemu can monitor the following cache related PMU events through
+> tlb_fill functions.
+>
+> 1. DTLB load/store miss
+> 3. ITLB prefetch miss
+>
+> Increment the PMU counter in tlb_fill function.
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 
-This and later patches titled "QOM'ify" don't do what I understand on 
-QOMifying which is turining an old device model into a QOM object. These 
-devices are already QOMified, what's really done here is that they are 
-moved to the ViaISAState or embedded into it and created as part of the 
-south bridge rather then individually by the boards. Either my 
-understanding of what QOMify means is wrong or these patches are misnamed.
+This patch causes a number of test failures.
 
-Technically via_isa_realize() is the realize method of the abstract 
-TYPE_VIA_ISA class which were overriden by the subclasses but since QOM 
-does not call overridden methods implicitly this had to be explicitly 
-called in the overriding realize methods of the subclasses. Now that we 
-don't have to ovverride the method maybe it could be set once on the 
-VIA_ISA class then it may work that way but as it's done here is also OK 
-maybe as a reminder that this super class method should be called by any 
-overriding method if one's added in the future for some reason.
+On some boots I see lots of these errors printed:
 
-Regards,
-BALATON Zoltan
+qemu-system-riscv64: GLib: g_hash_table_lookup: assertion 'hash_table
+!= NULL' failed
 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+and I'm unable to boot Linux.
+
+The command line is:
+
+qemu-system-riscv64 \
+    -machine sifive_u \
+    -serial mon:stdio -serial null -nographic \
+    -append "root=/dev/ram rw highres=off console=ttySIF0 ip=dhcp
+earlycon=sbi" \
+    -smp 5 \
+    -d guest_errors \
+    -kernel ./images/qemuriscv64/Image \
+    -initrd ./images/qemuriscv64/buildroot/rootfs.cpio \
+    -bios default -m 256M
+
+I see that faiulre with the 5.19-rc7 kernel and OpenSBI 1.1.
+
+I also see the same messages on other machines when running baremetal
+code. I'm going to drop these patches from my tree
+
+Alistair
+
 > ---
-> hw/isa/vt82c686.c | 33 ++++++++++++++++++---------------
-> 1 file changed, 18 insertions(+), 15 deletions(-)
+>  target/riscv/cpu_helper.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 >
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 8f656251b8..0217c98fe4 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -544,7 +544,7 @@ struct ViaISAState {
->     qemu_irq cpu_intr;
->     qemu_irq *isa_irqs;
->     ISABus *isa_bus;
-> -    ViaSuperIOState *via_sio;
-> +    ViaSuperIOState via_sio;
-> };
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 1e4faa84e839..81948b37dd9a 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -21,11 +21,13 @@
+>  #include "qemu/log.h"
+>  #include "qemu/main-loop.h"
+>  #include "cpu.h"
+> +#include "pmu.h"
+>  #include "exec/exec-all.h"
+>  #include "instmap.h"
+>  #include "tcg/tcg-op.h"
+>  #include "trace.h"
+>  #include "semihosting/common-semi.h"
+> +#include "cpu_bits.h"
 >
-> static const VMStateDescription vmstate_via = {
-> @@ -602,6 +602,11 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->             d->wmask[i] = 0;
->         }
->     }
+>  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+>  {
+> @@ -1188,6 +1190,28 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+>      cpu_loop_exit_restore(cs, retaddr);
+>  }
+>
 > +
-> +    /* Super I/O */
-> +    if (!qdev_realize(DEVICE(&s->via_sio), BUS(s->isa_bus), errp)) {
+> +static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
+> +{
+> +    enum riscv_pmu_event_idx pmu_event_type;
+> +
+> +    switch (access_type) {
+> +    case MMU_INST_FETCH:
+> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
+> +        break;
+> +    case MMU_DATA_LOAD:
+> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
+> +        break;
+> +    case MMU_DATA_STORE:
+> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS;
+> +        break;
+> +    default:
 > +        return;
 > +    }
-> }
->
-> /* TYPE_VT82C686B_ISA */
-> @@ -615,7 +620,7 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
->     pci_default_write_config(d, addr, val, len);
->     if (addr == 0x85) {
->         /* BIT(1): enable or disable superio config io ports */
-> -        via_superio_io_enable(s->via_sio, val & BIT(1));
-> +        via_superio_io_enable(&s->via_sio, val & BIT(1));
->     }
-> }
->
-> @@ -639,13 +644,11 @@ static void vt82c686b_isa_reset(DeviceState *dev)
->     pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
-> }
->
-> -static void vt82c686b_realize(PCIDevice *d, Error **errp)
-> +static void vt82c686b_init(Object *obj)
-> {
-> -    ViaISAState *s = VIA_ISA(d);
-> +    ViaISAState *s = VIA_ISA(obj);
->
-> -    via_isa_realize(d, errp);
-> -    s->via_sio = VIA_SUPERIO(isa_create_simple(s->isa_bus,
-> -                                               TYPE_VT82C686B_SUPERIO));
-> +    object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT82C686B_SUPERIO);
-> }
->
-> static void vt82c686b_class_init(ObjectClass *klass, void *data)
-> @@ -653,7 +656,7 @@ static void vt82c686b_class_init(ObjectClass *klass, void *data)
->     DeviceClass *dc = DEVICE_CLASS(klass);
->     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->
-> -    k->realize = vt82c686b_realize;
-> +    k->realize = via_isa_realize;
->     k->config_write = vt82c686b_write_config;
->     k->vendor_id = PCI_VENDOR_ID_VIA;
->     k->device_id = PCI_DEVICE_ID_VIA_82C686B_ISA;
-> @@ -670,6 +673,7 @@ static const TypeInfo vt82c686b_isa_info = {
->     .name          = TYPE_VT82C686B_ISA,
->     .parent        = TYPE_VIA_ISA,
->     .instance_size = sizeof(ViaISAState),
-> +    .instance_init = vt82c686b_init,
->     .class_init    = vt82c686b_class_init,
-> };
->
-> @@ -684,7 +688,7 @@ static void vt8231_write_config(PCIDevice *d, uint32_t addr,
->     pci_default_write_config(d, addr, val, len);
->     if (addr == 0x50) {
->         /* BIT(2): enable or disable superio config io ports */
-> -        via_superio_io_enable(s->via_sio, val & BIT(2));
-> +        via_superio_io_enable(&s->via_sio, val & BIT(2));
->     }
-> }
->
-> @@ -703,13 +707,11 @@ static void vt8231_isa_reset(DeviceState *dev)
->     pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
-> }
->
-> -static void vt8231_realize(PCIDevice *d, Error **errp)
-> +static void vt8231_init(Object *obj)
-> {
-> -    ViaISAState *s = VIA_ISA(d);
-> +    ViaISAState *s = VIA_ISA(obj);
->
-> -    via_isa_realize(d, errp);
-> -    s->via_sio = VIA_SUPERIO(isa_create_simple(s->isa_bus,
-> -                                               TYPE_VT8231_SUPERIO));
-> +    object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT8231_SUPERIO);
-> }
->
-> static void vt8231_class_init(ObjectClass *klass, void *data)
-> @@ -717,7 +719,7 @@ static void vt8231_class_init(ObjectClass *klass, void *data)
->     DeviceClass *dc = DEVICE_CLASS(klass);
->     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->
-> -    k->realize = vt8231_realize;
-> +    k->realize = via_isa_realize;
->     k->config_write = vt8231_write_config;
->     k->vendor_id = PCI_VENDOR_ID_VIA;
->     k->device_id = PCI_DEVICE_ID_VIA_8231_ISA;
-> @@ -734,6 +736,7 @@ static const TypeInfo vt8231_isa_info = {
->     .name          = TYPE_VT8231_ISA,
->     .parent        = TYPE_VIA_ISA,
->     .instance_size = sizeof(ViaISAState),
-> +    .instance_init = vt8231_init,
->     .class_init    = vt8231_class_init,
-> };
+> +
+> +    riscv_pmu_incr_ctr(cpu, pmu_event_type);
+> +}
+> +
+>  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                          MMUAccessType access_type, int mmu_idx,
+>                          bool probe, uintptr_t retaddr)
+> @@ -1286,6 +1310,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>              }
+>          }
+>      } else {
+> +        pmu_tlb_fill_incr_ctr(cpu, access_type);
+>          /* Single stage lookup */
+>          ret = get_physical_address(env, &pa, &prot, address, NULL,
+>                                     access_type, mmu_idx, true, false, false);
+> --
+> 2.25.1
 >
 >
 
