@@ -2,70 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108D659D2DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 10:04:54 +0200 (CEST)
-Received: from localhost ([::1]:38950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4789559D325
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 10:14:30 +0200 (CEST)
+Received: from localhost ([::1]:54278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQOu5-0000Nn-CB
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 04:04:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
+	id 1oQP3M-0005KY-QA
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 04:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oQOpT-0004CJ-IZ; Tue, 23 Aug 2022 04:00:09 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:49336)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQOrU-0006Q9-Hs
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 04:02:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oQOpP-0000du-Cs; Tue, 23 Aug 2022 04:00:05 -0400
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 03FBF2E0A2D;
- Tue, 23 Aug 2022 10:59:53 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b4ab::1:3b] (unknown
- [2a02:6b8:b081:b4ab::1:3b])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- k8nM67UYgk-xpOm0tuS; Tue, 23 Aug 2022 10:59:52 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1661241592; bh=GRLnum0isxRetCg6o3SAlHI59WbFuf9OE9wZdT6v3o0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=gMz9ea6pOBKccN8IMZuknwERcEASb5ikuPSs3XvmB+i7Etril0hiPLZv5gStOFheF
- Bn9JphMtC6pcN0DP6W6h8gNfJOe37xte6eal7N31phWU2RzhXYnq5hGYtW8KYHDA+Q
- mOiU096I6FIUhke7wBA8/HoonFxwR49Zr+KeaUtQ=
-Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <2f8d6eac-e55e-616e-38be-e8ee9d456144@yandex-team.ru>
-Date: Tue, 23 Aug 2022 10:59:51 +0300
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQOrN-0001Bu-Ko
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 04:02:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661241725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ejcjUDw3vIoCLXASu3R+IJ5wZG9Q/I2ol/jgEKbdGnQ=;
+ b=dQX4qpyWyMdgnCxDa5pgOiEddjI3tOXVxVk+3bw9jfSjAJmaTghRVjYMRfjStcpnxhAylY
+ QFZllT9rTEEZX1DQyXyRmkL1ySeG4FS7f0D8PzzYOef3KiiV7LIXASHNuJQIgfdr4xXM8r
+ I95HyhoiT/non5Q5AZ5xqa0EAuXca/I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-595-FMl5UedtMmq4gsRPk7pr4w-1; Tue, 23 Aug 2022 04:02:03 -0400
+X-MC-Unique: FMl5UedtMmq4gsRPk7pr4w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k20-20020adfb354000000b0022556a0b8cbso845771wrd.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 01:02:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=ejcjUDw3vIoCLXASu3R+IJ5wZG9Q/I2ol/jgEKbdGnQ=;
+ b=GCaMukEbzub0udifNXQ+BvpOIHXdOyPVF/6Wfm55c/2H09lOuNshtSryL97upqqLgh
+ /L0sDxt0cC2WagZUF7ynF7z4GtM8rQ6M9CPK1+nQWWBye1S5F5gPCOB3cbo0umSIaVNo
+ BxQCQznyOyn/BN0+XIsNSEWGTWK6QflYEjZV8owFzoeH3PBrvIdt5pEDwBmKDb/WkNAf
+ FqzW19407vS4yqdzsu/EtcLQcyoFydpRUAlpz5hhDGQKEZoP3PXvfzw7+5HFCsXncree
+ cH2NjnJ+8366ayckiikHmagXJ9ZGDBwsozMMtWi5adQqrur1lU9JEvGU5/8okZuISd/H
+ BNqQ==
+X-Gm-Message-State: ACgBeo1vLBSyS1V7T8PGusWAGf0gRP0aQAbWGTDfCdll9RjMRhV7zH3q
+ CDsy0DM0bX9KIwkLFRwXfr+HBEZ2igT9RfN5TyWQIfsiSxa8oh0Up8i6qefw/U7C6xS9sgYtDF0
+ GSgu8KRnhRjiG8QQ=
+X-Received: by 2002:a05:600c:4f43:b0:3a6:2335:f5de with SMTP id
+ m3-20020a05600c4f4300b003a62335f5demr1347018wmq.109.1661241722814; 
+ Tue, 23 Aug 2022 01:02:02 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4DBkxvc5jrKq3kf6BhRQAqhu4CSAeK0//rj6GbIKLKej28qoYjJjw0wWt3tVTIfpHPLv7aYA==
+X-Received: by 2002:a05:600c:4f43:b0:3a6:2335:f5de with SMTP id
+ m3-20020a05600c4f4300b003a62335f5demr1346916wmq.109.1661241721686; 
+ Tue, 23 Aug 2022 01:02:01 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182?
+ (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de.
+ [2003:cb:c70b:1600:c48b:1fab:a330:5182])
+ by smtp.gmail.com with ESMTPSA id
+ e20-20020a5d5954000000b0021e42e7c7dbsm13645977wri.83.2022.08.23.01.01.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Aug 2022 01:02:01 -0700 (PDT)
+Message-ID: <b068f95e-fc8f-1ecc-5bf5-d7774ce6c13a@redhat.com>
+Date: Tue, 23 Aug 2022 10:01:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v5 1/9] parallels: Out of image offset in BAT leads to
- image inflation
+ Thunderbird/91.11.0
 Content-Language: en-US
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
- kwolf@redhat.com, hreitz@redhat.com
-References: <20220822090517.2289697-1-alexander.ivanov@virtuozzo.com>
- <20220822090517.2289697-2-alexander.ivanov@virtuozzo.com>
- <8a010bb8-82e3-8b74-8ce6-414d3638c7ad@yandex-team.ru>
- <c7c88a75-4e21-99ab-db91-bac5adc27f98@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <c7c88a75-4e21-99ab-db91-bac5adc27f98@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Peter Xu <peterx@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, integration@gluster.org,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Fam Zheng
+ <fam@euphon.net>, sgarzare@redhat.com, Alberto Faria <afaria@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, Xie Changlong <xiechanglong.d@gmail.com>
+References: <20220822222402.176088-1-stefanha@redhat.com>
+ <20220822222402.176088-12-stefanha@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [RFC v4 11/11] virtio-blk: use BDRV_REQ_REGISTERED_BUF
+ optimization hint
+In-Reply-To: <20220822222402.176088-12-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,80 +122,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/22 10:23, Alexander Ivanov wrote:
+On 23.08.22 00:24, Stefan Hajnoczi wrote:
+> Register guest RAM using BlockRAMRegistrar and set the
+> BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
+> accesses in I/O requests.
 > 
-> On 23.08.2022 08:58, Vladimir Sementsov-Ogievskiy wrote:
->> On 8/22/22 12:05, Alexander Ivanov wrote:
->>> data_end field in BDRVParallelsState is set to the biggest offset present
->>> in BAT. If this offset is outside of the image, any further write will create
->>> the cluster at this offset and/or the image will be truncated to this
->>> offset on close. This is definitely not correct.
+> This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that rely
+> on DMA mapping/unmapping.
 
-Actually, it's correct, as don't break the spec at docs/interop/parallels.txt.
+Can you explain why we're monitoring RAMRegistrar to hook into "guest
+RAM" and not go the usual path of the MemoryListener?
 
-So, it's bad but still correct.. So, we probably can restrict it in Qemu if we want. Do we?
-
-Now I doubt. We are going to refuse images with leaks even for read. That means, qemu-img convert will stop working for images with leaks, you'll have to fix the image first, which may fail.
-
->>> Raise an error in parallels_open() if data_end points outside the image and
->>> it is not a check (let the check to repaire the image).
->>>
->>> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
->>> ---
->>>   block/parallels.c | 14 ++++++++++++++
->>>   1 file changed, 14 insertions(+)
->>>
->>> diff --git a/block/parallels.c b/block/parallels.c
->>> index a229c06f25..c245ca35cd 100644
->>> --- a/block/parallels.c
->>> +++ b/block/parallels.c
->>> @@ -732,6 +732,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
->>>       BDRVParallelsState *s = bs->opaque;
->>>       ParallelsHeader ph;
->>>       int ret, size, i;
->>> +    int64_t file_size;
->>>       QemuOpts *opts = NULL;
->>>       Error *local_err = NULL;
->>>       char *buf;
->>> @@ -811,6 +812,19 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
->>>           }
->>>       }
->>>   +    file_size = bdrv_getlength(bs->file->bs);
->>> +    if (file_size < 0) {
->>> +        ret = file_size;
->>> +        goto fail;
->>> +    }
->>> +
->>> +    file_size >>= BDRV_SECTOR_BITS;
->>> +    if (s->data_end > file_size && !(flags & BDRV_O_CHECK)) {
->>> +        error_setg(errp, "parallels: Offset in BAT is out of image");
->>> +        ret = -EINVAL;
->>> +        goto fail;
->>> +    }
->>
->> If image is unaligned to sector size, and image size is less than s->data_end, but the difference itself is less than sector, the error message would be misleading.
->>
->> Should we consider "file_size = DIV_ROUND_UP(file_size, BDRV_SECTOR_SIZE)" instead of "file_size >>= BDRV_SECTOR_BITS"?
->>
->> It's hardly possible to get such image on valid scenarios with Qemu (keeping in mind bdrv_truncate() call in parallels_close()). But it still may be possible to have such images produced by another software or by some failure path.
->>
-> I think you are right, it would be better to align image size up to sector size.
-
-
-Hmm, or even to cluster_size? When last cluster is unallocated. But cluster boundary is not required to be aligned to cluster size..
-
-Anyway, now I think it's wrong to restrict opening file with leaks of any kind. That breaks qemu-img convert, and that's not how other formats behave.
-
->>
->>> +
->>>       if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
->>>           /* Image was not closed correctly. The check is mandatory */
->>>           s->header_unclean = true;
->>
->>
-
+What will BDRV_REQ_REGISTERED_BUF actually do? Pin all guest memory in
+the worst case such as io_uring fixed buffers would do ( I hope not ).
 
 -- 
-Best regards,
-Vladimir
+Thanks,
+
+David / dhildenb
+
 
