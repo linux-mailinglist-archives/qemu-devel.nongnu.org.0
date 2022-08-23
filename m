@@ -2,105 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E705059D149
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 08:32:02 +0200 (CEST)
-Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FC159D165
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 08:42:45 +0200 (CEST)
+Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQNSD-0001L9-VS
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 02:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47566)
+	id 1oQNcZ-0006Ld-HT
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 02:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=2270691b0=wilfred.mallawa@opensource.wdc.com>)
- id 1oQN9p-0008HQ-7k
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 02:13:01 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:25193)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oQNFd-00048J-0R
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 02:19:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=2270691b0=wilfred.mallawa@opensource.wdc.com>)
- id 1oQN9n-0000l6-55
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 02:13:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1661235177; x=1692771177;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=pKcENyi+KrJBbejZ9NVBAhqC+/2XPVYWc3tv7k6K+3A=;
- b=DsxsAv+3LkGB6Wow0S/iA3EP1YlWpn3WcJCZjVUpWolae2S8/7nBjDca
- WPhwKLZwDeItZN6lFN4QYmbZEcvx6RfuxhoBByjdEpIs5feurA6Co2RKG
- GI5MnoFK9pVU9MBCSOFnyinxcgpFWrNi1DO5h52fjIOZtDcUszhKR0GEB
- 5FV62EMDZ2V/l6futtQkoqOArMnCo1wMDBGrgBhm/ZXGQ1NA8UV81Hc/5
- 4yOaGR8jn0V/ZW3u+U+1EZ8MLYIdS9tgN609tfskBlyTd0yLxAvX7/if9
- alOCvkuL2wtfD+nBEoaHjVwxj9eOO5M3Kz5+DMddhGluFs2bsQj0CRwQY Q==;
-X-IronPort-AV: E=Sophos;i="5.93,256,1654531200"; d="scan'208";a="209393018"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 23 Aug 2022 14:12:56 +0800
-IronPort-SDR: 16FLQRxsGwyKDsNH8vEdCiS4gBv+hI+niDUmwZIFoWqBo3nKq3fQjK48+F5ie0WR5ej1u2DE4n
- lC8Jv6fjGeiUeacUVBaNcXOahfH90L/lr5apn41OkLdHOylCT/PlEINzxL64zppmUp5sKctDNp
- qCxlXhvRCYAwb3zHdLfqF4oczAJioEhQqhDXEQmmGZ/ekrQZFN8WD75jYmI1h3/RpwYNwk9Aty
- HyCeC/LDP0DxhyzRhY2uGI2Lg0JbdnKdqR9tQaVjWYDbla8zifrhLvVtD3VCT+OhfXP+H0Rw8B
- jYXaQVj5Uo1rRJ/uAVwQasYw
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Aug 2022 22:28:16 -0700
-IronPort-SDR: gcxr2jss61xNPLDLsD1egfvy73J8wcSHP1EWrsHUJOD2tkslrBbRtjHGubbHZpi7fRhU6u0IZk
- 7EAnWnMi6t2LVMQ5WVtX5Fi9s79GVoiI2Wt31ni4KJT2wyhoBK8/BMn+LxkMePZ5yDxBiYO2C2
- 2eVtBjkelWcMB99cLpwLl1WFrIbWyksvtDf4XavSdGuLDgpteyrNC4TuJUyML8FW2rsxBwqOPt
- OzHATWTRQjFzcBfLJe7h0M+Btkkjrfb1Z4jYq+bN1H9+ynioGmnBaQV+n2RysvmCzvxJPJhjyN
- abI=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Aug 2022 23:12:58 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MBf6L1D8Jz1Rwnl
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 23:12:58 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1661235177; x=1663827178; bh=pKcENyi+KrJBbejZ9N
- VBAhqC+/2XPVYWc3tv7k6K+3A=; b=rLs2zzoxjxkjAC+8893rCg9un0JdCNaeAx
- sR464uerRsnDaRxZbqF+80P/ZJBWU4m94IBijB6RlZxxQh9NUIqNN98K90cKvvtJ
- AR4mcYdvN6AM/gqCmGn+q+vx7e46w7MB9P4KZ10e6tiffyTXQdhGKVCAtEXSEcdt
- Q4/mBFCCPzlifdiFFRoqGLdcOVKyceBNM5VDGYEu1KZLJ6R2moIuSqnPfcgA0fdJ
- e54eASS4oDs5oUDVlv5c8zUoOHvfBJOexsaMhY6N/DNzwGC8Lapc+WpzfLCWUnT7
- Kri3yO8eOphhpKySuSdoIii0b0BEMEz6giWfzQIoUAbI9oyV4j4Q==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id q-bewjKMSstS for <qemu-devel@nongnu.org>;
- Mon, 22 Aug 2022 23:12:57 -0700 (PDT)
-Received: from localhost.localdomain (unknown [10.225.165.40])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MBf6G6Sbmz1RtVk;
- Mon, 22 Aug 2022 23:12:54 -0700 (PDT)
-From: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
-To: Alistair.Francis@wdc.com,
-	qemu-riscv@nongnu.org
-Cc: qemu-devel@nongnu.org, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v4 4/4] hw/ssi: ibex_spi: update reg addr
-Date: Tue, 23 Aug 2022 16:12:04 +1000
-Message-Id: <20220823061201.132342-5-wilfred.mallawa@opensource.wdc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220823061201.132342-1-wilfred.mallawa@opensource.wdc.com>
-References: <20220823061201.132342-1-wilfred.mallawa@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oQNFY-0001ed-9I
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 02:18:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661235535;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lduxh9UbKFIWLzbQl5gBiF/tqy2LJY2TYh/YHTfs54Q=;
+ b=IE/BAsxtUjZwU/cxaISyePCZHCz8pdzmqk2A0PEvH6zQHg/m4Rnyydh6UmS1GESOdIib2Z
+ YSzUHoDTe54VpPuh9TN4kZxnBBbt1j8qXBSI+3I3OX0wPw8Px1gU4amOuqvIB99bPT2ymK
+ iSyLURbyReEwNf/vBDblOG7wGuggMpw=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-193-9ucruHjrNpepoLcmS3huvQ-1; Tue, 23 Aug 2022 02:18:53 -0400
+X-MC-Unique: 9ucruHjrNpepoLcmS3huvQ-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ cp14-20020a056a00348e00b0053632d32716so3433820pfb.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 23:18:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=Lduxh9UbKFIWLzbQl5gBiF/tqy2LJY2TYh/YHTfs54Q=;
+ b=ptUBiOkC8OWeg0wAXbDhwNijJbAd6/OxfmxfZ6oCkqzD4lynQLRD/iomj/A57Cc1uc
+ yUMeVqKF5Dr+9KFQ5+GHLOTUq8D9i9Z1mM6zOJToSdevctH74xBtLJEOJ0FdZbPRH/3e
+ tRBYpXghjSDnBdKKvf0y9JhtpRiuBJCn2T4lmgo1WL/ikpm2BVpy07VlDDMQCUnO0gcF
+ d3+I80WgLzA/e67Abo4zVGI/dZ6nNBt68D2z89OqWZidEWGOrEeWoH4pDr45o4q0W0EM
+ PcMnBChUn5XT0MJ20RALdZb3Sw0dfs4rFVbOZ2w+b+vGzZM6Qe0Kfl1Z3z3slzuv4iPi
+ SOyw==
+X-Gm-Message-State: ACgBeo228Clq582Xr5hMwlTmF5jKRWvVEBJN1pijAq53P6DrFcGKIUPK
+ pMZr6SLHBK5UNc4PFAhQ+oqWhj8U6GNVypNjSu8hXkz9lC2LXjQ95wqRbCm+CGDFx4SxvOVCw2D
+ E4Ho05vCrYEuv9z8=
+X-Received: by 2002:a17:90a:6707:b0:1fb:6461:695d with SMTP id
+ n7-20020a17090a670700b001fb6461695dmr1406813pjj.158.1661235532238; 
+ Mon, 22 Aug 2022 23:18:52 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6nYrTkzkIbiNCraC5CnAqwRO9dyzXJ3nKZI9OEqDJvwSEjPECt3OTUT2m95Pu0e8b5XpEHFA==
+X-Received: by 2002:a17:90a:6707:b0:1fb:6461:695d with SMTP id
+ n7-20020a17090a670700b001fb6461695dmr1406791pjj.158.1661235531952; 
+ Mon, 22 Aug 2022 23:18:51 -0700 (PDT)
+Received: from [10.72.13.141] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ a26-20020aa7971a000000b0052d40c4c06esm4744437pfg.39.2022.08.22.23.18.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Aug 2022 23:18:51 -0700 (PDT)
+Message-ID: <5c31c89d-4235-c8aa-18f4-0556dc579849@redhat.com>
+Date: Tue, 23 Aug 2022 14:18:42 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=2270691b0=wilfred.mallawa@opensource.wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH 3/7] util: make a copy of iova_tree_remove_parameter
+Content-Language: en-US
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Lei Yang <leiyang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220819165357.3591965-1-eperezma@redhat.com>
+ <20220819165357.3591965-4-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220819165357.3591965-4-eperezma@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,33 +105,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Updates the `EVENT_ENABLE` register to offset `0x34` as per
-OpenTitan spec [1].
+在 2022/8/20 00:53, Eugenio Pérez 写道:
+> It's convenient to call iova_tree_remove from a map returned from
+> iova_tree_find or iova_tree_find_iova.
 
-[1] https://docs.opentitan.org/hw/ip/spi_host/doc/#Reg_event_enable
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/ssi/ibex_spi_host.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The looks like a hint of the defect of current API.
 
-diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
-index 40d401ad47..0becad34e0 100644
---- a/hw/ssi/ibex_spi_host.c
-+++ b/hw/ssi/ibex_spi_host.c
-@@ -93,7 +93,7 @@ REG32(ERROR_STATUS, 0x30)
-     FIELD(ERROR_STATUS, CMDINVAL, 3, 1)
-     FIELD(ERROR_STATUS, CSIDINVAL, 4, 1)
-     FIELD(ERROR_STATUS, ACCESSINVAL, 5, 1)
--REG32(EVENT_ENABLE, 0x30)
-+REG32(EVENT_ENABLE, 0x34)
-     FIELD(EVENT_ENABLE, RXFULL, 0, 1)
-     FIELD(EVENT_ENABLE, TXEMPTY, 1, 1)
-     FIELD(EVENT_ENABLE, RXWM, 2, 1)
---=20
-2.37.2
+
+>   With the current code this is not
+> possible, since we will free it, and then we will try to search for it
+> again.
+>
+> Fix it making a copy of the argument. Not applying a fixes tag, since
+> there is no use like that at the moment.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   util/iova-tree.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/util/iova-tree.c b/util/iova-tree.c
+> index fee530a579..713e3edd7b 100644
+> --- a/util/iova-tree.c
+> +++ b/util/iova-tree.c
+> @@ -166,9 +166,11 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator)
+>   
+>   void iova_tree_remove(IOVATree *tree, const DMAMap *map)
+>   {
+> +    /* Just in case caller is calling iova_tree_remove from a result of find */
+> +    const DMAMap needle = *map;
+
+
+Then let's simply make iova_tree_remove() accept const DMAMap instead of 
+the pointer to it.
+
+
+>       const DMAMap *overlap;
+>   
+> -    while ((overlap = iova_tree_find(tree, map))) {
+> +    while ((overlap = iova_tree_find(tree, &needle))) {
+>           g_tree_remove(tree->tree, overlap);
+>       }
+
+
+So we had following in iova_tree_insert():
+
+     /* We don't allow to insert range that overlaps with existings */
+     if (iova_tree_find(tree, map)) {
+         return IOVA_ERR_OVERLAP;
+     }
+
+I wonder how overlap can happen?
+
+Thanks
+
+
+
+>   }
 
 
