@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DDB59E55B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 16:51:04 +0200 (CEST)
-Received: from localhost ([::1]:59546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DAB59E55E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 16:51:44 +0200 (CEST)
+Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQVF9-0003Ly-J7
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 10:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37818)
+	id 1oQVFn-00049U-9H
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 10:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oQV8T-0007IM-V1; Tue, 23 Aug 2022 10:44:09 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:53964 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oQV8R-0002F4-BE; Tue, 23 Aug 2022 10:44:09 -0400
-Received: from [127.0.0.1] (unknown [223.104.41.115])
- by APP-05 (Coremail) with SMTP id zQCowABXUO6n5wRjERY_HA--.33479S2;
- Tue, 23 Aug 2022 22:43:51 +0800 (CST)
-Message-ID: <78380f57-4a65-f55f-524b-f2145d18b068@ict.ac.cn>
-Date: Tue, 23 Aug 2022 22:43:50 +0800
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oQV8p-0007x7-Ce
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:44:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oQV8l-0002I9-AI
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:44:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661265866;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MRe0jPg5g71Ku2k6CDoiCaJUXXhBhO61wFjdlKJm7j4=;
+ b=T32oGz2t7PDLxa6NrQzl5BrQkCQgWEk/luFesZ9vgSnhPK9aXNoon/++A8wTJ5BDkyzu1v
+ avLXetl6sZQPr8POeuXLKZwokTjZ4z60A/N7LmF8UOQugsCn2P7cnQXk4TVY4KuXqDjCtc
+ 8nlSAX18CqAVZhHV6BgcYkOAaYN8/Xs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-E_koNjaMMk6-jkxqgoWEgg-1; Tue, 23 Aug 2022 10:44:23 -0400
+X-MC-Unique: E_koNjaMMk6-jkxqgoWEgg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1CC5185A7A4;
+ Tue, 23 Aug 2022 14:44:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.37.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AACF4010FA4;
+ Tue, 23 Aug 2022 14:44:21 +0000 (UTC)
+Date: Tue, 23 Aug 2022 15:44:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] Update linux headers to 6.0-rc1
+Message-ID: <YwTnwhcy7rPM+99W@redhat.com>
+References: <20220817020845.21855-1-chenyi.qiang@intel.com>
+ <20220817020845.21855-2-chenyi.qiang@intel.com>
+ <f3bc61c8-d491-f79c-15d7-191208c57224@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 4/4] hw/nvme: add MSI-x mask handlers for irqfd
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
- "open list:nvme" <qemu-block@nongnu.org>
-References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
- <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn> <Yvt1k5X6Gu0xW3Lg@apples>
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <Yvt1k5X6Gu0xW3Lg@apples>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowABXUO6n5wRjERY_HA--.33479S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYe7k0a2IF6w4xM7kC6x804xWl14x267AK
- xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
- A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I
- 6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Cr
- 1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv
- 0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z2
- 80aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IE
- e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
- Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
- 6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
- kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
- 14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
- 7IU8P5r7UUUUU==
-X-Originating-IP: [223.104.41.115]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f3bc61c8-d491-f79c-15d7-191208c57224@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,21 +86,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/2022 6:46 PM, Klaus Jensen wrote:
-> Did qtest work out for you for testing? If so, it would be nice to add a
-> simple test case as well.
+On Mon, Aug 22, 2022 at 05:00:03PM +0200, Michal Pr=C3=ADvozn=C3=ADk wrote:
+> On 8/17/22 04:08, Chenyi Qiang wrote:
+> > commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
+> >=20
+> > Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+> > ---
+> >  include/standard-headers/asm-x86/bootparam.h  |   7 +-
+> >  include/standard-headers/drm/drm_fourcc.h     |  73 +++++++-
+> >  include/standard-headers/linux/ethtool.h      |  29 +--
+> >  include/standard-headers/linux/input.h        |  12 +-
+> >  include/standard-headers/linux/pci_regs.h     |  30 ++-
+> >  include/standard-headers/linux/vhost_types.h  |  17 +-
+> >  include/standard-headers/linux/virtio_9p.h    |   2 +-
+> >  .../standard-headers/linux/virtio_config.h    |   7 +-
+> >  include/standard-headers/linux/virtio_ids.h   |  14 +-
+> >  include/standard-headers/linux/virtio_net.h   |  34 +++-
+> >  include/standard-headers/linux/virtio_pci.h   |   2 +
+> >  linux-headers/asm-arm64/kvm.h                 |  27 +++
+> >  linux-headers/asm-generic/unistd.h            |   4 +-
+> >  linux-headers/asm-riscv/kvm.h                 |  22 +++
+> >  linux-headers/asm-riscv/unistd.h              |   3 +-
+> >  linux-headers/asm-s390/kvm.h                  |   1 +
+> >  linux-headers/asm-x86/kvm.h                   |  33 ++--
+> >  linux-headers/asm-x86/mman.h                  |  14 --
+> >  linux-headers/linux/kvm.h                     | 172 +++++++++++++++++-
+> >  linux-headers/linux/userfaultfd.h             |  10 +-
+> >  linux-headers/linux/vduse.h                   |  47 +++++
+> >  linux-headers/linux/vfio.h                    |   4 +-
+> >  linux-headers/linux/vfio_zdev.h               |   7 +
+> >  linux-headers/linux/vhost.h                   |  35 +++-
+> >  24 files changed, 523 insertions(+), 83 deletions(-)
+> >=20
+>=20
+>=20
+> > diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+> > index bf6e96011d..46de10a809 100644
+> > --- a/linux-headers/asm-x86/kvm.h
+> > +++ b/linux-headers/asm-x86/kvm.h
+> > @@ -198,13 +198,13 @@ struct kvm_msrs {
+> >  	__u32 nmsrs; /* number of msrs in entries */
+> >  	__u32 pad;
+> > =20
+> > -	struct kvm_msr_entry entries[0];
+> > +	struct kvm_msr_entry entries[];
+> >  };
+> > =20
+>=20
+> I don't think it's this simple. I think this needs to go hand in hand wit=
+h kvm_arch_get_supported_msr_feature().
+>=20
+> Also, this breaks clang build:
+>=20
+> clang -m64 -mcx16 -Ilibqemu-x86_64-softmmu.fa.p -I. -I.. -Itarget/i386 -I=
+=2E./target/i386 -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/pixman-1 -I=
+/usr/include/spice-server -I/usr/include/spice-1 -I/usr/include/glib-2.0 -I=
+/usr/lib64/glib-2.0/include -fcolor-diagnostics -Wall -Winvalid-pch -Werror=
+ -std=3Dgnu11 -O0 -g -isystem /home/zippy/work/qemu/qemu.git/linux-headers =
+-isystem linux-headers -iquote . -iquote /home/zippy/work/qemu/qemu.git -iq=
+uote /home/zippy/work/qemu/qemu.git/include -iquote /home/zippy/work/qemu/q=
+emu.git/tcg/i386 -pthread -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFI=
+LE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wm=
+issing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-defi=
+nition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-q=
+ualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defin=
+ed -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negative=
+-value -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-typ=
+e-limit-compare -Wno-psabi -fstack-protector-strong -O0 -ggdb -fPIE -isyste=
+m../linux-headers -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D"x8=
+6_64-softmmu-config-target.h"' '-DCONFIG_DEVICES=3D"x86_64-softmmu-config-d=
+evices.h"' -MD -MQ libqemu-x86_64-softmmu.fa.p/target_i386_kvm_kvm.c.o -MF =
+libqemu-x86_64-softmmu.fa.p/target_i386_kvm_kvm.c.o.d -o libqemu-x86_64-sof=
+tmmu.fa.p/target_i386_kvm_kvm.c.o -c ../target/i386/kvm/kvm.c
+> ../target/i386/kvm/kvm.c:470:25: error: field 'info' with variable sized =
+type 'struct kvm_msrs' not at the end of a struct or class is a GNU extensi=
+on [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>         struct kvm_msrs info;
+>                         ^
+> ../target/i386/kvm/kvm.c:1701:27: error: field 'cpuid' with variable size=
+d type 'struct kvm_cpuid2' not at the end of a struct or class is a GNU ext=
+ension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>         struct kvm_cpuid2 cpuid;
+>                           ^
+> ../target/i386/kvm/kvm.c:2868:25: error: field 'info' with variable sized=
+ type 'struct kvm_msrs' not at the end of a struct or class is a GNU extens=
+ion [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>         struct kvm_msrs info;
+>                         ^
+> 3 errors generated.
 
-Since MSI-x masking handlers are only implemented for IO queues, if we 
-want to use qtest we need to implement utilities for controller 
-initialization and IO queue creation. After that we can actually test 
-the MSI-x masking feature. Although we may reuse some code from virtio's 
-tests, that is still a large amount of work.
+We're perfectly OK with using GNU extensions  in QEMU (eg the g_auto stuff),
+so IMHO just set  -Wno-gnu-variable-sized-type-not-at-end to turn off this
+warning that's only relevant to people striving for fully portable C
+code.
 
-Is it possible to get this patch merged without testing? If not, I guess 
-I'll have to take the hard work to implement something like 
-qtest/libqos/nvme.c
+
+With regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
