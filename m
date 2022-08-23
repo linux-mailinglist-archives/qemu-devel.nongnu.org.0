@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BFA59EC1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 21:22:53 +0200 (CEST)
-Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9F159EC2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 21:24:02 +0200 (CEST)
+Received: from localhost ([::1]:53886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQZUC-0002tH-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 15:22:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34508)
+	id 1oQZVJ-00044n-Im
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 15:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oQZRc-0000pG-8E
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 15:20:13 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44003)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oQZRU-0003E4-V6
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 15:20:10 -0400
-Received: by mail-pf1-x429.google.com with SMTP id w138so11743063pfc.10
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 12:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=TQKGZ/a3XQa12CnmwVBsi1elK++BC8O561g6lJ6kILE=;
- b=jXAcFGU0mPOo7CLQEyAYyWMWPH20PJLOQblVSt6c4T1zA5N8l2gLG50L0pv4tdaSwi
- rFL27tzoaO7hVWVyF/fqBIiF2GNbzvqAd5VPVBS7Pt4Oc8cY87SxMl648oSjXkNVbjJH
- NNHvOBD29V0meUH2Q/Dp0vuVzi/2dKfua/rQQiAFZ5YXTo1/ydlqwPrJLsUZKbXapT5I
- Cp9AHiOpSp7SQXKV+SToHyUUqBSWPCZEQGUNavdpropY5cSRyeJcpHFyQEngIYOCwgvP
- ahQ1IVFArAx6na1LzYr2pZF+CconwFxEUG1pcdAzJvndj7x89ZrSYKcUpl8mm668q1L2
- WfaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=TQKGZ/a3XQa12CnmwVBsi1elK++BC8O561g6lJ6kILE=;
- b=31MEBRRLdp5pJlXqyp6UdkkTG0On6SyLabmRpsP109ZHIkv0cDZZI5BobgLslmI3oG
- OGo+2Drt+PbqKeao+LKiTkYej7ElBv4/uhLRvXpQrAueDaOv+do27GlVKbQGOFIpkXVn
- nM2OoM19IsAa11lFALaH3X6c/NzI08izZ9ykH5aKylw77W0R8IBIkN00WZKdxDWifutE
- cULGRaaQa2hmsNosEAq8vGs9gDLC6inN5U/TAOpB4JXgoHeMKeVrzbTdU1xw6XRn78NJ
- kouXwYpA2DjZOlpXn01WODIqlNYzUnLj9cUMT34sysIKnMdO4kgAq9p+WhUm2z1C6k/X
- HFIQ==
-X-Gm-Message-State: ACgBeo3Wd3CKzVvcC5rcfaANqz9a7a5sukunSnl740ba5loefV4iowl3
- 5/LNTihMlIKm52lLuS4hqq8JRj8t+oOrQANvG+oXdw==
-X-Google-Smtp-Source: AA6agR5YyDzYaHNf+Ly/Fge8xQMSKYt0FBCOfGpkLGM5+XWDhXi2HsCplvMU1pLHn9RRHGG+i7x9GMcnmJLPmbfslUM=
-X-Received: by 2002:aa7:93a8:0:b0:536:8b59:c3bc with SMTP id
- x8-20020aa793a8000000b005368b59c3bcmr11886952pff.15.1661282396200; Tue, 23
- Aug 2022 12:19:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oQZTl-0002MA-1z
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 15:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oQZTi-0003e5-2V
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 15:22:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661282541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bw+24lw+iXagqw+VyfiS+t6tODkvsufMoHByfnPKVb0=;
+ b=JndGkQngf/PEjcZ2Xbu9VWrAHTzzBsMb2whQRhIcWCFMmUAJoALHZTLJzGEK9WH/25dE7y
+ PYJV+XyDBgJMpnygLjS0OHnwNXcDZ4dgCc2/765IhyLQMTzJRKj6Zwd1+R23BwptMuHUwZ
+ 9pN1VS+Suo8hGBmewVV+xbnpUu0ZKD8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-231-SBs_YzD3PHG70hv9dXg6BQ-1; Tue, 23 Aug 2022 15:22:16 -0400
+X-MC-Unique: SBs_YzD3PHG70hv9dXg6BQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEA698037B7;
+ Tue, 23 Aug 2022 19:22:15 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB42E492C3B;
+ Tue, 23 Aug 2022 19:22:14 +0000 (UTC)
+Date: Tue, 23 Aug 2022 15:22:13 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Peter Xu <peterx@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, integration@gluster.org,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, sgarzare@redhat.com,
+ Alberto Faria <afaria@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>
+Subject: Re: [RFC v4 11/11] virtio-blk: use BDRV_REQ_REGISTERED_BUF
+ optimization hint
+Message-ID: <YwUo5UgdHjJ7k9QX@fedora>
+References: <20220822222402.176088-1-stefanha@redhat.com>
+ <20220822222402.176088-12-stefanha@redhat.com>
+ <b068f95e-fc8f-1ecc-5bf5-d7774ce6c13a@redhat.com>
 MIME-Version: 1.0
-References: <20220816232321.558250-1-atishp@rivosinc.com>
- <20220816232321.558250-4-atishp@rivosinc.com>
- <CAKmqyKOZzv6gxn7ntaK=FXKe5KosN4oJFJf55n_F7rsKz2TZWw@mail.gmail.com>
-In-Reply-To: <CAKmqyKOZzv6gxn7ntaK=FXKe5KosN4oJFJf55n_F7rsKz2TZWw@mail.gmail.com>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Tue, 23 Aug 2022 12:19:45 -0700
-Message-ID: <CAHBxVyHSOCtG+aJMRe5_Som+Y1DfyEDyCje458eGDnAaLCfMrA@mail.gmail.com>
-Subject: Re: [PATCH v13 3/6] target/riscv: Add few cache related PMU events
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Heiko Stuebner <heiko@sntech.de>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000018f79b05e6ed7303"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=atishp@rivosinc.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l+k831t+cdY/T5Se"
+Content-Disposition: inline
+In-Reply-To: <b068f95e-fc8f-1ecc-5bf5-d7774ce6c13a@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,359 +101,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000018f79b05e6ed7303
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 22, 2022 at 5:38 PM Alistair Francis <alistair23@gmail.com>
-wrote:
-
-> On Wed, Aug 17, 2022 at 9:24 AM Atish Patra <atishp@rivosinc.com> wrote:
-> >
-> > From: Atish Patra <atish.patra@wdc.com>
-> >
-> > Qemu can monitor the following cache related PMU events through
-> > tlb_fill functions.
-> >
-> > 1. DTLB load/store miss
-> > 3. ITLB prefetch miss
-> >
-> > Increment the PMU counter in tlb_fill function.
-> >
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > Tested-by: Heiko Stuebner <heiko@sntech.de>
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
->
-> This patch causes a number of test failures.
->
-> On some boots I see lots of these errors printed:
->
-> qemu-system-riscv64: GLib: g_hash_table_lookup: assertion 'hash_table
-> != NULL' failed
->
-> and I'm unable to boot Linux.
->
-> The command line is:
->
-> qemu-system-riscv64 \
->     -machine sifive_u \
->     -serial mon:stdio -serial null -nographic \
->     -append "root=/dev/ram rw highres=off console=ttySIF0 ip=dhcp
-> earlycon=sbi" \
->     -smp 5 \
->     -d guest_errors \
->     -kernel ./images/qemuriscv64/Image \
->     -initrd ./images/qemuriscv64/buildroot/rootfs.cpio \
->     -bios default -m 256M
->
-> I see that faiulre with the 5.19-rc7 kernel and OpenSBI 1.1.
->
-> I also see the same messages on other machines when running baremetal
-> code. I'm going to drop these patches from my tree
->
->
-Sorry for the breakage.  This should fix the issue. We just need to add few
-sanity checks
-for the platforms that don't support these events.
-
-diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-index ad33b81b2ea0..0a473010cadd 100644
---- a/target/riscv/pmu.c
-+++ b/target/riscv/pmu.c
-@@ -187,6 +187,9 @@ int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum
-riscv_pmu_event_idx event_idx)
-     CPURISCVState *env = &cpu->env;
-     gpointer value;
-
-+    if (!cpu->cfg.pmu_num)
-+        return 0;
-+
-     value = g_hash_table_lookup(cpu->pmu_event_ctr_map,
-                                 GUINT_TO_POINTER(event_idx));
-     if (!value) {
-@@ -221,6 +224,9 @@ bool riscv_pmu_ctr_monitor_instructions(CPURISCVState
-*env,
-     }
-
-     cpu = RISCV_CPU(env_cpu(env));
-+    if (!cpu->pmu_event_ctr_map)
-+        return false;
-+
-     event_idx = RISCV_PMU_EVENT_HW_INSTRUCTIONS;
-     ctr_idx = GPOINTER_TO_UINT(g_hash_table_lookup(cpu->pmu_event_ctr_map,
-                                GUINT_TO_POINTER(event_idx)));
-@@ -243,6 +249,9 @@ bool riscv_pmu_ctr_monitor_cycles(CPURISCVState *env,
-uint32_t target_ctr)
-     }
-
-     cpu = RISCV_CPU(env_cpu(env));
-+    if (!cpu->pmu_event_ctr_map)
-+        return false;
-+
-     event_idx = RISCV_PMU_EVENT_HW_CPU_CYCLES;
-     ctr_idx = GPOINTER_TO_UINT(g_hash_table_lookup(cpu->pmu_event_ctr_map,
-                                GUINT_TO_POINTER(event_idx)));
-@@ -280,7 +289,7 @@ int riscv_pmu_update_event_map(CPURISCVState *env,
-uint64_t value,
-     uint32_t event_idx;
-     RISCVCPU *cpu = RISCV_CPU(env_cpu(env));
-
--    if (!riscv_pmu_counter_valid(cpu, ctr_idx)) {
-+    if (!riscv_pmu_counter_valid(cpu, ctr_idx) || !cpu->pmu_event_ctr_map)
-{
-         return -1;
-     }
-
-Should I respin the series or send this as a fix ?
-
-Alistair
->
-> > ---
-> >  target/riscv/cpu_helper.c | 25 +++++++++++++++++++++++++
-> >  1 file changed, 25 insertions(+)
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 1e4faa84e839..81948b37dd9a 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -21,11 +21,13 @@
-> >  #include "qemu/log.h"
-> >  #include "qemu/main-loop.h"
-> >  #include "cpu.h"
-> > +#include "pmu.h"
-> >  #include "exec/exec-all.h"
-> >  #include "instmap.h"
-> >  #include "tcg/tcg-op.h"
-> >  #include "trace.h"
-> >  #include "semihosting/common-semi.h"
-> > +#include "cpu_bits.h"
-> >
-> >  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
-> >  {
-> > @@ -1188,6 +1190,28 @@ void riscv_cpu_do_unaligned_access(CPUState *cs,
-> vaddr addr,
-> >      cpu_loop_exit_restore(cs, retaddr);
-> >  }
-> >
-> > +
-> > +static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType
-> access_type)
-> > +{
-> > +    enum riscv_pmu_event_idx pmu_event_type;
-> > +
-> > +    switch (access_type) {
-> > +    case MMU_INST_FETCH:
-> > +        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
-> > +        break;
-> > +    case MMU_DATA_LOAD:
-> > +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
-> > +        break;
-> > +    case MMU_DATA_STORE:
-> > +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS;
-> > +        break;
-> > +    default:
-> > +        return;
-> > +    }
-> > +
-> > +    riscv_pmu_incr_ctr(cpu, pmu_event_type);
-> > +}
-> > +
-> >  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-> >                          MMUAccessType access_type, int mmu_idx,
-> >                          bool probe, uintptr_t retaddr)
-> > @@ -1286,6 +1310,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr
-> address, int size,
-> >              }
-> >          }
-> >      } else {
-> > +        pmu_tlb_fill_incr_ctr(cpu, access_type);
-> >          /* Single stage lookup */
-> >          ret = get_physical_address(env, &pa, &prot, address, NULL,
-> >                                     access_type, mmu_idx, true, false,
-> false);
-> > --
-> > 2.25.1
-> >
-> >
->
-
---00000000000018f79b05e6ed7303
-Content-Type: text/html; charset="UTF-8"
+--l+k831t+cdY/T5Se
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 22, 2022 at 5:38 PM Alist=
-air Francis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->On Wed, Aug 17, 2022 at 9:24 AM Atish Patra &lt;<a href=3D"mailto:atishp@r=
-ivosinc.com" target=3D"_blank">atishp@rivosinc.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Atish Patra &lt;<a href=3D"mailto:atish.patra@wdc.com" target=3D=
-"_blank">atish.patra@wdc.com</a>&gt;<br>
-&gt;<br>
-&gt; Qemu can monitor the following cache related PMU events through<br>
-&gt; tlb_fill functions.<br>
-&gt;<br>
-&gt; 1. DTLB load/store miss<br>
-&gt; 3. ITLB prefetch miss<br>
-&gt;<br>
-&gt; Increment the PMU counter in tlb_fill function.<br>
-&gt;<br>
-&gt; Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@w=
-dc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-&gt; Tested-by: Heiko Stuebner &lt;<a href=3D"mailto:heiko@sntech.de" targe=
-t=3D"_blank">heiko@sntech.de</a>&gt;<br>
-&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atish.patra@wdc.com" =
-target=3D"_blank">atish.patra@wdc.com</a>&gt;<br>
-&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
-target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
-<br>
-This patch causes a number of test failures.<br>
-<br>
-On some boots I see lots of these errors printed:<br>
-<br>
-qemu-system-riscv64: GLib: g_hash_table_lookup: assertion &#39;hash_table<b=
-r>
-!=3D NULL&#39; failed<br>
-<br>
-and I&#39;m unable to boot Linux.<br>
-<br>
-The command line is:<br>
-<br>
-qemu-system-riscv64 \<br>
-=C2=A0 =C2=A0 -machine sifive_u \<br>
-=C2=A0 =C2=A0 -serial mon:stdio -serial null -nographic \<br>
-=C2=A0 =C2=A0 -append &quot;root=3D/dev/ram rw highres=3Doff console=3DttyS=
-IF0 ip=3Ddhcp<br>
-earlycon=3Dsbi&quot; \<br>
-=C2=A0 =C2=A0 -smp 5 \<br>
-=C2=A0 =C2=A0 -d guest_errors \<br>
-=C2=A0 =C2=A0 -kernel ./images/qemuriscv64/Image \<br>
-=C2=A0 =C2=A0 -initrd ./images/qemuriscv64/buildroot/rootfs.cpio \<br>
-=C2=A0 =C2=A0 -bios default -m 256M<br>
-<br>
-I see that faiulre with the 5.19-rc7 kernel and OpenSBI 1.1.<br>
-<br>
-I also see the same messages on other machines when running baremetal<br>
-code. I&#39;m going to drop these patches from my tree<br>
-<br></blockquote><div><br></div><div>Sorry for the breakage.=C2=A0 This sho=
-uld fix the issue. We just need to add few sanity checks</div><div>for the =
-platforms that don&#39;t support these events.</div><div><br></div><div>dif=
-f --git a/target/riscv/pmu.c b/target/riscv/pmu.c<br>index ad33b81b2ea0..0a=
-473010cadd 100644<br>--- a/target/riscv/pmu.c<br>+++ b/target/riscv/pmu.c<b=
-r>@@ -187,6 +187,9 @@ int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_=
-event_idx event_idx)<br>=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;cpu=
--&gt;env;<br>=C2=A0 =C2=A0 =C2=A0gpointer value;<br>=C2=A0<br>+ =C2=A0 =C2=
-=A0if (!cpu-&gt;cfg.pmu_num)<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>+=
-<br>=C2=A0 =C2=A0 =C2=A0value =3D g_hash_table_lookup(cpu-&gt;pmu_event_ctr=
-_map,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GUINT_TO_POINTER(event_=
-idx));<br>=C2=A0 =C2=A0 =C2=A0if (!value) {<br>@@ -221,6 +224,9 @@ bool ris=
-cv_pmu_ctr_monitor_instructions(CPURISCVState *env,<br>=C2=A0 =C2=A0 =C2=A0=
-}<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0cpu =3D RISCV_CPU(env_cpu(env));<br>+ =
-=C2=A0 =C2=A0if (!cpu-&gt;pmu_event_ctr_map)<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0return false;<br>+<br>=C2=A0 =C2=A0 =C2=A0event_idx =3D RISCV_PMU_EVENT_=
-HW_INSTRUCTIONS;<br>=C2=A0 =C2=A0 =C2=A0ctr_idx =3D GPOINTER_TO_UINT(g_hash=
-_table_lookup(cpu-&gt;pmu_event_ctr_map,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 GUINT_TO_POINTER(event_idx)));<br>@@ -243,6 +249,9 @@ bool riscv_pmu=
-_ctr_monitor_cycles(CPURISCVState *env, uint32_t target_ctr)<br>=C2=A0 =C2=
-=A0 =C2=A0}<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0cpu =3D RISCV_CPU(env_cpu(env)=
-);<br>+ =C2=A0 =C2=A0if (!cpu-&gt;pmu_event_ctr_map)<br>+ =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return false;<br>+<br>=C2=A0 =C2=A0 =C2=A0event_idx =3D RISCV_PMU=
-_EVENT_HW_CPU_CYCLES;<br>=C2=A0 =C2=A0 =C2=A0ctr_idx =3D GPOINTER_TO_UINT(g=
-_hash_table_lookup(cpu-&gt;pmu_event_ctr_map,<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 GUINT_TO_POINTER(event_idx)));<br>@@ -280,7 +289,7 @@ int ris=
-cv_pmu_update_event_map(CPURISCVState *env, uint64_t value,<br>=C2=A0 =C2=
-=A0 =C2=A0uint32_t event_idx;<br>=C2=A0 =C2=A0 =C2=A0RISCVCPU *cpu =3D RISC=
-V_CPU(env_cpu(env));<br>=C2=A0<br>- =C2=A0 =C2=A0if (!riscv_pmu_counter_val=
-id(cpu, ctr_idx)) {<br>+ =C2=A0 =C2=A0if (!riscv_pmu_counter_valid(cpu, ctr=
-_idx) || !cpu-&gt;pmu_event_ctr_map) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0return -1;<br>=C2=A0 =C2=A0 =C2=A0}<br></div><div>=C2=A0</div><div>Shoul=
-d I respin the series or send this as a fix ?</div><div><br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
-Alistair<br>
-<br>
-&gt; ---<br>
-&gt;=C2=A0 target/riscv/cpu_helper.c | 25 +++++++++++++++++++++++++<br>
-&gt;=C2=A0 1 file changed, 25 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c<br>
-&gt; index 1e4faa84e839..81948b37dd9a 100644<br>
-&gt; --- a/target/riscv/cpu_helper.c<br>
-&gt; +++ b/target/riscv/cpu_helper.c<br>
-&gt; @@ -21,11 +21,13 @@<br>
-&gt;=C2=A0 #include &quot;qemu/log.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/main-loop.h&quot;<br>
-&gt;=C2=A0 #include &quot;cpu.h&quot;<br>
-&gt; +#include &quot;pmu.h&quot;<br>
-&gt;=C2=A0 #include &quot;exec/exec-all.h&quot;<br>
-&gt;=C2=A0 #include &quot;instmap.h&quot;<br>
-&gt;=C2=A0 #include &quot;tcg/tcg-op.h&quot;<br>
-&gt;=C2=A0 #include &quot;trace.h&quot;<br>
-&gt;=C2=A0 #include &quot;semihosting/common-semi.h&quot;<br>
-&gt; +#include &quot;cpu_bits.h&quot;<br>
-&gt;<br>
-&gt;=C2=A0 int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)<br>
-&gt;=C2=A0 {<br>
-&gt; @@ -1188,6 +1190,28 @@ void riscv_cpu_do_unaligned_access(CPUState *cs=
-, vaddr addr,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu_loop_exit_restore(cs, retaddr);<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; +<br>
-&gt; +static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access=
-_type)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 enum riscv_pmu_event_idx pmu_event_type;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 switch (access_type) {<br>
-&gt; +=C2=A0 =C2=A0 case MMU_INST_FETCH:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pmu_event_type =3D RISCV_PMU_EVENT_CACHE_=
-ITLB_PREFETCH_MISS;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case MMU_DATA_LOAD:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pmu_event_type =3D RISCV_PMU_EVENT_CACHE_=
-DTLB_READ_MISS;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case MMU_DATA_STORE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pmu_event_type =3D RISCV_PMU_EVENT_CACHE_=
-DTLB_WRITE_MISS;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 riscv_pmu_incr_ctr(cpu, pmu_event_type);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 MMUAccessType access_type, int mmu_idx,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 bool probe, uintptr_t retaddr)<br>
-&gt; @@ -1286,6 +1310,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr addr=
-ess, int size,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pmu_tlb_fill_incr_ctr(cpu, access_type);<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Single stage lookup */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D get_physical_address(env, &a=
-mp;pa, &amp;prot, address, NULL,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0access_type, =
-mmu_idx, true, false, false);<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div></div>
+On Tue, Aug 23, 2022 at 10:01:59AM +0200, David Hildenbrand wrote:
+> On 23.08.22 00:24, Stefan Hajnoczi wrote:
+> > Register guest RAM using BlockRAMRegistrar and set the
+> > BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
+> > accesses in I/O requests.
+> >=20
+> > This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that rely
+> > on DMA mapping/unmapping.
+>=20
+> Can you explain why we're monitoring RAMRegistrar to hook into "guest
+> RAM" and not go the usual path of the MemoryListener?
 
---00000000000018f79b05e6ed7303--
+The requirements are similar to VFIO, which uses RAMBlockNotifier. We
+need to learn about all guest RAM because that's where I/O buffers are
+located.
+
+Do you think RAMBlockNotifier should be avoided?
+
+> What will BDRV_REQ_REGISTERED_BUF actually do? Pin all guest memory in
+> the worst case such as io_uring fixed buffers would do ( I hope not ).
+
+BLK_REQ_REGISTERED_BUF is a hint that no bounce buffer is necessary
+because the I/O buffer is located in memory that was previously
+registered with bdrv_registered_buf().
+
+The RAMBlockNotifier calls bdrv_register_buf() to let the libblkio
+driver know about RAM. Some libblkio drivers ignore this hint, io_uring
+may use the fixed buffers feature, vhost-user sends the shared memory
+file descriptors to the vhost device server, and VFIO/vhost may pin
+pages.
+
+So the blkio block driver doesn't add anything new, it's the union of
+VFIO/vhost/vhost-user/etc memory requirements.
+
+Stefan
+
+--l+k831t+cdY/T5Se
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMFKOQACgkQnKSrs4Gr
+c8hRxggAwRW3vECTU8Y9vWe7yb/5ciHppn/tzU+gi5tnNfvR/IpA7xSTvKvaAh4U
+ULcV3G6lwEalJxLob3QfN3jAcTQ2m23O6OPYaEs+v90yCRQfsZmm+H+6gaCVLwUg
+k6+BN/WQaux6E+60L86z97YR1RSd40xaCqZBWQ4sgRwbs3WJj3toRx8DCzeO5lMh
+c+YRoK6lBja02vYgQHByArZIiDeLBIZy29m7ez6i+cphoQUetec62Z2im4btnp6j
+M/U2Jp1IWMkLoFS8VVXpqoDWHHV0M8RhUihia1CVkKgTKYrBrQ4ghxLd3pedhMvp
+31HXAxRCZx2je24+FOK42BgbGJ32Rw==
+=w9hq
+-----END PGP SIGNATURE-----
+
+--l+k831t+cdY/T5Se--
+
 
