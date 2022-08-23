@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214DD59CD44
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 02:41:06 +0200 (CEST)
-Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50FA59CD58
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 02:47:43 +0200 (CEST)
+Received: from localhost ([::1]:32898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQHyb-00080L-7y
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 20:41:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
+	id 1oQI50-0004AM-Ao
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 20:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oQHwX-0006VX-HY; Mon, 22 Aug 2022 20:38:57 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oQHwV-0000sM-Q3; Mon, 22 Aug 2022 20:38:57 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id f17so5801543pfk.11;
- Mon, 22 Aug 2022 17:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=QWJSG1mCato7fy35HOi31fuuqUpRw6UFFtGTADi6+EY=;
- b=co6Axs2GITqGBdiEiM8nvOH0i4TD0P8d8DgL8T5TzzgMMzw+g5cigYQFBLrUyZ6d2z
- +CssZpBh6mRA14inSnmlys9gVT+hgvPUBUKJZz4vg/ketbFJNImTV4R6yuXFjuJwCnT9
- JXW237tBumitZaMtwt09/FICrexDKA76E13yio4wXCZqclrrVA0+dXIZqAf4D5R/DG4L
- mgnPUp05e2BJwMnlhScPgHJ3FZ3ln/CqRkaLtYkuaFfPhCwdQVy+yhI/KogD0UNgrsjs
- 1H9qr+o6J57RiGAN4yALEfdRoKdXbXpOZWn+0Z2JbKMq83ySWwyfXPN0EazeTg1G9n1v
- /UXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=QWJSG1mCato7fy35HOi31fuuqUpRw6UFFtGTADi6+EY=;
- b=krBGWcFcwPwWcTRJCP5R1CYn4tsRuxCB5vLlNdp/YkMmjU+t81SMcv/yNGTBJbDFwo
- OdaDX75dPD6hd2WWKod5L40E3g/g0M23linGT0FfoLLcWvgIE5tr/+Ksf9TusWbYusvj
- b4ZWgl6Kecpd6OTMoWvOb5TbZ5H+dvMWByRmgustA4mJFO9ngWriiCm/awY0YLmGdQFd
- D7gg7mss8hVTlN5WdfctmpBtmuyuj6sw1vp+0z4HOWV9u8E0jOpRlyYVXCRh2VA6U9yc
- T3TMIwTAywkOmlaZbXt9oo4Rs+vTErRJvdgiTDHNuiPM7NbtiWhpNKUQ7Pv2BRELqliF
- sYMQ==
-X-Gm-Message-State: ACgBeo24hMbGf9V1dIT8bwW95qT7+DLgAkZfKCv+R/7gQAcA91uiti/a
- d/zFu7HMnaCCkWIGa8r1atnX7zpCnSxEIydOc5A=
-X-Google-Smtp-Source: AA6agR7ahsF7H1DeHY66UxmPeMKJPFBcP8doPadHZpdcWitDIGuAwSdJ35uYUJ3Gv0o80shAjS4AQv8s8qQlMRiBJ+g=
-X-Received: by 2002:a05:6a00:88e:b0:52c:65a3:fdb4 with SMTP id
- q14-20020a056a00088e00b0052c65a3fdb4mr22631806pfj.83.1661215133438; Mon, 22
- Aug 2022 17:38:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oQI1o-0001fA-QF; Mon, 22 Aug 2022 20:44:24 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:33402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oQI1k-0001zs-Rl; Mon, 22 Aug 2022 20:44:22 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 11703747DFA;
+ Tue, 23 Aug 2022 02:44:18 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5A1F57461AE; Tue, 23 Aug 2022 02:44:17 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 58728745702;
+ Tue, 23 Aug 2022 02:44:17 +0200 (CEST)
+Date: Tue, 23 Aug 2022 02:44:17 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH 7/9] hw/isa/vt82c686: QOM'ify ac97 and mc97 creation
+In-Reply-To: <20220822224355.11753-8-shentey@gmail.com>
+Message-ID: <21341fc1-51c8-af83-f034-a66c6399d45@eik.bme.hu>
+References: <20220822224355.11753-1-shentey@gmail.com>
+ <20220822224355.11753-8-shentey@gmail.com>
 MIME-Version: 1.0
-References: <20220816232321.558250-1-atishp@rivosinc.com>
- <20220816232321.558250-4-atishp@rivosinc.com>
-In-Reply-To: <20220816232321.558250-4-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 23 Aug 2022 10:38:27 +1000
-Message-ID: <CAKmqyKOZzv6gxn7ntaK=FXKe5KosN4oJFJf55n_F7rsKz2TZWw@mail.gmail.com>
-Subject: Re: [PATCH v13 3/6] target/riscv: Add few cache related PMU events
-To: Atish Patra <atishp@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Heiko Stuebner <heiko@sntech.de>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,113 +62,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 17, 2022 at 9:24 AM Atish Patra <atishp@rivosinc.com> wrote:
+On Tue, 23 Aug 2022, Bernhard Beschow wrote:
+> Resolves duplicate code in the boards.
 >
-> From: Atish Patra <atish.patra@wdc.com>
->
-> Qemu can monitor the following cache related PMU events through
-> tlb_fill functions.
->
-> 1. DTLB load/store miss
-> 3. ITLB prefetch miss
->
-> Increment the PMU counter in tlb_fill function.
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-
-This patch causes a number of test failures.
-
-On some boots I see lots of these errors printed:
-
-qemu-system-riscv64: GLib: g_hash_table_lookup: assertion 'hash_table
-!= NULL' failed
-
-and I'm unable to boot Linux.
-
-The command line is:
-
-qemu-system-riscv64 \
-    -machine sifive_u \
-    -serial mon:stdio -serial null -nographic \
-    -append "root=/dev/ram rw highres=off console=ttySIF0 ip=dhcp
-earlycon=sbi" \
-    -smp 5 \
-    -d guest_errors \
-    -kernel ./images/qemuriscv64/Image \
-    -initrd ./images/qemuriscv64/buildroot/rootfs.cpio \
-    -bios default -m 256M
-
-I see that faiulre with the 5.19-rc7 kernel and OpenSBI 1.1.
-
-I also see the same messages on other machines when running baremetal
-code. I'm going to drop these patches from my tree
-
-Alistair
-
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->  target/riscv/cpu_helper.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+> hw/isa/vt82c686.c   | 16 ++++++++++++++++
+> hw/mips/fuloong2e.c |  4 ----
+> hw/ppc/pegasos2.c   |  4 ----
+> 3 files changed, 16 insertions(+), 8 deletions(-)
 >
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 1e4faa84e839..81948b37dd9a 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -21,11 +21,13 @@
->  #include "qemu/log.h"
->  #include "qemu/main-loop.h"
->  #include "cpu.h"
-> +#include "pmu.h"
->  #include "exec/exec-all.h"
->  #include "instmap.h"
->  #include "tcg/tcg-op.h"
->  #include "trace.h"
->  #include "semihosting/common-semi.h"
-> +#include "cpu_bits.h"
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index b964d1a760..47f2fd2669 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -549,6 +549,8 @@ struct ViaISAState {
+>     PCIIDEState ide;
+>     UHCIState uhci[2];
+>     ViaPMState pm;
+> +    PCIDevice ac97;
+> +    PCIDevice mc97;
+> };
 >
->  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
->  {
-> @@ -1188,6 +1190,28 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->      cpu_loop_exit_restore(cs, retaddr);
->  }
+> static const VMStateDescription vmstate_via = {
+> @@ -568,6 +570,8 @@ static void via_isa_init(Object *obj)
+>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+>     object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
+>     object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
+> +    object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
+> +    object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
+> }
 >
+> static const TypeInfo via_isa_info = {
+> @@ -644,6 +648,18 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>     if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
+>         return;
+>     }
 > +
-> +static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
-> +{
-> +    enum riscv_pmu_event_idx pmu_event_type;
-> +
-> +    switch (access_type) {
-> +    case MMU_INST_FETCH:
-> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
-> +        break;
-> +    case MMU_DATA_LOAD:
-> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
-> +        break;
-> +    case MMU_DATA_STORE:
-> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS;
-> +        break;
-> +    default:
+> +    /* Function 5: AC97 Audio */
+> +    qdev_prop_set_int32(DEVICE(&s->ac97), "addr", d->devfn + 5);
+> +    if (!qdev_realize(DEVICE(&s->ac97), BUS(pci_bus), errp)) {
 > +        return;
 > +    }
 > +
-> +    riscv_pmu_incr_ctr(cpu, pmu_event_type);
-> +}
-> +
->  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                          MMUAccessType access_type, int mmu_idx,
->                          bool probe, uintptr_t retaddr)
-> @@ -1286,6 +1310,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->              }
->          }
->      } else {
-> +        pmu_tlb_fill_incr_ctr(cpu, access_type);
->          /* Single stage lookup */
->          ret = get_physical_address(env, &pa, &prot, address, NULL,
->                                     access_type, mmu_idx, true, false, false);
-> --
-> 2.25.1
+> +    /* Function 6: AC97 Modem */
+> +    qdev_prop_set_int32(DEVICE(&s->mc97), "addr", d->devfn + 6);
+> +    if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
+> +        return;
+> +    }
+> }
+>
+> /* TYPE_VT82C686B_ISA */
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index f05474348f..ea1aef3049 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -207,10 +207,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>
+>     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(dev), "pm"));
+>     *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+> -
+> -    /* Audio support */
+> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
+> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 6), TYPE_VIA_MC97);
+> }
+>
+> /* Network support */
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index 4e29e42fba..89ef4aed8b 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -171,10 +171,6 @@ static void pegasos2_init(MachineState *machine)
+>     spd_data = spd_data_generate(DDR, machine->ram_size);
+>     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
+>
+> -    /* VT8231 function 5-6: AC97 Audio & Modem */
+> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
+> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
+> -
+
+This removes the last function created here so the comment above saying:
+/* VT8231 function 0: PCI-to-ISA Bridge */
+is now stale and may be removed as well.
+
+Regards,
+BALATON Zoltan
+
+>     /* other PC hardware */
+>     pci_vga_init(pci_bus);
 >
 >
 
