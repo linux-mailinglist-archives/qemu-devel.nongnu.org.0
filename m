@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E43959E4EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 16:10:41 +0200 (CEST)
-Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1AB59E4E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 16:07:33 +0200 (CEST)
+Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQUc4-0007xh-K3
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 10:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57550)
+	id 1oQUZ2-0004tr-6c
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 10:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oQUVy-0002ka-KU
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oQUVz-0002kj-13
  for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:04:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29005)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oQUVv-0004Av-Ho
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oQUVw-0004Az-BD
  for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:04:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1661263459;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=d+Vn1+Nxth1ryiEHR49OF8MMdkr/vsz2rqyLdsB2xSI=;
- b=eiDGCkSQd0Gv2/7pnUK1VL04ygRdj1vvETw7s8c0wO6RlTkZmI/gfl67iVIvpBfQu+k8FB
- j6x1gI0LY053OyMtJO5Np4BwZ82F9aW2g5yMqX1d+iuUnKBZPuCt+sZaiEifmkZT84/qY6
- N6xSK4Mt/SCgsMtgfdh7WBxigGiutjw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HmuAt80WLkzymQL9b+SA97Wj4jwpUgcOf5obf0E2EQM=;
+ b=KTulNpatG0yeDP4tgSRUSbxldjYXDA8RkoH7Vlvh1cd4/0dszU+4KxUD3US9R9logqZeP+
+ iuCAsMLlMSUM0NBQjeQ+vpxPUydSoTwWi49Lui1XtyXZ2snc+wqpS4fzjD2kAaVjkuiKRp
+ HAa+2Fqqf3ZVC6Q2ADO61Enw9P73fj4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-qbdp0J7LPvONJtVXrx6ZeQ-1; Tue, 23 Aug 2022 10:04:15 -0400
-X-MC-Unique: qbdp0J7LPvONJtVXrx6ZeQ-1
+ us-mta-654-okcwWu89N4SNYt51ODVNKw-1; Tue, 23 Aug 2022 10:04:16 -0400
+X-MC-Unique: okcwWu89N4SNYt51ODVNKw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F24263814960;
- Tue, 23 Aug 2022 14:04:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEE68966307;
+ Tue, 23 Aug 2022 14:04:15 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39F97492C3B;
- Tue, 23 Aug 2022 14:04:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38A17492C3B;
+ Tue, 23 Aug 2022 14:04:15 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/1] Block layer patches
-Date: Tue, 23 Aug 2022 16:04:05 +0200
-Message-Id: <20220823140406.73805-1-kwolf@redhat.com>
+Subject: [PULL 1/1] scsi-generic: Fix emulated block limits VPD page
+Date: Tue, 23 Aug 2022 16:04:06 +0200
+Message-Id: <20220823140406.73805-2-kwolf@redhat.com>
+In-Reply-To: <20220823140406.73805-1-kwolf@redhat.com>
+References: <20220823140406.73805-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
@@ -75,28 +78,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ba58ccbef60338d0b7334c714589a6423a3e7f91:
+Commits 01ef8185b80 amd 24b36e9813e updated the way that the maximum
+transfer length is calculated for patching block limits VPD page in an
+INQUIRY response.
 
-  Merge tag 'for-7.1-hppa' of https://github.com/hdeller/qemu-hppa into staging (2022-08-19 09:35:29 -0700)
+The same updates also need to be made for the case where the host device
+does not support the block limits VPD page at all and we emulate the
+whole page.
 
-are available in the Git repository at:
+Without this fix, on host block devices a maximum transfer length of
+(INT_MAX - sector_size) bytes is advertised to the guest, resulting in
+I/O errors when a request that exceeds the host limits is made by the
+guest. (Prior to commit 24b36e9813e, this code path would use the
+max_transfer value from the host instead of INT_MAX, but still miss the
+fix from 01ef8185b80 where max_transfer is also capped to max_iov
+host pages, so it would be less wrong, but still wrong.)
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
-
-for you to fetch changes up to 51e15194b0a091e5c40aab2eb234a1d36c5c58ee:
-
-  scsi-generic: Fix emulated block limits VPD page (2022-08-23 16:01:13 +0200)
-
-----------------------------------------------------------------
-Block layer patches
-
-- scsi-generic: Fix I/O errors due to wrong block limits
-
-----------------------------------------------------------------
-Kevin Wolf (1):
-      scsi-generic: Fix emulated block limits VPD page
-
+Cc: qemu-stable@nongnu.org
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2096251
+Fixes: 01ef8185b809af9d287e1a03a3f9d8ea8231118a
+Fixes: 24b36e9813ec15da7db62e3b3621730710c5f020
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20220822125320.48257-1-kwolf@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
  hw/scsi/scsi-generic.c | 21 ++++++++++++++-------
  1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index ada24d7486..3d35d307e1 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -147,6 +147,18 @@ static int execute_command(BlockBackend *blk,
+     return 0;
+ }
+ 
++static uint64_t calculate_max_transfer(SCSIDevice *s)
++{
++    uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
++    uint32_t max_iov = blk_get_max_hw_iov(s->conf.blk);
++
++    assert(max_transfer);
++    max_transfer = MIN_NON_ZERO(max_transfer,
++                                max_iov * qemu_real_host_page_size());
++
++    return max_transfer / s->blocksize;
++}
++
+ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
+ {
+     uint8_t page, page_idx;
+@@ -179,12 +191,7 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
+         (r->req.cmd.buf[1] & 0x01)) {
+         page = r->req.cmd.buf[2];
+         if (page == 0xb0) {
+-            uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
+-            uint32_t max_iov = blk_get_max_hw_iov(s->conf.blk);
+-
+-            assert(max_transfer);
+-            max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size())
+-                / s->blocksize;
++            uint64_t max_transfer = calculate_max_transfer(s);
+             stl_be_p(&r->buf[8], max_transfer);
+             /* Also take care of the opt xfer len. */
+             stl_be_p(&r->buf[12],
+@@ -230,7 +237,7 @@ static int scsi_generic_emulate_block_limits(SCSIGenericReq *r, SCSIDevice *s)
+     uint8_t buf[64];
+ 
+     SCSIBlockLimits bl = {
+-        .max_io_sectors = blk_get_max_transfer(s->conf.blk) / s->blocksize
++        .max_io_sectors = calculate_max_transfer(s),
+     };
+ 
+     memset(r->buf, 0, r->buflen);
+-- 
+2.37.1
 
 
