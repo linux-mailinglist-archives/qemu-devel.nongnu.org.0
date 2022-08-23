@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB11C59EEE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 00:19:23 +0200 (CEST)
-Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E7D59EEDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 00:15:34 +0200 (CEST)
+Received: from localhost ([::1]:43320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQcF1-00060P-29
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 18:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50590)
+	id 1oQcBJ-0001iV-6g
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 18:15:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQc26-0000Ai-W4
+ id 1oQc27-0000Ce-Fn
  for qemu-devel@nongnu.org; Tue, 23 Aug 2022 18:06:03 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46025)
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:37612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQc24-0001QH-7t
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 18:06:02 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id z187so14704679pfb.12
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 15:05:59 -0700 (PDT)
+ id 1oQc25-0001PW-S4
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 18:06:03 -0400
+Received: by mail-pl1-x633.google.com with SMTP id m2so14038964pls.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 15:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=aenCwLhyHz+42ttancSjHI4JZk2Ya2FL+nx6M3jTwMg=;
- b=Yvd06h/xswgFj6DgEE4F6BlJ4RtnT/OS2rf3y1TL9+ilAwFs/mSvo2O/vRKUjixJQ1
- reyGWL5y/5U4aRycoSHkSW7KLsbKWL/A5F0/OvFlbJ0ocYG305LUUBQH0BTME3AoXkG1
- PJ4lGGC4M7uelwptoGWv3fZM6c+zOfSqH91PLirQqKmAQ3ayqLVZlxL2BdIa1P5MJO9B
- r/qY1lRMa5ucfj6RQCxgWLI+ooTGo4Nsj7wmsNYoO8teCGhsfjBmoekSTjG//uTY8Iyp
- P+GLu7OzwzpExDOv3qHWyAVSh0ck6jySNeukgz7AM7DjNzGQx87GtURZg6B+9YxHEK4y
- xuQA==
+ bh=x4zWBtw9jvwUVwVAd9mRUcqQWThPixmn/z1menAiivA=;
+ b=cswY3eoR7PQAzVE0RptNqm7H79rXehegzgfY6qFMg4aww3V1+JN5/scSkn1XHAY5k/
+ v1jfoTbvcPX56hqBT7NgmhySELbQSH41yXfyeLvo0NyASO7VpdkJIv38zfUZKhZ/l5nL
+ Fbso4amudkY0/UTAKNcxl6X3dpHSxKugXGfSmcW3WVlmP9pyAViOvEox4gpngqGFjMwb
+ QolEYnE+0FN5fdWYR4HlOUApKcFASD4z+FoK3DKzaLOig7fUaB8B4Ve1LvDm0milCQYK
+ 1G4k1+sG6s4NotCTHUH4hEfeFlaFL3N+b5mK3DFmOl+JbX6J8+go6s4o4QI4JTZ7Ffxj
+ nqGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=aenCwLhyHz+42ttancSjHI4JZk2Ya2FL+nx6M3jTwMg=;
- b=z4Yheb9UE2Dby+1BVJMEbrWaZjGGYHm9Pn4+CNfP2A3VNSkzoHh6jk12K1Os5r9CtK
- 4fnO0hPUgOLlmnaP0sosw4PiWWok9vhDXMX8HE0gZx51K9CSaYnk/cD1VtkFuk/7hgyN
- kkh7GdYeHFmP+RzDB3Sl7KiosHw3LiKczrLAA03Cr3RRW5tLFN7//axK0KTon9k5jD4T
- ppyQ0Q1aSeHfb+INKnJNIKoo3up4VFG1911OOHMvqWo/QXw1tqJZJCBwHBRCRx4AhaZn
- Rnf7W4+X8+RoB51JsWbFIUMeBS/+fUx/qoBCzcnbvbF3/FJ6fGVH3KFvU2xQxk5MIn+j
- D8+A==
-X-Gm-Message-State: ACgBeo01ik4W4u3Odl+1tFEf5RobzGZqaeAIxx+ahTlxgGsLVYaeXYd5
- xuQ+FglnBRfPUOdVNQPA5uB71odTEyg5Xg==
-X-Google-Smtp-Source: AA6agR6URotv+vFEFiEemFN3o5N1NMkfebHwuWBHe7ZD0iGoZXS4+Mmvaly0b3sNiGUdnPk6X3L8rg==
-X-Received: by 2002:a63:1063:0:b0:42b:1b01:b394 with SMTP id
- 35-20020a631063000000b0042b1b01b394mr150276pgq.602.1661292358956; 
- Tue, 23 Aug 2022 15:05:58 -0700 (PDT)
+ bh=x4zWBtw9jvwUVwVAd9mRUcqQWThPixmn/z1menAiivA=;
+ b=jXEA0ws5NnynMyUvmVDFhubOCc/NsFbngoVKeCjEhNA6Yd1g4mFB15fQM9HWA3XdMV
+ 9Ulk2mt4br45miysWqeloM5FQtydS4yubtZzUplKD+YlVZWuA4SpwhKA+rDQMzsVSbgF
+ HnaKEG0JkjB2MfsmwpO1Pn05MTG0Ie+DrfOr/8AsHqYI2XR6DHKVYo8CZxMC6m2NSOHy
+ wzb49Y+CddPtld0K/lPYuZgFVzbaf4S0JFBTSuDQJ/2AuYwRlLxRjvL/qqZa3F3r6Pk0
+ /IH/WBbu6t8+XBNf92QQXWujh4VbB1laz//VKX+54ALJqjOvvzowJUcf2xSxWZsOVNP6
+ IYEw==
+X-Gm-Message-State: ACgBeo3vZ0OqjcDB+8QVAQ0VdDB95BJEqjqpZPyL1CyjEzw8YPcMsZEO
+ Ixt1qQi3yKwU4UwgHqT+JHy17VhFvsIjtA==
+X-Google-Smtp-Source: AA6agR6wR379KthsZOTPCRDSQnwDZHGVJRImq26JLlhybx238TdeWd/hskfo9n/xU0s/u5JOLujCtg==
+X-Received: by 2002:a17:902:c949:b0:172:e3c3:bdeb with SMTP id
+ i9-20020a170902c94900b00172e3c3bdebmr12461478pla.80.1661292360122; 
+ Tue, 23 Aug 2022 15:06:00 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9])
  by smtp.gmail.com with ESMTPSA id
- n12-20020a170902f60c00b0017292073839sm11020974plg.178.2022.08.23.15.05.58
+ n12-20020a170902f60c00b0017292073839sm11020974plg.178.2022.08.23.15.05.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 15:05:58 -0700 (PDT)
+ Tue, 23 Aug 2022 15:05:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: iii@linux.ibm.com,
 	laurent@vivier.eu,
 	alex.bennee@linaro.org
-Subject: [PATCH v7 12/20] accel/tcg: Use probe_access_internal for softmmu
- get_page_addr_code_hostp
-Date: Tue, 23 Aug 2022 15:05:34 -0700
-Message-Id: <20220823220542.1993395-13-richard.henderson@linaro.org>
+Subject: [PATCH v7 13/20] accel/tcg: Document the faulting lookup in
+ tb_lookup_cmp
+Date: Tue, 23 Aug 2022 15:05:35 -0700
+Message-Id: <20220823220542.1993395-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220823220542.1993395-1-richard.henderson@linaro.org>
 References: <20220823220542.1993395-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,110 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify the implementation of get_page_addr_code_hostp
-by reusing the existing probe_access infrastructure.
+It was non-obvious to me why we can raise an exception in
+the middle of a comparison function, but it works.
+While nearby, use TARGET_PAGE_ALIGN instead of open-coding.
 
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 76 ++++++++++++++++------------------------------
- 1 file changed, 26 insertions(+), 50 deletions(-)
+ accel/tcg/cpu-exec.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 80a3eb4f1c..8fad2d9b83 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1482,56 +1482,6 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
-   victim_tlb_hit(env, mmu_idx, index, offsetof(CPUTLBEntry, TY), \
-                  (ADDR) & TARGET_PAGE_MASK)
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 7887af6f45..5f43b9769a 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -198,7 +198,16 @@ static bool tb_lookup_cmp(const void *p, const void *d)
+             tb_page_addr_t phys_page2;
+             target_ulong virt_page2;
  
--/*
-- * Return a ram_addr_t for the virtual address for execution.
-- *
-- * Return -1 if we can't translate and execute from an entire page
-- * of RAM.  This will force us to execute by loading and translating
-- * one insn at a time, without caching.
-- *
-- * NOTE: This function will trigger an exception if the page is
-- * not executable.
-- */
--tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
--                                        void **hostp)
--{
--    uintptr_t mmu_idx = cpu_mmu_index(env, true);
--    uintptr_t index = tlb_index(env, mmu_idx, addr);
--    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
--    void *p;
--
--    if (unlikely(!tlb_hit(entry->addr_code, addr))) {
--        if (!VICTIM_TLB_HIT(addr_code, addr)) {
--            tlb_fill(env_cpu(env), addr, 0, MMU_INST_FETCH, mmu_idx, 0);
--            index = tlb_index(env, mmu_idx, addr);
--            entry = tlb_entry(env, mmu_idx, addr);
--
--            if (unlikely(entry->addr_code & TLB_INVALID_MASK)) {
--                /*
--                 * The MMU protection covers a smaller range than a target
--                 * page, so we must redo the MMU check for every insn.
--                 */
--                return -1;
--            }
--        }
--        assert(tlb_hit(entry->addr_code, addr));
--    }
--
--    if (unlikely(entry->addr_code & TLB_MMIO)) {
--        /* The region is not backed by RAM.  */
--        if (hostp) {
--            *hostp = NULL;
--        }
--        return -1;
--    }
--
--    p = (void *)((uintptr_t)addr + entry->addend);
--    if (hostp) {
--        *hostp = p;
--    }
--    return qemu_ram_addr_from_host_nofail(p);
--}
--
- static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
-                            CPUIOTLBEntry *iotlbentry, uintptr_t retaddr)
- {
-@@ -1687,6 +1637,32 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-     return flags ? NULL : host;
- }
- 
-+/*
-+ * Return a ram_addr_t for the virtual address for execution.
-+ *
-+ * Return -1 if we can't translate and execute from an entire page
-+ * of RAM.  This will force us to execute by loading and translating
-+ * one insn at a time, without caching.
-+ *
-+ * NOTE: This function will trigger an exception if the page is
-+ * not executable.
-+ */
-+tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-+                                        void **hostp)
-+{
-+    void *p;
-+
-+    (void)probe_access_internal(env, addr, 1, MMU_INST_FETCH,
-+                                cpu_mmu_index(env, true), false, &p, 0);
-+    if (p == NULL) {
-+        return -1;
-+    }
-+    if (hostp) {
-+        *hostp = p;
-+    }
-+    return qemu_ram_addr_from_host_nofail(p);
-+}
-+
- #ifdef CONFIG_PLUGIN
- /*
-  * Perform a TLB lookup and populate the qemu_plugin_hwaddr structure.
+-            virt_page2 = (desc->pc & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
++            /*
++             * We know that the first page matched, and an otherwise valid TB
++             * encountered an incomplete instruction at the end of that page,
++             * therefore we know that generating a new TB from the current PC
++             * must also require reading from the next page -- even if the
++             * second pages do not match, and therefore the resulting insn
++             * is different for the new TB.  Therefore any exception raised
++             * here by the faulting lookup is not premature.
++             */
++            virt_page2 = TARGET_PAGE_ALIGN(desc->pc);
+             phys_page2 = get_page_addr_code(desc->env, virt_page2);
+             if (tb->page_addr[1] == phys_page2) {
+                 return true;
 -- 
 2.34.1
 
