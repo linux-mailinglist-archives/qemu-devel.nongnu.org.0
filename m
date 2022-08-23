@@ -2,108 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A3359E6E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 18:20:34 +0200 (CEST)
-Received: from localhost ([::1]:51800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9868459E720
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 18:24:44 +0200 (CEST)
+Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQWdk-0003AM-Mu
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 12:20:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
+	id 1oQWhn-0000PR-Fd
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 12:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oQWPI-0004Lr-N4
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:05:37 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:42700)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQWTb-0008Ci-7G
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:10:03 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:36409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oQWPH-0006jR-0l
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:05:36 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id y15so9908561pfr.9
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 09:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=aVBt+IuocN3gZGMsPNsv72g8OF66w1EEamrVZjnB+J4=;
- b=aHRlHO4kNIRNDNrpKgB2QM9cSMZjQBb6u4l59Y4E0tZW/BrvBnqckZTcn9cz3SUw3D
- igHUCLBokcR+QGB8XUc1cJbRn7hVuyKGyfeg1tfWEOZHpP64tT9cUzSSzx1Y0vgX+Uyv
- RPdN051ayBxF8NbSnhZI7UkDJIxJC2b9PXw94OGmVsv1/XB2K1qoCbLTnhTe5HqVT1w+
- uDjWiexbtDjcheCp9qg/+R4RDyAtHxBooBSO8W1phCNDG09PvGpKx4gmxB38OKo5Au+a
- wQuvSmBbg3eLIxGH8V0BVxy3Pbhs0aKjR4E9VsFcpOdyvMRpUtUfAdi6lWLpFgc21aKV
- eFRg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQWTZ-0007AP-HS
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:10:02 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ r14-20020a17090a4dce00b001faa76931beso17692909pjl.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 09:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=X8BB0jmGw6MVEHlq5B6OZ9eBbIcvZgml+G1lyXCNYv0=;
+ b=XJp/RWKuUTPLmN6AhTCjAwPUggG1Aj2i0a6S1xrAkLv7H49Nj7RHpZF2lZjM4AKL+N
+ fCVYNuwKQJubwAQP/j3rcutrTz/8gbRmFmTRf/UfYbQ7W4t+aA5elwBrtOWMi7Be/sIc
+ HR+quG1hXIzUcNkM8qSsUp4p+7/1MiKlxYOs95uJmMIK0uIdK/oYbL1MxfHlRlHIEskb
+ ObGzK1R/bKerwyKd4oGBTMW31In4ta2slzNjAO9XmIk+cYZHJsf1SE5lj5EBckWUg6qF
+ ARAv2H6xCXa2IvhcXqf2v/FlAxcgQHIfu40DegE+uz83cGAWsN4a2wn271FXFVhb8wPm
+ yyZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=aVBt+IuocN3gZGMsPNsv72g8OF66w1EEamrVZjnB+J4=;
- b=kDJhmr5lw56MHhrKTM/2j5lnAvp+IiuFzOlvd0QG79F152LTTG2uofNSySfhs3AAYa
- oIIPxFtlimyIoUjyCkmTCLqu72YjVaV7JEEJvcDcbwhdtqkjjZyHMJxW97SB/CqsZ6Po
- 4PcgE0v603Bo3DN2Sx9+06N2P8SxAcF8Z1AJ/sSRxNdEFSZB1jhDPbwONvYTtwhlXRbp
- VFn0jsKppVC8WmByROeX4B9dWNPa8d28JoIsm3cY7RDunRYHnEkmYVSvuYlxh8JBuSTZ
- Y1uE5q8L1rUTdvic9mMH+cjJBf39IFYP+AbYofBBDtJbIQ2xrlDpAb2Qu9Z7IsYULsrR
- we/A==
-X-Gm-Message-State: ACgBeo37Jb+oy3CfIQXDmrkkE0APRCEWUYmKxHxdRWhC7o6GAbjyFPCh
- tgGdgJ1ZoiZOyzMZQ18fb9mJYQ==
-X-Google-Smtp-Source: AA6agR7U2euXK2YAHsShhKay0KkYkkaAjkpwjugKPMjrIdRBiwJTOXGIGRCd9tb8zWpXTJzh2djP8w==
-X-Received: by 2002:a63:1c11:0:b0:41d:89d5:8ef0 with SMTP id
- c17-20020a631c11000000b0041d89d58ef0mr21289304pgc.403.1661270731660; 
- Tue, 23 Aug 2022 09:05:31 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- z27-20020aa7959b000000b00536ede9e344sm2384650pfj.14.2022.08.23.09.05.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 09:05:31 -0700 (PDT)
-Date: Tue, 23 Aug 2022 16:05:27 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Hugh Dickins <hughd@google.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,
- "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YwT6x2g9jcMH60LI@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
- <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
- <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=X8BB0jmGw6MVEHlq5B6OZ9eBbIcvZgml+G1lyXCNYv0=;
+ b=GfhIKpEoxdkzl47/ND42IKMydwmKBlScPlHn59bwWXnwjqtsjpyB2Y45X+qkXaw6Mq
+ SdU37nRt8hzzFQBlfIQrx0GNu+w3ulp+c78tTqj7VfpbxjtVz8xetEuunQLVlJH+iMEN
+ 4thcGk05osYxy4RQEYaXdfr++p3Z4zbJGdXMr54XygA33Q3JEgxVR+8WQEI7Q0X6TNlx
+ tw21VtJsbXbuWuAeaZiH6D9y1Togxtuwr21plEfXt84jpnf2brLeFZpnBEmvGZrIbTDe
+ dQx9OC7Ret+UGxLaYuLBiKDTBOXeVkw9yfGgZZhU6KeZoGclD1nLM3dV6EePaxH91k1s
+ pMgA==
+X-Gm-Message-State: ACgBeo3WI2f9Xd7uRTHS47ijnRwg9raZy++RuXg3uLkOTmm9l/7p2GEj
+ ETxshWc5i8j/hKWMrGzPaFsOqA==
+X-Google-Smtp-Source: AA6agR6GF0mIfZdTS8numTH+mhqgm4DXXdB59kZMJaarg7/StrZdKbZc8/F7EAdovywUJQaj+l1eaQ==
+X-Received: by 2002:a17:902:ecc1:b0:172:dd1f:5b76 with SMTP id
+ a1-20020a170902ecc100b00172dd1f5b76mr12444206plh.28.1661270999507; 
+ Tue, 23 Aug 2022 09:09:59 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9?
+ ([2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9])
+ by smtp.gmail.com with ESMTPSA id
+ u16-20020a17090341d000b00172aa97b628sm10661926ple.186.2022.08.23.09.09.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Aug 2022 09:09:58 -0700 (PDT)
+Message-ID: <3680123c-c025-7e8e-342a-def8bf73b134@linaro.org>
+Date: Tue, 23 Aug 2022 09:09:57 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=seanjc@google.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -144
-X-Spam_score: -14.5
-X-Spam_bar: --------------
-X-Spam_report: (-14.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=3.096, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 03/14] accel/tcg: Suppress auto-invalidate in
+ probe_access_internal
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, eduardo@habkost.net
+References: <20220822235803.1729290-1-richard.henderson@linaro.org>
+ <20220822235803.1729290-4-richard.henderson@linaro.org>
+ <104a0560-e1ca-1aca-1ed5-07a00ee74240@redhat.com>
+ <4692433b-9592-4de6-bbd5-00d001ff82ad@linaro.org>
+In-Reply-To: <4692433b-9592-4de6-bbd5-00d001ff82ad@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,45 +98,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 23, 2022, David Hildenbrand wrote:
-> On 19.08.22 05:38, Hugh Dickins wrote:
-> > On Fri, 19 Aug 2022, Sean Christopherson wrote:
-> >> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
-> >>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
-> >>>> On Wed, 6 Jul 2022, Chao Peng wrote:
-> >>>> But since then, TDX in particular has forced an effort into preventing
-> >>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
-> >>>>
-> >>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
-> >>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
-> >>
-> >> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
-> >> aren't useful for _all_ existing users, but I don't think it's fair to say that
-> >> they're not useful for _any_ existing users.
-> > 
-> > Okay, I stand corrected: there exist some users of memfd_create()
-> > who will also have use for "INACCESSIBLE" memory.
+On 8/23/22 08:19, Richard Henderson wrote:
+> On 8/23/22 02:19, David Hildenbrand wrote:
+>> 1) s390_probe_access() documents to "With nonfault=1, return the PGM_
+>> exception that would have been injected into the guest; return 0 if no
+>> exception was detected."
+>>
+>> But in case of CONFIG_USER_ONLY, we return the flags returned by
+>> s390_probe_access(), not a PGM__* value. Maybe it doesn't matter,
+>> because we'll simply inject a SIGSEGV in any case ...
 > 
-> As raised in reply to the relevant patch, I'm not sure if we really have
-> to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
-> requirement of specific memfd_notifer (memfile_notifier) implementations
-> -- such as TDX that will convert the memory and MCE-kill the machine on
-> ordinary write access. We might be able to set/enforce this when
-> registering a notifier internally instead, and fail notifier
-> registration if a condition isn't met (e.g., existing mmap).
->
-> So I'd be curious, which other users of shmem/memfd would benefit from
-> (MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
+> I would have said it would matter for MVPG, except that is incorrectly *not* marked as a 
+> privileged instruction.  There should be no CONFIG_USER_ONLY case to answer there.
 
-I agree that there's no need to expose the inaccessible behavior via uAPI.  Making
-it a kernel-internal thing that's negotiated/resolved when KVM binds to the fd
-would align INACCESSIBLE with the UNMOVABLE and UNRECLAIMABLE flags (and any other
-flags that get added in the future).
+Ho hum, misread that -- only privileged if access key specified (and we do not check or 
+support those).
 
-AFAICT, the user-visible flag is a holdover from the early RFCs and doesn't provide
-any unique functionality.
 
-If we go that route, we might want to have shmem/memfd require INACCESSIBLE to be
-set for the initial implementation.  I.e. disallow binding without INACCESSIBLE
-until there's a use case.
+r~
 
