@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9F159EC2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 21:24:02 +0200 (CEST)
-Received: from localhost ([::1]:53886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED4759ED72
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 22:37:50 +0200 (CEST)
+Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQZVJ-00044n-Im
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 15:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
+	id 1oQaej-0004Su-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 16:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQZTl-0002MA-1z
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 15:22:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28143)
+ id 1oQacu-0002sM-P1
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 16:35:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQZTi-0003e5-2V
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 15:22:24 -0400
+ id 1oQacs-0005Rj-JE
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 16:35:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661282541;
+ s=mimecast20190719; t=1661286954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Bw+24lw+iXagqw+VyfiS+t6tODkvsufMoHByfnPKVb0=;
- b=JndGkQngf/PEjcZ2Xbu9VWrAHTzzBsMb2whQRhIcWCFMmUAJoALHZTLJzGEK9WH/25dE7y
- PYJV+XyDBgJMpnygLjS0OHnwNXcDZ4dgCc2/765IhyLQMTzJRKj6Zwd1+R23BwptMuHUwZ
- 9pN1VS+Suo8hGBmewVV+xbnpUu0ZKD8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NkcUS6jctxv2huOZfChFO2tXAUw16Qu/r7qf06I4nes=;
+ b=ZbBZzgx/WKlwmCAuPaIXHiLA9wHzVFp5CBUQxOR1Nts4Q9l91s1IP9eebmEl7fMFeWp6kH
+ C+aQOvRydVc+I2ltVrY0H2heUoKyOpP5XA56wraT8TlCINU0jYNunkw8loL+lyphastvb4
+ 4netHqxwrwDjm5u06fFxAhYrFCVOhX8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-SBs_YzD3PHG70hv9dXg6BQ-1; Tue, 23 Aug 2022 15:22:16 -0400
-X-MC-Unique: SBs_YzD3PHG70hv9dXg6BQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-85-0Dq9_3OdOS-0kbzBaj-HFw-1; Tue, 23 Aug 2022 16:35:49 -0400
+X-MC-Unique: 0Dq9_3OdOS-0kbzBaj-HFw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEA698037B7;
- Tue, 23 Aug 2022 19:22:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42E3238164CE;
+ Tue, 23 Aug 2022 20:35:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.115])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB42E492C3B;
- Tue, 23 Aug 2022 19:22:14 +0000 (UTC)
-Date: Tue, 23 Aug 2022 15:22:13 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 563B01121315;
+ Tue, 23 Aug 2022 20:35:45 +0000 (UTC)
+Date: Tue, 23 Aug 2022 16:35:43 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: David Hildenbrand <david@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  "Denis V. Lunev" <den@openvz.org>, Peter Xu <peterx@redhat.com>,
  Yanan Wang <wangyanan55@huawei.com>,
@@ -52,8 +52,8 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
  John Snow <jsnow@redhat.com>, integration@gluster.org,
  Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Fam Zheng <fam@euphon.net>, sgarzare@redhat.com,
@@ -65,18 +65,16 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Jeff Cody <codyprime@gmail.com>,
  Xie Changlong <xiechanglong.d@gmail.com>
-Subject: Re: [RFC v4 11/11] virtio-blk: use BDRV_REQ_REGISTERED_BUF
- optimization hint
-Message-ID: <YwUo5UgdHjJ7k9QX@fedora>
+Subject: Re: [RFC v4 00/11] blkio: add libblkio BlockDriver
+Message-ID: <YwU6H/tFQkQok96O@fedora>
 References: <20220822222402.176088-1-stefanha@redhat.com>
- <20220822222402.176088-12-stefanha@redhat.com>
- <b068f95e-fc8f-1ecc-5bf5-d7774ce6c13a@redhat.com>
+ <15ad1a46-00e5-ccc8-1c7e-f6061bc68c0c@yandex-team.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="l+k831t+cdY/T5Se"
+ protocol="application/pgp-signature"; boundary="Q9ieYPhee3N3ySSd"
 Content-Disposition: inline
-In-Reply-To: <b068f95e-fc8f-1ecc-5bf5-d7774ce6c13a@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+In-Reply-To: <15ad1a46-00e5-ccc8-1c7e-f6061bc68c0c@yandex-team.ru>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -102,62 +100,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---l+k831t+cdY/T5Se
+--Q9ieYPhee3N3ySSd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 23, 2022 at 10:01:59AM +0200, David Hildenbrand wrote:
-> On 23.08.22 00:24, Stefan Hajnoczi wrote:
-> > Register guest RAM using BlockRAMRegistrar and set the
-> > BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
-> > accesses in I/O requests.
-> >=20
-> > This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that rely
-> > on DMA mapping/unmapping.
+On Tue, Aug 23, 2022 at 08:31:03PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> On 8/23/22 01:23, Stefan Hajnoczi wrote:
+> > The remainder of the patch series reworks the existing QEMU bdrv_regist=
+er_buf()
+> > API so virtio-blk emulation efficiently map guest RAM for libblkio - so=
+me
+> > libblkio drivers require that I/O buffer memory is pre-registered (thin=
+k VFIO,
+> > vhost, etc).
 >=20
-> Can you explain why we're monitoring RAMRegistrar to hook into "guest
-> RAM" and not go the usual path of the MemoryListener?
+> Hi!
+>=20
+> So patches 01-11 are for performance optimization? Don't you have some pe=
+rformance measurements for it?
 
-The requirements are similar to VFIO, which uses RAMBlockNotifier. We
-need to learn about all guest RAM because that's where I/O buffers are
-located.
-
-Do you think RAMBlockNotifier should be avoided?
-
-> What will BDRV_REQ_REGISTERED_BUF actually do? Pin all guest memory in
-> the worst case such as io_uring fixed buffers would do ( I hope not ).
-
-BLK_REQ_REGISTERED_BUF is a hint that no bounce buffer is necessary
-because the I/O buffer is located in memory that was previously
-registered with bdrv_registered_buf().
-
-The RAMBlockNotifier calls bdrv_register_buf() to let the libblkio
-driver know about RAM. Some libblkio drivers ignore this hint, io_uring
-may use the fixed buffers feature, vhost-user sends the shared memory
-file descriptors to the vhost device server, and VFIO/vhost may pin
-pages.
-
-So the blkio block driver doesn't add anything new, it's the union of
-VFIO/vhost/vhost-user/etc memory requirements.
+Good point, I'll gather some data and share it.
 
 Stefan
 
---l+k831t+cdY/T5Se
+--Q9ieYPhee3N3ySSd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMFKOQACgkQnKSrs4Gr
-c8hRxggAwRW3vECTU8Y9vWe7yb/5ciHppn/tzU+gi5tnNfvR/IpA7xSTvKvaAh4U
-ULcV3G6lwEalJxLob3QfN3jAcTQ2m23O6OPYaEs+v90yCRQfsZmm+H+6gaCVLwUg
-k6+BN/WQaux6E+60L86z97YR1RSd40xaCqZBWQ4sgRwbs3WJj3toRx8DCzeO5lMh
-c+YRoK6lBja02vYgQHByArZIiDeLBIZy29m7ez6i+cphoQUetec62Z2im4btnp6j
-M/U2Jp1IWMkLoFS8VVXpqoDWHHV0M8RhUihia1CVkKgTKYrBrQ4ghxLd3pedhMvp
-31HXAxRCZx2je24+FOK42BgbGJ32Rw==
-=w9hq
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMFOh8ACgkQnKSrs4Gr
+c8gd/wgAixakci4mYgBdS1bzYWvwGDc+x21opL1FBQup4oOYqjEWTg8is+pe1e5f
+/eWn0qvbN438tu3iNM3FvNvzd//JJy7auoKOdTzerhL6U/DXqEWO7vRwB9TIFVJI
+3NtDc1ojCYmDZoldx0onl0PO302iQUCXWu5/55fT9LeJvJaFZ22KJvKWD8JRPEJN
+pFf2wlXb6hzBEJRpgdxMAUIKJgIpwL2C3JUKPzkeNi+5DZ7pwyThyUISwE6GRlmc
+mnreN/vgYl290cV32gE+f+guvwFU/tJhxRlwQYtR15GSnNSWam+G10eEzzGzVAvw
+uley5ZWZFVCIhp3EvUuTnYy58SMOSw==
+=rBXJ
 -----END PGP SIGNATURE-----
 
---l+k831t+cdY/T5Se--
+--Q9ieYPhee3N3ySSd--
 
 
