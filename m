@@ -2,86 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E60159D284
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 09:46:30 +0200 (CEST)
-Received: from localhost ([::1]:49918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F9B59D27A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 09:43:40 +0200 (CEST)
+Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQOcH-00069y-LQ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 03:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60928)
+	id 1oQOZV-0003GY-1x
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 03:43:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQOQW-0005XB-8k
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:34:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60131)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQOTD-0006bK-CA
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:37:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQOQU-0005N7-56
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:34:19 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQOTA-0005oO-5T
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:37:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661240053;
+ s=mimecast20190719; t=1661240222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ARvDpJVEIMA79mkngTQt0Th9+LwoMwWuyNLZhbw0+cU=;
- b=TXWVrZzMOAT74ghnNBzldQXGTm2RpF8rGpldn8S6mUayj0jZM+9kGUdfxnrJX/hdd7lKhZ
- au5p2zO63EFps1rtD6m2ghzrhcUylYneYBcT1pm/22CA5VBESEjJxcfnTcoh1xjbiLc7sK
- GMOOeNgICMHxa8+UYgtHo96hIdp4uag=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
+ b=QoG+AdmEJFhLTazALmYxXOH4iLtqDgwci802sX/4jdTKKs4NhjaLT9ue+8poTKZKPJXvue
+ nmFmdOgkspSXedAXE3I5BMh6OLPQRUNlV1ya9JXx0gqdD0KegS/uqTRaEsMtd4r2rdDQv8
+ MdDUr0stYsbatJPckuknEUldl2YOEEU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-393-tPKP998xPOylO5gIXFWN8g-1; Tue, 23 Aug 2022 03:34:09 -0400
-X-MC-Unique: tPKP998xPOylO5gIXFWN8g-1
-Received: by mail-pl1-f200.google.com with SMTP id
- k13-20020a170902c40d00b00172c510eecaso6634093plk.20
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 00:34:09 -0700 (PDT)
+ us-mta-673-pP46wUoaOqKdYh4aPFSsRg-1; Tue, 23 Aug 2022 03:37:01 -0400
+X-MC-Unique: pP46wUoaOqKdYh4aPFSsRg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s20-20020adfbc14000000b002252dae05f7so2042817wrg.20
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 00:37:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=ARvDpJVEIMA79mkngTQt0Th9+LwoMwWuyNLZhbw0+cU=;
- b=QxZ3Pu9vsX3yZuLxWh68E4uV++GByeHYZ0TbRWL3c8WBnqB8pCFRUaWnjSqmgOlqZZ
- 6GoZDoIBctPBPsweSYuq7NgdvB42NBubj66K/WvL+Zjp76IGPzT+pgSnTOHU4QGrwUhv
- 6dSlrZ1YwgPRbrNxSBjq+5eJAISbeyYmZqMrxolnz2/AeecSmaGyIe+tyAzXISpMYdRp
- NstgoxTHpZJTKY03bEAyikCLw4uihoILkSIP/3XvHl1DJT91wruKHLA95hNYbwZm5drJ
- 5Q1gF9e8FTogfCudq/n4QOemApTy6R0Qq9ZmwvF8Cf31/ThqqSdINX8Cw9TY7wW7HgYG
- TyVQ==
-X-Gm-Message-State: ACgBeo33T98SSyz1ghxiSQQut4Cxgo/eE6bSM/7DUAvG57FlkhWG8jcw
- wpH1fNWCxpdq7YMvIw9uoAScc9v+529veNWm3so9eI3tiSF10jLzcS9uARKjcNjkb+UJdP5jvPz
- B//NQwZbBRLjYQGE=
-X-Received: by 2002:a17:902:b684:b0:172:d9f4:e511 with SMTP id
- c4-20020a170902b68400b00172d9f4e511mr12588913pls.107.1661240048956; 
- Tue, 23 Aug 2022 00:34:08 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5KDk88Or4yznyhUqMZisDJkE/N1xrF1eBkTZIzeToxebh6+KxrMwXMJLWl/bbYSA2JNmnMpg==
-X-Received: by 2002:a17:902:b684:b0:172:d9f4:e511 with SMTP id
- c4-20020a170902b68400b00172d9f4e511mr12588902pls.107.1661240048686; 
- Tue, 23 Aug 2022 00:34:08 -0700 (PDT)
-Received: from [10.72.13.141] ([209.132.188.80])
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
+ b=oy7aqQ63730ZhR5XBgl+W5l1SlDQhPpsikOuXqFCiPUBHgzivCt+q+LDEP77d5uHti
+ kmUboWceuxoa+vRrydoUfT5wY5HskpdlX3sWtzUvip/2Ag/Q4FUuv9FMUz+xcicCex1L
+ rHy+3hw7WbpCJKf5MiU1FNz9LABBGFPrRVATq/pkqDBbKAbDNDukyNMAFWQRFKCrk85z
+ iE8ihkbIe3jaW5sZ0BOROXHUyiSI9MxI9MRVXBBYGetp61fpNML1BHgOcAZi/aKREUA3
+ KoI//kKtajPafpnfEHv0RFOu8xUJ6jW3/X2Jbt6NOOqX63AeJn39ZkRYvwmUiea9XO1Z
+ He4A==
+X-Gm-Message-State: ACgBeo2wgKzXvWbx1Q8FNcIkFFeE0JUVZd1VThbLwVJLCId4WTHYgVTi
+ kHCHkahGRfMLShF2JqfVEjsTG1YjJx1NVxRTYA4Ny6cfTJi4h/yQTB2JGXKr21iV02JzlyiSSDp
+ Hev6g5hWBwKhajVQ=
+X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id
+ b4-20020a05600c4e0400b003a5a34eae81mr1210685wmq.147.1661240219951; 
+ Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4NUFG4IFicJqv+j50eM5lq6Rzd1ri/9X+RKdy6Bv7oWpP5THIKdol8DYBnS2vZ39y/40KufQ==
+X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id
+ b4-20020a05600c4e0400b003a5a34eae81mr1210635wmq.147.1661240219655; 
+ Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182?
+ (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de.
+ [2003:cb:c70b:1600:c48b:1fab:a330:5182])
  by smtp.gmail.com with ESMTPSA id
- c127-20020a621c85000000b005289ef6db79sm9925058pfc.32.2022.08.23.00.34.04
+ u18-20020adfdb92000000b0021eaf4138aesm16379582wri.108.2022.08.23.00.36.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 00:34:07 -0700 (PDT)
-Message-ID: <87cf42ed-4645-fec6-1990-317d85f09338@redhat.com>
-Date: Tue, 23 Aug 2022 15:34:02 +0800
+ Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+Message-ID: <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
+Date: Tue, 23 Aug 2022 09:36:57 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v2 05/24] virtio: core: vq reset feature negotation support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
 Content-Language: en-US
-To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
- f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- xuanzhuo@linux.alibaba.com
-References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
- <932993943b00e0a0567a7a78c7f92c97bb105d58.1660611460.git.kangjie.xu@linux.alibaba.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <932993943b00e0a0567a7a78c7f92c97bb105d58.1660611460.git.kangjie.xu@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+To: "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+ <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -105,52 +129,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 18.08.22 01:41, Kirill A. Shutemov wrote:
+> On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
+>> On 7/21/22 11:44, David Hildenbrand wrote:
+>>>
+>>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
+>>> sure if that would count "auto alloc", but it would certainly bypass
+>>> fallocate().
+>>
+>> Yeah, userfaultfd_register would probably have to forbid this for
+>> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
+>> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
+>> would do something like memfile_node_get_flags(vma->vm_file) and check the
+>> result.
+> 
+> I donno, memory allocation with userfaultfd looks pretty intentional to
+> me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
+> 
 
-在 2022/8/16 09:06, Kangjie Xu 写道:
-> A a new command line parameter "queue_reset" is added.
->
-> Meanwhile, the vq reset feature is disabled for pre-7.1 machines.
->
-> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> ---
->   hw/core/machine.c          | 1 +
->   include/hw/virtio/virtio.h | 4 +++-
->   2 files changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index a673302cce..8b22b4647f 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -43,6 +43,7 @@
->   GlobalProperty hw_compat_7_0[] = {
->       { "arm-gicv3-common", "force-8-bit-prio", "on" },
->       { "nvme-ns", "eui64-default", "on"},
-> +    { "virtio-device", "queue_reset", "false" },
+Can't we say the same about a write()?
 
+> Maybe we would need it in the future for post-copy migration or something?
+> 
+> Or existing practises around userfaultfd touch memory randomly and
+> therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
+> 
+> Note, that userfaultfd is only relevant for shared memory as it requires
+> VMA which we don't have for MFD_INACCESSIBLE.
 
-7.1 is about to release so we need to do it for pre-7.2.
+This feature (F_SEAL_AUTO_ALLOCATE) is independent of all the lovely
+encrypted VM stuff, so it doesn't matter how it relates to MFD_INACCESSIBLE.
 
-Thanks
+-- 
+Thanks,
 
-
->   };
->   const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
->   
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 085997d8f3..ed3ecbef80 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -295,7 +295,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
->       DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
->                         VIRTIO_F_IOMMU_PLATFORM, false), \
->       DEFINE_PROP_BIT64("packed", _state, _field, \
-> -                      VIRTIO_F_RING_PACKED, false)
-> +                      VIRTIO_F_RING_PACKED, false), \
-> +    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
-> +                      VIRTIO_F_RING_RESET, true)
->   
->   hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
->   bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
+David / dhildenb
 
 
