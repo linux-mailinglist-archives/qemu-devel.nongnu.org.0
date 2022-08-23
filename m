@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653A659D2CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 09:57:18 +0200 (CEST)
-Received: from localhost ([::1]:43484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACE459D2DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 10:00:13 +0200 (CEST)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQOmj-0008Km-HF
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 03:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
+	id 1oQOpY-00046G-KS
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 04:00:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tugy@chinatelecom.cn>)
- id 1oQOhC-0001Xj-6j
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:51:34 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:46510
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tugy@chinatelecom.cn>) id 1oQOh9-0007uS-7w
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:51:33 -0400
-HMM_SOURCE_IP: 172.18.0.218:36912.1263259734
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id B326F2800B5;
- Tue, 23 Aug 2022 15:51:25 +0800 (CST)
-X-189-SAVE-TO-SEND: +tugy@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 7f738a15fcc742928fff15640503abba for
- peter.maydell@linaro.org; Tue, 23 Aug 2022 15:51:29 CST
-X-Transaction-ID: 7f738a15fcc742928fff15640503abba
-X-Real-From: tugy@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: tugy@chinatelecom.cn
-To: peter.maydell@linaro.org, f4bug@amsat.org, marcandre.lureau@redhat.com,
- qemu_oss@crudebyte.com, richard.henderson@linaro.org, berrange@redhat.com,
- mst@redhat.com, kraxel@redhat.com, qemu-devel@nongnu.org
-Cc: tugy@chinatelecom.cn
-Subject: [PATCH v1 2/2] vhost-user: Call qemu_socketpair() instead of
- socketpair()
-Date: Tue, 23 Aug 2022 15:50:40 +0800
-Message-Id: <7002b12a5fb0a30cd878e14e07da61c36da72913.1661240709.git.tugy@chinatelecom.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1661240709.git.tugy@chinatelecom.cn>
-References: <cover.1661240709.git.tugy@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oQOhw-00025q-Qj
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:52:21 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:55733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oQOhp-000831-1l
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 03:52:15 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VN0l1Ez_1661241124; 
+Received: from 30.227.72.120(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VN0l1Ez_1661241124) by smtp.aliyun-inc.com;
+ Tue, 23 Aug 2022 15:52:05 +0800
+Message-ID: <a63b8cf1-1477-abde-e9a8-168d58426b5c@linux.alibaba.com>
+Date: Tue, 23 Aug 2022 15:52:04 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v2 06/24] virtio-pci: support queue reset
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <d3bbe50c546b55971e87ff4cbc61e049c6800db8.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <4553ca4a-6df9-dac4-307e-ccc405744bb9@redhat.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+In-Reply-To: <4553ca4a-6df9-dac4-307e-ccc405744bb9@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223; envelope-from=tugy@chinatelecom.cn;
- helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.44;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-44.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,58 +69,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guoyi Tu <tugy@chinatelecom.cn>
 
-As the close-on-exec flags is not set on the file descriptors returned
-by socketpair() at default, the fds will survive across exec' function.
+在 2022/8/23 15:40, Jason Wang 写道:
+>
+> 在 2022/8/16 09:06, Kangjie Xu 写道:
+>> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>>
+>> PCI devices support vq reset.
+>>
+>> Based on this function, the driver can adjust the size of the ring, and
+>> quickly recycle the buffer in the ring.
+>>
+>> The migration of the virtio devices will not happen during a reset
+>> operation. This is becuase the global iothread lock is held. Migration
+>> thread also needs the lock. As a result, we do not need to migrate the
+>> reset state of VirtIOPCIQueue.
+>>
+>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>> ---
+>>   hw/virtio/virtio-pci.c         | 19 +++++++++++++++++++
+>>   include/hw/virtio/virtio-pci.h |  1 +
+>>   2 files changed, 20 insertions(+)
+>>
+>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+>> index 45327f0b31..ec8e92052f 100644
+>> --- a/hw/virtio/virtio-pci.c
+>> +++ b/hw/virtio/virtio-pci.c
+>> @@ -1246,6 +1246,9 @@ static uint64_t virtio_pci_common_read(void 
+>> *opaque, hwaddr addr,
+>>       case VIRTIO_PCI_COMMON_Q_USEDHI:
+>>           val = proxy->vqs[vdev->queue_sel].used[1];
+>>           break;
+>> +    case VIRTIO_PCI_COMMON_Q_RESET:
+>> +        val = proxy->vqs[vdev->queue_sel].reset;
+>> +        break;
+>>       default:
+>>           val = 0;
+>>       }
+>> @@ -1333,6 +1336,7 @@ static void virtio_pci_common_write(void 
+>> *opaque, hwaddr addr,
+>> ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
+>> proxy->vqs[vdev->queue_sel].used[0]);
+>>               proxy->vqs[vdev->queue_sel].enabled = 1;
+>> +            proxy->vqs[vdev->queue_sel].reset = 0;
+>>           } else {
+>>               virtio_error(vdev, "wrong value for queue_enable 
+>> %"PRIx64, val);
+>>           }
+>> @@ -1355,6 +1359,20 @@ static void virtio_pci_common_write(void 
+>> *opaque, hwaddr addr,
+>>       case VIRTIO_PCI_COMMON_Q_USEDHI:
+>>           proxy->vqs[vdev->queue_sel].used[1] = val;
+>>           break;
+>> +    case VIRTIO_PCI_COMMON_Q_RESET:
+>> +        if (val == 1) {
+>> +            /*
+>> +             * With the global iothread lock taken, the migration 
+>> will not
+>> +             * happen until the virtqueue reset is done.
+>> +             */
+>
+>
+> This comment applies to all other common cfg operation as well, So it 
+> looks not necessary?
+>
+Get it.
 
-In the case that exec' function get invoked, such as the live-update feature
-which is been developing, it will cause fd leaks.
+>
+>> + proxy->vqs[vdev->queue_sel].reset = 1;
+>> +
+>> +            virtio_queue_reset(vdev, vdev->queue_sel);
+>> +
+>> +            proxy->vqs[vdev->queue_sel].reset = 0;
+>> +            proxy->vqs[vdev->queue_sel].enabled = 0;
+>> +        }
+>> +        break;
+>>       default:
+>>           break;
+>>       }
+>> @@ -1950,6 +1968,7 @@ static void virtio_pci_reset(DeviceState *qdev)
+>>         for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>>           proxy->vqs[i].enabled = 0;
+>> +        proxy->vqs[i].reset = 0;
+>>           proxy->vqs[i].num = 0;
+>>           proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
+>>           proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
+>> diff --git a/include/hw/virtio/virtio-pci.h 
+>> b/include/hw/virtio/virtio-pci.h
+>> index 2446dcd9ae..e9290e2b94 100644
+>> --- a/include/hw/virtio/virtio-pci.h
+>> +++ b/include/hw/virtio/virtio-pci.h
+>> @@ -117,6 +117,7 @@ typedef struct VirtIOPCIRegion {
+>>   typedef struct VirtIOPCIQueue {
+>>     uint16_t num;
+>>     bool enabled;
+>> +  bool reset;
+>
+>
+> Do we need to migrate this?
+>
+> Thanks
+>
+I think we do not need to migrate this because we hold the global 
+iothread lock when virtqueue reset is triggered. The migration of these 
+device states also needs this lock.
 
-To address this problem, we should call qemu_socketpair() to create an pair of
-connected sockets with the close-on-exec flag set.
+On the other hand, the 'reset' state of virtqueue is same(is 0) before 
+and after the process of resetting a virtqueue.
 
-Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
----
- hw/display/vhost-user-gpu.c | 3 ++-
- hw/virtio/vhost-user.c      | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Thus, the migration will not happen when we are resetting a virtqueue 
+and we do not to migrate it.
 
-diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index 3340ef9e5f..19c0e20103 100644
---- a/hw/display/vhost-user-gpu.c
-+++ b/hw/display/vhost-user-gpu.c
-@@ -11,6 +11,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/sockets.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-gpu.h"
- #include "chardev/char-fe.h"
-@@ -375,7 +376,7 @@ vhost_user_gpu_do_set_socket(VhostUserGPU *g, Error **errp)
-     Chardev *chr;
-     int sv[2];
- 
--    if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
-+    if (qemu_socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
-         error_setg_errno(errp, errno, "socketpair() failed");
-         return false;
-     }
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 75b8df21a4..4d2b227028 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1726,7 +1726,7 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
-         return 0;
-     }
- 
--    if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
-+    if (qemu_socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
-         int saved_errno = errno;
-         error_report("socketpair() failed");
-         return -saved_errno;
--- 
-2.25.1
+Thanks
 
+>
+>>     uint32_t desc[2];
+>>     uint32_t avail[2];
+>>     uint32_t used[2];
 
