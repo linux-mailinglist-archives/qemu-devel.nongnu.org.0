@@ -2,106 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263F559E611
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 17:34:19 +0200 (CEST)
-Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB4F59E62A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 17:40:43 +0200 (CEST)
+Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQVv0-0003Bt-80
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 11:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52118)
+	id 1oQW1C-0000o5-Tv
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 11:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seiden@linux.ibm.com>)
- id 1oQVnh-0003IM-1L; Tue, 23 Aug 2022 11:26:45 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27068)
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1oQVy2-00056k-3c
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:37:26 -0400
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131]:39894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seiden@linux.ibm.com>)
- id 1oQVne-0000bR-Io; Tue, 23 Aug 2022 11:26:44 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NFCxkn004933;
- Tue, 23 Aug 2022 15:26:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=UIp/fju6b/ZZqCR+1OU6GfugH9InFCxaIi2UFk5UcWM=;
- b=Y8lJuNCYFIkf4H2QNY+EHx2NAouRRSkhoZB9qMfyU1zAGQlfdIvpxx2FjmEUDPl2ByNs
- 2uy5IROrWFH7UELsJCc4ICz9yovgE57MIR8iTyTe8D838/iQV2RQer13SoJnoNq8jIv3
- vusw9+PC1/7OprEWuCiFSEquHdb2Wh5uMO49wQGD+SEDB1JVMKFUcq/0Ac+zd/FoUSFQ
- yP2XvHVGTWDbjz8Tuwr8otLJ3rwdkTGTtR7S98HryhvNeBWOi/lpNTh+pKVAZYLSmXT2
- X3LGqaCoahJo4UkTEBEX9451SgGyFS+wI36CkcXHlRfn3Esu1D3smRyRWMDeC4vUtWMY 2g== 
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1oQVy0-00022h-Dt
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:37:25 -0400
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27NDO4pH000683;
+ Tue, 23 Aug 2022 15:37:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=+ZX+Uz9KGeIQX6sYiOabY9lMWIVQLnWVOd0GMZ2Z53c=;
+ b=RE7Ogkf1p/WR2J5zierrotjQG40eXbHMUWIomf//nce1D/C/s9XvksctFlq/xGCjwP/U
+ m6VrSh0zSjIlnng55KvGpiclCFqjUObvWj1DEIgQQNXPA4CiKg3BSzCi9mbX0t93Wnyh
+ jXUzPoSiSjkYLJWjxQKK1WwHPmbiBXi1WPb3wTVXLxcZFE7n7IVPj1SlSF+fOeMtgxSl
+ IVQhTDU3zVqBL+U8vYgbb8vtRqYFXsKbp7GMLMkxJk8/U+s9IErxfTb45HxYT8dmJbDX
+ areemwF/ONDb7mH3GYCi2INvhpZdieXdIUrHyxbDmM2c/M3XXs6mfskBu+q5vtbhx0Zb gg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j4vxj9ejh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Aug 2022 15:37:18 +0000
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 27NFbH1x022163; 
+ Tue, 23 Aug 2022 15:37:17 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j51b70fkv-1
+ by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 3j2rpku7jh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 15:26:40 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27NFE3Dn010363;
- Tue, 23 Aug 2022 15:26:39 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j51b70fjt-1
+ Tue, 23 Aug 2022 15:37:17 +0000
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27NFbH0w022158;
+ Tue, 23 Aug 2022 15:37:17 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
+ [10.47.235.147])
+ by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 27NFbHkf022157
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 15:26:39 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27NF958e000460;
- Tue, 23 Aug 2022 15:26:37 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 3j2q88v0g1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Aug 2022 15:26:37 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27NFQX3g29884768
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Aug 2022 15:26:33 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CAB9B52050;
- Tue, 23 Aug 2022 15:26:33 +0000 (GMT)
-Received: from [9.145.6.90] (unknown [9.145.6.90])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 4B0375204F;
- Tue, 23 Aug 2022 15:26:33 +0000 (GMT)
-Message-ID: <2de48647-427f-5508-1944-f0a50d0bf02a@linux.ibm.com>
-Date: Tue, 23 Aug 2022 17:26:33 +0200
+ Tue, 23 Aug 2022 15:37:17 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
+ id 8216C628; Tue, 23 Aug 2022 12:37:17 -0300 (-03)
+From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+To: quic_mathbern@quicinc.com
+Cc: alex.bennee@linaro.org, f4bug@amsat.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] gdbstub: only send stop-reply upon request
+Date: Tue, 23 Aug 2022 12:37:17 -0300
+Message-Id: <20220823153717.1199317-1-quic_mathbern@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <9bb3ec5d407a5278524d54d7ad53db830b35a74c.1661260622.git.quic_mathbern@quicinc.com>
+References: <9bb3ec5d407a5278524d54d7ad53db830b35a74c.1661260622.git.quic_mathbern@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 18/18] s390x: pv: Add dump support
-Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- scgl@linux.ibm.com
-References: <20220811121111.9878-1-frankja@linux.ibm.com>
- <20220811121111.9878-19-frankja@linux.ibm.com>
-From: Steffen Eiden <seiden@linux.ibm.com>
-Organization: IBM
-In-Reply-To: <20220811121111.9878-19-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _kIGrcDSTz-0oQDLgQdrvbAuwq4wBYgH
-X-Proofpoint-GUID: flrgZJUAQSlOmAAckhTM9XwcXWepVKxD
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: NjIGOiMcdRWanycYipUuBiKvhLYtFZJn
+X-Proofpoint-ORIG-GUID: NjIGOiMcdRWanycYipUuBiKvhLYtFZJn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-23_05,2022-08-22_02,2022-06-22_01
+ definitions=2022-08-23_06,2022-08-22_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 clxscore=1015
- impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208230062
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=seiden@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ malwarescore=0
+ lowpriorityscore=0 adultscore=0 mlxlogscore=486 spamscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 suspectscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208230063
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=mathbern@qualcomm.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,416 +107,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/11/22 14:11, Janosch Frank wrote:
-> Sometimes dumping a guest from the outside is the only way to get the
-> data that is needed. This can be the case if a dumping mechanism like
-> KDUMP hasn't been configured or data needs to be fetched at a specific
-> point. Dumping a protected guest from the outside without help from
-> fw/hw doesn't yield sufficient data to be useful. Hence we now
-> introduce PV dump support.
-> 
-> The PV dump support works by integrating the firmware into the dump
-> process. New Ultravisor calls are used to initiate the dump process,
-> dump cpu data, dump memory state and lastly complete the dump process.
-> The UV calls are exposed by KVM via the new KVM_PV_DUMP command and
-> its subcommands. The guest's data is fully encrypted and can only be
-> decrypted by the entity that owns the customer communication key for
-> the dumped guest. Also dumping needs to be allowed via a flag in the
-> SE header.
-> 
-> On the QEMU side of things we store the PV dump data in the newly
-> introduced architecture ELF sections (storage state and completion
-> data) and the cpu notes (for cpu dump data).
-> 
-> Users can use the zgetdump tool to convert the encrypted QEMU dump to an
-> unencrypted one.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+On Thu, Aug 32, 2022 at 1:39 PM Matheus Tavares Bernardino wrote:
+>
 > ---
->   dump/dump.c              |  12 +-
->   include/sysemu/dump.h    |   5 +
->   target/s390x/arch_dump.c | 242 ++++++++++++++++++++++++++++++++++-----
->   3 files changed, 227 insertions(+), 32 deletions(-)
-> 
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 65b18fc602..7cf5eb7c8b 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -720,9 +720,9 @@ static void dump_begin(DumpState *s, Error **errp)
->       write_elf_notes(s, errp);
->   }
->   
-> -static int64_t dump_filtered_memblock_size(GuestPhysBlock *block,
-> -                                           int64_t filter_area_start,
-> -                                           int64_t filter_area_length)
-> +int64_t dump_filtered_memblock_size(GuestPhysBlock *block,
-> +                                    int64_t filter_area_start,
-> +                                    int64_t filter_area_length)
->   {
->       int64_t size, left, right;
->   
-> @@ -740,9 +740,9 @@ static int64_t dump_filtered_memblock_size(GuestPhysBlock *block,
->       return size;
->   }
->   
-> -static int64_t dump_filtered_memblock_start(GuestPhysBlock *block,
-> -                                            int64_t filter_area_start,
-> -                                            int64_t filter_area_length)
-> +int64_t dump_filtered_memblock_start(GuestPhysBlock *block,
-> +                                     int64_t filter_area_start,
-> +                                     int64_t filter_area_length)
->   {
->       if (filter_area_length) {
->           /* return -1 if the block is not within filter area */
-> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-> index 358b038d47..245c26fbca 100644
-> --- a/include/sysemu/dump.h
-> +++ b/include/sysemu/dump.h
-> @@ -216,4 +216,9 @@ typedef struct DumpState {
->   uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
->   uint32_t cpu_to_dump32(DumpState *s, uint32_t val);
->   uint64_t cpu_to_dump64(DumpState *s, uint64_t val);
-> +
-> +int64_t dump_filtered_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
-> +                                    int64_t filter_area_length);
-> +int64_t dump_filtered_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
-> +                                     int64_t filter_area_length);
->   #endif
-> diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-> index f60a14920d..5e8e03d536 100644
-> --- a/target/s390x/arch_dump.c
-> +++ b/target/s390x/arch_dump.c
-> @@ -16,7 +16,8 @@
->   #include "s390x-internal.h"
->   #include "elf.h"
->   #include "sysemu/dump.h"
-> -
-> +#include "hw/s390x/pv.h"
-> +#include "kvm/kvm_s390x.h"
->   
->   struct S390xUserRegsStruct {
->       uint64_t psw[2];
-> @@ -76,9 +77,16 @@ typedef struct noteStruct {
->           uint64_t todcmp;
->           uint32_t todpreg;
->           uint64_t ctrs[16];
-> +        uint8_t dynamic[1];  /*
-> +                              * Would be a flexible array member, if
-> +                              * that was legal inside a union. Real
-> +                              * size comes from PV info interface.
-> +                              */
->       } contents;
->   } QEMU_PACKED Note;
->   
-> +static bool pv_dump_initialized;
-> +
->   static void s390x_write_elf64_prstatus(Note *note, S390CPU *cpu, int id)
->   {
->       int i;
-> @@ -177,28 +185,39 @@ static void s390x_write_elf64_prefix(Note *note, S390CPU *cpu, int id)
->       note->contents.prefix = cpu_to_be32((uint32_t)(cpu->env.psa));
->   }
->   
-> +static void s390x_write_elf64_pv(Note *note, S390CPU *cpu, int id)
-> +{
-> +    note->hdr.n_type = cpu_to_be32(NT_S390_PV_CPU_DATA);
-> +    if (!pv_dump_initialized) {
-> +        return;
-> +    }
-> +    kvm_s390_dump_cpu(cpu, &note->contents.dynamic);
-> +}
->   
->   typedef struct NoteFuncDescStruct {
->       int contents_size;
-> +    uint64_t (*note_size_func)(void); /* NULL for non-dynamic sized contents */
->       void (*note_contents_func)(Note *note, S390CPU *cpu, int id);
-> +    bool pvonly;
->   } NoteFuncDesc;
->   
->   static const NoteFuncDesc note_core[] = {
-> -    {sizeof_field(Note, contents.prstatus), s390x_write_elf64_prstatus},
-> -    {sizeof_field(Note, contents.fpregset), s390x_write_elf64_fpregset},
-> -    { 0, NULL}
-> +    {sizeof_field(Note, contents.prstatus), NULL, s390x_write_elf64_prstatus, false},
-> +    {sizeof_field(Note, contents.fpregset), NULL, s390x_write_elf64_fpregset, false}, > +    { 0, NULL, NULL}
-You are missing a false here.
->   };
->   
->   static const NoteFuncDesc note_linux[] = {
-> -    {sizeof_field(Note, contents.prefix),   s390x_write_elf64_prefix},
-> -    {sizeof_field(Note, contents.ctrs),     s390x_write_elf64_ctrs},
-> -    {sizeof_field(Note, contents.timer),    s390x_write_elf64_timer},
-> -    {sizeof_field(Note, contents.todcmp),   s390x_write_elf64_todcmp},
-> -    {sizeof_field(Note, contents.todpreg),  s390x_write_elf64_todpreg},
-> -    {sizeof_field(Note, contents.vregslo),  s390x_write_elf64_vregslo},
-> -    {sizeof_field(Note, contents.vregshi),  s390x_write_elf64_vregshi},
-> -    {sizeof_field(Note, contents.gscb),     s390x_write_elf64_gscb},
-> -    { 0, NULL}
-> +    {sizeof_field(Note, contents.prefix),   NULL, s390x_write_elf64_prefix,  false},
-> +    {sizeof_field(Note, contents.ctrs),     NULL, s390x_write_elf64_ctrs,    false},
-> +    {sizeof_field(Note, contents.timer),    NULL, s390x_write_elf64_timer,   false},
-> +    {sizeof_field(Note, contents.todcmp),   NULL, s390x_write_elf64_todcmp,  false},
-> +    {sizeof_field(Note, contents.todpreg),  NULL, s390x_write_elf64_todpreg, false},
-> +    {sizeof_field(Note, contents.vregslo),  NULL, s390x_write_elf64_vregslo, false},
-> +    {sizeof_field(Note, contents.vregshi),  NULL, s390x_write_elf64_vregshi, false},
-> +    {sizeof_field(Note, contents.gscb),     NULL, s390x_write_elf64_gscb,    false},
-> +    {0, kvm_s390_pv_dmp_get_size_cpu,       s390x_write_elf64_pv, true} > +    { 0, NULL, NULL}
-and here.
->   };
->   
->   static int s390x_write_elf64_notes(const char *note_name,
-> @@ -207,22 +226,41 @@ static int s390x_write_elf64_notes(const char *note_name,
->                                          DumpState *s,
->                                          const NoteFuncDesc *funcs)
->   {
-> -    Note note;
-> +    Note note, *notep;
->       const NoteFuncDesc *nf;
-> -    int note_size;
-> +    int note_size, content_size;
->       int ret = -1;
->   
->       assert(strlen(note_name) < sizeof(note.name));
->   
->       for (nf = funcs; nf->note_contents_func; nf++) {
-> -        memset(&note, 0, sizeof(note));
-> -        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
-> -        note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
-> -        g_strlcpy(note.name, note_name, sizeof(note.name));
-> -        (*nf->note_contents_func)(&note, cpu, id);
-> +        notep = &note;
-> +        if (nf->pvonly && !s390_is_pv()) {
-> +            continue;
-> +        }
->   
-> -        note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
-> -        ret = f(&note, note_size, s);
-> +        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
-> +        note_size = sizeof(note) - sizeof(notep->contents) + content_size;
-> +
-> +        /* Notes with dynamic sizes need to allocate a note */
-> +        if (nf->note_size_func) {
-> +            notep = g_malloc0(note_size);
-> +        }
-> +
-> +        memset(notep, 0, sizeof(note));
-> +
-> +        /* Setup note header data */
-> +        notep->hdr.n_descsz = cpu_to_be32(content_size);
-> +        notep->hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
-> +        g_strlcpy(notep->name, note_name, sizeof(notep->name));
-> +
-> +        /* Get contents and write them out */
-> +        (*nf->note_contents_func)(notep, cpu, id);
-> +        ret = f(notep, note_size, s);
-> +
-> +        if (nf->note_size_func) {
-> +            g_free(notep);
-> +        }
->   
->           if (ret < 0) {
->               return -1;
-> @@ -247,12 +285,161 @@ int s390_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
->       return s390x_write_elf64_notes("LINUX", f, cpu, cpuid, s, note_linux);
->   }
->   
-> +/* PV dump section size functions */
-> +static uint64_t get_dump_stor_state_size_from_len(uint64_t len)
-> +{
-> +    return (len / (1 << 20)) * kvm_s390_pv_dmp_get_size_stor_state();
-> +}
-> +
-> +static uint64_t get_size_stor_state(DumpState *s)
-> +{
-> +    return get_dump_stor_state_size_from_len(s->total_size);
-> +}
-> +
-> +static uint64_t get_size_complete(DumpState *s)
-> +{
-> +    return kvm_s390_pv_dmp_get_size_complete();
-> +}
-> +
-> +/* PV dump section data functions*/
-> +static int get_data_complete(DumpState *s, uint8_t *buff)
-> +{
-> +    int rc;
-> +
-> +    if (!pv_dump_initialized) {
-> +        return 0;
-> +    }
-> +    rc = kvm_s390_dump_complete(buff);
-> +    if (!rc) {
-> +            pv_dump_initialized = false;
-> +    }
-> +    return rc;
-> +}
-> +
-Similar to my comments in the last patch:
-dump_mem_state
-> +static int dump_mem(DumpState *s, uint64_t gaddr, uint8_t *buff, uint64_t buff_len)
-> +{
-> +    /* We need the gaddr + len and something to write to */
-> +    if (!pv_dump_initialized) {
-> +        return 0;
-> +    }
-> +    return kvm_s390_dump_mem(gaddr, buff_len, buff);
-> +}
-> +
-get_data_mem_state
-> +static int get_data_mem(DumpState *s, uint8_t *buff)
-> +{
-> +    int64_t memblock_size, memblock_start;
-> +    GuestPhysBlock *block;
-> +    uint64_t off;
-> +
-> +    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-> +        memblock_start = dump_filtered_memblock_start(block, s->filter_area_begin,
-> +                                                      s->filter_area_length);
-> +        if (memblock_start == -1) {
-> +            continue;
-> +        }
-> +
-> +        memblock_size = dump_filtered_memblock_size(block, s->filter_area_begin,
-> +                                                    s->filter_area_length);
-> +
-> +        off = get_dump_stor_state_size_from_len(block->target_start);
-> +        dump_mem(s, block->target_start, buff + off,
-> +                 get_dump_stor_state_size_from_len(memblock_size));
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +struct sections {
-> +    uint64_t (*sections_size_func)(DumpState *s);
-> +    int (*sections_contents_func)(DumpState *s, uint8_t *buff);
-> +    char sctn_str[12];
-> +} sections[] = {
-> +    { get_size_stor_state, get_data_mem, "pv_mem_meta"},
-> +    { get_size_complete, get_data_complete, "pv_compl"},
-> +    {NULL , NULL, ""}
-> +};
-> +
-> +static uint64_t arch_sections_write_hdr(DumpState *s, uint8_t *buff)
-> +{
-> +    Elf64_Shdr *shdr = (void *)buff;
-> +    struct sections *sctn = sections;
-> +    uint64_t off = s->section_offset;
-> +
-> +    if (!s390_is_pv()) {
-> +        return 0;
-> +    }
-> +
-> +    for (; sctn->sections_size_func; off += shdr->sh_size, sctn++, shdr++) {
-> +        memset(shdr, 0, sizeof(*shdr));
-> +        shdr->sh_type = SHT_PROGBITS;
-> +        shdr->sh_offset = off;
-> +        shdr->sh_size = sctn->sections_size_func(s);
-> +        shdr->sh_name = s->string_table_buf->len;
-> +        g_array_append_vals(s->string_table_buf, sctn->sctn_str, sizeof(sctn->sctn_str));
-> +    }
-> +
-> +    return (uintptr_t)shdr - (uintptr_t)buff;
-> +}
-> +
-> +
-> +/* Add arch specific number of sections and their respective sizes */
-> +static void arch_sections_add(DumpState *s)
-> +{
-> +    struct sections *sctn = sections;
-> +
-> +    /*
-> +     * We only do a PV dump if we are running a PV guest, KVM supports
-> +     * the dump API and we got valid dump length information.
-> +     */
-> +    if (!s390_is_pv() || !kvm_s390_get_protected_dump() ||
-> +        !kvm_s390_pv_info_basic_valid()) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Start the UV dump process by doing the initialize dump call via
-> +     * KVM as the proxy.
-> +     */
-> +    if (!kvm_s390_dump_init()) {
-> +            pv_dump_initialized = true;
-> +    }
-> +
-> +    for (; sctn->sections_size_func; sctn++) {
-> +        s->shdr_num += 1;
-> +        s->elf_section_data_size += sctn->sections_size_func(s);
-> +    }
-> +
-> +    /* We use the string table to identify the sections */
-> +    s->string_table_usage = true;
-> +}
-> +
-> +/*
-> + * After the PV dump has been initialized, the CPU data has been
-> + * fetched and memory has been dumped, we need to grab the tweak data
-> + * and the completion data.
-> + */
-> +static void arch_sections_write(DumpState *s, uint8_t *buff)
-> +{
-> +    struct sections *sctn = sections;
-> +
-> +    /* shdr_num should only have been set > 1 if we are protected */
-> +    assert(s390_is_pv());
-> +
-> +    for (; sctn->sections_size_func; sctn++) {
-> +        sctn->sections_contents_func(s, buff);
-> +        buff += sctn->sections_size_func(s);
-> +    }
-> +}
-> +
->   int cpu_get_dump_info(ArchDumpInfo *info,
->                         const struct GuestPhysBlockList *guest_phys_blocks)
->   {
->       info->d_machine = EM_S390;
->       info->d_endian = ELFDATA2MSB;
->       info->d_class = ELFCLASS64;
-> +    info->arch_sections_add_fn = *arch_sections_add;
-> +    info->arch_sections_write_hdr_fn = *arch_sections_write_hdr;
-> +    info->arch_sections_write_fn = *arch_sections_write;
->   
->       return 0;
->   }
-> @@ -261,7 +448,7 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
->   {
->       int name_size = 8; /* "LINUX" or "CORE" + pad */
->       size_t elf_note_size = 0;
-> -    int note_head_size;
-> +    int note_head_size, content_size;
->       const NoteFuncDesc *nf;
->   
->       assert(class == ELFCLASS64);
-> @@ -270,12 +457,15 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
->       note_head_size = sizeof(Elf64_Nhdr);
->   
->       for (nf = note_core; nf->note_contents_func; nf++) {
-> -        elf_note_size = elf_note_size + note_head_size + name_size +
-> -                        nf->contents_size;
-> +        elf_note_size = elf_note_size + note_head_size + name_size + nf->contents_size;
->       }
->       for (nf = note_linux; nf->note_contents_func; nf++) {
-> +        if (nf->pvonly && !s390_is_pv()) {
-> +            continue;
-> +        }
-> +        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
->           elf_note_size = elf_note_size + note_head_size + name_size +
-> -                        nf->contents_size;
-> +                        content_size;
->       }
->   
->       return (elf_note_size) * nr_cpus;
+>  gdbstub.c | 22 +++++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
 
-LGTM, and I can confirm this produces a valid pv-dump that can be
-decrypted.
-
-Please have a look on my comments.
-
-With the nits fixed:
-Reviewed-by: Steffen Eiden <seiden@linux.ibm.com>
+Please ignore this patch. This version is broken, I'm working on a new
+one. Sorry for the noise.
 
