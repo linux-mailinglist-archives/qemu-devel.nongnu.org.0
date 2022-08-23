@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E8A59DACD
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 13:02:13 +0200 (CEST)
-Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1C059DAD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 13:08:41 +0200 (CEST)
+Received: from localhost ([::1]:40904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQRff-0001cb-Me
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 07:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45174)
+	id 1oQRlw-0006Vy-1P
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 07:08:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oQRcN-0008L8-Ej; Tue, 23 Aug 2022 06:58:47 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:52733)
+ id 1oQRi6-00027A-QL; Tue, 23 Aug 2022 07:04:42 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:39435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oQRcL-00039c-04; Tue, 23 Aug 2022 06:58:47 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 2C4C55C03BD;
- Tue, 23 Aug 2022 06:58:43 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 23 Aug 2022 06:58:43 -0400
+ id 1oQRi2-0004Ch-5C; Tue, 23 Aug 2022 07:04:39 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0040F5C011D;
+ Tue, 23 Aug 2022 07:04:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Tue, 23 Aug 2022 07:04:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1661252323; x=1661338723; bh=A3
- wdmJWlZPT+ggKQEZmyjxOShiLA6pFvFOkSM03xY6s=; b=BzmHnTeG4CQv8D8NZv
- s94c1L3jfM8xLpF6c5/8L7eHzu0Bk7H0GrBCMntDJ9QCR+upiBdUcd04K5K+k/6j
- FYTE4sM4banD/y3fm2Vkl19xSZfoPQ2lfJL1u/Sj8LWOkj8EmB0QazbwhX/WEP+E
- XnUiYtxv3gWn7xvtfI+zQbg5AsalfsJt5QYsCJTEcg7PLkl3v2CDydwfZbEmm3J3
- Nj0xpx6T3rzIDFmL0ZGhEtqKQtcfilCPPn99O7RUHmtPzuNbmY7ex+7PlYElHCS+
- bAylSnWWHI3XPPo8X/P81CMUmpm00G7Tf4TJHd0vPX+yHbGajEJ1nJTYIRL2kn1t
- mO3w==
+ :subject:subject:to:to; s=fm3; t=1661252676; x=1661339076; bh=Kf
+ LR7OhMJJxsLgpAM/TFNGewM46fe4RkSghMTUmY6Zo=; b=Ye5a/ByxGxJIJeUPMq
+ pdi6DdeMXKLECexsi0XJmzg0599841+trz3K10m9+k3whL+iAUHYmgOHOKsrGo1e
+ P1IgC2trHl27dgKOoUmG4rNKAgsKLWlplDQtJYp8hq8fjxjl4y42h0MKCeS/R1KW
+ TTnOvkfdnpJAjY6gxoExpdfcpQ3Aom8IJcQGABuQGYbf3OfiTwbyWo0uJ2AYmgPr
+ +TN52QngW1G2w/o8F5IcJoMAN8lLVDz7sYfrvE5VfommmdwoSqXx4w8rzqqWP5pt
+ dzZBCZm+hjJXeEQUwXuLh9N5RP3uhoui+AlOddoDjiWOWubVYFJJC3fXLmNNEqZ5
+ YNrQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661252323; x=1661338723; bh=A3wdmJWlZPT+ggKQEZmyjxOShiLA
- 6pFvFOkSM03xY6s=; b=5cnCqxl/uN1HpBoT/noYdpzQvCVQCzatk+/AHpMMGy7B
- 1ONF/O4xJp1MVpFZWl7N44qh5dRVoFL7q/Xvw3wsskJUFxadpQnJXe1T8L/O2Kx0
- UNrmCeJfRMD30M2FlzNHrrfLl5tVGXQctq8xo9qxQ2pD/9BAN74nBqIIIZeavN9f
- iMuxJj1RwEc94SdLnznV+DEaa+1DN7TC7TZIeXqYaK7qj1AOj2RpoMbxfOQWntXh
- MzQmvvlkR9S9Sl1YeHEpWQDuTl/CSj35VNaZaRHyWJe96HFkKiTWN35ckDkVfcw0
- Io3ZGZoMjEn1ma0ANZ8hyQCGyCcteAvW21RR2RrLBA==
-X-ME-Sender: <xms:4rIEYydtcwNwXcDmxAGMV0Xx8FRAGuNpVS8dFAPAOuJciWT8qYXoiQ>
- <xme:4rIEY8OfIObn13M8gaKUy5268KR08_HcHyQJTOMAXBMQxAXZMortws3bQ57yvfe00
- DybRrwHIOB__AtsR80>
-X-ME-Received: <xmr:4rIEYziQkaTE5hJWOMt2XonWgN1JUhNA3wVK-cL_SK0yegL4WWe2A1wuUyNhHtdmxRPeUhNM2_iW9MLK_A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiledgfeefucetufdoteggodetrfdotf
+ fm1; t=1661252676; x=1661339076; bh=KfLR7OhMJJxsLgpAM/TFNGewM46f
+ e4RkSghMTUmY6Zo=; b=WMM4VCkMTqcEENRKnKk9SUYcK5axIiSBtq9empZuiKOt
+ lcHCnUfdMrwRmTotgztagfItef6U8qQxKPQD7p81h4bBNQUUa7xfaJ0G7OdFOwlO
+ uVb966SUZJf3/QgKObJesho6NZrJNQGRAgR34nePlV+Af3jNM2h9fY7DCBJS8DQv
+ w7yEShT6TE/Lhm14H3My3tVr4oKq+MVbSR6qpJCq3XYxF0Lu0PLhyajctvsL3nGX
+ 16e/5TXqQoIsPPUWhkevtm96ygt/d4y/yfUFphKcUxsUhGbbkRVm0kj3UqKj9ELC
+ mREBndbP1nqAhNv5f/ttwRIG7SY7lgvKdBdYNT2Jhg==
+X-ME-Sender: <xms:RLQEYzJ2m58ykDcc3zns9kmGpILjdh6n0LhZubEzc00_mWDjqAizTQ>
+ <xme:RLQEY3JbcDtgKMXYQj5-PxcV6TakVUB-mB0VK8iN--cXIEhWpwOd-orL07YaUX9xz
+ 1m5pnAECaNCl99gUJ0>
+X-ME-Received: <xmr:RLQEY7uzd2GevBfNMhjVH-S3FXQo0ZWcaeggOaERDL0zjXuqWPSpPTrjyl5gSzgJPEeJCzQMF9KALpZnjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiledgfeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
  erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
  vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
  elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:4rIEY_8jEKL8NQqvZc7WlysAAlYwNnmhM0oV-p8d_gpyHbtD6r8frQ>
- <xmx:4rIEY-sxjg4TqcvGOw-2HQN54dkf-1_NhYvEFhWqP03q9XBg3mRu-w>
- <xmx:4rIEY2H_7kKLcfYajjZ8__wKwMIAvhtbZmqLHyGmta9TDiolQ_qMsQ>
- <xmx:47IEYwKKTGl-ZlYpl_igpEavOD-TOoLQIpJ4mBVNskLiNyFP4U3hCw>
+X-ME-Proxy: <xmx:RLQEY8b0uCp3FFaHVBA18668vatPe3CXLGQ-jFBXEn_davsl3jTJ9Q>
+ <xmx:RLQEY6bgdfPSZUtVgO7V6QscgMmRUqAwAHuOVuBIdhWosQg00hPiAg>
+ <xmx:RLQEYwBn9B4_p3jsV7ovfqA7LHjEABHHVZnJr_qaUUQPJUff434yfg>
+ <xmx:RLQEYxXG2_qZ50uyFY1qriDECQrF9amNxGaaC2EUJel6dm3x6gS39w>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Aug 2022 06:58:41 -0400 (EDT)
-Date: Tue, 23 Aug 2022 12:58:39 +0200
+ 23 Aug 2022 07:04:35 -0400 (EDT)
+Date: Tue, 23 Aug 2022 13:04:33 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
  "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH 2/4] hw/nvme: add option to (de)assert irq with eventfd
-Message-ID: <YwSy3+VKbXdkXbA0@apples>
+Subject: Re: [PATCH 4/4] hw/nvme: add MSI-x mask handlers for irqfd
+Message-ID: <YwS0QaE7N3vzSex8@apples>
 References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
- <20220811153739.3079672-3-fanjinhao21s@ict.ac.cn>
+ <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WnT1DihCBTXotd2d"
+ protocol="application/pgp-signature"; boundary="fvviRMTTazXJpNN9"
 Content-Disposition: inline
-In-Reply-To: <20220811153739.3079672-3-fanjinhao21s@ict.ac.cn>
+In-Reply-To: <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -102,256 +102,140 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---WnT1DihCBTXotd2d
+--fvviRMTTazXJpNN9
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Aug 11 23:37, Jinhao Fan wrote:
-> When the new option 'irq-eventfd' is turned on, the IO emulation code
-> signals an eventfd when it want to (de)assert an irq. The main loop
-> eventfd handler does the actual irq (de)assertion.  This paves the way
-> for iothread support since QEMU's interrupt emulation is not thread
-> safe.
->=20
-> Asserting and deasseting irq with eventfd has some performance
-> implications. For small queue depth it increases request latency but
-> for large queue depth it effectively coalesces irqs.
->=20
-> Comparision (KIOPS):
->=20
-> QD            1   4  16  64
-> QEMU         38 123 210 329
-> irq-eventfd  32 106 240 364
+> When irqfd is enabled, we bypass QEMU's irq emulation and let KVM to
+> directly assert the irq. However, KVM is not aware of the device's MSI-x
+> masking status. Add MSI-x mask bookkeeping in NVMe emulation and
+> detach the corresponding irqfd when the certain vector is masked.
 >=20
 > Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 > ---
->  hw/nvme/ctrl.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++++--
->  hw/nvme/nvme.h |  4 +++
->  2 files changed, 90 insertions(+), 3 deletions(-)
+>  hw/nvme/ctrl.c       | 82 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/nvme/nvme.h       |  2 ++
+>  hw/nvme/trace-events |  3 ++
+>  3 files changed, 87 insertions(+)
 >=20
 > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index bd3350d7e0..8a1c5ce3e1 100644
+> index 63f988f2f9..ac5460c7c8 100644
 > --- a/hw/nvme/ctrl.c
 > +++ b/hw/nvme/ctrl.c
-> @@ -1338,6 +1338,54 @@ static void nvme_update_cq_head(NvmeCQueue *cq)
->      trace_pci_nvme_shadow_doorbell_cq(cq->cqid, cq->head);
->  }
+> @@ -7478,10 +7478,84 @@ static int nvme_add_pm_capability(PCIDevice *pci_=
+dev, uint8_t offset)
 > =20
-> +static void nvme_assert_notifier_read(EventNotifier *e)
+>      return 0;
+>  }
+> +static int nvme_vector_unmask(PCIDevice *pci_dev, unsigned vector,
+> +                               MSIMessage msg)
 > +{
-> +    NvmeCQueue *cq =3D container_of(e, NvmeCQueue, assert_notifier);
-> +    if (event_notifier_test_and_clear(e)) {
-> +        nvme_irq_assert(cq->ctrl, cq);
-> +    }
-> +}
-> +
-> +static void nvme_deassert_notifier_read(EventNotifier *e)
-> +{
-> +    NvmeCQueue *cq =3D container_of(e, NvmeCQueue, deassert_notifier);
-> +    if (event_notifier_test_and_clear(e)) {
-> +        nvme_irq_deassert(cq->ctrl, cq);
-> +    }
-> +}
-> +
-> +static void nvme_init_irq_notifier(NvmeCtrl *n, NvmeCQueue *cq)
-> +{
+> +    NvmeCtrl *n =3D NVME(pci_dev);
 > +    int ret;
 > +
-> +    ret =3D event_notifier_init(&cq->assert_notifier, 0);
-> +    if (ret < 0) {
-> +        goto fail_assert_handler;
-> +    }
+> +    trace_pci_nvme_irq_unmask(vector, msg.address, msg.data);
+> +   =20
+> +    for (uint32_t i =3D 0; i < n->params.max_ioqpairs + 1; i++) {
+
+This loop is OK for now, but could be done better with a reverse
+mapping.
+
+This is just an observation. Don't spend time on doing it since we are
+not aware of any host actually doing masking/unmasking.
+
+> +        NvmeCQueue *cq =3D n->cq[i];
+> +        /*=20
+> +         * If this function is called, then irqfd must be available. The=
+refore,
+> +         * irqfd must be in use if cq->assert_notifier.initialized is tr=
+ue.
+> +         */
+
+The wording indicates that you want to assert() that assumption instead.
+
+> +        if (cq && cq->vector =3D=3D vector && cq->assert_notifier.initia=
+lized) {
+> +            if (cq->msg.data !=3D msg.data || cq->msg.address !=3D msg.a=
+ddress) {
+> +                ret =3D kvm_irqchip_update_msi_route(kvm_state, cq->virq=
+, msg,
+> +                                                   pci_dev);
+> +                if (ret < 0) {
+> +                    return ret;
+> +                }
+> +                kvm_irqchip_commit_routes(kvm_state);
+> +                cq->msg =3D msg;
+> +            }
 > +
-> +    event_notifier_set_handler(&cq->assert_notifier,
-> +                                nvme_assert_notifier_read);
-> +
-> +    if (!msix_enabled(&n->parent_obj)) {
-> +        ret =3D event_notifier_init(&cq->deassert_notifier, 0);
-> +        if (ret < 0) {
-> +            goto fail_deassert_handler;
+> +            ret =3D kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
+> +                                                     &cq->assert_notifie=
+r,
+> +                                                     NULL, cq->virq);
+> +            if (ret < 0) {
+> +                return ret;
+> +            }
 > +        }
-> +
-> +        event_notifier_set_handler(&cq->deassert_notifier,
-> +                                   nvme_deassert_notifier_read);
 > +    }
 > +
-> +    return;
-> +
-> +fail_deassert_handler:
-> +    event_notifier_set_handler(&cq->deassert_notifier, NULL);
-> +    event_notifier_cleanup(&cq->deassert_notifier);
-> +fail_assert_handler:
-> +    event_notifier_set_handler(&cq->assert_notifier, NULL);
-> +    event_notifier_cleanup(&cq->assert_notifier);
+> +    return 0;
 > +}
 > +
->  static void nvme_post_cqes(void *opaque)
->  {
->      NvmeCQueue *cq =3D opaque;
-> @@ -1382,7 +1430,23 @@ static void nvme_post_cqes(void *opaque)
->                  n->cq_pending++;
->              }
-> =20
-> -            nvme_irq_assert(n, cq);
-> +            if (unlikely(cq->first_io_cqe)) {
-> +                /*
-> +                 * Initilize event notifier when first cqe is posted. Fo=
-r irqfd=20
-> +                 * support we need to register the MSI message in KVM. We
-> +                 * can not do this registration at CQ creation time beca=
-use
-> +                 * Linux's NVMe driver changes the MSI message after CQ =
-creation.
-> +                 */
-> +                cq->first_io_cqe =3D false;
+> +static void nvme_vector_mask(PCIDevice *pci_dev, unsigned vector)
+> +{
+> +    NvmeCtrl *n =3D NVME(pci_dev);
 > +
-> +                nvme_init_irq_notifier(n, cq);
-> +            }
-
-It is really unfortunate that we have to do this. From what I can tell
-in the kernel driver, even if it were to change to set up the irq prior
-to creating the completion queue, we'd still have issues making this
-work on earlier versions and there is no way to quirk our way out of
-this.
-
-We can't even move this upon creation of the submission queue since the
-kernel also creates *that* prior to allocating the interrupt line.
-
-In conclusion I don't see any way around this other than asking the NVMe
-TWG to add some kind of bit indicating that the host sets up the
-interrupt line prior to creating the cq.
-
-Meh.
-
+> +    trace_pci_nvme_irq_mask(vector);
+> +   =20
+> +    for (uint32_t i =3D 0; i < n->params.max_ioqpairs + 1; i++) {
+> +        NvmeCQueue *cq =3D n->cq[i];
+> +        if (cq && cq->vector =3D=3D vector && cq->assert_notifier.initia=
+lized) {
+> +            kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
+> +                                                  &cq->assert_notifier,
+> +                                                  cq->virq);
+> +        }
+> +    }
+> +}
 > +
-> +            if (cq->assert_notifier.initialized) {
-> +                event_notifier_set(&cq->assert_notifier);
-> +            } else {
-> +                nvme_irq_assert(n, cq);
+> +static void nvme_vector_poll(PCIDevice *pci_dev,
+> +                             unsigned int vector_start,
+> +                             unsigned int vector_end)
+> +{
+> +    NvmeCtrl *n =3D NVME(pci_dev);
+> +
+> +    trace_pci_nvme_irq_poll(vector_start, vector_end);
+> +
+> +    for (uint32_t i =3D 0; i < n->params.max_ioqpairs + 1; i++) {
+> +        NvmeCQueue *cq =3D n->cq[i];
+> +        if (cq && cq->vector >=3D vector_start && cq->vector <=3D vector=
+_end=20
+> +            && msix_is_masked(pci_dev, cq->vector)=20
+> +            && cq->assert_notifier.initialized) {
+> +            if (event_notifier_test_and_clear(&cq->assert_notifier)) {
+> +                msix_set_pending(pci_dev, i);
 > +            }
-
-There is a lot of duplication below, checking if the notifier is
-initialized and then choosing what to do. Can we move this to
-nvme_irq_assert/deassert()?
-
->          }
->      }
->  }
-> @@ -4249,7 +4313,11 @@ static void nvme_cq_notifier(EventNotifier *e)
->      if (cq->irq_enabled && cq->tail =3D=3D cq->head) {
->          n->cq_pending--;
->          if (!msix_enabled(&n->parent_obj)) {
-> -            nvme_irq_deassert(n, cq);
-> +            if (cq->deassert_notifier.initialized) {
-> +                event_notifier_set(&cq->deassert_notifier);
-> +            } else {
-> +                nvme_irq_deassert(n, cq);
-> +            }
->          }
->      }
-> =20
-> @@ -4706,6 +4774,14 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl =
-*n)
->          event_notifier_set_handler(&cq->notifier, NULL);
->          event_notifier_cleanup(&cq->notifier);
->      }
-> +    if (cq->assert_notifier.initialized) {
-> +        event_notifier_set_handler(&cq->assert_notifier, NULL);
-> +        event_notifier_cleanup(&cq->assert_notifier);
+> +        }
 > +    }
-> +    if (cq->deassert_notifier.initialized) {
-> +        event_notifier_set_handler(&cq->deassert_notifier, NULL);
-> +        event_notifier_cleanup(&cq->deassert_notifier);
-> +    }
->      if (msix_enabled(&n->parent_obj)) {
->          msix_vector_unuse(&n->parent_obj, cq->vector);
->      }
-> @@ -4737,6 +4813,7 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeReques=
-t *req)
->          }
-> =20
->          if (!msix_enabled(&n->parent_obj)) {
-> +            /* Do not use eventfd since this is always called in main lo=
-op */
->              nvme_irq_deassert(n, cq);
->          }
->      }
-> @@ -4777,6 +4854,7 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *=
-n, uint64_t dma_addr,
->      }
->      n->cq[cqid] =3D cq;
->      cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
-> +    cq->first_io_cqe =3D cqid !=3D 0;
->  }
-> =20
->  static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
-> @@ -6926,7 +7004,11 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr ad=
-dr, int val)
->          if (cq->irq_enabled && cq->tail =3D=3D cq->head) {
->              n->cq_pending--;
->              if (!msix_enabled(&n->parent_obj)) {
-> -                nvme_irq_deassert(n, cq);
-> +                if (cq->deassert_notifier.initialized) {
-> +                    event_notifier_set(&cq->deassert_notifier);
-> +                } else {
-> +                    nvme_irq_deassert(n, cq);
-> +                }
->              }
->          }
->      } else {
-> @@ -7675,6 +7757,7 @@ static Property nvme_props[] =3D {
->      DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, fals=
-e),
->      DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
->      DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, false),
-> +    DEFINE_PROP_BOOL("irq-eventfd", NvmeCtrl, params.irq_eventfd, false),
->      DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
->      DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
->                       params.auto_transition_zones, true),
-> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-> index 79f5c281c2..759d0ecd7c 100644
-> --- a/hw/nvme/nvme.h
-> +++ b/hw/nvme/nvme.h
-> @@ -398,6 +398,9 @@ typedef struct NvmeCQueue {
->      uint64_t    ei_addr;
->      QEMUTimer   *timer;
->      EventNotifier notifier;
-> +    EventNotifier assert_notifier;
-> +    EventNotifier deassert_notifier;
-> +    bool        first_io_cqe;
->      bool        ioeventfd_enabled;
->      QTAILQ_HEAD(, NvmeSQueue) sq_list;
->      QTAILQ_HEAD(, NvmeRequest) req_list;
-> @@ -422,6 +425,7 @@ typedef struct NvmeParams {
->      bool     auto_transition_zones;
->      bool     legacy_cmb;
->      bool     ioeventfd;
-> +    bool     irq_eventfd;
->      uint8_t  sriov_max_vfs;
->      uint16_t sriov_vq_flexible;
->      uint16_t sriov_vi_flexible;
-> --=20
-> 2.25.1
->=20
+> +}
 
---=20
-One of us - No more doubt, silence or taboo about mental illness.
+I'm a little fuzzy on this - what causes this function to be invoked?
 
---WnT1DihCBTXotd2d
+--fvviRMTTazXJpNN9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMEst4ACgkQTeGvMW1P
-DelGIggAqiSqXx1iXKKVDKBnfoUEqiyDu/w+oYCdvR13wPvXRERmJpt4ca37Sa4d
-irz0nvvLZHBot/mCP99HeXdE6oHTOQYP/nJIiw+MesS/dlw7LsSUk9f/7yYLl2fs
-iNMrMWPOmD6i0l4apZvU9krUxB+R7AJ7N3Lg4m1gudVJg1QXtGD2iTVh9VY02KeQ
-/66/lS6l/NoHj6UR5KvAv6IH3CXwtrxFg6L5lJn094VXjptJ1GqUd9BDmIb6GzF4
-dKnt5C48/AUAJeyVKthq2yZ2UpoO7BSj7D5dg2o32dvbDsa2+eLj16mIdc8zdwyp
-AhEoa9bUiDBpMQfPWxQGo1sAi3bgJw==
-=MoQ2
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMEtEAACgkQTeGvMW1P
+DelphwgAwppH+heT9kyBEkv1wMm9DsD2TwpitO3a6ofc3gdhuKJgylsxXyqtUXPn
+pc672+3RuKznycLP5ZpYCEJO8Y19lCSWfbj9M6A8PQ7R3/iXp5DXnJB5vSXXcYZT
+GE14D2PErwjq+nGZOuKeq1t7wQIkfKEAne0ho39HIMGi5Yjc5PazhQPIFbI/xXAc
+AXAhRT13aaclGgUebVIn9YiafmAHYA717uXA3TUd2XWIrtAKJc286CWwMFv6geaV
+ydifcwzfZNl2y9rbwKWesBrcV2wZ2GFHGcYKBUjbBQaM4ECWhRv/zppqDG4qvZWN
+tsmpHtfD4zzJ3UN1LldejeVRkuCWEA==
+=iGgD
 -----END PGP SIGNATURE-----
 
---WnT1DihCBTXotd2d--
+--fvviRMTTazXJpNN9--
 
