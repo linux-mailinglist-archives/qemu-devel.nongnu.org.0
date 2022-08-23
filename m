@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F3059E631
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 17:41:32 +0200 (CEST)
-Received: from localhost ([::1]:56250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC6D59E635
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 17:42:28 +0200 (CEST)
+Received: from localhost ([::1]:53596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQW1z-0001j9-Uw
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 11:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60664)
+	id 1oQW2t-0002x6-Rb
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 11:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oQVn7-000265-H9
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:26:09 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35633)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oQVn6-0000Sl-1O
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:26:09 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- m17-20020a7bce11000000b003a5bedec07bso9820719wmc.0
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 08:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=LsZpgMlG5k3/z4R/dGjpJ9j2VMDJig/kzVEqA19cmEE=;
- b=xHXNvAsC55oEXRYfmRrU6YA9nw6wu/8q/5aD/qvra/xlKD4RXoiQQyQbbn4809KWG/
- Ii8i7XCh+r2ebU+DmIBo1/5gkSPQR431jX3NBrfSNp8ltmrwSqSDZVGP+MJ1S+n18xru
- 2MRclH4Pb7yHlTT5RR2HIoRLuX2b6f/UIiEmnKW6omv8c6JWwGG0y+fNWQ+WZPg15tpN
- 04ZVVnm1scloUHn1nvxQunpwAPFctrGyrSs7IJDC8/J2bsiWY+10z+06mYm0LgnoWAH0
- 6RTwAWJDKD0XrcFkFWHOagu0N7X3NhegDQsVywaRrRnAphXWsvxwESlhpHIbqIX41C6P
- JAmA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oQVnf-00036A-8x
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:26:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oQVnb-0000bJ-5e
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 11:26:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661268397;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=QjnX3wmdIgtFpI8ynDv7BiTpKz9FZ9aszLAG9oIJvIo=;
+ b=YJgXLqkEnMUE6QWT98f5E3BZcPBdiXH7Zqp+LZ0bX/6xuSIs4178E0z7rBM46nsF6dHpBM
+ ls7AzcyEBCrGZUHWtWvGuFpjTxYX9bNxEwgcMqL2MIhN3hvjU7uMewdPayCDYuclp/oVDW
+ fpvIODydMzRMV/MmQWeyRmpe5ZQZNVE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-653-hYsNG_A6OKmn6uo-QLWpGg-1; Tue, 23 Aug 2022 11:26:36 -0400
+X-MC-Unique: hYsNG_A6OKmn6uo-QLWpGg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q7-20020adfab07000000b0022541376ef7so1618181wrc.23
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 08:26:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=LsZpgMlG5k3/z4R/dGjpJ9j2VMDJig/kzVEqA19cmEE=;
- b=ctJ3g1ZGD1+qHHehmjAlcey1xIksJH7cK64V2LNTYmunBsCb7Wy9t0pCw6E4s38orO
- aBwSKIElfwLqBIES2QaJjRz+2xgWbHpeV8OqG2kGusWnSBygeDBTBSxz5G6XpxHu5zyW
- IRP4UjCVGx8QklbWtP+zMmSxM283RjC/FUOPZCSPV32ob/dIQo0FNdtTTNtrY7agBcZI
- o2WPOUsN6oU94sRXRruHgcJEcYzwOK9hjuPhIxerE/sYPBIgkOCjAcCFgiEYKXTiP7Qk
- DkjZJGZiu+verIvEPxN3byb1nFMBf0oR7VFc3K99GMB+pnLmwp7Ip48wJQWjMAgCc7pb
- 3K1A==
-X-Gm-Message-State: ACgBeo3Y9dMsW4+cMtyyJ8HVDLbcJa4F8Chmy7M49B5o/bC725svQIhF
- qExZLGPfFxNQx/NtTv381khlDQ==
-X-Google-Smtp-Source: AA6agR5z6atS1fwqAI2aPqU6XMHWMeWn08bn8IxkuieYptdNI4jSVFRFGsG7xtn9USyQae6vz9kxog==
-X-Received: by 2002:a05:600c:348e:b0:3a5:fbcf:4c1a with SMTP id
- a14-20020a05600c348e00b003a5fbcf4c1amr2551264wmq.171.1661268366640; 
- Tue, 23 Aug 2022 08:26:06 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- q4-20020a1c4304000000b003a5c7a942edsm20924643wma.28.2022.08.23.08.26.00
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
+ :x-gm-message-state:from:to:cc;
+ bh=QjnX3wmdIgtFpI8ynDv7BiTpKz9FZ9aszLAG9oIJvIo=;
+ b=FIwhZFDQUhg3dA56dyA4IItLxKD5c5B4PSMBcLxuAgxaeCKiw/gBmhroVEBSLmzP5q
+ E7DQS1okvP7lnHmJ7oJsLrCkHRCaQBuQ9u8ixUWVRKPLuJrAp8QB528f4RRDh0bb5Vz1
+ 0Y+Uj5v/gVzntD33Mg7ENzAAU75+Xrw1k3sTM34MadkVU5PlDiXDV5i+mdmHwckrnTum
+ 4BT5A12JjyM3TRq7qv8aol7zoMLI8mqrLU07R4OUzcR6TOHV6TSWjdRJwc5dH2oREyUK
+ QUb6shD0ojGAB7Hmkp2+A+DBLzmuar9HffhjRWzm+fsgb2j6OSEBb356ObmLg+iXuAK7
+ hmBg==
+X-Gm-Message-State: ACgBeo1vzFfm7Rx5TW2lI0ucKWbBinrel3lqNpcax8VIG/NcGMCJZZT1
+ NLD6DEIxKRUQPsaqKmY6d8CRasgTc4sWAunwdnwm6BhbutMprbLsnxdqz/IeIJZi0zuCb43mXZ6
+ v0E+IWxiGhkYV1+s=
+X-Received: by 2002:adf:f7ca:0:b0:225:2df0:d23 with SMTP id
+ a10-20020adff7ca000000b002252df00d23mr13921775wrq.255.1661268395325; 
+ Tue, 23 Aug 2022 08:26:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5LbOMosWu9JXp9iYzCDUIlrDKYbksxcBIGQrZXfwxkXWdWKnDVHPQ8hSH6vYNwbUrBtxfQuQ==
+X-Received: by 2002:adf:f7ca:0:b0:225:2df0:d23 with SMTP id
+ a10-20020adff7ca000000b002252df00d23mr13921762wrq.255.1661268395098; 
+ Tue, 23 Aug 2022 08:26:35 -0700 (PDT)
+Received: from localhost (static-205-204-7-89.ipcom.comunitel.net.
+ [89.7.204.205]) by smtp.gmail.com with ESMTPSA id
+ v18-20020adfedd2000000b0021e6277bc50sm17289565wro.36.2022.08.23.08.26.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 08:26:03 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0789E1FFBE;
- Tue, 23 Aug 2022 16:25:59 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org,
-	richard.henderson@linaro.org
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PULL 6/6] qemu-options: try and clarify preferred block semantics
-Date: Tue, 23 Aug 2022 16:25:58 +0100
-Message-Id: <20220823152558.301624-7-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220823152558.301624-1-alex.bennee@linaro.org>
-References: <20220823152558.301624-1-alex.bennee@linaro.org>
+ Tue, 23 Aug 2022 08:26:34 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call for agenda for 2022-09-06
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Tue, 23 Aug 2022 17:26:33 +0200
+Message-ID: <87czcryo9i.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,49 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Try to correct any confusion about QEMU's Byzantine disk options by
-laying out the preferred "modern" options as-per:
 
- "<danpb> (best:  -device + -blockdev,  2nd obsolete syntax: -device +
-     -drive,  3rd obsolete syntax: -drive, 4th obsolete syntax: -hdNN)"
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Cc: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220822165608.2980552-7-alex.bennee@linaro.org>
+Hi
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 3f23a42fa8..31c04f7eea 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1105,6 +1105,19 @@ DEFHEADING()
- 
- DEFHEADING(Block device options:)
- 
-+SRST
-+The QEMU block device handling options have a long history and
-+have gone through several iterations as the feature set and complexity
-+of the block layer have grown. Many online guides to QEMU often
-+reference older and deprecated options, which can lead to confusion.
-+
-+The recommended modern way to describe disks is to use a combination of
-+``-device`` to specify the hardware device and ``-blockdev`` to
-+describe the backend. The device defines what the guest sees and the
-+backend describes how QEMU handles the data.
-+
-+ERST
-+
- DEF("fda", HAS_ARG, QEMU_OPTION_fda,
-     "-fda/-fdb file  use 'file' as floppy disk 0/1 image\n", QEMU_ARCH_ALL)
- DEF("fdb", HAS_ARG, QEMU_OPTION_fdb, "", QEMU_ARCH_ALL)
--- 
-2.30.2
+First of all, I am adding
+
+Please, send any topic that you are interested in covering.
+
+At the end of Monday I will send an email with the agenda or the
+cancellation of the call, so hurry up.
+
+After discussions on the QEMU Summit, we are going to have always open a
+KVM call where you can add topics.
+
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+  https://calendar.google.com/calendar/u/0/r/eventedit/copy/NWR0NWppODdqNXFyYzAwbzYza3RxN2dob3VfMjAyMjA4MjNUMTMwMDAwWiBlZ2VkN2NraTA1bG11MXRuZ3ZrbDN0aGlkc0Bn/cXVpbnRlbGFAcmVkaGF0LmNvbQ?scp=ALL&sf=true
+
+  (I updated the entry, I *think* that now everybody can see it, if you
+  can't please let me know.)
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
 
 
