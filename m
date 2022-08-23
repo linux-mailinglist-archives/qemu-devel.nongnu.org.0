@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2BA59E6A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 18:11:56 +0200 (CEST)
-Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D8A59E6A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 18:11:13 +0200 (CEST)
+Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQWVO-0002fh-Ae
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 12:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57384)
+	id 1oQWUi-0001Qp-0k
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 12:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQWO8-0003Wz-84
+ id 1oQWO9-0003Xs-28
  for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:04:25 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44904)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQWO6-0006NO-4f
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:04:23 -0400
-Received: by mail-wr1-x431.google.com with SMTP id u5so9762557wrt.11
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 09:04:21 -0700 (PDT)
+ id 1oQWO6-0006NV-EK
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 12:04:24 -0400
+Received: by mail-wm1-x332.google.com with SMTP id s23so7439442wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 09:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=odwc231DP86deKRifEIobLYlw1+jkxDrWnt85X5IvVU=;
- b=wqYO2UAiYs2QSTbQbn4x4BBF9r/ft03RQVIgypOgI3q4De3bVxE54yIEyYtsS6tE+B
- byHY2ZYP0BH8jJYgiM4e4GlQ17pDjLiIHBxonsPvv4I3hIjxpSwPtId0MjXtrG53bO2t
- mgBgu8u56iiGVKErDMJhkEwuTDNziFHhcT1w25uaaeKE9RN5FOI4lEObdySLLCFsPkW9
- b6GX+jOX1ihvbnVNZQIm+79iFu5NaL2kFVoeS+6ogH6nAsXbQhfTkbVRTkJZwmFiFTXN
- geUKQOmMHRUI4GHVHkI8VpasSFf1W1AG5hWix1whvQJpaPHApuU9G0kQ5BKEbVO0RScR
- eDdw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=z6UpMHqLpSYUanFSBt94iEIwQJiNmdEgVqsaLVU9QzI=;
+ b=dFym4hweN9eIBFysnI4ro+5FfrD0hSSv6WTuzgPepPE9rsWDiTR4LaPft7qA72gtXd
+ 8JpyOjn1y3ccZ2UufCzAOM9T6YIOHjF6o11pphFxj5NYeqBoXMeTDaPDD8z5/xXmohxf
+ dWK+0LzfvN4badvIXhSykVcytgmr44yGGdOQRpYmlirpwzVsDXtKgZ54jZjaI7jBna9b
+ b62S5N7C26sO4Ul/bmRH9gsa8BmbTfzYIXfTcbKC6KP34pSqGrHoEwYVbII/i2sv00uW
+ tpEOtjthyzCKs0CGcNPe7uz/0AGFDtKyd7Ha4pTolRTAXFVYK2+gyk/7QvhEFeNM0cPs
+ PUqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=odwc231DP86deKRifEIobLYlw1+jkxDrWnt85X5IvVU=;
- b=t8sTJvHuQgpeXMMR8x3xvMSE8sobZZazzz0tJDBBDqoWSifTnh4/UQ1iKhWYNK7aqU
- SbbAe73UeyEyPV0oAbdgU/mPPMogpKUW+mpGoVL5cLHGSCwmzC6CtHy98srUAt0umSEk
- 0+TEfinZMTNW6o34N4agBkvc4+NmPMxM02RwtQt1gPtoMirgMtHMpJtOd6U25bHuKKgS
- EuNBjSuy7F2ZX/KN9m7oD2YXnQqWvms09gN50/IcQXR7KjZWN0GuwL7rXGzDX29HUyYF
- /bR8r0lYagj3f7Ht8M2469sgLo7ymQBKQZp/5HjEDbaXOrNypItjczNFTMaDneS04aMl
- 3euQ==
-X-Gm-Message-State: ACgBeo2fpgUIH0cDJwzQ8dwdANmTZvkjgKKa2m/oDpeYEXBgqUfmFd9U
- R2bsSZsKFwIrBTchgyl7DalJgA==
-X-Google-Smtp-Source: AA6agR5zTge2rOsAA2DIBzYIW1XOUBuSmhrMB5HYEe6+wOLMDFRRLu6C7fhtOpRi5Wq8TAsiABgTmg==
-X-Received: by 2002:a05:6000:186f:b0:225:5b80:d19a with SMTP id
- d15-20020a056000186f00b002255b80d19amr5119675wri.389.1661270659973; 
- Tue, 23 Aug 2022 09:04:19 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=z6UpMHqLpSYUanFSBt94iEIwQJiNmdEgVqsaLVU9QzI=;
+ b=nZQ2Wt0ZH34Y1m4irCrpJQor+q425NapJxwewK0mq1/9mWWyJ0kwnyAyfgHh2ryfU4
+ SRtN5d7RQezHCmApdZVrb5cYmPhjg7CMS+ESxYi8AGRdy/IwYLu1dSloNLAnzbxTULTn
+ V927cMc4Asy6a5EKz6iYwe+ALTsYlJnfrTVRBrcM1DTTNMZKxPHrLcQQGk2PEbn1GqrP
+ 5vOXGmGl1j5sGW6vrLpacKheYzM5aEQDYy+3tk3PdnmXihDJK0S7SIxIWGv3Tmq6Piaf
+ KBaoEAeYTNJQfKx9HaaZvcmTREIssctjWDr6B1qohkepwBenZt0sVsOSTBwpDIjBTduv
+ kUeA==
+X-Gm-Message-State: ACgBeo15kccmDzlZGBT2rc35jjuU0Jt8xXFgG9wNH7C7oRhyIOyZU0Lh
+ WZdQzd3tPpNiDP6jWPWb9xm4MA==
+X-Google-Smtp-Source: AA6agR6NUP0jWjuwJI4sw+2AVjfnWML7Ug7wIMBlJTOJqm4k8RkQnyXKJJeJp7yBX/vofTy4+dhyFQ==
+X-Received: by 2002:a05:600c:190f:b0:3a5:f6dc:f542 with SMTP id
+ j15-20020a05600c190f00b003a5f6dcf542mr2673628wmq.130.1661270661086; 
+ Tue, 23 Aug 2022 09:04:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- m27-20020a056000181b00b0022549ac786asm9152241wrh.47.2022.08.23.09.04.18
+ m27-20020a056000181b00b0022549ac786asm9152241wrh.47.2022.08.23.09.04.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 09:04:19 -0700 (PDT)
+ Tue, 23 Aug 2022 09:04:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Shiny Saana <shinysaana@gmail.com>
-Subject: [PATCH 0/2] target/arm: armv7m_load_kernel() improvements
-Date: Tue, 23 Aug 2022 17:04:15 +0100
-Message-Id: <20220823160417.3858216-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] target/arm: Remove useless TARGET_BIG_ENDIAN check in
+ armv7m_load_kernel()
+Date: Tue, 23 Aug 2022 17:04:16 +0100
+Message-Id: <20220823160417.3858216-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220823160417.3858216-1-peter.maydell@linaro.org>
+References: <20220823160417.3858216-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,47 +90,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two small patches to armv7m_load_kernel().  The first is just getting
-rid of some dead code, that I noticed while working on the function. 
-The second is to make boards pass armv7m_load_kernel() the base
-address for loading guest (non-ELF) binaries.  At the moment we
-assume all M-profile boards start at address 0; this happens to be
-true for all the ones we implement right now, but it's not true in
-general.  In particular the Teeny board has its ROM at 0x0020_0000.
+Arm system emulation targets always have TARGET_BIG_ENDIAN clear, so
+there is no need to have handling in armv7m_load_kernel() for the
+case when it is defined.  Remove the unnecessary code.
 
-I thought about having armv7m_load_kernel() be "clever" and ask the
-CPU what init-svtor/init-nsvtor were set to, but that seems like it
-might have unanticipated consequences[*].  "Just pass the base address"
-is simpler and is how A-profile does it (though for A-profile it's
-the loader_start field in struct arm_boot_info rather than an extra
-argument).
+Side notes:
+ * our M-profile implementation is always little-endian (that is, it
+   makes the IMPDEF choice that the read-only AIRCR.ENDIANNESS is 0)
+ * if we did want to handle big-endian ELF files here we should do it
+   the way that hw/arm/boot.c:arm_load_elf() does, by looking at the
+   ELF header to see what endianness the file itself is
 
-[*] eg where the board has the rom/flash aliased at both address
-0 and some other address, and init-svtor points at an alias;
-also Secure vs NonSecure address spaces and loading...
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/armv7m.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  target/arm: Remove useless TARGET_BIG_ENDIAN check in
-    armv7m_load_kernel()
-  target/arm: Make boards pass base address to armv7m_load_kernel()
-
- include/hw/arm/boot.h     |  5 ++++-
- hw/arm/armv7m.c           | 14 ++++----------
- hw/arm/aspeed.c           |  1 +
- hw/arm/microbit.c         |  2 +-
- hw/arm/mps2-tz.c          |  2 +-
- hw/arm/mps2.c             |  2 +-
- hw/arm/msf2-som.c         |  2 +-
- hw/arm/musca.c            |  3 ++-
- hw/arm/netduino2.c        |  2 +-
- hw/arm/netduinoplus2.c    |  2 +-
- hw/arm/stellaris.c        |  2 +-
- hw/arm/stm32vldiscovery.c |  2 +-
- 12 files changed, 19 insertions(+), 20 deletions(-)
-
+diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+index 990861ee5ef..fa4c2c735da 100644
+--- a/hw/arm/armv7m.c
++++ b/hw/arm/armv7m.c
+@@ -572,17 +572,10 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size)
+ {
+     ssize_t image_size;
+     uint64_t entry;
+-    int big_endian;
+     AddressSpace *as;
+     int asidx;
+     CPUState *cs = CPU(cpu);
+ 
+-#if TARGET_BIG_ENDIAN
+-    big_endian = 1;
+-#else
+-    big_endian = 0;
+-#endif
+-
+     if (arm_feature(&cpu->env, ARM_FEATURE_EL3)) {
+         asidx = ARMASIdx_S;
+     } else {
+@@ -593,7 +586,7 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size)
+     if (kernel_filename) {
+         image_size = load_elf_as(kernel_filename, NULL, NULL, NULL,
+                                  &entry, NULL, NULL,
+-                                 NULL, big_endian, EM_ARM, 1, 0, as);
++                                 NULL, 0, EM_ARM, 1, 0, as);
+         if (image_size < 0) {
+             image_size = load_image_targphys_as(kernel_filename, 0,
+                                                 mem_size, as);
 -- 
 2.25.1
 
