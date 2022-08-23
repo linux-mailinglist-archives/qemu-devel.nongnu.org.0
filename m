@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244C259CE30
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 04:04:54 +0200 (CEST)
-Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A17059CE46
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 04:07:36 +0200 (CEST)
+Received: from localhost ([::1]:58696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQJHg-0007i6-Qb
-	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 22:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36300)
+	id 1oQJKJ-0001jJ-FG
+	for lists+qemu-devel@lfdr.de; Mon, 22 Aug 2022 22:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQJFq-0006Ch-1o
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 22:02:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQJFm-0005r9-5L
- for qemu-devel@nongnu.org; Mon, 22 Aug 2022 22:02:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661220171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tbFDOw8LhMdGEb4um11ZkTlA7LserPQMoAweS0yet9A=;
- b=Ozj2v0UajqH7FObLbJ4BhC7B/6UgI9XsW3FKCK0WWaA1nrpv2V4Lj24z1XchRq38jpMQFM
- 0fnp4a0Vn+ZSQ3gXm3e6KUIttzgkU7o/gAk0cSkbNJVr8JlFxozEmucgpKyz0OwVg/Blgt
- al/yK6ejvlj0wqsz2Gc4REKv/RVRYO8=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-344-DhlSksWTMp2I06B8VeCfXQ-1; Mon, 22 Aug 2022 22:02:50 -0400
-X-MC-Unique: DhlSksWTMp2I06B8VeCfXQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- o9-20020a2e7309000000b00261d4ae66d7so327063ljc.21
- for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 19:02:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQJIX-0007pc-Jh
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 22:05:45 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQJIU-0006C6-Qy
+ for qemu-devel@nongnu.org; Mon, 22 Aug 2022 22:05:44 -0400
+Received: by mail-pl1-x634.google.com with SMTP id p18so11543439plr.8
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 19:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=Csm6qPvzSc9FEFucxj21IX4xZzfJGM2tbe9MlCN1Pqs=;
+ b=pkdL4Zbvv8DV24ZsDbGVAdG8UGBt48Rqho5WPo6N5Z0j1IMOFe+7ekcmqtlDfko2OA
+ Ds36Gh8GbvMdqlmgZpOAL3uDRZdnjoD1MIhDDWsefFJgOD1IJXgoi/tG1PfEBv/nAwDf
+ oXb67NCTcWn++9M7kM5syEuniWdBjxNLpdSRsFR3RZi6eEU6HUR4T4AEfZgP88GQp3vO
+ Bta0Tp2vG5JYb1lxNYya6ESbHAPXmFpPT6kaYvNphN1kAdesmNRQnwGOM1ZnXIXOsoZs
+ 7dRJbFBfGptXtkOO1vpZDi3+h+Tvzr6W0dIrLjvhJ1N1T0OW+BiXNgiL+OXw7UbUoykW
+ Rd7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=tbFDOw8LhMdGEb4um11ZkTlA7LserPQMoAweS0yet9A=;
- b=KGMLwu51m+nvHPHUbRxA+x14lNVC8NAlvL0UUqqDjMIVbmF7lBoqeS1X4Kc03mXBW5
- PZ/f9mCCfOcqaVhQGM7/qdDZxiRAEUKslkLqrQ+FUsTBNfRfIKRGgzIZW/aVjn2mHh7M
- Szeaq2ezJzV2dCSFQz19Woi6IunCE2abel85l43Aq2O1tzE6oGz/smWtlGcs3Oafzeqw
- I1gj88ZvKyU4NEMw2Drgz1elckFOiLchw49V4+oH6KwpVv7NzJ8royCzwPmcPMW3gmGS
- jKt/Zzd3YPd6z1Hpf+jsqZluNpHMPaonlUrcwsx6jjP5cvq+tTu9iJ8BXG5K2QnjbP5p
- 0LYg==
-X-Gm-Message-State: ACgBeo3WyGzGt3576+gRIPZZCvGtUc0H2IaXcIk06ck2pyWJFIrGCpBn
- 27zqYp3ac5qrsgpFUtnnKHQY52TUMZbPu6ycsfex8hLKQBg97sl9gDyzkzcVkA9SsWaKf5EHPsg
- pHGJMksJp17ERjufm+4xZ+jLd6MFrd1s=
-X-Received: by 2002:a05:6512:3da1:b0:48f:cad0:195a with SMTP id
- k33-20020a0565123da100b0048fcad0195amr8140998lfv.397.1661220168546; 
- Mon, 22 Aug 2022 19:02:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6vZQTDLcmP9ZQe05NrF724XE4J9XUm7L44gjJvJfAxV7dBelvPS3IliZKOcsSqc7XomAU3xyXDR89VqizC3Ac=
-X-Received: by 2002:a05:6512:3da1:b0:48f:cad0:195a with SMTP id
- k33-20020a0565123da100b0048fcad0195amr8140991lfv.397.1661220168321; Mon, 22
- Aug 2022 19:02:48 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=Csm6qPvzSc9FEFucxj21IX4xZzfJGM2tbe9MlCN1Pqs=;
+ b=VwCeqxM54yXY+W7TZT7HoYy1qE5RVw4sW/vL1WjeU+F155fywsndBcGnXDwlkSTaUU
+ ICIXUreYJZDEBsTEdFFfLoisTTui88VJ9DPeKHzGNbV+6l3jVSwG5u3VnfvXASgPv0Pe
+ 7U8MjxxP6ix3kKDXxgLTBQkDT0fZnPkVktxuJqSrfOjV32kGciqVAQtdo+1GOAc4QfFI
+ +WFiU6qp2/05QtkG8DmZaXZKY8ml4aj5hCfTT25i0DEq/Tg/n8AkVYM5WQ7PTWtTarDV
+ r0ZM3t9rMd0uNSdYOpaiSjAwYNxIuk4cot7AgvNKg92MrsGtEOnTeUgsNOnIQA1ci5aM
+ FzOw==
+X-Gm-Message-State: ACgBeo1NkvPycf6VfyPUatHDq4OmLz9KxJ2Iu9WcHlziUKp5KyOe1dxe
+ fM8GtVFrPImIqy5t90tZD8/Q7yBkaqQo0g==
+X-Google-Smtp-Source: AA6agR4YUZ+5sbVTf3vHSUFqvxZMDsqqcWzQjDy8aqSFIzBK3jMZ+yJi4zfdfvWABvOtXOCXj5Eltg==
+X-Received: by 2002:a17:902:d491:b0:172:f654:ac3b with SMTP id
+ c17-20020a170902d49100b00172f654ac3bmr4293453plg.49.1661220341231; 
+ Mon, 22 Aug 2022 19:05:41 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:c3f1:b74f:5edd:63af?
+ ([2602:47:d49d:ec01:c3f1:b74f:5edd:63af])
+ by smtp.gmail.com with ESMTPSA id
+ o185-20020a625ac2000000b0052b7f0ff197sm9313440pfb.49.2022.08.22.19.05.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Aug 2022 19:05:40 -0700 (PDT)
+Message-ID: <dc381141-63c9-7856-d55e-71bda488d643@linaro.org>
+Date: Mon, 22 Aug 2022 19:05:39 -0700
 MIME-Version: 1.0
-References: <20220822081436.653555-1-chen.zhang@intel.com>
-In-Reply-To: <20220822081436.653555-1-chen.zhang@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 23 Aug 2022 10:02:37 +0800
-Message-ID: <CACGkMEsnxOHsK-sq0xkXU9h9MaZBu31o9msc8gyrNtcyhJRLhA@mail.gmail.com>
-Subject: Re: [PATCH V5] net/colo.c: Fix the pointer issue reported by Coverity.
-To: Zhang Chen <chen.zhang@intel.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 00/14] target/i386: Use atomic operations for pte updates
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, eduardo@habkost.net
+References: <20220822235803.1729290-1-richard.henderson@linaro.org>
+In-Reply-To: <20220822235803.1729290-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,97 +93,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 22, 2022 at 4:29 PM Zhang Chen <chen.zhang@intel.com> wrote:
->
-> When enabled the virtio-net-pci, guest network packet will
-> load the vnet_hdr. In COLO status, the primary VM's network
-> packet maybe redirect to another VM, it needs filter-redirect
-> enable the vnet_hdr flag at the same time, COLO-proxy will
-> correctly parse the original network packet. If have any
-> misconfiguration here, the vnet_hdr_len is wrong for parse
-> the packet, the data+offset will point to wrong place.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+On 8/22/22 16:57, Richard Henderson wrote:
+> This patch set does two things:
+> 
+> (1) Remove assert(!probe) from the x86 tlb_fill
+> 
+>      It turns out that this is a prerequisite for
+>      [PATCH v6 00/21] linux-user: Fix siginfo_t contents when jumping
+>      to non-readable pages
+> 
+>      because of a new use of probe_access(..., nonfault)
+>      when comparing TBs that cross a page boundary.
 
-Not sure it's worth 7.1. So I queued this for 7.2.
+Turns out this was a bug in the v6 patch set. We don't require nonfault probes on 
+PROT_EXEC at all; v7 will fix this.
 
-Thanks
+But it's still nice that non-faulting probes now work...
 
-> ---
->  net/colo.c       | 25 ++++++++++++++++---------
->  net/colo.h       |  1 +
->  net/trace-events |  2 +-
->  3 files changed, 18 insertions(+), 10 deletions(-)
->
-> diff --git a/net/colo.c b/net/colo.c
-> index 6b0ff562ad..fb2c36a026 100644
-> --- a/net/colo.c
-> +++ b/net/colo.c
-> @@ -44,21 +44,28 @@ int parse_packet_early(Packet *pkt)
->  {
->      int network_length;
->      static const uint8_t vlan[] = {0x81, 0x00};
-> -    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
-> +    uint8_t *data = pkt->data;
->      uint16_t l3_proto;
->      ssize_t l2hdr_len;
->
-> -    if (data == NULL) {
-> -        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
-> -                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-> +    assert(data);
-> +
-> +    /* Check the received vnet_hdr_len then add the offset */
-> +    if ((pkt->vnet_hdr_len > sizeof(struct virtio_net_hdr_v1_hash)) ||
-> +        (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header) +
-> +        pkt->vnet_hdr_len)) {
-> +        /*
-> +         * The received remote packet maybe misconfiguration here,
-> +         * Please enable/disable filter module's the vnet_hdr flag at
-> +         * the same time.
-> +         */
-> +        trace_colo_proxy_main_vnet_info("This received packet load wrong ",
-> +                                        pkt->vnet_hdr_len, pkt->size);
->          return 1;
->      }
-> -    l2hdr_len = eth_get_l2_hdr_length(data);
-> +    data += pkt->vnet_hdr_len;
->
-> -    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
-> -        trace_colo_proxy_main("pkt->size < ETH_HLEN");
-> -        return 1;
-> -    }
-> +    l2hdr_len = eth_get_l2_hdr_length(data);
->
->      /*
->       * TODO: support vlan.
-> diff --git a/net/colo.h b/net/colo.h
-> index 8b3e8d5a83..22fc3031f7 100644
-> --- a/net/colo.h
-> +++ b/net/colo.h
-> @@ -18,6 +18,7 @@
->  #include "qemu/jhash.h"
->  #include "qemu/timer.h"
->  #include "net/eth.h"
-> +#include "standard-headers/linux/virtio_net.h"
->
->  #define HASHTABLE_MAX_SIZE 16384
->
-> diff --git a/net/trace-events b/net/trace-events
-> index 6af927b4b9..823a071bdc 100644
-> --- a/net/trace-events
-> +++ b/net/trace-events
-> @@ -9,7 +9,7 @@ vhost_user_event(const char *chr, int event) "chr: %s got event: %d"
->
->  # colo.c
->  colo_proxy_main(const char *chr) ": %s"
-> -colo_proxy_main_vnet_info(const char *sta, int size) ": %s = %d"
-> +colo_proxy_main_vnet_info(const char *sta, uint32_t vnet_hdr, int size) ": %s pkt->vnet_hdr_len = %u, pkt->size = %d"
->
->  # colo-compare.c
->  colo_compare_main(const char *chr) ": %s"
-> --
-> 2.25.1
->
 
+r~
 
