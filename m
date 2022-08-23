@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0083659E519
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 16:26:19 +0200 (CEST)
-Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C93059E520
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 16:32:38 +0200 (CEST)
+Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQUrC-0007iX-DU
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 10:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
+	id 1oQUxJ-00027a-8S
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 10:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQUnD-0003ez-F1
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:22:11 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:43653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQUnA-0007Id-A4
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:22:11 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-333a4a5d495so382845697b3.10
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 07:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=6sCcO+czUNvV2xfGnZUi8UpVs6Iz+lx4c4qyPpFqObQ=;
- b=t7UTDgxN8O/OEkRS61iSK4CzSp2Nmp9KWcF1BX/vAT96Vn+vaBI5RLv6jdm0qFzj1o
- uDRApy9UCfrPoGPvHJmp632LQshdVuDPFr1mgKJIRbqLarGajnuEeEnTczI23H6gSdXu
- a286AdhxDlRZHj3IYU7U7svYjRfmtE7zRFsDlUZOQ5EGfM8ePb13XKxdcI1SudRuBcLb
- Xd7+O4mQiNdoIY8ZLq9LleEopR1UFUY8XKfFRnDKpzElqH2jnx1yGNQmQSRxgpN2pFaY
- SlAOua9sZX4fqJLtkDb6bIYwWsVYNjCUFGF56/NtfcZ9Cs76Kv8M5hOPhfq04VY9G4ny
- kFDw==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oQUud-000057-Nr
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:29:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56949)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oQUuZ-0008HD-FS
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 10:29:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661264979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qo2ativMqFLTzKX182imyjELyKBlN0+K24Geey/C9f4=;
+ b=FiIssDvLQkw2tXI7xV25X67Rm6dmqLGy5inIL5vHi+KEIMAYscbuvnu9pXxaBaiolUMxd4
+ FwH5FkXD7PwOvu8y+j45fXAPqtF7w9C+SK1u8LdmJVe5sg40tuwoi4J7wLJ4lWbmsT/wWU
+ oqTMTaYW5ADxOoQHGnEjQlzbqf8uNeE=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-473-FwiADgoSNiaqsllBiHkIQQ-1; Tue, 23 Aug 2022 10:29:38 -0400
+X-MC-Unique: FwiADgoSNiaqsllBiHkIQQ-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ 67-20020a671546000000b0038ab6223414so3478004vsv.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 07:29:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=6sCcO+czUNvV2xfGnZUi8UpVs6Iz+lx4c4qyPpFqObQ=;
- b=q36qDDUej2miVcWiX9zJTGewqK0tGOt2ugVfNgEVCUHRe1EeWFNfWXmO6biU3g+cjN
- BMwx8gK0Z68dyTizUbTsjmMmDgIS2m/hwASg/wzXWhVRtnqsVmVRyvT+8c00Qn4qjRYU
- pKEh/zP1MRnKqvRg4ccBFPqF3sQ1CgVZvj4f42ab8Bkw4DuX7pI0J9Mriy4iMvjGTbGY
- hMBo5yndumRahApsmWnpt41JdDbszeAhpQqOq7vDclbIDuiWA1fhiL4n/fry/Nz95smg
- mCa59L8O51/XS55WeAntocm0WssyxP1dzrUGSlulVqwlE3w8t4zW4c6axAT/oe2fJuYK
- wfxA==
-X-Gm-Message-State: ACgBeo0uvdva90c3+mnu5va/+qQ5sFl8qvfAsj2rfuHqN26LRTVvjjI6
- C9I+z/nborE1zVVo+im8ggi1HawWQ3H1MCYE8FcAtg==
-X-Google-Smtp-Source: AA6agR6nD/ZKX9J7BRIbyTchQ4AndifGoCKelVFFEx/2e/6wOwkus4aDFeDZG9mAYktmmMKyBT+3y5r03nqYFwXwK6U=
-X-Received: by 2002:a25:4288:0:b0:692:8c1e:2e7e with SMTP id
- p130-20020a254288000000b006928c1e2e7emr25264033yba.479.1661264526931; Tue, 23
- Aug 2022 07:22:06 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Qo2ativMqFLTzKX182imyjELyKBlN0+K24Geey/C9f4=;
+ b=Y+cU++3wat8vhiI5a80fQo31D1SA/QUVT6mY7vru2FL3Cva5mSSklv7R6jxXD+SUC1
+ 2EUVLszXvZXXDaK1AIgOMfClVRulgFo7RvW0YzrAPmtJnOANDXraRy2Zfx6Q0S8oUWp0
+ fTxyrZZVaFJmU7VVBs6WYTDzFopWR1fncdfc66IbEv4uzvxXO6GVjQXrW69S/G1/nZod
+ 9LuD0s52V8YtH5FiPGaATe9qEphDBJdZju+lSF4dY0fozutK3arU2W3/1MvaX6KiuNPQ
+ XdZZcA2DQjz59JpSI4uvXIt4ak6gz5/v9ZlI2Pr2xeyr+TyyHhjvOZW11M75jLGQA7+B
+ 2Puw==
+X-Gm-Message-State: ACgBeo09hOEOhkT7LvgaolvjV8mBdnsPrrCEEgkzLbr9p4/Rq5AWsj6T
+ iHUo7FHKssKpS4F1qzbPhjlje2mCvus2/xDTqlcBF7kJ1Y4DBRAkPQD5F8inUNWCCNkeQ+1kBzR
+ fVaniIiHxa6xwLGjeXCIrcAbsRvVk/O4=
+X-Received: by 2002:a05:6102:3e1f:b0:388:9dab:9bef with SMTP id
+ j31-20020a0561023e1f00b003889dab9befmr8642540vsv.38.1661264978072; 
+ Tue, 23 Aug 2022 07:29:38 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6wBl+cvgcX2AP4zLVyKG9ZKUl4I4BMn5cC6JVzAUuXgFL2H+WZuvjF0vKa3909PXo7i1QidPR5lh1gpib0x+M=
+X-Received: by 2002:a05:6102:3e1f:b0:388:9dab:9bef with SMTP id
+ j31-20020a0561023e1f00b003889dab9befmr8642531vsv.38.1661264977824; Tue, 23
+ Aug 2022 07:29:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJtCPL0rRU9Q=s6kUFDHjC5uUmx2w=ePYMMaib6vq57g48qk0Q@mail.gmail.com>
- <CAFEAcA81OfC_Z_uQvrSRUKHQf4mmOgbLrHYiwsfzmgH8u8sUqg@mail.gmail.com>
- <CAJtCPL3yNpNkK0Ljzo=QOFX_gLQtGGcqDoomwJ+RH0hq5G=YQA@mail.gmail.com>
- <87r11gbjbv.fsf@linaro.org>
- <CAFEAcA-6X=ptfDXGWA79-L9kRCQRq6jtci7ODPy0Ct369_EvCA@mail.gmail.com>
- <CAJtCPL3Hef3d6sDA+pYJ6xChHS7y1J+2Cn9qf1NT0hwaBT8iTg@mail.gmail.com>
- <CAFEAcA8TmrMo+MOhOutUuwE=GOEFYUGxgRA2_XGZ2iunMTAe5w@mail.gmail.com>
- <CAJtCPL10GL8JL2qb-sZTpmPaHTy7fOoEDb194ZL1NSvXpqGaUQ@mail.gmail.com>
-In-Reply-To: <CAJtCPL10GL8JL2qb-sZTpmPaHTy7fOoEDb194ZL1NSvXpqGaUQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Aug 2022 15:21:25 +0100
-Message-ID: <CAFEAcA8ozX22==9T33gxS9Ks31fzMgKH9-Eic03gMsg86iTYmA@mail.gmail.com>
-Subject: Re: Teensy 4.1 Implementation
-To: Shiny Saana <shinysaana@gmail.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220818165358.217613-1-jsnow@redhat.com>
+ <CABJz62M8_197kahaNtBC1eSda5WJo6i7B1tsKF5+uMD+HXfj_A@mail.gmail.com>
+In-Reply-To: <CABJz62M8_197kahaNtBC1eSda5WJo6i7B1tsKF5+uMD+HXfj_A@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 23 Aug 2022 10:29:26 -0400
+Message-ID: <CAFn=p-ZDaxx978qHGTJnxYnja0hn8RF8d9fbnGYZtRO5GJO=-w@mail.gmail.com>
+Subject: Re: [qemu-web PATCH] Add signing pubkey for python-qemu-qmp package
+To: Andrea Bolognani <abologna@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000e1a4b605e6e9646d"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,49 +91,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Aug 2022 at 15:00, Shiny Saana <shinysaana@gmail.com> wrote:
-> From experimentation and dissasembly on the ROM, (located in 0x0020_0000)=
-, the very first int (converted to BE) is "0x2020_1000" , which is located =
-to "OCRAM2", also referred as "ROM RAM" by the documentation, and the next =
-int is "0x0020_2091", which both points inside the ROM itself , and which w=
-hen forcibly disassembled in Ghidra does look like a function.
-> So I'm pretty confident the initial vector base address is 0x0020_0000.
+--000000000000e1a4b605e6e9646d
+Content-Type: text/plain; charset="UTF-8"
 
-Right. In fact, rereading the datasheet, I see that I overlooked
-that the IOMUXC_GPR_GPR16 reset value is actually specified. Bits
-[31:7] of that are the CM7_INIT_VTOR, which is to say that they're
-bits [31:7] of the initial vector table address. And they're set
-so that is 0x0020_0000.
+On Tue, Aug 23, 2022, 5:16 AM Andrea Bolognani <abologna@redhat.com> wrote:
 
-Your board code should be setting the init-nsvtor property on
-the armv7m object to 0x00200000, if it isn't already.
+> On Thu, Aug 18, 2022 at 12:53:58PM -0400, John Snow wrote:
+> > Add the pubkey currently used for signing PyPI releases of qemu.qmp to a
+> > stable location where it can be referenced by e.g. Fedora RPM specfiles.
+> >
+> > At present, the key happens to just simply be my own -- but future
+> > releases may be signed by a different key. In that case, we can
+> > increment '1.txt' to '2.txt' and so on. The old keys should be left in
+> > place.
+> >
+> > The format for the keyfile was chosen by copying what OpenStack was
+> > doing:
+> >
+> https://releases.openstack.org/_static/0x2426b928085a020d8a90d0d879ab7008d0896c8a.txt
+> >
+> > Generated with:
+> > > gpg --with-fingerprint --list-keys jsnow@redhat.com > pubkey
+> > > gpg --armor --export jsnow@redhat.com >> pubkey
+>
+> You might want to pass
+>
+>   --export-options export-minimal
+>
+> to the second command in order to obtain a significantly smaller file
+> that can still serve the intended purpose.
+>
 
-> Regarding the "kernel loading" issue, I believe that I was initially
-> mistaken. From other examples online, I believed that it was the way
-> to load the Teensy image. But thinking and discussing it with another
-> ARM dev, wouldn't the ROM itself actually be considered the kernel?
+OK, I'll test with this option. Thanks!
 
-Yes, this would be in line with the way we use -kernel on other
-M-profile board models.
+((Doesn't know anything about gpg))
 
-> Knowing that, if the call to  armv7m_load_kernel() is mandatory,
-> maybe it would make sense to load the ROM in C code via this
-> function, with the compiled ROM addresses from 0x0000_0000 to
-> 0x001F_FFFF being padded with 0.
 
-That's one way to do it. I think it would be better to adjust
-armv7m_load_kernel() so that it loaded the file to a board-specific
-ROM base, which would avoid the need for the weird zero-padding.
-Two options:
- * we could make armv7m_load_kernel() take a base address as well as
-   a size for the region it loads the "kernel" to
- * we could have armv7m_load_kernel() be clever enough to query
-   the CPU to find out what the VTOR value is and load the
-   "kernel" there
+> --
+> Andrea Bolognani / Red Hat / Virtualization
+>
+>
 
-I'll have a think about which one of those I prefer, and maybe
-write a patch...
+--000000000000e1a4b605e6e9646d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-thanks
--- PMM
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Aug 23, 2022, 5:16 AM Andrea Bolognani &lt;<a =
+href=3D"mailto:abologna@redhat.com">abologna@redhat.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">On Thu, Aug 18, 2022 at 12:53:58PM -040=
+0, John Snow wrote:<br>
+&gt; Add the pubkey currently used for signing PyPI releases of qemu.qmp to=
+ a<br>
+&gt; stable location where it can be referenced by e.g. Fedora RPM specfile=
+s.<br>
+&gt;<br>
+&gt; At present, the key happens to just simply be my own -- but future<br>
+&gt; releases may be signed by a different key. In that case, we can<br>
+&gt; increment &#39;1.txt&#39; to &#39;2.txt&#39; and so on. The old keys s=
+hould be left in<br>
+&gt; place.<br>
+&gt;<br>
+&gt; The format for the keyfile was chosen by copying what OpenStack was<br=
+>
+&gt; doing:<br>
+&gt; <a href=3D"https://releases.openstack.org/_static/0x2426b928085a020d8a=
+90d0d879ab7008d0896c8a.txt" rel=3D"noreferrer noreferrer" target=3D"_blank"=
+>https://releases.openstack.org/_static/0x2426b928085a020d8a90d0d879ab7008d=
+0896c8a.txt</a><br>
+&gt;<br>
+&gt; Generated with:<br>
+&gt; &gt; gpg --with-fingerprint --list-keys <a href=3D"mailto:jsnow@redhat=
+.com" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a> &gt; pubkey=
+<br>
+&gt; &gt; gpg --armor --export <a href=3D"mailto:jsnow@redhat.com" target=
+=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a> &gt;&gt; pubkey<br>
+<br>
+You might want to pass<br>
+<br>
+=C2=A0 --export-options export-minimal<br>
+<br>
+to the second command in order to obtain a significantly smaller file<br>
+that can still serve the intended purpose.<br></blockquote></div></div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">OK, I&#39;ll test with this optio=
+n. Thanks!</div><div dir=3D"auto"><br></div><div dir=3D"auto">((Doesn&#39;t=
+ know anything about gpg))</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+-- <br>
+Andrea Bolognani / Red Hat / Virtualization<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000e1a4b605e6e9646d--
+
 
