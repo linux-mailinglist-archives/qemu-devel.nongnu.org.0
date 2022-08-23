@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C9F59D017
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 06:34:21 +0200 (CEST)
-Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC14E59D050
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 07:08:40 +0200 (CEST)
+Received: from localhost ([::1]:32772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQLcK-0005Uj-4x
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 00:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54170)
+	id 1oQM9X-00053j-Kv
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 01:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oQLZ7-0003r9-GF; Tue, 23 Aug 2022 00:31:16 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:35520)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQM8K-0003i7-VM
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 01:07:24 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:45021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oQLZ3-0001TL-Ke; Tue, 23 Aug 2022 00:31:00 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-33365a01f29so349225457b3.2; 
- Mon, 22 Aug 2022 21:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=JopWW3k6LORjTuqQM+MmUTHGo7Rvc2pL4ngbhRrohIg=;
- b=JbtCoCcBPWH07dLSgWJw2spEO7Sn9UzkeRhgGJ2HBAPB2nLGGlXIObm+4BqdgI31Dv
- /KKOEcpD8EhMgJiAqoxJMCloU3TUKJ9Zqx60Vd/p5ADY++ezWlLgZ34M9a/pzw8Dj1I8
- 7BPmGeF0w/YmRaG5M4SeKRumzDtzOSPnKWsVSpmPHsjUcnp9e/XYTCMKrljiR78kt0Hl
- H1MZOZ/EuvuflVjRYDL2xA15j4lQBo3LH8YXUZkO3Dsr9Uh8FMYyhh37Nxdlmi9cF9mj
- wOOet64q1pp1ehROa9utZ5i15Q9MeWVLt4wFR+JntbB6Q98M0nb8sTw+684esQqJSPp4
- dX9A==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oQM8I-0006YM-K2
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 01:07:24 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ r15-20020a17090a1bcf00b001fabf42a11cso13481704pjr.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Aug 2022 22:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=mh6VD9+NmPpNJNVxmmFo/NsX15XKX/3v0VM+jweJJVA=;
+ b=M+AEXl79MhJWUiZ2Iry+QGsl8aqT0HGou8ajKhZmP0p83PWu3lVYEJAHGzl0R4XuD0
+ 3Pi3lQ2cfg8DgQglwIOTqAMQKnLBOyTL/PP07I38xebUPLzBxNX4h/5y/KC4GasXiTo8
+ omRC/ls8iPxieXGJbohLGAXeUMoNtL3R/0jAiJaG+JI39/TkPOqcw0Ok/p8z2EMvVfjk
+ v4RUPzXJkRQza66sjTxWUtg0phCuUsGKj7hKYV4g6iK8b6xw8lyIlAWvLFq+QEpWiyhW
+ GyrDviNhEDhSOHApuD2G5JE8b2LxKUDEaGjDegyF30JLtC4J9qa3UgaY3xuEIkMj3pr7
+ IVtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=JopWW3k6LORjTuqQM+MmUTHGo7Rvc2pL4ngbhRrohIg=;
- b=ObUs91ylfzZVomc90sPy6q1xg5BgTqZzJBp0Ro+N/J14E7sxUllap0NyMagN+4Fgwe
- IMAnE6GJWURHV/RM8tcJQwEFYQEElFgUPXQpdutBUM1J/5VzqH+4PpY4g22gbS2/ujaI
- 3opHPSavWVomlNzSgV+0wyifEFDntC0VpUAtee/qNIBkXnSB7G8XW6PQT27kmTA4R/Yu
- pQmBoSq0GaZgqd9GQAXgEwHNCy8t5k5W4SEgUboT+NBFB8khrhS3fBWj3P5kPeoYfzoj
- nH1f0xwSPX7V/KtDhSQbeFe6C6/lj8yosmkvSnSLF0TwrvnQkXHPfoKGSn+p7m+7IoIz
- lNAw==
-X-Gm-Message-State: ACgBeo1ExxP2muhmzoJ2GjAYF3L/Pil5UKxmx6n//xHwhUymc049i+3E
- RGytRuX7wDxba+Tm9dBOdSeotX16rz5Vu8dIMLY=
-X-Google-Smtp-Source: AA6agR7cJn+bmgeR+QTz3HoDHhx3qHciQDPCY+YQv117XxJeiZrN4YxBVBfhpB5YWZmfZ218hpuDDdD9jKtMuopmFsI=
-X-Received: by 2002:a05:6902:2cb:b0:684:aebe:49ab with SMTP id
- w11-20020a05690202cb00b00684aebe49abmr22635943ybh.242.1661229054543; Mon, 22
- Aug 2022 21:30:54 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=mh6VD9+NmPpNJNVxmmFo/NsX15XKX/3v0VM+jweJJVA=;
+ b=feQrQbmf1gCDZNv72/UPb0rougATK5XhHvJKXbKogLcyKshGwa1px2SXaqCcc4V/ua
+ Ayi0eeZrMKUH6QfwSr6jZA2me58cGJEVHxZCKShl/YLZ4Mm2dbzXVi2cA86koUtqKCHY
+ jKhEKp3JzH/RLJMFvjPkrqQq1wkwnrh+CRI4Jdu/8bTNqettSiDHJUyCM8Tp9CL2d7SJ
+ 1cHj+y4xK/ImrtI2reF+k7ilrDdgs0GPmH7iwRVaMT2+LzpTE1bjZRftCyolzj8qun8Z
+ Yij7bgzWTfhb47A7Ji1SZuoxl3TIEZIt3mqMxlQmimvIZj415x4bw4rdJpKGhfTUAXKJ
+ Fj/Q==
+X-Gm-Message-State: ACgBeo1nhkHzvMwQlRAyBDNsP8WPfhCqVgIp1JJ1pqnS8jNmjjceax+u
+ AFzItE1XAL5L/+PN53m2g+Xpfdbu9DLZXA==
+X-Google-Smtp-Source: AA6agR41teQ6d0ieL5ZVocX1XNbwRa+D2FQOppR7pEZZyKUYzWaUbMymS4EiUlUTgHVvhuZWjv70AQ==
+X-Received: by 2002:a17:903:110f:b0:171:3afa:e688 with SMTP id
+ n15-20020a170903110f00b001713afae688mr23169761plh.162.1661231240822; 
+ Mon, 22 Aug 2022 22:07:20 -0700 (PDT)
+Received: from stoup.. ([2602:47:d49d:ec01:c3f1:b74f:5edd:63af])
+ by smtp.gmail.com with ESMTPSA id
+ q5-20020aa79825000000b005364c8786b7sm5712930pfl.215.2022.08.22.22.07.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Aug 2022 22:07:19 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: mrolnik@gmail.com
+Subject: [PATCH] target/avr: Support probe argument to tlb_fill
+Date: Mon, 22 Aug 2022 22:07:18 -0700
+Message-Id: <20220823050718.1930676-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220816062522.85714-1-faithilikerun@gmail.com>
- <20220816062522.85714-3-faithilikerun@gmail.com> <YwQLsL01jP89Dp5k@fedora>
-In-Reply-To: <YwQLsL01jP89Dp5k@fedora>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 23 Aug 2022 12:31:05 +0800
-Message-ID: <CAAAx-8LuqHmug-MknxRGubcXFqbHKFeEwNAq=4jsraz1ngji0A@mail.gmail.com>
-Subject: Re: [PATCH v7 2/8] file-posix: introduce get_sysfs_str_val for device
- zoned model
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
- Fam Zheng <fam@euphon.net>, 
- Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu block <qemu-block@nongnu.org>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1136.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,37 +87,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=8823=E6=
-=97=A5=E5=91=A8=E4=BA=8C 07:05=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, Aug 16, 2022 at 02:25:16PM +0800, Sam Li wrote:
-> > +static int hdev_get_max_segments(int fd, struct stat *st) {
-> > +    int ret;
-> > +    if (S_ISCHR(st->st_mode)) {
-> > +        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) =3D=3D 0) {
->
-> The ioctl must be within #ifdef CONFIG_LINUX since SG_GET_SG_TABLESIZE
-> will be undefined on other operating systems and a compiler error will
-> be encountered. Maybe keep the #ifdef around the entire body of this
-> hdev_get_max_segments().
->
-> > +            return ret;
-> > +        }
-> > +        return -ENOTSUP;
-> >      }
-> > -    g_free(sysfspath);
-> > -    return ret;
-> > -#else
-> > -    return -ENOTSUP;
-> > -#endif
-> > +    return get_sysfs_long_val(st, "max_segments");
->
-> Where is get_sysfs_long_val() defined? Maybe in a later patch? The code
-> must compile after each patch. You can test this with "git rebase -i
-> origin/master" and then adding "x make" lines after each commit in the
-> interactive rebase file. When rebase runs it will execute make after
-> each commit and will stop if make fails.
+While there are no target-specific nonfaulting probes,
+generic code may grow some uses at some point.
 
-Explained in the next patch. I will make sure the patches compile in future=
-.
+Note that the attrs argument was incorrect -- it should have
+been MEMTXATTRS_UNSPECIFIED. Just use the simpler interface.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/avr/helper.c | 46 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
+
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index db76452f9a..82284f8997 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -102,38 +102,50 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       MMUAccessType access_type, int mmu_idx,
+                       bool probe, uintptr_t retaddr)
+ {
+-    int prot = 0;
+-    MemTxAttrs attrs = {};
++    int prot, page_size = TARGET_PAGE_SIZE;
+     uint32_t paddr;
+ 
+     address &= TARGET_PAGE_MASK;
+ 
+     if (mmu_idx == MMU_CODE_IDX) {
+-        /* access to code in flash */
++        /* Access to code in flash. */
+         paddr = OFFSET_CODE + address;
+         prot = PAGE_READ | PAGE_EXEC;
+-        if (paddr + TARGET_PAGE_SIZE > OFFSET_DATA) {
++        if (paddr >= OFFSET_DATA) {
++            /*
++             * This should not be possible via any architectural operations.
++             * There is certainly not an exception that we can deliver.
++             * Accept probing that might come from generic code.
++             */
++            if (probe) {
++                return false;
++            }
+             error_report("execution left flash memory");
+             abort();
+         }
+-    } else if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
+-        /*
+-         * access to CPU registers, exit and rebuilt this TB to use full access
+-         * incase it touches specially handled registers like SREG or SP
+-         */
+-        AVRCPU *cpu = AVR_CPU(cs);
+-        CPUAVRState *env = &cpu->env;
+-        env->fullacc = 1;
+-        cpu_loop_exit_restore(cs, retaddr);
+     } else {
+-        /* access to memory. nothing special */
++        /* Access to memory. */
+         paddr = OFFSET_DATA + address;
+         prot = PAGE_READ | PAGE_WRITE;
++        if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
++            /*
++             * Access to CPU registers, exit and rebuilt this TB to use
++             * full access in case it touches specially handled registers
++             * like SREG or SP.  For probing, set page_size = 1, in order
++             * to force tlb_fill to be called for the next access.
++             */
++            if (probe) {
++                page_size = 1;
++            } else {
++                AVRCPU *cpu = AVR_CPU(cs);
++                CPUAVRState *env = &cpu->env;
++                env->fullacc = 1;
++                cpu_loop_exit_restore(cs, retaddr);
++            }
++        }
+     }
+ 
+-    tlb_set_page_with_attrs(cs, address, paddr, attrs, prot,
+-                            mmu_idx, TARGET_PAGE_SIZE);
+-
++    tlb_set_page(cs, address, paddr, prot, mmu_idx, page_size);
+     return true;
+ }
+ 
+-- 
+2.34.1
+
 
