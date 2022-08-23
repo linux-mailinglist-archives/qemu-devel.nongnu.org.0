@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D9659EE31
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 23:27:11 +0200 (CEST)
-Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B595559EE45
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Aug 2022 23:36:00 +0200 (CEST)
+Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQbQV-0005mN-48
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 17:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51616)
+	id 1oQbZ1-0000Qf-G2
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 17:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQbNu-0003oZ-FW
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 17:24:30 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:42914)
+ id 1oQbWj-0007JV-Mp
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 17:33:37 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:33773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQbNt-00046C-3K
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 17:24:30 -0400
-Received: by mail-pl1-x634.google.com with SMTP id v23so8663060plo.9
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 14:24:28 -0700 (PDT)
+ id 1oQbWh-0005Oa-Ll
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 17:33:37 -0400
+Received: by mail-pg1-x535.google.com with SMTP id l64so13379732pge.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 14:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=BNKiuiT+PU7qCnYr7FA47mAteTxcWpxY/uiCw2amMs8=;
- b=EYDb370bwesxlkUjTj1x9jCuttKygnFQb+MuBtOodnzCLufs5SqIH9yXPtFrEMowYp
- K2EW5lnjMhNPSxI1Ats2zreUa3bUWUQOQGQOC+Gfu/L0XnbY06WuTPiUBh3GwAeFbkAE
- gFcKnJyhKBpGuVXmQkggCoKL6tWByxxU3dwpPL9eF2lqQBzBeLDCi3Pjb8cZ5rFPfx1b
- 3fDw1xNjq6jOn4IpZS8ZAOsdkOUsWF1L5SZCCcxY8Xsz6i5Nwh3dohfcv7MPHetKF6g1
- uUxyWADxHotCp/sW6OLKbRpbrIDWduy0uSGtyQ+w5gnlTPYu2A31H9+3Utr/PIZiXVIB
- xoWw==
+ :from:to:cc; bh=vn9c6DCx+F42jVvsBvFfnmyKD+G74yurvei0y62W7Qg=;
+ b=zTkY3MBJctsfGdT+EOXK+4J7O518sgoQ2Po5F5jRV4xMVYOAtFGNka7UwlyvTRp2iF
+ XvOK1IXxZrdxYdwAo3lgp+n6nejj5WCtZ9deLCM2Z3DMQU4c1NpQ5VG8oBFMSDFdoKQA
+ +yTUT4oLfr+Ar1t2MBtUU6zS79x5T9NSiO7fl5J2dWiRlfZWUIAD1LSE04wovhNYnffZ
+ TC0uJ9RcCb1sd57By/W+RqZpnXJi+abbAL9+voPUjuqOQZP+F1QizjXCvKIJyMICyh0+
+ S5dIKbuO5PhSucj+I08VPPrC6Q6PrjHLMLlL9+5gA117IhelZNg6ao83GX8roCGNq/hu
+ M1Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=BNKiuiT+PU7qCnYr7FA47mAteTxcWpxY/uiCw2amMs8=;
- b=VzzYdJueeSP+O+1rV/JFbU2p5oPGOAtfI2wDWFJRYvp/xHWkFFkDO7uCJbt8iMcwky
- biE0DiCBAfw9OuZkQoGeID3XFX8/B/DMqCdeatrD+ZaAEWk6NC6YNR9x810oTtuhQ3e0
- 939XVpKbIkbrib+DtQ14q/PmGtc6iC7Rkj0J4V8O7wkSbLJzDhdiz/rRZ3r1djBGW9pP
- Z6gucwpnPggG05Wlwm3/hy9+FsTGDRCNnb8fVjZc3gS0TZ+3n8dXHHvOx+XudT9gwTid
- Muke5uUr7e/RUJEIuP9+BCmDsBdW1jeVhKBAm/pA3+NR/ZeU1bJNZf5QUIWBmeefhvc5
- cYyg==
-X-Gm-Message-State: ACgBeo3V+NupgGMECy1rgyT7MoDCKBfC5pra9U5Q2bsxd4oeWOvaU+hZ
- pP89/SCPNR+6mo+Z5XXLSa7e6Q==
-X-Google-Smtp-Source: AA6agR6LXTkgMWHcBTFTW8cI/hXm7RaMvR9KYvqWlHqxhJYFp0tl2zlkvwAbPjviYpbYahq/mzSMJA==
-X-Received: by 2002:a17:902:8f92:b0:172:e476:f9e with SMTP id
- z18-20020a1709028f9200b00172e4760f9emr12177880plo.82.1661289867654; 
- Tue, 23 Aug 2022 14:24:27 -0700 (PDT)
+ bh=vn9c6DCx+F42jVvsBvFfnmyKD+G74yurvei0y62W7Qg=;
+ b=5cQmCtOm2xpdaD7R3NUI/7eNX8L/39AnMGki9XvTneZ18kQyqLI+V3B8C54N4zrNT1
+ XxqveQIjJG2jgezVWHe23J8SOL71GqNCMLGH9ZTXRXvwafDyvSY3JltiI5lQYNsnZgt6
+ 0dfhEdL6HQPql7xRg/IeyBeLem8c1xx+uOkmw7cHkc9ULIzr2BGL3br/Spwb9/2ggFve
+ n1ufgaTNbCXqeSBUHOtPMKAhS/AHnRndwSI0UkOWuV/A43HuTQmGmHBdcVltp2aVnYzo
+ OOKhDd41mkR8p3mpsgsE+XgugceW9dpxfmGpSyud7xrV3bHS6oiktnbURheja78ubdPo
+ tvuw==
+X-Gm-Message-State: ACgBeo1vE9DVSX9KNX94AChbk5cl1jn67aPQjW8/SzhXCLlhilDfUw/w
+ UK+704yyIKWlFWJu4UemcIJ4ng==
+X-Google-Smtp-Source: AA6agR54Ujr/jgL/LbyKOSIp3DEwfqMhbGwUOKsV2ADu31pyz6NfTQVP6n9DffYrOI4aJH9xJDHoWA==
+X-Received: by 2002:a63:4802:0:b0:41c:ac9e:1950 with SMTP id
+ v2-20020a634802000000b0041cac9e1950mr22082287pga.376.1661290414225; 
+ Tue, 23 Aug 2022 14:33:34 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9?
  ([2602:47:d49d:ec01:46f9:77b4:ec0a:c2d9])
  by smtp.gmail.com with ESMTPSA id
- h5-20020a63f905000000b003fdc16f5de2sm9584128pgi.15.2022.08.23.14.24.26
+ t11-20020a1709027fcb00b00172a1f6027asm5570587plb.235.2022.08.23.14.33.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 14:24:26 -0700 (PDT)
-Message-ID: <6b18f51c-5594-39f3-fb40-60b2ebc8393b@linaro.org>
-Date: Tue, 23 Aug 2022 14:24:25 -0700
+ Tue, 23 Aug 2022 14:33:33 -0700 (PDT)
+Message-ID: <13926833-3ce7-dc1a-33a4-ac6691eda763@linaro.org>
+Date: Tue, 23 Aug 2022 14:33:31 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] target/arm: Make boards pass base address to
- armv7m_load_kernel()
+Subject: Re: [PULL 1/6] tests/avocado: push default timeout to QemuBaseTest
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Shiny Saana <shinysaana@gmail.com>
-References: <20220823160417.3858216-1-peter.maydell@linaro.org>
- <20220823160417.3858216-3-peter.maydell@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220823152558.301624-1-alex.bennee@linaro.org>
+ <20220823152558.301624-2-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220823160417.3858216-3-peter.maydell@linaro.org>
+In-Reply-To: <20220823152558.301624-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,24 +98,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/22 09:04, Peter Maydell wrote:
-> Currently armv7m_load_kernel() takes the size of the block of memory
-> where it should load the initial guest image, but assumes that it
-> should always load it at address 0.  This happens to be true of all
-> our M-profile boards at the moment, but it isn't guaranteed to always
-> be so: M-profile CPUs can be configured (via init-svtor and
-> init-nsvtor, which match equivalent hardware configuration signals)
-> to have the initial vector table at any address, not just zero.  (For
-> instance the Teeny board has the boot ROM at address 0x0200_0000.)
+On 8/23/22 08:25, Alex Bennée wrote:
+> All of the QEMU tests eventually end up derrived from this class. Move
+> the default timeout from LinuxTest to ensure we catch them all. As 15
+> minutes is fairly excessive we drop the default down to 2 minutes
+> which is a more reasonable target for tests to aim for.
 > 
-> Add a base address argument to armv7m_load_kernel(), so that
-> callers now pass in both base address and size. All the current
-> callers pass 0, so this is not a behaviour change.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220822165608.2980552-2-alex.bennee@linaro.org>
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
+> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+> index ed4853c805..0efd2bd212 100644
+> --- a/tests/avocado/avocado_qemu/__init__.py
+> +++ b/tests/avocado/avocado_qemu/__init__.py
+> @@ -227,6 +227,10 @@ def exec_command_and_wait_for_pattern(test, command,
+>       _console_interaction(test, success_message, failure_message, command + '\r')
+>   
+>   class QemuBaseTest(avocado.Test):
+> +
+> +    # default timeout for all tests, can be overridden
+> +    timeout = 120
+> +
+>       def _get_unique_tag_val(self, tag_name):
+>           """
+>           Gets a tag value, if unique for a key
+> @@ -512,7 +516,6 @@ class LinuxTest(LinuxSSHMixIn, QemuSystemTest):
+>       to start with than the more vanilla `QemuSystemTest` class.
+>       """
+>   
+> -    timeout = 900
+>       distro = None
+>       username = 'root'
+>       password = 'password'
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Bah.
+
+https://gitlab.com/qemu-project/qemu/-/jobs/2923804714
+
+  (001/192) tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg:  INTERRUPTED: 
+Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: 
+ERROR\n{'name': '001-tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg', 
+'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2022-08-23T21.03-6d06db2/t... 
+(120.85 s)
+  (003/192) tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q35_tcg:  INTERRUPTED: Test 
+interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: 
+ERROR\n{'name': '003-tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q35_tcg', 
+'logdir': 
+'/builds/qemu-project/qemu/build/tests/results/job-2022-08-23T21.03-6d06db2/test... (120.81 s)
+
+The previous successful run had
+
+  (001/192) tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg:  PASS (257.00 s)
+  (003/192) tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q35_tcg:  PASS (238.67 s)
+
 
 r~
 
