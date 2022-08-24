@@ -2,94 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE5759FFB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 18:43:47 +0200 (CEST)
-Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649835A0075
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 19:33:36 +0200 (CEST)
+Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQtTm-0002fl-3v
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 12:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1oQuFz-0002R4-17
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 13:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQtSE-0000iy-Px
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:42:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oQtSA-0003mv-Jc
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:42:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661359325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4iFniGucJc63s28+FvjKLJaLMMZzPLmYI9h/JnhHwlM=;
- b=J/IATZC+5o/N0wz980HVkEz/6iAJ4qAQ3BS8SKBEODoAZvxxG4iMQ8dCia2KVDUHqzoDFP
- cq3Qqp5oaD9gUCQhIOgh19v8tbP3nSM9B0Lhg1cMCkn7lus5VZymMHPgULGxlmy1ripXIq
- wixXp9reemowx5k0pc6HauaO+D9DINg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-626-eI63CJGKOGen_8g5GGJNdw-1; Wed, 24 Aug 2022 12:42:03 -0400
-X-MC-Unique: eI63CJGKOGen_8g5GGJNdw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s20-20020adfbc14000000b002252dae05f7so2950916wrg.20
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 09:42:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oQuBd-0007NQ-GM
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 13:29:05 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:35479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oQuBb-0003Iv-D2
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 13:29:05 -0400
+Received: by mail-ej1-x629.google.com with SMTP id n7so16701195ejh.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 10:29:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=AQx11pQ2w1rjNImbSsvo2KE03naN35n+1Qv18M2zsBc=;
+ b=JeWo0sUdcinQltQzJvmXJaeGPVpGvp5eRqnWANFCCgWcPRgTooLSlBT4esqhZLmPM8
+ NTkmib3A1+iUjd11t+obyOLYi2JQqc5JLVqD5OExJ/ts9RWEG+0QfsR3CHjEaDvaFLVm
+ YiV8tOFKOAWj5e/fdKq7bWCS17ml/1k3YnChsYo3i2bkvwQI7/pv8a1vyGPcvFuMzVfw
+ APYDqRL/WaSM39H0HlbvYKZvwhLfX8k8guB0v8qG9IXYk1YDQUdwRQWyV/ttn8K3Mnbg
+ OKjyxG6LN0EgKbTbSXGvzaPE2ZB8nABoZwmyqLFB/grvk9Vpg1zLmQAD4ERETgPj3RYD
+ O7jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=4iFniGucJc63s28+FvjKLJaLMMZzPLmYI9h/JnhHwlM=;
- b=kKIydKIqoleNi57Pkfu6v8CGJAQMQtGKue87V81QQvGHLuu/lj6NN6cMdikc0JdjHm
- 6W1CgrqT7Kk1eqOniE5jazQex6qSRk5zl93E0cwt25whl7V7tD4PF5OpL1yApBbnQ9Ez
- XDEj2Bny/LIxRN9ucWHlhIltp2HLBI7l+4lad5pt6v0I9CYIXNKiNsB65mTsq74kk2iv
- +H/go3dJUWsM94Nb/uGqyTcEa+nc2OQJzsdsDYQj6fWEGJclImWuLKyW4P74toQd4j3/
- t+nSyiRR6ujt7WewzqrjJjZ6tnFiUji2GjQgcherCgh5CPPXarII31HiCDwl8Mo4J54v
- o9pQ==
-X-Gm-Message-State: ACgBeo3vhivfiU5y+wgcI5FGsYDYQenr0ApDZgaJzlLVBs53MdYy+kdr
- 4y09EjTcfvopLNecRSFBWLGjUdQ58+GLp1Wx1jvlGGjOT/neL6WW2kLk0RlPKvxwarJga9UJv/m
- n8IBc2c1pNzgktcE=
-X-Received: by 2002:a5d:68c9:0:b0:225:330b:2d0 with SMTP id
- p9-20020a5d68c9000000b00225330b02d0mr37386wrw.243.1661359322728; 
- Wed, 24 Aug 2022 09:42:02 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4lIFzU34cd5WLYheu4nUsWyNWvWXv2EONHK7VKL36vWuDi91zuur5IqU15ucHmp0KhngvEbQ==
-X-Received: by 2002:a5d:68c9:0:b0:225:330b:2d0 with SMTP id
- p9-20020a5d68c9000000b00225330b02d0mr37370wrw.243.1661359322463; 
- Wed, 24 Aug 2022 09:42:02 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:c500:5445:cf40:2e32:6e73?
- (p200300cbc707c5005445cf402e326e73.dip0.t-ipconnect.de.
- [2003:cb:c707:c500:5445:cf40:2e32:6e73])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=AQx11pQ2w1rjNImbSsvo2KE03naN35n+1Qv18M2zsBc=;
+ b=6vF8pF/cGfwpEb3yW/iod7hlsFANk2gFKtYNW+ou0q2VNhgolu3QjSwV3nvDEbApfN
+ 46NMm6SiKmxvvRN0aNo+XK1qh9M1svGLACFLOo9m8jEM3IcgiDVcsjeFFNnwmHpYF/G7
+ wp54vxZ1g/Y/abhP/no8VOktdFdEI9xrCTUszOyUKKcfwhG/uWUcmdF0mFv8h6o9SLbR
+ 9tNHw1wnnKaueDrhyXfIWlXkR3+bhUskduyZTZxEbX5mlH/hl64NM0B4hcQfULYU1Km/
+ MNuu6qnU9t6aOSQ6bQhOoMo4sg12bX6mI+L3a1tVHIZM5fIRT/pcu/xCLxHE/HfIJ5SI
+ PxaA==
+X-Gm-Message-State: ACgBeo2OfLCOhA6QItJIIIMyTHL0jw2rET4evUuAW2qAet3Iw2D7ZGct
+ fmD9s8uN7Utdz9godEwj8fq72g==
+X-Google-Smtp-Source: AA6agR4efxh/3+Y+43O1jyCHpiBDkmBBuVql9XncPnPQecqk6mj4ww76+OMhRfrwcu03sTvFt8VFTQ==
+X-Received: by 2002:a17:907:2724:b0:73d:7696:cc2f with SMTP id
+ d4-20020a170907272400b0073d7696cc2fmr14715ejl.678.1661362141527; 
+ Wed, 24 Aug 2022 10:29:01 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l23-20020a05600c2cd700b003a6632fe925sm2768730wmc.13.2022.08.24.09.42.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 09:42:02 -0700 (PDT)
-Message-ID: <e7b3468a-cdfb-4592-8a7a-48da2fa77647@redhat.com>
-Date: Wed, 24 Aug 2022 18:42:01 +0200
+ l18-20020a056402029200b004479cec6496sm384582edv.75.2022.08.24.10.29.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Aug 2022 10:29:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2BA711FFB7;
+ Wed, 24 Aug 2022 18:29:00 +0100 (BST)
+References: <20220823210329.1969895-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] gitlab-ci/custom-runners: Disable -static-pie for
+ ubuntu-20.04-aarch64
+Date: Wed, 24 Aug 2022 18:15:54 +0100
+In-reply-to: <20220823210329.1969895-1-richard.henderson@linaro.org>
+Message-ID: <87mtbth7oj.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qiaonuohan@cn.fujitsu.com
-References: <CAJ+F1CL27O8dmGSws=-QgutRRpM2NHcued28gnvt5jWo2WeUvw@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: Page alignment & memory regions expectations
-In-Reply-To: <CAJ+F1CL27O8dmGSws=-QgutRRpM2NHcued28gnvt5jWo2WeUvw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,65 +93,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.08.22 14:43, Marc-André Lureau wrote:
-> Hi,
 
-Hi!
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> 
-> tpm-crb creates a "tpm-crb-cmd" RAM memory region that is not page
-> aligned. Apparently, this is not a problem for QEMU in general. However,
-> it crashes kdump'ing in dump.c:get_next_page, as it expects
+> The project has reached the magic size at which we see
+>
+> /usr/aarch64-linux-gnu/lib/libc.a(init-first.o): in function `__libc_init=
+_first':
+> (.text+0x10): relocation truncated to fit: R_AARCH64_LD64_GOTPAGE_LO15 ag=
+ainst \
+> symbol `__environ' defined in .bss section in /usr/aarch64-linux-gnu/lib/=
+libc.a(environ.o)
+> /usr/bin/ld: (.text+0x10): warning: too many GOT entries for -fpic, pleas=
+e recompile with -fPIC
+>
+> The bug has been reported upstream, but in the meantime there is
+> nothing we can do except build a non-pie executable.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>
+> Irritatingly, once this is fixed, we're still in a broken state because
+> we're now picking up an x86_64 cross-compiler, without all of the
+> required static libraries:
+>
+>   https://gitlab.com/qemu-project/qemu/-/jobs/2923714301#L3028
+>
+>     Cross compilers
+>     aarch64                      : cc
+>     arm                          : arm-linux-gnueabihf-gcc
+>     i386                         : i686-linux-gnu-gcc
+>     mips64el                     : mips64el-linux-gnuabi64-gcc
+>     mipsel                       : mipsel-linux-gnu-gcc
+>     riscv64                      : riscv64-linux-gnu-gcc
+>     s390x                        : s390x-linux-gnu-gcc
+>     x86_64                       : x86_64-linux-gnu-gcc
+>
+> where we hadn't done so just 4 days ago:
+>
+>   https://gitlab.com/qemu-project/qemu/-/jobs/2908305198
+>
+>     Cross compilers
+>     aarch64                      : cc
+>     arm                          : arm-linux-gnueabihf-gcc
+>     i386                         : i686-linux-gnu-gcc
+>     riscv64                      : riscv64-linux-gnu-gcc
+>     s390x                        : s390x-linux-gnu-gcc
+>
+> Alex? I think you're the only one who would know how this host
+> is supposed to be configured for gitlab...
 
-I assume you mean "dumping in kdump format".
+Ahh because aarch64.ci.qemu.org is also a developer box I had enabled a
+bunch of additional cross compilers for the tests (because we can't take
+full advantage of the docker images on non-x86). However it shouldn't
+affect the main build, these compilers are only used for the TCG tests.
 
-> GuestPhysBlock to be page-aligned. (see also bug
-> https://bugzilla.redhat.com/show_bug.cgi?id=2120480
-> <https://bugzilla.redhat.com/show_bug.cgi?id=2120480>)
-> 
-> Here is some relevant DEBUG_GUEST_PHYS_REGION_ADD log:
-> guest_phys_block_add_section: target_start=00000000fd000000
-> target_end=00000000fe000000: added (count: 3)
-> guest_phys_block_add_section: target_start=00000000fed40080
-> target_end=00000000fed41000: added (count: 4)
-> guest_phys_block_add_section: target_start=00000000fffc0000
-> target_end=0000000100000000: added (count: 5)
-> 
-> I am looking for ideas on how to solve this crash.
+It looks like the compiler is borked because:
 
-Do we care if we don't include everything in the dump? I recall that
-e.g., vfio will simply align and not care about such partial RAM blocks.
+/usr/lib/gcc-cross/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/bin/ld:=
+ cannot find /usr/lib/x86_64-linux-gnu/libm-2.35.a: No such file or directo=
+ry=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+/usr/lib/gcc-cross/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/bin/ld:=
+ cannot find /usr/lib/x86_64-linux-gnu/libmvec.a: No such file or directory=
+=20=20=20=20=20=20=20
 
+but the libc6-dev-amd64-cross package puts this in:
 
-One idea is doing another pass over the list at the end (after possible
-merging of sections) and making sure everything is page-aligned.
+  /usr/x86_64-linux-gnu/lib/libmvec.a
 
-Another idea is specifying somehow that that memory region should simply
-not be dumped ...
+Anyway as x86_64 is the one compiler that is available in the docker
+multiarch I've dropped that for now. It won't get used by the CI system
+as it can't use docker but developers using the box should get:
 
+  Cross compilers
+    aarch64                      : cc
+    arm                          : arm-linux-gnueabihf-gcc
+    i386                         : i686-linux-gnu-gcc
+    mips64el                     : mips64el-linux-gnuabi64-gcc
+    mipsel                       : mipsel-linux-gnu-gcc
+    riscv64                      : riscv64-linux-gnu-gcc
+    s390x                        : s390x-linux-gnu-gcc
+    x86_64                       : $(DOCKER_SCRIPT) cc --cc x86_64-linux-gn=
+u-gcc -i qemu/debian-amd64-cross -s /home/alex/lsrc/qemu.git --
 
-But I do wonder why the ram memory region that's mapped into the guest
-physical address space has such a weird alignment/size ...
+> I guess I'm not going to let this affect the release, but we
+> do have quite a number of annoyingly consistent failures now.
+> We should either fix them or disable them.
 
-> 
-> Should qemu enforce that memory regions are target page-aligned? In
+The rest of the tests build and run fine now.
 
-... can we simply fixup tpm-crb-cmd?
+>
+>
+> r~
+>
+> ---
+>  .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitl=
+ab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+> index 3d878914e7..85a234801a 100644
+> --- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+> +++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+> @@ -16,7 +16,9 @@ ubuntu-20.04-aarch64-all-linux-static:
+>   # --disable-glusterfs is needed because there's no static version of th=
+ose libs in distro supplied packages
+>   - mkdir build
+>   - cd build
+> - - ../configure --enable-debug --static --disable-system --disable-glust=
+erfs --disable-libssh
+> + # Disable -static-pie due to build error with system libc:
+> + # https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1987438
+> + - ../configure --enable-debug --static --disable-system --disable-glust=
+erfs --disable-libssh --disable-pie --extra-cflags=3D'-fno-pie -no-pie'
+>     || { cat config.log meson-logs/meson-log.txt; exit 1; }
+>   - make --output-sync -j`nproc --ignore=3D40`
+>   - make --output-sync -j`nproc --ignore=3D40` check V=3D1
 
-> which case, TPM CRB MMIO region would overlap with the RAM region, and I
-> wonder how that turns out to be, and if other devices would be impacted etc
-> 
-> Or should kdump learn to handle non-aligned blocks somehow? I think that
-> option should make a reasonable solution, as long as we only have
-> empty/zero-memory "gaps". Handling other cases of joint or overlapping
-> regions seems more difficult.
+I'll update this once the tree is open as you may have noticed the host
+is now a 22.04 one (which hopefully means we can enable glusterfs and
+libssh now)
 
-Right, you'd actually have to pad the remainder with zeroes.
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+--=20
+Alex Benn=C3=A9e
 
