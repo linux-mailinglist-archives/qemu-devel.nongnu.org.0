@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0125F5A0255
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 21:54:07 +0200 (CEST)
-Received: from localhost ([::1]:55850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA5F5A0260
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 21:57:34 +0200 (CEST)
+Received: from localhost ([::1]:38952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQwRy-000249-5l
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 15:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59658)
+	id 1oQwVJ-000469-4m
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 15:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQwPy-0000PM-Sf
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 15:52:02 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:35599)
+ id 1oQwTa-0002FQ-DZ
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 15:55:46 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:38556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oQwPx-0000w6-E1
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 15:52:02 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-33da3a391d8so75133177b3.2
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 12:52:01 -0700 (PDT)
+ id 1oQwTY-0001WC-Qq
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 15:55:45 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-3321c2a8d4cso488544997b3.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 12:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=nNCyu14NpOf2lBSi6vrSm4gSsJKhALhPi0MXBNs/ELo=;
- b=hlNcTlToAmkhKfWnPy4eqtij7Tbx0jaIgWb9ZbI70kQJWMUHwBAYXZ/87qaGbOHqou
- EC2S4NSqee6XWq5QL3/MnHc7X8zuES6XBrjbEgjxrwnB06Z9kVWwbpeArcUce2BGeQS/
- nZpS/38MP2IhbgfF2EhNFS2hbJ9DRHrRlmduPmcrfsG8IngIR1UVcOODzrk0Ki/lqj0h
- kD4/X20f7ZFdoSg9t0mJzNzKJkt6qmOXbInjWCPabhQw7dU83iv3iCkjGlorFc5cZiWv
- qCtPN3gMHsY7g/50DWTwHsyfhMLE0IydttrHeY6vyV9QErLi6r6TBnvjVUyy05ozTw5V
- X4cA==
+ bh=TfbdDMonF22pc2HhJoHcoWnn90u0jJFFti4kTYktowk=;
+ b=ntt644difkWtHgaS+BDKtd/g6P7akthcRaDDIkBgpWgep7gnxmjSFpigHSaSekJ9ll
+ /196kOgkx2l9DUCifQLefK0y4ZIOlnYNTXub+cpCaPU24m5l2kNazuQlKUy1365s3pFv
+ 01RqdWIJTDyjFbj782o73+vMM2EySqeuHEX066dBUxBhaz/jzgK7I4AP+DvPQdt+3Nu0
+ fwtvEwIVNB5TRF7GxJQYxFoylDjr8PsHsSJGiOg0Th8HOxDnm079IZez6PfEc8w1qpaD
+ ibfxRNlXqlA/q+wKsLkXlYECqa6mePn/Oi3QioAM+l3FPvpxsXbWQUKrRmLpfchel2i0
+ xZwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=nNCyu14NpOf2lBSi6vrSm4gSsJKhALhPi0MXBNs/ELo=;
- b=2oGTk3Pqjo4hKzA/Li8zO4FV6ixdoKbd19ckmbTGvkOfKE2NMKi+ykVjtsijL2Ct+S
- p6Sk0dmpfV9BvdO2sMoLvenfJ368Q8wdLlJVJMcEyEDJNtu41cUihPOtYsxkOjiaQ9K6
- yHy23bIt8vmmBVdbz2lBxh7bh+VnIOCWMc4Bnrap1wuHna6Pv5iTQWNk2qceUH82bBCe
- m+QAkR1c09EfPLY08Fw5KzJE12nVy4OIFUQiJHsUR0wQQr0hllvvdnzXrYwYaN/skJ4C
- n8CbBjiiI6bbvxkALLeRhpiIiEes5dNMl38SWPrNvqPEWhh1UFoUry4Kj8cGrt8JLMQe
- Dnog==
-X-Gm-Message-State: ACgBeo0Yi3CU0Hva3hkfCDh/a1RcVR6DuvEjfaxexpWreTpMeIcbeWyu
- /4nWGV9LQlptQHlyBE/hN0lFzdQZU7bPgCLNIVU/QA==
-X-Google-Smtp-Source: AA6agR4Xj+sFdgY3tVbKy7OwkidFyosMYZeSOscG/Q0Dz1ERrr0mTVZ9HHPVyHdt/XEsVGUs8DTQYfg+6ojX8eUnqDg=
-X-Received: by 2002:a5b:711:0:b0:696:dab:3efa with SMTP id
- g17-20020a5b0711000000b006960dab3efamr740755ybq.193.1661370720376; 
- Wed, 24 Aug 2022 12:52:00 -0700 (PDT)
+ bh=TfbdDMonF22pc2HhJoHcoWnn90u0jJFFti4kTYktowk=;
+ b=MN2w7mCqbwJyo40G9XyuBiA5pvaOrxjrRZt7RBM7FhgbVRi95EGkgmuFY61tQ4jg1l
+ hmxUB+NoYC4kEIrwIXsQMLqxBS8l5pWnXCFo0yIZOpk6QC9X0DeMpZjS2gs056/ikMym
+ XwkIWYpjqZdKilIyrXr+vGGQVYfUeRiKOQxlMISfZX5h+mF5IdJlsZN6W82N7uZ31YGz
+ PscgbcX7cdecfz6ekroLlAheY9VbYouZcnQo/gfc6p3e/T9gf8xGd3aapL0WLb4rab/j
+ UijxbKRSpfAa0jNCt1+kjNnOjdbo+HBnZSZF3UcSAy1HGIxTKNsUIKcRmnTe3SeSlETW
+ MvDQ==
+X-Gm-Message-State: ACgBeo3s24Vaw7ZRs3gW+wQfNBZbA64KHnZPkL20HgkEIjiWM3Afaku4
+ WiRWPY9IQkj3+BiAhjAj5AYHu+H3wPBKRGJpiERPPstEt7c=
+X-Google-Smtp-Source: AA6agR4qcJfuFJDZyHsDAYc9a+SmarNO6uhMB1+dhTEd/JAY9OKr3DQFNxedT1vRXLwkkOdUxatrQwPpAoiC4/A6Ob4=
+X-Received: by 2002:a05:6902:10c3:b0:695:e4a3:ea8f with SMTP id
+ w3-20020a05690210c300b00695e4a3ea8fmr715987ybu.288.1661370943690; Wed, 24 Aug
+ 2022 12:55:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824155113.286730-1-jean-philippe@linaro.org>
- <20220824155113.286730-11-jean-philippe@linaro.org>
-In-Reply-To: <20220824155113.286730-11-jean-philippe@linaro.org>
+References: <CAJ+F1CL27O8dmGSws=-QgutRRpM2NHcued28gnvt5jWo2WeUvw@mail.gmail.com>
+ <e7b3468a-cdfb-4592-8a7a-48da2fa77647@redhat.com>
+In-Reply-To: <e7b3468a-cdfb-4592-8a7a-48da2fa77647@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Aug 2022 20:51:18 +0100
-Message-ID: <CAFEAcA-Kv16weckhxM-mQrwiPZa5JMY4YkXcD5UfCzDKr4xGtQ@mail.gmail.com>
-Subject: Re: [PATCH 10/10] hw/arm/virt: Fix devicetree warnings about the
- virtio-iommu node
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org, 
- eauger@redhat.com
+Date: Wed, 24 Aug 2022 20:55:01 +0100
+Message-ID: <CAFEAcA9OH4ih2pOUbsv6dTMW=3_9LTkzSRj4ogO4oxVS4fOASw@mail.gmail.com>
+Subject: Re: Page alignment & memory regions expectations
+To: David Hildenbrand <david@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, qiaonuohan@cn.fujitsu.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,38 +86,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Aug 2022 at 16:51, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
+On Wed, 24 Aug 2022 at 17:43, David Hildenbrand <david@redhat.com> wrote:
+> One idea is doing another pass over the list at the end (after possible
+> merging of sections) and making sure everything is page-aligned.
 >
-> dt-validate and dtc throw a few warnings when parsing the virtio-iommu
-> node:
+> Another idea is specifying somehow that that memory region should simply
+> not be dumped ...
 >
->   pcie@10000000: virtio_iommu@16:compatible: ['virtio,pci-iommu'] does not contain items matching the given schema
->   pcie@10000000: Unevaluated properties are not allowed (... 'virtio_iommu@16' were unexpected)
->   From schema: linux/Documentation/devicetree/bindings/pci/host-generic-pci.yaml
->   pcie@10000000: virtio_iommu@16:compatible: ['virtio,pci-iommu'] does not contain items matching the given schema
->   From schema: dtschema/schemas/pci/pci-bus.yaml
 >
->   Warning (pci_device_reg): /pcie@10000000/virtio_iommu@16: PCI unit address format error, expected "2,0"
->
-> The compatible property for a PCI child node should follow the rules
-> from "PCI Bus Binding to: IEEE Std 1275-1994". It should contain the
-> Vendor ID and Device ID (or class code).
->
-> The unit-name should be "device,function".
->
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
-> Note that this doesn't follow
-> linux/Documentation/devicetree/bindings/virtio/iommu.txt, I'll update
-> that document when converting it to yaml, hopefully this Linux cycle.
-> The "virtio,pci-iommu" compatible string is not actually used by any
-> driver and only QEMU implements it, so we can get rid of it.
+> But I do wonder why the ram memory region that's mapped into the guest
+> physical address space has such a weird alignment/size ...
 
-I'm not sure you can just change the compat string like that,
-unless you can guarantee that nobody anywhere has ever
-looked for it in a dtb. Also, "virtio,pci-iommu" is much
-clearer than "pci1af4,1057"...
+Lumps of memory can be any size you like and anywhere in
+memory you like. Sometimes we are modelling real hardware
+that has done something like that. Sometimes it's just
+a convenient way to model a device. Generic code in
+QEMU does need to cope with this...
 
 -- PMM
 
