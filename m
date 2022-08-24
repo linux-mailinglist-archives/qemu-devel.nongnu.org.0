@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045515A0161
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:32:49 +0200 (CEST)
-Received: from localhost ([::1]:54978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F085A0174
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:39:22 +0200 (CEST)
+Received: from localhost ([::1]:53824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQvBH-0005vj-Mj
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59330)
+	id 1oQvHd-0003YM-MS
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:39:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQv7J-0003Wv-IZ
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:28:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20405)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQvEa-0007a6-0O
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:36:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oQv7G-0004J2-Is
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:28:40 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQvEV-0005Re-CE
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:36:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661365717;
+ s=mimecast20190719; t=1661366160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bqlrjEpqlZZ/ehmB39PdNWM0WqXtnL/sQ95gvUoBlLw=;
- b=FnWRSAlsyEJLJDcgK6ttOURu33FutqPj57j4SVB/jF3q0rp+XBpyH+8lYKimXnre0CnyCt
- SIamAXqdEjr7EpIOwvKjX4/xF7XgrrMKwrjjsaZ6XsLUAa3bK3yvuIesMQ2CxXJDcb0gdL
- +401k/HzzXJ4vqE3vQKPLHlcbdzoSY0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g3dE07fFOkwBx+umfdDXGKHapyjgOgyYk1yaOoyEnVs=;
+ b=Bo9nsGJHhyFmCdtzQu6NxB/9ESE3Ofdbi+3PM7AC2AuTgovxlT3vYOzs+uopuJNj1TPzeF
+ N83nplYy/dEcD0kP92uIJY0Gvjxyr/rpdibraCcvCzcET/UcrngmD+BMYG9YguVGARgcT1
+ FDebmCWUMcMZ6s5HTTu70JLCAp/qQ00=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-KTVLAv89PbeMFjuTOZI_dA-1; Wed, 24 Aug 2022 14:28:34 -0400
-X-MC-Unique: KTVLAv89PbeMFjuTOZI_dA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-649-ti3n2oXfPoOvJCsXePEy8Q-1; Wed, 24 Aug 2022 14:35:57 -0400
+X-MC-Unique: ti3n2oXfPoOvJCsXePEy8Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0AD33C0E223;
- Wed, 24 Aug 2022 18:28:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FE8E4010D24;
- Wed, 24 Aug 2022 18:28:32 +0000 (UTC)
-Date: Wed, 24 Aug 2022 14:28:31 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniil Tatianin <d-tatianin@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, raphael.norwitz@nutanix.com,
- kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
- yc-core@yandex-team.ru
-Subject: Re: [PATCH v1 5/5] vhost-user-blk: dynamically resize config space
- based on features
-Message-ID: <YwZtz4z6kZMZyDRN@fedora>
-References: <20220824091837.301708-1-d-tatianin@yandex-team.ru>
- <20220824091837.301708-6-d-tatianin@yandex-team.ru>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C624804191;
+ Wed, 24 Aug 2022 18:35:57 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.193.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 129CE2166B26;
+ Wed, 24 Aug 2022 18:35:53 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Cindy Lu <lulu@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Jason Wang <jasowang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Eli Cohen <eli@mellanox.com>
+Subject: [PATCH v2 0/6] Vhost-vdpa Shadow Virtqueue multiqueue support.
+Date: Wed, 24 Aug 2022 20:35:45 +0200
+Message-Id: <20220824183551.197052-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LcuMXg1qg5b4xVPX"
-Content-Disposition: inline
-In-Reply-To: <20220824091837.301708-6-d-tatianin@yandex-team.ru>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,101 +84,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---LcuMXg1qg5b4xVPX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 24, 2022 at 12:18:37PM +0300, Daniil Tatianin wrote:
-> Make vhost-user-blk backwards compatible when migrating from older VMs
-> running with modern features turned off, the same way it was done for
-> virtio-blk in 20764be0421c ("virtio-blk: set config size depending on the=
- features enabled")
->=20
-> It's currently impossible to migrate from an older VM with
-> vhost-user-blk (with disable-legacy=3Doff) because of errors like this:
->=20
-> qemu-system-x86_64: get_pci_config_device: Bad config data: i=3D0x10 read=
-: 41 device: 1 cmask: ff wmask: 80 w1cmask:0
-> qemu-system-x86_64: Failed to load PCIDevice:config
-> qemu-system-x86_64: Failed to load virtio-blk:virtio
-> qemu-system-x86_64: error while loading state for instance 0x0 of device =
-'0000:00:05.0:00.0:02.0/virtio-blk'
-> qemu-system-x86_64: load of migration failed: Invalid argument
->=20
-> This is caused by the newer (destination) VM requiring a bigger BAR0
-> alignment because it has to cover a bigger configuration space, which
-> isn't actually needed since those additional config fields are not
-> active (write-zeroes/discard).
->=20
-> Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
-> ---
->  hw/block/vhost-user-blk.c          | 15 ++++++++-------
->  include/hw/virtio/vhost-user-blk.h |  1 +
->  2 files changed, 9 insertions(+), 7 deletions(-)
->=20
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 64f3457373..d18a7a2cd4 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -23,6 +23,7 @@
->  #include "hw/qdev-core.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/qdev-properties-system.h"
-> +#include "hw/virtio/virtio-blk-common.h"
->  #include "hw/virtio/vhost.h"
->  #include "hw/virtio/vhost-user-blk.h"
->  #include "hw/virtio/virtio.h"
-> @@ -63,7 +64,7 @@ static void vhost_user_blk_update_config(VirtIODevice *=
-vdev, uint8_t *config)
->      /* Our num_queues overrides the device backend */
->      virtio_stw_p(vdev, &s->blkcfg.num_queues, s->num_queues);
-> =20
-> -    memcpy(config, &s->blkcfg, sizeof(struct virtio_blk_config));
-> +    memcpy(config, &s->blkcfg, s->config_size);
-
-Please drop the s->config_size field introduced in this patch and use
-vdev->config_len instead. When the same value is stored in multiple
-places it's hard to be sure each copy remains identical and bugs can
-creep in.
-
-For example, if vdev->config_len is used consistently then it's clear
-that buffer overflows and information leaks are prevented by common
-code:
-
-  uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
-  {
-      VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
-      uint8_t val;
-
-      if (addr + sizeof(val) > vdev->config_len) {
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-          return (uint32_t)-1;
-      }
-
-      k->get_config(vdev, vdev->config);
-
-It's safe because vdev->config is g_malloc0(vdev->config_len).
-
-Buf if I see s->config_size, I don't really know whether it's safe and I
-need to audit the code to be sure.
-
---LcuMXg1qg5b4xVPX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMGbc4ACgkQnKSrs4Gr
-c8hGVQgAwdA8PPUtuqrABWEnuRf7uiR5iJOIryGx2PEz9Y7TFWWvujR9fHkvjEmc
-Bfu95jzMnzyjp4DNK4oZszkr8WhCdOcZn7G96DOPbTzt4t5xxT2Z2tkhVeD6v6dK
-WzIV1uK+qRqHhp5eT0m770UvKKLcLCnzoO/doGjiMwpJ5XC71nze3r35fBox2bDC
-AF/QAavrdWoMnIEf5dHn95L26NIpfmPwGhOR9lDv+1Ko6s2aSM+oMbK5zWaCpuiP
-ng0Ad/VD9dpfD6/Tsn2ClFX4JO3Gj6+oREalkgSaRu5R9JxDeV/JQ1oDEeWm4Vck
-kHzo644A50w+VNAvCFadKeWQEwj0Wg==
-=a/rN
------END PGP SIGNATURE-----
-
---LcuMXg1qg5b4xVPX--
+This series enables shadowed CVQ to intercept multiqueue commands through=0D
+shadowed CVQ, update the virtio NIC device model so qemu send it in a=0D
+migration, and the restore of that MQ state in the destination.=0D
+=0D
+It needs to be applied on top of [1].=0D
+=0D
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02965.html=0D
+=0D
+v2:=0D
+* Add vhost_vdpa_net_load_cmd helper to avoid out buffers castings.=0D
+* Make cvq_cmd_in_buffer virtio_net_ctrl_ack type.=0D
+=0D
+Eugenio P=C3=A9rez (6):=0D
+  vdpa: Make VhostVDPAState cvq_cmd_out_buffer control ack type=0D
+  vdpa: extract vhost_vdpa_net_load_mac from vhost_vdpa_net_load=0D
+  vdpa: Add vhost_vdpa_net_load_mq=0D
+  vdpa: validate MQ CVQ commands=0D
+  virtio-net: Update virtio-net curr_queue_pairs in vdpa backends=0D
+  vdpa: Allow MQ feture in SVQ=0D
+=0D
+ hw/net/virtio-net.c |  17 +++-----=0D
+ net/vhost-vdpa.c    | 101 ++++++++++++++++++++++++++++++++++----------=0D
+ 2 files changed, 85 insertions(+), 33 deletions(-)=0D
+=0D
+--=0D
+2.31.1=0D
+=0D
 
 
