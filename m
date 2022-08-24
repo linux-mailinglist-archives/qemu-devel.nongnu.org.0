@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0F959F7E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:34:56 +0200 (CEST)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96F959F893
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:24:40 +0200 (CEST)
+Received: from localhost ([::1]:33064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnip-0004Kx-OU
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33944)
+	id 1oQoUx-0000hM-3s
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuz-0004SJ-AQ
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:26 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38680)
+ id 1oQmv1-0004ST-5U; Wed, 24 Aug 2022 05:43:28 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:45735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuv-0001nk-A1
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:23 -0400
-Received: by mail-pl1-x630.google.com with SMTP id x19so15188906plc.5
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:43:20 -0700 (PDT)
+ id 1oQmuy-0001oH-9J; Wed, 24 Aug 2022 05:43:26 -0400
+Received: by mail-pg1-x536.google.com with SMTP id f4so12712765pgc.12;
+ Wed, 24 Aug 2022 02:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=gaj+hsFra3tAAn41KvUkD6S/64I4IDGVCSXdBoXHO4Y=;
- b=VUtrICafBqG5XkXx5nGmzMDoekmJWM/zvT+7TEVeQwS6I4+3SDULmAVSprYnc9G7bd
- CWK3bv8bL0rZZBrWld38PDkozHxJCl7oDZ7o6zYBqbRkVFsyvC1R6god2OjZ5g3nrwVX
- kwnzODmz522M5Rt4MrtMrOgU1tbAtUYQHyA1uL9GKJUokgCnGDtNNzsuV2n9iLsQMg34
- u7TOSKp7lhFUDz/3JWzNGn/pGvD8s6x2WlByRfKwkcoD3AeTNBNgCFWtBSOl1rxU1FBx
- NpxwV8UXAqgiHQD02y+vpEU1TTMtYmIlZYLsudha2iN7aPFORe507/tMtCOTxuYvJ4H8
- J2Cw==
+ bh=ohy+ZaRm+mExMl6IasKlBa1D9a82pE4z4g4jo6700W8=;
+ b=EFa36jtNPvYtjxpE+KhgJMJiHEArv3lvGNBpYs8rNtYVOJ2h5L5tnNXhwshALvkBSv
+ t+4ACo4IWpzDvvgwlRhuVaaaw7SCVrw62iGL51Ttjv3/GLIGZYSeCyrCWs/0+p52Ho6V
+ eZWyJudGq9qkprfJZ6GfJM1VlhoBq/41m6s2rslW6njYVLH14q/WAPKbT3/SSYtdFL73
+ OG8Vo3ofAqIR149E7xi3SHvJtZcNmfg66S2co4p0G7FqV5LaoA26twA6Tj0VF9GN6VpE
+ RbDwUhVkf1Tk/C8OHtD159sljtsQ4/suF1p4xMxDnCpER9+qhdikM3hpxsQeBTQ56/Ts
+ S3OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=gaj+hsFra3tAAn41KvUkD6S/64I4IDGVCSXdBoXHO4Y=;
- b=8DFQ4mtw2KxmW+pXd2ZOf8pjW3m25eZrFwbZuzD9dXQdlMGrP61S4L1jrVtimtHi77
- wpdTHbhBZRAUrss3V45c19mgRvtBdaOlx52cnpT2pxajK9QyXk6tPvFqluJCAWNH30c1
- GAR4v9F1dQaEVN0rblAgSJxSf1VbpyoRvf2Pd+ulLOSL0A02z1dxPLnkFnr4InBy0qyc
- NiM83WKp4eW4USZlj2cQGT3Ji77jkxPwtvlqwVrgMHoSDn50iywY82jNkxETA4otHbnN
- wtNMe2F6J+A0gmOqSBolzpMxGqSi7QBNerkuOzDEqo6AJqS5V/Lxqc45Pg0NIB/nWXVr
- IxjA==
-X-Gm-Message-State: ACgBeo0zEcTmtipGZk1cxLF/EDM6VUdNrsG4XEcgVXSAunvn6Og/PJf5
- ivjpZ5LyJyFK7tgLlhuWRkmepzo0FNw=
-X-Google-Smtp-Source: AA6agR5B1Wi6+1whPfRy/KEcWJHZxlVPYEwuKw02+TfXPJNmwX8h1PBi8SGm932FejldgP0EVJU6KQ==
-X-Received: by 2002:a17:90a:304a:b0:1fa:d832:5aca with SMTP id
- q10-20020a17090a304a00b001fad8325acamr7351025pjl.16.1661334199814; 
- Wed, 24 Aug 2022 02:43:19 -0700 (PDT)
+ bh=ohy+ZaRm+mExMl6IasKlBa1D9a82pE4z4g4jo6700W8=;
+ b=j4XidXyxmX+i/X7HLkr+jpiGXW410qpCp36Su+SaEmLr9kFpKJcaRBQ+cIZoJDKTyA
+ M36AonbfR0MNV4xNeHq+HbXH2yyEiL9OOvez43vICKNZIqcbtG7xOgJKwgFIrRXCRQCW
+ twH8IDNMG1E8oxu29jUzMsm7bMpBJ+G24IUKKa7PlgSvd6smXNkur8yP9OmqXfmE7YHf
+ LhjSsKNdaI5lXjF+9FEyFv7EMThSpTjE0H0uxCqMlt4euDeL+MSeD9xUtVud/HCvAQVJ
+ +fGk1v6japuffUmPQ8bmITaZspeN6A9D1IxlcfHV+NAHwR7l+wJNxYsTekwISqlOcddB
+ /t7A==
+X-Gm-Message-State: ACgBeo1UcRVWZMp/GS2LRriKGMtgGR4h07oizSvbB2lOJbcpRuZQ6GO/
+ bcQWYQgQzxK2Sld5erNoaLaRqT3tsxY=
+X-Google-Smtp-Source: AA6agR6bx+H5hvlsCfy0SQNQpJsv5cGpqgtTzuWACh35mc98Z24eSOFRsWe+SJAr8exISxezTqElDQ==
+X-Received: by 2002:a05:6a00:2918:b0:536:3967:5d08 with SMTP id
+ cg24-20020a056a00291800b0053639675d08mr21463197pfb.68.1661334202610; 
+ Wed, 24 Aug 2022 02:43:22 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.17
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:43:19 -0700 (PDT)
+ Wed, 24 Aug 2022 02:43:22 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
  Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 41/51] tests/qtest: migration-test: Kill "to" after migration
- is canceled
-Date: Wed, 24 Aug 2022 17:40:19 +0800
-Message-Id: <20220824094029.1634519-42-bmeng.cn@gmail.com>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org
+Subject: [PATCH 42/51] hw/ppc: spapr: Use qemu_vfree() to free spapr->htab
+Date: Wed, 24 Aug 2022 17:40:20 +0800
+Message-Id: <20220824094029.1634519-43-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,31 +93,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Make sure QEMU process "to" is killed before launching another target
-for migration in the test_multifd_tcp_cancel case.
+spapr->htab is allocated by qemu_memalign(), hence we should use
+qemu_vfree() to free it.
 
+Fixes: c5f54f3e31bf ("pseries: Move hash page table allocation to reset time")
+Fixes: b4db54132ffe ("target/ppc: Implement H_REGISTER_PROCESS_TABLE H_CALL"")
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/migration-test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/ppc/spapr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 125d48d855..18ec079abf 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
-     wait_for_migration_pass(from);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index bc9ba6e6dc..4034f4d130 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1522,7 +1522,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize)
  
-     migrate_cancel(from);
-+    /* Make sure QEMU process "to" is killed */
-+    if (qtest_probe_child(to)) {
-+        qtest_kill_qemu(to);
-+    }
- 
-     args = (MigrateStart){
-         .only_target = true,
+ void spapr_free_hpt(SpaprMachineState *spapr)
+ {
+-    g_free(spapr->htab);
++    qemu_vfree(spapr->htab);
+     spapr->htab = NULL;
+     spapr->htab_shift = 0;
+     close_htab_fd(spapr);
 -- 
 2.34.1
 
