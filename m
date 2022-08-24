@@ -2,84 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F5C59FDE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:08:19 +0200 (CEST)
-Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059B459FE0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:14:57 +0200 (CEST)
+Received: from localhost ([::1]:50880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQrzN-0007Sr-TG
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60618)
+	id 1oQs5n-0005u2-Qx
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oQrvw-0005FF-79
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:04:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60301)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQs2Z-0000Ok-Fz
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:11:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oQrvs-0002V5-H0
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:04:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQs2W-0003mi-Qp
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:11:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661353478;
+ s=mimecast20190719; t=1661353891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DygX394yRU1lO1BRSuzjyUMyRq6T7dOHcsoaCycCb2o=;
- b=BHTfLwyGtSKQOnd5d1+mB1Dk6JB1pTkEfROaUn8VtdNe+QghFY0OrK++u/b3KoyHkvn/sw
- fhr7HGE4+bKGpvUmsWeYkDPbByTIMFcqtDyJhEFiWs/SlpRglyB0IFW7xhwDpV6wom2g6D
- 2QOjWAxOkPa/qIrV4Pzfc/LouySzi1k=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-dS21x17INBOn04lrNag2_g-1; Wed, 24 Aug 2022 11:04:37 -0400
-X-MC-Unique: dS21x17INBOn04lrNag2_g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- q18-20020a056402519200b0043dd2ff50feso11025724edd.9
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 08:04:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=DygX394yRU1lO1BRSuzjyUMyRq6T7dOHcsoaCycCb2o=;
- b=3ezBv1ktLNMJzFH0SwW/c6NI80EKPBDHQNjP4cFD1CPJqn89og+Mgg9FohRXRLxpy9
- evO0msN33hBka9tHm4MA54eMFDvnDOuDodVU22gaD/n+ye2SK4g0kZiMv70dAygGvSpD
- voXBXI0bdfB0w7XjRd2sZhvm/0R81JuTewqc5A3wsz33XsWvBzyZbEFgQCPivq6YJ8Hv
- yi4uOzNloORjVHQAhdcKrhlkDbvkdOeqcSEc5Ht8kX9tGKnEf5aYuVT1HDocY1sEns1b
- hn/l/w3d7dJkJ+1/9rL6/n0ri0C6TA3/MM3YQJs/xcM/LEVUKf5s++faV56qfJIye5xi
- LE3A==
-X-Gm-Message-State: ACgBeo0/L1EC2u+7SRGEJfKZw5ubq/++xu5qxUHDv+8sWoa0nEU1F4Oa
- ack9Ytp55TFVgWswnIu5af0u2CNslGrNjnAO+7aLlq0Nk//RSGojjjIgVFar5VIxnN/jMMLgwWl
- tgvzA/ikhN9qHBD8=
-X-Received: by 2002:a17:907:3e03:b0:722:e694:438 with SMTP id
- hp3-20020a1709073e0300b00722e6940438mr3171495ejc.755.1661353476089; 
- Wed, 24 Aug 2022 08:04:36 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5sEOhXXFw1YwlrLX2BmNwWqLDFhoUazNlzYwgdyi8cvoB4Pp6aaPza5dQjOvJiJLUr83qAKg==
-X-Received: by 2002:a17:907:3e03:b0:722:e694:438 with SMTP id
- hp3-20020a1709073e0300b00722e6940438mr3171480ejc.755.1661353475854; 
- Wed, 24 Aug 2022 08:04:35 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- u18-20020a1709061db200b007306d478c62sm1282147ejh.62.2022.08.24.08.04.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 08:04:35 -0700 (PDT)
-Date: Wed, 24 Aug 2022 17:04:33 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Cc: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <qemu-trivial@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, Eric
- Auger <eric.auger@redhat.com>, Peter Xu <peterx@redhat.com>,
- <wanghaibin.wang@huawei.com>
-Subject: Re: [PATCH v2] hw/acpi: Add ospm_status hook implementation for
- acpi-ged
-Message-ID: <20220824170433.7ba675ca@redhat.com>
-In-Reply-To: <20220816094957.31700-1-zhukeqian1@huawei.com>
-References: <20220816094957.31700-1-zhukeqian1@huawei.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FjPIFbf2dZLC+VVqEtl6A391OP/vfiuywsq3NloXBCM=;
+ b=jKLY3AYW/MECI2iVNV67k7KVVoUx1bUAwsFojSmJi6K8LKd8x1xFMS8N4hK8PFxReIeFai
+ 6D8PMDGD4fpcSJMq6c013axx+9EfSI8x2ybCHn+Mw4mGcoc3y47zd07YP+F9l54Mbirlxn
+ X6SRGjN0lveGg6whrPoDnbVZZJOXlBk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-173-MmkpDHOJPbWXMs8tGrX7ng-1; Wed, 24 Aug 2022 11:11:30 -0400
+X-MC-Unique: MmkpDHOJPbWXMs8tGrX7ng-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71683811E87;
+ Wed, 24 Aug 2022 15:11:28 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.194.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB98A492C3B;
+ Wed, 24 Aug 2022 15:11:26 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: [PATCH v2 for-7.2 0/6] Drop libslirp submodule
+Date: Wed, 24 Aug 2022 17:11:16 +0200
+Message-Id: <20220824151122.704946-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,60 +77,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Aug 2022 17:49:57 +0800
-Keqian Zhu <zhukeqian1@huawei.com> wrote:
+At the point in time we're going to release QEMU 7.2, all supported
+host OS distributions will have a libslirp package available, so
+there is no need anymore for us to ship the slirp submodule. Thus
+let's clean up the related tests and finally remove the submodule now.
 
-> Setup an ARM virtual machine of machine virt and execute qmp "query-acpi-ospm-status"
-> causes segmentation fault with following dumpstack:
->  #1  0x0000aaaaab64235c in qmp_query_acpi_ospm_status (errp=errp@entry=0xfffffffff030) at ../monitor/qmp-cmds.c:312
->  #2  0x0000aaaaabfc4e20 in qmp_marshal_query_acpi_ospm_status (args=<optimized out>, ret=0xffffea4ffe90, errp=0xffffea4ffe88) at qapi/qapi-commands-acpi.c:63
->  #3  0x0000aaaaabff8ba0 in do_qmp_dispatch_bh (opaque=0xffffea4ffe98) at ../qapi/qmp-dispatch.c:128
->  #4  0x0000aaaaac02e594 in aio_bh_call (bh=0xffffe0004d80) at ../util/async.c:150
->  #5  aio_bh_poll (ctx=ctx@entry=0xaaaaad0f6040) at ../util/async.c:178
->  #6  0x0000aaaaac00bd40 in aio_dispatch (ctx=ctx@entry=0xaaaaad0f6040) at ../util/aio-posix.c:421
->  #7  0x0000aaaaac02e010 in aio_ctx_dispatch (source=0xaaaaad0f6040, callback=<optimized out>, user_data=<optimized out>) at ../util/async.c:320
->  #8  0x0000fffff76f6884 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
->  #9  0x0000aaaaac0452d4 in glib_pollfds_poll () at ../util/main-loop.c:297
->  #10 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:320
->  #11 main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:596
->  #12 0x0000aaaaab5c9e50 in qemu_main_loop () at ../softmmu/runstate.c:734
->  #13 0x0000aaaaab185370 in qemu_main (argc=argc@entry=47, argv=argv@entry=0xfffffffff518, envp=envp@entry=0x0) at ../softmmu/main.c:38
->  #14 0x0000aaaaab16f99c in main (argc=47, argv=0xfffffffff518) at ../softmmu/main.c:47
-> 
-> Fixes: ebb62075021a ("hw/acpi: Add ACPI Generic Event Device Support")
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+v2:
+- Added patches to clean up and adapt the tests
+- Rebased the removal patch to the latest version of the master branch
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Thomas Huth (6):
+  tests/docker: Update the debian-all-test-cross container to Debian 11
+  tests/vm: Add libslirp to the VM tests
+  tests/lcitool/libvirt-ci: Update the lcitool module to the latest
+    version
+  tests: Refresh dockerfiles and FreeBSD vars with lcitool
+  tests/avocado: Do not run tests that require libslirp if it is not
+    available
+  Remove the slirp submodule (i.e. compile only with an external
+    libslirp)
 
-> ---
->  hw/acpi/generic_event_device.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-> index e28457a7d1..a3d31631fe 100644
-> --- a/hw/acpi/generic_event_device.c
-> +++ b/hw/acpi/generic_event_device.c
-> @@ -267,6 +267,13 @@ static void acpi_ged_unplug_cb(HotplugHandler *hotplug_dev,
->      }
->  }
->  
-> +static void acpi_ged_ospm_status(AcpiDeviceIf *adev, ACPIOSTInfoList ***list)
-> +{
-> +    AcpiGedState *s = ACPI_GED(adev);
-> +
-> +    acpi_memory_ospm_status(&s->memhp_state, list);
-> +}
-> +
->  static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
->  {
->      AcpiGedState *s = ACPI_GED(adev);
-> @@ -409,6 +416,7 @@ static void acpi_ged_class_init(ObjectClass *class, void *data)
->      hc->unplug_request = acpi_ged_unplug_request_cb;
->      hc->unplug = acpi_ged_unplug_cb;
->  
-> +    adevc->ospm_status = acpi_ged_ospm_status;
->      adevc->send_event = acpi_ged_send_event;
->  }
->  
+ configure                                     |  24 ----
+ meson.build                                   | 121 ++++--------------
+ .gitlab-ci.d/buildtest.yml                    |  20 ++-
+ .gitlab-ci.d/cirrus/freebsd-12.vars           |   2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars           |   2 +-
+ .gitlab-ci.d/container-cross.yml              |   1 -
+ .gitmodules                                   |   3 -
+ MAINTAINERS                                   |   1 -
+ meson_options.txt                             |   5 +-
+ scripts/archive-source.sh                     |   2 +-
+ scripts/meson-buildoptions.sh                 |   4 +-
+ slirp                                         |   1 -
+ tests/avocado/avocado_qemu/__init__.py        |   7 +
+ tests/avocado/info_usernet.py                 |   1 +
+ tests/avocado/replay_linux.py                 |   1 +
+ tests/docker/Makefile.include                 |   1 -
+ .../dockerfiles/debian-all-test-cross.docker  |   9 +-
+ tests/docker/dockerfiles/opensuse-leap.docker |   2 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    |   2 +-
+ tests/lcitool/libvirt-ci                      |   2 +-
+ tests/vm/freebsd                              |   3 +
+ tests/vm/haiku.x86_64                         |   3 +-
+ tests/vm/netbsd                               |   3 +
+ 23 files changed, 64 insertions(+), 156 deletions(-)
+ delete mode 160000 slirp
+
+-- 
+2.31.1
 
 
