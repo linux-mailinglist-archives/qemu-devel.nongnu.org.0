@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B7E59FA68
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 14:50:01 +0200 (CEST)
-Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2542759FAD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 15:04:18 +0200 (CEST)
+Received: from localhost ([::1]:35302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQppY-0004qQ-7T
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 08:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33188)
+	id 1oQq3L-0001lm-Vh
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 09:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQpi0-0005Ue-5A
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 08:42:13 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36395)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oQpjt-0007bu-Pk
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 08:44:09 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:41712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQphy-0000oz-1c
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 08:42:11 -0400
-Received: by mail-pg1-x535.google.com with SMTP id s206so14929481pgs.3
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 05:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:user-agent:references:message-id:in-reply-to:subject
- :cc:to:date:from:from:to:cc;
- bh=y4yi0g7ScAdrG0hGel6x+zdnPwn+l3Lqp1uh+Eo+RU0=;
- b=ri1gzUF+WGzT5aCH/c6+R3U5zqglo5ztY5FsF9AvEW4XJ9Qbz7nebofm1A51PyndnN
- p4aEtxeJmvjBbW2NvQbpeSwXzhWJ/NXpDXP2PPMOilVAWvmDBzWRhy/0RyDL5QNu9WQy
- ZZKFL8XdqCeAdRrF/gL0EB0OC9wIDQqrvocSVG6KeDt0mKgygZA7CiE/U+Pav0tUfh9j
- Acin51VoXtz44eDHIAHyvvQxfwKQXjgZCbNFbwlt1XuQaBMAsFeIDVzhl6hgS9WMrJhI
- rU03R1GWQo0+to58ydBekn8n/lbumfeP9K3tAFuOXFSpR38YsGZuddSKabrvI4uWWq0Q
- Jecw==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oQpjq-0001Lh-V3
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 08:44:09 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id l1so23294670lfk.8
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 05:44:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=1RnP3lM+YurP05rVrhhTvzbnTQaXJt1BEmlrRt1AEA4=;
+ b=NvBk1E26+t1apSRU3AmG/cqWksAGhIVB5PLzLtt3uHwuIxk74o0m4qjW6/vhFS/o0V
+ W2P1dTDkzpgXqkE0jTasoF7zkBanXwvQaOqaxQAKG4IDOhvlNipyVI/jwtBaOw3q0YIb
+ 75wRs6hvkHbS76Svu6Q2eoleXdatcmTagCicQfQmeF7h9IecnngaEwowl9rM920K9lm9
+ xmwvDV+iFgt6363jm0H4/Kx0n/jHVAZjD+GaifPyNcjqkZjF5860F8yYaSsgI4q8Tilm
+ p//ueWr2oK6MacQcZnrVUgyb/i/yKL8i2lwLzGNipniTZ8QmA/Xaby6heq+R50U3izf0
+ hmGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:user-agent:references:message-id:in-reply-to:subject
- :cc:to:date:from:x-gm-message-state:from:to:cc;
- bh=y4yi0g7ScAdrG0hGel6x+zdnPwn+l3Lqp1uh+Eo+RU0=;
- b=IR/KaspBmu6Qw88k+NZX3w/sHWY6Jm+6YmcTcUC9ID8ZdPRIHKRxPQ3/F1PXlCQsH8
- PLdESdhd09Ybvh+AhE3k7Jfk7bQbERBdB1WoBSZpsns0BLq0b35thg/UYeA8Bs1nY3Id
- y4mCwaKnU6LuovyOSA5m1JAm5BxAsDt6LiB4nXu86/XjSvhc7tLy7rw39yWLi0STWamk
- Zpycx4NTaL6DyDX3FAMm2TWgwExebal5Z4ZkwniuR/fLc4GZFxMM2/KvvSIJ5hPiY86z
- Y/azVDFlsgWomSMYNDWvMoP+tD8ZFZ35NDhFNPkp5sL9CVp3m/69mvgBOJjGAfIoVGPe
- sbUQ==
-X-Gm-Message-State: ACgBeo1fVW7mL25KBUU8ntCXzOCqf8YFWhdnTua6aQ1wF9koSdK8VlDx
- XRpeA3nHj4Swk2zUoKsgv4gJag==
-X-Google-Smtp-Source: AA6agR53SYZsOYplFKVWevU6Dd2sPoDphlrR7faaZ93qy2uk5VLPJ2UAUesKIcDyGrIYa4mxysvNyg==
-X-Received: by 2002:a05:6a00:330b:b0:536:a88a:b4b8 with SMTP id
- cq11-20020a056a00330b00b00536a88ab4b8mr13780583pfb.22.1661344927250; 
- Wed, 24 Aug 2022 05:42:07 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.149.162])
- by smtp.googlemail.com with ESMTPSA id
- t4-20020a170902e1c400b001728ac8af94sm12305954pla.248.2022.08.24.05.42.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 05:42:06 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Wed, 24 Aug 2022 18:12:00 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Bin Meng <bmeng.cn@gmail.com>
-cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 34/51] tests/qtest: bios-tables-test: Adapt the case for
- win32
-In-Reply-To: <20220824094029.1634519-35-bmeng.cn@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2208241745400.562041@anisinha-lenovo>
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-35-bmeng.cn@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=1RnP3lM+YurP05rVrhhTvzbnTQaXJt1BEmlrRt1AEA4=;
+ b=wRj9KTiJfLeiE0D6z7HNiW4nC8nnD+GcCca0dDU9BmI395fcj5gelag/8QllFzPrqz
+ i0I+Fyk0D3/13ZIImwMelaUCp00tHDwGrbRPrOzKTI+V90ptk0EG86ZD7F2iY+A7q9ot
+ JPpGZlv0g23bqOuEFrga5Q7zfFkUl7OjiFJU65k/ufg6ybaFI40ZS9iIWNhGGpEGMRNz
+ rTPJsWJOQ4OQ//el3eia4I7yZwhX0j/V7b9NTwXsEHj/F9MpCPPrVcan2OvZAVUrd+D8
+ k4mNWvP/tG8jq8184sw3cw+4qYRtA79K5cfTDspkAd+0fKLfH5Jv3i7U4xat6jHRnsaZ
+ ZMjA==
+X-Gm-Message-State: ACgBeo0LuOCy8DBOPMbMlXQwhZJETR7pe8Cb0iniqm3qri/Bd2Ry3Jb+
+ wtI6ingbL7SvfASo6JW2775+mk5rJglRailkTKnnmTXgpQWpaA==
+X-Google-Smtp-Source: AA6agR6ER2UOz+WMsbmlZVevwiAs377bUxfOmMF9MNstZQ28tCN0DaZ39CLSDrsFhY95Rwjt/eAbKV1gyRNjILrxvgg=
+X-Received: by 2002:a05:6512:2394:b0:492:df50:28ce with SMTP id
+ c20-20020a056512239400b00492df5028cemr6069759lfv.328.1661345044303; Wed, 24
+ Aug 2022 05:44:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::535;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 24 Aug 2022 16:43:53 +0400
+Message-ID: <CAJ+F1CL27O8dmGSws=-QgutRRpM2NHcued28gnvt5jWo2WeUvw@mail.gmail.com>
+Subject: Page alignment & memory regions expectations
+To: QEMU <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, 
+ David Hildenbrand <david@redhat.com>, qiaonuohan@cn.fujitsu.com
+Content-Type: multipart/alternative; boundary="00000000000037165d05e6fc093d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,68 +81,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000037165d05e6fc093d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-On Wed, 24 Aug 2022, Bin Meng wrote:
+tpm-crb creates a "tpm-crb-cmd" RAM memory region that is not page aligned.
+Apparently, this is not a problem for QEMU in general. However, it crashes
+kdump'ing in dump.c:get_next_page, as it expects GuestPhysBlock to be
+page-aligned. (see also bug
+https://bugzilla.redhat.com/show_bug.cgi?id=3D2120480)
 
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Single quotes in the arguments (oem_id='CRASH ') are not removed in
-> the Windows environment before it is passed to the QEMU executable.
-> The space in the argument causes the "-acpitable" option parser to
-> think that all of its parameters are done, hence it complains:
->
->   '-acpitable' requires one of 'data' or 'file'
->
-> Change to use double quotes which works fine on all platforms.
->
-> Also /dev/null does not work on win32, and nul should be used.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
->
->  tests/qtest/bios-tables-test.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 36783966b0..0148ce388c 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1615,6 +1615,12 @@ static void test_acpi_virt_viot(void)
->      free_test_data(&data);
->  }
->
-> +#ifndef _WIN32
-> +# define DEV_NULL "/dev/null"
-> +#else
-> +# define DEV_NULL "nul"
-> +#endif
-> +
->  static void test_acpi_q35_slic(void)
->  {
->      test_data data = {
-> @@ -1622,9 +1628,9 @@ static void test_acpi_q35_slic(void)
->          .variant = ".slic",
->      };
->
-> -    test_acpi_one("-acpitable sig=SLIC,oem_id='CRASH ',oem_table_id='ME',"
-> -                  "oem_rev=00002210,asl_compiler_id='qemu',"
-> -                  "asl_compiler_rev=00000000,data=/dev/null",
-> +    test_acpi_one("-acpitable sig=SLIC,oem_id=\"CRASH \",oem_table_id=ME,"
-> +                  "oem_rev=00002210,asl_compiler_id=qemu,"
+Here is some relevant DEBUG_GUEST_PHYS_REGION_ADD log:
+guest_phys_block_add_section: target_start=3D00000000fd000000
+target_end=3D00000000fe000000: added (count: 3)
+guest_phys_block_add_section: target_start=3D00000000fed40080
+target_end=3D00000000fed41000: added (count: 4)
+guest_phys_block_add_section: target_start=3D00000000fffc0000
+target_end=3D0000000100000000: added (count: 5)
 
-ME and qemu should be surrounded by quotes. They are string arguments.
-https://www.qemu.org/docs/master/interop/qemu-qmp-ref.html?highlight=oem_table_id
+I am looking for ideas on how to solve this crash.
 
+Should qemu enforce that memory regions are target page-aligned? In which
+case, TPM CRB MMIO region would overlap with the RAM region, and I wonder
+how that turns out to be, and if other devices would be impacted etc
 
+Or should kdump learn to handle non-aligned blocks somehow? I think that
+option should make a reasonable solution, as long as we only have
+empty/zero-memory "gaps". Handling other cases of joint or overlapping
+regions seems more difficult.
 
+thanks
 
-> +                  "asl_compiler_rev=00000000,data=" DEV_NULL,
->                    &data);
->      free_test_data(&data);
->  }
-> --
-> 2.34.1
->
->
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000037165d05e6fc093d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>tpm-crb creates a &quot;=
+tpm-crb-cmd&quot; RAM memory region that is not page aligned. Apparently, t=
+his is not a problem for QEMU in general. However, it crashes kdump&#39;ing=
+ in dump.c:get_next_page, as it expects GuestPhysBlock to be page-aligned. =
+(see also bug <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D2120=
+480">https://bugzilla.redhat.com/show_bug.cgi?id=3D2120480</a>)</div><div><=
+br></div><div>Here is some relevant DEBUG_GUEST_PHYS_REGION_ADD log:<br></d=
+iv><div>guest_phys_block_add_section: target_start=3D00000000fd000000 targe=
+t_end=3D00000000fe000000: added (count: 3)<br>guest_phys_block_add_section:=
+ target_start=3D00000000fed40080 target_end=3D00000000fed41000: added (coun=
+t: 4)<br>guest_phys_block_add_section: target_start=3D00000000fffc0000 targ=
+et_end=3D0000000100000000: added (count: 5)<br></div><div><br></div><div>I =
+am looking for ideas on how to solve this crash.</div><div><br></div><div>S=
+hould qemu enforce that memory regions are target page-aligned? In which ca=
+se, TPM CRB MMIO region would overlap with the RAM region, and I wonder how=
+ that turns out to be, and if other devices would be impacted etc<br></div>=
+<div><br></div><div>Or should kdump learn to handle non-aligned blocks some=
+how? I think that option should make a reasonable solution, as long as we o=
+nly have empty/zero-memory &quot;gaps&quot;. Handling other cases of joint =
+or overlapping regions seems more difficult.<br></div><div><br></div><div>t=
+hanks<br></div><div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature" d=
+ata-smartmail=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div></d=
+iv>
+
+--00000000000037165d05e6fc093d--
 
