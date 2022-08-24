@@ -2,132 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB0159F079
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 02:57:01 +0200 (CEST)
-Received: from localhost ([::1]:41290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594A359F168
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 04:28:25 +0200 (CEST)
+Received: from localhost ([::1]:43320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQehY-0006lc-0d
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 20:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44142)
+	id 1oQg80-0002CR-2S
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 22:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Martin.Oliveira@eideticom.com>)
- id 1oQcVE-00089v-Pn; Tue, 23 Aug 2022 18:36:08 -0400
-Received: from mail-bn8nam11on2041.outbound.protection.outlook.com
- ([40.107.236.41]:42317 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oQg6d-0000l2-8p
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:26:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Martin.Oliveira@eideticom.com>)
- id 1oQcVB-0005Zo-8o; Tue, 23 Aug 2022 18:36:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mGSOrsEcDDXJ3PcE3NtK2cNBlXQkRj+thma6sfQwhVPtH7ugfzkGirmTZU6+tXLE+3hegtOtcT0Kv0wgVKoP3tb99VVe119qG+kHm0tMp0NnmVf4mnCOs84zx9/2JCtTA0RnXQmu/7y3wu7pY0yr4wcT9Ule7BQhLD76XpY955RJN249CxvF0s3fOrgkny8pXfo3WZ3S6J/zhsUr3nZWLBi+y8uCGZxFkSd1rrly0ba2pdoM2XX0bgmquyXrv2CF+UJkMPZl9uqFbE8EnrTouXp0RbtFknZKsJ4yQlHoIgS66EXNCKQCZ76uc5+0T14GPFcoMEiDmkDvlcoM8YbMIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FGHl4wAvV1lnbWvs3QA3P7GVfLEZS7VX2v7V3J5k/CU=;
- b=KJjml6PFEyvc6dkPyn7WKK0Kqnw4J2KeJcsQBg3YjiYOeKi8RxqcY+hjuE0VFvIFNAkqnzKNKMHN4LrGDxRLQnasdvUybi6CiwXK+zMQcpwWufD8aIm3NSC4PiFdCmGCgiQGqfVAI7uQwZftZmyO4WoxmtwzGEsyaDC7VN9+vtg6SdUb4+uspdsJORbhP8uMQNX04oKo1QsqdsWHt1WrOpTlBJyzdxUCcrus/jMm2hNzXILbLO7QeTkumDxOE6GPt9fQVD+jRRZftiSzchevHqxmqkxgsqoSL5Dl3i7wyeQWd3P5WtmfYfIiV+7Mn9b9+fn546q+SyXb2OHTi9IBKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=eideticom.com; dmarc=pass action=none
- header.from=eideticom.com; dkim=pass header.d=eideticom.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=eideticcom.onmicrosoft.com; s=selector2-eideticcom-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FGHl4wAvV1lnbWvs3QA3P7GVfLEZS7VX2v7V3J5k/CU=;
- b=wN+rET4J0V52O2UJFjFYEmgBjscqyGlHX1/2qYgTARrqCpFr4FpV4z+ehNYkXeAFcrXr3X2fFaLfM7LJepnwvvJ/wkhrj5+hC1k2Lrj/3ajxlYlh43ZA7IR6dAosD0K5gwNwMscnhGdl/98Q5pPz/w7mKZ498bPSPahB5QLK3gE=
-Received: from MW3PR19MB4250.namprd19.prod.outlook.com (2603:10b6:303:46::16)
- by MW4PR19MB5566.namprd19.prod.outlook.com (2603:10b6:303:186::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16; Tue, 23 Aug
- 2022 22:36:00 +0000
-Received: from MW3PR19MB4250.namprd19.prod.outlook.com
- ([fe80::c48d:a252:fd6b:8f7f]) by MW3PR19MB4250.namprd19.prod.outlook.com
- ([fe80::c48d:a252:fd6b:8f7f%3]) with mapi id 15.20.5566.015; Tue, 23 Aug 2022
- 22:36:00 +0000
-From: Martin Oliveira <Martin.Oliveira@eideticom.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "fam@euphon.net" <fam@euphon.net>, "f4bug@amsat.org" <f4bug@amsat.org>
-CC: Stephen Bates <stephen@eideticom.com>, Chaitanya Kulkarni
- <Chaitanyak@nvidia.com>
-Subject: EBUSY when using NVMe Block Driver with multiple devices in the same
- IOMMU group
-Thread-Topic: EBUSY when using NVMe Block Driver with multiple devices in the
- same IOMMU group
-Thread-Index: AQHYtz2bvx1iEuwnEE2WORQNbfNNOQ==
-Date: Tue, 23 Aug 2022 22:36:00 +0000
-Message-ID: <DM6PR19MB4248C040D8E12FAF3CD9D615E4709@DM6PR19MB4248.namprd19.prod.outlook.com>
-Accept-Language: en-CA, en-US
-Content-Language: en-CA
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=eideticom.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 16c76caf-9222-413f-4436-08da8557daa1
-x-ms-traffictypediagnostic: MW4PR19MB5566:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KvC07u+Tb259tIADqkrWYNDSRGnbs3IuUJB1RFErDT2i4jGwGtaeHbegk+yh8DLxtOaAcSfAlQYGiOKOutP79F+E63EVW1weaovj26IGZRVrOtROSOfB4q5yjGtFZ7xVXXlCpmdYQiuxZL6/jRkjCyNzjm0xu6BUkeW9pwXyrs7Sr7Pg87X9Us2FtwJr6K778z8AD74uE2y8Qz+VE0XMSDBkocTD9o7yAkEP7t7s3iDnrOmGEzxlbo8Vdv7omsHlpzAHR8KPA+GQtETjtTA/W+6Pyj8EgGLSiHI+Vsr+j+YZbPGk39Sk2TMgU8DnW168MOcX6XK8OhlTCdyaiC2wWshSivOv6bZjC8leh1h0ugSmRXYcoike09ZMsBpIY0lBy4CMjEnGMhmdhbKafEjM43WIk3ZJadprO0gCjeURw+/76mx9KGhxdzTifjfhNLA6gZ1VT1SDMTL72SGvUx9vRB1nhpJ/8smFtK4LgHEI+fxbVLdZ9bmPVo1YlIDO2yeCy6d/ST/OxoXhtWNVzo3MtqK9t+fU/1SNSuo5s3VR8PYVcw2UfjUykaVwXlFzDBuWJwsJ/l656TlfOTAvJaR+5ow0Ilqk3j5k4gUhFElwEdvOR7i6+bQxjx5KrQvxg/p59fDZvrgX7SvN15PHEj6aWi1XMc/O2ymZhwI6/4BfRf+CTy8WwXAtuOp7Vmp3zw3q+L3urQHOdzDMXPipCD/i38cIRlM+HFECb1EPo/c9Joa57bR2jzLrYUSrGHSasPWr
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR19MB4250.namprd19.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(346002)(366004)(396003)(136003)(39830400003)(66946007)(66476007)(66556008)(66446008)(41300700001)(76116006)(26005)(8676002)(4744005)(5660300002)(6486002)(186003)(8936002)(6512007)(478600001)(33656002)(52536014)(38070700005)(9686003)(6506007)(86362001)(38100700002)(316002)(110136005)(2906002)(4326008)(54906003)(122000001)(71200400001)(64756008);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?UGPjrtkS+hJ7SPbf7KqIw2ou9vKbfu8pUUrfFuGj9GhUDZkK3i0RCXUpI/?=
- =?iso-8859-1?Q?2QmCjH7TMNxOpxp2ibE/WmyDV9qLnmd/WSo4kMVyvxJYRALJM2j8rIOhkT?=
- =?iso-8859-1?Q?tfTLkbv7PJ0VuTrNsyvhQkyi7NdygwMcjLMksuh1oAKV9tsPHqd7GerXsE?=
- =?iso-8859-1?Q?v130Pr3HrD6BMZXRTAqLWDn6m1cv5ahN839bTwHr7b4Ue5RAjXi6lM5QDK?=
- =?iso-8859-1?Q?xpCV6tlJsaUnaSz/QLjExVPMb1QBC8Cbtp2Uh8u32Bj33exWGnOsSDV9qF?=
- =?iso-8859-1?Q?/6SOo8mJCHDOlXBvzXOGjJgem9uSxGnLYF6OslhLTDOlQYQzKA+yE2MCJY?=
- =?iso-8859-1?Q?mam/DIHlYiUom5gpyRmyXhxPKouipwmgagljSMGuXy44eOxNn6PQ9egAsk?=
- =?iso-8859-1?Q?Gvqw3MkqwHI12rEJ1EhwBNcT8nbb2yk8ChtuwBcB2YMZD623a7a5y31qsa?=
- =?iso-8859-1?Q?ujgxZoikaGXcTssAdfdrHW9yVrXG8tfLxxbTRnK3QKf0qbN7X/sKrwS/eV?=
- =?iso-8859-1?Q?NaTCZKUZRfmmi8EcqWazXcVGkJ49bS74oC8DS+OCcXOsztWow4RdzwxP5x?=
- =?iso-8859-1?Q?rXKrk8DRhvtNKOzVUzzn71Tdp5q4LEPv3sbhtJEl2zayESOhFKrI6FTe4J?=
- =?iso-8859-1?Q?99UAdg/am3mVLqG7J0pnK86xekIn9xvXJl0EUTmwmJAd8qwBPNlR2Vvuqj?=
- =?iso-8859-1?Q?vbGimnvESKNcsCX/tSPjwMC7qVebrvppwlNd6oGdZof5+huAmbegNDmoI9?=
- =?iso-8859-1?Q?+uxX4rpLjyob3+yknU1+CpSqk+cuFdTBEOgIRHIb3muHZ9xnQCbpc10VYs?=
- =?iso-8859-1?Q?3d5m03e7Ova16QbmMATaLbicTs2YdnTE+dYdyE3pgX7B0gn19S05mEcDB6?=
- =?iso-8859-1?Q?e+GCxQiJnlNVDX7GtPk4iJlFqFwn4fCc3voePHqDiPRnTavL2ifM6g2BHK?=
- =?iso-8859-1?Q?dF0UcSqH9O1UHpjxxaHiTVI/sjNqEFiEK8hkcyybwHor+C8eSlr6zphoLF?=
- =?iso-8859-1?Q?t3wRoSgcLWxGeXrTKIQhGwL7LhwnXVQa2UW4OqEfbAc2qlKJ21k/cPVsw4?=
- =?iso-8859-1?Q?QDpAfEueo1EJC+ELeJ24/hlk55mZfUoCaQFalkOGtPLL8557w7JHIT/iw8?=
- =?iso-8859-1?Q?W4L9+mdDHqhu5/IvlJSBan7rgPkKXl3+KZJKpigmNtWa+GPX/YVakpYJaq?=
- =?iso-8859-1?Q?jgV9yABzshaQM7qBGXlO8MLo63aYOASX7tYYcrASbH6MvzGbbU8h28g2YP?=
- =?iso-8859-1?Q?BBA29FPnSz7bPbCshWZBtCQgBgd6lFYI72FnIy4k+J5cKmMbWKzWnoGHGR?=
- =?iso-8859-1?Q?obzLdtciDU5KnF6IBM47zqceJ8axnWbXQe/EZoWl/HrV/lafAqyogVoKJN?=
- =?iso-8859-1?Q?PgwnDQZSFkZDxteh4Mq2NbuvmNXZsvM4NxgWohQ1FnfFzLixwbGZgljOhc?=
- =?iso-8859-1?Q?5oz4UcnRAYQPRpMv54CBcRucWKUgs9kwfvIMzZlSMCDqshJVFqeodzxQGi?=
- =?iso-8859-1?Q?AQdg3hM/wFIClt3W5LB8rfVU/+qwUXWYdi4AaDIf910NJkLjVFGuhJLk5E?=
- =?iso-8859-1?Q?Xvdlx61+QkeL+1Q8QrV3ZGenYEdQ2D3YgKVImryXJjho7j8MfsV5SVanU1?=
- =?iso-8859-1?Q?kVGZfMPsVDhQFYNKhUp85eg7gOSz3LgGKtfRCsw0bcLDfDfG27WmsOyw?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oQg6Z-0003ZZ-R6
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:26:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661308014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YFlaptdffaXljuF3EyN/vC12dioz00ktzFS6n9eYEG4=;
+ b=e4cQi4sVFKgeJeDDkk9ulNqymc414J2IayWvs3f+vW5qkEXLN3mmfT5DBZQo4bxistIQzE
+ ykVM5piaFZuP09g3ca3tZdqicui5EocrCrxpruijTNgEWiBjDtUTCV/a49GNcaeYzXdRV5
+ vTEnwQGUWrNrEDn2pZMDl01nn8ASE04=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-583-lj4jUao9P9iz6DiFUU40hg-1; Tue, 23 Aug 2022 22:26:53 -0400
+X-MC-Unique: lj4jUao9P9iz6DiFUU40hg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ d8-20020a193848000000b00492befa993cso4850702lfj.13
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 19:26:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=YFlaptdffaXljuF3EyN/vC12dioz00ktzFS6n9eYEG4=;
+ b=UVVt9OOCx4o5cO1a0pi53CVkOuUbo3PMNDbvD715Fzq8rV99PWwQkCrL23qFUaueV+
+ Kk+9fl2Dd1t5k5QPITD7h2+Tcs2WTm2/BjsQv9u/GdzKGpPtIYolA+fGNMU4yqzIvS0o
+ 9ayucEZHMZfPC0D2/GjS8LC9o1y2UKZ/R0tWs5X0Kmtcx4IPdL5UjsOuEZDbc9giMNb7
+ RE0aXYVU0NFmnvWPZ1yGrdG0NRhJPFD7DMmW8iGtCYrLQ3ePZe9kfNus3qcdt9jKwiRz
+ EJmaCpF8JhjiXlK4Q1Aq59hOWD2xCf2u+cFzI//2o76MKc8KuecaZPktMiWfGWS2PfFz
+ BRWA==
+X-Gm-Message-State: ACgBeo1y3eB86BYS8nspKDou/lunLGWtbDVLuZLohyczW3y04SzDLCYe
+ CAeUap0zYwb9LphB+1Pddb1wweP2DsWxv4K2WfVY5pO0oJ+McdOadppd5RspG3YcI/lM4dkE6id
+ I7ziQw544eRXYrkXeHpvGsr2EMIDa5o4=
+X-Received: by 2002:a05:6512:1518:b0:492:d08a:a360 with SMTP id
+ bq24-20020a056512151800b00492d08aa360mr8023093lfb.238.1661308011819; 
+ Tue, 23 Aug 2022 19:26:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR57rXrE1b48xJc4zDxNp+uDZGKI6JdI3t/JfiLwmujI3R+f3A1Ppy+bMsbLvEIlJMMYl6ApSedzMu+gWnsAzgw=
+X-Received: by 2002:a05:6512:1518:b0:492:d08a:a360 with SMTP id
+ bq24-20020a056512151800b00492d08aa360mr8023084lfb.238.1661308011535; Tue, 23
+ Aug 2022 19:26:51 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: eideticom.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR19MB4250.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16c76caf-9222-413f-4436-08da8557daa1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2022 22:36:00.2528 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3490cd4b-0360-4377-abb1-15f8c5af8fc2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: An4VtwUyHkY6RkCsNz4cZtvWT49PPf6bJ9vE4bo5CpoQY7UDa//d499shywkobFG3H3kObjQSH4i1MAwTX+y8vhDMnEDSr+6RllPOY9w/ak=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR19MB5566
-Received-SPF: pass client-ip=40.107.236.41;
- envelope-from=Martin.Oliveira@eideticom.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <20220821122943.835058-1-zheyuma97@gmail.com>
+In-Reply-To: <20220821122943.835058-1-zheyuma97@gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 24 Aug 2022 10:26:40 +0800
+Message-ID: <CACGkMEtFXdV-M8dPm_kW9y7CWRjzU-GRh=W2Qo-bq4PGQuOOGA@mail.gmail.com>
+Subject: Re: [PATCH] net: tulip: Restrict DMA engine to memories
+To: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Sven Schnelle <svens@stackframe.org>, qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 23 Aug 2022 20:53:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,27 +91,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,=0A=
-=0A=
-I'm trying to use the QEMU NVMe userspace driver and I'm hitting an error w=
-hen trying to use more than one device from an IOMMU group:=0A=
-=0A=
-    Failed to open VFIO group file: /dev/vfio/39: Device or resource busy=
-=0A=
-=0A=
-If devices belong to different IOMMU groups, then it works as expected.=0A=
-=0A=
-For each device, I bind it to vfio-pci and then use something like this:=0A=
-=0A=
-    -drive file=3Dnvme://0000:26:00.0,if=3Dnone,id=3Ddrive0,format=3Draw=0A=
-    -device virtio-blk,drive=3Ddrive0,id=3Dvirtio0,serial=3Dnvme0=0A=
-=0A=
-Using the file-based protocol (file=3D/dev/nvme0n1) works with multiple dev=
-ices from the same group.=0A=
-=0A=
-My host is running a 5.19 kernel and QEMU is the latest upstream (a8cc5842b=
-5cb).=0A=
-=0A=
-Thanks,=0A=
-Martin=
+On Sun, Aug 21, 2022 at 8:29 PM Zheyu Ma <zheyuma97@gmail.com> wrote:
+>
+> The DMA engine is started by I/O access and then itself accesses the
+> I/O registers, triggering a reentrancy bug.
+>
+> The following log can reveal it:
+> ==5637==ERROR: AddressSanitizer: stack-overflow
+>     #0 0x5595435f6078 in tulip_xmit_list_update qemu/hw/net/tulip.c:673
+>     #1 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
+>     #2 0x559544637f86 in memory_region_write_accessor qemu/softmmu/memory.c:492:5
+>     #3 0x5595446379fa in access_with_adjusted_size qemu/softmmu/memory.c:554:18
+>     #4 0x5595446372fa in memory_region_dispatch_write qemu/softmmu/memory.c
+>     #5 0x55954468b74c in flatview_write_continue qemu/softmmu/physmem.c:2825:23
+>     #6 0x559544683662 in flatview_write qemu/softmmu/physmem.c:2867:12
+>     #7 0x5595446833f3 in address_space_write qemu/softmmu/physmem.c:2963:18
+>     #8 0x5595435fb082 in dma_memory_rw_relaxed /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:87:12
+>     #9 0x5595435fb082 in dma_memory_rw /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:130:12
+>     #10 0x5595435fb082 in dma_memory_write /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:171:12
+>     #11 0x5595435fb082 in stl_le_dma /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:272:1
+>     #12 0x5595435fb082 in stl_le_pci_dma /home/mzy/truman/third_party/qemu/include/hw/pci/pci.h:910:1
+>     #13 0x5595435fb082 in tulip_desc_write qemu/hw/net/tulip.c:101:9
+>     #14 0x5595435f7e3d in tulip_xmit_list_update qemu/hw/net/tulip.c:706:9
+>     #15 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
+>
+> Fix this bug by restricting the DMA engine to memories regions.
+>
+> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+
+Queued for 7.2.
+
+Thanks
+
+> ---
+>  hw/net/tulip.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+> index 097e905bec..b9e42c322a 100644
+> --- a/hw/net/tulip.c
+> +++ b/hw/net/tulip.c
+> @@ -70,7 +70,7 @@ static const VMStateDescription vmstate_pci_tulip = {
+>  static void tulip_desc_read(TULIPState *s, hwaddr p,
+>          struct tulip_descriptor *desc)
+>  {
+> -    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+> +    const MemTxAttrs attrs = { .memory = true };
+>
+>      if (s->csr[0] & CSR0_DBO) {
+>          ldl_be_pci_dma(&s->dev, p, &desc->status, attrs);
+> @@ -88,7 +88,7 @@ static void tulip_desc_read(TULIPState *s, hwaddr p,
+>  static void tulip_desc_write(TULIPState *s, hwaddr p,
+>          struct tulip_descriptor *desc)
+>  {
+> -    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+> +    const MemTxAttrs attrs = { .memory = true };
+>
+>      if (s->csr[0] & CSR0_DBO) {
+>          stl_be_pci_dma(&s->dev, p, desc->status, attrs);
+> --
+> 2.25.1
+>
+
 
