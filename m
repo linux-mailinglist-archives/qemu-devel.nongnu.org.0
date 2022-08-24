@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BC159FD58
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 16:34:14 +0200 (CEST)
-Received: from localhost ([::1]:48134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CA159FD77
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 16:43:01 +0200 (CEST)
+Received: from localhost ([::1]:33460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQrSP-0001IN-A7
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 10:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54630)
+	id 1oQrat-0005Xm-VL
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 10:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oQrQS-000812-BW
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 10:32:12 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:40493)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1oQrZM-00044L-Bd
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 10:41:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oQrQP-0005XM-Nh
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 10:32:12 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.19])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 786A421FCE;
- Wed, 24 Aug 2022 14:31:57 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 24 Aug
- 2022 16:31:56 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0041501cd1d-ac5b-467f-8632-1f94d6d7916a,
- 54EE2556EDEEBF270875BAAC0107257449009F33) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 83.205.98.5
-Message-ID: <65ea4c92-9dc3-bed2-c287-d4d7a4a45e3b@kaod.org>
-Date: Wed, 24 Aug 2022 16:31:50 +0200
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1oQrZI-0006x2-HK
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 10:41:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661352078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9FyT3GuJs7MYtgUIJphn3dv9Ziupz30r6WqgJHDyfqQ=;
+ b=XJTkUdYkcKsqMbfdceP1RVE0AA2DNN4zeNKFqIhubGGv6NGdPYUsq3TxMAUHBcHGbBtLH0
+ STBCL2hh9Fx8NMPdoEARcTJTXU58+ow4Yi719TDOBGU3AhFoG9+d8imgZGZtdpVgRbGBw2
+ iua2RPFDW7mJPzwXH7ApMbyh5Ll4Zi0=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-30-wmzPj7UqOdWuBg8f78aLWA-1; Wed, 24 Aug 2022 10:41:17 -0400
+X-MC-Unique: wmzPj7UqOdWuBg8f78aLWA-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-333f0d49585so292011577b3.9
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 07:41:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=9FyT3GuJs7MYtgUIJphn3dv9Ziupz30r6WqgJHDyfqQ=;
+ b=lXUIM6t3pXQKc3hKrsnFMxRXq+SWJYL2qo+EJ03Fa+uatHHSAchJNbaPMcbmP5LDg4
+ l1t238JHeWH1Y2000MbcCHk5Z/PPnNPwShtIM5qXQv9jzTG3L0v4d+eDI9ASjkJN+7kh
+ D5vvH6y3bw/gnB1gkb4KaitsSCBh6XfRtmOpglvGuP0kwy4+uwTimvSVpCsezmGQQbU0
+ 39C6GrLekSU1/2tMYG2PAYOJca4z91Jl8VFRX2Kb90oruMfysmppuWk9kyj683cKB3yF
+ 9cN6x/h+m1jXY5UjFBNeuGF6NLrv6rgKoz3aTXvhr5d+GwQv0KAKuNcZJANLNqk9oUzh
+ 4ZUw==
+X-Gm-Message-State: ACgBeo30x3YR9ZqnRqfS4vz7bZ+O/+gwSgoBWjD/HyVMOMl2OPqKcE4y
+ PzcrqoTya7B2gqn5AhkR67ja3ovNgrPMUW009/VdXeuQNBwD10RG5oSYRMjCtId8gAYPAi4P9R1
+ UumwOIpU/LKGRFueeDI0e0vMLzu8aA2w=
+X-Received: by 2002:a25:7d82:0:b0:695:dec9:8359 with SMTP id
+ y124-20020a257d82000000b00695dec98359mr9607174ybc.22.1661352075365; 
+ Wed, 24 Aug 2022 07:41:15 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5AHB2a8cQCn9eORHNj4vKyxYJPbyWlw2aihMXCuK1hQifTuGPPaJjhoIOI+qw2mzJiNT6LVLFb8Qfe1HeazFA=
+X-Received: by 2002:a25:7d82:0:b0:695:dec9:8359 with SMTP id
+ y124-20020a257d82000000b00695dec98359mr9607158ybc.22.1661352075134; Wed, 24
+ Aug 2022 07:41:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/1] hw/i2c/aspeed: Fix old reg slave receive
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>, Klaus Jensen <its@irrelevant.dk>
-CC: <patrick@stwcx.xyz>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
- <joel@jms.id.au>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
- <dz4list@gmail.com>
-References: <20220820225712.713209-1-peter@pjd.dev>
- <20220820225712.713209-2-peter@pjd.dev> <YwScq4fD+gBIN+3Q@apples>
- <YwUOGUfJTPtE4AzH@pdel-fedora-MJ0HJWH9>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YwUOGUfJTPtE4AzH@pdel-fedora-MJ0HJWH9>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 078e8062-98c0-4e50-a34a-a02c5dd264cd
-X-Ovh-Tracer-Id: 3917287254873246511
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevhfelueevgfejjeetveetffevieeghfevgfduteeuuedvleeifffhieekleekheenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepugiigehlihhsthesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-12-bmeng.cn@gmail.com>
+In-Reply-To: <20220824094029.1634519-12-bmeng.cn@gmail.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Wed, 24 Aug 2022 17:41:03 +0300
+Message-ID: <CAPMcbCqVSx1Y59PH8d95QffCVfUqzUCeufiatsS79k+o4dckSw@mail.gmail.com>
+Subject: Re: [PATCH 11/51] qga/commands-posix-ssh: Use g_mkdir_with_parents()
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ Michael Roth <michael.roth@amd.com>
+Content-Type: multipart/alternative; boundary="00000000000049237b05e6fdac3f"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,97 +93,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/22 19:27, Peter Delevoryas wrote:
-> On Tue, Aug 23, 2022 at 11:23:55AM +0200, Klaus Jensen wrote:
->> On Aug 20 15:57, Peter Delevoryas wrote:
->>> I think when Klaus ported his slave mode changes from the original patch
->>> series to the rewritten I2C module, he changed the behavior of the first
->>> byte that is received by the slave device.
->>>
->>> What's supposed to happen is that the AspeedI2CBus's slave device's
->>> i2c_event callback should run, and if the event is "send_async", then it
->>> should populate the byte buffer with the 8-bit I2C address that is being
->>> sent to. Since we only support "send_async", the lowest bit should
->>> always be 0 (indicating that the master is requesting to send data).
->>>
->>> This is the code Klaus had previously, for reference. [1]
->>>
->>>      switch (event) {
->>>      case I2C_START_SEND:
->>>          bus->buf = bus->dev_addr << 1;
->>>
->>>          bus->buf &= I2CD_BYTE_BUF_RX_MASK;
->>>          bus->buf <<= I2CD_BYTE_BUF_RX_SHIFT;
->>>
->>>          bus->intr_status |= (I2CD_INTR_SLAVE_ADDR_RX_MATCH | I2CD_INTR_RX_DONE);
->>>          aspeed_i2c_set_state(bus, I2CD_STXD);
->>>
->>>          break;
->>>
->>> [1]: https://lore.kernel.org/qemu-devel/20220331165737.1073520-4-its@irrelevant.dk/
->>>
->>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
->>> Fixes: a8d48f59cd021b25 ("hw/i2c/aspeed: add slave device in old register mode")
->>> ---
->>>   hw/i2c/aspeed_i2c.c         | 8 +++++---
->>>   include/hw/i2c/aspeed_i2c.h | 1 +
->>>   2 files changed, 6 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
->>> index 42c6d69b82..c166fd20fa 100644
->>> --- a/hw/i2c/aspeed_i2c.c
->>> +++ b/hw/i2c/aspeed_i2c.c
->>> @@ -1131,7 +1131,9 @@ static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event event)
->>>       AspeedI2CBus *bus = ASPEED_I2C_BUS(qbus->parent);
->>>       uint32_t reg_intr_sts = aspeed_i2c_bus_intr_sts_offset(bus);
->>>       uint32_t reg_byte_buf = aspeed_i2c_bus_byte_buf_offset(bus);
->>> -    uint32_t value;
->>> +    uint32_t reg_dev_addr = aspeed_i2c_bus_dev_addr_offset(bus);
->>> +    uint32_t dev_addr = SHARED_ARRAY_FIELD_EX32(bus->regs, reg_dev_addr,
->>> +                                                SLAVE_DEV_ADDR1);
->>>   
->>>       if (aspeed_i2c_is_new_mode(bus->controller)) {
->>>           return aspeed_i2c_bus_new_slave_event(bus, event);
->>> @@ -1139,8 +1141,8 @@ static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event event)
->>>   
->>>       switch (event) {
->>>       case I2C_START_SEND_ASYNC:
->>> -        value = SHARED_ARRAY_FIELD_EX32(bus->regs, reg_byte_buf, TX_BUF);
->>> -        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, value << 1);
->>> +        /* Bit[0] == 0 indicates "send". */
->>> +        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, dev_addr << 1);
->>>   
->>>           ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, SLAVE_ADDR_RX_MATCH, 1);
->>>           SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, RX_DONE, 1);
->>> diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
->>> index 300a89b343..adc904d6c1 100644
->>> --- a/include/hw/i2c/aspeed_i2c.h
->>> +++ b/include/hw/i2c/aspeed_i2c.h
->>> @@ -130,6 +130,7 @@ REG32(I2CD_CMD, 0x14) /* I2CD Command/Status */
->>>       SHARED_FIELD(M_TX_CMD, 1, 1)
->>>       SHARED_FIELD(M_START_CMD, 0, 1)
->>>   REG32(I2CD_DEV_ADDR, 0x18) /* Slave Device Address */
->>> +    SHARED_FIELD(SLAVE_DEV_ADDR1, 0, 7)
->>>   REG32(I2CD_POOL_CTRL, 0x1C) /* Pool Buffer Control */
->>>       SHARED_FIELD(RX_COUNT, 24, 5)
->>>       SHARED_FIELD(RX_SIZE, 16, 5)
->>> -- 
->>> 2.37.1
->>>
->>
->> Nice catch Peter! I'm not sure how I messed that up like that.
->>
->> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Thanks Klaus. Just realized I forgot to cc you on this, sorry about
-> that.
+--00000000000049237b05e6fdac3f
+Content-Type: text/plain; charset="UTF-8"
 
-Do we still have time for 7.1 ?
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-Thanks,
+On Wed, Aug 24, 2022 at 12:42 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-C.
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> g_mkdir() is a deprecated API and newer codes should use
+> g_mkdir_with_parents().
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+>
+>  qga/commands-posix-ssh.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qga/commands-posix-ssh.c b/qga/commands-posix-ssh.c
+> index f3a580b8cc..2460112a38 100644
+> --- a/qga/commands-posix-ssh.c
+> +++ b/qga/commands-posix-ssh.c
+> @@ -59,7 +59,7 @@ static bool
+>  mkdir_for_user(const char *path, const struct passwd *p,
+>                 mode_t mode, Error **errp)
+>  {
+> -    if (g_mkdir(path, mode) == -1) {
+> +    if (g_mkdir_with_parents(path, mode) == -1) {
+>          error_setg(errp, "failed to create directory '%s': %s",
+>                     path, g_strerror(errno));
+>          return false;
+> --
+> 2.34.1
+>
+>
 
+--00000000000049237b05e6fdac3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 2=
+4, 2022 at 12:42 PM Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmen=
+g.cn@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">From: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" =
+target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+<br>
+g_mkdir() is a deprecated API and newer codes should use<br>
+g_mkdir_with_parents().<br>
+<br>
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+---<br>
+<br>
+=C2=A0qga/commands-posix-ssh.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/qga/commands-posix-ssh.c b/qga/commands-posix-ssh.c<br>
+index f3a580b8cc..2460112a38 100644<br>
+--- a/qga/commands-posix-ssh.c<br>
++++ b/qga/commands-posix-ssh.c<br>
+@@ -59,7 +59,7 @@ static bool<br>
+=C2=A0mkdir_for_user(const char *path, const struct passwd *p,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mode_t mode, Error =
+**errp)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 if (g_mkdir(path, mode) =3D=3D -1) {<br>
++=C2=A0 =C2=A0 if (g_mkdir_with_parents(path, mode) =3D=3D -1) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;failed to create d=
+irectory &#39;%s&#39;: %s&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 path,=
+ g_strerror(errno));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div>
+
+--00000000000049237b05e6fdac3f--
+
 
