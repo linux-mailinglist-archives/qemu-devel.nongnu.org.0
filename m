@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A4259FF35
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 18:13:49 +0200 (CEST)
-Received: from localhost ([::1]:58732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0C259FF82
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 18:30:06 +0200 (CEST)
+Received: from localhost ([::1]:40434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQt0m-0006yK-5j
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 12:13:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49928)
+	id 1oQtGW-0006yj-NQ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 12:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oQsnz-0001vX-Ov
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:00:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oQsnv-0003k1-H1
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:00:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661356830;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y5EuXf79I1la+8EmiKcIuSoDq0QdT/WIysqemTXBPSY=;
- b=fWDXjcrwflpCDxQWhBirmEl3CKDAjqTF6cFIZg5tDrrEf0HYBMfX0D9UUKB2gAymrc2WZ1
- zv3FuoJLvMtHJoIXKWcicpRITlrDy5tJh7CIpyS/VZxv/wD+uK5CepMd+jbor6LuHXCkHe
- A4Njs9uYva9hTy7O8GsLB8eGfsPT9vY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-368-4JF5AIorMFW4mufUR2AHEA-1; Wed, 24 Aug 2022 12:00:28 -0400
-X-MC-Unique: 4JF5AIorMFW4mufUR2AHEA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m16-20020a056402431000b0044662a0ba2cso8304115edc.13
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 09:00:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQt47-0002u8-6t
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:17:15 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQt44-0007VZ-CC
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:17:14 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id e21so17866066edc.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 09:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=l/eZfRKeusYkqPy61H4UXhMFfLOQGGrQDajedOeJlJU=;
+ b=SS6JCWa1GjCIKdVSp3jUnfJbCiy84kgLjaoeHNV+3z4+fJG67PNSIqbUsZYGgLfNcM
+ pFIUEETsW6nfrzuC37P6wtg3afjFgQrFrdKZaC362P5ctrHonGV5VIUJ+XYcrN9Rx625
+ 2+aoATbIT7lb6HYQEVOsfSKye+cbBlZcFVvXWA4xjrXBKZ2TFzOlbDlfL6X5q2q70LET
+ lRddxL8hrjNBLPpFJg0rTa4/Fn8Sqj7IACdlb/ov+7Nnfzq+heQedAsIMsufhBVvjE+F
+ 0K8aXFFSFy4x+TfDUIQ+15qAWmZ3s59w+5MkawB7A/mpMyQrK8yyhg8qEph5LVEQQexx
+ 27mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=Y5EuXf79I1la+8EmiKcIuSoDq0QdT/WIysqemTXBPSY=;
- b=iGtW7s7kCx9rhUWGdjzz3AHF+Q7KJGbM18lCCy0tJkL1UWLa8yzmWw8lN2BgK/L8Dx
- LfLovhPSr+igPT0OcTd7axqbMfkhDWj7wmurmqNvdXzBQapN9igSeIdHhj257XaMgPvB
- LWi9iGW0lFRXZadvjh8FrjNSDxQa8+Wc8fm98H9Ky58qr/3mmUZhSpiw1ZWlxx5co6jE
- FPAjUyincYNuceEZg5cd132xDmONacIIy40z3OX5swK+FrIFfGCx2cEBUUDlC/Py7WGq
- rp7oOXHLFQRH4mxixspvu60Vnvi9c7NoUVkcZD5QB/LzL5xWWMeDmKo21ZhimND0MSPs
- 2pRg==
-X-Gm-Message-State: ACgBeo0w2wEa20gUPo8GO9KwGkUXhZn+fI9MRQQTPWEofjVQztBhHf1e
- Zv6jWLn+JhRHO9+z7p6CUu9RLmCQWpSc5MCaPB2lY0Ary3yziImCFde1FRDO2qyR1CkMFgs2vVn
- 3yuWw7drpgxhUViA=
-X-Received: by 2002:a17:906:9c82:b0:6e1:1d6c:914c with SMTP id
- fj2-20020a1709069c8200b006e11d6c914cmr3252177ejc.769.1661356827445; 
- Wed, 24 Aug 2022 09:00:27 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5VKt3y7IeoMGGyJmdWtLgqTt2WbFUHgF1/KhWp2kXwukoilW9hb5LOgaxtOB152zRjKIVq2g==
-X-Received: by 2002:a17:906:9c82:b0:6e1:1d6c:914c with SMTP id
- fj2-20020a1709069c8200b006e11d6c914cmr3252153ejc.769.1661356827150; 
- Wed, 24 Aug 2022 09:00:27 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- e19-20020a056402105300b0044790836307sm797807edu.85.2022.08.24.09.00.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 09:00:26 -0700 (PDT)
-Date: Wed, 24 Aug 2022 18:00:25 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
- <ani@anisinha.ca>
-Subject: Re: [PATCH v2 1/5] hw/smbios: add core_count2 to smbios table type 4
-Message-ID: <20220824180025.70822df6@redhat.com>
-In-Reply-To: <20220731162141.178443-2-jusual@redhat.com>
-References: <20220731162141.178443-1-jusual@redhat.com>
- <20220731162141.178443-2-jusual@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=l/eZfRKeusYkqPy61H4UXhMFfLOQGGrQDajedOeJlJU=;
+ b=Viyo6PFBq1wacoRwBDkMwmJ9/ruoaCpz/HyULFiTXOeGP8eR+WN2zUNMrDAdojbkyN
+ JthLdk7NWaSfhSya/+1OtQFmr4J/kaEK/2fUNC+k1kAIl8CnZS7gkBVNW0Wh5bVK3YtE
+ hoPNbpMiqgHX211ZFe5FMrj4oCquDcsl9uTiaLgowIOaFPkq0tBADGrbeYgoHs8e9Kee
+ GtP5bTk2mRgB25hkvJ9n5uF8NFe/Z3sPx7174lF+NtJM+n28x8l7Uw65AwqUW5mCma5G
+ XOFKLGUzSeggbrhyhRemEO+u/AU+NrwZbGJyCbO6IoUTBSZ8tkuERKVIi88g8YNQWb5x
+ D1FA==
+X-Gm-Message-State: ACgBeo2hHyFLcj+wn++gqFPvPGZ5oztlLCnJ2c+eLy+X+uZnQ5nxfi6h
+ cp4HNE8RnUezRE34iGsl9UoMi68wIc22Tl5KFnsvTQ==
+X-Google-Smtp-Source: AA6agR7mkC6ja3YozzN8XcZzQrYTrt3kz/em6Qo0fx2PR2zj/My5Iz1LDo97ChRIHuLckxl0wkxwAHplK8jTKQ5BuFI=
+X-Received: by 2002:a05:6402:4311:b0:446:d0b0:17f4 with SMTP id
+ m17-20020a056402431100b00446d0b017f4mr8145035edc.194.1661357829793; Wed, 24
+ Aug 2022 09:17:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220822090811.427029-1-ani@anisinha.ca>
+ <20220822090811.427029-3-ani@anisinha.ca>
+ <20220824172429.058281c4@redhat.com>
+In-Reply-To: <20220824172429.058281c4@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 24 Aug 2022 21:46:58 +0530
+Message-ID: <CAARzgwz8inPfcTLvQx1tEVHdoB39jN_Vie0uS5_soEYd_yUHOA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] hw/acpi: set ATS capability explicitly per pcie root
+ port
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, jusual@redhat.com,
+ kkostiuk@redhat.com, 
+ qemu-devel@nongnu.org, ybendito@redhat.com, yvugenfi@redhat.com
+Content-Type: multipart/alternative; boundary="0000000000004a3d0605e6ff037b"
+Received-SPF: none client-ip=2a00:1450:4864:20::52f;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,127 +89,360 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 31 Jul 2022 18:21:37 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+--0000000000004a3d0605e6ff037b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> In order to use the increased number of cpus, we need to bring smbios
-> tables in line with the SMBIOS 3.0 specification. This allows us to
-> introduce core_count2 which acts as a duplicate of core_count if we have
-> fewer cores than 256, and contains the actual core number per socket if
-> we have more.
-> 
-> core_enabled2 and thread_count2 fields work the same way.
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+On Wed, Aug 24, 2022 at 8:54 PM Igor Mammedov <imammedo@redhat.com> wrote:
 
-I'd fix up checkpatch warnings but otherwise looks good to me
+> On Mon, 22 Aug 2022 14:38:09 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > Currently the bit 0 of the flags field of Root Port ATS capability
+> reporting
+> > structure sub-table under the DMAR table is set to 1. This indicates
+> ALL_PORTS,
+> > thus enabling ATS capability for all pcie roots without the ability to
+> turn off
+> > ATS for some ports and leaving ATS on for others.
+> >
+> > This change clears the bit 0 of the flags field of the above structure
+> and
+> > explicitly adds scopes for every pcie root port in the structure so tha=
+t
+> ATS
+> > is enabled for all of them. In future, we might add new attribite to th=
+e
+> root
+> > ports so that we can selectively enable ATS for some and leave ATS off
+> for
+> > others.
+>
+> Thanks, it was worth a try,
+> unfortunately since we are shooting in dark this time it was a miss.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-> ---
->  hw/smbios/smbios_build.h     |  9 +++++++--
->  include/hw/firmware/smbios.h | 11 +++++++++++
->  hw/smbios/smbios.c           | 18 +++++++++++++++---
->  3 files changed, 33 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/smbios/smbios_build.h b/hw/smbios/smbios_build.h
-> index 56b5a1e3f3..351660024e 100644
-> --- a/hw/smbios/smbios_build.h
-> +++ b/hw/smbios/smbios_build.h
-> @@ -27,6 +27,11 @@ extern unsigned smbios_table_max;
->  extern unsigned smbios_table_cnt;
->  
->  #define SMBIOS_BUILD_TABLE_PRE(tbl_type, tbl_handle, tbl_required)        \
-> +        SMBIOS_BUILD_TABLE_PRE_SIZE(tbl_type, tbl_handle, tbl_required,   \
-> +                                    sizeof(struct smbios_type_##tbl_type))\
-> +
-> +#define SMBIOS_BUILD_TABLE_PRE_SIZE(tbl_type, tbl_handle,                 \
-> +                                    tbl_required, tbl_len)                \
->      struct smbios_type_##tbl_type *t;                                     \
->      size_t t_off; /* table offset into smbios_tables */                   \
->      int str_index = 0;                                                    \
-> @@ -39,12 +44,12 @@ extern unsigned smbios_table_cnt;
->          /* use offset of table t within smbios_tables */                  \
->          /* (pointer must be updated after each realloc) */                \
->          t_off = smbios_tables_len;                                        \
-> -        smbios_tables_len += sizeof(*t);                                  \
-> +        smbios_tables_len += tbl_len;                                     \
->          smbios_tables = g_realloc(smbios_tables, smbios_tables_len);      \
->          t = (struct smbios_type_##tbl_type *)(smbios_tables + t_off);     \
->                                                                            \
->          t->header.type = tbl_type;                                        \
-> -        t->header.length = sizeof(*t);                                    \
-> +        t->header.length = tbl_len;                                       \
->          t->header.handle = cpu_to_le16(tbl_handle);                       \
->      } while (0)
->  
-> diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-> index 4b7ad77a44..56f7bf0fea 100644
-> --- a/include/hw/firmware/smbios.h
-> +++ b/include/hw/firmware/smbios.h
-> @@ -18,6 +18,8 @@
->  
->  
->  #define SMBIOS_MAX_TYPE 127
-> +#define offsetofend(TYPE, MEMBER) \
-> +       (offsetof(TYPE, MEMBER) + sizeof_field(TYPE, MEMBER))
->  
->  /* memory area description, used by type 19 table */
->  struct smbios_phys_mem_area {
-> @@ -187,8 +189,17 @@ struct smbios_type_4 {
->      uint8_t thread_count;
->      uint16_t processor_characteristics;
->      uint16_t processor_family2;
-> +    /* SMBIOS spec 3.0.0, Table 21 */
-> +    uint16_t core_count2;
-> +    uint16_t core_enabled2;
-> +    uint16_t thread_count2;
->  } QEMU_PACKED;
->  
-> +typedef enum smbios_type_4_len_ver {
-> +    SMBIOS_TYPE_4_LEN_V28 = offsetofend(struct smbios_type_4, processor_family2),
-> +    SMBIOS_TYPE_4_LEN_V30 = offsetofend(struct smbios_type_4, thread_count2),
-> +} smbios_type_4_len_ver;
-> +
->  /* SMBIOS type 11 - OEM strings */
->  struct smbios_type_11 {
->      struct smbios_structure_header header;
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index 60349ee402..657093e5f6 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -681,8 +681,13 @@ static void smbios_build_type_3_table(void)
->  static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
->  {
->      char sock_str[128];
-> +    size_t tbl_len = SMBIOS_TYPE_4_LEN_V28;
->  
-> -    SMBIOS_BUILD_TABLE_PRE(4, T4_BASE + instance, true); /* required */
-> +    if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
-> +        tbl_len = SMBIOS_TYPE_4_LEN_V30;
-> +    }
-> +
-> +    SMBIOS_BUILD_TABLE_PRE_SIZE(4, T4_BASE + instance, true, tbl_len); /* required */
->  
->      snprintf(sock_str, sizeof(sock_str), "%s%2x", type4.sock_pfx, instance);
->      SMBIOS_TABLE_SET_STR(4, socket_designation_str, sock_str);
-> @@ -709,8 +714,15 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
->      SMBIOS_TABLE_SET_STR(4, serial_number_str, type4.serial);
->      SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
->      SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
-> -    t->core_count = t->core_enabled = ms->smp.cores;
-> -    t->thread_count = ms->smp.threads;
-> +
-> +    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
-> +    t->core_enabled = t->core_count;
-> +
-> +    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-> +
-> +    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
-> +    t->thread_count2 = cpu_to_le16(ms->smp.threads);
-> +
->      t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
->      t->processor_family2 = cpu_to_le16(0x01); /* Other */
->  
+So I take it that even with this patch Windows still exhibited the issue?
+Is it worth pushing the patch anyway?
 
+
+>
+>
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > Suggested-by: Michael Tsirkin <mst@redhat.com>
+> > ---
+> >  hw/i386/acpi-build.c | 74 ++++++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 72 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 0355bd3dda..9c5a555536 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -60,6 +60,7 @@
+> >  #include "hw/i386/fw_cfg.h"
+> >  #include "hw/i386/ich9.h"
+> >  #include "hw/pci/pci_bus.h"
+> > +#include "hw/pci/pcie_port.h"
+> >  #include "hw/pci-host/q35.h"
+> >  #include "hw/i386/x86-iommu.h"
+> >
+> > @@ -2118,6 +2119,60 @@ dmar_host_bridges(Object *obj, void *opaque)
+> >      return 0;
+> >  }
+> >
+> > +/*
+> > + * Insert DMAR scope for PCIE root ports
+> > + */
+> > +static void
+> > +insert_pcie_root_port_scope(PCIBus *bus, PCIDevice *dev, void *opaque)
+> > +{
+> > +    const size_t device_scope_size =3D 6 + 2;
+> > +                                   /* device scope structure + 1 path
+> entry */
+> > +    GArray *scope_blob =3D opaque;
+> > +
+> > +    /*
+> > +     * We are only interested in PCIE root ports. We can extend
+> > +     * this to check for specific properties of PCIE root ports and
+> based
+> > +     * on that remove some ports from having ATS capability.
+> > +     */
+> > +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PORT)) {
+> > +        return;
+> > +    }
+> > +
+> > +    /* Dmar Scope Type: 0x02 for all PCIE root ports */
+> > +    build_append_int_noprefix(scope_blob, 0x02, 1);
+> > +
+> > +    /* length */
+> > +    build_append_int_noprefix(scope_blob, device_scope_size, 1);
+> > +    /* reserved */
+> > +    build_append_int_noprefix(scope_blob, 0, 2);
+> > +    /* enumeration_id */
+> > +    build_append_int_noprefix(scope_blob, 0, 1);
+> > +    /* bus */
+> > +    build_append_int_noprefix(scope_blob, pci_bus_num(bus), 1);
+> > +    /* device */
+> > +    build_append_int_noprefix(scope_blob, PCI_SLOT(dev->devfn), 1);
+> > +    /* function */
+> > +    build_append_int_noprefix(scope_blob, PCI_FUNC(dev->devfn), 1);
+> > +}
+> > +
+> > +/* For a given PCI host bridge, walk and insert DMAR scope */
+> > +static int
+> > +dmar_pcie_root_ports(Object *obj, void *opaque)
+> > +{
+> > +    GArray *scope_blob =3D opaque;
+> > +
+> > +    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+> > +        PCIBus *bus =3D PCI_HOST_BRIDGE(obj)->bus;
+> > +
+> > +        if (bus && !pci_bus_bypass_iommu(bus)) {
+> > +            pci_for_each_device_under_bus(bus,
+> insert_pcie_root_port_scope,
+> > +                                          scope_blob);
+> > +        }
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> >  /*
+> >   * Intel =C2=AE Virtualization Technology for Directed I/O
+> >   * Architecture Specification. Revision 3.3
+> > @@ -2190,11 +2245,26 @@ build_dmar_q35(GArray *table_data, BIOSLinker
+> *linker, const char *oem_id,
+> >
+> >      if (iommu->dt_supported) {
+> >          /* 8.5 Root Port ATS Capability Reporting Structure */
+> > +        /*
+> > +         * A PCI bus walk, for each PCIE root port.
+> > +         * Since we did not enable ALL_PORTS bit in the flags above, w=
+e
+> > +         * need to add the scope for each pcie root port explicitly
+> > +         * that are attached to bus0 with iommu enabled.
+> > +         */
+> > +        scope_blob =3D g_array_new(false, true, 1);
+> > +        object_child_foreach_recursive(object_get_root(),
+> > +                                       dmar_pcie_root_ports,
+> scope_blob);
+> > +
+> >          build_append_int_noprefix(table_data, 2, 2); /* Type */
+> > -        build_append_int_noprefix(table_data, 8, 2); /* Length */
+> > -        build_append_int_noprefix(table_data, 1 /* ALL_PORTS */, 1); /=
+*
+> Flags */
+> > +        build_append_int_noprefix(table_data,
+> > +                                  8 + scope_blob->len, 2); /* Length *=
+/
+> > +        build_append_int_noprefix(table_data, 0, 1); /* Flags */
+> >          build_append_int_noprefix(table_data, 0, 1); /* Reserved */
+> >          build_append_int_noprefix(table_data, 0, 2); /* Segment Number
+> */
+> > +
+> > +        /* now add the scope to the sub-table */
+> > +        g_array_append_vals(table_data, scope_blob->data,
+> scope_blob->len);
+> > +        g_array_free(scope_blob, true);
+> >      }
+> >
+> >      acpi_table_end(linker, &table);
+>
+>
+
+--0000000000004a3d0605e6ff037b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Aug 24, 2022 at 8:54 PM Igor Mammedov &lt;<a href=
+=3D"mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
+rgb(204,204,204)">On Mon, 22 Aug 2022 14:38:09 +0530<br>
+Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_blank">ani@anis=
+inha.ca</a>&gt; wrote:<br>
+<br>
+&gt; Currently the bit 0 of the flags field of Root Port ATS capability rep=
+orting<br>
+&gt; structure sub-table under the DMAR table is set to 1. This indicates A=
+LL_PORTS,<br>
+&gt; thus enabling ATS capability for all pcie roots without the ability to=
+ turn off<br>
+&gt; ATS for some ports and leaving ATS on for others.<br>
+&gt; <br>
+&gt; This change clears the bit 0 of the flags field of the above structure=
+ and<br>
+&gt; explicitly adds scopes for every pcie root port in the structure so th=
+at ATS<br>
+&gt; is enabled for all of them. In future, we might add new attribite to t=
+he root<br>
+&gt; ports so that we can selectively enable ATS for some and leave ATS off=
+ for<br>
+&gt; others.<br>
+<br>
+Thanks, it was worth a try,<br>
+unfortunately since we are shooting in dark this time it was a miss.</block=
+quote><div dir=3D"auto"><br></div><div dir=3D"auto">So I take it that even =
+with this patch Windows still exhibited the issue?</div><div dir=3D"auto">I=
+s it worth pushing the patch anyway?=C2=A0</div><div dir=3D"auto"><br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
+rgb(204,204,204)" dir=3D"auto"><br>
+<br>
+<br>
+&gt; Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=
+=3D"_blank">ani@anisinha.ca</a>&gt;<br>
+&gt; Suggested-by: Michael Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" ta=
+rget=3D"_blank">mst@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/i386/acpi-build.c | 74 ++++++++++++++++++++++++++++++++++++++=
+++++--<br>
+&gt;=C2=A0 1 file changed, 72 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c<br>
+&gt; index 0355bd3dda..9c5a555536 100644<br>
+&gt; --- a/hw/i386/acpi-build.c<br>
+&gt; +++ b/hw/i386/acpi-build.c<br>
+&gt; @@ -60,6 +60,7 @@<br>
+&gt;=C2=A0 #include &quot;hw/i386/fw_cfg.h&quot;<br>
+&gt;=C2=A0 #include &quot;hw/i386/ich9.h&quot;<br>
+&gt;=C2=A0 #include &quot;hw/pci/pci_bus.h&quot;<br>
+&gt; +#include &quot;hw/pci/pcie_port.h&quot;<br>
+&gt;=C2=A0 #include &quot;hw/pci-host/q35.h&quot;<br>
+&gt;=C2=A0 #include &quot;hw/i386/x86-iommu.h&quot;<br>
+&gt;=C2=A0 <br>
+&gt; @@ -2118,6 +2119,60 @@ dmar_host_bridges(Object *obj, void *opaque)<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 return 0;<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; +/*<br>
+&gt; + * Insert DMAR scope for PCIE root ports<br>
+&gt; + */<br>
+&gt; +static void<br>
+&gt; +insert_pcie_root_port_scope(PCIBus *bus, PCIDevice *dev, void *opaque=
+)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 const size_t device_scope_size =3D 6 + 2;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* device scope str=
+ucture + 1 path entry */<br>
+&gt; +=C2=A0 =C2=A0 GArray *scope_blob =3D opaque;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* We are only interested in PCIE root ports. We c=
+an extend<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* this to check for specific properties of PCIE r=
+oot ports and based<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* on that remove some ports from having ATS capab=
+ility.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 if (!object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PO=
+RT)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Dmar Scope Type: 0x02 for all PCIE root ports */<br>
+&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, 0x02, 1);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* length */<br>
+&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, device_scope_size=
+, 1);<br>
+&gt; +=C2=A0 =C2=A0 /* reserved */<br>
+&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, 0, 2);<br>
+&gt; +=C2=A0 =C2=A0 /* enumeration_id */<br>
+&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, 0, 1);<br>
+&gt; +=C2=A0 =C2=A0 /* bus */<br>
+&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, pci_bus_num(bus),=
+ 1);<br>
+&gt; +=C2=A0 =C2=A0 /* device */<br>
+&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, PCI_SLOT(dev-&gt;=
+devfn), 1);<br>
+&gt; +=C2=A0 =C2=A0 /* function */<br>
+&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, PCI_FUNC(dev-&gt;=
+devfn), 1);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/* For a given PCI host bridge, walk and insert DMAR scope */<br>
+&gt; +static int<br>
+&gt; +dmar_pcie_root_ports(Object *obj, void *opaque)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 GArray *scope_blob =3D opaque;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 PCIBus *bus =3D PCI_HOST_BRIDGE(obj)-&gt;=
+bus;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bus &amp;&amp; !pci_bus_bypass_iommu(=
+bus)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pci_for_each_device_under_b=
+us(bus, insert_pcie_root_port_scope,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 scope_blob);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return 0;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0* Intel =C2=AE Virtualization Technology for Directed I/O<=
+br>
+&gt;=C2=A0 =C2=A0* Architecture Specification. Revision 3.3<br>
+&gt; @@ -2190,11 +2245,26 @@ build_dmar_q35(GArray *table_data, BIOSLinker =
+*linker, const char *oem_id,<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (iommu-&gt;dt_supported) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 8.5 Root Port ATS Capability Repo=
+rting Structure */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* A PCI bus walk, for each PCIE roo=
+t port.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Since we did not enable ALL_PORTS=
+ bit in the flags above, we<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* need to add the scope for each pc=
+ie root port explicitly<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* that are attached to bus0 with io=
+mmu enabled.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 scope_blob =3D g_array_new(false, true, 1=
+);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_child_foreach_recursive(object_get=
+_root(),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dmar_=
+pcie_root_ports, scope_blob);<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data=
+, 2, 2); /* Type */<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data, 8, =
+2); /* Length */<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data, 1 /=
+* ALL_PORTS */, 1); /* Flags */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 8 + scope_blob-&gt;len, 2=
+); /* Length */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data, 0, =
+1); /* Flags */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data=
+, 0, 1); /* Reserved */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data=
+, 0, 2); /* Segment Number */<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* now add the scope to the sub-table */<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_array_append_vals(table_data, scope_blo=
+b-&gt;data, scope_blob-&gt;len);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_array_free(scope_blob, true);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 acpi_table_end(linker, &amp;table);<br>
+<br>
+</blockquote></div></div>
+
+--0000000000004a3d0605e6ff037b--
 
