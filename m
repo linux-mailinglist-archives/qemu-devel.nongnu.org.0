@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38525A00DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 19:58:49 +0200 (CEST)
-Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CE45A00F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:01:21 +0200 (CEST)
+Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQueO-0002qL-VB
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 13:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46804)
+	id 1oQugq-00053z-U5
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:01:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oQuFU-0002MP-1k
+ id 1oQuFT-0002MO-OF
  for qemu-devel@nongnu.org; Wed, 24 Aug 2022 13:33:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48807)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oQuFS-0003tH-FD
+ id 1oQuFQ-0003t0-Gl
  for qemu-devel@nongnu.org; Wed, 24 Aug 2022 13:33:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661362381;
+ s=mimecast20190719; t=1661362379;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZR3KtubM+ygoifWMUZlCu4WaYwuD+MLGcsh3q5pZDdU=;
- b=bkcPECW1KAlS/M1SLpvbOsnOWg6fUyXHo8Zx6PZi+6L2stRhP3OLpz9P6lFkQGIaeTT6+5
- 2aR2dfFcL/MXA4mYY3jh71AzUBWPsJ/o4HNsPeNaHbTqWApHNX6Z+BtqS0SDwipUXFp8tz
- iEsIEAVv2rYHWvboXFhkSpUsEFc8GDw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PfHaoeYWXQaNbEs0kkSmT2yUAiN+SwsqZo3imONtK4g=;
+ b=LiukM918o54ep8Z2YvPTDwPVF6NkIIyrgU10cWxXYRlMf26VYdf7P3DcYnFO/IrmNHKUhq
+ SmraOObys4kAihjQotX2PKtBCBRdb7iEDcmjKVUav2JZxXIysQDi9TDbMY8lEh//ElI5En
+ Cd5hWVhXYXF8FICVxBiG41Zp7jfXnAo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-145-XvQ3bi32ME6xRD7-6e3p9A-1; Wed, 24 Aug 2022 13:32:58 -0400
-X-MC-Unique: XvQ3bi32ME6xRD7-6e3p9A-1
+ us-mta-435-5UBQPDNQP6OmWIVUAYbWSQ-1; Wed, 24 Aug 2022 13:32:56 -0400
+X-MC-Unique: 5UBQPDNQP6OmWIVUAYbWSQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72CA11C14D3D;
- Wed, 24 Aug 2022 17:32:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 793BD856D4A;
+ Wed, 24 Aug 2022 17:32:53 +0000 (UTC)
 Received: from avogadro.redhat.com (unknown [10.39.192.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F1C2492C3B;
- Wed, 24 Aug 2022 17:32:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B677F492CA6;
+ Wed, 24 Aug 2022 17:32:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	paul@nowt.org
-Subject: [PATCH 07/17] target/i386: add 20-27, 30-37 opcodes
-Date: Wed, 24 Aug 2022 19:32:40 +0200
-Message-Id: <20220824173250.232491-1-pbonzini@redhat.com>
+Subject: [PATCH 08/17] target/i386: add 28-2f, 38-3f opcodes
+Date: Wed, 24 Aug 2022 19:32:41 +0200
+Message-Id: <20220824173250.232491-2-pbonzini@redhat.com>
 In-Reply-To: <20220824173123.232018-1-pbonzini@redhat.com>
 References: <20220824173123.232018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,96 +83,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
  target/i386/tcg/decode-new.c.inc | 16 ++++++++++++++++
- target/i386/tcg/emit.c.inc       | 33 ++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ target/i386/tcg/decode-old.c.inc |  2 +-
+ target/i386/tcg/emit.c.inc       | 22 ++++++++++++++++++++--
+ 3 files changed, 37 insertions(+), 3 deletions(-)
 
 diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index b1e849b332..de0364ac87 100644
+index de0364ac87..c94cd7ac61 100644
 --- a/target/i386/tcg/decode-new.c.inc
 +++ b/target/i386/tcg/decode-new.c.inc
-@@ -484,8 +484,24 @@ static X86OpEntry A2_00_F7[16][8] = {
-         X86_OP_ENTRYw(POP, SS, w, i64)
+@@ -551,8 +551,24 @@ static X86OpEntry A2_08_FF[16][8] = {
+         X86_OP_ENTRYw(POP, DS, w, i64)
      },
      {
-+        X86_OP_ENTRY2(AND, E,b, G,b),
-+        X86_OP_ENTRY2(AND, E,v, G,v),
-+        X86_OP_ENTRY2(AND, G,b, E,b),
-+        X86_OP_ENTRY2(AND, G,v, E,v),
-+        X86_OP_ENTRY2(AND, 0,b, I,b),   /* AL, Ib */
-+        X86_OP_ENTRY2(AND, 0,v, I,z),   /* rAX, Iz */
++        X86_OP_ENTRY2(SUB, E,b, G,b),
++        X86_OP_ENTRY2(SUB, E,v, G,v),
++        X86_OP_ENTRY2(SUB, G,b, E,b),
++        X86_OP_ENTRY2(SUB, G,v, E,v),
++        X86_OP_ENTRY2(SUB, 0,b, I,b),   /* AL, Ib */
++        X86_OP_ENTRY2(SUB, 0,v, I,z),   /* rAX, Iz */
 +        {},
-+        X86_OP_ENTRY0(DAA, i64),
++        X86_OP_ENTRY0(DAS, i64),
      },
      {
-+        X86_OP_ENTRY2(XOR, E,b, G,b),
-+        X86_OP_ENTRY2(XOR, E,v, G,v),
-+        X86_OP_ENTRY2(XOR, G,b, E,b),
-+        X86_OP_ENTRY2(XOR, G,v, E,v),
-+        X86_OP_ENTRY2(XOR, 0,b, I,b),   /* AL, Ib */
-+        X86_OP_ENTRY2(XOR, 0,v, I,z),   /* rAX, Iz */
++        X86_OP_ENTRY2(SUB, E,b, G,b, nowb),
++        X86_OP_ENTRY2(SUB, E,v, G,v, nowb),
++        X86_OP_ENTRY2(SUB, G,b, E,b, nowb),
++        X86_OP_ENTRY2(SUB, G,v, E,v, nowb),
++        X86_OP_ENTRY2(SUB, 0,b, I,b, nowb),   /* AL, Ib */
++        X86_OP_ENTRY2(SUB, 0,v, I,z, nowb),   /* rAX, Iz */
 +        {},
-+        X86_OP_ENTRY0(AAA, i64),
++        X86_OP_ENTRY0(AAS, i64),
      },
      {
      },
+diff --git a/target/i386/tcg/decode-old.c.inc b/target/i386/tcg/decode-old.c.inc
+index 937975f69a..28edb62b5b 100644
+--- a/target/i386/tcg/decode-old.c.inc
++++ b/target/i386/tcg/decode-old.c.inc
+@@ -1821,7 +1821,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ #else
+         use_new &= b <= limit;
+ #endif
+-        if (use_new && b <= 0x1f) {
++        if (use_new && b <= 0x3f) {
+             return disas_insn_new(s, cpu, b);
+         }
+     case 0x0f:
 diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index 1f799d1f18..33469098c2 100644
+index 33469098c2..e247b542ed 100644
 --- a/target/i386/tcg/emit.c.inc
 +++ b/target/i386/tcg/emit.c.inc
-@@ -125,6 +125,13 @@ static void gen_alu_op(DisasContext *s1, int op, MemOp ot)
-     }
+@@ -132,6 +132,13 @@ static void gen_AAA(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+     set_cc_op(s, CC_OP_EFLAGS);
  }
  
-+static void gen_AAA(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++static void gen_AAS(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
 +{
 +    gen_update_cc_op(s);
-+    gen_helper_aaa(cpu_env);
++    gen_helper_aas(cpu_env);
 +    set_cc_op(s, CC_OP_EFLAGS);
 +}
 +
  static void gen_ADC(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
  {
      gen_alu_op(s, OP_ADCL, decode->op[0].ot);
-@@ -135,6 +142,18 @@ static void gen_ADD(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-     gen_alu_op(s, OP_ADDL, decode->op[0].ot);
+@@ -154,6 +161,13 @@ static void gen_DAA(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+     set_cc_op(s, CC_OP_EFLAGS);
  }
  
-+static void gen_AND(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    gen_alu_op(s, OP_ANDL, decode->op[0].ot);
-+}
-+
-+static void gen_DAA(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++static void gen_DAS(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
 +{
 +    gen_update_cc_op(s);
-+    gen_helper_daa(cpu_env);
++    gen_helper_das(cpu_env);
 +    set_cc_op(s, CC_OP_EFLAGS);
 +}
 +
  static void gen_OR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
  {
      gen_alu_op(s, OP_ORL, decode->op[0].ot);
-@@ -157,6 +176,20 @@ static void gen_SBB(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+@@ -176,6 +190,11 @@ static void gen_SBB(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
      gen_alu_op(s, OP_SBBL, decode->op[0].ot);
  }
  
-+static void gen_XOR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++static void gen_SUB(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
 +{
-+    /* special case XOR reg, reg */
-+    if (decode->op[1].alu_op_type == X86_ALU_GPR &&
-+        decode->op[2].alu_op_type == X86_ALU_GPR &&
-+        decode->op[1].n == decode->op[2].n) {
-+        tcg_gen_movi_tl(s->T0, 0);
-+        gen_op_update1_cc(s);
-+        set_cc_op(s, CC_OP_LOGICB + decode->op[0].ot);
-+    } else {
-+        gen_alu_op(s, OP_XORL, decode->op[0].ot);
-+    }
++    gen_alu_op(s, OP_SUBL, decode->op[0].ot);
 +}
 +
- static void gen_writeback(DisasContext *s, X86DecodedOp *op)
+ static void gen_XOR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
  {
-     switch (op->alu_op_type) {
+     /* special case XOR reg, reg */
+@@ -183,8 +202,7 @@ static void gen_XOR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+         decode->op[2].alu_op_type == X86_ALU_GPR &&
+         decode->op[1].n == decode->op[2].n) {
+         tcg_gen_movi_tl(s->T0, 0);
+-        gen_op_update1_cc(s);
+-        set_cc_op(s, CC_OP_LOGICB + decode->op[0].ot);
++        set_cc_op(s, CC_OP_CLR);
+     } else {
+         gen_alu_op(s, OP_XORL, decode->op[0].ot);
+     }
 -- 
 2.37.1
 
