@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001C859FEB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:45:48 +0200 (CEST)
-Received: from localhost ([::1]:44862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0625859FE6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:36:18 +0200 (CEST)
+Received: from localhost ([::1]:48832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQsZf-0007CK-5I
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
+	id 1oQsQS-0005Zx-JR
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1oQq8C-0008Mw-VI; Wed, 24 Aug 2022 09:09:17 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:35635)
+ id 1oQq8A-0008LZ-Hp; Wed, 24 Aug 2022 09:09:14 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:34512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1oQq86-0006iW-Ut; Wed, 24 Aug 2022 09:09:12 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R401e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ id 1oQq84-0006gJ-LD; Wed, 24 Aug 2022 09:09:11 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R211e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
  MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
- TI=SMTPD_---0VN7XDfE_1661346228; 
+ TI=SMTPD_---0VN7XDfZ_1661346228; 
 Received: from
  roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VN7XDfE_1661346228) by smtp.aliyun-inc.com;
- Wed, 24 Aug 2022 21:03:48 +0800
+ fp:SMTPD_---0VN7XDfZ_1661346228) by smtp.aliyun-inc.com;
+ Wed, 24 Aug 2022 21:03:49 +0800
 From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
 Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
  LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [RFC PATCH 2/4] disas/riscv: Move down the struct rv_decode
-Date: Wed, 24 Aug 2022 21:03:29 +0800
-Message-Id: <20220824130331.21315-3-zhiwei_liu@linux.alibaba.com>
+Subject: [RFC PATCH 3/4] disas/riscv: Add used_opcode_data field
+Date: Wed, 24 Aug 2022 21:03:30 +0800
+Message-Id: <20220824130331.21315-4-zhiwei_liu@linux.alibaba.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220824130331.21315-1-zhiwei_liu@linux.alibaba.com>
 References: <20220824130331.21315-1-zhiwei_liu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.45;
+Received-SPF: pass client-ip=115.124.30.133;
  envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
+ helo=out30-133.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,70 +64,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will later add a struct rv_opcode_date filed in struct rv_decode,
-which is defined after struct rv_decode.
+Add used_opcode_data field in rv_decode. After this patch, we will
+not use opcode_data directly.
+
+This will give the custom opcode data a choice to be selected in
+the future.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 ---
- disas/riscv.c | 38 +++++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+ disas/riscv.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/disas/riscv.c b/disas/riscv.c
-index 7af6afc8fa..5c36ae08dc 100644
+index 5c36ae08dc..aaf85b2aba 100644
 --- a/disas/riscv.c
 +++ b/disas/riscv.c
-@@ -564,25 +564,6 @@ typedef enum {
+@@ -601,6 +601,7 @@ typedef struct {
+     uint8_t   rl;
+     uint8_t   bs;
+     uint8_t   rnum;
++    const rv_opcode_data *used_opcode_data;
+ } rv_decode;
  
- /* structures */
- 
--typedef struct {
--    uint64_t  pc;
--    uint64_t  inst;
--    int32_t   imm;
--    uint16_t  op;
--    uint8_t   codec;
--    uint8_t   rd;
--    uint8_t   rs1;
--    uint8_t   rs2;
--    uint8_t   rs3;
--    uint8_t   rm;
--    uint8_t   pred;
--    uint8_t   succ;
--    uint8_t   aq;
--    uint8_t   rl;
--    uint8_t   bs;
--    uint8_t   rnum;
--} rv_decode;
--
- typedef struct {
-     const int op;
-     const rvc_constraint *constraints;
-@@ -603,6 +584,25 @@ typedef struct {
-     const short decomp_data;
- } rv_opcode_data;
- 
-+typedef struct {
-+    uint64_t  pc;
-+    uint64_t  inst;
-+    int32_t   imm;
-+    uint16_t  op;
-+    uint8_t   codec;
-+    uint8_t   rd;
-+    uint8_t   rs1;
-+    uint8_t   rs2;
-+    uint8_t   rs3;
-+    uint8_t   rm;
-+    uint8_t   pred;
-+    uint8_t   succ;
-+    uint8_t   aq;
-+    uint8_t   rl;
-+    uint8_t   bs;
-+    uint8_t   rnum;
-+} rv_decode;
-+
  /* register names */
+@@ -2532,7 +2533,7 @@ static uint32_t operand_rnum(rv_inst inst)
+ static void decode_inst_operands(rv_decode *dec)
+ {
+     rv_inst inst = dec->inst;
+-    dec->codec = opcode_data[dec->op].codec;
++    dec->codec = dec->used_opcode_data[dec->op].codec;
+     switch (dec->codec) {
+     case rv_codec_none:
+         dec->rd = dec->rs1 = dec->rs2 = rv_ireg_zero;
+@@ -2959,6 +2960,7 @@ static void format_inst(char *buf, size_t buflen, size_t tab, rv_decode *dec)
+ {
+     char tmp[64];
+     const char *fmt;
++    const rv_opcode_data *opcode_data = dec->used_opcode_data;
  
- static const char rv_ireg_name_sym[32][5] = {
+     fmt = opcode_data[dec->op].format;
+     while (*fmt) {
+@@ -3111,6 +3113,7 @@ static void format_inst(char *buf, size_t buflen, size_t tab, rv_decode *dec)
+ 
+ static void decode_inst_lift_pseudo(rv_decode *dec)
+ {
++    const rv_opcode_data *opcode_data = dec->used_opcode_data;
+     const rv_comp_data *comp_data = opcode_data[dec->op].pseudo;
+     if (!comp_data) {
+         return;
+@@ -3129,6 +3132,7 @@ static void decode_inst_lift_pseudo(rv_decode *dec)
+ 
+ static void decode_inst_decompress_rv32(rv_decode *dec)
+ {
++    const rv_opcode_data *opcode_data = dec->used_opcode_data;
+     int decomp_op = opcode_data[dec->op].decomp_rv32;
+     if (decomp_op != rv_op_illegal) {
+         if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz)
+@@ -3143,6 +3147,7 @@ static void decode_inst_decompress_rv32(rv_decode *dec)
+ 
+ static void decode_inst_decompress_rv64(rv_decode *dec)
+ {
++    const rv_opcode_data *opcode_data = dec->used_opcode_data;
+     int decomp_op = opcode_data[dec->op].decomp_rv64;
+     if (decomp_op != rv_op_illegal) {
+         if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz)
+@@ -3157,6 +3162,7 @@ static void decode_inst_decompress_rv64(rv_decode *dec)
+ 
+ static void decode_inst_decompress_rv128(rv_decode *dec)
+ {
++    const rv_opcode_data *opcode_data = dec->used_opcode_data;
+     int decomp_op = opcode_data[dec->op].decomp_rv128;
+     if (decomp_op != rv_op_illegal) {
+         if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz)
+@@ -3192,6 +3198,7 @@ disasm_inst(char *buf, size_t buflen, rv_isa isa, uint64_t pc, rv_inst inst)
+     rv_decode dec = { 0 };
+     dec.pc = pc;
+     dec.inst = inst;
++    dec.used_opcode_data = opcode_data;
+     decode_inst_opcode(&dec, isa);
+     decode_inst_operands(&dec);
+     decode_inst_decompress(&dec, isa);
 -- 
 2.25.1
 
