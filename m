@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0E259F60B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:16:02 +0200 (CEST)
-Received: from localhost ([::1]:54220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAFD59F626
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:25:40 +0200 (CEST)
+Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmUT-00007p-SU
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49112)
+	id 1oQmdn-0005GT-3H
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmGy-00044Y-4r
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:02:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48422)
+ id 1oQmHt-0005UU-DC
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:03:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmGv-00046Y-2e
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:02:02 -0400
+ id 1oQmHr-0004CY-MH
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:03:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661331719;
+ s=mimecast20190719; t=1661331779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ukmlk3p1y7Um72V3zijDRtvIng2yf5Vtbub9CfTyWKM=;
- b=HwiHO4d3GRPLY8sNB8gYG0uSOsEkYJ0P/SdFS8WyhqFRP+0jJyB5hdgVI1cIVntCXnIwZU
- 04w7A3TLVKDDt+LOVmvuXtoIgkJLawcGZbOCrgNwuhTD3iIuaEkhZppPhTrQ1Jscjk9ZTq
- gQl8x99bdyGERZFQCXFGW5Xhc+EHwV8=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jh3/gqzGmhQNgJ2l044sT3eZ+7r8PsMMEOrq0lQOxtI=;
+ b=SMRbL1nf2dTt9FLtDSRevrXife6HBWlev2P39iPy24iSKCxpvPvHjhh77AflxT/vRNeMC0
+ mk77i8ZibnQHLyyBopPGynBLeXDt1ckmbG/bMnoaySci0mdS9x3STKfX09ukAozomVzgPs
+ XWhQF4W+HYGRQkhZ2XsvFmxdwMEANBM=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-184-LJEtfg0mPy-mGq3hfWTc8A-1; Wed, 24 Aug 2022 05:01:57 -0400
-X-MC-Unique: LJEtfg0mPy-mGq3hfWTc8A-1
-Received: by mail-pg1-f200.google.com with SMTP id
- g10-20020a63564a000000b0042aa3915494so3979562pgm.18
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:01:57 -0700 (PDT)
+ us-mta-648-P3XRQoyKNmq0OWhg8GG-Xg-1; Wed, 24 Aug 2022 05:02:57 -0400
+X-MC-Unique: P3XRQoyKNmq0OWhg8GG-Xg-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ s8-20020a170902ea0800b00172e456031eso5708690plg.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:02:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=Ukmlk3p1y7Um72V3zijDRtvIng2yf5Vtbub9CfTyWKM=;
- b=QcOqAGVOAZITmXPIfhW+Xx4AtiSLmSYvgMW+8eCusJ+RpTNWVu+KA20Lo5IiBSexFK
- 8jbTvY1b+fd6wbxxqQ1nyBRFCfWUKPfNPjdw5vfdl7yI0NTjgkR5hA2mPWFFYwohbGtm
- xXs9CJUUIVMts7XnyccAPjoIy1FynkvVKEfLdSW40eAK19YB6rNpXIEr9lxV7/mGAJ++
- ABKgp2n7bq0OAnUHB3ogzb2v1d+q7hM25bAC9sMOdNEGlBk1n107bNlVX1hvhchwDwTd
- eAuZ/Msq0mnubjnTi0FrjlbjONUyzsTZ6pf3ETBnhR9sL1eDjdk9+rF6/GXRZkBt+s6L
- BpQA==
-X-Gm-Message-State: ACgBeo3QyLO7oFeyptDoftpifCc3DOfOjNZd+aX6P5pspDSOWFk6yedA
- 1JKXzEV0IHEVkHg7ODdaaFwaQUbGNsYPYAIj1w0MpRt8lvDfS5ovmggGcRcv43Fh2jfKE0WhtwP
- VdK9hYrEqEkJIszk=
-X-Received: by 2002:a63:ec4d:0:b0:42a:247d:fd7f with SMTP id
- r13-20020a63ec4d000000b0042a247dfd7fmr22442378pgj.151.1661331716173; 
- Wed, 24 Aug 2022 02:01:56 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7sLrutZEFaU1Hs+RwS833dbREdOCDMg81x9laVqBH7AFxhxND2B95nrnB0D+KmDDeicoT/6w==
-X-Received: by 2002:a63:ec4d:0:b0:42a:247d:fd7f with SMTP id
- r13-20020a63ec4d000000b0042a247dfd7fmr22442351pgj.151.1661331715861; 
- Wed, 24 Aug 2022 02:01:55 -0700 (PDT)
+ bh=jh3/gqzGmhQNgJ2l044sT3eZ+7r8PsMMEOrq0lQOxtI=;
+ b=o27Au3kthQuyZ+vC/KPFaH4C9e2W5cd1DpbZdPD1g3HHKm2ZPuMrAlbUhxB9itusry
+ iY3kSlwsR3FmEZHdOsdSxI4PwvqLz2p8ehFQPZ6bxEjobu7DQ1Hy5CYGjJN5ICvCTqnI
+ FoFbwLPxu7r8j/JGCQN4mYzpgDUbUhooDvQBl1sAw8XQVM9VvN9HxFx+DdXEHOuYbAOw
+ F26FqhqEQuJ2WdTy66BvV6hNnAdgCsb/RZW/0RhvzvBaf/ItT95ES8iQO5r6GenPjdPr
+ 5+pa9vdQiPsNwFvqM2cw53eL1LwW20HsbpW4q/cLxO46DQ76DOV897c69SZYxX142E/b
+ KB7g==
+X-Gm-Message-State: ACgBeo3aIBqC1mJHOXbS6qwhnVbgDsvCe7HNeawtx7YiL4ne2gSJhcuP
+ fOj6KC1fyl5gEVuNNqcFfpGKNMSy2gETVgUDGIbyHrQwEcpbeAjp21LUWDDeOFl+uSeIQjHEVhT
+ FABEK/ISk7zeWLRw=
+X-Received: by 2002:a17:90b:38cf:b0:1fb:783c:e0f with SMTP id
+ nn15-20020a17090b38cf00b001fb783c0e0fmr3960015pjb.204.1661331776590; 
+ Wed, 24 Aug 2022 02:02:56 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR51A1gciRJUrcGybDlCqLBPGda27REUWbo/cnDl2RUUuZzi8iox5KkHUSpR1VVI80WlwFYunw==
+X-Received: by 2002:a17:90b:38cf:b0:1fb:783c:e0f with SMTP id
+ nn15-20020a17090b38cf00b001fb783c0e0fmr3959991pjb.204.1661331776304; 
+ Wed, 24 Aug 2022 02:02:56 -0700 (PDT)
 Received: from [10.72.13.130] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- p4-20020aa79e84000000b00535fd0cb58bsm10754665pfq.111.2022.08.24.02.01.52
+ y9-20020a634b09000000b004114cc062f0sm10417706pga.65.2022.08.24.02.02.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 02:01:55 -0700 (PDT)
-Message-ID: <35c12f59-a16e-aeaf-5e41-60238df69d9c@redhat.com>
-Date: Wed, 24 Aug 2022 17:01:50 +0800
+ Wed, 24 Aug 2022 02:02:55 -0700 (PDT)
+Message-ID: <40b968c3-96fc-fff5-4849-f899e261f7e5@redhat.com>
+Date: Wed, 24 Aug 2022 17:02:51 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v2 12/24] vhost-net: vhost-kernel: introduce
- vhost_net_virtqueue_restart()
+Subject: Re: [PATCH v2 15/24] vhost-user: add op to enable or disable a single
+ vring
 Content-Language: en-US
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
@@ -78,11 +78,11 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
  wangyanan55@huawei.com, hengqi@linux.alibaba.com,
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
- <be4731ad4548af158396dc5005b656ceb147d3ad.1660611460.git.kangjie.xu@linux.alibaba.com>
- <23bcc037-8b71-a4f4-9b11-7062b024d4ff@redhat.com>
- <29c2e3a5-b137-d16d-a8d3-af74a49fa1f7@linux.alibaba.com>
+ <9507fa8179afe9d02dfa03a3dbf6424cd5eba437.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <8fc12420-f171-e015-6666-0a40b1bdf85c@redhat.com>
+ <4e6e5211-04f7-f27c-cbfd-6393b412b769@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <29c2e3a5-b137-d16d-a8d3-af74a49fa1f7@linux.alibaba.com>
+In-Reply-To: <4e6e5211-04f7-f27c-cbfd-6393b412b769@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -110,126 +110,125 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/8/24 10:53, Kangjie Xu 写道:
+在 2022/8/24 11:09, Kangjie Xu 写道:
 >
-> 在 2022/8/24 10:44, Jason Wang 写道:
+> 在 2022/8/24 10:53, Jason Wang 写道:
 >>
 >> 在 2022/8/16 09:06, Kangjie Xu 写道:
->>> Introduce vhost_net_virtqueue_restart(), which can restart the
->>> virtqueue when the vhost net started running before. If it fails
->>> to restart the virtqueue, the device will be stopped.
+>>> The interface to set enable status for a single vring is lacked in
+>>> VhostOps, since the vhost_set_vring_enable_op will manipulate all
+>>> virtqueues in a device.
 >>>
->>> This patch only considers the case for vhost-kernel, when
->>> NetClientDriver is NET_CLIENT_DRIVER_TAP.
+>>> Resetting a single vq will rely on this interface.
 >>>
 >>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 >>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>>> ---
+>>>   hw/virtio/vhost-user.c            | 26 +++++++++++++++++++-------
+>>>   include/hw/virtio/vhost-backend.h |  3 +++
+>>>   2 files changed, 22 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>>> index 56033f7a92..8307976cda 100644
+>>> --- a/hw/virtio/vhost-user.c
+>>> +++ b/hw/virtio/vhost-user.c
+>>> @@ -1199,6 +1199,22 @@ static int vhost_user_set_vring_base(struct 
+>>> vhost_dev *dev,
+>>>       return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
+>>>   }
+>>>   +static int vhost_user_set_single_vring_enable(struct vhost_dev *dev,
+>>> +                                              int index,
+>>> +                                              int enable)
+>>> +{
+>>> +    if (index < dev->vq_index || index >= dev->vq_index + dev->nvqs) {
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    struct vhost_vring_state state = {
+>>> +        .index = index,
+>>> +        .num   = enable,
+>>> +    };
+>>> +
+>>> +    return vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, &state);
+>>> +}
+>>> +
+>>>   static int vhost_user_set_vring_enable(struct vhost_dev *dev, int 
+>>> enable)
+>>>   {
+>>>       int i;
+>>> @@ -1208,13 +1224,8 @@ static int vhost_user_set_vring_enable(struct 
+>>> vhost_dev *dev, int enable)
+>>>       }
+>>>         for (i = 0; i < dev->nvqs; ++i) {
+>>> -        int ret;
+>>> -        struct vhost_vring_state state = {
+>>> -            .index = dev->vq_index + i,
+>>> -            .num   = enable,
+>>> -        };
+>>> -
+>>> -        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, 
+>>> &state);
 >>
 >>
->> I would explain why current 
->> vhost_net_start_one()/vhost_net_stop_one() can't work. Is it because 
->> it works at queue pair level? If yes can we restructure the code and 
->> try to reuse ?
+>> Then I'd squash this into previous patch or re-roder to let this 
+>> patch (vhost_user_set_single_vring_enable()) to be first.
 >>
 >> Thanks
 >>
-> Because vhost_net_start_one()/vhost_net_stop_one() works at device level.
->
-> The queue pair level start/stop are vhost_virtqueue_start() and 
-> vhost_virtqueue_stop().
->
-> What we can reuse is the vhost_virtqueue_start(). 
-> vhost_virtqueue_stop() cannot be reused because it will destroy device.
+>>
+> Sorry, I don't get why we should re-order them, since these two 
+> patches are independent.
 
 
-Let's add this in the changelog or a comment in the code.
+I meant it's not good to introduce some codes in patch 14 but delete 
+them in patch 15 (the above part for example).
 
 Thanks
 
 
 >
-> I think we do not need to restructure because we've already had an 
-> abstraction vhost_virtqueue_start().
+> Thanks
 >
-> Thanks.
->
->>
->>> ---
->>>   hw/net/vhost_net.c      | 48 
->>> +++++++++++++++++++++++++++++++++++++++++
->>>   include/net/vhost_net.h |  2 ++
->>>   2 files changed, 50 insertions(+)
->>>
->>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->>> index aa60dd901c..2ab67e875e 100644
->>> --- a/hw/net/vhost_net.c
->>> +++ b/hw/net/vhost_net.c
->>> @@ -535,3 +535,51 @@ void vhost_net_virtqueue_stop(VirtIODevice 
->>> *vdev, NetClientState *nc,
->>>         vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
->>>   }
->>> +
->>> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState 
->>> *nc,
->>> +                                int vq_index)
->>> +{
->>> +    VHostNetState *net = get_vhost_net(nc->peer);
->>> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
->>> +    struct vhost_vring_file file = { };
->>> +    int idx, r;
->>> +
->>> +    if (!net->dev.started) {
->>> +        return 0;
->>> +    }
->>> +
->>> +    assert(vhost_ops);
->>> +
->>> +    idx =  vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
->>> +
->>> +    r = vhost_dev_virtqueue_restart(&net->dev, vdev, idx);
->>> +    if (r < 0) {
->>> +        goto err_start;
->>> +    }
->>> +
->>> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
->>> +        file.index = idx;
->>> +        file.fd = net->backend;
->>> +        r = vhost_net_set_backend(&net->dev, &file);
->>> +        if (r < 0) {
->>> +            r = -errno;
->>> +            goto err_start;
->>> +        }
->>> +    }
->>> +
->>> +    return 0;
->>> +
->>> +err_start:
->>> +    error_report("Error when restarting the queue.");
->>> +
->>> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
->>> +        file.fd = -1;
->>> +        file.index = idx;
->>> +        int r = vhost_net_set_backend(&net->dev, &file);
->>> +        assert(r >= 0);
->>> +    }
->>> +
->>> +    vhost_dev_stop(&net->dev, vdev);
->>> +
->>> +    return r;
->>> +}
->>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
->>> index 9b3aaf3814..e11a297380 100644
->>> --- a/include/net/vhost_net.h
->>> +++ b/include/net/vhost_net.h
->>> @@ -50,4 +50,6 @@ int vhost_net_set_mtu(struct vhost_net *net, 
->>> uint16_t mtu);
->>>     void vhost_net_virtqueue_stop(VirtIODevice *vdev, NetClientState 
->>> *nc,
->>>                                 int vq_index);
->>> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState 
->>> *nc,
->>> +                                int vq_index);
->>>   #endif
+>>> +        int ret = vhost_user_set_single_vring_enable(dev, 
+>>> dev->vq_index + i,
+>>> +                                                     enable);
+>>>           if (ret < 0) {
+>>>               /*
+>>>                * Restoring the previous state is likely infeasible, 
+>>> as well as
+>>> @@ -2668,6 +2679,7 @@ const VhostOps user_ops = {
+>>>           .vhost_reset_vring = vhost_user_reset_vring,
+>>>           .vhost_reset_device = vhost_user_reset_device,
+>>>           .vhost_get_vq_index = vhost_user_get_vq_index,
+>>> +        .vhost_set_single_vring_enable = 
+>>> vhost_user_set_single_vring_enable,
+>>>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
+>>>           .vhost_requires_shm_log = vhost_user_requires_shm_log,
+>>>           .vhost_migration_done = vhost_user_migration_done,
+>>> diff --git a/include/hw/virtio/vhost-backend.h 
+>>> b/include/hw/virtio/vhost-backend.h
+>>> index f23bf71a8d..38f6b752ff 100644
+>>> --- a/include/hw/virtio/vhost-backend.h
+>>> +++ b/include/hw/virtio/vhost-backend.h
+>>> @@ -83,6 +83,8 @@ typedef int (*vhost_reset_vring_op)(struct 
+>>> vhost_dev *dev,
+>>>                                       struct vhost_vring_state *ring);
+>>>   typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
+>>>   typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
+>>> +typedef int (*vhost_set_single_vring_enable_op)(struct vhost_dev *dev,
+>>> +                                                int index, int 
+>>> enable);
+>>>   typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
+>>>                                            int enable);
+>>>   typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
+>>> @@ -158,6 +160,7 @@ typedef struct VhostOps {
+>>>       vhost_reset_device_op vhost_reset_device;
+>>>       vhost_reset_vring_op vhost_reset_vring;
+>>>       vhost_get_vq_index_op vhost_get_vq_index;
+>>> +    vhost_set_single_vring_enable_op vhost_set_single_vring_enable;
+>>>       vhost_set_vring_enable_op vhost_set_vring_enable;
+>>>       vhost_requires_shm_log_op vhost_requires_shm_log;
+>>>       vhost_migration_done_op vhost_migration_done;
 >
 
 
