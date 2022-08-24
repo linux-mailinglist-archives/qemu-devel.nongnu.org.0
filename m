@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE35559F89D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:30:40 +0200 (CEST)
-Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523EE59F8BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:43:47 +0200 (CEST)
+Received: from localhost ([::1]:39326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQoai-0006uv-9u
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
+	id 1oQonR-0005fq-Ge
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmv6-0004UF-RC; Wed, 24 Aug 2022 05:43:34 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:42739)
+ id 1oQmv8-0004V1-Tk
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:36 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:43525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmv5-0001qE-6Z; Wed, 24 Aug 2022 05:43:32 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- s3-20020a17090a2f0300b001facfc6fdbcso957475pjd.1; 
- Wed, 24 Aug 2022 02:43:30 -0700 (PDT)
+ id 1oQmv6-0001rk-6Q
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:33 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id v4so14531915pgi.10
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=absMu0MsCcS+D8Q8iKeaSzi8XuqAyekaCuc9H9DLYbc=;
- b=NDv6cXqYoVIT6UlJFchvJvI+7vc9VAWbvNd8EzFyl0Xyy9JSejdoTtHowjqeyY5WN/
- 1SjWn/ZzooHtZMTLk2ehGXnsRGzjFJ9iCQnlZjpLjLHsUBc4Q7EPJ8ADRtBSpIfAhg8l
- D5gfwgybFUY3yOy6LSUSSwp6gcG9DPlBEIFnSQRmhKB0GXQ+edUtrSbFoIYelcp9aPtN
- 4ji2U4v+N3tcYObSlcRmJTPdEMCceVHQbOvD2s+rNDGN1+gBWln4jwOS24pkmv/RURMf
- Ax6TSvJmbDivLCmMM0G1bUVpFLM2EOKffasyDtVcFH4JSqv6KSRiPcEKECN65oi8mTe9
- Oksg==
+ bh=dRHhWPJXiN/4/A11QD7zEQfLoQkKTg9o+isZ5w1L5e4=;
+ b=DijW74OWB2eWz9Ojal28Y5v6r3SE2TdD7WVXvXriN/6blq08UM7V4dFXNme1gtuqSY
+ WSEZu3r2AWD4xcrlQSrXeIScxS6myobDMKPcWwDI2WyQm1pxWlAi4mMlGD0Zi6xRVnbV
+ prIRXaXIQtxJzZyySpWBIR54/cJ8xx+mOdr4uX4PAzCUFp1cYbbw+n/Y+EEchqbY3DaT
+ UhJJEY7wcOFeoLZkiVtZli5eJ4Z+oGOxFBEsTWD8BohaR9IIYBFIAePcryucP0ic3PWI
+ M59M9uQ+AGLS6cb/G4qNvFi3DfqAZsWUYO64XjT97iRteq/hjQYOtdarrT4fSoY30pN8
+ I1bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=absMu0MsCcS+D8Q8iKeaSzi8XuqAyekaCuc9H9DLYbc=;
- b=EM5Qe0V6Akki9ilSurkQJ/a3S+rpowIoF6rqkt0PvstLfWEcVEZbt4A7TwlG5aahm6
- 0vXBrw6BgORxIpR71hHVgmH49KzpWKRyXAqS8Yd/QHOBsnh6ZYO0A+oFQPaQxu1ZEJYd
- 7cAwL4Rr4vr4IdOYW9kTPayct1ZMK+E3KVrLe1a36xsvGXXg7jznIvE7qScxq9T5z3sN
- wsI/8Fo+7uj/1cQxTc4jOqnJU/andLLS4i5lAaPKEA8y76eolUi733LBRtswcP1yG5Lb
- KtjH4WFdJ2+k6TTJz3dGbZ49TluGxCwueioB0WtQfycgO51Hv5/WzJdRSt2SQ/isNANu
- d5SA==
-X-Gm-Message-State: ACgBeo2qrqdWwsnN62wcZ8okwj2SSrUycgklcwtvFDuAf7laqhx2VYUn
- 4xL8uxxbU+5ZQmzkcODvDvrJjWyWTW8=
-X-Google-Smtp-Source: AA6agR6KlU+xRZ2lkZP2HppMEyj38xUjcrmF2XbzsyhEkWSoBlawKVR+FaBgroKzTEyBH2FLgMiS4w==
-X-Received: by 2002:a17:90a:6b0d:b0:1fa:c6fe:db6 with SMTP id
- v13-20020a17090a6b0d00b001fac6fe0db6mr7432037pjj.99.1661334208035; 
- Wed, 24 Aug 2022 02:43:28 -0700 (PDT)
+ bh=dRHhWPJXiN/4/A11QD7zEQfLoQkKTg9o+isZ5w1L5e4=;
+ b=LN8K5P9WYM7Gm1i0T28v/MzcrubQx8BDAl2+dpSzoyA5PurITQOcMIjGHoCrN3J9fV
+ Kf1WWWKWFYbYbPyYMvlQTtE6cJjh4xcGO4CgD0x5DLl1s+rPPVneK5TS70Yq3GnsQgsj
+ B1Sbblo/mEjAkJkHzEeMpDp9W5//nQdQQDFIqAb46WCMDcA7LwGhgbm4quJMNvmsKixP
+ YGCdaSe2JDB3mSfcXPlbW+OXHDm5SH3TpVCijDcq7nvnhdaBRA33WEQgJ1QzvDbyG85g
+ mlGIAsNR4qKdEOy1GToNG3FRHZyM7T/XaqqmJGKduJWL+YRMG3L0hq4Ac2evjh5Bnqwr
+ pTww==
+X-Gm-Message-State: ACgBeo28HQgZycSGw6tuM8k07Zj1QjLomoYg+3zPPXrpMsSZlvvw0kju
+ PEVF+KDH0UEk04ZL7hs5uhNN42ohXIk=
+X-Google-Smtp-Source: AA6agR7cRjAvZg3xRyk3AUzz2mVMwWY4nn+tzhJjiNQJ5clFrSadpzgtPWCkxihhA7Sa+zM9RaRoLg==
+X-Received: by 2002:a65:6bca:0:b0:420:712f:ab98 with SMTP id
+ e10-20020a656bca000000b00420712fab98mr23713431pgw.350.1661334210229; 
+ Wed, 24 Aug 2022 02:43:30 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.25
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:43:27 -0700 (PDT)
+ Wed, 24 Aug 2022 02:43:29 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-arm@nongnu.org
-Subject: [PATCH 44/51] tests/qtest: microbit-test: Fix socket access for win32
-Date: Wed, 24 Aug 2022 17:40:22 +0800
-Message-Id: <20220824094029.1634519-45-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 45/51] tests/qtest: prom-env-test: Use double quotes to pass
+ the prom-env option
+Date: Wed, 24 Aug 2022 17:40:23 +0800
+Message-Id: <20220824094029.1634519-46-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,61 +92,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Sockets on Windows do not use *nix-style file descriptors, so
-write()/read()/close() do not work on Windows.
+Single quotes like -prom-env 'nvramrc=cafec0de 4000 l!' in the arguments
+are not removed in the Windows environment before it is passed to the
+QEMU executable. Such argument causes a failure in the QEMU prom-env
+option parser codes.
 
-Switch over to use send()/recv()/closesocket() which work with
-sockets on all platforms.
+Change to use double quotes which works fine on all platforms.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/microbit-test.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tests/qtest/prom-env-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/microbit-test.c b/tests/qtest/microbit-test.c
-index b71daae9a9..4bc267020b 100644
---- a/tests/qtest/microbit-test.c
-+++ b/tests/qtest/microbit-test.c
-@@ -51,7 +51,7 @@ static void uart_rw_to_rxd(QTestState *qts, int sock_fd, const char *in,
- {
-     int i, in_len = strlen(in);
+diff --git a/tests/qtest/prom-env-test.c b/tests/qtest/prom-env-test.c
+index c2b0448e55..39ccb59797 100644
+--- a/tests/qtest/prom-env-test.c
++++ b/tests/qtest/prom-env-test.c
+@@ -58,8 +58,8 @@ static void test_machine(const void *machine)
+             " -machine " PSERIES_DEFAULT_CAPABILITIES;
+     }
  
--    g_assert_true(write(sock_fd, in, in_len) == in_len);
-+    g_assert_true(send(sock_fd, in, in_len, 0) == in_len);
-     for (i = 0; i < in_len; i++) {
-         g_assert_true(uart_wait_for_event(qts, NRF51_UART_BASE +
-                                                A_UART_RXDRDY));
-@@ -77,7 +77,7 @@ static void test_nrf51_uart(void)
-     char s[10];
-     QTestState *qts = qtest_init_with_serial("-M microbit", &sock_fd);
- 
--    g_assert_true(write(sock_fd, "c", 1) == 1);
-+    g_assert_true(send(sock_fd, "c", 1, 0) == 1);
-     g_assert_cmphex(qtest_readl(qts, NRF51_UART_BASE + A_UART_RXD), ==, 0x00);
- 
-     qtest_writel(qts, NRF51_UART_BASE + A_UART_ENABLE, 0x04);
-@@ -97,17 +97,17 @@ static void test_nrf51_uart(void)
- 
-     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
-     uart_w_to_txd(qts, "d");
--    g_assert_true(read(sock_fd, s, 10) == 1);
-+    g_assert_true(recv(sock_fd, s, 10, 0) == 1);
-     g_assert_cmphex(s[0], ==, 'd');
- 
-     qtest_writel(qts, NRF51_UART_BASE + A_UART_SUSPEND, 0x01);
-     qtest_writel(qts, NRF51_UART_BASE + A_UART_TXD, 'h');
-     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
-     uart_w_to_txd(qts, "world");
--    g_assert_true(read(sock_fd, s, 10) == 5);
-+    g_assert_true(recv(sock_fd, s, 10, 0) == 5);
-     g_assert_true(memcmp(s, "world", 5) == 0);
- 
--    close(sock_fd);
-+    closesocket(sock_fd);
- 
+-    qts = qtest_initf("-M %s -accel tcg %s -prom-env 'use-nvramrc?=true' "
+-                      "-prom-env 'nvramrc=%x %x l!' ", (const char *)machine,
++    qts = qtest_initf("-M %s -accel tcg %s -prom-env \"use-nvramrc?=true\" "
++                      "-prom-env \"nvramrc=%x %x l!\" ", (const char *)machine,
+                       extra_args, MAGIC, ADDRESS);
+     check_guest_memory(qts);
      qtest_quit(qts);
- }
 -- 
 2.34.1
 
