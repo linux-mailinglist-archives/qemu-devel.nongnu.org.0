@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8840759FEF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:59:51 +0200 (CEST)
-Received: from localhost ([::1]:36134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A9F59FEE3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:55:04 +0200 (CEST)
+Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQsnG-0000Nu-FF
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:59:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45986)
+	id 1oQsic-0000rJ-KV
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1oQsf8-00029R-AE
+ id 1oQsf8-00029P-8w
  for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:51:27 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37759)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1oQsf3-0002Es-Ph
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:51:24 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- c187-20020a1c35c4000000b003a30d88fe8eso1169870wma.2
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 08:51:21 -0700 (PDT)
+ id 1oQsf5-0002FY-Rt
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:51:25 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d16so16004925wrr.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 08:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=/BcQ7dSBdHiwkCbitP1xng11btp+1w28KnhMykfx8qg=;
- b=D5OzUPpE6+MWQr8XOufZwnuPbRmcnUTudV/M7oni2t1R4Kd60J5fxAyaZZMTJ1mDP5
- 55/V9NhLpID4vp/fPtuNd+W83eS1fklEorZ+NMzrCHv8OoMiD295nX6zOcteqtDbp9Fo
- P3MHeJwU6XVrGAhLUTwbPrvQlj3IKnwar9yQDnnqUnQtdatT9fRP4QFRaicTw6qoibMl
- iu/NRKP+UjWPWjczcBPSar64So4BpwihfQg3ZIstiETIDrX1VNJYdBZiS6X5d7I5vryT
- Lf3TGCIhaF6uemCjEl9eOV1s6cL1sq9MqJp4r2Qoq91CVC42+6SphzKkpDYlNypApgV7
- 6sTg==
+ bh=eSq6FUdISef71pKleYGNA95iIGprMsybKKFsYohX1lI=;
+ b=lmqkf0rn4nHErTSCI4YuPBvNdMr6YKs91zgxvTt5gnhpL2kwhvVy0W4oKaYv55QTfR
+ dnik3gcHMEdcR3gPAeSfoz9migNIJvhqebSTXeV5NqTPZTZ+LRnm/IKT3B8u2Bu7t0FB
+ 0P/MHNsickJx1IrTsAInqRlZC8QB+MGc+hJten6A3Wd9qyM1QeZnLJrssEojJsYsmOEv
+ IvUpT2CvOHy8QpifpFb7UgNBMCur8lsBJxwMC6HeUv/SZUoCI+N+V/L2kAOBmVm3oodX
+ Eh/IY7kC1wbj+GYXlCCqRJHYKessRci0Vk0e8+1WvwGkZsEFB41+ukMT6Fy6SDzzlnhF
+ NY6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=/BcQ7dSBdHiwkCbitP1xng11btp+1w28KnhMykfx8qg=;
- b=SR6tCfSlys3OZQ80IItvfJIQKTpTycxo+Gorz2b2pQ/yTYeFbn3018hLwm+taufANc
- ICGMvU0O7ygM2vRNLy1n28OUfRpttmK4lxfPTEyiNirNxGOPJP0hsXh574GBo9P30NzI
- hIIYRLRVVKF6G7bgjoMxx3CgcQBYAMZvtjKBrizxminKkDsImSvGtfJvFZbnfHJoEXZR
- SZTQi2ooWIzHULYLdAtH45ai4QhlFNHjqxgHiDCYyV3huGsLmU5cH9X3skjkLnsQZJvn
- xQx7cr/p3viL3IdXtkpGFpOrBu2AW+XVC9usZtJTX5dX6tJTihtwK9znn2Tog+UAH5Sl
- xPeg==
-X-Gm-Message-State: ACgBeo31/JAlYLUPHiL9Ii2TpGbthjG1mm/PnUct+5rfEPmzIuwLRl69
- FiYi6VgWqdD4EEz6DXr1/91x7w==
-X-Google-Smtp-Source: AA6agR49bbIfu3Txq2hEgOKaL7sId7C/fnGQOJSr7W1i9p2oRv0sIJMYaSbcsKWUFYhULrnnt3xzsQ==
-X-Received: by 2002:a05:600c:1551:b0:3a6:2f4d:aeca with SMTP id
- f17-20020a05600c155100b003a62f4daecamr5549190wmg.100.1661356280200; 
- Wed, 24 Aug 2022 08:51:20 -0700 (PDT)
+ bh=eSq6FUdISef71pKleYGNA95iIGprMsybKKFsYohX1lI=;
+ b=IJmHZbW6mRqR/RVS44+Ks0HSwxbdP1YIbEAe0FReam6R8GF43meHlQmF1D7e/eGwH3
+ 8s2dG41Cd1mWlPrYnb9zFt87FrNtURL2DO+BYoEt4sKa1NRqFTTGeiBQ1zKp9MiCE4W4
+ 9TbCZMHq7rX4+CnCiASEQyVOytjPCYDNMUGm5qZJqCHGl+Qe+x3OWrIQT4UH//lqcqW7
+ St3nY2sjl4UT/uJ3+Bg1yLBa1pnyASNo+Eom/mUB/rqwhIHGoaHVBsr47lmfOjOLKznd
+ ookAAmcfRNKnbhiM3hNUB6tqv/a0YVEZfhhS6EiB3pWSow4yzWcYBE/DOy10HtkN1R/e
+ n3ig==
+X-Gm-Message-State: ACgBeo12zGUmgDYarrGlbAIir2ZxuhsYLNwqsfl7+qRyhUESnNBtwwhx
+ lEqHHDaIfNpqAncqp+ukESGhGg==
+X-Google-Smtp-Source: AA6agR7RFS7Euh7gY6WrHxyo/B7uTWndlgwiswVjJD142bvHuoF3VPNsINBkd0HZeh2IqyXl9G1JWw==
+X-Received: by 2002:a5d:59a8:0:b0:225:61a0:e603 with SMTP id
+ p8-20020a5d59a8000000b0022561a0e603mr6810303wrr.469.1661356282308; 
+ Wed, 24 Aug 2022 08:51:22 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
  by smtp.gmail.com with ESMTPSA id
- q11-20020a5d61cb000000b00223b8168b15sm17236411wrv.66.2022.08.24.08.51.19
+ q11-20020a5d61cb000000b00223b8168b15sm17236411wrv.66.2022.08.24.08.51.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 08:51:19 -0700 (PDT)
+ Wed, 24 Aug 2022 08:51:22 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org,
  eauger@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH 03/10] hw/arm/virt: Fix devicetree warnings about the GIC node
-Date: Wed, 24 Aug 2022 16:51:07 +0100
-Message-Id: <20220824155113.286730-4-jean-philippe@linaro.org>
+Subject: [PATCH 06/10] hw/arm/virt: Fix devicetree warning about the gpio-key
+ node
+Date: Wed, 24 Aug 2022 16:51:10 +0100
+Message-Id: <20220824155113.286730-7-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220824155113.286730-1-jean-philippe@linaro.org>
 References: <20220824155113.286730-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,66 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix three dt-validate warnings about the GIC node due to invalid names
-and missing property:
+The node name of the gpio-key devicetree node should be "key-poweroff":
 
-  intc@8000000: $nodename:0: 'intc@8000000' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-  intc@8000000: 'its@8080000' does not match any of the regexes: '^(msi-controller|gic-its|interrupt-controller)@[0-9a-f]+$', '^gic-its@', '^interrupt-controller@[0-9a-f]+$', 'pinctrl-[0-9]+'
-
-  interrupt-controller@8000000: msi-controller@8080000: '#msi-cells' is a required property
-  From schema: linux/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
+  gpio-keys: 'poweroff' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
+  From schema: linux/Documentation/devicetree/bindings/input/gpio-keys.yaml
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- hw/arm/virt.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/arm/virt.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index abcf2716bc..b6aa311d8c 100644
+index 5935f32a44..3d460f3686 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -481,12 +481,13 @@ static void fdt_add_its_gic_node(VirtMachineState *vms)
-     MachineState *ms = MACHINE(vms);
+@@ -932,12 +932,12 @@ static void create_gpio_keys(char *fdt, DeviceState *pl061_dev,
+     qemu_fdt_add_subnode(fdt, "/gpio-keys");
+     qemu_fdt_setprop_string(fdt, "/gpio-keys", "compatible", "gpio-keys");
  
-     vms->msi_phandle = qemu_fdt_alloc_phandle(ms->fdt);
--    nodename = g_strdup_printf("/intc/its@%" PRIx64,
-+    nodename = g_strdup_printf("/interrupt-controller/msi-controller@%" PRIx64,
-                                vms->memmap[VIRT_GIC_ITS].base);
-     qemu_fdt_add_subnode(ms->fdt, nodename);
-     qemu_fdt_setprop_string(ms->fdt, nodename, "compatible",
-                             "arm,gic-v3-its");
-     qemu_fdt_setprop(ms->fdt, nodename, "msi-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#msi-cells", 1);
-     qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-                                  2, vms->memmap[VIRT_GIC_ITS].base,
-                                  2, vms->memmap[VIRT_GIC_ITS].size);
-@@ -499,7 +500,7 @@ static void fdt_add_v2m_gic_node(VirtMachineState *vms)
-     MachineState *ms = MACHINE(vms);
-     char *nodename;
+-    qemu_fdt_add_subnode(fdt, "/gpio-keys/poweroff");
+-    qemu_fdt_setprop_string(fdt, "/gpio-keys/poweroff",
++    qemu_fdt_add_subnode(fdt, "/gpio-keys/key-poweroff");
++    qemu_fdt_setprop_string(fdt, "/gpio-keys/key-poweroff",
+                             "label", "GPIO Key Poweroff");
+-    qemu_fdt_setprop_cell(fdt, "/gpio-keys/poweroff", "linux,code",
++    qemu_fdt_setprop_cell(fdt, "/gpio-keys/key-poweroff", "linux,code",
+                           KEY_POWER);
+-    qemu_fdt_setprop_cells(fdt, "/gpio-keys/poweroff",
++    qemu_fdt_setprop_cells(fdt, "/gpio-keys/key-poweroff",
+                            "gpios", phandle, 3, 0);
+ }
  
--    nodename = g_strdup_printf("/intc/v2m@%" PRIx64,
-+    nodename = g_strdup_printf("/interrupt-controller/v2m@%" PRIx64,
-                                vms->memmap[VIRT_GIC_V2M].base);
-     vms->msi_phandle = qemu_fdt_alloc_phandle(ms->fdt);
-     qemu_fdt_add_subnode(ms->fdt, nodename);
-@@ -521,7 +522,7 @@ static void fdt_add_gic_node(VirtMachineState *vms)
-     vms->gic_phandle = qemu_fdt_alloc_phandle(ms->fdt);
-     qemu_fdt_setprop_cell(ms->fdt, "/", "interrupt-parent", vms->gic_phandle);
- 
--    nodename = g_strdup_printf("/intc@%" PRIx64,
-+    nodename = g_strdup_printf("/interrupt-controller@%" PRIx64,
-                                vms->memmap[VIRT_GIC_DIST].base);
-     qemu_fdt_add_subnode(ms->fdt, nodename);
-     qemu_fdt_setprop_cell(ms->fdt, nodename, "#interrupt-cells", 3);
-@@ -1651,7 +1652,7 @@ void virt_machine_done(Notifier *notifier, void *data)
-      * while qemu takes charge of the qom stuff.
-      */
-     if (info->dtb_filename == NULL) {
--        platform_bus_add_all_fdt_nodes(ms->fdt, "/intc",
-+        platform_bus_add_all_fdt_nodes(ms->fdt, "/interrupt-controller",
-                                        vms->memmap[VIRT_PLATFORM_BUS].base,
-                                        vms->memmap[VIRT_PLATFORM_BUS].size,
-                                        vms->irqmap[VIRT_PLATFORM_BUS]);
 -- 
 2.37.1
 
