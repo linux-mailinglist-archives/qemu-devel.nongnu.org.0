@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9592E59FB6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 15:33:21 +0200 (CEST)
-Received: from localhost ([::1]:53352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26C259FE6E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:36:06 +0200 (CEST)
+Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQqVT-00010l-BP
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 09:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45118)
+	id 1oQsQG-0005KN-LR
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oQqFY-00082M-AZ; Wed, 24 Aug 2022 09:16:52 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:33518 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oQqFL-0008Ec-NA; Wed, 24 Aug 2022 09:16:52 -0400
-Received: from [127.0.0.1] (unknown [221.220.143.85])
- by APP-05 (Coremail) with SMTP id zQCowADX3bGuJAZjyPPIHA--.27657S2;
- Wed, 24 Aug 2022 21:16:30 +0800 (CST)
-Message-ID: <f59583f5-c41a-119f-f51b-512ae069a771@ict.ac.cn>
-Date: Wed, 24 Aug 2022 21:16:28 +0800
+ (Exim 4.90_1) (envelope-from <pjm0616@gmail.com>)
+ id 1oQpoK-0004Zf-1r; Wed, 24 Aug 2022 08:48:44 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:36451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pjm0616@gmail.com>)
+ id 1oQpoI-0002f4-9w; Wed, 24 Aug 2022 08:48:43 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id c2so15591745plo.3;
+ Wed, 24 Aug 2022 05:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=cgl+VQ9YlMizuM+yGKqALI233IBvK5ikfdNhgructpQ=;
+ b=MLFcN+5d8h2aDViMf2I6Mes1ZDawmh1ziOOyphUWO3QfK2esOS1LvOwGXRkXc9Iwie
+ mJNecgCThE1El6GKeI4f9rlderqoS/rwkP2wOeGS5wbQn6LM6dA6sMj/+dCazv6nLa0m
+ Byr5vCEAPTYoGJUUav/nZnIWPydxv3gQ/i1s/owJ5zXNNmf8fel/5EcK3psOD/TeGONa
+ GgcdsrsU3qQtiHMVycEWTSzUdSbX6/B5FK+MZtEbYhC8m+EnkpWM9w7kA4IzCv9xR6T5
+ mvzK++Q+eO0ffhZ8ZeBeOo4+D7a8uqqL9khHcAKlPgjUu4DdpGE+TaHSupTjY7VlvaPT
+ MBmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=cgl+VQ9YlMizuM+yGKqALI233IBvK5ikfdNhgructpQ=;
+ b=bVAErBerfvI5/G4C1kCZhf0wYjOd0YDoQpgm61lJfoOpxkOm+Is1sHs7orl/OoQaF2
+ rnHEo9L5ZEq69sW9N55SidUph5hLwUUL/dvHQrZBv5vnCadeDILURr53d9XSRL2k4T7r
+ 0WAe5FYBf/q3DhG13TzxtL7OA0UxRnmj3SA2f0CvSOj9H2t3tDqcC8+zjPcMnHUERpiT
+ ZXfIgOzhHJUvcDIFERHPuwNQJ+xL13cFYiZ8YJ/MvN/PWCyWUaMC7I6Cb9ZjZJvCed5W
+ n4FFvfUsPJ6vVnGCTPVWDTKdlOlgEeskgojoRHRt7T1Xd95Z8+vDJK8mDJkGWAeK4f7H
+ tffQ==
+X-Gm-Message-State: ACgBeo1Kc9AVU1uxdStOTabhWBR6ikHGSG0NE3DL4IPbRMmFfTdDpBRt
+ w2RexS4ld+IUzqeLSNctPlQQ5hwVtQj43FKY
+X-Google-Smtp-Source: AA6agR441b1z/tTifzGyLnSwrT/8jmt2jk8AV636NDvGbhSSuAcNP0l5eSaLpNgvo4bvpwBDV1h2QQ==
+X-Received: by 2002:a17:903:2585:b0:172:9ac6:30f3 with SMTP id
+ jb5-20020a170903258500b001729ac630f3mr28863757plb.0.1661345319663; 
+ Wed, 24 Aug 2022 05:48:39 -0700 (PDT)
+Received: from pjm0616-laptop.. ([59.10.96.165])
+ by smtp.gmail.com with ESMTPSA id
+ l10-20020a17090aaa8a00b001fb277223bdsm1318157pjq.2.2022.08.24.05.48.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Aug 2022 05:48:39 -0700 (PDT)
+From: Jungmin Park <pjm0616@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Jungmin Park <pjm0616@gmail.com>
+Subject: [PATCH] crypto/luks: Support creating LUKS image on Darwin
+Date: Wed, 24 Aug 2022 21:37:06 +0900
+Message-Id: <20220824123705.2084720-1-pjm0616@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 4/4] hw/nvme: add MSI-x mask handlers for irqfd
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
- "open list:nvme" <qemu-block@nongnu.org>
-References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
- <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn> <Yvt1k5X6Gu0xW3Lg@apples>
- <78380f57-4a65-f55f-524b-f2145d18b068@ict.ac.cn> <YwYKAZUz/Voheaov@apples>
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <YwYKAZUz/Voheaov@apples>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowADX3bGuJAZjyPPIHA--.27657S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYx7k0a2IF6w4xM7kC6x804xWl14x267AK
- xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
- A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j
- 6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Cr
- 1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv
- 0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z2
- 80aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IE
- e2xFo4CEbIxvr21lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
- 3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
- VFxhVjvjDU0xZFpf9x07jcKsUUUUUU=
-X-Originating-IP: [221.220.143.85]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=pjm0616@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 24 Aug 2022 11:29:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,16 +88,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/2022 7:22 PM, Klaus Jensen wrote:
-> What are the implications if we drop it? That is, if we go back to your
-> version that did not include this? If it doesnt impact the kvm irqchip
-> logic, then I'd rather that we rip it out and leave the device without
-> masking/unmasking support, keeping irqfd support as an experimental
-> feature until we can sort this out.
+When the user creates a LUKS-encrypted qcow2 image using the qemu-img
+program, the passphrase is hashed using PBKDF2 with a dynamic
+number of iterations. The number of iterations is determined by
+measuring thread cpu time usage, such that it takes approximately
+2 seconds to compute the hash.
 
-As far as I can think of, the implication is that MSI-X 
-masking/unmasking does not work when irqfd and (in the future) iothread 
-is enabled. Considering that we do not find any driver making use of 
-this feature, it seems OK to drop this support for now.
+Because Darwin doesn't implement getrusage(RUSAGE_THREAD), we get an
+error message:
+> qemu-img: test.qcow2: Unable to calculate thread CPU usage on this platform
+for this command:
+> qemu-img create --object secret,id=key,data=1234 -f qcow2 -o 'encrypt.format=luks,encrypt.key-secret=key' test.qcow2 100M
+
+This patch implements qcrypto_pbkdf2_get_thread_cpu() for Darwin so that
+the above command works.
+
+Signed-off-by: Jungmin Park <pjm0616@gmail.com>
+---
+ crypto/pbkdf.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/crypto/pbkdf.c b/crypto/pbkdf.c
+index 3775ddc6c5..8d198c152c 100644
+--- a/crypto/pbkdf.c
++++ b/crypto/pbkdf.c
+@@ -24,6 +24,11 @@
+ #ifndef _WIN32
+ #include <sys/resource.h>
+ #endif
++#ifdef CONFIG_DARWIN
++#include <mach/mach_init.h>
++#include <mach/thread_act.h>
++#include <mach/mach_port.h>
++#endif
+ 
+ 
+ static int qcrypto_pbkdf2_get_thread_cpu(unsigned long long *val_ms,
+@@ -45,6 +50,24 @@ static int qcrypto_pbkdf2_get_thread_cpu(unsigned long long *val_ms,
+     /* QuadPart is units of 100ns and we want ms as unit */
+     *val_ms = thread_time.QuadPart / 10000ll;
+     return 0;
++#elif defined(CONFIG_DARWIN)
++    mach_port_t thread;
++    kern_return_t kr;
++    mach_msg_type_number_t count;
++    thread_basic_info_data_t info;
++
++    thread = mach_thread_self();
++    count = THREAD_BASIC_INFO_COUNT;
++    kr = thread_info(thread, THREAD_BASIC_INFO, (thread_info_t)&info, &count);
++    mach_port_deallocate(mach_task_self(), thread);
++    if (kr != KERN_SUCCESS || (info.flags & TH_FLAGS_IDLE) != 0) {
++        error_setg_errno(errp, errno, "Unable to get thread CPU usage");
++        return -1;
++    }
++
++    *val_ms = ((info.user_time.seconds * 1000ll) +
++               (info.user_time.microseconds / 1000));
++    return 0;
+ #elif defined(RUSAGE_THREAD)
+     struct rusage ru;
+     if (getrusage(RUSAGE_THREAD, &ru) < 0) {
+-- 
+2.34.1
 
 
