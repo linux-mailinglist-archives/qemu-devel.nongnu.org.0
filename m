@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5812C59F819
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:45:22 +0200 (CEST)
-Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C177E59F838
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:54:56 +0200 (CEST)
+Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnsv-0000vE-Fl
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:45:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45254)
+	id 1oQo2B-0002bd-Rs
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oQmyG-00081y-O5
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:46:50 -0400
-Received: from mga02.intel.com ([134.134.136.20]:36038)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQmuZ-0004II-JN
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oQmyE-0002aF-6c
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:46:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661334406; x=1692870406;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=8HINI0FFOmHZ98p+KrUxRjOuWiCSe4IMz6bvZat9QRk=;
- b=TFCKUHDmP7spFLL65TJaYRg2KBql3OdV+VwyM3punwRDeT6o3C7btE8b
- Hhut6h4UonulqTVp2JYIC0PfyChZAIAhCebTkPkWf20YkDU8jpj1s3qyv
- KI2kHbVOVCb72g4Xre+haIkLf/Uqv/9MXsi7+u4WEaTo/JlKewaHyE5fQ
- NwhNJpyOb8HlIL36goPmDWGgrYz2u3ZiZJ5Txzrsh3NMpoFpVmUL7nHJi
- lDhhWFVTZQVRXXTZKLVWEaCVTdPhkckX3/mlKyIrgFGAWVyj9jFYY3H6R
- siCPruY45Qrp3HX1Yrecat5TJwUOHJI81MHxMFGWxtr9A0v3X9K2LuAWx A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="280895659"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="280895659"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 02:46:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="605977030"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 24 Aug 2022 02:46:32 -0700
-Date: Wed, 24 Aug 2022 17:41:49 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: David Hildenbrand <david@redhat.com>, Hugh Dickins <hughd@google.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,
- "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220824094149.GA1383966@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
- <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
- <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
- <YwT6x2g9jcMH60LI@google.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQmuV-0001cp-L4
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661334174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UMBsSKM5XsVlxdv6JXFu8FlMREZ3HmOSGvRaXkFvkm0=;
+ b=Fv3GJkHmliBo6ixTiD7AOI+U1E4lIrzYHPZuOKCol2pgZmmvxBEHA5/6J+r7pAxbDWeNAT
+ qwJs9w4DmVMUkKbmx6i3/UsQ8O/04N82XyCKhatonQG20uBmtM9+YsxRwIo0KvTgp+2r3g
+ oV2v1A/sQVruDsbZgXLD+NX+bpsE7Es=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-551-F_VV6H3cNpaUEkPS-ufB-A-1; Wed, 24 Aug 2022 05:42:53 -0400
+X-MC-Unique: F_VV6H3cNpaUEkPS-ufB-A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ ay21-20020a05600c1e1500b003a6271a9718so8950292wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=UMBsSKM5XsVlxdv6JXFu8FlMREZ3HmOSGvRaXkFvkm0=;
+ b=Tpk8PDu0lmfpOKepK2eCEFhN+D2Udf66B7Cry2+MO2/zXvchC5QISau2GwmBZ/faLM
+ IVDmH4BEzUu5suYskRidRB75nE3qsWyfxxBWGbgYjbeMFsgJbUq9v40qDA5gCC3C32Hv
+ 40v5g1cotWLhbcciUzK7lGFB+Ln3VOXZM/f7VqdEjQ3VdN0PLJE3iTOwKlJqzGATbAiw
+ DXB4TTSCVWqcB6mc2QoQIoGyWDseLAj/CURO1Dod/8lgK3sFWipZ5u584ApSEcRdOVTl
+ V/bY/WVtGGP55dqped/3KO8aQm5SN1OFS8pV5RrI85Rd5Pa9MqtUWlogkXYGyoWj9Xtw
+ Mouw==
+X-Gm-Message-State: ACgBeo3wn+NzEQnxJPHyRYer0R/9lbDmWGZ8v9GbrlQlJmONNF/YEp6g
+ lCr2fwDCFfapNDfd4ev7PPUOdGC0c++njZi/edWGlfXcQhw+EGPZvs807zMG0xqPhCTYliYVTzF
+ Y231EhahB1xtvgAM=
+X-Received: by 2002:a05:600c:3595:b0:3a5:c2a5:c92a with SMTP id
+ p21-20020a05600c359500b003a5c2a5c92amr4672819wmq.170.1661334172045; 
+ Wed, 24 Aug 2022 02:42:52 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7M0eYtePvqW4s62NQA60NUdyw7vj9CKsf/a72Hugs4vrauRzK8jUG9iY2dXriMe8fMhRjqug==
+X-Received: by 2002:a05:600c:3595:b0:3a5:c2a5:c92a with SMTP id
+ p21-20020a05600c359500b003a5c2a5c92amr4672799wmq.170.1661334171730; 
+ Wed, 24 Aug 2022 02:42:51 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-177.web.vodafone.de.
+ [109.43.176.177]) by smtp.gmail.com with ESMTPSA id
+ f17-20020a05600c4e9100b003a6091b3a96sm1489717wmq.23.2022.08.24.02.42.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Aug 2022 02:42:51 -0700 (PDT)
+Message-ID: <9ec22f23-4c86-6162-e9ba-ba3d30cc46c7@redhat.com>
+Date: Wed, 24 Aug 2022 11:42:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwT6x2g9jcMH60LI@google.com>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PULL 1/6] tests/avocado: push default timeout to QemuBaseTest
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
+References: <20220823152558.301624-1-alex.bennee@linaro.org>
+ <20220823152558.301624-2-alex.bennee@linaro.org>
+ <13926833-3ce7-dc1a-33a4-ac6691eda763@linaro.org> <87o7wahu9j.fsf@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87o7wahu9j.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,59 +103,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 23, 2022 at 04:05:27PM +0000, Sean Christopherson wrote:
-> On Tue, Aug 23, 2022, David Hildenbrand wrote:
-> > On 19.08.22 05:38, Hugh Dickins wrote:
-> > > On Fri, 19 Aug 2022, Sean Christopherson wrote:
-> > >> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
-> > >>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
-> > >>>> On Wed, 6 Jul 2022, Chao Peng wrote:
-> > >>>> But since then, TDX in particular has forced an effort into preventing
-> > >>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
-> > >>>>
-> > >>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
-> > >>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
-> > >>
-> > >> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
-> > >> aren't useful for _all_ existing users, but I don't think it's fair to say that
-> > >> they're not useful for _any_ existing users.
-> > > 
-> > > Okay, I stand corrected: there exist some users of memfd_create()
-> > > who will also have use for "INACCESSIBLE" memory.
-> > 
-> > As raised in reply to the relevant patch, I'm not sure if we really have
-> > to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
-> > requirement of specific memfd_notifer (memfile_notifier) implementations
-> > -- such as TDX that will convert the memory and MCE-kill the machine on
-> > ordinary write access. We might be able to set/enforce this when
-> > registering a notifier internally instead, and fail notifier
-> > registration if a condition isn't met (e.g., existing mmap).
-> >
-> > So I'd be curious, which other users of shmem/memfd would benefit from
-> > (MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
+On 24/08/2022 11.19, Alex Bennée wrote:
 > 
-> I agree that there's no need to expose the inaccessible behavior via uAPI.  Making
-> it a kernel-internal thing that's negotiated/resolved when KVM binds to the fd
-> would align INACCESSIBLE with the UNMOVABLE and UNRECLAIMABLE flags (and any other
-> flags that get added in the future).
+> Richard Henderson <richard.henderson@linaro.org> writes:
 > 
-> AFAICT, the user-visible flag is a holdover from the early RFCs and doesn't provide
-> any unique functionality.
-
-That's also what I'm thinking. And I don't see problem immediately if
-user has populated the fd at the binding time. Actually that looks an
-advantage for previously discussed guest payload pre-loading.
-
+>> On 8/23/22 08:25, Alex Bennée wrote:
+>>> All of the QEMU tests eventually end up derrived from this class. Move
+>>> the default timeout from LinuxTest to ensure we catch them all. As 15
+>>> minutes is fairly excessive we drop the default down to 2 minutes
+>>> which is a more reasonable target for tests to aim for.
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Message-Id: <20220822165608.2980552-2-alex.bennee@linaro.org>
+>>> diff --git a/tests/avocado/avocado_qemu/__init__.py
+>>> b/tests/avocado/avocado_qemu/__init__.py
+>>> index ed4853c805..0efd2bd212 100644
+>>> --- a/tests/avocado/avocado_qemu/__init__.py
+>>> +++ b/tests/avocado/avocado_qemu/__init__.py
+>>> @@ -227,6 +227,10 @@ def exec_command_and_wait_for_pattern(test, command,
+>>>        _console_interaction(test, success_message, failure_message, command + '\r')
+>>>      class QemuBaseTest(avocado.Test):
+>>> +
+>>> +    # default timeout for all tests, can be overridden
+>>> +    timeout = 120
+>>> +
+>>>        def _get_unique_tag_val(self, tag_name):
+>>>            """
+>>>            Gets a tag value, if unique for a key
+>>> @@ -512,7 +516,6 @@ class LinuxTest(LinuxSSHMixIn, QemuSystemTest):
+>>>        to start with than the more vanilla `QemuSystemTest` class.
+>>>        """
+>>>    -    timeout = 900
+>>>        distro = None
+>>>        username = 'root'
+>>>        password = 'password'
+>>
+>> Bah.
+>>
+>> https://gitlab.com/qemu-project/qemu/-/jobs/2923804714
 > 
-> If we go that route, we might want to have shmem/memfd require INACCESSIBLE to be
-> set for the initial implementation.  I.e. disallow binding without INACCESSIBLE
-> until there's a use case.
+> 
+> Hmm weird - the avocado CFI job doesn't even appear on my CI list (even
+> with push-ci-now).
 
-I can do that.
+You likely have to set QEMU_CI_AVOCADO_TESTING in your gitlab settings, see 
+docs/devel/ci-jobs.rst.inc.
 
-Chao
+I think we really have to rework the way we run (or rather not run) the 
+avocado tests - since with the current default behavior, they'll be ignored 
+by most people by default.
+
+  Thomas
+
+
 
