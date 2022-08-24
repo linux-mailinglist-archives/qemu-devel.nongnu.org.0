@@ -2,99 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAE959F16B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 04:36:17 +0200 (CEST)
-Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8385C59F16D
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 04:39:10 +0200 (CEST)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQgFb-0000Qo-W7
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 22:36:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47218)
+	id 1oQgIP-0003Ur-Fk
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 22:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQgCf-0005Ed-8g
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:33:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58248)
+ id 1oQgHF-0001I1-8M
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:37:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQgCb-0004Q9-KY
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:33:11 -0400
+ id 1oQgHC-0005De-Nv
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:37:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661308388;
+ s=mimecast20190719; t=1661308673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/g0TDqjhNYoAU8Vb9E2eAi1hRFu1jnyJUvR3UPvAsJE=;
- b=jM9tdK666sWjiE0tS43OdEWd6E+fpmPlheJnxLdgEDnxLjihbj9M9xKlcwfyRnhPEZrbpr
- j9Hdtw4WLHGyHS+BBXuyKpmXfiOYVeXcbXuPI/8WIYm1BSwhpwMS7yZ3Yk7hgZ6pc2GtU2
- TzQMqSKNsNGcBh/oxzaMlmyYxd6gpVM=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O9KzMi0umOVVrUXm64ipmn6Rjbzg5uTcIRs7pAKfbt4=;
+ b=izS/MJIHhMwTErFz0xN0/nfi/R3pD19d/CfkNvk5xI/nPfSas3N7Ru2aHNnuMXXVFMmjEP
+ LG19rg/JGS+smIEttyEqB50nUfRV0jWGvt3iw9im5hD2hksmuyE5KmgH9WvtKm/Y9oK6CS
+ 8VpZCBMXuMKsn47e3cKRE+55iCRQzO8=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-655-VVaR1j-KMwWs308k18kmiQ-1; Tue, 23 Aug 2022 22:33:06 -0400
-X-MC-Unique: VVaR1j-KMwWs308k18kmiQ-1
-Received: by mail-pg1-f199.google.com with SMTP id
- a12-20020a65604c000000b0042a8c1cc701so3932561pgp.1
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 19:33:05 -0700 (PDT)
+ us-mta-124-YtEH5m_vORaKcvsYclcIaw-1; Tue, 23 Aug 2022 22:37:52 -0400
+X-MC-Unique: YtEH5m_vORaKcvsYclcIaw-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ x25-20020aa79199000000b005358eeebf49so6830690pfa.17
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 19:37:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=/g0TDqjhNYoAU8Vb9E2eAi1hRFu1jnyJUvR3UPvAsJE=;
- b=jtEJd2K1MI4ViD9DLy3ciQaGWr6ito5Nqjk9Bc2hceqLKlqG8+2gka2yd+UbgF5kYV
- JTTyLTTAAPeXdJZVR9yeCZLZOpgH2h5KmjEoVMwYdMAte9VGrpHmxi5IiQcoO8ndIbgR
- 8tVeeApR2Hb5w4dSHCAiNL4Rbvl2mWj+iENRhYUgVIuaQGGx3KVMWPgX4T6hQkbub6UR
- WjIOMMRTmdN1B70aJpcev6muAaSAtJheL3fp04Py48nNMd2ny+5jukhzLPUCmFHeJvZJ
- GPaDgj5AphCY5KR+k9VD/8ZZ747MbX7cjdx3RaYQX0XotxfxSk8uckpiZFWZOtCcz4it
- 8Pbw==
-X-Gm-Message-State: ACgBeo1NZtsbnEFaP11+gBs4OcFZfYz/UqulLC7GryeHFOMgVXqW9cLC
- esB141pboBVwXFtSg8QkCYrEkx8c2EWzBAZcQxYXHKe5eKaAtSpNouwG9mYOsCr3BcjTZvQZlN4
- h6dfuI9on+BaMgtQ=
-X-Received: by 2002:a17:902:da82:b0:172:be4a:c586 with SMTP id
- j2-20020a170902da8200b00172be4ac586mr23698325plx.13.1661308384735; 
- Tue, 23 Aug 2022 19:33:04 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR44ITDq/Da4T6/EvFdrGNUkBDoRtt1VlPUPWnltzd/dAy0EpRNHKwARDqvo4ROwEkTyfpGoeQ==
-X-Received: by 2002:a17:902:da82:b0:172:be4a:c586 with SMTP id
- j2-20020a170902da8200b00172be4ac586mr23698300plx.13.1661308384451; 
- Tue, 23 Aug 2022 19:33:04 -0700 (PDT)
+ bh=O9KzMi0umOVVrUXm64ipmn6Rjbzg5uTcIRs7pAKfbt4=;
+ b=NMTi3ftAQqI606hFMaUuIZ1pgK6k/LQSVb7mx+BF6Zgmw0xnCFoaayr8NlxqNugEh/
+ Hq27AP+BjbtvkcV7uYTN9Hmx9xgT10URtPnHI3Br0txBYp8XIvHumnSQdTTbd4rvHI2O
+ Ukg6IxlaZePHowTb+ff/xVNPB4Ckq+41YPg3VnNTruUWRhnNREbUAtz7UqmtB2Uapmyd
+ iY6e8HeEUXtJ/9OlrgLmxjkyKxjTQzkJW9U0spDTIPwWIiHCTGZEeIM7+V1F/GN5YVTW
+ BF2KaoaBHCOmFvD8ceC54pQpDRjje+ESHgxdLem7+QexFLEh9IJ+xLAQ+eZQIFelH2+h
+ NfvQ==
+X-Gm-Message-State: ACgBeo0poJFqxR3z4KrUCcFmUUDUzP6iPquvIQjMHSaFjlb61fA4d6gJ
+ HiS1YoKAUBAK032960Xvh1V5KTMoqrgsKzsIcqO9FEGATqRXH739le65iHoEQlgqzLFpxXCpePh
+ A/9Ur8Lg113fIFo0=
+X-Received: by 2002:a17:902:f54d:b0:173:c1:6914 with SMTP id
+ h13-20020a170902f54d00b0017300c16914mr5282697plf.28.1661308671451; 
+ Tue, 23 Aug 2022 19:37:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5kl03TcSEE73IUtd73zjChMrEqfOt8f/6sJZNU7T5yWKu26Uzvuo6lnwCTdy66BErVRWMCLQ==
+X-Received: by 2002:a17:902:f54d:b0:173:c1:6914 with SMTP id
+ h13-20020a170902f54d00b0017300c16914mr5282679plf.28.1661308671173; 
+ Tue, 23 Aug 2022 19:37:51 -0700 (PDT)
 Received: from [10.72.13.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- n126-20020a622784000000b0053291ddd8e5sm9120882pfn.40.2022.08.23.19.32.58
+ o185-20020a625ac2000000b0052b7f0ff197sm11503727pfb.49.2022.08.23.19.37.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 19:33:03 -0700 (PDT)
-Message-ID: <be74af04-6054-f5e5-28c0-4b0952bbbd78@redhat.com>
-Date: Wed, 24 Aug 2022 10:32:56 +0800
+ Tue, 23 Aug 2022 19:37:50 -0700 (PDT)
+Message-ID: <50ef3c5f-4d16-bda4-c002-ba77f7167886@redhat.com>
+Date: Wed, 24 Aug 2022 10:37:45 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v10 00/12] NIC vhost-vdpa state restore via Shadow CVQ
+Subject: Re: [PATCH v2 10/24] vhost: introduce vhost_dev_virtqueue_restart()
 Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <eli@mellanox.com>,
- Cornelia Huck <cohuck@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Cindy Lu <lulu@redhat.com>
-References: <20220823183037.98470-1-eperezma@redhat.com>
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <df42fc68d6cf780cce0e5d1c0e020cd3b687b42c.1660611460.git.kangjie.xu@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220823183037.98470-1-eperezma@redhat.com>
+In-Reply-To: <df42fc68d6cf780cce0e5d1c0e020cd3b687b42c.1660611460.git.kangjie.xu@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,100 +106,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/8/24 02:30, Eugenio Pérez 写道:
-> CVQ of net vhost-vdpa devices can be intercepted since the addition of x-svq.
-> The virtio-net device model is updated. The migration was blocked because
-> although the state can be megrated between VMM it was not possible to restore
-> on the destination NIC.
+在 2022/8/16 09:06, Kangjie Xu 写道:
+> Introduce vhost_dev_virtqueue_restart(), which can restart the
+> virtqueue when the vhost has already started running.
 >
-> This series add support for SVQ to inject external messages without the guest's
-> knowledge, so before the guest is resumed all the guest visible state is
-> restored. It is done using standard CVQ messages, so the vhost-vdpa device does
-> not need to learn how to restore it: As long as they have the feature, they
-> know how to handle it.
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> ---
+>   hw/virtio/vhost.c         | 13 +++++++++++++
+>   include/hw/virtio/vhost.h |  2 ++
+>   2 files changed, 15 insertions(+)
 >
-> Depending on the device, this series may need fixes with message id [1] to
-> achieve full live migration.
->
-> [1] <20220823182008.97141-1-eperezma@redhat.com>
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 1bca9ff48d..fc3f550c76 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1913,3 +1913,16 @@ void vhost_dev_virtqueue_stop(struct vhost_dev *hdev, VirtIODevice *vdev,
+>                             hdev->vqs + idx,
+>                             idx);
+>   }
+> +
+> +int vhost_dev_virtqueue_restart(struct vhost_dev *hdev, VirtIODevice *vdev,
+> +                                int idx)
+> +{
+> +    const VhostOps *vhost_ops = hdev->vhost_ops;
+> +
+> +    assert(vhost_ops);
 
 
-I've queued the two series in net-next branch:
+So we had the comment like:
 
-https://github.com/jasowang/qemu/commits/net-next
+     /* should only be called after backend is connected */
+
+in vhost_virtqueue_mask().
+
+If this assert has the same reason, let's add a comment here.
+
+
+> +
+> +    return vhost_virtqueue_start(hdev,
+> +                                 vdev,
+> +                                 hdev->vqs + idx,
+> +                                 hdev->vq_index + idx);
+
+
+So it just a wrapper of vhost_virtqueue_start(), any value to have a 
+re-start wrapper?
 
 Thanks
 
 
->
-> v10:
-> - Rebase on latest fixes of [1].
->
-> v9:
-> - Use guest acked features instead of device's.
-> - Minors: fix typos and patch messages, constify vhost_vdpa and VirtIONet vars,
->    delete unneeded increment of cursor.
->
-> v8:
-> - Rename NetClientInfo load to start, so is symmetrical with stop()
-> - Delete copy of device's in buffer at vhost_vdpa_net_load
->
-> v7:
-> - Remove accidental double free.
->
-> v6:
-> - Move map and unmap of the buffers to the start and stop of the device. This
->    implies more callbacks on NetClientInfo, but simplifies the SVQ CVQ code.
-> - Not assume that in buffer is sizeof(virtio_net_ctrl_ack) in
->    vhost_vdpa_net_cvq_add
-> - Reduce the number of changes from previous versions
-> - Delete unused memory barrier
->
-> v5:
-> - Rename s/start/load/
-> - Use independent NetClientInfo to only add load callback on cvq.
-> - Accept out sg instead of dev_buffers[] at vhost_vdpa_net_cvq_map_elem
-> - Use only out size instead of iovec dev_buffers to know if the descriptor is
->    effectively available, allowing to delete artificial !NULL VirtQueueElement
->    on vhost_svq_add call.
->
-> v4:
-> - Actually use NetClientInfo callback.
->
-> v3:
-> - Route vhost-vdpa start code through NetClientInfo callback.
-> - Delete extra vhost_net_stop_one() call.
->
-> v2:
-> - Fix SIGSEGV dereferencing SVQ when not in svq mode
->
-> v1 from RFC:
-> - Do not reorder DRIVER_OK & enable patches.
-> - Delete leftovers
->
-> Eugenio Pérez (12):
->    vhost: stop transfer elem ownership in vhost_handle_guest_kick
->    vhost: use SVQ element ndescs instead of opaque data for desc
->      validation
->    vhost: Delete useless read memory barrier
->    vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush
->    vhost_net: Add NetClientInfo start callback
->    vhost_net: Add NetClientInfo stop callback
->    vdpa: add net_vhost_vdpa_cvq_info NetClientInfo
->    vdpa: Move command buffers map to start of net device
->    vdpa: extract vhost_vdpa_net_cvq_add from
->      vhost_vdpa_net_handle_ctrl_avail
->    vhost_net: add NetClientState->load() callback
->    vdpa: Add virtio-net mac address via CVQ at start
->    vdpa: Delete CVQ migration blocker
->
->   include/hw/virtio/vhost-vdpa.h     |   1 -
->   include/net/net.h                  |   6 +
->   hw/net/vhost_net.c                 |  17 +++
->   hw/virtio/vhost-shadow-virtqueue.c |  27 ++--
->   hw/virtio/vhost-vdpa.c             |  15 --
->   net/vhost-vdpa.c                   | 224 ++++++++++++++++++-----------
->   6 files changed, 177 insertions(+), 113 deletions(-)
->
+> +}
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 574888440c..b3394b6348 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -291,4 +291,6 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+>   
+>   void vhost_dev_virtqueue_stop(struct vhost_dev *hdev, VirtIODevice *vdev,
+>                                 int idx);
+> +int vhost_dev_virtqueue_restart(struct vhost_dev *hdev, VirtIODevice *vdev,
+> +                                int idx);
+>   #endif
 
 
