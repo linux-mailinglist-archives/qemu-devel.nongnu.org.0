@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AC859F6FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:59:07 +0200 (CEST)
-Received: from localhost ([::1]:34742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE32459F6EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:55:48 +0200 (CEST)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnAA-0003Pl-Nf
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59608)
+	id 1oQn6y-0007FL-0d
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmsz-0002H4-Hk
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:41:21 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:46880)
+ id 1oQmtj-0002xG-RP
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:09 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:46997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmsy-0001L5-2K
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:41:21 -0400
-Received: by mail-pl1-x636.google.com with SMTP id jm11so15166184plb.13
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:41:18 -0700 (PDT)
+ id 1oQmth-0001Wm-71
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:07 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ o14-20020a17090a0a0e00b001fabfd3369cso944536pjo.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=EZVtm0SvUeW5TzKWeVkn+QL0GZmVIRTePkK09k2LuDo=;
- b=I7tZixZ9DlnNl6LPagcrRUkB0muB8Kr4lbWvRANjZKoLQaUI1TBZw5E/nr3yliNlrL
- qmjELqZpnRUK4OHhhq/zjS023cbRlnGmmpeHjNPt9uakCLHhtME7EV9Z3feYZLkepYEH
- TQq+5KMp6vbLFv+o9WUmd5cZgcwzP9mYr+6TklYIKzuajTEVxrBk5EeCEmhUDQpN9rrj
- ufn+TJw3KfDB7UGUXCkSjGS50ExUF524oMcmW1fRHXcT5J8fyNg73rvOm0IZFFrEZPpz
- KOXUYVm+XqJqs99q1w8KYnJKq1QCGhiQwPyLNPJoLcw+be0b0bG5GbID2VMzb00EwJ+n
- K3cg==
+ bh=okL54vu8KfmBMW82fUAkEZfCTjhZQ+qL9qNrcu24ZKE=;
+ b=FULijv6JOJ5jD36MfgHbXDe1LFAZbDtmXhukncB6/emRjx4LoHOoscfoM47iKCm5p8
+ Zjjcyy8uaCSXcjMAPaphEAj2GrE5FLdouimrEu2Yjcb7cn/pDBUY1d7zo1/RSY8zmiam
+ Ps/bfDefgd3YkjIycCwNhCyTREj+ltvLu9x8gttR8aG+AXhj5oEbqQqTwqCSnWQIHebx
+ kDr2ycNn4H0C1UlGuhJghBicBRMtneiPfZmqC3GekAVCMPx3uqfOkwIZyPlxh5PCdg/0
+ xVuePhq/2GYfTuolfg9WiIVrWxouy8cx9N63s58PY4aUXWd6gK9mTWjPs7m8nO1vAgrD
+ emvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=EZVtm0SvUeW5TzKWeVkn+QL0GZmVIRTePkK09k2LuDo=;
- b=H9qX+VZP+MYyqYKCARzBJj+TkNruC55wvTcqDnQLk8ndEzzcY8MmFLM9qlQ7B+lsmq
- g/y5zolQRIodRcPAiYUlGHTexDqdZIYQcuXQkvMUCTJuz0bWk7ES1ms8FESGyDsNvZGo
- OzYt0zQ7M17bUsY0oTBUQEn0SuAm0tlzy4E94xzdqQZNsArz01dKmqf1Fs38ORPRvs1Q
- eptB4aK/wOgZ3pTp2Qf64O6YtZh3olML4/wxc7ghgcyp/vvlQuaSQXwCN6Ei3wylETnz
- y/pRr1bHhajmW35eyQPRETYcXBUJYow1E2uCqkYOwlHg3WMYlaYguxJOchJwHabXvMqQ
- 4/+A==
-X-Gm-Message-State: ACgBeo2AZUs9T2AoB7D/Y4zi0kRiu27RLv4DYqeKONMbYXcZ8XLGWUVC
- ujPnJ0qj3cgXdGaYxurSbgKPH0mVDEY=
-X-Google-Smtp-Source: AA6agR5KyV54s6DsPFRoE58SNQ2NsWhlTYaIlHqJcYpxnDphITa6Sf6W+FId74ZmhmuvOta4x+8zsA==
-X-Received: by 2002:a17:902:9886:b0:172:bb36:70f1 with SMTP id
- s6-20020a170902988600b00172bb3670f1mr26829368plp.139.1661334077298; 
- Wed, 24 Aug 2022 02:41:17 -0700 (PDT)
+ bh=okL54vu8KfmBMW82fUAkEZfCTjhZQ+qL9qNrcu24ZKE=;
+ b=xMVOTa0BfscjQ25fRqxTNqi4e3D/erbI8UNy8Q064bB/wyZhi8/V9jZ5go4ivdVKeT
+ 7jQyouGGSAcgNbD9ihBXVtJbXnFK/mqLgB6cjBbpwJuaNPBfArhvswFpiIVVlIgt2pOr
+ Iu+Gug+GGS8exHiqgcqv0Nf4eFVEJHavIw/c8sTYfaSucpg1gn7lxo8yEtZkBBBE05lk
+ 96KoorvAkhYwH3cnnyWnofpaXxw3NO8bmsVQt5Plsa3NEvqZEnn0sOfuWWM6Dqhw/nEu
+ YruuJVoZ9JDqPJ0dzvi2KKnLSJfVeLBR4f0Tp8lq5YeKgYdhej4ipJF4b2hawwCR6+TE
+ FbiA==
+X-Gm-Message-State: ACgBeo0hebUeGZEbsfoDoo439+6UuqqeQ6FAb8ZHjKKkfxqRavbAe8FJ
+ 11bQuEXFyrzUGuy1eyE0XNs/k5FxtNE=
+X-Google-Smtp-Source: AA6agR78K0zd6IKnw/srvkSGYqPCa3h6gsk1dDJ8TQSAdKdFECekouX+FjYs0eaKDvn+JaJvj7r1JA==
+X-Received: by 2002:a17:90a:640c:b0:1f7:6ecf:33b6 with SMTP id
+ g12-20020a17090a640c00b001f76ecf33b6mr7430107pjj.3.1661334122960; 
+ Wed, 24 Aug 2022 02:42:02 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.41.14
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:41:17 -0700 (PDT)
+ Wed, 24 Aug 2022 02:42:02 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 04/51] semihosting/arm-compat-semi: Avoid using hardcoded /tmp
-Date: Wed, 24 Aug 2022 17:39:42 +0800
-Message-Id: <20220824094029.1634519-5-bmeng.cn@gmail.com>
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 10/51] hw/usb: dev-mtp: Use g_mkdir_with_parents()
+Date: Wed, 24 Aug 2022 17:39:48 +0800
+Message-Id: <20220824094029.1634519-11-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,28 +92,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Use g_get_tmp_dir() to get the directory to use for temporary files.
+Use the same g_mkdir_with_parents() call to create a directory on
+all platforms.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- semihosting/arm-compat-semi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/usb/dev-mtp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index e741674238..d5e66cc298 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -503,7 +503,8 @@ void do_common_semihosting(CPUState *cs)
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
-+        len = asprintf(&s, "%s/qemu-%x%02x", g_get_tmp_dir(),
-+                       getpid(), (int)arg1 & 0xff);
-         if (len < 0) {
-             common_semi_set_ret(cs, -1);
-             break;
+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+index 5831395cef..97c894f231 100644
+--- a/hw/usb/dev-mtp.c
++++ b/hw/usb/dev-mtp.c
+@@ -1622,7 +1622,7 @@ static void usb_mtp_write_data(MTPState *s, uint32_t handle)
+         if (s->dataset.filename) {
+             path = g_strdup_printf("%s/%s", parent->path, s->dataset.filename);
+             if (s->dataset.format == FMT_ASSOCIATION) {
+-                ret = mkdir(path, mask);
++                ret = g_mkdir_with_parents(path, mask);
+                 if (!ret) {
+                     usb_mtp_queue_result(s, RES_OK, d->trans, 3,
+                                          QEMU_STORAGE_ID,
 -- 
 2.34.1
 
