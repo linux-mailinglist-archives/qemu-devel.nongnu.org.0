@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8FF59F681
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:41:18 +0200 (CEST)
-Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F01E59F62F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:29:23 +0200 (CEST)
+Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmsu-0001qO-U4
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39772)
+	id 1oQmhO-0008U4-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oQmOY-0002jQ-Rr
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:09:54 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:47990)
+ id 1oQmX3-0001q2-E1
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:18:41 -0400
+Received: from out199-15.us.a.mail.aliyun.com ([47.90.199.15]:20597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oQmOO-0004z0-Kt
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:09:46 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R751e4; CH=green; DM=||false|;
+ id 1oQmWx-0006Ri-Ep
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:18:37 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R911e4; CH=green; DM=||false|;
  DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VN6lTl5_1661332174; 
+ TI=SMTPD_---0VN6lXvw_1661332705; 
 Received: from 30.227.72.120(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VN6lTl5_1661332174) by smtp.aliyun-inc.com;
- Wed, 24 Aug 2022 17:09:35 +0800
-Message-ID: <b21d7e06-c1d4-360b-6147-674286827b90@linux.alibaba.com>
-Date: Wed, 24 Aug 2022 17:09:33 +0800
+ fp:SMTPD_---0VN6lXvw_1661332705) by smtp.aliyun-inc.com;
+ Wed, 24 Aug 2022 17:18:26 +0800
+Message-ID: <ab0e91bb-4c59-a2e2-0406-0fac8e06461e@linux.alibaba.com>
+Date: Wed, 24 Aug 2022 17:18:25 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v2 15/24] vhost-user: add op to enable or disable a single
- vring
+Subject: Re: [PATCH v2 18/24] vhost-net: vhost-user: update
+ vhost_net_virtqueue_stop()
 To: Jason Wang <jasowang@redhat.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
- <9507fa8179afe9d02dfa03a3dbf6424cd5eba437.1660611460.git.kangjie.xu@linux.alibaba.com>
- <8fc12420-f171-e015-6666-0a40b1bdf85c@redhat.com>
- <4e6e5211-04f7-f27c-cbfd-6393b412b769@linux.alibaba.com>
- <40b968c3-96fc-fff5-4849-f899e261f7e5@redhat.com>
+ <303811ffeac48647ac4c81eeec542292e8f67a0e.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <3b60bcab-f69b-7ec9-caa8-c5947a14b659@redhat.com>
+ <ecce701d-3bec-b98e-6d46-5ca85542ef87@linux.alibaba.com>
+ <f3293e23-feec-3388-18e5-6db6b78bdd51@redhat.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
  eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
  wangyanan55@huawei.com, hengqi@linux.alibaba.com,
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-In-Reply-To: <40b968c3-96fc-fff5-4849-f899e261f7e5@redhat.com>
+In-Reply-To: <f3293e23-feec-3388-18e5-6db6b78bdd51@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.45;
+Received-SPF: pass client-ip=47.90.199.15;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
+ helo=out199-15.us.a.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
 X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,137 +73,77 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/8/24 17:02, Jason Wang 写道:
+在 2022/8/24 17:04, Jason Wang 写道:
 >
-> 在 2022/8/24 11:09, Kangjie Xu 写道:
+> 在 2022/8/24 12:57, Kangjie Xu 写道:
 >>
->> 在 2022/8/24 10:53, Jason Wang 写道:
+>> 在 2022/8/24 12:05, Jason Wang 写道:
 >>>
 >>> 在 2022/8/16 09:06, Kangjie Xu 写道:
->>>> The interface to set enable status for a single vring is lacked in
->>>> VhostOps, since the vhost_set_vring_enable_op will manipulate all
->>>> virtqueues in a device.
->>>>
->>>> Resetting a single vq will rely on this interface.
+>>>> Update vhost_net_virtqueue_stop() for vhost-user scenario.
+>>>
+>>>
+>>> Let's explain why it is needed now or why it doesn't cause any issue 
+>>> or it's a bug fix or not.
+>>>
+>>> Thanks
+>>>
+>> This patch is to suppport vq reset for vhost-user.
+>>
+>> We need this simply because the behavior of vhost_ops->get_vq_index() 
+>> is different in vhost-user and vhost-kernel.
+>>
+>> vhost_user_get_vq_index(dev, idx) simply returns "idx".
+>>
+>> vhost_kernel_get_vq_index(dev, idx) returns "idx - dev->vq_index".
+>>
+>> Thanks
+>
+>
+> Let's add them in the change-log in the next version.
+Sorry, i don't get what to be changed here, could you explain it?
+>
+> But the question still, is this a bug fix (requires a Fixes tag)? If 
+> not why do we need this now?
+>
+> Thanks
+>
+Actually, it is not a bugfix, it is simply intended to support vhost-user.
+
+Because vhost_ops->get_vq_index returns different values for 
+vhost-kernel and vhost-user.
+
+To align vhost-kernel and vhost-user and reuse the following code,
+
+     vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
+
+we process the 'idx' here for vhost-user specifically.
+
+Thanks.
+
+>
+>>
+>>>
 >>>>
 >>>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 >>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 >>>> ---
->>>>   hw/virtio/vhost-user.c            | 26 +++++++++++++++++++-------
->>>>   include/hw/virtio/vhost-backend.h |  3 +++
->>>>   2 files changed, 22 insertions(+), 7 deletions(-)
+>>>>   hw/net/vhost_net.c | 4 ++++
+>>>>   1 file changed, 4 insertions(+)
 >>>>
->>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->>>> index 56033f7a92..8307976cda 100644
->>>> --- a/hw/virtio/vhost-user.c
->>>> +++ b/hw/virtio/vhost-user.c
->>>> @@ -1199,6 +1199,22 @@ static int vhost_user_set_vring_base(struct 
->>>> vhost_dev *dev,
->>>>       return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
->>>>   }
->>>>   +static int vhost_user_set_single_vring_enable(struct vhost_dev 
->>>> *dev,
->>>> +                                              int index,
->>>> +                                              int enable)
->>>> +{
->>>> +    if (index < dev->vq_index || index >= dev->vq_index + 
->>>> dev->nvqs) {
->>>> +        return -EINVAL;
+>>>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>>>> index 2ab67e875e..c0d408f3b4 100644
+>>>> --- a/hw/net/vhost_net.c
+>>>> +++ b/hw/net/vhost_net.c
+>>>> @@ -533,6 +533,10 @@ void vhost_net_virtqueue_stop(VirtIODevice 
+>>>> *vdev, NetClientState *nc,
+>>>>           assert(r >= 0);
+>>>>       }
+>>>>   +    if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
+>>>> +        idx = idx - net->dev.vq_index;
 >>>> +    }
 >>>> +
->>>> +    struct vhost_vring_state state = {
->>>> +        .index = index,
->>>> +        .num   = enable,
->>>> +    };
->>>> +
->>>> +    return vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, &state);
->>>> +}
->>>> +
->>>>   static int vhost_user_set_vring_enable(struct vhost_dev *dev, int 
->>>> enable)
->>>>   {
->>>>       int i;
->>>> @@ -1208,13 +1224,8 @@ static int 
->>>> vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
->>>>       }
->>>>         for (i = 0; i < dev->nvqs; ++i) {
->>>> -        int ret;
->>>> -        struct vhost_vring_state state = {
->>>> -            .index = dev->vq_index + i,
->>>> -            .num   = enable,
->>>> -        };
->>>> -
->>>> -        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, 
->>>> &state);
->>>
->>>
->>> Then I'd squash this into previous patch or re-roder to let this 
->>> patch (vhost_user_set_single_vring_enable()) to be first.
->>>
->>> Thanks
->>>
->>>
->> Sorry, I don't get why we should re-order them, since these two 
->> patches are independent.
->
->
-> I meant it's not good to introduce some codes in patch 14 but delete 
-> them in patch 15 (the above part for example).
->
-> Thanks
-
-I get your point, but in fact, it seems that the deleded codes here in 
-patch 15 do not appear in patch 14....
-
-Patch 14 is about vhost_user_reset_vring(), patch 15 is about 
-vhost_user_set_vring_enable().
-
-Thanks.
-
->>
->> Thanks
->>
->>>> +        int ret = vhost_user_set_single_vring_enable(dev, 
->>>> dev->vq_index + i,
->>>> + enable);
->>>>           if (ret < 0) {
->>>>               /*
->>>>                * Restoring the previous state is likely infeasible, 
->>>> as well as
->>>> @@ -2668,6 +2679,7 @@ const VhostOps user_ops = {
->>>>           .vhost_reset_vring = vhost_user_reset_vring,
->>>>           .vhost_reset_device = vhost_user_reset_device,
->>>>           .vhost_get_vq_index = vhost_user_get_vq_index,
->>>> +        .vhost_set_single_vring_enable = 
->>>> vhost_user_set_single_vring_enable,
->>>>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
->>>>           .vhost_requires_shm_log = vhost_user_requires_shm_log,
->>>>           .vhost_migration_done = vhost_user_migration_done,
->>>> diff --git a/include/hw/virtio/vhost-backend.h 
->>>> b/include/hw/virtio/vhost-backend.h
->>>> index f23bf71a8d..38f6b752ff 100644
->>>> --- a/include/hw/virtio/vhost-backend.h
->>>> +++ b/include/hw/virtio/vhost-backend.h
->>>> @@ -83,6 +83,8 @@ typedef int (*vhost_reset_vring_op)(struct 
->>>> vhost_dev *dev,
->>>>                                       struct vhost_vring_state *ring);
->>>>   typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
->>>>   typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int 
->>>> idx);
->>>> +typedef int (*vhost_set_single_vring_enable_op)(struct vhost_dev 
->>>> *dev,
->>>> +                                                int index, int 
->>>> enable);
->>>>   typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
->>>>                                            int enable);
->>>>   typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
->>>> @@ -158,6 +160,7 @@ typedef struct VhostOps {
->>>>       vhost_reset_device_op vhost_reset_device;
->>>>       vhost_reset_vring_op vhost_reset_vring;
->>>>       vhost_get_vq_index_op vhost_get_vq_index;
->>>> +    vhost_set_single_vring_enable_op vhost_set_single_vring_enable;
->>>>       vhost_set_vring_enable_op vhost_set_vring_enable;
->>>>       vhost_requires_shm_log_op vhost_requires_shm_log;
->>>>       vhost_migration_done_op vhost_migration_done;
+>>>>       vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
+>>>>   }
 >>
 
