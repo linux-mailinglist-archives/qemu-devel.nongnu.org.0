@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83D059F7B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:29:01 +0200 (CEST)
-Received: from localhost ([::1]:33748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6107559F70A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:02:56 +0200 (CEST)
+Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnd7-0008JX-1X
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
+	id 1oQnDr-0007pX-F4
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmtr-00031p-Vp
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:15 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:34553)
+ id 1oQmtt-00033f-E3
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:19 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmtp-0001Xc-HY
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:14 -0400
-Received: by mail-pl1-x635.google.com with SMTP id io24so1898118plb.1
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:13 -0700 (PDT)
+ id 1oQmtr-0001Y0-SW
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:17 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ t11-20020a17090a510b00b001fac77e9d1fso999675pjh.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=3b8VL5TpGtN7dWhCerIisYEccmQt7giekuIGaaaF6O8=;
- b=qjaaqfAWuFwFCJHnVsNpJJ4gN1ZDvHmCZyVyO4SqM97cld8qBtRn0kZg6ii5eWL4mQ
- 4AI1pqRO7A1G6V85mw18rNARWTtZgxG54oPSuhyDplklrcoa3sPoToZv60SHmGzqznp7
- RCXAiGvk9Dczt2OPMbctu7lNYMCrQ9VTgXmeO2UFijR6sMbrHlw81TJ+zw2fZmS8SfkF
- pt6hqMjnehG6SHtCfnQV9GlSjGovSzRH9wsNOo7PkISsBv8C66soAKI6OkGtQ7JV68Ed
- qdp6QyNBUY7kBFo/NFE0eu1yZFVpe/ETKUxUEurFPC/r1qWcSuAeiQVbsoGtBOhkPD3J
- W3Wg==
+ bh=hgOj9FjN0Z4iHtZUWCA3zZlRYozZrWgeApjdLVSDtro=;
+ b=Hs3oV/eG9UUNQsyok72N5M4Xj5fnLk9ESMEmuiII03ti3QEg9QQe7tDAPnpN7FsIv6
+ PuLMW/sbLNua8LfW0p4hVWGbhngxkw/7AcLPBwEp01RUKfwabF4AhrtTzJLiz9wcw+37
+ iSuBZV3GQ+1nz6JlLO8YOPR+e7oze770qgQ1PKeykiBI5XURyEVs60Z3hwmtom5DYGiQ
+ EOu0iTraXg9pazVJCTq+o6jLC6d6MN8RXLxNZd8rCcRbus3KKe0VKHav6LNNLmWTraum
+ KR8qagi83zbkG9Wt7k1JlmfUFKZmj0IjGTTeCCahEmabSl2UigNHw48sqbN/4XC5sJY6
+ 4IVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=3b8VL5TpGtN7dWhCerIisYEccmQt7giekuIGaaaF6O8=;
- b=uai9jVRGSynNRRNuHcIB7OBstjVIhRGG87/n78ve26FCinJJuKePYG43kwj+asjwnU
- /PSgQzxdDN6bp3IVdLrgwGqTqkPsCaNV6kRX+Ti6DV8HU/a4e5TwLy3qqgfJIFQ54I7d
- /o/khIQDrAPT24l7Hievr8PmZC899zXjAfMgaJtbZ40l4EAgvF+5RTIDe+buiTBk//ny
- 5zzE0E5BGBU8q2ZUe58EWIZyQHWjPs4yHHIQ0thc65saIUfz7OrXwiLke133Htz/AeKu
- KhphO+LHnfmLiGpYAzJMfkLwaDYG8lXiQXds4YevEZjNd3AW4ybBd/xZAlwSBO3KW4NY
- G9IQ==
-X-Gm-Message-State: ACgBeo26Hwu2ep+EAbTIcmPNqcErKh2sOyXIkNI1NfkFblCEZ9FnF/64
- C2IZWPJuLPHXC9BuTvxskNaP2UOV2Xw=
-X-Google-Smtp-Source: AA6agR5TBeQk+xNJ/7wJcR3S3X6PS/Fvdo+awDk7uXMldiZ9G0Do5uNda7Y3iC5uEX0W7ux4dY1GSg==
-X-Received: by 2002:a17:90b:4a51:b0:1f5:8308:6ed7 with SMTP id
- lb17-20020a17090b4a5100b001f583086ed7mr7374559pjb.177.1661334132149; 
- Wed, 24 Aug 2022 02:42:12 -0700 (PDT)
+ bh=hgOj9FjN0Z4iHtZUWCA3zZlRYozZrWgeApjdLVSDtro=;
+ b=dDakH25aBtta/IIMH5gn1AywuiYW1mumpMknA8+IDw2cEvIhr5uOSbP117otNO5elQ
+ l6inslchnGDbzdFKrw6d/wJ0griCWZ3JTZ2gHmZ0kF+GeRJPPMHwK7SKepFtlTq5DCmw
+ oy0H0dm9fMHmiHDsvvRJNiUSy6sOxdqIDEl0xpx6jhEPlrvJv8il3gD7nEuoMZsnAzVq
+ C9/dVsbiW3Z1+P6yfU1L1rP6Rmj1cays+4jEhnvER54bPwrVaU1qt3BaN7OuU6nI8xXA
+ 7g+Wvss0vFcQVDsP3egozR31GCwy1uCLmp+E8GlbyqEfvZJtZAS07gB9HuxqJoDqWunp
+ x+KA==
+X-Gm-Message-State: ACgBeo2w0YJE8v3nL1S32cEsxP1HpUCgW6nRB1UUx+9RXDEWMf47hDiy
+ YuZyvryJPvAN5pV8QKlAKeoLPju4o1Y=
+X-Google-Smtp-Source: AA6agR613Q0tucCxEj4eWjptogZOl/Ts5u43bz7w9ldVLr0zFr5XDG936ObpcvmxJezpG0aLJcJFPg==
+X-Received: by 2002:a17:90a:6b0d:b0:1fa:c6fe:db6 with SMTP id
+ v13-20020a17090a6b0d00b001fac6fe0db6mr7428055pjj.99.1661334134386; 
+ Wed, 24 Aug 2022 02:42:14 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.10
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:42:11 -0700 (PDT)
+ Wed, 24 Aug 2022 02:42:14 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-Subject: [PATCH 14/51] backends/tpm: Exclude headers and macros that don't
- exist on win32
-Date: Wed, 24 Aug 2022 17:39:52 +0800
-Message-Id: <20220824094029.1634519-15-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 15/51] tests/qtest: Adapt {m48t59,rtc}-test cases for win32
+Date: Wed, 24 Aug 2022 17:39:53 +0800
+Message-Id: <20220824094029.1634519-16-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,45 +92,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-These headers and macros do not exist on Windows. Exclude them.
+There is no tm_gmtoff member in 'struct tm' on Windows.
+Update rtc-test.c and m48t59-test.c accordingly.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- backends/tpm/tpm_ioctl.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qtest/m48t59-test.c | 2 +-
+ tests/qtest/rtc-test.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/backends/tpm/tpm_ioctl.h b/backends/tpm/tpm_ioctl.h
-index bd6c12cb86..d67bf0283b 100644
---- a/backends/tpm/tpm_ioctl.h
-+++ b/backends/tpm/tpm_ioctl.h
-@@ -9,8 +9,10 @@
- #ifndef TPM_IOCTL_H
- #define TPM_IOCTL_H
+diff --git a/tests/qtest/m48t59-test.c b/tests/qtest/m48t59-test.c
+index b94a1230f7..843d2ced8e 100644
+--- a/tests/qtest/m48t59-test.c
++++ b/tests/qtest/m48t59-test.c
+@@ -137,7 +137,7 @@ static void cmos_get_date_time(QTestState *s, struct tm *date)
+     date->tm_mday = mday;
+     date->tm_mon = mon - 1;
+     date->tm_year = base_year + year - 1900;
+-#ifndef __sun__
++#if !defined(__sun__) && !defined(_WIN32)
+     date->tm_gmtoff = 0;
+ #endif
  
-+#ifndef _WIN32
- #include <sys/uio.h>
- #include <sys/ioctl.h>
-+#endif
+diff --git a/tests/qtest/rtc-test.c b/tests/qtest/rtc-test.c
+index 8126ab1bdb..02ed4e1238 100644
+--- a/tests/qtest/rtc-test.c
++++ b/tests/qtest/rtc-test.c
+@@ -111,7 +111,7 @@ static void cmos_get_date_time(struct tm *date)
+     date->tm_mday = mday;
+     date->tm_mon = mon - 1;
+     date->tm_year = base_year + year - 1900;
+-#ifndef __sun__
++#if !defined(__sun__) && !defined(_WIN32)
+     date->tm_gmtoff = 0;
+ #endif
  
- #ifdef HAVE_SYS_IOCCOM_H
- #include <sys/ioccom.h>
-@@ -222,6 +224,7 @@ typedef struct ptm_setbuffersize ptm_setbuffersize;
- #define PTM_CAP_SET_DATAFD         (1 << 12)
- #define PTM_CAP_SET_BUFFERSIZE     (1 << 13)
- 
-+#ifndef _WIN32
- enum {
-     PTM_GET_CAPABILITY     = _IOR('P', 0, ptm_cap),
-     PTM_INIT               = _IOWR('P', 1, ptm_init),
-@@ -241,6 +244,7 @@ enum {
-     PTM_SET_DATAFD         = _IOR('P', 15, ptm_res),
-     PTM_SET_BUFFERSIZE     = _IOWR('P', 16, ptm_setbuffersize),
- };
-+#endif
- 
- /*
-  * Commands used by the non-CUSE TPMs
 -- 
 2.34.1
 
