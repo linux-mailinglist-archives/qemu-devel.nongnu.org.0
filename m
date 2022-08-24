@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0FC559F880
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:18:29 +0200 (CEST)
-Received: from localhost ([::1]:56952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1661D59F7A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:27:06 +0200 (CEST)
+Received: from localhost ([::1]:55478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQoOy-00039z-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33940)
+	id 1oQnbF-0006Wl-6S
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmut-0004RZ-UR
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:23 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:35489)
+ id 1oQmux-0004Rh-2S
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:24 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:34755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuq-0001lq-Q9
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:18 -0400
-Received: by mail-pl1-x634.google.com with SMTP id y4so15195427plb.2
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:43:16 -0700 (PDT)
+ id 1oQmut-0001mg-Mr
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:21 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 12so14559970pga.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=EOFKHiRmcE74HgecgSGAabnZE3vUv0bvhkBrDlb0U9A=;
- b=nyLGNG/k8QKO0L9U3XkOZOlFQivxUx6Hz8G6QKP+yFtbDDmLV7blKQmbLXQ+IlGZWT
- EIXAn+7AGT/fC+V0q0m0mAFNJvLEygu2a7YzJGVrRaV35QaJQhQW+6BARRdcz/3jE+L2
- ESiN+e7WHUm+6DAdvwNF/V04ZqS3fUQgaaFy2299NrcyYCqVyU9Rp3q0k5ee+vxcdmO1
- MMFfGU5v6N6URy3kwGs1f3N0prKvDfNerlnuTDWyQDmo5LTmxZdOUGYFPvbhhcF7uqxt
- yeM1+R3WkLcUCC+iQjYQHRJyUdzabHH/BRe5XcbI1dgFAQIHkDD6NIzdX1Ddm9+OiLeU
- rkrw==
+ bh=paTY5YEP1jsreKma1QR+zPm4bWzf2LxlFPbO3yVctjg=;
+ b=Tfd0/b2IXE9rDdRsV2eAJrgw/Z7ZClGxrdyqYWfsTtUJv2/Luw7dCdEsidgAb12sFO
+ 6PvwjO3hPjix1ZA/2PnK43cE8ClL88t6uKu1aUxIkIuWYDZko/QOyUrispBSNOvsxUn0
+ fIg949JaNCA204JUfKbppItwJWdBa4LQNVQLpt+HYuEOJx50yWDfhuvugL+p3wOhpwgR
+ bVUeUkrYGzOtu6DWc31mCXQS0Cgi+Ex1sQ28fuHyP9y3HOpjbn2HyKNODYtlBKTw+OLp
+ kmAh1V6Oi0ed4FvuQdxggIn5iCDfCLqTWlHiVONyJ5qMXfNnEwn6xDCIVoJYGa4LT3X+
+ i1iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=EOFKHiRmcE74HgecgSGAabnZE3vUv0bvhkBrDlb0U9A=;
- b=PQh1DIKdypBz9+2h4yETfIa0eJqZ+zkkJxiARXkSATkQ+OivUcNsct88laUYLEEHom
- MUlE/TA0+maGC5xbH4+pvDNCloSeT6TMVIsVA2JdzGq3fav9Hty+WhRyvZ6Io1ypfR1j
- stATWkqHRJZNWOvP2+39SmL8sg1yJO6cVMwaJ8y8/FJdVNXEAm3M2OguKUFeiLbwAbxd
- LMsbZWra1BgMzcHVvIpe/CipAI0qpj2P1RnTgpgXE6YEhsR848UmDL9owRxATcIixOP5
- CAqJwRNd5aAf7rj7MYxJy+qZMZk5WFhwEuPljP7ImFWjwPT1um0+X8KQNt6aROeEpfFV
- xMRg==
-X-Gm-Message-State: ACgBeo1AAVfjGNldFNn/E4l/da0GYZkfPSFDq/Ej3fuLe7ov8fHoVtqf
- El057MlssLKmh7qfDMHggGIVgy8TcYk=
-X-Google-Smtp-Source: AA6agR6KtzTvp5fnDoEd/kUeMWOU3ajThweLYJ/BWEtVANY8QmJeUSMZD3FJyZwB8pZw4j42uIFdhg==
-X-Received: by 2002:a17:90a:d982:b0:1fb:aec:e8db with SMTP id
- d2-20020a17090ad98200b001fb0aece8dbmr7317472pjv.148.1661334195215; 
- Wed, 24 Aug 2022 02:43:15 -0700 (PDT)
+ bh=paTY5YEP1jsreKma1QR+zPm4bWzf2LxlFPbO3yVctjg=;
+ b=iuKfZ+17byTuKqF1/A+QqqiK/HE4yOFNWXxn2X+DEhDvn9wDQi4KYbmBL5pXks0cVM
+ FaC8Oiow2B7J4xQBI5gqVrkMsD0LN7f6wRqfnDq32jxletdX5kaXkth+SI8JRzOHK6JF
+ /IWHmmeDkWo+Tj0LfbnDtMj45+tT5PBo5RTTs4qxjvo9Vr6QEafwbF7xKrtxgdJtaDAF
+ mpy5twDaSUAddxSjKcisRmOO09A9O70nrXeXEt3K89w/l5qKMW5fx+OVjOTbgWuiGTjl
+ dD0XAZr+EYC8S0UEpF77QwnsrkfJpBj6FNmeGXgiHiFcxm6hKHwDtAL/Mbzpli17bB80
+ leNQ==
+X-Gm-Message-State: ACgBeo0GP92JTq8C6v/MqFKgvXnRDuSw6xaLbAFkT9U8yBLJdfMjYu8U
+ Vz19F4w9/aZwallLQpkhv2aTDF6WnK4=
+X-Google-Smtp-Source: AA6agR7SAPzNS16io4sRXRVvDvfVpzFuYgcjDArHoCPwHchiIlN8E9IFExstYkptRzQ8OpcRb+fo3Q==
+X-Received: by 2002:a62:38d4:0:b0:536:3cde:4d07 with SMTP id
+ f203-20020a6238d4000000b005363cde4d07mr21804166pfa.66.1661334197213; 
+ Wed, 24 Aug 2022 02:43:17 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.13
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:43:14 -0700 (PDT)
+ Wed, 24 Aug 2022 02:43:16 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 39/51] tests/qtest: virtio-net-failover: Disable migration
- tests for win32
-Date: Wed, 24 Aug 2022 17:40:17 +0800
-Message-Id: <20220824094029.1634519-40-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 40/51] chardev/char-file: Add FILE_SHARE_WRITE when openning
+ the file for win32
+Date: Wed, 24 Aug 2022 17:40:18 +0800
+Message-Id: <20220824094029.1634519-41-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,57 +94,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-These tests use the exec migration protocol, which is unsupported
-on Windows as of today. Disable these tests for now.
+The combination of GENERIC_WRITE and FILE_SHARE_READ options does
+not allow the same file to be opened again by CreateFile() from
+another QEMU process with the same options when the previous QEMU
+process still holds the file handle openned.
+
+As per [1] we should add FILE_SHARE_WRITE to the share mode to allow
+such use case. This change makes the behavior be consisten with the
+POSIX platforms.
+
+[1] https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-opening-files
 
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/virtio-net-failover.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ chardev/char-file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index 443ee56de9..4a809590bf 100644
---- a/tests/qtest/virtio-net-failover.c
-+++ b/tests/qtest/virtio-net-failover.c
-@@ -588,6 +588,7 @@ static void test_hotplug_2_reverse(void)
-     machine_stop(qts);
- }
+diff --git a/chardev/char-file.c b/chardev/char-file.c
+index 2fd80707e5..66385211eb 100644
+--- a/chardev/char-file.c
++++ b/chardev/char-file.c
+@@ -60,8 +60,8 @@ static void qmp_chardev_open_file(Chardev *chr,
+         flags = CREATE_ALWAYS;
+     }
  
-+#ifndef _WIN32
- static QDict *migrate_status(QTestState *qts)
- {
-     QDict *resp, *ret;
-@@ -1827,6 +1828,7 @@ static void test_multi_in(gconstpointer opaque)
- 
-     machine_stop(qts);
- }
-+#endif /* _WIN32 */
- 
- int main(int argc, char **argv)
- {
-@@ -1857,7 +1859,11 @@ int main(int argc, char **argv)
-     qtest_add_func("failover-virtio-net/hotplug/2_reverse",
-                    test_hotplug_2_reverse);
- 
--    /* migration tests */
-+#ifndef _WIN32
-+    /*
-+     * These migration tests cases use the exec migration protocol,
-+     * which is unsupported on Windows.
-+     */
-     qtest_add_data_func("failover-virtio-net/migrate/on/out", tmpfile,
-                         test_migrate_out);
-     qtest_add_data_func("failover-virtio-net/migrate/on/in", tmpfile,
-@@ -1886,6 +1892,7 @@ int main(int argc, char **argv)
-                         tmpfile, test_multi_out);
-     qtest_add_data_func("failover-virtio-net/migrate/multi/in",
-                    tmpfile, test_multi_in);
-+#endif /* _WIN32 */
- 
-     ret = g_test_run();
- 
+-    out = CreateFile(file->out, accessmode, FILE_SHARE_READ, NULL, flags,
+-                     FILE_ATTRIBUTE_NORMAL, NULL);
++    out = CreateFile(file->out, accessmode, FILE_SHARE_READ | FILE_SHARE_WRITE,
++                     NULL, flags, FILE_ATTRIBUTE_NORMAL, NULL);
+     if (out == INVALID_HANDLE_VALUE) {
+         error_setg(errp, "open %s failed", file->out);
+         return;
 -- 
 2.34.1
 
