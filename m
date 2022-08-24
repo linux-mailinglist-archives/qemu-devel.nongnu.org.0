@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3099F59F6E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:52:58 +0200 (CEST)
-Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7306359F6B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:47:03 +0200 (CEST)
+Received: from localhost ([::1]:55888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQn4D-0004Um-8V
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:52:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55598)
+	id 1oQmyU-0008H1-JD
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmsU-00012L-D0
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:40:50 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:41972)
+ id 1oQmsv-00027F-FB; Wed, 24 Aug 2022 05:41:17 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:33629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmsS-0001GJ-Ov
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:40:50 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- p9-20020a17090a2d8900b001fb86ec43aaso593984pjd.0
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:40:47 -0700 (PDT)
+ id 1oQmst-0001KP-Vk; Wed, 24 Aug 2022 05:41:17 -0400
+Received: by mail-pl1-x635.google.com with SMTP id 2so15218274pll.0;
+ Wed, 24 Aug 2022 02:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=1DPLOLxJPplKModHASULqKHpd5A7q1S4jYAA/H54UVA=;
- b=NTMJESw9CbFuTPFTy7uDbRb7S0q4eiAUy9o9dKmBv5zpRZDNA8lqIkJ+UlpVJTCLpd
- EX0PfRq/IkFCg2Ss90LMEawZU4SYIlOdqkx8RbE09Y0CqsGJcxKLK6BET+RcoPbQo6/J
- V/YJQvhPFTWvmZlwgLUeODuOi6vwLCvsCGexqxEVstebFUMj5DLO0rz9lXIQdpyKhfFu
- 7oA7I9jlze/5ip/RvD7em2qId9qwr8YfKEGKknSb5ivQSG+ZYtXTnJX89I2vii+HqGop
- k4TOzQ9br5yN0iLIaAeEAMJCvJDA/2Oca9moGHOwhd0CUZZRv3zY+kgdq4Ro+N4C+hnj
- fCqg==
+ bh=oO0SYzbawNGrDg6auw+O7c5purm7PS7f7P59XKUxYbE=;
+ b=bHffE/UwOb1YAe22yBuG5fn/8y6I7CgETiarUmwh0cOsZ4toU1fBE240zfzNmvuEkD
+ AtwCBy016YB072o6x/1itEcsJ5I9Acq97/h9DabW+wKtYunIWYOB6HbqbGD3PvBcAjRK
+ LjCHTZLLzVptMLV3gkWIfMwRWBZif/c5rdLwZUHu5OAQzFKqfBXEkh/TJCpihpNgXumt
+ xugWUmQVUeQLyE9gkr5qK43uzs0PYUbzyIEIRTeakubsceLeGFOlojLTJL3EGzg3ydOr
+ 6deW8S5esFxDpdbfNWYnm1m7GOFpkQDrJivCWFlObMHRXkz1CRl3XQqR0uHEADgpiRaY
+ 7S5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=1DPLOLxJPplKModHASULqKHpd5A7q1S4jYAA/H54UVA=;
- b=qHeAtz73o+AyOj5h+nKQ1HyIsCVtcc/IjOSvP8x/uSygpDiNDbhwBDbyC2EH11Kf3+
- kkqrU65Im5BNk7j0fOee8pIKJWWF7OcFAt8GctHa56ywGLSRjo9Ewd7vZEDjyOu6oGCR
- V29Hfx0G6+hONyuRWu4/L1i9X9Jt4SXzD59ArDklrz2hW5zhMcqP5t4tnWOyaKVJ+MUD
- +Eyz4gZml0FrhBljF83z4UcuKi8Ls12UhUfuBUFj/2J/DLoEN50MfUh7boi91Ebbg8Gp
- hg/s5avgWUXhA5jgx0LWV+31+kb1Zhr1ojZJblt1+JFigMtIoAq1zAmQLZUuCzLuVmeE
- OBtw==
-X-Gm-Message-State: ACgBeo0QJEmJMk5mGbZHQtK3gmA85IcW22yPt6yt51i4wNRtMTjaa4Yz
- VVz7h7iMVNj9DXyHXB1gv10MjDj+hPI=
-X-Google-Smtp-Source: AA6agR4zk0Xa55oBSL+RlSkfR4P9shz7zdk6fr0tBv+CAIvLj0MPkj97lg0oUYwhGQOUO+jgxZKitw==
-X-Received: by 2002:a17:902:b413:b0:172:a628:7915 with SMTP id
- x19-20020a170902b41300b00172a6287915mr28472711plr.99.1661334046118; 
- Wed, 24 Aug 2022 02:40:46 -0700 (PDT)
+ bh=oO0SYzbawNGrDg6auw+O7c5purm7PS7f7P59XKUxYbE=;
+ b=z4W5Fu/goIrBhvmx6KtNtYqW3pS/C8SPFZQvWTr9UF9na1egtjpjp6aKl3J4x2Y3dj
+ /3Q7OQWvXSUWUqyOWeCyDnQ3ApNiJvYNKBjs52NTjcZpcDxbqfnJ3OzJnt08J9WsULlr
+ mWcmQmglNpWG9sNPajtWeBsUMfb79DA2xgES8f3of6tUN12OCtwG1YNwVwfUE6eLCd/9
+ nZxXswThuSHQT95FPjwlQ4sNj8/jH9Qj13XdetGiDcQAPfIjO7BJvCFhqIroLKWi/NnH
+ uPvXQruMNi8T9WYLsCcpBZK2pz0hWkD8P/6kFO6qVgrgqG3lGE8ZS6iUALtME7U2AKVE
+ sY/Q==
+X-Gm-Message-State: ACgBeo0lQJJQgcxjP4wnjW7Cf3yeDRGMEUSlDHfuls3lgkXiywMd5Bob
+ cCZxJTKSQu/U34FW/GwAGjRYwD5R4DA=
+X-Google-Smtp-Source: AA6agR6WF5MDSNfIXFV63CN8Viuk6Y1f0mlwIKX0E4X/WN200TS/sctBRDiJLarwM/v19YIWslMj9A==
+X-Received: by 2002:a17:903:2483:b0:16c:dfcf:38e8 with SMTP id
+ p3-20020a170903248300b0016cdfcf38e8mr28430232plw.43.1661334074159; 
+ Wed, 24 Aug 2022 02:41:14 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.40.43
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.41.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:40:45 -0700 (PDT)
+ Wed, 24 Aug 2022 02:41:13 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 01/51] tests/qtest: Use g_setenv()
-Date: Wed, 24 Aug 2022 17:39:39 +0800
-Message-Id: <20220824094029.1634519-2-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH 03/51] block: Unify the get_tmp_filename() implementation
+Date: Wed, 24 Aug 2022 17:39:41 +0800
+Message-Id: <20220824094029.1634519-4-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,54 +89,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Windows does not provide a setenv() API, but glib does.
-Replace setenv() call with the glib version.
+At present get_tmp_filename() has platform specific implementations
+to get the directory to use for temporary files. Switch over to use
+g_get_tmp_dir() which works on all supported platforms.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/fuzz/generic_fuzz.c | 8 ++++----
- tests/qtest/libqtest.c          | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ block.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 447ffe8178..afc1d20355 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -994,16 +994,16 @@ static GString *generic_fuzz_predefined_config_cmdline(FuzzTarget *t)
-     g_assert(t->opaque);
- 
-     config = t->opaque;
--    setenv("QEMU_AVOID_DOUBLE_FETCH", "1", 1);
-+    g_setenv("QEMU_AVOID_DOUBLE_FETCH", "1", 1);
-     if (config->argfunc) {
-         args = config->argfunc();
--        setenv("QEMU_FUZZ_ARGS", args, 1);
-+        g_setenv("QEMU_FUZZ_ARGS", args, 1);
-         g_free(args);
-     } else {
-         g_assert_nonnull(config->args);
--        setenv("QEMU_FUZZ_ARGS", config->args, 1);
-+        g_setenv("QEMU_FUZZ_ARGS", config->args, 1);
+diff --git a/block.c b/block.c
+index bc85f46eed..d06df47f72 100644
+--- a/block.c
++++ b/block.c
+@@ -864,21 +864,10 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+  */
+ int get_tmp_filename(char *filename, int size)
+ {
+-#ifdef _WIN32
+-    char temp_dir[MAX_PATH];
+-    /* GetTempFileName requires that its output buffer (4th param)
+-       have length MAX_PATH or greater.  */
+-    assert(size >= MAX_PATH);
+-    return (GetTempPath(MAX_PATH, temp_dir)
+-            && GetTempFileName(temp_dir, "qem", 0, filename)
+-            ? 0 : -GetLastError());
+-#else
+     int fd;
+     const char *tmpdir;
+-    tmpdir = getenv("TMPDIR");
+-    if (!tmpdir) {
+-        tmpdir = "/var/tmp";
+-    }
++    tmpdir = g_get_tmp_dir();
++
+     if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+         return -EOVERFLOW;
      }
--    setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
-+    g_setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
-     return generic_fuzz_cmdline(t);
+@@ -891,7 +880,6 @@ int get_tmp_filename(char *filename, int size)
+         return -errno;
+     }
+     return 0;
+-#endif
  }
  
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 8c159eacf5..ad6860d774 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1424,7 +1424,7 @@ QTestState *qtest_inproc_init(QTestState **s, bool log, const char* arch,
-      * way, qtest_get_arch works for inproc qtest.
-      */
-     gchar *bin_path = g_strconcat("/qemu-system-", arch, NULL);
--    setenv("QTEST_QEMU_BINARY", bin_path, 0);
-+    g_setenv("QTEST_QEMU_BINARY", bin_path, 0);
-     g_free(bin_path);
- 
-     return qts;
+ /*
 -- 
 2.34.1
 
