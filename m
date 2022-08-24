@@ -2,49 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F243F59F863
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:09:43 +0200 (CEST)
-Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D618A59F899
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:27:42 +0200 (CEST)
+Received: from localhost ([::1]:46110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQoGV-0002uF-1n
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52544)
+	id 1oQoXt-0003bF-IX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:27:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oQn2U-0003SM-KR; Wed, 24 Aug 2022 05:51:12 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:55178)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oQna6-0005ix-R7
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 06:25:55 -0400
+Received: from mga12.intel.com ([192.55.52.136]:2601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oQn2K-0003Gz-4b; Wed, 24 Aug 2022 05:51:09 -0400
-Received: from [192.168.16.197] (helo=iris.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1oQn0Z-00HV9w-K7;
- Wed, 24 Aug 2022 11:50:34 +0200
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Denis V. Lunev" <den@openvz.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Krempa <pkrempa@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH 2/2] block: add missed block_acct_setup with new block device
- init procedure
-Date: Wed, 24 Aug 2022 11:50:44 +0200
-Message-Id: <20220824095044.166009-3-den@openvz.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220824095044.166009-1-den@openvz.org>
-References: <20220824095044.166009-1-den@openvz.org>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oQna4-0000JO-HA
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 06:25:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661336752; x=1692872752;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=ov6LWOeGKE0o/d22MV9D8SJ+ovEHwDZEA5oKgTfWHCI=;
+ b=LTwPgRQam6tS1IsD3dpUwr7fcu9fjmoRjI/qDOsQjxkmHPJ8tba19EFY
+ x+Qwz6pyqF14d1xwY2uAf4oFkZFiN9nlNK1bYuOKog5kp8ZqXfJue1XD1
+ hYbSuPOwJSrKyEI3VZ9FdBXzVq+MMtEAdlIKA+AsWGo0lixXfieFDyBj6
+ JaHBu24NlHttmwxtkuv1C+/Ep+4htUCXlhJmRgUUqRDg1ZrEXSN98jC3G
+ ft2MSeW+KxcuBscwmAK9y+uYtQ4GTB4b8xh21NSMDnb9p0cVhMb02kvQG
+ TKsvGZ2oaUCaXWNVpgTHTjwOv6SXSm0XhhDip3SatxkFKAJmziI/rkmmq A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="273680419"
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="273680419"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2022 03:25:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="605986064"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 24 Aug 2022 03:25:39 -0700
+Date: Wed, 24 Aug 2022 18:20:56 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Message-ID: <20220824102056.GA1385482@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+ <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+ <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
- helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,452 +102,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
-the first glance, but it has changed things a lot. 'libvirt' uses it to
-detect that it should follow new initialization way and this changes
-things considerably. With this procedure followed, blockdev_init() is
-not called anymore and thus block_acct_setup() helper is not called.
+On Tue, Aug 23, 2022 at 09:36:57AM +0200, David Hildenbrand wrote:
+> On 18.08.22 01:41, Kirill A. Shutemov wrote:
+> > On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
+> >> On 7/21/22 11:44, David Hildenbrand wrote:
+> >>>
+> >>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
+> >>> sure if that would count "auto alloc", but it would certainly bypass
+> >>> fallocate().
+> >>
+> >> Yeah, userfaultfd_register would probably have to forbid this for
+> >> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
+> >> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
+> >> would do something like memfile_node_get_flags(vma->vm_file) and check the
+> >> result.
+> > 
+> > I donno, memory allocation with userfaultfd looks pretty intentional to
+> > me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
+> > 
+> 
+> Can't we say the same about a write()?
+> 
+> > Maybe we would need it in the future for post-copy migration or something?
+> > 
+> > Or existing practises around userfaultfd touch memory randomly and
+> > therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
+> > 
+> > Note, that userfaultfd is only relevant for shared memory as it requires
+> > VMA which we don't have for MFD_INACCESSIBLE.
+> 
+> This feature (F_SEAL_AUTO_ALLOCATE) is independent of all the lovely
+> encrypted VM stuff, so it doesn't matter how it relates to MFD_INACCESSIBLE.
 
-This means in particular that defaults for block accounting statistics
-are changed and account_invalid/account_failed are actually initialized
-as false instead of true originally.
+Right, this patch is for normal user accssible fd. In KVM this flag is
+expected to be set on the shared part of the memslot, while all other
+patches in this series are for private part of the memslot.
 
-This commit changes things to match original world. There are the following
-constraints:
-* new default value in block_acct_init() is set to true
-* block_acct_setup() inside blockdev_init() is called before
-  blkconf_apply_backend_options()
-* thus newly created option in block device properties has precedence if
-  specified
+Private memory doesn't have this need because it's totally inaccissible
+from userspace so no chance for userspace to write to the fd and cause
+allocation by accident. While for shared memory, malicious/buggy guest
+OS may cause userspace to write to any range of the shared fd and cause
+memory allocation, even that range should the private memory not the
+shared memory be visible to guest OS.
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-CC: Peter Krempa <pkrempa@redhat.com>
-CC: Markus Armbruster <armbru@redhat.com>
-CC: John Snow <jsnow@redhat.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Hanna Reitz <hreitz@redhat.com>
----
- block/accounting.c         |  8 +++-
- hw/block/block.c           |  2 +
- include/hw/block/block.h   |  7 +++-
- tests/qemu-iotests/172.out | 76 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 90 insertions(+), 3 deletions(-)
-
-diff --git a/block/accounting.c b/block/accounting.c
-index 6b300c5129..2829745377 100644
---- a/block/accounting.c
-+++ b/block/accounting.c
-@@ -38,6 +38,8 @@ void block_acct_init(BlockAcctStats *stats)
-     if (qtest_enabled()) {
-         clock_type = QEMU_CLOCK_VIRTUAL;
-     }
-+    stats->account_invalid = true;
-+    stats->account_failed = true;
- }
- 
- static bool bool_from_onoffauto(OnOffAuto val, bool def)
-@@ -57,8 +59,10 @@ static bool bool_from_onoffauto(OnOffAuto val, bool def)
- void block_acct_setup(BlockAcctStats *stats, enum OnOffAuto account_invalid,
-                       enum OnOffAuto account_failed)
- {
--    stats->account_invalid = bool_from_onoffauto(account_invalid, true);
--    stats->account_failed = bool_from_onoffauto(account_failed, true);
-+    stats->account_invalid = bool_from_onoffauto(account_invalid,
-+                                                 stats->account_invalid);
-+    stats->account_failed = bool_from_onoffauto(account_failed,
-+                                                stats->account_failed);
- }
- 
- void block_acct_cleanup(BlockAcctStats *stats)
-diff --git a/hw/block/block.c b/hw/block/block.c
-index 04279166ee..f9c4fe6767 100644
---- a/hw/block/block.c
-+++ b/hw/block/block.c
-@@ -205,6 +205,8 @@ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
-     blk_set_enable_write_cache(blk, wce);
-     blk_set_on_error(blk, rerror, werror);
- 
-+    block_acct_setup(blk_get_stats(blk), conf->account_invalid,
-+                     conf->account_failed);
-     return true;
- }
- 
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index 5902c0440a..15fff66435 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -31,6 +31,7 @@ typedef struct BlockConf {
-     uint32_t lcyls, lheads, lsecs;
-     OnOffAuto wce;
-     bool share_rw;
-+    OnOffAuto account_invalid, account_failed;
-     BlockdevOnError rerror;
-     BlockdevOnError werror;
- } BlockConf;
-@@ -61,7 +62,11 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
-                        _conf.discard_granularity, -1),                  \
-     DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
-                             ON_OFF_AUTO_AUTO),                          \
--    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
-+    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false),        \
-+    DEFINE_PROP_ON_OFF_AUTO("account-invalid", _state,                  \
-+                            _conf.account_invalid, ON_OFF_AUTO_AUTO),   \
-+    DEFINE_PROP_ON_OFF_AUTO("account-failed", _state,                   \
-+                            _conf.account_failed, ON_OFF_AUTO_AUTO)
- 
- #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          \
-     DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      \
-diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
-index 9479b92185..07eebf3583 100644
---- a/tests/qemu-iotests/172.out
-+++ b/tests/qemu-iotests/172.out
-@@ -28,6 +28,8 @@ Formatting 'TEST_DIR/t.IMGFMT.3', fmt=IMGFMT size=737280
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
- 
- 
-@@ -55,6 +57,8 @@ Testing: -fda TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -92,6 +96,8 @@ Testing: -fdb TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -104,6 +110,8 @@ Testing: -fdb TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -145,6 +153,8 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -157,6 +167,8 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -199,6 +211,8 @@ Testing: -fdb
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -211,6 +225,8 @@ Testing: -fdb
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
- 
- 
-@@ -238,6 +254,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -275,6 +293,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -287,6 +307,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -328,6 +350,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -340,6 +364,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -385,6 +411,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -422,6 +450,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,unit=1
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -459,6 +489,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -471,6 +503,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -522,6 +556,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -534,6 +570,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -576,6 +614,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -588,6 +628,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -630,6 +672,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 1 (0x1)
-@@ -642,6 +686,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -684,6 +730,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 1 (0x1)
-@@ -696,6 +744,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -747,6 +797,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -759,6 +811,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -801,6 +855,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -813,6 +869,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -861,6 +919,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global floppy.drive=none0 -device
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -928,6 +988,8 @@ Testing: -device floppy
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
- 
- Testing: -device floppy,drive-type=120
-@@ -952,6 +1014,8 @@ Testing: -device floppy,drive-type=120
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "120"
- 
- Testing: -device floppy,drive-type=144
-@@ -976,6 +1040,8 @@ Testing: -device floppy,drive-type=144
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- 
- Testing: -device floppy,drive-type=288
-@@ -1000,6 +1066,8 @@ Testing: -device floppy,drive-type=288
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
- 
- 
-@@ -1027,6 +1095,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "120"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -1064,6 +1134,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "288"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -1104,6 +1176,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -1141,6 +1215,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = "auto"
-+                account-failed = "auto"
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
--- 
-2.32.0
-
+Chao
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
 
