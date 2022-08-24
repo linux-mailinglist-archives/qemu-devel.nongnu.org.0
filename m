@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C95B5A019E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:53:55 +0200 (CEST)
-Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF0E5A01A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:55:26 +0200 (CEST)
+Received: from localhost ([::1]:52342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQvVh-0007yo-03
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53940)
+	id 1oQvXB-00013V-MV
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:55:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQvRs-0004Rv-0t
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:49:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34440)
+ id 1oQvV8-0007lY-Nx
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:53:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQvRl-0007Kv-7h
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:49:54 -0400
+ id 1oQvV6-0007xS-MC
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:53:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661366987;
+ s=mimecast20190719; t=1661367195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ugyNQAX5Xg2PIN6d3Eh3qqcZXusTXibg2NOwhlon/Ek=;
- b=idiPG8v4dqtBtqPH4U2UGm3L9EMXzyk3jdjVbj8/+yOAkius+fhaxF984jgpHNQkucv7Kk
- ze6Qm/QBXDovQQuMzt3mVR62Is5hvPfsr1AdjFAP2N+sfTLpXtxslIea+ka9QDSvq57CFt
- ko7Tdreolu/m/W+PlN2P7UVAzISIC+A=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/HFp56oMQPN8zZM4t4WgTSeA8aX7tZ+Vc4PRJsed6Wk=;
+ b=BgbbMKT2MUnjGvNFFKCaqg5WWUl2xY112L9kbxmMq6wS+Wva/CPbFduVsZmTqib75NIZaU
+ AczVZMD2P7Xbj/VU5+NTuv1LP1MzAQlV3WKOYx2s4/V7LBoXZch5BoQPdD3WlXFtvKJc+l
+ 3NFWkXl8IaanotOCBfkJSVNPIwy/CQc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-76-5ParFGpjMFGMX2DXDwGVuQ-1; Wed, 24 Aug 2022 14:49:45 -0400
-X-MC-Unique: 5ParFGpjMFGMX2DXDwGVuQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c66-20020a1c3545000000b003a5f6dd6a25so1203417wma.1
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 11:49:45 -0700 (PDT)
+ us-mta-191-c_jxp8h3Omm7LnoHCa3y7Q-1; Wed, 24 Aug 2022 14:53:14 -0400
+X-MC-Unique: c_jxp8h3Omm7LnoHCa3y7Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ f18-20020a05600c4e9200b003a5f81299caso9754380wmq.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 11:53:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=ugyNQAX5Xg2PIN6d3Eh3qqcZXusTXibg2NOwhlon/Ek=;
- b=zw4LLAyUF9AudokfQEjITTDq/Qg9ZbpoWqev29wthPEOg1zAVMxMRM6slZ/MrJRWWc
- sFuD+MJ+dYQQCx5xwwzfGpQR5Fcp3KvWQMxBi5MJXzxpx0WqmJVth2LtXeRVTbQjX/ae
- lhyjGUx1P4qPOSeZUnt3mE1nuedbng0OxHOYTL0f2l8fNq+KXfrtmwOL7NXeLAwikC9m
- KWMM/uwaElkLJqKyYNz7bDPgUMyGKtGJEdIlWekCXAt8zVxhaxqq4BjibyW9HDnAbbjU
- mGtxTwBRlbIPYspDvKhMcOrkaELLLkLqG1vLq1MUm13v39gyfKCTRQMlW8Zp4JG9iyR9
- Mwnw==
-X-Gm-Message-State: ACgBeo3ZRB6V79pkgoKIICMMe3CQZhqSzX0WOnrgyrLnLM7tMy6o9twl
- UCyl7ezaGH5YK74Bf4e9CIxE2VTCLb5TjiYf54PhMXUm8mh/BbHEfSejeIs35XGseGPbqs2qo7K
- BcBKsNee6JtMf7yA=
-X-Received: by 2002:adf:dc83:0:b0:225:738e:bb54 with SMTP id
- r3-20020adfdc83000000b00225738ebb54mr277774wrj.513.1661366984523; 
- Wed, 24 Aug 2022 11:49:44 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4FnwGIko1GTKEFsetRz09p0afRhVB7p5eJa0M2zBvIDR9J+pI2tiFsiXdxw/tqon1dW2VuZw==
-X-Received: by 2002:adf:dc83:0:b0:225:738e:bb54 with SMTP id
- r3-20020adfdc83000000b00225738ebb54mr277762wrj.513.1661366984311; 
- Wed, 24 Aug 2022 11:49:44 -0700 (PDT)
+ bh=/HFp56oMQPN8zZM4t4WgTSeA8aX7tZ+Vc4PRJsed6Wk=;
+ b=8DkWBcopuG+pdyFc1DlXL9HF5nVJr5VUJw3n+5SNtnK+RZ/5gEmrgbbqc7tWEhsRIE
+ p9SoFXK+OObNQpBeSkAaG6GZBH7RiCt05RLpcJ7hz5e8lj8uWT2w/sF+HWQblvahQHXD
+ HtAuiI8cM6CNEXsFRCgctXHDqk10SoYxTg13gjvfWu9mo/CqzRq5TrAJV2KA573dcr2P
+ LihhHu6ps8r/lYcVjsDbvoqfQ1EROKZJepBfdn4fabzD9Rf1VhulOls2yVOwI/1FoPHU
+ GLHuV8U3ELNxrEGhAf4bA08k6iS2I7vn9rNCHFRIvebH+d+q0JWXoB5mr68T5VNErX83
+ pxWQ==
+X-Gm-Message-State: ACgBeo1yHqiZBE587Bwz2wC6CUUtZ/uJkT3EGRPDut+yp5tD41z+IY42
+ oharLyROA4WV3Kuy+rbarZO0G3yBFK5TzbFZ6tZUEDKci6Qa2dwgt4648TQ0KsH13KNeNctqDsT
+ yICJEoad0Eob89WA=
+X-Received: by 2002:a5d:64ca:0:b0:225:4a7f:6e91 with SMTP id
+ f10-20020a5d64ca000000b002254a7f6e91mr286655wri.133.1661367193316; 
+ Wed, 24 Aug 2022 11:53:13 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4DJNG3bFI0xRy6DqIiNQV0tix0EDCyfjDH1pZrORV283g00Ha0bWVpd2iZ4Wj+vSkQ80aQxw==
+X-Received: by 2002:a5d:64ca:0:b0:225:4a7f:6e91 with SMTP id
+ f10-20020a5d64ca000000b002254a7f6e91mr286647wri.133.1661367193011; 
+ Wed, 24 Aug 2022 11:53:13 -0700 (PDT)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- y6-20020a056000108600b002250f9abdefsm20522968wrw.117.2022.08.24.11.49.43
+ k6-20020a5d6d46000000b00225221fd286sm17663954wri.114.2022.08.24.11.53.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 11:49:43 -0700 (PDT)
-Date: Wed, 24 Aug 2022 19:49:41 +0100
+ Wed, 24 Aug 2022 11:53:12 -0700 (PDT)
+Date: Wed, 24 Aug 2022 19:53:10 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
  Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 21/51] tests/qtest: migration-test: Skip running
- test_migrate_fd_proto on win32
-Message-ID: <YwZyxTwAseBY1GRT@work-vm>
+Subject: Re: [PATCH 37/51] tests/qtest: migration-test: Disable IO
+ redirection for win32
+Message-ID: <YwZzlkoJOFxs7Uyy@work-vm>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-22-bmeng.cn@gmail.com>
+ <20220824094029.1634519-38-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220824094029.1634519-22-bmeng.cn@gmail.com>
+In-Reply-To: <20220824094029.1634519-38-bmeng.cn@gmail.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,86 +105,169 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 * Bin Meng (bmeng.cn@gmail.com) wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 > 
-> The test case 'test_migrate_fd_proto' calls socketpair() which does
-> not exist on win32. Exclude it. The helper function wait_command_fd()
-> is not needed anymore, hence exclude it too.
+> On Windows the QEMU executable is created via CreateProcess() and IO
+> redirection does not work, so we need to set MigrateStart::hide_stderr
+> to false to disable adding IO redirection to the command line.
 > 
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Isn't it easier just to change the one place that tests this?
+
+Dave
 
 > ---
 > 
->  tests/qtest/migration-helpers.h | 2 ++
->  tests/qtest/migration-helpers.c | 2 ++
->  tests/qtest/migration-test.c    | 4 ++++
->  3 files changed, 8 insertions(+)
+>  tests/qtest/migration-test.c | 39 +++++++++++++++++++++++-------------
+>  1 file changed, 25 insertions(+), 14 deletions(-)
 > 
-> diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-> index 59561898d0..db0684de48 100644
-> --- a/tests/qtest/migration-helpers.h
-> +++ b/tests/qtest/migration-helpers.h
-> @@ -17,8 +17,10 @@
->  
->  extern bool got_stop;
->  
-> +#ifndef _WIN32
->  G_GNUC_PRINTF(3, 4)
->  QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...);
-> +#endif
->  
->  G_GNUC_PRINTF(2, 3)
->  QDict *wait_command(QTestState *who, const char *command, ...);
-> diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-> index c6fbeb3974..f6f3c6680f 100644
-> --- a/tests/qtest/migration-helpers.c
-> +++ b/tests/qtest/migration-helpers.c
-> @@ -34,6 +34,7 @@ static void check_stop_event(QTestState *who)
->      }
->  }
->  
-> +#ifndef _WIN32
->  /*
->   * Events can get in the way of responses we are actually waiting for.
->   */
-> @@ -58,6 +59,7 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
->  
->      return ret;
->  }
-> +#endif
->  
->  /*
->   * Events can get in the way of responses we are actually waiting for.
 > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index af9250750b..2ae7498d5d 100644
+> index 2ae7498d5d..125d48d855 100644
 > --- a/tests/qtest/migration-test.c
 > +++ b/tests/qtest/migration-test.c
-> @@ -1629,6 +1629,7 @@ static void test_precopy_tcp_tls_x509_reject_anon_client(void)
->  #endif /* CONFIG_TASN1 */
->  #endif /* CONFIG_GNUTLS */
+> @@ -53,6 +53,17 @@ static bool uffd_feature_thread_id;
+>   */
+>  #define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
 >  
+> +/*
+> + * On Windows the QEMU executable is created via CreateProcess() and IO
+> + * redirection does not work, so we need to set MigrateStart::hide_stderr
+> + * to false to disable adding IO redirection to the command line.
+> + */
 > +#ifndef _WIN32
->  static void *test_migrate_fd_start_hook(QTestState *from,
->                                          QTestState *to)
->  {
-> @@ -1697,6 +1698,7 @@ static void test_migrate_fd_proto(void)
->      };
->      test_precopy_common(&args);
->  }
-> +#endif /* _WIN32 */
->  
->  static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
->  {
-> @@ -2531,7 +2533,9 @@ int main(int argc, char **argv)
->  #endif /* CONFIG_GNUTLS */
->  
->      /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); */
-> +#ifndef _WIN32
->      qtest_add_func("/migration/fd_proto", test_migrate_fd_proto);
+> +# define HIDE_STDERR true
+> +#else
+> +# define HIDE_STDERR false
 > +#endif
->      qtest_add_func("/migration/validate_uuid", test_validate_uuid);
->      qtest_add_func("/migration/validate_uuid_error", test_validate_uuid_error);
->      qtest_add_func("/migration/validate_uuid_src_not_set",
+> +
+>  #if defined(__linux__)
+>  #include <sys/syscall.h>
+>  #include <sys/vfs.h>
+> @@ -1186,7 +1197,7 @@ static void test_postcopy_recovery_common(MigrateCommon *args)
+>      g_autofree char *uri = NULL;
+>  
+>      /* Always hide errors for postcopy recover tests since they're expected */
+> -    args->start.hide_stderr = true;
+> +    args->start.hide_stderr = HIDE_STDERR;
+>  
+>      if (migrate_postcopy_prepare(&from, &to, args)) {
+>          return;
+> @@ -1287,7 +1298,7 @@ static void test_postcopy_preempt_all(void)
+>  static void test_baddest(void)
+>  {
+>      MigrateStart args = {
+> -        .hide_stderr = true
+> +        .hide_stderr = HIDE_STDERR
+>      };
+>      QTestState *from, *to;
+>  
+> @@ -1410,7 +1421,7 @@ static void test_precopy_unix_tls_x509_default_host(void)
+>      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .connect_uri = uri,
+>          .listen_uri = uri,
+> @@ -1526,7 +1537,7 @@ static void test_precopy_tcp_tls_psk_mismatch(void)
+>  {
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .listen_uri = "tcp:127.0.0.1:0",
+>          .start_hook = test_migrate_tls_psk_start_mismatch,
+> @@ -1564,7 +1575,7 @@ static void test_precopy_tcp_tls_x509_mismatch_host(void)
+>  {
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .listen_uri = "tcp:127.0.0.1:0",
+>          .start_hook = test_migrate_tls_x509_start_mismatch_host,
+> @@ -1590,7 +1601,7 @@ static void test_precopy_tcp_tls_x509_hostile_client(void)
+>  {
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .listen_uri = "tcp:127.0.0.1:0",
+>          .start_hook = test_migrate_tls_x509_start_hostile_client,
+> @@ -1616,7 +1627,7 @@ static void test_precopy_tcp_tls_x509_reject_anon_client(void)
+>  {
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .listen_uri = "tcp:127.0.0.1:0",
+>          .start_hook = test_migrate_tls_x509_start_reject_anon_client,
+> @@ -1747,7 +1758,7 @@ static void test_validate_uuid_error(void)
+>      MigrateStart args = {
+>          .opts_source = "-uuid 11111111-1111-1111-1111-111111111111",
+>          .opts_target = "-uuid 22222222-2222-2222-2222-222222222222",
+> -        .hide_stderr = true,
+> +        .hide_stderr = HIDE_STDERR,
+>      };
+>  
+>      do_test_validate_uuid(&args, true);
+> @@ -1757,7 +1768,7 @@ static void test_validate_uuid_src_not_set(void)
+>  {
+>      MigrateStart args = {
+>          .opts_target = "-uuid 22222222-2222-2222-2222-222222222222",
+> -        .hide_stderr = true,
+> +        .hide_stderr = HIDE_STDERR,
+>      };
+>  
+>      do_test_validate_uuid(&args, false);
+> @@ -1767,7 +1778,7 @@ static void test_validate_uuid_dst_not_set(void)
+>  {
+>      MigrateStart args = {
+>          .opts_source = "-uuid 11111111-1111-1111-1111-111111111111",
+> -        .hide_stderr = true,
+> +        .hide_stderr = HIDE_STDERR,
+>      };
+>  
+>      do_test_validate_uuid(&args, false);
+> @@ -1990,7 +2001,7 @@ static void test_multifd_tcp_tls_psk_mismatch(void)
+>  {
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .listen_uri = "defer",
+>          .start_hook = test_migrate_multifd_tcp_tls_psk_start_mismatch,
+> @@ -2038,7 +2049,7 @@ static void test_multifd_tcp_tls_x509_mismatch_host(void)
+>       */
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .listen_uri = "defer",
+>          .start_hook = test_migrate_multifd_tls_x509_start_mismatch_host,
+> @@ -2062,7 +2073,7 @@ static void test_multifd_tcp_tls_x509_reject_anon_client(void)
+>  {
+>      MigrateCommon args = {
+>          .start = {
+> -            .hide_stderr = true,
+> +            .hide_stderr = HIDE_STDERR,
+>          },
+>          .listen_uri = "defer",
+>          .start_hook = test_migrate_multifd_tls_x509_start_reject_anon_client,
+> @@ -2088,7 +2099,7 @@ static void test_multifd_tcp_tls_x509_reject_anon_client(void)
+>  static void test_multifd_tcp_cancel(void)
+>  {
+>      MigrateStart args = {
+> -        .hide_stderr = true,
+> +        .hide_stderr = HIDE_STDERR,
+>      };
+>      QTestState *from, *to, *to2;
+>      QDict *rsp;
 > -- 
 > 2.34.1
 > 
