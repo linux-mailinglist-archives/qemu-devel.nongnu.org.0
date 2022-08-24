@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E9D59F5EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:09:45 +0200 (CEST)
-Received: from localhost ([::1]:47732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D807559F5E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:08:44 +0200 (CEST)
+Received: from localhost ([::1]:50198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmOO-0002KB-1P
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60752)
+	id 1oQmNP-0000xq-NL
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmEm-0002WL-La
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:59:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22178)
+ id 1oQmFr-0003Gp-Rk
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:00:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmEk-0003Za-IM
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:59:47 -0400
+ id 1oQmFp-0003yc-NZ
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:00:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661331586;
+ s=mimecast20190719; t=1661331653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=guMcP4+aK1GLTRMNIiqKWHGskbXe9swTXjdZO9W2JuQ=;
- b=AlKWhX/PKo3LZpcgtoDriDzZndqDW0SxJqKuDRR2o58bQ9n0Tl/SRb/CKMrLj8zWrtT8Yz
- TpB5AWb+0urQvlrVPpjXclq2CDCceFZxVIU/3Fbg/w8II7czq9dmbI343LWvaL7w0oopds
- 2hz8PVhtgDF42+j2FH2nLv5zktWh4xI=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1zoa4FDhe/E2JFTulpQ2/I12myUy68JTxJDn4Tk6ABw=;
+ b=FX92aGQ5DAH9I/EUf05HUzXP/eIBfAsuelsqOoDoNuxju3og1mrjixwgbPpVnYw2SucBRT
+ 1Ly7OhtAqmW0DtG5j9kgOhhWtUb0uz03c/C8KCwIuIMk6SYn/nopAn4lZBWd6VAOUGjx/a
+ dipzWavSwY0qlnitFew+KiqhV/uGoRQ=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-122-KOEaW5zANEWJnX7gf5kHOA-1; Wed, 24 Aug 2022 04:59:44 -0400
-X-MC-Unique: KOEaW5zANEWJnX7gf5kHOA-1
-Received: by mail-pl1-f199.google.com with SMTP id
- h12-20020a170902f54c00b0016f8858ce9bso10572350plf.9
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 01:59:44 -0700 (PDT)
+ us-mta-436-HL6j4r-XNzaRgMmX30VQnw-1; Wed, 24 Aug 2022 05:00:51 -0400
+X-MC-Unique: HL6j4r-XNzaRgMmX30VQnw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ x8-20020a17090a1f8800b001faa9857ef2so562235pja.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:00:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=guMcP4+aK1GLTRMNIiqKWHGskbXe9swTXjdZO9W2JuQ=;
- b=fhACsfzZLtvUiDszjgJCfnlA2Oj3YVJDW6d6Sdz9G2ttQwpYlhgASUVvtxHUSUCXq+
- dQoxsYWLXMuAPTSUi3Q+CSnnXuoXQoo5Caz4KblmlPAts3Y+wR+SgBIAlKduFsjrKH0Y
- JM57wSpKSMWaqLY2vIHas56qtq8p/CA/0jCrbIaXr0SxIK7cbqGrORSwDpVVXagK+waR
- 2S7STbMwSF7vlIjsjT9OXXypKRCiKc736Pw+qXmb5+DuP8eu0kluldonI3CrX06uv2gX
- 0m7xVa9Bu0hEdDOXxdUoM05Uny2+OlPVzTv5imlEOqtHB6tWxLtNxHfbDNWo8J7yI+7O
- Upbw==
-X-Gm-Message-State: ACgBeo2+JN8SVWyDxeBT7rW6hLfW0QeHJ5fycOcC3dUmQOrklvQE8Pgx
- /3LzKt/mrryy3TS+KuCvrmBlW6YkFIMGDjeCa4j07KN1r7xhvh8Jq7D72SQ7saxoGS1AeJDhi9z
- Y2aQyYBz6xH7H3OM=
-X-Received: by 2002:a17:902:cf0f:b0:172:b103:e019 with SMTP id
- i15-20020a170902cf0f00b00172b103e019mr28094418plg.84.1661331583730; 
- Wed, 24 Aug 2022 01:59:43 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4rTHifnmlNAuUfdpxgcXDbdWpr274CH+AuV6t80bWgmcFyQW32Eyiwde/N6C71euuQAJBGSA==
-X-Received: by 2002:a17:902:cf0f:b0:172:b103:e019 with SMTP id
- i15-20020a170902cf0f00b00172b103e019mr28094400plg.84.1661331583474; 
- Wed, 24 Aug 2022 01:59:43 -0700 (PDT)
+ bh=1zoa4FDhe/E2JFTulpQ2/I12myUy68JTxJDn4Tk6ABw=;
+ b=F0TRiqpDV0MWoRoG9D1Fbc4EwNiZOBBe4Ie/YIk4MsMFPl6xSOwx9zYcyBCF/8r55z
+ hKemJX3enwvyZltZ/PUgQXOcIkdApSLaBlN4IHZ9NfTSqU3IMbh+8G9fh1AqMERHeyJv
+ 61moSiyZHXEsIOiZ8hKECHbZ6iD4FuIe3cS+MCTi9tSX675OApgIBBGHrfwGT2Y1gSsY
+ 0L7QcOF7yuXdE2USG0CZ4aI7cH3HgGOyMK0qhgsqarBX82UWlC03CYO3eWDB9pUVWapj
+ f0aQitKCJeT8tI/Sg12CUvBNcBA6a1xwUd1y89Wf/rSSHoRytsv3VdQsmzr7KOQUkXso
+ z2Pw==
+X-Gm-Message-State: ACgBeo2YX5fbN7WAdSwVS/heRsX6ntZpHZHe/eTQ8du+MtxLRB7epc2D
+ y8+h6UtVALh8mQyh8q224ZrxYMmcKiyK5AjPZfHbWOoMSkzIcZ1MIenvmoQcpFxd+rhzgbdiQvy
+ p3+gRlnEiJoXT84k=
+X-Received: by 2002:a17:902:b10d:b0:172:a530:dd12 with SMTP id
+ q13-20020a170902b10d00b00172a530dd12mr28463542plr.98.1661331650714; 
+ Wed, 24 Aug 2022 02:00:50 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5gMpAgJ+ZEtP+f5cO1wHBl/AgsQQ11hqLPChgVwdJtJxrs3Bzy+CEnN21+kGxt510wLZXKOQ==
+X-Received: by 2002:a17:902:b10d:b0:172:a530:dd12 with SMTP id
+ q13-20020a170902b10d00b00172a530dd12mr28463520plr.98.1661331650428; 
+ Wed, 24 Aug 2022 02:00:50 -0700 (PDT)
 Received: from [10.72.13.130] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a170902f70a00b00172633fc236sm11969193plo.174.2022.08.24.01.59.40
+ lt2-20020a17090b354200b001fabaeb1245sm841587pjb.24.2022.08.24.02.00.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 01:59:42 -0700 (PDT)
-Message-ID: <5812b7ed-3983-6b39-0c44-e1701ca4ecf0@redhat.com>
-Date: Wed, 24 Aug 2022 16:59:37 +0800
+ Wed, 24 Aug 2022 02:00:49 -0700 (PDT)
+Message-ID: <b727d5d4-eb4c-9e48-4663-8292d9d8a495@redhat.com>
+Date: Wed, 24 Aug 2022 17:00:45 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v2 07/24] virtio-pci: support queue enable
+Subject: Re: [PATCH v2 11/24] vhost-net: vhost-kernel: introduce
+ vhost_net_virtqueue_stop()
 Content-Language: en-US
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
- hengqi@linux.alibaba.com, Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
- <6dda660c634b2a35c3dea46a98e63fb2ef3a36c9.1660611460.git.kangjie.xu@linux.alibaba.com>
- <1824ba40-9460-4c5d-9a27-820a51355ba3@redhat.com>
- <9fb3e2b4-9f78-5da1-3ab6-0ec53f03b628@linux.alibaba.com>
+ <9f5f233aaef3096fa1715095f3c436bb3c855fe5.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <11f8a57c-96e0-6bea-2a1d-f0c7269fa75f@redhat.com>
+ <37936da7-0b76-5ec1-2f7e-93e200e29eb2@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <9fb3e2b4-9f78-5da1-3ab6-0ec53f03b628@linux.alibaba.com>
+In-Reply-To: <37936da7-0b76-5ec1-2f7e-93e200e29eb2@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -108,67 +110,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/8/23 16:20, Kangjie Xu 写道:
+在 2022/8/24 11:33, Kangjie Xu 写道:
 >
-> 在 2022/8/23 15:44, Jason Wang 写道:
+> 在 2022/8/24 10:40, Jason Wang 写道:
 >>
 >> 在 2022/8/16 09:06, Kangjie Xu 写道:
->>> PCI devices support vq enable.
->>
->>
->> Nit: it might be "support device specific vq enable"
->>
->>
-> Get it.
+>>> Introduce vhost_virtqueue_stop(), which can reset the virtqueue
+>>> in the device. Then it will unmap vrings and the desc of the
+>>> virtqueue.
 >>>
->>> Based on this function, the driver can re-enable the virtqueue after 
->>> the
->>> virtqueue is reset.
+>>> This patch only considers the case for vhost-kernel, when
+>>> NetClientDriver is NET_CLIENT_DRIVER_TAP.
 >>>
 >>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 >>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 >>> ---
->>>   hw/virtio/virtio-pci.c | 1 +
->>>   1 file changed, 1 insertion(+)
+>>>   hw/net/vhost_net.c      | 21 +++++++++++++++++++++
+>>>   include/net/vhost_net.h |  2 ++
+>>>   2 files changed, 23 insertions(+)
 >>>
->>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->>> index ec8e92052f..3d560e45ad 100644
->>> --- a/hw/virtio/virtio-pci.c
->>> +++ b/hw/virtio/virtio-pci.c
->>> @@ -1335,6 +1335,7 @@ static void virtio_pci_common_write(void 
->>> *opaque, hwaddr addr,
->>> proxy->vqs[vdev->queue_sel].avail[0],
->>> ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
->>> proxy->vqs[vdev->queue_sel].used[0]);
->>> +            virtio_queue_enable(vdev, vdev->queue_sel);
->>>               proxy->vqs[vdev->queue_sel].enabled = 1;
->>>               proxy->vqs[vdev->queue_sel].reset = 0;
+>>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>>> index ccac5b7a64..aa60dd901c 100644
+>>> --- a/hw/net/vhost_net.c
+>>> +++ b/hw/net/vhost_net.c
+>>> @@ -514,3 +514,24 @@ int vhost_net_set_mtu(struct vhost_net *net, 
+>>> uint16_t mtu)
+>>>         return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
+>>>   }
+>>> +
+>>> +void vhost_net_virtqueue_stop(VirtIODevice *vdev, NetClientState *nc,
+>>> +                              int vq_index)
+>>> +{
+>>> +    VHostNetState *net = get_vhost_net(nc->peer);
+>>> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
+>>> +    struct vhost_vring_file file = { .fd = -1 };
+>>> +    int idx;
+>>> +
+>>> +    assert(vhost_ops);
+>>> +
+>>> +    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
+>>> +
+>>> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+>>> +        file.index = idx;
+>>> +        int r = vhost_net_set_backend(&net->dev, &file);
+>>> +        assert(r >= 0);
+>>> +    }
 >>
 >>
->> Any reason we do it before the assignment of 1? It probably means the 
->> device specific method can't depend on virtio_queue_enabled()?
+>> Let's have a vhost_ops here instead of open code it.
 >>
 >> Thanks
 >>
-> Sorry, I don't get why device specific method can't depend on 
-> virtio_queue_enabled().
-
-
-I meant if the device specific method call virtio_queue_enabled() it 
-will return false in this case, is this intended?
-
-
+> I double-checked it, vhost_net_set_backend is already a wrapper of 
+> vhost_ops->vhost_net_set_backend().
 >
-> Before virtio_queue_enable() is done, virtqueue should always be not 
-> ready and disabled.
->
-> Otherwise, If we put it after the assignment of enabled to 1, the 
-> virtqueue may be accessed illegally and may cause panic, because the 
-> virtqueue is still being intialized and being configured.
+> It seems that, to further simplify it, we can only add idx and fd to 
+> the parameter list of vhost_net_set_backend().
 
 
-How? Shouldn't we make transport ready before making device 
-virtqueue(device) ready?
+Ok, so we can leave it as is. (Probably need a vhost_net_ops in the future).
 
 Thanks
 
@@ -177,7 +177,20 @@ Thanks
 > Thanks
 >
 >>
->>>           } else {
+>>> +
+>>> +    vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
+>>> +}
+>>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>>> index 387e913e4e..9b3aaf3814 100644
+>>> --- a/include/net/vhost_net.h
+>>> +++ b/include/net/vhost_net.h
+>>> @@ -48,4 +48,6 @@ uint64_t 
+>>> vhost_net_get_acked_features(VHostNetState *net);
+>>>     int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>>>   +void vhost_net_virtqueue_stop(VirtIODevice *vdev, NetClientState 
+>>> *nc,
+>>> +                              int vq_index);
+>>>   #endif
 >
 
 
