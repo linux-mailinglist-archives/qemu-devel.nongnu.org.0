@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047C559F757
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:20:56 +0200 (CEST)
-Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D3559F7E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:37:41 +0200 (CEST)
+Received: from localhost ([::1]:33486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnVH-0000U7-2n
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45072)
+	id 1oQnlU-000631-8r
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmu5-0003S2-Ny
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:29 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:52737)
+ id 1oQmu7-0003UL-PH
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:31 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmu3-0001Z8-8T
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:28 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id f21so16511204pjt.2
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:26 -0700 (PDT)
+ id 1oQmu6-0001Yy-0v
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:31 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id g18so16539816pju.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=o/vNmGGWktBgN2DDen09I7Im1S9JADF0xZI5Ri8LXOA=;
- b=JfPa2gw0RpTDfNi7CXk9AiSRSEHycE2Ui2elHgCAASoH2CTOVeekl8r9bI5oSFSRBU
- rqYu6Ax/COVtVZPStLKuY2lIQsej574khAyJPGw5LyIswH2I63DXSADPdcblNEM7+UVd
- 1si3fTa1j9UY5gZzkBeBE3G5uJ6O9/c9NEpwfy6xXPrwi+9t8HZWGbUGUNBz7QK4Syzk
- 1FGal5INJKP6i0S9YGJhHwvZxsoNIUv2V7bjrdUgnSEHHTdVU7l13Hz9crYsyp44JozI
- DDEh3CYva3WkEBwicPtzBp6T0uZ7U5VFthBMc66NzRzYv2ODmkN4ogjf6S2QiTMkprh3
- 6WBQ==
+ bh=Q1LOr75ldxNy4JPk8mGR6OHZijSnHEDxgtXAj7RfZ6w=;
+ b=Z8jIb21aeRsix3mRDGDGTUEmGiO246Be/3Rh10eg3xB4Z5WMJ+3xpoKubcUfcv+se+
+ QTmCEnbtqSP2SH6vm4xR3yX6o7NtPbOvxKls7c2j32Q9Xz1aYEzQc1nw4VUcBBEaV+Xs
+ 45+Ycz7mQE/1Dy41Qghn9PXMi4cTes7oAW1k8FsfKfdfRMGQTkGQoGavWHBmjC8TrSjK
+ j3/yzf8snLFK3lIDMGGlg7X+oXQy6L52soZR0sC5r0TfMgpZGR09k2Bu3VlMiYNfMy+Z
+ pmnEcfNr2JXcnT4B9DVmdLjGVw6DBxXzeIBF8zMOYhsF5t7pJJ5ujK9Gk/Tq+h4wEY5S
+ ta8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=o/vNmGGWktBgN2DDen09I7Im1S9JADF0xZI5Ri8LXOA=;
- b=MjxFIXcEVeOow4VP1Wi6Ky5Gsp4kH/Yr+6SXpBHBYxa+saZRgjwkHGaCuj7Z3WTFHV
- QAMJWo1VxAl8N9zFJeIs1psjII5w4s2HkvY+T6oAMa3i8kjEWrcyu6ztPIKUKcnRjrTW
- BlXvjO2m1lG6aIdMXWN5XXqnKA7jefZevff9FgRT+6Xo2d6O/SVSTaJe61bBMhTYqKo+
- WdQSJsPoDjrKat5S0TsjKq/dvEEmPbt1r+XvUW1+74OuRzb7zGRkukl9LX4YqV9pFZMY
- tW7rBbKoDbvltTjZH3bNbt+4KkD/xIYeDoJWzxgEsYjG3oGF9dnK2u/B7Toc0BG6VQey
- 598Q==
-X-Gm-Message-State: ACgBeo1RVrBYOOgejdqYXZul9UoNuYaPL2rW93pMFj3PBJtANrJaO3Dk
- bgGW9XQ5lj0h55uYB20Nn2PGWASgbLw=
-X-Google-Smtp-Source: AA6agR5A9QOVfTfpygKeicp+08FdUArPB+j5VWE9g6tmMVc+3a4NsMPnxvbnHoYGNAYAkgbt2n3p4A==
-X-Received: by 2002:a17:902:ab8d:b0:172:9382:4d1e with SMTP id
- f13-20020a170902ab8d00b0017293824d1emr27914872plr.133.1661334145658; 
- Wed, 24 Aug 2022 02:42:25 -0700 (PDT)
+ bh=Q1LOr75ldxNy4JPk8mGR6OHZijSnHEDxgtXAj7RfZ6w=;
+ b=KVOribmIIZzeCJQUxd1hK/UuK9Y5lJLV6ObWg1tQxMBNjqwNYhcKEJNFQKWMSHpFz2
+ KzabOoeXd8fWqtPq1Tqi8emoi9bR75Rr8eBIcGpCVQTLbr29B78R8RpbZW8CLuDTT//5
+ IzhUOgHKu3Dpgk0LORGbK8KI4FdJpFx8Xh8P8KgKPqrurB0N9TAAvqTUowzrYbsegCOs
+ 2eTCYKOhir0l9TA/CYtkeEBS9asZGvacmPVvnqdFhLTqDJScLc5hEM0uzcRrNkF0SCqm
+ 2FLnj8JAiZJ7ukAQ750gnBPSVttcZPHc3JC/GqVU/MD9TDklCqQ7kNz83odbkQZDujNe
+ wrmg==
+X-Gm-Message-State: ACgBeo2G+IGO0pMN4z4HJP3OLKoXCiwx4WhQo4cHmJpbpCE8/rK6mCdC
+ WczcIo3Gr8bpcH2ZqYb0yCz9kLjmCVM=
+X-Google-Smtp-Source: AA6agR7Y0Q3wZwz9P+7kz5MoKZKUgdeceSrbqcZM6ENNrp+jCQDWj3QawsxqA1lWG7SyW2SaLRSmfA==
+X-Received: by 2002:a17:902:864c:b0:172:bc0d:c769 with SMTP id
+ y12-20020a170902864c00b00172bc0dc769mr25910815plt.146.1661334148133; 
+ Wed, 24 Aug 2022 02:42:28 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.23
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:42:25 -0700 (PDT)
+ Wed, 24 Aug 2022 02:42:27 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 20/51] tests/qtest: i440fx-test: Skip running request_{bios,
- pflash} for win32
-Date: Wed, 24 Aug 2022 17:39:58 +0800
-Message-Id: <20220824094029.1634519-21-bmeng.cn@gmail.com>
+Subject: [PATCH 21/51] tests/qtest: migration-test: Skip running
+ test_migrate_fd_proto on win32
+Date: Wed, 24 Aug 2022 17:39:59 +0800
+Message-Id: <20220824094029.1634519-22-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,48 +94,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The request_{bios,pflash} test cases call mmap() which does not
-exist on win32. Exclude them.
+The test case 'test_migrate_fd_proto' calls socketpair() which does
+not exist on win32. Exclude it. The helper function wait_command_fd()
+is not needed anymore, hence exclude it too.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/i440fx-test.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/qtest/migration-helpers.h | 2 ++
+ tests/qtest/migration-helpers.c | 2 ++
+ tests/qtest/migration-test.c    | 4 ++++
+ 3 files changed, 8 insertions(+)
 
-diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
-index 6d7d4d8d8f..3890f1237c 100644
---- a/tests/qtest/i440fx-test.c
-+++ b/tests/qtest/i440fx-test.c
-@@ -278,6 +278,8 @@ static void test_i440fx_pam(gconstpointer opaque)
-     qtest_end();
- }
+diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
+index 59561898d0..db0684de48 100644
+--- a/tests/qtest/migration-helpers.h
++++ b/tests/qtest/migration-helpers.h
+@@ -17,8 +17,10 @@
+ 
+ extern bool got_stop;
  
 +#ifndef _WIN32
-+
- #define BLOB_SIZE ((size_t)65536)
- #define ISA_BIOS_MAXSZ ((size_t)(128 * 1024))
- 
-@@ -396,6 +398,8 @@ static void request_pflash(FirmwareTestFixture *fixture,
-     fixture->is_bios = false;
- }
- 
-+#endif /* _WIN32 */
-+
- int main(int argc, char **argv)
- {
-     TestData data;
-@@ -406,8 +410,10 @@ int main(int argc, char **argv)
- 
-     qtest_add_data_func("i440fx/defaults", &data, test_i440fx_defaults);
-     qtest_add_data_func("i440fx/pam", &data, test_i440fx_pam);
-+#ifndef _WIN32
-     add_firmware_test("i440fx/firmware/bios", request_bios);
-     add_firmware_test("i440fx/firmware/pflash", request_pflash);
+ G_GNUC_PRINTF(3, 4)
+ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...);
 +#endif
  
-     return g_test_run();
+ G_GNUC_PRINTF(2, 3)
+ QDict *wait_command(QTestState *who, const char *command, ...);
+diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+index c6fbeb3974..f6f3c6680f 100644
+--- a/tests/qtest/migration-helpers.c
++++ b/tests/qtest/migration-helpers.c
+@@ -34,6 +34,7 @@ static void check_stop_event(QTestState *who)
+     }
  }
+ 
++#ifndef _WIN32
+ /*
+  * Events can get in the way of responses we are actually waiting for.
+  */
+@@ -58,6 +59,7 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+ 
+     return ret;
+ }
++#endif
+ 
+ /*
+  * Events can get in the way of responses we are actually waiting for.
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index af9250750b..2ae7498d5d 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1629,6 +1629,7 @@ static void test_precopy_tcp_tls_x509_reject_anon_client(void)
+ #endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
+ 
++#ifndef _WIN32
+ static void *test_migrate_fd_start_hook(QTestState *from,
+                                         QTestState *to)
+ {
+@@ -1697,6 +1698,7 @@ static void test_migrate_fd_proto(void)
+     };
+     test_precopy_common(&args);
+ }
++#endif /* _WIN32 */
+ 
+ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+ {
+@@ -2531,7 +2533,9 @@ int main(int argc, char **argv)
+ #endif /* CONFIG_GNUTLS */
+ 
+     /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); */
++#ifndef _WIN32
+     qtest_add_func("/migration/fd_proto", test_migrate_fd_proto);
++#endif
+     qtest_add_func("/migration/validate_uuid", test_validate_uuid);
+     qtest_add_func("/migration/validate_uuid_error", test_validate_uuid_error);
+     qtest_add_func("/migration/validate_uuid_src_not_set",
 -- 
 2.34.1
 
