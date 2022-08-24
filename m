@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7F359F16A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 04:29:40 +0200 (CEST)
-Received: from localhost ([::1]:34754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAE959F16B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 04:36:17 +0200 (CEST)
+Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQg9D-00041D-Tv
-	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 22:29:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
+	id 1oQgFb-0000Qo-W7
+	for lists+qemu-devel@lfdr.de; Tue, 23 Aug 2022 22:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQg8C-0002Ho-0t
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:28:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31524)
+ id 1oQgCf-0005Ed-8g
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:33:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQg8A-0003jL-03
- for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:28:35 -0400
+ id 1oQgCb-0004Q9-KY
+ for qemu-devel@nongnu.org; Tue, 23 Aug 2022 22:33:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661308113;
+ s=mimecast20190719; t=1661308388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MUDTCWdHolPEFkMQQBbKf1g66a/XCYEcJVsEMkSrulU=;
- b=aFF/X3l9Jvwv/kv262YmgtftfMI8T+es4B9qGSwkTMc6wUNDNCtmJdH/t3owf7fmbmBG0m
- 8Zn0IVYo8nG7G0gRtnbNugkRHHP4uq7+SOg8cJMSP9MJHfBG1Md1s4wsdlfiWILp0pWiGm
- v1zsaI7OIgieuRc2nO5+1zVDyqNI1cI=
+ bh=/g0TDqjhNYoAU8Vb9E2eAi1hRFu1jnyJUvR3UPvAsJE=;
+ b=jM9tdK666sWjiE0tS43OdEWd6E+fpmPlheJnxLdgEDnxLjihbj9M9xKlcwfyRnhPEZrbpr
+ j9Hdtw4WLHGyHS+BBXuyKpmXfiOYVeXcbXuPI/8WIYm1BSwhpwMS7yZ3Yk7hgZ6pc2GtU2
+ TzQMqSKNsNGcBh/oxzaMlmyYxd6gpVM=
 Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
  [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-209-wVsIfsZ0Pm-4JSpebhMPUg-1; Tue, 23 Aug 2022 22:28:32 -0400
-X-MC-Unique: wVsIfsZ0Pm-4JSpebhMPUg-1
+ us-mta-655-VVaR1j-KMwWs308k18kmiQ-1; Tue, 23 Aug 2022 22:33:06 -0400
+X-MC-Unique: VVaR1j-KMwWs308k18kmiQ-1
 Received: by mail-pg1-f199.google.com with SMTP id
- s129-20020a632c87000000b00411564fe1feso6864759pgs.7
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 19:28:31 -0700 (PDT)
+ a12-20020a65604c000000b0042a8c1cc701so3932561pgp.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 19:33:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=MUDTCWdHolPEFkMQQBbKf1g66a/XCYEcJVsEMkSrulU=;
- b=Ffja1CtzITOXFwLYoc1oftcI9sFB5hHtQHMUZcKUjbwiiXhORk/Vn52RV5Id0g2kEM
- yySVX8rpToRx88uqxMGr+Vhsa927qGr5nPTw7qgzsNH3FBBIVKSz/Wn64FNB2GuS/1Au
- iZry7I3MMfoFMtzCYpqzHpy61UfQPuAbRRnJfwvxcw4cIVWEsw573zTOvGKU3p8J75fS
- opyM7uT50k5KqxKSDAOflAsyD3mWHovZ5QPOC1o1MceRN+C7aODkM3VWMoFRfmW68LRf
- LQMsTXcCYeMe4bWu4/jQNcvTH4G9scVVsEbr2s2mHnZqxFXftbd7cFpTQiiwoanpCIlq
- 5l6A==
-X-Gm-Message-State: ACgBeo0NYI/s5OFzV2bcWcKiXuWy16bEVGuYNw/C/WIRjKWun8Gitrh9
- gLJ1jhLRWrxwg4EzouJkF8kRtbwJmygdLHaZvHSxKWM74XawjMEyAZjfJWH2hXE3DtWjKiz6gpD
- XHKoR+ae40HPkt/E=
-X-Received: by 2002:a17:903:1c8:b0:173:c58:dc6d with SMTP id
- e8-20020a17090301c800b001730c58dc6dmr3325147plh.105.1661308110352; 
- Tue, 23 Aug 2022 19:28:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5BZH5V5fw5nQJapklw8qrTBA5UcPVkLgFLB+WQp8Laq6vUEX8jnmjpV8Dyvurk0oOMNJD9Yg==
-X-Received: by 2002:a17:903:1c8:b0:173:c58:dc6d with SMTP id
- e8-20020a17090301c800b001730c58dc6dmr3324843plh.105.1661308104150; 
- Tue, 23 Aug 2022 19:28:24 -0700 (PDT)
+ bh=/g0TDqjhNYoAU8Vb9E2eAi1hRFu1jnyJUvR3UPvAsJE=;
+ b=jtEJd2K1MI4ViD9DLy3ciQaGWr6ito5Nqjk9Bc2hceqLKlqG8+2gka2yd+UbgF5kYV
+ JTTyLTTAAPeXdJZVR9yeCZLZOpgH2h5KmjEoVMwYdMAte9VGrpHmxi5IiQcoO8ndIbgR
+ 8tVeeApR2Hb5w4dSHCAiNL4Rbvl2mWj+iENRhYUgVIuaQGGx3KVMWPgX4T6hQkbub6UR
+ WjIOMMRTmdN1B70aJpcev6muAaSAtJheL3fp04Py48nNMd2ny+5jukhzLPUCmFHeJvZJ
+ GPaDgj5AphCY5KR+k9VD/8ZZ747MbX7cjdx3RaYQX0XotxfxSk8uckpiZFWZOtCcz4it
+ 8Pbw==
+X-Gm-Message-State: ACgBeo1NZtsbnEFaP11+gBs4OcFZfYz/UqulLC7GryeHFOMgVXqW9cLC
+ esB141pboBVwXFtSg8QkCYrEkx8c2EWzBAZcQxYXHKe5eKaAtSpNouwG9mYOsCr3BcjTZvQZlN4
+ h6dfuI9on+BaMgtQ=
+X-Received: by 2002:a17:902:da82:b0:172:be4a:c586 with SMTP id
+ j2-20020a170902da8200b00172be4ac586mr23698325plx.13.1661308384735; 
+ Tue, 23 Aug 2022 19:33:04 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR44ITDq/Da4T6/EvFdrGNUkBDoRtt1VlPUPWnltzd/dAy0EpRNHKwARDqvo4ROwEkTyfpGoeQ==
+X-Received: by 2002:a17:902:da82:b0:172:be4a:c586 with SMTP id
+ j2-20020a170902da8200b00172be4ac586mr23698300plx.13.1661308384451; 
+ Tue, 23 Aug 2022 19:33:04 -0700 (PDT)
 Received: from [10.72.13.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- s184-20020a625ec1000000b0052e57ed8cdasm7714967pfb.55.2022.08.23.19.28.21
+ n126-20020a622784000000b0053291ddd8e5sm9120882pfn.40.2022.08.23.19.32.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 19:28:23 -0700 (PDT)
-Message-ID: <d322005e-6f76-82bd-1e13-22108325adad@redhat.com>
-Date: Wed, 24 Aug 2022 10:28:20 +0800
+ Tue, 23 Aug 2022 19:33:03 -0700 (PDT)
+Message-ID: <be74af04-6054-f5e5-28c0-4b0952bbbd78@redhat.com>
+Date: Wed, 24 Aug 2022 10:32:56 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH] net: tulip: Restrict DMA engine to memories
+Subject: Re: [PATCH v10 00/12] NIC vhost-vdpa state restore via Shadow CVQ
 Content-Language: en-US
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <eli@mellanox.com>,
+ Cornelia Huck <cohuck@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Cindy Lu <lulu@redhat.com>
+References: <20220823183037.98470-1-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-To: Zheyu Ma <zheyuma97@gmail.com>
-Cc: Sven Schnelle <svens@stackframe.org>, qemu-devel <qemu-devel@nongnu.org>
-References: <20220821122943.835058-1-zheyuma97@gmail.com>
- <CACGkMEtFXdV-M8dPm_kW9y7CWRjzU-GRh=W2Qo-bq4PGQuOOGA@mail.gmail.com>
-In-Reply-To: <CACGkMEtFXdV-M8dPm_kW9y7CWRjzU-GRh=W2Qo-bq4PGQuOOGA@mail.gmail.com>
+In-Reply-To: <20220823183037.98470-1-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -104,72 +112,100 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/8/24 10:26, Jason Wang 写道:
-> On Sun, Aug 21, 2022 at 8:29 PM Zheyu Ma <zheyuma97@gmail.com> wrote:
->> The DMA engine is started by I/O access and then itself accesses the
->> I/O registers, triggering a reentrancy bug.
->>
->> The following log can reveal it:
->> ==5637==ERROR: AddressSanitizer: stack-overflow
->>      #0 0x5595435f6078 in tulip_xmit_list_update qemu/hw/net/tulip.c:673
->>      #1 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
->>      #2 0x559544637f86 in memory_region_write_accessor qemu/softmmu/memory.c:492:5
->>      #3 0x5595446379fa in access_with_adjusted_size qemu/softmmu/memory.c:554:18
->>      #4 0x5595446372fa in memory_region_dispatch_write qemu/softmmu/memory.c
->>      #5 0x55954468b74c in flatview_write_continue qemu/softmmu/physmem.c:2825:23
->>      #6 0x559544683662 in flatview_write qemu/softmmu/physmem.c:2867:12
->>      #7 0x5595446833f3 in address_space_write qemu/softmmu/physmem.c:2963:18
->>      #8 0x5595435fb082 in dma_memory_rw_relaxed /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:87:12
->>      #9 0x5595435fb082 in dma_memory_rw /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:130:12
->>      #10 0x5595435fb082 in dma_memory_write /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:171:12
->>      #11 0x5595435fb082 in stl_le_dma /home/mzy/truman/third_party/qemu/include/sysemu/dma.h:272:1
->>      #12 0x5595435fb082 in stl_le_pci_dma /home/mzy/truman/third_party/qemu/include/hw/pci/pci.h:910:1
->>      #13 0x5595435fb082 in tulip_desc_write qemu/hw/net/tulip.c:101:9
->>      #14 0x5595435f7e3d in tulip_xmit_list_update qemu/hw/net/tulip.c:706:9
->>      #15 0x5595435f204a in tulip_write qemu/hw/net/tulip.c:805:13
->>
->> Fix this bug by restricting the DMA engine to memories regions.
->>
->> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-> Queued for 7.2.
+在 2022/8/24 02:30, Eugenio Pérez 写道:
+> CVQ of net vhost-vdpa devices can be intercepted since the addition of x-svq.
+> The virtio-net device model is updated. The migration was blocked because
+> although the state can be megrated between VMM it was not possible to restore
+> on the destination NIC.
+>
+> This series add support for SVQ to inject external messages without the guest's
+> knowledge, so before the guest is resumed all the guest visible state is
+> restored. It is done using standard CVQ messages, so the vhost-vdpa device does
+> not need to learn how to restore it: As long as they have the feature, they
+> know how to handle it.
+>
+> Depending on the device, this series may need fixes with message id [1] to
+> achieve full live migration.
+>
+> [1] <20220823182008.97141-1-eperezma@redhat.com>
 
 
-Ok, I saw v2, so I've queued that version since it has a better change log.
+I've queued the two series in net-next branch:
+
+https://github.com/jasowang/qemu/commits/net-next
 
 Thanks
 
 
 >
-> Thanks
+> v10:
+> - Rebase on latest fixes of [1].
 >
->> ---
->>   hw/net/tulip.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/net/tulip.c b/hw/net/tulip.c
->> index 097e905bec..b9e42c322a 100644
->> --- a/hw/net/tulip.c
->> +++ b/hw/net/tulip.c
->> @@ -70,7 +70,7 @@ static const VMStateDescription vmstate_pci_tulip = {
->>   static void tulip_desc_read(TULIPState *s, hwaddr p,
->>           struct tulip_descriptor *desc)
->>   {
->> -    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
->> +    const MemTxAttrs attrs = { .memory = true };
->>
->>       if (s->csr[0] & CSR0_DBO) {
->>           ldl_be_pci_dma(&s->dev, p, &desc->status, attrs);
->> @@ -88,7 +88,7 @@ static void tulip_desc_read(TULIPState *s, hwaddr p,
->>   static void tulip_desc_write(TULIPState *s, hwaddr p,
->>           struct tulip_descriptor *desc)
->>   {
->> -    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
->> +    const MemTxAttrs attrs = { .memory = true };
->>
->>       if (s->csr[0] & CSR0_DBO) {
->>           stl_be_pci_dma(&s->dev, p, desc->status, attrs);
->> --
->> 2.25.1
->>
+> v9:
+> - Use guest acked features instead of device's.
+> - Minors: fix typos and patch messages, constify vhost_vdpa and VirtIONet vars,
+>    delete unneeded increment of cursor.
+>
+> v8:
+> - Rename NetClientInfo load to start, so is symmetrical with stop()
+> - Delete copy of device's in buffer at vhost_vdpa_net_load
+>
+> v7:
+> - Remove accidental double free.
+>
+> v6:
+> - Move map and unmap of the buffers to the start and stop of the device. This
+>    implies more callbacks on NetClientInfo, but simplifies the SVQ CVQ code.
+> - Not assume that in buffer is sizeof(virtio_net_ctrl_ack) in
+>    vhost_vdpa_net_cvq_add
+> - Reduce the number of changes from previous versions
+> - Delete unused memory barrier
+>
+> v5:
+> - Rename s/start/load/
+> - Use independent NetClientInfo to only add load callback on cvq.
+> - Accept out sg instead of dev_buffers[] at vhost_vdpa_net_cvq_map_elem
+> - Use only out size instead of iovec dev_buffers to know if the descriptor is
+>    effectively available, allowing to delete artificial !NULL VirtQueueElement
+>    on vhost_svq_add call.
+>
+> v4:
+> - Actually use NetClientInfo callback.
+>
+> v3:
+> - Route vhost-vdpa start code through NetClientInfo callback.
+> - Delete extra vhost_net_stop_one() call.
+>
+> v2:
+> - Fix SIGSEGV dereferencing SVQ when not in svq mode
+>
+> v1 from RFC:
+> - Do not reorder DRIVER_OK & enable patches.
+> - Delete leftovers
+>
+> Eugenio Pérez (12):
+>    vhost: stop transfer elem ownership in vhost_handle_guest_kick
+>    vhost: use SVQ element ndescs instead of opaque data for desc
+>      validation
+>    vhost: Delete useless read memory barrier
+>    vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush
+>    vhost_net: Add NetClientInfo start callback
+>    vhost_net: Add NetClientInfo stop callback
+>    vdpa: add net_vhost_vdpa_cvq_info NetClientInfo
+>    vdpa: Move command buffers map to start of net device
+>    vdpa: extract vhost_vdpa_net_cvq_add from
+>      vhost_vdpa_net_handle_ctrl_avail
+>    vhost_net: add NetClientState->load() callback
+>    vdpa: Add virtio-net mac address via CVQ at start
+>    vdpa: Delete CVQ migration blocker
+>
+>   include/hw/virtio/vhost-vdpa.h     |   1 -
+>   include/net/net.h                  |   6 +
+>   hw/net/vhost_net.c                 |  17 +++
+>   hw/virtio/vhost-shadow-virtqueue.c |  27 ++--
+>   hw/virtio/vhost-vdpa.c             |  15 --
+>   net/vhost-vdpa.c                   | 224 ++++++++++++++++++-----------
+>   6 files changed, 177 insertions(+), 113 deletions(-)
+>
 
 
