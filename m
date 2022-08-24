@@ -2,96 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8218B59F5EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:10:03 +0200 (CEST)
-Received: from localhost ([::1]:59410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E9D59F5EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:09:45 +0200 (CEST)
+Received: from localhost ([::1]:47732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmOg-0002zw-Jc
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56914)
+	id 1oQmOO-0002KB-1P
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:09:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmBv-0006ed-Pp
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:56:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60484)
+ id 1oQmEm-0002WL-La
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:59:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmBr-0003Gj-JV
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:56:49 -0400
+ id 1oQmEk-0003Za-IM
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:59:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661331406;
+ s=mimecast20190719; t=1661331586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GX2ghjYx//Mu5qloOQ3rGjoOsBaRBdGDt/MKdo1lDO4=;
- b=TFtCpiRnEVesi9BKxDWNqA6D4ZlMK2UkHPoUgSoljd9oxwrdR9PpFn86L7hDz3OSimtkFz
- CauKCfpzNRCfxVYhFPsPayROw//vk/LpGDWTnuI1QuU3rMK3T3ORo/YwRJPg6y2uystBW9
- sD06Abx1irNhEVMsgcI6gg5xvyAWCo8=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=guMcP4+aK1GLTRMNIiqKWHGskbXe9swTXjdZO9W2JuQ=;
+ b=AlKWhX/PKo3LZpcgtoDriDzZndqDW0SxJqKuDRR2o58bQ9n0Tl/SRb/CKMrLj8zWrtT8Yz
+ TpB5AWb+0urQvlrVPpjXclq2CDCceFZxVIU/3Fbg/w8II7czq9dmbI343LWvaL7w0oopds
+ 2hz8PVhtgDF42+j2FH2nLv5zktWh4xI=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-473-7D9yBIMSMgOzVIFUq2rIHg-1; Wed, 24 Aug 2022 04:56:45 -0400
-X-MC-Unique: 7D9yBIMSMgOzVIFUq2rIHg-1
-Received: by mail-pl1-f197.google.com with SMTP id
- l3-20020a170902f68300b00172e52e5297so5632011plg.2
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 01:56:44 -0700 (PDT)
+ us-mta-122-KOEaW5zANEWJnX7gf5kHOA-1; Wed, 24 Aug 2022 04:59:44 -0400
+X-MC-Unique: KOEaW5zANEWJnX7gf5kHOA-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ h12-20020a170902f54c00b0016f8858ce9bso10572350plf.9
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 01:59:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=GX2ghjYx//Mu5qloOQ3rGjoOsBaRBdGDt/MKdo1lDO4=;
- b=cN1uaGtiWNnuTYQju3szymzTLyPr4sqlRwPznnCcYpZspcSa2u4LKFr8NXjup06yp4
- tqGbdt4bvMwvyD5b8UJnQV64OKbLPrrsbNs1XlyenBPO5jFXXvyibPbt7Odwl/dD3+qL
- VdM9VG0HeNix7GnQmvz6fj6GEVbfp3D3OIl67SE2iTw9vAWJU4sptvcDfQb2aZMFKNVy
- cX6s4E0JRfBbi+aMzQ4wyoj1jmjXg3n0Jc0lyWQ3X3VXB79mEY4N3YoS25xtWwYE6sEk
- G8j7OcZYIGZArVGy7dgLjdfz3Vo7jSoeqMTAvX13W/PUBCRnbYPuJjkKszMBPdfk/0mE
- +tOQ==
-X-Gm-Message-State: ACgBeo2ux6kgmzQyMMHa++coZs46sL6habRlOvY9qvBbAAY/hcJ5h1Bi
- cxeE9q22lQZ/p3omaQJ5C2es42zn5/TNEYWwZVK1UvlslVr8fOcBynBtZ0sLEA0nsvHRPJiNben
- mX45Zz6Bbq/lHF8c=
-X-Received: by 2002:a17:90b:17c2:b0:1fb:7a6f:7977 with SMTP id
- me2-20020a17090b17c200b001fb7a6f7977mr3478623pjb.53.1661331404072; 
- Wed, 24 Aug 2022 01:56:44 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6XYsOr8saOiCjxJKtM//6sLRzfflrqnFsMsjmFkAB6ViClaBF7214ofHC50OJrZKf9eAM1ig==
-X-Received: by 2002:a17:90b:17c2:b0:1fb:7a6f:7977 with SMTP id
- me2-20020a17090b17c200b001fb7a6f7977mr3478602pjb.53.1661331403798; 
- Wed, 24 Aug 2022 01:56:43 -0700 (PDT)
+ bh=guMcP4+aK1GLTRMNIiqKWHGskbXe9swTXjdZO9W2JuQ=;
+ b=fhACsfzZLtvUiDszjgJCfnlA2Oj3YVJDW6d6Sdz9G2ttQwpYlhgASUVvtxHUSUCXq+
+ dQoxsYWLXMuAPTSUi3Q+CSnnXuoXQoo5Caz4KblmlPAts3Y+wR+SgBIAlKduFsjrKH0Y
+ JM57wSpKSMWaqLY2vIHas56qtq8p/CA/0jCrbIaXr0SxIK7cbqGrORSwDpVVXagK+waR
+ 2S7STbMwSF7vlIjsjT9OXXypKRCiKc736Pw+qXmb5+DuP8eu0kluldonI3CrX06uv2gX
+ 0m7xVa9Bu0hEdDOXxdUoM05Uny2+OlPVzTv5imlEOqtHB6tWxLtNxHfbDNWo8J7yI+7O
+ Upbw==
+X-Gm-Message-State: ACgBeo2+JN8SVWyDxeBT7rW6hLfW0QeHJ5fycOcC3dUmQOrklvQE8Pgx
+ /3LzKt/mrryy3TS+KuCvrmBlW6YkFIMGDjeCa4j07KN1r7xhvh8Jq7D72SQ7saxoGS1AeJDhi9z
+ Y2aQyYBz6xH7H3OM=
+X-Received: by 2002:a17:902:cf0f:b0:172:b103:e019 with SMTP id
+ i15-20020a170902cf0f00b00172b103e019mr28094418plg.84.1661331583730; 
+ Wed, 24 Aug 2022 01:59:43 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4rTHifnmlNAuUfdpxgcXDbdWpr274CH+AuV6t80bWgmcFyQW32Eyiwde/N6C71euuQAJBGSA==
+X-Received: by 2002:a17:902:cf0f:b0:172:b103:e019 with SMTP id
+ i15-20020a170902cf0f00b00172b103e019mr28094400plg.84.1661331583474; 
+ Wed, 24 Aug 2022 01:59:43 -0700 (PDT)
 Received: from [10.72.13.130] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- n14-20020a170903110e00b0016d6963cb12sm11990979plh.304.2022.08.24.01.56.39
+ h10-20020a170902f70a00b00172633fc236sm11969193plo.174.2022.08.24.01.59.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 01:56:42 -0700 (PDT)
-Message-ID: <e3a55cf5-9569-8bd5-4915-1a901e2f3464@redhat.com>
-Date: Wed, 24 Aug 2022 16:56:37 +0800
+ Wed, 24 Aug 2022 01:59:42 -0700 (PDT)
+Message-ID: <5812b7ed-3983-6b39-0c44-e1701ca4ecf0@redhat.com>
+Date: Wed, 24 Aug 2022 16:59:37 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v2 06/24] virtio-pci: support queue reset
+Subject: Re: [PATCH v2 07/24] virtio-pci: support queue enable
 Content-Language: en-US
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+ marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
+ hengqi@linux.alibaba.com, Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
- <d3bbe50c546b55971e87ff4cbc61e049c6800db8.1660611460.git.kangjie.xu@linux.alibaba.com>
- <4553ca4a-6df9-dac4-307e-ccc405744bb9@redhat.com>
- <a63b8cf1-1477-abde-e9a8-168d58426b5c@linux.alibaba.com>
+ <6dda660c634b2a35c3dea46a98e63fb2ef3a36c9.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <1824ba40-9460-4c5d-9a27-820a51355ba3@redhat.com>
+ <9fb3e2b4-9f78-5da1-3ab6-0ec53f03b628@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <a63b8cf1-1477-abde-e9a8-168d58426b5c@linux.alibaba.com>
+In-Reply-To: <9fb3e2b4-9f78-5da1-3ab6-0ec53f03b628@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,121 +108,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/8/23 15:52, Kangjie Xu 写道:
+在 2022/8/23 16:20, Kangjie Xu 写道:
 >
-> 在 2022/8/23 15:40, Jason Wang 写道:
+> 在 2022/8/23 15:44, Jason Wang 写道:
 >>
 >> 在 2022/8/16 09:06, Kangjie Xu 写道:
->>> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>>
->>> PCI devices support vq reset.
->>>
->>> Based on this function, the driver can adjust the size of the ring, and
->>> quickly recycle the buffer in the ring.
->>>
->>> The migration of the virtio devices will not happen during a reset
->>> operation. This is becuase the global iothread lock is held. Migration
->>> thread also needs the lock. As a result, we do not need to migrate the
->>> reset state of VirtIOPCIQueue.
->>>
->>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->>> ---
->>>   hw/virtio/virtio-pci.c         | 19 +++++++++++++++++++
->>>   include/hw/virtio/virtio-pci.h |  1 +
->>>   2 files changed, 20 insertions(+)
->>>
->>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->>> index 45327f0b31..ec8e92052f 100644
->>> --- a/hw/virtio/virtio-pci.c
->>> +++ b/hw/virtio/virtio-pci.c
->>> @@ -1246,6 +1246,9 @@ static uint64_t virtio_pci_common_read(void 
->>> *opaque, hwaddr addr,
->>>       case VIRTIO_PCI_COMMON_Q_USEDHI:
->>>           val = proxy->vqs[vdev->queue_sel].used[1];
->>>           break;
->>> +    case VIRTIO_PCI_COMMON_Q_RESET:
->>> +        val = proxy->vqs[vdev->queue_sel].reset;
->>> +        break;
->>>       default:
->>>           val = 0;
->>>       }
->>> @@ -1333,6 +1336,7 @@ static void virtio_pci_common_write(void 
->>> *opaque, hwaddr addr,
->>> ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
->>> proxy->vqs[vdev->queue_sel].used[0]);
->>>               proxy->vqs[vdev->queue_sel].enabled = 1;
->>> +            proxy->vqs[vdev->queue_sel].reset = 0;
->>>           } else {
->>>               virtio_error(vdev, "wrong value for queue_enable 
->>> %"PRIx64, val);
->>>           }
->>> @@ -1355,6 +1359,20 @@ static void virtio_pci_common_write(void 
->>> *opaque, hwaddr addr,
->>>       case VIRTIO_PCI_COMMON_Q_USEDHI:
->>>           proxy->vqs[vdev->queue_sel].used[1] = val;
->>>           break;
->>> +    case VIRTIO_PCI_COMMON_Q_RESET:
->>> +        if (val == 1) {
->>> +            /*
->>> +             * With the global iothread lock taken, the migration 
->>> will not
->>> +             * happen until the virtqueue reset is done.
->>> +             */
+>>> PCI devices support vq enable.
 >>
 >>
->> This comment applies to all other common cfg operation as well, So it 
->> looks not necessary?
+>> Nit: it might be "support device specific vq enable"
+>>
 >>
 > Get it.
->
->>
->>> + proxy->vqs[vdev->queue_sel].reset = 1;
->>> +
->>> +            virtio_queue_reset(vdev, vdev->queue_sel);
->>> +
->>> +            proxy->vqs[vdev->queue_sel].reset = 0;
->>> +            proxy->vqs[vdev->queue_sel].enabled = 0;
->>> +        }
->>> +        break;
->>>       default:
->>>           break;
->>>       }
->>> @@ -1950,6 +1968,7 @@ static void virtio_pci_reset(DeviceState *qdev)
->>>         for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
->>>           proxy->vqs[i].enabled = 0;
->>> +        proxy->vqs[i].reset = 0;
->>>           proxy->vqs[i].num = 0;
->>>           proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
->>>           proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
->>> diff --git a/include/hw/virtio/virtio-pci.h 
->>> b/include/hw/virtio/virtio-pci.h
->>> index 2446dcd9ae..e9290e2b94 100644
->>> --- a/include/hw/virtio/virtio-pci.h
->>> +++ b/include/hw/virtio/virtio-pci.h
->>> @@ -117,6 +117,7 @@ typedef struct VirtIOPCIRegion {
->>>   typedef struct VirtIOPCIQueue {
->>>     uint16_t num;
->>>     bool enabled;
->>> +  bool reset;
+>>>
+>>> Based on this function, the driver can re-enable the virtqueue after 
+>>> the
+>>> virtqueue is reset.
+>>>
+>>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>>> ---
+>>>   hw/virtio/virtio-pci.c | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+>>> index ec8e92052f..3d560e45ad 100644
+>>> --- a/hw/virtio/virtio-pci.c
+>>> +++ b/hw/virtio/virtio-pci.c
+>>> @@ -1335,6 +1335,7 @@ static void virtio_pci_common_write(void 
+>>> *opaque, hwaddr addr,
+>>> proxy->vqs[vdev->queue_sel].avail[0],
+>>> ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
+>>> proxy->vqs[vdev->queue_sel].used[0]);
+>>> +            virtio_queue_enable(vdev, vdev->queue_sel);
+>>>               proxy->vqs[vdev->queue_sel].enabled = 1;
+>>>               proxy->vqs[vdev->queue_sel].reset = 0;
 >>
 >>
->> Do we need to migrate this?
+>> Any reason we do it before the assignment of 1? It probably means the 
+>> device specific method can't depend on virtio_queue_enabled()?
 >>
 >> Thanks
 >>
-> I think we do not need to migrate this because we hold the global 
-> iothread lock when virtqueue reset is triggered. The migration of 
-> these device states also needs this lock.
->
-> On the other hand, the 'reset' state of virtqueue is same(is 0) before 
-> and after the process of resetting a virtqueue.
->
-> Thus, the migration will not happen when we are resetting a virtqueue 
-> and we do not to migrate it.
+> Sorry, I don't get why device specific method can't depend on 
+> virtio_queue_enabled().
 
 
-Ok, let's add a comment above reset to explain this.
+I meant if the device specific method call virtio_queue_enabled() it 
+will return false in this case, is this intended?
+
+
+>
+> Before virtio_queue_enable() is done, virtqueue should always be not 
+> ready and disabled.
+>
+> Otherwise, If we put it after the assignment of enabled to 1, the 
+> virtqueue may be accessed illegally and may cause panic, because the 
+> virtqueue is still being intialized and being configured.
+
+
+How? Shouldn't we make transport ready before making device 
+virtqueue(device) ready?
 
 Thanks
 
@@ -232,9 +177,7 @@ Thanks
 > Thanks
 >
 >>
->>>     uint32_t desc[2];
->>>     uint32_t avail[2];
->>>     uint32_t used[2];
+>>>           } else {
 >
 
 
