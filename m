@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD2059F800
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:42:42 +0200 (CEST)
-Received: from localhost ([::1]:52180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4FD59F7EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:38:47 +0200 (CEST)
+Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnqL-0004WD-OY
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
+	id 1oQnmY-0007b7-Dp
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:38:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmu9-0003Z4-Bi
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:33 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:34557)
+ id 1oQmuD-0003iy-9A
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:37 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:35402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmu7-0001Zi-Qi
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:33 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- c16-20020a17090aa61000b001fb3286d9f7so3048980pjq.1
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:31 -0700 (PDT)
+ id 1oQmuB-0001aF-H0
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:36 -0400
+Received: by mail-pg1-x535.google.com with SMTP id r69so14557081pgr.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=/pjgCB/qOD1l65Q+5L6mduAGMNDgz5QBySrXjGl7kz0=;
- b=qIw0rgLIhEI4J0m9ccBvOoNw6Kfwgf9lyJZ+qz5FocUdXKJR/WnaPc9N1bgtMucesV
- 0H/I1EflYtWDiT3jwlWydSuAy+pL5H6FhGcqRhRRWLL9Ovgum+0jOdyYUSl8zy+YZcEn
- MH7vvHvO/KyKie8WmHRcZFI7dPDb727E2Hs2a4lgP53Z/5mmR9fgsMH7QIBCwoMdtRUi
- HqXR3AqsPm1yUDPq3GHEBMiYrq/c/oqSOqq1Xv2HNOur1BtXsazuTG/znnnTT7tARyOj
- +sxeYU1WM01RXgQyyqs7s0gHTU+uQP/Qi3Cy4OsjLXyUaLHL3i5W5qdkOzh8VGzgaC8L
- dixg==
+ bh=hdtxjLMnNVU1rKYleO313NZ7D82NDLkpXwsAYvVj3S0=;
+ b=mVqbC3O/frS8lRjN7/wJv4EuqSVn9CFQWeOfEI9WVWNXIfCBXkaj/gllYvuDo4l2iH
+ d8Ocp0GW2jkwn7Lseoy9DAfZsR/2dcIcAJ3qZEB0kyQez0yOyd/7voACySdajC/JGpni
+ gAbCB364XJ/zB9K934O590g7FYSFrhkqsut0zkp/iJU13wFGzO79IdyLpyc0oovcBn/G
+ E+WQWYAbefRm8Qc6INVRtf6lnldEwiFyLEu6HAqYkS2kBlIX+pbB8gSUwvNAusNMYEhw
+ Ngc3JOgag6sYiEUsUzJ0cGBM2IxUL//iECRECtSex0pLmZHcEDArwt7BpvTzkZTiXQR2
+ 8czQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=/pjgCB/qOD1l65Q+5L6mduAGMNDgz5QBySrXjGl7kz0=;
- b=AZkzoXyHAIVQsiIJE9eEy0AGEfxxv6NGZmCoQhxbvtv/QETNyjeVrr3aVtH6ra+u7s
- hW8CD3nTRI2I41ESsRp+IRVZwtUQja8jitSJTSGKSAcatg9NQ0IzikxdCcBPtCYlEpzq
- 3AMom9iXQAGjby3D5xNSRTX54LnSNMkJl3G0Wur+T7o6SyZ6LEucWVV+EDebXDa9MFhc
- GjPFzkZHNR5JM417TM1eGiMAzwnFMgF3gEGXX7zX/InT6W/0RQkddA8OpzsuU8atkxR9
- qi+0h4wqEs+KgWKq3FpLxCP8AkXS9JRsZ3ZIKgF5Bh9KxBkbBry0z7kIoZWoJjdjP9S3
- 1wzw==
-X-Gm-Message-State: ACgBeo2usxUz08hACsQZROBAtGM9uz60Bc9h0KA2SXHxhv4xh1El4FRp
- XXaKAsoJ1XAM62bzm37tjw4sRcRmF64=
-X-Google-Smtp-Source: AA6agR4MrX3OtOxW5UbAff9oJ8SUzKudGTCJJ2mbyQc3D59xdTJDndmYGd/Y3udEtiR3YDvy1I0Z8A==
-X-Received: by 2002:a17:90a:a097:b0:1fb:5bc:7778 with SMTP id
- r23-20020a17090aa09700b001fb05bc7778mr7448887pjp.209.1661334150455; 
- Wed, 24 Aug 2022 02:42:30 -0700 (PDT)
+ bh=hdtxjLMnNVU1rKYleO313NZ7D82NDLkpXwsAYvVj3S0=;
+ b=p6oaWPYYriCaWFhahn2eKyd3cRuWIXM4wZyBg5mgwodnD3e80h3bTwmc0TfAHXGvRn
+ 3y/jZvIFKKpxDlHwEzSeKZyjTAX6f0kO3o0/UvuKwx3PjefnMOaoSXZV6ho669PevkgI
+ UfKkyDOm+H2trAk3PNRLt2ig0G+Om11yPNicu4TFOdnfATVcEQ0AAiywcTIpPijW6rY9
+ XH9Y1LdLKWILRkO3g2cNYySWQr+cd94foWhZCit71UC7Qv2KAG0QcpkSc0WHZeTtJhMe
+ ffEkH7s6BrkBPipYcJgGA6r8yjMoaICEdKVEBDdO7NoCgowwQQ24uvZ6p1LaVlbwQ4lG
+ IUYg==
+X-Gm-Message-State: ACgBeo1hyZKrNO2uxtphQ2esWH5dm1yDKDvAk8Zpw5WrBt8nuElF2EZm
+ nIm2vvilAglANUcTVlWrc6OXHlTwKaY=
+X-Google-Smtp-Source: AA6agR7lo9wbggC3jooao5yYq3psZ6ceOVwNBVBisI5RnYyxfZmwOBeHPZ6gzh1+RWKKLYxLsguefg==
+X-Received: by 2002:a65:6d19:0:b0:42a:37d7:90da with SMTP id
+ bf25-20020a656d19000000b0042a37d790damr20688393pgb.16.1661334153909; 
+ Wed, 24 Aug 2022 02:42:33 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.28
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:42:30 -0700 (PDT)
+ Wed, 24 Aug 2022 02:42:33 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 22/51] tests/qtest: qmp-test: Skip running test_qmp_oob for
- win32
-Date: Wed, 24 Aug 2022 17:40:00 +0800
-Message-Id: <20220824094029.1634519-23-bmeng.cn@gmail.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Yanan Wang <wangyanan55@huawei.com>
+Subject: [PATCH 23/51] accel/qtest: Support qtest accelerator for Windows
+Date: Wed, 24 Aug 2022 17:40:01 +0800
+Message-Id: <20220824094029.1634519-24-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,49 +95,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-The test_qmp_oob test case calls mkfifo() which does not exist on
-win32. Exclude it.
+Currently signal SIGIPI [=SIGUSR1] is used to kick the dummy CPU
+when qtest accelerator is used. However SIGUSR1 is unsupported on
+Windows. To support Windows, we add a QemuSemaphore CPUState::sem
+to kick the dummy CPU instead for Windows.
 
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/qmp-test.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/core/cpu.h   |  1 +
+ accel/dummy-cpus.c      | 14 ++++++++++++--
+ softmmu/cpus.c          |  9 +++++----
+ accel/meson.build       |  1 +
+ accel/qtest/meson.build |  1 +
+ 5 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-index b950dbafaf..4a165447f8 100644
---- a/tests/qtest/qmp-test.c
-+++ b/tests/qtest/qmp-test.c
-@@ -159,6 +159,8 @@ static void test_qmp_protocol(void)
-     qtest_quit(qts);
- }
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 500503da13..c564108877 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -325,6 +325,7 @@ struct CPUState {
+     struct QemuThread *thread;
+ #ifdef _WIN32
+     HANDLE hThread;
++    QemuSemaphore sem;
+ #endif
+     int thread_id;
+     bool running, has_waiter;
+diff --git a/accel/dummy-cpus.c b/accel/dummy-cpus.c
+index 10429fdfb2..d6a1b8d0a2 100644
+--- a/accel/dummy-cpus.c
++++ b/accel/dummy-cpus.c
+@@ -21,8 +21,6 @@
+ static void *dummy_cpu_thread_fn(void *arg)
+ {
+     CPUState *cpu = arg;
+-    sigset_t waitset;
+-    int r;
+ 
+     rcu_register_thread();
+ 
+@@ -32,8 +30,13 @@ static void *dummy_cpu_thread_fn(void *arg)
+     cpu->can_do_io = 1;
+     current_cpu = cpu;
  
 +#ifndef _WIN32
++    sigset_t waitset;
++    int r;
 +
- /* Out-of-band tests */
- 
- char *tmpdir;
-@@ -279,6 +281,8 @@ static void test_qmp_oob(void)
-     qtest_quit(qts);
- }
- 
-+#endif /* _WIN32 */
-+
- /* Preconfig tests */
- 
- static void test_qmp_preconfig(void)
-@@ -338,7 +342,9 @@ int main(int argc, char *argv[])
-     g_test_init(&argc, &argv, NULL);
- 
-     qtest_add_func("qmp/protocol", test_qmp_protocol);
-+#ifndef _WIN32
-     qtest_add_func("qmp/oob", test_qmp_oob);
+     sigemptyset(&waitset);
+     sigaddset(&waitset, SIG_IPI);
 +#endif
-     qtest_add_func("qmp/preconfig", test_qmp_preconfig);
-     qtest_add_func("qmp/missing-any-arg", test_qmp_missing_any_arg);
  
+     /* signal CPU creation */
+     cpu_thread_signal_created(cpu);
+@@ -41,6 +44,7 @@ static void *dummy_cpu_thread_fn(void *arg)
+ 
+     do {
+         qemu_mutex_unlock_iothread();
++#ifndef _WIN32
+         do {
+             int sig;
+             r = sigwait(&waitset, &sig);
+@@ -49,6 +53,9 @@ static void *dummy_cpu_thread_fn(void *arg)
+             perror("sigwait");
+             exit(1);
+         }
++#else
++        qemu_sem_wait(&cpu->sem);
++#endif
+         qemu_mutex_lock_iothread();
+         qemu_wait_io_event(cpu);
+     } while (!cpu->unplug);
+@@ -69,4 +76,7 @@ void dummy_start_vcpu_thread(CPUState *cpu)
+              cpu->cpu_index);
+     qemu_thread_create(cpu->thread, thread_name, dummy_cpu_thread_fn, cpu,
+                        QEMU_THREAD_JOINABLE);
++#ifdef _WIN32
++    qemu_sem_init(&cpu->sem, 0);
++#endif
+ }
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 23b30484b2..fd10db927a 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -437,18 +437,19 @@ void qemu_wait_io_event(CPUState *cpu)
+ 
+ void cpus_kick_thread(CPUState *cpu)
+ {
+-#ifndef _WIN32
+-    int err;
+-
+     if (cpu->thread_kicked) {
+         return;
+     }
+     cpu->thread_kicked = true;
+-    err = pthread_kill(cpu->thread->thread, SIG_IPI);
++
++#ifndef _WIN32
++    int err = pthread_kill(cpu->thread->thread, SIG_IPI);
+     if (err && err != ESRCH) {
+         fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
+         exit(1);
+     }
++#else
++    qemu_sem_post(&cpu->sem);
+ #endif
+ }
+ 
+diff --git a/accel/meson.build b/accel/meson.build
+index b9a963cf80..b21c85dc0a 100644
+--- a/accel/meson.build
++++ b/accel/meson.build
+@@ -17,4 +17,5 @@ dummy_ss.add(files(
+ ))
+ 
+ specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
++specific_ss.add_all(when: ['CONFIG_WIN32'], if_true: dummy_ss)
+ specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
+diff --git a/accel/qtest/meson.build b/accel/qtest/meson.build
+index 4c65600293..a4876fc0f2 100644
+--- a/accel/qtest/meson.build
++++ b/accel/qtest/meson.build
+@@ -1,2 +1,3 @@
+ qtest_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'],
+                     if_true: files('qtest.c'))
++qtest_module_ss.add(when: ['CONFIG_WIN32'], if_true: files('qtest.c'))
 -- 
 2.34.1
 
