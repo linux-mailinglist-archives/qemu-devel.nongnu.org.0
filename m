@@ -2,95 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4213159F625
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:25:19 +0200 (CEST)
-Received: from localhost ([::1]:40914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8FF59F681
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:41:18 +0200 (CEST)
+Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmdR-0004n8-VW
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:25:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
+	id 1oQmsu-0001qO-U4
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmMo-0000xm-Dq
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:08:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49440)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oQmOY-0002jQ-Rr
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:09:54 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:47990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmMl-0004rq-J0
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:08:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661332081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9cWP0mcR9FSxCMPQJmq6hIt0VpmZPEQArQw/WIgtMoU=;
- b=RlJ2B0VdyEm7dBfDcCIwcKEk+5BaEyBcxHkbpiQzSuKyEUs1Or8rvtsNwVsTxt15RTSnA/
- yUZ1fXuxbEMTx7W/+05C1vXTIUuY97+6Q5QlIGnhukvcgeL7Cdl+RP2eheOFBBwDiH4Y4V
- Ua2wPQxa0+5Yloc0UI9/CZW0pTzcHoo=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-84-J2_GLZgnN4WHnexpd0qO9w-1; Wed, 24 Aug 2022 05:08:00 -0400
-X-MC-Unique: J2_GLZgnN4WHnexpd0qO9w-1
-Received: by mail-lj1-f198.google.com with SMTP id
- k21-20020a2e2415000000b00261e34257b2so138212ljk.0
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:07:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=9cWP0mcR9FSxCMPQJmq6hIt0VpmZPEQArQw/WIgtMoU=;
- b=zBpykAyR2XiQtJyb4P2RtJtFAFmjgP3u0+eY9JQZmBsP8kcWm9a9hAU45usp66jBWG
- PJ8nbaitSl8GVMSvhNtl6JvGBG5MbWpXs8WLw1Dg4QS8Ew8WRM8HzpTeLvzWyO4VBICv
- hJzVGZpmcARgz+hSjjRVSZxafzSybkbb8meQeGD7RR/ip+UAj5W16QfK9698bEU/VEfb
- BqHsrQIO3BZmCVmpKAeIGa8R+oyQqVr/cvLZgFdcVE/rlduFBnyfYj5eYeRW1ZjUmQy4
- Wtb3w0eb0oOU9az9uTVpDJ+RJidxViLKD6E8ij1vhs2vqQW7RNoXYZv1lid3hluYrS+P
- CK0A==
-X-Gm-Message-State: ACgBeo0dYMTiKwgh6oYMbarZmpTei+b+qGa2GoBaOvRy3zln+h0h92+g
- A4jb96BuAbgq0hyKOLsPlQ1H9QSUpK7lxZFbDfOMric9xQJ679sNZ0Sbdp4Z/aYIirotHzsHdkC
- kUv/UVLGfYZOvLGpTiJE9LlYyBrdtzUc=
-X-Received: by 2002:a05:651c:2103:b0:25d:6478:2a57 with SMTP id
- a3-20020a05651c210300b0025d64782a57mr7899880ljq.496.1661332078741; 
- Wed, 24 Aug 2022 02:07:58 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4du6998OoyCaGzhV2EoJWFc+InvOF+l3jbD4dVZdNmibHmCCJS1G6fv4OynA3cs8VfR373fXQAWdo4kzEpzM8=
-X-Received: by 2002:a05:651c:2103:b0:25d:6478:2a57 with SMTP id
- a3-20020a05651c210300b0025d64782a57mr7899864ljq.496.1661332078473; Wed, 24
- Aug 2022 02:07:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oQmOO-0004z0-Kt
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:09:46 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R751e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VN6lTl5_1661332174; 
+Received: from 30.227.72.120(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VN6lTl5_1661332174) by smtp.aliyun-inc.com;
+ Wed, 24 Aug 2022 17:09:35 +0800
+Message-ID: <b21d7e06-c1d4-360b-6147-674286827b90@linux.alibaba.com>
+Date: Wed, 24 Aug 2022 17:09:33 +0800
 MIME-Version: 1.0
-References: <20220819171329.3597027-1-eperezma@redhat.com>
- <20220819171329.3597027-3-eperezma@redhat.com>
- <f517a073-fd73-0220-072c-ea054b643468@redhat.com>
- <CAJaqyWcGH-kAVw-yZ2CX-GuPYt1zL8FFJnjmWMcbi4r1NgyfcA@mail.gmail.com>
- <CACGkMEuNTBPSh2x6LVihCE=fg1zYAsnG4io2MBT32+PF9=omwQ@mail.gmail.com>
- <CAJaqyWdDYZscdShMpmvPJdCBDOyeoEUbOztTQDLHdqYwwdah6w@mail.gmail.com>
-In-Reply-To: <CAJaqyWdDYZscdShMpmvPJdCBDOyeoEUbOztTQDLHdqYwwdah6w@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 24 Aug 2022 17:07:47 +0800
-Message-ID: <CACGkMEttkCfRAWQQT7APWeV1uZbzr5p+rr_HaeP+tK30dyeZZQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] vdpa: Add vhost_vdpa_net_load_mq
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- Eli Cohen <eli@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v2 15/24] vhost-user: add op to enable or disable a single
+ vring
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <9507fa8179afe9d02dfa03a3dbf6424cd5eba437.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <8fc12420-f171-e015-6666-0a40b1bdf85c@redhat.com>
+ <4e6e5211-04f7-f27c-cbfd-6393b412b769@linux.alibaba.com>
+ <40b968c3-96fc-fff5-4849-f899e261f7e5@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+In-Reply-To: <40b968c3-96fc-fff5-4849-f899e261f7e5@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.45;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-45.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,143 +72,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 5:06 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Wed, Aug 24, 2022 at 10:52 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Wed, Aug 24, 2022 at 3:47 PM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Wed, Aug 24, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > > >
-> > > >
-> > > > =E5=9C=A8 2022/8/20 01:13, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > > > Same way as with the MAC, restore the expected number of queues a=
-t
-> > > > > device's start.
-> > > > >
-> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > ---
-> > > > >   net/vhost-vdpa.c | 33 +++++++++++++++++++++++++++++++++
-> > > > >   1 file changed, 33 insertions(+)
-> > > > >
-> > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > index 1e0dbfcced..96fd3bc835 100644
-> > > > > --- a/net/vhost-vdpa.c
-> > > > > +++ b/net/vhost-vdpa.c
-> > > > > @@ -391,6 +391,35 @@ static int vhost_vdpa_net_load_mac(VhostVDPA=
-State *s,
-> > > > >       return 0;
-> > > > >   }
-> > > > >
-> > > > > +static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
-> > > > > +                                  const VirtIONet *n)
-> > > > > +{
-> > > > > +    uint64_t features =3D n->parent_obj.guest_features;
-> > > > > +    ssize_t dev_written;
-> > > > > +    void *cursor =3D s->cvq_cmd_out_buffer;
-> > > > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_MQ))) {
-> > > > > +        return 0;
-> > > > > +    }
-> > > > > +
-> > > > > +    *(struct virtio_net_ctrl_hdr *)cursor =3D (struct virtio_net=
-_ctrl_hdr) {
-> > > > > +        .class =3D VIRTIO_NET_CTRL_MQ,
-> > > > > +        .cmd =3D VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET,
-> > > > > +    };
-> > > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_hdr);
-> > > > > +    *(struct virtio_net_ctrl_mq *)cursor =3D (struct virtio_net_=
-ctrl_mq) {
-> > > > > +        .virtqueue_pairs =3D cpu_to_le16(n->curr_queue_pairs),
-> > > > > +    };
-> > > >
-> > > >
-> > > > Such casting is not elegant, let's just prepare buffer and then do =
-the
-> > > > copy inside vhost_vdpa_net_cvq_add()?
-> > > >
-> > >
-> > > I'm not sure what you propose here. I can pre-fill a buffer in the
-> > > stack and then do an extra copy in vhost_vdpa_net_cvq_add. The
-> > > compiler should be able to optimize it, but I'm not sure if it
-> > > simplifies the code.
-> > >
-> > > We can have a dedicated buffer for mac, another for mq, and one for
-> > > each different command, and map all of them at the device's start. Bu=
-t
-> > > this seems too much overhead to me.
-> >
-> > Considering we may need to support and restore a lot of other fields,
-> > this looks a little complicated.
-> >
-> > I meant the caller can simply do:
-> >
-> > struct virtio_net_ctrl_mq mq =3D { ...};
-> >
-> > Then we do
-> >
-> > vhost_vdpa_net_cvq_add(&mq, sizeof(mq), ...);
-> >
-> > Then we can do memcpy inside vhost_vdpa_net_cvq_add() and hide the
-> > cmd_out_buffer etc from the caller.
-> >
->
-> We need to add the ctrl header too. But yes, that is feasible, something =
-like:
->
-> vhost_vdpa_net_cvq_add(&ctrl, &mq, sizeof(mq), ...);
->
-> > >
-> > > Some alternatives that come to my mind:
-> > >
-> > > * Declare a struct with both virtio_net_ctrl_hdr and each of the
-> > > control commands (using unions?), and cast s->cvq_cmd_out_buffer
-> > > accordingly.
-> > > * Declare a struct with all of the supported commands one after
-> > > another, and let qemu fill and send these accordingly.
-> > >
-> > > >
-> > > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_mq);
-> > > > > +
-> > > > > +    dev_written =3D vhost_vdpa_net_cvq_add(s, cursor - s->cvq_cm=
-d_out_buffer,
-> > > > > +                                             sizeof(virtio_net_c=
-trl_ack));
-> > > > > +    if (unlikely(dev_written < 0)) {
-> > > > > +        return dev_written;
-> > > > > +    }
-> > > > > +
-> > > > > +    return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) !=3D V=
-IRTIO_NET_OK;
-> > > >
-> > > >
-> > > > So I think we should have a dedicated buffer just for ack, then the=
-re's
-> > > > no need for such casting.
-> > > >
-> > >
-> > > You mean to declare cvq_cmd_in_buffer as virtio_net_ctrl_ack type
-> > > directly and map it to the device?
-> >
-> > Kind of, considering the ack is the only kind of structure in the near
-> > future, can we simply use the structure virtio_net_ctl_ack?
-> >
->
-> Almost, but we need to map to the device in a page size. And I think
-> it's better to allocate a whole page for that, so it does not share
-> memory with qemu.
 
-I guess using a union will solve the problem?
-
-Thanks
-
+在 2022/8/24 17:02, Jason Wang 写道:
 >
-> Other than that, yes, I think it can be declared as virtio_net_ctl_ack di=
-rectly.
+> 在 2022/8/24 11:09, Kangjie Xu 写道:
+>>
+>> 在 2022/8/24 10:53, Jason Wang 写道:
+>>>
+>>> 在 2022/8/16 09:06, Kangjie Xu 写道:
+>>>> The interface to set enable status for a single vring is lacked in
+>>>> VhostOps, since the vhost_set_vring_enable_op will manipulate all
+>>>> virtqueues in a device.
+>>>>
+>>>> Resetting a single vq will rely on this interface.
+>>>>
+>>>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>>>> ---
+>>>>   hw/virtio/vhost-user.c            | 26 +++++++++++++++++++-------
+>>>>   include/hw/virtio/vhost-backend.h |  3 +++
+>>>>   2 files changed, 22 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>>>> index 56033f7a92..8307976cda 100644
+>>>> --- a/hw/virtio/vhost-user.c
+>>>> +++ b/hw/virtio/vhost-user.c
+>>>> @@ -1199,6 +1199,22 @@ static int vhost_user_set_vring_base(struct 
+>>>> vhost_dev *dev,
+>>>>       return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
+>>>>   }
+>>>>   +static int vhost_user_set_single_vring_enable(struct vhost_dev 
+>>>> *dev,
+>>>> +                                              int index,
+>>>> +                                              int enable)
+>>>> +{
+>>>> +    if (index < dev->vq_index || index >= dev->vq_index + 
+>>>> dev->nvqs) {
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +
+>>>> +    struct vhost_vring_state state = {
+>>>> +        .index = index,
+>>>> +        .num   = enable,
+>>>> +    };
+>>>> +
+>>>> +    return vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, &state);
+>>>> +}
+>>>> +
+>>>>   static int vhost_user_set_vring_enable(struct vhost_dev *dev, int 
+>>>> enable)
+>>>>   {
+>>>>       int i;
+>>>> @@ -1208,13 +1224,8 @@ static int 
+>>>> vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
+>>>>       }
+>>>>         for (i = 0; i < dev->nvqs; ++i) {
+>>>> -        int ret;
+>>>> -        struct vhost_vring_state state = {
+>>>> -            .index = dev->vq_index + i,
+>>>> -            .num   = enable,
+>>>> -        };
+>>>> -
+>>>> -        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, 
+>>>> &state);
+>>>
+>>>
+>>> Then I'd squash this into previous patch or re-roder to let this 
+>>> patch (vhost_user_set_single_vring_enable()) to be first.
+>>>
+>>> Thanks
+>>>
+>>>
+>> Sorry, I don't get why we should re-order them, since these two 
+>> patches are independent.
 >
-> Thanks!
 >
+> I meant it's not good to introduce some codes in patch 14 but delete 
+> them in patch 15 (the above part for example).
+>
+> Thanks
 
+I get your point, but in fact, it seems that the deleded codes here in 
+patch 15 do not appear in patch 14....
+
+Patch 14 is about vhost_user_reset_vring(), patch 15 is about 
+vhost_user_set_vring_enable().
+
+Thanks.
+
+>>
+>> Thanks
+>>
+>>>> +        int ret = vhost_user_set_single_vring_enable(dev, 
+>>>> dev->vq_index + i,
+>>>> + enable);
+>>>>           if (ret < 0) {
+>>>>               /*
+>>>>                * Restoring the previous state is likely infeasible, 
+>>>> as well as
+>>>> @@ -2668,6 +2679,7 @@ const VhostOps user_ops = {
+>>>>           .vhost_reset_vring = vhost_user_reset_vring,
+>>>>           .vhost_reset_device = vhost_user_reset_device,
+>>>>           .vhost_get_vq_index = vhost_user_get_vq_index,
+>>>> +        .vhost_set_single_vring_enable = 
+>>>> vhost_user_set_single_vring_enable,
+>>>>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
+>>>>           .vhost_requires_shm_log = vhost_user_requires_shm_log,
+>>>>           .vhost_migration_done = vhost_user_migration_done,
+>>>> diff --git a/include/hw/virtio/vhost-backend.h 
+>>>> b/include/hw/virtio/vhost-backend.h
+>>>> index f23bf71a8d..38f6b752ff 100644
+>>>> --- a/include/hw/virtio/vhost-backend.h
+>>>> +++ b/include/hw/virtio/vhost-backend.h
+>>>> @@ -83,6 +83,8 @@ typedef int (*vhost_reset_vring_op)(struct 
+>>>> vhost_dev *dev,
+>>>>                                       struct vhost_vring_state *ring);
+>>>>   typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
+>>>>   typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int 
+>>>> idx);
+>>>> +typedef int (*vhost_set_single_vring_enable_op)(struct vhost_dev 
+>>>> *dev,
+>>>> +                                                int index, int 
+>>>> enable);
+>>>>   typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
+>>>>                                            int enable);
+>>>>   typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
+>>>> @@ -158,6 +160,7 @@ typedef struct VhostOps {
+>>>>       vhost_reset_device_op vhost_reset_device;
+>>>>       vhost_reset_vring_op vhost_reset_vring;
+>>>>       vhost_get_vq_index_op vhost_get_vq_index;
+>>>> +    vhost_set_single_vring_enable_op vhost_set_single_vring_enable;
+>>>>       vhost_set_vring_enable_op vhost_set_vring_enable;
+>>>>       vhost_requires_shm_log_op vhost_requires_shm_log;
+>>>>       vhost_migration_done_op vhost_migration_done;
+>>
 
