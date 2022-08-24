@@ -2,69 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC01D59F68D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:42:59 +0200 (CEST)
-Received: from localhost ([::1]:56934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE13759F636
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:30:56 +0200 (CEST)
+Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmuY-00041U-MH
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:42:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60514)
+	id 1oQmii-0001Cx-BG
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:30:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oQmhi-0000bt-PH; Wed, 24 Aug 2022 05:29:42 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:44984)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQmXl-0002YZ-1C
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:19:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oQmhb-00083R-Jz; Wed, 24 Aug 2022 05:29:41 -0400
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 692C92E15B9;
- Wed, 24 Aug 2022 12:18:53 +0300 (MSK)
-Received: from d-tatianin-nix.yandex-team.ru (unknown
- [2a02:6b8:b081:b4bd::1:34])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- YDoXMhagzp-IqOahjb9; Wed, 24 Aug 2022 12:18:52 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1661332732; bh=+LXH894BMzuy8kXkeIyHEdZ7bh+EDQ1M88NPpjSLgdg=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=XoSp7DXqybZ6GnvWb3PRkcv2nF5seVuIp3BpB/U7yMVtRODNmqHRF4jxTPBbdbttb
- Zm0GekEBGCCjaS1xcrJeEWv3L7jjuEnU7dXzuMlJ7CHQo/QHdO4QxMOmAXE8aQIRat
- 87VI/Sa29yqaX0I4ZOdgY0IlsunW0lhj2Zmg4uXA=
-Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, stefanha@redhat.com, raphael.norwitz@nutanix.com,
- kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
- yc-core@yandex-team.ru, d-tatianin@yandex-team.ru
-Subject: [PATCH v1 5/5] vhost-user-blk: dynamically resize config space based
- on features
-Date: Wed, 24 Aug 2022 12:18:37 +0300
-Message-Id: <20220824091837.301708-6-d-tatianin@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220824091837.301708-1-d-tatianin@yandex-team.ru>
-References: <20220824091837.301708-1-d-tatianin@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQmXf-0006XO-Ha
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:19:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661332758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aXzZ+895ahIG1kmaC26xyqiUuEYAlCe0+rjeNcOsji0=;
+ b=QhmTqJu+Q9CeRST0R7Rvj/DfYwAK9mmsppNQppinJXLjHNi9Vfk8UPWMtR9O/tpI4WI83B
+ 2ETMYxUmctonMK98tHtelkCPN7cHyY5MgT7eOwa+E0eWZv04sMz8tkOrC/zf9j+V6ioAGF
+ CFp3zlR0rkx4TXi36yz7/dFnKaW0Xa0=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-673-Yc6Dht3GOJ2S0DHj0zNoRA-1; Wed, 24 Aug 2022 05:19:17 -0400
+X-MC-Unique: Yc6Dht3GOJ2S0DHj0zNoRA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ fy12-20020a05622a5a0c00b00344569022f7so12451951qtb.17
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:19:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=aXzZ+895ahIG1kmaC26xyqiUuEYAlCe0+rjeNcOsji0=;
+ b=kwjwdZ+sb6Vd+JCOuLPCl7zgSAdKvGLTJC8sRGdZgN02ygVpWztdXd+XVZWrW1/QIT
+ 3V7bGSp44qL4EsW/OctW699CUXlpRK4vSOsVuyqr+zYW5x3dpFCcaQ57snrPNa3lPTuR
+ CtImiZ+aeRXbGbwcNxrFw1Bo4L8DUtUl7XXO8NvLxWwXxBTLlqrpHvqRaxb9yja/x6eQ
+ SP7Du4PrwZuHeXNoCw9MzmI4+IbPr7WxjAni/aQa58XvjOLIYp9dhgEhEuQSDIGhtwcS
+ z4nrUqvWaaP0RjOa9wUUmqiIFTspGOZzyombAF3VNJfcWsPSreRAM/vZaVcfB3M4ng7F
+ rfKA==
+X-Gm-Message-State: ACgBeo3ZrAcntFiTiXwg+0rfmsTeYYNuYArA+RO8+ibCacJ0D1jlRxLu
+ DfiG0+4w9dI6UUAsxAeRqM9a2lLPOa23a+ZfNJ13Hlab8kv3MnyLbi6+DFlaUwxpHP8LbGEewhy
+ L/wq9lWX2MAEkp7Z+Quoi2fOm+J9a7iU=
+X-Received: by 2002:ad4:5bc7:0:b0:48b:e9ed:47a8 with SMTP id
+ t7-20020ad45bc7000000b0048be9ed47a8mr23535773qvt.108.1661332756814; 
+ Wed, 24 Aug 2022 02:19:16 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5s9IiDV/4eatTefg6NIJqXgiST5Z03c4W3HpCuz2XIegRlwVMHTmHHrTon/5sKkPIP/9ntpuIHx74cbMyrDeg=
+X-Received: by 2002:ad4:5bc7:0:b0:48b:e9ed:47a8 with SMTP id
+ t7-20020ad45bc7000000b0048be9ed47a8mr23535757qvt.108.1661332756597; Wed, 24
+ Aug 2022 02:19:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220819171329.3597027-1-eperezma@redhat.com>
+ <20220819171329.3597027-3-eperezma@redhat.com>
+ <f517a073-fd73-0220-072c-ea054b643468@redhat.com>
+ <CAJaqyWcGH-kAVw-yZ2CX-GuPYt1zL8FFJnjmWMcbi4r1NgyfcA@mail.gmail.com>
+ <CACGkMEuNTBPSh2x6LVihCE=fg1zYAsnG4io2MBT32+PF9=omwQ@mail.gmail.com>
+ <CAJaqyWdDYZscdShMpmvPJdCBDOyeoEUbOztTQDLHdqYwwdah6w@mail.gmail.com>
+ <CACGkMEttkCfRAWQQT7APWeV1uZbzr5p+rr_HaeP+tK30dyeZZQ@mail.gmail.com>
+In-Reply-To: <CACGkMEttkCfRAWQQT7APWeV1uZbzr5p+rr_HaeP+tK30dyeZZQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 24 Aug 2022 11:18:40 +0200
+Message-ID: <CAJaqyWfUh0+dpMf=fF5kbpBGOG8T+GBJ8fT_85oDtK2mkb-DNQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] vdpa: Add vhost_vdpa_net_load_mq
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,104 +107,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make vhost-user-blk backwards compatible when migrating from older VMs
-running with modern features turned off, the same way it was done for
-virtio-blk in 20764be0421c ("virtio-blk: set config size depending on the features enabled")
+On Wed, Aug 24, 2022 at 11:08 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Wed, Aug 24, 2022 at 5:06 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Wed, Aug 24, 2022 at 10:52 AM Jason Wang <jasowang@redhat.com> wrote=
+:
+> > >
+> > > On Wed, Aug 24, 2022 at 3:47 PM Eugenio Perez Martin
+> > > <eperezma@redhat.com> wrote:
+> > > >
+> > > > On Wed, Aug 24, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > > > >
+> > > > >
+> > > > > =E5=9C=A8 2022/8/20 01:13, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > > > > > Same way as with the MAC, restore the expected number of queues=
+ at
+> > > > > > device's start.
+> > > > > >
+> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > > > ---
+> > > > > >   net/vhost-vdpa.c | 33 +++++++++++++++++++++++++++++++++
+> > > > > >   1 file changed, 33 insertions(+)
+> > > > > >
+> > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > > > index 1e0dbfcced..96fd3bc835 100644
+> > > > > > --- a/net/vhost-vdpa.c
+> > > > > > +++ b/net/vhost-vdpa.c
+> > > > > > @@ -391,6 +391,35 @@ static int vhost_vdpa_net_load_mac(VhostVD=
+PAState *s,
+> > > > > >       return 0;
+> > > > > >   }
+> > > > > >
+> > > > > > +static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
+> > > > > > +                                  const VirtIONet *n)
+> > > > > > +{
+> > > > > > +    uint64_t features =3D n->parent_obj.guest_features;
+> > > > > > +    ssize_t dev_written;
+> > > > > > +    void *cursor =3D s->cvq_cmd_out_buffer;
+> > > > > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_MQ))) {
+> > > > > > +        return 0;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    *(struct virtio_net_ctrl_hdr *)cursor =3D (struct virtio_n=
+et_ctrl_hdr) {
+> > > > > > +        .class =3D VIRTIO_NET_CTRL_MQ,
+> > > > > > +        .cmd =3D VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET,
+> > > > > > +    };
+> > > > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_hdr);
+> > > > > > +    *(struct virtio_net_ctrl_mq *)cursor =3D (struct virtio_ne=
+t_ctrl_mq) {
+> > > > > > +        .virtqueue_pairs =3D cpu_to_le16(n->curr_queue_pairs),
+> > > > > > +    };
+> > > > >
+> > > > >
+> > > > > Such casting is not elegant, let's just prepare buffer and then d=
+o the
+> > > > > copy inside vhost_vdpa_net_cvq_add()?
+> > > > >
+> > > >
+> > > > I'm not sure what you propose here. I can pre-fill a buffer in the
+> > > > stack and then do an extra copy in vhost_vdpa_net_cvq_add. The
+> > > > compiler should be able to optimize it, but I'm not sure if it
+> > > > simplifies the code.
+> > > >
+> > > > We can have a dedicated buffer for mac, another for mq, and one for
+> > > > each different command, and map all of them at the device's start. =
+But
+> > > > this seems too much overhead to me.
+> > >
+> > > Considering we may need to support and restore a lot of other fields,
+> > > this looks a little complicated.
+> > >
+> > > I meant the caller can simply do:
+> > >
+> > > struct virtio_net_ctrl_mq mq =3D { ...};
+> > >
+> > > Then we do
+> > >
+> > > vhost_vdpa_net_cvq_add(&mq, sizeof(mq), ...);
+> > >
+> > > Then we can do memcpy inside vhost_vdpa_net_cvq_add() and hide the
+> > > cmd_out_buffer etc from the caller.
+> > >
+> >
+> > We need to add the ctrl header too. But yes, that is feasible, somethin=
+g like:
+> >
+> > vhost_vdpa_net_cvq_add(&ctrl, &mq, sizeof(mq), ...);
+> >
+> > > >
+> > > > Some alternatives that come to my mind:
+> > > >
+> > > > * Declare a struct with both virtio_net_ctrl_hdr and each of the
+> > > > control commands (using unions?), and cast s->cvq_cmd_out_buffer
+> > > > accordingly.
+> > > > * Declare a struct with all of the supported commands one after
+> > > > another, and let qemu fill and send these accordingly.
+> > > >
+> > > > >
+> > > > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_mq);
+> > > > > > +
+> > > > > > +    dev_written =3D vhost_vdpa_net_cvq_add(s, cursor - s->cvq_=
+cmd_out_buffer,
+> > > > > > +                                             sizeof(virtio_net=
+_ctrl_ack));
+> > > > > > +    if (unlikely(dev_written < 0)) {
+> > > > > > +        return dev_written;
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) !=3D=
+ VIRTIO_NET_OK;
+> > > > >
+> > > > >
+> > > > > So I think we should have a dedicated buffer just for ack, then t=
+here's
+> > > > > no need for such casting.
+> > > > >
+> > > >
+> > > > You mean to declare cvq_cmd_in_buffer as virtio_net_ctrl_ack type
+> > > > directly and map it to the device?
+> > >
+> > > Kind of, considering the ack is the only kind of structure in the nea=
+r
+> > > future, can we simply use the structure virtio_net_ctl_ack?
+> > >
+> >
+> > Almost, but we need to map to the device in a page size. And I think
+> > it's better to allocate a whole page for that, so it does not share
+> > memory with qemu.
+>
+> I guess using a union will solve the problem?
+>
 
-It's currently impossible to migrate from an older VM with
-vhost-user-blk (with disable-legacy=off) because of errors like this:
+It was more a nitpick than a problem, pointing out the need to
+allocate a whole page casting it or not to virtio_net_ctrl_ack. In
+other words, we must init status as "status =3D
+g_malloc0(real_host_page_size())", not "g_malloc0(sizeof(*status))".
 
-qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10 read: 41 device: 1 cmask: ff wmask: 80 w1cmask:0
-qemu-system-x86_64: Failed to load PCIDevice:config
-qemu-system-x86_64: Failed to load virtio-blk:virtio
-qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:05.0:00.0:02.0/virtio-blk'
-qemu-system-x86_64: load of migration failed: Invalid argument
+But I think the union is a good idea. The problem is that
+qemu_real_host_page_size is not a constant so we cannot declare a type
+with that.
 
-This is caused by the newer (destination) VM requiring a bigger BAR0
-alignment because it has to cover a bigger configuration space, which
-isn't actually needed since those additional config fields are not
-active (write-zeroes/discard).
-
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
----
- hw/block/vhost-user-blk.c          | 15 ++++++++-------
- include/hw/virtio/vhost-user-blk.h |  1 +
- 2 files changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 64f3457373..d18a7a2cd4 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -23,6 +23,7 @@
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-+#include "hw/virtio/virtio-blk-common.h"
- #include "hw/virtio/vhost.h"
- #include "hw/virtio/vhost-user-blk.h"
- #include "hw/virtio/virtio.h"
-@@ -63,7 +64,7 @@ static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     /* Our num_queues overrides the device backend */
-     virtio_stw_p(vdev, &s->blkcfg.num_queues, s->num_queues);
- 
--    memcpy(config, &s->blkcfg, sizeof(struct virtio_blk_config));
-+    memcpy(config, &s->blkcfg, s->config_size);
- }
- 
- static void vhost_user_blk_set_config(VirtIODevice *vdev, const uint8_t *config)
-@@ -96,8 +97,7 @@ static int vhost_user_blk_handle_config_change(struct vhost_dev *dev)
-     Error *local_err = NULL;
- 
-     ret = vhost_dev_get_config(dev, (uint8_t *)&blkcfg,
--                               sizeof(struct virtio_blk_config),
--                               &local_err);
-+                               s->config_size, &local_err);
-     if (ret < 0) {
-         error_report_err(local_err);
-         return ret;
-@@ -106,7 +106,7 @@ static int vhost_user_blk_handle_config_change(struct vhost_dev *dev)
-     /* valid for resize only */
-     if (blkcfg.capacity != s->blkcfg.capacity) {
-         s->blkcfg.capacity = blkcfg.capacity;
--        memcpy(dev->vdev->config, &s->blkcfg, sizeof(struct virtio_blk_config));
-+        memcpy(dev->vdev->config, &s->blkcfg, s->config_size);
-         virtio_notify_config(dev->vdev);
-     }
- 
-@@ -444,7 +444,7 @@ static int vhost_user_blk_realize_connect(VHostUserBlk *s, Error **errp)
-     assert(s->connected);
- 
-     ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
--                               sizeof(struct virtio_blk_config), errp);
-+                               s->config_size, errp);
-     if (ret < 0) {
-         qemu_chr_fe_disconnect(&s->chardev);
-         vhost_dev_cleanup(&s->dev);
-@@ -489,8 +489,9 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, VIRTIO_ID_BLOCK,
--                sizeof(struct virtio_blk_config));
-+    s->config_size = virtio_blk_common_get_config_size(s->host_features);
-+
-+    virtio_init(vdev, VIRTIO_ID_BLOCK, s->config_size);
- 
-     s->virtqs = g_new(VirtQueue *, s->num_queues);
-     for (i = 0; i < s->num_queues; i++) {
-diff --git a/include/hw/virtio/vhost-user-blk.h b/include/hw/virtio/vhost-user-blk.h
-index 6252095c45..b7810360b9 100644
---- a/include/hw/virtio/vhost-user-blk.h
-+++ b/include/hw/virtio/vhost-user-blk.h
-@@ -52,6 +52,7 @@ struct VHostUserBlk {
-     bool started_vu;
- 
-     uint64_t host_features;
-+    size_t config_size;
- };
- 
- #endif
--- 
-2.25.1
+> Thanks
+>
+> >
+> > Other than that, yes, I think it can be declared as virtio_net_ctl_ack =
+directly.
+> >
+> > Thanks!
+> >
+>
 
 
