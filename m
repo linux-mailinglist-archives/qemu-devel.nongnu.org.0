@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5045A03EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 00:27:22 +0200 (CEST)
-Received: from localhost ([::1]:46994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285405A03EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 00:27:15 +0200 (CEST)
+Received: from localhost ([::1]:49242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQyqH-00016s-7K
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 18:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48438)
+	id 1oQyqA-0000rf-75
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 18:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oQydb-0006Q4-OK
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 18:14:15 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35670)
+ id 1oQyh0-0008PJ-5E
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 18:17:49 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oQydY-0005zc-0h
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 18:14:14 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- m10-20020a17090a730a00b001fa986fd8eeso3060287pjk.0
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 15:14:11 -0700 (PDT)
+ id 1oQygx-0006Zs-NI
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 18:17:45 -0400
+Received: by mail-pg1-x535.google.com with SMTP id q9so7165056pgq.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 15:17:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=4k3EJYei+FXHEZnlMb9qyuM6cA4aihnuM3sAcTAONHM=;
- b=zlS3lH6WUaXOeYpVwkaPmJFCvDwKHJDBqc5AwdHuTLWvfc635mvdYvr0y58yHIC5SW
- 7qLG+b5rslvWJMZnh2Ey4AQQu3Ix5sOL6cBHYFnoHP1U5KTFxPTF4/5iz5VM8bx9RP9z
- e6LxGlxSXYYa8K+4IWXlKS1rBoytqqfnO/SNfncbNA52q3HBvrIGEIvgZ5/Z5S8EIFYa
- F1INLwY5p5OjjLAwKYpBoMKl/9/cxBK5Nwe6aFQUunnv5rTEIkXkolIk8te0D2j1yjPC
- B+79FZ/DuTabeNmHIfYl/t0crwWhUeBUOpLI1hT10+QRcu0n13cem8zIWnIhPxfuR1VA
- LoJg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=C076FbGp0+j6emr9kZMwTSBsAR7P3Iy+waPrAKJ+FI0=;
+ b=w0ogb1IvX0FoOtcgGPR/H7NjeTdpDv3i5+un57/8jk/ibzSA5+QpDV2cBVqs3rl/v8
+ gDu8eNZhQd1GTedhvVzCs9Ofo95TEmkULRtAL7dIbTjT4FpLN1gpvEmi+IRYXPwKKKAk
+ e6pNLM/m2fVBGKS8o2DQTW4eX9uqtWVBT0ocfmlbdNYmMihgzxxpIHMlwudtQNp/2v/T
+ 2G9q0wc3PfOazliYwVFyRHYiYEsCv9EyY1+kyDRxR5BdwxvDzBkpzF4sbJF75EZXaL3Z
+ U+6CUPYfS/OtaLazvz0nyI8vcZMHaHAes92yM+5mIOQL9LsyuD3ijMSFpqFVx6CkrA8G
+ L/7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=4k3EJYei+FXHEZnlMb9qyuM6cA4aihnuM3sAcTAONHM=;
- b=TMyvhJFKAMFMxtxfNlAdDBEQ3/wDdAcN3IO/EkLhcYcDGW2+D723JAOSlftO0qydMD
- ogQdQASZrESVMyrGPZ6UtkPrj5R130BoqNj9038UEZviJvPIoGgLK0CAbN+KwmVZ7QFw
- m97NhG7YPMQH1/uzgMWTv0s704YHfXRsRf6nrT+++Jig+nppAdLBjtX99oiIXo3050jv
- 8e9W3ZBd3JB4DI91x4i3RtxoYRhFlYpmSE1/+9tgNe1V49SHea5MNKvmMwFw5F1v2dKx
- igztXXvtsTE0BL5HaercuAN5Ljiyu1mLUNbdUsMAzzb9yua4skWUuxH9+JPyYA1Q7eNY
- C54Q==
-X-Gm-Message-State: ACgBeo0TzCMzaYA264tdBS45mqPa/pe4y/m7qNhcY4Cu54BGSRGMVvho
- Todc0FG9Ch/6sQCk7Gx5ifu4spG+FGysag==
-X-Google-Smtp-Source: AA6agR6bvkG2W2y8Yk3LnEKgu3bVz5r58IH7OKyDwRjuUmyDSaIJELub8y539D0zHXI0IqnFAvvu6A==
-X-Received: by 2002:a17:90a:1b65:b0:1f7:4725:aa6e with SMTP id
- q92-20020a17090a1b6500b001f74725aa6emr1149048pjq.179.1661379250583; 
- Wed, 24 Aug 2022 15:14:10 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=C076FbGp0+j6emr9kZMwTSBsAR7P3Iy+waPrAKJ+FI0=;
+ b=OYjc/3G6znJs1bIs/MHv9R1Lo/52mHNVA4Nbfa/YOg55oO4gYWtjfYiUCTvG4xRFiG
+ T8ilz9xGhDjV2skdEuTX7bOF4xkvrny3TwFVaEqofYe7qf9WIJKr1iur6/k9fb46EE0e
+ d8xAEGH2dnibzUjO1Ow5Tvz4+jn/0VINxPzRm0JnUcWpq0kWywDVGfqUnlgT8WYAvtCR
+ JUcCDGWZNxCkFX7orAAxCpnE0mT9a3gn60zeZtSmvcvXArgxxbyJ4PH8mNz5rTud34nW
+ 8FUzglW5pXHrabA9tVUCmlHT1S8TedDJE1cUCFv4GKzpQwvkEMx7QgDUOT0IPhBUUGGu
+ mcmw==
+X-Gm-Message-State: ACgBeo1gYZI+DktLwltVtYgyBfl18uvDN7HKEYgo5jV9PVvTPcA6pv5O
+ Hh/JvNWhhpFf6BuV/lHFdCRFX2AJBR9iBA==
+X-Google-Smtp-Source: AA6agR7MPIcWjziHbqi7HFZxZ+lw2rcXuCTCWIOiYJPxhGBI7Jj+NtQO5yPam87CMe3NOUFPk2bV+g==
+X-Received: by 2002:a63:224a:0:b0:41e:1d36:5063 with SMTP id
+ t10-20020a63224a000000b0041e1d365063mr760405pgm.568.1661379461890; 
+ Wed, 24 Aug 2022 15:17:41 -0700 (PDT)
 Received: from atishp.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- m14-20020a62a20e000000b0052d33bf14d6sm13458600pff.63.2022.08.24.15.14.09
+ h18-20020a170902f71200b0016909be39e5sm4243031plo.177.2022.08.24.15.17.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 15:14:10 -0700 (PDT)
+ Wed, 24 Aug 2022 15:17:41 -0700 (PDT)
 From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Cc: Atish Patra <atishp@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v10  3/3] target/riscv: Add vstimecmp support
-Date: Wed, 24 Aug 2022 15:13:57 -0700
-Message-Id: <20220824221357.41070-4-atishp@rivosinc.com>
+Subject: [PATCH v14 0/5] Improve PMU support
+Date: Wed, 24 Aug 2022 15:16:56 -0700
+Message-Id: <20220824221701.41932-1-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220824221357.41070-1-atishp@rivosinc.com>
-References: <20220824221357.41070-1-atishp@rivosinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=atishp@rivosinc.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=atishp@rivosinc.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,309 +89,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vstimecmp CSR allows the guest OS or to program the next guest timer
-interrupt directly. Thus, hypervisor no longer need to inject the
-timer interrupt to the guest if vstimecmp is used. This was ratified
-as a part of the Sstc extension.
+The latest version of the SBI specification includes a Performance Monitoring
+Unit(PMU) extension[1] which allows the supervisor to start/stop/configure
+various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor-level
+extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+extension[2] allows the perf like tool to handle overflow interrupts and
+filtering support.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
----
- target/riscv/cpu.h         |  4 ++
- target/riscv/cpu_bits.h    |  4 ++
- target/riscv/cpu_helper.c  | 11 +++--
- target/riscv/csr.c         | 88 ++++++++++++++++++++++++++++++++++++--
- target/riscv/machine.c     |  1 +
- target/riscv/time_helper.c | 16 +++++++
- 6 files changed, 118 insertions(+), 6 deletions(-)
+This series implements remaining PMU infrastructure to support
+PMU in virt machine. The first seven patches from the original series
+have been merged already.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index d2529b757aab..d895a0af2c6d 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -311,6 +311,8 @@ struct CPUArchState {
-     /* Sstc CSRs */
-     uint64_t stimecmp;
- 
-+    uint64_t vstimecmp;
-+
-     /* physical memory protection */
-     pmp_table_t pmp_state;
-     target_ulong mseccfg;
-@@ -365,6 +367,8 @@ struct CPUArchState {
- 
-     /* Fields from here on are preserved across CPU reset. */
-     QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-+    QEMUTimer *vstimer; /* Internal timer for VS-mode interrupt */
-+    bool vstime_irq;
- 
-     hwaddr kernel_addr;
-     hwaddr fdt_addr;
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index ac17cf1515c0..095dab19f512 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -257,6 +257,10 @@
- #define CSR_VSIP            0x244
- #define CSR_VSATP           0x280
- 
-+/* Sstc virtual CSRs */
-+#define CSR_VSTIMECMP       0x24D
-+#define CSR_VSTIMECMPH      0x25D
-+
- #define CSR_MTINST          0x34a
- #define CSR_MTVAL2          0x34b
- 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 05c0c8d7771b..719c5d5d0209 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -346,8 +346,9 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env)
- {
-     uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
-     uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-+    uint64_t vstip = (env->vstime_irq) ? MIP_VSTIP : 0;
- 
--    return (env->mip | vsgein) & env->mie;
-+    return (env->mip | vsgein | vstip) & env->mie;
- }
- 
- int riscv_cpu_mirq_pending(CPURISCVState *env)
-@@ -606,7 +607,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
- {
-     CPURISCVState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
--    uint64_t gein, vsgein = 0, old = env->mip;
-+    uint64_t gein, vsgein = 0, vstip = 0, old = env->mip;
-     bool locked = false;
- 
-     if (riscv_cpu_virt_enabled(env)) {
-@@ -614,6 +615,10 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-         vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-     }
- 
-+    /* No need to update mip for VSTIP */
-+    mask = ((mask == MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
-+    vstip = env->vstime_irq ? MIP_VSTIP : 0;
-+
-     if (!qemu_mutex_iothread_locked()) {
-         locked = true;
-         qemu_mutex_lock_iothread();
-@@ -621,7 +626,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
- 
-     env->mip = (env->mip & ~mask) | (value & mask);
- 
--    if (env->mip | vsgein) {
-+    if (env->mip | vsgein | vstip) {
-         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-     } else {
-         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 04b06a238921..1a35ac48ccbe 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -820,6 +820,7 @@ static RISCVException sstc(CPURISCVState *env, int csrno)
- {
-     CPUState *cs = env_cpu(env);
-     RISCVCPU *cpu = RISCV_CPU(cs);
-+    bool hmode_check = false;
- 
-     if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-         return RISCV_EXCP_ILLEGAL_INST;
-@@ -838,7 +839,18 @@ static RISCVException sstc(CPURISCVState *env, int csrno)
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return smode(env, csrno);
-+    if (riscv_cpu_virt_enabled(env)) {
-+        if (!(get_field(env->hcounteren, COUNTEREN_TM) &
-+              get_field(env->henvcfg, HENVCFG_STCE))) {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
-+    }
-+
-+    if ((csrno == CSR_VSTIMECMP) || (csrno == CSR_VSTIMECMPH)) {
-+        hmode_check = true;
-+    }
-+
-+    return hmode_check ? hmode(env, csrno) : smode(env, csrno);
- }
- 
- static RISCVException sstc_32(CPURISCVState *env, int csrno)
-@@ -850,17 +862,72 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
-     return sstc(env, csrno);
- }
- 
-+static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
-+                                    target_ulong *val)
-+{
-+    *val = env->vstimecmp;
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
-+                                    target_ulong *val)
-+{
-+    *val = env->vstimecmp >> 32;
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
-+                                    target_ulong val)
-+{
-+    RISCVCPU *cpu = env_archcpu(env);
-+
-+    if (riscv_cpu_mxl(env) == MXL_RV32) {
-+        env->vstimecmp = deposit64(env->vstimecmp, 0, 32, (uint64_t)val);
-+    } else {
-+        env->vstimecmp = val;
-+    }
-+
-+    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-+                              env->htimedelta, MIP_VSTIP);
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
-+                                    target_ulong val)
-+{
-+    RISCVCPU *cpu = env_archcpu(env);
-+
-+    env->vstimecmp = deposit64(env->vstimecmp, 32, 32, (uint64_t)val);
-+    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-+                              env->htimedelta, MIP_VSTIP);
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
-                                     target_ulong *val)
- {
--    *val = env->stimecmp;
-+    if (riscv_cpu_virt_enabled(env)) {
-+        *val = env->vstimecmp;
-+    } else {
-+        *val = env->stimecmp;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
-                                     target_ulong *val)
- {
--    *val = env->stimecmp >> 32;
-+    if (riscv_cpu_virt_enabled(env)) {
-+        *val = env->vstimecmp >> 32;
-+    } else {
-+        *val = env->stimecmp >> 32;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -869,6 +936,10 @@ static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
-+    if (riscv_cpu_virt_enabled(env)) {
-+        return write_vstimecmp(env, csrno, val);
-+    }
-+
-     if (riscv_cpu_mxl(env) == MXL_RV32) {
-         env->stimecmp = deposit64(env->stimecmp, 0, 32, (uint64_t)val);
-     } else {
-@@ -885,6 +956,10 @@ static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
-+    if (riscv_cpu_virt_enabled(env)) {
-+        return write_vstimecmph(env, csrno, val);
-+    }
-+
-     env->stimecmp = deposit64(env->stimecmp, 32, 32, (uint64_t)val);
-     riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
- 
-@@ -1814,6 +1889,7 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
-     if (csrno != CSR_HVIP) {
-         gin = get_field(env->hstatus, HSTATUS_VGEIN);
-         old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
-+        old_mip |= env->vstime_irq ? MIP_VSTIP : 0;
-     }
- 
-     if (ret_val) {
-@@ -3680,6 +3756,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-                        .min_priv_ver = PRIV_VERSION_1_12_0 },
-     [CSR_STIMECMPH] = { "stimecmph", sstc_32, read_stimecmph, write_stimecmph,
-                         .min_priv_ver = PRIV_VERSION_1_12_0 },
-+    [CSR_VSTIMECMP] = { "vstimecmp", sstc, read_vstimecmp,
-+                        write_vstimecmp,
-+                        .min_priv_ver = PRIV_VERSION_1_12_0 },
-+    [CSR_VSTIMECMPH] = { "vstimecmph", sstc_32, read_vstimecmph,
-+                         write_vstimecmph,
-+                         .min_priv_ver = PRIV_VERSION_1_12_0 },
- 
-     /* Supervisor Protection and Translation */
-     [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 622fface484e..4ba55705d147 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper = {
-         VMSTATE_UINTTL(env.hgeie, RISCVCPU),
-         VMSTATE_UINTTL(env.hgeip, RISCVCPU),
-         VMSTATE_UINT64(env.htimedelta, RISCVCPU),
-+        VMSTATE_UINT64(env.vstimecmp, RISCVCPU),
- 
-         VMSTATE_UINTTL(env.hvictl, RISCVCPU),
-         VMSTATE_UINT8_ARRAY(env.hviprio, RISCVCPU, 64),
-diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
-index f3fb5eac7b7b..8cce667dfd47 100644
---- a/target/riscv/time_helper.c
-+++ b/target/riscv/time_helper.c
-@@ -22,6 +22,14 @@
- #include "time_helper.h"
- #include "hw/intc/riscv_aclint.h"
- 
-+static void riscv_vstimer_cb(void *opaque)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+    env->vstime_irq = 1;
-+    riscv_cpu_update_mip(cpu, MIP_VSTIP, BOOL_TO_MASK(1));
-+}
-+
- static void riscv_stimer_cb(void *opaque)
- {
-     RISCVCPU *cpu = opaque;
-@@ -47,10 +55,16 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
-          * If we're setting an stimecmp value in the "past",
-          * immediately raise the timer interrupt
-          */
-+        if (timer_irq == MIP_VSTIP) {
-+            env->vstime_irq = 1;
-+        }
-         riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
-         return;
-     }
- 
-+    if (timer_irq == MIP_VSTIP) {
-+        env->vstime_irq = 0;
-+    }
-     /* Clear the [V]STIP bit in mip */
-     riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
- 
-@@ -95,4 +109,6 @@ void riscv_timer_init(RISCVCPU *cpu)
-     env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
-     env->stimecmp = 0;
- 
-+    env->vstimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_vstimer_cb, cpu);
-+    env->vstimecmp = 0;
- }
--- 
+This will allow us to add any PMU events in future.
+Currently, this series enables the following omu events.
+1. cycle count
+2. instruction count
+3. DTLB load/store miss
+4. ITLB prefetch miss
+
+The first two are computed using host ticks while last three are counted during
+cpu_tlb_fill. We can do both sampling and count from guest userspace.
+This series has been tested on both RV64 and RV32. Both Linux[3] and Opensbi[4]
+patches are required to get the perf working.
+
+Here is an output of perf stat/report while running hackbench with latest
+OpenSBI & Linux kernel.
+
+Perf stat:
+==========
+[root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 0.265 [sec]
+
+ Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
+
+     4,167,825,362      cycles                                                      
+     4,166,609,256      instructions              #    1.00  insn per cycle         
+         3,092,026      dTLB-load-misses                                            
+           258,280      dTLB-store-misses                                           
+         2,068,966      iTLB-load-misses                                            
+
+       0.585791767 seconds time elapsed
+
+       0.373802000 seconds user
+       1.042359000 seconds sys
+
+Perf record:
+============
+[root@fedora-riscv ~]# perf record -e cycles -e instructions \
+> -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 1.397 [sec]
+[ perf record: Woken up 10 times to write data ]
+Check IO/CPU overload!
+[ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
+
+[root@fedora-riscv riscv]# perf report
+Available samples                                                               
+107K cycles                                                                    ◆
+107K instructions                                                              ▒
+250 dTLB-load-misses                                                           ▒
+13 dTLB-store-misses                                                           ▒
+172 iTLB-load-misses      
+..
+
+Changes from v13->v14:
+1. Added sanity check for the hashtable in pmu.c
+
+Changes from v12->v13:
+1. Rebased on top of the apply-next.
+2. Addressed comments about space & comment block.
+
+Changes from v11->v12:
+1. Rebased on top of the apply-next.
+2. Aligned the write function & .min_priv to the previous line.
+3. Fixed the FDT generations for multi-socket scenario.
+4. Dropped interrupt property from the DT.
+5. Generate illegal instruction fault instead of virtual instruction fault
+   for VS/VU access while mcounteren is not set.
+
+Changes from v10->v11:
+1. Rebased on top of the master where first 7 patches were already merged.
+2. Removed unnecessary additional check in ctr predicate function.
+3. Removed unnecessary priv version checks in mcountinhibit read/write. 
+4. Added Heiko's reviewed-by/tested-by tags.
+
+Changes from v8->v9:
+1. Added the write_done flags to the vmstate.
+2. Fixed the hpmcounter read access from M-mode.
+
+Changes from v7->v8:
+1. Removeding ordering constraints for mhpmcounter & mhpmevent.
+
+Changes from v6->v7:
+1. Fixed all the compilation errors for the usermode.
+
+Changes from v5->v6:
+1. Fixed compilation issue with PATCH 1.
+2. Addressed other comments.
+
+Changes from v4->v5:
+1. Rebased on top of the -next with following patches.
+   - isa extension
+   - priv 1.12 spec
+2. Addressed all the comments on v4
+3. Removed additional isa-ext DT node in favor of riscv,isa string update
+
+Changes from v3->v4:
+1. Removed the dummy events from pmu DT node.
+2. Fixed pmu_avail_counters mask generation.
+3. Added a patch to simplify the predicate function for counters. 
+
+Changes from v2->v3:
+1. Addressed all the comments on PATCH1-4.
+2. Split patch1 into two separate patches.
+3. Added explicit comments to explain the event types in DT node.
+4. Rebased on latest Qemu.
+
+Changes from v1->v2:
+1. Dropped the ACks from v1 as signficant changes happened after v1.
+2. sscofpmf support.
+3. A generic counter management framework.
+
+[1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+[2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+[3] https://github.com/atishp04/qemu/tree/riscv_pmu_v14
+
+Atish Patra (5):
+target/riscv: Add sscofpmf extension support
+target/riscv: Simplify counter predicate function
+target/riscv: Add few cache related PMU events
+hw/riscv: virt: Add PMU DT node to the device tree
+target/riscv: Update the privilege field for sscofpmf CSRs
+
+hw/riscv/virt.c           |  16 ++
+target/riscv/cpu.c        |  12 ++
+target/riscv/cpu.h        |  25 +++
+target/riscv/cpu_bits.h   |  55 +++++
+target/riscv/cpu_helper.c |  25 +++
+target/riscv/csr.c        | 304 +++++++++++++++++----------
+target/riscv/machine.c    |   1 +
+target/riscv/pmu.c        | 425 +++++++++++++++++++++++++++++++++++++-
+target/riscv/pmu.h        |   8 +
+9 files changed, 760 insertions(+), 111 deletions(-)
+
+--
 2.25.1
 
 
