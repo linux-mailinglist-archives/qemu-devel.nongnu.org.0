@@ -2,77 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0C259FF82
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 18:30:06 +0200 (CEST)
-Received: from localhost ([::1]:40434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE0A59FF62
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 18:22:18 +0200 (CEST)
+Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQtGW-0006yj-NQ
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 12:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40784)
+	id 1oQt8v-00063f-TV
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 12:22:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQt47-0002u8-6t
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:17:15 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oQt44-0007VZ-CC
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:17:14 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id e21so17866066edc.7
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 09:17:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Martin.Oliveira@eideticom.com>)
+ id 1oQt41-0002kE-Jv; Wed, 24 Aug 2022 12:17:09 -0400
+Received: from mail-bn8nam11on2041.outbound.protection.outlook.com
+ ([40.107.236.41]:17505 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Martin.Oliveira@eideticom.com>)
+ id 1oQt3z-0007Uo-TP; Wed, 24 Aug 2022 12:17:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aCtHD6yMxnXEH04XYO+eVp086BjUY8bf5GaU50I2zZeApvvULt8TIcDC+qmt9gBm9EuvSKXi2UrRIFvGmusEZ8lBGcrTJjbJVSoT8nEmhtzsYyozZfqB7++GcbePbKO/NNe9TAlYbb1wBNzqCJS7yHqkDpuLj2TuRvOGmT3AWYP+jsdwlwSDu5SJCkj+7FfW6v9B4zDm7lpa+cqPbpaMYDtvkawcpdfPzC2Cn+9qAMO/A3LPmVk1tq2PR2PeFQjiWJcJPvrHQNmUBcVSKKCsW2m3OzZ5wiKpQzGl41dboSsgLM2pDdA6Uz6iSt2wQlmOCqoAEBTiIMPPx3WB2lMv5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mxdzUI1t01H9WVEerP5CJiJBN6H/LU1KWHj+BEK+2eA=;
+ b=XDqIptAh9Ru9ywoEdI/D0BninvqLfjiUp6f8xcY2YsVznmvS/g+9cr1dJUzKsF9T5bOe3Ypnp3EW5uPQhXAyp+mjPlBWw2PEcmm8c4xqVXxnkmG07yVX0W/w9pwVabbAf8uHNAX0DN9uNtIFzKRL/MHRvpu/vYxwLdjhFWM+VQnV59DJ6X4l2GJ5euiRsfzg5DklWGIneNveTcB5icFqNKPBK6H0Sh2PbOENCOaOqBgoTMSC/euDvVrbvoc5A5Wn1sMuReajZ/gyiq17OvV/R68VeTcUp4KdFRcQVT7RBEE1RqvCrzCvVbldFeMPojh22y+/q0CkJAlCRN2JyV9z0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=eideticom.com; dmarc=pass action=none
+ header.from=eideticom.com; dkim=pass header.d=eideticom.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=l/eZfRKeusYkqPy61H4UXhMFfLOQGGrQDajedOeJlJU=;
- b=SS6JCWa1GjCIKdVSp3jUnfJbCiy84kgLjaoeHNV+3z4+fJG67PNSIqbUsZYGgLfNcM
- pFIUEETsW6nfrzuC37P6wtg3afjFgQrFrdKZaC362P5ctrHonGV5VIUJ+XYcrN9Rx625
- 2+aoATbIT7lb6HYQEVOsfSKye+cbBlZcFVvXWA4xjrXBKZ2TFzOlbDlfL6X5q2q70LET
- lRddxL8hrjNBLPpFJg0rTa4/Fn8Sqj7IACdlb/ov+7Nnfzq+heQedAsIMsufhBVvjE+F
- 0K8aXFFSFy4x+TfDUIQ+15qAWmZ3s59w+5MkawB7A/mpMyQrK8yyhg8qEph5LVEQQexx
- 27mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=l/eZfRKeusYkqPy61H4UXhMFfLOQGGrQDajedOeJlJU=;
- b=Viyo6PFBq1wacoRwBDkMwmJ9/ruoaCpz/HyULFiTXOeGP8eR+WN2zUNMrDAdojbkyN
- JthLdk7NWaSfhSya/+1OtQFmr4J/kaEK/2fUNC+k1kAIl8CnZS7gkBVNW0Wh5bVK3YtE
- hoPNbpMiqgHX211ZFe5FMrj4oCquDcsl9uTiaLgowIOaFPkq0tBADGrbeYgoHs8e9Kee
- GtP5bTk2mRgB25hkvJ9n5uF8NFe/Z3sPx7174lF+NtJM+n28x8l7Uw65AwqUW5mCma5G
- XOFKLGUzSeggbrhyhRemEO+u/AU+NrwZbGJyCbO6IoUTBSZ8tkuERKVIi88g8YNQWb5x
- D1FA==
-X-Gm-Message-State: ACgBeo2hHyFLcj+wn++gqFPvPGZ5oztlLCnJ2c+eLy+X+uZnQ5nxfi6h
- cp4HNE8RnUezRE34iGsl9UoMi68wIc22Tl5KFnsvTQ==
-X-Google-Smtp-Source: AA6agR7mkC6ja3YozzN8XcZzQrYTrt3kz/em6Qo0fx2PR2zj/My5Iz1LDo97ChRIHuLckxl0wkxwAHplK8jTKQ5BuFI=
-X-Received: by 2002:a05:6402:4311:b0:446:d0b0:17f4 with SMTP id
- m17-20020a056402431100b00446d0b017f4mr8145035edc.194.1661357829793; Wed, 24
- Aug 2022 09:17:09 -0700 (PDT)
+ d=eideticcom.onmicrosoft.com; s=selector2-eideticcom-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mxdzUI1t01H9WVEerP5CJiJBN6H/LU1KWHj+BEK+2eA=;
+ b=rWThoKhkxHmjMDrHwfZp0oyAZpR1ARtkj5VPBdNs+t+d5nt9uvA2WnV8stCCi/Hw47DQq1st/BjRiXIqAdAuGClBtHQhkEOpK7fow2UV/seViqk/5r1eT/If0QkIV5lsjxorFykj0QLnTZLshOLOuhyzZ7993O8JqmYSRfTsFSo=
+Received: from MW3PR19MB4250.namprd19.prod.outlook.com (2603:10b6:303:46::16)
+ by SA0PR19MB4176.namprd19.prod.outlook.com (2603:10b6:806:8b::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Wed, 24 Aug
+ 2022 16:17:03 +0000
+Received: from MW3PR19MB4250.namprd19.prod.outlook.com
+ ([fe80::c48d:a252:fd6b:8f7f]) by MW3PR19MB4250.namprd19.prod.outlook.com
+ ([fe80::c48d:a252:fd6b:8f7f%3]) with mapi id 15.20.5566.015; Wed, 24 Aug 2022
+ 16:17:03 +0000
+From: Martin Oliveira <Martin.Oliveira@eideticom.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>, "stefanha@redhat.com" <stefanha@redhat.com>,
+ "fam@euphon.net" <fam@euphon.net>, "f4bug@amsat.org" <f4bug@amsat.org>
+CC: Stephen Bates <stephen@eideticom.com>, Chaitanya Kulkarni
+ <Chaitanyak@nvidia.com>
+Subject: Re: EBUSY when using NVMe Block Driver with multiple devices in the
+ same IOMMU group
+Thread-Topic: EBUSY when using NVMe Block Driver with multiple devices in the
+ same IOMMU group
+Thread-Index: AQHYtz2bvx1iEuwnEE2WORQNbfNNOa2+Ok4H
+Date: Wed, 24 Aug 2022 16:17:03 +0000
+Message-ID: <MW3PR19MB42509D9BDF4D1D11306D2475E4739@MW3PR19MB4250.namprd19.prod.outlook.com>
+References: <DM6PR19MB4248C040D8E12FAF3CD9D615E4709@DM6PR19MB4248.namprd19.prod.outlook.com>
+In-Reply-To: <DM6PR19MB4248C040D8E12FAF3CD9D615E4709@DM6PR19MB4248.namprd19.prod.outlook.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-CA
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=eideticom.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 195bbc83-e2bb-42b8-7830-08da85ec14c4
+x-ms-traffictypediagnostic: SA0PR19MB4176:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3ve4VExiwmzhYXlBLuhZBXodo/w+36fkR7AcEjreAMukQQc6v/WrOtatjlR/LC45PVJc4fFV+AK2x9WfMVLjBVHi+JrXj+PItzmAqoFCRmfFVrM5ZDt1RzbIliFIxCvZmoVgGQvgGQZa+L/naVjEInIgVxDeSfS6Bps4CaPyOP4vZ1hN17IrKtgS/vTvfOTs2Q6Db/oWPE6LHWSSmLZDZgKIda5SnYyvrQYF1bwGO9NTb4uWsvi9rH9Xgs3MiitXbl3kdHSAf2ii8MUzkmRCSF0h4EiJ9QM36H91cXmckxu24CGx4r+rP61w16H8RKAXeVDH0FMKr5D2AtLY6m8ESWlrSUJ4MFRsVReLhaoN2tbcsGSgWXhWRAsAgqRZijFY5R77PeemyxwAHTAR3cbVgj5PUqsRcYNXDP7aBosrpiyth9wQ18R0LaW4pV++gxqjd86H0Xb26S9dqyrII3AkqcOEyMR911pyeCO6OqgBWBtFtMrTZ2hr4dPBljrjI7706BW0M6iVgKCsjBwH8uSZDn53SfeyyhKk1uv4rppM2RAgSn11YtW7R+3Olyz6dH+ZATNrTCRIaIYHShk5IsXl2uQLjlppy71OweWLTR/POQV6TqJF42ZMjNiMMZPCHwP+m3EsvlN3GLlR2autoHTQEyfPu0FBwCYJAeZjRQHKcz325E8Rthzy4RpOLtY+xU+dlFU530eOGg1LyYHyr500uv8neGJj2DhQgK5uF7GH2kYgP5Om9eURxrfELHzatK7XsS3WMiPLSq8YcIm2Y64RQA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR19MB4250.namprd19.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(366004)(136003)(346002)(39830400003)(396003)(186003)(122000001)(38070700005)(316002)(110136005)(54906003)(71200400001)(5660300002)(26005)(33656002)(66446008)(66476007)(76116006)(64756008)(7696005)(53546011)(8676002)(66556008)(9686003)(66946007)(91956017)(38100700002)(4326008)(4744005)(478600001)(86362001)(2906002)(6506007)(41300700001)(8936002)(55016003)(52536014);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?tPA6t1/AEzQ4/vvrwHEnTJ0EW5S3fcnJysbhZeFWjyItXsxtZeZC3x7rC2?=
+ =?iso-8859-1?Q?vzTmLYLuJfg+ASY5Z4fCwBqiGzIaorB3e9iWH1GBK2GiHJqwfTnC9uNiQK?=
+ =?iso-8859-1?Q?+QKhEoFitAotgvTwT0AodVA++IbXtRVMvfQiZXxKce0wu2pE78b/sy4FEO?=
+ =?iso-8859-1?Q?CjEluJHuYMBUdsbM9vF7ojg9Hg8AqWrlkgMm1DUfKqXSUWhBQBIcGpmr00?=
+ =?iso-8859-1?Q?03/fV4TuW4cDwQY/xsn497CQjvp/AhFpo8TaJP/SD2qlNtHiEI8c6ILExU?=
+ =?iso-8859-1?Q?vu64N7DQad+G0LMb2mGotkOiYfH5/srmCDdlSG0JVVzfZa78i/quEmWwvW?=
+ =?iso-8859-1?Q?L8sISpWfJGumad37h7e0DY7iYzs5KR+sOjbqWCJR8v3GEMlOWF+yv1cD9a?=
+ =?iso-8859-1?Q?uP82Z/uooDDsJI+rxVNT9bnWsH8fySy5DDOnOcfJTvlGjkWRq1L3SBGI2w?=
+ =?iso-8859-1?Q?iHI3d+JGi+lZTATLR6ef1djhM6pxD8rO8oo7y9BdaKIY8VoFdnCoVzNltT?=
+ =?iso-8859-1?Q?5RtBJ4cmdqJeRsU3upbzmp5y5AUd96armBEWqqFDh3Y03zkL8nUg+3iC1l?=
+ =?iso-8859-1?Q?WFgmr3i2s/Tg64EQtz2ETCXhqdi2cjEDTfrLUGWmBm5L+7TUFMoWU48ua+?=
+ =?iso-8859-1?Q?KbqxuHlZoRIu8fjp5yml6yTTHNg9hoQOFZErcdPDvqqo6LLuDNFgsUTIeY?=
+ =?iso-8859-1?Q?hf3ap13nPYTZRmGd/6k216AFHC85MgmQQUcN4Ghmn9zOGKuKE06Zu+dymc?=
+ =?iso-8859-1?Q?RS6590YZ8oVFwmgTUmnOARJQ2lHoYYgFER63Ac7vlmsO+pwyaEXEaLbtJz?=
+ =?iso-8859-1?Q?EK3OjH8IfOhsJCgrJVceFsmk9A9wTx2QdX3foP3SJYugvxz6WqSEZbAHFp?=
+ =?iso-8859-1?Q?/DWRtw1W/HMGeHzymiFmN70UQpwG5pvc5/nK0QtbdkGcdI/26JK9Jas+V3?=
+ =?iso-8859-1?Q?5NHrbxXiGpnpQdFHm/1qF8qpxnbFxeghnFL/q3LA7kQA+ufmnN1atlXDh3?=
+ =?iso-8859-1?Q?TNF73/OjaqPn3IWN6Ni8/U4FU1Rbg34rKb/Apuyjiy5fRWdfBomU+JbJC4?=
+ =?iso-8859-1?Q?ddDaCAwGvaOgNsRHrFxj2mqdQAN9zL/w7Iw8zrf+YVZ6XjNGfiAfXyOGb8?=
+ =?iso-8859-1?Q?IdFqsB9IJCPC9Wjegn3eGx4wKwfe/4V9PaMRjMjyNefF6it67YtXqpZogd?=
+ =?iso-8859-1?Q?Jz82ctfol4EP/GJhnc1DIRaMsFvFx/Dl78RxRFK8m50iri+tIvx4gijSRb?=
+ =?iso-8859-1?Q?NbuvmF4a0CWy4QPSatwf1a36DaFZuRdSeTrfEbw/XTvbgmwAz2NCkUne0j?=
+ =?iso-8859-1?Q?e0uxAMZODdWfHsoZZEgy+DWyRDzrc2tYWReaMoJt7uPuevU0gO3F2GCVgn?=
+ =?iso-8859-1?Q?mQpDZCh6gwzHopnNXnvecCYyLQjJXzByMFLF/O25pJoCcjoyy3gu3DXMFY?=
+ =?iso-8859-1?Q?IEnBhpiUb/P0bV31ce/vklvdnXicmzs/b8LtWePkWyvuP0htAW/S3pnN+b?=
+ =?iso-8859-1?Q?8P4jPmQfJHXx2BlaHpQjJSx7PVwg11TwE27MZFyU4tyHU5kfFp1FyCEfif?=
+ =?iso-8859-1?Q?L7kSeZcZhtIYT+CmyH/+V8LCLFpIauF/r6lgZDJiM3M7Nf3nEMIgD4THbN?=
+ =?iso-8859-1?Q?aMyAnJkwJE1qf1M4hBD92qK84s+9je2F8h47IzK2nDSdMBZafnuIu2Kg?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220822090811.427029-1-ani@anisinha.ca>
- <20220822090811.427029-3-ani@anisinha.ca>
- <20220824172429.058281c4@redhat.com>
-In-Reply-To: <20220824172429.058281c4@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 24 Aug 2022 21:46:58 +0530
-Message-ID: <CAARzgwz8inPfcTLvQx1tEVHdoB39jN_Vie0uS5_soEYd_yUHOA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] hw/acpi: set ATS capability explicitly per pcie root
- port
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, jusual@redhat.com,
- kkostiuk@redhat.com, 
- qemu-devel@nongnu.org, ybendito@redhat.com, yvugenfi@redhat.com
-Content-Type: multipart/alternative; boundary="0000000000004a3d0605e6ff037b"
-Received-SPF: none client-ip=2a00:1450:4864:20::52f;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x52f.google.com
+X-OriginatorOrg: eideticom.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR19MB4250.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 195bbc83-e2bb-42b8-7830-08da85ec14c4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2022 16:17:03.2917 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3490cd4b-0360-4377-abb1-15f8c5af8fc2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4uzVB1uws6HO8NNYdnUG2Dk8EYfRAvjVFhsdZr57FeE5uzE6NTkTmWPcOh0vu/O6oozZGPc5H8XwadCWi+oV3V1kZ57UvRlR+YYtXrIxpJg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR19MB4176
+Received-SPF: pass client-ip=40.107.236.41;
+ envelope-from=Martin.Oliveira@eideticom.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,360 +143,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004a3d0605e6ff037b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 24, 2022 at 8:54 PM Igor Mammedov <imammedo@redhat.com> wrote:
-
-> On Mon, 22 Aug 2022 14:38:09 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
->
-> > Currently the bit 0 of the flags field of Root Port ATS capability
-> reporting
-> > structure sub-table under the DMAR table is set to 1. This indicates
-> ALL_PORTS,
-> > thus enabling ATS capability for all pcie roots without the ability to
-> turn off
-> > ATS for some ports and leaving ATS on for others.
-> >
-> > This change clears the bit 0 of the flags field of the above structure
-> and
-> > explicitly adds scopes for every pcie root port in the structure so tha=
-t
-> ATS
-> > is enabled for all of them. In future, we might add new attribite to th=
-e
-> root
-> > ports so that we can selectively enable ATS for some and leave ATS off
-> for
-> > others.
->
-> Thanks, it was worth a try,
-> unfortunately since we are shooting in dark this time it was a miss.
-
-
-So I take it that even with this patch Windows still exhibited the issue?
-Is it worth pushing the patch anyway?
-
-
->
->
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > Suggested-by: Michael Tsirkin <mst@redhat.com>
-> > ---
-> >  hw/i386/acpi-build.c | 74 ++++++++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 72 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 0355bd3dda..9c5a555536 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -60,6 +60,7 @@
-> >  #include "hw/i386/fw_cfg.h"
-> >  #include "hw/i386/ich9.h"
-> >  #include "hw/pci/pci_bus.h"
-> > +#include "hw/pci/pcie_port.h"
-> >  #include "hw/pci-host/q35.h"
-> >  #include "hw/i386/x86-iommu.h"
-> >
-> > @@ -2118,6 +2119,60 @@ dmar_host_bridges(Object *obj, void *opaque)
-> >      return 0;
-> >  }
-> >
-> > +/*
-> > + * Insert DMAR scope for PCIE root ports
-> > + */
-> > +static void
-> > +insert_pcie_root_port_scope(PCIBus *bus, PCIDevice *dev, void *opaque)
-> > +{
-> > +    const size_t device_scope_size =3D 6 + 2;
-> > +                                   /* device scope structure + 1 path
-> entry */
-> > +    GArray *scope_blob =3D opaque;
-> > +
-> > +    /*
-> > +     * We are only interested in PCIE root ports. We can extend
-> > +     * this to check for specific properties of PCIE root ports and
-> based
-> > +     * on that remove some ports from having ATS capability.
-> > +     */
-> > +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PORT)) {
-> > +        return;
-> > +    }
-> > +
-> > +    /* Dmar Scope Type: 0x02 for all PCIE root ports */
-> > +    build_append_int_noprefix(scope_blob, 0x02, 1);
-> > +
-> > +    /* length */
-> > +    build_append_int_noprefix(scope_blob, device_scope_size, 1);
-> > +    /* reserved */
-> > +    build_append_int_noprefix(scope_blob, 0, 2);
-> > +    /* enumeration_id */
-> > +    build_append_int_noprefix(scope_blob, 0, 1);
-> > +    /* bus */
-> > +    build_append_int_noprefix(scope_blob, pci_bus_num(bus), 1);
-> > +    /* device */
-> > +    build_append_int_noprefix(scope_blob, PCI_SLOT(dev->devfn), 1);
-> > +    /* function */
-> > +    build_append_int_noprefix(scope_blob, PCI_FUNC(dev->devfn), 1);
-> > +}
-> > +
-> > +/* For a given PCI host bridge, walk and insert DMAR scope */
-> > +static int
-> > +dmar_pcie_root_ports(Object *obj, void *opaque)
-> > +{
-> > +    GArray *scope_blob =3D opaque;
-> > +
-> > +    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
-> > +        PCIBus *bus =3D PCI_HOST_BRIDGE(obj)->bus;
-> > +
-> > +        if (bus && !pci_bus_bypass_iommu(bus)) {
-> > +            pci_for_each_device_under_bus(bus,
-> insert_pcie_root_port_scope,
-> > +                                          scope_blob);
-> > +        }
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> >  /*
-> >   * Intel =C2=AE Virtualization Technology for Directed I/O
-> >   * Architecture Specification. Revision 3.3
-> > @@ -2190,11 +2245,26 @@ build_dmar_q35(GArray *table_data, BIOSLinker
-> *linker, const char *oem_id,
-> >
-> >      if (iommu->dt_supported) {
-> >          /* 8.5 Root Port ATS Capability Reporting Structure */
-> > +        /*
-> > +         * A PCI bus walk, for each PCIE root port.
-> > +         * Since we did not enable ALL_PORTS bit in the flags above, w=
-e
-> > +         * need to add the scope for each pcie root port explicitly
-> > +         * that are attached to bus0 with iommu enabled.
-> > +         */
-> > +        scope_blob =3D g_array_new(false, true, 1);
-> > +        object_child_foreach_recursive(object_get_root(),
-> > +                                       dmar_pcie_root_ports,
-> scope_blob);
-> > +
-> >          build_append_int_noprefix(table_data, 2, 2); /* Type */
-> > -        build_append_int_noprefix(table_data, 8, 2); /* Length */
-> > -        build_append_int_noprefix(table_data, 1 /* ALL_PORTS */, 1); /=
-*
-> Flags */
-> > +        build_append_int_noprefix(table_data,
-> > +                                  8 + scope_blob->len, 2); /* Length *=
-/
-> > +        build_append_int_noprefix(table_data, 0, 1); /* Flags */
-> >          build_append_int_noprefix(table_data, 0, 1); /* Reserved */
-> >          build_append_int_noprefix(table_data, 0, 2); /* Segment Number
-> */
-> > +
-> > +        /* now add the scope to the sub-table */
-> > +        g_array_append_vals(table_data, scope_blob->data,
-> scope_blob->len);
-> > +        g_array_free(scope_blob, true);
-> >      }
-> >
-> >      acpi_table_end(linker, &table);
->
->
-
---0000000000004a3d0605e6ff037b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Aug 24, 2022 at 8:54 PM Igor Mammedov &lt;<a href=
-=3D"mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
-rgb(204,204,204)">On Mon, 22 Aug 2022 14:38:09 +0530<br>
-Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_blank">ani@anis=
-inha.ca</a>&gt; wrote:<br>
-<br>
-&gt; Currently the bit 0 of the flags field of Root Port ATS capability rep=
-orting<br>
-&gt; structure sub-table under the DMAR table is set to 1. This indicates A=
-LL_PORTS,<br>
-&gt; thus enabling ATS capability for all pcie roots without the ability to=
- turn off<br>
-&gt; ATS for some ports and leaving ATS on for others.<br>
-&gt; <br>
-&gt; This change clears the bit 0 of the flags field of the above structure=
- and<br>
-&gt; explicitly adds scopes for every pcie root port in the structure so th=
-at ATS<br>
-&gt; is enabled for all of them. In future, we might add new attribite to t=
-he root<br>
-&gt; ports so that we can selectively enable ATS for some and leave ATS off=
- for<br>
-&gt; others.<br>
-<br>
-Thanks, it was worth a try,<br>
-unfortunately since we are shooting in dark this time it was a miss.</block=
-quote><div dir=3D"auto"><br></div><div dir=3D"auto">So I take it that even =
-with this patch Windows still exhibited the issue?</div><div dir=3D"auto">I=
-s it worth pushing the patch anyway?=C2=A0</div><div dir=3D"auto"><br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
-rgb(204,204,204)" dir=3D"auto"><br>
-<br>
-<br>
-&gt; Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=
-=3D"_blank">ani@anisinha.ca</a>&gt;<br>
-&gt; Suggested-by: Michael Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" ta=
-rget=3D"_blank">mst@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/i386/acpi-build.c | 74 ++++++++++++++++++++++++++++++++++++++=
-++++--<br>
-&gt;=C2=A0 1 file changed, 72 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c<br>
-&gt; index 0355bd3dda..9c5a555536 100644<br>
-&gt; --- a/hw/i386/acpi-build.c<br>
-&gt; +++ b/hw/i386/acpi-build.c<br>
-&gt; @@ -60,6 +60,7 @@<br>
-&gt;=C2=A0 #include &quot;hw/i386/fw_cfg.h&quot;<br>
-&gt;=C2=A0 #include &quot;hw/i386/ich9.h&quot;<br>
-&gt;=C2=A0 #include &quot;hw/pci/pci_bus.h&quot;<br>
-&gt; +#include &quot;hw/pci/pcie_port.h&quot;<br>
-&gt;=C2=A0 #include &quot;hw/pci-host/q35.h&quot;<br>
-&gt;=C2=A0 #include &quot;hw/i386/x86-iommu.h&quot;<br>
-&gt;=C2=A0 <br>
-&gt; @@ -2118,6 +2119,60 @@ dmar_host_bridges(Object *obj, void *opaque)<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; +/*<br>
-&gt; + * Insert DMAR scope for PCIE root ports<br>
-&gt; + */<br>
-&gt; +static void<br>
-&gt; +insert_pcie_root_port_scope(PCIBus *bus, PCIDevice *dev, void *opaque=
-)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 const size_t device_scope_size =3D 6 + 2;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* device scope str=
-ucture + 1 path entry */<br>
-&gt; +=C2=A0 =C2=A0 GArray *scope_blob =3D opaque;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* We are only interested in PCIE root ports. We c=
-an extend<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* this to check for specific properties of PCIE r=
-oot ports and based<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* on that remove some ports from having ATS capab=
-ility.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 if (!object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PO=
-RT)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Dmar Scope Type: 0x02 for all PCIE root ports */<br>
-&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, 0x02, 1);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* length */<br>
-&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, device_scope_size=
-, 1);<br>
-&gt; +=C2=A0 =C2=A0 /* reserved */<br>
-&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, 0, 2);<br>
-&gt; +=C2=A0 =C2=A0 /* enumeration_id */<br>
-&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, 0, 1);<br>
-&gt; +=C2=A0 =C2=A0 /* bus */<br>
-&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, pci_bus_num(bus),=
- 1);<br>
-&gt; +=C2=A0 =C2=A0 /* device */<br>
-&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, PCI_SLOT(dev-&gt;=
-devfn), 1);<br>
-&gt; +=C2=A0 =C2=A0 /* function */<br>
-&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(scope_blob, PCI_FUNC(dev-&gt;=
-devfn), 1);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +/* For a given PCI host bridge, walk and insert DMAR scope */<br>
-&gt; +static int<br>
-&gt; +dmar_pcie_root_ports(Object *obj, void *opaque)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 GArray *scope_blob =3D opaque;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 PCIBus *bus =3D PCI_HOST_BRIDGE(obj)-&gt;=
-bus;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bus &amp;&amp; !pci_bus_bypass_iommu(=
-bus)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pci_for_each_device_under_b=
-us(bus, insert_pcie_root_port_scope,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 scope_blob);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 return 0;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 /*<br>
-&gt;=C2=A0 =C2=A0* Intel =C2=AE Virtualization Technology for Directed I/O<=
-br>
-&gt;=C2=A0 =C2=A0* Architecture Specification. Revision 3.3<br>
-&gt; @@ -2190,11 +2245,26 @@ build_dmar_q35(GArray *table_data, BIOSLinker =
-*linker, const char *oem_id,<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (iommu-&gt;dt_supported) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 8.5 Root Port ATS Capability Repo=
-rting Structure */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* A PCI bus walk, for each PCIE roo=
-t port.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Since we did not enable ALL_PORTS=
- bit in the flags above, we<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* need to add the scope for each pc=
-ie root port explicitly<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* that are attached to bus0 with io=
-mmu enabled.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 scope_blob =3D g_array_new(false, true, 1=
-);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_child_foreach_recursive(object_get=
-_root(),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dmar_=
-pcie_root_ports, scope_blob);<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data=
-, 2, 2); /* Type */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data, 8, =
-2); /* Length */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data, 1 /=
-* ALL_PORTS */, 1); /* Flags */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 8 + scope_blob-&gt;len, 2=
-); /* Length */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data, 0, =
-1); /* Flags */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data=
-, 0, 1); /* Reserved */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_append_int_noprefix(table_data=
-, 0, 2); /* Segment Number */<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* now add the scope to the sub-table */<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_array_append_vals(table_data, scope_blo=
-b-&gt;data, scope_blob-&gt;len);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_array_free(scope_blob, true);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 acpi_table_end(linker, &amp;table);<br>
-<br>
-</blockquote></div></div>
-
---0000000000004a3d0605e6ff037b--
+> On Aug 24, 2022, at 4:36 PM, Martin Oliveira <martin.oliveira@eideticom.c=
+om> wrote:=0A=
+>    -drive file=3Dnvme://0000:26:00.0,if=3Dnone,id=3Ddrive0,format=3Draw=
+=0A=
+>    -device virtio-blk,drive=3Ddrive0,id=3Dvirtio0,serial=3Dnvme0=0A=
+=0A=
+Small typo above, I missed the /1, it should read:=0A=
+=0A=
+    -drive file=3Dnvme://0000:26:00.0/1,if=3Dnone,id=3Ddrive0,format=3Draw=
+=0A=
+    -device virtio-blk,drive=3Ddrive0,id=3Dvirtio0,serial=3Dnvme0=0A=
+=0A=
+Martin=
 
