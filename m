@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B6159F5D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:01:40 +0200 (CEST)
-Received: from localhost ([::1]:43798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E72A59F5CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 10:58:08 +0200 (CEST)
+Received: from localhost ([::1]:60550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmGZ-0003SA-Al
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51604)
+	id 1oQmD9-0008Jd-DI
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 04:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQm7f-0003SG-LE
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:52:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQm7W-0002hp-Oj
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:52:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661331137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o8hTteaqYw9pPyFiJ/xWum3HOoFLBYx+zlZfXhUuxSg=;
- b=WgP7My4+yHVBSgSF6qCFEHmup7HIj16wUp0ihVgSBuAhuEpOviH8D1l+6IZvOL97BUbFVz
- MiZc9gnWq7yTd/cqCFP4dS7yjpD/iFwyoa+3+UtvWPtTI5YtrlNjydc53CLApEf6wEF2z3
- XUU9EcHZB1bM9noAUiZ1bjppV5mrF2A=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-jk-1pBjeO2avwIjWV6MciQ-1; Wed, 24 Aug 2022 04:52:15 -0400
-X-MC-Unique: jk-1pBjeO2avwIjWV6MciQ-1
-Received: by mail-lf1-f70.google.com with SMTP id
- b16-20020a056512305000b0048aec76a1ccso5140369lfb.18
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 01:52:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oQm7v-0003ZA-6d
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:52:47 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:38857)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oQm7t-0002ib-JC
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 04:52:42 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id r22so14460608pgm.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 01:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=nSDkeiBJBv26GZv+Kt7q6+6QjA1tAqEVFvSC3pOL+ZU=;
+ b=m0Zt3l6/JCREYj4iNEo+DH1WMo80+vnhJ3MZes6iBbWMIG/W6/PqTFD7Ln7WkMGlCd
+ /OOlJt8mDdPiJdFXHTXhD1hqw03vn8wPUZxmjwxrEk4MRYH5XMsoyOBsOAJglWUQNRFt
+ BFFz+/X8T5x00XDVV7QtWYFrZpsWDNbrqauXmgemsYEJkPp2XZE2saRmNP4uWyXq621Y
+ qcYS3MiwsFBaNcu5L3oFqRe0KDn1FTKROLiUeKc+PlSKVho/N5K2npbzOmoCARMhE9va
+ I8rV3PSMWAwu/HcS5ChvZVi8McPrcSC15dzhAg4tz8MWLoz03K4F5lG2V10kFJVhZ5hG
+ opNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=o8hTteaqYw9pPyFiJ/xWum3HOoFLBYx+zlZfXhUuxSg=;
- b=VSYobqRjQjjVpe4DRQ9/1p9Rhiwa4Y6sneA5FLx8Kc0ILImZrGXxdCCP9Mg8uwvORf
- JQ7QRoCsU31qt/8Uel1y/KWC+SrNiBndHJJGQhDscuIB2HjP7VpxuJXx74gMBtgcWW41
- oxh/30YtBFOd3gSIHnsoCsM8unAmnVNnUu8T+fdwlteZZr3960mldFvLX36FeTKMwjKg
- IepeXGtZ5M7bNzRtLfzuBvnf9mDXPhUBaQNjYdCGXWLhXYAusjP2SDNQ9A6ZYqEBbg5v
- n036vSDvCEntfLuv1rSArP3kBlIjLLl/0r0hBnBA+miUCVkcZ3SlNW6ijYwEOU07GJQs
- rnlQ==
-X-Gm-Message-State: ACgBeo00Zadb9ai2gPTCS4zN4npCOlxV4DHefC1kLARQUC++4wO5OAgU
- MDbptJot/g5c6SLn8vMArvIJp7Qi9hFStbfENOi4uGYx1KOGjZYYdO71LKd0LISJpdb2ubMQOAX
- RYhoy/LWZg+TZT5Up5UZI5Ve+xf0wb6w=
-X-Received: by 2002:a2e:a80b:0:b0:261:c107:8823 with SMTP id
- l11-20020a2ea80b000000b00261c1078823mr6211855ljq.323.1661331133449; 
- Wed, 24 Aug 2022 01:52:13 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4Rn2T9cqWaCHpOgMldU8ToanqiTmIpNqs4Uwmko/agybtftgna1aycYFvj++I+g3jPkl9ujyU7Ja5zbPVr6t4=
-X-Received: by 2002:a2e:a80b:0:b0:261:c107:8823 with SMTP id
- l11-20020a2ea80b000000b00261c1078823mr6211838ljq.323.1661331133189; Wed, 24
- Aug 2022 01:52:13 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=nSDkeiBJBv26GZv+Kt7q6+6QjA1tAqEVFvSC3pOL+ZU=;
+ b=a6V4dsBao767A/8jq394mIWKj3O5Km1/BHm6XaOnMtRxMSckFEZO8VsFIx9/6hWMNF
+ hzIqkaE8GRZx/lzHwx5hanjM2jkR/kDeidYHsOd8jlNFvy21DGLoBP3SYSGWwEXsIX9G
+ x2zIHkrRwUYn4fPXb6ZTDxfygrsae1XY8VnlSrBKqyVKIfBp7Foiuw/PJ6forWQZgXb8
+ RD6KUK+F3oUUv0q8rsBJ6WT5n60pgvAE7aLgkQuaDkJtGIhOS6VaiiyAmk5jGmG/D8Pc
+ n7zgpI41TSfjiETCf6mON27MLiloaPVl8iRUalpIEcU/T2BBbjbWLbgAGJUop8wrP1dW
+ QSEg==
+X-Gm-Message-State: ACgBeo0n6Iw8bBdgth4ENZDVLZmxYT2YuT+mIeRFXpSVbAd4CmtO3w2m
+ 4oKuYWrLpfJR9XxKPoxg6BABFjdRg/0=
+X-Google-Smtp-Source: AA6agR5FcdeM5zb3+EIPUSnJ1uQLRvsbnWvS325QA+HJ1C0z3QknTEovQQeISXbPfAY44uc8vE4Srw==
+X-Received: by 2002:a65:6e82:0:b0:41a:9b73:f0e6 with SMTP id
+ bm2-20020a656e82000000b0041a9b73f0e6mr24089370pgb.371.1661331159215; 
+ Wed, 24 Aug 2022 01:52:39 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ qi3-20020a17090b274300b001f3162e4e55sm813800pjb.35.2022.08.24.01.52.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Aug 2022 01:52:38 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3 1/3] util/main-loop: Fix maximum number of wait objects for
+ win32
+Date: Wed, 24 Aug 2022 16:52:29 +0800
+Message-Id: <20220824085231.1630804-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220819171329.3597027-1-eperezma@redhat.com>
- <20220819171329.3597027-3-eperezma@redhat.com>
- <f517a073-fd73-0220-072c-ea054b643468@redhat.com>
- <CAJaqyWcGH-kAVw-yZ2CX-GuPYt1zL8FFJnjmWMcbi4r1NgyfcA@mail.gmail.com>
-In-Reply-To: <CAJaqyWcGH-kAVw-yZ2CX-GuPYt1zL8FFJnjmWMcbi4r1NgyfcA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 24 Aug 2022 16:52:02 +0800
-Message-ID: <CACGkMEuNTBPSh2x6LVihCE=fg1zYAsnG4io2MBT32+PF9=omwQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] vdpa: Add vhost_vdpa_net_load_mq
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- Eli Cohen <eli@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -104,117 +89,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 3:47 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Wed, Aug 24, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2022/8/20 01:13, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > Same way as with the MAC, restore the expected number of queues at
-> > > device's start.
-> > >
-> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > ---
-> > >   net/vhost-vdpa.c | 33 +++++++++++++++++++++++++++++++++
-> > >   1 file changed, 33 insertions(+)
-> > >
-> > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > index 1e0dbfcced..96fd3bc835 100644
-> > > --- a/net/vhost-vdpa.c
-> > > +++ b/net/vhost-vdpa.c
-> > > @@ -391,6 +391,35 @@ static int vhost_vdpa_net_load_mac(VhostVDPAStat=
-e *s,
-> > >       return 0;
-> > >   }
-> > >
-> > > +static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
-> > > +                                  const VirtIONet *n)
-> > > +{
-> > > +    uint64_t features =3D n->parent_obj.guest_features;
-> > > +    ssize_t dev_written;
-> > > +    void *cursor =3D s->cvq_cmd_out_buffer;
-> > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_MQ))) {
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +    *(struct virtio_net_ctrl_hdr *)cursor =3D (struct virtio_net_ctr=
-l_hdr) {
-> > > +        .class =3D VIRTIO_NET_CTRL_MQ,
-> > > +        .cmd =3D VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET,
-> > > +    };
-> > > +    cursor +=3D sizeof(struct virtio_net_ctrl_hdr);
-> > > +    *(struct virtio_net_ctrl_mq *)cursor =3D (struct virtio_net_ctrl=
-_mq) {
-> > > +        .virtqueue_pairs =3D cpu_to_le16(n->curr_queue_pairs),
-> > > +    };
-> >
-> >
-> > Such casting is not elegant, let's just prepare buffer and then do the
-> > copy inside vhost_vdpa_net_cvq_add()?
-> >
->
-> I'm not sure what you propose here. I can pre-fill a buffer in the
-> stack and then do an extra copy in vhost_vdpa_net_cvq_add. The
-> compiler should be able to optimize it, but I'm not sure if it
-> simplifies the code.
->
-> We can have a dedicated buffer for mac, another for mq, and one for
-> each different command, and map all of them at the device's start. But
-> this seems too much overhead to me.
+From: Bin Meng <bin.meng@windriver.com>
 
-Considering we may need to support and restore a lot of other fields,
-this looks a little complicated.
+The maximum number of wait objects for win32 should be
+MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
 
-I meant the caller can simply do:
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-struct virtio_net_ctrl_mq mq =3D { ...};
+Changes in v3:
+- move the check of adding the same HANDLE twice to a separete patch
 
-Then we do
+Changes in v2:
+- fix the logic in qemu_add_wait_object() to avoid adding
+  the same HANDLE twice
 
-vhost_vdpa_net_cvq_add(&mq, sizeof(mq), ...);
+ util/main-loop.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Then we can do memcpy inside vhost_vdpa_net_cvq_add() and hide the
-cmd_out_buffer etc from the caller.
-
->
-> Some alternatives that come to my mind:
->
-> * Declare a struct with both virtio_net_ctrl_hdr and each of the
-> control commands (using unions?), and cast s->cvq_cmd_out_buffer
-> accordingly.
-> * Declare a struct with all of the supported commands one after
-> another, and let qemu fill and send these accordingly.
->
-> >
-> > > +    cursor +=3D sizeof(struct virtio_net_ctrl_mq);
-> > > +
-> > > +    dev_written =3D vhost_vdpa_net_cvq_add(s, cursor - s->cvq_cmd_ou=
-t_buffer,
-> > > +                                             sizeof(virtio_net_ctrl_=
-ack));
-> > > +    if (unlikely(dev_written < 0)) {
-> > > +        return dev_written;
-> > > +    }
-> > > +
-> > > +    return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) !=3D VIRTI=
-O_NET_OK;
-> >
-> >
-> > So I think we should have a dedicated buffer just for ack, then there's
-> > no need for such casting.
-> >
->
-> You mean to declare cvq_cmd_in_buffer as virtio_net_ctrl_ack type
-> directly and map it to the device?
-
-Kind of, considering the ack is the only kind of structure in the near
-future, can we simply use the structure virtio_net_ctl_ack?
-
-Thanks
-
->
-> Thanks!
->
+diff --git a/util/main-loop.c b/util/main-loop.c
+index f00a25451b..cb018dc33c 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -363,10 +363,10 @@ void qemu_del_polling_cb(PollingFunc *func, void *opaque)
+ /* Wait objects support */
+ typedef struct WaitObjects {
+     int num;
+-    int revents[MAXIMUM_WAIT_OBJECTS + 1];
+-    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+-    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
+-    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
++    int revents[MAXIMUM_WAIT_OBJECTS];
++    HANDLE events[MAXIMUM_WAIT_OBJECTS];
++    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
++    void *opaque[MAXIMUM_WAIT_OBJECTS];
+ } WaitObjects;
+ 
+ static WaitObjects wait_objects = {0};
+@@ -395,6 +395,9 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+         if (w->events[i] == handle) {
+             found = 1;
+         }
++        if (i == MAXIMUM_WAIT_OBJECTS - 1) {
++            break;
++        }
+         if (found) {
+             w->events[i] = w->events[i + 1];
+             w->func[i] = w->func[i + 1];
+-- 
+2.34.1
 
 
