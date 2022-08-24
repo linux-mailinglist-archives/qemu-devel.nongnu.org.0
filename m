@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D296759F803
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:43:32 +0200 (CEST)
-Received: from localhost ([::1]:49026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 698E059F7E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:34:56 +0200 (CEST)
+Received: from localhost ([::1]:48214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnr9-0006r0-VQ
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45848)
+	id 1oQnio-0004Is-Sd
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuN-00040m-5O
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:47 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:52737)
+ id 1oQmuP-00046t-O0
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:50 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:41956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuL-0001Z8-I1
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:46 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id f21so16511832pjt.2
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:44 -0700 (PDT)
+ id 1oQmuO-0001bT-0Y
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:49 -0400
+Received: by mail-pg1-x533.google.com with SMTP id 202so14542886pgc.8
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=ZMTvAyZuMin22FzdWCyxbO3Nu5c2nRBEHD5FUVRQ7yc=;
- b=Y01zgjERpQES6bO6YeaIYqLerOel2Luq/wOKifwLKj70Fzj/fwLs+4HFsvoyaY1F5r
- UaxOEl8bYlJSK2o2AyULTuON9ethgWmP8PYG6n+8orAw2wWLTvkq+GcNaT3V/4lCh98k
- qmNKSVPryPBZbeKD2lDtxkA0uN15p/oWvYH61i343EbUhlEOZ9SzMEZL9YTwKELcjasY
- E52ujwxgnF+tefJZ1ZMXXdkSvqzqDW61dOOEdguQ84GtYZDy/rNy+4jjUrb3OQKN6skK
- KxI/XZeRqlvY2pwUq3/CYR0PQ6unO8MNBCCvtRO5Y+q0DD9bYMuQ67NzVz7UE7ZYGoL9
- 5iOA==
+ bh=IfI/qWhUWiZQhG5XwWjV6xjarmHg12V73Blb6zZFpuQ=;
+ b=lgIvNYS2uxagdXZauE9C99i9XdDYqd8KPAc1aWEHEl3QH9uGAj8wgzNykpP7DX0YqY
+ 2dE5eJBC9O5CBWv7EJpLMcAVgqCbzQ8bz3m4MEiqbBr1KnkOwxT3sz8Yw70UJ7WNtsSz
+ 31CuFlzqfgxQkQ6jdHUxfZhQmwkGiLyBdnezlzyDeJoNIwFRQHoyUd3zfAbwPmyqcEjJ
+ D+dAeGva2CA5hZ54wRfOunVGapRIkhtNzrzB8QgAE+tQu2/SPMk9R1fR4hfB0uGFBw2t
+ lAndgigtdIBo24kYN/5FxUZQpu/VAXhH1/lLRswBCZTFuy0fgFUAf4hXiuBk2X77xKTn
+ j3Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=ZMTvAyZuMin22FzdWCyxbO3Nu5c2nRBEHD5FUVRQ7yc=;
- b=kHeAbBVAkNziuS81iLYlucwRnA3c4zQSORo7HkRtLPaxHVg3omRl8cIbg8tq67vUfI
- xvM2EsHtgeFyI38vWpSCl4rOiR4nvEVEAIBh6r+1X4+ed1LngEknLKaysTx5LcPz8yQ8
- Zl1t91E3Eq9TctUIF0sZfWqZTtoLjgM765W46/3nyg75KhSJQ5fb9QNlJ134uJx3l7DG
- 6ONLm5bGwQPTtopri0k1kNUh7SFOE0k6DZlUkmFS2rwYOhfENydVhmCXRueTQgs0zeCe
- jklWAQljEl6r5cYrq2QHeSC0NqSIipZabLdTbrdtsMIdNxOwiUVUoX1TcsE7dSzxFonE
- FRhw==
-X-Gm-Message-State: ACgBeo1KW/duWGcwjSfmtgp1kje6IPcX+kIEt7G8zC6YfHf93jGJxI5Y
- I4btZjw5vBaJUZVtRG/K05WfdhIR6eI=
-X-Google-Smtp-Source: AA6agR5JY7gv4+4mKWYWp2YARd9r4xpdqubJztnuKLZdTxq5H6A3di7v7WAz8bRgrt4ggvsrJQzD+A==
-X-Received: by 2002:a17:90a:17e1:b0:1f2:2ff2:6cae with SMTP id
- q88-20020a17090a17e100b001f22ff26caemr7495766pja.196.1661334164143; 
- Wed, 24 Aug 2022 02:42:44 -0700 (PDT)
+ bh=IfI/qWhUWiZQhG5XwWjV6xjarmHg12V73Blb6zZFpuQ=;
+ b=kP4xGPpnuDqoy3H3j1rpXPV49UrjfS/rjeaLbi9HGv31ehdDKfi/pGrqy+yJBvy2Cn
+ 0AqPha+yZ2RZ9SFnpACRxpPXzptitilGJLns+qk3T5D7mi9YNBd1kcCNBXkNx0E9YVKf
+ b7LR4DgrIbKyvHJ/J4p2Yd5eFhD11s/5VcT8pQnp24py/pOFGf1NgFp3tSa3QlSUARvm
+ ili3KJQ6ZZkK/qryVHjyCalVXA1lZuXoTwgGnwez1u/7rUM/yQuA4o3nISRkgWvqJ7/J
+ Z7yHKkWGaqUnAtiDUHDPe0ut2oFyMVLgo1a316IsButDkMOcHSIlbZkPapxIpLhmHmXF
+ 0Odg==
+X-Gm-Message-State: ACgBeo0O4eFTyluYeXR9Om9vTZR78TaLZB32yovel4Y6O6GcLeduztxN
+ 0uGCRyE+fWPoB/B86bKBbWOgmrLfBVM=
+X-Google-Smtp-Source: AA6agR5sJ9C0HFPuKJAG/c6z7BkLhItFVTK2K80PhDjyHaoJLFMEwWfHP7cOEBwuVq2W0Jw+keLmNw==
+X-Received: by 2002:a05:6a00:1410:b0:528:5a5a:d846 with SMTP id
+ l16-20020a056a00141000b005285a5ad846mr29523999pfu.9.1661334166406; 
+ Wed, 24 Aug 2022 02:42:46 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.42
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:42:43 -0700 (PDT)
+ Wed, 24 Aug 2022 02:42:46 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
  Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 26/51] tests/qtest: libqtest: Move global_qtest definition
- back to libqtest.c
-Date: Wed, 24 Aug 2022 17:40:04 +0800
-Message-Id: <20220824094029.1634519-27-bmeng.cn@gmail.com>
+Subject: [PATCH 27/51] tests/qtest: Use send/recv for socket communication
+Date: Wed, 24 Aug 2022 17:40:05 +0800
+Message-Id: <20220824094029.1634519-28-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,51 +92,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Commit dd2107497275 ("tests/libqtest: Use libqtest-single.h in tests that require global_qtest")
-moved global_qtest to libqtest-single.h, by declaring global_qtest
-attribute to be common and weak.
+Socket communication in the libqtest and libqmp codes uses read()
+and write() which work on any file descriptor on *nix, and sockets
+in *nix are an example of a file descriptor.
 
-This trick unfortunately does not work on Windows, and building
-qtest test cases results in multiple definition errors of the weak
-symbol global_qtest, as Windows PE does not have the concept of
-the so-called weak symbol like ELF in the *nix world.
-
-Let's move the definition of global_qtest back to libqtest.c.
+However sockets on Windows do not use *nix-style file descriptors,
+so read() and write() cannot be used on sockets on Windows.
+Switch over to use send() and recv() instead which work on both
+Windows and *nix.
 
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/libqtest-single.h | 2 +-
- tests/qtest/libqtest.c        | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ tests/qtest/libqmp.c   | 4 ++--
+ tests/qtest/libqtest.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/libqtest-single.h b/tests/qtest/libqtest-single.h
-index 4e7d0ae1dc..3294985d7b 100644
---- a/tests/qtest/libqtest-single.h
-+++ b/tests/qtest/libqtest-single.h
-@@ -13,7 +13,7 @@
+diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
+index ade26c15f0..995a39c1f8 100644
+--- a/tests/qtest/libqmp.c
++++ b/tests/qtest/libqmp.c
+@@ -36,7 +36,7 @@ typedef struct {
  
- #include "libqtest.h"
+ static void socket_send(int fd, const char *buf, size_t size)
+ {
+-    size_t res = qemu_write_full(fd, buf, size);
++    ssize_t res = send(fd, buf, size, 0);
  
--QTestState *global_qtest __attribute__((common, weak));
-+extern QTestState *global_qtest;
+     assert(res == size);
+ }
+@@ -69,7 +69,7 @@ QDict *qmp_fd_receive(int fd)
+         ssize_t len;
+         char c;
  
- /**
-  * qtest_start:
+-        len = read(fd, &c, 1);
++        len = recv(fd, &c, 1, 0);
+         if (len == -1 && errno == EINTR) {
+             continue;
+         }
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 34744ace7c..909583dad3 100644
+index 909583dad3..b7b7c9c541 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -65,6 +65,8 @@ struct QTestState
-     GList *pending_events;
- };
+@@ -438,7 +438,7 @@ void qtest_quit(QTestState *s)
  
-+QTestState *global_qtest;
-+
- static GHookList abrt_hooks;
- static struct sigaction sigact_old;
+ static void socket_send(int fd, const char *buf, size_t size)
+ {
+-    size_t res = qemu_write_full(fd, buf, size);
++    ssize_t res = send(fd, buf, size, 0);
  
+     assert(res == size);
+ }
+@@ -470,7 +470,7 @@ static GString *qtest_client_socket_recv_line(QTestState *s)
+         ssize_t len;
+         char buffer[1024];
+ 
+-        len = read(s->fd, buffer, sizeof(buffer));
++        len = recv(s->fd, buffer, sizeof(buffer), 0);
+         if (len == -1 && errno == EINTR) {
+             continue;
+         }
 -- 
 2.34.1
 
