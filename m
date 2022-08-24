@@ -2,90 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C14759F9F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 14:29:55 +0200 (CEST)
-Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B2E59FB60
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 15:28:30 +0200 (CEST)
+Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQpW6-0006OA-9W
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 08:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59792)
+	id 1oQqQm-0004K7-SG
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 09:28:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQoCk-0007tZ-Hc
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 07:05:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20503)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1oQpbj-0004vv-9w
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 08:35:44 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQoCf-000666-Nh
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 07:05:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661339144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oHttoDAJpBHmw/vD8R/xq0QOu383B+UhEzHrr9zu6+Y=;
- b=WHKG6bXnCaXh03e4AwDTIrHnuRClfh3rO6SE2bHW6v4kTlIIVhsIihrAmBxA1SQDX+bOjF
- FXGr+z0QG8jM9DqCk0hMaYe29ZFcHpfZCe/d/f1W1NHSK/IjhB/hNM17RXI9l/Tm2XLayH
- BXqZxCvG4BZY50MlZlFVwO0+QSQyTyw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-110-U0X590X5MFiwDPFV6bB57Q-1; Wed, 24 Aug 2022 07:05:42 -0400
-X-MC-Unique: U0X590X5MFiwDPFV6bB57Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- i29-20020adfa51d000000b002251fd0ff14so2706924wrb.16
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 04:05:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=oHttoDAJpBHmw/vD8R/xq0QOu383B+UhEzHrr9zu6+Y=;
- b=GxsjYBxefXz0Zgt6bQHhE2be4/KeVQOR5zWHVE8P5KYwxXF3A1tYyR65Y39FpP0nUZ
- cjFgIVtjVCPgMlOopd/53oWyLkPMPbO/0F6DtWOCdt1jd9ZNKRWwlYxDuApjWuUmfiQ+
- PkeDVMM9Xx27lCDcTurUFT4/zTM6w95xxRlrRK/jz7Be/B5bq9U/7ACZybqMNS4EgCnL
- LEMcnkVoixjyrC+gWXPMF7Q26JcvsXWe/3EcyY1HK/jOkk/aSm4eIO+LGXLszxAVitFe
- 4ifqAb0pm2NeSU7ldXBMR5363lNnAHs90hbM4s/RDAWwceLygGNCvZqhfjDcdwRvNga2
- 2Rrg==
-X-Gm-Message-State: ACgBeo3asCk6ZqRYGBlGAEt7JNtE3Ux1sB3O5EF/I4Xcb4GNNIm0QQGN
- JCe1+6Kb20Dob5Y57tXcjwfmYQoiVpu6Rp6cC5inOxFyR5IBSvsaVcYOyRdClrZw9bzRw7NY5wk
- 1ESg+Fu9yUXs6xto=
-X-Received: by 2002:a05:600c:a08:b0:3a1:9319:ab78 with SMTP id
- z8-20020a05600c0a0800b003a19319ab78mr4811095wmp.158.1661339141385; 
- Wed, 24 Aug 2022 04:05:41 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7RvtOx6d0Wura8KHx8V9mliPChlmN+ZYzoUj5R/nckeX9nMWSfTqcCIuXiVZhMT0lYkUIz2g==
-X-Received: by 2002:a05:600c:a08:b0:3a1:9319:ab78 with SMTP id
- z8-20020a05600c0a0800b003a19319ab78mr4811077wmp.158.1661339141120; 
- Wed, 24 Aug 2022 04:05:41 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- b5-20020a05600c4e0500b003a331c6bffdsm1460464wmq.47.2022.08.24.04.05.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 04:05:40 -0700 (PDT)
-Date: Wed, 24 Aug 2022 12:05:38 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Yusuke Okada <yokada.996@gmail.com>, berrange@redhat.com,
- marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Yusuke Okada <okada.yusuke@jp.fujitsu.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "open list:virtiofs" <virtio-fs@redhat.com>
-Subject: Re: [PATCH] virtiofsd: use g_date_time_get_microsecond to get
- subsecond
-Message-ID: <YwYGAuPjexuazlC2@work-vm>
-References: <20220818184618.2205172-1-yokada.996@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1oQpbg-0007Y9-Lf
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 08:35:43 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27OCO4v4009737;
+ Wed, 24 Aug 2022 12:35:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=LZMgcCIaW26jdnFQ6vTHAAAEuOT9dz+EojOAaAC5ywo=;
+ b=gUVJa7iHb3sQYgRTc0jt6f+xf6iG/9hbyO2HjEPueyj8aUZaHOSE/SvNsOUyxsMUqcBF
+ DTLb3riblUpNGaoxWx48KwvqT6CcSrHoKlm26VjLpLTwCpldT5Hi4gFIwrtIGpL1sr/j
+ Sa65K80Q0tJKv1fOypoU3/t/edJZWb4QN80z9C3Rrni7dOAozlawgmnnyI0vrbDYomoO
+ qnse0OGp6J53Xq1A9HE8FyfL40piRhSgTNc1dTn77RNywZ3J1wigof4dKwLKMLqTa4A8
+ Mdi3WnBnPKtD4LBr/jHKUewz0WRmt4A/b4ilRFLC6H0xq+xuF6ZbQ+bRPPtlWQrYyHu0 dg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j5ky8gc1k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Aug 2022 12:35:37 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27OCOk3I014656;
+ Wed, 24 Aug 2022 12:35:37 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j5ky8gc0p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Aug 2022 12:35:37 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27OCNb6O016395;
+ Wed, 24 Aug 2022 12:35:35 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 3j2q89h7ed-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Aug 2022 12:35:35 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27OCZZCC62587288
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Aug 2022 12:35:35 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5CDC1AC05F;
+ Wed, 24 Aug 2022 12:35:35 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 45B37AC05E;
+ Wed, 24 Aug 2022 12:35:35 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 24 Aug 2022 12:35:35 +0000 (GMT)
+Message-ID: <dc3c5917-e0bf-93a1-0538-563a720dcfc7@linux.ibm.com>
+Date: Wed, 24 Aug 2022 08:35:34 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220818184618.2205172-1-yokada.996@gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 14/51] backends/tpm: Exclude headers and macros that don't
+ exist on win32
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-15-bmeng.cn@gmail.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20220824094029.1634519-15-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Tes_UR8KswFzvAux_MDIKUXB-pQUXJtj
+X-Proofpoint-ORIG-GUID: NvpYMsH_liZEV8-xsbp9qlMT4vGcMAxT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-24_06,2022-08-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ impostorscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0 clxscore=1011
+ priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208240047
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,62 +119,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Yusuke Okada (yokada.996@gmail.com) wrote:
-> From: Yusuke Okada <okada.yusuke@jp.fujitsu.com>
+
+
+On 8/24/22 05:39, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> The "%f" specifier in g_date_time_format() is only available in glib
-> 2.65.2 or later. If combined with older glib, the function returns null
-> and the timestamp displayed as "(null)".
-
-Well spotted; thanks for the patch.
-I notice there's also a use in rocker and qga (Copying Dan and
-Marc-Andre in who added them)
-
-> For backward compatibility, g_date_time_get_microsecond should be used
-> to retrieve subsecond.
+> These headers and macros do not exist on Windows. Exclude them.
 > 
-> In this patch the g_date_time_format() leaves subsecond field as "%06d"
-> and let next snprintf to format with g_date_time_get_microsecond.
-> 
-> Signed-off-by: Yusuke Okada <okada.yusuke@jp.fujitsu.com>
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 371a7bead6..20f0f41f99 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -4185,6 +4185,7 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
->  static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
->  {
->      g_autofree char *localfmt = NULL;
-> +    char buf[64];
->  
->      if (current_log_level < level) {
->          return;
-> @@ -4197,9 +4198,11 @@ static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
->                                         fmt);
->          } else {
->              g_autoptr(GDateTime) now = g_date_time_new_now_utc();
-> -            g_autofree char *nowstr = g_date_time_format(now, "%Y-%m-%d %H:%M:%S.%f%z");
-> +            g_autofree char *nowstr = g_date_time_format(now,
-> +                                       "%Y-%m-%d %H:%M:%S.%%06d%z");
-> +            snprintf(buf, 64, nowstr, g_date_time_get_microsecond(now));
->              localfmt = g_strdup_printf("[%s] [ID: %08ld] %s",
-> -                                       nowstr, syscall(__NR_gettid), fmt);
-> +                                       buf, syscall(__NR_gettid), fmt);
->          }
->          fmt = localfmt;
->      }
-> -- 
-> 2.31.1
+>   backends/tpm/tpm_ioctl.h | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/backends/tpm/tpm_ioctl.h b/backends/tpm/tpm_ioctl.h
+> index bd6c12cb86..d67bf0283b 100644
+> --- a/backends/tpm/tpm_ioctl.h
+> +++ b/backends/tpm/tpm_ioctl.h
+> @@ -9,8 +9,10 @@
+>   #ifndef TPM_IOCTL_H
+>   #define TPM_IOCTL_H
+> 
+> +#ifndef _WIN32
+>   #include <sys/uio.h>
+>   #include <sys/ioctl.h>
+> +#endif
+> 
+>   #ifdef HAVE_SYS_IOCCOM_H
+>   #include <sys/ioccom.h>
+> @@ -222,6 +224,7 @@ typedef struct ptm_setbuffersize ptm_setbuffersize;
+>   #define PTM_CAP_SET_DATAFD         (1 << 12)
+>   #define PTM_CAP_SET_BUFFERSIZE     (1 << 13)
+> 
+> +#ifndef _WIN32
+>   enum {
+>       PTM_GET_CAPABILITY     = _IOR('P', 0, ptm_cap),
+>       PTM_INIT               = _IOWR('P', 1, ptm_init),
+> @@ -241,6 +244,7 @@ enum {
+>       PTM_SET_DATAFD         = _IOR('P', 15, ptm_res),
+>       PTM_SET_BUFFERSIZE     = _IOWR('P', 16, ptm_setbuffersize),
+>   };
+> +#endif
+> 
+>   /*
+>    * Commands used by the non-CUSE TPMs
 
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
