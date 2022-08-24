@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BB05A01A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:58:43 +0200 (CEST)
-Received: from localhost ([::1]:49376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D39F5A0214
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 21:27:47 +0200 (CEST)
+Received: from localhost ([::1]:56448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQvaM-0003X6-IL
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44482)
+	id 1oQw2T-0001K0-F6
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 15:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQvYO-0001gE-2l
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:56:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46216)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQvYL-0008TO-FE
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:56:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661367396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=da/eeBPBkMeiRJbrm1MfB2AdwBZu3+0jOdDBGYyYzuk=;
- b=Cx1u8VYm4gRAdDU+LpZmhKyUBPDui9mMbJRD5Hsz3sJmZXW4kllYxoISXDdpMo7NpK6ZSx
- Kkuu9oAZqST3C7AXKZ3ONGVPvo+5fgcPmIl+arOIufHEmqpbYUcSr47d4YRuQUWHmIv+5d
- Z0awqquKtB4EvdCDGnvDD0E3u9RE6Fw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-633-yGVbk8OqMyGBjIjUOE1iWg-1; Wed, 24 Aug 2022 14:56:35 -0400
-X-MC-Unique: yGVbk8OqMyGBjIjUOE1iWg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- az42-20020a05600c602a00b003a552086ba9so1199845wmb.6
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 11:56:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oQw0n-0007mg-B0
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 15:26:01 -0400
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:42704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oQw0l-0004tg-KX
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 15:26:00 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-3378303138bso446483897b3.9
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 12:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=3zoDEn0rEuZP370CHtW1Vj8FKyKC4YBMxZofTvpvUpU=;
+ b=fGTevsAtGHsbNARHVPSmesnAywkiESTOC1/a5ngBhxqMAysTqrrVO6GVeMoVWnZUgl
+ 5cw3RQHdUk04NDMbpcMdZV29lA4Nc9QTSDeZ9CUjow9kqIwGJw1NRzjHLIArB4THbRhj
+ pAz/7m/byHoHcs8Tj74/1ng56szyecfaAlQtY+xwbsg8DT18r7k4CGxg9UslEhgi/teA
+ OhQSQyv1th4eZP8YwDoqp9NnwLA8g7pK3KnxZV1WA/ns4xYXTZNMJBm7OAM846sFsU+m
+ G3qHfHUYh5A4qTuMVD0XRZKl2FmC0v6moYza0bk7v4eB/d6nzs07feToAAgtI/di4/62
+ v9jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=da/eeBPBkMeiRJbrm1MfB2AdwBZu3+0jOdDBGYyYzuk=;
- b=QEGLLH/Gh1nEYg4n5cWbYL9omoktjadesz5kQVzORCS+Tv3i4/KU42CwGsjN7pP3U5
- PgiSM3GBR19otloys1EO8STCjAh8jOXwMInnksLyS6Wy1wDNahtyZpHfLCEzOHsAY9Va
- Ls/ijSEKOMQY383t/yn1mIOCSB6ZhSeYAQcipdwHEbe1NMb3Qu1ETDxFQoQrsEexFyCL
- pmOTO19HZEuc1UqnVdUlJKIu89kAlAa35kBW3EEzbMNfc5tc5r+DfZ97VKP3ja06jOKS
- YC0IIWXNMIEcJFryqQtQHgS3YnnOgTqOntWqacSLYl+JnJJgtGNY7RLH897FwuYD+NPk
- C0HA==
-X-Gm-Message-State: ACgBeo0YsHhTQr7etvOReYJOeam0yki9nWE/4kNMhhjcamr8JQqaOA7W
- KM02KOauvI+SHSKG2MmnJi3MZySWyPmc7QPwRFWBToN0HJWHmHc6JEzoMrMvJ4fZIxKCn/tnBTY
- Wq8ZtE4qd0re8tzM=
-X-Received: by 2002:adf:eb02:0:b0:225:2b94:d14c with SMTP id
- s2-20020adfeb02000000b002252b94d14cmr296063wrn.291.1661367394034; 
- Wed, 24 Aug 2022 11:56:34 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ghnHrm3+R4J9JuaMTv/V9R2KkHQXaGdCZMa/qLYJwnXC9xNZLSxph2xtLgr6fhXguajLJdg==
-X-Received: by 2002:adf:eb02:0:b0:225:2b94:d14c with SMTP id
- s2-20020adfeb02000000b002252b94d14cmr296050wrn.291.1661367393803; 
- Wed, 24 Aug 2022 11:56:33 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- o13-20020a05600c510d00b003a4efb794d7sm3361383wms.36.2022.08.24.11.56.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 11:56:33 -0700 (PDT)
-Date: Wed, 24 Aug 2022 19:56:31 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>, Juan Quintela <quintela@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 41/51] tests/qtest: migration-test: Kill "to" after
- migration is canceled
-Message-ID: <YwZ0X6cGmK/4N1yk@work-vm>
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-42-bmeng.cn@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=3zoDEn0rEuZP370CHtW1Vj8FKyKC4YBMxZofTvpvUpU=;
+ b=zdmtbS3HxMQF6quyuzgA+gOH3SuUFNjKlSth8/gX1fP/MZu8laVAo5XVAV7xVSF3zy
+ S/+kcFZE5bOEQ+J7XQ+5p1lt1LEq76eCUUIFh11GjRqsG1iun4hHTy28ClIzW4H0DwsS
+ 9YHKAawDDJsS4pf+54pu32x5y1LvQhHTEduP0InUEfW4SeEYjTV86hsmmpNnk8U+Rsyg
+ AsZ+hPlvoUsBY0MTzsYF3RsdQ1yBg55Jm9MLA/a/xInU0yI2a7qO9YxtvJC92J85/Q8L
+ X8iMeEZM8Kqbcy53bDs+PpQCMhl16UmhdQU38ianAt6/R4GRGXDAu4VyJoscSJE2wJ1R
+ oHXg==
+X-Gm-Message-State: ACgBeo0uLdfT1ZEP1coH601sFSmt/gcWPH9n7l+BR6XgE/cyMZ9mohLt
+ HaEvkUF7pd2zsR+B1qWjkLe2xqsgUEZph9CQF9CcEg==
+X-Google-Smtp-Source: AA6agR6GmiRL5Ov01ngYJgZ9p65pJW+KPV+SHyf5evD3PYoazZds2hpWWLCuojmSfZuIrpjhjU4InkttXsnV1yMeOj4=
+X-Received: by 2002:a25:4e85:0:b0:695:8a88:903f with SMTP id
+ c127-20020a254e85000000b006958a88903fmr629130ybb.85.1661369157094; Wed, 24
+ Aug 2022 12:25:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220824094029.1634519-42-bmeng.cn@gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220817141754.2105981-1-anton.kochkov@proton.me>
+ <CAFEAcA-ii9vOLvtO_Yb4c90KaH8dENbgUEquiuqJPkQKd03D-g@mail.gmail.com>
+In-Reply-To: <CAFEAcA-ii9vOLvtO_Yb4c90KaH8dENbgUEquiuqJPkQKd03D-g@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 24 Aug 2022 20:25:14 +0100
+Message-ID: <CAFEAcA_cnmzCJXUXbkLA02XrH5psRq-WxEO9sCjtkuS+VxV8nA@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/net/can: fix Xilinx ZynqMP CAN RX FIFO logic
+To: Anton Kochkov <anton.kochkov@proton.me>
+Cc: qemu-devel@nongnu.org, Francisco Iglesias <frasse.iglesias@gmail.com>, 
+ Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>, 
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>, Jason Wang <jasowang@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,43 +88,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Bin Meng (bmeng.cn@gmail.com) wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> 
-> Make sure QEMU process "to" is killed before launching another target
-> for migration in the test_multifd_tcp_cancel case.
-> 
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  tests/qtest/migration-test.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 125d48d855..18ec079abf 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
->      wait_for_migration_pass(from);
->  
->      migrate_cancel(from);
-> +    /* Make sure QEMU process "to" is killed */
-> +    if (qtest_probe_child(to)) {
-> +        qtest_kill_qemu(to);
-> +    }
+On Wed, 17 Aug 2022 at 15:33, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Wed, 17 Aug 2022 at 15:24, Anton Kochkov <anton.kochkov@proton.me> wrote:
+> >
+> > For consistency, function "update_rx_fifo()" should use
+> > the RX FIFO register names, not the TX FIFO ones even if
+>
+> "register field names"
+>
+> > they refer to the same memory region.
+>
+> "same bit positions in the register".
+>
+> (No need to spin a v3 just for that; if there's no other
+> issues with the patch I'll fix it up when I take it into
+> target-arm.next.)
 
-I'm not sure that's safe - what happens if the qemu exits between the
-probe and kill?
+Richard, since you're accumulating target-arm patches currently,
+could you pick this one up (with the commit message fixups), please?
 
-Dave
-
->      args = (MigrateStart){
->          .only_target = true,
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
