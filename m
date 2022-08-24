@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7306359F6B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:47:03 +0200 (CEST)
-Received: from localhost ([::1]:55888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AC859F6FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:59:07 +0200 (CEST)
+Received: from localhost ([::1]:34742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmyU-0008H1-JD
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:47:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59602)
+	id 1oQnAA-0003Pl-Nf
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmsv-00027F-FB; Wed, 24 Aug 2022 05:41:17 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:33629)
+ id 1oQmsz-0002H4-Hk
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:41:21 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:46880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmst-0001KP-Vk; Wed, 24 Aug 2022 05:41:17 -0400
-Received: by mail-pl1-x635.google.com with SMTP id 2so15218274pll.0;
- Wed, 24 Aug 2022 02:41:15 -0700 (PDT)
+ id 1oQmsy-0001L5-2K
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:41:21 -0400
+Received: by mail-pl1-x636.google.com with SMTP id jm11so15166184plb.13
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=oO0SYzbawNGrDg6auw+O7c5purm7PS7f7P59XKUxYbE=;
- b=bHffE/UwOb1YAe22yBuG5fn/8y6I7CgETiarUmwh0cOsZ4toU1fBE240zfzNmvuEkD
- AtwCBy016YB072o6x/1itEcsJ5I9Acq97/h9DabW+wKtYunIWYOB6HbqbGD3PvBcAjRK
- LjCHTZLLzVptMLV3gkWIfMwRWBZif/c5rdLwZUHu5OAQzFKqfBXEkh/TJCpihpNgXumt
- xugWUmQVUeQLyE9gkr5qK43uzs0PYUbzyIEIRTeakubsceLeGFOlojLTJL3EGzg3ydOr
- 6deW8S5esFxDpdbfNWYnm1m7GOFpkQDrJivCWFlObMHRXkz1CRl3XQqR0uHEADgpiRaY
- 7S5Q==
+ bh=EZVtm0SvUeW5TzKWeVkn+QL0GZmVIRTePkK09k2LuDo=;
+ b=I7tZixZ9DlnNl6LPagcrRUkB0muB8Kr4lbWvRANjZKoLQaUI1TBZw5E/nr3yliNlrL
+ qmjELqZpnRUK4OHhhq/zjS023cbRlnGmmpeHjNPt9uakCLHhtME7EV9Z3feYZLkepYEH
+ TQq+5KMp6vbLFv+o9WUmd5cZgcwzP9mYr+6TklYIKzuajTEVxrBk5EeCEmhUDQpN9rrj
+ ufn+TJw3KfDB7UGUXCkSjGS50ExUF524oMcmW1fRHXcT5J8fyNg73rvOm0IZFFrEZPpz
+ KOXUYVm+XqJqs99q1w8KYnJKq1QCGhiQwPyLNPJoLcw+be0b0bG5GbID2VMzb00EwJ+n
+ K3cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=oO0SYzbawNGrDg6auw+O7c5purm7PS7f7P59XKUxYbE=;
- b=z4W5Fu/goIrBhvmx6KtNtYqW3pS/C8SPFZQvWTr9UF9na1egtjpjp6aKl3J4x2Y3dj
- /3Q7OQWvXSUWUqyOWeCyDnQ3ApNiJvYNKBjs52NTjcZpcDxbqfnJ3OzJnt08J9WsULlr
- mWcmQmglNpWG9sNPajtWeBsUMfb79DA2xgES8f3of6tUN12OCtwG1YNwVwfUE6eLCd/9
- nZxXswThuSHQT95FPjwlQ4sNj8/jH9Qj13XdetGiDcQAPfIjO7BJvCFhqIroLKWi/NnH
- uPvXQruMNi8T9WYLsCcpBZK2pz0hWkD8P/6kFO6qVgrgqG3lGE8ZS6iUALtME7U2AKVE
- sY/Q==
-X-Gm-Message-State: ACgBeo0lQJJQgcxjP4wnjW7Cf3yeDRGMEUSlDHfuls3lgkXiywMd5Bob
- cCZxJTKSQu/U34FW/GwAGjRYwD5R4DA=
-X-Google-Smtp-Source: AA6agR6WF5MDSNfIXFV63CN8Viuk6Y1f0mlwIKX0E4X/WN200TS/sctBRDiJLarwM/v19YIWslMj9A==
-X-Received: by 2002:a17:903:2483:b0:16c:dfcf:38e8 with SMTP id
- p3-20020a170903248300b0016cdfcf38e8mr28430232plw.43.1661334074159; 
- Wed, 24 Aug 2022 02:41:14 -0700 (PDT)
+ bh=EZVtm0SvUeW5TzKWeVkn+QL0GZmVIRTePkK09k2LuDo=;
+ b=H9qX+VZP+MYyqYKCARzBJj+TkNruC55wvTcqDnQLk8ndEzzcY8MmFLM9qlQ7B+lsmq
+ g/y5zolQRIodRcPAiYUlGHTexDqdZIYQcuXQkvMUCTJuz0bWk7ES1ms8FESGyDsNvZGo
+ OzYt0zQ7M17bUsY0oTBUQEn0SuAm0tlzy4E94xzdqQZNsArz01dKmqf1Fs38ORPRvs1Q
+ eptB4aK/wOgZ3pTp2Qf64O6YtZh3olML4/wxc7ghgcyp/vvlQuaSQXwCN6Ei3wylETnz
+ y/pRr1bHhajmW35eyQPRETYcXBUJYow1E2uCqkYOwlHg3WMYlaYguxJOchJwHabXvMqQ
+ 4/+A==
+X-Gm-Message-State: ACgBeo2AZUs9T2AoB7D/Y4zi0kRiu27RLv4DYqeKONMbYXcZ8XLGWUVC
+ ujPnJ0qj3cgXdGaYxurSbgKPH0mVDEY=
+X-Google-Smtp-Source: AA6agR5KyV54s6DsPFRoE58SNQ2NsWhlTYaIlHqJcYpxnDphITa6Sf6W+FId74ZmhmuvOta4x+8zsA==
+X-Received: by 2002:a17:902:9886:b0:172:bb36:70f1 with SMTP id
+ s6-20020a170902988600b00172bb3670f1mr26829368plp.139.1661334077298; 
+ Wed, 24 Aug 2022 02:41:17 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.41.08
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.41.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:41:13 -0700 (PDT)
+ Wed, 24 Aug 2022 02:41:17 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Subject: [PATCH 03/51] block: Unify the get_tmp_filename() implementation
-Date: Wed, 24 Aug 2022 17:39:41 +0800
-Message-Id: <20220824094029.1634519-4-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 04/51] semihosting/arm-compat-semi: Avoid using hardcoded /tmp
+Date: Wed, 24 Aug 2022 17:39:42 +0800
+Message-Id: <20220824094029.1634519-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,52 +91,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present get_tmp_filename() has platform specific implementations
-to get the directory to use for temporary files. Switch over to use
-g_get_tmp_dir() which works on all supported platforms.
+Use g_get_tmp_dir() to get the directory to use for temporary files.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- block.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ semihosting/arm-compat-semi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index bc85f46eed..d06df47f72 100644
---- a/block.c
-+++ b/block.c
-@@ -864,21 +864,10 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
-  */
- int get_tmp_filename(char *filename, int size)
- {
--#ifdef _WIN32
--    char temp_dir[MAX_PATH];
--    /* GetTempFileName requires that its output buffer (4th param)
--       have length MAX_PATH or greater.  */
--    assert(size >= MAX_PATH);
--    return (GetTempPath(MAX_PATH, temp_dir)
--            && GetTempFileName(temp_dir, "qem", 0, filename)
--            ? 0 : -GetLastError());
--#else
-     int fd;
-     const char *tmpdir;
--    tmpdir = getenv("TMPDIR");
--    if (!tmpdir) {
--        tmpdir = "/var/tmp";
--    }
-+    tmpdir = g_get_tmp_dir();
-+
-     if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
-         return -EOVERFLOW;
-     }
-@@ -891,7 +880,6 @@ int get_tmp_filename(char *filename, int size)
-         return -errno;
-     }
-     return 0;
--#endif
- }
- 
- /*
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index e741674238..d5e66cc298 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -503,7 +503,8 @@ void do_common_semihosting(CPUState *cs)
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
++        len = asprintf(&s, "%s/qemu-%x%02x", g_get_tmp_dir(),
++                       getpid(), (int)arg1 & 0xff);
+         if (len < 0) {
+             common_semi_set_ret(cs, -1);
+             break;
 -- 
 2.34.1
 
