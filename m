@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE13759F636
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:30:56 +0200 (CEST)
-Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE8E59F649
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:33:53 +0200 (CEST)
+Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmii-0001Cx-BG
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50404)
+	id 1oQmlk-0003bg-EW
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oQmXl-0002YZ-1C
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:19:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oQmXf-0006XO-Ha
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:19:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661332758;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aXzZ+895ahIG1kmaC26xyqiUuEYAlCe0+rjeNcOsji0=;
- b=QhmTqJu+Q9CeRST0R7Rvj/DfYwAK9mmsppNQppinJXLjHNi9Vfk8UPWMtR9O/tpI4WI83B
- 2ETMYxUmctonMK98tHtelkCPN7cHyY5MgT7eOwa+E0eWZv04sMz8tkOrC/zf9j+V6ioAGF
- CFp3zlR0rkx4TXi36yz7/dFnKaW0Xa0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-673-Yc6Dht3GOJ2S0DHj0zNoRA-1; Wed, 24 Aug 2022 05:19:17 -0400
-X-MC-Unique: Yc6Dht3GOJ2S0DHj0zNoRA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- fy12-20020a05622a5a0c00b00344569022f7so12451951qtb.17
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:19:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oQmXm-0002Yp-Gh
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:19:31 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36423)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oQmXk-0006Xc-PV
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:19:26 -0400
+Received: by mail-ej1-x635.google.com with SMTP id d21so12974093eje.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=WDG7z/UQXKWw+tdZ66PV06fv37Sx/KkKYubN2MmuahY=;
+ b=ISYv5dY73eV0K2wLo6AAGC8rZ259SIWehtUZ5CcKeNDjaFUtbh64/JR5ZYybJ0ZeUV
+ IdNem+FX7B7I6SXHVc4jZSmNuIdpi7ufa1TfhHtlszE4G5Y50eVVu3mROQKgieTq5MMR
+ mwKWzaiwnUZlpkcnoXC7xOrwZAaSjkvgB1YOURCCsZfrP80YA+6f3Gze7dj77WeD7E7p
+ Zb34VNx2sB28u7SyG9VUi/wTjjrNRIUqcDRJKr8tuK8RWQ3YdbxX9n4yMuVtneFHU2gU
+ UO8HEsZjhztV/uxHOaNzhgAWrXsVQdZRyZMSg3cuIIKC+A4g79pgBJENdjLg9BuD032/
+ 2Bhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=aXzZ+895ahIG1kmaC26xyqiUuEYAlCe0+rjeNcOsji0=;
- b=kwjwdZ+sb6Vd+JCOuLPCl7zgSAdKvGLTJC8sRGdZgN02ygVpWztdXd+XVZWrW1/QIT
- 3V7bGSp44qL4EsW/OctW699CUXlpRK4vSOsVuyqr+zYW5x3dpFCcaQ57snrPNa3lPTuR
- CtImiZ+aeRXbGbwcNxrFw1Bo4L8DUtUl7XXO8NvLxWwXxBTLlqrpHvqRaxb9yja/x6eQ
- SP7Du4PrwZuHeXNoCw9MzmI4+IbPr7WxjAni/aQa58XvjOLIYp9dhgEhEuQSDIGhtwcS
- z4nrUqvWaaP0RjOa9wUUmqiIFTspGOZzyombAF3VNJfcWsPSreRAM/vZaVcfB3M4ng7F
- rfKA==
-X-Gm-Message-State: ACgBeo3ZrAcntFiTiXwg+0rfmsTeYYNuYArA+RO8+ibCacJ0D1jlRxLu
- DfiG0+4w9dI6UUAsxAeRqM9a2lLPOa23a+ZfNJ13Hlab8kv3MnyLbi6+DFlaUwxpHP8LbGEewhy
- L/wq9lWX2MAEkp7Z+Quoi2fOm+J9a7iU=
-X-Received: by 2002:ad4:5bc7:0:b0:48b:e9ed:47a8 with SMTP id
- t7-20020ad45bc7000000b0048be9ed47a8mr23535773qvt.108.1661332756814; 
- Wed, 24 Aug 2022 02:19:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5s9IiDV/4eatTefg6NIJqXgiST5Z03c4W3HpCuz2XIegRlwVMHTmHHrTon/5sKkPIP/9ntpuIHx74cbMyrDeg=
-X-Received: by 2002:ad4:5bc7:0:b0:48b:e9ed:47a8 with SMTP id
- t7-20020ad45bc7000000b0048be9ed47a8mr23535757qvt.108.1661332756597; Wed, 24
- Aug 2022 02:19:16 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=WDG7z/UQXKWw+tdZ66PV06fv37Sx/KkKYubN2MmuahY=;
+ b=HehAnV49c5LS7lwfYC7tEGTfgsnlABn7WCS2A95wnHQ5eMyM7N4tVqK+e65fJpHfaK
+ WrDjCd6hjBRTDvWQTlD4B0aBnDCabPH34hbUpzweB6DoPwDMQ2jU2O2nrIrwDKWPvx6v
+ of0ZnJWj3eUE32modHY/34uynYcWAjb6xQi14H7ml4r85UCf7isX74g/QKormX/VjH8c
+ LkmAnoM+f1zEh+7I0wHyJ5ntVY1CNr9rh4jI7cYQL0VyAkehGCtI9Z752XTIOrJVGpAM
+ N0ftzDOlca8aKZcCU852tBrVMJ/eGAspbu+/tZFcKxPGO9c1+6p8JcW/YgRf7K36fI05
+ BVug==
+X-Gm-Message-State: ACgBeo29bwqy+5gjkShutkd2/IlmE/idGkaUtP+cwO6iZxdQmdAPGElI
+ 1yRzuhQWrRg0ybCGZCtbmjovDQ==
+X-Google-Smtp-Source: AA6agR65j1zVtJEovp/MA1nzwngRV8mwlomrmjhH1smTifmWK3vOhh+M/jCiORgXxE55WRXpIr3Ehw==
+X-Received: by 2002:a17:906:a0d3:b0:73d:be5b:2b52 with SMTP id
+ bh19-20020a170906a0d300b0073dbe5b2b52mr903799ejb.727.1661332762295; 
+ Wed, 24 Aug 2022 02:19:22 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ d7-20020aa7d687000000b0044786c2c5c1sm547290edr.3.2022.08.24.02.19.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Aug 2022 02:19:21 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E78FC1FFB7;
+ Wed, 24 Aug 2022 10:19:20 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org,
+	richard.henderson@linaro.org
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL v2 for 7.1 0/6] testing and doc updates
+Date: Wed, 24 Aug 2022 10:19:20 +0100
+Message-Id: <20220824091920.1248422-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220819171329.3597027-1-eperezma@redhat.com>
- <20220819171329.3597027-3-eperezma@redhat.com>
- <f517a073-fd73-0220-072c-ea054b643468@redhat.com>
- <CAJaqyWcGH-kAVw-yZ2CX-GuPYt1zL8FFJnjmWMcbi4r1NgyfcA@mail.gmail.com>
- <CACGkMEuNTBPSh2x6LVihCE=fg1zYAsnG4io2MBT32+PF9=omwQ@mail.gmail.com>
- <CAJaqyWdDYZscdShMpmvPJdCBDOyeoEUbOztTQDLHdqYwwdah6w@mail.gmail.com>
- <CACGkMEttkCfRAWQQT7APWeV1uZbzr5p+rr_HaeP+tK30dyeZZQ@mail.gmail.com>
-In-Reply-To: <CACGkMEttkCfRAWQQT7APWeV1uZbzr5p+rr_HaeP+tK30dyeZZQ@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 24 Aug 2022 11:18:40 +0200
-Message-ID: <CAJaqyWfUh0+dpMf=fF5kbpBGOG8T+GBJ8fT_85oDtK2mkb-DNQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] vdpa: Add vhost_vdpa_net_load_mq
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- Eli Cohen <eli@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,158 +92,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 11:08 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Aug 24, 2022 at 5:06 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Wed, Aug 24, 2022 at 10:52 AM Jason Wang <jasowang@redhat.com> wrote=
-:
-> > >
-> > > On Wed, Aug 24, 2022 at 3:47 PM Eugenio Perez Martin
-> > > <eperezma@redhat.com> wrote:
-> > > >
-> > > > On Wed, Aug 24, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > > > >
-> > > > >
-> > > > > =E5=9C=A8 2022/8/20 01:13, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > > > > Same way as with the MAC, restore the expected number of queues=
- at
-> > > > > > device's start.
-> > > > > >
-> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > > ---
-> > > > > >   net/vhost-vdpa.c | 33 +++++++++++++++++++++++++++++++++
-> > > > > >   1 file changed, 33 insertions(+)
-> > > > > >
-> > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > > index 1e0dbfcced..96fd3bc835 100644
-> > > > > > --- a/net/vhost-vdpa.c
-> > > > > > +++ b/net/vhost-vdpa.c
-> > > > > > @@ -391,6 +391,35 @@ static int vhost_vdpa_net_load_mac(VhostVD=
-PAState *s,
-> > > > > >       return 0;
-> > > > > >   }
-> > > > > >
-> > > > > > +static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
-> > > > > > +                                  const VirtIONet *n)
-> > > > > > +{
-> > > > > > +    uint64_t features =3D n->parent_obj.guest_features;
-> > > > > > +    ssize_t dev_written;
-> > > > > > +    void *cursor =3D s->cvq_cmd_out_buffer;
-> > > > > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_MQ))) {
-> > > > > > +        return 0;
-> > > > > > +    }
-> > > > > > +
-> > > > > > +    *(struct virtio_net_ctrl_hdr *)cursor =3D (struct virtio_n=
-et_ctrl_hdr) {
-> > > > > > +        .class =3D VIRTIO_NET_CTRL_MQ,
-> > > > > > +        .cmd =3D VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET,
-> > > > > > +    };
-> > > > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_hdr);
-> > > > > > +    *(struct virtio_net_ctrl_mq *)cursor =3D (struct virtio_ne=
-t_ctrl_mq) {
-> > > > > > +        .virtqueue_pairs =3D cpu_to_le16(n->curr_queue_pairs),
-> > > > > > +    };
-> > > > >
-> > > > >
-> > > > > Such casting is not elegant, let's just prepare buffer and then d=
-o the
-> > > > > copy inside vhost_vdpa_net_cvq_add()?
-> > > > >
-> > > >
-> > > > I'm not sure what you propose here. I can pre-fill a buffer in the
-> > > > stack and then do an extra copy in vhost_vdpa_net_cvq_add. The
-> > > > compiler should be able to optimize it, but I'm not sure if it
-> > > > simplifies the code.
-> > > >
-> > > > We can have a dedicated buffer for mac, another for mq, and one for
-> > > > each different command, and map all of them at the device's start. =
-But
-> > > > this seems too much overhead to me.
-> > >
-> > > Considering we may need to support and restore a lot of other fields,
-> > > this looks a little complicated.
-> > >
-> > > I meant the caller can simply do:
-> > >
-> > > struct virtio_net_ctrl_mq mq =3D { ...};
-> > >
-> > > Then we do
-> > >
-> > > vhost_vdpa_net_cvq_add(&mq, sizeof(mq), ...);
-> > >
-> > > Then we can do memcpy inside vhost_vdpa_net_cvq_add() and hide the
-> > > cmd_out_buffer etc from the caller.
-> > >
-> >
-> > We need to add the ctrl header too. But yes, that is feasible, somethin=
-g like:
-> >
-> > vhost_vdpa_net_cvq_add(&ctrl, &mq, sizeof(mq), ...);
-> >
-> > > >
-> > > > Some alternatives that come to my mind:
-> > > >
-> > > > * Declare a struct with both virtio_net_ctrl_hdr and each of the
-> > > > control commands (using unions?), and cast s->cvq_cmd_out_buffer
-> > > > accordingly.
-> > > > * Declare a struct with all of the supported commands one after
-> > > > another, and let qemu fill and send these accordingly.
-> > > >
-> > > > >
-> > > > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_mq);
-> > > > > > +
-> > > > > > +    dev_written =3D vhost_vdpa_net_cvq_add(s, cursor - s->cvq_=
-cmd_out_buffer,
-> > > > > > +                                             sizeof(virtio_net=
-_ctrl_ack));
-> > > > > > +    if (unlikely(dev_written < 0)) {
-> > > > > > +        return dev_written;
-> > > > > > +    }
-> > > > > > +
-> > > > > > +    return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) !=3D=
- VIRTIO_NET_OK;
-> > > > >
-> > > > >
-> > > > > So I think we should have a dedicated buffer just for ack, then t=
-here's
-> > > > > no need for such casting.
-> > > > >
-> > > >
-> > > > You mean to declare cvq_cmd_in_buffer as virtio_net_ctrl_ack type
-> > > > directly and map it to the device?
-> > >
-> > > Kind of, considering the ack is the only kind of structure in the nea=
-r
-> > > future, can we simply use the structure virtio_net_ctl_ack?
-> > >
-> >
-> > Almost, but we need to map to the device in a page size. And I think
-> > it's better to allocate a whole page for that, so it does not share
-> > memory with qemu.
->
-> I guess using a union will solve the problem?
->
+The following changes since commit a8cc5842b5cb863e46a2d009151c6ccbdecadaba:
 
-It was more a nitpick than a problem, pointing out the need to
-allocate a whole page casting it or not to virtio_net_ctrl_ack. In
-other words, we must init status as "status =3D
-g_malloc0(real_host_page_size())", not "g_malloc0(sizeof(*status))".
+  Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2022-08-23 10:37:21 -0700)
 
-But I think the union is a good idea. The problem is that
-qemu_real_host_page_size is not a constant so we cannot declare a type
-with that.
+are available in the Git repository at:
 
-> Thanks
->
-> >
-> > Other than that, yes, I think it can be declared as virtio_net_ctl_ack =
-directly.
-> >
-> > Thanks!
-> >
->
+  https://github.com/stsquad/qemu.git tags/pull-for-7.1-fixes-240822-3
+
+for you to fetch changes up to 5af2b0f6eace7b368ed5cad9677e3bc995b6a7e3:
+
+  qemu-options: try and clarify preferred block semantics (2022-08-24 10:14:49 +0100)
+
+----------------------------------------------------------------
+Testing and doc updates:
+
+  - move default timeout to QemuBaseTests
+  - optimise migration tests to run faster
+  - removed duplicate migration test
+  - add some clarifying language to block options in manual
+
+----------------------------------------------------------------
+Alex Bennée (2):
+      tests/avocado: push default timeout to QemuBaseTest
+      qemu-options: try and clarify preferred block semantics
+
+Thomas Huth (4):
+      tests/qtest/migration-test: Only wait for serial output where migration succeeds
+      tests/migration/aarch64: Speed up the aarch64 migration test
+      tests/migration/i386: Speed up the i386 migration test (when using TCG)
+      tests/qtest/migration-test: Remove duplicated test_postcopy from the test plan
+
+ tests/migration/aarch64/a-b-kernel.h   | 10 +++++-----
+ tests/migration/i386/a-b-bootblock.h   | 12 ++++++------
+ tests/qtest/migration-test.c           |  5 +++--
+ qemu-options.hx                        | 13 +++++++++++++
+ tests/avocado/avocado_qemu/__init__.py |  5 ++++-
+ tests/migration/aarch64/a-b-kernel.S   |  3 +--
+ tests/migration/i386/a-b-bootblock.S   |  1 +
+ 7 files changed, 33 insertions(+), 16 deletions(-)
+
+-- 
+2.30.2
 
 
