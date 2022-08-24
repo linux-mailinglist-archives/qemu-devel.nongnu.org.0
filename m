@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE32459F6EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:55:48 +0200 (CEST)
-Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7951659F6F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:58:09 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQn6y-0007FL-0d
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:55:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
+	id 1oQn9E-00018I-3t
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmtj-0002xG-RP
+ id 1oQmtk-0002xI-Gl
  for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:09 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:46997)
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:34742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmth-0001Wm-71
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:07 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- o14-20020a17090a0a0e00b001fabfd3369cso944536pjo.5
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:04 -0700 (PDT)
+ id 1oQmtj-0001Ww-1V
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:08 -0400
+Received: by mail-pg1-x529.google.com with SMTP id 12so14557690pga.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=okL54vu8KfmBMW82fUAkEZfCTjhZQ+qL9qNrcu24ZKE=;
- b=FULijv6JOJ5jD36MfgHbXDe1LFAZbDtmXhukncB6/emRjx4LoHOoscfoM47iKCm5p8
- Zjjcyy8uaCSXcjMAPaphEAj2GrE5FLdouimrEu2Yjcb7cn/pDBUY1d7zo1/RSY8zmiam
- Ps/bfDefgd3YkjIycCwNhCyTREj+ltvLu9x8gttR8aG+AXhj5oEbqQqTwqCSnWQIHebx
- kDr2ycNn4H0C1UlGuhJghBicBRMtneiPfZmqC3GekAVCMPx3uqfOkwIZyPlxh5PCdg/0
- xVuePhq/2GYfTuolfg9WiIVrWxouy8cx9N63s58PY4aUXWd6gK9mTWjPs7m8nO1vAgrD
- emvQ==
+ bh=SN2ceznSVxwoPTz/GsOpvn+I87JiMhfV5WRmzyHm7SU=;
+ b=euH1A8kw3PSGPH/748aMxpJ3UvnjdLxXSmTRJXdLMbJb9g+3IbiwQzI64ILAiSdwNN
+ 54vo9PevczcGqX6rfGJuiHYI5J+MFgTWYYczpDrehWIGYm/upFtjA3d4MSCpBrg0b5Cj
+ 0ucCrSu75IbahCpqq4PYP6ZMY5x7UQZoDSmSBZ1Vo+uxLNKUlhlJOHI+dU5ls1VrNruQ
+ bh712Sp6QKB4S2k9U1hauovu79vgjhxcw4wbyyHTDpMUQdQuLH2bTWxuvWewmtUGFWSu
+ TwTalVjmxsPzzh1fHPvGhRZxYd8vyeygUH4G2PGE3ZBWPCfx0n4LHskt8416kCfu8JPq
+ cWOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=okL54vu8KfmBMW82fUAkEZfCTjhZQ+qL9qNrcu24ZKE=;
- b=xMVOTa0BfscjQ25fRqxTNqi4e3D/erbI8UNy8Q064bB/wyZhi8/V9jZ5go4ivdVKeT
- 7jQyouGGSAcgNbD9ihBXVtJbXnFK/mqLgB6cjBbpwJuaNPBfArhvswFpiIVVlIgt2pOr
- Iu+Gug+GGS8exHiqgcqv0Nf4eFVEJHavIw/c8sTYfaSucpg1gn7lxo8yEtZkBBBE05lk
- 96KoorvAkhYwH3cnnyWnofpaXxw3NO8bmsVQt5Plsa3NEvqZEnn0sOfuWWM6Dqhw/nEu
- YruuJVoZ9JDqPJ0dzvi2KKnLSJfVeLBR4f0Tp8lq5YeKgYdhej4ipJF4b2hawwCR6+TE
- FbiA==
-X-Gm-Message-State: ACgBeo0hebUeGZEbsfoDoo439+6UuqqeQ6FAb8ZHjKKkfxqRavbAe8FJ
- 11bQuEXFyrzUGuy1eyE0XNs/k5FxtNE=
-X-Google-Smtp-Source: AA6agR78K0zd6IKnw/srvkSGYqPCa3h6gsk1dDJ8TQSAdKdFECekouX+FjYs0eaKDvn+JaJvj7r1JA==
-X-Received: by 2002:a17:90a:640c:b0:1f7:6ecf:33b6 with SMTP id
- g12-20020a17090a640c00b001f76ecf33b6mr7430107pjj.3.1661334122960; 
- Wed, 24 Aug 2022 02:42:02 -0700 (PDT)
+ bh=SN2ceznSVxwoPTz/GsOpvn+I87JiMhfV5WRmzyHm7SU=;
+ b=WHyLhUtK6AZTPGHatkcoxs/qopc67RUZEIBq7wPRWGStxPHP09NOA2fO5hMq6eY+gJ
+ xjidBsNy95D+pvSyktXW6cPZcRcV3x6hRMA9qTgPu3OStKqZpfNhHWf9G6O1owBhf8ls
+ YHLmlgzC+EZag8kjhe80tWnggmFbJ2lDMQzkipgR4apjNgNXfsM2djdUMytJztnC9bd6
+ Rgmvf4jIxngnPFhp2BxWy1QRLPoyAaXUOg23fL5DA7uv1ipWDPpkaoLUpOioYO8koQBB
+ VlBJhDH+HLRyUgoXZZLm4U8n9C2YCEndBWbD3PoIlME3qPgMgg68gkxSBZ4Wd8jhNaam
+ XpQg==
+X-Gm-Message-State: ACgBeo2iE7dGkX/6BJd1HlWlY0hET+Zt1HjPkFqzK5okJUjmKEcCnzdw
+ L4l2nGuPq8J7CUYX+AlC9PQKKq4ldCo=
+X-Google-Smtp-Source: AA6agR78wfyQrmvdUm2ADf0XWO+XOecbi91ZQpIrMp0ueeij7sZ4uSEHdZouuCujGBoZxF5UZ3H7rQ==
+X-Received: by 2002:a65:6bca:0:b0:420:712f:ab98 with SMTP id
+ e10-20020a656bca000000b00420712fab98mr23709916pgw.350.1661334124925; 
+ Wed, 24 Aug 2022 02:42:04 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.01
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:42:02 -0700 (PDT)
+ Wed, 24 Aug 2022 02:42:04 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 10/51] hw/usb: dev-mtp: Use g_mkdir_with_parents()
-Date: Wed, 24 Aug 2022 17:39:48 +0800
-Message-Id: <20220824094029.1634519-11-bmeng.cn@gmail.com>
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Subject: [PATCH 11/51] qga/commands-posix-ssh: Use g_mkdir_with_parents()
+Date: Wed, 24 Aug 2022 17:39:49 +0800
+Message-Id: <20220824094029.1634519-12-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,28 +92,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Use the same g_mkdir_with_parents() call to create a directory on
-all platforms.
+g_mkdir() is a deprecated API and newer codes should use
+g_mkdir_with_parents().
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- hw/usb/dev-mtp.c | 2 +-
+ qga/commands-posix-ssh.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index 5831395cef..97c894f231 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -1622,7 +1622,7 @@ static void usb_mtp_write_data(MTPState *s, uint32_t handle)
-         if (s->dataset.filename) {
-             path = g_strdup_printf("%s/%s", parent->path, s->dataset.filename);
-             if (s->dataset.format == FMT_ASSOCIATION) {
--                ret = mkdir(path, mask);
-+                ret = g_mkdir_with_parents(path, mask);
-                 if (!ret) {
-                     usb_mtp_queue_result(s, RES_OK, d->trans, 3,
-                                          QEMU_STORAGE_ID,
+diff --git a/qga/commands-posix-ssh.c b/qga/commands-posix-ssh.c
+index f3a580b8cc..2460112a38 100644
+--- a/qga/commands-posix-ssh.c
++++ b/qga/commands-posix-ssh.c
+@@ -59,7 +59,7 @@ static bool
+ mkdir_for_user(const char *path, const struct passwd *p,
+                mode_t mode, Error **errp)
+ {
+-    if (g_mkdir(path, mode) == -1) {
++    if (g_mkdir_with_parents(path, mode) == -1) {
+         error_setg(errp, "failed to create directory '%s': %s",
+                    path, g_strerror(errno));
+         return false;
 -- 
 2.34.1
 
