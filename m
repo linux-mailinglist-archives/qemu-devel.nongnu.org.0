@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7402459F758
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:21:02 +0200 (CEST)
-Received: from localhost ([::1]:55706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D7359F867
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:12:18 +0200 (CEST)
+Received: from localhost ([::1]:38716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnVN-0000ds-Hg
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59078)
+	id 1oQoIy-0005RM-IM
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmun-0004Qn-Tk
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:16 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:45013)
+ id 1oQmur-0004Qv-7y; Wed, 24 Aug 2022 05:43:19 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:42714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmum-0001jM-3s
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:43:13 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- r15-20020a17090a1bcf00b001fabf42a11cso950691pjr.3
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:43:11 -0700 (PDT)
+ id 1oQmuo-0001kK-QI; Wed, 24 Aug 2022 05:43:16 -0400
+Received: by mail-pg1-x536.google.com with SMTP id q63so310853pga.9;
+ Wed, 24 Aug 2022 02:43:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=hUl0ynk/tFixZOGM/lQ3GUXaTY7tp/lhfNkZoNncHPk=;
- b=EF9AIrePmYD2JceHt4BGbq+PRGTpecsKp+p6fyNfxYUsb+huoFjrZxf2xFbPfr0M/l
- prgyKNVmXTWE2/JQ04ZzlwUtEIsCODPgqLoHZDJGZ9OAnmDNEjw8PJAQ6KMIggcnZYJt
- jkCHqFGdUkWwUgvU1Q+UzTB8R0Cj4qzIo9Qpxi9Nqp8ryT1D/X82hX0Xnr/3UROmoG/F
- ZuHrdOMwNECJEYBxXOjA7w1zEgvSF5QXARXWUYcjrPgZ3NiJhw+sWZcAkT3wC5UArhPM
- hDVsbMG6hMZSvxsx9SGDI1vw8kYeWbC2GuJLlcdyyvdWDC9/tK4VRrO1UtWHghaGY3rq
- /rkA==
+ bh=eEoKxp42Yd3WBOROS2c0qiQDyg/EAnV+AW6xakgUti4=;
+ b=VBq3AAQqrP8uyu8gEHd6zVduVlv5Ef+ui/ZaK/yoS01xBZkfkrfB599Al+MK154LGr
+ BZ/YC88oX42d3ShsrSfa7VcVx/cZcsYESbfCAgWkMC1rdcqbXVHh5wQlDwz41QlXs+++
+ YxrEC7cyBhY9iyDftLFX5S2RZVFUAO2RGKX6XN1Mrg1HIk1FwTOKGsrPiEK/7TOyepNe
+ OoykRdEsyE4n+m2AcKDGsQ1oVezGmqOQNBJ1oju3r8EwRtR0672jX3X3FeV7eS5UEbpv
+ S+FktJ2wGxzZV3WyMb3iBywP18dt7BDAsE/Y8kaeIVTOs7IPCuUO2caObQICxpandBgn
+ 4cwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=hUl0ynk/tFixZOGM/lQ3GUXaTY7tp/lhfNkZoNncHPk=;
- b=LO4tn0wLk39rExv4yEWuF8H59gtkID0PJ9ZOIZfKhXP1x4bP7n7w2uJXSr7HlvQSw5
- bMSCauh+DIjG5uTzZ0FR4yYvifedgPiHYZZfVJgM5rkbfn+BvkcOXVSD/tpr2rfNflBb
- E78ehbPG6t+JMpFfBhLtLBaaDo8FKd44Kns4IzbJiw7LVfW7gxTZBTfVGZRK6seOZT+O
- vuJYf7UOZAgZ3wPwHpnvT7esdrJwlyo7CMVjH7tosGvk7clVxMsv66rzLYKklP78C2fE
- ODPiE6leovv4dbrLfiZ4sCRxyyIefvIjHq33VvozaSJdKY0AKcyVNRKG8r7aq465k263
- Vm5A==
-X-Gm-Message-State: ACgBeo0YN89H967uKVslOIr7ICbquesLKPj/mFu+7OE1gIU6hysKrEjd
- Dylsm+N0li2EvubxfTgCjcEqJsl07Jw=
-X-Google-Smtp-Source: AA6agR7rlNgKaUJlakGO1/J0so4uMaqd860TscxMeD9DxwvESwDi7a0+sWjPk2Z5WX6e8oVfcLkYYw==
-X-Received: by 2002:a17:90b:378a:b0:1fa:f716:a427 with SMTP id
- mz10-20020a17090b378a00b001faf716a427mr7573477pjb.153.1661334190406; 
- Wed, 24 Aug 2022 02:43:10 -0700 (PDT)
+ bh=eEoKxp42Yd3WBOROS2c0qiQDyg/EAnV+AW6xakgUti4=;
+ b=BAUFO3aqYf3a1+kmIvUSwaXB6CX+mUf0CBUEi+nkIGzZ0WKqDQ1X+68kRQ1HOHfyl1
+ RioyckEjdVYO47jiBWkF3RK6yMm/3WWnnb/0rX8rhbQdYsua+mPZTamqY+q4iXPFJYPr
+ JUdRtce7BCDsmJQ5r4Y0E89UB82+FIgYfTrA7sjPjyMnwS0oGJozWDKKrM7jbJNE5D3/
+ y6JBHyipHvjWHjFuRyyhRVJa6dhj42kUkH48opN+gJKajGtP0RMGabx9yBn2QI6d6CTE
+ rG5CbO7hObqavI++4pPJU0DOGdJsb6z7UyeuqD1bsmRU6kQ/Km0NSsz2Hx7kwdkKlfqP
+ 1DnQ==
+X-Gm-Message-State: ACgBeo275WcJd3vc49n0sZ0NsPDL0of8RO95kcyjeY/KLEt01gMJcr9I
+ 6/g86+XwzN19Fo+XL+oD9NQo8NPaFo8=
+X-Google-Smtp-Source: AA6agR7xNemF/2rVM3wx90IZYhfUNqRdR8Tbsqs9yvCnWdWSUsBtlzX6r1sK1NIr4hYOcTm5evluhQ==
+X-Received: by 2002:a65:6d9a:0:b0:41c:c77:7b6 with SMTP id
+ bc26-20020a656d9a000000b0041c0c7707b6mr24403796pgb.139.1661334193051; 
+ Wed, 24 Aug 2022 02:43:13 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.08
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:43:10 -0700 (PDT)
+ Wed, 24 Aug 2022 02:43:12 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 37/51] tests/qtest: migration-test: Disable IO redirection for
- win32
-Date: Wed, 24 Aug 2022 17:40:15 +0800
-Message-Id: <20220824094029.1634519-38-bmeng.cn@gmail.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH 38/51] tests/qtest: {ahci,ide}-test: Open file in binary mode
+Date: Wed, 24 Aug 2022 17:40:16 +0800
+Message-Id: <20220824094029.1634519-39-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,166 +89,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-On Windows the QEMU executable is created via CreateProcess() and IO
-redirection does not work, so we need to set MigrateStart::hide_stderr
-to false to disable adding IO redirection to the command line.
+By default Windows opens file in text mode, while a POSIX compliant
+implementation treats text files and binary files the same.
 
+The fopen() 'mode' string can include the letter 'b' to indicate
+binary mode shall be used. POSIX spec says the character 'b' shall
+have no effect, but is allowed for ISO C standard conformance.
+Let's add the letter 'b' which works on both POSIX and Windows.
+
+Similar situation applies to the open() 'flags' where O_BINARY is
+used for binary mode.
+
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/migration-test.c | 39 +++++++++++++++++++++++-------------
- 1 file changed, 25 insertions(+), 14 deletions(-)
+ tests/qtest/ahci-test.c | 2 +-
+ tests/qtest/ide-test.c  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 2ae7498d5d..125d48d855 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -53,6 +53,17 @@ static bool uffd_feature_thread_id;
-  */
- #define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
- 
-+/*
-+ * On Windows the QEMU executable is created via CreateProcess() and IO
-+ * redirection does not work, so we need to set MigrateStart::hide_stderr
-+ * to false to disable adding IO redirection to the command line.
-+ */
-+#ifndef _WIN32
-+# define HIDE_STDERR true
-+#else
-+# define HIDE_STDERR false
-+#endif
-+
- #if defined(__linux__)
- #include <sys/syscall.h>
- #include <sys/vfs.h>
-@@ -1186,7 +1197,7 @@ static void test_postcopy_recovery_common(MigrateCommon *args)
-     g_autofree char *uri = NULL;
- 
-     /* Always hide errors for postcopy recover tests since they're expected */
--    args->start.hide_stderr = true;
-+    args->start.hide_stderr = HIDE_STDERR;
- 
-     if (migrate_postcopy_prepare(&from, &to, args)) {
-         return;
-@@ -1287,7 +1298,7 @@ static void test_postcopy_preempt_all(void)
- static void test_baddest(void)
- {
-     MigrateStart args = {
--        .hide_stderr = true
-+        .hide_stderr = HIDE_STDERR
-     };
-     QTestState *from, *to;
- 
-@@ -1410,7 +1421,7 @@ static void test_precopy_unix_tls_x509_default_host(void)
-     g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .connect_uri = uri,
-         .listen_uri = uri,
-@@ -1526,7 +1537,7 @@ static void test_precopy_tcp_tls_psk_mismatch(void)
- {
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .listen_uri = "tcp:127.0.0.1:0",
-         .start_hook = test_migrate_tls_psk_start_mismatch,
-@@ -1564,7 +1575,7 @@ static void test_precopy_tcp_tls_x509_mismatch_host(void)
- {
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .listen_uri = "tcp:127.0.0.1:0",
-         .start_hook = test_migrate_tls_x509_start_mismatch_host,
-@@ -1590,7 +1601,7 @@ static void test_precopy_tcp_tls_x509_hostile_client(void)
- {
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .listen_uri = "tcp:127.0.0.1:0",
-         .start_hook = test_migrate_tls_x509_start_hostile_client,
-@@ -1616,7 +1627,7 @@ static void test_precopy_tcp_tls_x509_reject_anon_client(void)
- {
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .listen_uri = "tcp:127.0.0.1:0",
-         .start_hook = test_migrate_tls_x509_start_reject_anon_client,
-@@ -1747,7 +1758,7 @@ static void test_validate_uuid_error(void)
-     MigrateStart args = {
-         .opts_source = "-uuid 11111111-1111-1111-1111-111111111111",
-         .opts_target = "-uuid 22222222-2222-2222-2222-222222222222",
--        .hide_stderr = true,
-+        .hide_stderr = HIDE_STDERR,
-     };
- 
-     do_test_validate_uuid(&args, true);
-@@ -1757,7 +1768,7 @@ static void test_validate_uuid_src_not_set(void)
- {
-     MigrateStart args = {
-         .opts_target = "-uuid 22222222-2222-2222-2222-222222222222",
--        .hide_stderr = true,
-+        .hide_stderr = HIDE_STDERR,
-     };
- 
-     do_test_validate_uuid(&args, false);
-@@ -1767,7 +1778,7 @@ static void test_validate_uuid_dst_not_set(void)
- {
-     MigrateStart args = {
-         .opts_source = "-uuid 11111111-1111-1111-1111-111111111111",
--        .hide_stderr = true,
-+        .hide_stderr = HIDE_STDERR,
-     };
- 
-     do_test_validate_uuid(&args, false);
-@@ -1990,7 +2001,7 @@ static void test_multifd_tcp_tls_psk_mismatch(void)
- {
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .listen_uri = "defer",
-         .start_hook = test_migrate_multifd_tcp_tls_psk_start_mismatch,
-@@ -2038,7 +2049,7 @@ static void test_multifd_tcp_tls_x509_mismatch_host(void)
+diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
+index bce9ff770c..be11508c75 100644
+--- a/tests/qtest/ahci-test.c
++++ b/tests/qtest/ahci-test.c
+@@ -1453,7 +1453,7 @@ static int prepare_iso(size_t size, unsigned char **buf, char **name)
+      * Close the file and reopen it.
       */
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .listen_uri = "defer",
-         .start_hook = test_migrate_multifd_tls_x509_start_mismatch_host,
-@@ -2062,7 +2073,7 @@ static void test_multifd_tcp_tls_x509_reject_anon_client(void)
- {
-     MigrateCommon args = {
-         .start = {
--            .hide_stderr = true,
-+            .hide_stderr = HIDE_STDERR,
-         },
-         .listen_uri = "defer",
-         .start_hook = test_migrate_multifd_tls_x509_start_reject_anon_client,
-@@ -2088,7 +2099,7 @@ static void test_multifd_tcp_tls_x509_reject_anon_client(void)
- static void test_multifd_tcp_cancel(void)
- {
-     MigrateStart args = {
--        .hide_stderr = true,
-+        .hide_stderr = HIDE_STDERR,
-     };
-     QTestState *from, *to, *to2;
-     QDict *rsp;
+     close(fd);
+-    fd = open(cdrom_path, O_WRONLY);
++    fd = open(cdrom_path, O_WRONLY | O_BINARY);
+     g_assert(fd != -1);
+ #endif
+ 
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index c5cad6c0be..ee03dea4fa 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -892,7 +892,7 @@ static void cdrom_pio_impl(int nblocks)
+ 
+     /* Prepopulate the CDROM with an interesting pattern */
+     generate_pattern(pattern, patt_len, ATAPI_BLOCK_SIZE);
+-    fh = fopen(tmp_path, "w+");
++    fh = fopen(tmp_path, "wb+");
+     ret = fwrite(pattern, ATAPI_BLOCK_SIZE, patt_blocks, fh);
+     g_assert_cmpint(ret, ==, patt_blocks);
+     fclose(fh);
+@@ -993,7 +993,7 @@ static void test_cdrom_dma(void)
+     prdt[0].size = cpu_to_le32(len | PRDT_EOT);
+ 
+     generate_pattern(pattern, ATAPI_BLOCK_SIZE * 16, ATAPI_BLOCK_SIZE);
+-    fh = fopen(tmp_path, "w+");
++    fh = fopen(tmp_path, "wb+");
+     ret = fwrite(pattern, ATAPI_BLOCK_SIZE, 16, fh);
+     g_assert_cmpint(ret, ==, 16);
+     fclose(fh);
 -- 
 2.34.1
 
