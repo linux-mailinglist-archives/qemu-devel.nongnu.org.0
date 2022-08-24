@@ -2,98 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8034559F605
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:14:36 +0200 (CEST)
-Received: from localhost ([::1]:46328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BE659F653
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 11:36:03 +0200 (CEST)
+Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQmT5-0007JO-Ab
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57270)
+	id 1oQmnq-0004h5-2r
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 05:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmJg-0007J7-JW
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:04:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26206)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQmLa-0008Ip-JS
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:06:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQmJe-0004JL-4l
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:04:51 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oQmLX-0004h3-2b
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:06:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661331889;
+ s=mimecast20190719; t=1661332006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g9egpvCvlPo+6fmcvXRh8QUA5DntlrXRLz6LoUh/wnM=;
- b=MIdrgmtRW9+i44YZXH6R11p6DAjEi5FXZpAqFuJotVK/YLALJUwRxN1k+dL6CzELagGEiO
- Ux0mve3hv3aCZsM4wIa35ro1qFZt5jDZLniLYW91DF7AoNng+AfeOUJXRw/43+8+W6CDMP
- 9zqjvmYdi3K1ImckpfC9tir9xG67iek=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=I/5/O0q48FeGgmTpuCV4XnnlodW4jZfq2AxjO5asyiE=;
+ b=FVwHN+E1Y7o0ikd4c+iJfcYF01KHRtdRtqsKBoXEm21lecdjryyQCuiIZVJ2rDoqe3DozA
+ Tr/6hulSsDWeTTDQQll1OKl603hI3tBYJZWA489D4hq08RKoCwZqfhITnl0cgYCkjEbjvP
+ pCy39kQuTKZSe39Zl2cS2ZvSfkOPDmw=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-488-r_hP-eBLN0Cq_xLVuKfElw-1; Wed, 24 Aug 2022 05:04:46 -0400
-X-MC-Unique: r_hP-eBLN0Cq_xLVuKfElw-1
-Received: by mail-pj1-f69.google.com with SMTP id
- k1-20020a17090a658100b001fb35f86ccdso629897pjj.9
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:04:46 -0700 (PDT)
+ us-mta-224-1qba0TuxOoqtgVtNqdEc7Q-1; Wed, 24 Aug 2022 05:06:44 -0400
+X-MC-Unique: 1qba0TuxOoqtgVtNqdEc7Q-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ ff27-20020a05622a4d9b00b0034306b77c08so12329367qtb.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:06:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=g9egpvCvlPo+6fmcvXRh8QUA5DntlrXRLz6LoUh/wnM=;
- b=TwK/MttQ+PF57Kg221Lj27ziBbda0Aa4DPSRAAEON0frRGaH3cN1XzI17qi1LgZ+Oj
- 10uk4Jmhc+xWWwHzJlyyWfv9sQ3NeSUeYj9LbhxNn5vWd0ShAjdXLiblCLnjIXX1bj3t
- JoVJsjAs1Z2fDgzOJGrUth5lrvCCbFU9z2w/JB+yoo2DKy+nDmHrhUfE4Y3G02n49U/1
- eQll2+bZeu9jvz5+6dY5pQEvYPNtBgMhmQn/yKbiT7fV4jJwjr88hRSMXTt9xdwMtwMK
- PpHSAdyJ+L5+6ej/Vnye8fh+RehGZ0uHsWcWMcLagY5nz17M/O48ogb/jpQmStZgq5oy
- wfew==
-X-Gm-Message-State: ACgBeo3TFAcB7hh4W9MsiJnFZvkVsY9B8+hsXpGQxtmKc7z7SJqoIMhT
- HeiYApXXpfxuVTQqhiAiRqq7+JGvCrNeqcSCUtbxIclaWtlUJ6Li5FZ4ZzBO185gVjdyDaeGNiv
- SvGdwsx7JxQEjhmo=
-X-Received: by 2002:a17:902:f644:b0:172:b074:d1f5 with SMTP id
- m4-20020a170902f64400b00172b074d1f5mr27739997plg.29.1661331885159; 
- Wed, 24 Aug 2022 02:04:45 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4fRqpiipdrUL21oPO5PtHoz7Py0QdioxAVGkU6S0jE9ItKJbqiu6l3p5+23J2J+p9pTivCVg==
-X-Received: by 2002:a17:902:f644:b0:172:b074:d1f5 with SMTP id
- m4-20020a170902f64400b00172b074d1f5mr27739982plg.29.1661331884877; 
- Wed, 24 Aug 2022 02:04:44 -0700 (PDT)
-Received: from [10.72.13.130] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- j3-20020a170903028300b00172e97382cdsm6279557plr.285.2022.08.24.02.04.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 02:04:44 -0700 (PDT)
-Message-ID: <f3293e23-feec-3388-18e5-6db6b78bdd51@redhat.com>
-Date: Wed, 24 Aug 2022 17:04:38 +0800
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=I/5/O0q48FeGgmTpuCV4XnnlodW4jZfq2AxjO5asyiE=;
+ b=W54gP8L+q99Mw6RSwPyvRuuXZFI16P0a8McMGHqHDS6BWcIps7z+92VshYV/5SrIgV
+ oDlY7E7ciUwt0GL5MkvNjOkVbuas9dRtLgVefT9hs+klM7m1jQvbPptkU97Y8EYKBfd3
+ k16b8MIPaKqGpkxYzTb4MSNxerC7Ppb5yoVPoClMT+MgIcxjvTjjYwCxT1SjU0g6iAgF
+ IHnCyV+EOdgEY6HwFP8wtWnqZ6w4m6LvfjHcaxT2xzzALuYLaUTX26sl6TCLCgr1nGAU
+ 0YVZ8H9NQIHTerUwD6Oi6RS98FLEzZibpwdL6HKvvuDltJgXzKfOuaoMbK4ZdN9GxD26
+ 5SVg==
+X-Gm-Message-State: ACgBeo3AzDU2cNLiy98CNi3y2Qsa7oxFJ2oV/BbUkipruEMh062I4JPN
+ zYLY7y/2C1xVPCWi2PRyjWVso03xYJLv93pyikchHOC8PHWmwSMFTDovL61c1PdrWppvzaZ5oOM
+ hnlLNx2U2WjWd+ZhKwu3+exOGgddHfZI=
+X-Received: by 2002:a05:620a:2901:b0:6bb:692b:1991 with SMTP id
+ m1-20020a05620a290100b006bb692b1991mr18763160qkp.522.1661332004256; 
+ Wed, 24 Aug 2022 02:06:44 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7eMHNdjtF1dbW7qKRJ1M7B7xgNB58O01O/LcnZYrAQrausGdu4qsFxy1KpxBcrU4eStWE+WTYkcP9LNkIlmaA=
+X-Received: by 2002:a05:620a:2901:b0:6bb:692b:1991 with SMTP id
+ m1-20020a05620a290100b006bb692b1991mr18763139qkp.522.1661332004016; Wed, 24
+ Aug 2022 02:06:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH v2 18/24] vhost-net: vhost-user: update
- vhost_net_virtqueue_stop()
-Content-Language: en-US
-To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
- <303811ffeac48647ac4c81eeec542292e8f67a0e.1660611460.git.kangjie.xu@linux.alibaba.com>
- <3b60bcab-f69b-7ec9-caa8-c5947a14b659@redhat.com>
- <ecce701d-3bec-b98e-6d46-5ca85542ef87@linux.alibaba.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <ecce701d-3bec-b98e-6d46-5ca85542ef87@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+References: <20220819171329.3597027-1-eperezma@redhat.com>
+ <20220819171329.3597027-3-eperezma@redhat.com>
+ <f517a073-fd73-0220-072c-ea054b643468@redhat.com>
+ <CAJaqyWcGH-kAVw-yZ2CX-GuPYt1zL8FFJnjmWMcbi4r1NgyfcA@mail.gmail.com>
+ <CACGkMEuNTBPSh2x6LVihCE=fg1zYAsnG4io2MBT32+PF9=omwQ@mail.gmail.com>
+In-Reply-To: <CACGkMEuNTBPSh2x6LVihCE=fg1zYAsnG4io2MBT32+PF9=omwQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 24 Aug 2022 11:06:08 +0200
+Message-ID: <CAJaqyWdDYZscdShMpmvPJdCBDOyeoEUbOztTQDLHdqYwwdah6w@mail.gmail.com>
+Subject: Re: [PATCH 2/5] vdpa: Add vhost_vdpa_net_load_mq
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,63 +105,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/8/24 12:57, Kangjie Xu 写道:
+On Wed, Aug 24, 2022 at 10:52 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> 在 2022/8/24 12:05, Jason Wang 写道:
->>
->> 在 2022/8/16 09:06, Kangjie Xu 写道:
->>> Update vhost_net_virtqueue_stop() for vhost-user scenario.
->>
->>
->> Let's explain why it is needed now or why it doesn't cause any issue 
->> or it's a bug fix or not.
->>
->> Thanks
->>
-> This patch is to suppport vq reset for vhost-user.
+> On Wed, Aug 24, 2022 at 3:47 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Wed, Aug 24, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > >
+> > > =E5=9C=A8 2022/8/20 01:13, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > > > Same way as with the MAC, restore the expected number of queues at
+> > > > device's start.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > ---
+> > > >   net/vhost-vdpa.c | 33 +++++++++++++++++++++++++++++++++
+> > > >   1 file changed, 33 insertions(+)
+> > > >
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index 1e0dbfcced..96fd3bc835 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -391,6 +391,35 @@ static int vhost_vdpa_net_load_mac(VhostVDPASt=
+ate *s,
+> > > >       return 0;
+> > > >   }
+> > > >
+> > > > +static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
+> > > > +                                  const VirtIONet *n)
+> > > > +{
+> > > > +    uint64_t features =3D n->parent_obj.guest_features;
+> > > > +    ssize_t dev_written;
+> > > > +    void *cursor =3D s->cvq_cmd_out_buffer;
+> > > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_MQ))) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +
+> > > > +    *(struct virtio_net_ctrl_hdr *)cursor =3D (struct virtio_net_c=
+trl_hdr) {
+> > > > +        .class =3D VIRTIO_NET_CTRL_MQ,
+> > > > +        .cmd =3D VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET,
+> > > > +    };
+> > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_hdr);
+> > > > +    *(struct virtio_net_ctrl_mq *)cursor =3D (struct virtio_net_ct=
+rl_mq) {
+> > > > +        .virtqueue_pairs =3D cpu_to_le16(n->curr_queue_pairs),
+> > > > +    };
+> > >
+> > >
+> > > Such casting is not elegant, let's just prepare buffer and then do th=
+e
+> > > copy inside vhost_vdpa_net_cvq_add()?
+> > >
+> >
+> > I'm not sure what you propose here. I can pre-fill a buffer in the
+> > stack and then do an extra copy in vhost_vdpa_net_cvq_add. The
+> > compiler should be able to optimize it, but I'm not sure if it
+> > simplifies the code.
+> >
+> > We can have a dedicated buffer for mac, another for mq, and one for
+> > each different command, and map all of them at the device's start. But
+> > this seems too much overhead to me.
 >
-> We need this simply because the behavior of vhost_ops->get_vq_index() 
-> is different in vhost-user and vhost-kernel.
+> Considering we may need to support and restore a lot of other fields,
+> this looks a little complicated.
 >
-> vhost_user_get_vq_index(dev, idx) simply returns "idx".
+> I meant the caller can simply do:
 >
-> vhost_kernel_get_vq_index(dev, idx) returns "idx - dev->vq_index".
+> struct virtio_net_ctrl_mq mq =3D { ...};
 >
-> Thanks
-
-
-Let's add them in the change-log in the next version.
-
-But the question still, is this a bug fix (requires a Fixes tag)? If not 
-why do we need this now?
-
-Thanks
-
-
+> Then we do
 >
->>
->>>
->>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>> ---
->>>   hw/net/vhost_net.c | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->>> index 2ab67e875e..c0d408f3b4 100644
->>> --- a/hw/net/vhost_net.c
->>> +++ b/hw/net/vhost_net.c
->>> @@ -533,6 +533,10 @@ void vhost_net_virtqueue_stop(VirtIODevice 
->>> *vdev, NetClientState *nc,
->>>           assert(r >= 0);
->>>       }
->>>   +    if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
->>> +        idx = idx - net->dev.vq_index;
->>> +    }
->>> +
->>>       vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
->>>   }
+> vhost_vdpa_net_cvq_add(&mq, sizeof(mq), ...);
 >
+> Then we can do memcpy inside vhost_vdpa_net_cvq_add() and hide the
+> cmd_out_buffer etc from the caller.
+>
+
+We need to add the ctrl header too. But yes, that is feasible, something li=
+ke:
+
+vhost_vdpa_net_cvq_add(&ctrl, &mq, sizeof(mq), ...);
+
+> >
+> > Some alternatives that come to my mind:
+> >
+> > * Declare a struct with both virtio_net_ctrl_hdr and each of the
+> > control commands (using unions?), and cast s->cvq_cmd_out_buffer
+> > accordingly.
+> > * Declare a struct with all of the supported commands one after
+> > another, and let qemu fill and send these accordingly.
+> >
+> > >
+> > > > +    cursor +=3D sizeof(struct virtio_net_ctrl_mq);
+> > > > +
+> > > > +    dev_written =3D vhost_vdpa_net_cvq_add(s, cursor - s->cvq_cmd_=
+out_buffer,
+> > > > +                                             sizeof(virtio_net_ctr=
+l_ack));
+> > > > +    if (unlikely(dev_written < 0)) {
+> > > > +        return dev_written;
+> > > > +    }
+> > > > +
+> > > > +    return *((virtio_net_ctrl_ack *)s->cvq_cmd_in_buffer) !=3D VIR=
+TIO_NET_OK;
+> > >
+> > >
+> > > So I think we should have a dedicated buffer just for ack, then there=
+'s
+> > > no need for such casting.
+> > >
+> >
+> > You mean to declare cvq_cmd_in_buffer as virtio_net_ctrl_ack type
+> > directly and map it to the device?
+>
+> Kind of, considering the ack is the only kind of structure in the near
+> future, can we simply use the structure virtio_net_ctl_ack?
+>
+
+Almost, but we need to map to the device in a page size. And I think
+it's better to allocate a whole page for that, so it does not share
+memory with qemu.
+
+Other than that, yes, I think it can be declared as virtio_net_ctl_ack dire=
+ctly.
+
+Thanks!
 
 
