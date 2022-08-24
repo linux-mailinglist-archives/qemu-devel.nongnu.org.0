@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F398459F726
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:10:14 +0200 (CEST)
-Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4FF59F83F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:59:01 +0200 (CEST)
+Received: from localhost ([::1]:33708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnKv-0005tE-Vt
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
+	id 1oQo68-0000Yy-FQ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuc-0004MQ-TF; Wed, 24 Aug 2022 05:43:03 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:54853)
+ id 1oQmuh-0004NX-2R; Wed, 24 Aug 2022 05:43:07 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:40598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmua-0001ef-Jq; Wed, 24 Aug 2022 05:43:01 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id bf22so16490340pjb.4;
- Wed, 24 Aug 2022 02:42:59 -0700 (PDT)
+ id 1oQmud-0001f8-Pr; Wed, 24 Aug 2022 05:43:05 -0400
+Received: by mail-pl1-x632.google.com with SMTP id x23so15191752pll.7;
+ Wed, 24 Aug 2022 02:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Fh5IADzLChmDjxkrpWsCj8Fs3Tnsz/cyvb/BerXAflg=;
- b=LqblTMxq3Mc6jUl5h8nnSzgNibYFICp8fZsnoRN19X1eqDPQIKuenoldw82V/ni8du
- jJckz9Yx1U4bfRebjJUN9lxoKP7x4ajA+IGd6ZgJgQQ88BQJ4DMOvg8Pe0zla7tciQzH
- 8eP2bsnAcoqn0eHjZanLP5A2CTeM78ZmYnOnW60WfNs/YNRJ6gzYYn9wCjKxBi1q1/zy
- 336xswD8TUW21oI+M79kW+6DbwvgiPkCBLDNRDVwS13S4x8jKsyBcjRyfhQt7ep+cgVd
- SDOwRW8181J2pLmG8I+pWHjDWov+cMnIUnJxc7ijTHtFWn91zNeo2F6Iwgma6YJVrMz3
- 4cxA==
+ bh=/VLZ6dLEwhi2chftBh37GSy19Wuab6YAYmjufo6q520=;
+ b=VLCeVfQ0VlrSUdv/RbrmfZbWOD/r6Nj51yvPcKqsi2UruZ2hwydXU/z8gByVOX6EHA
+ A4tnnOP1BnTubE5yyNy8Fx+SsOBFpQT4LzhVv0RCqP85oWcYV6vKjTFmaVlNKDmdr98j
+ UQx10XLhTsSn/BkUtxolKgFxuLfcTym4mxuFOnDEaeoTLk6f4tWGY+OB+vtczzCU5suh
+ lfVZMbvg42/BLgLie+pEmgHWnpMiRjeht7FMxutQ7geJQgTEZd2Vr65z0KWhJfQSo4Fy
+ dt88w2jlb+jgTaxr/o7Y9kBXV2vGy4rXp2G7Ph0CniiLMXbspdfwncc7IcJUUZLBZCu0
+ J0Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Fh5IADzLChmDjxkrpWsCj8Fs3Tnsz/cyvb/BerXAflg=;
- b=SZKxcrSk3IwfmIfO5SpJ24vXs06hC+UnkuEAXVM6mWa4MfxVdYYdwespmQAVenW/Y4
- D9HPNAbCTybKaZfKXb6OopXskkdRjPmJwevNsDAXHckkejrisHLBC5WIfECsRn53eCdG
- UeGi8AM1trHCl3aa3mCvTRw5lwWitvhfVcP/GVV0JODrSv8u9Ahp1NRYNwXCg9h6CtEB
- pZoAOzxalVyJm5IDawKQ6bCvMwikb1NG4EVDq8jlfRkWVUU9bTclPlp9hmAzvqqCz4+S
- PRbeQ7k7pFJOy8mAjJU3MS1GkYFXdQeTk+qhQLmBcXcp4ydlJ7jtti1u46M2wuFJR/Hd
- LnSg==
-X-Gm-Message-State: ACgBeo2yhqdNKslQCUSs+IfMBF2XhTnsmkFvUULBwjkEVPYir82TevgB
- QHLMVF5x2PULUeHZS4lMI+ASVzQFmNM=
-X-Google-Smtp-Source: AA6agR4rIQOiAg2O2QvH0ykk9DKb2bOB3N3VoYE7fp6sDLNSeafa4RG4CcjKoXk9BXSGR0RSDa0HUw==
-X-Received: by 2002:a17:902:ea12:b0:172:de75:bc7b with SMTP id
- s18-20020a170902ea1200b00172de75bc7bmr15835560plg.25.1661334178803; 
- Wed, 24 Aug 2022 02:42:58 -0700 (PDT)
+ bh=/VLZ6dLEwhi2chftBh37GSy19Wuab6YAYmjufo6q520=;
+ b=T2eU6c0nVH/ZlHqEPpmw3fJoWU8kmfDA0XfRvNKzywAuL0NiQ7s/QstDGuBQ0cP06w
+ uP/JPKhCYhSd0PnQ7OTDfIW/rJx1GcBEWCIUAqjiWOCLzP1bNLD5o3nvBbKBmlQBWD6E
+ ZMXX/TwG4zPdlH6q7zw9CoavAWayfbVBpYaH3lyKmKTUG9OR9c2uAol+xDi5xJEGLFtW
+ XC0oolqNEoKNIw5P5CVFE6OCO6HN9UUcJiXyuovnVnbPylhCLIN+GWhvztu99godEdYH
+ Y6hLuvh+DAlScO/OcDSJH+3E3wPode7JgsnuEqJkRvLLIOff3RjGpx67Pmp88Y505+kU
+ Mtbw==
+X-Gm-Message-State: ACgBeo1efpU98k1HNGzM6vWErfzAHz2uk0SkH7BvcYLlJcLhKZs9hkBI
+ XaKJ47UeiLSMI+XeyBrP9VKJxWQrXx8=
+X-Google-Smtp-Source: AA6agR4Yh9tytQwZIx+V6LzE1S5IiFITxtOROjx6UWm1XchsDbdFiQlfjC6vDYybCOxDcw3N8IJv9Q==
+X-Received: by 2002:a17:902:7783:b0:173:11e6:a580 with SMTP id
+ o3-20020a170902778300b0017311e6a580mr3219028pll.10.1661334181357; 
+ Wed, 24 Aug 2022 02:43:01 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.56
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:42:58 -0700 (PDT)
+ Wed, 24 Aug 2022 02:43:00 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
-Subject: [PATCH 32/51] tests/qtest: Fix ERROR_SHARING_VIOLATION for win32
-Date: Wed, 24 Aug 2022 17:40:10 +0800
-Message-Id: <20220824094029.1634519-33-bmeng.cn@gmail.com>
+Subject: [PATCH 33/51] tests/qtest: {ahci,
+ ide}-test: Use relative path for temporary files
+Date: Wed, 24 Aug 2022 17:40:11 +0800
+Message-Id: <20220824094029.1634519-34-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,69 +91,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-On Windows, the MinGW provided mkstemp() API opens the file with
-exclusive access, denying other processes to read/write the file.
-Such behavior prevents the QEMU executable from opening the file,
-(e.g.: CreateFile returns ERROR_SHARING_VIOLATION).
-
-This can be fixed by closing the file and reopening it.
+These test cases uses "blkdebug:path/to/config:path/to/image" for
+testing. On Windows, absolute file paths contain the delimiter ':'
+which causes the blkdebug filename parser fail to parse filenames.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/ahci-test.c        | 14 ++++++++++++++
- tests/qtest/boot-serial-test.c | 13 +++++++++++++
- 2 files changed, 27 insertions(+)
+ tests/qtest/ahci-test.c | 19 ++++++++++++++++---
+ tests/qtest/ide-test.c  | 18 ++++++++++++++++--
+ 2 files changed, 32 insertions(+), 5 deletions(-)
 
 diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
-index f26cd6f86f..0e88cd0eef 100644
+index 0e88cd0eef..bce9ff770c 100644
 --- a/tests/qtest/ahci-test.c
 +++ b/tests/qtest/ahci-test.c
-@@ -1443,6 +1443,20 @@ static int prepare_iso(size_t size, unsigned char **buf, char **name)
-     int fd = mkstemp(cdrom_path);
+@@ -1848,7 +1848,7 @@ static void create_ahci_io_test(enum IOMode type, enum AddrMode addr,
  
-     g_assert(fd != -1);
-+#ifdef _WIN32
+ int main(int argc, char **argv)
+ {
+-    const char *arch;
++    const char *arch, *base;
+     int ret;
+     int fd;
+     int c;
+@@ -1886,8 +1886,21 @@ int main(int argc, char **argv)
+         return 0;
+     }
+ 
 +    /*
-+     * On Windows, the MinGW provided mkstemp() API opens the file with
-+     * exclusive access, denying other processes to read/write the file.
-+     * Such behavior prevents the QEMU executable from opening the file,
-+     * (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).
++     * "base" stores the starting point where we create temporary files.
 +     *
-+     * Close the file and reopen it.
++     * On Windows, this is set to the relative path of current working
++     * directory, because the absolute path causes the blkdebug filename
++     * parser fail to parse "blkdebug:path/to/config:path/to/image".
 +     */
-+    close(fd);
-+    fd = open(cdrom_path, O_WRONLY);
-+    g_assert(fd != -1);
++#ifndef _WIN32
++    base = g_get_tmp_dir();
++#else
++    base = ".";
 +#endif
 +
-     g_assert(buf);
-     g_assert(name);
-     patt = g_malloc(size);
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index 404adcfa20..fb6c81bf35 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -235,6 +235,19 @@ static void test_machine(const void *data)
+     /* Create a temporary image */
+-    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", g_get_tmp_dir());
++    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", base);
+     fd = mkstemp(tmp_path);
+     g_assert(fd >= 0);
+     if (have_qemu_img()) {
+@@ -1905,7 +1918,7 @@ int main(int argc, char **argv)
+     close(fd);
  
-     ser_fd = mkstemp(serialtmp);
-     g_assert(ser_fd != -1);
-+#ifdef _WIN32
+     /* Create temporary blkdebug instructions */
+-    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", g_get_tmp_dir());
++    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
+     fd = mkstemp(debug_path);
+     g_assert(fd >= 0);
+     close(fd);
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index ebbf8e0126..c5cad6c0be 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -1011,17 +1011,31 @@ static void test_cdrom_dma(void)
+ 
+ int main(int argc, char **argv)
+ {
++    const char *base;
+     int fd;
+     int ret;
+ 
 +    /*
-+     * On Windows, the MinGW provided mkstemp() API opens the file with
-+     * exclusive access, denying other processes to read/write the file.
-+     * Such behavior prevents the QEMU executable from opening the file,
-+     * (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).
++     * "base" stores the starting point where we create temporary files.
 +     *
-+     * Close the file and reopen it.
++     * On Windows, this is set to the relative path of current working
++     * directory, because the absolute path causes the blkdebug filename
++     * parser fail to parse "blkdebug:path/to/config:path/to/image".
 +     */
-+    close(ser_fd);
-+    ser_fd = open(serialtmp, O_RDONLY);
-+    g_assert(ser_fd != -1);
++#ifndef _WIN32
++    base = g_get_tmp_dir();
++#else
++    base = ".";
 +#endif
++
+     /* Create temporary blkdebug instructions */
+-    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", g_get_tmp_dir());
++    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
+     fd = mkstemp(debug_path);
+     g_assert(fd >= 0);
+     close(fd);
  
-     if (test->kernel) {
-         code = test->kernel;
+     /* Create a temporary raw image */
+-    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", g_get_tmp_dir());
++    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", base);
+     fd = mkstemp(tmp_path);
+     g_assert(fd >= 0);
+     ret = ftruncate(fd, TEST_IMAGE_SIZE);
 -- 
 2.34.1
 
