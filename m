@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5B259F7F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:41:11 +0200 (CEST)
-Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B698959F831
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:53:16 +0200 (CEST)
+Received: from localhost ([::1]:59816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnol-0002WQ-Fq
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45854)
+	id 1oQo0Z-0000Cc-MS
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuR-0004AW-LD
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:51 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:36369)
+ id 1oQmuT-0004GG-Kl
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:56 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmuP-0001br-Vs
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:51 -0400
-Received: by mail-pg1-x534.google.com with SMTP id s206so14562245pgs.3
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:49 -0700 (PDT)
+ id 1oQmuS-0001cB-0V
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 05:42:53 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id y141so15966782pfb.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 02:42:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=KoPI4eXuTPrxafT3ECcIZJJvMLwXtdkRP59ne1WxHZs=;
- b=HpR6r7lFNgVnv5TTgYMTT85ojDH9R5bGU8TzcUviZNPTDLbQmqUOtVqT8wJZbThJTN
- q+kipI5ERspKLaZNFz+I+s1p86MKuEWJuHQ4jcwhw+5jeDDBp4o6VXsLoZegZP3w52Bp
- nhF31De5ews9lUm+Sql4IrNQ6iB4DjXKPXsHvfNmneTKz6KUhUyg2JBRHY8reviUon6/
- xdfxr0d+zumf+PwdUktkgegcBA6D0HyTSFMRQY4eftCftyCtnKqfrWC3H5SLN7l6n7Rp
- eMllUuekKQByaKI1/6eTl6Z1aCic9BXYxCOeZ/rpDqQ9mIWLjd+00FRE2UaCmM0DXqSB
- riow==
+ bh=7B//sRlwmvr0NqRVKAmxDWMajm9GtHuIKBPMgzMp1rQ=;
+ b=S0LDz4mgG3iVYKSUqh8+rhpHR5eUZY1VYYnZPoaOrsumn1PE0EmZFMyKx3NxhW8ihB
+ 1Can46UqFVM8RkPuA2tvnc5mTmGc6IAFRzhY6ShJv8JMOniVCBAluv2isa6xcyeBSKfp
+ CwKz5zTrFfIvn/bNJQAKoWap/Ry7bEjV49UqABNRiAqxsj1KWIxovDo+Popu8UYagqu7
+ gSsb6BiZRShy90Vu5klhmTOckoQBL557N674mwRio3GfhLsaMzWjREKnPl1TFLlfeo70
+ b4LdBZ+eBArYgNav2tl8AcmYXEaIwvniP5uu5O+c5u87hUFTbYEcKK0oC7OVmN/T5R4B
+ 4VlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=KoPI4eXuTPrxafT3ECcIZJJvMLwXtdkRP59ne1WxHZs=;
- b=L+RS7CpNdE9vkraAv2kp79adtN3bmfJ4IboA//AzOl4TaVSllCxmKeOliLU0SpWpb0
- Id2VoSuuMP4j4AAGZFCSSDmq3biu4xnbZ0wI2P3L939/dAdLUV5fAmrcCYPEVT+ikTxn
- VKVzZpaGzK5jRov2pgPV/J9nDPRiqf1ebiufd9K8YGuRSAVms9Y1NTrwIbfJML9HKzFF
- KCzX7n5FAtnwIengb3mLFydazO/gbq2fFVokAvBmozBb0j53Pf8Jtu5oop1CyTjy6BuL
- lIntO25wBWEzYC0l5Nx4bQjyssIW4ycGuG1wU+dDNdcgXb5oFsKPDz2fBS6ju2Um8w/2
- siIQ==
-X-Gm-Message-State: ACgBeo1HHhbU8lPVrJV/NMEHEPKMbIDlgnBf40xWaA5aJYPlfmOLxolt
- rJXUtWHhBIZ6xLUAyHPrwBZfZekNN8s=
-X-Google-Smtp-Source: AA6agR6WysJXSwpm6X+LW2edpDXbbPpHLrV3NVja2kl0R7CZoKaPsKsstR/e56wxnxm/6B6qvF/heA==
-X-Received: by 2002:a65:6755:0:b0:41d:70c1:be0 with SMTP id
- c21-20020a656755000000b0041d70c10be0mr24234622pgu.99.1661334168420; 
- Wed, 24 Aug 2022 02:42:48 -0700 (PDT)
+ bh=7B//sRlwmvr0NqRVKAmxDWMajm9GtHuIKBPMgzMp1rQ=;
+ b=B9Dy/NfvtVnGHEWmrpWZxd9cGaipk0gW8Z/LhbCBkb8/iIZqrVBzD3LtwXm2uxhTTy
+ aO0bcP6V2TdbkrMZvM36SspkTsYI14t9Nu2U2gydwIpqumuEMjTANmdqcQwlP0raw/g/
+ 1fuzPvK5XSl7pvWqxH/WB4EtW0HHuTd6L2pWD5xRCeWXTuO7YGxbsHGiwgDDa2Nfjcnq
+ a24XO1XFSBtE8IFaP6g2bdrhQolJ62CB2hqnr0iRAwQYqfjNIOILidqV1ogrilTXIcXj
+ 71E+43FN5IsekRimT874Mo0xUcHFahIuVYggielAwSZo1QeQJzr7ka7j0UlC4ts9vM6r
+ 94ug==
+X-Gm-Message-State: ACgBeo20A1Ioh39LrNCWTXfL2NuY4ACZ51C4NF36BR3w60zWkbPDNk2L
+ mE3G2BTlebbrVuHbQiLPW22veqAoK1M=
+X-Google-Smtp-Source: AA6agR4FJgKJn/DcSXVToENvx6SagYVahEUG2h4MSpz7/d7gAm+L+eYsxlbRl0QKf+xIESTfrBdUpg==
+X-Received: by 2002:a05:6a00:24d1:b0:537:2916:e1d with SMTP id
+ d17-20020a056a0024d100b0053729160e1dmr3537906pfv.66.1661334170485; 
+ Wed, 24 Aug 2022 02:42:50 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.46
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.42.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:42:48 -0700 (PDT)
+ Wed, 24 Aug 2022 02:42:50 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 28/51] tests/qtest: libqtest: Exclude the *_fds APIs for win32
-Date: Wed, 24 Aug 2022 17:40:06 +0800
-Message-Id: <20220824094029.1634519-29-bmeng.cn@gmail.com>
+Subject: [PATCH 29/51] tests/qtest: libqtest: Install signal handler via
+ signal()
+Date: Wed, 24 Aug 2022 17:40:07 +0800
+Message-Id: <20220824094029.1634519-30-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,159 +92,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-libqmp.c::qmp_fd_vsend_fds() is not available on Windows, hence any
-APIs in libqtest that call libqmp.c::qmp_fd_vsend_fds() should be
-excluded for win32 too. This includes the following:
+At present the codes uses sigaction() to install signal handler with
+a flag SA_RESETHAND. Such usage can be covered by the signal() API
+that is a simplified interface to the general sigaction() facility.
 
-  * qtest_qmp_vsend_fds()
-  * qtest_vqmp_fds()
-  * qtest_qmp_fds()
-  * qtest_qmp_add_client()
-
-Note qtest_qmp_vsend() was wrongly written to call qmp_fd_vsend_fds()
-previously, but it should call the non fds version API qmp_fd_vsend().
+Update to use signal() to install the signal handler, as it is
+avaiable on Windows which we are going to support.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/libqtest.h |  8 ++++++++
- tests/qtest/libqtest.c | 10 +++++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ tests/qtest/libqtest.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-index 94b187837d..3abc75964d 100644
---- a/tests/qtest/libqtest.h
-+++ b/tests/qtest/libqtest.h
-@@ -94,6 +94,7 @@ void qtest_kill_qemu(QTestState *s);
-  */
- void qtest_quit(QTestState *s);
- 
-+#ifndef _WIN32
- /**
-  * qtest_qmp_fds:
-  * @s: #QTestState instance to operate on.
-@@ -108,6 +109,7 @@ void qtest_quit(QTestState *s);
- QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
-                      const char *fmt, ...)
-     G_GNUC_PRINTF(4, 5);
-+#endif /* _WIN32 */
- 
- /**
-  * qtest_qmp:
-@@ -152,6 +154,7 @@ void qtest_qmp_send_raw(QTestState *s, const char *fmt, ...)
-  */
- int qtest_socket_server(const char *socket_path);
- 
-+#ifndef _WIN32
- /**
-  * qtest_vqmp_fds:
-  * @s: #QTestState instance to operate on.
-@@ -167,6 +170,7 @@ int qtest_socket_server(const char *socket_path);
- QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
-                       const char *fmt, va_list ap)
-     G_GNUC_PRINTF(4, 0);
-+#endif /* _WIN32 */
- 
- /**
-  * qtest_vqmp:
-@@ -181,6 +185,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
- QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
-     G_GNUC_PRINTF(2, 0);
- 
-+#ifndef _WIN32
- /**
-  * qtest_qmp_vsend_fds:
-  * @s: #QTestState instance to operate on.
-@@ -196,6 +201,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
- void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
-                          const char *fmt, va_list ap)
-     G_GNUC_PRINTF(4, 0);
-+#endif /* _WIN32 */
- 
- /**
-  * qtest_qmp_vsend:
-@@ -743,6 +749,7 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
- void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-                           const char *fmt, ...) G_GNUC_PRINTF(4, 5);
- 
-+#ifndef _WIN32
- /**
-  * qtest_qmp_add_client:
-  * @qts: QTestState instance to operate on
-@@ -752,6 +759,7 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-  * Call QMP ``getfd`` followed by ``add_client`` with the given @fd.
-  */
- void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd);
-+#endif /* _WIN32 */
- 
- /**
-  * qtest_qmp_device_del:
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index b7b7c9c541..1b24a4f1f7 100644
+index 1b24a4f1f7..70d7578740 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -594,17 +594,20 @@ int qtest_socket_server(const char *socket_path)
-     return sock;
- }
+@@ -68,7 +68,7 @@ struct QTestState
+ QTestState *global_qtest;
  
-+#ifndef _WIN32
- void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
-                          const char *fmt, va_list ap)
+ static GHookList abrt_hooks;
+-static struct sigaction sigact_old;
++static sighandler_t sighandler_old;
+ 
+ static int qtest_query_target_endianness(QTestState *s);
+ 
+@@ -181,20 +181,12 @@ static void sigabrt_handler(int signo)
+ 
+ static void setup_sigabrt_handler(void)
  {
-     qmp_fd_vsend_fds(s->qmp_fd, fds, fds_num, fmt, ap);
+-    struct sigaction sigact;
+-
+-    /* Catch SIGABRT to clean up on g_assert() failure */
+-    sigact = (struct sigaction){
+-        .sa_handler = sigabrt_handler,
+-        .sa_flags = SA_RESETHAND,
+-    };
+-    sigemptyset(&sigact.sa_mask);
+-    sigaction(SIGABRT, &sigact, &sigact_old);
++    sighandler_old = signal(SIGABRT, sigabrt_handler);
  }
-+#endif
  
- void qtest_qmp_vsend(QTestState *s, const char *fmt, va_list ap)
+ static void cleanup_sigabrt_handler(void)
  {
--    qmp_fd_vsend_fds(s->qmp_fd, NULL, 0, fmt, ap);
-+    qmp_fd_vsend(s->qmp_fd, fmt, ap);
+-    sigaction(SIGABRT, &sigact_old, NULL);
++    signal(SIGABRT, sighandler_old);
  }
  
-+#ifndef _WIN32
- QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
-                       const char *fmt, va_list ap)
- {
-@@ -613,6 +616,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
-     /* Receive reply */
-     return qtest_qmp_receive(s);
- }
-+#endif
- 
- QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
- {
-@@ -622,6 +626,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
-     return qtest_qmp_receive(s);
- }
- 
-+#ifndef _WIN32
- QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
-                      const char *fmt, ...)
- {
-@@ -633,6 +638,7 @@ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
-     va_end(ap);
-     return response;
- }
-+#endif
- 
- QDict *qtest_qmp(QTestState *s, const char *fmt, ...)
- {
-@@ -1329,6 +1335,7 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-     qobject_unref(args);
- }
- 
-+#ifndef _WIN32
- void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
- {
-     QDict *resp;
-@@ -1348,6 +1355,7 @@ void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
-     g_assert(!qdict_haskey(resp, "error"));
-     qobject_unref(resp);
- }
-+#endif
- 
- /*
-  * Generic hot-unplugging test via the device_del QMP command.
+ static bool hook_list_is_empty(GHookList *hook_list)
 -- 
 2.34.1
 
