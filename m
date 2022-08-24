@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD9559F81F
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 12:46:44 +0200 (CEST)
-Received: from localhost ([::1]:48520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE35559F89D
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:30:40 +0200 (CEST)
+Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQnuG-0001JW-0R
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 06:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59096)
+	id 1oQoai-0006uv-9u
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:30:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmv4-0004TI-3j; Wed, 24 Aug 2022 05:43:30 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:42734)
+ id 1oQmv6-0004UF-RC; Wed, 24 Aug 2022 05:43:34 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:42739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oQmv1-0001ol-7O; Wed, 24 Aug 2022 05:43:28 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- s3-20020a17090a2f0300b001facfc6fdbcso957368pjd.1; 
- Wed, 24 Aug 2022 02:43:26 -0700 (PDT)
+ id 1oQmv5-0001qE-6Z; Wed, 24 Aug 2022 05:43:32 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ s3-20020a17090a2f0300b001facfc6fdbcso957475pjd.1; 
+ Wed, 24 Aug 2022 02:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=MHfTEu/249wVV9m0rBn3cA/BnwhFgurm/PYKRUtzg+o=;
- b=ZZK1hRnYE1UDVwGvYkKI2LanoP3FgMW+1eLQGcXLgaAknQhWlHpDk1G1aG0/uf8LMu
- y54chOAX4JZPoMJ3LzQc2GDdCS4qknDTBFAFMSiR+O5GaI3Rt2CBMB3GyydJ23FOgjWz
- oArmj5LDEvjSzwQQsGVDz1N1NLCsOGGgkl9dm+G00CCJMGy76vZG6hiwkiLwWSYUJs2i
- +qa4ykgb0OWlUWRb+7t3W7KE+OoR2lEmYaE9n9G8AHIoC8SzzX3TDyNAgufQ5lMRcxX9
- Tv3RrNlb0wwFgN39PpH6SKXvzC7f0ZJWrHTbP5Bm5NIqJ8mlJMy3xWsRQkQmsNZFg3pr
- J7jA==
+ bh=absMu0MsCcS+D8Q8iKeaSzi8XuqAyekaCuc9H9DLYbc=;
+ b=NDv6cXqYoVIT6UlJFchvJvI+7vc9VAWbvNd8EzFyl0Xyy9JSejdoTtHowjqeyY5WN/
+ 1SjWn/ZzooHtZMTLk2ehGXnsRGzjFJ9iCQnlZjpLjLHsUBc4Q7EPJ8ADRtBSpIfAhg8l
+ D5gfwgybFUY3yOy6LSUSSwp6gcG9DPlBEIFnSQRmhKB0GXQ+edUtrSbFoIYelcp9aPtN
+ 4ji2U4v+N3tcYObSlcRmJTPdEMCceVHQbOvD2s+rNDGN1+gBWln4jwOS24pkmv/RURMf
+ Ax6TSvJmbDivLCmMM0G1bUVpFLM2EOKffasyDtVcFH4JSqv6KSRiPcEKECN65oi8mTe9
+ Oksg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=MHfTEu/249wVV9m0rBn3cA/BnwhFgurm/PYKRUtzg+o=;
- b=L2lHWrGPrUuH5BG5wTYcq7ERwjtXdI/yQQEidqZ4kvnJC2Yh5kRd4bYDwF0NqAWD0K
- KXX/MV3aym/zs5LpLCHaV96FWMbAPptlm+msDdmRqDiAOF0O/45314mofcudkqjSAyA+
- O7hvs+3Zv6l8qad/1jgCyTL4WW7HrX7/SQ1V2XTWF7TrRzej2kUVK0V0cbOfLo1KZE0y
- IBtmjBQ4DTIV5a/4OaFOq6sa8dk5Q38L8ZDSTfc1l0ta5DM1VcVgZGEQrrbWnJYWrJfc
- HeKYUuiHWO0UtpUkT2HIvEWbdcj7ba108CYjprYw7uaSAmDkQSkAOjuLsi8q+OlGk+Rj
- BoUg==
-X-Gm-Message-State: ACgBeo2ResUmzdux2zf1bsh7VqC1m7JxoNRq8vl/1pc2WqW/UUIOLQT8
- y9Yv8xrAzGm2l7r0wFCtz21becNF7Rg=
-X-Google-Smtp-Source: AA6agR4xoekxEgNHaKoZU/b9XwWIXxLm5ZQP4bl1zHL6rBDjhPECybJknIQ+cPD4IzWj/LolL81Ldw==
-X-Received: by 2002:a17:90a:e543:b0:1fa:d591:12c4 with SMTP id
- ei3-20020a17090ae54300b001fad59112c4mr7302607pjb.91.1661334205265; 
- Wed, 24 Aug 2022 02:43:25 -0700 (PDT)
+ bh=absMu0MsCcS+D8Q8iKeaSzi8XuqAyekaCuc9H9DLYbc=;
+ b=EM5Qe0V6Akki9ilSurkQJ/a3S+rpowIoF6rqkt0PvstLfWEcVEZbt4A7TwlG5aahm6
+ 0vXBrw6BgORxIpR71hHVgmH49KzpWKRyXAqS8Yd/QHOBsnh6ZYO0A+oFQPaQxu1ZEJYd
+ 7cAwL4Rr4vr4IdOYW9kTPayct1ZMK+E3KVrLe1a36xsvGXXg7jznIvE7qScxq9T5z3sN
+ wsI/8Fo+7uj/1cQxTc4jOqnJU/andLLS4i5lAaPKEA8y76eolUi733LBRtswcP1yG5Lb
+ KtjH4WFdJ2+k6TTJz3dGbZ49TluGxCwueioB0WtQfycgO51Hv5/WzJdRSt2SQ/isNANu
+ d5SA==
+X-Gm-Message-State: ACgBeo2qrqdWwsnN62wcZ8okwj2SSrUycgklcwtvFDuAf7laqhx2VYUn
+ 4xL8uxxbU+5ZQmzkcODvDvrJjWyWTW8=
+X-Google-Smtp-Source: AA6agR6KlU+xRZ2lkZP2HppMEyj38xUjcrmF2XbzsyhEkWSoBlawKVR+FaBgroKzTEyBH2FLgMiS4w==
+X-Received: by 2002:a17:90a:6b0d:b0:1fa:c6fe:db6 with SMTP id
+ v13-20020a17090a6b0d00b001fac6fe0db6mr7432037pjj.99.1661334208035; 
+ Wed, 24 Aug 2022 02:43:28 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.22
+ b14-20020a170903228e00b001728eb339e2sm12165972plh.286.2022.08.24.02.43.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 02:43:24 -0700 (PDT)
+ Wed, 24 Aug 2022 02:43:27 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
+Cc: Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  qemu-arm@nongnu.org
-Subject: [PATCH 43/51] tests/qtest: npcm7xx_emc-test: Skip running test_{tx,
- rx} on win32
-Date: Wed, 24 Aug 2022 17:40:21 +0800
-Message-Id: <20220824094029.1634519-44-bmeng.cn@gmail.com>
+Subject: [PATCH 44/51] tests/qtest: microbit-test: Fix socket access for win32
+Date: Wed, 24 Aug 2022 17:40:22 +0800
+Message-Id: <20220824094029.1634519-45-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,78 +92,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The test cases 'test_{tx,rx}' call socketpair() which does not exist
-on win32. Exclude them.
+Sockets on Windows do not use *nix-style file descriptors, so
+write()/read()/close() do not work on Windows.
+
+Switch over to use send()/recv()/closesocket() which work with
+sockets on all platforms.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- tests/qtest/npcm7xx_emc-test.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ tests/qtest/microbit-test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/npcm7xx_emc-test.c b/tests/qtest/npcm7xx_emc-test.c
-index a353fef0ca..c373d24e1e 100644
---- a/tests/qtest/npcm7xx_emc-test.c
-+++ b/tests/qtest/npcm7xx_emc-test.c
-@@ -209,6 +209,7 @@ static int emc_module_index(const EMCModule *mod)
-     return diff;
- }
- 
-+#ifndef _WIN32
- static void packet_test_clear(void *sockets)
+diff --git a/tests/qtest/microbit-test.c b/tests/qtest/microbit-test.c
+index b71daae9a9..4bc267020b 100644
+--- a/tests/qtest/microbit-test.c
++++ b/tests/qtest/microbit-test.c
+@@ -51,7 +51,7 @@ static void uart_rw_to_rxd(QTestState *qts, int sock_fd, const char *in,
  {
-     int *test_sockets = sockets;
-@@ -243,6 +244,7 @@ static int *packet_test_init(int module_num, GString *cmd_line)
-     g_test_queue_destroy(packet_test_clear, test_sockets);
-     return test_sockets;
- }
-+#endif /* _WIN32 */
+     int i, in_len = strlen(in);
  
- static uint32_t emc_read(QTestState *qts, const EMCModule *mod,
-                          NPCM7xxPWMRegister regno)
-@@ -250,6 +252,7 @@ static uint32_t emc_read(QTestState *qts, const EMCModule *mod,
-     return qtest_readl(qts, mod->base_addr + regno * sizeof(uint32_t));
- }
+-    g_assert_true(write(sock_fd, in, in_len) == in_len);
++    g_assert_true(send(sock_fd, in, in_len, 0) == in_len);
+     for (i = 0; i < in_len; i++) {
+         g_assert_true(uart_wait_for_event(qts, NRF51_UART_BASE +
+                                                A_UART_RXDRDY));
+@@ -77,7 +77,7 @@ static void test_nrf51_uart(void)
+     char s[10];
+     QTestState *qts = qtest_init_with_serial("-M microbit", &sock_fd);
  
-+#ifndef _WIN32
- static void emc_write(QTestState *qts, const EMCModule *mod,
-                       NPCM7xxPWMRegister regno, uint32_t value)
- {
-@@ -339,6 +342,7 @@ static bool emc_soft_reset(QTestState *qts, const EMCModule *mod)
-     g_message("%s: Timeout expired", __func__);
-     return false;
- }
-+#endif /* _WIN32 */
+-    g_assert_true(write(sock_fd, "c", 1) == 1);
++    g_assert_true(send(sock_fd, "c", 1, 0) == 1);
+     g_assert_cmphex(qtest_readl(qts, NRF51_UART_BASE + A_UART_RXD), ==, 0x00);
  
- /* Check emc registers are reset to default value. */
- static void test_init(gconstpointer test_data)
-@@ -387,6 +391,7 @@ static void test_init(gconstpointer test_data)
-     qtest_quit(qts);
- }
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_ENABLE, 0x04);
+@@ -97,17 +97,17 @@ static void test_nrf51_uart(void)
  
-+#ifndef _WIN32
- static bool emc_wait_irq(QTestState *qts, const EMCModule *mod, int step,
-                          bool is_tx)
- {
-@@ -843,6 +848,7 @@ static void test_rx(gconstpointer test_data)
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "d");
+-    g_assert_true(read(sock_fd, s, 10) == 1);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 1);
+     g_assert_cmphex(s[0], ==, 'd');
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_SUSPEND, 0x01);
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_TXD, 'h');
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "world");
+-    g_assert_true(read(sock_fd, s, 10) == 5);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 5);
+     g_assert_true(memcmp(s, "world", 5) == 0);
+ 
+-    close(sock_fd);
++    closesocket(sock_fd);
  
      qtest_quit(qts);
  }
-+#endif /* _WIN32 */
- 
- static void emc_add_test(const char *name, const TestData* td,
-                          GTestDataFunc fn)
-@@ -865,8 +871,10 @@ int main(int argc, char **argv)
-         td->module = &emc_module_list[i];
- 
-         add_test(init, td);
-+#ifndef _WIN32
-         add_test(tx, td);
-         add_test(rx, td);
-+#endif
-     }
- 
-     return g_test_run();
 -- 
 2.34.1
 
