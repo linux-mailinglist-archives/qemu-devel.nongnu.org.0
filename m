@@ -2,102 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C0B59F2AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 06:32:18 +0200 (CEST)
-Received: from localhost ([::1]:39252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB24D59F2DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 06:59:52 +0200 (CEST)
+Received: from localhost ([::1]:51812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQi3u-00026i-0x
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 00:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
+	id 1oQiUZ-0002Ri-Gk
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 00:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQhzf-0004f9-L5
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 00:27:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50721)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oQiSK-0007yt-93
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 00:57:32 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:37152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oQhzd-0003xx-Ou
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 00:27:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661315273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/3bKK11CLKH1XbdLLTBc0QOp9x9ducOVaT5k+ovg6AI=;
- b=f95DGaDI1O8JUir30TPmBcP61h6STnwjnQBOYBlNVxbMxfzyUcHRodOdVuvGR3eVzom9dr
- 9+ZIv+r+o3jIMBM6PoTxCYE3oyRHb4OdSL5JeD/2fAN7EeoFXJXIZHyvhJPLBrlTbe1VQe
- BeY7CuBk5/+NmzcMTtFdyg7824LuPMw=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-97-QjPI8bEgOiGBVQk3RFxYUQ-1; Wed, 24 Aug 2022 00:27:51 -0400
-X-MC-Unique: QjPI8bEgOiGBVQk3RFxYUQ-1
-Received: by mail-pg1-f199.google.com with SMTP id
- f186-20020a636ac3000000b0042af745d56cso1507135pgc.17
- for <qemu-devel@nongnu.org>; Tue, 23 Aug 2022 21:27:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=/3bKK11CLKH1XbdLLTBc0QOp9x9ducOVaT5k+ovg6AI=;
- b=2zTIIexK4NjgQbpdT8GEMVQcGUhCsjjp2iyw0TamD5cHDaAj9JKW2LGFE0vCJiOrQ2
- 6UCpPsWx6vPWsVi4PVxMWcS0IKhBCapaoAnZejzNf8SJwsd3gPjY+n66mUeIZCr9ZiyC
- 36BmsJAwrwmPEcI7GRRONP26nljGQatSc1r9Fa5EJKh4wcwnQST0EfsoyXjofrxM/XTm
- MhPne85OCzMiBxfaitfGDzXlCpvBpUvLZj6ypZh8DmlwIh4mDnXqQiyTDUSK7hDNdqLz
- Qi8UsdfPDDcEZOa7p5KKe+OsnLKRt87rjEn8l08wOTf0fiIDipezkz2a284LbKz5HrN4
- kCoQ==
-X-Gm-Message-State: ACgBeo1Vxgt6MK8TW+kzWpgx4ufP0eHse6pG9PsMs14as72gPxB2oUfw
- 0s8qNxL7UyYhGGg+255v1LbiA+GQAUTXbnzF2luqN/Ym4r1lHsJwTrAJiA97PLuNsYnFGsj3Z4w
- V8KW0AVz3XwJ+FcI=
-X-Received: by 2002:a17:90a:4801:b0:1fa:98ec:fa2 with SMTP id
- a1-20020a17090a480100b001fa98ec0fa2mr6293448pjh.41.1661315270427; 
- Tue, 23 Aug 2022 21:27:50 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6bPbi9gTeoP4lImQORadBedtWoZfao7RncumVNvtHkPUn8E96mOL2bQRdxgtnmWKtfSpxavg==
-X-Received: by 2002:a17:90a:4801:b0:1fa:98ec:fa2 with SMTP id
- a1-20020a17090a480100b001fa98ec0fa2mr6293416pjh.41.1661315270050; 
- Tue, 23 Aug 2022 21:27:50 -0700 (PDT)
-Received: from [10.72.13.242] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- fh12-20020a17090b034c00b001f4f76033f9sm212097pjb.49.2022.08.23.21.27.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Aug 2022 21:27:49 -0700 (PDT)
-Message-ID: <7debe883-819a-f083-aa72-8b9e05ca5be8@redhat.com>
-Date: Wed, 24 Aug 2022 12:27:41 +0800
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oQiSC-00081N-7f
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 00:57:27 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VN5ppuf_1661317034; 
+Received: from 30.227.72.120(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VN5ppuf_1661317034) by smtp.aliyun-inc.com;
+ Wed, 24 Aug 2022 12:57:15 +0800
+Message-ID: <ecce701d-3bec-b98e-6d46-5ca85542ef87@linux.alibaba.com>
+Date: Wed, 24 Aug 2022 12:57:14 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH 4/5] virtio-net: Update virtio-net curr_queue_pairs in
- vdpa backends
-Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>
-References: <20220819171329.3597027-1-eperezma@redhat.com>
- <20220819171329.3597027-5-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220819171329.3597027-5-eperezma@redhat.com>
+Subject: Re: [PATCH v2 18/24] vhost-net: vhost-user: update
+ vhost_net_virtqueue_stop()
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <303811ffeac48647ac4c81eeec542292e8f67a0e.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <3b60bcab-f69b-7ec9-caa8-c5947a14b659@redhat.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+In-Reply-To: <3b60bcab-f69b-7ec9-caa8-c5947a14b659@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.44;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-44.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,53 +71,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/8/20 01:13, Eugenio Pérez 写道:
-> It was returned as error before. Instead of it, simply update the
-> corresponding field so qemu can send it in the migration data.
+在 2022/8/24 12:05, Jason Wang 写道:
 >
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
+> 在 2022/8/16 09:06, Kangjie Xu 写道:
+>> Update vhost_net_virtqueue_stop() for vhost-user scenario.
+>
+>
+> Let's explain why it is needed now or why it doesn't cause any issue 
+> or it's a bug fix or not.
+>
+> Thanks
+>
+This patch is to suppport vq reset for vhost-user.
 
+We need this simply because the behavior of vhost_ops->get_vq_index() is 
+different in vhost-user and vhost-kernel.
 
-Looks correct.
+vhost_user_get_vq_index(dev, idx) simply returns "idx".
 
-Adding Si Wei for double check.
+vhost_kernel_get_vq_index(dev, idx) returns "idx - dev->vq_index".
 
 Thanks
 
-
->   hw/net/virtio-net.c | 17 ++++++-----------
->   1 file changed, 6 insertions(+), 11 deletions(-)
 >
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index dd0d056fde..63a8332cd0 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -1412,19 +1412,14 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
->           return VIRTIO_NET_ERR;
->       }
->   
-> -    /* Avoid changing the number of queue_pairs for vdpa device in
-> -     * userspace handler. A future fix is needed to handle the mq
-> -     * change in userspace handler with vhost-vdpa. Let's disable
-> -     * the mq handling from userspace for now and only allow get
-> -     * done through the kernel. Ripples may be seen when falling
-> -     * back to userspace, but without doing it qemu process would
-> -     * crash on a recursive entry to virtio_net_set_status().
-> -     */
-> +    n->curr_queue_pairs = queue_pairs;
->       if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> -        return VIRTIO_NET_ERR;
-> +        /*
-> +         * Avoid updating the backend for a vdpa device: We're only interested
-> +         * in updating the device model queues.
-> +         */
-> +        return VIRTIO_NET_OK;
->       }
-> -
-> -    n->curr_queue_pairs = queue_pairs;
->       /* stop the backend before changing the number of queue_pairs to avoid handling a
->        * disabled queue */
->       virtio_net_set_status(vdev, vdev->status);
-
+>>
+>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>> ---
+>>   hw/net/vhost_net.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index 2ab67e875e..c0d408f3b4 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -533,6 +533,10 @@ void vhost_net_virtqueue_stop(VirtIODevice 
+>> *vdev, NetClientState *nc,
+>>           assert(r >= 0);
+>>       }
+>>   +    if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
+>> +        idx = idx - net->dev.vq_index;
+>> +    }
+>> +
+>>       vhost_dev_virtqueue_stop(&net->dev, vdev, idx);
+>>   }
 
