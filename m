@@ -2,69 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8104859FE0F
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:15:02 +0200 (CEST)
-Received: from localhost ([::1]:50888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D37D59FE58
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 17:28:58 +0200 (CEST)
+Received: from localhost ([::1]:60548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQs5t-0006Dz-Gt
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:15:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
+	id 1oQsJM-0007zI-RI
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 11:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQs2l-0000l1-CD
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:11:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29894)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oQsFG-0005Hd-Ms
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:24:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oQs2i-0003qm-K4
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:11:47 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oQsFD-0005cU-72
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 11:24:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661353904;
+ s=mimecast20190719; t=1661354674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3GIJrf6S36ie5QG3sBjQUkb7rHIJrIMLztP+NcvxeTk=;
- b=fWvBkzHXEL50Rg/q3Yiz9Tvy1ZVOG8hB0CySggEvP+BcbCU3TJ5Mfu2c/1b2rqgsMi+cqI
- GyHAip6mwRl9HTSw8n7wRo2TluW35ohh23ZvI6QmhdNc5+/B1ibGoeYnz8GisQoAli4J7/
- lFk2MQFqMcY8Q1aq0CP4Q4/0w2acDvg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-4xmgNe5tOLuTC9zu_kUtuA-1; Wed, 24 Aug 2022 11:11:40 -0400
-X-MC-Unique: 4xmgNe5tOLuTC9zu_kUtuA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4739F101A56D;
- Wed, 24 Aug 2022 15:11:40 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.194.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFB34403348;
- Wed, 24 Aug 2022 15:11:38 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH v2 6/6] Remove the slirp submodule (i.e. compile only with an
- external libslirp)
-Date: Wed, 24 Aug 2022 17:11:22 +0200
-Message-Id: <20220824151122.704946-7-thuth@redhat.com>
-In-Reply-To: <20220824151122.704946-1-thuth@redhat.com>
-References: <20220824151122.704946-1-thuth@redhat.com>
+ bh=a8WgNE2rCB0PR0bN1Vq+8qpFr+fQgsTJ6xgQrGhi80U=;
+ b=Fp3T9jhOSeqWsVP0zBPqrWiljlsCvUpN4gn1luBx+yACmCuiBPkkDci/Ms+DaaDe2W2gVe
+ bzAAUTeuDn7qOii6Q9nScWxFvOMkYwPD3bkhODoRXGgydvwLcokv8pLzVvAM0+5FJ2OMv0
+ ApzjgoRvDzlJQvXFGqw1jn4hjcowoEc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-518-iMFMSzO5PtCfBLPrj4tt8w-1; Wed, 24 Aug 2022 11:24:33 -0400
+X-MC-Unique: iMFMSzO5PtCfBLPrj4tt8w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ h17-20020a05640250d100b00446d1825c9fso5536999edb.14
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 08:24:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=a8WgNE2rCB0PR0bN1Vq+8qpFr+fQgsTJ6xgQrGhi80U=;
+ b=wXo4fqJ+6k/0NF0QcwXh9r8SpeRejqkhvG7afkhFWz438gdnxfmqEZyi2W3QU53MCr
+ PT4SjWOBPj6Ve+WF2u8t8EQpW1yLHfRfGcnzHa1VhleBnyt/Kuny/Ak4df5d2YlAlD7V
+ elT4GYovu1qpZEyR4LWRVs6Vv2LGrND+kOHaCbMXKAf0MdWR56OMLyKmgzh4QiqJnCEj
+ 5+2xYC3kWsgdmDbgw5EEAEvuE2euerhd6duHhyagg5n0Pnlx65cIaLNSeP5vNUw96Ln2
+ bQ23ikj1ulN0uNP7yUG9ugmL2TpqHgPxcF9Tm6j5dnEXKFpowHGXCiWRQPQ0ZSgv3mXn
+ SoKQ==
+X-Gm-Message-State: ACgBeo3Z9MQ4/EEfSzNmUjiO9D7UaqUa+xj7YVFQIeM56+bFxLQLvY34
+ YNP4mxaAnDsJBjv+PfKZ2klUCVLYTBUb/8J7BOUHFoJ/tlIZY/DQF43SAfA27Zsr3FIXTMWkEs0
+ qBo5U6UNNRRqvSs0=
+X-Received: by 2002:a17:907:8a01:b0:731:4316:b0ad with SMTP id
+ sc1-20020a1709078a0100b007314316b0admr3354614ejc.477.1661354671394; 
+ Wed, 24 Aug 2022 08:24:31 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7zEDx4mBoMQzxKuuyS1iIlmyPWsEgSz6v+b1sNFBE8yalefata5NdG9Rxznsd9WPZGmmvYxA==
+X-Received: by 2002:a17:907:8a01:b0:731:4316:b0ad with SMTP id
+ sc1-20020a1709078a0100b007314316b0admr3354591ejc.477.1661354671157; 
+ Wed, 24 Aug 2022 08:24:31 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ s24-20020a056402165800b0043df042bfc6sm3226574edx.47.2022.08.24.08.24.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Aug 2022 08:24:30 -0700 (PDT)
+Date: Wed, 24 Aug 2022 17:24:29 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, yvugenfi@redhat.com,
+ jusual@redhat.com, kkostiuk@redhat.com, ybendito@redhat.com
+Subject: Re: [PATCH 2/4] hw/acpi: set ATS capability explicitly per pcie
+ root port
+Message-ID: <20220824172429.058281c4@redhat.com>
+In-Reply-To: <20220822090811.427029-3-ani@anisinha.ca>
+References: <20220822090811.427029-1-ani@anisinha.ca>
+ <20220822090811.427029-3-ani@anisinha.ca>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,432 +105,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since QEMU 7.1 we don't support Ubuntu 18.04 anymore, so the last big
-important Linux distro that did not have a pre-packaged libslirp has
-been dismissed. All other major distros seem to have a libslirp package
-in their distribution already - according to repology.org:
+On Mon, 22 Aug 2022 14:38:09 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-          Fedora 35: 4.6.1
-  CentOS 8 (RHEL-8): 4.4.0
-          Debian 11: 4.4.0
- OpenSUSE Leap 15.3: 4.3.1
-   Ubuntu LTS 20.04: 4.1.0
-      FreeBSD Ports: 4.7.0
-      NetBSD pkgsrc: 4.7.0
-           Homebrew: 4.7.0
-        MSYS2 mingw: 4.7.0
+> Currently the bit 0 of the flags field of Root Port ATS capability report=
+ing
+> structure sub-table under the DMAR table is set to 1. This indicates ALL_=
+PORTS,
+> thus enabling ATS capability for all pcie roots without the ability to tu=
+rn off
+> ATS for some ports and leaving ATS on for others.
+>=20
+> This change clears the bit 0 of the flags field of the above structure and
+> explicitly adds scopes for every pcie root port in the structure so that =
+ATS
+> is enabled for all of them. In future, we might add new attribite to the =
+root
+> ports so that we can selectively enable ATS for some and leave ATS off for
+> others.
 
-The only one that was still missing a libslirp package is OpenBSD - but
-the next version (OpenBSD 7.2 which will be shipped in October) is going
-to include a libslirp package. Since QEMU 7.2 will be published after
-OpenBSD 7.2, we should be fine there, too.
+Thanks, it was worth a try,
+unfortunately since we are shooting in dark this time it was a miss.
 
-So there is no real urgent need for keeping the slirp submodule in
-the QEMU tree anymore. Thus let's drop the slirp submodule now and
-rely on the libslirp packages from the distributions instead.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure                     |  24 -------
- meson.build                   | 121 +++++++---------------------------
- .gitlab-ci.d/buildtest.yml    |  20 +++---
- .gitmodules                   |   3 -
- MAINTAINERS                   |   1 -
- meson_options.txt             |   5 +-
- scripts/archive-source.sh     |   2 +-
- scripts/meson-buildoptions.sh |   4 +-
- slirp                         |   1 -
- 9 files changed, 34 insertions(+), 147 deletions(-)
- delete mode 160000 slirp
-
-diff --git a/configure b/configure
-index 72ab03f11a..b8ac0f8e56 100755
---- a/configure
-+++ b/configure
-@@ -321,11 +321,6 @@ vfio_user_server="disabled"
- # are included in the automatically generated help message)
- 
- # 1. Track which submodules are needed
--if test "$default_feature" = no ; then
--  slirp="disabled"
--else
--  slirp="auto"
--fi
- fdt="auto"
- 
- # 2. Automatically enable/disable other options
-@@ -829,14 +824,6 @@ for opt do
-   ;;
-   --disable-tsan) tsan="no"
-   ;;
--  --disable-slirp) slirp="disabled"
--  ;;
--  --enable-slirp) slirp="enabled"
--  ;;
--  --enable-slirp=git) slirp="internal"
--  ;;
--  --enable-slirp=*) slirp="$optarg"
--  ;;
-   --disable-tcg) tcg="disabled"
-                  plugins="no"
-   ;;
-@@ -1828,16 +1815,6 @@ EOF
-   fi
- fi
- 
--##########################################
--# check for slirp
--
--case "$slirp" in
--  auto | enabled | internal)
--    # Simpler to always update submodule, even if not needed.
--    git_submodules="${git_submodules} slirp"
--    ;;
--esac
--
- ##########################################
- # functions to probe cross compilers
- 
-@@ -2746,7 +2723,6 @@ if test "$skip_meson" = no; then
-   test "$fdt" != auto && meson_option_add "-Dfdt=$fdt"
-   test -n "${LIB_FUZZING_ENGINE+xxx}" && meson_option_add "-Dfuzzing_engine=$LIB_FUZZING_ENGINE"
-   test "$qemu_suffix" != qemu && meson_option_add "-Dqemu_suffix=$qemu_suffix"
--  test "$slirp" != auto && meson_option_add "-Dslirp=$slirp"
-   test "$smbd" != '' && meson_option_add "-Dsmbd=$smbd"
-   test "$tcg" != enabled && meson_option_add "-Dtcg=$tcg"
-   test "$vfio_user_server" != auto && meson_option_add "-Dvfio_user_server=$vfio_user_server"
-diff --git a/meson.build b/meson.build
-index 20fddbd707..fa55145d1a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -643,6 +643,26 @@ else
-                          method: 'pkg-config', kwargs: static_kwargs)
- endif
- 
-+slirp = not_found
-+if not get_option('slirp').auto() or have_system
-+  slirp = dependency('slirp', required: get_option('slirp'),
-+                     method: 'pkg-config', kwargs: static_kwargs)
-+  # slirp < 4.7 is incompatible with CFI support in QEMU.  This is because
-+  # it passes function pointers within libslirp as callbacks for timers.
-+  # When using a system-wide shared libslirp, the type information for the
-+  # callback is missing and the timer call produces a false positive with CFI.
-+  # Do not use the "version" keyword argument to produce a better error.
-+  # with control-flow integrity.
-+  if get_option('cfi') and slirp.found() and slirp.version().version_compare('<4.7')
-+    if get_option('slirp').enabled()
-+      error('Control-Flow Integrity requires libslirp 4.7.')
-+    else
-+      warning('Cannot use libslirp since Control-Flow Integrity requires libslirp >= 4.7.')
-+      slirp = not_found
-+    endif
-+  endif
-+endif
-+
- vde = not_found
- if not get_option('vde').auto() or have_system or have_tools
-   vde = cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
-@@ -2614,103 +2634,6 @@ if not get_option('capstone').auto() or have_system or have_user
-   endif
- endif
- 
--slirp = not_found
--slirp_opt = 'disabled'
--if have_system
--  slirp_opt = get_option('slirp')
--  if slirp_opt in ['enabled', 'auto', 'system']
--    have_internal = fs.exists(meson.current_source_dir() / 'slirp/meson.build')
--    slirp_dep_required = (slirp_opt == 'system' or
--                          slirp_opt == 'enabled' and not have_internal)
--    slirp = dependency('slirp', kwargs: static_kwargs,
--                       method: 'pkg-config', version: '>=4.1.0',
--                       required: slirp_dep_required)
--    # slirp <4.7 is incompatible with CFI support in QEMU.  This is because
--    # it passes function pointers within libslirp as callbacks for timers.
--    # When using a system-wide shared libslirp, the type information for the
--    # callback is missing and the timer call produces a false positive with CFI.
--    # Do not use the "version" keyword argument to produce a better error.
--    # with control-flow integrity.
--    if get_option('cfi') and slirp.found() and slirp.version().version_compare('<4.7')
--      if slirp_dep_required
--        error('Control-Flow Integrity requires libslirp 4.7.')
--      else
--        warning('Control-Flow Integrity requires libslirp 4.7, not using system-wide libslirp.')
--        slirp = not_found
--      endif
--    endif
--    if slirp.found()
--      slirp_opt = 'system'
--    elif have_internal
--      slirp_opt = 'internal'
--    else
--      slirp_opt = 'disabled'
--    endif
--  endif
--  if slirp_opt == 'internal'
--    slirp_deps = []
--    if targetos == 'windows'
--      slirp_deps = cc.find_library('iphlpapi')
--    elif targetos == 'darwin'
--      slirp_deps = cc.find_library('resolv')
--    endif
--    slirp_conf = configuration_data()
--    slirp_conf.set('SLIRP_MAJOR_VERSION', meson.project_version().split('.')[0])
--    slirp_conf.set('SLIRP_MINOR_VERSION', meson.project_version().split('.')[1])
--    slirp_conf.set('SLIRP_MICRO_VERSION', meson.project_version().split('.')[2])
--    slirp_conf.set_quoted('SLIRP_VERSION_STRING', meson.project_version())
--    slirp_cargs = ['-DG_LOG_DOMAIN="Slirp"']
--    slirp_files = [
--      'slirp/src/arp_table.c',
--      'slirp/src/bootp.c',
--      'slirp/src/cksum.c',
--      'slirp/src/dhcpv6.c',
--      'slirp/src/dnssearch.c',
--      'slirp/src/if.c',
--      'slirp/src/ip6_icmp.c',
--      'slirp/src/ip6_input.c',
--      'slirp/src/ip6_output.c',
--      'slirp/src/ip_icmp.c',
--      'slirp/src/ip_input.c',
--      'slirp/src/ip_output.c',
--      'slirp/src/mbuf.c',
--      'slirp/src/misc.c',
--      'slirp/src/ncsi.c',
--      'slirp/src/ndp_table.c',
--      'slirp/src/sbuf.c',
--      'slirp/src/slirp.c',
--      'slirp/src/socket.c',
--      'slirp/src/state.c',
--      'slirp/src/stream.c',
--      'slirp/src/tcp_input.c',
--      'slirp/src/tcp_output.c',
--      'slirp/src/tcp_subr.c',
--      'slirp/src/tcp_timer.c',
--      'slirp/src/tftp.c',
--      'slirp/src/udp.c',
--      'slirp/src/udp6.c',
--      'slirp/src/util.c',
--      'slirp/src/version.c',
--      'slirp/src/vmstate.c',
--    ]
--
--    configure_file(
--      input : 'slirp/src/libslirp-version.h.in',
--      output : 'libslirp-version.h',
--      configuration: slirp_conf)
--
--    slirp_inc = include_directories('slirp', 'slirp/src')
--    libslirp = static_library('slirp',
--                              build_by_default: false,
--                              sources: slirp_files,
--                              c_args: slirp_cargs,
--                              include_directories: slirp_inc)
--    slirp = declare_dependency(link_with: libslirp,
--                               dependencies: slirp_deps,
--                               include_directories: slirp_inc)
--  endif
--endif
--
- libvfio_user_dep = not_found
- if have_system and vfio_user_server_allowed
-   have_internal = fs.exists(meson.current_source_dir() / 'subprojects/libvfio-user/meson.build')
-@@ -3717,7 +3640,7 @@ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
- if targetos == 'windows' and have_ga
-   summary_info += {'wixl':            wixl}
- endif
--if slirp_opt != 'disabled' and have_system
-+if slirp.found() and have_system
-   summary_info += {'smbd':            have_slirp_smbd ? smbd_path : false}
- endif
- summary(summary_info, bool_yn: true, section: 'Host binaries')
-@@ -3911,7 +3834,7 @@ summary_info += {'SDL image support': sdl_image}
- summary_info += {'GTK support':       gtk}
- summary_info += {'pixman':            pixman}
- summary_info += {'VTE support':       vte}
--summary_info += {'slirp support':     slirp_opt == 'internal' ? slirp_opt : slirp}
-+summary_info += {'slirp support':     slirp}
- summary_info += {'libtasn1':          tasn1}
- summary_info += {'PAM':               pam}
- summary_info += {'iconv support':     iconv}
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 1931b77b49..6c05c46397 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -41,8 +41,7 @@ build-system-ubuntu:
-     job: amd64-ubuntu2004-container
-   variables:
-     IMAGE: ubuntu2004
--    CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-slirp=system
--        --enable-capstone
-+    CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-capstone
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-       microblazeel-softmmu mips64el-softmmu
-     MAKE_CHECK_ARGS: check-build
-@@ -120,7 +119,7 @@ build-system-fedora:
-   variables:
-     IMAGE: fedora
-     CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
--             --enable-fdt=system --enable-slirp=system --enable-capstone
-+             --enable-fdt=system --enable-slirp --enable-capstone
-     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
-       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
-     MAKE_CHECK_ARGS: check-build
-@@ -339,10 +338,8 @@ clang-user:
- # On gitlab runners, default value sometimes end up calling 2 lds concurrently and
- # triggers an Out-Of-Memory error
- #
--# Since slirp callbacks are used in QEMU Timers, slirp needs to be compiled together
--# with QEMU and linked as a static library to avoid false positives in CFI checks.
--# This can be accomplished by using -enable-slirp=git, which avoids the use of
--# a system-wide version of the library
-+# Since slirp callbacks are used in QEMU Timers, we cannot use libslirp with
-+# CFI builds, and thus have to disable it here.
- #
- # Split in three sets of build/check/avocado to limit the execution time of each
- # job
-@@ -355,7 +352,7 @@ build-cfi-aarch64:
-     AR: llvm-ar
-     IMAGE: fedora
-     CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
--      --enable-safe-stack --enable-slirp=git
-+      --enable-safe-stack --disable-slirp
-     TARGETS: aarch64-softmmu
-     MAKE_CHECK_ARGS: check-build
-     # FIXME: This job is often failing, likely due to out-of-memory problems in
-@@ -395,7 +392,7 @@ build-cfi-ppc64-s390x:
-     AR: llvm-ar
-     IMAGE: fedora
-     CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
--      --enable-safe-stack --enable-slirp=git
-+      --enable-safe-stack --disable-slirp
-     TARGETS: ppc64-softmmu s390x-softmmu
-     MAKE_CHECK_ARGS: check-build
-     # FIXME: This job is often failing, likely due to out-of-memory problems in
-@@ -435,7 +432,7 @@ build-cfi-x86_64:
-     AR: llvm-ar
-     IMAGE: fedora
-     CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
--      --enable-safe-stack --enable-slirp=git
-+      --enable-safe-stack --disable-slirp
-     TARGETS: x86_64-softmmu
-     MAKE_CHECK_ARGS: check-build
-   timeout: 70m
-@@ -469,7 +466,7 @@ tsan-build:
-   variables:
-     IMAGE: ubuntu2004
-     CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10
--          --enable-trace-backends=ust --enable-fdt=system --enable-slirp=system
-+          --enable-trace-backends=ust --enable-fdt=system --disable-slirp
-     TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
-     MAKE_CHECK_ARGS: bench V=1
- 
-@@ -571,7 +568,6 @@ build-without-default-features:
-       --disable-capstone
-       --disable-pie
-       --disable-qom-cast-debug
--      --disable-slirp
-       --disable-strip
-     TARGETS: avr-softmmu i386-softmmu mips64-softmmu s390x-softmmu sh4-softmmu
-       sparc64-softmmu hexagon-linux-user i386-linux-user s390x-linux-user
-diff --git a/.gitmodules b/.gitmodules
-index aedd9a03d4..24cffa87d4 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -46,9 +46,6 @@
- [submodule "roms/edk2"]
- 	path = roms/edk2
- 	url = https://gitlab.com/qemu-project/edk2.git
--[submodule "slirp"]
--	path = slirp
--	url = https://gitlab.com/qemu-project/libslirp.git
- [submodule "roms/opensbi"]
- 	path = roms/opensbi
- 	url = 	https://gitlab.com/qemu-project/opensbi.git
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ce4227ff6..5e2c0d649e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2978,7 +2978,6 @@ F: include/hw/registerfields.h
- SLIRP
- M: Samuel Thibault <samuel.thibault@ens-lyon.org>
- S: Maintained
--F: slirp/
- F: net/slirp.c
- F: include/net/slirp.h
- T: git https://people.debian.org/~sthibault/qemu.git slirp
-diff --git a/meson_options.txt b/meson_options.txt
-index e58e158396..53fca1c554 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -199,6 +199,8 @@ option('l2tpv3', type : 'feature', value : 'auto',
-        description: 'l2tpv3 network backend support')
- option('netmap', type : 'feature', value : 'auto',
-        description: 'netmap network backend support')
-+option('slirp', type: 'feature', value: 'auto',
-+       description: 'libslirp user mode network backend support')
- option('vde', type : 'feature', value : 'auto',
-        description: 'vde network backend support')
- option('vmnet', type : 'feature', value : 'auto',
-@@ -264,9 +266,6 @@ option('vduse_blk_export', type: 'feature', value: 'auto',
- 
- option('capstone', type: 'feature', value: 'auto',
-        description: 'Whether and how to find the capstone library')
--option('slirp', type: 'combo', value: 'auto',
--       choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
--       description: 'Whether and how to find the slirp library')
- option('fdt', type: 'combo', value: 'auto',
-        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-        description: 'Whether and how to find the libfdt library')
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index c6169db69f..23e042dacd 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -26,7 +26,7 @@ sub_file="${sub_tdir}/submodule.tar"
- # independent of what the developer currently has initialized
- # in their checkout, because the build environment is completely
- # different to the host OS.
--submodules="dtc slirp meson ui/keycodemapdb"
-+submodules="dtc meson ui/keycodemapdb"
- submodules="$submodules tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
- sub_deinit=""
- 
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 359b04e0e6..c68ba32ce2 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -35,8 +35,6 @@ meson_options_help() {
-   printf "%s\n" '  --enable-qom-cast-debug  cast debugging support'
-   printf "%s\n" '  --enable-rng-none        dummy RNG, avoid using /dev/(u)random and'
-   printf "%s\n" '                           getrandom()'
--  printf "%s\n" '  --enable-slirp[=CHOICE]  Whether and how to find the slirp library'
--  printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
-   printf "%s\n" '  --enable-strip           Strip targets on install'
-   printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (slow)'
-   printf "%s\n" '  --enable-trace-backends=CHOICES'
-@@ -141,6 +139,7 @@ meson_options_help() {
-   printf "%s\n" '  sdl-image       SDL Image support for icons'
-   printf "%s\n" '  seccomp         seccomp support'
-   printf "%s\n" '  selinux         SELinux support in qemu-nbd'
-+  printf "%s\n" '  slirp           libslirp user mode network backend support'
-   printf "%s\n" '  slirp-smbd      use smbd (at path --smbd=*) in slirp networking'
-   printf "%s\n" '  smartcard       CA smartcard emulation support'
-   printf "%s\n" '  snappy          snappy compression support'
-@@ -386,7 +385,6 @@ _meson_option_parse() {
-     --disable-selinux) printf "%s" -Dselinux=disabled ;;
-     --enable-slirp) printf "%s" -Dslirp=enabled ;;
-     --disable-slirp) printf "%s" -Dslirp=disabled ;;
--    --enable-slirp=*) quote_sh "-Dslirp=$2" ;;
-     --enable-slirp-smbd) printf "%s" -Dslirp_smbd=enabled ;;
-     --disable-slirp-smbd) printf "%s" -Dslirp_smbd=disabled ;;
-     --enable-smartcard) printf "%s" -Dsmartcard=enabled ;;
-diff --git a/slirp b/slirp
-deleted file mode 160000
-index 9d59bb775d..0000000000
---- a/slirp
-+++ /dev/null
-@@ -1 +0,0 @@
--Subproject commit 9d59bb775d6294c8b447a88512f7bb43f12a25a8
--- 
-2.31.1
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Suggested-by: Michael Tsirkin <mst@redhat.com>
+> ---
+>  hw/i386/acpi-build.c | 74 ++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 72 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 0355bd3dda..9c5a555536 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -60,6 +60,7 @@
+>  #include "hw/i386/fw_cfg.h"
+>  #include "hw/i386/ich9.h"
+>  #include "hw/pci/pci_bus.h"
+> +#include "hw/pci/pcie_port.h"
+>  #include "hw/pci-host/q35.h"
+>  #include "hw/i386/x86-iommu.h"
+> =20
+> @@ -2118,6 +2119,60 @@ dmar_host_bridges(Object *obj, void *opaque)
+>      return 0;
+>  }
+> =20
+> +/*
+> + * Insert DMAR scope for PCIE root ports
+> + */
+> +static void
+> +insert_pcie_root_port_scope(PCIBus *bus, PCIDevice *dev, void *opaque)
+> +{
+> +    const size_t device_scope_size =3D 6 + 2;
+> +                                   /* device scope structure + 1 path en=
+try */
+> +    GArray *scope_blob =3D opaque;
+> +
+> +    /*
+> +     * We are only interested in PCIE root ports. We can extend
+> +     * this to check for specific properties of PCIE root ports and based
+> +     * on that remove some ports from having ATS capability.
+> +     */
+> +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PORT)) {
+> +        return;
+> +    }
+> +
+> +    /* Dmar Scope Type: 0x02 for all PCIE root ports */
+> +    build_append_int_noprefix(scope_blob, 0x02, 1);
+> +
+> +    /* length */
+> +    build_append_int_noprefix(scope_blob, device_scope_size, 1);
+> +    /* reserved */
+> +    build_append_int_noprefix(scope_blob, 0, 2);
+> +    /* enumeration_id */
+> +    build_append_int_noprefix(scope_blob, 0, 1);
+> +    /* bus */
+> +    build_append_int_noprefix(scope_blob, pci_bus_num(bus), 1);
+> +    /* device */
+> +    build_append_int_noprefix(scope_blob, PCI_SLOT(dev->devfn), 1);
+> +    /* function */
+> +    build_append_int_noprefix(scope_blob, PCI_FUNC(dev->devfn), 1);
+> +}
+> +
+> +/* For a given PCI host bridge, walk and insert DMAR scope */
+> +static int
+> +dmar_pcie_root_ports(Object *obj, void *opaque)
+> +{
+> +    GArray *scope_blob =3D opaque;
+> +
+> +    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+> +        PCIBus *bus =3D PCI_HOST_BRIDGE(obj)->bus;
+> +
+> +        if (bus && !pci_bus_bypass_iommu(bus)) {
+> +            pci_for_each_device_under_bus(bus, insert_pcie_root_port_sco=
+pe,
+> +                                          scope_blob);
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  /*
+>   * Intel =C2=AE Virtualization Technology for Directed I/O
+>   * Architecture Specification. Revision 3.3
+> @@ -2190,11 +2245,26 @@ build_dmar_q35(GArray *table_data, BIOSLinker *li=
+nker, const char *oem_id,
+> =20
+>      if (iommu->dt_supported) {
+>          /* 8.5 Root Port ATS Capability Reporting Structure */
+> +        /*
+> +         * A PCI bus walk, for each PCIE root port.
+> +         * Since we did not enable ALL_PORTS bit in the flags above, we
+> +         * need to add the scope for each pcie root port explicitly
+> +         * that are attached to bus0 with iommu enabled.
+> +         */
+> +        scope_blob =3D g_array_new(false, true, 1);
+> +        object_child_foreach_recursive(object_get_root(),
+> +                                       dmar_pcie_root_ports, scope_blob);
+> +
+>          build_append_int_noprefix(table_data, 2, 2); /* Type */
+> -        build_append_int_noprefix(table_data, 8, 2); /* Length */
+> -        build_append_int_noprefix(table_data, 1 /* ALL_PORTS */, 1); /* =
+Flags */
+> +        build_append_int_noprefix(table_data,
+> +                                  8 + scope_blob->len, 2); /* Length */
+> +        build_append_int_noprefix(table_data, 0, 1); /* Flags */
+>          build_append_int_noprefix(table_data, 0, 1); /* Reserved */
+>          build_append_int_noprefix(table_data, 0, 2); /* Segment Number */
+> +
+> +        /* now add the scope to the sub-table */
+> +        g_array_append_vals(table_data, scope_blob->data, scope_blob->le=
+n);
+> +        g_array_free(scope_blob, true);
+>      }
+> =20
+>      acpi_table_end(linker, &table);
 
 
