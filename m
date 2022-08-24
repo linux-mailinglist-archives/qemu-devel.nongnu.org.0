@@ -2,44 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EB459F8EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:59:09 +0200 (CEST)
-Received: from localhost ([::1]:44244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1309F59F8D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 13:51:31 +0200 (CEST)
+Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQp2L-0003G8-0F
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59500)
+	id 1oQouv-00034q-IU
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 07:51:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1oQoGs-0003fD-7j
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 07:10:06 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:5923)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oQoTF-0007tz-0o; Wed, 24 Aug 2022 07:22:53 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1oQoGj-0006wW-GL
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 07:10:05 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 616E343329;
- Wed, 24 Aug 2022 13:09:43 +0200 (CEST)
-From: Fiona Ebner <f.ebner@proxmox.com>
-To: qemu-devel@nongnu.org
-Cc: dmitry.fleytman@gmail.com,
-	jasowang@redhat.com,
-	pjp@fedoraproject.org
-Subject: [RFC] hw/net/vmxnet3: allow VMXNET3_MAX_MTU itself as a value
-Date: Wed, 24 Aug 2022 13:08:45 +0200
-Message-Id: <20220824110845.353435-1-f.ebner@proxmox.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oQoTB-0001Og-Pi; Wed, 24 Aug 2022 07:22:51 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id EF1A55C00ED;
+ Wed, 24 Aug 2022 07:22:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 24 Aug 2022 07:22:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1661340164; x=1661426564; bh=pG
+ 9H2s3G9xS75ig4EL/xL3jVI3TrlgkQ26so/F3eNdY=; b=E5OIZLMBojhpCB6FnX
+ U/M/kKRMmul3F4Rj+jQWaQjq7ycRSrScWEzQTzBKY1PqxOX0ogi5ytePOOiZ06ap
+ UHRegZ7Dngh1Gyu49OCLrWLGf/JNuq401jbknyAjwN7SwSwrfpcHi4Av7L/qAuVL
+ G9LT/G5jtlyfl5Huv9MbKEEJHBm1XI4MxlcY/P7pxGIK9tfARUiiLrqXFt0hvSnD
+ IdnPZuRdNnMhKG1/bThqtdefJ7x0eOcHvFSmrDioH6NSMO59qcg5hYlCsqJe4PzT
+ mMFnAS06D0X6SPUNgeQYBjmuWZFSApYziUJgApXjVXVU/ljgDKHzuU6NRXVw4Z49
+ zvIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1661340164; x=1661426564; bh=pG9H2s3G9xS75ig4EL/xL3jVI3Tr
+ lgkQ26so/F3eNdY=; b=whzse3BGpMtTK+wtrFvJsNI4TUYLRWcUkpESq6DO76uA
+ 8SIojUOV0KdoTUDyYlCjZWla0pJ5GM1/MaaQ2m8eOcKFl33JLl7KadOQP4X1fwpU
+ UEBhkGAmmkW+R48/fLAF23up16YUTeVlZoff6TIZQRzM2F6+5QzKY0pikCGCFzOY
+ X+0JiuuSzwcRGySVox1bF/BrfHPC3/mkhR4VdT3LAPowjl86ERXSA7Si4gcKOyH8
+ pNrHWA5Zg3z5gTi/RG01k2yd2yEfceM9T6fHqwRxWI2xxjtVtdUoR+TPhLopcRdl
+ xQfbaBi/6svrrODJqAxup8DOOBVxDtTdK5IDToQ8lw==
+X-ME-Sender: <xms:AwoGY45XkLRp6nHfc7OCwSQd8u-GkMln4CNzwNRW8pp5noiVkzY45w>
+ <xme:AwoGY573_LIWsR4Lt0pdNP1ECHGhTZMJE3lCrduyIP5gcZxcgCjzgGIdHg0w32kxF
+ Lg5J_oMP5p-jJCv24U>
+X-ME-Received: <xmr:AwoGY3e6Nb1WwCrxGsx3OFD1CVvxBk-ia64no2KISf3Df8Za83Nk8J-HS4rGJj6JSOEtfi5bdzJeSxxtwg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgfeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:AwoGY9K6_jEoiucWdrYg-SSotrm8Z5YeIF5FWPwIT8ZFSnLvRWvTJw>
+ <xmx:AwoGY8L7KbcHeTyKw4hjc2mgdtRGFeN3Xxb_NjVuvcZc0YePSoOMLw>
+ <xmx:AwoGY-wZz4ghTSDIJfU9nZ1pNEUObQijJkLbJ_1aEFRwxmV2S8-A7g>
+ <xmx:BAoGYxHQ04hMrbIjf_n4EQmVWNCbu_h4kVN5p-MFkdlgD-yWYX1upQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Aug 2022 07:22:42 -0400 (EDT)
+Date: Wed, 24 Aug 2022 13:22:41 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH 4/4] hw/nvme: add MSI-x mask handlers for irqfd
+Message-ID: <YwYKAZUz/Voheaov@apples>
+References: <20220811153739.3079672-1-fanjinhao21s@ict.ac.cn>
+ <20220811153739.3079672-5-fanjinhao21s@ict.ac.cn>
+ <Yvt1k5X6Gu0xW3Lg@apples>
+ <78380f57-4a65-f55f-524b-f2145d18b068@ict.ac.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QPgQ9Q00hNKMQAmQ"
+Content-Disposition: inline
+In-Reply-To: <78380f57-4a65-f55f-524b-f2145d18b068@ict.ac.cn>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,47 +104,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: d05dcd94ae ("net: vmxnet3: validate configuration values during activate (CVE-2021-20203)")
-Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
----
 
-I'm not familiar with this code, so really I'm asking: is the change
-justified?
+--QPgQ9Q00hNKMQAmQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I tested the change and it seems to work, but I only have some rough
-rationale for it, which is also why there's no commit message yet.
+On Aug 23 22:43, Jinhao Fan wrote:
+> On 8/16/2022 6:46 PM, Klaus Jensen wrote:
+> > Did qtest work out for you for testing? If so, it would be nice to add a
+> > simple test case as well.
+>=20
+> Since MSI-x masking handlers are only implemented for IO queues, if we wa=
+nt
+> to use qtest we need to implement utilities for controller initialization
+> and IO queue creation. After that we can actually test the MSI-x masking
+> feature. Although we may reuse some code from virtio's tests, that is sti=
+ll
+> a large amount of work.
+>=20
+> Is it possible to get this patch merged without testing? If not, I guess
+> I'll have to take the hard work to implement something like
+> qtest/libqos/nvme.c
+>=20
 
-In the Linux kernel's net/core/dev.c, in dev_validate_mtu(), the upper
-limit itself is a valid value:
-    if (dev->max_mtu > 0 && new_mtu > dev->max_mtu) {
-        NL_SET_ERR_MSG(extack, "mtu greater than device maximum");
-        return -EINVAL;
-    }
-and AFAICT in the case of the vmxnet3 driver, max_mtu is set to
-VMXNET3_MAX_MTU (as defined in the kernel, which is 9000, same as in
-QEMU).
+I'm not too happy about code that is completely untestable (worse, right
+now it is actually not even runnable).
 
-Reported by one of our users running into the failing assert():
-https://forum.proxmox.com/threads/114011/#post-492916
+What are the implications if we drop it? That is, if we go back to your
+version that did not include this? If it doesnt impact the kvm irqchip
+logic, then I'd rather that we rip it out and leave the device without
+masking/unmasking support, keeping irqfd support as an experimental
+feature until we can sort this out.
 
- hw/net/vmxnet3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--QPgQ9Q00hNKMQAmQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index 0b7acf7f89..a2037583bf 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -1441,7 +1441,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-     vmxnet3_setup_rx_filtering(s);
-     /* Cache fields from shared memory */
-     s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
--    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
-+    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu <= VMXNET3_MAX_MTU);
-     VMW_CFPRN("MTU is %u", s->mtu);
- 
-     s->max_rx_frags =
--- 
-2.30.2
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMGCcoACgkQTeGvMW1P
+DekHwgf/dr90AOGcPSRB6T8PiVxrVwg6w3kHcWCNVGYf+B8Gb/NYPQ6XoEvejQJC
+jYemj3+hW/7ghDCvfiU4u2Ke15xu7d1LJLJcwgyGnF6BhcAa+O/BQCP9BKsEqxBT
+myDdfb2oVLsf5lCQN7uzVMPONlgk4TcFrwxlp+gqnZhaLwhLz5ffTJcHpCrgSD75
+q7Sfdo1kIAdd7Tg1+ezPeEyGQjiggoqVvoz2sy5aFf1vqciadu4Ww98fHEGlXo4M
+MTg7vu22cbxOqa0vp8cY/oT/tgAlHRIi4UWAmrRwhFHWQ4g+Cp0OSEv9Op7IWznp
+fECvQx3aSd3vqIUljgOqOfYXYn4Pow==
+=r4a5
+-----END PGP SIGNATURE-----
 
+--QPgQ9Q00hNKMQAmQ--
 
