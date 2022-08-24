@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06A15A0127
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:12:16 +0200 (CEST)
-Received: from localhost ([::1]:57852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40EB5A0111
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 20:06:53 +0200 (CEST)
+Received: from localhost ([::1]:55064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQurL-0002Rp-Ev
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:12:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46424)
+	id 1oQumC-0001rh-AX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 14:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQueR-00034x-4G
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 13:58:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50582)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oQufz-0004w0-0O
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:00:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oQueO-0007lp-AS
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 13:58:50 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oQuft-00086g-RQ
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 14:00:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661363927;
+ s=mimecast20190719; t=1661364021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2GjP2TJV00IIK9JWMYv364NrPn1HOWoOzoxEHncWeGw=;
- b=PZPUoSQ7ODFtqwF37v7czpuUJqMCBvg2UdVuv+gTUq58JC8B+WC8saTtm7NfuoUazm7gMZ
- EjcH5mxU1Hz90xVXiXTZXnDzzcUjEuN7+4Eom6nIiXx9ssNYBDWsFVSWKeo4FJ5VB6rztw
- xvwetNe2MRN23yX505VlWgyzHrajfAg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-82-Hf1dkHuiP_OO5uaw_BV3sw-1; Wed, 24 Aug 2022 13:58:45 -0400
-X-MC-Unique: Hf1dkHuiP_OO5uaw_BV3sw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r10-20020a1c440a000000b003a538a648a9so9698278wma.5
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 10:58:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=2GjP2TJV00IIK9JWMYv364NrPn1HOWoOzoxEHncWeGw=;
- b=0ok3dSn8v0pzR+jL4wKFT4NEheJgu6Ku1q0bBej2eWPvOBcnED3HCyKXNes0HVh7wb
- sp1Kw3kmZ69YvLFRWW3uy+cWqJuYftrWvnzuUJ+eazyiAkE7IF6yADmgZQMzN7rAxPMI
- iQLnTbpOxhj3qcic13hKvX5Zuol+aTN3HReal7VogFHPeiXvwjs7No+uu0WDa3Hai6gx
- 2N0kW1RmUuiCtTNsiUhpinIMR6/lqxJXd7+3rQUbp96MAuA9kwN4k2pRHFdNiOku7xYO
- ISdGwcGRP8/eOVN1lwEdqrf41Q7k2OIVPjq6vVytKQ7cyJAn8M6AqCMwPChFDZx1Al+P
- fDmg==
-X-Gm-Message-State: ACgBeo27HCj0mFpVkAKAOCFIYfP+tUI/X8GuuZzDYaCOdlZrOeDHX2/Z
- l/KE7zdZy2L4U/d0HAV3DdWgHd29qR8cBkmALD/PW6eTuGyQWOl9qX6Emh1HsU6H5LS6Qtn9srj
- qZJflEdo43k06nHE=
-X-Received: by 2002:a05:600c:22c7:b0:3a6:68e4:1e5f with SMTP id
- 7-20020a05600c22c700b003a668e41e5fmr48560wmg.46.1661363924785; 
- Wed, 24 Aug 2022 10:58:44 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6fdW1P+oxyMbyY3NT5GMdvSAcl7r0yPTcikc4t2iL24Uhrm87qAj3QODdtgnSlFbBtyLGPEA==
-X-Received: by 2002:a05:600c:22c7:b0:3a6:68e4:1e5f with SMTP id
- 7-20020a05600c22c700b003a668e41e5fmr48545wmg.46.1661363924499; 
- Wed, 24 Aug 2022 10:58:44 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- a17-20020adffb91000000b002207a0b93b4sm17574756wrr.49.2022.08.24.10.58.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Aug 2022 10:58:43 -0700 (PDT)
-Date: Wed, 24 Aug 2022 18:58:42 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 12/51] tests: Use g_mkdir_with_parents()
-Message-ID: <YwZm0rAH5oStGc3F@work-vm>
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-13-bmeng.cn@gmail.com>
+ bh=VqjN5+D2ehYe76XCIgXWTytIK46+HqgcuCvCTTzNJyY=;
+ b=dzQJajL/jMG9tE9YZcqUu9oKfL6ajTDOIBSOcfSujWDGLOR/Dxkg6ki0wuyASSHRE4mIK2
+ lE/ZoMg/38N8/NEELkfUAO889xH+cJEH/335/YboiDA7QbDFrt2J8y20LMln5k4ZVs4RyB
+ Ox7qKgxxNRoJ4Tdk4ZPzW8m7vHgDXmY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-455-DGCE3fEYNBGxzDXIMAHj3Q-1; Wed, 24 Aug 2022 14:00:17 -0400
+X-MC-Unique: DGCE3fEYNBGxzDXIMAHj3Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4005D1C01B2F;
+ Wed, 24 Aug 2022 18:00:17 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9218492CA5;
+ Wed, 24 Aug 2022 18:00:16 +0000 (UTC)
+Date: Wed, 24 Aug 2022 14:00:14 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniil Tatianin <d-tatianin@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, raphael.norwitz@nutanix.com,
+ kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
+ yc-core@yandex-team.ru
+Subject: Re: [PATCH v1 3/5] vhost-user-blk: make it possible to disable
+ write-zeroes/discard
+Message-ID: <YwZnLjzWUTjiPY+i@fedora>
+References: <20220824091837.301708-1-d-tatianin@yandex-team.ru>
+ <20220824091837.301708-4-d-tatianin@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hfbHQaB4hemrYkn3"
 Content-Disposition: inline
-In-Reply-To: <20220824094029.1634519-13-bmeng.cn@gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <20220824091837.301708-4-d-tatianin@yandex-team.ru>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,142 +83,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Bin Meng (bmeng.cn@gmail.com) wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> Use the same g_mkdir_with_parents() call to create a directory on
-> all platforms.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+--hfbHQaB4hemrYkn3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
-> 
->  tests/migration/stress.c              | 2 +-
->  tests/qtest/migration-test.c          | 6 +++---
->  tests/unit/test-crypto-tlscredsx509.c | 4 ++--
->  tests/unit/test-crypto-tlssession.c   | 6 +++---
->  tests/unit/test-io-channel-tls.c      | 6 +++---
->  5 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-> index b7240a15c8..88acf8dc25 100644
-> --- a/tests/migration/stress.c
-> +++ b/tests/migration/stress.c
-> @@ -232,7 +232,7 @@ static void stress(unsigned long long ramsizeGB, int ncpus)
->  
->  static int mount_misc(const char *fstype, const char *dir)
+On Wed, Aug 24, 2022 at 12:18:35PM +0300, Daniil Tatianin wrote:
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 9117222456..e89164c358 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -251,6 +251,8 @@ static uint64_t vhost_user_blk_get_features(VirtIODev=
+ice *vdev,
 >  {
-> -    if (mkdir(dir, 0755) < 0 && errno != EEXIST) {
-> +    if (g_mkdir_with_parents(dir, 0755) < 0 && errno != EEXIST) {
->          fprintf(stderr, "%s (%05d): ERROR: cannot create %s: %s\n",
->                  argv0, gettid(), dir, strerror(errno));
->          return -1;
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 5fa4ffeff0..38356d4aba 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -761,14 +761,14 @@ test_migrate_tls_psk_start_common(QTestState *from,
->      data->workdir = g_strdup_printf("%s/tlscredspsk0", tmpfs);
->      data->pskfile = g_strdup_printf("%s/%s", data->workdir,
->                                      QCRYPTO_TLS_CREDS_PSKFILE);
-> -    mkdir(data->workdir, 0700);
-> +    g_mkdir_with_parents(data->workdir, 0700);
->      test_tls_psk_init(data->pskfile);
->  
->      if (mismatch) {
->          data->workdiralt = g_strdup_printf("%s/tlscredspskalt0", tmpfs);
->          data->pskfilealt = g_strdup_printf("%s/%s", data->workdiralt,
->                                             QCRYPTO_TLS_CREDS_PSKFILE);
-> -        mkdir(data->workdiralt, 0700);
-> +        g_mkdir_with_parents(data->workdiralt, 0700);
->          test_tls_psk_init_alt(data->pskfilealt);
->      }
->  
-> @@ -873,7 +873,7 @@ test_migrate_tls_x509_start_common(QTestState *from,
->          data->clientcert = g_strdup_printf("%s/client-cert.pem", data->workdir);
->      }
->  
-> -    mkdir(data->workdir, 0700);
-> +    g_mkdir_with_parents(data->workdir, 0700);
->  
->      test_tls_init(data->keyfile);
->      g_assert(link(data->keyfile, data->serverkey) == 0);
-> diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto-tlscredsx509.c
-> index aab4149b56..3c25d75ca1 100644
-> --- a/tests/unit/test-crypto-tlscredsx509.c
-> +++ b/tests/unit/test-crypto-tlscredsx509.c
-> @@ -75,7 +75,7 @@ static void test_tls_creds(const void *opaque)
->      QCryptoTLSCreds *creds;
->  
->  #define CERT_DIR "tests/test-crypto-tlscredsx509-certs/"
-> -    mkdir(CERT_DIR, 0700);
-> +    g_mkdir_with_parents(CERT_DIR, 0700);
->  
->      unlink(CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
->      if (data->isServer) {
-> @@ -141,7 +141,7 @@ int main(int argc, char **argv)
->      g_test_init(&argc, &argv, NULL);
->      g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
->  
-> -    mkdir(WORKDIR, 0700);
-> +    g_mkdir_with_parents(WORKDIR, 0700);
->  
->      test_tls_init(KEYFILE);
->  
-> diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
-> index f222959d36..615a1344b4 100644
-> --- a/tests/unit/test-crypto-tlssession.c
-> +++ b/tests/unit/test-crypto-tlssession.c
-> @@ -249,8 +249,8 @@ static void test_crypto_tls_session_x509(const void *opaque)
->  
->  #define CLIENT_CERT_DIR "tests/test-crypto-tlssession-client/"
->  #define SERVER_CERT_DIR "tests/test-crypto-tlssession-server/"
-> -    mkdir(CLIENT_CERT_DIR, 0700);
-> -    mkdir(SERVER_CERT_DIR, 0700);
-> +    g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);
-> +    g_mkdir_with_parents(SERVER_CERT_DIR, 0700);
->  
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CERT);
-> @@ -398,7 +398,7 @@ int main(int argc, char **argv)
->      g_test_init(&argc, &argv, NULL);
->      g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
->  
-> -    mkdir(WORKDIR, 0700);
-> +    g_mkdir_with_parents(WORKDIR, 0700);
->  
->      test_tls_init(KEYFILE);
->      test_tls_psk_init(PSKFILE);
-> diff --git a/tests/unit/test-io-channel-tls.c b/tests/unit/test-io-channel-tls.c
-> index f6fb988c01..cc39247556 100644
-> --- a/tests/unit/test-io-channel-tls.c
-> +++ b/tests/unit/test-io-channel-tls.c
-> @@ -125,8 +125,8 @@ static void test_io_channel_tls(const void *opaque)
->  
->  #define CLIENT_CERT_DIR "tests/test-io-channel-tls-client/"
->  #define SERVER_CERT_DIR "tests/test-io-channel-tls-server/"
-> -    mkdir(CLIENT_CERT_DIR, 0700);
-> -    mkdir(SERVER_CERT_DIR, 0700);
-> +    g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);
-> +    g_mkdir_with_parents(SERVER_CERT_DIR, 0700);
->  
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CERT);
-> @@ -273,7 +273,7 @@ int main(int argc, char **argv)
->      g_test_init(&argc, &argv, NULL);
->      g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
->  
-> -    mkdir(WORKDIR, 0700);
-> +    g_mkdir_with_parents(WORKDIR, 0700);
->  
->      test_tls_init(KEYFILE);
->  
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>      VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
+> =20
+> +    features |=3D s->host_features;
+
+I think you can eliminate this if you use vdev->host_features in the
+qdev properties instead of adding a separate s->host_features field.
+That will simplify the code.
+
+--hfbHQaB4hemrYkn3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMGZy4ACgkQnKSrs4Gr
+c8jDtAf/YXgwkRjVUzwGXwIUr7Gs1VDrXNONv3rOuEHon0zL1WTdKe1B6G48swwR
+C8xGjABnOuEXXAGUDLz3NcOxDjO6nOJqd41DHaDmwbxft28iG9ph0BB0VyTykrfS
+pCxBQsduhhSDJQHHlVGLcmzjlzALDAWDy+FEDFpafxTPQkXtalnVTQW7T8cb9lBh
+L9xL4RvisJqdathsN3xeiv/bRj5E4XUkVhGgG/czz9rEdX/eAKsEcPGr0Z89a7QX
+xdyl7VcEpPW+9u/gUAD22B/Ew9DeavClYjLRicKNW9sWG7zQsWhJ40OIXnVYWIei
+0KEaaNi4D2FKjTy0WCgassUlLYgLRA==
+=O/t/
+-----END PGP SIGNATURE-----
+
+--hfbHQaB4hemrYkn3--
 
 
