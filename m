@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAF559FF8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 18:34:39 +0200 (CEST)
-Received: from localhost ([::1]:40846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0C959FF9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Aug 2022 18:37:01 +0200 (CEST)
+Received: from localhost ([::1]:57968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oQtKv-00036Q-57
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 12:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35010)
+	id 1oQtND-0004dX-O8
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 12:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQtFh-0005ld-6A
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:29:13 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:37668)
+ id 1oQtGm-0007gh-Vx
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:30:21 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oQtFc-0001Ml-E3
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:29:12 -0400
-Received: by mail-pf1-x433.google.com with SMTP id x15so16085574pfp.4
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 09:29:04 -0700 (PDT)
+ id 1oQtGj-0001hy-5I
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 12:30:20 -0400
+Received: by mail-pg1-x536.google.com with SMTP id c24so15469588pgg.11
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 09:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=TU/IHOBJoXxOFu9ZIp4EZjr5QoJqjfjcWprh73+lHtg=;
- b=HhUt7d2KqSeFD/1TBu6F4kdZq7TBOuKkWWElJ4rdCAV6G3VlFQWgp/C4rXe3rjvUBk
- /ioRvN1PNueMXjnzLZlJqOXTIafHzyhtiETDHe729sJVMjQqY7reoxJlOb/P4715RjFn
- zFVXRPjZSCQzhSbUwDPrxz10ou7cFNPI75zhlxvRkBfLIl/0bN2Iwfgvfe82kyBmuq08
- ap0nBiWYT/KHIWaEp9truW9INbtTHdJUYUqX6L/GNClzGYLVT1UWNv3c2yEiB9CXgIRG
- dXHlbQqs7C2+BHTWDFe+ls8JhRmJPLF6ug8tfwouIxWlOGgGgCgAXLA4jKpxOllVIcIQ
- vsGQ==
+ :from:to:cc; bh=eqHefAtabyN/xmMnihPcG7vaV9X1MljFH2589Q3AX4k=;
+ b=tMhjjoyJWJsPxyWskMrKsoTDOdXLYT4LYbgh8CHAst4H6kYNyZaVoceYJinjE9hunw
+ lTdtycGPLnD99qpaUAR2fl78dKNIuMGb0jBO2RCNX4637MsKe0cgKZVqXks7YNBbjlpe
+ 0229QhoxnJpGCQZR71UubKLlkRXrtypVIt75xhTCsZ4ZgsdRdRcROKQBSQeCnc5y/AUU
+ iB+PJ5lo8skI1d4rwCzZwNhgJby3jw87qCYS9OVS1aVdI8KKrKbixnDk3xGB7rbyU7BH
+ uYYQZkUmC/1z+voqMysnTIUyyjznFBSIJgfcdQdjPko9k14VgC0YV/l6Kb2wIKCix18K
+ ThEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=TU/IHOBJoXxOFu9ZIp4EZjr5QoJqjfjcWprh73+lHtg=;
- b=PcgfC+PBf0JytmTs99Y+26MsARF/GdTKuHOHe92Cp7OU/BM0Jh3GFYz2j+YqiiwMxr
- nD45IU50AH1iyDu5yLkVpaJZb38OiA36x3qpBr/3R8fYSDnN4HA8353fG18HKEDLHf+c
- eMV2nMSvEliYaJr9NI7pvv/eFPqGWPSaIgXvZX8EEiQreU3vsLu2a975wGu4wTOky2Bw
- A32wDL/c3/JEAQ8AS4Bk8hfzTg5OFBHFfqDqZOMoDdDJGRtnpsKpAwjC07Cw5qCyd4PO
- IKecO1zICNZV/bRXYzHq9yuKqaEHdhvqVmfvRHKWRGOLl/jgxZzlm9qQmUg6/zk7i98j
- Sk/A==
-X-Gm-Message-State: ACgBeo1pxyi0UHrC+5em2AiJ89a5dGA80Q2LFFWMJHp7TwHiRijjcoGi
- /Jb6gu8jhnhWYOgdNcdydcpqfg==
-X-Google-Smtp-Source: AA6agR48b1Sawq0yuSt1rP6tGP2wY8fa6DcgEiSjSsmINGuYba4/IfAddbjL1BFZEFCUQBfYOF7S2Q==
-X-Received: by 2002:a05:6a00:1492:b0:536:74b1:101d with SMTP id
- v18-20020a056a00149200b0053674b1101dmr17189042pfu.31.1661358543723; 
- Wed, 24 Aug 2022 09:29:03 -0700 (PDT)
+ bh=eqHefAtabyN/xmMnihPcG7vaV9X1MljFH2589Q3AX4k=;
+ b=vWMMiNF4nhB0jmnnzgCcwvP3bEq2h50KPxDWanoXlHoEiU6flbB++JMNRzNa68L9WO
+ LLjjARU82zoNb4SgwRtJ07NfpCm7c7+TPw32xuZI2P6xPwPva0S8OWCfEIafmV2WGQXo
+ jUFc6uKYQVWLtLUKWhxHBTngB0YFsyetBk4+O+TG+oP/EhlAUomOFP+PDtpzrgNJ3+tI
+ m5vQD9oUhEauXNmPfzWdYK0ILUMEDDAAjK4Ro3Qs85dLjPA6mBQv21WIM/WM+MprePB1
+ xkfHEL2h6Cb3Ho4/9NzFnWzX6/sNBons4YALsWRjB7QR3as9twqjQI9eEjMPfbeQhXcv
+ C83g==
+X-Gm-Message-State: ACgBeo2cU3kO7jXoG3c9v/pKpHTYnxAPmQdkemsrFwqgpG4Kev4PEIGX
+ GKbQeTdc04ADsYef71eJByQxog==
+X-Google-Smtp-Source: AA6agR4ZKWfhRJqEn0UnajwKFiQlhhltG88XPK0peHxaITVlm0E8E4j2GWF/ZR7n5sakJBYnevZbFQ==
+X-Received: by 2002:a05:6a00:804:b0:52f:43f9:b634 with SMTP id
+ m4-20020a056a00080400b0052f43f9b634mr30656496pfk.62.1661358615550; 
+ Wed, 24 Aug 2022 09:30:15 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:944b:63b7:13bc:4d26?
  ([2602:47:d49d:ec01:944b:63b7:13bc:4d26])
  by smtp.gmail.com with ESMTPSA id
- e13-20020a056a0000cd00b00535faa9d6f2sm11730927pfj.53.2022.08.24.09.29.02
+ e29-20020aa7981d000000b0052dce4edceesm8939304pfl.169.2022.08.24.09.30.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 09:29:03 -0700 (PDT)
-Message-ID: <856910ae-7704-7ddf-c242-387c0135b517@linaro.org>
-Date: Wed, 24 Aug 2022 09:29:01 -0700
+ Wed, 24 Aug 2022 09:30:14 -0700 (PDT)
+Message-ID: <3440bcf4-e7d6-a0c4-0606-76754aad6986@linaro.org>
+Date: Wed, 24 Aug 2022 09:30:13 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PULL v2 for 7.1 0/6] testing and doc updates
+Subject: Re: [RFC PATCH 1/4] target/riscv: Use xl instead of mxl for
+ disassemble
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org
-References: <20220824091920.1248422-1-alex.bennee@linaro.org>
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com
+References: <20220824130331.21315-1-zhiwei_liu@linux.alibaba.com>
+ <20220824130331.21315-2-zhiwei_liu@linux.alibaba.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220824091920.1248422-1-alex.bennee@linaro.org>
+In-Reply-To: <20220824130331.21315-2-zhiwei_liu@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,53 +96,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/22 02:19, Alex Bennée wrote:
-> The following changes since commit a8cc5842b5cb863e46a2d009151c6ccbdecadaba:
+On 8/24/22 06:03, LIU Zhiwei wrote:
+> Disassemble function(plugin_disas, target_disas, monitor_disas) will
+> always call set_disas_info before disassembling instructions.
 > 
->    Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2022-08-23 10:37:21 -0700)
+> plugin_disas  and target_disas will always be called under a TB, which
+> has the same XLEN.
 > 
-> are available in the Git repository at:
+> We can't ensure that monitor_disas will always be called under a TB,
+> but current XLEN will still be a better choice, thus we can ensure at
+> least the disassemble of the nearest one TB is right.
 > 
->    https://github.com/stsquad/qemu.git tags/pull-for-7.1-fixes-240822-3
-> 
-> for you to fetch changes up to 5af2b0f6eace7b368ed5cad9677e3bc995b6a7e3:
-> 
->    qemu-options: try and clarify preferred block semantics (2022-08-24 10:14:49 +0100)
-> 
-> ----------------------------------------------------------------
-> Testing and doc updates:
-> 
->    - move default timeout to QemuBaseTests
->    - optimise migration tests to run faster
->    - removed duplicate migration test
->    - add some clarifying language to block options in manual
+> Signed-off-by: LIU Zhiwei<zhiwei_liu@linux.alibaba.com>
+> ---
+>   target/riscv/cpu.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-
-> 
-> ----------------------------------------------------------------
-> Alex Bennée (2):
->        tests/avocado: push default timeout to QemuBaseTest
->        qemu-options: try and clarify preferred block semantics
-> 
-> Thomas Huth (4):
->        tests/qtest/migration-test: Only wait for serial output where migration succeeds
->        tests/migration/aarch64: Speed up the aarch64 migration test
->        tests/migration/i386: Speed up the i386 migration test (when using TCG)
->        tests/qtest/migration-test: Remove duplicated test_postcopy from the test plan
-> 
->   tests/migration/aarch64/a-b-kernel.h   | 10 +++++-----
->   tests/migration/i386/a-b-bootblock.h   | 12 ++++++------
->   tests/qtest/migration-test.c           |  5 +++--
->   qemu-options.hx                        | 13 +++++++++++++
->   tests/avocado/avocado_qemu/__init__.py |  5 ++++-
->   tests/migration/aarch64/a-b-kernel.S   |  3 +--
->   tests/migration/i386/a-b-bootblock.S   |  1 +
->   7 files changed, 33 insertions(+), 16 deletions(-)
-> 
-
 
