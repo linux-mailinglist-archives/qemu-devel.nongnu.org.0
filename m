@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60535A15EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:39:14 +0200 (CEST)
-Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D8C5A15ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:39:58 +0200 (CEST)
+Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oREwr-0002Xc-B1
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
+	id 1oRExZ-0002om-CM
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oREtQ-0007hT-SL
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:35:41 -0400
-Received: from mga11.intel.com ([192.55.52.93]:42207)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oREtN-0007C7-5r
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:35:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661441737; x=1692977737;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ALe3W9UVzuJwVIm95wO5987ELsrUxm8mx+BiX6s41OY=;
- b=c660WJtk6RA/MSp+MjVajgoTmeigHQJ2fCQUkn2fMyJ6o7UT9dUAeW7Y
- AoBUFz3pt20wBy+ysY0qlKp1vyiIh15IlVMcceUiWuMtEyBE5ZpuvvIYj
- K95tb/Efp3yv5+SM9ZkRwS1S5aVH21uaEmSWPnJyvd0xy4a2eMWo00JZs
- y5X0AiDdukd4y05lBfnv6vblrSMqEFC+FiM4utiaVZdfuXTTIc/XBLI1v
- JfMY4whjhpOlo1BG5u1wKJRB2S/9sCtAqUSFnU7Dh2NyLKMgsgyuF8Y9X
- 4Zc2fzXfQr03dy/UjUwdaO+ihbAl313OxPH7AdeyPXapkajgw38q3yc7F w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="291846671"
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="291846671"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2022 08:35:06 -0700
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="671034879"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.29.55])
- ([10.255.29.55])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2022 08:35:02 -0700
-Message-ID: <00b93d50-ca34-a3e1-6a32-48cf93edfa88@intel.com>
-Date: Thu, 25 Aug 2022 23:35:00 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oREub-0008Nz-Ax
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:36:53 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:35735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oREuY-0007Vj-Lt
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:36:52 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ m10-20020a17090a730a00b001fa986fd8eeso5357714pjk.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 08:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=NCteGgGXcIppP2zwWwearvSeOQFPuoYs00f4ncPYvRk=;
+ b=jt8w9VBQKKoO/CxmNxerElNrZAlH+l13vlXkUkKpnDN74+9/eK8TS8Fr2SUoqy3kQE
+ BucxkNs1CQ2DpWTDgpl4BvQeJFmOX9Kw9NJmdb8TFcebHHONX7VNJupM+baUzbU4lGXa
+ /b/mIVsvY3JkiNYMGyKDMrH7F7cPGKMil98zL30PlxtOO12X7YGXv1zAXUDU3AMcMdn4
+ U92gGqu4csHXUupdPbJ9fx+ok/5bvqPE5ht3fZjF/2/0dxLYP3xSa5qTyj9b1DjNmzmI
+ QqE74TX/RKf+Y4TQTGIKXRCKmy+f5oeMW+vRyswjGW/J1M/0p8rWNi8NOycMFxv3kk2f
+ beeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=NCteGgGXcIppP2zwWwearvSeOQFPuoYs00f4ncPYvRk=;
+ b=hmchVzzlz/WOewgEVL2n6IIb6/g2HsAJei2uQ5mFh5vaf+tj4FBIp5k9eaKBP6I1br
+ j/cpgNtq6x4QYpnG2CdcAPQdOSrbTrXf7E2TGzDSAm5Hb2jHPx8yiyQaXZsiis6sZch1
+ yVdSZkc4D+lAxKnwvIh6QkOoi/crjpcu+SrRN0syQzrLnX+pT6shjp5oDWwvhi+rYfhU
+ RS0zXSaaIyroGHeWcdyaT1alKj/C/OiHsBGFjEVipvxVKAhhAosLPAHqbGDfoS4s05q5
+ Xq4gW+de6sKUlTchQtviN3SuOjmGDq4fWhhHMvKnGvNLvFhWcqKFqu3QaguiDHcaaX5x
+ ql9g==
+X-Gm-Message-State: ACgBeo14Wp7CO9kMvfqax1ejOmvUaAu5dwX73drgNenEwl/TBOcG0/eV
+ KkpkXvEPMwPcBcdKnyVTTezbpw==
+X-Google-Smtp-Source: AA6agR4HEkYU5ESLyaqYeMik5TUTbozefRUC3GVzpCMUfo//xwoaqvxso62zahDBVfCWH6p1SvSSjw==
+X-Received: by 2002:a17:90b:264e:b0:1fb:c093:36a2 with SMTP id
+ pa14-20020a17090b264e00b001fbc09336a2mr1396899pjb.117.1661441806046; 
+ Thu, 25 Aug 2022 08:36:46 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:64be:e7c:2851:ce4b?
+ ([2602:47:d49d:ec01:64be:e7c:2851:ce4b])
+ by smtp.gmail.com with ESMTPSA id
+ e5-20020aa79805000000b005366e592cf9sm10445771pfl.96.2022.08.25.08.36.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Aug 2022 08:36:45 -0700 (PDT)
+Message-ID: <cfc4d1b0-1663-d831-2312-5e9dbbd7b25b@linaro.org>
+Date: Thu, 25 Aug 2022 08:36:42 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.12.0
-Subject: Re: [PATCH v1 06/40] i386/tdx: Get tdx_capabilities via
- KVM_TDX_CAPABILITIES
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 04/17] target/i386: add ALU load/writeback core
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
- <20220802074750.2581308-7-xiaoyao.li@intel.com>
- <20220825101203.vpgwzbyqc677snjt@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220825101203.vpgwzbyqc677snjt@sirius.home.kraxel.org>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: paul@nowt.org
+References: <20220824173123.232018-1-pbonzini@redhat.com>
+ <20220824173123.232018-5-pbonzini@redhat.com>
+ <7b4759db-6592-2bc2-25f6-a762e8a83c26@linaro.org>
+ <577bfd2b-090f-d324-6a76-5b851a87e905@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <577bfd2b-090f-d324-6a76-5b851a87e905@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,27 +97,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/2022 6:12 PM, Gerd Hoffmann wrote:
->    Hi,
+On 8/24/22 23:48, Paolo Bonzini wrote:
+> On 8/25/22 02:23, Richard Henderson wrote:
+>>> +    op->v = v;
+>>> +}
+>>
+>> Surely this assignment...
+>>
+>>> +static void gen_writeback(DisasContext *s, X86DecodedOp *op)
+>>> +{
+>> ...
+>>> +    case X86_ALU_GPR:
+>>> +        gen_op_mov_reg_v(s, op->ot, op->n, s->T0);
+>>
+>> ... can be used here instead of hard-coding T0.  It should be easy enough to create *_v 
+>> editions of all *_T0, such as gen_movl_seg_T0.
 > 
->> +        r = tdx_platform_ioctl(KVM_TDX_CAPABILITIES, 0, caps);
->> +        if (r == -E2BIG) {
->> +            g_free(caps);
->> +            nr_cpuid_configs *= 2;
->> +            if (nr_cpuid_configs > KVM_MAX_CPUID_ENTRIES) {
->> +                error_report("KVM TDX seems broken");
+> No, decode.op[0].v is never initialized.
 > 
-> Maybe, but IMHO this should still report what exactly the problem is
-> (number of cpuid entries exceeds limit).
+> In fact, even decode.op[1].v and decode.op[2].v are never used, the gen_* functions just 
+> hardcode T0 = f(T0, T1).
 
-Will update it to
+Ah, that's a shame.  Perhaps better, then to avoid confusion and remove it?  We can put it 
+back when we do attempt to clean up the temps...
 
-	error_report(KVM TDX seems broken that number of CPUID entries in 
-kvm_tdx_capabilities exceeds limit)
 
-> take care,
->    Gerd
-> 
-> 
-
+r~
 
