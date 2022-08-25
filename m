@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F385A0AD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 09:57:11 +0200 (CEST)
-Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567425A0B1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:11:17 +0200 (CEST)
+Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR7jh-00070R-S6
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 03:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43888)
+	id 1oR7xL-0006wb-NT
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oR7b4-0006y0-HZ; Thu, 25 Aug 2022 03:48:14 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:57346 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oR7b1-0001BR-Jl; Thu, 25 Aug 2022 03:48:14 -0400
-Received: from localhost.localdomain (unknown [159.226.43.62])
- by APP-05 (Coremail) with SMTP id zQCowAAX+ookKQdjLzYIAA--.1273S5;
- Thu, 25 Aug 2022 15:48:03 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org (open list:nvme)
-Subject: [PATCH v2 3/3] hw/nvme: add MSI-x mask handlers for irqfd
-Date: Thu, 25 Aug 2022 15:47:46 +0800
-Message-Id: <20220825074746.2047420-4-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
-References: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oR7js-0007Mq-D2
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:57:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oR7jm-0002cq-Tk
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:57:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661414233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jqklLx1VxiXg0Xs7Onl50FHdqEfdl/bv/6HdAzq0e6g=;
+ b=Dh/79mWMhBsRJL6gxmvvPsqMS/9F73ly8YflmAyCmaecllwlmikwTfiWIAXdOoyM6mIxBK
+ e153YF2HkpUM2dfeiiYsCt7A9ZeTmxsPEQg1fBb5jCSGy+h8SUwQ2pRUu2pu9OjtcjA02Y
+ +DBP6istCFqToxEFBIyX6vUMrTVEWYw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-649-Rzf8bdp9P9uvuQ_N_rQQWw-1; Thu, 25 Aug 2022 03:57:12 -0400
+X-MC-Unique: Rzf8bdp9P9uvuQ_N_rQQWw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ gn32-20020a1709070d2000b0073d7a2dbc62so3780160ejc.14
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 00:57:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=jqklLx1VxiXg0Xs7Onl50FHdqEfdl/bv/6HdAzq0e6g=;
+ b=Vfw+bQAF41JqLVGGXldKlTKTTWbs8ezOScYwsml6906+HmheydKAimHxRFJg13+mO6
+ WCOqAF6dq4e1RhTp4Yb6C6qJNINPI4r257o+Tdi7BDWK6H8KRE5G7nuU3qY28BvCC0kP
+ WzMpR7hnUAFF14NppOghC8PsuIvLo/oZ9ufMk0IjOZZ3q6YnAtSlM4nnh/2oEgRWrhk8
+ Ih3SitvN6bkLb3s+weoSG5dzkx0Y/eu1ORxkhbpbbJEJNF5iCC78aZwF8BYD7mcxTc4E
+ /KzgJ8aA7TQ3sTtJbpMinY7SVvJclgpcGm8xkFyisJYTzkYwTw3NnBpUgblzpH6HGl3k
+ U1dQ==
+X-Gm-Message-State: ACgBeo28l/W43cEi8+iYMVx8zetrbQWma5AODdRZGu5moAXwBfVvJ+rH
+ 4hE2ZopxvLQhHhiSODSX/Q7Wy1GQ36Gg9eYiKeZC/3qw2Ri9dz3hLWY9nPOypSK2XEabeiGR3GR
+ nBjPpSuhiy3LGlYw=
+X-Received: by 2002:a05:6402:368c:b0:446:48d9:2be with SMTP id
+ ej12-20020a056402368c00b0044648d902bemr2078548edb.167.1661414231080; 
+ Thu, 25 Aug 2022 00:57:11 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7EQE34gvPorkOt1UTawL6PAlvCkWj4GHtsNIP6CsWTMRr8H6UXfXdpGtbeh0Qs8Y9Qf7cNzA==
+X-Received: by 2002:a05:6402:368c:b0:446:48d9:2be with SMTP id
+ ej12-20020a056402368c00b0044648d902bemr2078533edb.167.1661414230819; 
+ Thu, 25 Aug 2022 00:57:10 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ ec43-20020a0564020d6b00b0043d5c9281a3sm4235127edb.96.2022.08.25.00.57.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Aug 2022 00:57:10 -0700 (PDT)
+Date: Thu, 25 Aug 2022 09:57:09 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>
+Subject: Re: [PATCH v2 4/5] bios-tables-test: add test for number of cores >
+ 255
+Message-ID: <20220825095709.4a949ea7@redhat.com>
+In-Reply-To: <20220731162141.178443-5-jusual@redhat.com>
+References: <20220731162141.178443-1-jusual@redhat.com>
+ <20220731162141.178443-5-jusual@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAX+ookKQdjLzYIAA--.1273S5
-X-Coremail-Antispam: 1UD129KBjvJXoWxKrWDuw1UCF4rAFyDtr15CFg_yoW7GFW8pa
- s7JFZagFZ7KFWIganIvrsrJr15Z39YqryUJw43Kw1xWay09r9IvFW8GF15AFy5GFZxXF1Y
- v398tr47WwnxXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPm14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
- x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
- 8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
- IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
- Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0264kExVAvwVAq07x20x
- ylc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I
- 3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
- WUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
- cVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
- AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
- Xa7sREVbyDUUUUU==
-X-Originating-IP: [159.226.43.62]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,164 +102,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When irqfd is enabled, we bypass QEMU's irq emulation and let KVM to
-directly assert the irq. However, KVM is not aware of the device's MSI-x
-masking status. Add MSI-x mask bookkeeping in NVMe emulation and
-detach the corresponding irqfd when the certain vector is masked.
+On Sun, 31 Jul 2022 18:21:40 +0200
+Julia Suvorova <jusual@redhat.com> wrote:
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
----
- hw/nvme/ctrl.c       | 82 ++++++++++++++++++++++++++++++++++++++++++++
- hw/nvme/nvme.h       |  2 ++
- hw/nvme/trace-events |  3 ++
- 3 files changed, 87 insertions(+)
+> The new test is run with a large number of cpus and checks if the
+> core_count field in smbios_cpu_test (structure type 4) is correct.
+> 
+> Choose q35 as it allows to run with -smp > 255.
+> 
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 74075f782f..30bbda7bb5 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -7493,10 +7493,84 @@ static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
- 
-     return 0;
- }
-+static int nvme_vector_unmask(PCIDevice *pci_dev, unsigned vector,
-+                               MSIMessage msg)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+    int ret;
-+
-+    trace_pci_nvme_irq_unmask(vector, msg.address, msg.data);
-+    
-+    for (uint32_t i = 1; i <= n->params.max_ioqpairs; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+        /* 
-+         * If this function is called, then irqfd must be available. Therefore,
-+         * irqfd must be in use if cq->assert_notifier.initialized is true.
-+         */
-+        if (cq && cq->vector == vector && cq->assert_notifier.initialized) {
-+            if (cq->msg.data != msg.data || cq->msg.address != msg.address) {
-+                ret = kvm_irqchip_update_msi_route(kvm_state, cq->virq, msg,
-+                                                   pci_dev);
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+                kvm_irqchip_commit_routes(kvm_state);
-+                cq->msg = msg;
-+            }
-+
-+            ret = kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
-+                                                     &cq->assert_notifier,
-+                                                     NULL, cq->virq);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static void nvme_vector_mask(PCIDevice *pci_dev, unsigned vector)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+
-+    trace_pci_nvme_irq_mask(vector);
-+    
-+    for (uint32_t i = 1; i <= n->params.max_ioqpairs; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+        if (cq && cq->vector == vector && cq->assert_notifier.initialized) {
-+            kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
-+                                                  &cq->assert_notifier,
-+                                                  cq->virq);
-+        }
-+    }
-+}
-+
-+static void nvme_vector_poll(PCIDevice *pci_dev,
-+                             unsigned int vector_start,
-+                             unsigned int vector_end)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+
-+    trace_pci_nvme_irq_poll(vector_start, vector_end);
-+
-+    for (uint32_t i = 1; i <= n->params.max_ioqpairs; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+        if (cq && cq->vector >= vector_start && cq->vector <= vector_end 
-+            && msix_is_masked(pci_dev, cq->vector) 
-+            && cq->assert_notifier.initialized) {
-+            if (event_notifier_test_and_clear(&cq->assert_notifier)) {
-+                msix_set_pending(pci_dev, i);
-+            }
-+        }
-+    }
-+}
- 
- static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- {
-     uint8_t *pci_conf = pci_dev->config;
-+    bool with_irqfd = msix_enabled(&n->parent_obj) &&
-+                      kvm_msi_via_irqfd_enabled();
-     uint64_t bar_size;
-     unsigned msix_table_offset, msix_pba_offset;
-     int ret;
-@@ -7549,6 +7623,13 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-         }
-     }
- 
-+    if (with_irqfd) {
-+        msix_set_vector_notifiers(pci_dev,
-+                                  nvme_vector_unmask,
-+                                  nvme_vector_mask,
-+                                  nvme_vector_poll);
-+    }
-+
-     nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
- 
-     if (n->params.cmb_size_mb) {
-@@ -7796,6 +7877,7 @@ static void nvme_exit(PCIDevice *pci_dev)
-         pcie_sriov_pf_exit(pci_dev);
-     }
- 
-+    msix_unset_vector_notifiers(pci_dev);
-     msix_uninit(pci_dev, &n->bar0, &n->bar0);
-     memory_region_del_subregion(&n->bar0, &n->iomem);
- }
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 85fd9cd0e2..707a55ebfc 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -20,6 +20,7 @@
- 
- #include "qemu/uuid.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/msi.h"
- #include "hw/block/block.h"
- 
- #include "block/nvme.h"
-@@ -401,6 +402,7 @@ typedef struct NvmeCQueue {
-     EventNotifier notifier;
-     EventNotifier assert_notifier;
-     EventNotifier deassert_notifier;
-+    MSIMessage  msg;
-     bool        first_io_cqe;
-     bool        ioeventfd_enabled;
-     QTAILQ_HEAD(, NvmeSQueue) sq_list;
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index fccb79f489..b11fcf4a65 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -2,6 +2,9 @@
- pci_nvme_irq_msix(uint32_t vector) "raising MSI-X IRQ vector %u"
- pci_nvme_irq_pin(void) "pulsing IRQ pin"
- pci_nvme_irq_masked(void) "IRQ is masked"
-+pci_nvme_irq_mask(uint32_t vector) "IRQ %u gets masked"
-+pci_nvme_irq_unmask(uint32_t vector, uint64_t addr, uint32_t data) "IRQ %u gets unmasked, addr=0x%"PRIx64" data=0x%"PRIu32""
-+pci_nvme_irq_poll(uint32_t vector_start, uint32_t vector_end) "IRQ poll, start=0x%"PRIu32" end=0x%"PRIu32""
- pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2=0x%"PRIx64""
- pci_nvme_dbbuf_config(uint64_t dbs_addr, uint64_t eis_addr) "dbs_addr=0x%"PRIx64" eis_addr=0x%"PRIx64""
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
--- 
-2.25.1
+pls, run checkpatch on patches and fix up whatever it complains about
+before posting
+
+> ---
+>  tests/qtest/bios-tables-test.c | 53 +++++++++++++++++++++++++---------
+>  1 file changed, 40 insertions(+), 13 deletions(-)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index e352d5249f..cebfa430ac 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -92,6 +92,8 @@ typedef struct {
+>      SmbiosEntryPoint smbios_ep_table;
+>      uint16_t smbios_cpu_max_speed;
+>      uint16_t smbios_cpu_curr_speed;
+> +    uint8_t smbios_core_count;
+> +    uint16_t smbios_core_count2;
+>      uint8_t *required_struct_types;
+>      int required_struct_types_len;
+>      QTestState *qts;
+> @@ -631,29 +633,38 @@ static inline bool smbios_single_instance(uint8_t type)
+>      }
+>  }
+>  
+> -static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> +static void smbios_cpu_test(test_data *data, uint32_t addr)
+>  {
+> -    uint16_t expect_speed[2];
+> -    uint16_t real;
+> +    uint8_t core_count, expected_core_count = data->smbios_core_count;
+> +    uint16_t speed, core_count2, expected_core_count2 = data->smbios_core_count2;
+> +    uint16_t expected_speed[2];
+>      int offset[2];
+>      int i;
+>  
+>      /* Check CPU speed for backward compatibility */
+>      offset[0] = offsetof(struct smbios_type_4, max_speed);
+>      offset[1] = offsetof(struct smbios_type_4, current_speed);
+> -    expect_speed[0] = data->smbios_cpu_max_speed ? : 2000;
+> -    expect_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
+> +    expected_speed[0] = data->smbios_cpu_max_speed ? : 2000;
+> +    expected_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
+>  
+>      for (i = 0; i < 2; i++) {
+> -        real = qtest_readw(data->qts, addr + offset[i]);
+> -        if (real != expect_speed[i]) {
+> -            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect %u\n",
+> -                    real, expect_speed[i]);
+> -            return false;
+> -        }
+> +        speed = qtest_readw(data->qts, addr + offset[i]);
+> +        g_assert_cmpuint(speed, ==, expected_speed[i]);
+>      }
+>  
+> -    return true;
+> +    core_count = qtest_readb(data->qts,
+> +                             addr + offsetof(struct smbios_type_4, core_count));
+> +    core_count2 = qtest_readw(data->qts,
+> +                              addr + offsetof(struct smbios_type_4, core_count2));
+
+it doesn't really matter here, that we read bogus core_count2 in case of v2 tables,
+but to be cleaner I'd move reads above below respective 'if's 
+
+> +    if (expected_core_count) {
+> +        g_assert_cmpuint(core_count, ==, expected_core_count);
+> +    }
+> +
+> +    /* Core Count has reached its limit, checking Core Count 2 */
+> +    if (expected_core_count == 0xFF && expected_core_count2) {
+> +        g_assert_cmpuint(core_count2, ==, expected_core_count2);
+> +    }
+>  }
+>  
+>  static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
+> @@ -686,7 +697,7 @@ static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
+>          set_bit(type, struct_bitmap);
+>  
+>          if (type == 4) {
+> -            g_assert(smbios_cpu_test(data, addr));
+> +            smbios_cpu_test(data, addr);
+>          }
+>  
+>          /* seek to end of unformatted string area of this struct ("\0\0") */
+> @@ -903,6 +914,21 @@ static void test_acpi_q35_tcg(void)
+>      free_test_data(&data);
+>  }
+>  
+> +static void test_acpi_q35_tcg_core_count2(void)
+> +{
+> +    test_data data = {
+> +        .machine = MACHINE_Q35,
+> +        .variant = ".core-count2",
+> +        .required_struct_types = base_required_struct_types,
+> +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
+> +        .smbios_core_count = 0xFF,
+> +        .smbios_core_count2 = 275,
+> +    };
+> +
+> +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_tcg_bridge(void)
+>  {
+>      test_data data;
+> @@ -1822,6 +1848,7 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/piix4/pci-hotplug/off",
+>                         test_acpi_piix4_no_acpi_pci_hotplug);
+>          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
+
+shouldn't we have a test for #cpus < 256 as well?
+
+>          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+>          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+>          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 
 
