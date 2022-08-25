@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F45D5A0BAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:39:01 +0200 (CEST)
-Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328475A0B4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:24:58 +0200 (CEST)
+Received: from localhost ([::1]:32876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR8OC-0006Qr-Fh
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
+	id 1oR8Ab-0001IO-AJ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vg-0006MM-06
+ id 1oR7vg-0006MP-04
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:32 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:48405)
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:44229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vM-0004gw-D8
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:14 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ id 1oR7vL-0004h3-6I
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:15 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VNCSWiS_1661414943; 
+ TI=SMTPD_---0VNCZbnO_1661414944; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VNCSWiS_1661414943) by smtp.aliyun-inc.com;
- Thu, 25 Aug 2022 16:09:04 +0800
+ fp:SMTPD_---0VNCZbnO_1661414944) by smtp.aliyun-inc.com;
+ Thu, 25 Aug 2022 16:09:05 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v3 05/15] virtio: core: vq reset feature negotation support
-Date: Thu, 25 Aug 2022 16:08:48 +0800
-Message-Id: <a1c303464c3bf4e2bc20c720a5a8701edd2139f7.1661414345.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v3 06/15] virtio-pci: support queue reset
+Date: Thu, 25 Aug 2022 16:08:49 +0800
+Message-Id: <0851d6ea5c84b71d0c661d91da973e4abf9155c1.1661414345.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.130;
+Received-SPF: pass client-ip=115.124.30.44;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
+ helo=out30-44.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,44 +64,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A a new command line parameter "queue_reset" is added.
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-Meanwhile, the vq reset feature is disabled for pre-7.1 machines.
+PCI devices support vq reset.
 
-Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Based on this function, the driver can adjust the size of the ring, and
+quickly recycle the buffer in the ring.
+
+The migration of the virtio devices will not happen during a reset
+operation. This is becuase the global iothread lock is held. Migration
+thread also needs the lock. As a result, when migration of virtio
+devices starts, the 'reset' status of VirtIOPCIQueue will always be 0.
+Thus, we do not need to add it in vmstate_virtio_pci_modern_queue_state.
+
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 ---
- hw/core/machine.c          | 1 +
- include/hw/virtio/virtio.h | 4 +++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-pci.c         | 15 +++++++++++++++
+ include/hw/virtio/virtio-pci.h |  5 +++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index a673302cce..8b22b4647f 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -43,6 +43,7 @@
- GlobalProperty hw_compat_7_0[] = {
-     { "arm-gicv3-common", "force-8-bit-prio", "on" },
-     { "nvme-ns", "eui64-default", "on"},
-+    { "virtio-device", "queue_reset", "false" },
- };
- const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index a50c5a57d7..79b9e641dd 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1251,6 +1251,9 @@ static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
+     case VIRTIO_PCI_COMMON_Q_USEDHI:
+         val = proxy->vqs[vdev->queue_sel].used[1];
+         break;
++    case VIRTIO_PCI_COMMON_Q_RESET:
++        val = proxy->vqs[vdev->queue_sel].reset;
++        break;
+     default:
+         val = 0;
+     }
+@@ -1338,6 +1341,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+                        ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
+                        proxy->vqs[vdev->queue_sel].used[0]);
+             proxy->vqs[vdev->queue_sel].enabled = 1;
++            proxy->vqs[vdev->queue_sel].reset = 0;
+         } else {
+             virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
+         }
+@@ -1360,6 +1364,16 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+     case VIRTIO_PCI_COMMON_Q_USEDHI:
+         proxy->vqs[vdev->queue_sel].used[1] = val;
+         break;
++    case VIRTIO_PCI_COMMON_Q_RESET:
++        if (val == 1) {
++            proxy->vqs[vdev->queue_sel].reset = 1;
++
++            virtio_queue_reset(vdev, vdev->queue_sel);
++
++            proxy->vqs[vdev->queue_sel].reset = 0;
++            proxy->vqs[vdev->queue_sel].enabled = 0;
++        }
++        break;
+     default:
+         break;
+     }
+@@ -1954,6 +1968,7 @@ static void virtio_pci_reset(DeviceState *qdev)
  
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 085997d8f3..ed3ecbef80 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -295,7 +295,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
-     DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
-                       VIRTIO_F_IOMMU_PLATFORM, false), \
-     DEFINE_PROP_BIT64("packed", _state, _field, \
--                      VIRTIO_F_RING_PACKED, false)
-+                      VIRTIO_F_RING_PACKED, false), \
-+    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
-+                      VIRTIO_F_RING_RESET, true)
- 
- hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
- bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
+     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+         proxy->vqs[i].enabled = 0;
++        proxy->vqs[i].reset = 0;
+         proxy->vqs[i].num = 0;
+         proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
+         proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
+diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
+index 2446dcd9ae..938799e8f6 100644
+--- a/include/hw/virtio/virtio-pci.h
++++ b/include/hw/virtio/virtio-pci.h
+@@ -117,6 +117,11 @@ typedef struct VirtIOPCIRegion {
+ typedef struct VirtIOPCIQueue {
+   uint16_t num;
+   bool enabled;
++  /*
++   * No need to migrate the reset status, because it is always 0
++   * when the migration starts.
++   */
++  bool reset;
+   uint32_t desc[2];
+   uint32_t avail[2];
+   uint32_t used[2];
 -- 
 2.32.0
 
