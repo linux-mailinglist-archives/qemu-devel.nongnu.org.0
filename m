@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169665A1D5A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 01:48:05 +0200 (CEST)
-Received: from localhost ([::1]:37902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD695A1D5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 01:49:46 +0200 (CEST)
+Received: from localhost ([::1]:46250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRMZw-0004lA-2m
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 19:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
+	id 1oRMbZ-0006Gy-Ji
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 19:49:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRMVo-0001ig-Kd
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 19:43:50 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52196)
+ id 1oRMZO-0004Te-Ng
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 19:47:34 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:43805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRMVm-0007zK-I3
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 19:43:48 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id e19so85929pju.1
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 16:43:46 -0700 (PDT)
+ id 1oRMZN-0008WB-0n
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 19:47:30 -0400
+Received: by mail-pl1-x630.google.com with SMTP id l3so151549plb.10
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 16:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=UW2s3HVCiRZsjFv7FE1mJvUjygqiOwtSF/LvI7R0qQo=;
- b=b4OclZmcGrEeIY/GCsxTGGqTF2v4z9x0Yj24Q3KSBn8r7lDF7c5mHK+PTtJu7E0RSv
- bt1dZqKVetbvzYJnwND3NrubcOGpGKkO449DmGfTQ4bc3r/mWTU335iUf4JD0XLBJabi
- DP6cIYgnlQh21RSC2Py6udYlsY31DxBdvc1Ajn7H5lnaKAYsRjV9mZe1g6W8mkuCzdQM
- v5rNIvJybHaPGw7sizp0tR5+lur/jSzkXxEF2lkGPHGXK513I1vPpm2oyFWEl1SdptcD
- V01GHUwBB+8rjinYPwKcp1+uJ+LbYIwmCThef+eFqkmKagNWbUAF3QAah2GnBveT4WKO
- FqGA==
+ :from:to:cc; bh=YlKW9swg+J0D9s0z3kNEQaNc5ma1DV8L1ssiRYzdnlQ=;
+ b=EeczR37VvSBqiy2riZczfY8+VBb9boun2Tzg62BdfHcALEK/Ny/xRFEAIbN0uyRW3Y
+ hmnUiLEIFEx/nvwSAvivnvWHFQRJD/wGMiQnq6NccJufRnGCvk1pj6AfV7OVBQsv83/o
+ Rt6QMREj0iNpUwTH5CKhISa2pcAjpeufOGqm7W3r08VuTXltPWZEFN4cu7G8OlTVJvm7
+ YcRJ4iPF076jpJZfSaJPUokzYlcZ6v+7fyuJ9g0T73xiSrQ2cfSfKed+AD4LcDPoOCwb
+ hzMmHCX3brhc+eNqfFI9q2Bt7Zt3m8wgmfJ/b3pBcH0CC8WBlb7nct7p1QnluPzN1oNK
+ jrcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=UW2s3HVCiRZsjFv7FE1mJvUjygqiOwtSF/LvI7R0qQo=;
- b=ALiFtwhSzDJZ/5xF2CoZh/tCpNgNPHZPmfUxFtc1TIAhdFsiE78yCABz66GshCWlZU
- pUzboGdtpp8zSA++4RXXk9zco1DQaYHvmB6aBLm0Z8IX1bfTZjCL0FnFGrnBPlHuLnk5
- nAPpS/+BwkoTcSa9pNL5OWz5YbKfGoKto4Kfm+leojeqYSMDQ/UQLU4QIQfEuVYmKaWy
- MvzxPAukc7Cs1rk5zftd8I+DsWQ0jhrxssyFHOjtpzFRs6FRr5ACutD5WtJWA2cz/top
- G3BfIKT8Eyu08SRkeudVNu+ZttIFMtEwtuOg5Jt9x75wSAuRFdBqdH8lXxs0dy0jOpo0
- iR9A==
-X-Gm-Message-State: ACgBeo1mRztsCaE2pza+8wJfiuPEMoAZlPu+XW2GPpDzRbORAdjYLVMu
- vvB1j9dA22ac8UCV/qUR/rb45i4DOIHikQ==
-X-Google-Smtp-Source: AA6agR7yzRGoXYwL9brlKuf9hOMU6MUYrZIw0Lq1fFTG/tvbFTrs8U9RftWNjt6/czirA3f7HES2+g==
-X-Received: by 2002:a17:902:aa47:b0:172:ef81:782d with SMTP id
- c7-20020a170902aa4700b00172ef81782dmr1322698plr.173.1661471025120; 
- Thu, 25 Aug 2022 16:43:45 -0700 (PDT)
+ bh=YlKW9swg+J0D9s0z3kNEQaNc5ma1DV8L1ssiRYzdnlQ=;
+ b=fMVAzU6eTi+ij0veGg72osbmt3TeAFdAx/G27M+Hc1A9qgK9UheOVFvEA+6Gjcq1NE
+ FEuwtUQiHm6MQMn5cRpteiFpwgVrOE5nbG3cS4AhsciNVShF9X0p5sIX4OYh3mv5gAzB
+ p0TnEsf4u7J9GObLYR2ZfKx7XQzyxZ/thDK7xlQhl1xDxHQ7WkbhcWD8P6fJZTqGQYbU
+ LqISMkbW7K7NYZzruI5jI4wk5fGayyFZjs4chDWKpY5D++esaRzZexxm0IXGYoMRysue
+ yeSm262sfIQdjGjf0RaILqm9hy1TrJmhb+Tv7+TjPBF3M0VJ7oQn3eUb68khxz/aNDXI
+ 7+/Q==
+X-Gm-Message-State: ACgBeo3Xv2iHvt8hvZXkbLGegrNiYiSu3fbCOwa26eOB8lSPcWXDYBoh
+ /oq+qkOj8IKlGUQjS9AXpbiyiw==
+X-Google-Smtp-Source: AA6agR54u/iTSABICs8a5AA8PIxlQZjQ8bEBIvPtW5/Y+DaAJcGUM4EVoVW/sk6OZyADT2FcIutBAA==
+X-Received: by 2002:a17:90a:5b:b0:1fa:b78b:ad73 with SMTP id
+ 27-20020a17090a005b00b001fab78bad73mr1460604pjb.107.1661471247618; 
+ Thu, 25 Aug 2022 16:47:27 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:345c:4a6c:31b:1fca?
  ([2602:47:d49d:ec01:345c:4a6c:31b:1fca])
  by smtp.gmail.com with ESMTPSA id
- z9-20020aa79e49000000b00536b3fe1300sm225059pfq.13.2022.08.25.16.43.44
+ q1-20020a6557c1000000b0042b5b036da4sm139737pgr.68.2022.08.25.16.47.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 16:43:44 -0700 (PDT)
-Message-ID: <f46c6afe-8444-4eab-b038-aae24b1c4756@linaro.org>
-Date: Thu, 25 Aug 2022 16:43:42 -0700
+ Thu, 25 Aug 2022 16:47:27 -0700 (PDT)
+Message-ID: <6b2ec8c3-0b7f-fcc6-4a00-26213c6cef59@linaro.org>
+Date: Thu, 25 Aug 2022 16:47:25 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 02/18] i386: Rework sse_op_table6/7
+Subject: Re: [PATCH 04/18] i386: Move 3DNOW decoder
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220825221411.35122-1-pbonzini@redhat.com>
- <20220825221411.35122-3-pbonzini@redhat.com>
+ <20220825221411.35122-5-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220825221411.35122-3-pbonzini@redhat.com>
+In-Reply-To: <20220825221411.35122-5-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,18 +95,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/25/22 15:13, Paolo Bonzini wrote:
->   static void gen_sse(CPUX86State *env, DisasContext *s, int b,
->                       target_ulong pc_start)
->   {
->       int b1, op1_offset, op2_offset, is_xmm, val;
->       int modrm, mod, rm, reg;
->       struct SSEOpHelper_table1 sse_op;
-> +    struct SSEOpHelper_table6 op6;
-> +    struct SSEOpHelper_table7 op7;
+> From: Paul Brook <paul@nowt.org>
+> 
+> Handle 3DNOW instructions early to avoid complicating the AVX logic.
+> 
+> Signed-off-by: Paul Brook <paul@nowt.org>
+> Message-Id: <20220424220204.2493824-25-paul@nowt.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   target/i386/tcg/translate.c | 30 +++++++++++++++++-------------
 
-Likewise wrt struct copies instead of pointers.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
