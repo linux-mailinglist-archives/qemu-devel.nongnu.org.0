@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0A45A0905
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 08:43:48 +0200 (CEST)
-Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E48F5A090E
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 08:45:06 +0200 (CEST)
+Received: from localhost ([::1]:45832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR6ag-0000S3-VU
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 02:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36042)
+	id 1oR6bs-0001gh-99
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 02:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oR6TN-0005wj-Gt
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 02:36:14 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42996)
+ id 1oR6Ut-0006ll-Ou
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 02:37:47 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oR6TL-0007f9-G4
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 02:36:13 -0400
-Received: by mail-wr1-x435.google.com with SMTP id u14so23292346wrq.9
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 23:36:10 -0700 (PDT)
+ id 1oR6Uq-0007mB-S8
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 02:37:47 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ c187-20020a1c35c4000000b003a30d88fe8eso2110796wma.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 23:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=d7UStIX39CNRrvv/KKdJvRoFW9hPhFsDGQ7JQijLQsw=;
- b=ZriFRzu3BRWJOQby/AsAJADESkbPy0CmlFb+xxRVvojcx5JRvSEFe9dpsRhn1wJXac
- dnuFlYv8pu3wYopfIEAHxnryGjk/rdO/6QhesdQeB5+StDoCjaDM0Oi/JWcJhnoMb5mA
- LshFbvT/9sJeI1XBD4FjfK3TGGBjIUU/hKtBaXVOavUGP1V7EwvrU0iY0hr4Xao5K6Kt
- E7MGDmPr8unsiiIreLRXDOf32lA0/c+3gQPsM9tRPlA9eNCRXsMI77zFTY4fSNczjiB+
- JpPyc8V0f+iKJuPnm2Kr/xDH0piXGzyDBZUyNSJTBf8mXIGdcGh5+UcZzE+Kn0tNXVZW
- LqWw==
+ bh=P0iTStlahdQVLBT8RYjmRC1GC+h1Gb59TsSrUYMRqyw=;
+ b=T5LGMRsSgDYnxCgQez7W99DA+uyvUIpu3Cb1oURB+qsiqgtqOeLrq8q+8uRNnUUW3F
+ H8bi2efRJ+L+AJDwhsZXi58Bl3sf41UkjSCsw1rAkDwD9HZo/iYeMHjHCaR0xEfIAQqd
+ PK5NymM/7P1f2ff2nhlrrmgxJ61Ytg2Us9wK0kOT+X1lasgZoCiIzmd1bsk941G7y7tP
+ l1PAd36EGn5+CYnQJYe8WABITU0x4gSWXQVoJJNAukyZodD1TuetFp5EhFWTo9qussxg
+ 0/Oqq0A6AaR4m4codFyxS3FXwza0VylhZSM3XuVkdXyXdJIWWJYZgPgLyPo9hLbaINi+
+ JNdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=d7UStIX39CNRrvv/KKdJvRoFW9hPhFsDGQ7JQijLQsw=;
- b=yJkIiv1aHJiZDOmiWpf99HA5e94paflBQUrZweEq4A3YiqmyJQmaZzZUAlmNvzKNPR
- NG9+BWSYOvvkrgr2UVARsdNIt9++SXTAGph0U8HBbjikUdRAUKShN33dROsF0NmGVW4A
- SIKAnpf82ibM8LlthSAJrWUNaqutQm0rqZybP28a4DSWQx94Hen10pISmp+7IZpQOW2C
- N9NYHk0uE4jaFd0bu0zePf3SyqqxV15ohfSCZeRO7IHS9+0nl9GOXtmXW5e57b4NaT9v
- HNYx3JTJBqcQJ3BF8GkdRsijWvXz3+IUqBuDQOH26sjTRHFfb4iD+NZLW283gz24Y1zM
- C64Q==
-X-Gm-Message-State: ACgBeo3zrWI1eQt2eC70jlthIZxLtqsEAQ9jMdVn+rcdT2Teu8rImf3c
- fuzcA88va9ax41T0a6gF7dA=
-X-Google-Smtp-Source: AA6agR6r7MqClw3p0l/clTTBoAB637TmO5IL98/m/vZvRuAOA4JCYtJZNR5XG2NU58qiiCRrJWjS4w==
-X-Received: by 2002:a5d:64e5:0:b0:220:7859:7bc with SMTP id
- g5-20020a5d64e5000000b00220785907bcmr1136443wri.669.1661409369102; 
- Wed, 24 Aug 2022 23:36:09 -0700 (PDT)
+ bh=P0iTStlahdQVLBT8RYjmRC1GC+h1Gb59TsSrUYMRqyw=;
+ b=XsBx/VAHnHJwmz79oLVw5pjJo4CxaN6CfU8VVYXTCaWsROd3BazoTfCT8Q1jubOznz
+ H8gpodfVmbaO4sZhBUYMawQl0xq30F9hukKcKq0RAamNbU/DTOK0fZ07B0HqYekTe08Q
+ RS8wLv0m31d1b54DqMf67yOIC/TACijO5eFXH+pk6lAWKlby1O5lvkXzNw3Sszv/ew1z
+ cdPgEZVPd+yDREdrVjf8caoc2TGjqDNgt4OGhHquf1xrro1+3Tdzo3GEBG9+QZDlUflG
+ /qaJp/6vCW67/Ns1vgM7P7wm0drWjFVDetjzBKOX1Cgxv6kpQuj/E7SmvgkIc6/U70Ud
+ m9XA==
+X-Gm-Message-State: ACgBeo3EyUXbDwgnaNRQFhIfLk/5Vn2gI9kekm09FRdyMqHGxdyQhswW
+ ykx9slMkjsVL8dkIfyrS/9Q=
+X-Google-Smtp-Source: AA6agR4RWU4nOiiNc1mVEOsGPFKvo+3m473JaytiyUoDlcLY9VQLHc2KgPqv1UNxa/olEfEikAjKHQ==
+X-Received: by 2002:a1c:7708:0:b0:3a5:5543:cec4 with SMTP id
+ t8-20020a1c7708000000b003a55543cec4mr7273336wmi.47.1661409463335; 
+ Wed, 24 Aug 2022 23:37:43 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
  ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.googlemail.com with ESMTPSA id
- s1-20020a7bc381000000b003a35ec4bf4fsm4084530wmj.20.2022.08.24.23.36.08
+ 3-20020a05600c22c300b003a35516ccc3sm4025949wmg.26.2022.08.24.23.37.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 23:36:08 -0700 (PDT)
-Message-ID: <9749bce4-e55d-0a5f-66cd-ff340c2ccc6b@redhat.com>
-Date: Thu, 25 Aug 2022 08:36:08 +0200
+ Wed, 24 Aug 2022 23:37:43 -0700 (PDT)
+Message-ID: <c60a5733-4a33-5247-0a10-8ecf43dd7e99@redhat.com>
+Date: Thu, 25 Aug 2022 08:37:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [RFC PATCH 00/17] (The beginning of) a new i386 decoder
+Subject: Re: [PATCH 03/17] target/i386: add core of new i386 decoder
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220824173123.232018-1-pbonzini@redhat.com>
- <dd30d0e2-3e7c-164f-5a34-98c67648c5a5@linaro.org>
+ <20220824173123.232018-4-pbonzini@redhat.com>
+ <a6d65d8c-d864-0479-8d82-1fe24f03016f@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <dd30d0e2-3e7c-164f-5a34-98c67648c5a5@linaro.org>
+In-Reply-To: <a6d65d8c-d864-0479-8d82-1fe24f03016f@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,39 +98,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/22 01:01, Richard Henderson wrote:
->> One notable
->> difference is that the new decoder always sign-extends 8-bit immediates,
->> so for example a "cmpb $e9, %dl" instruction will subtract $0xfff...fffe9
->> from the temporary value.  This is the way Intel intended "Ib" immediates
->> to work, and there's no difference between the two.
+On 8/25/22 02:12, Richard Henderson wrote:
 > 
-> That is in fact an improvement.
-
-Yes, it is and it is a direct effect of encoding the operand types and 
-sizes in a table, instead of writing ad hoc code everywhere.
-
->> Anyay, porting these opcodes is really more of a validation for the
->> whole concept and a test for the common decoder code; it's probably more
->> efficient to focus on the SSE and VEX 2-byte and 3-byte opcodes as a path
->> towards enabling AVX in QEMU, and keep the existing decoder for non-VEX,
->> non-SSE opcodes.
+> Surely it would be just as readable as
 > 
-> Eh... I disagree.  I would really hate to retain the existing decoder.
-> This is already so much better...
+> static const X86OpEntry onebyte[256] = {
+>      /*
+>       * Table A-2: One-byte Opcode Map: 00H — F7H
+>       */
+>      [0x00] = X86_OP_ENTRY2(ADD, E,b, G,b),
+> 
+>      [0x01] = X86_OP_ENTRY2(ADD, E,v, G,v),
+> 
+>      ...
+>      [0x10] = X86_OP_ENTRY2(ADC, E,b, G,b),
+>      [0x11] = X86_OP_ENTRY2(ADC, E,v, G,v),
+>      ...
+> 
+>      /*
+>       * Table A-2: One-byte Opcode Map: 08H - FFH
+>       */
+>      [0x08] = X86_OP_ENTRY2(OR, E,b, G,b),
+> 
+>      [0x09] = X86_OP_ENTRY2(OR, E,v, G,v),
 
-Absolutely, it's just a matter of programmer efficiency, and then 
-SSE/AVX is where I would start.
+Oh, that's obvious in retrospect.
 
-I would hate to not get there just because I didn't have time to 
-complete the last sixty-ish one-byte opcodes (which are also the ones 
-that benefit the least from table-driven decoding; that's already 
-visible in 90-9F).
-
-This was just a heads up that if I complete this patchset I would 
-probably ask to have it committed with "just" SSE/AVX (plus the BMI VEX 
-instructions), in a similar spirit to how the Meson conversion only 
-covered Makefiles.
+I will probably keep bidimensional arrays for the various SSE prefixes, 
+though.
 
 Paolo
 
