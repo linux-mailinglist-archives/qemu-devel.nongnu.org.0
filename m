@@ -2,94 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AEA5A0B2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:19:39 +0200 (CEST)
-Received: from localhost ([::1]:33732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB61B5A0B63
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:26:12 +0200 (CEST)
+Received: from localhost ([::1]:54142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR85S-0005V5-NI
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52142)
+	id 1oR8Bn-00039C-Pe
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:26:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oR7r8-0004tt-Qq; Thu, 25 Aug 2022 04:04:51 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:50817)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oR7rs-00059N-Q0
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:05:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oR7r6-0003qq-5O; Thu, 25 Aug 2022 04:04:50 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 869935C01A2;
- Thu, 25 Aug 2022 04:04:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 25 Aug 2022 04:04:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1661414685; x=
- 1661501085; bh=CfvQJ6/WyHe/1OWcCMJbSjchKIgrmTkxi07s7Nqupr4=; b=D
- pbuUnG7Itus9MppMtVKofGx/RBlsuvdULmauZl7mlk0LP5X5txECeAFRxOVdOBKx
- LF2CfxBdPu+6/eGALKtT/7ZNDFGd0Hc0CBUW/dU+ltu71g1+NiY3iK/uf3lCicti
- Y2Lpa0RlRi4NewKL8eqY/zbdYQETFfz4l3Yqmb46ulrHnnZBAKeBgdYnCkpQbbTb
- j664a4LNIJlVjZ/gjPh4eniEqTQWWNo9pPM8qOzCmZ7PTkxhwRKqA318/5Qdw6kl
- WjWiLa/vosE3Qtt+2r7Ea5W7RgsNqchrpoN/2eiuyWVmh7Cwb1FgU6l9kYifuAJs
- 8KPMtcKd/LnEgMmIY19lg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661414685; x=
- 1661501085; bh=CfvQJ6/WyHe/1OWcCMJbSjchKIgrmTkxi07s7Nqupr4=; b=Z
- TmagIRxj56vZqGcuGfu0/WD0IWtQJ0tC0PjOfCrZ3QFxWAnglriZ6drN3cPETP0R
- sg1qX6nUpr7kv1qwelGXmAtTM47I0fsW+Tw4IRtWQMoQii1UOxcd/5k+2sWOTOfF
- Zn0OspwAvT3RYIEjH27OXIPki57TgvOIOAh3Q+qXAK8YSM6QLJk8v+1JO8Hhd8fR
- bdv6TSGJ6yNlaIeD/RMXwVFyZLCEILNO9hNMSwAVcjLlg5n0GtC/DxR6l4JrFXRX
- SQmzSjcn3Pgk8Kq67OM0Uytg8325SyjBKH7QpvkM3sTiAiuGWImBM0D3YfnOx4DN
- uoaZLN2kEZdqvQIFgO7Gg==
-X-ME-Sender: <xms:HS0HY4cWAcXX5-QOZ214AdPL9yVzG0yv-wypnoa1CxgiExUt6pweQw>
- <xme:HS0HY6P9HfqE1wOmkEoY_NtSI575otmKoNFLUUzP5p1pcUXbbURlp91loZFqEFZln
- KowOKYE8qISDMhteGc>
-X-ME-Received: <xmr:HS0HY5jISZSBB02FesQbXHPTFI1j9SlkPtUgzP4E4mqhrGUPcMH1q-vcrid0rZz9gUEujTFiJjs3>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejvddguddvkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjse
- htkeertddttddunecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigrshcuoehpvght
- vghrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpedthfeuveelueeuffehkefhhf
- ekteeijeeiteduveegtdeklefhgedufeejieekjeenucffohhmrghinhepkhgvrhhnvghl
- rdhorhhgpdhgihhtlhgrsgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:HS0HY99kpm41RpbozcuCvQXMhS99Zvv4_Tmc8bfTfBYyvaAYickS0Q>
- <xmx:HS0HY0sRUTcAF7ofibRjVht2-x4kjn-CiCEWRffJreLC9GoHji7sog>
- <xmx:HS0HY0FbGN9Hh8JzP0m8pi4_gTbqvul_AlgoXmBu1OV7Xws6UhwOlg>
- <xmx:HS0HY5823r30wZoRASoPR0k3r10j1eohprpmhIiXM2q4YpGoJReRew>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 04:04:44 -0400 (EDT)
-Date: Thu, 25 Aug 2022 01:04:42 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: Klaus Jensen <its@irrelevant.dk>, patrick@stwcx.xyz,
- peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, dz4list@gmail.com
-Subject: Re: [PATCH 1/1] hw/i2c/aspeed: Fix old reg slave receive
-Message-ID: <YwctGh2jfdCSHzlB@pdel-fedora-MJ0HJWH9>
-References: <20220820225712.713209-1-peter@pjd.dev>
- <20220820225712.713209-2-peter@pjd.dev> <YwScq4fD+gBIN+3Q@apples>
- <YwUOGUfJTPtE4AzH@pdel-fedora-MJ0HJWH9>
- <65ea4c92-9dc3-bed2-c287-d4d7a4a45e3b@kaod.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oR7ro-00047u-Uj
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:05:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661414732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6DuuQU/Xphy2TSN0/jpai3w7vkWOURgncOeBC6SNjms=;
+ b=GmUKHzYcowD2egLzDhPaeFaWFPvctEunYXpi05wHCbUZWrerb3bqgc7MLcwljbZVLwXj5l
+ 6epeN963JEesTxXZXzoZ4qA/E8rcDcOaqeD/+cWh0I7cySSKXtREpNhWJXaT+t91WO+brf
+ AcCtN0anqooH3Z2nfqa5BhEJoYR+u2Y=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-173-RH6m5vtqMhGbG_IUxXpbag-1; Thu, 25 Aug 2022 04:05:31 -0400
+X-MC-Unique: RH6m5vtqMhGbG_IUxXpbag-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ hd35-20020a17090796a300b0073d67a500e6so3965986ejc.7
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 01:05:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=6DuuQU/Xphy2TSN0/jpai3w7vkWOURgncOeBC6SNjms=;
+ b=F+tqTt0LYy3B+eFD+whcS7d5CafXtKcGEfRfM/3pePxRkBkjUOV5+X71Kk6jnC4snD
+ eXe5bLMw7wZ96NfnGG2qsWoN+fHEK5hfPLSd7FwGO9vwh9zH2aSTgStOhf3ZZYHb4Alg
+ 7hWK4l6QRD4a0uGmmdIJPiiZlu2cCInq5IvAciIKRvjUo0x4/Ez7bhuxVgR3HJMrXBN/
+ 14tiyDbO64bCzX68U9iU3IlpZw5UfjNAa8Twuw4NqSpWrO+YPrgD/CRwBWwhV+A8/oJr
+ UuUciDOAEeRSYDtzGOJaYHazcslw9gg4aHDscObVVIsIefY6fFqObrCiplHHzYTCRbJv
+ K07g==
+X-Gm-Message-State: ACgBeo1/9k/7lllbf5T/yiZRZcTzwoWdCp5YFFvzlbsl1+fMTSFC6Dfb
+ OCz0p5kDNysRf5viqvYJ8XWrHkz2R6hcXiJqaa7kKWzujNqGxxyqMLDMFLD3iPNvYcxNHe00GLJ
+ vo++6j3ITGFn17QY=
+X-Received: by 2002:a05:6402:5024:b0:440:e4ad:f7b6 with SMTP id
+ p36-20020a056402502400b00440e4adf7b6mr2177855eda.358.1661414729858; 
+ Thu, 25 Aug 2022 01:05:29 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4z1/X5InF/C6sK7VWz+MhUI6qgfGWWnDuj/2E6icBpQnr/+L4wyiwSnmjrx++FC8spDjgKpw==
+X-Received: by 2002:a05:6402:5024:b0:440:e4ad:f7b6 with SMTP id
+ p36-20020a056402502400b00440e4adf7b6mr2177830eda.358.1661414729597; 
+ Thu, 25 Aug 2022 01:05:29 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ gy18-20020a170906f25200b0073c37199b86sm2126263ejb.159.2022.08.25.01.05.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Aug 2022 01:05:29 -0700 (PDT)
+Date: Thu, 25 Aug 2022 10:05:28 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ jusual@redhat.com, kkostiuk@redhat.com, qemu-devel@nongnu.org,
+ ybendito@redhat.com, yvugenfi@redhat.com, jasowang@redhat.com,
+ peterx@redhat.com
+Subject: Re: [PATCH 2/4] hw/acpi: set ATS capability explicitly per pcie
+ root port
+Message-ID: <20220825100528.398bf931@redhat.com>
+In-Reply-To: <CAARzgwz8inPfcTLvQx1tEVHdoB39jN_Vie0uS5_soEYd_yUHOA@mail.gmail.com>
+References: <20220822090811.427029-1-ani@anisinha.ca>
+ <20220822090811.427029-3-ani@anisinha.ca>
+ <20220824172429.058281c4@redhat.com>
+ <CAARzgwz8inPfcTLvQx1tEVHdoB39jN_Vie0uS5_soEYd_yUHOA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <65ea4c92-9dc3-bed2-c287-d4d7a4a45e3b@kaod.org>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=peter@pjd.dev;
- helo=out5-smtp.messagingengine.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,105 +107,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 04:31:50PM +0200, Cédric Le Goater wrote:
-> On 8/23/22 19:27, Peter Delevoryas wrote:
-> > On Tue, Aug 23, 2022 at 11:23:55AM +0200, Klaus Jensen wrote:
-> > > On Aug 20 15:57, Peter Delevoryas wrote:
-> > > > I think when Klaus ported his slave mode changes from the original patch
-> > > > series to the rewritten I2C module, he changed the behavior of the first
-> > > > byte that is received by the slave device.
-> > > > 
-> > > > What's supposed to happen is that the AspeedI2CBus's slave device's
-> > > > i2c_event callback should run, and if the event is "send_async", then it
-> > > > should populate the byte buffer with the 8-bit I2C address that is being
-> > > > sent to. Since we only support "send_async", the lowest bit should
-> > > > always be 0 (indicating that the master is requesting to send data).
-> > > > 
-> > > > This is the code Klaus had previously, for reference. [1]
-> > > > 
-> > > >      switch (event) {
-> > > >      case I2C_START_SEND:
-> > > >          bus->buf = bus->dev_addr << 1;
-> > > > 
-> > > >          bus->buf &= I2CD_BYTE_BUF_RX_MASK;
-> > > >          bus->buf <<= I2CD_BYTE_BUF_RX_SHIFT;
-> > > > 
-> > > >          bus->intr_status |= (I2CD_INTR_SLAVE_ADDR_RX_MATCH | I2CD_INTR_RX_DONE);
-> > > >          aspeed_i2c_set_state(bus, I2CD_STXD);
-> > > > 
-> > > >          break;
-> > > > 
-> > > > [1]: https://lore.kernel.org/qemu-devel/20220331165737.1073520-4-its@irrelevant.dk/
-> > > > 
-> > > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > > > Fixes: a8d48f59cd021b25 ("hw/i2c/aspeed: add slave device in old register mode")
-> > > > ---
-> > > >   hw/i2c/aspeed_i2c.c         | 8 +++++---
-> > > >   include/hw/i2c/aspeed_i2c.h | 1 +
-> > > >   2 files changed, 6 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-> > > > index 42c6d69b82..c166fd20fa 100644
-> > > > --- a/hw/i2c/aspeed_i2c.c
-> > > > +++ b/hw/i2c/aspeed_i2c.c
-> > > > @@ -1131,7 +1131,9 @@ static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event event)
-> > > >       AspeedI2CBus *bus = ASPEED_I2C_BUS(qbus->parent);
-> > > >       uint32_t reg_intr_sts = aspeed_i2c_bus_intr_sts_offset(bus);
-> > > >       uint32_t reg_byte_buf = aspeed_i2c_bus_byte_buf_offset(bus);
-> > > > -    uint32_t value;
-> > > > +    uint32_t reg_dev_addr = aspeed_i2c_bus_dev_addr_offset(bus);
-> > > > +    uint32_t dev_addr = SHARED_ARRAY_FIELD_EX32(bus->regs, reg_dev_addr,
-> > > > +                                                SLAVE_DEV_ADDR1);
-> > > >       if (aspeed_i2c_is_new_mode(bus->controller)) {
-> > > >           return aspeed_i2c_bus_new_slave_event(bus, event);
-> > > > @@ -1139,8 +1141,8 @@ static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event event)
-> > > >       switch (event) {
-> > > >       case I2C_START_SEND_ASYNC:
-> > > > -        value = SHARED_ARRAY_FIELD_EX32(bus->regs, reg_byte_buf, TX_BUF);
-> > > > -        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, value << 1);
-> > > > +        /* Bit[0] == 0 indicates "send". */
-> > > > +        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, dev_addr << 1);
-> > > >           ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, SLAVE_ADDR_RX_MATCH, 1);
-> > > >           SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, RX_DONE, 1);
-> > > > diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-> > > > index 300a89b343..adc904d6c1 100644
-> > > > --- a/include/hw/i2c/aspeed_i2c.h
-> > > > +++ b/include/hw/i2c/aspeed_i2c.h
-> > > > @@ -130,6 +130,7 @@ REG32(I2CD_CMD, 0x14) /* I2CD Command/Status */
-> > > >       SHARED_FIELD(M_TX_CMD, 1, 1)
-> > > >       SHARED_FIELD(M_START_CMD, 0, 1)
-> > > >   REG32(I2CD_DEV_ADDR, 0x18) /* Slave Device Address */
-> > > > +    SHARED_FIELD(SLAVE_DEV_ADDR1, 0, 7)
-> > > >   REG32(I2CD_POOL_CTRL, 0x1C) /* Pool Buffer Control */
-> > > >       SHARED_FIELD(RX_COUNT, 24, 5)
-> > > >       SHARED_FIELD(RX_SIZE, 16, 5)
-> > > > -- 
-> > > > 2.37.1
-> > > > 
-> > > 
-> > > Nice catch Peter! I'm not sure how I messed that up like that.
-> > > 
-> > > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> > 
-> > Thanks Klaus. Just realized I forgot to cc you on this, sorry about
-> > that.
-> 
-> Do we still have time for 7.1 ?
+On Wed, 24 Aug 2022 21:46:58 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Is this question for me, or for Peter Maydell or someone else working on the
-release? I think they might still be accepting some patches, or deciding if rc4
-is necessary: I've created this issue to bring awareness to this, since that
-seems like the right way to track this for the release.
+> On Wed, Aug 24, 2022 at 8:54 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>=20
+> > On Mon, 22 Aug 2022 14:38:09 +0530
+> > Ani Sinha <ani@anisinha.ca> wrote:
+> > =20
+> > > Currently the bit 0 of the flags field of Root Port ATS capability =20
+> > reporting =20
+> > > structure sub-table under the DMAR table is set to 1. This indicates =
+=20
+> > ALL_PORTS, =20
+> > > thus enabling ATS capability for all pcie roots without the ability t=
+o =20
+> > turn off =20
+> > > ATS for some ports and leaving ATS on for others.
+> > >
+> > > This change clears the bit 0 of the flags field of the above structur=
+e =20
+> > and =20
+> > > explicitly adds scopes for every pcie root port in the structure so t=
+hat =20
+> > ATS =20
+> > > is enabled for all of them. In future, we might add new attribite to =
+the =20
+> > root =20
+> > > ports so that we can selectively enable ATS for some and leave ATS of=
+f =20
+> > for =20
+> > > others. =20
+> >
+> > Thanks, it was worth a try,
+> > unfortunately since we are shooting in dark this time it was a miss. =20
+>=20
+>=20
+> So I take it that even with this patch Windows still exhibited the issue?
+unfortunately, yep
 
-https://gitlab.com/qemu-project/qemu/-/issues/1174
+> Is it worth pushing the patch anyway?
+it will extra cpu time and guest RAM,
+so unless we have to have to I'd rather not.
+=20
+>=20
+> >
+> > =20
+> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > Suggested-by: Michael Tsirkin <mst@redhat.com>
+> > > ---
+> > >  hw/i386/acpi-build.c | 74 ++++++++++++++++++++++++++++++++++++++++++=
+--
+> > >  1 file changed, 72 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > index 0355bd3dda..9c5a555536 100644
+> > > --- a/hw/i386/acpi-build.c
+> > > +++ b/hw/i386/acpi-build.c
+> > > @@ -60,6 +60,7 @@
+> > >  #include "hw/i386/fw_cfg.h"
+> > >  #include "hw/i386/ich9.h"
+> > >  #include "hw/pci/pci_bus.h"
+> > > +#include "hw/pci/pcie_port.h"
+> > >  #include "hw/pci-host/q35.h"
+> > >  #include "hw/i386/x86-iommu.h"
+> > >
+> > > @@ -2118,6 +2119,60 @@ dmar_host_bridges(Object *obj, void *opaque)
+> > >      return 0;
+> > >  }
+> > >
+> > > +/*
+> > > + * Insert DMAR scope for PCIE root ports
+> > > + */
+> > > +static void
+> > > +insert_pcie_root_port_scope(PCIBus *bus, PCIDevice *dev, void *opaqu=
+e)
+> > > +{
+> > > +    const size_t device_scope_size =3D 6 + 2;
+> > > +                                   /* device scope structure + 1 pat=
+h =20
+> > entry */ =20
+> > > +    GArray *scope_blob =3D opaque;
+> > > +
+> > > +    /*
+> > > +     * We are only interested in PCIE root ports. We can extend
+> > > +     * this to check for specific properties of PCIE root ports and =
+=20
+> > based =20
+> > > +     * on that remove some ports from having ATS capability.
+> > > +     */
+> > > +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PORT)) {
+> > > +        return;
+> > > +    }
+> > > +
+> > > +    /* Dmar Scope Type: 0x02 for all PCIE root ports */
+> > > +    build_append_int_noprefix(scope_blob, 0x02, 1);
+> > > +
+> > > +    /* length */
+> > > +    build_append_int_noprefix(scope_blob, device_scope_size, 1);
+> > > +    /* reserved */
+> > > +    build_append_int_noprefix(scope_blob, 0, 2);
+> > > +    /* enumeration_id */
+> > > +    build_append_int_noprefix(scope_blob, 0, 1);
+> > > +    /* bus */
+> > > +    build_append_int_noprefix(scope_blob, pci_bus_num(bus), 1);
+> > > +    /* device */
+> > > +    build_append_int_noprefix(scope_blob, PCI_SLOT(dev->devfn), 1);
+> > > +    /* function */
+> > > +    build_append_int_noprefix(scope_blob, PCI_FUNC(dev->devfn), 1);
+> > > +}
+> > > +
+> > > +/* For a given PCI host bridge, walk and insert DMAR scope */
+> > > +static int
+> > > +dmar_pcie_root_ports(Object *obj, void *opaque)
+> > > +{
+> > > +    GArray *scope_blob =3D opaque;
+> > > +
+> > > +    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+> > > +        PCIBus *bus =3D PCI_HOST_BRIDGE(obj)->bus;
+> > > +
+> > > +        if (bus && !pci_bus_bypass_iommu(bus)) {
+> > > +            pci_for_each_device_under_bus(bus, =20
+> > insert_pcie_root_port_scope, =20
+> > > +                                          scope_blob);
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return 0;
+> > > +}
+> > > +
+> > >  /*
+> > >   * Intel =C2=AE Virtualization Technology for Directed I/O
+> > >   * Architecture Specification. Revision 3.3
+> > > @@ -2190,11 +2245,26 @@ build_dmar_q35(GArray *table_data, BIOSLinker=
+ =20
+> > *linker, const char *oem_id, =20
+> > >
+> > >      if (iommu->dt_supported) {
+> > >          /* 8.5 Root Port ATS Capability Reporting Structure */
+> > > +        /*
+> > > +         * A PCI bus walk, for each PCIE root port.
+> > > +         * Since we did not enable ALL_PORTS bit in the flags above,=
+ we
+> > > +         * need to add the scope for each pcie root port explicitly
+> > > +         * that are attached to bus0 with iommu enabled.
+> > > +         */
+> > > +        scope_blob =3D g_array_new(false, true, 1);
+> > > +        object_child_foreach_recursive(object_get_root(),
+> > > +                                       dmar_pcie_root_ports, =20
+> > scope_blob); =20
+> > > +
+> > >          build_append_int_noprefix(table_data, 2, 2); /* Type */
+> > > -        build_append_int_noprefix(table_data, 8, 2); /* Length */
+> > > -        build_append_int_noprefix(table_data, 1 /* ALL_PORTS */, 1);=
+ /* =20
+> > Flags */ =20
+> > > +        build_append_int_noprefix(table_data,
+> > > +                                  8 + scope_blob->len, 2); /* Length=
+ */
+> > > +        build_append_int_noprefix(table_data, 0, 1); /* Flags */
+> > >          build_append_int_noprefix(table_data, 0, 1); /* Reserved */
+> > >          build_append_int_noprefix(table_data, 0, 2); /* Segment Numb=
+er =20
+> > */ =20
+> > > +
+> > > +        /* now add the scope to the sub-table */
+> > > +        g_array_append_vals(table_data, scope_blob->data, =20
+> > scope_blob->len); =20
+> > > +        g_array_free(scope_blob, true);
+> > >      }
+> > >
+> > >      acpi_table_end(linker, &table); =20
+> >
+> > =20
 
-I don't have any special need for 7.1, since our team branches off of master and
-regularly pulls in updates.
-
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
 
