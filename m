@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054D25A105E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:26:02 +0200 (CEST)
-Received: from localhost ([::1]:45510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6985A1097
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:34:03 +0200 (CEST)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRBvt-0004q6-2F
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53842)
+	id 1oRC3e-0001GC-Bv
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRBsj-0001vv-05
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:22:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27117)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRByX-0005XO-6J
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:28:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRBsg-0005Bw-UV
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:22:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRByR-0006Iv-9L
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:28:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661430162;
+ s=mimecast20190719; t=1661430518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JrYFfpIP3JW+I+8JQWIhl0AcXbWcuIm2hgnoBPNNOEM=;
- b=F4mj2JbDxjAR6kOrlGiguhOnoucKV262wjemJl08C0qhR1Tql/NQ5NvbDFSa70AiYJNCH1
- vyIQTJBD9p9d5NzPYV4szFtk3+CzrpHWBH0vM01v8TH0vfKkrxeZ8686VpdfNef3YGJyCL
- /QGL76nWq09s1sy0UMeE39zyj8Os+Yo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0v72m8WcuAUvi42YdeeZKCgcJy4h94TZHjM80WtqYao=;
+ b=EzsM4PTG3tDLhelP4Rgu3XVY4AzS/Y4dL8eMSLhXXd75cEYtWcaO3aM/jRkTw6kYsYiT97
+ xr5gCOhEKv3swyXJwfC3PuMf4+gVuhWouOQOMmcLZPXiSz+0m/t8T5iCly2MekOLCyqHY9
+ XhR+0Hxo9b5vY2ByprJ2mdM7oZRsPbw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-388-EMAPgbGsN-yRs6O6IApgXw-1; Thu, 25 Aug 2022 08:22:40 -0400
-X-MC-Unique: EMAPgbGsN-yRs6O6IApgXw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f18-20020a05600c4e9200b003a5f81299caso10865290wmq.7
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 05:22:40 -0700 (PDT)
+ us-mta-214-rS4BWj-IN06TqN21gHpVRg-1; Thu, 25 Aug 2022 08:28:37 -0400
+X-MC-Unique: rS4BWj-IN06TqN21gHpVRg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i29-20020adfa51d000000b002251fd0ff14so3346132wrb.16
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 05:28:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=JrYFfpIP3JW+I+8JQWIhl0AcXbWcuIm2hgnoBPNNOEM=;
- b=UOhtmG8wjxsnoG/jQIK+X+OWB0MT4AkDXL+8aSwLJPp3JgH6OEocpIMHRmuArntbwy
- fU9fiDSskjnxuS0YDsCGk3+gtTGDhBwrC6O8b4IqcSNwKEjYevniM1Y19dhf8NkBhFjL
- jUPrwrI81q1RTC91hnHh7dtEmipOyuwRyAF+OEq+We3nRzpAhsRo5FtV0fUpBDLXJsA3
- BtdamL/Lonv86rmHiTcXwgWaplcBgZrwACCyXNVYV75dHOiuhgRQfAS6VnN/ApDIvwqc
- 2Fj5hwVyxR2u0xG4estSXK4LvDXGAGZ2DHd+s1XK21z2FYUjJBakGSxu0iLIId1vmTQI
- WmHA==
-X-Gm-Message-State: ACgBeo0vWZInwUsaRG1G9xz2u6oweyfyiUvZQI/lhhR40MfNU07MeYjt
- O4XRiPs9RYRzvTzZuvFPBXd7qMUdWhV2HNIuW0Rth+jtWASQ2NTm1uMBLrq2bFLBW8XtVJix76S
- eZE1CrW6VFQonnAc=
-X-Received: by 2002:a5d:4f81:0:b0:21e:2cd7:25df with SMTP id
- d1-20020a5d4f81000000b0021e2cd725dfmr2224113wru.439.1661430159842; 
- Thu, 25 Aug 2022 05:22:39 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR56yLI5y4m2780pkbtiShbxMMgjTwbXZpwgWPTZOpfMvWWxXx3QR0kOjQX/bnpV4QAxcFaYLg==
-X-Received: by 2002:a5d:4f81:0:b0:21e:2cd7:25df with SMTP id
- d1-20020a5d4f81000000b0021e2cd725dfmr2224095wru.439.1661430159587; 
- Thu, 25 Aug 2022 05:22:39 -0700 (PDT)
+ bh=0v72m8WcuAUvi42YdeeZKCgcJy4h94TZHjM80WtqYao=;
+ b=dUKP8yrnIrrS3DgzDdV//JqcWA08hnxX1TLqp/kY5R8BO7XTuiU07fUiFXIECSsPnW
+ L9IEvXoIbzekS91QV784b6Nld3ftzZ7/ylq0dH4IWykaqkJKsHqblAcr+CydAHSYzn7F
+ vo5KqzRS8kH8FkWdDEq+/0V6J7yrUsW5FeQXK8J6eQgBjNPB5rZrvMHXSCrd9xAmUn2Z
+ Sb/65zPuF1VbNwiUS1XJ8v1kZUQGKUl5891toCL9wuxIhPtYUwezKovqQ52XqJzU/I/e
+ 4dZZpE3kyW+PL5jbHigkv0zzhcY2A3VZHbnrvx9kTlNo9B4pQ0lSZD3DOUskDMcZpLSp
+ 2GxA==
+X-Gm-Message-State: ACgBeo37YHqK4rInPVYzDlIczE8gnoozWV4NDJEe/4vPblMc5UogbDFF
+ us/i1WM9fyFJI1THF+BNM/ivjNsQkpkq6ycnMa8Aj133YYvLWZAgQKJoCzkjtPiectkNWe8AfoS
+ p4AFIP4RL+cBG7V4=
+X-Received: by 2002:a1c:7916:0:b0:3a6:3540:5b3c with SMTP id
+ l22-20020a1c7916000000b003a635405b3cmr2140121wme.178.1661430515892; 
+ Thu, 25 Aug 2022 05:28:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4PXFcraJFLrd77HaClz8HMceB0Wk/Yq3F5bbvCVpj8EvjARP8pXWR3g7AkUHJYxBK/QXKR9A==
+X-Received: by 2002:a1c:7916:0:b0:3a6:3540:5b3c with SMTP id
+ l22-20020a1c7916000000b003a635405b3cmr2140106wme.178.1661430515664; 
+ Thu, 25 Aug 2022 05:28:35 -0700 (PDT)
 Received: from [192.168.0.5] (ip-109-43-177-177.web.vodafone.de.
  [109.43.177.177]) by smtp.gmail.com with ESMTPSA id
- m10-20020a5d624a000000b0021e6c52c921sm23123291wrv.54.2022.08.25.05.22.38
+ d1-20020adfe881000000b0022063e5228bsm20071191wrm.93.2022.08.25.05.28.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 05:22:39 -0700 (PDT)
-Message-ID: <c093327b-e561-3394-96aa-fd191deff310@redhat.com>
-Date: Thu, 25 Aug 2022 14:22:38 +0200
+ Thu, 25 Aug 2022 05:28:35 -0700 (PDT)
+Message-ID: <6033ba91-e211-616b-1759-e7207c22721e@redhat.com>
+Date: Thu, 25 Aug 2022 14:28:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 36/51] tests/qtest: machine-none-test: Use double quotes
- to pass the cpu option
+Subject: Re: [PATCH 38/51] tests/qtest: {ahci,ide}-test: Open file in binary
+ mode
 Content-Language: en-US
 To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-37-bmeng.cn@gmail.com>
+ <20220824094029.1634519-39-bmeng.cn@gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220824094029.1634519-37-bmeng.cn@gmail.com>
+In-Reply-To: <20220824094029.1634519-39-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -104,35 +106,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 24/08/2022 11.40, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 > 
-> Single quotes in the arguments (e.g.: -cpu 'qemu64,apic-id=0') are
-> not removed in the Windows environment before it is passed to the
-> QEMU executable. Such argument causes a failure in the QEMU CPU
-> option parser codes.
+> By default Windows opens file in text mode, while a POSIX compliant
+> implementation treats text files and binary files the same.
 > 
-> Change to use double quotes which works fine on all platforms.
+> The fopen() 'mode' string can include the letter 'b' to indicate
+> binary mode shall be used. POSIX spec says the character 'b' shall
+> have no effect, but is allowed for ISO C standard conformance.
+> Let's add the letter 'b' which works on both POSIX and Windows.
 > 
+> Similar situation applies to the open() 'flags' where O_BINARY is
+> used for binary mode.
+> 
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
 > 
->   tests/qtest/machine-none-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   tests/qtest/ahci-test.c | 2 +-
+>   tests/qtest/ide-test.c  | 4 ++--
+>   2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-> index f92fab479f..31cc0bfb01 100644
-> --- a/tests/qtest/machine-none-test.c
-> +++ b/tests/qtest/machine-none-test.c
-> @@ -81,7 +81,7 @@ static void test_machine_cpu_cli(void)
->                   " add it to cpus_map\n", arch);
->           return; /* TODO: die here to force all targets have a test */
->       }
-> -    qts = qtest_initf("-machine none -cpu '%s'", cpu_model);
-> +    qts = qtest_initf("-machine none -cpu \"%s\"", cpu_model);
->   
->       response = qtest_qmp(qts, "{ 'execute': 'quit' }");
->       g_assert(qdict_haskey(response, "return"));
+> diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
+> index bce9ff770c..be11508c75 100644
+> --- a/tests/qtest/ahci-test.c
+> +++ b/tests/qtest/ahci-test.c
+> @@ -1453,7 +1453,7 @@ static int prepare_iso(size_t size, unsigned char **buf, char **name)
+>        * Close the file and reopen it.
+>        */
+>       close(fd);
+> -    fd = open(cdrom_path, O_WRONLY);
+> +    fd = open(cdrom_path, O_WRONLY | O_BINARY);
+>       g_assert(fd != -1);
+>   #endif
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Could you please squash this hunk into patch 32/51 where you introduced this 
+code?
+
+  Thomas
 
 
