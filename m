@@ -2,91 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA8B5A0EAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:05:41 +0200 (CEST)
-Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6715A0EDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:19:34 +0200 (CEST)
+Received: from localhost ([::1]:35600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRAg7-0001Gq-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:05:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57942)
+	id 1oRAtY-0006A9-OI
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRAaE-0007X7-Rh
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 06:59:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29101)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRAaB-0006Wp-GX
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 06:59:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661425170;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1JPKUtXtDw0Y5mx61W9hdRo5tu/MmSWvnG+4wukjpg8=;
- b=iqOs9vDAhXIrtOvW/2nNzvBr/KmlFKrQm0jk2HbsOWw6w10pana1WKDgsgtViVhMqbVpOr
- gm7aU03Ch3WXN8ox5+XMKVmXS3EeKG8mL/D0ftJEmzwgBaop1Khh6HKk0zrPsnNTpWOWwf
- 6VvyeTFU4YyVcA3MYEV70xkOaVRk6PQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-44-WhhIYt0XMaa_edDqswbKdA-1; Thu, 25 Aug 2022 06:59:29 -0400
-X-MC-Unique: WhhIYt0XMaa_edDqswbKdA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v17-20020adfa1d1000000b0022574d4574aso681468wrv.22
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 03:59:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=1JPKUtXtDw0Y5mx61W9hdRo5tu/MmSWvnG+4wukjpg8=;
- b=Ir/QcyR1Ofxpwlbtda0awHzzRqzg/skle40CPhrVtVfWSQ8lVkMbrQpzjqnrs75v0/
- vn1nwDIqxZ5h1dmP7nHIdF0MYee21HQtALJef6ziSoNuXveciauE/2ZOGRZuA1K5jgCf
- PfO9a9WhG0BrQVHYO6JtbCwViGh5+T07s85a3cEkJKg80UnX4Hueg/NUZkm2LXWSFHzv
- vaXANp+inyGY7E6FxYm3YK9mOYGnhXwT2WfHN4VwWfLzBdGzEZCYIHN1s4dzSmYImZFp
- n3Aqx16vm0TyXo+WwgunTn0FUsKmT/qwSoRBcvtF9YNIiD+G5Q8Z4Nm1F1oA4OAwLYkD
- BfrQ==
-X-Gm-Message-State: ACgBeo1sbk05CuJQHlWYhRqmRsMaA4oUvmPFSkLmytbCVflXhC0P0Q0W
- k9Ve5TFD/GITCrMYJGJHoAJ1ZtArqXp8ncHPvxxWbj/t++XIK01VnP32Voetmr0q3qOQgUU1RSN
- ogptkYFKDqvCgpuA=
-X-Received: by 2002:a05:600c:3c8a:b0:3a6:7719:6118 with SMTP id
- bg10-20020a05600c3c8a00b003a677196118mr1964538wmb.199.1661425168421; 
- Thu, 25 Aug 2022 03:59:28 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4Jl1zgChMtlTi8yQ4yjIyC18u07tHsw10rytrksQ/zQuLW+A6wgC4N9AK8Iz6qR9qnWzE45w==
-X-Received: by 2002:a05:600c:3c8a:b0:3a6:7719:6118 with SMTP id
- bg10-20020a05600c3c8a00b003a677196118mr1964523wmb.199.1661425168137; 
- Thu, 25 Aug 2022 03:59:28 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-177.web.vodafone.de.
- [109.43.177.177]) by smtp.gmail.com with ESMTPSA id
- p5-20020a05600c418500b003a5f4fccd4asm4511530wmh.35.2022.08.25.03.59.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 03:59:27 -0700 (PDT)
-Message-ID: <4d2c07b5-cff1-d7ed-ea6f-b1ee49675697@redhat.com>
-Date: Thu, 25 Aug 2022 12:59:26 +0200
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRAqT-0004AF-2H; Thu, 25 Aug 2022 07:16:21 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:52938 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRAqQ-0002Ow-79; Thu, 25 Aug 2022 07:16:20 -0400
+Received: from [127.0.0.1] (unknown [221.220.143.85])
+ by APP-05 (Coremail) with SMTP id zQCowACXnqb1WQdj+KoFAA--.596S2;
+ Thu, 25 Aug 2022 19:16:06 +0800 (CST)
+Message-ID: <7e5708c6-ffad-d867-a232-85ce55ee60b4@ict.ac.cn>
+Date: Thu, 25 Aug 2022 19:16:04 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 16/51] tests/qtest: Build e1000e-test for posix only
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-17-bmeng.cn@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220824094029.1634519-17-bmeng.cn@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v2 1/3] hw/nvme: support irq(de)assertion with eventfd
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
+ "open list:nvme" <qemu-block@nongnu.org>
+References: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
+ <20220825074746.2047420-2-fanjinhao21s@ict.ac.cn> <YwdB//iV62uWeqJK@apples>
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YwdB//iV62uWeqJK@apples>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: zQCowACXnqb1WQdj+KoFAA--.596S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1UZF4kGw1DCw4DZr1fWFg_yoWfWFXEgr
+ Z5u3y7tw4UXF48Ka4IywsrAFZIgay0yF92yw1vqanxA347ZF9avr45uryjvwn7Ga1kuwnx
+ Ga42qanIyrnrKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbc8YjsxI4VWkKwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAI
+ w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+ 4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
+ rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+ CI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+ 6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUgg_TUUUUU
+X-Originating-IP: [221.220.143.85]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,41 +76,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/08/2022 11.39, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+On 8/25/2022 5:33 PM, Klaus Jensen wrote:
+> I'm still a bit perplexed by this issue, so I just tried moving
+> nvme_init_irq_notifier() to the end of nvme_init_cq() and removing this
+> first_io_cqe thing. I did not observe any particular issues?
 > 
-> The whole e1000e-test test case relies on socketpair() which does
-> not exist on win32.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->   tests/qtest/meson.build | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index be4b30dea2..9d0f82bf1c 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -239,7 +239,6 @@ qos_test_ss.add(
->     'adm1272-test.c',
->     'ds1338-test.c',
->     'e1000-test.c',
-> -  'e1000e-test.c',
->     'eepro100-test.c',
->     'es1370-test.c',
->     'ipoctal232-test.c',
-> @@ -267,6 +266,9 @@ qos_test_ss.add(
->     'virtio-iommu-test.c',
->     'vmxnet3-test.c',
->   )
-> +if config_host.has_key('CONFIG_POSIX')
-> +  qos_test_ss.add(files('e1000e-test.c'))
-> +endif
->   if have_virtfs
->     qos_test_ss.add(files('virtio-9p-test.c'))
->   endif
+> What bad behavior did you encounter, it seems to work fine to me
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+The kernel boots up and got stuck, waiting for interrupts. Then the 
+request times out and got retried three times. Finally the driver seems 
+to decide that the drive is down and continues to boot.
+
+I added some prints during debugging and found that the MSI-X message 
+which got registered in KVM via kvm_irqchip_add_msi_route() is not the 
+same as the one actually used in msix_notify().
+
+Are you sure you are using KVM's irqfd?
+
+Here is a previous discussion with Keith [1].
+
+[1] 
+https://lore.kernel.org/qemu-devel/YvKJk2dYiwomexFv@kbusch-mbp.dhcp.thefacebook.com/#t
 
 
