@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBB25A0B29
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:18:29 +0200 (CEST)
-Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE0C5A0B86
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:31:45 +0200 (CEST)
+Received: from localhost ([::1]:53144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR84J-0003te-2J
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
+	id 1oR8H9-00028H-F5
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vf-0006MT-VI
+ id 1oR7vf-0006MV-VO
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:32 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:53597)
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:35565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vQ-0004hP-1j
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:17 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R311e4; CH=green; DM=||false|;
+ id 1oR7vQ-0004hO-Qv
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:18 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
  DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VNCZbpQ_1661414948; 
+ TI=SMTPD_---0VNCWzwC_1661414949; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VNCZbpQ_1661414948) by smtp.aliyun-inc.com;
- Thu, 25 Aug 2022 16:09:09 +0800
+ fp:SMTPD_---0VNCWzwC_1661414949) by smtp.aliyun-inc.com;
+ Thu, 25 Aug 2022 16:09:10 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v3 09/15] vhost: expose vhost_virtqueue_start()
-Date: Thu, 25 Aug 2022 16:08:52 +0800
-Message-Id: <b85851574c6d74552100b8fc915fa1a622438258.1661414345.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v3 10/15] vhost-net: vhost-kernel: introduce
+ vhost_net_virtqueue_reset()
+Date: Thu, 25 Aug 2022 16:08:53 +0800
+Message-Id: <b6286db2a6ce2389f44cc44da06c9fd2b8eaaec8.1661414345.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.131;
+Received-SPF: pass client-ip=115.124.30.57;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-131.freemail.mail.aliyun.com
+ helo=out30-57.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,48 +65,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expose vhost_virtqueue_start(), we need to use it when restarting a
-virtqueue.
+Introduce vhost_virtqueue_reset(), which can reset the specific
+virtqueue in the device. Then it will unmap vrings and the desc
+of the virtqueue.
+
+Here we do not reuse the vhost_net_stop_one() or vhost_dev_stop(),
+because they work at queue pair level. We do not use
+vhost_virtqueue_stop() because it may stop the device in the
+backend.
+
+This patch only considers the case of vhost-kernel, when
+NetClientDriver is NET_CLIENT_DRIVER_TAP.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/virtio/vhost.c         | 8 ++++----
- include/hw/virtio/vhost.h | 2 ++
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ hw/net/vhost_net.c      | 22 ++++++++++++++++++++++
+ include/net/vhost_net.h |  2 ++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 2419521c36..8bf9ed952e 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1081,10 +1081,10 @@ out:
-     return ret;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index ccac5b7a64..be51be98b3 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -514,3 +514,25 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
+ 
+     return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
  }
++
++void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
++                               int vq_index)
++{
++    VHostNetState *net = get_vhost_net(nc->peer);
++    const VhostOps *vhost_ops = net->dev.vhost_ops;
++    struct vhost_vring_file file = { .fd = -1 };
++    int idx;
++
++    /* should only be called after backend is connected */
++    assert(vhost_ops);
++
++    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
++
++    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
++        file.index = idx;
++        int r = vhost_net_set_backend(&net->dev, &file);
++        assert(r >= 0);
++    }
++
++    vhost_virtqueue_unmap(&net->dev, vdev, net->dev.vqs + idx, idx);
++}
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index 387e913e4e..85d85a4957 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -48,4 +48,6 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net);
  
--static int vhost_virtqueue_start(struct vhost_dev *dev,
--                                struct VirtIODevice *vdev,
--                                struct vhost_virtqueue *vq,
--                                unsigned idx)
-+int vhost_virtqueue_start(struct vhost_dev *dev,
-+                          struct VirtIODevice *vdev,
-+                          struct vhost_virtqueue *vq,
-+                          unsigned idx)
- {
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-     VirtioBusState *vbus = VIRTIO_BUS(qbus);
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index d9adbca584..7b4ffc522b 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -279,6 +279,8 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
+ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
  
- int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write);
- 
-+int vhost_virtqueue_start(struct vhost_dev *dev, struct VirtIODevice *vdev,
-+                          struct vhost_virtqueue *vq, unsigned idx);
- void vhost_virtqueue_unmap(struct vhost_dev *dev, struct VirtIODevice *vdev,
-                            struct vhost_virtqueue *vq, unsigned idx);
- 
++void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
++                               int vq_index);
+ #endif
 -- 
 2.32.0
 
