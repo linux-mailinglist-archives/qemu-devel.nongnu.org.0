@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0455A0BB2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:41:14 +0200 (CEST)
-Received: from localhost ([::1]:59978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156A45A0BD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:49:17 +0200 (CEST)
+Received: from localhost ([::1]:55832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR8QF-00087K-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
+	id 1oR8Y6-0006Wg-PM
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vg-0006MX-01
+ id 1oR7vf-0006MY-W5
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:32 -0400
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:35351)
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:38437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vS-0004hi-QX
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:22 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ id 1oR7vU-0004iA-S3
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:23 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VNCZbqp_1661414952; 
+ TI=SMTPD_---0VNCYVQD_1661414953; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VNCZbqp_1661414952) by smtp.aliyun-inc.com;
- Thu, 25 Aug 2022 16:09:13 +0800
+ fp:SMTPD_---0VNCYVQD_1661414953) by smtp.aliyun-inc.com;
+ Thu, 25 Aug 2022 16:09:14 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v3 13/15] virtio-net: support queue reset
-Date: Thu, 25 Aug 2022 16:08:56 +0800
-Message-Id: <8577963f4b72f30c5dd1adfe661b08e57d26c453.1661414345.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v3 14/15] virtio-net: support queue_enable
+Date: Thu, 25 Aug 2022 16:08:57 +0800
+Message-Id: <6ccb4519f6e5dc6d831ae871b1d66845c0dc9c3f.1661414345.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.42;
+Received-SPF: pass client-ip=115.124.30.132;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-42.freemail.mail.aliyun.com
+ helo=out30-132.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,51 +64,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Support queue_enable in vhost-kernel scenario. It can be called when
+a vq reset operation has been performed and the vq is restared.
 
-virtio-net and vhost-kernel implement queue reset.
-Queued packets in the corresponding queue pair are flushed
-or purged.
+It should be noted that we can restart the vq when the vhost has
+already started. When launching a new vhost device, the vhost is not
+started and all vqs are not initalized until VIRTIO_PCI_COMMON_STATUS
+is written. Thus, we should use vhost_started to differentiate the
+two cases: vq reset and device start.
 
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Currently it only supports vhost-kernel.
+
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/net/virtio-net.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ hw/net/virtio-net.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 27b59c0ad6..d774a3e652 100644
+index d774a3e652..7817206596 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -540,6 +540,23 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
-     return info;
+@@ -557,6 +557,26 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+     flush_or_purge_queued_packets(nc);
  }
  
-+static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
++static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
 +{
 +    VirtIONet *n = VIRTIO_NET(vdev);
 +    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++    int r;
 +
-+    if (!nc->peer) {
++    if (!nc->peer || !vdev->vhost_started) {
 +        return;
 +    }
 +
 +    if (get_vhost_net(nc->peer) &&
 +        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
-+        vhost_net_virtqueue_reset(vdev, nc, queue_index);
++        r = vhost_net_virtqueue_restart(vdev, nc, queue_index);
++        if (r < 0) {
++            error_report("unable to restart vhost net virtqueue: %d, "
++                            "when resetting the queue", queue_index);
++        }
 +    }
-+
-+    flush_or_purge_queued_packets(nc);
 +}
 +
  static void virtio_net_reset(VirtIODevice *vdev)
  {
      VirtIONet *n = VIRTIO_NET(vdev);
-@@ -3784,6 +3801,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
-     vdc->set_features = virtio_net_set_features;
+@@ -3802,6 +3822,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
      vdc->bad_features = virtio_net_bad_features;
      vdc->reset = virtio_net_reset;
-+    vdc->queue_reset = virtio_net_queue_reset;
+     vdc->queue_reset = virtio_net_queue_reset;
++    vdc->queue_enable = virtio_net_queue_enable;
      vdc->set_status = virtio_net_set_status;
      vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
      vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
