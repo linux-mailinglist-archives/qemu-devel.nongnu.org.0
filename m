@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76F05A0FCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:01:45 +0200 (CEST)
-Received: from localhost ([::1]:45252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F175A0FD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:03:36 +0200 (CEST)
+Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRBYO-0004Pz-I6
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
+	id 1oRBaB-0005ar-36
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRBUI-00014h-89
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:57:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31090)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oRBTd-0000Mf-UB; Thu, 25 Aug 2022 07:56:51 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:44473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRBUC-0000sH-Ay
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:57:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661428643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6OH9t8beWK4TVJli1JliRBOVnErEkOVi3iHXJxtVTI8=;
- b=Ksx8S6ZKisgj+ZmFmdngunnoJLIhQjks1CSNzaw3sMwv3YClEAjgdhExS+4arHK7bJZSap
- oHK/DVJ++Sn8jkcmRcfviMXfBW/flvbZkH4OfYD9Lci/w+IPdeFLTmKg65XgT+u5nayvPK
- i6/v0AlljyZT4qDUhVarFE2guFa4He0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-219-iFRcM_uGM4-7eAdoaeshRw-1; Thu, 25 Aug 2022 07:57:22 -0400
-X-MC-Unique: iFRcM_uGM4-7eAdoaeshRw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- c6-20020adfa706000000b00222c3caa23eso3322651wrd.15
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 04:57:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=6OH9t8beWK4TVJli1JliRBOVnErEkOVi3iHXJxtVTI8=;
- b=PyDIBp7EyIFdZQY5TT7M7Lm2QPq/ivJ2iMsc28Ps0HgBODGZtzdoWs4sbt6AcaYTs3
- dnz5c2kbS/3TNyYH1wOuAPqXbUY3DbmELiXC/l4H03/GgHAfIqR/Wet3xdNasOm0R0OV
- Gu2nP1CEy0Q99qISeY6h5Aw7gdxiWS2IYrLPEq+NDy8IOU2OHOtABJJinbrm+leRHwvU
- 7LignTPeYHKlm5cl6rH2VohkWPx4xwKzHYubyqOiOsaLJJ72agFhihuIZkwnyddVXPDr
- eEaHrk7tskrnvLbpSvfRCivYexis+WHuWP7CzclpNMmVJCIHi8HTyioXhZn4rjvRmPeO
- XWTQ==
-X-Gm-Message-State: ACgBeo0S1VtTtog1MDYea3BnSoN8dA53cxAo9RuvQVCavhZhR1K+x4yu
- uP9JOsgFJ5IrXB7yoaR/YxUG1Tkoe8NXz4RihynHneHOjbRQnwkn2NK1/hF3Hr4y2HDtchdHeO4
- I6oVXXs2sZQlS5Ag=
-X-Received: by 2002:a05:600c:1f1b:b0:3a5:f4f4:f599 with SMTP id
- bd27-20020a05600c1f1b00b003a5f4f4f599mr2152933wmb.39.1661428641411; 
- Thu, 25 Aug 2022 04:57:21 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4TdCpDcZlLDxzRgs/XEx2y8/zCaLne/a+00eZAmKL8k0MrxIHNACgG2np8Z4xnC76rAi1QBA==
-X-Received: by 2002:a05:600c:1f1b:b0:3a5:f4f4:f599 with SMTP id
- bd27-20020a05600c1f1b00b003a5f4f4f599mr2152919wmb.39.1661428641164; 
- Thu, 25 Aug 2022 04:57:21 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:20af:34be:985b:b6c8?
- ([2a09:80c0:192:0:20af:34be:985b:b6c8])
- by smtp.gmail.com with ESMTPSA id
- t18-20020a05600c129200b003a5fa79007fsm4917408wmd.7.2022.08.25.04.57.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 04:57:20 -0700 (PDT)
-Message-ID: <cc366956-adc7-7ca6-a056-0bad28fdca06@redhat.com>
-Date: Thu, 25 Aug 2022 13:57:19 +0200
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oRBTb-0000om-1K; Thu, 25 Aug 2022 07:56:49 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id A434C3200B80;
+ Thu, 25 Aug 2022 07:56:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 25 Aug 2022 07:56:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1661428601; x=1661515001; bh=tT
+ ariQ41D3RBvUU9iUEYcLg/GWAy2Ch/bwy28bIdnHs=; b=sTQWsbyccTlUxBw4tU
+ QTgpx/LIWaL4byvIEDGhROCFmoR+2IsFXQCWq2j7/LGkhKdFHxMS627zVpNTT76L
+ 7b+L7C43HYCMktXOQ8xToGkasxboZyxeBQN2fr8TEyFWyk+bdhw95S5NZAawXhyK
+ q/00t5prhSjM1pHgZrGXwJp3L2Y0I6YRtmgpzbwANsvcU1ItZgQvt5thUXxdqQgV
+ fTuwp85ffsLYqCtebxzfr+Z4V7I76zHkfOOtPkw1DAezSTjO/G6z0XGFN/2Wz1cR
+ OzyE9PAWn0dwGFXesYLQSOJJt0jiXdwWZm79/rD4hB2G5HI8612vBq0sHzmr13PF
+ 7GmQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1661428601; x=1661515001; bh=tTariQ41D3RBvUU9iUEYcLg/GWAy
+ 2Ch/bwy28bIdnHs=; b=BiNwhtlM09S6X/Z6luRX0Ii3lacJLtOCY9AjnRnvSwHC
+ NZHSmTrw4eDI9YSe3+ifbVdtAassyIUj1evg1ctKMMCRaFOzvUrooDnWJKZDJx2m
+ jMYKCgShy6VVjc6bL2vJMC+JrQuoIzlh1CqY5qpBX7KfwGLKAXfd3QY9vjC70qdK
+ YGsz2geM/Qu/vfAj8q7F1X3LsIDa43qV74OKzrmM6VlYrh1qAtNouE0I9CjmCEIC
+ 0TyPIq6rVSIRNiqJY8bpxIBW8DzobaWUCJUtOLI6sQy07BeX5kWor82S1KTf6K0D
+ rFnTFkWnoXJ7/ufsPY0SlhuVpgSBp1yC3h6iNM6oQw==
+X-ME-Sender: <xms:eGMHY_TeaeDAHoXuNdscbJNKSjRIMfK36zJbIjLaHcQa0YxQ7Q83eA>
+ <xme:eGMHYwxCSRQRJaGVAiz_EpIeNcTZmWiY4IvjOfZQubOEgdmq3TtlbYbUhew9RlogO
+ X_wexXSd6FsFK8b8HA>
+X-ME-Received: <xmr:eGMHY00_-LbjgIGrqZbMoyNkneEvrYAo38Njr2kDNH7rq2m6qZ7iAZY7mW_YrIpDdd7uEAPgwAxi7p0fZw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedggeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeekieffjefgueekhedvgeefueehhe
+ dvgfehleekudfggfejveevieehheelheejudenucffohhmrghinheptghtrhhlrdgtfien
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+ hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:eGMHY_CNcVapcu7bub-739mF1iPYyGvnj-k8F3gC0_61Lzpyy-yfdg>
+ <xmx:eGMHY4jTYgkO8GjFIurYyDfn34JAHwjzcZRsZ3xD84SZB2JTtIbA8Q>
+ <xmx:eGMHYzrdZjucfvv6fincI07hrJFzRRXrKZFPEnW3Lut9slqxNoaNcw>
+ <xmx:eWMHYwcdzUEx8EP5eus9xXSeJy6ugnN7HmjWUoNqB5qJttaojvwUAA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Aug 2022 07:56:39 -0400 (EDT)
+Date: Thu, 25 Aug 2022 13:56:37 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 1/3] hw/nvme: support irq(de)assertion with eventfd
+Message-ID: <YwdjdZye1L/D+29G@apples>
+References: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
+ <20220825074746.2047420-2-fanjinhao21s@ict.ac.cn>
+ <YwdB//iV62uWeqJK@apples>
+ <7e5708c6-ffad-d867-a232-85ce55ee60b4@ict.ac.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qiaonuohan@cn.fujitsu.com
-References: <CAJ+F1CL27O8dmGSws=-QgutRRpM2NHcued28gnvt5jWo2WeUvw@mail.gmail.com>
- <e7b3468a-cdfb-4592-8a7a-48da2fa77647@redhat.com>
- <CAFEAcA9OH4ih2pOUbsv6dTMW=3_9LTkzSRj4ogO4oxVS4fOASw@mail.gmail.com>
- <bd40c251-b670-3a9a-f29c-86268d06a5b7@redhat.com>
- <CAFEAcA85Ek=Uf-VfQmZKcyrBGU6zR-mrV3tA7mODorjr_52y2A@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: Page alignment & memory regions expectations
-In-Reply-To: <CAFEAcA85Ek=Uf-VfQmZKcyrBGU6zR-mrV3tA7mODorjr_52y2A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="I1acEbcvmlLJ3Sjv"
+Content-Disposition: inline
+In-Reply-To: <7e5708c6-ffad-d867-a232-85ce55ee60b4@ict.ac.cn>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,46 +104,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.08.22 13:47, Peter Maydell wrote:
-> On Thu, 25 Aug 2022 at 08:27, David Hildenbrand <david@redhat.com> wrote:
->> On 24.08.22 21:55, Peter Maydell wrote:
->>> Lumps of memory can be any size you like and anywhere in
->>> memory you like. Sometimes we are modelling real hardware
->>> that has done something like that. Sometimes it's just
->>> a convenient way to model a device. Generic code in
->>> QEMU does need to cope with this...
->>
->> But we are talking about system RAM here. And judging by the fact that
->> this is the first time dump.c blows up like this, this doesn't seem to
->> very common, no?
-> 
-> What's your definition of "system RAM", though? The biggest
 
-I'd say any RAM memory region that lives in address_space_memory /
-get_system_memory(). That's what softmmu/memory_mapping.c cares about
-and where we bail out here.
+--I1acEbcvmlLJ3Sjv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Aug 25 19:16, Jinhao Fan wrote:
+> On 8/25/2022 5:33 PM, Klaus Jensen wrote:
+> > I'm still a bit perplexed by this issue, so I just tried moving
+> > nvme_init_irq_notifier() to the end of nvme_init_cq() and removing this
+> > first_io_cqe thing. I did not observe any particular issues?
+> >=20
+> > What bad behavior did you encounter, it seems to work fine to me
+>=20
+> The kernel boots up and got stuck, waiting for interrupts. Then the reque=
+st
+> times out and got retried three times. Finally the driver seems to decide
+> that the drive is down and continues to boot.
+>=20
+> I added some prints during debugging and found that the MSI-X message whi=
+ch
+> got registered in KVM via kvm_irqchip_add_msi_route() is not the same as =
+the
+> one actually used in msix_notify().
+>=20
+> Are you sure you are using KVM's irqfd?
+>=20
 
-> bit of RAM in the system? Anything over X bytes? Whatever
-> the machine set up as MachineState::ram ? As currently
-> written, dump.c is operating on every RAM MemoryRegion
-> in the system, which includes a lot of things which aren't
-> "system RAM" (for instance, it includes framebuffers and
-> ROMs).
+Pretty sure? Using "ioeventfd=3Don,irq-eventfd=3Don" on the controller.
 
-Anything in address_space_memory / get_system_memory(), correct. And
-this seems to be the first time that we fail here, so it's either a case
-we should be handling in dump code (as you indicate) or some case we
-shouldn't have to worry about (as I questioned).
-
-> 
-> -- PMM
-> 
+And the following patch.
 
 
--- 
-Thanks,
+diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
+index 30bbda7bb5ae..b2e41d3bd745 100644
+--- i/hw/nvme/ctrl.c
++++ w/hw/nvme/ctrl.c
+@@ -1490,21 +1490,6 @@ static void nvme_post_cqes(void *opaque)
+             if (!pending) {
+                 n->cq_pending++;
+             }
+-
+-            if (unlikely(cq->first_io_cqe)) {
+-                /*
+-                 * Initilize event notifier when first cqe is posted. For =
+irqfd=20
+-                 * support we need to register the MSI message in KVM. We
+-                 * can not do this registration at CQ creation time because
+-                 * Linux's NVMe driver changes the MSI message after CQ cr=
+eation.
+-                 */
+-                cq->first_io_cqe =3D false;
+-
+-                if (n->params.irq_eventfd) {
+-                    nvme_init_irq_notifier(n, cq);
+-                }
+-            }
+-
+         }
+=20
+         nvme_irq_assert(n, cq);
+@@ -4914,11 +4899,14 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *=
+n, uint64_t dma_addr,
+     }
+     n->cq[cqid] =3D cq;
+     cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
++
+     /*=20
+      * Only enable irqfd for IO queues since we always emulate admin queue=
+=20
+      * in main loop thread=20
+      */
+-    cq->first_io_cqe =3D cqid !=3D 0;
++    if (cqid && n->params.irq_eventfd) {
++        nvme_init_irq_notifier(n, cq);
++    }
+ }
 
-David / dhildenb
 
+
+--I1acEbcvmlLJ3Sjv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMHY3QACgkQTeGvMW1P
+Dem8lwf/UkP70ys4oTkaMijI3YSrPLKXURNoPZIdYp68tBq+7P8HweqVZcegz6ul
+A5B8WaI+WvDnp8pthzSulgm7LgdrQDppT+NRgZFZpw7HScUqgHigLyfAuVhwbOKC
+KOBVbsPGEm41M2XwY+9IflXBfMoEjgq3eqFSAKVJb/xGGaAqiagnWsMM9tgZGJS3
+3nrVGUZXQNUYGHApZ/UNBbFa88F51k2Yqb8WwscvrQTCyeOfityX63FQ5pMT2Hem
+bCdv/HHuiFbKL75zfMuAt0us11S44qBieiYk1iGEx+ZFgOEE35PWG7+rPlafu0C5
+S6TRHsaga0Aam+mcLbJv7xqnZqDVYQ==
+=zjcy
+-----END PGP SIGNATURE-----
+
+--I1acEbcvmlLJ3Sjv--
 
