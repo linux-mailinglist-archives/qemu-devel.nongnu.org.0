@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939565A1302
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 16:11:02 +0200 (CEST)
-Received: from localhost ([::1]:47596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CCB5A1316
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 16:13:06 +0200 (CEST)
+Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRDZV-0004kt-Dc
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 10:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57908)
+	id 1oRDbV-0007bh-1c
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 10:13:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oRDY2-00035j-Ni
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:09:30 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:34575)
+ id 1oRDZf-00050V-1M
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:11:11 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:46617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oRDY0-0000ej-Nv
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:09:30 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id x19so17109960pfq.1
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 07:09:27 -0700 (PDT)
+ id 1oRDZc-0001JS-Hl
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:11:10 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ w88-20020a17090a6be100b001fbb0f0b013so1847808pjj.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 07:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=YXcgdB60Npebq7OGvZ5S4BiPxwuq8f7MjRlogvUP2P8=;
- b=bM3rKDYcsd3w6DKqi3w1KspR6cMYMrgQBfi2tycOVcW/nrgy8hl/RWaMOQAt1p0sYm
- H9YX4lhDamsPqutWXCC5ZDlv57Jo/Je54REkJjYONdMT4nXbJLC87Sica55WRsF2pGkV
- dydtXk38fsQfflFito9/dJb1uAI2yFcE3aAYXshNsqKloVzL2wMrpzSB8Ixn6s80Urqe
- iAe50JUoPG9Itp+6gVKt2GAl74PfcZrNeZ/QjA5LMIjGc2o9Ilk9t1kuEbPGxOFpHy33
- 6cwQOPo8fNkiddPEzqoakuDeCg2cMawWoYEKGOmfZeJOmgMc2PUEuTxnKJtvlDinJ4V0
- M0kA==
+ bh=g46oBvJaBFuy4K4VyN0nO8F+wbYPwgYtvSUG/apqelo=;
+ b=o0Qzlih9TsPUYqfeB1MficUFZhcAsNYvsCbDPalFEBeuHf6GqAkXgAudtBbbD3Q1H9
+ c1jqG3M+qdjPrl2HoyohkkoPjoHsT4tNFkrMpfepnTBqVr8lXPP5NdLCDVWCelogZ8Sk
+ 27SVonFo3cR2T+Qz3COsYCkiXrqlan6msmO/R1O8hoE50xa31pxDvboQI7ulzyBXTlDn
+ nsECyuD59Xf2FtbS9idbUyyDL/JnetXDQiBC/oWQBSbRrPdlsYWxUDW+Vxnz1Y9Jjt0o
+ rEiDtJaswpZAjrcPcd0qQgjUz7scJNyQxCjTI7/UDBcDC2zKJThOsaR3bM2Kxzep7RY5
+ Z7dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=YXcgdB60Npebq7OGvZ5S4BiPxwuq8f7MjRlogvUP2P8=;
- b=MiVdRtNL9zdMAhMrdnJu3hfORl2gMxdTMTlpvAWkpjMQMnp7cqzDiEnLbQOaSpGRBW
- NxbP9AvA625qjyksHtoBFjdAYHzmghcb9iviotP3WRhJezmHmBzwiqs7UZGQcA/fU45x
- f0Aiz9DCAP4Feq1rWTYOO+7wWZanYPbO8hpgVeIiCc7BDbIrbpyUMeNXayQqc2r86ICA
- I9jhXQvVjMTfYIzHQ2/MW8xZxvRjS0r7SrOWJUZLLhm5Upjc6ux55EHBnyl3bTPYl7tf
- Nvu360/BE28cA5HUZ2gd26ZQAqqSNn1s1JdHryUZk4HEE3c9sBn4D/wFERSoo2cybvZM
- paOg==
-X-Gm-Message-State: ACgBeo2RcmqjhxNLPCfZia7YbFTg6FQ1B2Bx79mP/TahCmMMppgfoFZm
- 1jhJ+U2l6kX8pxIMNbBWl3s=
-X-Google-Smtp-Source: AA6agR6ko687V51uL4t7IvZBFNPC+wHBBPNuIKulz/F41dLwTcxD3GqsKw0j7iRvjqSFmiDPNChtbw==
-X-Received: by 2002:a05:6a00:850:b0:537:1d58:5921 with SMTP id
- q16-20020a056a00085000b005371d585921mr4372358pfk.31.1661436565710; 
- Thu, 25 Aug 2022 07:09:25 -0700 (PDT)
+ bh=g46oBvJaBFuy4K4VyN0nO8F+wbYPwgYtvSUG/apqelo=;
+ b=RQztF9lOz11XIXTHxhmnZmCJo7RokXkvOn8WyMTSCrpo52DY0TSx0zFVNmrs3eZwi2
+ 3KkE37Xhk5XvEGNAjd1234yJd9OT4eT0FFAeqHuSToGc6LV1pnmfr7Dy5a4AQhAuTaFp
+ qF4Y0I+zt9hi7LseuQ4vH+r1G40yV7xLLHTuTu7JZ0O3/UVHQjSXKY4c5zpJhpwflJa7
+ tqInEAhopoEIKKjUq0YvjmpPi5P6kt3gG1nNma9ogOpHV+1HCs8vO043My5cSQHUgk+f
+ Z7aB95HSUI4bg/zfNVnWK5azPdwW+je1xPa08h5zRUQ712hdWgGIQctqn95O1M+I0AMn
+ Y2CA==
+X-Gm-Message-State: ACgBeo1sV8KEYZsrNz0zjrT/fsKSUqKffnBH+VDJlob80Z4ZZTxZXqEi
+ Il9FXRGBtDPykeADxGk0B6Y=
+X-Google-Smtp-Source: AA6agR7hS5FCcM2ZsIa5NEH81TBPDjEILYL0/NxaAkV5eBzodmuufN/dHQFC3DlqOARtFItdjC7SiA==
+X-Received: by 2002:a17:903:2651:b0:173:3dc3:a19b with SMTP id
+ je17-20020a170903265100b001733dc3a19bmr935514plb.79.1661436667105; 
+ Thu, 25 Aug 2022 07:11:07 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o4-20020a170903210400b0016eede528b4sm14531041ple.61.2022.08.25.07.09.24
+ r10-20020a17090a1bca00b001fac8076cd8sm3588871pjr.46.2022.08.25.07.11.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 07:09:25 -0700 (PDT)
-Message-ID: <1ea26b24-438b-d331-3927-799ce2f4617a@amsat.org>
-Date: Thu, 25 Aug 2022 16:09:21 +0200
+ Thu, 25 Aug 2022 07:11:06 -0700 (PDT)
+Message-ID: <b1555c5e-3a2e-e26f-563f-683556416733@amsat.org>
+Date: Thu, 25 Aug 2022 16:11:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH] target/avr: Support probe argument to tlb_fill
+Subject: Re: [PATCH v1 1/6] tests/avocado: push default timeout to QemuBaseTest
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: mrolnik@gmail.com
-References: <20220823050718.1930676-1-richard.henderson@linaro.org>
-In-Reply-To: <20220823050718.1930676-1-richard.henderson@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220822165608.2980552-1-alex.bennee@linaro.org>
+ <20220822165608.2980552-2-alex.bennee@linaro.org>
+In-Reply-To: <20220822165608.2980552-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,19 +100,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 23/8/22 07:07, Richard Henderson wrote:
-> While there are no target-specific nonfaulting probes,
-> generic code may grow some uses at some point.
+On 22/8/22 18:56, Alex Bennée wrote:
+> All of the QEMU tests eventually end up derrived from this class. Move
+
+Typo "derived".
+
+> the default timeout from LinuxTest to ensure we catch them all. As 15
+> minutes is fairly excessive we drop the default down to 2 minutes
+> which is a more reasonable target for tests to aim for.
 > 
-> Note that the attrs argument was incorrect -- it should have
-> been MEMTXATTRS_UNSPECIFIED. Just use the simpler interface.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20220816133831.2166761-1-alex.bennee@linaro.org>
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/avr/helper.c | 46 ++++++++++++++++++++++++++++-----------------
->   1 file changed, 29 insertions(+), 17 deletions(-)
+> v2
+>    - lower timeout to 2 minutes/120 seconds
+> ---
+>   tests/avocado/avocado_qemu/__init__.py | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
 
