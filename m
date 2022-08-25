@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567425A0B1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:11:17 +0200 (CEST)
-Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152165A0AE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:03:52 +0200 (CEST)
+Received: from localhost ([::1]:33510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR7xL-0006wb-NT
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59926)
+	id 1oR7q5-00049g-QF
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oR7js-0007Mq-D2
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:57:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22718)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oR7lX-0000YC-P1
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:59:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oR7jm-0002cq-Tk
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:57:18 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oR7lV-0002r2-U4
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:59:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661414233;
+ s=mimecast20190719; t=1661414341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jqklLx1VxiXg0Xs7Onl50FHdqEfdl/bv/6HdAzq0e6g=;
- b=Dh/79mWMhBsRJL6gxmvvPsqMS/9F73ly8YflmAyCmaecllwlmikwTfiWIAXdOoyM6mIxBK
- e153YF2HkpUM2dfeiiYsCt7A9ZeTmxsPEQg1fBb5jCSGy+h8SUwQ2pRUu2pu9OjtcjA02Y
- +DBP6istCFqToxEFBIyX6vUMrTVEWYw=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5NDkWIELAuAnyo+031qSOHi9lJIG+3TuTYwxR0SzP8I=;
+ b=GEwtgKrfN9WDcW2e2nCjHeJsT+GmTU1i7/95lSvzLZtf7dwsMnCDrqG3oo3vYe+XdxIFoJ
+ zT6hA9kYPbysUnhWQT32EBAzoKSL3mZCuvHtQQbZxD8Kt0P3AOaGxcd8/hjHv0PODtzypA
+ H/hCW5lwy2oo/yr9NAfai+CjH65mtmU=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-649-Rzf8bdp9P9uvuQ_N_rQQWw-1; Thu, 25 Aug 2022 03:57:12 -0400
-X-MC-Unique: Rzf8bdp9P9uvuQ_N_rQQWw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- gn32-20020a1709070d2000b0073d7a2dbc62so3780160ejc.14
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 00:57:11 -0700 (PDT)
+ us-mta-669-DxKEnKZIMXSEhkL-6N99ow-1; Thu, 25 Aug 2022 03:58:59 -0400
+X-MC-Unique: DxKEnKZIMXSEhkL-6N99ow-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-10ecd047e39so6209749fac.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 00:58:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=jqklLx1VxiXg0Xs7Onl50FHdqEfdl/bv/6HdAzq0e6g=;
- b=Vfw+bQAF41JqLVGGXldKlTKTTWbs8ezOScYwsml6906+HmheydKAimHxRFJg13+mO6
- WCOqAF6dq4e1RhTp4Yb6C6qJNINPI4r257o+Tdi7BDWK6H8KRE5G7nuU3qY28BvCC0kP
- WzMpR7hnUAFF14NppOghC8PsuIvLo/oZ9ufMk0IjOZZ3q6YnAtSlM4nnh/2oEgRWrhk8
- Ih3SitvN6bkLb3s+weoSG5dzkx0Y/eu1ORxkhbpbbJEJNF5iCC78aZwF8BYD7mcxTc4E
- /KzgJ8aA7TQ3sTtJbpMinY7SVvJclgpcGm8xkFyisJYTzkYwTw3NnBpUgblzpH6HGl3k
- U1dQ==
-X-Gm-Message-State: ACgBeo28l/W43cEi8+iYMVx8zetrbQWma5AODdRZGu5moAXwBfVvJ+rH
- 4hE2ZopxvLQhHhiSODSX/Q7Wy1GQ36Gg9eYiKeZC/3qw2Ri9dz3hLWY9nPOypSK2XEabeiGR3GR
- nBjPpSuhiy3LGlYw=
-X-Received: by 2002:a05:6402:368c:b0:446:48d9:2be with SMTP id
- ej12-20020a056402368c00b0044648d902bemr2078548edb.167.1661414231080; 
- Thu, 25 Aug 2022 00:57:11 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7EQE34gvPorkOt1UTawL6PAlvCkWj4GHtsNIP6CsWTMRr8H6UXfXdpGtbeh0Qs8Y9Qf7cNzA==
-X-Received: by 2002:a05:6402:368c:b0:446:48d9:2be with SMTP id
- ej12-20020a056402368c00b0044648d902bemr2078533edb.167.1661414230819; 
- Thu, 25 Aug 2022 00:57:10 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- ec43-20020a0564020d6b00b0043d5c9281a3sm4235127edb.96.2022.08.25.00.57.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 00:57:10 -0700 (PDT)
-Date: Thu, 25 Aug 2022 09:57:09 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
- <ani@anisinha.ca>
-Subject: Re: [PATCH v2 4/5] bios-tables-test: add test for number of cores >
- 255
-Message-ID: <20220825095709.4a949ea7@redhat.com>
-In-Reply-To: <20220731162141.178443-5-jusual@redhat.com>
-References: <20220731162141.178443-1-jusual@redhat.com>
- <20220731162141.178443-5-jusual@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=5NDkWIELAuAnyo+031qSOHi9lJIG+3TuTYwxR0SzP8I=;
+ b=CaqxNLZ5sesL+b2fqmCbdXLc/FVTqTwo749u5Vvr9sY58wq8lSlH+k/8Ex8DwdQI6k
+ LVwNWjXp4IW9fBQYhARPrnuinnr5SdFjEmwz/rZnj83Xk/KKWp5bvBFI0JNqzVVHMGvf
+ nOy7DBh0TBF7Q0FEGyYlKS48jeG1OfZvWyXM+P0llWl1xZV2DALaLUXVJSNlEZgWMwmX
+ +sx462oXYPK1qn7ebSqMxCq0pXlioIDlV+4pRFYJacy8lNneln8Y+Jcs62BpNE+j5yca
+ B5ApHLiNhlDnOicERQTupbboqguL5XadcwDVQ7Y4TF0o812eCP3X0tv9whEtTszHOMCR
+ Mb7w==
+X-Gm-Message-State: ACgBeo3CL2Amht1Yb7DjC/JTyMGOX6zSub4nKyWxqa1NYDhnNJerkROb
+ eH3+ciSZ8QyFgnvJTokSHXVwhYN2gEA+e9V3EeOAMVY/5TYv2Ug6UUW9HJ2HOiM9uYQf5Fr4uk/
+ RDe/AoLuLt6ECJDrAz4CSvE3VwbRJGZI=
+X-Received: by 2002:a05:6870:e24e:b0:11c:d9f5:44 with SMTP id
+ d14-20020a056870e24e00b0011cd9f50044mr1369478oac.53.1661414338350; 
+ Thu, 25 Aug 2022 00:58:58 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4YxDnKHcxknP6X8bhHfAhqb76/zKW2jjrq3XLJHIN4yQZShCZwGfwDPVl39+u5fDCiMz+wUwQ6/UORk99MwmM=
+X-Received: by 2002:a05:6870:e24e:b0:11c:d9f5:44 with SMTP id
+ d14-20020a056870e24e00b0011cd9f50044mr1369473oac.53.1661414338190; Thu, 25
+ Aug 2022 00:58:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-41-bmeng.cn@gmail.com>
+In-Reply-To: <20220824094029.1634519-41-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 25 Aug 2022 11:58:47 +0400
+Message-ID: <CAMxuvawYwmo=-TicWwgn-JRB0u_9a04-Rx80TphOybNQ89Pf6Q@mail.gmail.com>
+Subject: Re: [PATCH 40/51] chardev/char-file: Add FILE_SHARE_WRITE when
+ openning the file for win32
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -102,131 +94,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 31 Jul 2022 18:21:40 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+Hi
 
-> The new test is run with a large number of cpus and checks if the
-> core_count field in smbios_cpu_test (structure type 4) is correct.
-> 
-> Choose q35 as it allows to run with -smp > 255.
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+On Wed, Aug 24, 2022 at 1:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>
+> The combination of GENERIC_WRITE and FILE_SHARE_READ options does
+> not allow the same file to be opened again by CreateFile() from
+> another QEMU process with the same options when the previous QEMU
+> process still holds the file handle openned.
 
-pls, run checkpatch on patches and fix up whatever it complains about
-before posting
+opened
 
+>
+> As per [1] we should add FILE_SHARE_WRITE to the share mode to allow
+> such use case. This change makes the behavior be consisten with the
+> POSIX platforms.
+>
+
+consistent
+
+> [1] https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-opening-files
+>
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  tests/qtest/bios-tables-test.c | 53 +++++++++++++++++++++++++---------
->  1 file changed, 40 insertions(+), 13 deletions(-)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index e352d5249f..cebfa430ac 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -92,6 +92,8 @@ typedef struct {
->      SmbiosEntryPoint smbios_ep_table;
->      uint16_t smbios_cpu_max_speed;
->      uint16_t smbios_cpu_curr_speed;
-> +    uint8_t smbios_core_count;
-> +    uint16_t smbios_core_count2;
->      uint8_t *required_struct_types;
->      int required_struct_types_len;
->      QTestState *qts;
-> @@ -631,29 +633,38 @@ static inline bool smbios_single_instance(uint8_t type)
+
+
+What's the benefit to allow multiple processes write access to the
+same file? It seems it could easily lead to corruption or unexpected
+results.
+
+To me, it's the other way around, the POSIX implementation should
+learn to lock the file opened for write..
+
+>
+>  chardev/char-file.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/chardev/char-file.c b/chardev/char-file.c
+> index 2fd80707e5..66385211eb 100644
+> --- a/chardev/char-file.c
+> +++ b/chardev/char-file.c
+> @@ -60,8 +60,8 @@ static void qmp_chardev_open_file(Chardev *chr,
+>          flags = CREATE_ALWAYS;
 >      }
->  }
->  
-> -static bool smbios_cpu_test(test_data *data, uint32_t addr)
-> +static void smbios_cpu_test(test_data *data, uint32_t addr)
->  {
-> -    uint16_t expect_speed[2];
-> -    uint16_t real;
-> +    uint8_t core_count, expected_core_count = data->smbios_core_count;
-> +    uint16_t speed, core_count2, expected_core_count2 = data->smbios_core_count2;
-> +    uint16_t expected_speed[2];
->      int offset[2];
->      int i;
->  
->      /* Check CPU speed for backward compatibility */
->      offset[0] = offsetof(struct smbios_type_4, max_speed);
->      offset[1] = offsetof(struct smbios_type_4, current_speed);
-> -    expect_speed[0] = data->smbios_cpu_max_speed ? : 2000;
-> -    expect_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
-> +    expected_speed[0] = data->smbios_cpu_max_speed ? : 2000;
-> +    expected_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
->  
->      for (i = 0; i < 2; i++) {
-> -        real = qtest_readw(data->qts, addr + offset[i]);
-> -        if (real != expect_speed[i]) {
-> -            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect %u\n",
-> -                    real, expect_speed[i]);
-> -            return false;
-> -        }
-> +        speed = qtest_readw(data->qts, addr + offset[i]);
-> +        g_assert_cmpuint(speed, ==, expected_speed[i]);
->      }
->  
-> -    return true;
-> +    core_count = qtest_readb(data->qts,
-> +                             addr + offsetof(struct smbios_type_4, core_count));
-> +    core_count2 = qtest_readw(data->qts,
-> +                              addr + offsetof(struct smbios_type_4, core_count2));
-
-it doesn't really matter here, that we read bogus core_count2 in case of v2 tables,
-but to be cleaner I'd move reads above below respective 'if's 
-
-> +    if (expected_core_count) {
-> +        g_assert_cmpuint(core_count, ==, expected_core_count);
-> +    }
-> +
-> +    /* Core Count has reached its limit, checking Core Count 2 */
-> +    if (expected_core_count == 0xFF && expected_core_count2) {
-> +        g_assert_cmpuint(core_count2, ==, expected_core_count2);
-> +    }
->  }
->  
->  static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
-> @@ -686,7 +697,7 @@ static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
->          set_bit(type, struct_bitmap);
->  
->          if (type == 4) {
-> -            g_assert(smbios_cpu_test(data, addr));
-> +            smbios_cpu_test(data, addr);
->          }
->  
->          /* seek to end of unformatted string area of this struct ("\0\0") */
-> @@ -903,6 +914,21 @@ static void test_acpi_q35_tcg(void)
->      free_test_data(&data);
->  }
->  
-> +static void test_acpi_q35_tcg_core_count2(void)
-> +{
-> +    test_data data = {
-> +        .machine = MACHINE_Q35,
-> +        .variant = ".core-count2",
-> +        .required_struct_types = base_required_struct_types,
-> +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
-> +        .smbios_core_count = 0xFF,
-> +        .smbios_core_count2 = 275,
-> +    };
-> +
-> +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
-> +    free_test_data(&data);
-> +}
-> +
->  static void test_acpi_q35_tcg_bridge(void)
->  {
->      test_data data;
-> @@ -1822,6 +1848,7 @@ int main(int argc, char *argv[])
->          qtest_add_func("acpi/piix4/pci-hotplug/off",
->                         test_acpi_piix4_no_acpi_pci_hotplug);
->          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
-> +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
-
-shouldn't we have a test for #cpus < 256 as well?
-
->          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
->          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
->          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+>
+> -    out = CreateFile(file->out, accessmode, FILE_SHARE_READ, NULL, flags,
+> -                     FILE_ATTRIBUTE_NORMAL, NULL);
+> +    out = CreateFile(file->out, accessmode, FILE_SHARE_READ | FILE_SHARE_WRITE,
+> +                     NULL, flags, FILE_ATTRIBUTE_NORMAL, NULL);
+>      if (out == INVALID_HANDLE_VALUE) {
+>          error_setg(errp, "open %s failed", file->out);
+>          return;
+> --
+> 2.34.1
+>
 
 
