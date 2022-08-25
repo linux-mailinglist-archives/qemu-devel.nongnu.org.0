@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880D95A158C
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:25:22 +0200 (CEST)
-Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60535A15EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:39:14 +0200 (CEST)
+Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oREjR-0005Ma-5n
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
+	id 1oREwr-0002Xc-B1
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oREhH-0003Oy-Sy
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:23:07 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:56101)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oREhG-0005DB-4u
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:23:07 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id pm13so11744742pjb.5
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 08:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=iameHqBelA9xxeSH4cOGesEMxtnS6edYLqzqccbR/I4=;
- b=ULiC4A5TAhATJ4/FE+mOta3+i4hDLR7gBqe3u6vyMLThYBSX6a6ZtkCiljnD7oc4Ir
- DToTsresB+/xjlUYX8/uwrdyFSeDglSPs/7JQIAcYwKo+NY7J2LHPQl5VY5fkaFh3/No
- wd/gqQXL2+CXSLSgaISnFztxF6sNFVh2fgGWs62modwWf3kSERnJYLuiYum/nM2sgKuQ
- q9aZ1Qr6wnWg1YWETPdvXPCnX6BekLTvfUXqYOMeCYmfMt5/9klByg0hBuPyppoWwusu
- LtdKofaHbFyrbaoZztB9X7Q67qFC20rhVA0d0CNCng6i2yPBybLYj9lMdtJjQwGVnAdO
- DU2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=iameHqBelA9xxeSH4cOGesEMxtnS6edYLqzqccbR/I4=;
- b=PfpY61PRt0VJkTJ2jUeaVyUvOOvRBYJquV0QZ2ywTNwDjwvm80doB/VKqholF1Yum9
- 12fA5/veps4R17ApC/VwSKnIzGGFyPjWyXLscx/Gjx9P4VCK8sOL881Fod8r3scNaOZK
- HXbYapXNUJRaVsUJh4+0CTJIGHaNxQ8yDw3SrMld/zAYIJYA+bc6pexaSo/WBfRS6VPo
- pViG95+Gcbu3W0RGm+Ju3ys56guEL+3QbxYMtV4OumgHglZaO7gUVfbkONLWL/k6jgYj
- /4pq3b9xDKAyiJ1UWS53q2eb/omGv/xvHy0KF3UjtSPksIhrND54VmSP5J6fbV8GY80q
- Sn5g==
-X-Gm-Message-State: ACgBeo102mJfU4R78osX3ZCdwY29R/wwrXkWwNdv1E1qfrwUsPNh/y7P
- m++dZ/7zlA/I7dJ83TxePdDXeg==
-X-Google-Smtp-Source: AA6agR4j+yiD50Sscu+zwKSQUsi7L/X2c6EqBBgjG59EhXrcllrM2fK+69DY6BKXxFESvS9pKrCLFA==
-X-Received: by 2002:a17:90b:1b46:b0:1fb:de2:2e77 with SMTP id
- nv6-20020a17090b1b4600b001fb0de22e77mr14209557pjb.143.1661440984616; 
- Thu, 25 Aug 2022 08:23:04 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:64be:e7c:2851:ce4b?
- ([2602:47:d49d:ec01:64be:e7c:2851:ce4b])
- by smtp.gmail.com with ESMTPSA id
- mz16-20020a17090b379000b001f50c1f896esm3694848pjb.5.2022.08.25.08.23.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 08:23:04 -0700 (PDT)
-Message-ID: <08249dfe-52b9-3048-e6c2-2be0414b10d6@linaro.org>
-Date: Thu, 25 Aug 2022 08:23:00 -0700
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oREtQ-0007hT-SL
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:35:41 -0400
+Received: from mga11.intel.com ([192.55.52.93]:42207)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oREtN-0007C7-5r
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:35:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661441737; x=1692977737;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ALe3W9UVzuJwVIm95wO5987ELsrUxm8mx+BiX6s41OY=;
+ b=c660WJtk6RA/MSp+MjVajgoTmeigHQJ2fCQUkn2fMyJ6o7UT9dUAeW7Y
+ AoBUFz3pt20wBy+ysY0qlKp1vyiIh15IlVMcceUiWuMtEyBE5ZpuvvIYj
+ K95tb/Efp3yv5+SM9ZkRwS1S5aVH21uaEmSWPnJyvd0xy4a2eMWo00JZs
+ y5X0AiDdukd4y05lBfnv6vblrSMqEFC+FiM4utiaVZdfuXTTIc/XBLI1v
+ JfMY4whjhpOlo1BG5u1wKJRB2S/9sCtAqUSFnU7Dh2NyLKMgsgyuF8Y9X
+ 4Zc2fzXfQr03dy/UjUwdaO+ihbAl313OxPH7AdeyPXapkajgw38q3yc7F w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="291846671"
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="291846671"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2022 08:35:06 -0700
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="671034879"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.29.55])
+ ([10.255.29.55])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2022 08:35:02 -0700
+Message-ID: <00b93d50-ca34-a3e1-6a32-48cf93edfa88@intel.com>
+Date: Thu, 25 Aug 2022 23:35:00 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL for-7.1 0/1] aspeed queue
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.12.0
+Subject: Re: [PATCH v1 06/40] i386/tdx: Get tdx_capabilities via
+ KVM_TDX_CAPABILITIES
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20220825085710.34800-1-clg@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220825085710.34800-1-clg@kaod.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
+ <20220802074750.2581308-7-xiaoyao.li@intel.com>
+ <20220825101203.vpgwzbyqc677snjt@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220825101203.vpgwzbyqc677snjt@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,35 +93,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/22 01:57, Cédric Le Goater wrote:
-> The following changes since commit 9a99f964b152f8095949bbddca7841744ad418da:
+On 8/25/2022 6:12 PM, Gerd Hoffmann wrote:
+>    Hi,
 > 
->    Update version for v7.1.0-rc4 release (2022-08-24 19:27:56 -0700)
+>> +        r = tdx_platform_ioctl(KVM_TDX_CAPABILITIES, 0, caps);
+>> +        if (r == -E2BIG) {
+>> +            g_free(caps);
+>> +            nr_cpuid_configs *= 2;
+>> +            if (nr_cpuid_configs > KVM_MAX_CPUID_ENTRIES) {
+>> +                error_report("KVM TDX seems broken");
+> 
+> Maybe, but IMHO this should still report what exactly the problem is
+> (number of cpuid entries exceeds limit).
 
-Too late, as you can see by -rc4.
+Will update it to
 
-r~
+	error_report(KVM TDX seems broken that number of CPUID entries in 
+kvm_tdx_capabilities exceeds limit)
 
+> take care,
+>    Gerd
 > 
-> are available in the Git repository at:
 > 
->    https://github.com/legoater/qemu/ tags/pull-aspeed-20220825
-> 
-> for you to fetch changes up to 7ccff968f65cfad573bc0015cb0ab800d4337a6e:
-> 
->    hw/i2c/aspeed: Fix old reg slave receive (2022-08-25 10:46:42 +0200)
-> 
-> ----------------------------------------------------------------
-> Aspeed queue:
-> 
-> * hw/i2c/aspeed: Fix old reg slave receive
-> 
-> ----------------------------------------------------------------
-> Peter Delevoryas (1):
->        hw/i2c/aspeed: Fix old reg slave receive
-> 
->   include/hw/i2c/aspeed_i2c.h | 1 +
->   hw/i2c/aspeed_i2c.c         | 8 +++++---
->   2 files changed, 6 insertions(+), 3 deletions(-)
 
 
