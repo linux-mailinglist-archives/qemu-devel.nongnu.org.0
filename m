@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC125A0B64
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:26:26 +0200 (CEST)
-Received: from localhost ([::1]:43532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A915A0BC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 10:44:00 +0200 (CEST)
+Received: from localhost ([::1]:52180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR8C1-0003mj-6W
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41706)
+	id 1oR8T1-0003Qn-Nu
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 04:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vg-0006ML-04
+ id 1oR7vf-0006MQ-Vx
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:32 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:59072)
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:57621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oR7vK-0004gf-5I
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:13 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ id 1oR7vN-0004gh-26
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 04:09:16 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R551e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VNCYVKP_1661414939; 
+ TI=SMTPD_---0VNCYVKw_1661414940; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VNCYVKP_1661414939) by smtp.aliyun-inc.com;
- Thu, 25 Aug 2022 16:08:59 +0800
+ fp:SMTPD_---0VNCYVKw_1661414940) by smtp.aliyun-inc.com;
+ Thu, 25 Aug 2022 16:09:01 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v3 01/15] virtio: sync relevant definitions with linux
-Date: Thu, 25 Aug 2022 16:08:44 +0800
-Message-Id: <18193bfe3168e3b4f7115daefed725e8014fbb94.1661414345.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v3 02/15] virtio: introduce __virtio_queue_reset()
+Date: Thu, 25 Aug 2022 16:08:45 +0800
+Message-Id: <5a6e001d9d00e310e64ada7491df8c9bafccdf97.1661414345.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.130;
+Received-SPF: pass client-ip=115.124.30.44;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
+ helo=out30-44.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -66,48 +66,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-This is updated using scripts/update-linux-headers.sh.
-
-Added VIRTIO_F_RING_RESET, VIRTIO_PCI_COMMON_Q_RESET. It came from here:
-https://github.com/oasis-tcs/virtio-spec/issues/124
-https://github.com/oasis-tcs/virtio-spec/issues/139
-
-Add VIRTIO_PCI_COMMON_Q_NDATA, which comes from here:
-https://github.com/oasis-tcs/virtio-spec/issues/89
+Separate the logic of vq reset. This logic will be called directly
+later.
 
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- include/standard-headers/linux/virtio_config.h | 5 +++++
- include/standard-headers/linux/virtio_pci.h    | 2 ++
- 2 files changed, 7 insertions(+)
+ hw/virtio/virtio.c | 37 +++++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
-index 7acd8d4abc..47a7eef5e4 100644
---- a/include/standard-headers/linux/virtio_config.h
-+++ b/include/standard-headers/linux/virtio_config.h
-@@ -96,4 +96,9 @@
-  * Does the device support Single Root I/O Virtualization?
-  */
- #define VIRTIO_F_SR_IOV			37
-+
-+/*
-+ * This feature indicates that the driver can reset a queue individually.
-+ */
-+#define VIRTIO_F_RING_RESET		40
- #endif /* _LINUX_VIRTIO_CONFIG_H */
-diff --git a/include/standard-headers/linux/virtio_pci.h b/include/standard-headers/linux/virtio_pci.h
-index db7a8e2fcb..be912cfc95 100644
---- a/include/standard-headers/linux/virtio_pci.h
-+++ b/include/standard-headers/linux/virtio_pci.h
-@@ -202,6 +202,8 @@ struct virtio_pci_cfg_cap {
- #define VIRTIO_PCI_COMMON_Q_AVAILHI	44
- #define VIRTIO_PCI_COMMON_Q_USEDLO	48
- #define VIRTIO_PCI_COMMON_Q_USEDHI	52
-+#define VIRTIO_PCI_COMMON_Q_NDATA	56
-+#define VIRTIO_PCI_COMMON_Q_RESET	58
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 5d607aeaa0..67d54832a9 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2019,6 +2019,26 @@ static enum virtio_device_endian virtio_current_cpu_endian(void)
+     }
+ }
  
- #endif /* VIRTIO_PCI_NO_MODERN */
++static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
++{
++    vdev->vq[i].vring.desc = 0;
++    vdev->vq[i].vring.avail = 0;
++    vdev->vq[i].vring.used = 0;
++    vdev->vq[i].last_avail_idx = 0;
++    vdev->vq[i].shadow_avail_idx = 0;
++    vdev->vq[i].used_idx = 0;
++    vdev->vq[i].last_avail_wrap_counter = true;
++    vdev->vq[i].shadow_avail_wrap_counter = true;
++    vdev->vq[i].used_wrap_counter = true;
++    virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
++    vdev->vq[i].signalled_used = 0;
++    vdev->vq[i].signalled_used_valid = false;
++    vdev->vq[i].notification = true;
++    vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
++    vdev->vq[i].inuse = 0;
++    virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++}
++
+ void virtio_reset(void *opaque)
+ {
+     VirtIODevice *vdev = opaque;
+@@ -2050,22 +2070,7 @@ void virtio_reset(void *opaque)
+     virtio_notify_vector(vdev, vdev->config_vector);
+ 
+     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+-        vdev->vq[i].vring.desc = 0;
+-        vdev->vq[i].vring.avail = 0;
+-        vdev->vq[i].vring.used = 0;
+-        vdev->vq[i].last_avail_idx = 0;
+-        vdev->vq[i].shadow_avail_idx = 0;
+-        vdev->vq[i].used_idx = 0;
+-        vdev->vq[i].last_avail_wrap_counter = true;
+-        vdev->vq[i].shadow_avail_wrap_counter = true;
+-        vdev->vq[i].used_wrap_counter = true;
+-        virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
+-        vdev->vq[i].signalled_used = 0;
+-        vdev->vq[i].signalled_used_valid = false;
+-        vdev->vq[i].notification = true;
+-        vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
+-        vdev->vq[i].inuse = 0;
+-        virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++        __virtio_queue_reset(vdev, i);
+     }
+ }
  
 -- 
 2.32.0
