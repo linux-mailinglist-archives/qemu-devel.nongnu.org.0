@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BB75A0758
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 04:41:37 +0200 (CEST)
-Received: from localhost ([::1]:34618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731565A077F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 04:55:30 +0200 (CEST)
+Received: from localhost ([::1]:36104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR2oK-0002FW-Ht
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 22:41:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37532)
+	id 1oR31l-0005tD-5q
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 22:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oR2kZ-0008DN-NQ
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 22:37:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22667)
+ id 1oR2yq-0002yI-71
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 22:52:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oR2kV-0008SE-L9
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 22:37:41 -0400
+ id 1oR2yn-00026u-8I
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 22:52:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661395044;
+ s=mimecast20190719; t=1661395943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YsTgF/+/hRIthgFGq+WHZVlEWBhFzENGyfx5ue8QUuk=;
- b=Cw16ftQpLR8Oh8cQpVjPjx/dDrDHicgv37eE8M0trm0aHyNZ9mSTANrO9EmhvDh2YhG9l/
- AzA/RIfPn90JoQRdnS94tbQdBSOp25PIJMS1AX4lbL2hqiO3zwq5Nw1DPMQSFOqxdnpPhg
- +R/f9zT2e1uYJ0cRmGIwe+fybWXQrwo=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rC3pA3P2+YOh2CPfurQWDcbSAV/shw4ws5j6VFbVnS4=;
+ b=OQU56xYHzlQe5WL9SH+uGkXa04pF85wW6QWe5JBU2NONAnZUpg74kw6HhyHEXCD/V38NLy
+ GXs32LU4W45RYa3F9atTk3AO98D9+f8r4ec7e4TjdT49cZ1zZjYCKATYcyBWCBxfJ81eOg
+ fgyLMa79NdnSgAblGJzzWt4bvdlLBVw=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-250-Hi9hAadKMOe3VOkh7ZAwXA-1; Wed, 24 Aug 2022 22:37:22 -0400
-X-MC-Unique: Hi9hAadKMOe3VOkh7ZAwXA-1
-Received: by mail-lf1-f71.google.com with SMTP id
- j9-20020ac24549000000b00492b0d1dea9so5782901lfm.16
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 19:37:22 -0700 (PDT)
+ us-mta-27-GqhcrjgIPpiki8H5ciZVxw-1; Wed, 24 Aug 2022 22:52:22 -0400
+X-MC-Unique: GqhcrjgIPpiki8H5ciZVxw-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ x10-20020a2ea98a000000b00261b06603cfso3680279ljq.17
+ for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 19:52:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=YsTgF/+/hRIthgFGq+WHZVlEWBhFzENGyfx5ue8QUuk=;
- b=hoga0mqoPef7UDCCt9Hx1ESusaQmuABCsicGB4xdpYLQVUKVi1qzjYith3O7568TKf
- FT/PFwqjFkrFwNENZ3weoXf6jtUwe0QhLDDlFLRAxs+7w/7TpyvaEkXSNWQxckRC170Z
- 7lKniTZDmQlHcPG3MQa1E5NakNNqg4jYEgp1UN5z/8UMZVsR2c4LUp+b7GJLadMoCw8W
- PNSCt7uVZopJTWA65Z55EbotEM7z52Dre87dvbJ0oR2Ws363pPdIXiQQz+FkZCla1DXW
- YnzM6r9EFYaVVwQXkga0we1LS3zz8Phz2QV1AE8yV2HPh+2h35eK5+qSc5hddoqaV+pf
- MAtg==
-X-Gm-Message-State: ACgBeo1OhG1l97GUm1THfihVxca6pA4RdPdr3zGi4exyZJe4XTNS7mQC
- cQMxupWHJ/TzpOzeeVdlahBL//JPypHBGinQUtFJetpBBdHz/6Jrks63f7AVgk3hHYA3AI6pQSd
- rSVCvd104mdCS3ONp+zGlTDYetrs4chk=
-X-Received: by 2002:a05:6512:3da1:b0:48f:cad0:195a with SMTP id
- k33-20020a0565123da100b0048fcad0195amr485268lfv.397.1661395041624; 
- Wed, 24 Aug 2022 19:37:21 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6qU/ivbjj0UgyryehJiZYPbM4CzQxTLNbIHc8LBERlVI7LPQJacRHcorc8XUdpm1ZxMComwqIRFatjVlU/Rm8=
-X-Received: by 2002:a05:6512:3da1:b0:48f:cad0:195a with SMTP id
- k33-20020a0565123da100b0048fcad0195amr485260lfv.397.1661395041352; Wed, 24
- Aug 2022 19:37:21 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=rC3pA3P2+YOh2CPfurQWDcbSAV/shw4ws5j6VFbVnS4=;
+ b=wfAw5au3d4P92lZ7Z9nfa59f9rOzoUcJQIvyttkTvb6NktVaCCdz+nWOcmFlyGtd3O
+ 1OKSbV/jdd4BJQ740yKh3Qx/0q3F2cv8TCf1tmb33FC83a5OwYGqsVALJiuYsaa3YaX+
+ 0dkVykR3i78c9Gk00AHEr7dwSPgUxK2degerIGOpYNJ/TT2b9qLncMwDL+J1TlAwrATW
+ DAbGBSZPwy6EIeOfQJ3P4K+i4ceBptmWw4TV1QYTDeFUmEKAu6bBHjdWP83C1GanPknl
+ QhpI6aIlX+6G962lQFB7Gsm/jM+CeLrgZkmcfvTaYCtB+LUfhWt5st4+6QwmyGiJlcCE
+ /O3A==
+X-Gm-Message-State: ACgBeo2SobF411X5E7BlNkmkYo1pJT0/bzG05ZfHk1/pfAoDeIVFj8+y
+ Vi+JVeH9N8u4vnsSWQMwJCdbx0KfTOEiPHy/eht47IPSSC1G9ulwDcS2cu2p9KW1on+HYqV/C3G
+ BcDGUjO352gmhjA0lD4oLp0X99L3B0Ps=
+X-Received: by 2002:a05:6512:1518:b0:492:d08a:a360 with SMTP id
+ bq24-20020a056512151800b00492d08aa360mr567485lfb.238.1661395940915; 
+ Wed, 24 Aug 2022 19:52:20 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR68RbdzgqpdGUWSgUC/jUq8PKNphRkkSM4Ek9/Qz4EmecDSTSYVIvkfyATJ6AteUcU9pAMSO8qQi+Oz8jIGpoU=
+X-Received: by 2002:a05:6512:1518:b0:492:d08a:a360 with SMTP id
+ bq24-20020a056512151800b00492d08aa360mr567479lfb.238.1661395940655; Wed, 24
+ Aug 2022 19:52:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824110845.353435-1-f.ebner@proxmox.com>
-In-Reply-To: <20220824110845.353435-1-f.ebner@proxmox.com>
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <6dda660c634b2a35c3dea46a98e63fb2ef3a36c9.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <1824ba40-9460-4c5d-9a27-820a51355ba3@redhat.com>
+ <9fb3e2b4-9f78-5da1-3ab6-0ec53f03b628@linux.alibaba.com>
+ <5812b7ed-3983-6b39-0c44-e1701ca4ecf0@redhat.com>
+ <a5cb0b2d-1a76-86eb-acd7-6421a5f6d3eb@linux.alibaba.com>
+In-Reply-To: <a5cb0b2d-1a76-86eb-acd7-6421a5f6d3eb@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 25 Aug 2022 10:37:10 +0800
-Message-ID: <CACGkMEsgsnnj6uSmYu7qB3tNvf0s6_xJNKMyV6Fk3F_8L1v4bg@mail.gmail.com>
-Subject: Re: [RFC] hw/net/vmxnet3: allow VMXNET3_MAX_MTU itself as a value
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, pjp@fedoraproject.org
+Date: Thu, 25 Aug 2022 10:52:09 +0800
+Message-ID: <CACGkMEvrzc2asJfWVynh=Y=6mjrGLG5EOTDhfrDWV69SX7Yb1g@mail.gmail.com>
+Subject: Re: [PATCH v2 07/24] virtio-pci: support queue enable
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, wangyanan55@huawei.com, 
+ Heng Qi <hengqi@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,55 +102,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 7:17 PM Fiona Ebner <f.ebner@proxmox.com> wrote:
+On Wed, Aug 24, 2022 at 7:27 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> w=
+rote:
 >
-> Fixes: d05dcd94ae ("net: vmxnet3: validate configuration values during activate (CVE-2021-20203)")
-> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
+>
+> =E5=9C=A8 2022/8/24 16:59, Jason Wang =E5=86=99=E9=81=93:
+>
+>
+> =E5=9C=A8 2022/8/23 16:20, Kangjie Xu =E5=86=99=E9=81=93:
+>
+>
+> =E5=9C=A8 2022/8/23 15:44, Jason Wang =E5=86=99=E9=81=93:
+>
+>
+> =E5=9C=A8 2022/8/16 09:06, Kangjie Xu =E5=86=99=E9=81=93:
+>
+> PCI devices support vq enable.
+>
+>
+>
+> Nit: it might be "support device specific vq enable"
+>
+>
+> Get it.
+>
+>
+> Based on this function, the driver can re-enable the virtqueue after the
+> virtqueue is reset.
+>
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 > ---
+>   hw/virtio/virtio-pci.c | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> I'm not familiar with this code, so really I'm asking: is the change
-> justified?
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index ec8e92052f..3d560e45ad 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1335,6 +1335,7 @@ static void virtio_pci_common_write(void *opaque, h=
+waddr addr,
+> proxy->vqs[vdev->queue_sel].avail[0],
+> ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
+> proxy->vqs[vdev->queue_sel].used[0]);
+> +            virtio_queue_enable(vdev, vdev->queue_sel);
+>               proxy->vqs[vdev->queue_sel].enabled =3D 1;
+>               proxy->vqs[vdev->queue_sel].reset =3D 0;
+>
+>
+>
+> Any reason we do it before the assignment of 1? It probably means the dev=
+ice specific method can't depend on virtio_queue_enabled()?
+>
+> Thanks
+>
+> Sorry, I don't get why device specific method can't depend on virtio_queu=
+e_enabled().
+>
+>
+>
+> I meant if the device specific method call virtio_queue_enabled() it will=
+ return false in this case, is this intended?
+>
+> Yes, I intend it to behave in this way.
+>
+>
+>
+> Before virtio_queue_enable() is done, virtqueue should always be not read=
+y and disabled.
+>
+> Otherwise, If we put it after the assignment of enabled to 1, the virtque=
+ue may be accessed illegally and may cause panic, because the virtqueue is =
+still being intialized and being configured.
+>
+>
+>
+> How? Shouldn't we make transport ready before making device virtqueue(dev=
+ice) ready?
+>
+> Thanks
+>
+> I am not experienced in this field, could you tell me why we should make =
+the transport ready first?
 
-Patch looks good, but please re-submit with a formal one with
-rationals via changelog.
+That's a must for the device to work.
+
+E.g for PCI device, I can't image the device is ready to work before
+PCI is ready.
+
+>
+> I make the transport ready later than making device ready for two aspects=
+:
+>
+> 1. In QEMU, the virtio_queue_enabled() is used only when we start the dev=
+ice/queue pair (vhost_dev_start_one), or reading VIRTIO_PCI_COMMON_Q_ENABLE=
+. These two operations and resetting the queue will be synchronized using i=
+othread lock, so we do not need to worry about the case currently.
+
+Note that virtio_queue_enabled() is an exported helper, you can't
+assume how it will be used in the future.
+
+>
+> 2. Suppose we use virtio_queue_enabled() or access the enabled status asy=
+nchronously, and we make the transport ready first.
+>
+> After enabled set to true, and before virtio_queue_enable() is finished, =
+somewhere  that call virtio_queue_enabled()  or access the enabled status o=
+f VirtIOPCIQueue. Then the caller will consider the virtqueue as enabled(en=
+abled =3D true in VirtIOPCIQueue). The caller might access the virtqueue(ac=
+cess avail ring / desc table). But I think the access here is illegal becau=
+se the virtqueue might still be unintialized status.
+>
+
+How can this happen, won't we call device specific method after we set
+queue_enabled as true? It's the charge of the device specific method
+to synchronize the necessary external I/O in this case.
 
 Thanks
 
+> Thus, from my perspective, to prevent illegal access, we need to make tra=
+nsport ready after virtio_queue_enable().
 >
-> I tested the change and it seems to work, but I only have some rough
-> rationale for it, which is also why there's no commit message yet.
+> Thanks
 >
-> In the Linux kernel's net/core/dev.c, in dev_validate_mtu(), the upper
-> limit itself is a valid value:
->     if (dev->max_mtu > 0 && new_mtu > dev->max_mtu) {
->         NL_SET_ERR_MSG(extack, "mtu greater than device maximum");
->         return -EINVAL;
->     }
-> and AFAICT in the case of the vmxnet3 driver, max_mtu is set to
-> VMXNET3_MAX_MTU (as defined in the kernel, which is 9000, same as in
-> QEMU).
 >
-> Reported by one of our users running into the failing assert():
-> https://forum.proxmox.com/threads/114011/#post-492916
 >
->  hw/net/vmxnet3.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Thanks
 >
-> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-> index 0b7acf7f89..a2037583bf 100644
-> --- a/hw/net/vmxnet3.c
-> +++ b/hw/net/vmxnet3.c
-> @@ -1441,7 +1441,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
->      vmxnet3_setup_rx_filtering(s);
->      /* Cache fields from shared memory */
->      s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
-> -    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
-> +    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu <= VMXNET3_MAX_MTU);
->      VMW_CFPRN("MTU is %u", s->mtu);
 >
->      s->max_rx_frags =
-> --
-> 2.30.2
+>           } else {
 >
 >
 
