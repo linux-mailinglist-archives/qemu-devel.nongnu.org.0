@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5355A1C7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 00:35:59 +0200 (CEST)
-Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A3B5A1C7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 00:38:48 +0200 (CEST)
+Received: from localhost ([::1]:36930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRLSA-000524-DG
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 18:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33582)
+	id 1oRLUt-0002JK-Js
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 18:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRLKT-00027c-Rw
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:28:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21931)
+ id 1oRLKV-0002CP-Ni
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:28:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRLKR-0004Xf-GC
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:28:01 -0400
+ id 1oRLKS-0004Xx-Qd
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:28:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661466478;
+ s=mimecast20190719; t=1661466480;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pZKtHNRLnlZ9cATm+8Ho8woN7n60nqdjBzsPn4N8Ozw=;
- b=cn3Whd+hs0kD5wL2gpO61C1tWxYNRdacZtPYA/O8KFPndGAFv51e3r2R5NmxzArqdiGtiZ
- El6zj8AUxDzeuUPj8E08vfS4FpMOjHpu736IPY6WROkJ6MNd0yf9Qq1JNougXztIdtIp3Q
- /2tyldut9zZAytMUWjJp1JRPBpXMZnA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hN2Gzr9MjiGvsphHAleaVqia6e5BAud6OSP1rPmeGqs=;
+ b=eDyjUJJtfn7d6XaYnVPJiAFi6NZu1vixvouVtOyMrsUmiOdbZSmh6n39ROCvo3dZfE8t1M
+ Ajb4wOoJDKIeXM87JxcKGXGDHxHBko/jOuvgCgcsm6E/zTLWmZH7TMMHSo41xOM3qTbDJ7
+ +RZ0dMtjgtYf5aiI63VKNRfdmDLQ0yg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-472--3rjW7IAMwmkSX0MnTvMJw-1; Thu, 25 Aug 2022 18:27:57 -0400
-X-MC-Unique: -3rjW7IAMwmkSX0MnTvMJw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n7-20020a1c2707000000b003a638356355so9306737wmn.2
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 15:27:56 -0700 (PDT)
+ us-mta-163-9BSkZ70_NsCDqzj8JjZPpg-1; Thu, 25 Aug 2022 18:27:58 -0400
+X-MC-Unique: 9BSkZ70_NsCDqzj8JjZPpg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ c22-20020adfa316000000b0022574c2dc1aso1088131wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 15:27:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=pZKtHNRLnlZ9cATm+8Ho8woN7n60nqdjBzsPn4N8Ozw=;
- b=npFTa/JP4ofqe8f7p8VduMLOPkAFxLpPLwCba0X6PvTmNKhLnILdTskPQq4F51ie5k
- hlGTahb+fO6LTFRwYz7HLNIsXvG51rDyZLTH11C9/KCOGmB9Terg8Y1i2+cC0iZ5m0vt
- Wawvd8hUaQLbaPoxPjLKww+ZQaEOZWIaKAEueIdAjNil6PVH5s12Ig/Qp38HcAg2A290
- hxvzTtocdNEReu1qTsmp8nX8UjWvAw/AmDLfDMTGam59rvNQKifJj/ADUm3z3PaILM5Q
- lakroG/dtHg3p/a2Q1xFHe5BlU2STst0jlNJEvbWpedHR27LCduzCmPtX3kSx1uNBza/
- e02w==
-X-Gm-Message-State: ACgBeo03Q1WZkfpaSU1Gz71V/+dtkeWbOrcOmDqPWSn1/9cV2OxeSLER
- 6jSLGgVcrWFSOE3ZU/J5S3cnuz7k/vpRuoHwgtNa+bi8xdkWmsBU8ObZdFsfj+gaFQebi/OYnY9
- MKs1uvxiQcKiZvQGrNCPuuhBWIof4BSrdlX0w//9CUa3lBJz8n4xt0+8omYC4sl+iMlE=
-X-Received: by 2002:a05:6000:98a:b0:225:8a17:15a6 with SMTP id
- by10-20020a056000098a00b002258a1715a6mr236048wrb.146.1661466475755; 
- Thu, 25 Aug 2022 15:27:55 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5+eZiwKYWk4ogBvfll0SFtkCPg38xRr4LYNEbvVU8xpR/A5R5vpU6z8smNcU6JFOgI1zVQLw==
-X-Received: by 2002:a05:6000:98a:b0:225:8a17:15a6 with SMTP id
- by10-20020a056000098a00b002258a1715a6mr236041wrb.146.1661466475542; 
- Thu, 25 Aug 2022 15:27:55 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- q62-20020a1c4341000000b003a3442f1229sm6529431wma.29.2022.08.25.15.27.54
+ bh=hN2Gzr9MjiGvsphHAleaVqia6e5BAud6OSP1rPmeGqs=;
+ b=Uo4jK+3e5t4WonaETo5ApZ5RNIwaw7ThxXmsKYUkAxAUEw1SQ389c02mjTa4Jl+240
+ bpTAr+0KGGqIN50A3SHWckSbJU9mqTvRzl9DIarOCwb7DiQVVjrUW1LyU6jkyhZR+l20
+ wvXV5NciXoRxYDq1gOD88kOhrVYOOKxdsJ6Bimy4CVhoFS3V293mVJwEv7mz6DFqlLnJ
+ WPZGXlpBnn7tb3RHb/v/+aKySZd4mpCRrMqwcXIJDN0EeaMIz4oUF/+QTfxYvsvc04nG
+ fBiUDYF0IDDbvVYc1kxgbwIBtWWhC2lKGTrZproSU2sRczVvUelSV0cJW4q2JtzrLNrW
+ dPNw==
+X-Gm-Message-State: ACgBeo0a321IryqiGb5nRH0wAe5WsyY/rMSPyGYuE/An5+Jxyk2GohoV
+ FtIPQgpO1IOroZ3tbPfOuCtCs/Ft0xtPTd90TGSYvUsy2nBmAu03dbrGOjOpEw3rrYSUcl9nSRI
+ RSNsgtMMM0qsVHuySwnINt2ov5KPzgHFq/SvZPomjTF7UN6kynUV/JZ3ax8LyEGCGjPc=
+X-Received: by 2002:a05:6000:2a4:b0:225:2fbb:6843 with SMTP id
+ l4-20020a05600002a400b002252fbb6843mr3568698wry.71.1661466477232; 
+ Thu, 25 Aug 2022 15:27:57 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR59pptCfHPuWzx5IOIufLCCCB2mW84wP6U4h/b0+ftS83OfA8oRhPpDMxPQOxFmNTTsNolXqA==
+X-Received: by 2002:a05:6000:2a4:b0:225:2fbb:6843 with SMTP id
+ l4-20020a05600002a400b002252fbb6843mr3568690wry.71.1661466476932; 
+ Thu, 25 Aug 2022 15:27:56 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ a7-20020adffac7000000b002253d162491sm340682wrs.52.2022.08.25.15.27.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 15:27:54 -0700 (PDT)
+ Thu, 25 Aug 2022 15:27:56 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
-Subject: [PATCH 06/20] configure: return status code from probe_target_compiler
-Date: Fri, 26 Aug 2022 00:27:31 +0200
-Message-Id: <20220825222745.38779-7-pbonzini@redhat.com>
+Subject: [PATCH 07/20] configure: store container engine in config-host.mak
+Date: Fri, 26 Aug 2022 00:27:32 +0200
+Message-Id: <20220825222745.38779-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220825222745.38779-1-pbonzini@redhat.com>
 References: <20220825222745.38779-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,60 +98,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now, return 1 for container-based compilers.  This will change as
-soon as ROMs will be buildable with them.
+In preparation for removing $(DOCKER_SCRIPT) from the tests/tcg configuration
+files, have Make use the same container engine that had been probed at
+configure time.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ configure                     | 11 ++++++++---
+ tests/docker/Makefile.include |  2 +-
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index c533eaada0..6f15f3c687 100755
+index 6f15f3c687..ed18a17013 100755
 --- a/configure
 +++ b/configure
-@@ -2181,6 +2181,7 @@ probe_target_compiler() {
-     target_ranlib=
-     target_strip=
-   fi
-+  test -n "$target_cc"
- }
+@@ -1843,9 +1843,11 @@ esac
  
- write_target_makefile() {
-@@ -2328,10 +2329,9 @@ done
- 
- # Mac OS X ships with a broken assembler
- roms=
--probe_target_compiler i386-softmmu
--if test -n "$target_cc" &&
--        test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
--        test "$targetos" != "haiku" && test "$softmmu" = yes ; then
-+if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-+        test "$targetos" != "haiku" && test "$softmmu" = yes && \
-+        probe_target_compiler i386-softmmu; then
-     roms="pc-bios/optionrom"
-     config_mak=pc-bios/optionrom/config.mak
-     echo "# Automatically generated by configure - do not modify" > $config_mak
-@@ -2339,8 +2339,7 @@ if test -n "$target_cc" &&
-     write_target_makefile >> $config_mak
+ container="no"
+ if test $use_containers = "yes"; then
+-    if has "docker" || has "podman"; then
+-        container=$($python $source_path/tests/docker/docker.py probe)
+-    fi
++    case $($python $source_path/tests/docker/docker.py probe) in
++        *docker) container=docker ;;
++        podman) container=podman ;;
++        no) container=no ;;
++    esac
  fi
  
--probe_target_compiler ppc-softmmu
--if test -n "$target_cc" && test "$softmmu" = yes; then
-+if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
-     roms="$roms pc-bios/vof"
-     config_mak=pc-bios/vof/config.mak
-     echo "# Automatically generated by configure - do not modify" > $config_mak
-@@ -2350,8 +2349,7 @@ fi
+ # cross compilers defaults, can be overridden with --cross-cc-ARCH
+@@ -2476,6 +2478,9 @@ if test -n "$gdb_bin"; then
+     fi
+ fi
  
- # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
- # (which is the lowest architecture level that Clang supports)
--probe_target_compiler s390x-softmmu
--if test -n "$target_cc" && test "$softmmu" = yes; then
-+if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
-   write_c_skeleton
-   do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
-   has_z900=$?
++if test "$container" != no; then
++    echo "ENGINE=$container" >> $config_host_mak
++fi
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 9a45e8890b..c5cfdda04d 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -14,7 +14,7 @@ DOCKER_DEFAULT_REGISTRY := registry.gitlab.com/qemu-project/qemu
+ endif
+ DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),$(DOCKER_DEFAULT_REGISTRY))
+ 
+-ENGINE := auto
++ENGINE ?= auto
+ DOCKER_SCRIPT=$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
+ 
+ CUR_TIME := $(shell date +%Y-%m-%d-%H.%M.%S.$$$$)
 -- 
 2.37.1
 
