@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9323B5A193D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 20:57:50 +0200 (CEST)
-Received: from localhost ([::1]:43362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2B35A1955
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 21:14:23 +0200 (CEST)
+Received: from localhost ([::1]:33092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRI33-00072N-6u
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 14:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37850)
+	id 1oRIJ4-0002tM-Qr
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 15:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRI0K-0004l8-MN
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 14:55:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26589)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oRI9R-00005u-0q
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 15:04:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRI0G-0005Fo-4h
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 14:54:59 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oRI9F-0006PT-1S
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 15:04:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661453694;
+ s=mimecast20190719; t=1661454245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y1LrVrpFuBu3wPfy44NQU2UfAxi+01V/AJmhFSEh5is=;
- b=HIMkJ5YWLq0NfvKoV/t93GDWoKpTJ4rsfruZvy96Ea+8vS4O5IffgEos8ZXjPrhNr/F38p
- LfXfxE2JPjQgcCidT1BqD7rYFhgVUN2WeSESOXj1+vxy3HT5nJ4mfgW2FkCfdTdZlrWd2b
- qDUA9a0pBXzLpiamUDO9fZhwjsJQfWw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-4wupZDHKOPa2XudMdmpUJA-1; Thu, 25 Aug 2022 14:54:53 -0400
-X-MC-Unique: 4wupZDHKOPa2XudMdmpUJA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j36-20020a05600c1c2400b003a540d88677so11289706wms.1
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 11:54:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=y1LrVrpFuBu3wPfy44NQU2UfAxi+01V/AJmhFSEh5is=;
- b=mNH8abNwXmimnmvmCh0bj4ACNcSBy8sRvx7xS3Y+US/P/EplncJOkTfEUsNtdKCEJy
- +oD8FkX/+9+e8nz2tycmo6S2X9E47jGXN3xjHTcjQCzn71MayyrbJ3ciLi5Z2T8i6kY2
- Eqe69aZPUOekItL5Ro7OYlYF7T7mJBCq0dieR1Xylb4xGgpdHiUm25ahQiAuAHE+bWd5
- +EWWsSB4XP9CrHMpkww7Jk+rJbOVt8oOu1QxKLMlMdlJYdRyy2P6yX4SyDfSiTy7wfsX
- ZX5060fMNqqoK9tCHFvdW28YwfFmNJ/3hM+qNKYB6txbbJtOD9BuwGJnNNuEzVkapV2+
- kBaA==
-X-Gm-Message-State: ACgBeo1nqBzyuBZt3Gai6U/x9SbqSl2ox7j8PgxKtxllt1/Tco7IvY0q
- aRmysYBdJ7lHpWh5QNACfMry8AmweC9Xp4aXzDphhMm5Ckem+5jGS4136FwsZk+NcAcrHHwox2c
- 72LAVpext9TOLerM=
-X-Received: by 2002:a1c:3b04:0:b0:3a5:487c:6240 with SMTP id
- i4-20020a1c3b04000000b003a5487c6240mr9124881wma.152.1661453692567; 
- Thu, 25 Aug 2022 11:54:52 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5Vvc/PLDQCQqy5LZd2lMAPrbOZQGU/zKkrihBEJNF82BUwAXlzZ/GEyb7k5nibeg33nBRSuw==
-X-Received: by 2002:a1c:3b04:0:b0:3a5:487c:6240 with SMTP id
- i4-20020a1c3b04000000b003a5487c6240mr9124876wma.152.1661453692290; 
- Thu, 25 Aug 2022 11:54:52 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-60.customers.d1-online.com.
- [80.187.98.60]) by smtp.gmail.com with ESMTPSA id
- g12-20020adfa48c000000b00224f5bfa890sm21715081wrb.97.2022.08.25.11.54.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 11:54:51 -0700 (PDT)
-Message-ID: <9ec3f828-12b6-7e01-ca97-6d9301b96815@redhat.com>
-Date: Thu, 25 Aug 2022 20:54:50 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bY/XBVgXDAmTX7MQ9iLwSAqFk8zCZLPTUyagIZscjyo=;
+ b=Ew1+SkJNrfn9ftC+2jof4sa6kJwMX+Y9O/UrvGctvNZkoFAZhj48o0uzWpdsOAKT1msz8y
+ AoCFhclmCYx8bQ6u28z4eXoPwn2OQ63Lbhz02gDczspw05SNCLBLeMHRnG/VoBt/QZ5D0x
+ GZMAd0+jPd9PQHqL7s+sALKwqlgwL5Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-48-GS_uraMdOvWnmaceP_5czQ-1; Thu, 25 Aug 2022 15:04:02 -0400
+X-MC-Unique: GS_uraMdOvWnmaceP_5czQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 512E6185A7B2;
+ Thu, 25 Aug 2022 19:04:02 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2FD80492C3B;
+ Thu, 25 Aug 2022 19:03:59 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Parav Pandit <parav@mellanox.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+Subject: [PATCH v3 0/6] Vhost-vdpa Shadow Virtqueue multiqueue support.
+Date: Thu, 25 Aug 2022 21:03:50 +0200
+Message-Id: <20220825190356.317527-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC PATCH] tests/vm: Remove obsolete Fedora VM test
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-References: <20220822175317.190551-1-thuth@redhat.com>
- <87ilmhh7nd.fsf@linaro.org> <69e48a9d-a343-5cdc-d0fc-6b38fd9d25fd@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <69e48a9d-a343-5cdc-d0fc-6b38fd9d25fd@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,27 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/08/2022 16.02, Philippe Mathieu-Daudé wrote:
-> On 24/8/22 19:29, Alex Bennée wrote:
->>
->> Thomas Huth <thuth@redhat.com> writes:
->>
->>> It's still based on Fedora 30 - which is not supported anymore by QEMU
->>> since years. Seems like nobody is using (and refreshing) this, and it's
->>> easier to test this via a container anyway, so let's remove this now.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>
->> Queued to testing/next, thanks.
-> 
-> FYI this is the image I'm using to test x86 guest on aarch64/mips64
-> hosts, but I can test a BSD-based instead; I suppose Linux as a guest
-> is already well tested.
-
-Do you need to compile-test QEMU there? If not, and if you just want to test 
-an x86 guest on a non-x86 host, I guess you could use any other x86 Linux 
-image, too (even boot a Fedora image directly from the ISO file).
-
-  Thomas
+This series enables shadowed CVQ to intercept multiqueue commands through=0D
+shadowed CVQ, update the virtio NIC device model so qemu send it in a=0D
+migration, and the restore of that MQ state in the destination.=0D
+=0D
+It needs to be applied on top of [1].=0D
+=0D
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02965.html=0D
+=0D
+v2:=0D
+* Add vhost_vdpa_net_load_cmd helper to avoid out buffers castings.=0D
+* Make cvq_cmd_in_buffer virtio_net_ctrl_ack type.=0D
+=0D
+Eugenio P=C3=A9rez (6):=0D
+  vdpa: Make VhostVDPAState cvq_cmd_in_buffer control ack type=0D
+  vdpa: extract vhost_vdpa_net_load_mac from vhost_vdpa_net_load=0D
+  vdpa: Add vhost_vdpa_net_load_mq=0D
+  vdpa: validate MQ CVQ commands=0D
+  virtio-net: Update virtio-net curr_queue_pairs in vdpa backends=0D
+  vdpa: Allow MQ feature in SVQ=0D
+=0D
+ hw/net/virtio-net.c |  17 +++----=0D
+ net/vhost-vdpa.c    | 119 ++++++++++++++++++++++++++++++++------------=0D
+ 2 files changed, 93 insertions(+), 43 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
