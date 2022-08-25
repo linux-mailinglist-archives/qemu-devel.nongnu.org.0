@@ -2,90 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4462C5A0792
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 05:21:36 +0200 (CEST)
-Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5067B5A07AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 05:40:33 +0200 (CEST)
+Received: from localhost ([::1]:50150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR3R1-0007Al-5I
-	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 23:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39402)
+	id 1oR3jL-0003jx-Nt
+	for lists+qemu-devel@lfdr.de; Wed, 24 Aug 2022 23:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oR3OQ-00058H-PX
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 23:19:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60981)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oR3hc-0002NQ-Io
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 23:38:44 -0400
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:50571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oR3ON-0005tz-2E
- for qemu-devel@nongnu.org; Wed, 24 Aug 2022 23:18:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661397530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kCKgF03c6M35Fokfm2fyB6ND5018IpNP+LQeXcsN85E=;
- b=Ck/YeTYLuMsmflWD8EntjaII+uZyu4/M1oE1bBbhx8Y1N0ga/PFnGe4QtgsOAkxZkiJCEL
- CzBYpunkv/U/ODIKGckzMsTIOR+SMhtU26kh/51ZZ041BmvhCxLWxLcOFUFDrrhMv+RIX/
- ZHC/OvyDRChBsZm6TKJEP9hSAubASPg=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-35-D-_fZJgFOBKzuW8Oj5VicA-1; Wed, 24 Aug 2022 23:18:46 -0400
-X-MC-Unique: D-_fZJgFOBKzuW8Oj5VicA-1
-Received: by mail-lf1-f70.google.com with SMTP id
- v21-20020a197415000000b00492c4d45175so5376416lfe.4
- for <qemu-devel@nongnu.org>; Wed, 24 Aug 2022 20:18:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=kCKgF03c6M35Fokfm2fyB6ND5018IpNP+LQeXcsN85E=;
- b=sJuoZsP2ZOij7cFbk2rgS/g2B+ex1hY3a0y6kk97xFt2T4R29dVQ4/8lvpL/94U60T
- N1HGPx9CNY9ZuVUwZdtXMhGMclvFU//No1668h0IDDfptniIhrBxS3Ur7pV/TBMgFzbu
- pupCKzOPSVZpGRPWaBwtt9zGJ/K/0Ke6ejPdia53wUoVDgUEA2qcP8RqCZ9nrlezbfBW
- 0XVv/qEAc6XOGrhfJeBB5GJmbISnhK/Fn9+nhkJkCr5S3TUsYtDyQmkiYKqOs/RUBB99
- z+gK1SB8WhFT4WJesU21dJc6Kq0Z+1oklsjaUCvUKymLa9FHLZvamCEQZL6+s4xU2wcy
- zxCQ==
-X-Gm-Message-State: ACgBeo31SzghSdrXjVRWpAHDgT+8RroahTCw9MTMYxdR7P79MiYypOHP
- 1AfeyyxduNuUuHcarxsp370F4c4MM0/1UOJLc7QmUc1MFmvF9ML8gWnaGtIYxm0MpW5QISMsXCM
- 8NIMYoqvcG1QJPiq1OfBpUlSZbSsdtoQ=
-X-Received: by 2002:a05:6512:3f0e:b0:48a:5edd:99b2 with SMTP id
- y14-20020a0565123f0e00b0048a5edd99b2mr494066lfa.124.1661397524771; 
- Wed, 24 Aug 2022 20:18:44 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7oRT/74xgxuWR1asK5X2mR+68VaZQ+7mFCJmmqjMOhQAzKBcZ6DFV6UTcFObnvYaOQJDehQve4aVWznborsxg=
-X-Received: by 2002:a05:6512:3f0e:b0:48a:5edd:99b2 with SMTP id
- y14-20020a0565123f0e00b0048a5edd99b2mr494042lfa.124.1661397524417; Wed, 24
- Aug 2022 20:18:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oR3hS-0000eN-28
+ for qemu-devel@nongnu.org; Wed, 24 Aug 2022 23:38:38 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VNBZXIo_1661398700; 
+Received: from 30.227.72.120(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VNBZXIo_1661398700) by smtp.aliyun-inc.com;
+ Thu, 25 Aug 2022 11:38:21 +0800
+Message-ID: <5f784e21-f629-bc44-e71f-d07b7f8f85ac@linux.alibaba.com>
+Date: Thu, 25 Aug 2022 11:38:19 +0800
 MIME-Version: 1.0
-References: <20220824183551.197052-1-eperezma@redhat.com>
-In-Reply-To: <20220824183551.197052-1-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 25 Aug 2022 11:18:33 +0800
-Message-ID: <CACGkMEu9-8xm77wCdmrHgtE=G=7isbNOq3VU-PLLKA6foSWrNw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Vhost-vdpa Shadow Virtqueue multiqueue support.
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- Parav Pandit <parav@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Eli Cohen <eli@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v2 07/24] virtio-pci: support queue enable
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <6dda660c634b2a35c3dea46a98e63fb2ef3a36c9.1660611460.git.kangjie.xu@linux.alibaba.com>
+ <1824ba40-9460-4c5d-9a27-820a51355ba3@redhat.com>
+ <9fb3e2b4-9f78-5da1-3ab6-0ec53f03b628@linux.alibaba.com>
+ <5812b7ed-3983-6b39-0c44-e1701ca4ecf0@redhat.com>
+ <a5cb0b2d-1a76-86eb-acd7-6421a5f6d3eb@linux.alibaba.com>
+ <CACGkMEvrzc2asJfWVynh=Y=6mjrGLG5EOTDhfrDWV69SX7Yb1g@mail.gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+In-Reply-To: <CACGkMEvrzc2asJfWVynh=Y=6mjrGLG5EOTDhfrDWV69SX7Yb1g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.42;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-42.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,44 +74,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 25, 2022 at 2:35 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
->
-> This series enables shadowed CVQ to intercept multiqueue commands through
-> shadowed CVQ, update the virtio NIC device model so qemu send it in a
-> migration, and the restore of that MQ state in the destination.
->
-> It needs to be applied on top of [1].
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02965.html
->
-> v2:
-> * Add vhost_vdpa_net_load_cmd helper to avoid out buffers castings.
-> * Make cvq_cmd_in_buffer virtio_net_ctrl_ack type.
->
-> Eugenio P=C3=A9rez (6):
->   vdpa: Make VhostVDPAState cvq_cmd_out_buffer control ack type
->   vdpa: extract vhost_vdpa_net_load_mac from vhost_vdpa_net_load
->   vdpa: Add vhost_vdpa_net_load_mq
->   vdpa: validate MQ CVQ commands
->   virtio-net: Update virtio-net curr_queue_pairs in vdpa backends
->   vdpa: Allow MQ feture in SVQ
 
-(Typo here).
+在 2022/8/25 10:52, Jason Wang 写道:
+> On Wed, Aug 24, 2022 at 7:27 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
+>>
+>> 在 2022/8/24 16:59, Jason Wang 写道:
+>>
+>>
+>> 在 2022/8/23 16:20, Kangjie Xu 写道:
+>>
+>>
+>> 在 2022/8/23 15:44, Jason Wang 写道:
+>>
+>>
+>> 在 2022/8/16 09:06, Kangjie Xu 写道:
+>>
+>> PCI devices support vq enable.
+>>
+>>
+>>
+>> Nit: it might be "support device specific vq enable"
+>>
+>>
+>> Get it.
+>>
+>>
+>> Based on this function, the driver can re-enable the virtqueue after the
+>> virtqueue is reset.
+>>
+>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>> ---
+>>    hw/virtio/virtio-pci.c | 1 +
+>>    1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+>> index ec8e92052f..3d560e45ad 100644
+>> --- a/hw/virtio/virtio-pci.c
+>> +++ b/hw/virtio/virtio-pci.c
+>> @@ -1335,6 +1335,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+>> proxy->vqs[vdev->queue_sel].avail[0],
+>> ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
+>> proxy->vqs[vdev->queue_sel].used[0]);
+>> +            virtio_queue_enable(vdev, vdev->queue_sel);
+>>                proxy->vqs[vdev->queue_sel].enabled = 1;
+>>                proxy->vqs[vdev->queue_sel].reset = 0;
+>>
+>>
+>>
+>> Any reason we do it before the assignment of 1? It probably means the device specific method can't depend on virtio_queue_enabled()?
+>>
+>> Thanks
+>>
+>> Sorry, I don't get why device specific method can't depend on virtio_queue_enabled().
+>>
+>>
+>>
+>> I meant if the device specific method call virtio_queue_enabled() it will return false in this case, is this intended?
+>>
+>> Yes, I intend it to behave in this way.
+>>
+>>
+>>
+>> Before virtio_queue_enable() is done, virtqueue should always be not ready and disabled.
+>>
+>> Otherwise, If we put it after the assignment of enabled to 1, the virtqueue may be accessed illegally and may cause panic, because the virtqueue is still being intialized and being configured.
+>>
+>>
+>>
+>> How? Shouldn't we make transport ready before making device virtqueue(device) ready?
+>>
+>> Thanks
+>>
+>> I am not experienced in this field, could you tell me why we should make the transport ready first?
+> That's a must for the device to work.
+>
+> E.g for PCI device, I can't image the device is ready to work before
+> PCI is ready.
+>
+>> I make the transport ready later than making device ready for two aspects:
+>>
+>> 1. In QEMU, the virtio_queue_enabled() is used only when we start the device/queue pair (vhost_dev_start_one), or reading VIRTIO_PCI_COMMON_Q_ENABLE. These two operations and resetting the queue will be synchronized using iothread lock, so we do not need to worry about the case currently.
+> Note that virtio_queue_enabled() is an exported helper, you can't
+> assume how it will be used in the future.
+>
+>> 2. Suppose we use virtio_queue_enabled() or access the enabled status asynchronously, and we make the transport ready first.
+>>
+>> After enabled set to true, and before virtio_queue_enable() is finished, somewhere  that call virtio_queue_enabled()  or access the enabled status of VirtIOPCIQueue. Then the caller will consider the virtqueue as enabled(enabled = true in VirtIOPCIQueue). The caller might access the virtqueue(access avail ring / desc table). But I think the access here is illegal because the virtqueue might still be unintialized status.
+>>
+> How can this happen, won't we call device specific method after we set
+> queue_enabled as true? It's the charge of the device specific method
+> to synchronize the necessary external I/O in this case.
+>
+> Thanks
 
-Looks good, let's wait for confirmation from Si Wei. Then I can queue
-this series.
+I get your point.
+
+You are right. I realized that I ignored the external I/O.
+
+Will fix it.
 
 Thanks
 
 >
->  hw/net/virtio-net.c |  17 +++-----
->  net/vhost-vdpa.c    | 101 ++++++++++++++++++++++++++++++++++----------
->  2 files changed, 85 insertions(+), 33 deletions(-)
->
-> --
-> 2.31.1
->
->
-
+>> Thus, from my perspective, to prevent illegal access, we need to make transport ready after virtio_queue_enable().
+>>
+>> Thanks
+>>
+>>
+>>
+>> Thanks
+>>
+>>
+>>            } else {
+>>
+>>
 
