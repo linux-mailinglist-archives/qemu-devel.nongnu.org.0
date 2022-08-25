@@ -2,79 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8725A0F12
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:29:26 +0200 (CEST)
-Received: from localhost ([::1]:33852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA075A0F17
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:32:03 +0200 (CEST)
+Received: from localhost ([::1]:36892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRB36-0001NP-VF
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
+	id 1oRB5e-0004Vg-7W
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRB0l-00086N-53
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:27:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45096)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRB19-0008Tf-9w
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:27:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRB0g-0004SK-Id
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:26:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRB16-0004Uj-R9
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:27:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661426813;
+ s=mimecast20190719; t=1661426839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dlP5EkTySxfYP0Gz4F1zDCy+y2jRKl9ixqh4ApeYu8k=;
- b=a1CfZppbh9HhoO8FTDR1FnH8D4UxDyT4DhRbBrt0it31BDiuS/cz0PqT6LqezeYRkFWkrk
- sL31v+JqHlHjKjF8Q+ka0CAYaA+9Za6v3o4UoSa4cZ66PanDad2RjVsiQUtoIwbSzAjgLj
- HkKmXvkoyHsttMlyyj+wzEkY2nV28uU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-184-OhBP4UI-Pzuv3QezFRp5xA-1; Thu, 25 Aug 2022 07:26:50 -0400
-X-MC-Unique: OhBP4UI-Pzuv3QezFRp5xA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A870C8039AE;
- Thu, 25 Aug 2022 11:26:49 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.195.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61FC2C15BBA;
- Thu, 25 Aug 2022 11:26:49 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D0522180039B; Thu, 25 Aug 2022 13:26:47 +0200 (CEST)
-Date: Thu, 25 Aug 2022 13:26:47 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [PATCH v1 08/40] i386/tdx: Adjust the supported CPUID based on
- TDX restrictions
-Message-ID: <20220825112647.xmtvkoiffyk7aigr@sirius.home.kraxel.org>
-References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
- <20220802074750.2581308-9-xiaoyao.li@intel.com>
+ bh=7lfn/OrEZ026EAilJPdzEpJG06PbgMHJGNe/tUBFlHA=;
+ b=VBTt/t+mAp8K7vMaI6aJVpHKErMXakv2FSymSE9qDaaRtrQQXGv1wHZBfSAdo+TUJbU+HY
+ yZD0pgUXPecGbGLe8CHVgsQ8K9AxYSQZD0+gfoMwLQe/Vs4kqklqD2arHwoPCRu9tNGW35
+ LKZgOKXnX0P3DNi/4YYKjMhBuJTqbdk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-590-ih8fRdtfOAWUkJSBcTrc3g-1; Thu, 25 Aug 2022 07:27:18 -0400
+X-MC-Unique: ih8fRdtfOAWUkJSBcTrc3g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o3-20020adfa103000000b0022514e8e99bso3302035wro.19
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 04:27:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=7lfn/OrEZ026EAilJPdzEpJG06PbgMHJGNe/tUBFlHA=;
+ b=g6xEIpAZ1naciKrfF0LzzTLndU8wyh1mDVayNoRIkOOV0aAhz7xVbd7qWbxNRKD/Oh
+ CI5YzUi/n37HJfJA/mLOz2aTveE8LuRgfOHLqhsbwB4WhNuQG+vdw6uMtwNjuw00WKFl
+ lMNZtRCbxHRjoFeuPKsRxbKLb6JCoEcGHJJHcIFruIcwRofR4OVM0nRmcRPGOsetAgAE
+ DYck1kXKF7ds/hvQNduZVIYKW+GeD634iX63PnUN3kpFRBG134rVeg1MjDhU6RDAGFDs
+ lOWMyzVUdLsvqhORKZaS0HIVBgxFGnRM8eD5mLZnVipnFsx6ydhUdxYbulXwk3OOjsau
+ ZaDw==
+X-Gm-Message-State: ACgBeo2xYbqz86RtSe44Hzf5tRH44hkHgJAiGrFGZQZDdhoM06ZdHWLD
+ +8nbjOdyrFblYy2fR/Bfjj1CW4+Mc8OezLVGDRNFoumgw5SjVggtijtLAltiLyhtgihWs+V1erq
+ GdKIAc5WXgsS0ny4=
+X-Received: by 2002:a1c:2705:0:b0:3a6:78b0:9545 with SMTP id
+ n5-20020a1c2705000000b003a678b09545mr1993275wmn.165.1661426837378; 
+ Thu, 25 Aug 2022 04:27:17 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4bTGFN68mQ9NT84ycNFama2ZgFfKl3gsgq57goJ2VsF9sTs99o9Yzddg4ySrbOgx9xGWjGIA==
+X-Received: by 2002:a1c:2705:0:b0:3a6:78b0:9545 with SMTP id
+ n5-20020a1c2705000000b003a678b09545mr1993256wmn.165.1661426837157; 
+ Thu, 25 Aug 2022 04:27:17 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-177.web.vodafone.de.
+ [109.43.177.177]) by smtp.gmail.com with ESMTPSA id
+ cc19-20020a5d5c13000000b0022571d43d32sm4494096wrb.21.2022.08.25.04.27.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Aug 2022 04:27:16 -0700 (PDT)
+Message-ID: <b1d8bed2-f28a-7d45-9264-f1636c7ff04b@redhat.com>
+Date: Thu, 25 Aug 2022 13:27:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220802074750.2581308-9-xiaoyao.li@intel.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 17/51] tests/qtest: Build virtio-net-test for posix only
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-18-bmeng.cn@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220824094029.1634519-18-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,23 +102,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On 24/08/2022 11.39, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> All of the virtio-net-test test cases require socketpair() to do the
+> test setup.
 
-> between VMM and TDs. Adjust supported CPUID for TDs based on TDX
-> restrictions.
+I think that is not true. Look at the end of the file, after the comment 
+"These tests do not need a loopback backend" ... these tests are using 
+virtio_net_test_setup_nosocket which does not need socketpair().
 
-Automatic adjustment depending on hardware capabilities isn't going to
-fly long-term, you'll run into compatibility problems sooner or later,
-for example when different hardware with diverging capabilities (first
-vs. second TDX generation) leads to different CPUID capsets in a
-otherwise identical configuration.
+You likely have to put the #ifdefs in different locations here instead.
 
-Verification should happen of course, but I think qemu should just throw
-an error in case the tdx can't support a given cpu configuration.
-
-(see also Daniels reply to the cover letter).
-
-take care,
-  Gerd
+  Thomas
 
 
