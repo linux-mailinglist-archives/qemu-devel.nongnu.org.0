@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D8C5A15ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:39:58 +0200 (CEST)
-Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDE25A1616
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:48:21 +0200 (CEST)
+Received: from localhost ([::1]:49136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRExZ-0002om-CM
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34500)
+	id 1oRF5f-0006TM-MW
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oREub-0008Nz-Ax
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:36:53 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:35735)
+ id 1oRF2D-00040V-NZ
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:44:45 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oREuY-0007Vj-Lt
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:36:52 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- m10-20020a17090a730a00b001fa986fd8eeso5357714pjk.0
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 08:36:49 -0700 (PDT)
+ id 1oRF2C-00004w-4f
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:44:45 -0400
+Received: by mail-pl1-x631.google.com with SMTP id m2so18880209pls.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 08:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=NCteGgGXcIppP2zwWwearvSeOQFPuoYs00f4ncPYvRk=;
- b=jt8w9VBQKKoO/CxmNxerElNrZAlH+l13vlXkUkKpnDN74+9/eK8TS8Fr2SUoqy3kQE
- BucxkNs1CQ2DpWTDgpl4BvQeJFmOX9Kw9NJmdb8TFcebHHONX7VNJupM+baUzbU4lGXa
- /b/mIVsvY3JkiNYMGyKDMrH7F7cPGKMil98zL30PlxtOO12X7YGXv1zAXUDU3AMcMdn4
- U92gGqu4csHXUupdPbJ9fx+ok/5bvqPE5ht3fZjF/2/0dxLYP3xSa5qTyj9b1DjNmzmI
- QqE74TX/RKf+Y4TQTGIKXRCKmy+f5oeMW+vRyswjGW/J1M/0p8rWNi8NOycMFxv3kk2f
- beeg==
+ :from:to:cc; bh=nG7NK2ZdctyfoXzg4tEzE8ZfepaDcAjNEY4Rglp6DLY=;
+ b=nEnEWHqQuSXrZjJtW1Rj0FdEsdsJaTY036TLEcAK7KgYkKN+wcNDW/WBcZ1X1U/9Fj
+ v0xWbZLRAGY9uVkYmq8fNu6OU0REmPY68QcCNvb9p0AbZn6ljlD/coOxqYeCFMFR18zg
+ Xlr4BGDW6+sZhQrZXik0fC+UKH/6CwXQDkURil1kKNZUbZkmUy/6XX13yWYVWZGjv/0o
+ nuIesEMtPot8HFILxuvFQzFrWxhtav37mGGNew/R9vG4KqJmBReyD7UMfq0ABvTrBxpI
+ 7BbrOrnqQv3FlOinK4aXVAbSMh3tBEtELFl6/r9BXfXta6QHEXV2oTFw7+4xCbeFwWgt
+ zb4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=NCteGgGXcIppP2zwWwearvSeOQFPuoYs00f4ncPYvRk=;
- b=hmchVzzlz/WOewgEVL2n6IIb6/g2HsAJei2uQ5mFh5vaf+tj4FBIp5k9eaKBP6I1br
- j/cpgNtq6x4QYpnG2CdcAPQdOSrbTrXf7E2TGzDSAm5Hb2jHPx8yiyQaXZsiis6sZch1
- yVdSZkc4D+lAxKnwvIh6QkOoi/crjpcu+SrRN0syQzrLnX+pT6shjp5oDWwvhi+rYfhU
- RS0zXSaaIyroGHeWcdyaT1alKj/C/OiHsBGFjEVipvxVKAhhAosLPAHqbGDfoS4s05q5
- Xq4gW+de6sKUlTchQtviN3SuOjmGDq4fWhhHMvKnGvNLvFhWcqKFqu3QaguiDHcaaX5x
- ql9g==
-X-Gm-Message-State: ACgBeo14Wp7CO9kMvfqax1ejOmvUaAu5dwX73drgNenEwl/TBOcG0/eV
- KkpkXvEPMwPcBcdKnyVTTezbpw==
-X-Google-Smtp-Source: AA6agR4HEkYU5ESLyaqYeMik5TUTbozefRUC3GVzpCMUfo//xwoaqvxso62zahDBVfCWH6p1SvSSjw==
-X-Received: by 2002:a17:90b:264e:b0:1fb:c093:36a2 with SMTP id
- pa14-20020a17090b264e00b001fbc09336a2mr1396899pjb.117.1661441806046; 
- Thu, 25 Aug 2022 08:36:46 -0700 (PDT)
+ bh=nG7NK2ZdctyfoXzg4tEzE8ZfepaDcAjNEY4Rglp6DLY=;
+ b=fdR/BrLQEF9W/U/VcD0vvVTibT5GZzjc9gamcRLkWCAsIs1MFBF4/NpYn/pLP08Rq0
+ Kn4m4eRDvE941uX8BrgmjOawArk0e2cq+YW161Ecl32KdeuwelHtxg5ZhF7j+wP5rDvt
+ 3WmVtl1xqOXp5awY1ZEQ3F51wrjvC75aQ7HPvdNPKOvWTlSKc+cUGc2Fguq8sRLri3o+
+ 0Jm1q7iFwBc6xJItciW/0JFle1PtA8KmTbAn9CTSbAvkoKoYgyU3Tbso89sUc5/tccAa
+ MRY5e4gDi1au2HeYxDw0vQWv2m9VHcORha54Lqntjb5Q504qE4qtof8Oqpi7woImymxb
+ gPzw==
+X-Gm-Message-State: ACgBeo3LFiMxywYLcv72vTNN1Yj7WMfEQx117pdv2tAGCxGwqB8I/O2I
+ SRBL2t65FKNX56aD1b5kcTkjYg==
+X-Google-Smtp-Source: AA6agR4Jqz4IDD9WaSHKk4tJLU/5OrkhDtUH5x0o80d7+qILaQ00gCtV89Dpu94cnRR6OAVbqhDskQ==
+X-Received: by 2002:a17:903:41d1:b0:172:ee09:e89e with SMTP id
+ u17-20020a17090341d100b00172ee09e89emr4227406ple.61.1661442282618; 
+ Thu, 25 Aug 2022 08:44:42 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:64be:e7c:2851:ce4b?
  ([2602:47:d49d:ec01:64be:e7c:2851:ce4b])
  by smtp.gmail.com with ESMTPSA id
- e5-20020aa79805000000b005366e592cf9sm10445771pfl.96.2022.08.25.08.36.45
+ m21-20020a170902d19500b0016d1bee1519sm14600246plb.102.2022.08.25.08.44.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 08:36:45 -0700 (PDT)
-Message-ID: <cfc4d1b0-1663-d831-2312-5e9dbbd7b25b@linaro.org>
-Date: Thu, 25 Aug 2022 08:36:42 -0700
+ Thu, 25 Aug 2022 08:44:42 -0700 (PDT)
+Message-ID: <7fbe31d7-515d-d9c0-ec20-9c5124821144@linaro.org>
+Date: Thu, 25 Aug 2022 08:44:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 04/17] target/i386: add ALU load/writeback core
+Subject: Re: [PATCH] tests/tcg: i386: extend BMI test
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: paul@nowt.org
-References: <20220824173123.232018-1-pbonzini@redhat.com>
- <20220824173123.232018-5-pbonzini@redhat.com>
- <7b4759db-6592-2bc2-25f6-a762e8a83c26@linaro.org>
- <577bfd2b-090f-d324-6a76-5b851a87e905@redhat.com>
+References: <20220825123418.319668-1-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <577bfd2b-090f-d324-6a76-5b851a87e905@redhat.com>
+In-Reply-To: <20220825123418.319668-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,29 +92,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/22 23:48, Paolo Bonzini wrote:
-> On 8/25/22 02:23, Richard Henderson wrote:
->>> +    op->v = v;
->>> +}
->>
->> Surely this assignment...
->>
->>> +static void gen_writeback(DisasContext *s, X86DecodedOp *op)
->>> +{
->> ...
->>> +    case X86_ALU_GPR:
->>> +        gen_op_mov_reg_v(s, op->ot, op->n, s->T0);
->>
->> ... can be used here instead of hard-coding T0.  It should be easy enough to create *_v 
->> editions of all *_T0, such as gen_movl_seg_T0.
+On 8/25/22 05:34, Paolo Bonzini wrote:
+> Cover all BMI1 and BMI2 instructions, both 32- and 64-bit.
 > 
-> No, decode.op[0].v is never initialized.
+> Due to the use of inlines, the test now has to be compiled with -O2.
 > 
-> In fact, even decode.op[1].v and decode.op[2].v are never used, the gen_* functions just 
-> hardcode T0 = f(T0, T1).
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   tests/tcg/i386/Makefile.target  |   1 +
+>   tests/tcg/i386/test-i386-bmi2.c | 169 ++++++++++++++++++++++++++++++--
+>   2 files changed, 162 insertions(+), 8 deletions(-)
 
-Ah, that's a shame.  Perhaps better, then to avoid confusion and remove it?  We can put it 
-back when we do attempt to clean up the temps...
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
