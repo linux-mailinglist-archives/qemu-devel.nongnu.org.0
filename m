@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F175A0FD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:03:36 +0200 (CEST)
-Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62DC5A1006
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:11:41 +0200 (CEST)
+Received: from localhost ([::1]:48760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRBaB-0005ar-36
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
+	id 1oRBi0-0001vr-B2
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oRBTd-0000Mf-UB; Thu, 25 Aug 2022 07:56:51 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:44473)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRBWo-0003y1-FY
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:00:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oRBTb-0000om-1K; Thu, 25 Aug 2022 07:56:49 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id A434C3200B80;
- Thu, 25 Aug 2022 07:56:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 25 Aug 2022 07:56:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1661428601; x=1661515001; bh=tT
- ariQ41D3RBvUU9iUEYcLg/GWAy2Ch/bwy28bIdnHs=; b=sTQWsbyccTlUxBw4tU
- QTgpx/LIWaL4byvIEDGhROCFmoR+2IsFXQCWq2j7/LGkhKdFHxMS627zVpNTT76L
- 7b+L7C43HYCMktXOQ8xToGkasxboZyxeBQN2fr8TEyFWyk+bdhw95S5NZAawXhyK
- q/00t5prhSjM1pHgZrGXwJp3L2Y0I6YRtmgpzbwANsvcU1ItZgQvt5thUXxdqQgV
- fTuwp85ffsLYqCtebxzfr+Z4V7I76zHkfOOtPkw1DAezSTjO/G6z0XGFN/2Wz1cR
- OzyE9PAWn0dwGFXesYLQSOJJt0jiXdwWZm79/rD4hB2G5HI8612vBq0sHzmr13PF
- 7GmQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661428601; x=1661515001; bh=tTariQ41D3RBvUU9iUEYcLg/GWAy
- 2Ch/bwy28bIdnHs=; b=BiNwhtlM09S6X/Z6luRX0Ii3lacJLtOCY9AjnRnvSwHC
- NZHSmTrw4eDI9YSe3+ifbVdtAassyIUj1evg1ctKMMCRaFOzvUrooDnWJKZDJx2m
- jMYKCgShy6VVjc6bL2vJMC+JrQuoIzlh1CqY5qpBX7KfwGLKAXfd3QY9vjC70qdK
- YGsz2geM/Qu/vfAj8q7F1X3LsIDa43qV74OKzrmM6VlYrh1qAtNouE0I9CjmCEIC
- 0TyPIq6rVSIRNiqJY8bpxIBW8DzobaWUCJUtOLI6sQy07BeX5kWor82S1KTf6K0D
- rFnTFkWnoXJ7/ufsPY0SlhuVpgSBp1yC3h6iNM6oQw==
-X-ME-Sender: <xms:eGMHY_TeaeDAHoXuNdscbJNKSjRIMfK36zJbIjLaHcQa0YxQ7Q83eA>
- <xme:eGMHYwxCSRQRJaGVAiz_EpIeNcTZmWiY4IvjOfZQubOEgdmq3TtlbYbUhew9RlogO
- X_wexXSd6FsFK8b8HA>
-X-ME-Received: <xmr:eGMHY00_-LbjgIGrqZbMoyNkneEvrYAo38Njr2kDNH7rq2m6qZ7iAZY7mW_YrIpDdd7uEAPgwAxi7p0fZw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedggeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeekieffjefgueekhedvgeefueehhe
- dvgfehleekudfggfejveevieehheelheejudenucffohhmrghinheptghtrhhlrdgtfien
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
- hirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:eGMHY_CNcVapcu7bub-739mF1iPYyGvnj-k8F3gC0_61Lzpyy-yfdg>
- <xmx:eGMHY4jTYgkO8GjFIurYyDfn34JAHwjzcZRsZ3xD84SZB2JTtIbA8Q>
- <xmx:eGMHYzrdZjucfvv6fincI07hrJFzRRXrKZFPEnW3Lut9slqxNoaNcw>
- <xmx:eWMHYwcdzUEx8EP5eus9xXSeJy6ugnN7HmjWUoNqB5qJttaojvwUAA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 07:56:39 -0400 (EDT)
-Date: Thu, 25 Aug 2022 13:56:37 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
- "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v2 1/3] hw/nvme: support irq(de)assertion with eventfd
-Message-ID: <YwdjdZye1L/D+29G@apples>
-References: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
- <20220825074746.2047420-2-fanjinhao21s@ict.ac.cn>
- <YwdB//iV62uWeqJK@apples>
- <7e5708c6-ffad-d867-a232-85ce55ee60b4@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRBWk-0001AX-Nk
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:00:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661428802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lEZP0bGHjKNtSJvZZJr33i7noymHaL34KBUi0tRrrbM=;
+ b=L6LC+14uhUMg93ZuO0w/21QQ4h3BxgZGNMUy/QL19yRj9G1NwQIdrlUFc53nuW/no/B4Gf
+ Y44N2for+UeO57p5rXT9ruIPq15i9uph2PHbfnJ26rIqdO/+Z3E/GB5qc/J3B9C8WFoLZ1
+ Ezh6Bg8vNGm4jFG4liB0UF7sACFNxYI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-635-7IoN6WF5Np6dJgh5qsQr1Q-1; Thu, 25 Aug 2022 08:00:00 -0400
+X-MC-Unique: 7IoN6WF5Np6dJgh5qsQr1Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c22-20020adfa316000000b0022574c2dc1aso734945wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 05:00:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=lEZP0bGHjKNtSJvZZJr33i7noymHaL34KBUi0tRrrbM=;
+ b=JQ2qHSVZVzDXRM1NZad/xsvgGHgrsptBebSMfSTbkSepT1Ss27LNFrnk5ItZoloeVa
+ Joz+A5jcD+mRGIxhMNIzrXhBelEAB7fwYZgAxv4D/y+voXCV35oBHozbEmy4Tdox6pBw
+ Xab6Oz0GGYec2kgtRH3Gbe+3ZFLzADfdviM/r01TPjopCVin4xttciWSfgBh3b9jM2qp
+ eRaaBZQH5Hc6eGunZ0ltI+iEWrw3SsNkFomcBSm7kBjr1wMTK5mvK/ca/8Qfl4hRwA0Q
+ LxL/7oM4dhCxMnsY8JoqYz9M56y6vO3DTVpWm0dN66RzAXxnFCnjx8zr7CG6tVouTLDX
+ VfoA==
+X-Gm-Message-State: ACgBeo1w/l4PnembH71kzEUx4PMNl1FG3MOnI4MuyxrhOfFaP/4YneC6
+ 9Kh9PorcPB7FzWiKIPaDtFY6g5TWCKby6x8R/WEdi/0PI7XbOdHft3M30neAh48WrXWuc7LtNhg
+ iTbnBjOftKV3V83M=
+X-Received: by 2002:a05:600c:41ca:b0:3a6:6dd2:bdac with SMTP id
+ t10-20020a05600c41ca00b003a66dd2bdacmr2117784wmh.168.1661428799692; 
+ Thu, 25 Aug 2022 04:59:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6hgWTYnHC2T6wOLcehyh6h1QzfC52yu6z5u3h4xC5sjfDW9fi37vPzdox5yoTQ555wG6pU6Q==
+X-Received: by 2002:a05:600c:41ca:b0:3a6:6dd2:bdac with SMTP id
+ t10-20020a05600c41ca00b003a66dd2bdacmr2117778wmh.168.1661428799511; 
+ Thu, 25 Aug 2022 04:59:59 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-177.web.vodafone.de.
+ [109.43.177.177]) by smtp.gmail.com with ESMTPSA id
+ bh19-20020a05600c3d1300b003a2f6367049sm5409197wmb.48.2022.08.25.04.59.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Aug 2022 04:59:59 -0700 (PDT)
+Message-ID: <03bfc24f-bf84-7c46-06f5-81730f3a4e65@redhat.com>
+Date: Thu, 25 Aug 2022 13:59:57 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="I1acEbcvmlLJ3Sjv"
-Content-Disposition: inline
-In-Reply-To: <7e5708c6-ffad-d867-a232-85ce55ee60b4@ict.ac.cn>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 26/51] tests/qtest: libqtest: Move global_qtest definition
+ back to libqtest.c
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-27-bmeng.cn@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220824094029.1634519-27-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,100 +104,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 24/08/2022 11.40, Bin Meng wrote:
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> 
+> Commit dd2107497275 ("tests/libqtest: Use libqtest-single.h in tests that require global_qtest")
+> moved global_qtest to libqtest-single.h, by declaring global_qtest
+> attribute to be common and weak.
+> 
+> This trick unfortunately does not work on Windows, and building
+> qtest test cases results in multiple definition errors of the weak
+> symbol global_qtest, as Windows PE does not have the concept of
+> the so-called weak symbol like ELF in the *nix world.
+> 
+> Let's move the definition of global_qtest back to libqtest.c.
+> 
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>   tests/qtest/libqtest-single.h | 2 +-
+>   tests/qtest/libqtest.c        | 2 ++
+>   2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/libqtest-single.h b/tests/qtest/libqtest-single.h
+> index 4e7d0ae1dc..3294985d7b 100644
+> --- a/tests/qtest/libqtest-single.h
+> +++ b/tests/qtest/libqtest-single.h
+> @@ -13,7 +13,7 @@
+>   
+>   #include "libqtest.h"
+>   
+> -QTestState *global_qtest __attribute__((common, weak));
+> +extern QTestState *global_qtest;
+>   
+>   /**
+>    * qtest_start:
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index 34744ace7c..909583dad3 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -65,6 +65,8 @@ struct QTestState
+>       GList *pending_events;
+>   };
+>   
+> +QTestState *global_qtest;
+> +
+>   static GHookList abrt_hooks;
+>   static struct sigaction sigact_old;
 
---I1acEbcvmlLJ3Sjv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm a little bit afraid that this could cause people to abuse global_qtest 
+again in code that should be usable by multiple test instances. This was 
+very painful to get rid off in the past...
 
-On Aug 25 19:16, Jinhao Fan wrote:
-> On 8/25/2022 5:33 PM, Klaus Jensen wrote:
-> > I'm still a bit perplexed by this issue, so I just tried moving
-> > nvme_init_irq_notifier() to the end of nvme_init_cq() and removing this
-> > first_io_cqe thing. I did not observe any particular issues?
-> >=20
-> > What bad behavior did you encounter, it seems to work fine to me
->=20
-> The kernel boots up and got stuck, waiting for interrupts. Then the reque=
-st
-> times out and got retried three times. Finally the driver seems to decide
-> that the drive is down and continues to boot.
->=20
-> I added some prints during debugging and found that the MSI-X message whi=
-ch
-> got registered in KVM via kvm_irqchip_add_msi_route() is not the same as =
-the
-> one actually used in msix_notify().
->=20
-> Are you sure you are using KVM's irqfd?
->=20
+Could you maybe use some #ifdef WIN32 here to keep the common+weak case on 
+Linux and just declare it in libqtest.c on Windows?
 
-Pretty sure? Using "ioeventfd=3Don,irq-eventfd=3Don" on the controller.
+  Thomas
 
-And the following patch.
-
-
-diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
-index 30bbda7bb5ae..b2e41d3bd745 100644
---- i/hw/nvme/ctrl.c
-+++ w/hw/nvme/ctrl.c
-@@ -1490,21 +1490,6 @@ static void nvme_post_cqes(void *opaque)
-             if (!pending) {
-                 n->cq_pending++;
-             }
--
--            if (unlikely(cq->first_io_cqe)) {
--                /*
--                 * Initilize event notifier when first cqe is posted. For =
-irqfd=20
--                 * support we need to register the MSI message in KVM. We
--                 * can not do this registration at CQ creation time because
--                 * Linux's NVMe driver changes the MSI message after CQ cr=
-eation.
--                 */
--                cq->first_io_cqe =3D false;
--
--                if (n->params.irq_eventfd) {
--                    nvme_init_irq_notifier(n, cq);
--                }
--            }
--
-         }
-=20
-         nvme_irq_assert(n, cq);
-@@ -4914,11 +4899,14 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *=
-n, uint64_t dma_addr,
-     }
-     n->cq[cqid] =3D cq;
-     cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
-+
-     /*=20
-      * Only enable irqfd for IO queues since we always emulate admin queue=
-=20
-      * in main loop thread=20
-      */
--    cq->first_io_cqe =3D cqid !=3D 0;
-+    if (cqid && n->params.irq_eventfd) {
-+        nvme_init_irq_notifier(n, cq);
-+    }
- }
-
-
-
---I1acEbcvmlLJ3Sjv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMHY3QACgkQTeGvMW1P
-Dem8lwf/UkP70ys4oTkaMijI3YSrPLKXURNoPZIdYp68tBq+7P8HweqVZcegz6ul
-A5B8WaI+WvDnp8pthzSulgm7LgdrQDppT+NRgZFZpw7HScUqgHigLyfAuVhwbOKC
-KOBVbsPGEm41M2XwY+9IflXBfMoEjgq3eqFSAKVJb/xGGaAqiagnWsMM9tgZGJS3
-3nrVGUZXQNUYGHApZ/UNBbFa88F51k2Yqb8WwscvrQTCyeOfityX63FQ5pMT2Hem
-bCdv/HHuiFbKL75zfMuAt0us11S44qBieiYk1iGEx+ZFgOEE35PWG7+rPlafu0C5
-S6TRHsaga0Aam+mcLbJv7xqnZqDVYQ==
-=zjcy
------END PGP SIGNATURE-----
-
---I1acEbcvmlLJ3Sjv--
 
