@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D275A166E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 18:13:09 +0200 (CEST)
-Received: from localhost ([::1]:47032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144415A166F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 18:13:10 +0200 (CEST)
+Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRFTg-0001QQ-9V
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 12:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49166)
+	id 1oRFTh-0001Sc-8D
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 12:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oRFR7-0006uJ-0U
+ id 1oRFR7-0006uO-2A
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 12:10:29 -0400
-Received: from madras.collabora.co.uk ([46.235.227.172]:53162)
+Received: from madras.collabora.co.uk ([46.235.227.172]:53164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oRFR4-00048z-SM
+ id 1oRFR4-000490-SM
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 12:10:28 -0400
 Received: from dellino.fritz.box (host-95-235-60-93.retail.telecomitalia.it
  [95.235.60.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 452256601EAC;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C80C56601EAD;
  Thu, 25 Aug 2022 17:10:22 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661443822;
- bh=tGBNu3nX2fl34z6y2e0INGKhnnhj/Mza56oWzH70Eho=;
- h=From:To:Cc:Subject:Date:From;
- b=efFUcSPQrinLMFv49Jm45b3k44IeHOegq5HLi7m+CMf87/XlO6nmbPkJp+SNzWQWD
- JN+LsuLOs02DrKmIMNWrU6FbaKH6NhrneFLuEveWHRwLg+OxjAnvolnzPjBQWBASN+
- MgGQHViMhRc0l8Z1KFlqVhwNiojqnRtdhyI9Yhqi5sH1vMZ/Yzcb2ylp45Zo58zPUw
- D7lbhBIo0d9448AkuqTLsfyC8ujn3WPKIETBiIGJCo//rrtjt+d8xCXwHLoWErZXhU
- HdCTn41yp4PHm/Xeb4S7ahSGxIzn+UNOlGdfLwMaoUvoO4FYyODX3AH5RV6FMQxMhg
- vyO4NTb+QP1Ug==
+ s=mail; t=1661443823;
+ bh=57kr8Z/T1KRB+B0OrzcC/0fewSqexB3LHayzhQfgcWE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Nu0FkSzeFvG4u1zkIJjjW5jYSNQiMHOBCdMOSFGawDtS+y9Cn0KrhrOA13azCwLtv
+ e77Dovt/pEtj+nqhJBYPa1nK+pE8npAfvG/TxegmQ23xdhkWH3Lia7n7Q+iGxmokxp
+ Np+y9uok3fy63KNHceeHCcIY1FZBWWZ0mR00VmiKorXVx2DI5WqdmX8VYaXW1cxxW4
+ FUF91wgmrIqhC6TOwiRkKnE913o9lOtxOgRvHwgiHBkTET3z0zvxGR3xDk/pi1K8zM
+ ZUbLWVKdEXKCFip0pHPoSzoA2ff7S1SqDniUxnxCjXl3nhnyItZrOMfKOuiAtHZ4mE
+ 2rYYfAUNmg6DA==
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
-Cc: gert.wollny@collabora.com,
-	dmitry.osipenko@collabora.com
-Subject: [PATCH v2 0/1] virtio-gpu: CONTEXT_INIT feature
-Date: Thu, 25 Aug 2022 18:10:12 +0200
-Message-Id: <20220825161013.385296-1-antonio.caggiano@collabora.com>
+Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v2 1/1] virtio-gpu: CONTEXT_INIT feature
+Date: Thu, 25 Aug 2022 18:10:13 +0200
+Message-Id: <20220825161013.385296-2-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220825161013.385296-1-antonio.caggiano@collabora.com>
+References: <20220825161013.385296-1-antonio.caggiano@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=46.235.227.172;
@@ -69,24 +71,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a different attempt at upstreaming the work I have been doing to
-enable support for the Venus Virtio-GPU Vulkan driver.
+Create virgl renderer context with flags using context_id when valid.
 
-I believe the previous one [0] was a bit too much stuff in one place,
-therefore with this I would like to try a more fine-grained approach.
+v2:
+- The feature can be enabled via the context_init config option.
+- A warning message will be emitted and the feature will not be used
+  when linking with virglrenderer versions without context_init support.
 
-I will just start by the CONTEXT_INIT feature as it was the first commit
-of the series aforementioned and the virtio-spec has been updated
-recently on that regard [1]. Hopefully this would also answer Gerd's
-comment on the previous patch [2].
-
-[0] https://www.mail-archive.com/qemu-devel@nongnu.org/msg826897.html
-[1] https://github.com/oasis-tcs/virtio-spec/commit/aad2b6f3620ec0c9d16aaf046db8c282c24cce3e
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg827304.html
-
-Antonio Caggiano (1):
-  virtio-gpu: CONTEXT_INIT feature
-
+Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+---
  hw/display/virtio-gpu-base.c   |  3 +++
  hw/display/virtio-gpu-virgl.c  | 19 +++++++++++++++++--
  hw/display/virtio-gpu.c        |  2 ++
@@ -94,6 +87,113 @@ Antonio Caggiano (1):
  meson.build                    | 18 ++++++++++++++++++
  5 files changed, 43 insertions(+), 2 deletions(-)
 
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index a29f191aa8..6c5f1f327f 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
+     if (virtio_gpu_blob_enabled(g->conf)) {
+         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+     }
++    if (virtio_gpu_context_init_enabled(g->conf)) {
++        features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
++    }
+ 
+     return features;
+ }
+diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+index 73cb92c8d5..d70a0006b1 100644
+--- a/hw/display/virtio-gpu-virgl.c
++++ b/hw/display/virtio-gpu-virgl.c
+@@ -97,8 +97,23 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
+     trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
+                                     cc.debug_name);
+ 
+-    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
+-                                  cc.debug_name);
++    if (cc.context_init) {
++#if VIRGL_RENDERER_HAS_CONTEXT_INIT
++        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
++                                                 cc.context_init,
++                                                 cc.nlen,
++                                                 cc.debug_name);
++        return;
++#else
++        qemu_log_mask(LOG_UNIMP,
++                      "Virglrenderer %d.%d.%d does not support context-init\n",
++                      VIRGL_RENDERER_VERSION_MAJOR,
++                      VIRGL_RENDERER_VERSION_MINOR,
++                      VIRGL_RENDERER_VERSION_MICRO);
++#endif
++    }
++    
++    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name);
+ }
+ 
+ static void virgl_cmd_context_destroy(VirtIOGPU *g,
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 20cc703dcc..fa667ec234 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] = {
+                      256 * MiB),
+     DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
+                     VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
++    DEFINE_PROP_BIT("context_init", VirtIOGPU, parent_obj.conf.flags,
++                    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 2e28507efe..c6f5cfde47 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
+     VIRTIO_GPU_FLAG_EDID_ENABLED,
+     VIRTIO_GPU_FLAG_DMABUF_ENABLED,
+     VIRTIO_GPU_FLAG_BLOB_ENABLED,
++    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
+ };
+ 
+ #define virtio_gpu_virgl_enabled(_cfg) \
+@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
+ #define virtio_gpu_blob_enabled(_cfg) \
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
++#define virtio_gpu_context_init_enabled(_cfg) \
++    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
+ 
+ struct virtio_gpu_base_conf {
+     uint32_t max_outputs;
+diff --git a/meson.build b/meson.build
+index 20fddbd707..0d834ff027 100644
+--- a/meson.build
++++ b/meson.build
+@@ -718,6 +718,24 @@ if not get_option('virglrenderer').auto() or have_system or have_vhost_user_gpu
+                      method: 'pkg-config',
+                      required: get_option('virglrenderer'),
+                      kwargs: static_kwargs)
++
++  if virgl.found()
++    virgl_compile_args = [
++      '-DVIRGL_RENDERER_VERSION_MAJOR=' + virgl.version().split('.')[0],
++      '-DVIRGL_RENDERER_VERSION_MINOR=' + virgl.version().split('.')[1],
++      '-DVIRGL_RENDERER_VERSION_MICRO=' + virgl.version().split('.')[2],
++    ]
++    if cc.has_function('virgl_renderer_context_create_with_flags',
++                       prefix: '#include <virglrenderer.h>',
++                       dependencies: virgl)
++                       message('context_init')
++      virgl_compile_args += ['-DVIRGL_RENDERER_HAS_CONTEXT_INIT']
++    endif
++
++    virgl = declare_dependency(version: virgl.version(),
++                               compile_args: virgl_compile_args,
++                               dependencies: virgl)
++  endif
+ endif
+ curl = not_found
+ if not get_option('curl').auto() or have_block
 -- 
 2.34.1
 
