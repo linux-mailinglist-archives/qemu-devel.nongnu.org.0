@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358AD5A1C8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 00:41:26 +0200 (CEST)
-Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B74C5A1C55
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 00:28:49 +0200 (CEST)
+Received: from localhost ([::1]:53244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRLXM-0007Sz-BS
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 18:41:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60488)
+	id 1oRLLE-0004C9-5t
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 18:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRL7Y-0008D2-ST
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:14:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40975)
+ id 1oRL7c-0008Pw-N2
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:14:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRL7W-0002kH-Vv
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:14:40 -0400
+ id 1oRL7W-0002kM-AE
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:14:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661465676;
+ s=mimecast20190719; t=1661465677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j0hzub3oFLEtUwwRTIdqW7g0Z8ZFMh+2g43PJvMaUq0=;
- b=RZqGKpbe8d5Ty+9oufpwisrrb3kejJg7h0zN2y97XBQJl45QQ8xmIfkFnqk9sKKbiFcDs9
- RuQprpRpZv1vRMF/Dat2yqhEsUbtw0TeKIKkCCOlTWS5Ps9OtKPczAC+EcIgts72VREq1a
- rBuJIISQemZeKS5i9WpEk+oDhEcHi2I=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qungBgIQRLzx+Bgep1MPWp2kJs22KSwmUKxLcHLUV5U=;
+ b=cnqYoJNPoNetAVooqGwKjKxUBBEeTMsldZDA3ogCKZGVzZsl9Z5hzEt4xe0XSvbQObNbNz
+ McPvT+wcldEVBimQ/ImmAbsn9pK5dftKOqMh3w9RktAqV1D6cpu2QvSlA29alI4xYSMOxG
+ pGBDvfr2bKY86Dj+aafdchIsFKOJICY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-256-lWHBbdJtOlCTSGmlt2yQVw-1; Thu, 25 Aug 2022 18:14:35 -0400
-X-MC-Unique: lWHBbdJtOlCTSGmlt2yQVw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b4-20020a05600c4e0400b003a5a96f1756so3066730wmq.0
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 15:14:35 -0700 (PDT)
+ us-mta-193-oR8j7igoOfmiho8eVCeJCg-1; Thu, 25 Aug 2022 18:14:36 -0400
+X-MC-Unique: oR8j7igoOfmiho8eVCeJCg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f9-20020a7bcd09000000b003a62725489bso1145072wmj.2
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 15:14:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=j0hzub3oFLEtUwwRTIdqW7g0Z8ZFMh+2g43PJvMaUq0=;
- b=4t97pK7d7Nushb47uyEjDhMAOqSNyFmjjDb8jRikTvQh0XGiaxAsDkXi23QWMPwiUD
- +M8eCfhYHJOhU9KKuSyyWPGkd0ciM8tbDnMilS9RD1o9V4UOH+fTc7HTgHmNb4KMNUrP
- ZUxz7UPOeGKWA+1j7wveq6bhXJdU/h3U+INeccNEGtEUWflr6Z1dJMSsfY0XBj3OUdri
- b/Wj2JhDgswQ9G64p35HFpOPuX9RFEGkfXhbRk60ExfuVRAk7LyO+BLeMhRHzEF0OjK4
- 6+ADprcsPhS56pT8veE8SrreTe8975FaT4U4pbbBbjahOQdlFeL3XZdhmxWwFjw3IxNM
- 1GMQ==
-X-Gm-Message-State: ACgBeo2LA7uDZmKz3oN4cgc1Dhi2rr5L+oPV2KJf50o2aRjcDNWfHDki
- 4PZHDAsvt8S1L5V4ofHKM3q+ab2w5FP+qul8UVBH4oExe5bJcGniHUvKrC7RtAhLv1DFXvci0GU
- kydZda3U2BQj9jNXyMGYK/y6zAbaVxCUv2y8gBa07GQoJtfoNQaXKVCae4Lt5NbeAUwU=
-X-Received: by 2002:a5d:6445:0:b0:225:1a75:7754 with SMTP id
- d5-20020a5d6445000000b002251a757754mr3331779wrw.239.1661465673760; 
- Thu, 25 Aug 2022 15:14:33 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5iYk/NmTDhJQP3wJ1DD9DBWwau6frlRwZbNRvX7Yyt1/8in5ok2A6PSW5guj7fQCNXFdUdug==
-X-Received: by 2002:a5d:6445:0:b0:225:1a75:7754 with SMTP id
- d5-20020a5d6445000000b002251a757754mr3331770wrw.239.1661465673400; 
- Thu, 25 Aug 2022 15:14:33 -0700 (PDT)
+ bh=qungBgIQRLzx+Bgep1MPWp2kJs22KSwmUKxLcHLUV5U=;
+ b=gYZxYwN34PBBRU5YMej6EoJj7TjVUrbd/IM3q324RfBoUS3FOw9169SS8WiDN/ADo2
+ 6DKzll9eWPRQCZb8jDk1/1+3pdpCV5mHiX71E24qUeczDmhtbTcrTDuUuYhIaGFwi5WF
+ TExKGm7ZIJIQ1y2usmRt3yjuxFdIlZUonTigextT6gE9YBkUt315Nmu5trveWk9PhH8o
+ 9kjP/SO+9GiVTCvYpvjdcyOlpKxYPciad8OHmA637HHErj0oGRTht7xcAy/TyqlR5kXx
+ +E3trAKWELWLSqGHphG8QHlEYwq9/0ZQ9Z3g0o3nHfTKne6efV9mor5V4hA5Iq/1fHGv
+ yrRA==
+X-Gm-Message-State: ACgBeo0gugoTgcUr5kZU6339y2Z0XAi4d1tJ8HLhrJTC5vgiY3Va+qKw
+ nb+qK162sXMparQ9tVlOxRJVaIt/9cDvpxNKO9YwlFAj7UXYexepalkCt4galtltVVd9lf/Z8fy
+ tG/zTDO8SfAViMVDp6FxVp+uNoAee2odncTmmOgl27ndOsyrQ7HohlH2UfXtbPOmDQuw=
+X-Received: by 2002:a5d:47a9:0:b0:225:79bd:ad15 with SMTP id
+ 9-20020a5d47a9000000b0022579bdad15mr3063100wrb.9.1661465675049; 
+ Thu, 25 Aug 2022 15:14:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6nPmxylQTqSkJq1+uVzM6oJG3V1a/RGAI8DbDPwyWop5orNFpiOgP3PTAfJQNLmmTLXl7PSg==
+X-Received: by 2002:a5d:47a9:0:b0:225:79bd:ad15 with SMTP id
+ 9-20020a5d47a9000000b0022579bdad15mr3063093wrb.9.1661465674765; 
+ Thu, 25 Aug 2022 15:14:34 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- m12-20020a056000180c00b0022584e771adsm265647wrh.113.2022.08.25.15.14.32
+ l14-20020a5d668e000000b002253fd19a6asm430943wru.18.2022.08.25.15.14.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 15:14:32 -0700 (PDT)
+ Thu, 25 Aug 2022 15:14:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: paul@nowt.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 12/18] i386: reimplement AVX comparison helpers
-Date: Fri, 26 Aug 2022 00:14:05 +0200
-Message-Id: <20220825221411.35122-13-pbonzini@redhat.com>
+Subject: [PATCH 13/18] i386: Dot product AVX helper prep
+Date: Fri, 26 Aug 2022 00:14:06 +0200
+Message-Id: <20220825221411.35122-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220825221411.35122-1-pbonzini@redhat.com>
 References: <20220825221411.35122-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,205 +102,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Brook <paul@nowt.org>
 
-AVX includes additional a more extensive set of comparison predicates,
-some of some of which our softfloat implementation does not expose directly.
-Rewrite the helpers in terms of floatN_compare for future extensibility.
+Make the dpps and dppd helpers AVX-ready
+
+I can't see any obvious reason why dppd shouldn't work on 256 bit ymm
+registers, but both AMD and Intel agree that it's xmm only.
 
 Signed-off-by: Paul Brook <paul@nowt.org>
+Message-Id: <20220424220204.2493824-17-paul@nowt.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h        | 97 ++++++++++++++++++++----------------
- target/i386/ops_sse_header.h | 24 ++++-----
- target/i386/tcg/translate.c  | 20 ++++----
- 3 files changed, 75 insertions(+), 66 deletions(-)
+ target/i386/ops_sse.h | 80 ++++++++++++++++++++++++-------------------
+ 1 file changed, 45 insertions(+), 35 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 08359b8433..851a05d594 100644
+index 851a05d594..0493a26804 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -992,57 +992,66 @@ void glue(helper_addsubpd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-     }
+@@ -1942,55 +1942,64 @@ SSE_HELPER_I(helper_blendps, L, 4, FBLENDP)
+ SSE_HELPER_I(helper_blendpd, Q, 2, FBLENDP)
+ SSE_HELPER_I(helper_pblendw, W, 8, FBLENDP)
+ 
+-void glue(helper_dpps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
++void glue(helper_dpps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
++                               uint32_t mask)
+ {
++    Reg *v = d;
+     float32 prod1, prod2, temp2, temp3, temp4;
++    int i;
+ 
+-    /*
+-     * We must evaluate (A+B)+(C+D), not ((A+B)+C)+D
+-     * to correctly round the intermediate results
+-     */
+-    if (mask & (1 << 4)) {
+-        prod1 = float32_mul(d->ZMM_S(0), s->ZMM_S(0), &env->sse_status);
+-    } else {
+-        prod1 = float32_zero;
+-    }
+-    if (mask & (1 << 5)) {
+-        prod2 = float32_mul(d->ZMM_S(1), s->ZMM_S(1), &env->sse_status);
+-    } else {
+-        prod2 = float32_zero;
+-    }
+-    temp2 = float32_add(prod1, prod2, &env->sse_status);
+-    if (mask & (1 << 6)) {
+-        prod1 = float32_mul(d->ZMM_S(2), s->ZMM_S(2), &env->sse_status);
+-    } else {
+-        prod1 = float32_zero;
+-    }
+-    if (mask & (1 << 7)) {
+-        prod2 = float32_mul(d->ZMM_S(3), s->ZMM_S(3), &env->sse_status);
+-    } else {
+-        prod2 = float32_zero;
+-    }
+-    temp3 = float32_add(prod1, prod2, &env->sse_status);
+-    temp4 = float32_add(temp2, temp3, &env->sse_status);
++    for (i = 0; i < 2 << SHIFT; i += 4) {
++        /*
++         * We must evaluate (A+B)+(C+D), not ((A+B)+C)+D
++         * to correctly round the intermediate results
++         */
++        if (mask & (1 << 4)) {
++            prod1 = float32_mul(v->ZMM_S(i), s->ZMM_S(i), &env->sse_status);
++        } else {
++            prod1 = float32_zero;
++        }
++        if (mask & (1 << 5)) {
++            prod2 = float32_mul(v->ZMM_S(i+1), s->ZMM_S(i+1), &env->sse_status);
++        } else {
++            prod2 = float32_zero;
++        }
++        temp2 = float32_add(prod1, prod2, &env->sse_status);
++        if (mask & (1 << 6)) {
++            prod1 = float32_mul(v->ZMM_S(i+2), s->ZMM_S(i+2), &env->sse_status);
++        } else {
++            prod1 = float32_zero;
++        }
++        if (mask & (1 << 7)) {
++            prod2 = float32_mul(v->ZMM_S(i+3), s->ZMM_S(i+3), &env->sse_status);
++        } else {
++            prod2 = float32_zero;
++        }
++        temp3 = float32_add(prod1, prod2, &env->sse_status);
++        temp4 = float32_add(temp2, temp3, &env->sse_status);
+ 
+-    d->ZMM_S(0) = (mask & (1 << 0)) ? temp4 : float32_zero;
+-    d->ZMM_S(1) = (mask & (1 << 1)) ? temp4 : float32_zero;
+-    d->ZMM_S(2) = (mask & (1 << 2)) ? temp4 : float32_zero;
+-    d->ZMM_S(3) = (mask & (1 << 3)) ? temp4 : float32_zero;
++        d->ZMM_S(i) = (mask & (1 << 0)) ? temp4 : float32_zero;
++        d->ZMM_S(i+1) = (mask & (1 << 1)) ? temp4 : float32_zero;
++        d->ZMM_S(i+2) = (mask & (1 << 2)) ? temp4 : float32_zero;
++        d->ZMM_S(i+3) = (mask & (1 << 3)) ? temp4 : float32_zero;
++    }
  }
  
--/* XXX: unordered */
--#define SSE_HELPER_CMP(name, F)                                         \
--    void glue(helper_ ## name ## ps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)\
-+#define SSE_HELPER_CMP_P(name, F, C)                                    \
-+    void glue(helper_ ## name ## ps, SUFFIX)(CPUX86State *env,          \
-+                                             Reg *d, Reg *s)    \
-     {                                                                   \
--        d->ZMM_L(0) = F(32, d->ZMM_S(0), s->ZMM_S(0));                  \
--        d->ZMM_L(1) = F(32, d->ZMM_S(1), s->ZMM_S(1));                  \
--        d->ZMM_L(2) = F(32, d->ZMM_S(2), s->ZMM_S(2));                  \
--        d->ZMM_L(3) = F(32, d->ZMM_S(3), s->ZMM_S(3));                  \
-+        Reg *v = d;                                                     \
-+        int i;                                                          \
-+        for (i = 0; i < 2 << SHIFT; i++) {                              \
-+            d->ZMM_L(i) = F(32, C, v->ZMM_S(i), s->ZMM_S(i));           \
-+        }                                                               \
-     }                                                                   \
-                                                                         \
--    void helper_ ## name ## ss(CPUX86State *env, Reg *d, Reg *s)        \
-+    void glue(helper_ ## name ## pd, SUFFIX)(CPUX86State *env,          \
-+                                             Reg *d, Reg *s)    \
-     {                                                                   \
--        d->ZMM_L(0) = F(32, d->ZMM_S(0), s->ZMM_S(0));                  \
--    }                                                                   \
--                                                                        \
--    void glue(helper_ ## name ## pd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)\
--    {                                                                   \
--        d->ZMM_Q(0) = F(64, d->ZMM_D(0), s->ZMM_D(0));                  \
--        d->ZMM_Q(1) = F(64, d->ZMM_D(1), s->ZMM_D(1));                  \
--    }                                                                   \
--                                                                        \
--    void helper_ ## name ## sd(CPUX86State *env, Reg *d, Reg *s)        \
--    {                                                                   \
--        d->ZMM_Q(0) = F(64, d->ZMM_D(0), s->ZMM_D(0));                  \
-+        Reg *v = d;                                                     \
-+        int i;                                                          \
-+        for (i = 0; i < 1 << SHIFT; i++) {                              \
-+            d->ZMM_Q(i) = F(64, C, v->ZMM_D(i), s->ZMM_D(i));           \
-+        }                                                               \
-     }
- 
--#define FPU_CMPEQ(size, a, b)                                           \
--    (float ## size ## _eq_quiet(a, b, &env->sse_status) ? -1 : 0)
--#define FPU_CMPLT(size, a, b)                                           \
--    (float ## size ## _lt(a, b, &env->sse_status) ? -1 : 0)
--#define FPU_CMPLE(size, a, b)                                           \
--    (float ## size ## _le(a, b, &env->sse_status) ? -1 : 0)
--#define FPU_CMPUNORD(size, a, b)                                        \
--    (float ## size ## _unordered_quiet(a, b, &env->sse_status) ? -1 : 0)
--#define FPU_CMPNEQ(size, a, b)                                          \
--    (float ## size ## _eq_quiet(a, b, &env->sse_status) ? 0 : -1)
--#define FPU_CMPNLT(size, a, b)                                          \
--    (float ## size ## _lt(a, b, &env->sse_status) ? 0 : -1)
--#define FPU_CMPNLE(size, a, b)                                          \
--    (float ## size ## _le(a, b, &env->sse_status) ? 0 : -1)
--#define FPU_CMPORD(size, a, b)                                          \
--    (float ## size ## _unordered_quiet(a, b, &env->sse_status) ? 0 : -1)
+-void glue(helper_dppd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
 +#if SHIFT == 1
-+#define SSE_HELPER_CMP(name, F, C)                                          \
-+    SSE_HELPER_CMP_P(name, F, C)                                            \
-+    void helper_ ## name ## ss(CPUX86State *env, Reg *d, Reg *s)    \
-+    {                                                                       \
-+        Reg *v = d;                                                         \
-+        d->ZMM_L(0) = F(32, C, v->ZMM_S(0), s->ZMM_S(0));                   \
-+    }                                                                       \
-+                                                                            \
-+    void helper_ ## name ## sd(CPUX86State *env, Reg *d, Reg *s)    \
-+    {                                                                       \
-+        Reg *v = d;                                                         \
-+        d->ZMM_Q(0) = F(64, C, v->ZMM_D(0), s->ZMM_D(0));                   \
-+    }
++/* Oddly, there is no ymm version of dppd */
++void glue(helper_dppd, SUFFIX)(CPUX86State *env,
++                               Reg *d, Reg *s, uint32_t mask)
+ {
++    Reg *v = d;
+     float64 prod1, prod2, temp2;
  
--SSE_HELPER_CMP(cmpeq, FPU_CMPEQ)
--SSE_HELPER_CMP(cmplt, FPU_CMPLT)
--SSE_HELPER_CMP(cmple, FPU_CMPLE)
--SSE_HELPER_CMP(cmpunord, FPU_CMPUNORD)
--SSE_HELPER_CMP(cmpneq, FPU_CMPNEQ)
--SSE_HELPER_CMP(cmpnlt, FPU_CMPNLT)
--SSE_HELPER_CMP(cmpnle, FPU_CMPNLE)
--SSE_HELPER_CMP(cmpord, FPU_CMPORD)
-+#define FPU_EQ(x) (x == float_relation_equal)
-+#define FPU_LT(x) (x == float_relation_less)
-+#define FPU_LE(x) (x <= float_relation_equal)
-+#define FPU_UNORD(x) (x == float_relation_unordered)
-+
-+#define FPU_CMPQ(size, COND, a, b) \
-+    (COND(float ## size ## _compare_quiet(a, b, &env->sse_status)) ? -1 : 0)
-+#define FPU_CMPS(size, COND, a, b) \
-+    (COND(float ## size ## _compare(a, b, &env->sse_status)) ? -1 : 0)
-+
-+#else
-+#define SSE_HELPER_CMP(name, F, C) SSE_HELPER_CMP_P(name, F, C)
+     if (mask & (1 << 4)) {
+-        prod1 = float64_mul(d->ZMM_D(0), s->ZMM_D(0), &env->sse_status);
++        prod1 = float64_mul(v->ZMM_D(0), s->ZMM_D(0), &env->sse_status);
+     } else {
+         prod1 = float64_zero;
+     }
+     if (mask & (1 << 5)) {
+-        prod2 = float64_mul(d->ZMM_D(1), s->ZMM_D(1), &env->sse_status);
++        prod2 = float64_mul(v->ZMM_D(1), s->ZMM_D(1), &env->sse_status);
+     } else {
+         prod2 = float64_zero;
+     }
+@@ -1998,6 +2007,7 @@ void glue(helper_dppd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
+     d->ZMM_D(0) = (mask & (1 << 0)) ? temp2 : float64_zero;
+     d->ZMM_D(1) = (mask & (1 << 1)) ? temp2 : float64_zero;
+ }
 +#endif
-+
-+SSE_HELPER_CMP(cmpeq, FPU_CMPQ, FPU_EQ)
-+SSE_HELPER_CMP(cmplt, FPU_CMPS, FPU_LT)
-+SSE_HELPER_CMP(cmple, FPU_CMPS, FPU_LE)
-+SSE_HELPER_CMP(cmpunord, FPU_CMPQ,  FPU_UNORD)
-+SSE_HELPER_CMP(cmpneq, FPU_CMPQ, !FPU_EQ)
-+SSE_HELPER_CMP(cmpnlt, FPU_CMPS, !FPU_LT)
-+SSE_HELPER_CMP(cmpnle, FPU_CMPS, !FPU_LE)
-+SSE_HELPER_CMP(cmpord, FPU_CMPQ, !FPU_UNORD)
-+
-+#undef SSE_HELPER_CMP
  
- static const int comis_eflags[4] = {CC_C, CC_Z, 0, CC_Z | CC_P | CC_C};
- 
-diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index fc697536a0..d99464afb0 100644
---- a/target/i386/ops_sse_header.h
-+++ b/target/i386/ops_sse_header.h
-@@ -201,20 +201,20 @@ DEF_HELPER_3(glue(hsubpd, SUFFIX), void, env, ZMMReg, ZMMReg)
- DEF_HELPER_3(glue(addsubps, SUFFIX), void, env, ZMMReg, ZMMReg)
- DEF_HELPER_3(glue(addsubpd, SUFFIX), void, env, ZMMReg, ZMMReg)
- 
--#define SSE_HELPER_CMP(name, F)                           \
--    DEF_HELPER_3(glue(name ## ps, SUFFIX), void, env, Reg, Reg)         \
--    DEF_HELPER_3(name ## ss, void, env, Reg, Reg)         \
--    DEF_HELPER_3(glue(name ## pd, SUFFIX), void, env, Reg, Reg)         \
-+#define SSE_HELPER_CMP(name, F, C)                              \
-+    DEF_HELPER_3(glue(name ## ps, SUFFIX), void, env, Reg, Reg) \
-+    DEF_HELPER_3(name ## ss, void, env, Reg, Reg)               \
-+    DEF_HELPER_3(glue(name ## pd, SUFFIX), void, env, Reg, Reg) \
-     DEF_HELPER_3(name ## sd, void, env, Reg, Reg)
- 
--SSE_HELPER_CMP(cmpeq, FPU_CMPEQ)
--SSE_HELPER_CMP(cmplt, FPU_CMPLT)
--SSE_HELPER_CMP(cmple, FPU_CMPLE)
--SSE_HELPER_CMP(cmpunord, FPU_CMPUNORD)
--SSE_HELPER_CMP(cmpneq, FPU_CMPNEQ)
--SSE_HELPER_CMP(cmpnlt, FPU_CMPNLT)
--SSE_HELPER_CMP(cmpnle, FPU_CMPNLE)
--SSE_HELPER_CMP(cmpord, FPU_CMPORD)
-+SSE_HELPER_CMP(cmpeq, FPU_CMPQ, FPU_EQ)
-+SSE_HELPER_CMP(cmplt, FPU_CMPS, FPU_LT)
-+SSE_HELPER_CMP(cmple, FPU_CMPS, FPU_LE)
-+SSE_HELPER_CMP(cmpunord, FPU_CMPQ,  FPU_UNORD)
-+SSE_HELPER_CMP(cmpneq, FPU_CMPQ, !FPU_EQ)
-+SSE_HELPER_CMP(cmpnlt, FPU_CMPS, !FPU_LT)
-+SSE_HELPER_CMP(cmpnle, FPU_CMPS, !FPU_LE)
-+SSE_HELPER_CMP(cmpord, FPU_CMPQ, !FPU_UNORD)
- 
- DEF_HELPER_3(ucomiss, void, env, Reg, Reg)
- DEF_HELPER_3(comiss, void, env, Reg, Reg)
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 1e67607ca3..059e001d82 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3021,20 +3021,20 @@ static const SSEFunc_l_ep sse_op_table3bq[] = {
- };
- #endif
- 
--#define SSE_FOP(x) { \
-+#define SSE_CMP(x) { \
-     gen_helper_ ## x ## ps ## _xmm, gen_helper_ ## x ## pd ## _xmm, \
-     gen_helper_ ## x ## ss, gen_helper_ ## x ## sd}
- static const SSEFunc_0_epp sse_op_table4[8][4] = {
--    SSE_FOP(cmpeq),
--    SSE_FOP(cmplt),
--    SSE_FOP(cmple),
--    SSE_FOP(cmpunord),
--    SSE_FOP(cmpneq),
--    SSE_FOP(cmpnlt),
--    SSE_FOP(cmpnle),
--    SSE_FOP(cmpord),
-+    SSE_CMP(cmpeq),
-+    SSE_CMP(cmplt),
-+    SSE_CMP(cmple),
-+    SSE_CMP(cmpunord),
-+    SSE_CMP(cmpneq),
-+    SSE_CMP(cmpnlt),
-+    SSE_CMP(cmpnle),
-+    SSE_CMP(cmpord),
- };
--#undef SSE_FOP
-+#undef SSE_CMP
- 
- static const SSEFunc_0_epp sse_op_table5[256] = {
-     [0x0c] = gen_helper_pi2fw,
+ void glue(helper_mpsadbw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+                                   uint32_t offset)
 -- 
 2.37.1
 
