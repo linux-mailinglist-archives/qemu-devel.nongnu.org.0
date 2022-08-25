@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6BC5A0F83
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:44:41 +0200 (CEST)
-Received: from localhost ([::1]:56456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7999A5A0F87
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:46:23 +0200 (CEST)
+Received: from localhost ([::1]:39646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRBHs-0004Wf-AN
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
+	id 1oRBJV-0005YG-Nf
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRBC9-0000QB-B4
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:38:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48186)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRBDM-0000x8-Eq
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:40:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRBC5-0006Li-US
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:38:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRBD7-0006Oo-SX
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:39:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661427520;
+ s=mimecast20190719; t=1661427585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FMpmb4SXLGiHfl+MSbOLE1oOtc/5NG0RmTDtIgPeYy8=;
- b=Z/wruqHLevYA97P+rgXLKlMyVQgQJGmZqATdVu2OAd7M6j9MOqTfh+FGufhRUzHyMx3s3e
- lbiIpsl5hl8+yBhNVKemQfldd70MtB9nunvDcAHEE2eq7Q+NLdF/OdCyeE7BiWw5gpwaV+
- UjSpzUnhtttqKtDdHvj1UHnufPnBMeU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CcV0a0eTcnK+cA9etDhCPOzlfvDpdVmSx3YvRBMu1u8=;
+ b=gOmBbUTGwB/90lcwhiU+Z1F0T8eZtEcsxgYSii/Obvs7i/kscKHzVgl0sYDj2VUaDwt8gy
+ uoTc2MdjQXH0ttsvjd4xX7V2JIJJgG3FcvRhbsFKbrsBtXCu/B1Dqvuy2ExisuD2MFIjXH
+ L+57Tp86CPSpea0iSHy9qRfm+uXKh2w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-wMRcGqNQN7SpEBMEwhIq1Q-1; Thu, 25 Aug 2022 07:38:37 -0400
-X-MC-Unique: wMRcGqNQN7SpEBMEwhIq1Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-139-A7pHgM35N56br9q8h5DgUg-1; Thu, 25 Aug 2022 07:39:40 -0400
+X-MC-Unique: A7pHgM35N56br9q8h5DgUg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0743485A58F;
- Thu, 25 Aug 2022 11:38:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72EB53C10149;
+ Thu, 25 Aug 2022 11:39:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C762F40C141D;
- Thu, 25 Aug 2022 11:38:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D444492C3B;
+ Thu, 25 Aug 2022 11:39:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7902B180039B; Thu, 25 Aug 2022 13:38:35 +0200 (CEST)
-Date: Thu, 25 Aug 2022 13:38:35 +0200
+ id D8AFF180039B; Thu, 25 Aug 2022 13:39:37 +0200 (CEST)
+Date: Thu, 25 Aug 2022 13:39:37 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Xiaoyao Li <xiaoyao.li@intel.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -56,24 +56,23 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
  Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [PATCH v1 16/40] i386/tdx: Wire CPU features up with attributes
- of TD guest
-Message-ID: <20220825113835.7bk72k5lfconqn7w@sirius.home.kraxel.org>
+Subject: Re: [PATCH v1 17/40] i386/tdx: Validate TD attributes
+Message-ID: <20220825113937.gqbx3veywcyjdp54@sirius.home.kraxel.org>
 References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
- <20220802074750.2581308-17-xiaoyao.li@intel.com>
+ <20220802074750.2581308-18-xiaoyao.li@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220802074750.2581308-17-xiaoyao.li@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+In-Reply-To: <20220802074750.2581308-18-xiaoyao.li@intel.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,10 +89,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 02, 2022 at 03:47:26PM +0800, Xiaoyao Li wrote:
-> For QEMU VMs, PKS is configured via CPUID_7_0_ECX_PKS and PMU is
-> configured by x86cpu->enable_pmu. Reuse the existing configuration
-> interface for TDX VMs.
+On Tue, Aug 02, 2022 at 03:47:27PM +0800, Xiaoyao Li wrote:
+> Validate TD attributes with tdx_caps that fixed-0 bits must be zero and
+> fixed-1 bits must be set.
+> 
+> Besides, sanity check the attribute bits that have not been supported by
+> QEMU yet. e.g., debug bit, it will be allowed in the future when debug
+> TD support lands in QEMU.
 
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
