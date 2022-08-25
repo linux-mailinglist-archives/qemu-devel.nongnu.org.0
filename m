@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806095A1557
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:14:21 +0200 (CEST)
-Received: from localhost ([::1]:34362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880D95A158C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 17:25:22 +0200 (CEST)
+Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oREYm-0005mT-99
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:14:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52310)
+	id 1oREjR-0005Ma-5n
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 11:25:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oRERu-000410-JF
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:07:14 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37834)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oREhH-0003Oy-Sy
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:23:07 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:56101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oRERs-0002M4-W7
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:07:14 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id n17so392278wrm.4
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 08:07:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oREhG-0005DB-4u
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 11:23:07 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id pm13so11744742pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 08:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc;
- bh=gxmhVjZ/U3QufOhpg/Sa9o1bzWISSCytFtK6UtKa9X8=;
- b=mlFGuZ5OjV2RVek6i01ZKdY8nX6XEU1A/hnnZkSNI/PLwUzz7F6jbGKU4VzilrjCXD
- ySGTTC5vnst6KrXbO6ZNsZLKQC7r7adpswLbV5JzyVZESOnX5MB/GJexe9Dk7g4BDNxy
- m226L6htJLAoCHCO7VTMT1kiBaZsWMMUK/T8Yp98EC6q7MqKQ2Lq/9YT842EsNGhYdVQ
- /DENxN7VKrKxf+e6/u4XCZ6cFW0TObBMHoBXWnmHC3V8wLwuJxSAkvyxfHDaQV7YvQ6z
- z13eyGueNq3TNuW0GmRuV58yXI6ksRkifGNvr+MRz9nAywtlhWYu4ExmjLbeFM13He/m
- e11Q==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=iameHqBelA9xxeSH4cOGesEMxtnS6edYLqzqccbR/I4=;
+ b=ULiC4A5TAhATJ4/FE+mOta3+i4hDLR7gBqe3u6vyMLThYBSX6a6ZtkCiljnD7oc4Ir
+ DToTsresB+/xjlUYX8/uwrdyFSeDglSPs/7JQIAcYwKo+NY7J2LHPQl5VY5fkaFh3/No
+ wd/gqQXL2+CXSLSgaISnFztxF6sNFVh2fgGWs62modwWf3kSERnJYLuiYum/nM2sgKuQ
+ q9aZ1Qr6wnWg1YWETPdvXPCnX6BekLTvfUXqYOMeCYmfMt5/9klByg0hBuPyppoWwusu
+ LtdKofaHbFyrbaoZztB9X7Q67qFC20rhVA0d0CNCng6i2yPBybLYj9lMdtJjQwGVnAdO
+ DU2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
- bh=gxmhVjZ/U3QufOhpg/Sa9o1bzWISSCytFtK6UtKa9X8=;
- b=BdVVjW/u7nsDote/ypRJ9pYhlj6Bpev2nTnGxZ8xmjVEhrp+ZlYYPDrfhEMZ15f/aS
- N7N/YnBR/c8Vko5D/cCTXRsp6lo+u1OtWnIaLVMBdrGy7ZjHhlbWj9MEYMGgoa4cx8jP
- Ey7R6O/AqVuaciLRoYt340uqYZf/434HGI3EIHr/QLjvj8OQL6IbvXvloSLkAgpJpCYT
- 9c/GqMBR/gPEkVDiJNN3l7KSXq6XI5toQ/t7c5/XDS7lZJ5K9G/o0BKfomwt3ev4lcxD
- gImpkkCXfKBWmfww3UevAt6VGvkz+0QPUdvkZseqy6FYgkxHW2q0Vpoh7djs1KQpZpuL
- PSQA==
-X-Gm-Message-State: ACgBeo24dL0H0Pklpuv3KSx3M692IEgOoMq3mWDxruEKlc2wmAzCZ/x5
- oI/R/D1TdqCgouHltmh1YUE6nkWN0eyIAg==
-X-Google-Smtp-Source: AA6agR7rrp+u6fvDQ/ZHYJSJa5M93A7uPHg7z5108CRnaG+Ah/AZFYR5rbTaIJwzH3lgyCpGnZZilw==
-X-Received: by 2002:a5d:49c6:0:b0:225:61c9:dd4e with SMTP id
- t6-20020a5d49c6000000b0022561c9dd4emr2480862wrs.445.1661440032138; 
- Thu, 25 Aug 2022 08:07:12 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=iameHqBelA9xxeSH4cOGesEMxtnS6edYLqzqccbR/I4=;
+ b=PfpY61PRt0VJkTJ2jUeaVyUvOOvRBYJquV0QZ2ywTNwDjwvm80doB/VKqholF1Yum9
+ 12fA5/veps4R17ApC/VwSKnIzGGFyPjWyXLscx/Gjx9P4VCK8sOL881Fod8r3scNaOZK
+ HXbYapXNUJRaVsUJh4+0CTJIGHaNxQ8yDw3SrMld/zAYIJYA+bc6pexaSo/WBfRS6VPo
+ pViG95+Gcbu3W0RGm+Ju3ys56guEL+3QbxYMtV4OumgHglZaO7gUVfbkONLWL/k6jgYj
+ /4pq3b9xDKAyiJ1UWS53q2eb/omGv/xvHy0KF3UjtSPksIhrND54VmSP5J6fbV8GY80q
+ Sn5g==
+X-Gm-Message-State: ACgBeo102mJfU4R78osX3ZCdwY29R/wwrXkWwNdv1E1qfrwUsPNh/y7P
+ m++dZ/7zlA/I7dJ83TxePdDXeg==
+X-Google-Smtp-Source: AA6agR4j+yiD50Sscu+zwKSQUsi7L/X2c6EqBBgjG59EhXrcllrM2fK+69DY6BKXxFESvS9pKrCLFA==
+X-Received: by 2002:a17:90b:1b46:b0:1fb:de2:2e77 with SMTP id
+ nv6-20020a17090b1b4600b001fb0de22e77mr14209557pjb.143.1661440984616; 
+ Thu, 25 Aug 2022 08:23:04 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:64be:e7c:2851:ce4b?
+ ([2602:47:d49d:ec01:64be:e7c:2851:ce4b])
  by smtp.gmail.com with ESMTPSA id
- bo20-20020a056000069400b0022585f6679dsm1064638wrb.106.2022.08.25.08.07.11
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 08:07:11 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] configure: Avoid use of 'local' as it is non-POSIX
-Date: Thu, 25 Aug 2022 16:07:03 +0100
-Message-Id: <20220825150703.4074125-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220825150703.4074125-1-peter.maydell@linaro.org>
-References: <20220825150703.4074125-1-peter.maydell@linaro.org>
+ mz16-20020a17090b379000b001f50c1f896esm3694848pjb.5.2022.08.25.08.23.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Aug 2022 08:23:04 -0700 (PDT)
+Message-ID: <08249dfe-52b9-3048-e6c2-2be0414b10d6@linaro.org>
+Date: Thu, 25 Aug 2022 08:23:00 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL for-7.1 0/1] aspeed queue
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220825085710.34800-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220825085710.34800-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,55 +94,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use the non-POSIX 'local' keyword in just two places in configure;
-rewrite to avoid it.
+On 8/25/22 01:57, Cédric Le Goater wrote:
+> The following changes since commit 9a99f964b152f8095949bbddca7841744ad418da:
+> 
+>    Update version for v7.1.0-rc4 release (2022-08-24 19:27:56 -0700)
 
-In do_compiler(), just drop the 'local' keyword.  The variable
-'compiler' is only used elsewhere in the do_compiler_werror()
-function, which already uses the variable as a normal non-local one.
+Too late, as you can see by -rc4.
 
-In probe_target_compiler(), $try and $t are both local; make them
-normal variables and use a more obviously distinct variable name
-for $t.
+r~
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- configure | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/configure b/configure
-index f8d7270a60e..f2f793e3653 100755
---- a/configure
-+++ b/configure
-@@ -110,7 +110,7 @@ error_exit() {
- do_compiler() {
-   # Run the compiler, capturing its output to the log. First argument
-   # is compiler binary to execute.
--  local compiler="$1"
-+  compiler="$1"
-   shift
-   if test -n "$BASH_VERSION"; then eval '
-       echo >>config.log "
-@@ -2071,7 +2071,6 @@ probe_target_compiler() {
-     : ${container_cross_strip:=${container_cross_prefix}strip}
-   done
- 
--  local t try
-   try=cross
-   case "$target_arch:$cpu" in
-     aarch64_be:aarch64 | \
-@@ -2084,8 +2083,8 @@ probe_target_compiler() {
-       try='native cross' ;;
-   esac
-   eval "target_cflags=\${cross_cc_cflags_$target_arch}"
--  for t in $try; do
--    case $t in
-+  for thistry in $try; do
-+    case $thistry in
-     native)
-       target_cc=$cc
-       target_ccas=$ccas
--- 
-2.25.1
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-aspeed-20220825
+> 
+> for you to fetch changes up to 7ccff968f65cfad573bc0015cb0ab800d4337a6e:
+> 
+>    hw/i2c/aspeed: Fix old reg slave receive (2022-08-25 10:46:42 +0200)
+> 
+> ----------------------------------------------------------------
+> Aspeed queue:
+> 
+> * hw/i2c/aspeed: Fix old reg slave receive
+> 
+> ----------------------------------------------------------------
+> Peter Delevoryas (1):
+>        hw/i2c/aspeed: Fix old reg slave receive
+> 
+>   include/hw/i2c/aspeed_i2c.h | 1 +
+>   hw/i2c/aspeed_i2c.c         | 8 +++++---
+>   2 files changed, 6 insertions(+), 3 deletions(-)
 
 
