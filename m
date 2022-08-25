@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A81C5A10FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:48:30 +0200 (CEST)
-Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1A65A10DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 14:45:02 +0200 (CEST)
+Received: from localhost ([::1]:48596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRCHX-0006n7-Rt
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
+	id 1oRCEG-0003wu-W9
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 08:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRC44-0001gI-Tz
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:34:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57790)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oRC7t-0004Sq-QT; Thu, 25 Aug 2022 08:38:27 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:54167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRC41-0007Zi-K6
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 08:34:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661430865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2eEz616sRTG4Hw2X/Y5wfEZilY9d7SeyeW4s9PTl1FY=;
- b=C1y+D1wJ+qpbvEoBrFQYZ7XJdTde5tV1K1NaiqJqwrjj7OuMHFtppVbovwSDCrb6YkbD5q
- LNJkOvfc0zPCxBDr+zuqPdA6AGTXrxWR0bNsUJbeoWJqa0D67EmR8u6jiPw9m0Ms/8MmlE
- GsMKK2PwGwh3HP/6ZCClT/Kpvq8R/z0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-673-FAoW1F6wMay3aDi5mEyZzQ-1; Thu, 25 Aug 2022 08:34:23 -0400
-X-MC-Unique: FAoW1F6wMay3aDi5mEyZzQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n7-20020a1c2707000000b003a638356355so8683082wmn.2
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 05:34:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=2eEz616sRTG4Hw2X/Y5wfEZilY9d7SeyeW4s9PTl1FY=;
- b=LRweIVGrqrok6EETTBq0N6U5STuu828GzMEqUrFrYdskZVYems3WMXEq/8FOGvMAFK
- iO8SXcGlM0cbHtWClsxde3nPAtexk+xeXxbJO/mxIcNGlxZhlS7rIM5eNDtKqATO09Nd
- ViY/hCb51OiefkjUoOfO64ZZxIrdQZr2WwRyLs3eYNOgineK8BtC7+lru6gQLT2C4lgK
- xTZ7sKme+aYc+DttutRdAiFpVg+/E4ERC5/douzzLq2hL/a5wKZJxwUYbTkOImstfzsn
- xukJBWZRHMNRHqv5Qd7pVAzdeHQCVRgNt9DkzWtOiU5lJtLiPjFJUlLZh1c4NDY8Ta6W
- RJKQ==
-X-Gm-Message-State: ACgBeo0cNzN09PwaJdoHghmZp7tEuEk7gFcnwiNSp+slFup+pyqC7o5Z
- A6sCBQ4/uycyZbg7zJ6dRQ/gJXh5ChDCHybi4wJnSqe8vfEnZL9EngL/w5CrPk+Qf+dh6i6C87A
- rFPe7OCrCFyeUnY6omscjmyx63fs8KN3ICGK4E2G7n4S8BnkSuGuukwHd9EEsYtyg8sE=
-X-Received: by 2002:a05:6000:1545:b0:225:635f:8111 with SMTP id
- 5-20020a056000154500b00225635f8111mr2103427wry.152.1661430862400; 
- Thu, 25 Aug 2022 05:34:22 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6zarGdtz60YJeVDSCjjvVyJlgLkPglfehyfBqsj9aLczbdbKkXC5tSZd/SEMqEC7q425X5bQ==
-X-Received: by 2002:a05:6000:1545:b0:225:635f:8111 with SMTP id
- 5-20020a056000154500b00225635f8111mr2103409wry.152.1661430861959; 
- Thu, 25 Aug 2022 05:34:21 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id
- p19-20020a05600c1d9300b003a6077384ecsm5491141wms.31.2022.08.25.05.34.20
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 05:34:21 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/tcg: i386: extend BMI test
-Date: Thu, 25 Aug 2022 14:34:18 +0200
-Message-Id: <20220825123418.319668-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oRC7q-0008VH-VW; Thu, 25 Aug 2022 08:38:25 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2B85F5C005F;
+ Thu, 25 Aug 2022 08:38:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 25 Aug 2022 08:38:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1661431100; x=1661517500; bh=Oh
+ yfYn9O3yZfBQbxoVbm9BRwLPvG346gwY1cfM5NNy8=; b=saopv2yzXuYAjzFfav
+ YIagF9NLpaR6Q50k3OacIjfVl5ZvX5L9mpE8FCTaKDm/bll+ZcGD75ZCLcRxWoUt
+ 0kFxl3xRP+/pu9670mR98uHXgNeqxsUo0kQCfXYaUxBflaicfcK5QSmEF/BLiJc4
+ rCbiyKUGDvVJ4eHsvsBZQhpsaZgNj9jPyESVYmugiHHBCUZLEdxTMf3WUtJgmteE
+ QrHnLjpOzKBw0qFKMEmeKCOJ+P6aWF8ChboAvG3qRiHa6AVca6Bzxu5mGnYK0vh4
+ A8//HiC+cdKPe0hDMwFsvlk0nNvurqQtoeKZJY1/2lKBEocmJi4bm48Y+1YIlNyT
+ NWKQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1661431100; x=1661517500; bh=OhyfYn9O3yZfBQbxoVbm9BRwLPvG
+ 346gwY1cfM5NNy8=; b=3oPWSzhfVREI7N8FNq6ufqLQMC/+IAXLAO5e0cUfPf2n
+ 1u9shLR3ixOEuQFh8Fcep7SUxenW76AkxbFWuQ7SKnBaalHXO39198nyXb+2vSI8
+ wmDQ5iFYtr5woeLWXeWprte1fnakjHhqGGvfEbwuiz7OIbgJACrPI9Ui28H5BJ+4
+ 8tBlYDM0ykSLiqwv4ujhF43bxrxO5JOTv5BudRZ7E0FtOgZoApNZgj8reziYnnSZ
+ znrsMSnjzFdQMlS9sLdaLNZD/Rvbr2hGAJvrpL4v9WEsfyfUxOoFCo5I3HUr6nn/
+ 9mrSYmjLdN3hXWRa7aHFqF/aV+n2FRgZjYBgpWYx/w==
+X-ME-Sender: <xms:O20HY8mflU8imHT_7FtP-dpPLrd983z9i-gAIELcH7mU8RswXilq2A>
+ <xme:O20HY726hTPMHm7VrGRMuylGW3FikINB7YyVIvMzIV2d-lKcQm9t7T6r5cVkQPRgW
+ lsALnMDzonfTReDz-I>
+X-ME-Received: <xmr:O20HY6qoUhkU7r3o3MmW6utDeJBhDO0Jdnp3FpXSBb-igkJ0cbDetAHLaP7xVCU0kJUjr4Vvml6pNst_eg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ orredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeetgfdtfefhueeigffgffekffekle
+ ehleeuieevgfefvddthfeiveegfedtuedutdenucffohhmrghinheptghtrhhlrdgtfien
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+ hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:O20HY4n4VTkCPFZ_zxYJvZ9xxfXl1EpWOhK0bvQ1OAFmizP2uwpA1w>
+ <xmx:O20HY62sdc8mKn8kgLJzNtODD8-SluM3_72GIYHqSRYTEpVt3EAc8w>
+ <xmx:O20HY_uPoMS63GIGbWAWUgVIyNpZ_ybmxsjwb7Ho3ooPtk05nKqdzw>
+ <xmx:PG0HY9TXDu9iAkir_yfpuk61h7IVRysfa5N54aQ9aW4zqXKOqd7NCA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Aug 2022 08:38:18 -0400 (EDT)
+Date: Thu, 25 Aug 2022 14:38:16 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 1/3] hw/nvme: support irq(de)assertion with eventfd
+Message-ID: <YwdtOPccnpoMQLDq@apples>
+References: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
+ <20220825074746.2047420-2-fanjinhao21s@ict.ac.cn>
+ <YwdB//iV62uWeqJK@apples>
+ <7e5708c6-ffad-d867-a232-85ce55ee60b4@ict.ac.cn>
+ <YwdjdZye1L/D+29G@apples>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MuDbEUYJyz2IyvXS"
+Content-Disposition: inline
+In-Reply-To: <YwdjdZye1L/D+29G@apples>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,234 +105,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cover all BMI1 and BMI2 instructions, both 32- and 64-bit.
 
-Due to the use of inlines, the test now has to be compiled with -O2.
+--MuDbEUYJyz2IyvXS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/tcg/i386/Makefile.target  |   1 +
- tests/tcg/i386/test-i386-bmi2.c | 169 ++++++++++++++++++++++++++++++--
- 2 files changed, 162 insertions(+), 8 deletions(-)
+On Aug 25 13:56, Klaus Jensen wrote:
+> On Aug 25 19:16, Jinhao Fan wrote:
+> > On 8/25/2022 5:33 PM, Klaus Jensen wrote:
+> > > I'm still a bit perplexed by this issue, so I just tried moving
+> > > nvme_init_irq_notifier() to the end of nvme_init_cq() and removing th=
+is
+> > > first_io_cqe thing. I did not observe any particular issues?
+> > >=20
+> > > What bad behavior did you encounter, it seems to work fine to me
+> >=20
+> > The kernel boots up and got stuck, waiting for interrupts. Then the req=
+uest
+> > times out and got retried three times. Finally the driver seems to deci=
+de
+> > that the drive is down and continues to boot.
+> >=20
+> > I added some prints during debugging and found that the MSI-X message w=
+hich
+> > got registered in KVM via kvm_irqchip_add_msi_route() is not the same a=
+s the
+> > one actually used in msix_notify().
+> >=20
+> > Are you sure you are using KVM's irqfd?
+> >=20
+>=20
+> Pretty sure? Using "ioeventfd=3Don,irq-eventfd=3Don" on the controller.
+>=20
+> And the following patch.
+>=20
+>=20
+> diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
+> index 30bbda7bb5ae..b2e41d3bd745 100644
+> --- i/hw/nvme/ctrl.c
+> +++ w/hw/nvme/ctrl.c
+> @@ -1490,21 +1490,6 @@ static void nvme_post_cqes(void *opaque)
+>              if (!pending) {
+>                  n->cq_pending++;
+>              }
+> -
+> -            if (unlikely(cq->first_io_cqe)) {
+> -                /*
+> -                 * Initilize event notifier when first cqe is posted. Fo=
+r irqfd=20
+> -                 * support we need to register the MSI message in KVM. We
+> -                 * can not do this registration at CQ creation time beca=
+use
+> -                 * Linux's NVMe driver changes the MSI message after CQ =
+creation.
+> -                 */
+> -                cq->first_io_cqe =3D false;
+> -
+> -                if (n->params.irq_eventfd) {
+> -                    nvme_init_irq_notifier(n, cq);
+> -                }
+> -            }
+> -
+>          }
+> =20
+>          nvme_irq_assert(n, cq);
+> @@ -4914,11 +4899,14 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl=
+ *n, uint64_t dma_addr,
+>      }
+>      n->cq[cqid] =3D cq;
+>      cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
+> +
+>      /*=20
+>       * Only enable irqfd for IO queues since we always emulate admin que=
+ue=20
+>       * in main loop thread=20
+>       */
+> -    cq->first_io_cqe =3D cqid !=3D 0;
+> +    if (cqid && n->params.irq_eventfd) {
+> +        nvme_init_irq_notifier(n, cq);
+> +    }
+>  }
+>=20
+>=20
 
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index 5614838ffc..646b4ac13e 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -18,6 +18,7 @@ test-i386-pcmpistri: CFLAGS += -msse4.2
- run-test-i386-pcmpistri: QEMU_OPTS += -cpu max
- run-plugin-test-i386-pcmpistri-%: QEMU_OPTS += -cpu max
- 
-+test-i386-bmi2: CFLAGS=-O2
- run-test-i386-bmi2: QEMU_OPTS += -cpu max
- run-plugin-test-i386-bmi2-%: QEMU_OPTS += -cpu max
- 
-diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
-index 935a4d2a73..5fadf47510 100644
---- a/tests/tcg/i386/test-i386-bmi2.c
-+++ b/tests/tcg/i386/test-i386-bmi2.c
-@@ -1,6 +1,66 @@
- /* See if various BMI2 instructions give expected results */
- #include <assert.h>
- #include <stdint.h>
-+#include <stdio.h>
-+
-+#define insn1q(name, arg0)                                                           \
-+static inline uint64_t name##q(uint64_t arg0)                                        \
-+{                                                                                    \
-+    uint64_t result64;                                                               \
-+    asm volatile (#name "q   %1, %0" : "=r"(result64) : "rm"(arg0));                 \
-+    return result64;                                                                 \
-+}
-+
-+#define insn1l(name, arg0)                                                           \
-+static inline uint32_t name##l(uint32_t arg0)                                        \
-+{                                                                                    \
-+    uint32_t result32;                                                               \
-+    asm volatile (#name "l   %k1, %k0" : "=r"(result32) : "rm"(arg0));               \
-+    return result32;                                                                 \
-+}
-+
-+#define insn2q(name, arg0, c0, arg1, c1)                                             \
-+static inline uint64_t name##q(uint64_t arg0, uint64_t arg1)                         \
-+{                                                                                    \
-+    uint64_t result64;                                                               \
-+    asm volatile (#name "q   %2, %1, %0" : "=r"(result64) : c0(arg0), c1(arg1));     \
-+    return result64;                                                                 \
-+}
-+
-+#define insn2l(name, arg0, c0, arg1, c1)                                             \
-+static inline uint32_t name##l(uint32_t arg0, uint32_t arg1)                         \
-+{                                                                                    \
-+    uint32_t result32;                                                               \
-+    asm volatile (#name "l   %k2, %k1, %k0" : "=r"(result32) : c0(arg0), c1(arg1));  \
-+    return result32;                                                                 \
-+}
-+
-+#ifdef __x86_64
-+insn2q(pext, src, "r", mask, "rm")
-+insn2q(pdep, src, "r", mask, "rm")
-+insn2q(andn, clear, "rm", val, "r")
-+insn2q(bextr, range, "rm", val, "r")
-+insn2q(bzhi, pos, "rm", val, "r")
-+insn2q(rorx, val, "r", n, "i")
-+insn2q(sarx, val, "rm", n, "r")
-+insn2q(shlx, val, "rm", n, "r")
-+insn2q(shrx, val, "rm", n, "r")
-+insn1q(blsi, src)
-+insn1q(blsmsk, src)
-+insn1q(blsr, src)
-+#endif
-+insn2l(pext, src, "r", mask, "rm")
-+insn2l(pdep, src, "r", mask, "rm")
-+insn2l(andn, clear, "rm", val, "r")
-+insn2l(bextr, range, "rm", val, "r")
-+insn2l(bzhi, pos, "rm", val, "r")
-+insn2l(rorx, val, "r", n, "i")
-+insn2l(sarx, val, "rm", n, "r")
-+insn2l(shlx, val, "rm", n, "r")
-+insn2l(shrx, val, "rm", n, "r")
-+insn1l(blsi, src)
-+insn1l(blsmsk, src)
-+insn1l(blsr, src)
- 
- int main(int argc, char *argv[]) {
-     uint64_t ehlo = 0x202020204f4c4845ull;
-@@ -11,32 +71,125 @@ int main(int argc, char *argv[]) {
-     uint64_t result64;
- 
-     /* 64 bits */
--    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(ehlo), "m"(mask));
-+    result64 = andnq(mask, ehlo);
-+    assert(result64 == 0x002020204d4c4844);
-+
-+    result64 = pextq(ehlo, mask);
-     assert(result64 == 133);
- 
--    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(result64), "m"(mask));
-+    result64 = pdepq(result64, mask);
-     assert(result64 == (ehlo & mask));
- 
--    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
-+    result64 = pextq(-1ull, mask);
-     assert(result64 == 511); /* mask has 9 bits set */
- 
--    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
-+    result64 = pdepq(-1ull, mask);
-     assert(result64 == mask);
-+
-+    result64 = bextrq(mask, 0x3f00);
-+    assert(result64 == (mask & ~INT64_MIN));
-+
-+    result64 = bextrq(mask, 0x1038);
-+    assert(result64 == 0xa0);
-+
-+    result64 = bextrq(mask, 0x10f8);
-+    assert(result64 == 0);
-+
-+    result64 = blsiq(0x30);
-+    assert(result64 == 0x10);
-+
-+    result64 = blsiq(0x30ull << 32);
-+    assert(result64 == 0x10ull << 32);
-+
-+    result64 = blsmskq(0x30);
-+    assert(result64 == 0x1f);
-+
-+    result64 = blsrq(0x30);
-+    assert(result64 == 0x20);
-+
-+    result64 = blsrq(0x30ull << 32);
-+    assert(result64 == 0x20ull << 32);
-+
-+    result64 = bzhiq(mask, 0x3f);
-+    assert(result64 == (mask & ~INT64_MIN));
-+
-+    result64 = bzhiq(mask, 0x1f);
-+    assert(result64 == (mask & ~(-1 << 30)));
-+
-+    result64 = rorxq(0x2132435465768798, 8);
-+    assert(result64 == 0x9821324354657687);
-+
-+    result64 = sarxq(0xffeeddccbbaa9988, 8);
-+    assert(result64 == 0xffffeeddccbbaa99);
-+
-+    result64 = sarxq(0x77eeddccbbaa9988, 8 | 64);
-+    assert(result64 == 0x0077eeddccbbaa99);
-+
-+    result64 = shrxq(0xffeeddccbbaa9988, 8);
-+    assert(result64 == 0x00ffeeddccbbaa99);
-+
-+    result64 = shrxq(0x77eeddccbbaa9988, 8 | 192);
-+    assert(result64 == 0x0077eeddccbbaa99);
-+
-+    result64 = shlxq(0xffeeddccbbaa9988, 8);
-+    assert(result64 == 0xeeddccbbaa998800);
- #endif
- 
-     /* 32 bits */
--    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"((uint32_t) ehlo), "m"(mask));
-+    result32 = andnl(mask, ehlo);
-+    assert(result32 == 0x04d4c4844);
-+
-+    result32 = pextl((uint32_t) ehlo, mask);
-     assert(result32 == 5);
- 
--    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(result32), "m"(mask));
-+    result32 = pdepl(result32, mask);
-     assert(result32 == (uint32_t)(ehlo & mask));
- 
--    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
-+    result32 = pextl(-1u, mask);
-     assert(result32 == 7); /* mask has 3 bits set */
- 
--    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
-+    result32 = pdepl(-1u, mask);
-     assert(result32 == (uint32_t)mask);
- 
-+    result32 = bextrl(mask, 0x1f00);
-+    assert(result32 == (mask & ~INT32_MIN));
-+
-+    result32 = bextrl(ehlo, 0x1018);
-+    assert(result32 == 0x4f);
-+
-+    result32 = bextrl(mask, 0x1038);
-+    assert(result32 == 0);
-+
-+    result32 = blsil(0xffff);
-+    assert(result32 == 1);
-+
-+    result32 = blsmskl(0x300);
-+    assert(result32 == 0x1ff);
-+
-+    result32 = blsrl(0xffc);
-+    assert(result32 == 0xff8);
-+
-+    result32 = bzhil(mask, 0xf);
-+    assert(result32 == 1);
-+
-+    result32 = rorxl(0x65768798, 8);
-+    assert(result32 == 0x98657687);
-+
-+    result32 = sarxl(0xffeeddcc, 8);
-+    assert(result32 == 0xffffeedd);
-+
-+    result32 = sarxl(0x77eeddcc, 8 | 32);
-+    assert(result32 == 0x0077eedd);
-+
-+    result32 = shrxl(0xffeeddcc, 8);
-+    assert(result32 == 0x00ffeedd);
-+
-+    result32 = shrxl(0x77eeddcc, 8 | 128);
-+    assert(result32 == 0x0077eedd);
-+
-+    result32 = shlxl(0xffeeddcc, 8);
-+    assert(result32 == 0xeeddcc00);
-+
-     return 0;
- }
- 
--- 
-2.37.1
+=46rom a trace, this is what I observe:
 
+First, the queue is created and a virq (0) is assigned.
+
+  msix_table_mmio_write dev nvme hwaddr 0xc val 0x0 size 4
+  pci_nvme_mmio_write addr 0x1000 data 0x7 size 4
+  pci_nvme_mmio_doorbell_sq sqid 0 new_tail 7
+  pci_nvme_admin_cmd cid 4117 sqid 0 opc 0x5 opname 'NVME_ADM_CMD_CREATE_CQ'
+  pci_nvme_create_cq create completion queue, addr=3D0x104318000, cqid=3D1,=
+ vector=3D1, qsize=3D1023, qflags=3D3, ien=3D1
+  kvm_irqchip_add_msi_route dev nvme vector 1 virq 0
+  kvm_irqchip_commit_routes
+  pci_nvme_enqueue_req_completion cid 4117 cqid 0 dw0 0x0 dw1 0x0 status 0x0
+  pci_nvme_irq_msix raising MSI-X IRQ vector 0
+  pci_nvme_mmio_write addr 0x1004 data 0x7 size 4
+  pci_nvme_mmio_doorbell_cq cqid 0 new_head 7
+
+We go on and the SQ is created as well.
+
+  pci_nvme_mmio_write addr 0x1000 data 0x8 size 4
+  pci_nvme_mmio_doorbell_sq sqid 0 new_tail 8
+  pci_nvme_admin_cmd cid 4118 sqid 0 opc 0x1 opname 'NVME_ADM_CMD_CREATE_SQ'
+  pci_nvme_create_sq create submission queue, addr=3D0x1049a0000, sqid=3D1,=
+ cqid=3D1, qsize=3D1023, qflags=3D1
+  pci_nvme_enqueue_req_completion cid 4118 cqid 0 dw0 0x0 dw1 0x0 status 0x0
+  pci_nvme_irq_msix raising MSI-X IRQ vector 0
+  pci_nvme_mmio_write addr 0x1004 data 0x8 size 4
+  pci_nvme_mmio_doorbell_cq cqid 0 new_head 8
+
+
+Then i get a bunch of update_msi_routes, but the virq's are not related
+to the nvme device.
+
+However, I then assume we hit queue_request_irq() in the kernel and we
+see the MSI-X table updated:
+
+  msix_table_mmio_write dev nvme hwaddr 0x1c val 0x1 size 4
+  msix_table_mmio_write dev nvme hwaddr 0x10 val 0xfee003f8 size 4
+  msix_table_mmio_write dev nvme hwaddr 0x14 val 0x0 size 4
+  msix_table_mmio_write dev nvme hwaddr 0x18 val 0x0 size 4
+  msix_table_mmio_write dev nvme hwaddr 0x1c val 0x0 size 4
+  kvm_irqchip_update_msi_route Updating MSI route virq=3D0
+  ... other virq updates
+  kvm_irqchip_commit_routes
+
+Notice the last trace line. The route for virq 0 is updated.
+
+Looks to me that the virq route is implicitly updated with the new
+message, no?
+
+--MuDbEUYJyz2IyvXS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMHbTcACgkQTeGvMW1P
+DempXwgAhefrwajftbdm0SLeL3isCwQYRl3qCekbUGw2cFlcblNyvn7NSj5sjtX3
+1x7XcHv4LVGaRlE7b/r5RadVT938KFjs57Jxc0xzzPeo+tHT5B62Hw6lFZf4KT/d
+kykxcggCuVS7Fvmg/iQgXuY5O3FgH+3NiUX8mc6Qgu8rQHBC1eD3u067sVS9K2Gr
+Ky2StxAly6chRY8veARY9Go6jUZpD+N0nDRa8x9CP+wn19bqp8oq7DcanB3hvBv4
+m30Y2QmzdIQge68gWpsP1x4ehVmn399/87TJz25tboPexWVEmkuHvSDZRU7HyoJ5
+QOqqKYZ1Ioexxhd8cuMFvE9N3edPAg==
+=Yhtw
+-----END PGP SIGNATURE-----
+
+--MuDbEUYJyz2IyvXS--
 
