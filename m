@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7999A5A0F87
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:46:23 +0200 (CEST)
-Received: from localhost ([::1]:39646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D865A0F99
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:51:38 +0200 (CEST)
+Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRBJV-0005YG-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51352)
+	id 1oRBOb-0001rq-7T
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRBDM-0000x8-Eq
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:40:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47698)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRBDl-0001LL-Tu
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:40:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRBD7-0006Oo-SX
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:39:59 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRBDi-0006eb-I1
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:40:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661427585;
+ s=mimecast20190719; t=1661427621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CcV0a0eTcnK+cA9etDhCPOzlfvDpdVmSx3YvRBMu1u8=;
- b=gOmBbUTGwB/90lcwhiU+Z1F0T8eZtEcsxgYSii/Obvs7i/kscKHzVgl0sYDj2VUaDwt8gy
- uoTc2MdjQXH0ttsvjd4xX7V2JIJJgG3FcvRhbsFKbrsBtXCu/B1Dqvuy2ExisuD2MFIjXH
- L+57Tp86CPSpea0iSHy9qRfm+uXKh2w=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-139-A7pHgM35N56br9q8h5DgUg-1; Thu, 25 Aug 2022 07:39:40 -0400
-X-MC-Unique: A7pHgM35N56br9q8h5DgUg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72EB53C10149;
- Thu, 25 Aug 2022 11:39:39 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.195.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D444492C3B;
- Thu, 25 Aug 2022 11:39:39 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D8AFF180039B; Thu, 25 Aug 2022 13:39:37 +0200 (CEST)
-Date: Thu, 25 Aug 2022 13:39:37 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [PATCH v1 17/40] i386/tdx: Validate TD attributes
-Message-ID: <20220825113937.gqbx3veywcyjdp54@sirius.home.kraxel.org>
-References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
- <20220802074750.2581308-18-xiaoyao.li@intel.com>
+ bh=Ag6uzflRluc+dP3JIR+k7ZerJ6Nb5ElcjpGAkWltDW4=;
+ b=Yx1JWWqcat8+miLbuqN5HPVwT1oVSnpnWjRIm5AJ5SdzOPq56Wthok9UgvN+Dok1X12taY
+ j8vRZWhoj8X4J7qbSW3qaYSodzCb3oK8zw1QJmv8OFop8YnqSHns/ogOAMV3e2vFAqT8UG
+ bgxmj3UHItx/WfmzV0z92KiiFVUoygw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-66-TSag08QXMaKnapyQKjVhew-1; Thu, 25 Aug 2022 07:40:19 -0400
+X-MC-Unique: TSag08QXMaKnapyQKjVhew-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b4-20020a05600c4e0400b003a5a96f1756so2376374wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 04:40:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=Ag6uzflRluc+dP3JIR+k7ZerJ6Nb5ElcjpGAkWltDW4=;
+ b=g/5yoRnTxq0OC94y13/lcxf6PQypHxiwoFF+S8eRjN2qtGsGcAlDSM0YxrTpiLVASL
+ PgyBkibaKNd6o7JFWEd8hHSt1VgMHHl1brKK4Z9kyYNvQsn74eX/TIBaOlA+98Z4kDyI
+ Ey/eXo4JTP9sIZ78dW5jZu2wHsIJyVZ8ZfjVSKK7GfOgXqdXb4zxGrWhBMlSQC7sYSef
+ FCc6WykMbyO6a42WX4+WfHPckCBxZbJ4aa1MCf86GD2G3UxW+Cz15sQsMq92A3EP1mOi
+ NuFAoHuSMDltMzBLGt2ZK0feSjq+cDDum484Gv/4Tt3iTvYZk4d3YMSEGVCYOUCNObOB
+ A7uA==
+X-Gm-Message-State: ACgBeo0TcpGzshL1wzKq9CKVk/YuMvzF7528i3TDj0W3TqGG/06eCdsV
+ fKr9AvjFZneuz/lONFO8txb2+z4yBwbA6Yol9+QyPb7PylVR26I3WMXxd1AFsD6L3B7huqZOKtL
+ 69P58vCRvJ22JBGQ=
+X-Received: by 2002:adf:ed50:0:b0:225:4c37:5346 with SMTP id
+ u16-20020adfed50000000b002254c375346mr2048325wro.207.1661427618906; 
+ Thu, 25 Aug 2022 04:40:18 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4knPnZW18paFFSdRhaIqPh2zOU2/o4mVYHII+F2Oct+7doezaYaR8GLk2n4350mZBPTjdodw==
+X-Received: by 2002:adf:ed50:0:b0:225:4c37:5346 with SMTP id
+ u16-20020adfed50000000b002254c375346mr2048311wro.207.1661427618676; 
+ Thu, 25 Aug 2022 04:40:18 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-177.web.vodafone.de.
+ [109.43.177.177]) by smtp.gmail.com with ESMTPSA id
+ y11-20020a5d470b000000b0022584ab85a8sm785203wrq.17.2022.08.25.04.40.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Aug 2022 04:40:18 -0700 (PDT)
+Message-ID: <92862ee8-56b8-2a09-2e73-1b0e6b7fce20@redhat.com>
+Date: Thu, 25 Aug 2022 13:40:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220802074750.2581308-18-xiaoyao.li@intel.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 20/51] tests/qtest: i440fx-test: Skip running
+ request_{bios,pflash} for win32
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-21-bmeng.cn@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220824094029.1634519-21-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,14 +103,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 02, 2022 at 03:47:27PM +0800, Xiaoyao Li wrote:
-> Validate TD attributes with tdx_caps that fixed-0 bits must be zero and
-> fixed-1 bits must be set.
+On 24/08/2022 11.39, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> Besides, sanity check the attribute bits that have not been supported by
-> QEMU yet. e.g., debug bit, it will be allowed in the future when debug
-> TD support lands in QEMU.
+> The request_{bios,pflash} test cases call mmap() which does not
+> exist on win32. Exclude them.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>   tests/qtest/i440fx-test.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
+> index 6d7d4d8d8f..3890f1237c 100644
+> --- a/tests/qtest/i440fx-test.c
+> +++ b/tests/qtest/i440fx-test.c
+> @@ -278,6 +278,8 @@ static void test_i440fx_pam(gconstpointer opaque)
+>       qtest_end();
+>   }
+>   
+> +#ifndef _WIN32
+> +
+>   #define BLOB_SIZE ((size_t)65536)
+>   #define ISA_BIOS_MAXSZ ((size_t)(128 * 1024))
+>   
+> @@ -396,6 +398,8 @@ static void request_pflash(FirmwareTestFixture *fixture,
+>       fixture->is_bios = false;
+>   }
+>   
+> +#endif /* _WIN32 */
+> +
+>   int main(int argc, char **argv)
+>   {
+>       TestData data;
+> @@ -406,8 +410,10 @@ int main(int argc, char **argv)
+>   
+>       qtest_add_data_func("i440fx/defaults", &data, test_i440fx_defaults);
+>       qtest_add_data_func("i440fx/pam", &data, test_i440fx_pam);
+> +#ifndef _WIN32
+>       add_firmware_test("i440fx/firmware/bios", request_bios);
+>       add_firmware_test("i440fx/firmware/pflash", request_pflash);
+> +#endif
+>   
+>       return g_test_run();
+>   }
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
