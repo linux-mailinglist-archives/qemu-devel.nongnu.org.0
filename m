@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C971D5A1D62
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 01:54:30 +0200 (CEST)
-Received: from localhost ([::1]:36548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15AB5A1D75
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 02:04:30 +0200 (CEST)
+Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRMg9-0007vH-Ls
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 19:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40434)
+	id 1oRMpp-0002Tv-Cw
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 20:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRMer-0006ZR-09
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 19:53:09 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37812)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oRMlE-0008U1-Aj; Thu, 25 Aug 2022 19:59:44 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRMep-0000v6-EJ
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 19:53:08 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- x14-20020a17090a8a8e00b001fb61a71d99so6510007pjn.2
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 16:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=/A5RtfIm+z2CC2yeEbOn3ia7S7vKnBSmLNyBnZKfpXg=;
- b=zaTg7WTlN3Ddr7vd16zsuFpy7YOqRdcHIvpZPVIjs6Vv97S8/awfDBeDnM2H1KhN9K
- /HwEi3bS8j8ce7aXnwWf7sQVtGTZ/AEqbFY/18CPF781X/e+jntlB706buxTEw01ccWr
- 82yPw70fISpJiXtU9FE0rSQ/veKADIrIKohROwk0I9blxepzyleRrd8wVuXir49WlYTu
- htJyR1Kptj5MtAqcY/UUSY6hS/d2HihZKPq5Aug3UU8hHTrc88VNVDmnMm65m4XT1xtn
- 4U9eoXP5q7ukb12YSO2U1XheFrkJPIaKupARGA4f60fV9H8JjGwdm9d5QtVQoFYjarfK
- YVkw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oRMlC-0001XQ-6o; Thu, 25 Aug 2022 19:59:43 -0400
+Received: by mail-pf1-x436.google.com with SMTP id y141so27306pfb.7;
+ Thu, 25 Aug 2022 16:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=MSlh99YXphVVQx0G0Hj/7MtBmF69zYZbj5NnFMRMIPU=;
+ b=QBB9eEjPrslhKALAoggPUzDAntrzfqmKHRqfU9Rq/shiYyEW38bvhGDClc2ttx0clC
+ 4+1TZrS/+CoFGyK3J4RV8Jj5jHLxZWZU7WEv/2RZu3hetcAskDbEaMfF5EzSvJJIFU3s
+ 2f+waJEUq3gGE77BT5cGPN8PtTCLuQMpiT/aEy4jpPyB5tuEWCU5p3FXEKu7xz2NmyIE
+ keOpVjdR8Mnc/3S9jJhTkfji0sQ469jj+Md0CwcQ5MimOOjIQxWozcetsGOH0FIsj19m
+ /QyWOwCepGuKN3b+yb8XxuhIE0oE3VJIAJUxnrPheJlls4Y1rrAr+nhcmVznCjt9pzSt
+ HjNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=/A5RtfIm+z2CC2yeEbOn3ia7S7vKnBSmLNyBnZKfpXg=;
- b=DY1RMPMeIT/LWpsrNgY1CAoXbZByO1YNza1FT7nRBAWk+Q3LgNP7sXTdoHZAVvRemB
- 85La5V769dm+/XFmBs+hj1QLQAJIbxEkKlXN6BM2RtbMl5PuQKWgIVXRMy7QbUgxfuQ8
- WTCRvmcIubc9vv5Ua+dF8+V3WuqG9L5NaQ+Y9mdPV7nivtEj6Y5d8WF2e0vmIODuhU0p
- ujZi645e/u56wPTfEvR7FBEuoRFjQ4jh1uSAF2WdW1y5cqpctYZ8FvdcEGGPccio3693
- pleNAB6wqEUh6cUxWKqmFXlPS6P9zwECv2P5iHutkwjM7N+pf84xzF2QsZLirFMk/csl
- Q0HQ==
-X-Gm-Message-State: ACgBeo2u2oK6OglixAJIasIRPdezCY1dLI6LaldYY3rJgWvY/hRa4mKb
- r9mmocF6ajm09Knyw1eaWs7w6Q==
-X-Google-Smtp-Source: AA6agR7TleyqBPUBgdw1nPM7iuLsMLOkafenZhVdfhJtfIB81Bzd6vHRZzEPl4XTYB+vlqTlzHxMGQ==
-X-Received: by 2002:a17:902:bb94:b0:172:8fd9:7438 with SMTP id
- m20-20020a170902bb9400b001728fd97438mr1222904pls.174.1661471585844; 
- Thu, 25 Aug 2022 16:53:05 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:345c:4a6c:31b:1fca?
- ([2602:47:d49d:ec01:345c:4a6c:31b:1fca])
- by smtp.gmail.com with ESMTPSA id
- r8-20020a17090a454800b001f559e00473sm292822pjm.43.2022.08.25.16.53.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 16:53:05 -0700 (PDT)
-Message-ID: <0ca92e68-a494-c643-0773-829d850cc625@linaro.org>
-Date: Thu, 25 Aug 2022 16:53:03 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=MSlh99YXphVVQx0G0Hj/7MtBmF69zYZbj5NnFMRMIPU=;
+ b=NqEmNpvfM5OjmfOToFA3+QtIaQ8dGBxfsbCl1uASqZ9PFGaHQjYlWH8uXj4Z7wMqMB
+ /Ct+naKlU3OGjquBFxG0lmnsF060VqRXlhiI3/1BWtocaOEzSdpCBzhu7+CiIVABWN9P
+ KRn1VEPVheIK/+KHXNO/Agj7FKDiEia5YqwV2038WUWCelQPm2HebH8TE7EhL91W3ruv
+ 6E7iLXdDCSys9HNoZ4G3SpTb6cJ3SUCOBrrqjZFcntCTEMpXsppiCXOKanqJx7Di+soG
+ nj0qQNeCxzVwQ2/xpjZS5xO7VTp5m30QUEX6Y07PKs3kzpO8bE9DgTYmoGzQVJBaMK0T
+ rcFg==
+X-Gm-Message-State: ACgBeo2+zy2d4TaYFbwt+uS0xtrI7wm4P4mPkCsnC1Nka19iRl01tXOP
+ vQSfyrUcBb7QJoDsj3SZKZj0LxI5vhAOr/ODIP0=
+X-Google-Smtp-Source: AA6agR6xoKEvV0LA5uZ8fOO8zv/qlFlNM63S1eB+fBJn6R0KxoPU+YmLyE39wWDWEGZeOIk3kJC7KE7RNALeUpwOeOU=
+X-Received: by 2002:a05:6a00:88e:b0:52c:65a3:fdb4 with SMTP id
+ q14-20020a056a00088e00b0052c65a3fdb4mr1289088pfj.83.1661471978101; Thu, 25
+ Aug 2022 16:59:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 06/18] i386: Rewrite vector shift helper
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: paul@nowt.org
-References: <20220825221411.35122-1-pbonzini@redhat.com>
- <20220825221411.35122-7-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220825221411.35122-7-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20220824221357.41070-1-atishp@rivosinc.com>
+In-Reply-To: <20220824221357.41070-1-atishp@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 26 Aug 2022 09:59:11 +1000
+Message-ID: <CAKmqyKMrPsOqVojAfWrano+Qb3oG2tO6axRY-PSPK-WrKQH1Sw@mail.gmail.com>
+Subject: Re: [PATCH v10 0/3] Implement Sstc extension
+To: Atish Patra <atishp@rivosinc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,25 +84,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/22 15:13, Paolo Bonzini wrote:
-> From: Paul Brook<paul@nowt.org>
-> 
-> Rewrite the vector shift helpers in preperation for AVX support (3 operand
-> form and 256 bit vectors).
-> 
-> For now keep the existing two operand interface.
-> 
-> No functional changes to existing helpers.
-> 
-> Signed-off-by: Paul Brook<paul@nowt.org>
-> Message-Id:<20220424220204.2493824-11-paul@nowt.org>
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   target/i386/ops_sse.h | 221 ++++++++++++++++++------------------------
->   1 file changed, 96 insertions(+), 125 deletions(-)
+On Thu, Aug 25, 2022 at 8:14 AM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> This series implements Sstc extension[1] which was ratified recently.
+>
+> The first patch is a prepartory patches while PATCH 2 adds stimecmp
+> support while PATCH 3 adds vstimecmp support. This series is based on
+> on top of upstream commit (faee5441a038).
+>
+> The series can also be found at
+> https://github.com/atishp04/qemu/tree/sstc_v10
+>
+> It is tested on RV32 & RV64 with latest OpenSBI & Linux kernel[2]
+> patches.
+>
+> Changes from v9->v10:
+> 1. Fixed the multi socket booting issue by using the relative hartid.
+>
+> Changes from v8->v9:
+> 1. Updated alignment of few lines.
+> 2. Improved predicate functions for sstc.
+>
+> Changes from v7->v8:
+> 1. Removed redundant blank lines.
+> 2. Invoke smode & hmode predicate function from sstc related predicate
+>    functions.
+>
+> Changes from v6->v7:
+> 1. Replaced g_malloc0 with g_new0.
+> 2. Removed the over allocation for the timers.
+>
+> Changes from v5->v6:
+> 1. Rebased on top of the latest HEAD commit.
+>
+> Changes from v4->v5:
+> 1. Removed any ordering related flags and emulate the hardware more
+>    closely.
+>
+> Changes from v3->v4:
+> 1. Added [v]stimecmp_wr_done to the corresponding vmstate strucuture.
+>
+> Changes from v2->v3:
+> 1. Dropped generic migration code improvement patches.
+> 2. Removed the order constraints while updating stimecmp/vstimecmp.
+>
+> Changes from v1->v2:
+> 1. Rebased on the latest upstream commit.
+> 2. Replaced PATCH 1 with another patch where mtimer/timecmp is
+>    moved from CPU to ACLINT.
+> 3. Added ACLINT migration support.
+>
+> [1] https://drive.google.com/file/d/1m84Re2yK8m_vbW7TspvevCDR82MOBaSX/view
+> [2] https://github.com/atishp04/linux/tree/sstc_v8
+>
+> Atish Patra (3):
+> hw/intc: Move mtimer/mtimecmp to aclint
+> target/riscv: Add stimecmp support
+> target/riscv: Add vstimecmp support
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Thanks!
 
+Applied to riscv-to-apply.next
 
-r~
+Alistair
+
+>
+> hw/intc/riscv_aclint.c         |  48 +++++++---
+> hw/timer/ibex_timer.c          |  18 ++--
+> include/hw/intc/riscv_aclint.h |   2 +
+> include/hw/timer/ibex_timer.h  |   2 +
+> target/riscv/cpu.c             |   9 ++
+> target/riscv/cpu.h             |  11 ++-
+> target/riscv/cpu_bits.h        |   8 ++
+> target/riscv/cpu_helper.c      |  11 ++-
+> target/riscv/csr.c             | 168 +++++++++++++++++++++++++++++++++
+> target/riscv/machine.c         |   7 +-
+> target/riscv/meson.build       |   3 +-
+> target/riscv/time_helper.c     | 114 ++++++++++++++++++++++
+> target/riscv/time_helper.h     |  30 ++++++
+> 13 files changed, 397 insertions(+), 34 deletions(-)
+> create mode 100644 target/riscv/time_helper.c
+> create mode 100644 target/riscv/time_helper.h
+>
+> --
+> 2.25.1
+>
+>
 
