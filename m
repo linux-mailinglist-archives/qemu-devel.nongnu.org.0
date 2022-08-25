@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A214C5A148C
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 16:43:07 +0200 (CEST)
-Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61125A14C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 16:47:29 +0200 (CEST)
+Received: from localhost ([::1]:42894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRE4Y-0005ik-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 10:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41934)
+	id 1oRE8m-0004sd-OZ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 10:47:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oRDzO-0006nF-SP
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:37:46 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:46767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oRDzL-00063Y-Cs
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:37:45 -0400
-Received: by mail-qk1-x731.google.com with SMTP id i7so15285218qka.13
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 07:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=aUjVM9430+6VSHV4I3Kmr8IpaYPrfmoS9+pgDDvXbzI=;
- b=P5s9uWirXP7r7g0SjhD7c7LkHk3j+Qg2QaqisNl6O90YQXu5J5c3JKIqtz+bm9iNig
- yVmnARhIbx+MPIBs0p1Edb1+Zc/yKNS2d6zegRY0CgG58sOJeacY4eARAPkW41fQtmnO
- XcCVw0rfmJe3q3vMk/truDEzpLo7TIbgKvh193eOAxg4bEf2JX9q7h5l7MyTQOah+hHa
- yM5Ly4Wh5aSNH1GPN/jCSj1+IRr4nu0+mCYdEvNcVjLW997YtNhRlhUecApL5mcexvmo
- a3s5sDbaFVOv8gbvVmtVIpV3MD3mcWILZ0gD0xY2W2SecPhn1dm+pjtMAnqO80hAl0Vo
- /nRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=aUjVM9430+6VSHV4I3Kmr8IpaYPrfmoS9+pgDDvXbzI=;
- b=jCIF4MmuPKtdWQC2crtkXIQv6vsXUw6sbJKKMaS2rwaPM2jDkHoJFI4xXuCL7vo1eA
- kU7j6CYKP7pTS9ngV7JmvucTkOzfA6Vcq3yn5qKMv67reRBLcfp9lXiRQuH/eLcb2lpl
- p5ElL09eyqPHC6D64A1Fx7ypCjseX/40/TVizjfPN1e227cLdPTCAxgvjx5oancX/aZR
- oG2HcBG6JLF0Cm6sVPcrTDID3gWhQbKJj3nx8kpCY07Shkq5ERyz4GNjmeBEOXiqZr8k
- vlyuwh8Ehr1Z+3Md3SgGB5s7N5mBuoOJg1xwgbCSOGjGlXtRtOGyiuIuw/i8ahSe/5pa
- vDQg==
-X-Gm-Message-State: ACgBeo2WjQdyi3PJng7WbzO68cxzkuXUbRhgI7T8IY2K3/qDHa8m46jb
- UDPe1OD+eVS7V7iOxp11CAAJbbk/Fa6clMIdZSUoRmFhSJUy1g==
-X-Google-Smtp-Source: AA6agR56fXs7YHqzeNVENH05XoHcky+gQ0DqiSeb1HfDavZ/vJv8b146stzFOoAlztIVbOBzZzNgPFwd/N4kXhMuCY8=
-X-Received: by 2002:a37:6086:0:b0:6bb:cf90:f680 with SMTP id
- u128-20020a376086000000b006bbcf90f680mr3244474qkb.182.1661438259999; Thu, 25
- Aug 2022 07:37:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oRE4F-0005Te-Sk
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:42:48 -0400
+Received: from mga02.intel.com ([134.134.136.20]:55781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oRE4C-0006kx-JC
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 10:42:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661438564; x=1692974564;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ZVTIjYVchpIcQqqc0ZaCjQcEwojmXfhbS+FFEpZPwJM=;
+ b=jblth2qvh7ESGPB1ZMt3ipEpBfZiqv8ir5iQ0ktHtyRsjw5fS5qXZraL
+ 1wkCCWEcTEfBLtw3dtRkX/fKyjG4OOsDsVx/DK3jGcUeZDsxYjH4zZVRe
+ H/UUQ/Ay/St+1AS7xTv8FoKqK8nJQcLl0uDF0iwO2POQov+THlnHg2DfQ
+ kqgmunCs30E8qjmy0XG37UxAafAsl6jstS2cutumrVSC/KV2JQcoz0oh2
+ VJiZkJc/VQHzwQHms6j/pm9m0q76FDGALtPHiBX3ojpiubFKPXg5qVK1u
+ KFJgQ3qaI+NsII7M13Yft95h6jto+Paosjiu+nnh7nwTNGyxHACk4rrul w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="281222840"
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="281222840"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2022 07:42:41 -0700
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; d="scan'208";a="671011415"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.29.55])
+ ([10.255.29.55])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2022 07:42:36 -0700
+Message-ID: <389a2212-56b8-938b-22e5-24ae2bc73235@intel.com>
+Date: Thu, 25 Aug 2022 22:42:34 +0800
 MIME-Version: 1.0
-References: <CAJ307Ejfq=8n8O3SB73YNPp+7Nht3d9oibSdgjSN8vEHYjp_6w@mail.gmail.com>
-In-Reply-To: <CAJ307Ejfq=8n8O3SB73YNPp+7Nht3d9oibSdgjSN8vEHYjp_6w@mail.gmail.com>
-From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Date: Thu, 25 Aug 2022 16:37:28 +0200
-Message-ID: <CAJ307Ejz_wYVWW2aiibEn0XHPTAScbq_opJQ1+daRSH69mXvMQ@mail.gmail.com>
-Subject: Re: Issues related to the polling system on Windows
-To: qemu-devel@nongnu.org, pbonzini@redhat.com
-Cc: Fabien Chouteau <chouteau@adacore.com>,
- =?UTF-8?Q?C=C3=A9dric_Landet?= <landet@adacore.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=chigot@adacore.com; helo=mail-qk1-x731.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.12.0
+Subject: Re: [PATCH v1 15/40] i386/tdx: Add property sept-ve-disable for
+ tdx-guest object
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
+ <20220802074750.2581308-16-xiaoyao.li@intel.com>
+ <20220825113636.qlqmflxcxemh2lmf@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220825113636.qlqmflxcxemh2lmf@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=xiaoyao.li@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,22 +94,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 8/25/2022 7:36 PM, Gerd Hoffmann wrote:
+> On Tue, Aug 02, 2022 at 03:47:25PM +0800, Xiaoyao Li wrote:
+>> Bit 28, named SEPT_VE_DISABLE, disables	EPT violation conversion to #VE
+>> on guest TD access of PENDING pages when set to 1. Some guest OS (e.g.,
+>> Linux TD guest) may require this bit set as 1. Otherwise refuse to boot.
+> 
+> --verbose please.  That somehow doesn't make sense to me.
+> 
+> A guest is either TDX-aware (which should be the case for linux 5.19+),
+> or it is not.  My expectation would be that guests which are not
+> TDX-aware will be disturbed by any #VE exception, not only the ones
+> triggered by EPT violations.  So I'm wondering what this config bit
+> actually is useful for ...
 
-I've managed to fully transition to the Windows API. As the previous code w=
-asn't
-taking G_IO_HUP into consideration, I've simply disabled the call to
-WSAEnumNetworkEvents for a GSource having just the G_IO_HUP condition.
-We might still have an issue if another GSource is one day added to the sam=
-e
-handle. But for now, it doesn't seem to be the case. So it should be safe.
+This bit, including other properties of tdx-guest object, are supposed 
+to be configured for TD only. On VM creation phase, user needs to decide 
+if it's a TD (TDX VM) or non-TD (previous normal VM) by attaching 
+tdx-guest object or not.
 
-I'll ensure that it works fine with our CI before submitting it, probably
-mid-September.
-Note that if anyone is willing to check it, I'll be glad to send it.
-Afterall, I'm only
-using a small part of the qemu capabilities.
+If it's a TD when VM creation, but the guest kernel is not 
+TDX-capable/-aware, it's doomed to fail booting.
 
-Thanks,
-Cl=C3=A9ment
+For TD guest kernel, it has its own reason to turn SEPT_VE on or off. 
+E.g., linux TD guest requires SEPT_VE to be disabled to avoid #VE on 
+syscall gap [1]. Frankly speaking, this bit is better to be configured 
+by TD guest kernel, however current TDX architecture makes the design to 
+let VMM configure.
+
+
+[1]: TD pages that are not accepted cause a #VE exception.
+It is possible for a hypervisor to take away a guest page
+and thus trigger a #VE the next time it is accessed.
+Normally the guest would just panic in such a case, but
+for that it first needs to execute the #VE handler
+reliably.
+
+This can cause problems with the "system call gap": a malicious
+hypervisor might trigger a #VE for example on the system call entry
+code, and when a user process does a system call it would trigger a
+and SYSCALL relies on the kernel code to switch to the kernel stack,
+this would lead to kernel code running on the ring 3 stack.  This could
+be exploited by a combination of malicious host and malicious ring 3
+program to attack the kernel.
+
+
+> take care,
+>    Gerd
+> 
+
 
