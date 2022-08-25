@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D365A1CBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 00:51:47 +0200 (CEST)
-Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8D15A1CCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 00:53:51 +0200 (CEST)
+Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRLhS-0006gQ-L4
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 18:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37016)
+	id 1oRLjS-0001yC-IQ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 18:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRLKj-0002wG-PC
+ id 1oRLKj-0002we-TZ
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:28:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54444)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRLKi-0004gF-7g
+ id 1oRLKi-0004gD-7Z
  for qemu-devel@nongnu.org; Thu, 25 Aug 2022 18:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1661466495;
@@ -25,50 +25,51 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GD6gVGwT+P5RhtY3xGlHFrbigVj0Tyk29M0Qd4qf44s=;
- b=SVDPLMeCxl9ic7/svk5sonrb0OhVO+lcmyYuvDsBS9Fq31mi4mOl8Tc5vCsEZHHY87MPrn
- IgEvViqFcemW6JLzM7TtEH17E1QR/gIxpGzzed3XVg1oE+m5L4lsbZlLtf1AZB7YBwacvs
- zFLb/k2u3la0A0NEe4pQE3owEkHH72w=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DDVOKvyIOGUYQ3VEOk5ijeO0+OaAnW4wkqDUjr/Rk7o=;
+ b=O1CO8qf4CwDdC1gz2yErfgpCxFIpNUYMff4Vrd5YWy5F5rQ97iG+vfj/A2ZcwqMcDn/irb
+ vdjrOc+/ICmilwtAhuXk3m5jczD71YoPp/xebV9KDixGT4NKu64rBY9qmu4k7/1xHOLtpU
+ YZTRucN1qnUpzpOVXsofe1qWBqFj6KE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-287-cNqrelgMPCyC47FdOTSc1Q-1; Thu, 25 Aug 2022 18:28:13 -0400
-X-MC-Unique: cNqrelgMPCyC47FdOTSc1Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j36-20020a05600c1c2400b003a540d88677so11510016wms.1
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 15:28:12 -0700 (PDT)
+ us-mta-515-g8NBMri0NbKAPZ0zCtGykg-1; Thu, 25 Aug 2022 18:28:14 -0400
+X-MC-Unique: g8NBMri0NbKAPZ0zCtGykg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ m2-20020adfc582000000b0021e28acded7so3709396wrg.13
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 15:28:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=GD6gVGwT+P5RhtY3xGlHFrbigVj0Tyk29M0Qd4qf44s=;
- b=HaGNx5qAqruiJ0v67rY1xG3hCYHLaYHJur8NV8BFnVNwQZG5moOET9hS3RY1oJKrBc
- UnYYcNt36R5bIcLLoJI+EhZEJgyoIhqF03GBUKYGBQetuIJkJekF+k6xLtsjOPY9G40f
- kDGkd6rqlStSH5I9RoohqlTZ02iuhUDQaJziCOaatn8fFerASJbWjNVmsrspcHrTjFbz
- doN4zdOE3+ASZTV/Hlrn2EpNFsfFt8KuZM+/HDhJTkgeGQvgSUCJHzeLJTFkUUY3AmHY
- vkXIoFb3X/Chd77M0irRCHjsZPQJHJpTkm3WdQzq5lwOYhUpVnBdT/BEOwQI/B0JNV/u
- mGEg==
-X-Gm-Message-State: ACgBeo1udrwzv1NT17Fhk4CLJlp3KI0UAtrWJKK6xplVHcNPjO3NXnsk
- z/6xLUgkfiWTf+cUl5YhpcqFQ6ZGh4QZtz7DwMMrF3CKFme8Hy6X4JoN0uu1WuUx+hi0VymXsLQ
- HqOP3kUpk729Bh4U2CbfU5Eda1AGyrtF+1Zcud8h1nh7rNJEX4NS6+E0ETkvZcrQLAK4=
-X-Received: by 2002:adf:d20b:0:b0:225:4ec9:8cac with SMTP id
- j11-20020adfd20b000000b002254ec98cacmr3285072wrh.92.1661466491556; 
- Thu, 25 Aug 2022 15:28:11 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR56jJ9vyIqRHzfFJUGHosMx/db9Nh0YadRCX6lwjMSEV8UfNTJJUmcKt/VUL2aczb9YEW106A==
-X-Received: by 2002:adf:d20b:0:b0:225:4ec9:8cac with SMTP id
- j11-20020adfd20b000000b002254ec98cacmr3285064wrh.92.1661466491315; 
- Thu, 25 Aug 2022 15:28:11 -0700 (PDT)
+ bh=DDVOKvyIOGUYQ3VEOk5ijeO0+OaAnW4wkqDUjr/Rk7o=;
+ b=STc1B9ayWADGX+7Y3ETR5q4tOQI1AOdHXVzmw0fYlkYAhwo1W+XSYMD4kw+JcaDkCw
+ IuKt/5WpqhBjsEeGa7CUptLY3GgYO+MAuypoNEM99Nq2gNvIlpWc6O01a9+tunCdFG8/
+ M+m7T//KwLKYq1nywvPROfPgsPwDvoIt9/upkGiYuq+Du+OOaixi7dpRK+VuFS6T0EVI
+ N2oms9yh2a91orfrI7SaXCOSFi9gFfsAsqEJ9+QnYpHJfuxa1k33/lRACZgfBoMSXr10
+ g55891nB3PjhNWxEsVFO+3F52FAlIgdvmAVZzrJ90pd03gjJUaXBE9xfZCmFuCoHI9iZ
+ TQ8Q==
+X-Gm-Message-State: ACgBeo0isn7PIX448wzIKcw63bwLQdq4usd2Cl+f//COb1Ru/73MzDro
+ 75YkJ8VMDSprOQ5ZSihPzmHhkJsRX/Ho4jHJ9jnk0spavoJ91kUl8DAu605ZbcS+rz0g+8uu+8E
+ +GRtwkxwgS6/H2cIrnL/2wmhPQiYS0yQYK6zI5t+qMKrA6Ms2G0n6crxphEMWyz3fRTE=
+X-Received: by 2002:a05:600c:3555:b0:3a5:d319:35cd with SMTP id
+ i21-20020a05600c355500b003a5d31935cdmr3410216wmq.161.1661466492917; 
+ Thu, 25 Aug 2022 15:28:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4rO2BGl6Qv/k1hUgOBAuviZnQdtwgQHrZ6hV11zRqxaAaPlYnz+CxQLVgovLOUysC5yK+m2g==
+X-Received: by 2002:a05:600c:3555:b0:3a5:d319:35cd with SMTP id
+ i21-20020a05600c355500b003a5d31935cdmr3410206wmq.161.1661466492629; 
+ Thu, 25 Aug 2022 15:28:12 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- q18-20020adff952000000b002207a0b93b4sm337833wrr.49.2022.08.25.15.28.10
+ b4-20020adff244000000b002238ea5750csm378912wrp.72.2022.08.25.15.28.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Aug 2022 15:28:10 -0700 (PDT)
+ Thu, 25 Aug 2022 15:28:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
-Subject: [PATCH 16/20] configure: cleanup creation of tests/tcg target config
-Date: Fri, 26 Aug 2022 00:27:41 +0200
-Message-Id: <20220825222745.38779-17-pbonzini@redhat.com>
+Subject: [PATCH 17/20] configure: build ROMs with container-based cross
+ compilers
+Date: Fri, 26 Aug 2022 00:27:42 +0200
+Message-Id: <20220825222745.38779-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220825222745.38779-1-pbonzini@redhat.com>
 References: <20220825222745.38779-1-pbonzini@redhat.com>
@@ -99,76 +100,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the symlink to tests/tcg/config-*.mak, which is possible now
-that unused target config files are not created anymore.
+s390-ccw remains a bit more complex, because the -march=z900 test is done
+only for the native cross compiler.  Otherwise, all that is needed is
+to pass the (now mandatory) target argument to write_target_makefile.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    |  2 +-
- configure   | 12 +++++-------
- meson.build |  2 +-
- 3 files changed, 7 insertions(+), 9 deletions(-)
+ configure | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 6fd5b6ac06..adf24c0236 100644
---- a/Makefile
-+++ b/Makefile
-@@ -221,7 +221,7 @@ qemu-%.tar.bz2:
- distclean: clean recurse-distclean
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
- 	rm -f config-host.mak Makefile.prereqs qemu-bundle
--	rm -f tests/tcg/config-*.mak
-+	rm -f tests/tcg/*/config-target.mak tests/tcg/config-host.mak
- 	rm -f config.status
- 	rm -f roms/seabios/config.mak
- 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
 diff --git a/configure b/configure
-index 37ddd90bb1..97665ef619 100755
+index 97665ef619..c24d0a1023 100755
 --- a/configure
 +++ b/configure
-@@ -2567,10 +2567,6 @@ tcg_tests_targets=
- for target in $target_list; do
-   arch=${target%%-*}
- 
--  config_target_mak=tests/tcg/config-$target.mak
--
--  echo "# Automatically generated by configure - do not modify" > $config_target_mak
--  echo "TARGET_NAME=$arch" >> $config_target_mak
-   case $target in
-     xtensa*-linux-user)
-       # the toolchain is not complete with headers, only build softmmu tests
-@@ -2587,13 +2583,15 @@ for target in $target_list; do
- 
-   if probe_target_compiler $target || test -n "$container_image"; then
-       test -n "$container_image" && build_static=y
--      write_target_makefile build-tcg-tests-$target >> $config_target_mak
-       mkdir -p tests/tcg/$target
-+      config_target_mak=tests/tcg/$target/config-target.mak
-       ln -sf $source_path/tests/tcg/Makefile.target tests/tcg/$target/Makefile
--      ln -sf ../config-$target.mak tests/tcg/$target/config-target.mak
-+      echo "# Automatically generated by configure - do not modify" > $config_target_mak
-+      echo "TARGET_NAME=$arch" >> $config_target_mak
-       echo "TARGET=$target" >> $config_target_mak
--      echo "QEMU=$PWD/$qemu" >> $config_target_mak
-+      write_target_makefile build-tcg-tests-$target >> $config_target_mak
-       echo "BUILD_STATIC=$build_static" >> $config_target_mak
-+      echo "QEMU=$PWD/$qemu" >> $config_target_mak
-       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> Makefile.prereqs
-       tcg_tests_targets="$tcg_tests_targets $target"
+@@ -2186,7 +2186,7 @@ probe_target_compiler() {
+     target_ranlib=
+     target_strip=
    fi
-diff --git a/meson.build b/meson.build
-index 8e927fc457..5cfb352d45 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3812,7 +3812,7 @@ summary(summary_info, bool_yn: true, section: 'Compilation')
- summary_info = {}
- have_cross = false
- foreach target: target_dirs
--  tcg_mak = meson.current_build_dir() / 'tests/tcg' / 'config-' + target + '.mak'
-+  tcg_mak = meson.current_build_dir() / 'tests/tcg' / target / 'config-target.mak'
-   if fs.exists(tcg_mak)
-     config_cross_tcg = keyval.load(tcg_mak)
-     if 'CC' in config_cross_tcg
+-  test -n "$target_cc"
++  test -n "$target_cc" || test -n "$container_image"
+ }
+ 
+ write_target_makefile() {
+@@ -2341,7 +2341,7 @@ if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+     config_mak=pc-bios/optionrom/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "TOPSRC_DIR=$source_path" >> $config_mak
+-    write_target_makefile >> $config_mak
++    write_target_makefile pc-bios/optionrom/all >> $config_mak
+ fi
+ 
+ if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
+@@ -2349,25 +2349,31 @@ if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
+     config_mak=pc-bios/vof/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "SRC_DIR=$source_path/pc-bios/vof" >> $config_mak
+-    write_target_makefile >> $config_mak
++    write_target_makefile pc-bios/vof/all >> $config_mak
+ fi
+ 
+ # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
+ # (which is the lowest architecture level that Clang supports)
+ if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
+-  write_c_skeleton
+-  do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
+-  has_z900=$?
+-  if [ $has_z900 = 0 ] || do_compiler "$target_cc" $target_cc_cflags -march=z10 -msoft-float -Werror -o $TMPO -c $TMPC; then
+-    if [ $has_z900 != 0 ]; then
+-      echo "WARNING: Your compiler does not support the z900!"
+-      echo "         The s390-ccw bios will only work with guest CPUs >= z10."
++  got_cross_cc=no
++  if test -n "$target_cc"; then
++    write_c_skeleton
++    do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
++    has_z900=$?
++    if [ $has_z900 = 0 ] || do_compiler "$target_cc" $target_cc_cflags -march=z10 -msoft-float -Werror -o $TMPO -c $TMPC; then
++      if [ $has_z900 != 0 ]; then
++        echo "WARNING: Your compiler does not support the z900!"
++        echo "         The s390-ccw bios will only work with guest CPUs >= z10."
++      fi
++      got_cross_cc=yes
+     fi
++  fi
++  if test "$got_cross_cc" = yes || test -n "$container_image"; then
+     roms="$roms pc-bios/s390-ccw"
+     config_mak=pc-bios/s390-ccw/config-host.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "SRC_PATH=$source_path/pc-bios/s390-ccw" >> $config_mak
+-    write_target_makefile >> $config_mak
++    write_target_makefile pc-bios/s390-ccw/all >> $config_mak
+     # SLOF is required for building the s390-ccw firmware on s390x,
+     # since it is using the libnet code from SLOF for network booting.
+     git_submodules="${git_submodules} roms/SLOF"
+@@ -2581,7 +2587,7 @@ for target in $target_list; do
+       ;;
+   esac
+ 
+-  if probe_target_compiler $target || test -n "$container_image"; then
++  if probe_target_compiler $target; then
+       test -n "$container_image" && build_static=y
+       mkdir -p tests/tcg/$target
+       config_target_mak=tests/tcg/$target/config-target.mak
 -- 
 2.37.1
 
