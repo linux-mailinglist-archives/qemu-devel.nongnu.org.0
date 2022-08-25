@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D1D5A0A17
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 09:24:49 +0200 (CEST)
-Received: from localhost ([::1]:42028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25045A0A42
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 09:29:52 +0200 (CEST)
+Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR7EO-0004FP-79
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 03:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32952)
+	id 1oR7JH-0007Ku-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 03:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1oR738-0007ah-9i
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:13:10 -0400
-Received: from sonic307-20.consmr.mail.sg3.yahoo.com ([106.10.241.37]:41417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1oR735-0004eF-Lj
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:13:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1661411579; bh=lRd/BbAinyvhEAoiCuSpKcwcBjFR8jVgY88dqUJacxM=;
- h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
- b=Q9weJwIpljNJTDzkLYNXm0w4GqR5MvvuJhKA5JrseN5s8xEUPu7Gq3wIaXQs+0ABa6viB8mHVyaiqYxWnl2vlnD6B4FX02OT5ED/cW3B4dP/PdZeJ3Hd4QZ/QpU+UHB7vdHbaVaO1+7Y+Z/AS+fQZwplBhzhW+7UFpumRKnAKdKH+Hu62KCFyDvvojHLd6ly/R+oKlOYtHr2y/2WGD60f7K9atD6v/bF0vtGJ3+lCEDu/MXA70Jdcwp5rDVIhfqLi58OP6b1ZAxNN+ShPmm63oTCjwzuMOteFZgvsZhsYe/ZR5h1EFFKgI2+PWPCN0UzjL0FFAT9USjCHiP1DaI6pw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1661411579; bh=cQDeOpkWuyay9myEcupWvDzvFlCxgyTx1MIKvmflXH8=;
- h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
- b=IrUaOriQ0rPotkAYY+dC9SnGFak+v7sFo6yw23s/ZFNoWAAHrwocPGSD1K9GTQpHNdSUGiukOLMUUJ/lNCmuk9bTqIcNwRBjgx841UolgeYqIZC+PVoDohp58gGplns9uDzq9IEGC4z5sYJsPOTuZWT0ahn6h1SmFsyuqlYTlsvebNKVYG5FbSl96seCxUV7/sn+UJkzhZqjTzHjlRKZmkdjyJjHJAzBz7NLj6nQVqH7vV9TWRUd5ksptZqFODb0CDL50rlSpYxERhRzxYr9rFm1K+fehYJ2/cjordZyxxD3pzj3XcpupKj3iuuteCRmXmxQxeY1gszKgYv79Ei4fQ==
-X-YMail-OSG: d34SDUYVM1l7RVRCMENFM_G26L29h6DjhMPm7NgxYNLA_9Wtbkv6gUBTfNgS_37
- cpQxIBfY7_xurUDuv0Jxiqf2uxrvLQ5LnWPzOJB..HR88ZDEcT3QPEF1EhT8G755gB9E8Rbp_XbG
- JhQdK.jMYQ.jd3TBG7jPZ3yXTXDOnx_6k_iYqXWrqgM0ocf6JsBPSFdR_VrSsyVjITAevZrtxO6p
- dCDBYgkiKTaJhOKZpVLL0iXXDjloJGNjULIrka16XykEgSmDttfxYY2wxopZzvwmmuvPHAJvBT8M
- F9ULtGxglXeI8U_3HcLI2NHAib2lVfa_tlVQQkhYRBy5zluq09Md8NhPm5snGXQt.YaxJN_v7fvl
- gjeWdCjc8_mw2FTAiE1ZsukTIjtwE4UY4kkXXeYWUfPu7e5LM56cENpdiza19pMUhR2wMzBeSM40
- juGIc6oz4xqi72Vj7ZVfblB9smVd9dGGv3kljiEah9nWxykhRRn2PWPoLL.4HqBSPxbNGaCMpZOm
- ZBN4S1J74OHxo0PRoBRDIl8o5J5_PXCqfH3iTiAwHpdwgNj_kaJtH5CYD5IuJeIREwr7nHeJIJKf
- pffJ_vHKWl42eCI3LlocRTsT4fn_k6Z9mccYbVErwRdO9cTcCWHk.Oli4.iJfd2FDaqZo5urhWeI
- eG5eRD924G4P3V9yj2JuiWnEfJx8YNIlPHg_KG8.NIvu9eCNyhVx89a7uQW0l8651Y_AgIaw2tof
- QvXOaxmRy3V0t.pSbZMRK5pz5erTqrmEvTxAKnMYiVANFQC9Z_PQ.kxsLPtue4cWq89dtCcYfoD5
- p2X0Ucs2BScmgeGq0_Uyjt0uwK0FPc.Ka_QiLsAiNfuwXuyi28nJUB9eOJ7YU5ct5506vT._nUrC
- rB1acSFqBW9Xeo5bYb5yBiq7qFvMTvjHDh7Dx8Jh_QzsvP1joZV9qIos22bOZBRcDMT0N1nH0uMN
- jc1VFGHlqbwHc7ZI5XyaHQjQ.Qi90GTZ15vWE2zD.5bbqZkAjwSwn8X0AG9Vhc0tIeaczVp5vSey
- sQ9bPi9KTMVNLweragWFOuLZTsmQ1pViUuMc9Ni8lPf8228GKIq0Wvzbn0.nf8b.GWBBCPZjKjFf
- tmtiRxVIXuneWaO_jjfuywFa8RNjb4enHwDOFfQue.ro8plhp5Ffcxz4440ZC8iwboREj7K5XllM
- XTsq0yPuDyhJUV5wISa37zpn28u5sCFgaq9qwjaU4HDf.9u8QU6jbFs5mYXbEPjzG3lPizJBl8O8
- a_.UBIA556tFl71VMEAEdL.Y_ukbgVx5WFWYj_Y1yogvYmkSlTlz0_n.fplH2dDvVWN4iNn_bcsJ
- xhMmgwS5OeTrBZKP8p9bPP17N57htd3G5nkqyTsHwg_W4xRK9hyCDIQY552BBAvLtnMIFkAxHqav
- vN.V.IEIjHTAS2KoPtRf8LZAv65TJ0JEPf2WnRvUTZitWK9v2Jqz.x_nO_asyzUoZC7vhWlIPx02
- cFLpZ4m2gB7Dtz.0jn4jybsqzD5X9IrvSIg_sXAdemfT3w18QLhUJJLAe1Iw7SR1DONexEjz4dqR
- _qRhR0A1LpyJt0WxrYUYur0n4Fp8Juf.M55hOi4vqlhmn8.SgpdtHmdIXuFI2d7pm662zlw.FB3f
- gyuUOgMJQP0.dgo7EOOmlFZpwfCcjmIod9FdEfhh_zi9LwoL86OSwM9zEiuj_H6bA.zDs3URmxrb
- RK2r2LdgM6lZqaXSBaTRphgd3y2jYwSTOsqRvvWIz6AUTVzGotmnTb8.isOF2hr76fRlDLjJl2OL
- 2LuztXeJG4LEtfABnfiXe5pANu1yfauyV2ieViFn9YFsWIhbLLOUCLQ7TUXWWinDyryVvVfdJBYX
- gGmE4GCtRrA920nKUS2JrkuBh6Fau4h9EJKzoINwnVXiHOOIpi6ckV6tU5eKYrJs2SYgaY8gcQkR
- RdL4MBtoFXHHvTxeyENQlHV7xNCavQZ9RfO_5VOtqup9xqLFNBVL7loKPs5cJsHipKg9wghWPNaz
- I_KsD5zzGwB.nNY6VMwSKVzkxfy5kExTntV4eAvpWLmtDbaBeJ.woctKCI7QDndA7TpF2W_gzjcl
- 7q_.QG8QkocAWUjKBzy6BV65inqcg_g1Ec93t6mGbz44KqpSAShhEYgRjyttOTjV6iZG901PtSPW
- CWfvdb_J5iK2bfQRLNRmgLJUHeB8UPbPoWcoLK8gln_.JBMDvNR_dpnTkCBKz.8X2oUnm.YAkgkG
- Vos74h.i_A1OoheTdCg.nl4IMQP8hdwAPU7ZiweJ6mjV8gJclKxboySTsPRcLr3MwkluQwtY5oez
- IbljEIp2u8VlZMRjGwzRyL1NrTBsafrGU
-X-Sonic-MF: <pjp@fedoraproject.org>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic307.consmr.mail.sg3.yahoo.com with HTTP; Thu, 25 Aug 2022 07:12:59 +0000
-Date: Thu, 25 Aug 2022 07:12:57 +0000 (UTC)
-From: P J P <pjp@fedoraproject.org>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
- Fiona Ebner <f.ebner@proxmox.com>
-Cc: "dmitry.fleytman@gmail.com" <dmitry.fleytman@gmail.com>, 
- "jasowang@redhat.com" <jasowang@redhat.com>
-Message-ID: <923204157.2056746.1661411577676@mail.yahoo.com>
-In-Reply-To: <20220824110845.353435-1-f.ebner@proxmox.com>
-References: <20220824110845.353435-1-f.ebner@proxmox.com>
-Subject: Re: [RFC] hw/net/vmxnet3: allow VMXNET3_MAX_MTU itself as a value
+ (Exim 4.90_1) (envelope-from <qtxuning1999@sjtu.edu.cn>)
+ id 1oR769-0000NH-L7
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:16:17 -0400
+Received: from smtp237.sjtu.edu.cn ([202.120.2.237]:51962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qtxuning1999@sjtu.edu.cn>)
+ id 1oR766-00058t-CE
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 03:16:17 -0400
+Received: from mta91.sjtu.edu.cn (unknown [10.118.0.91])
+ by smtp237.sjtu.edu.cn (Postfix) with ESMTPS id 6816A10087D60;
+ Thu, 25 Aug 2022 15:15:53 +0800 (CST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mta91.sjtu.edu.cn (Postfix) with ESMTP id 27F2237C840;
+ Thu, 25 Aug 2022 15:15:53 +0800 (CST)
+X-Virus-Scanned: amavisd-new at 
+Received: from mta91.sjtu.edu.cn ([127.0.0.1])
+ by localhost (mta91.sjtu.edu.cn [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id AMZGiiVXYELg; Thu, 25 Aug 2022 15:15:53 +0800 (CST)
+Received: from mstore105.sjtu.edu.cn (mstore101.sjtu.edu.cn [10.118.0.105])
+ by mta91.sjtu.edu.cn (Postfix) with ESMTP id F3E6737C83F;
+ Thu, 25 Aug 2022 15:15:52 +0800 (CST)
+Date: Thu, 25 Aug 2022 15:15:52 +0800 (CST)
+From: Guo Zhi <qtxuning1999@sjtu.edu.cn>
+To: eperezma <eperezma@redhat.com>
+Cc: jasowang <jasowang@redhat.com>, sgarzare <sgarzare@redhat.com>, 
+ Michael Tsirkin <mst@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Message-ID: <107520028.9018426.1661411752630.JavaMail.zimbra@sjtu.edu.cn>
+In-Reply-To: <CAJaqyWePsPLtZQh8evqOSyaJAQ2HfAcmV+DhapVdGDn-S4dHdg@mail.gmail.com>
+References: <20220818151244.2050-1-qtxuning1999@sjtu.edu.cn>
+ <20220818151244.2050-2-qtxuning1999@sjtu.edu.cn>
+ <CAJaqyWePsPLtZQh8evqOSyaJAQ2HfAcmV+DhapVdGDn-S4dHdg@mail.gmail.com>
+Subject: Re: [RFC 1/2] virtio: expose used buffers
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.20560 YMailNorrin
-Received-SPF: neutral client-ip=106.10.241.37;
- envelope-from=pjp@fedoraproject.org;
- helo=sonic307-20.consmr.mail.sg3.yahoo.com
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FREEMAIL_FORGED_REPLYTO=2.095, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.166.246.247]
+X-Mailer: Zimbra 8.8.15_GA_4308 (ZimbraWebClient - GC103 (Mac)/8.8.15_GA_3928)
+Thread-Topic: virtio: expose used buffers
+Thread-Index: dRHq3V/yiD6Yi17K3D5JrwAMeGrFJg==
+Received-SPF: pass client-ip=202.120.2.237;
+ envelope-from=qtxuning1999@sjtu.edu.cn; helo=smtp237.sjtu.edu.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,32 +70,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: P J P <pj.pandit@yahoo.co.in>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 24 August, 2022, 04:46:21 pm IST, Fiona Ebner <f.ebner@proxmo=
-x.com> wrote:
->Reported by one of our users running into the failing assert():
->https://forum.proxmox.com/threads/114011/#post-492916
->
->- assert(VMXNET3_MIN_MTU <=3D s->mtu && s->mtu < VMXNET3_MAX_MTU);
->+ assert(VMXNET3_MIN_MTU <=3D s->mtu && s->mtu <=3D VMXNET3_MAX_MTU);
-> VMW_CFPRN("MTU is %u", s->mtu);
->
 
-* I wonder if setting s->mtu =3D=3D buffer_upper_limit may lead to an out-o=
-f-bounds access issue?
 
-* IIUC, VMXNET3_MAX_MTU OR s->mtu does not seem to be used to allocate and/=
-or access packet buffer(s)
-=C2=A0 so above check might work, but still it does not seem clean, ie. it =
-may lead to some confusion.
+----- Original Message -----
+> From: "eperezma" <eperezma@redhat.com>
+> To: "Guo Zhi" <qtxuning1999@sjtu.edu.cn>
+> Cc: "jasowang" <jasowang@redhat.com>, "sgarzare" <sgarzare@redhat.com>, "Michael Tsirkin" <mst@redhat.com>,
+> "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+> Sent: Monday, August 22, 2022 10:08:32 PM
+> Subject: Re: [RFC 1/2] virtio: expose used buffers
 
-* Nonetheless, Jason has acked it, so that's good.
+> On Thu, Aug 18, 2022 at 5:13 PM Guo Zhi <qtxuning1999@sjtu.edu.cn> wrote:
+>>
+>> Follow VIRTIO 1.1 spec, we can only writing out a single used ring for a
+>> batch of descriptors, and only notify guest when the batch of
+>> descriptors have all been used.
+>>
+>> We do that batch for tx, because the driver doesn't need to know the
+>> length of tx buffer, while for rx, we don't apply the batch strategy.
+>>
+>> Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
+>> ---
+>>  hw/net/virtio-net.c | 29 ++++++++++++++++++++++++++---
+>>  1 file changed, 26 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>> index dd0d056f..c8e83921 100644
+>> --- a/hw/net/virtio-net.c
+>> +++ b/hw/net/virtio-net.c
+>> @@ -2542,8 +2542,10 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+>>      VirtIONet *n = q->n;
+>>      VirtIODevice *vdev = VIRTIO_DEVICE(n);
+>>      VirtQueueElement *elem;
+>> +    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
+>>      int32_t num_packets = 0;
+>>      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
+>> +    size_t j;
+>>      if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
+>>          return num_packets;
+>>      }
+>> @@ -2621,14 +2623,35 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+>>          }
+>>
+>>  drop:
+>> -        virtqueue_push(q->tx_vq, elem, 0);
+>> -        virtio_notify(vdev, q->tx_vq);
+>> -        g_free(elem);
+>> +        if (!virtio_vdev_has_feature(vdev, VIRTIO_F_IN_ORDER)) {
+>> +            virtqueue_push(q->tx_vq, elem, 0);
+>> +            virtio_notify(vdev, q->tx_vq);
+>> +            g_free(elem);
+>> +        } else {
+>> +            elems[num_packets] = elem;
+>> +        }
+>>
+>>          if (++num_packets >= n->tx_burst) {
+>>              break;
+>>          }
+>>      }
+>> +
+>> +    if (virtio_vdev_has_feature(vdev, VIRTIO_F_IN_ORDER) && num_packets) {
+>> +        /**
+>> +         * If in order feature negotiated, devices can notify the use of a
+>> batch
+>> +         * of buffers to the driver by only writing out a single used ring
+>> entry
+>> +         * with the id corresponding to the head entry of the descriptor chain
+>> +         * describing the last buffer in the batch.
+>> +         */
+>> +        virtqueue_fill(q->tx_vq, elems[num_packets - 1], 0, 0);
+>> +        for (j = 0; j < num_packets; j++) {
+> 
+> There are a few calls on virtqueue_pop that we need to keep cleaning
+> here. For example, the increment on vq->inuse or dma_memory_map/unmap.
+> Maybe it is ok to call virtqueue_detach_element here for all skipped
+> buffers of the batch, but I haven't reviewed it in depth.
 
-Thank you.
----
-=C2=A0 -P J P
-http://feedmug.com
+Yeah, I think I should call virtqueue_detach_element for skipped buffers.
+
+> 
+> Also, if we want to batch, we must increment used idx accordingly.
+> From the standard, "The device then skips forward in the [used] ring
+> according to the size of the batch. Accordingly, it increments the
+> used idx by the size of the batch."
+> 
+
+used_idx has been added by the size of the batch, because of this:
+
+virtqueue_flush(q->tx_vq, num_packets);
+
+Thanks!
+
+> If we are sure virtio-net device will use tx virtqueue in order, maybe
+> it is better to enable the in order feature bit before and then do the
+> batching on top.
+> 
+> Thanks!
+> 
+>> +            g_free(elems[j]);
+>> +        }
+>> +
+>> +        virtqueue_flush(q->tx_vq, num_packets);
+>> +        virtio_notify(vdev, q->tx_vq);
+>> +    }
+>> +
+>>      return num_packets;
+>>  }
+>>
+>> --
+>> 2.17.1
+>>
 
