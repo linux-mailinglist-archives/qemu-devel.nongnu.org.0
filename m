@@ -2,56 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732225A169E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 18:24:24 +0200 (CEST)
-Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35775A16AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 18:28:13 +0200 (CEST)
+Received: from localhost ([::1]:41638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRFeZ-00061F-5d
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 12:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55634)
+	id 1oRFiG-0000Yh-OI
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 12:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1oRFZt-0002mM-NH; Thu, 25 Aug 2022 12:19:34 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1oRFZr-0005lM-JQ; Thu, 25 Aug 2022 12:19:33 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MD7SV0ZFzz67P5W;
- Fri, 26 Aug 2022 00:18:50 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 25 Aug 2022 18:19:10 +0200
-Received: from A2006125610.china.huawei.com (10.48.144.30) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 25 Aug 2022 17:19:05 +0100
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: <imammedo@redhat.com>, <peter.maydell@linaro.org>, <lersek@redhat.com>,
- <linuxarm@huawei.com>, <chenxiang66@hisilicon.com>
-Subject: [PATCH] fw_cfg: Don't set callback_opaque NULL in
- fw_cfg_modify_bytes_read()
-Date: Thu, 25 Aug 2022 17:18:42 +0100
-Message-ID: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
-X-Mailer: git-send-email 2.12.0.windows.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oRFgs-0007UD-1y
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 12:26:46 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oRFgp-00079p-GM
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 12:26:45 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id h24so25291124wrb.8
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 09:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=7BRQRviDzzhZc29Dx67+zWgdByifR3+7lF4XT2StMAc=;
+ b=pguL8hmKsDLTcxgS1FYfKubu9848Qkh1KxHzGRondt0bzEf/1VSvtwxSmLaMpi0Xo0
+ BM3Mg+F+/4M7xcQNBhLxxfDvL8Xnuda/65fuIwmADPLjYFDqbkEy7N9SarinyDlrYkxr
+ 05WSTQBh8hcf4LxFSgasie4jBqjE9YERSK9sXHZBCFAgFQvc+Tzt/mLEToIGKjshMF32
+ d6IIfPoQrISXR022mwLHENiJ7oCbCBewUj3hdSYMJGDr2LCFG3SvjUSPqduwnhkqFVmJ
+ t+Sl3unPEIro2qplrKxQXDVwSV9Dxt+r5ZHy/EeaI+OGl7teobSfjS0At4khZPaRDbHT
+ KS0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=7BRQRviDzzhZc29Dx67+zWgdByifR3+7lF4XT2StMAc=;
+ b=v3I/chF638wO15jyXVmadCCjO9tZbmd7pSMi7PiPEYEuH8/1Kd2F+SlPG+Uv5eT7wD
+ 03QwOjhiazV4+i+qJ+4RPj5kS7uUf+Lz7Y2SCOv+4Zv/L9yscZ4xKZCMOtbuU5yFeQ40
+ MEpwkw/KXnhYELvRTmVvBvs+q3g5mEf5uFDPHKBNTzbogrNd8G4UbFZb7p5yPWVM9pPa
+ wkRDZclS6Fqer/eUTYgflR6Z5+Hjxkg4sT3TfSjAzGXpxkmLhhuER7QtRHjRz0h31H53
+ VK3guFzHiBnpVJ+eoWz6DQBf81GBqW7UvcTLIVyDhUlhZGvP47bydRXfC9V9blH/aEW5
+ qZqw==
+X-Gm-Message-State: ACgBeo1Q2uM+su7IXetTFhh98E//G4kBKmfdkOmma7DwGkrQRcivFly8
+ UDxLWAJ5Sj+YZc3ZxP/DALtvuQ==
+X-Google-Smtp-Source: AA6agR69dpombntxQv3NoCebBH8XZ6YZCEQa6vlHPgeh8j4+asBym+7x2+090ogBudsCRSOU9S/BNQ==
+X-Received: by 2002:a05:6000:2a1:b0:225:7d0e:a8 with SMTP id
+ l1-20020a05600002a100b002257d0e00a8mr2113971wry.322.1661444800499; 
+ Thu, 25 Aug 2022 09:26:40 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bj5-20020a0560001e0500b002206203ed3dsm21620386wrb.29.2022.08.25.09.26.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Aug 2022 09:26:39 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 39C411FFB7;
+ Thu, 25 Aug 2022 17:26:39 +0100 (BST)
+References: <20220822175317.190551-1-thuth@redhat.com>
+ <87ilmhh7nd.fsf@linaro.org>
+ <69e48a9d-a343-5cdc-d0fc-6b38fd9d25fd@amsat.org>
+User-agent: mu4e 1.9.0; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, Gerd Hoffmann
+ <kraxel@redhat.com>
+Subject: Re: [RFC PATCH] tests/vm: Remove obsolete Fedora VM test
+Date: Thu, 25 Aug 2022 17:25:55 +0100
+In-reply-to: <69e48a9d-a343-5cdc-d0fc-6b38fd9d25fd@amsat.org>
+Message-ID: <87a67sgugw.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.48.144.30]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=shameerali.kolothum.thodi@huawei.com;
- helo=frasgout.his.huawei.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,71 +94,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-From:  Shameer Kolothum via <qemu-devel@nongnu.org>
 
-Hi
 
-On arm/virt platform, Chen Xiang reported a Guest crash while
-attempting the below steps,
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-1. Launch the Guest with nvdimm=on
-2. Hot-add a NVDIMM dev
-3. Reboot
-4. Guest boots fine.
-5. Reboot again.
-6. Guest boot fails.
+> On 24/8/22 19:29, Alex Benn=C3=A9e wrote:
+>> Thomas Huth <thuth@redhat.com> writes:
+>>=20
+>>> It's still based on Fedora 30 - which is not supported anymore by QEMU
+>>> since years. Seems like nobody is using (and refreshing) this, and it's
+>>> easier to test this via a container anyway, so let's remove this now.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> Queued to testing/next, thanks.
+>
+> FYI this is the image I'm using to test x86 guest on aarch64/mips64
+> hosts, but I can test a BSD-based instead; I suppose Linux as a guest
+> is already well tested.
 
-QEMU_EFI reports the below error:
-ProcessCmdAddPointer: invalid pointer value in "etc/acpi/tables"
-OnRootBridgesConnected: InstallAcpiTables: Protocol Error
+We already have a lot of coverage in avocado for that. If we want to
+keep a VM image around though it needs updating to something supported
+(either an LTS or more recent Fedora).
 
-Debugging shows that on first reboot(after hot-adding NVDIMM),
-Qemu updates the etc/table-loader len,
+>
+>>> ---
+>>>   tests/vm/Makefile.include |   3 +-
+>>>   tests/vm/fedora           | 190 --------------------------------------
+>>>   2 files changed, 1 insertion(+), 192 deletions(-)
+>>>   delete mode 100755 tests/vm/fedora
+>>>
+>>> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+>>> index 8d2a164552..2cc2203d09 100644
+>>> --- a/tests/vm/Makefile.include
+>>> +++ b/tests/vm/Makefile.include
+>>> @@ -15,7 +15,7 @@ endif
+>>>     EFI_AARCH64 =3D $(wildcard
+>>> $(BUILD_DIR)/pc-bios/edk2-aarch64-code.fd)
+>>>   -X86_IMAGES :=3D freebsd netbsd openbsd fedora haiku.x86_64
+>>> +X86_IMAGES :=3D freebsd netbsd openbsd haiku.x86_64
+>>>   ifneq ($(GENISOIMAGE),)
+>>>   X86_IMAGES +=3D centos
+>>>   ifneq ($(EFI_AARCH64),)
+>>> @@ -45,7 +45,6 @@ vm-help vm-test:
+>>>   	@echo "  vm-build-freebsd                - Build QEMU in FreeBSD VM"
+>>>   	@echo "  vm-build-netbsd                 - Build QEMU in NetBSD VM"
+>>>   	@echo "  vm-build-openbsd                - Build QEMU in OpenBSD VM"
+>>> -	@echo "  vm-build-fedora                 - Build QEMU in Fedora VM"
+>>>   ifneq ($(GENISOIMAGE),)
+>>>   	@echo "  vm-build-centos                 - Build QEMU in CentOS VM, =
+with Docker"
+>>>   ifneq ($(EFI_AARCH64),)
 
-qemu_ram_resize()
-  fw_cfg_modify_file()
-     fw_cfg_modify_bytes_read()
 
-And in fw_cfg_modify_bytes_read() we set the "callback_opaque" for
-the "key" entry to NULL. Because of this, on the second reboot,
-virt_acpi_build_update() is called with a NULL "build_state" and
-returns without updating the ACPI tables. This seems to be 
-upsetting the firmware.
-
-To fix this, don't change the callback_opaque in fw_cfg_modify_bytes_read().
-
-Reported-by: chenxiang <chenxiang66@hisilicon.com>
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
----
-I am still not very convinced this is the root cause of the issue.
-Though it looks like setting callback_opaque to NULL while updating
-the file size is wrong, what puzzles me is that on the second reboot
-we don't have any ACPI table size changes and ideally firmware should
-see the updated tables from the first reboot itself.
-
-Please take a look and let me know.
-
-Thanks,
-Shameer
-
----
- hw/nvram/fw_cfg.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index d605f3f45a..dfe8404c01 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -728,7 +728,6 @@ static void *fw_cfg_modify_bytes_read(FWCfgState *s, uint16_t key,
-     ptr = s->entries[arch][key].data;
-     s->entries[arch][key].data = data;
-     s->entries[arch][key].len = len;
--    s->entries[arch][key].callback_opaque = NULL;
-     s->entries[arch][key].allow_write = false;
- 
-     return ptr;
--- 
-2.17.1
-
+--=20
+Alex Benn=C3=A9e
 
