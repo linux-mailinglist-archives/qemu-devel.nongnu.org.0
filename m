@@ -2,87 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7825A1CE5
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 01:00:58 +0200 (CEST)
-Received: from localhost ([::1]:50322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4085A1CDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 00:59:17 +0200 (CEST)
+Received: from localhost ([::1]:37080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRLqM-0002yR-0t
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 19:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35704)
+	id 1oRLoi-0001Ty-Cq
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 18:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oRLV8-0002zU-Mi; Thu, 25 Aug 2022 18:39:03 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:60491)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1oRLll-0005Y4-OH; Thu, 25 Aug 2022 18:56:13 -0400
+Received: from fencepost.gnu.org ([2001:470:142:3::e]:48270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oRLV6-00065i-Pw; Thu, 25 Aug 2022 18:39:02 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 877CA32009DF;
- Thu, 25 Aug 2022 18:38:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 25 Aug 2022 18:38:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to; s=fm2; t=
- 1661467136; x=1661553536; bh=3YKa6D43m7ChNqM3M8VdySwzz3X/67PrlLE
- g7d9AIlQ=; b=nTVRJ6+aCVvRv1XBOd+KhQR0kTf1xHzP77mqxdodig3ke2DGB5X
- q8AJ3IE7eJY4Uul2OqtKqI0g+gukrF85ucDTmu7vYBGQ6d25aDqGo1LVkPw716yO
- qQ7EVEgBQ1v9jkdQav6doG+HYrplRQonmMb1XYh8o4v+v9DowUuQh3uHFHVUTquB
- gIy/ycuwp7F+zTsadBGJYydfj7mS74z9Jcs/gut0KIMft4qzx48vqNienjbfGX5k
- 6l7p58lUMgm4wJDazBK5oVnDzG9zWk/JWvZhB33GqELgFXU7sA3RJvsnNX1PP/4/
- uT1lKQdbjhGtoPU7DcsbkJ7NU0vZ0CNWj2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661467136; x=
- 1661553536; bh=3YKa6D43m7ChNqM3M8VdySwzz3X/67PrlLEg7d9AIlQ=; b=y
- LQ6jCZnfnadnzb39dVpZK94NsfP8KPBMMwckR1EfwAgvGkez3oLlMTz6ZPTWF88X
- o5Jz/fzpUg+rTX84xqZUzjbM2GhqBfRRmdWcbonn4vmj9n/ISIOPIFPeTITwaeou
- OFIceNB7mG3qQWyS4PAsK2iFu2VAq5J2a3r99l0ULo9PlmgJLPgOexZDd9d1SzAX
- VYrCjEh3bTtqWprs7EZv0bKrRSWQcaVQS5O73DANDiZ17+TYUYvTC3NHVtr+sAMd
- l0PEkX+Uly+CFl+cfv4ydMJ07FoEDmANoBq6agn/2zKaXGlI4uyDkVC/tYuoqgao
- M0jAJITV81j9cz8/iHhGA==
-X-ME-Sender: <xms:__kHY_336hY9dzqFpl0Cg5KEpk0Ej5jiitws9RxkBmhpjrmb304EDA>
- <xme:__kHY-EACygxAxOPNbOBgm2OolmO2IMdqsH2Ta9hb0d00JQGDKGTvRFql_kKE0JHy
- TfUZEi9qhknP8BUN2Q>
-X-ME-Received: <xmr:__kHY_7dRdQkY_f8sIqDIPlgzIuEGlFjGI4EcJc6qwkUmsnUUSur19s9t6Z-2vra-Cpvt9aw5Eb4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgedgudefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
- dmnecujfgurhepfffhvefukfggtggusehttdertddttddvnecuhfhrohhmpefrvghtvghr
- ucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrghtth
- gvrhhnpeduvdfggeegtdffjeffteekjeduhfeugfejvdduieehiedvfffhjeeifefhffeg
- heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvg
- htvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:__kHY00lPVYYBoeIIAb3x_alchxXk9VthBOR3pSoi6iPRR42ZAN5qQ>
- <xmx:__kHYyHUywzvRjOAViS7zCCkfhytbGXmyz42q91KExZ_K1-KXs0zIQ>
- <xmx:__kHY1-UsUAzuJiOFdUDq0_jkKDi6jP7h_x_nHQA3MjdoG9y4CaysQ>
- <xmx:APoHY_MkcioRcIPPGFT0QOOlT1kWq-T8RiCTnBN-zc0uwH5-6JEA9A>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 18:38:54 -0400 (EDT)
-Date: Thu, 25 Aug 2022 15:38:53 -0700
-From: Peter Delevoryas <peter@pjd.dev>
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1oRLlk-0000gS-Tc; Thu, 25 Aug 2022 18:56:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gnu.org;
+ s=fencepost-gnu-org; h=In-Reply-To:MIME-Version:References:Subject:To:From:
+ Date; bh=34QUsbjWUhkfrIZskbLaPt6GUfEKjLFfT5ft17PChjU=; b=Hq4H1HWx8XWnWCk/jQYu
+ HdRvGX7tZon2Wap709DUC4yu6XOMDUd0FouVGmasS1CylcE5wsWjUzRr4olpPX4BaxQ3fF1B6ZcPz
+ oBdg9TUVYisZvFxmlS0c3kcbAHVaGxojgFhgMwQo8GjWYCyhr51wMZMq0z3Ndf00oZ6TrHVUUnBHt
+ DVASnbkSQ8ifIh5YPWlWsiIUyy+BXORUYwHJp3PUc3ze5Uefeirns6CnN70HVc1GrnTB8CCdu+tUt
+ luD3a5XCOAlLFrQb5sOM+NEKQ1AX7nMbz+uBajxiBpbN43IT0duoewB3OqnbKBTzO8b2qw0eajymW
+ pClyGkphmQqHBQ==;
+Received: from [2a01:cb19:956:1b00:de41:a9ff:fe47:ec49] (port=58582 helo=begin)
+ by fencepost.gnu.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1oRLlk-0004UD-Mh; Thu, 25 Aug 2022 18:56:12 -0400
+Received: from samy by begin with local (Exim 4.96)
+ (envelope-from <samuel.thibault@gnu.org>) id 1oRLlj-002l1E-00;
+ Fri, 26 Aug 2022 00:56:11 +0200
+Date: Fri, 26 Aug 2022 00:56:10 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Peter Delevoryas <peter@pjd.dev>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org,
- samuel.thibault@ens-lyon.org, garnermic@fb.com, patrick@stwcx.xyz,
- zhdaniel@fb.com
-Subject: slirp: Can I get IPv6-only DHCP working?
-Message-ID: <Ywf5/cIDTV8OQ/0d@pdel-fedora-MJ0HJWH9>
+ garnermic@fb.com, patrick@stwcx.xyz, zhdaniel@fb.com
+Subject: Re: slirp: Can I get IPv6-only DHCP working?
+Message-ID: <20220825225610.oio5h5bflp4gmaph@begin>
+References: <Ywf5/cIDTV8OQ/0d@pdel-fedora-MJ0HJWH9>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=peter@pjd.dev;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
-X-Spam_action: no action
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Ywf5/cIDTV8OQ/0d@pdel-fedora-MJ0HJWH9>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,14 +61,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm having a hard time figuring this out from looking at the code and the
-user-level help options.
+Hello,
 
-It seems like there's support for an IPv6 dns proxy, and there's literally a
-file called "dhcpv6.c" in slirp, but it has a comment saying it only supports
-whatever is necessary for TFTP network boot I guess. Maybe there's no support
-then? I'm interested in adding it, if that's the case.
+Peter Delevoryas, le jeu. 25 août 2022 15:38:53 -0700, a ecrit:
+> It seems like there's support for an IPv6 dns proxy, and there's literally a
+> file called "dhcpv6.c" in slirp, but it has a comment saying it only supports
+> whatever is necessary for TFTP network boot I guess.
 
-Thanks,
-Peter
+For which DNS support is welcome :)
+
+> Maybe there's no support then?
+
+It seems there is:
+
+    if (ri.want_dns) {
+        *resp++ = OPTION_DNS_SERVERS >> 8; /* option-code high byte */
+        *resp++ = OPTION_DNS_SERVERS; /* option-code low byte */
+        *resp++ = 0; /* option-len high byte */
+        *resp++ = 16; /* option-len low byte */
+        memcpy(resp, &slirp->vnameserver_addr6, 16);
+        resp += 16;
+    }
+
+Samuel
 
