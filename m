@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6715A0EDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:19:34 +0200 (CEST)
-Received: from localhost ([::1]:35600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8725A0F12
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 13:29:26 +0200 (CEST)
+Received: from localhost ([::1]:33852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRAtY-0006A9-OI
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
+	id 1oRB36-0001NP-VF
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 07:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oRAqT-0004AF-2H; Thu, 25 Aug 2022 07:16:21 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:52938 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oRAqQ-0002Ow-79; Thu, 25 Aug 2022 07:16:20 -0400
-Received: from [127.0.0.1] (unknown [221.220.143.85])
- by APP-05 (Coremail) with SMTP id zQCowACXnqb1WQdj+KoFAA--.596S2;
- Thu, 25 Aug 2022 19:16:06 +0800 (CST)
-Message-ID: <7e5708c6-ffad-d867-a232-85ce55ee60b4@ict.ac.cn>
-Date: Thu, 25 Aug 2022 19:16:04 +0800
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRB0l-00086N-53
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:27:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRB0g-0004SK-Id
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 07:26:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661426813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dlP5EkTySxfYP0Gz4F1zDCy+y2jRKl9ixqh4ApeYu8k=;
+ b=a1CfZppbh9HhoO8FTDR1FnH8D4UxDyT4DhRbBrt0it31BDiuS/cz0PqT6LqezeYRkFWkrk
+ sL31v+JqHlHjKjF8Q+ka0CAYaA+9Za6v3o4UoSa4cZ66PanDad2RjVsiQUtoIwbSzAjgLj
+ HkKmXvkoyHsttMlyyj+wzEkY2nV28uU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-184-OhBP4UI-Pzuv3QezFRp5xA-1; Thu, 25 Aug 2022 07:26:50 -0400
+X-MC-Unique: OhBP4UI-Pzuv3QezFRp5xA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A870C8039AE;
+ Thu, 25 Aug 2022 11:26:49 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61FC2C15BBA;
+ Thu, 25 Aug 2022 11:26:49 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D0522180039B; Thu, 25 Aug 2022 13:26:47 +0200 (CEST)
+Date: Thu, 25 Aug 2022 13:26:47 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+Subject: Re: [PATCH v1 08/40] i386/tdx: Adjust the supported CPUID based on
+ TDX restrictions
+Message-ID: <20220825112647.xmtvkoiffyk7aigr@sirius.home.kraxel.org>
+References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
+ <20220802074750.2581308-9-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2 1/3] hw/nvme: support irq(de)assertion with eventfd
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@gmail.com,
- "open list:nvme" <qemu-block@nongnu.org>
-References: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
- <20220825074746.2047420-2-fanjinhao21s@ict.ac.cn> <YwdB//iV62uWeqJK@apples>
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <YwdB//iV62uWeqJK@apples>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowACXnqb1WQdj+KoFAA--.596S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1UZF4kGw1DCw4DZr1fWFg_yoWfWFXEgr
- Z5u3y7tw4UXF48Ka4IywsrAFZIgay0yF92yw1vqanxA347ZF9avr45uryjvwn7Ga1kuwnx
- Ga42qanIyrnrKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbc8YjsxI4VWkKwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAI
- w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
- 4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
- rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
- CI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
- 6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUgg_TUUUUU
-X-Originating-IP: [221.220.143.85]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802074750.2581308-9-xiaoyao.li@intel.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,26 +90,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/2022 5:33 PM, Klaus Jensen wrote:
-> I'm still a bit perplexed by this issue, so I just tried moving
-> nvme_init_irq_notifier() to the end of nvme_init_cq() and removing this
-> first_io_cqe thing. I did not observe any particular issues?
-> 
-> What bad behavior did you encounter, it seems to work fine to me
+  Hi,
 
-The kernel boots up and got stuck, waiting for interrupts. Then the 
-request times out and got retried three times. Finally the driver seems 
-to decide that the drive is down and continues to boot.
+> between VMM and TDs. Adjust supported CPUID for TDs based on TDX
+> restrictions.
 
-I added some prints during debugging and found that the MSI-X message 
-which got registered in KVM via kvm_irqchip_add_msi_route() is not the 
-same as the one actually used in msix_notify().
+Automatic adjustment depending on hardware capabilities isn't going to
+fly long-term, you'll run into compatibility problems sooner or later,
+for example when different hardware with diverging capabilities (first
+vs. second TDX generation) leads to different CPUID capsets in a
+otherwise identical configuration.
 
-Are you sure you are using KVM's irqfd?
+Verification should happen of course, but I think qemu should just throw
+an error in case the tdx can't support a given cpu configuration.
 
-Here is a previous discussion with Keith [1].
+(see also Daniels reply to the cover letter).
 
-[1] 
-https://lore.kernel.org/qemu-devel/YvKJk2dYiwomexFv@kbusch-mbp.dhcp.thefacebook.com/#t
+take care,
+  Gerd
 
 
