@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA375A0AD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 09:55:42 +0200 (CEST)
-Received: from localhost ([::1]:52714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFA85A0AC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Aug 2022 09:53:34 +0200 (CEST)
+Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oR7iH-0005Bc-CL
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 03:55:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43892)
+	id 1oR7gD-0003M9-Gq
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 03:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oR7b4-0006yH-PQ; Thu, 25 Aug 2022 03:48:14 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:57314 helo=cstnet.cn)
+ id 1oR7b4-0006xq-FO; Thu, 25 Aug 2022 03:48:14 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:57316 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oR7b1-0001BE-I6; Thu, 25 Aug 2022 03:48:14 -0400
+ id 1oR7b1-0001BF-1V; Thu, 25 Aug 2022 03:48:14 -0400
 Received: from localhost.localdomain (unknown [159.226.43.62])
- by APP-05 (Coremail) with SMTP id zQCowAAX+ookKQdjLzYIAA--.1273S3;
- Thu, 25 Aug 2022 15:47:57 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAAX+ookKQdjLzYIAA--.1273S4;
+ Thu, 25 Aug 2022 15:47:59 +0800 (CST)
 From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 To: qemu-devel@nongnu.org
 Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
  Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org (open list:nvme)
-Subject: [PATCH v2 1/3] hw/nvme: support irq(de)assertion with eventfd
-Date: Thu, 25 Aug 2022 15:47:44 +0800
-Message-Id: <20220825074746.2047420-2-fanjinhao21s@ict.ac.cn>
+Subject: [PATCH v2 2/3] hw/nvme: use KVM irqfd when available
+Date: Thu, 25 Aug 2022 15:47:45 +0800
+Message-Id: <20220825074746.2047420-3-fanjinhao21s@ict.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
 References: <20220825074746.2047420-1-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAX+ookKQdjLzYIAA--.1273S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ar4DZry7uF4UJFy5XF48Crg_yoW3Gr1kpa
- 4kWrZY9Fs7Gr48Wa1YvFsrAr1ru3yrJryDArsxt347Jwn3Cry3AFWUGF1UtFy5XrZ5Xry5
- Z3yYqF47u348JaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
- x26xkF7I0E14v26r1Y6r1xM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
- vE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
- r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0Ew4C26cxK6c8Ij28Icw
- CY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2Iq
- xVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r
- 126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY
- 6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
- AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuY
- vjfUUJPEUUUUU
+X-CM-TRANSID: zQCowAAX+ookKQdjLzYIAA--.1273S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw43AF17KF43ZFy3XF1xGrg_yoWrXr48pa
+ 4kGrZ5CF4vya4xWa1avrsrAr1ru3yrtryUJ3ySkry7Arn5Kr9xArW8AF1UtFy8Jr98XFy5
+ ZwsFqr4Uua4UXaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUPm14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+ x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+ 8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+ IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+ Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0264kExVAvwVAq07x20x
+ ylc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I
+ 3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
+ WUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
+ cVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
+ AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
+ Xa7sRE189DUUUUU==
 X-Originating-IP: [159.226.43.62]
 X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
 Received-SPF: pass client-ip=159.226.251.84;
@@ -74,253 +74,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the new option 'irq-eventfd' is turned on, the IO emulation code
-signals an eventfd when it want to (de)assert an irq. The main loop
-eventfd handler does the actual irq (de)assertion.  This paves the way
-for iothread support since QEMU's interrupt emulation is not thread
-safe.
-
-Asserting and deasseting irq with eventfd has some performance
-implications. For small queue depth it increases request latency but
-for large queue depth it effectively coalesces irqs.
-
-Comparision (KIOPS):
-
-QD            1   4  16  64
-QEMU         38 123 210 329
-irq-eventfd  32 106 240 364
+Use KVM's irqfd to send interrupts when possible. This approach is
+thread safe. Moreover, it does not have the inter-thread communication
+overhead of plain event notifiers since handler callback are called
+in the same system call as irqfd write.
 
 Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 ---
- hw/nvme/ctrl.c | 136 ++++++++++++++++++++++++++++++++++++++++++-------
- hw/nvme/nvme.h |   4 ++
- 2 files changed, 123 insertions(+), 17 deletions(-)
+ hw/nvme/ctrl.c | 50 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ hw/nvme/nvme.h |  1 +
+ 2 files changed, 49 insertions(+), 2 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 87aeba0564..6ecf6fafd9 100644
+index 6ecf6fafd9..74075f782f 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -526,34 +526,57 @@ static void nvme_irq_check(NvmeCtrl *n)
+@@ -192,6 +192,7 @@
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/sysemu.h"
++#include "sysemu/kvm.h"
+ #include "sysemu/block-backend.h"
+ #include "sysemu/hostmem.h"
+ #include "hw/pci/msix.h"
+@@ -1377,8 +1378,26 @@ static void nvme_deassert_notifier_read(EventNotifier *e)
      }
  }
  
-+static void nvme_irq_do_assert(NvmeCtrl *n, NvmeCQueue *cq)
-+{
-+    if (msix_enabled(&(n->parent_obj))) {
-+        trace_pci_nvme_irq_msix(cq->vector);
-+        msix_notify(&(n->parent_obj), cq->vector);
-+    } else {
-+        trace_pci_nvme_irq_pin();
-+        assert(cq->vector < 32);
-+        n->irq_status |= 1 << cq->vector;
-+        nvme_irq_check(n);
-+    }
-+}
-+
- static void nvme_irq_assert(NvmeCtrl *n, NvmeCQueue *cq)
- {
-     if (cq->irq_enabled) {
--        if (msix_enabled(&(n->parent_obj))) {
--            trace_pci_nvme_irq_msix(cq->vector);
--            msix_notify(&(n->parent_obj), cq->vector);
-+        if (cq->assert_notifier.initialized) {
-+            event_notifier_set(&cq->assert_notifier);
-         } else {
--            trace_pci_nvme_irq_pin();
--            assert(cq->vector < 32);
--            n->irq_status |= 1 << cq->vector;
--            nvme_irq_check(n);
-+            nvme_irq_do_assert(n, cq);
-         }
-     } else {
-         trace_pci_nvme_irq_masked();
-     }
- }
- 
-+static void nvme_irq_do_deassert(NvmeCtrl *n, NvmeCQueue *cq)
-+{
-+    if (msix_enabled(&(n->parent_obj))) {
-+        return;
-+    } else {
-+        assert(cq->vector < 32);
-+        if (!n->cq_pending) {
-+            n->irq_status &= ~(1 << cq->vector);
-+        }
-+        nvme_irq_check(n);
-+    }
-+}
-+
- static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
- {
-     if (cq->irq_enabled) {
--        if (msix_enabled(&(n->parent_obj))) {
--            return;
-+        if (cq->deassert_notifier.initialized) {
-+            /* 
-+             * Event notifier will only be initilized when MSI-X is in use,
-+             * therefore no need to worry about extra eventfd syscall for
-+             * pin-based interrupts.
-+             */
-+            event_notifier_set(&cq->deassert_notifier);
-         } else {
--            assert(cq->vector < 32);
--            if (!n->cq_pending) {
--                n->irq_status &= ~(1 << cq->vector);
--            }
--            nvme_irq_check(n);
-+            nvme_irq_do_deassert(n, cq);
-         }
-     }
- }
-@@ -1338,6 +1361,54 @@ static void nvme_update_cq_head(NvmeCQueue *cq)
-     trace_pci_nvme_shadow_doorbell_cq(cq->cqid, cq->head);
- }
- 
-+static void nvme_assert_notifier_read(EventNotifier *e)
-+{
-+    NvmeCQueue *cq = container_of(e, NvmeCQueue, assert_notifier);
-+    if (event_notifier_test_and_clear(e)) {
-+        nvme_irq_do_assert(cq->ctrl, cq);
-+    }
-+}
-+
-+static void nvme_deassert_notifier_read(EventNotifier *e)
-+{
-+    NvmeCQueue *cq = container_of(e, NvmeCQueue, deassert_notifier);
-+    if (event_notifier_test_and_clear(e)) {
-+        nvme_irq_do_deassert(cq->ctrl, cq);
-+    }
-+}
-+
-+static void nvme_init_irq_notifier(NvmeCtrl *n, NvmeCQueue *cq)
++static int nvme_kvm_msix_vector_use(NvmeCtrl *n,
++                                    NvmeCQueue *cq,
++                                    uint32_t vector)
 +{
 +    int ret;
 +
-+    ret = event_notifier_init(&cq->assert_notifier, 0);
++    KVMRouteChange c = kvm_irqchip_begin_route_changes(kvm_state);
++    ret = kvm_irqchip_add_msi_route(&c, vector, &n->parent_obj);
 +    if (ret < 0) {
-+        goto fail_assert_handler;
++        return ret;
 +    }
-+
-+    event_notifier_set_handler(&cq->assert_notifier,
-+                                nvme_assert_notifier_read);
-+
-+    if (!msix_enabled(&n->parent_obj)) {
-+        ret = event_notifier_init(&cq->deassert_notifier, 0);
-+        if (ret < 0) {
-+            goto fail_deassert_handler;
-+        }
-+
-+        event_notifier_set_handler(&cq->deassert_notifier,
-+                                   nvme_deassert_notifier_read);
-+    }
-+
-+    return;
-+
-+fail_deassert_handler:
-+    event_notifier_set_handler(&cq->deassert_notifier, NULL);
-+    event_notifier_cleanup(&cq->deassert_notifier);
-+fail_assert_handler:
-+    event_notifier_set_handler(&cq->assert_notifier, NULL);
-+    event_notifier_cleanup(&cq->assert_notifier);
++    kvm_irqchip_commit_route_changes(&c);
++    cq->virq = ret;
++    return 0;
 +}
 +
- static void nvme_post_cqes(void *opaque)
+ static void nvme_init_irq_notifier(NvmeCtrl *n, NvmeCQueue *cq)
  {
-     NvmeCQueue *cq = opaque;
-@@ -1377,8 +1448,25 @@ static void nvme_post_cqes(void *opaque)
-         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
-     }
-     if (cq->tail != cq->head) {
--        if (cq->irq_enabled && !pending) {
--            n->cq_pending++;
-+        if (cq->irq_enabled) {
-+            if (!pending) {
-+                n->cq_pending++;
-+            }
-+
-+            if (unlikely(cq->first_io_cqe)) {
-+                /*
-+                 * Initilize event notifier when first cqe is posted. For irqfd 
-+                 * support we need to register the MSI message in KVM. We
-+                 * can not do this registration at CQ creation time because
-+                 * Linux's NVMe driver changes the MSI message after CQ creation.
-+                 */
-+                cq->first_io_cqe = false;
-+
-+                if (n->params.irq_eventfd) {
-+                    nvme_init_irq_notifier(n, cq);
-+                }
-+            }
-+
-         }
++    bool with_irqfd = msix_enabled(&n->parent_obj) &&
++                      kvm_msi_via_irqfd_enabled();
+     int ret;
  
-         nvme_irq_assert(n, cq);
-@@ -4705,6 +4793,14 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
-         event_notifier_set_handler(&cq->notifier, NULL);
+     ret = event_notifier_init(&cq->assert_notifier, 0);
+@@ -1386,8 +1405,21 @@ static void nvme_init_irq_notifier(NvmeCtrl *n, NvmeCQueue *cq)
+         goto fail_assert_handler;
+     }
+ 
+-    event_notifier_set_handler(&cq->assert_notifier,
+-                                nvme_assert_notifier_read);
++    if (with_irqfd) {
++        ret = nvme_kvm_msix_vector_use(n, cq, cq->vector);
++        if (ret < 0) {
++            goto fail_assert_handler;
++        }
++        ret = kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
++                                                 &cq->assert_notifier, NULL, 
++                                                 cq->virq);
++        if (ret < 0) {
++            goto fail_kvm;
++         }
++    } else {
++        event_notifier_set_handler(&cq->assert_notifier,
++                                   nvme_assert_notifier_read);
++    }
+ 
+     if (!msix_enabled(&n->parent_obj)) {
+         ret = event_notifier_init(&cq->deassert_notifier, 0);
+@@ -1404,6 +1436,12 @@ static void nvme_init_irq_notifier(NvmeCtrl *n, NvmeCQueue *cq)
+ fail_deassert_handler:
+     event_notifier_set_handler(&cq->deassert_notifier, NULL);
+     event_notifier_cleanup(&cq->deassert_notifier);
++    if (with_irqfd) {
++        kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &cq->assert_notifier,
++                                              cq->virq);
++fail_kvm:
++        kvm_irqchip_release_virq(kvm_state, cq->virq);
++    }
+ fail_assert_handler:
+     event_notifier_set_handler(&cq->assert_notifier, NULL);
+     event_notifier_cleanup(&cq->assert_notifier);
+@@ -4783,6 +4821,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ 
+ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+ {
++    bool with_irqfd = msix_enabled(&n->parent_obj) &&
++                      kvm_msi_via_irqfd_enabled();
+     uint16_t offset = (cq->cqid << 3) + (1 << 2);
+ 
+     n->cq[cq->cqid] = NULL;
+@@ -4794,6 +4834,12 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
          event_notifier_cleanup(&cq->notifier);
      }
-+    if (cq->assert_notifier.initialized) {
-+        event_notifier_set_handler(&cq->assert_notifier, NULL);
-+        event_notifier_cleanup(&cq->assert_notifier);
-+    }
-+    if (cq->deassert_notifier.initialized) {
-+        event_notifier_set_handler(&cq->deassert_notifier, NULL);
-+        event_notifier_cleanup(&cq->deassert_notifier);
-+    }
-     if (msix_enabled(&n->parent_obj)) {
-         msix_vector_unuse(&n->parent_obj, cq->vector);
+     if (cq->assert_notifier.initialized) {
++        if (with_irqfd) {
++            kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
++                                                  &cq->assert_notifier, 
++                                                  cq->virq);
++            kvm_irqchip_release_virq(kvm_state, cq->virq);
++        }
+         event_notifier_set_handler(&cq->assert_notifier, NULL);
+         event_notifier_cleanup(&cq->assert_notifier);
      }
-@@ -4734,7 +4830,7 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeRequest *req)
-         n->cq_pending--;
-     }
- 
--    nvme_irq_deassert(n, cq);
-+    nvme_irq_do_deassert(n, cq);
-     trace_pci_nvme_del_cq(qid);
-     nvme_free_cq(cq, n);
-     return NVME_SUCCESS;
-@@ -4772,6 +4868,11 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
-     }
-     n->cq[cqid] = cq;
-     cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
-+    /* 
-+     * Only enable irqfd for IO queues since we always emulate admin queue 
-+     * in main loop thread 
-+     */
-+    cq->first_io_cqe = cqid != 0;
- }
- 
- static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
-@@ -7671,6 +7772,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
-     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
-     DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, false),
-+    DEFINE_PROP_BOOL("irq-eventfd", NvmeCtrl, params.irq_eventfd, false),
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-                      params.auto_transition_zones, true),
 diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 79f5c281c2..759d0ecd7c 100644
+index 759d0ecd7c..85fd9cd0e2 100644
 --- a/hw/nvme/nvme.h
 +++ b/hw/nvme/nvme.h
-@@ -398,6 +398,9 @@ typedef struct NvmeCQueue {
+@@ -396,6 +396,7 @@ typedef struct NvmeCQueue {
+     uint64_t    dma_addr;
+     uint64_t    db_addr;
      uint64_t    ei_addr;
++    int         virq;
      QEMUTimer   *timer;
      EventNotifier notifier;
-+    EventNotifier assert_notifier;
-+    EventNotifier deassert_notifier;
-+    bool        first_io_cqe;
-     bool        ioeventfd_enabled;
-     QTAILQ_HEAD(, NvmeSQueue) sq_list;
-     QTAILQ_HEAD(, NvmeRequest) req_list;
-@@ -422,6 +425,7 @@ typedef struct NvmeParams {
-     bool     auto_transition_zones;
-     bool     legacy_cmb;
-     bool     ioeventfd;
-+    bool     irq_eventfd;
-     uint8_t  sriov_max_vfs;
-     uint16_t sriov_vq_flexible;
-     uint16_t sriov_vi_flexible;
+     EventNotifier assert_notifier;
 -- 
 2.25.1
 
