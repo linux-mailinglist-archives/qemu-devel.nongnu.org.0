@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EC75A29AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:38:58 +0200 (CEST)
-Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 794685A29ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:47:27 +0200 (CEST)
+Received: from localhost ([::1]:59620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRaU3-0000SN-14
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
+	id 1oRacI-0005jb-IB
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oRa4z-0000RD-72; Fri, 26 Aug 2022 10:13:01 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:43721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oRa4x-0003zt-2c; Fri, 26 Aug 2022 10:13:00 -0400
-Received: by mail-oi1-x232.google.com with SMTP id w196so2105235oiw.10;
- Fri, 26 Aug 2022 07:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=XZ2+l42NQGkEM1CbxvqM5IAi34JMlT8VNLeZsAU2PwU=;
- b=JuHUWni7JweBBhxOklvCTVfkwQLRIGwWvjRtxoH/nXjp5hI15bkA5dg4PDFh7Cc3VR
- jK0jUZxLnFPYWmIuXyop9IDs1VNUKWUdi8ONNAVDkbiu7sTqgR8CLqI79YZt5oaOENaf
- sYt0MdJgA9Yk4Nt4hDqcg5pWx/Y0WTbRIJ16eItxndIfCYkkhoK+dNgbtkIaGOPJGBmg
- IwzJyeSnaJ2ByyhS3bc6KvvHjXcYfP05BrLWgJA2BgMV1YK4URvQuPY3OmG/wMHZ1ykg
- J8pjSCtt7j8kTRgcOYG3DwpLXQke4jvL+BBM2TfsD3TFrsYF9K8Rt6a6PHDlRTCK7zBw
- 8mNA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oRa5u-0001wS-PA
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:13:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oRa5r-0004EU-Hy
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:13:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661523233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GQ+6AbMK/VzzgwCX5/3G69+rKn+A93ZLmXM6dTBFuQY=;
+ b=RIRZidokG//VIp02lCUdQwqOubl3mmvyOFg3Q/LTdwawnDBsin4J5kojny3SYVumHtiPb9
+ NnhuJ4RqUlMgtCgX2Vhn5JhyYL0MX+qbVD+9p+TdiGcYF+4zYJyE+w8XopmAB+xuL8bMhz
+ oEP1TKnxzpDwSi726XzRLUNVlhuMyHA=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-516-7HogS4rFMROwxgWGpjE8OA-1; Fri, 26 Aug 2022 10:13:50 -0400
+X-MC-Unique: 7HogS4rFMROwxgWGpjE8OA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ w17-20020a05620a425100b006b97978c693so1318609qko.19
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 07:13:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=XZ2+l42NQGkEM1CbxvqM5IAi34JMlT8VNLeZsAU2PwU=;
- b=PleGusDsNpTN26VxdbhJ6ecSeK4nICHcJhBGadP5sUcelkqUSZxnJIBSUdTvurErU8
- ByqR8ezR2FoyNub0xl5cZn0QcrqxiMp1CWZDpVPaywWH6bOtu+aGzFCEUFbysylXTiPU
- 2RInUyMLf/Z77NMEEPD0513xZk0CyPMzoUl+LCGgndTENxx7vxurgADHW+Ri7Ic1cyDo
- 7zgV6u3ZHh3C8NubtpD0C34OC+PIByKtNvFNEGkGR2sEwxu/6oZL8CObNvPFJYtWM3oj
- WmHg3wBm+N/bzy+LlN2OObXHkQwgSf58EG/u64aKn4YdqpkC5WvR4E88EibnPZyn7h7x
- INMQ==
-X-Gm-Message-State: ACgBeo1n9DWhnTj0bMSJeyQS0j7OurytdHOJdXTGXPqAQcWKapPMfuCk
- SolV41Sviz4ZCPIgQy/1IxpHo2vTTsY=
-X-Google-Smtp-Source: AA6agR5CTZbyy1PsGqzceDXdEwSaSBPadcFUHh8q7kSmhrMZKjQkjuYI52nrej/ConCsmhoqM2SfZw==
-X-Received: by 2002:a05:6808:190e:b0:343:335:c0d1 with SMTP id
- bf14-20020a056808190e00b003430335c0d1mr1747315oib.246.1661523176690; 
- Fri, 26 Aug 2022 07:12:56 -0700 (PDT)
-Received: from balboa.COMFAST ([177.189.45.98])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=GQ+6AbMK/VzzgwCX5/3G69+rKn+A93ZLmXM6dTBFuQY=;
+ b=UaSxlx/lhnWUGG44njKV26QWFMyLCIHTYmKig5URWvt9/BzSBkVO1kIWEQc0khbToQ
+ 4ZTxcqZOHdTOv879e2ndD0IWElvTJ8x3CFYtQ1TF2dzz4yWhPnuY0VDjTCF9kkHLkh67
+ JX60hytTfi+PHPD8TGvYlJ9G2FBjJ4OizlCLlzc4c9StLF80xtyjJoxazeXUpqmJDp6W
+ Y5qMcFn8XrVaT3rrcnXCjjP2F2Juk5Jg5983QHWubf/XyL27CzGthhsulOK0/dcSCAFn
+ VF0PiMp2Dnncm78G3I+pJEqJB11XVo1CrUktlINncmEcR6KfNh3kYUS1m6waWK0bhodd
+ 3fqQ==
+X-Gm-Message-State: ACgBeo3/NF64ow+ziImKoUkqpNBxFRzjSlo8yeaeb4N19q1F2P2JcidR
+ grc6gzE825VTuepswsFseA9541z7ccsQ05e3eRGtQfj2WlK4LlUb3RMd8Xmizt+v0m4OqPqJPdN
+ ecRzuPzOVtelpi0w=
+X-Received: by 2002:a05:622a:1343:b0:343:5b7:ffb with SMTP id
+ w3-20020a05622a134300b0034305b70ffbmr8165265qtk.91.1661523229880; 
+ Fri, 26 Aug 2022 07:13:49 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4jReA0QpSlG/6gNrVfZ7v6crpcmNYSzbMoyGBauyk17ML/pe15D/kCE+6aUCVDOP6AseSh8Q==
+X-Received: by 2002:a05:622a:1343:b0:343:5b7:ffb with SMTP id
+ w3-20020a05622a134300b0034305b70ffbmr8165236qtk.91.1661523229665; 
+ Fri, 26 Aug 2022 07:13:49 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a056808064c00b00344aa3f17d9sm1087736oih.10.2022.08.26.07.12.54
+ c3-20020a05620a268300b006bb0f9b89cfsm1905603qkp.87.2022.08.26.07.13.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 07:12:56 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
- alistair.francis@wdc.com, Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 v4 21/21] qmp/hmp,
- device_tree.c: add textformat dumpdtb option
-Date: Fri, 26 Aug 2022 11:11:50 -0300
-Message-Id: <20220826141150.7201-22-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220826141150.7201-1-danielhb413@gmail.com>
-References: <20220826141150.7201-1-danielhb413@gmail.com>
+ Fri, 26 Aug 2022 07:13:49 -0700 (PDT)
+Date: Fri, 26 Aug 2022 10:13:47 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] softmmu/memory: add missing begin/commit
+ callback calls
+Message-ID: <YwjVG+MR8ORLngjd@xz-m1.local>
+References: <20220816101250.1715523-1-eesposit@redhat.com>
+ <20220816101250.1715523-2-eesposit@redhat.com>
+ <Yv6UVMMX/hHFkGoM@xz-m1.local>
+ <e5935ba7-dd60-b914-3b1d-fff4f8c01da3@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e5935ba7-dd60-b914-3b1d-fff4f8c01da3@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,182 +104,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QMP/HMP 'dumpdtb' command is saving the FDT blob to be decoded using
-'dtc' like the '-machine dumpdtb' always did. However, after adding
-support for the 'info fdt' command, we're now able to format a full FDT
-in text format - which is what 'info fdt /' already does.
+On Fri, Aug 26, 2022 at 03:53:09PM +0200, Emanuele Giuseppe Esposito wrote:
+> What do you mean "will empty all regions with those listeners"?
+> But yes theoretically vhost-vdpa and physmem have commit callbacks that
+> are independent from whether region_add or other callbacks have been called.
+> For kvm and probably vhost it would be no problem, since there won't be
+> any list to iterate on.
 
-Let's extend the 'dumpdtb' QMP/HMP command with the capability of saving
-the FDT in plain text format. A new textformat '-t' option was added to
-it. With this option, qemu_fdt_qmp_dumpdtb() will call
-qemu_fdt_qmp_query_fdt() to retrieve the human string that represents
-the output of 'info fdt /' and write it to the file.
+Right, begin()/commit() is for address space update, so it should be fine
+to have nothing to commit, sorry.
 
-This will allow users to dump the FDT in a text file and immediately
-open it to see its contents, without the need of an extra step to decode
-a dtb blob with 'dtc'. Here's an example:
+> 
+> I'll implement a new macro to handle this.
 
-(qemu) dumpdtb fdt.dtb
+Sounds good.  Thanks,
 
-$ file fdt.dtb
-fdt.dtb: Device Tree Blob version 17, size=15458, boot CPU=0, string block
-size=2318, DT structure block size=13084
-
-(qemu) dumpdtb -t fdt.txt
-
-$ file fdt.txt
-fdt.txt: ASCII text, with very long lines (4746)
-
-$ grep -A 3 'persistent-memory' fdt.txt
-    ibm,persistent-memory {
-        device_type = "ibm,persistent-memory";
-        #size-cells = <0x0>;
-        #address-cells = <0x1>;
-    };
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hmp-commands.hx              |  7 ++++---
- include/sysemu/device_tree.h |  3 ++-
- monitor/hmp-cmds.c           |  3 ++-
- monitor/qmp-cmds.c           |  8 +++++---
- qapi/machine.json            |  2 +-
- softmmu/device_tree.c        | 25 ++++++++++++++++++++++---
- 6 files changed, 36 insertions(+), 12 deletions(-)
-
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 2dd737078e..8a9595cc26 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1808,8 +1808,9 @@ SRST
- ERST
-     {
-         .name       = "dumpdtb",
--        .args_type  = "filename:F",
--        .params     = "filename",
--        .help       = "save the FDT in the 'filename' file to be decoded using dtc",
-+        .args_type  = "textformat:-t,filename:F",
-+        .params     = "[-t] filename",
-+        .help       = "save the FDT in the 'filename' file to be decoded using dtc."
-+                       "Use '-t' to save the file in text (dts) format.",
-         .cmd        = hmp_dumpdtb,
-     },
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index 551a02dee2..082ff69751 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -138,7 +138,8 @@ int qemu_fdt_add_path(void *fdt, const char *path);
-     } while (0)
- 
- void qemu_fdt_dumpdtb(void *fdt, int size);
--void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
-+void qemu_fdt_qmp_dumpdtb(const char *filename, bool textformat,
-+                          Error **errp);
- HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath,
-                                           bool has_propname,
-                                           const char *propname,
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 320204e982..ffcb9ffb67 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2476,9 +2476,10 @@ exit_no_print:
- void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
- {
-     const char *filename = qdict_get_str(qdict, "filename");
-+    bool textformat = qdict_get_try_bool(qdict, "textformat", false);
-     Error *local_err = NULL;
- 
--    qmp_dumpdtb(filename, &local_err);
-+    qmp_dumpdtb(true, textformat, filename, &local_err);
- 
-     if (local_err) {
-         hmp_handle_error(mon, local_err);
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index ca2a96cdf7..8d625e5e7d 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -599,9 +599,10 @@ bool apply_str_list_filter(const char *string, strList *list)
- }
- 
- #ifdef CONFIG_FDT
--void qmp_dumpdtb(const char *filename, Error **errp)
-+void qmp_dumpdtb(bool has_textformat, bool textformat,
-+                 const char *filename, Error **errp)
- {
--    return qemu_fdt_qmp_dumpdtb(filename, errp);
-+    return qemu_fdt_qmp_dumpdtb(filename, textformat, errp);
- }
- 
- HumanReadableText *qmp_x_query_fdt(const char *nodepath, bool has_propname,
-@@ -610,7 +611,8 @@ HumanReadableText *qmp_x_query_fdt(const char *nodepath, bool has_propname,
-     return qemu_fdt_qmp_query_fdt(nodepath, has_propname, propname, errp);
- }
- #else
--void qmp_dumpdtb(const char *filename, Error **errp)
-+void qmp_dumpdtb(bool has_textformat, bool textformat,
-+                 const char *filename, Error **errp)
- {
-     error_setg(errp, "dumpdtb requires libfdt");
- }
-diff --git a/qapi/machine.json b/qapi/machine.json
-index c15ce60f46..8573f96da8 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1680,7 +1680,7 @@
- #
- ##
- { 'command': 'dumpdtb',
--  'data': { 'filename': 'str' } }
-+  'data': { '*textformat':'bool', 'filename': 'str' } }
- 
- ##
- # @x-query-fdt:
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index ad2386295b..34af31552d 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -645,8 +645,10 @@ out:
-     return ret;
- }
- 
--void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp)
-+void qemu_fdt_qmp_dumpdtb(const char *filename, bool textformat, Error **errp)
- {
-+    g_autoptr(HumanReadableText) txt = NULL;
-+    void *contents = NULL;
-     int size;
- 
-     if (!current_machine->fdt) {
-@@ -654,9 +656,26 @@ void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp)
-         return;
-     }
- 
--    size = fdt_totalsize(current_machine->fdt);
-+    if (textformat) {
-+        /*
-+         * 'info fdt /' returns all the FDT in text format, formatted
-+         * with a style close to what 'dtc' uses to decode the blob
-+         * to a .dts.
-+         */
-+        txt = qemu_fdt_qmp_query_fdt("/", false, NULL, errp);
-+
-+        if (!txt) {
-+            return;
-+        }
-+
-+        contents = txt->human_readable_text;
-+        size = strlen(txt->human_readable_text);
-+    } else {
-+        contents = current_machine->fdt;
-+        size = fdt_totalsize(current_machine->fdt);
-+    }
- 
--    if (g_file_set_contents(filename, current_machine->fdt, size, NULL)) {
-+    if (g_file_set_contents(filename, contents, size, NULL)) {
-         return;
-     }
- 
 -- 
-2.37.2
+Peter Xu
 
 
