@@ -2,56 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AFB5A2B75
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:42:10 +0200 (CEST)
-Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B205A2BBC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:54:40 +0200 (CEST)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbTF-00012Z-HD
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42024)
+	id 1oRbfL-0007Lf-FH
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oRayY-0003pb-9B; Fri, 26 Aug 2022 11:10:28 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:40298 helo=cstnet.cn)
+ id 1oRb0J-000645-Ls
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:12:15 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:40570 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oRayV-0004y4-I4; Fri, 26 Aug 2022 11:10:25 -0400
-Received: from smtpclient.apple (unknown [221.220.143.85])
- by APP-05 (Coremail) with SMTP id zQCowADX3KRP4ghjEUB5AA--.15513S2;
- Fri, 26 Aug 2022 23:10:09 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH 3/3] hw/nvme: add iothread support
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oRb0H-0005JC-Bg
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:12:15 -0400
+Received: from localhost.localdomain (unknown [159.226.43.62])
+ by APP-05 (Coremail) with SMTP id zQCowAB3v4_J4ghjTGF5AA--.15491S2;
+ Fri, 26 Aug 2022 23:12:10 +0800 (CST)
 From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <20220826111834.3014912-4-fanjinhao21s@ict.ac.cn>
-Date: Fri, 26 Aug 2022 23:10:06 +0800
-Cc: Klaus Jensen <its@irrelevant.dk>, kbusch@kernel.org, stefanha@gmail.com,
- "open list:nvme" <qemu-block@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B37413A3-5A2E-404A-8BB0-DF618FCBE324@ict.ac.cn>
-References: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
- <20220826111834.3014912-4-fanjinhao21s@ict.ac.cn>
-To: qemu-devel <qemu-devel@nongnu.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: zQCowADX3KRP4ghjEUB5AA--.15513S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKryUCF47uw1fuFy3Ar45trb_yoWDGrgEgF
- s8Xas7XayDuw1avw4Y9r1Yqa1ft3yjqr1rG3y5A3Wxt3ykXa1fZr10gF13CayDC345u3W7
- WFW5C3WkA3WqgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbFAYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2Iq
- xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
- 106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
- xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
- xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8
- JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU86OJ5UUUUU==
-X-Originating-IP: [221.220.143.85]
+To: qemu-devel@nongnu.org
+Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Subject: [PATCH v2 0/3] iothread and irqfd support
+Date: Fri, 26 Aug 2022 23:12:02 +0800
+Message-Id: <20220826151206.3148942-1-fanjinhao21s@ict.ac.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAB3v4_J4ghjTGF5AA--.15491S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruw43GF1kZFW8WrykJw1xAFb_yoWxurc_uF
+ Wvg34rZa1xZF1rJa4q9F17Jry5K3yrWw42vF1qgFy2qryjv3s8ur4qyry3ZF18Zay0qF13
+ JF1DAryfu3srWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbc8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW5WwCF
+ 04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+ 18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+ r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+ 1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+ 6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUj189UUUUU
+X-Originating-IP: [159.226.43.62]
 X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
 Received-SPF: pass client-ip=159.226.251.84;
  envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
@@ -75,44 +71,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 7:18 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
+This patch series adds support for using a seperate iothread for NVMe
+IO emulation, which brings the potential of applying polling. The
+first two patches implements support for irqfd, which solves thread
+safety problems for interrupt emulation outside the main loop thread.
 
-> @@ -4979,7 +5007,13 @@ static void nvme_init_cq(NvmeCQueue *cq, =
-NvmeCtrl *n, uint64_t dma_addr,
->         }
->     }
->     n->cq[cqid] =3D cq;
-> -    cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, =
-cq);
-> +
-> +    if (cq->cqid) {
-> +        cq->timer =3D aio_timer_new(n->ctx, QEMU_CLOCK_VIRTUAL, =
-SCALE_NS,
-> +                                  nvme_post_cqes, cq);
-> +    } else {
-> +        cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, =
-nvme_post_cqes, cq);
-> +    }
->=20
->     /*
->      * Only enable irq eventfd for IO queues since we always emulate =
-admin
-> @@ -4988,6 +5022,13 @@ static void nvme_init_cq(NvmeCQueue *cq, =
-NvmeCtrl *n, uint64_t dma_addr,
->     if (cqid && n->params.irq_eventfd) {
->         nvme_init_irq_notifier(n, cq);
->     }
-> +
-> +    if (cq->cqid) {
-> +        cq->timer =3D aio_timer_new(n->ctx, QEMU_CLOCK_VIRTUAL, =
-SCALE_NS,
-> +                                  nvme_post_cqes, cq);
-> +    } else {
-> +        cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, =
-nvme_post_cqes, cq);
-> +    }
-> }
+Changes since v1:
+ - Avoid duplicate initilization of cq timer
 
-Duplicated initialization of cq->timer.=
+Jinhao Fan (3):
+  hw/nvme: support irq(de)assertion with eventfd
+  hw/nvme: use KVM irqfd when available
+  hw/nvme: add iothread support
+
+ hw/nvme/ctrl.c       | 328 +++++++++++++++++++++++++++++++++++++++----
+ hw/nvme/ns.c         |  21 ++-
+ hw/nvme/nvme.h       |  12 +-
+ hw/nvme/trace-events |   3 +
+ 4 files changed, 335 insertions(+), 29 deletions(-)
+
+-- 
+2.25.1
 
 
