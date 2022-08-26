@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAB65A326F
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 01:15:48 +0200 (CEST)
-Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBFCD5A3292
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 01:24:36 +0200 (CEST)
+Received: from localhost ([::1]:52634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRiYE-0002ze-LM
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 19:15:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37316)
+	id 1oRigl-0006JH-V7
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 19:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRiUp-0006K0-IM
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:12:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32027)
+ id 1oRiUr-0006LT-BE
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:12:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRiUm-0007o8-2A
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:12:13 -0400
+ id 1oRiUm-0007oC-Ad
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:12:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661555530;
+ s=mimecast20190719; t=1661555531;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=As2ZeU0wzMT4WOBdzNRkCUVG7sVj/g+E5RnIygpeOzs=;
- b=Pk9hhwbYFUD+Jbp41+eNV+FoGYFppjCegkEfWJH+ZsKWG6V3flqipup0II7jQLmVo2/cBl
- v9S5qZ785js2H2CquJXJ2o746IhSvJQGZgKvN1mEGJkT1aveE/SihTd1ZICbvRuN5K8Ni5
- ddxIpIMjeBWTbNbO3ufpkJ4x2AF06Pg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u/fwrBqwwUlpPhd+8wo68HHqIUYopdT2IYzo8vQkQ5M=;
+ b=CqHFxuhgmI1Ju0VsS0g1p3UrZJP69Z6OM35+Rhibud1sIUONiYbRhrxTPMY6w1f5qy0J7r
+ 5xdh2C6Pej+q6KT4Cgz8Z/py3/v0N79FUzf/NfRU08tu7s762/MGlk3OzmI+KG2nTzq7AP
+ +YxMjAbjwFn6/h6jocy+b944XdyIzCM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-153-kX8yfGeDPOCOxViWSGH0_Q-1; Fri, 26 Aug 2022 19:12:08 -0400
-X-MC-Unique: kX8yfGeDPOCOxViWSGH0_Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z20-20020a05640235d400b0043e1e74a495so1868991edc.11
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 16:12:08 -0700 (PDT)
+ us-mta-100-di8361FSO0eQtYQCgjOGYg-1; Fri, 26 Aug 2022 19:12:10 -0400
+X-MC-Unique: di8361FSO0eQtYQCgjOGYg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z20-20020a05640235d400b0043e1e74a495so1869019edc.11
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 16:12:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=As2ZeU0wzMT4WOBdzNRkCUVG7sVj/g+E5RnIygpeOzs=;
- b=F69xtgvMv7R1bPtRMjY7q0RIaV7mnkYkg74z+eygn0LgEK4gi43VAwrbkmSTDYZTqK
- VakQ9SwcspuDW06+uGQRSngRsEhWG1I69Rl6yKT/5JOSXJmz09tKmlZPh4ZiUfY5d7/3
- 4Z3uKw0wqmS3WsHeasAOPtERL22s//GF9eglbgtBBfbATMGfKF4w3OgqXRwi6xldIw5f
- 9MWKO8E2IYkFf3YeKAJ6DQw4XuNQwy9xN2QV16Eb/S8diGmssXghDD+aWPYuOUuzttHn
- YJZE9ODLsBQuCVa9gOJIGDysvNB09UBdSRHLTZwpvGDJousCIUpEjbuuJCqMwcvQ5yfn
- On+A==
-X-Gm-Message-State: ACgBeo27F7i1HE2NB/SSjbBKtr2fe1IhfIFJ6PP0a140L6F90Nz1P8CH
- BIQ6ICEoJUNqYKZKAPXq/mle8vaZruRoHK+bmxjXzstwGc0aZ9LMT+Hyy5JAmoJ9CuUf6NuFqbi
- Jrn82d6uO83oHUSxQ6fUEHt1YkidQiN5QsXVbFsxtkRWwzff2xsw2bgRD18O12XPiDIA=
-X-Received: by 2002:a05:6402:2802:b0:43a:9098:55a0 with SMTP id
- h2-20020a056402280200b0043a909855a0mr8348773ede.179.1661555527558; 
- Fri, 26 Aug 2022 16:12:07 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR43y7RZIoXR5gyApS12/9jVMEY8sNn7XlfySB0J8buizp0+3hDdDGYUCFyFi2eEUvUNItSxDw==
-X-Received: by 2002:a05:6402:2802:b0:43a:9098:55a0 with SMTP id
- h2-20020a056402280200b0043a909855a0mr8348755ede.179.1661555527159; 
- Fri, 26 Aug 2022 16:12:07 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=u/fwrBqwwUlpPhd+8wo68HHqIUYopdT2IYzo8vQkQ5M=;
+ b=0itBvxeLvB6dohAun94CrNhlv/9Lfa5KEyDrbHOsT8cbf5Bb2AWTfbuN/OmRCyLuYT
+ g68S0NCPGRW9XOFnv9ARnLzsbMVtSNyfwN9Q09euuEY4cD6bkPy+g3f1NkP06X5crL8Z
+ /YZQvr6jOtrjb09wYE8esiP10sxaV/7WW1rehcCx9hQMb9xRsr0bL/6tE8Gz2NNYGlJW
+ c2CD8RI9tENIo0KmfsMj+koBUrY129dXx1KIVAa0Xa49Q6DOmPMq8yN+r7k2NdVovznw
+ ie3lqiOZX/J5nytlZY+Ut04/A3pywt5K68oMVJbfNadNAcj/WvgxiRqjRxamjJGv/Fw4
+ RX6g==
+X-Gm-Message-State: ACgBeo1AHKduGoftBXiXHs2qlPwdi8YWGicqwjEqZZ08E5JpEN7zrrWv
+ TUaG5kuCCDyrX2ckNqlk/ypsfkrZJ7d6hGLgXECbenwCgXMM1fnEIChVZS5yNbqxT9G2mp5rMcq
+ e9gn1X78vjlm9p/9sVqeLXMJazbEkEZ1k7z4Yg1+kZLOsZxyD+EAd5pmCcOIvlrVjS+s=
+X-Received: by 2002:a17:906:770d:b0:73c:a08f:593c with SMTP id
+ q13-20020a170906770d00b0073ca08f593cmr7085376ejm.182.1661555528812; 
+ Fri, 26 Aug 2022 16:12:08 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6JyYDJrprd1FCqLoJzasVpAqcTpTtb+dicSqSVJD2qBPeC7dvh30a328528OJPhtMLRGqxEQ==
+X-Received: by 2002:a17:906:770d:b0:73c:a08f:593c with SMTP id
+ q13-20020a170906770d00b0073ca08f593cmr7085362ejm.182.1661555528493; 
+ Fri, 26 Aug 2022 16:12:08 -0700 (PDT)
 Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- d26-20020a170906305a00b007308812ce89sm1354998ejd.168.2022.08.26.16.12.05
+ 21-20020a170906319500b007402796f065sm1172177ejy.132.2022.08.26.16.12.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 16:12:06 -0700 (PDT)
+ Fri, 26 Aug 2022 16:12:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	paul@nowt.org
-Subject: [PATCH v2 00/23] target/i386: make most SSE helpers generic in the
- vector size
-Date: Sat, 27 Aug 2022 01:11:41 +0200
-Message-Id: <20220826231204.201395-1-pbonzini@redhat.com>
+Subject: [PATCH 01/23] i386: do not use MOVL to move data between SSE registers
+Date: Sat, 27 Aug 2022 01:11:42 +0200
+Message-Id: <20220826231204.201395-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220826231204.201395-1-pbonzini@redhat.com>
+References: <20220826231204.201395-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,69 +99,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the first half of Paul's series from last April, reorganized
-to have no occurrence of YMM_ONLY or SHIFT == 2---meaning it can be
-committed without much fuss, even without a plan for the implementation
-of AVX decoding.
+Write down explicitly the load/store sequence.
 
-In most cases this is done by using loops that apply the same code for
-all of MMX/SSE/AVX, and in fact this series removes basically all uses
-of XMM_ONLY in the code.
+Extracted from a patch by Paul Brook <paul@nowt.org>.
 
-In some cases AVX needs special-casing for the two 128-bit lanes and then
-this code is simply missing.  The missing helper code is only 10 lines
-though, so this _is_ the lion share of the work to adapt the existing
-helpers.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/tcg/translate.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-The full work, with the AVX parts rebased on top of these, is at branch
-i386-avx of https://gitlab.com/bonzini/qemu.  The branch passes the
-tests that Paul had posted, while this reduced part passes the reduced
-SSE version.
-
-Paolo
-
-v1->v2: get rid of XMM_ONLY
-	do not special case PMULHRW (yet)
-	remove dead macro for blend
-	do not copy table entries on the stack
-	remove AVXisms from sse_op_table rework
-	extract more code from the AVX patches
-
-Based-on: <20220825164827.392942-1-pbonzini@redhat.com>
-
-Paolo Bonzini (6):
-  i386: do not use MOVL to move data between SSE registers
-  i386: formatting fixes
-  i386: check SSE table flags instead of hardcoding opcodes
-  i386: isolate MMX code more
-  i386: Add size suffix to vector FP helpers
-  i386: do not cast gen_helper_* function pointers
-
-Paul Brook (17):
-  i386: Add ZMM_OFFSET macro
-  i386: Rework sse_op_table1
-  i386: Rework sse_op_table6/7
-  i386: Move 3DNOW decoder
-  i386: Add CHECK_NO_VEX
-  i386: Rewrite vector shift helper
-  i386: Rewrite simple integer vector helpers
-  i386: Misc integer AVX helper prep
-  i386: Destructive vector helpers for AVX
-  i386: Floating point arithmetic helper AVX prep
-  i386: reimplement AVX comparison helpers
-  i386: Dot product AVX helper prep
-  i386: Destructive FP helpers for AVX
-  i386: Misc AVX helper prep
-  i386: Rewrite blendv helpers
-  i386: AVX pclmulqdq prep
-  i386: AVX+AES helpers prep
-
- target/i386/ops_sse.h        | 1770 +++++++++++++++++-----------------
- target/i386/ops_sse_header.h |   68 +-
- target/i386/tcg/translate.c  |  831 +++++++++-------
- 3 files changed, 1404 insertions(+), 1265 deletions(-)
-
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index b7972f0ff5..3237c1d8f9 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -3295,8 +3295,10 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                                 offsetof(CPUX86State, xmm_regs[reg].ZMM_L(3)));
+             } else {
+                 rm = (modrm & 7) | REX_B(s);
+-                gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(0)),
+-                            offsetof(CPUX86State,xmm_regs[rm].ZMM_L(0)));
++                tcg_gen_ld_i32(s->tmp2_i32, cpu_env,
++                               offsetof(CPUX86State, xmm_regs[rm].ZMM_L(0)));
++                tcg_gen_st_i32(s->tmp2_i32, cpu_env,
++                               offsetof(CPUX86State, xmm_regs[reg].ZMM_L(0)));
+             }
+             break;
+         case 0x310: /* movsd xmm, ea */
 -- 
 2.37.1
+
 
 
