@@ -2,96 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53195A2EA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 20:40:23 +0200 (CEST)
-Received: from localhost ([::1]:57810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62ADE5A2F6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 20:58:15 +0200 (CEST)
+Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oReFi-0001CM-OX
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 14:40:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49384)
+	id 1oReX0-0005Fl-3k
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 14:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oReCl-0007Bz-IC
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 14:37:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50779)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oReVB-0003Zi-S0; Fri, 26 Aug 2022 14:56:21 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:27760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oReCi-0006EX-7B
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 14:37:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661539035;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ji7f1H6EGeK5+QBaB2Hc1oUsGVMpSCOw1Nj0ruL1d/I=;
- b=dS0txiyuJYaFmVEMJlYzi3R3yhL44lvUw1/8WijDbCjXqMHNvQ8/UYaoSJZxGuPjjEe0IN
- R8YhtlciyFeuROZROv0G9rLhq4sRXhm1SUbpJSMCRhwN5yWMFgjqQ+rSAak8vgdAIHNSLk
- 54vfDD7WHL6IiCkJGZ4CiBOR1cIZ1B4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-198-Ek_T6s0eOpGHYSzU7LUqKQ-1; Fri, 26 Aug 2022 14:37:13 -0400
-X-MC-Unique: Ek_T6s0eOpGHYSzU7LUqKQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b16-20020a05600c4e1000b003a5a47762c3so1326413wmq.9
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 11:37:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=Ji7f1H6EGeK5+QBaB2Hc1oUsGVMpSCOw1Nj0ruL1d/I=;
- b=4VjnXQQUyAZFkTY0aj+y6ZWYsx1VFeqBWHuiyvWsAuodAQnI17NqzpV05peKI+CrI/
- gvw4T/h2GPJkejVPlu9AIKfesbs/cxO70Jcw4FUnVwyC6tzN6lrk/bGFiXGtcIwrIH85
- 40jcGS0AqSrsBoOdH6XL+dKFmG7ei+UigdEN3wAuOAr0A3nZBYDJlJKTCDUasDTd4gmn
- 4fqUht4SZxBI8WIZt9Rs7q/HEyi2u4cS9pkCd11EqBubGez0lbNOr917XDAYrI8zF99g
- 1DknFLZFj7EZQ2ettDkVVahPE63yknmJ/dKwvbOpFtGZbEkxkYNO0sOfVwWICjhlprVA
- jxdw==
-X-Gm-Message-State: ACgBeo3dqsdg4Ap6tAl7ZJcUfa4DYdpGr88K4fi+j0XW0ZNM60B2G/bt
- 4n5GD6RxRMAdC8GdXL6yasq4d6lRd2i6lN0LjAGXIxMvGEUxGG0B9sEW8+y1dli2p6QORGrGGeh
- GXtXqe9YenJjmILI=
-X-Received: by 2002:adf:fd0b:0:b0:225:760b:9198 with SMTP id
- e11-20020adffd0b000000b00225760b9198mr501726wrr.551.1661539032835; 
- Fri, 26 Aug 2022 11:37:12 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR62/oQTJlsC+ePwbTJioOTiBECylwc4SGyRPXY89q2ZkI5ZNddsSiKwUCahEioehndliAQWNQ==
-X-Received: by 2002:adf:fd0b:0:b0:225:760b:9198 with SMTP id
- e11-20020adffd0b000000b00225760b9198mr501709wrr.551.1661539032555; 
- Fri, 26 Aug 2022 11:37:12 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-60.customers.d1-online.com.
- [80.187.98.60]) by smtp.gmail.com with ESMTPSA id
- i15-20020a05600c400f00b003a54f1d007csm430738wmm.10.2022.08.26.11.37.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 11:37:12 -0700 (PDT)
-Message-ID: <3381587e-a056-7b5a-d479-54e5f1aa09a3@redhat.com>
-Date: Fri, 26 Aug 2022 20:37:10 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oReV9-00016h-FA; Fri, 26 Aug 2022 14:56:21 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7182674632B;
+ Fri, 26 Aug 2022 20:56:11 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3832D7461AE; Fri, 26 Aug 2022 20:56:11 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 366E5745702;
+ Fri, 26 Aug 2022 20:56:11 +0200 (CEST)
+Date: Fri, 26 Aug 2022 20:56:11 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
+ david@gibson.dropbear.id.au, alistair.francis@wdc.com
+Subject: Re: [PATCH for-7.2 v4 06/21] hw/ppc: set machine->fdt in
+ sam460ex_load_device_tree()
+In-Reply-To: <20220826141150.7201-7-danielhb413@gmail.com>
+Message-ID: <32f11c71-b8c4-1af0-2c39-166dc6f013ac@eik.bme.hu>
+References: <20220826141150.7201-1-danielhb413@gmail.com>
+ <20220826141150.7201-7-danielhb413@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 18/25] tests/lcitool: bump to latest version
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Ed Maste <emaste@freebsd.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
-References: <20220826172128.353798-1-alex.bennee@linaro.org>
- <20220826172128.353798-19-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220826172128.353798-19-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,82 +62,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/08/2022 19.21, Alex Bennée wrote:
-> We need this to be able to cleanly build the x86 cross images. There
-> are a few minor updates triggered by lcitool-refresh.
+On Fri, 26 Aug 2022, Daniel Henrique Barboza wrote:
+> This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
+> the sam460ex machine.
 
-Maybe mention that this will add "libslirp" to the freebsd vars - which will 
-be helpful when we finally remove the slirp submodule from QEMU (thanks to 
-Daniel for refreshing lcitool for this!).
+This only works when booting with -kernel not when the firmware is used 
+which creates its own DT. (The same is true for pegasos2 but there VOF is 
+the default as the firmware is not free like for sam460ex.) After reading 
+the other comments I wonder if this info fdt command is really useful or 
+would it be easier to boot some simple Linux guest and inspect the device 
+tree from there. The dumpdtb command might be simple enough and a bit more 
+useful for debugging before the guest boots but that alone could be enough 
+as external tools can be used to decode the binary dump. The info fdt 
+might be too complex and an overkill if it might not even work or give 
+correct results. But I don't mind either way and not against adding it 
+just noted the possible shortcoming here.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+(In case you do another iteration I wouldn't mind if the comment could be 
+shortened to one line instead of 4 but it's not critical. Something like:
 
+/* Set machine->fdt for dumpdtb and info fdt QMP/HMP commands */
 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+would be enough and use less space. The current one is unnecessarily 
+verbose for a simple line.)
+
+Regards,
+BALATON Zoltan
+
+> Cc: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
->   .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
->   tests/docker/dockerfiles/opensuse-leap.docker | 2 +-
->   tests/docker/dockerfiles/ubuntu2004.docker    | 2 +-
->   tests/lcitool/libvirt-ci                      | 2 +-
->   5 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
-> index 8fa5a320e9..1a5959810f 100644
-> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
->   NINJA='/usr/local/bin/ninja'
->   PACKAGING_COMMAND='pkg'
->   PIP3='/usr/local/bin/pip-3.8'
-> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
->   PYPI_PKGS=''
->   PYTHON='/usr/local/bin/python3'
-> diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
-> index 8ed7e33a77..5e5aafd7e5 100644
-> --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-> +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-> @@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
->   NINJA='/usr/local/bin/ninja'
->   PACKAGING_COMMAND='pkg'
->   PIP3='/usr/local/bin/pip-3.8'
-> -PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-> +PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
->   PYPI_PKGS=''
->   PYTHON='/usr/local/bin/python3'
-> diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-> index 047a435ab5..193df305af 100644
-> --- a/tests/docker/dockerfiles/opensuse-leap.docker
-> +++ b/tests/docker/dockerfiles/opensuse-leap.docker
-> @@ -127,7 +127,7 @@ RUN zypper update -y && \
->       ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
->       ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
->   
-> -RUN pip3 install meson==0.56.0
-> +RUN /usr/bin/pip3 install meson==0.56.0
->   
->   ENV LANG "en_US.UTF-8"
->   ENV MAKE "/usr/bin/make"
-> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-> index 99803b343b..e1f4ed7c80 100644
-> --- a/tests/docker/dockerfiles/ubuntu2004.docker
-> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-> @@ -137,7 +137,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
->       ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
->       ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
->   
-> -RUN pip3 install meson==0.56.0
-> +RUN /usr/bin/pip3 install meson==0.56.0
->   
->   ENV LANG "en_US.UTF-8"
->   ENV MAKE "/usr/bin/make"
-> diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
-> index 324355cf62..be7d1f2c7f 160000
-> --- a/tests/lcitool/libvirt-ci
-> +++ b/tests/lcitool/libvirt-ci
-> @@ -1 +1 @@
-> -Subproject commit 324355cf62e86fb551408575afb123bac989ac37
-> +Subproject commit be7d1f2c7fb8c1462592b96c15c4358285d37230
-
+> hw/ppc/sam460ex.c | 8 +++++++-
+> 1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 0357ee077f..413a425d37 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -138,6 +138,7 @@ static int sam460ex_load_device_tree(hwaddr addr,
+>                                      hwaddr initrd_size,
+>                                      const char *kernel_cmdline)
+> {
+> +    MachineState *machine = MACHINE(qdev_get_machine());
+>     uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(ramsize) };
+>     char *filename;
+>     int fdt_size;
+> @@ -209,7 +210,12 @@ static int sam460ex_load_device_tree(hwaddr addr,
+>                               EBC_FREQ);
+>
+>     rom_add_blob_fixed(BINARY_DEVICE_TREE_FILE, fdt, fdt_size, addr);
+> -    g_free(fdt);
+> +
+> +    /*
+> +     * Update the machine->fdt pointer to enable support for
+> +     * 'dumpdtb' and 'info fdt' QMP/HMP commands.
+> +     */
+> +    machine->fdt = fdt;
+>
+>     return fdt_size;
+> }
+>
 
