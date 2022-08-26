@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F535A2A09
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:52:30 +0200 (CEST)
-Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52A45A2A37
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:01:23 +0200 (CEST)
+Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRahB-0002aW-8e
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:52:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46594)
+	id 1oRapm-0001pd-On
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:01:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAo-0000eY-Q3
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:03 -0400
-Received: from mout.gmx.net ([212.227.15.18]:56667)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAp-0000ew-LB
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:04 -0400
+Received: from mout.gmx.net ([212.227.15.15]:40995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-00055R-MW
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:02 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-00055O-Rg
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1661523535;
- bh=lPtKkG9XisVFJUR1ll9RmaJAtOBuQapADhw77JY1SiM=;
+ bh=2qvus0U1Qcq+tymskvFkUyGJqKVQ/WZ7b2//9XLrNAI=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=MgYDuyEJ2ZWhtap8uKPtEJ+jyGXJsy7lZ1iUsEjHcqyFllnb7sgFRuElkm3kiOteD
- i60pg9XUWmaHSUD+Nvspm7I3ldxMvfyUk3JrElXGAwtGbOopBJTrbMvicqDHdDcmW6
- xJgmNkCjtB5etPnJjSnXOZw0AvjIPqIbvff7DzBg=
+ b=WsnuHA2appTzhaYdcAriiGlAIWw0zWHos8JWiGHYJcPhQNjTLd9rT+KRgZpdo7AnV
+ OrRr3JcNE5ef8ZjIK1oLjV0hGopHNimsOnTquV6GTMxxhnrY3kzsBuVwm0hXZuMDMH
+ R5AchE+J9QtCUcxhlOJGqhBJqhCfFQZiSUZQ7PqY=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.171.190]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mjj8D-1p86rc2cPL-00lDQ1; Fri, 26
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MLzBj-1ojO8c37c9-00HyZ1; Fri, 26
  Aug 2022 16:18:55 +0200
 From: Helge Deller <deller@gmx.de>
 To: Laurent Vivier <laurent@vivier.eu>,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 12/13] linux-user: Add close_range() syscall
-Date: Fri, 26 Aug 2022 16:18:52 +0200
-Message-Id: <20220826141853.419564-13-deller@gmx.de>
+Subject: [PATCH 13/13] linux-user: Add parameters of getrandom() syscall for
+ strace
+Date: Fri, 26 Aug 2022 16:18:53 +0200
+Message-Id: <20220826141853.419564-14-deller@gmx.de>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220826141853.419564-1-deller@gmx.de>
 References: <20220826141853.419564-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Jdmq421NWoMoQ952udopVyleCDzoMI2KUxEcjOxBzbPiDpfFG2x
- /RkHNtUNNy14ANzqg3hXOVNVpSQex5ZEAHIa8a9Gk5D6sk7pnaMbU7Z7bomb8uulElnQH1z
- Imm2hwwu1DNG6eb4rqJpE5ob9wjvpSHiQHF48oRc5AGUF/KthkAKUdXyIq8f5aagVEDSJH2
- DB1Qws5da5gj9a0NTc1CA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+Dhq8rLWZLU=:IoTUdA80Dxq99IaLlxqemC
- Tf99NCf/huGRqKJzuqD5ie8sFc9ot9eEf4CMPQbZNfifnnbVKpjaVDOG44cvUQ5uiV7ibkj7E
- Em9i/wAsz12FKnw9+BBqLf1Szs8Fhw07/AscFPFBmOcgJ0YSwSwoAuRUixItKvibBUcsNnMok
- BUubzKB89bGoh5cclw9TQnh1Ueqm71Ok62s5cNIyUm0eHpFTJB8WclC+pdEjcCIkh7Ay/+8eW
- H1c1oJKNs9pOI81mQm70bpnz9KFGuzUQAkii2K4PiVtG9UWr3Evti+W3D8GzGyDcq1+xyl7Wf
- bCN/znnIZjDGjbaYATg7kdi3EdjHb/bMluIt+ShPFYj6vsymDWAQ3XQPfbfpx5dgtFqwhzGOA
- ayCJqeaAszMbBMYO12qN0qhubk/sTVXodVD02QVxBcz/xgXXFSSCrzxnEG0E48J7Vu6YZ6KY4
- dTuqSZ40cO7l68bu0FTSpBV9c75boqwlkXlQd47JkEZU6eEjmRXYvs0D0luEIcs7LmtBS0ezr
- +BP71tUcEXwvTklXwNLARcAro7Sw49VtNsKjmchqCglBu53hdS9aj+ewkADdt2VKUn1QUlwfY
- SoiN42JHNwTCfhLGTgD6AHwqxjgrhGtiUWDgK5x7ZNpuEmA0l6kPXZ0FCP2WUhTMBah3WXdwL
- OUYrBU2Oi5JcB2GfTd2P1Y/aSJo0EICx5Ub6nHRdXcg3b0mGBDCTqal5NRuU/uE0oWvYEJrgW
- 4qAFhWEO5i5S2ck4ww5I342/xoH3wyX7+kQ3fHifhE+tmtq7NK5wIzbdGr3IEKQxE1W6OuXCs
- cksdmjzXaQNv8g87T1l3b1TYcGf0r6ZdMbPiri2UqZAEBwQlvkawGMk+F8bwqbiJ5obapRzJw
- urhisxT5OdIOceL44km1Sp/9phQPLqXgogdmdLATMoa9L0s9vYpW7k78MKf5DD1BFGMRyTuLh
- 88zxQ7LCyx72QaEeDEiXiwKhtoT3FNqhWNggX/3WlfKofgIBm8PfLOQ4m7vCkRlL23e6B4a0S
- jrG/vTJJ1b9C5N+CzwiwBKMScsEIkoVDR9rK/A8GFzskWlR1XzAkGi9GrNy9jCLmPbnAPghmU
- JVi2C87fUOTWwA9Zvz+c0ZQmaW4cwN7ra4IDYDVst0pAI0X4WlFzoaVaA==
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:NFAgJDiUFT2vpvdqUpmPuXRFF0a5lkP2Xbk7TRR60Vg9FIdngVm
+ 4IomLIAy1AsTl0dQGDa0TuilBnzTAKTcEgJf4rC/6PS0Isddz2HuVlvoVnafqKNjcukpfMt
+ fLZWhtp2gHbdTt8VxGwqtdzhq/nmk6ZWyxRbebe1fPW20iH3iBRtuZvP+fTYoWZ+p6zx81c
+ R+ScpzJA5B5qeD03qNnPw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eT7pfxJfEKw=:9DZubapLY+cV36kMhYCHqH
+ mdWEk5M8N7xJT5XrEPwww81SlqjuIDvTff/tTv+8URp6KeyR+nu18kkOTwM9tg3KPBYGDdmgb
+ ISdtl7pFUoDT15P+1Hr8/Zm1l3H+ZJ+alkTNvtXfzrvjgAenGkMKi8QlwLLaYXDmdMGBuoGP4
+ jPswbb4CJBVEUG5sS1ss9Eca2ZzxspfPNwmuSsZWSDdTdOd6F7O6RuUyRd4yvWfjN34u9XY5I
+ RnhlZ/yyCeuRAt1dKrom60SEOt/ZLVnDwyl/6C/HWFZz0vBeV6e48k7jBC+aGzqrBcOzshOHb
+ S7i+uekqBi/JInKniqtxDgpdhHUQLzU5XZcOrEHWJ3HFfvjsgnYDzS9FdOryQqdCT1HnTal+2
+ oY7/ycBW+laMhk94IKvBWzQnk7VPVZoa0sg/kyEEiHQ0VF8DC/0G4CVdcZIG/3XlH7xATWXdd
+ f1kG2LhDur76Rx3xgDxpnajE8fDKA0Q0/huG9qy4F7l2/GhkCuxKg9hg8uZUKKrTFRYZkfEkK
+ Y3rbZ98ZM0pJQO4RwEy+rKbgvXJPzEORBjTIJE2M3x7ru1JXn4+XtDnvbbGqbFSbhjMH48GuC
+ NXqlw0dfS9uKjtLJG4KxK2oqwz7FW86802cvrYnRDVxvoyV/GadH5XIkkSqYoQzEIblIpHFwh
+ HUwySmiQG+tdM1r7hUPnO1aBUzw6Z2f7zK5HdkJzaIMk79M/sMx1zk5qaRShOigwovUwXFA0a
+ lW0D+21OrxSSEwQDBfcYso2GRUcdB1xc6El+lN+5+rdoAymyc1+bwt+3J53TcoQLxFH1q9sSs
+ m85itroTXOvUTT+Ulq6WTPA+lcvzcylSqVRdIIBBulyX3r4zvSLT12IHBHT7zlGwTnyE0TyLC
+ TqIyN+GdOxQzY801cVGygGmLtiLyux/3AshLos86tzTIoa2A+56Dsmw/ZT+GUDtX4FXmMHanM
+ lG7Bwvs8t2jiGT2x05LMiU4QDV+bp9qHk9wgcFHHyL2T5ZGPdiBIG7zVlekn7p18kAs6JsFiJ
+ XaRQmraQeuWkOVcPHhv+ZDXD2z9iLUSW0hOEfCS9STvlkE9WOaUdKIYcpNtCCh4uhsMSgMmUm
+ K32jr52adCbGWMc7wDFZlCbin8H4hbzPIGaosSGoFbRFVCAPlv1+hNFEA==
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -87,49 +88,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/strace.list |  3 +++
- linux-user/syscall.c   | 12 ++++++++++++
- 2 files changed, 15 insertions(+)
+ linux-user/strace.list | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 0463415902..4560a01d88 100644
+index 4560a01d88..da8c1bf34e 100644
 =2D-- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -103,6 +103,9 @@
- #ifdef TARGET_NR_close
- { TARGET_NR_close, "close" , "%s(%d)", NULL, NULL },
+@@ -358,7 +358,7 @@
+ { TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
  #endif
-+#ifdef TARGET_NR_close_range
-+{ TARGET_NR_close_range, "close_range" , "%s(%d,%d,%d)", NULL, NULL },
-+#endif
- #ifdef TARGET_NR_connect
- { TARGET_NR_connect, "connect" , "%s(%d,%#x,%d)", NULL, NULL },
+ #ifdef TARGET_NR_getrandom
+-{ TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
++{ TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%d)", NULL, NULL },
  #endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index a1e6d4ad53..0becaad74c 100644
-=2D-- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8724,6 +8724,18 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
-int num, abi_long arg1,
-     case TARGET_NR_close:
-         fd_trans_unregister(arg1);
-         return get_errno(close(arg1));
-+#ifdef TARGET_NR_close_range
-+    case TARGET_NR_close_range:
-+        {
-+            abi_long fd;
-+            abi_long maxfd =3D (arg2 =3D=3D (abi_long)-1) ? target_fd_max=
- : arg2;
-+
-+            for (fd =3D arg1; fd <=3D maxfd; fd++) {
-+                fd_trans_unregister(fd);
-+            }
-+        }
-+        return get_errno(close_range(arg1, arg2, arg3));
-+#endif
-
-     case TARGET_NR_brk:
-         return do_brk(arg1);
+ #ifdef TARGET_NR_getresgid
+ { TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
 =2D-
 2.37.1
 
