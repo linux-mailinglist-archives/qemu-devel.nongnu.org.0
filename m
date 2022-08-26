@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7DD5A2B11
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:25:11 +0200 (CEST)
-Received: from localhost ([::1]:44118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D535A2AB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:13:45 +0200 (CEST)
+Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbCn-0003pM-35
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:25:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44666)
+	id 1oRb1j-0007uR-Ln
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=230e0beed=ross.lagerwall@citrix.com>)
- id 1oRaUv-0001zx-5g
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:39:49 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:9262)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRaZF-0000qL-90
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:44:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=230e0beed=ross.lagerwall@citrix.com>)
- id 1oRaUc-0008Jn-6m
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:39:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1661524770;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=qOHz7UwiXZ4COUOR8BPF1+HdCeBnln/qDcLQAxAw3J4=;
- b=eVQqb9kHx/xOzgQ1FYEeE2AwfAeV3ityOHPhqH2ES0Jm2+2hj8aI89h1
- CERRdFb8y+36Rj/IG+md0JIKyTNzGpkf43Y3/DFkcVAyXk1kThB7QWNC2
- etM3Lt01niJ2E0qxetpw0zDFm8e+/RpavzzeWwxe8wexZRlpB9d3QRlzH A=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 2.7
-X-MesageID: 78787761
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:P9KyL6PRwz92HoDvrR35l8FynXyQoLVcMsEvi/4bfWQNrUoi0D0Ay
- 2cXWmqOb/+Ka2P1ett0boq0o0gHsJWAyNY2Swto+SlhQUwRpJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdleF+lH3dOCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kqsyj5UAbeKRWmthg
- vuv5ZyEULOZ82QsaDhMu/jd8EkHUMna41v0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- woU5Ojklo9x105F5uKNyt4XQGVTKlLhFVHmZk5tc7qjmnB/Shkaic7XAha+hXB/0F1ll/gpo
- DlEWAfZpQ0BZsUgk8xFO/VU/r0X0QSrN9YrLFDm2fF/wXEqfFP879hRBmYnEbce0dwtDDpfy
- eM8Nj0CO0Xra+KemNpXS8Fpj8UnasLqIJkeqjdryjSx4fQOGM6ZBf+QvJkBgWl21psm8fX2P
- qL1bRJ1aw/bJRlGNVoNF5s6mM+jh2Xlci0eo1WQzUYyyzeDk1wuj+a0WDbTUvm1RepHwhy+n
- UGFwHzlXAwRNuCdyRPQpxpAgceQxHimCer+DoaQ7/NvnRify3IeDDUQUl20p+T/jVSxM/pEN
- 0Ea8ywkhawz8lG7CMf7UgH+oXSB+BUbXrJt//YSsV/XjPCOukDAWzZCHmUphMEaWNEeVRAH6
- VWujv/TAxdV6rDOWE6C0qmZombnUcQKFlPudRPoXCNcvYe6/NFv1k+XJjpwOPXr14OoQFkc1
- xjP9XFj3OtL0Kbnwo3hpTj6bySQSo8lp+LfziHeRSqb4wxwf+ZJjKT4uAGAvZ6swGt0J2RtX
- UToeODEtYji9bnXyESwrBwlRdlFHcqtPjzGmkJIFJI87Tmr8HPLVdkOvmgieR02a5ZUIWOBj
- KrvVeR5tfdu0IaCN/crM+pd9exxpUQfKTgVfq+NNYcfCnSAXASG4DtvdSat4owZq2B1yPlXB
- HtuWZzzZZrsIfg4kWHeqiZ0+eND+x3SMkuIFcyhk0n4iub2ibz8Ye5tDWZip9sRtMusyDg5O
- f4FXydW432ziNHDXxQ=
-IronPort-HdrOrdr: A9a23:g4QDn6pOm3UCziQ1we6xDgoaV5oleYIsimQD101hICG8cqSj9v
- xG+85rsiMc6QxhIU3I9urwW5VoLUmyyXcX2/h0AV7BZniFhILAFugLhuGOrwEIcxeOkNK1vp
- 0BT0ERMrPN5CBB/KPH3DU=
-X-IronPort-AV: E=Sophos;i="5.93,265,1654574400"; d="scan'208";a="78787761"
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-CC: <qemu-devel@nongnu.org>, Ross Lagerwall <ross.lagerwall@citrix.com>
-Subject: [PATCH] tpm_crb: Avoid backend startup just before shutdown under Xen
-Date: Fri, 26 Aug 2022 15:38:41 +0100
-Message-ID: <20220826143841.1515326-1-ross.lagerwall@citrix.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRaZ9-0000qv-CU
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:44:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661525050;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HVp4JGBIXQpSm3kQ4cm6KMRIYGQ5gLwGRVip8fUB6E8=;
+ b=GoHpNVx7mdLy9ThRLpkSwS/uSGPuwlL2AQvwg+Pji1Ub2r85UqWC6rkroSVwLcdxGORwrG
+ T8QtrXKQu8PhC8S2XVdpSdlJDwsALOCVS1wWoGf4jaUSCtQfrsskG/9NXt3IQcRCfKIZ+h
+ N9VBw6esQ5iLWD+Nl0BAAg5ZsqObe4c=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-391-YXDO6NuMMaKTISe6LCL71g-1; Fri, 26 Aug 2022 10:44:09 -0400
+X-MC-Unique: YXDO6NuMMaKTISe6LCL71g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f7-20020a1c6a07000000b003a60ede816cso591607wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 07:44:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=HVp4JGBIXQpSm3kQ4cm6KMRIYGQ5gLwGRVip8fUB6E8=;
+ b=AJi0/TstUPgDKK49bcoKNw6ynAGRfbdAqWWTOnnDUq6RX2gw+bYCiwjN859A5LkzKT
+ wrClePg6KxuVq2LgMWu0eLTI7hbQVo9b66yKTHA0FdZPxlkgVmAiAZC4lgeGXGRSILk+
+ KdBFMwmq5IO8gtdaSPTnU2n+eIE7j89vJTswrlJS7q5/l2eauG8nJ0/7pmLSt4sTIVSO
+ hbur8X63uFjkeYuSEGnOV/OoWLJb/VnJVgQ6gHaezZ2oIFo5P/yuN/iFDhkiZzGo7d18
+ lTpJ/nMDjsi9pSDah2g69klq3kD7pcjr906Yt3llBEIJs6fb1vTaUPospZFZNcT3QR4+
+ y8tg==
+X-Gm-Message-State: ACgBeo34EZ+Zq5hm/t9BA53MV9VEHbIo4PFX1NwNdNIACXNai51bKWrN
+ yKBgYdjEwwlQeHvsMWKnE1bsCJcIa87gMjzXL95AipuDBgf8Qvbx2x2xM7nGXGtiKdAA5cEgEDd
+ TOcpMvD2YBQo57+o=
+X-Received: by 2002:a05:600c:19d0:b0:3a6:2eb1:cfa5 with SMTP id
+ u16-20020a05600c19d000b003a62eb1cfa5mr11395398wmq.37.1661525048165; 
+ Fri, 26 Aug 2022 07:44:08 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4xM2jiGQdFFne/iBakDZMTEjwBdHcVQtdLe6W3ZAC7kwXp6gfwTYPKGS38y+6gnIPv2vq6ww==
+X-Received: by 2002:a05:600c:19d0:b0:3a6:2eb1:cfa5 with SMTP id
+ u16-20020a05600c19d000b003a62eb1cfa5mr11395380wmq.37.1661525047899; 
+ Fri, 26 Aug 2022 07:44:07 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c708:f600:abad:360:c840:33fa?
+ (p200300cbc708f600abad0360c84033fa.dip0.t-ipconnect.de.
+ [2003:cb:c708:f600:abad:360:c840:33fa])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020a5d4307000000b002205a5de337sm1964576wrq.102.2022.08.26.07.44.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 07:44:07 -0700 (PDT)
+Message-ID: <e0a5f20c-32a5-b57d-0b32-3b1256243b02@redhat.com>
+Date: Fri, 26 Aug 2022 16:44:06 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=prvs=230e0beed=ross.lagerwall@citrix.com;
- helo=esa6.hc3370-68.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
+ to the commit phase
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+References: <20220816101250.1715523-1-eesposit@redhat.com>
+ <20220816101250.1715523-3-eesposit@redhat.com>
+ <6cb75197-1d9e-babd-349a-3e56b3482620@redhat.com>
+ <c1e0a91e-5c95-8c10-e578-39e41de79f6a@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <c1e0a91e-5c95-8c10-e578-39e41de79f6a@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,54 +109,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Ross Lagerwall <ross.lagerwall@citrix.com>
-From:  Ross Lagerwall via <qemu-devel@nongnu.org>
 
-When running under Xen and the guest reboots, it boots into a new domain
-with a new QEMU process (and a new swtpm process if using the emulator
-backend). The existing reset function is triggered just before the old
-QEMU process exists which causes QEMU to startup the TPM backend and
-then immediately shut it down. This is probably harmless but when using
-the emulated backend, it wastes CPU and IO time reloading state, etc.
+On 26.08.22 16:32, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 26/08/2022 um 16:15 schrieb David Hildenbrand:
+>> On 16.08.22 12:12, Emanuele Giuseppe Esposito wrote:
+>>> Instead of sending a single ioctl every time ->region_* or ->log_*
+>>> callbacks are called, "queue" all memory regions in a list that will
+>>> be emptied only when committing.
+>>>
+>>
+>> Out of interest, how many such regions does the ioctl support? As many
+>> as KVM theoretically supports? (32k IIRC)
+>>
+> 
+> I assume you mean for the new ioctl, but yes that's a good question.
+> 
+> The problem here is that we could have more than a single update per
+> memory region. So we are not limited anymore to the number of regions,
+> but the number of operations * number of region.
+> 
+> I was thinking, maybe when pre-processing QEMU could divide a single
+> transaction into multiple atomic operations (ie operations on the same
+> memory region)? That way avoid sending a single ioctl with 32k *
+> #operation elements. Is that what you mean?
 
-Fix this by calling the reset function directly from realize() when
-running under Xen. During a reboot, this will be called by the QEMU
-process for the new domain.
+Oh, so we're effectively collecting slot updates and not the complete
+"slot" view, got it. Was the kernel series already sent so I can have a
+look?
 
-Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
----
+Note that there are some possible slot updates (like a split, or a
+merge) that involve multiple slots and that would have to be part of the
+same "transaction" to be atomic.
 
-This conditional logic is ugly. Is there a cleaner way of doing this?
 
- hw/tpm/tpm_crb.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index 67db594c48..ea930da545 100644
---- a/hw/tpm/tpm_crb.c
-+++ b/hw/tpm/tpm_crb.c
-@@ -26,6 +26,7 @@
- #include "sysemu/tpm_backend.h"
- #include "sysemu/tpm_util.h"
- #include "sysemu/reset.h"
-+#include "sysemu/xen.h"
- #include "tpm_prop.h"
- #include "tpm_ppi.h"
- #include "trace.h"
-@@ -308,7 +309,11 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
-                      TPM_PPI_ADDR_BASE, OBJECT(s));
-     }
- 
--    qemu_register_reset(tpm_crb_reset, dev);
-+    if (xen_enabled()) {
-+        tpm_crb_reset(dev);
-+    } else {
-+        qemu_register_reset(tpm_crb_reset, dev);
-+    }
- }
- 
- static void tpm_crb_class_init(ObjectClass *klass, void *data)
 -- 
-2.31.1
+Thanks,
+
+David / dhildenb
 
 
