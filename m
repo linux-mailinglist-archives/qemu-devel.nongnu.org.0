@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937365A305A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 22:12:59 +0200 (CEST)
-Received: from localhost ([::1]:39884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736825A305C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 22:14:49 +0200 (CEST)
+Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRfhK-0002xS-Cv
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 16:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41572)
+	id 1oRfj6-0004ry-Cz
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 16:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRffM-0000ja-E5
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:10:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20916)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oRfh3-0002vb-P4
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:12:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRffK-0004ti-2S
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:10:55 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oRfgx-0005Br-NV
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:12:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661544653;
+ s=mimecast20190719; t=1661544755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p0eZ0aCvybjQ3UFTC6wlzW5OH/zqD+362HdHfb/A6CY=;
- b=OPDqkA1qnvHJifuEUtesVrtq2kv3ChDUq9r3XuB5lhSBNoh8GqERZz/30NH6D+5+6FWwcM
- J00kjq0AynE6KUxdvhjngUorRZMYA+uw3UCSvTKZ7PsfU7Njl2Juq+5TSLnznLG2+4n1lF
- pImMNC3N+bfCptMI8K/FmxsFS5uTH9E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uyQwhEtgprk3kKjqa+kOaCMyCDw7XVOmK7qNdrar+sE=;
+ b=dw20S8ve8RfzYsHsJ/k8Kkk0P/1WvofwjhGMm5BfOTIclXXZrnck6b/jMLTrXWNCLi3tjp
+ xIUG2FNfWX7T/5EKqNGD+IfIUbatoGSH5MOll67C02YcNhtNh0OlysADYUXq0p5lefCPsS
+ 6esIGZZAPV0lUW4HWEZq+MXQ1LJI8+8=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-425-8cGESoRuNcKAo1RMUxaGzA-1; Fri, 26 Aug 2022 16:10:52 -0400
-X-MC-Unique: 8cGESoRuNcKAo1RMUxaGzA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v17-20020adfa1d1000000b0022574d4574aso329524wrv.22
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 13:10:52 -0700 (PDT)
+ us-mta-669-hl57m8EtO9Knl-zLK2HAig-1; Fri, 26 Aug 2022 16:12:33 -0400
+X-MC-Unique: hl57m8EtO9Knl-zLK2HAig-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ i27-20020a056512007b00b00492dd93ca9dso351194lfo.8
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 13:12:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=p0eZ0aCvybjQ3UFTC6wlzW5OH/zqD+362HdHfb/A6CY=;
- b=JObE2QufbG7A8A1TBUooVPgo12Oeq9WuPism+5VUAyumeqs83cf6bplibCVMQol22j
- 8q7i5u7O5BDZVfcAl1FHymbj0u++IiqSLsB6nOI2Ltke/GYMn4Rfxdo7TK1rN8PUdI0t
- P9JKRd3LXAIOT9jtIz8LPvpIdFApKiS76EroPoRAHdk2oEsjgru8+lNd3k2cNj/j9EMc
- 1FicY1W5AsLHXZMbcGcipiK9dae9WVK/wKo6bAEze9SlMA1h14hA07Iu+65dRL4C1e7X
- LNZHDVzfO0H1u1EI0vIBjU7TYWt1GCFTpZcobKDkegHSouk4BIiI32NyH2yn+mzWRpQK
- 64gQ==
-X-Gm-Message-State: ACgBeo3nhikR6DBTzdL+D/XTGqPjjEjT46oZPJeQb6t0YxN/gMsXdTJq
- hstCTFyGOfV/NS79kd4v99KR2uV1oxfDh75/tu1r7eE+F0tmkFC/+DQ9URmfeltlSNnHcw0tnE+
- vhWQzJI0+cH1LKMs=
-X-Received: by 2002:a5d:4649:0:b0:225:309d:1d51 with SMTP id
- j9-20020a5d4649000000b00225309d1d51mr705031wrs.450.1661544651294; 
- Fri, 26 Aug 2022 13:10:51 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5IwW9huEnhWS0BoGPB4WJKsmAyvmQIyb5s54tajHuRRedAri/D5240r7zrVcSj+mGdXDvioQ==
-X-Received: by 2002:a5d:4649:0:b0:225:309d:1d51 with SMTP id
- j9-20020a5d4649000000b00225309d1d51mr705014wrs.450.1661544651044; 
- Fri, 26 Aug 2022 13:10:51 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-60.customers.d1-online.com.
- [80.187.98.60]) by smtp.gmail.com with ESMTPSA id
- a11-20020adfed0b000000b002206236ab3dsm638223wro.3.2022.08.26.13.10.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 13:10:50 -0700 (PDT)
-Message-ID: <c6bb6c7d-dd69-0b6d-12ef-d458cbe85a4e@redhat.com>
-Date: Fri, 26 Aug 2022 22:10:48 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=uyQwhEtgprk3kKjqa+kOaCMyCDw7XVOmK7qNdrar+sE=;
+ b=dOc4Ya4d50ChN+4uLRvQQFi+liPE5paEsoqhkeO4cZkmQGoKYJ9jLOo8tf3hthGpIq
+ sHk3WKNTbZUmJ2OImWFBP0pCU7PoPNXrJMuqtImiLxr34oKiLKloxlVHyrZzzBcREKTN
+ 1MZ5Z6QCCP58rtvGokvBD2hvzEfWw1ajKrQijmR13KJS1q2baH6aVa7sEdApiqc4Gs2p
+ DY2PYO66DOFKHFCPKsPt+a4pOoP2mgWDvo2Ns8CDWWM/s+/TPSlRgiXaJ+vuQJmIIOKc
+ m2nEgzMin7hboFxGHSyViiEVLhCZySH3EkJ3JkE7pbLUl2UCpRVxH8tF6zaIQU0RiSok
+ xebw==
+X-Gm-Message-State: ACgBeo3du1ojJLqUgQC6E/uVJQMdACVdJ8M2FZvaYkSDvVrDgKqED8Mo
+ /pktUpNZoEId4fWm8X68FGrCU1XUrB3ob6NX6ooO5rI4SH6XpVpHwQOcORbcUVPl+oKj9k2sYlT
+ WTXEL2mwpIZa9khY82Nr+y7vAzgc61ss=
+X-Received: by 2002:a05:6512:da:b0:492:e48e:b4c0 with SMTP id
+ c26-20020a05651200da00b00492e48eb4c0mr3033839lfp.7.1661544752074; 
+ Fri, 26 Aug 2022 13:12:32 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7Qome/VaiFVimZ5gzA/R2h7mRkV9nfBeCvGl2As/kTLJAMHMk96A3fjhQ6gYSysJI+5BFrzas6652JeIUuKgo=
+X-Received: by 2002:a05:6512:da:b0:492:e48e:b4c0 with SMTP id
+ c26-20020a05651200da00b00492e48eb4c0mr3033831lfp.7.1661544751829; Fri, 26 Aug
+ 2022 13:12:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 08/25] tests/docker: update and flatten
- debian-sparc64-cross
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220826172128.353798-1-alex.bennee@linaro.org>
- <20220826172128.353798-9-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220826172128.353798-9-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+References: <20220826110029.59382-1-pbonzini@redhat.com>
+ <CAAdtpL6QSx0DFCACP_=+UAx_CO4g3gEcHmXKsrxvDp1MC3PXiw@mail.gmail.com>
+In-Reply-To: <CAAdtpL6QSx0DFCACP_=+UAx_CO4g3gEcHmXKsrxvDp1MC3PXiw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 26 Aug 2022 22:12:20 +0200
+Message-ID: <CABgObfYrT6r+6nMscud4rC9KTqQwgSRq6ZssN8BMwR9ECM0vEg@mail.gmail.com>
+Subject: Re: [PATCH] KVM: dirty ring: add missing memory barrier
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Gavin Shan <gshan@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000b6309905e72a88a4"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,67 +93,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/08/2022 19.21, Alex Bennée wrote:
-> Update to the latest stable Debian. While we are at it flatten into a
-> single dockerfile. We really don't need the rest of the stuff from
-> the QEMU base image just to compile test images.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .gitlab-ci.d/container-cross.yml                     |  1 -
->   tests/docker/Makefile.include                        |  1 -
->   tests/docker/dockerfiles/debian-sparc64-cross.docker | 12 +++++++-----
->   3 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-> index 8a611fc824..db0ea15d0d 100644
-> --- a/.gitlab-ci.d/container-cross.yml
-> +++ b/.gitlab-ci.d/container-cross.yml
-> @@ -143,7 +143,6 @@ sh4-debian-cross-container:
->   sparc64-debian-cross-container:
->     extends: .container_job_template
->     stage: containers
-> -  needs: ['amd64-debian10-container']
->     variables:
->       NAME: debian-sparc64-cross
->   
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-> index 37c4ea913f..8828b6b8fa 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -89,7 +89,6 @@ DOCKER_PARTIAL_IMAGES += fedora
->   endif
->   
->   docker-image-debian-mips-cross: docker-image-debian10
-> -docker-image-debian-sparc64-cross: docker-image-debian10
->   
->   # The native build should never use the registry
->   docker-image-debian-native: DOCKER_REGISTRY=
-> diff --git a/tests/docker/dockerfiles/debian-sparc64-cross.docker b/tests/docker/dockerfiles/debian-sparc64-cross.docker
-> index f4bb9b561c..8d3d306bc1 100644
-> --- a/tests/docker/dockerfiles/debian-sparc64-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-sparc64-cross.docker
-> @@ -1,12 +1,14 @@
->   #
->   # Docker cross-compiler target
->   #
-> -# This docker target builds on the debian Buster base image.
-> +# This docker target builds on the Debian Bullseye base image.
->   #
-> -FROM qemu/debian10
-> +FROM docker.io/library/debian:11-slim
->   
-> -RUN apt update && \
-> -    DEBIAN_FRONTEND=noninteractive eatmydata \
-> -    apt install -y --no-install-recommends \
-> +RUN export DEBIAN_FRONTEND=noninteractive && \
-> +    apt-get update && \
-> +    apt-get install -y eatmydata && \
-> +    eatmydata apt-get dist-upgrade -y && \
-> +    eatmydata apt-get install --no-install-recommends -y \
->           gcc-sparc64-linux-gnu \
->           libc6-dev-sparc64-cross
+--000000000000b6309905e72a88a4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Yikes no, the patch is obviously bogus.
+
+Paolo
+
+Il ven 26 ago 2022, 17:59 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> ha
+scritto:
+
+> Hi Paolo,
+>
+> On Fri, Aug 26, 2022 at 1:17 PM Paolo Bonzini <pbonzini@redhat.com> wrote=
+:
+>
+>> The KVM_DIRTY_GFN_F_DIRTY flag ensures that the entry is valid.  If
+>> the read of the fields are not ordered after the read of the flag,
+>> QEMU might see stale values.
+>>
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Cc: Gavin Shan <gshan@redhat.com>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  accel/kvm/kvm-all.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+>> index 8d81ab74de..f49643cd24 100644
+>> --- a/accel/kvm/kvm-all.c
+>> +++ b/accel/kvm/kvm-all.c
+>> @@ -719,7 +719,7 @@ static void kvm_dirty_ring_mark_page(KVMState *s,
+>> uint32_t as_id,
+>>
+>>  static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
+>>  {
+>> -    return gfn->flags =3D=3D KVM_DIRTY_GFN_F_DIRTY;
+>> +    return qatomic_load_acquire(&gfn->flags, KVM_DIRTY_GFN_F_DIRTY);
+>>
+>
+> Is this patch based on another which changes the qatomic_load_acquire()
+> prototype?
+>
+>
+>>  }
+>>
+>>  static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
+>> --
+>> 2.37.1
+>>
+>>
+>>
+
+--000000000000b6309905e72a88a4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Yikes no, the patch is obviously bogus.<div dir=3D"auto">=
+<br></div><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr" class=3D"gmail_attr">Il ven 26 ago 2022, 17:59 Philippe M=
+athieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a=
+>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">=
+<div dir=3D"ltr">Hi Paolo,</div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Fri, Aug 26, 2022 at 1:17 PM Paolo Bonzini &lt=
+;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" rel=3D"noreferrer=
+">pbonzini@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">The KVM_DIRTY_GFN_F_DIRTY flag ensures that the entry =
+is valid.=C2=A0 If<br>
+the read of the fields are not ordered after the read of the flag,<br>
+QEMU might see stale values.<br>
+<br>
+Cc: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"_blank" rel=
+=3D"noreferrer">peterx@redhat.com</a>&gt;<br>
+Cc: Gavin Shan &lt;<a href=3D"mailto:gshan@redhat.com" target=3D"_blank" re=
+l=3D"noreferrer">gshan@redhat.com</a>&gt;<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0accel/kvm/kvm-all.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c<br>
+index 8d81ab74de..f49643cd24 100644<br>
+--- a/accel/kvm/kvm-all.c<br>
++++ b/accel/kvm/kvm-all.c<br>
+@@ -719,7 +719,7 @@ static void kvm_dirty_ring_mark_page(KVMState *s, uint3=
+2_t as_id,<br>
+<br>
+=C2=A0static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 return gfn-&gt;flags =3D=3D KVM_DIRTY_GFN_F_DIRTY;<br>
++=C2=A0 =C2=A0 return qatomic_load_acquire(&amp;gfn-&gt;flags, KVM_DIRTY_GF=
+N_F_DIRTY);<br></blockquote><div><br></div><div>Is this patch based on anot=
+her which changes the=C2=A0qatomic_load_acquire() prototype?</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0}<br>
+<br>
+=C2=A0static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)<br>
+-- <br>
+2.37.1<br>
+<br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
+
+--000000000000b6309905e72a88a4--
 
 
