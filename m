@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F395A2603
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:42:30 +0200 (CEST)
-Received: from localhost ([::1]:60736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067B25A260C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:47:27 +0200 (CEST)
+Received: from localhost ([::1]:51400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRWnF-0007HC-5H
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60204)
+	id 1oRWs2-0002Ou-1g
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oRWk4-0002aZ-JV
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:39:12 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:44990)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oRWk2-0005Np-R6
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:39:12 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id s1so727507qvn.11
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=3js/aWBCS0p6/EazyZZeWuVnF44ZxEqrv/7BUbssMSI=;
- b=hH6HnsHK40ulBXu56ati8V3gGn/Y2gU/ZwBjLTegG/4rJDjVt2LW7R97gsZ2V6DEvL
- cO1q1tndbgfDS3kwkRJhyO7x9/FnBt5/4NL5DwsvbwBriM8OkdS6NsuJOfODSwoF1Dnz
- OEBxeRI6SHuvpRE3DLqpu8i4rDXhueNaLqUHv4GzNZ//RL38tkGP3QanK7zUgnsN7HyM
- mCv5PNERqceDPROgbXA8i43XPPoc9SCpg0eQyl4ErnFtiA7uUn0GlS+z3hb5+L8OnUx7
- 8m+BAGH0DlopoAv6BJ5xEGD+eaJX4ZkdKzkXX3rTJbTkNa7zohBybDW9fMWnlmPuEBXw
- gCKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=3js/aWBCS0p6/EazyZZeWuVnF44ZxEqrv/7BUbssMSI=;
- b=DSPxY4qsPrNoCri3Gcdxsyt+YYp2cgX9kRwQdW+WSA8SMmMKBWjFPIYdT5mt5nN+LM
- s8hasFw5HvbEOSPMxqXRVwJrASM83A2Po6OOcsUzjzMphqIAEYxLKwHbKvqSQGq1oB1M
- ULzvQmX/FtPe7/p3gubbyL1tw6SxjqIIqy932eSWQ025I5iho3TZkbAJdJQ0dUNmzxY+
- HGVIBIul087+kHRYKKiJuK06ZEy2YGSTfn1uhk8jZ6yxa8fok1NUiW89adJO0/zPwKH5
- 1KinjL2OxSmWNr2fbgPuMPqz/YIrTnmutXZLHq3o2umlWzCr2keKGDDpuBIhD0vXqjXT
- DYuA==
-X-Gm-Message-State: ACgBeo3vhmRR1BNqqQQxDB7SW5cZt6CLwf1RU7HEdVHmOUucjbVIpxVq
- 7WR7OzaczDyNhSt2VBBGaMGvew3v41zHW0jlVCk=
-X-Google-Smtp-Source: AA6agR4Xm9+wi+4RISd4WbF9PQpdyehiWjjxhMXDqwEohcjnh/Iqv8SP6GkrNyreUWMdPzhWyboWQUMcxy+17T0EPDM=
-X-Received: by 2002:a05:6214:629:b0:497:2c65:32c3 with SMTP id
- a9-20020a056214062900b004972c6532c3mr5035054qvx.122.1661510349708; Fri, 26
- Aug 2022 03:39:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1oRWoO-0000AF-1c
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:43:40 -0400
+Received: from madras.collabora.co.uk
+ ([2a00:1098:0:82:1000:25:2eeb:e5ab]:57812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1oRWoL-0006Jn-Ox
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:43:39 -0400
+Received: from [192.168.178.42] (host-95-235-60-93.retail.telecomitalia.it
+ [95.235.60.93])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: fahien)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7DAA56601EBC
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 11:43:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1661510615;
+ bh=6ouWsvo4/x6ZNm2RVi0C++8IpwvakqP9LgOQfNZWhvo=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=mLsc4I0YckLqJfoCW4llDwiPfOapX5NbqM7F7AyhX+r28AeJ276agZqUETCfoNxUh
+ Wh+U2YTbw3kCDabd8Vs+We7gQv8e9Fi4rlFRw6POuSIyKoCpF64OttOUaQMDBUknUP
+ VEER+Fp7XQ8tUp41HrGGsnW1WiHcZvRIH06bpg7oIMVpAwaFOnzzUwvwruVzoJc6ff
+ wKBZwVBkjeLhK3N0lEcdLVpSWmVg2wlpgdzg3N6gF2+h99Jxsq5EDxHBS5nIUFbymy
+ onRQ7QsoluZ1T9fWwGtlrEm0kQpj9fkX2Ideddsx/+7zDEobWpSoEYfsymk6zvatdO
+ dKY7rp+Ntnbzg==
+Message-ID: <fc0bd38e-9082-cf52-6171-be822b77038d@collabora.com>
+Date: Fri, 26 Aug 2022 12:43:33 +0200
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-35-bmeng.cn@gmail.com>
- <alpine.DEB.2.22.394.2208241745400.562041@anisinha-lenovo>
-In-Reply-To: <alpine.DEB.2.22.394.2208241745400.562041@anisinha-lenovo>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 26 Aug 2022 18:38:58 +0800
-Message-ID: <CAEUhbmWdqgE_K01N_arGo2aeqhK-cY3xRSfhJvsh2E6rmJCagg@mail.gmail.com>
-Subject: Re: [PATCH 34/51] tests/qtest: bios-tables-test: Adapt the case for
- win32
-To: Ani Sinha <ani@anisinha.ca>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2e.google.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v3 1/1] virtio-gpu: CONTEXT_INIT feature
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+References: <20220826100812.410773-1-antonio.caggiano@collabora.com>
+ <20220826100812.410773-2-antonio.caggiano@collabora.com>
+ <CAJ+F1CLr2rMACn_340z1iictXvXMRn0jhXbs=7XkSMY1eL3Upg@mail.gmail.com>
+From: Antonio Caggiano <antonio.caggiano@collabora.com>
+In-Reply-To: <CAJ+F1CLr2rMACn_340z1iictXvXMRn0jhXbs=7XkSMY1eL3Upg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
+ envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,68 +76,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 8:42 PM Ani Sinha <ani@anisinha.ca> wrote:
->
->
->
-> On Wed, 24 Aug 2022, Bin Meng wrote:
->
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Single quotes in the arguments (oem_id='CRASH ') are not removed in
-> > the Windows environment before it is passed to the QEMU executable.
-> > The space in the argument causes the "-acpitable" option parser to
-> > think that all of its parameters are done, hence it complains:
-> >
-> >   '-acpitable' requires one of 'data' or 'file'
-> >
-> > Change to use double quotes which works fine on all platforms.
-> >
-> > Also /dev/null does not work on win32, and nul should be used.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> >  tests/qtest/bios-tables-test.c | 12 +++++++++---
-> >  1 file changed, 9 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > index 36783966b0..0148ce388c 100644
-> > --- a/tests/qtest/bios-tables-test.c
-> > +++ b/tests/qtest/bios-tables-test.c
-> > @@ -1615,6 +1615,12 @@ static void test_acpi_virt_viot(void)
-> >      free_test_data(&data);
-> >  }
-> >
-> > +#ifndef _WIN32
-> > +# define DEV_NULL "/dev/null"
-> > +#else
-> > +# define DEV_NULL "nul"
-> > +#endif
-> > +
-> >  static void test_acpi_q35_slic(void)
-> >  {
-> >      test_data data = {
-> > @@ -1622,9 +1628,9 @@ static void test_acpi_q35_slic(void)
-> >          .variant = ".slic",
-> >      };
-> >
-> > -    test_acpi_one("-acpitable sig=SLIC,oem_id='CRASH ',oem_table_id='ME',"
-> > -                  "oem_rev=00002210,asl_compiler_id='qemu',"
-> > -                  "asl_compiler_rev=00000000,data=/dev/null",
-> > +    test_acpi_one("-acpitable sig=SLIC,oem_id=\"CRASH \",oem_table_id=ME,"
-> > +                  "oem_rev=00002210,asl_compiler_id=qemu,"
->
-> ME and qemu should be surrounded by quotes. They are string arguments.
-> https://www.qemu.org/docs/master/interop/qemu-qmp-ref.html?highlight=oem_table_id
->
+Hi Marc-André,
 
-The doc also says sig is a string, but the original code does not
-surround it by quotes.
+On 26/08/2022 12:16, Marc-André Lureau wrote:
+> Hi
+> 
+> On Fri, Aug 26, 2022 at 2:12 PM Antonio Caggiano 
+> <antonio.caggiano@collabora.com <mailto:antonio.caggiano@collabora.com>> 
+> wrote:
+> 
+>     Create virgl renderer context with flags using context_id when valid.
+> 
+>     v2:
+>     - The feature can be enabled via the context_init config option.
+>     - A warning message will be emitted and the feature will not be used
+>        when linking with virglrenderer versions without context_init
+>     support.
+> 
+>     v3: Define HAVE_VIRGL_CONTEXT_INIT in config_host_data.
+> 
+>     Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com
+>     <mailto:antonio.caggiano@collabora.com>>
+>     ---
+>       hw/display/virtio-gpu-base.c   |  3 +++
+>       hw/display/virtio-gpu-virgl.c  | 16 ++++++++++++++--
+>       hw/display/virtio-gpu.c        |  2 ++
+>       include/hw/virtio/virtio-gpu.h |  3 +++
+>       meson.build                    |  5 +++++
+>       5 files changed, 27 insertions(+), 2 deletions(-)
+> 
+>     diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+>     index a29f191aa8..6c5f1f327f 100644
+>     --- a/hw/display/virtio-gpu-base.c
+>     +++ b/hw/display/virtio-gpu-base.c
+>     @@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev,
+>     uint64_t features,
+>           if (virtio_gpu_blob_enabled(g->conf)) {
+>               features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+>           }
+>     +    if (virtio_gpu_context_init_enabled(g->conf)) {
+>     +        features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
+>     +    }
+> 
+>           return features;
+>       }
+>     diff --git a/hw/display/virtio-gpu-virgl.c
+>     b/hw/display/virtio-gpu-virgl.c
+>     index 73cb92c8d5..274cbc44de 100644
+>     --- a/hw/display/virtio-gpu-virgl.c
+>     +++ b/hw/display/virtio-gpu-virgl.c
+>     @@ -97,8 +97,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
+>           trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
+>                                           cc.debug_name);
+> 
+>     -    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
+>     -                                  cc.debug_name);
+>     +    if (cc.context_init) {
+>     +#ifdef HAVE_VIRGL_CONTEXT_INIT
+>     +        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
+>     +                                                 cc.context_init,
+>     +                                                 cc.nlen,
+>     +                                                 cc.debug_name);
+>     +        return;
+>     +#else
+>     +        qemu_log_mask(LOG_UNIMP,
+>     +                      "Linked virglrenderer does not support
+>     context-init\n");
+> 
+> 
+> What is the outcome in that case?
 
-The parameter is of string type by default, so there is no need to
-surround it by quotes unless it contains some special characters.
+It's in the commit message: "A warning message will be emitted and the 
+feature will not be used when linking with virglrenderer versions 
+without context_init"
 
-Regards,
-Bin
+> 
+>     +#endif
+>     +    }
+>     +
+>     +    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
+>     cc.debug_name);
+>       }
+> 
+>       static void virgl_cmd_context_destroy(VirtIOGPU *g,
+>     diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+>     index 20cc703dcc..fa667ec234 100644
+>     --- a/hw/display/virtio-gpu.c
+>     +++ b/hw/display/virtio-gpu.c
+>     @@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] = {
+>                            256 * MiB),
+>           DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
+>                           VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
+>     +    DEFINE_PROP_BIT("context_init", VirtIOGPU, parent_obj.conf.flags,
+>     +                    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),
+>           DEFINE_PROP_END_OF_LIST(),
+>       };
+> 
+>     diff --git a/include/hw/virtio/virtio-gpu.h
+>     b/include/hw/virtio/virtio-gpu.h
+>     index 2e28507efe..c6f5cfde47 100644
+>     --- a/include/hw/virtio/virtio-gpu.h
+>     +++ b/include/hw/virtio/virtio-gpu.h
+>     @@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
+>           VIRTIO_GPU_FLAG_EDID_ENABLED,
+>           VIRTIO_GPU_FLAG_DMABUF_ENABLED,
+>           VIRTIO_GPU_FLAG_BLOB_ENABLED,
+>     +    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
+>       };
+> 
+>       #define virtio_gpu_virgl_enabled(_cfg) \
+>     @@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
+>           (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
+>       #define virtio_gpu_blob_enabled(_cfg) \
+>           (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
+>     +#define virtio_gpu_context_init_enabled(_cfg) \
+>     +    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
+> 
+>       struct virtio_gpu_base_conf {
+>           uint32_t max_outputs;
+>     diff --git a/meson.build b/meson.build
+>     index 20fddbd707..e1071b3563 100644
+>     --- a/meson.build
+>     +++ b/meson.build
+>     @@ -718,6 +718,11 @@ if not get_option('virglrenderer').auto() or
+>     have_system or have_vhost_user_gpu
+>                            method: 'pkg-config',
+>                            required: get_option('virglrenderer'),
+>                            kwargs: static_kwargs)
+>     +
+>     +  config_host_data.set('HAVE_VIRGL_CONTEXT_INIT',
+>     +                     
+>       cc.has_function('virgl_renderer_context_create_with_flags',
+>     +                                       prefix: '#include
+>     <virglrenderer.h>',
+>     +                                       dependencies: virgl))
+>       endif
+>       curl = not_found
+>       if not get_option('curl').auto() or have_block
+>     -- 
+>     2.34.1
+> 
+> 
+> 
+> lgtm
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com 
+> <mailto:marcandre.lureau@redhat.com>>
+> 
+> -- 
+> Marc-André Lureau
 
