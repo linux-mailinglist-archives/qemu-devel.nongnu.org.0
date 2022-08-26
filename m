@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B675A2990
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:33:45 +0200 (CEST)
-Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF47C5A29D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:42:49 +0200 (CEST)
+Received: from localhost ([::1]:48700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRaP2-0004IF-AM
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46574)
+	id 1oRaXo-0006we-Rx
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAl-0000Zr-Ub
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:18:59 -0400
-Received: from mout.gmx.net ([212.227.15.15]:45357)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAm-0000aT-5c
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:00 -0400
+Received: from mout.gmx.net ([212.227.15.15]:50933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAj-00054q-Ru
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-00054s-31
  for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:18:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1661523534;
- bh=aJsnrj97Y1sQFl5KVvkfVzLschcSZUtzNhYQejbgZog=;
+ bh=Rm37/UMtMZy/vrc/Mh4Erf/0gMnHLsIB/UJJVZ50obo=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=R8AVgAHEtJrI49GMFwRBMHcXj8X0IdNcVvODU+CNP8fRXxuffl4wSezQdDhcrBs82
- LrV61jTM0TbMZ2IbfGIp0w/ZsR//gfz4FDiAVOi/0etlzfevK9XreU+e+j6Mtv6oYr
- ZYfOWQZV7OhJmt0BMhvDhB90Y6IQov6qQTZYODXU=
+ b=RKG0/9YkJiAgwX1e+L3yEBB8Pw1yQqAPQd1pRmYUljkblLq6cyTLVPIxEHnEixR+B
+ 6vbF6m/wRvQnwVgKjdkkQl7NAcDp184y+n7R5gwWn27KrJxNtjr1qzdfWoMff7cTH/
+ 3n/n+yRPOQ//Fcku2PlWh9+f9DmblDW2vMyVeGec=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.171.190]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N79yQ-1pUIHi25GO-017XOo; Fri, 26
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MRTN9-1oormt2daH-00NSDP; Fri, 26
  Aug 2022 16:18:54 +0200
 From: Helge Deller <deller@gmx.de>
 To: Laurent Vivier <laurent@vivier.eu>,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 03/13] linux-user: Add faccessat2() syscall
-Date: Fri, 26 Aug 2022 16:18:43 +0200
-Message-Id: <20220826141853.419564-4-deller@gmx.de>
+Subject: [PATCH 04/13] linux-user: Add pidfd_open(),
+ pidfd_send_signal() and pidfd_getfd() syscalls
+Date: Fri, 26 Aug 2022 16:18:44 +0200
+Message-Id: <20220826141853.419564-5-deller@gmx.de>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220826141853.419564-1-deller@gmx.de>
 References: <20220826141853.419564-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SxsNIlt0oBLPDgPJN4GXHui7fMw0Jsgn5Yejy9ta1tAqFgGBdsg
- 0uGm1L3edUbdFMgXtzbx+0U7l85qqejR7cQMLtu4F8oTPAv1UGnlw+o14uUfl8j8Ewo1IwZ
- P1/TErofiCycTfzQaAOwR3ezC1Ssauv7Vw4x9ycFQ0AIHsVR0+49SrcFKrcq9EK6kGZKEyU
- 84lWoF33iRYHvMmDCNOIQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uPQpqIAp+mg=:LDRgOHdjFlfMjMORNkwVh9
- qitNbPMwRHa2BBQ0bLFjCTGto9tHUdR40VfA6XJPdCSv8BVhaU98W9c83geTI+c1nmbcJKrDy
- WOrNQGmaYQjaYRFtSa8exu3NZ6+rA5zPfmqDySR/W6Buj9ENgWo3O1/hnPsNhmvUx/T5aAO+M
- mv2lM9WfSZdsxC9sGjru7ArgjQ05Us9hznPapTuXZwlMTI8aUAKbHbbU8fs1HVbtPmDEclnQn
- rNMAu25TUsklKsX+PDMFKt/1caRyTi5SiKo9RKC0ISi6TDrMDs7SAMYSAI1cR5M0TL2W9xaBv
- YNwol4E84B0f0jD5NPY6fBOxEgfAoNUgGjmxfl9gRpKKXOjKQ79mW1hq9p1LyKrFn1HtufTM6
- 5jPZtv9v5OWw160HIzLqMAvkXisshkxqYuwUu5dPWasEdE630BGcf0TrxqGsYkN3+IiaO5U8R
- LZC9zLWQ3ihj2fMZMyCfi/o612mOb3IM/DQEMxawmHiP66BR1AaKQ0D7wNk/CSu8yuz0F8wcl
- VyzwT0haktUZ3m16V0hC7uJAF+wyUnsaXEpcyZAVkrseVkVJklAp4m5L+kFN9BShi4gA0iQi3
- ek98o1ox6tSMtQeIZ+EphvRx9kMI/X7u8pWM7W5dNI7OrJju79yXUhPYpr3P+To2uHxapVT45
- 26VHWylV9x52e75v++6NM8jweW9J97JvwULywaLRorii3Sw1XVD9y6nKbWOtBKT7yLYVtRcd9
- moYB701FcbbfSG6QPb1vMV/MfnyUilJ3YQREeLgxqawNdyQg4VBSgF+7hPFtGIjrOirW4tcXV
- OGZ63m96D0pC9P0c8YkayrBRylqiOkooZfyTy1OtV0U+7/iFbiNEg9GQ1lNPxnTFTgncYHox0
- cfdZSu6vfLRJRtLiuWaRRKW2owvr7Aa+vBk+5eZxFHFxJODtchNWTf7guTze/IDGrYldT0MLt
- MBBNBmwlAn/sIT/K0WasBv/GDUDPjU3Z28K+g/RsLjEyrl2rYk+l+jjmVnNjY3YfDR2pUODI1
- 26o536r/qKoO70tY4mf2LSdrM5p8EcrS8UtKIO7IW/eSyNZEcLh8//8kMwwJTuzO+ugV7KApJ
- AC/tNes13TjAYugE8yVlO2XTJDkA9mOwOWfww59eB5jRqHKNE9pMCjmnw==
+X-Provags-ID: V03:K1:lYz7os+2Ot5XYZ0+JTUfz6mfB9umwxXXmb9x1CPh/Wo2Tq/9zUn
+ rr1bTGtJt1DNDZD1+u3XQDh7KB1QM5jKdV0DqRmv0LuohK7dN4/3pGo1MGX3aOL7HiqOCKe
+ nKmaLwtlfjeBERIhRArWG38Su732SnY6Y4ricI+prruPqOfOjazBQChifEsf35GkysmHJ8L
+ oiSEogAp8msK1VDRaQmzg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QYvPT7KFr+Q=:WhogArtIAgrk06tTbSMRbP
+ j1X1FcSv0rLT+W2fNpMmr7l+GO6i0ZLJh1gfRyi3I1Jwon8zgXG/hhzrLmgQc97Rlfj4IJBIG
+ RVHUY6LpVj3VELIjrHjc9qvaFWyIYaHmlzt9lQwToYDKuI+okNBMWo8jkQKaefUfMkgMPecd7
+ U5LOwk9Y/niKga7ueF++465BobSg7jzRL9F67YYDXZB2DmnEnxCnq1eMTUxnch7C4UfNWZ6Qd
+ XhxOxoLx5OGqWryZtzAeHRZ2y69egunwkoiFU+9vIAlgtlTuISgLPfiv1aDs6b4U0I8sUuAQZ
+ f9YGCpkmUsOb+hLelVBNFkJCfqb7BgI+ICjguqqer+mBZtjCUoqoDZXCfbu2FBoYEXg1m5aH9
+ 7MGuJLgthAvcgkR+sl4JbE9/5ioqqYtxA/nNoAcYpG6BcT8du+wjq4cEnwjqAqhnKtNua8O38
+ ZxduevNIecTUTQP9I9nRNs0YwMsOmpKNWePzBS/bhNHoKi4cnWfcFzODyOTcvjkHMoqQ8LS67
+ /NZtaNms2HLAkykDUnNxG57iwMvWxmqI0CluNdIvazSEUmgqB3v9uMXASqkmQX2UhVCjpQ91V
+ K2vzVNjz09YzXYYoGkvadoQNANUg3N1XwYvtv6Szh/BMAHDqZQsqoEUG5P9tVNFSDISTVgitC
+ uycEi6QznalyPeMsuTHsjb+wq6sLsADPSZrQrEfINB7HOnOJoBl0D45iocpXXWpw80E/aJysZ
+ 0Uk0qqSJFHaujfpxG0vKeFnGoCJB0nYJKRcUyhdKVF3iN/lkYL0oKhT5ccIkMmJWppwKmMha6
+ GGl0WQKAkyRtFhVdd+yNWRPERhF/B7M0dMQhqT0h92SLcfnEbGRstfCenhK/gCS5R9qnDxxNR
+ vCP32ynL+LxfWVExuOvXVp15w3Ez42vFp7PeVFGoSAammn607GzgXIeJPEg4sHNSgVGQH2Mcm
+ xWRdwZZREc+zEKPLRGsQDEnCWfZunglOuOtsBN4yidHxfi7xnc5d6z/TNVp8E8DHp+jrL9xDa
+ 8ebpeurnKIU9DypixCxYb1dp+ek+n1CAndT89aZOxg1UHvxjpCW12FQ6/nWuULTWSnbW0hVz8
+ l+jlPDI/HHTscnybxS27Q2f+cHK/7U7dEgfPUlCHUDzfKije2oRmeGOLQ==
 Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -85,77 +86,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add implementation and strace output for faccessat2().
+I noticed those were missing when running the glib2.0 testsuite.
+Add the syscalls including the strace output.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/strace.c    |  2 +-
- linux-user/strace.list |  3 +++
- linux-user/syscall.c   | 12 ++++++++++++
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ linux-user/strace.c    | 28 ++++++++++++++++++++++++++++
+ linux-user/strace.list |  9 +++++++++
+ linux-user/syscall.c   | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 71 insertions(+)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 27309f1106..e8c63aa4c2 100644
+index e8c63aa4c2..86b2034c81 100644
 =2D-- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1962,7 +1962,7 @@ print_execv(CPUArchState *cpu_env, const struct sysc=
-allname *name,
+@@ -3316,6 +3316,34 @@ print_openat(CPUArchState *cpu_env, const struct sy=
+scallname *name,
  }
  #endif
 
--#ifdef TARGET_NR_faccessat
-+#if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
++#ifdef TARGET_NR_pidfd_send_signal
++static void
++print_pidfd_send_signal(CPUArchState *cpu_env, const struct syscallname *=
+name,
++                abi_long arg0, abi_long arg1, abi_long arg2,
++                abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    void *p;
++    target_siginfo_t uinfo;
++
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    print_signal(arg1, 0);
++
++    p =3D lock_user(VERIFY_READ, arg2, sizeof(target_siginfo_t), 1);
++    if (p) {
++        get_target_siginfo(&uinfo, p);
++        print_siginfo(&uinfo);
++
++        unlock_user(p, arg2, 0);
++    } else {
++        print_pointer(arg2, 1);
++    }
++
++    print_raw_param("%u", arg3, 0);
++    print_syscall_epilogue(name);
++}
++#endif
++
+ #ifdef TARGET_NR_mq_unlink
  static void
- print_faccessat(CPUArchState *cpu_env, const struct syscallname *name,
-                 abi_long arg0, abi_long arg1, abi_long arg2,
+ print_mq_unlink(CPUArchState *cpu_env, const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index a78cdf3cdf..6e88da7fad 100644
+index 6e88da7fad..7a69152db7 100644
 =2D-- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -177,6 +177,9 @@
- #ifdef TARGET_NR_faccessat
- { TARGET_NR_faccessat, "faccessat" , NULL, print_faccessat, NULL },
+@@ -1667,6 +1667,15 @@
+ #ifdef TARGET_NR_pipe2
+ { TARGET_NR_pipe2, "pipe2", NULL, NULL, NULL },
  #endif
-+#ifdef TARGET_NR_faccessat2
-+{ TARGET_NR_faccessat2, "faccessat2" , NULL, print_faccessat, NULL },
++#ifdef TARGET_NR_pidfd_open
++{ TARGET_NR_pidfd_open, "pidfd_open", "%s(%d,%u)", NULL, NULL },
 +#endif
- #ifdef TARGET_NR_fadvise64
- { TARGET_NR_fadvise64, "fadvise64" , NULL, NULL, NULL },
++#ifdef TARGET_NR_pidfd_send_signal
++{ TARGET_NR_pidfd_send_signal, "pidfd_send_signal", NULL, print_pidfd_sen=
+d_signal, NULL },
++#endif
++#ifdef TARGET_NR_pidfd_getfd
++{ TARGET_NR_pidfd_getfd, "pidfd_getfd", "%s(%d,%d,%u)", NULL, NULL },
++#endif
+ #ifdef TARGET_NR_atomic_cmpxchg_32
+ { TARGET_NR_atomic_cmpxchg_32, "atomic_cmpxchg_32", NULL, NULL, NULL },
  #endif
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f409121202..f51c4fbabd 100644
+index f51c4fbabd..a1e6d4ad53 100644
 =2D-- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -399,6 +399,9 @@ _syscall3(int, ioprio_set, int, which, int, who, int, =
-ioprio)
- #if defined(TARGET_NR_getrandom) && defined(__NR_getrandom)
- _syscall3(int, getrandom, void *, buf, size_t, buflen, unsigned int, flag=
-s)
+@@ -346,6 +346,16 @@ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+ _syscall6(int,sys_futex_time64,int *,uaddr,int,op,int,val,
+           const struct timespec *,timeout,int *,uaddr2,int,val3)
  #endif
-+#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
-+_syscall4(int, faccessat2, int, dirfd, char *, pathname, int, mode, int, =
-flags)
++#if defined(__NR_pidfd_open)
++_syscall2(int, pidfd_open, pid_t, pid, unsigned int, flags);
 +#endif
-
- #if defined(TARGET_NR_kcmp) && defined(__NR_kcmp)
- _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
-@@ -9098,6 +9101,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
++#if defined(__NR_pidfd_send_signal)
++_syscall4(int, pidfd_send_signal, int, pidfd, int, sig, siginfo_t *, info=
+,
++                             unsigned int, flags);
++#endif
++#if defined(__NR_pidfd_getfd)
++_syscall3(int, pidfd_getfd, int, pidfd, int, targetfd, unsigned int, flag=
+s);
++#endif
+ #define __NR_sys_sched_getaffinity __NR_sched_getaffinity
+ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
+           unsigned long *, user_mask_ptr);
+@@ -8686,6 +8696,30 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
 int num, abi_long arg1,
-         unlock_user(p, arg2, 0);
+         ret =3D do_open_by_handle_at(arg1, arg2, arg3);
+         fd_trans_unregister(ret);
          return ret;
- #endif
-+#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
-+    case TARGET_NR_faccessat2:
-+        if (!(p =3D lock_user_string(arg2))) {
-+            return -TARGET_EFAULT;
++#endif
++#if defined(TARGET_NR_pidfd_open)
++    case TARGET_NR_pidfd_open:
++        return get_errno(pidfd_open(arg1, arg2));
++#endif
++#if defined(TARGET_NR_pidfd_send_signal)
++    case TARGET_NR_pidfd_send_signal:
++        {
++            siginfo_t uinfo;
++
++            p =3D lock_user(VERIFY_READ, arg3, sizeof(target_siginfo_t), =
+1);
++            if (!p) {
++                return -TARGET_EFAULT;
++            }
++            target_to_host_siginfo(&uinfo, p);
++            unlock_user(p, arg3, 0);
++            ret =3D get_errno(pidfd_send_signal(arg1, target_to_host_sign=
+al(arg2),
++                &uinfo, arg4));
 +        }
-+        ret =3D get_errno(faccessat2(arg1, p, arg3, arg4));
-+        unlock_user(p, arg2, 0);
 +        return ret;
 +#endif
- #ifdef TARGET_NR_nice /* not on alpha */
-     case TARGET_NR_nice:
-         return get_errno(nice(arg1));
++#if defined(TARGET_NR_pidfd_getfd)
++    case TARGET_NR_pidfd_getfd:
++        return get_errno(pidfd_getfd(arg1, arg2, arg3));
+ #endif
+     case TARGET_NR_close:
+         fd_trans_unregister(arg1);
 =2D-
 2.37.1
 
