@@ -2,73 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7147D5A2A2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:58:44 +0200 (CEST)
-Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A36015A2909
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:05:28 +0200 (CEST)
+Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRanD-0005lg-Hl
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38422)
+	id 1oRZxf-0008IA-GK
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vladimir.sebelev@auriga.com>)
- id 1oRUIn-00087v-GF
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 04:02:53 -0400
-Received: from hq-ms.auriga.com ([82.97.202.32]:7750 helo=hq-ms.auriga.ru)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oRZm3-0006wN-Fb
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:53:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vladimir.sebelev@auriga.com>)
- id 1oRUIj-0005RE-Hq
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 04:02:52 -0400
-Received: from HQ-MS1.office.auriga.msk (82.97.202.32) by
- hq-ms1.office.auriga.msk (82.97.202.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.12; Fri, 26 Aug 2022 10:51:21 +0300
-Received: from HQ-MS1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e]) by
- hq-ms1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e%4]) with mapi id
- 15.02.1118.012; Fri, 26 Aug 2022 10:51:20 +0300
-From: "Sebelev, Vladimir" <vladimir.sebelev@auriga.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Drap Anton <drapas86@gmail.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Drap, Anton"
- <anton.drap@auriga.com>, "Daniel P. Berrange" <berrange@redhat.com>, "Markus
- Armbruster" <armbru@redhat.com>
-Subject: RE: [PATCH v3] Loading new machines and devices from external modules
-Thread-Topic: [PATCH v3] Loading new machines and devices from external modules
-Thread-Index: AQHYtgRWsjhnh+cgOUSLR6biyi6pBq26czKAgAZgEdA=
-Date: Fri, 26 Aug 2022 07:51:20 +0000
-Message-ID: <8b584a6fb2cf48c6ac28a9d6ea488dcf@auriga.com>
-References: <20220822085041.127776-1-anton.drap@auriga.com>
- <CAFEAcA-C87Qgyvc_yqtiecA9EBE50J9CZgQY5FiAqDm+pQx67Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA-C87Qgyvc_yqtiecA9EBE50J9CZgQY5FiAqDm+pQx67Q@mail.gmail.com>
-Accept-Language: ru-RU, en-US
-Content-Language: ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.87.156.138]
-x-tm-as-product-ver: SMEX-14.0.0.1158-9.0.1002-27100.002
-x-tm-as-result: No-10--5.781200-8.000000
-x-tmase-matchedrid: 6otD/cJAac2CrAvdroZEJqzSsZt54aj7eLLCA0PD7aija+N6eKiRn172
- 1f1Z1L9KM90yViNIbDWNOrKja3myFo92uekb9JH9BApSYI86Y6hD/ZSMhIVBcMfJHK1iOyXwnM3
- 3fC3tlVL96IKVwMcR73VyBEksQF0cDytg73Zv02ZBCnVJVKypgPZqI0nPzd0HZRL+gCLSlhcIyZ
- Ynq1RP5161PZtF3q6LmMW/FIwysoOS6ZREE84qAt5x7RpGJf1aaEANKbBJN10EpmTf3u8rpWsVM
- gb+0+QTbFs4DQ4Ip3nVGk64c676ZuqXDbz6Gdxnq5uw61JZjZBftuJwrFEhTY2j49Ftap9Eymsk
- /wUE4hoMFsa+1wyh/D18o4csYLMp8/rt5k9oWen2jSvAPFRO1rs5P4d7A+5U/UOim++UcLY=
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--5.781200-8.000000
-x-tmase-version: SMEX-14.0.0.1158-9.0.1002-27100.002
-x-tm-snts-smtp: 46EC3A6DE5B850449ACCEB884652E5165CC7850D77FE4F08E289F882A11C88772000:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oRZlt-0000ge-3v
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:53:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661521995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kLq1XXsmS6w4iNG3UsahysBIpHCw6tAbQbv9UDMh8EI=;
+ b=KexysNARv8y9+65U1ogpObtDaZCAJRCG2hSbgOQE67EqoaUP80Gg9JQ9Acrj0owXAIKGe0
+ 6aisRaAMMBbKtoHqt5NwqgaQcaV5yFsi22TI44zUfXSSEZXcs8hjVZ4qdlkSo6IKlZwkqv
+ cntVlJjjEC2A0Z4m7XRJYiaC3HE0fIU=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-605-_lvnG-d3OvagkF_aj9J-Xg-1; Fri, 26 Aug 2022 09:53:14 -0400
+X-MC-Unique: _lvnG-d3OvagkF_aj9J-Xg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ f11-20020a056214164b00b00496a9423091so1002291qvw.14
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 06:53:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=kLq1XXsmS6w4iNG3UsahysBIpHCw6tAbQbv9UDMh8EI=;
+ b=tOnWFyxueglNO4+3XfLyCT+4992uZqJe+mHKoF+eyr/3LcgPIkZiAMeDdmjMXKiHFx
+ eB6WB3n3jiNPD/KwGQJMM53/KPkrFmhndyXcmHCUlaFWayxYMpkewEgQU7rvtJCyHlWw
+ C0z+D1R+dVXXV+fBpvjPh+7ofh/VefNYrYR2+Wcp2NkiySBRSHRtUZ141G0XvOqDBo7Z
+ WSDSPL7nPaVJyVaR1U5kkQ1AbtwFms24o9xDRkOPZj1AZa65eVQJ9aiCUNgADfDBHhHF
+ RAcTAqZJpBkbEpv6cSD7cZDYMsL0kdBFiiHvqV6w0DVpaJrTtREbmDT/ZSewQe+mit2X
+ 1eOw==
+X-Gm-Message-State: ACgBeo23j/FyuOMLNaalOr+dyKMtmcjxta6uwYQlOBKxgEanRSgnur8R
+ ngg8CftrhRZLLvhzuHXj4pOE7NObGs4bNt9Y4fzQD0jv5mWAI5nq969MAE/ijUZ2jK0oBHzUTkL
+ UH9QvQN2Sf1MnylY=
+X-Received: by 2002:a0c:9c87:0:b0:479:606d:670e with SMTP id
+ i7-20020a0c9c87000000b00479606d670emr8149128qvf.127.1661521994326; 
+ Fri, 26 Aug 2022 06:53:14 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5mIHJ5DY9bd9E9EydQNVN1qd9+4yK82F8LkucHhh+OG6m5uIoTWomyMHurDR+btja+mpR1/Q==
+X-Received: by 2002:a0c:9c87:0:b0:479:606d:670e with SMTP id
+ i7-20020a0c9c87000000b00479606d670emr8149111qvf.127.1661521994148; 
+ Fri, 26 Aug 2022 06:53:14 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ v21-20020a05620a0f1500b006bbdcb3fff7sm1836496qkl.69.2022.08.26.06.53.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 06:53:13 -0700 (PDT)
+Message-ID: <e5935ba7-dd60-b914-3b1d-fff4f8c01da3@redhat.com>
+Date: Fri, 26 Aug 2022 15:53:09 +0200
 MIME-Version: 1.0
-Received-SPF: pass client-ip=82.97.202.32;
- envelope-from=vladimir.sebelev@auriga.com; helo=hq-ms.auriga.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH 1/2] softmmu/memory: add missing begin/commit callback
+ calls
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+References: <20220816101250.1715523-1-eesposit@redhat.com>
+ <20220816101250.1715523-2-eesposit@redhat.com> <Yv6UVMMX/hHFkGoM@xz-m1.local>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <Yv6UVMMX/hHFkGoM@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 26 Aug 2022 10:40:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,32 +109,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgUGV0ZXIsDQoNCkFudG9uIHByZXZpb3VzbHkgc2VudCBleHBsYW5hdGlvbiBvZiBvdXIgcG9z
-aXRpb24uIE5vYm9keSBjb21tZW50ZWQuIENvdWxkIHlvdSBwbGVhc2UgY29tbWVudCBvbiBpdD8g
-SXQncyBuZWNlc3NhcnkgZm9yIHVzIHRvIGJldHRlciB1bmRlcnN0YW5kIHlvdXIgcG9zaXRpb24u
-IEZyb20gb3VyIHBvaW50IG9mIHZpZXcgdGVjaG5pY2FsIGJhbiBvZiBleHRlcm5hbCBtb2R1bGVz
-IGxvYWRpbmcgZG9lc24ndCBzb2x2ZSBhbnkgb2YgbWVudGlvbmVkIHByb2JsZW1zLCBidXQgbWFr
-ZXMgVlAgZGV2ZWxvcGVyIGxpZmUgaGFyZGVyLg0KDQpCZXN0IFJlZ2FyZHMsDQpWbGFkaW1pcg0K
-DQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIu
-bWF5ZGVsbEBsaW5hcm8ub3JnPiANClNlbnQ6IE1vbmRheSwgQXVndXN0IDIyLCAyMDIyIDEyOjIz
-IFBNDQpUbzogRHJhcCBBbnRvbiA8ZHJhcGFzODZAZ21haWwuY29tPg0KQ2M6IHFlbXUtZGV2ZWxA
-bm9uZ251Lm9yZzsgU2ViZWxldiwgVmxhZGltaXIgPHZsYWRpbWlyLnNlYmVsZXZAYXVyaWdhLmNv
-bT47IERyYXAsIEFudG9uIDxhbnRvbi5kcmFwQGF1cmlnYS5jb20+OyBEYW5pZWwgUC4gQmVycmFu
-Z2UgPGJlcnJhbmdlQHJlZGhhdC5jb20+OyBNYXJrdXMgQXJtYnJ1c3RlciA8YXJtYnJ1QHJlZGhh
-dC5jb20+DQpTdWJqZWN0OiBSZTogW1BBVENIIHYzXSBMb2FkaW5nIG5ldyBtYWNoaW5lcyBhbmQg
-ZGV2aWNlcyBmcm9tIGV4dGVybmFsIG1vZHVsZXMNCg0KT24gTW9uLCAyMiBBdWcgMjAyMiBhdCAw
-OTo1MywgRHJhcCBBbnRvbiA8ZHJhcGFzODZAZ21haWwuY29tPiB3cm90ZToNCj4NCj4gRnJvbTog
-IkRyYXAsIEFudG9uIiA8YW50b24uZHJhcEBhdXJpZ2EuY29tPg0KDQo+ICAgICBUaGlzIHBhdGNo
-IGlzIHRvIGFkZCB0d28gcGFyYW1ldGVycyBgYWRkX21hY2hpbmVgIGFuZCBgYWRkX21vZGluZm9g
-Lg0KPiBgYWRkX21hY2hpbmVgIGlzIHRvIGFkZCBtYWNoaW5lcyBmcm9tIGV4dGVybmFsIG1vZHVs
-ZXMuDQo+IGBhZGRfbW9kaW5mb2AgaXMgdG8gYWRkIGRldmljZXMgZnJvbSBleHRlcm5hbCBtb2R1
-bGVzLCBuZWVkZWQgZm9yIGEgDQo+IG5ldyBtYWNoaW5lLCBmb3IgZXhhbXBsZS4NCj4gQWRkaXRp
-b25hbCwgJ2FyY2gnIHBhcmFtZXRlciBvZiBRZW11TW9kaW5mbyBpcyBjaGFuZ2VkIHRvIGEgbGlz
-dC4NCg0KSSBkb24ndCB0aGluayB0aGVyZSdzIG11Y2ggcG9pbnQgaW4geW91ciBjb250aW51aW5n
-IHRvIHBvc3QgdmVyc2lvbnMgb2YgdGhpcyBwYXRjaHNldCwgYmVjYXVzZSB0aGUgYW5zd2VyIHJl
-bWFpbnMgIndlIGRvbid0IHdhbnQgdG8gZG8gdGhpcywgYXMgYSBwb2xpY3kgYW5kIGRlc2lnbiBk
-ZWNpc2lvbiIuIFVudGlsIGFuZCB1bmxlc3MgeW91IHBlcnN1YWRlIHVzIHRoYXQgaXQncyBhIGdv
-b2QgaWRlYSB0byBjaGFuZ2UgdGhhdCBkZWNpc2lvbiwgdGltZSBzcGVudCBvbiBjb2RlIGNoYW5n
-ZXMgZG9lc24ndCBzZWVtIGxpa2UgYSBnb29kIHVzZSBvZiBlZmZvcnQgdG8gbWUuDQoNCnRoYW5r
-cw0KLS0gUE1NDQo=
+
+
+Am 18/08/2022 um 21:34 schrieb Peter Xu:
+> On Tue, Aug 16, 2022 at 06:12:49AM -0400, Emanuele Giuseppe Esposito wrote:
+>> kvm listeners now need ->commit callback in order to actually send
+>> the ioctl to the hypervisor. Therefore, add missing callers around
+>> address_space_set_flatview(), which in turn calls
+>> address_space_update_topology_pass() which calls ->region_* and
+>> ->log_* callbacks.
+>>
+>> Using MEMORY_LISTENER_CALL_GLOBAL is a little bit an overkill,
+>> but it is harmless, considering that other listeners that are not
+>> invoked in address_space_update_topology_pass() won't do anything,
+>> since they won't have anything to commit.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>  softmmu/memory.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/softmmu/memory.c b/softmmu/memory.c
+>> index 7ba2048836..1afd3f9703 100644
+>> --- a/softmmu/memory.c
+>> +++ b/softmmu/memory.c
+>> @@ -1076,7 +1076,9 @@ static void address_space_update_topology(AddressSpace *as)
+>>      if (!g_hash_table_lookup(flat_views, physmr)) {
+>>          generate_memory_topology(physmr);
+>>      }
+>> +    MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
+>>      address_space_set_flatview(as);
+>> +    MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
+> 
+> Should the pair be with MEMORY_LISTENER_CALL() rather than the global
+> version?  Since it's only updating one address space.
+
+Ideally yes, we want to call the memory listener only for this address
+space. Practically I don't know how to do it, as MEMORY_LISTENER_CALL 1)
+takes additional parameters like memory region section, and 2) calls
+_listener->_callback(_listener, _section, ##_args)
+whereas begin and commit need (_listener, ##args) only, which is what
+MEMORY_LISTENER_CALL_GLOBAL does.
+
+> 
+> Besides the perf implication (walking per-as list should be faster than
+> walking global memory listener list?), I think it feels broken too since
+> we'll call begin() then commit() (with no region_add()/region_del()/..) for
+> all the listeners that are not registered against this AS.  IIUC it will
+> empty all regions with those listeners?
+
+What do you mean "will empty all regions with those listeners"?
+But yes theoretically vhost-vdpa and physmem have commit callbacks that
+are independent from whether region_add or other callbacks have been called.
+For kvm and probably vhost it would be no problem, since there won't be
+any list to iterate on.
+
+I'll implement a new macro to handle this.
+
+Emanuele
+> 
+> Thanks,
+> 
+
 
