@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D775A2B84
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:46:25 +0200 (CEST)
-Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540445A2BB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:51:46 +0200 (CEST)
+Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbXL-0006by-W7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40106)
+	id 1oRbcX-0004aZ-BO
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRbOY-0003x1-Va
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:37:19 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:41647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRbOX-0001B7-Bw
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:37:18 -0400
-Received: by mail-pf1-x436.google.com with SMTP id x26so1878717pfo.8
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 08:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=AGGjToEM/6sgP4/zB9eJ8e8ZTYol2qh9Nmue8/V8p4A=;
- b=mfjgBciPiAoz46nDkGmClREpeFImH/f1dwZRCRuQSUN8jgmADLlahcyeGLIjr8RTWn
- JfioEoREHr3fGwOjh8B9OH1sVMPVgaBFZ+fNlFvX9AKsQlsWHrdo5lB+4V5lXg6fy5MM
- M9E0eorpm7M9k0O8gYleJkpk3GuyJOUejB/8qkHzwnupuwgHTGQ6UZlQoKrxxl6l9x7F
- fNUcfXVVu3hhhPvvVqXcUaKjnyvxXm2NrET6qeryeymolz9feD+4POtbwoUk/sduzwAp
- 6dTDZ4pHF33rSZRW4q6WPgh+JIArFnAVDMR8vFFw+zRlsOkpPcnfGcM86MFZ8WLADRt1
- Y4hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=AGGjToEM/6sgP4/zB9eJ8e8ZTYol2qh9Nmue8/V8p4A=;
- b=hM3UbPJbro7p30yxrP6/4Ha4Ki+2Spy7x95duog2AlJuTzBXCiFMFVVainX2ThbHcr
- M6JCXnZgvOVDmowigj1ovON6z8TDGoqrkcHG31PSNZD1NzfI/PnQImbK7ifPHD4yC48T
- JypaXHisURmlUqUww9pRoxYvHZn6DNcY4MWmlNoOdA2ykWCqEcNlt78B+Ab27fbxZ+hU
- 4gVxSwGYPfvMZFhaOpnvzazNK5nZm9kCi++CP91knB4vRU0ZbNCURWeezOSKiKMd19FQ
- 70Ahp9hbBtWUD4pX3UwhGsL+gAlHCQjUjtuEqmXNMoyF8YLWBqAmjDCJ4RS5wj85tuIh
- Y0Vw==
-X-Gm-Message-State: ACgBeo1A9ox7XobXhPQFxHFCy3m2or/39MYcTO6vF3IrpZqfXLDFlMxg
- IqsM58Yh4quGRUeqicDGoP8l9Q==
-X-Google-Smtp-Source: AA6agR50HNcFK4qsXs7cHgxYl4CgnTYrLp2rlNSve5hyWOODdEiTtDeIQGPlRFa7C+FjiMcUCaM4Rg==
-X-Received: by 2002:a05:6a00:2449:b0:528:3a29:e79d with SMTP id
- d9-20020a056a00244900b005283a29e79dmr4424277pfj.39.1661528235708; 
- Fri, 26 Aug 2022 08:37:15 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f?
- ([2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f])
- by smtp.gmail.com with ESMTPSA id
- z5-20020a17090a66c500b001f334aa9170sm1802916pjl.48.2022.08.26.08.37.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 08:37:15 -0700 (PDT)
-Message-ID: <b699c3fc-734d-83b1-b95a-5fb437d66120@linaro.org>
-Date: Fri, 26 Aug 2022 08:37:13 -0700
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oRbWd-0006EQ-K9; Fri, 26 Aug 2022 11:45:40 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:50941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oRbWX-0002Wb-7u; Fri, 26 Aug 2022 11:45:39 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id E6A5032000E5;
+ Fri, 26 Aug 2022 11:45:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 26 Aug 2022 11:45:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1661528725; x=1661615125; bh=yR
+ AKBoKxDxpnArSEj3ctKXjjrGRzKZ1RVTJuJyaINkU=; b=y04ku8oVXQQKydBKSq
+ bxIzNdGUZkZsCDFQqiiR7eDr+xw4At5pwXROztdvcGMwCdVSRKyd6qhhN4ftJ/be
+ sOhSH/hupk46FJBP/MnrmSEOE5qtRqEmByxtBVkNxuGWWyD4lYQg+sXgKWl1LD0U
+ ILLxmk9iy1qInUepVVWWzpya88H5GiHG6Sab5CCNobL4EnVlnA+be4Avp3hE7BUf
+ KeVL2DBWWu6/RuEmBqRdgAsjMmiCKamUFguHgsMMdMS0BdKcl0IFtVUXAqfczzt2
+ h8t2u1+j1OZtxvtZFIvKuILvXIU6/yo1khA+zKnMTju14eFf41a2E44UXJCHqSwI
+ IXqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1661528725; x=1661615125; bh=yRAKBoKxDxpnArSEj3ctKXjjrGRz
+ KZ1RVTJuJyaINkU=; b=bZCVMIbDcltIE/NUZtywf8qKIz8+LtZrHHsKLbC2HTaO
+ N+I7Qb33e3ltWqODyf+pe3ret+IBT2cgMaktcAYZGxvUhFSb8Hf9ofP0LCguRaew
+ v6+DeqPbyjMX4Nn+frr/SDpx0yGIhu4saGW2CXVesXUbUV4q7iWXj84FR8ezp+it
+ Ncki+7uTxtvWQZS4bE+4oxD7jIMwWocHTR1IIUiDvbGDTtVt7dJiYdgNYay1712N
+ 8LTx0qV+50p+zTqcZgZqo9ZEtpnlKgFupNSN7cizrpgDTpP54M38jhyvUnlWL49L
+ /3WDoPy7cfQRYElolzPQ1MuJZKWxTrNp5zRsCHWNEQ==
+X-ME-Sender: <xms:leoIY4N9KdbY5HmT4jzuvzI_8kC9F9d2fy7j58GareYTHPWQBYEagg>
+ <xme:leoIY-8-KA1QtvIzGTzlu3rEGZPcyRLWzf9-TGtRGTuSyI-RYRAjCbeJYdhc6c-wr
+ _FqFlFOJgG58O6iSJ4>
+X-ME-Received: <xmr:leoIY_TdYQBuYSU3zYe1zJf4HX1TU-3XFS4bTkb2WHQB2-fIH1iOfQbhnL1SPRNkx1EJWWFYfOGDgDTs-Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejhedgledvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:leoIYwsl6JDqgu3sUpBZjvFptWWbBQw-3NKhgnHJCnQdxWuVTCZ-Kw>
+ <xmx:leoIYwdshzB-gb65528-LY35m12a4gZAiYyArkueJWRymyVajoicUQ>
+ <xmx:leoIY03lEX5JqdU5kVdwyawsO_4DVGB7CxY8qKYm02E176X_5IDtZA>
+ <xmx:leoIY1F4h9bttkslofj9ZGhrIhjnk11uQWgSUvlw2sOnFaJb2Col4Q>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 26 Aug 2022 11:45:23 -0400 (EDT)
+Date: Fri, 26 Aug 2022 17:45:21 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
+ stefanha@gmail.com, Klaus Jensen <k.jensen@samsung.com>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 2/3] hw/nvme: use KVM irqfd when available
+Message-ID: <YwjqkTgIEcCZJ3Be@apples>
+References: <20220826151206.3148942-1-fanjinhao21s@ict.ac.cn>
+ <20220826151206.3148942-3-fanjinhao21s@ict.ac.cn>
+ <Ywjn7QOb9EyK1oJc@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 03/18] i386: Add CHECK_NO_VEX
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: paul@nowt.org
-References: <20220825221411.35122-1-pbonzini@redhat.com>
- <20220825221411.35122-4-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220825221411.35122-4-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8XmrsozuGP7txlCa"
+Content-Disposition: inline
+In-Reply-To: <Ywjn7QOb9EyK1oJc@kbusch-mbp.dhcp.thefacebook.com>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,18 +104,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/22 15:13, Paolo Bonzini wrote:
->               } else {
-> +                CHECK_NO_VEX(s);
->                   if ((op6.flags & SSE_OPF_MMX) == 0) {
->                       goto unknown_op;
->                   }
 
-Swap these, perhaps?  Or drop the unknown/illegal distinction?
+--8XmrsozuGP7txlCa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Either way,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Aug 26 09:34, Keith Busch wrote:
+> On Fri, Aug 26, 2022 at 11:12:04PM +0800, Jinhao Fan wrote:
+> > Use KVM's irqfd to send interrupts when possible. This approach is
+> > thread safe. Moreover, it does not have the inter-thread communication
+> > overhead of plain event notifiers since handler callback are called
+> > in the same system call as irqfd write.
+> >=20
+> > Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> No idea what's going on here... This one is causing the following assert
+> failure with --enable-kvm:
+>=20
+>   qemu-system-x86_64: ../accel/kvm/kvm-all.c:1781: kvm_irqchip_commit_rou=
+tes: Assertion `ret =3D=3D 0' failed.
+>=20
+> I find it calls KVM_SET_GSI_ROUTING ioctl with gsi set to KVM_IRQ_ROUTING=
+_MSI,
+> and linux kernel returns EINVAL in that case. It's never set that way wit=
+hout
+> this patch. Am I the only one seeing this?
+
+Argh, sorry, I threw that patch together a bit too quickly. I was just
+so pumped because I believed I had solved the issue hehe.
+
+Are you missing the ioeventfd=3Don and irq-eventfd=3Don parameters by any
+chance? Without those I'm also getting an assertion, but a different one
+
+qemu-system-x86_64: ../hw/pci/msix.c:119: msix_fire_vector_notifier: Assert=
+ion `ret >=3D 0' failed.
 
 
-r~
+
+--8XmrsozuGP7txlCa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMI6o0ACgkQTeGvMW1P
+DelA4ggAq1ouCX2riqWfAsYe8U++Nm7n8p5FH6iWuwN4zgsIiUQnC0Ee/Q4lIyjc
+crgZnCsXoT7UcAwsAAbD3YOeze4FIWvifOg7yNRijikANr6XEPkK+SA2/sBXTk1A
+4mrkfL0PkbEp6eiHul2xlb0XC6iLXrPwB835BqLMtRi0acirky1SMA7fTsug/lie
+/hHvhsoXleO2jMlc20SrloqHbd/pIEmWzwAAKpSCCDcqSLD7RaDDfJr3+yP5rv43
+QF/HVYUu5NPn+H4VSF/9E4+O1unePb6BDmhM8H7AKk5x3AXnNi7pVrop3QzyUorY
+4Wm5LaPtGwAuhr/7B2WMQyiOCj0OBQ==
+=fZqg
+-----END PGP SIGNATURE-----
+
+--8XmrsozuGP7txlCa--
 
