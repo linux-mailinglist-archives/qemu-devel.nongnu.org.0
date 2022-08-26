@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA7C5A32B3
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 01:37:56 +0200 (CEST)
-Received: from localhost ([::1]:42744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471275A3293
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 01:24:46 +0200 (CEST)
+Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRitf-000261-BY
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 19:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42908)
+	id 1oRigv-0006mw-CF
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 19:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRiVl-0007Kh-90
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:13:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54318)
+ id 1oRiVj-0007Fc-Ox
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:13:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRiVW-0007sW-Hg
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:13:12 -0400
+ id 1oRiVW-0007su-8l
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:13:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661555575;
+ s=mimecast20190719; t=1661555576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EdzxNqc3E/z2EO4Qyu4yrjNJ5KEu/Wcds8vGPwbfTeQ=;
- b=NLzHKp+85o2DtqlcydkeXbPyRPX05C/vtkpWx1sVYF+/0kJD2J4XqzKVSuX7vR8RzFEAWW
- WMF9qqoPC021OlGPEQi8ABLNBhdrvxyDpJNtC/PbBHCVDF2DmqHptqGdMMdqutMPRd1zDp
- 9bThTTwIBRZWnyQe3EgsU9VGVvxUbbs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VQkmLXOo3oapP2Ppxp4sKP0WmFrqbzXLa3eq0R8XHlA=;
+ b=SvPE5+VzdznqacggXgTpYyB0OjuBpmv7THVRB7N9S5zlnILMMSaWq7NWs1FNncrGuuK6E/
+ e2LekbiVj8OcYHVThlldjEQw84oA15I+AZgl26s7xFadAJHUmFuEjB8rCAkafz5vNKZ0G7
+ lCulSpmYZoCJ9f1773MtqRsLSHqj0Io=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-580-yH9DzL6RNz-vg8PSX1kmqQ-1; Fri, 26 Aug 2022 19:12:53 -0400
-X-MC-Unique: yH9DzL6RNz-vg8PSX1kmqQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w20-20020a05640234d400b00447e6ffefccso1877552edc.0
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 16:12:53 -0700 (PDT)
+ us-mta-192-EXpMrZ8NOy-0sciEhwBjRw-1; Fri, 26 Aug 2022 19:12:55 -0400
+X-MC-Unique: EXpMrZ8NOy-0sciEhwBjRw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y14-20020a056402440e00b0044301c7ccd9so1837538eda.19
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 16:12:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=EdzxNqc3E/z2EO4Qyu4yrjNJ5KEu/Wcds8vGPwbfTeQ=;
- b=QUxmyYtsr6MNodbtJQPYJlbw8eJEANKiboG/YmKU0mMDjIG2rFfLjFcxpl4pbBT/Fa
- X0Lv9CLEosD9Yx+T9LPN4PlTovO0Ki/LDS8vx2RA0RwbSPyu/2QLgYIuQMWGuJlS/Ns4
- X9Ed1zQrYCYPZCrrUrXYzNZ9jJuvnJlZSIp/7yCZXQaIAykUdsx6VOkrfJobioNpLJYb
- dogDNikPoh73kHpokVsxqIGX2y6ZVdG8dd13bMEluZdCJlqp5n1u24PBUcQX6LXndW0h
- wTlx8DVEhmFoKrrpLe1m/e5BsXwPEfKFv2ZfYnLA/vpW+5wBP3Q2xWJ2Dy6EmOVbMh2K
- q6IA==
-X-Gm-Message-State: ACgBeo0ikolWSGH83nVtigu5FuilE886xhy4Lb/6knPln6g1b4Edm4hM
- bkFoGGinhThBaZTSpsdyLiJvBwAYvct1zNERc1ZoaNhnnAZfZ/kTDSAbmNmY5BBuO+TMd9vIv+e
- CTRp7KkfFlUpn3slni7/nRNHEA3kfS/sfS29ljGxHRKzyOrrYyEgpUZmakmsCeg5aHcs=
-X-Received: by 2002:a17:907:3e07:b0:73d:760d:3e01 with SMTP id
- hp7-20020a1709073e0700b0073d760d3e01mr6596192ejc.136.1661555572294; 
- Fri, 26 Aug 2022 16:12:52 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5iit9OkcezP/M58TvCAAPPqqT513DBsSgZlYJn1/shpVKgW27eDYb4q3MZQoBHxE8ez8Huow==
-X-Received: by 2002:a17:907:3e07:b0:73d:760d:3e01 with SMTP id
- hp7-20020a1709073e0700b0073d760d3e01mr6596180ejc.136.1661555571994; 
- Fri, 26 Aug 2022 16:12:51 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- 1-20020a170906210100b00731582babcasm1426540ejt.71.2022.08.26.16.12.50
+ bh=VQkmLXOo3oapP2Ppxp4sKP0WmFrqbzXLa3eq0R8XHlA=;
+ b=iPThjoGywGAt+pKpuvaPYdOvKW0aTCtML0MdU8/RZaHJHMpaCdLD0ckYlFm2OA8mf3
+ 7aoRdFjP9lkGhtwUWN1VIe2efZoAo6XgGlfkYB3QvhQUrP2oUuFjrceLtUFuSStfts6N
+ CvOyha/XRl18YFZWmYSG8zI+ud5Bi5ZxN9ArOWL7RMYeZnJ8vcKoq01N0V6w6Vz5gK1C
+ pM2YHwOAfuFL0zIi6zLzYF5jpQanF3RzfYSBbjqBeR2AnyLax3ehD8mVaq0GQ8CDfEZp
+ eIBopK01FOD0UPOCb02ncmNH4xuil+CY7hzWBnU099XW/Vp+kmd/rMOUhBAXo4dhExIz
+ MkCw==
+X-Gm-Message-State: ACgBeo19FksL37gQs0+lQg4t2b61mjjO16SaEWo499/TIb1UMkFOv3cj
+ Z4Q3NbBc7EmyvaLo4Ciw0n5+6apQmbTYbbX7h34GKfgNnQnQ1u+jfwpKDYX5ya8Ds5YPgKYSUTq
+ L45tKL/FxY9UP83IRO5X3dmAB4y9oWQUHAF8le7xbFv1qq/gZ+ECvikJ9oA6u0TTkRUc=
+X-Received: by 2002:a17:907:1dd2:b0:740:97ab:1f9b with SMTP id
+ og18-20020a1709071dd200b0074097ab1f9bmr2702385ejc.319.1661555574235; 
+ Fri, 26 Aug 2022 16:12:54 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6HdyeWRdCDVbcTGrQIdsmV4dptuJ3GE6RESzpzsi+MtBuG77xEGjhiUwaDWUdSspnp3BSMtA==
+X-Received: by 2002:a17:907:1dd2:b0:740:97ab:1f9b with SMTP id
+ og18-20020a1709071dd200b0074097ab1f9bmr2702375ejc.319.1661555573945; 
+ Fri, 26 Aug 2022 16:12:53 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ p13-20020a17090653cd00b0074149364e76sm124254ejo.27.2022.08.26.16.12.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 16:12:51 -0700 (PDT)
+ Fri, 26 Aug 2022 16:12:53 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	paul@nowt.org
-Subject: [PATCH 22/23] i386: AVX pclmulqdq prep
-Date: Sat, 27 Aug 2022 01:12:03 +0200
-Message-Id: <20220826231204.201395-23-pbonzini@redhat.com>
+Subject: [PATCH 23/23] i386: AVX+AES helpers prep
+Date: Sat, 27 Aug 2022 01:12:04 +0200
+Message-Id: <20220826231204.201395-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220826231204.201395-1-pbonzini@redhat.com>
 References: <20220826231204.201395-1-pbonzini@redhat.com>
@@ -102,68 +101,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Brook <paul@nowt.org>
 
-Make the pclmulqdq helper AVX ready
+Make the AES vector helpers AVX ready
+
+No functional changes to existing helpers
 
 Signed-off-by: Paul Brook <paul@nowt.org>
-Message-Id: <20220424220204.2493824-21-paul@nowt.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220424220204.2493824-22-paul@nowt.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+ target/i386/ops_sse.h | 49 +++++++++++++++++++++++--------------------
+ 1 file changed, 26 insertions(+), 23 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index f9cc1d7623..2b35b6e533 100644
+index 2b35b6e533..a42d7b26ba 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -2247,14 +2247,14 @@ target_ulong helper_crc32(uint32_t crc1, target_ulong msg, uint32_t len)
- 
- #endif
- 
--void glue(helper_pclmulqdq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
--                                    uint32_t ctrl)
-+#if SHIFT == 1
-+static void clmulq(uint64_t *dest_l, uint64_t *dest_h,
-+                          uint64_t a, uint64_t b)
+@@ -2289,64 +2289,66 @@ void glue(helper_pclmulqdq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+ void glue(helper_aesdec, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
  {
--    uint64_t ah, al, b, resh, resl;
-+    uint64_t al, ah, resh, resl;
+     int i;
+-    Reg st = *d;
++    Reg st = *d; // v
+     Reg rk = *s;
  
-     ah = 0;
--    al = d->Q((ctrl & 1) != 0);
--    b = s->Q((ctrl & 16) != 0);
-+    al = a;
-     resh = resl = 0;
- 
-     while (b) {
-@@ -2267,8 +2267,23 @@ void glue(helper_pclmulqdq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
-         b >>= 1;
+-    for (i = 0 ; i < 4 ; i++) {
+-        d->L(i) = rk.L(i) ^ bswap32(AES_Td0[st.B(AES_ishifts[4*i+0])] ^
+-                                    AES_Td1[st.B(AES_ishifts[4*i+1])] ^
+-                                    AES_Td2[st.B(AES_ishifts[4*i+2])] ^
+-                                    AES_Td3[st.B(AES_ishifts[4*i+3])]);
++    for (i = 0 ; i < 2 << SHIFT ; i++) {
++        int j = i & 3;
++        d->L(i) = rk.L(i) ^ bswap32(AES_Td0[st.B(AES_ishifts[4 * j + 0])] ^
++                                    AES_Td1[st.B(AES_ishifts[4 * j + 1])] ^
++                                    AES_Td2[st.B(AES_ishifts[4 * j + 2])] ^
++                                    AES_Td3[st.B(AES_ishifts[4 * j + 3])]);
      }
- 
--    d->Q(0) = resl;
--    d->Q(1) = resh;
-+    *dest_l = resl;
-+    *dest_h = resh;
-+}
-+#endif
-+
-+void glue(helper_pclmulqdq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
-+                                    uint32_t ctrl)
-+{
-+    Reg *v = d;
-+    uint64_t a, b;
-+    int i;
-+
-+    for (i = 0; i < 1 << SHIFT; i += 2) {
-+        a = v->Q(((ctrl & 1) != 0) + i);
-+        b = s->Q(((ctrl & 16) != 0) + i);
-+        clmulq(&d->Q(i), &d->Q(i + 1), a, b);
-+    }
  }
  
- void glue(helper_aesdec, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ void glue(helper_aesdeclast, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ {
+     int i;
+-    Reg st = *d;
++    Reg st = *d; // v
+     Reg rk = *s;
+ 
+-    for (i = 0; i < 16; i++) {
+-        d->B(i) = rk.B(i) ^ (AES_isbox[st.B(AES_ishifts[i])]);
++    for (i = 0; i < 8 << SHIFT; i++) {
++        d->B(i) = rk.B(i) ^ (AES_isbox[st.B(AES_ishifts[i & 15] + (i & ~15))]);
+     }
+ }
+ 
+ void glue(helper_aesenc, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ {
+     int i;
+-    Reg st = *d;
++    Reg st = *d; // v
+     Reg rk = *s;
+ 
+-    for (i = 0 ; i < 4 ; i++) {
+-        d->L(i) = rk.L(i) ^ bswap32(AES_Te0[st.B(AES_shifts[4*i+0])] ^
+-                                    AES_Te1[st.B(AES_shifts[4*i+1])] ^
+-                                    AES_Te2[st.B(AES_shifts[4*i+2])] ^
+-                                    AES_Te3[st.B(AES_shifts[4*i+3])]);
++    for (i = 0 ; i < 2 << SHIFT ; i++) {
++        int j = i & 3;
++        d->L(i) = rk.L(i) ^ bswap32(AES_Te0[st.B(AES_shifts[4 * j + 0])] ^
++                                    AES_Te1[st.B(AES_shifts[4 * j + 1])] ^
++                                    AES_Te2[st.B(AES_shifts[4 * j + 2])] ^
++                                    AES_Te3[st.B(AES_shifts[4 * j + 3])]);
+     }
+ }
+ 
+ void glue(helper_aesenclast, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ {
+     int i;
+-    Reg st = *d;
++    Reg st = *d; // v
+     Reg rk = *s;
+ 
+-    for (i = 0; i < 16; i++) {
+-        d->B(i) = rk.B(i) ^ (AES_sbox[st.B(AES_shifts[i])]);
++    for (i = 0; i < 8 << SHIFT; i++) {
++        d->B(i) = rk.B(i) ^ (AES_sbox[st.B(AES_shifts[i & 15] + (i & ~15))]);
+     }
+-
+ }
+ 
++#if SHIFT == 1
+ void glue(helper_aesimc, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ {
+     int i;
+     Reg tmp = *s;
+ 
+     for (i = 0 ; i < 4 ; i++) {
+-        d->L(i) = bswap32(AES_imc[tmp.B(4*i+0)][0] ^
+-                          AES_imc[tmp.B(4*i+1)][1] ^
+-                          AES_imc[tmp.B(4*i+2)][2] ^
+-                          AES_imc[tmp.B(4*i+3)][3]);
++        d->L(i) = bswap32(AES_imc[tmp.B(4 * i + 0)][0] ^
++                          AES_imc[tmp.B(4 * i + 1)][1] ^
++                          AES_imc[tmp.B(4 * i + 2)][2] ^
++                          AES_imc[tmp.B(4 * i + 3)][3]);
+     }
+ }
+ 
+@@ -2364,6 +2366,7 @@ void glue(helper_aeskeygenassist, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+     d->L(3) = (d->L(2) << 24 | d->L(2) >> 8) ^ ctrl;
+ }
+ #endif
++#endif
+ 
+ #undef SSE_HELPER_S
+ 
 -- 
 2.37.1
-
 
 
