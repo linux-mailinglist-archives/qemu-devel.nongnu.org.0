@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B875A29B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:40:23 +0200 (CEST)
-Received: from localhost ([::1]:53162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76EF5A2A57
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:07:37 +0200 (CEST)
+Received: from localhost ([::1]:48334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRaVJ-0001zz-0Z
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:40:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1oRavo-0007Ka-13
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAn-0000c0-8f
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:01 -0400
-Received: from mout.gmx.net ([212.227.15.18]:51101)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAo-0000ee-TR
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:03 -0400
+Received: from mout.gmx.net ([212.227.15.15]:56177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-000550-7D
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:00 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-000553-Rc
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1661523535;
- bh=iXsvkP3ev12f2ThXbBYeEGC5zXB7ceY2b2oHuAaIKO8=;
+ bh=W/3O0t423mJ6phUG7vJJvRCtfA/7EJAlySBMTy/Tz34=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=lWi1Mh1IhpH6lsMzemgmZiNcER2r5r2LI776rPNsqkzmXNOtZdzxh2Q8F7mXIYMsl
- vZQq+gH9vYFiCkyRfsLDGzIagyPESOyQGkucixuf0xmJ5CywwjjtouYTNjZw969WXC
- mZnbjm+X93MRDyao3QlHfZhFHIsikSBPrZ9CZRlU=
+ b=kOQY1mxv0ShrXUnmuOASKzz7o8Pvr2tMlJ9x5LYSy/Lzode5DcHe5ReCT6htoazru
+ tnxkvoHuyTKIYoFR1Qn1h3vQsx9NXuHOlbgmefXlETDymi1WlsUY2wqW+Ht4HWKblm
+ gpIHSoHc/AsH+OnAkV4wror2PPZnd7LP9IIvuy/U=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.171.190]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MbAh0-1oyS5047Ee-00bYeQ; Fri, 26
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M7K3i-1oUrxb0OFQ-007hYE; Fri, 26
  Aug 2022 16:18:55 +0200
 From: Helge Deller <deller@gmx.de>
 To: Laurent Vivier <laurent@vivier.eu>,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 07/13] linux-user/hppa: Dump IIR on register dump
-Date: Fri, 26 Aug 2022 16:18:47 +0200
-Message-Id: <20220826141853.419564-8-deller@gmx.de>
+Subject: [PATCH 08/13] linux-user: Fix strace of chmod() if mode == 0
+Date: Fri, 26 Aug 2022 16:18:48 +0200
+Message-Id: <20220826141853.419564-9-deller@gmx.de>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220826141853.419564-1-deller@gmx.de>
 References: <20220826141853.419564-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dgIl2OKFHhGxco+FUoNG4lc5rMaqkzz7cBeMXT1Dsnxi8jlpKX9
- RJAoitsEl2aTwM/JZvv+vjY05s5wCetjJtlns/mnYDUBwGLGL4gZZM/xHgVFOgvpAO5mca6
- zKAlaNRKwcSXexNviLe25L5S7+BksSi8BDekg5axQ3Kz3HOnz2Zl/FBg5WIWxoDOaSkp7lc
- 1Ht7xCry1y9ZRW+hQsEjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5gSqPZoIVe0=:/l4vJljeVvr0bY3J7vojFV
- NieJvSdoutaTI9aEGbOCpWZjz1Y2viF/e/cWi/Ue8poTxxZVIu97KDncW5DOp++uVR5VAwNeA
- XWZaLk3VcAVKIytWsFFp5yM/V9yHmkI7X/Vj+Urh8NAl4R415TmBh0NsMwW6Kr9FXK0ohgGl8
- acdoKESraGB481f5HdQ/mYvWLnkFhm0ni6dwB0RT9VtcVRLeRT0709x4uFkd7+uCt4t0K20aM
- aGdEdj5v/EkZVta0NKknMifLtcdlAMTFqRDGB4FeW0FQ3iLJG/eTyMuGfUHXeRnyHvxY/HsLY
- RjX+m3p449kVUVo28BI6pzsKwsVVjBorA98g7QlAw84ejOEv1T9OIaFqy7wkgV57U2i4IrtH+
- iuvLwTdC7uV6YRe2IXNaeStJVzY91vEWumXMfnLrk23pvgjuZ8GKfyJg2YW/Y2yu+vmAtQGhK
- nzdqsgQQm5ArLCssWDrwKAjCX3oD5lK+XPNfg9yZ8P01erFIt5Q3ueTLBDf4FBuWFcpjAPTbF
- drTdJLQPybAI4i/k+pBqGecSyv+A8phjXB0mv+vmJC0uDHEvti09q+IHG39Yd+gV6UDIRW0V8
- QARmL8ftLtiAhVPA9Du/CAkmA/gd09NEXiyGJCYJDLJKDHWPTETiKB9wRR5Xdm14QH2MUp9tV
- MaaHAUGd7CvFjm9+O7n9RN+mF1MxVtF3mXy8F9IB9pQbxVYSYQrK6FgQT6PyLxDe2PatplYLg
- SLIvFmszfL8IDu49/J7J57u275ZfvPwnXLCcLadsVO+vq/0Hjw5Qgmm+uoon1o6KHzN0idGWQ
- 53CS2jfmxj2YT/eg1r+2SxbGIDpzL+oLIZVOG+3owYu8XD36cj1e63FGr/93BKL94V2gtWvC9
- C24urOdJe5l1nwYudWtydT0n9202a0TA2JMWEemCZj0phRcz3yAJ2/zDC3i+vhHzTt2jJ/hJ2
- 1RLHUTYQ3JkMn66vlKN/S8pqqZtAIlCWL2uHdwHXDfjCU4eS3Nd1UxpPeXx/QO0GEl8yaH+n9
- W8qihUF3+k0eSyn6bDLvZ/WcEEG8y/faNBqkZGIuYZBXk4v8y+g27TKt3m48cgeUCZo8sKQNC
- gde/iAKWvCvw2JGmHGXU+E56BEwvmbT9+O7CDBc+Gk6+VIuhWoYOgGMHg==
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:4LofVz4sy4ygbo1u9+BQFa+aZzayDzwcYzsgbB1B5SEZy223uYP
+ yv50/zGcKhLmlemvrQ36ERC1kflGnfafduwkM7uGGkVgjFaN+1REnequFOuWia7wJgTEmhe
+ yoB9+yP7p9TIHeGHzRe8Pudt/NTBaBBvOW2LTf7wwSJhLwgAMNkJ5qHL+I1aUItKTmpToHf
+ UzCbigiSRiXpplYxA1PJw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PGuMhHM2BGw=:DGv59cq7mvDmRCDIAygBL9
+ 6Ond91Jjdc9EgxUZlTazc2UEcHeBCZZ3loPBkHToF8dMKnz6llqOZsvqvSXm+VV4tGh7b0gdb
+ uBXt/NjjxZnFUCZ6Lm6FPLTnqyUOPURl53ajdGx6RZB63KzYpQTyqseFGJNe7qi2+v12ySJo2
+ HiSChJSlxrP517WvIMzgI/3wr5KlOh1Hr30uk/VrhvCC/J7taCNkxF2nJs+1aTclCZ88NGIgK
+ lzFs+8jhvRt3RKz+jlLwYlzqjN+l78CESqovfhlRnZrcVk6NwUBWczbxwUtc5KTkvLprr6vlR
+ 35k5ZHepqaZrCkUMbhOz3Y0k1LIFwt7qvhiSsn/wnZT3r9djeReRRC5LKhz7gfSnyCtVzAaZ0
+ Jh5I5FIRI+88w+cOsdSY6pahrWOSD1+aK7OwSNy1tOj1/1/UYnSia16/emiYUxmzVT4Om017w
+ k/fJHIopww4GHWKexlBDDZEu2f9pQThcinemTczJTWe6NoOISpVNTeL3acdS9jtyW1MDzYEQb
+ ICcWRTwLFRrwCvA7MkNAsIvcm5EQ94+36/bTqoVoxs+HZtrM6793W5TOAUTfDihqgEQ2qOCXf
+ 5/e9FIqi1lH9/80Yu2EsYmY0f1oVqxEG4Qp6lpA5R8QA8MiA8flZbXOzGt3ksFDsci6QtutdU
+ rA4MTTl6iYqbHgexLLmgK2zyMk/CCER11sI3YiowUgoafRoIucpkJqfRAsJtbPXQajme7hDjV
+ AYdmcbS07s6HLYr+Qvuto3PeGwbY/YI3nAPXxr+KxnUpHpYO53f2NG1L/YyXCGVelmfDMYYRc
+ ndoyMNElKiTK//dz0akKQ29WCfwstxy5R7WSMFyRdAdlSDA2VkSAo8RzzSaMHEelkzu1Zpo4H
+ B7815rzt1E2fsclFnPyLJ02r4dfjURJ+6Y+5b8BHP/ZeZDLLWUPsLCUIa63+gPky/huzXImBj
+ hIKyO3C/NQxmFlf/X79ZbUQCnlUZwJm0xKqDSPgW6fQGw5LlettFhBUmRNIM3rLkzhWuuPOGZ
+ p5uCa53RERmbZwudzahcHyO1EVovczcAKgbz3DQfMGzAiITWYL2WEIAKb5tOg8sZvDC2A0q50
+ j+nKANzfbZPwOBHX0slKk9ZOAxsQCmpnM8E6FkjktRCiDSeOQZqSFbW/w==
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -85,33 +85,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include the IIR register (which holds the opcode of the failing
-instruction) when dumping the hppa registers.
+If the mode parameter of chmod() is zero, this value isn't shown
+when stracing a program:
+    chmod("filename",)
+This patch fixes it up to show the zero-value as well:
+    chmod("filename",000)
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- target/hppa/helper.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ linux-user/strace.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/hppa/helper.c b/target/hppa/helper.c
-index e2758d8df3..74b8747083 100644
-=2D-- a/target/hppa/helper.c
-+++ b/target/hppa/helper.c
-@@ -85,9 +85,11 @@ void hppa_cpu_dump_state(CPUState *cs, FILE *f, int fla=
-gs)
-     char psw_c[20];
-     int i;
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 86b2034c81..d1afa0e12a 100644
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1504,6 +1504,11 @@ print_file_mode(abi_long mode, int last)
+     const char *sep =3D "";
+     const struct flags *m;
 
--    qemu_fprintf(f, "IA_F " TARGET_FMT_lx " IA_B " TARGET_FMT_lx "\n",
-+    qemu_fprintf(f, "IA_F " TARGET_FMT_lx " IA_B " TARGET_FMT_lx
-+                 " IIR " TREG_FMT_lx  "\n",
-                  hppa_form_gva_psw(psw, env->iasq_f, env->iaoq_f),
--                 hppa_form_gva_psw(psw, env->iasq_b, env->iaoq_b));
-+                 hppa_form_gva_psw(psw, env->iasq_b, env->iaoq_b),
-+                 env->cr[CR_IIR]);
-
-     psw_c[0]  =3D (psw & PSW_W ? 'W' : '-');
-     psw_c[1]  =3D (psw & PSW_E ? 'E' : '-');
++    if (mode =3D=3D 0) {
++        qemu_log("000%s", get_comma(last));
++        return;
++    }
++
+     for (m =3D &mode_flags[0]; m->f_string !=3D NULL; m++) {
+         if ((m->f_value & mode) =3D=3D m->f_value) {
+             qemu_log("%s%s", m->f_string, sep);
 =2D-
 2.37.1
 
