@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9D55A27BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 14:24:24 +0200 (CEST)
-Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159B05A2776
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 14:14:14 +0200 (CEST)
+Received: from localhost ([::1]:57882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRYNr-00063d-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 08:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
+	id 1oRYE0-00061x-LP
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 08:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oRXrO-0006fd-2n
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:50:57 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:39494)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oRXrK-0003Vm-5d
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:50:48 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A12C9223A9;
- Fri, 26 Aug 2022 11:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1661514640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1oRY0N-0004lk-ST
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:00:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32286)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1oRY0I-00058H-GS
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:00:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661515200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tds8wkEu3bicaJC/N4cO1LPKM5r7KMN1dnE9q7ZKXRA=;
- b=aCzcz+jo/ZW1zCi6IhCZ93tCC58l6pjDMWI9PVn2TR4jJMmxXc6fXMTpbHZ70xEVbKQELw
- TNgfdJJp4BLmcO9Zb7xckakGpfIOezbB1T8yz+P45M+PL3HfHwP6N1gaqfsPzMGqfv8xXV
- wJsRjboiidFiHnLwN/ELZ8qWd54NJFY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1661514640;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tds8wkEu3bicaJC/N4cO1LPKM5r7KMN1dnE9q7ZKXRA=;
- b=LwHIkfqcp/rhySvOguOa4vPSCrmMyegmD/HmJOMcFFupY4yIR6l8jf58YBO9hzy8ODKD8A
- MPtAq5OPJiH6tAAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=6LdQIy1KpSymSb6Goznzjmj9STKPdJYTor12NmVUqIM=;
+ b=OshDwdgjMz+dh0AT3l6Lmq9ktnP+ppltoXauWmrfhhlZgvY+UUsU94+0yek22szaMHgXg/
+ oHtsF7vTAQeL3H2OHQbZT1Xe81Bd96iJoOvdfQJyULuyAlAaCllI/E7cn5cGoD8wNEVbAW
+ HvftYsk/TPxz7Tv9AVKg+GWh/jGgzSE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-201-oiahhW-INHmZLn3_NlvfTg-1; Fri, 26 Aug 2022 07:59:59 -0400
+X-MC-Unique: oiahhW-INHmZLn3_NlvfTg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7645513421;
- Fri, 26 Aug 2022 11:50:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id c2t5G5CzCGPTAQAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 26 Aug 2022 11:50:40 +0000
-Message-ID: <1c0c72f5-6a4c-1fb3-3fa7-9c78e8ec8c7a@suse.de>
-Date: Fri, 26 Aug 2022 13:50:40 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE7B785A589;
+ Fri, 26 Aug 2022 11:59:58 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.192.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D222D492C3B;
+ Fri, 26 Aug 2022 11:59:56 +0000 (UTC)
+Subject: Re: [PATCH] fw_cfg: Don't set callback_opaque NULL in
+ fw_cfg_modify_bytes_read()
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: imammedo@redhat.com, peter.maydell@linaro.org, linuxarm@huawei.com,
+ chenxiang66@hisilicon.com
+References: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <43c62060-7a5d-25cf-91a3-1c391d3a58f9@redhat.com>
+Date: Fri, 26 Aug 2022 13:59:54 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
- defualt
+In-Reply-To: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220826113900.794046-1-berrange@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20220826113900.794046-1-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,79 +81,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/22 13:39, Daniel P. Berrangé wrote:
-> The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
-> possible. Historically this hasn't been an issue since it was rare for
-> OS distros to build with a higher mandatory CPU baseline.
+On 08/25/22 18:18, Shameer Kolothum wrote:
+> Hi
 > 
-> With RHEL-9, however, the entire distro is built for the x86_64-v2 ABI
-> baseline:
+> On arm/virt platform, Chen Xiang reported a Guest crash while
+> attempting the below steps,
 > 
->   https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level
+> 1. Launch the Guest with nvdimm=on
+> 2. Hot-add a NVDIMM dev
+> 3. Reboot
+> 4. Guest boots fine.
+> 5. Reboot again.
+> 6. Guest boot fails.
 > 
-> It is likely that other distros may take similar steps in the not too
-> distant future. For example, it has been suggested for Fedora on a
-> number of occassions.
+> QEMU_EFI reports the below error:
+> ProcessCmdAddPointer: invalid pointer value in "etc/acpi/tables"
+> OnRootBridgesConnected: InstallAcpiTables: Protocol Error
 > 
-> This new baseline is not compatible with the qemu64 CPU model though.
-> While it is possible to pass a '-cpu xxx' flag to qemu-x86_64, the
-> usage of QEMU doesn't always allow for this. For example, the args
-> are typically controlled via binfmt rules that the user has no ability
-> to change. This impacts users who are trying to use podman on aarch64
-> platforms, to run containers with x86_64 content. There's no arg to
-> podman that can be used to change the qemu-x86_64 args, and a non-root
-> user of podman can not change binfmt rules without elevating privileges:
+> Debugging shows that on first reboot(after hot-adding NVDIMM),
+> Qemu updates the etc/table-loader len,
 > 
->   https://github.com/containers/podman/issues/15456#issuecomment-1228210973
+> qemu_ram_resize()
+>   fw_cfg_modify_file()
+>      fw_cfg_modify_bytes_read()
 > 
-> Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
-> compatibility with binaries it is likely to encounter in the wild,
-> and not likely to have a significant downside for existing usage.
-
-How do we know for sure? Do we have a base of binaries to test across qemu versions?
-
+> And in fw_cfg_modify_bytes_read() we set the "callback_opaque" for
+> the "key" entry to NULL. Because of this, on the second reboot,
+> virt_acpi_build_update() is called with a NULL "build_state" and
+> returns without updating the ACPI tables. This seems to be 
+> upsetting the firmware.
 > 
-> Most other architectures already use an 'any' CPU model, which is
-> often mapped to 'max' (or similar) already, rather than the oldest
-> possible CPU model.
+> To fix this, don't change the callback_opaque in fw_cfg_modify_bytes_read().
 > 
-> For the sake of consistency the 'i386' architecture is also changed
-> from using 'qemu32' to 'max'.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reported-by: chenxiang <chenxiang66@hisilicon.com>
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 > ---
->  linux-user/i386/target_elf.h   | 2 +-
->  linux-user/x86_64/target_elf.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> I am still not very convinced this is the root cause of the issue.
+> Though it looks like setting callback_opaque to NULL while updating
+> the file size is wrong, what puzzles me is that on the second reboot
+> we don't have any ACPI table size changes and ideally firmware should
+> see the updated tables from the first reboot itself.
 > 
-> diff --git a/linux-user/i386/target_elf.h b/linux-user/i386/target_elf.h
-> index 1c6142e7da..238a9aba73 100644
-> --- a/linux-user/i386/target_elf.h
-> +++ b/linux-user/i386/target_elf.h
-> @@ -9,6 +9,6 @@
->  #define I386_TARGET_ELF_H
->  static inline const char *cpu_get_model(uint32_t eflags)
->  {
-> -    return "qemu32";
-> +    return "max";
->  }
->  #endif
-> diff --git a/linux-user/x86_64/target_elf.h b/linux-user/x86_64/target_elf.h
-> index 7b76a90de8..3f628f8d66 100644
-> --- a/linux-user/x86_64/target_elf.h
-> +++ b/linux-user/x86_64/target_elf.h
-> @@ -9,6 +9,6 @@
->  #define X86_64_TARGET_ELF_H
->  static inline const char *cpu_get_model(uint32_t eflags)
->  {
-> -    return "qemu64";
-> +    return "max";
->  }
->  #endif
+> Please take a look and let me know.
+> 
+> Thanks,
+> Shameer
+> 
+> ---
+>  hw/nvram/fw_cfg.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> index d605f3f45a..dfe8404c01 100644
+> --- a/hw/nvram/fw_cfg.c
+> +++ b/hw/nvram/fw_cfg.c
+> @@ -728,7 +728,6 @@ static void *fw_cfg_modify_bytes_read(FWCfgState *s, uint16_t key,
+>      ptr = s->entries[arch][key].data;
+>      s->entries[arch][key].data = data;
+>      s->entries[arch][key].len = len;
+> -    s->entries[arch][key].callback_opaque = NULL;
+>      s->entries[arch][key].allow_write = false;
+>  
+>      return ptr;
+> 
 
-Just seems an abrupt change to me if we don't have a mechanism in place to ensure we don't break existing workloads.
+I vaguely recall seeing the same issue report years ago (also in
+relation to hot-adding NVDIMM). However, I have no capacity to
+participate in the discussion. Making this remark just for clarity.
 
-C
-
+Laszlo
 
 
