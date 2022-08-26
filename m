@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B0B5A253B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 11:59:58 +0200 (CEST)
-Received: from localhost ([::1]:46962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F845A256C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:06:59 +0200 (CEST)
+Received: from localhost ([::1]:54702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRW84-00011e-Pa
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 05:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60310)
+	id 1oRWEs-0006lQ-J2
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ling1.xu@intel.com>)
- id 1oRW5i-0004Ne-Aq
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:57:30 -0400
-Received: from mga09.intel.com ([134.134.136.24]:31251)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oRW52-00031n-TF
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:56:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ling1.xu@intel.com>)
- id 1oRW5g-0006Yc-4U
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:57:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661507848; x=1693043848;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=HUq4vRWTTE31MAsDgzpf3+j/IZnxJdlhKxhcw3NSspg=;
- b=VVx7/9eF4u5ZuQJsCDG0a+dBT9JFxpV/VLz5ZBUsAd5+znY9LJPJbw9+
- hOvbn0dyKz9bVKELD/4aG/Dnb960ocKsodrvmoYr5BfEQYxtLdonioSDR
- a/xUaHfgJFihmIE0rgYsPSF5LJs2ULuVmI9ik2pPGpgJ//ie8gbSFuSti
- S7bdlXRfoA7nhPcv/361Wz/cuTRR/fM+CjJt0W3l0lg+dMDiYcKWj/m6h
- VIOxIw57tEY0Pc9+Xika1Jn+YLSEvdXgGOQjRONz1H0PwLNT1IBWgESDF
- 26JUEnqEQhdewdVEZTbILTXG3peNiyxdr3hYE+MzB+YmUOV1s/APNL4tc w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="295250434"
-X-IronPort-AV: E=Sophos;i="5.93,265,1654585200"; d="scan'208";a="295250434"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2022 02:57:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,265,1654585200"; d="scan'208";a="639999927"
-Received: from xuling-b360m-d3h.sh.intel.com ([10.239.82.110])
- by orsmga008.jf.intel.com with ESMTP; 26 Aug 2022 02:57:24 -0700
-From: ling xu <ling1.xu@intel.com>
-To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com, dgilbert@redhat.com, ling xu <ling1.xu@intel.com>,
- Zhou Zhao <zhou.zhao@intel.com>, Jun Jin <jun.i.jin@intel.com>
-Subject: [PATCH v6 1/2] Update AVX512 support for xbzrle_encode_buffer
-Date: Fri, 26 Aug 2022 17:57:18 +0800
-Message-Id: <20220826095719.2887535-2-ling1.xu@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220826095719.2887535-1-ling1.xu@intel.com>
-References: <20220826095719.2887535-1-ling1.xu@intel.com>
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oRW4z-0006Vp-Fl
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:56:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661507804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I8xvA6pw2LfTiM5CoUEEGJBBnkfVTMyGN9RQLB7B+JA=;
+ b=BU46Fd/lx2OcxcGYwPAv8C0J/X+47l+kFDlu5V8WkdUOLWnPE9z76OIY6hI9VSz60bKvP9
+ nWPmpkMtuBbn2vkQ2kvfLtK4Yh0PNMC5dqqhZk4R6FlR8X9+5Y6T5tAgq0sFP5oE/PFQwa
+ /T+58v61hOeR0Z6COOmfj2m1Z0DLHAU=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-372-uxe8zRiTOQum4q0-l1Zu9A-1; Fri, 26 Aug 2022 05:56:43 -0400
+X-MC-Unique: uxe8zRiTOQum4q0-l1Zu9A-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ y11-20020aca320b000000b00345b9a36d71so453195oiy.19
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 02:56:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=I8xvA6pw2LfTiM5CoUEEGJBBnkfVTMyGN9RQLB7B+JA=;
+ b=wryFbvmjy8WofQRaKxcJE2tjKodDdtnFDi5TAvus9LKSALGLjoeG6ztUCT8DQZ0c1e
+ N1qQ209qKYklhiQqgkgZRzcAB9f7jH78I+22Owhmd8c1Tp3re4Xqb/sM9oKjTm92nr64
+ pM2pMdziyVWpPYl8oDAzgaJ14xTgysVpWoAxBOos2uZAfYiXyHlqc7GhB13RDmYqXDMb
+ QOdeNYZtaHOtaRZPajeIBPUAV4qjTD/pDdCSSqGKyLVW5ivOfdlFWwSbF/JKSEW4Qdj6
+ XkFuMsef4UB4F6rKkZ/68r8KMSir28wT7yN005aSYstNTa+J8tfy09WatNw6fli5Ccoc
+ CWhg==
+X-Gm-Message-State: ACgBeo3QnYOyJAnP87tOcTiTe2BYj0h+KTxcbGXuF5Pmy5909MKDSSra
+ z94/A54QdjfOPCdAZdsYi3T9x2V4mrjE5jO5jSgteGQdw12qqEu1K5gCiIvQjk6ugM2nXAYuskK
+ XCbf5ysIyT3FhN5Hhpytqh0ONbrsLssw=
+X-Received: by 2002:a05:6808:219a:b0:344:e94a:ec43 with SMTP id
+ be26-20020a056808219a00b00344e94aec43mr1315031oib.205.1661507802359; 
+ Fri, 26 Aug 2022 02:56:42 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7y43v0fGLeecJIG2oHiKJoWWLy+Tqd2zqz4j6i2MYeNeGZzvVg1DlAKFwwRVX6GVBVFcuugzx6i6nNJYp796Y=
+X-Received: by 2002:a05:6808:219a:b0:344:e94a:ec43 with SMTP id
+ be26-20020a056808219a00b00344e94aec43mr1315024oib.205.1661507802183; Fri, 26
+ Aug 2022 02:56:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=ling1.xu@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20220825132110.1500330-1-marcandre.lureau@redhat.com>
+ <20220825132110.1500330-2-marcandre.lureau@redhat.com>
+ <b56c6030-8976-f2a1-d411-d892d362d486@redhat.com>
+In-Reply-To: <b56c6030-8976-f2a1-d411-d892d362d486@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 26 Aug 2022 13:56:31 +0400
+Message-ID: <CAMxuvayO8fNWOwY43dpKC9kUxsZnxo0VY3++avAesu_VBhhbjA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dump: simplify a bit kdump get_next_page()
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ qiaonuohan@cn.fujitsu.com, Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,263 +97,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit updates code of avx512 support for xbzrle_encode_buffer
-function to accelerate xbzrle encoding speed. Runtime check of avx512
-support and benchmark for this feature are added. Compared with C
-version of xbzrle_encode_buffer function, avx512 version can achieve
-50%-70% performance improvement on benchmarking. In addition, if dirty
-data is randomly located in 4K page, the avx512 version can achieve
-almost 140% performance gain.
+Hi
 
-Signed-off-by: ling xu <ling1.xu@intel.com>
-Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
-Co-authored-by: Jun Jin <jun.i.jin@intel.com>
----
- meson.build        |  16 ++++++
- meson_options.txt  |   2 +
- migration/ram.c    |  34 +++++++++++--
- migration/xbzrle.c | 124 +++++++++++++++++++++++++++++++++++++++++++++
- migration/xbzrle.h |   4 ++
- 5 files changed, 177 insertions(+), 3 deletions(-)
+On Fri, Aug 26, 2022 at 1:45 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 25.08.22 15:21, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > This should be functionally equivalent, but slightly easier to read,
+> > with simplified paths and checks at the end of the function.
+> >
+> > The following patch is a major rewrite to get rid of the assert().
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  dump/dump.c | 30 ++++++++++++------------------
+> >  1 file changed, 12 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/dump/dump.c b/dump/dump.c
+> > index 4d9658ffa2..18f06cffe2 100644
+> > --- a/dump/dump.c
+> > +++ b/dump/dump.c
+> > @@ -1107,37 +1107,31 @@ static bool get_next_page(GuestPhysBlock **bloc=
+kptr, uint64_t *pfnptr,
+> >      uint8_t *buf;
+> >
+> >      /* block =3D=3D NULL means the start of the iteration */
+> > -    if (!block) {
+> > -        block =3D QTAILQ_FIRST(&s->guest_phys_blocks.head);
+> > -        *blockptr =3D block;
+> > -        assert((block->target_start & ~target_page_mask) =3D=3D 0);
+> > -        assert((block->target_end & ~target_page_mask) =3D=3D 0);
+> > -        *pfnptr =3D dump_paddr_to_pfn(s, block->target_start);
+> > -        if (bufptr) {
+> > -            *bufptr =3D block->host_addr;
+> > -        }
+> > -        return true;
+>
+>
+> Instead of the "return true" we'll now do take the  "if ((addr >=3D
+> block->target_start) &&" path below I guess, always ending up with
+> essentially "buf =3D buf;" because addr =3D=3D block->target_start.
+>
+> I guess that's fine.
+>
+> > +    if (block =3D=3D NULL) {
+>
+> What's wrong with keeping the "if (!block) {" ? :)
 
-diff --git a/meson.build b/meson.build
-index 20fddbd707..5d4b82d7f3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2264,6 +2264,22 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
-     int main(int argc, char *argv[]) { return bar(argv[0]); }
-   '''), error_message: 'AVX512F not available').allowed())
- 
-+config_host_data.set('CONFIG_AVX512BW_OPT', get_option('avx512bw') \
-+  .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX512BW') \
-+  .require(cc.links('''
-+    #pragma GCC push_options
-+    #pragma GCC target("avx512bw")
-+    #include <cpuid.h>
-+    #include <immintrin.h>
-+    static int bar(void *a) {
-+
-+      __m512i *x = a;
-+      __m512i res= _mm512_abs_epi8(*x);
-+      return res[1];
-+    }
-+    int main(int argc, char *argv[]) { return bar(argv[0]); }
-+  '''), error_message: 'AVX512BW not available').allowed())
-+
- have_pvrdma = get_option('pvrdma') \
-   .require(rdma.found(), error_message: 'PVRDMA requires OpenFabrics libraries') \
-   .require(cc.compiles(gnu_source_prefix + '''
-diff --git a/meson_options.txt b/meson_options.txt
-index e58e158396..07194bf680 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -104,6 +104,8 @@ option('avx2', type: 'feature', value: 'auto',
-        description: 'AVX2 optimizations')
- option('avx512f', type: 'feature', value: 'disabled',
-        description: 'AVX512F optimizations')
-+option('avx512bw', type: 'feature', value: 'auto',
-+       description: 'AVX512BW optimizations')
- option('keyring', type: 'feature', value: 'auto',
-        description: 'Linux keyring support')
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index dc1de9ddbc..ff4c15c9c3 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -83,6 +83,34 @@
- /* 0x80 is reserved in migration.h start with 0x100 next */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
- 
-+int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
-+     uint8_t *, int) = xbzrle_encode_buffer;
-+#if defined(CONFIG_AVX512BW_OPT)
-+#include "qemu/cpuid.h"
-+static void __attribute__((constructor)) init_cpu_flag(void)
-+{
-+    unsigned max = __get_cpuid_max(0, NULL);
-+    int a, b, c, d;
-+    if (max >= 1) {
-+        __cpuid(1, a, b, c, d);
-+         /* We must check that AVX is not just available, but usable.  */
-+        if ((c & bit_OSXSAVE) && (c & bit_AVX) && max >= 7) {
-+            int bv;
-+            __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-+            __cpuid_count(7, 0, a, b, c, d);
-+           /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512BW)) {
-+                xbzrle_encode_buffer_func = xbzrle_encode_buffer_avx512;
-+            }
-+        }
-+    }
-+}
-+#endif
-+
- XBZRLECacheStats xbzrle_counters;
- 
- /* struct contains XBZRLE cache and a static page
-@@ -802,9 +830,9 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
-     memcpy(XBZRLE.current_buf, *current_data, TARGET_PAGE_SIZE);
- 
-     /* XBZRLE encoding (if there is no overflow) */
--    encoded_len = xbzrle_encode_buffer(prev_cached_page, XBZRLE.current_buf,
--                                       TARGET_PAGE_SIZE, XBZRLE.encoded_buf,
--                                       TARGET_PAGE_SIZE);
-+    encoded_len = xbzrle_encode_buffer_func(prev_cached_page, XBZRLE.current_buf,
-+                                            TARGET_PAGE_SIZE, XBZRLE.encoded_buf,
-+                                            TARGET_PAGE_SIZE);
- 
-     /*
-      * Update the cache contents, so that it corresponds to the data
-diff --git a/migration/xbzrle.c b/migration/xbzrle.c
-index 1ba482ded9..05366e86c0 100644
---- a/migration/xbzrle.c
-+++ b/migration/xbzrle.c
-@@ -174,3 +174,127 @@ int xbzrle_decode_buffer(uint8_t *src, int slen, uint8_t *dst, int dlen)
- 
-     return d;
- }
-+
-+#if defined(CONFIG_AVX512BW_OPT)
-+#pragma GCC push_options
-+#pragma GCC target("avx512bw")
-+#include <immintrin.h>
-+int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
-+                             uint8_t *dst, int dlen)
-+{
-+    uint32_t zrun_len = 0, nzrun_len = 0;
-+    int d = 0, i = 0, num = 0;
-+    uint8_t *nzrun_start = NULL;
-+    /* add 1 to include residual part in main loop */
-+    uint32_t count512s = (slen >> 6) + 1;
-+    /* countResidual is tail of data, i.e., countResidual = slen % 64 */
-+    uint32_t count_residual = slen & 0b111111;
-+    bool never_same = true;
-+    uint64_t mask_residual = 1;
-+    mask_residual <<= count_residual;
-+    mask_residual -= 1;
-+    __m512i r = _mm512_set1_epi32(0);
-+
-+    while (count512s) {
-+        if (d + 2 > dlen) {
-+            return -1;
-+        }
-+
-+        int bytes_to_check = 64;
-+        uint64_t mask = 0xffffffffffffffff;
-+        if (count512s == 1) {
-+            bytes_to_check = count_residual;
-+            mask = mask_residual;
-+        }
-+        __m512i old_data = _mm512_mask_loadu_epi8(r,
-+                                                  mask, old_buf + i);
-+        __m512i new_data = _mm512_mask_loadu_epi8(r,
-+                                                  mask, new_buf + i);
-+        uint64_t comp = _mm512_cmpeq_epi8_mask(old_data, new_data);
-+        count512s--;
-+
-+        bool is_same = (comp & 0x1);
-+        while (bytes_to_check) {
-+            if (is_same) {
-+                if (nzrun_len) {
-+                    d += uleb128_encode_small(dst + d, nzrun_len);
-+                    if (d + nzrun_len > dlen) {
-+                        return -1;
-+                    }
-+                    nzrun_start = new_buf + i - nzrun_len;
-+                    memcpy(dst + d, nzrun_start, nzrun_len);
-+                    d += nzrun_len;
-+                    nzrun_len = 0;
-+                }
-+                /* 64 data at a time for speed */
-+                if (count512s && (comp == 0xffffffffffffffff)) {
-+                    i += 64;
-+                    zrun_len += 64;
-+                    break;
-+                }
-+                never_same = false;
-+                num = __builtin_ctzll(~comp);
-+                num = (num < bytes_to_check) ? num : bytes_to_check;
-+                zrun_len += num;
-+                bytes_to_check -= num;
-+                comp >>= num;
-+                i += num;
-+                if (bytes_to_check) {
-+                    /* still has different data after same data */
-+                    d += uleb128_encode_small(dst + d, zrun_len);
-+                    zrun_len = 0;
-+                } else {
-+                    break;
-+                }
-+            }
-+            if (never_same || zrun_len) {
-+                /*
-+                 * never_same only acts if
-+                 * data begins with diff in first count512s
-+                 */
-+                d += uleb128_encode_small(dst + d, zrun_len);
-+                zrun_len = 0;
-+                never_same = false;
-+            }
-+            /* has diff, 64 data at a time for speed */
-+            if ((bytes_to_check == 64) && (comp == 0x0)) {
-+                i += 64;
-+                nzrun_len += 64;
-+                break;
-+            }
-+            num = __builtin_ctzll(comp);
-+            num = (num < bytes_to_check) ? num : bytes_to_check;
-+            nzrun_len += num;
-+            bytes_to_check -= num;
-+            comp >>= num;
-+            i += num;
-+            if (bytes_to_check) {
-+                /* mask like 111000 */
-+                d += uleb128_encode_small(dst + d, nzrun_len);
-+                /* overflow */
-+                if (d + nzrun_len > dlen) {
-+                    return -1;
-+                }
-+                nzrun_start = new_buf + i - nzrun_len;
-+                memcpy(dst + d, nzrun_start, nzrun_len);
-+                d += nzrun_len;
-+                nzrun_len = 0;
-+                is_same = true;
-+            }
-+        }
-+    }
-+
-+    if (nzrun_len != 0) {
-+        d += uleb128_encode_small(dst + d, nzrun_len);
-+        /* overflow */
-+        if (d + nzrun_len > dlen) {
-+            return -1;
-+        }
-+        nzrun_start = new_buf + i - nzrun_len;
-+        memcpy(dst + d, nzrun_start, nzrun_len);
-+        d += nzrun_len;
-+    }
-+    return d;
-+}
-+#pragma GCC pop_options
-+#endif
-diff --git a/migration/xbzrle.h b/migration/xbzrle.h
-index a0db507b9c..6feb49160a 100644
---- a/migration/xbzrle.h
-+++ b/migration/xbzrle.h
-@@ -18,4 +18,8 @@ int xbzrle_encode_buffer(uint8_t *old_buf, uint8_t *new_buf, int slen,
-                          uint8_t *dst, int dlen);
- 
- int xbzrle_decode_buffer(uint8_t *src, int slen, uint8_t *dst, int dlen);
-+#if defined(CONFIG_AVX512BW_OPT)
-+int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
-+                                uint8_t *dst, int dlen);
-+#endif
- #endif
--- 
-2.25.1
+That's just to be consistent with the comment above.
+
+>
+> > +        *blockptr =3D block =3D QTAILQ_FIRST(&s->guest_phys_blocks.hea=
+d);
+>
+> Another unnecessary change.
+>
+> > +        addr =3D block->target_start;
+> > +    } else {
+> > +        addr =3D dump_pfn_to_paddr(s, *pfnptr + 1);
+> >      }
+> > -
+> > -    *pfnptr =3D *pfnptr + 1;
+> > -    addr =3D dump_pfn_to_paddr(s, *pfnptr);
+> > +    assert(block !=3D NULL);
+> >
+> >      if ((addr >=3D block->target_start) &&
+> >          (addr + s->dump_info.page_size <=3D block->target_end)) {
+> >          buf =3D block->host_addr + (addr - block->target_start);
+> >      } else {
+> >          /* the next page is in the next block */
+> > -        block =3D QTAILQ_NEXT(block, next);
+> > -        *blockptr =3D block;
+> > +        *blockptr =3D block =3D QTAILQ_NEXT(block, next);
+>
+> Another unnecessary change. (avoiding these really eases review, because
+> the focus is then completely on the actual code changes)
+>
+> >          if (!block) {
+> >              return false;
+> >          }
+> > -        assert((block->target_start & ~target_page_mask) =3D=3D 0);
+> > -        assert((block->target_end & ~target_page_mask) =3D=3D 0);
+> > -        *pfnptr =3D dump_paddr_to_pfn(s, block->target_start);
+> > +        addr =3D block->target_start;
+> >          buf =3D block->host_addr;
+> >      }
+> >
+> > +    /* those checks are going away next */
+>
+> This comment seems to imply a story documented in code. Rather just drop
+> it -- the patch description already points that out.
+>
+> > +    assert((block->target_start & ~target_page_mask) =3D=3D 0);
+> > +    assert((block->target_end & ~target_page_mask) =3D=3D 0);
+> > +    *pfnptr =3D dump_paddr_to_pfn(s, addr);
+> >      if (bufptr) {
+> >          *bufptr =3D buf;
+> >      }
+>
+>
+> Apart from the nits, LGTM.
+
+We could also drop this patch, it helped me to rewrite the function next mo=
+stly.
 
 
