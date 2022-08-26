@@ -2,44 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6335A270D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 13:48:03 +0200 (CEST)
-Received: from localhost ([::1]:49866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74125A2766
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 14:07:22 +0200 (CEST)
+Received: from localhost ([::1]:59570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRXog-0004Pk-JQ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 07:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32876)
+	id 1oRY7M-000833-L2
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 08:07:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oRXjP-0008E6-DL
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:42:36 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:49220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oRXjK-0002CI-Un
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:42:33 -0400
-Received: from [192.168.16.18] (helo=mikewrk.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <michael.labiuk@virtuozzo.com>) id 1oRXhG-000LyA-Kh;
- Fri, 26 Aug 2022 13:41:58 +0200
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRXMV-000112-ER; Fri, 26 Aug 2022 07:18:55 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:47280 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRXMS-0006R6-Pe; Fri, 26 Aug 2022 07:18:55 -0400
+Received: from localhost.localdomain (unknown [159.226.43.62])
+ by APP-01 (Coremail) with SMTP id qwCowADX3yMNrAhjjZVhAA--.2259S5;
+ Fri, 26 Aug 2022 19:18:46 +0800 (CST)
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-Subject: [PATCH] tests/x86: Add 'q35' machine type to hotplug tests
-Date: Fri, 26 Aug 2022 14:41:59 +0300
-Message-Id: <20220826114159.6370-1-michael.labiuk@virtuozzo.com>
-X-Mailer: git-send-email 2.34.1
+Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org (open list:nvme)
+Subject: [PATCH 3/3] hw/nvme: add iothread support
+Date: Fri, 26 Aug 2022 19:18:34 +0800
+Message-Id: <20220826111834.3014912-4-fanjinhao21s@ict.ac.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
+References: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111;
- envelope-from=michael.labiuk@virtuozzo.com; helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: qwCowADX3yMNrAhjjZVhAA--.2259S5
+X-Coremail-Antispam: 1UD129KBjvJXoW3JryUuryrtrWkJrWxAr15XFb_yoW3KrW3pF
+ WkWrZ3uws7JF17Zan0van7Aw1ruw48W3WDG34fAwn3Jwn7Gry3AFy0kFy29FWrJrZ5XFZ8
+ A3y8JF47u348t3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBG14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+ x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+ vE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+ r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0Ew4C26cxK6c8Ij28Icw
+ CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
+ 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64
+ vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
+ vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRaiikUUUUU=
+X-Originating-IP: [159.226.43.62]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,446 +73,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Michael Labiuk <michael.labiuk@virtuozzo.com>
-From:  Michael Labiuk via <qemu-devel@nongnu.org>
 
-Add pci bridge setting to run hotplug tests on q35 machine type.
-Hotplug tests was bounded to 'pc' machine type by commit 7b172333f1b
+Add an option "iothread=x" to do emulation in a seperate iothread.
+This improves the performance because QEMU's main loop is responsible
+for a lot of other work while iothread is dedicated to NVMe emulation.
+Moreover, emulating in iothread brings the potential of polling on
+SQ/CQ doorbells, which I will bring up in a following patch.
 
-Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
+Iothread can be enabled by:
+ -object iothread,id=nvme0 \
+ -device nvme,iothread=nvme0 \
+
+Performance comparisons (KIOPS):
+
+QD         1   4  16  64
+QEMU      41 136 242 338
+iothread  53 155 245 309
+
+Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 ---
- tests/qtest/device-plug-test.c |  26 ++++++
- tests/qtest/drive_del-test.c   | 111 +++++++++++++++++++++++++
- tests/qtest/hd-geo-test.c      | 148 +++++++++++++++++++++++++++++++++
- tests/qtest/ivshmem-test.c     |  30 +++++++
- 4 files changed, 315 insertions(+)
+ hw/nvme/ctrl.c | 74 +++++++++++++++++++++++++++++++++++++++++++++-----
+ hw/nvme/ns.c   | 21 +++++++++++---
+ hw/nvme/nvme.h |  6 +++-
+ 3 files changed, 89 insertions(+), 12 deletions(-)
 
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index 2e3137843e..2f07b37ba1 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -165,6 +165,26 @@ static void test_spapr_phb_unplug_request(void)
-     qtest_quit(qtest);
- }
- 
-+static void test_q35_pci_unplug_request(void)
-+{
-+
-+    QTestState *qtest = qtest_initf("-machine q35 "
-+                                    "-device pcie-root-port,id=p1 "
-+                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
-+                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
-+
-+    /*
-+     * Request device removal. As the guest is not running, the request won't
-+     * be processed. However during system reset, the removal will be
-+     * handled, removing the device.
-+     */
-+    device_del(qtest, "dev0");
-+    system_reset(qtest);
-+    wait_device_deleted_event(qtest, "dev0");
-+
-+    qtest_quit(qtest);
-+}
-+
- int main(int argc, char **argv)
- {
-     const char *arch = qtest_get_arch();
-@@ -195,5 +215,11 @@ int main(int argc, char **argv)
-                        test_spapr_phb_unplug_request);
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 396f3f0cdd..24a367329d 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4458,7 +4458,13 @@ static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
+         return ret;
      }
  
-+    if (!strcmp(arch, "x86_64")) {
-+        qtest_add_func("/device-plug/q35-pci-unplug-request",
-+                   test_q35_pci_unplug_request);
-+
+-    event_notifier_set_handler(&cq->notifier, nvme_cq_notifier);
++    if (cq->cqid) {
++        aio_set_event_notifier(n->ctx, &cq->notifier, true, nvme_cq_notifier,
++                               NULL, NULL);
++    } else {
++        event_notifier_set_handler(&cq->notifier, nvme_cq_notifier);
 +    }
 +
-     return g_test_run();
- }
-diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-index 5e6d58b4dd..3a2ddecf22 100644
---- a/tests/qtest/drive_del-test.c
-+++ b/tests/qtest/drive_del-test.c
-@@ -258,6 +258,27 @@ static void test_cli_device_del(void)
-     qtest_quit(qts);
- }
+     memory_region_add_eventfd(&n->iomem,
+                               0x1000 + offset, 4, false, 0, &cq->notifier);
  
-+static void test_cli_device_del_q35(void)
-+{
-+    QTestState *qts;
-+
-+    /*
-+     * -drive/-device and device_del.  Start with a drive used by a
-+     * device that unplugs after reset.
-+     */
-+    qts = qtest_initf("-drive if=none,id=drive0,file=null-co://,"
-+                      "file.read-zeroes=on,format=raw "
-+                      "-machine q35 -device pcie-root-port,id=p1 "
-+                      "-device pcie-pci-bridge,bus=p1,id=b1 "
-+                      "-device virtio-blk-%s,drive=drive0,bus=b1,id=dev0",
-+                      qvirtio_get_dev_type());
-+
-+    device_del(qts, true);
-+    g_assert(!has_drive(qts));
-+
-+    qtest_quit(qts);
-+}
-+
- static void test_empty_device_del(void)
- {
-     QTestState *qts;
-@@ -294,6 +315,45 @@ static void test_device_add_and_del(void)
-     qtest_quit(qts);
- }
+@@ -4487,7 +4493,13 @@ static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
+         return ret;
+     }
  
-+static void device_add_q35(QTestState *qts)
-+{
-+    QDict *response;
-+    char driver[32];
-+    snprintf(driver, sizeof(driver), "virtio-blk-%s",
-+             qvirtio_get_dev_type());
+-    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
++    if (sq->sqid) {
++        aio_set_event_notifier(n->ctx, &sq->notifier, true, nvme_sq_notifier,
++                               NULL, NULL);
++    } else {
++        event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
++    }
 +
-+    response = qtest_qmp(qts, "{'execute': 'device_add',"
-+                              " 'arguments': {"
-+                              "   'driver': %s,"
-+                              "   'drive': 'drive0',"
-+                              "   'id': 'dev0',"
-+                              "   'bus': 'b1'"
-+                              "}}", driver);
-+    g_assert(response);
-+    g_assert(qdict_haskey(response, "return"));
-+    qobject_unref(response);
-+}
-+
-+static void test_device_add_and_del_q35(void)
-+{
-+    QTestState *qts;
-+
-+    /*
-+     * -drive/device_add and device_del.  Start with a drive used by a
-+     * device that unplugs after reset.
-+     */
-+    qts = qtest_initf("-machine q35 -device pcie-root-port,id=p1 "
-+                     "-device pcie-pci-bridge,bus=p1,id=b1 "
-+                     "-drive if=none,id=drive0,file=null-co://,"
-+                     "file.read-zeroes=on,format=raw");
-+
-+    device_add_q35(qts);
-+    device_del(qts, true);
-+    g_assert(!has_drive(qts));
-+
-+    qtest_quit(qts);
-+}
-+
- static void test_drive_add_device_add_and_del(void)
- {
-     QTestState *qts;
-@@ -318,6 +378,25 @@ static void test_drive_add_device_add_and_del(void)
-     qtest_quit(qts);
- }
+     memory_region_add_eventfd(&n->iomem,
+                               0x1000 + offset, 4, false, 0, &sq->notifier);
  
-+static void test_drive_add_device_add_and_del_q35(void)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
-+                     "-device pcie-pci-bridge,bus=p1,id=b1");
-+
-+    /*
-+     * drive_add/device_add and device_del.  The drive is used by a
-+     * device that unplugs after reset.
-+     */
-+    drive_add_with_media(qts);
-+    device_add_q35(qts);
-+    device_del(qts, true);
-+    g_assert(!has_drive(qts));
-+
-+    qtest_quit(qts);
-+}
-+
- static void test_blockdev_add_device_add_and_del(void)
- {
-     QTestState *qts;
-@@ -342,8 +421,29 @@ static void test_blockdev_add_device_add_and_del(void)
-     qtest_quit(qts);
- }
- 
-+static void test_blockdev_add_device_add_and_del_q35(void)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
-+                     "-device pcie-pci-bridge,bus=p1,id=b1");
-+
-+    /*
-+     * blockdev_add/device_add and device_del.  The it drive is used by a
-+     * device that unplugs after reset, but it doesn't go away.
-+     */
-+    blockdev_add_with_media(qts);
-+    device_add_q35(qts);
-+    device_del(qts, true);
-+    g_assert(has_blockdev(qts));
-+
-+    qtest_quit(qts);
-+}
-+
- int main(int argc, char **argv)
- {
-+    const char *arch = qtest_get_arch();
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     qtest_add_func("/drive_del/without-dev", test_drive_without_dev);
-@@ -363,6 +463,17 @@ int main(int argc, char **argv)
-                        test_empty_device_del);
-         qtest_add_func("/device_del/blockdev",
-                        test_blockdev_add_device_add_and_del);
-+
-+        if (!strcmp(arch, "x86_64")) {
-+            qtest_add_func("/device_del/drive/cli_device_q35",
-+                           test_cli_device_del_q35);
-+            qtest_add_func("/device_del/drive/device_add_q35",
-+                           test_device_add_and_del_q35);
-+            qtest_add_func("/device_del/drive/drive_add_device_add_q35",
-+                           test_drive_add_device_add_and_del_q35);
-+            qtest_add_func("/device_del/blockdev_q35",
-+                           test_blockdev_add_device_add_and_del_q35);
+@@ -4503,7 +4515,12 @@ static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
+     if (sq->ioeventfd_enabled) {
+         memory_region_del_eventfd(&n->iomem,
+                                   0x1000 + offset, 4, false, 0, &sq->notifier);
+-        event_notifier_set_handler(&sq->notifier, NULL);
++        if (sq->sqid) {
++            aio_set_event_notifier(n->ctx, &sq->notifier, true, NULL, NULL,
++                                   NULL);
++        } else {
++            event_notifier_set_handler(&sq->notifier, NULL);
 +        }
+         event_notifier_cleanup(&sq->notifier);
+     }
+     g_free(sq->io_req);
+@@ -4573,7 +4590,13 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+         sq->io_req[i].sq = sq;
+         QTAILQ_INSERT_TAIL(&(sq->req_list), &sq->io_req[i], entry);
+     }
+-    sq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, sq);
++
++    if (sq->sqid) {
++        sq->timer = aio_timer_new(n->ctx, QEMU_CLOCK_VIRTUAL, SCALE_NS,
++                                  nvme_process_sq, sq);
++    } else {
++        sq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, sq);
++    }
+ 
+     if (n->dbbuf_enabled) {
+         sq->db_addr = n->dbbuf_dbs + (sqid << 3);
+@@ -4896,7 +4919,12 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+     if (cq->ioeventfd_enabled) {
+         memory_region_del_eventfd(&n->iomem,
+                                   0x1000 + offset, 4, false, 0, &cq->notifier);
+-        event_notifier_set_handler(&cq->notifier, NULL);
++        if (cq->cqid) {
++            aio_set_event_notifier(n->ctx, &cq->notifier, true, NULL, NULL,
++                                   NULL);
++        } else {
++            event_notifier_set_handler(&cq->notifier, NULL);
++        }
+         event_notifier_cleanup(&cq->notifier);
+     }
+     if (cq->assert_notifier.initialized) {
+@@ -4979,7 +5007,13 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+         }
+     }
+     n->cq[cqid] = cq;
+-    cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
++
++    if (cq->cqid) {
++        cq->timer = aio_timer_new(n->ctx, QEMU_CLOCK_VIRTUAL, SCALE_NS,
++                                  nvme_post_cqes, cq);
++    } else {
++        cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
++    }
+ 
+     /*
+      * Only enable irq eventfd for IO queues since we always emulate admin
+@@ -4988,6 +5022,13 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+     if (cqid && n->params.irq_eventfd) {
+         nvme_init_irq_notifier(n, cq);
+     }
++
++    if (cq->cqid) {
++        cq->timer = aio_timer_new(n->ctx, QEMU_CLOCK_VIRTUAL, SCALE_NS,
++                                  nvme_post_cqes, cq);
++    } else {
++        cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
++    }
+ }
+ 
+ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
+@@ -7759,6 +7800,14 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     if (pci_is_vf(&n->parent_obj) && !sctrl->scs) {
+         stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
+     }
++
++    if (n->params.iothread) {
++        n->iothread = n->params.iothread;
++        object_ref(OBJECT(n->iothread));
++        n->ctx = iothread_get_aio_context(n->iothread);
++    } else {
++        n->ctx = qemu_get_aio_context();
++    }
+ }
+ 
+ static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
+@@ -7831,7 +7880,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         ns = &n->namespace;
+         ns->params.nsid = 1;
+ 
+-        if (nvme_ns_setup(ns, errp)) {
++        if (nvme_ns_setup(ns, n->ctx, errp)) {
+             return;
+         }
+ 
+@@ -7862,6 +7911,15 @@ static void nvme_exit(PCIDevice *pci_dev)
+     g_free(n->sq);
+     g_free(n->aer_reqs);
+ 
++    aio_context_acquire(n->ctx);
++    blk_set_aio_context(n->namespace.blkconf.blk, qemu_get_aio_context(), NULL);
++    aio_context_release(n->ctx);
++
++    if (n->iothread) {
++        object_unref(OBJECT(n->iothread));
++        n->iothread = NULL;
++    }
++
+     if (n->params.cmb_size_mb) {
+         g_free(n->cmb.buf);
+     }
+@@ -7885,6 +7943,8 @@ static Property nvme_props[] = {
+                      HostMemoryBackend *),
+     DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
+                      NvmeSubsystem *),
++    DEFINE_PROP_LINK("iothread", NvmeCtrl, params.iothread, TYPE_IOTHREAD,
++                     IOThread *),
+     DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
+     DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, params.cmb_size_mb, 0),
+     DEFINE_PROP_UINT32("num_queues", NvmeCtrl, params.num_queues, 0),
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 62a1f97be0..eb9141a67b 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -146,9 +146,11 @@ lbaf_found:
+     return 0;
+ }
+ 
+-static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
++static int nvme_ns_init_blk(NvmeNamespace *ns, AioContext *ctx, Error **errp)
+ {
+     bool read_only;
++    AioContext *old_context;
++    int ret;
+ 
+     if (!blkconf_blocksizes(&ns->blkconf, errp)) {
+         return -1;
+@@ -170,6 +172,17 @@ static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
+         return -1;
      }
  
-     return g_test_run();
-diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-index 413cf964c0..256450729f 100644
---- a/tests/qtest/hd-geo-test.c
-+++ b/tests/qtest/hd-geo-test.c
-@@ -874,6 +874,78 @@ static void test_override_scsi_hot_unplug(void)
-     g_free(args);
- }
- 
-+static void test_override_scsi_hot_unplug_q35(void)
-+{
-+    QTestState *qts;
-+    char *joined_args;
-+    QFWCFG *fw_cfg;
-+    QDict *response;
-+    int i;
-+    TestArgs *args = create_args();
-+    CHSResult expected[] = {
-+        {
-+            "/pci@i0cf8/pci-bridge@1/pci-bridge@0/scsi@2/channel@0/disk@0,0",
-+            {10000, 120, 30}
-+        },
-+        {
-+            "/pci@i0cf8/pci-bridge@1/pci-bridge@0/scsi@2/channel@0/disk@1,0",
-+            {20, 20, 20}
-+        },
-+        {NULL, {0, 0, 0} }
-+    };
-+    CHSResult expected2[] = {
-+        {
-+            "/pci@i0cf8/pci-bridge@1/pci-bridge@0/scsi@2/channel@0/disk@1,0",
-+            {20, 20, 20}
-+        },
-+        {NULL, {0, 0, 0} }
-+    };
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_scsi_controller(args, "virtio-scsi-pci", "b1", 2);
-+    add_scsi_disk(args, 0, 0, 0, 0, 0, 10000, 120, 30);
-+    add_scsi_disk(args, 1, 0, 0, 1, 0, 20, 20, 20);
++    old_context = blk_get_aio_context(ns->blkconf.blk);
++    aio_context_acquire(old_context);
++    ret = blk_set_aio_context(ns->blkconf.blk, ctx, errp);
++    aio_context_release(old_context);
 +
-+    joined_args = g_strjoinv(" ", args->argv);
-+
-+    qts = qtest_initf("-device pcie-root-port,id=p0 "
-+                      "-device pcie-pci-bridge,bus=p0,id=b1 "
-+                      "-machine q35 %s", joined_args);
-+    fw_cfg = pc_fw_cfg_init(qts);
-+
-+    read_bootdevices(fw_cfg, expected);
-+
-+    /* unplug device an restart */
-+    response = qtest_qmp(qts,
-+                         "{ 'execute': 'device_del',"
-+                         "  'arguments': {'id': 'scsi-disk0' }}");
-+    g_assert(response);
-+    g_assert(!qdict_haskey(response, "error"));
-+    qobject_unref(response);
-+    response = qtest_qmp(qts,
-+                         "{ 'execute': 'system_reset', 'arguments': { }}");
-+    g_assert(response);
-+    g_assert(!qdict_haskey(response, "error"));
-+    qobject_unref(response);
-+
-+    qtest_qmp_eventwait(qts, "RESET");
-+
-+    read_bootdevices(fw_cfg, expected2);
-+
-+    g_free(joined_args);
-+    qtest_quit(qts);
-+
-+    g_free(fw_cfg);
-+
-+    for (i = 0; i < args->n_drives; i++) {
-+        unlink(args->drives[i]);
-+        free(args->drives[i]);
++    if (ret) {
++        error_setg(errp, "Set AioContext on BlockBackend failed");
++        return ret;
 +    }
-+    g_free(args->drives);
-+    g_strfreev(args->argv);
-+    g_free(args);
-+}
 +
- static void test_override_virtio_hot_unplug(void)
- {
-     QTestState *qts;
-@@ -934,6 +1006,77 @@ static void test_override_virtio_hot_unplug(void)
-     g_free(args);
++
+     return 0;
  }
  
-+static void test_override_virtio_hot_unplug_q35(void)
-+{
-+    QTestState *qts;
-+    char *joined_args;
-+    QFWCFG *fw_cfg;
-+    QDict *response;
-+    int i;
-+    TestArgs *args = create_args();
-+    CHSResult expected[] = {
-+        {
-+            "/pci@i0cf8/pci-bridge@2/pci-bridge@0/scsi@2/disk@0,0",
-+            {10000, 120, 30}
-+        },
-+        {
-+            "/pci@i0cf8/pci-bridge@2/pci-bridge@0/scsi@3/disk@0,0",
-+            {20, 20, 20}
-+        },
-+        {NULL, {0, 0, 0} }
-+    };
-+    CHSResult expected2[] = {
-+        {
-+            "/pci@i0cf8/pci-bridge@2/pci-bridge@0/scsi@3/disk@0,0",
-+            {20, 20, 20}
-+        },
-+        {NULL, {0, 0, 0} }
-+    };
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_virtio_disk(args, 0, "b1", 2, 10000, 120, 30);
-+    add_virtio_disk(args, 1, "b1", 3, 20, 20, 20);
-+
-+    joined_args = g_strjoinv(" ", args->argv);
-+
-+    qts = qtest_initf("-device pcie-root-port,id=p0 "
-+                      "-device pcie-pci-bridge,bus=p0,id=b1 "
-+                      "-machine pc %s", joined_args);
-+    fw_cfg = pc_fw_cfg_init(qts);
-+
-+    read_bootdevices(fw_cfg, expected);
-+
-+    /* unplug device an restart */
-+    response = qtest_qmp(qts,
-+                         "{ 'execute': 'device_del',"
-+                         "  'arguments': {'id': 'virtio-disk0' }}");
-+    g_assert(response);
-+    g_assert(!qdict_haskey(response, "error"));
-+    qobject_unref(response);
-+    response = qtest_qmp(qts,
-+                         "{ 'execute': 'system_reset', 'arguments': { }}");
-+    g_assert(response);
-+    g_assert(!qdict_haskey(response, "error"));
-+    qobject_unref(response);
-+
-+    qtest_qmp_eventwait(qts, "RESET");
-+
-+    read_bootdevices(fw_cfg, expected2);
-+
-+    g_free(joined_args);
-+    qtest_quit(qts);
-+
-+    g_free(fw_cfg);
-+
-+    for (i = 0; i < args->n_drives; i++) {
-+        unlink(args->drives[i]);
-+        free(args->drives[i]);
-+    }
-+    g_free(args->drives);
-+    g_strfreev(args->argv);
-+    g_free(args);
-+}
-+
- int main(int argc, char **argv)
- {
-     Backend i;
-@@ -974,8 +1117,13 @@ int main(int argc, char **argv)
-         qtest_add_func("hd-geo/override/zero_chs", test_override_zero_chs);
-         qtest_add_func("hd-geo/override/scsi_hot_unplug",
-                        test_override_scsi_hot_unplug);
-+        qtest_add_func("hd-geo/override/scsi_hot_unplug_q35",
-+                       test_override_scsi_hot_unplug_q35);
-         qtest_add_func("hd-geo/override/virtio_hot_unplug",
-                        test_override_virtio_hot_unplug);
-+        qtest_add_func("hd-geo/override/virtio_hot_unplug_q35",
-+                       test_override_virtio_hot_unplug_q35);
-+
-     } else {
-         g_test_message("QTEST_QEMU_IMG not set or qemu-img missing; "
-                        "skipping hd-geo/override/* tests");
-diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
-index e23a97fa8e..c4ca7efc62 100644
---- a/tests/qtest/ivshmem-test.c
-+++ b/tests/qtest/ivshmem-test.c
-@@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
-     close(thread.pipe[0]);
+@@ -482,13 +495,13 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
+     return 0;
  }
  
-+static void device_del(QTestState *qtest, const char *id)
-+{
-+    QDict *resp;
-+
-+    resp = qtest_qmp(qtest,
-+                     "{'execute': 'device_del',"
-+                     " 'arguments': { 'id': %s } }", id);
-+
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+}
-+
-+static void test_ivshmem_hotplug_q35(void)
-+{
-+    QTestState *qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1 "
-+                                 "-device pcie-root-port,id=p1 "
-+                                 "-device pcie-pci-bridge,bus=p1,id=b1 "
-+                                 "-machine q35");
-+
-+    qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
-+                         "{'memdev': 'mb1', 'bus': 'b1'}");
-+    device_del(qts, "iv1");
-+
-+    qtest_quit(qts);
-+}
-+
- #define PCI_SLOT_HP             0x06
- 
- static void test_ivshmem_hotplug(void)
-@@ -469,6 +495,7 @@ int main(int argc, char **argv)
+-int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
++int nvme_ns_setup(NvmeNamespace *ns, AioContext *ctx, Error **errp)
  {
-     int ret, fd;
-     gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
-+    const char *arch = qtest_get_arch();
- 
-     g_test_init(&argc, &argv, NULL);
- 
-@@ -494,6 +521,9 @@ int main(int argc, char **argv)
-         qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
-         qtest_add_func("/ivshmem/server", test_ivshmem_server);
+     if (nvme_ns_check_constraints(ns, errp)) {
+         return -1;
      }
-+    if (!strcmp(arch, "x86_64")) {
-+        qtest_add_func("/ivshmem/hotplug-q35", test_ivshmem_hotplug_q35);
-+    }
  
- out:
-     ret = g_test_run();
+-    if (nvme_ns_init_blk(ns, errp)) {
++    if (nvme_ns_init_blk(ns, ctx, errp)) {
+         return -1;
+     }
+ 
+@@ -563,7 +576,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+         }
+     }
+ 
+-    if (nvme_ns_setup(ns, errp)) {
++    if (nvme_ns_setup(ns, n->ctx, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index b0b986b024..224b73e6c4 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -22,6 +22,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
+ #include "hw/block/block.h"
++#include "sysemu/iothread.h"
+ 
+ #include "block/nvme.h"
+ 
+@@ -276,7 +277,7 @@ static inline void nvme_aor_dec_active(NvmeNamespace *ns)
+ }
+ 
+ void nvme_ns_init_format(NvmeNamespace *ns);
+-int nvme_ns_setup(NvmeNamespace *ns, Error **errp);
++int nvme_ns_setup(NvmeNamespace *ns, AioContext *ctx, Error **errp);
+ void nvme_ns_drain(NvmeNamespace *ns);
+ void nvme_ns_shutdown(NvmeNamespace *ns);
+ void nvme_ns_cleanup(NvmeNamespace *ns);
+@@ -433,6 +434,7 @@ typedef struct NvmeParams {
+     uint16_t sriov_vi_flexible;
+     uint8_t  sriov_max_vq_per_vf;
+     uint8_t  sriov_max_vi_per_vf;
++    IOThread *iothread;
+ } NvmeParams;
+ 
+ typedef struct NvmeCtrl {
+@@ -464,6 +466,8 @@ typedef struct NvmeCtrl {
+     uint64_t    dbbuf_dbs;
+     uint64_t    dbbuf_eis;
+     bool        dbbuf_enabled;
++    IOThread    *iothread;
++    AioContext  *ctx;
+ 
+     struct {
+         MemoryRegion mem;
 -- 
-2.34.1
+2.25.1
 
 
