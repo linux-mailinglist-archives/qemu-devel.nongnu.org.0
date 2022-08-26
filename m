@@ -2,107 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBD95A2E14
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 20:14:14 +0200 (CEST)
-Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0D15A2E6E
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 20:29:10 +0200 (CEST)
+Received: from localhost ([::1]:54174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRdqO-0006z7-Cg
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 14:14:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33028)
+	id 1oRe4q-0002oX-U9
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 14:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oRdp1-0005UY-64
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 14:12:47 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30112
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRe2k-0000hX-3I
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 14:26:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oRdoz-00026i-Gr
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 14:12:46 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27QHsLhj028019
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 18:12:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=mr8NdsyZo8PI9GOgw2PCNP1J37OShrVn2d/ifaT3sA0=;
- b=SpYCbHqOCH2+LbZjo6gSewqPPzfdCZpCD19SElPHFkumpdvD1sy9kCT2sEwaGHj3M+Cs
- NLEJXDZCCgkh2CyjOsGH25/z+aVkrUxkQHwl57crLU9BTvzU5wb4Y65+cW+bw2toBvHY
- bW47DQZyChxiC1v8OXPbnpd39xFfHEge8vRl8EVh4TH5wr5XT/hp8ivdAGjYj3UwwOA1
- Qds/4uhnvJ50dAxhVQRIWtwqcNGWbDBEztkHY0pGerDKBovRSQDZK8L8sUfKijxfZC/W
- /tNPBIkv5a+eyaYVO8FA/Sc4JXVs34nBLO+/RV9z/HH23uSkIIx2fX5de5eN1kEf/2ob Uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j7301grau-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 18:12:44 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27QI68sT017914
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 18:12:43 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3j7301gra9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Aug 2022 18:12:43 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27QI5lLO004270;
- Fri, 26 Aug 2022 18:12:43 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 3j2q8afn8m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Aug 2022 18:12:43 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 27QICg9963898022
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 26 Aug 2022 18:12:42 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BCD2C2805A;
- Fri, 26 Aug 2022 18:12:42 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AAB4428059;
- Fri, 26 Aug 2022 18:12:42 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 26 Aug 2022 18:12:42 +0000 (GMT)
-Message-ID: <341630be-a5be-79cd-f958-0d1910a164bc@linux.ibm.com>
-Date: Fri, 26 Aug 2022 14:12:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRe2h-0004F0-8y
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 14:26:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661538414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NVtE1oY+8+ACPLrGRj3G+eL+/XmXWnagd50fpLFjh+k=;
+ b=UznGGOQKZiUT5SFzrPjO/FSZay6AQRBfRaENn599bO7ogBN1ZCxDnyqergHvL5uPJ7oSg2
+ B97SVfeIyy9QvC324aVOObQD1X84FvFChx/sP/janCjLEUUkEh+azOswa1D/g/sfSzcMi4
+ ojeiIycT1N3d/aC3xoZjlbMoulFNIXU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-471-nmStlnvxNOyK9uNWcYOQdQ-1; Fri, 26 Aug 2022 14:26:52 -0400
+X-MC-Unique: nmStlnvxNOyK9uNWcYOQdQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d1-20020adfa341000000b0022571fbdfe2so254997wrb.3
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 11:26:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=NVtE1oY+8+ACPLrGRj3G+eL+/XmXWnagd50fpLFjh+k=;
+ b=ORanXSCvg80yYEAhjiQvANY3WgJ/R2QS1VakHc5tg+Wl5C0EmUKcWtpQ3qT+xtbMfF
+ m/7dF2gj6bwAUD35XEdm8MvTFeeGHGG68RuJkjvI5OnKHiOzNO+d/+53pKMH6Tm//jZa
+ fkSh0vShCwIyVXLQ7FLcutL12i3O+BzBY5JdY8pbnS5HvfsNQC90Z4iPW8GmwS9v6yjF
+ ySIZmh5/P9jNRmPWNQA/0UXCh+af+cWjiM3uTxhQyRxRX13FdTBTR1fni86EtjTT4c5C
+ zgrWLLbogF2DuDnZSJfYkbzW/Uz6zN+tbBsvK8qgvi6S1CPeNo/si3OkJAZFZotJ4M6j
+ dxTA==
+X-Gm-Message-State: ACgBeo19ERFcUNcxPo73WcHgsqHt+yHc3NiHHW1meIZs+SGgr4/70ZiO
+ WuXALmKTiArLgmNSMmncV0LqVPSBM3d4NhAlIn0Sjs8kWolAdsDdYoLIuTPvjKtpN448j2rnnF1
+ 8ax7p7le7q5qOkfg=
+X-Received: by 2002:a05:600c:20f:b0:3a5:a785:7f2a with SMTP id
+ 15-20020a05600c020f00b003a5a7857f2amr531858wmi.94.1661538411403; 
+ Fri, 26 Aug 2022 11:26:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7ZINSnN6xffPjVa7Cy2H9VAJr4vJIlVS8YwzNlrVHs2WUSEl/ACS5X77QZTmqnRMCIbTIwGw==
+X-Received: by 2002:a05:600c:20f:b0:3a5:a785:7f2a with SMTP id
+ 15-20020a05600c020f00b003a5a7857f2amr531852wmi.94.1661538411170; 
+ Fri, 26 Aug 2022 11:26:51 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-60.customers.d1-online.com.
+ [80.187.98.60]) by smtp.gmail.com with ESMTPSA id
+ p20-20020a05600c359400b003a35516ccc3sm340725wmq.26.2022.08.26.11.26.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 11:26:50 -0700 (PDT)
+Message-ID: <91c5a3b9-555e-51d4-1daa-9a4692ea437a@redhat.com>
+Date: Fri, 26 Aug 2022 20:26:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 2/2] tpm_emulator: Have swtpm relock storage upon
- migration fall-back
+Subject: Re: [PATCH 27/51] tests/qtest: Use send/recv for socket communication
 Content-Language: en-US
-To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
-References: <20220826154602.362516-1-stefanb@linux.ibm.com>
- <20220826154602.362516-3-stefanb@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220826154602.362516-3-stefanb@linux.ibm.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng
+ <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-28-bmeng.cn@gmail.com>
+ <dbb7f0fd-22e6-a5e0-88ce-5810290170ce@redhat.com>
+ <CAEUhbmVmyT7ETTJdJH=UzZyf5_PaA8QMfsc=0rjJKK+8RHeztw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAEUhbmVmyT7ETTJdJH=UzZyf5_PaA8QMfsc=0rjJKK+8RHeztw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 4_rL39GV_FGrp6nDqgEtzZQS68riUjeR
-X-Proofpoint-ORIG-GUID: EhLBQ-5tQPusD9jNxwsMhCnZSLDnILqB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-26_10,2022-08-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 spamscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
- phishscore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208260072
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,74 +106,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 26/08/2022 16.59, Bin Meng wrote:
+> On Thu, Aug 25, 2022 at 9:04 PM Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 24/08/2022 11.40, Bin Meng wrote:
+>>> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>>>
+>>> Socket communication in the libqtest and libqmp codes uses read()
+>>> and write() which work on any file descriptor on *nix, and sockets
+>>> in *nix are an example of a file descriptor.
+>>>
+>>> However sockets on Windows do not use *nix-style file descriptors,
+>>> so read() and write() cannot be used on sockets on Windows.
+>>> Switch over to use send() and recv() instead which work on both
+>>> Windows and *nix.
+>>>
+>>> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>>> ---
+>>>
+>>>    tests/qtest/libqmp.c   | 4 ++--
+>>>    tests/qtest/libqtest.c | 4 ++--
+>>>    2 files changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
+>>> index ade26c15f0..995a39c1f8 100644
+>>> --- a/tests/qtest/libqmp.c
+>>> +++ b/tests/qtest/libqmp.c
+>>> @@ -36,7 +36,7 @@ typedef struct {
+>>>
+>>>    static void socket_send(int fd, const char *buf, size_t size)
+>>>    {
+>>> -    size_t res = qemu_write_full(fd, buf, size);
+>>> +    ssize_t res = send(fd, buf, size, 0);
+>>
+>> This way we're losing the extra logic from qemu_write_full() here (i.e. the
+>> looping and EINTR handling) ... not sure whether that's really OK? Maybe you
+>> have to introduce a qemu_send_full() first?
+>>
+> 
+> I am not sure if qemu_send_full() is really needed because there is an
+> assert() right after the send() call.
 
+That's just a sanity check ... I think this function still has to take care 
+of EINTR - it originally looked like this:
 
-On 8/26/22 11:46, Stefan Berger wrote:
-> Swtpm may release the lock once the last one of its state blobs has been
-> migrated out. In case of VM migration failure QEMU now needs to notify
-> swtpm that it should again take the lock, which it can otherwise only do
-> once it has received the first TPM command from the VM.
-> 
-> Only try to send the lock command if swtpm supports it. It will not have
-> released the lock (and support shared storage setups) if it doesn't
-> support the locking command since the functionality of releasing the lock
-> upon state blob reception and the lock command were added to swtpm
-> 'together'.
-> 
-> If QEMU sends the lock command and the storage has already been locked
-> no error is reported.
-> 
-> If swtpm does not receive the lock command (from older version of QEMU),
-> it will lock the storage once the first TPM command has been received. So
-> sending the lock command is an optimization.
-> 
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> ---
->   backends/tpm/tpm_emulator.c | 59 ++++++++++++++++++++++++++++++++++++-
->   backends/tpm/trace-events   |  2 ++
->   2 files changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-> index 87d061e9bb..debbdebd4c 100644
-> --- a/backends/tpm/tpm_emulator.c
-> +++ b/backends/tpm/tpm_emulator.c
-> @@ -34,6 +34,7 @@
->   #include "io/channel-socket.h"
->   #include "sysemu/tpm_backend.h"
->   #include "sysemu/tpm_util.h"
-> +#include "sysemu/runstate.h"
->   #include "tpm_int.h"
->   #include "tpm_ioctl.h"
->   #include "migration/blocker.h"
-> @@ -81,6 +82,9 @@ struct TPMEmulator {
->       unsigned int established_flag_cached:1;
->   
->       TPMBlobBuffers state_blobs;
-> +
-> +    bool relock_swtpm;
-> +    VMChangeStateEntry *vmstate;
->   };
->   
->   struct tpm_error {
-> @@ -302,6 +306,35 @@ static int tpm_emulator_stop_tpm(TPMBackend *tb)
->       return 0;
->   }
->   
-> +static int tpm_emulator_lock_storage(TPMEmulator *tpm_emu)
-> +{
-> +    ptm_lockstorage pls;
-> +
-> +    if (!TPM_EMULATOR_IMPLEMENTS_ALL_CAPS(tpm_emu, PTM_CAP_LOCK_STORAGE)) {
-> +        trace_tpm_emulator_lock_storage_cmd_not_supt();
-> +        return 0;
-> +    }
-> +
-> +    /* give failing side 100 * 10ms time to release lock */
+  https://git.qemu.org/?p=qemu.git;a=commitdiff;h=c3e5704af19ac6
 
-FYI: By inducing a migration failure in the post_load function of this 
-module on the migration destination side, the fallback required 
-worst-case 16 loops (160ms; ~20 attempts to migrate) for swtpm on the 
-source side to again be able to grab the lock. I am using NFS for shared 
-storage.
+... and you can also see the while loop there.
+
+  Thomas
+
 
 
