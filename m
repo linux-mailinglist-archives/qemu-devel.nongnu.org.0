@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269105A27DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 14:29:48 +0200 (CEST)
-Received: from localhost ([::1]:35268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254A85A27E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 14:33:38 +0200 (CEST)
+Received: from localhost ([::1]:37322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRYT5-0003vD-8r
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 08:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
+	id 1oRYWm-0007dC-0y
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 08:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oRYKz-00048M-FJ
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:21:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41699)
+ id 1oRYT8-000471-Ea
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:29:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oRYKu-0000kg-D9
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:21:23 -0400
+ id 1oRYT5-00028G-61
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:29:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661516479;
+ s=mimecast20190719; t=1661516986;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b5qHlqnX7eURG5R0BrR/8ui/xob7iwcordXsxcObPoU=;
- b=B2XJt5SoLEfpGKfzcycZaEdg7vLqzQCtWGpGiMfNHnvJaJsvgdMVowFZ8q3rVnPV25D6wv
- hXjysB3e4z6gLzsMfU5OvjdiUb/cUZqAmjbtC2h9ZTWoeXlSfB0n5fRhp4b3+VV9IAeAZT
- wIX5qKrVB/g3GHU6V25IK/65vmKAZ8E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FMTv/G/f60YdXksPyISQmKgXsgtVSBPueXpbd8/S3FI=;
+ b=fB1mh2czmxB3BwitUbkJ76+c7JYgF7YiTLpMWxjEf3W9K5qLAbeUe0sCPqpPN6lB+atA52
+ BDep+sn3DKK0CgffJL/80mjvckLigfE+RyiyjudNe5u/QQ9Fs+aDeyYa3mrlkdT4uJ+ptI
+ weLvD53zvTWgaqW6XQgISXhLG/2DDKc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-olsW92_eN0u22eGQUHNElw-1; Fri, 26 Aug 2022 08:21:17 -0400
-X-MC-Unique: olsW92_eN0u22eGQUHNElw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-543-UrWuvlC_OdS0z5QTjfSReQ-1; Fri, 26 Aug 2022 08:29:42 -0400
+X-MC-Unique: UrWuvlC_OdS0z5QTjfSReQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77BF33C02189;
- Fri, 26 Aug 2022 12:21:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78979101A54E;
+ Fri, 26 Aug 2022 12:29:42 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9241E2166B26;
- Fri, 26 Aug 2022 12:21:16 +0000 (UTC)
-Date: Fri, 26 Aug 2022 13:21:13 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB91B1121314;
+ Fri, 26 Aug 2022 12:29:41 +0000 (UTC)
+Date: Fri, 26 Aug 2022 13:29:39 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>
 Subject: Re: [PATCH] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
  defualt
-Message-ID: <Ywi6ueT2wtIxDCfv@redhat.com>
+Message-ID: <Ywi8s8UZzR2vcLjr@redhat.com>
 References: <20220826113900.794046-1-berrange@redhat.com>
- <20220826120513.GA30245@redhat.com>
+ <1c0c72f5-6a4c-1fb3-3fa7-9c78e8ec8c7a@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220826120513.GA30245@redhat.com>
+In-Reply-To: <1c0c72f5-6a4c-1fb3-3fa7-9c78e8ec8c7a@suse.de>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,8 +86,8 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 26, 2022 at 01:05:13PM +0100, Richard W.M. Jones wrote:
-> On Fri, Aug 26, 2022 at 12:39:00PM +0100, Daniel P. Berrangé wrote:
+On Fri, Aug 26, 2022 at 01:50:40PM +0200, Claudio Fontana wrote:
+> On 8/26/22 13:39, Daniel P. Berrangé wrote:
 > > The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
 > > possible. Historically this hasn't been an issue since it was rare for
 > > OS distros to build with a higher mandatory CPU baseline.
@@ -114,6 +115,33 @@ On Fri, Aug 26, 2022 at 01:05:13PM +0100, Richard W.M. Jones wrote:
 > > Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
 > > compatibility with binaries it is likely to encounter in the wild,
 > > and not likely to have a significant downside for existing usage.
+> 
+> How do we know for sure? Do we have a base of binaries to test across
+> qemu versions?
+
+There are never any perfect guarantees, but this assertion is based on
+the view that the x86 instruction set changes are considered backwards
+compatible. Existing applications from years (even decades) ago can
+generally run on arbitrarily newer CPUs with orders of magnitude more
+features, as apps have to intentionally opt-in to use of new CPU
+instructions.
+
+So the risk here would be an existing applications, which is able to
+dynamically opt-in to optimized code paths if certain CPUID features
+exist, and in turn tickles a bug in QEMU's implementation of said
+feature that it would not previously hit. That's certainly possible,
+but I don't think it would be common, as we would already have seen
+that in system emulators.  The la57 feature issue Richard mentions
+is one example, but that doesn't impact user emulators I believe.
+
+Weigh that risk against the fact that we have users frequently
+hitting problems with the existing qemu64  default because it is
+too old. User's have already been making this change in the context
+of Docker for this reason. eg
+
+https://github.com/tonistiigi/binfmt/blob/master/patches/cpu-max/0001-default-to-cpu-max-on-x86-and-arm.patch
+
+> 
 > > 
 > > Most other architectures already use an 'any' CPU model, which is
 > > often mapped to 'max' (or similar) already, rather than the oldest
@@ -153,22 +181,19 @@ On Fri, Aug 26, 2022 at 01:05:13PM +0100, Richard W.M. Jones wrote:
 > >  }
 > >  #endif
 > 
-> Can we be assured we won't ever hit this TCG bug that currently
-> affects -cpu max ?
-> 
-> https://gitlab.com/qemu-project/qemu/-/issues/1023
-> 
-> I'm going to guess we will be OK because qemu-user doesn't run a
-> kernel and therefore wouldn't normally touch %cr3.  Is there any other
-> situation?  (Of course it would be better all round if that glaring
-> bug could be fixed.)
+> Just seems an abrupt change to me if we don't have a mechanism in
+> place to ensure we don't break existing workloads.
 
-Yeah, the bug appears to be an interaction with the VM configuring
-page tables, and since qemu-user is not doing that my guess it it
-won't affect this usage. If we did want to be totally safe, we could
-add -la57, since that feature flag is useless for user emulation
-anyway.
+There are no absolutes here. We have risk of unknown problem possibly
+breaking some existing apps, vs a known problem currently breaking
+users of CentOS 9 / RHEL 9, which podman and docker need to workaround.
 
+The question is which benefits more users, and which is the better
+long term option. I think using modern CPU is better long term, and
+if we find bugs in QEMU's TCG impl we just need to fix them regardless.
+
+If we find bugs in applications, however, then the apps need to fix
+them.
 
 With regards,
 Daniel
