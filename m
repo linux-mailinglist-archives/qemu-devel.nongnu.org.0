@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52A45A2A37
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:01:23 +0200 (CEST)
-Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24B95A29E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:46:36 +0200 (CEST)
+Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRapm-0001pd-On
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46598)
+	id 1oRabU-0004Q1-01
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:46:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAp-0000ew-LB
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:04 -0400
-Received: from mout.gmx.net ([212.227.15.15]:40995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-00055O-Rg
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1661523535;
- bh=2qvus0U1Qcq+tymskvFkUyGJqKVQ/WZ7b2//9XLrNAI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=WsnuHA2appTzhaYdcAriiGlAIWw0zWHos8JWiGHYJcPhQNjTLd9rT+KRgZpdo7AnV
- OrRr3JcNE5ef8ZjIK1oLjV0hGopHNimsOnTquV6GTMxxhnrY3kzsBuVwm0hXZuMDMH
- R5AchE+J9QtCUcxhlOJGqhBJqhCfFQZiSUZQ7PqY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.171.190]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MLzBj-1ojO8c37c9-00HyZ1; Fri, 26
- Aug 2022 16:18:55 +0200
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 13/13] linux-user: Add parameters of getrandom() syscall for
- strace
-Date: Fri, 26 Aug 2022 16:18:53 +0200
-Message-Id: <20220826141853.419564-14-deller@gmx.de>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220826141853.419564-1-deller@gmx.de>
-References: <20220826141853.419564-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oRaDU-0004CY-LN
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:21:49 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oRaDR-0005gH-Gg
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:21:47 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id y141so1688424pfb.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 07:21:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=FOB0ayffQKy3bCCXMCqEpdU9sU12Fi/LURAoulskXLA=;
+ b=Akir1WYytXHe05IRXb9s9W97z4hqZP8ArAKKz0G2lrTXYEMdV4bDHMKKh2PBQRn2Mw
+ 1+cynwyNRkH5z5iCzpXM3wqTqnR4eQlXWD0bcl3vsh3MilJE+1lP1fXtNWbbcCabTaFx
+ LPP1DcuYXhOlxbfKFf6bEE/ZMpUhO19O7SBY0jd/802aEmYvzMrNlpFO7kVRbpvEXgLz
+ 9D+C1xt9XbS9rsWRIdy9B/0oyO+6j3I8R2Tj8NXmq5fhDRB7kew/WvkE6CdfU0GoJTFF
+ 5L4IM/G3J1UqE9Gl6Jbu8ewCRIGcSBBEcJwxQGnEjBqdBAxeko51e8J3ofY8tBwMxDut
+ cVbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=FOB0ayffQKy3bCCXMCqEpdU9sU12Fi/LURAoulskXLA=;
+ b=IeoCg3VkPq2S7uh4twha+Hyw4GAR7nQneOhIbhpguVySxwt8IubEBP6G7LWdlc9Tj9
+ WFKn2WtUlnzAENdp5EUNUH8bp1n+zId8dI31v+0RLF3mXsX0js4WZsLmrmsINF8Y8EiO
+ VCSUarf8P3ddqqjTlOXE+fYKVgTRdcDuc+nlxC5IQcnA0O8QLnNHmWcXxo/vmFitHDlz
+ vwIwkxGWXvQTmeQaDNoNw3W+vXizvB8oEfC4NGAM5nZIWerhTbZLeq6ykKNrgIDHrUys
+ HV9kpnRDct2/4zWdX2bLXY4OwKDxbcwXXqARSuTObTLZdyGrlET+B8V/dHANJrlSSoDF
+ 1NhQ==
+X-Gm-Message-State: ACgBeo1x96MdrtCV9S8lObBoXeQYdYIrgSUXrjeMpsXYPixUJVCO+obH
+ AMh02ObU0Xm0dc4r4+e/R/WeRQ==
+X-Google-Smtp-Source: AA6agR6B8AqCiZ79pO/NhqKL0fzQ0szPwO4VNuZvRxLdCzfJdQ8KPVpwEUOLscGAntWYR7VRhAa/2w==
+X-Received: by 2002:a63:83c8:0:b0:42b:908c:710 with SMTP id
+ h191-20020a6383c8000000b0042b908c0710mr79127pge.195.1661523703970; 
+ Fri, 26 Aug 2022 07:21:43 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f?
+ ([2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f])
+ by smtp.gmail.com with ESMTPSA id
+ e1-20020a17090301c100b00172e19c2fa9sm1701383plh.9.2022.08.26.07.21.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 07:21:43 -0700 (PDT)
+Message-ID: <156aec1f-65bc-ba76-48ba-c9a389e8816d@linaro.org>
+Date: Fri, 26 Aug 2022 07:21:41 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:NFAgJDiUFT2vpvdqUpmPuXRFF0a5lkP2Xbk7TRR60Vg9FIdngVm
- 4IomLIAy1AsTl0dQGDa0TuilBnzTAKTcEgJf4rC/6PS0Isddz2HuVlvoVnafqKNjcukpfMt
- fLZWhtp2gHbdTt8VxGwqtdzhq/nmk6ZWyxRbebe1fPW20iH3iBRtuZvP+fTYoWZ+p6zx81c
- R+ScpzJA5B5qeD03qNnPw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eT7pfxJfEKw=:9DZubapLY+cV36kMhYCHqH
- mdWEk5M8N7xJT5XrEPwww81SlqjuIDvTff/tTv+8URp6KeyR+nu18kkOTwM9tg3KPBYGDdmgb
- ISdtl7pFUoDT15P+1Hr8/Zm1l3H+ZJ+alkTNvtXfzrvjgAenGkMKi8QlwLLaYXDmdMGBuoGP4
- jPswbb4CJBVEUG5sS1ss9Eca2ZzxspfPNwmuSsZWSDdTdOd6F7O6RuUyRd4yvWfjN34u9XY5I
- RnhlZ/yyCeuRAt1dKrom60SEOt/ZLVnDwyl/6C/HWFZz0vBeV6e48k7jBC+aGzqrBcOzshOHb
- S7i+uekqBi/JInKniqtxDgpdhHUQLzU5XZcOrEHWJ3HFfvjsgnYDzS9FdOryQqdCT1HnTal+2
- oY7/ycBW+laMhk94IKvBWzQnk7VPVZoa0sg/kyEEiHQ0VF8DC/0G4CVdcZIG/3XlH7xATWXdd
- f1kG2LhDur76Rx3xgDxpnajE8fDKA0Q0/huG9qy4F7l2/GhkCuxKg9hg8uZUKKrTFRYZkfEkK
- Y3rbZ98ZM0pJQO4RwEy+rKbgvXJPzEORBjTIJE2M3x7ru1JXn4+XtDnvbbGqbFSbhjMH48GuC
- NXqlw0dfS9uKjtLJG4KxK2oqwz7FW86802cvrYnRDVxvoyV/GadH5XIkkSqYoQzEIblIpHFwh
- HUwySmiQG+tdM1r7hUPnO1aBUzw6Z2f7zK5HdkJzaIMk79M/sMx1zk5qaRShOigwovUwXFA0a
- lW0D+21OrxSSEwQDBfcYso2GRUcdB1xc6El+lN+5+rdoAymyc1+bwt+3J53TcoQLxFH1q9sSs
- m85itroTXOvUTT+Ulq6WTPA+lcvzcylSqVRdIIBBulyX3r4zvSLT12IHBHT7zlGwTnyE0TyLC
- TqIyN+GdOxQzY801cVGygGmLtiLyux/3AshLos86tzTIoa2A+56Dsmw/ZT+GUDtX4FXmMHanM
- lG7Bwvs8t2jiGT2x05LMiU4QDV+bp9qHk9wgcFHHyL2T5ZGPdiBIG7zVlekn7p18kAs6JsFiJ
- XaRQmraQeuWkOVcPHhv+ZDXD2z9iLUSW0hOEfCS9STvlkE9WOaUdKIYcpNtCCh4uhsMSgMmUm
- K32jr52adCbGWMc7wDFZlCbin8H4hbzPIGaosSGoFbRFVCAPlv1+hNFEA==
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
+ defualt
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+References: <20220826113900.794046-1-berrange@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220826113900.794046-1-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,25 +95,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- linux-user/strace.list | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 8/26/22 04:39, Daniel P. Berrangé wrote:
+> The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
+> possible. Historically this hasn't been an issue since it was rare for
+> OS distros to build with a higher mandatory CPU baseline.
+> 
+> With RHEL-9, however, the entire distro is built for the x86_64-v2 ABI
+> baseline:
+> 
+>    https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level
+> 
+> It is likely that other distros may take similar steps in the not too
+> distant future. For example, it has been suggested for Fedora on a
+> number of occassions.
+> 
+> This new baseline is not compatible with the qemu64 CPU model though.
+> While it is possible to pass a '-cpu xxx' flag to qemu-x86_64, the
+> usage of QEMU doesn't always allow for this. For example, the args
+> are typically controlled via binfmt rules that the user has no ability
+> to change. This impacts users who are trying to use podman on aarch64
+> platforms, to run containers with x86_64 content. There's no arg to
+> podman that can be used to change the qemu-x86_64 args, and a non-root
+> user of podman can not change binfmt rules without elevating privileges:
+> 
+>    https://github.com/containers/podman/issues/15456#issuecomment-1228210973
+> 
+> Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
+> compatibility with binaries it is likely to encounter in the wild,
+> and not likely to have a significant downside for existing usage.
+> 
+> Most other architectures already use an 'any' CPU model, which is
+> often mapped to 'max' (or similar) already, rather than the oldest
+> possible CPU model.
+> 
+> For the sake of consistency the 'i386' architecture is also changed
+> from using 'qemu32' to 'max'.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   linux-user/i386/target_elf.h   | 2 +-
+>   linux-user/x86_64/target_elf.h | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 4560a01d88..da8c1bf34e 100644
-=2D-- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -358,7 +358,7 @@
- { TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getrandom
--{ TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
-+{ TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getresgid
- { TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
-=2D-
-2.37.1
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
+
+> 
+> diff --git a/linux-user/i386/target_elf.h b/linux-user/i386/target_elf.h
+> index 1c6142e7da..238a9aba73 100644
+> --- a/linux-user/i386/target_elf.h
+> +++ b/linux-user/i386/target_elf.h
+> @@ -9,6 +9,6 @@
+>   #define I386_TARGET_ELF_H
+>   static inline const char *cpu_get_model(uint32_t eflags)
+>   {
+> -    return "qemu32";
+> +    return "max";
+>   }
+>   #endif
+> diff --git a/linux-user/x86_64/target_elf.h b/linux-user/x86_64/target_elf.h
+> index 7b76a90de8..3f628f8d66 100644
+> --- a/linux-user/x86_64/target_elf.h
+> +++ b/linux-user/x86_64/target_elf.h
+> @@ -9,6 +9,6 @@
+>   #define X86_64_TARGET_ELF_H
+>   static inline const char *cpu_get_model(uint32_t eflags)
+>   {
+> -    return "qemu64";
+> +    return "max";
+>   }
+>   #endif
 
 
