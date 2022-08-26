@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D0C5A29EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:47:14 +0200 (CEST)
-Received: from localhost ([::1]:41546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6615A2A47
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:03:24 +0200 (CEST)
+Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRac5-0005Gq-Go
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:47:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46592)
+	id 1oRari-0002x3-I3
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAo-0000di-Jh
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:02 -0400
-Received: from mout.gmx.net ([212.227.15.19]:46063)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAo-0000dh-Ky
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:03 -0400
+Received: from mout.gmx.net ([212.227.15.19]:41079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-000557-Hu
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-00055E-HI
  for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1661523535;
- bh=vqBGlEYh2uc/X0/atrzzZ0k1UEI6QeKa0HJ0LqnmR5s=;
+ bh=cQG0bVRLs8shoYAP9NI59cNoDF/tjBt9bk6S7Jij3WY=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=BKLalN52yvqI/W4Gk4yRZA+pJA/Q6erGX6BzZY2SDAdVDAaPtYAT5XKRLZc3tJI6v
- FH2KKuIwV+n6DNoza/CvyEYi0WkCD95osj8JTjQkf5g5i0fp88zT4oUohDdRNUKEc6
- zqKjNgfGSkV+4PK8mAj/c2VIZ3ifz3l3ERDzqVMw=
+ b=MRdUFFJZX2iPQRAMgp4j9tjothzmHo+jVZzFgj5ozt6n4e0FsiEQm83PHzfTLaAtX
+ KQea58Pa/aMXeglWNbBWmn3dQqFlIabU54gWF7gs+x31bIFRo+lT0y3eiIkrA6gM6e
+ psA6xzunIYuf+/tIo9/lZJLd9YoYphd4ZnymdHeA=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.171.190]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFKGZ-1ocsqs0v9d-00FiQN; Fri, 26
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8XPn-1pVfKg1ZE9-014Wix; Fri, 26
  Aug 2022 16:18:55 +0200
 From: Helge Deller <deller@gmx.de>
 To: Laurent Vivier <laurent@vivier.eu>,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 09/13] linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000
- for hppa arch
-Date: Fri, 26 Aug 2022 16:18:49 +0200
-Message-Id: <20220826141853.419564-10-deller@gmx.de>
+Subject: [PATCH 10/13] linux-user: Add strace for clock_nanosleep()
+Date: Fri, 26 Aug 2022 16:18:50 +0200
+Message-Id: <20220826141853.419564-11-deller@gmx.de>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220826141853.419564-1-deller@gmx.de>
 References: <20220826141853.419564-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:W2do2XuOj057L8nY8Evl+xJSSDIwIWe0IqMBpd8k5njh2jFt8ie
- LQBVsJ6f0PO4q3pMtYA0diELpzBHc2VFjZot+rrWlfc7kyVU3TlUde+Q3GjeKPs8TeQrMBu
- WTK7+/P11MfvTcCxYYjvXQIBI1DRULlfd2AkcdgJdLoEk5UIGD+DrqISzvelkoiNNfJHGWY
- M/1KvaO3jxfs/UKGO6yhA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SBGLScu1gOI=:UPaXxkMEMakduV3gDDMReG
- FlMU/61sP9dqlp+U9HMgzzXvGX/pOsGlqG2kjUbBEg/OeFwF9Q1Sl+AHEjjuhXhxoWQPBf2zR
- F+dyd/JbB/YxtQyEjZmJFUH20xllaS53uZtJ9WT48vlQh6ZrAalG1oMbmWEME6BDxiaIuW2rR
- NGmX27my6X7Nf8F2iuERExzgTVWudFroF/zHnlCULTFI88/R2N60TNq54jjQZQLRVLZQnEbdy
- rjzKdx2lhCJANnWn61UuwlMtGWJMQW/GbfkuICYAQbf3pOKIxuz2TJBZ9iQGGGkNzSGbkIxLU
- jMv6kFt3DQO1JY282t2ynLdcmgmfdb3tLyYJDXietBqyBhY3+DlF/q13U1FfZOVb36nrADEAs
- S1wp60/gCEE2cKUq19DzX8CcaU6BQkhvo/NlMIvJwxsqFhZhNT5byUbZMqObm2hHUtUmtcRMS
- aFcV0jG1RSBPj7hSHNwkiqbXUVt0tU9fsi1qJOoS4laR4hGALBwqSbg/IdVEv+tEgDCXbUKi+
- 6VdaDA7LhobZFj5DCZRGA1ZyJUmL1AhQKzFKK3AXwli7TP9TPY2PG6OBlfj+9gHo8/kn39pxx
- kUF2EfG/sEcGttMk8QxMtRcFzfIrXpfMaZ/03bKzjYZHhtLK093gejce7LbFrIGOI8sqIM6sc
- VhXAbFuCz/kVgzSca9fEG/O5gT2ZmyfZwmtt8bpcqQ9IMLse51/ZHHYgVQtIUzKuXpM4qpQmp
- 4sswb/j9M27XE2r3GHWY+hlRqI81nkkQSO1qwGYA1EYV0+3iPw+kXR9KtBWBV2euWBOnacsQ/
- 87vLY+FWY8XyU/Vswp1xj5BLVUqibCaOzqiK6HvDp5Odu0Tr1hoAliG7ThEs3w2kNW+2XqF1e
- YQP5Na+qS07gDwny1DOEBEa5RnRvZHugw5iT1yZJbzky6DISwEPbeBybJJHQ3A8rLxhdTVW4j
- u9oQHOs+fkbXsrWiSDDGLd3IZENmNudiLyZA6KFxL4s+oddUnOHaOo0ApqrhsIPnGY3WKnWwa
- L77EE3Gbh275/dVzoCpL73/HAMzxq611ULGTN0/PBKQh2dDTT//1KhW5A72dXoS7MEAxTqCqW
- bmX5Blsxq3oCaS933nr6nDssZoUhSVPl0NWqlKiGykwxzNXe1Y05Tw2Qw==
+X-Provags-ID: V03:K1:ouzVJNFAu3lmoEfFKhE09/11mCEVLw7eRJABp3LvR6rYqX48YOG
+ LS02hJaTTl2PL5bXsg8lKh32i1XMoeB2m3rwUONAs2loOagWhR4/bA83W5B5YByIQyI4LV7
+ 45M6mRhXzYqbdlCgQU0K7VYG+wxMLhzSyEEj0eAKkdCmqRHUKJkswlKpR5rPiB0Eg1UZExt
+ ItbPrOJ4v4qr/FJHQuWpg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XEaDVxqVJTg=:qyKlShV2/tl82Rfex3l85Q
+ BKjIhkeIgHl0RUH0xYcM8a4RTlTlQTdbnXodj5vwryeqOWCPWzUovW/7vByouNvvPw5VlqEf+
+ 3tR85kNaWndbNpVkrwAp8MOH/OsNpJldAxGKtbJSsY0kX14w9m3WXNP6es1M/VprsCF8E9wTg
+ ZotZeb7P9TYcGYKIGex2OUZTPiUm//4CRGaBSiXscZ6WX/jzpg5HKo6dDD5wnujHJ3OLd2yQj
+ L/bFAqiaENWTuEUxdMZpl5hM1kNvr22XYxfFlgNx9pQKcOUzYeP3w+D5+BNdvfTqySypuh4sA
+ LQcU1q1MemWLykQcJK64VHtDbpG/u01iviG/9SAARANiYfP142zjJLJt+K4EnQu9HbI+t7HeG
+ f7Dx6q2Hp8STJOuYGTK0FQ4vweQV0tAf8LuX0bIfyHB6XbpYLHB4hEGPL3NNVddXsZHMVAPTR
+ 2izFGLjvNao6T2DQA1Rtg2KugpYNK9aNyrg5W0NhRKAsCVgJ5rXItQH1CRoUgquyfo/xCgPjd
+ 2420hgMpPhI3xdRzhbtTJq4oYZtrbKA1lroI92D6CnjJqsLY/LX3XxOdC1y5D5fOzZmXTFtlS
+ +p4/tVAib/DJBSIW9Omyw6o91LbU3yt/4Tl+bX6j/I9rVHRU6gysBYRa8p8l6pDIDTOGchQmr
+ vQ3VcUPR2PBPc3uJAlSsdYwV+tTilfPne4R69xCI4bDTmhBpVoOmGoQVi1ewzAT2SQnzxj7NW
+ TJ5L7waJ6PO0pZvVq36U27SlPSOimZSVVrj9ymonv2R7s/LCTK/79NonN963YJ+nkhc5U2LQq
+ AerC2L6GdvarBrzBLOp4KQE6uzJ4RBxKGgJkTNtPjND8T99WjG14Ia5IgZkIp3Q0GvbWu/cWv
+ 7XZ2FM7K+6PbZubGvcPmkOVPSVl2snFTQmvgEXJ924yVIhcXqlgK+pKNK+bk8hPQ88D3qFZfV
+ VoophJFwOWDunkIZck2ci56CfCB5UMiASNdcTsSSp0+OYVDzbpYoAejKK5Q8kFwhNPsjUhzUp
+ /fVn13P6cxZIOKcQyi3JM0HOIliutHinaTec2x41vV6127+cDinf15FsfpEfk2Qy/HIU2yK/4
+ c6fh6unsbNn7rl7dugrhrc806RfRHd3ShSy6qMJ5RSmPGR4ljjQMlyXEg==
 Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -86,32 +85,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the parisc architecture the stack grows upwards.
-Move the TASK_UNMAPPED_BASE to high memory area as it's done by the
-kernel on physical machines.
-
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/mmap.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/strace.c    | 15 +++++++++++++++
+ linux-user/strace.list |  3 ++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 048c4135af..dba6823668 100644
-=2D-- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -251,8 +251,12 @@ static int mmap_frag(abi_ulong real_start,
- # define TASK_UNMAPPED_BASE  (1ul << 38)
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index d1afa0e12a..bac47748bc 100644
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3566,6 +3566,21 @@ print_unshare(CPUArchState *cpu_env, const struct s=
+yscallname *name,
+ }
  #endif
- #else
-+#ifdef TARGET_HPPA
-+# define TASK_UNMAPPED_BASE  0xfa000000
-+#else
- # define TASK_UNMAPPED_BASE  0x40000000
- #endif
+
++#ifdef TARGET_NR_clock_nanosleep
++static void
++print_clock_nanosleep(CPUArchState *cpu_env, const struct syscallname *na=
+me,
++                abi_long arg0, abi_long arg1, abi_long arg2,
++                abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_enums(clockids, arg0, 0);
++    print_raw_param("%d", arg1, 0);
++    print_timespec(arg2, 0);
++    print_timespec(arg3, 1);
++    print_syscall_epilogue(name);
++}
 +#endif
- abi_ulong mmap_next_start =3D TASK_UNMAPPED_BASE;
-
- unsigned long last_brk;
++
+ #ifdef TARGET_NR_utime
+ static void
+ print_utime(CPUArchState *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 7a69152db7..0463415902 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -91,7 +91,8 @@
+                            print_syscall_ret_clock_gettime },
+ #endif
+ #ifdef TARGET_NR_clock_nanosleep
+-{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, NULL, NULL },
++{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, print_clock_nanosl=
+eep,
++                            NULL },
+ #endif
+ #ifdef TARGET_NR_clock_settime
+ { TARGET_NR_clock_settime, "clock_settime" , NULL, print_clock_settime, N=
+ULL },
 =2D-
 2.37.1
 
