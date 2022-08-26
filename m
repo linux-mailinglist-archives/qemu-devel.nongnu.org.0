@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0355A2B60
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:37:26 +0200 (CEST)
-Received: from localhost ([::1]:51166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AFB5A2B75
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:42:10 +0200 (CEST)
+Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbOf-00042h-DP
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54278)
+	id 1oRbTF-00012Z-HD
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oRasO-0003uQ-Mb
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:04:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oRasK-0003oU-Pg
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:04:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661526238;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5DqPf1oIw24ZxJvF2ll9Wx0aUe3/d7GTNZzfFzxv83E=;
- b=X7yotN/pUGY2adYqC2/ewA1Q8s+hcWhHz9H3kpcEjldlhzfYE4Oidpq54bm1g3CMboXI20
- PNl00cSctlFMU49lrlpe3ND75+9QGrCO0X1jQMGCBsbML0fqKus6+KH7nxL7vrOynw1XUm
- gS0CucMIuh3DQ3nu6ParyB3i+HGesQk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-7As3IssTPu28A68HCFTPHQ-1; Fri, 26 Aug 2022 11:03:53 -0400
-X-MC-Unique: 7As3IssTPu28A68HCFTPHQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C922280EA34;
- Fri, 26 Aug 2022 15:03:52 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD0261121314;
- Fri, 26 Aug 2022 15:03:50 +0000 (UTC)
-Date: Fri, 26 Aug 2022 16:03:42 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Sebelev, Vladimir" <vladimir.sebelev@auriga.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Drap Anton <drapas86@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Drap, Anton" <anton.drap@auriga.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3] Loading new machines and devices from external modules
-Message-ID: <YwjgzkVoMQmU2Cvi@redhat.com>
-References: <20220822085041.127776-1-anton.drap@auriga.com>
- <CAFEAcA-C87Qgyvc_yqtiecA9EBE50J9CZgQY5FiAqDm+pQx67Q@mail.gmail.com>
- <8b584a6fb2cf48c6ac28a9d6ea488dcf@auriga.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8b584a6fb2cf48c6ac28a9d6ea488dcf@auriga.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRayY-0003pb-9B; Fri, 26 Aug 2022 11:10:28 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:40298 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRayV-0004y4-I4; Fri, 26 Aug 2022 11:10:25 -0400
+Received: from smtpclient.apple (unknown [221.220.143.85])
+ by APP-05 (Coremail) with SMTP id zQCowADX3KRP4ghjEUB5AA--.15513S2;
+ Fri, 26 Aug 2022 23:10:09 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH 3/3] hw/nvme: add iothread support
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <20220826111834.3014912-4-fanjinhao21s@ict.ac.cn>
+Date: Fri, 26 Aug 2022 23:10:06 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>, kbusch@kernel.org, stefanha@gmail.com,
+ "open list:nvme" <qemu-block@nongnu.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <B37413A3-5A2E-404A-8BB0-DF618FCBE324@ict.ac.cn>
+References: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
+ <20220826111834.3014912-4-fanjinhao21s@ict.ac.cn>
+To: qemu-devel <qemu-devel@nongnu.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowADX3KRP4ghjEUB5AA--.15513S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKryUCF47uw1fuFy3Ar45trb_yoWDGrgEgF
+ s8Xas7XayDuw1avw4Y9r1Yqa1ft3yjqr1rG3y5A3Wxt3ykXa1fZr10gF13CayDC345u3W7
+ WFW5C3WkA3WqgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbFAYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2Iq
+ xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
+ 106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
+ xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
+ xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8
+ JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU86OJ5UUUUU==
+X-Originating-IP: [221.220.143.85]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,57 +72,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 26, 2022 at 07:51:20AM +0000, Sebelev, Vladimir wrote:
-> Hi Peter,
-> 
-> Anton previously sent explanation of our position. Nobody commented.
-> Could you please comment on it? It's necessary for us to better
-> understand your position. From our point of view technical ban of
-> external modules loading doesn't solve any of mentioned problems,
-> but makes VP developer life harder.
+at 7:18 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 
-In addition to what Peter just said, I'd like to quote the commit
-message itself
+> @@ -4979,7 +5007,13 @@ static void nvme_init_cq(NvmeCQueue *cq, =
+NvmeCtrl *n, uint64_t dma_addr,
+>         }
+>     }
+>     n->cq[cqid] =3D cq;
+> -    cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, =
+cq);
+> +
+> +    if (cq->cqid) {
+> +        cq->timer =3D aio_timer_new(n->ctx, QEMU_CLOCK_VIRTUAL, =
+SCALE_NS,
+> +                                  nvme_post_cqes, cq);
+> +    } else {
+> +        cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, =
+nvme_post_cqes, cq);
+> +    }
+>=20
+>     /*
+>      * Only enable irq eventfd for IO queues since we always emulate =
+admin
+> @@ -4988,6 +5022,13 @@ static void nvme_init_cq(NvmeCQueue *cq, =
+NvmeCtrl *n, uint64_t dma_addr,
+>     if (cqid && n->params.irq_eventfd) {
+>         nvme_init_irq_notifier(n, cq);
+>     }
+> +
+> +    if (cq->cqid) {
+> +        cq->timer =3D aio_timer_new(n->ctx, QEMU_CLOCK_VIRTUAL, =
+SCALE_NS,
+> +                                  nvme_post_cqes, cq);
+> +    } else {
+> +        cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, =
+nvme_post_cqes, cq);
+> +    }
+> }
 
-[quote]
-Moreover different people interested in different parts of QEMU.
-QEMU core developers not interested in supporting and maintaining
-tons of platforms available on the market. Virtual platform developers
-not interested and usually don’t have resources to merge their changes
-upstream. So we have a lots of abandoned QEMU forks for different
-platforms
-[/quote]
-
-This is essentially saying that there are lots of people (often
-working for commercial companies) using QEMU and they are not
-interested in contributing upstream. At the same time complaining
-it is too hard to maintain their forked code. The proposal is then
-asking QEMU upstream to change its architecture & support public
-API for plugins in order to make it easier for these people to
-use QEMU while /still/ not contributing anything back to upstream.
-
-That is not exactly giving a compelling story of the benefits for
-the QEMU community. The benefit is all about people who are
-intentionally outside the community and wish to remain that way,
-while giving QEMU contributors an extra maint burden to support
-external plugins indefinitely.
-
-As for the point about the technical limitations and interactions
-with licensing not being perfect, and people already likely ignoring
-the licensing rules. That is very true, but at the same time, that is
-not a reason to abandon the community's licensing goals/intent. Again
-this is focusing on benefits to people who want to use QEMU without
-contributing back.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Duplicated initialization of cq->timer.=
 
 
