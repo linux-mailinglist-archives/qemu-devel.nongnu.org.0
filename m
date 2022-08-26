@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8125A2885
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 15:28:22 +0200 (CEST)
-Received: from localhost ([::1]:48144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B16E5A2874
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 15:24:35 +0200 (CEST)
+Received: from localhost ([::1]:40962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRZNm-0005or-58
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 09:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60526)
+	id 1oRZK6-0006My-81
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 09:24:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oRZGx-0000XQ-Ni
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:21:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31386)
+ id 1oRZGy-0000bB-Q4
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:21:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oRZGt-0003x2-PA
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:21:19 -0400
+ id 1oRZGt-0003xS-Qm
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:21:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661520072;
+ s=mimecast20190719; t=1661520073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dvbBn/0NeIwRj3tInX9CXxAdFuVhLTQ0A+b0lA2HCoI=;
- b=PWzX/HyN5iPcETClyAizgP+07PwushmqW3CGtID0onnZ20HtSFM/Vm/Oyrb/AbcsdTAQZs
- qp+vUqUa28+bdBLNk8rgrgVZaI4L4LHXdoxIpuNVPZXCzFnM3mHIDsscABqp4UKiw/zm4E
- bEa77n+zuelOi5lD2HSyebETVTACaS8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gsZJuypO/2wwnS2pQdeCowvadl6bg1GlA4IYS2HxRpA=;
+ b=EvDe734JudUWOpAILlJ3tRkpxmMAfO5ClX8O7f+BRByVuTCe3wBqICCxT30WE7GyEXF+CN
+ Ub6zK3oa1pwNWzmiA7vLrUa1jWWcwRm9OCl0TRP5KyjmE0IXSmvXvrCqBcVxuujFQ3wTPO
+ l58pwqUiEUqCBLJvE+mULerzZ/xwvrI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-k6pRY1L0PSuVQFmgdeM-FA-1; Fri, 26 Aug 2022 09:21:09 -0400
-X-MC-Unique: k6pRY1L0PSuVQFmgdeM-FA-1
+ us-mta-427-4CpkCdlFNsSs7u8ajs3WmA-1; Fri, 26 Aug 2022 09:21:09 -0400
+X-MC-Unique: 4CpkCdlFNsSs7u8ajs3WmA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A261785A58A;
- Fri, 26 Aug 2022 13:21:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F3613810D3A;
+ Fri, 26 Aug 2022 13:21:09 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4969E492C3B;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABBD6492C3B;
  Fri, 26 Aug 2022 13:21:08 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -55,10 +55,9 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH v11 03/21] job.c: API functions not used outside should be
- static
-Date: Fri, 26 Aug 2022 09:20:46 -0400
-Message-Id: <20220826132104.3678958-4-eesposit@redhat.com>
+Subject: [PATCH v11 04/21] aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+Date: Fri, 26 Aug 2022 09:20:47 -0400
+Message-Id: <20220826132104.3678958-5-eesposit@redhat.com>
 In-Reply-To: <20220826132104.3678958-1-eesposit@redhat.com>
 References: <20220826132104.3678958-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -88,100 +87,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-job_event_* functions can all be static, as they are not used
-outside job.c.
+Same as AIO_WAIT_WHILE macro, but if we are in the Main loop
+do not release and then acquire ctx_ 's aiocontext.
 
-Same applies for job_txn_add_job().
+Once all Aiocontext locks go away, this macro will replace
+AIO_WAIT_WHILE.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/qemu/job.h | 18 ------------------
- job.c              | 22 +++++++++++++++++++---
- 2 files changed, 19 insertions(+), 21 deletions(-)
+ include/block/aio-wait.h | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 876e13d549..4b64eb15f7 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -358,18 +358,6 @@ JobTxn *job_txn_new(void);
-  */
- void job_txn_unref(JobTxn *txn);
+diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
+index 54840f8622..dd9a7f6461 100644
+--- a/include/block/aio-wait.h
++++ b/include/block/aio-wait.h
+@@ -59,10 +59,13 @@ typedef struct {
+ extern AioWait global_aio_wait;
  
--/**
-- * @txn: The transaction (may be NULL)
-- * @job: Job to add to the transaction
-- *
-- * Add @job to the transaction.  The @job must not already be in a transaction.
-- * The caller must call either job_txn_unref() or job_completed() to release
-- * the reference that is automatically grabbed here.
-- *
-- * If @txn is NULL, the function does nothing.
-- */
--void job_txn_add_job(JobTxn *txn, Job *job);
--
  /**
-  * Create a new long-running job and return it.
+- * AIO_WAIT_WHILE:
++ * AIO_WAIT_WHILE_INTERNAL:
+  * @ctx: the aio context, or NULL if multiple aio contexts (for which the
+  *       caller does not hold a lock) are involved in the polling condition.
+  * @cond: wait while this conditional expression is true
++ * @unlock: whether to unlock and then lock again @ctx. This apples
++ * only when waiting for another AioContext from the main loop.
++ * Otherwise it's ignored.
   *
-@@ -431,12 +419,6 @@ void job_progress_set_remaining(Job *job, uint64_t remaining);
+  * Wait while a condition is true.  Use this to implement synchronous
+  * operations that require event loop activity.
+@@ -75,7 +78,7 @@ extern AioWait global_aio_wait;
+  * wait on conditions between two IOThreads since that could lead to deadlock,
+  * go via the main loop instead.
   */
- void job_progress_increase_remaining(Job *job, uint64_t delta);
+-#define AIO_WAIT_WHILE(ctx, cond) ({                               \
++#define AIO_WAIT_WHILE_INTERNAL(ctx, cond, unlock) ({              \
+     bool waited_ = false;                                          \
+     AioWait *wait_ = &global_aio_wait;                             \
+     AioContext *ctx_ = (ctx);                                      \
+@@ -92,11 +95,11 @@ extern AioWait global_aio_wait;
+         assert(qemu_get_current_aio_context() ==                   \
+                qemu_get_aio_context());                            \
+         while ((cond)) {                                           \
+-            if (ctx_) {                                            \
++            if (unlock && ctx_) {                                  \
+                 aio_context_release(ctx_);                         \
+             }                                                      \
+             aio_poll(qemu_get_aio_context(), true);                \
+-            if (ctx_) {                                            \
++            if (unlock && ctx_) {                                  \
+                 aio_context_acquire(ctx_);                         \
+             }                                                      \
+             waited_ = true;                                        \
+@@ -105,6 +108,12 @@ extern AioWait global_aio_wait;
+     qatomic_dec(&wait_->num_waiters);                              \
+     waited_; })
  
--/** To be called when a cancelled job is finalised. */
--void job_event_cancelled(Job *job);
--
--/** To be called when a successfully completed job is finalised. */
--void job_event_completed(Job *job);
--
++#define AIO_WAIT_WHILE(ctx, cond)                                  \
++    AIO_WAIT_WHILE_INTERNAL(ctx, cond, true)
++
++#define AIO_WAIT_WHILE_UNLOCKED(ctx, cond)                         \
++    AIO_WAIT_WHILE_INTERNAL(ctx, cond, false)
++
  /**
-  * Conditionally enter the job coroutine if the job is ready to run, not
-  * already busy and fn() returns true. fn() is called while under the job_lock
-diff --git a/job.c b/job.c
-index 2b4ffca9d4..cafd597ba4 100644
---- a/job.c
-+++ b/job.c
-@@ -125,7 +125,17 @@ void job_txn_unref(JobTxn *txn)
-     }
- }
- 
--void job_txn_add_job(JobTxn *txn, Job *job)
-+/**
-+ * @txn: The transaction (may be NULL)
-+ * @job: Job to add to the transaction
-+ *
-+ * Add @job to the transaction.  The @job must not already be in a transaction.
-+ * The caller must call either job_txn_unref() or job_completed() to release
-+ * the reference that is automatically grabbed here.
-+ *
-+ * If @txn is NULL, the function does nothing.
-+ */
-+static void job_txn_add_job(JobTxn *txn, Job *job)
- {
-     if (!txn) {
-         return;
-@@ -427,12 +437,18 @@ void job_progress_increase_remaining(Job *job, uint64_t delta)
-     progress_increase_remaining(&job->progress, delta);
- }
- 
--void job_event_cancelled(Job *job)
-+/**
-+ * To be called when a cancelled job is finalised.
-+ */
-+static void job_event_cancelled(Job *job)
- {
-     notifier_list_notify(&job->on_finalize_cancelled, job);
- }
- 
--void job_event_completed(Job *job)
-+/**
-+ * To be called when a successfully completed job is finalised.
-+ */
-+static void job_event_completed(Job *job)
- {
-     notifier_list_notify(&job->on_finalize_completed, job);
- }
+  * aio_wait_kick:
+  * Wake up the main thread if it is waiting on AIO_WAIT_WHILE().  During
 -- 
 2.31.1
 
