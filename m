@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6675A2719
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 13:52:20 +0200 (CEST)
-Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E065A26EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 13:36:27 +0200 (CEST)
+Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRXsj-0007UW-Ji
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 07:52:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59922)
+	id 1oRXdS-0004YH-0c
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 07:36:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oRXMk-0001Dj-CI; Fri, 26 Aug 2022 07:19:11 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:47262 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oRXMS-0006Qp-Rv; Fri, 26 Aug 2022 07:19:04 -0400
-Received: from localhost.localdomain (unknown [159.226.43.62])
- by APP-01 (Coremail) with SMTP id qwCowADX3yMNrAhjjZVhAA--.2259S4;
- Fri, 26 Aug 2022 19:18:45 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-block@nongnu.org (open list:nvme)
-Subject: [PATCH 2/3] hw/nvme: use KVM irqfd when available
-Date: Fri, 26 Aug 2022 19:18:33 +0800
-Message-Id: <20220826111834.3014912-3-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
-References: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oRXTW-0006xS-HH
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:26:15 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:41957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oRXTU-00082a-65
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:26:09 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id w18so841086qki.8
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 04:26:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=NaDgUkKi1Xrh4/tswkU63n7BeaGZ8xI6nhNFIdFJxwU=;
+ b=jxePz8pkkBZrk1oDcRPWqDb5LXG4WpUMvlv7+iF1K+RZCTNTmUWAIikbQlsINVbAWc
+ pig7KB7ifOYpZOCAc08aS5TZpGGOOLuHtxAG0/jS+NotZX9UCAt0peePAx1QjyEac8kt
+ 7KioMvln/o4mHyI36ix7F2PpcBjKykgWQ5gmi+QEKceK6FawyhjJqGy5RYcbinbeW/Ez
+ JiXfb01zfvzBabFUUv26N+NMOYUjEPube5AGxLey5U7EVfu1Dhp75+ZLSs6YEvKetNf5
+ 1ELt5EL1CB75wxxajm0t+/fZdfCpeTUOTuOwvSioYzUvS2p8wp9PgROQGVq1lfq3n1rW
+ y2wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=NaDgUkKi1Xrh4/tswkU63n7BeaGZ8xI6nhNFIdFJxwU=;
+ b=Ubj+mkXy2og/T63JX5Rfg/GAToixLTab1MFXyoB/HJ2N/w89keFUcW+DQYMJ3p1Hpm
+ 1LYWB9LDj0WL5Oo2UZ5MAPuP75i2KtlE1phKgrGcra7IEOvd7HcG3y4x8Q4LBPpct7Ne
+ OgxUs4tC65NBtYPq1jlPplBwaeXq2QD8AnuWKvHd1EVeslEgeHPbBJ3Qn6HC+glr+j05
+ +Fi+1eGibA9h/UcvSf3DeCIaGd2V05RvfxvJ/K2+t6GwK6YBO1A5tWEvxUu99ZEUwRk8
+ Qo7Ng7fz0pvGeyQmZ1aftCIv2H0sAb2bqCPUbPZgOsF161/4yIVB2aWGbOhyaK+LXltt
+ IspA==
+X-Gm-Message-State: ACgBeo2nKzlbUcPh5Rr0mdaaML7icdsFJvndwvKXA0mH0PusJ4/fftCG
+ f5Fs3Rx9eLHJQhj/61ppLzYXSXcdx/rAUl41yCA=
+X-Google-Smtp-Source: AA6agR6NkI7udB8T3WBKVs2mY82bWWlRx9XxM9G4YEp3tsRKWHbC+YQgLhwfLZ97d1S4JZWTxbwGtbibKyUmu8cZidQ=
+X-Received: by 2002:a05:620a:2548:b0:6b6:113d:34fd with SMTP id
+ s8-20020a05620a254800b006b6113d34fdmr5965196qko.132.1661513167097; Fri, 26
+ Aug 2022 04:26:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADX3yMNrAhjjZVhAA--.2259S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3JF18trW8XFWUCr18Cw1xKrg_yoW3GFy3pa
- 4kGFZ3uFs7JFyxWan0vrsrJrn5u39YqryUJw43K347CF10kr9xAFW8GF1UAF1rGrZ8XF98
- Z398tr4Uu34fXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBG14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
- x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
- vE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
- r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0Ew4C26cxK6c8Ij28Icw
- CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
- 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64
- vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
- vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRxR6xUUUUU=
-X-Originating-IP: [159.226.43.62]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-51-bmeng.cn@gmail.com>
+ <c04114e2-f7ba-c985-f4ff-955b0f82e716@redhat.com>
+In-Reply-To: <c04114e2-f7ba-c985-f4ff-955b0f82e716@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 26 Aug 2022 19:25:56 +0800
+Message-ID: <CAEUhbmVOB8JNGZOoH84msXs81bz4UQBZAiVXMasqoBiyOknYJQ@mail.gmail.com>
+Subject: Re: [PATCH 50/51] .gitlab-ci.d/windows.yml: Increase the timeout to
+ the runner limit
+To: Thomas Huth <thuth@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,270 +91,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use KVM's irqfd to send interrupts when possible. This approach is
-thread safe. Moreover, it does not have the inter-thread communication
-overhead of plain event notifiers since handler callback are called
-in the same system call as irqfd write.
+On Thu, Aug 25, 2022 at 4:18 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 24/08/2022 11.40, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > commit 9f8e6cad65a6 ("gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices"
+> > changed to compile QEMU with the --without-default-devices switch for
+> > the msys2-64bit job, due to the build could not complete within the
+> > project timeout (1h), and also mentioned that a bigger timeout was
+> > getting ignored on the shared Gitlab-CI Windows runners.
+> >
+> > However as of today it seems the shared Gitlab-CI Windows runners does
+> > honor the job timeout, and the runner has the timeout limit of 2h, so
+> > let's increase the timeout to the runner limit and drop the configure
+> > switch "--without-default-devices" to get a larger build coverage.
+> >
+> > As a result of this, the check-qtest starts running on Windows in CI.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> >   .gitlab-ci.d/windows.yml | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> > index c4bde758be..d4fd821b5f 100644
+> > --- a/.gitlab-ci.d/windows.yml
+> > +++ b/.gitlab-ci.d/windows.yml
+> > @@ -10,7 +10,7 @@
+> >         - ${CI_PROJECT_DIR}/msys64/var/cache
+> >     needs: []
+> >     stage: build
+> > -  timeout: 70m
+> > +  timeout: 2h
+>
+> IMHO 2 hours are too long ... we're normally trying to limit the time of
+> each job to 1h only and only extend it a little bit if we cannot really
+> make, but we should not double the amount of time here. The highest timeout
+> that we currently have are 90 minutes ... would that still be OK for this
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c       | 145 ++++++++++++++++++++++++++++++++++++++++++-
- hw/nvme/nvme.h       |   3 +
- hw/nvme/trace-events |   3 +
- 3 files changed, 149 insertions(+), 2 deletions(-)
+90 minutes is okay for "make -j2" on the CI machine, but if we disable
+the parallel build I am afraid 90 minutes is not enough.
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 51792f3955..396f3f0cdd 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -192,6 +192,7 @@
- #include "qapi/error.h"
- #include "qapi/visitor.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/kvm.h"
- #include "sysemu/block-backend.h"
- #include "sysemu/hostmem.h"
- #include "hw/pci/msix.h"
-@@ -1377,8 +1378,115 @@ static void nvme_deassert_notifier_read(EventNotifier *e)
-     }
- }
- 
-+static int nvme_kvm_vector_use(NvmeCtrl *n, NvmeCQueue *cq, uint32_t vector)
-+{
-+    KVMRouteChange c = kvm_irqchip_begin_route_changes(kvm_state);
-+    int ret;
-+
-+    ret = kvm_irqchip_add_msi_route(&c, vector, &n->parent_obj);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    kvm_irqchip_commit_route_changes(&c);
-+
-+    cq->virq = ret;
-+
-+    return 0;
-+}
-+
-+static int nvme_kvm_vector_unmask(PCIDevice *pci_dev, unsigned vector,
-+                                  MSIMessage msg)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+    int ret;
-+
-+    trace_pci_nvme_irq_unmask(vector, msg.address, msg.data);
-+
-+    for (uint32_t i = 1; i <= n->params.max_ioqpairs; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+
-+        if (!cq) {
-+            continue;
-+        }
-+
-+        if (cq->vector == vector) {
-+            if (cq->msg.data != msg.data || cq->msg.address != msg.address) {
-+                ret = kvm_irqchip_update_msi_route(kvm_state, cq->virq, msg,
-+                                                   pci_dev);
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+
-+                kvm_irqchip_commit_routes(kvm_state);
-+
-+                cq->msg = msg;
-+            }
-+
-+            ret = kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
-+                                                     &cq->assert_notifier,
-+                                                     NULL, cq->virq);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static void nvme_kvm_vector_mask(PCIDevice *pci_dev, unsigned vector)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+
-+    trace_pci_nvme_irq_mask(vector);
-+
-+    for (uint32_t i = 1; i <= n->params.max_ioqpairs; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+
-+        if (!cq) {
-+            continue;
-+        }
-+
-+        if (cq->vector == vector) {
-+            kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
-+                                                  &cq->assert_notifier,
-+                                                  cq->virq);
-+        }
-+    }
-+}
-+
-+static void nvme_kvm_vector_poll(PCIDevice *pci_dev, unsigned int vector_start,
-+                                 unsigned int vector_end)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+
-+    trace_pci_nvme_irq_poll(vector_start, vector_end);
-+
-+    for (uint32_t i = 1; i <= n->params.max_ioqpairs; i++) {
-+        NvmeCQueue *cq = n->cq[i];
-+
-+        if (!cq) {
-+            continue;
-+        }
-+
-+        if (!msix_is_masked(pci_dev, cq->vector)) {
-+            continue;
-+        }
-+
-+        if (cq->vector >= vector_start && cq->vector <= vector_end) {
-+            if (event_notifier_test_and_clear(&cq->assert_notifier)) {
-+                msix_set_pending(pci_dev, i);
-+            }
-+        }
-+    }
-+}
-+
-+
- static void nvme_init_irq_notifier(NvmeCtrl *n, NvmeCQueue *cq)
- {
-+    bool with_irqfd = msix_enabled(&n->parent_obj) &&
-+                      kvm_msi_via_irqfd_enabled();
-     int ret;
- 
-     ret = event_notifier_init(&cq->assert_notifier, 0);
-@@ -1386,12 +1494,27 @@ static void nvme_init_irq_notifier(NvmeCtrl *n, NvmeCQueue *cq)
-         return;
-     }
- 
--    event_notifier_set_handler(&cq->assert_notifier,
--                                nvme_assert_notifier_read);
-+    if (with_irqfd) {
-+        ret = nvme_kvm_vector_use(n, cq, cq->vector);
-+        if (ret < 0) {
-+            event_notifier_cleanup(&cq->assert_notifier);
-+
-+            return;
-+        }
-+    } else {
-+        event_notifier_set_handler(&cq->assert_notifier,
-+                                   nvme_assert_notifier_read);
-+    }
- 
-     if (!msix_enabled(&n->parent_obj)) {
-         ret = event_notifier_init(&cq->deassert_notifier, 0);
-         if (ret < 0) {
-+            if (with_irqfd) {
-+                kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
-+                                                      &cq->assert_notifier,
-+                                                      cq->virq);
-+            }
-+
-             event_notifier_set_handler(&cq->assert_notifier, NULL);
-             event_notifier_cleanup(&cq->assert_notifier);
- 
-@@ -4764,6 +4887,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- 
- static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
- {
-+    bool with_irqfd = msix_enabled(&n->parent_obj) &&
-+                      kvm_msi_via_irqfd_enabled();
-     uint16_t offset = (cq->cqid << 3) + (1 << 2);
- 
-     n->cq[cq->cqid] = NULL;
-@@ -4775,6 +4900,12 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
-         event_notifier_cleanup(&cq->notifier);
-     }
-     if (cq->assert_notifier.initialized) {
-+        if (with_irqfd) {
-+            kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
-+                                                  &cq->assert_notifier,
-+                                                  cq->virq);
-+            kvm_irqchip_release_virq(kvm_state, cq->virq);
-+        }
-         event_notifier_set_handler(&cq->assert_notifier, NULL);
-         event_notifier_cleanup(&cq->assert_notifier);
-     }
-@@ -6528,6 +6659,9 @@ static int nvme_start_ctrl(NvmeCtrl *n)
-     uint32_t page_size = 1 << page_bits;
-     NvmeSecCtrlEntry *sctrl = nvme_sctrl(n);
- 
-+    bool with_irqfd = msix_enabled(&n->parent_obj) &&
-+                      kvm_msi_via_irqfd_enabled();
-+
-     if (pci_is_vf(&n->parent_obj) && !sctrl->scs) {
-         trace_pci_nvme_err_startfail_virt_state(le16_to_cpu(sctrl->nvi),
-                                                 le16_to_cpu(sctrl->nvq),
-@@ -6617,6 +6751,12 @@ static int nvme_start_ctrl(NvmeCtrl *n)
- 
-     nvme_select_iocs(n);
- 
-+    if (with_irqfd) {
-+        return msix_set_vector_notifiers(PCI_DEVICE(n), nvme_kvm_vector_unmask,
-+                                         nvme_kvm_vector_mask,
-+                                         nvme_kvm_vector_poll);
-+    }
-+
-     return 0;
- }
- 
-@@ -7734,6 +7874,7 @@ static void nvme_exit(PCIDevice *pci_dev)
-         pcie_sriov_pf_exit(pci_dev);
-     }
- 
-+    msix_unset_vector_notifiers(pci_dev);
-     msix_uninit(pci_dev, &n->bar0, &n->bar0);
-     memory_region_del_subregion(&n->bar0, &n->iomem);
- }
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 4850d3e965..b0b986b024 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -20,6 +20,7 @@
- 
- #include "qemu/uuid.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/msi.h"
- #include "hw/block/block.h"
- 
- #include "block/nvme.h"
-@@ -396,10 +397,12 @@ typedef struct NvmeCQueue {
-     uint64_t    dma_addr;
-     uint64_t    db_addr;
-     uint64_t    ei_addr;
-+    int         virq;
-     QEMUTimer   *timer;
-     EventNotifier notifier;
-     EventNotifier assert_notifier;
-     EventNotifier deassert_notifier;
-+    MSIMessage  msg;
-     bool        ioeventfd_enabled;
-     QTAILQ_HEAD(, NvmeSQueue) sq_list;
-     QTAILQ_HEAD(, NvmeRequest) req_list;
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index fccb79f489..b11fcf4a65 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -2,6 +2,9 @@
- pci_nvme_irq_msix(uint32_t vector) "raising MSI-X IRQ vector %u"
- pci_nvme_irq_pin(void) "pulsing IRQ pin"
- pci_nvme_irq_masked(void) "IRQ is masked"
-+pci_nvme_irq_mask(uint32_t vector) "IRQ %u gets masked"
-+pci_nvme_irq_unmask(uint32_t vector, uint64_t addr, uint32_t data) "IRQ %u gets unmasked, addr=0x%"PRIx64" data=0x%"PRIu32""
-+pci_nvme_irq_poll(uint32_t vector_start, uint32_t vector_end) "IRQ poll, start=0x%"PRIu32" end=0x%"PRIu32""
- pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2=0x%"PRIx64""
- pci_nvme_dbbuf_config(uint64_t dbs_addr, uint64_t eis_addr) "dbs_addr=0x%"PRIx64" eis_addr=0x%"PRIx64""
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
--- 
-2.25.1
+> job, too? If so, please use 90 minutes here. Otherwise, it might still be
+> necessary to cut down this job here and there a little bit...
+> (maybe the tests now also work a little bit faster now that the migration
+> test has been speed up in 7.1-rc4 ?)
 
+I believe the build takes more time than the testing. But definitely
+the latest migration test speed up patch will help on windows too.
+
+Regards,
+Bin
 
