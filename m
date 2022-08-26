@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939AE5A20B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 08:13:29 +0200 (CEST)
-Received: from localhost ([::1]:48002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A738A5A20CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 08:20:44 +0200 (CEST)
+Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRSao-000707-Ck
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 02:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56968)
+	id 1oRShu-0001lx-Ob
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 02:20:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leixiang@kylinos.cn>)
- id 1oRPlj-0004tJ-Hx
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 23:12:27 -0400
-Received: from [124.126.103.232] (port=38458 helo=mailgw.kylinos.cn)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1oRSdo-00087w-3L
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 02:16:32 -0400
+Received: from [125.120.144.215] (port=36840 helo=liuqiang-OptiPlex-7060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leixiang@kylinos.cn>)
- id 1oRPld-0005qP-So
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 23:12:26 -0400
-X-UUID: 974c1789b7d3482bb1e76a18c2d7efce-20220826
-X-CPASD-INFO: 1bc0804f8581479697411f402375fbd8@erKdUGViYpZkVXp9g3qEcFloZGFhklR
- _dG1XZZSSkFiVgnxsTV5qXFWCgGpQYWNdYlV3fGtQYmBgZFB5i4Jyj1RgXmCCVHSTgHOcg2BmYA==
-X-CLOUD-ID: 1bc0804f8581479697411f402375fbd8
-X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
- TVAL:180.
- 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:74.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
- PHC:-5.
- 0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
- SIG:-5
- , AUF:0, DUF:3306, ACD:60, DCD:60, SL:0, EISP:0, AG:0, CFC:0.424, CFSR:0.057,
- UAT:0, RAF
- :0, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
- ATTNUM:0, EA F:0,CID:-5.0,VERSION:2.3.17
-X-CPASD-ID: 974c1789b7d3482bb1e76a18c2d7efce-20220826
-X-CPASD-BLOCK: 1000
-X-CPASD-STAGE: 1
-X-UUID: 974c1789b7d3482bb1e76a18c2d7efce-20220826
-X-User: leixiang@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <leixiang@kylinos.cn>) (Generic MTA)
- with ESMTP id 29936031; Fri, 26 Aug 2022 11:07:17 +0800
-From: leixiang <leixiang@kylinos.cn>
-To: mst@redhat.com
-Cc: qemu-devel@nongnu.org, xieming@kylinos.cn, leixiang <leixiang@kylinos.cn>,
- Zeng Chi <zengchi@kylinos.cn>
-Subject: [RESEND PATCH] virtio-pci: fix vector_irqfd leak in
- virtio_pci_set_guest_notifiers
-Date: Fri, 26 Aug 2022 11:06:46 +0800
-Message-Id: <20220826030646.1003059-1-leixiang@kylinos.cn>
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1oRSdl-00074K-7E
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 02:16:27 -0400
+Received: from localhost (liuqiang-OptiPlex-7060 [local])
+ by liuqiang-OptiPlex-7060 (OpenSMTPD) with ESMTPA id 48a7596a;
+ Fri, 26 Aug 2022 05:16:07 +0000 (UTC)
+From: Qiang Liu <cyruscyliu@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: P J P <pjp@fedoraproject.org>, Gaoning Pan <pgn@zju.edu.cn>,
+ Alexander Bulekov <alxndr@bu.edu>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] hcd-ohci: Drop ohci_service_iso_td() if ed->head &
+ OHCI_DPTR_MASK is zero
+Date: Fri, 26 Aug 2022 13:15:56 +0800
+Message-Id: <20220826051557.119570-1-cyruscyliu@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <1660004709-61572-1-git-send-email-ninollx@163.com>
-References: <1660004709-61572-1-git-send-email-ninollx@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 124.126.103.232 (failed)
-Received-SPF: permerror client-ip=124.126.103.232;
- envelope-from=leixiang@kylinos.cn; helo=mailgw.kylinos.cn
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01, T_SPF_PERMERROR=0.01,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 125.120.144.215 (failed)
+Received-SPF: softfail client-ip=125.120.144.215;
+ envelope-from=cyruscyliu@gmail.com; helo=liuqiang-OptiPlex-7060
+X-Spam_score_int: 65
+X-Spam_score: 6.5
+X-Spam_bar: ++++++
+X-Spam_report: (6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FSL_HELO_NON_FQDN_1=0.001,
+ HELO_NO_DOMAIN=0.001, NML_ADSP_CUSTOM_MED=0.9, RCVD_IN_PBL=3.335,
+ RDNS_NONE=0.793, SPF_SOFTFAIL=0.665, SPOOFED_FREEMAIL=1.7,
+ SPOOFED_FREEMAIL_NO_RDNS=0.001, SPOOF_GMAIL_MID=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
  UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
-X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 26 Aug 2022 02:07:08 -0400
+X-Spam_action: reject
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +61,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-proxy->vector_irqfd did not free when set guest notifier failed.
+An abort happens in ohci_frame_boundary() when ohci->done is 0 [1].
 
-Signed-off-by: Lei Xiang <leixiang@kylinos.cn>
-Tested-by: Zeng Chi <zengchi@kylinos.cn>
-Suggested-by: Xie Ming <xieming@kylinos.cn>
+``` c
+static void ohci_frame_boundary(void *opaque)
+{
+    // ...
+    if (ohci->done_count == 0 && !(ohci->intr_status & OHCI_INTR_WD)) {
+        if (!ohci->done)
+            abort(); <----------------------------------------- [1]
+```
+
+This was reported in https://bugs.launchpad.net/qemu/+bug/1911216/,
+https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg03613.html, and
+https://gitlab.com/qemu-project/qemu/-/issues/545. I can still reproduce it with
+the latest QEMU.
+
+This happends due to crafted ED with putting ISO_TD at physical address 0.
+
+Suppose ed->head & OHCI_DPTR_MASK is 0 [2], and we memset 0 to the phyiscal
+memory from 0 to sizeof(ohci_iso_td). Then, starting_frame [3] and frame_count
+[4] are both 0. As we can control the value of ohci->frame_number (0 to 0x1f,
+suppose 1), we then control the value of relative_frame_number to be 1 [6]. The
+control flow goes to [7] where ohci->done is 0. Have returned from
+ohci_service_iso_td(), ohci_frame_boundary() will abort() [1].
+
+``` c
+static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed)
+{
+    // ...
+    addr = ed->head & OHCI_DPTR_MASK; // <--------------------- [2]
+
+    if (ohci_read_iso_td(ohci, addr, &iso_td)) {   // <-------- [3]
+        // ...
+
+    starting_frame = OHCI_BM(iso_td.flags, TD_SF); // <-------- [4]
+    frame_count = OHCI_BM(iso_td.flags, TD_FC);    // <-------- [5]
+    relative_frame_number = USUB(ohci->frame_number, starting_frame);
+                                                   // <-------- [6]
+    if (relative_frame_number < 0) {
+        return 1;
+    } else if (relative_frame_number > frame_count) {
+        // ...
+        ohci->done = addr;                         // <-------- [7]
+        // ...
+    }
+```
+
+As only (afaik) a guest root user can manipulate ED, TD and the physical memory,
+this assertion failure is not a security bug.
+
+The idea to fix this issue is to drop ohci_service_iso_td() if ed->head &
+OHCI_DPTR_MASK is 0, which is similar to the drop operation for
+ohci_service_ed_list() when head is 0. Probably, a similar issue is in
+ohci_service_td(). I drop ohci_service_td() if ed->head & OHCI_DPTR_MASK is 0.
+
+Fixes: 7bfe577702 ("OHCI USB isochronous transfers support (Arnon Gilboa)")
+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/545
+Buglink: https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg03613.html
+Buglink: https://bugs.launchpad.net/qemu/+bug/1911216
+Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
 ---
- hw/virtio/virtio-pci.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/usb/hcd-ohci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index c6b47a9c..4862f83b 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1038,6 +1038,12 @@ assign_error:
-     while (--n >= 0) {
-         virtio_pci_set_guest_notifier(d, n, !assign, with_irqfd);
-     }
-+
-+   g_free(proxy->vector_irqfd);
-+   proxy->vector_irqfd = NULL;
-+
-     return r;
- }
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index 895b29fb86..72bdde9261 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -571,6 +571,11 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed)
  
+     addr = ed->head & OHCI_DPTR_MASK;
+ 
++    if (addr == 0) {
++        ohci_die(ohci);
++        return 1;
++    }
++
+     if (ohci_read_iso_td(ohci, addr, &iso_td)) {
+         trace_usb_ohci_iso_td_read_failed(addr);
+         ohci_die(ohci);
+@@ -858,6 +863,11 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
+     int completion;
+ 
+     addr = ed->head & OHCI_DPTR_MASK;
++    if (addr == 0) {
++        ohci_die(ohci);
++        return 1;
++    }
++
+     /* See if this TD has already been submitted to the device.  */
+     completion = (addr == ohci->async_td);
+     if (completion && !ohci->async_complete) {
 -- 
+2.25.1
 
-
-No virus found
-		Checked by Hillstone Network AntiVirus
 
