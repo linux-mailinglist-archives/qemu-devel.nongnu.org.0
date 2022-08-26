@@ -2,97 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BED5A2A16
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:55:01 +0200 (CEST)
-Received: from localhost ([::1]:39142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EAE5A29D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:43:37 +0200 (CEST)
+Received: from localhost ([::1]:46546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRajc-0007T7-4B
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:55:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
+	id 1oRaYV-0007lw-45
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRa7V-0004Pk-To
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:15:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35414)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAn-0000c2-D7
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:02 -0400
+Received: from mout.gmx.net ([212.227.15.18]:57075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRa7S-0004ih-PJ
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:15:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661523333;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LwkLPif+QP44xUTFalYyNFr7iLnLtUy7KBlEe6+EY28=;
- b=TAF4NZyzvLmLIrQY4h5vsFXAgXRQedSYAJjoTr8fVPnS0HcpxTgoO8qEnqMocIlQxKfh+y
- P/YeU7ugdX9NWKZSnLyZKwgFA5Hcqg9jskyfIQs26u7fI/Ylhs3zMtxhtwuJrGijGw4N/F
- yeFrcaTa9nKMuPBh6fYYkN3s0tmGTM4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-cQ8Erb_KNQOGDhmuFI3ArQ-1; Fri, 26 Aug 2022 10:15:32 -0400
-X-MC-Unique: cQ8Erb_KNQOGDhmuFI3ArQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r131-20020a1c4489000000b003a7b679981cso737036wma.6
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 07:15:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=LwkLPif+QP44xUTFalYyNFr7iLnLtUy7KBlEe6+EY28=;
- b=dwWf3agwbHSY32nTbKSKGLzshvAWwuQXvdBIs65FrI/XB+bO3tdkNSRCNEWp7gjwwQ
- kwZ+us4b0F4aImwmIjzG0pnpqcnP1DoOTyeeQCX33FhFP6qSwovT0Q6GVotECvwTxpwU
- QfmvL5Tq+4UZKBCfhqXKrBdIh8ys2p1L8NbibV6zUFkUIF+aLhIeDNInYuPvhwHzIR4b
- MQIGq46Zcmko5ttbU3gifjbOsKWrMF9O+hPkOfKT3GqfOofsoilvJNrhU7D52ts+ee+l
- kUBWcME8V1SF2vl1jAc+vyz0K2tdKdTi1LIVP1yB78igrKtKA6O20au9HXP/vve4KrDe
- p11Q==
-X-Gm-Message-State: ACgBeo1n0vZ5yKwYoQPhP9nsujDCMbql2UXqXBhzzglqdhQwTRRKV/hZ
- aEoi5LGDIVQ6+qqLnI8XNQz1Yyyo16+OLPbGgzpH6aZHYdzc2b3sGMDlvM9jC+S9qVhDncvO+L8
- BOPXVuUyV9nfT8wU=
-X-Received: by 2002:a05:600c:3844:b0:3a6:123:5ac5 with SMTP id
- s4-20020a05600c384400b003a601235ac5mr11261094wmr.102.1661523331588; 
- Fri, 26 Aug 2022 07:15:31 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR43KQyNATBeoJWQi0IIyIeub6vVLdQjGBm+IMQ3dt/T/dDaSTDEKHGIL03UdiwyI9lVgo+YKQ==
-X-Received: by 2002:a05:600c:3844:b0:3a6:123:5ac5 with SMTP id
- s4-20020a05600c384400b003a601235ac5mr11261077wmr.102.1661523331309; 
- Fri, 26 Aug 2022 07:15:31 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c708:f600:abad:360:c840:33fa?
- (p200300cbc708f600abad0360c84033fa.dip0.t-ipconnect.de.
- [2003:cb:c708:f600:abad:360:c840:33fa])
- by smtp.gmail.com with ESMTPSA id
- m124-20020a1c2682000000b003a5f783abb8sm8874468wmm.30.2022.08.26.07.15.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 07:15:30 -0700 (PDT)
-Message-ID: <6cb75197-1d9e-babd-349a-3e56b3482620@redhat.com>
-Date: Fri, 26 Aug 2022 16:15:29 +0200
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oRaAk-00054o-FA
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:19:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1661523534;
+ bh=M3zLRWInHuOX6qygOEfafUWlm2tS6p+vALenBKGwvY8=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=Are4WISxekCHA/A+D1cHELxSD07nSTtv3PT7WTk0rU+IdKC/MkFaFG1FjUD1i8JRf
+ M5yMWMtIsIO1bPngeVRTlI9CYiEjOIGy9OFCHKZURg57oUQjjGV0ETCjVsFzSDtEAY
+ S+qWFmoSk9aJZu3IpG6/i7szMZRhY1B/qrmzPwPc=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100.fritz.box ([92.116.171.190]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M42nS-1oRaAg0ZQe-00022U; Fri, 26
+ Aug 2022 16:18:54 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+	qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 00/13] linux-user: Add more syscalls,
+ enhance tracing & logging enhancements
+Date: Fri, 26 Aug 2022 16:18:40 +0200
+Message-Id: <20220826141853.419564-1-deller@gmx.de>
+X-Mailer: git-send-email 2.37.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
- to the commit phase
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-References: <20220816101250.1715523-1-eesposit@redhat.com>
- <20220816101250.1715523-3-eesposit@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220816101250.1715523-3-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:KCuT2MoWcLlQm7fH/H/826fotXV68Wl7v3xUjwZY5a1QI85UTfu
+ TZyqSgqnxIXt3hR77eJ/Nup+piSqkxopEYb+qROGLLNxLvDl4Gy6b6XlVfTmWg4GLC5rLdR
+ ZgTAJz319VUYcnWlCMOKY+WXG7p2hhujQcKb/wLcmyCkHJ7zwY88ERhRH5+wGQIs8jy0KO3
+ cYwU0bNoT4q3onl0/FCxg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:umkPnAh6URU=:C9Y3jQSFgHexWKxOcaS7n1
+ wk+RlhXGt6imD+w/J72K7j+TOoY/nreL9/2BDBgEd5cG2GXVRqsaNGh8Skh+nWfhSsrZcgS81
+ UMEYChEv0YlKjLwLkTG4qtMNtfN7oCrbmC63oG5IeeYxRAQrSrZWn/3CpXeVFR8AGszz+/Xn6
+ FL7RvCkwM5A2HQ8OVc/6to9xQ6GH59Y453g8Y9BHxZySHMjwRmCU8dsS/7DNp5ts66cz7EQBw
+ ug38fGXdUV3tWI3UGa9PjheaXOcAJd79zdPvAF3lD3XSTh3cdqBYw4FduONaMG8fFp3cFOMQo
+ 1McnTYf8dUrRDBHxN2zdKR4+4udFrn1/crP4vcBnH+GYe0c/nfiaBiNroe652+kOqENCXovcx
+ q7VS2VK3Nz4LtBZjTGOtTk+G51TAR/P0c95jTyUt1fk0UfQLMAGhyEI5LR1WXvU/9g2G9OMLQ
+ Undh+ts04gC6kjFhIRlMI8mS0boEN0XsJxLPwByWvJRLAA4OLnwbhzCuS9ljE05LX9UWvu0t1
+ K9FTTTmcnxNl1nyClhk6sUuzDaWK+sXAe89Yc9SerwCD9l3bRxvQC5ENsEeolWGzVwDKmDbko
+ o7zcdIZqhbtgSl44ZfXZiHqHDe1GGaCgjGP18K6l2XyJZECZ0PyNpFO7OpIOT/TV2WQHNmlvF
+ HUggDev1JfYOs0HmjWFXdo9ZOLXdhm75XFoRn6gnoUYWiQNC/ehhSj4ZQBx9YbFEJ3nyC+Egu
+ e1n0QbXpRRg0aTxCv7kztlyHz4eyReE5JC7H1/MdHm1t0LG1SaWVYQ7W+OsAAyxwb90N6E5bF
+ Ai2PSf3kAPCvLgSqVJLhvv4x3ZL7ifJba0Om2AB2W5w1/zLrrP2Y0HKt4nABQJCpAUMkdYcG9
+ n5TSavUeGLUvDK6rQTODGJ84xEvw1cl6Obk3vKJRLLmY+cAyNEvUlG9Inxh9DVrev5HPrzHP8
+ MayfLVQIqbFgp1vKlM1MSoDNm3Ucm1ZxN2w8gj05lr5M0iRl6ZFa0xxs+b00CrdbYfj1TjSF7
+ P1fGZLm2RQwuV7iLXDoIjuCr+7IxqBIA8SbUtI9VZN00+JpyhL0wjAuXWoYqnNO/tSt9J/r0I
+ F3dqdfRuTfvfIgUi2XpDrvvpnaitVCJqix+p8zNF/Mf3XZKEKs7EmJP9g==
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,18 +85,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.08.22 12:12, Emanuele Giuseppe Esposito wrote:
-> Instead of sending a single ioctl every time ->region_* or ->log_*
-> callbacks are called, "queue" all memory regions in a list that will
-> be emptied only when committing.
-> 
+Here is a bunch of patches for linux-user, all of them for qemu-v7.2.
 
-Out of interest, how many such regions does the ioctl support? As many
-as KVM theoretically supports? (32k IIRC)
+Most of them add missing syscalls and enhance the tracing/logging.
+Some of the patches are target-hppa specific.
+I've tested those on productive hppa debian buildd servers (running qemu-u=
+ser).
 
--- 
-Thanks,
+Please check.
 
-David / dhildenb
+Thanks!
+Helge
+
+Helge Deller (13):
+  linux-user: Add missing signals in strace output
+  linux-user: Add missing clock_gettime64() syscall strace
+  linux-user: Add faccessat2() syscall
+  linux-user: Add pidfd_open(), pidfd_send_signal() and pidfd_getfd()
+    syscalls
+  linux-user: Log failing executable in EXCP_DUMP()
+  linux-user/hppa: Use EXCP_DUMP() to show enhanced debug info
+  linux-user/hppa: Dump IIR on register dump
+  linux-user: Fix strace of chmod() if mode =3D=3D 0
+  linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000 for hppa arch
+  linux-user: Add strace for clock_nanosleep()
+  linux-user: Show timespec on strace for futex()
+  linux-user: Add close_range() syscall
+  linux-user: Add parameters of getrandom() syscall for strace
+
+ linux-user/cpu_loop-common.h |   2 +
+ linux-user/hppa/cpu_loop.c   |   6 +-
+ linux-user/mmap.c            |   4 +
+ linux-user/signal-common.h   |  46 +++++++++++
+ linux-user/signal.c          |  37 +--------
+ linux-user/strace.c          | 144 +++++++++++++++++++++++++++++------
+ linux-user/strace.list       |  24 +++++-
+ linux-user/syscall.c         |  58 ++++++++++++++
+ target/hppa/helper.c         |   6 +-
+ 9 files changed, 266 insertions(+), 61 deletions(-)
+
+=2D-
+2.37.1
 
 
