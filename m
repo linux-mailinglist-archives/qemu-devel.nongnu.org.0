@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0235A2B0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:23:25 +0200 (CEST)
-Received: from localhost ([::1]:55812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A2E65A2B21
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:27:09 +0200 (CEST)
+Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbB5-0001C0-Q4
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52196)
+	id 1oRbEi-00072z-MU
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRb1f-00087s-60
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:13:39 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:39544)
+ id 1oRb2t-0001BL-Io
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:14:58 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRb1b-0005Rs-9L
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:13:36 -0400
-Received: by mail-pf1-x435.google.com with SMTP id t129so1821059pfb.6
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 08:13:34 -0700 (PDT)
+ id 1oRb2q-0005ai-EI
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:14:54 -0400
+Received: by mail-pl1-x633.google.com with SMTP id x23so1823309pll.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 08:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=EDWV/SDQrb0vKblmc0LmmET27hBi44mJvMWfHIBFEyc=;
- b=ad00GW8HXO2ej0xgZNgHkR7UsnoSS8gsj7vimESvXPmTm5A8Smv2+ChkO/nXo9xx9Z
- XWBVZta6TQvLzpBjLHLJKSDi8LNqzxgzbPPBou23zx896MMGq/OQlxAsg3tbneJafeXf
- rRZpNIYOnmvkJldKXJa7YvZ8j/OQ8nW4Yj/ySigB+ybiqshuhyWqPc/9P57C5tubawog
- hSysxevtrqx6pY6Z2Cxu6N5RbjIMhs/0U0TFTRLyDiYFvlI4PKHrzdr+f6enyRxw/mFo
- IiDdp8GvEsJAAHKAf1+u8R0ISRtWkl8XFWWLhUqhg+To0dyJfSHbLh+AjzDqEFCub431
- SX7w==
+ :from:to:cc; bh=6OfCA9yZds63ILEn8mhFkSPZRCHhCVe12Nb/1A7klCQ=;
+ b=Su2jHHaQrdLTR1YUYH/a8usWymLFArDFgcfNAH3L8m6UKq+tCUDF0VjrizVk3mR1z9
+ VFITRKu1ds+TA/9p2s2NN9FlfX1d0WHqSiV5KJrVEat78Jybqdo6LPOhKG+dzTL1D8An
+ +AAtb2ldSwHq7bv5tBvtYC8/0jiORBm1e0296FyqfkmbkqN50ENUBKRy1L6li0zdp3ok
+ 7YN7ck/cs4nNQjKRrwljc2Xh1x+jO5pmbWFZDbiKRLp/LURVtimgxMKIIeldB2bf1MnZ
+ WSSLrUIpucZLzowD9LOMI215mb8vs5UeC7rZOuYjOoI386eviFjxVJhf/+QxvSZ/PNz7
+ 0O3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=EDWV/SDQrb0vKblmc0LmmET27hBi44mJvMWfHIBFEyc=;
- b=ZTrgaM+tfXNTzQe7rb0TvNkoYsYDLV2X4WEucHS5jDrfSAVz0TRsz4fA9RGauUsGeX
- 2QNcUQ68S7Guf+L0qqc2BFlHBdZ8rQFZSlwBIJidhS1SyksZBeMJzsBU5mXnHJK3teX1
- qPfQZI54bWN8v7J7mKTcCSmaqoLwR+J0exqZyDvPG1CwSPh2lDUtXUaPKPReE7Oe+JXl
- RELF1b91/Xt9YzfWXBJsNzgHIVjKvltki6YOMy4GcRClhLTJdcb6eeVQ6yGJy91poRrr
- gZ8WG4PpOk4xb2Z/rqiUW3fmWsFhR2JsxDWyF7qajenWh4lU7hWOeLKsy++tHm2+E7b/
- qe6Q==
-X-Gm-Message-State: ACgBeo3KhzMKoYVZhcPl2u+vbIqZO6C6dFoUqmkzdMAf6aVdCgdDmf42
- WamQWKWkq0KZ9QsBjuh3OO5nQQ==
-X-Google-Smtp-Source: AA6agR5s+DKpsLokrOn4rVLjsZbFp/iSIGnMKB1Ykg2Trr83P8p7yfb7qp796SUdApbgOtNGfEcOLg==
-X-Received: by 2002:aa7:9692:0:b0:537:2562:85ff with SMTP id
- f18-20020aa79692000000b00537256285ffmr4273343pfk.35.1661526813912; 
- Fri, 26 Aug 2022 08:13:33 -0700 (PDT)
+ bh=6OfCA9yZds63ILEn8mhFkSPZRCHhCVe12Nb/1A7klCQ=;
+ b=m5Uj+5e1vYCT97QyO56+HSnn2ooPAe6CU5yN5xZagcIJ9iEsrIZqj8j8OV+GtpYQQ0
+ Kb7tF236wgRofBOCJ5Ff7lyu+YDEZWum0+egJl+MKJH+mJrW/la0BbSjH3/ct5WellZJ
+ qzlivs9xq1IyAoDa20YqAYVPPZxM0e2gsQtr2fxhLpVKQO5U5QYOiezqtLmUtWL+5zpi
+ WxpM/c+2AP8I2kg3pn1irpJM8EmSsHffpCBTW5nKqc9Uo2Ij/A/n/ljitEDjHdBQzzpt
+ q6BeEhGQdrNA50jEASLMehP01/6T1m0UkpoxoMyJBPAZQZ361MOZPvpNp4eC3EMJArHr
+ PeSA==
+X-Gm-Message-State: ACgBeo0VAkXDazTtS436D1fLcirYW8wmwhppz6b0bf1qiHD/A77ODHNS
+ lmPNOLZJOkb/+P2uD7HVNxK9x1FeY47W4g==
+X-Google-Smtp-Source: AA6agR6+coeTu8Hp7NR9RLRkY/mvnkoQ3flwkNNj0rvwmTse976ZO4Ie7+QsHPK+PBwIJ8j2IKDlYw==
+X-Received: by 2002:a17:90a:ee88:b0:1fa:aac3:6fb7 with SMTP id
+ i8-20020a17090aee8800b001faaac36fb7mr4800345pjz.62.1661526891015; 
+ Fri, 26 Aug 2022 08:14:51 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f?
  ([2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a170902ec8f00b0016dafeda062sm927937plg.232.2022.08.26.08.13.32
+ t123-20020a625f81000000b00537ab89c66csm1895543pfb.143.2022.08.26.08.14.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 08:13:33 -0700 (PDT)
-Message-ID: <1bc23874-9ba5-52a9-e05b-b9773c171067@linaro.org>
-Date: Fri, 26 Aug 2022 08:13:31 -0700
+ Fri, 26 Aug 2022 08:14:50 -0700 (PDT)
+Message-ID: <a00df539-3392-0924-0583-495536624e9a@linaro.org>
+Date: Fri, 26 Aug 2022 08:14:48 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
@@ -70,8 +70,8 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20220826141853.419564-2-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,10 +95,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/26/22 07:18, Helge Deller wrote:
-> +static const char *target_signal_to_host_signal_table[_NSIG] = {
+> +    if (arg < _NSIG)
+> +        signal_name = target_signal_to_host_signal_table[arg];
 
-(1) static const char * const
-(2) target_signal_name -- there's no "host" about this.
+Oh, and _NSIG is a host thing.  Leave the array as [] and then bound the lookup with 
+ARRAY_SIZE(target_signal_name).  Also, missing {}.
 
 
 r~
