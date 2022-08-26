@@ -2,97 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CB85A2593
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:12:59 +0200 (CEST)
-Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E815A25BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:21:56 +0200 (CEST)
+Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRWKg-00062H-60
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45026)
+	id 1oRWTG-0004bs-Dz
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:21:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRWIQ-0002O4-8v
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:10:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRWIN-0000F7-Qg
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:10:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661508634;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HWVbD50PFL8PME8pmhVDetKcw2xcZdNuhrIyCRlZtzY=;
- b=COop1pStBUp+BxXLo41kC+GIo522Wgbl1W1xpAqvfCj9GnBFKFBS80U7qayxJ7UXWbFaM0
- DeGsXTXrtsJBURIcC3TcrpDr23tzkEaEQEwAsoFE+/yPktqrUP/f0WpEmJsjXlNdvcmJpg
- vwk1pVHxuszx6LNoQCO6Tzg/T9YRjzs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-131-34X9T3b4MGO2exEivusbYw-1; Fri, 26 Aug 2022 06:10:32 -0400
-X-MC-Unique: 34X9T3b4MGO2exEivusbYw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- b4-20020a05600c4e0400b003a5a96f1756so3866423wmq.0
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:10:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oRWOB-0000Ta-EZ
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:16:36 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:47056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oRWO6-0001AJ-UP
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:16:34 -0400
+Received: by mail-lf1-x130.google.com with SMTP id d23so1363677lfl.13
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:16:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=8fedC5mxe90H7Iupo6WJVp4p2MeFWfXE+uXRtIL1hJA=;
+ b=dmT4tzHyHmJfPXbbHrSRpuMYvddY5BNhae+Ae+Wcrv6jW95OqqTT+F9su3FOwF9TH8
+ NctM1ZoikufOf+X7GTgxzamNaVZoltH7SRvj1Oq5oucaej4eOQYyFU4QyKPZhSrVzUX0
+ JXLSLuyNc5JHZwSynBXhjTSntfF8MGJLnIfKNSX6peU7CoobBWFkhYC4S+lqbni9GnyR
+ wM2bgnTrkRJMaF0Ked78/uodXd/ZL56sMLjj3QGxFG5+6fWURp1+yGn1Lz3eYbcje0g+
+ w15ep8P939ErWt6Nis5j3Oxd49ckDjC2AmWewmNd0Ucjc5+tl95tsenoPSBGpCwGua94
+ FEuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=HWVbD50PFL8PME8pmhVDetKcw2xcZdNuhrIyCRlZtzY=;
- b=5BXL6bbbOF+OIuJSkErsYWFEqlSGdpGDiYmRLEFUmor6XB4ztcX5XfnTcGGUaWJ97e
- zi+QDoPK3ckem2LFC+yJGD0BnLPt3yUtzpKwETCvzI3ZkMOV9zB/xKYN8Eckb+bOAbtP
- G5vCZxj/bxXMIFgx2Cj44qfUOC3DRgW5avY7osuLit7GJIsl09RipsL+1BMxQ1sEK27R
- MEgEw3nwDtTI7qU2BdDOKiNoxytsZAZZZomzphoBppUAs3ZJ8XR7xi0UMiehtRBU3hr/
- Pt56Z1GCOu5GshgZjTUC4m6o2diguWxmDztAzGkkraUlA1JyAesBdtgamvMWhkKWAPk1
- k8VA==
-X-Gm-Message-State: ACgBeo0TCBPzO0hjV877cRjOAvEh6aiVbefc2//BrQpKCGsioA8uy2WM
- 9oW+jt4KEt+AHxWEIr3Rnr1w3mdYH3i5SwzAivOv6nx9b8Cs585WOVL+xE8M/dOZo8B+8q6U466
- G0/J22iTDHPHLQww=
-X-Received: by 2002:a05:6000:1549:b0:225:652e:45d4 with SMTP id
- 9-20020a056000154900b00225652e45d4mr4664546wry.15.1661508631501; 
- Fri, 26 Aug 2022 03:10:31 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5qbtfDCQIqwAXI+SISSs65RsXBVPHw+TvMl9pMDTjjVE+sAfn6pIRHYCa+olo1MKKtz7rjqw==
-X-Received: by 2002:a05:6000:1549:b0:225:652e:45d4 with SMTP id
- 9-20020a056000154900b00225652e45d4mr4664533wry.15.1661508631235; 
- Fri, 26 Aug 2022 03:10:31 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c708:f600:abad:360:c840:33fa?
- (p200300cbc708f600abad0360c84033fa.dip0.t-ipconnect.de.
- [2003:cb:c708:f600:abad:360:c840:33fa])
- by smtp.gmail.com with ESMTPSA id
- t16-20020adfe110000000b00224f7c1328dsm1434740wrz.67.2022.08.26.03.10.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 03:10:30 -0700 (PDT)
-Message-ID: <5cab3776-31a7-f298-46a5-6652b773dc22@redhat.com>
-Date: Fri, 26 Aug 2022 12:10:29 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=8fedC5mxe90H7Iupo6WJVp4p2MeFWfXE+uXRtIL1hJA=;
+ b=06QWO92LNSkZeH/wJHNXiptjtKCd+GL0TJRuxSiYEdbt7kvg6/CcNiS9gHEpaLquzt
+ iZmc9oHAojthShuZiOXziMoZ6zaeQyjri5pK6Y8HFV6yMc9+5XCOqNGxKh2a80Aka0+q
+ 6+Fc/ua9fqs7+0eSv4hc7CnNY+ycXI9fuc1M94jm6PxYBkim4Zs0jWqZ3wKuamA5EfBH
+ bUyFKMUQ0oIo48VtN5tKUEA64Og/L72Z8y34pXFp3FSjyhZRzlcULqugL70Fl+MPR7CO
+ gVdRIOIpHWC8dWNN4BTVSqIqKRx2W+fR1Dn8XjkLwLXP+TUJLxXjaPtW+WtpfwFkGAHp
+ XKAA==
+X-Gm-Message-State: ACgBeo1XRvZwGZppR9rKYjJ2ZnOd4DUgFHNqxfI3pdUEIm4X6e3NiRBF
+ yIfGOP7DUNNBqegtcxa+ML80Qi8Ff8wz54zLaTQ=
+X-Google-Smtp-Source: AA6agR4pkFqzHquicAxd84zrr1K4NcUFDV6fZ2/TDP+Yj1HlLf/uW9CptFSA5kVH4KCsOe9OgX4kxeCV9efbCh9SnJQ=
+X-Received: by 2002:a05:6512:2394:b0:492:df50:28ce with SMTP id
+ c20-20020a056512239400b00492df5028cemr2496189lfv.328.1661508988369; Fri, 26
+ Aug 2022 03:16:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 2/2] dump: fix kdump to work over non-aligned blocks
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qiaonuohan@cn.fujitsu.com, Peter Maydell <peter.maydell@linaro.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20220825132110.1500330-1-marcandre.lureau@redhat.com>
- <20220825132110.1500330-3-marcandre.lureau@redhat.com>
- <35072646-3bee-ba0d-4b9d-6aeb117b8431@redhat.com>
- <CAJ+F1CJs-s2v1ivdwmwkS86=JU+rrqrov8HZiyEzFGDE-injnQ@mail.gmail.com>
- <063e98e9-a10f-5b38-d1dc-63f29c7ebfbb@redhat.com>
-Organization: Red Hat
-In-Reply-To: <063e98e9-a10f-5b38-d1dc-63f29c7ebfbb@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220826100812.410773-1-antonio.caggiano@collabora.com>
+ <20220826100812.410773-2-antonio.caggiano@collabora.com>
+In-Reply-To: <20220826100812.410773-2-antonio.caggiano@collabora.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 26 Aug 2022 14:16:16 +0400
+Message-ID: <CAJ+F1CLr2rMACn_340z1iictXvXMRn0jhXbs=7XkSMY1eL3Upg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] virtio-gpu: CONTEXT_INIT feature
+To: Antonio Caggiano <antonio.caggiano@collabora.com>
+Cc: qemu-devel@nongnu.org, gert.wollny@collabora.com, 
+ dmitry.osipenko@collabora.com, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000b016305e72235da"
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,41 +85,317 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.08.22 12:07, David Hildenbrand wrote:
-> On 26.08.22 12:02, Marc-André Lureau wrote:
->> Hi
->>
->>
->> On Fri, Aug 26, 2022 at 2:01 PM David Hildenbrand <david@redhat.com
->> <mailto:david@redhat.com>> wrote:
->>
->>     On 25.08.22 15:21, marcandre.lureau@redhat.com
->>     <mailto:marcandre.lureau@redhat.com> wrote:
->>     > From: Marc-André Lureau <marcandre.lureau@redhat.com
->>     <mailto:marcandre.lureau@redhat.com>>
->>     >
->>     > Rewrite get_next_page() to work over non-aligned blocks. When it
->>     > encounters non aligned addresses, it will allocate a zero-page and try
->>     > to fill it.
->>
->>     Could we simplify by using one global helper page (or caller provided
->>     page) and avoiding the allocation/freeing?
->>
->>
->> I don't think that makes a big difference, but certainly doable.
-> 
-> If we're using one central page, I guess we'd have to pass "flag_sync =
-> true" to write_cache() in case that page is used. Or we simply specify
-> on the single global page in there and force a sync. Changes would be
-> limited to get_next_page() and write_cache() then.
+--0000000000000b016305e72235da
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I might be wrong. I think we might not have to touch write_cache() at
-all -- it will copy the data into the DataCache buffer.
+Hi
+
+On Fri, Aug 26, 2022 at 2:12 PM Antonio Caggiano <
+antonio.caggiano@collabora.com> wrote:
+
+> Create virgl renderer context with flags using context_id when valid.
+>
+> v2:
+> - The feature can be enabled via the context_init config option.
+> - A warning message will be emitted and the feature will not be used
+>   when linking with virglrenderer versions without context_init support.
+>
+> v3: Define HAVE_VIRGL_CONTEXT_INIT in config_host_data.
+>
+> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+> ---
+>  hw/display/virtio-gpu-base.c   |  3 +++
+>  hw/display/virtio-gpu-virgl.c  | 16 ++++++++++++++--
+>  hw/display/virtio-gpu.c        |  2 ++
+>  include/hw/virtio/virtio-gpu.h |  3 +++
+>  meson.build                    |  5 +++++
+>  5 files changed, 27 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+> index a29f191aa8..6c5f1f327f 100644
+> --- a/hw/display/virtio-gpu-base.c
+> +++ b/hw/display/virtio-gpu-base.c
+> @@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev,
+> uint64_t features,
+>      if (virtio_gpu_blob_enabled(g->conf)) {
+>          features |=3D (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+>      }
+> +    if (virtio_gpu_context_init_enabled(g->conf)) {
+> +        features |=3D (1 << VIRTIO_GPU_F_CONTEXT_INIT);
+> +    }
+>
+>      return features;
+>  }
+> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.=
+c
+> index 73cb92c8d5..274cbc44de 100644
+> --- a/hw/display/virtio-gpu-virgl.c
+> +++ b/hw/display/virtio-gpu-virgl.c
+> @@ -97,8 +97,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
+>      trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
+>                                      cc.debug_name);
+>
+> -    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
+> -                                  cc.debug_name);
+> +    if (cc.context_init) {
+> +#ifdef HAVE_VIRGL_CONTEXT_INIT
+> +        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
+> +                                                 cc.context_init,
+> +                                                 cc.nlen,
+> +                                                 cc.debug_name);
+> +        return;
+> +#else
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "Linked virglrenderer does not support
+> context-init\n");
+>
+
+What is the outcome in that case?
 
 
--- 
-Thanks,
+> +#endif
+> +    }
+> +
+> +    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name)=
+;
+>  }
+>
+>  static void virgl_cmd_context_destroy(VirtIOGPU *g,
+> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> index 20cc703dcc..fa667ec234 100644
+> --- a/hw/display/virtio-gpu.c
+> +++ b/hw/display/virtio-gpu.c
+> @@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] =3D {
+>                       256 * MiB),
+>      DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
+>                      VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
+> +    DEFINE_PROP_BIT("context_init", VirtIOGPU, parent_obj.conf.flags,
+> +                    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>
+> diff --git a/include/hw/virtio/virtio-gpu.h
+> b/include/hw/virtio/virtio-gpu.h
+> index 2e28507efe..c6f5cfde47 100644
+> --- a/include/hw/virtio/virtio-gpu.h
+> +++ b/include/hw/virtio/virtio-gpu.h
+> @@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
+>      VIRTIO_GPU_FLAG_EDID_ENABLED,
+>      VIRTIO_GPU_FLAG_DMABUF_ENABLED,
+>      VIRTIO_GPU_FLAG_BLOB_ENABLED,
+> +    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
+>  };
+>
+>  #define virtio_gpu_virgl_enabled(_cfg) \
+> @@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
+>      (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
+>  #define virtio_gpu_blob_enabled(_cfg) \
+>      (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
+> +#define virtio_gpu_context_init_enabled(_cfg) \
+> +    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
+>
+>  struct virtio_gpu_base_conf {
+>      uint32_t max_outputs;
+> diff --git a/meson.build b/meson.build
+> index 20fddbd707..e1071b3563 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -718,6 +718,11 @@ if not get_option('virglrenderer').auto() or
+> have_system or have_vhost_user_gpu
+>                       method: 'pkg-config',
+>                       required: get_option('virglrenderer'),
+>                       kwargs: static_kwargs)
+> +
+> +  config_host_data.set('HAVE_VIRGL_CONTEXT_INIT',
+> +
+>  cc.has_function('virgl_renderer_context_create_with_flags',
+> +                                       prefix: '#include
+> <virglrenderer.h>',
+> +                                       dependencies: virgl))
+>  endif
+>  curl =3D not_found
+>  if not get_option('curl').auto() or have_block
+> --
+> 2.34.1
+>
+>
+>
+lgtm
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-David / dhildenb
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--0000000000000b016305e72235da
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 26, 2022 at 2:12 PM Ant=
+onio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@collabora.com">antonio=
+.caggiano@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">Create virgl renderer context with flags using conte=
+xt_id when valid.<br>
+<br>
+v2:<br>
+- The feature can be enabled via the context_init config option.<br>
+- A warning message will be emitted and the feature will not be used<br>
+=C2=A0 when linking with virglrenderer versions without context_init suppor=
+t.<br>
+<br>
+v3: Define HAVE_VIRGL_CONTEXT_INIT in config_host_data.<br>
+<br>
+Signed-off-by: Antonio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@coll=
+abora.com" target=3D"_blank">antonio.caggiano@collabora.com</a>&gt;<br>
+---<br>
+=C2=A0hw/display/virtio-gpu-base.c=C2=A0 =C2=A0|=C2=A0 3 +++<br>
+=C2=A0hw/display/virtio-gpu-virgl.c=C2=A0 | 16 ++++++++++++++--<br>
+=C2=A0hw/display/virtio-gpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
+=C2=A0include/hw/virtio/virtio-gpu.h |=C2=A0 3 +++<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 5 +++++<br>
+=C2=A05 files changed, 27 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c<br=
+>
+index a29f191aa8..6c5f1f327f 100644<br>
+--- a/hw/display/virtio-gpu-base.c<br>
++++ b/hw/display/virtio-gpu-base.c<br>
+@@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64=
+_t features,<br>
+=C2=A0 =C2=A0 =C2=A0if (virtio_gpu_blob_enabled(g-&gt;conf)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0features |=3D (1 &lt;&lt; VIRTIO_GPU_F_RE=
+SOURCE_BLOB);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 if (virtio_gpu_context_init_enabled(g-&gt;conf)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 features |=3D (1 &lt;&lt; VIRTIO_GPU_F_CONTEXT=
+_INIT);<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0return features;<br>
+=C2=A0}<br>
+diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c<=
+br>
+index 73cb92c8d5..274cbc44de 100644<br>
+--- a/hw/display/virtio-gpu-virgl.c<br>
++++ b/hw/display/virtio-gpu-virgl.c<br>
+@@ -97,8 +97,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,<br>
+=C2=A0 =C2=A0 =C2=A0trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cc.debug_name);<=
+br>
+<br>
+-=C2=A0 =C2=A0 virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cc.debug_name);<br>
++=C2=A0 =C2=A0 if (cc.context_init) {<br>
++#ifdef HAVE_VIRGL_CONTEXT_INIT<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 virgl_renderer_context_create_with_flags(cc.hd=
+r.ctx_id,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0cc.context_init,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0cc.nlen,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0cc.debug_name);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++#else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_UNIMP,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;Linked virglrenderer does not support context-init\n&quot;);<br><=
+/blockquote><div><br></div><div>What is the outcome in that case? <br></div=
+><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++#endif<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.deb=
+ug_name);<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void virgl_cmd_context_destroy(VirtIOGPU *g,<br>
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c<br>
+index 20cc703dcc..fa667ec234 100644<br>
+--- a/hw/display/virtio-gpu.c<br>
++++ b/hw/display/virtio-gpu.c<br>
+@@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 256 * MiB),<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BIT(&quot;blob&quot;, VirtIOGPU, parent_obj=
+.conf.flags,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0VIRTIO_GPU_FLAG_BLOB_ENABLED, false),<br>
++=C2=A0 =C2=A0 DEFINE_PROP_BIT(&quot;context_init&quot;, VirtIOGPU, parent_=
+obj.conf.flags,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VIRT=
+IO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>
+=C2=A0};<br>
+<br>
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.=
+h<br>
+index 2e28507efe..c6f5cfde47 100644<br>
+--- a/include/hw/virtio/virtio-gpu.h<br>
++++ b/include/hw/virtio/virtio-gpu.h<br>
+@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {<br>
+=C2=A0 =C2=A0 =C2=A0VIRTIO_GPU_FLAG_EDID_ENABLED,<br>
+=C2=A0 =C2=A0 =C2=A0VIRTIO_GPU_FLAG_DMABUF_ENABLED,<br>
+=C2=A0 =C2=A0 =C2=A0VIRTIO_GPU_FLAG_BLOB_ENABLED,<br>
++=C2=A0 =C2=A0 VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,<br>
+=C2=A0};<br>
+<br>
+=C2=A0#define virtio_gpu_virgl_enabled(_cfg) \<br>
+@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {<br>
+=C2=A0 =C2=A0 =C2=A0(_cfg.flags &amp; (1 &lt;&lt; VIRTIO_GPU_FLAG_DMABUF_EN=
+ABLED))<br>
+=C2=A0#define virtio_gpu_blob_enabled(_cfg) \<br>
+=C2=A0 =C2=A0 =C2=A0(_cfg.flags &amp; (1 &lt;&lt; VIRTIO_GPU_FLAG_BLOB_ENAB=
+LED))<br>
++#define virtio_gpu_context_init_enabled(_cfg) \<br>
++=C2=A0 =C2=A0 (_cfg.flags &amp; (1 &lt;&lt; VIRTIO_GPU_FLAG_CONTEXT_INIT_E=
+NABLED))<br>
+<br>
+=C2=A0struct virtio_gpu_base_conf {<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t max_outputs;<br>
+diff --git a/meson.build b/meson.build<br>
+index 20fddbd707..e1071b3563 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -718,6 +718,11 @@ if not get_option(&#39;virglrenderer&#39;).auto() or h=
+ave_system or have_vhost_user_gpu<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 method: &#39;pkg-config&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 required: get_option(&#39;virglrenderer&#39;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 kwargs: static_kwargs)<br>
++<br>
++=C2=A0 config_host_data.set(&#39;HAVE_VIRGL_CONTEXT_INIT&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0cc.has_function(&#39;virgl_renderer_context_create_with_flags&#39=
+;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prefix: &=
+#39;#include &lt;virglrenderer.h&gt;&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dependenc=
+ies: virgl))<br>
+=C2=A0endif<br>
+=C2=A0curl =3D not_found<br>
+=C2=A0if not get_option(&#39;curl&#39;).auto() or have_block<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><div><br></div><div>lgtm</div><div>Reviewed-by: Marc-And=
+r=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre=
+.lureau@redhat.com</a>&gt;<br></div><br>-- <br><div dir=3D"ltr" class=3D"gm=
+ail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000000b016305e72235da--
 
