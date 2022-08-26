@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F4F5A2974
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:30:18 +0200 (CEST)
-Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985AB5A298E
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:32:12 +0200 (CEST)
+Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRaLf-0001Bi-IB
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:30:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48912)
+	id 1oRaNX-0002WF-Fh
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oRa4a-0008E6-IT; Fri, 26 Aug 2022 10:12:36 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:41651)
+ id 1oRa4c-0008Ff-WC; Fri, 26 Aug 2022 10:12:43 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:42666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oRa4Y-000421-Kr; Fri, 26 Aug 2022 10:12:35 -0400
-Received: by mail-oi1-x236.google.com with SMTP id t140so2111833oie.8;
- Fri, 26 Aug 2022 07:12:34 -0700 (PDT)
+ id 1oRa4b-0003xq-4S; Fri, 26 Aug 2022 10:12:38 -0400
+Received: by mail-oi1-x229.google.com with SMTP id p187so2106351oia.9;
+ Fri, 26 Aug 2022 07:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=VjEUJrauZWG7jLw/LnT3q5WD0y/yipGHIYjGqvGy4S4=;
- b=Jloh7lAhPBNVGxQiLSrp3UNHVOhjMyS+OfkoQ7Ywi/+e39xMoUQ3saTD+2Sl9E17Im
- 5F3BJj4vSth2Kuts5NyF+yclGkIEm1UX9684E92axjKs2uOuU5UeDoodpVnf9Jm4IXjX
- PbJq2Wjk/rxspFgTvGll2LFpctiUdI4hFTflptFYP7R3ExLArA1JojkwWSYaqXrW7wtd
- 21Ku+KO/gc5xaL7lfBX7WGwbNArU7fzLX02QyVEgCnsJIQ1RxXQ4y1Mw9XfhSOkdgl3o
- SjDqs4l35Uq92CBuFvYAjPByuSlO5VQ1V83y2xuqmo4zj2hjM1ctA0aA4M7MRF803ZF+
- janQ==
+ bh=jVoGGNXMdLWVBeU6goBOpT7H07W5qN2vMSAqWjeDRSw=;
+ b=KauDos761N8d9qNn5h2KfB+XnFxBbVueWyuVWiML2wr1ZVVrZDmC914/E3A2ZI4i5E
+ fQg0ADs4+alXZWyzBqEhIJOVEfOgV1FO/s5QqGJZ5/M8WnsNHSFjGVNgL7VwzGVJMihd
+ OY2tkDR0zxx2p5RwmbeqDfO2PNnvXSG0zZqm9yy+z5R4D2XdJLhndxOavVL0dZyyYWNi
+ qOcEdMeZ5GjnE6FkRqfzmpMr7yAcuWiD7qp1m6xxhc3ypBx2MjCDYEMwOVXFi78CT5Fv
+ suAM0wYHfzXib9KrHO4O8QE7jowZi3ZBW0fuf6AuNSry2FyP1WZdXwRy9xewdLAjlkMA
+ JIJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=VjEUJrauZWG7jLw/LnT3q5WD0y/yipGHIYjGqvGy4S4=;
- b=itjWzbeuisxgHkPgbnNoy40p8ei1BosZpcAGbMBNkkaU8vhjb5c8MqA7Al4RKl+Bly
- SYWj45XKZU11FyDI3RhLy0RuPY00ZnV0jotFineBO+xHEOqCrAxhnSAnnfvB4EkoSdk7
- Yk624/javVwgcZndrRvsV0Mvo0WZARs7+tVuSXxPou3Cm86lExbILGWULtzLWFGCcvzG
- R84rhePn3hJrq1oFMgG7upUnnhUoEZwDziBhdkc8k+dm+blqSqaDKCsaAn+g8BRaoZNl
- S2ZtfGNrO8+BzAhAGzRIbscK+X4lqnXZJDSyiUtaUYJEBOOGACqC5XuNTL5Gld3E1LoI
- yZOQ==
-X-Gm-Message-State: ACgBeo18/tiCAULfVp6RsoEYAHgGGZZUhW0cJoDBFZWvL+oJMCFpoEPS
- pe4AJzU9wnGWru/XS19NRCklCRh9pFE=
-X-Google-Smtp-Source: AA6agR4neHzCSMNbc8Gmv8zwNqN/G4CudBFpBqZ66He6OkZdOBQUn5u5P1UAYh5UIbfd8nEa+L75hQ==
-X-Received: by 2002:a05:6808:bcd:b0:344:d614:c5e with SMTP id
- o13-20020a0568080bcd00b00344d6140c5emr1685585oik.78.1661523153044; 
- Fri, 26 Aug 2022 07:12:33 -0700 (PDT)
+ bh=jVoGGNXMdLWVBeU6goBOpT7H07W5qN2vMSAqWjeDRSw=;
+ b=u8MUzAqVdb6BCc+98KZbiXZMwIUZ9AKkNSnkWb2c3twTC5GWS3r7Kh0TN0rjn+qK3g
+ Y8Bp5sqLnMfcknZL/qwbfR5P/fz8/bJeUAw8ZCCkPbv57tkiyTYs6eKptr6mk5UW9Y+D
+ Ht21tEOupxRJhUm7i0THcximwSPHWB9BsiSi0NaLXYon59sLHPuo830ZOPL2wrSydeLj
+ aK7KzsixW/CEFBEv2sm3r8JAoAfxfnhbJZWMMBR9Dlc0Hdf+BYZ5DUlFImXBErLEYPu8
+ a2DMtB/31WQaemj0PLrpzFjn0EwCfdLBHPfmUDjMXcgLjcwWlZ8VFjwrp775zORFWdKX
+ Zgrg==
+X-Gm-Message-State: ACgBeo08MBpy3erJ9X37afw79IDIq1/VK2KHQd4Pa5EPlW2NVB07xo4f
+ jD6SX7mtrPhUZfhtCPkOZHvsuYzqb0k=
+X-Google-Smtp-Source: AA6agR6uUV41dy2UKcX+plQ5KCY12SsZmzGQapsOvTtoC/73KpQTQKjmusvj3btAw16WOPLIi5hYzg==
+X-Received: by 2002:a05:6808:14c4:b0:343:7905:bbab with SMTP id
+ f4-20020a05680814c400b003437905bbabmr1690218oiw.93.1661523155901; 
+ Fri, 26 Aug 2022 07:12:35 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a056808064c00b00344aa3f17d9sm1087736oih.10.2022.08.26.07.12.30
+ z12-20020a056808064c00b00344aa3f17d9sm1087736oih.10.2022.08.26.07.12.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 07:12:32 -0700 (PDT)
+ Fri, 26 Aug 2022 07:12:35 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
- alistair.francis@wdc.com, Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 v4 13/21] hw/xtensa: set machine->fdt in xtfpga_init()
-Date: Fri, 26 Aug 2022 11:11:42 -0300
-Message-Id: <20220826141150.7201-14-danielhb413@gmail.com>
+ alistair.francis@wdc.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH for-7.2 v4 14/21] qmp/hmp, device_tree.c: introduce dumpdtb
+Date: Fri, 26 Aug 2022 11:11:43 -0300
+Message-Id: <20220826141150.7201-15-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220826141150.7201-1-danielhb413@gmail.com>
 References: <20220826141150.7201-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,54 +89,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for 'dumpdtb' and 'info fdt' HMP commands for
-all xtensa machines that uses a FDT.
+To save the FDT blob we have the '-machine dumpdtb=<file>' property.
+With this property set, the machine saves the FDT in <file> and exit.
+The created file can then be converted to plain text dts format using
+'dtc'.
 
+There's nothing particularly sophisticated into saving the FDT that
+can't be done with the machine at any state, as long as the machine has
+a valid FDT to be saved.
+
+The 'dumpdtb' command receives a 'filename' paramenter and, if a valid
+FDT is available, it'll save it in a file 'filename'. In short, this is
+a '-machine dumpdtb' that can be fired on demand via QMP/HMP.
+
+A valid FDT consists of a FDT that was created using libfdt being
+retrieved via 'current_machine->fdt' in device_tree.c. This condition is
+met by most FDT users in QEMU.
+
+This command will always be executed in-band (i.e. holding BQL),
+avoiding potential race conditions with machines that might change the
+FDT during runtime (e.g. PowerPC 'pseries' machine).
+
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/xtensa/meson.build | 2 +-
- hw/xtensa/xtfpga.c    | 9 ++++++++-
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ hmp-commands.hx              | 13 +++++++++++++
+ include/monitor/hmp.h        |  1 +
+ include/sysemu/device_tree.h |  1 +
+ monitor/hmp-cmds.c           | 12 ++++++++++++
+ monitor/qmp-cmds.c           | 13 +++++++++++++
+ qapi/machine.json            | 17 +++++++++++++++++
+ softmmu/device_tree.c        | 18 ++++++++++++++++++
+ 7 files changed, 75 insertions(+)
 
-diff --git a/hw/xtensa/meson.build b/hw/xtensa/meson.build
-index 1d5835df4b..ebba51cc74 100644
---- a/hw/xtensa/meson.build
-+++ b/hw/xtensa/meson.build
-@@ -6,6 +6,6 @@ xtensa_ss.add(files(
- ))
- xtensa_ss.add(when: 'CONFIG_XTENSA_SIM', if_true: files('sim.c'))
- xtensa_ss.add(when: 'CONFIG_XTENSA_VIRT', if_true: files('virt.c'))
--xtensa_ss.add(when: 'CONFIG_XTENSA_XTFPGA', if_true: files('xtfpga.c'))
-+xtensa_ss.add(when: 'CONFIG_XTENSA_XTFPGA', if_true: [files('xtfpga.c'), fdt])
- 
- hw_arch += {'xtensa': xtensa_ss}
-diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
-index 2a5556a35f..9e2f911caa 100644
---- a/hw/xtensa/xtfpga.c
-+++ b/hw/xtensa/xtfpga.c
-@@ -50,6 +50,8 @@
- #include "hw/xtensa/mx_pic.h"
- #include "migration/vmstate.h"
- 
-+#include <libfdt.h>
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 182e639d14..2dd737078e 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1800,3 +1800,16 @@ ERST
+                       "\n\t\t\t\t\t limit on a specified virtual cpu",
+         .cmd        = hmp_cancel_vcpu_dirty_limit,
+     },
 +
- typedef struct XtfpgaFlashDesc {
-     hwaddr base;
-     size_t size;
-@@ -377,7 +379,12 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
-             cur_tagptr = put_tag(cur_tagptr, BP_TAG_FDT,
-                                  sizeof(dtb_addr), &dtb_addr);
-             cur_lowmem = QEMU_ALIGN_UP(cur_lowmem + fdt_size, 4 * KiB);
--            g_free(fdt);
++SRST
++``dumpdtb`` *filename*
++  Save the FDT in the 'filename' file to be decoded using dtc.
++  Requires 'libfdt' support.
++ERST
++    {
++        .name       = "dumpdtb",
++        .args_type  = "filename:F",
++        .params     = "filename",
++        .help       = "save the FDT in the 'filename' file to be decoded using dtc",
++        .cmd        = hmp_dumpdtb,
++    },
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index a618eb1e4e..d7f324da59 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -134,6 +134,7 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
+ void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
++void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
+ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ void hmp_info_stats(Monitor *mon, const QDict *qdict);
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index ef060a9759..bf7684e4ed 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -136,6 +136,7 @@ int qemu_fdt_add_path(void *fdt, const char *path);
+     } while (0)
+ 
+ void qemu_fdt_dumpdtb(void *fdt, int size);
++void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
+ 
+ /**
+  * qemu_fdt_setprop_sized_cells_from_array:
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index c6cd6f91dd..1c7bfd3b9d 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -2472,3 +2472,15 @@ exit:
+ exit_no_print:
+     error_free(err);
+ }
 +
-+            /*
-+             * Update the machine->fdt pointer to enable support for
-+             * 'dumpdtb' and 'info fdt' QMP/HMP commands.
-+             */
-+            machine->fdt = fdt;
-         }
- #else
-         if (dtb_filename) {
++void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
++{
++    const char *filename = qdict_get_str(qdict, "filename");
++    Error *local_err = NULL;
++
++    qmp_dumpdtb(filename, &local_err);
++
++    if (local_err) {
++        hmp_handle_error(mon, local_err);
++    }
++}
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 7314cd813d..8415aca08c 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -45,6 +45,7 @@
+ #include "hw/intc/intc.h"
+ #include "hw/rdma/rdma.h"
+ #include "monitor/stats.h"
++#include "sysemu/device_tree.h"
+ 
+ NameInfo *qmp_query_name(Error **errp)
+ {
+@@ -596,3 +597,15 @@ bool apply_str_list_filter(const char *string, strList *list)
+     }
+     return false;
+ }
++
++#ifdef CONFIG_FDT
++void qmp_dumpdtb(const char *filename, Error **errp)
++{
++    return qemu_fdt_qmp_dumpdtb(filename, errp);
++}
++#else
++void qmp_dumpdtb(const char *filename, Error **errp)
++{
++    error_setg(errp, "dumpdtb requires libfdt");
++}
++#endif
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 6afd1936b0..aeb013f3dd 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1664,3 +1664,20 @@
+      '*size': 'size',
+      '*max-size': 'size',
+      '*slots': 'uint64' } }
++
++##
++# @dumpdtb:
++#
++# Save the FDT in dtb format. Requires 'libfdt' support.
++#
++# @filename: name of the FDT file to be created
++#
++# Since: 7.2
++#
++# Example:
++#   {"execute": "dumpdtb"}
++#    "arguments": { "filename": "/tmp/fdt.dtb" } }
++#
++##
++{ 'command': 'dumpdtb',
++  'data': { 'filename': 'str' } }
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index 6ca3fad285..cd487ddd4d 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -643,3 +643,21 @@ out:
+     g_free(propcells);
+     return ret;
+ }
++
++void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp)
++{
++    int size;
++
++    if (!current_machine->fdt) {
++        error_setg(errp, "Unable to find the machine FDT");
++        return;
++    }
++
++    size = fdt_totalsize(current_machine->fdt);
++
++    if (g_file_set_contents(filename, current_machine->fdt, size, NULL)) {
++        return;
++    }
++
++    error_setg(errp, "Error when saving machine FDT to file %s", filename);
++}
 -- 
 2.37.2
 
