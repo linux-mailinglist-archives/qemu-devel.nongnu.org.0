@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2635A304D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 22:04:58 +0200 (CEST)
-Received: from localhost ([::1]:58898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21795A3052
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 22:09:27 +0200 (CEST)
+Received: from localhost ([::1]:39912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRfZZ-0001LZ-4I
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 16:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57082)
+	id 1oRfdu-0007CJ-Ia
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 16:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRfXh-0007wW-EX
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:03:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41881)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRfao-0001fF-Lc
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:06:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRfXf-0002qm-8j
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:03:00 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRfaj-0003sd-Ha
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:06:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661544178;
+ s=mimecast20190719; t=1661544367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XF1E9ltGqY2GPUols5GrH9feO8JwOaWwHDyzqmwPwzU=;
- b=gBKgkwf4L+hsvctqWUWp55y4lFWE++ZKz6hcnuXEtarSCHb/U7JO1U5oRQI09TEqKxx1jC
- NakfiZjfmrFqWaZW7XmPB48RdqFXDeyx80vwx78i0O9BLszNS487/xo79aKWyBFd5pexWR
- +UFoHjLPW4gsXdp7qxXBJOOIHw0W/8w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2aKZqQi11cXkmBkmp/xMCO2SrUzHWEHC+UjHIjBzyKc=;
+ b=QHtNKkffTDeoTUobb9+J/8menOOZr+GVjTzgvziP++i2Ucdh4TBjQXPZ7gbF5IKMG4mUy7
+ N+MGxDIQ3iAj6Ah5vNpGSaqUWGg0izziTxBUEAAx3gI2sTg7v29SxfWmDJydpNCTh+SMLB
+ fN7zgEeoHQHqECg8o6gorjsOOEnfK2w=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-264-GIQVqKCRNvqD0wm44KCkuQ-1; Fri, 26 Aug 2022 16:02:57 -0400
-X-MC-Unique: GIQVqKCRNvqD0wm44KCkuQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j12-20020adfff8c000000b002265dcdfad7so274823wrr.2
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 13:02:57 -0700 (PDT)
+ us-mta-503-4y8OICuKNAasmi_zXKt2mA-1; Fri, 26 Aug 2022 16:06:06 -0400
+X-MC-Unique: 4y8OICuKNAasmi_zXKt2mA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ j22-20020adfb316000000b00226cf7eddeeso200548wrd.23
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 13:06:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=XF1E9ltGqY2GPUols5GrH9feO8JwOaWwHDyzqmwPwzU=;
- b=p/x2qrzLBGCFKEg7HxsZ7tJ+OWjdU6JqXv3zHdwi9r3cGeHVl1CRxT/tAaGjmB6sHz
- 8+mgmtiDuoHZ+rVo5pyvUYLicrjZqMVG84BKP7ujh75iBVzeN/xeO+1JaW/r7OqfzWB7
- 0CClQPuKmH5z6jAt5BIovfAfcudSsZpwKL340pExseMGYPyMGFo57d/NuoDZwHGVL9Oo
- X4A02yaXtwz9dLmIk29ElwRH43CSiCs8vR/Xw9OyTWYiwKsycaV1JM+mNCcBRCcOF6dR
- 4BCr3I5J3RRQZxmqS4YuX25+2bSg3pOFCfaCXVHD4p2gwmedXpw95K5VnAmvgQGLDCHO
- L3bA==
-X-Gm-Message-State: ACgBeo2FYXCOZn65K2R1nl1kl4fQI99mi3c6RqzsLz/nTguMgkHRbG7a
- lAMJpJN0nmBeCNcn5M7EyHAjCkPwopj6YOYH9XcNetUSRZG3PHDeI+0yMF/8D+dg9VRgYG4WoVE
- TucNkb7yDsFOpz3s=
-X-Received: by 2002:a5d:514d:0:b0:225:3507:79e6 with SMTP id
- u13-20020a5d514d000000b00225350779e6mr630487wrt.85.1661544176415; 
- Fri, 26 Aug 2022 13:02:56 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4aFAyB4sQle/coWJHGzcQxagU4WhkZ0HxNe4ea2lVfvea0GKRRDPVUW5ZkXecNA6AhDbobeg==
-X-Received: by 2002:a5d:514d:0:b0:225:3507:79e6 with SMTP id
- u13-20020a5d514d000000b00225350779e6mr630474wrt.85.1661544176243; 
- Fri, 26 Aug 2022 13:02:56 -0700 (PDT)
+ bh=2aKZqQi11cXkmBkmp/xMCO2SrUzHWEHC+UjHIjBzyKc=;
+ b=6fDQjTGAMVbYigQUQX3SQ8JTt+R2I56pcm7KqKHaqBC+D9KaAXe57KtsTOv0MDLPzB
+ cPvqbxFf6KHsIoJ+bFL8e1yHRKXs1HSYfcwHkfaIonYug6as1L5Rd/bFd6QNRD/TkPy1
+ t1hZuS5iz2xKPBtWTDUmEpQzecM/cusICPIurLgv1AJQwqZD1ixJNbpOuDBV8qYtxQR2
+ Xw0MljiELInwUQV94bzDyDXoDQCqtSw5nM+muhlxTOSXQX/YtyBfvhOlh1QUVg5n1KhP
+ T2FsJO6A1Oik0Q8RB2KBgzWtCiioUiXwUe/PW8tqs0wqf1ek4ypxdAVF88c3t3HCYCjL
+ oRvg==
+X-Gm-Message-State: ACgBeo3FQniAMIkJEq2U8LQ8pqpgxo1iYUOMd68Q8Sg86145qoT8Blh4
+ in018ECog3PDdGncEVJshS3n9Ddc7Qx8ttSnepPRRcPdkjInijiEbFa49U1AitPOpt83ib3pqI7
+ 9oEimdxfgFHx4qfc=
+X-Received: by 2002:a5d:6483:0:b0:225:7fb7:f163 with SMTP id
+ o3-20020a5d6483000000b002257fb7f163mr650706wri.391.1661544365322; 
+ Fri, 26 Aug 2022 13:06:05 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5VrMknW/lk79SmrybCaWLgLMTy0uAO57rmLkcVi/h1QR18qTVitT+HgMdSikjOYO+2nVGkDw==
+X-Received: by 2002:a5d:6483:0:b0:225:7fb7:f163 with SMTP id
+ o3-20020a5d6483000000b002257fb7f163mr650693wri.391.1661544365146; 
+ Fri, 26 Aug 2022 13:06:05 -0700 (PDT)
 Received: from [192.168.8.104] (tmo-098-60.customers.d1-online.com.
  [80.187.98.60]) by smtp.gmail.com with ESMTPSA id
- b8-20020adff908000000b00223a50b1be8sm554357wrr.50.2022.08.26.13.02.55
+ j15-20020a5d464f000000b0022526db2363sm564481wrs.30.2022.08.26.13.06.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 13:02:55 -0700 (PDT)
-Message-ID: <2a236f11-0f37-a13c-0fb0-0014d23f7400@redhat.com>
-Date: Fri, 26 Aug 2022 22:02:54 +0200
+ Fri, 26 Aug 2022 13:06:04 -0700 (PDT)
+Message-ID: <88e43d1f-800d-63ea-de7a-ae8fee929f1f@redhat.com>
+Date: Fri, 26 Aug 2022 22:06:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v1 05/25] tests/docker: update and flatten
- debian-m68k-cross
+Subject: Re: [PATCH v1 06/25] tests/docker: update and flatten
+ debian-mips64-cross
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -77,19 +77,19 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20220826172128.353798-1-alex.bennee@linaro.org>
- <20220826172128.353798-6-alex.bennee@linaro.org>
+ <20220826172128.353798-7-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220826172128.353798-6-alex.bennee@linaro.org>
+In-Reply-To: <20220826172128.353798-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,39 +113,39 @@ On 26/08/2022 19.21, Alex Bennée wrote:
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   .gitlab-ci.d/container-cross.yml                  |  1 -
->   tests/docker/Makefile.include                     |  1 -
->   tests/docker/dockerfiles/debian-m68k-cross.docker | 12 +++++++-----
+>   .gitlab-ci.d/container-cross.yml                    |  1 -
+>   tests/docker/Makefile.include                       |  1 -
+>   tests/docker/dockerfiles/debian-mips64-cross.docker | 12 +++++++-----
 >   3 files changed, 7 insertions(+), 7 deletions(-)
 > 
 > diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-> index 6c1d765463..15a5270f6d 100644
+> index 15a5270f6d..a3bfa483bf 100644
 > --- a/.gitlab-ci.d/container-cross.yml
 > +++ b/.gitlab-ci.d/container-cross.yml
-> @@ -71,7 +71,6 @@ hppa-debian-cross-container:
->   m68k-debian-cross-container:
+> @@ -77,7 +77,6 @@ m68k-debian-cross-container:
+>   mips64-debian-cross-container:
 >     extends: .container_job_template
 >     stage: containers
 > -  needs: ['amd64-debian10-container']
 >     variables:
->       NAME: debian-m68k-cross
+>       NAME: debian-mips64-cross
 >   
 > diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-> index e39597d35c..95790e974e 100644
+> index 95790e974e..6c2ee3b175 100644
 > --- a/tests/docker/Makefile.include
 > +++ b/tests/docker/Makefile.include
-> @@ -88,7 +88,6 @@ DOCKER_PARTIAL_IMAGES += debian-s390x-cross
->   DOCKER_PARTIAL_IMAGES += fedora
+> @@ -89,7 +89,6 @@ DOCKER_PARTIAL_IMAGES += fedora
 >   endif
 >   
-> -docker-image-debian-m68k-cross: docker-image-debian10
 >   docker-image-debian-mips-cross: docker-image-debian10
->   docker-image-debian-mips64-cross: docker-image-debian10
+> -docker-image-debian-mips64-cross: docker-image-debian10
 >   docker-image-debian-sh4-cross: docker-image-debian10
-> diff --git a/tests/docker/dockerfiles/debian-m68k-cross.docker b/tests/docker/dockerfiles/debian-m68k-cross.docker
-> index fcb10e3534..dded71c5d2 100644
-> --- a/tests/docker/dockerfiles/debian-m68k-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-m68k-cross.docker
+>   docker-image-debian-sparc64-cross: docker-image-debian10
+>   
+> diff --git a/tests/docker/dockerfiles/debian-mips64-cross.docker b/tests/docker/dockerfiles/debian-mips64-cross.docker
+> index 09c2ba584e..afcff9726f 100644
+> --- a/tests/docker/dockerfiles/debian-mips64-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-mips64-cross.docker
 > @@ -1,12 +1,14 @@
 >   #
 >   # Docker cross-compiler target
@@ -164,8 +164,8 @@ On 26/08/2022 19.21, Alex Bennée wrote:
 > +    apt-get install -y eatmydata && \
 > +    eatmydata apt-get dist-upgrade -y && \
 > +    eatmydata apt-get install --no-install-recommends -y \
->           gcc-m68k-linux-gnu \
->           libc6-dev-m68k-cross
+>           gcc-mips64-linux-gnuabi64 \
+>           libc6-dev-mips64-cross
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
