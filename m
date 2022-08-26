@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA685A2B55
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:33:52 +0200 (CEST)
-Received: from localhost ([::1]:39628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAC45A2B45
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:30:44 +0200 (CEST)
+Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbLD-00086K-SL
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
+	id 1oRbIB-00053M-SY
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:30:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRb5w-0005BJ-SW
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:18:04 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:44761)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oRb80-0006Wi-JM
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:20:13 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:35599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRb5u-0006Fg-RY
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:18:04 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id f12so1668528plb.11
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 08:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=pdvIuMXt7t3YVoINfj3/IU3XYpJXiEjWBSQZ/s795Ts=;
- b=WK4hqSI9VAsPxMlpu98392P1azzDVd3p+gsYUxR9RqNVFDSHcgLtPfCIkwZnWeirAL
- MpEgjOZvEvPeS1dNsmNO+f7UgmF4H8ELxh+5kLs5+FRtWsDnx97N9PzGD33p/Ou+amKM
- /T8YVglsV7t38Et4gBFHArypIa9p7ibTLT7ZQS4Eu+8kahl6nOQk9QBBN7QJs9+kbMnV
- 9cVa8gUeR1qvBwA6OgpzdchCRroEve8nbUp6HSpLb7X2OT2cYDm9ood159g5CF8t70pq
- TnT+h25w0gQUop4BWt/jlFrPPDyzp29yNom4rg4eZU1cFrljI84Ue9EquTplpS6PCqsm
- ZrGg==
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oRb7y-0006cu-Fq
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:20:12 -0400
+Received: by mail-oi1-x232.google.com with SMTP id u14so2368017oie.2
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 08:20:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=JxB2qaa3GXj7Ww0WJz/K7eVu2ESNhoaSdSA9k8puE0w=;
+ b=rNZHisjyMKdc1KU7tmh/nGQkaLaNeYt3bMs5VKI6xJP2h2AOfOUzwRZRLla65xJeDe
+ CEYqIxWJMO3nXKmE2NClEC3ph5qIL8NDIQhMrgP6gJ0WU4aWnONbzX+FJWCvfdfcSIsP
+ AezQ9zuYWaHPSiF6LfTwPDglMWkbw4zeg+3bhrcfEcjamrhe4gPIvEzOpxfWMPFeywgQ
+ UoNWH8KGUwupF/7+yTAgAVu4bX9J2NJTBc7jkz7aI3melLIyLqn9dmv13Lxx0qNdblrw
+ TITwMBj98834n0fELMej+U+DtcWyCv5lRYX7IgVMedybI7TbJ5XNWzkK1RBJSfbEeA4F
+ GDXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=pdvIuMXt7t3YVoINfj3/IU3XYpJXiEjWBSQZ/s795Ts=;
- b=f8+5vo+3P9nizJC7/wGd7ZBJgZ8RrP8W5T5MtXm2hdFaqsbNEuys4/8gBmnzVYQM9Q
- S5U6oX9vaVb7lEFthSF9R0i5R313gXk6loVxbDMUPDE6XyC+MF9RSmwF3e8SqHCQFrEI
- DHTCQicy5R/qIxwu4wrg3LmwCaJpOjpxiqwQGC6eB9bCxWx7iPDc8+cOd+FD1cuPmk/v
- T/5lCQQ4dZihePqBFPtpC7qh0ZIgINKQPeJx2vgvzOgDoQaQfDi0VTM9p88FhvJgL7Ta
- Z4jle1q5U0BvZ0X5XI4hKZoWtIUchfLYpM3/yaKWER9iGqJm8r5t/D1UQr924JHjZPAQ
- Z9Og==
-X-Gm-Message-State: ACgBeo2zyaR8TH09MiUy+77oT74YRqCy28XxwaB0Mn5lKMKErl1LzyQF
- pI2ORt35xN4KwdgVW2hoFuxfjTd62LloAg==
-X-Google-Smtp-Source: AA6agR7tPZ8nMXsCbiO01R+qiSvHbWnLnZBIcR1b1Ik55xq9vnK3lmAGQKiAld7F/PySBEXTHziRog==
-X-Received: by 2002:a17:90a:744c:b0:1fa:c029:7a24 with SMTP id
- o12-20020a17090a744c00b001fac0297a24mr4773856pjk.54.1661527081326; 
- Fri, 26 Aug 2022 08:18:01 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f?
- ([2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f])
- by smtp.gmail.com with ESMTPSA id
- z8-20020a634c08000000b0041c0c9c0072sm1526984pga.64.2022.08.26.08.18.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 08:18:00 -0700 (PDT)
-Message-ID: <186a174e-e37e-c5b1-b02a-efe31efdba79@linaro.org>
-Date: Fri, 26 Aug 2022 08:17:59 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=JxB2qaa3GXj7Ww0WJz/K7eVu2ESNhoaSdSA9k8puE0w=;
+ b=pFmeMwB7DI0d3+jN7hyrwOH+NV4+W0imvETAvf1SGUemgBxsJkVYd1B7a/7SBWK66T
+ 5rTIzxwJSkneUmj9mu5Y2B8UEEKkRA4swy0ljn1YmGcddgaYAvV2vrnnDvOShXNwC3Fw
+ jIxW4kPugB0/I+/AHLbyJT1f0vgkeT7Y4R0gcBxkMsWb+t9B7OEHbxPElaCeY53l15Vp
+ AsGC/Yb4hH44n6Kg88ltZV7sZVOddyugUJJO24fCTh16dTNTtr+4fQeDRGrI/bOr1cMG
+ B8ABlsDR50jppawX/saR0U5A/fjaP3gZKcsIN02UNby3P57y+H4JC658P2wQ5BNOCSmF
+ /PlQ==
+X-Gm-Message-State: ACgBeo3izKWQC3emXjgwPjJ828LVJUhBDXDGUV2cJLPCiPojj0RtC8YO
+ ts+C3uKQ56AjVRcHg9BKTNSjzmGldYskvvyiXqN9LA==
+X-Google-Smtp-Source: AA6agR6SQe5onizWDvNdLrAzua1I9O94/DWXsFjcgNFZAlcVSFzWJyrqTisu6QhEpjJ6FUet5mh61grmllD7Si4hFpE=
+X-Received: by 2002:a05:6808:152a:b0:344:c8d1:27e1 with SMTP id
+ u42-20020a056808152a00b00344c8d127e1mr1877973oiw.294.1661527208826; Fri, 26
+ Aug 2022 08:20:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 03/13] linux-user: Add faccessat2() syscall
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
-References: <20220826141853.419564-1-deller@gmx.de>
- <20220826141853.419564-4-deller@gmx.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220826141853.419564-4-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Fri, 26 Aug 2022 16:19:32 +0100
+Message-ID: <CA+EHjTzRcEQcZRJixBa=fBXd4=-oZK=unmBLwBAFVixCPfY-dQ@mail.gmail.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=tabba@google.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,83 +105,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/22 07:18, Helge Deller wrote:
-> Add implementation and strace output for faccessat2().
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
+Hi Chao,
+
+On Wed, Jul 6, 2022 at 9:25 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> Normally, a write to unallocated space of a file or the hole of a sparse
+> file automatically causes space allocation, for memfd, this equals to
+> memory allocation. This new seal prevents such automatically allocating,
+> either this is from a direct write() or a write on the previously
+> mmap-ed area. The seal does not prevent fallocate() so an explicit
+> fallocate() can still cause allocating and can be used to reserve
+> memory.
+>
+> This is used to prevent unintentional allocation from userspace on a
+> stray or careless write and any intentional allocation should use an
+> explicit fallocate(). One of the main usecases is to avoid memory double
+> allocation for confidential computing usage where we use two memfds to
+> back guest memory and at a single point only one memfd is alive and we
+> want to prevent memory allocation for the other memfd which may have
+> been mmap-ed previously. More discussion can be found at:
+>
+>   https://lkml.org/lkml/2022/6/14/1255
+>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 > ---
->   linux-user/strace.c    |  2 +-
->   linux-user/strace.list |  3 +++
->   linux-user/syscall.c   | 12 ++++++++++++
->   3 files changed, 16 insertions(+), 1 deletion(-)
+>  include/uapi/linux/fcntl.h |  1 +
+>  mm/memfd.c                 |  3 ++-
+>  mm/shmem.c                 | 16 ++++++++++++++--
+>  3 files changed, 17 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> index 2f86b2ad6d7e..98bdabc8e309 100644
+> --- a/include/uapi/linux/fcntl.h
+> +++ b/include/uapi/linux/fcntl.h
+> @@ -43,6 +43,7 @@
+>  #define F_SEAL_GROW    0x0004  /* prevent file from growing */
+>  #define F_SEAL_WRITE   0x0008  /* prevent writes */
+>  #define F_SEAL_FUTURE_WRITE    0x0010  /* prevent future writes while mapped */
+> +#define F_SEAL_AUTO_ALLOCATE   0x0020  /* prevent allocation for writes */
 
-I've done this one, and cleaned up the code a bit too:
+I think this should also be added to tools/include/uapi/linux/fcntl.h
 
-https://lore.kernel.org/qemu-devel/20220729201414.29869-1-richard.henderson@linaro.org/
+Cheers,
+/fuad
 
 
-r~
-
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 27309f1106..e8c63aa4c2 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -1962,7 +1962,7 @@ print_execv(CPUArchState *cpu_env, const struct syscallname *name,
->   }
->   #endif
-> 
-> -#ifdef TARGET_NR_faccessat
-> +#if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
->   static void
->   print_faccessat(CPUArchState *cpu_env, const struct syscallname *name,
->                   abi_long arg0, abi_long arg1, abi_long arg2,
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index a78cdf3cdf..6e88da7fad 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -177,6 +177,9 @@
->   #ifdef TARGET_NR_faccessat
->   { TARGET_NR_faccessat, "faccessat" , NULL, print_faccessat, NULL },
->   #endif
-> +#ifdef TARGET_NR_faccessat2
-> +{ TARGET_NR_faccessat2, "faccessat2" , NULL, print_faccessat, NULL },
-> +#endif
->   #ifdef TARGET_NR_fadvise64
->   { TARGET_NR_fadvise64, "fadvise64" , NULL, NULL, NULL },
->   #endif
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f409121202..f51c4fbabd 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -399,6 +399,9 @@ _syscall3(int, ioprio_set, int, which, int, who, int, ioprio)
->   #if defined(TARGET_NR_getrandom) && defined(__NR_getrandom)
->   _syscall3(int, getrandom, void *, buf, size_t, buflen, unsigned int, flags)
->   #endif
-> +#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
-> +_syscall4(int, faccessat2, int, dirfd, char *, pathname, int, mode, int, flags)
-> +#endif
-> 
->   #if defined(TARGET_NR_kcmp) && defined(__NR_kcmp)
->   _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
-> @@ -9098,6 +9101,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           unlock_user(p, arg2, 0);
->           return ret;
->   #endif
-> +#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
-> +    case TARGET_NR_faccessat2:
-> +        if (!(p = lock_user_string(arg2))) {
-> +            return -TARGET_EFAULT;
-> +        }
-> +        ret = get_errno(faccessat2(arg1, p, arg3, arg4));
-> +        unlock_user(p, arg2, 0);
-> +        return ret;
-> +#endif
->   #ifdef TARGET_NR_nice /* not on alpha */
->       case TARGET_NR_nice:
->           return get_errno(nice(arg1));
+>  /* (1U << 31) is reserved for signed error codes */
+>
+>  /*
+> diff --git a/mm/memfd.c b/mm/memfd.c
+> index 08f5f8304746..2afd898798e4 100644
+> --- a/mm/memfd.c
+> +++ b/mm/memfd.c
+> @@ -150,7 +150,8 @@ static unsigned int *memfd_file_seals_ptr(struct file *file)
+>                      F_SEAL_SHRINK | \
+>                      F_SEAL_GROW | \
+>                      F_SEAL_WRITE | \
+> -                    F_SEAL_FUTURE_WRITE)
+> +                    F_SEAL_FUTURE_WRITE | \
+> +                    F_SEAL_AUTO_ALLOCATE)
+>
+>  static int memfd_add_seals(struct file *file, unsigned int seals)
+>  {
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index a6f565308133..6c8aef15a17d 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -2051,6 +2051,8 @@ static vm_fault_t shmem_fault(struct vm_fault *vmf)
+>         struct vm_area_struct *vma = vmf->vma;
+>         struct inode *inode = file_inode(vma->vm_file);
+>         gfp_t gfp = mapping_gfp_mask(inode->i_mapping);
+> +       struct shmem_inode_info *info = SHMEM_I(inode);
+> +       enum sgp_type sgp;
+>         int err;
+>         vm_fault_t ret = VM_FAULT_LOCKED;
+>
+> @@ -2113,7 +2115,12 @@ static vm_fault_t shmem_fault(struct vm_fault *vmf)
+>                 spin_unlock(&inode->i_lock);
+>         }
+>
+> -       err = shmem_getpage_gfp(inode, vmf->pgoff, &vmf->page, SGP_CACHE,
+> +       if (unlikely(info->seals & F_SEAL_AUTO_ALLOCATE))
+> +               sgp = SGP_NOALLOC;
+> +       else
+> +               sgp = SGP_CACHE;
+> +
+> +       err = shmem_getpage_gfp(inode, vmf->pgoff, &vmf->page, sgp,
+>                                   gfp, vma, vmf, &ret);
+>         if (err)
+>                 return vmf_error(err);
+> @@ -2459,6 +2466,7 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
+>         struct inode *inode = mapping->host;
+>         struct shmem_inode_info *info = SHMEM_I(inode);
+>         pgoff_t index = pos >> PAGE_SHIFT;
+> +       enum sgp_type sgp;
+>         int ret = 0;
+>
+>         /* i_rwsem is held by caller */
+> @@ -2470,7 +2478,11 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
+>                         return -EPERM;
+>         }
+>
+> -       ret = shmem_getpage(inode, index, pagep, SGP_WRITE);
+> +       if (unlikely(info->seals & F_SEAL_AUTO_ALLOCATE))
+> +               sgp = SGP_NOALLOC;
+> +       else
+> +               sgp = SGP_WRITE;
+> +       ret = shmem_getpage(inode, index, pagep, sgp);
+>
+>         if (ret)
+>                 return ret;
 > --
-> 2.37.1
-> 
-
+> 2.25.1
+>
 
