@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3435A2437
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 11:24:12 +0200 (CEST)
-Received: from localhost ([::1]:36162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAC85A24E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 11:49:27 +0200 (CEST)
+Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRVZT-00007i-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 05:24:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57676)
+	id 1oRVxu-0003uG-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 05:49:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRVVE-0004dS-Te
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:19:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40592)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRVuW-0001jY-FQ
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:45:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oRVVC-0000VN-CL
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:19:47 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRVuR-0004vX-I9
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 05:45:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661505585;
+ s=mimecast20190719; t=1661507150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cm8RaaQOEoWRKPJuTt0OE6ZMdykOljvLPHXmg6dBM3U=;
- b=FfSoz4krvuwePAdaI5Pk07KjJyCYntkLY0LNZpTaUocY0TP0GBzPi1golobaAPAA162Rbs
- 1d/tpmRIdzEW2KBgNnojJ2KIv00Bgkg5P/a/7wi26Nsi3R5zAo3cFY5kMVVpJDTlhJjAvj
- +Fy6dw/VJ1tTOybLzhR2sZXdFlP6DhE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-h2vrZDoKOCmFWuwSJ6fImA-1; Fri, 26 Aug 2022 05:19:42 -0400
-X-MC-Unique: h2vrZDoKOCmFWuwSJ6fImA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B70691C00AC3;
- Fri, 26 Aug 2022 09:19:41 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.195.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 653E5C15BBA;
- Fri, 26 Aug 2022 09:19:41 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A34211800627; Fri, 26 Aug 2022 11:19:39 +0200 (CEST)
-Date: Fri, 26 Aug 2022 11:19:39 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [PATCH v1 26/40] headers: Add definitions from UEFI spec for
- volumes, resources, etc...
-Message-ID: <20220826091939.hqvgkoariygt7px5@sirius.home.kraxel.org>
-References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
- <20220802074750.2581308-27-xiaoyao.li@intel.com>
+ bh=kyWpXiYwLh7b5zouXS7oBJJM1cyjCNsdN8KBCB8aLRQ=;
+ b=QpFbh+gjOD3+H1BxDCgGX5tnPzdnsYjaGTdeZFE6Ku9sr8CAFzmJghZcp2iixbyXf8mTtn
+ lcyySOZAHOzVOLfM68KNrvdrX+72YFrXeKdSNTLv57jrt+IWjJ8wGBHjuIV11gSu4TL1O6
+ 4ccYl10kSsbDemyq9d4cKYQg71+bgEE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-55-TNVdj0TsPoGLOqDAuYtLAw-1; Fri, 26 Aug 2022 05:45:46 -0400
+X-MC-Unique: TNVdj0TsPoGLOqDAuYtLAw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r10-20020a1c440a000000b003a538a648a9so725857wma.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 02:45:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=kyWpXiYwLh7b5zouXS7oBJJM1cyjCNsdN8KBCB8aLRQ=;
+ b=IQHEVePuKQS+9JOtN/hoQBMPaf4zz5Mb4ZyXYuB98uQ3NeL+TcaeoMMRdP3Gv+siHF
+ aUOHMMalTTg4+YNLBvWNFPc+zGPdn34LYu1r1louOhOW9Xw4tKXZ2uoWMWKKvk9yKAw9
+ KSTBIj0Gg4qzALFYAFh4175mr5ggvWqmuJaDiMACROJVdGXivbSVyqJRi3QyuNpNldJ8
+ oTD0uyJtQ9YZSyJvXip3Cfx8IIB91L9zG3HYPZLqsBmbvmnZnZKMz0TCvDKBDvTRPUhR
+ r89nBkyJhtuXNEqoWQWjJsHADXcUApZ42kgSxlgtSnj9JL5qJxEyqDNKLmu4pmSsy0PD
+ 2BVg==
+X-Gm-Message-State: ACgBeo1s1bLeF8hL3Do8R4iJPUGjU7Z3If3fMmHMRu3chvWNTwPSdH5Q
+ Llt7GOeHE3SAAFboMpv/8BpD0Pdq9+LYwF6V/HQeH2rAfuu0wk9ayfRWjIgDLUL388TDXaeJNF8
+ /rHK56++F9J48RLk=
+X-Received: by 2002:adf:d1e4:0:b0:221:6c37:277e with SMTP id
+ g4-20020adfd1e4000000b002216c37277emr4558063wrd.498.1661507145570; 
+ Fri, 26 Aug 2022 02:45:45 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6vxjrCf82RsITE5Xlbf2Oa5lYkw6mC2BL2o1piD9qKvPJSCKQp107YuAsUnn7V/xDGt0OWsw==
+X-Received: by 2002:adf:d1e4:0:b0:221:6c37:277e with SMTP id
+ g4-20020adfd1e4000000b002216c37277emr4558050wrd.498.1661507145248; 
+ Fri, 26 Aug 2022 02:45:45 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c708:f600:abad:360:c840:33fa?
+ (p200300cbc708f600abad0360c84033fa.dip0.t-ipconnect.de.
+ [2003:cb:c708:f600:abad:360:c840:33fa])
+ by smtp.gmail.com with ESMTPSA id
+ co12-20020a0560000a0c00b0021eed2414c9sm815471wrb.40.2022.08.26.02.45.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 02:45:44 -0700 (PDT)
+Message-ID: <b56c6030-8976-f2a1-d411-d892d362d486@redhat.com>
+Date: Fri, 26 Aug 2022 11:45:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220802074750.2581308-27-xiaoyao.li@intel.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qiaonuohan@cn.fujitsu.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20220825132110.1500330-1-marcandre.lureau@redhat.com>
+ <20220825132110.1500330-2-marcandre.lureau@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH 1/2] dump: simplify a bit kdump get_next_page()
+In-Reply-To: <20220825132110.1500330-2-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,19 +106,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 02, 2022 at 03:47:36PM +0800, Xiaoyao Li wrote:
-> Add UEFI definitions for literals, enums, structs, GUIDs, etc... that
-> will be used by TDX to build the UEFI Hand-Off Block (HOB) that is passed
-> to the Trusted Domain Virtual Firmware (TDVF).
+On 25.08.22 15:21, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> All values come from the UEFI specification and TDVF design guide. [1]
+> This should be functionally equivalent, but slightly easier to read,
+> with simplified paths and checks at the end of the function.
 > 
-> Note, EFI_RESOURCE_MEMORY_UNACCEPTED will be added in future UEFI spec.
+> The following patch is a major rewrite to get rid of the assert().
 > 
-> [1] https://software.intel.com/content/dam/develop/external/us/en/documents/tdx-virtual-firmware-design-guide-rev-1.pdf
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  dump/dump.c | 30 ++++++++++++------------------
+>  1 file changed, 12 insertions(+), 18 deletions(-)
 > 
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> diff --git a/dump/dump.c b/dump/dump.c
+> index 4d9658ffa2..18f06cffe2 100644
+> --- a/dump/dump.c
+> +++ b/dump/dump.c
+> @@ -1107,37 +1107,31 @@ static bool get_next_page(GuestPhysBlock **blockptr, uint64_t *pfnptr,
+>      uint8_t *buf;
+>  
+>      /* block == NULL means the start of the iteration */
+> -    if (!block) {
+> -        block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
+> -        *blockptr = block;
+> -        assert((block->target_start & ~target_page_mask) == 0);
+> -        assert((block->target_end & ~target_page_mask) == 0);
+> -        *pfnptr = dump_paddr_to_pfn(s, block->target_start);
+> -        if (bufptr) {
+> -            *bufptr = block->host_addr;
+> -        }
+> -        return true;
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Instead of the "return true" we'll now do take the  "if ((addr >=
+block->target_start) &&" path below I guess, always ending up with
+essentially "buf = buf;" because addr == block->target_start.
+
+I guess that's fine.
+
+> +    if (block == NULL) {
+
+What's wrong with keeping the "if (!block) {" ? :)
+
+> +        *blockptr = block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
+
+Another unnecessary change.
+
+> +        addr = block->target_start;
+> +    } else {
+> +        addr = dump_pfn_to_paddr(s, *pfnptr + 1);
+>      }
+> -
+> -    *pfnptr = *pfnptr + 1;
+> -    addr = dump_pfn_to_paddr(s, *pfnptr);
+> +    assert(block != NULL);
+>  
+>      if ((addr >= block->target_start) &&
+>          (addr + s->dump_info.page_size <= block->target_end)) {
+>          buf = block->host_addr + (addr - block->target_start);
+>      } else {
+>          /* the next page is in the next block */
+> -        block = QTAILQ_NEXT(block, next);
+> -        *blockptr = block;
+> +        *blockptr = block = QTAILQ_NEXT(block, next);
+
+Another unnecessary change. (avoiding these really eases review, because
+the focus is then completely on the actual code changes)
+
+>          if (!block) {
+>              return false;
+>          }
+> -        assert((block->target_start & ~target_page_mask) == 0);
+> -        assert((block->target_end & ~target_page_mask) == 0);
+> -        *pfnptr = dump_paddr_to_pfn(s, block->target_start);
+> +        addr = block->target_start;
+>          buf = block->host_addr;
+>      }
+>  
+> +    /* those checks are going away next */
+
+This comment seems to imply a story documented in code. Rather just drop
+it -- the patch description already points that out.
+
+> +    assert((block->target_start & ~target_page_mask) == 0);
+> +    assert((block->target_end & ~target_page_mask) == 0);
+> +    *pfnptr = dump_paddr_to_pfn(s, addr);
+>      if (bufptr) {
+>          *bufptr = buf;
+>      }
+
+
+Apart from the nits, LGTM.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
