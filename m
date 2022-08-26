@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1B95A279B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 14:20:47 +0200 (CEST)
-Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2BA5A27DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 14:29:47 +0200 (CEST)
+Received: from localhost ([::1]:35266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRYKN-0003aA-0E
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 08:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54722)
+	id 1oRYT4-0003sc-69
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 08:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oRY5W-00085Z-Bg
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:05:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26442)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1oRY6y-0008MQ-3y
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:06:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oRY5O-0006Jf-9T
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:05:24 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1oRY6v-0006j9-JJ
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 08:06:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661515516;
+ s=mimecast20190719; t=1661515611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yqVN2Mmv5mhPRtIa+ejBuyxah1mmL2j+Y9HGL5UDm0w=;
- b=YvjnQ7xNIaNEIV0PPcmdVF4xoHasTDwIrII8CyZLU+xU87JSiq7C92luiVsPlx+6tGaAu+
- wAw+FdbJYL+RYg81srDILvd+wkGdThH/Z3QSqr87V6ZDhhOeaKOfaUxle2lmPepTkjlckV
- OeUiIgnzcm5VDJ/QfR2GCpQlEb9mEew=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M4R9F/GEqfy6kkhRYsnSo7lHU5iSdqaXa54V02cS7LY=;
+ b=Xcon7IISezO9ZI3bmgGvbxtvC6E9FkS05cSc0UjHqndjqvVSjssOhdSs+HZeRThlu2n9lQ
+ QH3DfejGwGBgNvwCrZAWe71clnMGAnmQJhl3YpweDGLtUL8pQtk0H+6noLnUGJOaPDn2hG
+ AzboBQD0pVxi6wdB1PonmWrM2TgRa3Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-W-TU-fUNP0OhX7u8g5oSZw-1; Fri, 26 Aug 2022 08:05:15 -0400
-X-MC-Unique: W-TU-fUNP0OhX7u8g5oSZw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-483-QshPuzc3MEWAn45IonYF4g-1; Fri, 26 Aug 2022 08:06:48 -0400
+X-MC-Unique: QshPuzc3MEWAn45IonYF4g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C83E7101A54E;
- Fri, 26 Aug 2022 12:05:14 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C3244010D45;
- Fri, 26 Aug 2022 12:05:14 +0000 (UTC)
-Date: Fri, 26 Aug 2022 13:05:13 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
- defualt
-Message-ID: <20220826120513.GA30245@redhat.com>
-References: <20220826113900.794046-1-berrange@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 385C33C0F38C;
+ Fri, 26 Aug 2022 12:06:48 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.192.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8FFBC15BBA;
+ Fri, 26 Aug 2022 12:06:46 +0000 (UTC)
+Subject: Re: [PATCH] fw_cfg: Don't set callback_opaque NULL in
+ fw_cfg_modify_bytes_read()
+From: Laszlo Ersek <lersek@redhat.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: imammedo@redhat.com, peter.maydell@linaro.org, linuxarm@huawei.com,
+ chenxiang66@hisilicon.com,
+ "Ard Biesheuvel (kernel.org address)" <ardb@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
+ <43c62060-7a5d-25cf-91a3-1c391d3a58f9@redhat.com>
+Message-ID: <ab43b53b-546a-4056-0e91-31691f716109@redhat.com>
+Date: Fri, 26 Aug 2022 14:06:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <43c62060-7a5d-25cf-91a3-1c391d3a58f9@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220826113900.794046-1-berrange@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,90 +84,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 26, 2022 at 12:39:00PM +0100, Daniel P. Berrang� wrote:
-> The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
-> possible. Historically this hasn't been an issue since it was rare for
-> OS distros to build with a higher mandatory CPU baseline.
-> 
-> With RHEL-9, however, the entire distro is built for the x86_64-v2 ABI
-> baseline:
-> 
->   https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level
-> 
-> It is likely that other distros may take similar steps in the not too
-> distant future. For example, it has been suggested for Fedora on a
-> number of occassions.
-> 
-> This new baseline is not compatible with the qemu64 CPU model though.
-> While it is possible to pass a '-cpu xxx' flag to qemu-x86_64, the
-> usage of QEMU doesn't always allow for this. For example, the args
-> are typically controlled via binfmt rules that the user has no ability
-> to change. This impacts users who are trying to use podman on aarch64
-> platforms, to run containers with x86_64 content. There's no arg to
-> podman that can be used to change the qemu-x86_64 args, and a non-root
-> user of podman can not change binfmt rules without elevating privileges:
-> 
->   https://github.com/containers/podman/issues/15456#issuecomment-1228210973
-> 
-> Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
-> compatibility with binaries it is likely to encounter in the wild,
-> and not likely to have a significant downside for existing usage.
-> 
-> Most other architectures already use an 'any' CPU model, which is
-> often mapped to 'max' (or similar) already, rather than the oldest
-> possible CPU model.
-> 
-> For the sake of consistency the 'i386' architecture is also changed
-> from using 'qemu32' to 'max'.
-> 
-> Signed-off-by: Daniel P. Berrang� <berrange@redhat.com>
-> ---
->  linux-user/i386/target_elf.h   | 2 +-
->  linux-user/x86_64/target_elf.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/linux-user/i386/target_elf.h b/linux-user/i386/target_elf.h
-> index 1c6142e7da..238a9aba73 100644
-> --- a/linux-user/i386/target_elf.h
-> +++ b/linux-user/i386/target_elf.h
-> @@ -9,6 +9,6 @@
->  #define I386_TARGET_ELF_H
->  static inline const char *cpu_get_model(uint32_t eflags)
->  {
-> -    return "qemu32";
-> +    return "max";
->  }
->  #endif
-> diff --git a/linux-user/x86_64/target_elf.h b/linux-user/x86_64/target_elf.h
-> index 7b76a90de8..3f628f8d66 100644
-> --- a/linux-user/x86_64/target_elf.h
-> +++ b/linux-user/x86_64/target_elf.h
-> @@ -9,6 +9,6 @@
->  #define X86_64_TARGET_ELF_H
->  static inline const char *cpu_get_model(uint32_t eflags)
->  {
-> -    return "qemu64";
-> +    return "max";
->  }
->  #endif
++Ard +Gerd, one pointer at the bottom
 
-Can we be assured we won't ever hit this TCG bug that currently
-affects -cpu max ?
+On 08/26/22 13:59, Laszlo Ersek wrote:
+> On 08/25/22 18:18, Shameer Kolothum wrote:
+>> Hi
+>>
+>> On arm/virt platform, Chen Xiang reported a Guest crash while
+>> attempting the below steps,
+>>
+>> 1. Launch the Guest with nvdimm=on
+>> 2. Hot-add a NVDIMM dev
+>> 3. Reboot
+>> 4. Guest boots fine.
+>> 5. Reboot again.
+>> 6. Guest boot fails.
+>>
+>> QEMU_EFI reports the below error:
+>> ProcessCmdAddPointer: invalid pointer value in "etc/acpi/tables"
+>> OnRootBridgesConnected: InstallAcpiTables: Protocol Error
+>>
+>> Debugging shows that on first reboot(after hot-adding NVDIMM),
+>> Qemu updates the etc/table-loader len,
+>>
+>> qemu_ram_resize()
+>>   fw_cfg_modify_file()
+>>      fw_cfg_modify_bytes_read()
+>>
+>> And in fw_cfg_modify_bytes_read() we set the "callback_opaque" for
+>> the "key" entry to NULL. Because of this, on the second reboot,
+>> virt_acpi_build_update() is called with a NULL "build_state" and
+>> returns without updating the ACPI tables. This seems to be 
+>> upsetting the firmware.
+>>
+>> To fix this, don't change the callback_opaque in fw_cfg_modify_bytes_read().
+>>
+>> Reported-by: chenxiang <chenxiang66@hisilicon.com>
+>> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+>> ---
+>> I am still not very convinced this is the root cause of the issue.
+>> Though it looks like setting callback_opaque to NULL while updating
+>> the file size is wrong, what puzzles me is that on the second reboot
+>> we don't have any ACPI table size changes and ideally firmware should
+>> see the updated tables from the first reboot itself.
+>>
+>> Please take a look and let me know.
+>>
+>> Thanks,
+>> Shameer
+>>
+>> ---
+>>  hw/nvram/fw_cfg.c | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
+>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+>> index d605f3f45a..dfe8404c01 100644
+>> --- a/hw/nvram/fw_cfg.c
+>> +++ b/hw/nvram/fw_cfg.c
+>> @@ -728,7 +728,6 @@ static void *fw_cfg_modify_bytes_read(FWCfgState *s, uint16_t key,
+>>      ptr = s->entries[arch][key].data;
+>>      s->entries[arch][key].data = data;
+>>      s->entries[arch][key].len = len;
+>> -    s->entries[arch][key].callback_opaque = NULL;
+>>      s->entries[arch][key].allow_write = false;
+>>  
+>>      return ptr;
+>>
+> 
+> I vaguely recall seeing the same issue report years ago (also in
+> relation to hot-adding NVDIMM). However, I have no capacity to
+> participate in the discussion. Making this remark just for clarity.
 
-https://gitlab.com/qemu-project/qemu/-/issues/1023
+The earlier report I've had in mind was from Shameer as well:
 
-I'm going to guess we will be OK because qemu-user doesn't run a
-kernel and therefore wouldn't normally touch %cr3.  Is there any other
-situation?  (Of course it would be better all round if that glaring
-bug could be fixed.)
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-p2v converts physical machines to virtual machines.  Boot with a
-live CD or over the network (PXE) and turn machines into KVM guests.
-http://libguestfs.org/virt-v2v
+http://mid.mail-archive.com/5FC3163CFD30C246ABAA99954A238FA83F3FB328@lhreml524-mbs.china.huawei.com
 
 
