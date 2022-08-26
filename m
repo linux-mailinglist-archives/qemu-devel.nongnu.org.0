@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDD35A315F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 23:50:44 +0200 (CEST)
-Received: from localhost ([::1]:60106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAB65A326F
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 01:15:48 +0200 (CEST)
+Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRhDt-00070K-V7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 17:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60012)
+	id 1oRiYE-0002ze-LM
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 19:15:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oRhBi-0005SQ-MS
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 17:48:26 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oRhBh-0003UE-1G
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 17:48:26 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id bu22so2899850wrb.3
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 14:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=0a30XM62Mh5A+82mfA74gQPx506RqpRI6F9PziL1DpY=;
- b=ZsIKw11RlJh1ldXiKDmMQFV12hJQ8UK/U/tdByrD3vXLFY/GqbkTODQl9pZk9iyZsM
- sUKnXuFLGlneKplxnqhz21xkK3xaceRkE24MvEw9rsQ0ZabDhBYt+SBgH9goqmagBSf9
- fDnbpBZWYaxfCaGPmyJPytsdfDe6rj5yWvi4j3tT9Ty1CPfWCOkXqxOqfVP0fY50175h
- pDT9AxpCvvT20OPbUl0Mkv+crdxki55myuXMUSj4JJBqEte0jYYIo9a03FtoY3STWaJU
- oQN+AsM0OaXm5hIQnhM49UkFN4r5ZWtpE86ZNm6mW87rDBg4dSxpG3s4Fg2j7arq6ncj
- 0/5g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oRiUp-0006K0-IM
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:12:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oRiUm-0007o8-2A
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 19:12:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661555530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=As2ZeU0wzMT4WOBdzNRkCUVG7sVj/g+E5RnIygpeOzs=;
+ b=Pk9hhwbYFUD+Jbp41+eNV+FoGYFppjCegkEfWJH+ZsKWG6V3flqipup0II7jQLmVo2/cBl
+ v9S5qZ785js2H2CquJXJ2o746IhSvJQGZgKvN1mEGJkT1aveE/SihTd1ZICbvRuN5K8Ni5
+ ddxIpIMjeBWTbNbO3ufpkJ4x2AF06Pg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-153-kX8yfGeDPOCOxViWSGH0_Q-1; Fri, 26 Aug 2022 19:12:08 -0400
+X-MC-Unique: kX8yfGeDPOCOxViWSGH0_Q-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ z20-20020a05640235d400b0043e1e74a495so1868991edc.11
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 16:12:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=0a30XM62Mh5A+82mfA74gQPx506RqpRI6F9PziL1DpY=;
- b=bzCUUyDgV8UH2Z2bsKtufBRoKG+j24+NOSlfSJkhsbz/WJ4aCUErZFE+7P5aoVB5Py
- mWCiSmD7uDTIsmZ+gdPXa2RsxAYcghG5bSXh6eK//YWsePcDhQeSqihSijK1qyknmhaH
- nk8vpXkKidS/Mj/sItjnJhojs53pjs8PWnnJ1pmFGB0R79sELPDBJG0bRCub49Z0fDYv
- 2UPHWIpu9dcEe9gxsmDd6UwP7QUxOBAyXsOOX0qiLB/FJbkscaPoJ5qnawD5JYrKLzzA
- 4JWd5pficWd3JMIHqIZyE4kvuHq7n2L7fGQ9k4TG5nW5cgsog6r9s8U6oA938dWwEpRo
- oo3g==
-X-Gm-Message-State: ACgBeo3+MevM7RsH5kh9iWQbNWeSUf4+kmMvKVULa0mT15yIp1YK8Ar5
- qLzhmjuC3IzxTbdZg7Cbs39zlA==
-X-Google-Smtp-Source: AA6agR4CjM6LiZccUhwB8J2oO0hrI56V0hZYCrgVVTS4OkV8bBC0NVXhpVTXjcjSb/HYIerUSxHaPA==
-X-Received: by 2002:adf:eb01:0:b0:225:294d:c9c6 with SMTP id
- s1-20020adfeb01000000b00225294dc9c6mr772626wrn.285.1661550503332; 
- Fri, 26 Aug 2022 14:48:23 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- g13-20020adfe40d000000b002252751629dsm738718wrm.24.2022.08.26.14.48.22
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=As2ZeU0wzMT4WOBdzNRkCUVG7sVj/g+E5RnIygpeOzs=;
+ b=F69xtgvMv7R1bPtRMjY7q0RIaV7mnkYkg74z+eygn0LgEK4gi43VAwrbkmSTDYZTqK
+ VakQ9SwcspuDW06+uGQRSngRsEhWG1I69Rl6yKT/5JOSXJmz09tKmlZPh4ZiUfY5d7/3
+ 4Z3uKw0wqmS3WsHeasAOPtERL22s//GF9eglbgtBBfbATMGfKF4w3OgqXRwi6xldIw5f
+ 9MWKO8E2IYkFf3YeKAJ6DQw4XuNQwy9xN2QV16Eb/S8diGmssXghDD+aWPYuOUuzttHn
+ YJZE9ODLsBQuCVa9gOJIGDysvNB09UBdSRHLTZwpvGDJousCIUpEjbuuJCqMwcvQ5yfn
+ On+A==
+X-Gm-Message-State: ACgBeo27F7i1HE2NB/SSjbBKtr2fe1IhfIFJ6PP0a140L6F90Nz1P8CH
+ BIQ6ICEoJUNqYKZKAPXq/mle8vaZruRoHK+bmxjXzstwGc0aZ9LMT+Hyy5JAmoJ9CuUf6NuFqbi
+ Jrn82d6uO83oHUSxQ6fUEHt1YkidQiN5QsXVbFsxtkRWwzff2xsw2bgRD18O12XPiDIA=
+X-Received: by 2002:a05:6402:2802:b0:43a:9098:55a0 with SMTP id
+ h2-20020a056402280200b0043a909855a0mr8348773ede.179.1661555527558; 
+ Fri, 26 Aug 2022 16:12:07 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR43y7RZIoXR5gyApS12/9jVMEY8sNn7XlfySB0J8buizp0+3hDdDGYUCFyFi2eEUvUNItSxDw==
+X-Received: by 2002:a05:6402:2802:b0:43a:9098:55a0 with SMTP id
+ h2-20020a056402280200b0043a909855a0mr8348755ede.179.1661555527159; 
+ Fri, 26 Aug 2022 16:12:07 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ d26-20020a170906305a00b007308812ce89sm1354998ejd.168.2022.08.26.16.12.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 14:48:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3E0EA1FFB7;
- Fri, 26 Aug 2022 22:48:22 +0100 (BST)
-References: <20220826172128.353798-1-alex.bennee@linaro.org>
- <20220826172128.353798-12-alex.bennee@linaro.org>
- <1c34e1b4-118a-29f1-d3c3-b62343d136f3@redhat.com>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH v1 11/25] tests/docker: remove amd64 qemu/debian10
- dependency
-Date: Fri, 26 Aug 2022 22:47:06 +0100
-In-reply-to: <1c34e1b4-118a-29f1-d3c3-b62343d136f3@redhat.com>
-Message-ID: <87ilmeptga.fsf@linaro.org>
+ Fri, 26 Aug 2022 16:12:06 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	paul@nowt.org
+Subject: [PATCH v2 00/23] target/i386: make most SSE helpers generic in the
+ vector size
+Date: Sat, 27 Aug 2022 01:11:41 +0200
+Message-Id: <20220826231204.201395-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,43 +97,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is the first half of Paul's series from last April, reorganized
+to have no occurrence of YMM_ONLY or SHIFT == 2---meaning it can be
+committed without much fuss, even without a plan for the implementation
+of AVX decoding.
 
-Thomas Huth <thuth@redhat.com> writes:
+In most cases this is done by using loops that apply the same code for
+all of MMX/SSE/AVX, and in fact this series removes basically all uses
+of XMM_ONLY in the code.
 
-> On 26/08/2022 19.21, Alex Benn=C3=A9e wrote:
->> We missed removing this dependency when we flattened the build.
->> Fixes 9e19fd7d4a (tests/docker: update debian-amd64 with lcitool)
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>   tests/docker/Makefile.include | 1 -
->>   1 file changed, 1 deletion(-)
->> diff --git a/tests/docker/Makefile.include
->> b/tests/docker/Makefile.include
->> index 5c9398bbc9..c3375f89c5 100644
->> --- a/tests/docker/Makefile.include
->> +++ b/tests/docker/Makefile.include
->> @@ -73,7 +73,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debi=
-an-bootstrap.docker
->>   # we don't run tests on intermediate images (used as base by another i=
-mage)
->>   DOCKER_PARTIAL_IMAGES :=3D debian10 debian11
->>   ifeq ($(HOST_ARCH),x86_64)
->> -docker-image-debian-amd64: docker-image-debian10
->>   DOCKER_PARTIAL_IMAGES +=3D debian-amd64-cross
->>   else
->>   docker-image-debian-amd64-cross: docker-image-debian10
->
-> What about the "DOCKER_PARTIAL_IMAGES +=3D debian-amd64" that comes
-> later in this file? Do we still need that line?
+In some cases AVX needs special-casing for the two 128-bit lanes and then
+this code is simply missing.  The missing helper code is only 10 lines
+though, so this _is_ the lion share of the work to adapt the existing
+helpers.
 
-Yes because this stops us using the image on non-x86 hosts. It's poorly
-named but I don't want to further complicate the Makefile while trying
-to simplify it ;-)
+The full work, with the AVX parts rebased on top of these, is at branch
+i386-avx of https://gitlab.com/bonzini/qemu.  The branch passes the
+tests that Paul had posted, while this reduced part passes the reduced
+SSE version.
 
->
->  Thomas
+Paolo
 
+v1->v2: get rid of XMM_ONLY
+	do not special case PMULHRW (yet)
+	remove dead macro for blend
+	do not copy table entries on the stack
+	remove AVXisms from sse_op_table rework
+	extract more code from the AVX patches
 
---=20
-Alex Benn=C3=A9e
+Based-on: <20220825164827.392942-1-pbonzini@redhat.com>
+
+Paolo Bonzini (6):
+  i386: do not use MOVL to move data between SSE registers
+  i386: formatting fixes
+  i386: check SSE table flags instead of hardcoding opcodes
+  i386: isolate MMX code more
+  i386: Add size suffix to vector FP helpers
+  i386: do not cast gen_helper_* function pointers
+
+Paul Brook (17):
+  i386: Add ZMM_OFFSET macro
+  i386: Rework sse_op_table1
+  i386: Rework sse_op_table6/7
+  i386: Move 3DNOW decoder
+  i386: Add CHECK_NO_VEX
+  i386: Rewrite vector shift helper
+  i386: Rewrite simple integer vector helpers
+  i386: Misc integer AVX helper prep
+  i386: Destructive vector helpers for AVX
+  i386: Floating point arithmetic helper AVX prep
+  i386: reimplement AVX comparison helpers
+  i386: Dot product AVX helper prep
+  i386: Destructive FP helpers for AVX
+  i386: Misc AVX helper prep
+  i386: Rewrite blendv helpers
+  i386: AVX pclmulqdq prep
+  i386: AVX+AES helpers prep
+
+ target/i386/ops_sse.h        | 1770 +++++++++++++++++-----------------
+ target/i386/ops_sse_header.h |   68 +-
+ target/i386/tcg/translate.c  |  831 +++++++++-------
+ 3 files changed, 1404 insertions(+), 1265 deletions(-)
+
+-- 
+2.37.1
+
 
