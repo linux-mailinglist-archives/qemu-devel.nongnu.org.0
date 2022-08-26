@@ -2,67 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773B85A270A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 13:47:29 +0200 (CEST)
-Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6335A270D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 13:48:03 +0200 (CEST)
+Received: from localhost ([::1]:49866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRXo7-0003fs-IU
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 07:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
+	id 1oRXog-0004Pk-JQ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 07:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oRXg9-0006eS-4Y
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:39:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20935)
+ (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
+ id 1oRXjP-0008E6-DL
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:42:36 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:49220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oRXg5-0001ZY-Ub
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:39:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661513947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QGQfiRXY1P7oSqFM0DZ3WGxhXMFrLt1ZWKqLPALdsJo=;
- b=EF0gqAcbrhZR8tCcXeCRRdZHx6zoC2Vy5HjrooYo9+362ZgWNHMVZoS2cHBC2jRjZ2VtbQ
- bBkCwf1eT3XwT4W1tramyUk6bk8itF+mx/++Q4cxJyNHuRuDjJzbko4CNuwTsQk4EurNiM
- a6dKFLdpyx39WkFMuTRC5ztnRdSxNvs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-RD5H3c87NlKGjxvY1MDg2A-1; Fri, 26 Aug 2022 07:39:04 -0400
-X-MC-Unique: RD5H3c87NlKGjxvY1MDg2A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11D1D3802B88;
- Fri, 26 Aug 2022 11:39:04 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7945492C3B;
- Fri, 26 Aug 2022 11:39:02 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
+ id 1oRXjK-0002CI-Un
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:42:33 -0400
+Received: from [192.168.16.18] (helo=mikewrk.sw.ru)
+ by relay.virtuozzo.com with esmtp (Exim 4.95)
+ (envelope-from <michael.labiuk@virtuozzo.com>) id 1oRXhG-000LyA-Kh;
+ Fri, 26 Aug 2022 13:41:58 +0200
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
- defualt
-Date: Fri, 26 Aug 2022 12:39:00 +0100
-Message-Id: <20220826113900.794046-1-berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
+Subject: [PATCH] tests/x86: Add 'q35' machine type to hotplug tests
+Date: Fri, 26 Aug 2022 14:41:59 +0300
+Message-Id: <20220826114159.6370-1-michael.labiuk@virtuozzo.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=130.117.225.111;
+ envelope-from=michael.labiuk@virtuozzo.com; helo=relay.virtuozzo.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,73 +54,446 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Michael Labiuk <michael.labiuk@virtuozzo.com>
+From:  Michael Labiuk via <qemu-devel@nongnu.org>
 
-The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
-possible. Historically this hasn't been an issue since it was rare for
-OS distros to build with a higher mandatory CPU baseline.
+Add pci bridge setting to run hotplug tests on q35 machine type.
+Hotplug tests was bounded to 'pc' machine type by commit 7b172333f1b
 
-With RHEL-9, however, the entire distro is built for the x86_64-v2 ABI
-baseline:
-
-  https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level
-
-It is likely that other distros may take similar steps in the not too
-distant future. For example, it has been suggested for Fedora on a
-number of occassions.
-
-This new baseline is not compatible with the qemu64 CPU model though.
-While it is possible to pass a '-cpu xxx' flag to qemu-x86_64, the
-usage of QEMU doesn't always allow for this. For example, the args
-are typically controlled via binfmt rules that the user has no ability
-to change. This impacts users who are trying to use podman on aarch64
-platforms, to run containers with x86_64 content. There's no arg to
-podman that can be used to change the qemu-x86_64 args, and a non-root
-user of podman can not change binfmt rules without elevating privileges:
-
-  https://github.com/containers/podman/issues/15456#issuecomment-1228210973
-
-Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
-compatibility with binaries it is likely to encounter in the wild,
-and not likely to have a significant downside for existing usage.
-
-Most other architectures already use an 'any' CPU model, which is
-often mapped to 'max' (or similar) already, rather than the oldest
-possible CPU model.
-
-For the sake of consistency the 'i386' architecture is also changed
-from using 'qemu32' to 'max'.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
 ---
- linux-user/i386/target_elf.h   | 2 +-
- linux-user/x86_64/target_elf.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/device-plug-test.c |  26 ++++++
+ tests/qtest/drive_del-test.c   | 111 +++++++++++++++++++++++++
+ tests/qtest/hd-geo-test.c      | 148 +++++++++++++++++++++++++++++++++
+ tests/qtest/ivshmem-test.c     |  30 +++++++
+ 4 files changed, 315 insertions(+)
 
-diff --git a/linux-user/i386/target_elf.h b/linux-user/i386/target_elf.h
-index 1c6142e7da..238a9aba73 100644
---- a/linux-user/i386/target_elf.h
-+++ b/linux-user/i386/target_elf.h
-@@ -9,6 +9,6 @@
- #define I386_TARGET_ELF_H
- static inline const char *cpu_get_model(uint32_t eflags)
- {
--    return "qemu32";
-+    return "max";
+diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+index 2e3137843e..2f07b37ba1 100644
+--- a/tests/qtest/device-plug-test.c
++++ b/tests/qtest/device-plug-test.c
+@@ -165,6 +165,26 @@ static void test_spapr_phb_unplug_request(void)
+     qtest_quit(qtest);
  }
- #endif
-diff --git a/linux-user/x86_64/target_elf.h b/linux-user/x86_64/target_elf.h
-index 7b76a90de8..3f628f8d66 100644
---- a/linux-user/x86_64/target_elf.h
-+++ b/linux-user/x86_64/target_elf.h
-@@ -9,6 +9,6 @@
- #define X86_64_TARGET_ELF_H
- static inline const char *cpu_get_model(uint32_t eflags)
+ 
++static void test_q35_pci_unplug_request(void)
++{
++
++    QTestState *qtest = qtest_initf("-machine q35 "
++                                    "-device pcie-root-port,id=p1 "
++                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
++                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
++
++    /*
++     * Request device removal. As the guest is not running, the request won't
++     * be processed. However during system reset, the removal will be
++     * handled, removing the device.
++     */
++    device_del(qtest, "dev0");
++    system_reset(qtest);
++    wait_device_deleted_event(qtest, "dev0");
++
++    qtest_quit(qtest);
++}
++
+ int main(int argc, char **argv)
  {
--    return "qemu64";
-+    return "max";
+     const char *arch = qtest_get_arch();
+@@ -195,5 +215,11 @@ int main(int argc, char **argv)
+                        test_spapr_phb_unplug_request);
+     }
+ 
++    if (!strcmp(arch, "x86_64")) {
++        qtest_add_func("/device-plug/q35-pci-unplug-request",
++                   test_q35_pci_unplug_request);
++
++    }
++
+     return g_test_run();
  }
- #endif
+diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
+index 5e6d58b4dd..3a2ddecf22 100644
+--- a/tests/qtest/drive_del-test.c
++++ b/tests/qtest/drive_del-test.c
+@@ -258,6 +258,27 @@ static void test_cli_device_del(void)
+     qtest_quit(qts);
+ }
+ 
++static void test_cli_device_del_q35(void)
++{
++    QTestState *qts;
++
++    /*
++     * -drive/-device and device_del.  Start with a drive used by a
++     * device that unplugs after reset.
++     */
++    qts = qtest_initf("-drive if=none,id=drive0,file=null-co://,"
++                      "file.read-zeroes=on,format=raw "
++                      "-machine q35 -device pcie-root-port,id=p1 "
++                      "-device pcie-pci-bridge,bus=p1,id=b1 "
++                      "-device virtio-blk-%s,drive=drive0,bus=b1,id=dev0",
++                      qvirtio_get_dev_type());
++
++    device_del(qts, true);
++    g_assert(!has_drive(qts));
++
++    qtest_quit(qts);
++}
++
+ static void test_empty_device_del(void)
+ {
+     QTestState *qts;
+@@ -294,6 +315,45 @@ static void test_device_add_and_del(void)
+     qtest_quit(qts);
+ }
+ 
++static void device_add_q35(QTestState *qts)
++{
++    QDict *response;
++    char driver[32];
++    snprintf(driver, sizeof(driver), "virtio-blk-%s",
++             qvirtio_get_dev_type());
++
++    response = qtest_qmp(qts, "{'execute': 'device_add',"
++                              " 'arguments': {"
++                              "   'driver': %s,"
++                              "   'drive': 'drive0',"
++                              "   'id': 'dev0',"
++                              "   'bus': 'b1'"
++                              "}}", driver);
++    g_assert(response);
++    g_assert(qdict_haskey(response, "return"));
++    qobject_unref(response);
++}
++
++static void test_device_add_and_del_q35(void)
++{
++    QTestState *qts;
++
++    /*
++     * -drive/device_add and device_del.  Start with a drive used by a
++     * device that unplugs after reset.
++     */
++    qts = qtest_initf("-machine q35 -device pcie-root-port,id=p1 "
++                     "-device pcie-pci-bridge,bus=p1,id=b1 "
++                     "-drive if=none,id=drive0,file=null-co://,"
++                     "file.read-zeroes=on,format=raw");
++
++    device_add_q35(qts);
++    device_del(qts, true);
++    g_assert(!has_drive(qts));
++
++    qtest_quit(qts);
++}
++
+ static void test_drive_add_device_add_and_del(void)
+ {
+     QTestState *qts;
+@@ -318,6 +378,25 @@ static void test_drive_add_device_add_and_del(void)
+     qtest_quit(qts);
+ }
+ 
++static void test_drive_add_device_add_and_del_q35(void)
++{
++    QTestState *qts;
++
++    qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
++                     "-device pcie-pci-bridge,bus=p1,id=b1");
++
++    /*
++     * drive_add/device_add and device_del.  The drive is used by a
++     * device that unplugs after reset.
++     */
++    drive_add_with_media(qts);
++    device_add_q35(qts);
++    device_del(qts, true);
++    g_assert(!has_drive(qts));
++
++    qtest_quit(qts);
++}
++
+ static void test_blockdev_add_device_add_and_del(void)
+ {
+     QTestState *qts;
+@@ -342,8 +421,29 @@ static void test_blockdev_add_device_add_and_del(void)
+     qtest_quit(qts);
+ }
+ 
++static void test_blockdev_add_device_add_and_del_q35(void)
++{
++    QTestState *qts;
++
++    qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
++                     "-device pcie-pci-bridge,bus=p1,id=b1");
++
++    /*
++     * blockdev_add/device_add and device_del.  The it drive is used by a
++     * device that unplugs after reset, but it doesn't go away.
++     */
++    blockdev_add_with_media(qts);
++    device_add_q35(qts);
++    device_del(qts, true);
++    g_assert(has_blockdev(qts));
++
++    qtest_quit(qts);
++}
++
+ int main(int argc, char **argv)
+ {
++    const char *arch = qtest_get_arch();
++
+     g_test_init(&argc, &argv, NULL);
+ 
+     qtest_add_func("/drive_del/without-dev", test_drive_without_dev);
+@@ -363,6 +463,17 @@ int main(int argc, char **argv)
+                        test_empty_device_del);
+         qtest_add_func("/device_del/blockdev",
+                        test_blockdev_add_device_add_and_del);
++
++        if (!strcmp(arch, "x86_64")) {
++            qtest_add_func("/device_del/drive/cli_device_q35",
++                           test_cli_device_del_q35);
++            qtest_add_func("/device_del/drive/device_add_q35",
++                           test_device_add_and_del_q35);
++            qtest_add_func("/device_del/drive/drive_add_device_add_q35",
++                           test_drive_add_device_add_and_del_q35);
++            qtest_add_func("/device_del/blockdev_q35",
++                           test_blockdev_add_device_add_and_del_q35);
++        }
+     }
+ 
+     return g_test_run();
+diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
+index 413cf964c0..256450729f 100644
+--- a/tests/qtest/hd-geo-test.c
++++ b/tests/qtest/hd-geo-test.c
+@@ -874,6 +874,78 @@ static void test_override_scsi_hot_unplug(void)
+     g_free(args);
+ }
+ 
++static void test_override_scsi_hot_unplug_q35(void)
++{
++    QTestState *qts;
++    char *joined_args;
++    QFWCFG *fw_cfg;
++    QDict *response;
++    int i;
++    TestArgs *args = create_args();
++    CHSResult expected[] = {
++        {
++            "/pci@i0cf8/pci-bridge@1/pci-bridge@0/scsi@2/channel@0/disk@0,0",
++            {10000, 120, 30}
++        },
++        {
++            "/pci@i0cf8/pci-bridge@1/pci-bridge@0/scsi@2/channel@0/disk@1,0",
++            {20, 20, 20}
++        },
++        {NULL, {0, 0, 0} }
++    };
++    CHSResult expected2[] = {
++        {
++            "/pci@i0cf8/pci-bridge@1/pci-bridge@0/scsi@2/channel@0/disk@1,0",
++            {20, 20, 20}
++        },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_scsi_controller(args, "virtio-scsi-pci", "b1", 2);
++    add_scsi_disk(args, 0, 0, 0, 0, 0, 10000, 120, 30);
++    add_scsi_disk(args, 1, 0, 0, 1, 0, 20, 20, 20);
++
++    joined_args = g_strjoinv(" ", args->argv);
++
++    qts = qtest_initf("-device pcie-root-port,id=p0 "
++                      "-device pcie-pci-bridge,bus=p0,id=b1 "
++                      "-machine q35 %s", joined_args);
++    fw_cfg = pc_fw_cfg_init(qts);
++
++    read_bootdevices(fw_cfg, expected);
++
++    /* unplug device an restart */
++    response = qtest_qmp(qts,
++                         "{ 'execute': 'device_del',"
++                         "  'arguments': {'id': 'scsi-disk0' }}");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++    response = qtest_qmp(qts,
++                         "{ 'execute': 'system_reset', 'arguments': { }}");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++
++    qtest_qmp_eventwait(qts, "RESET");
++
++    read_bootdevices(fw_cfg, expected2);
++
++    g_free(joined_args);
++    qtest_quit(qts);
++
++    g_free(fw_cfg);
++
++    for (i = 0; i < args->n_drives; i++) {
++        unlink(args->drives[i]);
++        free(args->drives[i]);
++    }
++    g_free(args->drives);
++    g_strfreev(args->argv);
++    g_free(args);
++}
++
+ static void test_override_virtio_hot_unplug(void)
+ {
+     QTestState *qts;
+@@ -934,6 +1006,77 @@ static void test_override_virtio_hot_unplug(void)
+     g_free(args);
+ }
+ 
++static void test_override_virtio_hot_unplug_q35(void)
++{
++    QTestState *qts;
++    char *joined_args;
++    QFWCFG *fw_cfg;
++    QDict *response;
++    int i;
++    TestArgs *args = create_args();
++    CHSResult expected[] = {
++        {
++            "/pci@i0cf8/pci-bridge@2/pci-bridge@0/scsi@2/disk@0,0",
++            {10000, 120, 30}
++        },
++        {
++            "/pci@i0cf8/pci-bridge@2/pci-bridge@0/scsi@3/disk@0,0",
++            {20, 20, 20}
++        },
++        {NULL, {0, 0, 0} }
++    };
++    CHSResult expected2[] = {
++        {
++            "/pci@i0cf8/pci-bridge@2/pci-bridge@0/scsi@3/disk@0,0",
++            {20, 20, 20}
++        },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_virtio_disk(args, 0, "b1", 2, 10000, 120, 30);
++    add_virtio_disk(args, 1, "b1", 3, 20, 20, 20);
++
++    joined_args = g_strjoinv(" ", args->argv);
++
++    qts = qtest_initf("-device pcie-root-port,id=p0 "
++                      "-device pcie-pci-bridge,bus=p0,id=b1 "
++                      "-machine pc %s", joined_args);
++    fw_cfg = pc_fw_cfg_init(qts);
++
++    read_bootdevices(fw_cfg, expected);
++
++    /* unplug device an restart */
++    response = qtest_qmp(qts,
++                         "{ 'execute': 'device_del',"
++                         "  'arguments': {'id': 'virtio-disk0' }}");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++    response = qtest_qmp(qts,
++                         "{ 'execute': 'system_reset', 'arguments': { }}");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++
++    qtest_qmp_eventwait(qts, "RESET");
++
++    read_bootdevices(fw_cfg, expected2);
++
++    g_free(joined_args);
++    qtest_quit(qts);
++
++    g_free(fw_cfg);
++
++    for (i = 0; i < args->n_drives; i++) {
++        unlink(args->drives[i]);
++        free(args->drives[i]);
++    }
++    g_free(args->drives);
++    g_strfreev(args->argv);
++    g_free(args);
++}
++
+ int main(int argc, char **argv)
+ {
+     Backend i;
+@@ -974,8 +1117,13 @@ int main(int argc, char **argv)
+         qtest_add_func("hd-geo/override/zero_chs", test_override_zero_chs);
+         qtest_add_func("hd-geo/override/scsi_hot_unplug",
+                        test_override_scsi_hot_unplug);
++        qtest_add_func("hd-geo/override/scsi_hot_unplug_q35",
++                       test_override_scsi_hot_unplug_q35);
+         qtest_add_func("hd-geo/override/virtio_hot_unplug",
+                        test_override_virtio_hot_unplug);
++        qtest_add_func("hd-geo/override/virtio_hot_unplug_q35",
++                       test_override_virtio_hot_unplug_q35);
++
+     } else {
+         g_test_message("QTEST_QEMU_IMG not set or qemu-img missing; "
+                        "skipping hd-geo/override/* tests");
+diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
+index e23a97fa8e..c4ca7efc62 100644
+--- a/tests/qtest/ivshmem-test.c
++++ b/tests/qtest/ivshmem-test.c
+@@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
+     close(thread.pipe[0]);
+ }
+ 
++static void device_del(QTestState *qtest, const char *id)
++{
++    QDict *resp;
++
++    resp = qtest_qmp(qtest,
++                     "{'execute': 'device_del',"
++                     " 'arguments': { 'id': %s } }", id);
++
++    g_assert(qdict_haskey(resp, "return"));
++    qobject_unref(resp);
++}
++
++static void test_ivshmem_hotplug_q35(void)
++{
++    QTestState *qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1 "
++                                 "-device pcie-root-port,id=p1 "
++                                 "-device pcie-pci-bridge,bus=p1,id=b1 "
++                                 "-machine q35");
++
++    qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
++                         "{'memdev': 'mb1', 'bus': 'b1'}");
++    device_del(qts, "iv1");
++
++    qtest_quit(qts);
++}
++
+ #define PCI_SLOT_HP             0x06
+ 
+ static void test_ivshmem_hotplug(void)
+@@ -469,6 +495,7 @@ int main(int argc, char **argv)
+ {
+     int ret, fd;
+     gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
++    const char *arch = qtest_get_arch();
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+@@ -494,6 +521,9 @@ int main(int argc, char **argv)
+         qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
+         qtest_add_func("/ivshmem/server", test_ivshmem_server);
+     }
++    if (!strcmp(arch, "x86_64")) {
++        qtest_add_func("/ivshmem/hotplug-q35", test_ivshmem_hotplug_q35);
++    }
+ 
+ out:
+     ret = g_test_run();
 -- 
-2.37.2
+2.34.1
 
 
