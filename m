@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9BD5A2A4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:04:48 +0200 (CEST)
-Received: from localhost ([::1]:38052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7DD5A2B11
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:25:11 +0200 (CEST)
+Received: from localhost ([::1]:44118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRat5-0004oC-UJ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52460)
+	id 1oRbCn-0003pM-35
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:25:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oRaOh-0004G7-Jp; Fri, 26 Aug 2022 10:33:24 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:48202)
+ (Exim 4.90_1)
+ (envelope-from <prvs=230e0beed=ross.lagerwall@citrix.com>)
+ id 1oRaUv-0001zx-5g
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:39:49 -0400
+Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:9262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oRaOe-0007BV-Is; Fri, 26 Aug 2022 10:33:23 -0400
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 2776B2E14B3;
- Fri, 26 Aug 2022 17:33:13 +0300 (MSK)
-Received: from d-tatianin-nix.yandex-team.ru (unknown
- [2a02:6b8:b081:b581::1:d])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 7Ht2PirWaX-XCOqxXUD; Fri, 26 Aug 2022 17:33:12 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1661524392; bh=jXiXxAHhxmj/hJLYBXAZVWU0LYyvY8VgGKiX7Bv4ipo=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=PvgkOlqcaRfcDkPCVqFyQezK0cgPmg2VIw5PSKsZdsvCZW7zhZf4v1J7IuJljt82e
- zR++kEyWES84IWQkFSfRCDx7o0ZLmteeLEkAzg6oaEn3P9pYjmkf+ePVSQsYo28Abh
- mW9brsEP8XwOHEyg71OXSmuNUVeCaLb7lN6wWIMo=
-Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
- raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
- jasowang@redhat.com, d-tatianin@yandex-team.ru
-Subject: [PATCH v2 8/8] vhost-user-blk: dynamically resize config space based
- on features
-Date: Fri, 26 Aug 2022 17:32:48 +0300
-Message-Id: <20220826143248.580939-9-d-tatianin@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220826143248.580939-1-d-tatianin@yandex-team.ru>
-References: <20220826143248.580939-1-d-tatianin@yandex-team.ru>
+ (Exim 4.90_1)
+ (envelope-from <prvs=230e0beed=ross.lagerwall@citrix.com>)
+ id 1oRaUc-0008Jn-6m
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:39:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1661524770;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=qOHz7UwiXZ4COUOR8BPF1+HdCeBnln/qDcLQAxAw3J4=;
+ b=eVQqb9kHx/xOzgQ1FYEeE2AwfAeV3ityOHPhqH2ES0Jm2+2hj8aI89h1
+ CERRdFb8y+36Rj/IG+md0JIKyTNzGpkf43Y3/DFkcVAyXk1kThB7QWNC2
+ etM3Lt01niJ2E0qxetpw0zDFm8e+/RpavzzeWwxe8wexZRlpB9d3QRlzH A=;
+Authentication-Results: esa6.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 2.7
+X-MesageID: 78787761
+X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:P9KyL6PRwz92HoDvrR35l8FynXyQoLVcMsEvi/4bfWQNrUoi0D0Ay
+ 2cXWmqOb/+Ka2P1ett0boq0o0gHsJWAyNY2Swto+SlhQUwRpJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdleF+lH3dOCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kqsyj5UAbeKRWmthg
+ vuv5ZyEULOZ82QsaDhMu/jd8EkHUMna41v0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ woU5Ojklo9x105F5uKNyt4XQGVTKlLhFVHmZk5tc7qjmnB/Shkaic7XAha+hXB/0F1ll/gpo
+ DlEWAfZpQ0BZsUgk8xFO/VU/r0X0QSrN9YrLFDm2fF/wXEqfFP879hRBmYnEbce0dwtDDpfy
+ eM8Nj0CO0Xra+KemNpXS8Fpj8UnasLqIJkeqjdryjSx4fQOGM6ZBf+QvJkBgWl21psm8fX2P
+ qL1bRJ1aw/bJRlGNVoNF5s6mM+jh2Xlci0eo1WQzUYyyzeDk1wuj+a0WDbTUvm1RepHwhy+n
+ UGFwHzlXAwRNuCdyRPQpxpAgceQxHimCer+DoaQ7/NvnRify3IeDDUQUl20p+T/jVSxM/pEN
+ 0Ea8ywkhawz8lG7CMf7UgH+oXSB+BUbXrJt//YSsV/XjPCOukDAWzZCHmUphMEaWNEeVRAH6
+ VWujv/TAxdV6rDOWE6C0qmZombnUcQKFlPudRPoXCNcvYe6/NFv1k+XJjpwOPXr14OoQFkc1
+ xjP9XFj3OtL0Kbnwo3hpTj6bySQSo8lp+LfziHeRSqb4wxwf+ZJjKT4uAGAvZ6swGt0J2RtX
+ UToeODEtYji9bnXyESwrBwlRdlFHcqtPjzGmkJIFJI87Tmr8HPLVdkOvmgieR02a5ZUIWOBj
+ KrvVeR5tfdu0IaCN/crM+pd9exxpUQfKTgVfq+NNYcfCnSAXASG4DtvdSat4owZq2B1yPlXB
+ HtuWZzzZZrsIfg4kWHeqiZ0+eND+x3SMkuIFcyhk0n4iub2ibz8Ye5tDWZip9sRtMusyDg5O
+ f4FXydW432ziNHDXxQ=
+IronPort-HdrOrdr: A9a23:g4QDn6pOm3UCziQ1we6xDgoaV5oleYIsimQD101hICG8cqSj9v
+ xG+85rsiMc6QxhIU3I9urwW5VoLUmyyXcX2/h0AV7BZniFhILAFugLhuGOrwEIcxeOkNK1vp
+ 0BT0ERMrPN5CBB/KPH3DU=
+X-IronPort-AV: E=Sophos;i="5.93,265,1654574400"; d="scan'208";a="78787761"
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+CC: <qemu-devel@nongnu.org>, Ross Lagerwall <ross.lagerwall@citrix.com>
+Subject: [PATCH] tpm_crb: Avoid backend startup just before shutdown under Xen
+Date: Fri, 26 Aug 2022 15:38:41 +0100
+Message-ID: <20220826143841.1515326-1-ross.lagerwall@citrix.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.71.155.175;
+ envelope-from=prvs=230e0beed=ross.lagerwall@citrix.com;
+ helo=esa6.hc3370-68.iphmx.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,105 +89,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Ross Lagerwall <ross.lagerwall@citrix.com>
+From:  Ross Lagerwall via <qemu-devel@nongnu.org>
 
-Make vhost-user-blk backwards compatible when migrating from older VMs
-running with modern features turned off, the same way it was done for
-virtio-blk in 20764be0421c ("virtio-blk: set config size depending on the features enabled")
+When running under Xen and the guest reboots, it boots into a new domain
+with a new QEMU process (and a new swtpm process if using the emulator
+backend). The existing reset function is triggered just before the old
+QEMU process exists which causes QEMU to startup the TPM backend and
+then immediately shut it down. This is probably harmless but when using
+the emulated backend, it wastes CPU and IO time reloading state, etc.
 
-It's currently impossible to migrate from an older VM with
-vhost-user-blk (with disable-legacy=off) because of errors like this:
+Fix this by calling the reset function directly from realize() when
+running under Xen. During a reboot, this will be called by the QEMU
+process for the new domain.
 
-qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10 read: 41 device: 1 cmask: ff wmask: 80 w1cmask:0
-qemu-system-x86_64: Failed to load PCIDevice:config
-qemu-system-x86_64: Failed to load virtio-blk:virtio
-qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:05.0:00.0:02.0/virtio-blk'
-qemu-system-x86_64: load of migration failed: Invalid argument
-
-This is caused by the newer (destination) VM requiring a bigger BAR0
-alignment because it has to cover a bigger configuration space, which
-isn't actually needed since those additional config fields are not
-active (write-zeroes/discard).
-
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
+Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 ---
- hw/block/vhost-user-blk.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 0d916edefa..8dd063eb96 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -23,6 +23,7 @@
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-+#include "hw/virtio/virtio-blk-common.h"
- #include "hw/virtio/vhost.h"
- #include "hw/virtio/vhost-user-blk.h"
- #include "hw/virtio/virtio.h"
-@@ -63,7 +64,7 @@ static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     /* Our num_queues overrides the device backend */
-     virtio_stw_p(vdev, &s->blkcfg.num_queues, s->num_queues);
+This conditional logic is ugly. Is there a cleaner way of doing this?
+
+ hw/tpm/tpm_crb.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index 67db594c48..ea930da545 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -26,6 +26,7 @@
+ #include "sysemu/tpm_backend.h"
+ #include "sysemu/tpm_util.h"
+ #include "sysemu/reset.h"
++#include "sysemu/xen.h"
+ #include "tpm_prop.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
+@@ -308,7 +309,11 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+                      TPM_PPI_ADDR_BASE, OBJECT(s));
+     }
  
--    memcpy(config, &s->blkcfg, sizeof(struct virtio_blk_config));
-+    memcpy(config, &s->blkcfg, vdev->config_len);
+-    qemu_register_reset(tpm_crb_reset, dev);
++    if (xen_enabled()) {
++        tpm_crb_reset(dev);
++    } else {
++        qemu_register_reset(tpm_crb_reset, dev);
++    }
  }
  
- static void vhost_user_blk_set_config(VirtIODevice *vdev, const uint8_t *config)
-@@ -92,12 +93,12 @@ static int vhost_user_blk_handle_config_change(struct vhost_dev *dev)
- {
-     int ret;
-     struct virtio_blk_config blkcfg;
-+    VirtIODevice *vdev = dev->vdev;
-     VHostUserBlk *s = VHOST_USER_BLK(dev->vdev);
-     Error *local_err = NULL;
- 
-     ret = vhost_dev_get_config(dev, (uint8_t *)&blkcfg,
--                               sizeof(struct virtio_blk_config),
--                               &local_err);
-+                               vdev->config_len, &local_err);
-     if (ret < 0) {
-         error_report_err(local_err);
-         return ret;
-@@ -106,7 +107,7 @@ static int vhost_user_blk_handle_config_change(struct vhost_dev *dev)
-     /* valid for resize only */
-     if (blkcfg.capacity != s->blkcfg.capacity) {
-         s->blkcfg.capacity = blkcfg.capacity;
--        memcpy(dev->vdev->config, &s->blkcfg, sizeof(struct virtio_blk_config));
-+        memcpy(dev->vdev->config, &s->blkcfg, vdev->config_len);
-         virtio_notify_config(dev->vdev);
-     }
- 
-@@ -442,7 +443,7 @@ static int vhost_user_blk_realize_connect(VHostUserBlk *s, Error **errp)
-     assert(s->connected);
- 
-     ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
--                               sizeof(struct virtio_blk_config), errp);
-+                               s->parent_obj.config_len, errp);
-     if (ret < 0) {
-         qemu_chr_fe_disconnect(&s->chardev);
-         vhost_dev_cleanup(&s->dev);
-@@ -457,6 +458,7 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-     ERRP_GUARD();
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
-+    size_t config_size;
-     int retries;
-     int i, ret;
- 
-@@ -487,8 +489,9 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, VIRTIO_ID_BLOCK,
--                sizeof(struct virtio_blk_config));
-+    config_size = virtio_get_config_size(&virtio_blk_cfg_size_params,
-+                                         vdev->host_features);
-+    virtio_init(vdev, VIRTIO_ID_BLOCK, config_size);
- 
-     s->virtqs = g_new(VirtQueue *, s->num_queues);
-     for (i = 0; i < s->num_queues; i++) {
+ static void tpm_crb_class_init(ObjectClass *klass, void *data)
 -- 
-2.25.1
+2.31.1
 
 
