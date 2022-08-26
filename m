@@ -2,52 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A4F5A2C36
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 18:22:40 +0200 (CEST)
-Received: from localhost ([::1]:56508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BFC5A2C35
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 18:22:38 +0200 (CEST)
+Received: from localhost ([::1]:56506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRc6R-0002mr-4f
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 12:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59610)
+	id 1oRc6O-0002jx-0z
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 12:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
- id 1oRbqy-0003Op-Jy
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 12:06:48 -0400
-Received: from mail-m11877.qiye.163.com ([115.236.118.77]:28852)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oRbtq-0006F1-7Q
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 12:09:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
- id 1oRbqo-0005uO-0y
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 12:06:34 -0400
-Received: from localhost.localdomain (unknown
- [IPV6:240e:3b7:3279:340:7091:253c:dc45:b1e1])
- by mail-m11877.qiye.163.com (Hmail) with ESMTPA id 6B3314001AD;
- Sat, 27 Aug 2022 00:06:10 +0800 (CST)
-From: Ding Hui <dinghui@sangfor.com.cn>
-To: dmitry.fleytman@gmail.com,
-	jasowang@redhat.com
-Cc: qemu-devel@nongnu.org, georgmueller@gmx.net,
- Ding Hui <dinghui@sangfor.com.cn>
-Subject: [PATCH] e1000e: set RX desc status with DD flag in a separate
- operation
-Date: Sat, 27 Aug 2022 00:05:43 +0800
-Message-Id: <20220826160543.2120-1-dinghui@sangfor.com.cn>
-X-Mailer: git-send-email 2.17.1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCGR8fVh1JS0xMQx1KSB9KQlUTARMWGhIXJBQOD1
- lXWRgSC1lBWUlPSx5BSBlMQUhJTEJBSE9LQUxLQkpBSU5IGEEfGE9OQRlKHkpZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBw6Eio5LD0wGQEqAj09LRcT
- CQowCT1VSlVKTU1KTklCQkxKSkpDVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
- QVlJT0seQUgZTEFISUxCQUhPS0FMS0JKQUlOSBhBHxhPTkEZSh5KWVdZCAFZQU9KSkI3Bg++
-X-HM-Tid: 0a82dae757912eb3kusn6b3314001ad
-Received-SPF: pass client-ip=115.236.118.77;
- envelope-from=dinghui@sangfor.com.cn; helo=mail-m11877.qiye.163.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oRbtn-0006K2-4H
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 12:09:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661530172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LQ6XpvHQNUKBfbm9nqsdH5xFWwXs/utW2YgFeagOHxo=;
+ b=K7/bsXzhJi0fn/juvEvRUKOGOXIZ8/INZ0O9lJj9RJVXXNGsJRTgS02gl6lEW/DKDD0dxs
+ +k8qsswoSyNrcP1S1A5hJLrcLmToePYRPn22lc6aUDom0NhEHAeVCqdvUDvBmBgAf9+UJy
+ S92KYgGQsfs9wu5rCQtWPOIhCSnnrsM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-652-k4HFnt0RMPKFBO6xOe-yvQ-1; Fri, 26 Aug 2022 12:09:31 -0400
+X-MC-Unique: k4HFnt0RMPKFBO6xOe-yvQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CCCF7101AA52;
+ Fri, 26 Aug 2022 16:09:30 +0000 (UTC)
+Received: from DESKTOP-E7ACR7D.lan (unknown [10.39.192.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69E2440CF916;
+ Fri, 26 Aug 2022 16:09:29 +0000 (UTC)
+From: Alberto Faria <afaria@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alberto Faria <afaria@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] softmmu/physmem: Fix address of FlatView access in
+ address_space_(read|write)_cached_slow()
+Date: Fri, 26 Aug 2022 17:09:27 +0100
+Message-Id: <20220826160927.322797-1-afaria@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,91 +77,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like commit 034d00d48581 ("e1000: set RX descriptor status in
-a separate operation"), there is also same issue in e1000e, which
-would cause lost packets or stop sending packets to VM with DPDK.
+Apply cache->xlat to addr before passing it to
+flatview_(read|write)_continue(), to convert it from the
+MemoryRegionCache's address space to the FlatView's.
 
-Do similar fix in e1000e.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/402
-Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
+Fixes: 48564041a7 ("exec: reintroduce MemoryRegion caching")
+Co-Developed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Alberto Faria <afaria@redhat.com>
 ---
- hw/net/e1000e_core.c | 54 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 53 insertions(+), 1 deletion(-)
+ softmmu/physmem.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 208e3e0d79..b8038e4014 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -1364,6 +1364,58 @@ struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
-     }
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index dc3c3e5f2e..95d4c77cc3 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -3450,9 +3450,9 @@ address_space_read_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+     l = len;
+     mr = address_space_translate_cached(cache, addr, &addr1, &l, false,
+                                         MEMTXATTRS_UNSPECIFIED);
+-    return flatview_read_continue(cache->fv,
+-                                  addr, MEMTXATTRS_UNSPECIFIED, buf, len,
+-                                  addr1, l, mr);
++    return flatview_read_continue(cache->fv, cache->xlat + addr,
++                                  MEMTXATTRS_UNSPECIFIED, buf, len, addr1, l,
++                                  mr);
  }
  
-+static inline void
-+e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
-+                             uint8_t *desc, dma_addr_t len)
-+{
-+    PCIDevice *dev = core->owner;
-+
-+    if (e1000e_rx_use_legacy_descriptor(core)) {
-+        struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
-+        size_t offset = offsetof(struct e1000_rx_desc, status);
-+        typeof(d->status) status = d->status;
-+
-+        d->status &= ~E1000_RXD_STAT_DD;
-+        pci_dma_write(dev, addr, desc, len);
-+
-+        if (status & E1000_RXD_STAT_DD) {
-+            d->status = status;
-+            pci_dma_write(dev, addr + offset, &status, sizeof(status));
-+        }
-+    } else {
-+        if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
-+            union e1000_rx_desc_packet_split *d =
-+                (union e1000_rx_desc_packet_split *) desc;
-+            size_t offset = offsetof(union e1000_rx_desc_packet_split,
-+                wb.middle.status_error);
-+            typeof(d->wb.middle.status_error) status =
-+                d->wb.middle.status_error;
-+
-+            d->wb.middle.status_error &= ~E1000_RXD_STAT_DD;
-+            pci_dma_write(dev, addr, desc, len);
-+
-+            if (status & E1000_RXD_STAT_DD) {
-+                d->wb.middle.status_error = status;
-+                pci_dma_write(dev, addr + offset, &status, sizeof(status));
-+            }
-+        } else {
-+            union e1000_rx_desc_extended *d =
-+                (union e1000_rx_desc_extended *) desc;
-+            size_t offset = offsetof(union e1000_rx_desc_extended,
-+                wb.upper.status_error);
-+            typeof(d->wb.upper.status_error) status = d->wb.upper.status_error;
-+
-+            d->wb.upper.status_error &= ~E1000_RXD_STAT_DD;
-+            pci_dma_write(dev, addr, desc, len);
-+
-+            if (status & E1000_RXD_STAT_DD) {
-+                d->wb.upper.status_error = status;
-+                pci_dma_write(dev, addr + offset, &status, sizeof(status));
-+            }
-+        }
-+    }
-+}
-+
- typedef struct e1000e_ba_state_st {
-     uint16_t written[MAX_PS_BUFFERS];
-     uint8_t cur_idx;
-@@ -1600,7 +1652,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
+ /* Called from RCU critical section. address_space_write_cached uses this
+@@ -3468,9 +3468,9 @@ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+     l = len;
+     mr = address_space_translate_cached(cache, addr, &addr1, &l, true,
+                                         MEMTXATTRS_UNSPECIFIED);
+-    return flatview_write_continue(cache->fv,
+-                                   addr, MEMTXATTRS_UNSPECIFIED, buf, len,
+-                                   addr1, l, mr);
++    return flatview_write_continue(cache->fv, cache->xlat + addr,
++                                   MEMTXATTRS_UNSPECIFIED, buf, len, addr1, l,
++                                   mr);
+ }
  
-         e1000e_write_rx_descr(core, desc, is_last ? core->rx_pkt : NULL,
-                            rss_info, do_ps ? ps_hdr_len : 0, &bastate.written);
--        pci_dma_write(d, base, &desc, core->rx_desc_len);
-+        e1000e_pci_dma_write_rx_desc(core, base, desc, core->rx_desc_len);
- 
-         e1000e_ring_advance(core, rxi,
-                             core->rx_desc_len / E1000_MIN_RX_DESC_LEN);
+ #define ARG1_DECL                MemoryRegionCache *cache
 -- 
-2.17.1
+2.37.2
 
 
