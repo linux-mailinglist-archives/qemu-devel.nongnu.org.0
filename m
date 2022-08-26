@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186F65A1DEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 03:06:47 +0200 (CEST)
-Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0AC5A1DF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 03:07:31 +0200 (CEST)
+Received: from localhost ([::1]:60490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRNo5-00040z-JZ
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 21:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36160)
+	id 1oRNoo-0005Gr-BU
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 21:07:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRNj1-0000nF-3H
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 21:01:46 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35592)
+ id 1oRNkg-0001OY-Sp
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 21:03:17 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRNiy-0002Yr-VZ
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 21:01:30 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id r69so53515pgr.2
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 18:01:28 -0700 (PDT)
+ id 1oRNkc-0002kI-6w
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 21:03:13 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id c24so30515pgg.11
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 18:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=+L51IHu9mT7+2mWwxY5He3zUHx9YollQ+fftYAF+l5s=;
- b=CqElOC/zuj/SmZw0K1owXACJCLc+yHyH0l15wcsFg9SnAwTIspPcXJznD+eVancb2i
- ILQe3CeQ1cmD9YXykF4+ddBdI+Enx7IsjU7L4wGqLjrBvZIQhZNis+aZAIclLEoQwsSp
- HqDqAtW7z1CJ+ziol7ITiBEdoJxN350YofRWj7ijMeD22cM2sW7CiY4L++VVQdPO1eC7
- br0HnR5T6VzeK2zYmeOrjcaL+g2PcLbEPEpOynIHKkja0x2/bxf76kC7cu7md7D9DoLj
- nyqzFsvnWcq6IdrmuvhNYBBo+UPefl6XXXU8jgPuPcLT15G0KdQiIwq3hcpjpbSWcGlZ
- 3/8Q==
+ :from:to:cc; bh=5x6WxA9X/I0zxp34MXDSWB3IBALPUMZV+F9T9U7ks9c=;
+ b=P/xSDSz3j68B/PESoV+e7Sl7nNjOp2+IL6GYEyiV88V5VG9DaXTE5pW+fkDTHiH78t
+ g8uBoBZlsJx6m5+yTeGFTLSJ63gaaSYgtFm2LAkjerur6lMzZ3S2R2M297G0x7KpIeS5
+ qIDUIC7ZBJ7f0qjPu8vyI7cZK1NfyXDff6+sYwwYy4hHVgXyE8yszQXta9rOKyLRGy/O
+ bjuiFjbaqTwbFkRjHcPzOjY5EWaKh2dADhmn5VLkzkK1r9hipRwfo0Y2Vw1ujjGOcmkS
+ 6NbNWgsOttyC7vRmUYjVd1OMkGjoeSnBGaQagIUktQKC52x8NtN0qpU492lxw25d1Lb4
+ WwyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=+L51IHu9mT7+2mWwxY5He3zUHx9YollQ+fftYAF+l5s=;
- b=nSq0PPqA4Br3esY9LksFrO323vkTiZagBvz8VvdKi+n5imCKRJwXAIOKQRa8/iDw6T
- dEjGEitRzyjYyHslR2GOcoJFgSATxdHoVH8XmCB6h/QKSLA8ubLgf45w4XA+mLgIki0F
- m89NoIiRKHTKH4bQYvYEzrC8jT89kR+uR2DnXljcSSwLoGCWuQDwA2Kvy1KYOeKSVrlp
- BQqPg8WRZxsZQUSHBLpavIz7u+o8848E5kYJXimBg4FIILa2sTyqeW0RUHNBeImS6ttz
- fFUIpoOQXejXHPiY1I/R2dAXxklxFno6HOziG6RKoFk6ULbtsVu9EEAV7SRrGdXrNLVt
- 6uuA==
-X-Gm-Message-State: ACgBeo3qD+Ry2ZmcWQ4U1BUkZpLxhfc2a2uubcTcETcngme+4rChLCf1
- LWnt+MvGFQTLSYUDjv9oXIuLow==
-X-Google-Smtp-Source: AA6agR5cRAo7PNC4RfdcDnsMQn12qdtHUG9fPCnOqRLfn96AIRF4jMUUG7kvrGJcQ5+vYF/fstwA/w==
-X-Received: by 2002:a63:2cc2:0:b0:41c:681d:60d2 with SMTP id
- s185-20020a632cc2000000b0041c681d60d2mr1283195pgs.502.1661475687343; 
- Thu, 25 Aug 2022 18:01:27 -0700 (PDT)
+ bh=5x6WxA9X/I0zxp34MXDSWB3IBALPUMZV+F9T9U7ks9c=;
+ b=hFLytAP56E3Erx8cCPGoaWVII36J+HQDqkpvAnUTBmEyYiG/0wuWW8Mhau4KHf7EJ7
+ b6Hw+6Jzh8leCGwL2P87mMpM+3VUhki98nc5PPKugrZhlwEKPQiEsHGPM+3EAW8sEh3E
+ DVT1gi8R4Z8cdkKgJpfBNApVYg474dzUTvv31R5aPADK46HStArHXMws1kDnF1umykYN
+ KKXnWrIY/ymUXIiAOPGXuoXu4hmHUBleGgpfAsI67ct+dxZKcJyErfZelAZA0uMecdx6
+ sG9ZL2UdoKKidNIsoqcWUGaUTfScszB3eIP8R9yjPg54sEYHofp6byw3Py3cllRrVHb+
+ gkAg==
+X-Gm-Message-State: ACgBeo3VKhTAh/wTACbULseRaaGZkSJeate6LNqlsv8R5WPYjU8aCVhc
+ R9vivCLbZXwYpB1tVq8jD9IDug==
+X-Google-Smtp-Source: AA6agR5fYnO3L6eaO5xh3uyn/QDItqOvpAvobO37G65ABjEqdS7W47t8tF480fPPaBg4p9G39sVnYQ==
+X-Received: by 2002:a05:6a00:b53:b0:537:7f7:63a7 with SMTP id
+ p19-20020a056a000b5300b0053707f763a7mr1569359pfo.2.1661475788354; 
+ Thu, 25 Aug 2022 18:03:08 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:345c:4a6c:31b:1fca?
  ([2602:47:d49d:ec01:345c:4a6c:31b:1fca])
  by smtp.gmail.com with ESMTPSA id
- c16-20020a170902d49000b0016ee26224a4sm159565plg.305.2022.08.25.18.01.25
+ n27-20020aa7985b000000b005379e480445sm277732pfq.94.2022.08.25.18.03.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 18:01:25 -0700 (PDT)
-Message-ID: <4c20bbd1-724f-a73b-c67f-a1c90b267e6f@linaro.org>
-Date: Thu, 25 Aug 2022 18:01:24 -0700
+ Thu, 25 Aug 2022 18:03:07 -0700 (PDT)
+Message-ID: <da84c6e1-b404-5e76-4f25-343dc395ea55@linaro.org>
+Date: Thu, 25 Aug 2022 18:03:06 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 13/18] i386: Dot product AVX helper prep
+Subject: Re: [PATCH 14/18] i386: Destructive FP helpers for AVX
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220825221411.35122-1-pbonzini@redhat.com>
- <20220825221411.35122-14-pbonzini@redhat.com>
+ <20220825221411.35122-15-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220825221411.35122-14-pbonzini@redhat.com>
+In-Reply-To: <20220825221411.35122-15-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,17 +97,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 8/25/22 15:14, Paolo Bonzini wrote:
 > From: Paul Brook<paul@nowt.org>
 > 
-> Make the dpps and dppd helpers AVX-ready
-> 
-> I can't see any obvious reason why dppd shouldn't work on 256 bit ymm
-> registers, but both AMD and Intel agree that it's xmm only.
+> Perpare the horizontal atithmetic vector helpers for AVX
+> These currently use a dummy Reg typed variable to store the result then
+> assign the whole register.  This will cause 128 bit operations to corrupt
+> the upper half of the register, so replace it with explicit temporaries
+> and element assignments.
 > 
 > Signed-off-by: Paul Brook<paul@nowt.org>
-> Message-Id:<20220424220204.2493824-17-paul@nowt.org>
+> Message-Id:<20220424220204.2493824-18-paul@nowt.org>
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   target/i386/ops_sse.h | 80 ++++++++++++++++++++++++-------------------
->   1 file changed, 45 insertions(+), 35 deletions(-)
+>   target/i386/ops_sse.h | 68 +++++++++++++++++++++----------------------
+>   1 file changed, 34 insertions(+), 34 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
