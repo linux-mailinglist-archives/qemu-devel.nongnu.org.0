@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FBE5A2870
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 15:22:26 +0200 (CEST)
-Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CC85A287D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 15:26:11 +0200 (CEST)
+Received: from localhost ([::1]:59334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRZI1-0001tG-36
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 09:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56636)
+	id 1oRZLe-0008R2-5O
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 09:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oRZBN-0005xs-81
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:15:34 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:33590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oRZBL-000353-7C
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:15:32 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id d1so1038909qvs.0
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 06:15:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=gjaa6kbvxvTgPcX2OGhDh7BEsCnoKOdkkAnp9O1+Dvs=;
- b=ctGKFIisnkTgbWI5KsBg4/BgpgCXvQqh/J3wcwideSoJ2cHjfcIUVHT6HvFpU7vKA+
- bRuVIiXPqcQRo7y0hRts95Ol9cz4FpGJ6dGc8tIIh7W9fkdgOKyFJiNTcOiNCXlynP+g
- ZDlhsrUX7zf4Z3HQAMIVAusRs7Tl62xfrbMGykeVCo2Y/IqG7uVQQ0Wum4+bJVWcmmtk
- /VAacyac/ng90lq/L6upoTbl9v8p+9AYrDqqXDy58d675wQfYct5YM0E+ejriesd9LPF
- 0CFSmkICBjEAa4RWjYiPm4zJwsggwXSuq4dOTx3IzXsHEXeyr1/tym2NUrVo3u/g7VEf
- kouQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=gjaa6kbvxvTgPcX2OGhDh7BEsCnoKOdkkAnp9O1+Dvs=;
- b=xla/gJwqey+p+Euh4GvK1YBqMj4YoEygt8PZ9SRQbkHeja3yAVt3zSqFDhZPMTsRDF
- C3G6mTaQrtu74IeLYeSZJw/kXnrjOD1cfWkkzoUxntN900y3uouoCtLMzAgtNG5kBxeL
- ksilKLpMdQLK5GetjjhspylI5QeribBIXADd5PQapSnSzeC2jVq3GfQf1LvMEocXqIel
- VzxZVpeCCw1IvQoiIks6mtg4N/pU3v1QwmAOgJDPnOqe32Y+nd/aqzARPOR1M4VqhF1T
- y/y/TA2ovAVdLMM/QrdEWZc9AhuzgF67OynY+LyzlHTYiHnqSiiCqituJeO3nvoFNjrZ
- F41A==
-X-Gm-Message-State: ACgBeo08P0q7fB0uRRlKEAOYw51ZKTi8ZJ6lINP/7Mn4W3E0QkOCo4Jp
- GZhl2sKUYIKWIg5uPfZQIQNc3PnCB1M65gMCu6dNCvEv
-X-Google-Smtp-Source: AA6agR6aLRsPogaD8keEc0wOq/939eXqTVs6QE13H7kIYmHt4QbG2S+025gsxnZb+b60eoUdZ4b7XCffOt0tgBtHRqg=
-X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
- 15-20020a0c810f000000b0047b299a56d7mr7917825qvc.12.1661519729173; Fri, 26 Aug
- 2022 06:15:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oRZGx-0000Ux-N8
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:21:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34475)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oRZGt-0003ws-Nh
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 09:21:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661520071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Hglhvb1GzZiQ2wbk4X/GxmFuo8vZTtcckNCgZ4sr+sI=;
+ b=OnqqQpkkqNb49emss1SNyC3nL618nf+fecRNcKdpuZfVjhSoMmatFGim4iBue5+SOaQDKu
+ peYKtifHZZc8IR3Sq5Pjk8u7X5nK/OAKqNVeRbiIBR4qzCZSnTvK/x5Ie6w7P+QoywWZkp
+ biGZPaUL4mU7U2yPcZMyCjZK4KZNB9E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-222-C_P1gCI1MOeMxE-dLFSm7g-1; Fri, 26 Aug 2022 09:21:07 -0400
+X-MC-Unique: C_P1gCI1MOeMxE-dLFSm7g-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B388185A7A4;
+ Fri, 26 Aug 2022 13:21:07 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3A32492C3B;
+ Fri, 26 Aug 2022 13:21:06 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v11 00/21] job: replace AioContext lock with job_mutex
+Date: Fri, 26 Aug 2022 09:20:43 -0400
+Message-Id: <20220826132104.3678958-1-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-41-bmeng.cn@gmail.com>
- <CAMxuvawYwmo=-TicWwgn-JRB0u_9a04-Rx80TphOybNQ89Pf6Q@mail.gmail.com>
-In-Reply-To: <CAMxuvawYwmo=-TicWwgn-JRB0u_9a04-Rx80TphOybNQ89Pf6Q@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 26 Aug 2022 21:15:17 +0800
-Message-ID: <CAEUhbmV28TJGxf9JCrN-D8rDA47vgMJ4nO0gSGBcKcyEqPxEUA@mail.gmail.com>
-Subject: Re: [PATCH 40/51] chardev/char-file: Add FILE_SHARE_WRITE when
- openning the file for win32
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf36.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,53 +83,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 25, 2022 at 3:59 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Hi
->
-> On Wed, Aug 24, 2022 at 1:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> >
-> > The combination of GENERIC_WRITE and FILE_SHARE_READ options does
-> > not allow the same file to be opened again by CreateFile() from
-> > another QEMU process with the same options when the previous QEMU
-> > process still holds the file handle openned.
->
-> opened
->
-> >
-> > As per [1] we should add FILE_SHARE_WRITE to the share mode to allow
-> > such use case. This change makes the behavior be consisten with the
-> > POSIX platforms.
-> >
->
-> consistent
->
-> > [1] https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-=
-opening-files
-> >
-> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
->
->
-> What's the benefit to allow multiple processes write access to the
-> same file? It seems it could easily lead to corruption or unexpected
-> results.
+In this series, we want to remove the AioContext lock and instead
+use the already existent job_mutex to protect the job structures
+and list. This is part of the work to get rid of AioContext lock
+usage in favour of smaller granularity locks.
 
-This was triggered by running the test_multifd_tcp_cancel() case on
-windows, which cancels the migration, and launches another QEMU
-process to migrate with the same file opened for write. Chances are
-that the previous QEMU process does not quit before the new QEMU
-process runs hence the new one still holds the file handle that does
-not allow shared write permission then the new QEMU process will fail.
+In order to simplify reviewer's job, job lock/unlock functions and
+macros are added as empty prototypes (nop) in patch 1.
+They are converted to use the actual job mutex only in the last
+patch. In this way we can freely create locking sections
+without worrying about deadlocks with the aiocontext lock.
 
-> To me, it's the other way around, the POSIX implementation should
-> learn to lock the file opened for write..
->
+Patch 2 defines what fields in the job structure need protection.
+Patches 3-6 are in preparation to the job locks, moving functions
+from global to static and introducing helpers.
 
-Regards,
-Bin
+Patch 7-9 introduce the (nop) job lock into the job API and
+its users, and patches 10-13 categorize respectively locked and
+unlocked functions in the job API.
+
+Patches 14-17 take care of protecting job->aio_context, and
+finally patch 18 makes the prototypes in patch 1 use the
+job_mutex and removes all aiocontext lock at the same time.
+
+Tested this series by running unit tests, qemu-iotests and qtests
+(x86_64).
+
+---
+v11:
+* Apply Kevin and Vladimir feedbacks
+* job_set_aio_context: check coroutine is quiescent if job_is_completed
+* Rephrased commit message in patch 13
+
+v10:
+* protect job->status in unit tests
+* patch 11: change commit description and avoid using lock guard for a single
+function call
+* move patch 19 before patch 15
+
+v9:
+* merge patch 6 and 7 to 5.
+* additional "taken with job lock/unlock" added and propagated in callers
+* protect iostatus field of BlockJobs
+* move all blockjob patches torward the end of the serie
+
+v8:
+* reorganize patch ordering according with Vladimir proposal
+* minor nitpicks
+
+v7:
+* s/temporary/temporarly
+* double identical locking comment to the same function
+* patch 2: add "Protected by AioContext lock" to better categorize fields in
+  job.h
+* use same comment style in all function headers ("Just like {funct}, but
+  called between job_lock and job_unlock")
+
+v6:
+* patch 4 and 6 squashed with patch 19 (enable job lock and
+  reduce/remove AioContext lock)
+* patch 19: job_unref_locked read the aiocontext inside the
+  job lock.
+
+v5:
+* just restructured patches a little bit better, as there were
+  functions used before they were defined.
+* rebased on kwolf/block branch and API split serie
+
+v4:
+* move "protected by job_mutex" from patch 2 to 15, where the job_mutex is
+  actually added.
+* s/aio_co_enter/aio_co_schedule in job.c, and adjust tests accordingly.
+* remove job_get_aio_context, add job_set_aio_context. Use "fake rwlock"
+  to protect job->aiocontext.
+* get rid of useless getters method, namely:
+  job_get_status
+  job_get_pause_count
+  job_get_paused
+  job_get_busy
+  They are all used only by tests, and such getter is pretty useless.
+  Replace with job_lock(); assert(); job_unlock();
+* use job lock macros instead of job lock/unlock in unit tests.
+* convert also blockjob functions to have _locked
+* put the job_lock/unlock patches before the _locked ones
+* replace aio_co_enter in job.c and detect change of context
+
+v3:
+* add "_locked" suffix to the functions called under job_mutex lock
+* rename _job_lock in real_job_lock
+* job_mutex is now public, and drivers like monitor use it directly
+* introduce and protect job_get_aio_context
+* remove mirror-specific APIs and just use WITH_JOB_GUARD
+* more extensive use of WITH_JOB_GUARD and JOB_LOCK_GUARD
+
+RFC v2:
+* use JOB_LOCK_GUARD and WITH_JOB_LOCK_GUARD
+* mu(u)ltiple typos in commit messages
+* job API split patches are sent separately in another series
+* use of empty job_{lock/unlock} and JOB_LOCK_GUARD/WITH_JOB_LOCK_GUARD
+  to avoid deadlocks and simplify the reviewer job
+* move patch 11 (block_job_query: remove atomic read) as last
+
+Emanuele Giuseppe Esposito (20):
+  job.c: make job_mutex and job_lock/unlock() public
+  job.h: categorize fields in struct Job
+  job.c: API functions not used outside should be static
+  aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+  job.c: add job_lock/unlock while keeping job.h intact
+  job: move and update comments from blockjob.c
+  blockjob: introduce block_job  _locked() APIs
+  jobs: add job lock in find_* functions
+  jobs: use job locks also in the unit tests
+  block/mirror.c: use of job helpers in drivers
+  jobs: group together API calls under the same job lock
+  jobs: protect job.aio_context with BQL and job_mutex
+  blockjob.h: categorize fields in struct BlockJob
+  blockjob: rename notifier callbacks as _locked
+  blockjob: protect iostatus field in BlockJob struct
+  job.h: categorize JobDriver callbacks that need the AioContext lock
+  job.c: enable job lock/unlock and remove Aiocontext locks
+  block_job_query: remove atomic read
+  blockjob: remove unused functions
+  job: remove unused functions
+
+Paolo Bonzini (1):
+  job: detect change of aiocontext within job coroutine
+
+ block.c                          |  17 +-
+ block/mirror.c                   |  20 +-
+ block/replication.c              |   7 +-
+ blockdev.c                       | 129 +++---
+ blockjob.c                       | 132 +++---
+ include/block/aio-wait.h         |  17 +-
+ include/block/blockjob.h         |  59 ++-
+ include/qemu/job.h               | 292 ++++++++++----
+ job-qmp.c                        |  92 ++---
+ job.c                            | 668 +++++++++++++++++++------------
+ monitor/qmp-cmds.c               |   7 +-
+ qemu-img.c                       |  19 +-
+ tests/unit/test-bdrv-drain.c     |  80 ++--
+ tests/unit/test-block-iothread.c |   8 +-
+ tests/unit/test-blockjob-txn.c   |  24 +-
+ tests/unit/test-blockjob.c       | 132 +++---
+ 16 files changed, 1067 insertions(+), 636 deletions(-)
+
+-- 
+2.31.1
+
 
