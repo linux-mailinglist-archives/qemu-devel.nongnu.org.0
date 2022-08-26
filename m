@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B9A5A2C15
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 18:15:05 +0200 (CEST)
-Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9645A2C53
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 18:32:35 +0200 (CEST)
+Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbz6-0004pQ-6S
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 12:15:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
+	id 1oRcG3-0000b3-1M
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 12:32:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oRbor-0002cb-No; Fri, 26 Aug 2022 12:04:30 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:43703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oRbom-0005NG-2t; Fri, 26 Aug 2022 12:04:25 -0400
-Received: by mail-pf1-x435.google.com with SMTP id 142so1940302pfu.10;
- Fri, 26 Aug 2022 09:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=M+DatxmpZVPjexrzp79M4RQhH3Af/G9By4KEv/QeAgQ=;
- b=jio+ySrN6XLqf6846aO2H8jV0NhUTwqr/2z28yw0RvwS4ZsjdgbRovsquYdoLfDLef
- iEHTl8TkULVsdPLsFdmVWcCYmkhfY8Pz0way8W9CzkEZnkEZ4OsrgYfcTxMpgycCXtBo
- gagasZ4xY5q+NXUvu/CyeMyqvMEwqq77thDsr25Yoy88yVJh2BqxQCnJz3TvqzROb83c
- 21SKFykOmMSNiLLxG7U3dqwPoKFwSkWmimF4OMLhd/VFQSGONKpxn3okaRDQayq9/sMF
- 08Ud5UzTi8PnTxnFc+zi+eu85+hI/YE3Tt2qkWpjA5SuxFL69l5ZPGQ/EoDjFUxL27lY
- YyOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=M+DatxmpZVPjexrzp79M4RQhH3Af/G9By4KEv/QeAgQ=;
- b=vChH5iwYMXiwt0GqqmnOJ/3Co6RKdvjx5gAZnaBdZ/r0Je3jd4IUfTjzBWdYGOAiFC
- MwWK2ZREtvwag34fkTN0OTpbirWVI1C74PeJDNL3Stk4sr5+U1zn7TAEACDMgwLnwBCa
- TY2Okk6EJDufZjlcj4kMARgrKdukWHJa0iYF5HEmPLYwsBJDJZZnVcrijCQQDVeS1HGV
- SiM13H3dl6ei4WQYD7EAaHPZee1GS7nZNNXEcruJ7zy+LgiyWtuQfO0gBuRFun6A1DbX
- U5NCOfO7Xc3YpaZQy3qx3xlkwhay20cNoTGc/zXxntjQP33gc18vvGZi2s4/p7CpHQww
- CfhA==
-X-Gm-Message-State: ACgBeo0EjRXjS++9rM6ISLHcauBZYRBmtj2n+iThxcMy8jYiBwmlpntA
- 726Or3NSlz+4FsuwJa5Aktn7xIOdR/LWLw==
-X-Google-Smtp-Source: AA6agR7whGm5/vY30eibA3wApwlTKYJBb5c+r0TIJrqEw2wf/R7yvEZ9CZFlBx0X+tPUmvz6OFNOqg==
-X-Received: by 2002:a63:b03:0:b0:429:c549:d1f1 with SMTP id
- 3-20020a630b03000000b00429c549d1f1mr3823298pgl.131.1661529861268; 
- Fri, 26 Aug 2022 09:04:21 -0700 (PDT)
-Received: from roots.. ([106.84.135.2]) by smtp.gmail.com with ESMTPSA id
- z14-20020a1709027e8e00b00172f0184b54sm1732002pla.156.2022.08.26.09.04.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 09:04:20 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, damien.lemoal@opensource.wdc.com,
- Dmitry.Fomichev@wdc.com, hare@suse.de, qemu-block@nongnu.org,
- hreitz@redhat.com, eblake@redhat.com, armbru@redhat.com, fam@euphon.net,
- kwolf@redhat.com, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v8 1/7] include: add zoned device structs
-Date: Sat, 27 Aug 2022 00:03:56 +0800
-Message-Id: <20220826160356.6437-1-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.37.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=faithilikerun@gmail.com; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRbp2-0002rE-Kx; Fri, 26 Aug 2022 12:04:40 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:47274 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRbov-0005OK-Tp; Fri, 26 Aug 2022 12:04:36 -0400
+Received: from smtpclient.apple (unknown [221.220.143.85])
+ by APP-05 (Coremail) with SMTP id zQCowACH89AJ7whjy2B8AA--.15818S2;
+ Sat, 27 Aug 2022 00:04:26 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v2 2/3] hw/nvme: use KVM irqfd when available
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <Ywjn7QOb9EyK1oJc@kbusch-mbp.dhcp.thefacebook.com>
+Date: Sat, 27 Aug 2022 00:04:23 +0800
+Cc: qemu-devel <qemu-devel@nongnu.org>, its@irrelevant.dk, stefanha@gmail.com,
+ Klaus Jensen <k.jensen@samsung.com>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4AAC7045-E15F-48A0-80AF-13A450DC2588@ict.ac.cn>
+References: <20220826151206.3148942-1-fanjinhao21s@ict.ac.cn>
+ <20220826151206.3148942-3-fanjinhao21s@ict.ac.cn>
+ <Ywjn7QOb9EyK1oJc@kbusch-mbp.dhcp.thefacebook.com>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowACH89AJ7whjy2B8AA--.15818S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gr1fury7Xr1kAw15Jry7KFg_yoWDuFc_ZF
+ sagFn7Ar4UAFZ7Wa4DAa4avr1jqas5WFyFyws7Ja45Xw1fJ34kuF93urnrAr1UWrW0grnr
+ uFZxWwnYy3yakjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb7kYjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z2
+ 80aVCY1x0267AKxVWUJVW8JwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
+ zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx
+ 8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVWUMxAIw28IcxkI
+ 7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+ Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY
+ 6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
+ AIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+ aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUVyv3UUUUU
+X-Originating-IP: [221.220.143.85]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,68 +77,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
----
- include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+at 11:34 PM, Keith Busch <kbusch@kernel.org> wrote:
 
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index fdb7306e78..36bd0e480e 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -49,6 +49,49 @@ typedef struct BlockDriver BlockDriver;
- typedef struct BdrvChild BdrvChild;
- typedef struct BdrvChildClass BdrvChildClass;
- 
-+typedef enum BlockZoneOp {
-+    BLK_ZO_OPEN,
-+    BLK_ZO_CLOSE,
-+    BLK_ZO_FINISH,
-+    BLK_ZO_RESET,
-+} BlockZoneOp;
-+
-+typedef enum BlockZoneModel {
-+    BLK_Z_NONE = 0x0, /* Regular block device */
-+    BLK_Z_HM = 0x1, /* Host-managed zoned block device */
-+    BLK_Z_HA = 0x2, /* Host-aware zoned block device */
-+} BlockZoneModel;
-+
-+typedef enum BlockZoneCondition {
-+    BLK_ZS_NOT_WP = 0x0,
-+    BLK_ZS_EMPTY = 0x1,
-+    BLK_ZS_IOPEN = 0x2,
-+    BLK_ZS_EOPEN = 0x3,
-+    BLK_ZS_CLOSED = 0x4,
-+    BLK_ZS_RDONLY = 0xD,
-+    BLK_ZS_FULL = 0xE,
-+    BLK_ZS_OFFLINE = 0xF,
-+} BlockZoneCondition;
-+
-+typedef enum BlockZoneType {
-+    BLK_ZT_CONV = 0x1, /* Conventional random writes supported */
-+    BLK_ZT_SWR = 0x2, /* Sequential writes required */
-+    BLK_ZT_SWP = 0x3, /* Sequential writes preferred */
-+} BlockZoneType;
-+
-+/*
-+ * Zone descriptor data structure.
-+ * Provides information on a zone with all position and size values in bytes.
-+ */
-+typedef struct BlockZoneDescriptor {
-+    uint64_t start;
-+    uint64_t length;
-+    uint64_t cap;
-+    uint64_t wp;
-+    BlockZoneType type;
-+    BlockZoneCondition cond;
-+} BlockZoneDescriptor;
-+
- typedef struct BlockDriverInfo {
-     /* in bytes, 0 if irrelevant */
-     int cluster_size;
--- 
-2.37.2
+> On Fri, Aug 26, 2022 at 11:12:04PM +0800, Jinhao Fan wrote:
+>> Use KVM's irqfd to send interrupts when possible. This approach is
+>> thread safe. Moreover, it does not have the inter-thread =
+communication
+>> overhead of plain event notifiers since handler callback are called
+>> in the same system call as irqfd write.
+>>=20
+>> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> No idea what's going on here... This one is causing the following =
+assert
+> failure with --enable-kvm:
+>=20
+>  qemu-system-x86_64: ../accel/kvm/kvm-all.c:1781: =
+kvm_irqchip_commit_routes: Assertion `ret =3D=3D 0' failed.
+
+My intuition is that if irq-eventfd is off we shouldn=E2=80=99t call
+kvm_irqchip_commit_routes(). Probably we missed some check here.
+
+> I find it calls KVM_SET_GSI_ROUTING ioctl with gsi set to =
+KVM_IRQ_ROUTING_MSI,
+> and linux kernel returns EINVAL in that case. It's never set that way =
+without
+> this patch. Am I the only one seeing this?
+
 
 
