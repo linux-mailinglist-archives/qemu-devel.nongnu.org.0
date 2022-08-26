@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDD95A30AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 22:57:06 +0200 (CEST)
-Received: from localhost ([::1]:52244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CE95A30B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 22:59:23 +0200 (CEST)
+Received: from localhost ([::1]:33310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRgO1-0005TA-Do
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 16:57:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51962)
+	id 1oRgQE-0007QD-8D
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 16:59:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRgMO-0002gX-AY
+ id 1oRgMO-0002ge-Th
  for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:55:24 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40804)
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:46592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRgMM-00033C-KV
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:55:23 -0400
-Received: by mail-pl1-x629.google.com with SMTP id x23so2572831pll.7
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 13:55:21 -0700 (PDT)
+ id 1oRgMN-00033I-5M
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 16:55:24 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 69so752103pgb.13
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 13:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=3MpH6rvj4gF1XwgHxAVlc+ezcD4pwMOUg9Ok9REg8dY=;
- b=PAixZQjlcqjAIalnd+pknHiH7+JVqVYtBpXfQq+W/R/Ua+ikAAOyVLHkmklFCUGUak
- WAguzPA9GZ+xPsuRU5aOA3/YhB1J+SIAHjch+ySA4rsePbqgF3TvFkbiYJ7oJ3NmHSlu
- MWKhDP58fLta2209Xb8f2RUXwNQF099SflopJhwEEfZgDJdogIV2oj50HuNFrOceHCZ0
- INONVzZDudwQ/C2kjMT2KBgWufIDhL2lBpZLLAeOf0hBE3fZjofaYsw/VbWDvfBRDS7h
- r8sLiWwtXjPcH1gZTSrRNKKpCAPyxCh3uatBCIIZSW4Y+k78vWePsiunvjGMjunQC+4i
- 40Ow==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=5pSXFwSlSVJciy/fhHEgZkCC53rjmr2bP7A8Givhm80=;
+ b=abcU9OBQipr+3mrTRVAf9oJWEfDHhM3FtmsZRN75XUgrn3Kifdo8YhZrPKN9X1tJMu
+ 6XGPA1nQ8lZpsK+aH0GpDslyVAAGu05YzLTuNDX9Y4zTSV4+/WjA0mAvXMpD3OKduSMj
+ WFGzhLUbKLJXFWLpT+uj5Iu4ud9hPMXwh1vimC9H0pnVO0EVMurTr4HAuMK/YfJzFf+L
+ Tl1Wort8lfpf8pis+Vjp+y5Qa34PrLMmWlvEMSYCHxjjumd0kkS8HgwucEBJZ1Cc4h4M
+ s4SLZLFLD7tmCN/OpZvc3BIj70KiBVYm4lPBpXCLQMK/W9z5roz59TiGfw38SEeG8OIA
+ UZyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=3MpH6rvj4gF1XwgHxAVlc+ezcD4pwMOUg9Ok9REg8dY=;
- b=yq/fX9mO7RHQF9Xo8bIXmHcnayC6+lFoH1yPbRm1L2+/YgT7H4rHdDKEsXywsjh0EK
- S2nIC1IESPO5hm5vLT3mzhAS0gBhNg9CK1esFRTSpn6yDrd7Nj+S6LI59unZi7jHoSDM
- iYjCwycZQTpw/4VYlEq+iNo0MKpZORnF5+eYH9GjGIKXeDyhOcE6gYIlYL6N7ost7wP8
- ozEcMwdRiQQ5XDEuUy677dNwx79rXAJURYb8riKashNFCrTObfYeKAKkoYdfsSgRhWD8
- 258abG7l5g53ubXu7ujQ6k8eSmBoX0IcUhW0ATf99a3jDDBn7mRUMoRNJ9Q9INQzQnk0
- x5Iw==
-X-Gm-Message-State: ACgBeo3x+ijWoVEvZ3PaDVhEA6c7Z+SmswBsHE6acl+eQRg64wsFHXmz
- ML/ZEQrb5WpWchohDWKFTkfOUB5Q/8rMiw==
-X-Google-Smtp-Source: AA6agR4YTCqBjUg1rrUUcJ1L6YnXQFZmG2WHkTYI9mUUXpAv3pOWLW4g18fx1Rg2sVG1eqGGe4LkXg==
-X-Received: by 2002:a17:902:e80a:b0:172:ff23:fab3 with SMTP id
- u10-20020a170902e80a00b00172ff23fab3mr5436272plg.171.1661547320631; 
- Fri, 26 Aug 2022 13:55:20 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=5pSXFwSlSVJciy/fhHEgZkCC53rjmr2bP7A8Givhm80=;
+ b=I/MXu7MSh7Hf7cSQrhMP9Zc8hcboRuTR4Ly0qRK1UqvyHawBlOgHaPDHw2Tsk7jodH
+ xzqKwDZRnjoCGaX1LaNM1//GSYg3rGVZWcLR1Ktc2xcMe4WR6F+UF2FHR19YVEx04Tg6
+ P0cX+2Oi3cv8lCqqpD4MBCptzTbvh4TwE1BbXCg0sjG+ZpRKUalzKh6dhUFJhgzYWX9U
+ 4zXkTO4H1QLtTuhRg/XIWEpmSr0FcrJCyrQrWf/GEKLeIvDZBAh842l4mpkfziReS2xT
+ 6iOJtmOJd3VdjoY4dnDqn7WmpK9I1rNZDV2/k42CBEF3LIZi6x/6Y5MNUSScH/RVllvQ
+ lacw==
+X-Gm-Message-State: ACgBeo0n5qG2J4WbFz6SYL5PosSB/C6iC8utf0mEtfpmgKXClGBKg0Ba
+ EGDXimzMy3w/kbqct0iwBs4aGG5EIcnlBw==
+X-Google-Smtp-Source: AA6agR6xyugKov2y7bID9KEgW+TI1E2SMuvN1Evya6TtrvzkFWv/Hvmbo4zQzdfzoqL3Ttpi82EFMA==
+X-Received: by 2002:a63:4916:0:b0:427:d463:55e with SMTP id
+ w22-20020a634916000000b00427d463055emr4769271pga.374.1661547321911; 
+ Fri, 26 Aug 2022 13:55:21 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:68d8:30f3:fbd7:6f7f])
  by smtp.gmail.com with ESMTPSA id
- b11-20020a170902650b00b00172a567d910sm2009900plk.289.2022.08.26.13.55.19
+ b11-20020a170902650b00b00172a567d910sm2009900plk.289.2022.08.26.13.55.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 13:55:19 -0700 (PDT)
+ Fri, 26 Aug 2022 13:55:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: mrolnik@gmail.com
-Subject: [PATCH 0/3] target/avr: Fix skips vs interrupts
-Date: Fri, 26 Aug 2022 13:55:15 -0700
-Message-Id: <20220826205518.2339352-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/3] target/avr: Call avr_cpu_do_interrupt directly
+Date: Fri, 26 Aug 2022 13:55:16 -0700
+Message-Id: <20220826205518.2339352-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220826205518.2339352-1-richard.henderson@linaro.org>
+References: <20220826205518.2339352-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,19 +88,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes https://gitlab.com/qemu-project/qemu/-/issues/1118
+There is no need to go through cc->tcg_ops when
+we know what value that must have.
 
-r~
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/avr/helper.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Richard Henderson (3):
-  target/avr: Call avr_cpu_do_interrupt directly
-  target/avr: Only execute one interrupt at a time
-  target/avr: Disable interrupts when env->skip set
-
- target/avr/helper.c    | 23 ++++++++++++++---------
- target/avr/translate.c | 26 ++++++++++++++++++++++----
- 2 files changed, 36 insertions(+), 13 deletions(-)
-
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index 82284f8997..9614ccf3e4 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -29,14 +29,13 @@
+ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+     bool ret = false;
+-    CPUClass *cc = CPU_GET_CLASS(cs);
+     AVRCPU *cpu = AVR_CPU(cs);
+     CPUAVRState *env = &cpu->env;
+ 
+     if (interrupt_request & CPU_INTERRUPT_RESET) {
+         if (cpu_interrupts_enabled(env)) {
+             cs->exception_index = EXCP_RESET;
+-            cc->tcg_ops->do_interrupt(cs);
++            avr_cpu_do_interrupt(cs);
+ 
+             cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
+ 
+@@ -47,7 +46,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+         if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
+             int index = ctz32(env->intsrc);
+             cs->exception_index = EXCP_INT(index);
+-            cc->tcg_ops->do_interrupt(cs);
++            avr_cpu_do_interrupt(cs);
+ 
+             env->intsrc &= env->intsrc - 1; /* clear the interrupt */
+             if (!env->intsrc) {
 -- 
 2.34.1
 
