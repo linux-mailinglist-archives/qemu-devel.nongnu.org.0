@@ -2,102 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90055A2A0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 16:53:09 +0200 (CEST)
-Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494345A2AB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:12:15 +0200 (CEST)
+Received: from localhost ([::1]:34030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRaho-0004Je-Ta
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 10:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52414)
+	id 1oRb0I-0005l0-5F
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:12:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oRaNw-0003Kp-MQ
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:32:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29433)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oRaOe-0004FJ-0t; Fri, 26 Aug 2022 10:33:20 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:45456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oRaNo-00075u-J4
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 10:32:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661524347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QGZw/B06Xt7uHBwCcLTIzdIO1MiFBujJ32paM0Irz6g=;
- b=dzfg94gRFZdJFSQ/3xzWi0llHw449/95Ninhhgmy4uMGlN/4n4XqJ2q0FRsbGnXtRZ6CPk
- XpV+/9AzkdHp2LRFYbxAWaTAE8E71ffULYI4hztbEeBWL05HSm8iXvG4Ces3trj0S9be65
- NrZ0mpHiIE27w9QPuaQBRiThoE10TEk=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-28-f6SvoNrxPoO4sH7jMOhPRw-1; Fri, 26 Aug 2022 10:32:18 -0400
-X-MC-Unique: f6SvoNrxPoO4sH7jMOhPRw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- bz20-20020a05622a1e9400b003436a76c6e6so1412334qtb.1
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 07:32:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=QGZw/B06Xt7uHBwCcLTIzdIO1MiFBujJ32paM0Irz6g=;
- b=YARcJUBl3RQC1bBZELZwqbTuCbGmw/KqyDqedIqfY9iiK4Dl8tWq+n4cxmDrWY+Hi9
- BnEfcieJoJ9q5Nfje4SXtfmo8I1FLF4OwH8MtCrbiLY+zwQ4K65/5sHljLJG02g3RK/e
- PceLltC+dA9Qp3rGq4PDSbZVEt1JlTJnksJ5K5odP02rGm08mS7Hy8rxCFRC2t7b66FD
- eSDgaE12HoKpstBP5s6iMb6GafsdVofHFHyDgriZ+VWmaiggJj3x9y0hen9L+PNbGZjl
- OXyw1g5FgTZ0J/AKEEWeRb5aqPiQAUS1I1SO3AP0/9M5bwrBthxYjJLy9jJnVZ3WloeV
- 9S7A==
-X-Gm-Message-State: ACgBeo0jycn9K3BChZUOaIN7znDQqkNGkNHAyVyHJBVJgKxtLc5o8OlA
- bpYqLsclOP27Rpo74xjUKBox0BhCV0mz2/MeSZZVt+HLrys1LKa4DXVsL7nvInLph4VGIPH0gAE
- DwQbxm13wgcb/D7A=
-X-Received: by 2002:a05:6214:c82:b0:496:d33e:7ac4 with SMTP id
- r2-20020a0562140c8200b00496d33e7ac4mr8498764qvr.32.1661524338328; 
- Fri, 26 Aug 2022 07:32:18 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7oZCzHp9cR+Q31GCLnS19UTQV/Eu8SuRgWfQdKCRpwYzUEUhpOGoY9m6chiMCNKXPz6PLD0Q==
-X-Received: by 2002:a05:6214:c82:b0:496:d33e:7ac4 with SMTP id
- r2-20020a0562140c8200b00496d33e7ac4mr8498739qvr.32.1661524338133; 
- Fri, 26 Aug 2022 07:32:18 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- bq7-20020a05622a1c0700b00344cb66b860sm1265238qtb.38.2022.08.26.07.32.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 07:32:17 -0700 (PDT)
-Message-ID: <c1e0a91e-5c95-8c10-e578-39e41de79f6a@redhat.com>
-Date: Fri, 26 Aug 2022 16:32:15 +0200
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oRaOa-0007AW-AM; Fri, 26 Aug 2022 10:33:18 -0400
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id C29342E0D96;
+ Fri, 26 Aug 2022 17:33:05 +0300 (MSK)
+Received: from d-tatianin-nix.yandex-team.ru (unknown
+ [2a02:6b8:b081:b581::1:d])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 7Ht2PirWaX-X4OqiTrR; Fri, 26 Aug 2022 17:33:05 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1661524385; bh=S4H3ViqxCeXn/pw4aRWRPjnuUjz3riUpBFwv65dnOPs=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=exjtJKSBy3TIz6zCuCYpp67qLYvS1AymNIeVK3SusrxVDLBDPSwcB1rFp2iU0kxxA
+ ucWXZxFYGASrWwSITkzPDXzjrjo57fo6khAb7jgw9FN+Hgvaz33HgDzbcQf6lvGWZk
+ c54V2Vofcfioj6A4GnJCn/lEGUSz9p7nQPIQzIuM=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
+ raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
+ jasowang@redhat.com, d-tatianin@yandex-team.ru
+Subject: [PATCH v2 0/8] vhost-user-blk: dynamically resize config space based
+ on features
+Date: Fri, 26 Aug 2022 17:32:40 +0300
+Message-Id: <20220826143248.580939-1-d-tatianin@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
- to the commit phase
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-References: <20220816101250.1715523-1-eesposit@redhat.com>
- <20220816101250.1715523-3-eesposit@redhat.com>
- <6cb75197-1d9e-babd-349a-3e56b3482620@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <6cb75197-1d9e-babd-349a-3e56b3482620@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,30 +74,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch set attempts to align vhost-user-blk with virtio-blk in
+terms of backward compatibility and flexibility. It also improves
+the virtio core by introducing new common code that can be used by
+a virtio device to calculate its config space size.
 
+In particular it adds the following things:
+- Common virtio code for deducing the required device config size based
+  on provided host features.
+- Ability to disable modern virtio-blk features like
+  discard/write-zeroes for vhost-user-blk.
+- Dynamic configuration space resizing based on enabled features,
+  by reusing the common code introduced in the earlier commits.
+- Cleans up the VHostUserBlk structure by reusing parent fields.
 
-Am 26/08/2022 um 16:15 schrieb David Hildenbrand:
-> On 16.08.22 12:12, Emanuele Giuseppe Esposito wrote:
->> Instead of sending a single ioctl every time ->region_* or ->log_*
->> callbacks are called, "queue" all memory regions in a list that will
->> be emptied only when committing.
->>
-> 
-> Out of interest, how many such regions does the ioctl support? As many
-> as KVM theoretically supports? (32k IIRC)
-> 
+Changes since v1 (mostly addresses Stefan's feedback):
+- Introduce VirtIOConfigSizeParams & virtio_get_config_size
+- Remove virtio_blk_set_config_size altogether, make virtio-blk-common.c
+  only hold the virtio-blk config size parameters.
+- Reuse parent fields in vhost-user-blk instead of introducing new ones.
 
-I assume you mean for the new ioctl, but yes that's a good question.
+Daniil Tatianin (8):
+  virtio: introduce VirtIOConfigSizeParams & virtio_get_config_size
+  virtio-blk: utilize VirtIOConfigSizeParams & virtio_get_config_size
+  virtio-net: utilize VirtIOConfigSizeParams & virtio_get_config_size
+  virtio: remove the virtio_feature_get_config_size helper
+  virtio-blk: move config size params to virtio-blk-common
+  vhost-user-blk: make it possible to disable write-zeroes/discard
+  vhost-user-blk: make 'config_wce' part of 'host_features'
+  vhost-user-blk: dynamically resize config space based on features
 
-The problem here is that we could have more than a single update per
-memory region. So we are not limited anymore to the number of regions,
-but the number of operations * number of region.
+ MAINTAINERS                           |  4 +++
+ hw/block/meson.build                  |  4 +--
+ hw/block/vhost-user-blk.c             | 29 +++++++++++---------
+ hw/block/virtio-blk-common.c          | 39 +++++++++++++++++++++++++++
+ hw/block/virtio-blk.c                 | 28 +++----------------
+ hw/net/virtio-net.c                   |  8 ++++--
+ hw/virtio/virtio.c                    | 10 ++++---
+ include/hw/virtio/vhost-user-blk.h    |  1 -
+ include/hw/virtio/virtio-blk-common.h | 20 ++++++++++++++
+ include/hw/virtio/virtio.h            | 10 +++++--
+ 10 files changed, 104 insertions(+), 49 deletions(-)
+ create mode 100644 hw/block/virtio-blk-common.c
+ create mode 100644 include/hw/virtio/virtio-blk-common.h
 
-I was thinking, maybe when pre-processing QEMU could divide a single
-transaction into multiple atomic operations (ie operations on the same
-memory region)? That way avoid sending a single ioctl with 32k *
-#operation elements. Is that what you mean?
-
-Emanuele
+-- 
+2.25.1
 
 
