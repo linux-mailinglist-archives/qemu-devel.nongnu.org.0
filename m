@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458935A2B47
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:31:01 +0200 (CEST)
-Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D40E5A2B30
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 17:27:33 +0200 (CEST)
+Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbIN-0005WK-Bg
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52452)
+	id 1oRbF6-0007Yj-52
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 11:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oRaOe-0004FP-1i; Fri, 26 Aug 2022 10:33:20 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:39752)
+ id 1oRaOe-0004FL-Lb; Fri, 26 Aug 2022 10:33:23 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:39754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oRaOc-0007Aq-2V; Fri, 26 Aug 2022 10:33:19 -0400
+ id 1oRaOb-0007As-DL; Fri, 26 Aug 2022 10:33:18 -0400
 Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
  (iva4-f06c35e68a0a.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id CA9952E19C7;
- Fri, 26 Aug 2022 17:33:08 +0300 (MSK)
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 8A29A2E19C4;
+ Fri, 26 Aug 2022 17:33:09 +0300 (MSK)
 Received: from d-tatianin-nix.yandex-team.ru (unknown
  [2a02:6b8:b081:b581::1:d])
  by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 7Ht2PirWaX-X7OqEHsd; Fri, 26 Aug 2022 17:33:08 +0300
+ 7Ht2PirWaX-X8OqY4aI; Fri, 26 Aug 2022 17:33:08 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1661524388; bh=ztgGg+UO3nf6qzy6438YfteSjEzUC1lf//ceVN4qKTE=;
+ t=1661524388; bh=AJeK5QA+uKLglCU8RKDByafd9uOq9TDrqs96cImo3aw=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=B3knmzJOuksntlN4KmTHGmAeiF/gbr3hBUn6zGtQvvoLpz65ecpo9cOBmnzAY0DYv
- desqq3/ZtiPyUMEMWJfb3F4aLYfd1hsnhJbjO6awBRkmP2DcisO6c/x8DsJ0/nT1P+
- kvJn/TfNAoOmhSd+fjMmibF7G1ws2Tkqs0YPR/dQ=
+ b=o8brJpHKcFDxyZ0VnHoENbRIR4lEHUe7bz0xSyBViy739JySfUCh7n4cITkSA/kZs
+ 7YAWhX4GtPHhjDgKJCDS5O0MO8PrVTwWQ5JDMt/N/iN1nODv+hGliiSMDMH0JUZES5
+ aipnEVEkfrqTZAGCq/5i8zreEIQh2/I3jR7WVbJw=
 Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Daniil Tatianin <d-tatianin@yandex-team.ru>
@@ -44,10 +44,10 @@ To: qemu-devel@nongnu.org
 Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
  raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
  jasowang@redhat.com, d-tatianin@yandex-team.ru
-Subject: [PATCH v2 3/8] virtio-net: utilize VirtIOConfigSizeParams &
- virtio_get_config_size
-Date: Fri, 26 Aug 2022 17:32:43 +0300
-Message-Id: <20220826143248.580939-4-d-tatianin@yandex-team.ru>
+Subject: [PATCH v2 4/8] virtio: remove the virtio_feature_get_config_size
+ helper
+Date: Fri, 26 Aug 2022 17:32:44 +0300
+Message-Id: <20220826143248.580939-5-d-tatianin@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220826143248.580939-1-d-tatianin@yandex-team.ru>
 References: <20220826143248.580939-1-d-tatianin@yandex-team.ru>
@@ -76,40 +76,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new common helper. As an added bonus this also makes use of
-config size sanity checking via the 'max_size' field.
+This has no more users and is superseded by virtio_get_config_size.
 
 Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 ---
- hw/net/virtio-net.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ hw/virtio/virtio.c         | 15 ---------------
+ include/hw/virtio/virtio.h |  3 ---
+ 2 files changed, 18 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index dd0d056fde..dfc8dd8562 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -106,6 +106,11 @@ static const VirtIOFeature feature_sizes[] = {
-     {}
- };
- 
-+static const VirtIOConfigSizeParams cfg_size_params = {
-+    .max_size = sizeof(struct virtio_net_config),
-+    .feature_sizes = feature_sizes
-+};
-+
- static VirtIONetQueue *virtio_net_get_subqueue(NetClientState *nc)
- {
-     VirtIONet *n = qemu_get_nic_opaque(nc);
-@@ -3246,8 +3251,7 @@ static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
- {
-     virtio_add_feature(&host_features, VIRTIO_NET_F_MAC);
- 
--    n->config_size = virtio_feature_get_config_size(feature_sizes,
--                                                    host_features);
-+    n->config_size = virtio_get_config_size(&cfg_size_params, host_features);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 8518382025..c0bf8dd6fd 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2999,21 +2999,6 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
+     return ret;
  }
  
- void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+-size_t virtio_feature_get_config_size(const VirtIOFeature *feature_sizes,
+-                                      uint64_t host_features)
+-{
+-    size_t config_size = 0;
+-    int i;
+-
+-    for (i = 0; feature_sizes[i].flags != 0; i++) {
+-        if (host_features & feature_sizes[i].flags) {
+-            config_size = MAX(feature_sizes[i].end, config_size);
+-        }
+-    }
+-
+-    return config_size;
+-}
+-
+ size_t virtio_get_config_size(const VirtIOConfigSizeParams *params,
+                               uint64_t host_features)
+ {
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 1991c58d9b..f3ff6710d5 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -53,9 +53,6 @@ typedef struct VirtIOConfigSizeParams {
+ size_t virtio_get_config_size(const VirtIOConfigSizeParams *params,
+                               uint64_t host_features);
+ 
+-size_t virtio_feature_get_config_size(const VirtIOFeature *features,
+-                                      uint64_t host_features);
+-
+ typedef struct VirtQueue VirtQueue;
+ 
+ #define VIRTQUEUE_MAX_SIZE 1024
 -- 
 2.25.1
 
