@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC8C5A2DD4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 19:51:01 +0200 (CEST)
-Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6665A2DC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 19:44:49 +0200 (CEST)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRdTw-0000qg-7x
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 13:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
+	id 1oRdNw-0004Kp-F6
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 13:44:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oRdA2-0005qx-2g
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 13:30:26 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40861)
+ id 1oRd9v-0005eF-Ow
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 13:30:19 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oRdA0-0003lx-8L
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 13:30:25 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- h204-20020a1c21d5000000b003a5b467c3abso4762088wmh.5
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 10:30:23 -0700 (PDT)
+ id 1oRd9t-0003f4-OF
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 13:30:19 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e20so2562245wri.13
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 10:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=AcIhrnEo/jsi7L6ojahvmIlXYQW4m/medhgo10JCLYM=;
- b=hBsh+uMG2awt53suNTQBupj6o7GGMVxEWNu3Q2PDG9XMUuY/F/LBw/OVV7xmp6GTN1
- z0YWIgLhGU0WTM2poOYhDd2dPz+N1BzrLgYvyMduxyiFJKpIdv59Sfe4Q3vZ3pBtrEbb
- +2j2vJY5o79Yt4ieG9izeS/mpgXLqUG2PXV7rsPze/rGJsv21IMaw2uk+kXNKajlL+po
- RPwB0G/aC8SUqHJ7ocBIX/7q/lPNfuzYhgQ3tRojyw4plJ9Y1423OM8kQ8O5dxTEnvWS
- XrGe/ncbSXLjr1QXbQTPsaFk8JPRup/ISqjb2vUtzxdbEDRkl7zQ+z3z7OEnjfhn1I0G
- JXkg==
+ bh=f8GDP3QR60DseUmhNI18PNeD4pkFjaTns2rnsr6Q2Ec=;
+ b=wtCfHQtlug5MQNSkQ/IGKCqo69G0C/uVjHCZPte7vwbdXqQWk5mKans7AvFuLrWxMr
+ GJ3J/5KM7ZLY911KJvVVd+EiI7Z6W2zn7xjwmaoR61qPVPjB8Yh/Lt5B02ns6JlhIE+/
+ pvv2x0f5yyBavnorIzH+N9C8wfR9J0Od7mrSjt5HRvdRX0UmI8Y37XJAJwAaRm8JNq6w
+ myXOQfuYgcg9dfc8hUdnRSYhbovIgrRIL89zWFWnOkWvYeDNy9MmMj3YjdJVM2qFEjPV
+ s+/T10TJ1LiB1FHfjPV+Up79870gieKLPWnNCIa4A3wAmQgpVnXcjvWSojgGPvmGFqup
+ sIQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=AcIhrnEo/jsi7L6ojahvmIlXYQW4m/medhgo10JCLYM=;
- b=0qaS2FFWgJrXaGG9gPxsgbahZmrOHCcRDVatTtnGTK/wVUtnKuaxVO1sGTBwFHjB+c
- 2emx2JwmctIPm0AQPovAglFvibfueVVlaafnBqMIReiGRxAx0tI2D6k2G3qOYmWAUD71
- yricibwJKvHNIiG2rOhImnbF4vt/wre51Z17Nhmn4r2TKAYmu46nipm8ktMt+AB1Ow59
- 1i4VrcFTcuTFoa4rTs8ZgAKZbBE/hxgsq7KxDGbB3uFsMs8wIJSMw3WWd5ISWx0KmVyO
- 9ZwFIyR0aMk3JF9GxOx2tu1FlHiUxjWGnvyffWjt2jk2Ic1oRrGO0bvtFNDd6t+C7DwT
- PIGA==
-X-Gm-Message-State: ACgBeo307BxTfr1blR741r9NNZ0ml4ipueDCupIrdf53yZPEPjaqKSfZ
- M380q+MP3OnWYQBpiYq1qqzK5Q==
-X-Google-Smtp-Source: AA6agR7TD86DvlSd0XnPFFDFXviILstQ3tEpWRhrXuwBHDavHkFYpxq6jeqmRl0fcfWoMM3Hr7QggA==
-X-Received: by 2002:a7b:c851:0:b0:3a5:f211:45cd with SMTP id
- c17-20020a7bc851000000b003a5f21145cdmr411618wml.156.1661535022688; 
- Fri, 26 Aug 2022 10:30:22 -0700 (PDT)
+ bh=f8GDP3QR60DseUmhNI18PNeD4pkFjaTns2rnsr6Q2Ec=;
+ b=o9kAQPXv/74BeenHF8P0Nru7kRUbgqK9XDkyRXSQLRLRWvPrpSuPgXBKIRpJd+IxWs
+ MEZDGmVntnv2pvbFtHEFugxj5GKdfccDzHzAlDjlK5eRUG5b4acozPURLOCisn758DMA
+ lBRvRI8dIQmx5ROO2EHK7raikffcUnuZRo/cufrjJP1w9AO2a15M88mzLUECgeyTmiBD
+ BWYmnIcNKQlRg5BwHFHyiLKWMQcAKVcMcds06R50ylEFIiJC6nk2WhBfV+4JGapTAvAF
+ 9MTBW4pWQpCaT6pYsBKFI/XLc8sq4xGJirhPZGejNwHmLkCQZTQ71oCYT8J77bEl0+MJ
+ cuZA==
+X-Gm-Message-State: ACgBeo0A/FnoNugIsNOZ+7UtGgEFrQq0/OmIvWLo352W2t27cs3hcjIF
+ kmZkeZiqDu9GUfcnzat5HggNtw==
+X-Google-Smtp-Source: AA6agR6lnjJRy7CdSn28f9B2HHznNm2Dq+62rx1+P++dYlJA1tzqyq0OXrXQMQCo2sQTfO+NfTR2Ag==
+X-Received: by 2002:a5d:588d:0:b0:225:6e1a:8696 with SMTP id
+ n13-20020a5d588d000000b002256e1a8696mr395287wrf.512.1661535015150; 
+ Fri, 26 Aug 2022 10:30:15 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g2-20020a5d4882000000b002254880c049sm292112wrq.31.2022.08.26.10.30.16
+ q16-20020adff950000000b002251639bfd0sm279850wrr.59.2022.08.26.10.30.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Aug 2022 10:30:18 -0700 (PDT)
+ Fri, 26 Aug 2022 10:30:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 83F6A1FFCA;
+ by zen.linaroharston (Postfix) with ESMTP id 9C08A1FFCB;
  Fri, 26 Aug 2022 18:21:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,18 +64,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v1 20/25] tests/docker: update and flatten
- debian-loongarch-cross
-Date: Fri, 26 Aug 2022 18:21:23 +0100
-Message-Id: <20220826172128.353798-21-alex.bennee@linaro.org>
+Subject: [PATCH v1 21/25] tests/docker: update and flatten debian-hexagon-cross
+Date: Fri, 26 Aug 2022 18:21:24 +0100
+Message-Id: <20220826172128.353798-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220826172128.353798-1-alex.bennee@linaro.org>
 References: <20220826172128.353798-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,44 +98,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Update to the latest stable Debian. While we are at it flatten into a
-single dockerfile. We really don't need the rest of the stuff from the
-QEMU base image just to compile test images. In this case it is a
-binary distribution of the toolchain anyway.
+single dockerfile as we do not need anything from the base image to
+build the toolchain.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include                          | 1 -
- tests/docker/dockerfiles/debian-loongarch-cross.docker | 5 ++++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ .../docker/dockerfiles/debian-hexagon-cross.docker  | 13 ++++++++++---
+ .../dockerfiles/debian-loongarch-cross.docker       |  3 +--
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index a0f5109628..1d5a6f1fb4 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -128,7 +128,6 @@ docker-image-debian-nios2-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
- 	$(call debian-toolchain, $@)
+diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+index d5dc299dc1..822c108953 100644
+--- a/tests/docker/dockerfiles/debian-hexagon-cross.docker
++++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+@@ -7,7 +7,7 @@
+ # triggered by re-builds on other base images given it takes a long
+ # time to build.
+ #
+-FROM qemu/debian10
++FROM docker.io/library/debian:bullseye-slim
  
- # Specialist build images, sometimes very limited tools
--docker-image-debian-loongarch-cross: docker-image-debian11
- docker-image-debian-microblaze-cross: docker-image-debian10
- docker-image-debian-nios2-cross: docker-image-debian10
+ # Install common build utilities
+ RUN apt update && \
+@@ -15,11 +15,18 @@ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
+         bison \
++        ca-certificates \
++        clang \
+         cmake \
+         flex \
++        gcc \
+         lld \
++        make \
++        ninja-build \
++        python3 \
+         rsync \
+-        wget
++        wget \
++        xz-utils
  
+ ENV TOOLCHAIN_INSTALL /usr/local
+ ENV ROOTFS /usr/local
+@@ -32,7 +39,7 @@ ADD build-toolchain.sh /root/hexagon-toolchain/build-toolchain.sh
+ 
+ RUN cd /root/hexagon-toolchain && ./build-toolchain.sh
+ 
+-FROM debian:buster-slim
++FROM docker.io/library/debian:bullseye-slim
+ # Duplicate deb line as deb-src
+ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+ # Install QEMU build deps for use in CI
 diff --git a/tests/docker/dockerfiles/debian-loongarch-cross.docker b/tests/docker/dockerfiles/debian-loongarch-cross.docker
-index ca2469d2a8..48fe64c51b 100644
+index 48fe64c51b..ff6a5505be 100644
 --- a/tests/docker/dockerfiles/debian-loongarch-cross.docker
 +++ b/tests/docker/dockerfiles/debian-loongarch-cross.docker
-@@ -5,7 +5,10 @@
- # using a prebuilt toolchains for LoongArch64 from:
+@@ -1,8 +1,7 @@
+ #
+ # Docker cross-compiler target
+ #
+-# This docker target builds on the debian11 base image,
+-# using a prebuilt toolchains for LoongArch64 from:
++# This docker target uses prebuilt toolchains for LoongArch64 from:
  # https://github.com/loongson/build-tools/releases
  #
--FROM qemu/debian11
-+FROM docker.io/library/debian:bullseye-slim
-+
-+# Duplicate deb line as deb-src
-+RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
- 
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+ FROM docker.io/library/debian:bullseye-slim
 -- 
 2.30.2
 
