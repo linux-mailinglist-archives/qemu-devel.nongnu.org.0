@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD7C5A1DCC
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 02:48:08 +0200 (CEST)
-Received: from localhost ([::1]:49976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566255A1DE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 02:58:39 +0200 (CEST)
+Received: from localhost ([::1]:43158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRNW3-0003q6-LN
-	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 20:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39582)
+	id 1oRNgD-0007bD-Th
+	for lists+qemu-devel@lfdr.de; Thu, 25 Aug 2022 20:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRNT1-0002BY-83
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 20:44:59 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:35396)
+ id 1oRNeM-0005bG-QJ
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 20:56:42 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oRNSz-0008TN-NE
- for qemu-devel@nongnu.org; Thu, 25 Aug 2022 20:44:58 -0400
-Received: by mail-pf1-x430.google.com with SMTP id 199so63150pfz.2
- for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 17:44:57 -0700 (PDT)
+ id 1oRNeL-0001sC-0k
+ for qemu-devel@nongnu.org; Thu, 25 Aug 2022 20:56:42 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ t11-20020a17090a510b00b001fac77e9d1fso6597942pjh.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Aug 2022 17:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=rwpLr4lYs5T2dIjCNoY+U3L39TNUs7NB4hYOof1SWPk=;
- b=UVVubYHVtu2gRiL6B3biTT64CW1pi0/4XEufcOVjLVAHdxLaJmOrfqwldeIltJvwMR
- tJaNy0j5eQOgOrC5GCvw3Mq7LkLngCSxv3kiNC5Xvc3BlenVHiCuxe8JIKRfh6iD8onZ
- rw0/Q/vXp6oY3kIJkSm59WqWNQi3PBmyQJ7LAH655egKxu5KXiglH7JvCYQifG+1ea4N
- Ct+KXH/pu8A8poprsuKqbKQy+ikKaQTipl01UjOjehW11wq+o/IaLIumE1vOPOb8a3YP
- 9isNqS8rw7NLlZyNGQiD5KZMGUlcS/uecJHVCVZ6KMTwIE0ibrVFo+RHDdEuGorzC0oW
- pxEA==
+ :from:to:cc; bh=xtWmK7lpXIT0uvKSS73c4fT6gIpGX/Jcf22xKe7LMZE=;
+ b=BF053zGuYTRtC8agbqZsAkLVUFKdKZA/9w1FAE1eDvqCHS0gDR9KpattPWUZGvJzja
+ cqGa+lIA4U4Lw+my1HzvUauDL0UWSecNKE1uw4dp+pNuhLT7KE/JPf4yV9YL08i/64J/
+ +R/C7esnaINlZU2XK9lFobF2TkXaEDL6LEak6ki8o0rXVTwx28Mk/7xFOMgM7oSCsKal
+ rBAhWyKPIF2dMRhJA6koGh1yvpIClRDJHd4tAh3eVgbtPg6/9YSXubJY7W5JmU96Zt7M
+ i78UllHpJlAMTnOtOkD+v9vExKKd2GU2v/fzRY2d+YHkRv6QL4OGfGCOs9/h4JbhJ3Jr
+ 6PRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=rwpLr4lYs5T2dIjCNoY+U3L39TNUs7NB4hYOof1SWPk=;
- b=r9z/nnRChvhV5ugLr77YNepLDEPuCa0YPWK3+oFY0uHn64wVu+ckMry00Jilwrb/Wx
- Xe4151cdueoxO5zWvsKmtqWHmR0Q53IF67BZLlJh5CmxyvNHslcw2nG1QBEhJEjdvJUO
- +D3LnXW1fhCJb4a4z+MeHUSTKAI7toXAHju3tt8k7/3nIgyL88s2bNBGGxxBWE1cPtX4
- yUPqJo1FqKBfvQeGFsOr3or5TPwgTAnjHHHCQqlw1F0HpfqJ4Ma88j8VvxJp0CxZb3bM
- 9HmLRZ605qh9eCS1Ewj/lGMObo4N54OAGzwJsgW2NttagUzA2UT3Q8fNDKErDWaF99u4
- tq4w==
-X-Gm-Message-State: ACgBeo0A2xHR8AWQ7lZjqtlosiyKzxcsXeipY+nucDSNVh/xcqzzJylK
- MDo0sq2YpvVABxQb97Sr1Fq4gw==
-X-Google-Smtp-Source: AA6agR5IVVLI14JqW25iV1C/XQukikNLcQFUOb8AyQk2rvd0zzZOBvEyIPOctzfW+NFQRdqebda+Zg==
-X-Received: by 2002:a05:6a00:170c:b0:537:27b4:ebfe with SMTP id
- h12-20020a056a00170c00b0053727b4ebfemr1450611pfc.19.1661474696210; 
- Thu, 25 Aug 2022 17:44:56 -0700 (PDT)
+ bh=xtWmK7lpXIT0uvKSS73c4fT6gIpGX/Jcf22xKe7LMZE=;
+ b=uDgazcy6BbMQuDrjN6iqmGU66DYJdkq1ikvOyCg/0L7tpMIjWBgpm47/MxxPH5krdo
+ ycWL3BECgqIivVOWWcYXnjRmlNj8uSYJd2BEyrQ8q51hCEerigLa0ugJPB2zdK9gL4Ol
+ BwxZxVaECYW7hh4R/6OjRfwMhSKSZEABULd7ey/2oYM1DT5Dsp/dJTQeEGdd/LoTYGwI
+ 0k4b1VgChxrLkDY/tGzXMa5HUmfS0MUQl/JR86gn2fzZ66Z8X1o7ml0UrVz6RRYOC0/I
+ GjCP2sCa73zxRkLV2btQuZ6QUYp3LH8tLRcjiV7kDUJ/3sdmxhgSCfPEB8tdhkuMTyKd
+ wUgA==
+X-Gm-Message-State: ACgBeo3il4Y/NF7vWbNokfAfItpy07SHGBK7YJ1NPCCgdfoarKJNRnTb
+ /Y/HK3zb4VYlV+S8kAMxcDBbig==
+X-Google-Smtp-Source: AA6agR4pRAPLMB80qsYsES5Xbz0332VIMdqu/mLZGgm3a89L8UOFBscxKkn/ZPRf7NEql9m7UqjHqQ==
+X-Received: by 2002:a17:902:e887:b0:16e:ef31:416b with SMTP id
+ w7-20020a170902e88700b0016eef31416bmr1530993plg.51.1661475399218; 
+ Thu, 25 Aug 2022 17:56:39 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:345c:4a6c:31b:1fca?
  ([2602:47:d49d:ec01:345c:4a6c:31b:1fca])
  by smtp.gmail.com with ESMTPSA id
- pt7-20020a17090b3d0700b001f3162e4e55sm331147pjb.35.2022.08.25.17.44.55
+ s8-20020aa78bc8000000b0053617082752sm290362pfd.10.2022.08.25.17.56.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Aug 2022 17:44:55 -0700 (PDT)
-Message-ID: <ee600a5a-bad8-9b43-6da4-fff58dcc274a@linaro.org>
-Date: Thu, 25 Aug 2022 17:44:53 -0700
+ Thu, 25 Aug 2022 17:56:38 -0700 (PDT)
+Message-ID: <09608f4f-d9dd-9000-4135-ea7fe2020ceb@linaro.org>
+Date: Thu, 25 Aug 2022 17:56:37 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 11/18] i386: Floating point arithmetic helper AVX prep
+Subject: Re: [PATCH 12/18] i386: reimplement AVX comparison helpers
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220825221411.35122-1-pbonzini@redhat.com>
- <20220825221411.35122-12-pbonzini@redhat.com>
+ <20220825221411.35122-13-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220825221411.35122-12-pbonzini@redhat.com>
+In-Reply-To: <20220825221411.35122-13-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,19 +96,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/25/22 15:14, Paolo Bonzini wrote:
-> From: Paul Brook<paul@nowt.org>
+> From: Paul Brook <paul@nowt.org>
 > 
-> Prepare the "easy" floating point vector helpers for AVX
-> 
-> No functional changes to existing helpers.
-> 
-> Signed-off-by: Paul Brook<paul@nowt.org>
-> Message-Id:<20220424220204.2493824-16-paul@nowt.org>
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   target/i386/ops_sse.h | 138 ++++++++++++++++++++++++++++--------------
->   1 file changed, 92 insertions(+), 46 deletions(-)
+> AVX includes additional a more extensive set of comparison predicates,
+> some of some of which our softfloat implementation does not expose directly.
 
+Not quite right, that wording.  floatN_compare is the more general operation, directly 
+exposed.
+
+> +#define SSE_HELPER_CMP_P(name, F, C)                                    \
+> +    void glue(helper_ ## name ## ps, SUFFIX)(CPUX86State *env,          \
+> +                                             Reg *d, Reg *s)    \
+>       {                                                                   \
+> -        d->ZMM_L(0) = F(32, d->ZMM_S(0), s->ZMM_S(0));                  \
+> -        d->ZMM_L(1) = F(32, d->ZMM_S(1), s->ZMM_S(1));                  \
+> -        d->ZMM_L(2) = F(32, d->ZMM_S(2), s->ZMM_S(2));                  \
+> -        d->ZMM_L(3) = F(32, d->ZMM_S(3), s->ZMM_S(3));                  \
+> +        Reg *v = d;                                                     \
+> +        int i;                                                          \
+> +        for (i = 0; i < 2 << SHIFT; i++) {                              \
+> +            d->ZMM_L(i) = F(32, C, v->ZMM_S(i), s->ZMM_S(i));           \
+> +        }                                                               \
+
+...
+
+> +#define FPU_EQ(x) (x == float_relation_equal)
+> +#define FPU_LT(x) (x == float_relation_less)
+> +#define FPU_LE(x) (x <= float_relation_equal)
+> +#define FPU_UNORD(x) (x == float_relation_unordered)
+> +
+> +#define FPU_CMPQ(size, COND, a, b) \
+> +    (COND(float ## size ## _compare_quiet(a, b, &env->sse_status)) ? -1 : 0)
+> +#define FPU_CMPS(size, COND, a, b) \
+> +    (COND(float ## size ## _compare(a, b, &env->sse_status)) ? -1 : 0)
+
+I think clearer with C unnested from F, i.e.
+
+     d->ZMM_S(i) = C(F(32, v->ZMM_S(i), s->ZMM_S(i)));
+
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
