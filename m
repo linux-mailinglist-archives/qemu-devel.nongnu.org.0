@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7AA5A262D
+	by mail.lfdr.de (Postfix) with ESMTPS id A17795A262E
 	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:54:07 +0200 (CEST)
-Received: from localhost ([::1]:33696 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRWyU-0008Ku-Hl
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60942)
+	id 1oRWyT-0008Gl-KW
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oRWst-0002mZ-Ag
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oRWsv-0002mf-U1
  for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:48:23 -0400
-Received: from madras.collabora.co.uk
- ([2a00:1098:0:82:1000:25:2eeb:e5ab]:58824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oRWsn-0007iL-Up
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:48:17 -0400
-Received: from dellino.fritz.box (host-95-235-60-93.retail.telecomitalia.it
- [95.235.60.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 633B96601ED0;
- Fri, 26 Aug 2022 11:48:10 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661510890;
- bh=gB47edS0ZL5tcCfsb7NvaJHw3m7ya0UhVLUboXtElng=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nrpM5jkEz9FV1ptB7OMqZMw2VxaLlutuHhI32tdRYf7AqPpuukOnFWev4gn4dvopq
- G7zX+vBQeXTjiKjcy4tYpXzXD57UAvGodchwTjWnHw1+yW4Zd2aX2AzPQ/AvrjEpcf
- VN9HjvAV+6f8dsE8bE95bNmxbYi6Xf0a7P8o0qNs3c/Nfwl0Ln8ToEwfyca5yy2AUB
- +skPO0rFY1Pdqi3QVZz59Bi8fmh1TPoeDJTahlJNM4Y8I6++OK4BNYgDHpJqQT6UTC
- sbtNxsry+ubvS7nllQxXqtlk8WQ51xR+DIXsQoVbGMH8N7xi3GAQrZuQS8bBXgrx9n
- dEXiI0xuuwKfA==
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
-To: qemu-devel@nongnu.org
-Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v4 1/1] virtio-gpu: CONTEXT_INIT feature
-Date: Fri, 26 Aug 2022 12:47:59 +0200
-Message-Id: <20220826104759.422925-2-antonio.caggiano@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220826104759.422925-1-antonio.caggiano@collabora.com>
-References: <20220826104759.422925-1-antonio.caggiano@collabora.com>
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:38457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oRWst-0007lD-50
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:48:21 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id g21so791316qka.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=PNG0VRTUf2cOp0XLS5iHhTYD17W6A2MLSk/NKBaY0Eg=;
+ b=PCy3apfckm/tlmQugzjOsbSZBBnuU2xMzWfaDmb74ua7JvrgKvKvomcY8Xe7kMxjJ1
+ 8Hpq+QxjXL4JK4PvSlgyhROcq9a7dDJ1kP0S04wyyLCIcVb2vbtpdWih66rjOZNOE3oJ
+ mvVkMisBkbCMCPnqS1BWY7L5k+ojx6Vs+gUgvjfLku3C3pHd6SDHI8LO+ahj1Q07PbGw
+ OWc/75xwAJDs7d03q+orYWKslvr2Tmo0Mc8vrhTqVoje3SNWThCMv0cRPDej7VsIDMKU
+ 1OBbExQs5XfQbRoxEJXhH9AFM8qO04G0mKav2kZ3t95fM56NNf8BVvNGB9oTbYxCO4Pk
+ RS6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=PNG0VRTUf2cOp0XLS5iHhTYD17W6A2MLSk/NKBaY0Eg=;
+ b=41gZw00Xhcb8QZbubgL9V4M2wR3s5uE1/UvF6fJisuhB0aMG0zhZVTrqFPsOBjdZ1j
+ uk1q9SAUsh4T9Q9Kgrcai/0zS7bjXOOX1NianjNfc8nCHBhSAZCctWJK2xsSE4bDgcio
+ acAqoNDo2PKs9aqJr9YxTJsYt61Xy8girEsix6sfbT0W8+BBnwNB7IWe9KloKzacGKbc
+ Ma+chmVZkBCh83BvQ8hak6BRafUlfcff+MM9/msDh4NQMbYDAUEDClZee1Q6tj/QlZ25
+ 0ZXGBrwJvRkr5VDKKfWqBF6GXl6H4p74ugLRnwnMNNAhjBlZeurTBFVUy7XvxfQgrRuW
+ Jx0A==
+X-Gm-Message-State: ACgBeo2koEnPjSX1pKaJhRmcY7p6TqyvPqU61Z9IxrUq4Oh1qxthSfsG
+ AhorlmVrb5Z6TWZ/Lt9IWiVsb5WrMVFKK/bWxvI=
+X-Google-Smtp-Source: AA6agR4VNn3BA5wuoN+y1QLq5LKAflCRGzMWoLdSkANVtzUnmzZhgpnG6vD9f7w63XpJu99dVhnjp9oZFPrmjuiu+lY=
+X-Received: by 2002:a05:620a:2548:b0:6b6:113d:34fd with SMTP id
+ s8-20020a05620a254800b006b6113d34fdmr5860521qko.132.1661510896543; Fri, 26
+ Aug 2022 03:48:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
- envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-38-bmeng.cn@gmail.com>
+ <YwZzlkoJOFxs7Uyy@work-vm>
+In-Reply-To: <YwZzlkoJOFxs7Uyy@work-vm>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 26 Aug 2022 18:48:05 +0800
+Message-ID: <CAEUhbmVOA0FMWTwiuNnwS8W3yWn7-6mnAMqUwwBZMBZ6TpKgRg@mail.gmail.com>
+Subject: Re: [PATCH 37/51] tests/qtest: migration-test: Disable IO redirection
+ for win32
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,117 +88,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create virgl renderer context with flags using context_id when valid.
+On Thu, Aug 25, 2022 at 2:53 AM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> * Bin Meng (bmeng.cn@gmail.com) wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > On Windows the QEMU executable is created via CreateProcess() and IO
+> > redirection does not work, so we need to set MigrateStart::hide_stderr
+> > to false to disable adding IO redirection to the command line.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+> Isn't it easier just to change the one place that tests this?
+>
 
-v2:
-- The feature can be enabled via the context_init config option.
-- A warning message will be emitted and the feature will not be used
-  when linking with virglrenderer versions without context_init support.
+Yeah, will do in v2.
 
-v3: Define HAVE_VIRGL_CONTEXT_INIT in config_host_data.
-
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- hw/display/virtio-gpu-base.c   |  3 +++
- hw/display/virtio-gpu-virgl.c  | 16 ++++++++++++++--
- hw/display/virtio-gpu.c        |  2 ++
- include/hw/virtio/virtio-gpu.h |  3 +++
- meson.build                    |  5 +++++
- 5 files changed, 27 insertions(+), 2 deletions(-)
-
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index a29f191aa8..6c5f1f327f 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
-     if (virtio_gpu_blob_enabled(g->conf)) {
-         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
-     }
-+    if (virtio_gpu_context_init_enabled(g->conf)) {
-+        features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
-+    }
- 
-     return features;
- }
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 73cb92c8d5..274cbc44de 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -97,8 +97,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
-     trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
-                                     cc.debug_name);
- 
--    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
--                                  cc.debug_name);
-+    if (cc.context_init) {
-+#ifdef HAVE_VIRGL_CONTEXT_INIT
-+        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
-+                                                 cc.context_init,
-+                                                 cc.nlen,
-+                                                 cc.debug_name);
-+        return;
-+#else
-+        qemu_log_mask(LOG_UNIMP,
-+                      "Linked virglrenderer does not support context-init\n");
-+#endif
-+    }
-+    
-+    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name);
- }
- 
- static void virgl_cmd_context_destroy(VirtIOGPU *g,
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 20cc703dcc..fa667ec234 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] = {
-                      256 * MiB),
-     DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
-                     VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
-+    DEFINE_PROP_BIT("context_init", VirtIOGPU, parent_obj.conf.flags,
-+                    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 2e28507efe..c6f5cfde47 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
-     VIRTIO_GPU_FLAG_EDID_ENABLED,
-     VIRTIO_GPU_FLAG_DMABUF_ENABLED,
-     VIRTIO_GPU_FLAG_BLOB_ENABLED,
-+    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
- };
- 
- #define virtio_gpu_virgl_enabled(_cfg) \
-@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
- #define virtio_gpu_blob_enabled(_cfg) \
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
-+#define virtio_gpu_context_init_enabled(_cfg) \
-+    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
- 
- struct virtio_gpu_base_conf {
-     uint32_t max_outputs;
-diff --git a/meson.build b/meson.build
-index 20fddbd707..e1071b3563 100644
---- a/meson.build
-+++ b/meson.build
-@@ -718,6 +718,11 @@ if not get_option('virglrenderer').auto() or have_system or have_vhost_user_gpu
-                      method: 'pkg-config',
-                      required: get_option('virglrenderer'),
-                      kwargs: static_kwargs)
-+
-+  config_host_data.set('HAVE_VIRGL_CONTEXT_INIT',
-+                       cc.has_function('virgl_renderer_context_create_with_flags',
-+                                       prefix: '#include <virglrenderer.h>',
-+                                       dependencies: virgl))
- endif
- curl = not_found
- if not get_option('curl').auto() or have_block
--- 
-2.34.1
-
+Regards,
+Bin
 
