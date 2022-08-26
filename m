@@ -2,74 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD555A2583
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:10:05 +0200 (CEST)
-Received: from localhost ([::1]:59118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D9E5A2591
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:12:29 +0200 (CEST)
+Received: from localhost ([::1]:41918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRWHs-0001M1-6k
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:10:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
+	id 1oRWKC-0005JK-7d
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oRWAo-0003Gj-Ed
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:02:58 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:44848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oRWAm-0007IN-J9
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:02:46 -0400
-Received: by mail-lf1-x129.google.com with SMTP id s6so1331119lfo.11
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=cPunIMm8UePehABgrnk+njxurHmvnnStFidQ24P6MWs=;
- b=KDeqKdo/lz/WhvpjfwBrkGZrk7HqsIpnfwILtdHF5BDsHgWLLavswRCS5DkzQZrtOX
- VZzMOj6aQgSpP/LHWoW9q4ZxnFC0ysNvGSC2xRVS8R3eMJ66Yn9ZUVRfCzeLGsrw5LcE
- QcWdgDhoDv539p/3pabDZzdBOYvk+FqTun9vGhJrHR8QU1FJ+Ks8lTN+g1eOJERYB3NX
- lOCIjgVnaVzAI/ZmCp9EKx377NiuHmlQ7FV3bVOU2gDc07vbTUEFXsmzJ46HhEIbQX86
- vmmHQM4SBVVNwvBJ73Yt6F894ucXjE9KKTQPVG+ZB1VT+c2AVBzIo1ijBS03/IhsEn11
- sGhg==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRWFT-0007MP-2k
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:07:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oRWFO-0007xz-Pd
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:07:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661508448;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rXEXRYK+0wBzb2i3tokL5D3Rs4AJG5hF2C6R8Kn6NDc=;
+ b=hbLAasY3PzH+x18v2xyojn/jSqTrUO8Eq65eKaD50jFXqY1XiMmiS54PqMd1erLmm1HDrc
+ KvIX21UxFYqBvE62VuFkDg+DcJlnHBGAYj0VTm1EG1k+ukPMGKYEUhJwknudKg+uY3hnLG
+ 9J7GTtXHUQPty6dFYWKNRG2ihlgFN/o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-171-N2gn0pHKNZyE_S_TMySBCQ-1; Fri, 26 Aug 2022 06:07:27 -0400
+X-MC-Unique: N2gn0pHKNZyE_S_TMySBCQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b16-20020a05600c4e1000b003a5a47762c3so741855wmq.9
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:07:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=cPunIMm8UePehABgrnk+njxurHmvnnStFidQ24P6MWs=;
- b=3207MmKOQ7MOxZKudl+aOPyMGLMLZ7Fe8HaarMg3+iFbcKaopZGr08TJlDm0IrvjDv
- 3uknB9ZuYbJmi7bGSSHyVY3HmiCuCawJ7wi+OdllCIXh5IjXCEb69K/zAqr9AjGRTxqY
- wHVK5vGLhooR3EqElh3FDgvilDXNIbuAYansM0UIttBnTGdYCNh7F7mzcMT24BUfaaNa
- 02jrYxHhGffR/4XLm7iVNrufZn4CWF19w+AeCprxEMx6Uds7Y7cuS6uI5jMkID89C2E2
- 7lN1tSCCYUwRaQpheDxQdwY83O3Uj5PRP6n9ospMYjPyPI5t3ZunnojoU01zwfer8v8+
- U5Tw==
-X-Gm-Message-State: ACgBeo0BATKM2lxA4Px7chOj6kcW2JZCGfpQlPzcz6JcS8XV2/3attHM
- cgbCn1FwFm7X1Eaaz+uvlGNK6nIogBwLs05GxwU=
-X-Google-Smtp-Source: AA6agR7eEMw5iZhIp7HATCvpbIajDnaGCUBv6grQ7T9z5KOcOM4IiHGFrNFfSehzfguMjy45H+VGmS1dXiqeNOo9M+E=
-X-Received: by 2002:a05:6512:12d6:b0:492:cfab:ffae with SMTP id
- p22-20020a05651212d600b00492cfabffaemr2435720lfg.329.1661508157777; Fri, 26
- Aug 2022 03:02:37 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=rXEXRYK+0wBzb2i3tokL5D3Rs4AJG5hF2C6R8Kn6NDc=;
+ b=dhMxX+h6shQVja4lWFjnVYXd/Mwm66XmRKGN+Jc/WrIqJcy8jhZjcjIkfSl+bspEWO
+ 2S8mebHcD/+LWBNrnbjPX0/hbV9OZSSOeQdj5wjdzJZmCtHyA/apMkBlWWSlMqWoDfcw
+ +CGAdHK+SnetzYFpMPo7LWriTKLVKtzP4M3RHIb7CDdEhCNXwGBy/EwaST7Vb0j/k9LD
+ 4eKetpzLVJPzvsslaffrnr8K8AUNDsuNPSBAgxH5K/h1egLBQlHGG4LvDQTc87DPK4wr
+ fe6JFsjX/bi5XvO2NUBZd/OZMg0Bl/uBjE3B6485yt4U5aCe564Cxs2pXeW1yeOUIpAR
+ liAQ==
+X-Gm-Message-State: ACgBeo2F93PrFdBRuRCxSkHL+55U2yqIECeqGHgeU0BTplAPsrxrER15
+ f/hTHax1vkG+BdRX88/YqHgIznRXN8r8b86q84sbNMPrFV9wRkxJwfIf/kHCG70at0mXEKQgqS+
+ VymJ4Xfvs4GABV7o=
+X-Received: by 2002:adf:f54d:0:b0:225:2f38:2fa4 with SMTP id
+ j13-20020adff54d000000b002252f382fa4mr4499776wrp.581.1661508446438; 
+ Fri, 26 Aug 2022 03:07:26 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5KVOnph7VEX57WNDMmyUu8+kFH1/5aMSa4YWfrO0G3gAdcy9ukbbOBpCRQJvEcU+iu3cw3mA==
+X-Received: by 2002:adf:f54d:0:b0:225:2f38:2fa4 with SMTP id
+ j13-20020adff54d000000b002252f382fa4mr4499763wrp.581.1661508446166; 
+ Fri, 26 Aug 2022 03:07:26 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c708:f600:abad:360:c840:33fa?
+ (p200300cbc708f600abad0360c84033fa.dip0.t-ipconnect.de.
+ [2003:cb:c708:f600:abad:360:c840:33fa])
+ by smtp.gmail.com with ESMTPSA id
+ p13-20020a05600c358d00b003a607e395ebsm10537394wmq.9.2022.08.26.03.07.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 03:07:25 -0700 (PDT)
+Message-ID: <063e98e9-a10f-5b38-d1dc-63f29c7ebfbb@redhat.com>
+Date: Fri, 26 Aug 2022 12:07:25 +0200
 MIME-Version: 1.0
-References: <20220825132110.1500330-1-marcandre.lureau@redhat.com>
- <20220825132110.1500330-3-marcandre.lureau@redhat.com>
- <35072646-3bee-ba0d-4b9d-6aeb117b8431@redhat.com>
-In-Reply-To: <35072646-3bee-ba0d-4b9d-6aeb117b8431@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 26 Aug 2022 14:02:26 +0400
-Message-ID: <CAJ+F1CJs-s2v1ivdwmwkS86=JU+rrqrov8HZiyEzFGDE-injnQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
 Subject: Re: [PATCH 2/2] dump: fix kdump to work over non-aligned blocks
-To: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  qiaonuohan@cn.fujitsu.com, Peter Maydell <peter.maydell@linaro.org>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>
-Content-Type: multipart/alternative; boundary="000000000000894a9205e722030b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220825132110.1500330-1-marcandre.lureau@redhat.com>
+ <20220825132110.1500330-3-marcandre.lureau@redhat.com>
+ <35072646-3bee-ba0d-4b9d-6aeb117b8431@redhat.com>
+ <CAJ+F1CJs-s2v1ivdwmwkS86=JU+rrqrov8HZiyEzFGDE-injnQ@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CAJ+F1CJs-s2v1ivdwmwkS86=JU+rrqrov8HZiyEzFGDE-injnQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,57 +108,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000894a9205e722030b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 26.08.22 12:02, Marc-André Lureau wrote:
+> Hi
+> 
+> 
+> On Fri, Aug 26, 2022 at 2:01 PM David Hildenbrand <david@redhat.com
+> <mailto:david@redhat.com>> wrote:
+> 
+>     On 25.08.22 15:21, marcandre.lureau@redhat.com
+>     <mailto:marcandre.lureau@redhat.com> wrote:
+>     > From: Marc-André Lureau <marcandre.lureau@redhat.com
+>     <mailto:marcandre.lureau@redhat.com>>
+>     >
+>     > Rewrite get_next_page() to work over non-aligned blocks. When it
+>     > encounters non aligned addresses, it will allocate a zero-page and try
+>     > to fill it.
+> 
+>     Could we simplify by using one global helper page (or caller provided
+>     page) and avoiding the allocation/freeing?
+> 
+> 
+> I don't think that makes a big difference, but certainly doable.
 
-Hi
+If we're using one central page, I guess we'd have to pass "flag_sync =
+true" to write_cache() in case that page is used. Or we simply specify
+on the single global page in there and force a sync. Changes would be
+limited to get_next_page() and write_cache() then.
 
 
-On Fri, Aug 26, 2022 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
+-- 
+Thanks,
 
-> On 25.08.22 15:21, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Rewrite get_next_page() to work over non-aligned blocks. When it
-> > encounters non aligned addresses, it will allocate a zero-page and try
-> > to fill it.
->
-> Could we simplify by using one global helper page (or caller provided
-> page) and avoiding the allocation/freeing?
->
->
-I don't think that makes a big difference, but certainly doable.
+David / dhildenb
 
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000894a9205e722030b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi<div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 26, 2022 at 2:01 PM Dav=
-id Hildenbrand &lt;<a href=3D"mailto:david@redhat.com">david@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 2=
-5.08.22 15:21, <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_bl=
-ank">marcandre.lureau@redhat.com</a> wrote:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; Rewrite get_next_page() to work over non-aligned blocks. When it<br>
-&gt; encounters non aligned addresses, it will allocate a zero-page and try=
-<br>
-&gt; to fill it.<br>
-<br>
-Could we simplify by using one global helper page (or caller provided<br>
-page) and avoiding the allocation/freeing?<br>
-<br></blockquote><div><br></div><div>I don&#39;t think that makes a big dif=
-ference, but certainly doable. <br></div></div><br clear=3D"all"><br>-- <br=
-><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div=
-></div>
-
---000000000000894a9205e722030b--
 
