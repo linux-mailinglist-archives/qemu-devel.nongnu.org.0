@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB115A26D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 13:24:50 +0200 (CEST)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C29E5A26DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 13:27:49 +0200 (CEST)
+Received: from localhost ([::1]:46628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRXSC-0005nW-UF
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 07:24:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50634)
+	id 1oRXV4-0008NY-Ou
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 07:27:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oRXKX-0007kn-6N
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:16:53 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:55667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oRXKS-0006C2-PR
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:16:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=SRDuGkhP93EoNG8hXSBzEMC8lIcD0PrwQm7JQf4oj6k=; b=lq8qe5Ea0M75OfzFVlb4Gf3ovi
- hzx3GVawptomIsehwW50d/FkoIkM6XzepDS5NDjotRYj71Gc0Oa2AEmIqqjQM9NSjsEP1LrmsilqJ
- 608jJtpt7yV68FjX9A+4nDDchcixNG3MD0BLcZTN38hkKHvONHdLxa5fLiYjSZ7NipXsfkmS/OPP/
- zzcRg/SA67BX87xsATEADxDI3HvaOjzGRmc+P9reaoh57vvhJDz4VpG5fOIiue4LGlUUkz24G0V/U
- BrYkZjswYP99n3bnr2OFLEDIqTb67QDFcfPp4WSLfmSaAqISJgh9AABXRiUSghAEprIyGk/YMcDpa
- Ier0VHitt4bdS9UFRdP3P3j87/Nj/enVmvRURF8ak4Vp86iq51g1BUOl3xOIPxhqrBTHOUaR7Tyun
- u4rnxQZvF75MkPSyqXGtfX0acpnhg7Mg4rLMMTSqPkpEN98o2t5uGd13lqkqnX0laErcpeVhPvKJD
- 4CAvZeHdMktSiCti1UISJTw0hkU+x4A8Jw7FW4y8+PL7ZIBoI3MVc9NvwZtYBjpsgvHlw6Cr+kDZU
- Z7a2JMJKalJdHDZy663kSU1N/5N9oK41P9auCEopGn0J4+4vKwDVAxHzRISb1O4rBlaEZjZLJmcRk
- hbla5YypqY5+DMs8Pg7lpofQExDIzeCvvtyaH3ktU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>
-Cc: Greg Kurz <groug@kaod.org>, Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 09/51] fsdev/virtfs-proxy-helper: Use
- g_mkdir_with_parents()
-Date: Fri, 26 Aug 2022 13:16:44 +0200
-Message-ID: <17308910.sOD9EhOjFm@silver>
-In-Reply-To: <CAEUhbmUWScohEG7aV9UfU1ARj5y6wmam+uqJ4zyFMHnyfwzr=Q@mail.gmail.com>
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <1709102.QJTYiT9k8f@silver>
- <CAEUhbmUWScohEG7aV9UfU1ARj5y6wmam+uqJ4zyFMHnyfwzr=Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRXMV-00010j-20
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:18:55 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:47256 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oRXMS-0006Qj-9V
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 07:18:54 -0400
+Received: from localhost.localdomain (unknown [159.226.43.62])
+ by APP-01 (Coremail) with SMTP id qwCowADX3yMNrAhjjZVhAA--.2259S2;
+ Fri, 26 Aug 2022 19:18:38 +0800 (CST)
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+To: qemu-devel@nongnu.org
+Cc: its@irrelevant.dk, kbusch@kernel.org, stefanha@gmail.com,
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Subject: [PATCH 0/3] iothread and irqfd support
+Date: Fri, 26 Aug 2022 19:18:31 +0800
+Message-Id: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADX3yMNrAhjjZVhAA--.2259S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrXFy3Jr4fKF4xAFyfCw48Zwb_yoWxGwc_ua
+ y8K34rXa1xZF1rJa4qgF17Jry5K3y5Xw12vF1qgF1Utryjvry5GF4qyry7XF18ZFWUXF13
+ JF1DJryrury7WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbz8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48J
+ MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+ AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+ 0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+ v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU0iiSUUUUU
+X-Originating-IP: [159.226.43.62]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,33 +72,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 26. August 2022 12:30:20 CEST Bin Meng wrote:
-> On Fri, Aug 26, 2022 at 6:09 PM Christian Schoenebeck
-> 
-> <qemu_oss@crudebyte.com> wrote:
-> > On Mittwoch, 24. August 2022 11:39:47 CEST Bin Meng wrote:
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > > 
-> > > Use the same g_mkdir_with_parents() call to create a directory on
-> > > all platforms.
-> > 
-> > The same would be g_mkdir(), not g_mkdir_with_parents(), so please use
-> > that
-> > instead.
-> 
-> No, g_mkdir() is a deprecated API.
+This patch series adds support for using a seperate iothread for NVMe
+IO emulation, which brings the potential of applying polling. The
+first two patches implements support for irqfd, which solves thread
+safety problems for interrupt emulation outside the main loop thread.
 
-Where did you got that from? AFAICS g_mkdir() does not seem to be deprecated:
-https://gitlab.gnome.org/GNOME/glib/-/blob/main/glib/gstdio.c#L1201
-https://gitlab.gnome.org/GNOME/glib/-/blob/main/glib/gstdio.h#L131
+Jinhao Fan (3):
+  hw/nvme: support irq(de)assertion with eventfd
+  hw/nvme: use KVM irqfd when available
+  hw/nvme: add iothread support
 
-> Search result (https://docs.gtk.org/glib/?q=mkdir) shows only
-> g_mkdir_with_parents().
+ hw/nvme/ctrl.c       | 335 +++++++++++++++++++++++++++++++++++++++----
+ hw/nvme/ns.c         |  21 ++-
+ hw/nvme/nvme.h       |  12 +-
+ hw/nvme/trace-events |   3 +
+ 4 files changed, 342 insertions(+), 29 deletions(-)
 
-Yeah, but that does not say that it was deprecated.
-
-> Regards,
-> Bin
-
+-- 
+2.25.1
 
 
