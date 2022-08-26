@@ -2,95 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EB55A2C13
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 18:13:46 +0200 (CEST)
-Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086025A2C04
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 18:09:16 +0200 (CEST)
+Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRbxo-000350-P2
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 12:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56308)
+	id 1oRbtT-0005AL-3q
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 12:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oRbjJ-00055S-7u; Fri, 26 Aug 2022 11:58:46 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:58995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oRbjG-0004Oo-Ta; Fri, 26 Aug 2022 11:58:44 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 8AD4C320085B;
- Fri, 26 Aug 2022 11:58:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 26 Aug 2022 11:58:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1661529519; x=1661615919; bh=yI
- AS2GZFVNQPg12i+jUwrrQLBaLsYs7veA67I7Baa6o=; b=lixv20BEFIevNFYf0W
- Ei3EhCDLpDjxqZRvDLCt3+JWVb6mB7q0xThH/FTzXQ9vSjfVy5zjscL0EtD2DciC
- 7Fv1UzDDP12DObmn4B6WQK2znMJNc42xawxf4AZpIBVN73dWE200LJJSijcYC634
- KcNy5m7Hv/4yGf+0GyPx1RZSHTPCnbchgXjJsL0xiiHhsrLzmdyIPUltg73TNm8n
- Dqw+3s2f4ziqGNVYT6NTWLs7s0/GobP82MTshx5sOo2ZNQOh2HLDSV5uASsW7Q/d
- f//GfXYsQwIVB23v2mZMSsv4bew+pDZYlyGaHCDdPI/IBPjmz36mv5OmWIyYcqef
- UBlA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1661529519; x=1661615919; bh=yIAS2GZFVNQPg12i+jUwrrQLBaLs
- Ys7veA67I7Baa6o=; b=Goq8TTNOPQGZhkcckaKc7IgBeS/FDOJmvOhTRO1qZO7p
- tYw2kll9pMihaI8jeS8A2AkLfZ930Lmi5Kc+qalPcszAY9goVZpes3nAYcLlbTlW
- LSL24YhtiRAr/YUFfAGvCHQATAX78Os4uwvNoOopvbnv+hyq4n7pQpV2dum2VfwV
- PiqvEhDFd2VeCsKYwskYdj7KXxrctcTK7zaGGdA6jriFzfeUsDZqc/wTKc1aD3kV
- rlx+qfs9GQFD1FuU+09HpGZYqiIYuh2OFXXr+rB07CM3V53svY4kmWVemjYyLmOP
- QHIjOfTO4xdgPa/nuX3mG8x7YAB2jC8VaSQjBXNHTg==
-X-ME-Sender: <xms:ru0IY8jrU8jI1NPbb447KWofYxzNSBwhdekW9NPr4fxPkSS6Bfdq2w>
- <xme:ru0IY1Aw58US0xJ15EcMojXKeBNdo3zZMSuu5ptpc-QpBsoiZUymFunvhOB5NUar3
- fB9gS8_z48Jfiyq_Cg>
-X-ME-Received: <xmr:ru0IY0HK99lBbtQnToTHAfyQsVvyD6PWkOfmuXRegWlDjzMJSYZfehUvpGISX4u0TvS_cC15wa1QYcqFZA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejhedgleegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ru0IY9TvBoWx2EhfXEVfuY2zz0mxt4kDuQpqN5f-bMoozjLHSVERZg>
- <xmx:ru0IY5xZIAuVJbYC_n4Cp3WnTMulHSkzMar-n4F4EFsZCF90Xv32Mg>
- <xmx:ru0IY77r_jHfvxlgJ6_-9bP8skcLuwE6ilSIxgF3v8318EcvTzDb3Q>
- <xmx:r-0IY8qYJ-naHjLuGb0MuEyC_dBxvB_FFcjykK2AkRl6NVIekQXA5Q>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Aug 2022 11:58:36 -0400 (EDT)
-Date: Fri, 26 Aug 2022 17:58:29 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
- stefanha@gmail.com, Klaus Jensen <k.jensen@samsung.com>,
- "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v2 2/3] hw/nvme: use KVM irqfd when available
-Message-ID: <YwjtpXaf0vfZVfSi@apples>
-References: <20220826151206.3148942-1-fanjinhao21s@ict.ac.cn>
- <20220826151206.3148942-3-fanjinhao21s@ict.ac.cn>
- <Ywjn7QOb9EyK1oJc@kbusch-mbp.dhcp.thefacebook.com>
- <YwjqkTgIEcCZJ3Be@apples>
- <YwjsuPTNd/1pOdjF@kbusch-mbp.dhcp.thefacebook.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oRbkH-0007Hq-Bv
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:59:45 -0400
+Received: from mail-vk1-f172.google.com ([209.85.221.172]:39711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oRbkF-0004SM-Dp
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 11:59:44 -0400
+Received: by mail-vk1-f172.google.com with SMTP id o14so856487vkl.6
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 08:59:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=dDfZvlOZbDAB3G7NJKdGUAJi/q7dI8NcGvz+GmFVxiw=;
+ b=Kui1mBv2ZDJbtXdM8aeqekGW/ZGCs8yOCd/elpin76NcinSK8Qd78sNJZKPofOwjea
+ WxdQjS8o6hVukIiO1Y8okcE/fni/WC9PAPVLL4O9wi1qCf10u0LqmWRqdohM4FeHOAhc
+ bnrlmITQoAP+VR+bZNo9SSdBL0fB8OWoWBQrZ5KoefZ/Ht1Pb6bwiPoXzO4/8U0wEx/k
+ OoAcEaCeWOpVJhsxysn56oKaO0Y/jodeSPSU7yus8EdQPmMkH+bBNasCACyGC63qUF1p
+ BxjmOZIG+SZEk2FYAO/+zIPVbT6Ksf4l7eKbQ+0Mev4tB4i54u8uU73rGVkqWTQGWrRA
+ eXIQ==
+X-Gm-Message-State: ACgBeo2/bs/FEC6iaC93YaaBtFfv8iEC6rPPanfhvBM+d6IxUPoVreyd
+ lUJo1q8Ql9sEZzGnnwB88AYwKzrie02CZ8olfQM=
+X-Google-Smtp-Source: AA6agR7HUz48NCWHy2GQAdHE+ekkr0RNpRonbct9tFPQ4onlsa5qp0IAyOteBzz7o9cgWATy8kHrPLHDkWWJB5BhOV4=
+X-Received: by 2002:a1f:34d8:0:b0:377:142f:3e2f with SMTP id
+ b207-20020a1f34d8000000b00377142f3e2fmr131553vka.27.1661529581843; Fri, 26
+ Aug 2022 08:59:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="73yvot6fG/q1+OzF"
-Content-Disposition: inline
-In-Reply-To: <YwjsuPTNd/1pOdjF@kbusch-mbp.dhcp.thefacebook.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220826110029.59382-1-pbonzini@redhat.com>
+In-Reply-To: <20220826110029.59382-1-pbonzini@redhat.com>
+Date: Fri, 26 Aug 2022 17:59:30 +0200
+Message-ID: <CAAdtpL6QSx0DFCACP_=+UAx_CO4g3gEcHmXKsrxvDp1MC3PXiw@mail.gmail.com>
+Subject: Re: [PATCH] KVM: dirty ring: add missing memory barrier
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Gavin Shan <gshan@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000827a4005e7270073"
+Received-SPF: pass client-ip=209.85.221.172;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vk1-f172.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,73 +71,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
+
+--000000000000827a4005e7270073
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Paolo,
+
+On Fri, Aug 26, 2022 at 1:17 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> The KVM_DIRTY_GFN_F_DIRTY flag ensures that the entry is valid.  If
+> the read of the fields are not ordered after the read of the flag,
+> QEMU might see stale values.
+>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 8d81ab74de..f49643cd24 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -719,7 +719,7 @@ static void kvm_dirty_ring_mark_page(KVMState *s,
+> uint32_t as_id,
+>
+>  static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
+>  {
+> -    return gfn->flags == KVM_DIRTY_GFN_F_DIRTY;
+> +    return qatomic_load_acquire(&gfn->flags, KVM_DIRTY_GFN_F_DIRTY);
+>
+
+Is this patch based on another which changes the qatomic_load_acquire()
+prototype?
 
 
---73yvot6fG/q1+OzF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+>  }
+>
+>  static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
+> --
+> 2.37.1
+>
+>
+>
+
+--000000000000827a4005e7270073
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Aug 26 09:54, Keith Busch wrote:
-> On Fri, Aug 26, 2022 at 05:45:21PM +0200, Klaus Jensen wrote:
-> > On Aug 26 09:34, Keith Busch wrote:
-> > > On Fri, Aug 26, 2022 at 11:12:04PM +0800, Jinhao Fan wrote:
-> > > > Use KVM's irqfd to send interrupts when possible. This approach is
-> > > > thread safe. Moreover, it does not have the inter-thread communicat=
-ion
-> > > > overhead of plain event notifiers since handler callback are called
-> > > > in the same system call as irqfd write.
-> > > >=20
-> > > > Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-> > > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > >=20
-> > > No idea what's going on here... This one is causing the following ass=
-ert
-> > > failure with --enable-kvm:
-> > >=20
-> > >   qemu-system-x86_64: ../accel/kvm/kvm-all.c:1781: kvm_irqchip_commit=
-_routes: Assertion `ret =3D=3D 0' failed.
-> > >=20
-> > > I find it calls KVM_SET_GSI_ROUTING ioctl with gsi set to KVM_IRQ_ROU=
-TING_MSI,
-> > > and linux kernel returns EINVAL in that case. It's never set that way=
- without
-> > > this patch. Am I the only one seeing this?
-> >=20
-> > Argh, sorry, I threw that patch together a bit too quickly. I was just
-> > so pumped because I believed I had solved the issue hehe.
-> >=20
-> > Are you missing the ioeventfd=3Don and irq-eventfd=3Don parameters by a=
-ny
-> > chance? Without those I'm also getting an assertion, but a different one
->=20
-> I had not enabled those yet. This was purely a regrsession test with my
-> previously working paramaters for a sanity check.
->=20
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Paolo,</div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 26, 2022 at 1:17 PM =
+Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>The KVM_DIRTY_GFN_F_DIRTY flag ensures that the entry is valid.=C2=A0 If<b=
+r>
+the read of the fields are not ordered after the read of the flag,<br>
+QEMU might see stale values.<br>
+<br>
+Cc: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"_blank">pet=
+erx@redhat.com</a>&gt;<br>
+Cc: Gavin Shan &lt;<a href=3D"mailto:gshan@redhat.com" target=3D"_blank">gs=
+han@redhat.com</a>&gt;<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0accel/kvm/kvm-all.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c<br>
+index 8d81ab74de..f49643cd24 100644<br>
+--- a/accel/kvm/kvm-all.c<br>
++++ b/accel/kvm/kvm-all.c<br>
+@@ -719,7 +719,7 @@ static void kvm_dirty_ring_mark_page(KVMState *s, uint3=
+2_t as_id,<br>
+<br>
+=C2=A0static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 return gfn-&gt;flags =3D=3D KVM_DIRTY_GFN_F_DIRTY;<br>
++=C2=A0 =C2=A0 return qatomic_load_acquire(&amp;gfn-&gt;flags, KVM_DIRTY_GF=
+N_F_DIRTY);<br></blockquote><div><br></div><div>Is this patch based on anot=
+her which changes the=C2=A0qatomic_load_acquire() prototype?</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0}<br>
+<br>
+=C2=A0static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)<br>
+-- <br>
+2.37.1<br>
+<br>
+<br>
+</blockquote></div></div>
 
-Yeah, sorry, I just threw it out there with tunnel vision on the kvm
-irq part, not doing my due diligence ;)
-
-I'll fix it up!
-
-> If I enable those new nvme parameters, then it is successful.
-
-Great :)
-
---73yvot6fG/q1+OzF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMI7aMACgkQTeGvMW1P
-Dek9CQgAtp2wbHuoneRO1fJNxv2DBoDrCv30bre49AfDUPRBJ+LoNo16aD0Vl+QZ
-VUL5YUbjs6FIpLjK2pYxxwGx3kxv2P0OMFbyd6Q/YnovyDe/1TGnPzirMwI/CgMt
-02q3UA6K7piaqxvfHNP28HNx/petycgeN/38dLlpcIbTCIw0i0OKqHMj7t2hADRz
-kLdjtVHrbxAIPa593BOlBcMnFRVEPXuUis15UdNDxxt+MkSGV7cCO30wjR+BhUTu
-LweUw976csEA3BUvxUq5cLmNW5ykluy+CyVcwsGfWvNe6A/XvB87PwOef2c2JcLT
-gwIPIIMS0nPaZnpU7UUVT9yokZEFCw==
-=0zdY
------END PGP SIGNATURE-----
-
---73yvot6fG/q1+OzF--
+--000000000000827a4005e7270073--
 
