@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E815A25BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:21:56 +0200 (CEST)
-Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179F75A25C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Aug 2022 12:23:24 +0200 (CEST)
+Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRWTG-0004bs-Dz
-	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47386)
+	id 1oRWUk-0006gE-TL
+	for lists+qemu-devel@lfdr.de; Fri, 26 Aug 2022 06:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oRWOB-0000Ta-EZ
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:16:36 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:47056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oRWO6-0001AJ-UP
- for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:16:34 -0400
-Received: by mail-lf1-x130.google.com with SMTP id d23so1363677lfl.13
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:16:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=8fedC5mxe90H7Iupo6WJVp4p2MeFWfXE+uXRtIL1hJA=;
- b=dmT4tzHyHmJfPXbbHrSRpuMYvddY5BNhae+Ae+Wcrv6jW95OqqTT+F9su3FOwF9TH8
- NctM1ZoikufOf+X7GTgxzamNaVZoltH7SRvj1Oq5oucaej4eOQYyFU4QyKPZhSrVzUX0
- JXLSLuyNc5JHZwSynBXhjTSntfF8MGJLnIfKNSX6peU7CoobBWFkhYC4S+lqbni9GnyR
- wM2bgnTrkRJMaF0Ked78/uodXd/ZL56sMLjj3QGxFG5+6fWURp1+yGn1Lz3eYbcje0g+
- w15ep8P939ErWt6Nis5j3Oxd49ckDjC2AmWewmNd0Ucjc5+tl95tsenoPSBGpCwGua94
- FEuQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRWTB-0004iv-HS
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:21:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24105)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRWT8-0001l1-8o
+ for qemu-devel@nongnu.org; Fri, 26 Aug 2022 06:21:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661509301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8kJT6WDS6e5b4ZIBeTtW79SNDd/Vb95BqHfbXOn6h4w=;
+ b=YSxeP2Q2yqiJNA2udo11J/lskxGalhYXiRfrfheGCH51MfZvPuACcFQWp9W75+tJXLzBoi
+ Sbnmy8md22rPHs5bVcXLw7f8AOEnwWuH8irOyg+9rU5pE/Wp3eL/wJjBY1651zbBy3DF2F
+ Y16rz2Ifao9/7XU56krRRz6W3YAqUA8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-635-q5Bjq6urOp-3dlvK9ykvbg-1; Fri, 26 Aug 2022 06:21:40 -0400
+X-MC-Unique: q5Bjq6urOp-3dlvK9ykvbg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ho13-20020a1709070e8d00b00730a655e173so449347ejc.8
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 03:21:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=8fedC5mxe90H7Iupo6WJVp4p2MeFWfXE+uXRtIL1hJA=;
- b=06QWO92LNSkZeH/wJHNXiptjtKCd+GL0TJRuxSiYEdbt7kvg6/CcNiS9gHEpaLquzt
- iZmc9oHAojthShuZiOXziMoZ6zaeQyjri5pK6Y8HFV6yMc9+5XCOqNGxKh2a80Aka0+q
- 6+Fc/ua9fqs7+0eSv4hc7CnNY+ycXI9fuc1M94jm6PxYBkim4Zs0jWqZ3wKuamA5EfBH
- bUyFKMUQ0oIo48VtN5tKUEA64Og/L72Z8y34pXFp3FSjyhZRzlcULqugL70Fl+MPR7CO
- gVdRIOIpHWC8dWNN4BTVSqIqKRx2W+fR1Dn8XjkLwLXP+TUJLxXjaPtW+WtpfwFkGAHp
- XKAA==
-X-Gm-Message-State: ACgBeo1XRvZwGZppR9rKYjJ2ZnOd4DUgFHNqxfI3pdUEIm4X6e3NiRBF
- yIfGOP7DUNNBqegtcxa+ML80Qi8Ff8wz54zLaTQ=
-X-Google-Smtp-Source: AA6agR4pkFqzHquicAxd84zrr1K4NcUFDV6fZ2/TDP+Yj1HlLf/uW9CptFSA5kVH4KCsOe9OgX4kxeCV9efbCh9SnJQ=
-X-Received: by 2002:a05:6512:2394:b0:492:df50:28ce with SMTP id
- c20-20020a056512239400b00492df5028cemr2496189lfv.328.1661508988369; Fri, 26
- Aug 2022 03:16:28 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=8kJT6WDS6e5b4ZIBeTtW79SNDd/Vb95BqHfbXOn6h4w=;
+ b=2Y03EEQjPz6tR8qsB3acrKh0GjbEE4VZVQRRljdamZL79lrhl/3CdqKn2S9cnjueij
+ WVkdXN5L7Es9+DwDguCLMqONzAtifcaSR0qfAQp/PeXGshUeYQgp0IVHZcwqsxO8BPTJ
+ ZTmUmhE5V5jF5JsLAP6QwGEFQ+0Nf1UzUhCd5YURYccVuoHweO12NDJGseBe7keX3i6U
+ O0YYBlZEO08P/BIVQ8glAqbq2i51dO2ryd5l3U3qjnaFf4FZt9a1ZoZvzWrRhGTChC3j
+ 9ZFfX6czfiB+mAM/WVBCPSPCVYQ5r/FWhuhgoo3hN6LBMqNWnEJg/qGeal13MBNI3Ceb
+ ubkQ==
+X-Gm-Message-State: ACgBeo2sjG4eruXWdyom5puBBlHKJWzSd2fByI/dvUres08rTwSeD+D0
+ 7F+5YCCO8BoLMYb2BoOfR6kB5toZQf18b5R8x9oRNLpEJSBAdZfS82fD7CfVIb+oFmvmRfqIICE
+ k182waxwEO4gWr8g=
+X-Received: by 2002:a17:907:7205:b0:739:1735:8b9a with SMTP id
+ dr5-20020a170907720500b0073917358b9amr4961168ejc.244.1661509298867; 
+ Fri, 26 Aug 2022 03:21:38 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5mPqrMnaMkgLjX7mgMZjEd+TxZt8YcummlD5/y9ti0XzOPW4sqyqISUMyTME10o32snrFe+Q==
+X-Received: by 2002:a17:907:7205:b0:739:1735:8b9a with SMTP id
+ dr5-20020a170907720500b0073917358b9amr4961154ejc.244.1661509298527; 
+ Fri, 26 Aug 2022 03:21:38 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-42.web.vodafone.de.
+ [109.43.179.42]) by smtp.gmail.com with ESMTPSA id
+ j5-20020aa7ca45000000b0044629b54b00sm1058982edt.46.2022.08.26.03.21.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Aug 2022 03:21:38 -0700 (PDT)
+Message-ID: <362c6915-c7fa-9eee-fe3d-1995fb55d5a1@redhat.com>
+Date: Fri, 26 Aug 2022 12:21:36 +0200
 MIME-Version: 1.0
-References: <20220826100812.410773-1-antonio.caggiano@collabora.com>
- <20220826100812.410773-2-antonio.caggiano@collabora.com>
-In-Reply-To: <20220826100812.410773-2-antonio.caggiano@collabora.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 26 Aug 2022 14:16:16 +0400
-Message-ID: <CAJ+F1CLr2rMACn_340z1iictXvXMRn0jhXbs=7XkSMY1eL3Upg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] virtio-gpu: CONTEXT_INIT feature
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Cc: qemu-devel@nongnu.org, gert.wollny@collabora.com, 
- dmitry.osipenko@collabora.com, "Michael S. Tsirkin" <mst@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000000b016305e72235da"
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+References: <Yu0UtNzyb81O0ND2@zx2c4.com>
+ <20220809150331.84296-1-Jason@zx2c4.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v7 1/2] target/s390x: support SHA-512 extensions
+In-Reply-To: <20220809150331.84296-1-Jason@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,317 +108,262 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000b016305e72235da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi
+Finally, I'm also having some spare minutes to have a look on this ... 
+First, thank you for your work here, it's very appreciated! Some more 
+comments inline below (mostly cosmetics since I'm not very much into this 
+crypto stuff)...
 
-On Fri, Aug 26, 2022 at 2:12 PM Antonio Caggiano <
-antonio.caggiano@collabora.com> wrote:
-
-> Create virgl renderer context with flags using context_id when valid.
->
-> v2:
-> - The feature can be enabled via the context_init config option.
-> - A warning message will be emitted and the feature will not be used
->   when linking with virglrenderer versions without context_init support.
->
-> v3: Define HAVE_VIRGL_CONTEXT_INIT in config_host_data.
->
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+On 09/08/2022 17.03, Jason A. Donenfeld wrote:
+> In order to fully support MSA_EXT_5, we have to support the SHA-512
+> special instructions. So implement those.
+> 
+> The implementation began as something TweetNacl-like, and then was
+> adjusted to be useful here. It's not very beautiful, but it is quite
+> short and compact, which is what we're going for.
+ >
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 > ---
->  hw/display/virtio-gpu-base.c   |  3 +++
->  hw/display/virtio-gpu-virgl.c  | 16 ++++++++++++++--
->  hw/display/virtio-gpu.c        |  2 ++
->  include/hw/virtio/virtio-gpu.h |  3 +++
->  meson.build                    |  5 +++++
->  5 files changed, 27 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-> index a29f191aa8..6c5f1f327f 100644
-> --- a/hw/display/virtio-gpu-base.c
-> +++ b/hw/display/virtio-gpu-base.c
-> @@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev,
-> uint64_t features,
->      if (virtio_gpu_blob_enabled(g->conf)) {
->          features |=3D (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
->      }
-> +    if (virtio_gpu_context_init_enabled(g->conf)) {
-> +        features |=3D (1 << VIRTIO_GPU_F_CONTEXT_INIT);
+>   target/s390x/gen-features.c      |   3 +
+>   target/s390x/tcg/crypto_helper.c | 157 +++++++++++++++++++++++++++++++
+>   2 files changed, 160 insertions(+)
+
+If you've got some spare time, it would be great to have a test for the new 
+functions in the tests/tcg/s390x/ folder, too (but otherwise we can still 
+add them later).
+
+> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+> index ad140184b9..85ab69d04e 100644
+> --- a/target/s390x/gen-features.c
+> +++ b/target/s390x/gen-features.c
+> @@ -749,6 +749,9 @@ static uint16_t qemu_V7_0[] = {
+>    */
+>   static uint16_t qemu_MAX[] = {
+>       S390_FEAT_VECTOR_ENH2,
+> +    S390_FEAT_MSA_EXT_5,
+> +    S390_FEAT_KIMD_SHA_512,
+> +    S390_FEAT_KLMD_SHA_512,
+>   };
+
+I think we likely have to fence the bits off for older machine type 
+versions, like it has been done in commit 4f9b6c7ddb2 for example. However, 
+the patch for the new 7.2 machine type is not merged yet (but I've queued it 
+on https://gitlab.com/thuth/qemu/-/commits/s390x-next/ ), so you either have 
+to pick that manually into your branch, or we fix it up later (which would 
+be ok for me, too).
+
+>   /****** END FEATURE DEFS ******/
+> diff --git a/target/s390x/tcg/crypto_helper.c b/target/s390x/tcg/crypto_helper.c
+> index 138d9e7ad9..4d45de8faa 100644
+> --- a/target/s390x/tcg/crypto_helper.c
+> +++ b/target/s390x/tcg/crypto_helper.c
+> @@ -1,10 +1,12 @@
+>   /*
+>    *  s390x crypto helpers
+>    *
+> + *  Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+
+Please drop the "All rights reserved" ... it does not have any legal meaning 
+anymore, and also sounds weird in the Open Source context. See:
+
+  https://en.wikipedia.org/wiki/All_rights_reserved#Obsolescence
+
+>    *  Copyright (c) 2017 Red Hat Inc
+>    *
+>    *  Authors:
+>    *   David Hildenbrand <david@redhat.com>
+> + *   Jason A. Donenfeld <Jason@zx2c4.com>
+>    *
+>    * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>    * See the COPYING file in the top-level directory.
+> @@ -18,6 +20,153 @@
+>   #include "exec/exec-all.h"
+>   #include "exec/cpu_ldst.h"
+>   
+> +static uint64_t R(uint64_t x, int c) { return (x >> c) | (x << (64 - c)); }
+> +static uint64_t Ch(uint64_t x, uint64_t y, uint64_t z) { return (x & y) ^ (~x & z); }
+> +static uint64_t Maj(uint64_t x, uint64_t y, uint64_t z) { return (x & y) ^ (x & z) ^ (y & z); }
+> +static uint64_t Sigma0(uint64_t x) { return R(x, 28) ^ R(x, 34) ^ R(x, 39); }
+> +static uint64_t Sigma1(uint64_t x) { return R(x, 14) ^ R(x, 18) ^ R(x, 41); }
+> +static uint64_t sigma0(uint64_t x) { return R(x, 1) ^ R(x, 8) ^ (x >> 7); }
+> +static uint64_t sigma1(uint64_t x) { return R(x, 19) ^ R(x, 61) ^ (x >> 6); }
+> +
+> +static const uint64_t K[80] = {
+> +    0x428a2f98d728ae22ULL, 0x7137449123ef65cdULL, 0xb5c0fbcfec4d3b2fULL,
+> +    0xe9b5dba58189dbbcULL, 0x3956c25bf348b538ULL, 0x59f111f1b605d019ULL,
+> +    0x923f82a4af194f9bULL, 0xab1c5ed5da6d8118ULL, 0xd807aa98a3030242ULL,
+> +    0x12835b0145706fbeULL, 0x243185be4ee4b28cULL, 0x550c7dc3d5ffb4e2ULL,
+> +    0x72be5d74f27b896fULL, 0x80deb1fe3b1696b1ULL, 0x9bdc06a725c71235ULL,
+> +    0xc19bf174cf692694ULL, 0xe49b69c19ef14ad2ULL, 0xefbe4786384f25e3ULL,
+> +    0x0fc19dc68b8cd5b5ULL, 0x240ca1cc77ac9c65ULL, 0x2de92c6f592b0275ULL,
+> +    0x4a7484aa6ea6e483ULL, 0x5cb0a9dcbd41fbd4ULL, 0x76f988da831153b5ULL,
+> +    0x983e5152ee66dfabULL, 0xa831c66d2db43210ULL, 0xb00327c898fb213fULL,
+> +    0xbf597fc7beef0ee4ULL, 0xc6e00bf33da88fc2ULL, 0xd5a79147930aa725ULL,
+> +    0x06ca6351e003826fULL, 0x142929670a0e6e70ULL, 0x27b70a8546d22ffcULL,
+> +    0x2e1b21385c26c926ULL, 0x4d2c6dfc5ac42aedULL, 0x53380d139d95b3dfULL,
+> +    0x650a73548baf63deULL, 0x766a0abb3c77b2a8ULL, 0x81c2c92e47edaee6ULL,
+> +    0x92722c851482353bULL, 0xa2bfe8a14cf10364ULL, 0xa81a664bbc423001ULL,
+> +    0xc24b8b70d0f89791ULL, 0xc76c51a30654be30ULL, 0xd192e819d6ef5218ULL,
+> +    0xd69906245565a910ULL, 0xf40e35855771202aULL, 0x106aa07032bbd1b8ULL,
+> +    0x19a4c116b8d2d0c8ULL, 0x1e376c085141ab53ULL, 0x2748774cdf8eeb99ULL,
+> +    0x34b0bcb5e19b48a8ULL, 0x391c0cb3c5c95a63ULL, 0x4ed8aa4ae3418acbULL,
+> +    0x5b9cca4f7763e373ULL, 0x682e6ff3d6b2b8a3ULL, 0x748f82ee5defb2fcULL,
+> +    0x78a5636f43172f60ULL, 0x84c87814a1f0ab72ULL, 0x8cc702081a6439ecULL,
+> +    0x90befffa23631e28ULL, 0xa4506cebde82bde9ULL, 0xbef9a3f7b2c67915ULL,
+> +    0xc67178f2e372532bULL, 0xca273eceea26619cULL, 0xd186b8c721c0c207ULL,
+> +    0xeada7dd6cde0eb1eULL, 0xf57d4f7fee6ed178ULL, 0x06f067aa72176fbaULL,
+> +    0x0a637dc5a2c898a6ULL, 0x113f9804bef90daeULL, 0x1b710b35131c471bULL,
+> +    0x28db77f523047d84ULL, 0x32caab7b40c72493ULL, 0x3c9ebe0a15c9bebcULL,
+> +    0x431d67c49c100d4cULL, 0x4cc5d4becb3e42b6ULL, 0x597f299cfc657e2aULL,
+> +    0x5fcb6fab3ad6faecULL, 0x6c44198c4a475817ULL
+> +};
+> +
+> +static int kimd_sha512(CPUS390XState *env, uintptr_t ra, uint64_t parameter_block,
+> +                       uint64_t *message_reg, uint64_t *len_reg, uint8_t *stack_buffer)
+> +{
+> +    enum { MAX_BLOCKS_PER_RUN = 64 }; /* This is arbitrary, just to keep interactivity. */
+> +    uint64_t z[8], b[8], a[8], w[16], t;
+> +    uint64_t message = message_reg ? *message_reg : 0, len = *len_reg, processed = 0;
+
+The line is very long, could you please declare message and len on separate 
+lines?
+
+> +    int i, j, message_reg_len = 64, blocks = 0, cc = 0;
+> +
+> +    if (!(env->psw.mask & PSW_MASK_64)) {
+> +        len = (uint32_t)len;
+> +        message_reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
 > +    }
->
->      return features;
->  }
-> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.=
-c
-> index 73cb92c8d5..274cbc44de 100644
-> --- a/hw/display/virtio-gpu-virgl.c
-> +++ b/hw/display/virtio-gpu-virgl.c
-> @@ -97,8 +97,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
->      trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
->                                      cc.debug_name);
->
-> -    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
-> -                                  cc.debug_name);
-> +    if (cc.context_init) {
-> +#ifdef HAVE_VIRGL_CONTEXT_INIT
-> +        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
-> +                                                 cc.context_init,
-> +                                                 cc.nlen,
-> +                                                 cc.debug_name);
-> +        return;
-> +#else
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "Linked virglrenderer does not support
-> context-init\n");
->
+> +
+> +    for (i = 0; i < 8; ++i) {
+> +        z[i] = a[i] = cpu_ldq_be_data_ra(env, wrap_address(env, parameter_block + 8 * i), ra);
 
-What is the outcome in that case?
+Quite a long line again, maybe split it like this:
 
+       abi_ptr addr = wrap_address(env, parameter_block + 8 * i);
+       z[i] = a[i] = cpu_ldq_be_data_ra(env, addr, ra);
 
-> +#endif
 > +    }
 > +
-> +    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name)=
-;
->  }
->
->  static void virgl_cmd_context_destroy(VirtIOGPU *g,
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index 20cc703dcc..fa667ec234 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] =3D {
->                       256 * MiB),
->      DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
->                      VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
-> +    DEFINE_PROP_BIT("context_init", VirtIOGPU, parent_obj.conf.flags,
-> +                    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> diff --git a/include/hw/virtio/virtio-gpu.h
-> b/include/hw/virtio/virtio-gpu.h
-> index 2e28507efe..c6f5cfde47 100644
-> --- a/include/hw/virtio/virtio-gpu.h
-> +++ b/include/hw/virtio/virtio-gpu.h
-> @@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
->      VIRTIO_GPU_FLAG_EDID_ENABLED,
->      VIRTIO_GPU_FLAG_DMABUF_ENABLED,
->      VIRTIO_GPU_FLAG_BLOB_ENABLED,
-> +    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
->  };
->
->  #define virtio_gpu_virgl_enabled(_cfg) \
-> @@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
->      (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
->  #define virtio_gpu_blob_enabled(_cfg) \
->      (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
-> +#define virtio_gpu_context_init_enabled(_cfg) \
-> +    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
->
->  struct virtio_gpu_base_conf {
->      uint32_t max_outputs;
-> diff --git a/meson.build b/meson.build
-> index 20fddbd707..e1071b3563 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -718,6 +718,11 @@ if not get_option('virglrenderer').auto() or
-> have_system or have_vhost_user_gpu
->                       method: 'pkg-config',
->                       required: get_option('virglrenderer'),
->                       kwargs: static_kwargs)
+> +    while (len >= 128) {
+> +        if (++blocks > MAX_BLOCKS_PER_RUN) {
+> +            cc = 3;
+> +            break;
+> +        }
 > +
-> +  config_host_data.set('HAVE_VIRGL_CONTEXT_INIT',
+> +        for (i = 0; i < 16; ++i) {
+> +            if (message) {
+> +                w[i] = cpu_ldq_be_data_ra(env, wrap_address(env, message + 8 * i), ra);
+
+Long line again, please split.
+
+> +            } else {
+> +                w[i] = be64_to_cpu(((uint64_t *)stack_buffer)[i]);
+> +            }
+> +        }
 > +
->  cc.has_function('virgl_renderer_context_create_with_flags',
-> +                                       prefix: '#include
-> <virglrenderer.h>',
-> +                                       dependencies: virgl))
->  endif
->  curl =3D not_found
->  if not get_option('curl').auto() or have_block
-> --
-> 2.34.1
->
->
->
-lgtm
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> +        for (i = 0; i < 80; ++i) {
+> +            for (j = 0; j < 8; ++j) {
+> +                b[j] = a[j];
+> +            }
+> +            t = a[7] + Sigma1(a[4]) + Ch(a[4], a[5], a[6]) + K[i] + w[i % 16];
+> +            b[7] = t + Sigma0(a[0]) + Maj(a[0], a[1], a[2]);
+> +            b[3] += t;
+> +            for (j = 0; j < 8; ++j) {
+> +                a[(j + 1) % 8] = b[j];
+> +            }
+> +            if (i % 16 == 15) {
+> +                for (j = 0; j < 16; ++j) {
+> +                    w[j] += w[(j + 9) % 16] + sigma0(w[(j + 1) % 16]) + sigma1(w[(j + 14) % 16]);
+> +                }
+> +            }
+> +        }
+> +
+> +        for (i = 0; i < 8; ++i) {
+> +            a[i] += z[i];
+> +            z[i] = a[i];
+> +        }
+> +
+> +        if (message) {
+> +            message += 128;
+> +        } else {
+> +            stack_buffer += 128;
+> +        }
+> +        len -= 128;
+> +        processed += 128;
+> +    }
+> +
+> +    for (i = 0; i < 8; ++i) {
+> +        cpu_stq_be_data_ra(env, wrap_address(env, parameter_block + 8 * i), z[i], ra);
+> +    }
+> +
+> +    if (message_reg) {
+> +        *message_reg = deposit64(*message_reg, 0, message_reg_len, message);
+> +    }
+> +    *len_reg -= processed;
+> +    return cc;
+> +}
+> +
+> +static int klmd_sha512(CPUS390XState *env, uintptr_t ra, uint64_t parameter_block,
+> +                        uint64_t *message_reg, uint64_t *len_reg)
+> +{
+> +    uint8_t x[256];
+> +    uint64_t i, message, len;
+> +    int j, message_reg_len = 64, cc;
+> +
+> +    cc = kimd_sha512(env, ra, parameter_block, message_reg, len_reg, NULL);
+> +    if (cc) {
+> +        return cc;
+> +    }
+> +
+> +    message = *message_reg;
+> +    len = *len_reg;
+> +    if (!(env->psw.mask & PSW_MASK_64)) {
+> +        len = (uint32_t)len;
+> +        message_reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
+> +    }
+> +
+> +    for (i = 0; i < len; ++i) {
+> +        x[i] = cpu_ldub_data_ra(env, wrap_address(env, message + i), ra);
+> +    }
+> +    memset(x + i, 0, sizeof(x) - i);
+> +    x[i] = 128;
+> +    i = i < 112 ? 128 : 256;
+> +    for (j = 0; j < 16; ++j) {
+> +        x[i - 16 + j] = cpu_ldub_data_ra(env, wrap_address(env, parameter_block + 64 + j), ra);
+> +    }
+> +    if (kimd_sha512(env, ra, parameter_block, NULL, &i, x)) {
+> +        g_assert_not_reached(); /* It must handle at least 2 blocks. */
+> +    }
+> +    *message_reg = deposit64(*message_reg, 0, message_reg_len, message + len);
+> +    *len_reg -= len;
+> +    return 0;
+> +}
+> +
+>   uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
+>                        uint32_t type)
+>   {
+> @@ -52,6 +201,14 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
+>               cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
 
---=20
-Marc-Andr=C3=A9 Lureau
+So for KIMD and KLMD, I think we now have to set the bit that corresponds to 
+SHA-512 in the query status information, too? Otherwise the guest might not 
+use the function if it thinks that it is not available?
 
---0000000000000b016305e72235da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>           }
+>           break;
+> +    case 3: /* CPACF_*_SHA_512 */
+> +        switch (type) {
+> +        case S390_FEAT_TYPE_KIMD:
+> +            return kimd_sha512(env, ra, env->regs[1], &env->regs[r2], &env->regs[r2 + 1], NULL);
+> +        case S390_FEAT_TYPE_KLMD:
+> +            return klmd_sha512(env, ra, env->regs[1], &env->regs[r2], &env->regs[r2 + 1]);
+> +        }
+> +        break;
+>       default:
+>           /* we don't implement any other subfunction yet */
+>           g_assert_not_reached();
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 26, 2022 at 2:12 PM Ant=
-onio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@collabora.com">antonio=
-.caggiano@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">Create virgl renderer context with flags using conte=
-xt_id when valid.<br>
-<br>
-v2:<br>
-- The feature can be enabled via the context_init config option.<br>
-- A warning message will be emitted and the feature will not be used<br>
-=C2=A0 when linking with virglrenderer versions without context_init suppor=
-t.<br>
-<br>
-v3: Define HAVE_VIRGL_CONTEXT_INIT in config_host_data.<br>
-<br>
-Signed-off-by: Antonio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@coll=
-abora.com" target=3D"_blank">antonio.caggiano@collabora.com</a>&gt;<br>
----<br>
-=C2=A0hw/display/virtio-gpu-base.c=C2=A0 =C2=A0|=C2=A0 3 +++<br>
-=C2=A0hw/display/virtio-gpu-virgl.c=C2=A0 | 16 ++++++++++++++--<br>
-=C2=A0hw/display/virtio-gpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-=C2=A0include/hw/virtio/virtio-gpu.h |=C2=A0 3 +++<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 5 +++++<br>
-=C2=A05 files changed, 27 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c<br=
->
-index a29f191aa8..6c5f1f327f 100644<br>
---- a/hw/display/virtio-gpu-base.c<br>
-+++ b/hw/display/virtio-gpu-base.c<br>
-@@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64=
-_t features,<br>
-=C2=A0 =C2=A0 =C2=A0if (virtio_gpu_blob_enabled(g-&gt;conf)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0features |=3D (1 &lt;&lt; VIRTIO_GPU_F_RE=
-SOURCE_BLOB);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 if (virtio_gpu_context_init_enabled(g-&gt;conf)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 features |=3D (1 &lt;&lt; VIRTIO_GPU_F_CONTEXT=
-_INIT);<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return features;<br>
-=C2=A0}<br>
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c<=
-br>
-index 73cb92c8d5..274cbc44de 100644<br>
---- a/hw/display/virtio-gpu-virgl.c<br>
-+++ b/hw/display/virtio-gpu-virgl.c<br>
-@@ -97,8 +97,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,<br>
-=C2=A0 =C2=A0 =C2=A0trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cc.debug_name);<=
-br>
-<br>
--=C2=A0 =C2=A0 virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cc.debug_name);<br>
-+=C2=A0 =C2=A0 if (cc.context_init) {<br>
-+#ifdef HAVE_VIRGL_CONTEXT_INIT<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 virgl_renderer_context_create_with_flags(cc.hd=
-r.ctx_id,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0cc.context_init,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0cc.nlen,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0cc.debug_name);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+#else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_UNIMP,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Linked virglrenderer does not support context-init\n&quot;);<br><=
-/blockquote><div><br></div><div>What is the outcome in that case? <br></div=
-><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+#endif<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 <br>
-+=C2=A0 =C2=A0 virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.deb=
-ug_name);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void virgl_cmd_context_destroy(VirtIOGPU *g,<br>
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c<br>
-index 20cc703dcc..fa667ec234 100644<br>
---- a/hw/display/virtio-gpu.c<br>
-+++ b/hw/display/virtio-gpu.c<br>
-@@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 256 * MiB),<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BIT(&quot;blob&quot;, VirtIOGPU, parent_obj=
-.conf.flags,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0VIRTIO_GPU_FLAG_BLOB_ENABLED, false),<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_BIT(&quot;context_init&quot;, VirtIOGPU, parent_=
-obj.conf.flags,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VIRT=
-IO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>
-=C2=A0};<br>
-<br>
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.=
-h<br>
-index 2e28507efe..c6f5cfde47 100644<br>
---- a/include/hw/virtio/virtio-gpu.h<br>
-+++ b/include/hw/virtio/virtio-gpu.h<br>
-@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {<br>
-=C2=A0 =C2=A0 =C2=A0VIRTIO_GPU_FLAG_EDID_ENABLED,<br>
-=C2=A0 =C2=A0 =C2=A0VIRTIO_GPU_FLAG_DMABUF_ENABLED,<br>
-=C2=A0 =C2=A0 =C2=A0VIRTIO_GPU_FLAG_BLOB_ENABLED,<br>
-+=C2=A0 =C2=A0 VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,<br>
-=C2=A0};<br>
-<br>
-=C2=A0#define virtio_gpu_virgl_enabled(_cfg) \<br>
-@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {<br>
-=C2=A0 =C2=A0 =C2=A0(_cfg.flags &amp; (1 &lt;&lt; VIRTIO_GPU_FLAG_DMABUF_EN=
-ABLED))<br>
-=C2=A0#define virtio_gpu_blob_enabled(_cfg) \<br>
-=C2=A0 =C2=A0 =C2=A0(_cfg.flags &amp; (1 &lt;&lt; VIRTIO_GPU_FLAG_BLOB_ENAB=
-LED))<br>
-+#define virtio_gpu_context_init_enabled(_cfg) \<br>
-+=C2=A0 =C2=A0 (_cfg.flags &amp; (1 &lt;&lt; VIRTIO_GPU_FLAG_CONTEXT_INIT_E=
-NABLED))<br>
-<br>
-=C2=A0struct virtio_gpu_base_conf {<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t max_outputs;<br>
-diff --git a/meson.build b/meson.build<br>
-index 20fddbd707..e1071b3563 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -718,6 +718,11 @@ if not get_option(&#39;virglrenderer&#39;).auto() or h=
-ave_system or have_vhost_user_gpu<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 method: &#39;pkg-config&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 required: get_option(&#39;virglrenderer&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 kwargs: static_kwargs)<br>
-+<br>
-+=C2=A0 config_host_data.set(&#39;HAVE_VIRGL_CONTEXT_INIT&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0cc.has_function(&#39;virgl_renderer_context_create_with_flags&#39=
-;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prefix: &=
-#39;#include &lt;virglrenderer.h&gt;&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dependenc=
-ies: virgl))<br>
-=C2=A0endif<br>
-=C2=A0curl =3D not_found<br>
-=C2=A0if not get_option(&#39;curl&#39;).auto() or have_block<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><div><br></div><div>lgtm</div><div>Reviewed-by: Marc-And=
-r=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre=
-.lureau@redhat.com</a>&gt;<br></div><br>-- <br><div dir=3D"ltr" class=3D"gm=
-ail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+  Thomas
 
---0000000000000b016305e72235da--
 
