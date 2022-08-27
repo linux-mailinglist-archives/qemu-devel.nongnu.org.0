@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF7B5A39B7
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 21:22:41 +0200 (CEST)
-Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C42B5A39F4
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 22:13:01 +0200 (CEST)
+Received: from localhost ([::1]:60600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oS1OD-00059s-0Y
-	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 15:22:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59542)
+	id 1oS2At-0007BA-Oj
+	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 16:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1oS1Ht-0006ML-8C
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 15:16:14 -0400
-Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:39607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1oS1Hr-0004nW-Lg
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 15:16:08 -0400
-Received: by mail-vs1-xe33.google.com with SMTP id c3so4702051vsc.6
- for <qemu-devel@nongnu.org>; Sat, 27 Aug 2022 12:16:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=3aRwqBrB9OE8isjRZqg8S6JGxhtPg7KW2xeEy8uD94Q=;
- b=jz8aF4WmkNNb7s/Xek16clCwyWS09bjUGN+tZ5+skbEJrap3NPfovOcbWVOibh0OhJ
- TrlKozgQLZMDL+h5PwbM8Jooxd5FQKb7nCMPnEFdjj+BwzfeQWelypSjQ/x5teVqKk6H
- 7hWQnqcDTcCl3FF3OB29fr6Ybj6ziNgP8ZW+55sy/Nd+k6u17mt6eoP5PaTU5GY3lHoM
- 0uEZT29u8sRDj/0SKKPRxDx9Bdr0vskAlXuyVwwVfs+DOiP2SQdoEDHZGua9KRoQlQ/f
- YxWsJNtk7Ui+8EONDIFSNSvJJntCiNv/Po+JtW4fwg2vWOMoEFP4xtyqTuZdKmtmFB2h
- FU7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=3aRwqBrB9OE8isjRZqg8S6JGxhtPg7KW2xeEy8uD94Q=;
- b=R67OmdJn0cGiCgxH5mcL4MYqVc4s0/FdjmSSTaVou2uK6pH/JejavRGfQ2IwrN/DAE
- xIlmoDtrAIABzpvja3yGMF/bU43f2XRQlrkVeBwd2qukWzgZvlSk2W4qRWUaClHHBMEa
- yw9BYLf0mivMscGuETYf0bTksicl1hssQK+nyamwBdJQeLswZQRyhz/KJgLdZNa81VmI
- ZEaTTYtQB+qPE07nFyoggkVfjKPbLltXfVYinCR5MP/NE3NQxcNxab307HBBnSUKaPHa
- QaJI4vsJL0wyCza7ttb54nNFX1otWuIjkA7T94Iz2t1f33ebfAwbt1gWt7jdVvQ+Rv4c
- hfiQ==
-X-Gm-Message-State: ACgBeo0YCfMu9BF2xbPMqtNygmZHjb4WfhkqNmqDx6V+IZeNxlfkn/8g
- 5LQ799P/VwYJbKAQdrvYI5/FxT6swPpulw6YeN0=
-X-Google-Smtp-Source: AA6agR7g68cZrSBnTz7CKjt66UCPDD+L1Kh7CX7EoLcAybYwHTue6gKyMtzdMzxzFVv6c91V9F2HKKT25+8aFz6qTvM=
-X-Received: by 2002:a05:6102:c8a:b0:390:232a:8f29 with SMTP id
- f10-20020a0561020c8a00b00390232a8f29mr1509319vst.81.1661627766829; Sat, 27
- Aug 2022 12:16:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frederik@fvhovell.nl>)
+ id 1oS0DN-00020f-EY; Sat, 27 Aug 2022 14:07:25 -0400
+Received: from outbound.soverin.net ([2a10:de80:1:4092:b9e9:2292:0:1]:37845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frederik@fvhovell.nl>)
+ id 1oS0DK-0003NQ-VN; Sat, 27 Aug 2022 14:07:25 -0400
+Received: from smtp.freedom.nl (c04smtp-lb01.int.sover.in [10.10.4.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by outbound.soverin.net (Postfix) with ESMTPS id 4MFPmg54x7zK5;
+ Sat, 27 Aug 2022 18:07:15 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=fvhovell.nl;
+ s=soverin; t=1661623634;
+ bh=RXPaBlKKV4KA1lt3oCcUQ/B2ERn90P4TrBJa/8wFD9E=;
+ h=From:To:Cc:Subject:Date:From;
+ b=z+WMcLnyyD9xcr3C9+TNNJcCIUwNQCLFMVU4qt0upEPqd9aD8LdvXBQztXOqW04WR
+ v5mxCYZj20QfGddG4rnqKg/4PcouInAQcGMz4UIlaEosSfXVQ6cu5hpsxelLdmUK5Z
+ UugGNLPuGXRHcUqjWYM/4KYnOxPMsNoHbCZyrps6K7HnF2ssLSDC7bTJjs9zl9KprK
+ DaIcZpdSWlAJNWudrcNC9MvUeXpV8EFUC+MwFnvDsAClZMkX6SCvfloZXzUsJQEa38
+ cimh0/TySQcSWJZVuUX/pw7HzV7s7VWmAS1MdFxUpgQMqL2t/j67QhCqJTHRP67O7C
+ bKewn+TOrY2ag==
+From: =?UTF-8?q?Frederik=20van=20H=C3=B6vell?= <frederik@fvhovell.nl>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Michael Bishop <cleverca22@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Frederik=20van=20H=C3=B6vell?= <frederik@fvhovell.nl>
+Subject: [PATCH v2] hw/arm: fix the position of vcram for raspi
+Date: Sat, 27 Aug 2022 20:07:02 +0200
+Message-Id: <20220827180702.39462-1-frederik@fvhovell.nl>
 MIME-Version: 1.0
-References: <20220826205518.2339352-1-richard.henderson@linaro.org>
-In-Reply-To: <20220826205518.2339352-1-richard.henderson@linaro.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Sat, 27 Aug 2022 22:15:30 +0300
-Message-ID: <CAK4993gjK5ig_1UEQqdFbY2HBLUY44m6aH-R2Dx9q1+ea0AFnA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] target/avr: Fix skips vs interrupts
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000ca795405e73ddcd1"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
- envelope-from=mrolnik@gmail.com; helo=mail-vs1-xe33.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: permerror client-ip=2a10:de80:1:4092:b9e9:2292:0:1;
+ envelope-from=frederik@fvhovell.nl; helo=outbound.soverin.net
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 27 Aug 2022 16:09:14 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,66 +72,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ca795405e73ddcd1
-Content-Type: text/plain; charset="UTF-8"
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
+The previous calculation fell over when I tried to create a 8gb Pi 4
+because the values were only 32 bit. However the quirk of the Pi
+hardware is the vcram can only appear in the first 1gb of address
+space. This also limits where the initial kernel and DTB can be
+loaded (notice the DTS for the 8gb Pi4 still only uses 32 bit sizes).
+Fix this cleaning up setup_boot to directly use vcram_base and
+documenting what is going on.
 
-On Fri, Aug 26, 2022 at 11:55 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+NB: the aliases are confusing.
 
-> Fixes https://gitlab.com/qemu-project/qemu/-/issues/1118
->
-> r~
->
-> Richard Henderson (3):
->   target/avr: Call avr_cpu_do_interrupt directly
->   target/avr: Only execute one interrupt at a time
->   target/avr: Disable interrupts when env->skip set
->
->  target/avr/helper.c    | 23 ++++++++++++++---------
->  target/avr/translate.c | 26 ++++++++++++++++++++++----
->  2 files changed, 36 insertions(+), 13 deletions(-)
->
-> --
-> 2.34.1
->
->
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Michael Bishop <cleverca22@gmail.com>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211001174243.128157-1-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Frederik van Hövell <frederik@fvhovell.nl>
+---
+ hw/arm/bcm2835_peripherals.c | 14 +++++++++++---
+ hw/arm/bcm2836.c             |  2 ++
+ hw/arm/raspi.c               | 19 ++++++++++++-------
+ 3 files changed, 25 insertions(+), 10 deletions(-)
 
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index 3c2a4160cd..1ef7f7f372 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -12,6 +12,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#include "qemu/units.h"
+ #include "hw/arm/bcm2835_peripherals.h"
+ #include "hw/misc/bcm2835_mbox_defs.h"
+ #include "hw/arm/raspi_platform.h"
+@@ -81,6 +82,7 @@ static void bcm2835_peripherals_init(Object *obj)
+     /* Framebuffer */
+     object_initialize_child(obj, "fb", &s->fb, TYPE_BCM2835_FB);
+     object_property_add_alias(obj, "vcram-size", OBJECT(&s->fb), "vcram-size");
++    object_property_add_alias(obj, "vcram-base", OBJECT(&s->fb), "vcram-base");
+ 
+     object_property_add_const_link(OBJECT(&s->fb), "dma-mr",
+                                    OBJECT(&s->gpu_bus_mr));
+@@ -150,7 +152,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+     Object *obj;
+     MemoryRegion *ram;
+     Error *err = NULL;
+-    uint64_t ram_size, vcram_size;
++    uint64_t ram_size, vcram_size, vcram_base;
+     int n;
+ 
+     obj = object_property_get_link(OBJECT(dev), "ram", &error_abort);
+@@ -247,15 +249,21 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
+                                INTERRUPT_ARM_MAILBOX));
+ 
+-    /* Framebuffer */
++    /*
++     * The framebuffer has to live in the first 1gb of addressable
++     * space which is fine for older Pi's with less than 1gb of RAM
++     * but we need to take care not to put it too high otherwise
++     */
+     vcram_size = object_property_get_uint(OBJECT(s), "vcram-size", &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+     }
+ 
++    vcram_base = MIN(ram_size, 1 * GiB) - vcram_size;
++
+     if (!object_property_set_uint(OBJECT(&s->fb), "vcram-base",
+-                                  ram_size - vcram_size, errp)) {
++                                  vcram_base, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index 24354338ca..255ba8265a 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -62,6 +62,8 @@ static void bcm2836_init(Object *obj)
+                               "board-rev");
+     object_property_add_alias(obj, "vcram-size", OBJECT(&s->peripherals),
+                               "vcram-size");
++    object_property_add_alias(obj, "vcram-base", OBJECT(&s->peripherals),
++                              "vcram-base");
+ }
+ 
+ static bool bcm283x_common_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 92d068d1f9..3992e371a1 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -196,14 +196,19 @@ static void reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
+     cpu_set_pc(cs, info->smp_loader_start);
+ }
+ 
++/*
++ * NB: ram_limit isn't the same as ram_size - it indicates the portion
++ * of RAM that boot components can live in (up to the first 1gb - the
++ * vcram_size, aka vcram_base)
++ */
+ static void setup_boot(MachineState *machine, RaspiProcessorId processor_id,
+-                       size_t ram_size)
++                       size_t ram_limit)
+ {
+     RaspiMachineState *s = RASPI_MACHINE(machine);
+     int r;
+ 
+     s->binfo.board_id = MACH_TYPE_BCM2708;
+-    s->binfo.ram_size = ram_size;
++    s->binfo.ram_size = ram_limit;
+ 
+     if (processor_id <= PROCESSOR_ID_BCM2836) {
+         /*
+@@ -238,7 +243,7 @@ static void setup_boot(MachineState *machine, RaspiProcessorId processor_id,
+                              ? FIRMWARE_ADDR_2 : FIRMWARE_ADDR_3;
+         /* load the firmware image (typically kernel.img) */
+         r = load_image_targphys(machine->firmware, firmware_addr,
+-                                ram_size - firmware_addr);
++                                ram_limit - firmware_addr);
+         if (r < 0) {
+             error_report("Failed to load firmware from %s", machine->firmware);
+             exit(1);
+@@ -257,7 +262,7 @@ static void raspi_machine_init(MachineState *machine)
+     RaspiMachineState *s = RASPI_MACHINE(machine);
+     uint32_t board_rev = mc->board_rev;
+     uint64_t ram_size = board_ram_size(board_rev);
+-    uint32_t vcram_size;
++    uint32_t vcram_base;
+     DriveInfo *di;
+     BlockBackend *blk;
+     BusState *bus;
+@@ -294,10 +299,10 @@ static void raspi_machine_init(MachineState *machine)
+     qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
+     qdev_realize_and_unref(carddev, bus, &error_fatal);
+ 
+-    vcram_size = object_property_get_uint(OBJECT(&s->soc), "vcram-size",
++    vcram_base = object_property_get_uint(OBJECT(&s->soc), "vcram-base",
+                                           &error_abort);
+-    setup_boot(machine, board_processor_id(mc->board_rev),
+-               machine->ram_size - vcram_size);
++
++    setup_boot(machine, board_processor_id(mc->board_rev), vcram_base);
+ }
+ 
+ static void raspi_machine_class_common_init(MachineClass *mc,
 -- 
-Best Regards,
-Michael Rolnik
+2.37.2
 
---000000000000ca795405e73ddcd1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@=
-gmail.com">mrolnik@gmail.com</a>&gt;<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 26, 2022 at 11:55 PM Ri=
-chard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard=
-.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Fixes <a href=3D"https://gitlab.com/qemu-project/qemu/=
--/issues/1118" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu=
--project/qemu/-/issues/1118</a><br>
-<br>
-r~<br>
-<br>
-Richard Henderson (3):<br>
-=C2=A0 target/avr: Call avr_cpu_do_interrupt directly<br>
-=C2=A0 target/avr: Only execute one interrupt at a time<br>
-=C2=A0 target/avr: Disable interrupts when env-&gt;skip set<br>
-<br>
-=C2=A0target/avr/helper.c=C2=A0 =C2=A0 | 23 ++++++++++++++---------<br>
-=C2=A0target/avr/translate.c | 26 ++++++++++++++++++++++----<br>
-=C2=A02 files changed, 36 insertions(+), 13 deletions(-)<br>
-<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
-
---000000000000ca795405e73ddcd1--
 
