@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BF55A34F1
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 07:58:24 +0200 (CEST)
-Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB8A5A34F0
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 07:57:09 +0200 (CEST)
+Received: from localhost ([::1]:39048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRopq-0001Cd-So
-	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 01:58:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42748)
+	id 1oRooc-0000fL-V3
+	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 01:57:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRohF-0004Q0-0X
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 01:49:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35895)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRoic-0004oK-Hv
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 01:50:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRohD-0004nX-DC
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 01:49:28 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRoia-00051v-RO
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 01:50:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661579366;
+ s=mimecast20190719; t=1661579451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kYIqgu97qpSn8NIJo69c8EDKp6oBR7lSFqizTHSFDBE=;
- b=MeRO2MtprImx/RVyWqXxiN4101t/PjC91tJuGJUer9I/bCdfzDOhsJ97UZ7Km8yZg3uUbc
- pFgnKCbSoE8sgY4pg5W0/Y0wakZ5Elp2fnQryGnPVJLjb7BGybrZaSeckTayFIBpgb+jnm
- 6c3HoW4TBHCyLovyIgxqg/IunqNY2sE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MGY3B1HWKvSrt9saKn2dSo/as8jy8e9u7wPIxRxHJpY=;
+ b=ESdd9z81vwuIL8z3K6jXvZvP1vS0yFn7RzUCgp5zKT5l/kQ/OWJRlpHfmTvFm6XX9cIgER
+ jpt9lakVRlRLT0EaT6bVB/lnR9BtvSvn8Q8aaY0prrNPi7cdaRwpGBNskIO2mkGqS+fB1V
+ iBjWhx1YCzgCbKoTNreDpBjekK1H6WQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-658-VqOOI-vXOom3x48PIqAvMA-1; Sat, 27 Aug 2022 01:49:24 -0400
-X-MC-Unique: VqOOI-vXOom3x48PIqAvMA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- a17-20020a05600c349100b003a545125f6eso5081026wmq.4
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 22:49:24 -0700 (PDT)
+ us-mta-438-Wca7Z6nYMM-lZJvreWIxpQ-1; Sat, 27 Aug 2022 01:50:50 -0400
+X-MC-Unique: Wca7Z6nYMM-lZJvreWIxpQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j36-20020a05600c1c2400b003a540d88677so1823784wms.1
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 22:50:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=kYIqgu97qpSn8NIJo69c8EDKp6oBR7lSFqizTHSFDBE=;
- b=qclXlFO5yVLPh2N8Oxv+K4e7xvKoUbxoaLooV0mu3nz3XtUfWX4xzJH80rJ3F4yZ/O
- gfZjOxNqQ/KkqLZb5ziYRfYXA12fk7MQU1VXG3hI08b2mdEeOAUidDYnECQpeeOYs/n6
- YowAfftr5fNLyiWPNZpD54y7i9iHZBKIDfT9HZEeUSs+fnRI5junsqv5YEmcAl+zhQKt
- 8eyJe+V14prvET3lEG4MQB1H9ZwcihX0DEYBSjDfSr4AOA5ztEZpR/+LdqPrnT8tf9Zc
- WLOPiT+uSLCciQXkOnRAk4WrpBqm77RZa8nC3UMOjqCjVDKX0K2g+CzEIActCMKPzwLs
- X1Ug==
-X-Gm-Message-State: ACgBeo2yFH+74XVV7dAbOCwES23gOD1jFvNluTgotloChmKeJI1oK/62
- UaaSZRe5kgrvN4jMyKRRJ49sXulKJmFFXxMEEYeO9ZsdRdf8OBeVqh6BEJ9ZTReWVhKHUZ0ax9Q
- SsPce3WkbsKitbI8=
-X-Received: by 2002:a05:600c:19d0:b0:3a6:2eb1:cfa5 with SMTP id
- u16-20020a05600c19d000b003a62eb1cfa5mr1382136wmq.37.1661579363728; 
- Fri, 26 Aug 2022 22:49:23 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5Mw6KRizpwWfSRGm3552Xkh3tJ7GTccHgSdI5oQ0ttbiITnoQWwVTI1Zl3VFp037IHGyZkGA==
-X-Received: by 2002:a05:600c:19d0:b0:3a6:2eb1:cfa5 with SMTP id
- u16-20020a05600c19d000b003a62eb1cfa5mr1382114wmq.37.1661579363452; 
- Fri, 26 Aug 2022 22:49:23 -0700 (PDT)
+ bh=MGY3B1HWKvSrt9saKn2dSo/as8jy8e9u7wPIxRxHJpY=;
+ b=TcKGpS0B5wyMkpLUhs8wmsjcCNoGaz+o/u2QHDLJfP//DVMaWYMu86VlQQgkfQugLw
+ j/VOgiC1/OD8a1CKsIAYwhup3eSNUPBKHFdeZhHykDhUpeGmkD/K3Le/mCUgo61saqhk
+ TtxSizeuDaKuxZdK6ZiHRFaloXo2iTwkuLRs1V/EGnUfRCpXcpfwwZOSIOLOa2a2bVNU
+ g5UTqNS9BTGOMCUuvP3YsjkWlSgDNESIvpLz6LXmMBzAq9ZFp4aHW8SaOyn1htu1TTXR
+ uSprV/m1zWVOdAWaZRSObwjb2plMO+uvYtqGsv9tvubkmm+/iiGeAIm83qufnFQWBBcp
+ ylvA==
+X-Gm-Message-State: ACgBeo2vir0v06gqnoO7f0DCh6RJ+8wyGyHWif5iD+eoRGeWzalQcGdg
+ da7LhH3zM5JPSRENNymCV4/vVD2pgHFGodhfunYT/kkDpVgpSkgGCzwK8kNzy10jLkhjsRO/nkp
+ lGmxki52emsrRuCk=
+X-Received: by 2002:a05:600c:3b92:b0:3a6:5645:5fc7 with SMTP id
+ n18-20020a05600c3b9200b003a656455fc7mr1347539wms.148.1661579449239; 
+ Fri, 26 Aug 2022 22:50:49 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5k7iRLbevjpxdGh5C7WUUPQrz/lDsSqwanGbXadcpn+JuJteuNMLZlMbKmqWxOpnGyAz/czA==
+X-Received: by 2002:a05:600c:3b92:b0:3a6:5645:5fc7 with SMTP id
+ n18-20020a05600c3b9200b003a656455fc7mr1347526wms.148.1661579449032; 
+ Fri, 26 Aug 2022 22:50:49 -0700 (PDT)
 Received: from [192.168.8.101] (tmo-097-69.customers.d1-online.com.
  [80.187.97.69]) by smtp.gmail.com with ESMTPSA id
- l9-20020a7bc349000000b003a5fa79007fsm1583328wmj.7.2022.08.26.22.49.21
+ da8-20020a056000408800b002250fa18eb6sm1419928wrb.71.2022.08.26.22.50.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 22:49:22 -0700 (PDT)
-Message-ID: <56e39641-b520-de94-1968-2ba41a58e846@redhat.com>
-Date: Sat, 27 Aug 2022 07:49:21 +0200
+ Fri, 26 Aug 2022 22:50:48 -0700 (PDT)
+Message-ID: <2eeacf02-b36d-6919-72ab-38582ef1e92a@redhat.com>
+Date: Sat, 27 Aug 2022 07:50:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v1 22/25] tests/docker: update and flatten debian-toolchain
+Subject: Re: [PATCH v1 23/25] tests/docker: remove FROM qemu/ support from
+ docker.py
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -76,9 +77,9 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20220826172128.353798-1-alex.bennee@linaro.org>
- <20220826172128.353798-23-alex.bennee@linaro.org>
+ <20220826172128.353798-24-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220826172128.353798-23-alex.bennee@linaro.org>
+In-Reply-To: <20220826172128.353798-24-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -106,22 +107,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 26/08/2022 19.21, Alex Bennée wrote:
-> Update to the latest stable Debian. While we are at it flatten into a
-> single dockerfile as we do not need anything from the base image to
-> build the toolchain. This is used to build both the nios and
-> microblaze toolchains.
+> We want to migrate from docker.py to building our images directly with
+> docker/podman. Before we get there we need to make sure we don't
+> re-introduce our layered builds so bug out if we see FROM qemu/ in a
+> Dockerfile.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   tests/docker/Makefile.include                    | 4 ----
->   tests/docker/dockerfiles/debian-toolchain.docker | 5 +++--
->   2 files changed, 3 insertions(+), 6 deletions(-)
+>   tests/docker/docker.py | 38 ++++++++++----------------------------
+>   1 file changed, 10 insertions(+), 28 deletions(-)
 
-I was a little bit surprised that we do not expose these containers in the 
-gitlab-CI (and thus that there are no modifications to the yml files here), 
-but seems like we're fine.
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
