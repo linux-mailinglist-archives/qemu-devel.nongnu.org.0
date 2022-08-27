@@ -2,91 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C755A358D
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 09:21:54 +0200 (CEST)
-Received: from localhost ([::1]:40886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57A95A35A6
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 09:40:53 +0200 (CEST)
+Received: from localhost ([::1]:56310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRq8e-0003Zl-Kr
-	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 03:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53806)
+	id 1oRqR1-0000D4-3D
+	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 03:40:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1oRq5U-0001cm-SC
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 03:18:37 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41233)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRqP8-0007It-M7
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 03:38:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1oRq5S-0008Pp-2p
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 03:18:36 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 332C55C01DF;
- Sat, 27 Aug 2022 03:18:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Sat, 27 Aug 2022 03:18:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nunn.io; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1661584710; x=
- 1661671110; bh=wpbardRCf8L3LKfYXd1I157f24MMSNwtIL4JrdS956g=; b=n
- c9/fRMOPBHKJrIEDmjCtjvL/UOju5JYPJBEgqK8MKMxccYzwi+XT6+e5anNsRH0N
- brUss9oYF203YZp1o/EWLPiLxOUqfc/255XX+l5zeSmRvyWX5Xq6OgiPz424sxkk
- vmbWBDa6OGIvWSJSLHG8lIWC1dR6aDCC8Dhl2F9uunf5aLfRYIiGp2TZFjvCAlJo
- 1DACAhkt6GpfcLDlJN9BcFbUoa1tNTfWA0tofYgfwd9tbznO+4++PMboG7VPyzKG
- lcViDb4lL5XX43wUTaH6TklZAoj3l9QsYv7fLs9CeSwv7OtLJ+dRIIbsS0oUqNV/
- EnOLTf6UmunyKJKWzU/rw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661584710; x=
- 1661671110; bh=wpbardRCf8L3LKfYXd1I157f24MMSNwtIL4JrdS956g=; b=p
- BNEzl9Z/6YI7JWL/d/nh3tgFzzM+MXN9rdMOgyEpQwCFQYuVRTDPih1gOZ1UihgF
- AaeT6/lWDSgx6J5P9d17VUmT1+EGSZoqzUDlyvdobq3yFp+/44ZltT20lrGHAJUG
- JZnRiHEh6Sg+7URoNaGSQfDL861qf8cZFRILKIejaKUy5OJfjQ5vRz85LGyzaAEC
- gUOt04TkXUh2eItCKBQgri1Bjw+tcks6Xxxl9fMFGMe4yrAKP4KrwAZrX9lrqnjK
- 7O0h3PGZud8rt7Gxp17kb7z6yvQbXR50gs5/AT/re0hl3z2ZgDzSPsL2/KYT9ZWn
- m+NqS7D1RJjufAPela99A==
-X-ME-Sender: <xms:RcUJYwkkg5qAnqBFUiJ1zSYr8zWBaSMOQKYW0I6c5P9vkBEg52qvoA>
- <xme:RcUJY_2JeOrqmQKRSL2OLNoRsf8VVHIOIGVVJT3KCHNuvgYtbkTLakGsRizdGEmwd
- 018uvUMgLisDbHX_w>
-X-ME-Received: <xmr:RcUJY-pm6LPpG1Q0gMhVSB_KUMozfdLaennLUrHXjSFN8xxJwUoKcWdGs5TMcsITu8Pxn44o2iU4AiH6Wu87ok6CYqpqz02Ulh_hH-is>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejiedguddvtdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurheptggguffhjgffvefgkfhfvffose
- htqhhmtdhhtddvnecuhfhrohhmpefglhhlihhothcupfhunhhnuceovghllhhiohhtsehn
- uhhnnhdrihhoqeenucggtffrrghtthgvrhhnpeegteduieeivdejhfdtiefgteeifeetje
- ekjeefveduhfetudehieevfeejjefhjeenucevlhhushhtvghrufhiiigvpedtnecurfgr
- rhgrmhepmhgrihhlfhhrohhmpegvlhhlihhothesnhhunhhnrdhioh
-X-ME-Proxy: <xmx:RsUJY8l5BXd1BYFkEvS58TifXFE358MrtZmQtyrodM_CU11_kp__wA>
- <xmx:RsUJY-00T2hKWUqEAFj4Wmzigqu9x6fbzOdISBSN2I4IVwzzxtZr7w>
- <xmx:RsUJYzsTqWTD_dsY8A1Rsl2mV1d8rhxyFOiR2YSS-j5LPat93Ptueg>
- <xmx:RsUJYz-VvEqm8PzhnUJdRC5Jfl0Xx0CYjHiSRmMRb00_3-tlcjOFmQ>
-Feedback-ID: i6a78429f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 27 Aug 2022 03:18:27 -0400 (EDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
-Subject: Re: [PATCH] ui/cocoa: Support hardware cursor interface
-From: Elliot Nunn <elliot@nunn.io>
-In-Reply-To: <54930451-d85f-4ce0-9a45-b3478c5a6468@www.fastmail.com>
-Date: Sat, 27 Aug 2022 15:18:23 +0800
-Cc: peter.maydell@linaro.org,
- f4bug@amsat.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <477A84BE-43B4-4315-9321-2A1BC7B76157@nunn.io>
-References: <54930451-d85f-4ce0-9a45-b3478c5a6468@www.fastmail.com>
-To: qemu-devel@nongnu.org
-X-Mailer: Apple Mail (2.3693.40.0.1.81)
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=elliot@nunn.io;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRqP4-00038N-1C
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 03:38:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661585928;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WErXepnv2IyqSAzyrnRkmqoZ+aizqRnPiyrQfdFVXvw=;
+ b=eblLGOkjPIcm2NEj4si4rvrx4MxpASqkhszf9BHusTg8eI3tnzx/ecOmDn3YFLN1sAL6ax
+ Xg9BWJl8ktRsS2CeyBBjZtwyNQwM55oYUSR3RkzGk8Jz+Gq1nAnXyuQPKCKwJhnNyY+VcA
+ 3Kd7hlKPujqzeg9ojllqmHZ4Sm5l1JU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-178-7K8u4O0QNcqLPj3ESrZTsw-1; Sat, 27 Aug 2022 03:38:47 -0400
+X-MC-Unique: 7K8u4O0QNcqLPj3ESrZTsw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p19-20020a05600c1d9300b003a5c3141365so5182644wms.9
+ for <qemu-devel@nongnu.org>; Sat, 27 Aug 2022 00:38:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=WErXepnv2IyqSAzyrnRkmqoZ+aizqRnPiyrQfdFVXvw=;
+ b=nGup3nWvFqFXjXrqM6Eaou5vuJJAU/MuvIKHQSosyTgYsDOtYOhR2abcNSx1P1uYDh
+ pnpar8JJUPoCnc48wnLbwSLqrPNQCYGlzLQuWxIGVEWee8Ybtnxv7AwG8jcui7fCip6t
+ kV6zp+u6+tP+aAD9NXrtwiNJB+xMQjs+vxImU5SFt8jV6oQrzaH6ClOa5b0TiDIpIG6b
+ 4B0Tx/Q8t3s9y53/umnqgLbaD283nnPiSD1ngEZixGIdO6Vtd1OvjPmKaUgIxFDThUS2
+ uRPzJDtwLXgWijdbKdzNezKsBNi3IZv1q8fK/xyswZqq19S2K06q2jGOkY4uoZyrBh4g
+ wWMw==
+X-Gm-Message-State: ACgBeo1gSBhsuVj2TpRSlcwul7XycVJEFcSVnMwJ02v6t8gAy4M5AgPS
+ zHjj//ptjIV0Rc3M7TsTeEjGPtsWr/jx1mZrvRp9v+8+aafPs0OZUXm6s4oXY3bxYYt7ZsDBzaA
+ pbbUUkT95tWL9KOw=
+X-Received: by 2002:a5d:5985:0:b0:222:c827:11d5 with SMTP id
+ n5-20020a5d5985000000b00222c82711d5mr1553941wri.323.1661585926316; 
+ Sat, 27 Aug 2022 00:38:46 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5A8KYcqPVTulMP1BiD7Zvc1yMaEOVAS6YIr/JaOO2bjAFUfjRID078rxdmI3GqmAygNm/2uw==
+X-Received: by 2002:a5d:5985:0:b0:222:c827:11d5 with SMTP id
+ n5-20020a5d5985000000b00222c82711d5mr1553927wri.323.1661585926043; 
+ Sat, 27 Aug 2022 00:38:46 -0700 (PDT)
+Received: from [192.168.8.101] (tmo-097-69.customers.d1-online.com.
+ [80.187.97.69]) by smtp.gmail.com with ESMTPSA id
+ l26-20020a05600c1d1a00b003a62052053csm2244254wms.18.2022.08.27.00.38.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 27 Aug 2022 00:38:45 -0700 (PDT)
+Message-ID: <94400db7-4f7e-5acc-5046-1c7ecfc0d116@redhat.com>
+Date: Sat, 27 Aug 2022 09:38:43 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: Milica Lazarevic <milica.lazarevic@syrmia.com>
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com
+References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
+ <20220815072629.12865-13-milica.lazarevic@syrmia.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 12/20] disas/nanomips: Replace std::string type
+In-Reply-To: <20220815072629.12865-13-milica.lazarevic@syrmia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,469 +105,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Resending this patch now that 7.1 is released (well done).
-
-> On 4 Aug 2022, at 2:27 pm, Elliot Nunn <elliot@nunn.io> wrote:
->=20
-> Implement dpy_cursor_define() and dpy_mouse_set() on macOS.
->=20
-> The main benefit is from dpy_cursor_define: in absolute pointing mode, =
-the
-> host can redraw the cursor on the guest's behalf much faster than the =
-guest
-> can itself.
->=20
-> To provide the programmatic movement expected from a hardware cursor,
-> dpy_mouse_set is also implemented.
->=20
-> Tricky cases are handled:
-> - dpy_mouse_set() avoids rounded window corners.
-> - The sometimes-delay between warping the cursor and an affected =
-mouse-move
->  event is accounted for.
-> - Cursor bitmaps are nearest-neighbor scaled to Retina size.
->=20
-> Signed-off-by: Elliot Nunn <elliot@nunn.io>
+On 15/08/2022 09.26, Milica Lazarevic wrote:
+> The return type of typedef disassembly_function is changed to
+> const char * instead of std::string. Therefore, for every particular
+> disassembly_function function signature is changed.
+> For example:
+> - static std::string ABS_D(uint64 instruction) {...} is replaced with
+> - static const char *ABS_D(uint64 instruction) {...}
+> 
+> Every helper function used to return std::string is changed to return
+> const char *. This applies to following functions: img_format,
+> to_string, GPR, save_restore_list, FPR, etc.
+> 
+> Now that we replaced every std::string for const char * or char *, it is
+> possible to delete multiple versions of the img_format function. The
+> general version:
+> - static const char *img_format(const char *format, ...) {...}
+> can handle all string formatting, so others have been deleted.
+> 
+> Where necessary, strdup() is used to malloc string. Memory leaking needs
+> to be prevented, so matching free() calls will be added later.
+> 
+> Simple assignments like:
+> - x = "string"
+> are handled using the strcpy() function where needed.
+> 
+> String concatenation in the save_restore_list() function is handled
+> using strcat() function instead of += operator.
+> 
+> Without applying all of these changes, the nanomips disassembler may be
+> buildable but can't produce the appropriate output, so all of them are
+> made together.
+> 
+> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 > ---
-> ui/cocoa.m | 263 ++++++++++++++++++++++++++++++++++++++++++++++++-----
-> 1 file changed, 240 insertions(+), 23 deletions(-)
->=20
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index 5a8bd5dd84..f9d54448e4 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -85,12 +85,20 @@ static void cocoa_switch(DisplayChangeListener =
-*dcl,
->=20
-> static void cocoa_refresh(DisplayChangeListener *dcl);
->=20
-> +static void cocoa_mouse_set(DisplayChangeListener *dcl,
-> +                            int x, int y, int on);
-> +
-> +static void cocoa_cursor_define(DisplayChangeListener *dcl,
-> +                                QEMUCursor *c);
-> +
-> static NSWindow *normalWindow;
-> static const DisplayChangeListenerOps dcl_ops =3D {
->     .dpy_name          =3D "cocoa",
->     .dpy_gfx_update =3D cocoa_update,
->     .dpy_gfx_switch =3D cocoa_switch,
->     .dpy_refresh =3D cocoa_refresh,
-> +    .dpy_mouse_set =3D cocoa_mouse_set,
-> +    .dpy_cursor_define =3D cocoa_cursor_define,
-> };
-> static DisplayChangeListener dcl =3D {
->     .ops =3D &dcl_ops,
-> @@ -313,6 +321,13 @@ @interface QemuCocoaView : NSView
->     BOOL isFullscreen;
->     BOOL isAbsoluteEnabled;
->     CFMachPortRef eventsTap;
-> +    NSCursor *guestCursor;
-> +    BOOL cursorHiddenByMe;
-> +    BOOL guestCursorVis;
-> +    int guestCursorX, guestCursorY;
-> +    int lastWarpX, lastWarpY;
-> +    int warpDeltaX, warpDeltaY;
-> +    BOOL ignoreNextMouseMove;
-> }
-> - (void) switchSurface:(pixman_image_t *)image;
-> - (void) grabMouse;
-> @@ -323,6 +338,10 @@ - (void) handleMonitorInput:(NSEvent *)event;
-> - (bool) handleEvent:(NSEvent *)event;
-> - (bool) handleEventLocked:(NSEvent *)event;
-> - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
-> +- (void) cursorDefine:(NSCursor *)cursor;
-> +- (void) mouseSetX:(int)x Y:(int)y on:(int)on;
-> +- (void) setCursorAppearance;
-> +- (void) setCursorPosition;
-> /* The state surrounding mouse grabbing is potentially confusing.
->  * isAbsoluteEnabled tracks qemu_input_is_absolute() [ie "is the =
-emulated
->  *   pointing device an absolute-position one?"], but is only updated =
-on
-> @@ -432,22 +451,6 @@ - (CGPoint) screenLocationOfEvent:(NSEvent *)ev
->     }
-> }
->=20
-> -- (void) hideCursor
-> -{
-> -    if (!cursor_hide) {
-> -        return;
-> -    }
-> -    [NSCursor hide];
-> -}
+>   disas/nanomips.cpp | 4721 ++++++++++++++++++++++----------------------
+>   1 file changed, 2312 insertions(+), 2409 deletions(-)
+> 
+> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+> index 23db8177ef..561e4ff095 100644
+> --- a/disas/nanomips.cpp
+> +++ b/disas/nanomips.cpp
+> @@ -30,13 +30,11 @@
+>   #include "qemu/osdep.h"
+>   #include "disas/dis-asm.h"
+>   
+> -#include <cstring>
+> +#include <string.h>
+>   #include <stdexcept>
+>   #include <stdio.h>
+>   #include <stdarg.h>
+>   
+> -#include <string>
 > -
-> -- (void) unhideCursor
-> -{
-> -    if (!cursor_hide) {
-> -        return;
-> -    }
-> -    [NSCursor unhide];
-> -}
-> -
-> - (void) drawRect:(NSRect) rect
-> {
->     COCOA_DEBUG("QemuCocoaView: drawRect\n");
-> @@ -635,6 +638,8 @@ - (void) switchSurface:(pixman_image_t *)image
->         screen.height =3D h;
->         [self setContentDimensions];
->         [self setFrame:NSMakeRect(cx, cy, cw, ch)];
-> +        [self setCursorAppearance];
-> +        [self setCursorPosition];
->     }
->=20
->     // update screenBuffer
-> @@ -681,6 +686,7 @@ - (void) toggleFullScreen:(id)sender
->             styleMask:NSWindowStyleMaskBorderless
->             backing:NSBackingStoreBuffered
->             defer:NO];
-> +        [fullScreenWindow disableCursorRects];
->         [fullScreenWindow setAcceptsMouseMovedEvents: YES];
->         [fullScreenWindow setHasShadow:NO];
->         [fullScreenWindow setBackgroundColor: [NSColor blackColor]];
-> @@ -812,6 +818,7 @@ - (bool) handleEventLocked:(NSEvent *)event
->     int buttons =3D 0;
->     int keycode =3D 0;
->     bool mouse_event =3D false;
-> +    bool mousemoved_event =3D false;
->     // Location of event in virtual screen coordinates
->     NSPoint p =3D [self screenLocationOfEvent:event];
->     NSUInteger modifiers =3D [event modifierFlags];
-> @@ -1023,6 +1030,7 @@ - (bool) handleEventLocked:(NSEvent *)event
->                 }
->             }
->             mouse_event =3D true;
-> +            mousemoved_event =3D true;
->             break;
->         case NSEventTypeLeftMouseDown:
->             buttons |=3D MOUSE_EVENT_LBUTTON;
-> @@ -1039,14 +1047,17 @@ - (bool) handleEventLocked:(NSEvent *)event
->         case NSEventTypeLeftMouseDragged:
->             buttons |=3D MOUSE_EVENT_LBUTTON;
->             mouse_event =3D true;
-> +            mousemoved_event =3D true;
->             break;
->         case NSEventTypeRightMouseDragged:
->             buttons |=3D MOUSE_EVENT_RBUTTON;
->             mouse_event =3D true;
-> +            mousemoved_event =3D true;
->             break;
->         case NSEventTypeOtherMouseDragged:
->             buttons |=3D MOUSE_EVENT_MBUTTON;
->             mouse_event =3D true;
-> +            mousemoved_event =3D true;
->             break;
->         case NSEventTypeLeftMouseUp:
->             mouse_event =3D true;
-> @@ -1121,7 +1132,12 @@ - (bool) handleEventLocked:(NSEvent *)event
->             qemu_input_update_buttons(dcl.con, bmap, last_buttons, =
-buttons);
->             last_buttons =3D buttons;
->         }
-> -        if (isMouseGrabbed) {
-> +
-> +        if (!isMouseGrabbed) {
-> +            return false;
-> +        }
-> +
-> +        if (mousemoved_event) {
->             if (isAbsoluteEnabled) {
->                 /* Note that the origin for Cocoa mouse coords is =
-bottom left, not top left.
->                  * The check on screenContainsPoint is to avoid =
-sending out of range values for
-> @@ -1132,11 +1148,38 @@ - (bool) handleEventLocked:(NSEvent *)event
->                     qemu_input_queue_abs(dcl.con, INPUT_AXIS_Y, =
-screen.height - p.y, 0, screen.height);
->                 }
->             } else {
-> -                qemu_input_queue_rel(dcl.con, INPUT_AXIS_X, =
-(int)[event deltaX]);
-> -                qemu_input_queue_rel(dcl.con, INPUT_AXIS_Y, =
-(int)[event deltaY]);
-> +                if (ignoreNextMouseMove) {
-> +                    // Discard the first mouse-move event after a =
-grab, because
-> +                    // it includes the warp delta from an unknown =
-initial position.
-> +                    ignoreNextMouseMove =3D NO;
-> +                    warpDeltaX =3D warpDeltaY =3D 0;
-> +                } else {
-> +                    // Correct subsequent events to remove the known =
-warp delta.
-> +                    // The warp delta is sometimes late to be =
-reported, so never
-> +                    // allow the delta compensation to alter the =
-direction.
-> +                    int dX =3D (int)[event deltaX];
-> +                    int dY =3D (int)[event deltaY];
-> +
-> +                    if (dX =3D=3D 0 || (dX ^ (dX - warpDeltaX)) < 0) =
-{ // Flipped sign?
-> +                        warpDeltaX -=3D dX; // Save excess correction =
-for later
-> +                        dX =3D 0;
-> +                    } else {
-> +                        dX -=3D warpDeltaX; // Apply entire =
-correction
-> +                        warpDeltaX =3D 0;
-> +                    }
-> +
-> +                    if (dY =3D=3D 0 || (dY ^ (dY - warpDeltaY)) < 0) =
+>   typedef int64_t int64;
+>   typedef uint64_t uint64;
+>   typedef uint32_t uint32;
+> @@ -44,7 +42,7 @@ typedef uint16_t uint16;
+>   typedef uint64_t img_address;
+>   
+>   typedef bool(*conditional_function)(uint64 instruction);
+> -typedef std::string(*disassembly_function)(uint64 instruction);
+> +typedef const char *(*disassembly_function)(uint64 instruction);
+>   
+>   enum TABLE_ENTRY_TYPE {
+>       instruction,
+> @@ -93,7 +91,7 @@ struct Pool {
+>   static img_address           m_pc;
+>   static TABLE_ATTRIBUTE_TYPE   m_requested_instruction_categories;
+>   
+> -std::string img_format(const char *format, ...)
+> +static const char *img_format(const char *format, ...)
+>   {
+>       char buffer[256];
+>       va_list args;
+> @@ -103,112 +101,15 @@ std::string img_format(const char *format, ...)
+>           perror(buffer);
+>       }
+>       va_end(args);
+> -    return buffer;
+> +    return strdup(buffer);
+>   }
+
+If you're returning allocated memory, the return type could also be "char *" 
+instead of "const char *" - that way you could get rid of a lot of casting 
+in the next patch ("free((char *)....)").
+
+> -std::string to_string(img_address a)
+> +static const char *to_string(img_address a)
+>   {
+>       char buffer[256];
+>       sprintf(buffer, "0x%" PRIx64, a);
+> -    return buffer;
+> +    return strdup(buffer);
+>   }
+
+Maybe it would also be better to switch to the functions from glib instead, 
+you could avoid hard-coded array sizes that way. E.g. for this function:
+
+static const char *to_string(img_address a)
 {
-> +                        warpDeltaY -=3D dY;
-> +                        dY =3D 0;
-> +                    } else {
-> +                        dY -=3D warpDeltaY;
-> +                        warpDeltaY =3D 0;
-> +                    }
-> +
-> +                    qemu_input_queue_rel(dcl.con, INPUT_AXIS_X, dX);
-> +                    qemu_input_queue_rel(dcl.con, INPUT_AXIS_Y, dY);
-> +                }
->             }
-> -        } else {
-> -            return false;
->         }
->         qemu_input_event_sync();
->     }
-> @@ -1153,9 +1196,15 @@ - (void) grabMouse
->         else
->             [normalWindow setTitle:@"QEMU - (Press ctrl + alt + g to =
-release Mouse)"];
->     }
-> -    [self hideCursor];
->     CGAssociateMouseAndMouseCursorPosition(isAbsoluteEnabled);
->     isMouseGrabbed =3D TRUE; // while isMouseGrabbed =3D TRUE, =
-QemuCocoaApp sends all events to [cocoaView handleEvent:]
-> +    [self setCursorAppearance];
-> +    [self setCursorPosition];
-> +
-> +    // We took over and warped the mouse, so ignore the next =
-mouse-move
-> +    if (!isAbsoluteEnabled) {
-> +        ignoreNextMouseMove =3D YES;
-> +    }
-> }
->=20
-> - (void) ungrabMouse
-> @@ -1168,9 +1217,14 @@ - (void) ungrabMouse
->         else
->             [normalWindow setTitle:@"QEMU"];
->     }
-> -    [self unhideCursor];
->     CGAssociateMouseAndMouseCursorPosition(TRUE);
->     isMouseGrabbed =3D FALSE;
-> +    [self setCursorAppearance];
-> +
-> +    if (!isAbsoluteEnabled) {
-> +        ignoreNextMouseMove =3D NO;
-> +        warpDeltaX =3D warpDeltaY =3D 0;
-> +    }
-> }
->=20
-> - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
-> @@ -1179,6 +1233,116 @@ - (void) =
-setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
->         CGAssociateMouseAndMouseCursorPosition(isAbsoluteEnabled);
->     }
-> }
-> +
-> +// Indirectly called by dpy_cursor_define() in the virtual GPU
-> +- (void) cursorDefine:(NSCursor *)cursor {
-> +    guestCursor =3D cursor;
-> +    [self setCursorAppearance];
-> +}
-> +
-> +// Indirectly called by dpy_mouse_set() in the virtual GPU
-> +- (void) mouseSetX:(int)x Y:(int)y on:(int)on {
-> +    if (!on !=3D !guestCursorVis) {
-> +        guestCursorVis =3D on;
-> +        [self setCursorAppearance];
-> +    }
-> +
-> +    if (on && (x !=3D guestCursorX || y !=3D guestCursorY)) {
-> +        guestCursorX =3D x;
-> +        guestCursorY =3D y;
-> +        [self setCursorPosition];
-> +    }
-> +}
-> +
-> +// Change the cursor image to the default, the guest cursor bitmap or =
-hidden.
-> +// Said to be an expensive operation on macOS Monterey, so use =
-sparingly.
-> +- (void) setCursorAppearance {
-> +    NSCursor *cursor =3D NULL; // NULL means hidden
-> +
-> +    if (!isMouseGrabbed) {
-> +        cursor =3D [NSCursor arrowCursor];
-> +    } else if (!guestCursor && !cursor_hide) {
-> +        cursor =3D [NSCursor arrowCursor];
-> +    } else if (guestCursorVis && guestCursor) {
-> +        cursor =3D guestCursor;
-> +    } else {
-> +        cursor =3D NULL;
-> +    }
-> +
-> +    if (cursor !=3D NULL) {
-> +        [cursor set];
-> +
-> +        if (cursorHiddenByMe) {
-> +            [NSCursor unhide];
-> +            cursorHiddenByMe =3D NO;
-> +        }
-> +    } else {
-> +        if (!cursorHiddenByMe) {
-> +            [NSCursor hide];
-> +            cursorHiddenByMe =3D YES;
-> +        }
-> +    }
-> +}
-> +
-> +// Move the cursor within the virtual screen
-> +- (void) setCursorPosition {
-> +    // Ignore the guest's request if the cursor belongs to Cocoa
-> +    if (!isMouseGrabbed || isAbsoluteEnabled) {
-> +        return;
-> +    }
-> +
-> +    // Get guest screen rect in Cocoa coordinates (bottom-left =
-origin).
-> +    NSRect virtualScreen =3D [[self window] convertRectToScreen:[self =
-frame]];
-> +
-> +    // Convert to top-left origin.
-> +    NSInteger hostScreenH =3D [NSScreen =
-screens][0].frame.size.height;
-> +    int scrX =3D virtualScreen.origin.x;
-> +    int scrY =3D hostScreenH - virtualScreen.origin.y - =
-virtualScreen.size.height;
-> +    int scrW =3D virtualScreen.size.width;
-> +    int scrH =3D virtualScreen.size.height;
-> +
-> +    int cursX =3D scrX + guestCursorX;
-> +    int cursY =3D scrY + guestCursorY;
-> +
-> +    // Clip to edges
-> +    cursX =3D MIN(MAX(scrX, cursX), scrX + scrW - 1);
-> +    cursY =3D MIN(MAX(scrY, cursY), scrY + scrH - 1);
-> +
-> +    // Move diagonally towards the center to avoid rounded window =
-corners.
-> +    // Limit the number of hit-tests and discard failed attempts.
-> +    int betterX =3D cursX, betterY =3D cursY;
-> +    for (int i=3D0; i<16; i++) {
-> +        if ([NSWindow windowNumberAtPoint:NSMakePoint(betterX, =
-hostScreenH - betterY)
-> +            belowWindowWithWindowNumber:0] =3D=3D =
-self.window.windowNumber) {
-> +            cursX =3D betterX;
-> +            cursY =3D betterY;
-> +            break;
-> +        };
-> +
-> +        if (betterX < scrX + scrW/2) {
-> +            betterX++;
-> +        } else {
-> +            betterX--;
-> +        }
-> +
-> +        if (betterY < scrY + scrH/2) {
-> +            betterY++;
-> +        } else {
-> +            betterY--;
-> +        }
-> +    }
-> +
-> +    // Subtract this warp delta from the next NSEventTypeMouseMoved.
-> +    // These are in down-is-positive coords, same as NSEvent =
-deltaX/deltaY.
-> +    warpDeltaX +=3D cursX - lastWarpX;
-> +    warpDeltaY +=3D cursY - lastWarpY;
-> +
-> +    CGWarpMouseCursorPosition(NSMakePoint(cursX, cursY));
-> +
-> +    lastWarpX =3D cursX;
-> +    lastWarpY =3D cursY;
-> +}
-> +
-> - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
-> - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
-> - (float) cdx {return cdx;}
-> @@ -1251,6 +1415,7 @@ - (id) init
->             error_report("(cocoa) can't create window");
->             exit(1);
->         }
-> +        [normalWindow disableCursorRects];
->         [normalWindow setAcceptsMouseMovedEvents:YES];
->         [normalWindow setTitle:@"QEMU"];
->         [normalWindow setContentView:cocoaView];
-> @@ -2123,6 +2288,58 @@ static void cocoa_display_init(DisplayState =
-*ds, DisplayOptions *opts)
->     qemu_clipboard_peer_register(&cbpeer);
-> }
->=20
-> +static void cocoa_mouse_set(DisplayChangeListener *dcl, int x, int y, =
-int on) {
-> +    dispatch_async(dispatch_get_main_queue(), ^{
-> +        [cocoaView mouseSetX:x Y:y on:on];
-> +    });
-> +}
-> +
-> +// Convert QEMUCursor to NSCursor, then call cursorDefine
-> +static void cocoa_cursor_define(DisplayChangeListener *dcl, =
-QEMUCursor *cursor) {
-> +    CFDataRef cfdata =3D CFDataCreate(
-> +        /*allocator*/ NULL,
-> +        /*bytes*/ (void *)cursor->data,
-> +        /*length*/ sizeof(uint32_t) * cursor->width * =
-cursor->height);
-> +
-> +    CGDataProviderRef dataprovider =3D =
-CGDataProviderCreateWithCFData(cfdata);
-> +
-> +    CGImageRef cgimage =3D CGImageCreate(
-> +        cursor->width, cursor->height,
-> +        /*bitsPerComponent*/ 8,
-> +        /*bitsPerPixel*/ 32,
-> +        /*bytesPerRow*/ sizeof(uint32_t) * cursor->width,
-> +        /*colorspace*/ CGColorSpaceCreateWithName(kCGColorSpaceSRGB),
-> +        /*bitmapInfo*/ kCGBitmapByteOrder32Host | kCGImageAlphaLast,
-> +        /*provider*/ dataprovider,
-> +        /*decode*/ NULL,
-> +        /*shouldInterpolate*/ FALSE,
-> +        /*intent*/ kCGRenderingIntentDefault);
-> +
-> +    NSImage *unscaled =3D [[NSImage alloc] initWithCGImage:cgimage =
-size:NSZeroSize];
-> +
-> +    CFRelease(cfdata);
-> +    CGDataProviderRelease(dataprovider);
-> +    CGImageRelease(cgimage);
-> +
-> +    // Nearest-neighbor scale to the possibly "Retina" cursor size
-> +    NSImage *scaled =3D [NSImage
-> +        imageWithSize:NSMakeSize(cursor->width, cursor->height)
-> +        flipped:NO
-> +        drawingHandler:^BOOL(NSRect dest) {
-> +            [NSGraphicsContext currentContext].imageInterpolation =3D =
-NSImageInterpolationNone;
-> +            [unscaled drawInRect:dest];
-> +            return YES;
-> +        }];
-> +
-> +    NSCursor *nscursor =3D [[NSCursor alloc]
-> +        initWithImage:scaled
-> +        hotSpot:NSMakePoint(cursor->hot_x, cursor->hot_y)];
-> +
-> +    dispatch_async(dispatch_get_main_queue(), ^{
-> +        [cocoaView cursorDefine:nscursor];
-> +    });
-> +}
-> +
-> static QemuDisplay qemu_display_cocoa =3D {
->     .type       =3D DISPLAY_TYPE_COCOA,
->     .init       =3D cocoa_display_init,
+     return g_strdup_printf("0x%" PRIx64, a);
+}
+
+See: https://docs.gtk.org/glib/func.strdup_printf.html
+
+> @@ -617,21 +518,22 @@ static std::string GPR(uint64 reg)
+>   }
+>   
+>   
+> -static std::string save_restore_list(uint64 rt, uint64 count, uint64 gp)
+> +static const char *save_restore_list(uint64 rt, uint64 count, uint64 gp)
+>   {
+> -    std::string str;
+> +    char str[256];
+> +    str[0] = '\0';
+>   
+>       for (uint64 counter = 0; counter != count; counter++) {
+>           bool use_gp = gp && (counter == count - 1);
+>           uint64 this_rt = use_gp ? 28 : ((rt & 0x10) | (rt + counter)) & 0x1f;
+> -        str += img_format(",%s", GPR(this_rt));
+> +        strcat(str, img_format(",%s", GPR(this_rt)));
+>       }
+>   
+> -    return str;
+> +    return strdup(str);
+>   }
+
+Using a hard-coded array first and doing a strdup() at the end looks weird 
+... why don't you malloc() the str buffer right at the beginning of the 
+function? (or use g_malloc instead to avoid
+checking for NULL).
+
+  Thomas
 
 
