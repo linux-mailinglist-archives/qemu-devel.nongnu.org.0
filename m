@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F135A35CE
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 10:25:13 +0200 (CEST)
-Received: from localhost ([::1]:51570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBFDA5A35DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 10:33:17 +0200 (CEST)
+Received: from localhost ([::1]:38120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRr7u-0004F9-Ov
-	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 04:25:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50130)
+	id 1oRrFk-0007ob-4g
+	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 04:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRr5c-0001zE-OJ
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 04:22:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oRr5Z-0000fN-Hd
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 04:22:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661588564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=i01MZiN9ZlB6ehbZJbRtO5rOjZDPo++IqTcJOis8iYA=;
- b=V0GL/vPAS/JCh6PnWz3Z0z0kNYA9y/uYanInoHjueE5ssbtHOkiNklTgmuKaDNS5t1blPl
- umUbUQToFo4MSqkSCW+la6GImpScU24ewqg7Kop3zR76eXMFnY7ulBZ1WGIdpqHWxC6haT
- bX76Eq2ABqPpHgw2h0kKaWHtxpczdjM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-604-iXDB8SwpPBiiNpxLx2xSug-1; Sat, 27 Aug 2022 04:22:42 -0400
-X-MC-Unique: iXDB8SwpPBiiNpxLx2xSug-1
-Received: by mail-ej1-f72.google.com with SMTP id
- mp41-20020a1709071b2900b0073d84b11981so1111529ejc.23
- for <qemu-devel@nongnu.org>; Sat, 27 Aug 2022 01:22:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=i01MZiN9ZlB6ehbZJbRtO5rOjZDPo++IqTcJOis8iYA=;
- b=wiZmyBtYcUs3Lj1WvBMZU2au1MZupzsETJ2IM1FAfPJQJugFyqtFwRRUvSvBy8GagR
- HZCDnEkfBG0O2z2sEP6F9Ww54XYJCgccjY5liTdlTMphgEfcNm+d65sdL2KPiva4QpyP
- moPgUpQ33Y0L0Alw7eY0L1mF2nCJXND9Y0RekSCo6DZJMzzNvVU+87jrm8V6Hd1KjbR9
- 3MvEAS5zC9v7ea5QLYrws2jBpEeZk2+VR/epeMT9BJe2qQEwZ2G2xmUJU3vp4yXNryTM
- aeLdBWSzcpPy5lTWX6g6xKZNKNQQFWG2a1RWNxmCVL5wlYox2znYbmjImDc8nK/9uume
- xTVQ==
-X-Gm-Message-State: ACgBeo1DlhxmcWqL1pdi2SW6OqRuRP4rKS9j81z1fJ1CVR87xRP/0dxD
- t8FST1xyQiy+QhSv5mg5wJVPVnX1Yw8xhzL1DxTZaHJTEJMb9sZc+y8AyALxdq/TqC1CMAN5LL+
- LEdlw4gO+rlZ4S4YUlycFlb+IDK0WSRXpqGCqkRmFPA5O/L9j+HzE38fGDUNw1Ho7ZSA=
-X-Received: by 2002:a17:907:75c1:b0:72f:248d:5259 with SMTP id
- jl1-20020a17090775c100b0072f248d5259mr7802498ejc.227.1661588561345; 
- Sat, 27 Aug 2022 01:22:41 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6PQLiaYLCPk90wfUJg13fZdafK39F0pvTTTT+x2Qn7tuYOmcfXQ4GAr507tt28UN2JHm8oNg==
-X-Received: by 2002:a17:907:75c1:b0:72f:248d:5259 with SMTP id
- jl1-20020a17090775c100b0072f248d5259mr7802485ejc.227.1661588561069; 
- Sat, 27 Aug 2022 01:22:41 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- og4-20020a1709071dc400b0073ddfe1ea69sm1797125ejc.111.2022.08.27.01.22.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Aug 2022 01:22:20 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, Peter Xu <peterx@redhat.com>,
- Gavin Shan <gshan@redhat.com>
-Subject: [PATCH v2] KVM: dirty ring: add missing memory barrier
-Date: Sat, 27 Aug 2022 10:22:18 +0200
-Message-Id: <20220827082218.214001-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.1
-MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRrBl-0005U9-63; Sat, 27 Aug 2022 04:29:09 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:46890 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oRrBi-0001Qc-51; Sat, 27 Aug 2022 04:29:08 -0400
+Received: from smtpclient.apple (unknown [221.220.143.85])
+ by APP-01 (Coremail) with SMTP id qwCowACHjCDE1QljeH6iAA--.3810S2;
+ Sat, 27 Aug 2022 16:28:53 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v2 2/3] hw/nvme: use KVM irqfd when available
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <Ywjn7QOb9EyK1oJc@kbusch-mbp.dhcp.thefacebook.com>
+Date: Sat, 27 Aug 2022 16:28:51 +0800
+Cc: qemu-devel@nongnu.org, its@irrelevant.dk, stefanha@gmail.com,
+ Klaus Jensen <k.jensen@samsung.com>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <51168A9F-B342-47E5-B1EB-824B85772811@ict.ac.cn>
+References: <20220826151206.3148942-1-fanjinhao21s@ict.ac.cn>
+ <20220826151206.3148942-3-fanjinhao21s@ict.ac.cn>
+ <Ywjn7QOb9EyK1oJc@kbusch-mbp.dhcp.thefacebook.com>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowACHjCDE1QljeH6iAA--.3810S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gr1fury7Xr1kAw15Jry7KFg_yoWkJFc_uF
+ 4SqFn7Cr48AFZFqa4DJw13Zr1jga4rXFyFvw17JF93X3s3X34kuwn2vrsayr4UGrW0gr9r
+ uFn2gw1Sv3y2kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbwkYjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF
+ x2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+ v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+ 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
+ IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
+ xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8pnQUUUUUU==
+X-Originating-IP: [221.220.143.85]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,35 +78,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The KVM_DIRTY_GFN_F_DIRTY flag ensures that the entry is valid.  If
-the read of the fields are not ordered after the read of the flag,
-QEMU might see stale values.
+at 11:34 PM, Keith Busch <kbusch@kernel.org> wrote:
 
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Gavin Shan <gshan@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/kvm/kvm-all.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> On Fri, Aug 26, 2022 at 11:12:04PM +0800, Jinhao Fan wrote:
+>> Use KVM's irqfd to send interrupts when possible. This approach is
+>> thread safe. Moreover, it does not have the inter-thread =
+communication
+>> overhead of plain event notifiers since handler callback are called
+>> in the same system call as irqfd write.
+>>=20
+>> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> No idea what's going on here... This one is causing the following =
+assert
+> failure with --enable-kvm:
+>=20
+>  qemu-system-x86_64: ../accel/kvm/kvm-all.c:1781: =
+kvm_irqchip_commit_routes: Assertion `ret =3D=3D 0' failed.
+>=20
+> I find it calls KVM_SET_GSI_ROUTING ioctl with gsi set to =
+KVM_IRQ_ROUTING_MSI,
+> and linux kernel returns EINVAL in that case. It's never set that way =
+without
+> this patch. Am I the only one seeing this?
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 8d81ab74de..136c8eaed3 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -719,7 +719,11 @@ static void kvm_dirty_ring_mark_page(KVMState *s, uint32_t as_id,
- 
- static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
- {
--    return gfn->flags == KVM_DIRTY_GFN_F_DIRTY;
-+    /*
-+     * Read the flags before the value.  Pairs with barrier in
-+     * KVM's kvm_dirty_ring_push() function.
-+     */
-+    return qatomic_load_acquire(&gfn->flags) == KVM_DIRTY_GFN_F_DIRTY;
- }
- 
- static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
--- 
-2.37.1
+nvme_start_ctrl() registers MSI-X masking handlers without checking
+irq-eventfd. This causes nvme_kvm_vector_unmask() to be called when it =
+is
+not supposed to.=
 
 
