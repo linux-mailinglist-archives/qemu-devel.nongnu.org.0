@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2825A39B5
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 21:20:05 +0200 (CEST)
-Received: from localhost ([::1]:42906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F152D5A39B6
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 21:20:38 +0200 (CEST)
+Received: from localhost ([::1]:41936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oS1Lg-0001hh-DM
-	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 15:20:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48266)
+	id 1oS1MD-00023O-Rd
+	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 15:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1oS1Gq-0005lz-Rj
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 15:15:04 -0400
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:34423)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1oS1Hn-0006LF-LI
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 15:16:05 -0400
+Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30]:34428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1oS1Gp-0004Tw-3v
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 15:15:04 -0400
-Received: by mail-vs1-xe2e.google.com with SMTP id b128so1085144vsc.1
- for <qemu-devel@nongnu.org>; Sat, 27 Aug 2022 12:15:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1oS1Hl-0004nC-Hm
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 15:16:03 -0400
+Received: by mail-vs1-xe30.google.com with SMTP id b128so1086550vsc.1
+ for <qemu-devel@nongnu.org>; Sat, 27 Aug 2022 12:15:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=leLz6ByVsJHl4pgZnth+PXSmYZ8l3twD5QJbXUsLpng=;
- b=HJV/sj+o6dtZuWdFyJbgcOBi9F6r6EursHEdgAHCWM9Q+1jN/U7mp/plO5yODpKIDL
- QYf8BCw3IXOeSb1L0stUhCxcLwAKBJCVbVbeWTzajK5sFVvArmk82stgIu4mKCNsJHk4
- 25oC+yrBtSaQGvwrWlckn4NO5vQUj5mZQqpo3IaljJvfDvN44ZzZLQsJbfkd9t3Ut3RO
- ahYl2HSuJSx3Qj+xGGSFMlflQ60158l98Mhqv9rv2UKIOdX1yNztCdbu5Z2yiKBc7TNZ
- IXqYhxHVfI1jhlwTZC+IMpsHF4eq7CCOLFdg11JrB/nGDWNt5RAXfhMql3vr7Ar8Mhz1
- 8LjQ==
+ bh=J6c5UzqEwFW63nwQHAus0X+tlSqUYSiqpdkszP7a21c=;
+ b=Qnwgbt4ovUiU3z+HvB5EgPG/ntf4ZysEFRcHRqPz2NIhkFdkhURBfY/XDpiQ4q3ZME
+ ifQJFEDtxM+fgtV23DEvwJNc4e1y4w7G7BsZkryKC7ntD+bPoiDsj9t3sjQpz82cAubX
+ MxgREBoLVeFahvEdDH1JpuWKmaZ3CFIE7XRPyGU9+JBtk/CniduFLOZmGcYlSA7RdRtx
+ /2VnLl3GpTAs5AVGIRlkX/Mfmzm69g30X6c14lKzpPNoB01kMBxqWXx9TRcu1wNaq4aF
+ miL+3veWvb6jqxPfm+bDXNWTfhsQJhJmrIUAtNZTiWJ7fVDdSm0MtiNdTl3tEq0PrGIN
+ FIXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=leLz6ByVsJHl4pgZnth+PXSmYZ8l3twD5QJbXUsLpng=;
- b=PPQ0NamX21yuCRMiqTQQedCnqh8IcS6Wj65hLMbQaMdltOFu8SwxR54ePJ87LG0v5n
- jDWzDPvsHdkCCSs/KahKZWLmr2mqzKZMp4NmDRDFb6o2YSs4W6hcAzU9bVXtgHnjOkQf
- nCEjGNhnUC3/4XQeEpgeVa/zGB1A0gA5+de+yil0AWGrj7wtc7o4AOPq2JkeGP3eLJIV
- QNRIsOU815QX5z6N6rwJtrMA9HhQJTrJtvQfyoCAM0Fgvy0YZjq2FLl/TJ5Z/bCxg5Mk
- oAmU90IZUsk7vtXl0cLzTQ5YI9Y3Q9v1cMq/cNuJtk+EVdjnKhKKOE1q4iQy0d1YbWOz
- e4OA==
-X-Gm-Message-State: ACgBeo2YCFchpOSViAWG6+2M4JXpyPeqviUvGfak57rVieXrpBwqDO9q
- F0a7Pw0d4hXJEq1hEKi7tbnstdHfJ66D6i09Wm6L/GW6Foo=
-X-Google-Smtp-Source: AA6agR5nCcid9NCqKPbxqZ/hTPIIlxD7q4k313+ip8ykseON3EkUvVVsKkBZDqNSRhxiwUotkI4BPTjBD+UTYcntALA=
-X-Received: by 2002:a67:e0c7:0:b0:390:50e8:e492 with SMTP id
- m7-20020a67e0c7000000b0039050e8e492mr1522516vsl.36.1661627702027; Sat, 27 Aug
- 2022 12:15:02 -0700 (PDT)
+ bh=J6c5UzqEwFW63nwQHAus0X+tlSqUYSiqpdkszP7a21c=;
+ b=7IqY/o8Nvqq/IiLsapT6iz+o00aNWfbv4n0L78vX2zozdKt2NpngK+qcO0/jlf3M8I
+ sxQy2Gzz+C0SdujJRWlJ6/uDUkhudzDQKixs4cdrB4zSCnjEUBrChtgqqJ6QiLmZE87P
+ nyUn3tMn8X4jjkVV1jwzYLDsxMlpNJDmbZVg39hvhbFReguhizc285RfV52Fmi/vOiCt
+ SQrkPNj90aKSDVlPY2HWcIim7XrXnPsgrG4GQKkHvTUIOWw9+q6dU6oT9BGXz4SwE0M5
+ zegKD0GoX1Pv3MAcQpe7nF/+byWHxiZAky5+Rrb+4euiCBdnausH9NVVKZvFmrr90vgH
+ yATg==
+X-Gm-Message-State: ACgBeo3+Z7Mt1F3ODuXbTa2zBMghD4p6AMxUrBJaFqayayMCvyq2ISX9
+ b6waRb3ccVPGLXUl2eFiHgCBfZHfaeFvhCoWP2LHL4qXH0M=
+X-Google-Smtp-Source: AA6agR6ll7TK/TiywaqzLFo9HSaOGGG6rEbPOAQ4/N6UhwVHWvlc9O0NBZ/C/5/wREzy5z/DqRiml/p/Tt8qOseIlgY=
+X-Received: by 2002:a05:6102:232b:b0:390:d06f:eef1 with SMTP id
+ b11-20020a056102232b00b00390d06feef1mr668751vsa.64.1661627756518; Sat, 27 Aug
+ 2022 12:15:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220826205518.2339352-1-richard.henderson@linaro.org>
- <20220826205518.2339352-2-richard.henderson@linaro.org>
-In-Reply-To: <20220826205518.2339352-2-richard.henderson@linaro.org>
+ <20220826205518.2339352-4-richard.henderson@linaro.org>
+In-Reply-To: <20220826205518.2339352-4-richard.henderson@linaro.org>
 From: Michael Rolnik <mrolnik@gmail.com>
-Date: Sat, 27 Aug 2022 22:14:25 +0300
-Message-ID: <CAK4993g-XUch2feYLARhF+e2zrCS4fZ6Ue7QPx7fyfDiQ-ZTnA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] target/avr: Call avr_cpu_do_interrupt directly
+Date: Sat, 27 Aug 2022 22:15:20 +0300
+Message-ID: <CAK4993gb7EVbDDMvmM99FAewxFf0_5K3852K7=6mqCTrLpLo9w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] target/avr: Disable interrupts when env->skip set
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000edaa0b05e73dd8ab"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
- envelope-from=mrolnik@gmail.com; helo=mail-vs1-xe2e.google.com
+Content-Type: multipart/alternative; boundary="0000000000002d218805e73ddc58"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
+ envelope-from=mrolnik@gmail.com; helo=mail-vs1-xe30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,7 +81,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000edaa0b05e73dd8ab
+--0000000000002d218805e73ddc58
 Content-Type: text/plain; charset="UTF-8"
 
 Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
@@ -89,44 +89,101 @@ Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 On Fri, Aug 26, 2022 at 11:55 PM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
-> There is no need to go through cc->tcg_ops when
-> we know what value that must have.
+> This bit is not saved across interrupts, so we must
+> delay delivering the interrupt until the skip has
+> been processed.
 >
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1118
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/avr/helper.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  target/avr/helper.c    |  9 +++++++++
+>  target/avr/translate.c | 26 ++++++++++++++++++++++----
+>  2 files changed, 31 insertions(+), 4 deletions(-)
 >
 > diff --git a/target/avr/helper.c b/target/avr/helper.c
-> index 82284f8997..9614ccf3e4 100644
+> index 34f1cbffb2..156dde4e92 100644
 > --- a/target/avr/helper.c
 > +++ b/target/avr/helper.c
-> @@ -29,14 +29,13 @@
->  bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->  {
->      bool ret = false;
-> -    CPUClass *cc = CPU_GET_CLASS(cs);
+> @@ -31,6 +31,15 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int
+> interrupt_request)
 >      AVRCPU *cpu = AVR_CPU(cs);
 >      CPUAVRState *env = &cpu->env;
 >
+> +    /*
+> +     * We cannot separate a skip from the next instruction,
+> +     * as the skip would not be preserved across the interrupt.
+> +     * Separating the two insn normally only happens at page boundaries.
+> +     */
+> +    if (env->skip) {
+> +        return false;
+> +    }
+> +
 >      if (interrupt_request & CPU_INTERRUPT_RESET) {
 >          if (cpu_interrupts_enabled(env)) {
 >              cs->exception_index = EXCP_RESET;
-> -            cc->tcg_ops->do_interrupt(cs);
-> +            avr_cpu_do_interrupt(cs);
+> diff --git a/target/avr/translate.c b/target/avr/translate.c
+> index dc9c3d6bcc..026753c963 100644
+> --- a/target/avr/translate.c
+> +++ b/target/avr/translate.c
+> @@ -2971,8 +2971,18 @@ static void avr_tr_translate_insn(DisasContextBase
+> *dcbase, CPUState *cs)
+>      if (skip_label) {
+>          canonicalize_skip(ctx);
+>          gen_set_label(skip_label);
+> -        if (ctx->base.is_jmp == DISAS_NORETURN) {
+> +
+> +        switch (ctx->base.is_jmp) {
+> +        case DISAS_NORETURN:
+>              ctx->base.is_jmp = DISAS_CHAIN;
+> +            break;
+> +        case DISAS_NEXT:
+> +            if (ctx->base.tb->flags & TB_FLAGS_SKIP) {
+> +                ctx->base.is_jmp = DISAS_TOO_MANY;
+> +            }
+> +            break;
+> +        default:
+> +            break;
+>          }
+>      }
 >
->              cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
+> @@ -2989,6 +2999,11 @@ static void avr_tr_tb_stop(DisasContextBase
+> *dcbase, CPUState *cs)
+>  {
+>      DisasContext *ctx = container_of(dcbase, DisasContext, base);
+>      bool nonconst_skip = canonicalize_skip(ctx);
+> +    /*
+> +     * Because we disable interrupts while env->skip is set,
+> +     * we must return to the main loop to re-evaluate afterward.
+> +     */
+> +    bool force_exit = ctx->base.tb->flags & TB_FLAGS_SKIP;
 >
-> @@ -47,7 +46,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int
-> interrupt_request)
->          if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
->              int index = ctz32(env->intsrc);
->              cs->exception_index = EXCP_INT(index);
-> -            cc->tcg_ops->do_interrupt(cs);
-> +            avr_cpu_do_interrupt(cs);
->
->              env->intsrc &= env->intsrc - 1; /* clear the interrupt */
->              if (!env->intsrc) {
+>      switch (ctx->base.is_jmp) {
+>      case DISAS_NORETURN:
+> @@ -2997,7 +3012,7 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase,
+> CPUState *cs)
+>      case DISAS_NEXT:
+>      case DISAS_TOO_MANY:
+>      case DISAS_CHAIN:
+> -        if (!nonconst_skip) {
+> +        if (!nonconst_skip && !force_exit) {
+>              /* Note gen_goto_tb checks singlestep.  */
+>              gen_goto_tb(ctx, 1, ctx->npc);
+>              break;
+> @@ -3005,8 +3020,11 @@ static void avr_tr_tb_stop(DisasContextBase
+> *dcbase, CPUState *cs)
+>          tcg_gen_movi_tl(cpu_pc, ctx->npc);
+>          /* fall through */
+>      case DISAS_LOOKUP:
+> -        tcg_gen_lookup_and_goto_ptr();
+> -        break;
+> +        if (!force_exit) {
+> +            tcg_gen_lookup_and_goto_ptr();
+> +            break;
+> +        }
+> +        /* fall through */
+>      case DISAS_EXIT:
+>          tcg_gen_exit_tb(NULL, 0);
+>          break;
 > --
 > 2.34.1
 >
@@ -136,7 +193,7 @@ richard.henderson@linaro.org> wrote:
 Best Regards,
 Michael Rolnik
 
---000000000000edaa0b05e73dd8ab
+--0000000000002d218805e73ddc58
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -146,58 +203,126 @@ gmail.com">mrolnik@gmail.com</a>&gt;<br></div><br><div class=3D"gmail_quote=
 chard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard=
 .henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
 ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">There is no need to go through cc-&gt;tcg_ops when<br>
-we know what value that must have.<br>
+4);padding-left:1ex">This bit is not saved across interrupts, so we must<br=
+>
+delay delivering the interrupt until the skip has<br>
+been processed.<br>
 <br>
+Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/1118" re=
+l=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/i=
+ssues/1118</a><br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 ---<br>
-=C2=A0target/avr/helper.c | 5 ++---<br>
-=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
+=C2=A0target/avr/helper.c=C2=A0 =C2=A0 |=C2=A0 9 +++++++++<br>
+=C2=A0target/avr/translate.c | 26 ++++++++++++++++++++++----<br>
+=C2=A02 files changed, 31 insertions(+), 4 deletions(-)<br>
 <br>
 diff --git a/target/avr/helper.c b/target/avr/helper.c<br>
-index 82284f8997..9614ccf3e4 100644<br>
+index 34f1cbffb2..156dde4e92 100644<br>
 --- a/target/avr/helper.c<br>
 +++ b/target/avr/helper.c<br>
-@@ -29,14 +29,13 @@<br>
-=C2=A0bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0bool ret =3D false;<br>
--=C2=A0 =C2=A0 CPUClass *cc =3D CPU_GET_CLASS(cs);<br>
+@@ -31,6 +31,15 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_=
+request)<br>
 =C2=A0 =C2=A0 =C2=A0AVRCPU *cpu =3D AVR_CPU(cs);<br>
 =C2=A0 =C2=A0 =C2=A0CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
 <br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* We cannot separate a skip from the next instruction,=
+<br>
++=C2=A0 =C2=A0 =C2=A0* as the skip would not be preserved across the interr=
+upt.<br>
++=C2=A0 =C2=A0 =C2=A0* Separating the two insn normally only happens at pag=
+e boundaries.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 if (env-&gt;skip) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
 =C2=A0 =C2=A0 =C2=A0if (interrupt_request &amp; CPU_INTERRUPT_RESET) {<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (cpu_interrupts_enabled(env)) {<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cs-&gt;exception_index =3D =
 EXCP_RESET;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cc-&gt;tcg_ops-&gt;do_interrupt(=
-cs);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 avr_cpu_do_interrupt(cs);<br>
+diff --git a/target/avr/translate.c b/target/avr/translate.c<br>
+index dc9c3d6bcc..026753c963 100644<br>
+--- a/target/avr/translate.c<br>
++++ b/target/avr/translate.c<br>
+@@ -2971,8 +2971,18 @@ static void avr_tr_translate_insn(DisasContextBase *=
+dcbase, CPUState *cs)<br>
+=C2=A0 =C2=A0 =C2=A0if (skip_label) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0canonicalize_skip(ctx);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gen_set_label(skip_label);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ctx-&gt;base.is_jmp =3D=3D DISAS_NORETURN)=
+ {<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (ctx-&gt;base.is_jmp) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case DISAS_NORETURN:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;base.is_jmp =3D DIS=
+AS_CHAIN;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case DISAS_NEXT:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ctx-&gt;base.tb-&gt;flags &a=
+mp; TB_FLAGS_SKIP) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;base.is_jm=
+p =3D DISAS_TOO_MANY;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cs-&gt;interrupt_request &a=
-mp;=3D ~CPU_INTERRUPT_RESET;<br>
+@@ -2989,6 +2999,11 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase,=
+ CPUState *cs)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0DisasContext *ctx =3D container_of(dcbase, DisasContext=
+, base);<br>
+=C2=A0 =C2=A0 =C2=A0bool nonconst_skip =3D canonicalize_skip(ctx);<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* Because we disable interrupts while env-&gt;skip is =
+set,<br>
++=C2=A0 =C2=A0 =C2=A0* we must return to the main loop to re-evaluate after=
+ward.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 bool force_exit =3D ctx-&gt;base.tb-&gt;flags &amp; TB_FLAGS=
+_SKIP;<br>
 <br>
-@@ -47,7 +46,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_r=
-equest)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (cpu_interrupts_enabled(env) &amp;&amp=
-; env-&gt;intsrc !=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int index =3D ctz32(env-&gt=
-;intsrc);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cs-&gt;exception_index =3D =
-EXCP_INT(index);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cc-&gt;tcg_ops-&gt;do_interrupt(=
-cs);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 avr_cpu_do_interrupt(cs);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;intsrc &amp;=3D env=
--&gt;intsrc - 1; /* clear the interrupt */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!env-&gt;intsrc) {<br>
+=C2=A0 =C2=A0 =C2=A0switch (ctx-&gt;base.is_jmp) {<br>
+=C2=A0 =C2=A0 =C2=A0case DISAS_NORETURN:<br>
+@@ -2997,7 +3012,7 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, =
+CPUState *cs)<br>
+=C2=A0 =C2=A0 =C2=A0case DISAS_NEXT:<br>
+=C2=A0 =C2=A0 =C2=A0case DISAS_TOO_MANY:<br>
+=C2=A0 =C2=A0 =C2=A0case DISAS_CHAIN:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!nonconst_skip) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!nonconst_skip &amp;&amp; !force_exit) {<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Note gen_goto_tb checks =
+singlestep.=C2=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gen_goto_tb(ctx, 1, ctx-&gt=
+;npc);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+@@ -3005,8 +3020,11 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase,=
+ CPUState *cs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_movi_tl(cpu_pc, ctx-&gt;npc);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* fall through */<br>
+=C2=A0 =C2=A0 =C2=A0case DISAS_LOOKUP:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_lookup_and_goto_ptr();<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!force_exit) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_lookup_and_goto_ptr();<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fall through */<br>
+=C2=A0 =C2=A0 =C2=A0case DISAS_EXIT:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_exit_tb(NULL, 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
 -- <br>
 2.34.1<br>
 <br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
  class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
 
---000000000000edaa0b05e73dd8ab--
+--0000000000002d218805e73ddc58--
 
