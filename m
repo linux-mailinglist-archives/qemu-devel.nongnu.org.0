@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A735A360B
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 10:39:47 +0200 (CEST)
-Received: from localhost ([::1]:40826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E345A360F
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 10:42:21 +0200 (CEST)
+Received: from localhost ([::1]:48522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRrM1-0003Vd-QI
-	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 04:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
+	id 1oRrOU-0005vF-3U
+	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 04:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRrGa-0000Pf-QM
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 04:34:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53066)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRrIU-0001D0-BN
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 04:36:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRrGY-0002AH-5C
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 04:34:07 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRrIQ-0002Y6-U4
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 04:36:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661589245;
+ s=mimecast20190719; t=1661589361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uwdOyUrnPpnwJP+d8ErY0rYTHGotKjqq9eS1LSbVZ10=;
- b=hxjOkSA4ah0zQC2YVyM13KA1b5DUPgOdq4banDy414eSNTvtC5V7YkO44YukC53KqCvjdR
- DvyzjPc5+TF1Ay8ZLXdJp0v924Tx3BEuauq4rviokfJJGrAz2bIdm3I2jVNtgeVwY30Lf8
- wbqGKqxutPOAJqUNzZa4EIVdDhbZPpk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WqwaGnDIM81YNxjwtF/q8GtNMk/xi+H9cgP0lvybVZ4=;
+ b=BL/HDv3u7l1lMCpKNr192B7scPQWdEb77zDfZUbKZ61y/TzVmgyHUDu46iFgcNRG0PBpJK
+ nZhRGOVHIV/U0KDfM5exhShMVzKHXej7fDfHoelrk3YHRRCtZA83HddLcjEPgw+DSrrLEl
+ p41aMmOnoH5BwsOsVq2CVTTvFK7o+Ds=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-442-3VmEzvA9Ns2i0R97g-lY8w-1; Sat, 27 Aug 2022 04:34:03 -0400
-X-MC-Unique: 3VmEzvA9Ns2i0R97g-lY8w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- i132-20020a1c3b8a000000b003a537064611so1979564wma.4
- for <qemu-devel@nongnu.org>; Sat, 27 Aug 2022 01:34:03 -0700 (PDT)
+ us-mta-442-wCNtjouUPSSImxmFPCCMIA-1; Sat, 27 Aug 2022 04:36:00 -0400
+X-MC-Unique: wCNtjouUPSSImxmFPCCMIA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v17-20020adfa1d1000000b0022574d4574aso514368wrv.22
+ for <qemu-devel@nongnu.org>; Sat, 27 Aug 2022 01:36:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=uwdOyUrnPpnwJP+d8ErY0rYTHGotKjqq9eS1LSbVZ10=;
- b=QXihu3QHpb9fW6ELtXm74rxOmyZJewYTol88te/Wl3AavBjkj8EBpSfACaI5u6O9ik
- 221emwf1CdpmN/8Psl4/DUNw07HDM1Mn3lIFhQRk82SveMWSX2VqazSM/JrUZr3fiEjN
- /++ogkw8cG8//J+Zh3SN7C6Chv1bAiP7hG2nqICj64yP6iCHk1+YXGtOkO3UNh8R/Kv/
- xBYf/p1WJCD+8pV8kHc9WCVwyxtOOuP0ke6k0vqKQRILcjZ7qcIX502CGCi+gN6LX+Ub
- ATqk4cCYypJ44QXEs92XG1bAJ8qKeTP+DowRJ7yv3ZGJKnhTF4vl81BnqLW6OankVfyd
- OUOQ==
-X-Gm-Message-State: ACgBeo1Mwqev032rRYHh0JxnPf1Otxv+yua3QUA2vxfnN56DL/LwYyLs
- YXBvBw8Hur2Ok7PI8Rudv4jV7hSdM9XAqednzDSwO6F+NNSHIYngNkZAQig0TQX2EiQx18Cf9qJ
- hDtCT0YUYud6ObLg=
-X-Received: by 2002:a05:6000:60c:b0:220:757a:54a8 with SMTP id
- bn12-20020a056000060c00b00220757a54a8mr1679762wrb.685.1661589242725; 
- Sat, 27 Aug 2022 01:34:02 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4TFCAEXXzVPhWDCM7w7kSZYLvYAO3g82a9iBL7KIJEEWhidlEzyuWzzwrzhoa6QOZhJyJPyQ==
-X-Received: by 2002:a05:6000:60c:b0:220:757a:54a8 with SMTP id
- bn12-20020a056000060c00b00220757a54a8mr1679744wrb.685.1661589242509; 
- Sat, 27 Aug 2022 01:34:02 -0700 (PDT)
+ bh=WqwaGnDIM81YNxjwtF/q8GtNMk/xi+H9cgP0lvybVZ4=;
+ b=MenKTI5B8o860kraYzAL/FA6aJ62peZZSh8Rd4uuYpddnx4YKINjmUs4y9Y9NQsbrx
+ 78XQYAGJbeKcZQbM8r5TqLDZTQd76EMsusXPDKUOq1z2KSVDPMcLs4aoenpMxkOEz3y9
+ OWSUFaPeL8qo+65qF/Z9st4cOInUtVoAspl6FdGuH6bOq5Hf8O7XGbDABJKDrlCOeqfu
+ 0lpiqicX2r/cONOlJsQ3Wvs4ZRqzjzUDSVvnHQcTDODsjg9x5jaI3q5p1oPKbVcrqNUH
+ /HQI9/Oi7H5Ij/fDk5G4UHi4fLzLlvG2ZUq1iw+wBFJX1OYOWRiyH88Hm0pTyDEY4Rnl
+ J+3w==
+X-Gm-Message-State: ACgBeo3JK/cixslMzJ2GszaJnxwv54UmuNthL98asbS/YD/1lmHSNx6C
+ 7tK3JbDB7nXATA6Lrxih5Hm/HRhLWBMLDNa4u/RQsi256RDvC6Udvet/ONl/OEZj7KenRdTLya4
+ rTWFE9ctHr+cHG6o=
+X-Received: by 2002:a1c:7214:0:b0:3a5:ea1c:c55b with SMTP id
+ n20-20020a1c7214000000b003a5ea1cc55bmr1846887wmc.190.1661589359444; 
+ Sat, 27 Aug 2022 01:35:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5EBTV/JJ8JJ5UEtain6Zh/46+lEURNz4jKJMSe7d8Dfrorb9kUA36jFx44VTIKPZv/iKCgIg==
+X-Received: by 2002:a1c:7214:0:b0:3a5:ea1c:c55b with SMTP id
+ n20-20020a1c7214000000b003a5ea1cc55bmr1846871wmc.190.1661589359210; 
+ Sat, 27 Aug 2022 01:35:59 -0700 (PDT)
 Received: from [192.168.8.101] (tmo-097-69.customers.d1-online.com.
  [80.187.97.69]) by smtp.gmail.com with ESMTPSA id
- p18-20020a056000019200b00226d13a25c7sm1511552wrx.17.2022.08.27.01.34.01
+ r6-20020a5d4946000000b00226d2462b32sm881656wrs.52.2022.08.27.01.35.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 27 Aug 2022 01:34:02 -0700 (PDT)
-Message-ID: <55469e83-9790-7d47-932e-df574846c42d@redhat.com>
-Date: Sat, 27 Aug 2022 10:34:00 +0200
+ Sat, 27 Aug 2022 01:35:58 -0700 (PDT)
+Message-ID: <7006f05f-42f0-394f-39c0-f2bc171acfb6@redhat.com>
+Date: Sat, 27 Aug 2022 10:35:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 15/20] disas/nanomips: Replace exception handling
+Subject: Re: [PATCH 16/20] disas/nanomips: Replace Cpp enums for C enums
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -76,9 +76,9 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220815072629.12865-1-milica.lazarevic@syrmia.com>
- <20220815072629.12865-16-milica.lazarevic@syrmia.com>
+ <20220815072629.12865-17-milica.lazarevic@syrmia.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220815072629.12865-16-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220815072629.12865-17-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -106,40 +106,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 15/08/2022 09.26, Milica Lazarevic wrote:
-> Since there's no support for exception handling in C, the try-catch
-> blocks have been deleted, and throw clauses are replaced. When a runtime
-> error happens, we're printing out the error message. Disassembling of
-> the current instruction interrupts. This behavior is achieved by adding
-> sigsetjmp() to discard further disassembling after the error message
-> prints and by adding the siglongjmp() function to imitate throwing an
-> error.The goal was to maintain the same output as it was.
+> Change enums to typedef enums to keep naming clear
 > 
 > Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 135 +++++++++++++++++++++++----------------------
->   1 file changed, 69 insertions(+), 66 deletions(-)
+>   disas/nanomips.cpp | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 > diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-> index 769368a984..a8cd878809 100644
+> index a8cd878809..9406805367 100644
 > --- a/disas/nanomips.cpp
 > +++ b/disas/nanomips.cpp
-> @@ -31,7 +31,6 @@
->   #include "disas/dis-asm.h"
+> @@ -43,16 +43,16 @@ typedef uint64_t img_address;
+>   typedef bool(*conditional_function)(uint64 instruction);
+>   typedef const char *(*disassembly_function)(uint64 instruction);
 >   
->   #include <string.h>
-> -#include <stdexcept>
->   #include <stdio.h>
->   #include <stdarg.h>
+> -enum TABLE_ENTRY_TYPE {
+> +typedef enum {
+>       instruction,
+>       call_instruction,
+>       branch_instruction,
+>       return_instruction,
+>       reserved_block,
+>       pool,
+> -};
+> +} TABLE_ENTRY_TYPE;
 >   
-> @@ -90,6 +89,8 @@ struct Pool {
->   
->   static img_address           m_pc;
->   static TABLE_ATTRIBUTE_TYPE   m_requested_instruction_categories;
-> +static struct disassemble_info *disassm_info;
-> +static jmp_buf j_buf;
+> -enum TABLE_ATTRIBUTE_TYPE {
+> +typedef enum {
+>       MIPS64_    = 0x00000001,
+>       XNP_       = 0x00000002,
+>       XMMS_      = 0x00000004,
+> @@ -70,7 +70,7 @@ enum TABLE_ATTRIBUTE_TYPE {
+>       TLB_       = 0x00004000,
+>       MVH_       = 0x00008000,
+>       ALL_ATTRIBUTES = 0xffffffffull,
+> -};
+> +} TABLE_ATTRIBUTE_TYPE;
 
-I guess this is also not thread-safe? (see also Richard's answer to patch 03/20)
-
-  Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
