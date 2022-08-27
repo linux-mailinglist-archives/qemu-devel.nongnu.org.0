@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188BA5A34F2
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 07:58:58 +0200 (CEST)
-Received: from localhost ([::1]:48856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785375A3505
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Aug 2022 08:25:02 +0200 (CEST)
+Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oRoqO-0001a0-Qs
-	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 01:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37762)
+	id 1oRpFd-0005O6-2c
+	for lists+qemu-devel@lfdr.de; Sat, 27 Aug 2022 02:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRokr-0006DA-E4
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 01:53:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21702)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oRpDn-000413-Bl
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 02:23:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oRokp-0005Ib-EU
- for qemu-devel@nongnu.org; Sat, 27 Aug 2022 01:53:12 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oRpDk-0000ve-5N
+ for qemu-devel@nongnu.org; Sat, 27 Aug 2022 02:23:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661579590;
+ s=mimecast20190719; t=1661581382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FUq5A6gsYbRl8qgRVks+GrZw1GoM8rV16V9AgIRjIsg=;
- b=iMKjqKiXLexkPwCqnf2j+22wQDtwDFSlLmpPGYoE5CAf1aphsCWzKYxlVMR973+L1/tX5S
- 0CWKCTBrerNbGjLQ3+6bwMb6hl+Xy6BLzSxDj47Z+skkgfSmelrtjYGjAQYIFK/83BUt4n
- NYHz7NtLtFk8DQzz66VGGCqE69MhvJM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=usDfzDnTc82TvUi3BGwcyR2Swm0bRe/Xd5FVJJUOEEQ=;
+ b=O3cTGZXoBTLRuC78kqpM4RDZUP1yjDkGNocbeSIOcbjZwWJvUyMCvrzaTz9hGn4UMEfrkU
+ yE5KTqHu+NB8uNINxjs0IuMz4qqi1Yr6P8mlCjIpm1QTjZXdJXHzFf94215dpJEk0Imxiu
+ eDbZHbBWvx6ooYRrYKRhP1a6o2mAaPA=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-634-6NA2yfwrP0OZrqrkKsHS8Q-1; Sat, 27 Aug 2022 01:53:09 -0400
-X-MC-Unique: 6NA2yfwrP0OZrqrkKsHS8Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay21-20020a05600c1e1500b003a6271a9718so1840802wmb.0
- for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 22:53:08 -0700 (PDT)
+ us-mta-110-WfTqGGS1NjStEC7ZCNj8Lw-1; Sat, 27 Aug 2022 02:23:00 -0400
+X-MC-Unique: WfTqGGS1NjStEC7ZCNj8Lw-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ g19-20020a056512119300b00492d83ae1d5so447683lfr.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Aug 2022 23:23:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=FUq5A6gsYbRl8qgRVks+GrZw1GoM8rV16V9AgIRjIsg=;
- b=MHP3cHnc2NdWUnplhwbyv/pidLUx1+L0xqcYgpZVeHZR6nC1oRqESlJimqkqkXvjSr
- C1AGgNFlR2jVuyDKmx2jntw0Ewx2sz/rurx8R/cz6g5PkBtx+LcvI+Pvj5K2kdXTEmXt
- wALjXOLy5wqC04BaNq2gHnNJB8zB3iA3OzwH4wBDAe7z1IROAMruXih2TpjiXJMhJgVy
- vW2vV5Q7pzkUUwTY1ZUVUHmJbUX8asO2QdroUxA3WNcsMqR3bya9F+qUA1xqkZUhk+RQ
- 3UTW2bnUorjlR3MlpdcBaom6t0nGVY9+Nu2/mEFPis+U6k0/o50k5zMOiztMO3gC2X5L
- QxwA==
-X-Gm-Message-State: ACgBeo0usMVhuEU3XPfZAAS80BIO/pS0mcHnisSzCkTL9nj4bnpt1pp0
- ZpupUs+XGY0NnkI5+8meWU8yh54JnQp62DuVfbKrtcqbwL7nfUyFLTb9tOTvRrMZ+nXEPQjbmsk
- DbcYCNihjd2M8nNM=
-X-Received: by 2002:a5d:4988:0:b0:226:d424:4b28 with SMTP id
- r8-20020a5d4988000000b00226d4244b28mr5207wrq.443.1661579588135; 
- Fri, 26 Aug 2022 22:53:08 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5hjfo6fFcDLKzUwwBjYR4NCYvjKcWyuNOD6dcRnyaLtwD9BsszcresP8Do2o9R8KNKSopZ+g==
-X-Received: by 2002:a5d:4988:0:b0:226:d424:4b28 with SMTP id
- r8-20020a5d4988000000b00226d4244b28mr5195wrq.443.1661579587931; 
- Fri, 26 Aug 2022 22:53:07 -0700 (PDT)
-Received: from [192.168.8.101] (tmo-097-69.customers.d1-online.com.
- [80.187.97.69]) by smtp.gmail.com with ESMTPSA id
- j6-20020a056000124600b002258956f373sm1417461wrx.95.2022.08.26.22.53.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Aug 2022 22:53:07 -0700 (PDT)
-Message-ID: <b68c5c3c-a161-872b-96d8-bcc2a9f81928@redhat.com>
-Date: Sat, 27 Aug 2022 07:53:05 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=usDfzDnTc82TvUi3BGwcyR2Swm0bRe/Xd5FVJJUOEEQ=;
+ b=i2FVyrThjE0XWAy1sswLK3xbcFt6wsNUnEzTFhctrAYOPrqcfx5E3DXYg4P56N6KVj
+ 5fw5u2QWZPh4x1omQlYkK/W+czjv0Q8Wpge787oYNPf0EvJHuzlg92Uiicedo6GyMmC3
+ 2mhtj4EM6X3iIGG0WETA3Ho7xY2pnB7zIgONPaN0ix7WFHtyex36fyUYOtOA/4Xw+MQD
+ 8vCbXJXvVI359qvlNReLysJw7QfHksCBGZ5/QD40xX8XncqA/wj3GYUv7lUuZuiv5Bb8
+ zaMPhRc8otovzvHb19XSHOHarCZp6+OvH91E10WIuXBN7nsJE1XN+E5tLEJUfX+u/+JQ
+ 4R+Q==
+X-Gm-Message-State: ACgBeo1DFETpEveeO1rNfi6+/9aPtkdHS/SBVUQOgJHWlfeZZL0QE2/e
+ 22h//sIcOiKgo6WTgLRoXWoLvvy7zgEIGWWHvBYQOFvoF2DmUGtJaYgSjkLXa/mXJV+48U76vrd
+ 127C65HHgQ6n95Fh8G6HeaZWBWXx616s=
+X-Received: by 2002:a05:6512:c06:b0:48d:1d99:2a1a with SMTP id
+ z6-20020a0565120c0600b0048d1d992a1amr3856949lfu.396.1661581378975; 
+ Fri, 26 Aug 2022 23:22:58 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6AoceeBx0OJlpkb4dQxOrKfXUCHWi887zmhwAuCchgO17uz1EBGvN5BW6R55vdqIVH+38jThVwMHag9/m0CGc=
+X-Received: by 2002:a05:6512:c06:b0:48d:1d99:2a1a with SMTP id
+ z6-20020a0565120c0600b0048d1d992a1amr3856943lfu.396.1661581378710; Fri, 26
+ Aug 2022 23:22:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 24/25] tests/docker: remove the Debian base images
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220826172128.353798-1-alex.bennee@linaro.org>
- <20220826172128.353798-25-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220826172128.353798-25-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <20220826231204.201395-1-pbonzini@redhat.com>
+ <20220826231204.201395-16-pbonzini@redhat.com>
+ <d99fd852-b4a4-2e88-30fd-8eb759eb3e5d@linaro.org>
+In-Reply-To: <d99fd852-b4a4-2e88-30fd-8eb759eb3e5d@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Sat, 27 Aug 2022 08:22:47 +0200
+Message-ID: <CABgObfZrc18dKi8aBrHf4PpWuSBk7NRN58E2+V5sRJ9-QOZePg@mail.gmail.com>
+Subject: Re: [PATCH 15/23] i386: Destructive vector helpers for AVX
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paul Brook <paul@nowt.org>
+Content-Type: multipart/alternative; boundary="000000000000d8097205e7330f0d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,26 +93,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/08/2022 19.21, Alex Bennée wrote:
-> We no longer use these in any of our images. Clean-up the remaining
-> comments and documentation that reference them and remove from the
-> build.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   docs/devel/testing.rst                   |  2 +-
->   .gitlab-ci.d/container-core.yml          |  5 ----
->   .gitlab-ci.d/containers.yml              |  5 ----
->   tests/docker/Makefile.include            |  8 +----
->   tests/docker/dockerfiles/debian10.docker | 38 ------------------------
->   tests/docker/dockerfiles/debian11.docker | 18 -----------
->   6 files changed, 2 insertions(+), 74 deletions(-)
->   delete mode 100644 tests/docker/dockerfiles/debian10.docker
->   delete mode 100644 tests/docker/dockerfiles/debian11.docker
+--000000000000d8097205e7330f0d
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks for doing this, I hope the removal of the staged containers will make 
-the CI easier to maintain and understand in the future!
+Il sab 27 ago 2022, 01:46 Richard Henderson <richard.henderson@linaro.org>
+ha scritto:
+> +#define PACK_WIDTH (4 << SHIFT)
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+>
+> Incorrect for AVX, it was correct with the ifdef in v1.
+> Perhaps just (SHIFT ? 8 : 4)?
+>
+
+That's intentional, the AVX patches change it to an #ifndef that AVX
+overrides. For now the purpose of the series is to keep things simple and
+loop-ified, with AVX remaining in the background. But I can use the ternary
+operator if you prefer, that's a good suggestion too.
+
+Paolo
+
+
+> I think this should be parameterized on the larger of
+> the two types in the insn.  Because right now you get
+> some weird arithmetic in e.g. punpck*dq.
+>
+>
+> r~
+> ,
+
+--000000000000d8097205e7330f0d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il sab 27 ago 2022, 01:46 Richard Henderson &lt;<a hre=
+f=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&=
+gt; ha scritto:</div><div dir=3D"ltr" class=3D"gmail_attr">&gt; +#define PA=
+CK_WIDTH (4 &lt;&lt; SHIFT)</div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Incorrect for AVX, it was correct with the ifdef in v1.<br>
+Perhaps just (SHIFT ? 8 : 4)?<br></blockquote></div></div><div dir=3D"auto"=
+><br></div><div dir=3D"auto">That&#39;s intentional, the AVX patches change=
+ it to an #ifndef that AVX overrides. For now the purpose of the series is =
+to keep things simple and loop-ified, with AVX remaining in the background.=
+ But I can use the ternary operator if you prefer, that&#39;s a good sugges=
+tion too.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">
+<br>
+I think this should be parameterized on the larger of<br>
+the two types in the insn.=C2=A0 Because right now you get<br>
+some weird arithmetic in e.g. punpck*dq.<br>
+<br>
+<br>
+r~<br>
+,
+</blockquote></div></div></div>
+
+--000000000000d8097205e7330f0d--
 
 
