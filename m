@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915235A4AC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 13:55:03 +0200 (CEST)
-Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6242C5A4ACC
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 13:56:37 +0200 (CEST)
+Received: from localhost ([::1]:40708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSdM6-0007eY-MM
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37612)
+	id 1oSdNc-0000QN-HU
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oSdIo-0003QT-9C
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:38 -0400
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:35471)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oSdIm-0006TG-If
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:38 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id k22so7768926ljg.2
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 04:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=7RiowvTgqN4f5B7e6f84J0ZvcPSMKd5Y8EMhatcA4rk=;
- b=hv2DkqUo3xRHAycv6HcszxXcnxTGNl/Hk+D4YBg5wlgGkrC432y8DX/+YwfZZQDWwz
- 4n9xe7yvUodiTgoWAtRvyQDBeQ8n7eOn3UKN+p37Ql83YvwK4VSHcsQ6+RoBEP0Q7AGs
- 5oUJxmWgfR9YzquaXY1GC9w5E3NlhEgI+hC0j/joaIyMbE+71HvK9720liUQNOWqoF4d
- MMQS1/ebGpe8UrH68W7/PEWX9pwpayC/30Zy/SRyMYmZdtMPWu6WAIeTSMqlscvmusC6
- GV1P0lLi6qqgSXf/f4DDhp7wVypiG+k/ZFvCNq4RocPngZIgoceK/gS3gwJTgnQcuA2m
- c73A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=7RiowvTgqN4f5B7e6f84J0ZvcPSMKd5Y8EMhatcA4rk=;
- b=SjJ13d15adIYpjj5yDiEDfOmFJjl6fIHhv4vBOVi/BOhhrz8B9px1OCHczGXeOOZ/M
- SKFckyEubswLU883u3kP0oP+n5AFVzv9m3Rml8UcjprchnCFqqA1gTc0eokxkB3U4lGy
- OvDzc/oOTdll+vwQ+jF3zxC/+LWY/VK2aElzkdmg1jbWzHk6mdsAyVQ7sbGR2CYtA8iK
- bvQ3LK5zZv4FtD3zy827fk9O6CWvJELiLtHWaLBO6zKKnbdoPgvnseswNeHjySESzBwj
- Sumi2uSJUyyFj3wfpcAgSRs9AMgaMYscS02fKbaQt+UAhmOF0NjXsgaUy6b7/dJZ+IUg
- jFCg==
-X-Gm-Message-State: ACgBeo13WrDCytb3O37OWuCnJOV40pHMVZwMaJjtDOZlCmAyFUBuRBji
- /7WPqQOyoGNhXTS4OsOMdVOdkre9/LGtT1d9Ypkngp8sXeY=
-X-Google-Smtp-Source: AA6agR5oTQMQiygwNEqqVZR72pvM7oMSDtnQo0yx5bn7vjueBPabTCMcq4oQj2FaKN7ceoqh+jKHzXsASw2RmnkPrIc=
-X-Received: by 2002:a2e:a78e:0:b0:261:d661:14b8 with SMTP id
- c14-20020a2ea78e000000b00261d66114b8mr5716333ljf.452.1661773894918; Mon, 29
- Aug 2022 04:51:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSdL4-0005xQ-EG
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:53:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSdL0-0006up-Li
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:53:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661774033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qz67LleNB0351hfBxYtwyacpuZyMNlEEqBMvUOT5lio=;
+ b=MKyPS/yGBQEHy5EpEnr/4RczYFC5ot46kaTH16O8IwzHNd5b20cLflIDxcAhNtcphLqbln
+ GS30uv7dwqwHyUreFJBscs2BHwf+vkH5qr48d9U5RlHhkUO+Iy0MJTyNXSq4B27PT+4Ea4
+ 89mPxYLhD77/5QL3LZCcUhzJqnRpMoc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-14-D7duUl_9NTSfHuBZlicT2A-1; Mon, 29 Aug 2022 07:53:52 -0400
+X-MC-Unique: D7duUl_9NTSfHuBZlicT2A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75BB285A589
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 11:53:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EC9840CF8E4;
+ Mon, 29 Aug 2022 11:53:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 12D5821E6900; Mon, 29 Aug 2022 13:53:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Cc: Andrea Bolognani <abologna@redhat.com>,  qemu-devel@nongnu.org,  Eric
+ Blake <eblake@redhat.com>,  John Snow <jsnow@redhat.com>,  Daniel P .
+ =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v2 0/8] qapi: add generator for Golang interface
+References: <20220617121932.249381-1-victortoso@redhat.com>
+ <CABJz62Pay+VzT8gy94bgRJdXHrdGM=GQCWcwVKkj9eso_SzP3w@mail.gmail.com>
+ <20220817142438.lymnqxul6dcp6zbp@tapioca>
+Date: Mon, 29 Aug 2022 13:53:51 +0200
+In-Reply-To: <20220817142438.lymnqxul6dcp6zbp@tapioca> (Victor Toso's message
+ of "Wed, 17 Aug 2022 16:24:38 +0200")
+Message-ID: <87tu5vp8og.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220829083120.143415-1-akihiko.odaki@daynix.com>
-In-Reply-To: <20220829083120.143415-1-akihiko.odaki@daynix.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 29 Aug 2022 15:51:23 +0400
-Message-ID: <CAJ+F1CL_0FkzQKAHMdqqm8yLEsT5MPX16uQ0znSREELQnsu5ag@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Update Akihiko Odaki's email address
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Content-Type: multipart/alternative; boundary="000000000000b4252505e75fe27c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,125 +83,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b4252505e75fe27c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Victor Toso <victortoso@redhat.com> writes:
 
-Hi
-
-On Mon, Aug 29, 2022 at 12:33 PM Akihiko Odaki <akihiko.odaki@gmail.com>
-wrote:
-
-> I am now employed by Daynix. Although my role as a reviewer of
-> macOS-related change is not very relevant to the employment, I decided
-> to use the company email address to avoid confusions from different
-> addresses.
+> Hi,
 >
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> On Tue, Jul 05, 2022 at 08:46:34AM -0700, Andrea Bolognani wrote:
+>> I've commented in detail to the single patches, just a couple of
+>> additional points.
+>>
+>> On Fri, Jun 17, 2022 at 02:19:24PM +0200, Victor Toso wrote:
+>> > * 7) Flat structs by removing embed types. Discussion with Andrea
+>> >      Thread: https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg01590.html
+>> >
+>> >      No one required it but I decided to give it a try. Major issue that
+>> >      I see with this approach is to have generated a few 'Base' structs
+>> >      that are now useless. Overall, less nested structs seems better to
+>> >      me. Opnions?
+>> >
+>> >      Example:
+>> >       | /* This is now useless, should be removed? */
+>> >       | type InetSocketAddressBase struct {
+>> >       |     Host string `json:"host"`
+>> >       |     Port string `json:"port"`
+>> >       | }
+>>
+>> Can we somehow keep track, in the generator, of types that are
+>> only used as building blocks for other types, and prevent them
+>> from showing up in the generated code?
 >
-
-Congrats :)
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-
-> ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> I'm not 100% sure it is good to remove them from generated code
+> because technically it is a valid qapi type. If all @base types
+> are embed types and they don't show in other way or form, sure we
+> can remove them from generated code... I'm not sure if it is
+> possible to guarantee this.
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5ce4227ff6..fd9bd1dca5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2451,7 +2451,7 @@ Core Audio framework backend
->  M: Gerd Hoffmann <kraxel@redhat.com>
->  M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->  R: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> -R: Akihiko Odaki <akihiko.odaki@gmail.com>
-> +R: Akihiko Odaki <akihiko.odaki@daynix.com>
->  S: Odd Fixes
->  F: audio/coreaudio.c
->
-> @@ -2730,7 +2730,7 @@ F: util/drm.c
->  Cocoa graphics
->  M: Peter Maydell <peter.maydell@linaro.org>
->  M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> -R: Akihiko Odaki <akihiko.odaki@gmail.com>
-> +R: Akihiko Odaki <akihiko.odaki@daynix.com>
->  S: Odd Fixes
->  F: ui/cocoa.m
->
-> --
-> 2.37.2
->
->
->
+> But yes, if possible, I'd like to remove what seems useless type
+> definitions.
 
---=20
-Marc-Andr=C3=A9 Lureau
+The existing C generators have to generate all the types, because the
+generated code is for QEMU's own use, where we need all the types.
 
---000000000000b4252505e75fe27c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The existing introspection generator generates only the types visible in
+QAPI/QMP introspection.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 29, 2022 at 12:33 PM Ak=
-ihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gm=
-ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">I am now employed by Daynix. Although my role as a reviewer of<br>
-macOS-related change is not very relevant to the employment, I decided<br>
-to use the company email address to avoid confusions from different<br>
-addresses.<br>
-<br>
-Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@daynix.com=
-" target=3D"_blank">akihiko.odaki@daynix.com</a>&gt;<br></blockquote><div><=
-br></div><div><div>Congrats :)<br></div><div>Reviewed-by: Marc-Andr=C3=A9 L=
-ureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@r=
-edhat.com</a>&gt;</div><div><br></div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">
----<br>
-=C2=A0MAINTAINERS | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 5ce4227ff6..fd9bd1dca5 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -2451,7 +2451,7 @@ Core Audio framework backend<br>
-=C2=A0M: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_=
-blank">kraxel@redhat.com</a>&gt;<br>
-=C2=A0M: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org"=
- target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-=C2=A0R: Christian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com=
-" target=3D"_blank">qemu_oss@crudebyte.com</a>&gt;<br>
--R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"=
-_blank">akihiko.odaki@gmail.com</a>&gt;<br>
-+R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@daynix.com" target=3D=
-"_blank">akihiko.odaki@daynix.com</a>&gt;<br>
-=C2=A0S: Odd Fixes<br>
-=C2=A0F: audio/coreaudio.c<br>
-<br>
-@@ -2730,7 +2730,7 @@ F: util/drm.c<br>
-=C2=A0Cocoa graphics<br>
-=C2=A0M: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" targ=
-et=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
-=C2=A0M: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org"=
- target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
--R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"=
-_blank">akihiko.odaki@gmail.com</a>&gt;<br>
-+R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@daynix.com" target=3D=
-"_blank">akihiko.odaki@daynix.com</a>&gt;<br>
-=C2=A0S: Odd Fixes<br>
-=C2=A0F: ui/cocoa.m<br>
-<br>
--- <br>
-2.37.2<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+The former generate for internal use (where we want all the types), and
+the latter for external use (where only the types visible in the
+external interface are actually useful).
 
---000000000000b4252505e75fe27c--
+>> Finally, looking at the repository containing the generated
+>> code I see that the generated type are sorted by kind, e.g. all
+>> unions are in a file, all events in another one and so on. I
+>> believe the structure should match more closely that of the
+>> QAPI schema, so e.g.  block-related types should all go in one
+>> file, net-related types in another one and so on.
+>
+> That's something I don't mind adding but some hardcoded mapping
+> is needed. If you look into git history of qapi/ folder, .json
+> files can come and go, types be moved around, etc. So, we need to
+> proper map types in a way that the generated code would be kept
+> stable even if qapi files would have been rearranged. What I
+> proposed was only the simplest solution.
+>
+> Also, the generator takes a qapi-schema.json as input. We are
+> more focused in qemu/qapi/qapi-schema.json generated coded but
+> would not hurt to think we could even use it for qemu-guest-agent
+> from qemu/qga/qapi-schema.json -- this to say that the hardcoded
+> mapping needs to take into account non qemu qapi schemas too.
+
+In the beginning, the QAPI schema was monolithic.  qga/qapi-schema.json
+still is.
+
+When keeping everything in a single qapi-schema.json became unwieldy, we
+split it into "modules" tied together with a simple include directive.
+Generated code remained monolithic.
+
+When monolithic generated code became too annoying (touch schema,
+recompile everything), we made it match the module structure: code for
+FOO.json goes into *-FOO.c and *-FOO.h, where the *-FOO.h #include the
+generated headers for the .json modules FOO.json includes.
+
+Schema code motion hasn't been much of a problem.  Moving from FOO.json
+to one of the modules it includes is transparent.  Non-transparent moves
+are relatively rare as long as the split into modules actually makes
+sense.
+
+>> Looking forward to the next iteration :)
+>
+> Me too, thanks again!
+>
+> Cheers,
+> Victor
+
 
