@@ -2,100 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B635A4C1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 14:42:29 +0200 (CEST)
-Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26975A4C93
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 14:55:46 +0200 (CEST)
+Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSe5z-0007rX-Lw
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 08:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51662)
+	id 1oSeIr-0003vz-IE
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 08:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oSe4S-0006Kz-VG
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 08:40:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oSe4P-0007WX-Lp
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 08:40:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661776848;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pk2bUnqrI+zOexXJH1WQEqWMq2SjOT2dAKnmSbZ13hM=;
- b=f1fWviDWKvev8wongUeswkBmYA0i78al/QwklEvkhexxcakNJj1P6FXsUZzedj0sbvYisW
- 2APQ1OtBOiFuMYY+hNs26ar58doB79hkwzCXBLlrbkRb/XQLk8rHEU6sVQ68Ct1az9WEHN
- +NUbk9vZG4br1FQTnalbal+WLRgsUf4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-361-7rZ4xhM7O0aQyQmLgVpjnQ-1; Mon, 29 Aug 2022 08:40:46 -0400
-X-MC-Unique: 7rZ4xhM7O0aQyQmLgVpjnQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d11-20020adfc08b000000b002207555c1f6so1100379wrf.7
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 05:40:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oSeGX-0002JT-80; Mon, 29 Aug 2022 08:53:21 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:40791)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oSeGU-0001Pz-1v; Mon, 29 Aug 2022 08:53:20 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id y141so8077668pfb.7;
+ Mon, 29 Aug 2022 05:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=pjOAf3meefboePFVroJJ3QSKny8Lth68dMMtBVuEGYA=;
+ b=BzM7QNBus9SoI4a+37bd+sIlMkLwA+qoayhnObCnQH1L1jfdTKcD5D0OtTCR0U5pe+
+ GJmuSiBs1+GBsLgCNZhULfWXqdufnWN/4ntBpx/OVxqrxdq1MjiHWtWE991vOG6+Xw5j
+ c1OSFJsUiZe/Ke/jgfGEnS/d7R3aYYkX3FlyMhSMVn0NXPkEhzL/StV3DdoPrEJx4b0G
+ MSa93YEO6s51GWdMJZH6oC9Zzyvwpjobb0KSCOcGALiZ7/eKJ+DJ72JYd8BSxwWWQ9xl
+ a9mEaCBzpUHAt39ShhOpxVoU2GM6wy1dmuS2auQYE00Dp0S/BUlv0taUxsGuo1JgfHVq
+ NRyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=Pk2bUnqrI+zOexXJH1WQEqWMq2SjOT2dAKnmSbZ13hM=;
- b=wwGkj96wW5Y+8Wp8XXB0eZ7HZPFC4VAVch9KOBx6MtHZ2otCthKCNoWI4t2GGvi+YN
- yfg8cem6e/vzp5WYPZ2PUcIhC/T0jKTyklNKSP1Zo4uw57ZjZpzoAZOvPMxaIelM5iiF
- c0UVlFpHube6T38+x/t4SkWwkcMxeaUuKj/kLXNsZsa0dy6W93RICrdljrvuz9BxVXaK
- cA9NbFXy/1SM+wRGN5ZnbaKVl5ojQFTJZ4YLER1LECcS6raMV2WX+x5/uLdQB2NSGJxR
- 801AFch5nvhzTJWYQSEHqNNaPdQn5JgDMXQQvbyuClBdbJgMT8yz9JjQ5Uv4Y+cuKfvY
- S/BA==
-X-Gm-Message-State: ACgBeo3F9tyMjNfVSDMglcFCymiSfEnPtkSHfHwt5epJYKFaUqIhEa6Z
- /uL564Wy+HzuF94o5X7OCuMRw9ciA2y68aXdsJIePUEHnUbysuu20EOEBv97zUxFe8pIt8+5C7J
- fCHtNxdmyajnZWPM=
-X-Received: by 2002:a05:600c:15c5:b0:3a5:b800:3c53 with SMTP id
- v5-20020a05600c15c500b003a5b8003c53mr6716881wmf.176.1661776845567; 
- Mon, 29 Aug 2022 05:40:45 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7hXCwgRgulowmMAjeRvYHOE1+ajWR9afOsZn30swEzvoNvaSOiuabnf6kjElJAuuWpoZRAtA==
-X-Received: by 2002:a05:600c:15c5:b0:3a5:b800:3c53 with SMTP id
- v5-20020a05600c15c500b003a5b8003c53mr6716865wmf.176.1661776845370; 
- Mon, 29 Aug 2022 05:40:45 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-147.web.vodafone.de.
- [109.43.176.147]) by smtp.gmail.com with ESMTPSA id
- n8-20020adff088000000b002258235bda3sm6819233wro.61.2022.08.29.05.40.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Aug 2022 05:40:44 -0700 (PDT)
-Message-ID: <abc2219f-9ee6-59aa-fee6-4b0ec29aed2c@redhat.com>
-Date: Mon, 29 Aug 2022 14:40:43 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=pjOAf3meefboePFVroJJ3QSKny8Lth68dMMtBVuEGYA=;
+ b=o7oQpR2sTt3G5DyE/SX4w4yrJmji7I3qE8vu98zYOT0Tl00W2nawK7q4VEOOTf7TbK
+ ISDVGBmTK4/1lFjFK8mnmHJIngjZax9bb3NjXgNL9ZEFZ27U2u+UyW3jzTMJJdMKRMow
+ RdniTglj5+6bE0dCBIEZ/aEpNDAKF0gxDc3prxhUn+SNVzbYEhJReLdJrOkDYz+hOU3e
+ lbBaXRaOjdX4Bzpc5t2aTvJ3Hum2v3rLVgYHgRtm9olviezeYHnB2xGAM0+KctV/dG5N
+ ahTw6hG8dKHPWohBYx7WDAhhbCnScxpnCyFmdUQpsryXYLQ08kQmaZCyJfWAjoloozsn
+ rB9w==
+X-Gm-Message-State: ACgBeo0viUK5IbWnO4go7jp4v+1ua8BjN4iNaeuH1M+UHfXuJQbXGvuR
+ Ikl9RajqqSUUVohOjWrc2kfU6w3DKZZ8gg==
+X-Google-Smtp-Source: AA6agR7TORppGXvROlCIIn/4X7TaQpcC+3smwBD0j3LuEQD1dFkLTuVuaMUolF0JOSPFGReQjuDLHQ==
+X-Received: by 2002:a05:6a00:2446:b0:528:5da9:cc7 with SMTP id
+ d6-20020a056a00244600b005285da90cc7mr16704088pfj.51.1661777595701; 
+ Mon, 29 Aug 2022 05:53:15 -0700 (PDT)
+Received: from roots.. ([101.206.169.97]) by smtp.gmail.com with ESMTPSA id
+ a23-20020aa794b7000000b00536358fd622sm1814894pfl.128.2022.08.29.05.53.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Aug 2022 05:53:15 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, damien.lemoal@wdc.com, Dmitry.Fomichev@wdc.com,
+ hare@suse.de, qemu-block@nongnu.org, hreitz@redhat.com, eblake@redhat.com,
+ armbru@redhat.com, fam@euphon.net, kwolf@redhat.com,
+ Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v8 3/7] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls
+Date: Mon, 29 Aug 2022 20:52:51 +0800
+Message-Id: <20220829125251.14678-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 0/1] Update vfio-user module to the latest
-Content-Language: en-US
-To: John Levon <levon@movementarian.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@gmail.com" <stefanha@gmail.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
-References: <cover.1659403195.git.jag.raman@oracle.com>
- <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <e8eab8e6-e6a5-af95-223f-e0ca91b4d833@redhat.com>
- <YuzT2MA9Q4mAr4eQ@redhat.com> <Yu+WYmwvr/1fBww+@movementarian.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Yu+WYmwvr/1fBww+@movementarian.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,28 +87,855 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/2022 12.39, John Levon wrote:
-> On Fri, Aug 05, 2022 at 09:24:56AM +0100, Daniel P. Berrangé wrote:
-[...]
->> If we do add something as a submodule for some reason, I'd like us to
->> say upfront that this is for a fixed time period (ie maximum of 3
->> releases aka 1 year) only after which we'll remove it no matter what.
-> 
-> I'm not clear on the costs of having the submodule: could you please explain why
-> it's an issue exactly?
+By adding zone management operations in BlockDriver, storage controller
+emulation can use the new block layer APIs including Report Zone and
+four zone management operations (open, close, finish, reset).
 
-Some reasoning can be found here:
+Add zoned storage commands of the device: zone_report(zrp), zone_open(zo),
+zone_close(zc), zone_reset(zrs), zone_finish(zf).
 
+For example, to test zone_report, use following command:
+$ ./build/qemu-io --image-opts driver=zoned_host_device, filename=/dev/nullb0
+-c "zrp offset nr_zones"
+
+Signed-off-by: Sam Li <faithilikerun@gmail.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ block/block-backend.c             |  51 +++++
+ block/file-posix.c                | 326 +++++++++++++++++++++++++++++-
+ block/io.c                        |  41 ++++
+ include/block/block-io.h          |   7 +
+ include/block/block_int-common.h  |  21 ++
+ include/block/raw-aio.h           |   6 +-
+ include/sysemu/block-backend-io.h |  17 ++
+ meson.build                       |   1 +
+ qapi/block-core.json              |   8 +-
+ qemu-io-cmds.c                    | 143 +++++++++++++
+ 10 files changed, 617 insertions(+), 4 deletions(-)
+
+diff --git a/block/block-backend.c b/block/block-backend.c
+index d4a5df2ac2..c5798651df 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1775,6 +1775,57 @@ int coroutine_fn blk_co_flush(BlockBackend *blk)
+     return ret;
+ }
  
-https://lore.kernel.org/qemu-devel/d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com/
-
-> I can only think of the flaky test issue (for which I'm
-> sorry).
-
-Speaking of that test issue, yes, it would be good to get this patch 
-included now as soon as the 7.1 release has been done. Who's going to send a 
-pull request for this?
-
-  Thomas
++/*
++ * Send a zone_report command.
++ * offset is a byte offset from the start of the device. No alignment
++ * required for offset.
++ * nr_zones represents IN maximum and OUT actual.
++ */
++int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
++                                    unsigned int *nr_zones,
++                                    BlockZoneDescriptor *zones)
++{
++    int ret;
++    IO_CODE();
++
++    blk_inc_in_flight(blk); /* increase before waiting */
++    blk_wait_while_drained(blk);
++    if (!blk_is_available(blk)) {
++        blk_dec_in_flight(blk);
++        return -ENOMEDIUM;
++    }
++    ret = bdrv_co_zone_report(blk_bs(blk), offset, nr_zones, zones);
++    blk_dec_in_flight(blk);
++    return ret;
++}
++
++/*
++ * Send a zone_management command.
++ * op is the zone operation.
++ * offset is the starting zone specified as a sector offset.
++ * len is the maximum number of sectors the command should operate on. It
++ * should be aligned with the zone sector size.
++ */
++int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
++        int64_t offset, int64_t len)
++{
++    int ret;
++    IO_CODE();
++
++
++    blk_inc_in_flight(blk);
++    blk_wait_while_drained(blk);
++
++    ret = blk_check_byte_request(blk, offset, len);
++    if (ret < 0) {
++        return ret;
++    }
++
++    ret = bdrv_co_zone_mgmt(blk_bs(blk), op, offset, len);
++    blk_dec_in_flight(blk);
++    return ret;
++}
++
+ void blk_drain(BlockBackend *blk)
+ {
+     BlockDriverState *bs = blk_bs(blk);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 0a8b4b426e..e3efba6db7 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -67,6 +67,9 @@
+ #include <sys/param.h>
+ #include <sys/syscall.h>
+ #include <sys/vfs.h>
++#if defined(CONFIG_BLKZONED)
++#include <linux/blkzoned.h>
++#endif
+ #include <linux/cdrom.h>
+ #include <linux/fd.h>
+ #include <linux/fs.h>
+@@ -216,6 +219,13 @@ typedef struct RawPosixAIOData {
+             PreallocMode prealloc;
+             Error **errp;
+         } truncate;
++        struct {
++            unsigned int *nr_zones;
++            BlockZoneDescriptor *zones;
++        } zone_report;
++        struct {
++            unsigned long zone_op;
++        } zone_mgmt;
+     };
+ } RawPosixAIOData;
+ 
+@@ -1339,7 +1349,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+ #endif
+ 
+     if (bs->sg || S_ISBLK(st.st_mode)) {
+-        int ret = hdev_get_max_hw_transfer(s->fd, &st);
++        ret = hdev_get_max_hw_transfer(s->fd, &st);
+ 
+         if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
+             bs->bl.max_hw_transfer = ret;
+@@ -1356,6 +1366,27 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+         zoned = BLK_Z_NONE;
+     }
+     bs->bl.zoned = zoned;
++    if (zoned != BLK_Z_NONE) {
++        ret = get_sysfs_long_val(&st, "chunk_sectors");
++        if (ret > 0) {
++            bs->bl.zone_sectors = ret;
++        }
++
++        ret = get_sysfs_long_val(&st, "zone_append_max_bytes");
++        if (ret > 0) {
++            bs->bl.zone_append_max_bytes = ret;
++        }
++
++        ret = get_sysfs_long_val(&st, "max_open_zones");
++        if (ret >= 0) {
++            bs->bl.max_open_zones = ret;
++        }
++
++        ret = get_sysfs_long_val(&st, "max_active_zones");
++        if (ret >= 0) {
++            bs->bl.max_active_zones = ret;
++        }
++    }
+ }
+ 
+ static int check_for_dasd(int fd)
+@@ -1850,6 +1881,136 @@ static off_t copy_file_range(int in_fd, off_t *in_off, int out_fd,
+ }
+ #endif
+ 
++/*
++ * parse_zone - Fill a zone descriptor
++ */
++#if defined(CONFIG_BLKZONED)
++static inline void parse_zone(struct BlockZoneDescriptor *zone,
++                              const struct blk_zone *blkz) {
++    zone->start = blkz->start;
++    zone->length = blkz->len;
++    zone->cap = blkz->capacity;
++    zone->wp = blkz->wp;
++
++    switch (blkz->type) {
++    case BLK_ZONE_TYPE_SEQWRITE_REQ:
++        zone->type = BLK_ZT_SWR;
++        break;
++    case BLK_ZONE_TYPE_SEQWRITE_PREF:
++        zone->type = BLK_ZT_SWP;
++        break;
++    case BLK_ZONE_TYPE_CONVENTIONAL:
++        zone->type = BLK_ZT_CONV;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    switch (blkz->cond) {
++    case BLK_ZONE_COND_NOT_WP:
++        zone->cond = BLK_ZS_NOT_WP;
++        break;
++    case BLK_ZONE_COND_EMPTY:
++        zone->cond = BLK_ZS_EMPTY;
++        break;
++    case BLK_ZONE_COND_IMP_OPEN:
++        zone->cond =BLK_ZS_IOPEN;
++        break;
++    case BLK_ZONE_COND_EXP_OPEN:
++        zone->cond = BLK_ZS_EOPEN;
++        break;
++    case BLK_ZONE_COND_CLOSED:
++        zone->cond = BLK_ZS_CLOSED;
++        break;
++    case BLK_ZONE_COND_READONLY:
++        zone->cond = BLK_ZS_RDONLY;
++        break;
++    case BLK_ZONE_COND_FULL:
++        zone->cond = BLK_ZS_FULL;
++        break;
++    case BLK_ZONE_COND_OFFLINE:
++        zone->cond = BLK_ZS_OFFLINE;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++#endif
++
++static int handle_aiocb_zone_report(void *opaque) {
++#if defined(CONFIG_BLKZONED)
++    RawPosixAIOData *aiocb = opaque;
++    int fd = aiocb->aio_fildes;
++    unsigned int *nr_zones = aiocb->zone_report.nr_zones;
++    BlockZoneDescriptor *zones = aiocb->zone_report.zones;
++    /* zoned block devices use 512-byte sectors */
++    int64_t sector = aiocb->aio_offset / 512;
++
++    struct blk_zone *blkz;
++    int64_t rep_size;
++    unsigned int nrz;
++    int ret, n = 0, i = 0;
++
++    nrz = *nr_zones;
++    rep_size = sizeof(struct blk_zone_report) + nrz * sizeof(struct blk_zone);
++    g_autofree struct blk_zone_report *rep = NULL;
++    rep = g_malloc(rep_size);
++
++    blkz = (struct blk_zone *)(rep + 1);
++    while (n < nrz) {
++        memset(rep, 0, rep_size);
++        rep->sector = sector;
++        rep->nr_zones = nrz - n;
++
++        do {
++            ret = ioctl(fd, BLKREPORTZONE, rep);
++        } while (ret != 0 && errno == EINTR);
++        if (ret != 0) {
++            error_report("%d: ioctl BLKREPORTZONE at %" PRId64 " failed %d",
++                         fd, sector, errno);
++            return -errno;
++        }
++
++        if (!rep->nr_zones) {
++            break;
++        }
++
++        for (i = 0; i < rep->nr_zones; i++, n++) {
++            parse_zone(&zones[n], &blkz[i]);
++            /* The next report should start after the last zone reported */
++            sector = blkz[i].start + blkz[i].len;
++        }
++    }
++
++    *nr_zones = n;
++    return 0;
++#else
++    return -ENOTSUP;
++#endif
++}
++
++static int handle_aiocb_zone_mgmt(void *opaque) {
++#if defined(CONFIG_BLKZONED)
++    RawPosixAIOData *aiocb = opaque;
++    int fd = aiocb->aio_fildes;
++    int64_t sector = aiocb->aio_offset;
++    int64_t nr_sectors = aiocb->aio_nbytes;
++    struct blk_zone_range range;
++    int ret;
++
++    /* Execute the operation */
++    range.sector = sector;
++    range.nr_sectors = nr_sectors;
++    do {
++        ret = ioctl(fd, aiocb->zone_mgmt.zone_op, &range);
++    } while (ret != 0 && errno == EINTR);
++
++    return ret;
++#else
++    return -ENOTSUP;
++#endif
++}
++
+ static int handle_aiocb_copy_range(void *opaque)
+ {
+     RawPosixAIOData *aiocb = opaque;
+@@ -3022,6 +3183,118 @@ static void raw_account_discard(BDRVRawState *s, uint64_t nbytes, int ret)
+     }
+ }
+ 
++/*
++ * zone report - Get a zone block device's information in the form
++ * of an array of zone descriptors.
++ *
++ * @param bs: passing zone block device file descriptor
++ * @param zones: an array of zone descriptors to hold zone
++ * information on reply
++ * @param offset: offset can be any byte within the zone size.
++ * @param len: (not sure yet.
++ * @return 0 on success, -1 on failure
++ */
++static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64_t offset,
++                                           unsigned int *nr_zones,
++                                           BlockZoneDescriptor *zones) {
++#if defined(CONFIG_BLKZONED)
++    BDRVRawState *s = bs->opaque;
++    RawPosixAIOData acb;
++
++    acb = (RawPosixAIOData) {
++        .bs         = bs,
++        .aio_fildes = s->fd,
++        .aio_type   = QEMU_AIO_ZONE_REPORT,
++        .aio_offset = offset,
++        .zone_report    = {
++                .nr_zones       = nr_zones,
++                .zones          = zones,
++        },
++    };
++
++    return raw_thread_pool_submit(bs, handle_aiocb_zone_report, &acb);
++#else
++    return -ENOTSUP;
++#endif
++}
++
++/*
++ * zone management operations - Execute an operation on a zone
++ */
++static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
++        int64_t offset, int64_t len) {
++#if defined(CONFIG_BLKZONED)
++    BDRVRawState *s = bs->opaque;
++    RawPosixAIOData acb;
++    int64_t zone_sector, zone_sector_mask;
++    const char *ioctl_name;
++    unsigned long zone_op;
++    int ret;
++
++    struct stat st;
++    if (fstat(s->fd, &st) < 0) {
++        ret = -errno;
++        return ret;
++    }
++    zone_sector = bs->bl.zone_sectors;
++    zone_sector_mask = zone_sector - 1;
++    if (offset & zone_sector_mask) {
++        error_report("sector offset %" PRId64 " is not aligned to zone size "
++                     "%" PRId64 "", offset, zone_sector);
++        return -EINVAL;
++    }
++
++    if (len & zone_sector_mask) {
++        error_report("number of sectors %" PRId64 " is not aligned to zone size"
++                      " %" PRId64 "", len, zone_sector);
++        return -EINVAL;
++    }
++
++    switch (op) {
++    case BLK_ZO_OPEN:
++        ioctl_name = "BLKOPENZONE";
++        zone_op = BLKOPENZONE;
++        break;
++    case BLK_ZO_CLOSE:
++        ioctl_name = "BLKCLOSEZONE";
++        zone_op = BLKCLOSEZONE;
++        break;
++    case BLK_ZO_FINISH:
++        ioctl_name = "BLKFINISHZONE";
++        zone_op = BLKFINISHZONE;
++        break;
++    case BLK_ZO_RESET:
++        ioctl_name = "BLKRESETZONE";
++        zone_op = BLKRESETZONE;
++        break;
++    default:
++        error_report("Invalid zone operation 0x%x", op);
++        return -EINVAL;
++    }
++
++    acb = (RawPosixAIOData) {
++        .bs             = bs,
++        .aio_fildes     = s->fd,
++        .aio_type       = QEMU_AIO_ZONE_MGMT,
++        .aio_offset     = offset,
++        .aio_nbytes     = len,
++        .zone_mgmt  = {
++                .zone_op = zone_op,
++        },
++    };
++
++    ret = raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
++    if (ret != 0) {
++        error_report("ioctl %s failed %d", ioctl_name, errno);
++        return -errno;
++    }
++
++    return ret;
++#else
++    return -ENOTSUP;
++#endif
++}
++
+ static coroutine_fn int
+ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
+                 bool blkdev)
+@@ -3752,6 +4025,54 @@ static BlockDriver bdrv_host_device = {
+ #endif
+ };
+ 
++#if defined(CONFIG_BLKZONED)
++static BlockDriver bdrv_zoned_host_device = {
++        .format_name = "zoned_host_device",
++        .protocol_name = "zoned_host_device",
++        .instance_size = sizeof(BDRVRawState),
++        .bdrv_needs_filename = true,
++        .bdrv_probe_device  = hdev_probe_device,
++        .bdrv_file_open     = hdev_open,
++        .bdrv_close         = raw_close,
++        .bdrv_reopen_prepare = raw_reopen_prepare,
++        .bdrv_reopen_commit  = raw_reopen_commit,
++        .bdrv_reopen_abort   = raw_reopen_abort,
++        .bdrv_co_create_opts = bdrv_co_create_opts_simple,
++        .create_opts         = &bdrv_create_opts_simple,
++        .mutable_opts        = mutable_opts,
++        .bdrv_co_invalidate_cache = raw_co_invalidate_cache,
++        .bdrv_co_pwrite_zeroes = hdev_co_pwrite_zeroes,
++
++        .bdrv_co_preadv         = raw_co_preadv,
++        .bdrv_co_pwritev        = raw_co_pwritev,
++        .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
++        .bdrv_co_pdiscard       = hdev_co_pdiscard,
++        .bdrv_co_copy_range_from = raw_co_copy_range_from,
++        .bdrv_co_copy_range_to  = raw_co_copy_range_to,
++        .bdrv_refresh_limits = raw_refresh_limits,
++        .bdrv_io_plug = raw_aio_plug,
++        .bdrv_io_unplug = raw_aio_unplug,
++        .bdrv_attach_aio_context = raw_aio_attach_aio_context,
++
++        .bdrv_co_truncate       = raw_co_truncate,
++        .bdrv_getlength = raw_getlength,
++        .bdrv_get_info = raw_get_info,
++        .bdrv_get_allocated_file_size
++                            = raw_get_allocated_file_size,
++        .bdrv_get_specific_stats = hdev_get_specific_stats,
++        .bdrv_check_perm = raw_check_perm,
++        .bdrv_set_perm   = raw_set_perm,
++        .bdrv_abort_perm_update = raw_abort_perm_update,
++        .bdrv_probe_blocksizes = hdev_probe_blocksizes,
++        .bdrv_probe_geometry = hdev_probe_geometry,
++        .bdrv_co_ioctl = hdev_co_ioctl,
++
++        /* zone management operations */
++        .bdrv_co_zone_report = raw_co_zone_report,
++        .bdrv_co_zone_mgmt = raw_co_zone_mgmt,
++};
++#endif
++
+ #if defined(__linux__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+ static void cdrom_parse_filename(const char *filename, QDict *options,
+                                  Error **errp)
+@@ -4012,6 +4333,9 @@ static void bdrv_file_init(void)
+     bdrv_register(&bdrv_file);
+ #if defined(HAVE_HOST_BLOCK_DEVICE)
+     bdrv_register(&bdrv_host_device);
++#if defined(CONFIG_BLKZONED)
++    bdrv_register(&bdrv_zoned_host_device);
++#endif
+ #ifdef __linux__
+     bdrv_register(&bdrv_host_cdrom);
+ #endif
+diff --git a/block/io.c b/block/io.c
+index 0a8cbefe86..de9ec1d740 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3198,6 +3198,47 @@ out:
+     return co.ret;
+ }
+ 
++int bdrv_co_zone_report(BlockDriverState *bs, int64_t offset,
++                        unsigned int *nr_zones,
++                        BlockZoneDescriptor *zones)
++{
++    BlockDriver *drv = bs->drv;
++    CoroutineIOCompletion co = {
++            .coroutine = qemu_coroutine_self(),
++    };
++    IO_CODE();
++
++    bdrv_inc_in_flight(bs);
++    if (!drv || !drv->bdrv_co_zone_report) {
++        co.ret = -ENOTSUP;
++        goto out;
++    }
++    co.ret = drv->bdrv_co_zone_report(bs, offset, nr_zones, zones);
++out:
++    bdrv_dec_in_flight(bs);
++    return co.ret;
++}
++
++int bdrv_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
++        int64_t offset, int64_t len)
++{
++    BlockDriver *drv = bs->drv;
++    CoroutineIOCompletion co = {
++            .coroutine = qemu_coroutine_self(),
++    };
++    IO_CODE();
++
++    bdrv_inc_in_flight(bs);
++    if (!drv || !drv->bdrv_co_zone_mgmt) {
++        co.ret = -ENOTSUP;
++        goto out;
++    }
++    co.ret = drv->bdrv_co_zone_mgmt(bs, op, offset, len);
++out:
++    bdrv_dec_in_flight(bs);
++    return co.ret;
++}
++
+ void *qemu_blockalign(BlockDriverState *bs, size_t size)
+ {
+     IO_CODE();
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index fd25ffa9be..65463b88d9 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -88,6 +88,13 @@ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+ /* Ensure contents are flushed to disk.  */
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs);
+ 
++/* Report zone information of zone block device. */
++int coroutine_fn bdrv_co_zone_report(BlockDriverState *bs, int64_t offset,
++                                     unsigned int *nr_zones,
++                                     BlockZoneDescriptor *zones);
++int coroutine_fn bdrv_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
++                                   int64_t offset, int64_t len);
++
+ int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+ bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 7f7863cc9e..8541f36123 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -691,6 +691,12 @@ struct BlockDriver {
+                                           QEMUIOVector *qiov,
+                                           int64_t pos);
+ 
++    int coroutine_fn (*bdrv_co_zone_report)(BlockDriverState *bs,
++            int64_t offset, unsigned int *nr_zones,
++            BlockZoneDescriptor *zones);
++    int coroutine_fn (*bdrv_co_zone_mgmt)(BlockDriverState *bs, BlockZoneOp op,
++            int64_t offset, int64_t len);
++
+     /* removable device specific */
+     bool (*bdrv_is_inserted)(BlockDriverState *bs);
+     void (*bdrv_eject)(BlockDriverState *bs, bool eject_flag);
+@@ -828,6 +834,21 @@ typedef struct BlockLimits {
+ 
+     /* device zone model */
+     BlockZoneModel zoned;
++
++    /* zone size expressed in 512-byte sectors */
++    uint32_t zone_sectors;
++
++    /* total number of zones */
++    unsigned int nr_zones;
++
++    /* maximum size in bytes of a zone append write operation */
++    int64_t zone_append_max_bytes;
++
++    /* maximum number of open zones */
++    int64_t max_open_zones;
++
++    /* maximum number of active zones */
++    int64_t max_active_zones;
+ } BlockLimits;
+ 
+ typedef struct BdrvOpBlocker BdrvOpBlocker;
+diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+index 21fc10c4c9..3d26929cdd 100644
+--- a/include/block/raw-aio.h
++++ b/include/block/raw-aio.h
+@@ -29,6 +29,8 @@
+ #define QEMU_AIO_WRITE_ZEROES 0x0020
+ #define QEMU_AIO_COPY_RANGE   0x0040
+ #define QEMU_AIO_TRUNCATE     0x0080
++#define QEMU_AIO_ZONE_REPORT  0x0100
++#define QEMU_AIO_ZONE_MGMT    0x0200
+ #define QEMU_AIO_TYPE_MASK \
+         (QEMU_AIO_READ | \
+          QEMU_AIO_WRITE | \
+@@ -37,7 +39,9 @@
+          QEMU_AIO_DISCARD | \
+          QEMU_AIO_WRITE_ZEROES | \
+          QEMU_AIO_COPY_RANGE | \
+-         QEMU_AIO_TRUNCATE)
++         QEMU_AIO_TRUNCATE  | \
++         QEMU_AIO_ZONE_REPORT | \
++         QEMU_AIO_ZONE_MGMT)
+ 
+ /* AIO flags */
+ #define QEMU_AIO_MISALIGNED   0x1000
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index 50f5aa2e07..6835525582 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -45,6 +45,12 @@ BlockAIOCB *blk_aio_pwritev(BlockBackend *blk, int64_t offset,
+                             BlockCompletionFunc *cb, void *opaque);
+ BlockAIOCB *blk_aio_flush(BlockBackend *blk,
+                           BlockCompletionFunc *cb, void *opaque);
++BlockAIOCB *blk_aio_zone_report(BlockBackend *blk, int64_t offset,
++                                unsigned int *nr_zones, BlockZoneDescriptor *zones,
++                                BlockCompletionFunc *cb, void *opaque);
++BlockAIOCB *blk_aio_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
++                              int64_t offset, int64_t len,
++                              BlockCompletionFunc *cb, void *opaque);
+ BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes,
+                              BlockCompletionFunc *cb, void *opaque);
+ void blk_aio_cancel_async(BlockAIOCB *acb);
+@@ -156,6 +162,17 @@ int generated_co_wrapper blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+ int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+                                       int64_t bytes, BdrvRequestFlags flags);
+ 
++int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
++                                    unsigned int *nr_zones,
++                                    BlockZoneDescriptor *zones);
++int generated_co_wrapper blk_zone_report(BlockBackend *blk, int64_t offset,
++                                         unsigned int *nr_zones,
++                                         BlockZoneDescriptor *zones);
++int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
++                                  int64_t offset, int64_t len);
++int generated_co_wrapper blk_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
++                                       int64_t offset, int64_t len);
++
+ int generated_co_wrapper blk_pdiscard(BlockBackend *blk, int64_t offset,
+                                       int64_t bytes);
+ int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset,
+diff --git a/meson.build b/meson.build
+index 20fddbd707..2f436bb355 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1883,6 +1883,7 @@ config_host_data.set('CONFIG_REPLICATION', get_option('live_block_migration').al
+ # has_header
+ config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h'))
+ config_host_data.set('CONFIG_LINUX_MAGIC_H', cc.has_header('linux/magic.h'))
++config_host_data.set('CONFIG_BLKZONED', cc.has_header('linux/blkzoned.h'))
+ config_host_data.set('CONFIG_VALGRIND_H', cc.has_header('valgrind/valgrind.h'))
+ config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
+ config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 2173e7734a..c6bbb7a037 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2942,6 +2942,7 @@
+ # @compress: Since 5.0
+ # @copy-before-write: Since 6.2
+ # @snapshot-access: Since 7.0
++# @zoned_host_device: Since 7.2
+ #
+ # Since: 2.9
+ ##
+@@ -2955,7 +2956,8 @@
+             'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+             'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+             { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+-            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
++            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat',
++            { 'name': 'zoned_host_device', 'if': 'CONFIG_BLKZONED' } ] }
+ 
+ ##
+ # @BlockdevOptionsFile:
+@@ -4329,7 +4331,9 @@
+       'vhdx':       'BlockdevOptionsGenericFormat',
+       'vmdk':       'BlockdevOptionsGenericCOWFormat',
+       'vpc':        'BlockdevOptionsGenericFormat',
+-      'vvfat':      'BlockdevOptionsVVFAT'
++      'vvfat':      'BlockdevOptionsVVFAT',
++      'zoned_host_device': { 'type': 'BlockdevOptionsFile',
++                             'if': 'CONFIG_BLKZONED' }
+   } }
+ 
+ ##
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 952dc940f1..446a059603 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -1712,6 +1712,144 @@ static const cmdinfo_t flush_cmd = {
+     .oneline    = "flush all in-core file state to disk",
+ };
+ 
++static int zone_report_f(BlockBackend *blk, int argc, char **argv)
++{
++    int ret;
++    int64_t offset;
++    unsigned int nr_zones;
++
++    ++optind;
++    offset = cvtnum(argv[optind]);
++    ++optind;
++    nr_zones = cvtnum(argv[optind]);
++
++    g_autofree BlockZoneDescriptor *zones = NULL;
++    zones = g_new(BlockZoneDescriptor, nr_zones);
++    ret = blk_zone_report(blk, offset, &nr_zones, zones);
++    if (ret < 0) {
++        printf("zone report failed: %s\n", strerror(-ret));
++    } else {
++        for (int i = 0; i < nr_zones; ++i) {
++            printf("start: 0x%" PRIx64 ", len 0x%" PRIx64 ", "
++                   "cap"" 0x%" PRIx64 ", wptr 0x%" PRIx64 ", "
++                   "zcond:%u, [type: %u]\n",
++                   zones[i].start, zones[i].length, zones[i].cap, zones[i].wp,
++                   zones[i].cond, zones[i].type);
++        }
++    }
++    return ret;
++}
++
++static const cmdinfo_t zone_report_cmd = {
++        .name = "zone_report",
++        .altname = "zrp",
++        .cfunc = zone_report_f,
++        .argmin = 2,
++        .argmax = 2,
++        .args = "offset number",
++        .oneline = "report zone information",
++};
++
++static int zone_open_f(BlockBackend *blk, int argc, char **argv)
++{
++    int ret;
++    int64_t offset, len;
++    ++optind;
++    offset = cvtnum(argv[optind]);
++    ++optind;
++    len = cvtnum(argv[optind]);
++    ret = blk_zone_mgmt(blk, BLK_ZO_OPEN, offset, len);
++    if (ret < 0) {
++        printf("zone open failed: %s\n", strerror(-ret));
++    }
++    return ret;
++}
++
++static const cmdinfo_t zone_open_cmd = {
++        .name = "zone_open",
++        .altname = "zo",
++        .cfunc = zone_open_f,
++        .argmin = 2,
++        .argmax = 2,
++        .args = "offset len",
++        .oneline = "explicit open a range of zones in zone block device",
++};
++
++static int zone_close_f(BlockBackend *blk, int argc, char **argv)
++{
++    int ret;
++    int64_t offset, len;
++    ++optind;
++    offset = cvtnum(argv[optind]);
++    ++optind;
++    len = cvtnum(argv[optind]);
++    ret = blk_zone_mgmt(blk, BLK_ZO_CLOSE, offset, len);
++    if (ret < 0) {
++        printf("zone close failed: %s\n", strerror(-ret));
++    }
++    return ret;
++}
++
++static const cmdinfo_t zone_close_cmd = {
++        .name = "zone_close",
++        .altname = "zc",
++        .cfunc = zone_close_f,
++        .argmin = 2,
++        .argmax = 2,
++        .args = "offset len",
++        .oneline = "close a range of zones in zone block device",
++};
++
++static int zone_finish_f(BlockBackend *blk, int argc, char **argv)
++{
++    int ret;
++    int64_t offset, len;
++    ++optind;
++    offset = cvtnum(argv[optind]);
++    ++optind;
++    len = cvtnum(argv[optind]);
++    ret = blk_zone_mgmt(blk, BLK_ZO_FINISH, offset, len);
++    if (ret < 0) {
++        printf("zone finish failed: %s\n", strerror(-ret));
++    }
++    return ret;
++}
++
++static const cmdinfo_t zone_finish_cmd = {
++        .name = "zone_finish",
++        .altname = "zf",
++        .cfunc = zone_finish_f,
++        .argmin = 2,
++        .argmax = 2,
++        .args = "offset len",
++        .oneline = "finish a range of zones in zone block device",
++};
++
++static int zone_reset_f(BlockBackend *blk, int argc, char **argv)
++{
++    int ret;
++    int64_t offset, len;
++    ++optind;
++    offset = cvtnum(argv[optind]);
++    ++optind;
++    len = cvtnum(argv[optind]);
++    ret = blk_zone_mgmt(blk, BLK_ZO_RESET, offset, len);
++    if (ret < 0) {
++        printf("zone reset failed: %s\n", strerror(-ret));
++    }
++    return ret;
++}
++
++static const cmdinfo_t zone_reset_cmd = {
++        .name = "zone_reset",
++        .altname = "zrs",
++        .cfunc = zone_reset_f,
++        .argmin = 2,
++        .argmax = 2,
++        .args = "offset len",
++        .oneline = "reset a zone write pointer in zone block device",
++};
++
+ static int truncate_f(BlockBackend *blk, int argc, char **argv);
+ static const cmdinfo_t truncate_cmd = {
+     .name       = "truncate",
+@@ -2504,6 +2642,11 @@ static void __attribute((constructor)) init_qemuio_commands(void)
+     qemuio_add_command(&aio_write_cmd);
+     qemuio_add_command(&aio_flush_cmd);
+     qemuio_add_command(&flush_cmd);
++    qemuio_add_command(&zone_report_cmd);
++    qemuio_add_command(&zone_open_cmd);
++    qemuio_add_command(&zone_close_cmd);
++    qemuio_add_command(&zone_finish_cmd);
++    qemuio_add_command(&zone_reset_cmd);
+     qemuio_add_command(&truncate_cmd);
+     qemuio_add_command(&length_cmd);
+     qemuio_add_command(&info_cmd);
+-- 
+2.37.2
 
 
