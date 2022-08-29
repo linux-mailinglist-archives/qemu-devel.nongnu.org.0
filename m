@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374B25A5772
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 01:12:53 +0200 (CEST)
-Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE775A577B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 01:13:50 +0200 (CEST)
+Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSnw3-0002uB-Sp
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 19:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45644)
+	id 1oSnwz-0003mk-S8
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 19:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oSnuU-00010F-Dr
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 19:11:14 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34726)
+ id 1oSnv7-0001j9-4d
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 19:11:53 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:41578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oSnuS-0007Td-MV
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 19:11:14 -0400
-Received: by mail-pg1-x533.google.com with SMTP id 73so702945pga.1
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 16:11:12 -0700 (PDT)
+ id 1oSnv5-0007aj-KP
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 19:11:52 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ n8-20020a17090a73c800b001fd832b54f6so7493731pjk.0
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 16:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=PchSa28i0LCv6Gn6EzBUL/FHY+g82q7iUETkYfLnuJc=;
- b=kyaNFucg0TzUxXkOHWck1vyB3sbWAJYLDGBOuLhAyWB9wNs76Ui7HAb7vvcjaW4gSN
- h+A355wlnbU/9oIoL2NEqdLzfTfFlHN97AgXEerFK83Q4L3Rdzrsg6RmqBc0rWG5BqN9
- x6Fz0p4Y/HDrJifV3kcSwvsVaUJmuP8Z4Y11Z5NHCBEAMIGicweszvtT08xJ0rXkmfyO
- BzqVrUvhjpb6+t/G8eTTIBli23F+XTkX1yl+q0z8ZaAysgldkxLBE/XeszbSGredQMcs
- GV0i2nC1Q1U3lswMSXllKbSoJhbSuBsFRnyGcVhgKe8gsiVnVN+7Skd8MtNfvmdXwP0W
- LvrA==
+ bh=ZyPCZZAR6QKRlCWAXlO9KmVn5k7tK+XCVDwR8NA4m34=;
+ b=Er1eCqCHLzVa+2rt8yLTPGcax//mA0ZYXh1Rw2Jz2krmg8XfAi98NfORzqvwjWm3J+
+ JStvizNd35w8NBNx28G6b4cJQEm/CLwMKnMxn4WozWGNScfembUM57KUxmhxYOVIRkah
+ sQd7LXTEnvmNA5TIkJIk2X2zakMM2U2bkbW7IasdWeuU1YlfCmpGfU0trcDMKxoOmJ0J
+ l9IwUOH9i9RMaGFloOLF3OShk2pn8bycTuPsYnRLiM+30nfiF/dMeTgprK6r6Ne4oPCF
+ ikuJiZ4sB1tZE2T9KNtnxpb4ICUjcNMeFTzisvINAA0SCJjufHbvUtp5mZ6X0snIkA5l
+ gkrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=PchSa28i0LCv6Gn6EzBUL/FHY+g82q7iUETkYfLnuJc=;
- b=O2FTReBAectVHJuFk5d1+wIwDfpzz0QC4Fcpfp8ZbRK+wmgJXigjgYYiezQZI5Wf7n
- MuDWAJF+Tbxi+BtB3yWBfCrCoWBoCgSBI1gaXvqRkMTy8ZFne55MRemtS+wtpaNlJv1S
- SFToGciRNMfwI49dDVv0aibqbE4xEf+ICFpwSptw9Cz/FjinrCcgvcnJWHYVHnCpza1T
- D4Fvcz0/uwV3Rk+ax1Haf/vjMR3dvKwXpZKBvhrSMm+dS1fP0ANvpcW1JyuNV1J9fpa1
- B1nWtwNzZG1R2fjO2fHmJc4TQkaUqyzfRAL3JiyXTh6c0XN3hbfAI/5uf2yFjSoiGE4Y
- WWiw==
-X-Gm-Message-State: ACgBeo1YpfBiEJWMa3y5ycev9vjqd7EZTe3bzDsA5j4Qz/dZIas7s5vx
- ILNR3h5U+W0bx21Wznwytk8=
-X-Google-Smtp-Source: AA6agR7/y9fX/hA/GKVfgj4gcjl/TbQYGuRn4RtW6zydvXFyL3pMJwVGFYreY4ryCU/ETnjNMtLzBQ==
-X-Received: by 2002:a05:6a00:1996:b0:52e:b0f7:8c67 with SMTP id
- d22-20020a056a00199600b0052eb0f78c67mr18660079pfl.20.1661814670927; 
- Mon, 29 Aug 2022 16:11:10 -0700 (PDT)
+ bh=ZyPCZZAR6QKRlCWAXlO9KmVn5k7tK+XCVDwR8NA4m34=;
+ b=UFsj2U/SuwPep95uiDXH8YneCKi5MtoglysdtJbA3WiJ6B+ZMkGJmuVvKqLNF+smFP
+ a51RO4sh9slkSPKl6OOdo9+u5qLlpPfqCVWWzrIHvpppPMIPSL6FUkCmXpB+JHJJwosK
+ 6A82j7eFe5m/Y/L7/DcfTdua9eisYbq9aWX1E/LQpz7MUW+C+rbdQ5IzSUs90eG2MDw0
+ AA+2AFY89zyKf/0gipc7WkSU9kNVtTsXiT5TWuNSELUVhCI1L4B50NalS3Tkx+YFhkzu
+ x6hmsfQTN9wBTNnBWJOFVae1lMPKcKsQRkjnd6CQbaymsl+94p/caYWQd6/ztaJN/X/o
+ pYaA==
+X-Gm-Message-State: ACgBeo3BgYFI3jg08OdBX/Jgcw9pd1LnhG9V0woTX1hNGRUTiaobg59X
+ qbF3Xrd08CiM09YgCeIlQNA=
+X-Google-Smtp-Source: AA6agR7HM9tv1OpynqCpsRH+U6uQr2ec6oLP05l+s6i5l4C98Xa0ENpHPeMOp223pRwQUVtKpTopLQ==
+X-Received: by 2002:a17:90b:3e86:b0:1f5:2b4f:7460 with SMTP id
+ rj6-20020a17090b3e8600b001f52b4f7460mr21015821pjb.97.1661814710299; 
+ Mon, 29 Aug 2022 16:11:50 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- i14-20020aa796ee000000b00537ff911a89sm5079683pfq.105.2022.08.29.16.11.04
+ y27-20020aa793db000000b00537f7d04fb3sm5539948pff.145.2022.08.29.16.11.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Aug 2022 16:11:10 -0700 (PDT)
-Message-ID: <abe4a4d6-5ee0-e451-719c-ec631904763e@amsat.org>
-Date: Tue, 30 Aug 2022 01:11:01 +0200
+ Mon, 29 Aug 2022 16:11:49 -0700 (PDT)
+Message-ID: <54da58b2-8694-2989-980b-e9332b13d4cd@amsat.org>
+Date: Tue, 30 Aug 2022 01:11:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/avocado/migration: Get find_free_port() from the
- ports
+Subject: Re: [PATCH] MAINTAINERS: Update Akihiko Odaki's email address
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220829121939.209329-1-thuth@redhat.com>
-In-Reply-To: <20220829121939.209329-1-thuth@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+References: <20220829083120.143415-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20220829083120.143415-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,19 +98,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 29/8/22 14:19, Thomas Huth wrote:
-> In upstream Avocado, the find_free_port() function is not available
-> from "network" anymore, but must be used via "ports", see:
+On 29/8/22 10:31, Akihiko Odaki wrote:
+> I am now employed by Daynix. Although my role as a reviewer of
+> macOS-related change is not very relevant to the employment, I decided
+> to use the company email address to avoid confusions from different
+> addresses.
 > 
->   https://github.com/avocado-framework/avocado/commit/22fc98c6ff76cc55c48
-> 
-> To be able to update to a newer Avocado version later, let's use
-> the new way for accessing the find_free_port() function here.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   tests/avocado/migration.py | 4 ++--
+>   MAINTAINERS | 4 ++--
 >   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
 
