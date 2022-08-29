@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F945A4104
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 04:16:56 +0200 (CEST)
-Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B045A410C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 04:21:20 +0200 (CEST)
+Received: from localhost ([::1]:55948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSUKd-0005Cm-96
-	for lists+qemu-devel@lfdr.de; Sun, 28 Aug 2022 22:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53368)
+	id 1oSUOt-00012S-Ic
+	for lists+qemu-devel@lfdr.de; Sun, 28 Aug 2022 22:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oSUED-0003Xg-NC
- for qemu-devel@nongnu.org; Sun, 28 Aug 2022 22:10:18 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34653)
+ id 1oSUEF-0003as-QK
+ for qemu-devel@nongnu.org; Sun, 28 Aug 2022 22:10:19 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oSUEC-0001bC-2b
- for qemu-devel@nongnu.org; Sun, 28 Aug 2022 22:10:17 -0400
-Received: by mail-pl1-x629.google.com with SMTP id f24so3857570plr.1
- for <qemu-devel@nongnu.org>; Sun, 28 Aug 2022 19:10:15 -0700 (PDT)
+ id 1oSUEE-0001cH-3D
+ for qemu-devel@nongnu.org; Sun, 28 Aug 2022 22:10:19 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id v5so392088plo.9
+ for <qemu-devel@nongnu.org>; Sun, 28 Aug 2022 19:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=pwvz/hjWr74KHf0VVDf44MC9Wv0aWLdga0oygTPDgYs=;
- b=u96HWsRvQD0EEbdIEdckDlhCx9a0fFv3Px+vrau15S2moR0OOc4LbFidUM10CQ17r3
- UDQuIdXgFVAlRz7VnBL9SIoDGAoc/EzeiKuxNzutyzhN/CCJetGZ5MPkicYhC2H2eYYa
- YbDphix/SMoOfUs0o1CrJv6Wa1QoIjzabomfZyUEQrwN4XM0cpJppiJkfDyDFpgdrk+l
- MQuSJXITKWMRlQExGRm7qWrvh9iJUriT37HZcUP/+7O1eColOjMXk3pxlfejc8LieAU+
- II2YvMY5GwpHXBEbeNiIDPsBUT3Jqzswr17D6G8WeBczVKk6d6f49FG9nnw7axmSRNRR
- 5oSA==
+ bh=MG15NAkIAITNs1OE3bxclYfrNMvmI1vfTm8EKN0Sndo=;
+ b=RFDTln+pSjDUmG9UXyVj9H6FTR0ihRkPbzZpLHxIqKUSURhGJ140a1LbMaUE2DQ8+J
+ 3pVkbBQHuGi/YU3NnyC8PfpSUnCcAfEbv2H9cFwRlxqGxRtQl1TTEs+HZxrFA7Qg3HdF
+ EMK0ukMsL3fBgXULEh5DyM8HpVSvJtT5KeuZA0RWuj2h06L1kiXVP1G9//8lKHvlZzB1
+ bNLAm5oQnrTvQfV6Aq0IHR22lYeVXxUJj2du/xCKxjwprx7NLo6x6WX4Ghi2H2PV5xJg
+ SglPiCWC6xme1oVTRUShLH4hZR7XNwh/pY1q+UeTloafvkAADhmQB/kkBgcFAPaZ+tVK
+ E+zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=pwvz/hjWr74KHf0VVDf44MC9Wv0aWLdga0oygTPDgYs=;
- b=JrXlClEoSV/JjFZWJlM3RCJ06vdKRKfxEjzmWoOYXTVuviHBJYIOCsXF3CO43Wgtyu
- u8rGRusHC8d0NLi2shbBJOzQYhRRCpbzKWbC8TY7z44r7MYCrkZ2y7K56H5pIrGBIJXk
- nJey7Q5vqeo5RG58dZki3OPQCiybSlRsyshpe/Pnv/l90UaNVKDr5WjRdLzznbtIxDeo
- 0qrBQxRqgJ2TkY2HZgD5cRc5BNpnK6Nnd1H1ejIgJuYaBuB8m6Vs5617nRFLoFnJfi/b
- y81VdWK1EXS6AnwvO9dtR9n4fQA1NLjDaWTPxLKrTkb1zwc3+3CGtCYn3/Tcv2UybI7x
- XQfQ==
-X-Gm-Message-State: ACgBeo1BAbQvO2caJVQLuBMEjU0cTSnJi54jtuvxHnjKGG+2FQEzjwpW
- d24EditGvmVQj5whDNsEeVCHMCsLoQhu7w==
-X-Google-Smtp-Source: AA6agR4JslWUBxLdpxYBmAKTOSuDy2UbTZlj9NuWexuZe8zP0Pz6TBgoGhEj3RHq0cWeWXyrUqKFig==
-X-Received: by 2002:a17:903:2c9:b0:172:57d5:d6f0 with SMTP id
- s9-20020a17090302c900b0017257d5d6f0mr14959181plk.61.1661739015205; 
- Sun, 28 Aug 2022 19:10:15 -0700 (PDT)
+ bh=MG15NAkIAITNs1OE3bxclYfrNMvmI1vfTm8EKN0Sndo=;
+ b=Q331+3CR/9fKr+5emaVHcuZe2wCZDoSdSh30RzwRpiFARWkkmgEwGmc88WPm4WYjBh
+ zaZFjZlnsh3+N/OgEMByMdp3vgSoYYJ1ymlblbiNY+qQxsrMJsE97WVdDhk7sp2ZAQt1
+ ONHqayBcOQE8hbs7hv+WvI0Vv0PsftaQCjb073GSl9V/BlSvZk3qO03fJ4KdxlPg3ORT
+ rwPqXlnoAYgaJCr7K/qLSMY5GHWMHCAKZCQoWMr0mH3/jbQxO/KvfhHQmnBZrecqFWn9
+ zRK0KmpslFSKsiT5JNN3piH+DjyCozSS1BDkDKSoJ+CNAHv24VNCuldjMP/1Caz2BXvp
+ aUZw==
+X-Gm-Message-State: ACgBeo1mV6+b3PlmX7oJmomXgXysUCDeQ/M+cpVl78fl5Dh3gloLme0o
+ Z27f3HD7qw0Ng27YsokJzwpqTZ6DLHmnEg==
+X-Google-Smtp-Source: AA6agR7QIf9y01qZDpoBaHEZIjUOA6KwkZwn/k5XxjDHvH2g7n4b0i1ETUaiP7VNencgSaKgDIyyrQ==
+X-Received: by 2002:a17:903:2d0:b0:172:b63b:3a1e with SMTP id
+ s16-20020a17090302d000b00172b63b3a1emr14610369plk.76.1661739016406; 
+ Sun, 28 Aug 2022 19:10:16 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:2fa6:2ab5:a96e:2a35])
  by smtp.gmail.com with ESMTPSA id
- ik30-20020a170902ab1e00b0016bdc98730bsm6035139plb.151.2022.08.28.19.10.14
+ ik30-20020a170902ab1e00b0016bdc98730bsm6035139plb.151.2022.08.28.19.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Aug 2022 19:10:14 -0700 (PDT)
+ Sun, 28 Aug 2022 19:10:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu
-Subject: [PATCH 6/8] linux-user: Update print_futex_op
-Date: Sun, 28 Aug 2022 19:10:04 -0700
-Message-Id: <20220829021006.67305-7-richard.henderson@linaro.org>
+Subject: [PATCH 7/8] linux-user: Lock log around strace
+Date: Sun, 28 Aug 2022 19:10:05 -0700
+Message-Id: <20220829021006.67305-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220829021006.67305-1-richard.henderson@linaro.org>
 References: <20220829021006.67305-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,100 +88,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a table for the names; print unknown values in hex,
-since the value contains flags.
+Do not allow syscall arguments to be interleaved between threads.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/strace.c | 65 ++++++++++++++++++++-------------------------
- 1 file changed, 29 insertions(+), 36 deletions(-)
+ linux-user/strace.c | 65 ++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 46 insertions(+), 19 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 7d882526da..8eadbed39e 100644
+index 8eadbed39e..c47d91bb3d 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -3576,44 +3576,37 @@ print_munmap(CPUArchState *cpu_env, const struct syscallname *name,
- #endif
- 
- #ifdef TARGET_NR_futex
--static void print_futex_op(abi_long tflag, int last)
-+static void print_futex_op(int cmd, int last)
+@@ -3773,26 +3773,37 @@ print_syscall(CPUArchState *cpu_env, int num,
+               abi_long arg4, abi_long arg5, abi_long arg6)
  {
--#define print_op(val) \
--if( cmd == val ) { \
--    qemu_log(#val); \
--    return; \
--}
-+    static const char * const futex_names[] = {
-+#define NAME(X)  [X] = #X
-+        NAME(FUTEX_WAIT),
-+        NAME(FUTEX_WAKE),
-+        NAME(FUTEX_FD),
-+        NAME(FUTEX_REQUEUE),
-+        NAME(FUTEX_CMP_REQUEUE),
-+        NAME(FUTEX_WAKE_OP),
-+        NAME(FUTEX_LOCK_PI),
-+        NAME(FUTEX_UNLOCK_PI),
-+        NAME(FUTEX_TRYLOCK_PI),
-+        NAME(FUTEX_WAIT_BITSET),
-+        NAME(FUTEX_WAKE_BITSET),
-+        NAME(FUTEX_WAIT_REQUEUE_PI),
-+        NAME(FUTEX_CMP_REQUEUE_PI),
-+        NAME(FUTEX_LOCK_PI2),
-+#undef NAME
-+    };
+     int i;
+-    const char *format="%s(" TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld ")";
++    FILE *f;
++    const char *format = "%s(" TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld ","
++                               TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld ","
++                               TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld ")";
  
--    int cmd = (int)tflag;
--#ifdef FUTEX_PRIVATE_FLAG
--    if (cmd & FUTEX_PRIVATE_FLAG) {
--        qemu_log("FUTEX_PRIVATE_FLAG|");
--        cmd &= ~FUTEX_PRIVATE_FLAG;
-+    unsigned base_cmd = cmd & FUTEX_CMD_MASK;
-+
-+    if (base_cmd < ARRAY_SIZE(futex_names)) {
-+        qemu_log("%s%s%s",
-+                 (cmd & FUTEX_PRIVATE_FLAG ? "FUTEX_PRIVATE_FLAG|" : ""),
-+                 (cmd & FUTEX_CLOCK_REALTIME ? "FUTEX_CLOCK_REALTIME|" : ""),
-+                 futex_names[base_cmd]);
-+    } else {
-+        qemu_log("0x%x", cmd);
-     }
--#endif
--#ifdef FUTEX_CLOCK_REALTIME
--    if (cmd & FUTEX_CLOCK_REALTIME) {
--        qemu_log("FUTEX_CLOCK_REALTIME|");
--        cmd &= ~FUTEX_CLOCK_REALTIME;
--    }
--#endif
--    print_op(FUTEX_WAIT)
--    print_op(FUTEX_WAKE)
--    print_op(FUTEX_FD)
--    print_op(FUTEX_REQUEUE)
--    print_op(FUTEX_CMP_REQUEUE)
--    print_op(FUTEX_WAKE_OP)
--    print_op(FUTEX_LOCK_PI)
--    print_op(FUTEX_UNLOCK_PI)
--    print_op(FUTEX_TRYLOCK_PI)
--#ifdef FUTEX_WAIT_BITSET
--    print_op(FUTEX_WAIT_BITSET)
--#endif
--#ifdef FUTEX_WAKE_BITSET
--    print_op(FUTEX_WAKE_BITSET)
--#endif
--    /* unknown values */
--    qemu_log("%d", cmd);
+-    qemu_log("%d ", getpid());
++    f = qemu_log_trylock();
++    if (!f) {
++        return;
++    }
++    fprintf(f, "%d ", getpid());
+ 
+-    for(i=0;i<nsyscalls;i++)
+-        if( scnames[i].nr == num ) {
+-            if( scnames[i].call != NULL ) {
+-                scnames[i].call(
+-                    cpu_env, &scnames[i], arg1, arg2, arg3, arg4, arg5, arg6);
++    for (i = 0; i < nsyscalls; i++) {
++        if (scnames[i].nr == num) {
++            if (scnames[i].call != NULL) {
++                scnames[i].call(cpu_env, &scnames[i], arg1, arg2, arg3,
++                                arg4, arg5, arg6);
+             } else {
+                 /* XXX: this format system is broken because it uses
+                    host types and host pointers for strings */
+-                if( scnames[i].format != NULL )
++                if (scnames[i].format != NULL) {
+                     format = scnames[i].format;
+-                qemu_log(format,
+-                         scnames[i].name, arg1, arg2, arg3, arg4, arg5, arg6);
++                }
++                fprintf(f, format, scnames[i].name, arg1, arg2,
++                        arg3, arg4, arg5, arg6);
+             }
++            qemu_log_unlock(f);
+             return;
+         }
+-    qemu_log("Unknown syscall %d\n", num);
++    }
++    fprintf(f, "Unknown syscall %d\n", num);
++    qemu_log_unlock(f);
  }
  
- static void
-@@ -3625,7 +3618,7 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
-     print_pointer(arg0, 0);
-     print_futex_op(arg1, 0);
-     print_raw_param(",%d", arg2, 0);
--    print_pointer(arg3, 0); /* struct timespec */
-+    print_pointer(arg3, 0); /* struct timespec or val2 */
-     print_pointer(arg4, 0);
-     print_raw_param("%d", arg4, 1);
-     print_syscall_epilogue(name);
+ 
+@@ -3802,21 +3813,29 @@ print_syscall_ret(CPUArchState *cpu_env, int num, abi_long ret,
+                   abi_long arg4, abi_long arg5, abi_long arg6)
+ {
+     int i;
++    FILE *f;
+ 
+-    for(i=0;i<nsyscalls;i++)
+-        if( scnames[i].nr == num ) {
+-            if( scnames[i].result != NULL ) {
++    f = qemu_log_trylock();
++    if (!f) {
++        return;
++    }
++
++    for (i = 0; i < nsyscalls; i++) {
++        if (scnames[i].nr == num) {
++            if (scnames[i].result != NULL) {
+                 scnames[i].result(cpu_env, &scnames[i], ret,
+                                   arg1, arg2, arg3,
+                                   arg4, arg5, arg6);
+             } else {
+                 if (!print_syscall_err(ret)) {
+-                    qemu_log(TARGET_ABI_FMT_ld, ret);
++                    fprintf(f, TARGET_ABI_FMT_ld, ret);
+                 }
+-                qemu_log("\n");
++                fprintf(f, "\n");
+             }
+             break;
+         }
++    }
++    qemu_log_unlock(f);
+ }
+ 
+ void print_taken_signal(int target_signum, const target_siginfo_t *tinfo)
+@@ -3824,9 +3843,17 @@ void print_taken_signal(int target_signum, const target_siginfo_t *tinfo)
+     /* Print the strace output for a signal being taken:
+      * --- SIGSEGV {si_signo=SIGSEGV, si_code=SI_KERNEL, si_addr=0} ---
+      */
+-    qemu_log("--- ");
++    FILE *f;
++
++    f = qemu_log_trylock();
++    if (!f) {
++        return;
++    }
++
++    fprintf(f, "--- ");
+     print_signal(target_signum, 1);
+-    qemu_log(" ");
++    fprintf(f, " ");
+     print_siginfo(tinfo);
+-    qemu_log(" ---\n");
++    fprintf(f, " ---\n");
++    qemu_log_unlock(f);
+ }
 -- 
 2.34.1
 
