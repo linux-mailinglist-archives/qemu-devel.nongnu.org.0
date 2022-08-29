@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7465A4187
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 05:40:12 +0200 (CEST)
-Received: from localhost ([::1]:35210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15415A418C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 05:45:04 +0200 (CEST)
+Received: from localhost ([::1]:35194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSVdC-00014i-EO
-	for lists+qemu-devel@lfdr.de; Sun, 28 Aug 2022 23:40:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58720)
+	id 1oSVhv-0002sp-54
+	for lists+qemu-devel@lfdr.de; Sun, 28 Aug 2022 23:45:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oSVYy-000616-2I; Sun, 28 Aug 2022 23:35:48 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:54403
- helo=gandalf.ozlabs.org)
+ id 1oSVYy-00061s-Dl; Sun, 28 Aug 2022 23:35:48 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:44123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oSVYt-0005DM-Fb; Sun, 28 Aug 2022 23:35:47 -0400
+ id 1oSVYr-0005DC-QJ; Sun, 28 Aug 2022 23:35:48 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4MGGKq34cgz4xFv; Mon, 29 Aug 2022 13:35:27 +1000 (AEST)
+ id 4MGGKq39dvz4xDn; Mon, 29 Aug 2022 13:35:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1661744127;
- bh=eFOUtOdCsmGrD7BwxLN5tvdBoeJ2fL9ms9M5U7hsN30=;
+ bh=nXCFwMTptL8164bHiSj/7LBIDNVWmnHxyHA1jvuJEXo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cSfVbD9J9h1QLDtCeKmnBDRrr8BS2lqGrXgMZ+wPXkLXSa46dDSU25nCWTLCXOp2B
- 3SROwvMPrQJkJfJIeQhrtv8gREBRUSxMU7xl9BMAqgrumb4kIzVhjpHF37ye1ut9SX
- JJGpLLOULe8yZl9XUcqaN9kek7Oy2EKGOaviUW2E=
-Date: Mon, 29 Aug 2022 13:29:31 +1000
+ b=LxgIyqozKJEq8PwD2wOsD0D4p8l58iUznenJntkm1kb7Ozvegp0OXlWquEBPcvmCg
+ 9LvxRQXFR2Lk4d9IDDcL6P/ReG7LkAqRw1L1CFIe2UK87mDJlhlzOxc4SgQ/gcyd3i
+ k5z87f3vEBJLAfqfjWVh0oxkq1zDuji44M14DTf4=
+Date: Mon, 29 Aug 2022 13:34:35 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
 Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
- alistair.francis@wdc.com
-Subject: Re: [PATCH for-7.2 v4 10/21] hw/ppc: set machine->fdt in spapr machine
-Message-ID: <YwwymxeP7zGwkty/@yekko>
+ alistair.francis@wdc.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH for-7.2 v4 15/21] qmp/hmp, device_tree.c: introduce 'info
+ fdt' command
+Message-ID: <YwwzyxSCB8rP/usi@yekko>
 References: <20220826141150.7201-1-danielhb413@gmail.com>
- <20220826141150.7201-11-danielhb413@gmail.com>
+ <20220826141150.7201-16-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QJl2/eSda0i7X62k"
+ protocol="application/pgp-signature"; boundary="FloNXYmf1TGm/w7b"
 Content-Disposition: inline
-In-Reply-To: <20220826141150.7201-11-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+In-Reply-To: <20220826141150.7201-16-danielhb413@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,91 +66,281 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---QJl2/eSda0i7X62k
-Content-Type: text/plain; charset=iso-8859-1
+--FloNXYmf1TGm/w7b
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 26, 2022 at 11:11:39AM -0300, Daniel Henrique Barboza wrote:
-> The pSeries machine never bothered with the common machine->fdt
-> attribute. We do all the FDT related work using spapr->fdt_blob.
+On Fri, Aug 26, 2022 at 11:11:44AM -0300, Daniel Henrique Barboza wrote:
+> Reading the FDT requires that the user saves the fdt_blob and then use
+> 'dtc' to read the contents. Saving the file and using 'dtc' is a strong
+> use case when we need to compare two FDTs, but it's a lot of steps if
+> you want to do quick check on a certain node or property.
 >=20
-> We're going to introduce HMP commands to read and save the FDT, which
-> will rely on setting machine->fdt properly to work across all machine
-> archs/types.
+> 'info fdt' retrieves FDT nodes (and properties, later on) and print it
+> to the user. This can be used to check the FDT on running machines
+> without having to save the blob and use 'dtc'.
 >=20
-> Let's set machine->fdt in two places where we manipulate the FDT:
-> spapr_machine_reset() and CAS. There are other places where the FDT is
-> manipulated in the pSeries machines, most notably the hotplug/unplug
-> path. For now we'll acknowledge that we won't have the most accurate
-> representation of the FDT, depending on the current machine state, when
-> using these QMP/HMP fdt commands. Making the internal FDT representation
-> always match the actual FDT representation that the guest is using is a
-> problem for another day.
+> The implementation is based on the premise that the machine thas a FDT
+> created using libfdt and pointed by 'machine->fdt'. As long as this
+> pre-requisite is met the machine should be able to support it.
 >=20
-> spapr->fdt_blob is left untouched for now. To replace it with
-> machine->fdt, since we're migrating spapr->fdt_blob, we would need to
-> migrate machine->fdt as well. This is something that we would like to to
-> do keep our code simpler but it's also a work we'll leave for later.
+> For now we're going to add the required QMP/HMP boilerplate and the
+> capability of printing the name of the properties of a given node. Next
+> patches will extend 'info fdt' to be able to print nodes recursively,
+> and then individual properties.
+>=20
+> This command will always be executed in-band (i.e. holding BQL),
+> avoiding potential race conditions with machines that might change the
+> FDT during runtime (e.g. PowerPC 'pseries' machine).
+>=20
+> 'info fdt' is not something that we expect to be used aside from debuggin=
+g,
+> so we're implementing it in QMP as 'x-query-fdt'.
+>=20
+> This is an example of 'info fdt' fetching the '/chosen' node of the
+> pSeries machine:
+>=20
+> (qemu) info fdt /chosen
+> chosen {
+>     ibm,architecture-vec-5;
+>     rng-seed;
+>     ibm,arch-vec-5-platform-support;
+>     linux,pci-probe-only;
+>     stdout-path;
+>     linux,stdout-path;
+>     qemu,graphic-depth;
+>     qemu,graphic-height;
+>     qemu,graphic-width;
+> };
+>=20
+> And the same node for the aarch64 'virt' machine:
+>=20
+> (qemu) info fdt /chosen
+> chosen {
+>     stdout-path;
+>     rng-seed;
+>     kaslr-seed;
+> };
 
-As discussed elswhere, this doesn't give a full picture of the
-"runtime" device tree, which can get modified later.  For now, I think
-that's ok - we can define the fdt property / dumpdtb etc. as
-describing specifically the boot time DT before guest firmware or OS
-does any further mangling of it.  That's effectively what it means for
-all the other embedded cases, though in those cases the firmware
-usually doesn't need to do further modifications, unlike a "full OF"
-environment like spapr.
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+So, I'm reasonably convinced allowing dumping the whole dtb from
+qmp/hmp is useful.  I'm less convined that info fdt is worth the
+additional complexity it incurs.  Note that as well as being able to
+decompile a whole dtb using dtc, you can also extract and list
+specific properties from a dtb blob using the 'fdtget' tool which is
+part of the dtc tree.
 
 >=20
-> Cc: C=E9dric Le Goater <clg@kaod.org>
-> Cc: qemu-ppc@nongnu.org
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  hw/ppc/spapr.c       | 6 ++++++
->  hw/ppc/spapr_hcall.c | 8 ++++++++
->  2 files changed, 14 insertions(+)
+>  hmp-commands-info.hx         | 13 ++++++++++
+>  include/monitor/hmp.h        |  1 +
+>  include/sysemu/device_tree.h |  4 +++
+>  monitor/hmp-cmds.c           | 13 ++++++++++
+>  monitor/qmp-cmds.c           | 12 +++++++++
+>  qapi/machine.json            | 19 +++++++++++++++
+>  softmmu/device_tree.c        | 47 ++++++++++++++++++++++++++++++++++++
+>  7 files changed, 109 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index bc9ba6e6dc..7031cf964a 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1713,6 +1713,12 @@ static void spapr_machine_reset(MachineState *mach=
-ine)
->      spapr->fdt_initial_size =3D spapr->fdt_size;
->      spapr->fdt_blob =3D fdt;
-> =20
-> +    /*
-> +     * Set the common machine->fdt pointer to enable support
-> +     * for 'dumpdtb' and 'info fdt' QMP/HMP commands.
-> +     */
-> +    machine->fdt =3D fdt;
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index 188d9ece3b..743b48865d 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -921,3 +921,16 @@ SRST
+>    ``stats``
+>      Show runtime-collected statistics
+>  ERST
 > +
->      /* Set up the entry state */
->      first_ppc_cpu->env.gpr[5] =3D 0;
-> =20
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index a8d4a6bcf0..a53bfd76f4 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1256,6 +1256,14 @@ target_ulong do_client_architecture_support(PowerP=
-CCPU *cpu,
->      spapr->fdt_initial_size =3D spapr->fdt_size;
->      spapr->fdt_blob =3D fdt;
-> =20
-> +    /*
-> +     * Set the machine->fdt pointer again since we just freed
-> +     * it above (by freeing spapr->fdt_blob). We set this
-> +     * pointer to enable support for 'dumpdtb' and 'info fdt'
-> +     * QMP/HMP commands.
-> +     */
-> +    MACHINE(spapr)->fdt =3D fdt;
+> +    {
+> +        .name       =3D "fdt",
+> +        .args_type  =3D "nodepath:s",
+> +        .params     =3D "nodepath",
+> +        .help       =3D "show firmware device tree node given its path",
+> +        .cmd        =3D hmp_info_fdt,
+> +    },
 > +
->      return H_SUCCESS;
+> +SRST
+> +  ``info fdt``
+> +    Show a firmware device tree node given its path. Requires libfdt.
+> +ERST
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index d7f324da59..c0883dd1e3 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -135,6 +135,7 @@ void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDi=
+ct *qdict);
+>  void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+>  void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+>  void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
+> +void hmp_info_fdt(Monitor *mon, const QDict *qdict);
+>  void hmp_human_readable_text_helper(Monitor *mon,
+>                                      HumanReadableText *(*qmp_handler)(Er=
+ror **));
+>  void hmp_info_stats(Monitor *mon, const QDict *qdict);
+> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+> index bf7684e4ed..057d13e397 100644
+> --- a/include/sysemu/device_tree.h
+> +++ b/include/sysemu/device_tree.h
+> @@ -14,6 +14,8 @@
+>  #ifndef DEVICE_TREE_H
+>  #define DEVICE_TREE_H
+> =20
+> +#include "qapi/qapi-types-common.h"
+> +
+>  void *create_device_tree(int *sizep);
+>  void *load_device_tree(const char *filename_path, int *sizep);
+>  #ifdef CONFIG_LINUX
+> @@ -137,6 +139,8 @@ int qemu_fdt_add_path(void *fdt, const char *path);
+> =20
+>  void qemu_fdt_dumpdtb(void *fdt, int size);
+>  void qemu_fdt_qmp_dumpdtb(const char *filename, Error **errp);
+> +HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath,
+> +                                          Error **errp);
+> =20
+>  /**
+>   * qemu_fdt_setprop_sized_cells_from_array:
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 1c7bfd3b9d..93a4103afa 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -2484,3 +2484,16 @@ void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
+>          hmp_handle_error(mon, local_err);
+>      }
 >  }
+> +
+> +void hmp_info_fdt(Monitor *mon, const QDict *qdict)
+> +{
+> +    const char *nodepath =3D qdict_get_str(qdict, "nodepath");
+> +    Error *err =3D NULL;
+> +    g_autoptr(HumanReadableText) info =3D qmp_x_query_fdt(nodepath, &err=
+);
+> +
+> +    if (hmp_handle_error(mon, err)) {
+> +        return;
+> +    }
+> +
+> +    monitor_printf(mon, "%s", info->human_readable_text);
+> +}
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 8415aca08c..db2c6aa7da 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -603,9 +603,21 @@ void qmp_dumpdtb(const char *filename, Error **errp)
+>  {
+>      return qemu_fdt_qmp_dumpdtb(filename, errp);
+>  }
+> +
+> +HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
+> +{
+> +    return qemu_fdt_qmp_query_fdt(nodepath, errp);
+> +}
+>  #else
+>  void qmp_dumpdtb(const char *filename, Error **errp)
+>  {
+>      error_setg(errp, "dumpdtb requires libfdt");
+>  }
+> +
+> +HumanReadableText *qmp_x_query_fdt(const char *nodepath, Error **errp)
+> +{
+> +    error_setg(errp, "this command requires libfdt");
+> +
+> +    return NULL;
+> +}
+>  #endif
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index aeb013f3dd..96cff541ca 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1681,3 +1681,22 @@
+>  ##
+>  { 'command': 'dumpdtb',
+>    'data': { 'filename': 'str' } }
+> +
+> +##
+> +# @x-query-fdt:
+> +#
+> +# Query for FDT element (node or property). Requires 'libfdt'.
+> +#
+> +# @nodepath: the path of the FDT node to be retrieved
+> +#
+> +# Features:
+> +# @unstable: This command is meant for debugging.
+> +#
+> +# Returns: FDT node
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'command': 'x-query-fdt',
+> +  'data': { 'nodepath': 'str' },
+> +  'returns': 'HumanReadableText',
+> +  'features': [ 'unstable' ]  }
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index cd487ddd4d..6b15f6ace2 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -18,6 +18,7 @@
+>  #endif
 > =20
+>  #include "qapi/error.h"
+> +#include "qapi/type-helpers.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/option.h"
+>  #include "qemu/bswap.h"
+> @@ -661,3 +662,49 @@ void qemu_fdt_qmp_dumpdtb(const char *filename, Erro=
+r **errp)
+> =20
+>      error_setg(errp, "Error when saving machine FDT to file %s", filenam=
+e);
+>  }
+> +
+> +static void fdt_format_node(GString *buf, int node, int depth)
+> +{
+> +    const struct fdt_property *prop =3D NULL;
+> +    const char *propname =3D NULL;
+> +    void *fdt =3D current_machine->fdt;
+> +    int padding =3D depth * 4;
+> +    int property =3D 0;
+> +    int prop_size;
+> +
+> +    g_string_append_printf(buf, "%*s%s {\n", padding, "",
+> +                           fdt_get_name(fdt, node, NULL));
+> +
+> +    padding +=3D 4;
+> +
+> +    fdt_for_each_property_offset(property, fdt, node) {
+> +        prop =3D fdt_get_property_by_offset(fdt, property, &prop_size);
+> +        propname =3D fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
+> +
+> +        g_string_append_printf(buf, "%*s%s;\n", padding, "", propname);
+> +    }
+> +
+> +    padding -=3D 4;
+> +    g_string_append_printf(buf, "%*s};\n", padding, "");
+> +}
+> +
+> +HumanReadableText *qemu_fdt_qmp_query_fdt(const char *nodepath, Error **=
+errp)
+> +{
+> +    g_autoptr(GString) buf =3D g_string_new("");
+> +    int node;
+> +
+> +    if (!current_machine->fdt) {
+> +        error_setg(errp, "Unable to find the machine FDT");
+> +        return NULL;
+> +    }
+> +
+> +    node =3D fdt_path_offset(current_machine->fdt, nodepath);
+> +    if (node < 0) {
+> +        error_setg(errp, "node '%s' not found in FDT", nodepath);
+> +        return NULL;
+> +    }
+> +
+> +    fdt_format_node(buf, node, 0);
+> +
+> +    return human_readable_text_from_str(buf);
+> +}
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -158,25 +348,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---QJl2/eSda0i7X62k
+--FloNXYmf1TGm/w7b
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMMMoQACgkQgypY4gEw
-YSK7UxAAoslUJH3MrNjyJxPRYqH7/dYxIh6O+CHufJIYJjClEQsBNypirfTTyE+C
-HgXE5ts09qY48EGNP3tX7wTg++G63pUNPqsIYjm0F/yNg1DhIR9+vvRIBcC6o6ss
-XAUlRYr92vxFZOUKP5FuKoWXQcDDhrnhHmn9rZ8nE+mwnTnCb+Hl4HdofAhR7wFp
-YXTnj7zb9Bu2Ybt/qSvH8D5iyf4eq/iBwY+5BvpKzeneUbbGwR9XrPXHr/HyeZz4
-TNon3BjDm4HorAjXxv+o18Tfs80FtETK155YPghU4FQ/xqhlXosZ6bMF62vzItYv
-9ccQiBY8zmC6yDk8iEehv+S+e6492fdGmp1ViaOaIZFB6ioqKZRJzEdZamWhzC2i
-7I31xzSHzwNIotKytEVNyHAXi5ddjgzUewUiuLLp9jho0ydm8Z5JJaJIXi9BDCEP
-mr6ZkGkQGlHUt8QDb0AST9mfkh1zUUUpuIF+KOp0xfZ2YADc5YUzzhEgapnmORJl
-LFtjWCks6tO2XN5jT7H1XsF60RPxjYlU6Z5jYaDV0CB4RqZpslZ81lvwxN3v+hIa
-o/kxLm6iUKFtuW26Yz/6/vIof6qz1yXYhUI61RXxLB7xjZHO7EOvBgWkRcPtPEyZ
-WNDjgKwxtMy2B3zks+1XxoGvGgvJJnxEt2xm52v19jpqaauHTBY=
-=Oj7e
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMMM8UACgkQgypY4gEw
+YSLm0w/9Fxg1Nmr85dtTCQeuByaAJ+tpLkEERT2QlYDBkmYdSoxXR7046ihwn0i0
+FAmW88sIbu961LFG4F0mZQan4gV02tGXLmyy0toOFcAuRPTZHWuoZ16lnZtgTssm
+BmtsgSyKTBqrGxov9uvYLzCUaEnbdeNzFquM0B7ltiadsTZRK87TcGnE8WcBL2CX
+Koqrbl4j+LYJzcsrfvLzhFUYpChrtc3eB65IGCPPAUpm7CbsY5MA1+rydPcJZem5
+z5pqSDoN2wLObBKTRwUxH98j6Ok1BU69siL02863XTDbpScdqu0YYy8Znpa+eDuo
+ByRgUcsX3gUi9VKBOjEX114MJU8gdWoUjqGQts+It02LiJnQ23VeDKu+MP2ZA0Ah
+cyVtBzKQegdhgKPPcM8bDVUw9Utc/jR3uUc+X5iZw2QDRgYYvP2grreQibH+YWSv
+E9rbMJzjQ66hFCoUQePvAXcjH9gQfo+tIgQ3nC9w9/+QynrchzUBPlsn5Mekg4/Z
+SXbPMhL4trPMCjvrSje4+UTVU0dAjhZDOb2fMy7FI3IWGenEG5ZMrUdpPVJ609FC
+Bs+DSK5ajBpSffAaxjF+IO1bGXgVssOMkru/YFPsynlOK61eDYTKQerlxenhgpnU
+uzEF0QAfF/JaZ5P9n9PSZDfg+01qN48HLV4trO1LANoPEyD6hks=
+=DuRq
 -----END PGP SIGNATURE-----
 
---QJl2/eSda0i7X62k--
+--FloNXYmf1TGm/w7b--
 
