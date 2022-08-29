@@ -2,35 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D695A530D
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:23:28 +0200 (CEST)
-Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32695A5321
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:27:54 +0200 (CEST)
+Received: from localhost ([::1]:48954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSiTv-0001Rb-85
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
+	id 1oSiYD-000753-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oSi8b-0007Nh-LM
+ id 1oSi8b-0007Ng-JB
  for qemu-devel@nongnu.org; Mon, 29 Aug 2022 13:01:27 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:48479)
+Received: from relay.virtuozzo.com ([130.117.225.111]:48477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oSi8Y-0000Yb-GX
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 13:01:25 -0400
+ id 1oSi8Y-0000YZ-92
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 13:01:24 -0400
 Received: from [192.168.16.44] (helo=mikewrk.sw.ru)
  by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <michael.labiuk@virtuozzo.com>) id 1oSi6f-000wcp-PX;
- Mon, 29 Aug 2022 19:01:01 +0200
+ (envelope-from <michael.labiuk@virtuozzo.com>) id 1oSi6g-000wcp-Hg;
+ Mon, 29 Aug 2022 19:01:02 +0200
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-Subject: [PATCH v2 0/4] Add 'q35' machine type to hotplug tests
-Date: Mon, 29 Aug 2022 20:01:02 +0300
-Message-Id: <20220829170106.110195-1-michael.labiuk@virtuozzo.com>
+Subject: [PATCH v2 1/4] tests/x86: Add subtest with 'q35' machine type to
+ device-plug-test
+Date: Mon, 29 Aug 2022 20:01:03 +0300
+Message-Id: <20220829170106.110195-2-michael.labiuk@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220829170106.110195-1-michael.labiuk@virtuozzo.com>
+References: <20220829170106.110195-1-michael.labiuk@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=130.117.225.111;
@@ -57,21 +60,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Michael Labiuk <michael.labiuk@virtuozzo.com>
 From:  Michael Labiuk via <qemu-devel@nongnu.org>
 
-Add pci bridge setting to run hotplug tests on q35 machine type.
-Hotplug tests was bounded to 'pc' machine type by commit 7b172333f1b
+Configure pci bridge setting to plug pci device and unplug.
+Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
+---
+ tests/qtest/device-plug-test.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-Michael Labiuk (4):
-  tests/x86: Add subtest with 'q35' machine type to device-plug-test
-  tests/x86: Add 'q35' machine type to ivshmem-test
-  tests/x86: Add 'q35' machine type to hd-geo-test
-  tests/x86: Add 'q35' machine type to drive_del-test
-
- tests/qtest/device-plug-test.c |  26 ++++++
- tests/qtest/drive_del-test.c   | 111 +++++++++++++++++++++++++
- tests/qtest/hd-geo-test.c      | 148 +++++++++++++++++++++++++++++++++
- tests/qtest/ivshmem-test.c     |  30 +++++++
- 4 files changed, 315 insertions(+)
-
+diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+index 2e3137843e..2f07b37ba1 100644
+--- a/tests/qtest/device-plug-test.c
++++ b/tests/qtest/device-plug-test.c
+@@ -165,6 +165,26 @@ static void test_spapr_phb_unplug_request(void)
+     qtest_quit(qtest);
+ }
+ 
++static void test_q35_pci_unplug_request(void)
++{
++
++    QTestState *qtest = qtest_initf("-machine q35 "
++                                    "-device pcie-root-port,id=p1 "
++                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
++                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
++
++    /*
++     * Request device removal. As the guest is not running, the request won't
++     * be processed. However during system reset, the removal will be
++     * handled, removing the device.
++     */
++    device_del(qtest, "dev0");
++    system_reset(qtest);
++    wait_device_deleted_event(qtest, "dev0");
++
++    qtest_quit(qtest);
++}
++
+ int main(int argc, char **argv)
+ {
+     const char *arch = qtest_get_arch();
+@@ -195,5 +215,11 @@ int main(int argc, char **argv)
+                        test_spapr_phb_unplug_request);
+     }
+ 
++    if (!strcmp(arch, "x86_64")) {
++        qtest_add_func("/device-plug/q35-pci-unplug-request",
++                   test_q35_pci_unplug_request);
++
++    }
++
+     return g_test_run();
+ }
 -- 
 2.34.1
 
