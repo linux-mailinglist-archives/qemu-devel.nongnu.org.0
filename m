@@ -2,169 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3A25A535E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:40:46 +0200 (CEST)
-Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697965A536D
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:44:16 +0200 (CEST)
+Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSikf-0002Lq-Fm
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:40:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33514)
+	id 1oSio2-0005Qd-W6
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1oSigi-0007VJ-A5; Mon, 29 Aug 2022 13:36:40 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:17232)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSijN-0001aa-T9
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 13:39:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1oSigf-00060B-Ie; Mon, 29 Aug 2022 13:36:39 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27TGiNY1019780;
- Mon, 29 Aug 2022 17:36:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : from : to :
- cc : references : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=nVXurOdq8mGHUj9W39yS4+K995/3jpRzMrKhUiStQ6s=;
- b=VTdEo9G0+iyg8MVXNkOcDIsnrfWmNKB2ZtR5vOaHS0RjHZTj7LuCx9roVUBCsC8ditnd
- ul6iWoCMf1B+bHljAni/5CpMWFL2t0KlGNIYW2sTtaWj945tXdc3i5hvhurc5lfmRkMO
- cBXoL1b/PrPz8YvTqQhbX99PNEm9r/My+kpw/fw5rmD18Fv2NcoKsa7sjXZOcN79F54N
- nywiXOb6sTGIlMJg2+CXvCX14OgE0JnBEBV6bvWIMUeOJGOLod3PKkcox4A2bvcQda+e
- RmDT009b0GWVtWfjin0WxmzxWxoB816cS4gBaX8VMhyLK+47yeEQCwqellKbrL+Y9Z0E oA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j79v0m3vv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 29 Aug 2022 17:36:33 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 27TFo1Gm003211; Mon, 29 Aug 2022 17:36:32 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3j79q2ygk2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 29 Aug 2022 17:36:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WGtGeWjb/b4x+WtjlqN2ZZ3NLpg0fbGb8jNCjEr48T4/z6XySTJYXV2Z16tArYKsnOyZzKQKqK8nSeoXZ3P6ko4SAb144TdMWBy8MaUMUpRCpCiyHWFM6tpN5BM9DEtHNCMdKV8xNtyEtEcTliGPklNZupT6hyYro9msozrC+u2+8Lsx76vTrZDZAaqGKfEXLzBYphEU4oX3Go658aOxawXi+kpbJeZ2OerDnMJ2Q//zuxTEzLGOFtnvnFXcyFZ9VvecxuypfZxm6tXYc+SvCqzszrP+J0IOEOQzsfHbIgu3VSkVMimB8cwC9mcRM8vQXixWKCpPUpOB7bLiC1uxaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nVXurOdq8mGHUj9W39yS4+K995/3jpRzMrKhUiStQ6s=;
- b=Y5RjxYJfaN6T/j/A6NGzxk+xutFMzclGIYXNW7Pd6yVvlUi0zHKXSCFOG1hAV7mrslvYBRowrB6BWXpArVi2IlBYbAb0A35j858U32fVv+ikuMy27ijx3oN71x+4zCnOfk+qBNyqXakIANYLCPdN12G1JKzFm5/XNnAqhPtTYYz8llC7dQ+gMyUTXf7hIr6nl7ALtXJu98HyAMhUXqaYOaMEHaNVFTqqpPLn44D51GybDKJ1HXQgcttDgdTXfBU7Q08rbr/PPl1UmmuDHsKQV4fVo5MTS0vQs+DTcEyYpz2RJAumt+RC28pxLUidGzBCAPJFL/+nOSeTuE3ITVpWzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nVXurOdq8mGHUj9W39yS4+K995/3jpRzMrKhUiStQ6s=;
- b=T4I6bjWy2WG+Cc3l9oOy0WGiGebBghj2kCead+8ZJRR8QnV2QPy+sXJlQB9eNHy6scQJprhYdnwwq3h1BrD2MGRXiHcCuEoVZ03WVndzjgUZ1GLug4ZBOP9v7tWQnE7iIZWep/TCF7AI1qWBeWbbhU4Czm7JEr5/N7L7JapUntU=
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
- by MWHPR10MB1517.namprd10.prod.outlook.com (2603:10b6:300:23::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.19; Mon, 29 Aug
- 2022 17:36:30 +0000
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::95ab:eb8e:a0a7:3f0d]) by BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::95ab:eb8e:a0a7:3f0d%5]) with mapi id 15.20.5566.021; Mon, 29 Aug 2022
- 17:36:30 +0000
-Subject: Re: [PATCH 1/1] monitor/hmp: print trace as option in help for log
- command
-From: Dongli Zhang <dongli.zhang@oracle.com>
-To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Cc: dgilbert@redhat.com, joe.jin@oracle.com
-References: <20220829100447.1530-1-dongli.zhang@oracle.com>
-Message-ID: <b5244f97-fbef-49d3-afac-1baa680b538e@oracle.com>
-Date: Mon, 29 Aug 2022 10:36:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <20220829100447.1530-1-dongli.zhang@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR16CA0045.namprd16.prod.outlook.com
- (2603:10b6:805:ca::22) To BYAPR10MB2663.namprd10.prod.outlook.com
- (2603:10b6:a02:a9::20)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSijJ-0006Jc-T9
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 13:39:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661794759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=25dOBtLX3GOazriDFsFzC9MqMNcHPEVZ0DgwoY8R920=;
+ b=dysIUb/7Kf5psyh0lKaEPfpOVyaqWOnyEj1zbMEEvQWkRRaV/pqaHzF53+TGz3ZANden6h
+ Sj5gDvkSnKBHNmnR2MmBORqf+bHaZNEWiYdYDsUZnS9KQePGd4ZCPvVGGx2DrEzV8TewBN
+ QMav8+h1qBFfJEbzk4X3rSbtbWmdN/Y=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-570-3YAT-TiRNbu9GsbcnC0Qag-1; Mon, 29 Aug 2022 13:39:18 -0400
+X-MC-Unique: 3YAT-TiRNbu9GsbcnC0Qag-1
+Received: by mail-il1-f199.google.com with SMTP id
+ c7-20020a056e020bc700b002e59be6ce85so6407382ilu.12
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 10:39:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=25dOBtLX3GOazriDFsFzC9MqMNcHPEVZ0DgwoY8R920=;
+ b=gkKvxsGWD2s5yhtdC6GcEMXdXRlwIiHbB+eiBNuXKr70BBgGsoyt2cRnD0K6Jhvg7d
+ cMR4t4K2Yy9UGom0uKtDvOSE4HYoda5+FnKi6+3jwCi+wBdHnvD+bv24Bf0bfTwEPmv2
+ ssoiqyeAOIdMhqo7JfgkDKvBy4ZQ763JWy8ZsJso1ML7vi5VVDALfe/vaeMhIWLSeAy2
+ xcxOzesjERuyB8DgXAsP1akJKDhZNk1yp3mHm8PU1S+rXhlASPyRCuOi2VQQelIxoIrf
+ OmQqvKdC99/+G1ov9xlVeExa3TT4ozn8k+24CV62z83iHX5DHJ5V7e1Xvu94RqkA/vQW
+ h1aA==
+X-Gm-Message-State: ACgBeo27fVVCcwxZRgWhouq3fZ2VcwcItr/cSWWUaP/WOdzZt/qTr6DJ
+ xz/LuPXGgzKQe62ssgG5rFs8I1s6XUTw5usGrDH8Gp0XqZ3N+WU2vEA74YAFPFVxBTqdXHnWojH
+ 9q9i1KP6eaRZTEvTCOrOycLhX32FUgvSklZy4fkLA9VU3gcx32zlYKhPLpRYNZJVy
+X-Received: by 2002:a05:6e02:168f:b0:2eb:1c2c:33a5 with SMTP id
+ f15-20020a056e02168f00b002eb1c2c33a5mr2418185ila.98.1661794757363; 
+ Mon, 29 Aug 2022 10:39:17 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4J0fD/soAs5NtWKjoBNiGyEQoUaJGxJ47t5LFZJ4z2ChpnCjesrdKaIZpTOWENdTnsi0phaQ==
+X-Received: by 2002:a05:6e02:168f:b0:2eb:1c2c:33a5 with SMTP id
+ f15-20020a056e02168f00b002eb1c2c33a5mr2418167ila.98.1661794756978; 
+ Mon, 29 Aug 2022 10:39:16 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+ by smtp.gmail.com with ESMTPSA id
+ b3-20020a021903000000b00349e5bf727fsm4543575jab.21.2022.08.29.10.39.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Aug 2022 10:39:16 -0700 (PDT)
+Date: Mon, 29 Aug 2022 13:39:14 -0400
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC 00/13] migration: Postcopy Preempt-Full
+Message-ID: <Ywz5wvBUntUlFC/V@xz-m1.local>
+References: <20220829165659.96046-1-peterx@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 89ca254d-d87d-4fcc-f76d-08da89e501c5
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1517:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L9bzhtaTkaktmu3HhCHA/CUQE6DNujryf66XO1CvJhjyf03isYjn8sJ6UYxi0810RDnCWYIVoRPqSyeLDMfPsUd9xFC2xydk+iS9HmmfVwoFjNTSgvToikqjc9cFxVyRAPKPNg/l+07CPbOrBIbI5eHWdCU7KSs20tirD0GOW8s96K5LrSVF0wjueD8zQrKEat9o88qz2exyom4Ayg8hIo9jYTyhxo+pdFjMrEEHTTcRu28BuF6l2rMP/r+vrHltmH/dO6WhVe9e2lBGZkhbFdEZTeh+4Ib7oXiz8qhFCAi/Jpa7gPDjtxQs6vWlNxE2JyZdK+EeL9CmAimrnmJVe1TQHt79EUYh17OvzlCFcIC57FFpL1ceCPX2wstQsbsDhB1FN7LM/RQUGhYPke8U+XCtTO1R8nSRvGjAHzSjZ4Q5YuRaGSD9wdk/89J+4ykLGCSs2gyKXOKG4NuqweMZ93re+lOR7LRFBvygAOaF7muUUmbGx35mt98bWFeOxOUz/7D72aNgJX6YT9KG+IWDi9okewE7fWy1zrPixZBsBFjWnuRtD3A6eMosfw9HrBKsUQtgi+cSbiLE2JjJuNFvUSdIQBvkLN5wZYbxqH6vQuHeI4vz8DcJbpygtClf5vgKChWAW5BpKSXuhf4bNAtbl0oY/LgMlwNKSh9YvUFasDEJ5Png2zGRR4ne4Yx3EqEA9PnZycmUzF4xFz52uI5RqMJRWSasApFd0cC+DfmIdZ0O8RikFytCsRY+Q8pjgjFBfytfOMlGXNEBiekW3csumOspnRd91+VjBYTmt4uPHoaElHN5vc2jtTrV64DN76Hq
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(366004)(376002)(136003)(39860400002)(396003)(346002)(41300700001)(107886003)(53546011)(6506007)(478600001)(6512007)(6666004)(83380400001)(966005)(6486002)(186003)(2906002)(2616005)(66476007)(8936002)(44832011)(5660300002)(316002)(4326008)(66556008)(8676002)(66946007)(31686004)(86362001)(31696002)(36756003)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YklRdUhIZ1krUWswbG9qcUgzS2t4Yk9QZmEzZlBhRHBPckNLaXhsTDJadnB5?=
- =?utf-8?B?SHczeWgvSGhDZUdFaDNKUnlmNnRkQzBhQndLK2J3RFE4MXczQjBRajZKelBz?=
- =?utf-8?B?UWRUOTNJNFRnVGFKN1BuNkJDd1k2QmdCZXJmeFNCQWxUeWoxZWJna29MaGlB?=
- =?utf-8?B?Z3gyVkV1L056aWh0WTZSQlc2VkJnc3FhYjBMNk80dFNHYmg0U3lBcTlDVk13?=
- =?utf-8?B?V1J4RFY0QWl6N2sxRytTaHZJRGJpR2k0L2o3c3o3Rk5NZlBXSG1RNGd4NmVG?=
- =?utf-8?B?TTg0RTI2eVQzOTlRZ2ttKzRGL21lNC9wbDlUeXFrU1BRMU5BTnNuWkk3cWts?=
- =?utf-8?B?VUNpQzZiNWV4d0ljc3NaWUliYmwya1IwdklKMzVhcGNVWVJtYTlhQkxJU0RT?=
- =?utf-8?B?QmYrbEg2UHJTb2ErUnIzR09RSGRYSHIxM29iUURhSU0xNzV5NFJ1Qzg0K213?=
- =?utf-8?B?ZmJ5RlNweTZybW83L0t1czBrMk9xbTJGVFVlYXp1NmJmWU9Xa3hjYnVFVkg1?=
- =?utf-8?B?QmZZaVVYZUVkdXIwWk1PalZqckRqSjAvVkowSys5bG1QakxoK1lIb0lHSFpM?=
- =?utf-8?B?cU1tNE45bEdHWEQ2RGNYWW9VQmRJbk9oeW15eEZMR2I3aDhqeUptUzl6U0F6?=
- =?utf-8?B?K1kxazhnbndpR290bUZEemkrODVhVHQxcDNlTFNWbGR3V2JxVnpBZkszZUpM?=
- =?utf-8?B?NW9Fd1pvNEdZcTUrS1RWeEhMVEZ5MTVBSStLWnJUb2t0RGZ1b2cxYnFROVR1?=
- =?utf-8?B?TEoxcW9MazZFNGZpRytERDRwZzg0U0dlNWhiUGxVZkZHMGNjcWN0VlROWEQz?=
- =?utf-8?B?TS9jZmRsMGlMREs1VjFNazlpcmZlV08rU25TMGx2NUVpVjdWb3ZLdU95THEr?=
- =?utf-8?B?MHFLSGtNS3ZrVHB6d0tYck50QlFKSXk2RjhxZFcwUWJRbnJOcTkzK1BTTXox?=
- =?utf-8?B?L3hBWGJFdjdVZUpkVHB3Kzd6YVlpbTM3TXdYb2Irc3M1NzBqRjg0MkxGQzN6?=
- =?utf-8?B?TlRjTEVZVzMyWVdaM2s0dHpQRjlLTjg4dEFCM1g2UlRmdVhWdDFuMEthM1U0?=
- =?utf-8?B?OGpZYkU5NGZzdTZUL1h4ODQyV1dZa05HSFQvR0doQ0FWa2J4OHpUZ1VXVFJI?=
- =?utf-8?B?R2N3YWZOa0R3TXlQS0NDSGFCYjJPamJVdXI3RkhIaXlzQlJabUJ2QTVvb2I1?=
- =?utf-8?B?ZkhVWWJuYktzRURpK2FtTFBCTUgzL1lGUnpJdVlVK2srMW5nWXByZk11aTVQ?=
- =?utf-8?B?QjByQ2tnbkJhQm9xOWhGU0ZMaGx4R3M1VmdrL0ZiM1lvYTY2ZDhYZFV5ZEpw?=
- =?utf-8?B?VWV3UDZTVWhEUjZGUENReVlwQVlVMjVwdndtSjErTjBQd2g5SGNabVdiRlcx?=
- =?utf-8?B?bDBmbGZaREhQOHZWZXc0VkJIc1Z2NkhtQkh2MVU5TG5vS0lvMXVuclJIVVF1?=
- =?utf-8?B?clFSWUovQmRobHp5K3ZuWmdqQlE2YWRkR2hQRkFnVXZ2Q01MaC9kUm9JWWU2?=
- =?utf-8?B?SkM5QVVES2RWWVpnZVNKY1NYbWVnakV6N1dyelU1OHRwcmtkQzdNcXV2UmRC?=
- =?utf-8?B?dVc2ejVaeExVRWxHSUNiNklkZEpwWmJFbUVKMUFVS3lXb1pTQWpQN1Fqc1Np?=
- =?utf-8?B?V0NQQWhYem8zYTFscEZJM0xHV2xaaVUwNmt2a1lIeXY2UUJnSmNDY1dkaUZv?=
- =?utf-8?B?RHA1RVNpd1NWcXFsR0VmWUxxdFU0QXJxMi9hc0UreDlYUTFhWGp2L3UxYzhr?=
- =?utf-8?B?UmhMeEVZYUxFSWlodEl2TDVyUmdhS0lHYWZWaGoxSjdVd0lGOXluWWRoYWZx?=
- =?utf-8?B?N2lEbExOVERHMzFYM2VxNDBCUXlDK3UydmVxcmxoeGZjUUpSNk9FNHR3RU9t?=
- =?utf-8?B?ZUZ5UnNQTWxJeHNGSjdTc1ZxczVZQnkyNDVLdHRYZFlqMmdKbzNBQkU1Nlpl?=
- =?utf-8?B?MnNUclBBVEk2VjlOY2tEVDJzWFVSZDBkd2x5aFRFUVVtMkdXL285RnI4aFc5?=
- =?utf-8?B?dEFvZVhnblEyeVFLai9oL0ZRYnkya2xrUVRZOFoxTGdKakh1NnVPVHFxbUlS?=
- =?utf-8?B?UWxiZnI0MTd1ZEpZVVV6a3NoQWhXTzhvY0hlMnJjRWIvMTUzT2c3L2l0bUx4?=
- =?utf-8?B?TXhucXcwYjIzWU91Ujd0QnprbUFpZG1lUlhhbk1HVkVhVU1tOGpuS3pDM2Q2?=
- =?utf-8?Q?qRJYy4iozw8f1Kj3jqvmxUY=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89ca254d-d87d-4fcc-f76d-08da89e501c5
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2022 17:36:30.0832 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WQ3A9XXAdQPQ9o5wbuHvDaq5zQLFRq0QDay16CqgBh0VsBA+hwT5LofUlvpG493FGDweUOp2ILYpGzvTii96og==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1517
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-29_09,2022-08-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=999
- suspectscore=0 adultscore=0 bulkscore=0 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208290081
-X-Proofpoint-GUID: sQyPUNEHQIVNQmxsAsCN8eGZgEX6oTQF
-X-Proofpoint-ORIG-GUID: sQyPUNEHQIVNQmxsAsCN8eGZgEX6oTQF
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=dongli.zhang@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220829165659.96046-1-peterx@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -180,52 +100,237 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry that the format for "none" should be changed as well.
+On Mon, Aug 29, 2022 at 12:56:46PM -0400, Peter Xu wrote:
+> This is a RFC series.  Tree is here:
+> 
+>   https://github.com/xzpeter/qemu/tree/preempt-full
+> 
+> It's not complete because there're still something we need to do which will
+> be attached to the end of this cover letter, however this series can
+> already safely pass qtest and any of my test.
+> 
+> Comparing to the recently merged preempt mode I called it "preempt-full"
+> because it threadifies the postcopy channels so now urgent pages can be
+> fully handled separately outside of the ram save loop.  Sorry to have the
+> same name as the PREEMPT_FULL in the Linux RT world, it's just that we
+> needed a name for the capability and it was named as preempt already
+> anyway..
+> 
+> The existing preempt code has reduced ramdom page req latency over 10Gbps
+> network from ~12ms to ~500us which has already landed.
+> 
+> This preempt-full series can further reduces that ~500us to ~230us per my
+> initial test.  More to share below.
+> 
+> Note that no new capability is needed, IOW it's fully compatible with the
+> existing preempt mode.  So the naming is actually not important but just to
+> identify the difference on the binaries.  It's because this series only
+> reworks the sender side code and does not change the migration protocol, it
+> just runs faster.
+> 
+> IOW, old "preempt" QEMU can also migrate to "preempt-full" QEMU, vice versa.
+> 
+>   - When old "preempt" mode QEMU migrates to "preempt-full" QEMU, it'll be
+>     the same as running both old "preempt" QEMUs.
+> 
+>   - When "preempt-full" QEMU migrates to old "preempt" QEMU, it'll be the
+>     same as running both "preempt-full".
+> 
+> The logic of the series is quite simple too: simply moving the existing
+> preempt channel page sends to rp-return thread.  It can slow down rp-return
+> thread on receiving pages, but I don't really see a major issue with it so
+> far.
+> 
+> This latency number is getting close to the extreme of 4K page request
+> latency of any TCP roundtrip of the 10Gbps nic I have.  The 'extreme
+> number' is something I get from mig_mon tool which has a mode [1] to
+> emulate the extreme tcp roundtrips of page requests.
+> 
+> Performance
+> ===========
+> 
+> Page request latencies has distributions as below, with a VM of 20G mem, 20
+> cores, 10Gbps nic, 18G fully random writes:
+> 
+> Postcopy Vanilla
+> ----------------
+> 
+> Average: 12093 (us)
+> @delay_us:
+> [1]                    1 |                                                    |
+> [2, 4)                 0 |                                                    |
+> [4, 8)                 0 |                                                    |
+> [8, 16)                0 |                                                    |
+> [16, 32)               1 |                                                    |
+> [32, 64)               8 |                                                    |
+> [64, 128)             11 |                                                    |
+> [128, 256)            14 |                                                    |
+> [256, 512)            19 |                                                    |
+> [512, 1K)             14 |                                                    |
+> [1K, 2K)              35 |                                                    |
+> [2K, 4K)              18 |                                                    |
+> [4K, 8K)              87 |@                                                   |
+> [8K, 16K)           2397 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+> [16K, 32K)             7 |                                                    |
+> [32K, 64K)             2 |                                                    |
+> [64K, 128K)           20 |                                                    |
+> [128K, 256K)           6 |                                                    |
+> 
+> Postcopy Preempt
+> ----------------
+> 
+> Average: 496 (us)
+> 
+> @delay_us:
+> [32, 64)               2 |                                                    |
+> [64, 128)           2306 |@@@@                                                |
+> [128, 256)         25422 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+> [256, 512)          8238 |@@@@@@@@@@@@@@@@                                    |
+> [512, 1K)           1066 |@@                                                  |
+> [1K, 2K)            2167 |@@@@                                                |
+> [2K, 4K)            3329 |@@@@@@                                              |
+> [4K, 8K)             109 |                                                    |
+> [8K, 16K)             48 |                                                    |
+> 
+> Postcopy Preempt-Full
+> ---------------------
+> 
+> Average: 229 (us)
+> 
+> @delay_us:
+> [8, 16)                1 |                                                    |
+> [16, 32)               3 |                                                    |
+> [32, 64)               2 |                                                    |
+> [64, 128)          11956 |@@@@@@@@@@                                          |
+> [128, 256)         60403 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+> [256, 512)         15047 |@@@@@@@@@@@@                                        |
+> [512, 1K)            846 |                                                    |
+> [1K, 2K)              25 |                                                    |
+> [2K, 4K)              41 |                                                    |
+> [4K, 8K)             131 |                                                    |
+> [8K, 16K)             72 |                                                    |
+> [16K, 32K)             2 |                                                    |
+> [32K, 64K)             8 |                                                    |
+> [64K, 128K)            6 |                                                    |
+> 
+> For fully sequential page access workloads, I have described in the
+> previous preempt-mode work that such workload may not benefit much from
+> preempt mode much, but surprisingly at least in my seq write test the
+> preempt-full mode can also benefit sequential access patterns at least when
+> I measured it:
+> 
+> Postcopy Vanilla
+> ----------------
+> 
+> Average: 1487 (us)
+> 
+> @delay_us:
+> [0]                   93 |@                                                   |
+> [1]                 1920 |@@@@@@@@@@@@@@@@@@@@@@@                             |
+> [2, 4)               504 |@@@@@@                                              |
+> [4, 8)              2234 |@@@@@@@@@@@@@@@@@@@@@@@@@@@                         |
+> [8, 16)             4199 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+> [16, 32)            3782 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      |
+> [32, 64)            1016 |@@@@@@@@@@@@                                        |
+> [64, 128)             81 |@                                                   |
+> [128, 256)            14 |                                                    |
+> [256, 512)            26 |                                                    |
+> [512, 1K)             69 |                                                    |
+> [1K, 2K)             208 |@@                                                  |
+> [2K, 4K)             429 |@@@@@                                               |
+> [4K, 8K)            2779 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                  |
+> [8K, 16K)            792 |@@@@@@@@@                                           |
+> [16K, 32K)             9 |                                                    |
+> 
+> Postcopy Preempt-Full
+> ---------------------
+> 
+> Average: 1582 (us)
+> 
+> @delay_us:
+> [0]                   45 |                                                    |
+> [1]                 1786 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                       |
+> [2, 4)               423 |@@@@@@@                                             |
+> [4, 8)              1903 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     |
+> [8, 16)             2933 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    |
+> [16, 32)            3132 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+> [32, 64)             518 |@@@@@@@@                                            |
+> [64, 128)             30 |                                                    |
+> [128, 256)           218 |@@@                                                 |
+> [256, 512)           214 |@@@                                                 |
+> [512, 1K)            211 |@@@                                                 |
+> [1K, 2K)             131 |@@                                                  |
+> [2K, 4K)             336 |@@@@@                                               |
+> [4K, 8K)            3023 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  |
+> [8K, 16K)            479 |@@@@@@@                                             |
+> 
+> Postcopy Preempt-Full
+> ---------------------
+> 
+> Average: 439 (us)
+> 
+> @delay_us:
+> [0]                    3 |                                                    |
+> [1]                 1058 |@                                                   |
+> [2, 4)               179 |                                                    |
+> [4, 8)              1079 |@                                                   |
+> [8, 16)             2251 |@@@                                                 |
+> [16, 32)            2345 |@@@@                                                |
+> [32, 64)             713 |@                                                   |
+> [64, 128)           5386 |@@@@@@@@@                                           |
+> [128, 256)         30252 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+> [256, 512)         10789 |@@@@@@@@@@@@@@@@@@                                  |
+> [512, 1K)            367 |                                                    |
+> [1K, 2K)              26 |                                                    |
+> [2K, 4K)             256 |                                                    |
+> [4K, 8K)            1840 |@@@                                                 |
+> [8K, 16K)            300 |                                                    |
+> 
+> I always don't think seq access is important in migrations, because for any
+> not-small VM that has a migration challenge, any multiple seq accesses will
+> also be grown into a random access pattern.  But I'm anyway laying the data
+> around for good reference.
+> 
+> Comments welcomed, thanks.
+> 
+> TODO List
+> =========
+> 
+> - Make migration accountings atomic
+> - Drop rs->f?
+> - Disable xbzrle for preempt mode?  Is it already perhaps disabled for postcopy?
+> - If this series can be really accepted, we can logically drop some of the
+>   old (complcated) code with the old preempt series.
+> - Drop x-postcopy-preempt-break-huge parameter?
+> - More to come
+> 
+> [1] https://github.com/xzpeter/mig_mon#vm-live-migration-network-emulator
+> 
+> Peter Xu (13):
+>   migration: Use non-atomic ops for clear log bitmap
+>   migration: Add postcopy_preempt_active()
+>   migration: Yield bitmap_mutex properly when sending/sleeping
+>   migration: Cleanup xbzrle zero page cache update logic
+>   migration: Disallow postcopy preempt to be used with compress
+>   migration: Trivial cleanup save_page_header() on same block check
+>   migration: Remove RAMState.f references in compression code
+>   migration: Teach PSS about host page
+>   migration: Introduce pss_channel
+>   migration: Add pss_init()
+>   migration: Make PageSearchStatus part of RAMState
+>   migration: Move last_sent_block into PageSearchStatus
+>   migration: Send requested page directly in rp-return thread
 
-I have sent a v2:
+Side note:
 
-https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg04445.html
+Not all the patches here are servicing the preempt-full goal.  E.g. we
+could consider reviewing/merging patch 1, 5 earlier: patch 1 is long
+standing perf improvement on clear bitmap ops, patch 5 should be seem as a
+fix I think.
 
-Thank you very much!
+Some other trivial cleanup patches can be picked up too but not urgent.
 
-Dongli Zhang
+-- 
+Peter Xu
 
-On 8/29/22 3:04 AM, Dongli Zhang wrote:
-> The below is printed when printing help information in qemu-system-x86_64
-> command line, and when CONFIG_TRACE_LOG is enabled:
-> 
-> $ qemu-system-x86_64 -d help
-> ... ...
-> trace:PATTERN   enable trace events
-> 
-> Use "-d trace:help" to get a list of trace events.
-> 
-> However, they are not printed in hmp "help log" command.
-> 
-> Cc: Joe Jin <joe.jin@oracle.com>
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-> ---
->  monitor/hmp.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/monitor/hmp.c b/monitor/hmp.c
-> index 15ca047..9f48b70 100644
-> --- a/monitor/hmp.c
-> +++ b/monitor/hmp.c
-> @@ -287,8 +287,13 @@ void help_cmd(Monitor *mon, const char *name)
->              monitor_printf(mon, "Log items (comma separated):\n");
->              monitor_printf(mon, "%-10s %s\n", "none", "remove all logs");
->              for (item = qemu_log_items; item->mask != 0; item++) {
-> -                monitor_printf(mon, "%-10s %s\n", item->name, item->help);
-> +                monitor_printf(mon, "%-15s %s\n", item->name, item->help);
->              }
-> +#ifdef CONFIG_TRACE_LOG
-> +            monitor_printf(mon, "trace:PATTERN   enable trace events\n");
-> +            monitor_printf(mon, "\nUse \"info trace-events\" to get a list of "
-> +                                "trace events.\n\n");
-> +#endif
->              return;
->          }
->  
-> 
 
