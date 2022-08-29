@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160FC5A5065
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 17:44:24 +0200 (CEST)
-Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20925A5064
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 17:44:23 +0200 (CEST)
+Received: from localhost ([::1]:35628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSgw3-0006sV-6F
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 11:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
+	id 1oSgw2-0006ri-PH
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 11:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oSgt1-0002d7-Og
+ id 1oSgt1-0002dL-V6
  for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:41:15 -0400
-Received: from madras.collabora.co.uk
- ([2a00:1098:0:82:1000:25:2eeb:e5ab]:52576)
+Received: from madras.collabora.co.uk ([46.235.227.172]:46652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oSgsy-0004dn-Li
+ id 1oSgsy-0004dv-NM
  for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:41:15 -0400
 Received: from dellino.fritz.box (host-95-235-60-93.retail.telecomitalia.it
  [95.235.60.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C837F6601EFC;
- Mon, 29 Aug 2022 16:41:09 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 86D866601EFD;
+ Mon, 29 Aug 2022 16:41:10 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1661787670;
- bh=lWh9WyS/F7ucYZTr2NF8e4IrmOwvvuFhoG0/A01n8rU=;
+ bh=zgAkwkHHaTxMrqMCkE07evkOHPeHMLjjiTu5oGKA7Lc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YI1vRHeSRoh0QAzS8ih1uFGQl6uIa0+OE4/u72bwEwMOOiZ2A1d2VGr25pQYIAp1S
- mwAWUZ/3KYEhdnHIBqxsGv37wTvkFRA7ah4djQAnS/wQKVFzrDXPaQGzG1AbQ6GJOD
- fOdXZ6iyHz4FwzcqKqUhC1QjLGqfcluV26mGQXVuy6d80mu69JAETKvNUTBqmuSFBx
- HtmQzcaZ8ZwSCEJIV4LrtzpvA434Wi3sacFnaeECSb4LNFjtV6OOG7pDhHiCPXJq9O
- F8Rz+VmTqqxbZZNv07rDcmWd11nIqNPmTyWzb5gelf8rQcMuwvbkSHtcshAFEg0CuW
- Smdh9YMxy5zYQ==
+ b=dSXHjxU3guQ0bHk6u6udDJGDdb64nt5NCf0pDTyOlr0WpQQUqL3QmNe6+xNguPYh2
+ yAkUq7NOn0Gb0ZhgTs8qd/6fhyqCjAU0axfGPb7fEWPfVqRyawCin+6sLlS+UJcY/B
+ IoXEY4tDSyn8WMviEJgCWsK26C9Ildb/oz20PhDT+r9BMNNeosV0tSAq5z4oZfDDbq
+ VRDwJn/rb2ogbRy7R8VdYKnIqk03sOLeEl9awfu2eq0fkfJUtUzKmoSi8bwADAj3UX
+ bRstasl2pIqiuXrbD6+3E1e6yYO2jRD5jwvOLeg5NRgFXR1IOX2vdbH+jNIkPIFzRt
+ QmdKQbCyBujbQ==
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
 Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH 2/5] virtio: Add shared memory capability
-Date: Mon, 29 Aug 2022 17:40:55 +0200
-Message-Id: <20220829154058.524413-3-antonio.caggiano@collabora.com>
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH 3/5] virtio-gpu: hostmem
+Date: Mon, 29 Aug 2022 17:40:56 +0200
+Message-Id: <20220829154058.524413-4-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220829154058.524413-1-antonio.caggiano@collabora.com>
 References: <20220829154058.524413-1-antonio.caggiano@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
+Received-SPF: pass client-ip=46.235.227.172;
  envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,67 +71,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG'
-and the data structure 'virtio_pci_shm_cap' to go with it.
-They allow defining shared memory regions with sizes and offsets
-of 2^32 and more.
-Multiple instances of the capability are allowed and distinguished
-by a device-specific 'id'.
+Use VIRTIO_GPU_SHM_ID_HOST_VISIBLE as id for virtio-gpu.
 
-v2: Remove virtio_pci_shm_cap as virtio_pci_cap64 is used instead.
-v3: No need for mask32 as cpu_to_le32 truncates the value.
+v2: Formatting fixes
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-pci.c         | 18 ++++++++++++++++++
- include/hw/virtio/virtio-pci.h |  4 ++++
- 2 files changed, 22 insertions(+)
+ hw/display/virtio-gpu-pci.c    | 15 +++++++++++++++
+ hw/display/virtio-gpu.c        |  1 +
+ hw/display/virtio-vga.c        | 33 ++++++++++++++++++++++++---------
+ include/hw/virtio/virtio-gpu.h |  5 +++++
+ 4 files changed, 45 insertions(+), 9 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index a50c5a57d7..377bb06fec 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1169,6 +1169,24 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
-     return offset;
- }
+diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+index 93f214ff58..2cbbacd7fe 100644
+--- a/hw/display/virtio-gpu-pci.c
++++ b/hw/display/virtio-gpu-pci.c
+@@ -33,6 +33,21 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     DeviceState *vdev = DEVICE(g);
+     int i;
  
-+int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-+                           uint8_t bar, uint64_t offset, uint64_t length,
-+                           uint8_t id)
-+{
-+    struct virtio_pci_cap64 cap = {
-+        .cap.cap_len = sizeof cap,
-+        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
-+    };
++    if (virtio_gpu_hostmem_enabled(g->conf)) {
++        vpci_dev->msix_bar_idx = 1;
++        vpci_dev->modern_mem_bar_idx = 2;
++        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
++                           g->conf.hostmem);
++        pci_register_bar(&vpci_dev->pci_dev, 4,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64,
++                         &g->hostmem);
++        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem,
++                               VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
++    }
 +
-+    cap.cap.bar = bar;
-+    cap.cap.length = cpu_to_le32(length);
-+    cap.length_hi = cpu_to_le32(length >> 32);
-+    cap.cap.offset = cpu_to_le32(offset);
-+    cap.offset_hi = cpu_to_le32(offset >> 32);
-+    cap.cap.id = id;
-+    return virtio_pci_add_mem_cap(proxy, &cap.cap);
-+}
-+
- static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
-                                        unsigned size)
- {
-diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-index 2446dcd9ae..5e5c4a4c6d 100644
---- a/include/hw/virtio/virtio-pci.h
-+++ b/include/hw/virtio/virtio-pci.h
-@@ -252,4 +252,8 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
-  */
- unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
++    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus), errp);
+     virtio_pci_force_virtio_1(vpci_dev);
+     if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
+         return;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 20cc703dcc..506b3b8eef 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1424,6 +1424,7 @@ static Property virtio_gpu_properties[] = {
+                      256 * MiB),
+     DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
+                     VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
++    DEFINE_PROP_SIZE("hostmem", VirtIOGPU, parent_obj.conf.hostmem, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-+int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-+                           uint8_t bar, uint64_t offset, uint64_t length,
-+                           uint8_t id);
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index 4dcb34c4a7..aa8d1ab993 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -115,17 +115,32 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     pci_register_bar(&vpci_dev->pci_dev, 0,
+                      PCI_BASE_ADDRESS_MEM_PREFETCH, &vga->vram);
+ 
+-    /*
+-     * Configure virtio bar and regions
+-     *
+-     * We use bar #2 for the mmio regions, to be compatible with stdvga.
+-     * virtio regions are moved to the end of bar #2, to make room for
+-     * the stdvga mmio registers at the start of bar #2.
+-     */
+-    vpci_dev->modern_mem_bar_idx = 2;
+-    vpci_dev->msix_bar_idx = 4;
+     vpci_dev->modern_io_bar_idx = 5;
+ 
++    if (!virtio_gpu_hostmem_enabled(g->conf)) {
++        /*
++         * Configure virtio bar and regions
++         *
++         * We use bar #2 for the mmio regions, to be compatible with stdvga.
++         * virtio regions are moved to the end of bar #2, to make room for
++         * the stdvga mmio registers at the start of bar #2.
++         */
++        vpci_dev->modern_mem_bar_idx = 2;
++        vpci_dev->msix_bar_idx = 4;
++    } else {
++        vpci_dev->msix_bar_idx = 1;
++        vpci_dev->modern_mem_bar_idx = 2;
++        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
++                           g->conf.hostmem);
++        pci_register_bar(&vpci_dev->pci_dev, 4,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64,
++                         &g->hostmem);
++        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem,
++                               VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
++    }
 +
- #endif
+     if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
+         /*
+          * with page-per-vq=off there is no padding space we can use
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 2e28507efe..eafce75b04 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -102,12 +102,15 @@ enum virtio_gpu_base_conf_flags {
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
+ #define virtio_gpu_blob_enabled(_cfg) \
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
++#define virtio_gpu_hostmem_enabled(_cfg) \
++    (_cfg.hostmem > 0)
+ 
+ struct virtio_gpu_base_conf {
+     uint32_t max_outputs;
+     uint32_t flags;
+     uint32_t xres;
+     uint32_t yres;
++    uint64_t hostmem;
+ };
+ 
+ struct virtio_gpu_ctrl_command {
+@@ -131,6 +134,8 @@ struct VirtIOGPUBase {
+     int renderer_blocked;
+     int enable;
+ 
++    MemoryRegion hostmem;
++
+     struct virtio_gpu_scanout scanout[VIRTIO_GPU_MAX_SCANOUTS];
+ 
+     int enabled_output_bitmask;
 -- 
 2.34.1
 
