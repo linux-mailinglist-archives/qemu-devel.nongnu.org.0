@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B285A4AC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 13:53:24 +0200 (CEST)
-Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915235A4AC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 13:55:03 +0200 (CEST)
+Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSdKV-0005PX-I7
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51508)
+	id 1oSdM6-0007eY-MM
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oSdID-00034G-Km
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:01 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:34426)
+ id 1oSdIo-0003QT-9C
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:38 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:35471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oSdIB-0006Hg-U9
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:01 -0400
-Received: by mail-lf1-x133.google.com with SMTP id bt10so10795688lfb.1
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 04:50:59 -0700 (PDT)
+ id 1oSdIm-0006TG-If
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:38 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id k22so7768926ljg.2
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 04:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=obAJ0l0R6VLYo/uybs/RMZ5KFR79VAfO2+nPkUiHF+M=;
- b=XtHaoUsebYoIIysDxvCRyCHpC5O0d7nL+5sB2PHlD9isYcOiBJUGW8r9DP4NvByXOo
- FHFrZjNd6Pa2hOTlMLtRo3CQ/KCpjAKhlN+V/764SM4xk1U+d+PNZ16Gc5EkVfuVymb0
- I2rYobC/vmsFUWnPA5A0TMTlb/7M95ihOzVOCqWRbs996eQvZU7AGsOtFPTJ2TWXM8Wa
- wlEnxKZ0g1ZRtCwXjGJpVQnYKOn1pCvBr1xncoDMPS75EKBFuUHuWyPgkDi0YiL5IUdx
- YPMJB03NHOtspD42dfwvW6kGaFjJiWLs+j7vroF5BmErolyN72DtoBtVsW06NgtzD53E
- m7Pg==
+ bh=7RiowvTgqN4f5B7e6f84J0ZvcPSMKd5Y8EMhatcA4rk=;
+ b=hv2DkqUo3xRHAycv6HcszxXcnxTGNl/Hk+D4YBg5wlgGkrC432y8DX/+YwfZZQDWwz
+ 4n9xe7yvUodiTgoWAtRvyQDBeQ8n7eOn3UKN+p37Ql83YvwK4VSHcsQ6+RoBEP0Q7AGs
+ 5oUJxmWgfR9YzquaXY1GC9w5E3NlhEgI+hC0j/joaIyMbE+71HvK9720liUQNOWqoF4d
+ MMQS1/ebGpe8UrH68W7/PEWX9pwpayC/30Zy/SRyMYmZdtMPWu6WAIeTSMqlscvmusC6
+ GV1P0lLi6qqgSXf/f4DDhp7wVypiG+k/ZFvCNq4RocPngZIgoceK/gS3gwJTgnQcuA2m
+ c73A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=obAJ0l0R6VLYo/uybs/RMZ5KFR79VAfO2+nPkUiHF+M=;
- b=4PFDYxU3vbJGaNRw/NtgI2E0QRbcZFWMvAPH5VLL+EgiNfEarh9qeriswDyJfXRcea
- 2p3Xlh3EWH1b7TEmGsBdeMmaaBWmCiyAgSQXM1aDNRGbSQUxbiQ2H0JLyYQME6QzvbaS
- 8UO6bH9GERh0hxZiypJ4NOADKtieLpN9EHLwoO0U3/1ueQ2cQ9jw2tDNz/CJ0RYnciIy
- QCv3bGTTyj+6nOGHgZxZBqfX0nDwWEoXxKRbFjU4YuQ43veW3FsECXbdmWAeRBwTwxqs
- Eob2A+/BbhmT4SJRG5QkHX3ozFOO1iVdyV12jdTK+pDkPxd586bVgmiwQL5SlgsUCu+j
- bGYQ==
-X-Gm-Message-State: ACgBeo3TKHraLKDvsRKNAGz8z6+pv0nAtzVaAct1TcV8o+A0mwASOtUO
- 3NsJD2QNUciL0J3o6W11ZyTL/c/o+Sf90ulSems=
-X-Google-Smtp-Source: AA6agR5VhSVxV5VhP+DOLSscMO8Qh3VmkOjHephVvXgJAptZfmYkR5/GKqk4y95SJ8lG/3NGaaMWT3wNia4vuNcZG9A=
-X-Received: by 2002:a05:6512:2306:b0:48b:2905:21a8 with SMTP id
- o6-20020a056512230600b0048b290521a8mr6833793lfu.167.1661773857985; Mon, 29
- Aug 2022 04:50:57 -0700 (PDT)
+ bh=7RiowvTgqN4f5B7e6f84J0ZvcPSMKd5Y8EMhatcA4rk=;
+ b=SjJ13d15adIYpjj5yDiEDfOmFJjl6fIHhv4vBOVi/BOhhrz8B9px1OCHczGXeOOZ/M
+ SKFckyEubswLU883u3kP0oP+n5AFVzv9m3Rml8UcjprchnCFqqA1gTc0eokxkB3U4lGy
+ OvDzc/oOTdll+vwQ+jF3zxC/+LWY/VK2aElzkdmg1jbWzHk6mdsAyVQ7sbGR2CYtA8iK
+ bvQ3LK5zZv4FtD3zy827fk9O6CWvJELiLtHWaLBO6zKKnbdoPgvnseswNeHjySESzBwj
+ Sumi2uSJUyyFj3wfpcAgSRs9AMgaMYscS02fKbaQt+UAhmOF0NjXsgaUy6b7/dJZ+IUg
+ jFCg==
+X-Gm-Message-State: ACgBeo13WrDCytb3O37OWuCnJOV40pHMVZwMaJjtDOZlCmAyFUBuRBji
+ /7WPqQOyoGNhXTS4OsOMdVOdkre9/LGtT1d9Ypkngp8sXeY=
+X-Google-Smtp-Source: AA6agR5oTQMQiygwNEqqVZR72pvM7oMSDtnQo0yx5bn7vjueBPabTCMcq4oQj2FaKN7ceoqh+jKHzXsASw2RmnkPrIc=
+X-Received: by 2002:a2e:a78e:0:b0:261:d661:14b8 with SMTP id
+ c14-20020a2ea78e000000b00261d66114b8mr5716333ljf.452.1661773894918; Mon, 29
+ Aug 2022 04:51:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220829083301.143527-1-akihiko.odaki@daynix.com>
-In-Reply-To: <20220829083301.143527-1-akihiko.odaki@daynix.com>
+References: <20220829083120.143415-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20220829083120.143415-1-akihiko.odaki@daynix.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 29 Aug 2022 15:50:46 +0400
-Message-ID: <CAJ+F1CKs84f2XFyVZOZDsUVJeJKf+UReLsPLXJMsqXcmowKhMw@mail.gmail.com>
-Subject: Re: [PATCH] tests/qtest/ac97-test: Correct reference to driver
+Date: Mon, 29 Aug 2022 15:51:23 +0400
+Message-ID: <CAJ+F1CL_0FkzQKAHMdqqm8yLEsT5MPX16uQ0znSREELQnsu5ag@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Update Akihiko Odaki's email address
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Content-Type: multipart/alternative; boundary="00000000000080989405e75fe09d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Content-Type: multipart/alternative; boundary="000000000000b4252505e75fe27c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,36 +85,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000080989405e75fe09d
+--000000000000b4252505e75fe27c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 29, 2022 at 12:38 PM Akihiko Odaki <akihiko.odaki@gmail.com>
+Hi
+
+On Mon, Aug 29, 2022 at 12:33 PM Akihiko Odaki <akihiko.odaki@gmail.com>
 wrote:
 
+> I am now employed by Daynix. Although my role as a reviewer of
+> macOS-related change is not very relevant to the employment, I decided
+> to use the company email address to avoid confusions from different
+> addresses.
+>
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>
 
-
+Congrats :)
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
+
 > ---
->  tests/qtest/ac97-test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c
-> index b084e31bff..74103efdfa 100644
-> --- a/tests/qtest/ac97-test.c
-> +++ b/tests/qtest/ac97-test.c
-> @@ -28,7 +28,7 @@ static void *ac97_get_driver(void *obj, const char
-> *interface)
->          return &ac97->dev;
->      }
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5ce4227ff6..fd9bd1dca5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2451,7 +2451,7 @@ Core Audio framework backend
+>  M: Gerd Hoffmann <kraxel@redhat.com>
+>  M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  R: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> -R: Akihiko Odaki <akihiko.odaki@gmail.com>
+> +R: Akihiko Odaki <akihiko.odaki@daynix.com>
+>  S: Odd Fixes
+>  F: audio/coreaudio.c
 >
-> -    fprintf(stderr, "%s not present in e1000e\n", interface);
-> +    fprintf(stderr, "%s not present in ac97\n", interface);
->      g_assert_not_reached();
->  }
+> @@ -2730,7 +2730,7 @@ F: util/drm.c
+>  Cocoa graphics
+>  M: Peter Maydell <peter.maydell@linaro.org>
+>  M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> -R: Akihiko Odaki <akihiko.odaki@gmail.com>
+> +R: Akihiko Odaki <akihiko.odaki@daynix.com>
+>  S: Odd Fixes
+>  F: ui/cocoa.m
 >
 > --
 > 2.37.2
@@ -124,40 +142,61 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000080989405e75fe09d
+--000000000000b4252505e75fe27c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 29, 2022 at 12:38 PM Akih=
-iko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gmai=
-l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@dayni=
-x.com" target=3D"_blank">akihiko.odaki@daynix.com</a>&gt;</blockquote><div>=
-<br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:ma=
-rcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=
-=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 29, 2022 at 12:33 PM Ak=
+ihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">I am now employed by Daynix. Although my role as a reviewer of<br>
+macOS-related change is not very relevant to the employment, I decided<br>
+to use the company email address to avoid confusions from different<br>
+addresses.<br>
+<br>
+Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@daynix.com=
+" target=3D"_blank">akihiko.odaki@daynix.com</a>&gt;<br></blockquote><div><=
+br></div><div><div>Congrats :)<br></div><div>Reviewed-by: Marc-Andr=C3=A9 L=
+ureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@r=
+edhat.com</a>&gt;</div><div><br></div>=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
 ---<br>
-=C2=A0tests/qtest/ac97-test.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0MAINTAINERS | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c<br>
-index b084e31bff..74103efdfa 100644<br>
---- a/tests/qtest/ac97-test.c<br>
-+++ b/tests/qtest/ac97-test.c<br>
-@@ -28,7 +28,7 @@ static void *ac97_get_driver(void *obj, const char *inter=
-face)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;ac97-&gt;dev;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
+diff --git a/MAINTAINERS b/MAINTAINERS<br>
+index 5ce4227ff6..fd9bd1dca5 100644<br>
+--- a/MAINTAINERS<br>
++++ b/MAINTAINERS<br>
+@@ -2451,7 +2451,7 @@ Core Audio framework backend<br>
+=C2=A0M: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_=
+blank">kraxel@redhat.com</a>&gt;<br>
+=C2=A0M: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org"=
+ target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+=C2=A0R: Christian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com=
+" target=3D"_blank">qemu_oss@crudebyte.com</a>&gt;<br>
+-R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"=
+_blank">akihiko.odaki@gmail.com</a>&gt;<br>
++R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@daynix.com" target=3D=
+"_blank">akihiko.odaki@daynix.com</a>&gt;<br>
+=C2=A0S: Odd Fixes<br>
+=C2=A0F: audio/coreaudio.c<br>
 <br>
--=C2=A0 =C2=A0 fprintf(stderr, &quot;%s not present in e1000e\n&quot;, inte=
-rface);<br>
-+=C2=A0 =C2=A0 fprintf(stderr, &quot;%s not present in ac97\n&quot;, interf=
-ace);<br>
-=C2=A0 =C2=A0 =C2=A0g_assert_not_reached();<br>
-=C2=A0}<br>
+@@ -2730,7 +2730,7 @@ F: util/drm.c<br>
+=C2=A0Cocoa graphics<br>
+=C2=A0M: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" targ=
+et=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+=C2=A0M: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org"=
+ target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+-R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"=
+_blank">akihiko.odaki@gmail.com</a>&gt;<br>
++R: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@daynix.com" target=3D=
+"_blank">akihiko.odaki@daynix.com</a>&gt;<br>
+=C2=A0S: Odd Fixes<br>
+=C2=A0F: ui/cocoa.m<br>
 <br>
 -- <br>
 2.37.2<br>
@@ -166,5 +205,5 @@ ace);<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000080989405e75fe09d--
+--000000000000b4252505e75fe27c--
 
