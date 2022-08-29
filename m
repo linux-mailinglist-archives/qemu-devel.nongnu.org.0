@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6242C5A4ACC
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 13:56:37 +0200 (CEST)
-Received: from localhost ([::1]:40708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484F25A4AD9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 14:00:01 +0200 (CEST)
+Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSdNc-0000QN-HU
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
+	id 1oSdQt-0004J3-VA
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:59:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSdL4-0005xQ-EG
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:53:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29483)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oSdOy-0001OO-0X
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:58:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSdL0-0006up-Li
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:53:56 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oSdOu-0007WF-Ff
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:57:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661774033;
+ s=mimecast20190719; t=1661774275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qz67LleNB0351hfBxYtwyacpuZyMNlEEqBMvUOT5lio=;
- b=MKyPS/yGBQEHy5EpEnr/4RczYFC5ot46kaTH16O8IwzHNd5b20cLflIDxcAhNtcphLqbln
- GS30uv7dwqwHyUreFJBscs2BHwf+vkH5qr48d9U5RlHhkUO+Iy0MJTyNXSq4B27PT+4Ea4
- 89mPxYLhD77/5QL3LZCcUhzJqnRpMoc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-D7duUl_9NTSfHuBZlicT2A-1; Mon, 29 Aug 2022 07:53:52 -0400
-X-MC-Unique: D7duUl_9NTSfHuBZlicT2A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75BB285A589
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 11:53:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EC9840CF8E4;
- Mon, 29 Aug 2022 11:53:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 12D5821E6900; Mon, 29 Aug 2022 13:53:51 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Victor Toso <victortoso@redhat.com>
-Cc: Andrea Bolognani <abologna@redhat.com>,  qemu-devel@nongnu.org,  Eric
- Blake <eblake@redhat.com>,  John Snow <jsnow@redhat.com>,  Daniel P .
- =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH v2 0/8] qapi: add generator for Golang interface
-References: <20220617121932.249381-1-victortoso@redhat.com>
- <CABJz62Pay+VzT8gy94bgRJdXHrdGM=GQCWcwVKkj9eso_SzP3w@mail.gmail.com>
- <20220817142438.lymnqxul6dcp6zbp@tapioca>
-Date: Mon, 29 Aug 2022 13:53:51 +0200
-In-Reply-To: <20220817142438.lymnqxul6dcp6zbp@tapioca> (Victor Toso's message
- of "Wed, 17 Aug 2022 16:24:38 +0200")
-Message-ID: <87tu5vp8og.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=2oxSnDRmisMfWLchtQS61aqg6mrnS6GiJNul7Ks1IAw=;
+ b=KpAXKWuDrNdTKFtEgE1sQvWbagm3ZkWiWIDuessQpYt8B0MGpLGYREgjkMrjZJMYe1nFFl
+ hh3Gt9VXVWyc3zEMhRojbcMBx3QUmGh+9paPbqPp3DgtRmcdVxhijKrmO50lA/Weyx2vAe
+ BU9F/cHcAvyepxw9wJiHYIjxfG8Wc2A=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-18-FTApMkRXOe2L_bizuiReCA-1; Mon, 29 Aug 2022 07:57:54 -0400
+X-MC-Unique: FTApMkRXOe2L_bizuiReCA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 203-20020a1c02d4000000b003a5f5bce876so8356028wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 04:57:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=2oxSnDRmisMfWLchtQS61aqg6mrnS6GiJNul7Ks1IAw=;
+ b=2ZaEafMgSKM4rN95DMGz816UtUPURivbipsL7lA5F1d96VqCvPx8Wz3SYLy2CZPqnI
+ 5tskkuo5f0OmWfJpLfFEQTBO6WYkVg+tGfTlwj+H/G10TFi/iC09CFroy7dvI+bTF07D
+ 5tX71jAEBr1NJykXFSDWGElHnOjZSiIKbWh5zIvC/pF1GL+4nS3SueniwYSIdewaA33V
+ xtt79h3Hm+i+b6vr+9jqC85PUNa01WthVrcSA6Q3/7MAVPvA9a0gt+vXxnJ/JC9ymmix
+ 7P77a/UznkkzZXs03HTIlCa5ELkt46xFMQc0sEEXxCtjAxzgE3NDdLna9Xn0vmSlZKHp
+ dhoA==
+X-Gm-Message-State: ACgBeo2/4FR+rqOaJ391K1TWxJkgLp2Q55SLQPqPz575qCdlEUVCzNjA
+ 6xMDjY7jd8EtzEoZy7mk3/u9e9VVXVMtks+3j5P+klHK8xDbxJsUyBZ5sW/tk3kGW5ZLGdg5JPR
+ 0Fh8h2f0FoFxm3XM=
+X-Received: by 2002:a05:600c:a0a:b0:3a6:71e5:fb70 with SMTP id
+ z10-20020a05600c0a0a00b003a671e5fb70mr6530833wmp.141.1661774273651; 
+ Mon, 29 Aug 2022 04:57:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4WOXTHzu6H3qyUUEPSbuMjdIe1s1KMgl+UxLK71ikjYid4difI4aiwU+CC134N8NnZ842iuA==
+X-Received: by 2002:a05:600c:a0a:b0:3a6:71e5:fb70 with SMTP id
+ z10-20020a05600c0a0a00b003a671e5fb70mr6530814wmp.141.1661774273375; 
+ Mon, 29 Aug 2022 04:57:53 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-147.web.vodafone.de.
+ [109.43.176.147]) by smtp.gmail.com with ESMTPSA id
+ v18-20020a1cf712000000b003a5c7a942edsm8452789wmh.28.2022.08.29.04.57.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Aug 2022 04:57:53 -0700 (PDT)
+Message-ID: <65051b6c-94e8-14da-31ef-05b6e1a95a96@redhat.com>
+Date: Mon, 29 Aug 2022 13:57:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
+ borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
+ cohuck@redhat.com, qemu-s390x@nongnu.org, seiden@linux.ibm.com,
+ scgl@linux.ibm.com
+References: <20220811121111.9878-1-frankja@linux.ibm.com>
+ <20220811121111.9878-19-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v5 18/18] s390x: pv: Add dump support
+In-Reply-To: <20220811121111.9878-19-frankja@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,95 +104,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Victor Toso <victortoso@redhat.com> writes:
+On 11/08/2022 14.11, Janosch Frank wrote:
+> Sometimes dumping a guest from the outside is the only way to get the
+> data that is needed. This can be the case if a dumping mechanism like
+> KDUMP hasn't been configured or data needs to be fetched at a specific
+> point. Dumping a protected guest from the outside without help from
+> fw/hw doesn't yield sufficient data to be useful. Hence we now
+> introduce PV dump support.
+> 
+> The PV dump support works by integrating the firmware into the dump
+> process. New Ultravisor calls are used to initiate the dump process,
+> dump cpu data, dump memory state and lastly complete the dump process.
+> The UV calls are exposed by KVM via the new KVM_PV_DUMP command and
+> its subcommands. The guest's data is fully encrypted and can only be
+> decrypted by the entity that owns the customer communication key for
+> the dumped guest. Also dumping needs to be allowed via a flag in the
+> SE header.
+> 
+> On the QEMU side of things we store the PV dump data in the newly
+> introduced architecture ELF sections (storage state and completion
+> data) and the cpu notes (for cpu dump data).
+> 
+> Users can use the zgetdump tool to convert the encrypted QEMU dump to an
+> unencrypted one.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+[...]
+> @@ -207,22 +226,41 @@ static int s390x_write_elf64_notes(const char *note_name,
+>                                          DumpState *s,
+>                                          const NoteFuncDesc *funcs)
+>   {
+> -    Note note;
+> +    Note note, *notep;
+>       const NoteFuncDesc *nf;
+> -    int note_size;
+> +    int note_size, content_size;
+>       int ret = -1;
+>   
+>       assert(strlen(note_name) < sizeof(note.name));
+>   
+>       for (nf = funcs; nf->note_contents_func; nf++) {
+> -        memset(&note, 0, sizeof(note));
+> -        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
+> -        note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
+> -        g_strlcpy(note.name, note_name, sizeof(note.name));
+> -        (*nf->note_contents_func)(&note, cpu, id);
+> +        notep = &note;
+> +        if (nf->pvonly && !s390_is_pv()) {
+> +            continue;
+> +        }
+>   
+> -        note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
+> -        ret = f(&note, note_size, s);
+> +        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
+> +        note_size = sizeof(note) - sizeof(notep->contents) + content_size;
+> +
+> +        /* Notes with dynamic sizes need to allocate a note */
+> +        if (nf->note_size_func) {
+> +            notep = g_malloc0(note_size);
 
-> Hi,
->
-> On Tue, Jul 05, 2022 at 08:46:34AM -0700, Andrea Bolognani wrote:
->> I've commented in detail to the single patches, just a couple of
->> additional points.
->>
->> On Fri, Jun 17, 2022 at 02:19:24PM +0200, Victor Toso wrote:
->> > * 7) Flat structs by removing embed types. Discussion with Andrea
->> >      Thread: https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg01590.html
->> >
->> >      No one required it but I decided to give it a try. Major issue that
->> >      I see with this approach is to have generated a few 'Base' structs
->> >      that are now useless. Overall, less nested structs seems better to
->> >      me. Opnions?
->> >
->> >      Example:
->> >       | /* This is now useless, should be removed? */
->> >       | type InetSocketAddressBase struct {
->> >       |     Host string `json:"host"`
->> >       |     Port string `json:"port"`
->> >       | }
->>
->> Can we somehow keep track, in the generator, of types that are
->> only used as building blocks for other types, and prevent them
->> from showing up in the generated code?
->
-> I'm not 100% sure it is good to remove them from generated code
-> because technically it is a valid qapi type. If all @base types
-> are embed types and they don't show in other way or form, sure we
-> can remove them from generated code... I'm not sure if it is
-> possible to guarantee this.
->
-> But yes, if possible, I'd like to remove what seems useless type
-> definitions.
+Either use g_malloc() here (without the trailing "0") ...
 
-The existing C generators have to generate all the types, because the
-generated code is for QEMU's own use, where we need all the types.
+> +        }
+> +
+> +        memset(notep, 0, sizeof(note));
 
-The existing introspection generator generates only the types visible in
-QAPI/QMP introspection.
+... or put the memset() in an "else" block.
 
-The former generate for internal use (where we want all the types), and
-the latter for external use (where only the types visible in the
-external interface are actually useful).
+> +        /* Setup note header data */
+> +        notep->hdr.n_descsz = cpu_to_be32(content_size);
+> +        notep->hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
+> +        g_strlcpy(notep->name, note_name, sizeof(notep->name));
+> +
+> +        /* Get contents and write them out */
+> +        (*nf->note_contents_func)(notep, cpu, id);
+> +        ret = f(notep, note_size, s);
+> +
+> +        if (nf->note_size_func) {
+> +            g_free(notep);
+> +        }
+>   
+>           if (ret < 0) {
+>               return -1;
+> @@ -247,12 +285,161 @@ int s390_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+>       return s390x_write_elf64_notes("LINUX", f, cpu, cpuid, s, note_linux);
+>   }
+>   
+> +/* PV dump section size functions */
+> +static uint64_t get_dump_stor_state_size_from_len(uint64_t len)
+> +{
+> +    return (len / (1 << 20)) * kvm_s390_pv_dmp_get_size_stor_state();
 
->> Finally, looking at the repository containing the generated
->> code I see that the generated type are sorted by kind, e.g. all
->> unions are in a file, all events in another one and so on. I
->> believe the structure should match more closely that of the
->> QAPI schema, so e.g.  block-related types should all go in one
->> file, net-related types in another one and so on.
->
-> That's something I don't mind adding but some hardcoded mapping
-> is needed. If you look into git history of qapi/ folder, .json
-> files can come and go, types be moved around, etc. So, we need to
-> proper map types in a way that the generated code would be kept
-> stable even if qapi files would have been rearranged. What I
-> proposed was only the simplest solution.
->
-> Also, the generator takes a qapi-schema.json as input. We are
-> more focused in qemu/qapi/qapi-schema.json generated coded but
-> would not hurt to think we could even use it for qemu-guest-agent
-> from qemu/qga/qapi-schema.json -- this to say that the hardcoded
-> mapping needs to take into account non qemu qapi schemas too.
+Use "MiB" instead of "1 << 20" ?
 
-In the beginning, the QAPI schema was monolithic.  qga/qapi-schema.json
-still is.
+> +}
+> +
+> +static uint64_t get_size_stor_state(DumpState *s)
+> +{
+> +    return get_dump_stor_state_size_from_len(s->total_size);
+> +}
 
-When keeping everything in a single qapi-schema.json became unwieldy, we
-split it into "modules" tied together with a simple include directive.
-Generated code remained monolithic.
-
-When monolithic generated code became too annoying (touch schema,
-recompile everything), we made it match the module structure: code for
-FOO.json goes into *-FOO.c and *-FOO.h, where the *-FOO.h #include the
-generated headers for the .json modules FOO.json includes.
-
-Schema code motion hasn't been much of a problem.  Moving from FOO.json
-to one of the modules it includes is transparent.  Non-transparent moves
-are relatively rare as long as the split into modules actually makes
-sense.
-
->> Looking forward to the next iteration :)
->
-> Me too, thanks again!
->
-> Cheers,
-> Victor
+  Thomas
 
 
