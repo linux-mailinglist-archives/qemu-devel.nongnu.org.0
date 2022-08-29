@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AC15A4A1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 13:34:30 +0200 (CEST)
-Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B285A4AC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 13:53:24 +0200 (CEST)
+Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSd2D-0005xA-9A
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51414)
+	id 1oSdKV-0005PX-I7
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 07:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oScyg-0002o4-3d
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:30:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oScye-0002gK-DG
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:30:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661772647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BrAjKItzVrjIIm+cJ1qfqQcUl7edoJhbCqauLQj2bOw=;
- b=A8KdFuqnxE922HhUdr+RUlLZT+8A05Qw4lguHJSF8iP3sz/tkanmSeWGYDd+kA/IPnPjvX
- U2PkwREWfOJdlujsyWBSuTDWcmmnfNmwNJyGfma7u3T4scdRmLu3BZRD42stuVy6OYFeUw
- xA+XKhUuAW14ul/2XRR7mDGOGLO4PgY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-61-PCiKyxzjOaKDkq4oQ0Npxg-1; Mon, 29 Aug 2022 07:30:46 -0400
-X-MC-Unique: PCiKyxzjOaKDkq4oQ0Npxg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 203-20020a1c02d4000000b003a5f5bce876so8331525wmc.2
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 04:30:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oSdID-00034G-Km
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:01 -0400
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:34426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oSdIB-0006Hg-U9
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 07:51:01 -0400
+Received: by mail-lf1-x133.google.com with SMTP id bt10so10795688lfb.1
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 04:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=obAJ0l0R6VLYo/uybs/RMZ5KFR79VAfO2+nPkUiHF+M=;
+ b=XtHaoUsebYoIIysDxvCRyCHpC5O0d7nL+5sB2PHlD9isYcOiBJUGW8r9DP4NvByXOo
+ FHFrZjNd6Pa2hOTlMLtRo3CQ/KCpjAKhlN+V/764SM4xk1U+d+PNZ16Gc5EkVfuVymb0
+ I2rYobC/vmsFUWnPA5A0TMTlb/7M95ihOzVOCqWRbs996eQvZU7AGsOtFPTJ2TWXM8Wa
+ wlEnxKZ0g1ZRtCwXjGJpVQnYKOn1pCvBr1xncoDMPS75EKBFuUHuWyPgkDi0YiL5IUdx
+ YPMJB03NHOtspD42dfwvW6kGaFjJiWLs+j7vroF5BmErolyN72DtoBtVsW06NgtzD53E
+ m7Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=BrAjKItzVrjIIm+cJ1qfqQcUl7edoJhbCqauLQj2bOw=;
- b=tUTZtmrTK9G2ymVPdqGTigR/TbQ5fNgW0xfqkx1eL7YAxzhMNP75wrPCz0dTbP7JLQ
- pFusF2IMu+eQFjbx72y6mvHOZ5ndKMLvUM3kMP3TgRlVVC0L9MqiVGgvqZ4I8HmzGltd
- BWz5RWGlHimlYzFtZqAAIlNC8DGkL+oK2KuggHEglEIFFYtR62i3JH0yYriAChVVze+N
- Yv0T16KClQCX2WGZnC/2KVWsfnQGzXgkBtMga7lGuvRDip5ovFHSdEpQ5XSesEB/2EIk
- 8ThGM78+CekARHvpXmRIQVUG3d1TP4h06InzdY4dXrqmWdOURJAPG+hiOIKffPpcIp3Q
- H70w==
-X-Gm-Message-State: ACgBeo3UKBuLNWGvp54FJbgWzlRKFwfR3FuiZsrV3DsjOTR1JP+lJ4rk
- ZTN29eMTCPzuVIGq2Dfdsh8L49EOEQeEzrW6J/83LiVaR7Qt8wn1VaRITh2F0hY3x+E6cqcAE8c
- VPC17/zNaQ0Y37e8=
-X-Received: by 2002:adf:eb0e:0:b0:226:db7d:6fed with SMTP id
- s14-20020adfeb0e000000b00226db7d6fedmr2466788wrn.626.1661772645252; 
- Mon, 29 Aug 2022 04:30:45 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7QCW52yITJ8DBXrKPRAzy+WHj1Rd8Ep/2PzkfYsXFbUo8g01laiBBaL2ohTkbvGPZ4NxY+lQ==
-X-Received: by 2002:adf:eb0e:0:b0:226:db7d:6fed with SMTP id
- s14-20020adfeb0e000000b00226db7d6fedmr2466772wrn.626.1661772645031; 
- Mon, 29 Aug 2022 04:30:45 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-147.web.vodafone.de.
- [109.43.176.147]) by smtp.gmail.com with ESMTPSA id
- g7-20020a05600c4ec700b003a4c6e67f01sm4645845wmq.6.2022.08.29.04.30.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Aug 2022 04:30:44 -0700 (PDT)
-Message-ID: <d2a6c9fd-9404-fc38-67c7-53811a0ac574@redhat.com>
-Date: Mon, 29 Aug 2022 13:30:43 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=obAJ0l0R6VLYo/uybs/RMZ5KFR79VAfO2+nPkUiHF+M=;
+ b=4PFDYxU3vbJGaNRw/NtgI2E0QRbcZFWMvAPH5VLL+EgiNfEarh9qeriswDyJfXRcea
+ 2p3Xlh3EWH1b7TEmGsBdeMmaaBWmCiyAgSQXM1aDNRGbSQUxbiQ2H0JLyYQME6QzvbaS
+ 8UO6bH9GERh0hxZiypJ4NOADKtieLpN9EHLwoO0U3/1ueQ2cQ9jw2tDNz/CJ0RYnciIy
+ QCv3bGTTyj+6nOGHgZxZBqfX0nDwWEoXxKRbFjU4YuQ43veW3FsECXbdmWAeRBwTwxqs
+ Eob2A+/BbhmT4SJRG5QkHX3ozFOO1iVdyV12jdTK+pDkPxd586bVgmiwQL5SlgsUCu+j
+ bGYQ==
+X-Gm-Message-State: ACgBeo3TKHraLKDvsRKNAGz8z6+pv0nAtzVaAct1TcV8o+A0mwASOtUO
+ 3NsJD2QNUciL0J3o6W11ZyTL/c/o+Sf90ulSems=
+X-Google-Smtp-Source: AA6agR5VhSVxV5VhP+DOLSscMO8Qh3VmkOjHephVvXgJAptZfmYkR5/GKqk4y95SJ8lG/3NGaaMWT3wNia4vuNcZG9A=
+X-Received: by 2002:a05:6512:2306:b0:48b:2905:21a8 with SMTP id
+ o6-20020a056512230600b0048b290521a8mr6833793lfu.167.1661773857985; Mon, 29
+ Aug 2022 04:50:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v5 16/18] s390x: Introduce PV query interface
-Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, qemu-s390x@nongnu.org, seiden@linux.ibm.com,
- scgl@linux.ibm.com
-References: <20220811121111.9878-1-frankja@linux.ibm.com>
- <20220811121111.9878-17-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220811121111.9878-17-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220829083301.143527-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20220829083301.143527-1-akihiko.odaki@daynix.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 29 Aug 2022 15:50:46 +0400
+Message-ID: <CAJ+F1CKs84f2XFyVZOZDsUVJeJKf+UReLsPLXJMsqXcmowKhMw@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest/ac97-test: Correct reference to driver
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
+Content-Type: multipart/alternative; boundary="00000000000080989405e75fe09d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,18 +84,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/08/2022 14.11, Janosch Frank wrote:
-> Introduce an interface over which we can get information about UV data.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Steffen Eiden <seiden@linux.ibm.com>
+--00000000000080989405e75fe09d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Aug 29, 2022 at 12:38 PM Akihiko Odaki <akihiko.odaki@gmail.com>
+wrote:
+
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
->   hw/s390x/pv.c              | 61 ++++++++++++++++++++++++++++++++++++++
->   hw/s390x/s390-virtio-ccw.c |  6 ++++
->   include/hw/s390x/pv.h      | 10 +++++++
->   3 files changed, 77 insertions(+)
+>  tests/qtest/ac97-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c
+> index b084e31bff..74103efdfa 100644
+> --- a/tests/qtest/ac97-test.c
+> +++ b/tests/qtest/ac97-test.c
+> @@ -28,7 +28,7 @@ static void *ac97_get_driver(void *obj, const char
+> *interface)
+>          return &ac97->dev;
+>      }
+>
+> -    fprintf(stderr, "%s not present in e1000e\n", interface);
+> +    fprintf(stderr, "%s not present in ac97\n", interface);
+>      g_assert_not_reached();
+>  }
+>
+> --
+> 2.37.2
+>
+>
+>
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--00000000000080989405e75fe09d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 29, 2022 at 12:38 PM Akih=
+iko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@dayni=
+x.com" target=3D"_blank">akihiko.odaki@daynix.com</a>&gt;</blockquote><div>=
+<br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:ma=
+rcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=
+=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0tests/qtest/ac97-test.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c<br>
+index b084e31bff..74103efdfa 100644<br>
+--- a/tests/qtest/ac97-test.c<br>
++++ b/tests/qtest/ac97-test.c<br>
+@@ -28,7 +28,7 @@ static void *ac97_get_driver(void *obj, const char *inter=
+face)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;ac97-&gt;dev;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 fprintf(stderr, &quot;%s not present in e1000e\n&quot;, inte=
+rface);<br>
++=C2=A0 =C2=A0 fprintf(stderr, &quot;%s not present in ac97\n&quot;, interf=
+ace);<br>
+=C2=A0 =C2=A0 =C2=A0g_assert_not_reached();<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.37.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000080989405e75fe09d--
 
