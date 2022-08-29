@@ -2,65 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7DB5A55C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 22:51:12 +0200 (CEST)
-Received: from localhost ([::1]:45206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0232F5A55F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 23:08:47 +0200 (CEST)
+Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSlix-00057P-Pv
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 16:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45120)
+	id 1oSlzx-0004WE-MA
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 17:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
- id 1oSlf1-0002tO-3D
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 16:47:14 -0400
-Received: from mail-wm1-f49.google.com ([209.85.128.49]:55910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
- id 1oSlez-00039c-D7
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 16:47:06 -0400
-Received: by mail-wm1-f49.google.com with SMTP id d5so4805138wms.5
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 13:47:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=pRM5l6sfPfHFA7U4qcxknsEEA52POP03UY/iRMXUa0M=;
- b=Efig4losHmY29HeK+nY035vPwRtv403JqoIAIAWvOEPvCBjZtMg3nUwT6ocwBINXmu
- ITXaEMMIeiWN3ebIe8cPG5WReAcdE4ffI9ygdhiY4FApPInHCMlawTn9qT6q5iUlpQTg
- eC20G+XmA5PkziQ0upcHlXvL3tbYJ+lT1g3V9/fZNpymdz7LDFlpktMjY1EM0OtXgc2x
- bANnbajuVRuHLi58dV3Rs+8/PguNd5bwt0FhfDAgQCAsb0in6sJ4A2WLGOBqYqDKZjx7
- UQEjZd0WQPULszRrixdMRrdGO5PYLVSz1g1yaDCIEdYK1xuqD5Yf53h7NfRNpxd5Yf5W
- JtUQ==
-X-Gm-Message-State: ACgBeo3pChDOravSrgQJ2gT0NbHlEubS0el7LSTlQmkAyo/R0slUH4TE
- fLrYUmexOlIOir7ghch1BRqkVMFuytNjs+ZPSgo=
-X-Google-Smtp-Source: AA6agR6RaTWXfbQtLINolIivN9Z1CTL5feKZRzke+tY7Yf1wDr/AEholtjbLNF34reiYUag7//Ll8UWLrlwAH64sgCQ=
-X-Received: by 2002:a05:600c:28cd:b0:3a5:4f45:b927 with SMTP id
- h13-20020a05600c28cd00b003a54f45b927mr7819898wmd.90.1661806022008; Mon, 29
- Aug 2022 13:47:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cp@absolutedigital.net>)
+ id 1oSlyF-00034f-UT; Mon, 29 Aug 2022 17:06:59 -0400
+Received: from mx2.absolutedigital.net ([50.242.207.105]:59950)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <cp@absolutedigital.net>)
+ id 1oSly9-00067q-W7; Mon, 29 Aug 2022 17:06:59 -0400
+Received: from lancer.cnet.absolutedigital.net
+ (lancer.cnet.absolutedigital.net [10.7.5.10])
+ by luxor.inet.absolutedigital.net (8.14.4/8.14.4) with ESMTP id 27TL6YdL017919
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+ Mon, 29 Aug 2022 17:06:34 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by lancer.cnet.absolutedigital.net (8.17.1/8.17.1) with ESMTPS id
+ 27TL75oY005409
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+ Mon, 29 Aug 2022 17:07:05 -0400
+Date: Mon, 29 Aug 2022 17:07:05 -0400 (EDT)
+From: Cal Peake <cp@absolutedigital.net>
+To: Gerd Hoffmann <kraxel@redhat.com>
+cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Subject: Re: [PATCH] ui/console: Get tab completion working again in the SDL
+ monitor vc
+In-Reply-To: <7054816e-99c-7e2-6737-7cf98cc56e2@absolutedigital.net>
+Message-ID: <f422e776-1db8-240-3692-e442601dc9ce@absolutedigital.net>
+References: <7054816e-99c-7e2-6737-7cf98cc56e2@absolutedigital.net>
 MIME-Version: 1.0
-References: <20220829142326.39562-1-ricky@rzhou.org>
- <20220829142326.39562-2-ricky@rzhou.org>
- <a0972b9f-7fbc-8403-6db6-cb30b741d247@linaro.org>
-In-Reply-To: <a0972b9f-7fbc-8403-6db6-cb30b741d247@linaro.org>
-From: Ricky Zhou <ricky@rzhou.org>
-Date: Mon, 29 Aug 2022 13:46:50 -0700
-Message-ID: <CAFoVXjgHBPs8XhOqLN9BpD1-GN7Amsor5o660WOmBdQ54dxW5w@mail.gmail.com>
-Subject: Re: [PATCH 1/1] target/i386: Raise #GP on unaligned m128 accesses
- when required.
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.128.49; envelope-from=ricky.zhou@gmail.com;
- helo=mail-wm1-f49.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=50.242.207.105;
+ envelope-from=cp@absolutedigital.net; helo=mx2.absolutedigital.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,36 +61,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 29, 2022 at 9:45 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 8/29/22 07:23, Ricky Zhou wrote:
-> This trap should be raised via the memory operation:
-> ...
-> Only the first of the two loads/stores must be aligned, as the other is known to be +8.
-> You then must fill in the x86_tcg_ops.do_unaligned_access hook to raise #GP.
-Thanks for taking a look at this - did you see the bit in the cover
-letter where I discuss doing this via alignment requirements on the
-memory operation? My logic was that the memop alignment checks seem to
-be more oriented towards triggering #AC exceptions (even though this is
-not currently implemented), since qemu-user's unaligned access handlers
-(helper_unaligned_{ld,st}) already trigger SIGBUS as opposed to SIGSEGV.
-I was concerned that implementing this via MO_ALIGN_16 would get in the
-way of a hypothetical future implementation of the AC flag, since
-do_unaligned_access would need to raise #AC instead of #GP for that.
+Hi Gerd,
 
-One slightly more involved way to use alignment on the MemOp could be to
-arrange to pass the problematic MemOp to do_unaligned_access and
-helper_unaligned_{ld,st}. Then we could allow CPUs to handle
-misalignment of different MemOps differently (e.g. raise #GP/SIGSEGV for
-certain ops and #AC/SIGBUS for others). For this change to x86, we could
-maybe get away with making MO_ALIGN_16 and above trigger #GP/SIGSEGV and
-everything else trigger #AC/SIGBUS. If that's a little hacky, we could
-instead add some dedicated bits to MemOp that distinguish different
-types of unaligned accesses.
-
-What do you think? Happy to implement whichever approach is preferred!
+Can you take a look at this and let me know what you think?
 
 Thanks,
-Ricky
+-Cal
+
+
+On Thu, 11 Aug 2022, Cal Peake wrote:
+
+> Define a QEMU special key constant for the tab key and add an entry for
+> it in the qcode_to_keysym table. This allows tab completion to work again
+> in the SDL monitor virtual console, which has been broken ever since the
+> migration from SDL1 to SDL2.
+> 
+> Signed-off-by: Cal Peake <cp@absolutedigital.net>
+> ---
+>  include/ui/console.h | 1 +
+>  ui/console.c         | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/include/ui/console.h b/include/ui/console.h
+> index c0520c694c..e400ee9fa7 100644
+> --- a/include/ui/console.h
+> +++ b/include/ui/console.h
+> @@ -70,6 +70,7 @@ void hmp_mouse_set(Monitor *mon, const QDict *qdict);
+>  /* keysym is a unicode code except for special keys (see QEMU_KEY_xxx
+>     constants) */
+>  #define QEMU_KEY_ESC1(c) ((c) | 0xe100)
+> +#define QEMU_KEY_TAB        0x0009
+>  #define QEMU_KEY_BACKSPACE  0x007f
+>  #define QEMU_KEY_UP         QEMU_KEY_ESC1('A')
+>  #define QEMU_KEY_DOWN       QEMU_KEY_ESC1('B')
+> diff --git a/ui/console.c b/ui/console.c
+> index e139f7115e..addaafba28 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -1368,6 +1368,7 @@ static const int qcode_to_keysym[Q_KEY_CODE__MAX] = {
+>      [Q_KEY_CODE_PGUP]   = QEMU_KEY_PAGEUP,
+>      [Q_KEY_CODE_PGDN]   = QEMU_KEY_PAGEDOWN,
+>      [Q_KEY_CODE_DELETE] = QEMU_KEY_DELETE,
+> +    [Q_KEY_CODE_TAB]    = QEMU_KEY_TAB,
+>      [Q_KEY_CODE_BACKSPACE] = QEMU_KEY_BACKSPACE,
+>  };
+>  
+> -- 
+> 2.35.3
+> 
+> 
 
