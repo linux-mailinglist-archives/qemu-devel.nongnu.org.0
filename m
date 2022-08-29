@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83DA5A5253
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 18:55:19 +0200 (CEST)
-Received: from localhost ([::1]:36658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446975A5149
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 18:16:10 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSi2g-00028k-J4
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 12:55:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
+	id 1oShQl-0005Hs-Fe
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 12:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vtjnash@gmail.com>) id 1oSh1q-00055I-Ib
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:50:29 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:46685)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oShLX-0008Kh-Gt
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:10:50 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vtjnash@gmail.com>) id 1oSh1m-0005vG-0v
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:50:20 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id bj12so16524347ejb.13
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 08:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=lTgl3EpE2acGGU3Nhesyo92ou38c73wF2ZRcqAVCQxs=;
- b=oH9+QnxGz5m9bCs23Tr7Q00fa4Jya6e/xuDDg4JnlszguCGyOFLzpMmJ3r+y33qJ2E
- 4oM9wRBijo471axkayoHV4FWsIAkG85DL6g6jnSHHUN2gykpBfEBN0/8VzthENnDPlBA
- FBfvr79zGhJJCWHNPIjMv9/R8+Vy9ca0cPKQqYpfzfHizXPAIIe4SyPk6ltDPoqaQZpx
- aPM2Cjs8pxyyPA+eqUYtmkT5U2ezmTxVtOaVREOWVlKrm0Exu10ZlzGJiyiHdiFTyn2T
- MzTLSvRFCE8OQ/MB0tz5bB40ATKu3w/7R6eJ/xl7Gcr5q0kyiRCTpLe96noNfjhaqlHq
- ut8A==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oShLO-0000y5-9C
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:10:39 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so4742007pjq.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 09:10:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=jNxS+KLtIPbA9o30+lSX/iJyjoKjUHvpP6c0XWwmCJc=;
+ b=Imrvh8H3fP0gKrx7HTTqwGLsZskLXDT4Hrwy56T7mqdSx4ZCDyixvcKR3mdyWeTBry
+ XLYzAOmpzdCNuQOle39sV3UzYqk005Et3kJuDI0Fezvcbe4BfeVf8i/FqFkW371l5W85
+ 9lJE3m8vlMf1EkGq6o6MnAqYgiCTuAt1Lu+dXysjwwnMUw6+vzCEJ4v4SnGTM4egu0Qy
+ Al97clodmmgNq6KG0yTLI9SSn6B6eQll+v7Z+3vBmjnFQGlybRGRqp5jDM/zwbLfOe98
+ 2RuISmgY/9A4cdWMJ4DY5K3RigNr8Ww5QReLAH4kGWE+ZoRtahobXHD8gZPVRBjM9hKP
+ SS5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=lTgl3EpE2acGGU3Nhesyo92ou38c73wF2ZRcqAVCQxs=;
- b=IQ+Bi7BOCSZJBN8zugPRDmx5qUkSqlwnUnrt6e/Z+G1Bkih3W4RLeOOATXBRyqODLp
- iTOMGVOYV9cfqY4Wej43K1Voup2S8Z8gueSS4CHzhssVXHTPI2DmVEFqohTblnijbsMM
- 1J48JaIEhT7TZH0Rku4IY4N59iu+S09idJEAfmdeaopINIY04mXjh6IzjZw2ec7XFLQ0
- cjIbQUKRsHmiT5bfp/xGpvn1H8Gza8Awd3adi1EIpYHk/0rOwjd2zuUK1P43vBAWiRYs
- a6Br6af6U4Tl5BO+mzgnd2sEVlJ5GSIZthZOT/oWOPE3oPRD5x30/NfqRwgmpf45bHd5
- Ld7w==
-X-Gm-Message-State: ACgBeo2nmHlWCWGe6mFjOQyUqbOyRwQy6wZ3EOtc89VDUNCu5a9Rerep
- 64qpsvn+wtvWjaOJ3awNv4HHDq7ae1zt7jok1nBti7SrW52ZrQ==
-X-Google-Smtp-Source: AA6agR6ofmzI5DDOwoxeygMm4NUY/UtsXxxGiXyq9T3S33Z4v3HOGesQAK+l/IJzuskOp94Ar8rk8pnCuA/XaZWqw7w=
-X-Received: by 2002:a17:906:cc4a:b0:73d:d3b9:b263 with SMTP id
- mm10-20020a170906cc4a00b0073dd3b9b263mr12831204ejb.130.1661788215087; Mon, 29
- Aug 2022 08:50:15 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=jNxS+KLtIPbA9o30+lSX/iJyjoKjUHvpP6c0XWwmCJc=;
+ b=a66JBGavvpKZrAMoV/ZnZ+jS0yfmRbGSpQrn7gyfXfg+3T0HYOHyKnNhaMofiL3MO4
+ yIvQCcEJBWeu2gQcGTU8vwk+cl1wqxwf138d7ZDUTiGfFatYSZm1svQwcVHBX/oKGY9I
+ f2oXiuiCqz51g2TNOGDikIjfFHLvTPTrkBay9c2bqVtsOjHmnl1MOWH9g6PuCjYEMbxR
+ WeaqdSchNbRAIZlyJEpHhes/lkkSmamG4kRVqUm1M4liSgvTUcxs60DaH3p0TnS83aDi
+ UYBzSATlTalF9+c9EYg/0e1u/eFatRAiY2hmDcGfDGNPm/2GvVHWQdhtUG1z1v4vftoM
+ PMLA==
+X-Gm-Message-State: ACgBeo3KCzfaf2hsV68OQpOrbD6KMTLhdk2r9YKoLRyBv+B3I0TF0gbY
+ P9k9I7z+ub6yAS1+opxiKRIkEw==
+X-Google-Smtp-Source: AA6agR49wMkKF5r0R7CIJl7OAuu6y8E8YJIFJ/qIF1jYzmm6n1eRDt/d6jVGZbVoIMA7V5K9CFRENA==
+X-Received: by 2002:a17:902:6b42:b0:172:ed37:bc55 with SMTP id
+ g2-20020a1709026b4200b00172ed37bc55mr16799683plt.33.1661789432667; 
+ Mon, 29 Aug 2022 09:10:32 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:be85:d5a:94bd:75bd?
+ ([2602:47:d49d:ec01:be85:d5a:94bd:75bd])
+ by smtp.gmail.com with ESMTPSA id
+ i63-20020a626d42000000b00537b8aa0a46sm7580418pfc.96.2022.08.29.09.10.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Aug 2022 09:10:32 -0700 (PDT)
+Message-ID: <ecaee2a6-c2be-388e-425d-3cbe3dda2a4a@linaro.org>
+Date: Mon, 29 Aug 2022 09:10:29 -0700
 MIME-Version: 1.0
-References: <20220808190727.875155-1-vtjnash@gmail.com>
-In-Reply-To: <20220808190727.875155-1-vtjnash@gmail.com>
-From: Jameson Nash <vtjnash@gmail.com>
-Date: Mon, 29 Aug 2022 11:49:57 -0400
-Message-ID: <CADnnjUXfz1Z0tZFGqpPwaJpeQQcSs6102JLePf8oaa4+QAOYDA@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: fix readlinkat handling with magic exe symlink
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="000000000000409ad005e763389e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=vtjnash@gmail.com; helo=mail-ej1-x62f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] target/sh4: Fix TB_FLAG_UNALIGN
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp,
+ alex.bennee@linaro.org, qemu-stable@nongnu.org
+References: <20220829021325.154978-1-richard.henderson@linaro.org>
+ <c2c0edec-c93b-f6fa-b148-9452e4e7b7@eik.bme.hu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <c2c0edec-c93b-f6fa-b148-9452e4e7b7@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 29 Aug 2022 12:51:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,131 +96,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000409ad005e763389e
-Content-Type: text/plain; charset="UTF-8"
+On 8/29/22 02:05, BALATON Zoltan wrote:
+> On Sun, 28 Aug 2022, Richard Henderson wrote:
+>> The value previously chosen overlaps GUSA_MASK.
+>>
+>> Cc: qemu-stable@nongnu.org
+>> Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> target/sh4/cpu.h | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+>> index 9f15ef913c..e79cbc59e2 100644
+>> --- a/target/sh4/cpu.h
+>> +++ b/target/sh4/cpu.h
+>> @@ -84,7 +84,7 @@
+>> #define DELAY_SLOT_RTE         (1 << 2)
+>>
+>> #define TB_FLAG_PENDING_MOVCA  (1 << 3)
+>> -#define TB_FLAG_UNALIGN        (1 << 4)
+>> +#define TB_FLAG_UNALIGN        (1 << 13)
+> 
+> Is it worth a comment to note why that value to avoid the same problem if another flag is 
+> added in the future?
 
-bump? This helps fix one of the libuv tests when run under qemu
-https://github.com/libuv/libuv/pull/2941#issuecomment-1207145306
+Hmm, or perhaps move it down below, so that we see bit 3 used, then bits 4-12, then bit 13.
 
-On Mon, Aug 8, 2022 at 3:07 PM Jameson Nash <vtjnash@gmail.com> wrote:
 
-> Exactly the same as f17f4989fa193fa8279474c5462289a3cfe69aea before was
-> for readlink. I suppose this was simply missed at the time.
->
-> Signed-off-by: Jameson Nash <vtjnash@gmail.com>
-> ---
->  linux-user/syscall.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index ef53feb5ab..6ef4e42b21 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -9894,11 +9894,22 @@ static abi_long do_syscall1(CPUArchState *cpu_env,
-> int num, abi_long arg1,
->              p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
->              if (!p || !p2) {
->                  ret = -TARGET_EFAULT;
-> +            } else if (!arg4) {
-> +                /* Short circuit this for the magic exe check. */
-> +                ret = -TARGET_EINVAL;
->              } else if (is_proc_myself((const char *)p, "exe")) {
->                  char real[PATH_MAX], *temp;
->                  temp = realpath(exec_path, real);
-> -                ret = temp == NULL ? get_errno(-1) : strlen(real) ;
-> -                snprintf((char *)p2, arg4, "%s", real);
-> +                /* Return value is # of bytes that we wrote to the
-> buffer. */
-> +                if (temp == NULL) {
-> +                    ret = get_errno(-1);
-> +                } else {
-> +                    /* Don't worry about sign mismatch as earlier mapping
-> +                     * logic would have thrown a bad address error. */
-> +                    ret = MIN(strlen(real), arg4);
-> +                    /* We cannot NUL terminate the string. */
-> +                    memcpy(p2, real, ret);
-> +                }
->              } else {
->                  ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
->              }
-> --
-> 2.25.1
->
->
-
---000000000000409ad005e763389e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>bump? This helps fix one of the libuv tests when run =
-under qemu <a href=3D"https://github.com/libuv/libuv/pull/2941#issuecomment=
--1207145306">https://github.com/libuv/libuv/pull/2941#issuecomment-12071453=
-06</a></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Mon, Aug 8, 2022 at 3:07 PM Jameson Nash &lt;<a href=3D"mailto:vtj=
-nash@gmail.com">vtjnash@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">=
-Exactly the same as f17f4989fa193fa8279474c5462289a3cfe69aea before was<br>
-for readlink. I suppose this was simply missed at the time.<br>
-<br>
-Signed-off-by: Jameson Nash &lt;<a href=3D"mailto:vtjnash@gmail.com" target=
-=3D"_blank">vtjnash@gmail.com</a>&gt;<br>
----<br>
-=C2=A0linux-user/syscall.c | 15 +++++++++++++--<br>
-=C2=A01 file changed, 13 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c<br>
-index ef53feb5ab..6ef4e42b21 100644<br>
---- a/linux-user/syscall.c<br>
-+++ b/linux-user/syscall.c<br>
-@@ -9894,11 +9894,22 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
-int num, abi_long arg1,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p2 =3D lock_user(VERIFY_WRI=
-TE, arg3, arg4, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!p || !p2) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -TARG=
-ET_EFAULT;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!arg4) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Short circuit t=
-his for the magic exe check. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D -TARGET_EI=
-NVAL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (is_proc_myself((=
-const char *)p, &quot;exe&quot;)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char real[PAT=
-H_MAX], *temp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0temp =3D real=
-path(exec_path, real);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D temp =3D=
-=3D NULL ? get_errno(-1) : strlen(real) ;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 snprintf((char *)p=
-2, arg4, &quot;%s&quot;, real);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Return value is=
- # of bytes that we wrote to the buffer. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (temp =3D=3D NU=
-LL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =
-=3D get_errno(-1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* D=
-on&#39;t worry about sign mismatch as earlier mapping<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0* logic would have thrown a bad address error. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =
-=3D MIN(strlen(real), arg4);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* W=
-e cannot NUL terminate the string. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memc=
-py(p2, real, ret);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D get_e=
-rrno(readlinkat(arg1, path(p), p2, arg4));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div></div>
-
---000000000000409ad005e763389e--
+r~
 
