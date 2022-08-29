@@ -2,89 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697965A536D
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:44:16 +0200 (CEST)
-Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF8F5A5382
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:52:20 +0200 (CEST)
+Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSio2-0005Qd-W6
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56324)
+	id 1oSivr-00049L-G7
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSijN-0001aa-T9
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 13:39:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46345)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oSitx-0000sz-6L; Mon, 29 Aug 2022 13:50:37 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:23144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSijJ-0006Jc-T9
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 13:39:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661794759;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=25dOBtLX3GOazriDFsFzC9MqMNcHPEVZ0DgwoY8R920=;
- b=dysIUb/7Kf5psyh0lKaEPfpOVyaqWOnyEj1zbMEEvQWkRRaV/pqaHzF53+TGz3ZANden6h
- Sj5gDvkSnKBHNmnR2MmBORqf+bHaZNEWiYdYDsUZnS9KQePGd4ZCPvVGGx2DrEzV8TewBN
- QMav8+h1qBFfJEbzk4X3rSbtbWmdN/Y=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-570-3YAT-TiRNbu9GsbcnC0Qag-1; Mon, 29 Aug 2022 13:39:18 -0400
-X-MC-Unique: 3YAT-TiRNbu9GsbcnC0Qag-1
-Received: by mail-il1-f199.google.com with SMTP id
- c7-20020a056e020bc700b002e59be6ce85so6407382ilu.12
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 10:39:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=25dOBtLX3GOazriDFsFzC9MqMNcHPEVZ0DgwoY8R920=;
- b=gkKvxsGWD2s5yhtdC6GcEMXdXRlwIiHbB+eiBNuXKr70BBgGsoyt2cRnD0K6Jhvg7d
- cMR4t4K2Yy9UGom0uKtDvOSE4HYoda5+FnKi6+3jwCi+wBdHnvD+bv24Bf0bfTwEPmv2
- ssoiqyeAOIdMhqo7JfgkDKvBy4ZQ763JWy8ZsJso1ML7vi5VVDALfe/vaeMhIWLSeAy2
- xcxOzesjERuyB8DgXAsP1akJKDhZNk1yp3mHm8PU1S+rXhlASPyRCuOi2VQQelIxoIrf
- OmQqvKdC99/+G1ov9xlVeExa3TT4ozn8k+24CV62z83iHX5DHJ5V7e1Xvu94RqkA/vQW
- h1aA==
-X-Gm-Message-State: ACgBeo27fVVCcwxZRgWhouq3fZ2VcwcItr/cSWWUaP/WOdzZt/qTr6DJ
- xz/LuPXGgzKQe62ssgG5rFs8I1s6XUTw5usGrDH8Gp0XqZ3N+WU2vEA74YAFPFVxBTqdXHnWojH
- 9q9i1KP6eaRZTEvTCOrOycLhX32FUgvSklZy4fkLA9VU3gcx32zlYKhPLpRYNZJVy
-X-Received: by 2002:a05:6e02:168f:b0:2eb:1c2c:33a5 with SMTP id
- f15-20020a056e02168f00b002eb1c2c33a5mr2418185ila.98.1661794757363; 
- Mon, 29 Aug 2022 10:39:17 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4J0fD/soAs5NtWKjoBNiGyEQoUaJGxJ47t5LFZJ4z2ChpnCjesrdKaIZpTOWENdTnsi0phaQ==
-X-Received: by 2002:a05:6e02:168f:b0:2eb:1c2c:33a5 with SMTP id
- f15-20020a056e02168f00b002eb1c2c33a5mr2418167ila.98.1661794756978; 
- Mon, 29 Aug 2022 10:39:16 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
- by smtp.gmail.com with ESMTPSA id
- b3-20020a021903000000b00349e5bf727fsm4543575jab.21.2022.08.29.10.39.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Aug 2022 10:39:16 -0700 (PDT)
-Date: Mon, 29 Aug 2022 13:39:14 -0400
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 00/13] migration: Postcopy Preempt-Full
-Message-ID: <Ywz5wvBUntUlFC/V@xz-m1.local>
-References: <20220829165659.96046-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oSits-00088D-QK; Mon, 29 Aug 2022 13:50:19 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8AD787462D3;
+ Mon, 29 Aug 2022 19:50:11 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 865B17461AE; Mon, 29 Aug 2022 19:50:10 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 848AA745702;
+ Mon, 29 Aug 2022 19:50:10 +0200 (CEST)
+Date: Mon, 29 Aug 2022 19:50:10 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: BB <shentey@gmail.com>
+cc: QEMU Developers <qemu-devel@nongnu.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ "open list:sam460ex" <qemu-ppc@nongnu.org>
+Subject: Re: [PATCH 8/9] hw/isa/vt82c686: QOM'ify RTC creation
+In-Reply-To: <C5B98752-D291-419B-B9EE-D62D137DADD3@gmail.com>
+Message-ID: <2ced8da1-3b3a-6894-90f7-e8618b679f87@eik.bme.hu>
+References: <20220822224355.11753-1-shentey@gmail.com>
+ <20220822224355.11753-9-shentey@gmail.com>
+ <96f054aa-41b5-b3c0-accc-46678485b87d@eik.bme.hu>
+ <CAG4p6K4BhgTAXAApG4CyRH3bCgMF97wBV5Vm0caBc-krOgEX_Q@mail.gmail.com>
+ <e65366d-9aed-4b6f-50e9-603756f281@eik.bme.hu>
+ <C5B98752-D291-419B-B9EE-D62D137DADD3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220829165659.96046-1-peterx@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,237 +67,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 29, 2022 at 12:56:46PM -0400, Peter Xu wrote:
-> This is a RFC series.  Tree is here:
-> 
->   https://github.com/xzpeter/qemu/tree/preempt-full
-> 
-> It's not complete because there're still something we need to do which will
-> be attached to the end of this cover letter, however this series can
-> already safely pass qtest and any of my test.
-> 
-> Comparing to the recently merged preempt mode I called it "preempt-full"
-> because it threadifies the postcopy channels so now urgent pages can be
-> fully handled separately outside of the ram save loop.  Sorry to have the
-> same name as the PREEMPT_FULL in the Linux RT world, it's just that we
-> needed a name for the capability and it was named as preempt already
-> anyway..
-> 
-> The existing preempt code has reduced ramdom page req latency over 10Gbps
-> network from ~12ms to ~500us which has already landed.
-> 
-> This preempt-full series can further reduces that ~500us to ~230us per my
-> initial test.  More to share below.
-> 
-> Note that no new capability is needed, IOW it's fully compatible with the
-> existing preempt mode.  So the naming is actually not important but just to
-> identify the difference on the binaries.  It's because this series only
-> reworks the sender side code and does not change the migration protocol, it
-> just runs faster.
-> 
-> IOW, old "preempt" QEMU can also migrate to "preempt-full" QEMU, vice versa.
-> 
->   - When old "preempt" mode QEMU migrates to "preempt-full" QEMU, it'll be
->     the same as running both old "preempt" QEMUs.
-> 
->   - When "preempt-full" QEMU migrates to old "preempt" QEMU, it'll be the
->     same as running both "preempt-full".
-> 
-> The logic of the series is quite simple too: simply moving the existing
-> preempt channel page sends to rp-return thread.  It can slow down rp-return
-> thread on receiving pages, but I don't really see a major issue with it so
-> far.
-> 
-> This latency number is getting close to the extreme of 4K page request
-> latency of any TCP roundtrip of the 10Gbps nic I have.  The 'extreme
-> number' is something I get from mig_mon tool which has a mode [1] to
-> emulate the extreme tcp roundtrips of page requests.
-> 
-> Performance
-> ===========
-> 
-> Page request latencies has distributions as below, with a VM of 20G mem, 20
-> cores, 10Gbps nic, 18G fully random writes:
-> 
-> Postcopy Vanilla
-> ----------------
-> 
-> Average: 12093 (us)
-> @delay_us:
-> [1]                    1 |                                                    |
-> [2, 4)                 0 |                                                    |
-> [4, 8)                 0 |                                                    |
-> [8, 16)                0 |                                                    |
-> [16, 32)               1 |                                                    |
-> [32, 64)               8 |                                                    |
-> [64, 128)             11 |                                                    |
-> [128, 256)            14 |                                                    |
-> [256, 512)            19 |                                                    |
-> [512, 1K)             14 |                                                    |
-> [1K, 2K)              35 |                                                    |
-> [2K, 4K)              18 |                                                    |
-> [4K, 8K)              87 |@                                                   |
-> [8K, 16K)           2397 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [16K, 32K)             7 |                                                    |
-> [32K, 64K)             2 |                                                    |
-> [64K, 128K)           20 |                                                    |
-> [128K, 256K)           6 |                                                    |
-> 
-> Postcopy Preempt
-> ----------------
-> 
-> Average: 496 (us)
-> 
-> @delay_us:
-> [32, 64)               2 |                                                    |
-> [64, 128)           2306 |@@@@                                                |
-> [128, 256)         25422 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [256, 512)          8238 |@@@@@@@@@@@@@@@@                                    |
-> [512, 1K)           1066 |@@                                                  |
-> [1K, 2K)            2167 |@@@@                                                |
-> [2K, 4K)            3329 |@@@@@@                                              |
-> [4K, 8K)             109 |                                                    |
-> [8K, 16K)             48 |                                                    |
-> 
-> Postcopy Preempt-Full
-> ---------------------
-> 
-> Average: 229 (us)
-> 
-> @delay_us:
-> [8, 16)                1 |                                                    |
-> [16, 32)               3 |                                                    |
-> [32, 64)               2 |                                                    |
-> [64, 128)          11956 |@@@@@@@@@@                                          |
-> [128, 256)         60403 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [256, 512)         15047 |@@@@@@@@@@@@                                        |
-> [512, 1K)            846 |                                                    |
-> [1K, 2K)              25 |                                                    |
-> [2K, 4K)              41 |                                                    |
-> [4K, 8K)             131 |                                                    |
-> [8K, 16K)             72 |                                                    |
-> [16K, 32K)             2 |                                                    |
-> [32K, 64K)             8 |                                                    |
-> [64K, 128K)            6 |                                                    |
-> 
-> For fully sequential page access workloads, I have described in the
-> previous preempt-mode work that such workload may not benefit much from
-> preempt mode much, but surprisingly at least in my seq write test the
-> preempt-full mode can also benefit sequential access patterns at least when
-> I measured it:
-> 
-> Postcopy Vanilla
-> ----------------
-> 
-> Average: 1487 (us)
-> 
-> @delay_us:
-> [0]                   93 |@                                                   |
-> [1]                 1920 |@@@@@@@@@@@@@@@@@@@@@@@                             |
-> [2, 4)               504 |@@@@@@                                              |
-> [4, 8)              2234 |@@@@@@@@@@@@@@@@@@@@@@@@@@@                         |
-> [8, 16)             4199 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [16, 32)            3782 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      |
-> [32, 64)            1016 |@@@@@@@@@@@@                                        |
-> [64, 128)             81 |@                                                   |
-> [128, 256)            14 |                                                    |
-> [256, 512)            26 |                                                    |
-> [512, 1K)             69 |                                                    |
-> [1K, 2K)             208 |@@                                                  |
-> [2K, 4K)             429 |@@@@@                                               |
-> [4K, 8K)            2779 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                  |
-> [8K, 16K)            792 |@@@@@@@@@                                           |
-> [16K, 32K)             9 |                                                    |
-> 
-> Postcopy Preempt-Full
-> ---------------------
-> 
-> Average: 1582 (us)
-> 
-> @delay_us:
-> [0]                   45 |                                                    |
-> [1]                 1786 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                       |
-> [2, 4)               423 |@@@@@@@                                             |
-> [4, 8)              1903 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     |
-> [8, 16)             2933 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    |
-> [16, 32)            3132 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [32, 64)             518 |@@@@@@@@                                            |
-> [64, 128)             30 |                                                    |
-> [128, 256)           218 |@@@                                                 |
-> [256, 512)           214 |@@@                                                 |
-> [512, 1K)            211 |@@@                                                 |
-> [1K, 2K)             131 |@@                                                  |
-> [2K, 4K)             336 |@@@@@                                               |
-> [4K, 8K)            3023 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  |
-> [8K, 16K)            479 |@@@@@@@                                             |
-> 
-> Postcopy Preempt-Full
-> ---------------------
-> 
-> Average: 439 (us)
-> 
-> @delay_us:
-> [0]                    3 |                                                    |
-> [1]                 1058 |@                                                   |
-> [2, 4)               179 |                                                    |
-> [4, 8)              1079 |@                                                   |
-> [8, 16)             2251 |@@@                                                 |
-> [16, 32)            2345 |@@@@                                                |
-> [32, 64)             713 |@                                                   |
-> [64, 128)           5386 |@@@@@@@@@                                           |
-> [128, 256)         30252 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> [256, 512)         10789 |@@@@@@@@@@@@@@@@@@                                  |
-> [512, 1K)            367 |                                                    |
-> [1K, 2K)              26 |                                                    |
-> [2K, 4K)             256 |                                                    |
-> [4K, 8K)            1840 |@@@                                                 |
-> [8K, 16K)            300 |                                                    |
-> 
-> I always don't think seq access is important in migrations, because for any
-> not-small VM that has a migration challenge, any multiple seq accesses will
-> also be grown into a random access pattern.  But I'm anyway laying the data
-> around for good reference.
-> 
-> Comments welcomed, thanks.
-> 
-> TODO List
-> =========
-> 
-> - Make migration accountings atomic
-> - Drop rs->f?
-> - Disable xbzrle for preempt mode?  Is it already perhaps disabled for postcopy?
-> - If this series can be really accepted, we can logically drop some of the
->   old (complcated) code with the old preempt series.
-> - Drop x-postcopy-preempt-break-huge parameter?
-> - More to come
-> 
-> [1] https://github.com/xzpeter/mig_mon#vm-live-migration-network-emulator
-> 
-> Peter Xu (13):
->   migration: Use non-atomic ops for clear log bitmap
->   migration: Add postcopy_preempt_active()
->   migration: Yield bitmap_mutex properly when sending/sleeping
->   migration: Cleanup xbzrle zero page cache update logic
->   migration: Disallow postcopy preempt to be used with compress
->   migration: Trivial cleanup save_page_header() on same block check
->   migration: Remove RAMState.f references in compression code
->   migration: Teach PSS about host page
->   migration: Introduce pss_channel
->   migration: Add pss_init()
->   migration: Make PageSearchStatus part of RAMState
->   migration: Move last_sent_block into PageSearchStatus
->   migration: Send requested page directly in rp-return thread
+On Mon, 29 Aug 2022, BB wrote:
+> Am 24. August 2022 01:23:14 MESZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>> On Tue, 23 Aug 2022, Bernhard Beschow wrote:
+>>> On Tue, Aug 23, 2022 at 2:20 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>>> On Tue, 23 Aug 2022, Bernhard Beschow wrote:
+>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>>>> ---
+>>>>> hw/isa/vt82c686.c | 12 +++++++++++-
+>>>>> 1 file changed, 11 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>>> index 47f2fd2669..ee745d5d49 100644
+>>>>> --- a/hw/isa/vt82c686.c
+>>>>> +++ b/hw/isa/vt82c686.c
+>>>>> @@ -546,6 +546,7 @@ struct ViaISAState {
+>>>>>     qemu_irq cpu_intr;
+>>>>>     qemu_irq *isa_irqs;
+>>>>>     ViaSuperIOState via_sio;
+>>>>> +    RTCState rtc;
+>>>>>     PCIIDEState ide;
+>>>>>     UHCIState uhci[2];
+>>>>>     ViaPMState pm;
+>>>>> @@ -567,6 +568,7 @@ static void via_isa_init(Object *obj)
+>>>>> {
+>>>>>     ViaISAState *s = VIA_ISA(obj);
+>>>>>
+>>>>> +    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+>>>>>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+>>>>>     object_initialize_child(obj, "uhci1", &s->uhci[0],
+>>>> "vt82c686b-usb-uhci");
+>>>>>     object_initialize_child(obj, "uhci2", &s->uhci[1],
+>>>> "vt82c686b-usb-uhci");
+>>>>> @@ -615,7 +617,15 @@ static void via_isa_realize(PCIDevice *d, Error
+>>>> **errp)
+>>>>>     isa_bus_irqs(isa_bus, s->isa_irqs);
+>>>>>     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>>>>>     i8257_dma_init(isa_bus, 0);
+>>>>> -    mc146818_rtc_init(isa_bus, 2000, NULL);
+>>>>> +
+>>>>> +    /* RTC */
+>>>>> +    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+>>>>> +    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+>>>>> +        return;
+>>>>> +    }
+>>>>> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
+>>>> OBJECT(&s->rtc),
+>>>>> +                              "date");
+>>>>> +    isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
+>>>>>
+>>>>>     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+>>>>>         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
+>>>>>
+>>>>
+>>>> This actually introduces code duplication as all other places except piix4
+>>>> seem to still use the init function (probably to ensure that the rtc-rime
+>>>> alias on the machine is properly set) so I'd keep this the same as
+>>>> everything else and drop this patch until this init function is removed
+>>>> from all other places as well.
+>>>>
+>>>
+>>> Hi Zoltan,
+>>>
+>>> Thanks for the fast reply! Regarding code homogeneity and duplication I've
+>>> made a similar argument for mc146818_rtc_init() in the past [1] and I've
+>>> learnt that my patch went backwards. Incidentally, Peter mentioned vt686c
+>>> as a candidate for the embed-the-device-struct style which - again
+>>> incidentally - I've now done.
+>>
+>> I've seen patches embedding devices recently but in this case it looked not that simple because of the rtc-time alias.
+>>
+>>> The rtc-time alias is actually only used by a couple of PPC machines where
+>>> Pegasos II is one of them. So the alias actually needs to be created only
+>>> for these machines, and identifying the cases where it has to be preserved
+>>> requires a lot of careful investigation. In the Pegasos II case this seems
+>>> especially complicated since one needs to look through several layers of
+>>> devices. During my work on the VT82xx south bridges I've gained some
+>>> knowledge such that I'd like to make this simplifying contribution.
+>>
+>> I've used it to implement the get-time-of-day rtas call with VOF in 
+>> pegasos2 because otherwise it would need to access internals of the RTC 
+>> model and/or duplicate some code. Here's the message discussing this:
+>>
+>> https://lists.nongnu.org/archive/html/qemu-ppc/2021-10/msg00170.html
+>>
+>> so this alias still seems to be the simplest way.
+>>
+>> I think the primary function of this alias is not these ppc machines 
+>> but some QMP/HMP command or to make the guest time available from the 
+>> monitor or something like that so it's probably also used from there 
+>> and therefore all rtc probably should have it but I'm not sure about 
+>> it.
+>
+> Indeed, the alias seems to be a convenience for some QMP/HMP commands. 
+> AFAICS only the mc146818 sets the alias while it is probably not the 
+> only RTC modelled in QEMU. So I wonder why boards using another RTC 
+> don't need it and whether removing the alias constitutes a compatibility 
+> break.
+>
+>>> Our discussion makes me realize that the creation of the alias could now
+>>> actually be moved to the Pegasos II board. This way, the Pegasos II board
+>>> would both create and consume that alias, which seems to remove quite some
+>>> cognitive load. Do you agree? Would moving the alias to the board work for
+>>> you?
+>>
+>> Yes I think that would be better. This way the vt82xx and piix4 would 
+>> be similar and the alias would also be clear within the pegasos2 code 
+>> and it also has the machine directly at that point so it's clearer that 
+>> way.
+>
+> All in all I wonder if we need to preserve the alias for the fuloong2e board?
 
-Side note:
+I don't know. A quick investigation shows that it seems to be added by 
+commit 654a36d857ff94 which suggests something may use it (or was intended 
+to use it back then, but not sure if things have changed in the meantime). 
+I don't think any management app cares about fuloong2e but if this should 
+be a generic thing then all machine may need it. Then it's also mentioned 
+in commit 29551fdcf4d99 that suggests one ought to be careful moving this 
+around as it may cause unexpected problems. But doing it from the machine 
+init should be OK.
 
-Not all the patches here are servicing the preempt-full goal.  E.g. we
-could consider reviewing/merging patch 1, 5 earlier: patch 1 is long
-standing perf improvement on clear bitmap ops, patch 5 should be seem as a
-fix I think.
-
-Some other trivial cleanup patches can be picked up too but not urgent.
-
--- 
-Peter Xu
-
+Regards,
+BALATON Zoltan
 
